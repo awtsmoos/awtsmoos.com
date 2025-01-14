@@ -465,11 +465,7 @@ async function deletePost({
 
 	}
 	try {
-		// Delete post details
-		await $i.db.delete(sp + `/heichelos/${heichelId}/posts/${postId}`);
-		deleted.post= {
-			message: "Post deleted successfully"
-		};
+		
 		try {
 			var {author, parentSeriesId} = $i.db.get(sp + `/heichelos/${
 				heichelId
@@ -491,6 +487,11 @@ async function deletePost({
 		} catch(e) {
 			deleted.post.authorAdded = er({message:  e.stack})
 		}
+		// Delete post details
+		await $i.db.delete(sp + `/heichelos/${heichelId}/posts/${postId}`);
+		deleted.post= {
+			message: "Post deleted successfully"
+		};
 		
 	} catch (error) {
 		console.error("Failed to delete post", error);

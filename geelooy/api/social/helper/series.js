@@ -1021,7 +1021,7 @@ async function editPostsInSeries({
 		var errors = [];
 		ob.errors = errors;
 		ob.deleted = deleted;
-		for(var toDelete of changedToDelete) {
+		/*for(var toDelete of changedToDelete) {
 			var del = await $i.db.delete(sp +
 				`/heichelos/${
 				heichelId
@@ -1037,7 +1037,7 @@ async function editPostsInSeries({
 				})
 			}
 			
-		}
+		}*/
 		
 		var res = await $i.db.write(sp +
 				`/heichelos/${
