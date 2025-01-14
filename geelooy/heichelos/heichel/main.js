@@ -46,98 +46,65 @@ try {
 	var editors = null;
 	var setupEditors = false;
 	async function load(ss) {
-		window.heichel = await getH(heichelID)
-		if(!editors) {
+		window.heichel = await getH(heichelID);
+		if (!editors) {
 			editors = await getEditors();
 		}
-		if(!setupEditors)
-			await setupEditorHTML()
+		if (!setupEditors) {
+			await setupEditorHTML();
+		}
 		window.currentSeries = ss;
-		
-		window.ownsIt = await doesOwn()
-		if(ownsIt) {
-			addSubmitButtons()
+	
+		window.ownsIt = await doesOwn();
+		if (ownsIt) {
+			addSubmitButtons();
 		}
-		//;
-		if (true) {
-
-			parentS.classList.remove("hidden");
-			var reqPars = await fetch(`/api/social/heichelos/${
-				heichelID	
-			}/series/${
-				ss	      
-			}/breadcrumb`);
-			var breadcrumb = await reqPars.json();
-			window.breadcrumb = breadcrumb;
-			parentS.innerHTML = "";
-
-			for (var i = breadcrumb.length - 1; i >= 0; i--) {
-				var w = breadcrumb[i];
-				(w => {
-					var a = document.createElement("a")
-					var href = newPath(v, w.id)
-					a.onclick = () => goto(
-						href
-
-					);
-					a.href = href;
-					a.innerHTML = w?.prateem?.name;
-					parentS.appendChild(a);
-					var txt = document.createTextNode("/")
-					//txt.className="slash"
-					//txt.innerText="/"
-					parentS.appendChild(txt)
-				})(w)
-			}
-
-
-		}
-
+	
+		parentS.classList.remove("hidden");
+		const reqPars = await fetch(`/api/social/heichelos/${heichelID}/series/${ss}/breadcrumb`);
+		const breadcrumb = await reqPars.json();
+		window.breadcrumb = breadcrumb;
+		parentS.innerHTML = "";
+	
+		breadcrumb.reverse().forEach(w => {
+			const link = createElement({
+				tag: "a",
+				html: w?.prateem?.name,
+				attributes: { href: newPath(v, w.id), onclick: () => goto(newPath(v, w.id)) }
+			});
+			parentS.appendChild(link);
+	
+			const separator = createElement({ tag: "span", html: "/" });
+			parentS.appendChild(separator);
+		});
+	
 		window.goto = goto;
-
-		var rootP = `/api/social/heichelos/${
-					heichelID
-				}/series/${ss}/details`;
-		console.log(rootP, heichelID, heichel)
-		var r = await fetch(
-			rootP
-
-		);
-
-
-
-		var root = await r.json();
-		var js = JSON.stringify(root)
-
+	
+		const rootP = `/api/social/heichelos/${heichelID}/series/${ss}/details`;
+		const r = await fetch(rootP);
+		const root = await r.json();
+	
 		if (!root || !Array.isArray(root.posts)) {
-			if (ss == "root") return;
-			return alert("Path not found:  " + ss +
-
-				js + rootP);
-
+			if (ss === "root") return;
+			return alert(`Path not found: ${ss} ${JSON.stringify(root)} ${rootP}`);
 		}
-
-		var desc = root.prateem.description;
-		if (!desc || desc == "undefined") {
-			desc = ""
-		}
-		seriesNm.innerHTML = root.prateem.name;
-		seriesDesc.innerHTML = desc
-
-		if (ss != "root")
+	
+		const desc = root.prateem.description || "";
+		seriesNm.textContent = root.prateem.name;
+		seriesDesc.textContent = desc;
+	
+		if (ss !== "root") {
 			seriesNameAndInfo.classList.remove("hidden");
-
-		var pst = root.posts
-		var srs = root.subSeries;
-
-		if (!Array.isArray(srs)) {
-			return alert("no sub")
-
 		}
-
-		var st = JSON.stringify(pst)
-
-		var bd = new URLSearchParams({
+	
+		const posts = root.posts;
+		const subSeries = root.subSeries;
+	
+		if (!Array.isArray(subSeries)) {
+			return alert("No sub-series available");
+		}
+	
+		const bd = new URLSearchParams({
 			seriesId: root.id,
 			propertyMap: JSON.stringify({
 				content: 256,
@@ -148,174 +115,124 @@ try {
 				seriesId: true,
 				indexInSeries: true
 			})
-
 		});
-
-
-
-
-		var rq = await fetch(
-			`/api/social/heichelos/${
-				heichelID
-
-			}/posts/details?` + bd);
-		var pjs = await rq.json();
-
-
-
-		
+	
+		const rq = await fetch(`/api/social/heichelos/${heichelID}/posts/details?${bd}`);
+		const pjs = await rq.json();
+	
 		if (pjs.length) {
-			var pst = mps(pjs, "post", ss, root);
-			appendHTML(postsList, pst);
-			if (v != "series")
-				postsTab.click();
-		} else appendHTML(postsList, "No posts here yet!", true);
-		
-		document.querySelector(".loadingPosts").classList.add("hidden")
-		rq = await fetch(
-			`/api/social/heichelos/${
-				heichelID
-
-			}/series/${ss}/details`, {
-				method: "POST",
-				body: new URLSearchParams({
-					seriesIds: JSON.stringify(srs)
-
-				}) + ""
-
-			}
-
-		);
-		var sjs = await rq.json();
-
-
-
+			const postElements = createPostOrSeriesElements(pjs, "post", ss, root);
+			appendElements(postsList, postElements);
+			if (v !== "series") postsTab.click();
+		} else {
+			appendElements(postsList, [createElement({ tag: "div", html: "No posts here yet!" })]);
+		}
+	
+		document.querySelector(".loadingPosts").classList.add("hidden");
+	
+		const seriesRq = await fetch(`/api/social/heichelos/${heichelID}/series/${ss}/details`, {
+			method: "POST",
+			body: new URLSearchParams({ seriesIds: JSON.stringify(subSeries) })
+		});
+	
+		const sjs = await seriesRq.json();
+	
 		if (sjs.length) {
-			var sst = mps(sjs, "series", ss, root);
-
-			appendHTML(seriesList, sst);
+			const seriesElements = createPostOrSeriesElements(sjs, "series", ss, root);
+			appendElements(seriesList, seriesElements);
 			if (!pjs.length) {
 				seriesTab.click();
 			}
-			
-		} else appendHTML(seriesList, "No series here yet!", true)
-		document.querySelector(".loadingSeries").classList.add("hidden")
-
-	}
-
-	function mps(postsInHeichel, cl, sid, root) {
-		var html = "";
-
-		for (var i = 0; i < postsInHeichel.length; i++) {
-			var indexInSeries = i;
-			var pr = postsInHeichel[i];
-			if(pr.error) continue;
-			var baseURL = `/heichelos/${
-					heichelID
-				}`;
-
-
-			var baseP = location.pathname;
-			//
-			var hasNext = i < postsInHeichel.length - 1 &&
-				postsInHeichel.length > 1;
-			var hasPrevious = i > 0 && postsInHeichel.length > 1;
-
-
-			function generatePostURL(i) {
-
-				var ob = {
-					seriesParent: root.id
-
-
-				}
-
-				return (`${baseURL}/series/${root.id}/${indexInSeries}`)
-			}
-			var url = cl == "post" ?
-				generatePostURL(i) : location.pathname +
-
-				"?" +
-				new URLSearchParams({
-					view: v,
-					series: pr.id
-				});
-
-			var returnURL = location.href;
-			var editParams = new URLSearchParams({
-				type: cl,
-				id: pr.id,
-				editingAlias: isEditing,
-				parentSeriesId: sid,
-				indexInSeries: i,
-				returnURL
-			})
-			var dt = cl == "post" ? pr : pr.prateem;
-			var desc = dt.description;
-			if (!desc || desc == "undefined") {
-				desc = ""
-			}
-			html += /*html*/ `
-			<div class="post-card ${cl}" data-awtsmoosID="${
-				pr.id
-			}">
-				<h2 class="${cl}-title"><a
-					${
-						cl=="post"?'':
-					`onclick="goto(this.href)"`
-					}
-				href="${
-					url
-				}"
-		
-		
-	>${dt[cl=="post"?
-		"title":"name"]}    
-				<` + `/a><` + `/h2>` +
-				(cl == "post" ?
-					`<div class="post-preview">${
-						postsInHeichel[i]?.content?.substring(0, POST_LENGTH)
-					}...</div> <a href="${url}" 
-					class="post-link">Read more</a>`
-
-					:
-					(desc))
-
-
-			if (isEditing) {
-				html += /*html*/ `
-					<div class="edit-section">
-						<a href="${
-							baseURL
-						}/edit?${
-							editParams
-						}" class="edit-content">Edit Content</a>
-						<a href="${
-							baseURL
-						}/delete?${
-							editParams
-						}">Delete</a>
-					<` + `/div>
-				`
-			}
-
-			html += `<` + `/div>`;
-
-		}
-		return html;
-
-	}
-
-	function appendHTML(par, html, raw = false) {
-		if (!raw) {
-			var dc = p.parseFromString(html, "text/html");
-
-			Array.from(dc.body.children)
-				.forEach(w => par.appendChild(w))
 		} else {
-			par.innerHTML = html
+			appendElements(seriesList, [createElement({ tag: "div", html: "No series here yet!" })]);
 		}
+	
+		document.querySelector(".loadingSeries").classList.add("hidden");
 	}
+	
+	function createElement({ tag, html, attributes, children }) {
+		const element = document.createElement(tag);
+		if (html) element.innerHTML = html;
+		if (attributes) {
+			Object.entries(attributes).forEach(([key, value]) => {
+				if (key === "onclick" && typeof value === "function") {
+					element.onclick = value;
+				} else {
+					element.setAttribute(key, value);
+				}
+			});
+		}
+		if (Array.isArray(children)) {
+			children.forEach(child => {
+				if (typeof child === "object" && child !== null) {
+					element.appendChild(createElement(child));
+				} else if (typeof child === "string") {
+					element.appendChild(document.createTextNode(child));
+				}
+			});
+		}
+		return element;
+	}
+	
+	function appendElements(parent, elements) {
+		elements.forEach(element => parent.appendChild(element));
+	}
+	
+	function createPostOrSeriesElements(items, type, parentId, root) {
+		return items.map((item, index) => {
+			if (item.error) return null;
+	
+			const dt = type === "post" ? item : item.prateem;
+			const description = dt.description || "";
+			const url = type === "post"
+				? `/heichelos/${heichelID}/series/${root.id}/${index}`
+				: `${location.pathname}?view=${v}&series=${item.id}`;
+	
+			const container = createElement({
+				tag: "div",
+				attributes: { class: `post-card ${type}`, "data-awtsmoosID": item.id },
+				children: [
+					{
+						tag: "h2",
+						children: [
+							{
+								tag: "a",
+								html: dt[type === "post" ? "title" : "name"],
+								attributes: { href: url, onclick: type !== "post" ? () => goto(url) : null }
+							}
+						]
+					},
+					type === "post" ? {
+						tag: "div",
+						attributes: { class: "post-preview" },
+						html: `${item.content?.substring(0, POST_LENGTH)}...`
+					} : {
+						tag: "div",
+						html: description
+					},
+					isEditing ? {
+						tag: "div",
+						attributes: { class: "edit-section" },
+						children: [
+							{
+								tag: "a",
+								html: "Edit Content",
+								attributes: { href: `/heichelos/${heichelID}/edit?${new URLSearchParams({ type, id: item.id, parentSeriesId: parentId, indexInSeries: index })}` }
+							},
+							{
+								tag: "a",
+								html: "Delete",
+								attributes: { href: `/heichelos/${heichelID}/delete?${new URLSearchParams({ type, id: item.id, parentSeriesId: parentId, indexInSeries: index })}` }
+							}
+						]
+					} : null
+				].filter(Boolean)
+			});
+	
+			return container;
+		}).filter(Boolean);
+	}
+	
 
 	function sp() {
 		return new URLSearchParams(location.search);
