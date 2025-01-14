@@ -191,7 +191,7 @@ try {
 						html: `${item.content?.substring(0, POST_LENGTH) || ""}...`
 					} : {
 						tag: "div",
-						html: description
+						html: description || ""
 					},
 					isEditing ? {
 						tag: "div",
