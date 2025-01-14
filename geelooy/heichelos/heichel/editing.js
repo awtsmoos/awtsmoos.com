@@ -76,7 +76,7 @@ function addSubmitButtons() {
     makeEditorBtn(".series .editor-info", {
         type: "series"	
     });
-    function makeEditorBtn(selector, {
+    async function makeEditorBtn(selector, {
         type="post"	
     }={}) {
         var ei = document.querySelector(selector)
@@ -94,7 +94,7 @@ function addSubmitButtons() {
             isEditing = toggleEditable(type=="post" ? 
                window.postsList :
                window.seriesList, 
-            (child, ie) => {
+            async (child, ie) => {
                 if(ie/*isEditing*/) {
                     var id = child.dataset.awtsmoosid;
                     var sid = currentSeries;
@@ -299,7 +299,7 @@ function addSubmitButtons() {
                 } else {
                     var ed = child.querySelector(".editor-details")
                     if(ed) {
-                        var f = await editSubSeries()
+                        var f = await editSubChildren(type)
                         ed.parentNode.removeChild(ed)	
                     }
                 }
@@ -357,21 +357,30 @@ function addSubmitButtons() {
     
 }
 
-function getSeriesIDs(par) {
-    return Array.from( (par || window.seriesList)?.children )
+function getIDs(type) {
+    return Array.from(
+         (type=="post" ? window.postsList :
+         window.seriesList)?.children
+         )
     .map(w=>w.getAttribute("data-awtsmoosid"))
 }
-async function editSubSeries() {
+async function editSubChildren(type) {
+    var fnc = type == "post" ?
+        "changePostsInSeries"
+        :
+        "changeSubSeriesInSeries";
+    var key = type == "post"
+    ? "postIDs" : "subSeriesIDs" 
     return await (
         await fetch(`/api/social/heichelos/${
             heichelID
         }/series/${
             currentSeries
-        }/changeSubSeriesInSeries`, {
+        }/${fnc}`, {
             method:"POST",
             body: new URLSearchParams({
                 aliasId: curAlias,
-                subSeriesIDs: JSON.stringify(getSeriesIDs())
+                [key]: JSON.stringify(getIDs(type))
             })
         })
     ).json();
