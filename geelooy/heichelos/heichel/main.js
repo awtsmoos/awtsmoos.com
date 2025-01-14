@@ -132,6 +132,11 @@ try {
 	
 		const rq = await fetch(`/api/social/heichelos/${heichelID}/posts/details?${bd}`);
 		const pjs = await rq.json();
+
+		const seriesRq = await fetch(`/api/social/heichelos/${heichelID}/series/${ss}/details`, {
+			method: "POST",
+			body: new URLSearchParams({ seriesIds: JSON.stringify(subSeries) })
+		});
 		const sjs = await seriesRq.json();
 		if (pjs.length) {
 			const postElements = createPostOrSeriesElements(pjs, "post", ss, root);
@@ -146,10 +151,7 @@ try {
 	
 		document.querySelector(".loadingPosts").classList.add("hidden");
 	
-		const seriesRq = await fetch(`/api/social/heichelos/${heichelID}/series/${ss}/details`, {
-			method: "POST",
-			body: new URLSearchParams({ seriesIds: JSON.stringify(subSeries) })
-		});
+		
 	
 		
 	
