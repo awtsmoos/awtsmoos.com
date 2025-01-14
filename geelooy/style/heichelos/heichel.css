@@ -270,3 +270,12 @@
   font-family: revert !important;
   white-space: pre-wrap;
 }
+
+
+.moveBtn {
+  display:block;
+  width:64px;
+  height:64px;
+  border:1px solid black;
+  
+}

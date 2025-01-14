@@ -111,6 +111,41 @@ function addSubmitButtons() {
                     details.className = ("editor-details")
                     child.appendChild(details);
 
+                    var moveBtn = document.createElement("div");
+                    moveBtn.classList.add("moveBtn");
+                    moveBtn.innerText = "move"
+                    var started = false;
+                    var start = {x:0,y:0}
+                    var startDrag = {x:0,y:0}
+                    moveBtn.addEventListener("mousedown", e => {
+                        if(!started) {
+                            started = true;
+                            start.x=child .clientX;
+                            start.y=child .clientY;
+
+                            startDrag.x=e.clientX;
+                            startDrag.y=e.clientY;
+                        }
+                    });
+                    moveBtn.addEventListener("mousemove", e => {
+                        if(started) {
+                            var diff = {
+                                x: e.clientX - startDrag.x,
+                                
+                                y: e.clientY - startDrag.y,
+                            }
+                            child.clientX = start.x - diff.x;
+                            
+                            child.clientY = start.y - diff.y;
+                        }
+                    });
+                    function mouseUp(){
+                        started = false;
+                        start = {x:0,y:0};
+                        startDrag = {x:0,y:0}
+                        window.removeEventListener("mouseup", mouseUp)
+                    }
+                    window.addEventListener("mouseup", mouseUp)
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
                     editBtn.style.backgroundColor = "yellow";
@@ -258,7 +293,7 @@ function toggleEditable(parent, callbackChild) {
 
 async function setupEditorHTML() {
     var editors = window.editors;
-    
+
     if(!Array.isArray(editors)) {
         return console.log("NO editors")	
     }
