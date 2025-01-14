@@ -183,8 +183,10 @@ function addSubmitButtons() {
                         started = false;
                         start = { x: 0, y: 0 };
                         startDrag = { x: 0, y: 0 };
-                        child.href=oldHref;
-                        oldHref =null;
+                        setTimeout(() => {
+                            child.href=oldHref;
+                            oldHref =null;
+                        }, 200)
                         // Remove global listeners
                         window.removeEventListener("mousemove", onMouseMove);
                         window.removeEventListener("mouseup", onMouseUp);
