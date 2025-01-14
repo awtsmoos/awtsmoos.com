@@ -1369,7 +1369,7 @@ async function editSeriesDetails({
 			if (desc.length <= 888) {
 				d.description = desc;
 				wr.description = true
-				await $i.db.write(
+				/*await $i.db.write(
 					`${
 						sp
 	
@@ -1378,7 +1378,7 @@ async function editSeriesDetails({
 					}/series/${
 						seriesId
 						
-					}/prateem/description`, desc);
+					}/prateem/description`, desc);*/
 			} else return er({
 				code: "DESCRIPTION_TOO_LONG",
 				proper: 888
@@ -1396,7 +1396,7 @@ async function editSeriesDetails({
 			});
 			d.name = nm;
 			wr.name = true;
-			await $i.db.write(
+			/*await $i.db.write(
 				`${
 					sp
 
@@ -1405,7 +1405,7 @@ async function editSeriesDetails({
 				}/series/${
 					seriesId
 					
-				}/prateem/name`, nm);
+				}/prateem/name`, nm);*/
 
 		}
 
@@ -1413,7 +1413,7 @@ async function editSeriesDetails({
 			wr.parentSeriesId = true;
 			wr.parentSeriesId = parentSeriesId
 			d.parentSeriesId = parentSeriesId;
-			await $i.db.write(
+			/*await $i.db.write(
 				`${
 					sp
 
@@ -1422,11 +1422,11 @@ async function editSeriesDetails({
 				}/series/${
 					seriesId
 					
-				}/prateem/parentSeriesId`, parentSeriesId);
+				}/prateem/parentSeriesId`, parentSeriesId);*/
 		}
 
 		try {
-/*
+
 			await $i.db.write(
 				`${
 					sp
@@ -1437,7 +1437,7 @@ async function editSeriesDetails({
 					seriesId
 					
 				}/prateem`, d);
-*/
+
 				return {
 					success: wr
 				};
