@@ -1,0 +1,76 @@
+<!--B"H
+header
+
+-->
+<link href="/style/home/headers.css" type="text/css" rel="stylesheet">
+
+<link rel="stylesheet" href="/style/home/main.css" type="text/css">
+<header>
+    <title>Awtsmoos | עצמות</title>
+
+    <div class="BH">B"H</div>
+    <div class="header-buttons">
+      
+      <div id="menuButton" class="menuBtn btn">
+
+
+      <script awts>
+        return /*svg*/`
+        <svg xmlns="http://www.w3.org/2000/svg"
+         width="32" height="20" viewBox="0 0 32 32" 
+         fill="none">
+         ${Array(3)
+          .fill()
+          .map((_, i) => 
+            /*svg*/`<path d="M4 ${
+              8 + i * 8
+            }H28" stroke="white" stroke-width="4" 
+            stroke-linecap="round" stroke-linejoin="round"/>
+          `)
+          .join('')}
+          <rect class="menuBtnRect" x="0" y="0" width="100%" height="100%"/></svg>`;
+
+      </script>?>
+              
+      </div>
+      <script>
+          //B"H
+          console.log("B\"H",
+          "\n",
+          "Welcome to the Awtsmoos.com");
+
+          menuButton.onclick = () => {
+            var q = document.querySelector(".sidebarMitzvah");
+            if(!q) return;
+            q.classList.toggle("offscreen")
+          }
+      </script>
+      
+      <?<script>
+        
+        if(request.user) {
+            
+              var t = await getT("profileLink.html");
+              return t;
+            
+        } else {
+          return `<a href="/login" id="signin-button">Sign In</a>`
+        }
+      </script>?>
+      
+      <?<script>
+        if(location.pathname != "/") {
+          return /*html*/`
+            <a href="/">Home</a>
+          `
+        }
+      </script>?>
+    </div>
+    
+</header>
+<div class="sidebarMitzvah offscreen">
+  <a href="/ai">Awtsmoos AI</a>
+    <a href="/apps">Awtsmoos Apps</a>
+  <a href="/heichelos/ikar?view=posts">Sefarim</a>
+  <a href="/games">Games</a>
+</div>

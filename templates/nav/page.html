@@ -1,0 +1,40 @@
+<!--B"H
+בּ״ה
+-->
+<!--B"H
+page template
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awtsmoos | עצמות</title>
+
+</head>
+<body>
+    
+    <div class="all awtsmoospage">
+    <?<script> return $a("nav/header.html") 
+    </script>?>
+    <div class="main <?Awtsmoos return ((this.centered ? 'centered' : '') + (this.y ? ' y':'')) ?>">
+            
+        <?<script>
+        var tochen = this.tochen;
+        if(tochen) {
+            return /*html*/`
+                ${tochen}
+            `
+        } else {
+            return "Hello!"
+        }
+        </script>?>
+    </div>
+
+    <?<script> 
+    if(this.footer) 
+        return $a("nav/footer.html") 
+    </script>?>
+</div>
+</body>
+</html>

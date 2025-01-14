@@ -1,0 +1,77 @@
+<!--B"H-->
+<?Awtsmoos
+return await getT("bh.html")
+?>
+<html>
+<head>
+    <title>Login with Awtsmoos</title>
+    <link rel="stylesheet" href="../style/forms.css">
+</head>
+<body>
+    
+  <div class="login">
+    <h2>Login</h2>
+
+    <a href="/register">Create Account</a>
+    <form action="/login/" method="POST">
+
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="buttons">
+            <button type="submit">Log in</button>
+        </div>
+    </form>
+    <div id="serverMessage">
+        <?<script>
+             if(request.user) {
+                
+                var msg = $a("message.html", {
+                    message: "You are already logged in."
+                })
+
+                olam.replace = msg;
+                return;
+            }
+            registrar = await getT("session/login.js")
+            
+            var result = await registrar.handleLogin(this.request,$_POST,server.secret)
+            
+            
+            if(result.token) {
+                var encoded = encodeURIComponent(result.token);
+                setHeader(
+                    "set-cookie",
+                    `awtsmoosKey=${encoded}; HttpOnly; `+
+                    "max-age="+(60*60*24*365) + "; "
+                    + "Path=/;"
+                );
+                result.token = undefined;
+            }
+            if(result.status != "success") {
+
+                return result.message;
+            }
+
+            var msg = $a("message.html", {
+                message: "You have successfully logged in to the account "
+                    +$_POST.username+". Press \"B\"H\" to go to home.",
+                redirect: 6
+            })
+            olam.replace = msg;
+            return;
+
+        
+        </script>?>
+    </div>
+  </div>
+
+        
+       
+</body>
+</html>

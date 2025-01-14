@@ -1,0 +1,34 @@
+{
+    "name": "Awtsmoos ChatGPT Connector",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "scripting", 
+        "tabs", 
+        "activeTab",
+        "webNavigation"
+    ],
+    
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_security_policy": {
+        "script-src": "'self'",
+        "object-src": "'self'"
+    },
+    "host_permissions": [
+        "https://chatgpt.com/*",
+        "https://awtsmoos.com/*",
+        "https://chabad.org/*",
+        "https://awtsfaria.web.app/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+      }
+    }
+  }
+  

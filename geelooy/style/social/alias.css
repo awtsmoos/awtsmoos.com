@@ -1,0 +1,47 @@
+/**B"H**/
+
+
+
+
+
+/* Alias container with professional spacing and layout */
+.alias-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	
+	padding-left: 5%;
+	padding-top: 5%;
+	padding-bottom:5%;
+}
+
+/* Alias name styling */
+.alias-name {
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+}
+
+/* Alias description styling */
+.alias-description {
+	
+	white-space:pre-wrap;
+	font-size: 1.7rem;
+	margin-bottom: 1.5rem;
+}
+
+/* Links styling for a professional look */
+.alias-links {
+	font-size: 1rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #08becf;
+	margin-right: 2rem;
+}
+
+/* Links hover effect */
+.alias-links:hover {
+	text-decoration: underline;
+}
+

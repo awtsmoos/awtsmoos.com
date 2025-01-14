@@ -1,0 +1,135 @@
+/**B"H*/
+
+html,body {
+    margin: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+ 
+  
+element.style {
+}
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    width: 80%;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-items: center;
+    border: 15px solid #f1f1f1;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 26px;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+}
+
+.logo img {
+    width: 100%;
+    
+}
+
+  
+  
+
+  .all.awtsmoospage {
+      
+    display:flex;
+    flex-direction: column;
+      height:100vh;
+  }
+
+  .all.awtsmoospage > .main {
+    
+    display: flex;
+    flex-grow:1;
+      overflow-y:auto;
+    flex-direction: column;
+  }
+
+.all.awtsmoospage > .main.centered.y {
+    
+    justify-content: center;
+}
+
+  .all.awtsmoospage > .main.centered {
+    padding:26px;
+    align-items:center;
+  }
+  
+
+  .awtsmoospage > footer {
+    background-color: #f1f1f1;
+    padding: 10px 20px;
+    height: 60px; /* Set a fixed height for the footer */
+    margin-top: auto; /* Push the footer to the bottom */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.awtsmoospage > footer a {
+    text-decoration: none;
+    color: #4285f4;
+    margin: 0 10px;
+}
+
+.awtsmoospage > #menu-button {
+  height:20px;
+}
+
+.awtsmoospage > footer a:hover {
+    text-decoration: underline;
+}
+
+.awtsmoospage > .about.list {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.awtsmoospage > .about {
+    text-align: center; /* Center align the text */
+    margin-top: 20px; /* Add some space between the logo and the description */
+    font-size: 16px; /* Set the font size for the description */
+    color: #666; /* Set the text color */
+}
+
+.awtsmoospage > .about a {
+    color: #4285f4; /* Set the link color */
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.awtsmoospage > .about a:hover {
+    text-decoration: underline; /* Underline the link on hover */
+}
+  @media screen and (max-width: 600px) {
+
+    #menu-button {
+      display: block; /* Show the menu button on small screens */
+    }
+  }
+  
+  
+.awtsmoospage p {
+    white-space:pre-wrap;
+    font-size: 18px; /* Set a comfortable font size for reading */
+    line-height: 1.6; /* Increase line height for better readability */
+    color: #333; /* Set a dark text color */
+    margin-bottom: 20px; /* Add some space between paragraphs */
+}
+
+.awtsmoospage p:first-child {
+    margin-top: 0; /* Remove top margin for the first paragraph */
+}
+
+.awtsmoospage p:last-child {
+    margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}

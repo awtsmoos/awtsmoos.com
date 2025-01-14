@@ -1,0 +1,80 @@
+/**B"H**/
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #F0F0F0;
+  color: #333366;
+  font-size: 18px; /* Slightly larger base font size */
+  margin: 0;
+  padding: 0;
+  line-height: 1.6; /* Improved line spacing for readability */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2 {
+  font-weight: bold;
+  margin-top: 30px; /* More space above headings */
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 2.5em; /* Larger heading */
+  color: #004488;
+}
+
+h2 {
+  font-size: 2em; /* Larger sub-heading */
+  color: #0055A4;
+}
+
+a, .alias, .heichel, .post { /* Enhanced link styles */
+  color: #0088CC;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Make links bold */
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover, .alias:hover, .heichel:hover, .post:hover {
+  color: #0055A4;
+  text-decoration: underline; /* Underline on hover for emphasis */
+}
+
+button {
+  background-color: #0088CC;
+  color: white;
+  padding: 12px 24px; /* Larger buttons */
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em; /* Larger font in buttons */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #006699;
+}
+
+input, textarea {
+  border: 1px solid #CCCCCC;
+  padding: 12px;
+  font-size: 1.1em; /* Larger font in form elements */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.entity {
+  background-color: #F8F8F8;
+  border: 1px solid #E0E0E0;
+  padding: 20px; /* More padding for .entity */
+  margin-bottom: 15px;
+}
+
+.entity-field {
+  font-style: italic;
+  margin: 10px 0; /* More margin for .entity-field */
+}

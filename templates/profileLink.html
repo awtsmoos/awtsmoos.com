@@ -1,0 +1,329 @@
+<!--B"H-->
+<?<script> 
+    var alias = request.user.info?.hosuhfuh?.alias;
+    var username = request.user.info?.userId;
+    $sd.alias=alias;
+    $sd.username=username
+
+    return `<script>var curAlias=
+        ${$sd.alias ? '"' + $sd.alias + '"' : "undefined"}
+</script><br>`
+</script>?>
+
+<div class="awtsmoosDrop">
+<div class="btn dropt" id="dropdownProfile">
+    <span class="currentAliasName">
+    <?<script>return $sd.alias? "@"+$sd.alias:"Profile"</script>?>
+    </span>
+    <span id="awtsDownIndicator" class="arrow">&#x25BC</span>
+</div>
+<div id="awtsmoosProfileDropContent" class="hidden dropdown-content">
+    <div class="welcome">
+        Welcome, <span class="highlight"><?<script>return $sd.username</script>?>!</span>
+    </div>
+   
+    <div class="currentAlias <?<script>return !$sd.alias? 'hidden' : ''</script>?>" id="aliasSection">
+        You're current alias is: 
+        <a class="currentAliasName" href="#}">
+            Profile
+        </a>
+    </div>
+    <script>
+        if(window.curAlias) {
+           
+            aliasSection.classList.remove("hidden")
+            document.querySelectorAll(".currentAliasName").forEach(w=> {
+                  w.innerText = "@" + curAlias;
+                if(w.tagName == "A") {
+                    w.href = "/@" + curAlias
+                }
+            })
+                
+            /*
+            dispatchEvent(new CustomEvent("awtsmoosAliasChange", {
+                detail: {
+                    id: curAlias
+                }
+            }))*/
+        
+        }
+    </script>
+    
+    <div class="btn dropt" id="switchAlias">
+        Switch Alias? <span id="aliasIndicator" class="arrow">&#x25BC</span>
+    </div>
+    <div id="aliasInfo" class="hidden dropdown-content">
+        <div class="center">
+            <div class="loading-circle"></div>
+        </div>
+    </div>
+    <hr>
+    <div class="settings">
+        <a href="/profile">Manage Your Aliases</a>
+    </div>
+    <?<script>
+    
+        return $a("logout.html");
+    
+    </script>?>
+    <script>
+        var aliasesGot = null;
+        (() => {
+            
+            function dropdownify(content, arrow) {
+                var hid = content.classList.contains("hidden")
+                if(hid) {
+                    content.classList.remove("hidden")
+                    arrow.classList.add("right")
+                } else {
+                    content.classList.add("hidden")
+                    arrow.classList.remove("right")
+                    
+                }
+    
+            }
+
+            function makeBackdrop() {
+                
+                var other = document.createElement("div")
+                awtsmoosProfileDropContent.style.zIndex = 99999999;
+                var id = "BH_"+Date.now();
+                other.classList.add(id+"-blocker", "awtsBlock")
+                var sty = document.createElement("style")
+                other.appendChild(sty)
+                sty.innerHTML = `/*B"H*/
+                .${id}-blocker {
+                position:fixed;
+                left:0px;top:0px;
+                    margin:0px;
+                    z-index:9999999;
+                    background: rgba(0,0,0,0.1);
+                    width:100%;
+                    height:100%;
+                }
+                `
+                document.body.appendChild(other);
+                other.addEventListener("click", e => {
+                    awtsmoosProfileDropContent.classList.add("hidden")
+                    awtsDownIndicator.classList.add("right");
+                    other.remove();
+                })
+                return other;
+            }
+            var back = null;
+            //switchAlias
+            dropdownProfile.addEventListener("click", async () => {
+                dropdownify(awtsmoosProfileDropContent, awtsDownIndicator)
+                if(awtsmoosProfileDropContent.classList.contains("hidden")) {
+                    if(back) back.remove();
+                } else {
+                    back = makeBackdrop()
+                }
+            })
+
+            /**/
+
+            var isShowingAliases = false;
+            switchAlias.addEventListener("click", async () => {
+                dropdownify(aliasInfo, aliasIndicator);
+                isShowingAliases = !isShowingAliases;
+                var oldHTML = aliasInfo.innerHTML;
+                var aliases = aliasesGot;
+                if(!aliases) {
+                    try {
+                        aliases = (await (await fetch(`/api/social/aliases/details?${
+                            new URLSearchParams({
+                                propertyMap: JSON.stringify({
+                                    name: true,
+                                    id: true
+                                })
+                            })
+                        })`)).json());
+                        
+                    } catch(e) {}
+                }
+                if(aliases) {
+                    aliasesGot = aliases;
+                     showAliases(aliases);
+                    
+                }
+            })
+
+            
+             function showAliases(aliases, reset=true) {
+                aliasInfo.innerHTML = "";
+                aliases = Array.from(aliases);
+                 
+                 var defaultAlias = null;
+                 var me = aliases.find(a => a.id == curAlias)
+                 if(me) {
+                      me.default = true;
+                     if(reset) {
+                         var ind = aliases.indexOf(me);
+                         aliases.splice(ind, 1)
+                         aliases.unshift(me)
+                     }
+                 }
+                aliases.forEach(w => {
+                    var h = document.createElement("div")
+                    h.className = "aliasSelection"
+
+                    var id = document.createElement("div")
+                    h.className = "aliasId"
+                    h.textContent = "@"+w.id;
+                    
+                    var p = document.createElement("div")
+                    p.className = "aliasName"
+                    p.textContent = w.name;
+
+                    h.appendChild(p);
+                    if(w.default) {
+                         h.classList.add("default")   
+                    }
+
+                    aliasInfo.appendChild(h);
+                    h.addEventListener("click", async () => {
+                        h.innerHTML = "Setting as default...";
+                        var resp = (await (await fetch(`/api/social/alias/default`, {
+                            method: "POST",
+                            body: "alias="+w.id
+                        })).json());
+                        if(resp.success) {
+                            aliases.forEach(f => {
+                                f.default = false;
+                            })
+                            aliasesGot = aliases;
+                            curAlias = w.id;
+                            dispatchEvent(new CustomEvent("awtsmoosAliasChange",{
+                                detail: {
+                                    id: w.id
+                                }
+                            }))
+                            showAliases(aliases,false);
+                        } else {
+                            h.innerHTML = "Couldn't make "+w.id+"default";
+                        }
+                        
+                    })
+                    
+                    
+                })
+                 
+                console.log(aliases, curAlias)
+             }
+            addEventListener("awtsmoosAliasChange", e => {
+                var id = e.detail.id;
+                var fromShowing = e.detail.fromShowing
+                curAlias = id;
+                Array.from(
+                    document.querySelectorAll(".currentAliasName")
+                ).forEach(d => {
+                    d.innerText = "@" + id
+                    if(d.tagName == "A") {
+                        d.href = "/@" + id;
+                    }
+                })
+
+                if(aliasSection.classList.contains("hidden")) {
+                    aliasSection.classList.remove("hidden")   
+                }
+
+                if(!fromShowing && aliasesGot && isShowingAliases) {
+                    aliasesGot.forEach(w => {
+                          if(w.id != id) {
+                            w.default = false
+                          } else w.default = true;
+                    })
+                    showAliases(aliasesGot)
+                }
+            })
+        })()
+        
+    </script>
+</div>
+</div>
+<style>
+    .dropt {
+        padding-right: 26px;
+
+    }
+    .aliasId.default:hover {
+        background: aliceblue;
+    }
+    
+    .aliasId.default {
+        background: #ffce00;
+    }
+    .aliasId:hover {
+        background: yellow;
+        cursor: pointer;
+    }
+    .aliasId {
+        padding: 5px;
+        word-break: break-word;
+        display: inline-block;
+        border: 1px solid black;
+        background: #a4f7f7;
+        border-radius: 15px;
+    }
+    .aliasName {
+        font-weight: bolder;
+        margin-top:7ox;
+    }
+    #aliasInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 25%;
+        max-height: 300px;
+        border: 1px solid black;
+        margin-left: -36px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+     .awtsmoosDrop .dropt, {
+           padding-right: 26px;
+        }
+
+  
+    .awtsmoosDrop .currentAlias {
+        padding:7px;
+    }
+
+    .awtsmoosDrop .currentAlias a {
+        background:hsl(245deg 100% 50%);
+    }
+
+    .awtsmoosDrop .currentAlias a:hover {
+        background:yellow;
+    }
+
+    .awtsmoosDrop .arrow.right {
+        transform:rotate(270deg);
+    }
+    .awtsmoosDrop .arrow {
+         position:absolute;
+        padding:unset;
+    }
+
+        .awtsmoosDrop .dropdown-content {
+            padding: 26px;
+            position: fixed;
+            right: 50px;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+            z-index: 8765786576575875768767861;
+        }
+
+        .awtsmoosDrop .dropdown-content a {
+            /*color: black;*/
+            padding: 12px 16px;
+            
+            dtext-ecoration: unset;
+            display: inline-block;
+            /*background: unset;*/
+            margin:7px;
+            border:1px solid black;
+        }
+</style>

@@ -1,0 +1,137 @@
+/**B"H**/
+
+.profile {
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+    padding: 2em;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+}
+.profile-name {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+.profile-description {
+    font-size: 1em;
+    color: #666;
+}
+
+button {
+    display: inline-block;
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+.instructions, .aliases {
+    margin-top: 2em;
+}
+
+.alias {
+    margin-top: 1em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.edit-alias {
+    margin-top: 0.5em;
+}
+
+/* Explanation Section */
+.explanation {
+    margin-top: 2em;
+    text-align: left;
+}
+.explanation h2 {
+    font-size: 1.5em;
+    color: #333;
+}
+.explanation p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Aliases Section */
+.aliases {
+    margin-top: 2em;
+    text-align: left;
+}
+.aliases h3 {
+    font-size: 1.2em;
+    color: #333;
+}
+.aliases ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.aliases li {
+    margin-bottom: 0.5em;
+}
+.aliases .alias-name {
+    font-weight: bold;
+}
+
+/* Animation keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loading circle styles */
+.loading-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid #f3f3f3; /* Light grey border */
+    border-top: 5px solid #3498db; /* Blue border on top */
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+/* Center the loading circle */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.create-alias-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.create-alias-btn:hover {
+    background-color: #0056b3;
+}
+
+a.alias-id {
+    color:#007BFF
+}

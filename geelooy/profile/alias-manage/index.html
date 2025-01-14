@@ -1,0 +1,62 @@
+<!--B"H-->
+<?<script>
+    var ac = $_GET["action"];
+    var alias = $_GET["alias"];
+    var returnURL = $_GET["returnURL"] || "/profile"
+    var det = null;
+    if(ac == "update" && alias) {
+        det = await fetchAwtsmoos("/api/social/aliases/"+alias+"/details")
+    }
+    return $a("nav/page.html", {
+        tochen: /*html*/`
+        <script>
+            var desc = 'JSON.stringify(det)}';
+            console.log(desc)
+            </script>
+            <link rel="stylesheet" type="text/css" href="./style.css">
+            <div class="container">
+                <a href="${
+                    returnURL
+                }"><- Back</a>
+                <h1>${
+                    
+                    (ac == "update" && det) ?
+                    "Update details for the alias: "
+                    + det.name : "Create New Alias"
+                }</h1>
+                <form id="alias-form">
+                    <label for="alias-name">Alias Name:</label><br>
+                    <input type="text" value="${
+                        det ? det.name : ""
+                    }" id="alias-name" name="alias-name" required><br><br>
+                    <label for="alias-description">Alias Description:</label><br>
+                    <textarea id="alias-description" value="${
+                        det ? det.description : ""
+                    }" name="alias-description">${
+                        det ? det.description : ""
+                    }</textarea><br><br>
+                    <div class="optional-id">
+                        <label for="alias-id">Custom Alias ID:</label>
+                        <input type="text" id="alias-id" name="alias-id">
+                        <span class="tooltip">?</span>
+                        <div class="tooltiptext">Custom Alias ID is optional. If not provided, it will be generated automatically based on the Alias Name.</div>
+                    </div>
+                    <span id="id-validation"></span><br><br>
+                    <div class="form-btns">
+                        <button type="submit">${
+                            ac == "update" ? "Update"
+                            : "Submit"
+                        }</button>
+                        ${
+                            ac == "update" ? /*html*/`
+                                <button class="delete" id="delete">Delete</button>
+                            ` : ""
+                        }
+                    </div>
+                </form>
+            </div>
+
+            <script src="script.js"></script>
+        `
+    })
+</script>?>

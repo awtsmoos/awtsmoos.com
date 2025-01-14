@@ -1,0 +1,29 @@
+/**B"H**/
+.hidden{
+    display:none
+
+}
+
+#BH {
+    
+    color: #fff;
+    position:fixed;
+    padding:12px;
+    border-radius:8px;
+    left:13px;
+    top:13px;
+    background-color: black;
+    transition:box-shadow 0.3s ease;
+}
+
+#BH a {
+    color:inherit;
+}
+
+#BH:hover,
+#BH a:hover {
+  
+    background: white;
+    color:black;
+}
+

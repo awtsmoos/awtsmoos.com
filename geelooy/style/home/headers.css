@@ -1,0 +1,115 @@
+/**B"H**/
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+  }
+  
+  header {
+    color: black;
+    background-color: #f1f1f1;
+    padding: 10px 20px;
+    height:70px;
+  }
+
+  .header-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+
+
+  
+
+  .sidebarMitzvah {
+    position: fixed;
+    top:100px;
+    left:100%;
+    transform: translateX(-100%);
+    width: 250px;
+    height: 100%;
+    padding: 20px;
+    background: #f5f5f5; /* Professional background color */
+    color: #333; /* Professional text color */
+    overflow-y: auto;
+    transition: all 0.5s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .sidebarMitzvah a {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+
+  .sidebar a:hover {
+    color: #007bff; /* Hover color */
+  }
+
+  .offscreen {
+    transform: translateX(100%);
+  }
+
+  #menuButton {
+    height:20px
+  }
+  
+  .header-buttons button,
+  .header-buttons a,
+  .header-buttons .button,
+  .btn {
+    background-color: #4285f4;
+    text-decoration: none;
+    color: white;
+    user-select: none;
+    border: 1px solid black;
+    border-radius: 26px;
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    margin-top: unset !important;
+  }
+
+  .btn {
+    display:inline-block;
+  }
+  .header-buttons button, .header-buttons a:hover
+  ,
+  .btn:hover {
+    background-color: #88b5ff;
+    color: black;
+}
+
+.hidden {
+  display:none !important;
+}
+
+      /* Animation keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loading circle styles */
+.loading-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid #c6c6c6; /* Light grey border */
+    
+    border-top: 5px solid #3498db; /* Blue border on top */
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+/* Center the loading circle */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

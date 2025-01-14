@@ -1,0 +1,57 @@
+<!--B"H-->
+<?Awtsmoos 
+//<script>
+console.log("Hi!",this.heichel)
+    if(!this.heichel) {
+        olam.replace = true;
+        olam.contentType = "text/html"
+        
+        return "B\"H No Heichel here"
+    } else {
+      sharedData.heichel = this.heichel;
+    }
+
+//</script>
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/u/css.css">
+  
+</head>
+<body>
+  <div class="container">
+    B"H
+    
+    <h1>Posts for Heichel: 
+        <a href="/heichelos/<?Awtsmoos
+          return heichel
+        ?>"><span class="heichelName">
+            <!--B"H-->
+            <?Awtsmoos
+                return ( this.heichel || "No heichel found!")
+            ?>
+        </span></a>
+    </h1>
+    <div id="postsList"></div>
+  </div>
+  <script>
+    //<?Awtsmoos
+    return /*javascript*/`
+      var heichelID = "${this.heichel}";
+    `;
+    //?>
+  </script>
+  <script src="/scripts/awtsmoos/social/PostsModule.js" type="module"></script>
+  <script>
+    //<?Awtsmoos
+     
+      return /*javascript*/`
+        var h = "${sharedData.heichel}"
+      `
+    //?>
+    console.log(this.h)
+
+  </script>
+</body>
+</html>

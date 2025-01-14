@@ -1,0 +1,89 @@
+/**
+B"H
+*/
+
+.heichel-view {
+    max-width: 80vw;
+}
+        
+.heichelos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+}
+
+.heichel-view a {
+    
+    color: rgb(0, 44, 114);
+    transition: color 0.3s ease; /* Smooth transition for color change */
+    }
+
+.heichel-view a:hover {
+    color: #004dff; /* Light grey color on hover for a subtle effect */
+    text-decoration: none; /* Underline to signify it is clickable */
+}
+.list-container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.heichel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #7c7c7c8e;
+    padding: 15px;
+    gap: 20px;
+    /*padding: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    margin: 10px;*/
+}
+
+.heichel-name {
+    font-size: 1.5rem;
+    padding:5px;
+    margin-bottom: 5px;
+}
+
+.heichel-description {
+    font-size: 1rem;
+    white-space:pre-wrap;
+}
+
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-input:focus, .search-button:focus {
+    outline: none;
+}

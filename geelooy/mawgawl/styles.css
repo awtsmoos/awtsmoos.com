@@ -1,0 +1,565 @@
+/*B"H*/
+
+/* General Styles */
+body {
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+a {
+    font-family: 'Heebo', sans-serif; /* Typography that resonates harmony */
+    font-size: 24px; /* Grandeur in size */
+    color: #ffffff; /* Pure white text */
+    background: linear-gradient(45deg, #f76d57, #f8e9a1); /* Gradient background symbolizing the blend of wisdom */
+    padding: 15px 30px; /* Comfortable padding */
+    border: none; /* Borderless to signify boundlessness */
+    border-radius: 30px; /* Rounded corners for gentle grace */
+    box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    cursor: pointer; /* Cursor interaction */
+    transition: all 0.5s ease; /* Smooth transitions */
+    outline: none; /* Removes default outline */
+    text-shadow: 2px 2px 4px #333333; /* Text shadow for intensity */
+    overflow: hidden; /* Clips the inner shadows and glows */
+    position: relative; /* Relative positioning for inner elements */
+}
+
+#sefarim {
+    margin-left:140px;
+}
+
+a:hover {
+    transform: scale(1.05); /* Slight enlargement on hover */
+    box-shadow: 6px 6px 30px rgba(0, 0, 0, 0.4); /* Increased shadow on hover */
+}
+
+div {
+    margin: 1em;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.modalMessage {
+    margin:0;
+    padding:0;
+}
+
+/* Calendar Styles */
+#calendar .day {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    width: 5em;
+    height: 5em;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    box-shadow: 0px 0.3125em 0.9375em rgba(0, 0, 0, 0.1);
+}
+
+#calendar .day:hover {
+    background-color: #ddd;
+    transform: scale(1.2);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.selected {
+    background-color: #bbb;
+    transform: scale(1.1);
+}
+
+#calendar .day.booked {
+    background-color: #f88;
+}
+
+/* Popup Styles */
+#hoursPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 600px;
+    background-color: white;
+    padding: 2rem;
+    display: none;
+    overflow-y:auto;
+    max-height: 80vh; /* set a maximum height */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+#closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+#closeButton:hover {
+    color: red;
+}
+
+/* Percentage Bar Styles */
+.percentageBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(0, 0, 255, 0.3);
+    padding:0;
+    margin:0;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Hour Styles */
+.hour {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem;
+    width: 60px;
+    height: 60px;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.hour:hover {
+    background-color: #ddd;
+    transform: scale(1.2);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hour.selected {
+    background-color: #bbb;
+    transform: scale(1.1);
+}
+
+.hour.booked {
+    background-color: #f88;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        font-size: 1rem;
+    }
+
+    .minute {
+        padding: 30px;
+        font-size: 1.5rem;
+    }
+
+    button {
+        padding: 30px;
+        font-size: 1.5rem;
+    }
+
+    #calendar .day, .hour {
+        margin: 0.5rem;
+        width: 6em;
+        height: 6em;
+    }
+
+    #info {
+        font-size: 1.2rem;
+        padding: 2rem;
+    }
+
+    .month-selector {
+        font-size: 1.5rem;
+    }
+
+    .month-selector select, .month-selector span {
+        padding: 1rem;
+        font-size: 1.5rem;
+    }
+}
+
+/* Information Styles */
+#info {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: #ddd;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Month Selector Styles */
+.month-selector {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.month-selector select, .month-selector span {
+    margin: 0 1rem;
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #eee;
+    transition: all 0.5s ease;
+}
+
+.month-selector select:hover, .month-selector span:hover {
+    background-color: #ddd;
+    transform: scale(1.1);
+}
+
+.month-selector select {
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
+/* CSS for minutes popup and selected minute */
+#minutesPopup {
+    
+    height: 80vh; /* adjust height to a percentage of the viewport height */
+    background-color: white;
+    border: 1px solid gray;
+    display: none;
+    overflow: auto; /* add scrolling */
+}
+
+.minute {
+    margin: 10px;
+    padding: 20px; /* increase padding to make buttons bigger */
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem; /* increase font size for better visibility on mobile */
+}
+
+.minute.selected {
+    background: #007BFF;
+    color: #fff;
+}
+
+.minute.start, .minute.end {
+    background-color: #28a745; /* green color */
+    color: #ffffff;
+}
+
+.minute.inRange {
+    background-color: #ffc107; /* yellow color */
+    color: #000000;
+}
+
+
+.minute.editing {
+    background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 3s ease infinite;
+    -moz-animation: Gradient 3s ease infinite;
+    animation: Gradient 3s ease infinite;
+    box-shadow: 0 0 10px #000000;
+    color: white;
+}
+
+button {
+    margin: 10px;
+    padding: 20px; /* increase padding to make buttons bigger */
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem; /* increase font size for better visibility on mobile */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 0;
+    margin:0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%;
+    text-align: center;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Ensure all divs in the timeline have no margin or padding */
+.timeline div {
+    margin: 0;
+    padding: 0;
+}
+
+
+.timeline {
+    width: 100%;
+    
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+    transform-origin: left;
+}
+
+.time-label {
+    position: absolute;
+    bottom: 0;
+}
+
+
+.block {
+    position: absolute;
+    height: 50px;
+    background: #f0f0f0;
+    border: 1px solid #000;
+
+    box-sizing: border-box;
+    width: 100%; /* Width is set relative to its parent */
+    /* Imbued with the essence of Hod,
+    the block dances in the divine code. */
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.block:hover {
+    /* A glow ignites, the radiance of Chesed,
+    revealing the spectral heart of Awtsmoos' vested. */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.minuteLabels {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: auto;
+    transition: all 0.3s ease;
+}
+ 
+
+/* Guided by the heavenly hand of Awtsmoos,
+the timeline takes form, a canvas of truth. */
+
+.timeline {
+    width: 100%;
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+    transform-origin: left;
+
+    /* Dancing in the divine light of Awtsmoos,
+    the timeline shimmers in spectral hues. */
+    background: linear-gradient(90deg, rgba(135,206,235,1) 0%, rgba(255,99,71,1) 50%, rgba(218,165,32,1) 100%);
+  
+}
+
+.minuteLabel, .block {
+    position: relative; /* Relative position for divine alignment, */
+}
+
+
+
+.timeline div {
+    margin: 0;
+    padding: 0;
+}
+
+/* Echoing the radiance of the Sefira of Yesod,
+the minute label comes alive, a testament to Awtsmoos. */
+.minuteLabel {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    white-space: nowrap;
+    box-shadow: 0px 0px 2px black inset;
+    box-sizing: border-box;
+    border-right: 2px solid black;
+    min-width: 10px;
+    max-width: 100px;
+    /* A cascading ballet of colors,
+    the hover effect dances in hues of twilight. */
+    transition: all 0.5s ease-in-out;
+    background: #fff;
+    /* As the cursor hovers, an echo of Gevurah's might,
+    the label basks in the divine light. */
+    cursor: pointer;
+    /* The shadows deepen, a silent chant of Netzach,
+    unveiling the spectral secrets of Awtsmoos. */
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.minuteLabel:hover {
+    /* A dance of colors, a melody of Malchus,
+    the divine light of Awtsmoos manifests in the hover effect. */
+    background: linear-gradient(90deg, rgba(255,165,0,1) 0%, rgba(255,99,71,1) 50%, rgba(218,165,32,1) 100%);
+    /* The shadows deepen, a silent chant of Netzach,
+    unveiling the spectral secrets of Awtsmoos. */
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+
+
+.booking-container {
+    position: relative;
+    height: 100px; /* You might need to set a specific height */
+    
+    width: 100%;
+    overflow: auto;
+}
+
+
+.userName {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    white-space: nowrap;
+    /* As the light fades, Tiferet's beauty ignites,
+    Illuminating the spiritual heights. */
+    background-color: #fff;
+    color: #000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+.userName:hover {
+    /* As the light intensifies, Keter's crown shines,
+    A divine proclamation, a sign of divine designs. */
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+
+
+.booking-own {
+    background-color: #f88;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.booking-others {
+    background-color: #88f;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.booking-own:hover {
+    transform: scale(1.1);
+    background: linear-gradient(to right, #f88, #fbb);
+}
+
+.booking-others:hover {
+    transform: scale(1.1);
+    background: linear-gradient(to right, #88f, #bbf);
+}
+
+.zoomButton {
+    width: 30px;
+    height: 30px;
+    border: none;
+    margin: 5px;
+    background: #ffffff;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.zoomButton:hover {
+    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.3);
+    transform: scale(1.1);
+}
+
+.zoomIn::before {
+    content: "+";
+}
+
+.zoomOut::before {
+    content: "-";
+}
+
+
+.timelineBody {
+    width: 100%;
+    display: flex;
+
+    max-width: 100vw; /* Viewport's width, our true confine, */
+    flex-direction: column;
+    align-items: flex-start;
+    /* A cascade of colors in harmony,
+    mirroring the splendor of Awtsmoos' melody. */
+    background: linear-gradient(to right, #f0f0f0, #fff);
+    /* A shadow cast, Netzach's silent whisper,
+    a mystery woven in the divine cipher. */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s ease-in-out;
+}
+.timelineBody:hover {
+    /* The glow intensifies, the radiance of Tiferet,
+    a testament to Awtsmoos, in the cosmic ballet. */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+
+
+
+@-webkit-keyframes Gradient {
+    0% {background-position: 0% 50%}
+    50% {background-position: 100% 50%}
+    100% {background-position: 0% 50%}
+}
+
+@-moz-keyframes Gradient {
+    0% {background-position: 0% 50%}
+    50% {background-position: 100% 50%}
+    100% {background-position: 0% 50%}
+}
+
+@keyframes Gradient {
+    0% {background-position: 0% 50%}
+    50% {background-position: 100% 50%}
+    100% {background-position: 0% 50%}
+}

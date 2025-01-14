@@ -1,0 +1,123 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script awts>
+		//
+		var myPath = location.pathname.split("/").filter(Boolean)
+		var seriesId = myPath[myPath.length - 2];
+		var postIdx = myPath[myPath.length - 1];
+		var heichel = myPath[1];
+		var series = await fetchAwtsmoos(`/api/social/heichelos/${
+			heichel	
+		}/series/${
+			seriesId
+		}/details`);
+		var postId  = series.posts[postIdx]
+		var post = await fetchAwtsmoos(`/api/social/heichelos/${
+			heichel	
+		}/post/${
+			postId
+		}`);
+		var deets = {
+			title: series.name,
+			id: seriesId,
+			heichel,
+			series
+		}
+		sharedData.series = series;
+		sharedData.post = post;
+		var name = series.prateem?.name + " | " + 
+			post.title;
+		
+		sharedData.name = name
+		return `
+  
+  			<script>
+			console.log('B"H',
+				'\\n',
+				'Welcome from the Awtsmoos! Server time is: '+(new Date())
+			
+			);
+			var now = \`${new Date()}\`;
+			var post = ${JSON.stringify(post)};
+			var seer = ${JSON.stringify(deets)};
+   			var series = seer.series;
+   			var pageName = \`${name}\`
+		     </${"script>"}
+     		`//"<script>var mySeries=`"JSON.stringify(series)+"`;</"+"script>";
+	</script>?>
+   
+    <link rel="stylesheet" href="/heichelos/new-style.css" type="text/css">
+
+    <link rel="stylesheet" href="/style/home/main.css">
+
+	 <title><script awts>
+	    return (sharedData.name)
+    </script>?> @Awtsmoos </title>
+</head>
+
+<body>
+    
+    <div class="all">
+        <?<script> return $a("nav/header.html") 
+        </script>?>
+	    <div class="post-header">
+                
+                <div class="post-title" id="postTitle">
+                   
+                </div>
+                <div class="controls btns">
+
+                    <button id="minMax" class="button primary">A</button>
+
+                    <button id="commentaryBtn" class="button third">i</button>
+                </div>
+                <div class="post-details hidden-details" id="postDetails">
+
+                    
+                    <div class="settings"> <!-- Controls for Text Size -->
+                        <div class="controls">
+                            <button onclick="adjustFontSize('increase')" class="button secondary">Increase Text Size</button>
+                            <button onclick="adjustFontSize('decrease')" class="button secondary">Decrease Text Size</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                    
+            </div>
+ <div class="main">
+
+            
+            
+            
+            <div id="postFrame" class="post-frame">
+                <div class="content" id="realPost">
+                    <?<script>
+						return $a("loading.html")
+					</script>?>
+                </div>
+                <div class="sidebar hidden-comments">
+                    <!--<div class="tab-buttons">
+                          </div>
+                    <div class="all-tabs">
+                        
+                    </div>-->
+                </div>
+        </div>
+            
+            
+            <script type="module" src="/heichelos/post/postLogic.js"></script>
+
+    
+  
+    </div>
+</div>
+</body>
+
+</html>

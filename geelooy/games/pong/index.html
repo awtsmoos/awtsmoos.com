@@ -1,0 +1,205 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+        }
+        canvas {
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+<canvas id="pongCanvas" width="800" height="400"></canvas>
+<script>
+    const canvas = document.getElementById("pongCanvas");
+    const context = canvas.getContext("2d");
+
+    const paddleWidth = 10;
+    const paddleHeight = 100;
+    const ballSize = 10;
+    const maxScore = 10;
+
+    const player = {
+        x: 0,
+        y: (canvas.height - paddleHeight) / 2,
+        width: paddleWidth,
+        height: paddleHeight,
+        color: '#fff',
+        dy: 0,
+        score: 0
+    };
+
+    const ai = {
+        x: canvas.width - paddleWidth,
+        y: (canvas.height - paddleHeight) / 2,
+        width: paddleWidth,
+        height: paddleHeight,
+        color: '#fff',
+        dy: 4,
+        score:0,
+        speed: 4,
+        reactionTime: 0.1 // AI reaction time delay in seconds
+    };
+
+    let lastAiUpdateTime = Date.now();
+
+
+    const ball = {
+        x: canvas.width / 2 - ballSize / 2,
+        y: canvas.height / 2 - ballSize / 2,
+        size: ballSize,
+        speed: 4,
+        dx: 4,
+        dy: -4,
+        acceleration: 0.1,
+        color: '#fff'
+    };
+
+    function drawRect(x, y, width, height, color) {
+        context.fillStyle = color;
+        context.fillRect(x, y, width, height);
+    }
+
+    function drawBall(x, y, size, color) {
+        context.fillStyle = color;
+        context.fillRect(x, y, size, size);
+    }
+
+    function drawNet() {
+        context.beginPath();
+        context.setLineDash([5, 15]);
+        context.moveTo(canvas.width / 2, 0);
+        context.lineTo(canvas.width / 2, canvas.height);
+        context.strokeStyle = '#fff';
+        context.stroke();
+    }
+
+    function drawScore(x, y, score) {
+        context.fillStyle = '#fff';
+        context.font = '32px Arial';
+        context.fillText(score, x, y);
+    }
+
+    function resetBall() {
+        ball.x = canvas.width / 2 - ball.size / 2;
+        ball.y = canvas.height / 2 - ball.size / 2;
+        ball.speed = 4;
+        ball.dx = -ball.dx;
+        ball.dy = ball.speed * (Math.random() > 0.5 ? 1 : -1);
+    }
+
+    function update() {
+        // Move player paddle
+        player.y += player.dy;
+
+        if (player.y < 0) player.y = 0;
+        if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+
+        // Move AI paddle with delay and randomness
+        const now = Date.now();
+        if (now - lastAiUpdateTime > ai.reactionTime * 1000) {
+            lastAiUpdateTime = now;
+            if (ball.y + ball.size / 2 < ai.y + ai.height / 2 - 10) {
+                ai.y -= ai.speed + Math.random() * 2; // Add randomness to movement
+            } else if (ball.y + ball.size / 2 > ai.y + ai.height / 2 + 10) {
+                ai.y += ai.speed + Math.random() * 2; // Add randomness to movement
+            }
+        }
+
+        if (ai.y < 0) ai.y = 0;
+        if (ai.y + ai.height > canvas.height) ai.y = canvas.height - ai.height;
+
+        // Move ball
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // Ball collision with top and bottom walls
+        if (ball.y < 0 || ball.y + ball.size > canvas.height) {
+            ball.dy *= -1;
+        }
+
+        // Ball collision with paddles
+        if (ball.x < player.x + player.width && ball.x > player.x && ball.y + ball.size > player.y && ball.y < player.y + player.height) {
+            let collidePoint = (ball.y - (player.y + player.height / 2)) / (player.height / 2);
+            let angleRad = (Math.PI / 4) * collidePoint;
+            ball.dx = ball.speed * Math.cos(angleRad);
+            ball.dy = ball.speed * Math.sin(angleRad);
+            ball.speed += ball.acceleration;
+        }
+
+        if (ball.x + ball.size > ai.x && ball.x + ball.size < ai.x + ai.width && ball.y + ball.size > ai.y && ball.y < ai.y + ai.height) {
+            let collidePoint = (ball.y - (ai.y + ai.height / 2)) / (ai.height / 2);
+            let angleRad = (Math.PI / 4) * collidePoint;
+            ball.dx = -ball.speed * Math.cos(angleRad);
+            ball.dy = ball.speed * Math.sin(angleRad);
+            ball.speed += ball.acceleration;
+        }
+
+        // Ball out of bounds
+        if (ball.x < 0) {
+            ai.score++;
+            resetBall();
+        }
+
+        if (ball.x + ball.size > canvas.width) {
+            player.score++;
+            resetBall();
+        }
+    }
+
+    function draw() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawNet();
+        drawRect(player.x, player.y, player.width, player.height, player.color);
+        drawRect(ai.x, ai.y, ai.width, ai.height, ai.color);
+        drawBall(ball.x, ball.y, ball.size, ball.color);
+        drawScore(canvas.width / 4, canvas.height / 5, player.score);
+        drawScore(3 * canvas.width / 4, canvas.height / 5, ai.score);
+
+        // Check for winning condition
+        if (player.score === maxScore || ai.score === maxScore) {
+            context.fillStyle = '#fff';
+            context.font = '48px Arial';
+            let winner = player.score === maxScore ? "Player" : "AI";
+            context.fillText(winner + " Wins!", canvas.width / 4, canvas.height / 2);
+            return;
+        }
+    }
+
+    function loop() {
+        update();
+        draw();
+        if (player.score < maxScore && ai.score < maxScore) {
+            requestAnimationFrame(loop);
+        }
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowUp") {
+            player.dy = -6;
+        } else if (e.key === "ArrowDown") {
+            player.dy = 6;
+        }
+    });
+
+    document.addEventListener("keyup", (e) => {
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+            player.dy = 0;
+        }
+    });
+
+    loop();
+</script>
+</body>
+</html>

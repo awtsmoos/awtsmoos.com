@@ -1,0 +1,87 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awtsmoos | Intense Post Creator</title>
+  <link rel="stylesheet" href="/heichelos/heichel/submit/styles.css">
+</head>
+<body>
+  <div class="all awtsmoospage">
+    <?Awtsmoos
+      return await getT("nav/header.html")
+    ?>
+    <div class="main">
+      <div id="editorContainer" class="post-creator-container">
+        <h4>B"H</h4>
+        <h1>Create a New Post</h1>
+        
+        <!-- Alias and Heichel Selection -->
+        <div class="metadata">
+          <label for="aliasId">Alias ID:</label>
+          <input disabled type="text" id="aliasId" placeholder="Enter Alias ID">
+        </div>
+    
+        <!-- Title Section -->
+        <div class="title-section">
+          <label for="title">Post Title:</label>
+          <input type="text" id="title" placeholder="Enter the title of your post">
+        </div>
+    
+        <!-- Collapsible Section -->
+        <div class="collapsible-section">
+          <div class="collapsible-header" onclick="toggleCollapsible()">
+            <span>Bulk Text to Sections</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="collapsible-content" id="collapsibleContent">
+            <textarea id="bulkText" placeholder="Paste large text here to auto-generate sections"></textarea>
+            <button id="generateSections">Generate Sections</button>
+          </div>
+        </div>
+        <!-- Dynamic Sections Area -->
+    <button id="addSection">Add New Section</button>
+    <div id="sectionsArea"></div>
+        
+    <!-- Submit Button -->
+    <button id="submitPost">Submit Post</button>
+    
+        
+      </div>
+      <!-- Toolbar Template -->
+    <div id="toolbarTemplate" style="display: none;">
+      <button data-command="bold"><b>B</b></button>
+      <button data-command="italic"><i>I</i></button>
+      <button data-command="heading" data-value="h1">H1</button>
+      <button data-command="heading" data-value="h2">H2</button>
+      <button data-command="heading" data-value="h3">H3</button>
+      <button id="uploadImageButton">🖼</button>
+    </div>
+
+      <div id="imageUploadModal" style="display: none;">
+        <div class="modal-overlay">
+          <div class="modal-content">
+            <h2>Upload Image</h2>
+            <label for="imgbbApiKey">ImgBB API Key:</label>
+            <input type="text" id="imgbbApiKey" placeholder="Enter your ImgBB API key" required>
+            <small>
+              <a href="https://imgbb.com/api" target="_blank">Get your ImgBB API key</a>
+            </small>
+      
+            <div id="dropZone" class="drop-zone">
+              <p>Drag and drop an image here, or click to select a file</p>
+              <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+      
+            <button id="uploadImageBtn">Add Picture</button>
+            <button id="closeModalBtn">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="/heichelos/heichel/submit/script.js"></script>
+</body>
+</html>

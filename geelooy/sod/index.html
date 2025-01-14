@@ -1,0 +1,235 @@
+<!--B"H-->
+<?Awtsmoos
+//<script>
+  
+if($_POST["go"]) {
+    olam.replace = true;
+    if(!request.user) {
+        return {error: "not authorized"}
+    }
+    if(request.user.info.userId != "asdf") {
+        return {er:"who ar u?"}
+    }
+
+    var util = require('util');
+    var exec = util.promisify(require('child_process').exec);
+
+    async function runShellCommand(cmd) {
+        try {
+            var { stdout, stderr } = await exec(cmd);
+            
+            
+            
+            return {result:stdout, error: stderr}
+        } catch (error) {
+            return {error:JSON.stringify(error+"")}
+        }
+    }
+
+    if(typeof($_POST.go) == 'string') {
+        
+        return await runShellCommand($_POST.go)
+        
+    }
+}
+
+
+//</script>
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endpoint Interaction</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 88%;
+            margin: auto;
+        }
+        header {
+            background: #50b3a2;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #bbb 1px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+        header li {
+            float: left;
+            display: block;
+            padding: 0 15px;
+            font-size: 16px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header .highlight, header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+        header a:hover {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .main {
+            padding: 30px 0;
+        }
+        .main h1 {
+            text-align: center;
+            text-transform: uppercase;
+            margin: 0;
+            font-size: 24px;
+        }
+        .button {
+            display: inline-block;
+            font-size: 18px;
+            color: #fff;
+            background: #e8491d;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .button:hover {
+            background: #333;
+        }
+
+        #chat {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            ;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .request {
+            background-color: #e8491d;
+            color: #fff;
+            margin-left: 20px;
+        }
+        .response {
+            background-color: #50b3a2;
+            color: #fff;
+            margin-right: 20px;
+            white-space:pre-wrap
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+       
+    </style>
+</head>
+<body>
+    <header>
+      <h4>B"H</h4>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Endpoint</span> Interaction</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="#">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main">
+        <h1>Send a Request</h1>
+        <input type="text" id="inputGo" placeholder="Enter value for 'go' parameter">
+        <button id="sendRequest" class="button">Send</button>
+        <div id="chat" style="margin-top: 20px;"></div>
+    </div>
+    <script>
+        document.getElementById('sendRequest').addEventListener('click', function() {
+    var goValue = document.getElementById('inputGo').value;
+    if (!goValue) {
+        alert('Please enter a value for the "go" parameter.');
+        return;
+    }
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", location. href, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            var chat = document.getElementById('chat');
+            
+            try {
+                var jsonResponse = JSON.parse(this.responseText);
+                
+                var messageDiv = document.createElement('div');
+                messageDiv.className = 'message response';
+                
+                if (jsonResponse.result) {
+                    var resultLines = jsonResponse.result.split('\n');
+                    resultLines.forEach(function(line) {
+                        var lineDiv = document.createElement('div');
+                        lineDiv.textContent = line;
+                        messageDiv.appendChild(lineDiv);
+                    });
+                } else if (jsonResponse.error) {
+                    messageDiv.textContent = 'Error: ' + jsonResponse.error;
+                } else {
+                    messageDiv.textContent = 'Unexpected response format';
+                }
+                
+                chat.appendChild(messageDiv);
+                chat.scrollTop = chat.scrollHeight;
+            } catch (e) {
+                console.error('Error parsing JSON response:', e);
+                messageDiv.textContent=this. responseText
+            }
+        }
+    }
+    xhr.send('go=' + encodeURIComponent(goValue));
+    
+    var chat = document.getElementById('chat');
+    var requestDiv = document.createElement('div');
+    requestDiv.className = 'message request';
+    requestDiv.textContent = 'Sending request with go=' + goValue;
+    chat.appendChild(requestDiv);
+    chat.scrollTop = chat.scrollHeight;
+});
+
+    </script>
+</body>
+</html>

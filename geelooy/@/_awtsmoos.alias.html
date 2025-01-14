@@ -1,0 +1,55 @@
+<!--B"H-->
+<?<script>
+	var own = this.belongsToMe;
+
+	if(this. alias) {
+		
+		sharedData.ownsThis = own && own.code != "NO";
+		sharedData.alias = this.alias
+	}
+	/*/var aliasURL = "/profile/alias-manage?" + new URLSearchParams({
+		alias: alias.id,
+		action: "update",
+		returnURL: thisURL
+	});*/
+	var thisURL = "@" + alias.id;
+	return $a(
+		"nav/page.html", {
+			centered: true,
+			tochen:/*html*/`
+			<title>@${alias.id}</title>
+			<link rel="stylesheet" href="/style/social/alias.css">
+			<div class="aliasInfo">
+			<div class="alias-container">
+			<div class="alias-name">`
+				+
+					(own ? (/*html*/`
+					
+						<a href="/profile/alias-manage" id="aliasId">@${alias.id}</a>
+						<script>
+						var ref = new URL("https://awtsmoos.com/profile/alias-manage");
+						ref.search = new URLSearchParams({
+							alias: "${alias.id}",
+							action: "update",
+							returnURL: "/${thisURL}"
+						});
+						aliasId.href = ref+""
+						</script>
+					`) : "@"+alias.id)
+				+
+				/*html*/`
+			</div>
+			<div class="alias-name">${
+					alias.name	
+				}</div>
+				<div class="alias-description">${
+					alias.description	
+				}</div>
+				<a href="/heichelos?alias=${alias.id}" class="alias-links">Heichelos</a>
+			</div>
+			</div>
+			`
+		}
+	);
+
+</script>?>

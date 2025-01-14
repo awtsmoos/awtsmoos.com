@@ -1,0 +1,241 @@
+/**B"H**/
+
+/* Reset default styles */
+.heichel * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+.heichel a h1 {
+    color: white;
+    text-decoration: underline;
+}
+
+.heichel div#parentS {
+    display: flex;
+    gap: 5px;
+}
+.heichel  .editorsHolder {
+    width: fit-content;
+  }
+
+.heichel .editor-holder {
+    height: 100px;
+    overflow-y: scroll;
+  }
+  
+.heichel  .editor-name {
+    padding: 5px;
+    text-align: left;
+  } 
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin:0 !important;
+  }
+  
+.heichel   header {
+    background-color: #0a4d8c;
+    color: #fff;
+    padding: 1em 1em 0;
+    text-align: center;
+  }
+  
+  /* Navigation menu styles */
+.heichel  nav {
+    background-color: #0a4d8c;
+    padding: 0.5em 0;
+  }
+  
+ .heichel  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+ .heichel  nav ul li {
+    padding: 0 1em;
+  }
+  
+.heichel .Active {
+    background:white;
+    color: #0a4d8c
+  }
+ .heichel  button {
+    font-size: 1.1em; /* Larger font size for better readability */
+    padding: 10px 15px; /* More padding for a larger, more clickable area */
+    background-color: #007bff; /* Eye-catching button color */
+    color: white; /* Contrast color for button text */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Cursor change to indicate clickable */
+}
+
+ .heichel  nav ul li a, nav ul li button {
+    text-decoration: none;
+    background:none;
+    border:none;
+    color: #fff;
+    font-weight: bold;
+  }
+
+ .heichel  nav ul li button:hover {
+    cursor:pointer
+  }
+  
+  /* Main content and sidebar layout */
+ .heichel  main {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
+  }
+  
+ .heichel  .content-section {
+    width: 70vw;
+    margin-right: 1em;
+  }
+  
+ .heichel  .sidebar {
+    width: 24%;
+    background-color: #e6e6e6;
+    padding: 1em;
+  }
+  
+  /* Post card styles */
+ .heichel  .post-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 1em;
+    padding: 1em;
+  }
+  
+ .heichel  .description {
+    white-space:pre-wrap;
+  }
+ .heichel  .post-card h2, .post-card a {
+    color: #0a4d8c !important;
+    margin-bottom: 0.5em;
+  }
+
+ .heichel  .post-card a {
+    text-decoration:none;
+  }
+  
+ .heichel  .post-card p {
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  /* Sidebar elements */
+ .heichel  .sidebar h2 {
+    color: #0a4d8c;
+    margin-bottom: 0.5em;
+  }
+  
+  .heichel  .sidebar p {
+    margin-bottom: 1em;
+    line-height: 1.5;
+  }
+  
+ .heichel  .label-editors,
+  .author-label {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 5px;
+  }
+
+  /* Footer styling */
+ .heichel  footer {
+    background-color: #0a4d8c;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+ .heichel  footer a{
+    color:white;
+  }
+  
+  /* Grid-like layout for posts */
+ .heichel  .grid-container {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1em;
+  }
+  
+  /* Responsive design adjustments */
+  @media screen and (max-width: 1024px) {
+   .heichel  .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+   .heichel  nav ul {
+      flex-direction: column;
+    }
+  
+   .heichel  nav ul li {
+      padding: 0.5em 0;
+    }
+  
+    .heichel main {
+      flex-direction: column;
+    }
+    
+    .heichel .content-section, 
+    .heichel .sidebar {
+      width: 100%;
+    }
+    
+    .heichel .sidebar {
+      margin-top: 1em;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .heichel .grid-container {
+      grid-template-columns: 1fr;
+    }
+  }
+    .heichel .novel {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .heichel .novel h2 {
+      color: #003366;
+    }
+    .heichel .novel p {
+      color: #333;
+    }
+
+
+.heichel .authorHolder {
+  display:flex;
+  flex-direction: column;
+  gap:5px;
+  justify-content: center;
+}
+
+.heichel .author-label {
+  white-space: pre;
+}
+
+.heichel .post-preview {
+  color: revert !important;
+  font-family: revert !important;
+  white-space: pre-wrap;
+}

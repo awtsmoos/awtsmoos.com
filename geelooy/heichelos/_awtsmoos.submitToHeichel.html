@@ -1,0 +1,697 @@
+<!--B"H-->
+<meta charset="utf-8">
+<?Awtsmoos
+    return await getT("nav/header.html")
+  ?>
+<style>
+
+.hidden {
+    display:none
+}
+ textarea:focus {
+  outline: none;
+  border-color: #3498db; /* Highlight Color on Hover or Focus */
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Subtle Glow Effect */
+}
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 12px; /* Increased width for better visibility */
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e2e2; /* Lighter track color for a modern look */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #666; /* Darker thumb for contrast */
+    border-radius: 6px; /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444; /* Darker color on hover for better interaction */
+}
+
+/* Base Styles for Better Readability */
+body {
+    font-size: 18px; /* Larger base font-size for better readability */
+    line-height: 1.6; /* Improved line spacing for readability */
+    color: #333; /* Darker text for better contrast */
+    font-family: Arial, sans-serif; /* A clean, modern font */
+}
+
+/* Enhanced Form and Button Styles */
+.submit-post, .submit-form {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc; /* Subtle border for definition */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background for the form */
+}
+
+.submit-form button,
+.submit-form input[type='button'] {
+    font-size: 1.1em; /* Larger font size for better readability */
+    padding: 10px 15px; /* More padding for a larger, more clickable area */
+    background-color: #007bff; /* Eye-catching button color */
+    color: white; /* Contrast color for button text */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Cursor change to indicate clickable */
+}
+
+.submit-form button:hover,
+.submit-form input[type='button']:hover {
+    background-color: #0056b3; /* Darker shade on hover for interaction feedback */
+}
+
+/* Responsive Adjustments */
+@media only screen and (max-width: 600px) {
+    .submit-post, .submit-form {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .submit-form button {
+        font-size: 1em; /* Slightly larger font size for mobile */
+        padding: 10px 15px; /* Maintain button padding */
+    }
+
+    /* Larger Text Area for Mobile */
+    textarea {
+        min-height: 150px; /* Adjusted height for mobile screens */
+        width: 100%; /* Full width to utilize screen space */
+        padding: 10px; /* Adjusted padding for mobile */
+    }
+
+    /* Adjustments for text inputs */
+    .submit-form input[type="text"] {
+        font-size: 16px; /* Reduced font size for text inputs */
+        padding: 10px; /* Adjusted padding for text inputs */
+        margin-top: 8px; /* Reduced margin for text inputs */
+    }
+
+    /* Adjustments for selects */
+    .submit-form select {
+        font-size: 16px; /* Reduced font size for selects */
+        padding: 10px; /* Adjusted padding for selects */
+        margin-top: 8px; /* Reduced margin for selects */
+    }
+}
+
+.delete-btn {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+
+/* Input and Textarea Styles Within .submit-form */
+.submit-form input[type="text"], .submit-form textarea {
+    font-size: 20px; /* Immensely large font size for text inputs and text area */
+    width: 100%; /* Full width to maximize space */
+    padding: 15px; /* Generous padding for a grand appearance */
+    margin-top: 10px; /* Spacing above each input field */
+    border: 2px solid #007bff; /* Bold border to outline the fields */
+    border-radius: 10px; /* Pronounced rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #fff; /* Pure white background for maximum contrast */
+    color: #333; /* Deep, dark text color for striking clarity */
+    line-height: 1.5; /* Enhanced line height for readability */
+}
+
+/* Text Area Specific Styles for Even Greater Impact */
+.submit-form textarea {
+    min-height: 250px; /* Vast height for the text area */
+    resize: vertical; /* Allow vertical resizing for flexibility */
+}
+
+/* Hover and Focus Enhancements for Inputs and Text Area */
+.submit-form input[type="text"]:hover, .submit-form textarea:hover,
+.submit-form input[type="text"]:focus, .submit-form textarea:focus {
+    border-color: #0056b3; /* Deeper blue on hover and focus for interaction */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Intensified shadow for focus and hover */
+}
+
+/* Responsive Adjustments for Text Inputs and Text Area */
+@media only screen and (max-width: 600px) {
+    .submit-form input[type="text"], .submit-form textarea {
+        font-size: 18px; /* Slightly reduced font size for mobile, still maintaining grandeur */
+        padding: 12px; /* Adjusted padding for mobile varraints */
+    }
+
+    .submit-form textarea {
+        min-height: 200px; /* Adjusted height for mobile screens */
+    }
+}
+
+/* Select Element Style Within .submit-form */
+.submit-form select {
+    font-size: 20px; /* Monumental font size for the select box */
+    width: 100%; /* Utilize the full width for a commanding presence */
+    padding: 15px 10px; /* Robust padding for a prominent look */
+    margin-top: 10px; /* Adequate spacing above the select box */
+    border: 2px solid #007bff; /* Strong, vivid border for definition */
+    border-radius: 10px; /* Bold, rounded corners */
+    background-color: #fff; /* Crisp, white background for stark contrast */
+    color: #333; /* Deep, dark text for dramatic clarity */
+    line-height: 1.5; /* Enhanced line height for ease of reading */
+    appearance: none; /* Remove default browser styling */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23333%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22/%3E%3C/svg%3E'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Position for the custom arrow */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Hover and Focus Enhancements for Select */
+.submit-form select:hover,
+.submit-form select:focus {
+    border-color: #0056b3; /* Intensify the border color for interactive feedback */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for a dynamic effect */
+    background-color: #fafafa; /* Slightly lighter background for a subtle interactive cue */
+}
+
+/* Styles for Options in Select */
+.submit-form select option {
+    padding: 10px; /* Comfortable padding for each option */
+    background-color: white; /* Ensure a consistent background for options */
+    color: #333; /* Maintain readability with a strong text color */
+}
+
+/* Responsive Adjustments for Select Element on Mobile Devices */
+@media only screen and (max-width: 600px) {
+    .submit-form select {
+        font-size: 18px; /* Slightly smaller font size, still ensuring impact */
+        padding: 12px 8px; /* Adjust padding for better handling on smaller screens */
+    }
+
+    .submit-form select option {
+        padding: 8px; /* Adjust option padding for consistency */
+    }
+}
+</style>
+
+<?<script>
+    
+	    if($$sd.returnURL) {
+			return `<a class="r" href=${
+                            $$sd.returnURL
+                        }>Back to previous</a><script>var returnURL = "${$$sd?.returnURL}"</` + `script>`
+
+            
+        	}
+		
+</script>?>
+<script>
+    console.log('B"H')
+<?<script>
+	var keys = ""
+	for(var k in $$sd) {
+		keys += k + " "
+    	}
+	//return keys
+	function sanitize(main) {
+		var myAwts = {}
+		var test = main;
+		for(var k in test) {
+			
+			myAwts[k] = test[k]
+		}
+		
+		myAwts.returnURL = $$sd.returnURL;
+		function scriptit(txt) {
+			return txt.split("</" + "script>").join("??script??")
+		}
+		
+		if(myAwts?.current?.content) {
+			myAwts.current.content = scriptit(myAwts.current.content)
+		}
+		if(myAwts?.current?.description) {
+			myAwts.current.description = scriptit(myAwts.current.description)	
+		}
+		return myAwts;
+	}
+	sharedData.sanitize = sanitize;
+	var myAwtsification = sanitize($$sd)
+	
+	return `
+		
+		var type="${$$sd.type}";
+		
+		var heichelId="${
+			
+			heichel
+		
+			}"
+		
+		var allInfo=${JSON.stringify(myAwtsification, "\t", "\t")}
+  
+  
+		var returnURL = "${myAwtsification?.returnURL}";
+
+  		
+		function fx(t) {
+    			return t.split("$$script$$").join("</" + "script>")	
+		}
+  		if(allInfo?.current?.content) {
+    			allInfo.current.content = fx(allInfo.current.content)
+		}
+  
+  		if(allInfo?.current?.description) {
+    			allInfo.current.description = fx(allInfo.current.description)
+		}
+
+ 	 `;
+
+</script>?>
+
+</script>
+<div class="submit-post">
+    
+    <h2><script awts>
+        return $$sd.action == "edit"?"Edit"
+            :"Submit"
+    </script>?> Your <script awts> 
+        return $$sd.ttitle+""
+	</script>?></h2>
+	<div class="label"> 
+		<script awts>
+			if( $$sd.current)
+			 return "ID: "+
+				$$sd.current.id
+
+		</script>?>
+
+	</div>
+    <form action="<?Awtsmoos return $$sd.endpoint ?>" class="submit-form" 
+    id="formidable"
+    
+    method="<?Awtsmoos return $$sd.method ?>">
+      <div class="description aliasInfo">Posting as alias: <span id="myAliasId">???</span></div>
+      
+      <script awts>
+        $sd.placeholderTitle =  $$sd.ttitle+" Title";
+        $sd.placeholderContent = `Write your ${
+            $$sd.type
+        } ${
+            $$sd.tdesc
+        } here..."`;
+
+        return $$sd.current?`
+        <scri`+`pt>
+            var cur = allInfo.current;
+        </script>
+
+        `:""
+        
+      </script>?>
+      <input type="text" id="titleM"
+      placeholder="<?Awtsmoos return $sd.placeholderTitle ?>" name="title" <?Awtsmoos
+        if($$sd.type !== "comment") {
+            return "required"
+        }
+      ?>>
+      <textarea id="contentM"
+       placeholder="<?Awtsmoos return $sd.placeholderContent ?>"<?Awtsmoos
+       if($$sd.type !== "comment") {
+           return "required"
+       }
+     ?> name="<?Awtsmoos return $$sd.tdesc||"" ?>" ></textarea>
+
+<div class="awtsmoosInfo">
+     <!--<input id="ind" type="number" name="index" value="">
+     
+     <label for="ind">Index in series</label>-->
+	<input type="button" id="p2s" value="Paragraphs to Sections">
+	<input type="button" id="s2p" value="Sections to Paragraphs">
+       <div id="sectionContainer">
+        <!-- Sections will be dynamically added here -->
+      </div>
+     
+      <input type="button" onclick="addSection()" value="Add New Section">
+	    <br><br>
+	 <div id="metaDayuhContainer">
+	 </div>
+	<input type="button" id="metaD" value="Add new MetaDayuh (data)">
+       <input type="hidden" name="heichel" value="<?Awtsmoos
+      return heichel
+      ?>">
+	<br>
+<div class="awtsLabel">
+      <?<script>
+        var a=this.series;
+        if(!a) return "";
+        var h="";
+        var sr=await fetchAwtsmoos(
+            `/api/social/heichelos/${
+            heichel
+
+            }/series/${
+            series
+
+        }`
+
+        );
+        if(sr && !sr.error) {
+            return "Adding to series: "+sr.prateem.name+
+            /*html*/`<input type="hidden"
+            name="parentSeriesId" value="${series}"><script>var parentSeriesId="${a}"</`+`script>`;
+
+        }
+        
+
+        </script>?>
+</div>
+        <script awts>
+            var ty = $$sd.type == "comment";
+            var par = $$sd.parentType;
+            var parId = $$sd.parentId;
+            if(!ty || !par || !parId) return;
+            //<!--<label for="postParent">Parent to add to:</label>-->
+            return '<input type="hidden" name="parentType" value="'+par+'">'+
+                '<input type="hidden" name="parentId" value="'+parId+'">'+
+                /*html*/`
+                   
+                `;
+            
+        </script>?>
+        <br>
+      <button type="submit">Submit <script awts>
+        return $$sd.ttitle +""
+      </script>?></button>
+</div>
+    </form>
+  </div>
+
+  <script type="module">
+	import {
+		AwtsmoosPrompt
+	} from "/scripts/awtsmoos/api/alerts.js"
+	if (window.curAlias) {
+		myAliasId
+			.innerHTML = curAlias;
+	}
+
+	  metaD.onclick = () => addMetaDayuh()
+	  
+	addEventListener("awtsmoosAliasChange", e => {
+		console.log("OK!",e)
+		var id = e.detail.id;
+		window.curAlias = id;
+			  
+		myAliasId
+		.innerHTML = curAlias;
+	});
+	if (window.titleM) {
+		if (window.type == "comment") {
+			titleM.classList.add("hidden")
+		}
+	}
+	var par = new URLSearchParams(location.search)
+	if (window.cur) {
+		loadSections(cur)
+		loadMetaDayuh(cur)
+		var indi = par.get("indexInSeries")
+		if (indi && window.ind) {
+			ind.value = indi
+		}
+		if (cur.prateem) cur = cur.prateem
+		// alert(JSON.stringify(cur))
+		titleM.value = cur.name || cur.title;
+		if(cur.content === "undefined") 
+			delete cur.content;
+		if(cur.description === "undefined") 
+			delete cur.description;
+		contentM.value = cur.content || cur.description || ""
+	}
+
+	function loadSections(cur) {
+		var d = cur.dayuh;
+		if (!d) return;
+		var s = d.sections;
+		if (!Array.isArray(s)) {
+			return;
+		}
+		s.forEach(w => addSection(w))
+	}
+	function loadMetaDayuh(cur) {
+		var d = cur?.dayuh?.meta;
+		if(typeof(d) != "object") return;
+		console.log("data",window.dayt=d)
+		try {
+			for(var key in d) {
+				addMetaDayuh(key, d[key])
+			}
+		} catch(e) {
+			console.log(e)
+		}
+		
+	}
+
+	window.addSection = addSection;
+	//B"H
+	function getSections() {
+		//B"H
+		var s = Array.from(document.querySelectorAll(".section.info"));
+		var h = s.map(w => w.textContent);
+		return h;
+	}
+
+	  function getMetaDayuh() {
+		//B"H
+		var s = Array.from(document.querySelectorAll(".section.metadayuh"));
+		var ob = {};
+		var entries = s.map(w => {
+			var k = w.querySelector(".key")
+			var v  = w.querySelector(".value")
+			if(k) {
+				ob[k.textContent] = v?.textContent
+			}
+			
+		})
+		return ob;
+	}
+
+	  p2s.onclick = () => {
+		var text = window?.contentM?.value;
+		if(!text) {
+			p2s.innerText = "Problem converting paragraphs to sections. Try again?"
+			return console.log("No text")
+		}
+		var sections = text.split("\n\n")
+		sections.forEach(w=>addSection(w))
+		window.contentM.value = ""
+	  }
+
+	  s2p .onclick = () => {
+		var sections = getSections();
+		  var txt = ""
+		sections.forEach(a => {
+			txt += a + "\n\n";
+			
+		})
+		if(window.contentM) {
+		  	contentM.value = txt;
+			  
+			sectionContainer.innerHTML = "";
+		}
+		  else {
+			alert("Problem converting")
+			
+		  }
+	  }
+	formidable.onsubmit = submitForm;
+	// This function will be called when you want to submit the form.
+	function submitForm(event) {
+
+		// Prevent the default form submission via the browser.
+		event.preventDefault();
+
+		// Get the form element (assuming the form has an id "myForm").
+		var form = formidable
+
+
+		// Create a URLSearchParams object.
+		var params = new URLSearchParams();
+		
+		params.append("aliasId",curAlias);
+
+		// For each form element, add its name and value to the params.
+		Array.from(form.elements)
+			.forEach(element => {
+				if (element.name && !element.disabled) {
+					// Check if it's a checkbox/radio and if it's checked.
+					if (
+						(element.type !== 'checkbox' && element.type !== 'radio') ||
+						element.checked
+					) {
+						params.append(element.name, element.value);
+					}
+				}
+			});
+
+		var sec = getSections();
+		var dayuh = getMetaDayuh();
+		var ob = {}
+		if (sec && sec.length > 0) {
+			ob.sections = sec
+		}
+		if(dayuh && typeof(dayuh) == "object") {
+			ob.meta = dayuh	
+		}
+		params.append("dayuh", JSON.stringify(ob))
+		/*var parentSeriesId = window.parentSeriesId;
+		if(!parentSeriesId) {
+			console.log("NO series ID, changing")
+			parentSeriesId = "root"
+		}
+		params.append("parentSeriesId", parentSeriesId);
+		*/
+
+
+		// Use the fetch API to submit the form data.
+		fetch(form.action, {
+				method: form.getAttribute("method"),
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: params
+			})
+			.then(response => {
+
+				// Handle the response here. For example, you could convert it to JSON.
+				if (!response.ok) {
+					throw new Error('Network response was not ok ' + response.statusText);
+				}
+				return response.json(); // or .text() if the response is text and not JSON
+			})
+			.then(async data => {
+				if (data.error) {
+					console.log("EROR?!", data, formidable.action)
+					var msg = data.error.message;
+					if (!msg) {
+						await AwtsmoosPrompt.go({
+							isAlert: true,
+							headerTxt: "There was an issue. Check console."
+						})
+					} else {
+						await AwtsmoosPrompt.go({
+							isAlert: true,
+							headerTxt: "There was an issue. " + msg
+						})
+					}
+					/*  alert("There was a problem: "+JSON.stringify(data)+
+					  //JSON.stringify(allInfo)
+					  params.aliasId+ " "+aliasS.value + 
+					  " endpoint "+form.action + " "+allInfo.endpoint
+					  )*/
+					return
+				}
+				
+				
+
+				// Handle the data from the response.
+				console.log('Success:', data);
+				await AwtsmoosPrompt.go({
+					isAlert: true,
+					headerTxt: "You successfully submitted the entry!"
+				})
+
+				location.href =
+					returnURL;
+			})
+			.catch((error) => {
+				// Handle any errors here.
+				alert("issue " + error);
+
+				console.error('Error:', error);
+			});
+	}
+
+
+	function addSection(info = "") {
+		// Create a new div element for the section
+		var secHolder = document.createElement("div")
+		var section = document.createElement("div");
+		var secCtrls = document.createElement("div")
+		secHolder.appendChild(section)
+		secHolder.appendChild(secCtrls)
+
+
+		section.contentEditable = true; // Allow inline editing
+		section.classList.add("section"); // Add a class for styling
+		section.classList.add("info")
+		if (info) {
+			section.textContent = info;
+		}
+		// Create a delete button for the section
+		var deleteBtn = document.createElement("span");
+		deleteBtn.textContent = "Delete";
+		deleteBtn.classList.add("delete-btn");
+		// Add click event listener to delete button
+		deleteBtn.onclick = function () {
+			secHolder.remove(); // Remove the section when delete button is clicked
+		};
+
+		// Append delete button to the section
+		secCtrls.appendChild(deleteBtn);
+
+		// Append the section to the sectionContainer
+		document.getElementById("sectionContainer")
+			.appendChild(secHolder);
+	}
+
+  function addMetaDayuh(keyTxt, valueTxt) {
+	  // Create a new div element for the section
+	var secHolder = document.createElement("div")
+	var entry = document.createElement("div")
+	var secCtrls = document.createElement("div")
+	secHolder.appendChild(entry)
+	secHolder.appendChild(secCtrls)
+
+	  entry.classList.add("section")
+	  entry.classList.add("metadayuh")
+	  
+	var key = document.createElement("div");
+	  var keyLabel = document.createElement("div")
+	  keyLabel.classList.add("awtsLabel")
+	  keyLabel.textContent = "Key:"
+	  entry.appendChild(keyLabel)
+	  
+	  key.placeholder="key"
+	key.contentEditable = true; // Allow inline editing
+
+	key.classList.add("key")
+	if(keyTxt) key.textContent = keyTxt;
+	  
+	entry.appendChild(key)
+	var value = document.createElement("div");
+	  var valueLabel = document.createElement("div")
+	  valueLabel.classList.add("awtsLabel")
+	  valueLabel.textContent = "Value:"
+	  
+	  entry.appendChild(valueLabel)
+	  
+	  value.placeholder="value"
+	value.contentEditable = true; // Allow inline editing
+
+	  value.classList.add("value")
+	  if(valueTxt) value.textContent = valueTxt
+	  entry.appendChild(value)
+	
+	// Create a delete button for the section
+	var deleteBtn = document.createElement("span");
+	deleteBtn.textContent = "Delete";
+	deleteBtn.classList.add("delete-btn");
+	// Add click event listener to delete button
+	deleteBtn.onclick = function () {
+		secHolder.remove(); // Remove the section when delete button is clicked
+	};
+
+	// Append delete button to the section
+	secCtrls.appendChild(deleteBtn);
+
+	// Append the section to the sectionContainer
+	document.getElementById("metaDayuhContainer")
+		.appendChild(secHolder);
+  }
+  </script>

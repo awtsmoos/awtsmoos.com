@@ -1,0 +1,78 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--1<link rel="manifest" href="/manifest.json">-->
+		<?Awtsmoos
+			setHeader("Clear-Site-Data", "cache")
+		?>
+		<title>Awtsmoos c-kids Mitzvah World</title>
+		<meta charset=utf-8 />
+		<script src="https://unpkg.com/@babel/standalone@7.24.4/babel.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<script>
+			console.log("B\"H")
+			console.log("Starting hopefully!");
+			console.log("B\"H");
+			window.onerror = function(msg, url, ln) {
+				console.log("There was an error: ",msg,url,ln)
+			}
+
+
+			try {
+				var c = document.createElement("canvas");
+				var g = c.transferControlToOffscreen();
+				eval(`class  s{
+					g=2
+					constructor() {
+
+					}
+				}`)
+			} catch(e) {
+				var msg = `B"H
+				<br>
+				Your browser is not supported! Use chrome or android.
+				Make sure your browser supports OffscreenCanvas.
+				`;
+
+				document.body.style.fontSize="26px"
+				document.body.style.padding="50px"
+				document.body.innerHTML = msg;
+				window.invalid = true;
+/*	
+				var g = document.createElement("script")
+				g.src="https://unpkg.com/@babel/standalone/babel.min.js";
+				//document.head.appendChild(g);
+				window.isBaveled = true;
+				g.bavel = true;*/
+				console.log(e)
+			}
+		
+		</script>
+		<script type="importmap">
+		{
+			"imports": {
+				"/games":"/games/mitzvahWorld/games",
+
+				"/games/":"/games/mitzvahWorld/games/",
+				"/ckidsAwtsmoos/postProcessing/environment.js":
+				"/games/mitzvahWorld/ckidsAwtsmoos/postProcessing/environment.js",
+				"./ckidsAwtsmoos": "/games/mitzvahWorld/ckidsAwtsmoos",
+				"/ckidsAwtsmoos": "/games/mitzvahWorld/ckidsAwtsmoos",
+				"/ckidsAwtsmoos/": "/games/mitzvahWorld/ckidsAwtsmoos/",
+				"./ckidsAwtsmoos/": "/games/mitzvahWorld/ckidsAwtsmoos/",
+				"/ckidsAwtsmoos/postProcessing/": "/games/mitzvahWorld/ckidsAwtsmoos/postProcessing/",
+				"/": "/games/mitzvahWorld/",
+				"./": "/games/mitzvahWorld/",
+				"/auth/": "/games/mitzvahWorld/auth/"
+			}
+		}
+		</script>
+        <script type="module" src="./ckidsAwtsmoos/ikar.js"></script>
+		
+	</body>
+</html>

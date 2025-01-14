@@ -1,0 +1,69 @@
+<!--B"H-->
+<?<script>
+    var alias = $_GET["alias"] || "";
+    var doesOwn = false;
+    if(alias) {
+        var does = await fetchAwtsmoos("/api/social/aliases/" + alias+ "/ownership")
+        if(does.yes) {
+            doesOwn = true;
+        }
+    }
+    async function getHeichelosHTML() {
+        
+        if(!alias)
+            return "No alias provided";
+            
+        var heichelResults = await fetchAwtsmoos(
+            `/api/social/heichelos/searchByAliasOwner/${
+                alias
+            }`
+            
+            
+        );
+        
+        var html = "";
+        if(heichelResults.length) {
+            heichelResults.forEach(w => {
+                html += `<div class="heichel">`
+                html += `<div class="heichel-name">
+                    <a href="/heichelos/${
+                        w.id
+                    }">${w.name}</a></div>`;
+                html += `<div class="heichel-description">${w.description}</div>`;
+                html += `</div>`;
+            });
+            return html;
+        } else {
+            return "No Heichelos found with that owner"
+        }
+        
+    }
+
+
+    var html = await getHeichelosHTML()
+    return $a(
+        "nav/page.html", {
+            centered: true,
+            tochen: /*html*/`
+                <title>@${alias}'s Heichelos</title>
+                <link rel="stylesheet" href="/heichelos/style.css">
+                <div class="heichel-view">
+                <h3>Heichelos managed by: <a href="/@${alias}">@${alias}</a></h3>
+                <div class="heichelos-list">${html}</div>
+                ${
+                   doesOwn ? /*html*/`
+                    <div class="manage">
+                        <a href="/heichelos/manage-alias-heichelos?alias=${
+                            alias
+                        }">Add New Heichel</a>
+                    </div>
+                   ` :""
+                }
+
+                
+                </div>
+                
+            `
+        }
+    )
+</script>?>
