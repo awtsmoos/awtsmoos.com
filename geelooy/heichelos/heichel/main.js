@@ -99,7 +99,10 @@ try {
 			return alert(`Path not found: ${ss} ${JSON.stringify(root)} ${rootP}`);
 		}
 	
-		const desc = root.prateem.description || "";
+		var desc = root.prateem.description || "";
+		if(desc == "undefined") {
+			desc = "";
+		}
 		seriesNm.textContent = root.prateem.name;
 		seriesDesc.textContent = desc;
 	
