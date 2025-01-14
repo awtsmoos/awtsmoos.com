@@ -124,10 +124,22 @@ function addSubmitButtons() {
                     var placeholder = null;
                     var lastInsertedIndex = -1; // Tracks the last inserted placeholder position
 
-                    moveBtn.addEventListener("mousedown", (e) => {
+                    moveBtn.addEventListener("mousedown", startDragHandler);
+                    moveBtn.addEventListener("touchstart", startDragHandler, { passive: false });
+
+                    function startDragHandler(e) {
                         e.preventDefault();
                         if (!started) {
                             started = true;
+
+                            if (e.type === "touchstart") {
+                                startDrag.x = e.touches[0].clientX;
+                                startDrag.y = e.touches[0].clientY;
+                            } else {
+                                startDrag.x = e.clientX;
+                                startDrag.y = e.clientY;
+                            }
+
                             oldHref = child.href;
                             child.href = "#";
 
@@ -144,36 +156,44 @@ function addSubmitButtons() {
                             gridContainer.insertBefore(placeholder, child);
 
                             // Set the dragged element to absolute positioning
-                            startDrag.x = e.clientX;
-                            startDrag.y = e.clientY;
-
                             child.style.position = "absolute";
                             child.classList.add("dragging");
                             child.style.left = `${start.x}px`;
                             child.style.top = `${start.y}px`;
 
                             // Add global listeners
-                            window.addEventListener("mousemove", onMouseMove);
-                            window.addEventListener("mouseup", onMouseUp);
+                            window.addEventListener("mousemove", onMoveHandler);
+                            window.addEventListener("mouseup", endDragHandler);
+                            window.addEventListener("touchmove", onMoveHandler, { passive: false });
+                            window.addEventListener("touchend", endDragHandler);
                         }
-                    });
+                    }
 
-                    function onMouseMove(e) {
+                    function onMoveHandler(e) {
                         if (!started) return;
 
+                        var currentX, currentY;
+                        if (e.type === "touchmove") {
+                            currentX = e.touches[0].clientX;
+                            currentY = e.touches[0].clientY;
+                        } else {
+                            currentX = e.clientX;
+                            currentY = e.clientY;
+                        }
+
                         var diff = {
-                            x: e.clientX - startDrag.x,
-                            y: e.clientY - startDrag.y,
+                            x: currentX - startDrag.x,
+                            y: currentY - startDrag.y,
                         };
 
                         child.style.left = `${start.x + diff.x}px`;
                         child.style.top = `${start.y + diff.y}px`;
 
                         // Detect and move placeholder
-                        updateGridLayout(e.clientX, e.clientY);
+                        updateGridLayout(currentX, currentY);
                     }
 
-                    function onMouseUp(e) {
+                    function endDragHandler(e) {
                         if (started) {
                             e.preventDefault();
 
@@ -203,8 +223,11 @@ function addSubmitButtons() {
                                 oldHref = null;
                             }, 200);
 
-                            window.removeEventListener("mousemove", onMouseMove);
-                            window.removeEventListener("mouseup", onMouseUp);
+                            // Remove global listeners
+                            window.removeEventListener("mousemove", onMoveHandler);
+                            window.removeEventListener("mouseup", endDragHandler);
+                            window.removeEventListener("touchmove", onMoveHandler);
+                            window.removeEventListener("touchend", endDragHandler);
                         }
                     }
 
@@ -231,15 +254,10 @@ function addSubmitButtons() {
                             gridContainer.insertBefore(placeholder, items[closestIndex]);
                             lastInsertedIndex = closestIndex;
                         }
-
-                        // Append to the end if no valid position found
-                    /* if (closestIndex === -1) {
-                            gridContainer.appendChild(placeholder);
-                            lastInsertedIndex = items.length;
-                        }*/
                     }
 
-                    
+
+                                        
 
 
 
