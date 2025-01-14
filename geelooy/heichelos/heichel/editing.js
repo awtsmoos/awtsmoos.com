@@ -127,7 +127,7 @@ function addSubmitButtons() {
 
                             startDrag.x=e.clientX;
                             startDrag.y=e.clientY;
-                            client.style.position="absolute"
+                            child.style.position="absolute"
                         }
                     });
                     moveBtn.addEventListener("mousemove", e => {
