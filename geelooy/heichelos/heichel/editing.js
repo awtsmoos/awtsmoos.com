@@ -89,7 +89,7 @@ function addSubmitButtons() {
 
         var isEditing = false;
         
-        d.onclick = () => {
+        d.onclick = async () => {
             /*toggling editor mode*/
             isEditing = toggleEditable(type=="post" ? 
                window.postsList :
@@ -112,132 +112,134 @@ function addSubmitButtons() {
                     child.appendChild(details);
                     var gridContainer = child.parentNode;
 
-var moveBtn = document.createElement("div");
-moveBtn.classList.add("moveBtn");
-moveBtn.innerText = "move";
-details.appendChild(moveBtn);
+                    var moveBtn = document.createElement("div");
+                    moveBtn.classList.add("moveBtn");
+                    moveBtn.innerText = "move";
+                    details.appendChild(moveBtn);
 
-var started = false;
-var start = { x: 0, y: 0 };
-var startDrag = { x: 0, y: 0 };
-var oldHref = null;
-var placeholder = null;
-var lastInsertedIndex = -1; // Tracks the last inserted placeholder position
+                    var started = false;
+                    var start = { x: 0, y: 0 };
+                    var startDrag = { x: 0, y: 0 };
+                    var oldHref = null;
+                    var placeholder = null;
+                    var lastInsertedIndex = -1; // Tracks the last inserted placeholder position
 
-moveBtn.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    if (!started) {
-        started = true;
-        oldHref = child.href;
-        child.href = "#";
+                    moveBtn.addEventListener("mousedown", (e) => {
+                        e.preventDefault();
+                        if (!started) {
+                            started = true;
+                            oldHref = child.href;
+                            child.href = "#";
 
-        var rect = child.getBoundingClientRect();
-        start.x = rect.x;
-        start.y = rect.y;
+                            var rect = child.getBoundingClientRect();
+                            start.x = rect.x;
+                            start.y = rect.y;
 
-        // Create a placeholder to reserve space in the grid
-        placeholder = document.createElement("div");
-        placeholder.classList.add("placeholder");
-        placeholder.style.height = `${child.offsetHeight}px`;
-        placeholder.style.width = `${child.offsetWidth}px`;
+                            // Create a placeholder to reserve space in the grid
+                            placeholder = document.createElement("div");
+                            placeholder.classList.add("placeholder");
+                            placeholder.style.height = `${child.offsetHeight}px`;
+                            placeholder.style.width = `${child.offsetWidth}px`;
 
-        gridContainer.insertBefore(placeholder, child);
+                            gridContainer.insertBefore(placeholder, child);
 
-        // Set the dragged element to absolute positioning
-        startDrag.x = e.clientX;
-        startDrag.y = e.clientY;
+                            // Set the dragged element to absolute positioning
+                            startDrag.x = e.clientX;
+                            startDrag.y = e.clientY;
 
-        child.style.position = "absolute";
-        child.classList.add("dragging");
-        child.style.left = `${start.x}px`;
-        child.style.top = `${start.y}px`;
+                            child.style.position = "absolute";
+                            child.classList.add("dragging");
+                            child.style.left = `${start.x}px`;
+                            child.style.top = `${start.y}px`;
 
-        // Add global listeners
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onMouseUp);
-    }
-});
+                            // Add global listeners
+                            window.addEventListener("mousemove", onMouseMove);
+                            window.addEventListener("mouseup", onMouseUp);
+                        }
+                    });
 
-function onMouseMove(e) {
-    if (!started) return;
+                    function onMouseMove(e) {
+                        if (!started) return;
 
-    var diff = {
-        x: e.clientX - startDrag.x,
-        y: e.clientY - startDrag.y,
-    };
+                        var diff = {
+                            x: e.clientX - startDrag.x,
+                            y: e.clientY - startDrag.y,
+                        };
 
-    child.style.left = `${start.x + diff.x}px`;
-    child.style.top = `${start.y + diff.y}px`;
+                        child.style.left = `${start.x + diff.x}px`;
+                        child.style.top = `${start.y + diff.y}px`;
 
-    // Detect and move placeholder
-    updateGridLayout(e.clientX, e.clientY);
-}
+                        // Detect and move placeholder
+                        updateGridLayout(e.clientX, e.clientY);
+                    }
 
-function onMouseUp(e) {
-    if (started) {
-        e.preventDefault();
+                    function onMouseUp(e) {
+                        if (started) {
+                            e.preventDefault();
 
-        // Insert the dragged element exactly where the placeholder is
-        if (placeholder) {
-            gridContainer.insertBefore(child, placeholder);
-        }
+                            // Insert the dragged element exactly where the placeholder is
+                            if (placeholder) {
+                                gridContainer.insertBefore(child, placeholder);
+                            }
 
-        // Reset styles
-        child.style.position = "";
-        child.style.zIndex = "";
-        child.style.left = "";
-        child.style.top = "";
-        child.classList.remove("dragging");
+                            // Reset styles
+                            child.style.position = "";
+                            child.style.zIndex = "";
+                            child.style.left = "";
+                            child.style.top = "";
+                            child.classList.remove("dragging");
 
-        if (placeholder) {
-            placeholder.remove();
-            placeholder = null;
-        }
+                            if (placeholder) {
+                                placeholder.remove();
+                                placeholder = null;
+                            }
 
-        started = false;
-        start = { x: 0, y: 0 };
-        startDrag = { x: 0, y: 0 };
+                            started = false;
+                            start = { x: 0, y: 0 };
+                            startDrag = { x: 0, y: 0 };
 
-        setTimeout(() => {
-            child.href = oldHref;
-            oldHref = null;
-        }, 200);
+                            setTimeout(() => {
+                                child.href = oldHref;
+                                oldHref = null;
+                            }, 200);
 
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mouseup", onMouseUp);
-    }
-}
+                            window.removeEventListener("mousemove", onMouseMove);
+                            window.removeEventListener("mouseup", onMouseUp);
+                        }
+                    }
 
-function updateGridLayout(mouseX, mouseY) {
-    var items = Array.from(gridContainer.children);
-    var closestIndex = -1;
+                    function updateGridLayout(mouseX, mouseY) {
+                        var items = Array.from(gridContainer.children);
+                        var closestIndex = -1;
 
-    items.forEach((item, index) => {
-        if (item === child || item === placeholder) return;
+                        items.forEach((item, index) => {
+                            if (item === child || item === placeholder) return;
 
-        var rect = item.getBoundingClientRect();
-        if (
-            mouseX > rect.left &&
-            mouseX < rect.right &&
-            mouseY > rect.top &&
-            mouseY < rect.bottom
-        ) {
-            closestIndex = index;
-        }
-    });
+                            var rect = item.getBoundingClientRect();
+                            if (
+                                mouseX > rect.left &&
+                                mouseX < rect.right &&
+                                mouseY > rect.top &&
+                                mouseY < rect.bottom
+                            ) {
+                                closestIndex = index;
+                            }
+                        });
 
-    // Move placeholder only if the index changes
-    if (closestIndex !== -1 && closestIndex !== lastInsertedIndex) {
-        gridContainer.insertBefore(placeholder, items[closestIndex]);
-        lastInsertedIndex = closestIndex;
-    }
+                        // Move placeholder only if the index changes
+                        if (closestIndex !== -1 && closestIndex !== lastInsertedIndex) {
+                            gridContainer.insertBefore(placeholder, items[closestIndex]);
+                            lastInsertedIndex = closestIndex;
+                        }
 
-    // Append to the end if no valid position found
-   /* if (closestIndex === -1) {
-        gridContainer.appendChild(placeholder);
-        lastInsertedIndex = items.length;
-    }*/
-}
+                        // Append to the end if no valid position found
+                    /* if (closestIndex === -1) {
+                            gridContainer.appendChild(placeholder);
+                            lastInsertedIndex = items.length;
+                        }*/
+                    }
+
+                    
 
 
 
@@ -297,6 +299,7 @@ function updateGridLayout(mouseX, mouseY) {
                 } else {
                     var ed = child.querySelector(".editor-details")
                     if(ed) {
+                        var f = await editSubSeries()
                         ed.parentNode.removeChild(ed)	
                     }
                 }
@@ -352,6 +355,26 @@ function updateGridLayout(mouseX, mouseY) {
     }
 
     
+}
+
+function getSeriesIDs(par) {
+    return Array.from( (par || window.seriesList)?.children )
+    .map(w=>w.getAttribute("data-awtsmoosid"))
+}
+async function editSubSeries() {
+    return await (
+        await fetch(`/api/social/heichelos/${
+            heichelID
+        }/series/${
+            currentSeries
+        }/changeSubSeriesInSeries`, {
+            method:"POST",
+            body: new URLSearchParams({
+                aliasId: curAlias,
+                subSeriesIDs: JSON.stringify(getSeriesIDs())
+            })
+        })
+    ).json();
 }
 
 function removeAdminButtons() {
