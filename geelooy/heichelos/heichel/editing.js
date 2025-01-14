@@ -167,7 +167,7 @@ function addSubmitButtons() {
                             e.preventDefault();
                     
                             // Check for the closest grid item after dragging
-                            var closest = getClosestGridItem(child, e.clientX, e.clientY);
+                            var closest = getClosestGridItem(e.clientX, e.clientY);
                             if (closest && closest !== child) {
                                 // Reorder the child in the grid container
                                 gridContainer.insertBefore(child, closest);
