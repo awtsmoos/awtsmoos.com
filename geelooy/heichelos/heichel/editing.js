@@ -153,7 +153,7 @@ function addSubmitButtons() {
                         child.style.top = start.y + diff.y + "px";
                     }
 
-                    function onMouseUp() {
+                    function onMouseUp(e) {
                         if (started) {
                             e.preventDefault(); // Prevent link navigation
                         }
