@@ -103,31 +103,62 @@
     background-color: #e6e6e6;
     padding: 1em;
   }
-  
   /* Post card styles */
- .heichel  .post-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 1em;
-    padding: 1em;
-  }
+.heichel .post-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 1em;
   
- .heichel  .description {
-    white-space:pre-wrap;
-  }
- .heichel  .post-card h2, .post-card a {
-    color: #0a4d8c !important;
-    margin-bottom: 0.5em;
-  }
+  text-decoration: none;
+  padding: 1em;
+  border-radius: 10px; /* Smooth corners for a modern look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Soft shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
 
- .heichel  .post-card a {
-    text-decoration:none;
-  }
-  
- .heichel  .post-card p {
-    color: #333;
-    line-height: 1.5;
-  }
+.heichel .post-card:hover {
+  transform: translateY(-5px); /* Subtle lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+  background-color: #f9fcff; /* Slightly lighter background */
+}
+
+.heichel .post-card:active {
+  transform: translateY(2px); /* Pressed effect */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.08); /* Reduced shadow */
+}
+
+.heichel .description {
+  white-space: pre-wrap;
+  font-size: 1rem; /* Consistent and readable font size */
+}
+
+.heichel .post-card h2, .heichel .post-card a {
+  color: #0a4d8c !important;
+  margin-bottom: 0.5em;
+  font-weight: 600; /* Slightly bolder for emphasis */
+  transition: color 0.3s ease; /* Smooth color change */
+}
+
+.heichel .post-card a {
+  text-decoration: none;
+  border-bottom: 2px solid transparent; /* Adds an underline effect on hover */
+  padding-bottom: 2px;
+}
+
+.heichel .post-card a:hover {
+  color: #0873b7; /* Brighter vivid blue */
+  border-bottom: 2px solid #0873b7; /* Underline matches hover color */
+}
+
+.heichel .post-card a:active {
+  color: #065a93; /* Slightly darker vivid blue */
+}
+
+.heichel .post-card p {
+  color: #333;
+  line-height: 1.6; /* Slightly increased for better readability */
+  margin-bottom: 1em; /* Adds spacing for better flow */
+}
   
   /* Sidebar elements */
  .heichel  .sidebar h2 {
