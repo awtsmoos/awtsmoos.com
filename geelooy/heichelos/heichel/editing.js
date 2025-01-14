@@ -209,10 +209,13 @@ function addSubmitButtons() {
 
                     function updateGridLayout(mouseX, mouseY) {
                         var items = Array.from(gridContainer.children);
-                        items.forEach((item) => {
+                        var inserted = false;
+
+                        items.forEach((item, index) => {
                             if (item === child || item === placeholder) return;
 
                             var rect = item.getBoundingClientRect();
+
                             if (
                                 mouseX > rect.left &&
                                 mouseX < rect.right &&
@@ -221,10 +224,17 @@ function addSubmitButtons() {
                             ) {
                                 if (placeholder) {
                                     gridContainer.insertBefore(placeholder, item);
+                                    inserted = true;
                                 }
                             }
                         });
+
+                        // Handle case where dragging beyond the last grid item
+                        if (!inserted && placeholder) {
+                            gridContainer.appendChild(placeholder);
+                        }
                     }
+
 
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
