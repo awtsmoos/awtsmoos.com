@@ -129,7 +129,10 @@ function addSubmitButtons() {
                             started = true;
                             oldHref = child.href;
                             child.href = "#";
+                            var rect = child.getBoundingClientRect();
                     
+                            start.x = rect.x;
+                            start.y = rect.y;
                             // Create a placeholder to reserve space in the grid
                             placeholder = document.createElement("div");
                             placeholder.classList.add("placeholder");
@@ -139,16 +142,14 @@ function addSubmitButtons() {
                             gridContainer.insertBefore(placeholder, child);
                     
                             // Set position to absolute
-                            child.classList.add("dragging");
-                            var rect = child.getBoundingClientRect();
-                    
-                            start.x = rect.x;
-                            start.y = rect.y;
+                            
+                            
                     
                             startDrag.x = e.clientX;
                             startDrag.y = e.clientY;
                     
                             child.style.position = "absolute";
+                            child.classList.add("dragging");
                             child.style.left = `${start.x}px`;
                             child.style.top = `${start.y}px`;
                     
