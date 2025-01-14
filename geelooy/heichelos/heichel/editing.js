@@ -114,6 +114,7 @@ function addSubmitButtons() {
                     var moveBtn = document.createElement("div");
                     moveBtn.classList.add("moveBtn");
                     moveBtn.innerText = "move"
+                    details.appendChild(moveBtn)
                     var started = false;
                     var start = {x:0,y:0}
                     var startDrag = {x:0,y:0}
