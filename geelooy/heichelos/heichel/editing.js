@@ -110,11 +110,13 @@ function addSubmitButtons() {
                     var details = document.createElement("div")
                     details.className = ("editor-details")
                     child.appendChild(details);
+                    var gridContainer = child.parentNode;
+                    
                     var moveBtn = document.createElement("div");
                     moveBtn.classList.add("moveBtn");
                     moveBtn.innerText = "move";
                     details.appendChild(moveBtn);
-                    
+
                     var started = false;
                     var start = { x: 0, y: 0 };
                     var startDrag = { x: 0, y: 0 };
@@ -182,8 +184,8 @@ function addSubmitButtons() {
                     }
                     
                     // Function to get the closest grid item based on mouse position
-                    function getClosestGridItem(child,mouseX, mouseY) {
-                        var gridContainer = child.parentNode;
+                    function getClosestGridItem(mouseX, mouseY) {
+                       
                         var items = Array.from(gridContainer.children);
                         var closest = null;
                         var closestDistance = Infinity;
