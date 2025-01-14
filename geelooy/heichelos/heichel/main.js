@@ -167,7 +167,10 @@ try {
 			if (item.error) return null;
 	
 			const dt = type === "post" ? item : item.prateem;
-			const description = dt.description || "";
+			var description = dt.description || "";
+			if(description == "undefined") {
+				description = "";
+			}
 			const url = type === "post"
 				? `/heichelos/${heichelID}/series/${root.id}/${index}`
 				: `${location.pathname}?view=${v}&series=${item.id}`;
