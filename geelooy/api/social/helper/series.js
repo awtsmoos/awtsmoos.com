@@ -917,21 +917,14 @@ async function editSubSeriesInSeries({
 			if(!existingSubSeries.includes(subSeriesId)) {
 				changed.push(subSeriesId)
 			}
-			var prat = await $i.db.get(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				subSeriesId
-			}/prateem`);
-
-			prat.parentSeriesId = seriesId;
+			
 			
 			await $i.db.write(sp +
 				`/heichelos/${
 				heichelId
 			}/series/${
 				subSeriesId
-			}/prateem`, prat);
+			}/prateem/parentSeriesId`, seriesId);
 		
 		}
 		var ob = {
