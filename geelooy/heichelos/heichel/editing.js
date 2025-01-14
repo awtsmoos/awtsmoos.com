@@ -233,10 +233,10 @@ function updateGridLayout(mouseX, mouseY) {
     }
 
     // Append to the end if no valid position found
-    if (closestIndex === -1) {
+   /* if (closestIndex === -1) {
         gridContainer.appendChild(placeholder);
         lastInsertedIndex = items.length;
-    }
+    }*/
 }
 
 
