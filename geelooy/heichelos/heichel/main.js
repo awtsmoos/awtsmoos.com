@@ -172,18 +172,17 @@ try {
 				: `${location.pathname}?view=${v}&series=${item.id}`;
 	
 			const container = createElement({
-				tag: "div",
-				attributes: { class: `post-card ${type}`, "data-awtsmoosID": item.id },
+				tag: "a",
+				attributes: { 
+					class: `post-card ${type}`, 
+					"data-awtsmoosID": item.id,
+					href: url
+				},
 				children: [
 					{
 						tag: "h2",
-						children: [
-							{
-								tag: "a",
-								html: dt[type === "post" ? "title" : "name"],
-								attributes: { href: url, onclick: type !== "post" ? () => goto(url) : null }
-							}
-						]
+						html: dt[type === "post" ? "title" : "name"],
+						
 					},
 					type === "post" ? {
 						tag: "div",

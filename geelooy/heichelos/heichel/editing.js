@@ -335,3 +335,9 @@ async function setupEditorHTML() {
     
     
 }
+
+export {
+    setupEditorHTML,
+    removeAdminButtons,
+    addSubmitButtons
+}
