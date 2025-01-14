@@ -138,6 +138,8 @@ function addSubmitButtons() {
                             startDrag.x = e.clientX;
                             startDrag.y = e.clientY;
                             child.style.position = "absolute";
+                            child.style.left = start.x + "px";
+                            child.style.top = start.y  + "px";
                             // Add global mousemove and mouseup listeners
                             window.addEventListener("mousemove", onMouseMove);
                             window.addEventListener("mouseup", onMouseUp);
@@ -176,7 +178,7 @@ function addSubmitButtons() {
                             child.style.left = "";
                             child.style.top = "";
                         }
-                    
+                        
                         started = false;
                         start = { x: 0, y: 0 };
                         startDrag = { x: 0, y: 0 };
