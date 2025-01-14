@@ -1347,13 +1347,14 @@ async function editSeriesDetails({
 				
 			}/prateem`
 		);
-
+/*
 		if (!d) {
 			return er({
 				code: "NO_SERIES_FOUND"
 			})
 		}
-
+*/
+		if(!d) d = {}
 		var desc = $i.$_PUT.description || $i.$_POST.description;
 		var nm = $i.$_PUT.seriesName ||
 			$i.$_PUT.name ||
