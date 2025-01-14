@@ -149,7 +149,7 @@ function addSubmitButtons() {
                         started = false;
                         start = {x:0,y:0};
                         startDrag = {x:0,y:0};
-                         client.style.position="";
+                        child.style.position="";
                         window.removeEventListener("mouseup", mouseUp)
                     }
                     window.addEventListener("mouseup", mouseUp)
