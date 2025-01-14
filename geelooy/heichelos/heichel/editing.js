@@ -116,107 +116,102 @@ function addSubmitButtons() {
                     moveBtn.classList.add("moveBtn");
                     moveBtn.innerText = "move";
                     details.appendChild(moveBtn);
-                    
+
                     var started = false;
                     var start = { x: 0, y: 0 };
                     var startDrag = { x: 0, y: 0 };
                     var oldHref = null;
                     var placeholder = null;
-                    
+
                     moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
                         if (!started) {
                             started = true;
                             oldHref = child.href;
                             child.href = "#";
+
                             var rect = child.getBoundingClientRect();
-                    
                             start.x = rect.x;
                             start.y = rect.y;
+
                             // Create a placeholder to reserve space in the grid
                             placeholder = document.createElement("div");
                             placeholder.classList.add("placeholder");
                             placeholder.style.height = `${child.offsetHeight}px`;
                             placeholder.style.width = `${child.offsetWidth}px`;
-                    
+
                             gridContainer.insertBefore(placeholder, child);
-                    
-                            // Set position to absolute
-                            
-                            
-                    
+
+                            // Set the dragged element to absolute positioning
                             startDrag.x = e.clientX;
                             startDrag.y = e.clientY;
-                    
+
                             child.style.position = "absolute";
                             child.classList.add("dragging");
                             child.style.left = `${start.x}px`;
                             child.style.top = `${start.y}px`;
-                    
+
                             // Add global listeners
                             window.addEventListener("mousemove", onMouseMove);
                             window.addEventListener("mouseup", onMouseUp);
                         }
                     });
-                    
+
                     function onMouseMove(e) {
                         if (!started) return;
-                    
+
                         var diff = {
                             x: e.clientX - startDrag.x,
                             y: e.clientY - startDrag.y,
                         };
-                    
+
                         child.style.left = `${start.x + diff.x}px`;
                         child.style.top = `${start.y + diff.y}px`;
-                    
-                        // Detect and animate other elements
+
+                        // Detect and move placeholder
                         updateGridLayout(e.clientX, e.clientY);
                     }
-                    
+
                     function onMouseUp(e) {
                         if (started) {
                             e.preventDefault();
-                    
-                            var closest = getClosestGridItem(e.clientX, e.clientY);
-                    
-                            if (closest && closest !== child) {
-                                gridContainer.insertBefore(child, closest);
-                            } else if (placeholder) {
+
+                            // Insert the dragged element exactly where the placeholder is
+                            if (placeholder) {
                                 gridContainer.insertBefore(child, placeholder);
                             }
-                    
+
                             // Reset styles
                             child.style.position = "";
                             child.style.zIndex = "";
                             child.style.left = "";
                             child.style.top = "";
                             child.classList.remove("dragging");
-                    
+
                             if (placeholder) {
                                 placeholder.remove();
                                 placeholder = null;
                             }
-                    
+
                             started = false;
                             start = { x: 0, y: 0 };
                             startDrag = { x: 0, y: 0 };
-                    
+
                             setTimeout(() => {
                                 child.href = oldHref;
                                 oldHref = null;
                             }, 200);
-                    
+
                             window.removeEventListener("mousemove", onMouseMove);
                             window.removeEventListener("mouseup", onMouseUp);
                         }
                     }
-                    
+
                     function updateGridLayout(mouseX, mouseY) {
                         var items = Array.from(gridContainer.children);
                         items.forEach((item) => {
                             if (item === child || item === placeholder) return;
-                    
+
                             var rect = item.getBoundingClientRect();
                             if (
                                 mouseX > rect.left &&
@@ -230,28 +225,7 @@ function addSubmitButtons() {
                             }
                         });
                     }
-                    
-                    function getClosestGridItem(mouseX, mouseY) {
-                        var items = Array.from(gridContainer.children);
-                        var closest = null;
-                        var closestDistance = Infinity;
-                    
-                        items.forEach((item) => {
-                            if (item === child || item === placeholder) return;
-                    
-                            var rect = item.getBoundingClientRect();
-                            var dx = mouseX - (rect.left + rect.width / 2);
-                            var dy = mouseY - (rect.top + rect.height / 2);
-                            var distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                            if (distance < closestDistance) {
-                                closestDistance = distance;
-                                closest = item;
-                            }
-                        });
-                    
-                        return closest;
-                    }
+
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
                     editBtn.style.backgroundColor = "yellow";
