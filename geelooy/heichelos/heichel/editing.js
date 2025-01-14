@@ -113,47 +113,53 @@ function addSubmitButtons() {
 
                     var moveBtn = document.createElement("div");
                     moveBtn.classList.add("moveBtn");
-                    moveBtn.innerText = "move"
-                    details.appendChild(moveBtn)
+                    moveBtn.innerText = "move";
+                    details.appendChild(moveBtn);
+
                     var started = false;
-                    var start = {x:0,y:0}
-                    var startDrag = {x:0,y:0}
-                    moveBtn.addEventListener("mousedown", e => {
+                    var start = { x: 0, y: 0 };
+                    var startDrag = { x: 0, y: 0 };
+
+                    moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
-                        if(!started) {
-                            started = true;
-                             child.style.position="absolute"
-                            start.x=child .offsetLeft;
-                            start.y=child .offsetTop;
-                            
-                           
-                            startDrag.x=e.clientX;
-                            startDrag.y=e.clientY;
-                        }
+                        started = true;
+                        // Set position to absolute if not already
+                        child.style.position = "absolute";
+
+                        // Get the initial position of the child
+                        start.x = child.offsetLeft;
+                        start.y = child.offsetTop;
+
+                        // Get the initial mouse position
+                        startDrag.x = e.clientX;
+                        startDrag.y = e.clientY;
+
+                        // Add global mousemove and mouseup listeners
+                        window.addEventListener("mousemove", onMouseMove);
+                        window.addEventListener("mouseup", onMouseUp);
                     });
-                    moveBtn.addEventListener("mousemove", e => {
-                        e.preventDefault()
-                       
-                        if(started) {
-                            var diff = {
-                                x: e.clientX - startDrag.x,
-                                
-                                y: e.clientY - startDrag.y,
-                             }
-                            console.log("movin",startDrag,start,started,diff)
-                            child.style.left = (-1*(start.x - diff.x)) + "px";
-                            
-                            child.style.top = (-1*(start.y - diff.y)) + "px";
-                        }
-                    });
-                    function mouseUp(){
-                        started = false;
-                        start = {x:0,y:0};
-                        startDrag = {x:0,y:0};
-                        child.style.position="";
-                        window.removeEventListener("mouseup", mouseUp)
+
+                    function onMouseMove(e) {
+                        if (!started) return;
+
+                        // Calculate the difference in mouse movement
+                        var diff = {
+                            x: e.clientX - startDrag.x,
+                            y: e.clientY - startDrag.y,
+                        };
+
+                        // Update the position of the child
+                        child.style.left = start.x + diff.x + "px";
+                        child.style.top = start.y + diff.y + "px";
                     }
-                    window.addEventListener("mouseup", mouseUp)
+
+                    function onMouseUp() {
+                        started = false;
+
+                        // Remove global listeners
+                        window.removeEventListener("mousemove", onMouseMove);
+                        window.removeEventListener("mouseup", onMouseUp);
+                    }
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
                     editBtn.style.backgroundColor = "yellow";
