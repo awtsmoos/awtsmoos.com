@@ -127,7 +127,7 @@ function addSubmitButtons() {
                             started = true;
                         
                             // Set position to absolute if not already
-                            child.style.position = "absolute";
+                            
                             child.style.zIndex = "1000";
                             var rect = child.getBoundingClientRect()
                             // Get the initial position of the child
@@ -137,7 +137,7 @@ function addSubmitButtons() {
                             // Get the initial mouse position
                             startDrag.x = e.clientX;
                             startDrag.y = e.clientY;
-                        
+                            child.style.position = "absolute";
                             // Add global mousemove and mouseup listeners
                             window.addEventListener("mousemove", onMouseMove);
                             window.addEventListener("mouseup", onMouseUp);
