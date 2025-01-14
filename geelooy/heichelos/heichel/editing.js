@@ -122,12 +122,13 @@ function addSubmitButtons() {
                         e.preventDefault();
                         if(!started) {
                             started = true;
+                             child.style.position="absolute"
                             start.x=child .clientLeft;
                             start.y=child .clientTop;
-
+                            
+                           
                             startDrag.x=e.clientX;
                             startDrag.y=e.clientY;
-                            child.style.position="absolute"
                         }
                     });
                     moveBtn.addEventListener("mousemove", e => {
@@ -138,11 +139,11 @@ function addSubmitButtons() {
                                 x: e.clientX - startDrag.x,
                                 
                                 y: e.clientY - startDrag.y,
-                            }
+                             }
                             console.log("movin",startDrag,start,started,diff)
-                            child.style.left = start.x - diff.x + "px";
+                            child.style.left = ((start.x - diff.x)) + "px";
                             
-                            child.style.top = start.y - diff.y+ "px";
+                            child.style.top = ((start.y - diff.y)) + "px";
                         }
                     });
                     function mouseUp(){
