@@ -174,7 +174,7 @@ try {
 		return items.map((item, index) => {
 			if(!item) {
 				item = {
-					id: "wow",
+					
 					name: "LOL",
 					description: "",
 
