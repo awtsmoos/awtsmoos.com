@@ -143,7 +143,7 @@ try {
 			appendElements(postsList, postElements);
 			if (v !== "series") postsTab.click();
 			if (!sjs.length) {
-				seriesTab.click();
+				postsTab.click();
 			}
 		} else {
 			appendElements(postsList, [createElement({ tag: "div", html: "No posts here yet!" })]);
