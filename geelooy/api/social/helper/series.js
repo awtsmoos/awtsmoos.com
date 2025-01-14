@@ -923,9 +923,10 @@ async function editSubSeriesInSeries({
 			}/series/${
 				subSeriesId
 			}/prateem`);
+
 			prat.parentSeriesId = seriesId;
 			
-			await $i.db.get(sp +
+			await $i.db.write(sp +
 				`/heichelos/${
 				heichelId
 			}/series/${
