@@ -111,7 +111,7 @@ function addSubmitButtons() {
                     details.className = ("editor-details")
                     child.appendChild(details);
                     var gridContainer = child.parentNode;
-                    
+
                     var moveBtn = document.createElement("div");
                     moveBtn.classList.add("moveBtn");
                     moveBtn.innerText = "move";
@@ -123,23 +123,26 @@ function addSubmitButtons() {
                     
                     moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
-                        started = true;
-                    
-                        // Set position to absolute if not already
-                        child.style.position = "absolute";
-                        child.style.zIndex = "1000";
-                    
-                        // Get the initial position of the child
-                        start.x = child.offsetLeft;
-                        start.y = child.offsetTop;
-                    
-                        // Get the initial mouse position
-                        startDrag.x = e.clientX;
-                        startDrag.y = e.clientY;
-                    
-                        // Add global mousemove and mouseup listeners
-                        window.addEventListener("mousemove", onMouseMove);
-                        window.addEventListener("mouseup", onMouseUp);
+                        if(!started) {
+                            started = true;
+                        
+                            // Set position to absolute if not already
+                            child.style.position = "absolute";
+                            child.style.zIndex = "1000";
+                            var rect = child.getBoundingClientRect()
+                            // Get the initial position of the child
+                            start.x = rect.x;
+                            start.y = rect.y;
+                        
+                            // Get the initial mouse position
+                            startDrag.x = e.clientX;
+                            startDrag.y = e.clientY;
+                        
+                            // Add global mousemove and mouseup listeners
+                            window.addEventListener("mousemove", onMouseMove);
+                            window.addEventListener("mouseup", onMouseUp);
+                            
+                        }
                     });
                     
                     function onMouseMove(e) {
