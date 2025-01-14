@@ -159,7 +159,10 @@ function addSubmitButtons() {
                         }
                     
                         started = false;
-
+                        child.style.position = "";
+                        start = { x: 0, y: 0 };
+                        startDrag = { x: 0, y: 0 };
+    
                         // Remove global listeners
                         window.removeEventListener("mousemove", onMouseMove);
                         window.removeEventListener("mouseup", onMouseUp);
