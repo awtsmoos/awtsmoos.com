@@ -172,6 +172,18 @@ try {
 	
 	function createPostOrSeriesElements(items, type, parentId, root) {
 		return items.map((item, index) => {
+			if(!item) {
+				item = {
+					id: "wow",
+					name: "LOL",
+					description: "",
+
+					prateem: {
+						name: "ok",
+						description: ""
+					}
+				}
+			}
 			if (item.error) return null;
 	
 			const dt = type === "post" ? item : item.prateem;
