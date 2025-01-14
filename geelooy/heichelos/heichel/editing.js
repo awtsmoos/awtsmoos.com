@@ -123,8 +123,8 @@ function addSubmitButtons() {
                         if(!started) {
                             started = true;
                              child.style.position="absolute"
-                            start.x=child .clientLeft;
-                            start.y=child .clientTop;
+                            start.x=child .offsetLeft;
+                            start.y=child .offsetTop;
                             
                            
                             startDrag.x=e.clientX;
@@ -141,9 +141,9 @@ function addSubmitButtons() {
                                 y: e.clientY - startDrag.y,
                              }
                             console.log("movin",startDrag,start,started,diff)
-                            child.style.left = ((start.x - diff.x)) + "px";
+                            child.style.left = (-1*(start.x - diff.x)) + "px";
                             
-                            child.style.top = ((start.y - diff.y)) + "px";
+                            child.style.top = (-1*(start.y - diff.y)) + "px";
                         }
                     });
                     function mouseUp(){
