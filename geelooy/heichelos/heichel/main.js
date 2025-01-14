@@ -188,7 +188,7 @@ try {
 					type === "post" ? {
 						tag: "div",
 						attributes: { class: "post-preview" },
-						html: `${item.content?.substring(0, POST_LENGTH)}...`
+						html: `${item.content?.substring(0, POST_LENGTH) || ""}...`
 					} : {
 						tag: "div",
 						html: description
