@@ -277,5 +277,20 @@
   width:64px;
   height:64px;
   border:1px solid black;
-  
+
+}
+
+.dragging {
+  opacity: 0.8;
+  cursor: grabbing;
+}
+
+.placeholder {
+  background: #ddd;
+  border: 2px dashed #aaa;
+  transition: all 0.2s ease;
+}
+
+.grid-container > * {
+  transition: transform 0.2s ease;
 }
