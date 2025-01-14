@@ -111,69 +111,98 @@ function addSubmitButtons() {
                     details.className = ("editor-details")
                     child.appendChild(details);
 
-                    var moveBtn = document.createElement("div");
-                    moveBtn.classList.add("moveBtn");
-                    moveBtn.innerText = "move";
-                    details.appendChild(moveBtn);
-
                     var started = false;
                     var start = { x: 0, y: 0 };
                     var startDrag = { x: 0, y: 0 };
-
+                    
+                    // Reference to the grid container
+                    var gridContainer = document.querySelector(".grid-container");
+                    
                     moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
                         started = true;
+                    
                         // Set position to absolute if not already
                         child.style.position = "absolute";
-
+                        child.style.zIndex = "1000";
+                    
                         // Get the initial position of the child
                         start.x = child.offsetLeft;
                         start.y = child.offsetTop;
-
+                    
                         // Get the initial mouse position
                         startDrag.x = e.clientX;
                         startDrag.y = e.clientY;
-
+                    
                         // Add global mousemove and mouseup listeners
                         window.addEventListener("mousemove", onMouseMove);
                         window.addEventListener("mouseup", onMouseUp);
                     });
-
+                    
                     function onMouseMove(e) {
                         if (!started) return;
-
+                    
                         // Calculate the difference in mouse movement
                         var diff = {
                             x: e.clientX - startDrag.x,
                             y: e.clientY - startDrag.y,
                         };
-
+                    
                         // Update the position of the child
                         child.style.left = start.x + diff.x + "px";
                         child.style.top = start.y + diff.y + "px";
                     }
-
+                    
                     function onMouseUp(e) {
                         if (started) {
-                            e.preventDefault(); // Prevent link navigation
+                            e.preventDefault();
+                    
+                            // Check for the closest grid item after dragging
+                            var closest = getClosestGridItem(child, e.clientX, e.clientY);
+                            if (closest && closest !== child) {
+                                // Reorder the child in the grid container
+                                gridContainer.insertBefore(child, closest);
+                            }
+                    
+                            // Reset styles
+                            child.style.position = "";
+                            child.style.zIndex = "";
+                            child.style.left = "";
+                            child.style.top = "";
                         }
                     
                         started = false;
-                        child.style.position = "";
                         start = { x: 0, y: 0 };
                         startDrag = { x: 0, y: 0 };
-    
+                    
                         // Remove global listeners
                         window.removeEventListener("mousemove", onMouseMove);
                         window.removeEventListener("mouseup", onMouseUp);
                     }
-                    // Optional: Disable link navigation entirely while dragging
-                    child.addEventListener("click", (e) => {
-                        if (started) {
-                            e.preventDefault();
-                            started = false; // Reset dragging state
-                        }
-                    });
+                    
+                    // Function to get the closest grid item based on mouse position
+                    function getClosestGridItem(child,mouseX, mouseY) {
+                        var gridContainer = child.parentNode;
+                        var items = Array.from(gridContainer.children);
+                        var closest = null;
+                        var closestDistance = Infinity;
+                    
+                        items.forEach((item) => {
+                            if (item === child) return; // Skip the dragged item
+                    
+                            var rect = item.getBoundingClientRect();
+                            var dx = mouseX - (rect.left + rect.width / 2);
+                            var dy = mouseY - (rect.top + rect.height / 2);
+                            var distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closest = item;
+                            }
+                        });
+                    
+                        return closest;
+                    }
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
                     editBtn.style.backgroundColor = "yellow";
