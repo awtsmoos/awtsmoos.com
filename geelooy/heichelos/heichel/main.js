@@ -58,6 +58,7 @@ try {
 		window.heichel = await getH(heichelID);
 		if (!editors) {
 			editors = await getEditors();
+			window.editors = editors;
 		}
 		if (!setupEditors) {
 			await setupEditorHTML();

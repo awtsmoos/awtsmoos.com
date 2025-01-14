@@ -257,6 +257,8 @@ function toggleEditable(parent, callbackChild) {
 }
 
 async function setupEditorHTML() {
+    var editors = window.editors;
+    
     if(!Array.isArray(editors)) {
         return console.log("NO editors")	
     }
