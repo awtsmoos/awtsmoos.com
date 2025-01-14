@@ -132,11 +132,14 @@ try {
 	
 		const rq = await fetch(`/api/social/heichelos/${heichelID}/posts/details?${bd}`);
 		const pjs = await rq.json();
-	
+		const sjs = await seriesRq.json();
 		if (pjs.length) {
 			const postElements = createPostOrSeriesElements(pjs, "post", ss, root);
 			appendElements(postsList, postElements);
 			if (v !== "series") postsTab.click();
+			if (!sjs.length) {
+				seriesTab.click();
+			}
 		} else {
 			appendElements(postsList, [createElement({ tag: "div", html: "No posts here yet!" })]);
 		}
@@ -148,7 +151,7 @@ try {
 			body: new URLSearchParams({ seriesIds: JSON.stringify(subSeries) })
 		});
 	
-		const sjs = await seriesRq.json();
+		
 	
 		if (sjs.length) {
 			const seriesElements = createPostOrSeriesElements(sjs, "series", ss, root);
