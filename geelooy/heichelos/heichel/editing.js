@@ -126,7 +126,7 @@ function addSubmitButtons() {
                         if(!started) {
                             started = true;
                             oldHref = child.href;
-                            child.href="";
+                            child.href="#";
                             // Set position to absolute if not already
                             
                             child.style.zIndex = "1000";
