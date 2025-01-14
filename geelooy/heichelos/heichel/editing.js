@@ -154,12 +154,23 @@ function addSubmitButtons() {
                     }
 
                     function onMouseUp() {
+                        if (started) {
+                            e.preventDefault(); // Prevent link navigation
+                        }
+                    
                         started = false;
 
                         // Remove global listeners
                         window.removeEventListener("mousemove", onMouseMove);
                         window.removeEventListener("mouseup", onMouseUp);
                     }
+                    // Optional: Disable link navigation entirely while dragging
+                    child.addEventListener("click", (e) => {
+                        if (started) {
+                            e.preventDefault();
+                            started = false; // Reset dragging state
+                        }
+                    });
                     var editBtn =  document.createElement("a")
                     editBtn.classList.add("btn")
                     editBtn.style.backgroundColor = "yellow";
