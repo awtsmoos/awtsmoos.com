@@ -119,6 +119,7 @@ function addSubmitButtons() {
                     var start = {x:0,y:0}
                     var startDrag = {x:0,y:0}
                     moveBtn.addEventListener("mousedown", e => {
+                        e.preventDefault();
                         if(!started) {
                             started = true;
                             start.x=child .clientX;
@@ -129,6 +130,8 @@ function addSubmitButtons() {
                         }
                     });
                     moveBtn.addEventListener("mousemove", e => {
+                        e.preventDefault()
+                        console.log("movin",startDrag,start,started)
                         if(started) {
                             var diff = {
                                 x: e.clientX - startDrag.x,
