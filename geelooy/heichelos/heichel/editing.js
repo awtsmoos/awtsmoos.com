@@ -131,16 +131,17 @@ function addSubmitButtons() {
                     });
                     moveBtn.addEventListener("mousemove", e => {
                         e.preventDefault()
-                        console.log("movin",startDrag,start,started)
+                       
                         if(started) {
                             var diff = {
                                 x: e.clientX - startDrag.x,
                                 
                                 y: e.clientY - startDrag.y,
                             }
-                            child.clientX = start.x - diff.x;
+                            console.log("movin",startDrag,start,started,diff)
+                           // child.clientX = start.x - diff.x;
                             
-                            child.clientY = start.y - diff.y;
+                            //child.clientY = start.y - diff.y;
                         }
                     });
                     function mouseUp(){
