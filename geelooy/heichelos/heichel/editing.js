@@ -120,12 +120,13 @@ function addSubmitButtons() {
                     var started = false;
                     var start = { x: 0, y: 0 };
                     var startDrag = { x: 0, y: 0 };
-                    
+                    var oldHref = null;
                     moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
                         if(!started) {
                             started = true;
-                        
+                            oldHref = child.href;
+                            child.href="";
                             // Set position to absolute if not already
                             
                             child.style.zIndex = "1000";
@@ -182,7 +183,8 @@ function addSubmitButtons() {
                         started = false;
                         start = { x: 0, y: 0 };
                         startDrag = { x: 0, y: 0 };
-                    
+                        child.href=oldHref;
+                        oldHref =null;
                         // Remove global listeners
                         window.removeEventListener("mousemove", onMouseMove);
                         window.removeEventListener("mouseup", onMouseUp);
