@@ -172,16 +172,12 @@ try {
 	
 	function createPostOrSeriesElements(items, type, parentId, root) {
 		return items.map((item, index) => {
-			if(!item) {
-				item = {
+			if(!item?.prateem) {
+				item.prateem = {
 					
 					name: "LOL",
 					description: "",
 
-					prateem: {
-						name: "ok",
-						description: ""
-					}
 				}
 			}
 			if (item.error) return null;
