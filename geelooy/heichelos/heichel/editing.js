@@ -110,13 +110,14 @@ function addSubmitButtons() {
                     var details = document.createElement("div")
                     details.className = ("editor-details")
                     child.appendChild(details);
-
+                    var moveBtn = document.createElement("div");
+                    moveBtn.classList.add("moveBtn");
+                    moveBtn.innerText = "move";
+                    details.appendChild(moveBtn);
+                    
                     var started = false;
                     var start = { x: 0, y: 0 };
                     var startDrag = { x: 0, y: 0 };
-                    
-                    // Reference to the grid container
-                    var gridContainer = document.querySelector(".grid-container");
                     
                     moveBtn.addEventListener("mousedown", (e) => {
                         e.preventDefault();
