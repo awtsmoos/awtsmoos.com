@@ -75,7 +75,9 @@ document.getElementById('start-button').onclick = async () => {
                 try {
                     if(file.name.startsWith("BH_Scripts_Of_Awtsmoos")) {
                         var ur = URL.createObjectURL(
-                            file
+                            new Blob([content], {
+                                type:"application/javascript"
+                            })
                         );
                         b = (await import(ur))?.default;
                     } else if(
