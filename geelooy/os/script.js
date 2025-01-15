@@ -37,28 +37,15 @@ document.getElementById('start-button').onclick = async () => {
             }
         },
         "Import Files": async () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.multiple = true; // Allow multiple file selection
-            input.style.display = 'none'; // Make input invisible
-            document.body.appendChild(input);
-            
-            input.onchange = async () => {
-                const files = Array.from(input.files);
-                for (const file of files) {
-                    const content = file.type.startsWith("application/") ||
-                        file.type.startsWith('text/') 
-                        ? await file.text() 
-                        : await file.arrayBuffer(); // Handle binary/text files
-                    console.log(file)
-                    // Save each file to the desktop
-                    await os.createFile("desktop", file.name, content);
-                }
-                alert(`${files.length} file(s) imported successfully!`);
-                document.body.removeChild(input); // Clean up
-            };
-            
-            input.click(); // Trigger file selection dialog
+            await loadFiles(async (file) => {
+                const content = file.type.startsWith("application/") ||
+                file.type.startsWith('text/') 
+                ? await file.text() 
+                : await file.arrayBuffer(); // Handle binary/text files
+                console.log(file)
+                // Save each file to the desktop
+                await os.createFile("desktop", file.name, content);
+            })
         },
         "Export All": async () => {
             const files = await os.db.getAllData("desktop"); // Get all files
@@ -76,6 +63,43 @@ document.getElementById('start-button').onclick = async () => {
             URL.revokeObjectURL(a.href); // Clean up
             document.body.removeChild(a);
             alert('All files exported successfully!');
+        },
+        "Import Exported Files": async () => {
+            await loadFiles(async (file) => {
+                const content = file.type.startsWith("application/") ||
+                file.type.startsWith('text/') 
+                ? await file.text() 
+                : await file.arrayBuffer(); // Handle binary/text files
+                console.log(file)
+                var b = null;
+                try {
+                    if(file.name.startsWith("BH_Scripts_Of_Awtsmoos")) {
+                        var ur = URL.createObjectURL(
+                            file
+                        );
+                        b = (await import(ur))?.default;
+                    } else if(
+                        typeof(content) == "string" && 
+                        file.name.endsWith(".json")
+                    ) {
+                        b = JSON.parse(content);
+                    }
+                } catch(e) {
+
+                }
+                if(b) {
+                    console.log("Got special files", b);
+                    if(typeof(b) != "object") {
+                        return;
+                    }
+                    Object.keys(b).forEach(async key => {
+                        await os.createFile("desktop", key, b[k]);
+                    })
+                } else {
+                    // Save each file to the desktop
+                    await os.createFile("desktop", file.name, content);
+                }
+            })
         },
         "File Explorer": () => alert('Files selected!'),
         
@@ -104,6 +128,26 @@ document.getElementById('start-button').onclick = async () => {
     window.addEventListener('click', clickOutside);
     
 };
+
+async function loadFiles(callback) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = true; // Allow multiple file selection
+    input.style.display = 'none'; // Make input invisible
+    document.body.appendChild(input);
+    
+    input.onchange = async () => {
+        const files = Array.from(input.files);
+        for (const file of files) {
+            await callback?.(file);
+            
+        }
+        alert(`${files.length} file(s) imported successfully!`);
+        document.body.removeChild(input); // Clean up
+    };
+    
+    input.click(); // Trigger file selection dialog
+}
 
 // Example folder interaction
 document.getElementById('desktop').addEventListener('dblclick', (e) => {
