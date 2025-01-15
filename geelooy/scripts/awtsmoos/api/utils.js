@@ -50,7 +50,11 @@ getPostById,
 	filterPostsBy,
 	filterSeriesBy,
 	loadJSON,
-	chooseTextFiles
+	chooseTextFiles,
+	searchForPost,
+	searchForSeries,
+	openDirectory,
+	writeFile
 
     
 }
@@ -80,7 +84,46 @@ async function openDirectory(directoryName) {
 	  throw error;
 	}
   }
-
+//B"H
+async function searchForPost({
+    heichelId,
+    seriesId,
+    title=""
+}) {
+   return  await (
+        await fetch(`/api/social/heichelos/${
+            heichelId
+        }/series/${
+            seriesId
+        }/posts/details?` + new URLSearchParams({
+            propertyMap: JSON.stringify({
+                title: {
+                    includes: title
+                }
+            })
+        }))
+    ).json()
+}
+  //B"H
+async function searchForSeries({
+    heichelId,
+    seriesId,
+    name=""
+}) {
+   return  await (
+        await fetch(`/api/social/heichelos/${
+            heichelId
+        }/series/${
+            seriesId
+        }/subSeries/details?` + new URLSearchParams({
+            propertyMap: JSON.stringify({
+                name: {
+                    includes: name
+                }
+            })
+        }))
+    ).json()
+}
 //B"H
 async function deleteAllCommentsOfAlias({
 	postId,
