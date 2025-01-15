@@ -181,7 +181,10 @@ try {
 				}
 			}
 			if (item.error) return null;
-	
+			var idx = item.indexInSeries;
+			if(idx || idx === 0) {
+				index = idx;
+			}
 			const dt = type === "post" ? item : item.prateem;
 			var description = dt.description || "";
 			if(description == "undefined") {
