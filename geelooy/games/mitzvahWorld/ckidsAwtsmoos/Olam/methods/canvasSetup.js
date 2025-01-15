@@ -6,7 +6,7 @@
 import PostProcessingManager from 
 "../../postProcessing/postProcessing.js";
 
-import Environment from "../../postProcessing/environment.js";
+//import Environment from "../../postProcessing/environment.js";
 
 export default class {
 
@@ -40,12 +40,13 @@ export default class {
 	
             this.renderer.renderAsync = this.renderer.render;
         }
+        /*
         this.environment = new Environment({
             scene: this.scene
             ,
             renderer: this.renderer,
             camera: this.ayin.camera
-        });
+        });*/
 
         this.renderer.setPixelRatio(
             devicePixelRatio
