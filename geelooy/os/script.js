@@ -77,7 +77,7 @@ document.getElementById('start-button').onclick = async () => {
                         var ur = URL.createObjectURL(
                             new Blob([content], {
                                 type:"application/javascript"
-                            })
+                            }) 
                         );
                         b = (await import(ur))?.default;
                     } else if(
@@ -95,7 +95,7 @@ document.getElementById('start-button').onclick = async () => {
                         return;
                     }
                     Object.keys(b).forEach(async key => {
-                        await os.createFile("desktop", key, b[k]);
+                        await os.createFile("desktop", key, b[key]);
                     })
                 } else {
                     // Save each file to the desktop
