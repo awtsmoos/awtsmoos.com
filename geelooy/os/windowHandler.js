@@ -36,7 +36,7 @@ export default class WindowHandler {
         if(l > -1) {
             return title.substring(l)
         }
-        return null;
+        return ".js";
     }
     addWindow({title, content, path, os}) {
         var ext = this.getExtension(title);

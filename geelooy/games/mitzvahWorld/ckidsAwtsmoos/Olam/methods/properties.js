@@ -9,7 +9,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
-import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
+//import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 export default class {
     loader = new GLTFLoader(); // A GLTFLoader for loading 3D models
 
@@ -35,8 +35,8 @@ export default class {
     ayinPosition = new THREE.Vector3();
     cameraObjectDirection = new THREE.Vector3();
     usingGPU = false;
-    rendererTemplate = canvas => navigator.gpu  && this.usingGPU
-        ? WebGPURenderer : 
+    rendererTemplate = canvas => /*navigator.gpu  && this.usingGPU
+        ? WebGPURenderer : */
             canvas.getContext("webgl2") ? THREE.WebGLRenderer :
             THREE.WebGL1Renderer;
   
