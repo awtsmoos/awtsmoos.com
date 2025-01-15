@@ -326,7 +326,7 @@ async function getSubSeries({
 			seer
 		}/prateem`, opts);
 		if(!series) {
-			series = {};
+		//	series = {};
 		}
 		if(series) {
 			detailedSeries.push(series)
