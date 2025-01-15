@@ -1,5 +1,6 @@
 //B"H
 import AwtsmoosOS from "./awtsmoosOs.js";
+
 var os = new AwtsmoosOS();
 // Function to create a new window and add it to the desktop
 function createWindow(title, content) {
@@ -201,6 +202,13 @@ desktop.addEventListener('drop', async (event) => {
 });
 
 (async () => {
+    var ut = await import(
+        "/scripts/awtsmoos/api/utils.js"
+    )
+    var k = Object.keys(ut);
+    k.forEach(w=> {
+        window[w] = ut[w];
+    })
     await os.start();
     
 })()
