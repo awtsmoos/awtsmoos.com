@@ -927,7 +927,7 @@ class DosDB {
 			if(nullify)
 				return undefined;
 			if (compiledData._awtsmoosDeletify) {
-				return {_awtsmoosDeletify:true}
+				return  undefined//{_awtsmoosDeletify:true}
 			}
 			if(compiledData._awtsmoosOnlyRaw) {
 				var key = Object.keys(compiledData)
