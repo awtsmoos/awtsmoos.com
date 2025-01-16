@@ -85,16 +85,14 @@ export default class AwtsmoosOS {
         title,
         event
     }) {
+        if(!window.clickedMenu) {
+            window.clickedMenu = 0;
+        }
+        window.clickedMenu++;
         
         // Prevent default behavior
         event.preventDefault();
-        // Remove any existing context menus
-        const existingMenu = document.querySelector(".contextMenu");
-        if (existingMenu) existingMenu.remove();
-    
-        // Create the context menu
-        const menu = document.createElement("div");
-        menu.className = "contextMenu";
+       
     
         // Define menu options with actions
         const actions = {
@@ -127,6 +125,23 @@ export default class AwtsmoosOS {
                 }
             }
         };
+
+        // Remove any existing context menus
+        const existingMenu = document.querySelector(".contextMenu");
+        if (existingMenu) existingMenu.remove()
+
+        if(window.clickedMenu > 1) {
+            await actions.Open();
+            window.clickedMenu  = 0;
+        }
+
+
+         
+     
+         // Create the context menu
+         const menu = document.createElement("div");
+         menu.className = "contextMenu";
+
     
         // Create menu items dynamically from actions
         Object.keys(actions).forEach(action => {
@@ -144,10 +159,7 @@ export default class AwtsmoosOS {
         menu.style.left = `${event.pageX}px`;
         menu.style.top = `${event.pageY}px`;
         document.body.appendChild(menu);
-        if(!window.clickedMenu) {
-            window.clickedMenu = 0;
-        }
-        window.clickedMenu++;
+       
     }
  
     async renderFile({
