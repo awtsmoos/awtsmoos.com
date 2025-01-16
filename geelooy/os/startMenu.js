@@ -3,14 +3,20 @@ export default {
     "New File":  async ({os}) => {
         const newFile = prompt('Enter file name:');
         if (newFile) {
-            await os.createFile("desktop", newFile, `Content of ${newFile}`);
+            await os.createFile({
+                path:"desktop", 
+                title:
+                newFile, 
+                content:
+                `Content of ${newFile}`
+            });
             
         }
     },
     "New Folder":  async ({os}) => {
         const newFolder = prompt('Enter folder name:');
         if (newFolder) {
-            await os.createFolder("desktop", newFolder);
+            await os.createFolder({path:"desktop", title: newFolder});
         }
     },
     "Import Files": async ({os}) => {
@@ -21,7 +27,12 @@ export default {
             : await file.arrayBuffer(); // Handle binary/text files
             console.log(file)
             // Save each file to the desktop
-            await os.createFile("desktop", file.name, content);
+            await os.createFile({
+                path:"desktop", 
+                title:
+                file.name, 
+                content
+            });
         })
     },
     "Export All": async ({os}) => {
@@ -72,11 +83,22 @@ export default {
                     return;
                 }
                 Object.keys(b).forEach(async key => {
-                    await os.createFile("desktop", key, b[key]);
+                    await os.createFile({
+                        path:"desktop", 
+                        title:
+                        key, 
+                        content:
+                        b[key]
+                    });
+                   
                 })
             } else {
-                // Save each file to the desktop
-                await os.createFile("desktop", file.name, content);
+                await os.createFile({
+                    path:"desktop", 
+                    title:
+                    file.name, 
+                    content
+                });
             }
         })
     },

@@ -40,14 +40,14 @@ export default class AwtsmoosOS {
         this.windowHandler.addWindow(...args)
     }
 
-    async createFile(path, title, content="") {
+    async createFile({path, title, content=""}) {
         await this.db.Koysayv(path, title, content);
         await this.showFilesAtPath({
             path
         });
     }
 
-    async createFolder(path, title) {
+    async createFolder({path, title}) {
         await this.db.Koysayv(path, title+".folder", content);
         await this.showFilesAtPath({
             path
