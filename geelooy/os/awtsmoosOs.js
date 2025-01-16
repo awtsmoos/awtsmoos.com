@@ -32,7 +32,10 @@ export default class AwtsmoosOS {
     listeners() {
         // Add event listener to close the menu if clicking elsewhere
         window.addEventListener("click", (e) => {
-            if(!e.target.awtsmoosFile) {
+            if(!hasParentWithProperty(e.target, 
+                "awtsmoosFile",
+                true
+            )) {
                 window.clickedMenu = 0;
               
                 const existingMenu = document.querySelector(".contextMenu");
@@ -212,3 +215,19 @@ export default class AwtsmoosOS {
     }
     
 }
+
+function hasParentWithProperty(element, property, value = null) {
+    let current = element;
+  
+    while (current) {
+      if (property in current) {
+        if (value === null || current[property] === value) {
+          return true;
+        }
+      }
+  
+      current = current.parentElement; // Move to the parent element
+    }
+  
+    return false;
+  }
