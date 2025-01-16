@@ -32,9 +32,9 @@ export default class AwtsmoosOS {
     listeners() {
         // Add event listener to close the menu if clicking elsewhere
         window.addEventListener("click", () => {
-            if(window.clickedMenu) {
-                window.clickedMenu = false;
-                return;
+            if(window.clickedMenu > 1) {
+                window.clickedMenu = 0;
+              
                 const existingMenu = document.querySelector(".contextMenu");
                 if (existingMenu) existingMenu.remove();
             }
@@ -82,9 +82,7 @@ export default class AwtsmoosOS {
         title,
         event
     }) {
-        if(!window.clickedMenu) {
-            window.clickedMenu = true;
-        }
+        
         // Prevent default behavior
         event.preventDefault();
         // Remove any existing context menus
@@ -143,6 +141,10 @@ export default class AwtsmoosOS {
         menu.style.left = `${event.pageX}px`;
         menu.style.top = `${event.pageY}px`;
         document.body.appendChild(menu);
+        if(!window.clickedMenu) {
+            window.clickedMenu = 0;
+        }
+        window.clickedMenu++;
     }
  
     async renderFile({
@@ -151,6 +153,7 @@ export default class AwtsmoosOS {
         title
     } = {}) {
         var f = document.createElement("div");
+        f.awtsmoosFile = true;
         if(title.endsWith(".folder")) {
             f.className = "folder"
         } else {
