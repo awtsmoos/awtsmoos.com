@@ -133,6 +133,7 @@ export default class AwtsmoosOS {
         if(window.clickedMenu > 1) {
             await actions.Open();
             window.clickedMenu  = 0;
+            return;
         }
 
 
