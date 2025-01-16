@@ -34,6 +34,7 @@ export default class AwtsmoosOS {
         window.addEventListener("click", () => {
             if(window.clickedMenu) {
                 window.clickedMenu = false;
+                return;
                 const existingMenu = document.querySelector(".contextMenu");
                 if (existingMenu) existingMenu.remove();
             }
