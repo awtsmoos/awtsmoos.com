@@ -1,6 +1,6 @@
 //B"H
 import AwtsmoosOS from "./awtsmoosOs.js";
-
+import menuItems from "startMenu.js";
 var os = new AwtsmoosOS();
 // Function to create a new window and add it to the desktop
 function createWindow(title, content) {
@@ -29,90 +29,13 @@ document.getElementById('start-button').onclick = async () => {
         return;
     }
     // Dynamic menu items as an object with functions
-    const menuItems = {
-        "New File":  async () => {
-            const newFile = prompt('Enter file name:');
-            if (newFile) {
-                await os.createFile("desktop", newFile, `Content of ${newFile}`);
-                
-            }
-        },
-        "Import Files": async () => {
-            await loadFiles(async (file) => {
-                const content = file.type.startsWith("application/") ||
-                file.type.startsWith('text/') 
-                ? await file.text() 
-                : await file.arrayBuffer(); // Handle binary/text files
-                console.log(file)
-                // Save each file to the desktop
-                await os.createFile("desktop", file.name, content);
-            })
-        },
-        "Export All": async () => {
-            const files = await os.db.getAllData("desktop"); // Get all files
-            const exportContent = JSON.stringify(files, null, 2); // Prepare JSON content
-            
-            // Create a downloadable file
-            const blob = new Blob([exportContent], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'exported_files.json'; // Set default filename
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            
-            a.click(); // Trigger download
-            URL.revokeObjectURL(a.href); // Clean up
-            document.body.removeChild(a);
-            alert('All files exported successfully!');
-        },
-        "Import Exported Files": async () => {
-            await loadFiles(async (file) => {
-                const content = file.type.startsWith("application/") ||
-                file.type.startsWith('text/') 
-                ? await file.text() 
-                : await file.arrayBuffer(); // Handle binary/text files
-                console.log(file)
-                var b = null;
-                try {
-                    if(file.name.startsWith("BH_Scripts_Of_Awtsmoos")) {
-                        var ur = URL.createObjectURL(
-                            new Blob([content], {
-                                type:"application/javascript"
-                            }) 
-                        );
-                        b = (await import(ur))?.default;
-                    } else if(
-                        typeof(content) == "string" && 
-                        file.name.endsWith(".json")
-                    ) {
-                        b = JSON.parse(content);
-                    }
-                } catch(e) {
-
-                }
-                if(b) {
-                    console.log("Got special files", b);
-                    if(typeof(b) != "object") {
-                        return;
-                    }
-                    Object.keys(b).forEach(async key => {
-                        await os.createFile("desktop", key, b[key]);
-                    })
-                } else {
-                    // Save each file to the desktop
-                    await os.createFile("desktop", file.name, content);
-                }
-            })
-        },
-        "File Explorer": () => alert('Files selected!'),
-        
-    };
+ 
 
     // Generate dynamic menu items using map()
     Object.keys(menuItems).map(item => {
         const li = document.createElement('li');
         li.textContent = item;
-        li.onclick = menuItems[item];
+        li.onclick = () => menuItems[item]?.({os});
         menuItemsContainer.appendChild(li);
     });
 
@@ -131,26 +54,6 @@ document.getElementById('start-button').onclick = async () => {
     window.addEventListener('click', clickOutside);
     
 };
-
-async function loadFiles(callback) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.multiple = true; // Allow multiple file selection
-    input.style.display = 'none'; // Make input invisible
-    document.body.appendChild(input);
-    
-    input.onchange = async () => {
-        const files = Array.from(input.files);
-        for (const file of files) {
-            await callback?.(file);
-            
-        }
-        alert(`${files.length} file(s) imported successfully!`);
-        document.body.removeChild(input); // Clean up
-    };
-    
-    input.click(); // Trigger file selection dialog
-}
 
 // Example folder interaction
 document.getElementById('desktop').addEventListener('dblclick', (e) => {

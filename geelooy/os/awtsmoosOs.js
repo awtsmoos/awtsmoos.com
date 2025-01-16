@@ -1,7 +1,7 @@
 //B"H
 import AwtsmoosDB from "/ai/IndexedDBHandler.js";
 import WindowHandler from "./windowHandler.js";
-
+import osStyles from "./styles/os-base.js";
 
 export default class AwtsmoosOS {
     constructor() {
@@ -21,12 +21,28 @@ export default class AwtsmoosOS {
         await this.db.init("awtsmoos-os");
         this.makeDesktop();
         await this.showDesktopFiles();    
+        this.listeners()
+    }
+
+    listeners() {
+        // Add event listener to close the menu if clicking elsewhere
+        window.addEventListener("click", () => {
+            const existingMenu = document.querySelector(".contextMenu");
+            if (existingMenu) existingMenu.remove();
+        });
     }
     addWindow(...args) {
         this.windowHandler.addWindow(...args)
     }
 
     async createFile(path, title, content="") {
+        await this.db.Koysayv(path, title, content);
+        if(path=="desktop") {
+            await this.showDesktopFiles();
+        }
+    }
+
+    async createFolder(path, title) {
         await this.db.Koysayv(path, title, content);
         if(path=="desktop") {
             await this.showDesktopFiles();
@@ -40,67 +56,7 @@ export default class AwtsmoosOS {
             this.md = window.madeDesk;
             var sty = document.createElement("style");
             document.head.appendChild(sty);
-            sty.innerHTML = `/*css*/
-                
-                /* B"H */
-                .${this.md}.desktop {
-                    position: relative;
-                    width: 100vw;
-                    height: calc(100vh - 40px); /* Adjusting for the start bar height */
-                    background: #1a237e;
-                    background-size: 400% 400%;
-                    display:flex;
-                    flex-direction:column;
-                    box-shadow: inset 0 0 150px rgba(255, 255, 255, 0.2), inset 0 0 300px rgba(0, 0, 0, 0.4);
-                    
-                    font-family: 'Trebuchet MS', sans-serif;
-                }
-                
-                .${this.md} .fileHolder {
-                    overflow-y: scroll;
-                    padding: 10px;
-                    height:100%;
-                    box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.1);
-                }
-                
-                .${this.md} .file {
-                    margin: 15px;
-                    background:  #e0e0e0;
-                    border: 2px solid rgba(0, 0, 0, 0.1);
-                    border-radius: 12px;
-                    display: inline-flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    align-items: center;
-                    padding: 10px;
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                }
-                
-                .${this.md} .fileName {
-                    padding: 5px;
-                    font-size: 1rem;
-                    font-weight: bold;
-                    color: #4a148c;
-                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-                }
-                
-                .${this.md} .file:hover {
-                    transform: translateY(-10px) scale(1.05);
-                    background: #ffcc80;
-                    cursor: pointer;
-                    box-shadow: 0 10px 30px rgba(255, 87, 34, 0.5);
-                }
-                
-                .${this.md} .file:active {
-                    background: #d32f2f;
-                    color: white;
-                    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.4);
-                }
-                
-               
-
-            `;
+            sty.innerHTML = osStyles(this.md);
         }
     }
 
@@ -109,6 +65,86 @@ export default class AwtsmoosOS {
         var desk = document.querySelector(".desktop");
         this.desktop = desk;
         return desk;
+    }
+ 
+    async makeFile({
+        path, fileHolder,
+        title
+    } = {}) {
+        var f = document.createElement("div");
+        f.className = "file"
+        var icon = document.createElement("div")
+        icon.className = "icon"
+        f.appendChild(icon);
+
+        var nm = document.createElement("div")
+        nm.textContent = title;
+        nm.className = "fileName";
+        f.appendChild(nm);
+
+        f.onclick = async (event) => {
+            // Prevent default behavior
+            event.preventDefault();
+        
+            // Remove any existing context menus
+            const existingMenu = document.querySelector(".contextMenu");
+            if (existingMenu) existingMenu.remove();
+        
+            // Create the context menu
+            const menu = document.createElement("div");
+            menu.className = "contextMenu";
+        
+            // Define menu options with actions
+            const actions = {
+                Open: async () => {
+                    const content = await this.db.Laynin(path, title);
+                    this.addWindow({ title, content, path, os: this });
+                },
+                Rename: async () => {
+                    const newName = prompt("Enter new name:", title);
+                    if (newName) {
+                        await this.db.renameFile(path, title, newName);
+                        await this.showDesktopFiles();
+                    }
+                },
+                Copy: async () => {
+                    const copyName = `${title}_copy`;
+                    await this.db.Koysayv(path, copyName, await this.db.Laynin(path, title));
+                    await this.showDesktopFiles();
+                },
+                Delete: async () => {
+                    if (confirm(`Are you sure you want to delete ${title}?`)) {
+                        await this.db.deleteFile(path, title);
+                        await this.showDesktopFiles();
+                    }
+                }
+            };
+        
+            // Create menu items dynamically from actions
+            Object.keys(actions).forEach(action => {
+                const menuItem = document.createElement("div");
+                menuItem.className = "menuItem";
+                menuItem.textContent = action;
+                menuItem.onclick = async () => {
+                    menu.remove(); // Remove the menu after an option is clicked
+                    await actions[action]();
+                };
+                menu.appendChild(menuItem);
+            });
+        
+            // Position the menu at the mouse location
+            menu.style.left = `${event.pageX}px`;
+            menu.style.top = `${event.pageY}px`;
+            document.body.appendChild(menu);
+        };
+        
+        // Add event listener to close the menu if clicking elsewhere
+        window.addEventListener("click", () => {
+            const existingMenu = document.querySelector(".contextMenu");
+            if (existingMenu) existingMenu.remove();
+        });
+
+        fileHolder.appendChild(f);
     }
 
     async showDesktopFiles() {
@@ -127,28 +163,11 @@ export default class AwtsmoosOS {
         var gotFiles = await this.db.getAllKeys("desktop");
         console.log(gotFiles)
         gotFiles.forEach(w => {
-            var f = document.createElement("div");
-            f.className = "file"
-            var icon = document.createElement("div")
-            icon.className = "icon"
-            f.appendChild(icon);
-
-            var nm = document.createElement("div")
-            nm.textContent = w;
-            nm.className = "fileName";
-            f.appendChild(nm);
-
-            f.onclick = async () => {
-                var content = await this.db.Laynin("desktop", w);
-                this.addWindow({
-                    title: w,
-                    content,
-                    path: "desktop",
-                    os: this
-                })
-            }
-
-            fileArea.appendChild(f);
+            this.makeFile({
+                path: "desktop",
+                fileHolder: fileArea,
+                title: w
+            })
         })
     }
     
