@@ -11,7 +11,7 @@ export default ({
     var self = {
         div: createFileExplorer()
     }
-    const createFileExplorer = () => {
+    function createFileExplorer () {
         // Main container
         const container = createElement({
             tag: "div",
