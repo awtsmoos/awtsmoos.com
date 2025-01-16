@@ -8,6 +8,9 @@ export default ({
     path,
     system
 } = {}) => {
+    var self = {
+        div: createFileExplorer()
+    }
     const createFileExplorer = () => {
         // Main container
         const container = createElement({
@@ -169,5 +172,5 @@ export default ({
     `;
     document.head.appendChild(style);
 
-    return createFileExplorer();
+    return self;
 };

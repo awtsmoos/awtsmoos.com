@@ -63,10 +63,10 @@ export default class WindowHandler {
             handler: this
         });
         wind.onresize = e => {
-            program?.onresize(e)
+            program?.onresize?.(e)
         }
         console.log(window.pr=program);
-        program?.coded()?.init()
+        program?.init?.();
         this.windows.push(wind);
     }
 

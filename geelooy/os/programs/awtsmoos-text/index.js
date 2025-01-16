@@ -13,7 +13,9 @@ export default ({
       id,
       content: () => contentDiv.innerText,
       fileName: () => fileName,
-      coded: () => coded,
+      init: () => {
+        coded?.init?.();
+      },
       onresize() {
         coded?.init()
       }
