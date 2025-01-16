@@ -32,8 +32,12 @@ export default class AwtsmoosOS {
     listeners() {
         // Add event listener to close the menu if clicking elsewhere
         window.addEventListener("click", () => {
-            const existingMenu = document.querySelector(".contextMenu");
-            if (existingMenu) existingMenu.remove();
+            if(window.clickedMenu) {
+                window.clickedMenu = false;
+                const existingMenu = document.querySelector(".contextMenu");
+                if (existingMenu) existingMenu.remove();
+            }
+           
         });
     }
     addWindow(...args) {
@@ -77,7 +81,9 @@ export default class AwtsmoosOS {
         title,
         event
     }) {
-        
+        if(!window.clickedMenu) {
+            window.clickedMenu = true;
+        }
         // Prevent default behavior
         event.preventDefault();
         // Remove any existing context menus

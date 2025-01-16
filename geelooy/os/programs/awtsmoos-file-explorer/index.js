@@ -73,13 +73,13 @@ export default ({
             tag: "div",
             attributes: { class: "file-explorer-body" },
         });
-
+        body.appendChild(header);
         // Show files in the main body
         os.showFilesAtPath({ path, holder: body });
-
-        // Append all sections to container
-        container.appendChild(header);
         container.appendChild(sidebar);
+        // Append all sections to container
+        
+        
         container.appendChild(body);
 
         // Populate the sidebar
@@ -144,12 +144,12 @@ export default ({
         }
 
         .file-explorer-body {
-            flex-grow: 1;
             padding: 10px;
             overflow-y: auto;
-            display: flex;
-            flex-wrap: wrap;
+            display: flex
+        ;
             gap: 10px;
+            flex-direction: column;
         }
 
         .file-explorer-body.list-view {
