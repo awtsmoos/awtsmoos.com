@@ -85,7 +85,7 @@ export default {
             title:"root.folder", 
             content: "", 
             path:"home", 
-            os: this
+            os
         })
     },
     
