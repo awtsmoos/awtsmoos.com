@@ -31,8 +31,8 @@ export default class AwtsmoosOS {
 
     listeners() {
         // Add event listener to close the menu if clicking elsewhere
-        window.addEventListener("click", () => {
-            if(window.clickedMenu > 1) {
+        window.addEventListener("click", (e) => {
+            if(!e.target.awtsmoosFile) {
                 window.clickedMenu = 0;
               
                 const existingMenu = document.querySelector(".contextMenu");
