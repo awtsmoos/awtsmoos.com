@@ -80,7 +80,14 @@ export default {
             }
         })
     },
-    "File Explorer": ({os}) => alert('Files selected!'),
+    "File Explorer": async ({os}) => {
+        await os.addWindow({
+            title:"root.folder", 
+            content: "", 
+            path:"home", 
+            os: this
+        })
+    },
     
 };
 

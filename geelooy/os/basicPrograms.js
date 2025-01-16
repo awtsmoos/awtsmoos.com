@@ -11,7 +11,8 @@ var programsByExtensionDefaults = {
   ".txt": "awtsmoosTextEdit",
   ".js": "awtsmoosTextEdit",
   ".html":"awtsmoosTextEdit",
-  ".css":"awtsmoosTextEdit"
+  ".css":"awtsmoosTextEdit",
+  ".folder":"awtsmoosFileExplorer"
 }
 
 export {

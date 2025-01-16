@@ -7,11 +7,11 @@ class IndexedDBHandler {
   }
 
   async Koysayv(st, key, val) {
-    return this.write(st, key, val)
+    return await this.write(st, key, val);
   }
 
   async Laynin(st, key) {
-    return this.read(st, key);
+    return await this.read(st, key);
   }
 
   // Initialize the database
@@ -112,9 +112,10 @@ class IndexedDBHandler {
   }
 
   async getAllKeys(storeName) {
-    var data = await this.getAllData(storeName)
-    return data.map(w=>Object.keys(w)[0])
+    const data = await this.getAllData(storeName);
+    return data.map((w) => Object.keys(w)[0]);
   }
+
   // Get all keys and values from a store
   async getAllData(storeName) {
     await this.ensureStore(storeName);
@@ -142,6 +143,42 @@ class IndexedDBHandler {
       };
     });
   }
+
+  // Rename a file (key)
+  async renameFile(storeName, oldKey, newKey) {
+    await this.ensureStore(storeName);
+
+    const value = await this.read(storeName, oldKey);
+    if (!value) {
+      throw new Error(`Key "${oldKey}" does not exist.`);
+    }
+
+    await this.write(storeName, newKey, value);
+    await this.delete(storeName, oldKey);
+    console.log(`Renamed key "${oldKey}" to "${newKey}".`);
+  }
+
+  // Delete a key from a store
+  async delete(storeName, key) {
+    await this.ensureStore(storeName);
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction(storeName, "readwrite");
+      const store = transaction.objectStore(storeName);
+
+      const request = store.delete(key);
+
+      request.onerror = (event) => {
+        console.error("Error deleting key:", event.target.error);
+        reject(event.target.error);
+      };
+
+      request.onsuccess = () => {
+        console.log(`Key "${key}" deleted successfully.`);
+        resolve();
+      };
+    });
+  }
 }
 
-      export default IndexedDBHandler
+export default IndexedDBHandler;

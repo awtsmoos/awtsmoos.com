@@ -2,7 +2,10 @@
 import AwtsmoosDB from "/ai/IndexedDBHandler.js";
 import WindowHandler from "./windowHandler.js";
 import osStyles from "./styles/os-base.js";
+console.log(`B"H
 
+
+`)
 export default class AwtsmoosOS {
     constructor() {
          
@@ -20,7 +23,9 @@ export default class AwtsmoosOS {
         })
         await this.db.init("awtsmoos-os");
         this.makeDesktop();
-        await this.showDesktopFiles();    
+        await this.showFilesAtPath({
+            path: "desktop"
+        });    
         this.listeners()
     }
 
@@ -37,16 +42,16 @@ export default class AwtsmoosOS {
 
     async createFile(path, title, content="") {
         await this.db.Koysayv(path, title, content);
-        if(path=="desktop") {
-            await this.showDesktopFiles();
-        }
+        await this.showFilesAtPath({
+            path
+        });
     }
 
     async createFolder(path, title) {
-        await this.db.Koysayv(path, title, content);
-        if(path=="desktop") {
-            await this.showDesktopFiles();
-        }
+        await this.db.Koysayv(path, title+".folder", content);
+        await this.showFilesAtPath({
+            path
+        });
     }
 
     makeDesktop() {
@@ -66,13 +71,84 @@ export default class AwtsmoosOS {
         this.desktop = desk;
         return desk;
     }
+
+    async onFileClick({
+        path,
+        title,
+        event
+    }) {
+        
+        // Prevent default behavior
+        event.preventDefault();
+        // Remove any existing context menus
+        const existingMenu = document.querySelector(".contextMenu");
+        if (existingMenu) existingMenu.remove();
+    
+        // Create the context menu
+        const menu = document.createElement("div");
+        menu.className = "contextMenu";
+    
+        // Define menu options with actions
+        const actions = {
+            Open: async () => {
+                const content = await this.db.Laynin(path, title);
+                this.addWindow({ title, content, path, os: this });
+            },
+            Rename: async () => {
+                const newName = prompt("Enter new name:", title);
+                if (newName) {
+                    await this.db.renameFile(path, title, newName);
+                    await this.showFilesAtPath({
+                        path
+                    });
+                }
+            },
+            Copy: async () => {
+                const copyName = `${title}_copy`;
+                await this.db.Koysayv(path, copyName, await this.db.Laynin(path, title));
+                await this.showFilesAtPath({
+                    path
+                });
+            },
+            Delete: async () => {
+                if (confirm(`Are you sure you want to delete ${title}?`)) {
+                    await this.db.deleteFile(path, title);
+                    await this.showFilesAtPath({
+                        path
+                    });;
+                }
+            }
+        };
+    
+        // Create menu items dynamically from actions
+        Object.keys(actions).forEach(action => {
+            const menuItem = document.createElement("div");
+            menuItem.className = "menuItem";
+            menuItem.textContent = action;
+            menuItem.onclick = async () => {
+                menu.remove(); // Remove the menu after an option is clicked
+                await actions[action]();
+            };
+            menu.appendChild(menuItem);
+        });
+    
+        // Position the menu at the mouse location
+        menu.style.left = `${event.pageX}px`;
+        menu.style.top = `${event.pageY}px`;
+        document.body.appendChild(menu);
+    }
  
-    async makeFile({
-        path, fileHolder,
+    async renderFile({
+        path, 
+        fileHolder,
         title
     } = {}) {
         var f = document.createElement("div");
-        f.className = "file"
+        if(title.endsWith(".folder")) {
+            f.className = "folder"
+        } else {
+            f.className = "file"
+        }
         var icon = document.createElement("div")
         icon.className = "icon"
         f.appendChild(icon);
@@ -83,88 +159,42 @@ export default class AwtsmoosOS {
         f.appendChild(nm);
 
         f.onclick = async (event) => {
-            // Prevent default behavior
-            event.preventDefault();
-        
-            // Remove any existing context menus
-            const existingMenu = document.querySelector(".contextMenu");
-            if (existingMenu) existingMenu.remove();
-        
-            // Create the context menu
-            const menu = document.createElement("div");
-            menu.className = "contextMenu";
-        
-            // Define menu options with actions
-            const actions = {
-                Open: async () => {
-                    const content = await this.db.Laynin(path, title);
-                    this.addWindow({ title, content, path, os: this });
-                },
-                Rename: async () => {
-                    const newName = prompt("Enter new name:", title);
-                    if (newName) {
-                        await this.db.renameFile(path, title, newName);
-                        await this.showDesktopFiles();
-                    }
-                },
-                Copy: async () => {
-                    const copyName = `${title}_copy`;
-                    await this.db.Koysayv(path, copyName, await this.db.Laynin(path, title));
-                    await this.showDesktopFiles();
-                },
-                Delete: async () => {
-                    if (confirm(`Are you sure you want to delete ${title}?`)) {
-                        await this.db.deleteFile(path, title);
-                        await this.showDesktopFiles();
-                    }
-                }
-            };
-        
-            // Create menu items dynamically from actions
-            Object.keys(actions).forEach(action => {
-                const menuItem = document.createElement("div");
-                menuItem.className = "menuItem";
-                menuItem.textContent = action;
-                menuItem.onclick = async () => {
-                    menu.remove(); // Remove the menu after an option is clicked
-                    await actions[action]();
-                };
-                menu.appendChild(menuItem);
-            });
-        
-            // Position the menu at the mouse location
-            menu.style.left = `${event.pageX}px`;
-            menu.style.top = `${event.pageY}px`;
-            document.body.appendChild(menu);
+            
+            await this.onFileClick({
+                path,
+                title,
+                event
+            })
         };
         
-        // Add event listener to close the menu if clicking elsewhere
-        window.addEventListener("click", () => {
-            const existingMenu = document.querySelector(".contextMenu");
-            if (existingMenu) existingMenu.remove();
-        });
+        
 
         fileHolder.appendChild(f);
     }
 
-    async showDesktopFiles() {
-        var desk = this.getDesktop();
-        if(!desk) return;
+    async showFilesAtPath({
+        path,
+        holder
+    }) {
+        if(path == "desktop") {
+            holder = this.getDesktop();
+        }
+        if(!holder) return;
         if(this.desktop) {
             this.desktop.classList.add(this.md)
         }
-        var fileArea = desk.querySelector(".fileHolder")
+        var fileArea = holder.querySelector(".fileHolder")
         if(!fileArea) {
             fileArea = document.createElement("div")
             fileArea.className="fileHolder"
-            desk.appendChild(fileArea);
+            holder.appendChild(fileArea);
         }
         fileArea.innerHTML = "";
-        var gotFiles = await this.db.getAllKeys("desktop");
+        var gotFiles = await this.db.getAllKeys(path);
         console.log(gotFiles)
         gotFiles.forEach(w => {
-            this.makeFile({
-                path: "desktop",
+            this.renderFile({
+                path,
                 fileHolder: fileArea,
                 title: w
             })
