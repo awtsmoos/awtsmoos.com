@@ -1,5 +1,5 @@
 //B"H
-import style from "style.js";
+import awtsmoosStyle from "./style.js";
 export default ({
     fileName, 
     content,
@@ -201,7 +201,7 @@ export default ({
   
     // Returns the refined CSS as a string
     function getCSS() {
-      return style
+      return awtsmoosStyle
     }
     return self;
 }
