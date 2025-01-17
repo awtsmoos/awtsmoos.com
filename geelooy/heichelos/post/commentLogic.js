@@ -527,6 +527,9 @@ async function countCommentsOfAlias(alias) {
 						dayuh: {
 							subSectionIndex: {
 								equals: subSec
+							}, 
+							subSection: {
+								equals: subSec
 							}
 						}
 					} : {}
@@ -561,6 +564,9 @@ async function showAllComments({
 					...(
 						subSec || subSec === 0 ? {	
 							subSectionIndex: {
+								equals: subSec
+							},
+							subSection: {
 								equals: subSec
 							}
 						} : {}
@@ -676,7 +682,10 @@ function addCommentsInline(comments, alias) {
 				inlineComments[alias].push(c);
 				var incom = makeInlineComment(alias, c);
 				
-				var sub = c?.dayuh.subSectionIndex;
+				var sub = (
+					c?.dayuh.subSectionIndex ||
+					c?.dayuh?.subSection
+				);
 				console.log("Comment?",c,sub)
 				if(sub || sub === 0) {
 					
@@ -967,6 +976,10 @@ async function indexSwitch() {
 							dayuh: {
 								subSectionIndex: {
 									equals: subSec
+								},
+								
+								subSection: {
+									equals: subSec
 								}
 							}
 						} : {}
@@ -1142,6 +1155,10 @@ async function getAndSaveAliases(full=false) {
 					subSec || subSec === 0 ? {
 						dayuh: {
 							subSectionIndex: {
+								equals: subSec
+							},
+							
+							subSection: {
 								equals: subSec
 							}
 						}
