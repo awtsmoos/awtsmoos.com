@@ -78,7 +78,7 @@ async function makeFile({$i}) {
 }
 
 
-async function makeFile({$i}) {
+async function deleteEntry({$i}) {
     try {
         var { aliasId, path } = $i.$_DELETE;
      
