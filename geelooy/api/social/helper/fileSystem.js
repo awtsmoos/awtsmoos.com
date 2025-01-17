@@ -74,8 +74,8 @@ async function readFile({$i}) {
     // Read the file from the alias's file system
     const filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     const file = await $i.db.read(filePath);
-    if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
-
+   /* if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
+*/
     return  file.content || "";
 }
 
