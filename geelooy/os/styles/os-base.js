@@ -76,7 +76,7 @@ export default (id) => /*css*/`
     }
 
     .${id} .folder::before {
-        content: '\1F4C1'; /* Unicode for a folder icon */
+        content: '\\1F4C1'; /* Unicode for a folder icon */
         font-size: 2.2rem;
         color: #ffab00;
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 215, 0, 0.7);
