@@ -170,15 +170,16 @@ export default class AwtsmoosOS {
     } = {}) {
         var f = document.createElement("div");
         f.awtsmoosFile = true;
+        f.classList.add("awtsmoosIcon")
         var isFolder = false;
         var adjustedTitle = title
         if(title.endsWith(".folder")) {
-            f.className = "folder"
+            f.classList.add("folder")
             isFolder = true;
             adjustedTitle = title.substring
                 (0, title.length - ".folder".length)
         } else {
-            f.className = "file"
+            f.classList.add("file")
         }
         var icon = document.createElement("div")
         icon.className = "icon"
@@ -226,6 +227,7 @@ export default class AwtsmoosOS {
         }
         fileArea.innerHTML = "";
         var gotFiles = await this.db.getAllKeys(path);
+        gotFiles = sortFoldersFirst(gotFiles);
         console.log(gotFiles)
         gotFiles.forEach(w => {
             this.renderFile({
@@ -233,9 +235,89 @@ export default class AwtsmoosOS {
                 fileHolder: fileArea,
                 title: w
             })
-        })
+        });
+
+        makeDraggable(".awtsmoosIcon");
     }
     
+}
+
+function makeDraggable(selector) {
+    document.querySelectorAll(selector).forEach(div => {
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+    
+        div.addEventListener('mousedown', (e) => {
+            // Prevent text selection
+            e.preventDefault();
+    
+            // Record the starting position of the mouse
+            isDragging = false;
+            startX = e.clientX;
+            startY = e.clientY;
+    
+            // Get the current position of the element
+            const rect = div.getBoundingClientRect();
+            initialX = rect.left + window.scrollX;
+            initialY = rect.top + window.scrollY;
+    
+            const onMouseMove = (moveEvent) => {
+                // Calculate distance moved
+                const dx = moveEvent.clientX - startX;
+                const dy = moveEvent.clientY - startY;
+    
+                // If the mouse moves beyond a small threshold, it's a drag
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    if (!isDragging) {
+                        isDragging = true;
+    
+                        // Change to absolute positioning and set initial position
+                        const computedStyle = getComputedStyle(div);
+                        div.style.position = 'absolute';
+                        div.style.left = `${initialX}px`;
+                        div.style.top = `${initialY}px`;
+                        div.style.width = computedStyle.width; // Retain original width
+                        div.style.height = computedStyle.height; // Retain original height
+    
+                        // Add dragging styles if needed
+                        div.style.zIndex = '1000';
+                    }
+    
+                    // Update position during drag
+                    div.style.left = `${initialX + dx}px`;
+                    div.style.top = `${initialY + dy}px`;
+                }
+            };
+    
+            const onMouseUp = () => {
+                if (isDragging) {
+                    console.log('Drag ended');
+                } else {
+                    console.log('Clicked on', div);
+                    // Add your click menu logic here
+                }
+    
+                // Cleanup event listeners
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+    
+            // Attach move and up listeners
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    });
+}
+
+function sortFoldersFirst(arr) {
+    // Separate strings ending in '.folder'
+    const folders = arr.filter(item => item.endsWith('.folder')).sort();
+    
+    // Get the remaining strings in their original order
+    const others = arr.filter(item => !item.endsWith('.folder'));
+
+    // Combine the sorted folders with the rest of the strings
+    return [...folders, ...others];
 }
 
 function hasParentWithProperty(element, property, value = null) {

@@ -24,9 +24,6 @@ export default /*css*/`
     transition: all 0.4s ease-in-out;
     }
 
-    .content-holder {
-    overflow:scroll;
-    }  
     
     .menu-item {
     position: relative;

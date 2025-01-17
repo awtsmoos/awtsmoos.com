@@ -27,6 +27,7 @@ export default (id) => /*css*/`
     .${id} .fileName {
         padding: 5px;
         font-size: 1rem;
+        user-select: none;
         font-weight: bold;
         color: #4a148c;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -104,6 +105,7 @@ export default (id) => /*css*/`
         padding: 6px;
         font-size: 1.1rem;
         font-weight: bold;
+        user-select: none;
         color: #ffffff;
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
         background: rgba(0, 0, 0, 0.5);
