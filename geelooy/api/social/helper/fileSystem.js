@@ -128,7 +128,9 @@ async function readFolder({$i}) {
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
-        var folderContents = await $i.db.read(folderPath)
+        var folderContents = await $i.db.read(folderPath, {
+            pageSize:1000
+        })
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 
         return folderContents || [];  // List files and folders
