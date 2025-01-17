@@ -163,6 +163,8 @@ var mail = require("./_awtsmoos.mail.js")
 var comments = require("./_awtsmoos.comments.js");
 
 var series = require("./_awtsmoos.series.js")
+
+var fileSystem = require("./_awtsmoos.fileSystem.js");
 /**
  * /api
  */
@@ -244,6 +246,10 @@ module.exports =
         $i,
         userid
       }),
+
+      ...fileSystem({
+        $i
+      })
 
 	/**
        * Comments Endpoints - The Echoes of Divine Truth
