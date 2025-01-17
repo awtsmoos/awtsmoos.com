@@ -16,7 +16,7 @@ var {
     myOpts
 } = require("./general.js");
 
-export {
+module .exports ={
     makeFile,
     readFile,
     makeFolder,
