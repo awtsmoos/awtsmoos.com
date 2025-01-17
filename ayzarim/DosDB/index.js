@@ -122,6 +122,9 @@ class DosDB {
 			return null;
 		}
 	}
+	async read(...args) {
+		return await this.get(...args);
+	}
 	/**
 	 * Get a record by its identifier or list of files in a directory.
 	 * @param {string} id - The identifier for the record or directory.
