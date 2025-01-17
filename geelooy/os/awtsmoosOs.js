@@ -361,7 +361,7 @@ function makeDraggable(selector) {
                 if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
                     if (!isDragging) {
                         isDragging = true;
-                        createPlaceholder();
+                     //   createPlaceholder();
     
                         // Change to absolute positioning and set initial position
                         const computedStyle = getComputedStyle(div);
@@ -377,6 +377,7 @@ function makeDraggable(selector) {
                     div.style.left = `${initialX + dx}px`;
                     div.style.top = `${initialY + dy}px`;
     
+                    /*
                     // Check for nearest sibling and update placeholder position
                     const siblings = Array.from(div.parentNode.children).filter(el => el !== div && el !== placeholder);
                     let closest = null;
@@ -399,6 +400,7 @@ function makeDraggable(selector) {
                             div.parentNode.insertBefore(placeholder, closest.nextSibling);
                         }
                     }
+                    */
     
                     // Check for folder hover and display popup
                     const folderUnderCursor = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest('.folder');
