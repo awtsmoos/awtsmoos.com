@@ -1,6 +1,7 @@
 ///B"H
 import {
-    loadFiles
+    loadFiles,
+    importFiles
 } from "/os/helpers/scripts.js"
 export default {
     "New File":  async ({os}) => {
