@@ -69,11 +69,11 @@ class APIHandler {
     }
   
     // Get all data from a store (readFolder)
-    async readFolder(storeName) {
+    async readFolder(storeName, key) {
       const aliasId = this.getCurrentAlias();
       const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/readFolder`);
       url.search = new URLSearchParams({
-        path: storeName
+        path: storeName+"/" + key
       }).toString(); // Set the search/query parameters for GET request
   
       try {
@@ -121,6 +121,7 @@ class APIHandler {
       console.log(`Renamed key "${oldKey}" to "${newKey}".`);
     }
   
+    
     // Delete a key from a store (deleteFile)
     async deleteFile(storeName, key) {
       const aliasId = this.getCurrentAlias();
@@ -167,6 +168,25 @@ class APIHandler {
         console.error("Error deleting key:", error);
         throw error;
       }
+    }
+
+    async write(st, key, val) {
+        if(!val) {
+            return await this.makeFolder(`${st}/${key}`)
+        } else {
+            return await this.makeFile(st, key, val)
+        }
+    }
+
+    async read(st, key) {
+        return await this.readFile(st, key);
+    }
+    async Koysayv(st, key, val) {
+        return await this.write(st, key, val);
+    }
+
+    async Laynin(st, key) {
+        return await this.read(st, key);
     }
   }
   
