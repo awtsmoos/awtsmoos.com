@@ -170,8 +170,11 @@ export default class AwtsmoosOS {
     } = {}) {
         var f = document.createElement("div");
         f.awtsmoosFile = true;
+        var isFolder = false;
         if(title.endsWith(".folder")) {
             f.className = "folder"
+            isFolder = true;
+            title = title.substring(0, title.length - ".folder".length)
         } else {
             f.className = "file"
         }
@@ -181,7 +184,11 @@ export default class AwtsmoosOS {
 
         var nm = document.createElement("div")
         nm.textContent = title;
-        nm.className = "fileName";
+
+        if(isFolder) {
+            nm.className = "folderName"
+        } else
+            nm.className = "fileName";
         f.appendChild(nm);
 
         f.onclick = async (event) => {
