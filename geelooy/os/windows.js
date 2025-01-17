@@ -160,184 +160,193 @@ export default class ResizableWindow {
         }
     }
 
-    // Add resize handles to the window
-    addResizeHandles() {
-        const handles = [
-            { class: 'resize-n', cursor: 'ns-resize' },
-            { class: 'resize-s', cursor: 'ns-resize' },
-            { class: 'resize-e', cursor: 'ew-resize' },
-            { class: 'resize-w', cursor: 'ew-resize' },
-            { class: 'resize-ne', cursor: 'ne-resize' },
-            { class: 'resize-se', cursor: 'se-resize' },
-            { class: 'resize-sw', cursor: 'sw-resize' },
-            { class: 'resize-nw', cursor: 'nw-resize' },
-        ];
+    // Attach resize event to a handle element, with mobile touch support
+addResizeEvent(handleElement, resizeDirection) {
+    let startX, startY, startWidth, startHeight, startLeft, startTop;
+    resizeDirection = resizeDirection.replace("resize-", "");
+    var self = this;
 
-        handles.forEach(handle => {
-            const div = document.createElement('div');
-            div.className = `window-resizer ${handle.class}`;
-            div.style.cursor = handle.cursor;
-            this.win.appendChild(div);
-            this.addResizeEvent(div, handle.class);
-        });
-    }
+    const onResizeStart = (e) => {
+        e.preventDefault();
 
-    // Attach resize event to a handle element
-    addResizeEvent(handleElement, resizeDirection) {
-        let startX, startY, startWidth, startHeight, startLeft, startTop;
-        resizeDirection = resizeDirection.replace("resize-", "");
-        var self = this;
-        handleElement.onmousedown = (e) => {
-            e.preventDefault();
-            this.minWidth = this.winCtrls.scrollWidth + 
-                this.headerTxt.scrollWidth + this.GAP + this.PADD * 2;
-            this.minHeight = this.winHeader.scrollHeight;
-            startX = e.clientX;
-            startY = e.clientY;
+        // Determine if it's a touch event
+        const event = e.touches ? e.touches[0] : e;
 
-            startWidth = this.winBody.offsetWidth;
-            startHeight = this.win.offsetHeight;
-            startLeft = this.win.offsetLeft;
-            startTop = this.win.offsetTop;
+        this.minWidth = this.winCtrls.scrollWidth +
+            this.headerTxt.scrollWidth + this.GAP + this.PADD * 2;
+        this.minHeight = this.winHeader.scrollHeight;
+        startX = event.clientX;
+        startY = event.clientY;
 
-            const getNewWidth = (x, dir = 1) => startWidth + dir * (x - startX);
-            const getNewHeight = (y, dir = 1) => startHeight + dir * (y - startY);
+        startWidth = this.winBody.offsetWidth;
+        startHeight = this.win.offsetHeight;
+        startLeft = this.win.offsetLeft;
+        startTop = this.win.offsetTop;
 
-            const resizeHorizontal = (x, dir = 1) => {
-                if(first) return;
-                const newWidth = getNewWidth(x, dir);
-                if (newWidth <= this.minWidth) return null;
-                this.win.style.width = `${newWidth}px`; // Ensure minimum width
-                return newWidth;
-            };
+        const getNewWidth = (x, dir = 1) => startWidth + dir * (x - startX);
+        const getNewHeight = (y, dir = 1) => startHeight + dir * (y - startY);
 
-            const resizeVertical = (y, dir = 1) => {
-                if(first) return;
-                const newHeight = getNewHeight(y, dir);
-                if (newHeight <= this.minHeight) return null;
-                this.win.style.height = `${newHeight}px`; // Ensure minimum height
-                return newHeight;
-            };
-
-            const moveLeft = (x, dir = 1, nw) => {
-                if (nw === null) return;
-                if (nw <= this.minWidth) return;
-                this.win.style.left = `${startLeft - dir * (x - startX)}px`; // Move the window left
-            };
-
-            const moveTop = (y, dir = 1, nh) => {
-                if (nh === null) return;
-                if (nh <= this.minHeight) return;
-                this.win.style.top = `${startTop - dir * (y - startY)}px`; // Move the window up
-            };
-
-            const resizeOperations = {
-                'e': (x, y) => {
-                    resizeHorizontal(x);
-                },
-                'w': (x, y) => {
-                    const nw = resizeHorizontal(x, -1);
-                    moveLeft(x, -1, nw);
-                },
-                's': (x, y) => {
-                    resizeVertical(y);
-                },
-                'n': (x, y) => {
-                    const nh = resizeVertical(y, -1);
-                    moveTop(y, -1, nh);
-                },
-                'ne': (x, y) => {
-                    resizeOperations["n"](x, y);
-                    resizeOperations["e"](x, y);
-                },
-                'se': (x, y) => {
-                    resizeOperations["s"](x, y);
-                    resizeOperations["e"](x, y);
-                },
-                'sw': (x, y) => {
-                    resizeOperations["s"](x, y);
-                    resizeOperations["w"](x, y);
-                },
-                'nw': (x, y) => {
-                    resizeOperations["n"](x, y);
-                    resizeOperations["w"](x, y);
-                }
-            };
-
-            var first = true
-            const resize = (e) => {
-                const x = e.clientX;
-                const y = e.clientY;
-                
-                if (resizeOperations[resizeDirection]) {
-                    resizeOperations[resizeDirection](x, y);
-                }
-                first = false;
-                self?.onresize(e);
-            };
-
-            document.addEventListener('mousemove', resize);
-
-            document.onmouseup = () => {
-                document.removeEventListener('mousemove', resize);
-                document.onmouseup = null;
-            };
+        const resizeHorizontal = (x, dir = 1) => {
+            if (first) return;
+            const newWidth = getNewWidth(x, dir);
+            if (newWidth <= this.minWidth) return null;
+            this.win.style.width = `${newWidth}px`; // Ensure minimum width
+            return newWidth;
         };
-    }
 
-    // Make the window draggable by attaching events to the title bar
-    makeDraggable() {
-        const header = this.win.querySelector('.window-header');
-        let offsetX, offsetY, rect;
-      
-        header.onmousedown = (e) => {
-            e.preventDefault();
-            if(e.target.awtsBtn) {
-                return;
+        const resizeVertical = (y, dir = 1) => {
+            if (first) return;
+            const newHeight = getNewHeight(y, dir);
+            if (newHeight <= this.minHeight) return null;
+            this.win.style.height = `${newHeight}px`; // Ensure minimum height
+            return newHeight;
+        };
+
+        const moveLeft = (x, dir = 1, nw) => {
+            if (nw === null) return;
+            if (nw <= this.minWidth) return;
+            this.win.style.left = `${startLeft - dir * (x - startX)}px`; // Move the window left
+        };
+
+        const moveTop = (y, dir = 1, nh) => {
+            if (nh === null) return;
+            if (nh <= this.minHeight) return;
+            this.win.style.top = `${startTop - dir * (y - startY)}px`; // Move the window up
+        };
+
+        const resizeOperations = {
+            'e': (x, y) => resizeHorizontal(x),
+            'w': (x, y) => {
+                const nw = resizeHorizontal(x, -1);
+                moveLeft(x, -1, nw);
+            },
+            's': (x, y) => resizeVertical(y),
+            'n': (x, y) => {
+                const nh = resizeVertical(y, -1);
+                moveTop(y, -1, nh);
+            },
+            'ne': (x, y) => {
+                resizeOperations["n"](x, y);
+                resizeOperations["e"](x, y);
+            },
+            'se': (x, y) => {
+                resizeOperations["s"](x, y);
+                resizeOperations["e"](x, y);
+            },
+            'sw': (x, y) => {
+                resizeOperations["s"](x, y);
+                resizeOperations["w"](x, y);
+            },
+            'nw': (x, y) => {
+                resizeOperations["n"](x, y);
+                resizeOperations["w"](x, y);
             }
-            var offsetTop = document
-            .querySelector("header")?.clientHeight || 0
-            rect = this.win.getBoundingClientRect()
-            offsetX = e.clientX - rect.left;
-            offsetY = ((e.clientY) - rect.top) ;
-            var xPercent = offsetX / rect.width;
-            document.onmousemove = (e) => {
-                if(this.isFullscreened) {
-                    var {width, height} = this.oldDim;
-                    this.win.style.width = width;
-                    this.win.style.height = height;
-                    
-                    this.isFullscreened = false;
-                    console.log(offsetX,e.clientX)
-                    
-                    rect = this.win.getBoundingClientRect();
-                    offsetX = rect.left + xPercent * rect.width;
-                    this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
-                }
-                var lefted =  e.clientX - offsetX;
-                var topped = (e.clientY- offsetTop) - offsetY
-                if(topped < 0) {
-                    topped = 0;
-                }
-                if(topped > this.mainDiv.clientHeight - 50) {
-                    topped =  this.mainDiv.clientHeight - 50;
-                }
-                if(lefted >  this.mainDiv.clientWidth - 10) {
-                    lefted =  this.mainDiv.clientWidth - 10;
-                }
-                if(lefted < -rect.width + 50) {
-                    lefted = -rect.width + 50
-                }
-                this.win.style.left = `${lefted}px`;
-                this.win.style.top = `${topped}px`;
-            };
-
-            document.onmouseup = () => {
-                document.onmousemove = null;
-                document.onmouseup = null;
-            };
         };
-    }
+
+        let first = true;
+        const resize = (e) => {
+            const event = e.touches ? e.touches[0] : e;
+            const x = event.clientX;
+            const y = event.clientY;
+
+            if (resizeOperations[resizeDirection]) {
+                resizeOperations[resizeDirection](x, y);
+            }
+            first = false;
+            self?.onresize(e);
+        };
+
+        const endResize = () => {
+            document.removeEventListener('mousemove', resize);
+            document.removeEventListener('touchmove', resize);
+            document.removeEventListener('mouseup', endResize);
+            document.removeEventListener('touchend', endResize);
+        };
+
+        document.addEventListener('mousemove', resize);
+        document.addEventListener('touchmove', resize, { passive: false });
+        document.addEventListener('mouseup', endResize);
+        document.addEventListener('touchend', endResize);
+    };
+
+    handleElement.addEventListener('mousedown', onResizeStart);
+    handleElement.addEventListener('touchstart', onResizeStart, { passive: false });
+}
+
+
+    // Make the window draggable by attaching events to the title bar, with mobile touch support
+makeDraggable() {
+    const header = this.win.querySelector('.window-header');
+    let offsetX, offsetY, rect;
+
+    const onDragStart = (e) => {
+        e.preventDefault();
+
+        // Determine if it's a touch event
+        const event = e.touches ? e.touches[0] : e;
+
+        if (event.target.awtsBtn) {
+            return;
+        }
+
+        const offsetTop = document.querySelector("header")?.clientHeight || 0;
+        rect = this.win.getBoundingClientRect();
+        offsetX = event.clientX - rect.left;
+        offsetY = event.clientY - rect.top;
+
+        const xPercent = offsetX / rect.width;
+
+        const onDragMove = (e) => {
+            const event = e.touches ? e.touches[0] : e;
+
+            if (this.isFullscreened) {
+                const { width, height } = this.oldDim;
+                this.win.style.width = width;
+                this.win.style.height = height;
+
+                this.isFullscreened = false;
+
+                rect = this.win.getBoundingClientRect();
+                offsetX = rect.left + xPercent * rect.width;
+                this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
+            }
+
+            let lefted = event.clientX - offsetX;
+            let topped = event.clientY - offsetTop - offsetY;
+
+            if (topped < 0) {
+                topped = 0;
+            }
+            if (topped > this.mainDiv.clientHeight - 50) {
+                topped = this.mainDiv.clientHeight - 50;
+            }
+            if (lefted > this.mainDiv.clientWidth - 10) {
+                lefted = this.mainDiv.clientWidth - 10;
+            }
+            if (lefted < -rect.width + 50) {
+                lefted = -rect.width + 50;
+            }
+
+            this.win.style.left = `${lefted}px`;
+            this.win.style.top = `${topped}px`;
+        };
+
+        const onDragEnd = () => {
+            document.removeEventListener('mousemove', onDragMove);
+            document.removeEventListener('touchmove', onDragMove);
+            document.removeEventListener('mouseup', onDragEnd);
+            document.removeEventListener('touchend', onDragEnd);
+        };
+
+        document.addEventListener('mousemove', onDragMove);
+        document.addEventListener('touchmove', onDragMove, { passive: false });
+        document.addEventListener('mouseup', onDragEnd);
+        document.addEventListener('touchend', onDragEnd);
+    };
+
+    header.addEventListener('mousedown', onDragStart);
+    header.addEventListener('touchstart', onDragStart, { passive: false });
+}
 
     addStyles() {
         var sty = document.createElement("style")
