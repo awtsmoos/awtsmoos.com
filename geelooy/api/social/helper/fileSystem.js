@@ -24,22 +24,23 @@ module .exports ={
 };
 
 async function makeFile({$i}) {
-    const { aliasId, path, content } = $i.$_POST;
-    if(!content) {
-        content = $i.$_POST.value;
-    }
-    if (!content)
-        return er({ message: "Content/value parameter missing", code: "CONTENT_MISSING" });
-    // Ensure the 'path' exists in POST or GET
-    if (!path) {
-        path = $i.$_GET.path;
-    }
-    if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
-
-    // Ensure the user is logged in and has permission for alias
-    const userid = $i?.request?.user?.info?.userId;
-    if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
     try {
+        const { aliasId, path, content } = $i.$_POST;
+        if(!content) {
+            content = $i.$_POST.value;
+        }
+        if (!content)
+            return er({ message: "Content/value parameter missing", code: "CONTENT_MISSING" });
+        // Ensure the 'path' exists in POST or GET
+        if (!path) {
+            path = $i.$_GET.path;
+        }
+        if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
+
+        // Ensure the user is logged in and has permission for alias
+        const userid = $i?.request?.user?.info?.userId;
+        if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+    
         const isAuthorized = await verifyAlias({$i, aliasId, userid });
         if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
