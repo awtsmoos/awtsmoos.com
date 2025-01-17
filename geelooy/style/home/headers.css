@@ -10,15 +10,22 @@ body {
   
   header {
     color: black;
-    background-color: #f1f1f1;
+    z-index: 218937123871283618273198273123;
+    background: linear-gradient(180deg, #a3cbff, #5599ff);
     padding: 10px 20px;
-    height:70px;
-  }
+    box-shadow: 0px 1px 4px 0px black;
+    height: 25px;
+    display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+}
 
   .header-buttons {
-    display: flex;
+    display: flex
+;
     flex-direction: row-reverse;
-  }
+}
 
 
 
@@ -56,7 +63,7 @@ body {
     transform: translateX(100%);
   }
 
-  #menuButton {
+ .menuBtn {
     height:20px
   }
   
