@@ -261,7 +261,7 @@ class DosDB {
 					var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
 						// Check if it's a directory based on statObj
 						
-						if(removeJSON && !keepJSON) {
+						if(removeJSON ) {
 							return removeJSONExtension(fileName);
 						}
 						return fileName;
