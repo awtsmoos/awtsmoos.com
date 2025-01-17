@@ -117,6 +117,7 @@ for posts
 .inline-comment {
     font-size: 0.6em;
     hyphens: auto;
+    font-weight: normal;
     padding-top: 20px;
     border-top: 1px solid black;
     margin-bottom: 75px;
@@ -301,16 +302,14 @@ for posts
 
 /* Text inside each comment */
 .comment-text {
-    
-    line-height: 1.6; /* Better spacing for readability */
-    word-wrap: break-word; /* Ensures long text doesn't overflow */
-    margin: 0; /* Prevents unexpected spacing issues */
-    transition: color 0.3s ease; /* Smooth transition for hover/focus effects */
+    font-weight: normal;
+    line-height: 1.6;
+    word-wrap: break-word;
+    margin: 0;
+    color: black;
+    transition: color 0.3s ease;
 }
 
-.comment-text:hover {
-    color: #555; /* Subtle color change on hover for interactivity */
-}
 
 /* Optional sections */
 .comment-section {
