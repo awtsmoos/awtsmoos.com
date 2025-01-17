@@ -311,8 +311,13 @@ export default class ResizableWindow {
                     offsetX = rect.left + xPercent * rect.width;
                     this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
                 }
-                this.win.style.left = `${e.clientX - offsetX}px`;
-                this.win.style.top = `${e.clientY - offsetY}px`;
+                var lefted =  e.clientX - offsetX;
+                var topped = e.clientY - offsetY
+                if(topped < 0) {
+                    topped = 0;
+                }
+                this.win.style.left = `${lefted}px`;
+                this.win.style.top = `${topped}px`;
             };
 
             document.onmouseup = () => {
