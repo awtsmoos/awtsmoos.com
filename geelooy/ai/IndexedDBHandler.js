@@ -116,6 +116,24 @@ class IndexedDBHandler {
     return data.map((w) => Object.keys(w)[0]);
   }
 
+  // Get all store names from the database
+  async getAllStoreNames() {
+    return new Promise((resolve, reject) => {
+      if (!this.db) {
+        reject(new Error("Database connection is not open."));
+        return;
+      }
+
+      try {
+        const storeNames = Array.from(this.db.objectStoreNames);
+        resolve(storeNames);
+      } catch (error) {
+        console.error("Error retrieving store names:", error);
+        reject(error);
+      }
+    });
+  }
+  
   // Get all keys and values from a store
   async getAllData(storeName) {
     await this.ensureStore(storeName);

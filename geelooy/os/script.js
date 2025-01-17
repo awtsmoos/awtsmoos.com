@@ -2,6 +2,7 @@
 import AwtsmoosOS from "./awtsmoosOs.js";
 import menuItems from "./startMenu.js";
 var os = new AwtsmoosOS();
+window.os = os;
 // Function to create a new window and add it to the desktop
 function createWindow(title, content) {
     os.addWindow({title, content})
