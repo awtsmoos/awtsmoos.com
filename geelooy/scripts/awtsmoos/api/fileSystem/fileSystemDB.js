@@ -142,6 +142,10 @@ class APIHandler {
         throw error;
       }
     }
+ 
+    async getAllKeys(storeName) {
+        return await this.readFolder(storeName);
+    }
   
     // Delete a key from a store (general delete)
     async delete(storeName, key) {
