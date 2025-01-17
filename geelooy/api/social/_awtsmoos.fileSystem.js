@@ -8,13 +8,17 @@ var {
 
 module.exports = ({$i}) => ({
     "/aliases/:alias/fileSystem/makeFile": async vars => {
-        const { alias } = vars;
-        $i.$_POST["aliasId"] = alias;
+        try {
+            const { alias } = vars;
+            $i.$_POST["aliasId"] = alias;
 
 
-        return await makeFile({
-            $i
-        });
+            return await makeFile({
+                $i
+            });
+        } catch(e) {
+            return {error: e.stack}
+        }
     },
 
     "/aliases/:alias/fileSystem/readFile": async vars => {
