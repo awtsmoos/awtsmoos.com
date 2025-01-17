@@ -6,11 +6,15 @@ import {
 export default ({
     os,
     path,
+    title,
     system
 } = {}) => {
+    
+    path = path + "/" + title;
     var self = {
         div: createFileExplorer()
     }
+    
     function createFileExplorer () {
         // Main container
         const container = createElement({
@@ -29,6 +33,7 @@ export default ({
                         await os.createFile({ path, title: name });
                         await os.showFilesAtPath({ path, holder: body });
                     }
+                    populateSidebar();
                 }}},
                 { tag: "button", html: "New Folder", on: { click: async () => {
                     const name = prompt("Enter folder name:");
@@ -36,6 +41,7 @@ export default ({
                         await os.createFolder({ path, title: name });
                         await os.showFilesAtPath({ path, holder: body });
                     }
+                    populateSidebar();
                 }}},
                 { tag: "button", html: "New Window", on: { click: () => {
                     os.addWindow({ title: "File Explorer", content: createFileExplorer(), path, os });
@@ -52,8 +58,11 @@ export default ({
             attributes: { class: "file-explorer-sidebar" },
         });
 
-        const populateSidebar = async (parentPath, parentElement) => {
+        const populateSidebar = async () => {
+            var parentPath = path;
+            var parentElement = sidebar
             const items = await os.db.getAllKeys(parentPath);
+            parentElement.innerHTML = "";
             items.forEach(item => {
                 const folderItem = createElement({
                     tag: "div",
@@ -83,7 +92,7 @@ export default ({
         container.appendChild(body);
 
         // Populate the sidebar
-        populateSidebar(path, sidebar);
+        populateSidebar();
 
         return container;
     };
