@@ -54,9 +54,18 @@ getPostById,
 	searchForPost,
 	searchForSeries,
 	openDirectory,
-	writeFile
-
+	writeFile,
+    downloadFile
     
+}
+
+function downloadFile(name, str) {
+    var a = document.createElement("a")
+    a.href = URL.createObjectURL(
+        new Blob([str])
+    );
+    a.download = name;
+    a.click()
 }
 
 // Function to open a directory asynchronously
