@@ -118,12 +118,16 @@ async function readFolder({$i}) {
 
     // Read the contents of the folder in the alias's file system
     const folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-    const folderContents = await $i.db.read(folderPath, {
-        filesAndFoldersDifferent: true
-    });
-    if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });
+    try {
+        const folderContents = await $i.db.read(folderPath, {
+            filesAndFoldersDifferent: true
+        });
+        if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });
 
-    return { contents: folderContents };  // List files and folders
+        return folderContents || [];  // List files and folders
+    } catch(e) {
+        return er({ message: "System Error", code: "SYSTEM", details:e.stack });
+    }
 }
 
 // Helper to check total size for alias file system
