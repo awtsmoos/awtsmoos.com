@@ -52,9 +52,15 @@ async function makeFile({$i}) {
 
         // Write the file to the alias's file system
         var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-        await $i.db.write(filePath, content);
+        var wr = await $i.db.write(filePath, content);
 
-        return { success: true };
+        return { success: {
+            filePath,
+            path,
+            aliasId,
+            userid,
+            wr
+        } };
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });
     }
