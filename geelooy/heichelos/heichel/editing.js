@@ -50,7 +50,7 @@ function addSubmitButtons() {
         var p = new URLSearchParams({
             type: "series",
             returnURL: location.href,
-            id: srss
+            id: window?.currentSeries
             
 
         });
