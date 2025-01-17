@@ -246,6 +246,7 @@ function makeDraggable(selector) {
     document.querySelectorAll(selector).forEach(div => {
         let isDragging = false;
         let startX, startY, initialX, initialY;
+        let placeholder;
     
         div.addEventListener('mousedown', (e) => {
             // Prevent text selection
@@ -261,6 +262,23 @@ function makeDraggable(selector) {
             initialX = rect.left + window.scrollX;
             initialY = rect.top + window.scrollY;
     
+            const createPlaceholder = () => {
+                placeholder = document.createElement('div');
+                placeholder.classList.add('placeholder');
+                placeholder.style.width = `${rect.width}px`;
+                placeholder.style.height = `${rect.height}px`;
+                placeholder.style.backgroundColor = 'rgba(200, 200, 200, 0.5)';
+                placeholder.style.border = '2px dashed #ccc';
+                div.parentNode.insertBefore(placeholder, div.nextSibling);
+            };
+    
+            const removePlaceholder = () => {
+                if (placeholder) {
+                    placeholder.remove();
+                    placeholder = null;
+                }
+            };
+    
             const onMouseMove = (moveEvent) => {
                 // Calculate distance moved
                 const dx = moveEvent.clientX - startX;
@@ -270,6 +288,7 @@ function makeDraggable(selector) {
                 if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
                     if (!isDragging) {
                         isDragging = true;
+                        createPlaceholder();
     
                         // Change to absolute positioning and set initial position
                         const computedStyle = getComputedStyle(div);
@@ -278,20 +297,53 @@ function makeDraggable(selector) {
                         div.style.top = `${initialY}px`;
                         div.style.width = computedStyle.width; // Retain original width
                         div.style.height = computedStyle.height; // Retain original height
-    
-                        // Add dragging styles if needed
                         div.style.zIndex = '1000';
                     }
     
                     // Update position during drag
                     div.style.left = `${initialX + dx}px`;
                     div.style.top = `${initialY + dy}px`;
+    
+                    // Check for nearest sibling and update placeholder position
+                    const siblings = Array.from(div.parentNode.children).filter(el => el !== div && el !== placeholder);
+                    let closest = null;
+                    let closestDistance = Infinity;
+    
+                    siblings.forEach(sibling => {
+                        const siblingRect = sibling.getBoundingClientRect();
+                        const distance = Math.abs(moveEvent.clientY - (siblingRect.top + siblingRect.height / 2));
+                        if (distance < closestDistance) {
+                            closest = sibling;
+                            closestDistance = distance;
+                        }
+                    });
+    
+                    if (closest) {
+                        const siblingRect = closest.getBoundingClientRect();
+                        if (moveEvent.clientY < siblingRect.top + siblingRect.height / 2) {
+                            div.parentNode.insertBefore(placeholder, closest);
+                        } else {
+                            div.parentNode.insertBefore(placeholder, closest.nextSibling);
+                        }
+                    }
                 }
             };
     
             const onMouseUp = () => {
                 if (isDragging) {
-                    console.log('Drag ended');
+                    // Replace placeholder with the dragged element
+                    placeholder.parentNode.insertBefore(div, placeholder);
+                    removePlaceholder();
+    
+                    // Reset styles
+                    div.style.position = '';
+                    div.style.left = '';
+                    div.style.top = '';
+                    div.style.width = '';
+                    div.style.height = '';
+                    div.style.zIndex = '';
+    
+                    console.log('Drag ended and placed in new position');
                 } else {
                     console.log('Clicked on', div);
                     // Add your click menu logic here
@@ -307,6 +359,7 @@ function makeDraggable(selector) {
             document.addEventListener('mouseup', onMouseUp);
         });
     });
+    
 }
 
 function sortFoldersFirst(arr) {
