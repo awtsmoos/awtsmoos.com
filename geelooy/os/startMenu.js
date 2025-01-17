@@ -49,7 +49,7 @@ export default {
         ], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'exported_files.json'; // Set default filename
+        a.download = `BH_AwtsmoosOS_Export_${Date.now()}.json`; // Set default filename
         a.style.display = 'none';
         document.body.appendChild(a);
         
