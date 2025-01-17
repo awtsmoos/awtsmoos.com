@@ -249,21 +249,21 @@ module.exports =
 
       ...fileSystem({
         $i
-      })
+      }),
 
 	/**
        * Comments Endpoints - The Echoes of Divine Truth
        */
       
-	...comments({
-		$i,
-		userid
-	}),
+    ...comments({
+      $i,
+      userid
+    }),
 
-	...series({
-		$i,
-		userid
-	})
+    ...series({
+      $i,
+      userid
+    })
   
      
   
