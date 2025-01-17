@@ -4,7 +4,7 @@ var {
     NO_LOGIN,
     NO_PERMISSION,
     sp
-} = require("./_awtsmoos.constants.js");
+} = require("./_awtsmoos.varants.js");
 
 var {
     verifyAlias
@@ -25,7 +25,7 @@ module .exports ={
 
 async function makeFile({$i}) {
     try {
-        const { aliasId, path, content } = $i.$_POST;
+        var { aliasId, path, content } = $i.$_POST;
         if(!content) {
             content = $i.$_POST.value;
         }
@@ -38,21 +38,21 @@ async function makeFile({$i}) {
         if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
         // Ensure the user is logged in and has permission for alias
-        const userid = $i?.request?.user?.info?.userId;
+        var userid = $i?.request?.user?.info?.userId;
         if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
     
-        const isAuthorized = await verifyAlias({$i, aliasId, userid });
+        var isAuthorized = await verifyAlias({$i, aliasId, userid });
         if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
         // Check if the alias exceeds 10MB limit
-        const currentSize = await checkAliasSize({$i, aliasId});
-        const newFileSize = Buffer.byteLength(content, 'utf8');
+        var currentSize = await checkAliasSize({$i, aliasId});
+        var newFileSize = Buffer.byteLength(content, 'utf8');
         if (currentSize + newFileSize > 10 * 1024 * 1024) {
             return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
         }
 
         // Write the file to the alias's file system
-        const filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+        var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
         await $i.db.write(filePath, { content });
 
         return { success: true };
@@ -69,22 +69,22 @@ async function readFile({$i}) {
     if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
     // Ensure the user is logged in and has permission for alias
-    const userid = $i?.request?.user?.info?.userId;
+    var userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
 
-    const isAuthorized = await verifyAlias({$i, aliasId, userid });
+    var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
     // Read the file from the alias's file system
-    const filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-    const file = await $i.db.read(filePath);
+    var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    var file = await $i.db.read(filePath);
    /* if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
 */
     return  file.content || "";
 }
 
 async function makeFolder({$i}) {
-    const { aliasId, path } = $i.$_POST;
+    var { aliasId, path } = $i.$_POST;
 
     // Ensure the 'path' exists in POST or GET
     if (!path) {
@@ -93,14 +93,14 @@ async function makeFolder({$i}) {
     if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
     // Ensure the user is logged in and has permission for alias
-    const userid = $i?.request?.user?.info?.userId;
+    var userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
 
-    const isAuthorized = await verifyAlias({$i, aliasId, userid });
+    var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
     // Write the folder to the alias's file system
-    const folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     await $i.db.write(folderPath);
 
     return { success: true };
@@ -114,16 +114,16 @@ async function readFolder({$i}) {
     if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
     // Ensure the user is logged in and has permission for alias
-    const userid = $i?.request?.user?.info?.userId;
+    var userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
 
-    const isAuthorized = await verifyAlias({$i, aliasId, userid });
+    var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
     // Read the contents of the folder in the alias's file system
-    const folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
-        const folderContents = await $i.db.read(folderPath, {
+        var folderContents = await $i.db.read(folderPath, {
             filesAndFoldersDifferent: true
         });
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
@@ -136,8 +136,8 @@ async function readFolder({$i}) {
 
 // Helper to check total size for alias file system
 async function checkAliasSize({$i, aliasId}) {
-    const aliasDir = `${sp}/aliases/${aliasId}/fileSystem/`;
-    const files = await $i.db.read(aliasDir);
+    var aliasDir = `${sp}/aliases/${aliasId}/fileSystem/`;
+    var files = await $i.db.read(aliasDir);
     let totalSize = 0;
 
     // Calculate total file size
