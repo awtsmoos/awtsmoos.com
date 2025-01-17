@@ -160,150 +160,154 @@ class DosDB {
 		meta: false,
 		keepJSON:false
 	}) {
-		if(!options || typeof(options) != "object") {
-			options = {};
-		}
-	
-		var filterBy = options.filterBy || null;
-		var access = options.access;
-		var meta = options.meta;
-		var maxOrech = options.maxOrech;
-		var derech = options.derech;
-		var full = options.full || false;
-		var filters = options.filters || {};
-		var propertyMap = options.propertyMap;
-		var mapToOne = options.mapToOne || true;
-		var recursive = options.recursive ?? false;
-		var showJson = options.showJson ?? false;
-		var pageSize = options.pageSize || 10;
-		if(options.max === true) {
-			pageSize = 500;
-		}
-		var page = options.page || 1;
-		var sortBy = options.sortBy || "createdBy";
-		var order = options.order || "asc";
-		let filePath = await this.getFilePath(id);
-		var removeJSON = true
-	
 		try {
-			var statObj = await fs.stat(filePath);
-			if(access) {
-				return statObj;
+			if(!options || typeof(options) != "object") {
+				options = {};
 			}
-			var created = statObj.atime;
-			var modified = statObj.birthtime;
-			if(meta) {
-				return modified;
+		
+			var filterBy = options.filterBy || null;
+			var access = options.access;
+			var meta = options.meta;
+			var maxOrech = options.maxOrech;
+			var derech = options.derech;
+			var full = options.full || false;
+			var filters = options.filters || {};
+			var propertyMap = options.propertyMap;
+			var mapToOne = options.mapToOne || true;
+			var recursive = options.recursive ?? false;
+			var showJson = options.showJson ?? false;
+			var pageSize = options.pageSize || 10;
+			if(options.max === true) {
+				pageSize = 500;
 			}
-	
-			// if it's a directory, return a list of files in it
-			if(statObj.isDirectory()) {
-				var checkIfItsSingleEntry = null;
-				try {
-					var ob = {
-						filePath,
-						properties: propertyMap,
-						derech,
-						stat: statObj,
-						maxOrech,
-						filterBy,
-						meta
-					};
-					checkIfItsSingleEntry = await this.getDynamicRecord(ob);
-					console.log("GOT?", checkIfItsSingleEntry, filePath);
-				} catch (e) {
-					console.log("Prob", e);
+			var page = options.page || 1;
+			var sortBy = options.sortBy || "createdBy";
+			var order = options.order || "asc";
+			let filePath = await this.getFilePath(id);
+			var removeJSON = true
+		
+			try {
+				var statObj = await fs.stat(filePath);
+				if(access) {
+					return statObj;
 				}
-				if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
-					return checkIfItsSingleEntry;
+				var created = statObj.atime;
+				var modified = statObj.birthtime;
+				if(meta) {
+					return modified;
 				}
-				var fileIndexes;
-				try {
-					fileIndexes = await gde(
-						filePath,
-						page,
-						pageSize,
-						maxOrech,
-						filterBy,
-						sortBy,
-						order,
-						filters,
-						id,
-						this
-					);
-				} catch (e) {
-					console.log("problem listing", e);
-				}
-	
-				if(recursive) {
-					let allContents = {};
-					for(var fileName in fileIndexes.files) {
-						var res = await this.get(path.join(id, fileName), options);
-						if(res !== null) {
-							if(removeJSON) {
-								removeJSONExtension(fileName);
-							}
-							allContents[fileName] = res;
-						}
+		
+				// if it's a directory, return a list of files in it
+				if(statObj.isDirectory()) {
+					var checkIfItsSingleEntry = null;
+					try {
+						var ob = {
+							filePath,
+							properties: propertyMap,
+							derech,
+							stat: statObj,
+							maxOrech,
+							filterBy,
+							meta
+						};
+						checkIfItsSingleEntry = await this.getDynamicRecord(ob);
+						console.log("GOT?", checkIfItsSingleEntry, filePath);
+					} catch (e) {
+						console.log("Prob", e);
 					}
-					for(var dirName in fileIndexes.subdirectories) {
-						var res = await this.get(path.join(id, dirName), options);
-						if(res !== null) {
-							if(removeJSON) {
-								removeJSONExtension(dirName);
-							}
-							allContents[dirName] = res;
-						}
+					if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
+						return checkIfItsSingleEntry;
 					}
-					return allContents;
+					var fileIndexes;
+					try {
+						fileIndexes = await gde(
+							filePath,
+							page,
+							pageSize,
+							maxOrech,
+							filterBy,
+							sortBy,
+							order,
+							filters,
+							id,
+							this
+						);
+					} catch (e) {
+						console.log("problem listing", e);
+					}
+		
+					if(recursive) {
+						let allContents = {};
+						for(var fileName in fileIndexes.files) {
+							var res = await this.get(path.join(id, fileName), options);
+							if(res !== null) {
+								if(removeJSON) {
+									removeJSONExtension(fileName);
+								}
+								allContents[fileName] = res;
+							}
+						}
+						for(var dirName in fileIndexes.subdirectories) {
+							var res = await this.get(path.join(id, dirName), options);
+							if(res !== null) {
+								if(removeJSON) {
+									removeJSONExtension(dirName);
+								}
+								allContents[dirName] = res;
+							}
+						}
+						return allContents;
+					} else {
+						// If filesAndFoldersDifferent is true, append ".folder" to directories
+						var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
+							// Check if it's a directory based on statObj
+							
+							if(removeJSON ) {
+							//	return removeJSONExtension(fileName);
+							}
+							return fileName;
+						});
+						return info;
+					}
+				}
+		
+				function removeJSONExtension(filePath) {
+					var extension = path.extname(filePath);
+					if(extension == ".json") {
+						var ind = filePath.indexOf(".json");
+						filePath = filePath.substring(0, ind);
+					}
+					return filePath;
+				}
+		
+				// Handling the file case (non-directory)
+				var ext = path.extname(filePath);
+				if(ext === '.json') {
+					var data = await fs.readFile(filePath, 'utf-8');
+					var res = JSON.parse(data);
+					if(full) {
+						res = {
+							entityId: id,
+							data: res,
+							created,
+							modified
+						};
+					}
+					return res;
 				} else {
-					// If filesAndFoldersDifferent is true, append ".folder" to directories
-					var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
-						// Check if it's a directory based on statObj
-						
-						if(removeJSON ) {
-							return removeJSONExtension(fileName);
-						}
-						return fileName;
-					});
-					return info;
+					var content = await fs.readFile(filePath);
+					return content.toString(); // Assuming you want to convert binary data to string
 				}
-			}
-	
-			function removeJSONExtension(filePath) {
-				var extension = path.extname(filePath);
-				if(extension == ".json") {
-					var ind = filePath.indexOf(".json");
-					filePath = filePath.substring(0, ind);
+			} catch (error) {
+				if(error.code !== 'ENOENT')
+					console.error(error);
+				else {
+					//console.error("Not found", filePath);
 				}
-				return filePath;
+				return null;
 			}
-	
-			// Handling the file case (non-directory)
-			var ext = path.extname(filePath);
-			if(ext === '.json') {
-				var data = await fs.readFile(filePath, 'utf-8');
-				var res = JSON.parse(data);
-				if(full) {
-					res = {
-						entityId: id,
-						data: res,
-						created,
-						modified
-					};
-				}
-				return res;
-			} else {
-				var content = await fs.readFile(filePath);
-				return content.toString(); // Assuming you want to convert binary data to string
-			}
-		} catch (error) {
-			if(error.code !== 'ENOENT')
-				console.error(error);
-			else {
-				//console.error("Not found", filePath);
-			}
-			return null;
+		} catch(e) {
+			
 		}
 	}
 	
