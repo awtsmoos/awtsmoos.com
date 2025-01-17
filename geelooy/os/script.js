@@ -11,10 +11,10 @@ function createWindow(title, content) {
 // Event listener for creating new files or folders
 document.getElementById('desktop').addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    const newFile = prompt('Enter file name:');
+    /*const newFile = prompt('Enter file name:');
     if (newFile) {
         createWindow(newFile, `<p>Content of ${newFile}</p>`);
-    }
+    }*/
 });
 
 // Start button functionality
