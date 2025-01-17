@@ -39,22 +39,25 @@ async function makeFile({$i}) {
     // Ensure the user is logged in and has permission for alias
     const userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+    try {
+        const isAuthorized = await verifyAlias({$i, aliasId, userid });
+        if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
-    const isAuthorized = await verifyAlias({$i, aliasId, userid });
-    if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+        // Check if the alias exceeds 10MB limit
+        const currentSize = await checkAliasSize({$i, aliasId});
+        const newFileSize = Buffer.byteLength(content, 'utf8');
+        if (currentSize + newFileSize > 10 * 1024 * 1024) {
+            return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
+        }
 
-    // Check if the alias exceeds 10MB limit
-    const currentSize = await checkAliasSize({$i, aliasId});
-    const newFileSize = Buffer.byteLength(content, 'utf8');
-    if (currentSize + newFileSize > 10 * 1024 * 1024) {
-        return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
+        // Write the file to the alias's file system
+        const filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+        await $i.db.write(filePath, { content });
+
+        return { success: true };
+    } catch(e) {
+        return er({ message: "System Error", code: "SYSTEM", details:e.stack });
     }
-
-    // Write the file to the alias's file system
-    const filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-    await $i.db.write(filePath, { content });
-
-    return { success: true };
 }
 
 async function readFile({$i}) {
