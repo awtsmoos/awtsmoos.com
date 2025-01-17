@@ -160,6 +160,7 @@ class DosDB {
 		meta: false,
 		keepJSON:false
 	}) {
+		var keepJSON = options.keepJSON
 		try {
 			if(!options || typeof(options) != "object") {
 				options = {};
@@ -184,7 +185,7 @@ class DosDB {
 			var sortBy = options.sortBy || "createdBy";
 			var order = options.order || "asc";
 			let filePath = await this.getFilePath(id);
-			var removeJSON = true
+			var removeJSON = !keepJSON
 		
 			try {
 				var statObj = await fs.stat(filePath);
@@ -263,7 +264,7 @@ class DosDB {
 							// Check if it's a directory based on statObj
 							
 							if(removeJSON ) {
-							//	return removeJSONExtension(fileName);
+								return removeJSONExtension(fileName);
 							}
 							return fileName;
 						});
