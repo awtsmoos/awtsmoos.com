@@ -64,62 +64,61 @@ export default (id) => /*css*/`
         margin: 20px;
         padding: 15px;
         background: linear-gradient(135deg, #ff6f61, #ffcc80, #ff6f61);
-        border: 3px dashed rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(0, 0, 0, 0.2);
         border-radius: 16px 16px 0 0;
         display: inline-flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         position: relative;
-        transition: transform 0.3s ease, filter 0.3s ease;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 -10px 20px rgba(255, 235, 59, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 -8px 15px rgba(255, 235, 59, 0.2);
     }
 
     .${id} .folder::before {
-        content: '\\1F4C1'; /* Unicode for a folder icon */
-        font-size: 2.5rem;
+        content: '\1F4C1'; /* Unicode for a folder icon */
+        font-size: 2.2rem;
         color: #ffab00;
-        text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.8);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 215, 0, 0.7);
         position: absolute;
-        top: -20px;
+        top: -15px;
         left: 50%;
-        transform: translateX(-50%) rotate(-5deg);
-        animation: wobble 2s infinite ease-in-out;
+        transform: translateX(-50%);
     }
 
     .${id} .folder:hover {
-        transform: translateY(-15px) scale(1.1) rotate(-2deg);
+        transform: translateY(-10px) scale(1.05);
         background: linear-gradient(135deg, #f57c00, #ff6f61, #f57c00);
         cursor: pointer;
-        filter: drop-shadow(0 15px 30px rgba(255, 87, 34, 0.8));
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 -15px 25px rgba(255, 235, 59, 0.5);
+        box-shadow: 0 10px 25px rgba(255, 87, 34, 0.6), inset 0 -10px 20px rgba(255, 235, 59, 0.4);
     }
 
     .${id} .folder:active {
-        transform: scale(0.95) rotate(1deg);
+        transform: scale(0.97);
         background: linear-gradient(135deg, #d50000, #ff6f61, #d50000);
-        box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 -5px 15px rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 8px 15px rgba(0, 0, 0, 0.4), inset 0 -4px 12px rgba(255, 255, 255, 0.3);
         color: white;
     }
 
     .${id} .folderName {
-        padding: 8px;
-        font-size: 1.2rem;
+        padding: 6px;
+        font-size: 1.1rem;
         font-weight: bold;
         color: #ffffff;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 8px;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 6px;
     }
 
     @keyframes wobble {
         0%, 100% {
-            transform: translateX(-50%) rotate(-5deg);
+            transform: translateX(-50%) scale(1);
         }
         50% {
-            transform: translateX(-50%) rotate(5deg);
+            transform: translateX(-50%) scale(1.03);
         }
     }
+
 
 
     .contextMenu {

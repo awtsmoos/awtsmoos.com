@@ -171,10 +171,11 @@ export default class AwtsmoosOS {
         var f = document.createElement("div");
         f.awtsmoosFile = true;
         var isFolder = false;
+        var adjustedTitle = title
         if(title.endsWith(".folder")) {
             f.className = "folder"
             isFolder = true;
-            title = title.substring
+            adjustedTitle = title.substring
                 (0, title.length - ".folder".length)
         } else {
             f.className = "file"
@@ -184,7 +185,7 @@ export default class AwtsmoosOS {
         f.appendChild(icon);
 
         var nm = document.createElement("div")
-        nm.textContent = title;
+        nm.textContent = adjustedTitle;
 
         if(isFolder) {
             nm.className = "folderName"
