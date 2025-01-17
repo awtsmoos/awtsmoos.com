@@ -2,9 +2,8 @@
 
 var {
     NO_LOGIN,
-    NO_PERMISSION,
     sp
-} = require("./_awtsmoos.varants.js");
+} = require("./_awtsmoos.constants.js");
 
 var {
     verifyAlias
