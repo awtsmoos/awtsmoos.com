@@ -3,6 +3,11 @@
 import {
     createElement
 } from "/scripts/awtsmoos/ui/basic.js"
+
+import {
+    loadFiles,
+    importFiles
+} from "./helpers/script.js"
 export default ({
     os,
     path,
@@ -46,8 +51,11 @@ export default ({
                 { tag: "button", html: "New Window", on: { click: () => {
                     os.addWindow({ title: "File Explorer", content: createFileExplorer(), path, os });
                 }}},
-                { tag: "button", html: "Toggle View", on: { click: () => {
-                    body.classList.toggle("list-view");
+                { tag: "button", html: "Import Files", on: { click: async () => {
+                    await importFiles({
+                        os,
+                        path
+                    })
                 }}}
             ]
         });

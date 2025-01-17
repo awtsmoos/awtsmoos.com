@@ -1,4 +1,7 @@
 ///B"H
+import {
+    loadFiles
+} from "./helpers/script.js"
 export default {
     "New File":  async ({os}) => {
         const newFile = prompt('Enter file name:');
@@ -13,27 +16,17 @@ export default {
             
         }
     },
-    "New Folder":  async ({os}) => {
+    "New Folder":  async ({os, path}) => {
         const newFolder = prompt('Enter folder name:');
         if (newFolder) {
             await os.createFolder({path:"desktop", title: newFolder});
         }
     },
     "Import Files": async ({os}) => {
-        await loadFiles(async (file) => {
-            const content = file.type.startsWith("application/") ||
-            file.type.startsWith('text/') 
-            ? await file.text() 
-            : await file.arrayBuffer(); // Handle binary/text files
-            console.log(file)
-            // Save each file to the desktop
-            await os.createFile({
-                path:"desktop", 
-                title:
-                file.name, 
-                content
-            });
-        })
+       importFiles({
+        os,
+        path:"desktop"
+       })
     },
     "Export All": async ({os}) => {
         var storeNames = await os.db.getAllStoreNames();
@@ -118,24 +111,3 @@ export default {
     },
     
 };
-
-
-async function loadFiles(callback) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.multiple = true; // Allow multiple file selection
-    input.style.display = 'none'; // Make input invisible
-    document.body.appendChild(input);
-    
-    input.onchange = async () => {
-        const files = Array.from(input.files);
-        for (const file of files) {
-            await callback?.(file);
-            
-        }
-        alert(`${files.length} file(s) imported successfully!`);
-        document.body.removeChild(input); // Clean up
-    };
-    
-    input.click(); // Trigger file selection dialog
-}
