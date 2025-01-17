@@ -289,16 +289,17 @@ export default class ResizableWindow {
     makeDraggable() {
         const header = this.win.querySelector('.window-header');
         let offsetX, offsetY, rect;
-        var offsetTop = document
-            .querySelector("header")?.clientHeight || 0
+      
         header.onmousedown = (e) => {
             e.preventDefault();
             if(e.target.awtsBtn) {
                 return;
             }
+            var offsetTop = document
+            .querySelector("header")?.clientHeight || 0
             rect = this.win.getBoundingClientRect()
             offsetX = e.clientX - rect.left;
-            offsetY = ((e.clientY) - rect.top) - offsetTop;
+            offsetY = ((e.clientY) - rect.top) ;
             var xPercent = offsetX / rect.width;
             document.onmousemove = (e) => {
                 if(this.isFullscreened) {
@@ -314,7 +315,7 @@ export default class ResizableWindow {
                     this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
                 }
                 var lefted =  e.clientX - offsetX;
-                var topped = (e.clientY) - offsetY
+                var topped = (e.clientY- offsetTop) - offsetY
                 if(topped < 0) {
                     topped = 0;
                 }
