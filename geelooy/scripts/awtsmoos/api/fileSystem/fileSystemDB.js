@@ -1,7 +1,7 @@
 //B"H
 class APIHandler {
     constructor(baseUrl = "/api/social/") {
-      this.baseUrl = baseUrl;
+      this.baseUrl = location.origin+ baseUrl;
     }
   
     async init(name) {
