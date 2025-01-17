@@ -351,7 +351,7 @@ export default class ResizableWindow {
             .${this.ID}-window.active {
                 box-shadow: 7px 6px 16px 0px black;
                 
-                z-index:12090;
+                z-index:4;
             } 
 
             .${this.ID}-window .header-title {
