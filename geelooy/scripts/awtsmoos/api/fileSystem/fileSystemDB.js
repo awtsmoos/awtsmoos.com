@@ -61,7 +61,7 @@ class APIHandler {
         const response = await fetch(url, {
           method: 'GET',  // GET for reading the file
         });
-        return await this.handleResponse(response);
+        return response.text();
       } catch (error) {
         console.error("Error reading file:", error);
         throw error;
