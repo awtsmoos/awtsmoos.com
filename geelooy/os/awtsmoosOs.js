@@ -272,7 +272,7 @@ export default class AwtsmoosOS {
                     : await file.arrayBuffer(); // Handle binary/text files
 
                 // Save each file to the desktop
-                await os.createFile("desktop", file.name, content);
+                await os.createFile({path, title:file.name, content});
             }
 
             alert(`${files.length} file(s) uploaded successfully!`);
