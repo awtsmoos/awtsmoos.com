@@ -45,9 +45,19 @@ async function makeFile({$i}) {
 
         // Check if the alias exceeds 10MB limit
         var currentSize = await checkAliasSize({$i, aliasId});
-        var newFileSize = Buffer.byteLength(content, 'utf8');
-        if (currentSize + newFileSize > 10 * 1024 * 1024) {
-            return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
+        var strContent = content;
+        if(typeof(content) == "object") {
+            try {
+                strContent = JSON.stringify(content);
+            } catch(e){}
+        }
+        try {
+            var newFileSize = Buffer.byteLength(strContent, 'utf8');
+            if (currentSize + newFileSize > 10 * 1024 * 1024) {
+                return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
+            }
+        } catch(e) {
+            
         }
 
         // Write the file to the alias's file system
