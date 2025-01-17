@@ -136,7 +136,7 @@ body {
     #start-button:active {
         transform: scale(1) rotate(0deg);
     }
-}
+
 
 #desktop {
     width: 100%;
