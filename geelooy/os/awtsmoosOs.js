@@ -237,6 +237,46 @@ export default class AwtsmoosOS {
             })
         });
 
+        var dropDiv = fileArea;
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'drag-overlay';
+        overlay.className = 'drag-overlay';
+        overlay.textContent = 'Drop files here!';
+        dropDiv.appendChild(overlay);
+
+        // Drag and drop events
+        dropDiv.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropDiv.classList.add('drag-over');
+            overlay.classList.add('visible');
+        });
+
+        dropDiv.addEventListener('dragleave', (event) => {
+            dropDiv.classList.remove('drag-over');
+            overlay.classList.remove('visible');
+        });
+
+        dropDiv.addEventListener('drop', async (event) => {
+            event.preventDefault();
+            dropDiv.classList.remove('drag-over');
+            overlay.classList.remove('visible');
+
+            const files = Array.from(event.dataTransfer.files);
+            if (files.length === 0) return;
+
+            for (const file of files) {
+                const content = file.type.startsWith('text/') 
+                    ? await file.text() 
+                    : await file.arrayBuffer(); // Handle binary/text files
+
+                // Save each file to the desktop
+                await os.createFile("desktop", file.name, content);
+            }
+
+            alert(`${files.length} file(s) uploaded successfully!`);
+        });
+
         makeDraggable(".awtsmoosIcon");
     }
     
