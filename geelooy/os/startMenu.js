@@ -40,12 +40,13 @@ export default {
         var exportedContents = {};
         for(var store of storeNames) {
             const files = await os.db.getAllData(store); // Get all files
-            const exportContent = JSON.stringify(files, null, 2); // Prepare JSON content
-            exportedContents[store] = exportContent
+            exportedContents[store] = files
             
         }
         // Create a downloadable file
-        const blob = new Blob([exportedContents], { type: 'application/json' });
+        const blob = new Blob([
+            JSON.stringify(exportedContents, null, "\t")
+        ], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = 'exported_files.json'; // Set default filename
