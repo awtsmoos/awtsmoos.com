@@ -20,7 +20,8 @@ module .exports ={
     readFile,
     makeFolder,
     deleteEntry,
-    readFolder
+    readFolder,
+    renameFolder
 };
 
 async function makeFile({$i}) {
@@ -180,6 +181,39 @@ async function readFolder({$i}) {
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 
         return folderContents || [];  // List files and folders
+    } catch(e) {
+        return er({ message: "System Error", code: "SYSTEM", details:e.stack });
+    }
+}
+
+
+async function renameFolder({$i}) {
+    let { aliasId, path, newPath } = $i.$_POST;
+    if (!path) path = $i.$_GET.path;
+    if(!newPath) {
+        newPath = $i.$_GET.newPath;
+    }
+    // Ensure the 'path' exists in POST or GET
+    if (!path || !newPath) return er({ message: "Path or newPath parameter missing", code: "PATH_NEWPATH_MISSING" });
+
+    // Ensure the user is logged in and has permission for alias
+    var userid = $i?.request?.user?.info?.userId;
+    if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+
+    var isAuthorized = await verifyAlias({$i, aliasId, userid });
+    if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+
+    // Read the contents of the folder in the alias's file system
+    var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    var newFolderPath = `${sp}/aliases/${aliasId}/fileSystem/${newPath}`
+    try {
+        var rename = await $i.db.rename(
+            folderPath, 
+            newFolderPath
+        )
+        /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
+
+        return {success: rename}
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });
     }

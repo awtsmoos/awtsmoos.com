@@ -84,7 +84,8 @@ export default class AwtsmoosOS {
     async onFileClick({
         path,
         title,
-        event
+        event,
+        isFolder
     }) {
         if(!window.clickedMenu) {
             window.clickedMenu = 0;
@@ -104,7 +105,11 @@ export default class AwtsmoosOS {
             Rename: async () => {
                 const newName = prompt("Enter new name:", title);
                 if (newName) {
-                    await this.db.renameFile(path, title, newName);
+                    if(!isFolder) {
+                        await this.db.renameFile(path, title, newName);
+                    } else {
+                        await this.db.renameFolder(path, title, newName)
+                    }
                     await this.showFilesAtPath({
                         path
                     });
@@ -200,7 +205,8 @@ export default class AwtsmoosOS {
             await this.onFileClick({
                 path,
                 title,
-                event
+                event,
+                isFolder
             })
         };
         

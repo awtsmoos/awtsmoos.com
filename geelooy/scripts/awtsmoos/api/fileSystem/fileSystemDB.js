@@ -109,6 +109,12 @@ class APIHandler {
       }
     }
   
+    async renameFolder(storeName, oldKey, newKey) {
+       
+    
+        await this.makeFolder(storeName, newKey);
+        await this.delete(storeName, oldKey);
+    }
     // Rename a file (key) (as before)
     async renameFile(storeName, oldKey, newKey) {
       const value = await this.readFile(storeName, oldKey);
