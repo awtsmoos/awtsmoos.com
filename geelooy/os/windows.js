@@ -296,8 +296,8 @@ export default class ResizableWindow {
                 return;
             }
             rect = this.win.getBoundingClientRect()
-            offsetX = e.offsetX - rect.left;
-            offsetY = e.offsetY - rect.top;
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
             var xPercent = offsetX / rect.width;
             document.onmousemove = (e) => {
                 if(this.isFullscreened) {
@@ -312,8 +312,8 @@ export default class ResizableWindow {
                     offsetX = rect.left + xPercent * rect.width;
                     this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
                 }
-                var lefted =  e.offsetX - offsetX;
-                var topped = e.offsetY - offsetY
+                var lefted =  e.clientX - offsetX;
+                var topped = e.clientY - offsetY
                 if(topped < 0) {
                     topped = 0;
                 }
