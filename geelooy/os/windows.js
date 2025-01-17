@@ -316,6 +316,9 @@ export default class ResizableWindow {
                 if(topped < 0) {
                     topped = 0;
                 }
+                if(topped > rect.top - 10) {
+                    topped = rect.top - 10;
+                }
                 this.win.style.left = `${lefted}px`;
                 this.win.style.top = `${topped}px`;
             };
