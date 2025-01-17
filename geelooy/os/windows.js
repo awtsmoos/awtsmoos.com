@@ -21,7 +21,7 @@ export default class ResizableWindow {
         this.createWindow();
         this.addResizeHandles();
         this.makeDraggable();
-        
+        this.makeActive();
     }
 
     close() {
