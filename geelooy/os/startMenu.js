@@ -42,7 +42,7 @@ export default {
         ], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `BH_AwtsmoosOS_Export_${Date.now()}.json`; // Set default filename
+        a.download = `BH_AwtsmoosOS_Export_${Date.now()}.awtsmoosExport.json`; // Set default filename
         a.style.display = 'none';
         document.body.appendChild(a);
         
@@ -69,7 +69,7 @@ export default {
                     b = (await import(ur))?.default;
                 } else if(
                     typeof(content) == "string" && 
-                    file.name.endsWith(".json")
+                    file.name.endsWith(".awtsmoosExport.json")
                 ) {
                     b = JSON.parse(content);
                 }
@@ -77,20 +77,25 @@ export default {
 
             }
             if(b) {
-                console.log("Got special files", b);
-                if(typeof(b) != "object") {
-                    return;
-                }
-                Object.keys(b).forEach(async key => {
-                    await os.createFile({
-                        path:"desktop", 
-                        title:
-                        key, 
-                        content:
-                        b[key]
-                    });
-                   
+                Object.keys(b).forEach(async path => {
+                    var array = b[path];
+                    array.forEach(async obj => {
+                        Object.keys(obj).forEach(async key => {
+                            await os.createFile({
+                                path, 
+                                title:
+                                key, 
+                                content:
+                                obj[key]
+                            });
+                           
+                        })
+                    })
+                    console.log("Got special files", b);
+                    
+                    
                 })
+               
             } else {
                 await os.createFile({
                     path:"desktop", 
