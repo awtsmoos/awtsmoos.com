@@ -69,11 +69,11 @@ class APIHandler {
     }
   
     // Get all data from a store (readFolder)
-    async readFolder(storeName, key) {
+    async readFolder(storeName) {
       const aliasId = this.getCurrentAlias();
       const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/readFolder`);
       url.search = new URLSearchParams({
-        path: storeName+"/" + key
+        path: storeName
       }).toString(); // Set the search/query parameters for GET request
   
       try {
