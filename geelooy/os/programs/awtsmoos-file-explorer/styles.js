@@ -13,6 +13,7 @@ export default /*css*/`
     display: flex;
     overflow-x: scroll;
     gap: 10px;
+        align-items: center;
     padding: 10px;
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
