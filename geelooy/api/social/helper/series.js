@@ -921,13 +921,20 @@ async function editSubSeriesInSeries({
 				changed.push(subSeriesId)
 			}
 			
+			var prat = await $i.db.write(sp +
+				`/heichelos/${
+				heichelId
+			}/series/${
+				subSeriesId
+			}/prateem`);
+			prat.parentSeriesId = seriesId;
 			
 			await $i.db.write(sp +
 				`/heichelos/${
 				heichelId
 			}/series/${
 				subSeriesId
-			}/prateem/parentSeriesId`, seriesId);
+			}/prateem`, prat);
 		
 		}
 		var ob = {
