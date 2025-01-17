@@ -76,7 +76,7 @@ async function readFile({$i}) {
     const file = await $i.db.read(filePath);
     if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
 
-    return { content: file.content };
+    return  file.content || "";
 }
 
 async function makeFolder({$i}) {
@@ -122,7 +122,7 @@ async function readFolder({$i}) {
         const folderContents = await $i.db.read(folderPath, {
             filesAndFoldersDifferent: true
         });
-        if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });
+        /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 
         return folderContents || [];  // List files and folders
     } catch(e) {
