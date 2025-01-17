@@ -141,7 +141,7 @@ async function checkAliasSize({$i, aliasId}) {
 
     // Calculate total file size
     for (let file in files) {
-        totalSize += Buffer.byteLength(files[file].content, 'utf8');
+        totalSize += Buffer.byteLength(files[file], 'utf8');
     }
 
     return totalSize;
