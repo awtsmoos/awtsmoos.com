@@ -139,7 +139,8 @@ async function readFolder({$i}) {
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
         var folderContents = await $i.db.read(folderPath, {
-            pageSize:1000
+            pageSize:1000,
+            keepJSON: true
         })
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 

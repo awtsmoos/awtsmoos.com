@@ -157,7 +157,8 @@ class DosDB {
 		mapToOne: true,
 		maxOrech: null,
 		max: false,
-		meta: false
+		meta: false,
+		keepJSON:false
 	}) {
 		if(!options || typeof(options) != "object") {
 			options = {};
@@ -182,7 +183,7 @@ class DosDB {
 		var sortBy = options.sortBy || "createdBy";
 		var order = options.order || "asc";
 		let filePath = await this.getFilePath(id);
-		var removeJSON = true;
+		var removeJSON = !keepJSON;
 	
 		try {
 			var statObj = await fs.stat(filePath);
@@ -373,7 +374,7 @@ class DosDB {
 				try {
 					await this.delete(id);
 				} catch(e) {
-					
+
 				}
 				await fs.writeFile(filePath, record+"", "utf8");
 				
