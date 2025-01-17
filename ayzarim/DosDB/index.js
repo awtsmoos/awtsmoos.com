@@ -259,13 +259,7 @@ class DosDB {
 					// If filesAndFoldersDifferent is true, append ".folder" to directories
 					var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
 						// Check if it's a directory based on statObj
-						if (options.filesAndFoldersDifferent) {
-							const fileStat = fs.statSync(path.join(filePath, fileName));
-							if (fileStat.isDirectory()) {
-								// Append ".folder" if it's a directory
-								fileName = fileName + ".folder";
-							}
-						}
+						
 						if(removeJSON) {
 							return removeJSONExtension(fileName);
 						}
