@@ -52,7 +52,7 @@ async function makeFile({$i}) {
 
         // Write the file to the alias's file system
         var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-        await $i.db.write(filePath, { content });
+        await $i.db.write(filePath, content);
 
         return { success: true };
     } catch(e) {
@@ -79,7 +79,7 @@ async function readFile({$i}) {
     var file = await $i.db.read(filePath);
    /* if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
 */
-    return  file.content || "";
+    return  file || "";
 }
 
 async function makeFolder({$i}) {
