@@ -56,7 +56,7 @@ export default class AwtsmoosOS {
     }
 
     async createFolder({path, title}) {
-        await this.db.Koysayv(path, title+".folder", content);
+        await this.db.Koysayv(path, title+".folder", "");
         await this.showFilesAtPath({
             path
         });
