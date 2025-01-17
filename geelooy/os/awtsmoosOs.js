@@ -247,6 +247,7 @@ function makeDraggable(selector) {
         let isDragging = false;
         let startX, startY, initialX, initialY;
         let placeholder;
+        let folderPopup;
     
         div.addEventListener('mousedown', (e) => {
             // Prevent text selection
@@ -276,6 +277,31 @@ function makeDraggable(selector) {
                 if (placeholder) {
                     placeholder.remove();
                     placeholder = null;
+                }
+            };
+    
+            const createFolderPopup = (folderElement) => {
+                if (!folderPopup) {
+                    folderPopup = document.createElement('div');
+                    folderPopup.classList.add('folder-popup');
+                    folderPopup.textContent = 'Move to folder?';
+                    folderPopup.style.position = 'absolute';
+                    folderPopup.style.padding = '10px';
+                    folderPopup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    folderPopup.style.color = '#fff';
+                    folderPopup.style.borderRadius = '5px';
+                    folderPopup.style.pointerEvents = 'none';
+                    document.body.appendChild(folderPopup);
+                }
+                const folderRect = folderElement.getBoundingClientRect();
+                folderPopup.style.left = `${folderRect.left + window.scrollX}px`;
+                folderPopup.style.top = `${folderRect.top + window.scrollY - 30}px`;
+            };
+    
+            const removeFolderPopup = () => {
+                if (folderPopup) {
+                    folderPopup.remove();
+                    folderPopup = null;
                 }
             };
     
@@ -326,14 +352,29 @@ function makeDraggable(selector) {
                             div.parentNode.insertBefore(placeholder, closest.nextSibling);
                         }
                     }
+    
+                    // Check for folder hover and display popup
+                    const folderUnderCursor = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest('.folder');
+                    if (folderUnderCursor) {
+                        createFolderPopup(folderUnderCursor);
+                    } else {
+                        removeFolderPopup();
+                    }
                 }
             };
     
             const onMouseUp = () => {
                 if (isDragging) {
-                    // Replace placeholder with the dragged element
-                    placeholder.parentNode.insertBefore(div, placeholder);
+                    const folderUnderCursor = document.elementFromPoint(startX, startY)?.closest('.folder');
+                    if (folderUnderCursor && folderPopup) {
+                        console.log('Dropped into folder:', folderUnderCursor);
+                        // Add logic here to handle dropping into a folder
+                    } else {
+                        // Replace placeholder with the dragged element
+                        placeholder.parentNode.insertBefore(div, placeholder);
+                    }
                     removePlaceholder();
+                    removeFolderPopup();
     
                     // Reset styles
                     div.style.position = '';
