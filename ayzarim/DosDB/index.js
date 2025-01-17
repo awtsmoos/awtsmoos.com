@@ -369,15 +369,9 @@ class DosDB {
 				console.log("Prolem with indexing", e)
 			}
 		} else if(typeof(record) == "string") {
-			/*
+			
 			await fs.writeFile(filePath, record+"", "utf8");
-			var meta = await this.writeMetadata({
-			    dataPath: filePath,
-			 
-			    entries: null,
-			    type: "file"
-			});
-			*/
+			
 		}
 	}
 	
