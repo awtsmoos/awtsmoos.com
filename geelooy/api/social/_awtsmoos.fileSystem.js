@@ -3,6 +3,7 @@ var {
     makeFile,
     readFile,
     makeFolder,
+    deleteEntry,
     readFolder
 } = require("./helper/fileSystem.js");
 
@@ -28,6 +29,17 @@ module.exports = ({$i}) => ({
     
 
         return await readFile({
+            $i
+        });
+    },
+
+    "/aliases/:alias/fileSystem/delete": async vars => {
+        const { alias } = vars;
+        $i.$_DELETE["aliasId"] = alias;
+
+       
+
+        return await deleteEntry({
             $i
         });
     },
