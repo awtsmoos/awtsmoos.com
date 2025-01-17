@@ -371,9 +371,9 @@ class DosDB {
 				}
 			} else if(typeof(record) == "string") {
 				try {
-					await this.delete(filePath);
+					await this.delete(id);
 				} catch(e) {
-
+					
 				}
 				await fs.writeFile(filePath, record+"", "utf8");
 				
