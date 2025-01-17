@@ -174,7 +174,8 @@ export default class AwtsmoosOS {
         if(title.endsWith(".folder")) {
             f.className = "folder"
             isFolder = true;
-            title = title.substring(0, title.length - ".folder".length)
+            title = title.substring
+                (0, title.length - ".folder".length)
         } else {
             f.className = "file"
         }
