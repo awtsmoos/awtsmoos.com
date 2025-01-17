@@ -183,7 +183,7 @@ class DosDB {
 		var sortBy = options.sortBy || "createdBy";
 		var order = options.order || "asc";
 		let filePath = await this.getFilePath(id);
-		var removeJSON = true;
+		var removeJSON = !keepJSON;
 	
 		try {
 			var statObj = await fs.stat(filePath);
