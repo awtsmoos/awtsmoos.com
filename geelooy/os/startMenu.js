@@ -81,6 +81,7 @@ export default {
                     var array = b[path];
                     array.forEach(async obj => {
                         Object.keys(obj).forEach(async key => {
+                            console.log("Loading",obj,key,b,path)
                             await os.createFile({
                                 path, 
                                 title:
