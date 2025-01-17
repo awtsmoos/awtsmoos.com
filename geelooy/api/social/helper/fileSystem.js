@@ -138,11 +138,11 @@ async function checkAliasSize({$i, aliasId}) {
     var aliasDir = `${sp}/aliases/${aliasId}/fileSystem/`;
     var files = await $i.db.read(aliasDir);
     let totalSize = 0;
-
+    /*
     // Calculate total file size
     for (let file in files) {
         totalSize += Buffer.byteLength(files[file], 'utf8');
     }
-
+    */
     return totalSize;
 }
