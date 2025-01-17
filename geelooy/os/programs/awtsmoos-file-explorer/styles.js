@@ -11,6 +11,7 @@ export default /*css*/`
 
 .file-explorer-header {
     display: flex;
+    overflow-x: scroll;
     gap: 10px;
     padding: 10px;
     background: rgba(0, 0, 0, 0.8);
