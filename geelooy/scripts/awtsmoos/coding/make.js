@@ -31,7 +31,7 @@ function setup(contentEditableElement, mode) {
 		contentEditableElement;
 	var style = document.createElement("style");
 	style.classList.add("BH_awtsmoosCodeEditor")
-    style.textContent=codeStyles;
+    style.textContent=codeStyles({lineHeight});
 	if(!document.querySelector(".BH_awtsmoosCodeEditor"))
 		curPar.appendChild(style);
 	curEl.className="code";

@@ -1,5 +1,5 @@
 //B"H
-export default /*css*/`
+export default ({lineHeight}) => /*css*/`
 .editorParent {
       overflow: scroll;
 height:100%;
