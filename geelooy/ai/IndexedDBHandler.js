@@ -158,6 +158,10 @@ class IndexedDBHandler {
     console.log(`Renamed key "${oldKey}" to "${newKey}".`);
   }
 
+  async deleteFile(storeName, key) {
+    await this.delete(storeName, key)
+  }
+
   // Delete a key from a store
   async delete(storeName, key) {
     await this.ensureStore(storeName);
