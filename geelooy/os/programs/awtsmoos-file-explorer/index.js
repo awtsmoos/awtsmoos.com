@@ -7,7 +7,7 @@ import myStyles from "./styles.js";
 import {
     loadFiles,
     importFiles
-} from "./helpers/script.js"
+} from "./helpers/scripts.js"
 export default ({
     os,
     path,

@@ -1,7 +1,7 @@
 ///B"H
 import {
     loadFiles
-} from "./helpers/script.js"
+} from "./helpers/scripts.js"
 export default {
     "New File":  async ({os}) => {
         const newFile = prompt('Enter file name:');
