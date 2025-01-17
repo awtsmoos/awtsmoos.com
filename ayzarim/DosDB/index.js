@@ -346,32 +346,40 @@ class DosDB {
 		var directoryPath = path.dirname(filePath);
 		var base = path.basename(directoryPath)
 		var dir = path.dirname(directoryPath)
-		if(record instanceof Buffer) {
-			// if the record is a Buffer, write it as binary data
-			/*await fs.writeFile(filePath, record);
-			var meta = await this.writeMetadata({
-			    dataPath: filePath,
-			 
-			    entries: null,
-			    type: "directory"
-			});*/
-		} else if(typeof(record) == "object") {
-			// if the record is not a Buffer, stringify it as JSON
-			//await fs.writeFile(filePath, JSON.stringify(record));
-			return await this.writeRecordDynamic(filePath, record, opts)
-			try {
-				await this.indexManager.updateIndex(
-					directoryPath,
-					base,
-					record //data
-				);
-			} catch (e) {
-				console.log("Prolem with indexing", e)
+		try {
+			if(record instanceof Buffer) {
+				try {
+					await this.delete(filePath);
+				} catch(e) {
+
+				}
+				// if the record is a Buffer, write it as binary data
+				await fs.writeFile(filePath, record);
+				
+			} else if(typeof(record) == "object") {
+				// if the record is not a Buffer, stringify it as JSON
+				//await fs.writeFile(filePath, JSON.stringify(record));
+				return await this.writeRecordDynamic(filePath, record, opts)
+				try {
+					await this.indexManager.updateIndex(
+						directoryPath,
+						base,
+						record //data
+					);
+				} catch (e) {
+					console.log("Prolem with indexing", e)
+				}
+			} else if(typeof(record) == "string") {
+				try {
+					await this.delete(filePath);
+				} catch(e) {
+
+				}
+				await fs.writeFile(filePath, record+"", "utf8");
+				
 			}
-		} else if(typeof(record) == "string") {
-			
-			await fs.writeFile(filePath, record+"", "utf8");
-			
+		} catch(e) {
+			return {error: e.stack};
 		}
 	}
 	
