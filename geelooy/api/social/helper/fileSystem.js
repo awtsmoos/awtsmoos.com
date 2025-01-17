@@ -25,7 +25,11 @@ export {
 
 async function makeFile({$i}) {
     const { aliasId, path, content } = $i.$_POST;
-
+    if(!content) {
+        content = $i.$_POST.value;
+    }
+    if (!content)
+        return er({ message: "Content/value parameter missing", code: "CONTENT_MISSING" });
     // Ensure the 'path' exists in POST or GET
     if (!path) {
         path = $i.$_GET.path;
