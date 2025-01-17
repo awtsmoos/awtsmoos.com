@@ -3,6 +3,10 @@ class APIHandler {
     constructor(baseUrl = "/api/social/") {
       this.baseUrl = baseUrl;
     }
+
+    async init(name) {
+        this.dbName = name;
+    }
   
     // Helper function to get the current alias
     getCurrentAlias() {
