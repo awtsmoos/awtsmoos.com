@@ -17,6 +17,7 @@ export default class ResizableWindow {
         if(!window.awtsmoosWindowID) {
             window.awtsmoosWindowID = "BH-"+Date.now();
         }
+        this.mainDiv = window.desktop;
         this.ID = window.awtsmoosWindowID;
         this.createWindow();
         this.addResizeHandles();
@@ -295,8 +296,8 @@ export default class ResizableWindow {
                 return;
             }
             rect = this.win.getBoundingClientRect()
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
+            offsetX = e.offsetX - rect.left;
+            offsetY = e.offsetY - rect.top;
             var xPercent = offsetX / rect.width;
             document.onmousemove = (e) => {
                 if(this.isFullscreened) {
@@ -311,16 +312,16 @@ export default class ResizableWindow {
                     offsetX = rect.left + xPercent * rect.width;
                     this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
                 }
-                var lefted =  e.clientX - offsetX;
-                var topped = e.clientY - offsetY
+                var lefted =  e.offsetX - offsetX;
+                var topped = e.offsetY - offsetY
                 if(topped < 0) {
                     topped = 0;
                 }
-                if(topped > window.innerHeight - 50) {
-                    topped =  window.innerHeight - 50;
+                if(topped > this.mainDiv.clientHeight - 50) {
+                    topped =  this.mainDiv.clientHeight - 50;
                 }
-                if(lefted >  window.innerWidth - 10) {
-                    lefted =  window.innerWidth - 10;
+                if(lefted >  this.mainDiv.clientWidth - 10) {
+                    lefted =  this.mainDiv.clientWidth - 10;
                 }
                 if(lefted < -rect.width + 50) {
                     lefted = -rect.width + 50
