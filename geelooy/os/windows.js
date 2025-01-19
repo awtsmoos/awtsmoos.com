@@ -110,15 +110,16 @@ export default class ResizableWindow {
         header.appendChild(ctrls)
         var btns = {
             
-            "-": () => {
-                
+            "-": (w,b) => {
+                b.classList.add("awtsBtn")
             },
             O(win, btn) {
                 btn.onclick = () => self.toggleFullscreen();
                 self.fullScreenBtn = btn;
+                btn.classList.add("awtsBtn")
             },
             X(win, btn) {
-                btn.classList.add("x");
+                btn.classList.add("x", "awtsBtn");
                 btn.onclick = () => self.close();
             },
         }
