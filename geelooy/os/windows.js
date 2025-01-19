@@ -190,6 +190,11 @@ export default class ResizableWindow {
         var self = this;
 
         const onResizeStart = (e) => {
+            if(e. target. classList.includes("awtsBtn")) {
+                return;
+
+
+            }
             e.preventDefault();
 
             // Determine if it's a touch event
@@ -268,6 +273,11 @@ export default class ResizableWindow {
 
             let first = true;
             const resize = (e) => {
+                if(e. target. classList.includes("awtsBtn")) {
+                return;
+
+
+                }
                 const event = e.touches ? e.touches[0] : e;
                 const x = event.clientX;
                 const y = event.clientY;
@@ -280,6 +290,7 @@ export default class ResizableWindow {
             };
 
             const endResize = () => {
+                
                 document.removeEventListener('mousemove', resize);
                 document.removeEventListener('touchmove', resize);
                 document.removeEventListener('mouseup', endResize);
@@ -287,13 +298,13 @@ export default class ResizableWindow {
             };
 
             document.addEventListener('mousemove', resize);
-            document.addEventListener('touchmove', resize, { passive: false });
+            document.addEventListener('touchmove', resize);
             document.addEventListener('mouseup', endResize);
             document.addEventListener('touchend', endResize);
         };
 
         handleElement.addEventListener('mousedown', onResizeStart);
-        handleElement.addEventListener('touchstart', onResizeStart, { passive: false });
+        handleElement.addEventListener('touchstart', onResizeStart);
     }
 
 
