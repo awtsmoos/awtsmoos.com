@@ -52,7 +52,7 @@ function generateKeyboard() {
 
   // Create keyboard container
   const container = createElement({
-    html: "div",
+    tag: "div",
     className: "keyboard-container",
   });
 
@@ -63,7 +63,7 @@ function generateKeyboard() {
       const isSharp = name.includes("#");
 
       const key = createElement({
-        html: "div",
+        tag: "div",
         className: `key ${isSharp ? "black-key" : "white-key"}`,
         attributes: { "data-note": `${name}${octave}` },
         on: {
