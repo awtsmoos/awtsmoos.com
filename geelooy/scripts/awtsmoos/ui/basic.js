@@ -80,7 +80,7 @@ function createElement(ob={}) {
             element.addEventListener(key, value);
         });
     }
-    Object.entries(ob).forEach((key,value) => {
+    Object.entries(ob).forEach(([key,value]) => {
         element[key] = value;
     })
     return element;
