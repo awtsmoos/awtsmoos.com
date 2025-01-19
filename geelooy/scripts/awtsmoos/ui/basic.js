@@ -81,7 +81,9 @@ function createElement(ob={}) {
         });
     }
     Object.entries(ob).forEach(([key,value]) => {
+        try {
         element[key] = value;
+        } catch(e){}
     })
     return element;
 }
