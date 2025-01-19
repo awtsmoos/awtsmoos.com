@@ -1,0 +1,136 @@
+<!--B"H-->
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <script type="module">
+      //B"H
+      import { createElement } from "/scripts/awtsmoos/ui/basic.js";
+
+function generateKeyboard() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Function to play a note
+  function playNote(frequency) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = "sine"; // Change to 'square', 'sawtooth', or 'triangle' for different tones
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+    // Connect oscillator to gain and gain to destination
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Fade out the sound
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+
+    // Start and stop oscillator
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 1); // Play for 1 second
+  }
+
+  // Frequency for each note in one octave
+  const notes = [
+    { name: "C", freq: 261.63 },
+    { name: "C#", freq: 277.18 },
+    { name: "D", freq: 293.66 },
+    { name: "D#", freq: 311.13 },
+    { name: "E", freq: 329.63 },
+    { name: "F", freq: 349.23 },
+    { name: "F#", freq: 369.99 },
+    { name: "G", freq: 392.00 },
+    { name: "G#", freq: 415.30 },
+    { name: "A", freq: 440.00 },
+    { name: "A#", freq: 466.16 },
+    { name: "B", freq: 493.88 },
+  ];
+
+  const octaves = [4, 5]; // Range: C4 to B5
+
+  // Create keyboard container
+  const container = createElement({
+    html: "div",
+    className: "keyboard-container",
+  });
+
+  // Generate keys dynamically
+  octaves.forEach((octave) => {
+    notes.forEach(({ name, freq }) => {
+      const noteFrequency = freq * Math.pow(2, octave - 4); // Adjust frequency for octave
+      const isSharp = name.includes("#");
+
+      const key = createElement({
+        html: "div",
+        className: `key ${isSharp ? "black-key" : "white-key"}`,
+        attributes: { "data-note": `${name}${octave}` },
+        on: {
+          click: () => {
+            console.log(`Playing: ${name}${octave} (${noteFrequency} Hz)`);
+            playNote(noteFrequency);
+          },
+        },
+      });
+
+      container.appendChild(key);
+    });
+  });
+
+  document.body.appendChild(container);
+}
+
+generateKeyboard();
+
+    </script>
+    <style>
+      /* Style for the keyboard container */
+.keyboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+  margin: 20px auto;
+  border: 2px solid #333;
+  background: #f5f5f5;
+  position: relative;
+  height: 200px;
+}
+
+/* White keys */
+.key.white-key {
+  background: #fff;
+  border: 1px solid #ccc;
+  width: 40px;
+  height: 150px;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+/* Black keys */
+.key.black-key {
+  background: #000;
+  width: 30px;
+  height: 100px;
+  margin-left: -15px;
+  margin-right: -15px;
+  position: absolute;
+  z-index: 2;
+  border-radius: 4px;
+}
+
+/* Adjust positioning for black keys */
+.key[data-note$="#"] {
+  margin-left: -15px;
+}
+
+/* Prevent overlap issues */
+.keyboard-container .key.white-key:first-child {
+  margin-left: 0;
+}
+
+    </style>
+  </body>
+</html>
