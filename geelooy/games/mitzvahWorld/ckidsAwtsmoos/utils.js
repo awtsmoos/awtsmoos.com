@@ -199,31 +199,6 @@ export default class Utils {
         return objCopy;
     }
     
-    static stringifyFunctions(obj) {
-        // Create a new empty object or array depending on the original object
-        let objCopy = Array.isArray(obj) ? [] : {};
-        for (let key in obj) {
-            if (typeof obj[key] === 'function') {
-                // Add "function" keyword before the function name
-                var s = obj[key] +"";
-                s = s.trim();
-
-                var hasF = s.indexOf("function") == 0 
-                
-                 
-                var funcAsString = hasF ? s : `function ${s}`;
-
-                objCopy[key] = `/*B"H\nThis has been stringified with Awtsmoos!\n*/\n${funcAsString}`;
-                
-                
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                objCopy[key] = this.stringifyFunctions(obj[key]);
-            } else {
-                objCopy[key] = obj[key];
-            }
-        }
-        return objCopy;
-    }
 
 
     static copySerializableValues(sourceObj, targetObj) {
@@ -324,6 +299,32 @@ export default class Utils {
 
         return false;
     }
+
+    static stringifyFunctions(obj) {
+        // Create a new empty object or array depending on the original object
+        let objCopy = Array.isArray(obj) ? [] : {};
+        for (let key in obj) {
+            if (typeof obj[key] === 'function') {
+                // Add "function" keyword before the function name
+                var s = obj[key] +"";
+                s = s.trim();
+
+                var hasF = s.indexOf("function") == 0 
+                
+                 
+                var funcAsString = hasF ? s : `function ${s}`;
+
+                objCopy[key] = `/*B"H\nThis has been stringified with Awtsmoos!\n*/\n${funcAsString}`;
+                
+                
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                objCopy[key] = this.stringifyFunctions(obj[key]);
+            } else {
+                objCopy[key] = obj[key];
+            }
+        }
+        return objCopy;
+    }
     /* Evaluate stringified Functions */
     static evalStringifiedFunctions(obj, context={}) {
         var objCopy = null;
@@ -338,8 +339,17 @@ export default class Utils {
                     if (typeof obj[key] === 'string' && obj[key].startsWith(comment)) {
         
                         var keys = Object.keys(context);
+                        var str = `//B"H
+                        `
                         for(var k of keys) {
-                            this[k] = context[k];
+                            str += `var ${k} = ${context[k]}`
+                          //  this[k] = context[k];
+                        }
+                        var firstCurly = evaled.indexOf("{");
+                        if(firstCurly > -1) {
+                            evaled = evaled.substring(0, firstCurly+1)
+                            + "\n\n\n" + str + "\n\n\n"
+                            + evaled.substring(firstCurly+1)
                         }
                         // Use eval to convert stringified function back to function
                         objCopy[key] = eval(evaled);
