@@ -105,6 +105,7 @@ export default class {
                         newVal[key] = mappedVal
                     }
                 }
+                console.log("Got new val",golem,val,keys,newVal)
                 val = newVal;
             }
             
