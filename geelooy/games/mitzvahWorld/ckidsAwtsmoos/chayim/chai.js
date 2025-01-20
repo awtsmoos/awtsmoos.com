@@ -466,7 +466,7 @@ export default class Chai extends Tzomayach {
         
         // Calculate initial world position along the ray
         const worldPosition = start.clone().add(direction.clone());
-        const localPosition = start.clone().worldToLocal(worldPosition.clone());
+        const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
         mesh.position.copy(localPosition);
         this.modelMesh.add(mesh);
        
