@@ -349,7 +349,8 @@ export default class Chossid extends Medabeir {
             this.distanceFromRay += deltaY * 0.1; // Adjust the multiplier to control the speed of the change
 
             // You can limit the distance to prevent it from becoming too small or too large
-            this.distanceFromRay = Math.max(1, Math.min(20, distanceFromRay)); // Example limits
+            this.distanceFromRay = Math
+                .max(1, Math.min(20, this.distanceFromRay)); // Example limits
 
         })
         
