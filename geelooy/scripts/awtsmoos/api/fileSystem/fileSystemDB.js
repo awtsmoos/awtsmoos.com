@@ -1,7 +1,12 @@
 //B"H
+
 class APIHandler {
-    constructor(baseUrl = "/api/social/") {
-      this.baseUrl = location.origin+ baseUrl;
+    basePath = "/api/social/"
+    constructor(context=null) {
+      if(context) {
+        this.window = context;
+      }
+      this.baseUrl = location.origin+ this.basePath;
     }
   
     async init(name) {
@@ -10,11 +15,17 @@ class APIHandler {
   
     // Helper function to get the current alias
     getCurrentAlias() {
-      if (!window.curAlias) {
+      var context = null;
+      try {
+        context = window 
+      } catch(e) {
+        context = this.window
+      }
+      if (!context.curAlias) {
         alert("You are not logged in. Please log in to continue.");
         throw new Error("User not logged in.");
       }
-      return window.curAlias;
+      return context.curAlias;
     }
   
     // Helper function to handle API responses
