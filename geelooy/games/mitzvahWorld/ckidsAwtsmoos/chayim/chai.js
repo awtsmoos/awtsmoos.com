@@ -485,30 +485,29 @@ export default class Chai extends Tzomayach {
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        // Calculate the quaternion for alignment
+        // Align the ray's direction using quaternions
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
         mesh.quaternion.copy(quaternion);
     
-        const worldPoint = start.clone().add(direction.clone());
+        // Position the ray at the player's starting position
+        const localStart = this.modelMesh.worldToLocal(start.clone());
+        mesh.position.copy(localStart);
     
-        // Convert world position to local position relative to the character model
-        const localPoint = this.modelMesh.worldToLocal(worldPoint.clone());
-        mesh.position.copy(localPoint);
-    
-        // Parent the ray to the character's model mesh
+        // Parent the ray to the player's model
         this.modelMesh.add(mesh);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
     
-        // Place a block on the ray, if needed
+        // Optionally place a block on the ray
         if (!this.activeObject) {
             await this.placeBlockOnRay(start, direction);
         }
     
         return this.activeRay;
     }
+    
 
     async placeBlockOnRay(rayStart, rayDirection) {
         const distance = 5; // Adjust based on your game's needs
