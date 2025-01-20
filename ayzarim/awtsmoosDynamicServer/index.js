@@ -345,8 +345,7 @@ class AwtsmoosStaticServer {
 			getPostData,
 			btoa, atob,
 			getPutData,
-			getDeleteData,
-			
+			getDeleteData
 
 		};
 

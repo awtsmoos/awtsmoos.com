@@ -131,6 +131,24 @@ async function readFile({$i}) {
     var file = await $i.db.read(filePath);
    /* if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
 */
+    var extInd = filePath.lastIndexOf(".");
+    var ext = ".js";
+    if(extInd > -1) {
+        ext = filePath.substring(extInd);
+    }
+    if(ext) {
+        var mime = $i?.mimeTypes?.[ext];
+        if(!mime) {
+            mime = $i?.binaryMimeTypes?.[ext];
+        }
+        if(mime) {
+            $i?.setHeader(
+                "content-type",
+                mime
+                
+            )
+        }
+    }
     return  file || "";
 }
 

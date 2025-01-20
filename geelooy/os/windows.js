@@ -190,7 +190,7 @@ export default class ResizableWindow {
         var self = this;
 
         const onResizeStart = (e) => {
-            if(e. target. classList.includes("awtsBtn")) {
+            if(e. target. classList.contains("awtsBtn")) {
                 return;
 
 

@@ -423,9 +423,9 @@ async function handleMenuOption(option, comment, el) {
 			        dayuh: JSON.stringify({
 			           
 			            timesheet: {
-					BH: "Boruch Hashem",
-					time: Date.now(),
-					...r
+							BH: "Boruch Hashem",
+							time: Date.now(),
+							...r
 				    }
 			        })
 			      }),
