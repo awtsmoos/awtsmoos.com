@@ -451,7 +451,13 @@ export default class Chai extends Tzomayach {
             // If a ray exists, remove it to toggle off
             this.olam.scene.remove(this.activeRay.mesh);
             this.activeRay = null;
-           
+            if(this.activeObject) {
+                this.olam.worldOctree.fromGraphNode(
+                    this
+                    .activeObject.mesh
+                );
+                this.activeObject = null;
+            } 
             return; // Exit after toggling off
         } 
     
@@ -479,13 +485,7 @@ export default class Chai extends Tzomayach {
         // Store the mesh and direction in activeRay
         this.activeRay.mesh = mesh;
         this.olam.scene.add(mesh);
-        if(this.activeObject) {
-            this.olam.worldOctree.fromGraphNode(
-                this
-                .activeObject.mesh
-            );
-            this.activeObject = null;
-        } else {
+        if(!this.activeObject) {
             await this.placeBlockOnRay(start, direction);
         }
         return this.activeRay;
