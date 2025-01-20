@@ -377,37 +377,7 @@ export default class {
                     
                 }
     
-                function checkAndSetProperty(obj, prop, exceptProp) {
-                    // If the object itself has the notSolid property set to true
-                    if (
-                        obj.userData && obj.userData[prop]
-                        && !obj.userData[exceptProp]
-                    ) {
-                        
-                        setPropToChildren(obj, prop);
-                      return true;
-                    }
-                  
-                    // Check its children
-                    for (let i = 0; i < obj.children.length; i++) {
-                        if(!obj.userData[exceptProp])
-                      if (checkAndSetProperty(obj.children[i]), prop) {
-                        return true;
-                      }
-                    }
-                  
-                    // If none of the children have the notSolid property set to true
-                    return false;
-                  }
-                  
-                  function setPropToChildren(obj, prop) {
-                    obj.traverse((child) => {
-                      if (!child.userData) {
-                        child.userData = {};
-                      }
-                      child.userData[prop] = true;
-                    });
-                  }
+               
     
                 if(nivra.interactable) {
                     this.interactableNivrayim
@@ -486,8 +456,13 @@ export default class {
                 var mesh = new THREE.Mesh(
                     chomer, tzurah
                 );
-    
-                
+
+
+                if(nivra.isSolid) {
+                    this.worldOctree.fromGraphNode(mesh);
+        
+                    mesh.layers.enable(2)
+                }
                 
                 return mesh;
             }
@@ -500,3 +475,35 @@ export default class {
             
     }
 }
+
+function checkAndSetProperty(obj, prop, exceptProp) {
+    // If the object itself has the notSolid property set to true
+    if (
+        obj.userData && obj.userData[prop]
+        && !obj.userData[exceptProp]
+    ) {
+        
+        setPropToChildren(obj, prop);
+      return true;
+    }
+  
+    // Check its children
+    for (let i = 0; i < obj.children.length; i++) {
+        if(!obj.userData[exceptProp])
+      if (checkAndSetProperty(obj.children[i]), prop) {
+        return true;
+      }
+    }
+  
+    // If none of the children have the notSolid property set to true
+    return false;
+  }
+  
+  function setPropToChildren(obj, prop) {
+    obj.traverse((child) => {
+      if (!child.userData) {
+        child.userData = {};
+      }
+      child.userData[prop] = true;
+    });
+  }
