@@ -298,7 +298,8 @@ export default class Chossid extends Medabeir {
                     !this.movingAutomatically
                 break;
                 case "KeyY":
-                if (!isOtherview) {
+                    this.makeRay();
+                /*if (!isOtherview) {
                     if (m?.asset?.cameras[0]) {
                         m.olam.activeCamera = m.asset.cameras[0]
                     }
@@ -306,7 +307,7 @@ export default class Chossid extends Medabeir {
                 } else {
                     isOtherview = false;
                     m.olam.activeCamera = null;
-                }
+                }*/
                 break;
                 case "KeyG":
                     isInEditorMode = !isInEditorMode;

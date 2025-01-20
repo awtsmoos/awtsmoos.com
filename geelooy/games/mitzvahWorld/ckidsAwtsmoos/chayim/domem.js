@@ -680,7 +680,6 @@ export default class Domem extends Nivra {
     } = {}) {
         console.log("HI!",childNameToSetItTo)
         var self = this;
-        var loader = new THREE.TextureLoader();
      //   console.log("mixing all",maskTexture,overlayTexture,baseTexture)
          // Helper function to load texture and optionally set repeat values
         

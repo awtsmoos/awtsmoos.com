@@ -327,6 +327,26 @@ export default class Chai extends Tzomayach {
         this.isTeleporting = true;
     }
 
+    rays = [];
+
+    updateRay() {
+        if (!this.activeRay) return;
+    
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+    
+        // Align the beam with the direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        this.activeRay.mesh.quaternion.copy(quaternion);
+    
+        // Position the beam at the start point, offset by half the length
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
+        this.activeRay.mesh.position.copy(midPoint);
+    }
+
     spheres = [];
     updateSpheres(deltaTime) {
         this.spheres.forEach(s => {
@@ -405,6 +425,41 @@ export default class Chai extends Tzomayach {
 
         this.olam.scene.add(sphere.mesh)
     }
+
+    makeRay(length = 10) {
+        if (this.activeRay) {
+            // If a ray exists, remove it to toggle off
+            this.olam.scene.remove(this.activeRay.mesh);
+            this.activeRay = null;
+            return; // Exit after toggling off
+        }
+    
+        // Create a new ray
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+    
+        const geometry = new THREE.CylinderGeometry(0.02, 0.02, length, 8); // Thin beam
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 });
+        const mesh = new THREE.Mesh(geometry, material);
+    
+        // Align the beam with the direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        mesh.quaternion.copy(quaternion);
+    
+        // Position the beam at the start point, offset by half the length
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
+        mesh.position.copy(midPoint);
+    
+        // Store the active ray
+        this.activeRay = { mesh, direction, length };
+        this.olam.scene.add(mesh);
+    
+        return this.activeRay;
+    }
+    
 
     resetJump = false;
     jumped = false;
@@ -756,6 +811,7 @@ export default class Chai extends Tzomayach {
         this.modelMesh.position.copy(this.mesh.position);
         this.emptyCopy.position.copy(this.mesh.position);
         this.updateSpheres(deltaTime)
+        this.updateRay(deltaTime);
     }
 }
 
