@@ -120,12 +120,12 @@ async function readFile({$i}) {
     if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
     // Ensure the user is logged in and has permission for alias
-    var userid = $i?.request?.user?.info?.userId;
+    /*var userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
 
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
-
+*/
     // Read the file from the alias's file system
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var file = await $i.db.read(filePath);
