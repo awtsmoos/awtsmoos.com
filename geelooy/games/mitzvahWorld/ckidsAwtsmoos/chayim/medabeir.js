@@ -400,7 +400,8 @@ export default class Medabeir extends Chai {
                 msg.responses = responses;
                 this.currentSelectedMsgIndex = 0;
                 this.currentMessageIndex = msgIndex;
-                
+                this.ayshPeula("chose");
+                this.selectResponse();
             } catch(e) {
                 console.log(e);
             }
