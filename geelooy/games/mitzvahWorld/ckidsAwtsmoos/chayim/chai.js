@@ -443,7 +443,7 @@ export default class Chai extends Tzomayach {
             this.olam.scene.remove(this.activeRay.mesh);
             this.activeRay = null;
             if(this.activeObject) {
-                this.worldOctree.fromGraphNode(
+                this.olam.worldOctree.fromGraphNode(
                     this
                     .activeObject.mesh
                 );
@@ -494,7 +494,7 @@ export default class Chai extends Tzomayach {
         const position = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
 
         // Use your loadNivrayim method to create the object
-        const h = await this.olam.loadNivrayim({
+        const h = /*await this.olam.loadNivrayim({
             Domem: {
                 hi: {
                     golem: {
@@ -508,7 +508,19 @@ export default class Chai extends Tzomayach {
                     scale: { x: 5, y: 1, z: 7 }
                 }
             }
-        });
+        });*/{
+            mesh:
+                this.olam.generateThreeJsMesh({
+                    toyr: {
+                        MeshLambertMaterial: {
+                            color: new THREE.Color("orange")
+                        }
+                    }
+                })
+        }
+        h.mesh.position.copy(position);
+        h.mesh.scale.x = 3;
+        h.mesh.scale.z = 2;
 
         console.log(h);
 

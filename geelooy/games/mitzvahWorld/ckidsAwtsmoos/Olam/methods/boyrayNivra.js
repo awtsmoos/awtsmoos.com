@@ -36,6 +36,73 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 export default class {
+    async generateThreeJsMesh(golem = {}) {
+        
+        if(typeof(golem) != "object")
+            golem = {};
+            
+        /*guf is mesh / body, toyr is material. 
+        neshama is a different issue*/
+        var guf = {"BoxGeometry":[1,1,1]};
+        var toyr = {"MeshLambertMaterial":{
+            color:"white"
+        }}; /*
+            defaults and also example of format.
+        */
+        
+        /*
+            get first proerpties of object
+            like aboev example since only 
+            one property (entry) per 
+            either geometry or material is needed
+        */
+        var firstGuf = golem.guf || golem.body;
+        var firstToyr = golem.toyr || 
+            golem.material || golem.appearance;
+
+        if(typeof(firstGuf) == "object" && firstGuf) {
+            guf = firstGuf;
+        }
+        if(typeof(firstToyr) == "object" && firstToyr) {
+            toyr = firstToyr;
+        }
+
+        /*get properties*/
+        var gufEntries = Object.entries(guf);
+        var toyrEntries = Object.entries(toyr);
+        
+        var chomer /*geometry*/;
+        var tzurah /*material*/;
+        
+        if(
+            THREE[gufEntries[0][0]]
+        ) {
+            chomer = new THREE[gufEntries[0][0]](
+                ...gufEntries[0][1]
+            );
+        }
+
+        if(
+            THREE[toyrEntries[0][0]]
+        ) {
+            tzurah = new THREE[toyrEntries[0][0]](
+                toyrEntries[0][1]
+            );
+        }
+
+        
+        if(
+            !chomer ||
+            !tzurah
+        ) {
+            throw "No model or valid geometry/material was given";
+        }
+        this.tzurah = tzurah;
+        this.chomer = chomer;
+        var mesh = new THREE.Mesh(
+            chomer, tzurah
+        );
+    }
     async boyrayNivra/*createCreation*/(nivra, info) {
         try {
             
@@ -388,75 +455,12 @@ export default class {
                 nivra.materials = materials;
                 return gltf;
             } else {
+                
                 var golem = nivra.golem || {};/*golem like form, 
                 optional input object to allow users to 
                 specify what kidn of three mesh to 
                 add if not loading a model*/
-                if(typeof(golem) != "object")
-                    golem = {};
-                    
-                /*guf is mesh / body, toyr is material. 
-                neshama is a different issue*/
-                var guf = {"BoxGeometry":[1,1,1]};
-                var toyr = {"MeshLambertMaterial":{
-                    color:"white"
-                }}; /*
-                    defaults and also example of format.
-                */
-                
-                /*
-                    get first proerpties of object
-                    like aboev example since only 
-                    one property (entry) per 
-                    either geometry or material is needed
-                */
-                var firstGuf = golem.guf || golem.body;
-                var firstToyr = golem.toyr || 
-                    golem.material || golem.appearance;
-    
-                if(typeof(firstGuf) == "object" && firstGuf) {
-                    guf = firstGuf;
-                }
-                if(typeof(firstToyr) == "object" && firstToyr) {
-                    toyr = firstToyr;
-                }
-    
-                /*get properties*/
-                var gufEntries = Object.entries(guf);
-                var toyrEntries = Object.entries(toyr);
-                
-                var chomer /*geometry*/;
-                var tzurah /*material*/;
-                
-                if(
-                    THREE[gufEntries[0][0]]
-                ) {
-                    chomer = new THREE[gufEntries[0][0]](
-                        ...gufEntries[0][1]
-                    );
-                }
-    
-                if(
-                    THREE[toyrEntries[0][0]]
-                ) {
-                    tzurah = new THREE[toyrEntries[0][0]](
-                        toyrEntries[0][1]
-                    );
-                }
-    
-                
-                if(
-                    !chomer ||
-                    !tzurah
-                ) {
-                    throw "No model or valid geometry/material was given";
-                }
-                this.tzurah = tzurah;
-                this.chomer = chomer;
-                var mesh = new THREE.Mesh(
-                    chomer, tzurah
-                );
-
+                var mesh = this.generateThreeJsMesh(golem);
                 if(nivra.isSolid) {
                     nivra.needsOctreeChange = true;
                     nivra.on(
