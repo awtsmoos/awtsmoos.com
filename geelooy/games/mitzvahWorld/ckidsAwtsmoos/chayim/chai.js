@@ -445,13 +445,14 @@ export default class Chai extends Tzomayach {
      * @returns 
      */
     async makeRay(length = 30) {
-        const start = this.collider.end.clone(); // Start point of the ray
+        // Ensure the ray starts at the player's correct position
+        const start = this.meshModel.position.clone(); // Player's position
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // Normalize direction for FPS
+            : this.currentModelVector.normalize(); // Normalize direction for non-FPS
     
         if (this.activeRay) {
-            // Remove existing ray
+            // Remove existing ray and associated object, if any
             if (this.activeObject) {
                 // Detach the block from the ray
                 this.activeRay.mesh.remove(this.activeObject.mesh);
@@ -479,25 +480,19 @@ export default class Chai extends Tzomayach {
             direction,
             length,
         };
-        
     
         // Create ray geometry and material
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        // Align the beam with the new direction
+        // Align the beam with the new direction using quaternion
         const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
         mesh.quaternion.copy(quaternion);
-
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
-        
-        // Transform midPoint from world space to local space relative to the player's model
-        const localMidPoint = this.modelMesh.worldToLocal(midPoint.clone());
-        mesh.position.copy(localMidPoint);
-
+    
+        // Position the beam at the start point (world space)
+        mesh.position.copy(start);
     
         // Parent the ray to the player's model
         this.modelMesh.add(mesh);
@@ -513,44 +508,6 @@ export default class Chai extends Tzomayach {
         return this.activeRay;
     }
     
-
-    async placeBlockOnRay(rayStart, rayDirection) {
-        const distance = 5; // Adjust based on your game's needs
-    
-        // Calculate initial world position along the ray
-        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
-    
-        // Create the block
-        const def = this?.olam?.vars?.defaultBlock || {
-            toyr: {
-                MeshLambertMaterial: {
-                    color: "blue"
-                }
-            }
-        };
-    
-        const mesh = await this.olam.generateThreeJsMesh(def);
-        if (!mesh) return;
-    
-        const block = {
-            mesh,
-        };
-    
-        // Set the block's scale
-        block.mesh.scale.set(3, 3, 2);
-    
-        // Convert the world position to the ray's local space
-        const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
-    
-        // Set the block's position in local space
-        block.mesh.position.copy(localPosition);
-    
-        // Parent the block to the ray's mesh
-        this.activeRay.mesh.add(block.mesh);
-    
-        // Store a reference to the active object
-        this.activeObject = block;
-    }
     
 
 
