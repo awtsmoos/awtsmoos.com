@@ -50,7 +50,7 @@ export default [
             
             Array.from(m.children).forEach(w => {
                 var func = () => {
-                    console.log("Clackled", w,k.key)
+                    console.log("Clackled", w,w.key)
                     ik.dispatchEvent(
                         new CustomEvent(
                             "olamPeula", {
