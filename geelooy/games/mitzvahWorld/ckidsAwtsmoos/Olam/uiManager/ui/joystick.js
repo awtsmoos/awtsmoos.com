@@ -28,7 +28,7 @@ export default [
             { id: "button-B", 
                 className: "controller-button", 
                 textContent: "B",
-                key: "B"
+                key: "KeyB"
             },
             { id: "button-T", className: "controller-button", textContent: "T" },
             { 

@@ -47,12 +47,17 @@ export default class {
             if(!options) {
                 options = {};
             }
-            var color = options.color || "blue";
+            var color = options?.color || "blue";
             var mat;
             var strC = JSON.stringify(color)
-            if(!colors[strC]) {
+            if(!this.colors) {
+                this.colors = {}
+            }
+            
+            colors = this.colors;
+            if(!colors?.[strC]) {
                 mat = new THREE.MeshLambertMaterial({
-                    color: color,
+                    color,
                    // specular: 0xFFFFFF
                 });
                 colors[strC] = mat;
