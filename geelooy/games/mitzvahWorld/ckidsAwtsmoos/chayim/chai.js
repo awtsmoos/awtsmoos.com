@@ -509,20 +509,27 @@ export default class Chai extends Tzomayach {
 
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
-        const rayStart = this.collider.end.clone();
-        const rayDirection = this.activeRay.direction;
+        const rayStart = this.collider.end.clone();  // Ray start position
+        const rayDirection = this.activeRay.direction.clone();  // Ray direction
 
-        // Update the distance or use player input
-        const distance = 5;  // You can change this dynamically based on player input
+        // Set a distance where the block should be placed on the ray (you can adjust this dynamically)
+        const distance = 5; 
 
-        // Update the block's position along the ray
-        const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+        // Calculate the block's new position based on the ray's start and direction
+        const newPosition = rayStart.add(rayDirection.multiplyScalar(distance));
+
+        // Update the block's position
         block.mesh.position.copy(newPosition);
 
-        // Optionally, adjust the block's rotation to match the ray's direction
+        // Adjust the block's rotation to align with the ray's direction
+        // Calculate the rotation to align with the ray
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.normalize());
         block.mesh.rotation.setFromQuaternion(quaternion);
+
+        // Optionally, ensure the block's position is corrected based on the ray's position
+        // This will allow the block to move with the ray, even when rotating or moving vertically
+        block.mesh.position.copy(newPosition); // Update the position after rotation adjustment
     }
     
 
