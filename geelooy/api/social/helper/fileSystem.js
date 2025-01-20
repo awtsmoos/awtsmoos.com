@@ -211,7 +211,7 @@ async function makeFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
-    path = addFolderName(path);
+    path = addFolderName(path, false);
     // Write the folder to the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     await $i.db.write(folderPath);
@@ -233,7 +233,7 @@ async function readFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
-    path = addFolderName(path);
+    path = addFolderName(path, false);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
@@ -266,9 +266,9 @@ async function renameFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
-    path = addFolderName(path);
+    path = addFolderName(path, false);
 
-    newFolderPath = addFolderName(newFolderPath);
+    newFolderPath = addFolderName(newFolderPath, false);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var newFolderPath = `${sp}/aliases/${aliasId}/fileSystem/${newPath}`
