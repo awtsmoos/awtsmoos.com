@@ -41,6 +41,7 @@ export default function() {
     });
 
     this.on("presskey", peula => {
+        console.log("Pressed a key~!" , peula)
         this.ayshPeula("keypressed", peula);
         var c= peula.code;
 
