@@ -490,12 +490,11 @@ export default class Chai extends Tzomayach {
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
         mesh.quaternion.copy(quaternion);
     
-        // Calculate the position: start point offset by half the length along the direction
-        const worldMidPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
+        const worldPoint = start.clone().add(direction.clone());
     
         // Convert world position to local position relative to the character model
-        const localMidPoint = this.modelMesh.worldToLocal(worldMidPoint.clone());
-        mesh.position.copy(localMidPoint);
+        const localPoint = this.modelMesh.worldToLocal(worldPoint.clone());
+        mesh.position.copy(localPoint);
     
         // Parent the ray to the character's model mesh
         this.modelMesh.add(mesh);
