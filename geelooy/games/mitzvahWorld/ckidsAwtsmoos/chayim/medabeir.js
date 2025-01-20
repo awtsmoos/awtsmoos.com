@@ -318,7 +318,7 @@ export default class Medabeir extends Chai {
         return this.currentSelectedMsgIndex;
     }
 
-    toggleToOption(ind) {
+    async toggleToOption(ind) {
         if(isNaN(ind) || ind < 0) {
             return;
         }
@@ -347,7 +347,7 @@ export default class Medabeir extends Chai {
                 .selectResponse(this.currentSelectedMsgIndex)
             );
         } else {
-            this.selectOption();
+            await this.selectOption();
         }
     }
     /**
@@ -385,14 +385,14 @@ export default class Medabeir extends Chai {
     }
 
     
-    selectOption() {
+    async selectOption() {
 
-        this.chooseResponse(this.currentSelectedMsgIndex);
+        await this.chooseResponse(this.currentSelectedMsgIndex);
     }
      // Navigate to a specific response based on player choice
     
      
-    chooseResponse(responseIndex) {
+    async chooseResponse(responseIndex) {
         var me = this;
         var chosenResponse = this.currentMessage.responses[responseIndex];
        
@@ -404,7 +404,7 @@ export default class Medabeir extends Chai {
         }
         
         if (chosenResponse.action) {
-            chosenResponse.action(this, this.nivraTalkingTo);
+            await chosenResponse.action(this, this.nivraTalkingTo);
             this.state = "idle";
             
         }

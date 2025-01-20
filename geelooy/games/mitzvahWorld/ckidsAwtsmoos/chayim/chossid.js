@@ -229,7 +229,7 @@ export default class Chossid extends Medabeir {
 
         
         var isOtherview = false;
-        olam.on("keypressed", k => {
+        olam.on("keypressed", async k => {
             this.ayshPeula("keypressed", k);
             this.dialogueControls(k);
             switch(k.code) {
@@ -283,7 +283,7 @@ export default class Chossid extends Medabeir {
                     if(!this.interactingWith) {
                         return;
                     }
-                    this.interactingWith.selectOption();
+                    await this.interactingWith.selectOption();
 
                 break;
 
