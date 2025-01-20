@@ -65,7 +65,7 @@ export default [
                         )
                     )
                 }
-                w.onclick = func;
+               // w.onclick = func;
                 w.ontouchstart = func;
             })
         }
