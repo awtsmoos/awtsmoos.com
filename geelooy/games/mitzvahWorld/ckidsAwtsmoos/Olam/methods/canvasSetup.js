@@ -118,7 +118,7 @@ export default class {
      * // or 
      * setSize({width: 800, height: 600});
      */
-    async setSize(vOrWidth={}, height) {
+    async setSize(vOrWidth={}, height, sameAspect = false) {
         let width;
 
         // If we're given a number, it's simple, it's plain,
@@ -141,8 +141,7 @@ export default class {
          */
 
         var desiredAspectRatio = this.ASPECT_X / this.ASPECT_Y;
-        let oWidth = width; //original Width
-        let oHeight = height;
+       
         // Calculate new width and height
         let newWidth = width;
         let newHeight = height;
@@ -150,7 +149,8 @@ export default class {
         if (width / height > desiredAspectRatio) {
            
             // total width is wider than desired aspect ratio
-            newWidth = height * desiredAspectRatio;
+            if(sameAspect)
+                newWidth = height * desiredAspectRatio;
             if(this.rendered) {
                 await this.ayshPeula("htmlAction", {
                     shaym: "main av",
@@ -175,7 +175,8 @@ export default class {
                 });
             }
             // total width is taller than desired aspect ratio
-            newHeight = width / desiredAspectRatio;
+            if(sameAspect)
+                newHeight = width / desiredAspectRatio;
         }
 
         this.width = newWidth;
