@@ -466,7 +466,7 @@ export default class {
                          
                             this.worldOctree.fromGraphNode(mesh);
 
-                            mesh.layers.enable(2)
+                      //      mesh.layers.enable(2)
                         
 
 

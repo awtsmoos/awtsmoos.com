@@ -394,11 +394,11 @@ export default class Domem extends Nivra {
                         }
                     );
                     this.ayshPeula("changeOctreePosition", this.position);
-                    if(this.isSolid) {
+                   /* if(this.isSolid) {
                         this.mesh.layers.set(2)
                     } else {
                         this.mesh.layers.set(3)
-                    }
+                    }*/
                     
                     return true;
                 }
