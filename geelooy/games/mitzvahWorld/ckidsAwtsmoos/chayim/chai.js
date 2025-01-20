@@ -469,7 +469,7 @@ export default class Chai extends Tzomayach {
         const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
         mesh.position.copy(localPosition);
         this.modelMesh.add(mesh);
-       
+       /*
         // Parent the ray to the player's model
         var quat = new THREE.Quaternion
         quat.setFromUnitVectors(
@@ -487,7 +487,11 @@ export default class Chai extends Tzomayach {
 
         quat.multiply(uprightQuaternion);
         mesh.quaternion.copy(quat)
-
+*/
+        // Align the beam with the direction using quaternion
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
+        mesh.quaternion.copy(quaternion);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
