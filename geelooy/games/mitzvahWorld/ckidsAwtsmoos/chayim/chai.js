@@ -456,8 +456,7 @@ export default class Chai extends Tzomayach {
      
         if (this.activeRay) {
             // If a ray exists, remove it to toggle off
-            this.olam.scene.remove(this.activeRay.mesh);
-            this.activeRay = null;
+            
             if (this.activeObject) {
                 // Detach the block from the ray
                 this.activeRay.mesh.remove(this.activeObject.mesh);
@@ -473,6 +472,8 @@ export default class Chai extends Tzomayach {
             
                 this.activeObject = null;
             }
+            this.olam.scene.remove(this.activeRay.mesh);
+            this.activeRay = null;
             return; // Exit after toggling off
         } 
     
@@ -509,8 +510,8 @@ export default class Chai extends Tzomayach {
     async placeBlockOnRay(rayStart, rayDirection) {
         const distance = 5; // Adjust based on your game's needs
     
-        // Calculate initial position along the ray
-        const position = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+        // Calculate initial world position along the ray
+        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
     
         // Create the block
         const def = this?.olam?.vars?.defaultBlock || {
@@ -528,9 +529,14 @@ export default class Chai extends Tzomayach {
             mesh,
         };
     
-        // Position the block
-        block.mesh.position.copy(position);
+        // Set the block's scale
         block.mesh.scale.set(3, 3, 2);
+    
+        // Convert the world position to the ray's local space
+        const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
+    
+        // Set the block's position in local space
+        block.mesh.position.copy(localPosition);
     
         // Parent the block to the ray's mesh
         this.activeRay.mesh.add(block.mesh);
@@ -538,6 +544,7 @@ export default class Chai extends Tzomayach {
         // Store a reference to the active object
         this.activeObject = block;
     }
+    
 
     /**
      * called every frame
