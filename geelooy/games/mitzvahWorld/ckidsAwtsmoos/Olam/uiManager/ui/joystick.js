@@ -158,7 +158,7 @@ export default [
                     transform: translate(0, -50%);
                 }
                 
-                #button-C {
+                #button-B {
                     background-color: green;
                     top: 50%;
                     left: 0;
