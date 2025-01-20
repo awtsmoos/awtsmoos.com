@@ -508,22 +508,7 @@ export default class Chai extends Tzomayach {
 
         var mesh = await this.olam.generateThreeJsMesh(def);
         if(!mesh) return;
-        // Use your loadNivrayim method to create the object
-        const h = /*await this.olam.loadNivrayim({
-            Domem: {
-                hi: {
-                    golem: {
-                        toyr: {
-                            MeshLambertMaterial: {
-                                color: new THREE.Color("orange")
-                            }
-                        }
-                    },
-                    position: position,  // Position the block at the calculated point on the ray
-                    scale: { x: 5, y: 1, z: 7 }
-                }
-            }
-        });*/{
+        const h = {
             mesh
                 
         }
@@ -534,7 +519,7 @@ export default class Chai extends Tzomayach {
         console.log(h);
 
         // Access the first block created (assuming only one block is created)
-        const block = h//[0];  // The block created using loadNivrayim
+        const block = h;
         this.activeObject = block;  // Store the block as the active object
 
         // Add the block to the scene
