@@ -328,30 +328,31 @@ export default class Chai extends Tzomayach {
     }
 
     rays = [];
-    // Function to update the ray and place/update the block on the ray
     updateRay() {
         if (!this.activeRay) return;
-
+    
         const start = this.collider.end.clone();
         const direction = this.olam.ayin.isFPS
             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
             : this.currentModelVector;
-
-        // Align the beam with the direction
+    
+        // Update the direction in the activeRay object
+        this.activeRay.direction.copy(direction);
+    
+        // Align the beam with the new direction
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
         this.activeRay.mesh.quaternion.copy(quaternion);
-
+    
         // Position the beam at the start point, offset by half the length
         const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
         this.activeRay.mesh.position.copy(midPoint);
-
-        // Check if there's an active object and update its position
+    
+        // If there's an active object, update its position on the ray
         if (this.activeObject) {
-            // Update the position of the active object placed on the ray
             this.updateBlockPosition(this.activeObject);
         } else {
-            // If there's no active object, we can place one at the ray's position
+            // If no active object, place one on the ray
             this.placeBlockOnRay(start, direction);
         }
     }
@@ -449,6 +450,13 @@ export default class Chai extends Tzomayach {
             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
             : this.currentModelVector;
     
+        // Store the direction in activeRay
+        this.activeRay = { 
+            mesh: null, 
+            direction,  // Store direction here
+            length 
+        };
+    
         const geometry = new THREE.CylinderGeometry(0.02, 0.02, length, 8); // Thin beam
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
@@ -462,8 +470,8 @@ export default class Chai extends Tzomayach {
         const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
         mesh.position.copy(midPoint);
     
-        // Store the active ray
-        this.activeRay = { mesh, direction, length };
+        // Store the mesh and direction in activeRay
+        this.activeRay.mesh = mesh;
         this.olam.scene.add(mesh);
     
         return this.activeRay;
@@ -509,27 +517,22 @@ export default class Chai extends Tzomayach {
 
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
-        const rayStart = this.collider.end.clone();  // Ray start position
-        const rayDirection = this.activeRay.direction.clone();  // Ray direction
+        const rayStart = this.collider.end.clone();
+        const rayDirection = this.activeRay.direction;  // Use stored direction here
 
-        // Set a distance where the block should be placed on the ray (you can adjust this dynamically)
-        const distance = 5; 
+        // Calculate the position along the ray
+        const distance = 5;  // You can change this dynamically based on player input
 
-        // Calculate the block's new position based on the ray's start and direction
-        const newPosition = rayStart.add(rayDirection.multiplyScalar(distance));
+        // Update the block's position along the ray in 3D space
+        const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
 
-        // Update the block's position
+        // Ensure the block follows the ray's movement in all directions (including vertical)
         block.mesh.position.copy(newPosition);
 
-        // Adjust the block's rotation to align with the ray's direction
-        // Calculate the rotation to align with the ray
+        // Adjust the block's rotation to match the ray's direction
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.normalize());
         block.mesh.rotation.setFromQuaternion(quaternion);
-
-        // Optionally, ensure the block's position is corrected based on the ray's position
-        // This will allow the block to move with the ray, even when rotating or moving vertically
-        block.mesh.position.copy(newPosition); // Update the position after rotation adjustment
     }
     
 
