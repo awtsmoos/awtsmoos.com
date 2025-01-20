@@ -237,7 +237,7 @@ export default class Chai extends Tzomayach {
     collisions(deltaTime) {
         var result = this.olam.worldOctree.capsuleIntersect( this.collider );
         this.onFloor = false;
-    
+        console.log("CHECKING",result)
         if ( result ) {
               // Calculate the angle between the collision normal and the up vector
             var upVector = new THREE.Vector3(0, 1, 0);
