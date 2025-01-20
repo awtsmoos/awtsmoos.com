@@ -421,11 +421,11 @@ export default class Chai extends Tzomayach {
      */
     async makeRay(length = 30) {
         // Ensure the ray starts at the player's correct position (world space)
-        const start = this.modelMesh.position.clone(); // Player's position in world space
+        const start =this.collider.end.clone()// this.modelMesh.position.clone(); // Player's position in world space
         const direction = this.olam.ayin.isFPS
             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // Normalize direction for FPS
             : this.currentModelVector.normalize(); // Normalize direction for non-FPS
-    
+        
         if (this.activeRay) {
             // Remove existing ray and associated object, if any
             if (this.activeObject) {
@@ -466,9 +466,10 @@ export default class Chai extends Tzomayach {
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
         mesh.quaternion.copy(quaternion);
     
-        // Position the beam at the start point (convert to local space first)
-        const localStart = this.modelMesh.worldToLocal(start.clone());
-        mesh.position.copy(localStart); // Now position the ray mesh in local space
+        // Position the beam at the correct start point
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2)); // Midpoint of the ray
+        const localMidPoint = this.modelMesh.worldToLocal(midPoint.clone()); // Convert midPoint from world to local space
+        mesh.position.copy(localMidPoint); // Position the ray mesh in local space
     
         // Parent the ray to the player's model
         this.modelMesh.add(mesh);
