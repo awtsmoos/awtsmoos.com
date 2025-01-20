@@ -514,7 +514,7 @@ export default class OlamWorkerManager {
                     self.eved.postMessage({
                         captureMinimapScene: true
                     })
-                    console.log("Need to capture",parentElement.scrollLeft,parentElement.scrollTop)
+                   // console.log("Need to capture",parentElement.scrollLeft,parentElement.scrollTop)
                     return;
                  
                 }

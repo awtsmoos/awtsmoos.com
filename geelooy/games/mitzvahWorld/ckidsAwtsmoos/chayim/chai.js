@@ -69,7 +69,7 @@ export default class Chai extends Tzomayach {
      * Flag to check if the character is on the floor
      * @type {Boolean}
      */
-     onFloor = false;
+     onFloor = true;
 
      // Added moving property
      moving = {
