@@ -342,6 +342,16 @@ export default class Chossid extends Medabeir {
 		await super.afterBriyah(this);
 
         this.olam.ayshPeula("save player position")
+        this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
+        this.olam.on("wheel", deltaY => {
+            // Adjust the distance based on the wheel input
+            // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
+            this.distanceFromRay += deltaY * 0.1; // Adjust the multiplier to control the speed of the change
+
+            // You can limit the distance to prevent it from becoming too small or too large
+            this.distanceFromRay = Math.max(1, Math.min(20, distanceFromRay)); // Example limits
+
+        })
         
 	}
     async started() {

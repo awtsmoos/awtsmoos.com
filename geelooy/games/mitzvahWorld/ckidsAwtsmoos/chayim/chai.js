@@ -200,6 +200,7 @@ export default class Chai extends Tzomayach {
 	
 	async afterBriyah() {
 		await super.afterBriyah(this)
+        this.disanceFromRay = 5;
 	}
 
     async ready() {
@@ -514,21 +515,18 @@ export default class Chai extends Tzomayach {
         const rayStart = this.collider.end.clone();
         const rayDirection = this.activeRay.direction;
 
-        // Calculate the distance (this can be dynamically modified)
-        const distance = 5;  // You can change this dynamically based on player input
+        // Use the updated distance from the mouse wheel scroll
+        const newPosition = rayStart.clone().add(rayDirection.clone()
+            .multiplyScalar(this.distanceFromRay));
 
-        // Update the block's position along the ray, considering full direction
-        const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
-
-        // Update the block's position to follow the ray in all axes
+        // Update the block's position to follow the ray
         block.mesh.position.copy(newPosition);
 
-        // Adjust the block's rotation: Keep the block upright by locking it around the Y-axis
+        // Adjust rotation: keep block upright
         const quaternion = new THREE.Quaternion();
-
+        
         quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(rayDirection.x, rayDirection.z));
         
-
         block.mesh.rotation.setFromQuaternion(quaternion);
     }
 
