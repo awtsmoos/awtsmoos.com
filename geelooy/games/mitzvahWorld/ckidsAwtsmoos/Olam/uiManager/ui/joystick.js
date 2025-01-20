@@ -36,14 +36,14 @@ export default [
             { 
                 id: "button-Enter", 
                 className: "controller-button", 
-                textContent: "Enter",
+                textContent: "E",
                 key: "Enter"
             },
             { id: "button-Y", className: "controller-button", textContent: "Y" },
             { 
                 id: "button-Space", 
                 className: "controller-button", 
-                textContent: "Space",
+                textContent: "S",
                 key: "Space" 
             }
         ],
@@ -81,7 +81,7 @@ export default [
         innerHTML   :/*css*/`
                 #joystick-container {
                     position: fixed;
-                    bottom: 100px;
+                    bottom: 15px;
                     right: 226px;
                     width: 100px;
                     height: 100px;
@@ -107,8 +107,8 @@ export default [
                 }
 
                 :root {
-                    --buttonSize: 150px;
-                    --controllerSize: 450px;
+                    --buttonSize: 50px;
+                    --controllerSize: 150px;
 
                     --margin: 10px;
                     --offset: 30px;

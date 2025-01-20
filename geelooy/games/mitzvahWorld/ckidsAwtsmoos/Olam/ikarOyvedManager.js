@@ -1336,8 +1336,8 @@ function updateJoystickThumb({
     var distance = Math.min(maxDistance, Math.sqrt(deltaX * deltaX + deltaY * deltaY));
     var angle = Math.atan2(deltaY, deltaX);
 
-    var thumbX = distance * Math.cos(angle) + maxDistance// - joystickThumb.offsetWidth / 4;
-    var thumbY = distance * Math.sin(angle) + maxDistance// - joystickThumb.offsetHeight / 4
+    var thumbX = distance * Math.cos(angle) + maxDistance - joystickThumb.offsetWidth / 2;
+    var thumbY = distance * Math.sin(angle) + maxDistance - joystickThumb.offsetHeight / 2
 
     if(resetX !== 0)
         joystickThumb.style.left = thumbX + 'px';
