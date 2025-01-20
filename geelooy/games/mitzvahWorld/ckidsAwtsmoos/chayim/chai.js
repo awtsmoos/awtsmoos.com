@@ -327,25 +327,35 @@ export default class Chai extends Tzomayach {
         this.isTeleporting = true;
     }
 
-   
-    // Your game loop's update function or updateRay logic
-    updateRay(deltaTime) {
-        // If the ray is active
-        if (this.activeRay) {
-            // Update the ray's position (keep the ray moving with the camera or character)
-            const rayStart = this.collider.end.clone();
-            const rayDirection = this.activeRay.direction;
+    rays = [];
+    // Function to update the ray and place/update the block on the ray
+    updateRay() {
+        if (!this.activeRay) return;
 
-            // Check if there's already an object placed on the ray
-            if (this.activeObject) {
-                // Update the position of the active object
-                this.updateBlockPosition(this.activeObject);
-            } else {
-                // Place a new object if there's no active object
-                this.placeBlockOnRay(rayStart, rayDirection);
-            }
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+
+        // Align the beam with the direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        this.activeRay.mesh.quaternion.copy(quaternion);
+
+        // Position the beam at the start point, offset by half the length
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
+        this.activeRay.mesh.position.copy(midPoint);
+
+        // Check if there's an active object and update its position
+        if (this.activeObject) {
+            // Update the position of the active object placed on the ray
+            this.updateBlockPosition(this.activeObject);
+        } else {
+            // If there's no active object, we can place one at the ray's position
+            this.placeBlockOnRay(start, direction);
         }
     }
+
     spheres = [];
     updateSpheres(deltaTime) {
         this.spheres.forEach(s => {
@@ -461,7 +471,7 @@ export default class Chai extends Tzomayach {
 
     // Function to place the block on the ray
     async placeBlockOnRay(rayStart, rayDirection) {
-        // Define the distance for the block's placement
+        // Define the distance along the ray for placing the block
         const distance = 5;  // Adjust this based on the player's input or other game logic
 
         // Calculate the position along the ray where the block will be placed
