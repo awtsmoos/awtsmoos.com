@@ -508,7 +508,7 @@ export default class Chai extends Tzomayach {
         // Update the block's position in the world (optional)
         this.updateBlockPosition(block);
     }
-    
+
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
         const rayStart = this.collider.end.clone();
@@ -523,9 +523,17 @@ export default class Chai extends Tzomayach {
         // Update the block's position to follow the ray in all axes
         block.mesh.position.copy(newPosition);
 
-        // Adjust rotation: Only rotate the block around the Y-axis (horizontal axis)
+        // Adjust the block's rotation: Keep the block upright by locking it around the Y-axis
         const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), rayDirection.clone().normalize());  // X-Z plane alignment
+
+        if (this.olam.ayin.isFPS) {
+            // In first-person view, lock rotation to only the Y-axis (keep the block upright)
+            quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(rayDirection.x, rayDirection.z));
+        } else {
+            // In third-person view, rotate the block to match the ray's direction
+            quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.clone().normalize());
+        }
+
         block.mesh.rotation.setFromQuaternion(quaternion);
     }
 
