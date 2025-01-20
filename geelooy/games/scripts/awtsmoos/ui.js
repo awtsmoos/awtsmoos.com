@@ -90,7 +90,7 @@
  * */
 var elements = {};
 var parser = new DOMParser();
-import Heeoolee from "../../../ckidsAwtsmoos/chayim/heeooleey.js";
+import Heeoolee from "/games/mitzvahWorld/ckidsAwtsmoos/chayim/heeooleey.js";
 export default class UI extends Heeoolee {
     get myHTMLElements() {
         return elements;
@@ -120,6 +120,7 @@ export default class UI extends Heeoolee {
 			return;
 		}
 		
+		console.log("OB",obj)
 		for(
 			var k 
 			in obj
@@ -265,7 +266,7 @@ export default class UI extends Heeoolee {
      */
     html(opts={}) {
         var el = this.makeHtml(opts)
-        
+        var opPar = opts.parent || opts.av || undefined
         /**
              * If set explciitly "null",
              * then won't add it right away
@@ -275,30 +276,28 @@ export default class UI extends Heeoolee {
                 == "string" ?
                 this.getHtml(par) 
                 : null
-            )(opts.parent);
+            )(opPar);
 
 
 
-         //   console.log("Stringed parent?",stringedParent)
-            var parent = opts
-                .parent !== undefined
+
+            var parent = opPar !== undefined
             &&
             
             stringedParent  || 
             
             (
-                opts.parent instanceof
+                opPar instanceof
                 Element ||
-                opts.parent instanceof
+                opPar instanceof
                 Document ?
-                opts.parent
+                opPar
                 ||
             
                 document.body : null
             ) || document.body;
           //      console.log("ASDF",stringedParent,parent,opts.parent,opts)
-        //    console.log("HI!",parent,opts,opts.parent,Element,Document)
-          if(
+            if(
                 parent
             ) {
                 
@@ -309,9 +308,19 @@ export default class UI extends Heeoolee {
     }
 
 	setHtmlByShaym(shaym, opts={}) {
-		//console.log("Setting by shaym",shaym);
+		console.log("Setting by shaym",shaym);
 		var el = this.getHtml(shaym);
-		if(!el) return null;
+		if(!el) {
+            /*
+                if doesnt exist, make it.
+            */
+           var h= this.html({
+              shaym,
+              ...opts
+           });
+           console.log("Made new",h)
+           return h;
+        }
 		return this.setHtml(el, opts);
 	}
     /**
@@ -346,6 +355,7 @@ setHtml(el, opts = {}) {
     
     // Store the element in the elements object if shaym is specified
     if (typeof opts.shaym === "string") {
+       // var el = elements[opts.shaym]
         elements[opts.shaym] = el;
     }
 
@@ -390,24 +400,7 @@ setHtml(el, opts = {}) {
     if (typeof opts.style === "string") {
         el.style.cssText = opts.style;
     } else if (typeof opts.style === "object") {
-        var k = Object.keys(opts.style);
-        /*
-        console.log(
-            "Settings it",
-            opts,
-            opts.style,
-            opts.shaym,
-            el,
-            el.style,
-
-            "keys",
-            k
-        );*/
-
-        k.forEach(a => {
-            el.style[a] = opts.style[a]
-        });
-        //Object.assign(el.style, opts.style);
+        Object.assign(el.style, opts.style);
     }
 
     var attr = opts.attributes;
@@ -528,39 +521,10 @@ setHtml(el, opts = {}) {
         Object.keys(opts.events).forEach(eventName => {
             var callback = opts.events[eventName];
             if (typeof callback === "function") {
-                eventName.split(" ").filter(Boolean).forEach(en => {
-                    el.addEventListener(
-                        en, e => callback(e, this.getHtml, this, el)
-                    );
-                    
-                })
+              
+                el.addEventListener(eventName, callback);
             }
-            
         });
-    }
-
-    el.transformedPosition = () => {
-        const style = window.getComputedStyle(el);
-        const transform = style.transform || style.webkitTransform || style.mozTransform;
-    
-        // Can return `none` or a matrix() / matrix3d() value
-        if (transform !== 'none') {
-            const matrixType = transform.startsWith('matrix3d') ? 'matrix3d' : 'matrix';
-            const matrixValues = transform.match(/matrix.*\((.+)\)/)[1].split(', ');
-    
-            // Parse matrix values; matrix is "matrix(a, b, c, d, tx, ty)" for 2D or
-            // "matrix3d(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, tx, ty, tz, tw)" for 3D
-            if (matrixType === 'matrix') {
-                const x = parseFloat(matrixValues[4]); // tx
-                const y = parseFloat(matrixValues[5]); // ty
-                return { x, y };
-            } else if (matrixType === 'matrix3d') {
-                const x = parseFloat(matrixValues[12]); // tx
-                const y = parseFloat(matrixValues[13]); // ty
-                return { x, y };
-            }
-        }
-        return { x: 0, y: 0 }; // No transformation
     }
 
     el.af = el.awtsmoosFind = findOthersFunction; // Alias for convenience
@@ -603,7 +567,10 @@ setHtml(el, opts = {}) {
                 this.getHtml(shaym) : html;
             } catch(e){}
 
-        
+        if (!html) {
+            //throw "Not found element: " + shaym;
+            return null; // If the element is not found, return null
+        } 
 
 
         // Initialize objects to store the properties set and methods called
@@ -616,35 +583,19 @@ setHtml(el, opts = {}) {
         if(typeof(selector) == "string") {
             hasSelector = true;
             try {
-                
-                selected = Array.from((html || document.documentElement)
-                    .querySelectorAll(selector))
+                selected = html.querySelector(selector)
 
             } catch(e) {
 
             }
         }
-        if(selected && selected.length) {
-            var res = [];
+        if(selected) {
+            html = selected;
 
-            selected.forEach(w => {
-                res.push(this.htmlAction({
-                 
-                    html: w,
-                    properties,
-                    methods
-                }))
-            })
-            return res;
+            console.log("SELECTED",html)
         } else if(hasSelector) {
             return null;
         }
-
-        if (!html) {
-            //throw "Not found element: " + shaym;
-            return null; // If the element is not found, return null
-        } 
-
         // Set properties on the HTML element
         if (typeof properties === "object") {
             this.setHtml(html, properties);

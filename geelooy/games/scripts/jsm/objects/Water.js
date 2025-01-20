@@ -1,7 +1,3 @@
-/**B"H
- * 
- * Mayim
- */
 import {
 	Color,
 	FrontSide,
@@ -24,14 +20,13 @@ import {
  * http://29a.ch/ && http://29a.ch/slides/2012/webglwater/ : Water shader explanations in WebGL
  */
 
-class Mayim extends Mesh {
+class Water extends Mesh {
 
 	constructor( geometry, options = {} ) {
 
 		super( geometry );
 
 		this.isWater = true;
-
 
 		const scope = this;
 
@@ -217,86 +212,82 @@ class Mayim extends Mesh {
 		material.uniforms[ 'eye' ].value = eye;
 
 		scope.material = material;
-		var built = false;
+
 		scope.onBeforeRender = function ( renderer, scene, camera ) {
-			if(renderer.isMinimap)
-				return// console.log("WHAT ARE ULOL")
-			if(built < 10000 || !renderer.renderedOnce) {
-				mirrorWorldPosition.setFromMatrixPosition( scope.matrixWorld );
-				cameraWorldPosition.setFromMatrixPosition( camera.matrixWorld );
 
-				rotationMatrix.extractRotation( scope.matrixWorld );
+			mirrorWorldPosition.setFromMatrixPosition( scope.matrixWorld );
+			cameraWorldPosition.setFromMatrixPosition( camera.matrixWorld );
 
-				normal.set( 0, 0, 1 );
-				normal.applyMatrix4( rotationMatrix );
+			rotationMatrix.extractRotation( scope.matrixWorld );
 
-				view.subVectors( mirrorWorldPosition, cameraWorldPosition );
+			normal.set( 0, 0, 1 );
+			normal.applyMatrix4( rotationMatrix );
 
-				// Avoid rendering when mirror is facing away
+			view.subVectors( mirrorWorldPosition, cameraWorldPosition );
 
-				if ( view.dot( normal ) > 0 ) return;
+			// Avoid rendering when mirror is facing away
 
-				view.reflect( normal ).negate();
-				view.add( mirrorWorldPosition );
+			if ( view.dot( normal ) > 0 ) return;
 
-				rotationMatrix.extractRotation( camera.matrixWorld );
+			view.reflect( normal ).negate();
+			view.add( mirrorWorldPosition );
 
-				lookAtPosition.set( 0, 0, - 1 );
-				lookAtPosition.applyMatrix4( rotationMatrix );
-				lookAtPosition.add( cameraWorldPosition );
+			rotationMatrix.extractRotation( camera.matrixWorld );
 
-				target.subVectors( mirrorWorldPosition, lookAtPosition );
-				target.reflect( normal ).negate();
-				target.add( mirrorWorldPosition );
+			lookAtPosition.set( 0, 0, - 1 );
+			lookAtPosition.applyMatrix4( rotationMatrix );
+			lookAtPosition.add( cameraWorldPosition );
 
-				mirrorCamera.position.copy( view );
-				mirrorCamera.up.set( 0, 1, 0 );
-				mirrorCamera.up.applyMatrix4( rotationMatrix );
-				mirrorCamera.up.reflect( normal );
-				mirrorCamera.lookAt( target );
+			target.subVectors( mirrorWorldPosition, lookAtPosition );
+			target.reflect( normal ).negate();
+			target.add( mirrorWorldPosition );
 
-				mirrorCamera.far = camera.far; // Used in WebGLBackground
+			mirrorCamera.position.copy( view );
+			mirrorCamera.up.set( 0, 1, 0 );
+			mirrorCamera.up.applyMatrix4( rotationMatrix );
+			mirrorCamera.up.reflect( normal );
+			mirrorCamera.lookAt( target );
 
-				mirrorCamera.updateMatrixWorld();
-				mirrorCamera.projectionMatrix.copy( camera.projectionMatrix );
+			mirrorCamera.far = camera.far; // Used in WebGLBackground
 
-				// Update the texture matrix
-				textureMatrix.set(
-					0.5, 0.0, 0.0, 0.5,
-					0.0, 0.5, 0.0, 0.5,
-					0.0, 0.0, 0.5, 0.5,
-					0.0, 0.0, 0.0, 1.0
-				);
-				textureMatrix.multiply( mirrorCamera.projectionMatrix );
-				textureMatrix.multiply( mirrorCamera.matrixWorldInverse );
+			mirrorCamera.updateMatrixWorld();
+			mirrorCamera.projectionMatrix.copy( camera.projectionMatrix );
 
-				// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
-				// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-				mirrorPlane.setFromNormalAndCoplanarPoint( normal, mirrorWorldPosition );
-				mirrorPlane.applyMatrix4( mirrorCamera.matrixWorldInverse );
+			// Update the texture matrix
+			textureMatrix.set(
+				0.5, 0.0, 0.0, 0.5,
+				0.0, 0.5, 0.0, 0.5,
+				0.0, 0.0, 0.5, 0.5,
+				0.0, 0.0, 0.0, 1.0
+			);
+			textureMatrix.multiply( mirrorCamera.projectionMatrix );
+			textureMatrix.multiply( mirrorCamera.matrixWorldInverse );
 
-				clipPlane.set( mirrorPlane.normal.x, mirrorPlane.normal.y, mirrorPlane.normal.z, mirrorPlane.constant );
+			// Now update projection matrix with new clip plane, implementing code from: http://www.terathon.com/code/oblique.html
+			// Paper explaining this technique: http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
+			mirrorPlane.setFromNormalAndCoplanarPoint( normal, mirrorWorldPosition );
+			mirrorPlane.applyMatrix4( mirrorCamera.matrixWorldInverse );
 
-				const projectionMatrix = mirrorCamera.projectionMatrix;
+			clipPlane.set( mirrorPlane.normal.x, mirrorPlane.normal.y, mirrorPlane.normal.z, mirrorPlane.constant );
 
-				q.x = ( Math.sign( clipPlane.x ) + projectionMatrix.elements[ 8 ] ) / projectionMatrix.elements[ 0 ];
-				q.y = ( Math.sign( clipPlane.y ) + projectionMatrix.elements[ 9 ] ) / projectionMatrix.elements[ 5 ];
-				q.z = - 1.0;
-				q.w = ( 1.0 + projectionMatrix.elements[ 10 ] ) / projectionMatrix.elements[ 14 ];
+			const projectionMatrix = mirrorCamera.projectionMatrix;
 
-				// Calculate the scaled plane vector
-				clipPlane.multiplyScalar( 2.0 / clipPlane.dot( q ) );
+			q.x = ( Math.sign( clipPlane.x ) + projectionMatrix.elements[ 8 ] ) / projectionMatrix.elements[ 0 ];
+			q.y = ( Math.sign( clipPlane.y ) + projectionMatrix.elements[ 9 ] ) / projectionMatrix.elements[ 5 ];
+			q.z = - 1.0;
+			q.w = ( 1.0 + projectionMatrix.elements[ 10 ] ) / projectionMatrix.elements[ 14 ];
 
-				// Replacing the third row of the projection matrix
-				projectionMatrix.elements[ 2 ] = clipPlane.x;
-				projectionMatrix.elements[ 6 ] = clipPlane.y;
-				projectionMatrix.elements[ 10 ] = clipPlane.z + 1.0 - clipBias;
-				projectionMatrix.elements[ 14 ] = clipPlane.w;
+			// Calculate the scaled plane vector
+			clipPlane.multiplyScalar( 2.0 / clipPlane.dot( q ) );
 
-				eye.setFromMatrixPosition( camera.matrixWorld );
+			// Replacing the third row of the projection matrix
+			projectionMatrix.elements[ 2 ] = clipPlane.x;
+			projectionMatrix.elements[ 6 ] = clipPlane.y;
+			projectionMatrix.elements[ 10 ] = clipPlane.z + 1.0 - clipBias;
+			projectionMatrix.elements[ 14 ] = clipPlane.w;
 
-				built++;
-			}
+			eye.setFromMatrixPosition( camera.matrixWorld );
+
 			// Render
 
 			const currentRenderTarget = renderer.getRenderTarget();
@@ -313,8 +304,8 @@ class Mayim extends Mesh {
 
 			renderer.state.buffers.depth.setMask( true ); // make sure the depth buffer is writable so it can be properly cleared, see #18897
 
-			if ( renderer.autoClear === false ) renderer.clear();
-			renderer.render( scene, mirrorCamera );
+			if ( renderer.autoClear === false ) renderer.clearAsync();
+			renderer.renderAsync( scene, mirrorCamera );
 
 			scope.visible = true;
 
@@ -339,4 +330,4 @@ class Mayim extends Mesh {
 
 }
 
-export { Mayim };
+export { Water };

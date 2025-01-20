@@ -348,39 +348,17 @@ class Octree {
 		let result, hit = false;
 
 		this.getCapsuleTriangles( _capsule, triangles );
-		var nivraAction = null;
-		var isNivraSolid = true;
+
 		for ( let i = 0; i < triangles.length; i ++ ) {
 
 			if ( result = this.triangleCapsuleIntersect( _capsule, triangles[ i ] ) ) {
 
 				hit = true;
-				var isSolid = triangles[i].isSolidl;
-				if(isSolid) {
-					_capsule.translate(
-						result.normal.multiplyScalar( result.depth )
-					);
-				}
-				if(
-					triangles[i]
-					.meshReference
-					.awtsmoosAction
-				) {
-					var n = capsule.nivraReference;
-					nivraAction = triangles[i]
-					
-				}
+
+				_capsule.translate( result.normal.multiplyScalar( result.depth ) );
 
 			}
 
-		}
-
-		if(nivraAction) {
-			nivraAction
-			.meshReference
-			.awtsmoosAction(
-				n,nivraAction.meshReference
-			)
 		}
 
 		if ( hit ) {
@@ -429,7 +407,7 @@ class Octree {
 
 	}
 
-	fromGraphNode( group, isSolid=true ) {
+	fromGraphNode( group ) {
 
 		group.updateWorldMatrix( true, true );
 
@@ -461,12 +439,9 @@ class Octree {
 					v1.applyMatrix4( obj.matrixWorld );
 					v2.applyMatrix4( obj.matrixWorld );
 					v3.applyMatrix4( obj.matrixWorld );
-
-					this.addTriangle( new AwtsmoosTriangle(
-						v1, v2, v3, obj,
-						isSolid
-
-					) );
+					var tri = new Triangle( v1, v2, v3 )
+					tri.awtsmoosification = group;
+					this.addTriangle( tri );
 
 				}
 
@@ -510,7 +485,7 @@ class Octree {
 			v2.applyMatrix4( mesh.matrixWorld );
 			v3.applyMatrix4( mesh.matrixWorld );
 	
-			this.removeTriangle( new AwtsmoosTriangle( v1, v2, v3, mesh ) );
+			this.removeTriangle( new Triangle( v1, v2, v3 ) );
 		}
 	
 		if ( isTemp ) {
@@ -520,7 +495,7 @@ class Octree {
 	
 	removeTriangle( triangleToRemove ) {
 		this.triangles = this.triangles.filter(triangle => !triangle.equals(triangleToRemove));
-		
+	
 		// Remove the triangle from relevant subtrees
 		for ( let i = 0; i < this.subTrees.length; i++ ) {
 			var subTree = this.subTrees[i];
@@ -531,14 +506,6 @@ class Octree {
 	}
 	
 
-}
-
-class AwtsmoosTriangle extends Triangle {
-    constructor(a, b, c, meshReference, isSolid=true) {
-        super(a, b, c); // Call the parent constructor with the vertices
-        this.meshReference = meshReference; // Store the reference to the mesh
-		this.isSolid = isSolid
-    }
 }
 
 export { Octree };
