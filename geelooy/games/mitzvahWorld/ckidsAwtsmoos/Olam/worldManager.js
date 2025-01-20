@@ -236,7 +236,7 @@ class ManagerOfAllWorlds {
        }
        Object.assign(ghtml, self.gameUiHTML)
        var windowVars = {}
-       Utils.copySerializableValues(window, obj)
+       Utils.copySerializableValues(window, windowVars)
        var heescheelObj = {
             ...worldDayuh,
             
