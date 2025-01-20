@@ -61,7 +61,7 @@ async function makeFile({$i}) {
         } catch(e) {
             
         }
-
+        path = addFolderName(path);
         // Write the file to the alias's file system
         var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
         var wr = await $i.db.write(filePath, content);
@@ -78,7 +78,44 @@ async function makeFile({$i}) {
     }
 }
 
-
+/**
+ * for use with API
+ * to read and write files
+ * for simpliciy all folders
+ * should always end with .folder
+ * extenstion then in 
+ * client side we interpret it
+ * so if we're recursively creating a
+ * file a path/that/doesnt/exist.txt
+ * then all of those parent folders
+ * need to have .folder
+ * added to them
+ * so this function takes a path
+ * like that and gives back something
+ * like
+ * path.folder/that.folder/doesnt.folder/exist.txt 
+ * (assume last entry is a file, determined by second 
+ * paramer, if not then assume all folders)
+ * @param {string} path 
+ */
+function addFolderName(path, lastIsFile = true) {
+    const parts = path.split('/');
+  
+    // Check if the path has any parent folders
+    if (parts.length > 1) { 
+      if (lastIsFile) {
+        parts.slice(0, -1).forEach((part, index) => {
+          parts[index] += '.folder';
+        });
+      } else {
+        parts.forEach((part, index) => {
+          parts[index] += '.folder';
+        });
+      }
+    }
+  
+    return parts.join('/');
+  }
 async function deleteEntry({$i}) {
     try {
         var { aliasId, path } = $i.$_DELETE;
@@ -168,6 +205,7 @@ async function makeFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
+    path = addFolderName(path);
     // Write the folder to the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     await $i.db.write(folderPath);
