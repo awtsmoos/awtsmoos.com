@@ -526,13 +526,8 @@ export default class Chai extends Tzomayach {
         // Adjust the block's rotation: Keep the block upright by locking it around the Y-axis
         const quaternion = new THREE.Quaternion();
 
-        if (this.olam.ayin.isFPS) {
-            // In first-person view, lock rotation to only the Y-axis (keep the block upright)
-            quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(rayDirection.x, rayDirection.z));
-        } else {
-            // In third-person view, rotate the block to match the ray's direction
-            quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.clone().normalize());
-        }
+        quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(rayDirection.x, rayDirection.z));
+        
 
         block.mesh.rotation.setFromQuaternion(quaternion);
     }
