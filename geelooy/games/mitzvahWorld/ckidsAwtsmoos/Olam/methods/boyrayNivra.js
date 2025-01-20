@@ -297,7 +297,7 @@ export default class {
                             position, rotation, scale
                         } = this.getTransformation(child)
                         
-                        console.log("Found placeholder",child)
+                        //console.log("Found placeholder",child)
                         /*
     
     
@@ -454,7 +454,7 @@ export default class {
                                 }
     
     
-                                console.log("About to add to octree", has,child,nivra)
+                              //  console.log("About to add to octree", has,child,nivra)
                                 
                             })
                         }
@@ -498,7 +498,7 @@ export default class {
                         
 
 
-                            console.log("About to add to octree",mesh,nivra)
+                         //   console.log("About to add to octree",mesh,nivra)
                             
                         
                         }

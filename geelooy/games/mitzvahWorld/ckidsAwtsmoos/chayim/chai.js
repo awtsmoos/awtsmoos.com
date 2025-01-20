@@ -441,6 +441,12 @@ export default class Chai extends Tzomayach {
     
 
     async makeRay(length = 10) {
+         // Create a new ray
+         const start = this.collider.end.clone();
+         const direction = this.olam.ayin.isFPS
+             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+             : this.currentModelVector;
+     
         if (this.activeRay) {
             // If a ray exists, remove it to toggle off
             this.olam.scene.remove(this.activeRay.mesh);
@@ -457,12 +463,7 @@ export default class Chai extends Tzomayach {
             await this.placeBlockOnRay(start, direction);
         }
     
-        // Create a new ray
-        const start = this.collider.end.clone();
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
-    
+       
         // Store the direction in activeRay
         this.activeRay = { 
             mesh: null, 
