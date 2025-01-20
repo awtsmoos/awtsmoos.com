@@ -525,7 +525,7 @@ export default class Chai extends Tzomayach {
         console.log(h);
 
         // Access the first block created (assuming only one block is created)
-        const block = h[0];  // The block created using loadNivrayim
+        const block = h//[0];  // The block created using loadNivrayim
         this.activeObject = block;  // Store the block as the active object
 
         // Add the block to the scene
