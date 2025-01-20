@@ -102,6 +102,7 @@ export default class {
         var mesh = new THREE.Mesh(
             chomer, tzurah
         );
+        return mesh;
     }
     async boyrayNivra/*createCreation*/(nivra, info) {
         try {
