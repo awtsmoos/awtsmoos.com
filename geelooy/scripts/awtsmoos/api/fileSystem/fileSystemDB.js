@@ -131,7 +131,7 @@ class APIHandler {
     // Delete a key from a store (deleteFile)
     async deleteFile(storeName, key) {
       const aliasId = this.getCurrentAlias();
-      const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/deleteFile`);
+      const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/delete`);
       const params = new URLSearchParams({
         path: `${storeName}/${key}`
       });
