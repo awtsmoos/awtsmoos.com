@@ -91,14 +91,23 @@ export default class {
                 ...gufEntries[0][1]
             );
         }
-        var key = toyrEntries[0][0]
+        var material = toyrEntries[0][0]
         if(
             THREE[key]
         ) {
             var val = toyrEntries[0][1];
-            if(keyMap[key]) {
-                val = keyMap[key](val);
+            if(typeof(val) == "object" && val) {
+                var newVal = {};
+                var keys = Object.keys(val);
+                for(var key of keys) {
+                    if(keyMap[key]) {
+                        var mappedVal = keyMap[key](val[key]);
+                        newVal[key] = mappedVal
+                    }
+                }
+                val = newVal;
             }
+            
             tzurah = new THREE[key](
                 val
             );
