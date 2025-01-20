@@ -101,7 +101,7 @@ export default class {
                 var keys = Object.keys(val);
                 for(var key of keys) {
                     if(keyMap[key]) {
-                        var mappedVal = keyMap[key](val[key]);
+                        var mappedVal = await keyMap[key](val[key]);
                         newVal[key] = mappedVal
                     }
                 }
