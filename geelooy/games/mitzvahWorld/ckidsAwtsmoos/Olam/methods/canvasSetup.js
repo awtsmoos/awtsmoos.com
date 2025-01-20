@@ -3,9 +3,10 @@
  * 
  * methods related to initally setting up the main (and/or minimap) canvas(es)
  */
+/*
 import PostProcessingManager from 
 "../../postProcessing/postProcessing.js";
-
+*/
 //import Environment from "../../postProcessing/environment.js";
 
 export default class {
@@ -29,11 +30,11 @@ export default class {
         var temp = this.rendererTemplate(
             canvas
         )
-        console.log(temp,canvas,"Minimap?")
-        this.renderer = new temp({ antialias: true, canvas: canvas });
+        console.log(temp,canvas)
+        this.renderer = new temp({ antialias: true, canvas });
         if(!this.renderer.compute) this.renderer.compute = () => {}
         if(!this.renderer.renderAsync) {
-		this.renderer.clearAsync=this.renderer.clear;
+		    this.renderer.clearAsync=this.renderer.clear;
 
 
 
@@ -76,7 +77,7 @@ export default class {
     }
 
     postprocessingSetup() {
-        if(!this.postprocessing)
+       /* if(!this.postprocessing)
             this.postprocessing = new PostProcessingManager({
                 camera: this.camera,
                 scene: this.scene,
@@ -85,7 +86,7 @@ export default class {
                 height: this.height
             });
         this.postprocessing.postprocessingSetup();
-        
+        */
     }
 
     postprocessingRender() {

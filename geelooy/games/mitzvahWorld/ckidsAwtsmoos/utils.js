@@ -9,8 +9,6 @@
 
 
 
-import * as AWTSMOOS from "../ckidsAwtsmoos/awtsmoosCkidsGames.js";
-
 import * as THREE from '/games/scripts/build/three.module.js';
 var IDs = 0;
 /**

@@ -358,7 +358,7 @@ export default class {
                                 {
                                     this.worldOctree.fromGraphNode(child);
     
-                                    child.layers.enable(2)
+                                 //   child.layers.enable(2)
                                 }
     
     

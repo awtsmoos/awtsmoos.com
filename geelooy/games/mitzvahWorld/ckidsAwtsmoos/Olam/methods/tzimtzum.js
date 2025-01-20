@@ -51,8 +51,14 @@ export default class {
             if(info.modules) {
                 await this.getModules(info.modules)
             }
-            
-
+            if(info.set) {
+                try {
+                    Object.assign(this, info.set)
+                } catch(e){}
+            }
+            if(!this.resetY) {
+                this.resetY = -30;
+            }
             if(info.html) {
                 var style = null
                     
