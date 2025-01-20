@@ -552,6 +552,7 @@ export default class Chai extends Tzomayach {
      */
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
+        return;
         const rayStart = this.collider.end.clone();
         const rayDirection = this.activeRay.direction;
 
