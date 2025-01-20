@@ -329,6 +329,7 @@ export default class Chai extends Tzomayach {
 
     rays = [];
     // Function to update the ray and place/update the block on the ray
+    // Function to update the ray and place/update the block on the ray
     updateRay() {
         if (!this.activeRay) return;
 
@@ -447,7 +448,7 @@ export default class Chai extends Tzomayach {
                     this
                     .activeObject.mesh
                 );
-
+                this.activeObject = null;
             }
             return; // Exit after toggling off
         }
@@ -540,20 +541,21 @@ export default class Chai extends Tzomayach {
         const rayStart = this.collider.end.clone();
         const rayDirection = this.activeRay.direction;
 
-        // Calculate the distance (you can modify this dynamically as needed)
+        // Calculate the distance (this can be dynamically modified)
         const distance = 5;  // You can change this dynamically based on player input
 
         // Update the block's position along the ray
         const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
-        
+
         // Only update the horizontal position (X, Z), but keep the vertical (Y) from the ray start
         newPosition.y = rayStart.y;  // This ensures the block stays at the same vertical level as the ray
 
         block.mesh.position.copy(newPosition);
 
-        // Adjust rotation: only rotate the block around the Y-axis (horizontal axis)
+        // Adjust rotation: Only rotate the block around the Y-axis (horizontal axis)
+        // This ensures that when you turn, the block only rotates horizontally, not on its axis
         const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.normalize());
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), rayDirection.clone().normalize());  // X-Z plane alignment
         block.mesh.rotation.setFromQuaternion(quaternion);
     }
     
