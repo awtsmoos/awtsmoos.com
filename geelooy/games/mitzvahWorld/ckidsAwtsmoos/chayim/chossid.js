@@ -247,7 +247,7 @@ export default class Chossid extends Medabeir {
                     !this.movingAutomatically
                 break;
                 case "KeyY":
-                    this.makeRay();
+                    await this.makeRay();
                 /*if (!isOtherview) {
                     if (m?.asset?.cameras[0]) {
                         m.olam.activeCamera = m.asset.cameras[0]

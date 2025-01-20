@@ -412,7 +412,35 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
-    makeRay(length = 10) {
+
+    updateRay() {
+        if (!this.activeRay) return;
+
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+
+        // Update the direction in the activeRay object
+        this.activeRay.direction.copy(direction);
+
+        // Align the beam with the new direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        this.activeRay.mesh.quaternion.copy(quaternion);
+
+        // Position the beam at the start point, offset by half the length
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
+        this.activeRay.mesh.position.copy(midPoint);
+
+        // If there's an active object, update its position on the ray
+        if (this.activeObject) {
+            this.updateBlockPosition(this.activeObject);
+        }
+    }
+    
+
+    async makeRay(length = 10) {
         if (this.activeRay) {
             // If a ray exists, remove it to toggle off
             this.olam.scene.remove(this.activeRay.mesh);
@@ -425,6 +453,8 @@ export default class Chai extends Tzomayach {
                 this.activeObject = null;
             }
             return; // Exit after toggling off
+        } else {
+            await this.placeBlockOnRay(start, direction);
         }
     
         // Create a new ray
@@ -475,7 +505,8 @@ export default class Chai extends Tzomayach {
             }
         })
 
-
+        var mesh = await this.olam.generateThreeJsMesh(def);
+        if(!mesh) return;
         // Use your loadNivrayim method to create the object
         const h = /*await this.olam.loadNivrayim({
             Domem: {
@@ -492,8 +523,8 @@ export default class Chai extends Tzomayach {
                 }
             }
         });*/{
-            mesh:
-                await this.olam.generateThreeJsMesh(def)
+            mesh
+                
         }
         h.mesh.position.copy(position);
         h.mesh.scale.x = 3;
@@ -533,35 +564,6 @@ export default class Chai extends Tzomayach {
     }
 
 
-    updateRay() {
-        if (!this.activeRay) return;
-
-        const start = this.collider.end.clone();
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
-
-        // Update the direction in the activeRay object
-        this.activeRay.direction.copy(direction);
-
-        // Align the beam with the new direction
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-        this.activeRay.mesh.quaternion.copy(quaternion);
-
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
-        this.activeRay.mesh.position.copy(midPoint);
-
-        // If there's an active object, update its position on the ray
-        if (this.activeObject) {
-            this.updateBlockPosition(this.activeObject);
-        } else {
-            // If no active object, place one on the ray
-            this.placeBlockOnRay(start, direction);
-        }
-    }
-    
 
     resetJump = false;
     jumped = false;
