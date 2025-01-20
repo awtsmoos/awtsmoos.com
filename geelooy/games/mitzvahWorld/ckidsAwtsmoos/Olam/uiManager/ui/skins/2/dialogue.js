@@ -37,7 +37,8 @@ export default /*css*/`
         color: #FFF;
        
         font-family: Fredoka One;
-        font-size: 36px;
+        font-size: 1.6em;
+        max-width: 30%;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -126,8 +127,9 @@ export default /*css*/`
         animation: pulse 2s infinite;
         background-color: #FFE4C4;
         color: #6B4226;
-        bottom: 180px;
-        left: 180px;
+        bottom: 10px;
+        max-width: 50%;
+        left: 10px;
         border: 2px solid #DAA520;
         border-radius: 12px;
         padding: 22px;
