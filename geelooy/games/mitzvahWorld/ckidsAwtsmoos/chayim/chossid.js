@@ -98,6 +98,14 @@ export default class Chossid extends Medabeir {
             this.moving.backward = true;
         }
 
+        if ( this.olam.inputs.DOWN ) {
+            this.moving.down = true;
+        }
+
+        if ( this.olam.inputs.UP ) {
+            this.moving.up = true;
+        }
+
         
         // Rotation controls
         if ( 

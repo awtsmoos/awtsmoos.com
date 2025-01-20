@@ -435,7 +435,12 @@ export default class Chai extends Tzomayach {
         
         var isTurning = false;
         this.dontRotateMesh = false;
-        
+        if(this.moving.down) {
+            this.velocity.y -= speedDelta
+        }
+        if(this.moving.up) {
+            this.velocity.y += speedDelta
+        }
         if(
             this.moving.forward ||
             this.movingAutomatically
