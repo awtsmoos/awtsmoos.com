@@ -492,8 +492,12 @@ export default class Chai extends Tzomayach {
         mesh.quaternion.copy(quaternion);
 
         // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
-        mesh.position.copy(midPoint);
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
+        
+        // Transform midPoint from world space to local space relative to the player's model
+        const localMidPoint = this.modelMesh.worldToLocal(midPoint.clone());
+        mesh.position.copy(localMidPoint);
+
     
         // Parent the ray to the player's model
         this.modelMesh.add(mesh);
