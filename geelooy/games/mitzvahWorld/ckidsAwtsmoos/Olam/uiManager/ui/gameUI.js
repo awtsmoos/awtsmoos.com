@@ -72,7 +72,7 @@ var ui = [
         shaym: "msg npc",
         style: {
             bottom: "20px",
-            right: "315px"
+            right: "15px"
         },
         awtsmoosClick: true,
         className: "dialogue npc",
@@ -82,7 +82,7 @@ var ui = [
         shaym: "msg chossid",
         style: {
             bottom: "20px",
-            left: "315px"
+            left: "15px"
         },
         awtsmoosClick: true,
         className: "dialogue chossid",

@@ -255,7 +255,7 @@ export default class {
         );
         // Set the overlay's style to match the canvas's dimensions and position
         if(this.rendered) 
-            await this.ayshPeula(
+            /*await this.ayshPeula(
                 "htmlAction", {
                     shaym: `ikarGameMenu`,
                     properties: {
@@ -266,7 +266,7 @@ export default class {
                         }
                     }
                 }
-            );
+            );*/
 
         this.rendered
             await this.ayshPeula(

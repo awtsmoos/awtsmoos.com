@@ -73,8 +73,10 @@ export default class {
                                 position: absolute;
                                 transform-origin:top left;
                                 
-                                width:${this.ASPECT_X}px;
-                                height:${this.ASPECT_Y}px;
+                                ${/*width:${this.ASPECT_X}px;
+                                height:${this.ASPECT_Y}px;*/""}
+                                bottom:0;
+                                right:0;
                                 top: 0;
                                 left: 0;
                             }

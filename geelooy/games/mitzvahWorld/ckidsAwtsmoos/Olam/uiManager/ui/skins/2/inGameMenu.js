@@ -203,12 +203,11 @@ export default /*css*/`
       }
     .menuBtn {
         background:none;
-        margin-left: 20px;
     }
     .menuTop .titleTxt {
         color: #FFF;
         font-family: Fredoka One;
-        font-size: 50px;
+        font-size: 1em;
         font-style: normal;
         font-weight: 700;
         line-height: 32px;
@@ -219,7 +218,7 @@ export default /*css*/`
         color: #FECB39;
 
         font-family: Fredoka One;
-        font-size: 50px;
+        font-size: 1.2em;
         font-style: normal;
         font-weight: 700;
         line-height: 32px; /* 100% */
@@ -231,7 +230,8 @@ export default /*css*/`
         backdrop-filter: blur(4px);
         display: flex;
         width: 100%;
-        padding: 12px 40px;
+        height:10px;
+        padding: 12px 7px;
         align-items: center;
         gap: 28px;
     }
