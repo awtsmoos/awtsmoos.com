@@ -39,7 +39,9 @@
  * will be generated automatically.
  */
 import asdf from "../../auth/index.js"
-
+import {
+    copySerializableValues
+} from "../utils.js";
 window.asdf=asdf;
 
 import UIManager from "./uiManager/index.js"
@@ -233,12 +235,14 @@ class ManagerOfAllWorlds {
         }
        }
        Object.assign(ghtml, self.gameUiHTML)
-      
+       var windowVars = {}
+       copySerializableValues(window, obj)
        var heescheelObj = {
             ...worldDayuh,
             
             html: ghtml,
-            gameState: this.gameState
+            gameState: this.gameState,
+            windowVars
             
         }
 
@@ -310,4 +314,6 @@ function setupGlobalFunctions() {
     }
     window.searchForProperty = searchForProperty;
 }
+
+
 export default ManagerOfAllWorlds;

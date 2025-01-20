@@ -225,6 +225,46 @@ export default class Utils {
         return objCopy;
     }
 
+
+    static copySerializableValues(sourceObj, targetObj) {
+    for (const key in sourceObj) {
+      const value = sourceObj[key];
+  
+      // Check if the value is serializable (basic data types)
+      if (typeof value === 'string' || 
+          typeof value === 'number' || 
+          typeof value === 'boolean' || 
+          typeof value === 'bigint' || 
+          value === null || 
+          value === undefined) { 
+        targetObj[key] = value;
+      } else if (Array.isArray(value)) { 
+        // Handle arrays recursively
+        targetObj[key] = []; 
+        for (const item of value) {
+          if (Utils.isSerializable(item)) {
+            targetObj[key].push(item);
+          }
+        }
+      } else if (value instanceof Date) { 
+        // Handle Date objects specifically
+        targetObj[key] = new Date(value); 
+      } 
+    }
+  }
+  
+  // Helper function to check if a value is serializable
+    static isSerializable(value) {
+        return (
+        typeof value === 'string' || 
+        typeof value === 'number' || 
+        typeof value === 'boolean' || 
+        typeof value === 'bigint' || 
+        value === null || 
+        value === undefined
+        );
+    }
+
     static generateID() {
         return "BH_"+
         Date.now() + "_"
@@ -285,7 +325,7 @@ export default class Utils {
         return false;
     }
     /* Evaluate stringified Functions */
-    static evalStringifiedFunctions(obj) {
+    static evalStringifiedFunctions(obj, context={}) {
         var objCopy = null;
         
             // Create a new empty object or array depending on the original object
@@ -297,7 +337,10 @@ export default class Utils {
                 try {
                     if (typeof obj[key] === 'string' && obj[key].startsWith(comment)) {
         
-                        
+                        var keys = Object.keys(context);
+                        for(var k of keys) {
+                            this[k] = context[k];
+                        }
                         // Use eval to convert stringified function back to function
                         objCopy[key] = eval(evaled);
 

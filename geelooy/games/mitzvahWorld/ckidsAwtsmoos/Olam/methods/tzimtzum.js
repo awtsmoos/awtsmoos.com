@@ -7,7 +7,9 @@ export default class {
     async tzimtzum/*go, create world and load things*/(info = {}) {
 
         
-        
+        if(info.windowVars) {
+            this.window = info.windowVars;
+        }
         await this.ayshPeula("alert", "Starting tzimtzum")
         try {
             var on = info.on;

@@ -54,7 +54,8 @@ export default class {
                     
                     try {
                         evaledObject = Utils.evalStringifiedFunctions(
-                            options
+                            options,
+                            this
                         ); /*
                             when sending fucntions via worker 
                             etc. have to be stringified with special
