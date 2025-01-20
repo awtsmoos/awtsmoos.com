@@ -36,7 +36,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 export default class {
-    async generateThreeJsMesh(golem = {}) {
+    generateThreeJsMesh(golem = {}) {
         
         if(typeof(golem) != "object")
             golem = {};
