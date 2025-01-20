@@ -327,26 +327,25 @@ export default class Chai extends Tzomayach {
         this.isTeleporting = true;
     }
 
-    rays = [];
+   
+    // Your game loop's update function or updateRay logic
+    updateRay(deltaTime) {
+        // If the ray is active
+        if (this.activeRay) {
+            // Update the ray's position (keep the ray moving with the camera or character)
+            const rayStart = this.collider.end.clone();
+            const rayDirection = this.activeRay.direction;
 
-    updateRay() {
-        if (!this.activeRay) return;
-    
-        const start = this.collider.end.clone();
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
-    
-        // Align the beam with the direction
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-        this.activeRay.mesh.quaternion.copy(quaternion);
-    
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
-        this.activeRay.mesh.position.copy(midPoint);
+            // Check if there's already an object placed on the ray
+            if (this.activeObject) {
+                // Update the position of the active object
+                this.updateBlockPosition(this.activeObject);
+            } else {
+                // Place a new object if there's no active object
+                this.placeBlockOnRay(rayStart, rayDirection);
+            }
+        }
     }
-
     spheres = [];
     updateSpheres(deltaTime) {
         this.spheres.forEach(s => {
@@ -458,6 +457,62 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(mesh);
     
         return this.activeRay;
+    }
+
+    // Function to place the block on the ray
+    async placeBlockOnRay(rayStart, rayDirection) {
+        // Define the distance for the block's placement
+        const distance = 5;  // Adjust this based on the player's input or other game logic
+
+        // Calculate the position along the ray where the block will be placed
+        const position = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+
+        // Use your loadNivrayim method to create the object
+        const h = await this.olam.loadNivrayim({
+            Domem: {
+                hi: {
+                    golem: {
+                        toyr: {
+                            MeshLambertMaterial: {
+                                color: new THREE.Color("orange")
+                            }
+                        }
+                    },
+                    position: position,  // Position the block at the calculated point on the ray
+                    scale: { x: 5, y: 1, z: 7 }
+                }
+            }
+        });
+
+        console.log(h);
+
+        // Access the first block created (assuming only one block is created)
+        const block = h[0];  // The block created using loadNivrayim
+        this.activeObject = block;  // Store the block as the active object
+
+        // Add the block to the scene
+        this.olam.scene.add(block.mesh);
+        
+        // Update the block's position in the world (optional)
+        this.updateBlockPosition(block);
+    }
+
+    // Function to update the block's position along the ray
+    updateBlockPosition(block) {
+        const rayStart = this.collider.end.clone();
+        const rayDirection = this.activeRay.direction;
+
+        // Update the distance or use player input
+        const distance = 5;  // You can change this dynamically based on player input
+
+        // Update the block's position along the ray
+        const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+        block.mesh.position.copy(newPosition);
+
+        // Optionally, adjust the block's rotation to match the ray's direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), rayDirection.normalize());
+        block.mesh.rotation.setFromQuaternion(quaternion);
     }
     
 
