@@ -48,11 +48,11 @@ export default class UIManager {
             var det = peula.detail;
             console.log("Got olam peula",peula)
             if(
-                this.socket && 
-                this.socket.eved && 
+                window .socket && 
+                window .socket.eved && 
                 det
             ) {
-               
+               console.log("Sending",window?.socket?.eved,det)
                 Object.keys(det).forEach(w => {
                     this.socket.eved.postMessage({
                         [w]: det[w]
