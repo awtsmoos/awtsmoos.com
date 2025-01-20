@@ -7,7 +7,7 @@
 import Nivra from "./nivra.js";
 import {Kav} from "./roochney.js";
 import * as THREE from '/games/scripts/build/three.module.js';
-import TreeShader from "../Olam/materials/Tree.js";
+
 /**
  * Domem is a subclass of Nivra representing inanimate matter.
  * 
@@ -33,6 +33,7 @@ export default class Domem extends Nivra {
     path = "";
     position = new Kav();
     rotation = new Kav();
+    scale = new Kav();
     static = true;
     olam = null;
     heesHawveh = false;
@@ -65,8 +66,11 @@ export default class Domem extends Nivra {
         this.olam = olam;
         this.path = options.path;
         this.golem = options.golem;
-        this.position.set(options.position);
-        this.rotation.set(options.rotation);
+        this.position.set(options?.position);
+        this.rotation.set(options?.rotation);
+        var scale = options.scale;
+        if(!scale) scale = {x:1,y:1,z:1};
+        this.scale.set(scale)
         this.isSolid = !!options.isSolid;
         this.interactable = options.interactable;
         this.proximity = options.proximity;
@@ -126,7 +130,8 @@ export default class Domem extends Nivra {
 			object with position and rotation
 		**/({
             position,
-            rotation
+            rotation,
+            scale
         }) => {
         //    console.log("Changing",this)
             if(this.mesh) {
@@ -138,12 +143,13 @@ export default class Domem extends Nivra {
             }
 			
 			this.ayshPeula("collider transform update", {
-                position, rotation
+                position, rotation, scale
             });
 
             this.locationsChanged.push({
                 position,
-                rotation
+                rotation,
+                scale
             })
 		});
 
@@ -364,6 +370,11 @@ export default class Domem extends Nivra {
                     this.mesh.position.copy(
                         this.position.vector3()
                     );
+                    if(this.scale) {
+                        this.scale.copy(
+                            this.scale.vector3()
+                        );
+                    }
                     
                   //  this.mesh.layers.disableAll();
                     
