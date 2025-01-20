@@ -12,7 +12,8 @@ export default {
                 title:
                 newFile, 
                 content:
-                `Content of ${newFile}`
+                `//B"H
+                // Content of ${newFile}`
             });
             
         }

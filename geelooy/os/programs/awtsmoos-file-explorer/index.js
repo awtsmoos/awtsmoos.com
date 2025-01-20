@@ -35,7 +35,8 @@ export default ({
                 { tag: "button", html: "New File", on: { click: async () => {
                     const name = prompt("Enter file name:");
                     if (name) {
-                        await os.createFile({ path, title: name });
+                        await os.createFile({ path, title: name, content:`//B"H
+                        `});
                         await os.showFilesAtPath({ path, holder: body });
                     }
                     populateSidebar();
