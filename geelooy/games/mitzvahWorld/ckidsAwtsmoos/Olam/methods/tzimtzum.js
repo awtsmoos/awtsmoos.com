@@ -57,7 +57,7 @@ export default class {
                 } catch(e){}
             }
             if(!this.resetY) {
-                this.resetY = -30;
+                this.resetY = -6;
             }
             if(info.html) {
                 var style = null
