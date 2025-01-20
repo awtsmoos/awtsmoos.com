@@ -27,6 +27,7 @@ export default class UIManager {
                 ...mainMenu
             ]
         });
+        console.log("iar",window.ikar=h);
 
 
         var first = false;
@@ -45,6 +46,7 @@ export default class UIManager {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
+            console.log("Got olam peula")
             if(
                 this.socket && 
                 this.socket.eved && 
