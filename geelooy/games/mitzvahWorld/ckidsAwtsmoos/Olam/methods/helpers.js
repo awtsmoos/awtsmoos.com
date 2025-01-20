@@ -188,15 +188,15 @@ export default class {
     
         return new Promise((resolve) => {
             if(!nivra) {
-                this?.nivrayim?.find(q => 
+                nivra = this?.nivrayim?.find(q => 
                     q?.asset
                 );
             }
-            if(!nivra) return resolve();
+            if(!nivra) return resolve({error: "No nivra found"});
             var a = nivra.asset;
-            if(!a) return resolve();
-            var loader = nivra.asset.parser.textureLoader;
-            
+            if(!a) return resolve({error: "No asset nivra"});
+            var loader = nivra?.asset?.parser?.textureLoader;
+            if(!loader) return resolve({error: "No texture loader"})
             loader.load(
                 // resource URL
                 url,
