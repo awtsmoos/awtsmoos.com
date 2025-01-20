@@ -236,7 +236,15 @@ class ManagerOfAllWorlds {
        }
        Object.assign(ghtml, self.gameUiHTML)
        var windowVars = {}
-       Utils.copySerializableValues(window, windowVars)
+       try {
+            Utils.copySerializableValues(window, windowVars)
+            console.log(
+                "copied",
+                windowVars
+            )
+       } catch(e) {
+            console.log("Could't do it",e)
+       }
        var heescheelObj = {
             ...worldDayuh,
             

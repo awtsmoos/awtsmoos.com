@@ -8,7 +8,11 @@ export default class {
 
         
         if(info.windowVars) {
-            this.window = info.windowVars;
+            try {
+                this.window = info.windowVars;
+            } catch(e) {
+                console.log(e)
+            }
         }
         await this.ayshPeula("alert", "Starting tzimtzum")
         try {
