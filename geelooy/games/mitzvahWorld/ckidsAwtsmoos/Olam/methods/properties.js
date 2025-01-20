@@ -118,8 +118,8 @@ export default class {
         "KeyF": "PAN_DOWN",
 
         "Space": "JUMP",
-        "DOWN": "X",
-        "UP": "C"
+        "KeyX": "DOWN",
+        "keyC": "UP"
 
         //"ShiftLeft": "RUNNING",
         //"ShiftRight": "RUNNING"
