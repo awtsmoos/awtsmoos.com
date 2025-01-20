@@ -412,7 +412,10 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
-
+    /**
+     * called every frame
+     * 
+     */
     updateRay() {
         if (!this.activeRay) return;
 
@@ -439,8 +442,12 @@ export default class Chai extends Tzomayach {
         }
     }
     
-
-    async makeRay(length = 10) {
+    /**
+     * 
+     * @param {length of the ray} length 
+     * @returns 
+     */
+    async makeRay(length = 30) {
          // Create a new ray
          const start = this.collider.end.clone();
          const direction = this.olam.ayin.isFPS
@@ -529,6 +536,10 @@ export default class Chai extends Tzomayach {
         this.updateBlockPosition(block);
     }
 
+    /**
+     * called every frame
+     * @param {the actie object to place on the ray} block 
+     */
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
         const rayStart = this.collider.end.clone();

@@ -38,7 +38,7 @@ export default class Chossid extends Medabeir {
 
    
 
-    
+    rayLength = 50;
     
     /**
      * varructs a new Chossid (character).
@@ -247,7 +247,7 @@ export default class Chossid extends Medabeir {
                     !this.movingAutomatically
                 break;
                 case "KeyY":
-                    await this.makeRay();
+                    await this.makeRay(this.rayLength);
                 /*if (!isOtherview) {
                     if (m?.asset?.cameras[0]) {
                         m.olam.activeCamera = m.asset.cameras[0]
@@ -337,7 +337,7 @@ export default class Chossid extends Medabeir {
 
             // You can limit the distance to prevent it from becoming too small or too large
             this.distanceFromRay = Math
-                .max(1, Math.min(20, this.distanceFromRay)); // Example limits
+                .max(1, Math.min(this.rayLength, this.distanceFromRay)); // Example limits
 
         })
         
