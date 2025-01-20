@@ -421,7 +421,7 @@ export default class Chai extends Tzomayach {
      */
     async makeRay(length = 30) {
         // Ensure the ray starts at the player's correct position (world space)
-        const start = this.meshModel.position.clone(); // Player's position in world space
+        const start = this.modelMesh.position.clone(); // Player's position in world space
         const direction = this.olam.ayin.isFPS
             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // Normalize direction for FPS
             : this.currentModelVector.normalize(); // Normalize direction for non-FPS
