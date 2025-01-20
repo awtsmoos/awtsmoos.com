@@ -371,7 +371,7 @@ export default class Domem extends Nivra {
                         this.position.vector3()
                     );
                     if(this.scale) {
-                        this.scale.copy(
+                        this.mesh.scale.copy(
                             this.scale.vector3()
                         );
                     }
