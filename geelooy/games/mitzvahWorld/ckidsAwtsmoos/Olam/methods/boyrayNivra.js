@@ -457,12 +457,12 @@ export default class {
                     chomer, tzurah
                 );
 
-
+                console.log("Is it solid",nivra.isSolid,nivra)
                 if(nivra.isSolid) {
                     nivra.needsOctreeChange = true;
                     nivra.on(
                         "changeOctreePosition", () => {
-                           
+                            
                          
                             this.worldOctree.fromGraphNode(mesh);
 
