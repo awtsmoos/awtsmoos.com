@@ -436,10 +436,7 @@ export default class Chai extends Tzomayach {
         const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
         this.activeRay.mesh.position.copy(midPoint);
 
-        // If there's an active object, update its position on the ray
-        if (this.activeObject) {
-            this.updateBlockPosition(this.activeObject);
-        }
+        
     }
     
     /**
@@ -448,41 +445,39 @@ export default class Chai extends Tzomayach {
      * @returns 
      */
     async makeRay(length = 30) {
-         // Create a new ray
-         const start = this.collider.end.clone();
-         const direction = this.olam.ayin.isFPS
-             ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-             : this.currentModelVector;
-     
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+    
         if (this.activeRay) {
-            // If a ray exists, remove it to toggle off
-            
+            // Remove existing ray
             if (this.activeObject) {
                 // Detach the block from the ray
                 this.activeRay.mesh.remove(this.activeObject.mesh);
-            
-                // Reset the block's world position (so it doesn't "jump")
+    
+                // Reset the block's world position
                 this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
-            
+    
                 // Add it back to the scene
                 this.olam.scene.add(this.activeObject.mesh);
-            
-                // Update the Octree or other systems if needed
+    
+                // Update the Octree if needed
                 this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
-            
+    
                 this.activeObject = null;
             }
-            this.olam.scene.remove(this.activeRay.mesh);
+    
+            this.modelMesh.remove(this.activeRay.mesh);
             this.activeRay = null;
             return; // Exit after toggling off
-        } 
+        }
     
-       
-        // Store the direction in activeRay
-        this.activeRay = { 
-            mesh: null, 
-            direction,  // Store direction here
-            length 
+        // Create a new ray
+        this.activeRay = {
+            mesh: null,
+            direction,
+            length,
         };
     
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
@@ -494,23 +489,28 @@ export default class Chai extends Tzomayach {
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
         mesh.quaternion.copy(quaternion);
     
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(length / 2));
+        // Position the beam at the correct location relative to the character
+        const localStart = this.modelMesh.worldToLocal(start.clone());
+        const midPoint = localStart.add(direction.clone().multiplyScalar(length / 2));
         mesh.position.copy(midPoint);
     
-        // Store the mesh and direction in activeRay
+        // Parent the ray to the model mesh
+        this.modelMesh.add(mesh);
+    
+        // Store the mesh in activeRay
         this.activeRay.mesh = mesh;
-        this.olam.scene.add(mesh);
-        if(!this.activeObject) {
-            await this.placeBlockOnRay(start, direction);
+    
+        if (!this.activeObject) {
+            await this.placeBlockOnRay(localStart, direction);
         }
+    
         return this.activeRay;
     }
 
     async placeBlockOnRay(rayStart, rayDirection) {
         const distance = 5; // Adjust based on your game's needs
     
-        // Calculate initial world position along the ray
+        // Calculate the initial world position along the ray
         const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
     
         // Create the block
@@ -532,44 +532,20 @@ export default class Chai extends Tzomayach {
         // Set the block's scale
         block.mesh.scale.set(3, 3, 2);
     
-        // Convert the world position to the ray's local space
+        // Convert the world position to the ray's local coordinate space
         const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
     
-        // Set the block's position in local space
+        // Position the block in local space
         block.mesh.position.copy(localPosition);
     
-        // Parent the block to the ray's mesh
+        // Parent the block to the ray
         this.activeRay.mesh.add(block.mesh);
     
-        // Store a reference to the active object
+        // Store the block as the active object
         this.activeObject = block;
     }
     
 
-    /**
-     * called every frame
-     * @param {the actie object to place on the ray} block 
-     */
-    // Function to update the block's position along the ray
-    updateBlockPosition(block) {
-        return;
-        const rayStart = this.collider.end.clone();
-        const rayDirection = this.activeRay.direction;
-
-        // Use the updated distance from the mouse wheel scroll
-        const newPosition = rayStart.clone().add(rayDirection.clone()
-            .multiplyScalar(this.distanceFromRay));
-
-        // Update the block's position to follow the ray
-        block.mesh.position.copy(newPosition);
-
-        // Adjust rotation: keep block upright
-        const quaternion = new THREE.Quaternion();
-        
-        quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(rayDirection.x, rayDirection.z));
-        
-        block.mesh.rotation.setFromQuaternion(quaternion);
-    }
 
 
 
@@ -923,7 +899,7 @@ export default class Chai extends Tzomayach {
         this.modelMesh.position.copy(this.mesh.position);
         this.emptyCopy.position.copy(this.mesh.position);
         this.updateSpheres(deltaTime)
-        this.updateRay(deltaTime);
+       // this.updateRay(deltaTime);
     }
 }
 
