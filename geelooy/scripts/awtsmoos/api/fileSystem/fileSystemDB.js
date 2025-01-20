@@ -182,7 +182,7 @@ class APIHandler {
 
     async write(st, key, val) {
         if(!val) {
-            return await this.makeFolder(`${st}`)
+            return await this.makeFolder(`${st}/${key}`)
         } else {
             return await this.makeFile(st, key, val)
         }
