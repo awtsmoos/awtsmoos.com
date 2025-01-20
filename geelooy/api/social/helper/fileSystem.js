@@ -99,23 +99,27 @@ async function makeFile({$i}) {
  * @param {string} path 
  */
 function addFolderName(path, lastIsFile = true) {
-    const parts = path.split('/');
-  
-    // Check if the path has any parent folders
-    if (parts.length > 1) { 
-      if (lastIsFile) {
-        parts.slice(0, -1).forEach((part, index) => {
-          parts[index] += '.folder';
-        });
-      } else {
-        parts.forEach((part, index) => {
-          parts[index] += '.folder';
-        });
-      }
+  const parts = path.split('/');
+
+  // Check if the path has any parent folders
+  if (parts.length > 1) { 
+    if (lastIsFile) {
+      parts.slice(0, -1).forEach((part, index) => {
+        if (!part.endsWith('.folder')) { 
+          parts[index] += '.folder'; 
+        }
+      });
+    } else {
+      parts.forEach((part, index) => {
+        if (!part.endsWith('.folder')) { 
+          parts[index] += '.folder'; 
+        }
+      });
     }
-  
-    return parts.join('/');
   }
+
+  return parts.join('/');
+}
 async function deleteEntry({$i}) {
     try {
         var { aliasId, path } = $i.$_DELETE;
@@ -227,6 +231,7 @@ async function readFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
+    path = addFolderName(path);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
