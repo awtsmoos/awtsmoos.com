@@ -404,8 +404,9 @@ export default class Medabeir extends Chai {
         }
         
         if (chosenResponse.action) {
-            await chosenResponse.action(this, this.nivraTalkingTo);
-            this.state = "idle";
+            var keepGoing = await chosenResponse.action(this, this.nivraTalkingTo);
+            if(!keepGoing)
+                this.state = "idle";
             
         }
         
