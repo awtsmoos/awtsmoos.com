@@ -54,7 +54,7 @@ export default class UIManager {
             ) {
                console.log("Sending",window?.socket?.eved,det)
                 Object.keys(det).forEach(w => {
-                    this.socket.eved.postMessage({
+                    window?.socket?.eved?.postMessage?.({
                         [w]: det[w]
                     })
                 })
