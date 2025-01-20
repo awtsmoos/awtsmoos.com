@@ -237,7 +237,7 @@ class ManagerOfAllWorlds {
        Object.assign(ghtml, self.gameUiHTML)
        var windowVars = {}
        try {
-            Utils.copySerializableValues(window, windowVars)
+            //Utils.copySerializableValues(window, windowVars)
             console.log(
                 "copied",
                 windowVars

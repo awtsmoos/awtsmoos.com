@@ -326,7 +326,7 @@ export default class Utils {
         return objCopy;
     }
     /* Evaluate stringified Functions */
-    static evalStringifiedFunctions(obj, context={}) {
+    static evalStringifiedFunctions(obj, context=null) {
         var objCopy = null;
         
             // Create a new empty object or array depending on the original object
@@ -337,19 +337,20 @@ export default class Utils {
                 var evaled = '(' + obj[key] + ')'
                 try {
                     if (typeof obj[key] === 'string' && obj[key].startsWith(comment)) {
-        
-                        var keys = Object.keys(context);
-                        var str = `//B"H
-                        `
-                        for(var k of keys) {
-                            str += `var ${k} = ${context[k]}`
-                          //  this[k] = context[k];
-                        }
-                        var firstCurly = evaled.indexOf("{");
-                        if(firstCurly > -1) {
-                            evaled = evaled.substring(0, firstCurly+1)
-                            + "\n\n\n" + str + "\n\n\n"
-                            + evaled.substring(firstCurly+1)
+                        if(context) {
+                            var keys = Object.keys(context);
+                            var str = `//B"H
+                            `
+                            for(var k of keys) {
+                                str += `var ${k} = ${context[k]}`
+                            //  this[k] = context[k];
+                            }
+                            var firstCurly = evaled.indexOf("{");
+                            if(firstCurly > -1) {
+                                evaled = evaled.substring(0, firstCurly+1)
+                                + "\n\n\n" + str + "\n\n\n"
+                                + evaled.substring(firstCurly+1)
+                            }
                         }
                         // Use eval to convert stringified function back to function
                         objCopy[key] = eval(evaled);

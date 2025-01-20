@@ -55,7 +55,7 @@ export default class {
                     try {
                         evaledObject = Utils.evalStringifiedFunctions(
                             options,
-                            {window:this.window}
+                         //   {window:this.window}
                         ); /*
                             when sending fucntions via worker 
                             etc. have to be stringified with special
