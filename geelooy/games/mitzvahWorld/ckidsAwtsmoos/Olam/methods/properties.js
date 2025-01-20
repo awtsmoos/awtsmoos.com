@@ -23,7 +23,7 @@ export default class {
     coby = 0;
     // constants
     STEPS_PER_FRAME = 5;
-    GRAVITY = 0;
+    GRAVITY = 30;
     currentLoadingPercentage = 0;
     destroyed = false;
     

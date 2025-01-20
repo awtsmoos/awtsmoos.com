@@ -260,7 +260,7 @@ export default class Chai extends Tzomayach {
                 this.velocity.addScaledVector( result.normal, - result.normal.dot( this.velocity ) );
             }
 
-            console.log("Colliding",result.normal)
+           // console.log("Colliding",result.normal)
     
             this.collider.translate( result.normal.multiplyScalar( result.depth ) );
         }
