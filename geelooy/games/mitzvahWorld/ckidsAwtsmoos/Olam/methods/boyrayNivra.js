@@ -93,7 +93,7 @@ export default class {
         }
         var material = toyrEntries[0][0]
         if(
-            THREE[key]
+            THREE[material]
         ) {
             var val = toyrEntries[0][1];
             if(typeof(val) == "object" && val) {
@@ -108,7 +108,7 @@ export default class {
                 val = newVal;
             }
             
-            tzurah = new THREE[key](
+            tzurah = new THREE[material](
                 val
             );
         }
