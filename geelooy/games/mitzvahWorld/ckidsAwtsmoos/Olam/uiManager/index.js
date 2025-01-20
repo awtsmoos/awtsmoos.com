@@ -46,7 +46,7 @@ export default class UIManager {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
-            console.log("Got olam peula")
+            console.log("Got olam peula",peula)
             if(
                 this.socket && 
                 this.socket.eved && 
