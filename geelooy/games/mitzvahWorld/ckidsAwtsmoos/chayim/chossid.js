@@ -309,19 +309,6 @@ export default class Chossid extends Medabeir {
 
        
 
-        this.setupSubMaterials()
-    }
-    
-    setupSubMaterials() {
-        var material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-        var geometry = new THREE.BufferGeometry()
-            .setFromPoints([ 
-                new THREE.Vector3(0, 0, 0), 
-                new THREE.Vector3(0, 10, 0) 
-            ]);
-        var line = new THREE.Line(geometry, material);
-        this.olam.scene.add(line);
-        this.editLine = line;
     }
 
     async ready(m) {

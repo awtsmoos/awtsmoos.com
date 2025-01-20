@@ -187,6 +187,11 @@ export default class {
         
     
         return new Promise((resolve) => {
+            if(!nivra) {
+                this?.nivrayim?.find(q => 
+                    q?.asset
+                );
+            }
             if(!nivra) return resolve();
             var a = nivra.asset;
             if(!a) return resolve();

@@ -440,8 +440,8 @@ export default class Chai extends Tzomayach {
             length 
         };
     
-        const geometry = new THREE.CylinderGeometry(0.02, 0.02, length, 8); // Thin beam
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 });
+        const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
+        const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
         // Align the beam with the direction
@@ -467,6 +467,14 @@ export default class Chai extends Tzomayach {
 
         // Calculate the position along the ray where the block will be placed
         const position = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+        var def = this?.olam?.vars?.defaultBlock || ({
+            toyr: {
+                MeshLambertMaterial: {
+                    color: "blue"
+                }
+            }
+        })
+
 
         // Use your loadNivrayim method to create the object
         const h = /*await this.olam.loadNivrayim({
@@ -485,13 +493,7 @@ export default class Chai extends Tzomayach {
             }
         });*/{
             mesh:
-                this.olam.generateThreeJsMesh({
-                    toyr: {
-                        MeshLambertMaterial: {
-                            color: new THREE.Color("orange")
-                        }
-                    }
-                })
+                await this.olam.generateThreeJsMesh(def)
         }
         h.mesh.position.copy(position);
         h.mesh.scale.x = 3;

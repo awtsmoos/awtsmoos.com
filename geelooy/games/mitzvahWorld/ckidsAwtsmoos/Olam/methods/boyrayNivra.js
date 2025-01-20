@@ -36,8 +36,18 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 export default class {
-    generateThreeJsMesh(golem = {}) {
-        
+    async generateThreeJsMesh(golem = {}) {
+        var self = this
+        var keyMap = {
+            color: val => (
+                new THREE.Color(val)
+            ),
+            map: async /*string*/val => 
+                await self.loadTexture({
+                    url: val
+                })
+            
+        }
         if(typeof(golem) != "object")
             golem = {};
             
@@ -81,12 +91,16 @@ export default class {
                 ...gufEntries[0][1]
             );
         }
-
+        var key = toyrEntries[0][0]
         if(
-            THREE[toyrEntries[0][0]]
+            THREE[key]
         ) {
-            tzurah = new THREE[toyrEntries[0][0]](
-                toyrEntries[0][1]
+            var val = toyrEntries[0][1];
+            if(keyMap[key]) {
+                val = keyMap[key](val);
+            }
+            tzurah = new THREE[key](
+                val
             );
         }
 
@@ -461,7 +475,7 @@ export default class {
                 optional input object to allow users to 
                 specify what kidn of three mesh to 
                 add if not loading a model*/
-                var mesh = this.generateThreeJsMesh(golem);
+                var mesh = await this.generateThreeJsMesh(golem);
                 if(nivra.isSolid) {
                     nivra.needsOctreeChange = true;
                     nivra.on(
