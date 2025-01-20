@@ -470,7 +470,7 @@ export default class {
                         
 
 
-                            console.log("About to add to octree", has,mesh,nivra)
+                            console.log("About to add to octree",mesh,nivra)
                             
                         
                         }
