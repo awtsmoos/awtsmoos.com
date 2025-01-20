@@ -394,6 +394,7 @@ export default class Medabeir extends Chai {
     async changeResponseAndGoToIt({msgIndex=0, message, responses} = {}) {
         var msg =  this?.messageTree
             [msgIndex];
+        console.log(msg);
         if(msg) {
             try {
                 msg.message = message;
@@ -405,6 +406,8 @@ export default class Medabeir extends Chai {
             } catch(e) {
                 console.log(e);
             }
+        } else {
+            console.log("Didn't do it")
         }
     }
     async chooseResponse(responseIndex) {
