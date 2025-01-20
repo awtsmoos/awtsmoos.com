@@ -299,7 +299,7 @@ export default class Chossid extends Medabeir {
                 break;
                 case "KeyY":
                 if (!isOtherview) {
-                    if (m.asset.cameras[0]) {
+                    if (m?.asset?.cameras[0]) {
                         m.olam.activeCamera = m.asset.cameras[0]
                     }
                     isOtherview = true;

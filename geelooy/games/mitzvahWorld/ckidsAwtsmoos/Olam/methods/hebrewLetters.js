@@ -12,7 +12,7 @@ export default class {
       
     async loadHebrewFonts() {
         var loader = new FontLoader();
-		loader.load('/resources/fonts/Tinos_Bold.json', (font) => {
+		loader.load('/games/mitzvahWorld/resources/fonts/Tinos_Bold.json', (font) => {
 			this.hebrewLetters = 
 				"קראטוןןםפףךלחיעכגדשזסבהנמצתץ"
 				.split("");

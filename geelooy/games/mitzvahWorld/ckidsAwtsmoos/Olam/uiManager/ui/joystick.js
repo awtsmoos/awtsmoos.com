@@ -25,7 +25,11 @@ export default [
     {
         id: "game-controller",
         children: [
-            { id: "button-C", className: "controller-button", textContent: "C" },
+            { id: "button-B", 
+                className: "controller-button", 
+                textContent: "B",
+                key: "B"
+            },
             { id: "button-T", className: "controller-button", textContent: "T" },
             { 
                 id: "button-Enter", 
@@ -101,8 +105,9 @@ export default [
                 }
 
                 :root {
-                    --buttonSize: 100px; /* Increase the size of each button */
-                    --controllerSize: 300px; /* Adjust the size of the controller container */
+                    --buttonSize: 150px;
+                    --controllerSize: 450px;
+
                     --margin: 10px;
                     --offset: 30px;
                 }
@@ -169,13 +174,8 @@ export default [
                 }
 
                 
-                .controller-button:active, .controller-button:focus {
-                    filter: brightness(85%);
-                    outline: none;
-                }
-                
-                .controller-button:hover {
-                    filter: brightness(110%);
+                .controller-button:active {
+                    box-shadow: inset 0px 0px 20px 9px #000000;
                 }
                 
                 
