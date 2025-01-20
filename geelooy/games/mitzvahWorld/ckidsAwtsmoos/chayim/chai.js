@@ -421,7 +421,7 @@ export default class Chai extends Tzomayach {
      */
     async makeRay(length = 30) {
         // Get the player's world position (where the ray should start)
-        const start = this.modelMesh.getWorldPosition(new THREE.Vector3()); // Player's position in world space
+        const start = this.collider.end.clone();//this.modelMesh.getWorldPosition(new THREE.Vector3()); // Player's position in world space
         
         // Determine the direction based on FPS or non-FPS mode
         const direction = this.olam.ayin.isFPS
@@ -464,21 +464,30 @@ export default class Chai extends Tzomayach {
         const mesh = new THREE.Mesh(geometry, material);
     
         
-    
-        // Adjust position for cylinder's center (so it starts at the player's position)
-        // Move the ray origin by half its length to correctly position it at the start point
-       // mesh.position.set(0, length / 2, 0); // Center of the cylinder should be at the player's position
-        
-        // Convert the position from local to world space and then set it to the player's world position
-        const localStart = this.modelMesh.worldToLocal(start.clone());
-        mesh.position.add(localStart); // Move the ray to the player's local space
-    
-        // Parent the ray to the player's model
+        // Calculate initial world position along the ray
+        const worldPosition = start.clone().add(direction.clone());
+        const localPosition = start.clone().worldToLocal(worldPosition.clone());
+        mesh.position.copy(localPosition);
         this.modelMesh.add(mesh);
-        // Align the beam with the direction using quaternion
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
-        mesh.quaternion.copy(quaternion);
+       
+        // Parent the ray to the player's model
+        var quat = new THREE.Quaternion
+        quat.setFromUnitVectors(
+            new THREE.Vector3(0,0,1),
+            direction.normalize()
+        )
+
+        //setting it upright
+        let up = new THREE.Vector3(0, 1, 0);
+        let right = new THREE.Vector3().crossVectors(up, direction).normalize();
+        let adjustedUp = new THREE.Vector3().crossVectors(direction, right);
+
+        let uprightQuaternion = new THREE.Quaternion();
+        uprightQuaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), adjustedUp.normalize());
+
+        quat.multiply(uprightQuaternion);
+        mesh.quaternion.copy(quat)
+
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
