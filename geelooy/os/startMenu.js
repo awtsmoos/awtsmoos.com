@@ -8,7 +8,7 @@ export default {
         const newFile = prompt('Enter file name:');
         if (newFile) {
             await os.createFile({
-                path:"desktop", 
+                path:"desktop.folder", 
                 title:
                 newFile, 
                 content:
@@ -21,13 +21,13 @@ export default {
     "New Folder":  async ({os, path}) => {
         const newFolder = prompt('Enter folder name:');
         if (newFolder) {
-            await os.createFolder({path:"desktop", title: newFolder});
+            await os.createFolder({path:"desktop.folder", title: newFolder});
         }
     },
     "Import Files": async ({os}) => {
        importFiles({
         os,
-        path:"desktop"
+        path:"desktop.folder"
        })
     },
     "Export All": async ({os}) => {
@@ -101,7 +101,7 @@ export default {
                
             } else {
                 await os.createFile({
-                    path:"desktop", 
+                    path:"desktop.folder", 
                     title:
                     file.name, 
                     content

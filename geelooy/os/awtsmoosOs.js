@@ -25,7 +25,7 @@ export default class AwtsmoosOS {
         await this.db.init("awtsmoos-os");
         this.makeDesktop();
         await this.showFilesAtPath({
-            path: "desktop"
+            path: "desktop.folder"
         });    
         this.listeners()
     }
@@ -219,7 +219,7 @@ export default class AwtsmoosOS {
         path,
         holder
     }) {
-        if(path == "desktop") {
+        if(path == "desktop.folder") {
             holder = this.getDesktop();
         }
         if(!holder) return;
