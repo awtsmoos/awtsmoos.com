@@ -136,7 +136,7 @@ async function deleteEntry({$i}) {
     
         var isAuthorized = await verifyAlias({$i, aliasId, userid });
         if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
-
+        path = addFolderName(path);
         // Write the file to the alias's file system
         var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
         var deleted = await $i.db.delete(filePath);
@@ -167,6 +167,8 @@ async function readFile({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 */
+
+    path = addFolderName(path);
     // Read the file from the alias's file system
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var file = await $i.db.read(filePath);
@@ -264,6 +266,9 @@ async function renameFolder({$i}) {
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
+    path = addFolderName(path);
+
+    newFolderPath = addFolderName(newFolderPath);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var newFolderPath = `${sp}/aliases/${aliasId}/fileSystem/${newPath}`
