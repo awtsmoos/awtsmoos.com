@@ -61,7 +61,7 @@ export default class Dialogue extends Interaction {
                 
             });
 
-            this.me.on("selectedMessage", () => {
+            this.me.on("selectedMessage", async () => {
           
                 if(this.me.state == "idle")
                     return;
@@ -104,18 +104,18 @@ export default class Dialogue extends Interaction {
                     );
 
                     var self = this
-                    function toggle(ind) {
+                    async function toggle(ind) {
                         var id = ind.id;
                         self.me.olam.clear("htmlPeula toggleToOption");
 
-                        self.me.olam.on("htmlPeula toggleToOption", toggle)
+                        self.me.olam.on("htmlPeula toggleToOption", async (...a) => await toggle(...a))
                     //    console.log("Trying to choose",ind, id)
-                        self.me.chooseResponse(id)
+                        await self.me.chooseResponse(id)
                         
                     }
                     self.me.olam.clear("htmlPeula toggleToOption");
 
-                    this.me.olam.on("htmlPeula toggleToOption", toggle)
+                    this.me.olam.on("htmlPeula toggleToOption", async (...a) => await toggle(...a))
                 }
                     
             });

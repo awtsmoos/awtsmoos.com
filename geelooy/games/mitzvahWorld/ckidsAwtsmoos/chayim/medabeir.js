@@ -391,7 +391,21 @@ export default class Medabeir extends Chai {
     }
      // Navigate to a specific response based on player choice
     
-     
+    async changeResponseAndGoToIt({msgIndex=0, message, responses} = {}) {
+        var msg =  this?.messageTree
+            [msgIndex];
+        if(msg) {
+            try {
+                msg.message = message;
+                msg.responses = responses;
+                this.currentSelectedMsgIndex = 0;
+                this.currentMessageIndex = msgIndex;
+                
+            } catch(e) {
+                console.log(e);
+            }
+        }
+    }
     async chooseResponse(responseIndex) {
         var me = this;
         var chosenResponse = this.currentMessage.responses[responseIndex];
@@ -409,7 +423,12 @@ export default class Medabeir extends Chai {
                 this.state = "idle";
             
         }
-        
+        if(chosenResponse.changeResponseAndGoToIt) {
+            await changeResponseAndGoToIt(
+                chosenResponse
+                .changeResponseAndGoToIt
+            )
+        }
         if(chosenResponse.close) {
             var str = chosenResponse.close;
             if(typeof(str) == "string") {
