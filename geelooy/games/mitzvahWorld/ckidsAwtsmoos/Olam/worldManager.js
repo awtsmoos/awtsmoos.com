@@ -39,9 +39,9 @@
  * will be generated automatically.
  */
 import asdf from "../../auth/index.js"
-import {
-    copySerializableValues
-} from "../utils.js";
+import 
+    Utils
+from "../utils.js";
 window.asdf=asdf;
 
 import UIManager from "./uiManager/index.js"
@@ -236,7 +236,7 @@ class ManagerOfAllWorlds {
        }
        Object.assign(ghtml, self.gameUiHTML)
        var windowVars = {}
-       copySerializableValues(window, obj)
+       Utils.copySerializableValues(window, obj)
        var heescheelObj = {
             ...worldDayuh,
             
