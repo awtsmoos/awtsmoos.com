@@ -273,7 +273,7 @@ export default class ResizableWindow {
 
             let first = true;
             const resize = (e) => {
-                if(e. target. classList.includes("awtsBtn")) {
+                if(e. target. classList.contains("awtsBtn")) {
                 return;
 
 
@@ -314,6 +314,9 @@ export default class ResizableWindow {
         let offsetX, offsetY, rect;
 
         const onDragStart = (e) => {
+            if(e?.target?.classList?.contains("awtsBtn")) {
+                return;
+            }
             e.preventDefault();
 
             // Determine if it's a touch event
