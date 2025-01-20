@@ -53,7 +53,7 @@ export default class {
             if(!this.colors) {
                 this.colors = {}
             }
-            
+
             colors = this.colors;
             if(!colors?.[strC]) {
                 mat = new THREE.MeshLambertMaterial({
@@ -66,8 +66,13 @@ export default class {
             }
          //   console.log("COLOR",color,strC,mat)
             
+            if(!this.letters) {
+                this.letters = {}
+            }
+            letters = this.letters;
+
             var textGeo;
-            if(!letters[letter]) {
+            if(!letters?.[letter]) {
                 textGeo = new TextGeometry(letter, {
                     font: this.font,
                     size: 0.5,
