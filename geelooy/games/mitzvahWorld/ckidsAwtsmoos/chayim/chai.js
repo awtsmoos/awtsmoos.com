@@ -458,13 +458,21 @@ export default class Chai extends Tzomayach {
             // If a ray exists, remove it to toggle off
             this.olam.scene.remove(this.activeRay.mesh);
             this.activeRay = null;
-            if(this.activeObject) {
-                this.olam.worldOctree.fromGraphNode(
-                    this
-                    .activeObject.mesh
-                );
+            if (this.activeObject) {
+                // Detach the block from the ray
+                this.activeRay.mesh.remove(this.activeObject.mesh);
+            
+                // Reset the block's world position (so it doesn't "jump")
+                this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
+            
+                // Add it back to the scene
+                this.olam.scene.add(this.activeObject.mesh);
+            
+                // Update the Octree or other systems if needed
+                this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
+            
                 this.activeObject = null;
-            } 
+            }
             return; // Exit after toggling off
         } 
     
@@ -498,42 +506,37 @@ export default class Chai extends Tzomayach {
         return this.activeRay;
     }
 
-    // Function to place the block on the ray
     async placeBlockOnRay(rayStart, rayDirection) {
-        // Define the distance along the ray for placing the block
-        const distance = 5;  // Adjust this based on the player's input or other game logic
-
-        // Calculate the position along the ray where the block will be placed
+        const distance = 5; // Adjust based on your game's needs
+    
+        // Calculate initial position along the ray
         const position = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
-        var def = this?.olam?.vars?.defaultBlock || ({
+    
+        // Create the block
+        const def = this?.olam?.vars?.defaultBlock || {
             toyr: {
                 MeshLambertMaterial: {
                     color: "blue"
                 }
             }
-        })
-
-        var mesh = await this.olam.generateThreeJsMesh(def);
-        if(!mesh) return;
-        const h = {
-            mesh
-                
-        }
-        h.mesh.position.copy(position);
-        h.mesh.scale.x = 3;
-        h.mesh.scale.z = 2;
-
-        console.log(h);
-
-        // Access the first block created (assuming only one block is created)
-        const block = h;
-        this.activeObject = block;  // Store the block as the active object
-
-        // Add the block to the scene
-        this.olam.scene.add(block.mesh);
-        
-        // Update the block's position in the world (optional)
-        this.updateBlockPosition(block);
+        };
+    
+        const mesh = await this.olam.generateThreeJsMesh(def);
+        if (!mesh) return;
+    
+        const block = {
+            mesh,
+        };
+    
+        // Position the block
+        block.mesh.position.copy(position);
+        block.mesh.scale.set(3, 3, 2);
+    
+        // Parent the block to the ray's mesh
+        this.activeRay.mesh.add(block.mesh);
+    
+        // Store a reference to the active object
+        this.activeObject = block;
     }
 
     /**
