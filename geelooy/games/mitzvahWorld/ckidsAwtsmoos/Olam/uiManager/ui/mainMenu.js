@@ -159,7 +159,18 @@ export default [
                                 +"ikar\"";
                             
                             var par = ikar;
-                            var dayuhOfOlam = await import(config.startingLevel);
+                            var start = await (
+                                await fetch(config?.startingLevel)
+                            )?.text();
+                            if(!start) start = "";
+                          
+                            var dayuhOfOlam = await import(
+                                URL.createObjectURL(
+                                    new Blob([start], {
+                                        type: "application/javascript"
+                                    })
+                                )
+                            );
 							if(!(dayuhOfOlam && dayuhOfOlam.default)) {
 								alert("Could not load the first level");
 								return;
