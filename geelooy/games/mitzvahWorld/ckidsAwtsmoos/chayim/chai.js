@@ -468,12 +468,14 @@ export default class Chai extends Tzomayach {
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
         mesh.quaternion.copy(quaternion);
     
-        // Position the beam at the player's world position
-        mesh.position.copy(start); // Directly position the ray at the player's world position
-    
-        // Extend the ray from the player's position in the direction of movement
-        mesh.position.add(direction.clone().multiplyScalar(length / 2)); // Adjust for length of the ray
+        // Adjust position for cylinder's center (so it starts at the player's position)
+        // Move the ray origin by half its length to correctly position it at the start point
+        mesh.position.set(0, length / 2, 0); // Center of the cylinder should be at the player's position
         
+        // Convert the position from local to world space and then set it to the player's world position
+        const localStart = this.modelMesh.worldToLocal(start.clone());
+        mesh.position.add(localStart); // Move the ray to the player's local space
+    
         // Parent the ray to the player's model
         this.modelMesh.add(mesh);
     
