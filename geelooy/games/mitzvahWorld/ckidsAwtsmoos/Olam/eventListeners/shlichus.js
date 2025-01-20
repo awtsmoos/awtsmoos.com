@@ -7,7 +7,7 @@
  export default function() {
 
     this.on("get shlichus data", shlichusID => {
-        var shl = this.modules.shlichuseem;
+        var shl = this?.modules?.shlichuseem;
         if(!shl) return null;
         if(typeof(shl) != "object") {
             return null;

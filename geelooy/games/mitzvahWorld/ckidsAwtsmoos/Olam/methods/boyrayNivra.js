@@ -461,7 +461,7 @@ export default class {
                 if(nivra.isSolid) {
                     this.worldOctree.fromGraphNode(mesh);
         
-                    mesh.layers.enable(2)
+                    //mesh.layers.enable(2)
                 }
                 
                 return mesh;
