@@ -9,6 +9,7 @@ export default /*css*/`
         top:15px;
         right:15px;
         position:absolute;
+        display:none;
     }
 
     .rightBtns {
