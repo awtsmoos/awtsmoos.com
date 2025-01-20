@@ -399,9 +399,7 @@ export default class Chossid extends Medabeir {
         this.iconType = "centered"
         
         await this
-        .olam
-        .minimap
-        .setMinimapItems([this], "chossid");
+        .olam?.minimap?.setMinimapItems?.([this], "chossid");
     }
 
     /**

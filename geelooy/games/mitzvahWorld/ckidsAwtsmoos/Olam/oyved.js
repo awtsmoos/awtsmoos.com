@@ -230,7 +230,7 @@ async function go() {
         },
         gotMapCanvas(info) {
    
-            me.olam.ayshPeula("start minimap", info)
+         //   me.olam.ayshPeula("start minimap", info)
         },
         scrolledMap(info) {
             // Check if there is a promise to resolve
