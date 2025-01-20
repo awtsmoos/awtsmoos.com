@@ -49,8 +49,8 @@ export default [
             }
             
             Array.from(m.children).forEach(w => {
-                w.onclick = () => {
-                    
+                var func = () => {
+                    console.log("Clackled", w,k.key)
                     ik.dispatchEvent(
                         new CustomEvent(
                             "olamPeula", {
@@ -65,6 +65,8 @@ export default [
                         )
                     )
                 }
+                w.onclick = func;
+                w.ontouchstart = func;
             })
         }
     },
