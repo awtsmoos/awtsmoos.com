@@ -330,34 +330,7 @@ export default class Chai extends Tzomayach {
     rays = [];
     // Function to update the ray and place/update the block on the ray
     // Function to update the ray and place/update the block on the ray
-    updateRay() {
-        if (!this.activeRay) return;
-
-        const start = this.collider.end.clone();
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
-
-        // Update the direction in the activeRay object
-        this.activeRay.direction.copy(direction);
-
-        // Align the beam with the new direction
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-        this.activeRay.mesh.quaternion.copy(quaternion);
-
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
-        this.activeRay.mesh.position.copy(midPoint);
-
-        // If there's an active object, update its position on the ray
-        if (this.activeObject) {
-            this.updateBlockPosition(this.activeObject);
-        } else {
-            // If no active object, place one on the ray
-            this.placeBlockOnRay(start, direction);
-        }
-    }
+    
 
     spheres = [];
     updateSpheres(deltaTime) {
@@ -535,7 +508,7 @@ export default class Chai extends Tzomayach {
         // Update the block's position in the world (optional)
         this.updateBlockPosition(block);
     }
-
+    
     // Function to update the block's position along the ray
     updateBlockPosition(block) {
         const rayStart = this.collider.end.clone();
@@ -544,19 +517,46 @@ export default class Chai extends Tzomayach {
         // Calculate the distance (this can be dynamically modified)
         const distance = 5;  // You can change this dynamically based on player input
 
-        // Update the block's position along the ray
+        // Update the block's position along the ray, considering full direction
         const newPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
 
-        // Only update the horizontal position (X, Z), but keep the vertical (Y) from the ray start
-        newPosition.y = rayStart.y;  // This ensures the block stays at the same vertical level as the ray
-
+        // Update the block's position to follow the ray in all axes
         block.mesh.position.copy(newPosition);
 
         // Adjust rotation: Only rotate the block around the Y-axis (horizontal axis)
-        // This ensures that when you turn, the block only rotates horizontally, not on its axis
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), rayDirection.clone().normalize());  // X-Z plane alignment
         block.mesh.rotation.setFromQuaternion(quaternion);
+    }
+
+
+    updateRay() {
+        if (!this.activeRay) return;
+
+        const start = this.collider.end.clone();
+        const direction = this.olam.ayin.isFPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
+            : this.currentModelVector;
+
+        // Update the direction in the activeRay object
+        this.activeRay.direction.copy(direction);
+
+        // Align the beam with the new direction
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        this.activeRay.mesh.quaternion.copy(quaternion);
+
+        // Position the beam at the start point, offset by half the length
+        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
+        this.activeRay.mesh.position.copy(midPoint);
+
+        // If there's an active object, update its position on the ray
+        if (this.activeObject) {
+            this.updateBlockPosition(this.activeObject);
+        } else {
+            // If no active object, place one on the ray
+            this.placeBlockOnRay(start, direction);
+        }
     }
     
 
