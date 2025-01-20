@@ -309,7 +309,8 @@ export default class Utils {
                 var s = obj[key] +"";
                 s = s.trim();
 
-                var hasF = s.indexOf("function") == 0 
+                var hasF = s.indexOf("function") == 0 ||
+                    s.indexOf("async") == 0;
                 
                  
                 var funcAsString = hasF ? s : `function ${s}`;
