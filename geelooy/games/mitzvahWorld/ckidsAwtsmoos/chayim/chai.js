@@ -412,32 +412,7 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
-    /**
-     * called every frame
-     * 
-     */
-    updateRay() {
-        if (!this.activeRay) return;
-
-        const start = this.collider.end.clone();
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3())
-            : this.currentModelVector;
-
-        // Update the direction in the activeRay object
-        this.activeRay.direction.copy(direction);
-
-        // Align the beam with the new direction
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-        this.activeRay.mesh.quaternion.copy(quaternion);
-
-        // Position the beam at the start point, offset by half the length
-        const midPoint = start.clone().add(direction.clone().multiplyScalar(this.activeRay.length / 2));
-        this.activeRay.mesh.position.copy(midPoint);
-
-        
-    }
+ 
     
     /**
      * 
@@ -508,6 +483,43 @@ export default class Chai extends Tzomayach {
         return this.activeRay;
     }
     
+    async placeBlockOnRay(rayStart, rayDirection) {
+        const distance = 5; // Adjust based on your game's needs
+    
+        // Calculate initial world position along the ray
+        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+    
+        // Create the block
+        const def = this?.olam?.vars?.defaultBlock || {
+            toyr: {
+                MeshLambertMaterial: {
+                    color: "blue"
+                }
+            }
+        };
+    
+        const mesh = await this.olam.generateThreeJsMesh(def);
+        if (!mesh) return;
+    
+        const block = {
+            mesh,
+        };
+    
+        // Set the block's scale
+        block.mesh.scale.set(3, 3, 2);
+    
+        // Convert the world position to the ray's local space
+        const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
+    
+        // Set the block's position in local space
+        block.mesh.position.copy(localPosition);
+    
+        // Parent the block to the ray's mesh
+        this.activeRay.mesh.add(block.mesh);
+    
+        // Store a reference to the active object
+        this.activeObject = block;
+    }
     
 
 
