@@ -463,14 +463,11 @@ export default class Chai extends Tzomayach {
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        // Align the beam with the direction using quaternion
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
-        mesh.quaternion.copy(quaternion);
+        
     
         // Adjust position for cylinder's center (so it starts at the player's position)
         // Move the ray origin by half its length to correctly position it at the start point
-        mesh.position.set(0, length / 2, 0); // Center of the cylinder should be at the player's position
+       // mesh.position.set(0, length / 2, 0); // Center of the cylinder should be at the player's position
         
         // Convert the position from local to world space and then set it to the player's world position
         const localStart = this.modelMesh.worldToLocal(start.clone());
@@ -478,6 +475,10 @@ export default class Chai extends Tzomayach {
     
         // Parent the ray to the player's model
         this.modelMesh.add(mesh);
+        // Align the beam with the direction using quaternion
+        const quaternion = new THREE.Quaternion();
+        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
+        mesh.quaternion.copy(quaternion);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
