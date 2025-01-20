@@ -4,7 +4,7 @@ class APIHandler {
     basePath = "/api/social/"
     constructor(context=null) {
       if(context) {
-        this.window = context;
+        this.context = context;
       }
       this.baseUrl = location.origin+ this.basePath;
     }
@@ -19,7 +19,7 @@ class APIHandler {
       try {
         context = window 
       } catch(e) {
-        context = this.window
+        context = this.context
       }
       if (!context.curAlias) {
         alert("You are not logged in. Please log in to continue.");
