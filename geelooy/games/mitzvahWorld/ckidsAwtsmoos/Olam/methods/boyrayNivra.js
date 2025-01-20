@@ -459,6 +459,22 @@ export default class {
 
 
                 if(nivra.isSolid) {
+                    nivra.needsOctreeChange = true;
+                    nivra.on(
+                        "changeOctreePosition", () => {
+                           
+                         
+                            this.worldOctree.fromGraphNode(mesh);
+
+                            mesh.layers.enable(2)
+                        
+
+
+                            console.log("About to add to octree", has,mesh,nivra)
+                            
+                        
+                        }
+                    );
                     this.worldOctree.fromGraphNode(mesh);
         
                     //mesh.layers.enable(2)
