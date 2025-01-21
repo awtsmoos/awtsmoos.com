@@ -1912,8 +1912,8 @@ async function deleteAllCommentsOfAlias({
     author,
     parentType
 }) {
-    var aliasId = author || $i.$_POST.aliasId || 
-        $i.$_DELETE.aliasId;
+    var aliasId = $i.$_POST.aliasId || 
+        $i.$_DELETE.aliasId || author;
     var ver = await verifyHeichelAuthority({
         heichelId,
         
