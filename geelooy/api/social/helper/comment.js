@@ -1970,6 +1970,7 @@ async function deleteAllCommentsOfAlias({
             var res = await deleteComment({
                 $i,
                 commentId: c,
+				parentId,
                 heichelId,
 				aliasId
             });
@@ -2093,7 +2094,7 @@ async function deleteComment({
     }
    if(!parentType) {
 	parentType = $i.$_POST.parentType || 
-        $i.$_DELETE.parentType;
+        $i.$_DELETE.parentType || "atPost"
     }
     var ver = await verifyHeichelAuthority({
         heichelId,
@@ -2112,13 +2113,13 @@ async function deleteComment({
     }
 	
 	if(!parentId) return er({
-		message: "No parent type provided",
+		message: "No parent id provided",
 		code: "MISSING_PARAMS",
-		detail: "parentType"
+		detail: "parentId"
 	})
 	var link = parentType == "post" ?
 		"atPost" : parentType == "comment" ?
-		"atComment" : null
+		"atComment" : "atPost"
 	if(!link) return er({
 		message: "No parent type provided",
 		code: "MISSING_PARAMS",
