@@ -667,7 +667,7 @@ function addCommentsInline(comments, alias) {
 		
 		))
 		
-		if(!com?.length) return// console. log("NOTHING");
+		if(!com?.length) return console. log("NOTHING", com, comments, alias);
 		console.log("Doing comments",com)
 		var commentHolder = null
 		var subSecs = {}
@@ -683,8 +683,8 @@ function addCommentsInline(comments, alias) {
 				var incom = makeInlineComment(alias, c);
 				
 				var sub = (
-					c?.dayuh.subSectionIndex ||
-					c?.dayuh?.subSection
+					(c?.dayuh?.subSectionIndex ||  c?.dayuh?.subSectionIndex === 0) ||
+					(c?.dayuh?.subSection || c?.dayuh?.subSection === 0)
 				);
 				console.log("Comment?",c,sub)
 				if(sub || sub === 0) {
