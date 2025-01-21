@@ -1995,7 +1995,7 @@ async function deleteCommentIndex({
 }) {
 	var link = parentType == "post" ?
 		"atPost" : parentType == "comment" ?
-		"atComment" : null;
+		"atComment" : "atPost";
 	
 	if(!link) return er({
 		message: "No parent type provided",
