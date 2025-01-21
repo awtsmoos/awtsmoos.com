@@ -528,9 +528,9 @@ async function countCommentsOfAlias(alias) {
 							subSectionIndex: {
 								equals: subSec
 							}, 
-							subSection: {
+							/*subSection: {
 								equals: subSec
-							}
+							}*/
 						}
 					} : {}
 				)
@@ -566,9 +566,9 @@ async function showAllComments({
 							subSectionIndex: {
 								equals: subSec
 							},
-							subSection: {
+							/*subSection: {
 								equals: subSec
-							}
+							}*/
 						} : {}
 					)
 				}
@@ -978,9 +978,9 @@ async function indexSwitch() {
 									equals: subSec
 								},
 								
-								subSection: {
+								/*subSection: {
 									equals: subSec
-								}
+								}*/
 							}
 						} : {}
 					)
@@ -1158,9 +1158,9 @@ async function getAndSaveAliases(full=false) {
 								equals: subSec
 							},
 							
-							subSection: {
+							/*subSection: {
 								equals: subSec
-							}
+							}*/
 						}
 					} : {}
 				)
