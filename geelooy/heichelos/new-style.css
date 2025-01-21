@@ -455,23 +455,25 @@ for posts
 div#realPost {
     padding-top: 248px;
     padding-bottom: 365px;
-    flex:1;
+    flex: 1;
+    overflow: visible;
+    height: 100%;
 }
 .main {
-   height: unset;
+    height: unset;
     padding: 0px !important;
     position: absolute;
-    display: flex;
-    overflow:hidden;
+    display: flex
+;
     right: 0;
     left: 0;
     flex-direction: column;
-    top: calc(90px + 57px);
+    top: calc(90px + 15px);
     box-shadow: 0px 0px 20px 0px black inset;
     bottom: 0px;
     border: 3px solid yellow;
-
 }
+
 .all {
     position: relative;
     height: 100%;
@@ -535,6 +537,7 @@ body {
     word-wrap: anywhere;
 }
 .post-header {
+    margin-top: 5px;
     display: inline-flex;
     position: relative;
     align-items: center;
@@ -776,19 +779,16 @@ body {
 
 .post-frame {
     font-family: Georgia, serif;
-    font-weight:550;
-    display: flex;
+    font-weight: 550;
+    display: flex
+;
     flex-direction: row;
-    flex:1;
+    flex: 1;
     transition: max-height 0.3s ease;
-    
-
-   /* margin-bottom: 20px;*/
-    height:100%;
-    
+    height: 80vh;
     border: 1px solid #ccc;
-   /* overflow:scroll; */
-    overflow:hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .post-frame.with-details {
