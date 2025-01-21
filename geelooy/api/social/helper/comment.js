@@ -1970,7 +1970,8 @@ async function deleteAllCommentsOfAlias({
             var res = await deleteComment({
                 $i,
                 commentId: c,
-                heichelId
+                heichelId,
+				aliasId
             });
             results.push({
                 id: c,
