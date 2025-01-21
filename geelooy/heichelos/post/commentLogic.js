@@ -683,8 +683,8 @@ function addCommentsInline(comments, alias) {
 				var incom = makeInlineComment(alias, c);
 				
 				var sub = (
-					(c?.dayuh?.subSectionIndex ||  c?.dayuh?.subSectionIndex === 0) ||
-					(c?.dayuh?.subSection || c?.dayuh?.subSection === 0)
+					(c?.dayuh?.subSectionIndex)
+					//(c?.dayuh?.subSection || c?.dayuh?.subSection === 0)
 				);
 				console.log("Comment?",c,sub)
 				if(sub || sub === 0) {
@@ -719,13 +719,16 @@ function addCommentsInline(comments, alias) {
 					if(inlineCommentHolder) {
 						inlineCommentHolder.appendChild(incom);
 					}
+					console.log("Appended", c, com )
 				} else {
 					if(!commentHolder) {
 						commentHolder = makeInlineCommentHolder(alias, w);
 					}
 					commentHolder.appendChild(incom);
-					console.log(window.ch=commentHolder,window.inc = incom);
+					console.log("Added",window.ch=commentHolder,window.inc = incom);
 				}
+			} else {
+				console.log("Found already", com, ind, c)
 			}
 	
 		})
