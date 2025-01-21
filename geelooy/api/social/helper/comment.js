@@ -929,7 +929,7 @@ function verseSectionsCommentPath({
 			which also exists in a post.
 			need to provide post ID in this case
 		*/
-		"atPost/" + postId + "/" +
+		"atPost/" + parentId + "/" +
 		
 		"atComment/"
 		
@@ -955,7 +955,8 @@ function makeCommentIndexPath({
 	isPost,
 	commentId,
 	parentId,
-	verseSection
+	verseSection,
+	postId
 }) {
 	return verseSectionsCommentPath({
 		aliasId,
@@ -963,7 +964,8 @@ function makeCommentIndexPath({
 		seriesParentId,
 		isPost,
 		parentId,
-		verseSection
+		verseSection,
+		postId
 	}) + "/"+ commentId;
 }
 
@@ -1118,7 +1120,7 @@ async function addCommentIndexToAlias({
 			 }/heichelos/${
 				heichelId	
 			}/posts/${
-				parentId/*postID*/	
+				postId/*postID*/	
 			}`, {
 				propertyMap: {
 					parentSeriesId:true	
@@ -1203,8 +1205,10 @@ async function addCommentIndexToAlias({
 			parentId,
 			seriesParentId,
 			isPost,
+			postId,
 			commentId,
-			verseSection
+			verseSection,
+
 		})
 
 		/**
@@ -1992,7 +1996,8 @@ async function deleteCommentIndex({
 	verseSection,
 	heichelId,
 	aliasId,
-	parentType
+	parentType,
+	postId
 }) {
 	var link = parentType == "post" ?
 		"atPost" : parentType == "comment" ?
@@ -2027,13 +2032,18 @@ async function deleteCommentIndex({
 			})
 		}
 	}
+	if(!postId) {
+		if(link == "atPost") {
+			postId = parentId
+		}
+	}
 	
 	var commentPath = makeCommentIndexPath({
 		aliasId,
 		heichelId,
 		seriesParentId:parentSeriesId,
 		isPost: parentType=="post",
-		
+		postId,
 		commentId,
 		parentId,
 		verseSection
