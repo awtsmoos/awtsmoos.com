@@ -955,7 +955,7 @@ async function indexSwitch() {
 	var idxNum = getIdx();
 	currentVerse = idxNum;
 	if(!currentVerse && idxNum !== 0) return;
-	currentVerse = parseInt(currentVerse);
+	//currentVerse = parseInt(currentVerse);
 	var al = getInlineAliases()
 	var subSec = getSubIdx();
 	for(var alias of al) {
@@ -1008,7 +1008,7 @@ function getSubIdx() {
 	var idx = s.get("sub")
 	if(idx === null) return null;
 	idx = parseInt(idx)
-	return idx || 0;
+	return idx 
 }
 function getIdx() {
 	var s = new URLSearchParams(location.search)
