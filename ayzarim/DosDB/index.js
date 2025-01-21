@@ -936,7 +936,7 @@ class DosDB {
 			if(nullify)
 				return undefined;
 			if (compiledData._awtsmoosDeletify) {
-				return  undefined//{_awtsmoosDeletify:true}
+				return  {_awtsmoosDeletify:true}
 			}
 			if(compiledData._awtsmoosOnlyRaw) {
 				var key = Object.keys(compiledData)
@@ -947,7 +947,7 @@ class DosDB {
 			}
 			//return {"awtsmoos":compiledData}
 			if(Array.isArray(compiledData)) {
-				compiledData = compiledData.filter(q => !q._awtsmoosDeletify)
+			//	compiledData = compiledData.filter(q => !q._awtsmoosDeletify)
 			}
 			
 			return compiledData;
