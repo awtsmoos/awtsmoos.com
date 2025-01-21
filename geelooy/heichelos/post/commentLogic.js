@@ -556,7 +556,7 @@ async function showAllComments({
 			map: true,
 			propertyMap: JSON.stringify({
 				content: true,
-				author,
+				author:alias,
 				dayuh: {
 					verseSection: true,
 					sections: true,
