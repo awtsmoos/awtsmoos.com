@@ -957,7 +957,7 @@ async function indexSwitch() {
 	if(!currentVerse && idxNum !== 0) return;
 	currentVerse = parseInt(currentVerse);
 	var al = getInlineAliases()
-	var subSec = null;
+	var subSec = getSubIdx();
 	for(var alias of al) {
 		var comments = await getCommentsOfAlias({
 			postId: post.id,
@@ -1003,6 +1003,13 @@ async function indexSwitch() {
 	}
 }
 
+function getSubIdx() {
+	var s = new URLSearchParams(location.search)
+	var idx = s.get("sub")
+	if(idx === null) return null;
+	idx = parseInt(idx)
+	return idx || 0;
+}
 function getIdx() {
 	var s = new URLSearchParams(location.search)
 	var idx = s.get("idx")
