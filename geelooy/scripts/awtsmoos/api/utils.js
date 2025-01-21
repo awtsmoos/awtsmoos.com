@@ -661,6 +661,7 @@ async function traverseSeries({
 						index:i,
 						callbackForSeries,
 						callbackForEachPost,
+                        breakIt,
 						path: pth.concat(seriesId)
 					})
 				})(i);
