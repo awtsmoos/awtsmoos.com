@@ -417,25 +417,6 @@ async function addOrApproveComment({
 	
 }
         
-function getCommentToPostPath({
-	heichelId,
-	link,
-	parentId,
-	aliasId,
-	commentId
-}) {
-	return `${
-	        sp
-	    }/heichelos/${
-	        heichelId
-	    }/comments/${link}/${
-	        parentId
-	    }/author/${
-	        aliasId
-	    }/${
-	        commentId
-	    }`
-}
 /**
  * Approve a submitted comment.
  * @param {Object} params - The parameters for approval.
@@ -986,6 +967,24 @@ function makeCommentIndexPath({
 	}) + "/"+ commentId;
 }
 
+function getAuthorPath({
+	heichelId,
+	parentId,
+	link,
+	aliasId 
+}) {
+	return `${
+		sp
+	}/heichelos/${
+		heichelId
+	}/comments/${
+		link 
+	}/${
+		parentId 
+	}/author/${
+		aliasId
+	}`
+}
 function getShtarPath({
 	heichelId,
 	parentId,
@@ -994,16 +993,35 @@ function getShtarPath({
 	commentId
 }) {
 	return `${
-		sp
-	    }/heichelos/${
-		heichelId
-	    }/comments/${link}/${
-		parentId
-	    }/author/${
-		aliasId
-	    }/${
+		getAuthorPath({
+			heichelId,
+			parentId,
+			link,
+			aliasId
+		})
+	}/${
 		commentId
-	    }`;
+	}`;
+}
+
+
+function getCommentToPostPath({
+	heichelId,
+	link,
+	parentId,
+	aliasId,
+	commentId
+}) {
+	return `${
+		getAuthorPath({
+			heichelId,
+			parentId,
+			link,
+			aliasId
+		})
+	}/${
+	        commentId
+	    }`
 }
 
 function getVerseSectionPath({
@@ -1120,7 +1138,6 @@ async function addCommentIndexToAlias({
 			})
 		}
 		
-		var overrodeChai = null;
 		var shtarPath = getShtarPath({
 			heichelId,
 			parentId,
@@ -1128,7 +1145,7 @@ async function addCommentIndexToAlias({
 			aliasId,
 			commentId
 		})
-		
+		var overrodeChai
 		if(chaiOverride) {
 		    var chaiPath = `${
 		        sp
@@ -1141,14 +1158,7 @@ async function addCommentIndexToAlias({
 			try {
 				var wr = await $i.db.write(shtarPath, shtar)
 				overrodeChai = wr;
-				/*$i.response.write(JSON.stringfiy({
-					doingStuff: {
-						wr, commentId, time:Date.now(),
-						parentId,
-						parentType,
-						heichelId
-					}
-				}))*/
+				
 			} catch(e) {
 				return er({
 					message: "Couldn't override CHAI",
@@ -1220,17 +1230,7 @@ async function addCommentIndexToAlias({
 			commentId,
 			verseSection
 		});
-		 var authorsOfVerseSection = `${
-			sp
-		}/heichelos/${
-			heichelId	
-		}/comments/${
-			link
-		}/${
-			parentId
-		}/verseSection/${
-			verseSection
-		}/author`;
+		
 		var verseSectionAtParentIndex = await $i.db.write(versesInParent);
 		var aliasIndex = await $i.db.write(commentPath);
 		return {
@@ -1912,7 +1912,7 @@ async function deleteAllCommentsOfAlias({
     author,
     parentType
 }) {
-    var aliasId = $i.$_POST.aliasId || 
+    var aliasId = author || $i.$_POST.aliasId || 
         $i.$_DELETE.aliasId;
     var ver = await verifyHeichelAuthority({
         heichelId,
@@ -2023,17 +2023,7 @@ async function deleteCommentIndex({
 			})
 		}
 	}
-	var path = `${
-		sp
-	}/aliases/${
-		aliasId
-	}/comments/${link}/${
-		parentId
-	}/verseSection/${
-		verseSection
-	}/${
-		commentId
-	}`;
+	
 	var commentPath = makeCommentIndexPath({
 		aliasId,
 		heichelId,
@@ -2070,6 +2060,7 @@ async function deleteCommentIndex({
 		aliasId,
 		verseSection
 	})
+	
 	var done = {}
 	done.deletedVerseSection = await $i.db.delete(verseSectionPath);/*
 	if(count > 0)
@@ -2187,16 +2178,16 @@ async function deleteComment({
             }`
         try {
             delIndex = await  deleteCommentIndex({
-		commentId,
-		aliasId,
-		heichelId,
-		parentId,
-		verseSection,
-		parentType,
-		$i
+				commentId,
+				aliasId,
+				heichelId,
+				parentId,
+				verseSection,
+				parentType,
+				$i
 		    
 		    
-	    })
+	    	})
 	if(delIndex.error) {
 		return  er(delIndex.error)
 	}
@@ -2213,26 +2204,6 @@ async function deleteComment({
             })
         }
 
-        var chaiPath
-        var delChai;
-        /*try {
-            chaiPath = `${
-                sp
-            }/heichelos/${
-                heichelId
-            }/comments/chai/${
-                commentId
-            }`;
-            delChai  = await $i.db.delete(chaiPath)
-        } catch(e) {
-            return er({
-                message: "Issue",
-                error: e
-            })
-        }*
-	TODO fix delete path
-	*/
-
         return {
             success: {
                 deleted: {
@@ -2241,8 +2212,7 @@ async function deleteComment({
                         restPath,
                         rest
                     },
-                    chai: delChai,
-                    chaiPath,
+                    
                     post: delPost,
                     postPath: authPath
                 }
