@@ -974,6 +974,7 @@ async function indexSwitch() {
 					...(
 						subSec || subSec === 0 ? {
 							dayuh: {
+								verseSection: true,
 								subSectionIndex: {
 									equals: subSec
 								},
