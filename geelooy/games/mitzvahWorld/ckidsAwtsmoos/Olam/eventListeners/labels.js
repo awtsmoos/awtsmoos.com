@@ -52,7 +52,9 @@ export default function() {
                 (peula.clientY - top) / height
             ) * 2 + 1;
         }
-
+        if(this.mouseDown) {
+            this.ayin.onMouseMove(peula);
+        }
         /**
          * as mouse moves check if any objects 
          * are being hovered over
@@ -60,7 +62,7 @@ export default function() {
 
         var hit = this.ayin.getHovered()
         
-        this.on("mousemove", mouseMove);
+        
         var ob = hit?.object;
         var niv = ob?.nivraAwtsmoos;
 
@@ -214,11 +216,10 @@ export default function() {
 
         }
         this.hoveredNivra = niv;
-        if(this.mouseDown) {
-            this.ayin.onMouseMove(peula);
-        }
+        
 
     };
+    this.on("mousemove", mouseMove);
 
     
 }
