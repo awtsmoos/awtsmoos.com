@@ -464,34 +464,33 @@ export default class Chai extends Tzomayach {
         const mesh = new THREE.Mesh(geometry, material);
     
         
-        // Calculate initial world position along the ray
-        const worldPosition = start.clone().add(direction.clone());
-        const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
-        mesh.position.copy(localPosition);
-        this.modelMesh.add(mesh);
-       /*
-        // Parent the ray to the player's model
+        var dir = direction;
         var quat = new THREE.Quaternion
         quat.setFromUnitVectors(
             new THREE.Vector3(0,0,1),
-            direction.normalize()
+            dir.normalize()
         )
 
         //setting it upright
         let up = new THREE.Vector3(0, 1, 0);
-        let right = new THREE.Vector3().crossVectors(up, direction).normalize();
-        let adjustedUp = new THREE.Vector3().crossVectors(direction, right);
+        let right = new THREE.Vector3().crossVectors(up, dir).normalize();
+        let adjustedUp = new THREE.Vector3().crossVectors(dir, right);
 
         let uprightQuaternion = new THREE.Quaternion();
         uprightQuaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), adjustedUp.normalize());
 
         quat.multiply(uprightQuaternion);
-        mesh.quaternion.copy(quat)
-*/
+        sphere.mesh.quaternion.copy(quat);
+
         // Align the beam with the direction using quaternion
         const quaternion = new THREE.Quaternion();
         quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
         mesh.quaternion.copy(quaternion);
+        // Calculate initial world position along the ray
+        const worldPosition = start.clone();
+        const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
+        mesh.position.copy(worldPosition);
+        //this.modelMesh.add(mesh);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
