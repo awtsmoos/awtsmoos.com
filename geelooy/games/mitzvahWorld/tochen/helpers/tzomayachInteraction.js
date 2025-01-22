@@ -169,9 +169,9 @@ export default class Interaction {
          * appraoching a dialogue
          * character,
          * a UI component like
-         * "Press C to talk to this person"
+         * "Press B to talk to this person"
          * would appear, then if one DOES
-         * press C then the "accepted interaction"
+         * press B then the "accepted interaction"
          * event is fired on the NPC, which then 
          * opens the actual dialogue.
          */

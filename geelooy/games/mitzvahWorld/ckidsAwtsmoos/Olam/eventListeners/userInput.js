@@ -69,7 +69,7 @@ export default function() {
         if(this.hoveredNivra) {
             console.log(this.hoveredNivra);
             this.ayshPeula("keypressed", {
-                code: "KeyC"
+                code: "KeyB"
             })
         }
         

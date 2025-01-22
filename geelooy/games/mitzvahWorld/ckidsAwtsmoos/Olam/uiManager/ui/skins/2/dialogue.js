@@ -112,37 +112,24 @@ export default /*css*/`
         appraoch it
     */
 
-    .asApproachNpc {
-        /*
-        bottom: 50px;
-        left: 7px;
-        transform: ${approachTranslate};
-        font-size: 2.6em;
-        font-weight: bold;
-        color:white;
-        animation: pulse 2s infinite;
-        position: absolute;
-        text-align:left;
-        */
-        animation: pulse 2s infinite;
-        background-color: #FFE4C4;
-        color: #6B4226;
-        bottom: 10px;
-        max-width: 50%;
-        left: 10px;
-        border: 2px solid #DAA520;
-        border-radius: 12px;
-        padding: 22px;
-        font-family: 'IM Fell English SC', serif;
-        letter-spacing: 1px;
-        font-size: 36px;
-        line-height: 1.5;
-        text-shadow: ${borderShadow(APPROACH_BORDER)};
-        z-index: 1000; /* Ensuring it stays above the game elements */
-        
-        /* Set the transform origin to the center */
-        transform-origin: left;
-    }
+        .asApproachNpc {
+            animation: pulse 2s infinite;
+            background-color: #FFE4C4;
+            color: #6B4226;
+            bottom: 40%;
+            max-width: 50%;
+            left: 10px;
+            border: 2px solid #DAA520;
+            border-radius: 12px;
+            padding: 22px;
+            font-family: 'IM Fell English SC', serif;
+            letter-spacing: 1px;
+            font-size: 1.3em;
+            line-height: 1.5;
+            text-shadow: calc(-1* 5) calc(-1* 5) 0 #000, 5 calc(-1* 5) 0 #000, calc(-1* 5) 5 0 #000, 5 5 0 #000;
+            z-index: 1000;
+            transform-origin: left;
+        }
 
    
       @keyframes pulse {

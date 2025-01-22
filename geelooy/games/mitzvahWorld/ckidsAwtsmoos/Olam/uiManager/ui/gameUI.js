@@ -96,7 +96,7 @@ var ui = [
             textContent(e, me) {
                 
                 me.innerText = 
-                "Press C to talk to "
+                "Press B to talk to "
                 + e.data.textContent;
 
             }
@@ -110,7 +110,7 @@ var ui = [
             textContent(e, me) {
                 
                 me.innerText = 
-                "Press C to travel to "
+                "Press B to travel to "
                 + e.data.textContent;
 
             }

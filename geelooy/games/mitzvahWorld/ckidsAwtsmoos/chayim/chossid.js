@@ -15,7 +15,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import Medabeir from './medabeir.js';
 
 
-var ACTION_TOGGLE = "KeyC";
+var ACTION_TOGGLE = "KeyB";
 var ACTION_SELECT = "Enter";
 
 var CAMERA_PAN_UP = "KeyR";
