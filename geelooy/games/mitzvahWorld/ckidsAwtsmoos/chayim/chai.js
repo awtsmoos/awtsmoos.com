@@ -412,27 +412,35 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
- 
     async makeRay(length = 30) {
-        // Get the player's world position (where the ray should start)
+        // Get the starting position of the ray
         const start = this.collider.end.clone(); // Starting position for the ray
         
-        // Determine the direction
+        // Determine the direction based on FPS or third-person mode
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // FPS: camera direction
-            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS: forward based on modelMesh
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1)
+            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS forward direction
         
         if (this.activeRay) {
             // Remove existing ray and associated object
             if (this.activeObject) {
+                const worldRotation = new THREE.Quaternion();
+                this.activeObject.mesh.getWorldQuaternion(worldRotation);
+    
                 this.activeRay.mesh.remove(this.activeObject.mesh);
                 this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
                 this.olam.scene.add(this.activeObject.mesh);
+                this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
                 this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
                 this.activeObject = null;
             }
     
-            this.modelMesh.remove(this.activeRay.mesh);
+            if (this.olam.ayin.isFPS) {
+                this.olam.ayin.camera.remove(this.activeRay.mesh); // Remove from camera in FPS mode
+            } else {
+                this.modelMesh.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
+            }
+    
             this.activeRay = null;
             return; // Exit after toggling off
         }
@@ -447,23 +455,30 @@ export default class Chai extends Tzomayach {
         // Create ray geometry and material
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
         geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
-
+    
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        // Set the ray's initial position
-        const localPosition = this.modelMesh.worldToLocal(start.clone());
-        mesh.position.copy(localPosition);
+        // Set the ray's initial position and parenting based on FPS mode
+        if (this.olam.ayin.isFPS) {
+            // FPS mode: parent to the camera
+            this.olam.ayin.camera.add(mesh);
+            mesh.position.set(0, 0, -0.5); // Position slightly in front of the camera
+        } else {
+            // Third-person mode: parent to the modelMesh
+            const localPosition = this.modelMesh.worldToLocal(start.clone());
+            mesh.position.copy(localPosition);
+            this.modelMesh.add(mesh);
+        }
     
         // Align the ray's rotation
         const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
-        mesh.lookAt(this.modelMesh.worldToLocal(lookAtTarget)); // Convert lookAt target to local space
-    
+        mesh.lookAt(this.olam.ayin.isFPS 
+            ? this.olam.ayin.camera.worldToLocal(lookAtTarget) // Adjust for FPS mode
+            : this.modelMesh.worldToLocal(lookAtTarget));     // Adjust for third-person mode
+        
         // Rotate the ray geometry to align with the Z-axis
         mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
-    
-        // Parent the ray to the player model
-        this.modelMesh.add(mesh);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
@@ -479,7 +494,7 @@ export default class Chai extends Tzomayach {
         const distance = 5; // Adjust based on your game's needs
     
         // Calculate initial world position along the ray
-        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(distance));
+        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(-distance));
     
         // Create the block
         const def = this?.olam?.vars?.defaultBlock || {
