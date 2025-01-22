@@ -60,14 +60,18 @@ export default function() {
 
         var hit = this.ayin.getHovered()
         
+        this.on("mousemove", mouseMove);
         var ob = hit?.object;
-        if(!ob) return;
-        //   console.log("HIT 1",hit,ob)
         var niv = ob?.nivraAwtsmoos;
+
+        if(!ob) return;
         if(!niv) return;
         if(niv?.type == "chossid") {
             return;
         }
+        //   console.log("HIT 1",hit,ob)
+        
+        
         const removeIntersted = () => {
             intersected.niv.isHoveredOver = false;
             this.hoveredNivra = null;
@@ -88,7 +92,7 @@ export default function() {
             })
         }
         
-        if(niv && !niv.wasSealayked) {
+        if(niv && !niv.wasSealayked && niv.type != "chossid") {
             niv.isHoveredOver = true;
             if(intersected && intersected?.niv != niv) {
 
@@ -216,6 +220,5 @@ export default function() {
 
     };
 
-
-    this.on("mousemove", mouseMove);
+    
 }
