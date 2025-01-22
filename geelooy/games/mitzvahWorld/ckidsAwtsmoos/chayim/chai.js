@@ -414,19 +414,14 @@ export default class Chai extends Tzomayach {
 
  
     
-    /**
-     * 
-     * @param {length of the ray} length 
-     * @returns 
-     */
     async makeRay(length = 30) {
         // Get the player's world position (where the ray should start)
-        const start = this.collider.end.clone();//this.modelMesh.getWorldPosition(new THREE.Vector3()); // Player's position in world space
+        const start = this.collider.end.clone(); // Start position for the ray
         
         // Determine the direction based on FPS or non-FPS mode
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // Normalize FPS camera direction
-            : this.currentModelVector.normalize(); // Normalize direction for non-FPS mode
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // FPS camera direction
+            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS, align with modelMesh
         
         if (this.activeRay) {
             // Remove existing ray and associated object, if any
@@ -463,46 +458,27 @@ export default class Chai extends Tzomayach {
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        
-        var dir = direction;
-        var quat = new THREE.Quaternion
-        quat.setFromUnitVectors(
-            new THREE.Vector3(0,0,1),
-            dir.normalize()
-        )
-
-        //setting it upright
-        let up = new THREE.Vector3(0, 1, 0);
-        let right = new THREE.Vector3().crossVectors(up, dir).normalize();
-        let adjustedUp = new THREE.Vector3().crossVectors(dir, right);
-
-        let uprightQuaternion = new THREE.Quaternion();
-        uprightQuaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), adjustedUp.normalize());
-
-        quat.multiply(uprightQuaternion);
-        mesh.quaternion.copy(quat);
-
-        // Align the beam with the direction using quaternion
-        const quaternion = new THREE.Quaternion();
-        quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction); // Align direction
-        mesh.quaternion.copy(quaternion);
-        // Calculate initial world position along the ray
-        const worldPosition = start.clone();
-        const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
+        // Set the ray's initial position and rotation
+        const localPosition = this.modelMesh.worldToLocal(start.clone());
         mesh.position.copy(localPosition);
+    
+        // Align the ray's direction
+        const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length));
+        mesh.lookAt(this.modelMesh.worldToLocal(lookAtTarget)); // Align the ray with the direction
+    
+        // Parent the ray to the player model
         this.modelMesh.add(mesh);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
     
-        // Place a block on the ray, if needed
+        // Optionally place a block on the ray
         if (!this.activeObject) {
             await this.placeBlockOnRay(start, direction);
         }
     
         return this.activeRay;
     }
-    
     async placeBlockOnRay(rayStart, rayDirection) {
         const distance = 5; // Adjust based on your game's needs
     
