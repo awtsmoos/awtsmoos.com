@@ -480,7 +480,7 @@ export default class Chai extends Tzomayach {
         uprightQuaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), adjustedUp.normalize());
 
         quat.multiply(uprightQuaternion);
-        sphere.mesh.quaternion.copy(quat);
+        mesh.quaternion.copy(quat);
 
         // Align the beam with the direction using quaternion
         const quaternion = new THREE.Quaternion();
@@ -489,8 +489,8 @@ export default class Chai extends Tzomayach {
         // Calculate initial world position along the ray
         const worldPosition = start.clone();
         const localPosition = this.modelMesh.worldToLocal(worldPosition.clone());
-        mesh.position.copy(worldPosition);
-        //this.modelMesh.add(mesh);
+        mesh.position.copy(localPosition);
+        this.modelMesh.add(mesh);
     
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
