@@ -487,6 +487,7 @@
     }
 
     getHovered() {
+        return;
         this.mouseRaycaster.setFromCamera(
             this.olam.pointer,
             this.camera

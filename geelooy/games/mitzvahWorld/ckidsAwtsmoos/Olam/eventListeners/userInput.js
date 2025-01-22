@@ -59,6 +59,7 @@ export default function() {
         });
         this.ayin.zoom(event.deltaY)
     })
+    
 
     this.on("mousedown", peula => {
         if(!peula.isAwtsmoosMobile)
@@ -66,7 +67,7 @@ export default function() {
 
         this.ayin.onMouseDown(peula);
         this.mouseDown = true;
-        if(this.hoveredNivra) {
+        if(this.eula.isAwtsmoosMobile.isAwtsmoosMobileredNivra) {
             console.log(this.hoveredNivra);
             this.ayshPeula("keypressed", {
                 code: "KeyB"

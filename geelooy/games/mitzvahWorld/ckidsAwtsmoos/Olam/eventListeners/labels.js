@@ -63,6 +63,9 @@ export default function() {
         var ob = hit?.object;
         //   console.log("HIT 1",hit,ob)
         var niv = ob?.nivraAwtsmoos;
+        if(niv?.type == "chossid") {
+            return;
+        }
         const removeIntersted = () => {
             intersected.niv.isHoveredOver = false;
             this.hoveredNivra = null;
@@ -178,7 +181,7 @@ export default function() {
                     intersected.currentHex = ob
                         .material
                         .emissive.getHex();
-                    ob.material.emissive.setHex( color );
+                    ob.material.emissive.sethoveredNivraHex( color );
                     this.hoveredNivra = niv;
                     this.htmlAction({
                         selector: "body",
