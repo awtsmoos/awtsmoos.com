@@ -61,8 +61,10 @@ export default function() {
         var hit = this.ayin.getHovered()
         
         var ob = hit?.object;
+        if(!ob) return;
         //   console.log("HIT 1",hit,ob)
         var niv = ob?.nivraAwtsmoos;
+        if(!niv) return;
         if(niv?.type == "chossid") {
             return;
         }
