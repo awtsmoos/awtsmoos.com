@@ -54,7 +54,11 @@
         
         this.camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 1000);
         this.cameraFollower = this.camera.clone();
+        olam.scene.add(this.camera);
         this.camera.rotation.order = 'YXZ';
+        this.group = new THREE.Group();
+        this.camera.add(this.group);
+
         this.raycaster = new THREE.Raycaster();
 
         this.mouseRaycaster = new THREE.Raycaster();
@@ -417,7 +421,7 @@
                     (dist - this.amountToHideTargetCompletely),
                     0
                 );
-                //this.target.ayshPeula("opacity", amount)
+                this.target.ayshPeula("opacity", amount)
             } else {
                 this.target.ayshPeula("opacity", 1)
             }

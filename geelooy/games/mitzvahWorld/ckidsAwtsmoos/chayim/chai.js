@@ -214,7 +214,7 @@ export default class Chai extends Tzomayach {
         }
         /*set mesh to half down if has collider*/
         /*not really wokring just for test*/
-        this.empty = new THREE.Object3D();
+        this.empty = new THREE.Group();
         this.olam.scene.add(this.empty);
         var pos = this?.mesh?.position;
         if(pos) {
@@ -224,6 +224,7 @@ export default class Chai extends Tzomayach {
         this.modelMesh = this?.mesh;
         this.mesh = this.empty;
         this.emptyCopy = this.empty.clone();
+        this.olam.scene.add(this.emptyCopy);
         this.setPosition(this.mesh.position);
         
     }
@@ -418,7 +419,7 @@ export default class Chai extends Tzomayach {
         
         // Determine the direction based on FPS or third-person mode
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1) // Camera forward direction in FPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize()//.multiplyScalar(-1) // Camera forward direction in FPS
             : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS forward direction
         
         if (this.activeRay) {
@@ -438,7 +439,7 @@ export default class Chai extends Tzomayach {
             if (this.olam.ayin.isFPS) {
                 this.olam.ayin.camera.remove(this.activeRay.mesh); // Remove from camera in FPS mode
             } else {
-                this.modelMesh.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
+                this.emptyCopy.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
             }
         
             this.activeRay = null;
@@ -472,7 +473,7 @@ export default class Chai extends Tzomayach {
             // Third-person mode: parent to the modelMesh
             const localPosition = this.modelMesh.worldToLocal(start.clone());
             mesh.position.copy(localPosition);
-            this.modelMesh.add(mesh);
+            this.emptyCopy.add(mesh);
         }
         
         // In FPS mode, we don't use lookAt; we directly align the ray with the camera's forward vector
@@ -844,7 +845,7 @@ export default class Chai extends Tzomayach {
         
         this.mesh.rotation.y = this.rotation.y;
         if(this?.emptyCopy?.rotation)
-            this.emptyCopy.rotation.y = this.rotation.y;
+            this.emptyCopy.rotation.copy(this.mesh.rotation);//.y = this.rotation.y;
         
         this.modelMesh.rotation.copy(this.mesh.rotation);
         //lerp logic for smooth rotating
