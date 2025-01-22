@@ -418,7 +418,7 @@ export default class Chai extends Tzomayach {
         
         // Determine the direction based on FPS or third-person mode
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1)
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1) // Camera forward direction in FPS
             : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS forward direction
         
         if (this.activeRay) {
@@ -426,7 +426,7 @@ export default class Chai extends Tzomayach {
             if (this.activeObject) {
                 const worldRotation = new THREE.Quaternion();
                 this.activeObject.mesh.getWorldQuaternion(worldRotation);
-    
+        
                 this.activeRay.mesh.remove(this.activeObject.mesh);
                 this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
                 this.olam.scene.add(this.activeObject.mesh);
@@ -434,60 +434,70 @@ export default class Chai extends Tzomayach {
                 this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
                 this.activeObject = null;
             }
-    
+        
             if (this.olam.ayin.isFPS) {
                 this.olam.ayin.camera.remove(this.activeRay.mesh); // Remove from camera in FPS mode
             } else {
                 this.modelMesh.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
             }
-    
+        
             this.activeRay = null;
             return; // Exit after toggling off
         }
-    
+        
         // Create a new ray
         this.activeRay = {
             mesh: null,
             direction,
             length,
         };
-    
+        
         // Create ray geometry and material
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
-        geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
-    
+      //  geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
+        
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
-    
+        
         // Set the ray's initial position and parenting based on FPS mode
         if (this.olam.ayin.isFPS) {
             // FPS mode: parent to the camera
             this.olam.ayin.camera.add(mesh);
-            mesh.position.set(0, 0, -0.5); // Position slightly in front of the camera
+            mesh.position.set(0, -0.02, 0); // Position slightly in front of the camera
         } else {
             // Third-person mode: parent to the modelMesh
             const localPosition = this.modelMesh.worldToLocal(start.clone());
             mesh.position.copy(localPosition);
             this.modelMesh.add(mesh);
         }
-    
-        // Align the ray's rotation
-        const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
-        mesh.lookAt(this.olam.ayin.isFPS 
-            ? this.olam.ayin.camera.worldToLocal(lookAtTarget) // Adjust for FPS mode
-            : this.modelMesh.worldToLocal(lookAtTarget));     // Adjust for third-person mode
         
-        // Rotate the ray geometry to align with the Z-axis
-        mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
-    
+        // In FPS mode, we don't use lookAt; we directly align the ray with the camera's forward vector
+        if (this.olam.ayin.isFPS) {
+            // Rotate the ray to face the direction of the camera's forward vector
+          /*  const rotation = new THREE.Quaternion();
+            rotation.setFromUnitVectors(new THREE.Vector3(0, 0, 1), direction); // Align ray with camera's forward direction
+            mesh.rotation.setFromQuaternion(rotation); // Apply the calculated rotation to the mesh
+        */
+            // Third-person mode: align the ray's rotation towards the direction of the ray
+            const lookAtTarget = this.olam.ayin.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
+            mesh.lookAt(lookAtTarget); // Adjust for third-person mode
+            mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
+        
+        } else {
+            // Third-person mode: align the ray's rotation towards the direction of the ray
+            const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
+            mesh.lookAt(lookAtTarget); // Adjust for third-person mode
+            mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
+        }
+        
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
-    
+        
         // Optionally place a block on the ray
         if (!this.activeObject) {
             await this.placeBlockOnRay(start, direction);
         }
-    
+        
         return this.activeRay;
     }
     async placeBlockOnRay(rayStart, rayDirection) {
