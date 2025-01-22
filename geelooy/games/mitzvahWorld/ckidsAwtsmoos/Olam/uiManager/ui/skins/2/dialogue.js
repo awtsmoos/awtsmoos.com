@@ -116,7 +116,7 @@ export default /*css*/`
             animation: pulse 2s infinite;
             background-color: #FFE4C4;
             color: #6B4226;
-            bottom: 40%;
+            top: 50px;
             max-width: 50%;
             left: 10px;
             border: 2px solid #DAA520;

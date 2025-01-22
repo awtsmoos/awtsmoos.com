@@ -233,15 +233,7 @@ export default class Chossid extends Medabeir {
             this.ayshPeula("keypressed", k);
             this.dialogueControls(k);
             switch(k.code) {
-                case "KeyB":
-                    this.throwBall(
-                        this.olam.randomLetter(),
-                        {
-                            color: 
-                            this.olam.randomColor()
-                        }
-                    )
-                break;
+                
                 case "NumLock":
                     this.movingAutomatically = 
                     !this.movingAutomatically
@@ -271,7 +263,16 @@ export default class Chossid extends Medabeir {
                          */
                         var npc = this.approachedEntities[0];
                         
-                        if(!npc) return;
+                        if(!npc) {
+                            this.throwBall(
+                                this.olam.randomLetter(),
+                                {
+                                    color: 
+                                    this.olam.randomColor()
+                                }
+                            )
+                            return;
+                        }
                         npc.ayshPeula("accepted interaction");
                         return;
                     }
