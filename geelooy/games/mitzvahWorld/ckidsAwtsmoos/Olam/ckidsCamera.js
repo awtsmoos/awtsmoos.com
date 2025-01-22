@@ -185,7 +185,7 @@
                 this.lastDistance = this.desiredDistance;
                 var f = this.target.modelMesh || this.target.mesh;
 
-               // f.visible = false;
+                f.visible = false;
                 this.target.rotation.y = this.userInputTheta 
                 * THREE.MathUtils.DEG2RAD;
                 this.previousTargetRotation = this.target.rotation.y * 180/Math.PI;

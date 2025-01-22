@@ -419,7 +419,7 @@ export default class Chai extends Tzomayach {
         
         // Determine the direction based on FPS or third-person mode
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize()//.multiplyScalar(-1) // Camera forward direction in FPS
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1) // Camera forward direction in FPS
             : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS forward direction
         
         if (this.activeRay) {
@@ -455,7 +455,7 @@ export default class Chai extends Tzomayach {
         
         // Create ray geometry and material
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
-      //  geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
+        geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
         
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
@@ -468,6 +468,7 @@ export default class Chai extends Tzomayach {
                 this.olam.ayin.camera.position.clone()
             );
             mesh.position.copy(localPosition);
+            mesh.position.y -= 0.13
             this.olam.ayin.camera.add(mesh);
         } else {
             // Third-person mode: parent to the modelMesh
@@ -479,15 +480,15 @@ export default class Chai extends Tzomayach {
         // In FPS mode, we don't use lookAt; we directly align the ray with the camera's forward vector
         if (this.olam.ayin.isFPS) {
             // Rotate the ray to face the direction of the camera's forward vector
-            const rotation = new THREE.Quaternion();
+           /* const rotation = new THREE.Quaternion();
             rotation.setFromUnitVectors(new THREE.Vector3(0, 0, 1), direction); // Align ray with camera's forward direction
             mesh.rotation.setFromQuaternion(rotation); // Apply the calculated rotation to the mesh
-        
-            // Third-person mode: align the ray's rotation towards the direction of the ray
-           /* const lookAtTarget = this.olam.ayin.camera.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
-            mesh.lookAt(lookAtTarget); // Adjust for third-person mode
-            mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
         */
+            // Third-person mode: align the ray's rotation towards the direction of the ray
+            const lookAtTarget = this.olam.ayin.camera.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
+           // mesh.lookAt(lookAtTarget); // Adjust for third-person mode
+            mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
+        
         } else {
             // Third-person mode: align the ray's rotation towards the direction of the ray
             const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
@@ -896,6 +897,7 @@ export default class Chai extends Tzomayach {
 
         this.modelMesh.position.copy(this.mesh.position);
         this.emptyCopy.position.copy(this.mesh.position);
+        this.emptyCopy.rotation.copy(this.modelMesh.rotation);
         this.updateSpheres(deltaTime)
        // this.updateRay(deltaTime);
     }
