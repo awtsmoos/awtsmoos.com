@@ -462,8 +462,12 @@ export default class Chai extends Tzomayach {
         // Set the ray's initial position and parenting based on FPS mode
         if (this.olam.ayin.isFPS) {
             // FPS mode: parent to the camera
+            
+            const localPosition = this.olam.ayin.camera.worldToLocal(
+                this.olam.ayin.camera.position.clone()
+            );
+            mesh.position.copy(localPosition);
             this.olam.ayin.camera.add(mesh);
-            mesh.position.set(0, -0.02, 0); // Position slightly in front of the camera
         } else {
             // Third-person mode: parent to the modelMesh
             const localPosition = this.modelMesh.worldToLocal(start.clone());
@@ -474,15 +478,15 @@ export default class Chai extends Tzomayach {
         // In FPS mode, we don't use lookAt; we directly align the ray with the camera's forward vector
         if (this.olam.ayin.isFPS) {
             // Rotate the ray to face the direction of the camera's forward vector
-          /*  const rotation = new THREE.Quaternion();
+            const rotation = new THREE.Quaternion();
             rotation.setFromUnitVectors(new THREE.Vector3(0, 0, 1), direction); // Align ray with camera's forward direction
             mesh.rotation.setFromQuaternion(rotation); // Apply the calculated rotation to the mesh
-        */
+        
             // Third-person mode: align the ray's rotation towards the direction of the ray
-            const lookAtTarget = this.olam.ayin.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
+           /* const lookAtTarget = this.olam.ayin.camera.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
             mesh.lookAt(lookAtTarget); // Adjust for third-person mode
             mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
-        
+        */
         } else {
             // Third-person mode: align the ray's rotation towards the direction of the ray
             const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction

@@ -417,7 +417,7 @@
                     (dist - this.amountToHideTargetCompletely),
                     0
                 );
-                this.target.ayshPeula("opacity", amount)
+                //this.target.ayshPeula("opacity", amount)
             } else {
                 this.target.ayshPeula("opacity", 1)
             }
