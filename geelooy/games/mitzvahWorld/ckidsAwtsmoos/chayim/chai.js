@@ -413,31 +413,22 @@ export default class Chai extends Tzomayach {
     }
 
  
-    
     async makeRay(length = 30) {
         // Get the player's world position (where the ray should start)
-        const start = this.collider.end.clone(); // Start position for the ray
+        const start = this.collider.end.clone(); // Starting position for the ray
         
-        // Determine the direction based on FPS or non-FPS mode
+        // Determine the direction
         const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // FPS camera direction
-            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS, align with modelMesh
+            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize() // FPS: camera direction
+            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS: forward based on modelMesh
         
         if (this.activeRay) {
-            // Remove existing ray and associated object, if any
+            // Remove existing ray and associated object
             if (this.activeObject) {
-                // Detach the block from the ray
                 this.activeRay.mesh.remove(this.activeObject.mesh);
-    
-                // Reset the block's world position
                 this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
-    
-                // Add it back to the scene
                 this.olam.scene.add(this.activeObject.mesh);
-    
-                // Update the Octree if needed
                 this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
-    
                 this.activeObject = null;
             }
     
@@ -455,16 +446,21 @@ export default class Chai extends Tzomayach {
     
         // Create ray geometry and material
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8); // Thin beam
+        geometry.translate(0, -length / 2, 0); // Shift geometry so the base is at the origin
+
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const mesh = new THREE.Mesh(geometry, material);
     
-        // Set the ray's initial position and rotation
+        // Set the ray's initial position
         const localPosition = this.modelMesh.worldToLocal(start.clone());
         mesh.position.copy(localPosition);
     
-        // Align the ray's direction
-        const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length));
-        mesh.lookAt(this.modelMesh.worldToLocal(lookAtTarget)); // Align the ray with the direction
+        // Align the ray's rotation
+        const lookAtTarget = start.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
+        mesh.lookAt(this.modelMesh.worldToLocal(lookAtTarget)); // Convert lookAt target to local space
+    
+        // Rotate the ray geometry to align with the Z-axis
+        mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
     
         // Parent the ray to the player model
         this.modelMesh.add(mesh);
