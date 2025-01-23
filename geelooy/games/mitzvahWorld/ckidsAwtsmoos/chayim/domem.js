@@ -69,7 +69,9 @@ export default class Domem extends Nivra {
         this.golem = options.golem;
         this.position.set(options?.position);
       //  console.log("Set position", options, this.position,this)
-        this.rotation.set(options?.rotation);
+        if(options.rotation) {
+            this.rotation = options.rotation;
+        }//this.rotation.set(options?.rotation);
         var scale = options.scale;
         if(!scale) scale = {x:1,y:1,z:1};
         this.scale.set(scale)
