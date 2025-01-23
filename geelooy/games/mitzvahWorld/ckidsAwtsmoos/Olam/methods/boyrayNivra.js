@@ -46,9 +46,14 @@ export default class {
             ),
             map: async /*string*/val => 
                 await self.loadTexture({
-                    url: val
+                    url: val.startsWith("awtsmoos://") 
+                        ? this.getComponent(val) : val
+                    
                 })
             
+        }
+        if(typeof(golem) == "string") {
+            golem = this.getComponent(golem)
         }
         if(typeof(golem) != "object")
             golem = {};

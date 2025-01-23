@@ -69,9 +69,14 @@ export default class Domem extends Nivra {
         this.golem = options.golem;
         this.position.set(options?.position);
       //  console.log("Set position", options, this.position,this)
-        if(options.rotation) {
-            this.rotation = options.rotation;
-        }//this.rotation.set(options?.rotation);
+        var rot = options?.rotation;
+        var rotX = {}
+        rotX.x = rot?.x;
+        rotX.y = rot?.y;
+        rotX.z = rot?.z;
+        this.rotation.set(rotX);
+        this.methodsToCall = options?.methods || options?.methodsToCall;
+        console.log(rotX,options,this,this.rotation,options.rotation)
         var scale = options.scale;
         if(!scale) scale = {x:1,y:1,z:1};
         this.scale.set(scale)
@@ -246,8 +251,6 @@ export default class Domem extends Nivra {
         
         this.serialized = {
             ...this.serialized,
-            position: this.position.serialize(),
-            path: this.path
         };
         var optionKeys = Object.keys(this?.originalOptions || {})
         var original = [
@@ -406,9 +409,15 @@ export default class Domem extends Nivra {
                         this.position.vector3()
                     );
                     if(this.rotation) {
-                        this.mesh.rotation.copy(
-                            this.rotation
-                        )
+                        this.mesh.rotation.x = 
+                        this.rotation.x;
+                        this.mesh.rotation.y = 
+                        this.rotation.y;
+                        
+                        this.mesh.rotation.z = 
+                        this.rotation.z;
+                        
+                       
                     }
                     if(this.scale) {
                         this.mesh.scale.copy(
@@ -717,8 +726,22 @@ export default class Domem extends Nivra {
         repeatY=1/*ibit*/,
         childNameToSetItTo=null
     } = {}) {
-        console.log("HI!",childNameToSetItTo)
         var self = this;
+        try {
+            baseTexture = self.olam.$gc(
+                baseTexture
+            );
+            overlayTexture = self.olam.$gc(
+                overlayTexture
+            )
+            maskTexture = self.olam.$gc(
+                maskTexture
+            )
+        } catch(e){
+            console.log("Couldnt get it",e)
+        }
+        console.log("HI!",childNameToSetItTo,baseTexture)
+      
      //   console.log("mixing all",maskTexture,overlayTexture,baseTexture)
          // Helper function to load texture and optionally set repeat values
         
@@ -851,18 +874,13 @@ export default class Domem extends Nivra {
                     this.playChaweeyoos(c)
                 })
         }
-        if(this.environment) {
-            if(this.environment == "tree") {
-                this
-                .mesh
-           
-                .traverse( e => {
-			e.visible = false;
-			//e.material && (e.material.onBeforeCompile = TreeShader)
-		})
-                console.log("Tea tree",this)
-            }
+        if(this.methodsToCall) {
+            this.olam.callMethods(
+                this,
+                this.methodsToCall
+            )
         }
+
 	}
 
     heesHawvoos(deltaTime) {

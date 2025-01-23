@@ -121,6 +121,9 @@ var ui = [
         className: "hidden menuItm",
         innerHTML: "Saving...",
         on: {
+            awtsmoosHidden(e, $, ui) {
+                console.log("Hidden!")
+            },
             awtsmoosRevealed(e, $, ui) {
                 console.log(`
                     B"H

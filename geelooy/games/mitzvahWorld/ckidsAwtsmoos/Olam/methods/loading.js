@@ -47,15 +47,18 @@ export default class {
 
             // Store the blob URL in the components property
             this.components[shaym] = blobUrl;
+            return shaym;
         }
 
         if(typeof(url) == "object" && url) {
             this.components[shaym] = url;
+            return shaym;
         }
 
         if(typeof(url) == "function") {
             var res = await url(this);
             this.components[shaym] = res;
+            return shaym;
         }
 
         return shaym;
@@ -63,25 +66,67 @@ export default class {
     }
 
     /**
-     * Retrieve a component by its name.
-     * @param {String} shaym - The name of the component.
-     * @returns {Object|undefined} - The component's data URL, or undefined if the component is not found.
+     * Retrieve a component or sub-component by its name or path.
+     * Supports "awtsmoos://" for components and "awtsmoos.vars" for variables.
+     * Handles nested paths for objects.
+     * @param {String} shaym - The component path (e.g., "awtsmoos://awtsmoosModels/brick").
+     * @returns {Object|String|undefined} - The resolved component, sub-component, or undefined.
      */
     getComponent(shaym) {
-        if(typeof(shaym) != "string") return;
+        if (typeof shaym !== "string") return;
 
-        var awts = shaym.startsWith("awtsmoos://");
-        if(awts)
-            return this.components[
-                shaym.slice(11)
-            ];
-        var awtsVar = shaym.startsWith("awtsmoos.vars");
-        if(awtsVar) {
-            return this.vars[
-                shaym.slice(16)
-            ];
+        const resolvePath = (obj, path) => {
+            // Traverse the object using the path
+            const keys = path.split("/");
+            let current = obj;
+            for (const key of keys) {
+                if (current == null || typeof current !== "object") return undefined; // Stop if path is invalid
+                current = current[key];
+            }
+            return current;
+        };
+
+        if (shaym.startsWith("awtsmoos://")) {
+            const path = shaym.slice(11);
+            const baseKey = path.split("/")[0];
+
+            // Ensure the base component is loaded
+            const baseComponent = this.components[baseKey];
+            if (!baseComponent) {
+                console.warn(`Component "${baseKey}" not found.`);
+                return undefined;
+            }
+
+            // If the base component is a string (e.g., a URL or data), return it as-is
+            if (typeof baseComponent === "string") {
+                return baseComponent;
+            }
+
+            // If it's an object, resolve the sub-path
+            return path.includes("/") ? resolvePath(baseComponent, path.slice(baseKey.length + 1)) : baseComponent;
         }
-        else return shaym;
+
+        if (shaym.startsWith("awtsmoos.vars")) {
+            const path = shaym.slice(16);
+            const baseKey = path.split("/")[0];
+
+            // Ensure the variable is defined
+            const baseVar = this.vars[baseKey];
+            if (!baseVar) {
+                console.warn(`Variable "${baseKey}" not found.`);
+                return undefined;
+            }
+
+            // If the base variable is a string, return it as-is
+            if (typeof baseVar === "string") {
+                return baseVar;
+            }
+
+            // If it's an object, resolve the sub-path
+            return path.includes("/") ? resolvePath(baseVar, path.slice(baseKey.length + 1)) : baseVar;
+        }
+
+        return undefined; // If no valid prefix, return undefined
     }
 
     $gc(shaym) {

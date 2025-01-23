@@ -86,7 +86,17 @@ export default class OlamWorkerManager {
                     txt
                 ]))   
                 a.download="BH_"+Date.now()+".js";
-                a.click()
+                a.click();
+                var sav = myUi.htmlAction({
+                    shaym: "Saving",
+               
+                    
+                    methods: {
+                        classList: {
+                            add: "hidden"
+                        }
+                    }
+                });
             },
             deleteCanvas() {
                 if(self.canvasElement) {

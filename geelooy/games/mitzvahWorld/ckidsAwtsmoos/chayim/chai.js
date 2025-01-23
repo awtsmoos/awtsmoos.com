@@ -424,8 +424,8 @@ export default class Chai extends Tzomayach {
         
         var golem = this.activeObject.mesh.awtsmoosGolem;
         var position = this.activeObject.mesh.position;
-     //   var {x,y,z} = this.activeObject.mesh.rotation;
-        var rotation = this.activeObject.mesh.rotation//{x,y,z};
+        var {x,y,z} = this.activeObject.mesh.rotation;
+        var rotation = {x,y,z};
         console.log("ACtive",this.activeObject.mesh,rotation,this.activeObject.mesh.rotation)
         var scale = this.activeObject.mesh.scale;
         this.olam.scene.remove(this.activeObject.mesh);

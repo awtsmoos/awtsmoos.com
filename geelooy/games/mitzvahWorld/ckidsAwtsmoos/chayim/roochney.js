@@ -123,9 +123,17 @@ export class Kav extends Heeoolee{
     }
 
     serialize() {
-        this.serialized = {
-            x:this.x, y:this.y, z:this.z
-        };
+        var ob = {};
+        this.serialized = ob
+        if(this.x) {
+            ob.x = this.x
+        }
+        if(this.y) {
+            ob.y = this.y
+        }
+        if(this.z) {
+            ob.z = this.z
+        }
         return this.serialized;
     }
 }

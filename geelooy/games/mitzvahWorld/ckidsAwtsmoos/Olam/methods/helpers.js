@@ -292,6 +292,44 @@ export default class {
         return compiledData;
     }
 
+    /**
+     * 
+     * @param {object of any kind with sub methods} baseObj 
+     * @param {object of methods structued like this} methods 
+     * for example if baseObj has a method called
+     * mixTextures that takes in one argument, 
+     * as well as a different method called awtsmoosify that takes 2 argumetns,
+     * for eample
+     * methods would be like
+     * {
+     *  mixTextures: "the argument",
+     * awtsmoosify: ["argument 1,", "argument 2"]
+     * }
+     * then this callMethods funciton would
+     * call Object.keys on methods after verifying it
+     * then try to see if each key is a 
+     * method of the baseObj and if so then call it
+     * with the arguments provided.
+     */
+    callMethods(baseObj, methods) {
+        if(!baseObj || !methods) {
+            return null;
+        }
+        if(typeof(methods) != "object") {
+            return null;
+        }
+        var k = Object.keys(methods);
+        for(var key of k) {
+            var args = [];
+            if(Array.isArray(methods[key])) {
+                args = methods[key]
+            } else {
+                args.push(methods[key])
+            }
+            baseObj?.[key]?.(...args)
+        }
+    }
+
     getGameState ()  {
         var res = {
             nivrayim: this.nivrayim.map(q => ({
