@@ -405,12 +405,12 @@ export default class Domem extends Nivra {
                     );
                     if(this.rotation) {
                         this.mesh.rotation.copy(
-                            this.rotation.vector3()
+                            this.rotation
                         )
                     }
                     if(this.scale) {
                         this.mesh.scale.copy(
-                            this.scale.vector3()
+                            this.scale
                         );
                     }
                     
