@@ -55,6 +55,7 @@ try {
 	var editors = null;
 	var setupEditors = false;
 	async function load(ss) {
+		window.srss = ss;
 		window.heichel = await getH(heichelID);
 		if (!editors) {
 			editors = await getEditors();
@@ -368,6 +369,7 @@ try {
 
 
 	async function start() {
+		window.srss = srss;
 		if (heichelID == "undefined") {
 			var g = await AwtsmoosPrompt.go({
 				isAlert: true,
