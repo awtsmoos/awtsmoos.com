@@ -151,7 +151,7 @@ export default [
                         
                     },
                     mitzvahBtn({
-                        text: "Play !",
+                        text: "Play, Make New World!",
                         async onclick(e) {
                             var ikar = e.target.af("ikar")
                             if(!ikar) throw "Can't find main. "
@@ -162,14 +162,16 @@ export default [
                             var start = await (
                                 await fetch(config?.startingLevel)
                             )?.text();
+                            var url = URL.createObjectURL(
+                                new Blob([start], {
+                                    type: "application/javascript"
+                                })
+                            )
+                           /* 
                             if(!start) start = "";
                           
                             var dayuhOfOlam = await import(
-                                URL.createObjectURL(
-                                    new Blob([start], {
-                                        type: "application/javascript"
-                                    })
-                                )
+                                
                             );
 							if(!(dayuhOfOlam && dayuhOfOlam.default)) {
 								alert("Could not load the first level");
@@ -179,12 +181,14 @@ export default [
 							console.log("Loaded",window.s=dayuhOfOlam)
                             
                             
-                            
+                            */
                             par.dispatchEvent(
                                 new CustomEvent("start", {
                                     detail: {
-                                        worldDayuh: dayuhOfOlam
-                                            .default,
+                                        /*worldDayuh: dayuhOfOlam
+                                            .default,*/ 
+                                        worldDayuhURL:
+                                        url, 
                                         gameUiHTML
                                     }
                                 })
@@ -205,9 +209,9 @@ export default [
                             
                         }
                     }),
-                    /*
+                    
                     mitzvahBtn({
-                        text: "Custom World",
+                        text: "Load World",
                         onclick(e, $) {
                             var mm = $("main menu");
                             var cw = $("custom world");
@@ -218,7 +222,7 @@ export default [
                             mm.classList.add("hidden")
                             cw.classList.remove("hidden")
                         }
-                    })*/
+                    })
                     
                 ]
                 

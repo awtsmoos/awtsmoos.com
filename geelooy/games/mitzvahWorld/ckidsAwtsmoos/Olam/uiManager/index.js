@@ -95,10 +95,8 @@ export default class UIManager {
     initializeForFirstTime(e, opts={}) {
         var onstart = opts.onstart ;
         console.log(opts)
-        if(!e.detail.worldDayuh) {
-            alert("No world data provided!");
-            return false; //didn't load
-        }
+
+        
         
     
         /*
@@ -142,19 +140,27 @@ export default class UIManager {
 
         
         
-
         
-        var worldDayuh = e.detail.worldDayuh;
-        var gameUiHTML = e.detail.gameUiHTML;
+        var worldDayuhURL = e.detail.worldDayuhURL;
 
+        var worldDayuh = e.detail.worldDayuh;
+        if(!worldDayuh && !worldDayuhURL) {
+            alert("No world data provided!");
+            return false; //didn't load
+        }
+        var gameUiHTML = e.detail.gameUiHTML;
+        var ob = {gameUiHTML};
+        if(worldDayuh) {
+            ob.worldDayuh = worldDayuh;
+        }
+        if(worldDayuhURL) {
+            ob.worldDayuhURL = worldDayuhURL;
+        }
         this.onerror = opts.onerror;
     //    alert("About to start world "+ this.started)
         if(!this.started) {
             
-            onstart({
-                worldDayuh,
-                gameUiHTML
-            });
+            onstart(ob);
             
         }
 

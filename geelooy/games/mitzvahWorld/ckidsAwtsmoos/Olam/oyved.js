@@ -248,7 +248,7 @@ async function go() {
             if(!me.olam) return;
             return await me.olam.ayshPeula("captureMinimapScene", info)
         },
-        async heescheel/*start world*/ (options={}) {
+        async heescheel/*start world*/ (options ={}) {
             
             me.olam = new Olam();
 

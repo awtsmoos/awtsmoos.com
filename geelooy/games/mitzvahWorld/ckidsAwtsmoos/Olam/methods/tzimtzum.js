@@ -5,7 +5,20 @@
 
 export default class {
     async tzimtzum/*go, create world and load things*/(info = {}) {
-
+        var {
+            worldDayuhURL
+         } = info;
+        if(typeof(worldDayuhURL == "string")) {
+            try {
+                var f = await import(worldDayuhURL);
+                if(f?.default) {
+                    Object.assign(info, f.default);
+                    console.log("Loaded stuff")
+                }
+            } catch(e){
+                console.log("Couldn't load dayuh: ",worldDayuhURL )
+            }
+        }
         /*
         if(info.windowVars) {
             try {

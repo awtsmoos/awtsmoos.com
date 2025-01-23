@@ -63,15 +63,9 @@ class ManagerOfAllWorlds {
         var uiManager = new UIManager();
         this.uiManager = uiManager;
         var ui = uiManager.UI({
-            onstart({
-                worldDayuh,
-                gameUiHTML
-            }) {
+            onstart(ob) {
                 console.log("STARTED")
-                self.startWorld({
-                    worldDayuh,
-                    gameUiHTML
-                });
+                self.startWorld(ob);
                 self.setOnmessage();
             }
         });
@@ -218,17 +212,18 @@ class ManagerOfAllWorlds {
         this.startWorld({worldDayuh});
     }
 
-    startWorld({
-        worldDayuh,
-        gameUiHTML
-    }) {
-        
+    startWorld(ob = {}) {
+        var {
+            worldDayuh,
+            worldDayuhURL,
+            gameUiHTML
+        } = ob;
        if(gameUiHTML) {
         this.gameUiHTML = gameUiHTML
        }
        
        var self = this;
-       var ghtml = worldDayuh.html;
+       var ghtml = worldDayuh?.html;
        if(typeof(ghtml) != "object") {
         ghtml = {
             
@@ -247,7 +242,9 @@ class ManagerOfAllWorlds {
        }
        var heescheelObj = {
             ...worldDayuh,
-            
+            ...(worldDayuhURL ? {
+                worldDayuhURL
+            } : {}),
             html: ghtml,
             gameState: this.gameState,
             windowVars

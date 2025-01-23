@@ -21,7 +21,7 @@ export default {
             }
         },
         {
-            textContent: "Make a custom world",
+            textContent: "Load a custom world",
             className: "hdr1"
         },
         {
@@ -76,18 +76,20 @@ export default {
                                 type: "application/javascript"
                             })
                         );
-                        console.log("BLOB",bl)
+                        /*console.log("BLOB",bl)
                         var dayuhOfOlam = await import(
                            bl
-                        )
+                        )*/
                             
                         
                         try {
                             ikar.dispatchEvent(
                                 new CustomEvent("start", {
                                     detail: {
-                                        worldDayuh: dayuhOfOlam
-                                            .default,
+                                        worldDayuhURL: 
+                                        bl,
+                                        /*dayuhOfOlam
+                                            .default,*/
                                         gameUiHTML:
                                         mm.gameUiHTML
                                     }
