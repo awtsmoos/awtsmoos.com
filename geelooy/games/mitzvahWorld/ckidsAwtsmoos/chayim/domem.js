@@ -142,6 +142,12 @@ export default class Domem extends Nivra {
                 if(this.setPosition) {
                     this.setPosition(position)
                 }
+                if(rotation) {
+                    this.mesh.rotation.copy(rotation)
+                }
+                if(scale) {
+                    this.mesh.scale.copy(scale)
+                }
             }
 			
 			this.ayshPeula("collider transform update", {
@@ -397,6 +403,11 @@ export default class Domem extends Nivra {
                     this.mesh.position.copy(
                         this.position.vector3()
                     );
+                    if(this.rotation) {
+                        this.mesh.rotation.copy(
+                            this.rotation.vector3()
+                        )
+                    }
                     if(this.scale) {
                         this.mesh.scale.copy(
                             this.scale.vector3()
