@@ -2,7 +2,7 @@
  * B"H
  * environment related listeners
  */
-import { Mayim } from '/games/scripts/jsm/objects/Mayim.js';
+import { Water } from '/games/scripts/jsm/objects/Water.js';
 import { Sky } from '/games/scripts/jsm/objects/Sky.js';
 import * as THREE from '/games/scripts/build/three.module.js';
 export default function() {
@@ -115,7 +115,7 @@ export default function() {
         
         
         try {
-            const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
+           /* const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
             if(this.isGPU()) {
                 return console.log("No water, GPU!")
             }
@@ -123,7 +123,7 @@ export default function() {
                 nivra: mesh.nivraAwtsmoos,
                 url: "https://firebasestorage.googleapis.com/v0/b/ckids-games.appspot.com/o/chawfawtseem%2Ftextures%2Fwaternormals.jpg?alt=media"
             })
-            var mayim = new Mayim(
+            var mayim = new Water(
                 waterGeometry,
                 {
                     textureWidth: 512,
@@ -144,15 +144,16 @@ export default function() {
             var y = this.placePlaneOnTopOfBox( mayim, mesh);
             this.resetY = Math.min(-5, y);
             mesh.visible = false;
-            
-            
-            if(!this.mayim) {
-                this.mayim = [];
-            }
-            this.mayim.push(mayim);
+            */
+           var waterMaterial = new THREE.MeshBasicMaterial({
+            color: new THREE.Color("cyan")
+           })
+          // mesh.material = waterMaterial;
+           mesh.material.needsUpdate =true;
+           console.log("water",mesh,waterMaterial)
             
             this.ayshPeula("start sky");
-            this.ayshPeula("alert", "made mayim",mayim)
+            this.ayshPeula("alert", "made mayim")
         } catch(e) {
             this.ayshPeula("alert", "issue with mayim",e)
         }

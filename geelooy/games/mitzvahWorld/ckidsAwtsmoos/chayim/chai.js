@@ -17,7 +17,7 @@ const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xdede8d } );
 export default class Chai extends Tzomayach {
     type = "chai";
     rotationSpeed;
-    
+    distanceFromRay = 5;
     speedScale = 1.4
     defaultSpeed = 127;
     _speed = this.defaultSpeed;
@@ -224,6 +224,7 @@ export default class Chai extends Tzomayach {
         this.modelMesh = this?.mesh;
         this.mesh = this.empty;
         this.emptyCopy = this.empty.clone();
+        this.nonRotatingEmptyForMovement = this.empty.clone();
         this.olam.scene.add(this.emptyCopy);
         this.setPosition(this.mesh.position);
         
@@ -305,7 +306,7 @@ export default class Chai extends Tzomayach {
     }
     getForwardVector() {
         return Utils.getForwardVector(
-            this.emptyCopy,
+            this.nonRotatingEmptyForMovement,
             this.worldDirectionVector
         );
     }
@@ -413,11 +414,16 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
+    removeObject() {
+        if(this.activeObject) {
+            this.activeRay.mesh.remove(this.activeObject.mesh);
+        }
+    }
     placeObject() {
         const worldRotation = new THREE.Quaternion();
         this.activeObject.mesh.getWorldQuaternion(worldRotation);
-
-        this.activeRay.mesh.remove(this.activeObject.mesh);
+        this.removeObject();
+        
         this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
         this.olam.scene.add(this.activeObject.mesh);
         this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
@@ -426,11 +432,9 @@ export default class Chai extends Tzomayach {
         var position = this.activeObject.mesh.position;
         var {x,y,z} = this.activeObject.mesh.rotation;
         var rotation = {x,y,z};
-        console.log("ACtive",this.activeObject.mesh,rotation,this.activeObject.mesh.rotation)
         var scale = this.activeObject.mesh.scale;
         this.olam.scene.remove(this.activeObject.mesh);
         
-        console.log("Awtsmoos Golem", golem)
         this.olam.loadNivrayim({
             Domem: {
                 ["BH_"+Date.now()+"_block"]: {
@@ -448,15 +452,12 @@ export default class Chai extends Tzomayach {
         this.activeObject = null;
     }
 
-    async makeRay(length = 30) {
+    async makeRay(length = 72) {
         // Get the starting position of the ray
-        const start = this.collider.end.clone(); // Starting position for the ray
+        var start = this.getRayStart();
         
         // Determine the direction based on FPS or third-person mode
-        const direction = this.olam.ayin.isFPS
-            ? this.olam.ayin.camera.getWorldDirection(new THREE.Vector3()).normalize().multiplyScalar(-1) // Camera forward direction in FPS
-            : new THREE.Vector3(0, 0, -1).applyQuaternion(this.modelMesh.quaternion).normalize(); // Non-FPS forward direction
-        
+        var direction = this.getRayDirection();
         if (this.activeRay) {
             // Remove existing ray and associated object
             if (this.activeObject) {
@@ -470,6 +471,7 @@ export default class Chai extends Tzomayach {
             }
         
             this.activeRay = null;
+            this.olam.remove("setFPS")
             return; // Exit after toggling off
         }
         
@@ -478,6 +480,7 @@ export default class Chai extends Tzomayach {
             mesh: null,
             direction,
             length,
+            start
         };
         
         // Create ray geometry and material
@@ -506,15 +509,7 @@ export default class Chai extends Tzomayach {
         
         // In FPS mode, we don't use lookAt; we directly align the ray with the camera's forward vector
         if (this.olam.ayin.isFPS) {
-            // Rotate the ray to face the direction of the camera's forward vector
-           /* const rotation = new THREE.Quaternion();
-            rotation.setFromUnitVectors(new THREE.Vector3(0, 0, 1), direction); // Align ray with camera's forward direction
-            mesh.rotation.setFromQuaternion(rotation); // Apply the calculated rotation to the mesh
-        */
-            // Third-person mode: align the ray's rotation towards the direction of the ray
-            const lookAtTarget = this.olam.ayin.camera.position.clone().add(direction.clone().multiplyScalar(length)); // Point in the direction
-           // mesh.lookAt(lookAtTarget); // Adjust for third-person mode
-            mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
+           mesh.rotateX(Math.PI / 2); // Align cylinder's Y-axis with ray's direction
         
         } else {
             // Third-person mode: align the ray's rotation towards the direction of the ray
@@ -525,16 +520,68 @@ export default class Chai extends Tzomayach {
         
         // Store the ray's mesh
         this.activeRay.mesh = mesh;
+      
+        this.olam.on("setFPS", () => {
+            /**
+             * switch the ray to what
+             * it should be depending on if
+             * isFPS is on or not.
+             */
+            // Listen for FPS mode change and update the ray
         
-        // Optionally place a block on the ray
-        if (!this.activeObject) {
-            await this.placeBlockOnRay(start, direction);
-        }
+            // Switch logic for FPS mode change
+            var hadObject = false;
+            // Remove existing ray and associated object
+            if (this.activeObject) {
+                hadObject = true;
+                this.removeObject();
+                this.activeObject = null;
+            }
+        
+            this.activeRay.mesh.removeFromParent();
+        
+            this.activeRay = null;
+            this.olam.remove("setFPS")
+            this.makeRay(length)
+            if(hadObject) {
+                this.placeBlockOnRay()
+            }
+            
+        })
+        
         
         return this.activeRay;
     }
-    async placeBlockOnRay(rayStart, rayDirection) {
-        const distance = 5; // Adjust based on your game's needs
+
+    getRayStart() {
+        return this.collider.end.clone(); // Starting position for the ray
+    }
+    getRayDirection() {
+        return this.olam.ayin.isFPS
+            ? this.olam
+                .ayin
+                .camera
+                .getWorldDirection(new THREE.Vector3())
+                .normalize()
+                .multiplyScalar(-1) // Camera forward direction in FPS
+            : new THREE.Vector3(0, 0, -1)
+                .applyQuaternion(this.modelMesh.quaternion)
+                .normalize(); // Non-FPS forward direction
+        
+    }
+    async shoot() {
+        if(!this.activeRay) return;
+        if (!this.activeObject) {
+            await this.placeBlockOnRay();
+        } else {
+            this.placeObject();
+        }
+    }
+    async placeBlockOnRay() {
+        if(!this.activeRay) return;
+        var rayStart = this.getRayStart()
+        var rayDirection = this.getRayDirection()
+        const distance = this.distanceFromRay
     
         // Calculate initial world position along the ray
         const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(-distance));
@@ -570,6 +617,25 @@ export default class Chai extends Tzomayach {
         // Store a reference to the active object
         this.activeObject = block;
     }
+
+    async setDistanceFromRay(distance) {
+        if (!this.activeObject || !this.activeRay) return;
+    
+        // Get the ray's direction and start point
+        const rayStart = this.getRayStart()
+        const rayDirection = this.getRayDirection();
+    
+        // Calculate the new position along the ray
+        const newWorldPosition = rayStart.add(rayDirection.multiplyScalar(-distance));
+    
+        // Convert the new world position to the ray's local space
+        const newLocalPosition = this.activeRay.mesh.worldToLocal(newWorldPosition.clone());
+    
+        // Update the block's position
+        this.activeObject.mesh.position.copy(newLocalPosition);
+    }
+    
+    
     
 
 
@@ -683,7 +749,7 @@ export default class Chai extends Tzomayach {
 
             velocityAddAmounts.push([
                 Utils.getSideVector(
-                    this.emptyCopy,
+                    this.nonRotatingEmptyForMovement,
                     this.worldSideDirectionVector
                 ),
                 -speedDelta
@@ -711,7 +777,7 @@ export default class Chai extends Tzomayach {
             isWalking = true;
             velocityAddAmounts.push([
                 Utils.getSideVector(
-                    this.emptyCopy,
+                    this.nonRotatingEmptyForMovement,
                     this.worldSideDirectionVector
                 ),
                 speedDelta
@@ -856,11 +922,7 @@ export default class Chai extends Tzomayach {
         
         this.velocity.addScaledVector( this.velocity, damping );
         
-        /*
-        if(isWalking)
-            this.velocity.normalize()
-                .multiplyScalar(speedDelta);
-*/
+     
         var deltaPosition = this.velocity.clone().multiplyScalar( deltaTime );
         this.collider.translate( deltaPosition );
 
@@ -874,6 +936,8 @@ export default class Chai extends Tzomayach {
         this.mesh.rotation.y = this.rotation.y;
         if(this?.emptyCopy?.rotation)
             this.emptyCopy.rotation.copy(this.mesh.rotation);//.y = this.rotation.y;
+        if(this?.nonRotatingEmptyForMovement?.rotation)
+            this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);//.y = this.rotation.y;
         
         this.modelMesh.rotation.copy(this.mesh.rotation);
         //lerp logic for smooth rotating
@@ -924,6 +988,8 @@ export default class Chai extends Tzomayach {
 
         this.modelMesh.position.copy(this.mesh.position);
         this.emptyCopy.position.copy(this.mesh.position);
+        this.nonRotatingEmptyForMovement.position.copy(this.mesh.position);
+
         this.emptyCopy.rotation.copy(this.modelMesh.rotation);
         this.updateSpheres(deltaTime)
        // this.updateRay(deltaTime);

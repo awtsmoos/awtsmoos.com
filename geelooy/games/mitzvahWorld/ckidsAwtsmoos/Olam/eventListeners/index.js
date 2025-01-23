@@ -11,7 +11,7 @@ import resizing from "./resizing.js";
 import destroy from "./destroy.js"
 import chossidReactions from "./chossidRaections.js";
 import shlichus from "./shlichus.js"
-//import environment from "./environment.js"
+import environment from "./environment.js"
 import misc from "./misc.js";
 
 export default function() {
@@ -23,7 +23,7 @@ export default function() {
     destroy.bind(this)();
     chossidReactions.bind(this)();
     shlichus.bind(this)();
-   // environment.bind(this)();
+    environment.bind(this)();
     misc.bind(this)();
     
     

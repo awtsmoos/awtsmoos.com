@@ -47,18 +47,7 @@ export default function() {
 
     })
 
-    this.on('wheel', (event) => {
-
-        this.ayin.deltaY = event.deltaY;
-        this.ayshPeula("htmlAction",{
-            shaym:"Debug",
-            properties: {
-                textContent: "In world now got diff: "
-                +event.deltaY
-            }
-        });
-        this.ayin.zoom(event.deltaY)
-    })
+    
     
 
     this.on("mousedown", peula => {

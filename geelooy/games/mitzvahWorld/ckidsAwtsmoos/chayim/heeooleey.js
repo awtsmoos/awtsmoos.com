@@ -55,8 +55,12 @@ export default class Heeoolee {
             return false;
         }
 
+        
         if(typeof(peula) != "function") {
-            return false;
+            if(this.events[shaym]) {
+                delete this.events[shaym];
+            }
+            return true;
         }
 
         var ev = this.events[shaym]

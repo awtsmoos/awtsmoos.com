@@ -263,8 +263,12 @@ export default class {
                         +child.name
                     });
                     child.nivraAwtsmoos = nivra;
+                    if(child.type.toLowerCase().includes("light")) {
+                        //this.enlightened = true;
+                    }
                     if(child.userData && child.userData.water) {
-                        child.isMesh = false;
+                        
+                        //child.isMesh = false;
                         this.ayshPeula("alert", "WATER IS HERE", child)
                         this.ayshPeula("start water", child);
                         this.ayshPeula("increase loading percentage", {

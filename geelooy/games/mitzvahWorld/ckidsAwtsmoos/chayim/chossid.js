@@ -264,13 +264,16 @@ export default class Chossid extends Medabeir {
                         var npc = this.approachedEntities[0];
                         
                         if(!npc) {
+                           
+                            this.shoot();
+                            /*
                             this.throwBall(
                                 this.olam.randomLetter(),
                                 {
                                     color: 
                                     this.olam.randomColor()
                                 }
-                            )
+                            )*/
                             return;
                         }
                         npc.ayshPeula("accepted interaction");
@@ -291,6 +294,7 @@ export default class Chossid extends Medabeir {
                 case CAMERA_FPS_TOGGLE: 
                     this.olam.ayin.isFPS = 
                     !this.olam.ayin.isFPS;
+                    this.olam.ayshPeula("setFPS", this.olam.ayin.isFPS)
                 break;
                 case "Space":
                     this.olam.ayshPeula("setInput", {
@@ -332,14 +336,21 @@ export default class Chossid extends Medabeir {
         this.olam.ayshPeula("save player position")
         this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
         this.olam.on("wheel", ({deltaY}) => {
-            // Adjust the distance based on the wheel input
-            // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
-            this.distanceFromRay += deltaY * 0.01; // Adjust the multiplier to control the speed of the change
+            if(this.activeObject) {
+                // Adjust the distance based on the wheel input
+                // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
+                this.distanceFromRay += deltaY * 0.01; // Adjust the multiplier to control the speed of the change
 
-            // You can limit the distance to prevent it from becoming too small or too large
-            this.distanceFromRay = Math
-                .max(1, Math.min(this.rayLength, this.distanceFromRay)); // Example limits
+                // You can limit the distance to prevent it from becoming too small or too large
+                this.distanceFromRay = Math
+                    .max(1, Math.min(this.rayLength, this.distanceFromRay)); // Example limits
+                this.setDistanceFromRay(this.distanceFromRay);
+            } else {
 
+                this.olam.ayin.deltaY = deltaY;
+                
+                this.olam.ayin.zoom(deltaY)
+            }
         })
         
 	}
@@ -371,7 +382,7 @@ export default class Chossid extends Medabeir {
         this.postProcessing();
         super.heesHawvoos(deltaTime);
         
-        
+        /*
         if(typeof(this.olam.resetY) == "number")
         if(this.mesh.position.y < this.olam.resetY) {
             if(!this.teleporting) {
@@ -382,7 +393,7 @@ export default class Chossid extends Medabeir {
                     this.teleporting = false
                 }, 100)
             }
-        }
+        }*/
        
     }
 
@@ -390,6 +401,7 @@ export default class Chossid extends Medabeir {
     
     lastPos = new THREE.Vector3();
     postProcessing() {
+        return;
         var pos = new THREE.Vector3();
         var offset;
         if(!this.lastPos.equals(this.mesh.position)) {

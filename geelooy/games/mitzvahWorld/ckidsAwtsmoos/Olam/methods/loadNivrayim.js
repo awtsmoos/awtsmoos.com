@@ -259,7 +259,7 @@ export default class {
 
             
             await this.ayshPeula("alert", "adding light")
-
+            
             if(!this.enlightened)
                 this.ohr();
             return nivrayimMade;

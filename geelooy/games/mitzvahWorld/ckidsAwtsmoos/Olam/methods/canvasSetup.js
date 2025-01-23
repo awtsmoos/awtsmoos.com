@@ -77,16 +77,16 @@ export default class {
     }
 
     postprocessingSetup() {
-       /* if(!this.postprocessing)
-            this.postprocessing = new PostProcessingManager({
+        if(!this.postprocessing)
+           /* this.postprocessing = new PostProcessingManager({
                 camera: this.camera,
                 scene: this.scene,
                 renderer: this.renderer,
                 width: this.width,
                 height: this.height
-            });
+            });*/
         this.postprocessing.postprocessingSetup();
-        */
+        
     }
 
     postprocessingRender() {
