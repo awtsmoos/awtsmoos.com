@@ -6,6 +6,10 @@
  */
 
 export default function() {
+    this.on("stringify olam", () => {
+        var stringed = this?.getCompiledNivrayimInfo();
+        return stringed
+    })
     this.on("htmlPeula peula", ({peulaName, peulaVars}) => {
         if(!Array.isArray(peulaVars)) {
             peulaVars = [];

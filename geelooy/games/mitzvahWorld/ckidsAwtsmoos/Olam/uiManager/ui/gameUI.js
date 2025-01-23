@@ -115,6 +115,35 @@ var ui = [
 
             }
         },
+    },
+    {
+        shaym: "Saving",
+        className: "hidden menuItm",
+        innerHTML: "Saving...",
+        on: {
+            awtsmoosRevealed(e, $, ui) {
+                console.log(`
+                    B"H
+
+                    Starting to save the world!
+                `)
+                var ikar = $("ikar");
+                if(!ikar) {
+                    alert("Something's wrong with menu")
+                    console.log(e,ikar);
+                    return;
+                }
+                ikar.dispatchEvent(
+                    
+                    new CustomEvent("olamPeula", {
+                        detail: {
+                            downloadWorld: true
+                        }
+                    })
+                );
+               /* */
+            },
+        }
     }
 	
 

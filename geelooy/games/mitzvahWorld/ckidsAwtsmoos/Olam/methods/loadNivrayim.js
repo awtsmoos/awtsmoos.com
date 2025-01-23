@@ -53,6 +53,7 @@ export default class {
                     var evaledObject = null;
                     
                     try {
+                       // console.log("Trying to eval",options,name, nivrayim)
                         evaledObject = Utils.evalStringifiedFunctions(
                             options,
                          //   {window:this.window}

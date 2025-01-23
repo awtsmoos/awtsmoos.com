@@ -335,9 +335,11 @@ export default class Utils {
         
             var comment = '/*B"H\nThis has been stringified with Awtsmoos!\n*/\n';
             for (let key in obj) {
+          //      console.log("Trying",key,obj)
                 var evaled = '(' + obj[key] + ')'
                 try {
                     if (typeof obj[key] === 'string' && obj[key].startsWith(comment)) {
+                       
                         if(context) {
                             var keys = Object.keys(context);
                             var str = `//B"H

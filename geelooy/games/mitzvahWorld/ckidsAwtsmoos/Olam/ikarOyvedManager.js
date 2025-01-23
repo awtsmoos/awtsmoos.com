@@ -76,6 +76,18 @@ export default class OlamWorkerManager {
                     startedLoading: Date.now()
                 })
             },
+            downloadWorld(ob) {
+                var txt = ob?.text;
+
+                if(!txt) return;
+                console.log("Hi",txt,ob)
+                var a = document.createElement("a");
+                a.href = URL.createObjectURL(new Blob([
+                    txt
+                ]))   
+                a.download="BH_"+Date.now()+".js";
+                a.click()
+            },
             deleteCanvas() {
                 if(self.canvasElement) {
                     self.canvasElement.parentNode.removeChild(
@@ -781,14 +793,16 @@ export default class OlamWorkerManager {
                 this.eved.postMessage({"wheel": Utils.clone(event)})
         });
 
+
         this
         .eved
-        .addEventListener(
-            'message', 
-            this.handleMessageEvent.bind(this), 
-            false
-        );
-    }
+        .onmessage = 
+            e => this.handleMessageEvent.bind(this)(e)
+        
+
+        console.log("Starting event listeners",this)
+    } 
+
 
     /**
      * B"H
@@ -801,7 +815,7 @@ export default class OlamWorkerManager {
         let data = event.data;
         
         if (typeof data === 'object') {
-            
+          //  console.log("Doing",data)
             Object.keys(data).forEach(key => {
                 let task = this.tawfeekim[key];
                 var k = data[key];

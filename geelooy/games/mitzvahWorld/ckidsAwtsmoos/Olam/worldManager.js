@@ -240,15 +240,23 @@ class ManagerOfAllWorlds {
        } catch(e) {
             console.log("Could't do it",e)
        }
-       var heescheelObj = {
-            ...worldDayuh,
+       var systemInfo = {
+            html: ghtml,
+            gameState: this.gameState,
+            windowVars,
             ...(worldDayuhURL ? {
                 worldDayuhURL
             } : {}),
-            html: ghtml,
-            gameState: this.gameState,
-            windowVars
+       }
+       var userInfo = {
+            ...worldDayuh,
             
+            
+            
+        }
+        var heescheelObj = {
+            userInfo,
+            systemInfo
         }
 
        

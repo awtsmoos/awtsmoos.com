@@ -10,5 +10,9 @@ export default [
     {
         text: "Instructions",
         show: "instructions"
+    },
+    {
+        text: "Save World",
+        show: "Saving"
     }
 ]

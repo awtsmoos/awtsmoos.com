@@ -413,6 +413,37 @@ export default class Chai extends Tzomayach {
         this.olam.scene.add(sphere.mesh)
     }
 
+    placeObject() {
+        const worldRotation = new THREE.Quaternion();
+        this.activeObject.mesh.getWorldQuaternion(worldRotation);
+
+        this.activeRay.mesh.remove(this.activeObject.mesh);
+        this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
+        this.olam.scene.add(this.activeObject.mesh);
+        this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
+        var golem = this.activeObject.awtsmoosGolem;
+        var position = this.activeObject.mesh.position;
+        var rotation = this.activeObject.mesh.rotation;
+        var scale = this.activeObject.mesh.scale;
+        this.olam.scene.remove(this.activeObject.mesh);
+        var golem = this.activeObject.awtsmoosGolem;
+        this.olam.loadNivrayim({
+            Domem: {
+                ["BH_"+Date.now()+"_block"]: {
+                    position,
+                    scale,
+                    rotation,
+                    isSolid:true,
+                    ...(golem ? {
+                        golem
+                    } : {})
+                }
+            }
+        })
+       // this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
+        this.activeObject = null;
+    }
+
     async makeRay(length = 30) {
         // Get the starting position of the ray
         const start = this.collider.end.clone(); // Starting position for the ray
@@ -425,15 +456,7 @@ export default class Chai extends Tzomayach {
         if (this.activeRay) {
             // Remove existing ray and associated object
             if (this.activeObject) {
-                const worldRotation = new THREE.Quaternion();
-                this.activeObject.mesh.getWorldQuaternion(worldRotation);
-        
-                this.activeRay.mesh.remove(this.activeObject.mesh);
-                this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
-                this.olam.scene.add(this.activeObject.mesh);
-                this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
-                this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
-                this.activeObject = null;
+                this.placeObject();
             }
         
             if (this.olam.ayin.isFPS) {

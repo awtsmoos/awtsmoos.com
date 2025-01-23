@@ -237,7 +237,9 @@ export default class UIManager {
                 $("menu").classList.remove("onscreen");
 
                 el.classList.toggle(className || "hidden")
-
+                el.dispatchEvent(
+                    new CustomEvent("awtsmoosRevealed")
+                )
             }
         })
 

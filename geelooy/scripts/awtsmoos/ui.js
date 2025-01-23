@@ -334,6 +334,7 @@ setHtml(el, opts = {}) {
             "children", 
             "events",
             "parent",
+            "on",
             "attributes",
             "child",
             "toldos",
@@ -506,13 +507,16 @@ setHtml(el, opts = {}) {
         opts.ready(el, findOthersFunction, this);
     }
 
+    var evs = opts.events || opts.on;
     // Attach event listeners if the events property is specified
-    if (typeof opts.events === "object") {
-        Object.keys(opts.events).forEach(eventName => {
-            var callback = opts.events[eventName];
+    if (typeof evs === "object") {
+        Object.keys(evs).forEach(eventName => {
+            var callback = evs[eventName];
             if (typeof callback === "function") {
               
-                el.addEventListener(eventName, callback);
+                el.addEventListener(eventName, async e => 
+                    await callback(e, this.getHtml, this, el)
+                );
             }
         });
     }

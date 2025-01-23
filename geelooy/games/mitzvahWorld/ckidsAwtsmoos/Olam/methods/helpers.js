@@ -259,6 +259,39 @@ export default class {
 		return iconData
     }
 
+    getCompiledNivrayimInfo() {
+        var baseInfo = this?.baseInfo;
+        var compiledData = {...baseInfo}
+        var c = compiledData?.nivrayim || {};
+        compiledData.nivrayim = c;
+        /**
+         * has potential properties Chossid
+         * Medabeir 
+         * Tzomayach
+         * Domem
+         */ 
+        
+        for(
+            var nivra of this?.nivrayim 
+        ) {
+            var type = 
+                nivra?.type;
+            if(type) {
+                type = 
+                type[0].toUpperCase()
+                +type.substring(1)
+            }
+            if(!c[type]) {
+                c[type] = {};
+            }
+            var nm = nivra?.name;
+            c[type][nm] = nivra?.serialize();
+
+
+        }
+        return compiledData;
+    }
+
     getGameState ()  {
         var res = {
             nivrayim: this.nivrayim.map(q => ({

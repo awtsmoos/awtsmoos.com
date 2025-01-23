@@ -48,6 +48,30 @@ async function go() {
     }
 
     var tawfkeedeem/*tasks to do*/ = {
+        async downloadWorld(a) {
+            
+            try {
+                var olamStringed = me?.olam?.getCompiledNivrayimInfo?.();
+                var str = `//B"H
+//Downloaded the world at ${
+    new Date()
+}!
+
+export default ${
+    JSON.stringify(olamStringed, null, "\t")
+}
+
+//Blessings and Success`
+                console.log(olamStringed,str);
+                postMessage({
+                    downloadWorld: {
+                        text: str
+                    }
+                })
+            } catch(e){
+                console.log("Issue saving world: ",e)
+            }
+        },
         async takeInCanvas({
             canvas,
             devicePixelRatio

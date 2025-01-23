@@ -36,7 +36,9 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 export default class {
-    async generateThreeJsMesh(golem = {}) {
+    async generateThreeJsMesh(golem) {
+        var originalGolem = golem;
+        if(!golem) golem = {}
         var self = this
         var keyMap = {
             color: val => (
@@ -126,6 +128,7 @@ export default class {
         var mesh = new THREE.Mesh(
             chomer, tzurah
         );
+        mesh.awtsmoosGolem = originalGolem;
         return mesh;
     }
     async boyrayNivra/*createCreation*/(nivra, info) {
@@ -153,7 +156,7 @@ export default class {
     
                     // Use the component's data URL as the path
                     derech = component;
-                    nivra.path = derech;
+                   // nivra.path = derech;
                 }
     
     

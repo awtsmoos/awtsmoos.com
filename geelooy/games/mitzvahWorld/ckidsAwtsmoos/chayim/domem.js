@@ -7,7 +7,7 @@
 import Nivra from "./nivra.js";
 import {Kav} from "./roochney.js";
 import * as THREE from '/games/scripts/build/three.module.js';
-
+import Utils from '../utils.js'
 /**
  * Domem is a subclass of Nivra representing inanimate matter.
  * 
@@ -64,6 +64,7 @@ export default class Domem extends Nivra {
     constructor(options, olam) {
         super(options);
         this.olam = olam;
+        this.originalOptions = options;
         this.path = options.path;
         this.golem = options.golem;
         this.position.set(options?.position);
@@ -208,7 +209,7 @@ export default class Domem extends Nivra {
 
                 // Use the component's data URL as the path
                 derech = component;
-                this.path = derech;
+                this.loadedPath = derech;
             }
             return derech;
 
@@ -234,10 +235,35 @@ export default class Domem extends Nivra {
     }
     serialize() {
         super.serialize();
+        
         this.serialized = {
             ...this.serialized,
             position: this.position.serialize(),
             path: this.path
+        };
+        var optionKeys = Object.keys(this?.originalOptions || {})
+        var original = [
+            "on"
+        ];
+
+        for(var key of optionKeys) {
+            var tried = this[key];
+            if(original.includes(key)) {
+
+                this.serialized[key] = this.originalOptions[key]
+                if(key == "on") {
+                    tried = Utils.stringifyFunctions(
+                        this.originalOptions[key]
+                    )
+                    this.serialized[key] = tried;
+                }
+                continue;
+            }
+            if(typeof(tried?.serialize) == "function") {
+                tried = tried?.serialize?.();
+            }
+            
+            this.serialized[key] = tried;
         }
         return this.serialized;
     }

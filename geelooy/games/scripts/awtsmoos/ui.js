@@ -266,7 +266,7 @@ export default class UI extends Heeoolee {
      */
     html(opts={}) {
         var el = this.makeHtml(opts)
-        var opPar = opts.parent || opts.av || undefined
+        
         /**
              * If set explciitly "null",
              * then won't add it right away
@@ -276,22 +276,23 @@ export default class UI extends Heeoolee {
                 == "string" ?
                 this.getHtml(par) 
                 : null
-            )(opPar);
+            )(opts.parent);
 
 
 
 
-            var parent = opPar !== undefined
+            var parent = opts
+                .parent !== undefined
             &&
             
             stringedParent  || 
             
             (
-                opPar instanceof
+                opts.parent instanceof
                 Element ||
-                opPar instanceof
+                opts.parent instanceof
                 Document ?
-                opPar
+                opts.parent
                 ||
             
                 document.body : null
@@ -310,17 +311,7 @@ export default class UI extends Heeoolee {
 	setHtmlByShaym(shaym, opts={}) {
 		console.log("Setting by shaym",shaym);
 		var el = this.getHtml(shaym);
-		if(!el) {
-            /*
-                if doesnt exist, make it.
-            */
-           var h= this.html({
-              shaym,
-              ...opts
-           });
-           console.log("Made new",h)
-           return h;
-        }
+		if(!el) return null;
 		return this.setHtml(el, opts);
 	}
     /**
@@ -343,6 +334,7 @@ setHtml(el, opts = {}) {
             "children", 
             "events",
             "parent",
+            "on",
             "attributes",
             "child",
             "toldos",
@@ -355,7 +347,6 @@ setHtml(el, opts = {}) {
     
     // Store the element in the elements object if shaym is specified
     if (typeof opts.shaym === "string") {
-       // var el = elements[opts.shaym]
         elements[opts.shaym] = el;
     }
 
@@ -516,13 +507,16 @@ setHtml(el, opts = {}) {
         opts.ready(el, findOthersFunction, this);
     }
 
+    var evs = opts.events || opts.on;
     // Attach event listeners if the events property is specified
-    if (typeof opts.events === "object") {
-        Object.keys(opts.events).forEach(eventName => {
-            var callback = opts.events[eventName];
+    if (typeof evs === "object") {
+        Object.keys(evs).forEach(eventName => {
+            var callback = evs[eventName];
             if (typeof callback === "function") {
               
-                el.addEventListener(eventName, callback);
+                el.addEventListener(eventName, async e => 
+                    await callback(e, this.getHtml, this, el)
+                );
             }
         });
     }
@@ -554,21 +548,18 @@ setHtml(el, opts = {}) {
         shaym,
         html,
         properties = {},
-        methods = {},
-        selector
+        methods = {}
     }) {
         // If shaym is a string, get the corresponding HTML element,
         // if it's an HTMLElement, use it directly
         
         
         if(!html) 
-            try {
-                html = typeof shaym === "string" ? 
-                this.getHtml(shaym) : html;
-            } catch(e){}
+            html = typeof shaym === "string" ? 
+            this.getHtml(shaym) : html;
 
         if (!html) {
-            //throw "Not found element: " + shaym;
+            throw "Not found element: " + shaym;
             return null; // If the element is not found, return null
         } 
 
@@ -578,28 +569,9 @@ setHtml(el, opts = {}) {
         var methodsCalled = {};
         var errors = {};
 
-        var hasSelector = false;
-        var selected = null;
-        if(typeof(selector) == "string") {
-            hasSelector = true;
-            try {
-                selected = html.querySelector(selector)
-
-            } catch(e) {
-
-            }
-        }
-        if(selected) {
-            html = selected;
-
-            console.log("SELECTED",html)
-        } else if(hasSelector) {
-            return null;
-        }
         // Set properties on the HTML element
         if (typeof properties === "object") {
             this.setHtml(html, properties);
-            propertiesSet = properties;
         }
 
     
