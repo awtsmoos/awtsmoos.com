@@ -421,12 +421,13 @@ export default class Chai extends Tzomayach {
         this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
         this.olam.scene.add(this.activeObject.mesh);
         this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
-        var golem = this.activeObject.awtsmoosGolem;
+        var golem = this.activeObject.mesh.awtsmoosGolem;
         var position = this.activeObject.mesh.position;
         var rotation = this.activeObject.mesh.rotation;
         var scale = this.activeObject.mesh.scale;
         this.olam.scene.remove(this.activeObject.mesh);
-        var golem = this.activeObject.awtsmoosGolem;
+        
+        console.log("Awtsmoos Golem", golem)
         this.olam.loadNivrayim({
             Domem: {
                 ["BH_"+Date.now()+"_block"]: {
