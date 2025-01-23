@@ -36,6 +36,31 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 export default class {
+   
+    isInWater(position) {
+        if (!this.water) return null;
+        var waterWorldPosition = null
+        if(!this.globalWaterPosition) {
+            // Get the global position of the water mesh
+            waterWorldPosition = new THREE.Vector3();
+            this.water.getWorldPosition(waterWorldPosition);
+            this.globalWaterPosition = waterWorldPosition
+        }
+        waterWorldPosition = this.globalWaterPosition
+        // Convert the given position to global if necessary
+        const globalPosition = position.clone(); // Assuming position is a Vector3
+        if(!this.temp) {
+            this.temp = new THREE.Object3D();
+        }
+        var tempObject = this.temp // Use an intermediate object to transform to world
+        tempObject.position.copy(position);
+        tempObject.updateMatrixWorld(true); // Ensure world matrix is up to date
+        globalPosition.copy(tempObject.getWorldPosition(new THREE.Vector3()));
+    
+    
+        // Compare the global Y positions
+        return globalPosition.y <= waterWorldPosition.y;
+    }
     async generateThreeJsMesh(golem) {
         var originalGolem = golem;
         if(!golem) golem = {}
@@ -267,7 +292,7 @@ export default class {
                         //this.enlightened = true;
                     }
                     if(child.userData && child.userData.water) {
-                        
+                        child.isWater = true;
                         //child.isMesh = false;
                         this.ayshPeula("alert", "WATER IS HERE", child)
                         this.ayshPeula("start water", child);
@@ -374,15 +399,15 @@ export default class {
     
                     /*adds items that aren't player to special list
                     for camera collisions etc.*/
-                    if (child.isMesh && !child.isAwduhm) {
+                    if (child.isMesh && !child.isAwduhm && !child.isWater) {
                         this.objectsInScene.push(child);
     
-                    } else if(child.isMesh) {
-                        if (child.material.map) {
-    
-                            ///child.material.map.anisotropy = 4;
-            
+                    } else if(child.isWater ) {
+                        this.water = child;
+                        if(!this.waters) {
+                            this.waters = []
                         }
+                        this.waters.push(child);
                     }
     
                     if(child.isMesh) {
@@ -451,6 +476,7 @@ export default class {
                                     }
                                 );
                                 if(!child.isMesh) return;
+                                if(child.isWater) return
                                 var isAnywaysSolid = 
                                     checkAndSetProperty(child,
                                 "isAnywaysSolid");

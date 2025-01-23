@@ -145,11 +145,11 @@ export default function() {
             this.resetY = Math.min(-5, y);
             mesh.visible = false;
             */
-           var waterMaterial = new THREE.MeshBasicMaterial({
+          /* var waterMaterial = new THREE.MeshBasicMaterial({
             color: new THREE.Color("cyan")
            })
-          // mesh.material = waterMaterial;
-           mesh.material.needsUpdate =true;
+           mesh.material = waterMaterial;
+           mesh.material.needsUpdate =true;*/
            console.log("water",mesh,waterMaterial)
             
             this.ayshPeula("start sky");
