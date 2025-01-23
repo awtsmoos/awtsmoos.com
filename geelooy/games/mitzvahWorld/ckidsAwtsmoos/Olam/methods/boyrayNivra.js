@@ -476,20 +476,22 @@ export default class {
                                     }
                                 );
                                 if(!child.isMesh) return;
-                                if(child.isWater) return
-                                var isAnywaysSolid = 
+                                if(child.isWater) return;
+                                this.worldOctree.fromGraphNode(child);
+                                /*var isAnywaysSolid = 
                                     checkAndSetProperty(child,
                                 "isAnywaysSolid");
     
                                 var has = checkAndSetProperty(child, "notSolid", 
-                                "isAnywaysSolid");
+                                "isAnywaysSolid");*/
                                 //if does not have "not solid" to true, means !has IS solid
                                 if(true) 
                                 {
-                                    this.worldOctree.fromGraphNode(child);
+                                    
     
                                  //   child.layers.enable(2)
                                 }
+                                
     
     
                               //  console.log("About to add to octree", has,child,nivra)
@@ -506,12 +508,27 @@ export default class {
                     }
                     
                 }
+
     
                
     
                 if(nivra.interactable) {
+                    
                     this.interactableNivrayim
                     .push(nivra);
+                   
+                    
+                    if(nivra.type != "chossid") { 
+                        nivra.needsOctreeChange = true;
+                        nivra.on(
+                            "changeOctreePosition", () => {
+                                var currentChild = 0;
+                                gltf.scene.traverse(child => {
+                                    this.interactiveOctree.fromGraphNode(child);
+                                })
+                            }
+                        );
+                    }
                 }
     
     
@@ -544,6 +561,25 @@ export default class {
                     this.worldOctree.fromGraphNode(mesh);
         
                     //mesh.layers.enable(2)
+                }
+                if(nivra.interactable) {
+                    
+                    this.interactableNivrayim
+                    .push(nivra);
+                   
+                    
+                    if(nivra.type != "chossid") { 
+                        nivra.needsOctreeChange = true;
+                        nivra.on(
+                            "changeOctreePosition", () => {
+                                
+                                this
+                                .interactiveOctree
+                                .fromGraphNode(mesh);
+                                
+                            }
+                        );
+                    }
                 }
                 
                 return mesh;

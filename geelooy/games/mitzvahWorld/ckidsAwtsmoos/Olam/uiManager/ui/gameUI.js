@@ -147,6 +147,78 @@ var ui = [
                /* */
             },
         }
+    },
+    {
+        shaym: "action bar",
+        className: "awtsmoosAction",
+        awtsmoosClick: true,
+        children: [
+            {
+                className: "minimize opened",
+                onclick(e, $, ui, el) {
+                    var slots = $("action bar")
+                    if(!slots) return;
+                    slots.classList.toggle("minimized");
+                    el.classList.toggle("opened")
+                    el.classList.toggle("closed")
+                }
+                
+            },
+            {
+                className: "slots",
+                shaym: "action slots"
+            }
+        ],
+        on: {
+            ready(e) {
+                var {
+                    el,
+                    ui,
+                    $f
+                } = e.detail;
+                var slotNumbers = 5;
+                
+                for(var i = 0; i < slotNumbers; i++) {
+                    el.dispatch("addSlot", e.detail)
+                }
+            },
+            addSlot(e) {
+                var {
+                    $f, ui, el
+
+                } = e .detail;
+                console.log(e)
+                ui.$h({
+                    parent: "action slots",
+                    className: "actionSlot",
+                    children: [
+                        {
+                            className: "innerSlot"
+                        }
+                    ]
+                })
+            }
+        }
+    },
+    {
+        shaym: "block selector menu",
+        className: "blockSelected hidden",
+        awtsmoosClick: true,
+        children: ["Grab", "Rotate", "Scale"]
+            .map(q=>({
+                innerHTML: q,
+                className: q,
+                onclick: async(e) => {
+                    ikar.dispatchEvent(
+                    
+                        new CustomEvent("olamPeula", {
+                            detail: {
+                                activeObjectAction: e.target.innerHTML
+                            }
+                        })
+                    );
+                }
+            }))
     }
 	
 

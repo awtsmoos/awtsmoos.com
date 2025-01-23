@@ -82,6 +82,9 @@ export default class Domem extends Nivra {
         this.scale.set(scale)
         this.isSolid = !!options.isSolid;
         this.interactable = options.interactable;
+        if(this.interactable) {
+            this.isInteractive = true;
+        }
         this.proximity = options.proximity;
 		this.heesHawveh = options.heesHawveh;
         this.height = options.height;

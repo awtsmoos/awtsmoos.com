@@ -23,6 +23,9 @@ export default class {
                     
                     this.worldOctree.removeMesh(nivra)
                 }
+                if(nivra.isInteractive) {
+                    this.interactiveOctree.removeMesh(nivra);
+                }
                 nivra.removeFromParent();
             } catch(e) {
 
@@ -51,6 +54,9 @@ export default class {
         
         if(nivra.isSolid) {
             try {
+                if(nivra.isInteractive) {
+                    this.interactiveOctree.removeMesh(nivra).mesh;
+                }
                 if(nivra.mesh)
                     this.worldOctree.removeMesh(nivra.mesh);
                 

@@ -48,6 +48,9 @@ async function go() {
     }
 
     var tawfkeedeem/*tasks to do*/ = {
+        async activeObjectAction(a) {
+            await me.olam.ayshPeula("activeObjectAction", a)
+        },
         async downloadWorld(a) {
             
             try {

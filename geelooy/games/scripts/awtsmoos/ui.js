@@ -502,10 +502,7 @@ setHtml(el, opts = {}) {
         el.appendChild(child);
     }
 
-    // Invoke the ready callback if specified
-    if (typeof opts.ready === "function") {
-        opts.ready(el, findOthersFunction, this);
-    }
+    
 
     var evs = opts.events || opts.on;
     // Attach event listeners if the events property is specified
@@ -523,7 +520,26 @@ setHtml(el, opts = {}) {
 
     el.af = el.awtsmoosFind = findOthersFunction; // Alias for convenience
     el.getElements = () => elements; // Method to get all elements
-/*
+    // Invoke the ready callback if specified
+    if (typeof opts.ready === "function") {
+        opts.ready(el, findOthersFunction, this);
+    }
+    el.disp = (name, det) => {
+        el?.dispatchEvent(new CustomEvent(
+            name, {
+                detail: det
+            }
+        ))
+    }
+    el.dispatch = el.disp;
+    el.disp("ready", {
+            el,
+            ui: this,
+            $f: findOthersFunction
+        }
+        
+    );
+    /*
     if(
         typeof(opts.outerHTML)
         == "string"
@@ -535,6 +551,7 @@ setHtml(el, opts = {}) {
 
 
 
+   
     /**
      * This function modifies an HTML element by setting properties, invoking methods,
      * and returns an object containing information about the operations performed.
@@ -559,6 +576,8 @@ setHtml(el, opts = {}) {
             this.getHtml(shaym) : html;
 
         if (!html) {
+            return;
+            console.log(html,shaym,window.wow=this)
             throw "Not found element: " + shaym;
             return null; // If the element is not found, return null
         } 

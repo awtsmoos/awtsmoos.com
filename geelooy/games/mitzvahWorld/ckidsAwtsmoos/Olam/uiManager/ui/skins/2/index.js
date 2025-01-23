@@ -10,6 +10,7 @@ import loading from "./loading.js"
 import inGameMenu from "./inGameMenu.js";
 import instructions from "./instructions.js"
 import shlichus from "./shlichus.js"
+import actionBars from "./actionBars.js"
 export default /*css*/`
     /*B"H*/
     ${mainMenu}
@@ -23,4 +24,6 @@ export default /*css*/`
     ${instructions}
 
     ${shlichus}
+
+    ${actionBars}
 `;

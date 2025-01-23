@@ -76,6 +76,9 @@ export default class OlamWorkerManager {
                     startedLoading: Date.now()
                 })
             },
+            activeObjectAction(a) {
+                
+            },
             downloadWorld(ob) {
                 var txt = ob?.text;
 
@@ -152,7 +155,7 @@ export default class OlamWorkerManager {
                     methods,
                     id
                 } = parsed;
-
+                
                 var ac = myUi.htmlAction({
                     shaym,
                     selector,
@@ -173,7 +176,7 @@ export default class OlamWorkerManager {
                     mc =  Utils
                     .stringifyFunctions(mc)
                 }
-
+                console.log("Doing",shaym,mc)
                 var res = {
                     htmlActioned: {
                         shaym, 
@@ -1052,9 +1055,11 @@ function mobileControls() {
             
             if(event.touches.length < 2) return;
         } else {
+            
             //handle zoom logic
             //since we're not zooming
             //while joystick is active
+            if(ch)
             if(event.touches.length === 2) {
                 initialDistance = 
                 getDistanceBetweenTouches(event);
@@ -1091,7 +1096,8 @@ function mobileControls() {
 
             lastTouchStart = {...touch};
         }
-        this.eved.postMessage({"mousedown": touch});
+        if(ch(event))
+            this.eved.postMessage({"mousedown": touch});
         
     });
 

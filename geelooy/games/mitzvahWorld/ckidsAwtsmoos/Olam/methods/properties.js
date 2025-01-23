@@ -48,7 +48,8 @@ export default class {
     
     // Physics-related properties
     worldOctree = new Octree(); // An octree for efficient collision detection
-
+    interactiveOctree = new Octree();
+    
     achbar = new THREE.Vector2() // mouse position
     // Misc properties
     

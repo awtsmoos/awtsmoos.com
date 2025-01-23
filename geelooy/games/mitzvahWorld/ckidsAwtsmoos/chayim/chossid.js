@@ -185,8 +185,60 @@ export default class Chossid extends Medabeir {
         }
     }
 
-    
-    
+    selectIntersected() {
+        if(!this.intersected) {
+            return;
+        }
+        if(this.selected) {
+            return;
+        }
+        this.intersected.ob.material.emissive.setHex( 
+            // intersected.currentHex
+            0xdd0022
+        );
+        this.selected = this.intersected;
+        this.olam.htmlAction({
+            shaym: "block selector menu",
+            methods: {
+                classList: {
+                    remove: "hidden"
+                }
+            }
+        })
+    }
+
+    removeIntersected() {
+        if(!this.selected && !this.intersected) {
+            return;
+        }
+        this.intersected.niv.isHoveredOver = false;
+        this.olam.hoveredNivra = null;
+
+        this.intersected
+        .ob.material.emissive.setHex( 
+            // intersected.currentHex
+            0x00
+            );
+        this.intersected= null;
+        this.selected = null;
+        this.olam.htmlAction({
+            shaym: "block selector menu",
+            methods: {
+                classList: {
+                    add: ["hidden"]
+                }
+            }
+        })
+      /*  if(!nohtml)
+            this.olam.htmlAction({
+                selector: "body",
+                properties: {
+                    style: {
+                        cursor: "revert"
+                    }
+                }
+            })*/
+    }
     /**
      * Starts the Chossid. Sets the initial position and sets this Chossid as the target of the camera
      * 
@@ -240,6 +292,9 @@ export default class Chossid extends Medabeir {
                 break;
                 case "KeyY":
                     await this.makeRay(this.rayLength);
+                    if(!this.activeRay) {
+                        this.removeIntersected();
+                    }
                 /*if (!isOtherview) {
                     if (m?.asset?.cameras[0]) {
                         m.olam.activeCamera = m.asset.cameras[0]
@@ -253,7 +308,10 @@ export default class Chossid extends Medabeir {
                 case "KeyG":
                     isInEditorMode = !isInEditorMode;
                 case ACTION_TOGGLE:
-                    
+                    if(this.intersected) {
+                        this.selectIntersected();
+                        return;
+                    }
                     if(!this.interactingWith) {
                         
                         /**
@@ -335,6 +393,58 @@ export default class Chossid extends Medabeir {
 
         this.olam.ayshPeula("save player position")
         this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
+        this.on("activeObjectAction", async a => {
+            console.log("action",a)
+            if(this.selected) {
+                this.selected?.niv?.ayshPeula("sealayk");
+                this.removeIntersected();
+                this.selected = null;
+                this.intersected = null;
+                this.removeRay()
+                this.makeRay();
+                this.placeBlockOnRay();
+            }
+        })
+        this.olam.on("mousemove", e => {
+           /* if(!this.olam.mouseDown) {
+                if(this.olam.isLookingForSomething) {
+                    this.olam.isLookingForSomething = false
+                }
+                return;
+            }   
+            if(!this.olam.ayin.isFPS) {
+                if(this.olam.isLookingForSomething) {
+                    this.olam.isLookingForSomething = false
+                }
+                return;
+            }*/
+
+            if(!this.activeRay) {
+                if(this.olam.isLookingForSomething) {
+                    this.olam.isLookingForSomething = false
+                }
+                return;
+            }
+
+
+            this.alignObject();
+            if(this.activeObject) {
+                if(this.olam.isLookingForSomething) {
+                    this.olam.isLookingForSomething = false
+                }
+                return;
+            }
+            if(!this.olam.isLookingForSomething) {
+                this.olam.isLookingForSomething = true
+            }
+
+            
+
+            hoverHitCheck({
+                chossid: this,
+                olam: this.olam
+            })
+        })
         this.olam.on("wheel", ({deltaY}) => {
             if(this.activeObject) {
                 // Adjust the distance based on the wheel input
@@ -475,4 +585,185 @@ export default class Chossid extends Medabeir {
     }
 
     
+}
+
+async function hoverHitCheck({
+    olam,
+    chossid,
+    nohtml = true
+} = {}) {
+    if(!olam.isLookingForSomething) {
+        return;
+    }
+    
+    var intersected = chossid.intersected
+    var hit = olam.ayin.getHovered(
+        chossid?.getRayStart(),
+        chossid?.getRayDirection()
+    )
+        
+    
+    var ob = hit?.object;
+    var niv = ob?.nivraAwtsmoos;
+    
+    
+    //   console.log("HIT 1",hit,ob)
+    
+    
+  
+    
+    if(niv && !niv.wasSealayked && niv.type != "chossid") {
+        if(hit) {
+          //  console.log("Got a hit!",hit, niv)
+        }
+        niv.isHoveredOver = true;
+        if(intersected && intersected?.niv != niv) {
+
+            
+            chossid.removeIntersected()
+        }
+        if((niv.dialogue || ob.hasDialogue)) {
+            const makeMessage = async ({
+                tooFar=false,
+                gone=false
+            }={}) => {
+                if(gone) {
+                    if(!nohtml)
+                    await olam.ayshPeula("hide label")
+                    return;
+                }
+                var msg = "This is: " + niv.name;
+                if(!niv.inRangeNivra || tooFar) {
+                    msg += ".\nYou are too far away. Come closer!"
+                }
+                var tx = olam.achbar.x;
+                var ty = olam.achbar.y;
+                hoveredLabel = true;
+                if(!nohtml)
+                    await olam.htmlAction({
+                        shaym: "minimap label",
+                        properties: {
+                            innerHTML:msg,
+                            style: {
+                                
+                                transform:`translate(${tx}px, ${ty}px)`
+                            }
+                        },
+                        
+                        methods: {
+                            classList: {
+                                remove: "invisible"
+                            }
+                        }
+                    })
+            }
+            if(!nohtml)
+                await makeMessage()
+            
+            if(intersected?.niv != niv) {
+                console.log("NIV")
+                //wasApproached
+                var color = 0xff0000;
+                if(niv?.wasApproached) {
+                    color = 0x00ff00;
+                }
+                
+
+                if(!ob.material.awtsmoosifized) {
+                    var nm = ob.material.clone();
+                    nm.awtsmoosifized = true;
+                    nm.needsUpdate = true;
+                    ob.material = nm;
+                    
+                }
+
+                
+                
+                niv.on("someone left", async () => {
+                    if(!niv.isHoveredOver) return;
+                    if(!ob) {
+                        if(!nohtml)
+                            await makeMessage({gone:true})
+                        ob.material.emissive.setHex(0x00);
+                        niv.clear("someone left")
+                        
+                    } else {
+                        if(!nohtml)
+                            await makeMessage({tooFar:true})
+                        ob.material.emissive.setHex(0xff0000);
+                        
+                    }
+                    
+                });
+
+            
+                niv.on("was approached", async () => {
+                    if(!niv.isHoveredOver) return;
+                    if(ob) {
+                        ob.material.emissive.setHex(0x00ff00)
+                        await makeMessage()
+                    } else {
+                        ob.material.emissive.setHex(0x00);
+                        niv.clear("was approached")
+                        
+                    }
+                  
+                    
+                })
+                
+                
+                chossid.intersected = {niv, ob};
+                chossid.intersected.currentHex = ob
+                    .material
+                    .emissive.getHex();
+                ob.material.emissive.sethoveredNivraHex( color );
+                olam.hoveredNivra = niv;
+                if(!nohtml)
+                    olam.htmlAction({
+                        selector: "body",
+                        properties: {
+                            style: {
+                                cursor: "pointer"
+                            }
+                        }
+                    })
+            }
+    
+        } else {
+            if(intersected?.niv != niv) {
+                chossid.intersected = {niv, ob};
+                chossid.intersected.currentHex = ob
+                    .material
+                    .emissive.getHex();
+                ob.material.emissive.setHex(0x0000ff)
+            }
+        }
+    } else {
+     
+        if(intersected) {
+            
+            chossid.removeIntersected()
+        }
+        
+
+    }
+    olam.hoveredNivra = niv;
+    
+}
+
+function updateMeshOrientation() {
+    const worldUp = new THREE.Vector3(0, 1, 0); // Global up direction
+    const currentDirection = new THREE.Vector3();
+    mesh.getWorldDirection(currentDirection);
+
+    // Project the current direction onto the XZ plane (ignore Y-axis movement)
+    currentDirection.y = 0;
+    currentDirection.normalize();
+
+    // Compute the quaternion that rotates the mesh to face this direction
+    const targetQuaternion = new THREE.Quaternion();
+    targetQuaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), currentDirection);
+
+    // Apply the quaternion to the mesh, keeping it upright
+    mesh.quaternion.copy(targetQuaternion);
 }

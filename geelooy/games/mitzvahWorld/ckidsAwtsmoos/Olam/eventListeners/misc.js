@@ -10,6 +10,13 @@ export default function() {
         var stringed = this?.getCompiledNivrayimInfo();
         return stringed
     })
+
+    this.on("activeObjectAction", a => {
+        var chossid = this.nivrayim.find(q=>q.type=="chossid");
+        if(chossid) {
+            chossid?.ayshPeula("activeObjectAction", a)
+        }
+    })
     this.on("htmlPeula peula", ({peulaName, peulaVars}) => {
         if(!Array.isArray(peulaVars)) {
             peulaVars = [];

@@ -87,6 +87,7 @@ export default function() {
         delete this.scene;
         
         delete this.worldOctree;
+        delete this.interactiveOctree;
 
         this.destroyed = true;
         

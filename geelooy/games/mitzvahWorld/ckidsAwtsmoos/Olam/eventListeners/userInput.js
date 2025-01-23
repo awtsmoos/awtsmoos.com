@@ -56,12 +56,13 @@ export default function() {
 
         this.ayin.onMouseDown(peula);
         this.mouseDown = true;
+        /*
         if(this.hoveredNivra) {
             console.log(this.hoveredNivra);
             this.ayshPeula("keypressed", {
                 code: "KeyB"
             })
-        }
+        }*/
         
     });
 

@@ -295,29 +295,7 @@
                     isCorrected = true;
                 }
             }
-/*
-            let isSceneChanged = true//this.isSceneChanged();
 
-            for (let obj of this.objectsInScene) {
-                let collisionResults;
-                if (isSceneChanged || !this.previousResults.has(obj)) {
-                    collisionResults = this.raycaster.intersectObject(obj, true);
-                    this.previousResults.set(obj, collisionResults);
-                   // console.log("Got results!",collisionResults,this.previousResults.get(obj))
-                } else {
-                    collisionResults = this.previousResults.get(obj);
-                }
-
-                if (collisionResults.length > 0) {
-                    let distanceToObject = collisionResults[0].distance - this.offsetFromWall;
-                    if (distanceToObject < this.correctedDistance) {
-                        this.correctedDistance = distanceToObject;
-                        isCorrected = true;
-                    }
-                }
-            }
-
-            */
         }
     
         // For smoothing, lerp distance only if either distance wasn't corrected, or correctedDistance is more than currentDistance
@@ -486,49 +464,44 @@
         this.userInputPhi -= dy * this.ySpeed * degreeToRadian;
     }
 
-    getHovered() {
-        return;
-        this.mouseRaycaster.setFromCamera(
-            this.olam.pointer,
-            this.camera
-
-        );
-        var d = this.olam.nivrayimWithDialogue;
-        if(!d) return;
-        var m = this.olam.meshesToInteractWith;
-       
-        var ob = this.olam.scene.children;//this.olam.meshesAsPlaceholders;
-        if(!Array.isArray(ob)) return;
-
-        let cr = m ? this.mouseRaycaster.intersectObjects(m) : [];
-        var oct = this.olam.worldOctree.rayIntersect(this.mouseRaycaster.ray);
-       
-
-        if(cr[0]) {
-            if(oct) {
-                if(cr[0].distance >= oct.distance) {
-                    oct.object = oct.triangle.awtsmoosification;
-                    return oct;
-                }
-            }
-            return cr[0];
-        }
-        return cr;
-        var isGoodMesh = null;
-
-        if(cr.length > 0) {
-            var ob = null;
-            cr.forEach(w => {
-                ob = w?.object;
-                if(isGoodMesh) return;
-                if(d.includes(ob?.nivraAwtsmoos) || ob?.hasDialogue) {
-                    isGoodMesh = w;
-                }
-            })
-            return isGoodMesh
+    getHovered(
+        startAlternative,
+        directionAlternative
+    ) {
+        if (startAlternative && directionAlternative) {
+            // If startAlternative and directionAlternative are provided, set the ray manually
+            this
+            .mouseRaycaster
+            .set(
+                startAlternative, 
+                directionAlternative.multiplyScalar(-1)
+            );
+        } else {
+            // Otherwise, default to raycasting from the camera using the mouse pointer
+            this.mouseRaycaster.setFromCamera(
+                this.olam.pointer,
+                this.camera
+    
+            );
         }
         
         
+       
+       
+        var oct = this
+            .olam
+            .interactiveOctree
+            .rayIntersect(this.mouseRaycaster.ray);
+       
+
+        if(oct) {
+            
+            oct.object = oct.triangle.awtsmoosification;
+            return oct;
+            
+        }
+        
+    
 
         return null;
 

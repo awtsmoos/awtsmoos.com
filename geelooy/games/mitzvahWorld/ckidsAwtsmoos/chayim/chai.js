@@ -419,6 +419,20 @@ export default class Chai extends Tzomayach {
             this.activeRay.mesh.remove(this.activeObject.mesh);
         }
     }
+    alignObject() {
+        if (this.activeObject) {
+            // Get the camera's rotation
+            var cameraRotationY = this.olam.ayin.camera.rotation.x;
+    
+            // Set the block's rotation in X and Z axes based on camera's Y rotation
+            this.activeObject.mesh.rotation.y = 0; // Keep upright on the X axis
+            this.activeObject.mesh.rotation.z = 0; // Keep upright on the Z axis
+    
+            // Align the block's Y rotation with the camera's Y rotation (horizontal rotation only)
+            this.activeObject.mesh.rotation.x = -cameraRotationY;
+        }
+    }
+    
     placeObject() {
         const worldRotation = new THREE.Quaternion();
         this.activeObject.mesh.getWorldQuaternion(worldRotation);
@@ -442,6 +456,7 @@ export default class Chai extends Tzomayach {
                     scale,
                     rotation,
                     isSolid:true,
+                    interactable: true,
                     ...(golem ? {
                         golem
                     } : {})
@@ -451,7 +466,21 @@ export default class Chai extends Tzomayach {
        // this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
         this.activeObject = null;
     }
-
+    removeRay() {
+        // Remove existing ray and associated object
+        if (this.activeObject) {
+            this.placeObject();
+        }
+    
+        if (this.olam.ayin.isFPS) {
+            this.olam.ayin.camera.remove(this.activeRay.mesh); // Remove from camera in FPS mode
+        } else {
+            this.emptyCopy.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
+        }
+    
+        this.activeRay = null;
+        this.olam.remove("setFPS")
+    }
     async makeRay(length = 72) {
         // Get the starting position of the ray
         var start = this.getRayStart();
@@ -459,19 +488,7 @@ export default class Chai extends Tzomayach {
         // Determine the direction based on FPS or third-person mode
         var direction = this.getRayDirection();
         if (this.activeRay) {
-            // Remove existing ray and associated object
-            if (this.activeObject) {
-                this.placeObject();
-            }
-        
-            if (this.olam.ayin.isFPS) {
-                this.olam.ayin.camera.remove(this.activeRay.mesh); // Remove from camera in FPS mode
-            } else {
-                this.emptyCopy.remove(this.activeRay.mesh); // Remove from modelMesh in third-person mode
-            }
-        
-            this.activeRay = null;
-            this.olam.remove("setFPS")
+            this.removeRay()
             return; // Exit after toggling off
         }
         
@@ -616,6 +633,7 @@ export default class Chai extends Tzomayach {
     
         // Store a reference to the active object
         this.activeObject = block;
+        this.alignObject()
     }
 
     async setDistanceFromRay(distance) {
