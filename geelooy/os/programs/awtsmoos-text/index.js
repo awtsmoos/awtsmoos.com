@@ -52,16 +52,14 @@ export default ({
       ['Redo', () => document.execCommand('redo')],
       ['Cut', () => document.execCommand('cut')],
       ['Copy', () => document.execCommand('copy')],
+      ['Copy All', async () => {
+          var txt = self.content()
+          var txtc= await navigator.clipboard.writeText(txt)
+      }],
       ['Paste', () => document.execCommand('paste')]
     ]);
 
-      const editFunctions2 = new Map([
-      ['Undo', () => document.execCommand('undo')],
-      ['asdf', () => document.execCommand('redo')],
-      ['Cut', () => document.execCommand('cut')],
-      ['Copy', () => document.execCommand('copy')],
-      ['Paste', () => document.execCommand('paste')]
-    ]);
+      
 
     var awtsmoosFuncs = new Map([
       ['Import', () => {}],
@@ -185,16 +183,16 @@ export default ({
       // Show menu when hovering
       menu.addEventListener('mouseover', function () {
         if (!isMenuVisible) {
-          menuOptions.style.display = 'block'; // Show it again when hovering over
-          isMenuVisible = true;
+      //    menuOptions.style.display = 'block'; // Show it again when hovering over
+       //   isMenuVisible = true;
         }
       });
     
       // Hide menu when mouse leaves
       menu.addEventListener('mouseleave', function () {
         if (isMenuVisible) {
-          menuOptions.style.display = 'none'; // Hide the menu if it's still visible
-          isMenuVisible = false;
+    //      menuOptions.style.display = 'none'; // Hide the menu if it's still visible
+     //     isMenuVisible = false;
         }
       });
     

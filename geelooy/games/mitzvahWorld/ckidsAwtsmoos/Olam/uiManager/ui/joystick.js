@@ -32,14 +32,16 @@ export default [
             },
             { id: "button-T", 
                 className: "controller-button",
-                 textContent: "T" },
+                 textContent: "Y" },
             { 
                 id: "button-Enter", 
                 className: "controller-button", 
                 textContent: "E",
                 key: "Enter"
             },
-            { id: "button-Y", className: "controller-button", textContent: "Y" },
+            { id: "button-Y", 
+             className: "controller-button", 
+             textContent: "T" },
             { 
                 id: "button-Space", 
                 className: "controller-button", 
