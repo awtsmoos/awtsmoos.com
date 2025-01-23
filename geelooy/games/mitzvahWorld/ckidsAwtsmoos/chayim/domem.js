@@ -258,7 +258,7 @@ export default class Domem extends Nivra {
         ];
 
         for(var key of optionKeys) {
-            var tried = this[key];
+            var tried = this[key] || this.originalOptions[key];
             if(original.includes(key)) {
 
                 this.serialized[key] = this.originalOptions[key]
