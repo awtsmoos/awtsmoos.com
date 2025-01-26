@@ -415,7 +415,7 @@ function removeAdminButtons() {
             w.parentNode.href = 
             w.parentNode.oldHref;
 
-            w.parentNode.oldHre = null
+            w.parentNode.oldHref = null
         }
     })
     ab = []
