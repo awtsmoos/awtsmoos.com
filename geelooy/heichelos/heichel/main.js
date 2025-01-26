@@ -93,6 +93,9 @@ try {
 	
 		const rootP = `/api/social/heichelos/${heichelID}/series/${ss}/details`;
 		const r = await fetch(rootP);
+		if(r == "null") {
+			return;
+		}
 		const root = await r.json();
 	
 		if (!root || !Array.isArray(root.posts)) {
