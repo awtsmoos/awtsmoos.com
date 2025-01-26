@@ -388,7 +388,7 @@ async function getSeries({
 			}):undefined
 
 		);
-		if(!prateem) return {id:seriesId}
+		if(!prateem) null
 			
 		if(withDetails) {
 			var subSeries = await $i
