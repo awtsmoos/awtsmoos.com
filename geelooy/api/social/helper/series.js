@@ -114,8 +114,13 @@ async function traverseSeries({
 	var opts = myOpts($i);
 	
 	var or;
-	p = Array.from(p || []);
 	
+	var p = await $i.db.get(
+		sp + `/heichelos/${
+			heichelId
+		}/series/${seriesId}/posts`, opts
+	);
+	p = Array.from(p || []);
 	for(var postId of p) {
 		var post = await $i.db.get(
 			`/social/heichelos/${
@@ -164,11 +169,7 @@ async function traverseSeries({
 	);
 	me = Object.assign({}, me)
 	me.id = seriesId;
-	var p = await $i.db.get(
-		sp + `/heichelos/${
-			heichelId
-		}/series/${seriesId}/posts`, opts
-	);
+	
 	me.now=Date.now()
 	return me;
 }
@@ -492,99 +493,42 @@ async function deleteContentFromSeries({
 		//the parent series ID to delete from
 		var seriesId = $i.$_POST.seriesId
 		var contentId = $i.$_POST.contentId
-		var deleteOriginal = $i.$_POST.deleteOriginal 
-			|| false;
-		var es /*existing series*/ = await $i
-			.db.get(sp +
-				`/heichelos/${
+		if(type == "series") {
+			return await deleteSeriesFromHeichel({
+				seriesId: contentId,
+				parentSeriesId: seriesId,
+				heichelId,
+				$i,
+				aliasId
+			})
+		} else if(type == "post") {
+			var postPath  = `${
+				sp
+			}/heichelos/${
 				heichelId
-				
 			}/series/${
 				seriesId
-			
-			}/${wtw}`
-
-			);
-		if (!es) {
-			return er({
-				code: "NO_CONTENT"
-			})
-
-		}
-		var ar = Array.from(es);
-		var i = ar.indexOf(contentId);
-		var index = $i.$_POST.indexInSeries;
-		if (i < 0) {
-			try {
-				i = parseInt(index);
-				if (isNaN(i)) throw "no"
-
-
-			} catch (e) {
-				return er({
-					code: "NOT_FOUND_IN_SERIES"
+			}/posts`
+			var posts = await $i.db.get(postPath);
+			posts = Array.from(posts || []);
+			var postId = posts.indexOf(contentId);
+			if(postId < 0) {
+				throw er({
+					message: "No post found",
+					contentId,seriesId,type
 				})
 			}
 
-		}
-		var elementAtIndex = ar[i];
-		ar.splice(i, 1);
-		var ob = Object.assign({}, ar)
-		ob.length = ar.length;
-		await $i
-			.db.write(sp +
-				`/heichelos/${
-				heichelId
-				
-			}/series/${
-				seriesId
-			
-			}/${wtw}`, ob
-
-			);
-		var good = {
-			"success": {
-				wrote: ob,
-				deleted: contentId,
-				from: seriesId
-
-			}
-		}
-		
-		var contentToRemove = elementAtIndex;
-		if(type == "post") {
-			$i.$_DELETE={
-				aliasId
-			
-			}
-			var del= await deletePost({
-				$i,
+			var delp = await deletePost({
+				postID: contentId,
 				heichelId,
-				postID:contentToRemove
-				
+				aliasId,
+				$i
 			});
-			if(del.error) return del.error;
-			else good. deletedInfo=del;
-			
-			/*if(deleteOriginal)
-			var sre=deleteSeriesFromHeichel ({
-				heichelId,
-				$i,
-				seriesId:contentToRemove
-				
-			});*/
-			
-
-		} else /*is series*/ {
-			var sre=deleteSeriesFromHeichel ({
-				heichelId,
-				$i,
-				seriesId:contentToRemove
-				
-			});
-			good. deletedInfo=sre;
+			posts.splice(postId, 1);
+			var wr = await $i.db.write(postPath, posts);
+			return {deleted: delp, rewrote: wr}
 		}
-		return good
 
 	} catch (e) {
 		return er({
@@ -616,6 +560,7 @@ async function deleteSeriesFromHeichel ({
 
 
 }) {
+	
 	var aliasId = $i.$_POST.aliasId
 	var ha = await verifyHeichelAuthority({
 		$i,
@@ -676,6 +621,19 @@ async function deleteSeriesFromHeichel ({
 			}
 		})
 
+		if(ser.parentSeriesId) {
+			var delPosts = await $i.db.delete(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				seriesId
+			}/posts`);
+			deleted.subPosts = delPosts;
+		} else {
+			
+		}
+
 		ser = traverseSeries({
 	
 			seriesId,
@@ -714,16 +672,46 @@ async function deleteSeriesFromHeichel ({
 			}
 		})
 		if(ser) {
-			var del= await deleteSeriesFromHeichel({
-				$i,
-				heichelId,
+			var delSubSeries = await $i.db.delete(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
 				seriesId
-	
-			});
-			deleted.mainDeletion = {
-				seriesId,
-				del
+			}/subSeries`);
+			deleted.subSeries = delSubSeries;
+
+			var par = ser.parentSeriesId;
+			if(!par) {
+				throw er({
+					message: "No parent series ID"
+				})
 			}
+			var parentSer = await $i.db.get(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				par
+			}/subSeries`);
+			parentSer = Array.from(parentSer);
+			var self = parentSer.indexOf(seriesId);
+			if(self < 0) {
+				throw er({
+					message: "Issue deleting self",
+					parentSer
+				})
+			}
+			parentSer.splice(self, 1);
+			var wroteSub = await $i.db.write(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				par
+			}/subSeries`, parentSer);
+			deleted.selfDeletion = wroteSub;
+			
 		}
 		return {deleted, errors};
 		
@@ -1096,14 +1084,21 @@ async function addContentToSeries({
 		})
 
 	}
-
-	//editing existing heichel
-
 	//the parent series id;
 	var seriesId = myParentSeriesId||
 		$i.$_POST.seriesId || "root";
 	var contentId = $i.$_POST.contentId;
 	var inputIndex = $i.$_POST.index;
+	if(type == "series") {
+		var ser = await deleteSeriesFromHeichel({
+			$i,
+			heichelId,
+			seriesId:  BH_1737924336075_768_awtsmoos
+		})
+	}
+	//editing existing heichel
+
+	
 	if(!contentId) {
 		return er({code: "NO_CONTENT_ID"});
 	}
