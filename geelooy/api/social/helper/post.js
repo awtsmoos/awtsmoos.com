@@ -412,7 +412,8 @@ async function editPostDetails({
 async function deletePost({
 	heichelId,
 	$i,
-	postID
+	postID,
+	aliasId
 }) {
 	
 
@@ -420,7 +421,7 @@ async function deletePost({
 	
 	
 
-	var aliasId = $i.$_DELETE.aliasId
+	var aliasId = aliasId || $i.$_POST.aliasId || $i.$_DELETE.aliasId
 	var ha = await verifyHeichelAuthority({
 		$i,
 		aliasId,

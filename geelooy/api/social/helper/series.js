@@ -112,11 +112,7 @@ async function traverseSeries({
 	callback
 }) {
 	var opts = myOpts($i);
-	var p = await $i.db.get(
-		sp + `/heichelos/${
-			heichelId
-		}/series/${seriesId}/posts`, opts
-	);
+	
 	var or;
 	p = Array.from(p || []);
 	
@@ -126,7 +122,16 @@ async function traverseSeries({
 				heichelId
 			}/posts/${postId}`, opts
 		);
-		await callback?.({post, parentSeriesId: seriesId, id: postId, heichelId})
+		if(post) {
+			post.id = postId;
+
+		}
+		await callback?.({
+			post, 
+			parentSeriesId: seriesId, 
+			id: postId, 
+			heichelId
+		})
 	}
 	var seer = await $i.db.get(
 		sp + `/heichelos/${
@@ -142,7 +147,12 @@ async function traverseSeries({
 			callback,
 			seriesId:subSeriesId
 		})
-		await callback?.({series,  parentSeriesId: seriesId})
+		if(series) {
+			series.id = subSeriesId
+		}
+		await callback?.({
+			series,  parentSeriesId: seriesId
+		})
 	}
 	if(!p.length || !seer.length) {
 		await callback?.({post: "LOL", details:seriesId, seer, p, or})
@@ -154,6 +164,11 @@ async function traverseSeries({
 	);
 	me = Object.assign({}, me)
 	me.id = seriesId;
+	var p = await $i.db.get(
+		sp + `/heichelos/${
+			heichelId
+		}/series/${seriesId}/posts`, opts
+	);
 	me.now=Date.now()
 	return me;
 }
@@ -617,66 +632,91 @@ async function deleteSeriesFromHeichel ({
 
 	}
 	var deleted = {}
-	var error = null
+	var errors = {};
+	if(!deleted.posts) 
+		deleted.posts = [];
+	
+	/*
+		
+	*/
 	try {
-		var subPosts = await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesId
-		}/posts`);
-		subPosts = Array.from(subPosts || [])
-		
-		for(var p of subPosts) {
-			if(!deleted.posts) 
-				deleted.posts = [];
-			var del= await deletePost({
-				$i: {
-					...$i,
-					$_DELETE: $i.$_POST
-				},
-				heichelId,
-				postID:p,
-				aliasId
+		var ser = traverseSeries({
 
-			});
-			if(del.error) {
-				throw del.error;
-			}
-			deleted.posts.push({postDeleted: {
-				postId:p,deletion:del
-			}});
-			
-		}
+			seriesId,
+			heichelId,
+			$i,
+			async callback({
+				post,
+				series
+			}) {
+				if(post) {
+					
+					var del= await deletePost({
+						$i: {
+							...$i,
+							$_DELETE: $i.$_POST
+						},
+						heichelId,
+						postID:p,
+						aliasId
 		
-
-		var subSeries = await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesId
-		}/subSeries`);
-		subSeries = Array.from(subSeries || []);
-		
-		if(!deleted.subSeries) {
-			deleted.subSeries = []
-		}
-		for(var p of subSeries) {
-			if(!deleted.subSeries) {
-				deleted.subSeries = []
+					});
+					deleted.posts.push({postDeleted: {
+						postId:post.id,deletion:del
+					}});
+				}
 			}
+		})
+		ser = traverseSeries({
+	
+			seriesId,
+			heichelId,
+			$i,
+			async callback({
+				post,
+				series
+			}) {
+				if(post) {
+					if(!errors.postDeletions) {
+						errors.postDeletions = [];
+					}
+					errors.postDeletions.push({
+						postId: post.id,
+						heichelId,
+						seriesId
+					})
+				}
+				if(series) {
+					if(!deleted.subSeries) {
+						deleted.subSeries = []
+					}
+					var del= await deleteSeriesFromHeichel({
+						$i,
+						heichelId,
+						seriesId:series.id
+		
+					});
+					if(del?.error) throw del.error;
+					deleted.subSeries.push({
+						subSeriesId: series.id,
+						deleted: del
+					});
+				}
+			}
+		})
+		if(ser) {
 			var del= await deleteSeriesFromHeichel({
 				$i,
 				heichelId,
-				seriesId:p
-
+				seriesId
+	
 			});
-			if(del?.error) throw del.error;
-			deleted.subSeries.push(del);
-			
+			deleted.mainDeletion = {
+				seriesId,
+				del
+			}
 		}
+		return {deleted, errors};
 		
 	} catch(e) {
 		return er({
@@ -693,66 +733,6 @@ async function deleteSeriesFromHeichel ({
 	}
 
 	try {
-		
-		var prateem = await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesId
-		}/prateem/`);
-		var par = prateem?.parentSeriesId;
-		var deletedParent = null;
-		if(par) {
-			var sub = await $i.db.get(
-			`${
-				sp
-	
-			}/heichelos/${
-				heichelId
-			}/series/${
-				par
-				
-			}/subSeries`);
-			var ar = Array.from(sub||[])
-			var ind = ar.indexOf(seriesId);
-			while(ind > -1) {
-				ind = ar.indexOf(seriesId);
-				if(ind > -1) {
-					ar.splice(ind, 1)
-				}
-			}
-			if(ar.length > 0) {
-				var sub = await $i.db.write(
-				`${
-					sp
-		
-				}/heichelos/${
-					heichelId
-				}/series/${
-					par
-					
-				}/subSeries`, ar);
-				
-			}
-			deletedParent = {
-				parentName: par,
-				oldSeries: sub
-			}
-			deleted.deletedParent = deletedParent;
-		}
-		var delS = await $i.db.delete(
-			`${
-			sp
-
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesId
-			
-		}`);
-		if(delS?.error) throw delS.error;
-		deleted.series = delS
 		
 		
 	} catch (e) {
