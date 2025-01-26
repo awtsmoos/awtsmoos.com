@@ -276,12 +276,12 @@ module.exports = ({
 						userid,
 						
 					})
-					if(!curParent) {
-						return
+					if(curParent) {
+					
+					
+						curID = curParent?.id;
+						crumb.push({...curParent,hi:Date.now()})
 					}
-					curID = curParent?.id;
-					crumb.push({...curParent,hi:Date.now()})
-				
 				}
 				if(curParent.id != "root" && curParent) 
 					while(
