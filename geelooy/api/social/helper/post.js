@@ -458,6 +458,9 @@ async function deletePost({
 			parentId: postId,
 			parentType: "post"
 		})
+		if(com.error) {
+			throw com.error;
+		}
 		deleted.comments = {
 			message: "Deleted post comments successfully",
 			comments:com
@@ -478,9 +481,10 @@ async function deletePost({
 			})
 			
 			if(author && parentSeriesId) {
-				await $i.db.delete(sp + `/aliases/${author}/heichelos/${
+				var del = await $i.db.delete(sp + `/aliases/${author}/heichelos/${
 					heichelId
 				}/series/${parentSeriesId}/posts/${postId}`);
+				if(del.error) throw del.error
 				deleted.post.authorAdded = {author, parentSeriesId}
 			} else {
 				deleted.post.authorAdded =  er({message:  e.stack,message: "didn't deelte full"})
@@ -489,14 +493,20 @@ async function deletePost({
 			deleted.post.authorAdded = er({message:  e.stack})
 		}
 		// Delete post details
-		await $i.db.delete(sp + `/heichelos/${heichelId}/posts/${postId}`);
+		var del = await $i.db.delete(sp + `/heichelos/${heichelId}/posts/${postId}`);
+		if(del.error) throw del.error
 		deleted.post= {
 			message: "Post deleted successfully"
 		};
 		
 	} catch (error) {
 		console.error("Failed to delete post", error);
-		deleted.post= er({message:"Failed to delete post", code:"NO_DELETE_POST"});
+		deleted.post= er({
+			message:"Failed to delete post", 
+			code:"NO_DELETE_POST",
+			details: error.stack,
+			error
+		});
 	}
 	return deleted;
 }
