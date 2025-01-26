@@ -111,67 +111,75 @@ async function traverseSeries({
 	$i,
 	callback
 }) {
-	var opts = myOpts($i);
-	
-	var or;
-	
-	var p = await $i.db.get(
-		sp + `/heichelos/${
-			heichelId
-		}/series/${seriesId}/posts`, opts
-	);
-	p = Array.from(p || []);
-	for(var postId of p) {
-		var post = await $i.db.get(
+	try {
+		var opts = myOpts($i);
+		
+		var or;
+		
+		var p = await $i.db.get(
+			sp + `/heichelos/${
+				heichelId
+			}/series/${seriesId}/posts`, opts
+		);
+		p = Array.from(p || []);
+		for(var postId of p) {
+			var post = await $i.db.get(
+				`/social/heichelos/${
+					heichelId
+				}/posts/${postId}`, opts
+			);
+			if(post) {
+				post.id = postId;
+
+			}
+			await callback?.({
+				post, 
+				parentSeriesId: seriesId, 
+				id: postId, 
+				heichelId
+			})
+		}
+		var seer = await $i.db.get(
+			sp + `/heichelos/${
+				heichelId
+			}/series/${seriesId}/subSeries`
+		);
+		seer = Array.from(seer || []);
+		
+		for(var subSeriesId of seer) {
+			var series = traverseSeries({
+				heichelId,
+				$i,
+				callback,
+				seriesId:subSeriesId
+			})
+			if(series) {
+				series.id = subSeriesId
+			}
+			await callback?.({
+				series,  parentSeriesId: seriesId
+			})
+		}
+		if(!p.length || !seer.length) {
+			await callback?.({post: "LOL", details:seriesId, seer, p, or})
+		}
+		var me = await $i.db.get(
 			`/social/heichelos/${
 				heichelId
-			}/posts/${postId}`, opts
+			}/series/${seriesId}/prateem`, opts
 		);
-		if(post) {
-			post.id = postId;
-
-		}
-		await callback?.({
-			post, 
-			parentSeriesId: seriesId, 
-			id: postId, 
-			heichelId
+		me = Object.assign({}, me)
+		me.id = seriesId;
+		
+		me.now=Date.now()
+		return me;
+	} catch(e) {
+		return er({
+			message: "error traverseing",
+			details: e,
+			stack: e.stack
 		})
 	}
-	var seer = await $i.db.get(
-		sp + `/heichelos/${
-			heichelId
-		}/series/${seriesId}/subSeries`
-	);
-	seer = Array.from(seer || []);
-	
-	for(var subSeriesId of seer) {
-		var series = traverseSeries({
-			heichelId,
-			$i,
-			callback,
-			seriesId:subSeriesId
-		})
-		if(series) {
-			series.id = subSeriesId
-		}
-		await callback?.({
-			series,  parentSeriesId: seriesId
-		})
-	}
-	if(!p.length || !seer.length) {
-		await callback?.({post: "LOL", details:seriesId, seer, p, or})
-	}
-	var me = await $i.db.get(
-		`/social/heichelos/${
-			heichelId
-		}/series/${seriesId}/prateem`, opts
-	);
-	me = Object.assign({}, me)
-	me.id = seriesId;
-	
-	me.now=Date.now()
-	return me;
 }
 
 async function getSeriesByProperty({
