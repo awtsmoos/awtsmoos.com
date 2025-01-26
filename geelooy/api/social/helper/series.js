@@ -555,7 +555,8 @@ async function deleteSeriesFromHeichel ({
 	
 	
 	heichelId,
-	seriesId
+	seriesId,
+	parentSeriesId
 
 
 
@@ -682,6 +683,7 @@ async function deleteSeriesFromHeichel ({
 			deleted.subSeries = delSubSeries;
 
 			var par = ser.parentSeriesId;
+			if(!par) par = parentSeriesId;
 			if(!par) {
 				throw er({
 					message: "No parent series ID"
