@@ -657,16 +657,25 @@ async function deleteSeriesFromHeichel ({
 							$_DELETE: $i.$_POST
 						},
 						heichelId,
-						postID:p,
+						postID:post.id,
 						aliasId
 		
 					});
-					deleted.posts.push({postDeleted: {
+					if(del.error) {
+						throw {
+							deletIssue: del,
+							postId: post.id
+						}
+					}
+					deleted.posts.push({
+						
 						postId:post.id,deletion:del
-					}});
+						
+					});
 				}
 			}
 		})
+
 		ser = traverseSeries({
 	
 			seriesId,
