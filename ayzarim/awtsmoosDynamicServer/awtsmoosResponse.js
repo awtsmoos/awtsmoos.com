@@ -303,19 +303,17 @@ class AwtsmoosResponse {
 		var responseType = "";
 		var actualResponse = null;
 
-		if (
-			dyn === undefined ||
-			dyn === null
-		) {
+		if(dyn === undefined) {
 			return {
-				responseType: "application/json",
-				actualResponse: {
-					content: JSON.stringify({
-						error: "Not found",
-						code: "404"
-					})
-				}
-			};
+				responseType: "awtsmoos/undefined",
+				actualResponse: "undefined"
+			}
+		}
+		if(dyn === null) {
+			return {
+				responseType: "awtsmoos/null",
+				actualResponse: "null"
+			}
 		}
 
 		let r = dyn.response || dyn;
