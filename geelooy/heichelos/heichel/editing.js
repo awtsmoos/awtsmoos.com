@@ -83,8 +83,7 @@ function addSubmitButtons() {
         if(!ei) return console.log("couldn't find it",ei);
         var d = document.createElement("div")
         ei.appendChild(d);
-        ei.oldHref = ei?.href;
-        ei.href = "#";
+        
         d.classList.add("btn")
         d.innerHTML = "Edit "+type+"s";
         adminBtns.push(d);
@@ -98,6 +97,8 @@ function addSubmitButtons() {
                window.seriesList, 
             async (child, ie) => {
                 if(ie/*isEditing*/) {
+                    child.oldHref = ei?.href;
+                    child.href = "#";
                     var id = child.dataset.awtsmoosid;
                     var sid = currentSeries;
                     
@@ -322,6 +323,10 @@ function addSubmitButtons() {
                         var f = await editSubChildren(type)
                         ed.parentNode.removeChild(ed)	
                     }
+                    if(child.oldHref ) {
+                        child.href = child.oldHref;
+                        child.oldHref = null
+                    }
                 }
             })
             if(isEditing) {
@@ -411,12 +416,7 @@ function removeAdminButtons() {
     if(!ab) return;
     ab.forEach(w => {
         w?.parentNode?.removeChild(w);	
-        if(w.parentNode.oldHref) {
-            w.parentNode.href = 
-            w.parentNode.oldHref;
-
-            w.parentNode.oldHref = null
-        }
+     
     })
     ab = []
     window.adminBtns = []
