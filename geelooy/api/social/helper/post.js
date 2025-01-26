@@ -460,6 +460,7 @@ async function deletePost({
 			$i
 		})
 		if(com.error) {
+			if(com.error.code != "NO_COM")
 			throw com.error;
 		}
 		deleted.comments = {

@@ -1880,6 +1880,8 @@ async function deleteAllCommentsOfParent({
 	    return er({
 		message: "No comments found for that author"
 		,
+		code: "NO_COM"
+		,
 		details: {
 		    heichelId,
 		    parentId
