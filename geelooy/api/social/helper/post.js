@@ -456,7 +456,8 @@ async function deletePost({
 		var com = await deleteAllCommentsOfParent({
 			heichelId,
 			parentId: postId,
-			parentType: "post"
+			parentType: "post",
+			$i
 		})
 		if(com.error) {
 			throw com.error;
