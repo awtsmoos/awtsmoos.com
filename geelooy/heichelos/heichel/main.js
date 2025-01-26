@@ -54,7 +54,11 @@ try {
 	var firstSeries = false;
 	var editors = null;
 	var setupEditors = false;
+	function hideLoading() {
+		document.querySelector(".loadingSeries").classList.add("hidden");
+	}
 	async function load(ss) {
+		
 		window.srss = ss;
 		window.heichel = await getH(heichelID);
 		if (!editors) {
@@ -94,12 +98,13 @@ try {
 		const rootP = `/api/social/heichelos/${heichelID}/series/${ss}/details`;
 		const r = await fetch(rootP);
 		if(r == "null") {
-			return;
+			return hideLoading();
 		}
 		const root = await r.json();
 	
 		if (!root || !Array.isArray(root.posts)) {
-			if (ss === "root") return;
+			if (ss === "root") return hideLoading();
+			hideLoading()
 			return alert(`Path not found: ${ss} ${JSON.stringify(root)} ${rootP}`);
 		}
 	
@@ -118,6 +123,7 @@ try {
 		const subSeries = root.subSeries;
 	
 		if (!Array.isArray(subSeries)) {
+			hideLoading();
 			return alert("No sub-series available");
 		}
 	
@@ -168,8 +174,8 @@ try {
 		} else {
 			appendElements(seriesList, [createElement({ tag: "div", html: "No series here yet!" })]);
 		}
-	
-		document.querySelector(".loadingSeries").classList.add("hidden");
+		hideLoading();
+		
 	}
 	
 	
