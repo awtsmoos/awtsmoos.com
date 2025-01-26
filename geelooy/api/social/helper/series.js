@@ -638,7 +638,7 @@ async function deleteSeriesFromHeichel ({
 			}
 		})
 		if(ser?.error) {
-			return ser;
+			return er({message: "Issue deleting posts", details:ser});
 		}
 		if(ser.parentSeriesId) {
 			var delPosts = await $i.db.delete(`${
@@ -693,15 +693,7 @@ async function deleteSeriesFromHeichel ({
 
 		if(ser) {
 			if(ser?.error) return ser;
-			var delSubSeries = await $i.db.delete(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/subSeries`);
-			deleted.subSeries = delSubSeries;
-
+			
 			var par = ser.parentSeriesId;
 			if(!par) par = parentSeriesId;
 			if(!par) {
@@ -732,7 +724,17 @@ async function deleteSeriesFromHeichel ({
 			}/series/${
 				par
 			}/subSeries`, parentSer);
-			deleted.selfDeletion = wroteSub;
+			deleted.parentListDeletion = wroteSub;
+
+			var deleteSelf = await $i.db.delete(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				seriesId
+			}`);
+			deleted.deleteSelf = deleteSelf;
+
 			
 		}
 		return {deleted, errors};
