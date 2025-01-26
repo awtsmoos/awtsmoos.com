@@ -450,7 +450,7 @@ async function deletePost({
 		postId
 	}`)*/
 	var deleted = {
-
+		post: {}
 	}
 	try {
 		var com = await deleteAllCommentsOfParent({
@@ -507,12 +507,13 @@ async function deletePost({
 		
 	} catch (error) {
 		console.error("Failed to delete post", error);
-		deleted.post= er({
+		deleted.error= er({
 			message:"Failed to delete post", 
 			code:"NO_DELETE_POST",
 			details: error.stack,
 			error
 		});
+
 	}
 	return deleted;
 }
