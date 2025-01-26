@@ -352,7 +352,7 @@ body {
 
         );
         if(sr && !sr.error) {
-            return "Adding to series: "+sr.prateem.name+
+            return "Adding to series: "+sr?.prateem?.name+
             /*html*/`<input type="hidden"
             name="parentSeriesId" value="${series}"><script>var parentSeriesId="${a}"</`+`script>`;
 
@@ -414,7 +414,7 @@ body {
 		if (indi && window.ind) {
 			ind.value = indi
 		}
-		if (cur.prateem) cur = cur.prateem
+		if (cur?.prateem) cur = cur.prateem
 		// alert(JSON.stringify(cur))
 		titleM.value = cur.name || cur.title;
 		if(cur.content === "undefined") 
