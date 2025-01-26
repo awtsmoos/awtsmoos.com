@@ -1098,13 +1098,7 @@ async function addContentToSeries({
 		$i.$_POST.seriesId || "root";
 	var contentId = $i.$_POST.contentId;
 	var inputIndex = $i.$_POST.index;
-	if(type == "series") {
-		var ser = await deleteSeriesFromHeichel({
-			$i,
-			heichelId,
-			seriesId:  BH_1737924336075_768_awtsmoos
-		})
-	}
+
 	//editing existing heichel
 
 	
