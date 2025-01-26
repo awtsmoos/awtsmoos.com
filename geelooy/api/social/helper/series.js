@@ -636,7 +636,9 @@ async function deleteSeriesFromHeichel ({
 				}
 			}
 		})
-
+		if(ser?.error) {
+			return ser;
+		}
 		if(ser.parentSeriesId) {
 			var delPosts = await $i.db.delete(`${
 				sp
@@ -687,7 +689,9 @@ async function deleteSeriesFromHeichel ({
 				}
 			}
 		})
+
 		if(ser) {
+			if(ser?.error) return ser;
 			var delSubSeries = await $i.db.delete(`${
 				sp
 			}/heichelos/${
