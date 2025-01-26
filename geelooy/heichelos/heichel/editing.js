@@ -83,6 +83,8 @@ function addSubmitButtons() {
         if(!ei) return console.log("couldn't find it",ei);
         var d = document.createElement("div")
         ei.appendChild(d);
+        ei.oldHref = ei?.href;
+        ei.href = "#";
         d.classList.add("btn")
         d.innerHTML = "Edit "+type+"s";
         adminBtns.push(d);
@@ -409,6 +411,12 @@ function removeAdminButtons() {
     if(!ab) return;
     ab.forEach(w => {
         w?.parentNode?.removeChild(w);	
+        if(w.parentNode.oldHref) {
+            w.parentNode.href = 
+            w.parentNode.oldHref;
+
+            w.parentNode.oldHre = null
+        }
     })
     ab = []
     window.adminBtns = []
