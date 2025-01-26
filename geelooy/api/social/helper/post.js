@@ -466,7 +466,11 @@ async function deletePost({
 			comments:com
 		}
 	} catch(e) {
-
+		return er({
+			message: "issue deleting comments of post",
+			stack:e.stack,
+			e
+		})
 	}
 	try {
 		
