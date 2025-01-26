@@ -525,6 +525,13 @@ async function deleteContentFromSeries({
 				aliasId,
 				$i
 			});
+			if(delp.error) {
+				throw er({
+					BH: true,
+					message: "Issue deleting post",
+					details: delp.error
+				})
+			}
 			posts.splice(postId, 1);
 			var wr = await $i.db.write(postPath, posts);
 			return {deleted: delp, rewrote: wr}
