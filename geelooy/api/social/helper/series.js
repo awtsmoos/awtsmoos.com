@@ -414,8 +414,8 @@ async function getSeries({
 				}/posts`
 
 				);
-			rt.posts = Array.from(posts);
-			rt.subSeries = Array.from(subSeries);
+			rt.posts = Array.from(posts || []);
+			rt.subSeries = Array.from(subSeries || []);
 			rt.prateem = prateem;
 		} else {
 			rt.prateem = prateem;//{name:prateem.name}
@@ -425,7 +425,8 @@ async function getSeries({
 	} catch (e) {
 		
 		return er({
-			code: "NO_SERIES"
+			code: "NO_SERIES",
+			error: e.stack
 		})
 
 	}
