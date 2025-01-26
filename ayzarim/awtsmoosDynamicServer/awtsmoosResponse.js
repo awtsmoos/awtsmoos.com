@@ -306,13 +306,17 @@ class AwtsmoosResponse {
 		if(dyn === undefined) {
 			return {
 				responseType: "awtsmoos/undefined",
-				actualResponse: "undefined"
+				actualResponse: {
+					content: "undefined"
+				}
 			}
 		}
 		if(dyn === null) {
 			return {
 				responseType: "awtsmoos/null",
-				actualResponse: "null"
+				actualResponse: {
+					content: "null"
+				}
 			}
 		}
 
