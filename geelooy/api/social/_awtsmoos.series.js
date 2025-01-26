@@ -276,11 +276,14 @@ module.exports = ({
 						userid,
 						
 					})
-					curID = curParent.id;
+					if(!curParent) {
+						return
+					}
+					curID = curParent?.id;
 					crumb.push({...curParent,hi:Date.now()})
 				
 				}
-				if(curParent.id != "root") 
+				if(curParent.id != "root" && curParent) 
 					while(
 						curParent && curParent.id != "root" && curParent.id && Date.now() - start < 5 * 1000
 					) {
