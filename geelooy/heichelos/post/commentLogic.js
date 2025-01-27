@@ -111,8 +111,8 @@ async function makeHTMLFromComment({
 		}
 		cmCont.appendChild(commentText);
 	}
-	if(comment.title) {
-		var commentTitle = makeTitleDiv(comment.title)
+	if(comment?.dayuh?.title) {
+		var commentTitle = makeTitleDiv(comment?.dayuh?.title)
 		cmCont.appendChild(commentTitle);
 	}
 	if(comment.content) {
@@ -794,8 +794,20 @@ function makeInlineComment(alias, comment) {
 	}
 	//commentHolder.appendChild(incom);
 	var comContent = document.createElement("div")
-	
-	comContent.innerHTML=markdownToHtml(content)
+	if(comment.dayuh?.title) {
+		var t = makeTitleDiv(comment.title);
+		comContent.appendChild(t);
+	}
+	if(content)
+		comContent.innerHTML += markdownToHtml(content||"");
+	if(comment?.dayuh?.sections) {
+		comment?.dayuh?.sections.forEach(q => {
+			var sec = document.createElement("div");
+			sec.className ="awtsmoos-comment-section";
+			sec.innerHTML = markdownToHtml(q?.text || q || "")
+			comContent.appendChild(sec)
+		})
+	}
 	var tool = makeTooltip("Open Comment");
 	tool.addEventListener("click", async () => {
 		console.log("Trying",alias)
