@@ -128,7 +128,7 @@ export default class UI extends Heeoolee {
 			var k 
 			in obj
 		) {
-            if(typeof(obj[k] == "object")) {
+            if(typeof(obj[k]) == "object") {
                 if(_awtsmoosId) {
                     obj[k]._awtsmoosId = _awtsmoosId;
                 }

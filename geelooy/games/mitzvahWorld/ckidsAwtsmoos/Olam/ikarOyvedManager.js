@@ -434,8 +434,9 @@ export default class OlamWorkerManager {
                         console.log("no shaym")
                         return;
                     }
+                    
                     if(!ob) ob = {};
-                    ob._awtsmoosId = id
+                    
                     var p = myUi.peula(shaym, ob, id);
 
                 } catch(e) {
