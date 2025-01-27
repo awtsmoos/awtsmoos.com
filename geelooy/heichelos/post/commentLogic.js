@@ -789,22 +789,31 @@ function makeInlineComment(alias, comment) {
 	
 	
 	incom.className="inline-comment"
-	if(!isFirstCharacterHebrew(content)) {
-		incom.classList.add("en")
-	}
+	
 	//commentHolder.appendChild(incom);
 	var comContent = document.createElement("div")
 	if(comment.dayuh?.title) {
 		var t = makeTitleDiv(comment?.dayuh?.title);
 		comContent.appendChild(t);
 	}
-	if(content)
+	if(content) {
+		if(!isFirstCharacterHebrew(content)) {
+			incom.classList.add("en")
+		}
 		comContent.innerHTML += markdownToHtml(content||"");
+	}
 	if(comment?.dayuh?.sections) {
 		comment?.dayuh?.sections.forEach(q => {
+			var txt = q?.text || q || "";
+			if(!txt) return;
 			var sec = document.createElement("div");
 			sec.className ="awtsmoos-comment-section";
-			sec.innerHTML = markdownToHtml(q?.text || q || "")
+			
+
+			if(isFirstCharacterHebrew(txt)) {
+				sec.classList.add("heb")
+			}
+			sec.innerHTML = markdownToHtml(txt)
 			comContent.appendChild(sec)
 		})
 	}
