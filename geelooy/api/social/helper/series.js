@@ -176,7 +176,7 @@ async function traverseSeries({
 	} catch(e) {
 		return er({
 			message: "error traverseing",
-			details: e,
+			
 			stack: e?.stack
 		})
 	}
