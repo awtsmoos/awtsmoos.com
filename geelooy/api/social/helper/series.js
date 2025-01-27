@@ -161,7 +161,7 @@ async function traverseSeries({
 			})
 		}
 		if(!p.length || !seer.length) {
-			await callback?.({post: "LOL", details:seriesId, seer, p, or})
+			await callback?.({post: null, details:seriesId, seer, p, or})
 		}
 		var me = await $i.db.get(
 			`/social/heichelos/${
