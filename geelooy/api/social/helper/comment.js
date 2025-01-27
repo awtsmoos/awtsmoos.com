@@ -2098,14 +2098,32 @@ async function deleteCommentIndex({
 		verseSection
 	})
 	
-	var done = {}
-	done.deletedVerseSection = await $i.db.delete(verseSectionPath);/*
+	var done = {
+		deleteMore:[]
+	}
+	done.deletedVerseSection = await $i.db.delete(verseSectionPath);
+	done.deleteMore.push(
+		await checkIfAllDeletedAndDeleteMore({
+			heichelId,
+			$i,
+			verseSectionPath
+		})
+	)
+	/*
 	if(count > 0)
 		done.verseSectionAtParentIndex = await $i.db.write(verseSectionPath, count);
 	else {
 		
 	}*/
 	done.commentPathDeleted = await $i.db.delete(commentPath);
+	done.deleteMore.push(
+		await checkIfAllDeletedAndDeleteMore({
+			heichelId,
+			$i,
+			commentPath
+			
+		})
+	)
 	return done 
 	
 }
@@ -2209,6 +2227,7 @@ async function deleteComment({
             }/author/${
                 author
             }`
+	var deleteMore = [];
 	var delIndex = null;
         var authPath = authors+`/${
                 commentId
@@ -2225,14 +2244,31 @@ async function deleteComment({
 		    
 		    
 	    	})
+
 	if(delIndex.error) {
 		return  er(delIndex.error)
 	}
+
             delPost = await $i.db.delete(authPath);
+			deleteMore.push(
+				await checkIfAllDeletedAndDeleteMore({
+					heichelId,
+					$i,
+					authPath
+				})
+			)
             rest = await $i.db.get(authors)
             if(!rest || rest.length == 0) {
                 restPath = await $i.db.delete(authors)
+
             }
+			deleteMore.push(
+				await checkIfAllDeletedAndDeleteMore({
+					heichelId,
+					$i,
+					authors
+				})
+			)
             
         } catch(e) {
             return er({
@@ -2244,6 +2280,7 @@ async function deleteComment({
         return {
             success: {
                 deleted: {
+					deleteMore,
 			delIndex,
                     entireAuthorSection: {
                         restPath,
@@ -2262,3 +2299,51 @@ async function deleteComment({
         })
     }
 }
+
+/**
+ * checks if 
+ * last level directory at path
+ * (determined by possible few arguments) is empty.
+ * If it is, then deletes the parent folder
+ * 
+ * use $i.db.get(path) and $i.db.delete(path);
+ * if uts empty the .get should return [].
+ * 
+ * keep recursively repeating itself until 
+ * the pat it reads is not empty. 
+ */
+
+async function checkIfAllDeletedAndDeleteMore({
+	$i,
+	path,
+	verseSectionPath,
+	commentPath,
+	authPath
+}) {
+	var path = path || verseSectionPath ||
+		commentPath ||
+		authPath;
+	if(!path) return;
+	try {
+		// Check if the directory at the current path is empty
+		const content = await $i.db.get(path);
+	
+		// If the directory is empty, delete it
+		if (Array.isArray(content) && content.length === 0) {
+		  await $i.db.delete(path);
+	
+		  // Get the parent path by removing the last segment
+		  const parentPath = path.substring(0, path.lastIndexOf('/'));
+	
+		  // If there's a parent directory, recurse with the parent path
+		  if (parentPath) {
+			await checkIfAllDeletedAndDeleteMore({
+			  $i,
+			  path: parentPath,
+			});
+		  }
+		}
+	  } catch (error) {
+		console.error(`Error processing path "${path}":`, error);
+	  }
+	}
