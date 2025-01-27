@@ -564,7 +564,7 @@ async function showAllComments({
 					verseSection: true,
 					sections: true,
 					images: true,
-					title,
+					title: true,
 					...(
 						subSec || subSec === 0 ? {	
 							subSectionIndex: {
