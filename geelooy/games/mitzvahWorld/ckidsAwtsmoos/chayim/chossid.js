@@ -185,7 +185,7 @@ export default class Chossid extends Medabeir {
         }
     }
 
-    selectIntersected() {
+    async selectIntersected() {
         if(!this.intersected) {
             return;
         }
@@ -205,6 +205,14 @@ export default class Chossid extends Medabeir {
                 }
             }
         })
+        var opts = await this.olam.ayshPeula(
+            "ui event", ("block selector menu", {
+                awtsmoosOptions: {
+                    lol:5
+                }
+            })
+        )
+        console.log("got options",opts)
     }
 
     removeIntersected() {
@@ -238,6 +246,28 @@ export default class Chossid extends Medabeir {
                     }
                 }
             })*/
+    }
+
+    toggleSelectedMenu() {
+        if(!this.currentSelectOption) {
+            this.currentSelectOption = "Grab";
+        }
+        this.olam.ayshPeula(
+            "ui event", 
+            "menu item "+this.currentSelectOption,
+            {
+                awtsmoosHighlight: "yes"
+            }
+        )
+    }
+    selectMenuOption() {
+        this.olam.ayshPeula(
+            "ui event", 
+            "menu item "+this.currentSelectOption,
+            {
+                awtsmoosHighlight: "yes"
+            }
+        )
     }
     /**
      * Starts the Chossid. Sets the initial position and sets this Chossid as the target of the camera
@@ -308,10 +338,7 @@ export default class Chossid extends Medabeir {
                 case "KeyG":
                     isInEditorMode = !isInEditorMode;
                 case ACTION_TOGGLE:
-                    if(this.intersected) {
-                        this.selectIntersected();
-                        return;
-                    }
+                    
                     if(!this.interactingWith) {
                         
                         /**
@@ -322,8 +349,11 @@ export default class Chossid extends Medabeir {
                         var npc = this.approachedEntities[0];
                         
                         if(!npc) {
-                           
-                            this.shoot();
+                            if(!this.selected) {
+                                this.shoot(); 
+                            } else {
+                                this.toggleSelectedMenu();
+                            }
                             /*
                             this.throwBall(
                                 this.olam.randomLetter(),
@@ -342,7 +372,15 @@ export default class Chossid extends Medabeir {
                 break;
 
                 case ACTION_SELECT:
+                    if(this.selected) {
+                        this.selectMenuOption();
+                    }
+                    if(this.intersected) {
+                        await this.selectIntersected();
+                        return;
+                    }
                     if(!this.interactingWith) {
+                        
                         return;
                     }
                     await this.interactingWith.selectOption();
@@ -394,8 +432,12 @@ export default class Chossid extends Medabeir {
         this.olam.ayshPeula("save player position")
         this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
         this.on("activeObjectAction", async a => {
-            console.log("action",a)
+            console.log("action",a,this.selected)
             if(this.selected) {
+                var dist = this?.intersected?.hit?.distance;
+                if(dist) {
+                    this.distanceFromRay = dist;
+                }
                 this.selected?.niv?.ayshPeula("sealayk");
                 this.removeIntersected();
                 this.selected = null;
@@ -712,7 +754,7 @@ async function hoverHitCheck({
                 })
                 
                 
-                chossid.intersected = {niv, ob};
+                chossid.intersected = {niv, ob, hit};
                 chossid.intersected.currentHex = ob
                     .material
                     .emissive.getHex();
@@ -731,7 +773,7 @@ async function hoverHitCheck({
     
         } else {
             if(intersected?.niv != niv) {
-                chossid.intersected = {niv, ob};
+                chossid.intersected = {niv, ob, hit};
                 chossid.intersected.currentHex = ob
                     .material
                     .emissive.getHex();

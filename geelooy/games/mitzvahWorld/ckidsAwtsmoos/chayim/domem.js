@@ -173,7 +173,7 @@ export default class Domem extends Nivra {
 
         this.on("sealayk", () => {
             if(this.olam) {
-                this.olam.ayshPeula("sealayk", this)
+                this.olam?.sealayk(this)
             }
         });
 

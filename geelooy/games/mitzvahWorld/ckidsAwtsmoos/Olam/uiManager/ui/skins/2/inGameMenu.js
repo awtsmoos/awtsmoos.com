@@ -270,10 +270,20 @@ export default /*css*/`
     }
     .blockSelected > div {
         padding:3px;
+        font-size: 2em;
         background:black;
         color:white;
         border:1px solid white;
         
     }
+    .blockSelected > div:hover {
+        cursor:pointer;
+        background: #a5f7ff;
+        color: #000000;
+    }
     
+    .blockSelected > div.active {
+        color: black;
+        background: white;
+    }
 `

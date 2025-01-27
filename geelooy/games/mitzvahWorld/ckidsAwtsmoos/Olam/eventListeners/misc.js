@@ -18,23 +18,24 @@ export default function() {
         }
     })
     this.on("htmlPeula peula", ({peulaName, peulaVars}) => {
-        if(!Array.isArray(peulaVars)) {
-            peulaVars = [];
-        }
+       
         
         try {
-            this.ayshPeula(peulaName, ...peulaVars)
+            this.ayshPeula(peulaName, peulaVars)
         } catch(e) {
             console.log("Issue",e)
         }
     });
 
+    this.on("ui event", async (shaym, ob) => {
+        return await this.ayshPeula("send ui event", shaym, ob)
+    })
 
     this.on("htmlPeula", async ob => {
         if(!ob || typeof(ob) != "object") {
             return;
         }
-        
+    
         for(
             var k in ob
         ) {

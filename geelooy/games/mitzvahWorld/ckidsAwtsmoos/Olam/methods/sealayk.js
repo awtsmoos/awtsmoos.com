@@ -54,11 +54,14 @@ export default class {
         
         if(nivra.isSolid) {
             try {
-                if(nivra.isInteractive) {
-                    this.interactiveOctree.removeMesh(nivra).mesh;
-                }
-                if(nivra.mesh)
+                
+                if(nivra.mesh) {
                     this.worldOctree.removeMesh(nivra.mesh);
+                    if(nivra.isInteractive) {
+                        this.interactiveOctree
+                        .removeMesh(nivra.mesh);
+                    }
+                }
                 
                 return;
             } catch(e){
@@ -78,7 +81,7 @@ export default class {
         try {
             if(nivra && nivra.ayshPeula) {
                 
-		        nivra.ayshPeula("sealayk")
+		      //  nivra.ayshPeula("sealayk")
             }
         } catch(e) {
 

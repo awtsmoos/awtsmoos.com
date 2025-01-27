@@ -113,11 +113,14 @@ export default class UI extends Heeoolee {
 		callback
 	**/
 	peula(el, obj={}) {
+        if(typeof(el) == "string") {
+            el = this.getHtml(el);
+        }
 		if(
 			!obj ||
 			typeof(obj) != "object"
 		) {
-			return;
+			obj = {}
 		}
 		
 		console.log("OB",obj)

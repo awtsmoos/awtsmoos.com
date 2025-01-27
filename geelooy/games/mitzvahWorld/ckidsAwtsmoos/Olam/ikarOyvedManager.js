@@ -417,6 +417,18 @@ export default class OlamWorkerManager {
                 });
                 
             },
+
+            sendUiEvent: ({
+                shaym, ob, id
+            }={}) => {
+                try {
+                    ob._awtsmoosId = id
+                    var p = myUi.peula(shaym, ob);
+
+                } catch(e) {
+                    console.log(e);
+                }
+            },
 			
             "setHtml": ({
                 shaym, 

@@ -228,6 +228,17 @@ export default ${
             }
         },
 
+        uiEvented(info) {
+            if(!me.olam) return;
+            var id = info?.id
+            if(!id) return;
+            var pi = promiseMap.get(id);
+            if(pi) {
+                if(info.id) delete info.id;
+                pi?.resolve(info);
+                promiseMap?.delete?.(id)
+            }
+        },
         htmlActioned(info) {
             if(!me.olam)
             return;
@@ -377,6 +388,22 @@ export default ${
                 postMessage({
                     updateProgress: data
                 })
+            })
+            me.olam.on("send ui event", async (shaym, ob) => {
+                var info = {};
+                info.id = Math.random().toString();
+                var resultPromise = registerPromise(info.id);
+                
+                postMessage({
+                    sendUiEvent: {
+                        shaym,
+                        ob,
+                        id
+                    }
+                });
+                var result = await resultPromise;
+                // Now you can handle the result right here
+                return result;
             })
             me.olam.on("setHtml", async ({shaym,info={}}={}) => {
                 var dayuh = Utils.stringifyFunctions(info);

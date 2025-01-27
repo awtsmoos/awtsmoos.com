@@ -204,11 +204,41 @@ var ui = [
         shaym: "block selector menu",
         className: "blockSelected hidden",
         awtsmoosClick: true,
-        children: ["Grab", "Rotate", "Scale"]
-            .map(q=>({
+        on: {
+            awtsmoosOptions(e) {
+                console.log("got options",e.detail);
+                var array = Array.from(
+                    e.target.children
+                ).map(q=>q.innerText)
+                
+                window?.socket?.postMessage?.({
+                    uiEvented: {
+                        awtsmoosResponse: {
+                            array
+                        }
+                    }
+                })
+            },
+        },
+        children: ["Grab", "Rotate", "Scale", "Delete"]
+            .map((q,i,a)=>({
+                shaym: "menu item "+q,
                 innerHTML: q,
                 className: q,
+                on: {
+                    
+                    awtsmoosHighlight(e) {
+                        var k = e.detail;
+                        var par = e.target.parentNode;
+                        Array.from(par.children)
+                        .forEach(w=>w.classList.remove("active"));
+
+                        e.target.classList.add("active")
+                        console.log("Highlighted",e)
+                    }
+                },
                 onclick: async(e) => {
+                    
                     ikar.dispatchEvent(
                     
                         new CustomEvent("olamPeula", {
