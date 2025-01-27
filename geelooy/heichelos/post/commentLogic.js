@@ -93,8 +93,11 @@ async function makeHTMLFromComment({
 		console.log("Section com",section,title,content);
 		var commentText = document.createElement("div");
 		commentText.className = "comment-text"+ (section?" section" : "");
-		
-		commentText.innerHTML = markdownToHtml(sanitizeComment(content));
+		if(content)
+			commentText.innerHTML = markdownToHtml(sanitizeComment(content||""));
+		else {
+			console.log("No content?",content,title)
+		}
 		if(!isFirstCharacterHebrew(content)) {
 			cmCont.classList.add("en")
 		} else {
@@ -561,6 +564,7 @@ async function showAllComments({
 					verseSection: true,
 					sections: true,
 					images: true,
+					title,
 					...(
 						subSec || subSec === 0 ? {	
 							subSectionIndex: {

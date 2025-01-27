@@ -623,7 +623,7 @@ async function getPostsInHeichel({
 	});
 	
 	
-	if(parentSeries.error) {
+	if(parentSeries?.error) {
 		return [];//er({code: "NO_PARENT_SERIES", details: parentSeries.error});
 	}
 	
