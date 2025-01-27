@@ -650,6 +650,7 @@ async function deleteSeriesFromHeichel ({
 			issue: "ok",
 			posts,
 			deleted,
+			ser,
 			errors
 		})
 		if(ser?.error) {
