@@ -172,7 +172,10 @@ async function traverseSeries({
 		me.id = seriesId;
 		
 		me.now=Date.now()
-		return me;
+		return {
+			series: me,
+			seriesId
+		}
 	} catch(e) {
 		return er({
 			message: "error traverseing",
