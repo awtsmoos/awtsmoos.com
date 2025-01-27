@@ -770,9 +770,11 @@ async function getReferences({
 	
 	
 }
+
 function isFirstCharacterHebrew(str) {
-  return /^[\u0590-\u05FF]/.test(str);
+	return /^[\u0590-\u05FF]/.test(str.slice(0, 5));
 }
+
 function generateSection({
 	sectionText, sectionId, dynamic=null,
 	allSections, isReference=false,

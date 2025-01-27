@@ -5,6 +5,10 @@ for posts
 .commentTitle {
     font-weight: bold;
 }
+
+.awtsmoos-comment-section.heb {
+    padding: 20px;
+}
 /* Add comment area */
 .add-comment-area {
     font-family: 'Inter', sans-serif;
