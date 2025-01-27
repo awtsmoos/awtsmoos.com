@@ -675,7 +675,7 @@ async function deleteSeriesFromHeichel ({
 						errors.postDeletions = [];
 					}
 					errors.postDeletions.push({
-						postId: post.id,
+						post,
 						heichelId,
 						seriesId
 					})
