@@ -2318,32 +2318,42 @@ async function checkIfAllDeletedAndDeleteMore({
 	path,
 	verseSectionPath,
 	commentPath,
-	authPath
+	authPath,
+	pathsDone,
+	authors
 }) {
 	var path = path || verseSectionPath ||
 		commentPath ||
-		authPath;
+		authPath || authors;
 	if(!path) return;
+	path = path.split("/").filter(Boolean).join("/")
 	try {
+		var pathsDone = pathsDone || []
 		// Check if the directory at the current path is empty
 		const content = await $i.db.get(path);
 	
 		// If the directory is empty, delete it
-		if (Array.isArray(content) && content.length === 0) {
-		  await $i.db.delete(path);
-	
-		  // Get the parent path by removing the last segment
-		  const parentPath = path.substring(0, path.lastIndexOf('/'));
-	
-		  // If there's a parent directory, recurse with the parent path
-		  if (parentPath) {
-			await checkIfAllDeletedAndDeleteMore({
-			  $i,
-			  path: parentPath,
-			});
-		  }
+		if (content?.length === 0 || !content) {
+			await $i.db.delete(path);
+			pathsDone.push(path);
+			// Get the parent path by removing the last segment
+			const parentPath = path.substring(0, path.lastIndexOf('/'));
+
+			// If there's a parent directory, recurse with the parent path
+			if (parentPath) {
+				await checkIfAllDeletedAndDeleteMore({
+					$i,
+					path: parentPath,
+					pathsDone
+				});
+			}
 		}
 	  } catch (error) {
+		return er({
+			message: "path issue",
+			error: error.stack
+		})
 		console.error(`Error processing path "${path}":`, error);
 	  }
+	  return pathsDone
 	}

@@ -212,7 +212,7 @@ class DosDB {
 							meta
 						};
 						checkIfItsSingleEntry = await this.getDynamicRecord(ob);
-						console.log("GOT?", checkIfItsSingleEntry, filePath);
+				//		console.log("GOT?", checkIfItsSingleEntry, filePath);
 					} catch (e) {
 						console.log("Prob", e);
 					}
@@ -931,7 +931,7 @@ class DosDB {
 				compiledData = Array.from(compiledData)
 				// console.log("Got array",compiledData)
 			}
-			console.log("DOING?!", compiledData)
+		//	console.log("DOING?!", compiledData)
 			//if(compiledData[".awts_"] == "delete")
 			if(nullify)
 				return undefined;
