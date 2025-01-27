@@ -602,7 +602,7 @@ async function deleteSeriesFromHeichel ({
 
 	}
 	var deleted = {}
-	var errors = {};
+	var errors = {main:[]};
 	if(!deleted.posts) 
 		deleted.posts = [];
 	
@@ -632,7 +632,7 @@ async function deleteSeriesFromHeichel ({
 		
 					});
 					if(del.error) {
-						errors.push({
+						errors.main.push({
 							deletIssue: del,
 							postId: post.id
 						})
@@ -646,7 +646,7 @@ async function deleteSeriesFromHeichel ({
 			}
 		})
 		if(ser?.error) {
-			return er({message: "Issue deleting posts", details:ser});
+			errors.main.push(er({message: "Issue deleting posts", details:ser}));
 		}
 		if(ser.parentSeriesId) {
 			var delPosts = await $i.db.delete(`${
@@ -690,7 +690,7 @@ async function deleteSeriesFromHeichel ({
 						seriesId:series.id
 		
 					});
-					if(del?.error) errors.push({
+					if(del?.error) errors.main.push({
 						deletedSeriesError: del
 					})
 					deleted.subSeries.push({
@@ -702,14 +702,15 @@ async function deleteSeriesFromHeichel ({
 		})
 
 		if(ser) {
-			if(ser?.error) return ser;
+			if(ser?.error) return er({message:"Issue", details: ser});
 			
 			var par = ser.parentSeriesId;
 			if(!par) par = parentSeriesId;
 			if(!par) {
-				throw er({
+				errors.main.push(er({
+					details: ser,
 					message: "No parent series ID"
-				})
+				}))
 			}
 			var parentSer = await $i.db.get(`${
 				sp
@@ -721,10 +722,10 @@ async function deleteSeriesFromHeichel ({
 			parentSer = Array.from(parentSer);
 			var self = parentSer.indexOf(seriesId);
 			if(self < 0) {
-				throw er({
+				errors.main.push(er({
 					message: "Issue deleting self",
 					parentSer
-				})
+				}))
 			}
 			parentSer.splice(self, 1);
 			var wroteSub = await $i.db.write(`${
@@ -965,7 +966,7 @@ async function editSubSeriesInSeries({
 				toDelete
 			}`);
 			if(del.error) {
-				errors.push(del)
+				errors.main.push(del)
 				return er({
 					message: "Issue deleting",
 					code: "NO_DEL",
@@ -1048,7 +1049,7 @@ async function editPostsInSeries({
 				toDelete
 			}`);
 			if(del.error) {
-				errors.push(del)
+				errors.main.push(del)
 				return er({
 					message: "Issue deleting",
 					code: "NO_DEL",
@@ -1761,7 +1762,7 @@ async function getSubSeriesInHeichel({
 
 		});
 		if(!ss || ss.error) {
-			errors.push(er({
+			errors.main.push(er({
 				code:
 				"PROBLEM_WITH_SUB",
 				details:ss?
@@ -1772,7 +1773,7 @@ async function getSubSeriesInHeichel({
 			continue;
 		}
 		if(!ss.prateem) {
-			errors.push(er({
+			errors.main.push(er({
 				code:
 				"NO_SUB_PRATEEM",
 				details:ss
