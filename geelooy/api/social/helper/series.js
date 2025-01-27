@@ -180,7 +180,7 @@ async function traverseSeries({
 		return er({
 			message: "error traverseing",
 			
-			stack: e?.stack
+			//stack: e?.stack
 		})
 	}
 }
