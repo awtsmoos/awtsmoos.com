@@ -679,6 +679,10 @@ async function deleteSeriesFromHeichel ({
 						heichelId,
 						seriesId
 					})
+					throw er({
+						message: "didn't properly delete posts",
+						details: errors
+					})
 				}
 				if(series) {
 					if(!deleted.subSeries) {
@@ -757,6 +761,7 @@ async function deleteSeriesFromHeichel ({
 				heichelId,
 				seriesId
 			},
+			errors,deleted,
 			code: "NO_DELETE"
 		})
 	}
