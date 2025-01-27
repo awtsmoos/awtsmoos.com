@@ -5,7 +5,7 @@ http.createServer(async (q,r) => {
 	
     r.writeHead(200, {
       'Content-Type': 'application/json',
-      'Transfer-Encoding': 'chunked',
+   //   'Transfer-Encoding': 'chunked',
       'Awtsmoos': "yes"
   });
   for(var i = 0; i < 9; i++) {

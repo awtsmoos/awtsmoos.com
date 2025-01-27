@@ -748,7 +748,7 @@ async function updateAllCommentIndexes({
 	postId /**needed only if adding reply to comment in a larger post*/,
 	userid
 }) {
-	$i.response.setHeader('Transfer-Encoding', 'chunked') // Important for streaming
+	//$i.response.setHeader('Transfer-Encoding', 'chunked') // Important for streaming
 	$i.response.setHeader('Connection', 'keep-alive');
 	var t = $i.$_POST.testStreaming;
 	if(t) {
