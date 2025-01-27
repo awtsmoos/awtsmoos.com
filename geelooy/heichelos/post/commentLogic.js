@@ -795,7 +795,7 @@ function makeInlineComment(alias, comment) {
 	//commentHolder.appendChild(incom);
 	var comContent = document.createElement("div")
 	if(comment.dayuh?.title) {
-		var t = makeTitleDiv(comment.title);
+		var t = makeTitleDiv(comment?.dayuh?.title);
 		comContent.appendChild(t);
 	}
 	if(content)
