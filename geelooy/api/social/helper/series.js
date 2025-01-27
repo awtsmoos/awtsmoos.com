@@ -662,13 +662,7 @@ async function deleteSeriesFromHeichel ({
 				}
 			}
 		})
-		return er({
-			issue: "ok",
-			posts,
-			deleted,
-			ser,
-			errors
-		})
+		
 		if(ser?.error) {
 			errors.main.push(er({message: "Issue deleting posts", details:ser.error}));
 		}
