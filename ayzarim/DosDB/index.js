@@ -212,6 +212,9 @@ class DosDB {
 							meta
 						};
 						checkIfItsSingleEntry = await this.getDynamicRecord(ob);
+						if(checkIfItsSingleEntry._awtsmoosDeletify) {
+							return undefined;
+						}
 				//		console.log("GOT?", checkIfItsSingleEntry, filePath);
 					} catch (e) {
 						console.log("Prob", e);
