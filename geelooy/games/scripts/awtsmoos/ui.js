@@ -112,7 +112,7 @@ export default class UI extends Heeoolee {
 		value to call on the
 		callback
 	**/
-	peula(el, obj={}) {
+	peula(el, obj={}, _awtsmoosId) {
         if(typeof(el) == "string") {
             el = this.getHtml(el);
         }
@@ -128,6 +128,11 @@ export default class UI extends Heeoolee {
 			var k 
 			in obj
 		) {
+            if(typeof(obj[k] == "object")) {
+                if(_awtsmoosId) {
+                    obj[k]._awtsmoosId = _awtsmoosId;
+                }
+            }
 			el.dispatchEvent(
 				new CustomEvent(k, {
 					detail: obj[k]

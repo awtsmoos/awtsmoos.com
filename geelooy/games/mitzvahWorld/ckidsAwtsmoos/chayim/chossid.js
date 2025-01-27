@@ -206,11 +206,13 @@ export default class Chossid extends Medabeir {
             }
         })
         var opts = await this.olam.ayshPeula(
-            "ui event", ("block selector menu", {
+            "ui event", 
+            "block selector menu", 
+            {
                 awtsmoosOptions: {
                     lol:5
                 }
-            })
+            }
         )
         console.log("got options",opts)
     }
@@ -425,7 +427,20 @@ export default class Chossid extends Medabeir {
         
     }
 	
-	
+	actionList = {
+        Delete(self) {
+            self?.selected?.niv?.ayshPeula("sealayk");
+        },
+        Grab(self) {
+            self?.selected?.niv?.ayshPeula("sealayk");
+            self.removeIntersected();
+            self.selected = null;
+            self.intersected = null;
+            self.removeRay()
+            self.makeRay();
+            self.placeBlockOnRay();
+        }
+    }
 	async afterBriyah() {
 		await super.afterBriyah(this);
 
@@ -434,17 +449,15 @@ export default class Chossid extends Medabeir {
         this.on("activeObjectAction", async a => {
             console.log("action",a,this.selected)
             if(this.selected) {
+                var act = this.actionList[a];
+                if(act) {
+                    act?.(this)
+                }
                 var dist = this?.intersected?.hit?.distance;
                 if(dist) {
                     this.distanceFromRay = dist;
                 }
-                this.selected?.niv?.ayshPeula("sealayk");
-                this.removeIntersected();
-                this.selected = null;
-                this.intersected = null;
-                this.removeRay()
-                this.makeRay();
-                this.placeBlockOnRay();
+                
             }
         })
         this.olam.on("mousemove", e => {

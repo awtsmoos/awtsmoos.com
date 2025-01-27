@@ -390,9 +390,8 @@ export default ${
                 })
             })
             me.olam.on("send ui event", async (shaym, ob) => {
-                var info = {};
-                info.id = Math.random().toString();
-                var resultPromise = registerPromise(info.id);
+                var id = Math.random().toString();
+                var resultPromise = registerPromise(id);
                 
                 postMessage({
                     sendUiEvent: {

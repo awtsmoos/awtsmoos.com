@@ -210,12 +210,13 @@ var ui = [
                 var array = Array.from(
                     e.target.children
                 ).map(q=>q.innerText)
-                
+
                 window?.socket?.postMessage?.({
                     uiEvented: {
                         awtsmoosResponse: {
                             array
-                        }
+                        },
+                        id: e.detail?._awtsmoosId
                     }
                 })
             },

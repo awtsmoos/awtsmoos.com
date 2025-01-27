@@ -417,13 +417,26 @@ export default class OlamWorkerManager {
                 });
                 
             },
+            uiEvented(ob) {
+                var id = ob?.id;
+                if(id) {
+                    self.eved.postMessage({
+                        uiEvented: ob
+                    });
+                }
+            },
 
             sendUiEvent: ({
-                shaym, ob, id
+                shaym, ob={}, id
             }={}) => {
                 try {
+                    if(!shaym) {
+                        console.log("no shaym")
+                        return;
+                    }
+                    if(!ob) ob = {};
                     ob._awtsmoosId = id
-                    var p = myUi.peula(shaym, ob);
+                    var p = myUi.peula(shaym, ob, id);
 
                 } catch(e) {
                     console.log(e);
