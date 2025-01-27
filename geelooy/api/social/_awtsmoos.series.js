@@ -192,9 +192,9 @@ module.exports = ({
 					
 					userid,
 					
-				})).filter(Boolean)
+				}))
 			);
-			return details;
+			return details.filter(Boolean);
 
 		}
 
