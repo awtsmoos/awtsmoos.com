@@ -632,10 +632,10 @@ async function deleteSeriesFromHeichel ({
 		
 					});
 					if(del.error) {
-						throw {
+						errors.push({
 							deletIssue: del,
 							postId: post.id
-						}
+						})
 					}
 					deleted.posts.push({
 						
@@ -674,15 +674,11 @@ async function deleteSeriesFromHeichel ({
 					if(!errors.postDeletions) {
 						errors.postDeletions = [];
 					}
-					errors.postDeletions.push({
-						post,
-						heichelId,
-						seriesId
-					})
-					throw er({
+					
+					errors.postDeletions.push(er({
 						message: "didn't properly delete posts",
 						details: errors
-					})
+					}))
 				}
 				if(series) {
 					if(!deleted.subSeries) {
@@ -694,7 +690,9 @@ async function deleteSeriesFromHeichel ({
 						seriesId:series.id
 		
 					});
-					if(del?.error) throw del.error;
+					if(del?.error) errors.push({
+						deletedSeriesError: del
+					})
 					deleted.subSeries.push({
 						subSeriesId: series.id,
 						deleted: del
