@@ -926,7 +926,10 @@ async function editSubSeriesInSeries({
 
 	if (!ha) {
 		return er({
-			code: "NO_AUTH"
+			code: "NO_AUTH",
+			aliasId,
+			heichelId,
+			seriesId
 		})
 
 	}
