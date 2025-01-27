@@ -67,6 +67,14 @@ function addImageGallery(images, parent) {
 		parent.appendChild(imageGallery);
 	}
 }
+
+function makeTitleDiv(title) {
+	var commentTitle = document.createElement("div");
+	commentTitle.className="commentTitle"
+	commentTitle.innerHTML = title
+	
+	return commentTitle
+}
 async function makeHTMLFromComment({
 	comment,
 	aliasId,
@@ -85,9 +93,7 @@ async function makeHTMLFromComment({
 		var commentTitle = null;
 		if(title) {
 			
-			commentTitle = document.createElement("div");
-			commentTitle.className="commentTitle"
-			commentTitle.innerHTML = title
+			commentTitle = makeTitleDiv(title)
 			cmCont.appendChild(commentTitle);
 		}
 		console.log("Section com",section,title,content);
@@ -104,6 +110,10 @@ async function makeHTMLFromComment({
 			cmCont.classList.add('heb')
 		}
 		cmCont.appendChild(commentText);
+	}
+	if(comment.title) {
+		var commentTitle = makeTitleDiv(comment.title)
+		cmCont.appendChild(commentTitle);
 	}
 	if(comment.content) {
 		forEachTxt(comment.content)
