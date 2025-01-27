@@ -1045,7 +1045,7 @@ function getVerseSectionPath({
 	}/verseSection/${
 		verseSection
 	}/author/${aliasId}${
-		 commentId !== "null" ?
+		 commentId != "null" ?
 		"/"+commentId : ""
 	}`;
 	
@@ -1977,6 +1977,7 @@ async function deleteAllCommentsOfAlias({
                 $i,
                 commentId: c,
 				parentId,
+				parentType,
                 heichelId,
 				aliasId
             });
@@ -1991,6 +1992,19 @@ async function deleteAllCommentsOfAlias({
     
 }
 
+async function getParentSeriesId({
+	heichelId,
+	postId
+}) {
+	var post = await $i.db.get(`/social/heichelos/${
+		heichelId
+	}/posts/${postId}`, {
+	propertyMap: {
+		parentSeriesId: true
+		}
+	});
+	return post.parentSeriesId
+}
 async function deleteCommentIndex({
 	$i,
 	commentId,
@@ -2001,6 +2015,7 @@ async function deleteCommentIndex({
 	parentType,
 	postId
 }) {
+	if(!parentType) parentType = "post";
 	var link = parentType == "post" ?
 		"atPost" : parentType == "comment" ?
 		"atComment" : "atPost";
@@ -2013,26 +2028,29 @@ async function deleteCommentIndex({
 
 	var parentSeriesId = null;
 	if(parentType == "post") {
-		var post = await $i.db.get(`/social/heichelos/${
-				heichelId
-			}/posts/${parentId}`, {
-			propertyMap: {
-				parentSeriesId: true
-				}
-			});
-		parentSeriesId = post.parentSeriesId
-		if(!parentSeriesId) {
-			return er({
-				message: "Couldnt find parent",
-				code: "NO_PAR",
-				details: {
-					parentType,
-					parentId,commentId,
-					heichelId,
-					aliasId
-				}
-			})
-		}
+		parentSeriesId = await getParentSeriesId({
+			heichelId,
+			postId: parentId
+		})
+		
+	} else {
+		parentSeriesId = await getParentSeriesId({
+			heichelId,
+			postId
+		})
+	}
+
+	if(!parentSeriesId) {
+		return er({
+			message: "Couldnt find parent",
+			code: "NO_PAR",
+			details: {
+				parentType,
+				parentId,commentId,
+				heichelId,
+				aliasId
+			}
+		})
 	}
 	if(!postId) {
 		if(link == "atPost") {
@@ -2071,7 +2089,7 @@ async function deleteCommentIndex({
 	var verseSectionPath = getVerseSectionPath({
 		heichelId,
 		parentId,
-		getVerseSectionPath,
+		commentId,
 		link,
 		aliasId,
 		verseSection
