@@ -502,9 +502,14 @@ export default class Chossid extends Medabeir {
         })
         this.olam.on("wheel", ({deltaY}) => {
             if(this.activeObject) {
+                var baseFactor = 0.003;
+        
+        // Dynamically adjust factor based on the current distance
+                var factor = baseFactor * Math.max(0.5, Math.min(2, this.distanceFromRay / 10));
+        
                 // Adjust the distance based on the wheel input
                 // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
-                this.distanceFromRay += deltaY * 0.01; // Adjust the multiplier to control the speed of the change
+                this.distanceFromRay += deltaY * factor; // Adjust the multiplier to control the speed of the change
 
                 // You can limit the distance to prevent it from becoming too small or too large
                 this.distanceFromRay = Math

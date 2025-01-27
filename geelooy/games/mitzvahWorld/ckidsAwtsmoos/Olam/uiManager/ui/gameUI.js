@@ -221,7 +221,11 @@ var ui = [
                 })
             },
         },
-        children: ["Grab", "Rotate", "Scale", "Delete"]
+        children: [
+            "Grab", 
+           // "Rotate", "Scale", 
+            "Delete"
+        ]
             .map((q,i,a)=>({
                 shaym: "menu item "+q,
                 innerHTML: q,
