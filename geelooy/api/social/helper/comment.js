@@ -1994,7 +1994,8 @@ async function deleteAllCommentsOfAlias({
 
 async function getParentSeriesId({
 	heichelId,
-	postId
+	postId,
+	$i
 }) {
 	var post = await $i.db.get(`/social/heichelos/${
 		heichelId
@@ -2029,12 +2030,14 @@ async function deleteCommentIndex({
 	var parentSeriesId = null;
 	if(parentType == "post") {
 		parentSeriesId = await getParentSeriesId({
+			$i,
 			heichelId,
 			postId: parentId
 		})
 		
 	} else {
 		parentSeriesId = await getParentSeriesId({
+			$i,
 			heichelId,
 			postId
 		})
