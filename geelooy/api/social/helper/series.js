@@ -166,16 +166,26 @@ async function traverseSeries({
 		var me = await $i.db.get(
 			`/social/heichelos/${
 				heichelId
-			}/series/${seriesId}`, opts
+			}/series/${seriesId}/prateem`, opts
 		);
 		me = Object.assign({}, me)
 		me.id = seriesId;
 		
 		me.now=Date.now()
-
+		var posts = await $i.db.get(
+			`/social/heichelos/${
+				heichelId
+			}/series/${seriesId}/posts`, opts
+		);
+		var subs = await $i.db.get(
+			`/social/heichelos/${
+				heichelId
+			}/series/${seriesId}/subSeries`, opts
+		);
 		return {
 			
-			seriesId,
+			subSeries:subs,
+			posts,
 			series: me
 		}
 	} catch(e) {
