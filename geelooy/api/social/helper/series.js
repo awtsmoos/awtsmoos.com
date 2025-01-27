@@ -610,6 +610,7 @@ async function deleteSeriesFromHeichel ({
 		
 	*/
 	try {
+		var posts = []
 		var ser = traverseSeries({
 
 			seriesId,
@@ -620,7 +621,7 @@ async function deleteSeriesFromHeichel ({
 				series
 			}) {
 				if(post) {
-					
+					posts.push(post)
 					var del= await deletePost({
 						$i: {
 							...$i,
@@ -645,8 +646,14 @@ async function deleteSeriesFromHeichel ({
 				}
 			}
 		})
+		return er({
+			issue: "ok",
+			posts,
+			deleted,
+			errors
+		})
 		if(ser?.error) {
-			errors.main.push(er({message: "Issue deleting posts", details:ser}));
+			errors.main.push(er({message: "Issue deleting posts", details:ser.error}));
 		}
 		if(ser.parentSeriesId) {
 			var delPosts = await $i.db.delete(`${
