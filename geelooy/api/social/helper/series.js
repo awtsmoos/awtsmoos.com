@@ -928,6 +928,9 @@ async function editSubSeriesInSeries({
 		return er({
 			code: "NO_AUTH",
 			aliasId,
+			POST: {
+				postInfo: $i.$_POST 
+			},
 			heichelId,
 			seriesId
 		})
