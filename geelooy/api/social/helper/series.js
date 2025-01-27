@@ -173,7 +173,7 @@ async function traverseSeries({
 		
 		me.now=Date.now()
 		return {
-			series: me,
+			
 			seriesId
 		}
 	} catch(e) {
