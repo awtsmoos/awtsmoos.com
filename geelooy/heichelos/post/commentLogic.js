@@ -72,7 +72,9 @@ function makeTitleDiv(title) {
 	var commentTitle = document.createElement("div");
 	commentTitle.className="commentTitle"
 	commentTitle.innerHTML = title
-	
+	if(isFirstCharacterHebrew(title)) {
+		sec.classList.add("heb")
+	}
 	return commentTitle
 }
 async function makeHTMLFromComment({

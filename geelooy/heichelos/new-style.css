@@ -2,7 +2,9 @@
 for posts
 */
 
-
+.commentTitle {
+    font-weight: bold;
+}
 /* Add comment area */
 .add-comment-area {
     font-family: 'Inter', sans-serif;
