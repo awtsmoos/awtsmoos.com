@@ -958,7 +958,7 @@ async function editSubSeriesInSeries({
 				changed.push(subSeriesId)
 			}
 			
-			var prat = await $i.db.write(sp +
+			var prat = await $i.db.get(sp +
 				`/heichelos/${
 				heichelId
 			}/series/${
