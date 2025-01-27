@@ -166,7 +166,7 @@ async function traverseSeries({
 		var me = await $i.db.get(
 			`/social/heichelos/${
 				heichelId
-			}/series/${seriesId}/prateem`, opts
+			}/series/${seriesId}`, opts
 		);
 		me = Object.assign({}, me)
 		me.id = seriesId;
@@ -175,7 +175,8 @@ async function traverseSeries({
 
 		return {
 			
-			seriesId
+			seriesId,
+			series: me
 		}
 	} catch(e) {
 	
