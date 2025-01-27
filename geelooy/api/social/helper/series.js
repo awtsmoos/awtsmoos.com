@@ -177,7 +177,7 @@ async function traverseSeries({
 		return er({
 			message: "error traverseing",
 			details: e,
-			stack: e.stack
+			stack: e?.stack
 		})
 	}
 }
@@ -702,7 +702,7 @@ async function deleteSeriesFromHeichel ({
 		})
 
 		if(ser) {
-			if(ser?.error) return er({message:"Issue", details: ser});
+			if(ser?.error)errors.main.push(er({message:"Issue", details: ser}));
 			
 			var par = ser.parentSeriesId;
 			if(!par) par = parentSeriesId;

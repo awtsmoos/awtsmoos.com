@@ -394,7 +394,7 @@ async function doEverything() {
 			var con = res.actualResponse.content;
 			if (con || con === "undefined" || con === "null") {
 				if(typeof(con) == "object") {
-					//con = JSON.stringify(con)
+					con = JSON.stringify(con)
 				} else if (typeof(con) != "string") {
 					con += ""
 				}
