@@ -666,7 +666,7 @@ async function deleteSeriesFromHeichel ({
 		if(ser?.error) {
 			errors.main.push(er({message: "Issue deleting posts", details:ser.error}));
 		}
-		if(ser.parentSeriesId) {
+		if(ser?.series?.parentSeriesId) {
 			var delPosts = await $i.db.delete(`${
 				sp
 			}/heichelos/${
@@ -722,7 +722,7 @@ async function deleteSeriesFromHeichel ({
 		if(ser) {
 			if(ser?.error)errors.main.push(er({message:"Issue", details: ser}));
 			
-			var par = ser.parentSeriesId;
+			var par = ser?.series?.parentSeriesId;
 			if(!par) par = parentSeriesId;
 			if(!par) {
 				errors.main.push(er({
@@ -737,7 +737,7 @@ async function deleteSeriesFromHeichel ({
 			}/series/${
 				par
 			}/subSeries`);
-			parentSer = Array.from(parentSer);
+			parentSer = Array.from(parentSer || []);
 			var self = parentSer.indexOf(seriesId);
 			if(self < 0) {
 				errors.main.push(er({
