@@ -73,7 +73,7 @@ function makeTitleDiv(title) {
 	commentTitle.className="commentTitle"
 	commentTitle.innerHTML = title
 	if(isFirstCharacterHebrew(title)) {
-		sec.classList.add("heb")
+		commentTitle.classList.add("heb")
 	}
 	return commentTitle
 }
