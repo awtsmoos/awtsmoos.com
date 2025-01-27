@@ -147,7 +147,7 @@ async function traverseSeries({
 		seer = Array.from(seer || []);
 		
 		for(var subSeriesId of seer) {
-			var series = traverseSeries({
+			var series = await traverseSeries({
 				heichelId,
 				$i,
 				callback,
@@ -172,17 +172,17 @@ async function traverseSeries({
 		me.id = seriesId;
 		
 		me.now=Date.now()
-		return "WHY"
+
 		return {
 			
 			seriesId
 		}
 	} catch(e) {
-		return "HI"
+	
 		return er({
 			message: "error traverseing",
 			
-			//stack: e?.stack
+			stack: e?.stack
 		})
 	}
 }
@@ -616,7 +616,7 @@ async function deleteSeriesFromHeichel ({
 	*/
 	try {
 		var posts = []
-		var ser = traverseSeries({
+		var ser = await traverseSeries({
 
 			seriesId,
 			heichelId,
@@ -674,7 +674,7 @@ async function deleteSeriesFromHeichel ({
 			
 		}
 
-		ser = traverseSeries({
+		ser = await traverseSeries({
 	
 			seriesId,
 			heichelId,
