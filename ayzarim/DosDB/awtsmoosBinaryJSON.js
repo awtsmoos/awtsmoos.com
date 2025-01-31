@@ -161,7 +161,7 @@ function serializeJSON(json) {
             bufferList.push(valueBuffer);
             offset += valueBuffer.length;
             
-            let keyIndex = Buffer.alloc(4);
+            let keyIndex = Buffer.alloc(hashAmount);
             keyIndex.writeUInt32LE(keyOffset, 0);
             hashTableBuffer.set(keyIndex, index * hashAmount);
         }
