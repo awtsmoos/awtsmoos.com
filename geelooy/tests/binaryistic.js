@@ -1,6 +1,7 @@
 //B"H
 var b = require("../../ayzarim/DosDB/awtsmoosBinaryJSON");
-var fs = require("fs").promises
+var fs = require("fs").promises;
+
 console.log('B"H')
 var ob = [
   
