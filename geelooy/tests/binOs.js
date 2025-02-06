@@ -53,17 +53,31 @@ asdfghjkl
         data: `//B"H
         // LOL nice to meet u again`
     });
-/*
+
     var deepFolder = await os.makeFolder({
         file: pth,
         path: "/",
         name: "intense"
     });
-*/
 
+    var file2 = await os.makeFile({
+        file: pth,
+        path: "/intense",
+        name: "wow4.js",
+        data: `//B"H
+        here weare yet again!`
+    });
     var fold = await os.readFolder({
         file: pth,
         path: "/",
+        withValues:true
+    })
+    console.log(fold,55);
+
+
+    var fold = await os.readFolder({
+        file: pth,
+        path: "/intense",
         withValues:true
     })
     console.log(fold,55);
@@ -112,6 +126,13 @@ asdfghjkl
         name: "wow3.js"
     })
     console.log("FILE",redFile)
-    
+
+    var redFile = await os.readFile({
+        file: pth,
+        path: "/intense",
+        name: "wow4.js"
+    })
+    console.log("deeper ",redFile)
+    //intense
     
 })()

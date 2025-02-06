@@ -584,7 +584,7 @@ async function writeDataAtNextBlock({
 		if(next.superBlock) {
 			superBlock = next.superBlock;
 		}
-		console.log("REMANDER",index,next)
+	///	console.log("REMANDER",index,next)
 		//await closeFile(next.file)
 		/*
 			update the nextBlockId here
@@ -595,11 +595,8 @@ async function writeDataAtNextBlock({
 		}
 		data?.copy?.(buf);
 		if(!isFirstBlockOfData) {
-			console.log("LAST ONE TO GO", index,data.length,buf.length, remainingSize,buf+
-
-				"",
-				offset
-			)
+			
+			
 		}
 	}
 
@@ -653,12 +650,8 @@ async function writeDataAtNextBlock({
 		);
 	} else {
 		if(nextIndex) {
-			console.log(
-				"Part of CHAIN",
-				nextIndex,
-				index,
-				lastBlockId
-			)
+		
+			
 		}
 		newBlock = await writeBytesToFile(
 			file,
@@ -1048,140 +1041,282 @@ async function readFile({
 
 
 }*/
-
 // Reads a folder from the simulated database file.
 // Always starts by reading the root block (ID 1) and then walks down the folder structure.
 // If withValues is true, returns an object mapping folder/file names to block IDs;
 // otherwise, returns just an array of names.
-async function readFolder({ file, path, withValues = false }) {
+async function readFolder({
+	file,
+	path,
+	withValues = false
+}) {
 	path = normalizePath(path);
-	
+
 	// Always start with the root block.
-	let block = await readBlock({ file, blockId: 1, metadata: false });
+	let block = await readBlock({
+		file,
+		blockId: 1,
+		metadata: false
+	});
 	let data = block.data;
 	await closeFile(file);
-  
-	if (!awtsmoosJSON.isAwtsmoosObject(data)) {
-	  return data.toString();
+
+	if (!awtsmoosJSON
+		.isAwtsmoosObject(data)) {
+		return data.toString();
 	}
-  
+
 	// Deserialize the binary folder data.
-	let folderObj = awtsmoosJSON.deserializeBinary(data);
-  
+	let folderObj = (data);
+
 	// If no further path is provided, return the entire object.
 	if (!path.length) {
-	  return withValues ? folderObj : Object.keys(folderObj);
+		return withValues ?
+			awtsmoosJSON
+			.deserializeBinary(folderObj) : 
+			
+			awtsmoosJSON.getKeysFromBinary(
+				folderObj
+			)
 	}
-  
+
 	// Traverse the folder structure down the given path.
 	for (let segment of path) {
-	  if (!(segment in folderObj)) return null; // Folder not found.
-	  let blockId = folderObj[segment];
-	  block = await readBlock({ file, blockId, metadata: false });
-	  data = block.data;
-	  await closeFile(file);
-	  if (!awtsmoosJSON.isAwtsmoosObject(data)) {
-		return data.toString();
-	  }
-	  folderObj = awtsmoosJSON.deserializeBinary(data);
+		var segmentInFolder = 
+			awtsmoosJSON
+			.getValueByKey(folderObj, segment)
+		if (!segmentInFolder)
+			return null; // Folder not found.
+		let blockId = segmentInFolder;
+		block = await readBlock({
+			file,
+			blockId,
+			metadata: false
+		});
+		data = block.data;
+		await closeFile(file);
+		if (!awtsmoosJSON
+			.isAwtsmoosObject(data)
+		) {
+			return null
+		}
+		folderObj = 
+				data
 	}
-  
-	return withValues ? folderObj : Object.keys(folderObj);
-  }
-  
-  // Helper: Given a path array (e.g. ["hi", "there"]), returns the block ID
-  // of the folder identified by that path. If the path is empty, returns 1 (root).
-  async function getFolderBlockId(file, pathArray) {
-	if (!pathArray.length) return 1; // Root folder.
+
+	return withValues ? awtsmoosJSON
+		.deserializeBinary(folderObj) :
+		awtsmoosJSON.getKeysFromBinary(
+			folderObj
+		) 
+}
+
+// Helper: Given a path array (e.g. ["hi", "there"]), returns the block ID
+// of the folder identified by that path. If the path is empty, returns 1 (root).
+async function getFolderBlockId(file,
+	pathArray) {
+	if (!pathArray.length)
+		return 1; // Root folder.
 	// For a single-level path (e.g. ["hi"]), the parent is the root.
 	if (pathArray.length === 1) {
-	  let rootFolder = await readFolder({ file, path: "/", withValues: true });
-	  return rootFolder ? rootFolder[pathArray[0]] || null : null;
+		let rootFolder =
+			await readFolder({
+				file,
+				path: "/",
+				withValues: true
+			});
+		return rootFolder ?
+			rootFolder[pathArray[
+				0]] || null : null;
 	} else {
-	  // For deeper paths, the parent folder is the one one level up.
-	  let parentPath = pathArray.slice(0, pathArray.length - 1);
-	  let parentFolder = await readFolder({ file, path: parentPath.join("/"), withValues: true });
-	  return parentFolder ? parentFolder[pathArray[pathArray.length - 1]] || null : null;
+		// For deeper paths, the parent folder is the one one level up.
+		let parentPath = pathArray
+			.slice(0, pathArray
+				.length - 1);
+		let parentFolder =
+			await readFolder({
+				file,
+				path: parentPath
+					.join("/"),
+				withValues: true
+			});
+		return parentFolder ?
+			parentFolder[pathArray[
+				pathArray
+				.length - 1]] ||
+			null : null;
 	}
-  }
-  
-  // Recursively create a folder in the virtual file system.
-  // 'path' is the folder path in which to create a new folder named 'name'.
-  // For example, if path is "/hi/there" and name is "wow", then "wow" is created inside folder "there".
-  // Missing intermediate folders are created along the way.
-  async function makeFolder({ file, path, name }) {
+}
+
+// Recursively create a folder in the virtual file system.
+// 'path' is the folder path in which to create a new folder named 'name'.
+// For example, if path is "/hi/there" and name is "wow", then "wow" is created inside folder "there".
+// Missing intermediate folders are created along the way.
+async function makeFolder({
+	file,
+	path,
+	name
+}) {
 	path = normalizePath(path);
-	if (path === null || typeof name !== "string") return null;
-  
+	if (path === null ||
+		typeof name !== "string")
+		return null;
+
 	// If path is empty, then we're writing directly to root.
 	if (!path.length) {
-	  await writeDataAtNextBlock({ file, parentFolderId: 1, name });
-	  return;
+		await writeDataAtNextBlock({
+			file,
+			parentFolderId: 1,
+			name
+		});
+		return;
 	}
-  
+
 	// Walk the path, creating intermediate folders as needed.
-	let currentPath = []; // Empty means we're at the root.
+	let
+		currentPath = []; // Empty means we're at the root.
 	for (let segment of path) {
-	  currentPath.push(segment);
-	  // Try to read the folder at the currentPath.
-	  let folder = await readFolder({ file, path: currentPath.join("/"), withValues: true });
-	  // If folder doesn't exist, create it.
-	  if (!folder) {
-		let parentId = currentPath.length === 0 ? 1 : await getFolderBlockId(file, currentPath.slice(0, currentPath.length));
-		await writeDataAtNextBlock({ file, parentFolderId: parentId, name: segment });
-	  }
+		currentPath.push(segment);
+		// Try to read the folder at the currentPath.
+		let folder =
+			await readFolder({
+				file,
+				path: currentPath
+					.join("/"),
+				withValues: true
+			});
+		// If folder doesn't exist, create it.
+		if (!folder) {
+			let parentId =
+				currentPath
+				.length === 0 ? 1 :
+				await getFolderBlockId(
+					file,
+					currentPath
+					.slice(0,
+						currentPath
+						.length));
+			await writeDataAtNextBlock
+				({
+					file,
+					parentFolderId: parentId,
+					name: segment
+				});
+		}
 	}
-  
+
 	// Now, create the target folder inside the final folder in the given path.
-	let parentId = await getFolderBlockId(file, path);
-	await writeDataAtNextBlock({ file, parentFolderId: parentId, name });
-  }
-  
-  // Recursively create a file in the virtual file system.
-  // 'path' is the folder path in which to create the file.
-  // For example, if path is "/hi/there" and name is "file.txt", then the file is created inside folder "there".
-  // Missing intermediate folders are created along the way.
-  async function makeFile({ file, path = null, name, data = "" } = {}) {
+	let parentId =
+		await getFolderBlockId(file,
+			path);
+	await writeDataAtNextBlock({
+		file,
+		parentFolderId: parentId,
+		name
+	});
+}
+
+// Recursively create a file in the virtual file system.
+// 'path' is the folder path in which to create the file.
+// For example, if path is "/hi/there" and name is "file.txt", then the file is created inside folder "there".
+// Missing intermediate folders are created along the way.
+async function makeFile({
+	file,
+	path = null,
+	name,
+	data = ""
+} = {}) {
 	path = normalizePath(path);
-	if (path === null || typeof name !== "string") return null;
-  
+	if (path === null ||
+		typeof name !== "string")
+		return null;
+
 	// If path is empty, then the file is created in the root folder.
 	if (!path.length) {
-	  await writeDataAtNextBlock({ file, parentFolderId: 1, name, data });
-	  return;
+		await writeDataAtNextBlock({
+			file,
+			parentFolderId: 1,
+			name,
+			data
+		});
+		return;
 	}
-  
+
 	// Walk the folder path, ensuring that each folder exists.
 	let currentPath = [];
 	for (let segment of path) {
-	  currentPath.push(segment);
-	  let folder = await readFolder({ file, path: currentPath.join("/"), withValues: true });
-	  if (!folder) {
-		let parentId = currentPath.length === 0 ? 1 : await getFolderBlockId(file, currentPath.slice(0, currentPath.length));
-		await writeDataAtNextBlock({ file, parentFolderId: parentId, name: segment });
-	  }
+		currentPath.push(segment);
+		let folder =
+			await readFolder({
+				file,
+				path: currentPath
+					.join("/"),
+				withValues: true
+			});
+		if (!folder) {
+			let parentId =
+				currentPath
+				.length === 0 ? 1 :
+				await getFolderBlockId(
+					file,
+					currentPath
+					.slice(0,
+						currentPath
+						.length));
+			await writeDataAtNextBlock
+				({
+					file,
+					parentFolderId: parentId,
+					name: segment
+				});
+		}
 	}
-  
+
 	// Create the file in the final folder.
-	let parentId = await getFolderBlockId(file, path);
-	await writeDataAtNextBlock({ file, parentFolderId: parentId, name, data });
-  }
-  
-  // Reads a file from the virtual file system.
-  // The file is looked up by traversing the folder structure specified by 'path',
-  // and then finding the file with the given 'name' in that folder.
-  async function readFile({ file, path = null, name } = {}) {
+	let parentId =
+		await getFolderBlockId(file,
+			path);
+	await writeDataAtNextBlock({
+		file,
+		parentFolderId: parentId,
+		name,
+		data
+	});
+}
+
+// Reads a file from the virtual file system.
+// The file is looked up by traversing the folder structure specified by 'path',
+// and then finding the file with the given 'name' in that folder.
+async function readFile({
+	file,
+	path = null,
+	name,
+	isString=true
+} = {}) {
 	path = normalizePath(path);
-	if (path === null || typeof name !== "string") return null;
-  
+	if (path === null ||
+		typeof name !== "string")
+		return null;
+
 	// Get the folder (with its children mapping) where the file should reside.
-	let folder = await readFolder({ file, path: path.join("/"), withValues: true });
-	if (!folder || !(name in folder)) return null;
+	let folder = await readFolder({
+		file,
+		path: path.join(
+			"/"),
+		withValues: true
+	});
+	if (!folder || !(name in
+			folder)) return null;
 	let fileBlockId = folder[name];
-	let block = await readBlock({ file, blockId: fileBlockId, metadata: false });
+	let block = await readBlock({
+		file,
+		blockId: fileBlockId,
+		metadata: false
+	});
 	await closeFile(file);
-	return block.data.toString();
-  }
+	return isString ? block.data.toString()
+		:block.data;
+}
 
 module.exports = {
     readBytesFromFile,
