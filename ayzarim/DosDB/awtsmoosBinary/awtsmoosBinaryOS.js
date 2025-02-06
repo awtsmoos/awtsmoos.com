@@ -8,8 +8,8 @@ var awtsmoosJSON = require("./awtsmoosBinaryJSON.js");
 
 var SUPER_BLOCK_SIZE = 38;
 var BLOCK_HEADER_SIZE = 107 - 8*3
-var BLOCK_CHAIN_HEADER_SIZE = 4 + 4 
-	+ 4 + 1
+var BLOCK_CHAIN_HEADER_SIZE = (4 + 4 
+	+ 4 + 1) - 8*3
 
 	
 var {
@@ -25,7 +25,7 @@ var magic = 4;
 async function setupEmptyFilesystem(path, {
 	magicWord='B"H\n',
 	fileSystemName = "\n\nAwtsmoos FS\n\n\n",
-	BLOCK_SIZE = 4096
+	BLOCK_SIZE = 128
 }={}) {
 	var file = await openFile(path);
 	//console.log("GOT file",file)
@@ -91,7 +91,9 @@ async function readBlock({
 		//if true follows until loads all
 }) {
 
-	
+	if(!blockId) return {
+		file
+	}
 	var {
 		offset
 	} = await getBlockOffsetFromId({
@@ -99,6 +101,19 @@ async function readBlock({
 		blockId,
 		superBlock
 	});
+	if(blockId == 3) {
+		var blockMetadata = await readBytesFromFile(
+			file,
+			offset,
+			{
+				index2: "string_16",
+				index: "uint_4",
+				lastBlockId: "uint_4"
+			})
+
+		console.log("LOL",offset,blockId,blockMetadata)
+		//return null;
+	}
 	var metadataSize = BLOCK_HEADER_SIZE;
 	var blockMetadata = await readBytesFromFile(
 		file,
@@ -113,8 +128,12 @@ async function readBlock({
 	var guessedOffset = 4 + 4 + 4 + 1 + 1;
 	var newOffset=blockMetadata;
 //	console.log("Offset new",newOffset,guessedOffset)
-	
-	if(blockMetadata.lastBlockId == 0) {
+	if(chain){ 
+	//	console.log("LOL",blockMetadata, "BLOCK id",blockId)
+	}
+	if(
+		blockMetadata.lastBlockId == 0
+	) {
 		
 			var otherMetadata = await readBytesFromFile(
 				file,
@@ -160,27 +179,42 @@ async function readBlock({
 	var allDataFromBlocks = [data];
 	var allBlockIDs = [blockId]
 	if(blockMetadata.nextBlockId) {
-		if(chain) {
-			var nextBlockId = blockMetadata.nextBlockId;
-			allBlockIDs.push(nextBlockId);
-			while(nextBlockId) {
-				var block = await readBlock({
-					file,
-					blockId: nextBlockId,
-					metadata: false,
-					superBlock,
-					chain:true
-				});
-				var nextMeta = block.metadata;
-				if(!nextMeta) break;
-				
-				nextBlockId = nextMeta?.nextBlockId;
-				allBlockIDs.push(nextBlockId);
-				allDataFromBlocks.push(block.data)
+	//	console.log("WELL",blockMetadata,chain)
+		
+		var nextBlockId = blockMetadata.nextBlockId;
+		console.log("Has next?",nextBlockId,blockId,blockMetadata,offset)
+		while(nextBlockId) {
+			var block = await readBlock({
+				file,
+				blockId: nextBlockId,
+				metadata: false,
+				superBlock,
+				chain:true
+			});
+			if(!block || !block.metadata) {
+				break;
 			}
+			var nextMeta = block.metadata;
+			if(!nextMeta) {
+				console.log("BROKNE",block)
+				break;
+			} 
+			
+			
 
+			nextBlockId = nextMeta?.nextBlockId;
+			console.log("Reading next ID",nextBlockId,allBlockIDs);
+			if(!nextBlockId) break;
+			allBlockIDs.push(nextBlockId);
+			allDataFromBlocks.push(block.data)
 		}
+
+	
+	} else if(blockMetadata.lastBlockId) {
+		console.log("WHAT no next?",blockMetadata)
 	}
+	//console.log("Got data",allDataFromBlocks.map(w=>w+"")
+//)
 
 	
 	data = Buffer.concat(allDataFromBlocks);
@@ -278,6 +312,105 @@ async function getBlockOffsetFromId({
 		superBlock,
 		blockSize
 	};
+}
+
+async function adjustNextFree({
+	file,
+	superBlock,
+	currentFreeBlock=null
+}) {
+	superBlock = superBlock 
+		|| await getSuperBlock({
+		file
+	});
+	var offsetToNextFreeBlock = magic + 2;
+	if(!currentFreeBlock) {
+		currentFreeBlock = (
+			await readBytesFromFile(
+				file,
+				offsetToNextFreeBlock, {
+					currentFreeBlock: "uint_4"
+				}
+			)
+		)?.currentFreeBlock;
+	}
+
+	if(
+		!currentFreeBlock &&
+		currentFreeBlock !== 0
+
+	) {
+		return console.log("Couldn't get free block")
+	}
+
+	if(
+		currentFreeBlock === 0
+	) {
+		return null;
+	}
+	/*
+		we're trying
+		to make this slot
+		NOT free anymore. 
+		search the chain to check
+		if any deleted ones left
+	*/
+	var offsetToNextBlock = 4 + 4;
+	var deletedId = null;
+
+	var curBlockId = currentFreeBlock;
+	while(!deletedId) {
+		var curBlock = await getBlockOffsetFromId({
+			file,
+			blockId: curBlockId,
+			superBlock
+		});
+		var nextOffset = await readBytesFromFile(
+			file,
+			curBlock.offset + 
+			offsetToNextBlock,
+			{
+				nextBlockOffset: "uint_4"
+			}
+		);
+		if(!nextOffset.nextBlockOffset) {
+			break;
+		}
+		var nextBlockId = nextOffset.nextBlockOffset;
+
+		var {
+			offset
+		} = await getBlockOffsetFromId({
+			file,
+			blockId: nextBlockId,
+			superBlock
+		});
+		var metadataExtraOffset = 4 + 
+			4 + 4;
+		var read = await readBytesFromFile(
+			file,
+			offset + metadataExtraOffset,
+			{isDeleted: "uint_1"}
+		);
+		if(read.isDeleted) {
+			deletedId = nextBlockId;
+			break;
+		} else {
+			curBlockId = nextBlockId;
+		}
+	}
+
+	var freeIdToWrite = deletedId || 0;
+	var offsetToGetToFree = 2;
+	var deleteBlock = await writeBytesToFile(
+		file,
+		magic + 
+		offsetToGetToFree, [
+			{uint_4: freeIdToWrite}
+		]
+	);
+	await closeFile(deleteBlock.file)
+
 }
 
 async function updateSuperblockUsedBlocks({
@@ -404,6 +537,10 @@ async function writeDataAtNextBlock({
 			superBlock.deletedBlocks = deletedBlocks
 			superBlock.usedBlocks = usedBlocks;
 
+			var ad = await adjustNextFree({
+				file,
+				superBlock
+			})
 			
 		}
 		
@@ -417,7 +554,15 @@ async function writeDataAtNextBlock({
 
 	var remainingSize = blockSize - size;
 
-	//console.log("SIZE",size,blockSize)
+	//console.log("SIZE",size,blockSize, remainingSize)
+	if(remainingSize < 1) {
+		console.log("ISSUE");
+		return {
+			index: selfIndex,
+			superBlock,
+			file
+		}
+	}
 	var buf = Buffer.alloc(remainingSize);
 	var shouldWriteNext = false;
 	if(data.length > remainingSize) {
@@ -430,11 +575,12 @@ async function writeDataAtNextBlock({
 		
 		shouldWriteNext = remainder;
 		
+		//console.log("Remaining",firstPart+"", "___", remainder+"")
 
 
 	}
 	
-
+	var selfIndex = index;
 	if(shouldWriteNext) {
 		var next = await writeDataAtNextBlock({
 			file,
@@ -449,6 +595,7 @@ async function writeDataAtNextBlock({
 		if(next.superBlock) {
 			superBlock = next.superBlock;
 		}
+		console.log("REMANDER",index,next)
 		//await closeFile(next.file)
 		/*
 			update the nextBlockId here
@@ -458,6 +605,13 @@ async function writeDataAtNextBlock({
 			data = Buffer.from(data);
 		}
 		data?.copy?.(buf);
+		if(!isFirstBlockOfData) {
+			console.log("LAST ONE TO GO", index,data.length,buf.length, remainingSize,data+"",buf+
+
+				"",
+				offset
+			)
+		}
 	}
 
 	//console.log("LOL",index,superBlock,blockSize,firstBlockOffset)
@@ -465,7 +619,7 @@ async function writeDataAtNextBlock({
 	
 	if(isFirstBlockOfData) {
 	//	console.log("FILE",file)
-	if(!file) console.log("No file here",123)
+		if(!file) console.log("No file here",123)
 		/*
 			index: "uint_4",
 			lastBlockId: "uint_4",
@@ -509,19 +663,26 @@ async function writeDataAtNextBlock({
 			]
 		);
 	} else {
-
+		if(nextIndex) {
+			console.log(
+				"Part of CHAIN",
+				nextIndex,
+				index,
+				lastBlockId
+			)
+		}
 		newBlock = await writeBytesToFile(
 			file,
 			offset,
 			[
 				{uint_4: index}, //blockID / index
 				{uint_4: lastBlockId},//lastBlockId
-				{uint_4: 0}, //nextBlock, if part of chain
+				{uint_4: nextIndex}, //nextBlock, if part of chain
 				{uint_1: 0}, //isDeleted, 0 means no
 			]
 		);
 	}
-	var selfIndex = index;
+	
 
 	//console.log("WHAT",newBlock,offset,superBlock)
 	
@@ -533,6 +694,7 @@ async function writeDataAtNextBlock({
 		offsetOfDataToWrite,
 		buf
 	);
+	
 
 	if(parentFolderId) {
 		/**
@@ -556,13 +718,27 @@ async function writeDataAtNextBlock({
 		
 	}
 	
-	 ;
+	var meta = await readBytesFromFile(
+		file,
+		offset,
+		{
+			index: "uint_4",
+			lastBlockId: "uint_4",
+			nextIndex: "uint_4",
+			isDeleted: "uint_1"
+		}
+	)
 	await closeFile(blockData.file)
 	await closeFile(newBlock.file)
 	return {
 		index: selfIndex,
 		superBlock,
-		file
+		file,
+		dataLength: data.length,
+		nextIndex,
+		lastBlockId,
+		offset,
+		meta
 	}
 	
 
@@ -595,10 +771,11 @@ async function deleteEntry({
 			offset + metadataExtraOffset,
 			{uint_1: 1}
 		);
-		await closeFile(wrote)
+		
 		deleted++;
 
 	}
+	await closeFile(file)
 	var offsetToGetToFree = 2;
 	var undelete = await writeBytesToFile(
 		file,
@@ -673,6 +850,7 @@ async function updateParentFolder({
 		parentFolderId,
 		name
 	} = data;
+	
 	var is = awtsmoosJSON.isAwtsmoosObject(data);
 	var ob = null;
 	if(is) {
@@ -681,29 +859,21 @@ async function updateParentFolder({
 		)
 	}
 	if(!is) {
+		var des = awtsmoosJSON.deserializeBinary(data)
+		//console.log("TEST 1",des,data,folderId)
 		ob = {};
 
 	}
+	
 	var nam = newChildName;
 	if(!ob[nam]) {
 		ob[nam] = newChildId;
-	} else {
-		var times = 0;
-		while(ob[nam]) {
-			times++;
-			nam = newChildName + ` (${
-				times
-			})`;
-			if(!ob[nam]) {
-				ob[nam] = newChildId;
-				break;
-			}
-		}
 	}
-	//console.log("MAKING",ob)
 	var serialized = awtsmoosJSON.serializeJSON(ob);
 	var des = awtsmoosJSON.deserializeBinary(serialized)
-	//console.log("TEST",des)
+	//console.log("TEST 2",des)
+	//console.log("MAKING",ob)
+	
 	var del = await deleteEntry({
 		file,
 		blockId: folderId,
