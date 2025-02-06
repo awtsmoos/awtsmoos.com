@@ -105,6 +105,13 @@ asdfghjkl
         name: "wow2.js"
     })
     console.log("FILE",redFile)
+
+    var redFile = await os.readFile({
+        file: pth,
+        path: "/",
+        name: "wow3.js"
+    })
+    console.log("FILE",redFile)
     
     
 })()
