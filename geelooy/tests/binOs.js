@@ -90,7 +90,7 @@ asdfghjkl
         metadata:false
     });
 
-    console.log(b,"Block 4 read!!!!!!!!!!!!!!!!!")
+    console.log(b.data+"","Block 4 read!!!!!!!!!!!!!!!!!")
     
     var redFile = await os.readFile({
         file: pth,

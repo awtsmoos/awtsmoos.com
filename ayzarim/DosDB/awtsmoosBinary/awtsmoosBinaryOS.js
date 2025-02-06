@@ -9,7 +9,7 @@ var awtsmoosJSON = require("./awtsmoosBinaryJSON.js");
 var SUPER_BLOCK_SIZE = 38;
 var BLOCK_HEADER_SIZE = 107 - 8*3
 var BLOCK_CHAIN_HEADER_SIZE = (4 + 4 
-	+ 4 + 1) - 8*3
+	+ 4 + 1 + 1)
 
 	
 var {
@@ -101,19 +101,7 @@ async function readBlock({
 		blockId,
 		superBlock
 	});
-	if(blockId == 3) {
-		var blockMetadata = await readBytesFromFile(
-			file,
-			offset,
-			{
-				index2: "string_16",
-				index: "uint_4",
-				lastBlockId: "uint_4"
-			})
 
-		console.log("LOL",offset,blockId,blockMetadata)
-		//return null;
-	}
 	var metadataSize = BLOCK_HEADER_SIZE;
 	var blockMetadata = await readBytesFromFile(
 		file,
@@ -169,54 +157,44 @@ async function readBlock({
 			file
 		})
 	}
-	var datasize = superBlock.blockSize 
-		- metadataSize;
-	var data = await readBytesFromFile(
-		file,
-		offset + metadataSize,
-		datasize
-	);
+	var datasize = superBlock.blockSize - metadataSize;
+	var data = await readBytesFromFile(file, offset + metadataSize, datasize);
 	var allDataFromBlocks = [data];
-	var allBlockIDs = [blockId]
-	if(blockMetadata.nextBlockId) {
-	//	console.log("WELL",blockMetadata,chain)
-		
-		var nextBlockId = blockMetadata.nextBlockId;
-		console.log("Has next?",nextBlockId,blockId,blockMetadata,offset)
-		while(nextBlockId) {
-			var block = await readBlock({
-				file,
-				blockId: nextBlockId,
-				metadata: false,
-				superBlock,
-				chain:true
-			});
-			if(!block || !block.metadata) {
-				break;
-			}
-			var nextMeta = block.metadata;
-			if(!nextMeta) {
-				console.log("BROKNE",block)
-				break;
-			} 
-			
-			
+	var allBlockIDs = [blockId];
+	var allDataFromBlocks = [data]; // Start with the first block's data
+	var nextBlockId = blockMetadata.nextBlockId;
+	var block = null
+	while (nextBlockId) {
+		block = await readBlock({
+			file,
+			blockId: nextBlockId,
+			metadata: false,
+			superBlock,
+			chain: true,
+		});
 
-			nextBlockId = nextMeta?.nextBlockId;
-			console.log("Reading next ID",nextBlockId,allBlockIDs);
-			if(!nextBlockId) break;
+		if (!block || !block.metadata) break;
+
+		nextBlockId = block.metadata.nextBlockId;
+
+		// Push block data **only if it's NOT the last block**
+		if (nextBlockId !== 0) {
+			allDataFromBlocks.push(block.data);
 			allBlockIDs.push(nextBlockId);
-			allDataFromBlocks.push(block.data)
 		}
-
-	
-	} else if(blockMetadata.lastBlockId) {
-		console.log("WHAT no next?",blockMetadata)
 	}
-	//console.log("Got data",allDataFromBlocks.map(w=>w+"")
-//)
 
-	
+
+	if(block) {
+		// **Manually add the last block's data once if it hasn't been added**
+		if (nextBlockId === 0 && !allDataFromBlocks.includes(block.data)) {
+			console.log("DATA",block.data+"",blockId,allBlockIDs)
+			allDataFromBlocks.push(block.data);
+		}
+	}
+
+
+
 	data = Buffer.concat(allDataFromBlocks);
 	await closeFile(file);
 	return {
@@ -224,21 +202,10 @@ async function readBlock({
 		file,
 		superBlock,
 		metadata: blockMetadata,
-		allBlockIDs
-	}
-
-
-	
-	
-
-
-
-
-		/*
-
-		*/
-	
+		allBlockIDs 
+	};
 }
+
 
 async function getNextFreeBlockIndex({
 	file,
@@ -606,7 +573,7 @@ async function writeDataAtNextBlock({
 		}
 		data?.copy?.(buf);
 		if(!isFirstBlockOfData) {
-			console.log("LAST ONE TO GO", index,data.length,buf.length, remainingSize,data+"",buf+
+			console.log("LAST ONE TO GO", index,data.length,buf.length, remainingSize,buf+
 
 				"",
 				offset
@@ -679,6 +646,10 @@ async function writeDataAtNextBlock({
 				{uint_4: lastBlockId},//lastBlockId
 				{uint_4: nextIndex}, //nextBlock, if part of chain
 				{uint_1: 0}, //isDeleted, 0 means no
+				{
+					uint_1: fileTypeMap[type]
+
+				},
 			]
 		);
 	}
