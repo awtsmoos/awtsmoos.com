@@ -7,10 +7,11 @@ var awtsmoosJSON = require("./awtsmoosBinaryJSON.js");
  */
 
 var SUPER_BLOCK_SIZE = 38;
-var BLOCK_HEADER_SIZE = 107
+var BLOCK_HEADER_SIZE = 107 - 8*3
 var BLOCK_CHAIN_HEADER_SIZE = 4 + 4 
 	+ 4 + 1
-const { read } = require('fs');
+
+	
 var {
 
   readBytesFromFile,
@@ -64,7 +65,7 @@ async function setupEmptyFilesystem(path, {
 async function getSuperBlock({
 	file
 }={}) {
-	return await readBytesFromFile(
+	var superB = await readBytesFromFile(
 		file,
 		magic,//magic word size
 		{
@@ -77,6 +78,8 @@ async function getSuperBlock({
 			name: "string_16"
 		}
 	);
+	await closeFile(file);
+	return superB;
 }
 
 async function readBlock({
@@ -87,6 +90,8 @@ async function readBlock({
 	chain=false//only reads first block
 		//if true follows until loads all
 }) {
+
+	
 	var {
 		offset
 	} = await getBlockOffsetFromId({
@@ -105,20 +110,21 @@ async function readBlock({
 			isDeleted: "uint_1",
 			type: "uint_1",
 		})
-	
-		
+	var guessedOffset = 4 + 4 + 4 + 1 + 1;
+	var newOffset=blockMetadata;
+//	console.log("Offset new",newOffset,guessedOffset)
 	
 	if(blockMetadata.lastBlockId == 0) {
 		
 			var otherMetadata = await readBytesFromFile(
 				file,
-				offset + 4 + 4 + 4 + 1, 
+				offset + guessedOffset, 
 				{
 					
 					parentFolderId: "uint_4",
-					createdAt: "uint_8",
+					/*createdAt: "buffer_8",//"uint_8",
 					modifiedAt: "uint_8",
-					accessedAt: "uint_8",
+					accessedAt: "uint_8",*/
 					permissions: "uint_1",
 					name: "string_64"
 				
@@ -133,7 +139,10 @@ async function readBlock({
 	} else {
 		metadataSize = BLOCK_CHAIN_HEADER_SIZE
 	}
+
 	if(metadata) {
+		await closeFile(file)
+		blockMetadata.file=file;
 		return blockMetadata;
 	}
 	if(!superBlock) {
@@ -143,7 +152,6 @@ async function readBlock({
 	}
 	var datasize = superBlock.blockSize 
 		- metadataSize;
-	console.log("Data",superBlock.blockSize,metadataSize)
 	var data = await readBytesFromFile(
 		file,
 		offset + metadataSize,
@@ -176,7 +184,7 @@ async function readBlock({
 
 	
 	data = Buffer.concat(allDataFromBlocks);
-	console.log("RETURNING file",file)
+	await closeFile(file);
 	return {
 		data,
 		file,
@@ -203,7 +211,6 @@ async function getNextFreeBlockIndex({
 	index = null,
 	superBlock
 } = {}) {
-	
 	superBlock = superBlock || 
 		await getSuperBlock({
 			file
@@ -214,7 +221,9 @@ async function getNextFreeBlockIndex({
 		firstBlockOffset,
 		totalDataBlocks,
 		blockSize
-	 } = superBlock;;
+	} = superBlock;;
+	
+		
 
 	
 	var offset = null;
@@ -224,7 +233,7 @@ async function getNextFreeBlockIndex({
 	if(index === 0) {/**
 		no free blocks so add to end
 		after all blocks that have ever been made
-		 */
+		*/
 		offset =  firstBlockOffset +
 		(totalDataBlocks) * blockSize;
 		isNewBlock = true;
@@ -232,9 +241,10 @@ async function getNextFreeBlockIndex({
 	} else {
 		//find the exact index to write to
 		offset = firstBlockOffset + 
-		index * blockSize;
+		(index-1) * blockSize;
 		id = index;
 	}
+
 	return {
 		index,
 		offset,
@@ -285,6 +295,7 @@ async function updateSuperblockUsedBlocks({
 			{uint_4: deletedBlocks}
 		]
 	)
+	await closeFile(wr.file);
 	return wr;
 }
 async function updateSuperblockTotalBlocks({
@@ -302,11 +313,13 @@ async function updateSuperblockTotalBlocks({
 	 */
 	var superblockTotalDataBlocksOffset = magic +
 		2 + 4 + 4;
+	if(!file) console.log("No file here sup")
 	var wr = await writeBytesToFile(
 		file,
 		superblockTotalDataBlocksOffset, 
 		{uint_4: totalDataBlocks}
 	);
+	await closeFile(wr.file)
 	return wr;
 
 }
@@ -327,12 +340,13 @@ async function writeDataAtNextBlock({
 	data="",
 
 }={}) {
-	console.log("File!",file)
+	
 	if(isFirstBlockOfData) {
 		if(!name) name = "New "
 		+ type + " " + Date.now();
 	}
 	if(name > 64) name = name.substring(0, 64);
+	if(!file) console.log("No file here wrti")
 	var {
 		offset,
 		index,
@@ -351,25 +365,34 @@ async function writeDataAtNextBlock({
 		usedBlocks,
 		deletedBlocks
 	} = superBlock;
-	console.log("DID file",file)
+	
+	
 	if(isNewBlock) {
 		totalDataBlocks++;
+		if(!file) console.log("No file here asd")
 		var up =await updateSuperblockTotalBlocks({
 			file,
 			totalDataBlocks
 		})
 		superBlock
-			.totalDataBlocks = totalDataBlocks
+			.totalDataBlocks = totalDataBlocks;
+			
 	///	console.log("Update",up,superBlock)
 	} else {
-		var {
-			isDeleted,
-			file
-		} = await readBlock({
+		if(!file) console.log("No file here", 2323)
+		var existingBlock = await readBlock({
 			file,
 			blockId: index,
 			superBlock
 		});
+		var {
+			isDeleted,
+			file
+		} = existingBlock
+
+		//console.log("Read block", existingBlock,"from",name,index)
+
+		if(!file) console.log("No file here",3212123)
 		if(isDeleted) {
 			deletedBlocks--;
 			usedBlocks++;
@@ -380,17 +403,21 @@ async function writeDataAtNextBlock({
 			});
 			superBlock.deletedBlocks = deletedBlocks
 			superBlock.usedBlocks = usedBlocks;
+
+			
 		}
-		console.log("FILING",file)
+		
 		var f = await closeFile(file);
-		console.log("CLOSED IT ALL ",f)
 	}
+
 	var nextIndex = 0; //last in chain
 	var size = isFirstBlockOfData ?
 		BLOCK_HEADER_SIZE :
 		BLOCK_CHAIN_HEADER_SIZE;
 
-	var remainingSize = blockSize - size
+	var remainingSize = blockSize - size;
+
+	//console.log("SIZE",size,blockSize)
 	var buf = Buffer.alloc(remainingSize);
 	var shouldWriteNext = false;
 	if(data.length > remainingSize) {
@@ -435,8 +462,28 @@ async function writeDataAtNextBlock({
 
 	//console.log("LOL",index,superBlock,blockSize,firstBlockOffset)
 	var newBlock = null;
-	console.log("BLOCK ",file)
+	
 	if(isFirstBlockOfData) {
+	//	console.log("FILE",file)
+	if(!file) console.log("No file here",123)
+		/*
+			index: "uint_4",
+			lastBlockId: "uint_4",
+			nextBlockId: "uint_4",
+			isDeleted: "uint_1",
+			type: "uint_1",
+
+
+			parentFolderId: "uint_4",
+			lastBlockId: "uint_4",
+			nextBlockId: "uint_4",
+			createdAt: "buffer_8",//"uint_8",
+			modifiedAt: "uint_8",
+			accessedAt: "uint_8",
+			permissions: "buffer_1",////"uint_1",
+			name: "string_64"
+				
+	*/
 		newBlock = await writeBytesToFile(
 			file,
 			offset,
@@ -451,16 +498,18 @@ async function writeDataAtNextBlock({
 				}, //type (folder or file)
 				{uint_4: parentFolderId},
 				
-				{uint_8: Date.now()},//created at time
+				/*{uint_8: Date.now()},//created at time
 				{uint_8: Date.now()},//modified at
 				{uint_8:Date.now()},//accessed at
-				{uint_1: 0},//permissions
+				*/
+				{uint_1: 1},//permissions
 
 				{string_64: name}, //name of entry
 				
 			]
 		);
 	} else {
+
 		newBlock = await writeBytesToFile(
 			file,
 			offset,
@@ -477,7 +526,7 @@ async function writeDataAtNextBlock({
 	//console.log("WHAT",newBlock,offset,superBlock)
 	
 	var offsetOfDataToWrite = newBlock.offset;
-	
+	if(!file) console.log("No file here newblock")
 	//console.log("writing empty data",blockSize-size,size)
 	var blockData = await writeBytesToFile(
 		file,
@@ -508,8 +557,8 @@ async function writeDataAtNextBlock({
 	}
 	
 	 ;
-	closeFile(blockData.file)
-	closeFile(newBlock.file)
+	await closeFile(blockData.file)
+	await closeFile(newBlock.file)
 	return {
 		index: selfIndex,
 		superBlock,
@@ -546,6 +595,7 @@ async function deleteEntry({
 			offset + metadataExtraOffset,
 			{uint_1: 1}
 		);
+		await closeFile(wrote)
 		deleted++;
 
 	}
@@ -557,6 +607,7 @@ async function deleteEntry({
 			{uint_4: allBlockIDs[0]}
 		]
 	);
+	await closeFile(undelete)
 	superBlock.nextFreeBlock = allBlockIDs[0]
 	var offsetToUsed = 2  +
 		4 + 4 + 4
@@ -568,6 +619,7 @@ async function deleteEntry({
 			deletedBlocks: "uint_4"
 		}
 	)
+	await closeFile(sup.file)
 	if(sup.usedBlocks > 0) {
 		sup.usedBlocks--;
 	}
@@ -579,6 +631,7 @@ async function deleteEntry({
 			{uint_4: sup.deletedBlocks}
 		]
 	)
+	await closeFile(file)
 	
 	
 	if(superBlock) {
@@ -613,6 +666,9 @@ async function updateParentFolder({
 	var {
 		data
 	} = folderBlock;
+
+	var folderName = folderBlock?.metadata.name
+	
 	var {
 		parentFolderId,
 		name
@@ -644,8 +700,10 @@ async function updateParentFolder({
 			}
 		}
 	}
+	//console.log("MAKING",ob)
 	var serialized = awtsmoosJSON.serializeJSON(ob);
-	
+	var des = awtsmoosJSON.deserializeBinary(serialized)
+	//console.log("TEST",des)
 	var del = await deleteEntry({
 		file,
 		blockId: folderId,
@@ -656,10 +714,20 @@ async function updateParentFolder({
 	var write = await writeDataAtNextBlock({
 		file,
 		type:"folder",
-		name,
+		name: folderName,
 		data:serialized,
 		index: folderId
+	});
+	//console.log("WROTE",write)
+	var data = await readBlock({
+		file,
+		blockId: write.index,
+		metadata:false
 	})
+	var desagain = awtsmoosJSON.deserializeBinary(
+		data.data
+	)
+	//console.log("Read",desagain)
 	await closeFile(write.file);
 	return write;
 	//folderId
@@ -682,7 +750,8 @@ function normalizePath(path) {
 
 async function readFolder({
 	file,
-	path
+	path,
+	withValues=false
 }) {
 	path = normalizePath(path);
 
@@ -703,22 +772,30 @@ async function readFolder({
 		file
 	} = rootFolder;
 	await closeFile(file);
+	//console.log("TRYING",rootFolder)
 	var ob = null;
 	if(!awtsmoosJSON.isAwtsmoosObject(data)) {
 		
-		return null;
+		return data.toString();
 	}
 /*	ob = awtsmoosJSON.deserializeBinary(
 		data
 	);*/
 	if(getRootKeys) {
-		return awtsmoosJSON.getKeysFromBinary(
-			data
-		)
+		if(!withValues)
+			return awtsmoosJSON.getKeysFromBinary(
+				data
+			)
+		else {
+			return awtsmoosJSON.deserializeBinary(
+				data
+			)
+		}
 	} else {
-		var fold = awtsmoosJSON.getValueByKey(
+		var foldId = awtsmoosJSON.getValueByKey(
 			name
 		);
+		
 	
 		
 	}
@@ -777,6 +854,40 @@ async function makeFile({
 
 }
 
+
+async function readFile({
+	file/*database file*/,
+	path=null,
+	name
+}={}) {
+	path = normalizePath(path);
+	if(!path) return null;
+
+	if(typeof(name) != "string") {
+		return null;
+	}
+	if(!path.length) {
+		var parentFolder = await readFolder({
+			file,
+			path: "/",
+			withValues: true
+		});
+		var me = parentFolder?.[name];
+		if(!me) return null;
+		var fileBlock = await readBlock({
+			file,
+			blockId: me,
+			metadata:false
+		});
+		await closeFile(file);
+		return fileBlock?.data?.toString();
+		
+	}
+
+
+}
+
+
 module.exports = {
     readBytesFromFile,
     writeBytesToFile,
@@ -785,5 +896,6 @@ module.exports = {
 	readBlock,
 	makeFolder,
 	makeFile,
-	readFolder
+	readFolder,
+	readFile
 }

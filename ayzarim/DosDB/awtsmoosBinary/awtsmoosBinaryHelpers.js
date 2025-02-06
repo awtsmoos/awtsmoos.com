@@ -14,31 +14,31 @@ function logBuffer(buffer, base = 10, columns = 8) {
 }
 function readUIntFromBuffer(buffer) {
     switch (buffer.length) {
-        case 0: 
+        case 0:
             return 0;
         case 1:
             return buffer.readUInt8(0);
         case 2:
-            return buffer.readUInt16LE(0);
-        case 3: 
-            return buffer[0] | (buffer[1] << 8) | (buffer[2] << 16);
+            return buffer.readUInt16BE(0);
+        case 3:
+            return (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
         case 4:
-            return buffer.readUInt32LE(0);
+            return buffer.readUInt32BE(0);
         case 5:
-            return buffer.readUInt32LE(0) |
-             (buffer[4] << 32);
+            // No BigInt, manual calculation for 5 bytes
+            return (buffer.readUInt32BE(0) * 0x100) + buffer[4];
         case 6:
-            return buffer.readUInt32LE(0) | 
-            (buffer[4] << 32) | (buffer[5] << 40);
+            // No BigInt, manual calculation for 6 bytes
+            return (buffer.readUInt32BE(0) * 0x10000) + (buffer[4] << 8) + buffer[5];
         case 7:
-            return buffer.readUInt32LE(0) | 
-            (buffer[4] << 32) | 
-            (buffer[5] << 40) | 
-            (buffer[6] << 48);
+            // No BigInt, manual calculation for 7 bytes
+            return (buffer.readUInt32BE(0) * 0x1000000) + (buffer[4] << 16) + (buffer[5] << 8) + buffer[6];
         case 8:
-            return buffer.readUInt32LE(0) + buffer.readUInt32LE(4) * 0x100000000;
+            // Manual calculation for 8 bytes (limited to 53-bit precision)
+            return (buffer.readUInt32BE(0) * 0x100000000) + buffer.readUInt32BE(4);
         default:
             console.log("Unsupported buffer size", buffer);
+            return null;
     }
 }
 
@@ -51,13 +51,13 @@ function writeUIntToBuffer(buffer, value, byteSize, offset=0) {
             buffer.writeUInt8(value, offset);
             break;
         case 2:
-            buffer.writeUInt16LE(value, offset);
+            buffer.writeUInt16BE(value, offset);
             break;
         case 4:
-            buffer.writeUInt32LE(value, offset);
+            buffer.writeUInt32BE(value, offset);
             break;
         case 8:
-            writeUInt64LE(buffer, value, offset);
+            writeUInt64BE(buffer, value, offset);
             break;
         default:
             throw new Error("Unsupported byte size");
@@ -68,7 +68,11 @@ function writeUIntToBuffer(buffer, value, byteSize, offset=0) {
 
 var types = {
     uint_: (buf) => readUIntFromBuffer(buf),
-    string_: buf => buf?.toString(),
+    string_: (buf, shouldTrim) => 
+        
+        (shouldTrim ? 
+            trimBuffer(buf) : buf
+        )?.toString(),
     buffer_: buf => buf
 }
 
@@ -141,6 +145,16 @@ function getBuffers(struct, getValue = true) {
 }
 async function readBytesFromFile(filePath, offset, struct) {
     try {
+        var realPath = null;
+        if(
+            filePath?.awtsmoosPath && 
+            filePath?.awtsmoosClosed
+        ) {
+            realPath = filePath.awtsmoosPath;
+            filePath = realPath;
+        
+        }
+        
 		// Open the file for reading
 		const fileHandle = typeof(
 			filePath
@@ -169,12 +183,15 @@ async function readBytesFromFile(filePath, offset, struct) {
 			//  console.log("va",val,key,currentByte,size)
 				var buf = buffer.subarray(currentByte, currentByte + size);
 				var mod = typeof(val.func) == "function" ?
-					val.func(buf) : buf;
+					val.func(buf, true) : buf;
 				bufferMap[key] = mod;
+               
+             /*   if(key == "permissions")
+                console.log("Val",val,mod,size)*/
 				currentByte += size;
 			}
 		
-			
+			await closeFile(fileHandle);
 			return bufferMap;
 		} else if(typeof(struct) == "number") {
 			try {
@@ -182,7 +199,8 @@ async function readBytesFromFile(filePath, offset, struct) {
                 
 				const buffer = Buffer.alloc(struct);
 				await fileHandle.read(buffer, 0, struct, offset);
-				return buffer;
+				await closeFile(fileHandle);
+                return buffer;
 			} catch(e){
 				console.log(e);
 			}
@@ -192,31 +210,45 @@ async function readBytesFromFile(filePath, offset, struct) {
     }
   }
 
-	function numberToBuffer(num, size = null) {
-		if (typeof num !== "number" || !Number.isInteger(num) || num < 0) {
-			throw new TypeError("Input must be a non-negative integer.");
-		}
+  function trimBuffer(buffer) {
+    let i = buffer.length - 1;
+    
+    // Find the last non-zero byte
+    while (i >= 0 && buffer[i] === 0) {
+        i--;
+    }
+    
+    // Slice the buffer up to the last non-zero byte
+    return buffer.slice(0, i + 1);
+}
+  //BE
+    function numberToBuffer(num, size = null) {
+        if (typeof num !== "number" || !Number.isInteger(num) || num < 0) {
+            throw new TypeError("Input must be a non-negative integer.");
+        }
 
-		let bytes = [];
+        let bytes = [];
 
-		while (num > 0) {
-			bytes.push(num & 0xFF); // Get the least significant byte
-			num = Math.floor(num / 256); // Shift right by 8 bits (division by 256)
-		}
+        // Extract each byte, starting with the most significant byte (Big-Endian)
+        while (num > 0) {
+            bytes.unshift(num & 0xFF); // Get the most significant byte
+            num = Math.floor(num / 256); // Shift right by 8 bits (division by 256)
+        }
 
-		if (bytes.length === 0) {
-			bytes.push(0); // Ensure at least one byte for the number 0
-		}
+        if (bytes.length === 0) {
+            bytes.push(0); // Ensure at least one byte for the number 0
+        }
 
-		// If `size` is provided and greater than current length, pad with zeros
-		if (size !== null && Number.isInteger(size) && size > bytes.length) {
-			while (bytes.length < size) {
-				bytes.push(0); // Pad with trailing zeros (Little-Endian)
-			}
-		}
+        // If `size` is provided and greater than current length, pad with zeros
+        if (size !== null && Number.isInteger(size) && size > bytes.length) {
+            while (bytes.length < size) {
+                bytes.unshift(0); // Pad with leading zeros (Big-Endian)
+            }
+        }
 
-		return Buffer.from(size === null ? bytes : bytes.slice(0, size)); // No reverse()
-	}
+        return Buffer.from(size === null ? bytes : bytes.slice(0, size)); // No need to reverse
+    }
+
   function bufferize(data, size) {
 	//console.log("Writing",data)
 	if(!data && data !== 0) return null;
@@ -287,23 +319,23 @@ async function readBytesFromFile(filePath, offset, struct) {
       
 	  
       // Combine all buffers into one single buffer to write
-      
+      var realPath = null;
       if(
         filePath?.awtsmoosPath && 
         filePath?.awtsmoosClosed
     ) {
-        console.log("WHAT?",filePath)
-       // filePath = fileHandle.awtsmoosPath;
+        realPath = filePath.awtsmoosPath;
+        filePath = realPath;
+       
       }
-      if(typeof(filePath) == "string") {
-        console.log("Str",filePath,data)
-      }
+      
       // Open the file for writing
-      var fileHandle = typeof(filePath) == "string" ?
-        await openFile(filePath) : 
-        filePath;
+      var fileHandle = 
+        typeof(filePath) == "string" ?
+            await openFile(filePath) : 
+            filePath;
      if(!fileHandle) {
-        console.log("Not working",data, filePath);
+        console.log("Not working",data, filePath,);
         return {
             offset: newOffset,
             size: data.legth,
@@ -317,7 +349,8 @@ async function readBytesFromFile(filePath, offset, struct) {
   
      // await fileHandle.close();
 
-      var newOffset = offset + data.length
+      var newOffset = offset + data.length;
+      await closeFile(fileHandle);
       return {
 		offset:newOffset,
 		size: data.length,
@@ -332,7 +365,6 @@ async function readBytesFromFile(filePath, offset, struct) {
   async function closeFile(fh) {
    
     if(!fh) {
-        console.log("What is this",fh)
         return;
     }
 	var fh1 = await fh?.close?.();
@@ -367,14 +399,14 @@ async function readBytesFromFile(filePath, offset, struct) {
     return fh;
   }
 
-function readUInt64LE(buf, offset = 0) {
-    let low = buf.readUInt32LE(offset);       // Read lower 32 bits
-    let high = buf.readUInt32LE(offset + 4);  // Read upper 32 bits
+function readUInt64BE(buf, offset = 0) {
+    let low = buf.readUInt32BE(offset);       // Read lower 32 bits
+    let high = buf.readUInt32BE(offset + 4);  // Read upper 32 bits
 
     return high * 0x100000000 + low; // Combine both 32-bit parts
 }
 
-function writeUInt64LE(buf, value, offset = 0) {
+function writeUInt64BE(buf, value, offset = 0) {
     if (value < 0 || value > Number.MAX_SAFE_INTEGER) {
         throw new RangeError("Value must be between 0 and 2^53-1");
     }
@@ -382,8 +414,8 @@ function writeUInt64LE(buf, value, offset = 0) {
     let low = value % 0x100000000; // Lower 32 bits
     let high = Math.floor(value / 0x100000000); // Upper 32 bits
 
-    buf.writeUInt32LE(low, offset);      // Write lower 32 bits (4 bytes)
-    buf.writeUInt32LE(high, offset + 4); // Write upper 32 bits (4 bytes)
+    buf.writeUInt32BE(low, offset);      // Write lower 32 bits (4 bytes)
+    buf.writeUInt32BE(high, offset + 4); // Write upper 32 bits (4 bytes)
 }
 
 function hasDecimal(num) {
@@ -416,27 +448,27 @@ function readConditional(buffer, offset=0) {
 
         break;
         case 1:
-            am = buffer.readUInt16LE(offset);
+            am = buffer.readUInt16BE(offset);
             offset+=2;
             size = 2
         break;
         case 2:
-            am = buffer.readUInt32LE(offset);
+            am = buffer.readUInt32BE(offset);
             offset+=4
             size = 4
         break;
         case 3:
-            am = readUInt64LE(buffer,offset)
+            am = readUInt64BE(buffer,offset)
             offset+=8
             size = 8
         break;
         case 4:
-            am = buffer.readFloatLE(offset);
+            am = buffer.readFloatBE(offset);
             offset += 4;
             size = 4
         break;
         case 5:
-            am = buffer.readDoubleLE(offset);
+            am = buffer.readDoubleBE(offset);
             offset += 8;
             size = 8
         break;
@@ -462,7 +494,7 @@ function writeConditional(amount) {
 
             size = 8;
             amountBuffer = Buffer.alloc(8);
-            amountBuffer.writeDoubleLE(amount, 0);
+            amountBuffer.writeDoubleBE(amount, 0);
             
         } else {
             typeBuffer = Buffer.alloc(1);
@@ -470,7 +502,7 @@ function writeConditional(amount) {
 
             size = 4;
             amountBuffer = Buffer.alloc(4);
-            amountBuffer.writeFloatLE(amount, 0);
+            amountBuffer.writeFloatBE(amount, 0);
         }
     } else if(amount < 256) {
         typeBuffer = Buffer.alloc(1);
@@ -487,7 +519,7 @@ function writeConditional(amount) {
 
         size = 2;
         amountBuffer = Buffer.alloc(2);
-        amountBuffer.writeUInt16LE(amount, 0);
+        amountBuffer.writeUInt16BE(amount, 0);
 
       
     } else if(amount >= 65536 && amount <= 4294967296) {
@@ -496,7 +528,7 @@ function writeConditional(amount) {
 
         size = 4;
         amountBuffer = Buffer.alloc(4);
-        amountBuffer.writeUInt32LE(amount, 0);
+        amountBuffer.writeUInt32BE(amount, 0);
     } else if(
         amount >= 4294967296 && amount <= 18446744073709552000n
     ) {
@@ -505,7 +537,7 @@ function writeConditional(amount) {
 
         size = 8;
         amountBuffer = Buffer.alloc(8);
-        writeUInt64LE(amountBuffer, amount, 0);
+        writeUInt64BE(amountBuffer, amount, 0);
     }
     var buffer = Buffer.concat([
         typeBuffer,
@@ -536,7 +568,7 @@ function byteLengthToSize(byteLength) {
 
 function hashKey(key, size) {
     let hash = crypto.createHash('md5').update(key).digest();
-    return hash.readUInt32LE(0) % size;
+    return hash.readUInt32BE(0) % size;
 }
 
 function writeBitAt(byte, index) {
@@ -573,7 +605,19 @@ function splitData(data, remainingSize) {
     return { firstPart, remainder };
 }
 
+
+function bufferToArrayOfIntegers(bufferString) {
+    // Remove the <Buffer> part of the string and split the rest by spaces
+    const hexValues = bufferString.replace('<Buffer ', '').replace('>', '').trim().split(' ');
+
+    // Convert each hex value to a base-10 integer and store them in an array
+    const integers = hexValues.map(hex => parseInt(hex, 16));
+
+    return integers;
+}
+
 module.exports = {
+    bufferToArrayOfIntegers,
     logBuffer,
 
     readUIntFromBuffer,
@@ -581,8 +625,8 @@ module.exports = {
 
     needsDoublePrecision,
     hasDecimal,
-    writeUInt64LE,
-    readUInt64LE,
+    writeUInt64BE,
+    readUInt64BE,
 
     writeConditional,
     readConditional,

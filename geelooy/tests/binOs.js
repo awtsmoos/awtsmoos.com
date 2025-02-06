@@ -17,14 +17,9 @@ var osf = await os.writeBytesToFile("../awts.txt",0, `B"H
         blockId: 1
     });
 
-    console.log(b)
-    var fold = await os.readFolder({
-        file: "../awts.awtsmoosFs",
-        path: "/"
-    })
-    console.log(fold,55);
-
-    var fold = await os.makeFile({
+    console.log(b,"Block 1")
+    
+    var file = await os.makeFile({
         file: "../awts.awtsmoosFs",
         path: "/",
         name: "wow2.js",
@@ -33,8 +28,30 @@ var osf = await os.writeBytesToFile("../awts.txt",0, `B"H
     })
     var fold = await os.readFolder({
         file: "../awts.awtsmoosFs",
-        path: "/"
+        path: "/",
+        withValues: true
     })
-    console.log(fold,5252);
-    console.log(fold)
+    console.log(fold,55);
+
+    var b = await os.readBlock({
+        file: "../awts.awtsmoosFs",
+        blockId: 1
+    });
+
+    console.log(b,"Block 1 again")
+
+    var b = await os.readBlock({
+        file: "../awts.awtsmoosFs",
+        blockId: 2,
+        metadata:false
+    });
+
+    console.log(b,"Block 2 ")
+    var redFile = await os.readFile({
+        file: "../awts.awtsmoosFs",
+        path: "/",
+        name: "wow2.js"
+    })
+    console.log("FILE",redFile)
+    
 })()
