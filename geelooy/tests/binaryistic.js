@@ -1,5 +1,5 @@
 //B"H
-var b = require("../../ayzarim/DosDB/awtsmoosBinaryJSON");
+var b = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON");
 var fs = require("fs").promises;
 
 console.log('B"H')

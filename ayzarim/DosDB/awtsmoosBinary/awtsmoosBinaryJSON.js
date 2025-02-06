@@ -2,25 +2,32 @@
 
 // Binary JSON Serializer and Database in Node.js
 // Uses Buffers for efficient binary storage with a hashmap
+var {
+    logBuffer,
 
-const crypto = require('crypto');
+    readFromBuffer,
+    writeToBuffer,
+
+
+    writeConditional,
+    readConditional,
+
+    hashKey
+} = require("./awtsmoosBinaryHelpers.js")
 var magicJSON = "Aj"
 var magicArray = "Aa"
 var hashAmount = 4
-function hashKey(key, size) {
-    let hash = crypto.createHash('md5').update(key).digest();
-    return hash.readUInt32LE(0) % size;
-}
 
-function writeBitAt(byte, index) {
-    if (index < 0 || index > 7) {
-        throw new Error('Index must be between 0 and 7');
+function isAwtsmoosObject(buffer) {
+    var mag = buffer.subarray(0,2).toString()
+    if(
+        mag != magicJSON &&
+        mag != magicArray
+    ) {
+        return false;
     }
-
-    // Set the bit at the specified index to 1
-    return byte | (1 << index);
+    return true;
 }
-
 function serializeJSON(json) {
     if(Array.isArray(json)) {
         return serializeArray(json)
@@ -535,24 +542,6 @@ function deserializeArray(arrayBuffer) {
     return arr;
 }
 
-function byteLengthToSize(byteLength) {
-    if(byteLength < 256) {
-        return 1
-
-        
-    } else if(byteLength >= 256 && byteLength < 65536) {
-       return 2
-
-      
-    } else if(byteLength >= 65536 && byteLength <= 4294967296) {
-        return 4
-    } else if(
-        byteLength >= 4294967296 && byteLength <= 18446744073709552000n
-    ) {
-        return 8
-    } else return 16
-}
-
 function parseValueFromType({
     value,
     type,
@@ -591,29 +580,7 @@ function parseValueFromType({
     }
     return {value,currentOffset};
 }
-function writeToBuffer(buffer, value, byteSize, offset=0) {
-    buffer = buffer || Buffer.alloc(byteSize);
-    
-    switch (byteSize) {
-        case 1:
-            
-            buffer.writeUInt8(value, offset);
-            break;
-        case 2:
-            buffer.writeUInt16LE(value, offset);
-            break;
-        case 4:
-            buffer.writeUInt32LE(value, offset);
-            break;
-        case 8:
-            writeUInt64LE(buffer, value, offset);
-            break;
-        default:
-            throw new Error("Unsupported byte size");
-    }
-    
-    return buffer;
-}
+
 
 
 function getKeysFromBinary(buffer) {
@@ -653,153 +620,6 @@ function newBuffer(size, number) {
 
 }
 
-function readConditional(buffer, offset=0) {
-    var typeBuf = buffer.readUInt8(offset);
-    offset++;
-    var size = 1;
-    var am = null;
-    switch(typeBuf) {
-        case 0:
-            
-            am = buffer.readUInt8(offset);
-            offset++;
-
-        break;
-        case 1:
-            am = buffer.readUInt16LE(offset);
-            offset+=2;
-            size = 2
-        break;
-        case 2:
-            am = buffer.readUInt32LE(offset);
-            offset+=4
-            size = 4
-        break;
-        case 3:
-            am = readUInt64LE(buffer,offset)
-            offset+=8
-            size = 8
-        break;
-        case 4:
-            am = buffer.readFloatLE(offset);
-            offset += 4;
-            size = 4
-        break;
-        case 5:
-            am = buffer.readDoubleLE(offset);
-            offset += 8;
-            size = 8
-        break;
-        
-    }
-    return {
-        amount: am,
-        offset,
-        size
-    }
-}
-
-
-function writeConditional(amount) {
-    var offset = 0;
-    var typeBuffer;
-    var amountBuffer;
-    var size = 1;
-    if(hasDecimal(amount)) {
-        if(needsDoublePrecision(amount)) {
-            typeBuffer = Buffer.alloc(1);
-            typeBuffer.writeUInt8(5);
-
-            size = 8;
-            amountBuffer = Buffer.alloc(8);
-            amountBuffer.writeDoubleLE(amount, 0);
-            
-        } else {
-            typeBuffer = Buffer.alloc(1);
-            typeBuffer.writeUInt8(4);
-
-            size = 4;
-            amountBuffer = Buffer.alloc(4);
-            amountBuffer.writeFloatLE(amount, 0);
-        }
-    } else if(amount < 256) {
-        typeBuffer = Buffer.alloc(1);
-        typeBuffer.writeUInt8(0);
-
-     
-        amountBuffer = Buffer.alloc(1);
-        amountBuffer.writeUInt8(amount);
-
-        
-    } else if(amount >= 256 && amount < 65536) {
-        typeBuffer = Buffer.alloc(1);
-        typeBuffer.writeUInt8(1, 0);
-
-        size = 2;
-        amountBuffer = Buffer.alloc(2);
-        amountBuffer.writeUInt16LE(amount, 0);
-
-      
-    } else if(amount >= 65536 && amount <= 4294967296) {
-        typeBuffer = Buffer.alloc(1);
-        typeBuffer.writeUInt8(2, 0);
-
-        size = 4;
-        amountBuffer = Buffer.alloc(4);
-        amountBuffer.writeUInt32LE(amount, 0);
-    } else if(
-        amount >= 4294967296 && amount <= 18446744073709552000n
-    ) {
-        typeBuffer = Buffer.alloc(1);
-        typeBuffer.writeUInt8(3, 0);
-
-        size = 8;
-        amountBuffer = Buffer.alloc(8);
-        writeUInt64LE(amountBuffer, amount, 0);
-    }
-    var buffer = Buffer.concat([
-        typeBuffer,
-        amountBuffer
-    ])
-    offset += buffer.length;
-    return {buffer, offset, size}
-}
-
-function readUInt64LE(buf, offset = 0) {
-    let low = buf.readUInt32LE(offset);       // Read lower 32 bits
-    let high = buf.readUInt32LE(offset + 4);  // Read upper 32 bits
-
-    return high * 0x100000000 + low; // Combine both 32-bit parts
-}
-
-function writeUInt64LE(buf, value, offset = 0) {
-    if (value < 0 || value > Number.MAX_SAFE_INTEGER) {
-        throw new RangeError("Value must be between 0 and 2^53-1");
-    }
-
-    let low = value % 0x100000000; // Lower 32 bits
-    let high = Math.floor(value / 0x100000000); // Upper 32 bits
-
-    buf.writeUInt32LE(low, offset);      // Write lower 32 bits (4 bytes)
-    buf.writeUInt32LE(high, offset + 4); // Write upper 32 bits (4 bytes)
-}
-
-function hasDecimal(num) {
-    if (num % 1 !== 0) {
-        return true
-    } else {
-        return false
-    }
-}
-
-
-function needsDoublePrecision(num) {
-    if (Math.fround(num) === num) {
-        return false;
-    } else {
-        return true;
-    }
-}
 
 
 function getValueByKey(buffer, key) {
@@ -886,23 +706,7 @@ function getValueByKey(buffer, key) {
    
 }
 
-function readFromBuffer(buffer) {
-    switch (buffer.length) {
-        case 0: 
-            return 0;
-        break;
-        case 1:
-            return buffer.readUInt8(0);
-        case 2:
-            return buffer.readUInt16LE(0);
-        case 4:
-            return buffer.readUInt32LE(0);
-        case 8:
-            return (buffer.readUInt32LE(0) + buffer.readUInt32LE(4) * 0x100000000);
-        default:
-            console.log("Unsupported buffer size",buffer);
-    }
-}
+
 
 function getValuesFromBinary(buffer, keys) {
     var obj = {};
@@ -911,15 +715,14 @@ function getValuesFromBinary(buffer, keys) {
     })
     return obj;
 }
-function logBuffer(buffer, base = 10, columns = 8) {
-    for (let i = 0; i < buffer.length; i += columns) {
-        let offset = i.toString().padStart(4, '0'); // Offset indicator
-        let bytes = buffer.slice(i, i + columns)
-                          .map(byte => byte.toString(base).padStart(3, ' '))
-                          .join(' '); 
-       console.log(`${offset}: ${bytes}`);
-    }
-}
 
 
-module.exports = { getValueByKey, logBuffer, serializeJSON, deserializeBinary, getKeysFromBinary, getValuesFromBinary };
+module.exports = { 
+    getValueByKey, 
+    logBuffer, 
+    serializeJSON, 
+    deserializeBinary,
+    getKeysFromBinary, 
+    getValuesFromBinary,
+    isAwtsmoosObject
+};
