@@ -87,6 +87,7 @@ async function readBlock({
 	blockId,
 	metadata = true,
 	superBlock=null,
+	withoutData = false,
 	chain=false//only reads first block
 		//if true follows until loads all
 }) {
@@ -157,17 +158,33 @@ async function readBlock({
 			file
 		})
 	}
+	var islast =  blockMetadata.nextBlockId == 0 &&
+	blockMetadata.lastBlockId != 0;
+
+	var isfirst = !blockMetadata.lastBlockId &&
+		blockMetadata.nextBlockId;
+
 	var datasize = superBlock.blockSize - metadataSize;
-	var data = await readBytesFromFile(file, offset + metadataSize, datasize);
-	var allDataFromBlocks = [data];
-	var allBlockIDs = [blockId];
-	var allDataFromBlocks = [data]; // Start with the first block's data
+	var data = null;
+	if(!withoutData)
+		data = await readBytesFromFile(file, offset + metadataSize, datasize);
+	
+	var allBlockIDs = [];
 	var nextBlockId = blockMetadata.nextBlockId;
-	var block = null
+
+	
+	// Process blocks recursively, only pushing non-last blocks in the loop
+	var firstPushing = false;
 	while (nextBlockId) {
-		block = await readBlock({
+		//if(!allBlockIDs.includes(nextBlockId))
+		if(!firstPushing) {
+			allBlockIDs.push(nextBlockId);
+			firstPushing = true;
+		}
+		let block = await readBlock({
 			file,
 			blockId: nextBlockId,
+			withoutData: true,
 			metadata: false,
 			superBlock,
 			chain: true,
@@ -176,26 +193,31 @@ async function readBlock({
 		if (!block || !block.metadata) break;
 
 		nextBlockId = block.metadata.nextBlockId;
-
-		// Push block data **only if it's NOT the last block**
-		if (nextBlockId !== 0) {
-			allDataFromBlocks.push(block.data);
+		if(nextBlockId)
 			allBlockIDs.push(nextBlockId);
+
+	}
+	var allDataFromBlocks =
+		[data] // Start with an empty array
+
+	if(isfirst) {
+		for(var bId of allBlockIDs) {
+			var block = await readBlock({
+				file,
+				blockId: bId,
+				metadata: false,
+				superBlock,
+				chain
+			});
+			allDataFromBlocks.push(block.data)
 		}
+
+		console.log("ADD block IDs",allBlockIDs)
 	}
 
 
-	if(block) {
-		// **Manually add the last block's data once if it hasn't been added**
-		if (nextBlockId === 0 && !allDataFromBlocks.includes(block.data)) {
-			console.log("DATA",block.data+"",blockId,allBlockIDs)
-			allDataFromBlocks.push(block.data);
-		}
-	}
-
-
-
-	data = Buffer.concat(allDataFromBlocks);
+	if(!withoutData)
+		data = Buffer.concat(allDataFromBlocks);
 	await closeFile(file);
 	return {
 		data,

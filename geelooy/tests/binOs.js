@@ -34,7 +34,14 @@ var osf = await os.writeBytesToFile("../awts.txt",0, `B"H
 asdfghjkl
 // 3242521466
 // 1234567890
-// 0987654321`
+// 0987654321
+// a623235hk664mnr
+// dawvdfsn5n34g3
+// dawqwee89776587wq
+// qweqewqweqwewrqr2r1
+// ][;[].][/][][.][/]'
+// -021=123-1=4--00-94dsf
+// gdsdsjrtnrtg`
     });
 
 
@@ -86,11 +93,11 @@ asdfghjkl
 */
     var b = await os.readBlock({
         file: pth,
-        blockId: 4,
+        blockId: 3,
         metadata:false
     });
 
-    console.log(b.data+"","Block 4 read!!!!!!!!!!!!!!!!!")
+    console.log(b.data+"","Block 3 read!!!!!!!!!!!!!!!!!")
     
     var redFile = await os.readFile({
         file: pth,
