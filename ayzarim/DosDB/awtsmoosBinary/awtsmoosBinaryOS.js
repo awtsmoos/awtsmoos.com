@@ -58,8 +58,8 @@ async function setupEmptyFilesystem(path, {
 		name: "root"
 	});
 	
-	await closeFile(file)
-	return superBlock;
+	
+	return file;
 }
 
 async function getSuperBlock({
@@ -742,6 +742,7 @@ async function deleteEntry({
 } = {}) {
 	
 	var deleted = 0;
+	var fileHandle = file;
 	for(var blockId of allBlockIDs) {
 		var {
 			offset
@@ -750,51 +751,112 @@ async function deleteEntry({
 			blockId,
 			superBlock
 		});
+		/*
+			structure of beginning
+			of block:
+
+			{
+				index: "uint_4",
+				lastBlockId: "uint_4",
+				nextIndex: "uint_4",
+				isDeleted: "uint_1"
+			}
+
+			so offset to isDeleted:
+			4 + 4 + 4
+		*/
 		var metadataExtraOffset = 4 + 
 			4 + 4;
-		var wrote = await writeBytesToFile(
+		fileHandle = (await writeBytesToFile(
 			file,
 			offset + metadataExtraOffset,
 			{uint_1: 1}
-		);
+		))?.file;
 		
 		deleted++;
 
 	}
-	await closeFile(file)
+	
 	var offsetToGetToFree = 2;
-	var undelete = await writeBytesToFile(
-		file,
+	var currentFreeBlock = await readBytesFromFile(
+		fileHandle, 
+		magic +
+		offsetToGetToFree, {
+			nextFreeBlock: "uint_4"
+		}
+	);
+	currentFreeBlock = currentFreeBlock?.nextFreeBlock;
+	if(currentFreeBlock) {
+		/*
+			if we already have a free block,
+			then make the nextBlockId of the LAST
+			block of this chain 
+			(which should be nothing, 
+			because it's at the end of the chain)
+
+			to the nextFreeBlock. This way,
+			when we later look for new free blocks,
+			after reaching the end of this chain,
+			we will continue to the previous chain
+			and so on.
+		*/
+		var lastBlockOfChainID = allBlockIDs[
+			allBlockIDs.length - 1
+		];
+		var {
+			offset: lastBlockOfThisChainOffset
+		} = await getBlockOffsetFromId({
+			fileHandle,
+			blockId: lastBlockOfChainID,
+			superBlock
+		});
+		var offsetToNextBlockOfLastInChain = 
+			lastBlockOfThisChainOffset + 
+			4/*index*/ +
+			4 /*lastBlockId*/
+			/*nextBlocKId (uint_4) here*/;
+		var wrote = await writeBytesToFile(
+			fileHandle,
+			offsetToNextBlockOfLastInChain,
+			{uint_4: currentFreeBlock}
+		);
+	}
+	await writeBytesToFile(
+		fileHandle,
 		magic + 
 		offsetToGetToFree, [
-			{uint_4: allBlockIDs[0]}
+			{uint_4: allBlockIDs[0]} /*
+				setting next
+				free block to the 
+				first block of this chain
+			*/
 		]
 	);
-	await closeFile(undelete)
+	
 	superBlock.nextFreeBlock = allBlockIDs[0]
 	var offsetToUsed = 2  +
 		4 + 4 + 4
 	var sup = await readBytesFromFile(
-		file,
+		fileHandle,
 		magic + offsetToUsed,
 		{
 			usedBlocks: "uint_4",
 			deletedBlocks: "uint_4"
 		}
 	)
-	await closeFile(sup.file)
+	
 	if(sup.usedBlocks > 0) {
 		sup.usedBlocks--;
 	}
 	sup.deletedBlocks += deleted;
-	var usedWrite = await writeBytesToFile(
-		file,
+	var {file: usedWrite} = await writeBytesToFile(
+		fileHandle,
 		magic + offsetToUsed, [
 			{uint_4: sup.usedBlocks},
 			{uint_4: sup.deletedBlocks}
 		]
 	)
-	await closeFile(file)
+	await closeFile(usedWrite)
 	
 	
 	if(superBlock) {

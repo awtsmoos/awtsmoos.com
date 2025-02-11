@@ -32,16 +32,13 @@ var osf = await os.writeBytesToFile("../awts.txt",0, `B"H
 // and even better!!!!!!!!!!!!
 // qwertyuiop
 asdfghjkl
-// 3242521466
-// 1234567890
-// 0987654321
-// a623235hk664mnr
-// dawvdfsn5n34g3
-// dawqwee89776587wq
-// qweqewqweqwewrqr2r1
-// ][;[].][/][][.][/]'
-// -021=123-1=4--00-94dsf
-// gdsdsjrtnrtg`
+// 1234567898765432123456789
+// hello world 123 4
+// hello world 123 5
+// hello world 123 4
+// 6
+// hello world 123 7
+// hello world 123 8`
     });
 
 
