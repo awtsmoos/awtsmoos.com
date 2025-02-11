@@ -1017,13 +1017,41 @@ async function readFolder({
 			)
 	}
 
+	
+	
+	var parentFolderToReadFrom = await getCurrentFolder({
+		file,path
+	})
+	if(parentFolderToReadFrom) {
+		folderObj = (await readBlock({
+			file,
+			blockId: parentFolderToReadFrom,
+			metadata:false
+		}))?.data
+		
+	} else {
+		return null;
+	}
+	
+
+	return withValues ? awtsmoosJSON
+		.deserializeBinary(folderObj) :
+		awtsmoosJSON.getKeysFromBinary(
+			folderObj
+		) 
+}
+
+async function getCurrentFolder({
+	file,
+	path
+}) {
 	var curFolder = await readFolder({
 		file,
 		path: "/",
 		withValues:true
 	})
 	
-	var parentFolderToWriteTo = null;
+	var parentFolderToReadTo = null;
 	var curParentFolder = 1;
 	var i  = 0;
 	for(var segment of path) {
@@ -1043,23 +1071,7 @@ async function readFolder({
 		}
 		i++;
 	}
-	parentFolderToWriteTo = curParentFolder
-	console.log("Parent folder",parentFolderToWriteTo)
-	if(parentFolderToWriteTo) {
-		folderObj = (await readBlock({
-			file,
-			blockId: parentFolderToWriteTo,
-			metadata:false
-		}))?.data
-		console.log("READING!",parentFolderToWriteTo)
-	}
-	
-
-	return withValues ? awtsmoosJSON
-		.deserializeBinary(folderObj) :
-		awtsmoosJSON.getKeysFromBinary(
-			folderObj
-		) 
+	return curParentFolder;
 }
 
 // Helper: Given a path array (e.g. ["hi", "there"]), returns the block ID
@@ -1126,34 +1138,11 @@ async function makeFolder({
 		return;
 	}
 	
-	var curFolder = await readFolder({
-		file,
-		path: "/",
-		withValues:true
+	
+	var parentFolderToWriteTo =  await getCurrentFolder({
+		file,path
 	})
 	
-	var parentFolderToWriteTo = null;
-	var curParentFolder = 1;
-	var i  = 0;
-	for(var segment of path) {
-		if(curFolder[segment]) {
-			curParentFolder = curFolder[segment];
-			var subFolder = await readBlock({
-				file,
-				blockId: curParentFolder,
-				metadata:false
-			})
-			if(i < path.length - 1) {
-				var data = subFolder.data;
-				var j = awtsmoosJSON.deserializeBinary(data);
-				curFolder = j;
-
-			}
-		}
-		i++;
-	}
-	parentFolderToWriteTo = curParentFolder
-	console.log("Parent folder",parentFolderToWriteTo)
 	if(parentFolderToWriteTo) {
 		var wr = await writeDataAtNextBlock({
 			file,
@@ -1321,46 +1310,17 @@ async function makeFile({
 		return;
 	}
 
-	// Walk the folder path, ensuring that each folder exists.
-	let currentPath = [];
-	for (let segment of path) {
-		currentPath.push(segment);
-		let folder =
-			await readFolder({
-				file,
-				path: currentPath
-					.join("/"),
-				withValues: true
-			});
-		if (!folder) {
-			let parentId =
-				currentPath
-				.length === 0 ? 1 :
-				await getFolderBlockId(
-					file,
-					currentPath
-					.slice(0,
-						currentPath
-						.length
-					)
-				);
-			if(!parentId) {
-				throw Error("Folder doesnt exist "
-					 +path + "/"+name)
-			}
-			await writeDataAtNextBlock
-				({
-					file,
-					parentFolderId: parentId,
-					name: segment
-				});
-		}
-	}
 
 	// Create the file in the final folder.
-	let parentId =
-		await getFolderBlockId(file,
-			path);
+	let parentId = await getCurrentFolder({
+		file,path
+	});
+	if(!parentId) {
+		throw Error({
+			message: "Folder doesn't exist"
+		})
+	}
+	
 	await writeDataAtNextBlock({
 		file,
 		parentFolderId: parentId,

@@ -35,11 +35,11 @@ var os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
     for (let folder of folders) {
         await os.makeFolder({ file: s, path: folder });
     }
-/*
+
     for (let f of files) {
         await os.makeFile({ file: s, path: f.path, data: f.data });
     }
-*/
+
     // Read root directory
     var rootContents = await os.readFolder({ file: s, path: "/", withValues: true });
     console.log("Root contents:", rootContents);
@@ -47,48 +47,20 @@ var os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
     // Read nested directory
     var nestedContents = await os.readFolder({ file: s, path: "/nested", withValues: true });
     console.log("Nested contents:", nestedContents);
-    var nest2Blcok = rootContents["nested"];
-    var bl =await os.readBlock({
-        file:s,
-        blockId:nest2Blcok,
-        metadata:false
-    })
-    var dt=bl?.data;
-    var j = awtsJ.deserializeBinary(dt)
-    console.log("NEsged block",j)
-
-
-    var nest2Blcok = j["deeper"];
-    var bl =await os.readBlock({
-        file:s,
-        blockId:nest2Blcok,
-        metadata:false
-    })
-    var dt=bl?.data;
-    var j = awtsJ.deserializeBinary(dt)
-    console.log("deeper block",j)
-
-    var nest2Blcok = j["evenDeeper"];
-    var bl =await os.readBlock({
-        file:s,
-        blockId:nest2Blcok,
-        metadata:false
-    })
-    var dt=bl?.data;
-    var j = awtsJ.deserializeBinary(dt)
-    console.log("still even deeper block",j)
+   
     // Read deeper directory
     var deepContents = await os.readFolder({ file: s, path: "/nested/deeper", withValues: true });
     console.log("Deeper contents:", deepContents);
 
+    var deeperContents = await os.readFolder({ file: s, path: "/nested/deeper/evenDeeper", withValues: true });
+    console.log("even Deeper contents:", deeperContents);
 
 
-
-    /*
+    
     // Read files back to verify
     for (let f of files) {
         let fileData = await os.readFile({ file: s, path: f.path });
         console.log(`Read ${f.path}:`, fileData);
-    }*/
+    }
 
 })();
