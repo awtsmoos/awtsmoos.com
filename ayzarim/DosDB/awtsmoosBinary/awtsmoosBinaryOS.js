@@ -453,7 +453,10 @@ var fileTypeMap = {
 
 async function writeDataAtNextBlock({
 	file,
-	parentFolderId = 0,//none, so THIS is root folder
+	parentFolderId = 0,/*none, so THIS is 
+	being written under the root folder
+	
+	*/
 	type = "folder",
 	isFirstBlockOfData=true,
 	isLastBlockOfData=true,
@@ -987,12 +990,12 @@ async function readFolder({
 	//	name = path.pop();
 	}
 	// Always start with the root block.
-	let block = await readBlock({
+	var block = await readBlock({
 		file,
 		blockId: 1,
 		metadata: false
 	});
-	let data = block.data;
+	var data = block.data;
 	
 
 	if (!awtsmoosJSON
@@ -1014,29 +1017,43 @@ async function readFolder({
 			)
 	}
 
-	// Traverse the folder structure down the given path.
-	for (let segment of path) {
-		var segmentInFolder = 
-			awtsmoosJSON
-			.getValueByKey(folderObj, segment)
-		if (!segmentInFolder)
-			return null; // Folder not found.
-		let blockId = segmentInFolder;
-		block = await readBlock({
-			file,
-			blockId,
-			metadata: false
-		});
-		data = block.data;
+	var curFolder = await readFolder({
+		file,
+		path: "/",
+		withValues:true
+	})
 	
-		if (!awtsmoosJSON
-			.isAwtsmoosObject(data)
-		) {
-			return null
+	var parentFolderToWriteTo = null;
+	var curParentFolder = 1;
+	var i  = 0;
+	for(var segment of path) {
+		if(curFolder[segment]) {
+			curParentFolder = curFolder[segment];
+			var subFolder = await readBlock({
+				file,
+				blockId: curParentFolder,
+				metadata:false
+			})
+			if(i < path.length - 1) {
+				var data = subFolder.data;
+				var j = awtsmoosJSON.deserializeBinary(data);
+				curFolder = j;
+
+			}
 		}
-		folderObj = 
-				data
+		i++;
 	}
+	parentFolderToWriteTo = curParentFolder
+	console.log("Parent folder",parentFolderToWriteTo)
+	if(parentFolderToWriteTo) {
+		folderObj = (await readBlock({
+			file,
+			blockId: parentFolderToWriteTo,
+			metadata:false
+		}))?.data
+		console.log("READING!",parentFolderToWriteTo)
+	}
+	
 
 	return withValues ? awtsmoosJSON
 		.deserializeBinary(folderObj) :
@@ -1067,13 +1084,15 @@ async function getFolderBlockId(file,
 		let parentPath = pathArray
 			.slice(0, pathArray
 				.length - 1);
+		var pathToRead = parentPath
+		.join("/")
 		let parentFolder =
 			await readFolder({
 				file,
-				path: parentPath
-					.join("/"),
+				path: pathToRead,
 				withValues: true
 			});
+		console.log("GOT",parentFolder,pathToRead,pathArray)
 		return parentFolder ?
 			parentFolder[pathArray[
 				pathArray
@@ -1095,7 +1114,7 @@ async function makeFolder({
 	if(!name) {
 		name = path.pop();
 	}
-
+	console.log("Making",path,name)
 
 	// If path is empty, then we're writing directly to root.
 	if (!path.length) {
@@ -1106,51 +1125,51 @@ async function makeFolder({
 		});
 		return;
 	}
-
-	// Walk the path, creating intermediate folders as needed.
-	let
-		currentPath = []; // Empty means we're at the root.
-	for (let segment of path) {
-		currentPath.push(segment);
-		// Try to read the folder at the currentPath.
-		let folder =
-			await readFolder({
-				file,
-				path: currentPath
-					.join("/"),
-				withValues: true
-			});
-		// If folder doesn't exist, create it.
-		if (!folder) {
-			let parentId =
-				currentPath
-				.length === 0 ? 1 :
-				await getFolderBlockId(
-					file,
-					currentPath
-					.slice(0,
-						currentPath
-						.length));
-			await writeDataAtNextBlock
-				({
-					file,
-					parentFolderId: parentId,
-					name: segment
-				});
-		}
-	}
-
-	// Now, create the target folder inside the final folder in the given path.
-	let parentId =
-		await getFolderBlockId(file,
-			path);
-	await writeDataAtNextBlock({
+	
+	var curFolder = await readFolder({
 		file,
-		parentFolderId: parentId,
-		name
-	});
-}
+		path: "/",
+		withValues:true
+	})
+	
+	var parentFolderToWriteTo = null;
+	var curParentFolder = 1;
+	var i  = 0;
+	for(var segment of path) {
+		if(curFolder[segment]) {
+			curParentFolder = curFolder[segment];
+			var subFolder = await readBlock({
+				file,
+				blockId: curParentFolder,
+				metadata:false
+			})
+			if(i < path.length - 1) {
+				var data = subFolder.data;
+				var j = awtsmoosJSON.deserializeBinary(data);
+				curFolder = j;
 
+			}
+		}
+		i++;
+	}
+	parentFolderToWriteTo = curParentFolder
+	console.log("Parent folder",parentFolderToWriteTo)
+	if(parentFolderToWriteTo) {
+		var wr = await writeDataAtNextBlock({
+			file,
+			parentFolderId: parentFolderToWriteTo,
+			name
+		});
+		return;
+	}
+	
+}
+/*console.log("Folder doesn't exist",
+				joined,
+				path,segment,currentPath
+			);
+			throw Error("No folder")
+			continue;*/
 async function deleteFolder({
 	file/*the database file handle*/,
 	path,/*path of (emulated) folder to delete minus the name*/
@@ -1322,7 +1341,13 @@ async function makeFile({
 					currentPath
 					.slice(0,
 						currentPath
-						.length));
+						.length
+					)
+				);
+			if(!parentId) {
+				throw Error("Folder doesnt exist "
+					 +path + "/"+name)
+			}
 			await writeDataAtNextBlock
 				({
 					file,

@@ -311,7 +311,7 @@ async function readBytesFromFile(filePath, offset, struct) {
 	  return data;
   }
   var pathToHandles = {};
-
+  global.pathToHandles = pathToHandles;
   async function writeBytesToFile(filePath, offset, data, close=false) {
     try {
       // Calculate total size of the buffer based on data
@@ -334,12 +334,26 @@ async function readBytesFromFile(filePath, offset, struct) {
       }
       
       // Open the file for writing
-      var fileHandle = 
-        typeof(filePath) == "string" ?
-            await openFile(filePath) : 
-            filePath;
+      var fileHandle = null;
+       
     if(typeof(filePath) == "string") {
-        pathToHandles[filePath] = fileHandle;
+        var pt = pathToHandles[filePath];
+        if(pt) {
+            fileHandle = pt;
+            if(pt.awtsmoosClosed) {
+                fileHandle = await openFile(
+                    pt.awtsmoosPath
+                )
+                pathToHandles[filePath] = fileHandle
+            }
+          //  console.log("Checking",fileHandle)
+        } else {
+            fileHandle = await openFile(filePath)
+            pathToHandles[filePath] = fileHandle;
+        }
+    } else {
+        fileHandle = filePath;
+
     }
      if(!fileHandle) {
         console.log("Not working",data, filePath,);
