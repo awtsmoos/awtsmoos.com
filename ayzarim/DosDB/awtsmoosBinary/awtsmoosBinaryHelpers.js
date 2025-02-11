@@ -172,7 +172,8 @@ async function readBytesFromFile(filePath, offset, struct) {
 			
 			// Read the file into a single buffer starting from the offset
 			const buffer = Buffer.alloc(totalBytes);
-			await fileHandle.read(buffer, 0, totalBytes, offset);
+			if(!isNaN(offset))
+             await fileHandle.read(buffer, 0, totalBytes, offset);
 		
 			// Parse the buffer into the struct format using subarray for efficiency
 			let currentByte = 0;
@@ -198,7 +199,8 @@ async function readBytesFromFile(filePath, offset, struct) {
 			
                 
 				const buffer = Buffer.alloc(struct);
-				await fileHandle.read(buffer, 0, struct, offset);
+                if(!isNaN(offset))
+				    await fileHandle.read(buffer, 0, struct, offset);
 				await closeFile(fileHandle);
                 return buffer;
 			} catch(e){
@@ -211,16 +213,16 @@ async function readBytesFromFile(filePath, offset, struct) {
   }
 
   function trimBuffer(buffer) {
-    let i = buffer.length - 1;
-    
-    // Find the last non-zero byte
-    while (i >= 0 && buffer[i] === 0) {
-        i--;
+        let i = buffer.length - 1;
+        
+        // Find the last non-zero byte
+        while (i >= 0 && buffer[i] === 0) {
+            i--;
+        }
+        
+        // Slice the buffer up to the last non-zero byte
+        return buffer.slice(0, i + 1);
     }
-    
-    // Slice the buffer up to the last non-zero byte
-    return buffer.slice(0, i + 1);
-}
   //BE
     function numberToBuffer(num, size = null) {
         if (typeof num !== "number" || !Number.isInteger(num) || num < 0) {

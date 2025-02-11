@@ -77,7 +77,7 @@ asdfghjkl
         path: "/intense",
         withValues:true
     })
-    console.log(fold,55);
+    console.log(fold,5775);
 /*
     var b = await os.readBlock({
         file: pth,
