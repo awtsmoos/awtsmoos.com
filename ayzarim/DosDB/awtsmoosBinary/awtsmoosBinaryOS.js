@@ -1033,6 +1033,11 @@ async function readFolder({
 		return null;
 	}
 	
+	if(!awtsmoosJSON.isAwtsmoosObject(
+		folderObj
+	)) {
+		return null;
+	}
 
 	return withValues ? awtsmoosJSON
 		.deserializeBinary(folderObj) :
@@ -1438,7 +1443,7 @@ async function stat({
 		throw Error("Not found")
 	}
 	var keys = Object.keys(folder);
-	console.log("KEY",folder,folder.length,folder+"",typeof(folder),"fold");
+	console.log("KEY",name,folder,folder.length,folder+"",typeof(folder),"fold");
 	if (!folder || !(name in
 			folder
 		)

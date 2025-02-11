@@ -1,6 +1,6 @@
 //B"H
 var AwtsmoosFS = require("./awtsmoosFs/index.js")
-var fs = require("fs").promises;//null;
+var fs = null;
 var awtsmoosBinary = require ("./awtsmoosBinary/awtsmoosBinaryJSON.js")
 var path = require('path');
 
