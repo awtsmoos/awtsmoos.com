@@ -1508,7 +1508,7 @@ async function stat({
 module.exports = {
 
     setupFilesystem,
-	closeFile,
+	
 
 	readBlock,
 	makeFolder,

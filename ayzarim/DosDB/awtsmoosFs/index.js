@@ -7,7 +7,7 @@
  */
 
 
-var os = require("../awtsmoosBinary/awtsmoosBinaryOS.js");
+var os = require("./fsOperations.js");
 /**
  * methods:
  * os.setupEmptyFilesystem(path)
@@ -41,9 +41,9 @@ class FileHandle {
     }
     
     async read(buffer, offset, length, position = 0) {
-        const data = await os.readFile({ file: this.handle, path: this.path });
+        const data = await os.readFile({ filePath: this.handle, path: this.path });
         const bufData = Buffer.from(data);
-        const slice = bufData.slice(position, position + length);
+        const slice = bufData.subarray(position, position + length);
         slice.copy(buffer, offset);
         return { bytesRead: slice.length, buffer };
     }
@@ -51,14 +51,14 @@ class FileHandle {
     async write(buffer, offset, length, position = 0) {
         let existing = "";
         try {
-        existing = await os.readFile({ file: this.handle, path: this.path });
+        existing = await os.readFile({ filePath: this.handle, path: this.path });
         } catch (e) {}
         const newData = buffer.toString("utf8", offset, offset + length);
         const updated =
         position >= existing.length
             ? existing + newData
             : existing.substring(0, position) + newData + existing.substring(position + length);
-        await os.makeFile({ file: this.handle, path: this.path, data: updated });
+        await os.makeFile({ filePath: this.handle, path: this.path, data: updated });
         return { bytesWritten: newData.length, buffer };
     }
     
@@ -80,65 +80,65 @@ class AwtsmoosFS {
     }
     
     async access(path, mode) {
-        await os.stat({ file: this.handle, path });
+        await os.stat({ filePath: this.handle, path });
     }
     
     async appendFile(path, data, options) {
         let existing = "";
         try {
-        existing = await os.readFile({ file: this.handle, path });
+        existing = await os.readFile({ filePath: this.handle, path });
         } catch (e) {}
-        await os.makeFile({ file: this.handle, path, data: existing + data });
+        await os.makeFile({ filePath: this.handle, path, data: existing + data });
     }
     
     async copyFile(src, dest, flags) {
-        const data = await os.readFile({ file: this.handle, path: src });
-        await os.makeFile({ file: this.handle, path: dest, data });
+        const data = await os.readFile({ filePath: this.handle, path: src });
+        await os.makeFile({ filePath: this.handle, path: dest, data });
     }
     
     async mkdir(path, options) {
        
         
-        await os.makeFolder({ file: this.handle, path });
+        await os.makeFolder({ filePath: this.handle, path });
     }
     
     async open(path, flags, mode) {
         if (flags.includes("w") || flags.includes("a")) {
         try {
-            await os.readFile({ file: this.handle, path });
+            await os.readFile({ filePath: this.handle, path });
         } catch (e) {
-            await os.makeFile({ file: this.handle, path, data: "" });
+            await os.makeFile({ filePath: this.handle, path, data: "" });
         }
         }
         return new FileHandle(path, this.handle);
     }
     
     async readdir(path, options) {
-        return await os.readFolder({ file: this.handle, path });
+        return await os.readFolder({ filePath: this.handle, path });
     }
     
     async readFile(path, options) {
-        const data = await os.readFile({ file: this.handle, path });
+        const data = await os.readFile({ filePath: this.handle, path });
         return options?.encoding ? data.toString(options.encoding) : Buffer.from(data);
     }
     
     async writeFile(path, data, options) {
-        await os.makeFile({ file: this.handle, path, data });
+        await os.makeFile({ filePath: this.handle, path, data });
     }
     
     async rename(oldPath, newPath) {
-        const data = await os.readFile({ file: this.handle, path: oldPath });
-        await os.makeFile({ file: this.handle, path: newPath, data });
-        await os.deleteFile({ file: this.handle, path: oldPath });
+        const data = await os.readFile({ filePath: this.handle, path: oldPath });
+        await os.makeFile({ filePath: this.handle, path: newPath, data });
+        await os.deleteFile({ filePath: this.handle, path: oldPath });
     }
     
     async rm(path, options) {
         try {
-            const stats = await os.stat({ file: this.handle, path });
+            const stats = await os.stat({ filePath: this.handle, path });
             if (stats.type === "file") {
-            await os.deleteFile({ file: this.handle, path });
+            await os.deleteFile({ filePath: this.handle, path });
             } else {
-            await os.deleteFolder({ file: this.handle, path });
+            await os.deleteFolder({ filePath: this.handle, path });
             }
         } catch(e) {
             
@@ -146,11 +146,11 @@ class AwtsmoosFS {
     }
     
     async stat(path) {
-        return await os.stat({ file: this.handle, path });
+        return await os.stat({ filePath: this.handle, path });
     }
     
     async unlink(path) {
-        await os.deleteFile({ file: this.handle, path });
+        await os.deleteFile({ filePath: this.handle, path });
     }
     }
     

@@ -3,6 +3,12 @@
 const crypto = require('crypto');
 
 const fs = require('fs').promises;
+
+// Global cache for open file handles. Keys are file paths; values are objects with handle and isClosed.
+const openFileHandles = {};
+const MAX_OPEN_FILES = 20;
+
+
 function logBuffer(buffer, base = 10, columns = 8) {
     for (let i = 0; i < buffer.length; i += columns) {
         let offset = i.toString().padStart(4, '0'); // Offset indicator
@@ -12,69 +18,8 @@ function logBuffer(buffer, base = 10, columns = 8) {
        console.log(`${offset}: ${bytes}`);
     }
 }
-function readUIntFromBuffer(buffer) {
-    switch (buffer.length) {
-        case 0:
-            return 0;
-        case 1:
-            return buffer.readUInt8(0);
-        case 2:
-            return buffer.readUInt16BE(0);
-        case 3:
-            return (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
-        case 4:
-            return buffer.readUInt32BE(0);
-        case 5:
-            // No BigInt, manual calculation for 5 bytes
-            return (buffer.readUInt32BE(0) * 0x100) + buffer[4];
-        case 6:
-            // No BigInt, manual calculation for 6 bytes
-            return (buffer.readUInt32BE(0) * 0x10000) + (buffer[4] << 8) + buffer[5];
-        case 7:
-            // No BigInt, manual calculation for 7 bytes
-            return (buffer.readUInt32BE(0) * 0x1000000) + (buffer[4] << 16) + (buffer[5] << 8) + buffer[6];
-        case 8:
-            // Manual calculation for 8 bytes (limited to 53-bit precision)
-            return (buffer.readUInt32BE(0) * 0x100000000) + buffer.readUInt32BE(4);
-        default:
-            console.log("Unsupported buffer size", buffer);
-            return null;
-    }
-}
 
-function writeUIntToBuffer(buffer, value, byteSize, offset=0) {
-    buffer = buffer || Buffer.alloc(byteSize);
-    
-    switch (byteSize) {
-        case 1:
-            
-            buffer.writeUInt8(value, offset);
-            break;
-        case 2:
-            buffer.writeUInt16BE(value, offset);
-            break;
-        case 4:
-            buffer.writeUInt32BE(value, offset);
-            break;
-        case 8:
-            writeUInt64BE(buffer, value, offset);
-            break;
-        default:
-            throw new Error("Unsupported byte size");
-    }
-    
-    return buffer;
-}
 
-var types = {
-    uint_: (buf) => readUIntFromBuffer(buf),
-    string_: (buf, shouldTrim) => 
-        
-        (shouldTrim ? 
-            trimBuffer(buf) : buf
-        )?.toString(),
-    buffer_: buf => buf
-}
 
 function sizeof(struct) {
 	/**
@@ -96,333 +41,6 @@ function sizeof(struct) {
 	}
 	return bytes;
 }
-function getBuffers(struct, getValue = true) {
-	let totalBytes = 0;
-	var bufferMap = {};
-
-	for (const [key, type] of Object.entries(struct)) {
-		let typeSize = 0;
-		var value = null;
-		for(var [typeStart, func] of Object.entries(types)) {
-
-			var indicator = getValue ? type : key
-			if(indicator.startsWith(typeStart)) {
-				var ind = indicator.indexOf(typeStart);
-				var amount = indicator.substring(ind + typeStart.length);
-			//	console.log("G",typeStart,key,type,ind,amount)
-				var num = parseInt(amount);
-				if(!isNaN(num)) {
-
-					typeSize = num;
-					if(getValue) {
-						value = {
-							length: typeSize,
-							func
-						}
-
-						bufferMap[key] = value;
-					}
-					else {
-						var buf = bufferize(type, typeSize);
-						
-						value = buf;
-						
-						bufferMap = value;
-					}
-				} else {
-					
-				}
-			}
-		}
-	
-	
-		totalBytes += typeSize;
-	}
-	return {
-		bufferMap,
-		totalBytes
-	}
-}
-async function readBytesFromFile(filePath, offset, struct) {
-    try {
-        var realPath = null;
-        if(
-            filePath?.awtsmoosPath && 
-            filePath?.awtsmoosClosed
-        ) {
-            realPath = filePath.awtsmoosPath;
-            filePath = realPath;
-        
-        }
-        
-		// Open the file for reading
-		const fileHandle = typeof(
-			filePath
-		) == "string" ?
-			await fs.open(filePath, 'r')
-		: filePath // fileHandler
-		if(typeof(struct) == "object") {
-			// Calculate the total size of the buffer needed based on the struct
-			var {
-				bufferMap,
-				totalBytes
-			} = getBuffers(struct)
-		
-			
-			
-			// Read the file into a single buffer starting from the offset
-			const buffer = Buffer.alloc(totalBytes);
-			if(!isNaN(offset))
-             await fileHandle.read(buffer, 0, totalBytes, offset);
-		
-			// Parse the buffer into the struct format using subarray for efficiency
-			let currentByte = 0;
-			for (const [key, type] of Object.entries(struct)) {
-				const val = bufferMap[key];
-				if(!val) continue;
-				var size = val?.length
-			//  console.log("va",val,key,currentByte,size)
-				var buf = buffer.subarray(currentByte, currentByte + size);
-				var mod = typeof(val.func) == "function" ?
-					val.func(buf, true) : buf;
-				bufferMap[key] = mod;
-               
-             /*   if(key == "permissions")
-                console.log("Val",val,mod,size)*/
-				currentByte += size;
-			}
-		
-			await closeFile(fileHandle);
-			return bufferMap;
-		} else if(typeof(struct) == "number") {
-			try {
-			
-                
-				const buffer = Buffer.alloc(struct);
-                if(!isNaN(offset))
-				    await fileHandle.read(buffer, 0, struct, offset);
-				await closeFile(fileHandle);
-                return buffer;
-			} catch(e){
-				console.log(e);
-			}
-		}
-    } catch (err) {
-      console.error('Error reading file:', err);
-    }
-  }
-
-  function trimBuffer(buffer) {
-        let i = buffer.length - 1;
-        
-        // Find the last non-zero byte
-        while (i >= 0 && buffer[i] === 0) {
-            i--;
-        }
-        
-        // Slice the buffer up to the last non-zero byte
-        return buffer.slice(0, i + 1);
-    }
-  //BE
-    function numberToBuffer(num, size = null) {
-        if (typeof num !== "number" || !Number.isInteger(num) || num < 0) {
-            throw new TypeError("Input must be a non-negative integer.");
-        }
-
-        let bytes = [];
-
-        // Extract each byte, starting with the most significant byte (Big-Endian)
-        while (num > 0) {
-            bytes.unshift(num & 0xFF); // Get the most significant byte
-            num = Math.floor(num / 256); // Shift right by 8 bits (division by 256)
-        }
-
-        if (bytes.length === 0) {
-            bytes.push(0); // Ensure at least one byte for the number 0
-        }
-
-        // If `size` is provided and greater than current length, pad with zeros
-        if (size !== null && Number.isInteger(size) && size > bytes.length) {
-            while (bytes.length < size) {
-                bytes.unshift(0); // Pad with leading zeros (Big-Endian)
-            }
-        }
-
-        return Buffer.from(size === null ? bytes : bytes.slice(0, size)); // No need to reverse
-    }
-
-  function bufferize(data, size) {
-	//console.log("Writing",data)
-	if(!data && data !== 0) return null;
-    if(!Buffer.isBuffer(data)) {
-		
-        if(
-            typeof(data) == "string"
-		) {
-			var str = Buffer.from(data);
-			if(size) {
-				var buf = Buffer.alloc(size);
-				str.copy(buf);
-				data = buf;
-			} else {
-				data = str;
-			}
-
-        } else if(typeof(data) == "number") {
-            try {
-			//	console.log("Trying it",data)
-                data = numberToBuffer(data, size)
-            } catch(e) {
-                console.log(e)
-            }
-        } else if(typeof(data) == "boolean") {
-			var buf = Buffer.alloc(size || 1);
-			buf.writeUInt8(data?1:0, 0)
-            data = buf
-        } else if(Array.isArray(data)) {
-		
-			var ars = []
-			data.forEach(q => {
-				var buf = bufferize(q);
-				if(Buffer.isBuffer(buf))
-				ars.push(buf);
-			});
-			data = Buffer.concat(ars);
-			
-
-        } else if(data && typeof(data) == "object") {
-			var bufs = getBuffers(data, false);
-			//writeUIntToBuffer(buf, readUIntFromBuffer(bufs))
-			/*var totalBytes = 0;
-			bufs.forEach(b => {
-				totalBytes += b.totalBytes
-			});
-			var masterBuffer = Buffer.alloc(totalBytes);
-			bufs.forEach(q => {
-				var sz = q.totalBytes;
-				if(isNaN(sz)) return;
-				
-			})*/
-			
-			data = bufs.bufferMap;
-			
-		} else return null;
-      }
-	  return data;
-  }
-  var pathToHandles = {};
-  global.pathToHandles = pathToHandles;
-  async function writeBytesToFile(filePath, offset, data, close=false) {
-    try {
-      // Calculate total size of the buffer based on data
-      if(isNaN(offset)) {
-		
-		return {offset, size: 0}
-	  }
-      data = bufferize(data);
-      
-	  
-      // Combine all buffers into one single buffer to write
-      var realPath = null;
-      if(
-        filePath?.awtsmoosPath && 
-        filePath?.awtsmoosClosed
-    ) {
-        realPath = filePath.awtsmoosPath;
-        filePath = realPath;
-       
-      }
-      
-      // Open the file for writing
-      var fileHandle = null;
-       
-    if(typeof(filePath) == "string") {
-        var pt = pathToHandles[filePath];
-        if(pt) {
-            fileHandle = pt;
-            if(pt.awtsmoosClosed) {
-                fileHandle = await openFile(
-                    pt.awtsmoosPath
-                )
-                pathToHandles[filePath] = fileHandle
-            }
-          //  console.log("Checking",fileHandle)
-        } else {
-            fileHandle = await openFile(filePath)
-            pathToHandles[filePath] = fileHandle;
-        }
-    } else {
-        fileHandle = filePath;
-
-    }
-     if(!fileHandle) {
-        console.log("Not working",data, filePath,);
-        return {
-            offset: newOffset,
-            size: data.legth,
-            data,
-            file: filePath
-        }
-     }
-      
-      // Write the combined buffer at the specified offset
-      await fileHandle.write(data, 0, data.length, offset);
-  
-     // await fileHandle.close();
-
-      var newOffset = offset + data.length;
-      if(close)
-        await closeFile(fileHandle);
-      return {
-		offset:newOffset,
-		size: data.length,
-		data,
-        file: fileHandle
-	  }
-    } catch (err) {
-      console.error('Error writing to file:', err);
-    }
-  }
-
-  async function closeFile(fh) {
-   
-    if(!fh) {
-        return;
-    }
-	var fh1 = await fh?.close?.();
-
-    fh.awtsmoosClosed = true
-   // console.log("CLOSED",fh, fh1)
-    return fh;
-  }
-  async function openFile(path) {
-    var fh;
-    try {
-        fh = await fs.open(path, 'r+');
-        fh.awtsmoosPath = path;
-
-    } catch(e) {
-        console.log(e, " FILE ERROR AWT")
-        
-    }
-
-    if(!fh) {
-
-        fh = await fs.open(path, "w+");
-        fh.awtsmoosPath = path;
-        
-        try {
-			await fh?.close?.();
-            fh = await fs.open(path, "r+");
-            fh.awtsmoosPath = path;
-            fh.firstTime = true;
-        } catch(e) {
-            console.log(e, "FILE OPENING ERROR");
-            return null;
-        }
-    }
-    return fh;
-  }
 
 function readUInt64BE(buf, offset = 0) {
     let low = buf.readUInt32BE(offset);       // Read lower 32 bits
@@ -573,23 +191,6 @@ function writeConditional(amount) {
 }
 
 
-function byteLengthToSize(byteLength) {
-    if(byteLength < 256) {
-        return 1
-
-        
-    } else if(byteLength >= 256 && byteLength < 65536) {
-       return 2
-
-      
-    } else if(byteLength >= 65536 && byteLength <= 4294967296) {
-        return 4
-    } else if(
-        byteLength >= 4294967296 && byteLength <= 18446744073709552000n
-    ) {
-        return 8
-    } else return 16
-}
 
 function hashKey(key, size) {
     let hash = crypto.createHash('md5').update(key).digest();
@@ -606,47 +207,249 @@ function writeBitAt(byte, index) {
 }
 
 
-function splitData(data, remainingSize) {
-    let firstPart, remainder;
 
-    // Check if the data is a string or a Buffer
-    if (typeof data === 'string') {
-        // Convert to Buffer first
-        data = Buffer.from(data, 'utf8');
+
+/**
+ * writeBytesToFileAtOffset:
+ * A helper function to write structured binary data at a specified file offset.
+ * The data parameter is an array of objects. Each object represents a C-like structure,
+ * where keys denote type and fixed length. Supported types include:
+ *   - uint_X: An unsigned integer occupying X bits (e.g. uint_8, uint_16, uint_32, uint_64).
+ *   - string_N: A fixed-length string of N bytes (padded or truncated as needed).
+ *   - buffer_N: A Buffer of exactly N bytes.
+ *
+ * This function collates all the data into one large Buffer, writes it at the given offset,
+ * and returns an object containing metadata about the operation.
+ */
+async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
+    // Calculate total length and build write instructions.
+    let totalLength = 0;
+    const writeInstructions = [];
+    const writtenData = [];
+
+    for (const obj of dataArray) {
+        for (const key of Object.keys(obj)) {
+            let value = obj[key];
+            let typeMatch;
+            if (typeMatch = key.match(/^uint_(\d+)$/)) {
+                const bitSize = parseInt(typeMatch[1], 10);
+                const byteSize = bitSize / 8;
+                totalLength += byteSize;
+                writeInstructions.push({
+                    type: 'uint',
+                    size: byteSize,
+                    value
+                });
+                writtenData.push(value);
+            } else if (typeMatch = key.match(/^string_(\d+)$/)) {
+                const strLength = parseInt(typeMatch[1], 10);
+                totalLength += strLength;
+                writeInstructions.push({
+                    type: 'string',
+                    size: strLength,
+                    value
+                });
+                writtenData.push(value);
+            } else if (typeMatch = key.match(/^buffer_(\d+)$/)) {
+                const bufLength = parseInt(typeMatch[1], 10);
+                totalLength += bufLength;
+                if (!Buffer.isBuffer(value) || value.length !== bufLength) {
+                    throw new Error(`Value for ${key} must be a Buffer of length ${bufLength}`);
+                }
+                writeInstructions.push({
+                    type: 'buffer',
+                    size: bufLength,
+                    value
+                });
+                writtenData.push(value);
+            } else {
+                throw new Error(`Unsupported type key: ${key}`);
+            }
+        }
     }
 
-    // Check if the data length is larger than the remaining size
-    if (data.length > remainingSize) {
-        // Extract the first part that fits within the remainingSize
-        firstPart = data.slice(0, remainingSize);
-        // The remainder is the rest of the data
-        remainder = data.slice(remainingSize);
-    } else {
-        // If the data fits, the first part is the entire data, and there's no remainder
-        firstPart = data;
-        remainder = Buffer.alloc(0);  // Empty buffer for remainder
+    // Allocate the complete Buffer.
+    const buffer = Buffer.alloc(totalLength);
+    let currentOffset = 0;
+    for (const instr of writeInstructions) {
+        if (instr.type === 'uint') {
+            if (instr.size === 1) {
+                buffer.writeUInt8(instr.value, currentOffset);
+            } else if (instr.size === 2) {
+                buffer.writeUInt16BE(instr.value, currentOffset);
+            } else if (instr.size === 4) {
+                buffer.writeUInt32BE(instr.value, currentOffset);
+            } else if (instr.size === 8) {
+                buffer.writeBigUInt64BE(BigInt(instr.value), currentOffset);
+            } else {
+                throw new Error(`Unsupported uint byte size: ${instr.size}`);
+            }
+            currentOffset += instr.size;
+        } else if (instr.type === 'string') {
+            let strBuf = Buffer.alloc(instr.size);
+            let tempBuf = Buffer.from(instr.value, 'utf8');
+            if (tempBuf.length > instr.size) {
+                tempBuf = tempBuf.slice(0, instr.size);
+            }
+            tempBuf.copy(strBuf);
+            strBuf.copy(buffer, currentOffset);
+            currentOffset += instr.size;
+        } else if (instr.type === 'buffer') {
+            instr.value.copy(buffer, currentOffset);
+            currentOffset += instr.size;
+        }
     }
 
-    return { firstPart, remainder };
+    const handle = await getFileHandle(filePath);
+    await handle.write(buffer, 0, totalLength, offset);
+
+    return {
+        size: totalLength,
+        fileHandle: handle,
+        data: writtenData
+    };
+}
+
+/**
+ * readFileBytesAtOffset:
+ * Reads structured binary data from a file at a given offset using a provided schema.
+ * The schema is an object whose keys are the desired property names and whose values are
+ * type strings (e.g., "uint_8", "string_16", "buffer_64"). The function computes the total
+ * number of bytes to read, fetches them, and then maps them into an object based on the schema.
+ */
+async function readFileBytesAtOffset({
+    filePath,
+    offset,
+    schema
+}) {
+    let totalLength = 0;
+    const instructions = [];
+    if(!schema || typeof(schema) != "object") {
+        return console.trace("NO schema/!")
+    }
+    var keys =Object.keys(schema)
+    for (const key of keys ) {
+        const typeString = schema[key];
+        if(typeof(typeString) != "string") {
+            return console.trace("BIG ISSUE",schema,key,typeString)
+        }
+        let typeMatch;
+        if (typeMatch = typeString.match(/^uint_(\d+)$/)) {
+            const bitSize = parseInt(typeMatch[1], 10);
+            const byteSize = bitSize / 8;
+            totalLength += byteSize;
+            instructions.push({
+                key,
+                type: 'uint',
+                size: byteSize
+            });
+        } else if (typeMatch = typeString.match(/^string_(\d+)$/)) {
+            const strLength = parseInt(typeMatch[1], 10);
+            totalLength += strLength;
+            instructions.push({
+                key,
+                type: 'string',
+                size: strLength
+            });
+        } else if (typeMatch = typeString.match(/^buffer_(\d+)$/)) {
+            const bufLength = parseInt(typeMatch[1], 10);
+            totalLength += bufLength;
+            instructions.push({
+                key,
+                type: 'buffer',
+                size: bufLength
+            });
+        } else {
+            throw new Error(`Unsupported schema type: ${typeString}`);
+        }
+    }
+
+    const buffer = Buffer.alloc(totalLength);
+    const handle = await getFileHandle(filePath);
+    await handle.read(buffer, 0, totalLength, offset);
+
+    const result = {};
+    let currentOffset = 0;
+    for (const instr of instructions) {
+        if (instr.type === 'uint') {
+            if (instr.size === 1) {
+                result[instr.key] = buffer.readUInt8(currentOffset);
+            } else if (instr.size === 2) {
+                result[instr.key] = buffer.readUInt16BE(currentOffset);
+            } else if (instr.size === 4) {
+                result[instr.key] = buffer.readUInt32BE(currentOffset);
+            } else if (instr.size === 8) {
+                result[instr.key] = Number(buffer.readBigUInt64BE(currentOffset));
+            } else {
+                throw new Error(`Unsupported uint byte size in schema: ${instr.size}`);
+            }
+            currentOffset += instr.size;
+        } else if (instr.type === 'string') {
+            let strBuf = buffer.slice(currentOffset, currentOffset + instr.size);
+            result[instr.key] = strBuf.toString('utf8').replace(/\0/g, '');
+            currentOffset += instr.size;
+        } else if (instr.type === 'buffer') {
+            result[instr.key] = buffer.slice(currentOffset, currentOffset + instr.size);
+            currentOffset += instr.size;
+        }
+    }
+
+    return result;
 }
 
 
-function bufferToArrayOfIntegers(bufferString) {
-    // Remove the <Buffer> part of the string and split the rest by spaces
-    const hexValues = bufferString.replace('<Buffer ', '').replace('>', '').trim().split(' ');
 
-    // Convert each hex value to a base-10 integer and store them in an array
-    const integers = hexValues.map(hex => parseInt(hex, 16));
+global.openFileHandles = openFileHandles;
 
-    return integers;
+/**
+ * getFileHandle:
+ * Opens a file using fs.promises and caches the file handle for rapid successive I/O.
+ * If a file handle is already open (and not marked as closed), it returns that handle.
+ */
+async function getFileHandle(filePath) {
+    if(!filePath) {
+        console.trace("no file path")
+        return;
+    }
+	if (openFileHandles[filePath] && !openFileHandles[filePath].isClosed) {
+		return openFileHandles[filePath].handle;
+	}
+	// Attempt to open the file with read/write access; create it if it does not exist.
+	let handle;
+	try {
+		handle = await fs.open(filePath, 'r+');
+	} catch (err) {
+		try {
+			handle = await fs.open(filePath, 'w+');
+			await handle.close();
+			handle = await fs.open(filePath, "r+");
+		} catch(e) {
+            console.log("Trying \n\n\n",filePath)
+			console.log("Issue",e);
+
+		}
+	}
+	var keys = Object.keys(openFileHandles)
+	if(keys.length > MAX_OPEN_FILES) {
+		try {
+			delete openFileHandles[keys[keys.length - 1]];
+		} catch(e){}
+	}
+	openFileHandles[filePath] = {
+		handle,
+		isClosed: false
+	};
+	// (Optional: implement LRU closing if count exceeds MAX_OPEN_FILES)
+	return handle;
 }
 
 module.exports = {
-    bufferToArrayOfIntegers,
     logBuffer,
 
-    readUIntFromBuffer,
-    writeUIntToBuffer,
+    readFileBytesAtOffset,
+    writeBytesToFileAtOffset,
+
+    getFileHandle,
 
     needsDoublePrecision,
     hasDecimal,
@@ -656,17 +459,13 @@ module.exports = {
     writeConditional,
     readConditional,
 
-    byteLengthToSize,
+    
     writeBitAt,
 
-    writeBytesToFile,
-    readBytesFromFile,
-    openFile,
-    closeFile,
 
 	sizeof,
 
-	splitData,
+	
 
     hashKey
 }

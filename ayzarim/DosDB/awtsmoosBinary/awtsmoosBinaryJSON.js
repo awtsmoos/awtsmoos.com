@@ -441,7 +441,7 @@ function serializeArray(arr) {
         }
     });
     var byteSizeInfo = writeConditional(biggestSize)
-    var byteSize =byteSizeInfo.size// byteLengthToSize(byteSizeInfo.size);
+    var byteSize =byteSizeInfo.size
     var byteSizeBuffer = writeConditional(byteSize)
     console.log(byteSize,"bite ised",biggestSize)
     var keyBuffer = Buffer.alloc(

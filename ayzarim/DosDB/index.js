@@ -8,7 +8,6 @@ var readdir = util.promisify(fs.readdir);
 var stat = fs.stat;
 var gde = require("./getDirectoryEntries.js")
 var awtsutils = require("../tools/utils.js");
-var AwtsmoosIndexManager = require("./AwtsmoosIndexManager.js");
 /**
  * The DosDB class represents a simple filesystem-based key-value store where each
  * record is stored as a separate JSON file in the provided directory.
@@ -40,10 +39,7 @@ class DosDB {
 	 */
 	constructor(directory) {
 		this.directory = directory || "../";
-		this.indexManager = new AwtsmoosIndexManager({
-			directory,
-			db: this
-		});
+	
 	}
 	/**
 	 * Initialize the database by creating the root directory, if it does not already exist.
@@ -53,7 +49,7 @@ class DosDB {
 	async init() {
 		await fs.mkdir(this.directory, { recursive: true });
 		try {
-			await this.indexManager.init(this, 777);
+	//		await this.indexManager.init(this, 777);
 		} catch (e) {
 			console.log(e, "Index issue")
 		}
@@ -224,18 +220,19 @@ class DosDB {
 					}
 					var fileIndexes;
 					try {
-						fileIndexes = await gde(
-							filePath,
-							page,
-							pageSize,
-							maxOrech,
-							filterBy,
-							sortBy,
-							order,
-							filters,
-							id,
-							this
-						);
+						fileIndexes = await gde({
+								directoryPath: filePath,
+								page,
+								pageSize,
+								maxOrech,
+								filterBy,
+								sortBy,
+								order,
+								filters,
+								id,
+								db: this,
+								fs
+						});
 					} catch (e) {
 						console.log("problem listing", e);
 					}

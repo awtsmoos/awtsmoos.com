@@ -1,12 +1,12 @@
 // B"H
 //B"H
-const os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
+const os = require("../../ayzarim/DosDB/awtsmoosFs/fsOperations.js");
 const path = require("path");
 
 const FILESYSTEM_PATH = 
-    "/home/yackov/Documents/git/awts.awtsmoosFs";
+    //"/home/yackov/Documents/git/awts.awtsmoosFs";
 
-   // "/home/yackov/Documents/dayuh/awtsmoosOs.awtsmoosFs";
+   "/home/yackov/Documents/dayuh/awtsmoosOs.awtsmoosFs";
 
 (async () => {
     const args = process.argv.slice(2);
@@ -22,18 +22,18 @@ const FILESYSTEM_PATH =
    // fs = FILESYSTEM_PATH
     try {
         if (command === "list") {
-            let contents = await os.readFolder({ file: fs, path: targetPath, withValues: true });
+            let contents = await os.readFolder({ filePath: fs, path: targetPath, withValues: true });
             console.log("Contents of", targetPath, ":", contents);
         } else if (command === "read") {
-            let fileData = await os.readFile({ file: fs, path: targetPath });
+            let fileData = await os.readFile({ filePath: fs, path: targetPath });
             console.log("File content:", fileData);
         } else if (command === "stat") {
-            let stats = await os.stat({ file: fs, path: targetPath });
+            let stats = await os.stat({ filePath: fs, path: targetPath });
             console.log("File stats:", stats);
         } else {
             console.log("Unknown command.");
         }
-        os.closeFile(fs)
+        
     } catch (error) {
         console.error("Error:", error.message);
     }
