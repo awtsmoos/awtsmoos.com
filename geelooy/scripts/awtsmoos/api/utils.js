@@ -140,7 +140,7 @@ async function deleteAllCommentsOfAlias({
 	aliasId,
 	heichelId
 }) {
-	var r = await fetch(`https://awtsmoos.com/api/social/heichelos/${
+	var r = await fetch(`${location.origin}/api/social/heichelos/${
 		heichelId
   }/post/${
 		postId
@@ -209,7 +209,7 @@ function loadJSON() {
 
 
 
-var base = "https://awtsmoos.com"
+var base = location.origin//"https://awtsmoos.com"
 async function makeSeries({
     heichelId,
     aliasId,
@@ -520,7 +520,7 @@ async function deleteAllCommentsFromAlias({
 	heichelId,
 	postId
 }) {
-	return getAPI(`https://awtsmoos.com/api/social/heichelos/${
+	return getAPI(`${base}/api/social/heichelos/${
 		heichelId		
 	}/post/${
 		postId	
@@ -540,7 +540,7 @@ async function deleteAllCommentsFromParent({
 	heichelId,
 	postId
 }) {
-	return getAPI(`https://awtsmoos.com/api/social/heichelos/${
+	return getAPI(`${base}/api/social/heichelos/${
 		heichelId		
 	}/post/${
 		postId	

@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     })
 
-    var endpoint = "https://awtsmoos.com/api/social/aliases" + (alias ? "/"+alias:"");
+    var endpoint = location.origin+"/api/social/aliases" + (alias ? "/"+alias:"");
     console.log(window.en = endpoint)
     if(del) {
         del.onclick = async () => {

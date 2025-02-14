@@ -1,9 +1,8 @@
 //B"H
 
-var fs = require('fs').promises;
 var path = require('path');
 
-async function getDirectoryEntries(
+async function getDirectoryEntries({
   directoryPath,
   page = 1,
   pageSize = 60,
@@ -11,8 +10,9 @@ async function getDirectoryEntries(
   sortBy = 'alphabetical',
   order = 'asc',
   id,
-  db
-) {
+  db,
+  fs
+}={}) {
   try {
     page = parseInt(page);
     pageSize = parseInt(pageSize);
@@ -20,6 +20,8 @@ async function getDirectoryEntries(
 
     // Retrieve both files and directories
     let entries = await fs.readdir(directoryPath, { withFileTypes: true });
+    console.log(entries,)
+    return entries;
     if(filterBy  && typeof(filterBy) == "object") {
       try {
         var newEnt = [];

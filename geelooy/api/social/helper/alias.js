@@ -447,6 +447,7 @@ async function generateAliasId({
 	} 
 
 	try {
+
 		var existingAlias = await $i
 		.db.get(`${sp}/aliases/${
 			aliasId

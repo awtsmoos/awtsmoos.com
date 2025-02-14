@@ -207,7 +207,7 @@ module.exports = ({
 	 */
 	"/aliases": async () => {
 		
-		
+
 		if (!loggedIn($i)) {
 			return er(NO_LOGIN);
 		}

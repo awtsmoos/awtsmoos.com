@@ -30,6 +30,7 @@ function myOpts($i){
 }
 
 function loggedIn($i) {
+
     return !!$i.request.user;
   }
   
@@ -40,6 +41,7 @@ function loggedIn($i) {
     function er(m){
         return {
           BH: "B\"H",
+         // wow:3,
                 error: 
                   m||"improper input of parameters"
         }

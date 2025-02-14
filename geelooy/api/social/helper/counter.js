@@ -110,7 +110,7 @@ async function makeCounter({
     if(!loggedIn($i)) {
         return er({
             code: "NO_LOGIN",
-            message: "You're not logged in"
+            message: "You're not logged inSADAD"
         });
     }
     var title = $i.$_POST.title;
@@ -163,7 +163,7 @@ async function getCounters({
     if(!loggedIn($i)) {
         return er({
             code: "NO_LOGIN",
-            message: "You're not logged in"
+            message: "You're not logged in@!@!"
         });
     }
     var counterIDs = await $i.db.get(

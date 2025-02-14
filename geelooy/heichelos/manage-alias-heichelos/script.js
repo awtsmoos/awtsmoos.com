@@ -99,7 +99,7 @@ function doNext() {
 		});
 	})
 
-	var endpoint = "https://awtsmoos.com/api/social/alias/" +
+	var endpoint = location.origin+"/api/social/alias/" +
 		aliasId +
 		"/heichelos" + (heichel ? "/" + heichel : "");
 	console.log(window.en = endpoint)

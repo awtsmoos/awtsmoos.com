@@ -438,6 +438,7 @@ async function getSeries({
 				}/posts`
 
 				);
+			console.log("WOW",posts,subSeries)
 			rt.posts = Array.from(posts || []);
 			rt.subSeries = Array.from(subSeries || []);
 			rt.prateem = prateem;
@@ -1228,18 +1229,18 @@ async function addContentToSeries({
 			indexAddedTo = index;
 			var ob = Object.assign({}, existingSeries)
 			ob.length = existingSeries.length;
-
-			await $i
-				.db.write(sp +
-					`/heichelos/${
-						heichelId
-						
-					}/series/${
-						seriesId
-					
-					}/${wtw}`, ob
-
-				);
+			var path = sp +
+			`/heichelos/${
+				heichelId
+				
+			}/series/${
+				seriesId
+			
+			}/${wtw}`;
+			console.log("Writing seer",path,ob)
+			var wroyt = await $i
+				.db.write(path, ob);
+			console.log("WRote it?",wroyt)
 				
 			//EDIT the parent series property of it
 			
@@ -1247,22 +1248,7 @@ async function addContentToSeries({
 			var ar = Array.from(ob);
 			if(type == "post") {
 				
-				/*var postResp = []
-				var i = 0;
-				for(var p in ar) {
-					
-					//edit post
-					var pr = await editPostDetails({
-						$i,
-						heichelId,
-						
-						postID: p,
-						verified: true,
-						dontUpdateIndex: true
-					})
-					postResp.push(pr);
-					i++;
-				}*/
+				
 				$i.$_PUT = {
 					aliasId,
 					parentSeriesId: seriesId
@@ -1706,9 +1692,15 @@ async function makeNewSeries({
 
 
 		})
+		var prateem = {
+			name: seriesName,
+			id: seriesID,
+			description,
+			author: aliasId
 
-		await $i.db.write(
-			`${
+
+		}
+		var pratPath = `${
 			sp
 
 		}/heichelos/${
@@ -1716,14 +1708,10 @@ async function makeNewSeries({
 		}/series/${
 			seriesID
 			
-		}/prateem`, {
-			name: seriesName,
-			id: seriesID,
-			description,
-			author: aliasId
-
-
-		})
+		}/prateem`
+		console.log("Writig raptem",pratPath,prateem)
+		await $i.db.write(
+			pratPath, prateem)
 	}
 
 

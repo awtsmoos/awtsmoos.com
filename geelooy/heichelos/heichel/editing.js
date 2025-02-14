@@ -61,7 +61,7 @@ function addSubmitButtons() {
     var heichelDetailsBtn = document.createElement("a");
     heichelDetailsBtn.innerText = "Edit Heichel Details";
                 
-    var k = new URL("https://awtsmoos.com/heichelos/manage-alias-heichelos")
+    var k = new URL(location.origin+"/heichelos/manage-alias-heichelos")
     var pr = new URLSearchParams({
         alias: curAlias,
         returnURL: location.href,
@@ -478,7 +478,7 @@ async function setupEditorHTML() {
     const authorLink = document.createElement('div');
     authorLink.className = 'author-link';
     const authorAnchor = document.createElement('a');
-    authorAnchor.href = `https://awtsmoos.com/@${author}`;
+    authorAnchor.href = `${location.origin}/@${author}`;
     authorAnchor.textContent = "@"+author;
     authorLink.appendChild(authorAnchor);
     authorHolder.appendChild(authorLink);

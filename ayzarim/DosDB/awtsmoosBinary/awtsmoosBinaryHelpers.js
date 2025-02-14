@@ -400,8 +400,10 @@ async function readBytesFromFile(filePath, offset, struct) {
     try {
         fh = await fs.open(path, 'r+');
         fh.awtsmoosPath = path;
+
     } catch(e) {
         console.log(e, " FILE ERROR AWT")
+        
     }
 
     if(!fh) {
@@ -413,6 +415,7 @@ async function readBytesFromFile(filePath, offset, struct) {
 			await fh?.close?.();
             fh = await fs.open(path, "r+");
             fh.awtsmoosPath = path;
+            fh.firstTime = true;
         } catch(e) {
             console.log(e, "FILE OPENING ERROR");
             return null;

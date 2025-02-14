@@ -87,7 +87,7 @@
 
 
 
-var DosDB = require("./index.js");
+var DosDB = require("./new-index.js");
 
 var AwtsmoosIndexManager = require ("./AwtsmoosIndexManager.js");
 var fs = require("fs").promises;

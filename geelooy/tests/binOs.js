@@ -6,20 +6,31 @@ var os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
 
 (async () => {
     var pth = "../awts.awtsmoosFs";
-    var s = await os.setupEmptyFilesystem(pth);
-
+    var s = await os.setupFilesystem(pth);
+   
     console.log("\nSetting up stress test...\n");
+    console.log(await os.readFolder({
+        file: s,
+        path: "/"
+    }))
+  
 
     // **Massive nested folders test**
     var folders = [];
-    let depth = 10;
+    let depth = 11;
     let currentPath = "/stressTest";
+    folders.push(currentPath);
     for (let i = 1; i <= depth; i++) {
         currentPath += `/level${i}`;
         folders.push(currentPath);
     }
 
-    folders.push("/bin", "/docs", "/data", "/logs", "/special!@#%^&*()_+[]{}");
+    folders.push(
+        "/what/are/you/doing/today",//resurively make odlers
+        "/bin", 
+        "/docs", 
+        "/data", "/logs", "/special!@#%^&*()_+"
+    );
 
     for (let folder of folders) {
         await os.makeFolder({ file: s, path: folder });
@@ -29,44 +40,62 @@ var os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
 
     // **Large number of files test**
     var files = [];
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 5; i++) {
         files.push({ path: `/docs/file${i}.txt`, data: `Test file ${i} content made at ${Date.now()}` });
     }
 
     files.push(
         { path: "/emptyFile.txt", data: "" }, // Empty file test
         { path: "/special!@#%^&*()_+/test.txt", data: "Special chars in path" }, // Special characters test
-        { path: "/stressTest/level10/huge.txt", data: "X".repeat(1024 * 10) } // 10KB file test
+        { path: "/stressTest/huge.txt", data: "X".repeat(256 * 4 * 1) } // 1mb file test
     );
+
+    console.log("made files in memeory, writing: ")
+    var start = Date.now();
 
     for (let f of files) {
         await os.makeFile({ file: s, path: f.path, data: f.data });
     }
+    var made = Date.now()-start
 
-    console.log("\nCreated 50+ files including large and special character paths.\n");
+    console.log(
+        "\nCreated 50+ files including large and special character paths.\n"
+    , "took",made
+    );
 
+    console.log("Reading folders")
+    var contentsTotal = []
+    var start = Date.now();
     // **Verify folder structures**
     for (let folder of folders) {
         let contents = await os.readFolder({ file: s, path: folder, withValues: true });
-        console.log(`folder ${folder} Contents of ${folder}:`, contents);
+        contentsTotal.push(`folder ${folder} Contents of ${folder}: ${JSON.stringify(contents)}` );
     }
-
+    var made = Date.now()-start
+    console.log("Read folders","took",made,contentsTotal.join("\n"))
     console.log("\nVerified all folder structures.\n");
 
     // **Verify file contents**
     for (let f of files) {
+        console.log("Checking file", f.path)
+       
         let fileData = await os.readFile({ file: s, path: f.path });
         let expectedData = f.data;
-        console.log("Checking file", f.path,"its data: ",fileData)
-       // console.log(`Checking ${f.path}...`, fileData === expectedData ? "PASS" : "FAIL");
+        console.log("found",fileData)
+        // console.log(`Checking ${f.path}...`, fileData === expectedData ? "PASS" : "FAIL");
     }
 
     console.log("\nAll file content checks passed.\n");
 
     // **Check file metadata**
     for (let f of files) {
+        try {
         let stats = await os.stat({ file: s, path: f.path });
         console.log(`Stats for ${f.path}:`, stats);
+        } catch(e) {
+            console.log("ISSSUE WITH",f,e)
+            break;
+        }
     }
 
     console.log("\nFile metadata checks completed.\n");

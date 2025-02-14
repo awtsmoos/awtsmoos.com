@@ -540,7 +540,7 @@ async function createHeichel({
     if (isPublic == "yes") {
         await $i.db.write(
             sp +
-            `heichelos/${
+            `/heichelos/${
                 heichelId
             }/public`
         );

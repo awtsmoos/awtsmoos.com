@@ -73,7 +73,7 @@ class AwtsmoosFS {
     async initialize(rootPath) {
         if(rootPath)
             this.root = rootPath;
-        this.handle = await os.setupEmptyFilesystem(
+        this.handle = await os.setupFilesystem(
             this.root
         );
         return this.handle;
@@ -97,7 +97,8 @@ class AwtsmoosFS {
     }
     
     async mkdir(path, options) {
-        console.log("Making",path,this.handle)
+       
+        
         await os.makeFolder({ file: this.handle, path });
     }
     

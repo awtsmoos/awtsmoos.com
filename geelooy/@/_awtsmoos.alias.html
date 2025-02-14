@@ -27,7 +27,7 @@
 					
 						<a href="/profile/alias-manage" id="aliasId">@${alias.id}</a>
 						<script>
-						var ref = new URL("https://awtsmoos.com/profile/alias-manage");
+						var ref = new URL(location.origin+"/profile/alias-manage");
 						ref.search = new URLSearchParams({
 							alias: "${alias.id}",
 							action: "update",

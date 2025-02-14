@@ -1,13 +1,11 @@
 //B"H
-var fsRegular = require("fs")
-var fs = fsRegular.promises;
-
+var AwtsmoosFS = require("./awtsmoosFs/index.js")
+var fs = null;
+var awtsmoosBinary = require ("./awtsmoosBinary/awtsmoosBinaryJSON.js")
 var path = require('path');
-var util = require('util');
-var readdir = util.promisify(fs.readdir);
-var stat = fs.stat;
+
 var gde = require("./getDirectoryEntries.js")
-var awtsutils = require("../tools/utils.js");
+
 var AwtsmoosIndexManager = require("./AwtsmoosIndexManager.js");
 /**
  * The DosDB class represents a simple filesystem-based key-value store where each
@@ -40,10 +38,10 @@ class DosDB {
 	 */
 	constructor(directory) {
 		this.directory = directory || "../";
-		this.indexManager = new AwtsmoosIndexManager({
+		/*this.indexManager = new AwtsmoosIndexManager({
 			directory,
 			db: this
-		});
+		});*/
 	}
 	/**
 	 * Initialize the database by creating the root directory, if it does not already exist.
@@ -51,13 +49,33 @@ class DosDB {
 	 * @returns {Promise<void>} - A Promise that resolves when the directory has been created (or if it already exists).
 	 */
 	async init() {
-		await fs.mkdir(this.directory, { recursive: true });
+        if(!fs) {
+            fs = new AwtsmoosFS();
+            var joined = path.join(this.directory, "/awtsmoosOs.awtsmoosFs")
+            
+            var fh = await fs.initialize(joined)
+            console.log("INIT",fh)
+            this.fileSystemDirectory = this.directory;
+            this.directory = await this.getFilePath(this.directory);
+        }
+        //await fs.mkdir(this.directory, { recursive: true });
 		try {
-			await this.indexManager.init(this, 777);
+			//await this.indexManager.init(this, 777);
 		} catch (e) {
 			console.log(e, "Index issue")
 		}
 	}
+
+    sanitizePath(path) {
+        // The essence of purity, the path untangled and unbroken
+        while (path.includes('..')) {
+            // Replacing the twisted trails with the righteous root
+            path = path.replace('..', '');
+        }
+        path = path.split("/").filter(r=>r).join("/");
+            if(!path) path="/"
+        return path  // Returning the sanctified path, a path of light
+    }
 	/**
 	 * Get the path for a record file.
 	 * @param {string} id - The identifier for the record.
@@ -69,16 +87,13 @@ class DosDB {
 	async getFilePath(id, isDir = false) {
 		if(typeof(id) != "string")
 			return id;
-		id = awtsutils.sanitizePath(id);
-		var mainDir = this.directory;
+		id = this.sanitizePath(id);
+        
 		// Remove mainDir from id if it is present, otherwise leave id as is
-		var cleanedPath = id
-			.startsWith(mainDir) ?
-			path.relative(mainDir, id) : id;
-		var fullPath = path.join(this.directory, cleanedPath);
-		var fullPathWithJson = path.join(this.directory, `${cleanedPath}.json`);
-		fullPath = fullPath.replaceAll("\\", "/")
-		fullPathWithJson = fullPathWithJson.replaceAll("\\", "/")
+		var cleanedPath =id;
+		var fullPath = cleanedPath// path.join(this.directory, cleanedPath);
+		
+        fullPath = fullPath.replaceAll("\\", "/")
 		// Check if id already contains an extension
 		if(path.extname(id) || isDir) {
 			// If it does, use the id as is
@@ -90,15 +105,7 @@ class DosDB {
 			// If it's a directory or file, return the path as is
 			return fullPath;
 		} catch (error) {
-			// In case of error, try to get the stats assuming it's a file with .json extension
-			try {
-				await fs.stat(fullPathWithJson);
-				// If it's a file with .json extension
-				return fullPathWithJson;
-			} catch (error) {
-				// If both checks fail, assume it's a new file entry
-				return fullPath;
-			}
+			return fullPath;
 		}
 	}
 	async readFileWithOffset(filePath, offset, length) {
@@ -186,7 +193,7 @@ class DosDB {
 			var order = options.order || "asc";
 			let filePath = await this.getFilePath(id);
 			var removeJSON = !keepJSON
-		
+            
 			try {
 				var statObj = await fs.stat(filePath);
 				if(access) {
@@ -217,25 +224,27 @@ class DosDB {
 						}
 				//		console.log("GOT?", checkIfItsSingleEntry, filePath);
 					} catch (e) {
-						console.log("Prob", e);
+					//	console.log("Prob", e);
 					}
 					if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
 						return checkIfItsSingleEntry;
 					}
 					var fileIndexes;
 					try {
-						fileIndexes = await gde(
-							filePath,
-							page,
-							pageSize,
-							maxOrech,
-							filterBy,
-							sortBy,
-							order,
-							filters,
-							id,
-							this
-						);
+                        
+						fileIndexes = await gde({
+                                directoryPath: filePath,
+                                page,
+                                pageSize,
+                                maxOrech,
+                                filterBy,
+                                sortBy,
+                                order,
+                                filters,
+                                id,
+                                db: this,
+                                fs
+                        });
 					} catch (e) {
 						console.log("problem listing", e);
 					}
@@ -245,18 +254,14 @@ class DosDB {
 						for(var fileName in fileIndexes.files) {
 							var res = await this.get(path.join(id, fileName), options);
 							if(res !== null) {
-								if(removeJSON) {
-									removeJSONExtension(fileName);
-								}
+								
 								allContents[fileName] = res;
 							}
 						}
 						for(var dirName in fileIndexes.subdirectories) {
 							var res = await this.get(path.join(id, dirName), options);
 							if(res !== null) {
-								if(removeJSON) {
-									removeJSONExtension(dirName);
-								}
+								
 								allContents[dirName] = res;
 							}
 						}
@@ -266,24 +271,14 @@ class DosDB {
 						var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
 							// Check if it's a directory based on statObj
 							
-							if(removeJSON ) {
-								return removeJSONExtension(fileName);
-							}
+							
 							return fileName;
 						});
 						return info;
 					}
 				}
 		
-				function removeJSONExtension(filePath) {
-					var extension = path.extname(filePath);
-					if(extension == ".json") {
-						var ind = filePath.indexOf(".json");
-						filePath = filePath.substring(0, ind);
-					}
-					return filePath;
-				}
-		
+				
 				// Handling the file case (non-directory)
 				var ext = path.extname(filePath);
 				if(ext === '.json') {
@@ -303,8 +298,8 @@ class DosDB {
 					return content.toString(); // Assuming you want to convert binary data to string
 				}
 			} catch (error) {
-				if(error.code !== 'ENOENT')
-					console.error(error);
+				if(error.code !== 'ENOENT'){}
+					//console.error(error);
 				else {
 					//console.error("Not found", filePath);
 				}
@@ -321,8 +316,12 @@ class DosDB {
 	 * @returns {Promise<void>} - A Promise that resolves when the directory has been created (or if it already exists).
 	 */
 	async ensureDir(filePath, isDir = false) {
+        if(typeof(filePath) != "string") {
+            return console.log("NO PATH",filePath)
+        }
 		var dirPath = !isDir ? path.dirname(filePath) : filePath;
-		await fs.mkdir(dirPath, { recursive: true });
+		console.log("ENSURING directory exists",dirPath)
+        await fs.mkdir(dirPath, { recursive: true });
 		/*
 		var meta = await this.writeMetadata({
 		    dataPath: dirPath,
@@ -352,6 +351,10 @@ class DosDB {
 			return;
 		}
 		// Determine the directory path
+        if(typeof(filePath) != "string") {
+            console.log("WHAT",filePath,id)
+            return null
+        }
 		var directoryPath = path.dirname(filePath);
 		var base = path.basename(directoryPath)
 		var dir = path.dirname(directoryPath)
@@ -388,7 +391,7 @@ class DosDB {
 				
 			}
 		} catch(e) {
-			return {error: e.stack};
+			//return {error: e};
 		}
 	}
 	
@@ -401,22 +404,16 @@ class DosDB {
 				text
 			); 
 		} catch(e) {
-			console.log(e)
+			//console.log(e)
 		}
 	}
 
 	removeDirectory(dirPath) {
-	  return new Promise((resolve, reject) => {
-		  console.log("WOW")
+	  return new Promise(async (resolve, reject) => {
+		//  console.log("WOW")
 		
 		  
-	    fsRegular.rm(dirPath, { recursive: true }, (err) => {
-	      if (err) {
-	        reject(err);
-	      } else {
-	        resolve();
-	      }
-	    });
+	    await fs.rm(dirPath);
 	  });
 	}
 	/**
@@ -445,175 +442,19 @@ class DosDB {
 		if(isArray) {
 			keys = keys.concat("length")
 		}
-		var entries = {};
-		/*
-			have to check directory and delete 
-   			ALMOST all directories that are not found
-      			in it
-  		*/
-		var onlyUpdate = opts.onlyUpdate/*does not rewrite entire thing every time*/
-		try {
-			if(!onlyUpdate)
-				await this.removeDirectory(rPath)
-			
-		} catch(e) {
-			console.log("ISSUE writing",rPath,e)
-			//return {error:e.stack, details: rPath}
-		}
-		var wrote =  []
-		try {
-			for(
-				var k of keys
-			) {
-				var pth = path.join(rPath, k)
-				await this.ensureDir(pth, true);
-				var isObj = false;
-				var isAr = false;
-				var ext = ".awts" //for string values
-				var dataToWrite = r[k];
-				switch(typeof(r[k])) {
-					case "number":
-						ext = ".awtsNum";
-						dataToWrite += "";
-						
-						break;
-					case "undefined":
-						dataToWrite += ""
-						ext = ".awtsUndef"
-						break;
-					case "boolean":
-						ext = ".awtsBool";
-						dataToWrite += "";
-						break;
-					case "object":
-						if(r[k] === null) {
-							ext = ".awtsNull"
-							dataToWrite += "";
-						} else {
-							if(Array.isArray(r[k])) {
-								isAr = true;
-							}
-							isObj = true;
-						}
-						break;
-				}
-				if(isObj) {
-					var newPath = path.join(pth)
-					var wr = await this.writeRecordDynamic(
-						newPath, r[k]
-					);
-					wrote.push({name: newPath, val: r[k], obj: wr})
-					//console.log("Wrote dynamic?", k, keys[k], r[k])
-					if(!isAr)
-						ext = ".awtsObj";
-					else ext = ".awtsAr";
-					dataToWrite = null //JSON.stringify(r[k]);
-				}
-				var val = "val" + ext;
-				var joined = path.join(pth, val)
-				
-				try {
-					if(dataToWrite !== null)
-						//   console.log("About to write it")
-						await fs.writeFile(
-							joined,
-							dataToWrite
-						);
-						wrote.push(joined)
-					//  console.log("Wrote it",joined,dataToWrite)
-				} catch (e) {
-					console.log("Didnt write it")
-					return {error: "Issue of writing", details: e.stack, path: joined}
-				}
-				entries[k] = val;
-			}
-			var meta = await this.writeMetadata({
-				dataPath: rPath,
-				isArray,
-				entries
-			});
-			if(!meta) {
-				console.log("Didn't write meta", dataPath)
-				return {error: "No metadata", details: dataPath}
-			}
-		} catch (e) {
-			console.log("Error writing:", e)
-			return {error: e.stack};
-		}
-		return wrote;
+		var awtsJson = awtsmoosBinary.serializeJSON(r);
+        var joined = path.join(rPath, "_awts.awtsmoosJSON");
+        await this.ensureDir(joined);
+        console.log("WRiting!!! !! !!! !!",joined,r)
+        try {
+            var wrote = await fs.writeFile(joined, awtsJson);
+        } catch(e) {
+            console.log(e);
+        }
+        return wrote;
 	}
-	async writeMetadata({
-		dataPath,
-		isArray,
-		entries,
-		type
-	}) {
-		if(typeof(dataPath) != "string") {
-			return false;
-		}
-		if(!type) {
-			type = "record"
-		}
-		//  var dirName = path.dirname(dataPath)
-		var metaPath = path.join(
-			dataPath,
-			"_awtsmoos.meta.entry.json"
-		)
-		var wasEmpty = !entries
-		if(wasEmpty) {
-			entries = {}
-		}
-		var dataToWrite = {
-			entries,
-			type,
-			lastModified: Date.now()
-		}
-		if(isArray !== undefined) {
-			dataToWrite.isArray = isArray;
-		}
-		var metaAlready = null;
-		try {
-			metaAlready = await fs.readFile(metaPath);
-			metaAlready = JSON.parse(metaAlready);
-		} catch (e) {}
-		if(metaAlready) {
-			dataToWrite.entries = {
-				...metaAlready.entries,
-				...dataToWrite.entries,
-			}
-		}
-		if(wasEmpty) {
-			/**
-			 * check if file already exists in 
-			 * entries. If not, add it.
-			 
-			var base = path.basename(dataPath)
-			var myFileName = dataToWrite.entries[base];
-			if(!myFileName) {
-			    var fld = await fs.stat(dataPath);
-			    if(type != "directory") {
-			        var isDir = fld.isDirectory();
-			        dataToWrite.entries[base] = {
-			            type: isDir ? "directory" : "file"
-			        }
-			    }
-			}
-			*/
-		}
-		try {
-			//   console.log("Tying",metaPath)
-			await fs.writeFile(
-				metaPath,
-				JSON.stringify(dataToWrite)
-			);
-			//   console.log("Wrote the meta",metaPath,dataPath)
-			return true;
-			//  console.log("Wrote it all",dataToWrite)
-		} catch (e) {
-			console.log("Didnt write meta", e)
-			return false;
-		}
-	}
+	
+    
 	areAllKeysEqual(obj) {
 		// Get the keys of the object
 		const keys = Object.keys(obj);
@@ -651,312 +492,15 @@ class DosDB {
 		shouldNullify = false,
 		meta = false
 	}) {
-		// Initialize flag to track whether any property should be nullified
-		let nullify = shouldNullify;
-		if(typeof(filePath) != "string") {
-			return false;
-		}
 		try {
-			if(!stat.isDirectory()) {
-				return null;
-			}
-			var dynPath = filePath;
-			var bs = path.parse(dynPath).name;
-			var mDerech = null;
-			if(typeof(derech) == "string") {
-				mDerech = derech.split("/")
-			}
-			var res = null;
-			if(meta) {
-				var modified = stat.mtime.toISOString()
-				var made = stat.birthtime.toISOString()
-				var size = stat.size
-				res = {
-					entityId: bs,
-					size,
-					modified,
-					created: made
-				};
-				if(meta != "detailed")
-					return res;
-			}
-			var metadata = await this.IsDirectoryDynamic(
-				dynPath,
-				stat
-			);
-			if(!metadata) return null;
-			if(meta == "detailed") {
-				res.details = metadata;
-				return res;
-			}
-			var ents = null;
-			var map = null;
-			if(mDerech) {
-				ents = [mDerech[0]];
-			} else if(
-				Array.isArray(properties)
-			) {
-				ents = Array.from(properties);
-			} else if(typeof(properties) == "object") {
-				map = properties;
-				// Object.assign(map, properties)
-			}
-			var mappedKeys = null;
-			if(map) {
-				mappedKeys = Object.keys(map);
-			}
-			var propertyFiles = Object.entries(
-				metadata.entries
-			);
-			//   console.log("PROPERTY",propertyFiles, "MAPT",mappedKeys)
-			//   console.log("GETTING",map,mappedKeys)
-			var compiledData = {};
-			for(
-				var ent of propertyFiles
-			) {
-				var equals = undefined;
-				var includes = undefined;
-				var raw=false
-				var myMax = maxOrech;
-				//  console.log("Checking prop",ent)
-				if(mappedKeys) {
-					if(!mappedKeys.includes(
-							ent[0]
-						)) {
-						continue;
-					}
-					var val = map[ent[0]]
-					if(typeof(val) == "number")
-						myMax = val;
-				}
-				if(ents) {
-					if(ent[0] != "length")
-						if(!ents.includes(ent[0])) {
-							continue;
-						}
-				}
-				if(ent[1].includes(".awtsUndef")) {
-					return undefined;
-				}
-				if(ent[1].includes(".awtsNull")) {
-					return null;
-				}
-				var propPath = path.join(
-					dynPath,
-					ent[0],
-					ent[1]
-				);
-				if(ent[1].includes(".awtsObj") || ent[1].includes(".awtsAr")) {
-					var subDynamicPath = path.join(dynPath, ent[0]);
-					//   console.log("Finding sub path", subDynamicPath);
-					var ob = {
-						filePath: subDynamicPath,
-						stat,
-						shouldNullify: nullify
-					}
-					if(mDerech) {
-						ob.properties = mDerech.slice(1)
-					} else if(ents) {
-						ob.properties = ents.slice(1)
-					} else if(map) {
-						var next = map[ent[0]]
-						if(next && typeof(next) == "object")
-							ob.properties = next
-					}
-					var val = await this.getDynamicRecord(ob);
-					if(val === undefined) {
-						// return undefined;
-					}
-					if(mDerech) {
-						var modifiedValue = null;
-						
-						function getFinalVal(obj, keys, start) {
-							let value = obj;
-							for(let i = start; i < keys.length; i++) {
-								
-								const key = keys[i];
-								if(key == "_awtsmoosDeletify") {
-									return undefined;
-								}
-								if(value[key] !== undefined) {
-									value = value[key];
-								} else {
-									return undefined; // or handle error as needed
-								}
-							}
-							//value.essents = 2
-							return value;
-						}
-						var inp = {
-                        				[ent[0]]: val
-						}
-						modifiedValue = getFinalVal(inp, mDerech, 0);
-						/*function getValue(obj, arr) {
-						    return arr
-						    .reduce(
-						        (acc, key) => 
-						        (acc && acc[key] !== 'undefined')
-						         ? acc[key] : undefined, obj
-						    );
-						}
-						try {
-
-						    var finalVal = getValue(modifiedValue, mDerech)
-						
-						    return finalVal//modifiedValue;
-						} catch(e) { 
-						    return null;
-						}*/
-						//console.log("FINLA", modifiedValue)
-						//modifiedValue.wow = 123
-						return modifiedValue;
-						console.log("VALIUED", ent[0], inp, mDerech, modifiedValue)
-					}
-					if(val) {
-						var nullif = false;
-						for(var k in val) {
-							if(val[k].not && val[k] != ob.properties[k]) {
-								nullif = true;
-							}
-							
-						}
-						//compiledData.coby= 4
-						compiledData[ent[0]] = val
-						if(val._awtsmoosDeletify) {
-							nullif  = true;
-							val.wow=Date.now()
-							return undefined;
-						}
-						if(nullif) {
-							nullify = true;
-							compiledData["awts_"] = "delete"
-							//compiledData[ent[0]] = {not: "delete this"}
-						}
-					}
-					if(val === undefined) {
-						// compiledData[ent[0]] = "WHAT";
-						//nullify = true;
-						// return undefined;
-					}
-				} else {
-					try {
-						var maxAmount = myMax && typeof(myMax) == "number" ?
-							myMax : null;
-						if(map) {
-							var settings = map[ent[0]];
-							var max = null;
-							var offset = 0;
-							if(settings && typeof(settings) == "object") {
-								max = settings.max;
-								equals = settings.equals;
-								includes = settings.includes;
-								offset = settings.offset || 0;
-								raw=settings.raw;
-								//  console.log("MAYBE",max,settings)
-							}
-							if(max && typeof(max) == "number") {
-								maxAmount = max;
-							}
-						}
-						if(maxAmount) {
-							var bytes = await this.readFileWithOffset(
-								propPath, offset, maxAmount
-							);
-							compiledData[ent[0]] = bytes.toString("utf-8")
-						} else {
-							try {
-								compiledData[ent[0]] = await fs.readFile(
-									propPath, "utf-8"
-								);
-							} catch (e) {
-								compiledData[ent[0]] = JSON.stringify({
-									message: "COULDN'T READ it?",
-									ent,
-									propPath,
-									stat
-								})
-							}
-						}
-						var res = compiledData[ent[0]];
-						// console.log("ASDDSASD",res,equals,propPath,ent)
-						// compiledData[ent[0]] = equals
-					} catch (e) {
-						compiledData[ent[0]] = "hi! issue: " + e + " " + JSON.stringify({
-							keys: ent,
-							map,
-							propPath,
-							filePath
-						})
-						console.log("NOPE!", propPath, ent)
-					}
-				}
-				if(ent[1].includes(".awtsNum")) {
-					var num = parseFloat(compiledData[ent[0]]);
-					if(!isNaN(num)) {
-						compiledData[ent[0]] = num
-					}
-					// console.log("NUMBER",num,compiledData[ent[0]])
-				}
-				if(ent[1].includes(".awtsBool")) {
-					var bool = compiledData[ent[0]];
-					if(bool == "false") {
-						compiledData[ent[0]] = false;
-					} else if(bool == "true") {
-						compiledData[ent[0]] = true
-					}
-					// console.log("NUMBER",num,compiledData[ent[0]])
-				}
-				var res = compiledData[ent[0]]
-				if(equals || equals === false || equals === 0 || equals === null) {
-					if(res != equals) {
-						compiledData[ent[0]] = {
-							not: "delete this"
-						}
-						compiledData["_awtsmoosDeletify"] = true
-					}
-				}
-				
-				if(raw) {
-					
-					compiledData["_awtsmoosOnlyRaw"]=true
-				}
-				if(includes || includes === false || includes === 0) {
-					if(!res.includes(includes)) {
-						compiledData[ent[0]] = {
-							not: "delete this"
-						}
-						compiledData["_awtsmoosDeletify"] = true
-					}
-				}
-				//console.log(propPath,"Reading",ent,ent[1])
-			}
-			if(metadata.isArray) {
-				compiledData = Array.from(compiledData)
-				// console.log("Got array",compiledData)
-			}
-		//	console.log("DOING?!", compiledData)
-			//if(compiledData[".awts_"] == "delete")
-			if(nullify)
-				return undefined;
-			if (compiledData._awtsmoosDeletify) {
-				return  {_awtsmoosDeletify:true}
-			}
-			if(compiledData._awtsmoosOnlyRaw) {
-				var key = Object.keys(compiledData)
-					.find(w=>w!="_awtsmoosOnlyRaw")
-				if(key) {
-					return compiledData[key]
-				}
-			}
-			//return {"awtsmoos":compiledData}
-			if(Array.isArray(compiledData)) {
-			//	compiledData = compiledData.filter(q => !q._awtsmoosDeletify)
-			}
-			
-			return compiledData;
-		} catch (e) {
-			console.log("Prob with index", e)
-		}
+            var joined = path.join(filePath, "_awts.awtsmoosJSON")
+            var data = await fs.readFile(joined);
+            if(awtsmoosBinary.isAwtsmoosObject(data)) {
+                return awtsmoosBinary.deserializeBinary(data);
+            }
+        } catch(e) {
+            return null;
+        }
 		return null
 	}
 	/**

@@ -189,7 +189,7 @@ async function _getTemplateObject(ob) {
                 fl = await fs.readFile(pth);
                 
             } catch (e) {
-                console.log("Error: ", e)
+               // console.log("Error: ", e)
                 return null;
             }
             if (fl) {

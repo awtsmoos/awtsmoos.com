@@ -135,7 +135,7 @@ class AwtsmoosResponse {
 				} catch (e) {
 					didThisPath.error = e.stack
 					return didThisPath;
-					console.log(e);
+					
 				}
 				for (var od of otherDynamics) {
 					if (od.doesMatch) {

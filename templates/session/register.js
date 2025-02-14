@@ -86,7 +86,7 @@ if (username && password) {
 
         var hashedPassword = sodos.hashPassword(password, salt);
         console.log("Getting",username)
-        var exists = await db.get("/users"+username+"/account");
+        var exists = await db.get("/users/"+username+"/account");
         if(exists) {
             return { attempts:ipInfo.registerAttempts, nextRegisterTime:ipInfo.nextRegisterTime,
                 status: "error", message: "That username already exists! Choose another one, if u dare."};

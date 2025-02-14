@@ -22,41 +22,46 @@ var {
 } = require("./awtsmoosBinaryHelpers.js");
 var magic = 4;
 
-async function setupEmptyFilesystem(path, {
+async function setupFilesystem(path, {
 	magicWord='B"H\n',
 	fileSystemName = "\n\nAwtsmoos FS\n\n\n",
-	BLOCK_SIZE = 128
+	BLOCK_SIZE = 256
 }={}) {
+	
 	var file = await openFile(path);
-	//console.log("GOT file",file)
-	var base = await writeBytesToFile(
-		file,
-		0,
-		magicWord
-	);
-	var firstBlockOffset = magic +
-		SUPER_BLOCK_SIZE;
 
-	var superBlock = await writeBytesToFile(
-		file,
-		base.offset,
-		[
-			{uint_2: BLOCK_SIZE},//block size
-			{uint_4: 0}, //nextFreeBlock
-			{uint_4: firstBlockOffset}, //root folder block idx
-			{uint_4: 0}, //total data blocks
-			{uint_4: 0}, //used blocks
-			{uint_4: 0}, //deletedBlocks
-			//uint32 * 5 = 20 bytes so far
-			{
-				string_16: fileSystemName
-			}
-		]
-	);
-	await writeDataAtNextBlock({
-		file,
-		name: "root"
-	});
+		
+	if(file.firstTime) {
+		//console.log("GOT file",file)
+		var base = await writeBytesToFile(
+			file,
+			0,
+			magicWord
+		);
+		var firstBlockOffset = magic +
+			SUPER_BLOCK_SIZE;
+
+		var superBlock = await writeBytesToFile(
+			file,
+			base.offset,
+			[
+				{uint_2: BLOCK_SIZE},//block size
+				{uint_4: 0}, //nextFreeBlock
+				{uint_4: firstBlockOffset}, //root folder block idx
+				{uint_4: 0}, //total data blocks
+				{uint_4: 0}, //used blocks
+				{uint_4: 0}, //deletedBlocks
+				//uint32 * 5 = 20 bytes so far
+				{
+					string_16: fileSystemName
+				}
+			]
+		);
+		await writeDataAtNextBlock({
+			file,
+			name: "root"
+		});
+	}
 	
 	
 	return file;
@@ -149,7 +154,7 @@ async function readBlock({
 	}
 
 	if(metadata) {
-		await closeFile(file)
+		
 		blockMetadata.file=file;
 		return blockMetadata;
 	}
@@ -161,7 +166,7 @@ async function readBlock({
 	var islast =  blockMetadata.nextBlockId == 0 &&
 	blockMetadata.lastBlockId != 0;
 
-	var isfirst = !blockMetadata.lastBlockId &&
+	var isfirst = !blockMetadata.lastBlockId 
 		blockMetadata.nextBlockId;
 
 	var datasize = superBlock.blockSize - metadataSize;
@@ -169,7 +174,9 @@ async function readBlock({
 	if(!withoutData)
 		data = await readBytesFromFile(file, offset + metadataSize, datasize);
 	
-	var allBlockIDs = [];
+	var allBlockIDs = isfirst ? [
+		//blockId
+	] : [];
 	var nextBlockId = blockMetadata.nextBlockId;
 
 	
@@ -198,10 +205,13 @@ async function readBlock({
 
 	}
 	var allDataFromBlocks =
-		[data || null].filter(Boolean) // Start with an empty array
+		[data].filter(Boolean)// Start with an empty array
 
 	if(isfirst) {
 		for(var bId of allBlockIDs) {
+			if(bId == blockId) {
+			//	continue
+			}
 			var block = await readBlock({
 				file,
 				blockId: bId,
@@ -231,11 +241,9 @@ async function readBlock({
 
 
 async function getNextFreeBlockIndex({
-	file,
-	index = null,
-	superBlock
+	file
 } = {}) {
-	superBlock = superBlock || 
+	var superBlock = 
 		await getSuperBlock({
 			file
 		});
@@ -252,7 +260,7 @@ async function getNextFreeBlockIndex({
 	
 	var offset = null;
 
-	index = index || superBlock.nextFreeBlock;
+	var index = superBlock.nextFreeBlock;
 	var isNewBlock = false;
 	if(index === 0) {/**
 		no free blocks so add to end
@@ -481,8 +489,7 @@ async function writeDataAtNextBlock({
 
 		isNewBlock
 	} = await getNextFreeBlockIndex({
-		file,
-		index
+		file
 	
 	});
 	var {
@@ -538,7 +545,7 @@ async function writeDataAtNextBlock({
 			
 		}
 		
-		var f = await closeFile(file);
+		
 	}
 
 	var nextIndex = 0; //last in chain
@@ -747,7 +754,11 @@ async function deleteEntry({
 	blockId,
 	allBlockIDs
 } = {}) {
-	
+	if(!superBlock) {
+		superBlock = await getSuperBlock({
+			file
+		})
+	}
 	var deleted = 0;
 	var fileHandle = file;
 	for(var blockId of allBlockIDs) {
@@ -876,7 +887,8 @@ async function deleteEntry({
 		usedWrite,
 		file,
 		deleted,
-		blockId
+		blockId,
+		allBlockIDs
 	}
 
 }
@@ -955,7 +967,7 @@ async function updateParentFolder({
 		data.data
 	)
 	//console.log("Read",desagain)
-	await closeFile(write.file);
+	
 	return write;
 	//folderId
 
@@ -965,10 +977,14 @@ async function updateParentFolder({
 // E.g., "/hi/there/wow"  →  ["hi", "there", "wow"]
 // and "/" becomes [] meaning the root folder.
 function normalizePath(path) {
-	if (typeof path !== "string") return null;
+	if (typeof path !== "string") {
+		if(Array.isArray(path)) {
+			return path
+		} else return null;
+	};
 	return path
 	  .split("\\")
-	  .filter(Boolean)
+	 
 	  .join("/")
 	  .split("/")
 	  .filter(Boolean);
@@ -982,12 +998,12 @@ function normalizePath(path) {
 async function readFolder({
 	file,
 	path,
-	name,
 	withValues = false
 }) {
 	path = normalizePath(path);
-	if(!name) {
-	//	name = path.pop();
+	if(!path) {
+		console.log("NO path",path)
+		return null;
 	}
 	// Always start with the root block.
 	var block = await readBlock({
@@ -1073,49 +1089,13 @@ async function getCurrentFolder({
 				curFolder = j;
 
 			}
+		} else {
+			//console.log("REturning null",curFolder,segment,path)
+			//return null
 		}
 		i++;
 	}
 	return curParentFolder;
-}
-
-// Helper: Given a path array (e.g. ["hi", "there"]), returns the block ID
-// of the folder identified by that path. If the path is empty, returns 1 (root).
-async function getFolderBlockId(file,
-	pathArray) {
-	if (!pathArray.length)
-		return 1; // Root folder.
-	// For a single-level path (e.g. ["hi"]), the parent is the root.
-	if (pathArray.length === 1) {
-		let rootFolder =
-			await readFolder({
-				file,
-				path: "/",
-				withValues: true
-			});
-		return rootFolder ?
-			rootFolder[pathArray[
-				0]] || null : null;
-	} else {
-		// For deeper paths, the parent folder is the one one level up.
-		let parentPath = pathArray
-			.slice(0, pathArray
-				.length - 1);
-		var pathToRead = parentPath
-		.join("/")
-		let parentFolder =
-			await readFolder({
-				file,
-				path: pathToRead,
-				withValues: true
-			});
-		console.log("GOT",parentFolder,pathToRead,pathArray)
-		return parentFolder ?
-			parentFolder[pathArray[
-				pathArray
-				.length - 1]] ||
-			null : null;
-	}
 }
 
 // Recursively create a folder in the virtual file system.
@@ -1128,10 +1108,11 @@ async function makeFolder({
 	name
 }) {
 	path = normalizePath(path);
+	if(!path) return null;
 	if(!name) {
 		name = path.pop();
 	}
-	console.log("Making",path,name)
+//	console.log("Making",path,name)
 
 	// If path is empty, then we're writing directly to root.
 	if (!path.length) {
@@ -1144,9 +1125,46 @@ async function makeFolder({
 	}
 	
 	
-	var parentFolderToWriteTo =  await getCurrentFolder({
-		file,path
+	var parentFolderToWriteTo =  null;
+
+
+	var curFolder = await readFolder({
+		file,
+		path: "/",
+		withValues:true
 	})
+	
+	var curParentFolder = 1;
+	var i  = 0;
+	for(var segment of path) {
+		if(!curFolder[segment]) {
+			var made = await writeDataAtNextBlock({
+				file,
+				parentFolderId: curParentFolder,
+				name:segment
+			});
+			
+			curFolder[segment] = made.index;
+		}
+			
+		
+		if(curFolder[segment]) {
+			curParentFolder = curFolder[segment];
+			var subFolder = await readBlock({
+				file,
+				blockId: curParentFolder,
+				metadata:false
+			})
+			if(i < path.length - 1) {
+				var data = subFolder.data;
+				var j = awtsmoosJSON.deserializeBinary(data);
+				curFolder = j;
+
+			}
+		}
+		i++;
+	}
+	parentFolderToWriteTo = curParentFolder;
 	
 	if(parentFolderToWriteTo) {
 		var wr = await writeDataAtNextBlock({
@@ -1154,16 +1172,13 @@ async function makeFolder({
 			parentFolderId: parentFolderToWriteTo,
 			name
 		});
-		return;
+		return wr;
+	} else {
+		return null;
 	}
 	
 }
-/*console.log("Folder doesn't exist",
-				joined,
-				path,segment,currentPath
-			);
-			throw Error("No folder")
-			continue;*/
+
 async function deleteFolder({
 	file/*the database file handle*/,
 	path,/*path of (emulated) folder to delete minus the name*/
@@ -1298,40 +1313,53 @@ async function makeFile({
 	if(!name) {
 		name = path.pop();
 	}
-	if (
-		path === null ||
-		typeof name !== "string"
-	)
+	if(path == null) {
 		return null;
-	
-	// If path is empty, then the file is created in the root folder.
-	if (!path.length) {
-		await writeDataAtNextBlock({
-			file,
-			parentFolderId: 1,
-			name,
-			data
-		});
-		return;
 	}
+
+	//console.log("MayKing",path,name)
+	var parentId = await getCurrentFolder({
+		file, path
+	});
+	
+	
 
 
 	// Create the file in the final folder.
-	let parentId = await getCurrentFolder({
-		file,path
-	});
+	
 	if(!parentId) {
-		throw Error({
-			message: "Folder doesn't exist"
-		})
+		console.log("NO folder",path,name)
+		throw Error("Folder doesn't exist"
+		)
 	}
 	
-	await writeDataAtNextBlock({
+	var isCur = await readFolder({
+		file,
+		path,
+		withValues: true
+	});
+	if(!isCur) {
+
+		console.log("doesn't have anything in it yet",path,name,parentId);
+		
+	}
+	//console.log("READING",isCur,path,name,parentId)
+	if(isCur && isCur[name]) {
+	//	console.log("EXISTS",path,name);
+		var del = await deleteFile({
+			file,
+			path,
+			name
+		})
+		console.log("Del",del,path,name)
+	}
+	var wr = await writeDataAtNextBlock({
 		file,
 		parentFolderId: parentId,
 		name,
 		data
 	});
+	console.log("Wrote it",wr,path,name)
 }
 
 // Reads a file from the virtual file system.
@@ -1365,6 +1393,7 @@ async function readFile({
 			folder
 	)
 	) return null;
+	console.log("Read folder",folder)
 	let fileBlockId = folder[name];
 	let block = await readBlock({
 		file,
@@ -1410,10 +1439,14 @@ async function deleteFile({
 		blockId: fileBlockId,
 		metadata: false
 	});
+	var blocks = childBlockFull.allBlockIDs;
+	if(!blocks.length) {
+		blocks.push(fileBlockId)
+	}
 	return await deleteEntry({
 		file,
-		blockId: childBlockID,
-		allBlockIDs: childBlockFull.allBlockIDs
+		blockId: fileBlockId,
+		allBlockIDs: blocks
 	});
 }
 
@@ -1436,14 +1469,15 @@ async function stat({
 		file,
 		path: path.join(
 			"/"
-		)
+		),
+		withValues:true
 	});
 	if(folder === null) {
 		console.log("HAS NU:L",path);
 		throw Error("Not found")
 	}
 	var keys = Object.keys(folder);
-	console.log("KEY",name,folder,folder.length,folder+"",typeof(folder),"fold");
+	
 	if (!folder || !(name in
 			folder
 		)
@@ -1454,16 +1488,28 @@ async function stat({
 		blockId: entryBlockId,
 		metadata:true
 	});
-	var type = entryMeta.metadata.type == 0 ?
+	var type;
+
+	if(!entryMeta.metadata) {
+		type = entryMeta.type == 0 ?
+		"folder" : "file";
+		
+	} else
+	type = entryMeta.metadata.type == 0 ?
 		"folder" : "file";
 	return {
-		type
+		type,
+		isDirectory() {
+			return type == "folder"
+		}
 	};
 }
 
 module.exports = {
 
-    setupEmptyFilesystem,
+    setupFilesystem,
+	closeFile,
+
 	readBlock,
 	makeFolder,
 	makeFile,
