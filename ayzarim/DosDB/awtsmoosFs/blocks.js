@@ -193,7 +193,7 @@ async function writeAtNextFreeBlock({
 	filePath,
 	data,
 	name,
-	parentFolderId,
+	parentFolderId=0,
 	isInChain,
 	previousBlockId,
 	type="folder",
@@ -310,8 +310,8 @@ async function writeAtNextFreeBlock({
 				[`uint_${blockIdByteSize * 8}`]: 0
 			}, // lastBlockId.
 			{
-				[`uint_${blockIdByteSize * 8}`]: 1
-			}, // totalBlocks in the chain (initially 1).
+				[`uint_${blockIdByteSize * 8}`]: parentFolderId
+			}, // parent block ID in the chain (initially 1).
 			{
 				uint_32: Math.floor(Date.now() / 1000)
 			}, // createdAt.
@@ -442,7 +442,7 @@ async function writeAtNextFreeBlock({
  * Process:
  *   1. Calculate the block offset using: offset = firstBlockOffset + (index - 1) * blockSize.
  *   2. Read fixed metadata: index, isDeleted, nextBlockId, lastBlockId.
- *   3. If lastBlockId is 0, read additional metadata (totalBlocks, createdAt, lastModified, nameByteLength, name).
+ *   3. If lastBlockId is 0, read additional metadata (parentBlockId, createdAt, lastModified, nameByteLength, name).
  *   4. If onlyMetadata is false, read the remainder of the block as data.
  *   5. If the block is chained (nextBlockId ≠ 0), recursively read subsequent blocks.
  */
@@ -521,7 +521,7 @@ async function readBlock({
 	if (fixedMeta.lastBlockId === 0) {
 		// This is the first (or only) block in the chain.
 		const extraSchema = {
-			totalBlocks: `uint_${blockIdByteSize * 8}`,
+			parentBlockId: `uint_${blockIdByteSize * 8}`,
 			createdAt: "uint_32",
 			lastModified: "uint_32",
 			nameByteLength: "uint_8"
@@ -716,6 +716,14 @@ async function updateParentFolder({
 		superBlock,
 		index: folderId
 	});
+
+	if(!folderBlock) {
+
+		return console.log("WHAT no block?",folderId,superBlock,newChildId,newChildName)
+	}
+	var parentId  = folderBlock?.metadata?.parentBlockId
+	console.log("AR",parentId)
+	if(!parentId) parentId = 1;
 	var {
 		data
 	} = folderBlock;
@@ -758,7 +766,8 @@ async function updateParentFolder({
 		type:"folder",
 		name: folderName,
 		data:serialized,
-		index: folderId
+		index: folderId,
+		parentFolderId: parentId
 	});
 	//console.log("WROTE",write)
 	var data = await readBlock({
