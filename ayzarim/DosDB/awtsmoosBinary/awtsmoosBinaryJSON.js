@@ -968,9 +968,9 @@ async function mapBinary(buffer, mapObj) {
     }
 
     // Start by getting the root-level keys from the binary data
-    const keys = await getKeysFromBinary(buffer);
+    var keys = await getKeysFromBinary(buffer);
 
-    let filteredResult = {};
+    var filteredResult = {};
    // console.log("KEYS?",keys)
    if(!Array.isArray(keys)) {
     console.log("WHAT is this",keys)
