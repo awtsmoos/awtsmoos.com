@@ -575,6 +575,7 @@ async function getAliasesDetails({
 				sp
 
 			})
+			
 		return await 
 		getDetailedAliasesByArray({
 			$i,

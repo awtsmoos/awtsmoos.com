@@ -547,7 +547,9 @@ class DosDB {
 					
 					return mapt;
 				} else {
-					return null;
+					return {
+						notAnAWtsmoosOBJ: joined
+					};
 				}
 			}
 		} catch(e) {
