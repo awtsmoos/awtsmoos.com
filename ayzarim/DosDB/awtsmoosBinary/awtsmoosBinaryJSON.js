@@ -217,9 +217,10 @@ async function deserializeBinary(buffer) {
         for (let i = 0; i < hashTableSize; i++) {
             let keyOffset = await buffer.readUInt32BE(offset);
             offset += hashAmount;
-            if (keyOffset !== 0) hashTable[i] = keyOffset;
+            hashTable[i] = keyOffset;
+     //       if (keyOffset !== 0) 
         }
-      //  console.log("hash table",hashTable)
+        console.log("hash table",hashTable)
      // console.log("Getting maybe",hashTable)
         for (let keyOffset of hashTable) {
             if (keyOffset) {
@@ -686,13 +687,7 @@ async function getValueByKey(buffer, searchKey) {
 
         //buffer.readUInt32LE(offset);
         offset = hashInfo.offset;
-        let hashTable = new Array(hashTableSize);
         
-        for (let i = 0; i < hashTableSize; i++) {
-            let keyOffset = await buffer.readUInt32BE(offset);
-            offset += hashAmount;
-            if (keyOffset !== 0) hashTable[i] = keyOffset;
-        }
 
         
         
