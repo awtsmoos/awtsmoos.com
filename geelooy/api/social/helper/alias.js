@@ -293,7 +293,8 @@ async function getDetailedAliasesByArray({
 	if(!Array.isArray(aliasIds)) {
 		return er({
 			message: "NO IDs!?",
-			aliasIDs,
+			aliasIds,
+			userID,
 			$i
 		})
 	}
