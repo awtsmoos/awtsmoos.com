@@ -541,6 +541,11 @@ class DosDB {
 					return await awtsmoosBinary.deserializeBinary(data);
 				} else return null;
 			} else {
+				if(typeof(properties) == "string") {
+					try {
+						properties = JSON.parse(properties);
+					} catch(e){}
+				}
 				if(await awtsmoosBinary.isAwtsmoosObject(joined)) {
 
 					var mapt = await awtsmoosBinary.mapBinary(joined, properties);
