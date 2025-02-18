@@ -399,7 +399,7 @@ class DosDB {
 	 */
 	async write(id, record, opts={}) {
 		var isDir = !record;
-		var filePath = await this.getFilePath(id, isDir);
+		var filePath = await this.getFilePath(id, isDir,opts?.override);
 		await this.ensureDir(filePath, isDir);
 		if(isDir) {
 			return;
@@ -580,8 +580,13 @@ class DosDB {
 			let result = null;
 			var isDir = !!acc.directory
 			destination = await this.getFilePath(destination, isDir, true)
+			var isRegularFile = acc.file || acc.json;
 			if (acc.dynamicEntry) {
 				result = await this.writeAsBinaryFormat(destination, acc.dynamicEntry);
+			} else if (acc.isRegularFile) {
+				result = await this.write(destination, acc.file || acc.json, {
+					override: true
+				});	
 			} else if (acc.directory) {
 				// If it's a directory, recursively process each entry
 				result = [];
