@@ -69,13 +69,13 @@ class DosDB {
 		id = this.sanitizePath(id, overrideSanity);
 		var mainDir = this.directory;
 		// Remove mainDir from id if it is present, otherwise leave id as is
+		id = id.replaceAll("\\", "/")
 		var cleanedPath = id
 			.startsWith(mainDir) ?
 			path.relative(mainDir, id) : id;
 		var fullPath = path.join(this.directory, cleanedPath);
 		var fullPathWithJson = path.join(this.directory, `${cleanedPath}.json`);
-		fullPath = fullPath.replaceAll("\\", "/")
-		fullPathWithJson = fullPathWithJson.replaceAll("\\", "/")
+
 		// Check if id already contains an extension
 		if(path.extname(id) || isDir) {
 			// If it does, use the id as is
