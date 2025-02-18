@@ -547,6 +547,8 @@ class DosDB {
 	}
 	async copyFromRegularToBinary(firstPath, destination) {
 		try {
+			var isBin = this.readAwtsmoosBinary;
+			this.readAwtsmoosBinary = false;
 			var acc = await this.get(firstPath, {
 				extra: true,
 				pageSize: 10000
@@ -581,7 +583,7 @@ class DosDB {
 				}
 				result = result.filter(Boolean);
 			}
-	
+			this.readAwtsmoosBinary = isBin;
 			return {
 				success: {
 					firstPath,
