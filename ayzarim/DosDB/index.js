@@ -538,11 +538,15 @@ class DosDB {
 				} else return null;
 			} else {
 				var mapt = await awtsmoosBinary.mapBinary(joined, properties);
+				
 				return mapt;
 			}
 		} catch(e) {
 			console.log("BINARY error",filePath,properties,e)
-			return null;
+			return {
+				error: e.stack,
+				somethingWentNotOpenlyGOodYet:true
+			};
 		}
 		return null
 	}

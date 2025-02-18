@@ -450,7 +450,11 @@ async function getFileHandle(filePath) {
 	var keys = Object.keys(openFileHandles)
 	if(keys.length > MAX_OPEN_FILES) {
 		try {
-			delete openFileHandles[keys[keys.length - 1]];
+            var last = keys[keys.length - 1]
+            try {
+                await openFileHandles[last].close();
+            } catch(e){}
+			delete openFileHandles[last];
 		} catch(e){}
 	}
 	openFileHandles[filePath] = {
