@@ -38,6 +38,7 @@ class DosDB {
 	 * @example
 	 * var db = new DosDB('./db');
 	 */
+	readAwtsmoosBinary = true;
 	constructor(directory) {
 		this.directory = directory || "../";
 	
@@ -228,10 +229,16 @@ class DosDB {
 							filterBy,
 							meta
 						};
-						checkIfItsSingleEntry = await this.getDynamicRecord(ob);
+
+						if(!this.readAwtsmoosBinary) {
+							checkIfItsSingleEntry = await this.getDynamicRecord(ob);
+						} else {
+							checkIfItsSingleEntry = await this.getDynamicBinaryRecord(ob)
+						}
 						if(checkIfItsSingleEntry?._awtsmoosDeletify) {
 							return undefined;
 						}
+						
 				//		console.log("GOT?", checkIfItsSingleEntry, filePath);
 					} catch (e) {
 						console.log("Prob", e);
@@ -519,7 +526,7 @@ class DosDB {
 			var data = await fs.readFile(joined);
 			if(awtsmoosBinary.isAwtsmoosObject(data)) {
 				return awtsmoosBinary.deserializeBinary(data);
-			}
+			} else return null;
 		} catch(e) {
 			return null;
 		}
