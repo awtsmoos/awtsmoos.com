@@ -985,7 +985,7 @@ async function mapBinary(buffer, mapObj) {
    }
     for (let key of keys) {
         
-        if (mapObj[key]) {
+        if (Object.keys(mapObj).includes(key)) {
             var value = "LOL ok now"
             try {
                 value = await getValueByKey(buffer, key);
@@ -1032,7 +1032,8 @@ async function mapBinary(buffer, mapObj) {
             filteredResult[key] = {
                 notVal: "what",
                 mapObj,key,
-               has: mapObj[key]
+               has: Object.keys(mapObj),
+               keyKadosh:Object.keys(mapObj).includes(key)
             };
         }
     }
