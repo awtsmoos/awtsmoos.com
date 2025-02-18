@@ -537,6 +537,7 @@ class DosDB {
 				return mapt;
 			}
 		} catch(e) {
+			console.log("BINARY error",filePath,properties,e)
 			return null;
 		}
 		return null
