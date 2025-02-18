@@ -1007,11 +1007,7 @@ async function mapBinary(buffer, mapObj) {
                     LOL: key
                 }
             }
-            filteredResult[key] = {
-                val: value,
-                mapObj,key
-            };
-            continue;
+            filteredResult[key] = value
             const mapConfig = mapObj[key];
             
             // If the value is an object, recurse into it
@@ -1041,6 +1037,7 @@ async function mapBinary(buffer, mapObj) {
                 }
             } 
         } else {
+            continue;
             filteredResult[key] = {
                 notVal: "what",
                 mapObj,key,
