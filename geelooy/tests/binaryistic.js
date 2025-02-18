@@ -111,7 +111,9 @@ var ob =
     console.log("Got",await b.getValueByKey(path,"wow"))
 
 
-    console.log("Mapping")
+    console.log("Mapping", await b.mapBinary(path, {
+        wow: true
+    }))
    /* var op = await b.mapBinary("./BH_wow.awtsmoos", {
 
         wow: true

@@ -220,7 +220,7 @@ async function deserializeBinary(buffer) {
             hashTable[i] = keyOffset;
      //       if (keyOffset !== 0) 
         }
-        console.log("hash table",hashTable)
+       // console.log("hash table",hashTable)
      // console.log("Getting maybe",hashTable)
         for (let keyOffset of hashTable) {
             if (keyOffset) {
@@ -874,7 +874,7 @@ async function mapBinary(buffer, mapObj) {
      * reading path from file and 
         not buffer in this case
      */ 
-        buffer = new binaryFileWrapper(path);
+        buffer = new fileBuffer(buffer);
     /**
      * use functions getValueByKey(buffer,key) (
      * gets serialized json value at the key)
@@ -968,13 +968,14 @@ async function mapBinary(buffer, mapObj) {
     }
 
     // Start by getting the root-level keys from the binary data
-    const keys = getKeysFromBinary(buffer);
+    const keys = await getKeysFromBinary(buffer);
 
     let filteredResult = {};
+   // console.log("KEYS?",keys)
     for (let key of keys) {
         if (mapObj[key]) {
             const mapConfig = mapObj[key];
-            let value = getValueByKey(buffer, key);
+            let value = await getValueByKey(buffer, key);
 
             // If the value is an object, recurse into it
             if (typeof value === 'object' && value !== null) {

@@ -529,7 +529,8 @@ class DosDB {
 		//	properties = false;
 		try {
 			var joined = path.join(filePath, "_awts.awtsmoosJSON")
-			console.log("JOIN",joined,filePath)
+			
+			
 			if(!properties) {
 				var data = await fs.readFile(joined);
 				if(awtsmoosBinary.isAwtsmoosObject(data)) {
