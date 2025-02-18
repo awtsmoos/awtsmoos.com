@@ -1031,7 +1031,8 @@ async function mapBinary(buffer, mapObj) {
         } else {
             filteredResult[key] = {
                 notVal: "what",
-                mapObj,key
+                mapObj,key,
+               has: mapObj[key]
             };
         }
     }
