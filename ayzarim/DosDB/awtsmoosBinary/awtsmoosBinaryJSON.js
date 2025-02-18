@@ -1027,7 +1027,7 @@ async function mapBinary(buffer, mapObj) {
                     }; // If any condition fails, return null
                     */
                 }
-            }
+            } 
         } else {
             filteredResult[key] = {
                 notVal: "what",
