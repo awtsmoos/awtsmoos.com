@@ -527,10 +527,15 @@ class DosDB {
 		}) {
 		try {
 			var joined = path.join(filePath, "_awts.awtsmoosJSON")
-			var data = await fs.readFile(joined);
-			if(awtsmoosBinary.isAwtsmoosObject(data)) {
-				return awtsmoosBinary.deserializeBinary(data);
-			} else return null;
+			if(!properties) {
+				var data = await fs.readFile(joined);
+				if(awtsmoosBinary.isAwtsmoosObject(data)) {
+					return awtsmoosBinary.deserializeBinary(data);
+				} else return null;
+			} else {
+				var mapt = await awtsmoosBinary.mapBinary(joined, properties);
+				return mapt;
+			}
 		} catch(e) {
 			return null;
 		}

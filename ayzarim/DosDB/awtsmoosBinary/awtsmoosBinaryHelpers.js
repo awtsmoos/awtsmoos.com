@@ -19,6 +19,20 @@ function logBuffer(buffer, base = 10, columns = 8) {
     }
 }
 
+function writeToBuffer(buffer, value, byteSize, offset) {
+    for (let i = 0; i < byteSize; i++) {
+        buffer.writeUInt8((value >> (8 * i)) & 0xFF, offset + i);
+    }
+}
+
+function readFromBuffer(buffer) {
+    let value = 0;
+    for (let i = 0; i < buffer.length; i++) {
+        value |= buffer.readUInt8(i) << (8 * i);
+    }
+    return value;
+}
+
 
 
 function sizeof(struct) {
@@ -459,6 +473,8 @@ module.exports = {
     writeConditional,
     readConditional,
 
+    readFromBuffer,
+    writeToBuffer,
     
     writeBitAt,
 

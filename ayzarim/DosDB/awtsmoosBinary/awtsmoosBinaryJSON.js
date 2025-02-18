@@ -14,9 +14,13 @@ var {
 
     hashKey
 } = require("./awtsmoosBinaryHelpers.js")
-var magicJSON = "Aj"
-var magicArray = "Aa"
-var hashAmount = 4
+var {
+    magicJSON,
+    magicArray,
+    hashAmount
+
+} = require("./constants");
+var binaryFileWrapper = require("./binaryFileClassWrapper.js");
 
 function isAwtsmoosObject(buffer) {
     var mag = buffer.subarray(0,2).toString()
@@ -28,6 +32,7 @@ function isAwtsmoosObject(buffer) {
     }
     return true;
 }
+
 function serializeJSON(json) {
     if(Array.isArray(json)) {
         return serializeArray(json)
@@ -583,7 +588,16 @@ function parseValueFromType({
 
 
 
-function getKeysFromBinary(buffer) {
+async function getKeysFromBinary(buffer) {
+    
+    var wrap = null;
+    if(typeof(buffer) == "string") {
+        wrap = new binaryFileWrapper(buffer);
+      
+    }
+    if(wrap) {
+        return await wrap.getKeys();
+    }
     let offset = 0;
     let keys = [];
     var magic = buffer.subarray(0, magicJSON.length).toString();
@@ -610,19 +624,24 @@ function getKeysFromBinary(buffer) {
         var arLengthInfo = readConditional(buffer,offset);
         var arrayLength = arLengthInfo.amount;
         return Array.from({length:arrayLength}).map((q,i)=>i)
-        return "YAY"
+
     }
     return keys;
 }
 
-function newBuffer(size, number) {
-    var buf = Buffer.alloc(size);
-
-}
 
 
 
-function getValueByKey(buffer, key) {
+
+async function getValueByKey(buffer, key) {
+    var wrap = null;
+    if(typeof(buffer) == "string") {
+        wrap = new binaryFileWrapper(buffer);
+      
+    }
+    if(wrap) {
+        return await wrap.getValueByKey(key);
+    }
     var magic = buffer.subarray(0, magicArray.length).toString();
 
     var offset = magic.length;
@@ -677,7 +696,7 @@ function getValueByKey(buffer, key) {
         offset + size * 2 * (key + 1)
     );
    // console.log(logBuffer(keyOffset),size,sizeReading)
-    var index = keyOffset.subarray(0, size);
+
     var offsetAmount = keyOffset.subarray(
         size, size+1
     )
@@ -696,11 +715,7 @@ function getValueByKey(buffer, key) {
         type,
         currentOffset: offset
     })
-   // var offsetAmount =keyOffset// readConditional(keyOffset);
-    //var bufOff = 
-   // offset = bufOff.offset;
-   // console.log("OFf",key,type,bufSize,valAmount,keyOffset,val,offsetAmount,buffer,offset,size,lng)
-    
+
     return parst.value
     
    
@@ -708,21 +723,34 @@ function getValueByKey(buffer, key) {
 
 
 
-function getValuesFromBinary(buffer, keys) {
+async function getValuesFromBinary(buffer, keys) {
+    var wrap = null;
+    if(typeof(buffer) == "string") {
+        wrap = new binaryFileWrapper(buffer);
+      
+    }
     var obj = {};
-    keys.forEach(w=>{
-        obj[w] = getValueByKey(buffer, w)
-    })
+    for(var w of keys) {
+        obj[w] = wrap ? 
+        await wrap.getValueByKey(w) : 
+        getValueByKey(buffer, w)
+    }
     return obj;
 }
 
-
+async function mapBinary(path, mapObj) {
+    var p = new binaryFileWrapper(path);
+    return await p.mapBinary(mapObj);
+}
 module.exports = { 
     getValueByKey, 
     logBuffer, 
     serializeJSON, 
     deserializeBinary,
+
     getKeysFromBinary, 
     getValuesFromBinary,
+    mapBinary,
+    
     isAwtsmoosObject
 };
