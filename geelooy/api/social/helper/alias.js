@@ -117,7 +117,8 @@ async function verifyAlias({aliasId, $i, userid}) {
 	if(!ail) {
 		return er({
 			message: "NO alias found",
-			code: "NO_ALIAS"
+			code: "NO_ALIAS",
+			aliasId
 		})
 	}
 
