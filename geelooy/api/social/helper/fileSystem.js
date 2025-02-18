@@ -192,7 +192,7 @@ async function readFile({$i}) {
             )
         }
     }
-    return  file || "";
+    return  (file+"") || "";
 }
 
 async function makeFolder({$i}) {
