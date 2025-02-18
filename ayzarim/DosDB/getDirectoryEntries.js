@@ -19,7 +19,7 @@ async function getDirectoryEntries({
     var startIndex = (page - 1) * pageSize;
 
     // Retrieve both files and directories
-   // let entries = await fs.readdir(directoryPath, { withFileTypes: true });
+    let entries = await fs.readdir(directoryPath, { withFileTypes: true });
   //  console.log(entries,"GETTING dir","ok")
  //   return entries;
     if(filterBy  && typeof(filterBy) == "object") {
