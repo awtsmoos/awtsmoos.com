@@ -972,6 +972,14 @@ async function mapBinary(buffer, mapObj) {
 
     let filteredResult = {};
    // console.log("KEYS?",keys)
+   if(!Array.isArray(keys)) {
+    console.log("WHAT is this",keys)
+    filteredResult.wtsmoosificationalism = {
+        errorL: "What happened",
+        keys
+    }
+    keys = []
+   }
     for (let key of keys) {
         if (mapObj[key]) {
             const mapConfig = mapObj[key];
