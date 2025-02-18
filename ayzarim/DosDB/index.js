@@ -229,12 +229,13 @@ class DosDB {
 							filterBy,
 							meta
 						};
-
+						checkIfItsSingleEntry = await this.getDynamicBinaryRecord(ob)
+						/*
 						if(!this.readAwtsmoosBinary) {
 							checkIfItsSingleEntry = await this.getDynamicRecord(ob);
 						} else {
-							checkIfItsSingleEntry = await this.getDynamicBinaryRecord(ob)
-						}
+							
+						}*/
 						if(checkIfItsSingleEntry?._awtsmoosDeletify) {
 							return undefined;
 						}
