@@ -1,6 +1,7 @@
 //B"H
 var fsRegular = require("fs")
 var fs = fsRegular.promises;
+var awtsmoosBinary = require ("./awtsmoosBinary/awtsmoosBinaryJSON.js")
 
 var path = require('path');
 var util = require('util');
@@ -154,14 +155,15 @@ class DosDB {
 		maxOrech: null,
 		max: false,
 		meta: false,
-		keepJSON:false
+		keepJSON:false,
+		extra: false
 	}) {
 		var keepJSON = options.keepJSON
 		try {
 			if(!options || typeof(options) != "object") {
 				options = {};
 			}
-		
+			var extra = options.extra;
 			var filterBy = options.filterBy || null;
 			var access = options.access;
 			var meta = options.meta;
@@ -216,7 +218,14 @@ class DosDB {
 						console.log("Prob", e);
 					}
 					if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
-						return checkIfItsSingleEntry;
+						var res = checkIfItsSingleEntry;
+						if(extra) {
+							return {
+								dynamicEntry: checkIfItsSingleEntry
+							}
+						} else {
+							return checkIfItsSingleEntry
+						}
 					}
 					var fileIndexes;
 					try {
@@ -257,7 +266,12 @@ class DosDB {
 								allContents[dirName] = res;
 							}
 						}
-						return allContents;
+						if(extra) {
+							return {
+								directory: allContents
+							}
+						} else 
+							return allContents;
 					} else {
 						// If filesAndFoldersDifferent is true, append ".folder" to directories
 						var info = (fileIndexes || []).map(this.mapResults).map((fileName) => {
@@ -268,7 +282,12 @@ class DosDB {
 							}
 							return fileName;
 						});
-						return info;
+						if(extra) {
+							return {
+								directory: info
+							}
+						} else 
+							return info;
 					}
 				}
 		
@@ -294,10 +313,20 @@ class DosDB {
 							modified
 						};
 					}
+					if(extra) {
+						return {
+							json: res
+						}
+					}
 					return res;
 				} else {
 					var content = await fs.readFile(filePath);
-					return content.toString(); // Assuming you want to convert binary data to string
+					if(extra) {
+						return {
+							file: content
+						}
+					}
+					return content
 				}
 			} catch (error) {
 				if(error.code !== 'ENOENT')
@@ -415,6 +444,98 @@ class DosDB {
 	      }
 	    });
 	  });
+	}
+
+	async writeAsBinaryFormat(
+		rPath,
+		r,
+		opts = {}
+	) {
+		
+		if(typeof(rPath) != "string" || !rPath)
+			return false;
+		if(typeof(r) != "object" || !r) {
+			return false
+		}
+		var isArray = Array.isArray(r);
+		
+		var awtsJson = null;
+		awtsJson = awtsmoosBinary.serializeJSON(r);
+		
+		var joined = path.join(rPath, "_awts.awtsmoosJSON");
+		await this.ensureDir(joined);
+		console.log("WRiting!!! !! !!! !!",joined,r)
+		try {
+			var wrote = await fs.writeFile(joined, awtsJson);
+		} catch(e) {
+			console.log(e);
+		}
+		return wrote;
+			
+	}
+
+	async getDynamicBinaryRecord({
+			filePath,
+			properties,
+			stat,
+			derech,
+			maxOrech,
+			shouldNullify = false,
+			meta = false
+		}) {
+		try {
+			var joined = path.join(filePath, "_awts.awtsmoosJSON")
+			var data = await fs.readFile(joined);
+			if(awtsmoosBinary.isAwtsmoosObject(data)) {
+				return awtsmoosBinary.deserializeBinary(data);
+			}
+		} catch(e) {
+			return null;
+		}
+		return null
+	}
+
+	async copyFromRegularToBinary(firstPath, destination) {
+		try {
+			var acc = await this.get(
+				firstPath, {
+					extra: true
+				}
+			);
+
+			var result = null;
+			if(acc.dynamicEntry)
+				result = await this.writeAsBinaryFormat(
+					destination, acc.dynamicEntry
+				)
+			else if(acc.directory) {
+					// If it's a directory, recursively process each entry
+				result = [];
+				for (let entry of acc.directory) {
+					// Construct new destination path
+					let newDest = destination + '/' + entry.name; 
+					// Recursively copy entry
+					let res = await this.copyFromRegularToBinary(entry.path, newDest);
+					var newRes = res?.success?.result;
+					if(newRes)
+						result.push(res);
+					else if(res.error) {
+						console.log("ERROR copying",res)
+						result.push({error: res})
+					}
+				}
+			}
+			return {succes: {
+				firstPath,
+				destination,
+				result
+			}}
+		} catch(e) {
+			console.trace(e);
+			return {
+				error: e.stack
+			};
+		}
 	}
 	/**
 	 * @description goes through each
