@@ -505,6 +505,7 @@ class DosDB {
 			);
 
 			var result = null;
+			if(!acc) return null;
 			if(acc.dynamicEntry)
 				result = await this.writeAsBinaryFormat(
 					destination, acc.dynamicEntry
@@ -525,6 +526,7 @@ class DosDB {
 						result.push({error: res})
 					}
 				}
+				result = result.filter(Boolean)
 			}
 			return {succes: {
 				firstPath,
