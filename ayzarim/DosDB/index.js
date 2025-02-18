@@ -533,7 +533,7 @@ class DosDB {
 			if(!properties) {
 				var data = await fs.readFile(joined);
 				if(awtsmoosBinary.isAwtsmoosObject(data)) {
-					return awtsmoosBinary.deserializeBinary(data);
+					return await awtsmoosBinary.deserializeBinary(data);
 				} else return null;
 			} else {
 				var mapt = await awtsmoosBinary.mapBinary(joined, properties);
