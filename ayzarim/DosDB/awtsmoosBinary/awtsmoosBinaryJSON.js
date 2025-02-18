@@ -1008,9 +1008,10 @@ async function mapBinary(buffer, mapObj) {
                 if (valid) {
                     filteredResult[key] = value;
                 } else {
-                    return {
+                    return null /*{
                         awtsmoosNULL:true
                     }; // If any condition fails, return null
+                    */
                 }
             }
         }
