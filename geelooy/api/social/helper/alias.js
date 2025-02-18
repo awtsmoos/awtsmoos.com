@@ -282,6 +282,13 @@ async function getDetailedAliasesByArray({
        
        userID
    }){
+	if(!Array.isArray(aliasIds)) {
+		return er({
+			message: "NO IDs!?",
+			aliasIDs,
+			$i
+		})
+	}
        return await Promise.all(
                aliasIds.map(id => ((async (aliasId) => {
                    var detailedAlias = await 
@@ -575,7 +582,7 @@ async function getAliasesDetails({
 				sp
 
 			})
-			
+
 		return await 
 		getDetailedAliasesByArray({
 			$i,
