@@ -244,7 +244,7 @@ class DosDB {
 					} catch (e) {
 						console.log("Prob", e);
 					}
-					if(checkIfItsSingleEntry || checkIfItsSingleEntry === null) {
+					if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
 						var res = checkIfItsSingleEntry;
 						if(extra) {
 							return {
