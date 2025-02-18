@@ -984,21 +984,22 @@ async function mapBinary(buffer, mapObj) {
     keys = []
    }
     for (let key of keys) {
-        var value = "LOL ok now"
-        try {
-            value = await getValueByKey(buffer, key);
-        } catch(e) {
-            value = {
-                wow: e.stack,
-                LOL: key
-            }
-        }
-        filteredResult[key] = {
-            val: value,
-            mapObj,key
-        };
-        continue;
+        
         if (mapObj[key]) {
+            var value = "LOL ok now"
+            try {
+                value = await getValueByKey(buffer, key);
+            } catch(e) {
+                value = {
+                    wow: e.stack,
+                    LOL: key
+                }
+            }
+            filteredResult[key] = {
+                val: value,
+                mapObj,key
+            };
+            continue;
             const mapConfig = mapObj[key];
             
             // If the value is an object, recurse into it
@@ -1027,6 +1028,11 @@ async function mapBinary(buffer, mapObj) {
                     */
                 }
             }
+        } else {
+            filteredResult[key] = {
+                notVal: "what",
+                mapObj,key
+            };
         }
     }
 
