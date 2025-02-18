@@ -1016,9 +1016,7 @@ async function mapBinary(buffer, mapObj) {
         }
     }
 
-    return Object.keys(filteredResult).length === 0 ? {
-        nothing: "wow"
-    } : filteredResult;
+    return Object.keys(filteredResult).length === 0 ? null : filteredResult;
 
 }
 
