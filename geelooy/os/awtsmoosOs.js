@@ -454,6 +454,7 @@ function makeDraggable(selector) {
 
 function sortFoldersFirst(arr) {
     // Separate strings ending in '.folder'
+    console.log(window.arr=arr,"searching")
     const folders = arr.filter(item => item.endsWith('.folder')).sort();
     
     // Get the remaining strings in their original order
