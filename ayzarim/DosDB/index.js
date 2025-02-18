@@ -530,7 +530,11 @@ class DosDB {
 		try {
 			var joined = path.join(filePath, "_awts.awtsmoosJSON")
 			
-			
+			try {
+			var ac = await fs.access(joined);
+			} catch(e) {
+				return null;
+			}
 			if(!properties) {
 				var data = await fs.readFile(joined);
 				if(awtsmoosBinary.isAwtsmoosObject(data)) {
@@ -542,6 +546,7 @@ class DosDB {
 				return mapt;
 			}
 		} catch(e) {
+			
 			console.log("BINARY error",filePath,properties,e)
 			return {
 				error: e.stack,
