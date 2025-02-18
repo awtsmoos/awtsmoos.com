@@ -494,53 +494,59 @@ class DosDB {
 		}
 		return null
 	}
-
 	async copyFromRegularToBinary(firstPath, destination) {
 		try {
-			var acc = await this.get(
-				firstPath, {
-					extra: true,
-					pageSize:10000
-				}
-			);
-
-			var result = null;
-			if(!acc) return null;
-			if(acc.dynamicEntry)
-				result = await this.writeAsBinaryFormat(
-					destination, acc.dynamicEntry
-				)
-			else if(acc.directory) {
-					// If it's a directory, recursively process each entry
+			var acc = await this.get(firstPath, {
+				extra: true,
+				pageSize: 10000
+			});
+	
+			if (!acc) return null;
+			let result = null;
+	
+			if (acc.dynamicEntry) {
+				result = await this.writeAsBinaryFormat(destination, acc.dynamicEntry);
+			} else if (acc.directory) {
+				// If it's a directory, recursively process each entry
 				result = [];
 				for (let entry of acc.directory) {
 					// Construct new destination path
-					let newDest = destination + '/' + entry.name; 
+					let newDest = `${destination}/${entry}`;
+					let newSource = `${firstPath}/${entry}`; // Manually construct source path
+					
 					// Recursively copy entry
-					let res = await this.copyFromRegularToBinary(entry.path, newDest);
-					var newRes = res?.success?.result;
-					if(newRes)
+					let res = await this.copyFromRegularToBinary(newSource, newDest);
+					let newRes = res?.success?.result;
+					
+					if (newRes) {
 						result.push(res);
-					else if(res.error) {
-						console.log("ERROR copying",res)
-						result.push({error: res})
+					} else if (res?.error) {
+						console.log("ERROR copying", res);
+						result.push({ error: res });
+					} else if (!res) {
+						result.push({ NULL: { destination, entry } });
 					}
 				}
-				result = result.filter(Boolean)
+				result = result.filter(Boolean);
 			}
-			return {succes: {
-				firstPath,
-				destination,
-				result
-			}}
-		} catch(e) {
+	
+			return {
+				success: {
+					firstPath,
+					destination,
+					result
+				}
+			};
+		} catch (e) {
 			console.trace(e);
 			return {
 				error: e.stack,
-				firstPath, destination
+				firstPath,
+				destination
 			};
 		}
 	}
+	
 	/**
 	 * @description goes through each
 	 * key and writes it as a 
