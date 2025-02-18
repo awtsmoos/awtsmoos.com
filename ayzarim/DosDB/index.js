@@ -554,7 +554,9 @@ class DosDB {
 				pageSize: 10000
 			});
 	
-			if (!acc) return null;
+			if (!acc) return {
+				fail: firstPath, destination
+			};
 			let result = null;
 			var isDir = !!acc.directory
 			destination = await this.getFilePath(destination, isDir, true)
