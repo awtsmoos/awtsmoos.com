@@ -2,10 +2,12 @@
 
 console.log('B"H\n');
 var awtsJ = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON.js");
-var os = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js");
+var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
 (async () => {
     var pth = "../awts.awtsmoosFs";
+    var os = new AwtsmoosFS(pth);
+   
     var s = await os.setupFilesystem(pth);
    
     console.log("\nSetting up stress test...\n");

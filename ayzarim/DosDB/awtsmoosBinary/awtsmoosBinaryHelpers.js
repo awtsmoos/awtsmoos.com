@@ -272,7 +272,9 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
                 const bufLength = parseInt(typeMatch[1], 10);
                 totalLength += bufLength;
                 if (!Buffer.isBuffer(value) || value.length !== bufLength) {
-                    throw new Error(`Value for ${key} must be a Buffer of length ${bufLength}`);
+                    throw new Error(`Value for ${key} must be a Buffer of length ${bufLength
+
+                    }. Got: ${value} : ${value.length} ${JSON.stringify(value)} `);
                 }
                 writeInstructions.push({
                     type: 'buffer',

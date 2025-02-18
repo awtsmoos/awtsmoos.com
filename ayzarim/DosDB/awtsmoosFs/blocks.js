@@ -204,7 +204,7 @@ async function writeAtNextFreeBlock({
 	const blockIdByteSize = superBlock.blockIdByteSize
 	const fsMetadataOffset = superBlock.firstBlockOffset;
 	let blockIndex;
-	let useFreeBlock = false;
+	
 	var superblockFreeOffset = (
 		4 + 2 + 1 + 1
 	);
@@ -369,9 +369,12 @@ async function writeAtNextFreeBlock({
 	if(!data) {
 		data = Buffer.alloc(availableDataSpace);
 	}
+	if(typeof(data) == "string") {
+		data = Buffer.from(data);
+	}
 	if (data && data.length > availableDataSpace) {
-		currentData = data.slice(0, availableDataSpace);
-		remainingData = data.slice(availableDataSpace);
+		currentData = data.subarray(0, availableDataSpace);
+		remainingData = data.subarray(availableDataSpace);
 	} else {
 		currentData = data;
 	}

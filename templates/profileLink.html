@@ -5,9 +5,11 @@
     $sd.alias=alias;
     $sd.username=username
 
-    return `<script>var curAlias=
+    return /*html*/`<script>
+        var curAlias=
         ${$sd.alias ? '"' + $sd.alias + '"' : "undefined"}
-</script><br>`
+</script>
+<br>`
 </script>?>
 
 <div class="awtsmoosDrop">
@@ -281,7 +283,7 @@
         overflow-y: scroll;
         overflow-x: hidden;
     }
-     .awtsmoosDrop .dropt, {
+     .awtsmoosDrop .dropt {
            padding-right: 26px;
         }
 

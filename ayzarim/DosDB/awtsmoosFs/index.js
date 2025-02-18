@@ -70,6 +70,9 @@ class AwtsmoosFS {
         this.root = rootPath;
     }
     
+    async setupFilesystem(rootPath) {
+        return this.initialize(rootPath);
+    }
     async initialize(rootPath) {
         if(rootPath)
             this.root = rootPath;
@@ -78,6 +81,8 @@ class AwtsmoosFS {
         );
         return this.handle;
     }
+
+
     
     async access(path, mode) {
         await os.stat({ filePath: this.handle, path });
@@ -96,6 +101,9 @@ class AwtsmoosFS {
         await os.makeFile({ filePath: this.handle, path: dest, data });
     }
     
+    async makeFolder({path, options}) {
+        return await this.mkdir(path, options);
+    }
     async mkdir(path, options) {
        
         
@@ -113,17 +121,30 @@ class AwtsmoosFS {
         return new FileHandle(path, this.handle);
     }
     
+    async readFolder({path, options}) {
+        return await this.readdir(path, options)
+    }
     async readdir(path, options) {
         return await os.readFolder({ filePath: this.handle, path });
     }
     
-    async readFile(path, options) {
-        const data = await os.readFile({ filePath: this.handle, path });
+    async readFile(path, options={}) {
+        if(typeof(path) == "object") {
+            path = path?.path;
+            options = path?.options || {};
+        }
+        var data = await os.readFile({ filePath: this.handle, path });
+        console.log("Reading",data,path);
+        if(!data) return data;
         return options?.encoding ? data.toString(options.encoding) : Buffer.from(data);
     }
     
     async writeFile(path, data, options) {
         await os.makeFile({ filePath: this.handle, path, data });
+    }
+
+    async makeFile({path, data, options}) {
+        return await this.writeFile(path, data, options)
     }
     
     async rename(oldPath, newPath) {
@@ -146,6 +167,9 @@ class AwtsmoosFS {
     }
     
     async stat(path) {
+        if(typeof(path) == "object") {
+            path = path?.path;
+        }
         return await os.stat({ filePath: this.handle, path });
     }
     

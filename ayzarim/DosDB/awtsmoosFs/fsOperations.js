@@ -491,15 +491,19 @@ async function stat({
     path,
     name
 }) {
+    
     path = normalizePath(path);
+
     if(!name) {
-        name = path.pop();
+        name = path?.pop?.();
     }
     if (
         path === null ||
         typeof name !== "string"
-    )
+    ) {
+        console.trace(path, name)
         throw Error("No name provided")
+    }
 
     let folder = await readFolder({
         filePath,

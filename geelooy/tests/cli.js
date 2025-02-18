@@ -4,9 +4,9 @@ const os = require("../../ayzarim/DosDB/awtsmoosFs/fsOperations.js");
 const path = require("path");
 
 const FILESYSTEM_PATH = 
-    //"/home/yackov/Documents/git/awts.awtsmoosFs";
+    "/home/yackov/Documents/git/awts.awtsmoosFs";
 
-   "/home/yackov/Documents/dayuh/awtsmoosOs.awtsmoosFs";
+  // "/home/yackov/Documents/dayuh/awtsmoosOs.awtsmoosFs";
 
 (async () => {
     const args = process.argv.slice(2);
