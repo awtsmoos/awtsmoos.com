@@ -536,7 +536,8 @@ class DosDB {
 		} catch(e) {
 			console.trace(e);
 			return {
-				error: e.stack
+				error: e.stack,
+				firstPath, destination
 			};
 		}
 	}
