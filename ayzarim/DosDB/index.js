@@ -477,7 +477,7 @@ class DosDB {
 			var awtsJson = null;
 			awtsJson = awtsmoosBinary.serializeJSON(r);
 			
-			var myPath = this.getFilePath(rPath, false, true)
+			var myPath = await this.getFilePath(rPath, false, true)
 			var joined = path.join(myPath, "_awts.awtsmoosJSON");
 			await this.ensureDir(joined);
 			console.log("WRiting!!! !! !!! !!",joined,r)
@@ -528,7 +528,7 @@ class DosDB {
 	
 			if (!acc) return null;
 			let result = null;
-			destination = this.getFilePath(destination)
+			destination = await this.getFilePath(destination)
 			if (acc.dynamicEntry) {
 				result = await this.writeAsBinaryFormat(destination, acc.dynamicEntry);
 			} else if (acc.directory) {
