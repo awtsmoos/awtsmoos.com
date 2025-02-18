@@ -590,11 +590,12 @@ class DosDB {
 			} else if (acc.directory) {
 				// If it's a directory, recursively process each entry
 				result = [];
+				await this.ensureDir(destination, true)
 				for (let entry of acc.directory) {
 					// Construct new destination path
 					let newDest = `${destination}/${entry}`;
 					let newSource = `${firstPath}/${entry}`; // Manually construct source path
-					await this.ensureDir(newDest)
+				//	await this.ensureDir(newDest)
 					// Recursively copy entry
 					let res = await this.copyFromRegularToBinary(newSource, newDest);
 					let newRes = res?.success?.result;
