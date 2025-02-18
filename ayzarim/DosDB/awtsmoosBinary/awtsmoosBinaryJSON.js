@@ -28,7 +28,7 @@ async function isAwtsmoosObject(buffer) {
     if(typeof(buffer) == "string") {
         buffer = new fileBuffer(buffer);
     }
-    var mag = await buffer.subarray(0,2).toString()
+    var mag = (await buffer.subarray(0,2)).toString()
     if(
         mag != magicJSON &&
         mag != magicArray
