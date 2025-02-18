@@ -229,13 +229,13 @@ class DosDB {
 							filterBy,
 							meta
 						};
-						checkIfItsSingleEntry = await this.getDynamicBinaryRecord(ob)
-						/*
+						
+						
 						if(!this.readAwtsmoosBinary) {
 							checkIfItsSingleEntry = await this.getDynamicRecord(ob);
 						} else {
-							
-						}*/
+							checkIfItsSingleEntry = await this.getDynamicBinaryRecord(ob)
+						}
 						if(checkIfItsSingleEntry?._awtsmoosDeletify) {
 							return undefined;
 						}
@@ -244,7 +244,7 @@ class DosDB {
 					} catch (e) {
 						console.log("Prob", e);
 					}
-					if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
+					if(checkIfItsSingleEntry || checkIfItsSingleEntry === null) {
 						var res = checkIfItsSingleEntry;
 						if(extra) {
 							return {
