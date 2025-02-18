@@ -499,7 +499,8 @@ class DosDB {
 		try {
 			var acc = await this.get(
 				firstPath, {
-					extra: true
+					extra: true,
+					pageSize:10000
 				}
 			);
 
