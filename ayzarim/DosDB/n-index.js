@@ -64,12 +64,13 @@ class DosDB {
 		}
 	}
 
-    sanitizePath(path) {
+    sanitizePath(path,overrideSanity=false) {
         // The essence of purity, the path untangled and unbroken
-        while (path.includes('..')) {
-            // Replacing the twisted trails with the righteous root
-            path = path.replace('..', '');
-        }
+        if(!overrideSanity)
+			while (path.includes('..')) {
+				// Replacing the twisted trails with the righteous root
+				path = path.replace('..', '');
+			}
         path = path.split("/").filter(r=>r).join("/");
             if(!path) path="/"
         return path  // Returning the sanctified path, a path of light

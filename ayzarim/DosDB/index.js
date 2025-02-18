@@ -8,7 +8,7 @@ var util = require('util');
 var readdir = util.promisify(fs.readdir);
 var stat = fs.stat;
 var gde = require("./getDirectoryEntries.js")
-var awtsutils = require("../tools/utils.js");
+
 /**
  * The DosDB class represents a simple filesystem-based key-value store where each
  * record is stored as a separate JSON file in the provided directory.
@@ -63,10 +63,10 @@ class DosDB {
 	 * @example
 	 * var filePath = await db.getFilePath('user1');
 	 */
-	async getFilePath(id, isDir = false) {
+	async getFilePath(id, isDir = false, overrideSanity=false) {
 		if(typeof(id) != "string")
 			return id;
-		id = awtsutils.sanitizePath(id);
+		id = this.sanitizePath(id, overrideSanity);
 		var mainDir = this.directory;
 		// Remove mainDir from id if it is present, otherwise leave id as is
 		var cleanedPath = id
@@ -98,6 +98,19 @@ class DosDB {
 			}
 		}
 	}
+
+	sanitizePath(path,overrideSanity=false) {
+        // The essence of purity, the path untangled and unbroken
+        if(!overrideSanity)
+			while (path.includes('..')) {
+				// Replacing the twisted trails with the righteous root
+				path = path.replace('..', '');
+			}
+        path = path.split("/").filter(r=>r).join("/");
+            if(!path) path="/"
+        return path  // Returning the sanctified path, a path of light
+    }
+
 	async readFileWithOffset(filePath, offset, length) {
 		try {
 			//console.log("READING offset",offset,filePath)
@@ -464,7 +477,8 @@ class DosDB {
 			var awtsJson = null;
 			awtsJson = awtsmoosBinary.serializeJSON(r);
 			
-			var joined = path.join(rPath, "_awts.awtsmoosJSON");
+			var myPath = this.getFilePath(rPath, false, true)
+			var joined = path.join(myPath, "_awts.awtsmoosJSON");
 			await this.ensureDir(joined);
 			console.log("WRiting!!! !! !!! !!",joined,r)
 			var wrote = await fs.writeFile(joined, awtsJson);
