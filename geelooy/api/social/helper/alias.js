@@ -114,7 +114,14 @@ async function verifyAlias({aliasId, $i, userid}) {
       }/info`
     );
 
-	if(ail.user) {
+	if(!ail) {
+		return er({
+			message: "NO alias found",
+			code: "NO_ALIAS"
+		})
+	}
+
+	if(ail?.user) {
 		delete ail.user
 	}
 	
