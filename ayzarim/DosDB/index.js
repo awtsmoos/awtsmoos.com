@@ -38,7 +38,7 @@ class DosDB {
 	 * @example
 	 * var db = new DosDB('./db');
 	 */
-	readAwtsmoosBinary = true;
+	//readAwtsmoosBinary = true;
 	constructor(directory) {
 		this.directory = directory || "../";
 	
