@@ -583,7 +583,7 @@ class DosDB {
 			var isRegularFile = acc.file || acc.json;
 			if (acc.dynamicEntry) {
 				result = await this.writeAsBinaryFormat(destination, acc.dynamicEntry);
-			} else if (acc.isRegularFile) {
+			} else if (isRegularFile) {
 				result = await this.write(destination, acc.file || acc.json, {
 					override: true
 				});	
