@@ -38,7 +38,7 @@ class DosDB {
 	 * @example
 	 * var db = new DosDB('./db');
 	 */
-	//readAwtsmoosBinary = true;
+	readAwtsmoosBinary = true;
 	constructor(directory) {
 		this.directory = directory || "../";
 	
@@ -420,7 +420,11 @@ class DosDB {
 			} else if(typeof(record) == "object") {
 				// if the record is not a Buffer, stringify it as JSON
 				//await fs.writeFile(filePath, JSON.stringify(record));
-				return await this.writeRecordDynamic(filePath, record, opts)
+				if(!this.readAwtsmoosBinary)
+					return await this.writeRecordDynamic(filePath, record, opts);
+				else {
+					return await this.writeAsBinaryFormat(filePath, record, opts)
+				}
 				try {
 					await this.indexManager.updateIndex(
 						directoryPath,
@@ -459,7 +463,7 @@ class DosDB {
 
 	removeDirectory(dirPath) {
 	  return new Promise((resolve, reject) => {
-		  console.log("WOW")
+		//  console.log("WOW")
 		
 		  
 	    fsRegular.rm(dirPath, { recursive: true }, (err) => {
