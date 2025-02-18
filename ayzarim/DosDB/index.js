@@ -528,7 +528,8 @@ class DosDB {
 	
 			if (!acc) return null;
 			let result = null;
-			destination = await this.getFilePath(destination)
+			var isDir = !!acc.directory
+			destination = await this.getFilePath(destination, isDir, true)
 			if (acc.dynamicEntry) {
 				result = await this.writeAsBinaryFormat(destination, acc.dynamicEntry);
 			} else if (acc.directory) {
