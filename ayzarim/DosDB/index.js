@@ -452,25 +452,36 @@ class DosDB {
 		opts = {}
 	) {
 		
-		if(typeof(rPath) != "string" || !rPath)
-			return false;
-		if(typeof(r) != "object" || !r) {
-			return false
-		}
-		var isArray = Array.isArray(r);
 		
-		var awtsJson = null;
-		awtsJson = awtsmoosBinary.serializeJSON(r);
-		
-		var joined = path.join(rPath, "_awts.awtsmoosJSON");
-		await this.ensureDir(joined);
-		console.log("WRiting!!! !! !!! !!",joined,r)
 		try {
+			if(typeof(rPath) != "string" || !rPath)
+				return false;
+			if(typeof(r) != "object" || !r) {
+				return false
+			}
+			var isArray = Array.isArray(r);
+			
+			var awtsJson = null;
+			awtsJson = awtsmoosBinary.serializeJSON(r);
+			
+			var joined = path.join(rPath, "_awts.awtsmoosJSON");
+			await this.ensureDir(joined);
+			console.log("WRiting!!! !! !!! !!",joined,r)
 			var wrote = await fs.writeFile(joined, awtsJson);
 		} catch(e) {
 			console.log(e);
+			return {
+				error: e.stack,
+				rPath
+			}
 		}
-		return wrote;
+		return {
+			success: {
+				wrote,
+				joined,
+				rPath
+			}
+		};
 			
 	}
 
