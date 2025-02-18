@@ -20,7 +20,7 @@ async function getDirectoryEntries({
 
     // Retrieve both files and directories
     let entries = await fs.readdir(directoryPath, { withFileTypes: true });
-    console.log(entries,)
+    console.log(entries,"GETTING dir")
     return entries;
     if(filterBy  && typeof(filterBy) == "object") {
       try {
