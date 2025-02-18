@@ -984,11 +984,20 @@ async function mapBinary(buffer, mapObj) {
     keys = []
    }
     for (let key of keys) {
+        var value = "LOL ok now"
+        try {
+            value = await getValueByKey(buffer, key);
+        } catch(e) {
+            value = {
+                wow: e.stack,
+                LOL: key
+            }
+        }
+        filteredResult[key] = value;
+        continue;
         if (mapObj[key]) {
             const mapConfig = mapObj[key];
-            let value = await getValueByKey(buffer, key);
-            filteredResult[key] = value;
-            continue;
+            
             // If the value is an object, recurse into it
             if (typeof value === 'object' && value !== null) {
                 filteredResult[key] = await filterMap(value, mapConfig);
