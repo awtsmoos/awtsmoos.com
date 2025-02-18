@@ -258,7 +258,7 @@ module.exports = ({
 		});
 	},
 	
-	"/aliases/:alias/ownership": async vars => {
+	"/alias/:alias/ownership": async vars => {
 		
 		var owns = await verifyAliasOwnership(
 			vars.alias,
@@ -284,7 +284,7 @@ module.exports = ({
 	 * 
 	 */
 	
-	"/aliases/:alias": async vars => {
+	"/alias/:alias": async vars => {
 		
 		// Getting the aliasId from request, modify this part as per your setup
 		var aliasId = vars.alias;
@@ -319,7 +319,7 @@ module.exports = ({
 		
 		return await getAlias(aliasId, $i);
 	},
-	"/aliases/:alias/details": async(v) => {
+	"/alias/:alias/details": async(v) => {
 		
 		var da = await getDetailedAlias({
 			$i,
