@@ -99,17 +99,23 @@ class DosDB {
 		}
 	}
 
-	sanitizePath(path,overrideSanity=false) {
-        // The essence of purity, the path untangled and unbroken
-        if(!overrideSanity)
-			while (path.includes('..')) {
-				// Replacing the twisted trails with the righteous root
-				path = path.replace('..', '');
+	sanitizePath(path, overrideSanity = false) {
+		// Preserve leading slash if present
+		let isAbsolute = path.startsWith("/");
+	
+		if (!overrideSanity) {
+			while (path.includes("..")) {
+				path = path.replace("..", ""); // Remove potential directory traversal
 			}
-        path = path.split("/").filter(r=>r).join("/");
-            if(!path) path="/"
-        return path  // Returning the sanctified path, a path of light
-    }
+		}
+	
+		path = path.split("/").filter(Boolean).join("/");
+	
+		// Restore leading slash if it was originally present
+		if (isAbsolute) path = "/" + path;
+	
+		return path || "/"; // Ensure at least a single slash remains
+	}
 
 	async readFileWithOffset(filePath, offset, length) {
 		try {
