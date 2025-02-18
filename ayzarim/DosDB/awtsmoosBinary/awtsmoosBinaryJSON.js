@@ -990,11 +990,11 @@ async function mapBinary(buffer, mapObj) {
     }
     keys = []
    }
-   return {
+  /* return {
     map: mapObj,
    k: Object.keys(mapObj),
     p:Object.values(mapObj)
-   }
+   }*/
     for (let key of keys) {
         
         if (Object.keys(mapObj).includes(key)) {
