@@ -525,7 +525,7 @@ class DosDB {
 			shouldNullify = false,
 			meta = false
 		}) {
-			properties = false;
+		//	properties = false;
 		try {
 			var joined = path.join(filePath, "_awts.awtsmoosJSON")
 			if(!properties) {

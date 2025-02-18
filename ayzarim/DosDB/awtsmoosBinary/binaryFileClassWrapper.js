@@ -18,7 +18,7 @@ class BinaryFileWrapper {
     }
 
     async getKeys() {
-        const magicSchema = { magic: 'string_4' };
+        const magicSchema = { magic: 'string_2' };
         const magicInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset: 0, schema: magicSchema });
         
         if (magicInfo.magic !== magicJSON && magicInfo.magic !== magicArray) {
@@ -27,23 +27,24 @@ class BinaryFileWrapper {
         
         let offset = magicInfo.magic.length;
         if (magicInfo.magic === magicJSON) {
-            const hashInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_4' } });
+            const hashInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_32' } });
             offset = hashInfo.offset;
-            
+            console.log("has",hashInfo)
             let keys = [];
             for (let i = 0; i < hashInfo.amount; i++) {
-                const keyOffsetInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { keyOffset: 'uint_4' } });
+                const keyOffsetInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { keyOffset: 'uint_32' } });
+                console.log("WOW",keyOffsetInfo)
                 offset += 4;
                 
                 if (keyOffsetInfo.keyOffset !== 0) {
-                    const keyInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyOffsetInfo.keyOffset, schema: { amount: 'uint_4' } });
+                    const keyInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyOffsetInfo.keyOffset, schema: { amount: 'uint_32' } });
                     const keyData = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyInfo.offset, schema: { key: `string_${keyInfo.amount}` } });
                     keys.push(keyData.key);
                 }
             }
             return keys;
         } else if (magicInfo.magic === magicArray) {
-            const arrayLengthInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_4' } });
+            const arrayLengthInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_32' } });
             return Array.from({ length: arrayLengthInfo.amount }).map((_, i) => i);
         }
     }
@@ -57,17 +58,17 @@ class BinaryFileWrapper {
         }
         
         let offset = magicInfo.magic.length;
-        const hashInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_4' } });
+        const hashInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { amount: 'uint_32' } });
         offset = hashInfo.offset;
         
         let index = hashKey(key, hashInfo.amount);
         for (let i = 0; i < hashInfo.amount; i++) {
-            const keyOffsetInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { keyOffset: 'uint_4' } });
+            const keyOffsetInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { keyOffset: 'uint_32' } });
             offset += 4;
             
             if (keyOffsetInfo.keyOffset === 0) continue;
             if (index === i) {
-                const keyInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyOffsetInfo.keyOffset, schema: { amount: 'uint_4' } });
+                const keyInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyOffsetInfo.keyOffset, schema: { amount: 'uint_32' } });
                 const storedKeyData = await readFileBytesAtOffset({ filePath: this.filePath, offset: keyInfo.offset, schema: { key: `string_${keyInfo.amount}` } });
                 
                 if (storedKeyData.key === key) {

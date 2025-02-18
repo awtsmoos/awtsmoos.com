@@ -21,16 +21,20 @@ function logBuffer(buffer, base = 10, columns = 8) {
 
 function writeToBuffer(buffer, value, byteSize, offset) {
     for (let i = 0; i < byteSize; i++) {
-        buffer.writeUInt8((value >> (8 * i)) & 0xFF, offset + i);
+        buffer.writeUInt8((value >> (8 * (byteSize - 1 - i))) & 0xFF, offset + i);
     }
 }
 
-function readFromBuffer(buffer) {
-    let value = 0;
-    for (let i = 0; i < buffer.length; i++) {
-        value |= buffer.readUInt8(i) << (8 * i);
+function readFromBuffer(buffer, offset, size) {
+    if (size === 1) {
+        return buffer.readUInt8(offset);
+    } else if (size === 2) {
+        return buffer.readUInt16BE(offset);
+    } else if (size === 4) {
+        return buffer.readUInt32BE(offset);
+    } else {
+        throw new Error("Unsupported size: " + size);
     }
-    return value;
 }
 
 
@@ -92,25 +96,25 @@ function needsDoublePrecision(num) {
     }
 }
 
-function readConditional(buffer, offset=0) {
-    var typeBuf = buffer.readUInt8(offset);
+async function readConditional(buffer, offset=0) {
+    var typeBuf = await buffer.readUInt8(offset);
     offset++;
     var size = 1;
     var am = null;
     switch(typeBuf) {
         case 0:
             
-            am = buffer.readUInt8(offset);
+            am = await buffer.readUInt8(offset);
             offset++;
 
         break;
         case 1:
-            am = buffer.readUInt16BE(offset);
+            am = await buffer.readUInt16BE(offset);
             offset+=2;
             size = 2
         break;
         case 2:
-            am = buffer.readUInt32BE(offset);
+            am = await buffer.readUInt32BE(offset);
             offset+=4
             size = 4
         break;
@@ -120,12 +124,12 @@ function readConditional(buffer, offset=0) {
             size = 8
         break;
         case 4:
-            am = buffer.readFloatBE(offset);
+            am = await buffer.readFloatBE(offset);
             offset += 4;
             size = 4
         break;
         case 5:
-            am = buffer.readDoubleBE(offset);
+            am = await buffer.readDoubleBE(offset);
             offset += 8;
             size = 8
         break;
@@ -200,7 +204,7 @@ function writeConditional(amount) {
         typeBuffer,
         amountBuffer
     ])
-    offset += buffer.length;
+    offset +=  buffer.length;
     return {buffer, offset, size}
 }
 
@@ -399,11 +403,11 @@ async function readFileBytesAtOffset({
             }
             currentOffset += instr.size;
         } else if (instr.type === 'string') {
-            let strBuf = buffer.slice(currentOffset, currentOffset + instr.size);
+            let strBuf = buffer.subarray(currentOffset, currentOffset + instr.size);
             result[instr.key] = strBuf.toString('utf8').replace(/\0/g, '');
             currentOffset += instr.size;
         } else if (instr.type === 'buffer') {
-            result[instr.key] = buffer.slice(currentOffset, currentOffset + instr.size);
+            result[instr.key] = buffer.subarray(currentOffset, currentOffset + instr.size);
             currentOffset += instr.size;
         }
     }

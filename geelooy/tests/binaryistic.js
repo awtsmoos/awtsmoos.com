@@ -3,7 +3,13 @@ var b = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON");
 var fs = require("fs").promises;
 
 console.log('B"H')
-var ob = [
+var ob =
+    {
+    wow:123,
+    ok:"asdf",
+    "lol":15
+    /*
+    fasd:[
   
     Buffer.from([0x2f,0x3c,0x4d]),
    null,
@@ -78,23 +84,39 @@ var ob = [
         }
         
     }
-]
+]*/
+}
+
+;;
+;
   
-console.log("input obj", JSON.stringify(ob,null,"\t"))
-var ser = b.serializeJSON(ob);
-console.log("Serialized",b.logBuffer(ser), ser.toString())
-//await fs.writeFile("./wow.awts", ser);
-var deser = b.deserializeBinary(ser);
-console.log("Did it",deser);
-var keys = b.getKeysFromBinary(ser);
-console.log("keys",keys)
-console.log("Got",b.getValueByKey(ser,0))
-//var map = b.getValuesFromBinary(ser, [...keys[0]])
-//console.log("Mapt",map)
-fs.writeFile("./BH_wow.awtsmoos",ser);
 
 (async () => {
-    var op = await fs.readFile("./BH_wow.awtsmoos");
-    var dees = b.deserializeBinary(op);
-    console.log("Opneed",dees)
+    var path = "./BH_wow.awtsmoos"
+    console.log("input obj", JSON.stringify(ob,null,"\t"))
+    var ser =await b.serializeJSON(ob);
+    console.log("Serialized",ser,b.logBuffer(ser), ser.toString())
+    //await fs.writeFile("./wow.awts", ser);
+    var deser = await b.deserializeBinary(ser);
+    console.log("Did it",deser);
+    var keys = await b.getKeysFromBinary(ser);
+    console.log("keys 1",keys);
+    console.log("Got",await b.getValueByKey(ser,"ok"))
+   //
+    //var map = b.getValuesFromBinary(ser, [...keys[0]])
+    //console.log("Mapt",map)
+    fs.writeFile(path,ser);
+    var keys = await b.getKeysFromBinary(path);
+    console.log("keys 2",keys);
+    console.log("Got",await b.getValueByKey(path,"wow"))
+
+
+    console.log("Mapping")
+   /* var op = await b.mapBinary("./BH_wow.awtsmoos", {
+
+        wow: true
+    });
+    console.log(op)
+  
+    console.log("Opneed",op)*/
 })()
