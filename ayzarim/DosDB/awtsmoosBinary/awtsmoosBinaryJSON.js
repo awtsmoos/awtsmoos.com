@@ -933,6 +933,13 @@ async function mapBinary(buffer, mapObj) {
      * 
      */
 
+    if(typeof(mapObj) == "string") {
+        try {
+            mapObj = JSON.parse(mapObj)
+        } catch(e) {
+            return {error: e.stack,mapObj}
+        }
+    }
     // Function to recursively filter values according to the mapObj rules
     async function filterMap(currentValue, mapConfig) {
         if (typeof(currentValue) === 'object' && currentValue !== null) {
