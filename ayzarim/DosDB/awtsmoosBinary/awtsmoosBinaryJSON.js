@@ -24,8 +24,11 @@ var {
 } = require("./constants");
 var binaryFileWrapper = require("./binaryFileClassWrapper.js");
 
-function isAwtsmoosObject(buffer) {
-    var mag = buffer.subarray(0,2).toString()
+async function isAwtsmoosObject(buffer) {
+    if(typeof(buffer) == "string") {
+        buffer = new fileBuffer(buffer);
+    }
+    var mag = await buffer.subarray(0,2).toString()
     if(
         mag != magicJSON &&
         mag != magicArray

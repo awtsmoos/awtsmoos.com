@@ -537,13 +537,18 @@ class DosDB {
 			}
 			if(!properties) {
 				var data = await fs.readFile(joined);
-				if(awtsmoosBinary.isAwtsmoosObject(data)) {
+				if(await awtsmoosBinary.isAwtsmoosObject(data)) {
 					return await awtsmoosBinary.deserializeBinary(data);
 				} else return null;
 			} else {
-				var mapt = await awtsmoosBinary.mapBinary(joined, properties);
-				
-				return mapt;
+				if(await awtsmoosBinary.isAwtsmoosObject(joined)) {
+
+					var mapt = await awtsmoosBinary.mapBinary(joined, properties);
+					
+					return mapt;
+				} else {
+					return null;
+				}
 			}
 		} catch(e) {
 			
