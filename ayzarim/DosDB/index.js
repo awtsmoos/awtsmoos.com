@@ -594,7 +594,7 @@ class DosDB {
 					// Construct new destination path
 					let newDest = `${destination}/${entry}`;
 					let newSource = `${firstPath}/${entry}`; // Manually construct source path
-					await fs.ensureDir(newDest)
+					await this.ensureDir(newDest)
 					// Recursively copy entry
 					let res = await this.copyFromRegularToBinary(newSource, newDest);
 					let newRes = res?.success?.result;
