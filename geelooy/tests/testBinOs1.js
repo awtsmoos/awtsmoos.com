@@ -10,10 +10,11 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
    
     var s = await os.setupFilesystem(pth);
     var fold = await os.mkdir("/wow")
-    await os.mkdir("/welcome")
+    await os.mkdir("/wow/well")
+    /*await os.mkdir("/welcome")
     await os.mkdir("/welcoe")
     await os.mkdir("/welcoe/1")
-   // await os.mkdir("/wow/well")
+   
     await os.makeFile({
       path: "/welcome/ok.txt",
       data: `B"H

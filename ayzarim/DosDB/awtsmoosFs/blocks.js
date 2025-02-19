@@ -397,11 +397,11 @@ async function writeAtNextFreeBlock({
 	//		await removeChildFromParent
 			superBlock = await getSuperBlock(filePath);
 			//blockIndex = existingBlockIdOfThisSameEntry;
-			console.log(`Entry ${name} already exists in ${parentFolderId}. BlockId ${
+			console.log(`\n\n\n\t\t\tEntry ${name} already exists in ${parentFolderId}. BlockId ${
 				blockIndex
 			} and next free block idx is ${
 				superBlock.nextFreeBlockId
-			}`)
+			} just deleted: `,del)
 
 	
 		}
@@ -1157,10 +1157,7 @@ async function updateParentFolder({
 	});
 
 	var superB = await getSuperBlock(filePath);
-	if(log)
-		console.log("\n\ndeleted\n\n",del,"rewriting folder now",folderName,folderId,parentId,
 	
-	"superblock",superB)
 	console.log("about to rewrite parent folder ",folderName,
 		"which has an ID of ",
 		parentId,"super f",superB.nextFreeBlockId,
