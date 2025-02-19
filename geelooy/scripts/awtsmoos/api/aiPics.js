@@ -32,7 +32,8 @@ function aiify({prompt,times,progress, download=false}={}) {
             if(!tokenBalElement) {
                 progress({message: "You're not logged in!!!"})
                // console.log(window.d=doc);
-                return "no";
+                r( "no" );
+                return "no"
             }
             return tokenBalElement.innerText !== "0" 
 
@@ -65,6 +66,7 @@ function aiify({prompt,times,progress, download=false}={}) {
               "body": sq+"",
               "method": "POST",
             });
+            console.log("Ddi it",ok);
 
             k=await ok.text()
             var dc = htmli(k)
@@ -108,13 +110,12 @@ function aiify({prompt,times,progress, download=false}={}) {
 
         async function parseAndDownloadPics(h/*html txt of completed images page*/) {
             var dct = htmli(h)
-            console.log("newDoc",dct,h)
+            console.log("newDoc",window.myPicDoc = dct)
             progress({message: "Pictures made. Downloading..."})
-            var picis=Array.from(dct.querySelectorAll("a.iusc"))
-                .map(w=>JSON.parse(w.getAttribute("m")))
-                .map(w=>({title:w.Title, url:JSON.parse(w.CustomData).MediaUrl}));
+            var picis=Array.from(dct.querySelectorAll("img"))
+                .map(w=>({url:w.src,title:w.alt}))
             console.log("Got pics",picis)
-
+            
             if(download) {
                 await Promise.all(picis.map(async (w,i)=>{
                     var r = await fetch(w.url)
@@ -170,5 +171,5 @@ function aiify({prompt,times,progress, download=false}={}) {
     })
 }
 
-export default aiify;
+export  default aiify;
 //Blessings and Success
