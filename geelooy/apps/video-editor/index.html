@@ -1,88 +1,391 @@
-<!--B"H-->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Simple Video Editor</title>
+  <title>Awtsmoos Video Editor - Chapter 7 Revised</title>
   <style>
-    body { font-family: sans-serif; background: #111; color: #eee; }
-    #bin { border: 1px solid #444; padding: 10px; margin: 10px; }
-    #binItems { display: flex; gap: 10px; flex-wrap: wrap; }
-    .bin-item { width: 100px; height: 100px; background: #222; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    #timelineContainer { border: 1px solid #444; padding: 10px; margin: 10px; position: relative; }
-    #timeline { position: relative; height: 150px; background: #333; overflow: hidden; }
-    .timeline-item { position: absolute; top: 10px; height: 130px; border: 2px solid #888; cursor: move; }
-    .resize-handle { position: absolute; top: 0; width: 5px; height: 100%; background: #fff; cursor: ew-resize; }
-    .resize-left { left: -5px; }
-    .resize-right { right: -5px; }
-    #playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: red; }
-    #controls { margin: 10px; }
+    /* Global Cosmic Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Courier New', monospace;
+      background: radial-gradient(circle at center, #abfffc, #73a7d1 70%);
+      
+      color: #fff;
+      overflow: hidden;
+      height: 100vh;
+    }
+    /* Display Area: Portal of Divine Vision */
+    #displayArea {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 320px;
+      display: flex
+  ;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+  }
+    /* Caption Container: Oracle of Celestial Words */
+    #captionContainer {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(255,204,0,1);
+      z-index: 1500;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .caption-word {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #ffcc00;
+      text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900, 0 0 30px #ff6600;
+      transition: transform 0.2s, opacity 0.2s;
+      padding: 2px 6px;
+    }
+    .caption-word.active {
+      transform: scale(1.4);
+      opacity: 1;
+      color: #ff3300;
+      text-shadow: 0 0 12px #ff3300, 0 0 24px #ff0000;
+    }
+    /* Media Bin: Repository of Celestial Artifacts */
+    #binContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 320px;
+      ;
+      z-index: 1400;
+      background: linear-gradient(180deg, #222, #111);
+      border-right: 4px solid #444;
+      transition: transform 0.4s ease, width 0.4s ease;
+    }
+    #binContainer.retracted { transform: translateX(-300px); }
+    #binContainer.minimized { width: 60px; }
+    #bin {
+      position: relative;
+      height: 100%;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    /* Bin Toggle & Minimize Buttons */
+    #toggleBin, #minimizeBin {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, #555, #333);
+      border: 3px solid #222;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgba(0,0,0,0.9);
+      transition: transform 0.3s ease, background 0.3s;
+      font-size: 28px;
+      z-index: 1500;
+    }
+    #toggleBin { top: 20px; right: -60px; }
+    #minimizeBin { top: 80px; right: -60px; }
+    #toggleBin:hover, #minimizeBin:hover { transform: scale(1.1); background: linear-gradient(45deg, #666, #444); }
+    /* Bin Items & Forced Alignment File Display */
+    #binItems {
+      margin-top: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .bin-item {
+      width: 140px;
+      height: 140px;
+      background: #222;
+      border: 3px solid #555;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .bin-item:hover { transform: scale(1.1); }
+    .caption-file {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: #333;
+      border: 2px dashed #777;
+      font-size: 0.9em;
+      color: #ccc;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    /* Timeline Wrapper: Ensuring Accessibility */
+    #timelineWrapper {
+      position: absolute;
+      left: 340px;
+      right: 0;
+      bottom: 0;
+      height: 320px;
+      overflow: hidden;
+      z-index: 1300;
+    }
+    /* Timeline Container: The Temporal Nexus */
+    #timelineContainer {
+      position: relative;
+      height: 100%;
+      background: linear-gradient(180deg, #1e1e1e, #101010);
+      border-top: 4px solid #444;
+      transition: transform 0.4s ease, height 0.4s ease;
+
+      
+      white-space: nowrap;
+    }
+    #timelineContainer.retracted #toggleTimeline {
+      transform: translate(0, -850%)
+    }
+    #timelineContainer.retracted { transform: translateY(300px); }
+    #timelineContainer.minimized { height: 60px; }
+    /* Timeline Toggle & Minimize Buttons */
+    #toggleTimeline, #minimizeTimeline {
+      position: absolute;
+      bottom: -45px;
+      width: 70px;
+      height: 45px;
+      background: linear-gradient(45deg, #555, #333);
+      border: 3px solid #222;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.9);
+      transition: transform 0.3s ease, opacity 0.3s;
+      z-index: 1400;
+      font-size: 28px;
+    }
+    #toggleTimeline { left: 50%; transform: translate(-150%, -45px); }
+    #minimizeTimeline { left: 50%; transform: translate(50%, -45px); }
+    
+    /* Timeline & Scrubber: The Pulse of Time */
+    #timeline {
+      position: relative;
+      height: calc(100% - 75px);
+      background: rgba(30,30,30,0.98);
+    }
+    /* Playhead: The Luminous Blade of Time */
+    #playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      z-index:10;
+      background: #ff0000;
+      pointer-events: none;
+      box-shadow: 0 0 20px #ff0000;
+    }
+    /* Playback Controls: Celestial Conductors */
+    #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1500;
+      display: flex;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(20,20,20,0.98);
+      border: 3px solid #444;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,1);
+      font-size: 16px;
+      transition: transform 0.4s ease, opacity 0.4s;
+    }
+    #controls button {
+      padding: 8px 12px;
+      background: linear-gradient(45deg, #555, #333);
+      border: 3px solid #222;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,1);
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    #controls button:hover { background: linear-gradient(45deg, #666, #444); transform: scale(1.1); box-shadow: 0 5px 20px rgba(0,0,0,1); }
   </style>
 </head>
 <body>
-  <div id="bin">
-    <h2>Media Bin</h2>
-    <input type="file" id="fileInput" multiple accept="audio/*,image/*">
-    <div id="binItems"></div>
+  <!-- Bin & Bin Container -->
+  <div id="binContainer">
+    <div id="bin">
+      <h2 style="text-align:center; margin-bottom:20px;">Media Bin</h2>
+      <input type="file" id="fileInput" multiple accept="audio/*,image/*,application/json" style="margin: 20px auto; display: block;">
+      <div id="binItems"></div>
+      <!-- Forced Alignment File Display -->
+      <div id="captionFile" class="caption-file" style="display:none;"></div>
+    </div>
+    <div id="toggleBin">&#x25C0;</div>
+   <div id="minimizeBin">&#x1F5D5;</div>
   </div>
-  <div id="timelineContainer">
-    <h2>Timeline</h2>
-    <div id="timeline"></div>
+
+  <!-- Display Area with Captions -->
+  <div id="displayArea">
+    <div id="captionContainer"></div>
   </div>
+
+  <!-- Timeline Wrapper -->
+  <div id="timelineWrapper">
+    <div id="timelineContainer">
+      <!-- Timeline will dynamically adjust its width -->
+      <div id="timeline"></div>
+      <div id="toggleTimeline">&#9650;</div>
+      <div id="minimizeTimeline">&#x1F5D5;</div>
+    </div>
+  </div>
+
+  <!-- Playback Controls integrated into Timeline -->
   <div id="controls">
-    <button id="playBtn">Play</button>
-    <button id="pauseBtn">Pause</button>
-    <button id="cutBtn">Cut</button>
+    <button id="playBtn">&#9658;</button>
+    <button id="pauseBtn">&#10074;&#10074;</button>
+    <button id="cutBtn">&#10006;</button>
   </div>
+
   <audio id="audioPlayer"></audio>
+
   <script>
-    // Basic variables and sacred constants
+    // Base scale: pixels per second at scale 1
+    let baseScale = 10;
+    let timelineScale = 1;
+    let forcedAlignmentFragments = null;
     const fileInput = document.getElementById('fileInput');
     const binItems = document.getElementById('binItems');
+    const captionFileDisplay = document.getElementById('captionFile');
     const timeline = document.getElementById('timeline');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
     const cutBtn = document.getElementById('cutBtn');
     const audioPlayer = document.getElementById('audioPlayer');
-
+    const toggleTimelineBtn = document.getElementById('toggleTimeline');
+    const minimizeTimelineBtn = document.getElementById('minimizeTimeline');
+    const timelineContainer = document.getElementById('timelineContainer');
+    const binContainer = document.getElementById('binContainer');
+    const toggleBinBtn = document.getElementById('toggleBin');
+    const minimizeBinBtn = document.getElementById('minimizeBin');
+    const controls = document.getElementById('controls');
+    const displayArea = document.getElementById('displayArea');
+    const captionContainer = document.getElementById('captionContainer');
     let timelineItems = [];
     let selectedItem = null;
-    let audioDuration = 60; // default duration in seconds
-
-    // Conversion factor: pixels per second—a measure of the divine rhythm
-    function updateTimeScale() {
-      return timeline.offsetWidth / audioDuration;
+    let audioDuration = 60;
+    let isPlaying = false;
+    let isScrubbing = false;
+    
+    // Calculate scales based on baseScale and timelineScale
+    function updateTimelineScale() { return baseScale * timelineScale; }
+    function updateScrubberScale() { return baseScale * timelineScale; }
+    function updateTimelineWidth() {
+      timeline.style.width = (audioDuration * updateTimelineScale()) + 'px';
     }
-
-    // Upon file import, the bin becomes a repository of potential miracles
+    
+    // Initialize timeline width after metadata loads
+    audioPlayer.onloadedmetadata = () => {
+      audioDuration = audioPlayer.duration;
+      updateTimelineWidth();
+    };
+    
+    // Zoom controls
+    document.getElementById('zoomIn')?.addEventListener('click', () => {
+      timelineScale *= 1.2;
+      timelineItems.forEach(item => {
+        item.element.style.left = (item.start * updateTimelineScale()) + 'px';
+        item.element.style.width = (item.duration * updateTimelineScale()) + 'px';
+      });
+      updateTimelineWidth();
+    });
+    document.getElementById('zoomOut')?.addEventListener('click', () => {
+      timelineScale /= 1.2;
+      timelineItems.forEach(item => {
+        item.element.style.left = (item.start * updateTimelineScale()) + 'px';
+        item.element.style.width = (item.duration * updateTimelineScale()) + 'px';
+      });
+      updateTimelineWidth();
+    });
+    
+    // Toggle timeline retraction
+    toggleTimelineBtn.addEventListener('click', () => {
+      timelineContainer.classList.toggle('retracted');
+      toggleTimelineBtn.innerHTML = timelineContainer.classList.contains('retracted') ? "&#9660;" : "&#9650;";
+    });
+    // Toggle timeline minimization
+    minimizeTimelineBtn.addEventListener('click', () => {
+      timelineContainer.classList.toggle('minimized');
+      // Adjust play controls if timeline is minimized
+      controls.classList.toggle('minimized');
+    });
+    // Toggle bin retraction
+    toggleBinBtn.addEventListener('click', () => {
+      binContainer.classList.toggle('retracted');
+      toggleBinBtn.innerHTML = binContainer.classList.contains('retracted') ? "&#x25B6;" : "&#x25C0;";
+    });
+    // Toggle bin minimization
+    minimizeBinBtn.addEventListener('click', () => {
+      binContainer.classList.toggle('minimized');
+    });
+    
+    // Handle file imports
     fileInput.addEventListener('change', (e) => {
       const files = Array.from(e.target.files);
       files.forEach(file => {
+        if(file.name.endsWith('.awtsmoos.json')) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            try {
+              const data = JSON.parse(evt.target.result);
+              if(data.fragments) {
+                forcedAlignmentFragments = data.fragments;
+                captionFileDisplay.style.display = "block";
+                captionFileDisplay.innerText = "Forced Alignment Loaded:\n" + file.name + "\n" + JSON.stringify(data, null, 2);
+              }
+            } catch(err) {
+              console.error("Error parsing forced alignment file:", err);
+            }
+          };
+          reader.readAsText(file);
+          return;
+        }
         const url = URL.createObjectURL(file);
         if(file.type.startsWith('image/')) {
           const div = document.createElement('div');
           div.className = 'bin-item';
           const img = document.createElement('img');
           img.src = url;
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '100%';
           div.appendChild(img);
           div.dataset.type = 'image';
           div.dataset.url = url;
           binItems.appendChild(div);
-          // Summon a timeline object with a single click
           div.addEventListener('click', () => {
             const item = createTimelineItem(url, 'image');
             timelineItems.push(item);
             timeline.appendChild(item.element);
           });
         } else if(file.type.startsWith('audio/')) {
-          // Bind the first audio as the heartbeat of the timeline
           if(!audioPlayer.src) {
             audioPlayer.src = url;
             audioPlayer.onloadedmetadata = () => {
               audioDuration = audioPlayer.duration;
-            }
+              updateTimelineWidth();
+            };
           }
           const div = document.createElement('div');
           div.className = 'bin-item';
@@ -93,15 +396,18 @@
         }
       });
     });
-
-    // Creation of a timeline item—a fragment of the eternal vision
+    
+    // Create timeline items with drag and resize support
     function createTimelineItem(url, type) {
       const itemEl = document.createElement('div');
       itemEl.className = 'timeline-item';
       const startTime = 0;
-      const duration = 5; // seconds, a fleeting moment of captured light
-      itemEl.style.left = (startTime * updateTimeScale()) + 'px';
-      itemEl.style.width = (duration * updateTimeScale()) + 'px';
+      const duration = 5;
+      itemEl.style.position = 'absolute';
+      itemEl.style.left = (startTime * updateTimelineScale()) + 'px';
+      itemEl.style.width = (duration * updateTimelineScale()) + 'px';
+      itemEl.style.top = '0px';
+      itemEl.style.height = '100%';
       if(type === 'image'){
         const img = document.createElement('img');
         img.src = url;
@@ -109,125 +415,205 @@
         img.style.height = '100%';
         img.style.objectFit = 'cover';
         itemEl.appendChild(img);
-        // Upon playback, the image shall gently zoom and shift, as if drawn by the hand of Awtsmoos
       }
-      // Carve out the handles for resizing—the tools of transformation
       const leftHandle = document.createElement('div');
       leftHandle.className = 'resize-handle resize-left';
       const rightHandle = document.createElement('div');
       rightHandle.className = 'resize-handle resize-right';
       itemEl.appendChild(leftHandle);
       itemEl.appendChild(rightHandle);
-
       const item = { start: startTime, duration: duration, element: itemEl, type: type };
-
-      // Enable dragging: a slow dance along the timeline of destiny
-      itemEl.addEventListener('mousedown', (e) => {
-        if(e.target.classList.contains('resize-handle')) return;
+    
+      function startDrag(e) {
+        e.preventDefault();
         selectedItem = item;
-        const startX = e.clientX;
+        const startX = e.clientX || e.touches[0].clientX;
         const origLeft = parseFloat(itemEl.style.left);
-        const onMouseMove = (ev) => {
-          const dx = ev.clientX - startX;
+        function onMove(ev) {
+          const clientX = ev.clientX || ev.touches[0].clientX;
+          const dx = clientX - startX;
           let newLeft = origLeft + dx;
           if(newLeft < 0) newLeft = 0;
-          item.start = newLeft / updateTimeScale();
+          item.start = newLeft / updateTimelineScale();
           itemEl.style.left = newLeft + 'px';
         }
-        const onMouseUp = () => {
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
+        function endDrag() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('touchmove', onMove);
+          document.removeEventListener('mouseup', endDrag);
+          document.removeEventListener('touchend', endDrag);
         }
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      });
-
-      // Left handle: the power to retract time itself
-      leftHandle.addEventListener('mousedown', (e) => {
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+      }
+      itemEl.addEventListener('mousedown', (e) => { if(!e.target.classList.contains('resize-handle')) startDrag(e); });
+      itemEl.addEventListener('touchstart', (e) => { if(!e.target.classList.contains('resize-handle')) startDrag(e); });
+    
+      function startResizeLeft(e) {
         e.stopPropagation();
+        e.preventDefault();
         selectedItem = item;
-        const startX = e.clientX;
+        const startX = e.clientX || e.touches[0].clientX;
         const origLeft = parseFloat(itemEl.style.left);
         const origWidth = parseFloat(itemEl.style.width);
-        const onMouseMove = (ev) => {
-          const dx = ev.clientX - startX;
+        function onMove(ev) {
+          const clientX = ev.clientX || ev.touches[0].clientX;
+          const dx = clientX - startX;
           let newLeft = origLeft + dx;
           let newWidth = origWidth - dx;
-          if(newLeft < 0) {
-            newWidth += newLeft;
-            newLeft = 0;
-          }
+          if(newLeft < 0) { newWidth += newLeft; newLeft = 0; }
           if(newWidth < 10) newWidth = 10;
-          item.start = newLeft / updateTimeScale();
-          item.duration = newWidth / updateTimeScale();
+          item.start = newLeft / updateTimelineScale();
+          item.duration = newWidth / updateTimelineScale();
           itemEl.style.left = newLeft + 'px';
           itemEl.style.width = newWidth + 'px';
         }
-        const onMouseUp = () => {
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
+        function endResize() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('touchmove', onMove);
+          document.removeEventListener('mouseup', endResize);
+          document.removeEventListener('touchend', endResize);
         }
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      });
-
-      // Right handle: the ability to extend the moment of creation
-      rightHandle.addEventListener('mousedown', (e) => {
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('mouseup', endResize);
+        document.addEventListener('touchend', endResize);
+      }
+      leftHandle.addEventListener('mousedown', startResizeLeft);
+      leftHandle.addEventListener('touchstart', startResizeLeft);
+    
+      function startResizeRight(e) {
         e.stopPropagation();
+        e.preventDefault();
         selectedItem = item;
-        const startX = e.clientX;
+        const startX = e.clientX || e.touches[0].clientX;
         const origWidth = parseFloat(itemEl.style.width);
-        const onMouseMove = (ev) => {
-          const dx = ev.clientX - startX;
+        function onMove(ev) {
+          const clientX = ev.clientX || ev.touches[0].clientX;
+          const dx = clientX - startX;
           let newWidth = origWidth + dx;
           if(newWidth < 10) newWidth = 10;
-          item.duration = newWidth / updateTimeScale();
+          item.duration = newWidth / updateTimelineScale();
           itemEl.style.width = newWidth + 'px';
         }
-        const onMouseUp = () => {
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
+        function endResize() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('touchmove', onMove);
+          document.removeEventListener('mouseup', endResize);
+          document.removeEventListener('touchend', endResize);
         }
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      });
-
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('mouseup', endResize);
+        document.addEventListener('touchend', endResize);
+      }
+      rightHandle.addEventListener('mousedown', startResizeRight);
+      rightHandle.addEventListener('touchstart', startResizeRight);
+    
       return item;
     }
-
-    // When the divine playback commences, the Awtsmoos whispers life into every image
-    playBtn.addEventListener('click', () => {
-      audioPlayer.play();
-      startTimeline();
-      timelineItems.forEach(item => {
-        if(item.type === 'image'){
-          item.element.firstChild.style.transition = 'transform ' + item.duration + 's linear';
-          item.element.firstChild.style.transform = 'scale(1.1) translateX(10px)';
-        }
-      });
+    
+    // Timeline scrubbing logic using updated scale
+    timelineContainer.addEventListener('mousedown', (e) => {
+      isScrubbing = true;
+      setTimeFromScrub(e);
     });
-
-    pauseBtn.addEventListener('click', () => {
-      audioPlayer.pause();
+    timelineContainer.addEventListener('touchstart', (e) => {
+      isScrubbing = true;
+      setTimeFromScrub(e);
     });
-
-    // The playhead—a luminous blade slicing through time—reveals the progress of creation
+    document.addEventListener('mousemove', (e) => { if(isScrubbing) setTimeFromScrub(e); });
+    document.addEventListener('mouseup', () => { isScrubbing = false; });
+    document.addEventListener('touchend', () => { isScrubbing = false; });
+    
+    function setTimeFromScrub(e) {
+      e.preventDefault();
+      const clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+      const rect = timelineContainer.getBoundingClientRect();
+      const relativeX = clientX - rect.left + timelineContainer.scrollLeft;
+      const newTime = relativeX / updateScrubberScale();
+      audioPlayer.currentTime = newTime;
+      playhead.style.left = (newTime * updateScrubberScale()) + 'px';
+    }
+    
+    // Create and update playhead on the timeline
     let playhead = document.createElement('div');
     playhead.id = 'playhead';
     timeline.appendChild(playhead);
-
-    function startTimeline(){
-      function update(){
-        const currentTime = audioPlayer.currentTime;
-        playhead.style.left = (currentTime * updateTimeScale()) + 'px';
-        if(!audioPlayer.paused){
-          requestAnimationFrame(update);
+    
+    // Update display area for images
+    function updateDisplayArea() {
+      displayArea.innerHTML = '';
+      displayArea.appendChild(captionContainer);
+      const currentTime = audioPlayer.currentTime;
+      for (const item of timelineItems) {
+        if(item.type === 'image' && currentTime >= item.start && currentTime <= (item.start + item.duration)) {
+          const progress = (currentTime - item.start) / item.duration;
+          const img = document.createElement('img');
+          img.src = item.element.querySelector('img').src;
+          const scale = 1 + 0.2 * progress;
+          const translateX = 15 * progress;
+          img.style.transform = `scale(${scale}) translateX(${translateX}px)`;
+          displayArea.appendChild(img);
+          break;
         }
       }
-      update();
     }
-
-    // The cut tool: a decisive strike splitting a moment into two, echoing the relentless duality of existence
+    
+    // Update captions with active word highlighted
+    function updateCaptions() {
+      if (forcedAlignmentFragments) {
+        const currentTime = audioPlayer.currentTime;
+        let activeFragment = null;
+        for (const fragment of forcedAlignmentFragments) {
+          const begin = parseFloat(fragment.begin);
+          const end = parseFloat(fragment.end);
+          if (currentTime >= begin && currentTime <= end && fragment.lines && fragment.lines.join("").trim() !== "") {
+            activeFragment = fragment;
+            break;
+          }
+        }
+        if (activeFragment) {
+          captionContainer.style.display = "flex";
+          captionContainer.style.opacity = 1;
+          captionContainer.innerHTML = "";
+          const text = activeFragment.lines.join(" ");
+          const words = text.split(" ").filter(w => w.trim() !== "");
+          const duration = parseFloat(activeFragment.end) - parseFloat(activeFragment.begin);
+          const activeIndex = Math.floor(((currentTime - parseFloat(activeFragment.begin)) / duration) * words.length);
+          words.forEach((word, idx) => {
+            const wordDiv = document.createElement('div');
+            wordDiv.className = "caption-word";
+            if(idx === activeIndex) wordDiv.classList.add("active");
+            wordDiv.innerText = word;
+            captionContainer.appendChild(wordDiv);
+          });
+        } else {
+          captionContainer.style.display = "none";
+          captionContainer.innerHTML = "";
+        }
+      }
+    }
+    
+    // Playback controls
+    playBtn.addEventListener('click', () => {
+      audioPlayer.play();
+      isPlaying = true;
+      timelineItems.forEach(item => {
+        if(item.type === 'image'){
+          const img = item.element.querySelector('img');
+          img.style.transition = 'transform ' + item.duration + 's linear';
+          img.style.transform = 'scale(1.1) translateX(10px)';
+        }
+      });
+      requestAnimationFrame(updateTimeline);
+    });
+    pauseBtn.addEventListener('click', () => {
+      audioPlayer.pause();
+      isPlaying = false;
+    });
     cutBtn.addEventListener('click', () => {
       if(selectedItem){
         const cutTime = audioPlayer.currentTime;
@@ -235,19 +621,28 @@
           const leftDuration = cutTime - selectedItem.start;
           const rightDuration = (selectedItem.start + selectedItem.duration) - cutTime;
           selectedItem.duration = leftDuration;
-          selectedItem.element.style.width = (leftDuration * updateTimeScale()) + 'px';
+          selectedItem.element.style.width = (leftDuration * updateTimelineScale()) + 'px';
           const newItem = {
             start: cutTime,
             duration: rightDuration,
             type: selectedItem.type,
             element: selectedItem.element.cloneNode(true)
           };
-          newItem.element.style.left = (cutTime * updateTimeScale()) + 'px';
+          newItem.element.style.left = (cutTime * updateTimelineScale()) + 'px';
           timelineItems.push(newItem);
           timeline.appendChild(newItem.element);
         }
       }
     });
+    
+    // Main update loop
+    function updateTimeline() {
+      const currentTime = audioPlayer.currentTime;
+      playhead.style.left = (currentTime * updateScrubberScale()) + 'px';
+      updateDisplayArea();
+      updateCaptions();
+      if(isPlaying) requestAnimationFrame(updateTimeline);
+    }
   </script>
 </body>
 </html>
