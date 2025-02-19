@@ -687,6 +687,10 @@ body {
   .sidebar {
     top: unset !important;/* Remove the top property entirely */
   }
+  .content {
+    height: 100vh !important;
+    overflow-y: scroll !important;
+  }
 }
 @media only screen and (max-width: 768px) {
     .tab-container.active {
