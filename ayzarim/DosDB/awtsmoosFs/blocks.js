@@ -241,7 +241,7 @@ async function clearNextFreeBlockId(filePath, {
 
 	//if(log)
 	
-	console.log("\n\n\n\n\n\n\noverwrite superblock free block "
+	console.trace("\n\n\n\n\n\n\noverwrite superblock free block "
 	
 		+ " at offset\n\n\t\t",
 
@@ -430,7 +430,7 @@ async function writeAtNextFreeBlock({
 		var freeBlock = await readBlock({
 			filePath,
 			index: blockIndex,
-			superblockInfo:superBlock,
+			
 			onlyMetadata: "small"
 		});
 
@@ -483,7 +483,9 @@ async function writeAtNextFreeBlock({
 			
 			await clearNextFreeBlockId(filePath, {
 				blockId:blockIndex
-			})
+			});
+
+			superBlock = await getSuperBlock(filePath);
 		}
 		useFreeBlock = true;
 	} else {
@@ -498,6 +500,8 @@ async function writeAtNextFreeBlock({
 		await writeBytesToFileAtOffset(filePath, totalBlocksOffset, [{
 			[`uint_${blockIdByteSize * 8}`]: blockIndex
 		}]);
+
+		superBlock = await getSuperBlock(filePath);
 	
 	}
 
@@ -989,6 +993,7 @@ async function deleteEntry({
 		await writeBytesToFileAtOffset(filePath, nextFreeOffset, [{
 			[`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
 		}]);
+		superBlock = await getSuperBlock(filePath);
 		if(log)
 			console.log(`Superblock nextFreeBlockId set to ${allBlockIDs[0]}.`);
 	} else {
