@@ -125,7 +125,7 @@ function aiify({prompt,times,progress, download=false}={}) {
                     a.href=url;
 
                     a.download=sanitizeFilename(
-                        "BH_"+i+"_"+w.title.split("").slice(0,37).join("")+".png"
+                        "BH_"+i+"_"+Date.now()+w.title.split("").slice(0,37).join("")+".png"
                     )
                     a.click()
                 }))
@@ -170,6 +170,7 @@ function aiify({prompt,times,progress, download=false}={}) {
         }
     })
 }
+
 
 export  default aiify;
 //Blessings and Success
