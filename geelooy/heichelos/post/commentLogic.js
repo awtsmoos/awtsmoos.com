@@ -535,7 +535,7 @@ async function countCommentsOfAlias(alias) {
 			verseSection: currentVerse,
 			map: true,
 			count: true,
-			propertyMap: JSON.stringify({
+		/*	propertyMap: JSON.stringify({
 				//var subSec = getSubSecIdx();
 				...(
 					subSec || subSec === 0 ? {
@@ -543,13 +543,11 @@ async function countCommentsOfAlias(alias) {
 							subSectionIndex: {
 								equals: subSec
 							}, 
-							/*subSection: {
-								equals: subSec
-							}*/
+							
 						}
 					} : {}
 				)
-			})
+			})*/
 				
 		}
 	});
@@ -569,7 +567,7 @@ async function showAllComments({
 		get: {
 			verseSection: currentVerse,
 			map: true,
-			propertyMap: JSON.stringify({
+			/*propertyMap: JSON.stringify({
 				content: true,
 				author: true,
 				dayuh: {
@@ -582,13 +580,12 @@ async function showAllComments({
 							subSectionIndex: {
 								equals: subSec
 							},
-							/*subSection: {
-								equals: subSec
-							}*/
+						
+							
 						} : {}
 					)
 				}
-			})
+			})*/
 				
 		}
 	});
@@ -1006,7 +1003,7 @@ async function indexSwitch() {
 			get: {
 				verseSection: currentVerse,
 				map: true,
-				propertyMap: JSON.stringify({
+				/*propertyMap: JSON.stringify({
 					//var subSec = getSubSecIdx();
 					
 					content: true,
@@ -1019,13 +1016,12 @@ async function indexSwitch() {
 									equals: subSec
 								},
 								
-								/*subSection: {
-									equals: subSec
-								}*/
+							
+								
 							}
 						} : {}
 					)
-				})
+				})*/
 					
 			}
 		})
@@ -1198,7 +1194,7 @@ async function getAndSaveAliases(full=false) {
 		get: {
 			verseSection,
 			map: true,
-			propertyMap: JSON.stringify({
+			/*propertyMap: JSON.stringify({
 				...(
 					subSec || subSec === 0 ? {
 						dayuh: {
@@ -1206,13 +1202,12 @@ async function getAndSaveAliases(full=false) {
 								equals: subSec
 							},
 							
-							/*subSection: {
-								equals: subSec
-							}*/
+							
+							
 						}
 					} : {}
 				)
-			})
+			})*/
 		}
 	});
 	var aliasIDs = Array.isArray(aliases) ? aliases.map(w=>w.id) : [];
