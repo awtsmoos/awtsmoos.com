@@ -5,7 +5,8 @@ var {
     readBlock,
     deleteEntry,
     setupFilesystem: initializeFileSystem,
-    awtsmoosJSON
+    awtsmoosJSON,
+    getSuperBlock
 } = require("./blocks");
 
 
@@ -44,15 +45,14 @@ async function readFolder({
     // Always start with the root block.
     var block = await readBlock({
         filePath,
-        blockId: 1,
-        metadata: false
+        blockId: 1
     });
     var data = block.data;
     
 
-    if (!awtsmoosJSON
-        .isAwtsmoosObject(data)) {
-        return data
+    if (!(await awtsmoosJSON
+        .isAwtsmoosObject(data))) {
+        return null//data
     }
 
     // Deserialize the binary folder data.
@@ -61,10 +61,10 @@ async function readFolder({
     // If no further path is provided, return the entire object.
     if (!path.length) {
         return withValues ?
-            awtsmoosJSON
+            await awtsmoosJSON
             .deserializeBinary(folderObj) : 
             
-            awtsmoosJSON.getKeysFromBinary(
+            await awtsmoosJSON.getKeysFromBinary(
                 folderObj
             )
     }
@@ -72,7 +72,7 @@ async function readFolder({
     
     
     var parentFolderToReadFrom = await getCurrentFolder({
-        filePath,path
+        filePath, path
     })
     if(parentFolderToReadFrom) {
         folderObj = (await readBlock({
@@ -85,15 +85,15 @@ async function readFolder({
         return null;
     }
     
-    if(!awtsmoosJSON.isAwtsmoosObject(
+    if(!(await awtsmoosJSON.isAwtsmoosObject(
         folderObj
-    )) {
+    ))) {
         return null;
     }
 
-    return withValues ? awtsmoosJSON
+    return withValues ? await awtsmoosJSON
         .deserializeBinary(folderObj) :
-        awtsmoosJSON.getKeysFromBinary(
+        await awtsmoosJSON.getKeysFromBinary(
             folderObj
         ) 
 }
@@ -148,6 +148,9 @@ async function makeFolder({
     if(!name) {
         name = path.pop();
     }
+    if(!name) {
+        throw Error("No name given," + path.join("/"))
+    }
 //	console.log("Making",path,name)
 
     // If path is empty, then we're writing directly to root.
@@ -155,6 +158,7 @@ async function makeFolder({
         await writeAtNextFreeBlock({
             filePath,
             parentFolderId: 1,
+            folderName: "root",
             name
         });
         return;
@@ -169,14 +173,20 @@ async function makeFolder({
         path: "/",
         withValues:true
     })
+    if(!curFolder) {
+        console.log("No root?!",curFolder);
+        return null;
+    }
     
     var curParentFolder = 1;
     var i  = 0;
     for(var segment of path) {
-        if(!curFolder[segment]) {
+        if(!curFolder?.[segment]) {
+            var folderName = path?.[path.length-1] || "root"
             var made = await writeAtNextFreeBlock({
                 filePath,
                 parentFolderId: curParentFolder,
+                folderName,
                 name:segment
             });
             
@@ -203,9 +213,11 @@ async function makeFolder({
     parentFolderToWriteTo = curParentFolder;
     
     if(parentFolderToWriteTo) {
+        var parentFolderName = path?.[path.length-1] || "root";
         var wr = await writeAtNextFreeBlock({
             filePath,
             parentFolderId: parentFolderToWriteTo,
+            folderName: parentFolderName,
             name
         });
         return wr;
@@ -371,16 +383,17 @@ async function makeFile({
     
     var isCur = await readFolder({
         filePath,
-        path,
+        path: path.join("/"),
         withValues: true
     });
+    console.log("Data cur", isCur,path)
     if(!isCur) {
 
         console.log("doesn't have anything in it yet",path,name,parentId);
         
     }
     //console.log("READING",isCur,path,name,parentId)
-    if(isCur && isCur[name]) {
+   /*if(isCur && isCur[name]) {
     //	console.log("EXISTS",path,name);
         var del = await deleteFile({
             filePath,
@@ -388,14 +401,17 @@ async function makeFile({
             name
         })
         console.log("Del",del,path,name)
-    }
+    }*/
+   var parentFolderName = path.length ? 
+    path?.[path.length - 1] : "root"
     var wr = await writeAtNextFreeBlock({
         filePath,
         parentFolderId: parentId,
+        folderName: parentFolderName,
         name,
         data
     });
-    console.log("Wrote it",wr,path,name)
+    console.log("Wrote it",parentId, wr,path,name)
 }
 
 // Reads a file from the virtual file system.
@@ -554,8 +570,11 @@ module.exports = {
 	makeFile,
 	readFolder,
 	readFile,
+    readBlock,
 
 	deleteFile,
 	deleteFolder,
+
+    getSuperBlock,
 	stat
 }

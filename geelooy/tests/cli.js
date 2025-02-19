@@ -24,6 +24,12 @@ const FILESYSTEM_PATH =
         if (command === "list") {
             let contents = await os.readFolder({ filePath: fs, path: targetPath, withValues: true });
             console.log("Contents of", targetPath, ":", contents);
+        } else if(command == "super") {
+            let contents = await os.getSuperBlock(fs);
+            console.log("superblock of", targetPath, ":", contents);
+        } else if (command === "readBlock") {
+            let fileData = await os.readBlock({ filePath: fs, blockId: targetPath });
+            console.log("File content:", fileData);
         } else if (command === "read") {
             let fileData = await os.readFile({ filePath: fs, path: targetPath });
             console.log("File content:", fileData);
