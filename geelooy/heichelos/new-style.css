@@ -258,6 +258,7 @@ for posts
     background: white;
 }
 .comment-content {
+    z-index: -1;
     display: flex;
     flex-direction: column;
     gap: 8px; /* Adds spacing between internal elements */
@@ -279,7 +280,7 @@ for posts
 
 .comment-content:hover {
     background-color: #f4f4f4; /* Slightly lighter on hover */
-    transform: translateY(-2px); /* Subtle lift */
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
@@ -311,6 +312,8 @@ for posts
     font-weight: normal;
     line-height: 1.6;
     word-wrap: break-word;
+    font-size: 1.54em;
+    box-shadow: 1px 1px 15px 1px crimson inset;
     margin: 0;
     color: black;
     transition: color 0.3s ease;
@@ -710,7 +713,7 @@ body {
             flex-direction: column !important;
             
         }
-    }
+    
     
 
     .post .post-title {
