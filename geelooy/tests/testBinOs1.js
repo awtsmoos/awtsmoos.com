@@ -20,13 +20,13 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     await os.mkdir("/asdfg/lol/ok")
 
     await os.mkdir("/qwerty/qws")
-    /*await os.makeFile({
+    await os.makeFile({
       path: "asdfg/lol/ok/sok.txt",
       data: `B"H
       LOL
       
       how are u !`
-  })*/
+  })
   //  await os.mkdir("/wow/well/okThen")
     /*await os.mkdir("/welcome")
     await os.mkdir("/welcoe")

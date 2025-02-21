@@ -244,9 +244,9 @@ async function clearNextFreeBlockId(filePath, {
 		}`]: 0}
 	]);	
 
-	//if(log)
+	if(log)
 	
-	console.trace("\n\n\n\n\n\n\noverwrite superblock free block "
+		console.trace("\n\n\n\n\n\n\noverwrite superblock free block "
 	
 		+ " at offset\n\n\t\t",
 
@@ -330,7 +330,7 @@ async function getNextFreeBlock(
 			
 
 		} else {
-//			if(log)
+			if(log)
 				console.log("\n\nsuperblock free block info: \n\t\t",freeBlock?.metadata,"\n\n\n")
 			
 			await clearNextFreeBlockId(filePath, {
@@ -420,6 +420,7 @@ async function writeAtNextFreeBlock({
 		name && 
 		parentFolderId != 0
 	) {
+		if(log)
 		console.log(`\n\nWriting entry at next block with name ${
 			name
 		} in ${
@@ -657,7 +658,7 @@ async function writeAtNextFreeBlock({
 	superBlock = await getSuperBlock(filePath);
 	// Write the block.
 	await writeBytesToFileAtOffset(filePath, blockOffset, writeArray);
-	//if(log)
+	if(log)
 		console.log(`Block ${blockIndex} written at offset ${blockOffset} with ${currentData.length} bytes of data.`);
 
 	// If data remains, recursively write the next block and update the chain.
@@ -972,6 +973,7 @@ async function deleteEntry({
 			var data = folderFull?.data;
 			var folderDataEntries = await parseFolderData(data);
 			if(folderDataEntries) {
+				if(log)
 				console.log("Deleting folder entries, ",folderDataEntries)
 				var k = Object.keys(folderDataEntries);
 				for(var key of k) {
@@ -1006,7 +1008,8 @@ async function deleteEntry({
 			deletedBlocks: null
 		}
 	}
-	console.log("Really deleting",allBlockIDs,infoAboutDeletedEntry.metadata.nextBlockId,"next<<")
+	if(log)
+		console.log("Really deleting",allBlockIDs,infoAboutDeletedEntry.metadata.nextBlockId,"next<<")
 	// Mark each block as deleted.
 	for (const blockIndex of allBlockIDs) {
 		const fsMetadataOffset = superBlock.firstBlockOffset;
@@ -1050,7 +1053,7 @@ async function deleteEntry({
 			[`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
 		}]);
 		superBlock = await getSuperBlock(filePath);
-		//if(log)
+		if(log)
 			console.log(`Superblock nextFreeBlockId set to ${allBlockIDs[0]}.`);
 	} else {
 		/**
@@ -1132,7 +1135,7 @@ async function deleteEntry({
 			filePath,
 			index: lastBlockIndex
 		})
-		//if(log)
+		if(log)
 			console.log(
 				`Deleted chain linked. 
 				Superblock nextFreeBlockId
@@ -1209,8 +1212,9 @@ async function updateParentFolder({
 	}
 	
 	var nam = newChildName;
-
-	ob[nam] = newChildId;
+	if(nam && nam != undefined)
+		ob[nam] = newChildId;
+	else return;
 
 	var serialized = awtsmoosJSON.serializeJSON(ob);
 	//var des = awtsmoosJSON.deserializeBinary(serialized)
@@ -1238,7 +1242,7 @@ async function updateParentFolder({
 		filePath,
 		type:"folder",
 		name: folderName,
-		 data:serialized,
+		data:serialized,
 		overwriteIndex: folderId/*current index*/,
 		parentFolderId: parentId,
 		doNotUpdateParent:0  
