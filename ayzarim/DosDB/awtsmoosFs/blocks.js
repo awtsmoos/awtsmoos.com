@@ -24,7 +24,8 @@ var {
 	readFileBytesAtOffset,
     writeBytesToFileAtOffset,
 
-    getFileHandle
+    getFileHandle,
+	sizeof
 } = require("../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
 var awtsmoosJSON = require(
@@ -228,11 +229,15 @@ async function existingEntryWithNameInParentFolder({
 }
 
 async function clearNextFreeBlockId(filePath, {
-	blockId
+	blockId,
+	name,
+	folderName,
+	parentFolerId
 }={}) {
 	var superblockFreeOffset = (
 		4 + 2 + 1 + 1
 	);
+	var cursip = await getSuperBlock(filePath)
 	var wr = await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
 		{[`uint_${
 			blockIdByteSize * 8
@@ -248,9 +253,111 @@ async function clearNextFreeBlockId(filePath, {
 		superblockFreeOffset,
 		" with block size ",
 		blockIdByteSize,
-		"previously free block id was",blockId
+		folderName,
+		parentFolerId,
+		"previously free block id was",blockId,
+		"name",name,
+		"and super",cursip
 //		wr
 	)
+}
+
+async function getNextFreeBlock(
+	filePath, {
+		name,
+		folderName,
+		parentFolerId
+	}={}
+) {
+	var blockIndex = null;
+	var superBlock = await getSuperBlock(filePath);
+	var superblockFreeOffset = (
+		4 + 2 + 1 + 1
+	);
+	if (
+			
+		superBlock.nextFreeBlockId && 
+		superBlock.nextFreeBlockId !== 0
+	) {
+		
+		blockIndex = superBlock.nextFreeBlockId;
+		if(log)
+			console.log("\n\nFree block exists at\n\t",blockIndex,"\n\n")
+		var freeBlock = await readBlock({
+			filePath,
+			index: blockIndex,
+			
+			onlyMetadata: "small"
+		});
+
+		
+		var nextFreeBlockId = freeBlock?.metadata?.nextBlockId;
+		
+		
+		if(nextFreeBlockId) {
+			
+			
+		
+			/*
+				superBlock strucutre
+
+				{
+					string_4: "AWTS"
+				},
+				{
+					uint_16: DEFAULT_BLOCK_SIZE
+				},
+				{
+					uint_8: firstBlockOffset
+				},
+				{
+					uint_8: blockIdByteSize
+				},
+				{
+					[`uint_${blockIdByteSize * 8}`]: 0
+				}, // nextFreeBlockId.
+				{
+					[`uint_${blockIdByteSize * 8}`]: 0
+				} // totalBlocks.
+			*/
+			
+			await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
+				{[`uint_${
+					blockIdByteSize * 8
+				}`]: nextFreeBlockId}
+			]);
+			superBlock.nextFreeBlockId = nextFreeBlockId;
+			
+
+		} else {
+//			if(log)
+				console.log("\n\nsuperblock free block info: \n\t\t",freeBlock?.metadata,"\n\n\n")
+			
+			await clearNextFreeBlockId(filePath, {
+				blockId:blockIndex,
+				name,
+				folderName,
+				parentFolerId
+			});
+
+			
+		}
+		
+	} else {
+		blockIndex = superBlock.totalBlocks + 1; // Block indices start at 1.
+	
+		if(log)
+			console.log(`\n\nFree block did NOT exist. Adding new block #${
+				blockIndex
+			}`)
+		// Update totalBlocks in the superBlock.
+		const totalBlocksOffset = 8 + blockIdByteSize; // After fixed fields and nextFreeBlockId.
+		await writeBytesToFileAtOffset(filePath, totalBlocksOffset, [{
+			[`uint_${blockIdByteSize * 8}`]: blockIndex
+		}]);
+
+	}
+	return blockIndex;
 }
 /**
  * writeAtNextFreeBlock:
@@ -282,11 +389,12 @@ async function writeAtNextFreeBlock({
 	name,
 	parentFolderId=0,
 	folderName,
-	isInChain,
+	isInChain = false,
 	previousBlockId,
 	type="folder",
 	superBlock = null,
-	index = null
+	overwriteIndex = null,
+	doNotUpdateParent = false
 }) {
 
 	/**
@@ -305,9 +413,13 @@ async function writeAtNextFreeBlock({
 
 	var lookForNewBlockIndex = true;
 
-	let blockIndex;
+	let blockIndex = null;
 
-	if(name && parentFolderId != 0) {
+	if(
+		!isInChain && 
+		name && 
+		parentFolderId != 0
+	) {
 		console.log(`\n\nWriting entry at next block with name ${
 			name
 		} in ${
@@ -328,12 +440,20 @@ async function writeAtNextFreeBlock({
 			/**
 			 * If it already exists we need to delete of all the previous blocks
 			 */;
-	
-			var del = await deleteEntry({
+			 var del = await deleteEntry({
 				filePath,
 				index: existingBlockIdOfThisSameEntry,
-				superBlock
-			}); /**
+				superBlock,
+				onlyDeleteChildrenNotSelf:true
+			//	onlyDeleteChainBlocks: true,  
+			//	doNotDeleteChildren: true
+			}); 
+		
+			 if(!overwriteIndex) {
+				
+				blockIndex = existingBlockIdOfThisSameEntry;
+			}
+			/**
 			Here is the part of the logic
 			needs furhter research.
 
@@ -397,14 +517,18 @@ async function writeAtNextFreeBlock({
 	//		await removeChildFromParent
 			superBlock = await getSuperBlock(filePath);
 			//blockIndex = existingBlockIdOfThisSameEntry;
-			console.log(`\n\n\n\t\t\tEntry ${name} already exists in ${parentFolderId}. BlockId ${
-				blockIndex
-			} and next free block idx is ${
-				superBlock.nextFreeBlockId
-			} just deleted: `,del)
+			if(log)
+				console.log(`\n\n\n\t\t\tEntry ${name} already exists in ${parentFolderId}. BlockId ${
+					blockIndex
+				} and next free block idx is ${
+					superBlock.nextFreeBlockId
+				} just deleted: `,del)
 
 	
 		}
+	}
+	if(overwriteIndex !== null) {
+		blockIndex = overwriteIndex;
 	}
 	
 
@@ -414,99 +538,23 @@ async function writeAtNextFreeBlock({
 	const fsMetadataOffset = superBlock.firstBlockOffset;
 	
 	
-	var superblockFreeOffset = (
-		4 + 2 + 1 + 1
-	);
+	
 
+	superBlock = await getSuperBlock(filePath);
 	// Determine the block index: either from the free list or by appending.
-	if (
-		superBlock.nextFreeBlockId && 
-		superBlock.nextFreeBlockId !== 0
-	) {
-		
-		blockIndex = superBlock.nextFreeBlockId;
-		if(log)
-			console.log("\n\nFree block exists at\n\t",blockIndex,"\n\n")
-		var freeBlock = await readBlock({
-			filePath,
-			index: blockIndex,
-			
-			onlyMetadata: "small"
+	if(blockIndex === null) {
+		blockIndex = await getNextFreeBlock(filePath, {
+			name,
+			folderName,
+			parentFolderId
 		});
-
-		if(log)
-			console.log("\n\nsuperblock free block info: \n\t\t",freeBlock?.metadata,"\n\n\n")
-		
-		var nextFreeBlockId = freeBlock?.metadata?.nextBlockId;
-		
-		
-		if(nextFreeBlockId) {
-			var nextFreeBlock = await readBlock({
-				filePath,
-				index: nextFreeBlockId,
-				superblockInfo:superBlock,
-				onlyMetadata: "small"
-			});
-		
-			/*
-				superBlock strucutre
-
-				{
-					string_4: "AWTS"
-				},
-				{
-					uint_16: DEFAULT_BLOCK_SIZE
-				},
-				{
-					uint_8: firstBlockOffset
-				},
-				{
-					uint_8: blockIdByteSize
-				},
-				{
-					[`uint_${blockIdByteSize * 8}`]: 0
-				}, // nextFreeBlockId.
-				{
-					[`uint_${blockIdByteSize * 8}`]: 0
-				} // totalBlocks.
-			*/
-			
-			await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
-				{[`uint_${
-					blockIdByteSize * 8
-				}`]: nextFreeBlockId}
-			]);
-			superBlock.nextFreeBlockId = nextFreeBlockId;
-			
-
-		} else {
-			
-			await clearNextFreeBlockId(filePath, {
-				blockId:blockIndex
-			});
-
-			superBlock = await getSuperBlock(filePath);
-		}
-		useFreeBlock = true;
-	} else {
-		blockIndex = superBlock.totalBlocks + 1; // Block indices start at 1.
-		superBlock.totalBlocks = blockIndex;
-		if(log)
-			console.log(`\n\nFree block did NOT exist. Adding new block #${
-				blockIndex
-			}`)
-		// Update totalBlocks in the superBlock.
-		const totalBlocksOffset = 8 + blockIdByteSize; // After fixed fields and nextFreeBlockId.
-		await writeBytesToFileAtOffset(filePath, totalBlocksOffset, [{
-			[`uint_${blockIdByteSize * 8}`]: blockIndex
-		}]);
-
-		superBlock = await getSuperBlock(filePath);
-	
 	}
-
+	if(!blockIndex) {
+		console.log("What is it",blockIndex)
+		throw Error("Wrong new block index");
+	}
 	
-
+	
 	// Calculate this block's file offset.
 	const blockOffset = fsMetadataOffset + (blockIndex - 1) * blockSize;
 
@@ -563,7 +611,8 @@ async function writeAtNextFreeBlock({
 			}
 		];
 	}
-	superBlock = await getSuperBlock(filePath)
+	
+	
 	if(log)
 		console.log("Writing",blockIndex,
 		"meta inst\n", metadataInstructions,
@@ -573,22 +622,8 @@ async function writeAtNextFreeBlock({
 	)
 
 	// Calculate metadata size.
-	let metadataSize = 0;
-	for (const obj of metadataInstructions) {
-		for (const key of Object.keys(obj)) {
-			let match;
-			if (match = key.match(/^uint_(\d+)$/)) {
-				const bits = parseInt(match[1], 10);
-				metadataSize += bits / 8;
-			} else if (match = key.match(/^string_(\d+)$/)) {
-				const len = parseInt(match[1], 10);
-				metadataSize += len;
-			} else if (match = key.match(/^buffer_(\d+)$/)) {
-				const len = parseInt(match[1], 10);
-				metadataSize += len;
-			}
-		}
-	}
+	let metadataSize = sizeof(metadataInstructions);
+	
 
 	// Determine how much data can fit in this block.
 	const availableDataSpace = blockSize - metadataSize;
@@ -617,9 +652,12 @@ async function writeAtNextFreeBlock({
 		[`buffer_${currentData.length}`]: currentData
 	});
 
+
+
+	superBlock = await getSuperBlock(filePath);
 	// Write the block.
 	await writeBytesToFileAtOffset(filePath, blockOffset, writeArray);
-	if(log)
+	//if(log)
 		console.log(`Block ${blockIndex} written at offset ${blockOffset} with ${currentData.length} bytes of data.`);
 
 	// If data remains, recursively write the next block and update the chain.
@@ -643,8 +681,14 @@ async function writeAtNextFreeBlock({
 			console.log(`Updated block ${blockIndex} nextBlockId to ${nextBlockIndex}.`);
 	}
 
-	// Optionally, update the parent's metadata if not root (omitted for brevity).
-	if (blockIndex !== 1 && parentFolderId !==0) {
+	// Optionally, update the parent's metadata if not root
+	
+	if (
+		!doNotUpdateParent &&
+		!isInChain && 
+		blockIndex !== 1 && 
+		parentFolderId !==0
+	) {
 		await updateParentFolder({
 			filePath, 
 			folderId: parentFolderId, 
@@ -654,22 +698,16 @@ async function writeAtNextFreeBlock({
 			newChildName: name
 		});
 	}
-	superBlock = await getSuperBlock(filePath);
-	if(superBlock.nextFreeBlockId == blockIndex) {
-		if(log)
-			console.trace("\n\n\n\n\nTrying to write to deleted block?\n\n\n",name,folderName,blockIndex)
-		await clearNextFreeBlockId(filePath, {
-			blockId: {
-				blockIndex,
-				what:'are'
-			}
-		})
-	}
+	
+
 	return {
 		index: blockIndex,
 		blockIndex,
 		blockOffset,
-		metadataSize
+		metadataSize,
+		parentFolderId,
+		folderName,
+		name
 	};
 }
 
@@ -903,7 +941,9 @@ async function deleteEntry({
 	index,
 	allBlockIDs,
 	superBlock,
-	doNotDeleteChildren = false
+	doNotDeleteChildren = false,
+	onlyDeleteChainBlocks = false,
+	onlyDeleteChildrenNotSelf = false
 }={}) {
 	superBlock = superBlock || await getSuperBlock(filePath);
 	blockSize = superBlock.blockSize;
@@ -913,10 +953,10 @@ async function deleteEntry({
 		index,
 		blockSize,
 		blockIdByteSize,
-		onlyIDs: true
+		//onlyIDs: true
 	});
 
-	console.log("Deleting entry",infoAboutDeletedEntry.metadata.index)
+	var deleted = []
 	if(infoAboutDeletedEntry.metadata.type == "folder" ) {
 		/**
 		 * If we're deleting a folder 
@@ -935,14 +975,18 @@ async function deleteEntry({
 				console.log("Deleting folder entries, ",folderDataEntries)
 				var k = Object.keys(folderDataEntries);
 				for(var key of k) {
-					await deleteEntry({
+					var del = await deleteEntry({
 						filePath,
 						index: folderDataEntries[key],
 						superBlock
 					})
+					deleted.push(del);
 				}
 			}
 		}
+	}
+	if(onlyDeleteChildrenNotSelf) return {
+		deletedBlocks: deleted
 	}
 	allBlockIDs = allBlockIDs || (
 		infoAboutDeletedEntry
@@ -952,6 +996,17 @@ async function deleteEntry({
 			console.trace("coulnd't delete",index,filePath)
 		throw Error("Couldn't delete entry")
 	}
+
+	if(onlyDeleteChainBlocks) {
+		allBlockIDs.shift();
+	}
+	if(!allBlockIDs.length) {
+	//	console.log("Not really deleting",index)
+		return {
+			deletedBlocks: null
+		}
+	}
+	console.log("Really deleting",allBlockIDs,infoAboutDeletedEntry.metadata.nextBlockId,"next<<")
 	// Mark each block as deleted.
 	for (const blockIndex of allBlockIDs) {
 		const fsMetadataOffset = superBlock.firstBlockOffset;
@@ -978,6 +1033,7 @@ async function deleteEntry({
 	}
 
 	// Update the free list.
+	superBlock = await getSuperBlock(filePath);
 	if (superBlock.nextFreeBlockId === 0) {
 		/**
 		 * IF theres no next free block ID
@@ -994,7 +1050,7 @@ async function deleteEntry({
 			[`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
 		}]);
 		superBlock = await getSuperBlock(filePath);
-		if(log)
+		//if(log)
 			console.log(`Superblock nextFreeBlockId set to ${allBlockIDs[0]}.`);
 	} else {
 		/**
@@ -1072,12 +1128,28 @@ async function deleteEntry({
 		await writeBytesToFileAtOffset(filePath, nextFreeOffset, [{
 			[`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
 		}]);
-		if(log)
-			console.log(`Deleted chain linked. Superblock nextFreeBlockId updated to ${allBlockIDs[0]}.`);
+		var lastBlockInChainThatWasWritten = await readBlock({
+			filePath,
+			index: lastBlockIndex
+		})
+		//if(log)
+			console.log(
+				`Deleted chain linked. 
+				Superblock nextFreeBlockId
+				 updated to ${
+					allBlockIDs[0]
+				}. Set next block to be deleted 
+				which was previously free: ${
+					currentFree
+				} to the block ${
+					lastBlockIndex
+				}. Last Block (which has link to previously
+				free block) infO:`,
+				lastBlockInChainThatWasWritten);
 	}
 
 	return {
-		deletedBlocks: allBlockIDs
+		deletedBlocks: [...deleted,...allBlockIDs]
 	};
 }
 
@@ -1107,10 +1179,7 @@ async function updateParentFolder({
 	}
 	var parentId  = folderId == 1 ? 0 : 
 		folderBlock?.metadata?.parentBlockId
-	console.log("Updating folder of id ",folderId + " with new child "+ newChildName,
-
-		//folderBlock.metadata
-	)
+	
 	if(!parentId && parentId !== 0) {
 		throw Error("What is this"+parentId + " " +newChildId)
 	}
@@ -1153,22 +1222,30 @@ async function updateParentFolder({
 	
 		allBlockIDs: folderBlock
 			.allBlockIDs,
-		doNotDeleteChildren: true
+		doNotDeleteChildren: true,
+		onlyDeleteChainBlocks: true 
+		/**
+			do NOT delete the primary 
+			block reference 
+			onluy if its really big
+		*/
 	});
 
 	var superB = await getSuperBlock(filePath);
 	
-	console.log("about to rewrite parent folder ",folderName,
-		"which has an ID of ",
-		parentId,"super f",superB.nextFreeBlockId,
-	"in order to add new entry with name ", newChildName)
+
 	var write = await writeAtNextFreeBlock({
 		filePath,
 		type:"folder",
 		name: folderName,
-		data:serialized,
-		
-		parentFolderId: parentId
+		 data:serialized,
+		overwriteIndex: folderId/*current index*/,
+		parentFolderId: parentId,
+		doNotUpdateParent:0  
+		/*don't want to get into 
+			recursive writing
+
+		*/
 	});
 
 	if(log)
@@ -1179,7 +1256,7 @@ async function updateParentFolder({
 	});
 
 	var superB = await getSuperBlock(filePath);
-	//if(log)
+	if(log)
 		console.log("\n\nRead back what just wrote?",folderName, 
 		await awtsmoosJSON.deserializeBinary(data.data),
 		write.index,"Folder ind",folderId,"free super",superB.nextFreeBlockId

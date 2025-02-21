@@ -44,6 +44,7 @@ function sizeof(struct) {
 	 * in format of
 	 * key, value (number of bys)
 	 */
+    /*
 	var bytes = 0;
 	for(var [key, byteAmount] of Object.entries(struct)) {
 		if(typeof(byteAmount) == "string") {
@@ -57,7 +58,24 @@ function sizeof(struct) {
 
 		}
 	}
-	return bytes;
+	return bytes;*/
+    var size = 0
+    for (const obj of struct) {
+		for (const key of Object.keys(obj)) {
+			let match;
+			if (match = key.match(/^uint_(\d+)$/)) {
+				const bits = parseInt(match[1], 10);
+				size += bits / 8;
+			} else if (match = key.match(/^string_(\d+)$/)) {
+				const len = parseInt(match[1], 10);
+				size += len;
+			} else if (match = key.match(/^buffer_(\d+)$/)) {
+				const len = parseInt(match[1], 10);
+				size += len;
+			}
+		}
+	}
+    return size;
 }
 
 function readUInt64BE(buf, offset = 0) {
@@ -246,9 +264,12 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
     const writtenData = [];
 
     for (const obj of dataArray) {
-        for (const key of Object.keys(obj)) {
+        for (var key of Object.keys(obj)) {
             let value = obj[key];
             let typeMatch;
+            if(key == "buffer") {
+                key = key+"_" + value?.length;
+            }
             if (typeMatch = key.match(/^uint_(\d+)$/)) {
                 const bitSize = parseInt(typeMatch[1], 10);
                 const byteSize = bitSize / 8;

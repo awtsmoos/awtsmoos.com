@@ -2,7 +2,7 @@
 //B"H
 const os = require("../../ayzarim/DosDB/awtsmoosFs/fsOperations.js");
 const path = require("path");
-
+var bin = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON.js")
 const FILESYSTEM_PATH = 
     "/home/yackov/Documents/git/awts.awtsmoosFs";
 
@@ -26,10 +26,12 @@ const FILESYSTEM_PATH =
             console.log("Contents of", targetPath, ":", contents);
         } else if(command == "super") {
             let contents = await os.getSuperBlock(fs);
-            console.log("superblock of", targetPath, ":", contents);
+           console.log("superblock of", targetPath, ":", contents);
         } else if (command === "readBlock") {
             let fileData = await os.readBlock({ filePath: fs, blockId: targetPath });
-            console.log("File content:", fileData);
+            var data = fileData.data;
+            var ser = await bin.deserializeBinary(data)
+            console.log("File content:", fileData, ser);
         } else if (command === "read") {
             let fileData = await os.readFile({ filePath: fs, path: targetPath });
             console.log("File content:", fileData);

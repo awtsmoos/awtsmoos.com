@@ -27,7 +27,7 @@ var {
 	denyComment,
 	getSubmittedComments,
 	approveComment
-} = require("./comment.js");
+} = require("./comments/index.js");
 
 var {
 	detailedPostOperation,

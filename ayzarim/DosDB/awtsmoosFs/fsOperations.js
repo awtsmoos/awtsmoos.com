@@ -42,6 +42,9 @@ async function readFolder({
         console.log("NO path",path)
         return null;
     }
+    var name = path.pop();
+    
+    
     // Always start with the root block.
     var block = await readBlock({
         filePath,
@@ -59,7 +62,7 @@ async function readFolder({
     let folderObj = (data);
 
     // If no further path is provided, return the entire object.
-    if (!path.length) {
+    if (!name) {
         return withValues ?
             await awtsmoosJSON
             .deserializeBinary(folderObj) : 
@@ -71,36 +74,78 @@ async function readFolder({
 
     
     
-    var parentFolderToReadFrom = await getCurrentFolder({
-        filePath, path
-    })
-    if(parentFolderToReadFrom) {
-        folderObj = (await readBlock({
+    var parentFolderIDToReadFrom = await getCurrentFolder({
+        filePath, path, name
+    });
+
+    
+    if(parentFolderIDToReadFrom) {
+        
+        var folderToRead = parentFolderIDToReadFrom;
+     
+        
+        if(!folderToRead) {
+            
+            
+            return null;
+        } 
+        var parentFold = await readFolderData({
             filePath,
-            blockId: parentFolderToReadFrom,
-            metadata:false
-        }))?.data
+            blockId: folderToRead
+        })
+        if(!parentFold) {
+            
+            throw Error(" Path not found "+(path.concat(name).join("/")))
+            return null;
+        }
+        
+        if(parentFold[name]) {
+          
+            
+            var real = await readFolderData({
+                filePath,
+                blockId: parentFold[name]
+            })
+            return real;
+        } else {
+            throw Error("Path of child not found "+path
+                .concat(name).join("/"))
+        }
+                
+    
         
     } else {
+      
+        
         return null;
     }
     
-    if(!(await awtsmoosJSON.isAwtsmoosObject(
-        folderObj
-    ))) {
-        return null;
-    }
+    
+}
 
-    return withValues ? await awtsmoosJSON
-        .deserializeBinary(folderObj) :
-        await awtsmoosJSON.getKeysFromBinary(
-            folderObj
-        ) 
+async function readFolderData({
+    filePath,
+    blockId
+}) {
+    var subFolder = await readBlock({
+        filePath,
+        blockId,
+                       
+    })
+    
+    var data = subFolder.data;
+    if(await awtsmoosJSON.isAwtsmoosObject(data)) {
+        var j = await awtsmoosJSON.deserializeBinary(data);
+       
+        return j; 
+    } else return null
 }
 
 async function getCurrentFolder({
     filePath,
     path
+    
+    
 }) {
     var curFolder = await readFolder({
         filePath,
@@ -108,29 +153,50 @@ async function getCurrentFolder({
         withValues:true
     })
     
-    var parentFolderToReadTo = null;
+    
     var curParentFolder = 1;
     var i  = 0;
+    
     for(var segment of path) {
-        if(curFolder[segment]) {
+        if(curFolder?.[segment]) {
             curParentFolder = curFolder[segment];
+            if(!curParentFolder) {
+                
+                
+                return null;
+            }
             var subFolder = await readBlock({
                 filePath,
                 blockId: curParentFolder,
-                metadata:false
+                
             })
-            if(i < path.length - 1) {
-                var data = subFolder.data;
-                var j = awtsmoosJSON.deserializeBinary(data);
+            
+            var data = subFolder.data;
+            if(await awtsmoosJSON.isAwtsmoosObject(data)) {
+                var j = await awtsmoosJSON.deserializeBinary(data);
                 curFolder = j;
-
+            } else {
+             
+                return curParentFolder;
+                throw Error("Not valid data "+segment)
+                return null;
+               //  return curParentFolder;
+              //  return curFolder;
+             //   
+             //   return null;
+    
             }
+    
         } else {
-            //console.log("REturning null",curFolder,segment,path)
+        
+              throw Error("Folder doesnt exist " +segment)
+            console.log("REturning null",curFolder,segment,path)
             //return null
         }
         i++;
     }
+  
+    
     return curParentFolder;
 }
 
@@ -151,10 +217,13 @@ async function makeFolder({
     if(!name) {
         throw Error("No name given," + path.join("/"))
     }
+    
+    if(name == "lol") console.log("WOW")
 //	console.log("Making",path,name)
 
     // If path is empty, then we're writing directly to root.
     if (!path.length) {
+        console.log("Writing at root", name)
         await writeAtNextFreeBlock({
             filePath,
             parentFolderId: 1,
@@ -165,54 +234,19 @@ async function makeFolder({
     }
     
     
-    var parentFolderToWriteTo =  null;
-
-
-    var curFolder = await readFolder({
+    var parentFolderToWriteTo =  await getCurrentFolder({
         filePath,
-        path: "/",
-        withValues:true
-    })
-    if(!curFolder) {
-        console.log("No root?!",curFolder);
-        return null;
-    }
-    
-    var curParentFolder = 1;
-    var i  = 0;
-    for(var segment of path) {
-        if(!curFolder?.[segment]) {
-            var folderName = path?.[path.length-1] || "root"
-            var made = await writeAtNextFreeBlock({
-                filePath,
-                parentFolderId: curParentFolder,
-                folderName,
-                name:segment
-            });
-            
-            curFolder[segment] = made.index;
-        }
-            
+        path
         
-        if(curFolder[segment]) {
-            curParentFolder = curFolder[segment];
-            var subFolder = await readBlock({
-                filePath,
-                blockId: curParentFolder,
-                metadata:false
-            })
-            if(i < path.length - 1) {
-                var data = subFolder.data;
-                var j = awtsmoosJSON.deserializeBinary(data);
-                curFolder = j;
-
-            }
-        }
-        i++;
-    }
-    parentFolderToWriteTo = curParentFolder;
-    
+    })  
+  
     if(parentFolderToWriteTo) {
+        /*var getFolder = await readFolderData({
+            filePath,
+            blockID: parentFolderToWriteTo
+        })*/
+
+            
         var parentFolderName = path?.[path.length-1] || "root";
         var wr = await writeAtNextFreeBlock({
             filePath,
@@ -220,6 +254,7 @@ async function makeFolder({
             folderName: parentFolderName,
             name
         });
+        
         return wr;
     } else {
         return null;

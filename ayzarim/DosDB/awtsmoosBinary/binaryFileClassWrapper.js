@@ -33,7 +33,8 @@ class BinaryFileWrapper {
             let keys = [];
             for (let i = 0; i < hashInfo.amount; i++) {
                 const keyOffsetInfo = await readFileBytesAtOffset({ filePath: this.filePath, offset, schema: { keyOffset: 'uint_32' } });
-                console.log("WOW",keyOffsetInfo)
+               
+                
                 offset += 4;
                 
                 if (keyOffsetInfo.keyOffset !== 0) {

@@ -438,7 +438,8 @@ async function getSeries({
 				}/posts`
 
 				);
-			console.log("WOW",posts,subSeries)
+			
+				
 			rt.posts = Array.from(posts || []);
 			rt.subSeries = Array.from(subSeries || []);
 			rt.prateem = prateem;

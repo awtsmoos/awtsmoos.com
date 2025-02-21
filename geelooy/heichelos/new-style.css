@@ -311,6 +311,7 @@ for posts
 .comment-text {
     font-weight: normal;
     line-height: 1.6;
+    padding: 15px;
     word-wrap: break-word;
     font-size: 1.54em;
     box-shadow: 1px 1px 15px 1px crimson inset;
