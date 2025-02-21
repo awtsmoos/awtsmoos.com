@@ -222,7 +222,7 @@ try {
 		await startItAll()
 		loadFontSize()
 		scrollToActiveEl();
-		startHighlighting('postFrame','section', ({main, sub}={}) => {
+		startHighlighting('realPost','section', ({main, sub}={}) => {
 			var div = main;
 			if(div) {
 				var idx = div?.dataset.idx
