@@ -687,15 +687,6 @@ body {
   .sidebar {
     top: unset !important;/* Remove the top property entirely */
   }
-  .content {
-    
-    overflow-y: scroll !important;
-  }
-
-  .post-frame {
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-  }
 }
 @media only screen and (max-width: 768px) {
     .tab-container.active {
