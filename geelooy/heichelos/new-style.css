@@ -688,13 +688,13 @@ body {
     top: unset !important;/* Remove the top property entirely */
   }
   .content {
-    height: 100vh !important;
+    
     overflow-y: scroll !important;
   }
 
   .post-frame {
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -786,7 +786,7 @@ body {
     z-index:30;
 }
 .post-frame .content {
-    background: url(https://i.imgur.com/9GkeNTZ.jpeg);
+    /*background: url(https://i.imgur.com/9GkeNTZ.jpeg);*/
     background-size: cover;
 
 }
