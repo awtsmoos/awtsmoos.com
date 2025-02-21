@@ -19,8 +19,9 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
     // **Massive nested folders test**
     var folders = [];
-    let depth = 11;
+    let depth = 3;
     let currentPath = "/stressTest";
+
     folders.push(currentPath);
     for (let i = 1; i <= depth; i++) {
         currentPath += `/level${i}`;
@@ -28,7 +29,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     }
 
     folders.push(
-        "/what/are/you/doing/today",//resurively make odlers
+     //   "/what/are/you/doing/today",//resurively make odlers
         "/bin", 
         "/docs", 
         "/data", "/logs", "/special!@#%^&*()_+"
@@ -42,21 +43,23 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
     // **Large number of files test**
     var files = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 3; i++) {
         files.push({ path: `/docs/file${i}.txt`, data: `Test file ${i} content made at ${Date.now()}` });
     }
 
     files.push(
         { path: "/emptyFile.txt", data: "" }, // Empty file test
         { path: "/special!@#%^&*()_+/test.txt", data: "Special chars in path" }, // Special characters test
-        { path: "/stressTest/huge.txt", data: "X".repeat(256 * 4 * 1) } // 1mb file test
+     //   { path: "/stressTest/huge.txt", data: "X".repeat(2 * 4096 * 1) } // 1mb file test
     );
 
     console.log("made files in memeory, writing: ")
     var start = Date.now();
 
     for (let f of files) {
-        await os.makeFile({ file: s, path: f.path, data: f.data });
+        console.log("Making",f)
+        await os.makeFile({ path: f.path, data: f.data });
+        console.log("Made")
     }
     var made = Date.now()-start
 

@@ -948,33 +948,42 @@ async function deleteEntry({
 	superBlock = superBlock || await getSuperBlock(filePath);
 	blockSize = superBlock.blockSize;
 	blockIdByteSize = superBlock.blockIdByteSize;
+
+	//
+
 	var infoAboutDeletedEntry = await readBlock({
 		filePath,
 		index,
 		blockSize,
 		blockIdByteSize,
-		//onlyIDs: true
+		onlyIDs: true
 	});
 
-	var deleted = []
+
+	var deleted = [];
 	if(infoAboutDeletedEntry.metadata.type == "folder" ) {
+
 		/**
 		 * If we're deleting a folder 
 		 * we also have to delete all 
 		 * of it's child blocks / entries
 		 */
 		if(!doNotDeleteChildren) {
+
+			console.log("ok",index)
 			var folderFull = await readBlock({
 				filePath,
 				index,
 				superblockInfo: superBlock
 			});
+
 			var data = folderFull?.data;
 			var folderDataEntries = await parseFolderData(data);
 			if(folderDataEntries) {
 				console.log("Deleting folder entries, ",folderDataEntries)
 				var k = Object.keys(folderDataEntries);
 				for(var key of k) {
+					console.log("doing",key)
 					var del = await deleteEntry({
 						filePath,
 						index: folderDataEntries[key],
@@ -985,6 +994,8 @@ async function deleteEntry({
 			}
 		}
 	}
+
+
 	if(onlyDeleteChildrenNotSelf) return {
 		deletedBlocks: deleted
 	}
@@ -1028,7 +1039,7 @@ async function deleteEntry({
 		await writeBytesToFileAtOffset(filePath, isDeletedOffset, [{
 			uint_8: isDeletedAndTypeByte
 		}]);
-		if(log)
+		//if(log)
 			console.log(`Block ${blockIndex} marked as deleted.`);
 	}
 
@@ -1200,17 +1211,24 @@ async function updateParentFolder({
 		if(log)
 			console.log("\n\n GOT object\n\n",ob)
 	}
+	var needToWrite = false;
 	if(!is) {
 		///var des = awtsmoosJSON.deserializeBinary(data)
 		if(log)
 			console.log("\n\nDID not read it?!\n")
 		ob = {};
-
+		needToWrite = true;
 	}
 	
 	var nam = newChildName;
+	if(nam) {
+		ob[nam] = newChildId;
+		needToWrite = true;
 
-	ob[nam] = newChildId;
+	}
+	if(!needToWrite) {
+		return null;
+	}
 
 	var serialized = awtsmoosJSON.serializeJSON(ob);
 	//var des = awtsmoosJSON.deserializeBinary(serialized)

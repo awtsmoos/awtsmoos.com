@@ -20,6 +20,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     await os.mkdir("/asdfg/lol/ok")
 
     await os.mkdir("/qwerty/qws")
+    await os.mkdir("/stressTest")
     /*await os.makeFile({
       path: "asdfg/lol/ok/sok.txt",
       data: `B"H
