@@ -516,10 +516,10 @@ function sanitizeContent(txt) {
 }
 
 function mapSectionData(sec) {
-	if(sec.subSections) {
+	if(sec?.subSections || Array.isArray(sec)) {
 		return sec;
 	} else {
-		return sec.text;
+		return sec?.text;
 	}
 }
 async function interpretPostDayuh(post) {
@@ -543,7 +543,9 @@ async function interpretPostDayuh(post) {
 		var sectionId = 0;
 		for(var w of sec) {
 			
-			var isMulti = w.subSections;
+			var isMulti = w?.subSections || Array.isArray(w);
+			
+
 			var refs = !isMulti ? await getReferences({sectionText:w}) : null;
 			var isRef = typeof(refs) == "object" &&
 				refs?.isReference;
@@ -827,7 +829,13 @@ function generateSection({
 		});
 	}
 	if(dynamic) {
-		var {subSections} = dynamic;
+		var subSections = null;
+		if(Array.isArray(dynamic)) {
+			subSections = dynamic;
+		} else {
+			subSections = dynamic?.subSections;
+		}
+		
 		if(!subSections) {
 			console.log("No sections?")
 			return;
