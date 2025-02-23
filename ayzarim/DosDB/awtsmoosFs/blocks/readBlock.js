@@ -5,7 +5,7 @@ var {
     getFileHandle
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
-var getSuperBlock = require("./getSuperBlock");
+var getSuperBlock = require("./getSuperBlock.js");
 module.exports = 
 /**
  * readBlock:
@@ -72,7 +72,7 @@ async function readBlock({
 		offset: blockOffset,
 		schema: fixedSchema
 	});
-	var oldDeleted = fixedMeta.isDeleted
+	
 	fixedMeta.type = (fixedMeta.isDeleted & (
 		0b00000001 << 1
 	)) == 0 ? "folder" : "file";
@@ -82,20 +82,8 @@ async function readBlock({
 				0b00000001
 			)) //if 1, deleted; 0, available;
 		
-		//	console.log("Is deleted?",fixedMeta.isDeleted,oldDeleted)
-	/*if(fixedMeta.isDeleted) {
-		return {
-			deleted: true,
-			blockId: index,
-			metadata:fixedMeta,
-			data: await awtsmoosJSON.serializeJSON({
-				error: "This is already deleted",
-				blockId: index,
-				metadata: fixedMeta,
-				superBlock:superblockInfo
-			})
-		}
-	}*/
+	
+			
 	if(onlyMetadata === "small") {
 		return {
 			metadata: fixedMeta,

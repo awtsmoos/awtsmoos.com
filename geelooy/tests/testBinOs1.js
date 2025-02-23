@@ -10,7 +10,10 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
    
     var s = await os.setupFilesystem(pth);
     var fold = await os.mkdir("/wow")
-    await os.mkdir("/ok1")
+
+    await os.mkdir("/wow/qwerty")
+    await os.mkdir("/qwert")
+    await os.mkdir("/okWell1")
     await os.mkdir("/wow/well")
     await os.mkdir("/qwerty")
 
@@ -24,12 +27,12 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     for(var k = 0; k < 5; k++) {
       await os.mkdir("/stressTest/ok"+k)
     }
-    /*await os.makeFile({
+    await os.makeFile({
       path: "asdfg/lol/ok/sok.txt",
       data: `B"H
       LOL
       
-      how are u !`
+      how are u !! `.repeat(1000)
   })
   //  await os.mkdir("/wow/well/okThen")
     /*await os.mkdir("/welcome")

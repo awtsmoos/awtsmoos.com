@@ -18,7 +18,9 @@ async function updateParentFolder({
 	newChildId,
 	newChildName,
 
-    log=false
+    log=false,
+
+	writeAtNextFreeBlock
 } = {}) {
 
 	var folderBlock = await readBlock({

@@ -1,13 +1,24 @@
 //B"H
 
+
+
 var awtsmoosJSON = require(
 	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
-
-var deleteEntry = require("./deleteEntry");
+var deleteEntry = require("./deleteEntry.js");
 var getSuperBlock = require("./getSuperBlock.js");
-var readBlock = require("./readBlock");
 var updateParentFolder = require("./updateParentFolder.js");
+
+var existingEntryWithNameInParentFolder = 
+require("./existingEntryWithNameInParentFolder");
+
+var getNextFreeBlock = 
+require("./getNextFreeBlock.js");
+
+var {
+	sizeof,
+	writeBytesToFileAtOffset
+} = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
 var log = false;
 
@@ -16,193 +27,9 @@ module.exports =
 
 
 
-async function existingEntryWithNameInParentFolder({
-	filePath,//of database file NOT entry file
-	name,
-	parentFolderId,
-	superBlock
-}) {
-	if(!name) return null;
-	superBlock = superBlock || await getSuperBlock(filePath);
-	if(parentFolderId === 0) return null; //root (0) has no parent folder
-	
-	try {
-		var folderBlock = await readBlock({
-			filePath,
-			superBlockInfo: superBlock,
-			blockId: parentFolderId
-		});
-		var d = folderBlock.data;
-		var is = await awtsmoosJSON.isAwtsmoosObject(d);
-		var ob = null;
-		if(is) {
-			ob = await awtsmoosJSON.deserializeBinary(
-				d
-			);
-		}
-		if(name == "well") {
-		/*	console.log("Checking it up\n\n\n\n\n\t\t\t",
 
-				folderBlock,
-				is,
-				ob,name,
-				parentFolderId
-			)*/
-		}
-		if(ob) {
-			
-			var off = ob[name];
-			if(off) {
 
-				if(log)
-					console.log(`\n\nGot Data for ${
-					parentFolderId
-				} at entry ${
-					name
-				} already exists at: `,off, ob, is,);
 
-				return off;
-			}
-		}
-	} catch(e) {
-
-		if(log)
-			console.log("ISsue checking parent",e.stack)
-		return null
-	}
-}
-
-async function clearNextFreeBlockId(filePath, {
-	blockId,
-	name,
-	folderName,
-	parentFolerId
-}={}) {
-	var superblockFreeOffset = (
-		4 + 2 + 1 + 1
-	);
-	var cursip = await getSuperBlock(filePath)
-	var wr = await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
-		{[`uint_${
-			blockIdByteSize * 8
-		}`]: 0}
-	]);	
-
-	if(log)
-	
-		console.trace("\n\n\n\n\n\n\noverwrite superblock free block "
-	
-		+ " at offset\n\n\t\t",
-
-		superblockFreeOffset,
-		" with block size ",
-		blockIdByteSize,
-		folderName,
-		parentFolerId,
-		"previously free block id was",blockId,
-		"name",name,
-		"and super",cursip
-//		wr
-	)
-}
-
-async function getNextFreeBlock(
-	filePath, {
-		name,
-		folderName,
-		parentFolerId
-	}={}
-) {
-	var blockIndex = null;
-	var superBlock = await getSuperBlock(filePath);
-	var superblockFreeOffset = (
-		4 + 2 + 1 + 1
-	);
-	if (
-			
-		superBlock.nextFreeBlockId && 
-		superBlock.nextFreeBlockId !== 0
-	) {
-		
-		blockIndex = superBlock.nextFreeBlockId;
-		if(log)
-			console.log("\n\nFree block exists at\n\t",blockIndex,"\n\n")
-		var freeBlock = await readBlock({
-			filePath,
-			index: blockIndex,
-			
-			onlyMetadata: "small"
-		});
-
-		
-		var nextFreeBlockId = freeBlock?.metadata?.nextBlockId;
-		
-		
-		if(nextFreeBlockId) {
-			
-			
-		
-			/*
-				superBlock strucutre
-
-				{
-					string_4: "AWTS"
-				},
-				{
-					uint_16: DEFAULT_BLOCK_SIZE
-				},
-				{
-					uint_8: firstBlockOffset
-				},
-				{
-					uint_8: blockIdByteSize
-				},
-				{
-					[`uint_${blockIdByteSize * 8}`]: 0
-				}, // nextFreeBlockId.
-				{
-					[`uint_${blockIdByteSize * 8}`]: 0
-				} // totalBlocks.
-			*/
-			
-			await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
-				{[`uint_${
-					blockIdByteSize * 8
-				}`]: nextFreeBlockId}
-			]);
-			superBlock.nextFreeBlockId = nextFreeBlockId;
-			
-
-		} else {
-			if(log)
-				console.log("\n\nsuperblock free block info: \n\t\t",freeBlock?.metadata,"\n\n\n")
-			
-			await clearNextFreeBlockId(filePath, {
-				blockId:blockIndex,
-				name,
-				folderName,
-				parentFolerId
-			});
-
-			
-		}
-		
-	} else {
-		blockIndex = superBlock.totalBlocks + 1; // Block indices start at 1.
-	
-		if(log)
-			console.log(`\n\nFree block did NOT exist. Adding new block #${
-				blockIndex
-			}`)
-		// Update totalBlocks in the superBlock.
-		const totalBlocksOffset = 8 + blockIdByteSize; // After fixed fields and nextFreeBlockId.
-		await writeBytesToFileAtOffset(filePath, totalBlocksOffset, [{
-			[`uint_${blockIdByteSize * 8}`]: blockIndex
-		}]);
-
-	}
-	return blockIndex;
-}
 /**
  * writeAtNextFreeBlock:
  * Writes a data block at the next free position, or appends a new block if none is free.
@@ -258,13 +85,13 @@ async function writeAtNextFreeBlock({
 	var lookForNewBlockIndex = true;
 
 	let blockIndex = null;
-
+	var existingBlockIdOfThisSameEntry = null
 	if(
 		!isInChain && 
 		name && 
 		parentFolderId != 0
 	) {
-		if(log)
+		//if(log)
 		console.log(`\n\nWriting entry at next block with name ${
 			name
 		} in ${
@@ -272,7 +99,7 @@ async function writeAtNextFreeBlock({
 		} with a folder parent ID of ${
 			parentFolderId
 		}`)
-		var existingBlockIdOfThisSameEntry = name ? 
+		existingBlockIdOfThisSameEntry = name ? 
 		await existingEntryWithNameInParentFolder({
 			filePath,
 			name,
@@ -285,81 +112,16 @@ async function writeAtNextFreeBlock({
 			/**
 			 * If it already exists we need to delete of all the previous blocks
 			 */;
-			 var del = await deleteEntry({
-				filePath,
-				index: existingBlockIdOfThisSameEntry,
-				superBlock,
-				onlyDeleteChildrenNotSelf:true
-			//	onlyDeleteChainBlocks: true,  
-			//	doNotDeleteChildren: true
-			}); 
-		
+			
+			blockIndex = existingBlockIdOfThisSameEntry?.blockIndex;
+			overwriteIndex = null;
 			 if(!overwriteIndex) {
 				
-				blockIndex = existingBlockIdOfThisSameEntry;
+				
+			} else {
+			//	console.log("over rigde")
 			}
-			/**
-			Here is the part of the logic
-			needs furhter research.
-
-			We get the current block ID of the existing entry.
-
-			If it's a file then we just delete it the block.
-
-			But we also need to update the parent if we 
-			are deleting it, but that's updated 
-			at the very end.
-
-			If it's a folder
-			then by default it also deletes all of it's children
-
-			This means that the next free block ID isn't
-			necessarily the same block Id as it was for this 
-			entry.
-
-			That means that if it's a folder,
-			and is a child of another folder,
-			then the other folder only references it by
-			it's ID. IN this case it's an old ID reference,
-			so the parent needs to be updated,
-			which is done at the end.
-
-			So for folder that's a child of other folder:
-
-			It's block is deleted and all of it's children
-			are deleted.
-
-			Then the block ID naturally finds
-			the next free ID to write the entry to
-
-			Then the entry is written, taking up the 
-			free IDs.
-
-			But what about the children blocks that
-			were all deleted? Since we are rewritnig
-			the folder entry of them,
-			which contained references to them before,
-			then after deleting the children those
-			IDs will no longer be valid.
-
-			So maybe we should delete the folder without
-			deleting it's children blocks. 
-
-			But then if we are overriding the parent
-			with blank data (which is usually block IDs)
-			then the children blocks that
-			were referenced in folder before would be lost.
-
-			So: if only delete folder block and rewrite it
-			with potentially new or blank data/IDs,
-			then the old references to it's children 
-			would be lost and inaccessible...
-
-			IF all of the children are also deleted
-			together with the parent folder block ID,
-			then..?
-			*/
-	//		await removeChildFromParent
+			
 			superBlock = await getSuperBlock(filePath);
 			//blockIndex = existingBlockIdOfThisSameEntry;
 			if(log)
@@ -367,9 +129,53 @@ async function writeAtNextFreeBlock({
 					blockIndex
 				} and next free block idx is ${
 					superBlock.nextFreeBlockId
-				} just deleted: `,del)
+				} just deleted: `)
 
+			if(type == "folder") {
+				var ob = {};
+
+				var is = Buffer.isBuffer(data) ? 
+					await awtsmoosJSON?.isAwtsmoosObject(data)
+					: false;
+				if(!is) {
+			//		console.trace("Data to write isn't even valid at all LOL");
+					return {
+						blockIndex
+					}
+				} else {
+					ob = await awtsmoosJSON?.deserializeBinary(data);
+					
+				}
+				if(ob) {
+					var ex = existingBlockIdOfThisSameEntry?.existingData;
+					if(ex) {
+						console.log("syncing data maybe",ex,ob);
+						/*var del = await deleteEntry({
+							filePath,
+							index: blockIndex,
+							superBlock,
+							//onlyDeleteChildrenNotSelf:true
+							onlyDeleteChainBlocks: true,  
+						//	doNotDeleteChildren: true
+						}); 
+						var newData = {...ex, ...ob}
+						data = awtsmoosJSON.serializeJSON(newData);*/
+					}
+				}
+
+			} else if(type == "file"){
+				var del = await deleteEntry({
+					filePath,
+					index: blockIndex,
+					superBlock,
+					//onlyDeleteChildrenNotSelf:true
+					onlyDeleteChainBlocks: true,  
+				//	doNotDeleteChildren: true
+				}); 
+			}
 	
+		} else {
+			console.log("does NOT exist in parent: ",name)
 		}
 	}
 	if(overwriteIndex !== null) {
@@ -399,7 +205,7 @@ async function writeAtNextFreeBlock({
 		throw Error("Wrong new block index");
 	}
 	
-	
+	//console.log("Writing to",blockIndex,name,folderName)
 	// Calculate this block's file offset.
 	const blockOffset = fsMetadataOffset + (blockIndex - 1) * blockSize;
 
@@ -529,6 +335,7 @@ async function writeAtNextFreeBlock({
 	// Optionally, update the parent's metadata if not root
 	
 	if (
+		!existingBlockIdOfThisSameEntry &&
 		!doNotUpdateParent &&
 		!isInChain && 
 		blockIndex !== 1 && 
@@ -540,7 +347,8 @@ async function writeAtNextFreeBlock({
 			folderName,
 			superBlock,
 			newChildId: blockIndex,
-			newChildName: name
+			newChildName: name,
+			writeAtNextFreeBlock
 		});
 	}
 	

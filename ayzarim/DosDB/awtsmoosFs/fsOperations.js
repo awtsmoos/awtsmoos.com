@@ -441,7 +441,8 @@ async function makeFile({
         parentFolderId: parentId,
         folderName: parentFolderName,
         name,
-        data
+        data,
+        type: "file"
     });
     
 }

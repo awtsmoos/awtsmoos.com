@@ -1,7 +1,11 @@
 //B"H
 var getSuperBlock = require("./getSuperBlock");
 var readBlock = require("./readBlock");
-
+var log = false;
+var {
+    readFileBytesAtOffset,
+    writeBytesToFileAtOffset
+} = require("../../awtsmoosBinary/awtsmoosBinaryHelpers")
 module.exports = 
 
 
@@ -26,7 +30,8 @@ async function deleteEntry({
     onlyDeleteChainBlocks = false,
     onlyDeleteChildrenNotSelf = false
 }={}) {
-    superBlock = superBlock || await getSuperBlock(filePath);
+    superBlock = //superBlock || 
+    await getSuperBlock(filePath);
     blockSize = superBlock.blockSize;
     blockIdByteSize = superBlock.blockIdByteSize;
     var infoAboutDeletedEntry = await readBlock({
@@ -78,14 +83,15 @@ async function deleteEntry({
             console.trace("coulnd't delete",index,filePath)
         throw Error("Couldn't delete entry")
     }
-
+    var firstBlock = null
     if(onlyDeleteChainBlocks) {
-        allBlockIDs.shift();
+        firstBlock = allBlockIDs.shift();
     }
     if(!allBlockIDs.length) {
     //	console.log("Not really deleting",index)
         return {
-            deletedBlocks: null
+            deletedBlocks: null,
+            firstBlock
         }
     }
     if(log)
@@ -136,6 +142,7 @@ async function deleteEntry({
         if(log)
             console.log(`Superblock nextFreeBlockId set to ${allBlockIDs[0]}.`);
     } else {
+        
         /**
          * IF the superblock's free block ID 
          * already exists the expected 
