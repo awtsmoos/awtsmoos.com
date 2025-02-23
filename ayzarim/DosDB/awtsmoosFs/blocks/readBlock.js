@@ -37,6 +37,7 @@ async function readBlock({
 	onlyIDs = false,
 	superblockInfo = null
 }) {
+	var startTime = performance.now()
 	if (!superblockInfo) {
 		superblockInfo = await getSuperBlock(filePath);
 	}
@@ -100,6 +101,8 @@ async function readBlock({
 
 	let dataOffset = blockOffset + fixedMetadataSize;
 	let additionalMetadataSize = 0;
+	var extraMetadataSize = blockIdByteSize + 4 + 4;
+
 	if (fixedMeta.lastBlockId === 0) {
 		// This is the first (or only) block in the chain.
 		const extraSchema = {
@@ -112,7 +115,7 @@ async function readBlock({
 			offset: dataOffset,
 			schema: extraSchema
 		});
-		additionalMetadataSize = blockIdByteSize + 4 + 4
+		additionalMetadataSize = extraMetadataSize
 		metadata = {
 			...metadata,
 			...extraMeta
@@ -132,33 +135,37 @@ async function readBlock({
 	}
 
 	const currentDataSize = blockSize - fixedMetadataSize - additionalMetadataSize;
+	var timeToGetOwnData;
+	var myData = null;
 	if (!onlyMetadata && !onlyIDs) {
 		const handle = await getFileHandle(filePath);
 		const dataBuffer = Buffer.alloc(currentDataSize);
 		await handle.read(dataBuffer, 0, currentDataSize, blockOffset + fixedMetadataSize + additionalMetadataSize);
 		dataBuffers.push(dataBuffer);
+		myData = dataBuffer;
 	}
 
+	
+	var nextId = fixedMeta.nextBlockId;
+	var times = 0;
+	var timesItTookToGetIDsOnly = []
+	while (nextId && nextId !== 0) {
+		var ct = performance.now()
+		allBlockIDs.push(nextId);
+		const nextBlock = await readBlock({
+			filePath,
+			index: nextId,
+			blockSize,
+			blockIdByteSize,
+			onlyMetadata: true,
+			onlyIDs: true,
+			superblockInfo
+		});
+		nextId = nextBlock?.metadata?.nextBlockId;
+//console.log(nextId)
+		timesItTookToGetIDsOnly.push(performance.now() - ct);
+	}
 	if (onlyIDs) {
-		let nextId = fixedMeta.nextBlockId;
-		var times = 0;
-		while (nextId && nextId !== 0) {
-			allBlockIDs.push(nextId);
-			const nextBlock = await readBlock({
-				filePath,
-				index: nextId,
-				blockSize,
-				blockIdByteSize,
-				onlyMetadata: true,
-				onlyIDs: true,
-				superblockInfo
-			});
-			nextId = nextBlock.metadata.nextBlockId;
-			if(times++ > 10) {
-				console.log("WHAT?",nextId,times)
-				break;
-			}
-		}
 		return {
 			metadata,
 			blockID: index,
@@ -166,32 +173,125 @@ async function readBlock({
 		};
 	}
 
-	let nextId = fixedMeta.nextBlockId;
+	var dataSizeOfChainedBlocks = 
+		blockSize - fixedMetadataSize - extraMetadataSize;
+	var dataSize = myData.length + 
+		allBlockIDs.length * dataSizeOfChainedBlocks;
+	//	
+	var fullData = Buffer.alloc(
+		dataSize
+	);
+	myData.copy(fullData, 0);
+	//console.log("ds",dataSize, fullData.length, allBlockIDs)
+
+	
+	timeToGetOwnData = performance.now() - startTime;
+
 	var times = 0;
-	while (nextId && nextId !== 0) {
-		allBlockIDs.push(nextId);
+	var timeStamps = [];
+	var curDataOffset = myData.length;
+	var allNextIDs = allBlockIDs.slice(1);
+	var timesToPushData = [];
+	var timesToGetBlock = []
+
+	var start = allBlockIDs[0]
+	var end = allBlockIDs[allBlockIDs.length - 1];
+	var allBlocks = await getExtentOfBlockIDs({
+		filePath,
+		start,
+		end
+	});
+	allBlocks.copy(fullData,curDataOffset);
+	/*
+	for(var myNextId of allNextIDs) {
+		var curTime = performance.now()
+		var bt = performance.now()
 		const nextBlock = await readBlock({
 			filePath,
-			index: nextId,
+			index: myNextId,
 			blockSize,
 			blockIdByteSize,
-			onlyMetadata,
 			superblockInfo
 		});
-		dataBuffers.push(nextBlock.data);
-		nextId = nextBlock.metadata.nextBlockId;
-		if(times++ > 10) {
-			console.log("Too many times",nextId,times);
-			break
-		}
-	}
+		timesToGetBlock.push(performance.now() - bt)
+	//	dataBuffers.push(nextBlock.data);
+		var ps = performance.now();
+		nextBlock.data.copy(fullData, curDataOffset);
+		timesToPushData.push(performance.now() - ps);
+		curDataOffset += dataSizeOfChainedBlocks;
 
-	const fullData = Buffer.concat(dataBuffers);
+		timeStamps.push(performance.now() - curTime)
+		
+		if(times++ > 15) {
+	//		console.log("Too many times",myNextId,times);
+		//	break
+		}
+	}*/
+	
 	return {
 		metadata,
 		data: fullData,
 		blockId: index,
 		allBlockIDs,
-		superblockInfo
+		superblockInfo,
+		timeStamps,
+		timeToGetOwnData,
+		timesItTookToGetIDsOnly,
+		timesToPushData,
+		timesToGetBlock
+		
 	};
+}
+
+
+async function getExtentOfBlockIDs({
+	filePath,
+	start,
+	end,
+	superblockInfo
+}) {
+	var superBlock = superblockInfo || await getSuperBlock(filePath);
+	var blockSize = superBlock.blockSize;
+	var blockIdByteSize = superBlock.blockIdByteSize;
+
+	var firstBlockOffset = superBlock.firstBlockOffset;
+	var startOffset = firstBlockOffset + (start - 1) * blockSize;
+	var byteSizesToGet = (end - start) * blockSize;
+	var blockRequest = await readFileBytesAtOffset({
+		filePath,
+		offset: startOffset, 
+		schema: {
+			blocks: `buffer_${byteSizesToGet}`
+		}
+	})
+	var blocks = blockRequest?.blocks;
+
+	const fixedMetadataSize = blockIdByteSize + 
+		1 + 
+		blockIdByteSize + 
+		blockIdByteSize;
+
+	var blockDataSize = blockSize - fixedMetadataSize;
+	var sizeOfTotalDataBlocks = 
+		blockDataSize * blocks.length;
+	
+	var mainBuffer = Buffer.alloc(
+		sizeOfTotalDataBlocks
+	);
+
+	var numberOfBlocks = end - start;
+
+	for(var i = 0; i < numberOfBlocks; i++) {
+		var blockOffset = i * blockSize;
+
+
+		var dataOffsetStart = blockOffset + fixedMetadataSize;
+		var dataLength = blockDataSize;
+		var dataEnd = dataLength * i;
+
+		var offsetOfDataBlock = i * dataLength;
+		blocks.copy(mainBuffer, offsetOfDataBlock, dataOffsetStart, dataEnd)
+	}
+	return mainBuffer;
+	return blocks;
 }

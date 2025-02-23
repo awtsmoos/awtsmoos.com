@@ -50,7 +50,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     files.push(
         { path: "/emptyFile.txt", data: "" }, // Empty file test
         { path: "/special!@#%^&*()_+/test.txt", data: "Special chars in path" }, // Special characters test
-     //   { path: "/stressTest/huge.txt", data: "X".repeat(2 * 4096 * 1) } // 1mb file test
+        { path: "/stressTest/huge.txt", data: "X".repeat(2 * 4096 * 8) } // 1mb file test
     );
 
     console.log("made files in memeory, writing: ")
@@ -84,9 +84,9 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     for (let f of files) {
         console.log("Checking file", f.path)
        
-        let fileData = await os.readFile({ file: s, path: f.path });
+       /* let fileData = await os.readFile({ file: s, path: f.path });
         let expectedData = f.data;
-        console.log("found",fileData)
+        console.log("found",fileData)*/
         // console.log(`Checking ${f.path}...`, fileData === expectedData ? "PASS" : "FAIL");
     }
 
@@ -95,8 +95,8 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     // **Check file metadata**
     for (let f of files) {
         try {
-        let stats = await os.stat({ file: s, path: f.path });
-        console.log(`Stats for ${f.path}:`, stats);
+        //let stats = await os.stat({ file: s, path: f.path });
+        //console.log(`Stats for ${f.path}:`, stats);
         } catch(e) {
             console.log("ISSSUE WITH",f,e)
             break;

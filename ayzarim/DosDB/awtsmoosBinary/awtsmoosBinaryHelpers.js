@@ -330,7 +330,7 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
             let strBuf = Buffer.alloc(instr.size);
             let tempBuf = Buffer.from(instr.value, 'utf8');
             if (tempBuf.length > instr.size) {
-                tempBuf = tempBuf.slice(0, instr.size);
+                tempBuf = tempBuf.subarray(0, instr.size);
             }
             tempBuf.copy(strBuf);
             strBuf.copy(buffer, currentOffset);

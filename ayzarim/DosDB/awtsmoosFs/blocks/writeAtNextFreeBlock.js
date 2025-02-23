@@ -162,20 +162,23 @@ async function writeAtNextFreeBlock({
 					var oldData = selfBlock?.data
 					
 					if(oldData) {
-						var ex = await awtsmoosJSON.deserializeBinary(oldData);
-						if(typeof(ex) == "object") {
-							console.log("syncing data maybe",ex,ob);
-							var del = await deleteEntry({
-								filePath,
-								index: blockIndex,
-								superBlock,
-								//onlyDeleteChildrenNotSelf:true
-								onlyDeleteChainBlocks: true,  
-							//	doNotDeleteChildren: true
-							}); 
-							var newData = {...ex, ...ob}
-							data = awtsmoosJSON.serializeJSON(newData);
-						} 
+						var isIt = await awtsmoosJSON?.isAwtsmoosObject(oldData)
+						if(isIt) {
+							var ex = await awtsmoosJSON.deserializeBinary(oldData);
+							if(typeof(ex) == "object") {
+								console.log("syncing data maybe",ex,ob);
+								var del = await deleteEntry({
+									filePath,
+									index: blockIndex,
+									superBlock,
+									//onlyDeleteChildrenNotSelf:true
+									onlyDeleteChainBlocks: true,  
+								//	doNotDeleteChildren: true
+								}); 
+								var newData = {...ex, ...ob}
+								data = awtsmoosJSON.serializeJSON(newData);
+							} 
+						}
 					}//else console.log(ex,"22")
 				}
 
