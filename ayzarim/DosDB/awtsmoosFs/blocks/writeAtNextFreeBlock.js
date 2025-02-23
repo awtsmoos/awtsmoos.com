@@ -91,7 +91,7 @@ async function writeAtNextFreeBlock({
 		name && 
 		parentFolderId != 0
 	) {
-		//if(log)
+		if(log)
 		console.log(`\n\nWriting entry at next block with name ${
 			name
 		} in ${

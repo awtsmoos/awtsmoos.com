@@ -53,7 +53,7 @@ async function existingEntryWithNameInParentFolder({
             var off = ob[name];
             if(off) {
 
-        //        if(log)
+                if(log)
                     console.log(`\n\nGot Data for ${
                     parentFolderId
                 } at entry ${
