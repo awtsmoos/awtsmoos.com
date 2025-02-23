@@ -30,7 +30,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
       LOL
       
       how are u !`
-  })*/
+  })
   //  await os.mkdir("/wow/well/okThen")
     /*await os.mkdir("/welcome")
     await os.mkdir("/welcoe")

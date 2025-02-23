@@ -218,12 +218,12 @@ async function makeFolder({
         throw Error("No name given," + path.join("/"))
     }
     
-    if(name == "lol") console.log("WOW")
+    
 //	console.log("Making",path,name)
 
     // If path is empty, then we're writing directly to root.
     if (!path.length) {
-        console.log("Writing at root", name)
+        
         await writeAtNextFreeBlock({
             filePath,
             parentFolderId: 1,
@@ -421,12 +421,9 @@ async function makeFile({
         path: path.join("/"),
         withValues: true
     });
-    console.log("Data cur", isCur,path)
-    if(!isCur) {
-
-        console.log("doesn't have anything in it yet",path,name,parentId);
-        
-    }
+    
+ 
+    
     //console.log("READING",isCur,path,name,parentId)
    /*if(isCur && isCur[name]) {
     //	console.log("EXISTS",path,name);
@@ -446,7 +443,7 @@ async function makeFile({
         name,
         data
     });
-    console.log("Wrote it",parentId, wr,path,name)
+    
 }
 
 // Reads a file from the virtual file system.
