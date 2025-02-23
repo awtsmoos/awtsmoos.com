@@ -1,7 +1,8 @@
 //B"H
 
 
-
+var readBlock = 
+require("./readBlock")
 var awtsmoosJSON = require(
 	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
@@ -147,19 +148,34 @@ async function writeAtNextFreeBlock({
 					
 				}
 				if(ob) {
-					var ex = existingBlockIdOfThisSameEntry?.existingData;
-					if(ex) {
-						console.log("syncing data maybe",ex,ob);
-						/*var del = await deleteEntry({
-							filePath,
-							index: blockIndex,
-							superBlock,
-							//onlyDeleteChildrenNotSelf:true
-							onlyDeleteChainBlocks: true,  
-						//	doNotDeleteChildren: true
-						}); 
-						var newData = {...ex, ...ob}
-						data = awtsmoosJSON.serializeJSON(newData);*/
+					/*
+						the existingData proeprty is the
+						data of the PARENT
+
+						need to get current data of SELF
+					*/
+					var selfBlockIndex = blockIndex;
+					var selfBlock = await readBlock({
+						filePath,
+						index: selfBlockIndex
+					})
+					var oldData = selfBlock?.data
+					
+					if(oldData) {
+						var ex = await awtsmoosJSON.deserializeBinary;
+						if(typeof(ex) == "object") {
+							console.log("syncing data maybe",ex,ob);
+							var del = await deleteEntry({
+								filePath,
+								index: blockIndex,
+								superBlock,
+								//onlyDeleteChildrenNotSelf:true
+								onlyDeleteChainBlocks: true,  
+							//	doNotDeleteChildren: true
+							}); 
+							var newData = {...ex, ...ob}
+							data = awtsmoosJSON.serializeJSON(newData);
+						}
 					}
 				}
 
@@ -175,7 +191,7 @@ async function writeAtNextFreeBlock({
 			}
 	
 		} else {
-			console.log("does NOT exist in parent: ",name)
+		//	console.log("does NOT exist in parent: ",name)
 		}
 	}
 	if(overwriteIndex !== null) {

@@ -40,6 +40,7 @@ async function existingEntryWithNameInParentFolder({
                 d
             );
         } else {
+            if(log)
             console.log("is NOT real object",parentFolderId,
                 folderBlock
             );
@@ -65,7 +66,7 @@ async function existingEntryWithNameInParentFolder({
                     blockIndex: off
                 };
             } else {
-                console.log("Does NOT exist!",name,ob,off,parentFolderId)
+             //   console.log("Does NOT exist!",name,ob,off,parentFolderId)
             }
         }
     } catch(e) {
