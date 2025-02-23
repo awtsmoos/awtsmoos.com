@@ -124,7 +124,7 @@ async function writeAtNextFreeBlock({
 			}
 			
 			superBlock = await getSuperBlock(filePath);
-			//blockIndex = existingBlockIdOfThisSameEntry;
+			
 			if(log)
 				console.log(`\n\n\n\t\t\tEntry ${name} already exists in ${parentFolderId}. BlockId ${
 					blockIndex
@@ -162,7 +162,7 @@ async function writeAtNextFreeBlock({
 					var oldData = selfBlock?.data
 					
 					if(oldData) {
-						var ex = await awtsmoosJSON.deserializeBinary;
+						var ex = await awtsmoosJSON.deserializeBinary(oldData);
 						if(typeof(ex) == "object") {
 							console.log("syncing data maybe",ex,ob);
 							var del = await deleteEntry({
@@ -175,8 +175,8 @@ async function writeAtNextFreeBlock({
 							}); 
 							var newData = {...ex, ...ob}
 							data = awtsmoosJSON.serializeJSON(newData);
-						}
-					}
+						} 
+					}//else console.log(ex,"22")
 				}
 
 			} else if(type == "file"){
