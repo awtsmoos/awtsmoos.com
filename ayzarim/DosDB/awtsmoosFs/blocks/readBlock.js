@@ -227,7 +227,7 @@ async function readBlock({
 		//	break
 		}
 	}*/
-	
+	 
 	return {
 		metadata,
 		data: fullData,
