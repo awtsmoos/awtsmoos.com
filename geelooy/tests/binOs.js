@@ -90,9 +90,9 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     for (let f of files) {
         console.log("Checking file", f.path)
        
-       /* let fileData = await os.readFile({ file: s, path: f.path });
+        let fileData = await os.readFile({ file: s, path: f.path });
         let expectedData = f.data;
-        console.log("found",fileData)*/
+        console.log("found",fileData)
         // console.log(`Checking ${f.path}...`, fileData === expectedData ? "PASS" : "FAIL");
     }
 
@@ -101,8 +101,8 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     // **Check file metadata**
     for (let f of files) {
         try {
-        //let stats = await os.stat({ file: s, path: f.path });
-        //console.log(`Stats for ${f.path}:`, stats);
+        let stats = await os.stat({ file: s, path: f.path });
+        console.log(`Stats for ${f.path}:`, stats);
         } catch(e) {
             console.log("ISSSUE WITH",f,e)
             break;
