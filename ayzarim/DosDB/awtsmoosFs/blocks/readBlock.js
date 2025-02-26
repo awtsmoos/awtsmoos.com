@@ -194,39 +194,15 @@ async function readBlock({
 	var timesToPushData = [];
 	var timesToGetBlock = []
 
-	var start = allBlockIDs[0]
-	var end = allBlockIDs[allBlockIDs.length - 1];
-	var allBlocks = await getExtentOfBlockIDs({
-		filePath,
-		start,
-		end
-	});
-	allBlocks.copy(fullData,curDataOffset);
-	/*
-	for(var myNextId of allNextIDs) {
-		var curTime = performance.now()
-		var bt = performance.now()
-		const nextBlock = await readBlock({
-			filePath,
-			index: myNextId,
-			blockSize,
-			blockIdByteSize,
-			superblockInfo
-		});
-		timesToGetBlock.push(performance.now() - bt)
-	//	dataBuffers.push(nextBlock.data);
-		var ps = performance.now();
-		nextBlock.data.copy(fullData, curDataOffset);
-		timesToPushData.push(performance.now() - ps);
-		curDataOffset += dataSizeOfChainedBlocks;
+	var allBlockList = groupConsecutive(
+		allBlockIDs
+	)
+	
+	var allBlocks = await getAllBlocksFromExtentsArray({
 
-		timeStamps.push(performance.now() - curTime)
-		
-		if(times++ > 15) {
-	//		console.log("Too many times",myNextId,times);
-		//	break
-		}
-	}*/
+	})
+	allBlocks.copy(fullData, curDataOffset);
+	
 	 
 	return {
 		metadata,
@@ -243,6 +219,65 @@ async function readBlock({
 	};
 }
 
+async function getAllBlocksFromExtentsArray({
+	filePath,
+	array,
+	superBlock
+}) {
+	
+	if(!Array.isArray(array)) 
+		return Buffer.alloc(0);
+	var bufferSize = superBlock.blockSize *
+		countElements(array);
+	if(isNaN(bufferSize) | bufferSize < 1) {
+		return Buffer.alloc(0);
+	}
+
+	var allBlocks = Buffer.alloc(bufferSize);
+	var offset = 0;
+	for(var extent of array) {
+		if(extent.length == 2) {
+			var ext = getExtentOfBlockIDs({
+				filePath,
+				start: extent[0],
+				end: extent[1]
+			})
+			ext.copy(allBlocks, offset);
+			var numberInclusive = 
+				extent[1] - extent[0] + 1;
+			offset += numberInclusive * 
+				superBlock.blockSize;
+			
+				
+		} else if(extent.length == 1) {
+			var ext = getExtentOfBlockIDs({
+				filePath,
+				start: extent[0],
+				end: extent[0]
+			})
+			ext.copy(allBlocks, offset);
+			offset += superBlock.blockSize;
+		}
+	}
+	return allBlocks;
+}
+
+function countElements(ranges) {
+    let uniqueNumbers = new Set();
+    
+    for (let range of ranges) {
+        if (range.length === 2) {
+            let [start, end] = range;
+            for (let i = start; i <= end; i++) {
+                uniqueNumbers.add(i);
+            }
+        } else {
+            uniqueNumbers.add(range[0]);
+        }
+    }
+    
+    return uniqueNumbers.size;
+}
 
 async function getExtentOfBlockIDs({
 	filePath,
@@ -256,7 +291,7 @@ async function getExtentOfBlockIDs({
 
 	var firstBlockOffset = superBlock.firstBlockOffset;
 	var startOffset = firstBlockOffset + (start - 1) * blockSize;
-	var byteSizesToGet = (end - start) * blockSize;
+	var byteSizesToGet = (end - start + 1) * blockSize;
 	var blockRequest = await readFileBytesAtOffset({
 		filePath,
 		offset: startOffset, 
@@ -279,7 +314,7 @@ async function getExtentOfBlockIDs({
 		sizeOfTotalDataBlocks
 	);
 
-	var numberOfBlocks = end - start;
+	var numberOfBlocks = end - start + 1;
 
 	for(var i = 0; i < numberOfBlocks; i++) {
 		var blockOffset = i * blockSize;
@@ -295,3 +330,29 @@ async function getExtentOfBlockIDs({
 	return mainBuffer;
 	return blocks;
 }
+
+
+
+function groupConsecutive(arr) {
+	if (!arr.length) return [];
+	
+	const result = [];
+	let start = arr[0];
+	let prev = start;
+  
+	for (let i = 1; i < arr.length; i++) {
+	  if (arr[i] === prev + 1) {
+		prev = arr[i]; // Continue the sequence
+	  } else {
+		// End of a sequence, push [start, prev]
+		result.push(start === prev ? [start] : [start, prev]);
+		start = arr[i];
+		prev = arr[i];
+	  }
+	}
+	
+	// Push the last sequence
+	result.push(start === prev ? [start] : [start, prev]);
+	
+	return result;
+  }
