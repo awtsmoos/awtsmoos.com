@@ -230,9 +230,20 @@ async function writeAtNextFreeBlock({
 
 	// Build metadata instructions.
 	let metadataInstructions = [];
-	var deleteAndTypeByteInOne = type == "file" ?
-		0b00000010 : /**type (2nd LSB) is file */
-		0b00000000 /*type is folder*/
+	var deleteAndTypeByteInOne = 0b00000000;
+	var typeToBits = {
+		file: 0b01,
+		folder: 0b00,
+		blockHolder: 0b10
+	}
+	var typebit = typeToBits[type] || 0;
+	deleteAndTypeByteInOne = (
+		deleteAndTypeByteInOne |
+		typebit << 1
+	); /**
+	move over the type bits by 1 to leave
+	the  SB as 0 (which is isDeleted) 
+	and the next 2 LSBs as the type*/
 	if (!isInChain) {
 		// First block of the chain.
 		metadataInstructions = [{
@@ -267,7 +278,8 @@ async function writeAtNextFreeBlock({
 		];
 	} else {
 		// Continuation block.
-		metadataInstructions = [{
+		metadataInstructions = [
+			{
 				[`uint_${blockIdByteSize * 8}`]: blockIndex
 			},
 			{
@@ -294,7 +306,7 @@ async function writeAtNextFreeBlock({
 	// Calculate metadata size.
 	let metadataSize = sizeof(metadataInstructions);
 	
-
+	var smallBlockSize = 128;
 	// Determine how much data can fit in this block.
 	const availableDataSpace = blockSize - metadataSize;
 	let currentData;
@@ -308,6 +320,13 @@ async function writeAtNextFreeBlock({
 	if (data && data.length > availableDataSpace) {
 		currentData = data.subarray(0, availableDataSpace);
 		remainingData = data.subarray(availableDataSpace);
+	} else if(data.length < smallBlockSize) {
+		metadataInstructions[1] = {
+			uint_8: 0 |
+				typeToBits["blockHolder"] << 1
+		}
+		currentData = Buffer.alloc(availableDataSpace);
+		data.copy(currentData);
 	} else {
 		currentData = Buffer.alloc(availableDataSpace);
 		data.copy(currentData);

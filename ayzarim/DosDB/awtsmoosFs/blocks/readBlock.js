@@ -55,7 +55,7 @@ async function readBlock({
 	const fixedMetadataSize = blockIdByteSize + 1 + blockIdByteSize + blockIdByteSize;
 	const fixedSchema = {
 		index: `uint_${blockIdByteSize * 8}`,
-		isDeleted: "uint_8", /**
+		isDeletedAndType: "uint_8", /**
 			really this by shares bits,
 			LSB is 1 for isDeleted 0 for not,
 			next right most bit over is 0 for 
@@ -73,13 +73,21 @@ async function readBlock({
 		offset: blockOffset,
 		schema: fixedSchema
 	});
-	
-	fixedMeta.type = (fixedMeta.isDeleted & (
-		0b00000001 << 1
-	)) == 0 ? "folder" : "file";
+	var bitsToType = {
+		0b00: "folder",
+		0b01: "file",
+		0b10: "blockHolder"
+	}
+	fixedMeta.type = bitsToType[
+		((
+			fixedMeta.isDeletedAndType & (
+				0b00000110
+			)
+		) >> 1) || 0
+	] 
 
 	fixedMeta.isDeleted = 
-			(fixedMeta.isDeleted & (
+			(fixedMeta.isDeletedAndType & (
 				0b00000001
 			)) //if 1, deleted; 0, available;
 		
