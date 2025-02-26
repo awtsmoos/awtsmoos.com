@@ -52,7 +52,9 @@ async function readBlock({
 	const blockOffset = fsMetadataOffset + (index - 1) * blockSize;
 
 	// Fixed metadata: index, isDeleted, nextBlockId, lastBlockId.
-	const fixedMetadataSize = blockIdByteSize + 1 + blockIdByteSize + blockIdByteSize;
+	const fixedMetadataSize = 
+		blockIdByteSize + 1 + 
+		blockIdByteSize + blockIdByteSize;
 	const fixedSchema = {
 		index: `uint_${blockIdByteSize * 8}`,
 		isDeletedAndType: "uint_8", /**
@@ -104,14 +106,20 @@ async function readBlock({
 		...fixedMeta
 	};
 
-	let dataBuffers = [];
-	let allBlockIDs = [index];
+	var dataLength = blockSize - fixedMetadataSize;
+	var ind = parseInt(index);
+	if(!isNaN(ind)) {
+		index = ind;
+	}
+	let allBlockIDs = [];
 
-	let dataOffset = blockOffset + fixedMetadataSize;
+	var dataOffset = blockOffset + fixedMetadataSize;
 	let additionalMetadataSize = 0;
 	var extraMetadataSize = blockIdByteSize + 4 + 4;
 
+	var isFirstBlock = false;
 	if (fixedMeta.lastBlockId === 0) {
+		isFirstBlock = true;
 		// This is the first (or only) block in the chain.
 		const extraSchema = {
 			parentBlockId: `uint_${blockIdByteSize * 8}`,
@@ -142,16 +150,8 @@ async function readBlock({
 		}
 	}
 
-	const currentDataSize = blockSize - fixedMetadataSize - additionalMetadataSize;
-	var timeToGetOwnData;
-	var myData = null;
-	if (!onlyMetadata && !onlyIDs) {
-		const handle = await getFileHandle(filePath);
-		const dataBuffer = Buffer.alloc(currentDataSize);
-		await handle.read(dataBuffer, 0, currentDataSize, blockOffset + fixedMetadataSize + additionalMetadataSize);
-		dataBuffers.push(dataBuffer);
-		myData = dataBuffer;
-	}
+	
+	
 
 	
 	var nextId = fixedMeta.nextBlockId;
@@ -170,7 +170,8 @@ async function readBlock({
 			superblockInfo
 		});
 		nextId = nextBlock?.metadata?.nextBlockId;
-//console.log(nextId)
+
+		
 		timesItTookToGetIDsOnly.push(performance.now() - ct);
 	}
 	if (onlyIDs) {
@@ -181,48 +182,59 @@ async function readBlock({
 		};
 	}
 
-	var dataSizeOfChainedBlocks = 
-		blockSize - fixedMetadataSize - extraMetadataSize;
-	var dataSize = myData.length + 
-		allBlockIDs.length * dataSizeOfChainedBlocks;
-	//	
-	var fullData = Buffer.alloc(
-		dataSize
-	);
-	myData.copy(fullData, 0);
-	//console.log("ds",dataSize, fullData.length, allBlockIDs)
+
+	var timeToGetOwnData;
+	if(isFirstBlock) {
+		var internalDataOffset = fixedMetadataSize + 
+		extraMetadataSize
+		dataOffset = blockOffset + (internalDataOffset);
+		dataLength = blockSize - internalDataOffset;
+	}
+	var data = (await readFileBytesAtOffset({
+		filePath,
+		offset: dataOffset,
+		schema: {
+			data: "buffer_"+dataLength
+		}
+	}))?.data;
+	var chainedDataSize = blockSize - fixedMetadataSize;
+
+	var totalDataSize = dataLength +
+		chainedDataSize * allBlockIDs.length
+	var totalData = Buffer.alloc(totalDataSize);
+	data.copy(totalData, 0);
+	var offset = dataLength;
+	
+	
+	
 
 	
-	timeToGetOwnData = performance.now() - startTime;
-
-	var times = 0;
-	var timeStamps = [];
-	var curDataOffset = myData.length;
-	var allNextIDs = allBlockIDs.slice(1);
-	var timesToPushData = [];
-	var timesToGetBlock = []
 
 	var allBlockList = groupConsecutive(
 		allBlockIDs
 	)
+	console.log("Getting blocks",allBlockList)
 	
 	var allBlocks = await getAllBlocksFromExtentsArray({
-
+		filePath,
+		array: allBlockList,
+		superBlock: superblockInfo
 	})
-	allBlocks.copy(fullData, curDataOffset);
+	allBlocks.copy(totalData, offset);
+
 	
 	 
 	return {
 		metadata,
-		data: fullData,
+		data: totalData,
 		blockId: index,
 		allBlockIDs,
 		superblockInfo,
-		timeStamps,
+		/*timeStamps,
 		timeToGetOwnData,
 		timesItTookToGetIDsOnly,
 		timesToPushData,
-		timesToGetBlock
+		timesToGetBlock*/
 		
 	};
 }
@@ -233,19 +245,23 @@ async function getAllBlocksFromExtentsArray({
 	superBlock
 }) {
 	
-	if(!Array.isArray(array)) 
+	if(!Array.isArray(array)) {
+		//console.log("NOT array")
 		return Buffer.alloc(0);
+	}
 	var bufferSize = superBlock.blockSize *
 		countElements(array);
 	if(isNaN(bufferSize) | bufferSize < 1) {
+		//console.log("NAN",array)
 		return Buffer.alloc(0);
 	}
 
 	var allBlocks = Buffer.alloc(bufferSize);
 	var offset = 0;
+	
 	for(var extent of array) {
 		if(extent.length == 2) {
-			var ext = getExtentOfBlockIDs({
+			var ext = await getExtentOfBlockIDs({
 				filePath,
 				start: extent[0],
 				end: extent[1]
@@ -257,8 +273,9 @@ async function getAllBlocksFromExtentsArray({
 				superBlock.blockSize;
 			
 				
+				
 		} else if(extent.length == 1) {
-			var ext = getExtentOfBlockIDs({
+			var ext = await getExtentOfBlockIDs({
 				filePath,
 				start: extent[0],
 				end: extent[0]
@@ -287,6 +304,14 @@ function countElements(ranges) {
     return uniqueNumbers.size;
 }
 
+/**
+ * 
+ * gets CHAINED block data
+ * does not support the 
+ * start variable being the initial
+ * data
+ * @returns 
+ */
 async function getExtentOfBlockIDs({
 	filePath,
 	start,
@@ -324,16 +349,21 @@ async function getExtentOfBlockIDs({
 
 	var numberOfBlocks = end - start + 1;
 
+	console.log("Getting",numberOfBlocks,blockRequest)
 	for(var i = 0; i < numberOfBlocks; i++) {
 		var blockOffset = i * blockSize;
 
 
 		var dataOffsetStart = blockOffset + fixedMetadataSize;
 		var dataLength = blockDataSize;
-		var dataEnd = dataLength * i;
+		var dataEnd = dataOffsetStart + dataLength
 
-		var offsetOfDataBlock = i * dataLength;
-		blocks.copy(mainBuffer, offsetOfDataBlock, dataOffsetStart, dataEnd)
+		
+		blocks.copy(
+			mainBuffer, 
+			blockOffset, 
+			dataOffsetStart, dataEnd
+		)
 	}
 	return mainBuffer;
 	return blocks;

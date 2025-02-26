@@ -30,7 +30,10 @@ const FILESYSTEM_PATH =
         } else if (command === "readBlock") {
             let fileData = await os.readBlock({ filePath: fs, blockId: targetPath });
             var data = fileData.data;
-            var ser = await bin.deserializeBinary(data)
+            var ser;
+            if(await bin.isAwtsmoosObject(data))
+                ser = await bin.deserializeBinary(data);
+            else ser = data+"";
             console.log("File content:", fileData, ser);
         } else if (command === "read") {
             let fileData = await os.readFile({ filePath: fs, path: targetPath });

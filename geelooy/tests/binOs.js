@@ -50,7 +50,12 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     files.push(
         { path: "/emptyFile.txt", data: "" }, // Empty file test
         { path: "/special!@#%^&*()_+/test.txt", data: "Special chars in path" }, // Special characters test
-        { path: "/stressTest/huge.txt", data: "X".repeat(2 * 4096 * 8) } // 1mb file test
+        {
+            path: "/stressTest/huge.txt", 
+            data: "X".repeat(2 * 4096 * 8).split("")
+                .map((x,i)=>i)
+                .join(" - ")
+        } // 1mb file test
     );
 
     console.log("made files in memeory, writing: ")
