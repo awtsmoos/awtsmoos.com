@@ -5,6 +5,72 @@ async function sendToGrok({
     conversationId,
     parentMessageId
 }) {
+    /**
+     * for new:
+     * 
+        parentMessageId
+        https://grok.com/rest/app-chat/conversations/new
+
+
+
+        customInstructions
+: 
+""
+deepsearchPreset
+: 
+""
+disableSearch
+: 
+false
+enableImageGeneration
+: 
+true
+enableImageStreaming
+: 
+true
+enableSideBySide
+: 
+true
+fileAttachments
+: 
+[]
+forceConcise
+: 
+false
+imageAttachments
+: 
+[]
+imageGenerationCount
+: 
+2
+isPreset
+: 
+false
+isReasoning
+: 
+false
+message
+: 
+"BH"
+modelName
+: 
+"grok-latest"
+returnImageBytes
+: 
+false
+returnRawGrokInXaiRequest
+: 
+false
+sendFinalMetadata
+: 
+true
+temporary
+: 
+false
+toolOverrides
+: 
+{}
+     */
     var resp = await fetch(`https://grok.com/rest/app-chat/conversations/${conversationId}/responses`, {
       "headers": {
        
