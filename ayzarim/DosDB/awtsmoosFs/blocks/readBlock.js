@@ -157,6 +157,7 @@ async function readBlock({
 	var nextId = fixedMeta.nextBlockId;
 	var times = 0;
 	var timesItTookToGetIDsOnly = []
+	//allBlockIDs.push(index)
 	while (nextId && nextId !== 0) {
 		var ct = performance.now()
 		allBlockIDs.push(nextId);
@@ -175,6 +176,10 @@ async function readBlock({
 		timesItTookToGetIDsOnly.push(performance.now() - ct);
 	}
 	if (onlyIDs) {
+		allBlockIDs = [
+			index,
+			...allBlockIDs
+		]
 		return {
 			metadata,
 			blockID: index,
@@ -206,14 +211,13 @@ async function readBlock({
 	var offset = dataLength;
 	
 	
-	
 
 	
 
 	var allBlockList = groupConsecutive(
 		allBlockIDs
 	)
-	console.log("Getting blocks",allBlockList)
+	//console.log("Getting blocks",allBlockList)
 	
 	var allBlocks = await getAllBlocksFromExtentsArray({
 		filePath,
@@ -221,7 +225,10 @@ async function readBlock({
 		superBlock: superblockInfo
 	})
 	allBlocks.copy(totalData, offset);
-
+	allBlockIDs = [
+		index,
+		...allBlockIDs
+	]
 	
 	 
 	return {

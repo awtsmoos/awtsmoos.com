@@ -56,6 +56,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
                 .map((x,i)=>i)
                 .join(" - ")
         } // 1mb file test
+         
     );
 
     console.log("made files in memeory, writing: ")
