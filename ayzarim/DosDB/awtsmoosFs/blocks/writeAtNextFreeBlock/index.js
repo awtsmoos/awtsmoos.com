@@ -2,16 +2,16 @@
 
 
 var readBlock = 
-require("./readBlock")
+require("../readBlock")
 var awtsmoosJSON = require(
-	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
+	"../../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
-var deleteEntry = require("./deleteEntry.js");
-var getSuperBlock = require("./getSuperBlock.js");
+var deleteEntry = require("../deleteEntry.js");
+var getSuperBlock = require("../getSuperBlock.js");
 var updateParentFolder = require("./updateParentFolder.js");
 
 var existingEntryWithNameInParentFolder = 
-require("./existingEntryWithNameInParentFolder");
+require("./existingEntryWithNameInParentFolder.js");
 
 var getNextFreeBlock = 
 require("./getNextFreeBlock.js");
@@ -19,7 +19,7 @@ require("./getNextFreeBlock.js");
 var {
 	sizeof,
 	writeBytesToFileAtOffset
-} = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
+} = require("../../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
 var log = false;
 
@@ -54,7 +54,139 @@ module.exports =
  *   5. Determine available space in the block; if data exceeds it, split and recursively write the remainder.
  *   6. Write the metadata and data, and update chaining pointers.
  *   7. (Optionally) Update the parent folder's metadata if this is not the root.
- */
+ 
+That's all normal IF the data is more than superBlock.blockSize
+but if it's less, then we break up the data into
+several smaller blocks to save space.
+
+If it's less, we search for next mini block.
+
+The superblock should contain property
+nextFreeMiniBlockId which is a 2 part ID,
+first part is a 32 bit ID of the main block,
+similar to regular block ID. then each 4kb block
+could be divided into 256 smaller blocks of 
+of 16 bytes each. 
+
+So the 2nd part of the ID is one byte indicating 
+the byte index (essentially a bitmap
+between 0-255 each bit value corresponding
+to a byte).
+
+If that value in the superblock is equal to 0,
+that means we don't have any mini blocks available,
+so we have to allocate a new blockHolder from the
+regular blocks.
+
+So we go through the regular process of finding the next
+free regular block to be our new blockHolder (see above).
+
+Once we have found it, we assume all mini blocks in it
+are empty, so we set our superblock's next free mini block
+value to the ID of the our main block plus 1,
+indicating the first of our mini blocks.
+
+(regular blockIDs start at 1 because of the superblock
+and miniblocks in each blockHolder start at 1 because
+if it's 0 that indicates we reference the headers
+of the blockHolder to tell us what it is
+because there's not enough room for big headers of
+IDs in each mini block.)
+
+Then, we start writing our data to it.
+
+If the data is larger than 16 bytes but still less
+than full blockSize, we slice ur data to 16 and write the 
+next mini block.
+
+Once we started writing our first mini block,
+we set the next free mini block in the
+superblock to the next one that is 
+free. 
+
+In our blockHolder, we could have a header
+value nextFreeMiniBlock 
+(in addition to the superblock one).
+By default when it's created, it's set to 1 (first).
+Then once that is taken up, it goes to the next.
+
+Each mini block has a few header values:
+mini block ID / index (between 0-255).
+
+isDeleted / type byte
+(1st LSB indicates if free 
+next 2 LSBs number 0-3
+indicating the type (file, folder and 2 reserved types))
+
+The other 5 bits may be used for 
+the next blockHolder in the chain
+(0-63)
+Next byte is if the reference to the
+next blockHolder in the chain
+is greater than 64, use this byte
+for a combined 12 bits (2^14).
+
+if part of chain (
+    if data is more than 4 bytes
+) then nextMiniBlockID (1 byte);
+If not the first value in the chain,
+
+
+So far we have 4 bytes (out of the 16):
+
+blockId: 1
+isDeletedAndType: 1
+nextBlockHolderIdxHigh: 1 (only used
+if mini blocks extend across
+multiple blockHolders and the number
+of blockHolders in the blockHolder
+chain is greater than 64)
+
+nextBlockId: 1
+
+
+Then if it's the first we also need metadata
+for our file/folder, which is just 
+time created and time modified
+
+each is uint_32 so that's 4 more bytes each:
+createdAt: 4
+lastModified: 4
+
+so far that's 4 + 4 + 
+1 + 1 + 1 + 1 = 
+12 bytes for headers, leaving 4 bytes
+more for the actual data (of the first block).
+
+But if the data is more than 4 then it goes
+to next blocks, which only have
+the first 4 bytes as headers so they have
+12 bytes of space each.
+
+
+
+If that value (
+the superblock's nextFreeMiniBlock)
+is NOT equal to 0,
+that means a current block exists at that
+location that has a type blockHolder 
+(only types are file, folder and blockHolder).
+Then we find the mini block (between 0-255) within
+that and start writing our data to it.
+
+If the data is greater than 16 bytes (minus headers,
+which is 4 bytes of data)
+but still less than the full block size of 4kb,
+then we find the next free mini block (usually it'll be
+in the same block.)
+
+Process for finding next free mini block:
+
+Each blockHolder has in it's header
+nextFreeMiniBlock (one byte).
+If it's 0, that means no more mini blocks available
+in this block holder, 
+*/
 async function writeAtNextFreeBlock({
 	filePath,
 	data,

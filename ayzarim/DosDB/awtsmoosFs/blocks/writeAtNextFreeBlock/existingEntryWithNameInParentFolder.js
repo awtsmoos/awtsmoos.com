@@ -1,12 +1,12 @@
 //B"H
 
 var awtsmoosJSON = require(
-	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
+	"../../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
 
-var readBlock = require("./readBlock.js");
+var readBlock = require("../readBlock.js");
 var getSuperBlock =
-require("./getSuperBlock.js")
+require("../getSuperBlock.js")
 var log = false;
 module.exports = 
 async function existingEntryWithNameInParentFolder({

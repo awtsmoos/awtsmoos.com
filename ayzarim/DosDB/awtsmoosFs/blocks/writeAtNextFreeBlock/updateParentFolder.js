@@ -1,13 +1,13 @@
 //B"H
 
-var writeAtNextFreeBlock = require("./writeAtNextFreeBlock");
+var writeAtNextFreeBlock = require(".");
 var awtsmoosJSON = require(
-	"../../awtsmoosBinary/awtsmoosBinaryJSON"
+	"../../../awtsmoosBinary/awtsmoosBinaryJSON"
 );
-var readBlock = require("./readBlock");
-var deleteEntry = require("./deleteEntry");
+var readBlock = require("../readBlock");
+var deleteEntry = require("../deleteEntry");
 
-var getSuperBlock = require("./getSuperBlock")
+var getSuperBlock = require("../getSuperBlock")
 module.exports =
 async function updateParentFolder({
 	filePath,

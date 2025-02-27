@@ -26,7 +26,8 @@ var {
 	sizeof
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
-var writeAtNextFreeBlock = require("./writeAtNextFreeBlock");
+var writeAtNextFreeBlock = require("./writeAtNextFreeBlock/index.js");
+console.log("a",writeAtNextFreeBlock)
 var awtsmoosJSON = require(
 	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
@@ -34,7 +35,7 @@ var awtsmoosJSON = require(
 var deleteEntry = require("./deleteEntry");
 var getSuperBlock = require("./getSuperBlock.js");
 var readBlock = require("./readBlock");
-var updateParentFolder = require("./updateParentFolder.js");
+var updateParentFolder = require("./writeAtNextFreeBlock/updateParentFolder.js");
 var log = false 
 	//true;
 // External configuration: maximum blocks for our filesystem.

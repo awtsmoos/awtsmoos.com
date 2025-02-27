@@ -1,17 +1,17 @@
 //B"H
 var getSuperBlock = 
-require("./getSuperBlock.js");
+require("../getSuperBlock.js");
 
 var readBlock = 
-require("./readBlock.js")
+require("../readBlock.js")
 var log = false;
 
 var clearNextFreeBlockId =
-require("./clearFreeBlockId.js");
+require("../clearFreeBlockId.js");
 
 var {
     writeBytesToFileAtOffset
-} = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js")
+} = require("../../../awtsmoosBinary/awtsmoosBinaryHelpers.js")
 module.exports = 
 
 async function getNextFreeBlock(
