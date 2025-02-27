@@ -59,7 +59,7 @@ async function readBlock({
 	// Fixed metadata: index, isDeleted, nextBlockId, lastBlockId.
 	const fixedMetadataSize = 
 		blockIdByteSize + 1 + 
-		blockIdByteSize + blockIdByteSize;
+		blockIdByteSize
 	const fixedSchema = {
 		index: `uint_${blockIdByteSize * 8}`,
 		isDeletedAndType: "uint_8", /**
@@ -70,7 +70,6 @@ async function readBlock({
 			we need to read that later.
 		*/
 		nextBlockId: `uint_${blockIdByteSize * 8}`,
-		lastBlockId: `uint_${blockIdByteSize * 8}`
 	};
 
 	
@@ -121,31 +120,13 @@ async function readBlock({
 	let allBlockIDs = [];
 
 	var dataOffset = blockOffset + fixedMetadataSize;
-	let additionalMetadataSize = 0;
-	var extraMetadataSize = blockIdByteSize
+	
+	
+	var extraMetadataSize = 0
 
 	var isFirstBlock = false;
 	if (fixedMeta.type != "inChain") {
 		isFirstBlock = true;
-		// This is the first (or only) block in the chain.
-		const extraSchema = {
-			parentBlockId: `uint_${blockIdByteSize * 8}`,
-		
-		};
-		const extraMeta = await readFileBytesAtOffset({
-			filePath,
-			offset: dataOffset,
-			schema: extraSchema
-		});
-		additionalMetadataSize = extraMetadataSize
-		metadata = {
-			...metadata,
-			...extraMeta
-		};
-		
-		metadata = {
-			...metadata
-		};
 	}
 
 	if(onlyMetadata === true) {

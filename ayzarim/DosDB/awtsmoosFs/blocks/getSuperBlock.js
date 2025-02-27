@@ -47,7 +47,7 @@ async function getSuperBlock(filePath) {
 			nextFreeBlockId: "uint_" 
 				+ blockIdByteSize * 8,
 
-			nextFreeBlockHolderId: "uint_" 
+			nextFreeMiniBlockHolderId: "uint_" 
 				+ blockIdByteSize * 8,
 
 			totalBlocks: "uint_" 

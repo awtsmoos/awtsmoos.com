@@ -17,7 +17,8 @@ var getNextFreeBlock =
 require("./getNextFreeBlock.js");
 
 var getNextMiniBlock =
-require("./getNextMiniBlock.js")
+require("./miniBlocks/getNextMiniBlock.js");
+
 var {
 	sizeof,
 	writeBytesToFileAtOffset
@@ -382,7 +383,8 @@ async function writeAtNextFreeBlock({
             miniBlockInfo = await getNextMiniBlock({
                 filePath,
                 superBlock
-            })
+            });
+            console.log("Mini",miniBlockInfo)
         }
 	}
 	if(!blockIndex) {
@@ -417,50 +419,27 @@ async function writeAtNextFreeBlock({
 	move over the type bits by 1 to leave
 	the  SB as 0 (which is isDeleted) 
 	and the next 2 LSBs as the type*/
-	if (!isInChain) {
-		// First block of the chain.
-		metadataInstructions = [{
-				[`uint_${blockIdByteSize * 8}`]: blockIndex
-			},
-			{
-				uint_8: deleteAndTypeByteInOne
-			}, /*
-			least significant bit (most far right in BE):
-			isDeleted (0 = active).
+	
+    
+    metadataInstructions = [{
+            [`uint_${blockIdByteSize * 8}`]: blockIndex
+        },
+        {
+            uint_8: deleteAndTypeByteInOne
+        }, /*
+        least significant bit (most far right in BE):
+        isDeleted (0 = active).
 
-			next bit to the left: type. if 0, folder.
-			if 1, file
+        next bit to the left: type. if 0, folder.
+        if 1, file
 
-			*/
-			{
-				[`uint_${blockIdByteSize * 8}`]: 0
-			}, // nextBlockId (to be updated if chained).
-			{
-				[`uint_${blockIdByteSize * 8}`]: 0
-			}, // lastBlockId.
-			{
-				[`uint_${blockIdByteSize * 8}`]: parentFolderId
-			}, // parent block ID in the chain (initially 1).
-			
-			
-		];
-	} else {
-		// Continuation block.
-		metadataInstructions = [
-			{
-				[`uint_${blockIdByteSize * 8}`]: blockIndex
-			},
-			{
-				uint_8: deleteAndTypeByteInOne
-			},
-			{
-				[`uint_${blockIdByteSize * 8}`]: 0
-			},
-			{
-				[`uint_${blockIdByteSize * 8}`]: previousBlockId
-			}
-		];
-	}
+        */
+        {
+            [`uint_${blockIdByteSize * 8}`]: 0
+        }, // nextBlockId (to be updated if chained).
+
+        
+    ];
 	
 	var parst= null;
     if(type=="folder" && data) {

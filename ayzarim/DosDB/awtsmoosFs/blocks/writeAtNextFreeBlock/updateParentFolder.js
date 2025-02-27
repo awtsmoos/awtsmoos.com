@@ -33,12 +33,13 @@ async function updateParentFolder({
 
 		return null;
 	}
-	var parentId  = folderId == 1 ? 0 : 
+	
+	/*var parentId  = folderId == 1 ? 0 : 
 		folderBlock?.metadata?.parentBlockId
 	
 	if(!parentId && parentId !== 0) {
 		throw Error("What is this"+parentId + " " +newChildId)
-	}
+	}*/
 	//console.log("Got parent id",parentId)
     var {
 		data
@@ -118,7 +119,7 @@ async function updateParentFolder({
 		name: folderName,
 		data:serialized,
 		overwriteIndex: folderId/*current index*/,
-		parentFolderId: parentId,
+	//	parentFolderId: parentId,
 		doNotUpdateParent:0,
 		superBlock,
 		parentFolderData:ob,

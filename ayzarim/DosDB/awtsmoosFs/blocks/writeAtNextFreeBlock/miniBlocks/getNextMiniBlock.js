@@ -1,9 +1,16 @@
 //B"H
 var getSuperBlock = 
-    require("../getSuperBlock.js");
+    require("../../getSuperBlock.js");
 
 var getNextFreeBlock = 
-    require("./getNextFreeBlock.js");
+    require("../getNextFreeBlock.js");
+
+var readBlockHolder = 
+    require("./readBlockHolder.js");
+
+
+var writeBlockHolderHeaders =
+    require("./writeBlockHolderHeaders.js");
 
 module.exports = 
 /*
@@ -48,9 +55,11 @@ async function getNextMiniBlock({
     superBlock = superBlock || 
         await getSuperBlock(filePath);
     
-    var nextFreeMiniBlock = superBlock
-        .nextFreeMiniBlock;
-    if(!nextFreeMiniBlock) {
+    var nextFreeMiniBlockHolderId = superBlock
+        .nextFreeMiniBlockHolderId;
+    var blockIndex = 0;
+
+    if(!nextFreeMiniBlockHolderId) {
         var nextFreeBlockInfo = await getNextFreeBlock({
             filePath,
             superBlock
@@ -65,18 +74,28 @@ async function getNextMiniBlock({
             next free block, and write 
             the blockHolder headers to it
         */
-        await writeBlockHolderHeaders({
+        var wrote = await writeBlockHolderHeaders({
             filePath,
             superBlock,
             blockIndex: nextFreeBlockId
-        })
-    }
-}
+        });
+        superBlock = wrote.superBlock;
+        blockIndex = wrote.blockIndex;
 
-async function writeBlockHolderHeaders({
-    filePath,
-    superBlock,
-    blockIndex
-}) {
-    
+    } else {
+        blockIndex = nextFreeMiniBlockHolderId;
+    }
+
+    var blockHolder = await readBlockHolder({
+        filePath,
+        superBlock,
+        blockIndex
+    });
+
+    return {
+        nextMiniBlockId: blockHolder.nextFreeMiniBlockIndex,
+        blockHolder,
+     //   blockHolderData: blockHolder.data,
+     //   blockHolderIndex: blockIndex
+    }
 }
