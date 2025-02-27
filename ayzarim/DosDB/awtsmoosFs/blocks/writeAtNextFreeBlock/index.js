@@ -428,7 +428,8 @@ async function writeAtNextFreeBlock({
 	and the next 2 LSBs as the type*/
 	
     
-    metadataInstructions = [{
+    metadataInstructions = [
+        {
             [`uint_${blockIdByteSize * 8}`]: blockIndex
         },
         {

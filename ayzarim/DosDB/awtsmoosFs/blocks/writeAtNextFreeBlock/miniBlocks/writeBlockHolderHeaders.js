@@ -56,12 +56,18 @@ async function writeBlockHolderHeaders({
         [
             {[`uint_${
                 blockIdByteSize * 8
-            }`]: blockIndex },
+            }`]: blockIndex }, //block id
+
             {uint_8: deleteAndTypeByteInOne},
+                //type info / is deleted (LSB)
+
             {[`uint_${
                 blockIdByteSize * 8
-            }`]: 0},//reserved
+            }`]: 0},//reserved, possible to 
+            //use for linking blockHolders
+
             {uint_8: 1}, //nextFreeMiniBlock
+
             //starts at 1; 0 means no more free miniBlocks
             {[`buffer_${
                 emptyData.length
