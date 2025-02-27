@@ -15,19 +15,19 @@ var {
 module.exports = 
 
 async function getNextFreeBlock(
-    filePath, {
-        name,
-        folderName,
-        parentFolerId
-    }={}
+    filePath
 ) {
     var blockIndex = null;
     var superBlock = await getSuperBlock(filePath);
+
     var blockIdByteSize =
-    superBlock.blockIdByteSize;
+        superBlock.blockIdByteSize;
     var superblockFreeOffset = (
         4 + 2 + 1 + 1
     );
+
+
+
     if (
             
         superBlock.nextFreeBlockId && 
@@ -74,7 +74,9 @@ async function getNextFreeBlock(
                 } // totalBlocks.
             */
             
-            await writeBytesToFileAtOffset(filePath, superblockFreeOffset, [
+            await writeBytesToFileAtOffset(
+                filePath, 
+                superblockFreeOffset, [
                 {[`uint_${
                     blockIdByteSize * 8
                 }`]: nextFreeBlockId}
@@ -83,15 +85,9 @@ async function getNextFreeBlock(
             
 
         } else {
-            if(log)
-                console.log("\n\nsuperblock free block info: \n\t\t",freeBlock?.metadata,"\n\n\n")
             
-            await clearNextFreeBlockId(filePath, {
-                blockId:blockIndex,
-                name,
-                folderName,
-                parentFolerId
-            });
+            
+            await clearNextFreeBlockId(filePath);
 
             
         }

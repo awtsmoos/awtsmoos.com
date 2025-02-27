@@ -16,6 +16,8 @@ require("./existingEntryWithNameInParentFolder.js");
 var getNextFreeBlock = 
 require("./getNextFreeBlock.js");
 
+var getNextMiniBlock =
+require("./getNextMiniBlock.js")
 var {
 	sizeof,
 	writeBytesToFileAtOffset
@@ -231,7 +233,9 @@ async function writeAtNextFreeBlock({
 			folderName
 		} with a folder parent ID of ${
 			parentFolderId
-		}`)
+		}`);
+
+
 		existingBlockIdOfThisSameEntry = name ? 
 		await existingEntryWithNameInParentFolder({
 			filePath,
@@ -255,8 +259,7 @@ async function writeAtNextFreeBlock({
 			//	console.log("over rigde")
 			}
 			
-			superBlock = await getSuperBlock(filePath);
-			
+            
 			if(log)
 				console.log(`\n\n\n\t\t\tEntry ${name} already exists in ${parentFolderId}. BlockId ${
 					blockIndex
@@ -307,6 +310,7 @@ async function writeAtNextFreeBlock({
 									onlyDeleteChainBlocks: true,  
 								//	doNotDeleteChildren: true
 								}); 
+                                superBlock = await getSuperBlock(filePath);
 								var newData = {...ex, ...ob}
 								data = awtsmoosJSON.serializeJSON(newData);
 							} 
@@ -323,6 +327,7 @@ async function writeAtNextFreeBlock({
 					onlyDeleteChainBlocks: true,  
 				//	doNotDeleteChildren: true
 				}); 
+                superBlock = await getSuperBlock(filePath);
 			}
 	
 		} else {
@@ -342,14 +347,17 @@ async function writeAtNextFreeBlock({
 	
 	
 
-	superBlock = await getSuperBlock(filePath);
+	var miniBlockIndex = null;
 	// Determine the block index: either from the free list or by appending.
 	if(blockIndex === null) {
-		blockIndex = await getNextFreeBlock(filePath, {
-			name,
-			folderName,
-			parentFolderId
-		});
+        if(data?.length >= superBlock.blockSize) {
+
+            blockIndex = await getNextFreeBlock(filePath);
+        } else {
+            miniBlockInfo = await getNextMiniBlock(
+                filePath,
+            )
+        }
 	}
 	if(!blockIndex) {
 		console.log("What is it",blockIndex)

@@ -14,6 +14,8 @@ module.exports =
  *   - bytesOfTotalBlockLength (uint_8): the byte-length used for block IDs
  *   - nextFreeBlockId (uint_variable): pointer to the next free block
  *   - totalBlocks (uint_variable): count of blocks allocated
+ *   - nextFreeMiniBlockHolderId (uint_variable) reference to the next block that can 
+ * 			hold miniblocks.
  */
 async function getSuperBlock(filePath) {
 	// Read the fixed portion: 4 + 2 + 1 + 1 = 8 bytes.

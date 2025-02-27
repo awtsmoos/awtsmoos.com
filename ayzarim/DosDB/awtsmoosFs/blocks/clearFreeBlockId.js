@@ -7,12 +7,7 @@ var {
 
 module.exports = 
 
-async function clearNextFreeBlockId(filePath, {
-    blockId,
-    name,
-    folderName,
-    parentFolerId
-}={}) {
+async function clearNextFreeBlockId(filePath) {
     var superblockFreeOffset = (
         4 + 2 + 1 + 1
     );
