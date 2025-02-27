@@ -60,10 +60,16 @@ async function existingEntryWithNameInParentFolder({
                 } at entry ${
                     name
                 } already exists at: `,off, ob, is,);
-
+                var blockIndex;
+                if(Array.isArray(off)) {
+                    blockIndex = off[0]
+                } else {
+                    console.log("FOLDER corruption");
+                    return null;
+                }
                 return {
                     existingData: ob,
-                    blockIndex: off
+                    blockIndex
                 };
             } else {
              //   console.log("Does NOT exist!",name,ob,off,parentFolderId)

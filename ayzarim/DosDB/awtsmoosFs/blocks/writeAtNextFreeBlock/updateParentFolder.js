@@ -17,7 +17,7 @@ async function updateParentFolder({
 	superBlock,
 	newChildId,
 	newChildName,
-
+	childTypeAndDeleteByte,
     log=false,
 
 	writeAtNextFreeBlock
@@ -39,7 +39,7 @@ async function updateParentFolder({
 	if(!parentId && parentId !== 0) {
 		throw Error("What is this"+parentId + " " +newChildId)
 	}
-	
+	//console.log("Got parent id",parentId)
     var {
 		data
 	} = folderBlock;
@@ -60,9 +60,33 @@ async function updateParentFolder({
 
 	}
 	
+	var updatedTime = Math.floor(
+		Date.now() / 1000
+	);
+	var createdTime = updatedTime;
+
 	var nam = newChildName;
+	var cur = ob[nam];
+	if(cur) {
+		/**
+		 * each folder entry
+		 * is array of 3 elements:
+		 * first, the block ID.
+		 * second, creation time.
+		 * third, update time
+		 */
+		console.log("EXISTS already",cur)
+		createdTime = cur?.[1];
+
+	}
 	if(nam && nam != undefined)
-		ob[nam] = newChildId;
+		ob[nam] = [
+			newChildId,
+			createdTime,
+			updatedTime,
+			childTypeAndDeleteByte || 44
+		];
+		
 	else return;
 
 	var serialized = awtsmoosJSON.serializeJSON(ob);
@@ -76,7 +100,8 @@ async function updateParentFolder({
 		allBlockIDs: folderBlock
 			.allBlockIDs,
 		doNotDeleteChildren: true,
-		onlyDeleteChainBlocks: true 
+		onlyDeleteChainBlocks: true,
+		superBlock
 		/**
 			do NOT delete the primary 
 			block reference 
@@ -84,7 +109,7 @@ async function updateParentFolder({
 		*/
 	});
 
-	var superB = await getSuperBlock(filePath);
+	superBlock = del.superBlock;
 	
 
 	var write = await writeAtNextFreeBlock({
@@ -94,23 +119,26 @@ async function updateParentFolder({
 		data:serialized,
 		overwriteIndex: folderId/*current index*/,
 		parentFolderId: parentId,
-		doNotUpdateParent:0  
+		doNotUpdateParent:0,
+		superBlock,
+		parentFolderData:ob
 		/*don't want to get into 
 			recursive writing
 
 		*/
 	});
-    
+    superBlock = write.superBlock;
+
 	var data = await readBlock({
 		filePath,
 		index: write.index
 	});
 
-	var superB = await getSuperBlock(filePath);
+	
 	if(log)
 		console.log("\n\nRead back what just wrote?",folderName, 
 		await awtsmoosJSON.deserializeBinary(data.data),
-		write.index,"Folder ind",folderId,"free super",superB.nextFreeBlockId
+		write.index,"Folder ind",folderId,"free super",superBlock.nextFreeBlockId
 	)
 
 	return write;

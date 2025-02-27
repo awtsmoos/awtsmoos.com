@@ -5,13 +5,22 @@ var {
     writeBytesToFileAtOffset
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js")
 
+var log = false;
+
 module.exports = 
 
 async function clearNextFreeBlockId(filePath, blockIdByteSize) {
     var superblockFreeOffset = (
         4 + 2 + 1 + 1
     );
-    console.log("Writing superblock",filePath,blockIdByteSize,superblockFreeOffset)
+
+    if(log)
+        console.log(
+            "Writing superblock",
+            filePath,blockIdByteSize,
+            superblockFreeOffset
+        );
+        
     var wr = await writeBytesToFileAtOffset(
             filePath, 
             superblockFreeOffset, 

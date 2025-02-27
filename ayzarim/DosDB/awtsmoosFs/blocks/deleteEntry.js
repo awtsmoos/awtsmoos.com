@@ -30,7 +30,7 @@ async function deleteEntry({
     onlyDeleteChainBlocks = false,
     onlyDeleteChildrenNotSelf = false
 }={}) {
-    superBlock = //superBlock || 
+    superBlock = superBlock || 
     await getSuperBlock(filePath);
     blockSize = superBlock.blockSize;
     blockIdByteSize = superBlock.blockIdByteSize;
@@ -73,7 +73,8 @@ async function deleteEntry({
         }
     }
     if(onlyDeleteChildrenNotSelf) return {
-        deletedBlocks: deleted
+        deletedBlocks: deleted,
+        superBlock
     }
     allBlockIDs = allBlockIDs || (
         infoAboutDeletedEntry
@@ -91,7 +92,8 @@ async function deleteEntry({
     //	console.log("Not really deleting",index)
         return {
             deletedBlocks: null,
-            firstBlock
+            firstBlock,
+            superBlock
         }
     }
     if(log)
@@ -117,12 +119,12 @@ async function deleteEntry({
         await writeBytesToFileAtOffset(filePath, isDeletedOffset, [{
             uint_8: isDeletedAndTypeByte
         }]);
-        //if(log)
+        if(log)
             console.log(`Block ${blockIndex} marked as deleted.`);
     }
 
     // Update the free list.
-    superBlock = await getSuperBlock(filePath);
+  //  superBlock = await getSuperBlock(filePath);
     if (superBlock.nextFreeBlockId === 0) {
         /**
          * IF theres no next free block ID
@@ -167,11 +169,13 @@ async function deleteEntry({
             first (at the 0th place)) by
             block size and add it to this offset
          */
-        const lastBlockOffset = fsMetadataOffset + (lastBlockIndex - 1) * blockSize; /**
+        const lastBlockOffset = fsMetadataOffset + 
+            (lastBlockIndex - 1) * blockSize; /**
          * Offset of the beginning of the last
         block that was just deleted
          */
-        const nextBlockIdFieldOffset = lastBlockOffset + blockIdByteSize + 1; /**
+        const nextBlockIdFieldOffset = lastBlockOffset 
+            + blockIdByteSize + 1; /**
             schema of block metadata is
             {
             index: `uint_${blockIdByteSize * 8}`,
@@ -184,9 +188,12 @@ async function deleteEntry({
         };
         */
         
-        await writeBytesToFileAtOffset(filePath, nextBlockIdFieldOffset, [{
+        await writeBytesToFileAtOffset(
+            filePath, nextBlockIdFieldOffset, [{
             [`uint_${blockIdByteSize * 8}`]: currentFree
-        }]); /**
+        }]);
+        
+        /**
          * Write the current free block to the next
             block in the deleted chain
          */
@@ -215,13 +222,12 @@ async function deleteEntry({
         4 + 2 (uint_16 is 2 bytes) 
         + 1 + 1
          */
-        await writeBytesToFileAtOffset(filePath, nextFreeOffset, [{
+        await writeBytesToFileAtOffset(
+            filePath, nextFreeOffset, [{
             [`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
         }]);
-        var lastBlockInChainThatWasWritten = await readBlock({
-            filePath,
-            index: lastBlockIndex
-        })
+       
+        superBlock.nextFreeBlockId =  allBlockIDs[0]
         if(log)
             console.log(
                 `Deleted chain linked. 
@@ -233,13 +239,13 @@ async function deleteEntry({
                     currentFree
                 } to the block ${
                     lastBlockIndex
-                }. Last Block (which has link to previously
-                free block) infO:`,
-                lastBlockInChainThatWasWritten);
+                }. `,
+                );
     }
 
     return {
-        deletedBlocks: [...deleted,...allBlockIDs]
+        deletedBlocks: [...deleted,...allBlockIDs],
+        superBlock
     };
 }
 

@@ -14,11 +14,13 @@ var {
 } = require("../../../awtsmoosBinary/awtsmoosBinaryHelpers.js")
 module.exports = 
 
-async function getNextFreeBlock(
-    filePath
-) {
+async function getNextFreeBlock({
+    filePath,
+    superBlock
+}) {
     var blockIndex = null;
-    var superBlock = await getSuperBlock(filePath);
+    var superBlock = superBlock ||
+        await getSuperBlock(filePath);
 
     var blockIdByteSize =
         superBlock.blockIdByteSize;
@@ -42,9 +44,10 @@ async function getNextFreeBlock(
             
             onlyMetadata: "small"
         });
-        console.log("Getting next fre block",
-                blockIndex,
-        )
+        if(log)
+            console.log("Getting next fre block",
+                    blockIndex,
+            )
 
         
         var nextFreeBlockId = freeBlock?.metadata?.nextBlockId;
@@ -91,7 +94,7 @@ async function getNextFreeBlock(
             
             
             await clearNextFreeBlockId(filePath, blockIdByteSize);
-
+            superBlock.nextBlockId = 0;
             
         }
         
@@ -112,7 +115,12 @@ async function getNextFreeBlock(
                 [`uint_${blockIdByteSize * 8}`]: 
                 blockIndex
             }]);
+        superBlock.totalBlocks = blockIndex;
 
     }
-    return blockIndex;
+    return {
+        blockIndex,
+        superBlock
+
+    };
 }

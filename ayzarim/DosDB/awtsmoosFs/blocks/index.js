@@ -75,7 +75,7 @@ async function initializeFileSystem(filePath) {
 		fileExists = false;
 	}
 	if (fileExists) {
-	//	if(log)
+		if(log)
 			console.log("Filesystem already initialized.");
 		return filePath
 	}

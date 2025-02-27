@@ -119,7 +119,7 @@ async function readBlock({
 
 	var dataOffset = blockOffset + fixedMetadataSize;
 	let additionalMetadataSize = 0;
-	var extraMetadataSize = blockIdByteSize + 4 + 4;
+	var extraMetadataSize = blockIdByteSize
 
 	var isFirstBlock = false;
 	if (fixedMeta.type != "inChain") {
@@ -127,8 +127,7 @@ async function readBlock({
 		// This is the first (or only) block in the chain.
 		const extraSchema = {
 			parentBlockId: `uint_${blockIdByteSize * 8}`,
-			createdAt: "uint_32",
-			lastModified: "uint_32"
+		
 		};
 		const extraMeta = await readFileBytesAtOffset({
 			filePath,

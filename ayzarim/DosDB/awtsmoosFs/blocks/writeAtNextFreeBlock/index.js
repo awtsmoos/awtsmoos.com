@@ -194,6 +194,7 @@ async function writeAtNextFreeBlock({
 	data,
 	name,
 	parentFolderId=0,
+    parentFolderData,
 	folderName,
 	isInChain = false,
 	previousBlockId,
@@ -237,6 +238,7 @@ async function writeAtNextFreeBlock({
 		}`);
 
 
+        //console.log("Writing in folder",parentFolderId,name)
 		existingBlockIdOfThisSameEntry = name ? 
 		await existingEntryWithNameInParentFolder({
 			filePath,
@@ -292,6 +294,7 @@ async function writeAtNextFreeBlock({
 						need to get current data of SELF
 					*/
 					var selfBlockIndex = blockIndex;
+                    console.log("Reaidndg self",blockIndex)
 					var selfBlock = await readBlock({
 						filePath,
 						index: selfBlockIndex
@@ -312,7 +315,7 @@ async function writeAtNextFreeBlock({
 									onlyDeleteChainBlocks: true,  
 								//	doNotDeleteChildren: true
 								}); 
-                                superBlock = await getSuperBlock(filePath);
+                                superBlock = del.superBlock;
 								var newData = {...ex, ...ob}
 								data = awtsmoosJSON.serializeJSON(newData);
 							} 
@@ -321,11 +324,7 @@ async function writeAtNextFreeBlock({
 				}
 
 			} else if(type == "file"){
-                var curIDs = await readBlock({
-                    filePath,
-                    index:blockIndex,
-                    onlyIDs: true
-                })
+           //    console.log("Redoing self",parentFolderData)
               //  console.log("Getting IDs",curIDs)
 				var del = await deleteEntry({
 					filePath,
@@ -335,8 +334,8 @@ async function writeAtNextFreeBlock({
 					onlyDeleteChainBlocks: true,  
 				//	doNotDeleteChildren: true
 				}); 
-               // console.log(del,blockIndex)
-                superBlock = await getSuperBlock(filePath);
+         //       console.log(del,blockIndex)
+                superBlock = del.superBlock;
 			}
 	
 		} else {
@@ -361,14 +360,22 @@ async function writeAtNextFreeBlock({
 	// Determine the block index: either from the free list or by appending.
 	if(blockIndex === null) {
 
-        blockIndex = await getNextFreeBlock(filePath);
+        var freeBlockInfo = await getNextFreeBlock({
+            filePath,
+            superBlock
+        });
+        blockIndex = freeBlockInfo?.blockIndex;
+        superBlock = freeBlockInfo.superBlock;
+
+
         if(data?.length >= superBlock.blockSize) {
 
           //  blockIndex = await getNextFreeBlock(filePath);
         } else {
-            miniBlockInfo = await getNextMiniBlock(
+            miniBlockInfo = await getNextMiniBlock({
                 filePath,
-            )
+                superBlock
+            })
         }
 	}
 	if(!blockIndex) {
@@ -427,12 +434,7 @@ async function writeAtNextFreeBlock({
 			{
 				[`uint_${blockIdByteSize * 8}`]: parentFolderId
 			}, // parent block ID in the chain (initially 1).
-			{
-				uint_32: Math.floor(Date.now() / 1000)
-			}, // createdAt.
-			{
-				uint_32: Math.floor(Date.now() / 1000)
-			}, // lastModified.
+			
 			
 		];
 	} else {
@@ -525,8 +527,12 @@ async function writeAtNextFreeBlock({
 			folderName,
 			isInChain: true,
 			previousBlockId: blockIndex,
+            superBlock,
+            childTypeAndDeleteByte: 
+            deleteAndTypeByteInOne
             
 		});
+        superBlock = nextBlockResult.superBlock;
 		const nextBlockIndex = nextBlockResult.blockIndex;
 	
         
@@ -571,6 +577,7 @@ async function writeAtNextFreeBlock({
 			superBlock,
 			newChildId: blockIndex,
 			newChildName: name,
+            childTypeAndDeleteByte: deleteAndTypeByteInOne,
 			writeAtNextFreeBlock
 		});
 	}
@@ -583,6 +590,7 @@ async function writeAtNextFreeBlock({
 		metadataSize,
 		parentFolderId,
 		folderName,
-		name
+		name,
+        superBlock
 	};
 }

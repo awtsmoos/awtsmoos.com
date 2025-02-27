@@ -74,11 +74,18 @@ async function readFolder({
 
     
     
-    var parentFolderIDToReadFrom = await getCurrentFolder({
+    var parentInfo = await getCurrentFolder({
         filePath, path, name
     });
 
-    
+    var parentFolder = parentInfo?.parentFolder;
+
+    var parentFolderIDToReadFrom;
+    if(!Array.isArray(parentFolder)) {
+        console.log("READ FOLDEr corruption",parentFolder);
+        return null;
+    }
+    parentFolderIDToReadFrom = parentFolder[0]
     if(parentFolderIDToReadFrom) {
         
         var folderToRead = parentFolderIDToReadFrom;
@@ -99,12 +106,14 @@ async function readFolder({
             return null;
         }
         
-        if(parentFold[name]) {
+        var folderInfo = parentFold[name]
+        if(Array.isArray(folderInfo)) {
           
-            
+            var folderBlockId = folderInfo[0];
+
             var real = await readFolderData({
                 filePath,
-                blockId: parentFold[name]
+                blockId: folderBlockId
             })
             return real;
         } else {
@@ -147,37 +156,57 @@ async function getCurrentFolder({
     
     
 }) {
+    var totalFolderData = null;
     var curFolder = await readFolder({
         filePath,
         path: "/",
         withValues:true
     })
+    totalFolderData = curFolder;
     
     
-    var curParentFolder = 1;
+    var curParentFolder = [1, 0, 0, "LOL"];
     var i  = 0;
     
     for(var segment of path) {
         if(curFolder?.[segment]) {
             curParentFolder = curFolder[segment];
+            totalFolderData = curFolder;
+
             if(!curParentFolder) {
                 
                 
                 return null;
             }
+            var curParentFolderInfo = curParentFolder;
+            var curParentFolderBlockId = null;
+            if(Array.isArray(
+                curParentFolderInfo
+            )) {
+                curParentFolderBlockId = 
+                curParentFolderInfo[0]
+            } else {
+                console.log("FOLDER CORRUPTION");
+                return null;
+            }
             var subFolder = await readBlock({
                 filePath,
-                blockId: curParentFolder,
+                blockId: curParentFolderBlockId,
                 
             })
             
             var data = subFolder.data;
             if(await awtsmoosJSON.isAwtsmoosObject(data)) {
-                var j = await awtsmoosJSON.deserializeBinary(data);
+                var j = await 
+                    awtsmoosJSON.deserializeBinary(data);
                 curFolder = j;
+                totalFolderData = j;
             } else {
              
-                return curParentFolder;
+                return {
+                    parentFolder: curParentFolder,
+                    totalFolderData
+                };
                 throw Error("Not valid data "+segment)
                 return null;
                //  return curParentFolder;
@@ -197,7 +226,10 @@ async function getCurrentFolder({
     }
   
     
-    return curParentFolder;
+    return {
+        parentFolder: curParentFolder,
+        totalFolderData
+    };
 }
 
 // Recursively create a folder in the virtual file system.
@@ -246,12 +278,24 @@ async function makeFolder({
             blockID: parentFolderToWriteTo
         })*/
 
-            
+        var parentFolder = parentFolderToWriteTo?.parentFolder;
+        var parentFolderData = 
+            parentFolderToWriteTo.totalFolderData;
+        
         var parentFolderName = path?.[path.length-1] || "root";
+        var parentFolderId;
+        if(Array.isArray(parentFolder)) {
+            parentFolderId = 
+            parentFolder[0];
+        } else {
+            console.log("MAKE folder CORRUPTION");
+            return null;
+        }
         var wr = await writeAtNextFreeBlock({
             filePath,
-            parentFolderId: parentFolderToWriteTo,
+            parentFolderId,
             folderName: parentFolderName,
+            parentFolderData,
             name
         });
         
@@ -344,7 +388,14 @@ async function deleteFolder({
     
     // For every child—every fragile memory and digital echo—we invoke the recursive ritual.
     for (const child in folderContents) {
-        const childBlockID = folderContents[child];
+        var childInfo = folderContents[child];
+        var childBlockID;
+        if(Array.isArray(childInfo)) {
+            childBlockID = childInfo[0];
+        } else {
+            console.log("FOLDER delete corruption");
+            return null;
+        }
         
         // Read the metadata, the lifeblood that reveals whether the child is a folder of hidden realms or a mere file.
         const childBlock = await readBlock({
@@ -401,9 +452,19 @@ async function makeFile({
     }
 
     //console.log("MayKing",path,name)
-    var parentId = await getCurrentFolder({
+    var parentInfo = await getCurrentFolder({
         filePath, path
     });
+
+    var parentFolder = parentInfo?.parentFolder;
+
+    if(!Array.isArray(parentFolder)) {
+        console.log("READ FILE corruption");
+        return null;
+    }
+    var parentFolderData = parentInfo.totalFolderData;
+
+    var parentId = parentFolder[0];
     
     
 
@@ -416,11 +477,7 @@ async function makeFile({
         )
     }
     
-    var isCur = await readFolder({
-        filePath,
-        path: path.join("/"),
-        withValues: true
-    });
+   
     
  
     
@@ -440,6 +497,7 @@ async function makeFile({
         filePath,
         parentFolderId: parentId,
         folderName: parentFolderName,
+        parentFolderData,
         name,
         data,
         type: "file"
@@ -479,7 +537,14 @@ async function readFile({
     )
     ) return null;
     console.log("Read folder",folder)
-    let fileBlockId = folder[name];
+    let fileInfo = folder[name];
+    var fileBlockId;
+    if(Array.isArray(fileInfo)) {
+        fileBlockId = fileInfo[0];
+    } else {
+        console.log("CORUPTION",path,name);
+        return null;
+    }
     let block = await readBlock({
         filePath,
         blockId: fileBlockId,
@@ -518,7 +583,14 @@ async function deleteFile({
             folder
     )
     ) return null;
-    let fileBlockId = folder[name];
+    var fileInfo =  folder[name];
+    var fileBlockId;
+    if(Array.isArray(fileInfo)) {
+        fileBlockId = fileInfo[0]
+    } else {
+        console.log("DELETE file CORRUPTION");
+        return null;
+    }
     const childBlockFull = await readBlock({
         filePath,
         blockId: fileBlockId,
@@ -571,7 +643,34 @@ async function stat({
             folder
         )
     ) throw Error ("Not found file");
-    let entryBlockId = folder[name];
+    var entryInfo = folder[name];
+    var entryBlockId;
+    if(Array.isArray(entryInfo)) {
+        var typeByte = entryInfo[3];
+        var typeTable = {
+            0b01: "folder",
+            0b10: "file"
+        }
+        var type = typeTable[(
+            typeByte ||
+            0b000000110
+        ) >> 1] || {
+            typeByte
+        };
+
+        return {
+            blockId: entryInfo[0],
+            createdAt: entryInfo[1],
+            updatedAt: entryInfo[2],
+            type,
+            isDirectory() {
+                return type == "folder"
+            }
+        }
+    } else {
+        console.log("STAT corruption")
+        return null;
+    }
     var entryMeta = await readBlock({
         filePath,
         blockId: entryBlockId,

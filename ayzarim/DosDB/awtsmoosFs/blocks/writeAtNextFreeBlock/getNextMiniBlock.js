@@ -1,4 +1,9 @@
 //B"H
+var getSuperBlock = 
+    require("../getSuperBlock.js");
+
+var getNextFreeBlock = 
+    require("./getNextFreeBlock.js");
 
 module.exports = 
 /*
@@ -36,6 +41,42 @@ module.exports =
 
     
 */
-async function getNextMiniBlock(filePath) {
+async function getNextMiniBlock({
+    filePath,
+    superBlock
+}) {
+    superBlock = superBlock || 
+        await getSuperBlock(filePath);
+    
+    var nextFreeMiniBlock = superBlock
+        .nextFreeMiniBlock;
+    if(!nextFreeMiniBlock) {
+        var nextFreeBlockInfo = await getNextFreeBlock({
+            filePath,
+            superBlock
+        });
+        superBlock = nextFreeBlockInfo.superBlock;
+        
+        var nextFreeBlockId = nextFreeBlockInfo
+            .blockIndex;
+        /*
+            we allocate 
+            new blockHolder to the 
+            next free block, and write 
+            the blockHolder headers to it
+        */
+        await writeBlockHolderHeaders({
+            filePath,
+            superBlock,
+            blockIndex: nextFreeBlockId
+        })
+    }
+}
 
+async function writeBlockHolderHeaders({
+    filePath,
+    superBlock,
+    blockIndex
+}) {
+    
 }
