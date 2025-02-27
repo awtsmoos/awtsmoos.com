@@ -201,7 +201,9 @@ async function writeAtNextFreeBlock({
 	type="folder",
 	superBlock = null,
 	overwriteIndex = null,
-	doNotUpdateParent = false
+	doNotUpdateParent = false,
+
+    isFromUpdate = false
 }) {
 
 	/**
@@ -272,6 +274,11 @@ async function writeAtNextFreeBlock({
 				} just deleted: `)
 
 			if(type == "folder") {
+               /* if(isFromUpdate) {
+                    return {
+                        blockIndex
+                    }
+                }*/
 				var ob = {};
 
 				var is = Buffer.isBuffer(data) ? 
@@ -294,7 +301,7 @@ async function writeAtNextFreeBlock({
 						need to get current data of SELF
 					*/
 					var selfBlockIndex = blockIndex;
-                    console.log("Reaidndg self",blockIndex)
+                //    console.log("Reaidndg self",blockIndex)
 					var selfBlock = await readBlock({
 						filePath,
 						index: selfBlockIndex
@@ -562,9 +569,11 @@ async function writeAtNextFreeBlock({
 
 	// Optionally, update the parent's metadata if not root
 	
+   
 	if (
-        !alreadyExistsInParent &&
-		!existingBlockIdOfThisSameEntry &&
+        !isFromUpdate &&
+      //  !alreadyExistsInParent &&
+	//	!existingBlockIdOfThisSameEntry &&
 		!doNotUpdateParent &&
 		!isInChain && 
 		blockIndex !== 1 && 

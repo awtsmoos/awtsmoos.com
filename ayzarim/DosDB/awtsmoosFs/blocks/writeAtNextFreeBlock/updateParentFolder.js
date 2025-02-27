@@ -75,7 +75,7 @@ async function updateParentFolder({
 		 * second, creation time.
 		 * third, update time
 		 */
-		console.log("EXISTS already",cur)
+	//	console.log("EXISTS already",cur)
 		createdTime = cur?.[1];
 
 	}
@@ -121,7 +121,9 @@ async function updateParentFolder({
 		parentFolderId: parentId,
 		doNotUpdateParent:0,
 		superBlock,
-		parentFolderData:ob
+		parentFolderData:ob,
+
+		isFromUpdate: true //dont keep updating infinitely
 		/*don't want to get into 
 			recursive writing
 

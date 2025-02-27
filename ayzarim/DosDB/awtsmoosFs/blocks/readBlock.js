@@ -6,6 +6,9 @@ var {
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
 var getSuperBlock = require("./getSuperBlock.js");
+
+var log = false;
+
 module.exports = 
 /**
  * readBlock:
