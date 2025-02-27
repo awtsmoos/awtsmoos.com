@@ -40,7 +40,7 @@ async function readBlockHolder({
             + blockIdByteSize * 8,
 
             typeInfo: "uint_8",
-            
+
             reserved: "uint_"
             + blockIdByteSize * 8,
 
@@ -51,6 +51,9 @@ async function readBlockHolder({
         }
     });
 
-    return block;
+    return {
+        block,
+        superBlock
+    };
 
 }

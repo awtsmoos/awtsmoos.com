@@ -69,7 +69,8 @@ async function existingEntryWithNameInParentFolder({
                 }
                 return {
                     existingData: ob,
-                    blockIndex
+                    blockIndex,
+                    superBlock
                 };
             } else {
              //   console.log("Does NOT exist!",name,ob,off,parentFolderId)

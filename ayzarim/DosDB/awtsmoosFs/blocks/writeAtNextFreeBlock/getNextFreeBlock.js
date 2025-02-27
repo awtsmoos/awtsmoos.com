@@ -19,7 +19,7 @@ async function getNextFreeBlock({
     superBlock
 }) {
     var blockIndex = null;
-    var superBlock = superBlock ||
+    superBlock = superBlock ||
         await getSuperBlock(filePath);
 
     var blockIdByteSize =
@@ -93,8 +93,11 @@ async function getNextFreeBlock({
         } else {
             
             
-            await clearNextFreeBlockId(filePath, blockIdByteSize);
-            superBlock.nextBlockId = 0;
+            await clearNextFreeBlockId(
+                filePath, 
+                blockIdByteSize
+            );
+            superBlock.nextFreeBlockId = 0;
             
         }
         

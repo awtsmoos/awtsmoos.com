@@ -12,6 +12,10 @@ var readBlockHolder =
 var writeBlockHolderHeaders =
     require("./writeBlockHolderHeaders.js");
 
+var {
+    writeBytesToFileAtOffset,
+} = require("../../../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
+    
 module.exports = 
 /*
     If an entry to write is less
@@ -54,7 +58,8 @@ async function getNextMiniBlock({
 }) {
     superBlock = superBlock || 
         await getSuperBlock(filePath);
-    
+        
+    var blockIdByteSize = superBlock.blockIdByteSize;
     var nextFreeMiniBlockHolderId = superBlock
         .nextFreeMiniBlockHolderId;
     var blockIndex = 0;
@@ -68,6 +73,7 @@ async function getNextMiniBlock({
         
         var nextFreeBlockId = nextFreeBlockInfo
             .blockIndex;
+        console.log("Got next block",nextFreeBlockId)
         /*
             we allocate 
             new blockHolder to the 
@@ -82,19 +88,59 @@ async function getNextMiniBlock({
         superBlock = wrote.superBlock;
         blockIndex = wrote.blockIndex;
 
+        
+
     } else {
         blockIndex = nextFreeMiniBlockHolderId;
     }
-
+    
     var blockHolder = await readBlockHolder({
         filePath,
         superBlock,
         blockIndex
     });
+    superBlock = blockHolder.superBlock;
 
+
+    var nextMiniBlockId = blockHolder
+        .block
+        .nextFreeMiniBlockIndex;
+    if(nextMiniBlockId != 0) {
+        /*
+            we have at least one
+            new free block,
+            so we write it to the
+            superBlock as this entire
+            holder as being available
+        */
+
+            var superblockMiniBlockHolderOffset = 
+                4/*magic*/ +
+                2/*block size*/ +
+                1/*first block offset*/ + 
+                1/*byte ID block size*/ +
+                blockIdByteSize * 1 /*
+                    only skipping nextFreeBlock
+                */;
+
+            var wr = await writeBytesToFileAtOffset(
+                filePath,
+                superblockMiniBlockHolderOffset,
+                [
+                    {[`uint_${
+                        blockIdByteSize * 8
+                    }`]: blockIndex}
+                ]
+            );
+            superBlock.nextFreeMiniBlockHolderId
+             = blockIndex;
+    }
+   // superBlock = await getSuperBlock(filePath)
+    blockHolder.superBlock = superBlock;
     return {
-        nextMiniBlockId: blockHolder.nextFreeMiniBlockIndex,
+       
         blockHolder,
+        
      //   blockHolderData: blockHolder.data,
      //   blockHolderIndex: blockIndex
     }

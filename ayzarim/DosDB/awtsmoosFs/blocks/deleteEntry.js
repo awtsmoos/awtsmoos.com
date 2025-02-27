@@ -30,10 +30,13 @@ async function deleteEntry({
     onlyDeleteChainBlocks = false,
     onlyDeleteChildrenNotSelf = false
 }={}) {
+
     superBlock = superBlock || 
     await getSuperBlock(filePath);
+
     blockSize = superBlock.blockSize;
     blockIdByteSize = superBlock.blockIdByteSize;
+
     var infoAboutDeletedEntry = await readBlock({
         filePath,
         index,
@@ -124,7 +127,7 @@ async function deleteEntry({
     }
 
     // Update the free list.
-  //  superBlock = await getSuperBlock(filePath);
+    superBlock = await getSuperBlock(filePath);
     if (superBlock.nextFreeBlockId === 0) {
         /**
          * IF theres no next free block ID

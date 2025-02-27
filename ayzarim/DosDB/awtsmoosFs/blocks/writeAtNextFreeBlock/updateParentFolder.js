@@ -22,6 +22,8 @@ async function updateParentFolder({
 
 	writeAtNextFreeBlock
 } = {}) {
+	superBlock = superBlock ||
+	await getSuperBlock(filePath);
 
 	var folderBlock = await readBlock({
 		filePath,
@@ -33,7 +35,7 @@ async function updateParentFolder({
 
 		return null;
 	}
-	
+
 	/*var parentId  = folderId == 1 ? 0 : 
 		folderBlock?.metadata?.parentBlockId
 	
@@ -134,8 +136,10 @@ async function updateParentFolder({
 
 	var data = await readBlock({
 		filePath,
-		index: write.index
+		index: write.index,
+		superBlock
 	});
+	superBlock = data.superBlock
 
 	
 	if(log)
@@ -144,6 +148,9 @@ async function updateParentFolder({
 		write.index,"Folder ind",folderId,"free super",superBlock.nextFreeBlockId
 	)
 
-	return write;
+	return {
+		write,
+		superBlock
+	}
 
 }

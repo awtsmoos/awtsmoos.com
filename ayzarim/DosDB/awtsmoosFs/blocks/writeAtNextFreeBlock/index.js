@@ -250,6 +250,8 @@ async function writeAtNextFreeBlock({
 			superBlock
 		}) : null;
 		if(existingBlockIdOfThisSameEntry) {
+            superBlock = existingBlockIdOfThisSameEntry
+                .superBlock
             alreadyExistsInParent = true;
 		//	if(log)
 				
@@ -305,8 +307,10 @@ async function writeAtNextFreeBlock({
                 //    console.log("Reaidndg self",blockIndex)
 					var selfBlock = await readBlock({
 						filePath,
-						index: selfBlockIndex
-					})
+						index: selfBlockIndex,
+                        superblockInfo: superBlock
+					});
+                    superBlock = selfBlock.superBlock
 					var oldData = selfBlock?.data
 					
 					if(oldData) {
@@ -372,9 +376,11 @@ async function writeAtNextFreeBlock({
             filePath,
             superBlock
         });
+
+        var real = await getSuperBlock(filePath);
         blockIndex = freeBlockInfo?.blockIndex;
         superBlock = freeBlockInfo.superBlock;
-
+        
 
         if(data?.length >= superBlock.blockSize) {
 
@@ -384,6 +390,7 @@ async function writeAtNextFreeBlock({
                 filePath,
                 superBlock
             });
+            superBlock = miniBlockInfo.superBlock;
             console.log("Mini",miniBlockInfo)
         }
 	}
@@ -558,7 +565,7 @@ async function writeAtNextFreeBlock({
 		blockIndex !== 1 && 
 		parentFolderId !==0
 	) {
-		await updateParentFolder({
+		var upt = await updateParentFolder({
 			filePath, 
 			folderId: parentFolderId, 
 			folderName,
@@ -568,6 +575,7 @@ async function writeAtNextFreeBlock({
             childTypeAndDeleteByte: deleteAndTypeByteInOne,
 			writeAtNextFreeBlock
 		});
+        superBlock = upt.superBlock;
 	}
 	
 

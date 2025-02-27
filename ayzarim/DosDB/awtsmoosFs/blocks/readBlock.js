@@ -38,12 +38,16 @@ async function readBlock({
 	blockIdByteSize,
 	onlyMetadata = false,
 	onlyIDs = false,
-	superblockInfo = null
+	superblockInfo = null,
+	superBlock
 }) {
 	var startTime = performance.now()
 	if (!superblockInfo) {
-		superblockInfo = await getSuperBlock(filePath);
+		superblockInfo = superBlock ||
+		await getSuperBlock(filePath);
 	}
+	superBlock = superblockInfo;
+
 	index = index || blockId;
 	if(!index) return log ?
 		console.trace("Couldn't read index", index, blockId) : null;
@@ -105,7 +109,7 @@ async function readBlock({
 		return {
 			metadata: fixedMeta,
 			blockId,
-			superblockInfo
+			superBlock
 		}
 	}
 	let metadata = {
@@ -132,7 +136,7 @@ async function readBlock({
 	if(onlyMetadata === true) {
 		return {
 			metadata,
-			superblockInfo,
+			superBlock,
 			blockId
 		}
 	}
@@ -155,7 +159,7 @@ async function readBlock({
 			blockIdByteSize,
 			onlyMetadata: true,
 			onlyIDs: true,
-			superblockInfo
+			superBlock
 		});
 		nextId = nextBlock?.metadata?.nextBlockId;
 
@@ -170,7 +174,8 @@ async function readBlock({
 		return {
 			metadata,
 			blockID: index,
-			allBlockIDs
+			allBlockIDs,
+			superBlock
 		};
 	}
 	if(allBlockIDs.length)
@@ -225,7 +230,8 @@ async function readBlock({
 		data: totalData,
 		blockId: index,
 		allBlockIDs,
-		superblockInfo,
+		
+		superBlock:superblockInfo
 		/*timeStamps,
 		timeToGetOwnData,
 		timesItTookToGetIDsOnly,

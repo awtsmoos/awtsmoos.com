@@ -44,6 +44,11 @@ async function writeBlockHolderHeaders({
 		deleteAndTypeByteInOne |
 		(typebit << 1)
 	);
+    console.log("Writing index",blockIndex)
+    var headerSize = blockIdByteSize * 2 + 2;
+    var blockSize = superBlock.blockSize;
+    var dataSize = blockSize - headerSize;
+    var emptyData = Buffer.alloc(dataSize);
 
     var wr = await writeBytesToFileAtOffset(
         filePath,
@@ -51,12 +56,16 @@ async function writeBlockHolderHeaders({
         [
             {[`uint_${
                 blockIdByteSize * 8
-            }`]: blockIndex},
+            }`]: blockIndex },
             {uint_8: deleteAndTypeByteInOne},
             {[`uint_${
                 blockIdByteSize * 8
             }`]: 0},//reserved
-            {uint_8: 0}, //nextFreeMiniBlock
+            {uint_8: 1}, //nextFreeMiniBlock
+            //starts at 1; 0 means no more free miniBlocks
+            {[`buffer_${
+                emptyData.length
+            }`]: emptyData}
         ]
     );
 
