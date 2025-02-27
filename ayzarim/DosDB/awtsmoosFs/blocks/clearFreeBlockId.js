@@ -13,7 +13,8 @@ async function clearNextFreeBlockId(filePath) {
     );
     
     var wr = await writeBytesToFileAtOffset(
-            filePath, superblockFreeOffset, 
+            filePath, 
+            superblockFreeOffset, 
             [
             {[`uint_${
                 blockIdByteSize * 8

@@ -1,7 +1,10 @@
 //B"H
 var {
-    getFileHandle
+    getFileHandle,
+	readFileBytesAtOffset
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
+
+
 module.exports = 
 
 /**
@@ -18,8 +21,50 @@ module.exports =
  * 			hold miniblocks.
  */
 async function getSuperBlock(filePath) {
-	// Read the fixed portion: 4 + 2 + 1 + 1 = 8 bytes.
 	const fixedSize = 8;
+	// Read the fixed portion: 4 + 2 + 1 + 1 = 8 bytes.
+	
+
+	var read = await readFileBytesAtOffset({
+		filePath,
+		offset: 0,
+		schema: {
+			magic: "string_4",
+			blockSize: "uint_16",
+			firstBlockOffset: "uint_8",
+			blockIdByteSize: "uint_8"
+		}
+	})
+	var {
+		blockIdByteSize
+	} = read;
+
+	//console.log("READ it",filePath,read,blockIdByteSize,fixedSize)
+	var readMore = await readFileBytesAtOffset({
+		filePath, 
+		offset: fixedSize,
+		schema: {
+			nextFreeBlockId: "uint_" 
+				+ blockIdByteSize * 8,
+
+			nextFreeBlockHolderId: "uint_" 
+				+ blockIdByteSize * 8,
+
+			totalBlocks: "uint_" 
+				+ blockIdByteSize * 8,
+	
+		
+		}
+	});
+	var ob = {
+		...read,
+		...readMore
+	};
+	//console.log("red",ob)
+	return {
+		...read,
+		...readMore
+	};
 	const handle = await getFileHandle(filePath);
 	const fixedBuffer = Buffer.alloc(fixedSize);
 	await handle.read(fixedBuffer, 0, fixedSize, 0);

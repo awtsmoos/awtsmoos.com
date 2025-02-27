@@ -92,7 +92,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
        
         let fileData = await os.readFile({ file: s, path: f.path });
         let expectedData = f.data;
-        console.log("found",fileData)
+       // console.log("found",fileData+"")
         // console.log(`Checking ${f.path}...`, fileData === expectedData ? "PASS" : "FAIL");
     }
 

@@ -220,7 +220,8 @@ async function writeAtNextFreeBlock({
 	var lookForNewBlockIndex = true;
 
 	let blockIndex = null;
-	var existingBlockIdOfThisSameEntry = null
+	var existingBlockIdOfThisSameEntry = null;
+    var alreadyExistsInParent = false;
 	if(
 		!isInChain && 
 		name && 
@@ -244,6 +245,7 @@ async function writeAtNextFreeBlock({
 			superBlock
 		}) : null;
 		if(existingBlockIdOfThisSameEntry) {
+            alreadyExistsInParent = true;
 		//	if(log)
 				
 			/**
@@ -348,8 +350,11 @@ async function writeAtNextFreeBlock({
 	
 
 	var miniBlockIndex = null;
+    var miniBlockInfo
 	// Determine the block index: either from the free list or by appending.
 	if(blockIndex === null) {
+
+        blockIndex = await getNextFreeBlock(filePath);
         if(data?.length >= superBlock.blockSize) {
 
             blockIndex = await getNextFreeBlock(filePath);
@@ -434,13 +439,26 @@ async function writeAtNextFreeBlock({
 		];
 	}
 	
-	
-	if(log)
-		console.log("Writing",blockIndex,
+	var parst= null;
+    if(type=="folder" && data) {
+        parst = 
+        await awtsmoosJSON.isAwtsmoosObject(data) ?
+            await awtsmoosJSON.deserializeBinary(data)
+        : data+''
+    }
+	//if(log)
+		console.log("Writing",name,
+            folderName,
+            "isInChain",
+            isInChain,
+            blockIndex,
 		"meta inst\n", metadataInstructions,
-		"superblock updated",superBlock,
+		"superblock updated",superBlock
+            .nextFreeBlockId,
+            type,
+            parst
 
-		lookForNewBlockIndex
+            
 	)
 
 	// Calculate metadata size.
@@ -461,10 +479,10 @@ async function writeAtNextFreeBlock({
 		currentData = data.subarray(0, availableDataSpace);
 		remainingData = data.subarray(availableDataSpace);
 	} else if(data.length < smallBlockSize) {
-		metadataInstructions[1] = {
+	/*	metadataInstructions[1] = {
 			uint_8: 0 |
 				typeToBits["blockHolder"] << 1
-		}
+		}*/
 		currentData = Buffer.alloc(availableDataSpace);
 		data.copy(currentData);
 	} else {
@@ -513,6 +531,7 @@ async function writeAtNextFreeBlock({
 	// Optionally, update the parent's metadata if not root
 	
 	if (
+        !alreadyExistsInParent &&
 		!existingBlockIdOfThisSameEntry &&
 		!doNotUpdateParent &&
 		!isInChain && 

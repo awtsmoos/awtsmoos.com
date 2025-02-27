@@ -134,7 +134,7 @@ class AwtsmoosFS {
             options = path?.options || {};
         }
         var data = await os.readFile({ filePath: this.handle, path });
-        console.log("Reading",data,path);
+        //console.log("Reading",data,path);
         if(!data) return data;
         return options?.encoding ? data.toString(options.encoding) : Buffer.from(data);
     }

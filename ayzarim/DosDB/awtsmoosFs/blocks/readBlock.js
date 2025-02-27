@@ -47,8 +47,10 @@ async function readBlock({
 
 
 	blockSize = blockSize || superblockInfo.blockSize;
-	blockIdByteSize = blockIdByteSize || superblockInfo.blockIdByteSize;
-	const fsMetadataOffset = superblockInfo.firstBlockOffset;
+	blockIdByteSize = blockIdByteSize || 
+		superblockInfo.blockIdByteSize;
+	const fsMetadataOffset = superblockInfo
+		.firstBlockOffset;
 	const blockOffset = fsMetadataOffset + (index - 1) * blockSize;
 
 	// Fixed metadata: index, isDeleted, nextBlockId, lastBlockId.
@@ -228,7 +230,8 @@ async function readBlock({
 	allBlockIDs = [
 		index,
 		...allBlockIDs
-	]
+	];
+	//console.log("ids",allBlockIDs, allBlockList)
 	
 	 
 	return {
@@ -271,7 +274,8 @@ async function getAllBlocksFromExtentsArray({
 			var ext = await getExtentOfBlockIDs({
 				filePath,
 				start: extent[0],
-				end: extent[1]
+				end: extent[1],
+				superBlock
 			})
 			ext.copy(allBlocks, offset);
 			var numberInclusive = 
@@ -325,7 +329,8 @@ async function getExtentOfBlockIDs({
 	end,
 	superblockInfo
 }) {
-	var superBlock = superblockInfo || await getSuperBlock(filePath);
+	var superBlock = superblockInfo ||
+		await getSuperBlock(filePath);
 	var blockSize = superBlock.blockSize;
 	var blockIdByteSize = superBlock.blockIdByteSize;
 
@@ -356,7 +361,7 @@ async function getExtentOfBlockIDs({
 
 	var numberOfBlocks = end - start + 1;
 
-	console.log("Getting",numberOfBlocks,blockRequest)
+	//console.log("Getting",numberOfBlocks,blockRequest)
 	for(var i = 0; i < numberOfBlocks; i++) {
 		var blockOffset = i * blockSize;
 

@@ -98,10 +98,17 @@ async function getNextFreeBlock(
     
         
         // Update totalBlocks in the superBlock.
-        const totalBlocksOffset = 8 + blockIdByteSize; // After fixed fields and nextFreeBlockId.
-        await writeBytesToFileAtOffset(filePath, totalBlocksOffset, [{
-            [`uint_${blockIdByteSize * 8}`]: blockIndex
-        }]);
+        const totalBlocksOffset = 8 + 
+        blockIdByteSize * 2; // After fixed fields 
+        // and nextFreeBlockId and
+        //nextFreeBlockHolderId
+        await writeBytesToFileAtOffset(
+            filePath, 
+            totalBlocksOffset, 
+            [{
+                [`uint_${blockIdByteSize * 8}`]: 
+                blockIndex
+            }]);
 
     }
     return blockIndex;

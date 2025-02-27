@@ -27,7 +27,8 @@ var {
 } = require("../../awtsmoosBinary/awtsmoosBinaryHelpers.js");
 
 var writeAtNextFreeBlock = require("./writeAtNextFreeBlock/index.js");
-console.log("a",writeAtNextFreeBlock)
+
+
 var awtsmoosJSON = require(
 	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
 );
@@ -80,7 +81,9 @@ async function initializeFileSystem(filePath) {
 	}
 	// Calculate superBlock size.
 	const fixedSize = 4 + 2 + 1 + 1; // 8 bytes.
-	const variableSize = blockIdByteSize * 2; // nextFreeBlockId and totalBlocks.
+	const variableSize = blockIdByteSize 
+			* 3; // nextFreeBlockId
+	//  , totalBlocks and nextFreeBlockHolderId.
 	const superblockSize = fixedSize + variableSize;
 	const firstBlockOffset = superblockSize;
 
@@ -90,10 +93,10 @@ async function initializeFileSystem(filePath) {
 		},
 		{
 			uint_16: DEFAULT_BLOCK_SIZE
-		},
+		}, //blockSize
 		{
 			uint_8: firstBlockOffset
-		},
+		},//first block offset in file
 		{
 			uint_8: blockIdByteSize
 		},
@@ -102,7 +105,11 @@ async function initializeFileSystem(filePath) {
 		}, // nextFreeBlockId.
 		{
 			[`uint_${blockIdByteSize * 8}`]: 0
+		}, // next free block holder index
+		{
+			[`uint_${blockIdByteSize * 8}`]: 0
 		} // totalBlocks.
+		
 	];
 	await writeBytesToFileAtOffset(filePath, 0, superblockData);
 	if(log)

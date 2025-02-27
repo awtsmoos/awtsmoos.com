@@ -411,7 +411,17 @@ async function readFileBytesAtOffset({
         console.trace("WHAT",filePath.substring(0,5));
         return null;
     }
-    await handle.read(buffer, 0, totalLength, offset);
+
+   // console.log(buffer,totalLength)
+
+
+    await handle.read
+    (
+        buffer, 
+        0, 
+        totalLength, 
+        offset
+    );
 
     const result = {};
     let currentOffset = 0;
