@@ -33,7 +33,7 @@ const FILESYSTEM_PATH =
             var ser;
             if(await bin.isAwtsmoosObject(data))
                 ser = await bin.deserializeBinary(data);
-            else ser = data+"";
+            else ser = (data+"").substring(0,7)+"..";
             console.log("File content:", fileData, ser);
         } else if (command === "read") {
             let fileData = await os.readFile({ filePath: fs, path: targetPath });

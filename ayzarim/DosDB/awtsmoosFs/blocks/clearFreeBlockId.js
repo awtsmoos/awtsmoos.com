@@ -7,11 +7,11 @@ var {
 
 module.exports = 
 
-async function clearNextFreeBlockId(filePath) {
+async function clearNextFreeBlockId(filePath, blockIdByteSize) {
     var superblockFreeOffset = (
         4 + 2 + 1 + 1
     );
-    
+    console.log("Writing superblock",filePath,blockIdByteSize,superblockFreeOffset)
     var wr = await writeBytesToFileAtOffset(
             filePath, 
             superblockFreeOffset, 

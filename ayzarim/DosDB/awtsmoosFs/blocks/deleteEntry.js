@@ -39,7 +39,7 @@ async function deleteEntry({
         index,
         blockSize,
         blockIdByteSize,
-        //onlyIDs: true
+        onlyIDs: true
     });
 
     var deleted = []
@@ -117,7 +117,7 @@ async function deleteEntry({
         await writeBytesToFileAtOffset(filePath, isDeletedOffset, [{
             uint_8: isDeletedAndTypeByte
         }]);
-        if(log)
+        //if(log)
             console.log(`Block ${blockIndex} marked as deleted.`);
     }
 

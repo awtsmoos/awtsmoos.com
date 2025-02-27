@@ -75,7 +75,7 @@ async function initializeFileSystem(filePath) {
 		fileExists = false;
 	}
 	if (fileExists) {
-		if(log)
+	//	if(log)
 			console.log("Filesystem already initialized.");
 		return filePath
 	}
@@ -115,6 +115,7 @@ async function initializeFileSystem(filePath) {
 	if(log)
 		console.log("Superblock initialized.");
 
+	
 	// Create the root folder (index 1) with parentFolderId = 0 and name "root".
 	await writeAtNextFreeBlock({
 		filePath,

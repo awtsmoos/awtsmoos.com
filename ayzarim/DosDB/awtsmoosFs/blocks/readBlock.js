@@ -78,16 +78,18 @@ async function readBlock({
 		schema: fixedSchema
 	});
 	var bitsToType = {
-		0b00: "folder",
-		0b01: "file",
-		0b10: "blockHolder"
+		0b00: "inChain",
+		0b01: "folder",
+		0b10: "file",
+		0b11: "blockHolder",
+		
 	}
 	fixedMeta.type = bitsToType[
 		((
-			fixedMeta.isDeletedAndType & (
+			(fixedMeta.isDeletedAndType & (
 				0b00000110
-			)
-		) >> 1) || 0
+			)) >> 1
+		)) || 0
 	] 
 
 	fixedMeta.isDeleted = 
@@ -120,7 +122,7 @@ async function readBlock({
 	var extraMetadataSize = blockIdByteSize + 4 + 4;
 
 	var isFirstBlock = false;
-	if (fixedMeta.lastBlockId === 0) {
+	if (fixedMeta.type != "inChain") {
 		isFirstBlock = true;
 		// This is the first (or only) block in the chain.
 		const extraSchema = {
@@ -188,7 +190,8 @@ async function readBlock({
 			allBlockIDs
 		};
 	}
-
+	if(allBlockIDs.length)
+	console.log("sub IDs gotten",allBlockIDs,index)
 
 	var timeToGetOwnData;
 	if(isFirstBlock) {

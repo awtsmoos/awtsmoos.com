@@ -321,6 +321,12 @@ async function writeAtNextFreeBlock({
 				}
 
 			} else if(type == "file"){
+                var curIDs = await readBlock({
+                    filePath,
+                    index:blockIndex,
+                    onlyIDs: true
+                })
+              //  console.log("Getting IDs",curIDs)
 				var del = await deleteEntry({
 					filePath,
 					index: blockIndex,
@@ -329,6 +335,7 @@ async function writeAtNextFreeBlock({
 					onlyDeleteChainBlocks: true,  
 				//	doNotDeleteChildren: true
 				}); 
+               // console.log(del,blockIndex)
                 superBlock = await getSuperBlock(filePath);
 			}
 	
@@ -357,7 +364,7 @@ async function writeAtNextFreeBlock({
         blockIndex = await getNextFreeBlock(filePath);
         if(data?.length >= superBlock.blockSize) {
 
-            blockIndex = await getNextFreeBlock(filePath);
+          //  blockIndex = await getNextFreeBlock(filePath);
         } else {
             miniBlockInfo = await getNextMiniBlock(
                 filePath,
@@ -377,15 +384,22 @@ async function writeAtNextFreeBlock({
 	let metadataInstructions = [];
 	var deleteAndTypeByteInOne = 0b00000000;
 	var typeToBits = {
-		file: 0b01,
-		folder: 0b00,
-		blockHolder: 0b10
+        inChain: 0b00,
+		folder: 0b01,
+		file: 0b10,
+		blockHolder: 0b11
 	}
+
+    if(isInChain) {
+        type = "inChain"
+    }
 	var typebit = typeToBits[type] || 0;
 	deleteAndTypeByteInOne = (
 		deleteAndTypeByteInOne |
-		typebit << 1
-	); /**
+		(typebit << 1)
+	);
+  //  console.log("Writing type",type,name,typebit,deleteAndTypeByteInOne)
+    /**
 	move over the type bits by 1 to leave
 	the  SB as 0 (which is isDeleted) 
 	and the next 2 LSBs as the type*/
@@ -446,7 +460,7 @@ async function writeAtNextFreeBlock({
             await awtsmoosJSON.deserializeBinary(data)
         : data+''
     }
-	//if(log)
+	if(log)
 		console.log("Writing",name,
             folderName,
             "isInChain",
@@ -493,19 +507,13 @@ async function writeAtNextFreeBlock({
 	if(!data) {
 		console.trace("no DATA??",blockIndex,name)
 	}
-	// Append the data portion to our write array.
-	const writeArray = [...metadataInstructions];
-	writeArray.push({
-		[`buffer_${currentData.length}`]: currentData
-	});
-
-
-
-	superBlock = await getSuperBlock(filePath);
-	// Write the block.
-	await writeBytesToFileAtOffset(filePath, blockOffset, writeArray);
+	
 	if(log)
-		console.log(`Block ${blockIndex} written at offset ${blockOffset} with ${currentData.length} bytes of data.`);
+		console.log(`Block ${
+            blockIndex
+        } written at offset ${
+            blockOffset
+        } with ${currentData.length} bytes of data.`);
 
 	// If data remains, recursively write the next block and update the chain.
 	if (remainingData && remainingData.length > 0) {
@@ -516,17 +524,35 @@ async function writeAtNextFreeBlock({
 			parentFolderId,
 			folderName,
 			isInChain: true,
-			previousBlockId: blockIndex
+			previousBlockId: blockIndex,
+            
 		});
 		const nextBlockIndex = nextBlockResult.blockIndex;
-		// Update the current block's nextBlockId field.
-		const nextBlockIdFieldOffset = blockOffset + blockIdByteSize + 1;
-		await writeBytesToFileAtOffset(filePath, nextBlockIdFieldOffset, [{
-			[`uint_${blockIdByteSize * 8}`]: nextBlockIndex
-		}]);
+	
+        
+        if(nextBlockIndex) {
+            metadataInstructions[2] = {
+                [`uint_${blockIdByteSize * 8}`]: 
+                nextBlockIndex
+            }
+        }
+       
+        
 		if(log)
 			console.log(`Updated block ${blockIndex} nextBlockId to ${nextBlockIndex}.`);
 	}
+
+    // Append the data portion to our write array.
+    const writeArray = [...metadataInstructions];
+    writeArray.push({
+        [`buffer_${currentData.length}`]: currentData
+    });
+//   console.log("Write arr",writeArray)
+
+    // Write the block.
+    await writeBytesToFileAtOffset(
+        filePath, blockOffset, writeArray
+    );
 
 	// Optionally, update the parent's metadata if not root
 	

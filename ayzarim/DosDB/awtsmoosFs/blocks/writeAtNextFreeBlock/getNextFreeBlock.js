@@ -42,6 +42,9 @@ async function getNextFreeBlock(
             
             onlyMetadata: "small"
         });
+        console.log("Getting next fre block",
+                blockIndex,
+        )
 
         
         var nextFreeBlockId = freeBlock?.metadata?.nextBlockId;
@@ -50,7 +53,7 @@ async function getNextFreeBlock(
         if(nextFreeBlockId) {
             
             
-        
+            
             /*
                 superBlock strucutre
 
@@ -87,7 +90,7 @@ async function getNextFreeBlock(
         } else {
             
             
-            await clearNextFreeBlockId(filePath);
+            await clearNextFreeBlockId(filePath, blockIdByteSize);
 
             
         }

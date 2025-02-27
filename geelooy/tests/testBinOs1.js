@@ -33,8 +33,13 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
       data: `B"H
       LOL
       
-      how are u !! `.repeat(4)
+      how are u !! `.repeat(8)
   })
+
+  await os.makeFile({
+    path: "asdfg/lol/ok/well.txt",
+    data:`!`.repeat(4096  * 3)
+})
   //  await os.mkdir("/wow/well/okThen")
     /*await os.mkdir("/welcome")
     await os.mkdir("/welcoe")
