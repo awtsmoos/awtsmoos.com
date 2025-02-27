@@ -42,8 +42,10 @@ async function deleteEntry({
         index,
         blockSize,
         blockIdByteSize,
-        onlyIDs: true
+        onlyIDs: true,
+        superBlock
     });
+    superBlock = infoAboutDeletedEntry.superBlock;
 
     var deleted = []
     if(infoAboutDeletedEntry.metadata.type == "folder" ) {
@@ -127,7 +129,7 @@ async function deleteEntry({
     }
 
     // Update the free list.
-    superBlock = await getSuperBlock(filePath);
+   // superBlock = await getSuperBlock(filePath);
     if (superBlock.nextFreeBlockId === 0) {
         /**
          * IF theres no next free block ID
@@ -139,11 +141,11 @@ async function deleteEntry({
          * the free block chain
          */
         superBlock.nextFreeBlockId = allBlockIDs[0];
-        const nextFreeOffset = 4 + 2 + 1 + 1;
+        const nextFreeOffset = 4 + 2 + 1 + 1 + 1;
         await writeBytesToFileAtOffset(filePath, nextFreeOffset, [{
             [`uint_${blockIdByteSize * 8}`]: allBlockIDs[0]
         }]);
-        superBlock = await getSuperBlock(filePath);
+       // superBlock = await getSuperBlock(filePath);
         if(log)
             console.log(`Superblock nextFreeBlockId set to ${allBlockIDs[0]}.`);
     } else {
@@ -200,7 +202,7 @@ async function deleteEntry({
          * Write the current free block to the next
             block in the deleted chain
          */
-        const nextFreeOffset = 4 + 2 + 1 + 1; /**
+        const nextFreeOffset = 4 + 2 + 1 + 1 + 1; /**
         schema for superblock is
 
         {
@@ -208,6 +210,9 @@ async function deleteEntry({
         },
         {
             uint_16: DEFAULT_BLOCK_SIZE
+        },
+        {
+            uint_8: mini block size
         },
         {
             uint_8: firstBlockOffset

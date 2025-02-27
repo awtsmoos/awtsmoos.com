@@ -29,9 +29,12 @@ async function existingEntryWithNameInParentFolder({
     try {
         var folderBlock = await readBlock({
             filePath,
-            superBlockInfo: superBlock,
-            blockId: parentFolderId
+            
+            blockId: parentFolderId,
+            superBlock
         });
+        superBlock = folderBlock.superBlock;
+
         var d = folderBlock.data;
         var is = await awtsmoosJSON.isAwtsmoosObject(d);
         var ob = null;

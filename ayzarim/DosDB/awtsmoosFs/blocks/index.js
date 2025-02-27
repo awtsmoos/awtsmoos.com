@@ -80,20 +80,26 @@ async function initializeFileSystem(filePath) {
 		return filePath
 	}
 	// Calculate superBlock size.
-	const fixedSize = 4 + 2 + 1 + 1; // 8 bytes.
+	const fixedSize = 4 + 2 + 
+		1 + 1 + 1; // 9 bytes.
 	const variableSize = blockIdByteSize 
 			* 3; // nextFreeBlockId
 	//  , totalBlocks and nextFreeBlockHolderId.
 	const superblockSize = fixedSize + variableSize;
 	const firstBlockOffset = superblockSize;
-
+	
+	
 	// Build and write the superBlock.
-	const superblockData = [{
+	const superblockData = [
+		{
 			string_4: "AWTS"
 		},
 		{
 			uint_16: DEFAULT_BLOCK_SIZE
 		}, //blockSize
+		{
+			uint_8: 64 /*mini block size*/
+		},
 		{
 			uint_8: firstBlockOffset
 		},//first block offset in file
@@ -111,7 +117,11 @@ async function initializeFileSystem(filePath) {
 		} // totalBlocks.
 		
 	];
-	await writeBytesToFileAtOffset(filePath, 0, superblockData);
+	await writeBytesToFileAtOffset(
+		filePath, 
+		0, 
+		superblockData
+	);
 	if(log)
 		console.log("Superblock initialized.");
 

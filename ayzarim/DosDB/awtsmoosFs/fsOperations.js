@@ -9,6 +9,13 @@ var {
     getSuperBlock
 } = require("./blocks");
 
+var pathsToSuperBlocks = {
+
+};
+
+function getCachedSuperBlock(filePath) {
+    return pathsToSuperBlocks[filePath] || null;
+}
 
 // Normalize a given path string into an array of folder names.
 // E.g., "/hi/there/wow"  →  ["hi", "there", "wow"]
@@ -45,11 +52,18 @@ async function readFolder({
     var name = path.pop();
     
     
+    var superBlock = getCachedSuperBlock(filePath)
     // Always start with the root block.
     var block = await readBlock({
         filePath,
-        blockId: 1
+        blockId: 1,
+        superBlock
     });
+    if(!superBlock) {
+        pathsToSuperBlocks[filePath] = 
+        block.superBlock;
+        superBlock = block.superBlock
+    }
     var data = block.data;
     
 
@@ -75,7 +89,8 @@ async function readFolder({
     
     
     var parentInfo = await getCurrentFolder({
-        filePath, path, name
+        filePath, path, name,
+        superBlock
     });
 
     var parentFolder = parentInfo?.parentFolder;
@@ -98,7 +113,8 @@ async function readFolder({
         } 
         var parentFold = await readFolderData({
             filePath,
-            blockId: folderToRead
+            blockId: folderToRead,
+            superBlock
         })
         if(!parentFold) {
             
@@ -113,7 +129,8 @@ async function readFolder({
 
             var real = await readFolderData({
                 filePath,
-                blockId: folderBlockId
+                blockId: folderBlockId,
+                superBlock
             })
             return real;
         } else {
@@ -134,13 +151,24 @@ async function readFolder({
 
 async function readFolderData({
     filePath,
-    blockId
+    blockId,
+    superBlock
 }) {
+    superBlock = superBlock || getCachedSuperBlock(filePath)
+   
+    
     var subFolder = await readBlock({
         filePath,
         blockId,
-                       
-    })
+        superBlock    
+    });
+
+    if(!superBlock) {
+        pathsToSuperBlocks[filePath] = 
+        subFolder.superBlock;
+        superBlock = subFolder.superBlock
+
+    }
     
     var data = subFolder.data;
     if(await awtsmoosJSON.isAwtsmoosObject(data)) {
@@ -152,16 +180,30 @@ async function readFolderData({
 
 async function getCurrentFolder({
     filePath,
-    path
+    path,
+    superBlock
     
     
 }) {
+
+    superBlock = superBlock || 
+        getCachedSuperBlock(filePath)
+   
+    
+    
+
+    
+    
     var totalFolderData = null;
     var curFolder = await readFolder({
         filePath,
         path: "/",
         withValues:true
-    })
+    });
+
+    superBlock = superBlock || 
+        getCachedSuperBlock(filePath)
+
     totalFolderData = curFolder;
     
     
@@ -192,8 +234,12 @@ async function getCurrentFolder({
             var subFolder = await readBlock({
                 filePath,
                 blockId: curParentFolderBlockId,
+                superBlock
                 
-            })
+            });
+            pathsToSuperBlocks[filePath] = 
+                subFolder.superBlock;
+            
             
             var data = subFolder.data;
             if(await awtsmoosJSON.isAwtsmoosObject(data)) {
@@ -250,7 +296,7 @@ async function makeFolder({
         throw Error("No name given," + path.join("/"))
     }
     
-    
+    var superBlock = getCachedSuperBlock(filePath);
 //	console.log("Making",path,name)
 
     // If path is empty, then we're writing directly to root.
@@ -260,7 +306,8 @@ async function makeFolder({
             filePath,
             parentFolderId: 1,
             folderName: "root",
-            name
+            name,
+            superBlock
         });
         return;
     }
@@ -268,10 +315,13 @@ async function makeFolder({
     
     var parentFolderToWriteTo =  await getCurrentFolder({
         filePath,
-        path
+        path,
+        superBlock
         
     })  
   
+    superBlock = getCachedSuperBlock(filePath);
+
     if(parentFolderToWriteTo) {
         /*var getFolder = await readFolderData({
             filePath,
@@ -296,7 +346,9 @@ async function makeFolder({
             parentFolderId,
             folderName: parentFolderName,
             parentFolderData,
-            name
+            name,
+            superBlock
+
         });
         
         return wr;
@@ -456,6 +508,9 @@ async function makeFile({
         filePath, path
     });
 
+    var superBlock = getCachedSuperBlock(filePath);
+
+
     var parentFolder = parentInfo?.parentFolder;
 
     if(!Array.isArray(parentFolder)) {
@@ -500,7 +555,8 @@ async function makeFile({
         parentFolderData,
         name,
         data,
-        type: "file"
+        type: "file",
+        superBlock
     });
     
 }

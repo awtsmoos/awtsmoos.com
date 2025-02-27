@@ -21,7 +21,7 @@ module.exports =
  * 			hold miniblocks.
  */
 async function getSuperBlock(filePath) {
-	const fixedSize = 8;
+	const fixedSize = 9;
 	// Read the fixed portion: 4 + 2 + 1 + 1 = 8 bytes.
 	
 
@@ -31,6 +31,8 @@ async function getSuperBlock(filePath) {
 		schema: {
 			magic: "string_4",
 			blockSize: "uint_16",
+
+			miniBlockSize: "uint_8",
 			firstBlockOffset: "uint_8",
 			blockIdByteSize: "uint_8"
 		}
@@ -38,7 +40,7 @@ async function getSuperBlock(filePath) {
 	var {
 		blockIdByteSize
 	} = read;
-
+	//console.trace("GOT",read,blockIdByteSize)
 	//console.log("READ it",filePath,read,blockIdByteSize,fixedSize)
 	var readMore = await readFileBytesAtOffset({
 		filePath, 

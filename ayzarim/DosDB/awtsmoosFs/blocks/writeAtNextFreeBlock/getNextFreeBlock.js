@@ -25,7 +25,7 @@ async function getNextFreeBlock({
     var blockIdByteSize =
         superBlock.blockIdByteSize;
     var superblockFreeOffset = (
-        4 + 2 + 1 + 1
+        4 + 2 + 1 + 1 + 1
     );
 
 
@@ -42,8 +42,10 @@ async function getNextFreeBlock({
             filePath,
             index: blockIndex,
             
-            onlyMetadata: "small"
+            onlyMetadata: "small",
+            superBlock
         });
+        superBlock = freeBlock.superBlock;
         if(log)
             console.log("Getting next fre block",
                     blockIndex,
@@ -107,7 +109,7 @@ async function getNextFreeBlock({
     
         
         // Update totalBlocks in the superBlock.
-        const totalBlocksOffset = 8 + 
+        const totalBlocksOffset = 9 + 
         blockIdByteSize * 2; // After fixed fields 
         // and nextFreeBlockId and
         //nextFreeBlockHolderId

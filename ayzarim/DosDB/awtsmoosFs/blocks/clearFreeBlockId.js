@@ -11,7 +11,7 @@ module.exports =
 
 async function clearNextFreeBlockId(filePath, blockIdByteSize) {
     var superblockFreeOffset = (
-        4 + 2 + 1 + 1
+        4 + 2 + 1 + 1 + 1
     );
 
     if(log)
@@ -20,7 +20,7 @@ async function clearNextFreeBlockId(filePath, blockIdByteSize) {
             filePath,blockIdByteSize,
             superblockFreeOffset
         );
-        
+
     var wr = await writeBytesToFileAtOffset(
             filePath, 
             superblockFreeOffset, 

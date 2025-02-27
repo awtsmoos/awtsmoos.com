@@ -364,7 +364,9 @@ async function writeAtNextFreeBlock({
 	const blockIdByteSize = superBlock.blockIdByteSize
 	const fsMetadataOffset = superBlock.firstBlockOffset;
 	
-	
+	var blockHeaderSize = blockIdByteSize * 2 + 1;
+    var blockDataSize = blockSize - blockHeaderSize;
+
 	
 
 	var miniBlockIndex = null;
@@ -377,12 +379,12 @@ async function writeAtNextFreeBlock({
             superBlock
         });
 
-        var real = await getSuperBlock(filePath);
+    
         blockIndex = freeBlockInfo?.blockIndex;
         superBlock = freeBlockInfo.superBlock;
         
 
-        if(data?.length >= superBlock.blockSize) {
+        if(data?.length >= blockDataSize) {
 
           //  blockIndex = await getNextFreeBlock(filePath);
         } else {
@@ -391,6 +393,9 @@ async function writeAtNextFreeBlock({
                 superBlock
             });
             superBlock = miniBlockInfo.superBlock;
+            var miniBlockSize = superBlock.miniBlockSize;
+
+
             console.log("Mini",miniBlockInfo)
         }
 	}

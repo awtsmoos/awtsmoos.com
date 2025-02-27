@@ -117,6 +117,7 @@ async function getNextMiniBlock({
             var superblockMiniBlockHolderOffset = 
                 4/*magic*/ +
                 2/*block size*/ +
+                1/*mini block size*/ +
                 1/*first block offset*/ + 
                 1/*byte ID block size*/ +
                 blockIdByteSize * 1 /*
@@ -138,9 +139,10 @@ async function getNextMiniBlock({
    // superBlock = await getSuperBlock(filePath)
     blockHolder.superBlock = superBlock;
     return {
-       
-        blockHolder,
-        
+        nextMiniBlockId,
+        nextBlockHolderId: blockIndex,
+    //    blockHolder,
+        superBlock
      //   blockHolderData: blockHolder.data,
      //   blockHolderIndex: blockIndex
     }
