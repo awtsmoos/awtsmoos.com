@@ -107,7 +107,10 @@ async function deleteEntry({
     for (const blockIndex of allBlockIDs) {
         const fsMetadataOffset = superBlock.firstBlockOffset;
         const blockOffset = fsMetadataOffset + (blockIndex - 1) * blockSize;
-        const isDeletedOffset = blockOffset + blockIdByteSize;
+        const isDeletedOffset = blockOffset/**
+         * isDeleted and type is first thing
+         */
+        
         var curSchema = await readFileBytesAtOffset({
             filePath,
             offset: isDeletedOffset, 
@@ -121,7 +124,8 @@ async function deleteEntry({
             ); //turns on the LAST bit / deletes it 
             //but keeps type bit in tact
         //console.log("Deleted byte", isDeletedAndTypeByte.toString(10))
-        await writeBytesToFileAtOffset(filePath, isDeletedOffset, [{
+        await writeBytesToFileAtOffset(
+            filePath, isDeletedOffset, [{
             uint_8: isDeletedAndTypeByte
         }]);
         if(log)
@@ -180,16 +184,16 @@ async function deleteEntry({
         block that was just deleted
          */
         const nextBlockIdFieldOffset = lastBlockOffset 
-            + blockIdByteSize + 1; /**
+            + 1; /**
             schema of block metadata is
             {
-            index: `uint_${blockIdByteSize * 8}`,
+            
             isDeletedAndTypeInfo: "uint_8", 
             nextBlockId: `uint_${blockIdByteSize * 8}`,
-            lastBlockId: `uint_${blockIdByteSize * 8}`
+           
             so to get nextBlockId we do
 
-            blockIdByteSize + 1
+            1
         };
         */
         

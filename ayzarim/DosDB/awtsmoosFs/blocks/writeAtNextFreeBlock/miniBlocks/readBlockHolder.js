@@ -36,9 +36,8 @@ async function readBlockHolder({
         filePath,
         offset: blockOffset,
         schema: {
-            blockIndex: "uint_" 
-            + blockIdByteSize * 8,
-
+          
+            
             typeInfo: "uint_8",
 
             reserved: "uint_"

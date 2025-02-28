@@ -36,7 +36,8 @@ async function getSuperBlock(filePath) {
 			firstBlockOffset: "uint_8",
 			blockIdByteSize: "uint_8"
 		}
-	})
+	});
+	
 	var {
 		blockIdByteSize
 	} = read;

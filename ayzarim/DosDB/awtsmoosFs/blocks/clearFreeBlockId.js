@@ -9,7 +9,10 @@ var log = false;
 
 module.exports = 
 
-async function clearNextFreeBlockId(filePath, blockIdByteSize) {
+async function clearNextFreeBlockId(
+    filePath, 
+    blockIdByteSize
+) {
     var superblockFreeOffset = (
         4 + 2 + 1 + 1 + 1
     );

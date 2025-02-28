@@ -38,7 +38,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
   await os.makeFile({
     path: "asdfg/lol/ok/well.txt",
-    data:`!`.repeat(4096  * 88)
+    data:`!`.repeat(4016  * 2)
 })
   //  await os.mkdir("/wow/well/okThen")
     /*await os.mkdir("/welcome")

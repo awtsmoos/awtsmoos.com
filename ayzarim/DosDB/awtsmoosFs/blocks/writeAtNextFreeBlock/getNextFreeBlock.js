@@ -91,7 +91,6 @@ async function getNextFreeBlock({
             ]);
             superBlock.nextFreeBlockId = nextFreeBlockId;
             
-
         } else {
             
             
@@ -104,6 +103,8 @@ async function getNextFreeBlock({
         }
         
     } else {
+
+  //  console.log("ne",2)
         blockIndex = superBlock.totalBlocks + 1; // Block indices start at 1.
     
     

@@ -58,137 +58,193 @@ module.exports =
  *   6. Write the metadata and data, and update chaining pointers.
  *   7. (Optionally) Update the parent folder's metadata if this is not the root.
  
-That's all normal IF the data is more than superBlock.blockSize
-but if it's less, then we break up the data into
-several smaller blocks to save space.
-
-If it's less, we search for next mini block.
-
-The superblock should contain property
-nextFreeMiniBlockId which is a 2 part ID,
-first part is a 32 bit ID of the main block,
-similar to regular block ID. then each 4kb block
-could be divided into 256 smaller blocks of 
-of 16 bytes each. 
-
-So the 2nd part of the ID is one byte indicating 
-the byte index (essentially a bitmap
-between 0-255 each bit value corresponding
-to a byte).
-
-If that value in the superblock is equal to 0,
-that means we don't have any mini blocks available,
-so we have to allocate a new blockHolder from the
-regular blocks.
-
-So we go through the regular process of finding the next
-free regular block to be our new blockHolder (see above).
-
-Once we have found it, we assume all mini blocks in it
-are empty, so we set our superblock's next free mini block
-value to the ID of the our main block plus 1,
-indicating the first of our mini blocks.
-
-(regular blockIDs start at 1 because of the superblock
-and miniblocks in each blockHolder start at 1 because
-if it's 0 that indicates we reference the headers
-of the blockHolder to tell us what it is
-because there's not enough room for big headers of
-IDs in each mini block.)
-
-Then, we start writing our data to it.
-
-If the data is larger than 16 bytes but still less
-than full blockSize, we slice ur data to 16 and write the 
-next mini block.
-
-Once we started writing our first mini block,
-we set the next free mini block in the
-superblock to the next one that is 
-free. 
-
-In our blockHolder, we could have a header
-value nextFreeMiniBlock 
-(in addition to the superblock one).
-By default when it's created, it's set to 1 (first).
-Then once that is taken up, it goes to the next.
-
-Each mini block has a few header values:
-mini block ID / index (between 0-255).
-
-isDeleted / type byte
-(1st LSB indicates if free 
-next 2 LSBs number 0-3
-indicating the type (file, folder and 2 reserved types))
-
-The other 5 bits may be used for 
-the next blockHolder in the chain
-(0-63)
-Next byte is if the reference to the
-next blockHolder in the chain
-is greater than 64, use this byte
-for a combined 12 bits (2^14).
-
-if part of chain (
-    if data is more than 4 bytes
-) then nextMiniBlockID (1 byte);
-If not the first value in the chain,
-
-
-So far we have 4 bytes (out of the 16):
-
-blockId: 1
-isDeletedAndType: 1
-nextBlockHolderIdxHigh: 1 (only used
-if mini blocks extend across
-multiple blockHolders and the number
-of blockHolders in the blockHolder
-chain is greater than 64)
-
-nextBlockId: 1
-
-
-Then if it's the first we also need metadata
-for our file/folder, which is just 
-time created and time modified
-
-each is uint_32 so that's 4 more bytes each:
-createdAt: 4
-lastModified: 4
-
-so far that's 4 + 4 + 
-1 + 1 + 1 + 1 = 
-12 bytes for headers, leaving 4 bytes
-more for the actual data (of the first block).
-
-But if the data is more than 4 then it goes
-to next blocks, which only have
-the first 4 bytes as headers so they have
-12 bytes of space each.
 
 
 
-If that value (
-the superblock's nextFreeMiniBlock)
-is NOT equal to 0,
-that means a current block exists at that
-location that has a type blockHolder 
-(only types are file, folder and blockHolder).
-Then we find the mini block (between 0-255) within
-that and start writing our data to it.
+filesystem basics revisited
 
-If the data is greater than 16 bytes (minus headers,
-which is 4 bytes of data)
-but still less than the full block size of 4kb,
-then we find the next free mini block (usually it'll be
-in the same block.)
+4096-byte regular blocks
 
-Process for finding next free mini block:
+superblock tracks free blocks with nextFreeBlockId (8-32 bytes, starts at 1)
 
-Each blockHolder has in it's header
-nextFreeMiniBlock (one byte).
-If it's 0, that means no more mini blocks available
-in this block holder, 
+blockholders have 31 mini blocks of 128 bytes each
+
+data > 4079 bytes uses nextFreeBlockId directly (your logic)
+
+data < 4079 bytes uses mini blocks
+
+multiple files/folders can share a blockholder
+
+deleting and reclaiming needs to work smoothly
+
+blockholder structure
+
+header:
+
+blockId: 8-32 bytes (variable, unique id)
+type: 1 byte
+bit 0: isDeleted (0 = in use, 1 = free)
+bits 1-2: type (0 = file, 1 = folder, 2 = blockholder)
+bits 3-7: nextMiniBlockId (5 bits, 0-31) - next free mini block index
+nextBlockId: 8-32 bytes (variable) - chains to next blockholder
+min header: 17 bytes (8 + 1 + 8)
+
+4096 - 17 = 4079 bytes left
+31 mini blocks (31 * 128 = 3968 bytes)
+111 bytes leftover
+
+mini block structure
+
+first mini block: 1 byte header
+
+type byte:
+bit 0: isDeleted (0 = in use, 1 = free)
+bits 1-2: type (0 = file, 1 = folder)
+bits 3-7: nextMiniBlockId (5 bits, 0-31)
+data: 127 bytes
+
+non-first mini block: 1 byte header
+
+same type byte setup
+data: 127 bytes
+total usage:
+
+31 mini blocks * 1 byte header = 31 bytes
+31 * 127 bytes data = 3937 bytes
+
+3968 bytes total with headers
+
+111 or 63 bytes free depending on header size
+writing data (small files < 4079 bytes)
+
+step 1: find or make a blockholder
+
+check nextFreeBlockId
+if 0 or no suitable blockholder:
+allocate new: blockId = nextFreeBlockId
+isDeleted = 0, type = 2 (blockholder)
+nextMiniBlockId = 1, nextBlockId = 0
+increment nextFreeBlockId
+if blockholder exists:
+use it if nextMiniBlockId <= 31
+step 2: write first mini block
+
+pick nextMiniBlockId index (e.g., 1)
+isDeleted = 0, type = file or folder
+nextMiniBlockId = next free index or 0 if done
+write 127 bytes, remaining = total - 127
+update blockholder.nextMiniBlockId
+step 3: chain if needed
+
+while remaining > 0:
+nextMiniBlockId from last mini block
+if 1-31 and not blocked:
+write 127 bytes, remaining -= 127
+nextMiniBlockId = next free or 0
+update blockholder.nextMiniBlockId
+if 0 or 32 (full):
+new blockholder via nextFreeBlockId
+link via current nextBlockId
+write 127 bytes there
+multiple entries:
+
+blockholder.nextMiniBlockId tracks next free spot
+file A might use mini blocks 1-3
+file B starts at 4 if free
+each mini block chains its own data with nextMiniBlockId
+deleting and reclaiming
+
+deleting a file:
+
+find its mini blocks (folder indexes point to start)
+for each mini block:
+set isDeleted = 1 in type byte
+nextMiniBlockId unchanged (still points ahead)
+blockholder stays alive unless all mini blocks deleted
+reclaiming space:
+
+scan blockholder’s mini blocks
+if all 31 have isDeleted = 1:
+set blockholder isDeleted = 1
+add blockId back to nextFreeBlockId pool (your logic)
+if partial deletion (e.g., mini blocks 1-3 free):
+update blockholder.nextMiniBlockId to first free spot
+e.g., file A (1-3) deleted, file B (4-6) stays
+nextMiniBlockId = 1
+gaps in blockholder:
+
+mini block 3 ends file A, isDeleted = 1
+mini block 4 starts file B, in use
+new file C uses mini block 3 if free
+no need to shift data, just track free indices
+chaining logic explained
+
+mini block chaining:
+
+nextMiniBlockId (5 bits) links within blockholder
+0 = end of this file’s chain
+1-31 = next mini block for this file
+blockholder.nextBlockId chains to next blockholder
+mid-blockholder blocking:
+
+file A uses 1-3, ends at 3 (nextMiniBlockId = 0)
+file B uses 4-6
+file A grows, needs more space
+nextMiniBlockId = 4 blocked by file B
+solution: jump to new blockholder via nextBlockId
+set mini block 3’s nextMiniBlockId to 0
+blockholder.nextBlockId = new blockholder
+new mini block 1 continues file A
+relying on nextBlockId:
+
+works if chain crosses blockholders
+doesn’t work mid-blockholder unless we track free gaps
+current fix: new blockholder for conflicts
+better idea: bitmap for free mini blocks (below)
+improving with bitmap
+
+add to blockholder header:
+
+miniBlockBitmap: 4 bytes (32 bits)
+1 bit per mini block (31 used, 1 spare)
+0 = free, 1 = in use
+header now 21-69 bytes, still 31 mini blocks
+writing with bitmap:
+
+find first 0 in bitmap
+use that mini block, set bit to 1
+chain with nextMiniBlockId or jump via nextBlockId
+deleting with bitmap:
+
+set mini block isDeleted = 1
+clear bitmap bit to 0
+reclaim blockholder if all bits 0
+mid-block chaining:
+
+file A ends at 3, bitmap 111000...
+file B at 4-6, bitmap 111111...
+file A grows, finds next 0 (e.g., 7)
+no new blockholder needed unless full
+benefits:
+
+handles gaps without relying solely on nextBlockId
+reclaims space mid-blockholder
+multiple entries tracked precisely
+current vs bitmap
+
+current method:
+
+simple, 1 byte per mini block
+nextMiniBlockId chains, nextBlockId jumps
+gaps handled by new blockholders
+reclaiming only if all deleted
+bitmap method:
+
+4 extra bytes in header
+tracks every mini block’s state
+chains anywhere in blockholder
+reclaims mid-block gaps
+i’d go bitmap for flexibility
 */
 async function writeAtNextFreeBlock({
 	filePath,
@@ -221,7 +277,7 @@ async function writeAtNextFreeBlock({
 	
 	superBlock = superBlock || await getSuperBlock(filePath);
 
-	var lookForNewBlockIndex = true;
+    
 
 	let blockIndex = null;
 	var existingBlockIdOfThisSameEntry = null;
@@ -241,8 +297,8 @@ async function writeAtNextFreeBlock({
 		}`);
 
 
-        //console.log("Writing in folder",parentFolderId,name)
-		existingBlockIdOfThisSameEntry = name ? 
+       
+        existingBlockIdOfThisSameEntry = name ? 
 		await existingEntryWithNameInParentFolder({
 			filePath,
 			name,
@@ -253,7 +309,8 @@ async function writeAtNextFreeBlock({
             superBlock = existingBlockIdOfThisSameEntry
                 .superBlock
             alreadyExistsInParent = true;
-		//	if(log)
+		
+            
 				
 			/**
 			 * If it already exists we need to delete of all the previous blocks
@@ -261,12 +318,8 @@ async function writeAtNextFreeBlock({
 			
 			blockIndex = existingBlockIdOfThisSameEntry?.blockIndex;
 			overwriteIndex = null;
-			 if(!overwriteIndex) {
-				
-				
-			} else {
-			//	console.log("over rigde")
-			}
+			
+            
 			
             
 			if(log)
@@ -277,19 +330,16 @@ async function writeAtNextFreeBlock({
 				} just deleted: `)
 
 			if(type == "folder") {
-               /* if(isFromUpdate) {
-                    return {
-                        blockIndex
-                    }
-                }*/
+       
+                
 				var ob = {};
 
 				var is = Buffer.isBuffer(data) ? 
 					await awtsmoosJSON?.isAwtsmoosObject(data)
 					: false;
 				if(!is) {
-			//		console.trace("Data to write isn't even valid at all LOL");
-					return {
+                   // console.log("no",blockIndex)
+                    return {
 						blockIndex
 					}
 				} else {
@@ -304,8 +354,8 @@ async function writeAtNextFreeBlock({
 						need to get current data of SELF
 					*/
 					var selfBlockIndex = blockIndex;
-                //    console.log("Reaidndg self",blockIndex)
-					var selfBlock = await readBlock({
+             
+                    var selfBlock = await readBlock({
 						filePath,
 						index: selfBlockIndex,
                         superblockInfo: superBlock
@@ -319,43 +369,48 @@ async function writeAtNextFreeBlock({
 							var ex = await awtsmoosJSON.deserializeBinary(oldData);
 							if(typeof(ex) == "object") {
 								console.log("syncing data maybe",ex,ob);
-								var del = await deleteEntry({
+								
+                                var del = await deleteEntry({
 									filePath,
 									index: blockIndex,
 									superBlock,
-									//onlyDeleteChildrenNotSelf:true
-									onlyDeleteChainBlocks: true,  
-								//	doNotDeleteChildren: true
-								}); 
+								
+                                    onlyDeleteChainBlocks: true,  
+							
+                                }); 
                                 superBlock = del.superBlock;
 								var newData = {...ex, ...ob}
 								data = awtsmoosJSON.serializeJSON(newData);
 							} 
 						}
-					}//else console.log(ex,"22")
+					}
 				}
 
 			} else if(type == "file"){
-           //    console.log("Redoing self",parentFolderData)
-              //  console.log("Getting IDs",curIDs)
-				var del = await deleteEntry({
+         
+                var del = await deleteEntry({
 					filePath,
 					index: blockIndex,
 					superBlock,
-					//onlyDeleteChildrenNotSelf:true
-					onlyDeleteChainBlocks: true,  
-				//	doNotDeleteChildren: true
-				}); 
-         //       console.log(del,blockIndex)
+			
+                    onlyDeleteChainBlocks: true,  
+			
+                }); 
+         
                 superBlock = del.superBlock;
+               
+                
 			}
 	
-		} else {
-		//	console.log("does NOT exist in parent: ",name)
-		}
+		} 
+        
 	}
-	if(overwriteIndex !== null) {
+	if(
+        overwriteIndex !== null &&
+        blockIndex === null
+    ) {
 		blockIndex = overwriteIndex;
+        
 	}
 	
 
@@ -364,7 +419,7 @@ async function writeAtNextFreeBlock({
 	const blockIdByteSize = superBlock.blockIdByteSize
 	const fsMetadataOffset = superBlock.firstBlockOffset;
 	
-	var blockHeaderSize = blockIdByteSize * 2 + 1;
+	var blockHeaderSize = blockIdByteSize * 1 + 1;
     var blockDataSize = blockSize - blockHeaderSize;
 
 	
@@ -379,11 +434,11 @@ async function writeAtNextFreeBlock({
             superBlock
         });
 
-    
+     //   console.log("write",freeBlockInfo,folderName,name,type)
         blockIndex = freeBlockInfo?.blockIndex;
         superBlock = freeBlockInfo.superBlock;
         
-
+/*
         if(data?.length >= blockDataSize) {
 
           //  blockIndex = await getNextFreeBlock(filePath);
@@ -397,16 +452,17 @@ async function writeAtNextFreeBlock({
 
 
             console.log("Mini",miniBlockInfo)
-        }
+        }*/
 	}
 	if(!blockIndex) {
 		console.log("What is it",blockIndex)
 		throw Error("Wrong new block index");
 	}
 	
-	//console.log("Writing to",blockIndex,name,folderName)
-	// Calculate this block's file offset.
-	const blockOffset = fsMetadataOffset + (blockIndex - 1) * blockSize;
+
+    // Calculate this block's file offset.
+	const blockOffset = fsMetadataOffset + 
+        (blockIndex - 1) * blockSize;
 
 	// Build metadata instructions.
 	let metadataInstructions = [];
@@ -434,9 +490,13 @@ async function writeAtNextFreeBlock({
 	
     
     metadataInstructions = [
-        {
-            [`uint_${blockIdByteSize * 8}`]: blockIndex
-        },
+        /**
+         * we could have stored
+         * the block index here,
+         * but it's not necessary
+         * because it's based on
+         * the offset in the FS..
+         */
         {
             uint_8: deleteAndTypeByteInOne
         }, /*
@@ -536,7 +596,7 @@ async function writeAtNextFreeBlock({
 	
         
         if(nextBlockIndex) {
-            metadataInstructions[2] = {
+            metadataInstructions[1] = {
                 [`uint_${blockIdByteSize * 8}`]: 
                 nextBlockIndex
             }
@@ -552,7 +612,6 @@ async function writeAtNextFreeBlock({
     writeArray.push({
         [`buffer_${currentData.length}`]: currentData
     });
-//   console.log("Write arr",writeArray)
 
     // Write the block.
     await writeBytesToFileAtOffset(
@@ -564,8 +623,8 @@ async function writeAtNextFreeBlock({
    
 	if (
         !isFromUpdate &&
-      //  !alreadyExistsInParent &&
-	//	!existingBlockIdOfThisSameEntry &&
+       // !alreadyExistsInParent &&
+		//!existingBlockIdOfThisSameEntry &&
 		!doNotUpdateParent &&
 		!isInChain && 
 		blockIndex !== 1 && 

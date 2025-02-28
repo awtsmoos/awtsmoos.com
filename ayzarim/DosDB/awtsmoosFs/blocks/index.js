@@ -43,6 +43,7 @@ var log = false
 // This value determines the byte-length used to store block IDs in our superBlock.
 const maxBlocks = 65535; // Adjustable according to your needs.
 const DEFAULT_BLOCK_SIZE = 4096; // Default block size in bytes.
+var MINI_BLOCK_SIZE = 128;
 
 // Determine the byte-length for block IDs based on maxBlocks.
 function getBlockIdByteSize(maxBlocks) {
@@ -98,7 +99,7 @@ async function initializeFileSystem(filePath) {
 			uint_16: DEFAULT_BLOCK_SIZE
 		}, //blockSize
 		{
-			uint_8: 64 /*mini block size*/
+			uint_8: MINI_BLOCK_SIZE /*mini block size*/
 		},
 		{
 			uint_8: firstBlockOffset

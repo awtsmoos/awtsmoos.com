@@ -53,6 +53,12 @@ async function readBlock({
 		console.trace("Couldn't read index", index, blockId) : null;
 
 
+	var ind = parseInt(index);
+	if(!isNaN(ind)) {
+		index = ind;
+	}
+
+
 	blockSize = blockSize || superblockInfo.blockSize;
 	blockIdByteSize = blockIdByteSize || 
 		superblockInfo.blockIdByteSize;
@@ -60,12 +66,15 @@ async function readBlock({
 		.firstBlockOffset;
 	const blockOffset = fsMetadataOffset + (index - 1) * blockSize;
 
-	// Fixed metadata: index, isDeleted, nextBlockId, lastBlockId.
+	// Fixed metadata: 
+	//  isDeleted (1 byte), nextBlockId (variable bytes)
+	
 	const fixedMetadataSize = 
-		blockIdByteSize + 1 + 
-		blockIdByteSize
+		1 + 
+		blockIdByteSize;
+
 	const fixedSchema = {
-		index: `uint_${blockIdByteSize * 8}`,
+		
 		isDeletedAndType: "uint_8", /**
 			really this by shares bits,
 			LSB is 1 for isDeleted 0 for not,
@@ -83,6 +92,8 @@ async function readBlock({
 		offset: blockOffset,
 		schema: fixedSchema
 	});
+	fixedMeta.blockIndex = index;
+
 	var bitsToType = {
 		0b00: "inChain",
 		0b01: "folder",
@@ -117,10 +128,7 @@ async function readBlock({
 	};
 
 	var dataLength = blockSize - fixedMetadataSize;
-	var ind = parseInt(index);
-	if(!isNaN(ind)) {
-		index = ind;
-	}
+	
 	let allBlockIDs = [];
 
 	var dataOffset = blockOffset + fixedMetadataSize;
@@ -338,10 +346,13 @@ async function getExtentOfBlockIDs({
 	})
 	var blocks = blockRequest?.blocks;
 
-	const fixedMetadataSize = blockIdByteSize + 
+	const fixedMetadataSize = 
 		1 + 
-		blockIdByteSize + 
 		blockIdByteSize;
+		/**
+		 * isDeleted&Type (1 byte)
+		 * nextBlockId (variable size)
+		 */
 
 	var blockDataSize = blockSize - fixedMetadataSize;
 	var sizeOfTotalDataBlocks = 
@@ -358,7 +369,8 @@ async function getExtentOfBlockIDs({
 		var blockOffset = i * blockSize;
 
 
-		var dataOffsetStart = blockOffset + fixedMetadataSize;
+		var dataOffsetStart = blockOffset 
+			+ fixedMetadataSize;
 		var dataLength = blockDataSize;
 		var dataEnd = dataOffsetStart + dataLength
 

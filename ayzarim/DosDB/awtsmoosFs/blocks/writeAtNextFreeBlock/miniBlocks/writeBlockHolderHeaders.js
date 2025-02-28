@@ -45,7 +45,7 @@ async function writeBlockHolderHeaders({
 		(typebit << 1)
 	);
     console.log("Writing index",blockIndex)
-    var headerSize = blockIdByteSize * 2 + 2;
+    var headerSize = blockIdByteSize * 1 + 2;
     var blockSize = superBlock.blockSize;
     var dataSize = blockSize - headerSize;
     var emptyData = Buffer.alloc(dataSize);
@@ -54,9 +54,8 @@ async function writeBlockHolderHeaders({
         filePath,
         blockOffset,
         [
-            {[`uint_${
-                blockIdByteSize * 8
-            }`]: blockIndex }, //block id
+     
+            
 
             {uint_8: deleteAndTypeByteInOne},
                 //type info / is deleted (LSB)
