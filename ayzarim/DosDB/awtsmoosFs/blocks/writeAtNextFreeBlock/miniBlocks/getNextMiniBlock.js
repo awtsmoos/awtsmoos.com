@@ -105,7 +105,17 @@ async function getNextMiniBlock({
     var nextMiniBlockId = blockHolder
         .block
         .nextFreeMiniBlockIndex;
-    if(nextMiniBlockId != 0) {
+
+    var bitToIndicateIfTaken = 
+        nextMiniBlockId & 
+        0b00100000;
+    /**
+     * if the 5th LSB is set to 1,
+     * that means there is no more
+     * space left. If not, that
+     * means some space is left.
+     */
+    if(!bitToIndicateIfTaken) {
         /*
             we have at least one
             new free block,
@@ -113,7 +123,10 @@ async function getNextMiniBlock({
             superBlock as this entire
             holder as being available
         */
-
+        if(
+            superBlock.nextFreeMiniBlockHolderId
+            != blockIndex
+        ) {
             var superblockMiniBlockHolderOffset = 
                 4/*magic*/ +
                 2/*block size*/ +
@@ -135,6 +148,7 @@ async function getNextMiniBlock({
             );
             superBlock.nextFreeMiniBlockHolderId
              = blockIndex;
+        }
     }
    // superBlock = await getSuperBlock(filePath)
     blockHolder.superBlock = superBlock;

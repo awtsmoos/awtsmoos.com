@@ -1,4 +1,6 @@
 //B"H
+
+
 var getSuperBlock = require("./getSuperBlock");
 var readBlock = require("./readBlock");
 var log = false;
@@ -29,6 +31,8 @@ async function deleteEntry({
     doNotDeleteChildren = false,
     onlyDeleteChainBlocks = false,
     onlyDeleteChildrenNotSelf = false
+    ,
+    deletingFolder = false
 }={}) {
 
     superBlock = superBlock || 
@@ -45,10 +49,11 @@ async function deleteEntry({
         onlyIDs: true,
         superBlock
     });
-    superBlock = infoAboutDeletedEntry.superBlock;
-
+    if(infoAboutDeletedEntry) {
+        superBlock = infoAboutDeletedEntry.superBlock;
+    }
     var deleted = []
-    if(infoAboutDeletedEntry.metadata.type == "folder" ) {
+    if(deletingFolder) {
         /**
          * If we're deleting a folder 
          * we also have to delete all 
@@ -87,7 +92,8 @@ async function deleteEntry({
     if(!allBlockIDs) {
         if(log)
             console.trace("coulnd't delete",index,filePath)
-        throw Error("Couldn't delete entry")
+        
+      return null;
     }
     var firstBlock = null
     if(onlyDeleteChainBlocks) {

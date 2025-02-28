@@ -33,6 +33,9 @@ async function existingEntryWithNameInParentFolder({
             blockId: parentFolderId,
             superBlock
         });
+        if(!folderBlock) {
+            return null;
+        }
         superBlock = folderBlock.superBlock;
 
         var d = folderBlock.data;

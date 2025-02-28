@@ -17,23 +17,28 @@ async function updateParentFolder({
 	superBlock,
 	newChildId,
 	newChildName,
-	childTypeAndDeleteByte,
+	currentPath,
+	newChildType,
+	
     log=false,
 
 	writeAtNextFreeBlock
 } = {}) {
 	superBlock = superBlock ||
 	await getSuperBlock(filePath);
+	var folderBlock = null;
 
-	var folderBlock = await readBlock({
-		filePath,
-		superBlock,
-		index: folderId
-	});
+	if(folderId) {
+		folderBlock = await readBlock({
+			filePath,
+			superBlock,
+			index: folderId
+		});
 
-	if(!folderBlock) {
-
-		return null;
+		if(!folderBlock) {
+			console.log("What",folderId)
+			return null;
+		}
 	}
 
 	/*var parentId  = folderId == 1 ? 0 : 
@@ -43,13 +48,16 @@ async function updateParentFolder({
 		throw Error("What is this"+parentId + " " +newChildId)
 	}*/
 	//console.log("Got parent id",parentId)
-    var {
-		data
-	} = folderBlock;
+    var data = null;
+	if(folderBlock) {
+		data = folderBlock.data;
+	}
+	
 
 	
 	
-	var is = await awtsmoosJSON.isAwtsmoosObject(data);
+	var is = data && 
+		await awtsmoosJSON.isAwtsmoosObject(data);
 	var ob = null;
 	if(is) {
 		ob = await awtsmoosJSON.deserializeBinary(
@@ -87,41 +95,20 @@ async function updateParentFolder({
 			newChildId,
 			createdTime,
 			updatedTime,
-			childTypeAndDeleteByte || 44
+			newChildType
 		];
 		
 	else return;
 
 	var serialized = awtsmoosJSON.serializeJSON(ob);
 	//var des = awtsmoosJSON.deserializeBinary(serialized)
-	
-	
-	var del = await deleteEntry({
-		filePath,
-		index: folderId,
-	
-		allBlockIDs: folderBlock
-			.allBlockIDs,
-		doNotDeleteChildren: true,
-		onlyDeleteChainBlocks: true,
-		superBlock
-		/**
-			do NOT delete the primary 
-			block reference 
-			onluy if its really big
-		*/
-	});
-
-	superBlock = del.superBlock;
-	
-
-	var write = await writeAtNextFreeBlock({
+	var writing = {
 		filePath,
 		type:"folder",
 		name: folderName,
-		data:serialized,
-		overwriteIndex: folderId/*current index*/,
-	//	parentFolderId: parentId,
+		data: serialized,
+		
+		
 		doNotUpdateParent:0,
 		superBlock,
 		parentFolderData:ob,
@@ -131,22 +118,64 @@ async function updateParentFolder({
 			recursive writing
 
 		*/
-	});
-    superBlock = write.superBlock;
+	}
+	if(folderId) {
+		var del = await deleteEntry({
+			filePath,
+			index: folderId,
+		
+			allBlockIDs: folderBlock?.allBlockIDs,
+			doNotDeleteChildren: true,
+			onlyDeleteChainBlocks: true,
+			superBlock
+			/**
+				do NOT delete the primary 
+				block reference 
+				onluy if its really big
+			*/
+		});
+		if(del)
+			superBlock = del.superBlock;
+		writing.overwriteIndex = folderId/*current index*/;
+		
+	} else {
+		console.log("Writing nul",ob,newChildName, newChildId)
+	}
 
-	var data = await readBlock({
-		filePath,
-		index: write.index,
-		superBlock
-	});
-	superBlock = data.superBlock
+	var oldId = folderId;
 
 	
-	if(log)
-		console.log("\n\nRead back what just wrote?",folderName, 
-		await awtsmoosJSON.deserializeBinary(data.data),
-		write.index,"Folder ind",folderId,"free super",superBlock.nextFreeBlockId
-	)
+	var write = await writeAtNextFreeBlock(writing);
+	
+    superBlock = write.superBlock;
+	if(oldId === null & write.index) {
+		
+		var pathCopy = Array.from(currentPath);
+		pathCopy.pop();
+		var nextParent = !pathCopy.length ?
+			"root" : pathCopy[pathCopy.length-1];
+		var upt = null;
+		if(nextParent == "root") {
+			upt = await updateParentFolder({
+				filePath,
+				folderId: 1,
+				
+				folderName: "root",
+				superBlock,
+				newChildId: write.index,
+				newChildName: folderName,
+				currentPath: pathCopy,
+				newChildType: "folder",
+				writeAtNextFreeBlock
+			})
+		}
+		console.log("WROTE",write.index, folderName,
+			currentPath,nextParent,
+			folderName,
+			upt?.write
+		)
+		
+	}
 
 	return {
 		write,

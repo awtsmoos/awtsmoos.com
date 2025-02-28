@@ -29,21 +29,9 @@ async function writeBlockHolderHeaders({
 
     var blockIdByteSize = superBlock.blockIdByteSize;
 
-    var deleteAndTypeByteInOne = 0b00000000;
-	var typeToBits = {
-        inChain: 0b00,
-		folder: 0b01,
-		file: 0b10,
-		blockHolder: 0b11
-	}
-
-    var type = "blockHolder";
-
-	var typebit = typeToBits[type] || 0;
-	deleteAndTypeByteInOne = (
-		deleteAndTypeByteInOne |
-		(typebit << 1)
-	);
+    var deleteAndInfo = 0b00000000;
+	
+    
     console.log("Writing index",blockIndex)
     var headerSize = blockIdByteSize * 1 + 2;
     var blockSize = superBlock.blockSize;
@@ -57,17 +45,26 @@ async function writeBlockHolderHeaders({
      
             
 
-            {uint_8: deleteAndTypeByteInOne},
-                //type info / is deleted (LSB)
+            {uint_8: deleteAndInfo},
+                //info / is deleted (LSB)
 
             {[`uint_${
                 blockIdByteSize * 8
             }`]: 0},//reserved, possible to 
             //use for linking blockHolders
 
-            {uint_8: 1}, //nextFreeMiniBlock
+            {uint_8: 0}, //nextFreeMiniBlock
+            /*really only need first 5 bits,
+            possibly do something with other 3 later
+            starts at 1; 0 means no more free miniBlocks
 
-            //starts at 1; 0 means no more free miniBlocks
+            In fact, to make things easy,
+            nextFreeMiniBlockId can start at 0.
+
+            But if there are no remaining miniBlocks,
+            then bit# 5 (6th bit) can be set to 1.
+
+            */
             {[`buffer_${
                 emptyData.length
             }`]: emptyData}

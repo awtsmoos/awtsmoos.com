@@ -37,10 +37,16 @@ async function getSuperBlock(filePath) {
 			blockIdByteSize: "uint_8"
 		}
 	});
-	
+
 	var {
 		blockIdByteSize
 	} = read;
+	
+	
+	if(blockIdByteSize == 0) {
+		console.trace("What is this",read)
+		return null;
+	}
 	//console.trace("GOT",read,blockIdByteSize)
 	//console.log("READ it",filePath,read,blockIdByteSize,fixedSize)
 	var readMore = await readFileBytesAtOffset({

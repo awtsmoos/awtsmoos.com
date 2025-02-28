@@ -12,7 +12,14 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
     var fold = await os.mkdir("/wow")
 
     await os.mkdir("/wow/qwerty")
-    await os.mkdir("/qwert")
+    await os.mkdir("/qwert");
+  
+    await os.makeFile({
+      path: "/qwert/LOL.txt",
+      data:`B"H
+      
+      Ok. Now we're squaking.`
+    })
     await os.mkdir("/okWell1")
     await os.mkdir("/wow/well")
     await os.mkdir("/qwerty")

@@ -1,4 +1,7 @@
 //B"H
+var {
+    blockHeaderSize
+} = require("./constants.js");
 
 var {
 	readFileBytesAtOffset,
@@ -49,9 +52,10 @@ async function readBlock({
 	superBlock = superblockInfo;
 
 	index = index || blockId;
-	if(!index) return log ?
+	if(!index) {
+		return log ?
 		console.trace("Couldn't read index", index, blockId) : null;
-
+	}
 
 	var ind = parseInt(index);
 	if(!isNaN(ind)) {
@@ -70,12 +74,11 @@ async function readBlock({
 	//  isDeleted (1 byte), nextBlockId (variable bytes)
 	
 	const fixedMetadataSize = 
-		1 + 
-		blockIdByteSize;
+		blockHeaderSize(blockIdByteSize)
 
 	const fixedSchema = {
 		
-		isDeletedAndType: "uint_8", /**
+		isDeletedAndInfo: "uint_8", /**
 			really this by shares bits,
 			LSB is 1 for isDeleted 0 for not,
 			next right most bit over is 0 for 
@@ -83,6 +86,9 @@ async function readBlock({
 			we need to read that later.
 		*/
 		nextBlockId: `uint_${blockIdByteSize * 8}`,
+		parentFolderId: `uint_${
+			blockIdByteSize * 8
+		}`
 	};
 
 	
@@ -94,23 +100,11 @@ async function readBlock({
 	});
 	fixedMeta.blockIndex = index;
 
-	var bitsToType = {
-		0b00: "inChain",
-		0b01: "folder",
-		0b10: "file",
-		0b11: "blockHolder",
-		
-	}
-	fixedMeta.type = bitsToType[
-		((
-			(fixedMeta.isDeletedAndType & (
-				0b00000110
-			)) >> 1
-		)) || 0
-	] 
+	
+	
 
 	fixedMeta.isDeleted = 
-			(fixedMeta.isDeletedAndType & (
+			(fixedMeta.isDeletedAndInfo & (
 				0b00000001
 			)) //if 1, deleted; 0, available;
 		

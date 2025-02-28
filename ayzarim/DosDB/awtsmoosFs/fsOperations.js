@@ -237,12 +237,14 @@ async function getCurrentFolder({
                 superBlock
                 
             });
-            pathsToSuperBlocks[filePath] = 
-                subFolder.superBlock;
+       
             
             
-            var data = subFolder.data;
-            if(await awtsmoosJSON.isAwtsmoosObject(data)) {
+            var data = subFolder?.data;
+            if(
+                data &&
+                await awtsmoosJSON.isAwtsmoosObject(data)
+            ) {
                 var j = await 
                     awtsmoosJSON.deserializeBinary(data);
                 curFolder = j;
@@ -305,6 +307,7 @@ async function makeFolder({
         await writeAtNextFreeBlock({
             filePath,
             parentFolderId: 1,
+            currentPath: [],
             folderName: "root",
             name,
             superBlock
@@ -346,6 +349,7 @@ async function makeFolder({
             parentFolderId,
             folderName: parentFolderName,
             parentFolderData,
+            currentPath: path,
             name,
             superBlock
 
@@ -414,8 +418,7 @@ async function deleteFolder({
         then loop through its hcildren and recursively
         do it.
 
-        If it's a .metadata.type == 1 (file) then
-        just deleteEntry on it
+      
      */
 
     // Invoke the ancient function to read the parent's folder listing, drawing forth its hidden children.
@@ -455,14 +458,16 @@ async function deleteFolder({
             blockId: childBlockID,
             metadata: true
         });
+
+        var type = childInfo[3];
         
-        if (childBlock.metadata.type === 0) { // A folder pulsating with untold secrets.
+        if (type == "folder") { // A folder pulsating with untold secrets.
             await deleteFolder({
                 filePath,
                 path: [...parentPath, name, child],
                 name: child
             });
-        } else if (childBlock.metadata.type === 1) { // A file—a solitary memory in the void.
+        } else if (type == "file") { // A file—a solitary memory in the void.
             const childBlockFull = await readBlock({
                 filePath,
                 blockId: childBlockID,
@@ -526,31 +531,12 @@ async function makeFile({
 
     // Create the file in the final folder.
     
-    if(!parentId) {
-        console.log("NO folder",path,name)
-        throw Error("Folder doesn't exist"
-        )
-    }
-    
-   
-    
- 
-    
-    //console.log("READING",isCur,path,name,parentId)
-   /*if(isCur && isCur[name]) {
-    //	console.log("EXISTS",path,name);
-        var del = await deleteFile({
-            filePath,
-            path,
-            name
-        })
-        console.log("Del",del,path,name)
-    }*/
    var parentFolderName = path.length ? 
     path?.[path.length - 1] : "root"
     var wr = await writeAtNextFreeBlock({
         filePath,
         parentFolderId: parentId,
+        currentPath: path,
         folderName: parentFolderName,
         parentFolderData,
         name,
@@ -702,23 +688,13 @@ async function stat({
     var entryInfo = folder[name];
     var entryBlockId;
     if(Array.isArray(entryInfo)) {
-        var typeByte = entryInfo[3];
-        var typeTable = {
-            0b01: "folder",
-            0b10: "file"
-        }
-        var type = typeTable[(
-            typeByte ||
-            0b000000110
-        ) >> 1] || {
-            typeByte
-        };
+        
 
         return {
             blockId: entryInfo[0],
             createdAt: entryInfo[1],
             updatedAt: entryInfo[2],
-            type,
+            type: entryInfo[3],
             isDirectory() {
                 return type == "folder"
             }
@@ -727,26 +703,7 @@ async function stat({
         console.log("STAT corruption")
         return null;
     }
-    var entryMeta = await readBlock({
-        filePath,
-        blockId: entryBlockId,
-        metadata:true
-    });
-    var type;
-
-    if(!entryMeta.metadata) {
-        type = entryMeta.type == 0 ?
-        "folder" : "file";
-        
-    } else
-    type = entryMeta.metadata.type == 0 ?
-        "folder" : "file";
-    return {
-        type,
-        isDirectory() {
-            return type == "folder"
-        }
-    };
+  
 }
 
 module.exports = {
