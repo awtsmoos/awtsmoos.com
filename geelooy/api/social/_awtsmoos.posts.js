@@ -18,7 +18,7 @@ var {
 	addPostToHeichel,
 	
 
-} = require("./helper/index.js");
+} = require("./helper/index.js" );
 
 var {
 	loggedIn,

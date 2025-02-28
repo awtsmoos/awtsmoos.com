@@ -34,7 +34,7 @@ var {
 
 var {
 	deleteAllCommentsOfParent
-} = require("./comment.js")
+} = require("./comments/index.js")
 
 async function getPostByProperty({
 	heichelId,
