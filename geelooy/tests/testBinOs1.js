@@ -20,6 +20,11 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
       
       Ok. Now we're squaking.`
     })
+
+    await os.makeFile({
+      path: "/qwert/MT.txt",
+      data:`a`
+    })
     await os.mkdir("/okWell1")
     await os.mkdir("/wow/well")
     await os.mkdir("/qwerty")
@@ -31,7 +36,7 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
     await os.mkdir("/qwerty/qws")
     await os.mkdir("/stressTest")
-    for(var k = 0; k < 5; k++) {
+    for(var k = 0; k < 1230; k++) {
       await os.mkdir("/stressTest/ok"+k)
     }
     
