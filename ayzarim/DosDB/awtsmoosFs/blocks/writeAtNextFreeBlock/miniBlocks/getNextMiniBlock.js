@@ -73,7 +73,7 @@ async function getNextMiniBlock({
         
         var nextFreeBlockId = nextFreeBlockInfo
             .blockIndex;
-        console.log("Got next block",nextFreeBlockId)
+            
         /*
             we allocate 
             new blockHolder to the 

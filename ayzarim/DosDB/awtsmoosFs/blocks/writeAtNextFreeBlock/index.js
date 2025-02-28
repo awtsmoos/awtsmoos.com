@@ -438,7 +438,7 @@ async function writeAtNextFreeBlock({
         blockIndex = freeBlockInfo?.blockIndex;
         superBlock = freeBlockInfo.superBlock;
         
-/*
+
         if(data?.length >= blockDataSize) {
 
           //  blockIndex = await getNextFreeBlock(filePath);
@@ -449,10 +449,37 @@ async function writeAtNextFreeBlock({
             });
             superBlock = miniBlockInfo.superBlock;
             var miniBlockSize = superBlock.miniBlockSize;
+            /**
+             * mini blocks of 128 bytes. 32 per 
+             * main block.
+             * 
+             * Header: 1 byte. 
+             * LSB (0) flag if deleted or not
+             * next LSB (1) 0 for type folder 1 file
+             * LSBs 2-6 = 5 bits (32) for nextMiniBlock
+             * WITHIN current blockHolder.
+             * 
+             * bit 8 is 0 by default meaning
+             * don't look in any other blockHolder
+             * if it's 1, then we continue the chain
+             * in other blockHolder.
+             * 
+             * If that's the case, then
+             * the next byte indicates the location
+             * of the next mini block in the chain
+             * 
+             * bits 0 - 2 (3 bits) indicate what 
+             * number in the chain of blockHolders
+             * the next block holder is found in
+             * 
+             * (each blockHolder has a nextBlockId).
+             * If we follow it then we make
+             * a chain of blockHolders. 
 
+             */
 
-            console.log("Mini",miniBlockInfo)
-        }*/
+            console.log("Mini",miniBlockInfo,data.length)
+        }
 	}
 	if(!blockIndex) {
 		console.log("What is it",blockIndex)
