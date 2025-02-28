@@ -21,7 +21,7 @@ var {
     magicArray,
     hashAmount
 
-} = require("./constants");
+} = require("./constants.js");
 var binaryFileWrapper = require("./binaryFileClassWrapper.js");
 
 async function isAwtsmoosObject(buffer) {
@@ -526,17 +526,10 @@ async function deserializeArray(arrayBuffer) {
             console.log("NAN", arrayBuffer,i,length);;
             return;
         }
-
-        var valueLength;
-        try {
-            valueLength = await readConditional(
-                arrayBuffer,
-                currentOffset
-            );
-        } catch(e) {
-            console.log("ARRAY issue", e,currentOffset,arrayBuffer);
-            throw new Error("What are u even")
-        }
+        let valueLength = await readConditional(
+            arrayBuffer,
+            currentOffset
+        );
 
         currentOffset = valueLength.offset;
 
@@ -583,18 +576,9 @@ async function parseValueFromType({
         value = await deserializeArray(value);
         
     } else if (type == 4) {
-        try {
-            var info = await readConditional(value)
-            value = info.amount;
-            currentOffset += info.offset
-        } catch(e) {
-            console.log(
-                "ISSUE! reading. want to nkow",
-                value,
-                e
-            )
-            throw new Error("Wow..")
-        }
+        var info = await readConditional(value)
+        value = info.amount;
+        currentOffset += info.offset
     } else if(type == 5) {
   //      console.log("VAL",value)
         value = !!value.readUInt8(0);
@@ -605,9 +589,7 @@ async function parseValueFromType({
     } else if(type == 7) {
         value = null;
     } else if(type == 8) {
-        currentOffset += value.length;
-
-
+        currentOffset += value.length
         value = Buffer.from(value)
     }
     return {value,currentOffset};

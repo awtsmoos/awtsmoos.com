@@ -170,8 +170,8 @@ async function readFolderData({
 
     }
     
-    var data = subFolder.data;
-    if(await awtsmoosJSON.isAwtsmoosObject(data)) {
+    var data = subFolder?.data;
+    if(data && await awtsmoosJSON.isAwtsmoosObject(data)) {
         var j = await awtsmoosJSON.deserializeBinary(data);
        
         return j; 
@@ -193,13 +193,17 @@ async function getCurrentFolder({
     
 
     
-    
+    var allFoldersPathObject = [];
     var totalFolderData = null;
     var curFolder = await readFolder({
         filePath,
         path: "/",
         withValues:true
     });
+    allFoldersPathObject.push({
+        name: "root",
+        value: [1, 0, 0, "folder"]
+    })
 
     superBlock = superBlock || 
         getCachedSuperBlock(filePath)
@@ -215,11 +219,13 @@ async function getCurrentFolder({
             curParentFolder = curFolder[segment];
             totalFolderData = curFolder;
 
+            
             if(!curParentFolder) {
                 
                 
                 return null;
             }
+            
             var curParentFolderInfo = curParentFolder;
             var curParentFolderBlockId = null;
             if(Array.isArray(
@@ -243,17 +249,28 @@ async function getCurrentFolder({
             var data = subFolder?.data;
             if(
                 data &&
+                data.length &&
                 await awtsmoosJSON.isAwtsmoosObject(data)
             ) {
-                var j = await 
+                try {
+                    var j = await 
                     awtsmoosJSON.deserializeBinary(data);
-                curFolder = j;
-                totalFolderData = j;
+
+                    curFolder = j;
+                    totalFolderData = j;
+                } catch(e) {
+                    console.log("What isn't this",data,e)
+                    throw new Error("Well well")
+                }
+                
+                
             } else {
-             
+                
+                
                 return {
                     parentFolder: curParentFolder,
-                    totalFolderData
+                    totalFolderData,
+                    allFoldersPathObject
                 };
                 throw Error("Not valid data "+segment)
                 return null;
@@ -276,7 +293,8 @@ async function getCurrentFolder({
     
     return {
         parentFolder: curParentFolder,
-        totalFolderData
+        totalFolderData,
+        allFoldersPathObject
     };
 }
 
@@ -310,7 +328,8 @@ async function makeFolder({
             currentPath: [],
             folderName: "root",
             name,
-            superBlock
+            superBlock,
+            readFolder
         });
         return;
     }
@@ -321,11 +340,14 @@ async function makeFolder({
         path,
         superBlock
         
-    })  
+    });
+    
   
     superBlock = getCachedSuperBlock(filePath);
 
     if(parentFolderToWriteTo) {
+        var allFoldersPathObject = parentFolderToWriteTo
+            .allFoldersPathObject;
         /*var getFolder = await readFolderData({
             filePath,
             blockID: parentFolderToWriteTo
@@ -350,8 +372,11 @@ async function makeFolder({
             folderName: parentFolderName,
             parentFolderData,
             currentPath: path,
+            allFoldersPathObject,
             name,
-            superBlock
+            superBlock,
+
+            readFolder
 
         });
         
@@ -513,6 +538,9 @@ async function makeFile({
         filePath, path
     });
 
+    var allFoldersPathObject = parentInfo
+            .allFoldersPathObject;
+
     var superBlock = getCachedSuperBlock(filePath);
 
 
@@ -539,10 +567,13 @@ async function makeFile({
         currentPath: path,
         folderName: parentFolderName,
         parentFolderData,
+        allFoldersPathObject,
         name,
         data,
         type: "file",
-        superBlock
+        superBlock,
+
+        readFolder
     });
     
 }

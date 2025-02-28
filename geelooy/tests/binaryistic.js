@@ -90,16 +90,33 @@ var ob =
 ;;
 ;
   
+for(var i = 0; i < 5121; i++) {
+    ob["wowS_"+i] = [i,i*i,i+i,i-i]
+}
 
+ob.ar = []
+
+for(var i = 0; i < 1880; i++) {
+    ob.ar.push(
+       
+      {
+            [i]: "wow_"+(i*i)
+        }
+        
+        
+    )
+}
 (async () => {
     var path = "./BH_wow.awtsmoos"
-    console.log("input obj", JSON.stringify(ob,null,"\t"))
+  //  console.log("input obj", JSON.stringify(ob,null,"\t"))
     var ser =await b.serializeJSON(ob);
-    console.log("Serialized",ser,b.logBuffer(ser), ser.toString())
+    
+    
+    console.log("Serialized")
     //await fs.writeFile("./wow.awts", ser);
     var deser = await b.deserializeBinary(ser);
     console.log("Did it",deser);
-    var keys = await b.getKeysFromBinary(ser);
+    /*var keys = await b.getKeysFromBinary(ser);
     console.log("keys 1",keys);
     console.log("Got",await b.getValueByKey(ser,"ok"))
    //

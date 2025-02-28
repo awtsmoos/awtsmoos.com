@@ -31,9 +31,21 @@ const FILESYSTEM_PATH =
             let fileData = await os.readBlock({ filePath: fs, blockId: targetPath });
             var data = fileData.data;
             var ser;
-            if(await bin.isAwtsmoosObject(data))
-                ser = await bin.deserializeBinary(data);
-            else ser = (data+"").substring(0,7)+"..";
+           
+            ser = (data+"").substring(0,7)+"..";
+            console.log("File content:", fileData, ser);
+        } else if (command === "readBlockFull") {
+            let fileData = await os.readBlock({ filePath: fs, blockId: targetPath });
+            var data = fileData.data;
+            var ser;
+            if(await bin.isAwtsmoosObject(data)) {
+                try {
+                    ser = await bin.deserializeBinary(data);
+                } catch(e) {
+                    console.log("COULDNT gget awts",e)
+                }
+            }
+            else ser = (data+"")
             console.log("File content:", fileData, ser);
         } else if (command === "read") {
             let fileData = await os.readFile({ filePath: fs, path: targetPath });

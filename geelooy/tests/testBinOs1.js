@@ -23,20 +23,47 @@ var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
     await os.makeFile({
       path: "/qwert/MT.txt",
-      data:`a`
+      data:Buffer.from(`a`)
+    });
+
+    await os.makeFile({
+      path: "/qwert/awtsOb",
+      data: awtsJ.serializeJSON({
+        well: "hello",
+        ar: Array.from({
+          length: 2400
+        }).map((w,i) => [i * i, i + i])
+      })
     })
+
+
     await os.mkdir("/okWell1")
     await os.mkdir("/wow/well")
     await os.mkdir("/qwerty")
 
+    await os.mkdir("/why")
+    await os.mkdir("/why/me");
+    await os.mkdir("/why/me/today");
+    await os.mkdir("/why/me/today/again");
+  
     await os.mkdir("/asdfg")
 
+    await os.makeFile({
+      path: "/asdfg/weil.txt",
+      data:`B"H
+      `+ (
+        Array.from({
+          length:12000
+        }).map((q,i) => i)
+        .join("-")
+      )
+    })
     await os.mkdir("/asdfg/lol")
     await os.mkdir("/asdfg/lol/ok")
 
     await os.mkdir("/qwerty/qws")
     await os.mkdir("/stressTest")
-    for(var k = 0; k < 1230; k++) {
+    for(var k = 0; k < 60; k++) {
       await os.mkdir("/stressTest/ok"+k)
     }
     

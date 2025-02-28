@@ -18,11 +18,13 @@ async function updateParentFolder({
 	newChildId,
 	newChildName,
 	currentPath,
+	allFoldersPathObject,
 	newChildType,
 	
     log=false,
 
-	writeAtNextFreeBlock
+	writeAtNextFreeBlock,
+	readFolder
 } = {}) {
 	superBlock = superBlock ||
 	await getSuperBlock(filePath);
@@ -146,35 +148,90 @@ async function updateParentFolder({
 
 	
 	var write = await writeAtNextFreeBlock(writing);
-	
+	//console.log("Just wrote folder", folderName, write.index)
     superBlock = write.superBlock;
-	if(oldId === null & write.index) {
+	if(oldId === null && write.index) {
+
+		/**
+		 * we just replaced our 
+		 * null index with new one.
+		 * 
+		 * we gotta update the parent(s) recursively
+		 * to reflect that.
+		 */
 		
 		var pathCopy = Array.from(currentPath);
 		pathCopy.pop();
+
+
 		var nextParent = !pathCopy.length ?
 			"root" : pathCopy[pathCopy.length-1];
-		var upt = null;
+
+	
+			
 		if(nextParent == "root") {
-			upt = await updateParentFolder({
+			var upt = await updateParentFolder({
 				filePath,
 				folderId: 1,
 				
-				folderName: "root",
+				folderName: nextParent,
 				superBlock,
 				newChildId: write.index,
 				newChildName: folderName,
 				currentPath: pathCopy,
+				
 				newChildType: "folder",
 				writeAtNextFreeBlock
 			})
-		}
+		///	console.log("Updated root", write.index,folderName)
+		} else {
+			var cop = Array.from(pathCopy);
+			cop.pop();
+			var red = await readFolder({
+				filePath,
+				path: cop.join("/"),
+				withValues: true
+			});
+			var me = red[nextParent];
+
+			var meId = me?.[0];
+		/*	console.log(
+				"nextP",
+				nextParent,
+				"new id",
+				write.index,
+				"name of entry written",
+				folderName
+				,
+				red,
+				me,
+				meId
+			);*/
+
+			if(meId) {
+				var upt = await updateParentFolder({
+					filePath,
+					folderId: meId,
+					
+					folderName: nextParent,
+					superBlock,
+					newChildId: write.index,
+					newChildName: folderName,
+					currentPath: cop,
+					
+					newChildType: "folder",
+					writeAtNextFreeBlock
+				})
+			}
+		}/*
 		console.log("WROTE",write.index, folderName,
 			currentPath,nextParent,
 			folderName,
 			upt?.write
-		)
+		)*/
 		
+	} else {
+		//console.log("What",write.index,folderName,oldId)
 	}
 
 	return {

@@ -180,9 +180,10 @@ async function readBlock({
 			superBlock
 		};
 	}
-	if(allBlockIDs.length)
-	console.log("sub IDs gotten",allBlockIDs,index)
-
+	
+	/*if(allBlockIDs.length)
+		console.log("sub IDs gotten",allBlockIDs,index)
+*/
 	var timeToGetOwnData;
 	if(isFirstBlock) {
 		var internalDataOffset = fixedMetadataSize + 
@@ -232,7 +233,7 @@ async function readBlock({
 		data: totalData,
 		blockId: index,
 		allBlockIDs,
-		
+		allBlockList,
 		superBlock:superblockInfo
 		/*timeStamps,
 		timeToGetOwnData,
@@ -328,6 +329,11 @@ async function getExtentOfBlockIDs({
 	var blockSize = superBlock.blockSize;
 	var blockIdByteSize = superBlock.blockIdByteSize;
 
+
+	var blockMetadataSize = 
+		blockHeaderSize(blockIdByteSize)
+
+
 	var firstBlockOffset = superBlock.firstBlockOffset;
 	var startOffset = firstBlockOffset + (start - 1) * blockSize;
 	var byteSizesToGet = (end - start + 1) * blockSize;
@@ -341,8 +347,7 @@ async function getExtentOfBlockIDs({
 	var blocks = blockRequest?.blocks;
 
 	const fixedMetadataSize = 
-		1 + 
-		blockIdByteSize;
+		blockMetadataSize
 		/**
 		 * isDeleted&Type (1 byte)
 		 * nextBlockId (variable size)

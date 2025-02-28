@@ -255,6 +255,7 @@ async function writeAtNextFreeBlock({
 	name,
 	parentFolderId=0,
     currentPath,
+    allFoldersPathObject,
     parentFolderData,
 	folderName,
 	isInChain = false,
@@ -264,7 +265,9 @@ async function writeAtNextFreeBlock({
 	overwriteIndex = null,
 	doNotUpdateParent = false,
 
-    isFromUpdate = false
+    isFromUpdate = false,
+
+    readFolder
 }) {
 
 	/**
@@ -348,7 +351,11 @@ async function writeAtNextFreeBlock({
 					ob = await awtsmoosJSON?.deserializeBinary(data);
 					
 				} else {
-                   // console.log("Nope",blockIndex,parentFolderId)
+                  /*  console.log(
+                        "Nope",
+                        blockIndex,
+                        parentFolderId
+                    )*/
                     return {
                         blockIndex,
                         superBlock
@@ -362,7 +369,7 @@ async function writeAtNextFreeBlock({
 						need to get current data of SELF
 					*/
 					var selfBlockIndex = blockIndex;
-             
+                    
                     var selfBlock = await readBlock({
 						filePath,
 						index: selfBlockIndex,
@@ -391,7 +398,9 @@ async function writeAtNextFreeBlock({
 								data = awtsmoosJSON.serializeJSON(newData);
 							} 
 						}
-					}
+					} else {
+                        console.log("What?",ob)
+                    }
 				}
 
 			} else if(type == "file"){
@@ -588,7 +597,7 @@ async function writeAtNextFreeBlock({
             var s = await awtsmoosJSON.deserializeBinary(
                 data
             )
-            console.log("Writing ROOT",s)
+           // console.log("Writing ROOT",s)
         }
         // Build metadata instructions.
         let metadataInstructions = [];
@@ -745,7 +754,10 @@ async function writeAtNextFreeBlock({
 			newChildName: name,
             newChildType: type,
             currentPath,
-			writeAtNextFreeBlock
+            allFoldersPathObject,
+            
+			writeAtNextFreeBlock,
+            readFolder
 		});
         if(upt && upt.superBlock)
             superBlock = upt.superBlock;
