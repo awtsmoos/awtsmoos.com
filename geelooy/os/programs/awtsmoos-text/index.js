@@ -82,7 +82,15 @@ export default ({
 
         await system.makeToast("Copied public URL to clipboard!")
       }],
-      ['Download', () => {}]
+      ['Download', () => {
+        var u = URL.createObjectURL(
+          new Blob([content])
+        );
+        var a  = document.createElement("a")
+        a.href = u;
+        a.download = fileName;
+        a.click()
+      }]
     ]);
     
     
