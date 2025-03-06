@@ -5,7 +5,8 @@ export default ({
     fileName, 
     content,
     system,
-    extension
+    extension,
+    path
   } = {}) => {
     
     var id = "awtsmoosText";
@@ -62,8 +63,25 @@ export default ({
       
 
     var awtsmoosFuncs = new Map([
-      ['Import', () => {}],
-      ['Export', () => {}]
+      ['Get Public URL', async () => {
+        if(!window.curAlias) {
+          await system.makeToast("Not logged in with alias!");
+          return;
+        }
+
+        var base = location.origin + 
+          `/api/social/aliases/${
+            curAlias
+          }/fileSystem/readFile?${
+            new URLSearchParams({
+              path
+            })
+          }`;
+        await navigator.clipboard.writeText(base);
+
+        await system.makeToast("Copied public URL to clipboard!")
+      }],
+      ['Download', () => {}]
     ]);
     
     

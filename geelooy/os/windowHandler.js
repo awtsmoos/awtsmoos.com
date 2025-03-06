@@ -1,31 +1,11 @@
 //B"H
+import System from "./system.js"
 import ResizableWindow from "./windows.js"
 import {
     programs,
     programsByExtensionDefaults
 } from "./basicPrograms.js"
-class System {
-    path = null
-    os = null
-    constructor({path, os}={}) {
-        this.path = path;
-        this.os = os
-    }
-    async save(program) {
-        var content = program?.content();
-        var fileName = program?.fileName();
-        console.log("Trying",fileName,content,program);
-        if(!fileName) return false;
-        var path = this.path;
-        if(!path) return;
-        console.log("doing filenam",fileName,content);
-        
-        window.os = this.os;
-        
-        await this.os?.db.Koysayv(path, fileName, content);
-        return true;
-    }
-}
+
 export default class WindowHandler {
     windows = [];
     constructor() {
