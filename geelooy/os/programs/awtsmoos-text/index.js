@@ -69,12 +69,13 @@ export default ({
           return;
         }
 
+
         var base = location.origin + 
           `/api/social/aliases/${
             curAlias
           }/fileSystem/readFile?${
             new URLSearchParams({
-              path
+              path: path + "/" + fileName
             })
           }`;
         await navigator.clipboard.writeText(base);
