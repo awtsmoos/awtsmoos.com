@@ -25,7 +25,7 @@ export default class System {
         const toast = document.createElement('div');
         
         // Apply toast styles
-        toast.textContent = message;
+        toast.textContent = text;
         toast.style.position = 'fixed';
         toast.style.bottom = '16px'; // Positioned towards the bottom
         toast.style.left = '50%';
