@@ -1,13 +1,14 @@
 <h1>B"H</h1>
 <?Awtsmoos
 //<script>
-    
+    var url = $_GET["redirect"];
+    var red = url ? url : "/"
     response.setHeader("set-cookie",`awtsmoosKey=; HttpOnly; `+
             "max-age=0; Path=/;");
 
     response.setHeader(
         "refresh",
-        "0; url=/"
+        "0; url="+red
     );
     
 //</script>

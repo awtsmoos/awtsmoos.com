@@ -19,7 +19,8 @@ export default function createProfileDropdown(parentElement) {
                 <input type="password" id="loginPassword" placeholder="Password">
                 <button id="loginSubmit">Log In</button>
                 <div class="description">
-                    Need an account? <a href="#" id="toggleRegister">Create one</a> | 
+                <div class="msg">Need an account?</div><br>
+                    <a href="#" id="toggleRegister">Create one</a> | 
                     <a href="/login">Full Login</a>
                 </div>
             </div>
@@ -29,7 +30,8 @@ export default function createProfileDropdown(parentElement) {
                 <input type="password" id="registerPassword" placeholder="Password">
                 <button id="registerSubmit">Create Account</button>
                 <div class="description">
-                    Have an account? <a href="#" id="toggleLogin">Log In</a> | 
+                    <div class="msg">Have an account?</div><br>
+                    <a href="#" id="toggleLogin">Log In</a> | 
                     <a href="/login">Full Login</a>
                 </div>
             </div>
@@ -70,12 +72,19 @@ export default function createProfileDropdown(parentElement) {
     const style = document.createElement('style');
     document.head.appendChild(style);
     style.textContent = /*css*/`
+        .awtsmoosDrop {
+            z-index: 999999999999999999;
+            font-family: Arial, sans-serif;
+        }
+        div#createAliasDropdown {
+            transform: translate(0px, -61px);
+        }
         .awtsmoosDrop .btn,
         .awtsmoosDrop button,
         .awtsmoosDrop a {
             padding: 10px 26px 10px 16px;
-            background: linear-gradient(135deg, #6b48ff, #00ddeb);
-            color: white !important;
+            background: linear-gradient(135deg,rgb(141, 121, 230), #00ddeb);
+            
             border-radius: 8px;
             cursor: pointer;
             border: 1px solid black;
@@ -84,7 +93,7 @@ export default function createProfileDropdown(parentElement) {
             font-weight: bold;
             user-select: none;
             transition: all 0.3s ease;
-            
+            color:black !important;
             display: inline-block;
         }
         .awtsmoosDrop .highlight {
@@ -95,9 +104,10 @@ export default function createProfileDropdown(parentElement) {
         .awtsmoosDrop .btn:hover,
         .awtsmoosDrop a:hover,
         .awtsmoosDrop button:hover {
-            background: linear-gradient(135deg, #8a67ff, #4deaff);
+            background: linear-gradient(135deg,rgb(75, 44, 177),rgb(25, 98, 107));
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            color:black !important;
+            
+            color: white !important;
         }
         .aliasId.default { background: #ffce00; }
         .aliasId.default:hover { background: #ffe066; }
@@ -130,22 +140,30 @@ export default function createProfileDropdown(parentElement) {
         }
         .awtsmoosDrop .currentAlias { padding: 10px; color: #333; }
         .awtsmoosDrop .currentAlias a {
-            background: hsl(245deg 100% 50%);
+            
+            background: #ffd700;
             padding: 5px 10px;
             border-radius: 5px;
             color: white;
         }
-        .awtsmoosDrop .currentAlias a:hover { background: #ffd700; color: #333; }
+        .awtsmoosDrop .currentAlias a:hover {background:rgb(42, 63, 99); color: #333; }
         .awtsmoosDrop .arrow { 
-            position: absolute; 
-            right: 8px; 
-            top: 50%; 
-            transform: translateY(-50%);
+            
+            display: inline-block;
+           
+          
+            margin-right: -10px;
             transition: transform 0.3s ease; 
         }
-        .awtsmoosDrop .arrow.right { transform: translateY(-50%) rotate(270deg); }
+
+        .awtsmoosDrop .arrow.up {
+            transform: rotate(180deg)
+        }
+        .awtsmoosDrop .arrow.right { transform:  rotate(-90deg); }
         .awtsmoosDrop .dropdown-content {
             padding: 20px;
+            color:black;
+
             position: fixed;
             right: 50px;
             background: linear-gradient(135deg, #ffffff, #f0f0ff);
@@ -178,17 +196,7 @@ export default function createProfileDropdown(parentElement) {
             outline: none;
         }
         .alias-form textarea { min-height: 80px; resize: vertical; }
-        .alias-form button {
-            padding: 12px;
-            background: linear-gradient(135deg, #00ddeb, #6b48ff);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .alias-form button:hover { background: linear-gradient(135deg, #4deaff, #8a67ff); }
+        
         .alias-form button:disabled { background: #ccc; cursor: not-allowed; }
         .validation-message { font-size: 12px; margin-top: 5px; }
         .valid { color: #00cc00; }
@@ -214,6 +222,11 @@ export default function createProfileDropdown(parentElement) {
             font-size: 20px;
             font-weight: bold;
         }
+        .awtsmoosDrop input,
+        .awtsmoosDrop textarea {
+
+            font-size: 1.3em;
+        }
         #signinDropdown input {
             width: calc(100% - 25px);
             padding: 10px;
@@ -221,7 +234,6 @@ export default function createProfileDropdown(parentElement) {
             border: 2px solid #999;
             border-radius: 6px;
             background: #f9f9f9;
-            font-size: 14px;
             transition: border-color 0.3s ease;
         }
         #signinDropdown input:focus {
@@ -286,7 +298,9 @@ export default function createProfileDropdown(parentElement) {
                         if (element.tagName === 'A') element.href = '/@' + alias;
                     });
                 }
-                document.getElementById('logoutSection').innerHTML = `<a href="/logout">Logout</a>`;
+                document.getElementById('logoutSection').innerHTML = `<a href="/logout?redirect=${
+                    encodeURIComponent(location.href)
+                }">Logout</a>`;
             } else {
                 logged.classList.add("hidden");
                 notLogged.classList.remove("hidden");
@@ -470,6 +484,8 @@ export default function createProfileDropdown(parentElement) {
         showAliases(aliasesGot || []);
     });
 
+    
+    
     function showAliases(aliases) {
         aliasInfo.innerHTML = '';
         if (!aliases.length) {
@@ -502,25 +518,66 @@ export default function createProfileDropdown(parentElement) {
                 });
             });
         }
-
-        const form = document.createElement('div');
-        form.className = 'alias-form';
-        form.innerHTML = /*html*/`
+    
+        // Add the "Create New Alias" dropdown toggle button
+        const createAliasToggle = document.createElement('div');
+        createAliasToggle.className = 'btn dropt';
+        createAliasToggle.id = 'createAliasToggle';
+        createAliasToggle.innerHTML = 'Create New Alias <span class="arrow up">▼</span>';
+        aliasInfo.appendChild(createAliasToggle);
+    
+        // Add the dropdown content for the alias creation form
+        const createAliasDropdown = document.createElement('div');
+        createAliasDropdown.className = 'hidden dropdown-content alias-form';
+        createAliasDropdown.id = 'createAliasDropdown';
+        createAliasDropdown.innerHTML = /*html*/`
             <input type="text" id="aliasName" placeholder="Alias Name">
             <textarea id="aliasDescription" placeholder='B"H\nDescription of Alias'></textarea>
             <input type="text" id="aliasId" placeholder="Alias ID">
             <div id="validationMessage" class="validation-message"></div>
-            <button id="createAlias">Create New Alias</button>
+            <button id="createAliasSubmit">Create</button>
         `;
-        aliasInfo.appendChild(form);
-
+        aliasInfo.appendChild(createAliasDropdown);
+    
+        // Toggle logic for the "Create New Alias" dropdown
+        const createAliasArrow = createAliasToggle.querySelector('.arrow');
+        let createAliasBack = null;
+    
+        createAliasToggle.addEventListener('click', () => {
+            dropdownify(createAliasDropdown, createAliasArrow);
+            if (!createAliasDropdown.classList.contains('hidden')) {
+                createAliasBack = makeBackdropForCreateAlias();
+            } else if (createAliasBack) {
+                createAliasBack.remove();
+            }
+        });
+    
+        // Backdrop function for the create alias dropdown
+        function makeBackdropForCreateAlias() {
+            const backdrop = document.createElement('div');
+            createAliasDropdown.style.zIndex = 10000000;
+            const id = 'BH_createAlias_' + Date.now();
+            backdrop.classList.add(id + '-blocker', 'awtsBlock');
+            const sty = document.createElement('style');
+            backdrop.appendChild(sty);
+            sty.innerHTML = `.${id}-blocker { position: fixed; left: 0; top: 0; margin: 0; z-index: 9999999; background: rgba(0,0,0,0.4); width: 100%; height: 100%; }`;
+            document.body.appendChild(backdrop);
+            backdrop.addEventListener('click', () => {
+                createAliasDropdown.classList.add('hidden');
+                createAliasArrow.classList.remove('right');
+                backdrop.remove();
+            });
+            return backdrop;
+        }
+    
+        // Alias creation form logic
         const aliasNameInput = document.getElementById('aliasName');
         const aliasDescriptionInput = document.getElementById('aliasDescription');
         const aliasIdInput = document.getElementById('aliasId');
         const validationMessage = document.getElementById('validationMessage');
-        const createButton = document.getElementById('createAlias');
+        const createAliasSubmit = document.getElementById('createAliasSubmit');
         let lastGeneratedId = '';
-
+    
         async function checkAlias(input, isId = false) {
             const value = input.value.trim();
             if (!value) {
@@ -533,7 +590,7 @@ export default function createProfileDropdown(parentElement) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 credentials: 'include'
             }).then(r => r.json());
-
+    
             if (resp.aliasId) {
                 validationMessage.textContent = isId ? 'ID is available' : 'Generated ID available';
                 validationMessage.className = 'validation-message valid';
@@ -552,15 +609,15 @@ export default function createProfileDropdown(parentElement) {
                 validationMessage.className = 'validation-message invalid';
             }
         }
-
+    
         aliasNameInput.addEventListener('input', () => checkAlias(aliasNameInput));
         aliasIdInput.addEventListener('input', () => {
             if (aliasIdInput.value !== lastGeneratedId) {
                 checkAlias(aliasIdInput, true);
             }
         });
-
-        createButton.addEventListener('click', async () => {
+    
+        createAliasSubmit.addEventListener('click', async () => {
             const name = aliasNameInput.value.trim();
             const description = aliasDescriptionInput.value.trim();
             const id = aliasIdInput.value.trim();
@@ -569,7 +626,7 @@ export default function createProfileDropdown(parentElement) {
                 validationMessage.className = 'validation-message invalid';
                 return;
             }
-            createButton.disabled = true;
+            createAliasSubmit.disabled = true;
             const resp = await fetch('/api/social/aliases', {
                 method: 'POST',
                 body: new URLSearchParams({
@@ -581,8 +638,8 @@ export default function createProfileDropdown(parentElement) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 credentials: 'include'
             }).then(r => r.json());
-
-            createButton.disabled = false;
+    
+            createAliasSubmit.disabled = false;
             if (!resp.error) {
                 aliasesGot.push({ id, name });
                 showAliases(aliasesGot);
@@ -591,6 +648,10 @@ export default function createProfileDropdown(parentElement) {
                 aliasIdInput.value = '';
                 validationMessage.textContent = 'Alias created!';
                 validationMessage.className = 'validation-message valid';
+                // Optionally close the dropdown after creation
+                createAliasDropdown.classList.add('hidden');
+                createAliasArrow.classList.remove('right');
+                if (createAliasBack) createAliasBack.remove();
             } else {
                 validationMessage.textContent = 'Failed to create alias: ' + (resp.error.message || 'Unknown error');
                 validationMessage.className = 'validation-message invalid';

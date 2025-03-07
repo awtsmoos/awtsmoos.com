@@ -102,14 +102,16 @@ export default [
         },
         children: [
             {
+                className: "loginHeader",
+                children: [
+                    
+                    loginBtn,
+                ]
+            },
+            {
                 className: "info",
                 children: [
-                    {
-                        className: "loginHeader",
-                        children: [
-                            loginBtn
-                        ]
-                    },
+                    
                     {
                         className: "mainTitle",
                         child: {

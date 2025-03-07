@@ -3,7 +3,7 @@
  * Collective CSS
  * styles for the 2nd skin
  */
-
+import login from "./login.js"
 import dialogue from "./dialogue.js";
 import mainMenu from "./mainMenu.js";
 import loading from "./loading.js"
@@ -13,6 +13,9 @@ import shlichus from "./shlichus.js"
 import actionBars from "./actionBars.js"
 export default /*css*/`
     /*B"H*/
+
+    ${login}
+
     ${mainMenu}
 
     ${dialogue}

@@ -5,6 +5,7 @@
 import shlichusUI from "./shlichusUI.js";
 import joystick  from "./joystick.js";
 import instructions from "./instructions.js";
+import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 import loginBtn from "./loginBtn.js";
 

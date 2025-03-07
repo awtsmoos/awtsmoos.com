@@ -254,7 +254,7 @@ export default /*css*/`
     
 
     .menu .info {
-        z-index:44;
+       
         position:absolute;
         top:50%;
         text-align: center;
