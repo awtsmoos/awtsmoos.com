@@ -3,7 +3,7 @@
  */
 
 
-import UI from "/games/scripts/awtsmoos/ui/index.js";
+import UI from "/scripts/awtsmoos/ui/index.js";
 import style from "./ui/style.js";
 import btnBubble from "./ui/resources/btnBubble.js"
 import mainMenu from "./ui/mainMenu.js";

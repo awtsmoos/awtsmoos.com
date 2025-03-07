@@ -502,10 +502,6 @@ setHtml(el, opts = {}) {
         el.appendChild(child);
     }
 
-    // Invoke the ready callback if specified
-    if (typeof opts.ready === "function") {
-        opts.ready(el, findOthersFunction, this);
-    }
 
     var evs = opts.events || opts.on;
     // Attach event listeners if the events property is specified
@@ -530,6 +526,11 @@ setHtml(el, opts = {}) {
     ) {
         el.outerHTML = opts.outerHTML
     }*/
+    
+    // Invoke the ready callback if specified
+    if (typeof opts.ready === "function") {
+        opts.ready(el, findOthersFunction, this);
+    }
     return el;
 }
 
