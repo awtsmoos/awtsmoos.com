@@ -11,7 +11,7 @@ module. exports={
     ":a",
     async (vars)=>{
       
-      var pt = `/api/social/aliases/${vars.a}/ownership`;
+      var pt = `/api/social/alias/${vars.a}/ownership`;
 	  
       var belongsToMe = loggedInUser ? 
 	  await $i.fetchAwtsmoos(
@@ -21,7 +21,7 @@ module. exports={
       ) : {code: "NO"};
 	  belongsToMe = belongsToMe.code != "NO"
 	  var aliasDetails = await $i.fetchAwtsmoos(
-		`/api/social/aliases/${vars.a}/details`
+		`/api/social/alias/${vars.a}/details`
 	  )
       var t=await $i.fetchAwtsmoos(
         "/@/_awtsmoos.alias.html",
