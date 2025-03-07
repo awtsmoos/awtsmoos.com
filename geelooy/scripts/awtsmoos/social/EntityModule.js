@@ -6,7 +6,7 @@
  */
 
 import AwtsmoosSocialHandler from './AwtsmoosSocialHandler.js';
-import UI from "/scripts/awtsmoos/ui.js";
+import UI from "/scripts/awtsmoos/ui/index.js";
 import Awts from "../alerts.js";
 var ui = new UI();
 

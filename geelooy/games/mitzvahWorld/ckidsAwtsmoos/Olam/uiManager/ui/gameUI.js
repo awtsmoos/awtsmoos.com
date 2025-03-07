@@ -5,6 +5,9 @@
 import shlichusUI from "./shlichusUI.js";
 import joystick  from "./joystick.js";
 import instructions from "./instructions.js";
+
+import loginBtn from "./loginBtn.js";
+
 var ui = [
     instructions,
     {
@@ -59,6 +62,19 @@ var ui = [
                         shaym: "Debug",
                         className: "hidden",
                         textContent:"Debugging"
+                    }
+                ]
+            },
+            {
+                shaym: "profile and login",
+                className: "loginInfo",
+                children: [
+                    {
+                        className: "loginHolder",
+                        children: [
+                            loginBtn
+                            
+                        ]
                     }
                 ]
             }

@@ -5,7 +5,7 @@
  * 
  * Accessed when first loaded. 
  */
-import menu from "./menu.js";
+import loginBtn from "./loginBtn.js"
 import mitzvahBtn from "./resources/mitzvahBtn.js";
 import loading from "./loading.js";
 
@@ -104,7 +104,12 @@ export default [
             {
                 className: "info",
                 children: [
-
+                    {
+                        className: "loginHeader",
+                        children: [
+                            loginBtn
+                        ]
+                    },
                     {
                         className: "mainTitle",
                         child: {

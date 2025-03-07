@@ -12,7 +12,7 @@
  * 
  */
 
-import UI from "./ui.js";
+import UI from "./ui/index.js";
 export default class Awts {
     static stylesAdded = false;
 
