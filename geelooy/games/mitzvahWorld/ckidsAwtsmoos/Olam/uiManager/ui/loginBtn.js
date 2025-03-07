@@ -7,7 +7,7 @@ window.awtsOpen = awtsOpen;
 
 export default {
 
-    className: "loginStatus",
+    className: "loginStatus awtsmoosBtn",
     
     ready(me, $) {
         console.log("HI",window.a=me)

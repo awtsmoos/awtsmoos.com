@@ -1413,3 +1413,16 @@ function getDistanceBetweenTouches(e) {
                      Math.pow(touch2.pageY - touch1.pageY, 2)));
 }
 
+function hasParentWithClass(element, classString) {
+    let currentElement = element;
+    
+    while (currentElement && currentElement !== document.body) {
+        if (currentElement.className && 
+            currentElement.className.includes(classString)) {
+            return true;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    
+    return false;
+}
