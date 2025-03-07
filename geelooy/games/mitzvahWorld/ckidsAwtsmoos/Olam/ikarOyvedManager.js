@@ -780,6 +780,7 @@ export default class OlamWorkerManager {
 
         addEventListener('mousedown', (event) => {
             var tg = event.target.tagName.toLowerCase();
+            var el = event.target;
             var cl = event
                 .target
                 .className;
@@ -794,7 +795,7 @@ export default class OlamWorkerManager {
                     cl
                     .includes("mitzvahBtn")
                     ||
-                    cl.includes("awtsmoosBtn")
+                    hasParentWithClass(el,"awtsmoosBtn")
                 )
             )) {
                 return;
