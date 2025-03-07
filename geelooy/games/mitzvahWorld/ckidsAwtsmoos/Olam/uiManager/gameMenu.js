@@ -3,6 +3,7 @@
  * in game menu items
  */
 export default [
+    
     {
         text: "Back",
         show: "menu"

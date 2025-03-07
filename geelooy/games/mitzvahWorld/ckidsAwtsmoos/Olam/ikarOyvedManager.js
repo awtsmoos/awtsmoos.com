@@ -793,6 +793,8 @@ export default class OlamWorkerManager {
                     ||
                     cl
                     .includes("mitzvahBtn")
+                    ||
+                    cl.includes("awtsmoosBtn")
                 )
             )) {
                 return;

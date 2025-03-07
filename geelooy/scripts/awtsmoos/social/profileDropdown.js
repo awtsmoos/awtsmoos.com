@@ -160,6 +160,9 @@ export default function createProfileDropdown(parentElement) {
             transform: rotate(180deg)
         }
         .awtsmoosDrop .arrow.right { transform:  rotate(-90deg); }
+
+        .awtsmoosDrop .arrow.right2 { transform:  rotate(270deg); }
+
         .awtsmoosDrop .dropdown-content {
             padding: 20px;
             color:black;
@@ -314,14 +317,14 @@ export default function createProfileDropdown(parentElement) {
     const signinArrow = signinButton.querySelector('.arrow');
     let signinBack = null;
 
-    function dropdownify(content, arrow) {
+    function dropdownify(content, arrow, custom="right") {
         const isHidden = content.classList.contains('hidden');
         if (isHidden) {
             content.classList.remove('hidden');
-            arrow.classList.add('right');
+            arrow.classList.add(custom);
         } else {
             content.classList.add('hidden');
-            arrow.classList.remove('right');
+            arrow.classList.remove(custom);
         }
     }
 
@@ -544,27 +547,10 @@ export default function createProfileDropdown(parentElement) {
         let createAliasBack = null;
     
         createAliasToggle.addEventListener('click', () => {
-            dropdownify(createAliasDropdown, createAliasArrow);
-            
+            dropdownify(createAliasDropdown, createAliasArrow, "right2");
+           
         });
     
-        // Backdrop function for the create alias dropdown
-        function makeBackdropForCreateAlias() {
-            const backdrop = document.createElement('div');
-            createAliasDropdown.style.zIndex = 10000000;
-            const id = 'BH_createAlias_' + Date.now();
-            backdrop.classList.add(id + '-blocker', 'awtsBlock');
-            const sty = document.createElement('style');
-            backdrop.appendChild(sty);
-            sty.innerHTML = `.${id}-blocker { position: fixed; left: 0; top: 0; margin: 0; z-index: 9999999; background: rgba(0,0,0,0.4); width: 100%; height: 100%; }`;
-            document.body.appendChild(backdrop);
-            backdrop.addEventListener('click', () => {
-                createAliasDropdown.classList.add('hidden');
-                createAliasArrow.classList.remove('right');
-                backdrop.remove();
-            });
-            return backdrop;
-        }
     
         // Alias creation form logic
         const aliasNameInput = document.getElementById('aliasName');

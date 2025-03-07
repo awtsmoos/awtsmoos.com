@@ -68,7 +68,7 @@ var ui = [
             },
             {
                 shaym: "profile and login",
-                className: "loginInfo",
+                className: "loginInfo awtsmoosBtn",
                 children: [
                     {
                         className: "loginHolder",

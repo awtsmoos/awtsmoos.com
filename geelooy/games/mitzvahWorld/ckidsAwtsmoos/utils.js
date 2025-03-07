@@ -10,6 +10,7 @@
 
 
 import * as AWTSMOOS from "../ckidsAwtsmoos/awtsmoosCkidsGames.js";
+import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 import * as THREE from '/games/scripts/build/three.module.js';
 var IDs = 0;
