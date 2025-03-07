@@ -545,11 +545,7 @@ export default function createProfileDropdown(parentElement) {
     
         createAliasToggle.addEventListener('click', () => {
             dropdownify(createAliasDropdown, createAliasArrow);
-            if (!createAliasDropdown.classList.contains('hidden')) {
-                createAliasBack = makeBackdropForCreateAlias();
-            } else if (createAliasBack) {
-                createAliasBack.remove();
-            }
+            
         });
     
         // Backdrop function for the create alias dropdown
