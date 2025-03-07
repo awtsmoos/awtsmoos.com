@@ -66,6 +66,7 @@ var ui = [
                     }
                 ]
             },
+            loginBtn/*
             {
                 shaym: "profile and login",
                 className: "loginInfo awtsmoosBtn",
@@ -73,12 +74,12 @@ var ui = [
                     {
                         className: "loginHolder",
                         children: [
-                            loginBtn
+                            
                             
                         ]
                     }
                 ]
-            }
+            }*/
         ],
         style: {
             top: "0px"
