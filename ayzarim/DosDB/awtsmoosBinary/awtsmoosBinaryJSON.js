@@ -109,7 +109,7 @@ function serializeJSON(json) {
                
             //    console.log("WROTE value",value,valueBuffer,logBuffer(valueBuffer),valueBuffer.toString())
             } else if(typeof(value) == "string") {
-                let valueString = Buffer.from(valueString, 'utf8');
+                var valueString = Buffer.from(value, 'utf8');
                 var valLength = writeConditional(valueString)
             //    console.log("LENTH",value,valLength.buffer,valueString)
                 valueBuffer = Buffer.concat(
