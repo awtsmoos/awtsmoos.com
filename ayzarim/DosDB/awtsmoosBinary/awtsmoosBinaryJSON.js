@@ -93,7 +93,7 @@ function serializeJSON(json) {
             if (Array.isArray(value)) {
                 let arrayBuffer = serializeArray(value);
                 
-                var length = writeConditional(arrayBuffer.length)
+                var length = writeConditional(Buffer.byteLength(arrayBuffer))
             //    console.log("Array",value, arrayBuffer,length)
                 valueBuffer = Buffer.concat([
                     Buffer.from([0x03]), 
@@ -102,20 +102,20 @@ function serializeJSON(json) {
                 ]);
             } else if (typeof value === 'object' && value !== null) {
                 var val  = serializeJSON(value);
-                var length = writeConditional(val.length)
+                var length = writeConditional(Buffer.byteLength(val))
                 valueBuffer = Buffer.concat([
                     Buffer.from([0x01]), length.buffer, val
                 ]);
                
             //    console.log("WROTE value",value,valueBuffer,logBuffer(valueBuffer),valueBuffer.toString())
             } else if(typeof(value) == "string") {
-                let valueString = value;
-                var valLength = writeConditional(valueString.length)
+                let valueString = Buffer.from(valueString, 'utf8');
+                var valLength = writeConditional(valueString)
             //    console.log("LENTH",value,valLength.buffer,valueString)
                 valueBuffer = Buffer.concat(
                     [Buffer.from([0x02]), 
                     valLength.buffer, 
-                    Buffer.from(valueString, 'utf8')]
+                    valueString]
                 );
                
             } else if(
@@ -125,6 +125,7 @@ function serializeJSON(json) {
                 let valueString = writeConditional(value);
            //     console.log("WRriting",valueString)
                 var valLength = writeConditional(
+                    
                     valueString.buffer.length
                 )
             //    console.log("LENTH",value,valLength.buffer,valueString)
@@ -353,7 +354,7 @@ function serializeArray(arr) {
             type.writeUInt8(3);
             var arr  = serializeArray(item);
 
-            var length = writeConditional(arr.length)
+            var length = writeConditional(Buffer.byteLength(arr))
             /*Buffer.alloc(4);
             length.writeUInt32LE(arr.length, 0)*/
             itemBuffer = Buffer.concat([
@@ -369,7 +370,7 @@ function serializeArray(arr) {
             var type = Buffer.alloc(1);
             type.writeUInt8(1);
             var obj  = serializeJSON(item);
-            var length = writeConditional(obj.length)
+            var length = writeConditional(Buffer.byteLength(obj))
             itemBuffer = Buffer.concat([
                 length.buffer,
                 type,
