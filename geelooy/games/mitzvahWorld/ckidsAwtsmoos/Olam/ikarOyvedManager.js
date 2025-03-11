@@ -784,7 +784,10 @@ export default class OlamWorkerManager {
             var cl = event
                 .target
                 .className;
-                
+            if( hasParentWithClass(el,"awtsmoosBtn")) {
+                console.log("OK",el)
+                return;
+            }  
             if((
                 cl && typeof(cl.includes) 
                 == "function"
@@ -794,8 +797,8 @@ export default class OlamWorkerManager {
                     ||
                     cl
                     .includes("mitzvahBtn")
-                    ||
-                    hasParentWithClass(el,"awtsmoosBtn")
+                 
+                   
                 )
             )) {
                 return;
@@ -817,7 +820,7 @@ export default class OlamWorkerManager {
         });
 
         addEventListener('mouseup', (event) => {
-
+            
             this.eved.postMessage({"mouseup": Utils.clone(event)})
 
         });

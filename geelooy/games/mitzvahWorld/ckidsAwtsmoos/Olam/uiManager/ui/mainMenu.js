@@ -166,11 +166,17 @@ export default [
                                 +"ikar\"";
                             
                             var par = ikar;
-                            var start = await (
+                            var start = null
+                            try {
+                                start =
                                 await fetch(config?.startingLevel)
-                            )?.text();
+                            
+                            } catch(e) {
+                                start = await fetch(config?.backup);
+                            }
+                            var txt = await start?.text();
                             var url = URL.createObjectURL(
-                                new Blob([start], {
+                                new Blob([txt], {
                                     type: "application/javascript"
                                 })
                             )

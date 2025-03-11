@@ -17,5 +17,8 @@ export default {
             console.log("no profile!",e)
         }
         
+    },
+    onclick(e) {
+        console.log("What",window.o=e.target.children)
     }
 }
