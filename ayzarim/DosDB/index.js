@@ -262,18 +262,30 @@ class DosDB {
 						},
 						isFile: false
 					});
-					if(checkIfItsSingleEntry.error) {
-						checkIfItsSingleEntry = null;
-					}
-					if(checkIfItsSingleEntry?.success) 
-						checkIfItsSingleEntry = checkIfItsSingleEntry.success;
+					
 					
 				}
-				if(checkIfItsSingleEntry?._awtsmoosDeletify) return undefined;
 				if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
-					return options.extra ? {
-						dynamicEntry: checkIfItsSingleEntry
-					} : checkIfItsSingleEntry;
+
+
+					if(checkIfItsSingleEntry?.error) {
+						console.log("NO not found)")
+						checkIfItsSingleEntry = null;
+					}
+
+					if(checkIfItsSingleEntry) {
+
+						if(checkIfItsSingleEntry?.success) 
+							checkIfItsSingleEntry = checkIfItsSingleEntry.success;
+
+
+						if(checkIfItsSingleEntry?._awtsmoosDeletify)
+							return undefined;
+						
+						return options.extra ? {
+							dynamicEntry: checkIfItsSingleEntry
+						} : checkIfItsSingleEntry;
+					}
 				}
 				
 				const fileIndexes = await gde({
@@ -488,7 +500,9 @@ class DosDB {
 			if(!properties) {
 				const data = await fs.readFile(path);
 				if(await awtsmoosBinary.isAwtsmoosObject(data)) {
-					return await awtsmoosBinary.deserializeBinary(data);
+					return {
+						success: await awtsmoosBinary.deserializeBinary(data)
+					}
 				}
 				return null;
 			} else {
@@ -499,7 +513,9 @@ class DosDB {
 					} catch (e) {}
 				}
 				if(await awtsmoosBinary.isAwtsmoosObject(path)) {
-					return await awtsmoosBinary.mapBinary(path, props);
+					return {
+						success: await awtsmoosBinary.mapBinary(path, props)
+					}
 				}
 				return null;
 			}
@@ -534,10 +550,16 @@ class DosDB {
 				path: joined,
 				properties: ob.properties
 			});
-			if(p.success) return p;
+
+			console.log(2,p,joined,777)
+			if(p.success) {
+				return p;
+			}
 			if(p.error) throw new Error(p.error);
 		} catch (e) {
-			console.log("BINARY error", ob.filePath, ob.properties, e);
+			if(e.code != "ENOENT") {
+				console.log("BINARY error", ob.filePath, ob.properties, e,e.code);
+			}
 			return {
 				error: e.stack,
 				somethingWentNotOpenlyGoodYet: true
