@@ -24,7 +24,7 @@ function getShtarPath(
         parentId,
         link,
         aliasId,
-        commentId,
+        
         verseSection = "root"
     }
 ) {

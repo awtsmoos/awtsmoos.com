@@ -440,6 +440,47 @@ class DosDB {
 		}
 	}
 	
+	async arrayAppend(rPath, value, opts={}) {
+		if(typeof rPath !== "string" || !rPath) {
+			return {
+				error: {
+					message: "Make sure path is valid",
+					code: "INVALID_PATH"
+				}
+			};
+		}
+
+		try {
+
+			const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+			var p=await this.parseBinaryData({path: myPath});
+			var s = p?.success;
+			var inputArray = [];
+			if(s) {
+				if(!Array.isArray(s)) {
+					s = Array.from(s);
+				}
+				inputArray.concat(s);
+				p = s;
+			}
+			inputArray.push(value);
+			var ser = awtsmoosJSON.serializeJSON(inputArray);
+			var wr = await fs.writeFile(myPath, ser)
+			return {
+				success: {
+					written: wr,
+					serialized: ser.length,
+					inputArray
+				}
+			}
+		} catch(e) {
+			return {
+				error: e
+			}
+		}
+
+
+	}
 	/**
 	 * @method writeAsBinaryFormat
 	 * @description Serializes an object into .awtsmoosJSON, a binary vessel of the Awtsmoos’ essence.

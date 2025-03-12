@@ -320,13 +320,13 @@ async function addOrApproveComment(
                 parentId,
                 aliasId,
                 verseSection,
-                
+
                 commentId: myId
             }
         );
 
         try {
-            var wrote = await $i.db.write(
+            var wrote = await $i.db.arrayAppend(
                 postPath, 
                 shtar
             );
