@@ -855,9 +855,7 @@ body {
 }
 
 
-span[class] {
-    padding:10px;
-}
+
 .value {
     background: #00d6ff;
     border-radius: 10px;

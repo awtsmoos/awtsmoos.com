@@ -1073,7 +1073,7 @@ async function reloadRoot() {
 	});
 	
 }
-
+window.reloadRoot = reloadRoot;
 
 function getPostId(currentVerse) {
 	var sectionInfo = window?.sectionData[currentVerse];
@@ -1285,7 +1285,7 @@ async function makeCommentatorList(actualTab, tab, all=false) {
 				actualTab, tab
 			}) {
 				curTab = tab;
-				
+				window.curTab = curTab
 				commentorList.innerHTML = loadingHTML;
 				openCommentsOfAlias({
 					alias,

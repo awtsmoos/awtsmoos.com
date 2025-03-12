@@ -207,8 +207,8 @@ class CommentSection {
             });
           
         }
-        submitBtn.textContent = oh;
-        curTab?.awtsRefresh?.();
+      //  submitBtn.textContent = oh;
+        window?.curTab?.awtsRefresh?.();
         reloadRoot();
 
         // Reset UI
