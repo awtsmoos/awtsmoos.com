@@ -262,9 +262,12 @@ class DosDB {
 						},
 						isFile: false
 					});
-					if(checkIfItsSingleEntry?.error) return null;
-					if(checkIfItsSingleEntry?.success) checkIfItsSingleEntry = checkIfItsSingleEntry.success;
-					else return null;
+					if(checkIfItsSingleEntry.error) {
+						checkIfItsSingleEntry = null;
+					}
+					if(checkIfItsSingleEntry?.success) 
+						checkIfItsSingleEntry = checkIfItsSingleEntry.success;
+					
 				}
 				if(checkIfItsSingleEntry?._awtsmoosDeletify) return undefined;
 				if(checkIfItsSingleEntry || checkIfItsSingleEntry === undefined) {
