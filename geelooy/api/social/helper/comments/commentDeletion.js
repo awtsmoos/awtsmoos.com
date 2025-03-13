@@ -15,11 +15,21 @@ const {
 const { 
     verifyHeichelAuthority 
 } = require("../heichel.js");
-/*
+
 const { 
+    getAllVerseSectionsThatHaveAtLeastOneAuthorPath,
+    commentsOfAliasByHeichelAndSeries,
+
+    getShtarPath,
+    getAuthorPath,
+
+    getAliasesCommentsPath,
+    
+    getAliasesAtVerseSectionPath,
+
 
 } = require("./commentPaths.js");
-*/
+
 /**
  * @method deleteComment
  * @description Deletes a specific comment.
@@ -259,7 +269,7 @@ async function deleteComment(
          */
 
 
-         var areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection = false;
+         var areThereNoMoreAliasesThatLeftAnyCommentsAtAllInThisVerseSection = false;
          if(isVerseSectionArrayOfMyAliasEmpty === true) {
             /**
              * this means we just deleted
@@ -273,17 +283,17 @@ async function deleteComment(
              * that this alias left a comment
              * at this verse section
              */
-            var arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath = 
+            var arrayOfAliasIDsThatLeftAtLeastOneCommentAtThisVerseSectionPath = 
             getAliasesAtVerseSectionPath({
                 heichelId,
                 link,
                 parentId,
-                verseSection="root",
+                verseSection,
 
                 postId,
                 seriesId
             });
-            var pth = arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath;
+            var pth = arrayOfAliasIDsThatLeftAtLeastOneCommentAtThisVerseSectionPath;
 
             var deletedVerseSectionReferenceOfAlias = await $i
                 .db.removeElementFromArray(
@@ -311,13 +321,13 @@ async function deleteComment(
             var suc = deletedVerseSectionReferenceOfAlias?.success
 
             var isEmpty = suc?.isEmpty;
-            areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection =
+            areThereNoMoreAliasesThatLeftAnyCommentsAtAllInThisVerseSection =
                 isEmpty;
             pathsDeleted.push({
                 removed: true,
                 deletedVerseSectionReferenceOfAlias,
-                arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath,
-                areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection
+                arrayOfAliasIDsThatLeftAtLeastOneCommentAtThisVerseSectionPath,
+                areThereNoMoreAliasesThatLeftAnyCommentsAtAllInThisVerseSection
             });
 
 
@@ -325,33 +335,69 @@ async function deleteComment(
 
         }
 
-        var allPotentialCommentsOfAliasAtAllVerseSectionsInParent = 
-            await getAuthorPath({
-                heichelId,
-                parentId,
-                link,
-                postId,
-                seriesId,
-                aliasId
-            });
+        var remaining = "possibly some";
+        var allPotentialVerseSectionReferencesInParent = 
+                getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
+                    heichelId,
+                    parentId,
+                    link,
+                    postId,
+                    seriesId,
+                    aliasId
+                });
+        if(
+            areThereNoMoreAliasesThatLeftAnyCommentsAtAllInThisVerseSection
+        ) {
+            /**
+             * this means that
+             * in the current verse section
+             * we were checking,
+             * not only did we remove just our 
+             * own aliasId reference but 
+             * in this case it must have been
+             * that that was the last
+             * alias id that left
+             * any comment on THIS specific verse 
+             * section, then that 
+             * verse seciton path self
+             * deleted itself (since it's an array written on disk)
+             * IF it was empty, which it is in this condition.
+             * 
+             * Now, we need to determine if that 
+             * was the last verseSection reference
+             * that was written to at all.
+             * 
+             * Maybe there are no more comments on ANY
+             * verse sections in any way.
+             */
+            
+//allPotentialCommentsOfAliasAtAllVerseSectionsInParent
+            remaining = await $i.db.count(
+                allPotentialVerseSectionReferencesInParent
+            );
 
-        var remaining = await $i.db.count(
-            allPotentialCommentsOfAliasAtAllVerseSectionsInParent
-        );
+            if(remaining.error) {
+                return {
+                    error: {
+                        message: "System error counting remaining verse sections",
+                        details: remaining.error,
+                        code: "SYSTEM_ERROR"
+                    }
+                };
+            }
 
-        if(remaining.error) {
-            return {
-                error: {
-                    message: "System error counting remaining verse sections",
-                    details: remaining.error,
-                    code: "SYSTEM_ERROR"
-                }
-            };
+            
+            remaining = remaining.success;
         }
 
-        var removedEntireAliasReference = false;
-        remaining = remaining.success;
-        if(remaining == 0) {
+        var anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent =
+            true;
+        if(
+            typeof(remaining) == "number" &&
+            remaining === 0
+        ) {
+            anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
+            = false;
             /**
              * If theres no more
              * verse section entries,
@@ -362,23 +408,49 @@ async function deleteComment(
              */
             var deleteVerseSectionReference =
             await $i.db.delete(
-                allPotentialCommentsOfAliasAtAllVerseSectionsInParent
+                allPotentialVerseSectionReferencesInParent
             );
             if(deleteVerseSectionReference.error) {
                 return er({
                     message: "Couldn't remove alias parent reference",
                     code: "NO_REMOVE",
-                    allPotentialCommentsOfAliasAtAllVerseSectionsInParent
+                    allPotentialVerseSectionReferencesInParent
                 })
             }
             
             pathsDeleted.push({
-                allPotentialCommentsOfAliasAtAllVerseSectionsInParent,
+                allPotentialVerseSectionReferencesInParent,
                 deleteVerseSectionReference
             });
 
-            removedEntireAliasReference = true;
 
+        }
+
+
+        /**
+         * now that we removed any potential 
+         * verse section references if 
+         * we were the last ones,
+         * we now need to check
+         * the other references of if OUR 
+         * alias left any more comments in 
+         * any verse section in this post,
+         * which would only be true 
+         * IF we didn't just remove
+         * ALL references to all verse sections 
+         * everywhere entirely.
+         * 
+         */
+        var removedEntireAliasReference = false;
+        if(
+            anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
+        ) {
+            /**
+             * If there are still any
+             * verse sections at all,
+             * maybe those verse sections
+             * are from our own alias.
+             */
         }
 
         var removedAllAliasesInAuthorSection = false;

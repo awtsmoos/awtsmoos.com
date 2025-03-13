@@ -153,6 +153,24 @@ function commentsOfAliasByHeichelAndSeries(
 }
 
 
+function getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
+	heichelId,
+	link,
+	parentId,
+
+	postId,
+	seriesId
+}) {
+	return `${
+        getParentPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId
+        })
+    }/verseSection/`;
+}
 /**
  * @method getAliasesAtVerseSectionPath
  * @description Constructs path for an array of
@@ -161,26 +179,24 @@ function commentsOfAliasByHeichelAndSeries(
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function getAliasesAtVerseSectionPath(
-    {
-		heichelId,
-		link,
-		parentId,
-		verseSection="root",
+function getAliasesAtVerseSectionPath({
+	heichelId,
+	link,
+	parentId,
+	verseSection="root",
 
-		postId,
-		seriesId
-    }
-) {
+	postId,
+	seriesId
+}) {
     return `${
-        getParentPath({
+        getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
             heichelId,
             parentId,
             link,
             postId,
             seriesId
         })
-    }/verseSection/${
+    }/${
         verseSection
     }/authors`;
 }
@@ -257,5 +273,7 @@ module.exports = {
     getAliasesCommentsPath,
     
     getAliasesAtVerseSectionPath,
+	getAllVerseSectionsThatHaveAtLeastOneAuthorPath,
+	
     getSubmittedCommentPath
 };
