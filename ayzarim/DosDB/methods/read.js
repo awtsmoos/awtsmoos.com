@@ -113,7 +113,7 @@ module.exports = {
 
 
                     if(checkIfItsSingleEntry?.error) {
-                        console.log("NO not found)")
+                     //   console.log("NO not found)")
                         checkIfItsSingleEntry = null;
                     }
 
@@ -278,8 +278,7 @@ module.exports = {
                 path: joined,
                 properties: ob.properties
             });
-
-            console.log(2,p,joined,777)
+            
             if(p.success) {
                 return p;
             }

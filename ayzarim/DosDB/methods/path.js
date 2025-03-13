@@ -4,6 +4,8 @@
  */
 
 var path = require("path");
+var fs = require("fs").promises;
+
 
 module.exports = {
 
@@ -115,6 +117,7 @@ module.exports = {
             stat.awtsmoosPath = myPath;
             return stat;
         } catch (e) {
+            console.log(e);
             return null;
         }
     },

@@ -605,7 +605,7 @@ async function verifyHeichelAuthority({
 
 	var ownsAlias = await $i
 		.fetchAwtsmoos(
-            "/api/social/aliases/" +
+            "/api/social/alias/" +
 			aliasId + "/ownership"
         );
 
@@ -615,6 +615,7 @@ async function verifyHeichelAuthority({
 		sp +
 		`/heichelos/${heichelId}/editors/${aliasId}`
 	);
+    
 	try{
 		return editor
 
