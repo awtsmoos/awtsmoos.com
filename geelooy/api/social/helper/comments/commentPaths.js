@@ -191,7 +191,7 @@ function commentsOfAliasByHeichelAndSeries(
         aliasId
     }/comments/heichel/${
         heichelId
-    }/atSeries/`;
+    }/seriesCommented`;
 }
 
 
@@ -225,7 +225,7 @@ function getAliasesAtVerseSectionPath({
 	heichelId,
 	link,
 	parentId,
-	verseSection="root",
+	verseSection,
 
 	postId,
 	seriesId

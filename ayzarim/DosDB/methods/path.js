@@ -18,14 +18,16 @@ module.exports = {
      */
     async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
         if(alsoActuallyMakeParentDirectory) {
-            const par = await this.getAwtsmoosParentPath(rPath);
+            var pathic = await this.getAwtsmoosFilePath(rPath, false, true);
+            const par = await this.getAwtsmoosParentPath(pathic);
             await this.ensureDir(par);
         }
         let ext = path.extname(rPath);
         if(ext !== ".awtsmoosJSON") {
             rPath += ".awtsmoosJSON";
         }
-        return await this.getAwtsmoosFilePath(rPath, false, true);
+        
+        return await this.getAwtsmoosFilePath(rPath, false, true);;
     },
     
     /**
@@ -41,7 +43,7 @@ module.exports = {
             if(parentPath === normalizedPath || parentPath === ".") {
                 return null; // The Awtsmoos alone remains at the root.
             }
-            await fs.access(parentPath);
+        //    await fs.access(parentPath);
             return parentPath;
         } catch (err) {
             console.error("Error accessing path:", err);
@@ -151,6 +153,9 @@ module.exports = {
      * @returns {Promise<string>} - The directory path, a space carved from the void.
      */
     async ensureDir(filePath, isDir = false) {
+        if(typeof(filePath) != "string") {
+            return console.log("NO path",filePath)
+        }
         const dirPath = !isDir ? path.dirname(filePath) : filePath;
         await fs.mkdir(dirPath, {
             recursive: true

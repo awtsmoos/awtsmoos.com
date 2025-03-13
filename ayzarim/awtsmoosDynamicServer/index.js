@@ -303,7 +303,7 @@ class AwtsmoosStaticServer {
 		                return {success:tok}
 		
 		            }catch(e){
-		                return {error: e}
+		                return {error: e.stack}
 		
 		            }
 		

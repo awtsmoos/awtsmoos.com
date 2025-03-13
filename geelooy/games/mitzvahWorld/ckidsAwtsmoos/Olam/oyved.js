@@ -510,7 +510,7 @@ export default ${
                 return msg(
                     "There was an error.",
                     "ERROR",
-                    {error:e}
+                    {error:e.stack}
                 )
             }
             if(result) {

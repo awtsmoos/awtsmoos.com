@@ -561,6 +561,7 @@ async function showAllComments({
 }) {
 	var subSec = getSubSecIdx();
 	var coms = await getCommentsOfAlias({
+		seriesId: window?.post?.parentSeriesId,
 		postId: post.id,
 		heichelId: post.heichel.id,
 		aliasId: alias,
@@ -997,6 +998,7 @@ async function indexSwitch() {
 	var subSec = getSubIdx();
 	for(var alias of al) {
 		var comments = await getCommentsOfAlias({
+			seriesId: window?.post?.parentSeriesId,
 			postId: post.id,
 			heichelId: post.heichel.id,
 			aliasId: alias,
@@ -1211,7 +1213,7 @@ async function getAndSaveAliases(full=false) {
 			})*/
 		}
 	});
-	var aliasIDs = Array.isArray(aliases) ? aliases.map(w=>w.id) : [];
+	var aliasIDs = Array.isArray(aliases) ? aliases.map(w=>w?.id || w) : [];
 	if(!data.aliases[verseSection]) {
 		data.aliases[verseSection] = {
 			aliases,

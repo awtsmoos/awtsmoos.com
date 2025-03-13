@@ -5,6 +5,7 @@
 
 var fs = require("fs").promises;
 
+const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 module.exports = {
 
 	async getArrayAtPath(rPath) {
@@ -16,9 +17,11 @@ module.exports = {
 				}
 			};
 		}
-
+		var myPath = null;
 		try {
-			const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+			console.log("IS it a path",rPath)
+			myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+			console.log("my Path", myPath)
 			var p=await this.parseBinaryData({path: myPath});
 			var s = p?.success;
 			var inputArray = [];
@@ -35,8 +38,11 @@ module.exports = {
 				myPath
 			}
 		} catch(e) {
+			console.log("PATHetic",rPath)
 			return {
-				error: e
+				error: e.stack,
+				ok:"well",
+				myPath
 			}
 		}
 	},
@@ -276,7 +282,10 @@ B"H
 			var inputArray  = null;
 			var myPath = null;
 			var array = await this.getArrayAtPath(rPath);
-			if(array.error) return array;
+			if(array.error) {
+				inputArray = [];
+				myPath = array.myPath
+			}
 
 			if(array.success) {
 				inputArray = array.success;
@@ -296,8 +305,10 @@ B"H
 					alreadyThere: key
 				}
 			}
-			inputArray.push(value);
+			inputArray.push(key);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);
+			await this.ensureDir(myPath)
+			console.log("myPath",myPath)
 			var wr = await fs.writeFile(myPath, ser)
 			return {
 				success: {
@@ -308,7 +319,8 @@ B"H
 			}
 		} catch(e) {
 			return {
-				error: e
+				error: e.stack,
+				what: "is"
 			}
 		}
 	},
@@ -337,6 +349,7 @@ B"H
 			}
 			inputArray.push(value);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);
+			await this.ensureDir(myPath);
 			var wr = await fs.writeFile(myPath, ser)
 			return {
 				success: {
@@ -347,7 +360,7 @@ B"H
 			}
 		} catch(e) {
 			return {
-				error: e
+				error: e.stack
 			}
 		}
 

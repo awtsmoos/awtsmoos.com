@@ -219,6 +219,7 @@ async function addOrApproveComment(
         aliasId,
         userid,
         postId,
+        seriesId,
         isApproval = false
     }
 ) {
@@ -232,7 +233,8 @@ async function addOrApproveComment(
         }
 
         if(!seriesId) {
-            seriesId = $i.$_POST.parentSeriesId;
+            seriesId = $i.$_POST.parentSeriesId ||
+            $i.$_POST.seriesId;
         }
 
         if(!seriesId) {
@@ -349,6 +351,14 @@ async function addOrApproveComment(
                 postPath, 
                 shtar
             );
+
+            if(wrote.error) {
+                return er({
+                    message: "Couldn't append message",
+                    code: "NO_APPEND",
+                    details: wrote
+                })
+            }
     
     
             var index = await addCommentIndexToAlias(
@@ -379,17 +389,16 @@ async function addOrApproveComment(
                 message: "Added comment!",
                 details: {
                     id: myId,
+                    /*
                     setCommentIndex: index,
                     index,
                     wrote: {
                         parentId,
-                        aliasId,
-                        wrote
+                        aliasId
                     },
                     paths: {
                         postPath
-                    },
-                    dayuh
+                    }*/
                 }
             };
         } catch(e) {
@@ -520,11 +529,17 @@ async function addCommentIndexToAlias(
                     heichelId
                 });
 
-
+                
         var sync = await $i.db.syncKeyInArray(
             allSeriesThatAliasCommentedAtInHeichel, 
             seriesId
         );
+
+        if(sync.error) {
+             return er({
+                k: sync
+            });
+        }
 
         var allAuthorsAtVerseSectionOfParent = 
             getAliasesAtVerseSectionPath({
@@ -541,6 +556,10 @@ async function addCommentIndexToAlias(
             allAuthorsAtVerseSectionOfParent,
             aliasId
         );
+
+        if(aliasSync.error) return er({
+            d: aliasSync
+        })
 
         //commentId,
 

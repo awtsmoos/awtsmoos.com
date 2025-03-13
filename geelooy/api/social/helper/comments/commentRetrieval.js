@@ -31,7 +31,7 @@ async function getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionI
     postId,
     seriesId,
     aliasId,
-    verseSection="root",
+    verseSection,
     onlyPath = false
 }) {
     var opts = myOpts($i);
@@ -87,12 +87,8 @@ async function getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionI
     }
 
     var link = parentType == "post" ? "atPost" : "atComment";
-    if(!verseSection)
-        verseSection = $i.$_GET["verseSection"];
-
-    if (!verseSection && verseSection !== 0) {
-        verseSection = "root";
-    }
+    verseSection = getVerseSection($i, verseSection)
+    
 
     var pathToArrayThatShouldContainCommentsOfAliasUnderVerseSection =
         getShtarPath({
@@ -214,15 +210,30 @@ async function getVerseSectionsCommentedByAuthorInParent({
             seriesId,
             aliasId
         });
+    var pathToRead = verseSectionsUnderWhichThisAliasCommentedInParentPath
+    var verseSection = $i.$_GET.verseSection;
+    if(verseSection !== undefined) {
+        
+        pathToRead += "/" +verseSection
+    }
+
     try {
         var list = await $i
         .db
         .get(
-            verseSectionsUnderWhichThisAliasCommentedInParentPath
+            pathToRead
         );
-        return {
-            success: list
+        if(!list) {
+            return er({
+                message: "couldnt get",
+                pathToRead
+            })
         }
+        if(list.success) {
+            return list.success
+            
+        }
+        return  list
     } catch(e) {
         return er({
             message: "System error getting list",
@@ -233,6 +244,16 @@ async function getVerseSectionsCommentedByAuthorInParent({
 
 }
 
+function getVerseSection($i, verseSection) {
+    
+    if(!verseSection && verseSection !== 0)
+        verseSection = $i.$_GET["verseSection"];
+
+    if (!verseSection && verseSection !== 0) {
+        verseSection = "root";
+    }
+    return verseSection;
+}
 async function getAuthorsOfCommentsAtVerseSectionInParent({
     $i,
     parentType="post",
@@ -240,7 +261,7 @@ async function getAuthorsOfCommentsAtVerseSectionInParent({
     heichelId,
     postId,
     seriesId,
-    verseSection="root"
+    verseSection
 }) {
     if (!parentType) {
         parentType = "post";
@@ -282,12 +303,7 @@ async function getAuthorsOfCommentsAtVerseSectionInParent({
     var link = subPath;
 
     
-    if(!verseSection)
-        verseSection = $i.$_GET["verseSection"];
-
-    if (!verseSection && verseSection !== 0) {
-        verseSection = "root";
-    }
+    verseSection = getVerseSection($i, verseSection)
 
     var authorsAtParentPath = getAliasesAtVerseSectionPath({
         heichelId,
@@ -301,15 +317,23 @@ async function getAuthorsOfCommentsAtVerseSectionInParent({
 
     try {
         var authorArray = await $i.db.get(authorsAtParentPath);
-        if(authorArray)
-            return {
-                success: authorArray
-            }
+        if(authorArray?.success)
+            return authorArray.success
+            
         else {
             return {
                 error: {
                     messsage: "Couldn't find any authors",
-                    code: "NO_AUTHORS"
+                    code: "NO_AUTHORS",
+                    pathChecked: authorsAtParentPath,
+                    otherInfo: {
+                        heichelId,
+                        link,
+                        parentId,
+                        verseSection,
+                        seriesId,
+                        postId
+                    }
                 }
             }
         }
@@ -339,7 +363,7 @@ async function getComment(
         parentType,
         parentId,
         aliasId,
-        verseSection="root"
+        verseSection
     }
 ) {
    

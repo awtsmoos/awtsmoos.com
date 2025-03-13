@@ -315,7 +315,7 @@ async function _getTemplateObject(ob) {
                 return {success: true}
 
             } catch(e) {
-                return {error: e+""};
+                return {error: e.stack+""};
 
             }
 

@@ -205,7 +205,7 @@ module.exports = ({
                 parentType: "post",
                 parentId: vars.post,
                 heichelId: vars.heichel,
-                postId: post.id,
+                postId: vars.post,
                 
             })
             

@@ -49,7 +49,7 @@ async function deleteComment(
         aliasId,
         seriesId,
         postId,
-        verseSection="root"
+        verseSection
     }
 ) {
     if (!aliasId) {

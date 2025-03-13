@@ -180,7 +180,7 @@ class CommentSection {
                     body: new URLSearchParams({
                         aliasId: currentAlias,
                         content: this.commentBox.innerText,
-                        
+                        seriesId: window?.post?.parentSeriesId,
                         dayuh: JSON.stringify(ob),
                     }),
                 })

@@ -250,7 +250,7 @@ module.exports = {
         } catch (e) {
             console.log("Issue reading", e);
             return {
-                error: e
+                error: e.stack
             };
         }
     },
