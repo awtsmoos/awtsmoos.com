@@ -33,7 +33,10 @@ async function deleteComment(
         heichelId,
         parentId,
         parentType,
-        aliasId
+        aliasId,
+        seriesId,
+        postId,
+        verseSection="root"
     }
 ) {
     if (!aliasId) {
@@ -69,6 +72,11 @@ async function deleteComment(
         );
     }
 
+    if(!seriesId) {
+        seriesId = $i.$_POST.seriesId || 
+            $i.$_DELETE.seriesId;
+    }
+
     if (!parentId) {
         return er(
             {
@@ -93,145 +101,393 @@ async function deleteComment(
         );
     }
 
-    try {
-        var pth = `${
-            sp
-        }/heichelos/${
-            heichelId
-        }/comments/${link}/${
-            parentId
-        }/author/${
-            aliasId
-        }/${commentId}`;
+    if(link == "atComment") {
+        if(!postId) {
+            postId = $i.$_POST.postId || 
+                $i.$_DELETE.postId;
+        }
 
-        var res = await $i.db.get(
-            pth,
-            {
-                propertyMap: {
-                    author: true,
-                    parentId: true,
-                    dayuh: {
-                        verseSection: true
+        if(!postId) {
+            return er({
+                message: "If commenting on comment need to "
+                    +"provide post ID as well",
+                code: "NO_POST_ID"
+            })
+        }
+    } else {
+        postId = parentId;
+    }
+
+
+
+    if (!verseSection && verseSection !== 0) {
+        verseSection = $i.$_POST.verseSection || 
+            $i.$_DELETE.verseSection;
+    }
+
+    if (!verseSection && verseSection !== 0) {
+        verseSection = "root";
+    }
+
+
+    
+    try {
+        /**
+         * First, need to delete
+         * shtar path (
+         * path where it shows array
+         * of all comments alias made
+         * at versesection in post
+         * in series.
+         * )
+         * 
+         * since it's an array
+         * we just "remove" or "splice"
+         * that specific array element
+         * from the array that has 
+         * id that matches the comment id
+         */
+        var pth = getShtarPath({
+            heichelId,
+            parentId,
+            link,
+            aliasId,
+        
+            postId,
+            seriesId,
+        
+            verseSection
+        });
+
+        
+
+        var pathsDeleted = [];
+        
+        var isVerseSectionArrayOfMyAliasEmpty = false;
+        try {
+            var delElementInArray = await $i.db.removeElementFromArray(
+                pth, {
+                    
+                    property: {
+                        id: {
+                            selfEquals: commentId
+                        }
                     }
+                    
+                    
+                }, {
+                    deleteSelfIfEmpty: true
                 }
+            );
+            if(delElementInArray?.error) {
+                return er({
+                    message: "Couldn't delete comment!",
+                    code: "NO_DELETE",
+                    pathTried: pth,
+                    commentId
+                })
             }
+            var inp = delElementInArray?.success?.inputArray;
+            isVerseSectionArrayOfMyAliasEmpty = delElementInArray?.success?.isEmpty;
+            
+
+            var deletedParent = null;
+            if(!inp?.length) {
+                //we need to delete the parent 
+                //directory since the array ran out
+                var del = await $i.db.delete(pth);
+                if(del.error) {
+                    return er({
+                        message: {
+                            comment: "Couldn't delete parent",
+                            code: "NO_PAR_DELETE",
+                            details: del.error
+                        }
+                    });
+                }
+                deletedParent = del.success;
+
+            }
+            pathsDeleted.push({
+                removed: true,
+                delElementInArray,
+                isVerseSectionArrayOfMyAliasEmpty,
+                path: pth,
+                deletedParent
+            });
+
+        } catch(e) {
+            return er({
+                message: "Couldn't delete comment!",
+                code: "SYSTEM_ERROR_NO_DELETE",
+                path: pth,
+                details: e
+            })
+        }
+
+        /**
+         * Now that we removed the 
+         * comment from it's array
+         * we need to delete the 
+         * other reference to it
+         * next reference:
+         * 
+         * getAliasesAtVerseSectionPath
+         * 
+         it keeps track of how many 
+         aliases have at least one 
+         comment at that 
+         verse section.
+
+         Since we just removed one of the verse section
+         comments from this alias,
+         we need to determine if 
+         the alias has any more comments in THAT
+         verse section.
+
+         By default when removing an 
+         element with db it should tell u if its empty,
+         and if it is it should automatically
+         delete the reference itself (if specified, which it is).
+
+         So we just read the property teling us if its completely deleted.
+
+         If so, we remove the reference from 
+         getAliasesAtVerseSectionPath for that alias.
+
+
+         */
+
+
+         var areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection = false;
+         if(isVerseSectionArrayOfMyAliasEmpty === true) {
+            /**
+             * this means we just deleted
+             * a comment at a 
+             * specific verse section,
+             * which was an element in 
+             * an array on disk,
+             * and now that array self 
+             * deleted, so we need to remove 
+             * the reference that earlier implied
+             * that this alias left a comment
+             * at this verse section
+             */
+            var arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath = 
+            getAliasesAtVerseSectionPath({
+                heichelId,
+                link,
+                parentId,
+                verseSection="root",
+
+                postId,
+                seriesId
+            });
+            var pth = arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath;
+
+            var deletedVerseSectionReferenceOfAlias = await $i
+                .db.removeElementFromArray(
+                    pth, {
+                        
+                        exact: {
+                            selfEquals: aliasId
+
+                        }
+                        
+                        
+                    }, {
+                        deleteSelfIfEmpty: true
+                    }
+                );
+
+            if(deletedVerseSectionReferenceOfAlias?.error) {
+                return er({
+                    message: "System error when deleting verse section reference",
+                    code: "SYSTEM_DELETE_ERROR",
+                    details: deletedVerseSectionReferenceOfAlias.error
+                });
+            }
+
+            var suc = deletedVerseSectionReferenceOfAlias?.success
+
+            var isEmpty = suc?.isEmpty;
+            areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection =
+                isEmpty;
+            pathsDeleted.push({
+                removed: true,
+                deletedVerseSectionReferenceOfAlias,
+                arrayOfAliasIDsThatLeftAtLeastOneCommentAtVerseSectionPath,
+                areThereNoMoreAliasesThatLeftAnyCommentsAtAllInAnyVerseSection
+            });
+
+
+
+
+        }
+
+        var allPotentialCommentsOfAliasAtAllVerseSectionsInParent = 
+            await getAuthorPath({
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId,
+                aliasId
+            });
+
+        var remaining = await $i.db.count(
+            allPotentialCommentsOfAliasAtAllVerseSectionsInParent
         );
 
-        var author = res?.author;
-
-        var parentId = res?.parentId;
-
-        var dayuh = res?.dayuh;
-
-        if (!author || !parentId) {
-            return er(
-                {
-                    message: "Didn't delete, couldn't find author or parentId",
-                    code: "NO_AUTHOR_OR_PARENTID",
-                    details: {
-                        path: pth,
-                        commentId,
-                        author,
-                        parentId,
-                        heichelId
-                    }
+        if(remaining.error) {
+            return {
+                error: {
+                    message: "System error counting remaining verse sections",
+                    details: remaining.error,
+                    code: "SYSTEM_ERROR"
                 }
-            );
+            };
         }
 
-        var verseSection = dayuh?.verseSection;
+        var removedEntireAliasReference = false;
+        remaining = remaining.success;
+        if(remaining == 0) {
+            /**
+             * If theres no more
+             * verse section entries,
+             * not even root,
+             * that means we need to 
+             * remove the reference entirely.
+             * 
+             */
+            var deleteVerseSectionReference =
+            await $i.db.delete(
+                allPotentialCommentsOfAliasAtAllVerseSectionsInParent
+            );
+            if(deleteVerseSectionReference.error) {
+                return er({
+                    message: "Couldn't remove alias parent reference",
+                    code: "NO_REMOVE",
+                    allPotentialCommentsOfAliasAtAllVerseSectionsInParent
+                })
+            }
+            
+            pathsDeleted.push({
+                allPotentialCommentsOfAliasAtAllVerseSectionsInParent,
+                deleteVerseSectionReference
+            });
 
-        if (!verseSection && verseSection !== 0) {
-            verseSection = "root";
+            removedEntireAliasReference = true;
+
         }
 
-        var delPost = null;
+        var removedAllAliasesInAuthorSection = false;
 
-        var rest;
+        //getParentPath
+        if(removedEntireAliasReference) {
+            /**
+             * IF we just removed
+             * the entire reference 
+             * to our alias in our comment data,
+             * then we need to check
+             * if we have any remaining 
+             * alias references for that
+             * parent at all.
+             */
+            var pathOfAllPossibleRemainingAliasesInParent = 
+            getAliasesCommentsPath({
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId
+            });
 
-        var restPath = null;
-
-        var authors = `${
-            sp
-        }/heichelos/${
-            heichelId
-        }/comments/${link}/${
-            parentId
-        }/author/${
-            author
-        }`;
-
-        var deleteMore = [];
-
-        var delIndex = null;
-
-        var authPath = authors + `/${commentId}`;
-
-        try {
-            delIndex = await deleteCommentIndex(
-                {
-                    $i,
-                    commentId,
-                    aliasId,
-                    heichelId,
-                    parentId,
-                    verseSection,
-                    parentType
-                }
+            var count = await $i.db.count(
+                pathOfAllPossibleRemainingAliasesInParent
             );
+            if(count.error) {
+                return er({
+                    message: "System error in counting parent",
+                    code: "SYSTEM_COUNT_ERROR",
+                    detail: count.error
+                });
+            }
+            count = count?.success || 0;
+            if(count == 0) {
+                /**
+                 * now we have to remove that entire
+                 * folder
+                 */
+                var allAuthorsDeleted = await $i.db.delete(
+                    pathOfAllPossibleRemainingAliasesInParent
+                );
+                if(allAuthorsDeleted.error) {
+                    return er({
+                        message: "System issue in deleting parent folder",
+                        code: "SYSTEM_DELETE_ERROR",
+                        details: allAuthorsDeleted.error
+                    });
+                }
 
-            if (delIndex.error) {
-                return er(delIndex.error);
+                pathsDeleted.push({
+                    pathOfAllPossibleRemainingAliasesInParent,
+                    allAuthorsDeleted
+                });
+
+                removedAllAliasesInAuthorSection = true;
             }
 
-            delPost = await $i.db.delete(authPath);
 
-            deleteMore.push(
-                await checkIfAllDeletedAndDeleteMore(
-                    {
-                        $i,
-                        authPath
-                    }
-                )
-            );
-
-            rest = await $i.db.get(authors);
-
-            if (!rest || rest.length == 0) {
-                restPath = await $i.db.delete(authors);
-            }
-
-            deleteMore.push(
-                await checkIfAllDeletedAndDeleteMore(
-                    {
-                        $i,
-                        authors
-                    }
-                )
-            );
-        } catch (e) {
-            return er(
-                {
-                    message: "Problem",
-                    error: e.stack
-                }
-            );
         }
+
+        if(removedAllAliasesInAuthorSection) {
+            /**
+             * if we literally just removed ALL
+             * aliases on this parent
+             * (which means there are NO remaining comments on it at all)
+             * then we need to delete the entire parent path
+             */
+            var pathOfParentWithAbsolutelyNoCommentatorsInAnyWay =
+            getParentPath({
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId
+            });
+
+            var deletedParent = await $i.db.delete(
+                pathOfParentWithAbsolutelyNoCommentatorsInAnyWay
+            );
+            if(deletedParent.error) {
+                return er({
+                    message: "System issue deleting parent path",
+                    code: "SYSTEM_ERROR_DELETE",
+                    details: deletedParent.error
+                })
+            };
+            
+            pathsDeleted.push({
+                pathOfParentWithAbsolutelyNoCommentatorsInAnyWay,
+                deletedParent
+            });
+
+        }
+
 
         return {
             success: {
-                deleted: {
-                    deleteMore,
-                    delIndex,
-                    entireAuthorSection: {
-                        restPath,
-                        rest
-                    },
-                    post: delPost,
-                    postPath: authPath
-                }
+                pathsDeleted,
+                parentType,
+                seriesId,
+                postId,
+                verseSection
+
             }
-        };
+        }
+
+       
     } catch (e) {
         return er(
             {

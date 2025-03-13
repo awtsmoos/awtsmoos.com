@@ -11,7 +11,7 @@ var {
 
 var {
 	addComment,
-	getComments,
+    
 	getComment,
 	editComment,
 	deleteComment,
@@ -23,7 +23,12 @@ var {
 	
 	denyComment,
 	getSubmittedComments,
-	approveComment
+	approveComment,
+
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent
+
 } = require("./helper/index.js");
 
 var {
@@ -103,17 +108,27 @@ module.exports = ({
     },
   /**
      * 
-     * get all alias IDs that left a comment here
+     * get all alias IDs that left a comment 
+     * at a specific post in a series
      */
     "/heichelos/:heichel/post/:post/comments/aliases": async vars => {
         if($i.request.method == "GET") {
-            return await getComments({
+
+            /**
+             * needed for $_GET:
+             * 
+             * verseSection (defaults to "root")
+             * seriesId
+             */
+            return await 
+            getAuthorsOfCommentsAtVerseSectionInParent({
                 $i,
                 heichelId: vars.heichel,
                 parentType: "post",
+                parentId: vars.post,
 
-                parentId: vars.post
-            });
+            })
+            
         } 
     },
     /**
@@ -171,6 +186,10 @@ module.exports = ({
             }
         }
     },
+                        //   getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+       //     getVerseSectionsCommentedByAuthorInParent,
+       //     getAuthorsOfCommentsAtVerseSectionInParent
+    
     /**
      * 
      * leave a comment directly on a post or get comments of post,
@@ -178,14 +197,18 @@ module.exports = ({
      */
     "/heichelos/:heichel/post/:post/comments/aliases/:alias": async vars => {
         if($i.request.method == "GET") {
-            return await getComments({
+       
+            return await getVerseSectionsCommentedByAuthorInParent({
+                aliasId:vars.alias,
+
                 $i,
-                heichelId: vars.heichel,
-		userid,
                 parentType: "post",
-                aliasParent: vars.alias,
-                parentId: vars.post
-            });
+                parentId: vars.post,
+                heichelId: vars.heichel,
+                postId: post.id,
+                
+            })
+            
         } else if($i.request.method == "POST") {
             return await addComment({
                 $i,
@@ -193,7 +216,7 @@ module.exports = ({
                 parentId: vars.post,
                 aliasId: vars.alias,
                 parentType: "post",
-		userid
+		        userid
             })
         } else if($i.request.method == "DELETE") {
             return await deleteAllCommentsOfAlias({
@@ -206,18 +229,89 @@ module.exports = ({
             })
         }
     },
+
+
     /**
      * 
-     * get sub comments of a comment
+     * gets array of comments left
+     * by alias in post (which is in a series in a heichel)
+     * at a specific verseSection (default root)
+     * 
      */
-    "/heichelos/:heichel/comment/:comment/comments": async vars => {
+    [
+        "/heichelos/:heichel/comments/inSeries/"
+        +":series/atPost/:post/atAlias/:alias/atVerseSection/:verseSection"
+    ]: async vars => {
         if($i.request.method == "GET") {
-            return await getComments({
+            return await 
+            getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent({
                 $i,
-                heichelId: vars.heichel,
+                parentType: "post",
+                parentId: vars.post,
+                aliasId: vars.alias,
+                verseSection: vars.verseSection,
+                seriesId: vars.series
+            })
+        } else {
+            return er({
+                message: "GET only request",
+                code: "GET_ONLY"
+            })
+        }
+    },
+
+    /**
+     * 
+     * gets array of comments left
+     * by alias in COMMENT (which is in a 
+     * post in a series in a heichel)
+     * at a specific verseSection (default root)
+     * 
+     */
+    [
+        "/heichelos/:heichel/comments/inSeries/"
+        +":series/atPost/:post/atComment/:comment/"
+        +"atAlias/:alias/atVerseSection/:verseSection"
+    ]: async vars => {
+        if($i.request.method == "GET") {
+            return await 
+            getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent({
+                $i,
                 parentType: "comment",
-                parentId: vars.comment
+                postId: vars.post,
+                parentId: vars.comment,
+                aliasId: vars.alias,
+                verseSection: vars.verseSection,
+                seriesId: vars.series
+            })
+        } else {
+            return er({
+                message: "GET only request",
+                code: "GET_ONLY"
             });
+        }
+    },
+    /**
+     * 
+     * get list of aliases that commented under
+     * a specific comment
+     */
+    [
+        "/heichelos/:heichel/comments/inSeries/"
+        +":series/atPost/:post/atComment/:comment/aliases"
+    ]: async vars => {
+        if($i.request.method == "GET") {
+      
+            return await 
+            getAuthorsOfCommentsAtVerseSectionInParent({
+                $i,
+                parentType: "comment",
+                parentId: vars.comment,
+                heichelId: vars.heichel,
+                seriesId:vars.series,
+                postId:vars.post,
+            })
+         
         }
     },
     /**
@@ -236,7 +330,7 @@ module.exports = ({
                 $i,
                 heichelId: vars.heichel,
                 parentId: vars.comment,
-		userid,
+		        userid,
                 parentType: "comment"
             })
         } else if($i.request.method == "DELETE") {
@@ -272,28 +366,13 @@ module.exports = ({
             return await addComment({
                 $i,
                 heichelId: vars.heichel,
-		userid
+		        userid
                 
             })
         }
     },
 
-	/**
-     * leave a comment driectly
-     * 
-     * requires POST --> parentType & parentId
-     */
-    "/aliases/:alias/comments": async vars => {
-        if($i.request.method == "GET") {
-           /**
-		gets all comments of alias organized by heichel
-    	**/
-		return {TODO: "work in progress"}
-        } else if($i.request.method == "POST") {
-		/*updateAllCommentIndexes,	
-		addCommentIndexToAlias*/
-	}
-    },
+	
 	/**
 		POST
   		requires parentId

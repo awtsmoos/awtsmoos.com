@@ -17,9 +17,11 @@ const {
 } = require("./commentModeration.js");
 
 const { 
-    getComments, 
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent,
     getComment, 
-    getCommentsOfAlias 
+    
 } = require("./commentRetrieval.js");
 
 const { 
@@ -37,7 +39,7 @@ const {
 
 module.exports = {
     addComment,
-    getComments,
+    
     getComment,
     deleteComment,
     updateAllCommentIndexes,
@@ -50,8 +52,12 @@ module.exports = {
     approveComment,
 	
 	updateCommentIndexesAtParent,
-	getCommentsOfAlias,
+    
 	checkIfAllDeletedAndDeleteMore,
 	submitComment, 
     addOrApproveComment, 
+
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent
 };

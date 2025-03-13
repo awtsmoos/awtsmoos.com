@@ -52,6 +52,10 @@ function getShtarPath({
  * @method getAuthorPath
  * @description Constructs path to an author’s comments on a parent
  * (post or other comment).
+ * 
+ * The expected output is simply a list 
+ * of verseSections, if any comments exist.
+ * 
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
@@ -80,15 +84,13 @@ function getAuthorPath({
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function getAliasesCommentsPath(
-    {
-        heichelId,
-        parentId,
-        link,
-		postId,
-        seriesId
-    }
-) {
+function getAliasesCommentsPath({
+	heichelId,
+	parentId,
+	link,
+	postId,
+	seriesId
+}) {
     return `${
         getParentPath({
             heichelId,
@@ -153,19 +155,21 @@ function commentsOfAliasByHeichelAndSeries(
 
 /**
  * @method getAliasesAtVerseSectionPath
- * @description Constructs path for aliases in a verse section.
+ * @description Constructs path for an array of
+ * aliases that left at least one comment
+ * at this verse section.
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
 function getAliasesAtVerseSectionPath(
     {
-        heichelId,
-        link,
-        parentId,
-        verseSection="root",
+		heichelId,
+		link,
+		parentId,
+		verseSection="root",
 
-        postId,
-        seriesId
+		postId,
+		seriesId
     }
 ) {
     return `${

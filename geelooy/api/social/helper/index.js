@@ -16,6 +16,11 @@ var {
 var {
 	addComment,
 	getComments,
+
+	getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent,
+
 	getComment,
 	deleteComment,
 	editComment,
@@ -101,7 +106,12 @@ module.exports = {
     
 	
 	addComment,
-	getComments,
+	
+
+	getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent,
+
 	getComment,
 	deleteComment,
 	editComment,
