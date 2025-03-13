@@ -3,6 +3,11 @@
  * write methods for DosDB class
  */
 
+const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+
+var fs = require("fs").promises;
+var path = require("path");
+
 module.exports = {
     /**
 	 * @method write

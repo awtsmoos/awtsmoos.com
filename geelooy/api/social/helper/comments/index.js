@@ -33,8 +33,7 @@ const {
 const { 
     deleteComment, 
     deleteAllCommentsOfAlias, 
-    deleteAllCommentsOfParent, 
-    checkIfAllDeletedAndDeleteMore 
+    deleteAllCommentsOfParent
 } = require("./commentDeletion.js");
 
 module.exports = {
@@ -53,7 +52,7 @@ module.exports = {
 	
 	updateCommentIndexesAtParent,
     
-	checkIfAllDeletedAndDeleteMore,
+    
 	submitComment, 
     addOrApproveComment, 
 

@@ -1189,6 +1189,7 @@ async function getAndSaveAliases(full=false) {
 		savedAliases.aliases : savedAliases.map(;*/
 	var subSec = getSubSecIdx();
 	var aliases = await getCommentsByAlias({
+		seriesId: window?.post?.parentSeriesId,
 		postId: window?.post?.id,
 		heichelId: window?.post?.heichel.id,
 		get: {

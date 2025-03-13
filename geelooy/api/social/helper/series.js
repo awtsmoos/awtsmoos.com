@@ -558,7 +558,8 @@ async function deleteContentFromSeries({
 				postID: contentId,
 				heichelId,
 				aliasId,
-				$i
+				$i,
+				seriesId
 			});
 			if(delp.error) {
 				throw er({

@@ -339,7 +339,6 @@ async function getComment(
         parentType,
         parentId,
         aliasId,
-        seriesId,
         verseSection="root"
     }
 ) {

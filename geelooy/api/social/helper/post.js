@@ -413,7 +413,8 @@ async function deletePost({
 	heichelId,
 	$i,
 	postID,
-	aliasId
+	aliasId,
+	seriesId
 }) {
 	
 
@@ -452,28 +453,8 @@ async function deletePost({
 	var deleted = {
 		post: {}
 	}
-	try {
-		var com = await deleteAllCommentsOfParent({
-			heichelId,
-			parentId: postId,
-			parentType: "post",
-			$i
-		})
-		if(com.error) {
-			if(com.error.code != "NO_COM")
-			throw com.error;
-		}
-		deleted.comments = {
-			message: "Deleted post comments successfully",
-			comments:com
-		}
-	} catch(e) {
-		return er({
-			message: "issue deleting comments of post",
-			stack:e.stack,
-			e
-		})
-	}
+	//var seriesId = null;
+
 	try {
 		
 		try {
@@ -487,6 +468,8 @@ async function deletePost({
 			})
 			
 			if(author && parentSeriesId) {
+				if(!seriesId)
+					seriesId = parentSeriesId;
 				var del = await $i.db.delete(sp + `/aliases/${author}/heichelos/${
 					heichelId
 				}/series/${parentSeriesId}/posts/${postId}`);
@@ -514,6 +497,43 @@ async function deletePost({
 			error
 		});
 
+	}
+
+	try {
+		if(!seriesId) {
+			return er({
+				message: "No series ID found",
+				code: "NO_SERIES_ID",
+				details: {
+					postId,
+					heichelId
+				}
+			})
+		}
+		
+		var com = await deleteAllCommentsOfParent({
+			heichelId,
+			parentId: postId,
+			parentType: "post",
+			$i,
+			postId,
+			seriesId
+		});
+
+		if(com.error) {
+			if(com.error.code != "NO_COM")
+			throw com.error;
+		}
+		deleted.comments = {
+			message: "Deleted post comments successfully",
+			comments:com
+		}
+	} catch(e) {
+		return er({
+			message: "issue deleting comments of post",
+			stack:e.stack,
+			e
+		})
 	}
 	return deleted;
 }

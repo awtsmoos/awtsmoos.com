@@ -3,6 +3,8 @@
  * path methods for DosDB class
  */
 
+var fs = require("fs").promises;
+
 module.exports = {
 
 	async getArrayAtPath(rPath) {

@@ -3,6 +3,8 @@
  * path methods for DosDB class
  */
 
+var path = require("path");
+
 module.exports = {
 
     /**

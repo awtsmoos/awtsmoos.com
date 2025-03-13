@@ -2,7 +2,11 @@
 /**
  * write methods for DosDB class
  */
+var fs = require("fs").promises;
+var path = require("path");
 
+
+const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 module.exports = {
     /**
 	 * @method readFileWithOffset

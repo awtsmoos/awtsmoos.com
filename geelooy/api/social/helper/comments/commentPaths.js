@@ -110,20 +110,62 @@ function getParentPath({
     seriesId
 }) {
     return `${
+		getListOfPostsOrInSeriesPath({
+			heichelId,
+			link,
+			postId,
+			seriesId
+		})
+	}/${
+        parentId
+    }`
+}
+
+//getListOfPostsInSeriesPath
+function getPathAtSeries({
+	heichelId,
+    seriesId
+}) {
+	return `${
         sp
     }/heichelos/${
         heichelId
     }/comments/atSeries/${
 		seriesId
-    }/${
+    }`
+}
+
+function getListOfPostsOrInSeriesPath({
+	heichelId,
+
+    link,
+    postId,
+    seriesId
+}) {
+	return `${
+		getPathAtSeries({
+			heichelId,
+			seriesId
+		})
+	}/${
+		getConditionalPathIfPostOrComment({
+			link,
+			postId
+		})
+	}`
+}
+
+function getConditionalPathIfPostOrComment({
+	link,
+	postId
+}) {
+	return `${
 		link == "atPost" ?
         	link
 		: link == "atComment" ?
 			`atPost/${
 				postId
 			}/atComment` : "other"
-    }/${
-        parentId
     }`
 }
 
@@ -274,6 +316,9 @@ module.exports = {
     
     getAliasesAtVerseSectionPath,
 	getAllVerseSectionsThatHaveAtLeastOneAuthorPath,
-	
-    getSubmittedCommentPath
+
+    getSubmittedCommentPath,
+	getParentPath,
+
+	getListOfPostsOrInSeriesPath
 };

@@ -7,6 +7,12 @@
 
 var fileBuffer = require("../fileBuffer.js");
 
+var {
+  getKeysFromBinary,
+  getValueByKey
+} = require("./get.js");
+
+
 /**
  * Filters a binary JSON buffer based on a properties map, preserving structure and applying conditions.
  * @method filterAwtsmoosBinary

@@ -43,7 +43,7 @@ module.exports = {
         }
 
     },
-    async getDirectoryEntries({
+    async getDirectoryIndecies({
         directoryPath,
         page = 1,
         pageSize = 60,

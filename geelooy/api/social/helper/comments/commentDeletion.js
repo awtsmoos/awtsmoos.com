@@ -27,6 +27,9 @@ const {
     
     getAliasesAtVerseSectionPath,
 
+    getParentPath,
+    getListOfPostsOrInSeriesPath
+
 
 } = require("./commentPaths.js");
 
@@ -273,7 +276,7 @@ async function deleteComment(
          if(isVerseSectionArrayOfMyAliasEmpty === true) {
             /**
              * this means we just deleted
-             * a comment at a 
+             * a comment of our aliasId at a 
              * specific verse section,
              * which was an element in 
              * an array on disk,
@@ -302,7 +305,12 @@ async function deleteComment(
                         exact: {
                             selfEquals: aliasId
 
-                        }
+                        } /**
+                        just means a schema
+                        to search for the aliasId string
+                        in the array that matches
+                        ("self equals") our aliasId.
+                        */
                         
                         
                     }, {
@@ -335,16 +343,8 @@ async function deleteComment(
 
         }
 
-        var remaining = "possibly some";
-        var allPotentialVerseSectionReferencesInParent = 
-                getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
-                    heichelId,
-                    parentId,
-                    link,
-                    postId,
-                    seriesId,
-                    aliasId
-                });
+        var anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
+            = true
         if(
             areThereNoMoreAliasesThatLeftAnyCommentsAtAllInThisVerseSection
         ) {
@@ -370,61 +370,31 @@ async function deleteComment(
              * Maybe there are no more comments on ANY
              * verse sections in any way.
              */
-            
-//allPotentialCommentsOfAliasAtAllVerseSectionsInParent
-            remaining = await $i.db.count(
-                allPotentialVerseSectionReferencesInParent
-            );
-
-            if(remaining.error) {
-                return {
-                    error: {
-                        message: "System error counting remaining verse sections",
-                        details: remaining.error,
-                        code: "SYSTEM_ERROR"
-                    }
-                };
-            }
-
-            
-            remaining = remaining.success;
-        }
-
-        var anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent =
-            true;
-        if(
-            typeof(remaining) == "number" &&
-            remaining === 0
-        ) {
-            anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
-            = false;
-            /**
-             * If theres no more
-             * verse section entries,
-             * not even root,
-             * that means we need to 
-             * remove the reference entirely.
-             * 
-             */
-            var deleteVerseSectionReference =
-            await $i.db.delete(
-                allPotentialVerseSectionReferencesInParent
-            );
-            if(deleteVerseSectionReference.error) {
-                return er({
-                    message: "Couldn't remove alias parent reference",
-                    code: "NO_REMOVE",
-                    allPotentialVerseSectionReferencesInParent
-                })
-            }
-            
-            pathsDeleted.push({
-                allPotentialVerseSectionReferencesInParent,
-                deleteVerseSectionReference
+            var checked = checkVerseSectionsAndDeleteAllIfEmpty({
+                $i,
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId
             });
-
+            if(checked.error) {
+                return er({
+                    message: "Couldn't check verse sections",
+                    code: "VERSE_SECTION_ISSUE",
+                    details: checked.error
+                });
+            }
+            var suc = checked.success;
+            anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
+                = suc
+                .anyRemainingVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent
+            pathsDeleted.push(suc);
+//allPotentialCommentsOfAliasAtAllVerseSectionsInParent
 
         }
+
+        
 
 
         /**
@@ -432,7 +402,7 @@ async function deleteComment(
          * verse section references if 
          * we were the last ones,
          * we now need to check
-         * the other references of if OUR 
+         * the other references if OUR 
          * alias left any more comments in 
          * any verse section in this post,
          * which would only be true 
@@ -451,6 +421,33 @@ async function deleteComment(
              * maybe those verse sections
              * are from our own alias.
              */
+
+            var checked = await 
+            checkIfOurAliasIdHasAnyMoreCommentsOnAnyVerseSectionInParent({
+                $i,
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId,
+                aliasId
+            });
+
+            if(checked.error) {
+                return er({
+                    message: "Couldn't check verse sections",
+                    code: "VERSE_SECTION_ISSUE",
+                    details: checked.error
+                });
+            }
+            var suc = checked.success;
+            removedEntireAliasReference = 
+            suc.anyRemainingVerseSectionsThatOurAliasHas;
+
+            pathsDeleted.push({
+                removedEntireAliasReference,
+                checked
+            });
         }
 
         var removedAllAliasesInAuthorSection = false;
@@ -570,6 +567,235 @@ async function deleteComment(
     }
 }
 
+
+async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(path, $i) {
+
+    try {
+        var remaining = "possibly some";
+      
+        remaining = await $i.db.count(
+            path
+        );
+
+        if(remaining.error) {
+            return {
+                error: {
+                    message: "System error counting remaining verse sections",
+                    details: remaining.error,
+                    code: "SYSTEM_ERROR"
+                }
+            };
+        }
+
+        
+        remaining = remaining.success;
+        
+        if(
+            typeof(remaining) == "number" &&
+            remaining === 0
+        ) {
+       
+            /**
+             * If theres no more
+             * verse section entries,
+             * not even root,
+             * that means we need to 
+             * remove all of the references entirely.
+             * 
+             */
+            var deleteVerseSectionReferences =
+            await $i.db.delete(
+                path
+            );
+            if(deleteVerseSectionReferences.error) {
+                return er({
+                    message: "Couldn't remove alias parent reference",
+                    code: "NO_REMOVE",
+                    isEmpty: true,
+                    pathTried: path
+                })
+            }
+            
+            return ({
+                success: {
+                    allPotentialVerseSectionReferencesInParent,
+                    deleteVerseSectionReferences,
+                    isEmpty: true,
+                    pathDeleted:path
+                }
+            })
+
+
+        }
+    } catch(e) {
+        return er({
+            message: "Issue checking and deleting verse sections",
+            code: "VERSE_SECTION_ISSUE",
+            details: e.stack
+        });
+    }
+}
+
+async function checkIfOurAliasIdHasAnyMoreCommentsOnAnyVerseSectionInParent({
+    $i,
+    heichelId,
+    parentId,
+    link,
+    postId,
+    seriesId,
+    aliasId
+}) {
+
+    var anyPotentialRemainingVerseSectionsThatWeCommentedAtPath = 
+        getAuthorPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId,
+            aliasId
+            
+        });
+
+    try {
+
+        var checkAndMaybeRemove = 
+        await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+            anyPotentialRemainingVerseSectionsThatWeCommentedAtPath,
+            $i
+        );
+        
+
+        if(checkAndMaybeRemove.error) {
+            return checkAndMaybeRemove;
+        }
+
+        
+        var anyRemainingVerseSectionsThatOurAliasHas =
+            checkAndMaybeRemove?.isEmpty;
+        
+            /**
+             * If theres no more
+             * verse section entries,
+             * not even root,
+             * that means we need to 
+             * remove all of the references entirely.
+             * 
+             */
+            
+            
+        return ({
+            success: {
+                allPotentialVerseSectionReferencesInParent,
+                deleteVerseSectionReferences,
+                anyRemainingVerseSectionsThatOurAliasHas,
+                anyPotentialRemainingVerseSectionsThatWeCommentedAtPath
+            }
+        })
+
+
+        
+    } catch(e) {
+        return er({
+            message: "Issue checking and deleting verse sections",
+            code: "VERSE_SECTION_ISSUE",
+            details: e.stack
+        });
+    }
+
+}
+
+
+async function checkVerseSectionsAndDeleteAllIfEmpty({
+    $i,
+    heichelId,
+    parentId,
+    link,
+    postId,
+    seriesId
+}) {
+    var allPotentialVerseSectionReferencesInParent = 
+            getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
+                heichelId,
+                parentId,
+                link,
+                postId,
+                seriesId
+                
+            });
+
+    try {
+
+        var checkAndMaybeRemove = 
+        await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+            anyPotentialRemainingVerseSectionsThatWeCommentedAtPath,
+            $i
+        );
+        
+
+        if(checkAndMaybeRemove.error) {
+            return checkAndMaybeRemove;
+        }
+
+        
+        var noMoreVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent =
+            checkAndMaybeRemove?.isEmpty;
+        
+            /**
+             * If theres no more
+             * verse section entries,
+             * not even root,
+             * that means we need to 
+             * remove the parent.
+             * 
+             */
+        if(noMoreVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent) {
+            var pf = await deleteParentFolder({
+                $i,
+                heichelId,
+                seriesId,
+                parentType,
+                parentId,
+                postId,
+                link
+            });
+            if(pf.error) return pf;
+            pathsDeleted.push({
+                noMoreVerseSectionsAtAllThatHaveAnyCommentsFromAnyoneInThisParent,
+                parentDeleted:pf
+            });
+            if(parentType == "post") {
+                var rm = removeSeriesFromAliasListReference({
+                    aliasId,
+                    heichelId,
+                    seriesId,
+                    $i
+                });
+                if(rm.error) return rm;
+                pathsDeleted.push({
+                    removedSeriesFromAliasReference: rm
+                })
+            }
+        }
+    
+            
+            
+        return ({
+            success: {
+                pathsDeleted
+            }
+        })
+
+
+        
+    } catch(e) {
+        return er({
+            message: "Issue checking and deleting verse sections",
+            code: "VERSE_SECTION_ISSUE",
+            details: e.stack
+        });
+    }
+}
 /**
  * @method deleteAllCommentsOfAlias
  * @description Deletes all comments by a specific alias for a parent.
@@ -581,104 +807,14 @@ async function deleteAllCommentsOfAlias(
         $i,
         heichelId,
         parentId,
+        seriesId,
+        postId,
         author,
         parentType
     }
 ) {
-    var aliasId = author;
+    return {doesntWork:"yet IYH"};
 
-    var ver = await verifyHeichelAuthority(
-        {
-            heichelId,
-            aliasId,
-            $i
-        }
-    );
-
-    if (!ver) {
-        return er(
-            {
-                message: "You don't have authority to post to this heichel",
-                code: "NO_AUTH",
-                aliasId,
-                author
-            }
-        );
-    }
-
-    var link = parentType == "post" ?
-        "atPost" : parentType == "comment" ?
-        "atComment" : null;
-
-    if (!link) {
-        return er(
-            {
-                message: "No parent type provided",
-                code: "MISSING_PARAMS",
-                detail: "parentType"
-            }
-        );
-    }
-
-    var authors = `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${link}/${
-        parentId
-    }/author/${
-        author
-    }`;
-
-    var opts = myOpts($i);
-
-    var authorInfo = await $i.db.get(
-        authors,
-        {
-            pageSize: 1000000
-        }
-    );
-
-    if (!authorInfo || !Array.isArray(authorInfo)) {
-        return er(
-            {
-                message: "No comments found for that author",
-                details: {
-                    author,
-                    heichelId,
-                    parentId
-                }
-            }
-        );
-    }
-
-    var results = [];
-
-    for (var i = 0; i < authorInfo.length; i++) {
-        var c = authorInfo[i];
-
-        var res = await deleteComment(
-            {
-                $i,
-                commentId: c,
-                parentId,
-                parentType,
-                heichelId,
-                aliasId
-            }
-        );
-
-        results.push(
-            {
-                id: c,
-                result: res
-            }
-        );
-    }
-
-    return {
-        deleteStatus: results
-    };
 }
 
 /**
@@ -692,7 +828,9 @@ async function deleteAllCommentsOfParent(
         $i,
         heichelId,
         parentId,
-        parentType
+        parentType,
+        seriesId,
+        postId
     }
 ) {
     var aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
@@ -728,261 +866,125 @@ async function deleteAllCommentsOfParent(
         );
     }
 
-    var authors = `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${link}/${
-        parentId
-    }/author/`;
+    var allAliasesAtParent = 
+    getAliasesCommentsPath({
+        heichelId,
+        parentId,
+        link,
+        postId,
+        seriesId
+    });
 
-    var opts = myOpts($i);
-
-    var authorInfo = await $i.db.get(
-        authors, 
-        opts
+    var aliasList = await $i.get(
+        allAliasesAtParent
     );
+    
+    var pf = await deleteParentFolder({
+        $i,
+        heichelId,
+        seriesId,
+        parentType,
+        parentId,
+        postId,
+        link
+    });
 
-    if (!authorInfo || !Array.isArray(authorInfo)) {
-        return er(
-            {
-                message: "No comments found for that author",
-                code: "NO_COM",
-                details: {
-                    heichelId,
-                    parentId
+    if(pf.error) {
+        return pf;
+    }
+
+    var empty = pf?.success?.isEmpty;
+    if(empty) {
+        if(parentType == "post") {
+            for(var aliasId of aliasList) {
+                var rm = await removeSeriesFromAliasListReference({
+                    aliasId,
+                    seriesId,
+                    $i,
+                    heichelId
+                });
+                if(rm.error) {
+                    return rm;
                 }
             }
-        );
+        }
     }
 
-    var results = [];
 
-    for (var i = 0; i < authorInfo.length; i++) {
-        var author = authorInfo[i];
-
-        var res = await deleteAllCommentsOfAlias(
-            {
-                $i,
-                heichelId,
-                parentId,
-                author,
-                parentType
-            }
-        );
-
-        results.push(
-            {
-                id: author,
-                result: res
-            }
-        );
-    }
 
     return {
         deleteStatus: results
     };
 }
 
-/**
- * @method checkIfAllDeletedAndDeleteMore
- * @description Recursively deletes empty directories.
- * @param {Object} params - Parameters for deletion.
- * @returns {Array} Paths deleted.
- */
-async function checkIfAllDeletedAndDeleteMore(
-    {
-        $i,
-        path,
-        verseSectionPath,
-        commentPath,
-        authPath,
-        pathsDone,
-        authors
-    }
-) {
-    var path = path || verseSectionPath || commentPath || authPath || authors;
-
-    if (!path) {
-        return;
-    }
-
-    path = path.split("/").filter(Boolean).join("/");
-
-    try {
-        var pathsDone = pathsDone || [];
-
-        const content = await $i.db.get(path);
-
-        if (content?.length === 0 || !content) {
-            await $i.db.delete(path);
-
-            pathsDone.push(path);
-
-            const parentPath = path.substring(
-                0, 
-                path.lastIndexOf('/')
-            );
-
-            if (parentPath) {
-                await checkIfAllDeletedAndDeleteMore(
-                    {
-                        $i,
-                        path: parentPath,
-                        pathsDone
-                    }
-                );
-            }
-        }
-    } catch (error) {
-        return er(
-            {
-                message: "path issue",
-                error: error.stack
-            }
-        );
-    }
-
-    return pathsDone;
-}
-
-/**
- * @method deleteCommentIndex
- * @description Deletes a comment's index entry.
- * @param {Object} params - Parameters for deletion.
- * @returns {Object} Deletion result.
- */
-async function deleteCommentIndex(
-    {
-        $i,
-        commentId,
-        parentId,
-        verseSection,
-        heichelId,
+async function removeSeriesFromAliasListReference({
+    aliasId,
+    seriesId,
+    $i,
+    heichelId
+}) {
+    var pathOfAliasSeriesReference = 
+    commentsOfAliasByHeichelAndSeries({
         aliasId,
-        parentType,
-        postId
-    }
-) {
-    if (!parentType) {
-        parentType = "post";
-    }
+        heichelId
+    });
 
-    var link = parentType == "post" ?
-        "atPost" : parentType == "comment" ?
-        "atComment" : "atPost";
-
-    if (!link) {
-        return er(
-            {
-                message: "No parent type provided",
-                code: "MISSING_PARAMS",
-                detail: "parentType"
+    var rem = await $i.db.removeElementFromArray(
+        pathOfAliasSeriesReference, {
+            exact: {
+                selfEquals: seriesId
             }
-        );
-    }
-
-    var parentSeriesId = null;
-
-    if (parentType == "post") {
-        parentSeriesId = await getParentSeriesId(
-            {
-                $i,
-                heichelId,
-                postId: parentId
-            }
-        );
-    } else {
-        parentSeriesId = await getParentSeriesId(
-            {
-                $i,
-                heichelId,
-                postId
-            }
-        );
-    }
-
-    if (!parentSeriesId) {
-        return er(
-            {
-                message: "Couldnt find parent",
-                code: "NO_PAR",
-                details: {
-                    parentType,
-                    parentId,
-                    commentId,
-                    heichelId,
-                    aliasId
-                }
-            }
-        );
-    }
-
-    if (!postId) {
-        if (link == "atPost") {
-            postId = parentId;
-        }
-    }
-/*
-    var commentPath = makeCommentIndexPath(
-        {
-            aliasId,
-            heichelId,
-            seriesParentId: parentSeriesId,
-            isPost: parentType == "post",
-            postId,
-            commentId,
-            parentId,
-            verseSection
+        }, {
+            deleteSelfIfEmpty: true
         }
     );
 
+    return rem;
 
-    done.commentPathDeleted = await $i.db.delete(commentPath);
-
-    done.deleteMore.push(
-        await checkIfAllDeletedAndDeleteMore(
-            {
-                $i,
-                commentPath
-            }
-        )
-    );*/
-
-    return done;
 }
 
-/**
- * @method getParentSeriesId
- * @description Retrieves the parent series ID of a post.
- * @param {Object} params - Parameters for retrieval.
- * @returns {String} Parent series ID.
- */
-async function getParentSeriesId(
-    {
-        $i,
+async function deleteParentFolder({
+    $i,
+    heichelId,
+    seriesId,
+    parentType,
+    parentId,
+    postId,
+    link
+}) {
+    var parentPath = 
+    getParentPath({
         heichelId,
-        postId
-    }
-) {
-    var post = await $i.db.get(
-        `/social/heichelos/${
-            heichelId
-        }/posts/${postId}`,
-        {
-            propertyMap: {
-                parentSeriesId: true
-            }
-        }
-    );
+        seriesId,
+        parentType,
+        parentId,
+        postId,
+        link
+    });
 
-    return post.parentSeriesId;
+    var delPar = await $i.db.delete(
+        parentPath
+    );
+    if(delPar.error) {
+        return delPar;
+    }
+    var holderOfParentPath =
+        getListOfPostsOrInSeriesPath({
+            heichelId,
+            seriesId,
+            postId,
+            link
+        });
+        
+    var del = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+        holderOfParentPath, $i
+    );
+    
+    return del;
 }
 
 module.exports = { 
     deleteComment, 
     deleteAllCommentsOfAlias, 
-    deleteAllCommentsOfParent, 
-    checkIfAllDeletedAndDeleteMore,
-    deleteCommentIndex // Added to exports
+    deleteAllCommentsOfParent
 };

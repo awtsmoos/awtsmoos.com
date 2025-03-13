@@ -13,8 +13,24 @@ var {
      readConditional,
 
     hashKey
-} = require("../awtsmoosBinaryHelpers.js")
+} = require("../awtsmoosBinaryHelpers.js");
+
+var {
+    deserializeBinary,
+    deserializeArray
+} = require("./deserialize.js");
+
 var fileBuffer = require("../fileBuffer.js");
+
+
+var {
+    getKeysFromBinary,
+    getValuesFromBinary,
+    getArrayValueAtKey,
+    getKeyByHashing,
+    getValueByKey
+} = require("./get.js");
+
 
 var mapBinary = require("./map.js")
 var {
@@ -198,141 +214,6 @@ function serializeJSON(json) {
     return Buffer.concat(bufferList);
 }
 
-async function deserializeBinary(buffer) {
-    
-
-    async function readData() {
-        var magic = (await buffer.subarray(0, magicArray.length)).toString();
-        if(magic == magicArray) {
-            return await deserializeArray(buffer);
-        } else if(magic != magicJSON) {
-            return {
-                awtsmoosError: "That type isn't right!"
-            }
-        }
-        let offset = magic.length;
-        let obj = {};
-       // console.log("READING",offset, buffer,logBuffer(buffer),buffer.toString())
-        var hashInfo = await readConditional(buffer,offset)
-        let hashTableSize = hashInfo.amount;
-        //buffer.readUInt32LE(offset);
-        offset = hashInfo.offset;
-        let hashTable = new Array(hashTableSize);
-        
-        for (let i = 0; i < hashTableSize; i++) {
-            let keyOffset = await buffer.readUInt32BE(offset);
-            offset += hashAmount;
-            hashTable[i] = keyOffset;
-     //       if (keyOffset !== 0) 
-        }
-       // console.log("hash table",hashTable)
-     // console.log("Getting maybe",hashTable)
-        for (let keyOffset of hashTable) {
-            if (keyOffset) {
-                var keyInfo = await readConditional(buffer,keyOffset)
-                let keyLength = keyInfo.amount;
-                keyOffset = keyInfo.offset;
-                //buffer.readUInt16LE(keyOffset);
-                let key = await buffer.toString('utf8', keyOffset, keyOffset + keyLength);
-                var value = await parseValueFromKey({
-                    keyOffset,
-                    keyLength,
-                    buffer
-                })
-               
-                obj[key] = value;
-            }
-        }
-        return obj;
-    }
-    
-    return await readData();
-}
-
-async function parseValueFromKey({
-    keyOffset,
-    keyLength,
-    buffer
-}={}) {
-    let valueOffset = keyOffset + keyLength;
-    let valueType = await buffer.readUInt8(valueOffset);
-    valueOffset++;
-    var valueLength;
-    if(valueType == 0x05) {
-        valueLength = {offset:valueOffset+1, amount:1};
-    } else if(valueType == 0x06 || valueType == 0x07) {
-        valueLength = {
-            offset: valueOffset,
-            amount: 0
-        }
-    } else valueLength = await readConditional(
-        buffer,
-        valueOffset
-    )
-    
-    valueOffset = valueLength.offset;
-    var value = await buffer.subarray(
-        valueOffset, 
-        valueOffset + valueLength.amount
-    );
-  //  console.log("Amount",buffer,value,valueOffset,valueLength)
-    
-    if (valueType === 0x01) {
-        /**
-         * object type
-         */
-        
-        //buffer.readUInt32LE(valueOffset + 1);
-        
-        value = await deserializeBinary(value)
-     //   console.log("Data",value,"length",valueLength,valueOffset)
-        //  value = readDataAt(nestedOffset);
-    } else if (valueType === 0x02) {
-        /**
-         * regular type
-         */
-        
-        value = value.toString();
-        try {
-            value = JSON.parse(value)
-        } catch(e) {
-
-        }
-        //console.log("Doing",keyOffset,hashTable, key, value,logBuffer(value))
-        //value = deserializeBinary(value)
-    } else if (valueType === 0x03) {
-        
-    //    console.log("Getting array", value, logBuffer(value),value+"")
-        value = await deserializeArray(value);
-    } else if(
-        valueType == 0x04
-    ) {
-        value = (await readConditional(value)).amount;
-    } else if(
-        valueType == 0x05
-    ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
-            value = !!value.readUInt8(0);
-        
-    } else if(
-        valueType == 0x06
-    ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
-            value = undefined;
-        
-    } else if(
-        valueType == 0x07
-    ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
-            value = null
-        
-    } else if(
-        valueType == 0x08
-    ) {
-        //nothing
-    }
-    return value;
-}
 
 function serializeArray(arr) {
     let arrayBufferList = [];
@@ -506,403 +387,25 @@ function serializeArray(arr) {
 }
 
 
-async function deserializeArray(arrayBuffer) {
-    var magic = await arrayBuffer.subarray(0, magicArray.length).toString();
-    if(magic != magicArray) {
-        return {
-            awtsmoosError: "That is not an awtsmoos array!"
-        }
-    }
-    let arr = [];
-
-    let length = await readConditional(arrayBuffer, magic.length);
-
-    let currentOffset = length.offset;
-    var sizeAmount = await readConditional(arrayBuffer, currentOffset);
-    currentOffset = sizeAmount.offset;
-  //  console.log("Array length: ",length)
-    var elementSize = sizeAmount.amount;
-    currentOffset += elementSize * length.amount * 2
-    for (let i = 0; i < length.amount; i++) {
-        if(isNaN(currentOffset)) {
-            console.log("NAN", arrayBuffer,i,length);;
-            return;
-        }
-
-        var valueLength;
-        try {
-            valueLength = await readConditional(
-                arrayBuffer,
-                currentOffset
-            );
-        } catch(e) {
-            console.log("ARRAY issue", e,currentOffset,arrayBuffer);
-            throw new Error("What are u even")
-        }
-
-        currentOffset = valueLength.offset;
-
-        var type = await arrayBuffer.readUInt8(currentOffset);
-        
-        currentOffset++;
-        var value;
-        value = await arrayBuffer.subarray(
-            currentOffset , 
-            currentOffset  + valueLength.amount
-        );
-        var valUpdate  = await parseValueFromType({
-            value,
-            type,
-            currentOffset
-        })
-        value = valUpdate.value;
-        if(!isNaN(valUpdate.currentOffset))
-            currentOffset = valUpdate.currentOffset
-        arr.push(value);
-      
-       // console.log("Pushed",arr,value,currentOffset,type,valueLength)
-    }
-    return arr;
-}
-
-async function parseValueFromType({
-    value,
-    type,
-    currentOffset
-}) {
-    if(type == 1) {
-
-        currentOffset += value.length
-        value = await deserializeBinary(value)
-
-    } else if(type == 2) {
-        
-        currentOffset += value.length
-        value = value+""
-    } else if (type == 3) {
-
-        currentOffset += value.length
-        value = await deserializeArray(value);
-        
-    } else if (type == 4) {
-        try {
-            var info = await readConditional(value)
-            value = info.amount;
-            currentOffset += info.offset
-        } catch(e) {
-            console.log(
-                "ISSUE! reading. want to nkow",
-                value,
-                e
-            )
-            throw new Error("Wow..")
-        }
-    } else if(type == 5) {
-  //      console.log("VAL",value)
-        value = !!value.readUInt8(0);
-        currentOffset += 1
-
-    } else if(type == 6) {
-        value = undefined;
-    } else if(type == 7) {
-        value = null;
-    } else if(type == 8) {
-        currentOffset += value.length;
-
-
-        value = Buffer.from(value)
-    }
-    return {value,currentOffset};
-}
 
 
 
-async function getKeysFromBinary(buffer) {
-    
-    var wrap = null;
-    if(typeof(buffer) == "string") {
-       // wrap = new binaryFileWrapper(buffer);
-       buffer = new fileBuffer(buffer);
-    }
-    if(wrap) {
-        return await wrap.getKeys();
-    }
-    
-   
-    var magic = (await buffer.subarray(0, magicArray.length)).toString();
-    let offset = magic.length;
-  //  console.log("\n\n\n\n\nMAGIC,\n",magic)
-    if(magic == magicJSON) {
-
-        
-        let obj = {};
-        // console.log("READING",offset, buffer,logBuffer(buffer),buffer.toString())
-        var hashInfo = await readConditional(buffer,offset)
-        var hashTableSize = hashInfo.amount;
-      //  console.log("\n\n\nHash info\n",hashInfo)
-        //buffer.readUInt32LE(offset);
-        offset = hashInfo.offset;
-        let hashTable = new Array(hashTableSize);
-        
-        for (let i = 0; i < hashTableSize; i++) {
-            let keyOffset = await buffer.readUInt32BE(offset);
-            offset += hashAmount;
-            if (keyOffset !== 0) hashTable[i] = keyOffset;
-        }
-       // console.log("\n\nHash table\n",hashTable)
-        var keys = [];
-        for (let keyOffset of hashTable) {
-            if (keyOffset) {
-                var keyInfo = await readConditional(buffer,keyOffset)
-                let keyLength = keyInfo.amount;
-                keyOffset = keyInfo.offset;
-               // console.log("\n\n\nkey info\n",keyInfo)
-                //buffer.readUInt16LE(keyOffset);
-                let key = await buffer.subarray(keyOffset, keyOffset + keyLength);
-               // console.log("\n\n\nkey\n",key)
-                keys.push(key+"");
-            }
-        }
-        return keys;
-
-
-
-
-        
-    } else if(magic == magicArray) {
-        var arLengthInfo = await readConditional(buffer,offset);
-        var arrayLength = arLengthInfo.amount;
-        return Array.from({length:arrayLength}).map((q,i)=>i)
-
-    }
-    return keys;
-}
-
-
-
-
-function flipEndianness32bit(value) {
-    // Convert the value to a 32-bit buffer
-    const buffer = Buffer.alloc(4);
-    buffer.writeUInt32BE(value, 0);
-  
-    // Read it back as a Big Endian value
-    const flippedValue = buffer.readUInt32LE(0);
-  
-    return flippedValue;
-  }
-async function getValueByKey(buffer, searchKey) {
- 
-    if(typeof(buffer) == "string") {
-        buffer = new fileBuffer(buffer);
-    }
-   
-    var magic = (await buffer.subarray(0, magicArray.length)).toString();
-
-    var offset = magic.length;
-    if(magic == magicJSON) {
-        
-        let offset = magic.length;
-        let obj = {};
-       // console.log("READING",offset, buffer,logBuffer(buffer),buffer.toString())
-        var hashInfo = await readConditional(buffer,offset)
-        let hashTableSize = hashInfo.amount;
-
-        //buffer.readUInt32LE(offset);
-        offset = hashInfo.offset;
-        
-
-        
-        
-
-       
-        
-        var foundKey = await getKeyByHashing({
-            buffer,
-            key: searchKey,
-            hashTableSize,
-            hashInfo,
-            hashAmount
-        });
-
-        var hashOffset = foundKey.hash;
-        var hashValueFromTable = await buffer.readUInt32BE(
-            hashInfo.offset + hashOffset * hashAmount
-        )
-      //  console.log("\nHasht\n\n", "red",hashOffset,hashValueFromTable, foundKey, searchKey,"tab",hashTable)
-
-        
-        
-        if (hashValueFromTable) {
-            var keyInfo = await readConditional(buffer,hashValueFromTable)
-            let keyLength = keyInfo.amount;
-            var keyOffset = keyInfo.offset;
-        
-            let key = await buffer.toString('utf8', keyOffset, keyOffset + keyLength);
-            if(key == searchKey) {
-                
-                var value = await parseValueFromKey({
-                    keyOffset,
-                    keyLength,
-                    buffer
-                })
-                return value;
-
-            }
-            
-        }
-    
-        return null;
-
-    } else if(magic != magicArray) {
-        return {
-            real: magic,
-            awtsmoosError: "Not a real file!"
-        }
-    }
-
-    return await getArrayValueAtKey(buffer, searchKey, magic);
-    
-   
-}
-
-async function getKeyByHashing({
-    buffer,
-    key,
-    hashTableSize,
-    hashInfo,
-    hashAmount
-}) {
-    var hasht = hashKey(key, hashTableSize);  // Calculate the initial hash
-    var foundKey = null;
-
-    while (true) {
-        let readHash = await buffer.readUInt32BE(hashInfo.offset + hashAmount * hasht);
-        
-        // If the hash value is 0, that means it's an empty slot, stop looking
-        if (readHash === 0) {
-            break;
-        }
-
-        foundKey = await getKeyAtOffset({
-            buffer,
-            offset: readHash
-        }) 
-
-        // If found the correct key, return it
-        if (foundKey === key) {
-            return {
-                key: foundKey,
-                hash: hasht,
-                inputKey: key
-            };
-        }
-
-        // Handle collision: if the key at this slot doesn't match, move to the next slot
-        hasht = (hasht + 1) % hashTableSize;  // Linear probing, move to next index
-    }
-
-    // If we exit the loop without finding the key, it means the key wasn't found
-    return {
-        key: null,
-        hash: hasht,
-        inputKey: key
-    };
-}
-
-async function getKeyAtOffset({
-    buffer,
-    offset
-}) {
-    var keyInfo = await readConditional(buffer,offset)
-    let keyLength = keyInfo.amount;
-    offset = keyInfo.offset;
-
-   return await buffer.toString('utf8', offset, offset + keyLength);
-}
-
-async function getArrayValueAtKey(buffer, searchKey, magic) {
-    if(typeof(searchKey) != "number") {
-        return console.log("NOT a key",searchKey);
-    }
-    var arrayBuffer = buffer;
-
-    // Step 1: Read Length
-    var length = await readConditional(arrayBuffer, magic.length);
-    var currentOffset = length.offset;
-    var lengthAmount = length.amount;
-
-
-    // Step 2: Read Size Amount
-    var sizeAmount = await readConditional(arrayBuffer, currentOffset);
-    currentOffset = sizeAmount.offset;
-    var elementSize = sizeAmount.amount;
-
-    // Step 3: Compute Key Table Offsets
-    var keyTableStart = currentOffset; // Key table starts here
-  
-    
-    var valueOffset = await readFromBuffer(
-        arrayBuffer,
-        keyTableStart + searchKey * elementSize * 2 + elementSize /*get value offset*/,
-        elementSize
-    )
-    var keyTableLength = lengthAmount * elementSize * 2 ;
-  
-    //console.log("value offset?",valueOffset,valueOffset,"keyTable length",keyTableLength)
-    
-    let valueLength = await readConditional(
-        arrayBuffer,
-        valueOffset
-    );
-
-   // console.log("Read it",valueLength)
-
-    currentOffset = valueLength.offset;
-
-    var type = await arrayBuffer.readUInt8(currentOffset);
-    
-    currentOffset++;
-    var value;
-    value = await arrayBuffer.subarray(
-        currentOffset , 
-        currentOffset  + valueLength.amount
-    );
-    var valUpdate  = await parseValueFromType({
-        value,
-        type,
-        currentOffset
-    })
-    value = valUpdate.value;
-    return value;
-}
-
-async function getValuesFromBinary(buffer, keys) {
-    var wrap = null;
-    if(typeof(buffer) == "string") {
-      //  wrap = new binaryFileWrapper(buffer);
-      buffer = new fileBuffer(buffer);
-    }
-    var obj = {};
-    for(var w of keys) {
-        obj[w] = wrap ? 
-        await wrap.getValueByKey(w) : 
-        await getValueByKey(buffer, w)
-    }
-    return obj;
-}
 
 
 module.exports = { 
-    getValueByKey, 
+   
     logBuffer, 
     serializeJSON, 
     deserializeBinary,
 
-    getKeysFromBinary, 
-    getValuesFromBinary,
     mapBinary,
     fileBuffer,
+    getKeysFromBinary,
 
-    isAwtsmoosObject
+    getValuesFromBinary,
+    getArrayValueAtKey,
+    getKeyByHashing,
+    getValueByKey,
+    isAwtsmoosObject,
+    deserializeArray
 };
