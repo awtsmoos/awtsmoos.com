@@ -17,8 +17,307 @@ const {
     getAliasCommentsPath, 
     
     getAliasesAtVerseSectionPath, 
-    getShtarPath
+    getShtarPath,
+    getAuthorPath
 } = require("./commentPaths.js");
+
+
+
+async function getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent({
+    $i,
+    parentType="post",
+    parentId,
+    heichelId,
+    postId,
+    seriesId,
+    aliasId,
+    verseSection="root"
+}) {
+    var opts = myOpts($i);
+    if(!aliasId) {
+        aliasId = $i.$_GET["aliasId"]
+    }
+    if(!aliasId) {
+        return er({
+            message: "Missing aliasId",
+            code: "NO_ALIAS_ID"
+        });
+    }
+
+
+    if(!seriesId) {
+        seriesId = $i.$_GET.seriesId;
+    }
+
+    if(!seriesId) {
+        return er({
+            message: "Need to specify series that parent is part of",
+            code: "NO_SERIES"
+        })
+    }
+    if (!parentType) {
+        parentType = $i.$_GET["parentType"] || "post";
+    }
+
+    if (!parentId) {
+        parentId = $i.$_GET.parentId;
+    }
+
+    if (!parentId) {
+        return er(
+            {
+                message: "need parent ID"
+            }
+        );
+    }
+
+    var needed = [
+        "comment",
+        "post"
+    ];
+
+    if (!needed.includes(parentType)) {
+        return er(
+            {
+                message: "need parent type",
+                specifically: needed
+            }
+        );
+    }
+
+    var link = parentType == "post" ? "atPost" : "atComment";
+    if(!verseSection)
+        verseSection = $i.$_GET["verseSection"];
+
+    if (!verseSection && verseSection !== 0) {
+        verseSection = "root";
+    }
+
+    var pathToArrayThatShouldContainCommentsOfAliasUnderVerseSection =
+        getShtarPath({
+            heichelId,
+            parentId,
+            link,
+            aliasId,
+
+            postId,
+            seriesId,
+
+            verseSection
+        });
+
+    try {
+        var ar = await $i
+        .db
+        .get(
+            pathToArrayThatShouldContainCommentsOfAliasUnderVerseSection,
+            opts
+        );
+        if(ar?.error) {
+            throw ar.error;
+        }
+        if(ar) {
+            return {
+                success: ar
+            }
+        } else {
+            return {
+                error: {
+                    message: "Couldn't get array",
+                    code: "NO_ARRAY_OF_COMMENTS"
+                }
+            }
+        }
+    } catch(e) {
+        return er({
+            message: "Issue getting array of comments",
+            code: "ISSUE_GETTING",
+            details: e
+        })
+    }
+
+
+}
+
+async function getVerseSectionsCommentedByAuthorInParent({
+    $i,
+    parentType="post",
+    parentId,
+    heichelId,
+    postId,
+    seriesId,
+    aliasId
+}) {
+    if(!aliasId) {
+        aliasId = $i.$_GET["aliasId"]
+    }
+    if(!aliasId) {
+        return er({
+            message: "Missing aliasId",
+            code: "NO_ALIAS_ID"
+        });
+    }
+
+    if(!seriesId) {
+        seriesId = $i.$_GET.seriesId;
+    }
+
+    if(!seriesId) {
+        return er({
+            message: "Need to specify series that parent is part of",
+            code: "NO_SERIES"
+        })
+    }
+
+    if (!parentType) {
+        parentType = $i.$_GET["parentType"] || "post";
+    }
+
+    if (!parentId) {
+        parentId = $i.$_GET.parentId;
+    }
+
+    if (!parentId) {
+        return er(
+            {
+                message: "need parent ID"
+            }
+        );
+    }
+
+    var needed = [
+        "comment",
+        "post"
+    ];
+
+    if (!needed.includes(parentType)) {
+        return er(
+            {
+                message: "need parent type",
+                specifically: needed
+            }
+        );
+    }
+
+    var link = parentType == "post" ? "atPost" : "atComment";
+
+    
+    var verseSectionsUnderWhichThisAliasCommentedInParentPath = 
+        getAuthorPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId,
+            aliasId
+        });
+    try {
+        var list = await $i
+        .db
+        .get(
+            verseSectionsUnderWhichThisAliasCommentedInParentPath
+        );
+        return {
+            success: list
+        }
+    } catch(e) {
+        return er({
+            message: "System error getting list",
+            code: "SYSTEM_ERROR",
+            details:e
+        });
+    }
+
+}
+
+async function getAuthorsOfCommentsAtVerseSectionInParent({
+    $i,
+    parentType="post",
+    parentId,
+    heichelId,
+    postId,
+    seriesId,
+    verseSection="root"
+}) {
+    if (!parentType) {
+        parentType = "post";
+    }
+
+    if (!parentId) {
+        parentId = $i.$_GET.parentId;
+    }
+
+    if (!parentId) {
+        return er(
+            {
+                message: "need parent ID"
+            }
+        );
+    }
+
+    if (!parentType) {
+        return er(
+            {
+                message: "need parent type"
+            }
+        );
+    }
+
+    if(!seriesId) {
+        seriesId = $i.$_GET.seriesId;
+    }
+
+    if(!seriesId) {
+        return er({
+            message: "Need to specify series that parent is part of",
+            code: "NO_SERIES"
+        })
+    }
+
+    var subPath = parentType == "post" ? "atPost" : "atComment";
+
+    var link = subPath;
+
+    
+    if(!verseSection)
+        verseSection = $i.$_GET["verseSection"];
+
+    if (!verseSection && verseSection !== 0) {
+        verseSection = "root";
+    }
+
+    var authorsAtParentPath = getAliasesAtVerseSectionPath({
+        heichelId,
+        link,
+        parentId,
+        verseSection,
+
+        postId,
+        seriesId
+    });
+
+    try {
+        var authorArray = await $i.db.get(authorsAtParentPath);
+        if(authorArray)
+            return {
+                success: authorArray
+            }
+        else {
+            return {
+                error: {
+                    messsage: "Couldn't find any authors",
+                    code: "NO_AUTHORS"
+                }
+            }
+        }
+    } catch(e) {
+        return er({
+            message: "Couldn't get comments",
+            details:e,
+            code: "SYSTEM_ERROR"
+        })
+    }
+}
 
 /**
  * @method getComments
@@ -90,7 +389,30 @@ async function getComments(
             verseSection = "root";
         }
 
-        if (!aliasParent) {
+
+
+        
+    } catch (e) {
+        return er(
+            {
+                message: "error getting comments",
+                stack: e.stack,
+                details: {
+                    aliasId,
+                    parentType,
+                    parentId,
+                    heichelId
+                }
+            }
+        );
+    }
+}
+
+/*
+
+old commet
+
+if (!aliasParent) {
             var pth = `${
                 sp
             }/heichelos/${
@@ -188,21 +510,8 @@ async function getComments(
 
             return commentsOfAlias;
         }
-    } catch (e) {
-        return er(
-            {
-                message: "error getting comments",
-                stack: e.stack,
-                details: {
-                    aliasId,
-                    parentType,
-                    parentId,
-                    heichelId
-                }
-            }
-        );
-    }
-}
+
+*/
 
 /**
  * @method getComment
@@ -452,5 +761,10 @@ async function getCommentsOfAlias(
 module.exports = { 
     getComments, 
     getComment, 
-    getCommentsOfAlias 
+    getCommentsOfAlias,
+    
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsOfCommentsAtVerseSectionInParent
+
 };

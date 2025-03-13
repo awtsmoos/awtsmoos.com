@@ -55,16 +55,14 @@ function getShtarPath({
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function getAuthorPath(
-    {
-        heichelId,
-        parentId,
-        link,
-		postId,
-        seriesId,
-        aliasId
-    }
-) {
+function getAuthorPath({
+    heichelId,
+    parentId,
+    link,
+    postId,
+    seriesId,
+    aliasId
+}) {
     return getAliasesCommentsPath({
 		heichelId,
         parentId,
@@ -73,6 +71,33 @@ function getAuthorPath(
         seriesId,
 	}) + aliasId
     
+}
+
+
+/**
+ * @method getAliasesCommentsPath
+ * @description All aliases that left comment at specific parent.
+ * @param {Object} params - Parameters for path construction.
+ * @returns {String} Path string.
+ */
+function getAliasesCommentsPath(
+    {
+        heichelId,
+        parentId,
+        link,
+		postId,
+        seriesId
+    }
+) {
+    return `${
+        getParentPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId
+        })
+    }/author/`
 }
 
 function getParentPath({
@@ -100,31 +125,6 @@ function getParentPath({
     }`
 }
 
-/**
- * @method getAliasesCommentsPath
- * @description All aliases that left comment at specific parent.
- * @param {Object} params - Parameters for path construction.
- * @returns {String} Path string.
- */
-function getAliasesCommentsPath(
-    {
-        heichelId,
-        parentId,
-        link,
-		postId,
-        seriesId
-    }
-) {
-    return `${
-        getParentPath({
-            heichelId,
-            parentId,
-            link,
-            postId,
-            seriesId
-        })
-    }/author/`
-}
 
 
 
