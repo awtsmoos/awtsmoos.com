@@ -18,23 +18,26 @@ const {
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function getShtarPath(
-    {
-        heichelId,
-        parentId,
-        link,
-        aliasId,
-        
-        verseSection = "root"
-    }
-) {
+function getShtarPath({
+    heichelId,
+    parentId,
+    link,
+    aliasId,
+
+    postId,
+    seriesId,
+
+    verseSection = "root"
+}) {
     return `${
         getAuthorPath(
             {
                 heichelId,
                 parentId,
                 link,
-                aliasId
+                aliasId,
+				postId,
+        		seriesId,
             }
         )
     }/${
@@ -57,207 +60,96 @@ function getAuthorPath(
         heichelId,
         parentId,
         link,
+		postId,
+        seriesId,
         aliasId
     }
 ) {
+    return getAliasesCommentsPath({
+		heichelId,
+        parentId,
+        link,
+		postId,
+        seriesId,
+	}) + aliasId
+    
+}
+
+function getParentPath({
+    heichelId,
+    parentId,
+    link,
+    postId,
+    seriesId
+}) {
     return `${
         sp
     }/heichelos/${
         heichelId
-    }/comments/${
-        link
+    }/comments/atSeries/${
+		seriesId
+    }/${
+		link == "atPost" ?
+        	link
+		: link == "atComment" ?
+			`atPost/${
+				postId
+			}/atComment` : "other"
     }/${
         parentId
-    }/author/${
-        aliasId
-    }`;
+    }`
 }
 
 /**
- * @method getVerseSectionPath
- * @description Constructs path for comments in a verse section.
+ * @method getAliasesCommentsPath
+ * @description All aliases that left comment at specific parent.
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function getVerseSectionPath(
+function getAliasesCommentsPath(
     {
         heichelId,
         parentId,
         link,
-        aliasId,
-        commentId = null,
-        verseSection
+		postId,
+        seriesId
     }
 ) {
     return `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${
-        link
-    }/${
-        parentId
-    }/verseSection/${
-        verseSection
-    }/author/${aliasId}${
-        commentId != "null" ?
-        "/" + commentId : ""
-    }`;
+        getParentPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId
+        })
+    }/author/`
 }
 
+
+
 /**
- * @method verseSectionsCommentPath
+ * @method commentsOfAliasByHeichelAndSeries
  * @description Constructs path for verse section comments by an alias.
  * @param {Object} params - Parameters for path construction.
  * @returns {String} Path string.
  */
-function verseSectionsCommentPath(
+function commentsOfAliasByHeichelAndSeries(
     {
         aliasId,
-        heichelId,
-        seriesParentId,
-        link,
-        isPost,
-        parentId,
-        verseSection,
-        postId
+        heichelId
     }
 ) {
-    if (!verseSection && verseSection !== 0) {
-        verseSection = "root";
-    }
-
+    
     return `${
         sp
     }/aliases/${
         aliasId
     }/comments/heichel/${
         heichelId
-    }/atSeries/${
-        seriesParentId
-    }/${
-        isPost ? 
-        `atPost` : `atPost/${
-            postId
-        }/atComment`
-        
-    }/${parentId}
-    }/verseSection/${
-        verseSection
-    }`;
+    }/atSeries/`;
 }
 
-/**
- * @method makeCommentIndexPath
- * @description Constructs index path for a comment.
- * @param {Object} params - Parameters for path construction.
- * @returns {String} Path string.
- */
-function makeCommentIndexPath(
-    {
-        aliasId,
-        heichelId,
-        seriesParentId,
-        isPost,
-        commentId,
-        parentId,
-        verseSection,
-        postId
-    }
-) {
-    return verseSectionsCommentPath(
-        {
-            aliasId,
-            heichelId,
-            seriesParentId,
-            isPost,
-            postId,
-            parentId,
-            verseSection
-        }
-    ) + "/" + commentId;
-}
-
-/**
- * @method getAliasCommentsPath
- * @description Constructs path for an alias’s comments.
- * @param {Object} params - Parameters for path construction.
- * @returns {String} Path string.
- */
-function getAliasCommentsPath(
-    {
-        heichelId,
-        subPath,
-        parentId,
-        aliasId
-    }
-) {
-    return `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${subPath}/${
-        parentId
-    }/author/${
-        aliasId
-    }`;
-}
-
-/**
- * @method getCommentPath
- * @description Constructs path for a specific comment.
- * @param {Object} params - Parameters for path construction.
- * @returns {String} Path string.
- */
-function getCommentPath(
-    {
-        heichelId,
-        subPath,
-        parentId,
-        aliasId,
-        commentId
-    }
-) {
-    return getAliasCommentsPath(
-        {
-            heichelId,
-            subPath,
-            parentId,
-            aliasId
-        }
-    ) + `/${commentId}`;
-}
-
-/**
- * @method getCommentIDsAtVerseSectionPath
- * @description Constructs path for comment IDs in a verse section.
- * @param {Object} params - Parameters for path construction.
- * @returns {String} Path string.
- */
-function getCommentIDsAtVerseSectionPath(
-    {
-        aliasId,
-        heichelId,
-        parentSeries,
-        link,
-        parentId,
-        verseSection
-    }
-) {
-    return `${
-        sp
-    }/aliases/${
-        aliasId
-    }/comments/heichel/${
-        heichelId
-    }/atSeries/${
-        parentSeries
-    }/${link}/${
-        parentId
-    }/root/verseSection/${
-        verseSection
-    }`;
-}
 
 /**
  * @method getAliasesAtVerseSectionPath
@@ -268,19 +160,22 @@ function getCommentIDsAtVerseSectionPath(
 function getAliasesAtVerseSectionPath(
     {
         heichelId,
-        subPath,
+        link,
         parentId,
-        verseSection
+        verseSection,
+
+        postId,
+        seriesId
     }
 ) {
     return `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${
-        subPath
-    }/${
-        parentId
+        getParentPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId
+        })
     }/verseSection/${
         verseSection
     }/author`;
@@ -351,10 +246,11 @@ module.exports = {
     
     getShtarPath,
     getAuthorPath,
-    getVerseSectionPath,
-    verseSectionsCommentPath,
-    makeCommentIndexPath,
-    getAliasCommentsPath,
+	
+    
+	commentsOfAliasByHeichelAndSeries,
+
+    getAliasesCommentsPath,
     getCommentPath,
     getCommentIDsAtVerseSectionPath,
     getAliasesAtVerseSectionPath,

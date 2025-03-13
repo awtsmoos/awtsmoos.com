@@ -684,7 +684,7 @@ async function getHeichelDetails(heichelId) {
 }
 
 async function getAliasName(alias) {
-    return await getAPI(`${base}/api/social/aliases/${
+    return await getAPI(`${base}/api/social/alias/${
         alias
     }`)
 }

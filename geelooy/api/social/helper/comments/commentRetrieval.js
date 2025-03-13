@@ -13,10 +13,11 @@ const {
 } = require("../general.js");
 
 const { 
-    getCommentPath, 
+    
     getAliasCommentsPath, 
-    getCommentIDsAtVerseSectionPath, 
-    getAliasesAtVerseSectionPath 
+    
+    getAliasesAtVerseSectionPath, 
+    getShtarPath
 } = require("./commentPaths.js");
 
 /**
@@ -216,7 +217,8 @@ async function getComment(
         heichelId,
         parentType,
         parentId,
-        aliasId
+        aliasId,
+        seriesId
     }
 ) {
     if (!aliasId) {
@@ -257,19 +259,23 @@ async function getComment(
 
     var opts = myOpts($i);
 
-    var subPath = parentType == "post" ? "atPost" : "atComment";
+    var link = parentType == "post" ? "atPost" : "atComment";
 
     try {
-        var chaiPath = getCommentPath(
+        var chaiPath = getShtarPath(
             {
                 heichelId,
-                subPath,
+                link,
                 parentId,
                 aliasId,
-                commentId
+
+                verseSection,
+                seriesId,
+
+                
             }
         );
-
+        //commentId
         var cm = await $i.db.get(
             chaiPath, 
             opts
@@ -309,9 +315,10 @@ async function getCommentsOfAlias(
     {
         $i,
         heichelId,
-        subPath,
+        link,
         parentId,
         parentType,
+        seriesId,
         aliasId,
         map,
         count,
@@ -322,7 +329,7 @@ async function getCommentsOfAlias(
     var aliasParent = aliasId;
 
     var commentPath = null;
-
+    
     var shtarPath = getAliasCommentsPath(
         {
             heichelId,
@@ -381,7 +388,7 @@ async function getCommentsOfAlias(
             );
         }
 
-        commentPath = getCommentIDsAtVerseSectionPath(
+       /* commentPath = getCommentIDsAtVerseSectionPath(
             {
                 aliasId,
                 heichelId,
@@ -391,6 +398,8 @@ async function getCommentsOfAlias(
                 verseSection
             }
         );
+
+        */
     } else {
         commentPath = shtarPath;
     }
@@ -413,16 +422,17 @@ async function getCommentsOfAlias(
     var mappedComments = [];
 
     for (var id of commentIDs) {
-        var mainCommentPath = getCommentPath(
+        var mainCommentPath = getShtarPath(
             {
                 heichelId,
-                subPath,
+                link,
                 parentId,
                 aliasId,
-                commentId: id
+                verseSection,
+                seriesId
             }
         );
-
+        //commentId
         var mainComment = await $i.db.get(
             mainCommentPath, 
             opts

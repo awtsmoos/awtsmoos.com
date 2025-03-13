@@ -439,8 +439,8 @@ class DosDB {
 			};
 		}
 	}
-	
-	async arrayAppend(rPath, value, opts={}) {
+
+	async getArrayAtPath(rPath) {
 		if(typeof rPath !== "string" || !rPath) {
 			return {
 				error: {
@@ -451,7 +451,6 @@ class DosDB {
 		}
 
 		try {
-
 			const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
 			var p=await this.parseBinaryData({path: myPath});
 			var s = p?.success;
@@ -460,8 +459,99 @@ class DosDB {
 				if(!Array.isArray(s)) {
 					s = Array.from(s);
 				}
+				inputArray =
 				inputArray.concat(s);
 				p = s;
+			}
+			return {
+				success: inputArray,
+				myPath
+			}
+		} catch(e) {
+			return {
+				error: e
+			}
+		}
+	}
+	/**
+	 * @method syncKeyInArray
+	 * @description finds either an existent
+	 * awtsmoosJSON (BSON) at the path or 
+	 * if not creates one, and checks
+	 * if the provided key exists in the 
+	 * array or not. If it does not, then
+	 * we rewrite the BSON array to contain that
+	 * key.
+	 * 
+	 * @param {string} rPath  
+		* path to either existent or non existent 
+		* awtsmoosJSON object
+	 * @param {String} key 
+	 * 	the key to sync to
+	 */
+	async syncKeyInArray(rPath, key) {
+		try {
+			var inputArray  = null;
+			var myPath = null;
+			var array = getArrayAtPath(rPath);
+			if(array.error) return array;
+
+			if(array.success) {
+				inputArray = array.success;
+				myPath = array.myPath;
+			}
+
+			if(!inputArray || !myPath) {
+				return {
+					error: {
+						message: "Something's wrong with getting array",
+						code: "DIDNT_GET_ARRAY"
+					}
+				}
+			}
+			if(inputArray.includes(key)) return {
+				success: {
+					alreadyThere: key
+				}
+			}
+			inputArray.push(value);
+			var ser = awtsmoosJSON.serializeJSON(inputArray);
+			var wr = await fs.writeFile(myPath, ser)
+			return {
+				success: {
+					written: wr,
+					serialized: ser.length,
+					inputArray
+				}
+			}
+		} catch(e) {
+			return {
+				error: e
+			}
+		}
+	}
+
+	async arrayAppend(rPath, value, opts={}) {
+		
+
+		try {
+			var inputArray  = null;
+			var myPath = null;
+			var array = await getArrayAtPath(rPath);
+			if(array.error) return array;
+
+			if(array.success) {
+				inputArray = array.success;
+				myPath = array.myPath;
+			}
+
+			if(!inputArray || !myPath) {
+				return {
+					error: {
+						message: "Something's wrong with getting array",
+						code: "DIDNT_GET_ARRAY"
+					}
+				}
 			}
 			inputArray.push(value);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);

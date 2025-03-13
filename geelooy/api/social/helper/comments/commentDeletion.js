@@ -15,14 +15,11 @@ const {
 const { 
     verifyHeichelAuthority 
 } = require("../heichel.js");
-
+/*
 const { 
-    getCommentPath, 
-    verseSectionsCommentPath, 
-    getVerseSectionPath, 
-    makeCommentIndexPath 
-} = require("./commentPaths.js");
 
+} = require("./commentPaths.js");
+*/
 /**
  * @method deleteComment
  * @description Deletes a specific comment.
@@ -598,7 +595,7 @@ async function deleteCommentIndex(
             postId = parentId;
         }
     }
-
+/*
     var commentPath = makeCommentIndexPath(
         {
             aliasId,
@@ -612,49 +609,6 @@ async function deleteCommentIndex(
         }
     );
 
-    var numVerses = verseSectionsCommentPath(
-        {
-            aliasId,
-            heichelId,
-            seriesParentId: parentSeriesId,
-            isPost: parentType == "post",
-            verseSection
-        }
-    );
-
-    var num = await $i.db.get(numVerses);
-
-    var count = num?.length || 0;
-
-    if (count > 0) {
-        count--;
-    }
-
-    var verseSectionPath = getVerseSectionPath(
-        {
-            heichelId,
-            parentId,
-            commentId,
-            link,
-            aliasId,
-            verseSection
-        }
-    );
-
-    var done = {
-        deleteMore: []
-    };
-
-    done.deletedVerseSection = await $i.db.delete(verseSectionPath);
-
-    done.deleteMore.push(
-        await checkIfAllDeletedAndDeleteMore(
-            {
-                $i,
-                verseSectionPath
-            }
-        )
-    );
 
     done.commentPathDeleted = await $i.db.delete(commentPath);
 
@@ -665,7 +619,7 @@ async function deleteCommentIndex(
                 commentPath
             }
         )
-    );
+    );*/
 
     return done;
 }

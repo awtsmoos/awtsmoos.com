@@ -25,7 +25,7 @@ const {
 
 const { 
     getSubmittedCommentPath, 
-    
+    commentsOfAliasByHeichelAndSeries,
     getShtarPath
 } = require("./commentPaths.js");
 
@@ -230,6 +230,18 @@ async function addOrApproveComment(
             parentId = $i.$_POST.parentId;
         }
 
+        if(!seriesId) {
+            seriesId = $i.$_POST.parentSeriesId;
+        }
+
+        if(!seriesId) {
+            return er({
+                message: "Need to supply the parent series "+
+                "that this comment's parent is part of",
+                code: "NO_SERIES"
+            });
+        }
+
         var link = parentType == "post" ?
             "atPost" : parentType == "comment" ?
             "atComment" : null;
@@ -291,6 +303,7 @@ async function addOrApproveComment(
         var dayuh = $i.$_POST.dayuh;
 
         var shtar = {};
+        shtar.id = myId;
 
         shtar.author = aliasId;
 
@@ -320,8 +333,13 @@ async function addOrApproveComment(
                 parentId,
                 aliasId,
                 verseSection,
+                
 
-                commentId: myId
+                postId,
+                seriesId,
+
+
+                
             }
         );
 
@@ -344,7 +362,11 @@ async function addOrApproveComment(
                     commentId: myId,
                     postPath,
                     commentPostedAt: postPath,
-                    verseSection
+                    verseSection,
+
+                    seriesId,
+
+                    shtar
                 }
             );
     
@@ -405,7 +427,10 @@ async function addCommentIndexToAlias(
         $i,
         aliasId,
         verseSection,
-        commentPostedAt = null
+        commentPostedAt = null,
+        seriesId,
+
+        shtar
     }
 ) {
 
@@ -465,27 +490,15 @@ async function addCommentIndexToAlias(
             );
         }
 
-        var post = await $i.db.get(
-            `${
-                sp
-            }/heichelos/${
-                heichelId
-            }/posts/${
-                postId
-            }`,
-            {
-                propertyMap: {
-                    parentSeriesId: true
-                }
-            }
-        );
+        
 
-        var seriesParentId = post.parentSeriesId;
+        var seriesParentId = seriesId;
 
         if (!seriesParentId) {
             return er(
                 {
-                    message: "That post has no series parent, not even root!",
+                    message: "That parent has no series parent provided"
+                    +", not even root!",
                     code: "NO_PARENT",
                     details: {
                         parentType,
@@ -496,28 +509,36 @@ async function addCommentIndexToAlias(
             );
         }
 
-        var shtarPath = getShtarPath(
-            {
-                heichelId,
-                parentId,
-                link,
-                aliasId,
-                commentId
-            }
-        );
 
-       
+        if(!shtar) {
+            var shtarPath = getShtarPath(
+                {
+                    heichelId,
+                    parentId,
+                    link,
+                    aliasId,
+                    
+                    seriesId,
+                    postId,
+                    verseSection
+                }
+            );
 
-        var comment = await $i.db.get(
-            shtarPath,
-            {
-                propertyMap: {
-                    dayuh: {
-                        verseSection: true
+        
+
+            shtar = await $i.db.get(
+                shtarPath,
+                {
+                    propertyMap: {
+                        dayuh: {
+                            verseSection: true
+                        }
                     }
                 }
-            }
-        );
+            );
+        }
+
+        var comment = shtar;
 
         if (!comment) {
             return er(
@@ -533,62 +554,28 @@ async function addCommentIndexToAlias(
 
         
 
-        var commentPath = makeCommentIndexPath(
-            {
-                aliasId,
-                heichelId,
-                parentId,
-                seriesParentId,
-                isPost,
-                postId,
-                commentId,
-                verseSection
-            }
+        var allSeriesThatAliasCommentedAtInHeichel = 
+            commentsOfAliasByHeichelAndSeries({
+                    aliasId,
+                    heichelId
+                });
+
+
+        var sync = await $i.db.syncKeyInArray(
+            allSeriesThatAliasCommentedAtInHeichel, 
+            seriesId
         );
 
-        var numVerses = verseSectionsCommentPath(
-            {
-                aliasId,
-                heichelId,
-                seriesParentId,
-                link,
-                parentId,
-                verseSection
-            }
-        );
-
-        var num = await $i.db.get(numVerses);
-
-        var count = num?.length || 0;
-
-        count++;
-
-        var versesInParent = getVerseSectionPath(
-            {
-                heichelId,
-                parentId,
-                link,
-                aliasId,
-                commentId,
-                verseSection
-            }
-        );
-
-        var verseSectionAtParentIndex = await $i.db.write(versesInParent);
-
-        var aliasIndex = await $i.db.write(commentPath);
+        //commentId,
 
         return {
             success: {
                 message: "Made comment index",
                 parentId,
                 parentType,
-                commentId,
                 verseSection,
                 aliasId,
-                verseSectionAtParentIndex,
-                versesInParent,
-                aliasIndex
+                sync
             }
         };
     } catch (e) {
