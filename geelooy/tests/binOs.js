@@ -1,7 +1,7 @@
 // B"H
 
 console.log('B"H\n');
-var awtsJ = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON.js");
+var awtsJ = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 var AwtsmoosFS = require("../../ayzarim/DosDB/awtsmoosFs/index.js");
 
 (async () => {

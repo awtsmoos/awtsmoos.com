@@ -523,72 +523,36 @@ async function getComment(
     {
         $i,
         commentId,
+        seriesId,
         heichelId,
         parentType,
         parentId,
         aliasId,
-        seriesId
+        seriesId,
+        verseSection="root"
     }
 ) {
-    if (!aliasId) {
-        aliasId = $i.$_GET.aliasId;
-    }
-
-    if (!aliasId) {
-        return er(
-            {
-                message: "No aliasId Provided!"
+    $i.$_GET.propertyMap = {
+        find: {
+            propertiesEqual: {
+                id: commentId
             }
-        );
-    }
-
-    if (!parentType) {
-        parentType = $i.$_GET.parentType;
-    }
-
-    if (!parentId) {
-        parentId = $i.$_GET.parentId;
-    }
-
-    if (!parentId) {
-        return er(
-            {
-                message: "No parentId Provided!"
-            }
-        );
-    }
-
-    if (!parentType) {
-        return er(
-            {
-                message: "No parentType Provided!"
-            }
-        );
-    }
-
-    var opts = myOpts($i);
-
-    var link = parentType == "post" ? "atPost" : "atComment";
+        }
+    };
 
     try {
-        var chaiPath = getShtarPath(
-            {
+        var commentSearchInCommentArrayOfAliasAtVerseSectionInParent =
+            await 
+            getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent({
+                seriesId,
                 heichelId,
-                link,
+                parentType,
                 parentId,
                 aliasId,
-
-                verseSection,
                 seriesId,
-
-                
-            }
-        );
-        //commentId
-        var cm = await $i.db.get(
-            chaiPath, 
-            opts
-        );
+                verseSection,
+                $i
+            })
 
         if (!cm) {
             return er(

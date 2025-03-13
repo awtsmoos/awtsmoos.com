@@ -1,7 +1,7 @@
 //B"H
 var AwtsmoosFS = require("./awtsmoosFs/index.js")
 var fs = null;
-var awtsmoosBinary = require ("./awtsmoosBinary/awtsmoosBinaryJSON.js")
+var awtsmoosBinary = require ("./awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 var path = require('path');
 
 var gde = require("./getDirectoryEntries.js")

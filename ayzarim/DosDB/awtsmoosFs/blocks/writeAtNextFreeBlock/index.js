@@ -7,7 +7,7 @@ var {
 var readBlock = 
 require("../readBlock")
 var awtsmoosJSON = require(
-	"../../../awtsmoosBinary/awtsmoosBinaryJSON.js"
+	"../../../awtsmoosBinary/awtsmoosBinaryJSON/index.js"
 );
 var deleteEntry = require("../deleteEntry.js");
 var getSuperBlock = require("../getSuperBlock.js");

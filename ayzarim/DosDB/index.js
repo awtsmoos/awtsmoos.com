@@ -5,7 +5,7 @@
 
 const fsRegular = require("fs");
 const fs = fsRegular.promises;
-const awtsmoosBinary = require("./awtsmoosBinary/awtsmoosBinaryJSON.js");
+const awtsmoosBinary = require("./awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 const path = require("path");
 const util = require("util");
 const readdir = util.promisify(fs.readdir);

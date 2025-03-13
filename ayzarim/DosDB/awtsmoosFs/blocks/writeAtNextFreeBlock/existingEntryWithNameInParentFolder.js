@@ -1,7 +1,7 @@
 //B"H
 
 var awtsmoosJSON = require(
-	"../../../awtsmoosBinary/awtsmoosBinaryJSON.js"
+	"../../../awtsmoosBinary/awtsmoosBinaryJSON/index.js"
 );
 
 var readBlock = require("../readBlock.js");

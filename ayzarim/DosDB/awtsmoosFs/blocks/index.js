@@ -30,7 +30,7 @@ var writeAtNextFreeBlock = require("./writeAtNextFreeBlock/index.js");
 
 
 var awtsmoosJSON = require(
-	"../../awtsmoosBinary/awtsmoosBinaryJSON.js"
+	"../../awtsmoosBinary/awtsmoosBinaryJSON/index.js"
 );
 
 var deleteEntry = require("./deleteEntry");

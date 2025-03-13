@@ -1,5 +1,5 @@
 //B"H
-var awtsmoosJSON = require("./awtsmoosBinaryJSON.js");
+var awtsmoosJSON = require("./awtsmoosBinaryJSON/index.js");
 /**
  * size of superblock:
  * 

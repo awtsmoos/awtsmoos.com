@@ -2,7 +2,7 @@
 //B"H
 const os = require("../../ayzarim/DosDB/awtsmoosFs/fsOperations.js");
 const path = require("path");
-var bin = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON.js")
+var bin = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 const FILESYSTEM_PATH = 
     "/home/yackov/Documents/git/awts.awtsmoosFs";
 
