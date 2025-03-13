@@ -162,7 +162,7 @@ function getAliasesAtVerseSectionPath(
         heichelId,
         link,
         parentId,
-        verseSection,
+        verseSection="root",
 
         postId,
         seriesId
@@ -178,7 +178,7 @@ function getAliasesAtVerseSectionPath(
         })
     }/verseSection/${
         verseSection
-    }/author`;
+    }/authors`;
 }
 
 /**
@@ -251,8 +251,7 @@ module.exports = {
 	commentsOfAliasByHeichelAndSeries,
 
     getAliasesCommentsPath,
-    getCommentPath,
-    getCommentIDsAtVerseSectionPath,
+    
     getAliasesAtVerseSectionPath,
     getSubmittedCommentPath
 };

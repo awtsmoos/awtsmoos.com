@@ -84,10 +84,10 @@ async function getComments(
 
         var link = subPath;
 
-        var verseSection = $i.$_GET["verseSection"];
+        var verseSection = $i.$_GET["verseSection"] || "root";
 
         if (!verseSection && verseSection !== 0) {
-            verseSection = null;
+            verseSection = "root";
         }
 
         if (!aliasParent) {
@@ -322,7 +322,7 @@ async function getCommentsOfAlias(
         aliasId,
         map,
         count,
-        verseSection,
+        verseSection="root",
         opts
     }
 ) {
@@ -404,8 +404,7 @@ async function getCommentsOfAlias(
         commentPath = shtarPath;
     }
 
-    var chaiPath = cid => commentPath + "/" + cid;
-
+    
     var commentIDs = await $i.db.get(
         commentPath, 
         opts

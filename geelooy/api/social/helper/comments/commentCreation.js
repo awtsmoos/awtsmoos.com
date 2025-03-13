@@ -26,7 +26,8 @@ const {
 const { 
     getSubmittedCommentPath, 
     commentsOfAliasByHeichelAndSeries,
-    getShtarPath
+    getShtarPath,
+    getAliasesAtVerseSectionPath
 } = require("./commentPaths.js");
 
 /**
@@ -510,47 +511,6 @@ async function addCommentIndexToAlias(
         }
 
 
-        if(!shtar) {
-            var shtarPath = getShtarPath(
-                {
-                    heichelId,
-                    parentId,
-                    link,
-                    aliasId,
-                    
-                    seriesId,
-                    postId,
-                    verseSection
-                }
-            );
-
-        
-
-            shtar = await $i.db.get(
-                shtarPath,
-                {
-                    propertyMap: {
-                        dayuh: {
-                            verseSection: true
-                        }
-                    }
-                }
-            );
-        }
-
-        var comment = shtar;
-
-        if (!comment) {
-            return er(
-                {
-                    message: "Comment not found",
-                    detail: commentId,
-                    shtarPath,
-                    comment,
-                    commentPostedAt
-                }
-            );
-        }
 
         
 
@@ -566,6 +526,22 @@ async function addCommentIndexToAlias(
             seriesId
         );
 
+        var allAuthorsAtVerseSectionOfParent = 
+            getAliasesAtVerseSectionPath({
+                heichelId,
+                link,
+                parentId,
+                verseSection,
+
+                postId,
+                seriesId
+            });
+
+        var aliasSync = await $i.db.syncKeyInArray(
+            allAuthorsAtVerseSectionOfParent,
+            aliasId
+        );
+
         //commentId,
 
         return {
@@ -575,7 +551,8 @@ async function addCommentIndexToAlias(
                 parentType,
                 verseSection,
                 aliasId,
-                sync
+                sync,
+                aliasSync
             }
         };
     } catch (e) {
