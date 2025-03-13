@@ -4,7 +4,7 @@ var {
     magicArray,
     hashAmount
 
-} = require("./constants");
+} = require("./awtsmoosBinaryJSON/constants.js");
 
 var {
     readFileBytesAtOffset,

@@ -9,7 +9,7 @@ var {
 var {
     readFileBytesAtOffset,
     hashKey
-} = require("./awtsmoosBinaryHelpers.js")
+} = require("../awtsmoosBinaryHelpers.js")
 
 
 class BinaryFileWrapper {
