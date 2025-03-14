@@ -202,11 +202,16 @@ module.exports = {
                     isFile: true
                 });
                 var suc = data;
-                if(data.success) suc = data.success;
+                if(!data) return data;
+                if(data?.error) return null;
+                if(data?.success) {
+                    suc = data.success;
 
-                if(suc?.success) return suc.success;
+                    if(suc?.success) return suc.success;
+                    else return suc;
+                }  else return data;
                 
-                if(data.error) return null;
+
             
             } else {
                 const content = await fs.readFile(filePath);

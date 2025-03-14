@@ -439,7 +439,9 @@ async function getSeries({
 
 				);
 			
-			
+			if(subSeries.success) {
+				subSeries = subSeries.success;
+			}
 			rt.posts = Array.from(posts || []);
 			rt.subSeries = Array.from(subSeries || {
 				error: {
