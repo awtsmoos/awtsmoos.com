@@ -449,15 +449,7 @@ async function getSeries({
 					heichelId
 				}
 			});
-			if(!subSeries || !subSeries.length) {
-				rt.subSeries = {
-					awtsmoos: {
-						seriesId,
-						heichelId,
-						subSeries
-					}
-				}
-			}
+			
 			rt.prateem = prateem;
 		} else {
 			rt.prateem = prateem;//{name:prateem.name}
