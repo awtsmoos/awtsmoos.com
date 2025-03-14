@@ -543,7 +543,8 @@ async function interpretPostDayuh(post) {
 		var sectionId = 0;
 		for(var w of sec) {
 			
-			var isMulti = w?.subSections || Array.isArray(w);
+			var isMulti = (w?.subSections || w?.paragraphs)
+				|| Array.isArray(w);
 			
 
 			var refs = !isMulti ? await getReferences({sectionText:w}) : null;
@@ -829,40 +830,81 @@ function generateSection({
 		});
 	}
 	if(dynamic) {
-		var subSections = null;
-		if(Array.isArray(dynamic)) {
-			subSections = dynamic;
-		} else {
-			subSections = dynamic?.subSections;
-		}
 		
-		if(!subSections) {
-			console.log("No sections?")
+				// Check if dynamic is an array (sections)
+		if (!Array.isArray(dynamic)) {
+			console.log("Invalid data format, dynamic should be an array of sections.");
 			return;
 		}
-		subSections.forEach((s, i, a) => {
-			var subS = document
-				.createElement("div")
-		
-			
-			var txt = typeof(s) == "string" ? s
-				: s?.text;
-			if(typeof(txt) != "string") {
-				return console.log("Skipping",s);
+
+		dynamic.forEach((section, i, a) => {
+			var sectionDiv = document.createElement("div");
+
+			// Check if the section has paragraphs
+			if (Array.isArray(section?.paragraphs)) {
+				section.paragraphs.forEach((paragraph, pIndex) => {
+					var paragraphDiv = document.createElement("div");
+					paragraphDiv.classList.add("awtsmoos-paragraph");
+
+					// Check if the paragraph has subSections
+					if (Array.isArray(paragraph?.subSections)) {
+						paragraph.subSections.forEach((subSection, subIndex) => {
+							var subSubS = document.createElement("div");
+							var txt = typeof subSection === "string" ? subSection : subSection?.text;
+
+							if (typeof txt !== "string") {
+								return console.log("Skipping invalid subSection:", subSection);
+							}
+
+							subSubS.dataset.idx = subIndex;
+							subSubS.classList.add("sub-awtsmoos");
+
+							// Sanitize and add content to subSection
+							var san = sanitizeContent(txt);
+							addHTML(san, subSubS, {
+								index: subIndex,
+								array: a
+							});
+
+							// Append subSection div to the paragraph
+							paragraphDiv.appendChild(subSubS);
+						});
+					}
+
+					// Now, add the paragraph div to the section div
+					sectionDiv.appendChild(paragraphDiv);
+				});
 			}
-			//var maybeEmpty = ((d=>(d.innerHTML=txt,d.innerText))(document.createElement("div"))).trim();
-			//if(maybeEmpty) return;
-			
-			subS.dataset.idx = i;
-			subS.classList.add("sub-awtsmoos")
-			content.appendChild(subS);
-			
-			var san = sanitizeContent(txt);
-			addHTML(san, subS, {
-				index: i,
-				array: a
-			})
-		})
+
+			// Check if the section directly has subSections (not within paragraphs)
+			if (Array.isArray(section?.subSections)) {
+				section.subSections.forEach((subSection, subIndex) => {
+					var subS = document.createElement("div");
+					var txt = typeof subSection === "string" ? subSection : subSection?.text;
+
+					if (typeof txt !== "string") {
+						return console.log("Skipping invalid subSection:", subSection);
+					}
+
+					subS.dataset.idx = subIndex;
+					subS.classList.add("sub-awtsmoos");
+
+					// Sanitize and add content to subSection
+					var san = sanitizeContent(txt);
+					addHTML(san, subS, {
+						index: subIndex,
+						array: a
+					});
+
+					// Append subSection div directly to the section
+					sectionDiv.appendChild(subS);
+				});
+			}
+
+			// Append the section div to the content
+			content.appendChild(sectionDiv);
+		});
+
 	}
 	if(!content.innerText.trim().length) {
 		
