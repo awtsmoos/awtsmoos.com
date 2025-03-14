@@ -439,9 +439,14 @@ async function getSeries({
 
 				);
 			
-				
+			
 			rt.posts = Array.from(posts || []);
-			rt.subSeries = Array.from(subSeries || []);
+			rt.subSeries = Array.from(subSeries || {
+				error: {
+					details: seriesId,
+					heichelId
+				}
+			});
 			rt.prateem = prateem;
 		} else {
 			rt.prateem = prateem;//{name:prateem.name}
