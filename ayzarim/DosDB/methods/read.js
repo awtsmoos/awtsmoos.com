@@ -280,7 +280,7 @@ module.exports = {
             });
             
             if(p.success) {
-                return p;
+                return p.success;
             }
             if(p.error) throw new Error(p.error);
         } catch (e) {
