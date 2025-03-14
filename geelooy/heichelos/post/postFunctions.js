@@ -905,6 +905,8 @@ function generateSection({
 			content.appendChild(sectionDiv);
 		});
 
+	} else {
+		console.log("NOt dynamic0",sectionText)
 	}
 	if(!content.innerText.trim().length) {
 		
