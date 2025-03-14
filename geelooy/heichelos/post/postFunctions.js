@@ -535,6 +535,7 @@ async function interpretPostDayuh(post) {
 	if (Array.isArray(
 		sec
 	)) {
+		var originalSections = sec;
 		if(typeof(sec[0]) == "object") {
 			sec =  sec.map(mapSectionData)
 		}
@@ -545,7 +546,7 @@ async function interpretPostDayuh(post) {
 			
 			var isMulti = (w?.subSections || w?.paragraphs)
 				|| Array.isArray(w);
-			console.log("Checking",isMulti,w)
+			console.log("Checking",isMulti,w,sec,originalSections)
 
 			var refs = null//!isMulti ? await getReferences({sectionText:w}) : null;
 			var isRef = refs && typeof(refs) == "object" &&
