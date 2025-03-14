@@ -838,7 +838,7 @@ function generateSection({
 		
 				// Check if dynamic is an array (sections)
 		if (!Array.isArray(dynamic)) {
-			console.log("Invalid data format, dynamic should be an array of sections.");
+			console.log(dynamic,"Invalid data format, dynamic should be an array of sections.");
 			return;
 		}
 
