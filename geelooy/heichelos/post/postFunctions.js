@@ -547,8 +547,8 @@ async function interpretPostDayuh(post) {
 				|| Array.isArray(w);
 			
 
-			var refs = !isMulti ? await getReferences({sectionText:w}) : null;
-			var isRef = typeof(refs) == "object" &&
+			var refs = null//!isMulti ? await getReferences({sectionText:w}) : null;
+			var isRef = refs && typeof(refs) == "object" &&
 				refs?.isReference;
 			
 			//console.log("Ref",refs?.texts,w)
