@@ -516,7 +516,11 @@ function sanitizeContent(txt) {
 }
 
 function mapSectionData(sec) {
-	if(sec?.subSections || Array.isArray(sec)) {
+	if(
+		sec?.subSections || 
+		sec?.paragraphs ||
+		Array.isArray(sec)
+	) {
 		return sec;
 	} else {
 		return sec?.text;
