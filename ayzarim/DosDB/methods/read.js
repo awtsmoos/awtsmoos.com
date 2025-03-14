@@ -201,7 +201,11 @@ module.exports = {
                     },
                     isFile: true
                 });
-                if(data.success) return data.success;
+                var suc = data;
+                if(data.success) suc = data.success;
+
+                if(suc?.success) return suc.success;
+                
                 if(data.error) return null;
             
             } else {
