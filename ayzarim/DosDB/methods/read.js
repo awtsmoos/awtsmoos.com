@@ -201,8 +201,9 @@ module.exports = {
                     },
                     isFile: true
                 });
-                if(data.success) return data;
+                if(data.success) return data.success;
                 if(data.error) return null;
+            
             } else {
                 const content = await fs.readFile(filePath);
                 return options.extra ? {
@@ -280,7 +281,7 @@ module.exports = {
             });
             
             if(p.success) {
-                return p.success;
+                return p;
             }
             if(p.error) throw new Error(p.error);
         } catch (e) {
