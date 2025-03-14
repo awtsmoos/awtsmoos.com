@@ -449,7 +449,7 @@ async function getSeries({
 					heichelId
 				}
 			});
-			if(!subSeries || !subSeries/length) {
+			if(!subSeries || !subSeries.length) {
 				rt.subSeries = {
 					awtsmoos: {
 						seriesId,
