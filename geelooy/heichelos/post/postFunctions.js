@@ -839,7 +839,7 @@ function generateSection({
 
 		dynamic.forEach((section, i, a) => {
 			var sectionDiv = document.createElement("div");
-
+			console.log("Testing",section,i)
 			// Check if the section has paragraphs
 			if (Array.isArray(section?.paragraphs)) {
 				section.paragraphs.forEach((paragraph, pIndex) => {
