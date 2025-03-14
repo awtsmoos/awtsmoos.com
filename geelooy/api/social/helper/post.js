@@ -476,10 +476,14 @@ async function deletePost({
 				if(del.error) throw del.error
 				deleted.post.authorAdded = {author, parentSeriesId}
 			} else {
+				throw new Error("No parent ID, can't properly delete");
+
 				deleted.post.authorAdded =  er({message:  e.stack,message: "didn't deelte full"})
 			}
 		} catch(e) {
 			deleted.post.authorAdded = er({message:  e.stack})
+			return er({message:  e.stack})
+
 		}
 		// Delete post details
 		var del = await $i.db.delete(sp + `/heichelos/${heichelId}/posts/${postId}`);

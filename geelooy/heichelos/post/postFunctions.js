@@ -550,8 +550,8 @@ async function interpretPostDayuh(post) {
 			
 			var isMulti = (w?.subSections || w?.paragraphs)
 				|| Array.isArray(w);
-			console.log("Checking",isMulti,w,sec,originalSections)
-
+			
+				
 			var refs = null//!isMulti ? await getReferences({sectionText:w}) : null;
 			var isRef = refs && typeof(refs) == "object" &&
 				refs?.isReference;
@@ -837,7 +837,8 @@ function generateSection({
 	if(dynamic) {
 		var section = dynamic;
 		var sectionDiv = document.createElement("div");
-		console.log("Testing",section,i)
+		
+		
 		// Check if the section has paragraphs
 		if (Array.isArray(section?.paragraphs)) {
 			section.paragraphs.forEach((paragraph, pIndex) => {
