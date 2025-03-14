@@ -545,7 +545,7 @@ async function interpretPostDayuh(post) {
 			
 			var isMulti = (w?.subSections || w?.paragraphs)
 				|| Array.isArray(w);
-			
+			console.log("Checking",isMulti,w)
 
 			var refs = null//!isMulti ? await getReferences({sectionText:w}) : null;
 			var isRef = refs && typeof(refs) == "object" &&
