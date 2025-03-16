@@ -40,7 +40,7 @@ var {
 var {
 	deletePost,
 	editPostDetails,
-} = require("./post.js")
+} = require("./post/index.js")
 
 async function checkParentIDsAndAdd({
 	aliasId,
@@ -766,6 +766,50 @@ async function deleteSeriesFromHeichel ({
 			}/subSeries`, parentSer);
 			deleted.parentListDeletion = wroteSub;
 
+			var author = (await $i.db.get(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				seriesId
+			}`, {
+				propertyMap: {
+					author: true
+				}
+			}))?.author;
+
+			if(author) {
+				var errors = []
+				try {
+					var seriesKey = await $i.db.removeElementFromArray(
+						`${
+							sp
+						}/aliases/${
+							aliasId
+						}/seriesCreated/inHeichel/${
+							heichelId
+						}`, {
+		
+					
+							exact: {
+								selfEquals: seriesId
+							} 
+							
+							
+						}, {
+							deleteSelfIfEmpty: true
+						}
+					)
+					if(seriesKey.error) {
+						errors.push(seriesKey)
+					}
+				} catch(e) {
+					errors.push(er({
+						message: "Couldn't add new series index",
+						seriesId
+					}))
+				}
+			}
 			var deleteSelf = await $i.db.delete(`${
 				sp
 			}/heichelos/${
@@ -1643,12 +1687,31 @@ async function makeNewSeries({
 				})
 
 			}
-
+			var errors = []
+			try {
+				var seriesKey = await $i.db.syncKeyInArray(
+					`${
+						sp
+					}/aliases/${
+						aliasId
+					}/seriesCreated/inHeichel/${
+						heichelId
+					}`, seriesID
+				)
+				if(seriesKey.error) {
+					errors.push(seriesKey)
+				}
+			} catch(e) {
+				errors.push(er({
+					message: "Couldn't add new series index"
+				}))
+			}
 			return {
 				success:
 				{
 					newSeriesID: seriesID,
-					parentId:pr
+					parentId:pr,
+					errors
 				}
 		        };
 

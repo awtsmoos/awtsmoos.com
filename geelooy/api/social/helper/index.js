@@ -41,7 +41,7 @@ var {
 	getPostsInHeichel,
 	getPostByProperty
 
-} = require("./post.js");
+} = require("./post/index.js");
 
 
 var {

@@ -14,27 +14,27 @@ module.exports = {
 var {
     NO_LOGIN,
     sp
-} = require("./_awtsmoos.constants.js");
+} = require("../_awtsmoos.constants.js");
 
 var {
     loggedIn,
     er,
     myOpts
 	
-} = require("./general.js");
+} = require("../general.js");
 
 var {
     verifyHeichelAuthority
-} = require("./heichel.js")
+} = require("../heichel.js")
 
 var {
     addContentToSeries,
     getSeries
-} = require("./series.js");
+} = require("../series.js");
 
 var {
 	deleteAllCommentsOfParent
-} = require("./comments/index.js")
+} = require("../comments/index.js")
 
 async function getPostByProperty({
 	heichelId,
@@ -144,6 +144,7 @@ async function addPostToHeichel({
     $i,
     heichelId
 }) {
+	//return {what: heichelId}
     if (!loggedIn($i)) {
         return er({message:NO_LOGIN});
     }
@@ -221,7 +222,7 @@ async function addPostToHeichel({
 	try {
 		
 		
-		await $i.db.write(
+		var written = await $i.db.write(
 			sp +
 			`/heichelos/${
 				heichelId
@@ -229,16 +230,31 @@ async function addPostToHeichel({
 				postId
 			}`, pi
 		);
+		if(written.error) {
+			return er({
+				message: "There was an issue saving your post",
+				code: "ISSUE_POSTING",
+				details: written
+			})
+		}
 
 		/*
 		await $i.db.write(sp + `/aliases/${aliasId}/heichelos/${
 			heichelId
 		}/series/${seriesId}/posts/${postId}`);
 */
-		var ar = await $i.db.syncKeyInArray(
+		/*var ar = await $i.db.syncKeyInArray(
 			`${sp}/aliases/${aliasId}/heichelosContributedTo/${
 				heichelId
 			}/series/${seriesId}/posts`,
+			postId
+		);*/
+
+
+		var ar = await $i.db.syncKeyInArray(
+			`${sp}/aliases/${aliasId}/postsSubmitted/inHeichel/${
+				heichelId
+			}/inSeries/${seriesId}`,
 			postId
 		);
 		if(ar.error) {
@@ -271,7 +287,10 @@ async function addPostToHeichel({
 		}
 		return {success: {
 			title,
-			postId
+			postId,
+			seriesId,
+
+			TIME:Date.now()
 		}};
 		
 	} catch(e) {
@@ -488,12 +507,13 @@ async function deletePost({
 				if(!seriesId)
 					seriesId = parentSeriesId;
 
+
 				var heichelosContributed = `${
 					sp
 
 				}/aliases/${
 					author
-				}/heichelosContributedTo`;
+				}/postsSubmitted/inHeichel`;
 
 				var inHeichel = `${
 					heichelosContributed
@@ -501,10 +521,10 @@ async function deletePost({
 				}/${
 					heichelId
 				}`;
-				var atAllSeries = `${inHeichel}/series`;
+				var atAllSeries = `${inHeichel}/inSeries`;
 				var atThisSeries = `${atAllSeries}/${parentSeriesId}`
 				var del = await $i.db.removeElementFromArray(
-					`${atThisSeries}/posts`,
+					`${atThisSeries}`,
 					{
 		
 					
@@ -544,7 +564,6 @@ async function deletePost({
 						if(del.error) { throw del.error }
 					}
 				}
-
 				deleted.post.authorAdded = {author, parentSeriesId}
 			} else {
 				throw new Error("No parent ID, can't properly delete");
@@ -624,6 +643,68 @@ async function deletePost({
 	return deleted;
 }
 
+/*
+old post keys
+
+
+				var heichelosContributed = `${
+					sp
+
+				}/aliases/${
+					author
+				}/heichelosContributedTo`;
+
+				var inHeichel = `${
+					heichelosContributed
+
+				}/${
+					heichelId
+				}`;
+				var atAllSeries = `${inHeichel}/series`;
+				var atThisSeries = `${atAllSeries}/${parentSeriesId}`
+				var del = await $i.db.removeElementFromArray(
+					`${atThisSeries}/posts`,
+					{
+		
+					
+						exact: {
+							selfEquals: postId
+						} 
+						
+						
+					}, {
+						deleteSelfIfEmpty: true
+					}
+				);
+
+				if(del.error) throw del.error;
+				var par = await $i.db.count(`${atThisSeries}`);
+				var deletedParentSeries = false;
+				if(par?.success == 0) {
+					del = await $i.db.delete(atThisSeries);
+					if(del.error) { throw del.error }
+					deletedParentSeries = true;
+				}
+				var deletedAllSeries = false;
+				if(deletedParentSeries) {
+					var cow = await $i.db.count(atAllSeries);
+					if(cow?.success == 0) {
+						del = await $i.db.delete(inHeichel);
+						if(del.error) { throw del.error }
+					}
+					deletedAllSeries=true;
+
+				}
+
+				if(deletedAllSeries) {
+					var cow = await $i.db.count(heichelosContributed);
+					if(cow?.success == 0) {
+						del = await $i.db.delete(heichelosContributed);
+						if(del.error) { throw del.error }
+					}
+				}
+
+*/
 async function detailedPostOperation({
 	heichelId,
 	
