@@ -618,7 +618,7 @@ async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(path, $i) {
             
             return ({
                 success: {
-                    allPotentialVerseSectionReferencesInParent,
+                    
                     deleteVerseSectionReferences,
                     isEmpty: true,
                     pathDeleted:path
@@ -866,6 +866,7 @@ async function deleteAllCommentsOfParent(
         );
     }
 
+    var results = [];
     var allAliasesAtParent = 
     getAliasesCommentsPath({
         heichelId,
@@ -889,26 +890,44 @@ async function deleteAllCommentsOfParent(
         link
     });
 
+
     if(pf.error) {
         return pf;
     }
 
+    results.push({
+        parentFolder: pf
+        
+    })
+
     var empty = pf?.success?.isEmpty;
-    if(empty) {
-        if(parentType == "post") {
-            for(var aliasId of aliasList) {
-                var rm = await removeSeriesFromAliasListReference({
-                    aliasId,
-                    seriesId,
-                    $i,
-                    heichelId
-                });
-                if(rm.error) {
-                    return rm;
-                }
+
+    if(
+        empty &&
+        parentType == "post"
+        && Array.isArray(aliasList)
+    ) {
+        var res = [];
+        for(var aliasId of aliasList) {
+            var rm = await removeSeriesFromAliasListReference({
+                aliasId,
+                seriesId,
+                $i,
+                heichelId
+            });
+            if(rm.error) {
+                return rm;
             }
+            res.push({
+                removedSeriesFromAliasList: rm
+            })
         }
+        results.push({
+            aliasListSeriesRemoval: res
+            
+        })
     }
+    
 
 
 

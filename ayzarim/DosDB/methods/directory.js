@@ -22,6 +22,9 @@ module.exports = {
             var stat = await this.stat(rPath, true);
             if(!stat?.isDirectory?.()) {
                 return {
+                    success: 0
+                }
+                return {
                     error: {
                         message: "Not a directory",
                         code: "NO_DIR",
@@ -35,6 +38,11 @@ module.exports = {
             };
 
         } catch(e) {
+            if(e.code = "ENOENT") {
+                return {
+                    success: 0
+                }
+            }
             return {
                 error: {
                     message: "Couldn't count directory",

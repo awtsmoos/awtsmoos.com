@@ -466,7 +466,7 @@ async function deletePost({
 		post: {}
 	}
 	//var seriesId = null;
-
+	var errors = []
 	try {
 		
 		try {
@@ -501,9 +501,7 @@ async function deletePost({
 				}/${
 					heichelId
 				}`;
-				var atAllSeries = `${inHeichel}/${
-					heichelId
-				}/series`;
+				var atAllSeries = `${inHeichel}/series`;
 				var atThisSeries = `${atAllSeries}/${parentSeriesId}`
 				var del = await $i.db.removeElementFromArray(
 					`${atThisSeries}/posts`,
@@ -523,7 +521,7 @@ async function deletePost({
 				if(del.error) throw del.error;
 				var par = await $i.db.count(`${atThisSeries}`);
 				var deletedParentSeries = false;
-				if(par == 0) {
+				if(par?.success == 0) {
 					del = await $i.db.delete(atThisSeries);
 					if(del.error) { throw del.error }
 					deletedParentSeries = true;
@@ -531,16 +529,17 @@ async function deletePost({
 				var deletedAllSeries = false;
 				if(deletedParentSeries) {
 					var cow = await $i.db.count(atAllSeries);
-					if(cow == 0) {
-						del = await $i.db.delete(atAllSeries);
+					if(cow?.success == 0) {
+						del = await $i.db.delete(inHeichel);
 						if(del.error) { throw del.error }
 					}
 					deletedAllSeries=true;
 
 				}
+
 				if(deletedAllSeries) {
 					var cow = await $i.db.count(heichelosContributed);
-					if(cow == 0) {
+					if(cow?.success == 0) {
 						del = await $i.db.delete(heichelosContributed);
 						if(del.error) { throw del.error }
 					}
@@ -555,7 +554,7 @@ async function deletePost({
 		} catch(e) {
 			console.log("cant delete",e)
 			deleted.post.authorAdded = er({message:  e.stack})
-			return er({
+			errors.push(er({
 				message:  e.stack+"",
 				e,
 				postId,
@@ -565,7 +564,7 @@ async function deletePost({
 				author,
 				parentSeriesId,
 				heichelId
-			})
+			}))
 
 		}
 		// Delete post details

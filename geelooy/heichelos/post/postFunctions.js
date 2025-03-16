@@ -45,7 +45,7 @@ window.chai = chai
 
 var postElement = postFrame;
 var MAX_FONT_SIZE =
-	72; // Define the max font size
+	372; // Define the max font size
 var MIN_FONT_SIZE =
 	10; // Define the min font size
 var FONT_SIZE_INCREMENT =
