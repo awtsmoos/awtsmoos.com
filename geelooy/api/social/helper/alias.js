@@ -158,8 +158,6 @@ async function deleteAlias({
 		// Delete alias from user's aliases
 		await $i.db.delete(`/users/${userid}/aliases/${aliasId}`);
 		
-		// Delete alias $i
-		await $i.db.delete(sp + `/aliases/${aliasId}/`, true);
 		
 		// Get all heichelos associated with the alias
 		var heichelos = await $i
@@ -168,10 +166,11 @@ async function deleteAlias({
 		if (heichelos) {
 			for (var heichelId in heichelos) {
 				// Delete all heichelos data
-				await $i.db.delete(sp + `/aliases/${aliasId}/heichelos/${heichelId}`);
+				
 				await $i.db.delete(sp + `/heichelos/${heichelId}`, true);
 			}
 		}
+		await $i.db.delete(sp + `/aliases/${aliasId}`);
 		
 		return {
 			message: "Alias and associated data deleted successfully",

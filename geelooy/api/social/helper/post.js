@@ -229,10 +229,25 @@ async function addPostToHeichel({
 				postId
 			}`, pi
 		);
+
+		/*
 		await $i.db.write(sp + `/aliases/${aliasId}/heichelos/${
 			heichelId
 		}/series/${seriesId}/posts/${postId}`);
-
+*/
+		var ar = await $i.db.syncKeyInArray(
+			`${sp}/aliases/${aliasId}/heichelosContributedTo/${
+				heichelId
+			}/series/${seriesId}/posts`,
+			postId
+		);
+		if(ar.error) {
+			return er ({
+				message: "Issue syncing post entry",
+				code: "SYNC_KEY",
+				details: ar
+			})
+		}
 		
 		$i.$_POST.contentType = "post";
 		$i.$_POST.contentId = postId;
@@ -358,14 +373,11 @@ async function editPostDetails({
 			.get(sp + `/heichelos/${heichelId}/posts/${postId}`);
 		var wrote = {}
 		// Update the title and content in the existing data
-		if (newTitle && newTitle != "undefined")
+		if (newTitle && newTitle != "undefined") {
 			postData.title = newTitle;
 			wrote.title = true;
-			if(parentSeriesId) {
-				await $i.db.write(sp + `/heichelos/${
-					heichelId
-				}/aliases/${aliasId}/series/${parentSeriesId}/posts/${postId}`, {title: newTitle});
-			}
+		}
+		
 		if (newContent&& newContent != "undefined") {
 			postData.content = newContent;
 			wrote.content = true
@@ -458,22 +470,82 @@ async function deletePost({
 	try {
 		
 		try {
-			var {author, parentSeriesId} = $i.db.get(sp + `/heichelos/${
+			var path = `${
+				sp	
+			}/heichelos/${
 				heichelId
-			}/posts/${postId}`, {
+			}/posts/${postId}`;
+
+			var read = await $i.db.get(path, {
 				propertyMap: {
 					author: true,
 					parentSeriesId: true
 				}
-			})
+			});
+			var {author, parentSeriesId} = read;
 			
 			if(author && parentSeriesId) {
 				if(!seriesId)
 					seriesId = parentSeriesId;
-				var del = await $i.db.delete(sp + `/aliases/${author}/heichelos/${
+
+				var heichelosContributed = `${
+					sp
+
+				}/aliases/${
+					author
+				}/heichelosContributedTo`;
+
+				var inHeichel = `${
+					heichelosContributed
+
+				}/${
 					heichelId
-				}/series/${parentSeriesId}/posts/${postId}`);
-				if(del.error) throw del.error
+				}`;
+				var atAllSeries = `${inHeichel}/${
+					heichelId
+				}/series`;
+				var atThisSeries = `${atAllSeries}/${parentSeriesId}`
+				var del = await $i.db.removeElementFromArray(
+					`${atThisSeries}/posts`,
+					{
+		
+					
+						exact: {
+							selfEquals: postId
+						} 
+						
+						
+					}, {
+						deleteSelfIfEmpty: true
+					}
+				);
+
+				if(del.error) throw del.error;
+				var par = await $i.db.count(`${atThisSeries}`);
+				var deletedParentSeries = false;
+				if(par == 0) {
+					del = await $i.db.delete(atThisSeries);
+					if(del.error) { throw del.error }
+					deletedParentSeries = true;
+				}
+				var deletedAllSeries = false;
+				if(deletedParentSeries) {
+					var cow = await $i.db.count(atAllSeries);
+					if(cow == 0) {
+						del = await $i.db.delete(atAllSeries);
+						if(del.error) { throw del.error }
+					}
+					deletedAllSeries=true;
+
+				}
+				if(deletedAllSeries) {
+					var cow = await $i.db.count(heichelosContributed);
+					if(cow == 0) {
+						del = await $i.db.delete(heichelosContributed);
+						if(del.error) { throw del.error }
+					}
+				}
+
 				deleted.post.authorAdded = {author, parentSeriesId}
 			} else {
 				throw new Error("No parent ID, can't properly delete");
@@ -481,8 +553,19 @@ async function deletePost({
 				deleted.post.authorAdded =  er({message:  e.stack,message: "didn't deelte full"})
 			}
 		} catch(e) {
+			console.log("cant delete",e)
 			deleted.post.authorAdded = er({message:  e.stack})
-			return er({message:  e.stack})
+			return er({
+				message:  e.stack+"",
+				e,
+				postId,
+				read,
+				stack:e.stack,
+				path,
+				author,
+				parentSeriesId,
+				heichelId
+			})
 
 		}
 		// Delete post details

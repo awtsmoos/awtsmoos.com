@@ -201,7 +201,7 @@ async function getHeichelos({
 	var heichelos = await $i.db.get(
 		sp + `/aliases/${
             aliasId
-        }/heichelos`, options
+        }/heichelosCreated`, options
 	);
 
 	if (!heichelos) return [];
@@ -502,13 +502,12 @@ async function createHeichel({
         }
     }
 
-    await $i.db.write(
+    await $i.db.syncKeyInArray(
         sp +
         `/aliases/${
             aliasId
-            }/heichelos/${
-            heichelId
-        }`
+        }/heichelosCreated`,
+        heichelId
     );
 
     await $i.db.write(
@@ -522,19 +521,20 @@ async function createHeichel({
         }
     );
 
-    await $i.db.write(
+    await $i.db.syncKeyInArray(
         sp +
         `/heichelos/${
             heichelId
-            }/editors/${aliasId}`
-                );
+            }/editors`,
+            aliasId
+        );
 
 
-        await $i.db.write(
+        await $i.db.syncKeyInArray(
             sp +
             `/heichelos/${
             heichelId
-            }/viewers/${aliasId}`
+            }/viewers`, aliasId
         );
 
     if (isPublic == "yes") {
@@ -576,12 +576,20 @@ async function deleteHeichel({
     // (add your verification logic here)
 
     try {
-        // Delete heichel details
-        await $i.db.delete(sp + `/heichelos/${heichelId}/info`);
 
         // Delete references in other entities such as aliases, 
         //editors, viewers, etc.
-        await $i.db.delete(sp + `/aliases/${aliasId}/heichelos/${heichelId}`);
+        await $i.db
+        .removeElementFromArray(`${
+            sp
+
+        }/aliases/${
+            aliasId
+        }/heichelosCreated/`, {
+            exact: {
+                selfEquals: heichelId
+            }
+        });
         await $i.db.delete(sp + `/heichelos/${heichelId}`);
 
         return {
@@ -611,17 +619,36 @@ async function verifyHeichelAuthority({
 
 	if (ownsAlias.no)
 		return false;
-	var editor = await $i.db.access(
-		sp +
-		`/heichelos/${heichelId}/editors/${aliasId}`
-	);
+
+    
     
 	try{
+        var me = await $i.db.findInArray(
+            `${sp}/heichelos/${heichelId}/editors`,
+            {
+                
+                exact: {
+                    selfEquals: aliasId
+                }
+                
+                
+                
+            }
+        )
+        if(me?.success) {
+            return me.success;
+        } else {
+            return false;
+        }
 		return editor
 
 	        
 	}  catch(e){
-		return false
+        console.log("ISsue getting editor",e)
+		return er({
+            message: "Strange Issue in Editor",
+            details: e.stack
+        })
 
 	}
 

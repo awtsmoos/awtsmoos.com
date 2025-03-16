@@ -7,6 +7,7 @@ var path = require("path");
 
 
 const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+const { error } = require("console");
 module.exports = {
     /**
 	 * @method readFileWithOffset
@@ -141,6 +142,7 @@ module.exports = {
                     sortBy: options.sortBy || "createdBy",
                     order: options.order || "asc",
                     filters: options.filters || {},
+                    keepJSON,
                     id,
                     db: this,
                     fs
@@ -260,6 +262,7 @@ module.exports = {
         } catch (e) {
             console.log("Issue reading", e);
             return {
+                path,
                 error: e.stack
             };
         }
@@ -275,27 +278,39 @@ module.exports = {
         ob,
         isFile = false
     }) {
+
+        let joined = null;
         try {
-            let joined = null;
-            if(!isFile) {
-                joined = path.join(ob.filePath, "_awts.awtsmoosJSON");
-                await fs.access(joined);
-            } else {
-                joined = await this.ensureAwtsmoosBinaryPath(ob.filePath, false);
-                await fs.access(joined);
+            joined = await this.ensureAwtsmoosBinaryPath(ob.filePath, false);
+            await fs.access(joined);
+            try {
+                const p = await this.parseBinaryData({
+                    path: joined,
+                    properties: ob.properties
+                });
+                
+                if(p.success) {
+                    return p;
+                }
+                if(p.error) {
+                    console.log("parse issue",p);
+                    return {
+                        error: {
+                            message: "Coudn't parse binary data",
+                            path: joined,
+                            details: p.error
+                        }
+                    }
+                }
+            } catch(e) {
+                console.log("issue eading",e)
             }
-            const p = await this.parseBinaryData({
-                path: joined,
-                properties: ob.properties
-            });
-            
-            if(p.success) {
-                return p;
-            }
-            if(p.error) throw new Error(p.error);
         } catch (e) {
             if(e.code != "ENOENT") {
-                console.log("BINARY error", ob.filePath, ob.properties, e,e.code);
+                console.log("BINARY error", ob.filePath, ob.properties, e,e.code,
+                    ob,
+                    ob.filePath
+                );
             }
             return {
                 error: e.stack,

@@ -33,8 +33,19 @@ async function deserializeBinary(buffer) {
         let hashTableSize = hashInfo.amount;
         //buffer.readUInt32LE(offset);
         offset = hashInfo.offset;
-        let hashTable = new Array(hashTableSize);
-        
+        var hashTable;
+        try {
+            hashTable = new Array(hashTableSize);
+        } catch(e) {
+            console.log("HASH issue",hashTableSize,hashInfo, offset,buffer)
+            return {
+                error: {
+                    message: "Issue in hash table",
+                    hashTableSize,
+                    hashInfo 
+                }
+            }
+        }
         for (let i = 0; i < hashTableSize; i++) {
             let keyOffset = await buffer.readUInt32BE(offset);
             offset += hashAmount;

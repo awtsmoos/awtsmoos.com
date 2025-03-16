@@ -3,7 +3,8 @@
  * directory methods for DosDB class
  */
 var path = require("path");
-var fsSync = require("fs")
+var fsSync = require("fs");
+const { removeJSONExtension } = require("./path");
 var fs = fsSync.promises;
 module.exports = {
     /**
@@ -50,6 +51,7 @@ module.exports = {
         filterBy=null,
         sortBy = 'alphabetical',
         order = 'asc',
+        keepJSON,
         id,
         db,
         fs
@@ -61,22 +63,23 @@ module.exports = {
 
         // Retrieve both files and directories
         let entries = await fs.readdir(directoryPath, { withFileTypes: true });
+        
     //  console.log(entries,"GETTING dir","ok")
     //   return entries;
         if(filterBy  && typeof(filterBy) == "object") {
-        try {
-            var newEnt = [];
-            for(var k of entries) {
-            var g = await db.get(id, {
-                propertyMap: filterBy
-            });
-            if(db.areAllKeysEqual(g,filterBy)) {
-                newEnt.push(g)
-            }
+            try {
+                var newEnt = [];
+                for(var k of entries) {
+                var g = await db.get(id, {
+                    propertyMap: filterBy
+                });
+                if(db.areAllKeysEqual(g,filterBy)) {
+                    newEnt.push(g)
+                }
 
-            }
-            entries = newEnt;
-        } catch(e){}
+                }
+                entries = newEnt;
+            } catch(e){}
         }
         // Get stats for each entry in parallel
         entries = await Promise.all(entries.map(async (dirent) => {
@@ -107,7 +110,9 @@ module.exports = {
 
         // Apply pagination to the sorted names
         var paginatedNames = sortedNames.slice(startIndex, startIndex + pageSize);
-
+        if(!keepJSON) {
+            paginatedNames = paginatedNames.map(q => removeJSONExtension(q))
+        }
         return paginatedNames;
     } catch (error) {
         console.error("Failed to process directory entries", error);

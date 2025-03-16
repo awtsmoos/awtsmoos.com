@@ -140,10 +140,17 @@ module.exports = {
      */
     removeJSONExtension(filePath) {
         const extension = path.extname(filePath);
-        if(extension === ".json") {
-            const ind = filePath.indexOf(".json");
-            return filePath.substring(0, ind);
+        var exts = [
+            ".json",
+            ".awtsmoosJSON"
+        ];
+        for(var ext of exts) {
+            if(extension === ext) {
+                const ind = filePath.indexOf(ext);
+                return filePath.substring(0, ind);
+            }
         }
+        
         return filePath;
     },
     
@@ -174,17 +181,6 @@ module.exports = {
 	 */
 	async getDeleteFilePath(id, isRegularDir) {
 		const completePath = await this.getAwtsmoosFilePath(id, isRegularDir);
-		try {
-			await fs.stat(completePath);
-			return completePath;
-		} catch (e) {
-			const j = completePath + ".json";
-			try {
-				await fs.stat(j);
-				return j;
-			} catch (e) {
-				return null;
-			}
-		}
+		return completePath;
 	}
 }

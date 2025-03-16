@@ -121,11 +121,14 @@ B"H
 	},
 
 	async findInArray(rPath, conditionsObject) {
-		if(!conditionsObject || typeof(conditionsObject != "object")) {
+		if(!conditionsObject || typeof(conditionsObject) != "object") {
 			return {
 				error: {
 					message: "Need to supply object of properties",
-					code: "NO_PROP"
+					code: "NO_PROP",
+					tried: conditionsObject,
+					path: rPath,
+					method:"find in"
 				}
 			}
 		}
@@ -134,7 +137,7 @@ B"H
 		var myPath;
 		var inputArray = ar?.success;
 		myPath = ar.myPath;
-		if(!Array.isArray(inputArray) || typeof(myPath != "string")) {
+		if(!Array.isArray(inputArray) || typeof(myPath) != "string") {
 			return {
 				error: {
 					message: "Couldn't find array at path",
@@ -165,11 +168,13 @@ B"H
 
 	},
 	async removeElementFromArray(rPath, conditionsObject, opts = {}) {
-		if(!conditionsObject || typeof(conditionsObject != "object")) {
+		if(!conditionsObject || typeof(conditionsObject) != "object") {
 			return {
 				error: {
 					message: "Need to supply object of properties",
-					code: "NO_PROP"
+					code: "NO_PROP",
+					path: rPath,
+					tried: conditionsObject
 				}
 			}
 		}
@@ -183,12 +188,13 @@ B"H
 		var myPath;
 		var inputArray = ar?.success;
 		myPath = ar.myPath;
-		if(!Array.isArray(inputArray) || typeof(myPath != "string")) {
+		if(!Array.isArray(inputArray) || typeof(myPath) != "string") {
 			return {
 				error: {
 					message: "Couldn't find array at path",
 					path: rPath,
-					myPath
+					myPath,
+					details: ar
 				}
 			}
 		}

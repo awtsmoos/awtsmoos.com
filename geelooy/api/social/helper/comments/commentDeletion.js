@@ -875,7 +875,7 @@ async function deleteAllCommentsOfParent(
         seriesId
     });
 
-    var aliasList = await $i.get(
+    var aliasList = await $i.db.get(
         allAliasesAtParent
     );
     
@@ -962,6 +962,9 @@ async function deleteParentFolder({
         link
     });
 
+    if(typeof(parentPath) != "string") {
+        return;
+    }
     var delPar = await $i.db.delete(
         parentPath
     );
