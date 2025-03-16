@@ -59,13 +59,23 @@ async function makeFile({$i}) {
                 return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
             }
         } catch(e) {
-            
+            return er({
+                message: "Issue saving file",
+                details: e.stack
+            })
         }
         path = addFolderName(path);
         // Write the file to the alias's file system
-        var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-        var wr = await $i.db.write(filePath, content);
+        try {
+            var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+            var wr = await $i.db.write(filePath, content);
 
+        } catch(e) {
+            return er({
+                message: "Couldn't write",
+                details: e
+            })
+        }
         return { success: {
             filePath,
             path,

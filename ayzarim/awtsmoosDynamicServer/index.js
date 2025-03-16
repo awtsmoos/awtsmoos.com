@@ -64,7 +64,7 @@ class AwtsmoosStaticServer {
 		this.db = null;
 		this.mail=mail;
 		process.env.__awtsdir = this.directory;
-		
+		process.removeAllListeners('warning');
 		
 		
 	}
