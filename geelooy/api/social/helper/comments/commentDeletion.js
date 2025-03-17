@@ -1268,60 +1268,6 @@ async function deleteAllCommentsOfParent(
         }
     }
     
-    var pf = await deleteParentFolder({
-        $i,
-        heichelId,
-        seriesId,
-        parentType,
-        parentId,
-        postId,
-        link
-    });
-
-
-    if(pf.error) {
-        return pf;
-    }
-
-    results.push({
-        parentFolder: pf
-        
-    })
-
-    var empty = pf?.success?.isEmpty;
-
-    if(
-        empty &&
-        parentType == "post"
-        && Array.isArray(aliasList)
-    ) {
-        var res = [];
-        for(var aliasId of aliasList) {
-            var rm = await removeSeriesFromAliasListReference({
-                aliasId,
-                seriesId,
-                $i,
-                heichelId
-            });
-            if(rm.error) {
-                return rm;
-            }
-            res.push({
-                removedSeriesFromAliasList: rm
-            })
-        }
-        results.push({
-            aliasListSeriesRemoval: res
-            
-        })
-    }
-    
-
-
-
-    return {
-        deleteStatus: results
-    };
 }
 
 async function removeSeriesFromAliasListReference({
