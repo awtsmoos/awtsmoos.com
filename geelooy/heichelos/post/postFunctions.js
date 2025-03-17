@@ -838,7 +838,7 @@ function generateSection({
 		var section = dynamic;
 		var sectionDiv = document.createElement("div");
 		
-		
+		var subSectionsDone = 0;
 		// Check if the section has paragraphs
 		if (Array.isArray(section?.paragraphs)) {
 			section.paragraphs.forEach((paragraph, pIndex) => {
@@ -855,23 +855,25 @@ function generateSection({
 							return console.log("Skipping invalid subSection:", subSection);
 						}
 
-						subSubS.dataset.idx = subIndex;
+						subSubS.dataset.idx = subSectionsDone;
 						subSubS.classList.add("sub-awtsmoos");
 
 						// Sanitize and add content to subSection
 						var san = sanitizeContent(txt);
 						addHTML(san, subSubS, {
-							index: subIndex,
+							index: subSectionsDone,
 							array: a
 						});
 
 						// Append subSection div to the paragraph
 						paragraphDiv.appendChild(subSubS);
+						subSectionsDone++;
 					});
 				}
 
 				// Now, add the paragraph div to the section div
 				sectionDiv.appendChild(paragraphDiv);
+
 			});
 		}
 
@@ -885,18 +887,19 @@ function generateSection({
 					return console.log("Skipping invalid subSection:", subSection);
 				}
 
-				subS.dataset.idx = subIndex;
+				subS.dataset.idx = subSectionsDone;
 				subS.classList.add("sub-awtsmoos");
 
 				// Sanitize and add content to subSection
 				var san = sanitizeContent(txt);
 				addHTML(san, subS, {
-					index: subIndex,
+					index: subSectionsDone,
 					array: a
 				});
 
 				// Append subSection div directly to the section
 				sectionDiv.appendChild(subS);
+				subSectionsDone++;
 			});
 		}
 

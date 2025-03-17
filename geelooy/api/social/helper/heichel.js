@@ -419,7 +419,7 @@ async function generateHeichelId({
 		if (existingAlias) {
 			return er({
 				message: "That heichel already exists",
-				code: "ALIAS_EXISTS"
+				code: "ALREADY_EXISTS"
 			})
 		}
 	} catch(e) {

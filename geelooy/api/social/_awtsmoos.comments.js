@@ -225,7 +225,7 @@ module.exports = ({
                 parentId: vars.post,
                 author: vars.alias,
                 parentType: "post",
-		userid
+		        userid
             })
         }
     },

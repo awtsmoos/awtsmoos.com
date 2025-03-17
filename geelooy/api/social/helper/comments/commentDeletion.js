@@ -2,6 +2,7 @@
  * B"H
  * Deletion clears the old, making way for the Awtsmoos’s infinite recreation.
  */
+var path = require("path");
 
 const { 
     sp 
@@ -28,7 +29,7 @@ const {
     getAliasesAtVerseSectionPath,
 
     getParentPath,
-    getListOfPostsOrInSeriesPath
+    getListOfPostsOrCommentsInSeriesPath
 
 
 } = require("./commentPaths.js");
@@ -568,13 +569,15 @@ async function deleteComment(
 }
 
 
-async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(path, $i) {
+async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(myPath, $i, {
+    recursive=false
+} = {}) {
 
     try {
         var remaining = "possibly some";
       
         remaining = await $i.db.count(
-            path
+            myPath
         );
 
         if(remaining.error) {
@@ -582,7 +585,8 @@ async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(path, $i) {
                 error: {
                     message: "System error counting remaining verse sections",
                     details: remaining.error,
-                    code: "SYSTEM_ERROR"
+                    code: "SYSTEM_ERROR",
+                    path: myPath
                 }
             };
         }
@@ -603,35 +607,70 @@ async function checkifFolderIsEmptyAtPathAndDeleteItIfSo(path, $i) {
              * remove all of the references entirely.
              * 
              */
-            var deleteVerseSectionReferences =
+            var deleteEmptyFolder =
             await $i.db.delete(
-                path
+                myPath
             );
-            if(deleteVerseSectionReferences.error) {
+            if(deleteEmptyFolder.error) {
                 return er({
                     message: "Couldn't remove alias parent reference",
                     code: "NO_REMOVE",
                     isEmpty: true,
-                    pathTried: path
+                    pathTried: myPath
                 })
             }
             
-            return ({
-                success: {
+            //recursive
+            var success = {
                     
-                    deleteVerseSectionReferences,
-                    isEmpty: true,
-                    pathDeleted:path
+                deleteEmptyFolder,
+                isEmpty: true,
+                pathDeleted:myPath
+            }
+
+            if(recursive) {
+                var dir = path.dirname(myPath);
+                var removeParent = await 
+                checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+                    dir,
+                    $i,
+                    {
+                        recursive: true
+                    }
+                );
+                if(removeParent?.error) {
+                    return er({
+                        message: "Issue with deleting parent",
+                        error: removeParent.error,
+                        path: myPath
+                    })
+                } else {
+                    if(!success.parentPaths) {
+                        success.parentPaths = []
+                    }
+                    success.parentPaths.push(removeParent)
                 }
+            }
+            return ({
+                success
             })
 
 
+        } else {
+            return {
+                unneeded: {
+                    message: "Not empty, shouldn't delete it",
+                    code: "NOT_EMPTY",
+                    path: myPath
+                }
+            }
         }
     } catch(e) {
         return er({
             message: "Issue checking and deleting verse sections",
             code: "VERSE_SECTION_ISSUE",
-            details: e.stack
+            details: e.stack,
+            path: myPath
         });
     }
 }
@@ -686,8 +725,8 @@ async function checkIfOurAliasIdHasAnyMoreCommentsOnAnyVerseSectionInParent({
             
         return ({
             success: {
-                allPotentialVerseSectionReferencesInParent,
-                deleteVerseSectionReferences,
+                
+           
                 anyRemainingVerseSectionsThatOurAliasHas,
                 anyPotentialRemainingVerseSectionsThatWeCommentedAtPath
             }
@@ -802,18 +841,333 @@ async function checkVerseSectionsAndDeleteAllIfEmpty({
  * @param {Object} params - Parameters for deletion.
  * @returns {Object} Deletion result.
  */
-async function deleteAllCommentsOfAlias(
-    {
-        $i,
-        heichelId,
+async function deleteAllCommentsOfAlias({
+    $i,
+    heichelId,
+    parentId,
+    seriesId,
+    postId,
+    author,
+    parentType,
+    link
+}) {
+
+    
+    if(!author) {
+        author = $i.$_DELETE.author ||
+            $i.$_DELETE.aliasId
+    }
+    
+    if(!author) {
+        return er({
+            message: "Missing author || aliasId",
+            code: "MISSING_PARAMS",
+            details: "author || aliasId"
+        })
+    }
+
+    if(!heichelId) {
+        heichelId = $i.$_DELETE.heichelId
+    }
+    if(!heichelId) {
+        return er({
+            message: "Missing heichelId",
+            code: "MISSING_PARAMS",
+            details: "heichelId"
+        })
+    }
+
+    var ver = await verifyHeichelAuthority(
+        {
+            heichelId,
+            aliasId: author,
+            $i
+        }
+    );
+
+    if (!ver) {
+        return er(
+            {
+                message: "You don't have authority to post to this heichel",
+                code: "NO_AUTH"
+            }
+        );
+    }
+
+    
+
+    if(!parentId) {
+        parentId = $i.$_DELETE.parentId
+    }
+
+    if(!parentId) {
+        return er({
+            message: "Missing parentId",
+            code: "MISSING_PARAMS",
+            details: "parentId"
+        })
+    }
+
+
+    if(!seriesId) {
+        seriesId = $i.$_DELETE.seriesId
+    }
+    if(!seriesId) {
+        return er({
+            message: "Missing seriesId",
+            code: "MISSING_PARAMS",
+            details: "seriesId"
+        })
+    }
+
+    if(!parentType) {
+        parentType = "post"
+    }
+    var details = {
+        
+        aliasId:author,
+        postId,
         parentId,
         seriesId,
-        postId,
-        author,
-        parentType
+        heichelId,
     }
-) {
-    return {doesntWork:"yet IYH"};
+    try {
+        var authorPathOfVerseSections = getAuthorPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId,
+            aliasId: author,
+            parentType
+        })
+    
+        var verseSectionsOfAlias = await $i.db.get(
+            authorPathOfVerseSections
+        );
+
+        if(
+            !Array.isArray(verseSectionsOfAlias) || 
+            verseSectionsOfAlias.length == 0
+        ) {
+            return {
+                success: {
+                    message: "NO aliases needed to be gotten",
+                    code: "ALREADY_GONE",
+                    details,
+                    authorPathOfVerseSections
+
+                }
+            }
+        }
+
+        
+            
+
+        for(vs of verseSectionsOfAlias) {
+        
+            var verseSectionsOfParentPath = 
+                getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
+                    heichelId,
+                    link, 
+                    postId,
+                    parentId,
+                    parentType,
+                    seriesId,
+
+                });
+
+            var rem = await $i.db.removeElementFromArray(
+                verseSectionsOfParentPath
+                + "/" + vs+"/authors", {
+                    exact: {
+                        selfEquals: author
+                    }
+                }, {
+                    deleteSelfIfEmpty: true
+                }
+            );
+
+            
+            if(rem.error) {
+                return er({
+                    message: "Issue trying to remove alias reference "+
+                    "from verseSection",
+                    code: "ALIAS_REMOVE_ISSUE",
+                    details,
+                    error:rem.error,
+                    verseSection:vs,
+                })
+            }
+
+            var vsr = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+                verseSectionsOfParentPath + "/" + vs,
+                $i, {
+                    recursive: true
+                }
+            );
+
+
+            if(vsr.error) {
+                return er({
+                    message: "Trying to empty parent folder",
+                    code: "EMPTY_PARENT_ISSUE",
+                    error: vsr.error,
+                    details
+                })
+            }
+
+        }
+
+        var authorDel = await $i.db.delete(
+            authorPathOfVerseSections
+        );
+
+        if(authorDel.error) {
+            return er({
+                message: "Issue deleting author folder",
+                code: "AUTHOR_FOLDER_DELETE_ISSUE",
+                error: authorDel.error
+            })
+        }
+
+        var allAliasesInParentPath = 
+        getAliasesCommentsPath({
+            heichelId,
+            parentId,
+            link,
+            postId,
+            seriesId,
+            parentType
+        });
+
+        var deleteAllParentFolders = 
+        await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+            allAliasesInParentPath, $i, {
+                recursive: true
+            }
+        );
+
+        if(deleteAllParentFolders.error) {
+            return er({
+                message: "Trying to empty parent folder of author",
+                code: "EMPTY_AUTHOR_PARENT_ISSUE",
+                error: deleteAllParentFolders.error,
+                details
+            })
+        }
+        if(deleteAllParentFolders.success) {
+           /* return {
+                success: "Unneeded",
+                details,
+                deleteAllParentFolders
+            }*/ 
+           console.log("sc",deleteAllParentFolders)
+        }
+
+        /**
+         * now check if alias 
+         * has any more comments on any more
+         * posts, or if this was the last post.
+         * 
+         * If not we need to remove
+         * the author from the series reference..
+         * (in aliases/:alias/comments/heichel/:heichel/series.awtsmoosJSON)
+         */
+
+        var restOfPotentialPostsInSeriesPath = 
+            getListOfPostsOrCommentsInSeriesPath({
+                heichelId,
+                link,
+                postId,
+                parentType,
+                seriesId
+
+            });
+
+        var check = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+            restOfPotentialPostsInSeriesPath,
+            $i, {
+                recursive: true
+            }
+        );
+
+        if(check.error) {
+            return er({
+                message: "Trying to empty parent folder at series",
+                code: "EMPTY_AUTHOR_SERIES_ISSUE",
+                error: check.error,
+                details
+            });
+        }
+ 
+        else if(check.unneeded) {
+            return {
+                success: "Unneeded to delet emore",
+                check,
+                details
+            }
+        }
+        /**
+         * means the atSeries/:series folder WAS
+         * empty then it was deleted.
+         * 
+         * which means we need to 
+         * remove our alias reference
+         */
+
+        var pathOfAllSeriesCommentedOn = 
+            commentsOfAliasByHeichelAndSeries({
+                aliasId: author,
+                heichelId
+            });
+        
+        var rem = await $i.db.removeElementFromArray(
+            pathOfAllSeriesCommentedOn, {
+                exact: {
+                    selfEquals: seriesId
+                }
+            }, {
+                deleteSelfIfEmpty: true
+            }
+        );
+        if(rem.error) {
+            return er({
+                message: "Issue removing series from reference",
+                code: "SERIES_REMOVE_ISSUE"
+            })
+        }
+        var dir = path.dirname(pathOfAllSeriesCommentedOn);
+        var ch = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
+            dir,
+            $i, {
+                recursive: true
+            }
+        );
+
+        if(ch.error) {
+            return er({
+                message: "Couldn't delete parent of series reference",
+                code: "PARENT_DELETE_ISSUE",
+                details
+            })
+        }
+        return {
+            success: {
+                message: "Finally deleted all of user's comments",
+                code: "FINALLY_DELETED_ALIAS_COMMENTS"
+            }
+        }
+    
+    } catch(e) {
+        return er({
+            message: "Something happened when deleting",
+            code: "ALIAS_COMMENTS_ERROR",
+            stack: e.stack
+        })
+    }
+
+
 
 }
 
@@ -991,7 +1345,7 @@ async function deleteParentFolder({
         return delPar;
     }
     var holderOfParentPath =
-        getListOfPostsOrInSeriesPath({
+        getListOfPostsOrCommentsInSeriesPath({
             heichelId,
             seriesId,
             postId,

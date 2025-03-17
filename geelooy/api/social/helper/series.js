@@ -30,7 +30,8 @@ var {
 
 
 var {
-    er, myOpts
+    er, myOpts,
+	generateAwtsmoosId
 } = require("./general.js");
 
 var {
@@ -731,7 +732,7 @@ async function deleteSeriesFromHeichel ({
 		})
 
 		if(ser) {
-			if(ser?.error)errors.main.push(er({message:"Issue", details: ser}));
+			if(ser?.error) errors.main.push(er({message:"Issue", details: ser}));
 			
 			var par = ser?.series?.parentSeriesId;
 			if(!par) par = parentSeriesId;
@@ -741,6 +742,55 @@ async function deleteSeriesFromHeichel ({
 					message: "No parent series ID"
 				}))
 			}
+
+			var author = (await $i.db.get(`${
+				sp
+			}/heichelos/${
+				heichelId
+			}/series/${
+				seriesId
+			}/prateem`, {
+				propertyMap: {
+					author: true
+				}
+			}))?.author;
+
+			if(author) {
+				var errors = []
+				try {
+					var seriesKey = await $i.db.removeElementFromArray(
+						`${
+							sp
+						}/aliases/${
+							author
+						}/seriesCreated/inHeichel/${
+							heichelId
+						}`, {
+		
+					
+							exact: {
+								selfEquals: seriesId
+							} 
+							
+							
+						}, {
+							deleteSelfIfEmpty: true
+						}
+					)
+					if(seriesKey.error) {
+						return er({
+								message: "Series key deletion issue",
+								details: seriesKey
+						})
+					}
+				} catch(e) {
+					return (er({
+						message: "Couldn't add new series index",
+						seriesId
+					}))
+				}
+			}
+			
 			var parentSer = await $i.db.get(`${
 				sp
 			}/heichelos/${
@@ -766,50 +816,7 @@ async function deleteSeriesFromHeichel ({
 			}/subSeries`, parentSer);
 			deleted.parentListDeletion = wroteSub;
 
-			var author = (await $i.db.get(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}`, {
-				propertyMap: {
-					author: true
-				}
-			}))?.author;
-
-			if(author) {
-				var errors = []
-				try {
-					var seriesKey = await $i.db.removeElementFromArray(
-						`${
-							sp
-						}/aliases/${
-							aliasId
-						}/seriesCreated/inHeichel/${
-							heichelId
-						}`, {
-		
-					
-							exact: {
-								selfEquals: seriesId
-							} 
-							
-							
-						}, {
-							deleteSelfIfEmpty: true
-						}
-					)
-					if(seriesKey.error) {
-						errors.push(seriesKey)
-					}
-				} catch(e) {
-					errors.push(er({
-						message: "Couldn't add new series index",
-						seriesId
-					}))
-				}
-			}
+			
 			var deleteSelf = await $i.db.delete(`${
 				sp
 			}/heichelos/${
@@ -1583,11 +1590,11 @@ async function makeNewSeries({
 		seriesID;
 	var description = $i.$_POST.description
 	if (!description || description == "undefined") description = ""
-	if (seriesName > 50) {
+	if (seriesName > 100) {
 		return er({
 			message: "Too long series name",
 			proper: {
-				seriesName: 50
+				seriesName: 100
 			}
 		})	
 	}
@@ -1602,7 +1609,7 @@ async function makeNewSeries({
 			}
 		})
 	}
-	if (seriesName > 888) {
+	if (description > 888) {
 		return er({
 			message: "Too long series desc",
 			proper: {
@@ -1610,25 +1617,53 @@ async function makeNewSeries({
 			}
 		})	
 	}
-	seriesName = seriesName.trim();
-	if(!seriesID)
-		seriesID = "BH_" + Date.now() + "_" +
-		(Math.floor(Math.random() * 78) + 700)
-	+"_"+aliasId
 
-	
-		
-	
-	var doesItExist = await $i.db.get(
-			`${
+	seriesName = seriesName.trim();
+
+	var existingPath = `${
 			sp
 
 		}/heichelos/${
 			heichelId
 		}/series/${
 			seriesID
-			
-		}/prateem`);
+		
+		}`;
+
+
+	function makeDefaultId() {
+		seriesID = "BH_" + Date.now() + "_" +
+			(Math.floor(Math.random() * 78) + 700)
+			+"_"+aliasId
+	}
+	if(!seriesID) {
+		$i.$_POST.seriesName = seriesName;
+		var potentialSeriesId = await generateAwtsmoosId({
+			$i,
+			nameVar: "seriesName",
+			idVar: "seriesId",
+			maxInputId: 100,
+			maxNameLength: 100,
+			existingPath
+		});
+		if(potentialSeriesId?.error?.code == "ALREADY_EXISTS") {
+			makeDefaultId() 
+		} else if(potentialSeriesId?.error) {
+			return er({
+				message: "Problem making series ID",
+				details: potentialSeriesId
+			});	
+		} else if (potentialSeriesId?.seriesId) {
+			seriesID = potentialSeriesId?.seriesId;
+		} else {
+			makeDefaultId() 
+		}
+	}
+	
+		
+	
+	var doesItExist = await $i.db.get(
+			);
 	if(doesItExist) {
 		return er({
 			code: "ALREADY_EXISTS",

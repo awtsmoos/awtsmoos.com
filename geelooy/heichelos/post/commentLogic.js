@@ -82,7 +82,7 @@ async function makeHTMLFromComment({
 	aliasId,
 	tab
 }) {
-	console.log("Comment", comment);
+	
 
 	// Create main comment container
 	var cmCont = document.createElement("div");
@@ -98,7 +98,7 @@ async function makeHTMLFromComment({
 			commentTitle = makeTitleDiv(title)
 			cmCont.appendChild(commentTitle);
 		}
-		console.log("Section com",section,title,content);
+		
 		var commentText = document.createElement("div");
 		commentText.className = "comment-text"+ (section?" section" : "");
 		if(content)
@@ -124,7 +124,7 @@ async function makeHTMLFromComment({
 		comment.dayuh.sections.forEach(s => {
 			forEachTxt(s?.text || s,s.title,true);
 		})
-		console.log("Sectionign",comment.dayuh.sections)
+		
 	}
 
 	// Display images if available
@@ -133,7 +133,7 @@ async function makeHTMLFromComment({
 	
 	addImageGallery(images,cmCont);
 	// Optional sections
-	console.log("awts Comment",d);
+	
 	/*var sc = d ? d.sections : null;
 	if (sc) sc.forEach(q => {
 		var cs = document.createElement("div");
@@ -553,6 +553,8 @@ async function countCommentsOfAlias(alias) {
 	});
 }
 
+
+
 async function showAllComments({
 	alias,
 	post,
@@ -565,6 +567,7 @@ async function showAllComments({
 		postId: post.id,
 		heichelId: post.heichel.id,
 		aliasId: alias,
+		fromCache: true,
 		get: {
 			verseSection: currentVerse,
 			map: true,
@@ -673,15 +676,16 @@ function addCommentsInline(comments, alias) {
     
     	console.log("adding inline comments",comments,alias)
 	var sections= Array. from(document
-	.querySelectorAll(".section"))
+	.querySelectorAll(".section"));
+
 	sections. forEach(w=>{
 		var idx=w. dataset.idx
 		var com= comments. filter(c=>(
-			c?.dayuh?.verseSection== idx
+			c?.dayuh?.verseSection == idx
 		
 		))
 		
-		if(!com?.length) return console. log("NOTHING", com, comments, alias);
+		if(!com?.length) return console. log("NOTHING", com, idx, w, comments, alias);
 		console.log("Doing comments",com)
 		var commentHolder = null
 		var subSecs = {}
@@ -700,7 +704,9 @@ function addCommentsInline(comments, alias) {
 					(c?.dayuh?.subSectionIndex)
 					//(c?.dayuh?.subSection || c?.dayuh?.subSection === 0)
 				);
-				console.log("Comment?",c,sub)
+			
+				
+				
 				if(sub || sub === 0) {
 					
 					if(!subSecs[sub]) {
@@ -1002,6 +1008,7 @@ async function indexSwitch() {
 			postId: post.id,
 			heichelId: post.heichel.id,
 			aliasId: alias,
+			fromCache: true,
 			get: {
 				verseSection: currentVerse,
 				map: true,
@@ -1194,6 +1201,7 @@ async function getAndSaveAliases(full=false) {
 		seriesId: window?.post?.parentSeriesId,
 		postId: window?.post?.id,
 		heichelId: window?.post?.heichel.id,
+		fromCache: true,
 		get: {
 			verseSection,
 			map: true,

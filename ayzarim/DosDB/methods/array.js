@@ -19,9 +19,10 @@ module.exports = {
 		}
 		var myPath = null;
 		try {
-			console.log("IS it a path",rPath)
+			
 			myPath = await this.ensureAwtsmoosBinaryPath(rPath);
-			console.log("my Path", myPath)
+
+			
 			var p=await this.parseBinaryData({path: myPath});
 			var s = p?.success;
 			var inputArray = [];

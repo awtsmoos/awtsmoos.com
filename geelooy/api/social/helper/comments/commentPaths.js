@@ -65,14 +65,21 @@ function getAuthorPath({
     link,
     postId,
     seriesId,
-    aliasId
+    aliasId,
+    parentType
 }) {
+    if(!link) {
+        link = parentType == "post" ?
+        "atPost" : "atComment";
+
+    }
     return getAliasesCommentsPath({
 		heichelId,
         parentId,
         link,
 		postId,
         seriesId,
+        parentType
 	}) + aliasId
     
 }
@@ -89,8 +96,14 @@ function getAliasesCommentsPath({
 	parentId,
 	link,
 	postId,
-	seriesId
+	seriesId,
+    parentType
 }) {
+    if(!link) {
+        link = parentType == "post" ? "atPost"
+            : "atComment";
+
+    }
     return `${
         getParentPath({
             heichelId,
@@ -110,7 +123,7 @@ function getParentPath({
     seriesId
 }) {
     return `${
-		getListOfPostsOrInSeriesPath({
+		getListOfPostsOrCommentsInSeriesPath({
 			heichelId,
 			link,
 			postId,
@@ -135,13 +148,17 @@ function getPathAtSeries({
     }`
 }
 
-function getListOfPostsOrInSeriesPath({
+function getListOfPostsOrCommentsInSeriesPath({
 	heichelId,
-
+    parentType,
     link,
     postId,
     seriesId
 }) {
+    if(!link) {
+        link = parentType == "post" ?
+        "atPost" : "atComment";
+    }
 	return `${
 		getPathAtSeries({
 			heichelId,
@@ -199,10 +216,17 @@ function getAllVerseSectionsThatHaveAtLeastOneAuthorPath({
 	heichelId,
 	link,
 	parentId,
-
+    parentType,
 	postId,
 	seriesId
 }) {
+    if(!link) {
+        if(parentType == "post") {
+            link = "atPost"
+        } else {
+            link = "atComment"
+        }
+    }
 	return `${
         getParentPath({
             heichelId,
@@ -320,5 +344,5 @@ module.exports = {
     getSubmittedCommentPath,
 	getParentPath,
 
-	getListOfPostsOrInSeriesPath
+	getListOfPostsOrCommentsInSeriesPath
 };

@@ -317,8 +317,8 @@ async function getAuthorsOfCommentsAtVerseSectionInParent({
 
     try {
         var authorArray = await $i.db.get(authorsAtParentPath);
-        if(authorArray?.success)
-            return authorArray.success
+        if(authorArray?.success || Array.isArray(authorArray))
+            return authorArray.success || authorArray
             
         else {
             return {

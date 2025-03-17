@@ -30,7 +30,8 @@ module.exports = {
 
 var {
     er
- ,myOpts
+ ,myOpts,
+ generateAwtsmoosId
 } = require("./general.js");
 
 async function getDefaultAlias({$i, userid}) {
@@ -387,102 +388,14 @@ async function getDetailedAliasesByArray({
 async function generateAliasId({
 	$i
 }) {
-	
-	var inputId = $i.$_POST.inputId || $i.$_POST.id;
-	var aliasName = $i.$_POST.aliasName||$i.$_POST.name;
-	if(!inputId && !aliasName) {
-		return er({
-			message: "no parameters provided. Need either inputId or aliasName",
-			code: "NO_PARAMS",
-			given: $i.$_POST
-		})
-	}
-
-	if(inputId) {
-		if(inputId.length > 26) {
-			return er({
-				message: "Invalid alias id length. Max: 26 characters",
-				code:"INVALID_ID_LENGTH",
-				proper: 26
-			})
-		}
-		
-		try {
-			if(!$i.utils.verifyStrict({
-				inputString: inputId
-			})) {
-				return er({
-					message: "Invalid id. need to have only "
-					+"English letters or numbers, hebrew letters, "
-					+" _ or $, and no spaces"
-					,
-					proper:`a-zA-Z0-9_$;`,
-					code: "INVALID_ID_FORMAT"
-				})
-			}
-		} catch(e) {
-			return er({
-				message:"Problem verifying id",
-				code: "PROB_ID_VER",
-				details: e.toString()
-			})
-		}
-	}
-	
-	if(aliasName) {
-		if (
-			aliasName.length > 50
-		) {
-			return er({
-				message: "Your alias name is too long (max: 50 char)",
-				code: "INV_NAME_LNGTH",
-				proper: 50
-			});
-		}
-	}
-	var aliasId;
-
-	try {
-		aliasId = inputId || $i.utils.generateId(aliasName, false, 0);
-	} catch(e) {
-		return er({
-			message: "Problem making the id",
-			code: "PROBLEM_MAKING",
-			detail:e+""
-		})
-	}
-	if(!aliasId) {
-		return er({
-			message: "Problem making the id",
-			code: "PROBLEM_MAKING",
-			detail: {
-				aliasId, aliasName
-			}
-		})
-	} 
-
-	try {
-
-		var existingAlias = await $i
-		.db.get(`${sp}/aliases/${
-			aliasId
-		}`,myOpts($i));
-		
-		if (existingAlias) {
-			return er({
-				message: "That alias already exists",
-				code: "ALIAS_EXISTS"
-			})
-		}
-	} catch(e) {
-		return er({
-			message: "Problem searching",
-			code: "PROB_SEARCH",
-			detail:aliasId+""
-		})
-	}
-
-	return {aliasId};
+	return await generateAwtsmoosId({
+		$i,
+		nameVar:"aliasName",
+		idVar: "aliasId",
+		existingPath: `${sp}/aliases`,
+		maxNameLength: 50,
+		maxInputId: 26
+	})
 }
 
 

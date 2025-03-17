@@ -581,7 +581,7 @@ export default function createProfileDropdown(parentElement) {
                     aliasIdInput.value = resp.aliasId;
                 }
             } else if (resp.error) {
-                if (resp.error.code === 'ALIAS_EXISTS') {
+                if (resp.error.code === 'ALREADY_EXISTS') {
                     validationMessage.textContent = 'That alias already exists';
                 } else if (resp.error.code === 'INVALID_ID_FORMAT') {
                     validationMessage.textContent = resp.error.message;

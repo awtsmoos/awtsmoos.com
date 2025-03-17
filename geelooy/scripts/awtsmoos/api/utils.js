@@ -216,6 +216,7 @@ async function makeSeries({
     description,
     title,
     parentSeriesId,
+    inputId,
     dayuh
 }) {
     return await (await fetch(
@@ -229,7 +230,8 @@ async function makeSeries({
                 description,
                 title,
                 parentSeriesId,
-                dayuh: JSON.stringify(dayuh)
+                dayuh: JSON.stringify(dayuh),
+                inputId
             })
         })).json();
 }
@@ -388,36 +390,6 @@ async function getComment({
 }
 
 
-async function getCommentsOfAlias({
-    seriesId,
-    postId,
-    heichelId,
-    aliasId,
-    get={}
-
-}) {
-    var g = {
-        ...get,
-        seriesId
-    }
-    try {
-        var r = await fetch(base+`/api/social/heichelos/${
-            heichelId
-        }/post/${
-            postId
-        }/comments/aliases/${
-            aliasId
-        }/?${
-		new URLSearchParams(g)
-	}`)
-        var t = await r.json();
-        return t;
-    } catch(e) {
-        console.log(e);
-        return []
-    }
-}
-
 //B"H
 async function editComment({
  
@@ -463,30 +435,169 @@ async function editComment({
 }
 async function leaveComment({
     postId,
+    seriesId,
     heichelId,
     content,
     dayuh,
-    aliasId
+    aliasId,
+    testing=false
 }) {
-	console.log("DAYUH",dayuh)
+    
     if(!dayuh) dayuh = {};
-	var body = new URLSearchParams({
+    var obs = {
 		aliasId,
 		dayuh: JSON.stringify(dayuh),
-		content
-	})
-    var p = await getAPI(`/api/social/heichelos/${
-        heichelId
-    }/post/${
-        postId
-    }/comments`, {
-        method: "POST",
-        body
-    })
-	console.log("P",body)
-    return p;
+		content,
+        seriesId
+	}
+	var body = new URLSearchParams(obs);
+    var path = `/api/social/heichelos/${
+            heichelId
+        }/post/${
+            postId
+        }/comments`;
+
+    if(!testing) {
+        var p = await getAPI(path, {
+            method: "POST",
+            body
+        })
+        
+        
+        return p;
+    } else {
+        return {
+            testing: obs,
+            path
+        }
+    }
 }
 
+var commentsOfAliasCache  = {};
+window.commentsOfAliasCache = commentsOfAliasCache
+async function getCommentsOfAlias({
+    seriesId,
+    postId,
+    heichelId,
+    aliasId,
+    get={}
+
+}) {
+    var g = {
+        ...get,
+        seriesId
+    }
+    try {
+
+        if(!commentsOfAliasCache.heichelos) {
+            commentsOfAliasCache.heichelos = {}
+        }
+        if(!commentsOfAliasCache.heichelos[heichelId]) {
+            commentsOfAliasCache.heichelos[heichelId] = {
+                series: {}
+            }
+        }
+
+        if(!commentsOfAliasCache
+            .heichelos[heichelId]
+            .series[seriesId]) {
+
+                commentsOfAliasCache.heichelos[heichelId].series[seriesId] = {
+                posts: {}
+            }
+        }
+
+        if(!commentsOfAliasCache
+            .heichelos[heichelId]
+            .series[seriesId].posts[postId]) {
+
+            commentsOfAliasCache
+            .heichelos[heichelId]
+            .series[seriesId]
+            .posts[postId] = {
+                aliases: {}
+            }
+        }
+
+        if(!commentsOfAliasCache
+            .heichelos[heichelId]
+            .series[seriesId]
+            .posts[postId]
+            .aliases[aliasId]) {
+
+            commentsOfAliasCache
+            .heichelos[heichelId]
+            .series[seriesId]
+            .posts[postId]
+            .aliases[aliasId] = {
+                verseSections: {}
+            }
+        }
+
+        var vs = get?.verseSection;
+        if(vs || vs === 0) {
+            if(commentsOfAliasCache
+                .heichelos[heichelId]
+                .series[seriesId]
+                .posts[postId]
+                .aliases[aliasId]
+                .verseSections[vs]
+            ) {
+                var v = commentsOfAliasCache
+                    .heichelos[heichelId]
+                    .series[seriesId]
+                    .posts[postId]
+                    .aliases[aliasId]
+                    .verseSections[vs];
+           
+                return v;
+            }
+        } else {
+            console.log("WHat are u")
+        }
+        var r = await fetch(base+`/api/social/heichelos/${
+                heichelId
+            }/post/${
+                postId
+            }/comments/aliases/${
+                aliasId
+            }/?${
+            new URLSearchParams(g)
+        }`)
+        var t = await r.json();
+
+        vs = get?.verseSection;
+        if(vs || vs === 0) {
+            if(!commentsOfAliasCache
+                .heichelos[heichelId]
+                .series[seriesId]
+                .posts[postId]
+                .aliases[aliasId]
+                .verseSections[vs]
+            ) {
+                commentsOfAliasCache
+                    .heichelos[heichelId]
+                    .series[seriesId]
+                    .posts[postId]
+                    .aliases[aliasId]
+                    .verseSections[vs] = t;
+                t.cached = Date.now();
+               
+            }
+        } else {
+            console.log("NO verseitile?",get,get?.verseSection)
+        }
+        return t;
+    } catch(e) {
+        console.log(e);
+        return []
+    }
+}
+
+
+
+var aliasCommentsCache = {};
+window.aliasCommentsCache = aliasCommentsCache
 //gets comments of alias on a post
 async function getCommentsByAlias({
     postId,
@@ -499,18 +610,85 @@ async function getCommentsByAlias({
         seriesId
     }
     try {
+        if(!aliasCommentsCache.heichelos) {
+            aliasCommentsCache.heichelos = {}
+        }
+        if(!aliasCommentsCache.heichelos[heichelId]) {
+            aliasCommentsCache.heichelos[heichelId] = {
+                series: {}
+            }
+        }
+
+        if(!aliasCommentsCache
+            .heichelos[heichelId]
+            .series[seriesId]) {
+            aliasCommentsCache.heichelos[heichelId].series[seriesId] = {
+                posts: {}
+            }
+        }
+
+        if(!aliasCommentsCache
+            .heichelos[heichelId]
+            .series[seriesId].posts[postId]) {
+            aliasCommentsCache
+            .heichelos[heichelId]
+            .series[seriesId]
+            .posts[postId] = {
+                verseSections: {}
+            }
+        }
+
+        var vs = get?.verseSection;
+        if(vs || vs === 0) {
+            var verse = aliasCommentsCache
+            .heichelos[heichelId]
+            .series[seriesId]
+            .posts[postId]
+            .verseSections[vs]
+            if(verse) {
+                return aliasCommentsCache
+                    .heichelos[heichelId]
+                    .series[seriesId]
+                    .posts[postId]
+                    .verseSections[vs];
+                
+                
+            }
+        } else {
+            console.log("WHAT",get)
+        }
+
         var r = await fetch(base+`/api/social/heichelos/${
             heichelId
         }/post/${
             postId
         }/comments/aliases/?`+new URLSearchParams(rg))
         var t = await r.json();
+       
+        if(vs || vs === 0) {
+            if(!aliasCommentsCache
+                .heichelos[heichelId]
+                .series[seriesId]
+                .posts[postId]
+                .verseSections[vs]
+            ) {
+                aliasCommentsCache
+                .heichelos[heichelId]
+                .series[seriesId]
+                .posts[postId]
+                .verseSections[vs] = t;
+
+                t.cached = Date.now();
+            }
+        }
         return t;
     } catch(e) {
         console.log(e);
         return []
     }
 }
+
+
 async function aliasOwnership(aliasId, options) {
     try {
         var r = await fetch(base+`/api/social/aliases/${

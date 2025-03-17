@@ -5,7 +5,8 @@
 module.exports = {
     loggedIn,
     myOpts,
-    er
+    er,
+    generateAwtsmoosId
 };
 
 function myOpts($i){
@@ -47,3 +48,131 @@ function loggedIn($i) {
         }
       
       }
+
+async function generateAwtsmoosId({
+  $i,
+  nameVar,
+  idVar,
+  maxInputId  =26,
+  maxNameLength =50,
+  existingPath
+}) {
+  
+  var inputId = (
+    typeof(idVar) == "string" &&
+    $i.$_POST[idVar]
+  ) || $i.$_POST.inputId || $i.$_POST.id;
+
+  var aliasName = (
+    typeof(nameVar) == "string" &&
+    $i.$_POST[nameVar]
+  ) || $i.$_POST.title || $i.$_POST.name;
+
+  if(!inputId && !aliasName) {
+    return er({
+      message: "no parameters provided. Need either inputId or aliasName",
+      code: "NO_PARAMS",
+      given: $i.$_POST,
+      nameVar
+    })
+  }
+
+  if(inputId) {
+    if(inputId.length > maxInputId) {
+      return er({
+        message: "Invalid alias id length. Max: "+
+        maxInputId+" characters",
+        code:"INVALID_ID_LENGTH",
+        proper: maxInputId
+      })
+    }
+    
+    try {
+      if(!$i.utils.verifyStrict({
+        inputString: inputId
+      })) {
+        return er({
+          message: "Invalid id. need to have only "
+          +"English letters or numbers, hebrew letters, "
+          +" _ or $, and no spaces"
+          ,
+          proper:`a-zA-Z0-9_$;`,
+          code: "INVALID_ID_FORMAT"
+        })
+      }
+    } catch(e) {
+      return er({
+        message:"Problem verifying id",
+        code: "PROB_ID_VER",
+        details: e.toString()
+      })
+    }
+  }
+  
+  if(aliasName) {
+    if (
+      aliasName.length > maxNameLength
+    ) {
+      return er({
+        message: "Your alias name is too long (max: "+
+        maxNameLength+" char)",
+        code: "INV_NAME_LNGTH",
+        proper: maxNameLength
+      });
+    }
+  }
+  var aliasId;
+
+  try {
+    aliasId = inputId || $i.utils.generateId(aliasName, false, 0);
+  } catch(e) {
+    return er({
+      message: "Problem making the id",
+      code: "PROBLEM_MAKING",
+      detail:e+""
+    })
+  }
+  if(!aliasId) {
+    return er({
+      message: "Problem making the id",
+      code: "PROBLEM_MAKING",
+      detail: {
+        aliasId, aliasName
+      }
+    })
+  } 
+
+  try {
+    if(existingPath === false) {
+      /**
+       * we 
+       */
+    }
+    if(typeof(existingPath) != "string") {
+      return er({
+        message: "Must provide path to check if existing",
+        code: "NO_EXISTING_PATH"
+      })
+    }
+    var existingAlias = await $i
+    .db.get(`${existingPath}/${
+      aliasId
+    }`,myOpts($i));
+    
+    if (existingAlias) {
+      return er({
+        message: "That ID entry already exists",
+        code: "ALREADY_EXISTS"
+      })
+    }
+  } catch(e) {
+    return er({
+      message: "Problem searching",
+      code: "PROB_SEARCH",
+      id:aliasId+"",
+      details:e.stack
+    })
+  }
+
+  return {[idVar]: aliasId};
+}
