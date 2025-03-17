@@ -701,7 +701,9 @@ async function checkIfOurAliasIdHasAnyMoreCommentsOnAnyVerseSectionInParent({
         var checkAndMaybeRemove = 
         await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
             anyPotentialRemainingVerseSectionsThatWeCommentedAtPath,
-            $i
+            $i, {
+                recursive: true
+            }
         );
         
 
@@ -767,8 +769,10 @@ async function checkVerseSectionsAndDeleteAllIfEmpty({
 
         var checkAndMaybeRemove = 
         await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
-            anyPotentialRemainingVerseSectionsThatWeCommentedAtPath,
-            $i
+            allPotentialVerseSectionReferencesInParent,
+            $i, {
+                recursive: true
+            }
         );
         
 
@@ -979,7 +983,7 @@ async function deleteAllCommentsOfAlias({
 
             var rem = await $i.db.removeElementFromArray(
                 verseSectionsOfParentPath
-                + "/" + vs+"/authors", {
+                + "/" + vs, {
                     exact: {
                         selfEquals: author
                     }
@@ -1001,7 +1005,7 @@ async function deleteAllCommentsOfAlias({
             }
 
             var vsr = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
-                verseSectionsOfParentPath + "/" + vs,
+                verseSectionsOfParentPath,
                 $i, {
                     recursive: true
                 }
@@ -1233,6 +1237,36 @@ async function deleteAllCommentsOfParent(
     var aliasList = await $i.db.get(
         allAliasesAtParent
     );
+
+    var deleted = [];
+    for(var alias of aliasList) {
+        var al = await deleteAllCommentsOfAlias({
+            $i,
+            heichelId,
+            parentId,
+            seriesId,
+            postId,
+            author: alias,
+            link,
+            parentType
+        });
+        if(al.error) {
+            return er({
+                message: "Issue deleting alias",
+                code: "NO_ALIAS_DELETE",
+                details: al.error
+            })
+        }
+        deleted.push(al)
+    }
+
+    return {
+        success: {
+            message: "Deleted all comments of all alises",
+            code: "DEL_ALL_ALIASES",
+            deleted
+        }
+    }
     
     var pf = await deleteParentFolder({
         $i,
@@ -1353,7 +1387,9 @@ async function deleteParentFolder({
         });
         
     var del = await checkifFolderIsEmptyAtPathAndDeleteItIfSo(
-        holderOfParentPath, $i
+        holderOfParentPath, $i, {
+            recursive: true
+        }
     );
     
     return del;

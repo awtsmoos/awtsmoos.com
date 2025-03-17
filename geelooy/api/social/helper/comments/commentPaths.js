@@ -264,7 +264,7 @@ function getAliasesAtVerseSectionPath({
         })
     }/${
         verseSection
-    }/authors`;
+    }`;
 }
 
 /**
