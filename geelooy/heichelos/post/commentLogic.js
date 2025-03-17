@@ -686,7 +686,7 @@ function addCommentsInline(comments, alias) {
 		))
 		
 		if(!com?.length) return console. log("NOTHING", com, idx, w, comments, alias);
-		console.log("Doing comments",com)
+		//console.log("Doing comments",com)
 		var commentHolder = null
 		var subSecs = {}
 		var inlineCommentHolder = null;
@@ -706,7 +706,7 @@ function addCommentsInline(comments, alias) {
 				);
 			
 				
-				
+
 				if(sub || sub === 0) {
 					
 					if(!subSecs[sub]) {
@@ -739,13 +739,13 @@ function addCommentsInline(comments, alias) {
 					if(inlineCommentHolder) {
 						inlineCommentHolder.appendChild(incom);
 					}
-					console.log("Appended", c, com )
+				//	console.log("Appended", c, com )
 				} else {
 					if(!commentHolder) {
 						commentHolder = makeInlineCommentHolder(alias, w);
 					}
 					commentHolder.appendChild(incom);
-					console.log("Added",window.ch=commentHolder,window.inc = incom);
+				//	console.log("Added",window.ch=commentHolder,window.inc = incom);
 				}
 			} else {
 				console.log("Found already", com, ind, c)
@@ -795,7 +795,16 @@ function makeInlineComment(alias, comment) {
 	
 	
 	incom.className="inline-comment"
-	
+	//var hdr = document.createElement("")
+	if(
+		comment?.dayuh?.verseSection && !
+		comment?.dayuh?.hideVerseNumber
+	) {
+		var num = document.createElement("div");
+		num.textContent = comment?.dayuh?.verseSection;
+		num.classList = "awtsmoos-number";
+
+	}
 	//commentHolder.appendChild(incom);
 	var comContent = document.createElement("div")
 	if(comment.dayuh?.title) {
@@ -1113,6 +1122,15 @@ function openPanel() {
 		cb.classList.add("pushed");
 	}
 }
+
+async function openPanelToComments() {
+	var tabs = await reloadRoot();
+	console.log(window.tabs=tabs);
+	window?.commentTab?.open()
+	openPanel();
+}
+window.openPanelToComments=openPanelToComments;
+window.openPanel = openPanel;
 async function openCommentsPanelToAlias(alias, open=true) {
 	var tabs = await reloadRoot();
 	var tab = tabs.find(q=>

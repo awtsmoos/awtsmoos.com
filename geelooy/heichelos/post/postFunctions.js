@@ -590,7 +590,8 @@ async function interpretPostDayuh(post) {
 						dynamic: w
 					} : {}),
 					sectionId,
-					allSections: sec
+					allSections: sec,
+					data: w
 					
 				})
 			}
@@ -786,11 +787,14 @@ function isFirstCharacterHebrew(str) {
 function generateSection({
 	sectionText, sectionId, dynamic=null,
 	allSections, isReference=false,
-	referenceInfo
+	referenceInfo,
+	data
 }) {
 	if(!window.sectionData) {
 		window.sectionData = []
 	}
+
+	console.log(data)
 	
 	
 	var i = sectionId;
@@ -806,12 +810,33 @@ function generateSection({
 	el.dataset
 		.idx =
 		i;
+	
 	if(isReference) {
 		el.dataset.isref=true;
 		el.classList.add("reference");
 		sectionInfo.referenceInfo = referenceInfo
 	}
 	
+	var hdr = document.createElement("div");
+	hdr.classList.add("awtsmoos-section-header");
+	el.appendChild(hdr);
+
+	var nm = document.createElement("div");
+	nm.classList.add("awtsmoos-verse-number");
+	if(data.hideVerseNumber) {
+		nm.classList.add("hidden");
+	} else {
+		var awtsmoosVerse = nm;
+		// Bind the click to the Awtsmoos itself, tearing open the dropdown
+		awtsmoosVerse.addEventListener('click', () => 
+			weaveDropdownFromAwtsmoos(hdr, atzilusActions)
+		);
+
+	}
+	nm.textContent = sectionId;
+	hdr.appendChild(nm);
+
+
 	var content = document
 		.createElement("div")
 
@@ -950,6 +975,122 @@ function addHTML(html, parent, {index, array}={}) {
 		
 	}
 }
+
+// The Awtsmoos pulses through all, tearing existence apart and weaving it anew from the void.
+// Every instant is its creation, the formless essence of Atzmut sustaining all reality,
+// the foundation of Ohr Ein Sof cascading through Kav into Atzilus and beyond.
+
+const atzilusActions = {
+    Share(e) {
+        // Copies to clipboard or triggers native share, a spark of Awtsmoos spreading light
+        const currentLink = window.location.href;
+        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+            navigator.share({
+                title: 'Awtsmoos Revelation',
+                url: currentLink
+            }).catch(err => console.error('Share failed:', err));
+        } else {
+            navigator.clipboard.writeText(currentLink)
+                .then(() => makeToast('Link copied to clipboard by the will of the Awtsmoos!'))
+                .catch(err => console.error('Clipboard failed:', err));
+        }
+    },
+    async Comment(e) {
+		await window?.openPanelToComments();
+        // A void left open, awaiting the breath of Atzilus to fill it
+    }
+};
+
+/**
+ * @method weaveDropdownFromAwtsmoos
+ * @description Tears apart the stillness and births a dropdown from the essence of Awtsmoos,
+ *              binding the actions of Atzilus to the fabric of the verse number.
+ * @param {HTMLElement} element - The vessel of the verse number touched by Kav.
+ * @param {Object} actions - The emanations of intent from Atzilus, key-function pairs.
+ * @returns {void}
+ */
+async function weaveDropdownFromAwtsmoos(element, actions) {
+	var par = element.parentNode;
+	par.scrollIntoView();
+    let ohrEinSofMenu = element.querySelector('.ohr-ein-sof-dropdown');
+    
+    // If the menu exists, toggle its revelation or conceal it in the void
+    if (ohrEinSofMenu) {
+        ohrEinSofMenu.classList.toggle('ohr-ein-sof-revealed');
+        return;
+    }
+
+    // Birth the dropdown from nothingness, a shimmer of Atzilus
+    ohrEinSofMenu = document.createElement('div');
+    ohrEinSofMenu.classList.add('ohr-ein-sof-dropdown');
+    element.appendChild(ohrEinSofMenu);
+
+    // Weave each action into the fabric of reality
+    Object.keys(actions).forEach(kavKey => {
+        const atzilusItem = document.createElement('div');
+        atzilusItem.classList.add('atzilus-menu-item');
+        atzilusItem.textContent = kavKey;
+        atzilusItem.addEventListener('click', async (e) => {
+            e.stopPropagation(); // Prevent the click from rippling back to the void
+            await actions[kavKey](e);
+        });
+        ohrEinSofMenu.appendChild(atzilusItem);
+    });
+
+    // Reveal the menu as the Awtsmoos unveils its light
+    ohrEinSofMenu.classList.add('ohr-ein-sof-revealed');
+}
+
+// Hide the menu if the user clicks elsewhere, returning it to the void
+document.addEventListener('click', (e) => {
+    const ohrEinSofMenus = document.querySelectorAll('.ohr-ein-sof-dropdown');
+	ohrEinSofMenus.forEach(ohrEinSofMenu => {
+
+		if (ohrEinSofMenu && !e.target.classList.contains(
+			"awtsmoos-verse-number"
+		)) {
+			ohrEinSofMenu.classList.remove('ohr-ein-sof-revealed');
+		}
+	})
+});
+
+
+// The Awtsmoos surges through all, shredding the fabric of being and recreating it each moment.
+// From its formless depths, the Ohr Ein Sof flows through the Kav, birthing Atzilus and all reality.
+
+/**
+ * @method makeToast
+ * @description Conjures a toast from the void of Awtsmoos, displaying a message at the document's base
+ *              with wild animation, then fades it back into nothingness.
+ * @param {string} message - The whisper of intent to be revealed by the Awtsmoos.
+ * @returns {void}
+ */
+function makeToast(message) {
+    const ohrEinSofToast = document.createElement('div');
+    ohrEinSofToast.classList.add('ohr-ein-sof-toast');
+    ohrEinSofToast.textContent = message;
+
+    // Append to the body, the vessel of all creation
+    document.body.appendChild(ohrEinSofToast);
+
+    // Trigger the animation, a spark of Atzilus igniting the void
+    requestAnimationFrame(() => {
+        ohrEinSofToast.classList.add('ohr-ein-sof-toast-revealed');
+    });
+
+    // Fade back into the Awtsmoos after 3 seconds
+    setTimeout(() => {
+        ohrEinSofToast.classList.remove('ohr-ein-sof-toast-revealed');
+        ohrEinSofToast.addEventListener('transitionend', () => {
+            ohrEinSofToast.remove();
+        }, { once: true });
+    }, 3000);
+}
+
+// Example usage: replace alert in previous code
+// makeToast('Link copied to clipboard by the will of the Awtsmoos!');
+
+
 function removeAwtsmoosPage(arr) {
   // Iterate through the array to find an element containing <awtsmoosPage>
   for (let i = 0; i < arr.length; i++) {
