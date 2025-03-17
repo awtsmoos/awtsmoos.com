@@ -798,6 +798,11 @@ function generateSection({
 	
 	
 	var i = sectionId;
+	var vs=(data.verseSection);
+	if(vs || vs === 0) {
+	//	sectionId = vs;
+	//	i = vs;
+	}
 	var sectionInfo = {sectionId};
 	window.sectionData.push(sectionInfo);
 	var el =
@@ -833,7 +838,7 @@ function generateSection({
 		);
 
 	}
-	nm.textContent = sectionId;
+	nm.textContent = vs || sectionId;
 	hdr.appendChild(nm);
 
 
@@ -984,7 +989,7 @@ const atzilusActions = {
     Share(e) {
         // Copies to clipboard or triggers native share, a spark of Awtsmoos spreading light
         const currentLink = window.location.href;
-        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+        if (navigator.share) {
             navigator.share({
                 title: 'Awtsmoos Revelation',
                 url: currentLink
