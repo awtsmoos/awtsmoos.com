@@ -799,12 +799,18 @@ function generateSection({
 	
 	var i = sectionId;
 	var vs=(data.verseSection);
+	var hasVerseNumber = false;
 	if(vs || vs === 0) {
 	//	sectionId = vs;
 	//	i = vs;
+		hasVerseNumber = true
 	}
-	var sectionInfo = {sectionId};
-	window.sectionData.push(sectionInfo);
+	var sectionInfo = {
+		sectionId,
+		hideVerseNumber: data.hideVerseNumber,
+		hasVerseNumber
+	};
+	window.sectionData[i] = (sectionInfo);
 	var el =
 		document
 		.createElement(

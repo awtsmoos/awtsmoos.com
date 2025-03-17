@@ -998,10 +998,15 @@ function getIdx() {
 async function updateCommentHeader() {
 	
 	var aliases = await getAndSaveAliases()
-	console.log("Updating",aliases)
+	console.log("Updating",aliases);
+	var curVerseDisplay = +currentVerse;
+	var data = window?.sectionData[currentVerse];
+	if(data && data.hasVerseNumber) {
+		curVerseDisplay++;
+	}
 	window?.tabComment?.onUpdateHeader(
 		(aliases.length) + " Commentators for verse: "
-		+ (+currentVerse)
+		+ (curVerseDisplay)
 	)
 }
 async function indexSwitch() {
