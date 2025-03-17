@@ -315,7 +315,8 @@ B"H
 			inputArray.push(key);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);
 			await this.ensureDir(myPath)
-			console.log("myPath",myPath)
+			
+			
 			var wr = await fs.writeFile(myPath, ser)
 			return {
 				success: {

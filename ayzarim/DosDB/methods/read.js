@@ -260,7 +260,7 @@ module.exports = {
                 return null;
             }
         } catch (e) {
-            console.log("Issue reading", e);
+            
             return {
                 path,
                 error: e.stack
