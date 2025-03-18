@@ -234,7 +234,7 @@ function serializeArray(arr) {
                 itemString.buffer
             ]);
         }  else if(
-            typeof(item)
+            typeof(item) 
             == "boolean" 
         ) {
             var type = Buffer.alloc(1);
