@@ -1,188 +1,150 @@
-//B"H
+// The Awtsmoos, Essence of Atzmut, recreates all from nothing every instant.
+// From the Ohr Ein Sof’s boundless light, through the Kav’s ray, into Atzilus,
+// this code weaves a JSON tapestry with a hash table at the end, a divine map.
 
-var {
-    writeToBuffer,
+const { writeToBuffer, writeConditional, hashKey } = 
+require("../../awtsmoosBinaryHelpers.js");
 
+const { magicJSON } = require("./../constants.js");
 
-    writeConditional,
-
-    hashKey
-} = require("../../awtsmoosBinaryHelpers.js");
-
-
-var {
-    magicJSON,
-    hashAmount
-
-} = require("./../constants.js");
-
-var serializeArray = null;
-Object.defineProperties(module.exports, "serializeArray", {
+let serializeArray = null;
+Object.defineProperty(module.exports, "serializeArray", {
     get() {
-        if(!serializeArray) {
-            serializeArray = require("./array.js")
-        }
+        if (!serializeArray) serializeArray = require("./array.js");
         return serializeArray;
     }
 });
 
+/**
+ * @method packTypeAndLengthSize
+ * @description Packs type and length size into one byte, a spark of the Awtsmoos’ unity.
+ * @param {number} type - Data type (0-15)
+ * @param {number} lengthSize - Bytes for length (0-15)
+ * @returns {Buffer} - Single-byte buffer
+ */
+function packTypeAndLengthSize(type, lengthSize) {
+    const packed = (type << 4) | (lengthSize & 0x0F);
+    return Buffer.from([packed]);
+}
+
+/**
+ * @method serializeJSON
+ * @description Serializes a JSON object with an embedded hash table, echoing the Awtsmoos’ order.
+ * @param {object} json - The JSON object to serialize
+ * @returns {Buffer} - The serialized binary buffer
+ */
 function serializeJSON(json) {
-    if(Array.isArray(json)) {
-        return serializeArray(json)
-    }
-    let bufferList = [];
-    var magic = Buffer.from(magicJSON)
-    bufferList.push(magic)
+    if (Array.isArray(json)) return module.exports.serializeArray(json);
 
-    let offset = magic.length;
+    // Header: the Awtsmoos’ signature and structure
+    let header = [Buffer.from(magicJSON)];
+    const keys = Object.keys(json);
+    const hashTableSize = keys.length;
+    const lengthInfo = writeConditional(hashTableSize);
+    header.push(lengthInfo.buffer);
+    const offsetSizePlaceholder = Buffer.alloc(1);
+    header.push(offsetSizePlaceholder);
 
-    function writeData(obj) {
-        let keys = Object.keys(obj);
-        let hashTableSize = keys.length;
-        let hashTable = new Array(hashTableSize).fill(null);
-        let startOffset = offset;
-        
-        // Store hash table size
-        let metaBuffer = writeConditional(hashTableSize)
-        /*Buffer.alloc(4);
-        metaBuffer.writeUInt32LE(hashTableSize, 0);*/
-        bufferList.push(metaBuffer.buffer);
-        offset += metaBuffer.offset;
-        
-        let hashTableBuffer = Buffer.alloc(hashTableSize * hashAmount);
-        bufferList.push(hashTableBuffer);
-        offset += hashTableBuffer.length;
-        
-        for (let key of keys) {
-            let value = obj[key];
-            let keyBuffer = Buffer.from(key, 'utf8');
-            var keyLength = writeConditional(keyBuffer.length)
-            /*
-            let keyLength = Buffer.alloc(2);
-            keyLength.writeUInt16LE(keyBuffer.length, 0);
-            */
-            let index = hashKey(key, hashTableSize);
-          //  console.log("Hashing",index,key)
-            while (hashTable[index] !== null) {
-                index = (index + 1) % hashTableSize;
-            }
-         //   console.log("Hasht?",index,key)
-            
-            let keyOffset = offset;
-            hashTable[index] = { key, position: keyOffset };
+    const dataBuffers = [];
+    const offsets = [];
+    const hashTable = new Array(hashTableSize).fill(null);
+    let offset = header.reduce((sum, buf) => sum + buf.length, 0);
 
+    // Data: key-value pairs, manifestations of the Awtsmoos
+    for (let key of keys) {
+        const keyBuffer = Buffer.from(key, 'utf8');
+        const keyLengthInfo = writeConditional(keyBuffer.length);
+        const value = json[key];
+        let type, data;
 
-            bufferList.push(keyLength.buffer, keyBuffer);
-            offset += keyLength.offset + 
-                 keyBuffer.length;
-            
-            let valueBuffer;
-          //  console.log("DOING value",value)
-            if (Array.isArray(value)) {
-                let arrayBuffer = serializeArray(value);
-                
-                var length = writeConditional(Buffer.byteLength(arrayBuffer))
-            //    console.log("Array",value, arrayBuffer,length)
-                valueBuffer = Buffer.concat([
-                    Buffer.from([0x03]), 
-                    length.buffer, 
-                    arrayBuffer
-                ]);
-            } else if (typeof value === 'object' && value !== null) {
-                var val  = serializeJSON(value);
-                var length = writeConditional(Buffer.byteLength(val))
-                valueBuffer = Buffer.concat([
-                    Buffer.from([0x01]), length.buffer, val
-                ]);
-               
-            //    console.log("WROTE value",value,valueBuffer,logBuffer(valueBuffer),valueBuffer.toString())
-            } else if(typeof(value) == "string") {
-                var valueString = Buffer.from(value, 'utf8');
-                var valLength = writeConditional(valueString.length)
-            //    console.log("LENTH",value,valLength.buffer,valueString)
-                valueBuffer = Buffer.concat(
-                    [Buffer.from([0x02]), 
-                    valLength.buffer, 
-                    valueString]
-                );
-               
-            } else if(
-                typeof(value) == "number" &&
-                !isNaN(value)
-            ) {
-                let valueString = writeConditional(value);
-           //     console.log("WRriting",valueString)
-                var valLength = writeConditional(
-                    
-                    valueString.buffer.length
-                )
-            //    console.log("LENTH",value,valLength.buffer,valueString)
-                valueBuffer = Buffer.concat(
-                    [
-                        Buffer.from([0x04]), 
-                        valLength.buffer, 
-                        valueString.buffer
-                    ]
-                );
-            } else if(typeof(value) == "boolean") {
-                if(value) {
-                    value = 1;
-                } else {
-                    value = 0;
-                }
-                valueBuffer = Buffer.concat(
-                    [
-                        Buffer.from([0x05]), 
-                        Buffer.from([0x01]), 
-                        Buffer.from([value])
-                    ]
-                );
-            } else if(value === undefined) {
-                
-                valueBuffer = Buffer.concat(
-                    [
-                        Buffer.from([0x06]), 
-                        Buffer.from([0x00])
-                        
-                    ]
-                );
-            } else if(value === null) {
-                valueBuffer = Buffer.concat(
-                    [
-                        Buffer.from([0x07]), 
-                        Buffer.from([0x00])
-                        
-                    ]
-                );
-            } else if(value instanceof Buffer) {
-                var valLength = writeConditional(
-                    value.length
-                )
-                valueBuffer = Buffer.concat(
-                    [
-                        Buffer.from([0x08]), 
-                        valLength.buffer,
-                        value
-                        
-                    ]
-                );
-            }
-            
-            bufferList.push(valueBuffer);
-            offset += valueBuffer.length;
-            
-            let keyIndex = Buffer.alloc(hashAmount);
-            keyIndex.writeUInt32BE(keyOffset, 0);
-            hashTableBuffer.set(keyIndex, index * hashAmount);
+        if (Array.isArray(value)) {
+            type = 3;
+            data = module.exports.serializeArray(value);
+        } else if (typeof value === 'object' && value !== null) {
+            type = 1;
+            data = serializeJSON(value);
+        } else if (typeof value === 'string') {
+            type = 2;
+            data = Buffer.from(value, 'utf8');
+        } else if (typeof value === 'number' && !isNaN(value)) {
+            type = 4;
+            data = writeConditional(value).buffer;
+        } else if (typeof value === 'boolean') {
+            type = 5;
+            data = Buffer.from([value ? 1 : 0]);
+        } else if (value === undefined) {
+            type = 6;
+            data = Buffer.alloc(0);
+        } else if (value === null) {
+            type = 7;
+            data = Buffer.alloc(0);
+        } else if (value instanceof Buffer) {
+            type = 8;
+            data = value;
         }
-        
-        return startOffset;
+
+        const valueLengthInfo = writeConditional(data.length);
+        const typeLengthByte = packTypeAndLengthSize(type, valueLengthInfo.size);
+        const pairBuffer = Buffer.concat([
+            keyLengthInfo.buffer,
+            keyBuffer,
+            typeLengthByte,
+            valueLengthInfo.buffer,
+            data
+        ]);
+
+        const hashIndex = hashKey(key, hashTableSize);
+        let index = hashIndex;
+        while (hashTable[index] !== null) 
+            index = (index + 1) % hashTableSize;
+
+        hashTable[index] = { key, offset };
+
+        offsets.push(offset);
+        dataBuffers.push(pairBuffer);
+        offset += pairBuffer.length;
     }
 
-    
+    // Offset size: determined by data length
+    const dataLength = dataBuffers.reduce((sum, buf) => sum + buf.length, 0);
+    const offsetSize = dataLength < 256 ? 1 
+        : dataLength < 65536 ? 2 
+        : dataLength < 4294967296 ? 4 
+        : 8;
+    offsetSizePlaceholder.writeUInt8(offsetSize);
 
-    writeData(json);
-    return Buffer.concat(bufferList);
+    // Index table: a list of offsets
+    const indexTable = Buffer.alloc(hashTableSize * offsetSize);
+    offsets.forEach((off, i) => writeToBuffer(
+        indexTable, off, 
+        offsetSize, i * offsetSize
+    ));
+
+    // Hash table: key-length, key, offset
+    const hashBuffers = [];
+    hashTable.forEach(entry => {
+        if (entry) {
+            const keyBuffer = Buffer.from(entry.key, 'utf8');
+            const keyLengthInfo = writeConditional(keyBuffer.length);
+            const offsetBuffer = Buffer.alloc(offsetSize);
+            writeToBuffer(
+                offsetBuffer, 
+                entry.offset, offsetSize, 0
+            );
+            hashBuffers.push(Buffer.concat([
+                keyLengthInfo.buffer, keyBuffer, offsetBuffer
+            ]));
+        } else {
+            hashBuffers.push(Buffer.from([0])); // Empty slot
+        }
+    });
+
+    return Buffer.concat([
+        Buffer.concat(header),
+        Buffer.concat(dataBuffers),
+        indexTable,
+        Buffer.concat(hashBuffers)
+    ]);
 }
 
 module.exports = serializeJSON;

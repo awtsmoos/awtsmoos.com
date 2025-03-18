@@ -6,7 +6,7 @@ var fs = require("fs").promises;
 var path = require("path");
 
 
-const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 const { error } = require("console");
 module.exports = {
     /**

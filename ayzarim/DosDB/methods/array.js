@@ -5,7 +5,7 @@
 
 var fs = require("fs").promises;
 
-const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 module.exports = {
 
 	async getArrayAtPath(rPath) {
