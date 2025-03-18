@@ -1066,7 +1066,7 @@ async function deleteAllCommentsOfAlias({
                 details,
                 deleteAllParentFolders
             }*/ 
-           console.log("sc",deleteAllParentFolders)
+           
         }
 
         /**
@@ -1191,6 +1191,18 @@ async function deleteAllCommentsOfParent(
         postId
     }
 ) {
+    seriesId = seriesId || 
+        $i.$_DELETE.seriesId ||
+        $i.$_DELETE.parentSeriesId;
+
+    if(seriesId === "undefined") {
+        seriesId = undefined;
+    }
+    if(!seriesId) {
+        return er({
+            message:"Missing series ID"
+        })
+    }
     var aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
 
     var ver = await verifyHeichelAuthority(
@@ -1238,6 +1250,15 @@ async function deleteAllCommentsOfParent(
         allAliasesAtParent
     );
 
+    if(!Array.isArray(aliasList)) {
+        return {
+            unneeded: {
+                message: "No aliases found in this parent"
+            },
+            aliasList,
+            path: allAliasesAtParent
+        }
+    }
     var deleted = [];
     for(var alias of aliasList) {
         var al = await deleteAllCommentsOfAlias({

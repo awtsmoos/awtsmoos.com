@@ -1001,7 +1001,12 @@ async function updateCommentHeader() {
 	console.log("Updating",aliases);
 	var curVerseDisplay = +currentVerse;
 	var data = window?.sectionData[currentVerse];
-	if(data && data.hasVerseNumber) {
+	if(
+		data && 
+		data.hasVerseNumber &&
+		data.verseSection !=
+		data.sectionId
+	) {
 		curVerseDisplay++;
 	}
 	window?.tabComment?.onUpdateHeader(

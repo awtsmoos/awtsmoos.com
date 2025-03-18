@@ -45,7 +45,17 @@ async function checkMFetch() {
 	        customTextEncoder=TextDecoder,
 	        customHeaders = {},
 	        }) {
+				var customFetch;
 		checkMFetch()
+			try {
+				customFetch = mFetch;
+			} catch(e) {
+				await AwtsmoosPrompt.go({
+					isAlert:true,
+					headerTxt: "Something happened check console"
+				})
+				console.log(e,"WOW")
+			}
 	        var self = this;
 	        var headers = null;
 	

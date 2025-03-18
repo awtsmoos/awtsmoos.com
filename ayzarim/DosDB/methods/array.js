@@ -33,6 +33,16 @@ module.exports = {
 				inputArray =
 				inputArray.concat(s);
 				p = s;
+			} else {
+				inputArray = null;
+				return ({
+					BH: 'B"H',
+					error: {
+						message: "Array not found",
+						code: "ARRAY_404",
+						myPath
+					}
+				})
 			}
 			return {
 				success: inputArray,
@@ -159,6 +169,8 @@ B"H
 					message: "Couldn't find, conditions didn't match",
 					inputArray,
 					conditionsObject,
+					originalPath: rPath,
+					modifiedPath: myPath,
 					code: "NO_CONDITIONS"
 				}
 			}
@@ -209,7 +221,9 @@ B"H
 					message: "Couldn't delete, conditions didn't match",
 					inputArray,
 					conditionsObject,
-					code: "NO_CONDITIONS"
+					code: "NO_CONDITIONS",
+					originalPath: rPath,
+					modifiedPath: myPath
 				}
 			}
 		}

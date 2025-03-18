@@ -63,11 +63,25 @@ async function generateAwtsmoosId({
     $i.$_POST[idVar]
   ) || $i.$_POST.inputId || $i.$_POST.id;
 
+  if(inputId === "undefined") {
+    inputId = undefined
+  }
   var aliasName = (
     typeof(nameVar) == "string" &&
     $i.$_POST[nameVar]
   ) || $i.$_POST.title || $i.$_POST.name;
 
+
+  var details = {
+    POST: $i.$_POST,
+    nameVar,
+    idVar,
+    existingPath,
+    maxInputId,
+    maxNameLength,
+    aliasName,
+    inputId
+  }
   if(!inputId && !aliasName) {
     return er({
       message: "no parameters provided. Need either inputId or aliasName",
@@ -104,7 +118,9 @@ async function generateAwtsmoosId({
       return er({
         message:"Problem verifying id",
         code: "PROB_ID_VER",
-        details: e.toString()
+        stack: e.stack,
+        details
+
       })
     }
   }
@@ -117,9 +133,16 @@ async function generateAwtsmoosId({
         message: "Your alias name is too long (max: "+
         maxNameLength+" char)",
         code: "INV_NAME_LNGTH",
-        proper: maxNameLength
+        proper: maxNameLength,
+        details
       });
     }
+  } else {
+    return er({
+      message: "No name to base ID off",
+      code: "NO_NAME",
+      details
+    })
   }
   var aliasId;
 
@@ -132,13 +155,15 @@ async function generateAwtsmoosId({
       detail:e+""
     })
   }
+
+  if(aliasId === "undefined") {
+    aliasId = undefined;
+  }
   if(!aliasId) {
     return er({
       message: "Problem making the id",
-      code: "PROBLEM_MAKING",
-      detail: {
-        aliasId, aliasName
-      }
+      code: "NO_ID",
+      details
     })
   } 
 
@@ -164,7 +189,7 @@ async function generateAwtsmoosId({
         message: "That ID entry already exists",
         code: "ALREADY_EXISTS"
       })
-    }
+    } 
   } catch(e) {
     return er({
       message: "Problem searching",

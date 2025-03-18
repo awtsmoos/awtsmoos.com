@@ -133,12 +133,20 @@ async function traverseSeries({
 				post.id = postId;
 
 			}
-			await callback?.({
+			var c =await callback?.({
 				post, 
 				parentSeriesId: seriesId, 
 				id: postId, 
 				heichelId
 			})
+			if(c?.error) {
+				console.log("AIR ohyr",c)
+				return er({
+					message: "Issue with post traversing",
+					code:"POST_TRAVERSE",
+					error:c
+				})
+			}
 		}
 		var seer = await $i.db.get(
 			sp + `/heichelos/${
@@ -157,12 +165,25 @@ async function traverseSeries({
 			if(series) {
 				series.id = subSeriesId
 			}
-			await callback?.({
+			var cal = await callback?.({
 				series,  parentSeriesId: seriesId
 			})
+			if(cal?.error) {
+				return er({
+					message: "Issue with series traversal",
+					code: "SERIES_TRAVERSAL",
+					details: cal
+				})
+			}
 		}
 		if(!p.length || !seer.length) {
-			await callback?.({post: null, details:seriesId, seer, p, or})
+			var a = await callback?.({post: null, details:seriesId, seer, p, or})
+			if(a?.error) {
+				return er({
+					message:"Error in traversing",
+					details: a
+				})
+			}
 		}
 		var me = await $i.db.get(
 			`/social/heichelos/${
@@ -661,7 +682,9 @@ async function deleteSeriesFromHeichel ({
 		
 					});
 					if(del.error) {
-						errors.main.push({
+						console.log("ERROR here")
+						return er({
+							message: "Issue deleting post",
 							deletIssue: del,
 							postId: post.id
 						})
@@ -676,6 +699,11 @@ async function deleteSeriesFromHeichel ({
 		})
 		
 		if(ser?.error) {
+			return er({
+				message: "Error in deleting",
+				code: "DEL_POST_ERROR",
+				details: ser
+			})
 			errors.main.push(er({message: "Issue deleting posts", details:ser.error}));
 		}
 		if(ser?.series?.parentSeriesId) {
@@ -1127,23 +1155,7 @@ async function editPostsInSeries({
 		var errors = [];
 		ob.errors = errors;
 		ob.deleted = deleted;
-		/*for(var toDelete of changedToDelete) {
-			var del = await $i.db.delete(sp +
-				`/heichelos/${
-				heichelId
-			}/posts/${
-				toDelete
-			}`);
-			if(del.error) {
-				errors.main.push(del)
-				return er({
-					message: "Issue deleting",
-					code: "NO_DEL",
-					tried: ob
-				})
-			}
-			
-		}*/
+		
 		
 		var res = await $i.db.write(sp +
 				`/heichelos/${
@@ -1241,8 +1253,10 @@ async function addContentToSeries({
 				heichelId
 			});
 			if(m.error) {
-				return er({code: "PROBLEM_CREATING",
-				 details: m.error});
+				return er({
+					code: "PROBLEM_CREATING",
+					details: m.error
+				});
 			}
 			$i.$_POST.title=t;
 		}
@@ -1298,10 +1312,10 @@ async function addContentToSeries({
 				seriesId
 			
 			}/${wtw}`;
-			console.log("Writing seer",path,ob)
+			
 			var wroyt = await $i
 				.db.write(path, ob);
-			console.log("WRote it?",wroyt)
+		
 				
 			//EDIT the parent series property of it
 			
@@ -1488,16 +1502,7 @@ async function editSeriesDetails({
 			});
 			d.name = nm;
 			wr.name = true;
-			/*await $i.db.write(
-				`${
-					sp
-
-				}/heichelos/${
-					heichelId
-				}/series/${
-					seriesId
-					
-				}/prateem/name`, nm);*/
+	
 
 		}
 
@@ -1505,16 +1510,7 @@ async function editSeriesDetails({
 			wr.parentSeriesId = true;
 			wr.parentSeriesId = parentSeriesId
 			d.parentSeriesId = parentSeriesId;
-			/*await $i.db.write(
-				`${
-					sp
-
-				}/heichelos/${
-					heichelId
-				}/series/${
-					seriesId
-					
-				}/prateem/parentSeriesId`, parentSeriesId);*/
+	
 		}
 
 		try {
@@ -1586,18 +1582,10 @@ async function makeNewSeries({
 	
 	var seriesName = $i.$_POST.seriesName || 
 		$i.$_POST.title ||
-		$i.$_POST.name ||
-		seriesID;
-	var description = $i.$_POST.description
-	if (!description || description == "undefined") description = ""
-	if (seriesName > 100) {
-		return er({
-			message: "Too long series name",
-			proper: {
-				seriesName: 100
-			}
-		})	
-	}
+		$i.$_POST.name;
+
+		
+
 	if(seriesName == "undefined") seriesName = undefined;
 
 	if(typeof(seriesName) != "string") {
@@ -1608,6 +1596,16 @@ async function makeNewSeries({
 				seriesID
 			}
 		})
+	}
+	var description = $i.$_POST.description
+	if (!description || description == "undefined") description = ""
+	if (seriesName?.length > 100) {
+		return er({
+			message: "Too long series name",
+			proper: {
+				seriesName: 100
+			}
+		})	
 	}
 	if (description > 888) {
 		return er({
@@ -1636,6 +1634,7 @@ async function makeNewSeries({
 			(Math.floor(Math.random() * 78) + 700)
 			+"_"+aliasId
 	}
+	var potentialId;
 	if(!seriesID) {
 		$i.$_POST.seriesName = seriesName;
 		var potentialSeriesId = await generateAwtsmoosId({
@@ -1646,6 +1645,7 @@ async function makeNewSeries({
 			maxNameLength: 100,
 			existingPath
 		});
+		potentialId= potentialSeriesId
 		if(potentialSeriesId?.error?.code == "ALREADY_EXISTS") {
 			makeDefaultId() 
 		} else if(potentialSeriesId?.error) {
@@ -1653,17 +1653,22 @@ async function makeNewSeries({
 				message: "Problem making series ID",
 				details: potentialSeriesId
 			});	
-		} else if (potentialSeriesId?.seriesId) {
-			seriesID = potentialSeriesId?.seriesId;
+		} else if (potentialSeriesId?.seriesId != undefined) {
+			seriesID = potentialSeriesId.seriesId 
+				+ "_" + aliasId;
 		} else {
 			makeDefaultId() 
 		}
+		
+	} else {
+		console.log("Has",seriesID)
 	}
 	
 		
 	
 	var doesItExist = await $i.db.get(
-			);
+		seriesID
+	);
 	if(doesItExist) {
 		return er({
 			code: "ALREADY_EXISTS",
@@ -1692,7 +1697,10 @@ async function makeNewSeries({
 		if(!pr) pr= "root";
 		if(pr==seriesID) {
 			return er({
-				code:"NO_SELF_ADD"
+				code:"NO_SELF_ADD",
+				seriesID,
+				potentialId,
+				pr
 
 			})
 
@@ -1741,6 +1749,7 @@ async function makeNewSeries({
 					message: "Couldn't add new series index"
 				}))
 			}
+			//return {wow: "LOL"}
 			return {
 				success:
 				{
@@ -1817,7 +1826,7 @@ async function makeNewSeries({
 			seriesID
 			
 		}/prateem`
-		console.log("Writig raptem",pratPath,prateem)
+		
 		await $i.db.write(
 			pratPath, prateem)
 	}

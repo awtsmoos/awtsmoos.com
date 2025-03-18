@@ -110,12 +110,13 @@ function serializeJSON(json) {
             //    console.log("WROTE value",value,valueBuffer,logBuffer(valueBuffer),valueBuffer.toString())
             } else if(typeof(value) == "string") {
                 let valueString = value;
-                var valLength = writeConditional(valueString.length)
+                var buf =Buffer.from(valueString)
+                var valLength = writeConditional(buf.length)
             //    console.log("LENTH",value,valLength.buffer,valueString)
                 valueBuffer = Buffer.concat(
                     [Buffer.from([0x02]), 
                     valLength.buffer, 
-                    Buffer.from(valueString, 'utf8')]
+                    buf]
                 );
                
             } else if(

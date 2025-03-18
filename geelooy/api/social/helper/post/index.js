@@ -538,7 +538,11 @@ async function deletePost({
 					}
 				);
 
-				if(del.error) throw del.error;
+				if(del.error) {
+					if(del?.error?.code != "ARRAY_404") {
+						throw del.error;
+					}
+				} 
 				var par = await $i.db.count(`${atThisSeries}`);
 				var deletedParentSeries = false;
 				if(par?.success == 0) {
@@ -573,7 +577,7 @@ async function deletePost({
 		} catch(e) {
 			console.log("cant delete",e)
 			deleted.post.authorAdded = er({message:  e.stack})
-			errors.push(er({
+			return (er({
 				message:  e.stack+"",
 				e,
 				postId,
@@ -595,7 +599,7 @@ async function deletePost({
 		
 	} catch (error) {
 		console.error("Failed to delete post", error);
-		deleted.error= er({
+		return er({
 			message:"Failed to delete post", 
 			code:"NO_DELETE_POST",
 			details: error.stack,

@@ -794,8 +794,14 @@ function generateSection({
 		window.sectionData = []
 	}
 
-	console.log(data)
-	
+	if(Array.isArray(dynamic)) {
+		dynamic = {
+			subSections:dynamic
+		}
+
+	}
+
+	//console.log( sectionText,dynamic)
 	
 	var i = sectionId;
 	var vs=(data.verseSection);
@@ -807,6 +813,7 @@ function generateSection({
 	}
 	var sectionInfo = {
 		sectionId,
+		verseSection: vs,
 		hideVerseNumber: data.hideVerseNumber,
 		hasVerseNumber
 	};

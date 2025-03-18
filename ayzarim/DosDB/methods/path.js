@@ -121,7 +121,8 @@ module.exports = {
             stat.awtsmoosPath = myPath;
             return stat;
         } catch (e) {
-            console.log(e);
+            //if(e.code != "ENONENT")
+          //  console.log(e);
             return null;
         }
     },

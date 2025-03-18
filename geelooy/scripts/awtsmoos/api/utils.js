@@ -2,6 +2,7 @@
 import AIService from "/ai/aiService.js";
 import aiify from "./aiPics.js"
 import { AwtsmoosPrompt } from "./alerts.js";
+import parseHebrew from "./text/parsing/splitText.js"
 /*import {
 	generateContent,
 	content,
@@ -18,8 +19,10 @@ import {
 
 export {
 	AIService,
+    parseHebrew,
 	sendIt,
 	aiify,
+    deleteAllCommentsInPost,
 	editComment,
 	traverseAllPostsInHeichel,
 	traverseAllPostsInSeries,
@@ -470,6 +473,50 @@ async function leaveComment({
             testing: obs,
             path
         }
+    }
+}
+
+
+
+async function deleteAllCommentsInPost({
+    parentSeriesId,
+    postId,
+    aliasId,
+    heichelId
+}) {
+    var bod = new URLSearchParams({
+        seriesId: parentSeriesId,
+        aliasId
+    })
+    try {
+        var del = await (
+            await fetch(
+                `/api/social/heichelos/${
+                    heichelId
+                }/post/${
+                    postId
+                }/comments`, {
+                    method: "DELETE",
+                    body: bod
+                }
+            )
+        ).text();
+        try {
+            del = JSON.parse(del)
+            return del;
+        } catch(e) {
+            return console.log(
+                "response not valid",
+                e,
+                del
+            )
+        }
+        
+    } catch(e) {
+        return console.log(
+            "Some other issue",
+            e, e.stack
+        );
     }
 }
 
@@ -962,3 +1009,37 @@ async function filterSeriesBy({
 }
 
 
+
+function simplifyHTML(html, allowed=[
+    "B",
+    "SUP"
+]) {
+    var pr = new DOMParser();
+    var doc = pr.parseFromString(html, "text/html");
+
+    function clean(node) {
+        for (let i = node.childNodes.length - 1; i >= 0; i--) {
+            let child = node.childNodes[i];
+
+            if (child.nodeType === 3) { // Text node
+                if (!child.nodeValue.trim()) node.removeChild(child);
+            } else if (child.nodeType === 1) { // Element node
+                if (!allowed.includes(child.tagName)) {
+                    let parent = child.parentNode;
+                    while (child.firstChild) parent.insertBefore(child.firstChild, child);
+                    parent.removeChild(child);
+                } else {
+                    clean(child);
+                }
+
+                // Remove empty elements (after possible unwrapping)
+                if (child.parentNode && 
+                    !child.innerHTML.trim()) 
+                    child.parentNode.removeChild(child);
+            }
+        }
+    }
+
+    clean(doc.body);
+    return doc.body.innerHTML;
+}
