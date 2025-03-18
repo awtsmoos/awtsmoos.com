@@ -6,10 +6,13 @@ var {
     logBuffer,
 } = require("../awtsmoosBinaryHelpers.js");
 
-var {
-    deserializeBinary,
-    deserializeArray
-} = require("./deserialize.js");
+var  deserializeArray
+ = require("./deserialize/array.js");
+
+ var deserializeBinary
+ = require("./deserialize/obj.js");
+
+
 
 var fileBuffer = require("../fileBuffer.js");
 
@@ -34,7 +37,7 @@ var {
 var {
     serializeArray,
     serializeJSON
-} = require("./serialize.js");
+} = require("./serialize/index.js");
 
 async function isAwtsmoosObject(buffer) {
     if(typeof(buffer) == "string") {
