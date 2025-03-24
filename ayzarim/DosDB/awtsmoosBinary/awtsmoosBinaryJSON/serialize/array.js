@@ -1,12 +1,8 @@
 //B"H
-var {
-    writeToBuffer,
 
 
-    writeConditional,
-
-} = require("../../awtsmoosBinaryHelpers.js");
-
+var writeConditional = require("../helpers/writeConditional.js")
+var writeToBuffer = require("../helpers/writeToBuffer.js")
 
 var {
     
@@ -67,8 +63,12 @@ function serializeArray(arr) {
             type = 4;
             data = writeConditional(item).buffer;
         } else if (typeof item === 'boolean') {
-            type = 5;
-            data = Buffer.from([item ? 1 : 0]);
+            if(item) {
+                type = 0;
+            } else {
+                type = 5;
+            }
+            data = Buffer.alloc(0);
         } else if (item === undefined) {
             type = 6;
             data = Buffer.alloc(0);

@@ -2,8 +2,14 @@
 // From the Ohr Ein Sof’s boundless light, through the Kav’s ray, into Atzilus,
 // this code weaves a JSON tapestry with a hash table at the end, a divine map.
 
-const { writeToBuffer, writeConditional, hashKey } = 
-require("../../awtsmoosBinaryHelpers.js");
+
+
+var writeConditional = require("../helpers/writeConditional.js")
+var writeToBuffer = require("../helpers/writeToBuffer.js")
+var {
+    hashKey
+} = require("../helpers/hashing.js")
+
 
 const { magicJSON } = require("./../constants.js");
 
@@ -70,8 +76,12 @@ function serializeJSON(json) {
             type = 4;
             data = writeConditional(value).buffer;
         } else if (typeof value === 'boolean') {
-            type = 5;
-            data = Buffer.from([value ? 1 : 0]);
+            if(value) {
+                type = 0;
+            } else {
+                type = 5;
+            }
+            data = Buffer.alloc(0);
         } else if (value === undefined) {
             type = 6;
             data = Buffer.alloc(0);

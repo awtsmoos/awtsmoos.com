@@ -69,8 +69,10 @@ async function parseValueFromKey({
         valueType == 0x05
     ) {
        // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
-            value = !!value.readUInt8(0);
+            value = true
         
+    } else if(valueType == 0x00) {
+        value = false;    
     } else if(
         valueType == 0x06
     ) {

@@ -42,9 +42,10 @@ async function parseValueFromType({
         }
     } else if(type == 5) {
         
-        value = !!value.readUInt8(0);
-        currentOffset += 1
+        value = true;
 
+    } else if(type === 0) {
+        value = false;
     } else if(type == 6) {
         value = undefined;
     } else if(type == 7) {

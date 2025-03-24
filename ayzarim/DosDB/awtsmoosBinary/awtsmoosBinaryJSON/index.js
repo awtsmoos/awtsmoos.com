@@ -12,7 +12,8 @@ var  deserializeArray
  var deserializeBinary
  = require("./deserialize/obj.js");
 
-
+var serializeArray = require("./serialize/array.js");
+var serializeJSON = require("./serialize/obj.js");
 
 var fileBuffer = require("../fileBuffer.js");
 
@@ -33,11 +34,6 @@ var {
     magicArray
 
 } = require("./constants.js");
-
-var {
-    serializeArray,
-    serializeJSON
-} = require("./serialize/index.js");
 
 async function isAwtsmoosObject(buffer) {
     if(typeof(buffer) == "string") {

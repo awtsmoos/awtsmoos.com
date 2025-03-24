@@ -3,9 +3,14 @@
 // From Atzilus’ emanation, we trace the Kav to the Ohr Ein Sof’s source, hash table guiding us.
 
 const { magicJSON, magicArray } = require("./../constants.js");
-const { readConditional } = require("../../awtsmoosBinaryHelpers.js");
+var parseValueFromType = require("../parsing/fromType.js");
 
-var readConditionalWithSize = require("../../helpers/readConditionalWithSize.js")
+
+var {
+    calculateHashTableSize
+} = require("../hashing.js")
+
+var readConditional = require("../helpers/readConditionalWithSize.js")
 let deserializeArray = null;
 Object.defineProperty(module.exports, "deserializeArray", {
     get() {
@@ -69,7 +74,7 @@ async function deserializeBinary(buffer) {
         const { type, lengthSize } = await unpackTypeAndLengthSize(typeLengthByte);
         currentOffset += 1;
 
-        const valueLengthInfo = await readConditionalWithSize(buffer, currentOffset, lengthSize);
+        const valueLengthInfo = await readConditional(buffer, currentOffset, lengthSize);
         currentOffset = valueLengthInfo.offset;
         const value = buffer.subarray(currentOffset, currentOffset + valueLengthInfo.amount);
         const valUpdate = await parseValueFromType({ value, type, currentOffset });
@@ -79,31 +84,5 @@ async function deserializeBinary(buffer) {
     return obj;
 }
 
-/**
- * @method calculateHashTableSize
- * @description Calculates the hash table’s byte size, a measure of the Awtsmoos’ map.
- * @param {Buffer} buffer - The binary buffer
- * @param {number} hashTableSize - Number of slots
- * @param {number} offsetSize - Bytes per offset
- * @returns {Promise<number>} - Total hash table size
- */
-async function calculateHashTableSize(buffer, hashTableSize, offsetSize) {
-    let size = 0;
-    let offset = buffer.length - offsetSize * hashTableSize;
-    for (let i = 0; i < hashTableSize; i++) {
-        const keyLengthInfo = await readConditional(buffer, offset);
-        if (keyLengthInfo.amount === 0) {
-            size += 1; // Empty slot
-            offset += 1;
-        } else {
-            size += keyLengthInfo.buffer.length 
-                + keyLengthInfo.amount 
-                + offsetSize;
-            offset += keyLengthInfo.buffer.length 
-                + keyLengthInfo.amount + offsetSize;
-        }
-    }
-    return size;
-}
 
 module.exports = deserializeBinary;

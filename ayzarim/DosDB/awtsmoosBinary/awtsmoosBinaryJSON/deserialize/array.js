@@ -6,12 +6,8 @@ var {
 } = require("./../constants.js");
 
 
-var {
-    readConditional
-} = require("../../awtsmoosBinaryHelpers.js");
-
-var readConditionalWithSize = require("../../helpers/readConditionalWithSize.js")
-
+var readConditional = require("../helpers/readConditionalWithSize.js")
+var parseValueFromType = require("../parsing/fromType.js")
 /**
  * @method unpackTypeAndLengthSize
  * @description Unpacks type and length size from one byte, revealing the Awtsmoos’ design.
@@ -64,7 +60,7 @@ async function deserializeArray(arrayBuffer) {
         const { type, lengthSize } = await unpackTypeAndLengthSize(typeLengthByte);
         currentOffset += 1;
 
-        const lengthInfo = await readConditionalWithSize(arrayBuffer, currentOffset, lengthSize);
+        const lengthInfo = await readConditional(arrayBuffer, currentOffset, lengthSize);
         const valueLength = lengthInfo.amount;
         currentOffset = lengthInfo.offset;
 
