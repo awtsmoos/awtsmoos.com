@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 
 const fs = require('fs').promises;
-
+var fsSync = require("fs");
 // Global cache for open file handles. Keys are file paths; values are objects with handle and isClosed.
 const openFileHandles = {};
 const MAX_OPEN_FILES = 20;
@@ -258,6 +258,12 @@ function writeBitAt(byte, index) {
  * and returns an object containing metadata about the operation.
  */
 async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
+    if(typeof(filePath) == "object") {
+        var o = filePath;
+        offset = o.offset;
+        dataArray = o.schema;
+        filePath = o.filePath;
+    }
     // Calculate total length and build write instructions.
     let totalLength = 0;
     const writeInstructions = [];
@@ -341,8 +347,8 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
         }
     }
 
-    const handle = await getFileHandle(filePath);
-    await handle.write(buffer, 0, totalLength, offset);
+    const handle = getFileHandle(filePath);
+    handle.write(buffer, 0, totalLength, offset);
 
     return {
         size: totalLength,
@@ -358,11 +364,18 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
  * type strings (e.g., "uint_8", "string_16", "buffer_64"). The function computes the total
  * number of bytes to read, fetches them, and then maps them into an object based on the schema.
  */
-async function readFileBytesAtOffset({
+function readFileBytesAtOffset({
     filePath,
     offset,
     schema
 }) {
+
+    if(typeof(filePath) == "object") {
+        var o = filePath;
+        offset = o.offset;
+        schema = o.schema;
+        filePath = o.filePath;
+    }
     let totalLength = 0;
     const instructions = [];
     if(!schema || typeof(schema) != "object") {
@@ -406,16 +419,17 @@ async function readFileBytesAtOffset({
     }
 
     const buffer = Buffer.alloc(totalLength);
-    const handle = await getFileHandle(filePath);
+    const handle = getFileHandle(filePath);
     if(!handle) {
         console.trace("WHAT",filePath.substring(0,5));
         return null;
     }
+    
 
    // console.log(buffer,totalLength)
 
 
-    await handle.read
+    handle.read
     (
         buffer, 
         0, 
@@ -456,54 +470,84 @@ async function readFileBytesAtOffset({
 
 global.openFileHandles = openFileHandles;
 
-/**
- * getFileHandle:
- * Opens a file using fs.promises and caches the file handle for rapid successive I/O.
- * If a file handle is already open (and not marked as closed), it returns that handle.
- */
-async function getFileHandle(filePath) {
-    if(!filePath) {
-        console.trace("no file path")
+
+function getFileHandle(filePath) {
+    if (!filePath) {
+        console.trace("No file path provided");
         return;
     }
-	if (openFileHandles[filePath] && !openFileHandles[filePath].isClosed) {
-		return openFileHandles[filePath].handle;
-	}
-	// Attempt to open the file with read/write access; create it if it does not exist.
-	let handle;
-	try {
-		handle = await fs.open(filePath, 'r+');
-	} catch (err) {
-		try {
-			handle = await fs.open(filePath, 'w+');
-			await handle.close();
-			handle = await fs.open(filePath, "r+");
-		} catch(e) {
-            console.log("Trying \n\n\n",filePath)
-			console.log("Issue",e);
+    if (openFileHandles[filePath] && !openFileHandles[filePath].isClosed) {
+        return openFileHandles[filePath];
+    }
+    
+    let handle;
+    try {
+        handle = fsSync.openSync(filePath, 'r+');
+    } catch (err) {
+        try {
 
-		}
-	}
-	var keys = Object.keys(openFileHandles)
-	if(keys.length > MAX_OPEN_FILES) {
-		try {
-            var last = keys[keys.length - 1]
+
+
+            handle = fsSync.openSync(filePath, 'w');
+            fsSync.writeFileSync(filePath, " ");
+            fsSync.closeSync(handle)
+            handle = fsSync.openSync(filePath, "r+")
+        } catch (e) {
+            console.log("Trying\n\n\n", filePath);
+            console.log("Issue", e);
+        }
+    }
+    
+    var keys = Object.keys(openFileHandles);
+    if (keys.length > MAX_OPEN_FILES) {
+        try {
+            var last = keys[keys.length - 1];
             try {
-                await openFileHandles[last].close();
-            } catch(e){}
-			delete openFileHandles[last];
-		} catch(e){}
-	}
-	openFileHandles[filePath] = {
-		handle,
-		isClosed: false
-	};
-	// (Optional: implement LRU closing if count exceeds MAX_OPEN_FILES)
-	return handle;
+                fsSync.closeSync(
+                    openFileHandles[last].handle
+                )
+            } catch (e) {}
+            delete openFileHandles[last];
+        } catch (e) {}
+    }
+
+    // Create a custom file handle object that includes a .write method
+    const customHandle = {
+        handle,
+        isClosed: false,
+        write: function(buffer, offset = 0, length = buffer.length, position = null) {
+            return fsSync.writeSync(this.handle, buffer, offset, length, position);
+        },
+
+        read: function(buffer, offset = 0, length = buffer.length, position = null) {
+            return fsSync
+            .readSync(this.handle, buffer, offset, length, position);
+        },
+        
+        close: function() {
+            this.isClosed = true;
+            fsSync.closeSync(this.handle);
+        }
+    };
+    
+    openFileHandles[filePath] = customHandle;
+    
+    return customHandle;
+}
+
+function stat(filePath) {
+    var handle = getFileHandle(filePath);
+    try {
+        return fsSync.fstatSync(handle.handle);
+    } catch(e) {
+        null
+    }
 }
 
 module.exports = {
     logBuffer,
+
+    stat,
 
     readFileBytesAtOffset,
     writeBytesToFileAtOffset,

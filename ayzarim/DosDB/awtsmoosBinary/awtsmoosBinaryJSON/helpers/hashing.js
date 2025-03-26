@@ -102,5 +102,6 @@ async function calculateHashTableSize(buffer, hashTableSize, offsetSize) {
 
 module.exports = {
     hashKey,
-    calculateHashTableSize
+    calculateHashTableSize,
+    AwtsmoosHashMap
 }

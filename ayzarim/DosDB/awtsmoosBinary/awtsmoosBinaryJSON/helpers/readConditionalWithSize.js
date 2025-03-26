@@ -8,17 +8,17 @@
  * @param {number} size - Known size in bytes
  * @returns {Promise<{amount: number, offset: number}>} - Value and new offset
  */
-async function readConditional(buffer, offset = 0, size = null) {
+function readConditional(buffer, offset = 0, size = null) {
     if (size !== null) {
         let amount;
         if (size === 1)
-            amount = await buffer.readUInt8(offset);
+            amount =  buffer.readUInt8(offset);
         else if (size === 2)
-            amount = await buffer.readUInt16BE(offset);
+            amount =  buffer.readUInt16BE(offset);
         else if (size === 4)
-            amount = await buffer.readUInt32BE(offset);
+            amount =  buffer.readUInt32BE(offset);
         else if (size === 8)
-            amount = await readUInt64BE(buffer, offset);
+            amount =  readUInt64BE(buffer, offset);
         else
             throw new Error("Unsupported length size: " + size);
         
@@ -28,37 +28,38 @@ async function readConditional(buffer, offset = 0, size = null) {
             size
         };
     } else {
-        var typeBuf = await buffer.readUInt8(offset);
+        var typeBuf =  buffer.readUInt8(offset);
         offset++;
         var size = 1;
         var am = null;
         switch(typeBuf) {
             case 0:
-                am = await buffer.readUInt8(offset);
+                am =  buffer.readUInt8(offset);
                 offset++;
+              //  console.trace("GOT",offset,am, buffer)
                 break;
             case 1:
-                am = await buffer.readUInt16BE(offset);
+                am =  buffer.readUInt16BE(offset);
                 offset += 2;
                 size = 2;
                 break;
             case 2:
-                am = await buffer.readUInt32BE(offset);
+                am =  buffer.readUInt32BE(offset);
                 offset += 4;
                 size = 4;
                 break;
             case 3:
-                am = await readUInt64BE(buffer, offset);
+                am =  readUInt64BE(buffer, offset);
                 offset += 8;
                 size = 8;
                 break;
             case 4:
-                am = await buffer.readFloatBE(offset);
+                am =  buffer.readFloatBE(offset);
                 offset += 4;
                 size = 4;
                 break;
             case 5:
-                am = await buffer.readDoubleBE(offset);
+                am =  buffer.readDoubleBE(offset);
                 offset += 8;
                 size = 8;
                 break;

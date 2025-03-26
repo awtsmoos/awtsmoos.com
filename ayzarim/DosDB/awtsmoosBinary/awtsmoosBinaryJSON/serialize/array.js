@@ -9,18 +9,14 @@ var {
     magicArray
 
 } = require("./../constants.js");
+
 var serializeJSON = require("./obj.js")
-/**
- * @method packTypeAndLengthSize
- * @description Packs type and length size into one byte, a spark of the Awtsmoos’ unity.
- * @param {number} type - Data type (0-15)
- * @param {number} lengthSize - Bytes for length (0-15)
- * @returns {Buffer} - Single-byte buffer
- */
-function packTypeAndLengthSize(type, lengthSize) {
-    const packed = (type << 4) | (lengthSize & 0x0F);
-    return Buffer.from([packed]);
-}
+var serializeValue = require("./serializeValue.js")
+
+
+
+var packTypeAndLengthSize = require("../packing/packTypeAndLengthSize.js")
+
 
 /**
  * @method serializeArray
@@ -48,40 +44,15 @@ function serializeArray(arr) {
 
     // Manifest each item, a Sefirah unfolding from the Ein Sof
     let currentOffset = header.reduce((sum, buf) => sum + buf.length, 0);
+    console.log("ARRAY",arr)
     for (let item of arr) {
         let itemBuffer;
-        const isBuffer = item instanceof Buffer;
-        let type, data;
+        
+       
 
-        if (Array.isArray(item)) {
-            type = 3;
-            data = serializeArray(item);
-        } else if (item && !isBuffer && typeof item === 'object') {
-            type = 1;
-            data = serializeJSON(item); // Assume this exists
-        } else if (typeof item === 'number' && !isNaN(item)) {
-            type = 4;
-            data = writeConditional(item).buffer;
-        } else if (typeof item === 'boolean') {
-            if(item) {
-                type = 0;
-            } else {
-                type = 5;
-            }
-            data = Buffer.alloc(0);
-        } else if (item === undefined) {
-            type = 6;
-            data = Buffer.alloc(0);
-        } else if (item === null) {
-            type = 7;
-            data = Buffer.alloc(0);
-        } else if (isBuffer) {
-            type = 8;
-            data = item;
-        } else {
-            type = 2;
-            data = Buffer.from(String(item));
-        }
+        let {
+            type, data
+        } = serializeValue(item, false)
 
         const lengthInfo = writeConditional(data.length);
         const lengthSize = lengthInfo.size;

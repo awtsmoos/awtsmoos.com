@@ -2,17 +2,17 @@
 
 
 
-var {
+var 
     readConditional
-} = require("../../awtsmoosBinaryHelpers.js");
+ = require("../helpers/readConditionalWithSize.js")
 
-async function parseValueFromKey({
+ function parseValueFromKey({
     keyOffset,
     keyLength,
     buffer
 }={}) {
     let valueOffset = keyOffset + keyLength;
-    let valueType = await buffer.readUInt8(valueOffset);
+    let valueType =  buffer.readUInt8(valueOffset);
     valueOffset++;
     var valueLength;
     if(valueType == 0x05) {
@@ -22,28 +22,24 @@ async function parseValueFromKey({
             offset: valueOffset,
             amount: 0
         }
-    } else valueLength = await readConditional(
+    } else valueLength =  readConditional(
         buffer,
         valueOffset
     )
     
     valueOffset = valueLength.offset;
-    var value = await buffer.subarray(
+    var value =  buffer.subarray(
         valueOffset, 
         valueOffset + valueLength.amount
     );
-  //  console.log("Amount",buffer,value,valueOffset,valueLength)
-    
+ 
     if (valueType === 0x01) {
         /**
          * object type
          */
         
-        //buffer.readUInt32LE(valueOffset + 1);
         
-        value = await deserializeBinary(value)
-     //   console.log("Data",value,"length",valueLength,valueOffset)
-        //  value = readDataAt(nestedOffset);
+        value =  deserializeBinary(value)
     } else if (valueType === 0x02) {
         /**
          * regular type
@@ -55,20 +51,16 @@ async function parseValueFromKey({
         } catch(e) {
 
         }
-        //console.log("Doing",keyOffset,hashTable, key, value,logBuffer(value))
-        //value = deserializeBinary(value)
     } else if (valueType === 0x03) {
         
-    //    console.log("Getting array", value, logBuffer(value),value+"")
-        value = await deserializeArray(value);
+        value =  deserializeArray(value);
     } else if(
         valueType == 0x04
     ) {
-        value = (await readConditional(value)).amount;
+        value = ( readConditional(value)).amount;
     } else if(
         valueType == 0x05
     ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
             value = true
         
     } else if(valueType == 0x00) {
@@ -76,19 +68,19 @@ async function parseValueFromKey({
     } else if(
         valueType == 0x06
     ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
+        
             value = undefined;
         
     } else if(
         valueType == 0x07
     ) {
-       // console.log("VAL",value,value.readUInt8(0),valueLength,buffer)
+        
             value = null
         
     } else if(
         valueType == 0x08
     ) {
-        //nothing
+        //nothing. technically buffer, but still
     }
     return value;
 }

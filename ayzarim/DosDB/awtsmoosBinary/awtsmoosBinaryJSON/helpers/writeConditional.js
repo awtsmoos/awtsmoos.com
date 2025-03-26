@@ -1,7 +1,24 @@
 //B"H
 
 
-function writeConditional(amount) {
+function hasDecimal(num) {
+    if (num % 1 !== 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
+
+function needsDoublePrecision(num) {
+    if (Math.fround(num) === num) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function writeConditional(amount, includeTypeInBuffer = true) {
     var offset = 0;
     var typeBuffer;
     var amountBuffer;
@@ -30,7 +47,8 @@ function writeConditional(amount) {
      
         amountBuffer = Buffer.alloc(1);
         amountBuffer.writeUInt8(amount);
-
+    
+        
         
     } else if(amount >= 256 && amount < 65536) {
         typeBuffer = Buffer.alloc(1);
@@ -58,10 +76,10 @@ function writeConditional(amount) {
         amountBuffer = Buffer.alloc(8);
         writeUInt64BE(amountBuffer, amount, 0);
     }
-    var buffer = Buffer.concat([
+    var buffer = includeTypeInBuffer ? Buffer.concat([
         typeBuffer,
         amountBuffer
-    ])
+    ]) : amountBuffer
     offset +=  buffer.length;
     return {buffer, offset, size}
 }

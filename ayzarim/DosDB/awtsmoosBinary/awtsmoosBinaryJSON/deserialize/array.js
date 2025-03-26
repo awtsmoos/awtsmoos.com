@@ -8,17 +8,8 @@ var {
 
 var readConditional = require("../helpers/readConditionalWithSize.js")
 var parseValueFromType = require("../parsing/fromType.js")
-/**
- * @method unpackTypeAndLengthSize
- * @description Unpacks type and length size from one byte, revealing the Awtsmoos’ design.
- * @param {number} byte - Packed byte
- * @returns {{type: number, lengthSize: number}} - Type and length size
- */
-async function unpackTypeAndLengthSize(byte) {
-    const type = (byte >> 4) & 0x0F;
-    const lengthSize = byte & 0x0F;
-    return { type, lengthSize };
-}
+
+var unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js")
 
 /**
  * @method deserializeArray
@@ -26,7 +17,7 @@ async function unpackTypeAndLengthSize(byte) {
  * @param {Buffer} arrayBuffer - The binary buffer to deserialize
  * @returns {Promise<Array>} - The deserialized array
  */
-async function deserializeArray(arrayBuffer) {
+ function deserializeArray(arrayBuffer) {
     // Verify the signature of the Awtsmoos
     const magic = arrayBuffer.subarray(0, magicArray.length).toString('utf8');
     if (magic !== magicArray.toString('utf8')) {
@@ -34,7 +25,7 @@ async function deserializeArray(arrayBuffer) {
     }
 
     let offset = magicArray.length;
-    const lengthInfo = await readConditional(arrayBuffer, offset);
+    const lengthInfo =  readConditional(arrayBuffer, offset);
     const arrayLength = lengthInfo.amount;
     offset = lengthInfo.offset;
 
@@ -57,15 +48,15 @@ async function deserializeArray(arrayBuffer) {
     for (let i = 0; i < arrayLength; i++) {
         let currentOffset = offsets[i];
         const typeLengthByte = arrayBuffer.readUInt8(currentOffset);
-        const { type, lengthSize } = await unpackTypeAndLengthSize(typeLengthByte);
+        const { type, lengthSize } =  unpackTypeAndLengthSize(typeLengthByte);
         currentOffset += 1;
 
-        const lengthInfo = await readConditional(arrayBuffer, currentOffset, lengthSize);
+        const lengthInfo =  readConditional(arrayBuffer, currentOffset, lengthSize);
         const valueLength = lengthInfo.amount;
         currentOffset = lengthInfo.offset;
 
         const value = arrayBuffer.subarray(currentOffset, currentOffset + valueLength);
-        const valUpdate = await parseValueFromType({ value, type, currentOffset });
+        const valUpdate =  parseValueFromType({ value, type, currentOffset });
         arr.push(valUpdate.value);
         currentOffset = valUpdate.currentOffset;
     }

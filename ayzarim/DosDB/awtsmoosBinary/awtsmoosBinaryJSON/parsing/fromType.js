@@ -4,11 +4,10 @@ var deserializeBinary = require("../deserialize/obj.js");
 var deserializeArray = require("../deserialize/array.js");
 
 
-var {
+var 
     readConditional
-} = require("../../awtsmoosBinaryHelpers.js");
-
-async function parseValueFromType({
+ = require("../helpers/readConditionalWithSize.js")
+function parseValueFromType({
     value,
     type,
     currentOffset
@@ -16,20 +15,23 @@ async function parseValueFromType({
     if(type == 1) {
 
         currentOffset += value.length
-        value = await deserializeBinary(value)
+        value =  deserializeBinary(value)
 
     } else if(type == 2) {
         
         currentOffset += value.length
+       // console.log("HI",value)
         value = value+""
     } else if (type == 3) {
 
         currentOffset += value.length
-        value = await deserializeArray(value);
+        value =  deserializeArray(value);
         
     } else if (type == 4) {
         try {
-            var info = await readConditional(value)
+            var info =  readConditional(value)
+
+            
             value = info.amount;
             currentOffset += info.offset
         } catch(e) {
