@@ -148,7 +148,7 @@ class AwtsmoosRiver {
      * @description Spawns Hebrew letter particles and image entities, igniting the Ohr Ein Sof.
      */
     initializeAtzilus() {
-        const particleCount = Math.min(5000, Math.floor(this.canvasElement.width * this.canvasElement.height / 100)); // Dynamic count
+        const particleCount = Math.min(200, Math.floor(this.canvasElement.width * this.canvasElement.height / 100)); // Dynamic count
         for (let i = 0; i < particleCount; i++) {
             this.sefirotLetters.push(
                 new SefirotLetter(
@@ -178,7 +178,7 @@ class AwtsmoosRiver {
      * @param {number} volume - The force of creation’s whisper.
      */
     drawKavRiver(volume) {
-        const letterCount = 1000; // Reduced for performance
+        const letterCount = 100; // Reduced for performance
         const width = this.canvasElement.width;
         const height = this.canvasElement.height;
 
