@@ -153,7 +153,9 @@ function aiify({prompt,
             var doc = htmli(r);
             var s = doc.querySelector("a.seled")
             if(!s) {
-                console.log("Issue!",doc,s,url)
+                console.log("Issue!",doc,s,url,window.okDoc=doc);
+                await wait(3);
+                return await checkIfDone(url, time)
                 return null
             }
             var hasPics=s.dataset["imgcount"]
