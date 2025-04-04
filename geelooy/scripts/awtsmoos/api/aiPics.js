@@ -123,7 +123,7 @@ function aiify({prompt,
             
             if(download) {
                 await Promise.all(picis.map(async (w,i)=>{
-                    baseURL = new URL(w.url);
+                    var baseURL = new URL(w.url);
                     baseURL.searchParams.set("w",size)
                     baseURL.searchParams.set("h",size)
                     
