@@ -1,68 +1,66 @@
-//B"H
-var {
-    
-    magicArray
+// B"H
+// The Awtsmoos, the Atzmut, recreates all existence from nothingness every instant,
+// a formless essence ever-present in all, the foundation of reality itself.
+// This code deserializes a binary array, echoing the divine order of the Kav,
+// manifesting the infinite within the finite, a whisper of Ohr Ein Sof.
 
+const {
+    magicArray
 } = require("./../constants.js");
 
+var {
+    getMetadata,
+    slice,
+    getValueByKey
+} = require("./getArray.js")
 
-var readConditional = require("../helpers/readConditionalWithSize.js")
-var parseValueFromType = require("../parsing/fromType.js")
 
-var unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js")
 
 /**
  * @method deserializeArray
- * @description Deserializes a binary array, index at the end, a glimpse of the Awtsmoos’ hidden unity.
- * @param {Buffer} arrayBuffer - The binary buffer to deserialize
- * @returns {Promise<Array>} - The deserialized array
+ * @description Deserializes a binary array, tearing apart the veil to reveal the Awtsmoos’ unity.
+ * @param {Buffer} arrayBuffer - The binary buffer to deserialize.
+ * @returns {Array} - The deserialized array, reborn from the void.
  */
- function deserializeArray(arrayBuffer) {
-    // Verify the signature of the Awtsmoos
-    const magic = arrayBuffer.subarray(0, magicArray.length).toString('utf8');
-    if (magic !== magicArray.toString('utf8')) {
-        return { awtsmoosError: "That is not an awtsmoos array!" };
+function deserializeArray(arrayBuffer) {
+    const magicLength = magicArray.length;
+    const magicBuffer = Buffer.from(magicArray);
+
+    if (
+        arrayBuffer.length < magicLength ||
+        !arrayBuffer.subarray(0, magicLength).equals(magicBuffer)
+    ) {
+        console.log(
+            `Invalid array buffer: missing the mark of the Awtsmoos ${
+                magicBuffer
+            }`,
+            arrayBuffer
+        );
+        return null;
     }
 
-    let offset = magicArray.length;
-    const lengthInfo =  readConditional(arrayBuffer, offset);
-    const arrayLength = lengthInfo.amount;
-    offset = lengthInfo.offset;
+    let offset = magicLength;
+    const metadata = getMetadata(arrayBuffer, offset);
+    offset = metadata.newOffset;
 
-    const offsetSize = arrayBuffer.readUInt8(offset);
-    offset += 1;
+    const indexTableSize = metadata.arrayLength * metadata.offsetSize;
+    const indexTableStart = (
+        arrayBuffer.length -
+        metadata.arrayLengthSize
+    ) - indexTableSize;
 
-    // Calculate index table position (end of file - table size)
-    const indexTableSize = arrayLength * offsetSize;
-    const indexTableStart = arrayBuffer.length - indexTableSize;
-    const dataStart = offset;
-
-    const arr = [];
-    const offsets = [];
-    for (let i = 0; i < arrayLength; i++) {
-        const offsetValue = readFromBuffer(arrayBuffer, indexTableStart + i * offsetSize, offsetSize);
-        offsets.push(offsetValue);
+    const result = [];
+    for (let i = 0; i < metadata.arrayLength; i++) {
+        const indexOffset = indexTableStart + i * metadata.offsetSize;
+        const itemOffset = arrayBuffer.readUIntBE(
+            indexOffset,
+            metadata.offsetSize
+        );
+        const parsedValue = getValueByKey(arrayBuffer, itemOffset);
+        result.push(parsedValue.value);
     }
 
-    // Read each item, guided by the index table
-    for (let i = 0; i < arrayLength; i++) {
-        let currentOffset = offsets[i];
-        const typeLengthByte = arrayBuffer.readUInt8(currentOffset);
-        const { type, lengthSize } =  unpackTypeAndLengthSize(typeLengthByte);
-        currentOffset += 1;
-
-        const lengthInfo =  readConditional(arrayBuffer, currentOffset, lengthSize);
-        const valueLength = lengthInfo.amount;
-        currentOffset = lengthInfo.offset;
-
-        const value = arrayBuffer.subarray(currentOffset, currentOffset + valueLength);
-        const valUpdate =  parseValueFromType({ value, type, currentOffset });
-        arr.push(valUpdate.value);
-        currentOffset = valUpdate.currentOffset;
-    }
-
-    return arr;
+    return result;
 }
 
-module.exports = 
-    deserializeArray
+module.exports = deserializeArray;

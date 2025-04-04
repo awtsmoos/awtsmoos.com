@@ -244,7 +244,6 @@ try {
 				
 				var subIdx = sub?.dataset.idx;
 				
-				console.log(sub,"yes", subIdx)
 				
 				if(!subIdx && subIdx !== 0) return;
 				updateQueryStringParameter("sub", subIdx);

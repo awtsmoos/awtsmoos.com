@@ -285,7 +285,7 @@ class AwtsmoosStaticServer {
 				ended = true;
 				oldEnd.bind(response)(...args);
 			} else {
-				console.log("Tryied",args,ended)
+				
 			}
 		}
 

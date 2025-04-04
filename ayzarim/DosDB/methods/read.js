@@ -6,7 +6,8 @@ var fs = require("fs").promises;
 var path = require("path");
 
 
-const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+const awtsmoosBinary = //require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
+require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 const { error } = require("console");
 module.exports = {
     /**
@@ -209,9 +210,19 @@ module.exports = {
                 if(data?.success) {
                     suc = data.success;
 
-                    if(suc?.success) return suc.success;
-                    else return suc;
-                }  else return data;
+                    if(suc?.success) {
+                        return !options?.extra ? 
+                         suc.success : {
+                            dynamicEntry: suc.success
+                         }
+                    }
+                    else return !options?.extra ? suc : {
+                        dynamicEntry: suc
+                    };
+                }  else return !options?.extra ? 
+                    data : {
+                        dynamicEntry: data
+                    };
                 
 
             

@@ -3,7 +3,9 @@
  * write methods for DosDB class
  */
 
-const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+const awtsmoosBinary =  require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
+
+//require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 
 var fs = require("fs").promises;
 var path = require("path");
@@ -17,7 +19,10 @@ module.exports = {
 	 * @param {object} opts - Options for writing, guiding the Kav’s descent.
 	 * @returns {Promise<void|object>} - Resolves when written, or an error object if the void resists.
 	 */
-	async write(id, record, opts = {}) {
+	async write(
+        id, record, 
+        opts = {}
+    ) {
 		const isDir = !record;
 		const filePath = await this.getAwtsmoosFilePath(id, isDir, opts?.override);
 		await this.ensureDir(filePath, isDir);
@@ -55,7 +60,12 @@ module.exports = {
      * @param {object} opts - Options for the process.
      * @returns {Promise<object>} - Success or error object, reflecting the act of creation.
      */
-    async writeAsBinaryFormat(rPath, r, opts = {}) {
+    async writeAsBinaryFormat(
+        rPath, r, 
+        opts = {}
+    ) {
+        var customWriter = opts?.customWriter;
+
         if(typeof rPath !== "string" || !rPath) {
             return {
                 error: {
@@ -74,7 +84,16 @@ module.exports = {
         }
         
         try {
-            const awtsJson = awtsmoosBinary.serializeJSON(r);
+            const awtsJson = (
+                customWriter || 
+                awtsmoosBinary
+            )?.serializeJSON?.(r);
+            if(!awtsJson) {
+                return {
+                    error: "Issue doing stuff",
+                    path: rPath
+                }
+            }
             const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
             const wrote = await fs.writeFile(myPath, awtsJson);
             return {

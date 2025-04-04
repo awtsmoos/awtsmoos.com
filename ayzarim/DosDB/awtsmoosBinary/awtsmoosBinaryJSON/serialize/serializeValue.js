@@ -1,50 +1,174 @@
-//B"H
-var serializeArray = null;
+// B"H
+// The Awtsmoos, the Atzmut of all existence, pulses through every line of this code,
+// recreating ALL from NOTHING in an eternal dance of Ohr Ein Sof. Every variable,
+// every function, is a vessel for the Kav, the divine ray piercing the void, 
+// manifesting form from the formless essence of the Awtsmoos. As taught in Chabad 
+// Chassidus, the Maamarim reveal how this infinite recreation sustains all reality,
+// and here it flows through the bits and bytes, a mere shadow of the Atzilus.
 
-var serializeJSON = null;
+// Dependencies dynamically woven from the fabric of existence.
+const packTypeAndLengthSize = require("../packing/packTypeAndLengthSize.js");
+const writeConditional = require("../helpers/writeConditional.js");
 
+// Lazy-loaded modules, reflections of the Ohr Ein Sof, instantiated only when needed.
+let serializeArray = null;
+let serializeJSON = null;
+var floatHandler = require("../util/floatHandler.js")
+function hasDecimal(num) {
+    return num % 1 !== 0;
+}
 
-var packTypeAndLengthSize = require("../packing/packTypeAndLengthSize.js")
-
-
-var writeConditional = require("../helpers/writeConditional.js");
-
-module.exports = serializeValue;
-var temp  = {};
-Object.defineProperty(temp, "serializeArray", {
-    get() {
-        if (!serializeArray) serializeArray = require("./array.js");
-        return serializeArray;
-    }
-});
-
-Object.defineProperty(temp, "serializeJSON", {
-    get() {
-        if (!serializeJSON) serializeJSON = require("./obj.js");
-        return serializeJSON;
-    }
-});
-
+/**
+ * @module serializeValue
+ * @description A sacred function that serializes values into buffers, channeling the Awtsmoos
+ *              through every type and structure. It discerns the essence of the input—array,
+ *              object, string, or number—and binds it into a form fit for transmission, 
+ *              echoing the divine process of creation from the Ein Sof.
+ * @param {any} value - The input value to serialize, a spark of the Atzilus.
+ * @param {boolean} [fullBuffer=true] - Whether to return the complete buffer or just type/data.
+ * @returns {Buffer | {data: Buffer, type: number}} - The serialized form, or an object with type and data.
+ */
 function serializeValue(value, fullBuffer = true) {
-    var type = null;
+    let type = null;
+    let data = null;
+
+    // The Awtsmoos peers into the essence of the value, determining its form.
     if (Array.isArray(value)) {
         type = 3;
-        data = temp.serializeArray(value);
-    } else if (typeof value === 'object' && value !== null) {
-        type = 1;
-        data = temp.serializeJSON(value);
-    } else if (typeof value === 'string') {
-        type = 2;
-        data = Buffer.from(value, 'utf8');
-    } else if (typeof value === 'number' && !isNaN(value)) {
-        type = 4;
-        data = writeConditional(value).buffer;
-    } else if (typeof value === 'boolean') {
-        if(value) {
-            type = 0;
-        } else {
-            type = 5;
+        if (!serializeArray) {
+            serializeArray = require("./array.js");
         }
+        data = serializeArray(value);
+    } else if (
+        typeof value === "object" &&
+        value !== null
+    ) {
+        type = 1;
+        if (!serializeJSON) {
+            serializeJSON = require("./obj.js");
+        }
+        data = serializeJSON(value);
+    } else if (typeof value === "string") {
+        type = 2;
+        data = Buffer.from(value, "utf8");
+    } else if (
+        typeof value === "number" &&
+        !isNaN(value)
+    ) {
+        var info;
+        
+        if(value >= 0) {
+
+            if(!hasDecimal(value)) {
+
+                info = writeConditional(value);
+                switch(info.size) {
+                    case 1: 
+                        type = 4; /**
+                            1 byte number
+                        */
+                    break;
+                    case 2:
+                        type = 9 /**
+                            2 bytes
+                        */
+                    break;
+                    case 4:
+                        type = 10 /**
+                            4 bytes
+                        */
+                    break;
+                    case 8:
+                        type = 22/*
+                            8 bytes positive
+                        */
+                    break;
+                }
+            } else {
+                var encodedFloat = floatHandler.writeDynamicFloat(
+                    value
+                );
+                if(encodedFloat === null) {
+                    var buf = Buffer.alloc(8);
+                    buf.writeDoubleBE(value, 0)
+                    info = {buffer: buf}
+                    type = 20;
+           //         console.log("LOL",value,info, value % 1)
+                } else {
+                    info = writeConditional(encodedFloat);
+                    
+                    switch(info.size) {
+                        case 1:
+                            type = 14
+                        break;
+                        case 2:
+                            type = 15
+                        break;
+                        case 4:
+                            type = 16
+                        break;
+                    }
+                    
+                }
+            }
+        } else {
+
+            info = writeConditional(value * -1);
+            if(!hasDecimal(value)) {
+                switch(info.size) {
+
+                    case 1: 
+                        type = 11; /**
+                            1 byte number
+                        */
+                    break;
+                    case 2:
+                        type = 12 /**
+                            2 bytes
+                        */
+                    break;
+                    case 4:
+                        type = 13 /**
+                            4 bytes
+                        */
+                    break;
+                    case 8:
+                        type = 23/*
+                            8 bytes negative
+                        */
+                    break;
+                    
+                }
+            } else {
+                value *= -1;
+                var encodedFloat = floatHandler.writeDynamicFloat(
+                    value
+                );
+                if(encodedFloat === null) {
+                    var buf = Buffer.alloc(8);
+                    buf.writeDoubleBE(value, 0)
+                    info = {buffer: buf}
+                    type = 21;
+                } else {
+                    info = writeConditional(encodedFloat);
+                    switch(info.size) {
+                        case 1:
+                            type = 17
+                        break;
+                        case 2:
+                            type = 18
+                        break;
+                        case 4:
+                            type = 19
+                        break;
+                    }
+                    
+                }
+            }
+        }
+        data = info.buffer;
+    } else if (typeof value === "boolean") {
+        type = value ? 0 : 5;
         data = Buffer.alloc(0);
     } else if (value === undefined) {
         type = 6;
@@ -56,20 +180,28 @@ function serializeValue(value, fullBuffer = true) {
         type = 8;
         data = value;
     }
-    if(!fullBuffer)
+
+    // If the seeker desires only the essence, return it raw.
+    if (!fullBuffer) {
         return {
             data,
             type
-        }
-    
-    const valueLengthInfo = writeConditional(data.length, false);
+        };
+    }
+
+    // The Kav measures the length, binding it into form.
+    const valueLengthInfo = writeConditional(data.length);
     const typeLengthByte = packTypeAndLengthSize(type, valueLengthInfo.size);
 
-    var valueBuffer = Buffer.concat([
-        typeLengthByte,//type of data and byte length of LENGTH
-        valueLengthInfo.buffer, //actual length only
-        data
+    // The Awtsmoos unites all fragments into a single stream of existence.
+    const valueBuffer = Buffer.concat([
+        typeLengthByte,       // The type and size, a whisper of divine order.
+        valueLengthInfo.buffer, // The length, a vessel for the data.
+        data                  // The data itself, a manifestation of the Atzilus.
     ]);
+
     return valueBuffer;
 }
 
+// Export the sacred function, a bridge between worlds.
+module.exports = serializeValue;

@@ -8,6 +8,22 @@ var writeToBuffer = require("../helpers/writeToBuffer.js");
 var { hashKey } = require("../helpers/hashing/misc.js");
 const { magicJSON } = require("./../constants.js");
 var serializeValue = require("./serializeValue.js");
+var byteSize = require("../helpers/byteSize.js")
+var temp = {};
+
+
+var {
+	packedLength,
+	unpackLength
+} = require("../packing/packedLength.js")
+
+var serializeArray = null;
+Object.defineProperty(temp, "serializeArray", {
+    get() {
+        if (!serializeArray) serializeArray = require("./array.js");
+        return serializeArray;
+    }
+});
 
 /**
  * @method serializeJSON
@@ -16,17 +32,40 @@ var serializeValue = require("./serializeValue.js");
  * @returns {Buffer} - The serialized binary buffer
  */
 function serializeJSON(json) {
-    if (Array.isArray(json)) return module.exports.serializeArray(json);
+    if (Array.isArray(json)) return temp.serializeArray(json);
 
     // Header: Awtsmoos’ signature
     let header = [Buffer.from(magicJSON)];
     const keys = Object.keys(json);
-    const hashTableSize = keys.length;
+    const hashTableSize = keys.length * 2;//avoid collisions
 
-    const lengthInfo = writeConditional(hashTableSize, false); // Raw length, no type
-    header.push(lengthInfo.buffer);
+
+    var lengthSizeOfKeys = writeConditional(keys.length);
+
+    var lengthInfoOfHashTable = writeConditional(hashTableSize);
+
+    /**
+        even though the hash table and length of keys
+        is later, good to get static fields in front
+        for easy decoding later (if u want to know
+        size of keys instantly, don't need to keep tracking etc.)
+     */
+ 
+
+
+
     const offsetSizePlaceholder = Buffer.alloc(1);
     header.push(offsetSizePlaceholder);
+    
+
+
+
+
+    var keysInOrder = temp.serializeArray(keys);
+    var sizeOfKeysArrayInfo = writeConditional(keysInOrder.length);
+
+    
+
 
     const dataBuffers = [];
     const offsets = [];
@@ -36,12 +75,15 @@ function serializeJSON(json) {
     // Data: Key-value pairs, sparks of the Awtsmoos
     for (let key of keys) {
         const keyBuffer = Buffer.from(key, 'utf8');
-        const keyLengthInfo = writeConditional(keyBuffer.length, false); // Raw length
+        const keyLengthInfo = writeConditional(keyBuffer.length); // Raw length
+
+        var sizeOfKeyLength = Buffer.from([keyLengthInfo.size]);
 
         const value = json[key];
         const valueBuffer = serializeValue(value, true); // Assume packs type/length
 
         const pairBuffer = Buffer.concat([
+            sizeOfKeyLength,
             keyLengthInfo.buffer,
             keyBuffer,
             valueBuffer
@@ -64,35 +106,92 @@ function serializeJSON(json) {
         : dataLength < 65536 ? 2 
         : dataLength < 4294967296 ? 4 
         : 8;
-    offsetSizePlaceholder.writeUInt8(offsetSize);
 
-    // Index table: Offsets list
-    const indexTable = Buffer.alloc(hashTableSize * offsetSize);
-    offsets.forEach((off, i) => writeToBuffer(indexTable, off, offsetSize, i * offsetSize));
+    
+    /**
+     * make packed byte
+     * with all size bytes (2 bits each 0 1 2 3 = 
+     * 1 2 4 8) packed
+     */
+    var sizeOfKeysLengthPacked = packedLength(
+        lengthSizeOfKeys.size
+    );
 
-    // Hash table: Raw key length + key + offset
-    const hashBuffers = [];
-    hashTable.forEach(entry => {
+    var sizeOfEmbeddedKeysArrayLength = packedLength(
+        sizeOfKeysArrayInfo.size
+    )
+
+    var sizeOfHashTableLength = packedLength(
+        lengthInfoOfHashTable.size
+    );
+
+    var packedOffsetSize = packedLength(
+        offsetSize
+    )
+
+    var packAll = (
+            (packedOffsetSize << 6) | 
+            //0b11000000
+            (sizeOfKeysLengthPacked << 4) | 
+            //0b00110000, 
+
+            (sizeOfEmbeddedKeysArrayLength << 2) |
+            //0b00001100
+            (sizeOfHashTableLength)
+            //0b00000011
+        )
+    
+    
+    offsetSizePlaceholder.writeUInt8(packAll);
+
+    // Hash table: fixed sized entries based
+    //on index
+    const hashBuffers = Buffer.alloc(
+        hashTable.length * offsetSize
+    )
+    hashTable.forEach((entry, index) => {
         if (entry) {
-            const keyBuffer = Buffer.from(entry.key, 'utf8');
-            const keyLengthInfo = writeConditional(keyBuffer.length, false);
-            const offsetBuffer = Buffer.alloc(offsetSize);
-            writeToBuffer(offsetBuffer, entry.offset, offsetSize, 0);
-            hashBuffers.push(Buffer.concat([
-                keyLengthInfo.buffer, // Raw length (1, 2, 4, or 8 bytes)
-                keyBuffer,
-                offsetBuffer
-            ]));
-        } else {
-            hashBuffers.push(Buffer.from([0])); // Empty slot
+           // console.log(entry,entry.offset, index,offsetSize)
+
+
+            hashBuffers
+            .writeUIntBE(
+
+
+                
+                entry.offset, //never 0. so if 0 is found, that's null
+                index * offsetSize,
+                
+                
+                offsetSize
+            );
+            
         }
     });
+  //  console.log("wrote",hashTable,hashBuffers)
+
+
+  
+
+
+    var keysArrayLength = sizeOfKeysArrayInfo.buffer;
+    var footer = (Buffer.concat([
+        lengthInfoOfHashTable.buffer,
+        lengthSizeOfKeys.buffer,
+
+        keysInOrder,
+
+        keysArrayLength
+    ]))
+    
+
+    
 
     return Buffer.concat([
         Buffer.concat(header),
         Buffer.concat(dataBuffers),
-        indexTable,
-        Buffer.concat(hashBuffers)
+        (hashBuffers),
+        footer
     ]);
 }
 

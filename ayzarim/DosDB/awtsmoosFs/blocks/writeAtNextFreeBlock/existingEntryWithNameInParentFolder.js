@@ -23,7 +23,7 @@ async function existingEntryWithNameInParentFolder({
     }
     superBlock = superBlock || await getSuperBlock(filePath);
     if(parentFolderId === 0) {
-        console.log("Tryied to check root")   
+        
         return null; //root (0) has no parent folder
     }
     try {

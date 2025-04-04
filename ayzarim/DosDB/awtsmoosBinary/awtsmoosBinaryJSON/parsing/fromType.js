@@ -1,64 +1,300 @@
-//B"H
+// B"H
+// The Awtsmoos, the Atzmut, pulses through this code, recreating all from nothing in an endless cycle of divine renewal.
+// From the Ohr Ein Sof flows the Kav, threading through Atzilus, birthing existence anew each instant.
+// This script is a vessel of that essence, a reflection of the infinite, guiding us toward the Moshiach's light,
+// where the righteous will rise, their bodies remade from dust, shining brighter than the sun, eternal.
 
-var deserializeBinary = require("../deserialize/obj.js");
-var deserializeArray = require("../deserialize/array.js");
+const deserializeBinary = require("../deserialize/obj.js");
+const deserializeArray = require("../deserialize/array.js");
+var awtsmoosByteRead = require ("../helpers/readAwtsmoosBytesAsNumber.js")
+var floatHandler = require("../util/floatHandler.js")
+var typeHandlers = {
+    1: ({ value, currentOffset }) => {
+        currentOffset += value.length;
+        return {
+            value: deserializeBinary(value),
+            currentOffset
+        };
+    },
+    2: ({ value, currentOffset }) => {
+        currentOffset += value.length;
+        return {
+            value: value.toString(),
+            currentOffset
+        };
+    },
+    3: ({ value, currentOffset }) => {
+        currentOffset += value.length;
+        return {
+            value: deserializeArray(value),
+            currentOffset
+        };
+    },
+    4: ({ value, currentOffset }) => {
+    
+        return {
+            value: value.readUInt8(0),
+            currentOffset: currentOffset + 1
+        };
+        
+    },
+
+    9: ({ value, currentOffset }) => {
+    
+        return {
+            value: value.readUInt16BE(0),
+            currentOffset: currentOffset + 2
+        };
+        
+    },
+
+    10: ({ value, currentOffset }) => {
+    
+        return {
+            value: value.readUInt32BE(0),
+            currentOffset: currentOffset + 4
+        };
+        
+    },
+
+    11: ({ value, currentOffset }) => {
+    
+        return {
+            value: -1 * value.readUInt8(0),
+            currentOffset: currentOffset + 1
+        };
+        
+    },
+
+    12: ({ value, currentOffset }) => {
+    
+        return {
+            value: -1 * value.readUInt16BE(0),
+            currentOffset: currentOffset + 2
+        };
+        
+    },
+
+    13: ({ value, currentOffset }) => {
+    
+        return {
+            value: -1 * value.readUInt32BE(0),
+            currentOffset: currentOffset + 4
+        };
+        
+    },
 
 
-var 
-    readConditional
- = require("../helpers/readConditionalWithSize.js")
+    14: ({ value, currentOffset }) => {
+        
+        /**
+         * 1 byte custom
+         * float, positive
+         *
+         * */
+        value = awtsmoosByteRead(value);
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        //console.log("try",value,decoded)
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 1
+        };
+        
+    },
+
+
+    15: ({ value, currentOffset }) => {
+        value = awtsmoosByteRead(value);
+        /**
+         * 2 byte custom
+         * float, positive
+         *
+         * */
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 2
+        };
+        
+    },
+
+    16: ({ value, currentOffset }) => {
+        value = awtsmoosByteRead(value);
+        /**
+         * 4 byte custom
+         * float, positive
+         *
+         * */
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 4
+        };
+        
+    },
+
+    17: ({ value, currentOffset }) => {
+        value = awtsmoosByteRead(value);
+        /**
+         * 1 byte custom
+         * float, negative
+         *
+         * */
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        return {
+            value: decoded * -1,
+            currentOffset: currentOffset + 1
+        };
+        
+    },
+
+
+    18: ({ value, currentOffset }) => {
+        value = awtsmoosByteRead(value);
+        /**
+         * 2 byte custom
+         * float, negative
+         *
+         * */
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 2
+        };
+        
+    },
+
+    19: ({ value, currentOffset }) => {
+        value = awtsmoosByteRead(value);
+        /**
+         * 4 byte custom
+         * float, negative
+         *
+         * */
+        var decoded =floatHandler.decodeEncodedFloat(
+            value
+        )
+        return {
+            value: decoded * -1,
+            currentOffset: currentOffset + 4
+        };
+        
+    },
+
+    20: ({ value, currentOffset }) => {
+        
+        /**
+         * 8 byte double,
+         * positive
+         *
+         * */
+        var decoded = value.readDoubleBE(0);
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 8
+        };
+        
+    },
+
+    21: ({ value, currentOffset }) => {
+        
+        /**
+         * 8 byte double,
+         * negative
+         *
+         * */
+        var decoded = value.readDoubleBE(0);
+        return {
+            value: decoded * -1,
+            currentOffset: currentOffset + 8
+        };
+        
+    },
+
+    22: ({ value, currentOffset }) => {
+        
+        /**
+         * 8 byte uint,
+         * positive
+         *
+         * */
+        var decoded = awtsmoosByteRead(value)
+        return {
+            value: decoded,
+            currentOffset: currentOffset + 8
+        };
+        
+    },
+
+    23: ({ value, currentOffset }) => {
+        
+        /**
+         * 8 byte uint,
+         * negative
+         *
+         * */
+        var decoded = awtsmoosByteRead(value)
+        return {
+            value: decoded * -1,
+            currentOffset: currentOffset + 8
+        };
+        
+    },
+    
+
+
+    5: () => ({
+        value: true
+    }),
+    0: () => ({
+        value: false
+    }),
+    6: () => ({
+        value: undefined
+    }),
+    7: () => ({
+        value: null
+    }),
+    8: ({ value, currentOffset }) => {
+        currentOffset += value.length;
+        return {
+            value,
+            currentOffset
+        };
+    }
+};
+
+
+/**
+ * @method parseValueFromType
+ * @description Parses a value based on its type, guided by the infinite essence of the Awtsmoos.
+ * @param {Object} params - Parameters containing value, type, and offset.
+ * @param {any} params.value - The value to parse.
+ * @param {number} params.type - The type identifier guiding the parsing.
+ * @param {number} params.currentOffset - The current offset in the data stream.
+ * @returns {Object} An object containing the parsed value and updated offset.
+ */
 function parseValueFromType({
     value,
     type,
-    currentOffset
+    currentOffset=0
 }) {
-    if(type == 1) {
-
-        currentOffset += value.length
-        value =  deserializeBinary(value)
-
-    } else if(type == 2) {
-        
-        currentOffset += value.length
-       // console.log("HI",value)
-        value = value+""
-    } else if (type == 3) {
-
-        currentOffset += value.length
-        value =  deserializeArray(value);
-        
-    } else if (type == 4) {
-        try {
-            var info =  readConditional(value)
-
-            
-            value = info.amount;
-            currentOffset += info.offset
-        } catch(e) {
-            console.log(
-                "ISSUE! reading. want to nkow",
-                value,
-                e
-            )
-            throw new Error("Wow..")
-        }
-    } else if(type == 5) {
-        
-        value = true;
-
-    } else if(type === 0) {
-        value = false;
-    } else if(type == 6) {
-        value = undefined;
-    } else if(type == 7) {
-        value = null;
-    } else if(type == 8) {
-        currentOffset += value.length;
-
-
-        value = Buffer.from(value)
+    const handler = typeHandlers[type];
+  //  console.log("Checking",type,handler,value)
+    if (handler) {
+        return handler({ value, currentOffset });
     }
-    return {value,currentOffset};
+    return { value, currentOffset }; // Default case, preserving the original state.
 }
 
-module.exports = parseValueFromType;
+module.exports = parseValueFromType
