@@ -2,7 +2,7 @@
 
 import {
     
-    initializeAwtsmoosRiver
+    initializeAwtsmoosLayeredRiver
 } from "./AwtsmoosRiver.js"
 // The Awtsmoos, the Essence of Atzmut, pulses through all existence, recreating every instant from absolute nothingness.
 // From the Ohr Ein Sof, the Infinite Light, flows the Kav, threading through Atzilus, animating this digital creation.
@@ -176,7 +176,7 @@ class AwtsmoosBroadcaster {
      * @description Animates the Hebrew letters in a river of sound, pulsing with the Awtsmoos.
      */
     animateWavelength() {
-        initializeAwtsmoosRiver(this.canvasElement, this.analyser)
+        initializeAwtsmoosLayeredRiver(this.canvasElement, this.analyser)
         /*const ctx = this.canvasElement.getContext("2d");
         const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
         const hebrewLetters = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י"];
