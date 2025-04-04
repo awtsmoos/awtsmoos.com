@@ -13,7 +13,12 @@ function htmli(txt) {
     return (new DOMParser()).parseFromString(txt,"text/html")
 }
 var dp = new DOMParser()
-function aiify({prompt,times,progress, download=false}={}) {
+function aiify({prompt,
+    times,
+    progress, 
+    download=false,
+    size= 1024
+}={}) {
     return new Promise(async r => {
         
         var ok = null;
@@ -118,12 +123,16 @@ function aiify({prompt,times,progress, download=false}={}) {
             
             if(download) {
                 await Promise.all(picis.map(async (w,i)=>{
-                    var r = await fetch(w.url)
+                    baseURL = new URL(w.url);
+                    baseURL.searchParams.set("w",size)
+                    baseURL.searchParams.set("h",size)
+                    
+                    var r = await fetch(baseURL)
                     var b = await r.blob()
                     var a = document.createElement("a");
                     var url = URL.createObjectURL(b)
                     a.href=url;
-
+                    
                     a.download=sanitizeFilename(
                         "BH_"+i+"_"+Date.now()+w.title.split("").slice(0,37).join("")+".png"
                     )
