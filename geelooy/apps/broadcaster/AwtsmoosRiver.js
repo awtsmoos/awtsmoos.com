@@ -130,14 +130,14 @@ class AwtsmoosRiverFlow {
  * @param {AnalyserNode} analyser - The channel for sound’s cosmic force.
  * @returns {AwtsmoosRiverFlow} - The infinite river of the Awtsmoos.
  */
-function initializeAwtsmoosRiverFlow(canvas, analyser) {
+function initializeAwtsmoosRiver(canvas, analyser) {
     const riverFlow = new AwtsmoosRiverFlow(canvas, analyser);
     riverFlow.animateOhrEinSof();
     return riverFlow;
 }
 
 export {
-    initializeAwtsmoosRiverFlow,
+    initializeAwtsmoosRiver,
     AwtsmoosRiverFlow,
     SefirotParticle
 };
