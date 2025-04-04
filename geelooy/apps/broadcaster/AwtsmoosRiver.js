@@ -148,7 +148,7 @@ class AwtsmoosRiver {
      * @description Spawns Hebrew letter particles and image entities, igniting the Ohr Ein Sof.
      */
     initializeAtzilus() {
-        const particleCount = Math.min(5000, Math.floor(this.canvasElement.width * this.canvasElement.height / 1000)); // Dynamic count
+        const particleCount = Math.min(5000, Math.floor(this.canvasElement.width * this.canvasElement.height / 100)); // Dynamic count
         for (let i = 0; i < particleCount; i++) {
             this.sefirotLetters.push(
                 new SefirotLetter(
