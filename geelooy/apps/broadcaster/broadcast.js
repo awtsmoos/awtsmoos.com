@@ -33,7 +33,7 @@ class AwtsmoosBroadcaster {
     async initiateBroadcast(useVideo, canvasWidth = 400, canvasHeight = 200) {
         try {
             this.stream = await navigator.mediaDevices.getUserMedia({
-                video: useVideo ? { width: 320, height: 240 } : false,
+                video: useVideo ? true : false,
                 audio: true
             });
 
