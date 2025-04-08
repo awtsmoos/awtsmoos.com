@@ -17,7 +17,7 @@ function packTypeAndLengthSize(type, lengthSize) {
     )
 
     //console.log(pack.toString(2).padStart(8, 0))
-    return Buffer.from([pack])
+    return pack;
 }
 
 

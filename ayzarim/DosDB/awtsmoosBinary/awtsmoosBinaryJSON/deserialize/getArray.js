@@ -1,4 +1,9 @@
 //B"H
+var {
+    
+    magicArray
+
+} = require("./../constants.js");
 
 const {
     unpackLength
@@ -137,6 +142,50 @@ function slice(arrayBuffer, start, end, offsetSize, indexTableStart) {
     return result;
 }
 
+function getIndexTableInfo(arrayBuffer, metadata) {
+    const indexTableSize = metadata.arrayLength * metadata.offsetSize;
+    const indexTableStart = (
+        arrayBuffer.length -
+        metadata.arrayLengthSize
+    ) - indexTableSize;
+
+    return {
+        indexTableStart,
+        indexTableSize
+    }
+}
+
+function getIndexTable(arrayBuffer, metadata) {
+	if(!metadata) {
+		metadata = getMetadata(arrayBuffer);
+	}
+    var info = getIndexTableInfo(arrayBuffer, metadata);
+    var {
+        indexTableSize,
+        indexTableStart
+    } = info;
+
+    var tableBuffer = arrayBuffer.subarray(
+        indexTableStart,
+        indexTableSize + indexTableStart,
+
+    );
+    return tableBuffer;
+}
+
+function getOffsetFromIndex(arrayBuffer, index, metadata) {
+	var info = getIndexTableInfo(arrayBuffer, metadata);
+	var {
+		indexTableStart
+	} = info;
+
+	const indexOffset = indexTableStart + index * metadata.offsetSize;
+	const itemOffset = arrayBuffer.readUIntBE(
+		indexOffset,
+		metadata.offsetSize
+	);
+	return itemOffset;
+}
 /**
  * @method getValueByIndex
  * @description Retrieves a value by its index, a divine spark from the Awtsmoos’ array.
@@ -175,17 +224,13 @@ function getValueByIndex(arrayBuffer, index) {
         return null;
     }
 
-    const indexTableSize = metadata.arrayLength * metadata.offsetSize;
-    const indexTableStart = (
-        arrayBuffer.length -
-        metadata.arrayLengthSize
-    ) - indexTableSize;
 
-    const indexOffset = indexTableStart + index * metadata.offsetSize;
-    const itemOffset = arrayBuffer.readUIntBE(
-        indexOffset,
-        metadata.offsetSize
-    );
+
+    const itemOffset = getOffsetFromIndex(
+		arrayBuffer,
+		index,
+		metadata
+	)
 
     const parsedValue = getValueByKey(arrayBuffer, itemOffset);
     return parsedValue.value;
@@ -196,5 +241,8 @@ module.exports = {
     slice,
     getValueByKey,
     getLength,
-    getValueByIndex
+    getValueByIndex,
+
+	getIndexTable,
+	getOffsetFromIndex
 }

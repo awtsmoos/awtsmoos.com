@@ -92,7 +92,7 @@ function serializeArray(arr) {
             return null
         }
         var ar = [
-            typeLengthByte,
+            Buffer.from([typeLengthByte]),
             typesWith0Length.includes(type) ?
             Buffer.alloc(0) : lengthInfo.buffer,
             data
@@ -133,9 +133,6 @@ function serializeArray(arr) {
 			)
 		)
 	);
-
-	var unp = unpackLength(packedOffsetSize)
-	var up1 = unpackLength(packedArrayLengthSize)
 
    
 	offsetSizePlaceholder.writeUInt8(

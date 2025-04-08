@@ -36,6 +36,117 @@ var {
     unpackLength
 } = require("../packing/packedLength.js");
 
+
+function getLengthSizes(buffer, offset) {
+	if(!offset) {
+		var buf = Buffer.from(magicJSON);
+		offset += buf.length;
+	}
+
+    var allSizesOfLengths = buffer.readUInt8(offset++);
+    return {
+      //  offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
+        lengthSizeOfKeys: 
+        	unpackLength(0b00110000 & allSizesOfLengths),
+
+        sizeOfEmbeddedMetadataArrayLength: 
+        	unpackLength(0b00001100 & allSizesOfLengths),
+
+        sizeOfHashTableLength: unpackLength(0b00000011 & allSizesOfLengths)
+    };
+}
+
+function getOffsetSizesAndLengths(buffer, lengthSizes) {
+	if(!lengthSizes) {
+		lengthSizes = getLengthSizes(buffer);
+	}
+
+	var {
+		lengthSizeOfKeys,
+		sizeOfEmbeddedMetadataArrayLength,
+		sizeOfHashTableLength
+	} = lengthSizes;
+
+	var staticBytes = 1//packed offset sizes
+	var combinedByteLengthOfLengths = (
+		lengthSizeOfKeys + 
+		sizeOfEmbeddedMetadataArrayLength +
+		sizeOfHashTableLength
+	);
+
+	var totalSizeToRead = combinedByteLengthOfLengths 
+		+ staticBytes;
+
+
+	var offset = buffer.length - 
+		totalSizeToRead//reading backwards
+
+	var dynamicLengthsAndOffsetSizes = buffer.subarray(
+		offset,
+		offset + totalSizeToRead
+	); /*load into memory first as collective byte 
+		then shift through it*/
+
+
+	offset = 0/*not the offset of original buffer,
+		changing to offset of new
+		subarray*/;
+
+	var offsetSizesPacked = dynamicLengthsAndOffsetSizes
+		.readUInt8(
+			offset++
+		);
+	
+	var offsetSizeInDataRegion = unpackLength(
+		0b00001100 &
+		offsetSizesPacked
+	);
+
+	var sizeOfMetadataArrayOffsetSize = unpackLength(
+		0b00000011 & 
+		offsetSizesPacked
+	);
+
+	//now we can start reading dynamic lengths
+	var lengthOfTotalEntries = dynamicLengthsAndOffsetSizes
+		.readUIntBE(
+			offset,
+			lengthSizeOfKeys
+		);
+
+	offset += lengthSizeOfKeys
+
+
+	var lengthMetadataArray = dynamicLengthsAndOffsetSizes
+		.readUIntBE(
+			offset,
+			sizeOfEmbeddedMetadataArrayLength
+		);
+
+	offset += sizeOfEmbeddedMetadataArrayLength;
+
+
+
+	var lengthHashTable = dynamicLengthsAndOffsetSizes
+		.readUIntBE(
+			offset,
+			sizeOfHashTableLength
+		);
+
+
+	return {
+		lengthSizes,
+
+		lengthOfTotalEntries,
+		lengthMetadataArray,
+		lengthHashTable,
+
+		offsetSizeInDataRegion,
+		sizeOfMetadataArrayOffsetSize,
+		beginningOfOffset: totalSizeToRead
+	}
+}
+
 /**
  * @method getMetadata
  * @description Extracts metadata sizes from the buffer, reflecting the divine order of the Awtsmoos.
@@ -43,15 +154,30 @@ var {
  * @param {number} offset - Starting offset after magic bytes.
  * @returns {object} - Metadata containing size definitions.
  */
-function getMetadata(buffer, offset) {
-    var allSizesOfLengths = buffer.readUInt8(offset++);
-    return {
-        offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
-        lengthSizeOfKeys: unpackLength(0b00110000 & allSizesOfLengths),
-        lengthSizeOfKeysArray: unpackLength(0b00001100 & allSizesOfLengths),
-        lengthSizeHashTable: unpackLength(0b00000011 & allSizesOfLengths),
-        newOffset: offset
-    };
+function getMetadata(buffer) {
+	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
+		buffer
+	);
+
+	var {
+		lengthOfTotalEntries,
+		lengthMetadataArray,
+		lengthHashTable,
+
+		offsetSizeInDataRegion,
+		sizeOfMetadataArrayOffsetSize,
+		beginningOfOffset
+	} = lengthsAndOffsetInfo;
+
+	var offsetToStart = beginningOfOffset - (
+		lengthMetadataArray
+	);
+
+	var metadataTable = buffer.subarray(
+		offsetToStart,
+		offsetToStart + lengthMetadataArray
+	);
+	
 }
 
 /**
@@ -174,5 +300,7 @@ module.exports = {
     getValueByKey,
     getKeys,
     getMetadata,
-    getValueByHashingKey
+    getValueByHashingKey,
+	getLengthSizes,
+	getOffsetSizesAndLengths
 };

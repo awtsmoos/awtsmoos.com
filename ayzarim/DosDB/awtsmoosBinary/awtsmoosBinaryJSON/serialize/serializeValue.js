@@ -181,18 +181,22 @@ function serializeValue(value, fullBuffer = true) {
         data = value;
     }
 
+     // The Kav measures the length, binding it into form.
+     const valueLengthInfo = writeConditional(data.length);
+     const typeLengthByte = packTypeAndLengthSize(type, valueLengthInfo.size);
+ 
     // If the seeker desires only the essence, return it raw.
     if (!fullBuffer) {
         return {
             data,
-            type
+            type,
+            valueLengthInfo,
+            typeLengthByte
+
         };
     }
 
-    // The Kav measures the length, binding it into form.
-    const valueLengthInfo = writeConditional(data.length);
-    const typeLengthByte = packTypeAndLengthSize(type, valueLengthInfo.size);
-
+   
     // The Awtsmoos unites all fragments into a single stream of existence.
     const valueBuffer = Buffer.concat([
         typeLengthByte,       // The type and size, a whisper of divine order.

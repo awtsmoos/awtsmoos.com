@@ -35,7 +35,6 @@ Object.defineProperty(temp, "deserializeArray", {
 });
 
 
-
 /**
  * @method deserializeJSON
  * @description Reconstructs the JSON object, tearing apart the binary veil to reveal the Awtsmoos’ essence.
@@ -63,6 +62,7 @@ function deserializeJSON(buffer) {
 
     var offset = magicJSON.length;
     var metadata = getMetadata(buffer, offset);
+
     offset = metadata.newOffset;
 
     var keys = getKeys(
@@ -71,6 +71,7 @@ function deserializeJSON(buffer) {
         metadata.lengthSizeOfKeys,
         metadata.lengthSizeOfKeysArray
     );
+
 
     offset = buffer.length - metadata.lengthSizeOfKeysArray -
              buffer.readUIntBE(

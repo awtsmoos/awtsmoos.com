@@ -8,7 +8,7 @@ var writeToBuffer = require("../helpers/writeToBuffer.js");
 var { hashKey } = require("../helpers/hashing/misc.js");
 const { magicJSON } = require("./../constants.js");
 var serializeValue = require("./serializeValue.js");
-var byteSize = require("../helpers/byteSize.js")
+var getArray = require("../deserialize/getArray.js")
 var temp = {};
 
 
@@ -40,7 +40,7 @@ function serializeJSON(json) {
     const hashTableSize = keys.length * 2;//avoid collisions
 
 
-    var lengthSizeOfKeys = writeConditional(keys.length);
+    
 
     var lengthInfoOfHashTable = writeConditional(hashTableSize);
 
@@ -61,18 +61,17 @@ function serializeJSON(json) {
 
 
 
-    var keysInOrder = temp.serializeArray(keys);
-    var sizeOfKeysArrayInfo = writeConditional(keysInOrder.length);
-
     
-
-
     const dataBuffers = [];
     const offsets = [];
     const hashTable = new Array(hashTableSize).fill(null);
     let offset = header.reduce((sum, buf) => sum + buf.length, 0);
 
+    var entrySizeOfMetadataTable 
+    var metadataTable = [];
     // Data: Key-value pairs, sparks of the Awtsmoos
+
+    var keyNum = 0;
     for (let key of keys) {
         const keyBuffer = Buffer.from(key, 'utf8');
         const keyLengthInfo = writeConditional(keyBuffer.length); // Raw length
@@ -80,24 +79,53 @@ function serializeJSON(json) {
         var sizeOfKeyLength = Buffer.from([keyLengthInfo.size]);
 
         const value = json[key];
-        const valueBuffer = serializeValue(value, true); // Assume packs type/length
+        const valueBufferInfo = serializeValue(value, false); 
 
-        const pairBuffer = Buffer.concat([
-            sizeOfKeyLength,
-            keyLengthInfo.buffer,
-            keyBuffer,
-            valueBuffer
-        ]);
+       
+        const valueDataBuffer = valueBufferInfo.data;
+        
 
         const hashIndex = hashKey(key, hashTableSize);
         let index = hashIndex;
         while (hashTable[index] !== null) 
             index = (index + 1) % hashTableSize;
 
-        hashTable[index] = { key, offset };
+        hashTable[index] = {
+            key,
+            sizeOfKeyLength: keyLengthInfo.size,
+
+            offset,
+            keyNum
+        };
+        var bufferOffset = writeConditional(offset)
+
+        var packedLengthSizes = (
+            keyLengthInfo.size << 4 | 
+            //0b00110000
+            valueBufferInfo.typeLengthByte << 2 |
+            //0b00001100 | 
+            bufferOffset.size
+            //0b00000011
+        )
+        var keysAndValueTypes = Buffer.concat([
+            Buffer.from(packedLengthSizes),
+
+            keyLengthInfo.buffer,
+
+            valueBufferInfo.valueLengthInfo.buffer,
+
+            keyBuffer,
+
+            bufferOffset.buffer
+        ])
+
+        metadataTable.push(keysAndValueTypes);
+
         offsets.push(offset);
-        dataBuffers.push(pairBuffer);
-        offset += pairBuffer.length;
+        dataBuffers.push(valueDataBuffer);
+        offset += valueDataBuffer.length;
+
+        keyNum++;
     }
 
     // Offset size: Determined by data length
@@ -107,18 +135,27 @@ function serializeJSON(json) {
         : dataLength < 4294967296 ? 4 
         : 8;
 
-    
+    var serializedMetadata = temp.serializeArray(metadataTable);
+
+    var sizeOfMetadataArrayInfo = writeConditional(serializedMetadata.length);
+
+    var metadataOfMetadataArray = getArray.getMetadata(
+        serializedMetadata
+    );
+
+    var offsetSizeMetadataArray = metadataOfMetadataArray.offsetSize;
+
     /**
      * make packed byte
      * with all size bytes (2 bits each 0 1 2 3 = 
      * 1 2 4 8) packed
      */
-    var sizeOfKeysLengthPacked = packedLength(
-        lengthSizeOfKeys.size
+    var sizeOfMetadataArrayOffsetSizePacked = packedLength(
+        offsetSizeMetadataArray
     );
 
-    var sizeOfEmbeddedKeysArrayLength = packedLength(
-        sizeOfKeysArrayInfo.size
+    var sizeOfEmbeddedMetadataArrayLength = packedLength(
+        sizeOfMetadataArrayInfo.size
     )
 
     var sizeOfHashTableLength = packedLength(
@@ -127,15 +164,18 @@ function serializeJSON(json) {
 
     var packedOffsetSize = packedLength(
         offsetSize
-    )
+    );
+
+    var totalEntriesLength = writeConditional(
+        keys.length
+    );
+    var byteSizeOfTotalEntriesLength = totalEntriesLength.size;
 
     var packAll = (
-            (packedOffsetSize << 6) | 
-            //0b11000000
-            (sizeOfKeysLengthPacked << 4) | 
-            //0b00110000, 
-
-            (sizeOfEmbeddedKeysArrayLength << 2) |
+            //first 2 bits reserved
+            (byteSizeOfTotalEntriesLength << 4) |
+            //0b00110000
+            (sizeOfEmbeddedMetadataArrayLength << 2) |
             //0b00001100
             (sizeOfHashTableLength)
             //0b00000011
@@ -144,45 +184,68 @@ function serializeJSON(json) {
     
     offsetSizePlaceholder.writeUInt8(packAll);
 
+    var hashBufferEntrySize = (
+        offsetSizeMetadataArray
+    );
     // Hash table: fixed sized entries based
     //on index
     const hashBuffers = Buffer.alloc(
-        hashTable.length * offsetSize
-    )
+        hashTable.length * hashBufferEntrySize
+    );
+   
     hashTable.forEach((entry, index) => {
         if (entry) {
            // console.log(entry,entry.offset, index,offsetSize)
+            var keyNumber = entry.keyNum;
 
-
-            hashBuffers
-            .writeUIntBE(
-
-
-                
-                entry.offset, //never 0. so if 0 is found, that's null
-                index * offsetSize,
-                
-                
-                offsetSize
+            var offsetOfValueInMetadataArray = getArray.getOffsetFromIndex(
+                serializedMetadata,
+                keyNumber,
+                metadataOfMetadataArray
             );
+
+            var bufferInHashTable = Buffer.alloc(
+                hashBufferEntrySize
+            );
+
+            var offset = 0;
+
+            bufferInHashTable.writeUIntBE(
+                offsetOfValueInMetadataArray,
+                offset,
+                offsetSizeMetadataArray
+            );
+
+           
+            bufferInHashTable.copy(
+                hashBuffers,
+                index * hashBufferEntrySize
+            )
+            
             
         }
     });
-  //  console.log("wrote",hashTable,hashBuffers)
-
+    
 
   
 
 
-    var keysArrayLength = sizeOfKeysArrayInfo.buffer;
+  
+    var offsetSizesPacked = 
+        (packedOffsetSize << 2) | 
+        //0b00001100
+        (sizeOfMetadataArrayOffsetSizePacked);
+        //0b00000011, 
+
     var footer = (Buffer.concat([
-        lengthInfoOfHashTable.buffer,
-        lengthSizeOfKeys.buffer,
 
-        keysInOrder,
+        Buffer.from([offsetSizesPacked]),
 
-        keysArrayLength
-    ]))
+        totalEntriesLength.buffer,
+        sizeOfMetadataArrayInfo.buffer,
+        lengthInfoOfHashTable.buffer
+        
+    ]));
     
 
     
@@ -191,6 +254,7 @@ function serializeJSON(json) {
         Buffer.concat(header),
         Buffer.concat(dataBuffers),
         (hashBuffers),
+        serializedMetadata,
         footer
     ]);
 }

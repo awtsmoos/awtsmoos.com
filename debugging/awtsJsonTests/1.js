@@ -2,11 +2,13 @@
 
 var awtsmoosBinary = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 
-var baseObj = [{j:8123, a:123.4125152152, t:-1231244.4, g:"ok", c:undefined,
+var baseObj = [1,2,3]/*{array: [
+    {
+    j:8123, a:123.4125152152, t:-1231244.4, g:"ok", c:undefined,
     qq:null,
-    wow: [34,"okok",{o:8, kko:"ok", },
+    wow: [34,"okok",{o:8, kko:"ok", }],
         
-    ],
+    
     aww:[
         "here",
         "we",
@@ -29,7 +31,8 @@ var baseObj = [{j:8123, a:123.4125152152, t:-1231244.4, g:"ok", c:undefined,
     ["asdf", [123,.23,.1241124124]],
     {s:3},
     {j:8}
-]] /*{
+
+]]} /*{
     hi: "there",
     how: 123,
     are: [
@@ -45,4 +48,9 @@ var baseObj = [{j:8123, a:123.4125152152, t:-1231244.4, g:"ok", c:undefined,
 }*/
 var ser = awtsmoosBinary.serializeJSON(baseObj);
 var des = awtsmoosBinary.deserializeBinary(ser);
+var mapt = awtsmoosBinary.mapBinary(
+    ser, {
+
+    }
+)
 console.log(des, "DID it");
