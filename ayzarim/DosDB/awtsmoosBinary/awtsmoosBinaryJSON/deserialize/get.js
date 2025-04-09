@@ -611,7 +611,34 @@ function checkConditions(conditionsObj, value) {
 	return true;
 }
 
+function mapArray(buffer, mapping, metadataRef, parentObjRef) {
+	//console.log("meta?",metadataRef, parentObjRef)
+	var ref = getMetadataByKey(
+		buffer,
+		metadataRef.key,
+		null,
+		parentObjRef
+	);
 
+	var props = Object.getOwnPropertyNames(mapping);
+	if(props.includes("includes")) {
+		var inc = conditionsObj["includes"];
+		var does = value?.includes(inc);
+		return does;
+	}
+
+	if(mapping.metadata) {
+		return ref
+	}
+
+	var val = getValueFromMetadata(
+		buffer,
+		ref,
+		parentObjRef
+		
+	)
+	return val
+}
 /**
  * 
  * @param {the awtsmoos JSON obj buffer} buffer 
@@ -623,6 +650,22 @@ function checkConditions(conditionsObj, value) {
  * nested} mapping 
  */
 function mapObject(buffer, mapping, metadataRef=null) {
+	var offset = 0;
+	if(metadataRef) {
+		offset = metadataRef.offsetOfValueInMain;
+	}
+	var magic = buffer.subarray(
+		offset,
+		offset + 2
+	).toString() ;
+	console.log("magic",magic,magicArray)
+	if(magic == magicArray) {
+		return mapArray(
+			buffer,
+			mapping,
+			metadataRef
+		)
+	}
 	var keys = Object.keys(mapping);
 	var result = {};
 	for(var key of keys) {
@@ -633,23 +676,30 @@ function mapObject(buffer, mapping, metadataRef=null) {
 			null,
 			metadataRef
 		);
-		if([1].includes(
+		if([1, 3].includes(
 			metadataEntry.valueType
 		)) {
 		
-			var nested = mapObject(buffer, conditions, metadataEntry)
-			result[key] = nested;
+			
 
 			if(metadataEntry.valueType == 1) {
 				/*
 					handle nested object
 				*/
-				
+				var nested = mapObject(buffer, conditions, metadataEntry)
+				result[key] = nested;
 			} else if(metadataEntry.valueType == 3) {
 				/*
 					handle nested array mapping
 	
 				*/
+				var nested = mapArray(
+					buffer, 
+					conditions, 
+					metadataEntry, 
+					metadataRef
+				)
+				result[key] = nested;
 			} 
 		} else {
 			var value = getValueFromMetadata(

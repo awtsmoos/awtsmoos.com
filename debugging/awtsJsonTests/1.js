@@ -7,7 +7,12 @@ var baseObj =
     
    {
     ok:"hi",
-    oykay: {doykay: "asdf", well:" indeed", yes: "! ! ! cool ! !"},
+    oykay: {
+        doykay: "asdf",
+         well:" indeed",
+         ar: [5,6],
+          yes: "! ! ! cool ! !"
+        },
     asdf: [1,2,3],
     there:2, "well": "cool",
     
@@ -76,6 +81,9 @@ var mapt = awtsmoosBinary.mapObject(ser, {
     },
     oykay: {
         well: true,
+        ar: {
+            metadata:3
+        },
         yes: {
             includes:"!"
         }
