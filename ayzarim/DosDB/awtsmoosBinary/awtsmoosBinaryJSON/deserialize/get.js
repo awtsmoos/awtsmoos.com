@@ -636,10 +636,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 		if([1].includes(
 			metadataEntry.valueType
 		)) {
-			var refBuf = getValueBufferFromMetadata(
-				buffer,
-				metadataEntry
-			)
+		
 			var nested = mapObject(buffer, conditions, metadataEntry)
 			result[key] = nested;
 
