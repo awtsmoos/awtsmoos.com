@@ -620,23 +620,27 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 		parentObjRef
 	);
 
-	var props = Object.getOwnPropertyNames(mapping);
-	if(props.includes("includes")) {
-		var inc = conditionsObj["includes"];
-		var does = value?.includes(inc);
-		return does;
-	}
-
 	if(mapping.metadata) {
 		return ref
 	}
+
+
 
 	var val = getValueFromMetadata(
 		buffer,
 		ref,
 		parentObjRef
 		
-	)
+	);
+
+	var props = Object.getOwnPropertyNames(mapping);
+	if(props.includes("includes")) {
+		var inc = conditionsObj["includes"];
+		var does = val?.includes(inc);
+		return does;
+	}
+
+
 	return val
 }
 /**
