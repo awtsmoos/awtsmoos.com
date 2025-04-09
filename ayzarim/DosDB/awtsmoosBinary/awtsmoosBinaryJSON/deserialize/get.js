@@ -332,12 +332,27 @@ function getKeys(buffer, lengthsAndOffsetInfo) {
 }
 
 
-function getValueFromMetadata(buffer, metadataEntry) {
+function getValueInfoFromMetadata(metadataEntry) {
+	return {
+		offsetStart: metadataEntry.offsetOfValueInMain,
+		end: metadataEntry.offsetOfValueInMain +
+			metadataEntry.valueLength
+	}
+}
+function getValueBufferFromMetadata(buffer, metadataEntry) {
 	var buf = buffer.subarray(
 		metadataEntry.offsetOfValueInMain,
 		metadataEntry.offsetOfValueInMain +
 		metadataEntry.valueLength
 	);
+	return buf
+}
+
+function getValueFromMetadata(buffer, metadataEntry) {
+	var buf = getValueBufferFromMetadata(
+		buffer,
+		metadataEntry
+	)
 
 	var parst = temp.parseValueFromType({
 		value: buf,
@@ -518,8 +533,84 @@ function getValueByHashingKey(buffer, key) {
 	return getValueByKey(buffer, key)
 }
 
+function checkConditions(conditionsObj, value) {
+	var props = Object.getOwnPropertyNames(conditionsObj);
+	if(props.includes("equals")) {
+		var eq = conditionsObj["equals"];
+		var does = eq === value;
+		return does;
+	}
+
+	if(props.includes("includes")) {
+		var inc = conditionsObj["includes"];
+		var does = value?.includes(inc);
+		return does;
+	}
+	return true;
+}
+
+
+/**
+ * 
+ * @param {the awtsmoos JSON obj buffer} buffer 
+ * @param {object with keys 
+ * that represent what entries to 
+ * extract from buffer if 
+ * conditions in each value's is true,
+ * and recursively checks object types 
+ * nested} mapping 
+ */
+function mapObject(buffer, mapping) {
+	var keys = Object.keys(mapping);
+	var result = {};
+	for(var key of keys) {
+		var conditions = mapping[key]
+		var metadataEntry = getMetadataByKey(
+			buffer,
+			key
+		);
+		if([1].includes(
+			metadataEntry.valueType
+		)) {
+			var refBuf = getValueBufferFromMetadata(
+				buffer,
+				metadataEntry
+			)
+			var nested = mapObject(refBuf, conditions)
+			result[key] = nested;
+
+			if(metadataEntry.valueType == 1) {
+				/*
+					handle nested object
+				*/
+				
+			} else if(metadataEntry.valueType == 3) {
+				/*
+					handle nested array mapping
+	
+				*/
+			} 
+		} else {
+			var value = getValueFromMetadata(
+				buffer,
+				metadataEntry
+			)
+			var shouldGive = checkConditions(
+				conditions,
+				value
+			);
+			if(shouldGive) {
+
+				result[key] = value
+			}
+			console.log("Gave",key,conditions,value,shouldGive,result)
+		}
+	}
+	return result;
+}
 module.exports = {
     getValueByKey,
+	mapObject,
 	getEntryFromMetadata,
 
 	getMetadataByKey,
