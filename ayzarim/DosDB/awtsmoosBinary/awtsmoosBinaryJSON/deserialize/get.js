@@ -10,6 +10,9 @@ const {
     magicArray
 } = require("./../constants.js");
 
+var fileBuffer = require("../../fileBuffer.js");
+
+
 var {
 	hashKey
 } = require("../helpers/hashing/misc.js");
@@ -59,10 +62,14 @@ function getLengthSizes(buffer, metadataRef = null) {
     var unp = {
       //  offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
         lengthSizeOfKeys: 
-        	unpackLength(0b00110000 & allSizesOfLengths),
+        	unpackLength(
+				(0b00110000 & allSizesOfLengths) >> 4
+			),
 
         sizeOfEmbeddedMetadataArrayLength: 
-        	unpackLength(0b00001100 & allSizesOfLengths),
+        	unpackLength(
+				(0b00001100 & allSizesOfLengths) >> 2
+			),
 
         sizeOfHashTableLength: unpackLength(0b00000011 & allSizesOfLengths)
     };
@@ -532,6 +539,8 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 			hashTableEntrySize
 		)
 
+		
+
 		/**
 		 * offset in array of data.
 		 * 
@@ -654,6 +663,9 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
  * nested} mapping 
  */
 function mapObject(buffer, mapping, metadataRef=null) {
+	if (typeof buffer === "string") {
+		buffer = new fileBuffer(buffer); // Assumes fileBuffer is defined elsewhere
+	}
 	var offset = 0;
 	if(metadataRef) {
 		offset = metadataRef.offsetOfValueInMain;

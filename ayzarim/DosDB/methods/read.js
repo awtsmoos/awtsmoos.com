@@ -247,10 +247,15 @@ module.exports = {
         path,
         properties
     }) {
+
         try {
-            if(!properties) {
-                const data = await fs.readFile(path);
-                if(await awtsmoosBinary.isAwtsmoosObject(data)) {
+            const data = await fs.readFile(path);
+            if(
+                //!properties
+                6
+            ) {
+                
+                if( await awtsmoosBinary.isAwtsmoosObject(data)) {
                     return {
                         success: await awtsmoosBinary.deserializeBinary(data)
                     }
@@ -263,9 +268,10 @@ module.exports = {
                         props = JSON.parse(props);
                     } catch (e) {}
                 }
-                if(await awtsmoosBinary.isAwtsmoosObject(path)) {
+
+                if(await awtsmoosBinary.isAwtsmoosObject(data)) {
                     return {
-                        success: await awtsmoosBinary.mapBinary(path, props)
+                        success: await awtsmoosBinary.mapBinary(data, props)
                     }
                 }
                 return null;

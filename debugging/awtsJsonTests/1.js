@@ -1,11 +1,29 @@
 //B"H
-
 var awtsmoosBinary = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
+var fs = require("fs")
 
+/*
+var old =            require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+require("fs").writeFileSync("./Ok.awts", news.serializeJSON(Object.fromEntries(Array.from({length:17}).fill(2).map((q,i)=>[i,2*i]))))
+undefined
+> o=news.deserializeBinary(require("fs").readFileSync("./Ok.awts"))
+*/
 var baseObj = 
+
+
    
     
    {
+    wow: 
+    Object.fromEntries(
+    
+        Array.from({length:32})
+        .fill(1).map((q,i) => [256 + i * i, i + i * i])
+    
+    
+    ),
+    jkl:[],
+    pop:{},
     ok:"hi",
     oykay: {
         doykay: "asdf",
@@ -46,7 +64,9 @@ var baseObj =
     {s:3},
     {j:8}
 
-]]}
+]],
+//d:Array.from({length:23546}).fill(1000).map((q,i)=>Math.pow(2, 16) + i )
+}
  /*{
     hi: "there",
     how: 123,
@@ -66,7 +86,7 @@ var baseObj =
 var ser = awtsmoosBinary.serializeJSON(baseObj);
 
 var des = awtsmoosBinary.deserializeBinary(ser);
-
+/*
 var start = Date.now();
 
 //var f = awtsmoosBinary.getValueByKey(ser, "asdf")
@@ -88,9 +108,16 @@ var mapt = awtsmoosBinary.mapObject(ser, {
             includes:"!"
         }
     }
-})
+})*/
 
 
-var end = Date.now() - start
+//var file = fs.readFileSync("debugging/awtsJsonTests/subSeries.awtsmoosJSON")
 
-console.log(des, "DID it",keys,end,meta,mapt);
+console.log( "DID it",
+    des,
+    ser,
+    
+
+  //  keys,end,meta,mapt
+);
+

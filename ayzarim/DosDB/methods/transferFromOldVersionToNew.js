@@ -1,5 +1,8 @@
 ///B"H
-var newWrite = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
+var newWrite = 
+
+//require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 module.exports = {
 
     async copyFromRegularToBinary(firstPath, destination) {

@@ -121,6 +121,8 @@ function serializeArray(arr) {
     var packedArrayLengthSize = packedLength(arrayLengthSize) /*
         0 - 3 indicating bytes 1 2 4 8
     */
+
+       // console.log("Ar length",lengthInfo)
    var packedOffsetSize = packedLength(offsetSize);
 
 	var packedByte = (
@@ -129,7 +131,9 @@ function serializeArray(arr) {
 				0b00001111
 			) & (
 				(packedArrayLengthSize << 2) |
+                //0b00001100
 				packedOffsetSize
+                //0b00000011
 			)
 		)
 	);

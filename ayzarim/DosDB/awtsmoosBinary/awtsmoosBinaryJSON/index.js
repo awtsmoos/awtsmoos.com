@@ -31,7 +31,7 @@ var {
     getMetadataByKey
 } = require("./deserialize/get.js");
 
-var mapBinary = require("./map.js");
+//var mapBinary = require("./map.js");
 
 var {
     magicJSON,
@@ -71,7 +71,7 @@ module.exports = {
     serializeArray,
     serializeJSON,
 
-    mapBinary,
+    mapBinary: mapObject,
     fileBuffer,
     getKeysFromBinary,
 

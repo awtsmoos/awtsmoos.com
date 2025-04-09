@@ -140,7 +140,6 @@ function serializeJSON(json) {
         : 8;
    
         
-
     var serializedMetadata = temp.serializeArray(metadataTable);
 
     var sizeOfMetadataArrayInfo = writeConditional(serializedMetadata.length);
@@ -148,6 +147,10 @@ function serializeJSON(json) {
     var metadataOfMetadataArray = getArray.getMetadata(
         serializedMetadata
     );
+
+
+   /* console.log("TAB",metadataOfMetadataArray,
+        metadataTable.length,sizeOfMetadataArrayInfo)*/
 
     var offsetSizeMetadataArray = metadataOfMetadataArray.offsetSize;
 
@@ -205,12 +208,20 @@ function serializeJSON(json) {
         if (entry) {
             
             var keyNumber = entry.keyNum;
+            var offsetOfValueInMetadataArray
+            try {
+               
+                offsetOfValueInMetadataArray = getArray.getOffsetFromIndex(
+                    serializedMetadata,
+                    keyNumber,
+                    metadataOfMetadataArray
+                );
+            } catch(e) {
+                console.log("LOL",keyNumber, metadataOfMetadataArray)
 
-            var offsetOfValueInMetadataArray = getArray.getOffsetFromIndex(
-                serializedMetadata,
-                keyNumber,
-                metadataOfMetadataArray
-            );
+                console.log("ISSUE",e);
+                throw "LOL";
+            }
 
             var bufferInHashTable = Buffer.alloc(
                 hashBufferEntrySize

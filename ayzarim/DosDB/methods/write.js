@@ -3,9 +3,9 @@
  * write methods for DosDB class
  */
 
-const awtsmoosBinary =  require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
+const awtsmoosBinary = // require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 
-//require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 
 var fs = require("fs").promises;
 var path = require("path");

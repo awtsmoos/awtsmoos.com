@@ -60,12 +60,12 @@ function deserializeJSON(buffer, metadata) {
         return null;
     }
 
-    var offset = magicJSON.length;
+    
     metadata = metadata || getMetadata(buffer);
-   
-    var obj = metadata/*array of keys with 
+    var obj = {};
+    metadata/*array of keys with 
     value offsets and lengths,
-    pretty easy*/.map(d => {
+    pretty easy*/.forEach(d => {
         var valueBuffer = buffer.subarray(
             d.offsetOfValueInMain,
             d.offsetOfValueInMain + 
@@ -75,9 +75,8 @@ function deserializeJSON(buffer, metadata) {
             value: valueBuffer,
             type: d.valueType
         });
-        return {
-            [d.key]: parst.value
-        }
+        obj[d.key] = parst.value
+   
     });
 
     return obj;

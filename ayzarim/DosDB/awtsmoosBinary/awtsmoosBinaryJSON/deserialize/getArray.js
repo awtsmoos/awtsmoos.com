@@ -49,7 +49,9 @@ function getLength(arrayBuffer) {
 
     var offset = magicLength;
     var arrayLengthSizeANDOffsetSizeInOneByte = 0b00001111 & arrayBuffer[offset];
-    var arrayLengthSize = unpackLength(0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte);
+    var arrayLengthSize = unpackLength(
+        (0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte) >> 2
+    );
 
     return arrayBuffer.readUIntBE(
         arrayBuffer.length - arrayLengthSize,
@@ -64,10 +66,21 @@ function getLength(arrayBuffer) {
  * @param {number} offset - Starting offset after magic bytes.
  * @returns {object} - Metadata with array length and offset sizes.
  */
-function getMetadata(arrayBuffer, offset) {
-    var arrayLengthSizeANDOffsetSizeInOneByte = 0b00001111 & arrayBuffer[offset];
-    var arrayLengthSize = unpackLength(0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte);
-    var offsetSize = unpackLength(0b00000011 & arrayLengthSizeANDOffsetSizeInOneByte);
+function getMetadata(arrayBuffer) {
+    var offset = 2;
+    var arrayLengthSizeANDOffsetSizeInOneByte = 0b00001111 & arrayBuffer.readUInt8(
+        offset
+    );
+    var arrayLengthSize = unpackLength(
+        (0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte) >> 2
+    );
+
+    var offsetSize = unpackLength(
+        0b00000011 & arrayLengthSizeANDOffsetSizeInOneByte
+    );
+    //console.log("sized",arrayLengthSize)
+
+    
     offset++;
 
     var arrayLength = arrayBuffer.readUIntBE(
@@ -75,6 +88,7 @@ function getMetadata(arrayBuffer, offset) {
         arrayLengthSize
     );
 
+   // console.log("Array length size",arrayLengthSize,arrayLength)
     return {
         arrayLengthSize,
         offsetSize,

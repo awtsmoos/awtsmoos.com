@@ -61,6 +61,15 @@ class FileBuffer {
 	set length(v) {
 		_length = v;
 	}
+	readUIntBE(offset, byteLength) {
+		return readFileBytesAtOffset({
+			filePath: this.filePath,
+			offset,
+			schema: {
+				awtsmoosVal: "uint_" + (byteLength * 8)
+			}
+		})?.awtsmoosVal;
+	}
 	// Read functions for common buffer operations using existing logic
 	readUInt8(offset) {
 		if(isNaN(offset)) {

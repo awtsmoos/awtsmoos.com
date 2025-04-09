@@ -10,6 +10,8 @@ const util = require("util");
 const readdir = util.promisify(fs.readdir);
 const stat = fs.stat;
 
+
+const awtsmoosBinary = require("./awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 const {
 	error
 } = require("console");
@@ -57,6 +59,8 @@ class DosDB {
 		awtsmoosMerge(this, directoryMethods);
 		awtsmoosMerge(this, transferVersions);
 
+
+		this.awtsmoosBinary = awtsmoosBinary;
 		this.directory = directory || "../";
 	}
 	
