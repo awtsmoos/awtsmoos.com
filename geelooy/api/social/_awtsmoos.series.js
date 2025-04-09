@@ -250,7 +250,7 @@ module.exports = ({
 						seriesId: curID,
 						userid,
 						properties: {
-							parentSeriesId:2560
+							parentSeriesId: true
 		
 						},
 						heichelId: v.heichel,

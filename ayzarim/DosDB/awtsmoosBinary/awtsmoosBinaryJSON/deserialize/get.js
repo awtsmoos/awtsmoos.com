@@ -341,6 +341,10 @@ function parseMetadataEntry(metadataEntryBuffer) {
 	);
 	offset += keyLength;
 
+	console.trace("Doing",keyLength, keyBuffer+"",offset,
+		byteOffsetByteSize
+	)
+
 	var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
 		offset,
 		byteOffsetByteSize
@@ -686,6 +690,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 	var result = {};
 	for(var key of keys) {
 		var conditions = mapping[key]
+		console.log("Doing",key,conditions,metadataRef)
 		var metadataEntry = getMetadataByKey(
 			buffer,
 			key,

@@ -6,8 +6,8 @@ var fs = require("fs").promises;
 var path = require("path");
 
 
-const awtsmoosBinary = //require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
-require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
+//require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
 const { error } = require("console");
 module.exports = {
     /**
@@ -251,8 +251,8 @@ module.exports = {
         try {
             const data = await fs.readFile(path);
             if(
-                //!properties
-                6
+                !properties
+                
             ) {
                 
                 if( await awtsmoosBinary.isAwtsmoosObject(data)) {
