@@ -100,16 +100,20 @@ function serializeJSON(json) {
         var bufferOffset = writeConditional(offset)
 
         var packedLengthSizes = (
-            keyLengthInfo.size << 4 | 
-            //0b00110000
-            valueBufferInfo.typeLengthByte << 2 |
+            packedLength(
+                keyLengthInfo.size
+            ) << 2 | 
+        
             //0b00001100 | 
-            bufferOffset.size
+            packedLength(
+                bufferOffset.size
+            )
             //0b00000011
-        )
-        var keysAndValueTypes = Buffer.concat([
-            Buffer.from(packedLengthSizes),
+        );
 
+        var keysAndValueTypes = Buffer.concat([
+            Buffer.from([packedLengthSizes]),
+            Buffer.from([valueBufferInfo.typeLengthByte]),
             keyLengthInfo.buffer,
 
             valueBufferInfo.valueLengthInfo.buffer,
@@ -134,6 +138,8 @@ function serializeJSON(json) {
         : dataLength < 65536 ? 2 
         : dataLength < 4294967296 ? 4 
         : 8;
+   
+        
 
     var serializedMetadata = temp.serializeArray(metadataTable);
 
@@ -169,7 +175,9 @@ function serializeJSON(json) {
     var totalEntriesLength = writeConditional(
         keys.length
     );
-    var byteSizeOfTotalEntriesLength = totalEntriesLength.size;
+    var byteSizeOfTotalEntriesLength = packedLength(
+        totalEntriesLength.size
+    );
 
     var packAll = (
             //first 2 bits reserved
@@ -183,7 +191,7 @@ function serializeJSON(json) {
     
     
     offsetSizePlaceholder.writeUInt8(packAll);
-
+    
     var hashBufferEntrySize = (
         offsetSizeMetadataArray
     );
@@ -195,7 +203,7 @@ function serializeJSON(json) {
    
     hashTable.forEach((entry, index) => {
         if (entry) {
-           // console.log(entry,entry.offset, index,offsetSize)
+            
             var keyNumber = entry.keyNum;
 
             var offsetOfValueInMetadataArray = getArray.getOffsetFromIndex(

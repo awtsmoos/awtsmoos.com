@@ -41,7 +41,7 @@ Object.defineProperty(temp, "deserializeArray", {
  * @param {Buffer} buffer - The serialized binary buffer.
  * @returns {object} - The reconstructed JSON object.
  */
-function deserializeJSON(buffer) {
+function deserializeJSON(buffer, metadata) {
     var magic = buffer.subarray(
         0,
         magicJSON.length
@@ -61,53 +61,28 @@ function deserializeJSON(buffer) {
     }
 
     var offset = magicJSON.length;
-    var metadata = getMetadata(buffer, offset);
-
-    offset = metadata.newOffset;
-
-    var keys = getKeys(
-        buffer,
-        offset,
-        metadata.lengthSizeOfKeys,
-        metadata.lengthSizeOfKeysArray
-    );
-
-
-    offset = buffer.length - metadata.lengthSizeOfKeysArray -
-             buffer.readUIntBE(
-                 buffer.length - metadata.lengthSizeOfKeysArray,
-                 metadata.lengthSizeOfKeysArray
-             ) - metadata.lengthSizeOfKeys - metadata.lengthSizeHashTable;
-
-    var hashTableEntrySize = buffer.readUIntBE(
-        offset,
-        metadata.lengthSizeHashTable
-    );
-    var hashTableLength = metadata.offsetByteSize * hashTableEntrySize;
-    var actualHashTable = buffer.subarray(
-        offset - hashTableLength,
-        offset
-    );
-
-    var entries = {};
-    for (var offsetIdx = 0; offsetIdx < hashTableEntrySize; offsetIdx++) {
-        var actualOffset = offsetIdx * metadata.offsetByteSize;
-        var hashOffset = actualHashTable.readUIntBE(
-            actualOffset,
-            metadata.offsetByteSize
+    metadata = metadata || getMetadata(buffer, offset);
+   
+    var obj = metadata/*array of keys with 
+    value offsets and lengths,
+    pretty easy*/.map(d => {
+        var valueBuffer = buffer.subarray(
+            d.offsetOfValueInMain,
+            d.offsetOfValueInMain + 
+            d.valueLength
         );
-        var entry = getValueByKey(buffer, hashOffset, metadata.offsetByteSize);
-        if (entry) {
-            entries[entry.key] = entry.value;
+        var parst = temp.parseValueFromType({
+            value: valueBuffer,
+            type: d.valueType
+        });
+        return {
+            [d.key]: parst.value
         }
-    }
-
-    var entriesInOrder = {};
-    keys.forEach(q => {
-        entriesInOrder[q] = entries[q];
     });
 
-    return entriesInOrder;
+    return obj;
+
+    
 }
 
 module.exports = deserializeJSON;

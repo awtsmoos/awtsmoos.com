@@ -43,11 +43,16 @@ function serializeValue(value, fullBuffer = true) {
         typeof value === "object" &&
         value !== null
     ) {
-        type = 1;
-        if (!serializeJSON) {
-            serializeJSON = require("./obj.js");
+        if (value instanceof Buffer) {
+            type = 8;
+            data = value;
+        } else {
+            type = 1;
+            if (!serializeJSON) {
+                serializeJSON = require("./obj.js");
+            }
+            data = serializeJSON(value);
         }
-        data = serializeJSON(value);
     } else if (typeof value === "string") {
         type = 2;
         data = Buffer.from(value, "utf8");
@@ -176,9 +181,6 @@ function serializeValue(value, fullBuffer = true) {
     } else if (value === null) {
         type = 7;
         data = Buffer.alloc(0);
-    } else if (value instanceof Buffer) {
-        type = 8;
-        data = value;
     }
 
      // The Kav measures the length, binding it into form.

@@ -9,6 +9,12 @@ const {
     magicJSON,
     magicArray
 } = require("./../constants.js");
+
+var {
+	hashKey
+} = require("../helpers/hashing/misc.js");
+
+
 const readConditional = require("../helpers/readConditionalWithSize.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 
@@ -40,11 +46,12 @@ var {
 function getLengthSizes(buffer, offset) {
 	if(!offset) {
 		var buf = Buffer.from(magicJSON);
-		offset += buf.length;
-	}
+		offset = buf.length;
+    }
+    
 
     var allSizesOfLengths = buffer.readUInt8(offset++);
-    return {
+    var unp = {
       //  offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
         lengthSizeOfKeys: 
         	unpackLength(0b00110000 & allSizesOfLengths),
@@ -54,6 +61,9 @@ function getLengthSizes(buffer, offset) {
 
         sizeOfHashTableLength: unpackLength(0b00000011 & allSizesOfLengths)
     };
+
+    console.log("Exposed",allSizesOfLengths.toString(2), unp)
+    return unp
 }
 
 function getOffsetSizesAndLengths(buffer, lengthSizes) {
@@ -67,6 +77,7 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 		sizeOfHashTableLength
 	} = lengthSizes;
 
+
 	var staticBytes = 1//packed offset sizes
 	var combinedByteLengthOfLengths = (
 		lengthSizeOfKeys + 
@@ -76,6 +87,8 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 
 	var totalSizeToRead = combinedByteLengthOfLengths 
 		+ staticBytes;
+
+    
 
 
 	var offset = buffer.length - 
@@ -96,7 +109,8 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 		.readUInt8(
 			offset++
 		);
-	
+
+    
 	var offsetSizeInDataRegion = unpackLength(
 		0b00001100 &
 		offsetSizesPacked
@@ -114,6 +128,8 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 			lengthSizeOfKeys
 		);
 
+    
+    
 	offset += lengthSizeOfKeys
 
 
@@ -122,6 +138,8 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 			offset,
 			sizeOfEmbeddedMetadataArrayLength
 		);
+
+        
 
 	offset += sizeOfEmbeddedMetadataArrayLength;
 
@@ -132,8 +150,17 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 			offset,
 			sizeOfHashTableLength
 		);
-
-
+   /*
+        console.log(
+            "Got",lengthSizes,
+                totalSizeToRead, 
+                dynamicLengthsAndOffsetSizes,
+                offsetSizesPacked,
+                lengthOfTotalEntries,
+                lengthMetadataArray,
+                lengthHashTable
+        )
+                */
 	return {
 		lengthSizes,
 
@@ -143,7 +170,9 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 
 		offsetSizeInDataRegion,
 		sizeOfMetadataArrayOffsetSize,
-		beginningOfOffset: totalSizeToRead
+		beginningOfOffset: totalSizeToRead /**
+			counts from buffer.length - this
+		*/
 	}
 }
 
@@ -169,15 +198,112 @@ function getMetadata(buffer) {
 		beginningOfOffset
 	} = lengthsAndOffsetInfo;
 
-	var offsetToStart = beginningOfOffset - (
-		lengthMetadataArray
-	);
+	var offsetToStart = buffer.length - (
+            beginningOfOffset
+    )  - (
+        lengthMetadataArray
+    )
+    ;
+
+    /*
+    console.log("ar",beginningOfOffset, lengthMetadataArray, 
+        offsetToStart)*/
 
 	var metadataTable = buffer.subarray(
 		offsetToStart,
 		offsetToStart + lengthMetadataArray
 	);
+	var des = temp.deserializeArray(metadataTable)
+    var fan = des.map(parseMetadataEntry)
+    return fan;
+}
+
+function parseMetadataEntry(metadataEntryBuffer) {
+	var offset = 0;
+
+	var packedSizesAndValueTypeSizeByte = (
+		metadataEntryBuffer.subarray(
+			offset, 
+			offset + 2
+		)
+	);
+
+	offset += 2;
+
+    var packedKeyAndValueByteLengths = 
+		packedSizesAndValueTypeSizeByte.readUInt8(0);
+
+
 	
+	var  keyLengthByteSize= unpackLength(
+		
+		(0b00001100 & packedKeyAndValueByteLengths)
+		>> 2
+	);
+//valueLengthByteSize
+
+	var byteOffsetByteSize = unpackLength(
+		(0b00000011 & packedKeyAndValueByteLengths)
+	)
+
+	var packedValueByte = packedSizesAndValueTypeSizeByte.readUInt8(1);
+	var parst = unpackTypeAndLengthSize(
+		packedValueByte
+	)
+
+	
+	var valueByteLengthSize = 
+		parst.lengthSize;
+
+	var valueType = parst.type;
+	var keyAndValueByteSizes = (
+		valueByteLengthSize + 
+		keyLengthByteSize
+	)
+
+	var lengths = metadataEntryBuffer.subarray(
+		offset,
+		offset + keyAndValueByteSizes
+	);
+	offset += keyAndValueByteSizes;
+
+	
+
+	var keyLength = lengths.readUIntBE(
+		0, 
+		keyLengthByteSize
+	);
+/*
+	console.log("lenghs",
+		metadataEntryBuffer,
+		packedKeyAndValueByteLengths,
+		keyLengthByteSize,
+		parst,
+		keyLength,
+		lengths
+	)*/
+	var valueLength = lengths.readUIntBE(
+		keyLengthByteSize,
+		valueByteLengthSize
+	)
+
+	var keyBuffer = metadataEntryBuffer.subarray(
+		offset,
+		offset + keyLength
+	);
+	offset += keyLength;
+
+	var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
+		offset,
+		byteOffsetByteSize
+	);
+
+	return {
+		key: keyBuffer.toString(),
+		valueLength,
+		valueType,
+		offsetOfValueInMain
+	}
 }
 
 /**
@@ -189,20 +315,17 @@ function getMetadata(buffer) {
  * @param {number} lengthSizeOfKeysArray - Size of keys array length field.
  * @returns {Array} - Array of keys in order.
  */
-function getKeys(buffer, offset, lengthSizeOfKeys, lengthSizeOfKeysArray) {
-    offset = buffer.length - lengthSizeOfKeysArray;
-    var lengthOfKeyArray = buffer.readUIntBE(
-        offset,
-        lengthSizeOfKeysArray
-    );
-    offset -= lengthOfKeyArray;
-    var keysArray = buffer.subarray(
-        offset,
-        offset + lengthOfKeyArray
-    );
-    offset -= lengthSizeOfKeys;
-    return temp.deserializeArray(keysArray);
+function getKeys(buffer, lengthsAndOffsetInfo) {
+    var meta = getMetadata(
+		buffer,
+		lengthsAndOffsetInfo
+	);
+
+	return meta.map(q => q.key)
+	
 }
+
+
 
 /**
  * @method getValueByKey
@@ -212,50 +335,49 @@ function getKeys(buffer, offset, lengthSizeOfKeys, lengthSizeOfKeysArray) {
  * @param {number} offsetByteSize - Size of offset field.
  * @returns {object} - Key-value pair or null if offset is zero.
  */
-function getValueByKey(buffer, offset, offsetByteSize) {
-    if (offset === 0) return null;
+function getValueByKey(buffer, key, lengthSizes) {
+	var offsetAndLengthInfos = getOffsetSizesAndLengths(
+		buffer,
+		lengthSizes
+	);
 
-    var keyLengthSize = buffer.readUInt8(offset);
-    offset += offsetByteSize;
+	var {
+		beginningOfOffset,
+		lengthMetadataArray/*acutal byte length*/,
+		lengthHashTable /*ENTY size not byte length*/,
+		sizeOfMetadataArrayOffsetSize
+	} = offsetAndLengthInfos;
 
-    var keyLength = buffer.readUIntBE(
-        offset,
-        keyLengthSize
-    );
-    offset += keyLengthSize;
+	var byteLengthOfHashTable = (
+		lengthHashTable * 
+		sizeOfMetadataArrayOffsetSize
+	)
+	var hashTableStart = (
+		buffer.length - (
+			beginningOfOffset +
+			lengthMetadataArray + 
+			byteLengthOfHashTable
+		)
+	);
 
-    var keyBuffer = buffer.subarray(
-        offset,
-        offset + keyLength
-    );
-    offset += keyLength;
+	var hashTableEnd = (
+		hashTableStart + 
+		lengthHashTable
+	);
 
-    var valueTypeAndSizeByte = buffer.readUInt8(offset);
-    var {
-        type,
-        lengthSize
-    } = unpackTypeAndLengthSize(valueTypeAndSizeByte);
-    offset++;
+	
 
-    var valueLength = buffer.readUIntBE(
-        offset,
-        lengthSize
-    );
-    offset += lengthSize;
+	
+	var hashValue/*offsetInArrayIndexTable*/ = null;
+	while(hashValue == null) {
+		var hasht = hashKey(key);
+		var value = buffer.readUIntBE(
+			hashTableStart,
+			hasht 
+		)
+	}
 
-    var valueBuffer = buffer.subarray(
-        offset,
-        offset + valueLength
-    );
-    var parsed = temp.parseValueFromType({
-        type,
-        value: valueBuffer
-    });
 
-    return {
-        key: keyBuffer.toString(),
-        value: parsed.value
-    };
 }
 
 /**
@@ -269,31 +391,7 @@ function getValueByKey(buffer, offset, offsetByteSize) {
  * @returns {object|null} - The key-value pair if found, null otherwise.
  */
 function getValueByHashingKey(buffer, key, offsetByteSize, hashTableBuffer, hashTableEntrySize) {
-    const hashTableSize = hashTableEntrySize * 2; // Reflects serialization doubling for collision avoidance
-    const hashIndex = hashKey(key, hashTableSize);
-    let index = hashIndex;
 
-    while (true) {
-        const actualOffset = index * offsetByteSize;
-        const offset = hashTableBuffer.readUIntBE(
-            actualOffset,
-            offsetByteSize
-        );
-
-        if (offset === 0) {
-            return null; // Empty slot, key not found
-        }
-
-        const entry = getValueByKey(buffer, offset, offsetByteSize);
-        if (entry && entry.key === key) {
-            return entry; // Key found
-        }
-
-        index = (index + 1) % hashTableSize; // Linear probing
-        if (index === hashIndex) {
-            return null; // Full cycle, key not found
-        }
-    }
 }
 
 module.exports = {

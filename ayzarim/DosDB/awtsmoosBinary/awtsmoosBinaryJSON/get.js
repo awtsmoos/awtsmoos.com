@@ -14,7 +14,7 @@ var parseValueFromKey
 
 
 
-async function getKeysFromBinary(buffer) {
+function getKeysFromBinary(buffer) {
     
     
     if(typeof(buffer) == "string") {
@@ -24,7 +24,7 @@ async function getKeysFromBinary(buffer) {
     
     
    
-    var magic = (await buffer.subarray(0, magicArray.length)).toString();
+    var magic = (buffer.subarray(0, magicArray.length)).toString();
 
     
     var keys = [];
@@ -48,13 +48,13 @@ async function getKeysFromBinary(buffer) {
 }
 
 
-async function getValueByKey(buffer, searchKey) {
+function getValueByKey(buffer, searchKey) {
  
     if(typeof(buffer) == "string") {
         buffer = new fileBuffer(buffer);
     }
    
-    var magic = (await buffer.subarray(0, magicArray.length)).toString();
+    var magic = (buffer.subarray(0, magicArray.length)).toString();
 
     
     if(magic == magicJSON) {
