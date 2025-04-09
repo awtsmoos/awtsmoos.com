@@ -668,7 +668,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 
 				result[key] = value
 			}
-			console.log("Gave",key,conditions,value,shouldGive,result)
+			//console.log("Gave",key,conditions,value,shouldGive,result)
 		}
 	}
 	return result;
