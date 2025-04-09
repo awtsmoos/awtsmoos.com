@@ -59,7 +59,7 @@ function getValueByKey(buffer, searchKey) {
     
     if(magic == magicJSON) {
         
-        return objGet.getValueByHashingKey(buffer, searchKey)
+        return objGet.getValueByKey(buffer, searchKey)
 
     } else if(magic != magicArray) {
         return {

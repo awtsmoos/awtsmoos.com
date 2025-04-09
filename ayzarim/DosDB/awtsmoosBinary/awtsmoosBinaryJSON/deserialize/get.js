@@ -62,7 +62,7 @@ function getLengthSizes(buffer, offset) {
         sizeOfHashTableLength: unpackLength(0b00000011 & allSizesOfLengths)
     };
 
-    console.log("Exposed",allSizesOfLengths.toString(2), unp)
+  //  console.log("Exposed",allSizesOfLengths.toString(2), unp)
     return unp
 }
 
@@ -176,14 +176,8 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 	}
 }
 
-/**
- * @method getMetadata
- * @description Extracts metadata sizes from the buffer, reflecting the divine order of the Awtsmoos.
- * @param {Buffer} buffer - The serialized binary buffer.
- * @param {number} offset - Starting offset after magic bytes.
- * @returns {object} - Metadata containing size definitions.
- */
-function getMetadata(buffer) {
+
+function getRawMetadataTable(buffer) {
 	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
 		buffer
 	);
@@ -213,6 +207,18 @@ function getMetadata(buffer) {
 		offsetToStart,
 		offsetToStart + lengthMetadataArray
 	);
+
+	return metadataTable;
+}
+/**
+ * @method getMetadata
+ * @description Extracts metadata sizes from the buffer, reflecting the divine order of the Awtsmoos.
+ * @param {Buffer} buffer - The serialized binary buffer.
+ * @param {number} offset - Starting offset after magic bytes.
+ * @returns {object} - Metadata containing size definitions.
+ */
+function getMetadata(buffer) {
+	var metadataTable = getRawMetadataTable(buffer)
 	var des = temp.deserializeArray(metadataTable)
     var fan = des.map(parseMetadataEntry)
     return fan;
@@ -326,7 +332,31 @@ function getKeys(buffer, lengthsAndOffsetInfo) {
 }
 
 
+function getValueFromMetadata(buffer, metadataEntry) {
+	var buf = buffer.subarray(
+		metadataEntry.offsetOfValueInMain,
+		metadataEntry.offsetOfValueInMain +
+		metadataEntry.valueLength
+	);
 
+	var parst = temp.parseValueFromType({
+		value: buf,
+		type: metadataEntry.valueType
+	});
+
+	return parst.value
+}
+function getEntryFromMetadata(buffer, metadataEntry) {
+	var value = getValueFromMetadata(
+		buffer,
+		metadataEntry
+	)
+
+	return {
+		[metadataEntry.key]:
+		value
+	}
+}
 /**
  * @method getValueByKey
  * @description Extracts a single key-value pair from the hash table, illuminated by the Ohr Ein Sof.
@@ -336,6 +366,31 @@ function getKeys(buffer, lengthsAndOffsetInfo) {
  * @returns {object} - Key-value pair or null if offset is zero.
  */
 function getValueByKey(buffer, key, lengthSizes) {
+	var metadataEntry = getMetadataByKey(
+		buffer,
+		key,
+		lengthSizes
+	);
+	var value = getValueFromMetadata(
+		buffer,
+		metadataEntry
+	)
+	return value;
+	
+
+
+}
+
+
+/**
+ * @method getValueByKey
+ * @description Extracts a single key-value pair from the hash table, illuminated by the Ohr Ein Sof.
+ * @param {Buffer} buffer - The serialized binary buffer.
+ * @param {number} offset - Offset to the value data.
+ * @param {number} offsetByteSize - Size of offset field.
+ * @returns {object} - Key-value pair or null if offset is zero.
+ */
+function getMetadataByKey(buffer, key, lengthSizes) {
 	var offsetAndLengthInfos = getOffsetSizesAndLengths(
 		buffer,
 		lengthSizes
@@ -345,12 +400,23 @@ function getValueByKey(buffer, key, lengthSizes) {
 		beginningOfOffset,
 		lengthMetadataArray/*acutal byte length*/,
 		lengthHashTable /*ENTY size not byte length*/,
-		sizeOfMetadataArrayOffsetSize
+		sizeOfMetadataArrayOffsetSize /*
+			same as the hash
+			entry size
+			because that's all each
+			hash value is:
+
+			the offset in 
+			the metadata array data section
+			(in raw form)
+		*/
 	} = offsetAndLengthInfos;
+
+	var hashTableEntrySize = sizeOfMetadataArrayOffsetSize;
 
 	var byteLengthOfHashTable = (
 		lengthHashTable * 
-		sizeOfMetadataArrayOffsetSize
+		hashTableEntrySize
 	)
 	var hashTableStart = (
 		buffer.length - (
@@ -365,17 +431,75 @@ function getValueByKey(buffer, key, lengthSizes) {
 		lengthHashTable
 	);
 
-	
+
 
 	
 	var hashValue/*offsetInArrayIndexTable*/ = null;
-	while(hashValue == null) {
-		var hasht = hashKey(key);
-		var value = buffer.readUIntBE(
-			hashTableStart,
-			hasht 
-		)
-	}
+	
+	var hasht = hashKey(key, lengthHashTable);
+
+	var hashBufer = buffer.subarray(
+		hashTableStart,
+		hashTableEnd
+	);
+
+	var metadataTable = getRawMetadataTable(buffer)
+	
+	/*console.log("Hash",
+		hashTableStart,
+		buffer,
+		metadataTable,
+		hashTableEntrySize,
+		byteLengthOfHashTable,
+
+		lengthHashTable,
+		hasht,
+		hashBufer,
+		hasht * hashTableEntrySize
+
+
+
+	)*/;
+
+
+	var offsetInMetadataArray = buffer.readUIntBE(
+		hashTableStart + hasht * hashTableEntrySize,
+		hashTableEntrySize
+	)
+
+	/**
+	 * offset in array of data.
+	 * 
+	 * but we don't know what it is etc.
+	 */
+
+	var firstByteInArrayAtOffset = metadataTable.readUInt8(
+		offsetInMetadataArray
+	)
+	var unp = unpackTypeAndLengthSize(
+		firstByteInArrayAtOffset
+	)
+	var sizeOfLength = unp.lengthSize;
+
+	var lengthItself = metadataTable.readUInt8(
+		offsetInMetadataArray + 1,
+		sizeOfLength
+	)
+
+	offsetInMetadataArray += 1 +  sizeOfLength
+	var dataOfMetadataEntry = metadataTable.subarray(
+		offsetInMetadataArray,
+		offsetInMetadataArray + lengthItself
+	);
+
+	var parst = parseMetadataEntry
+	(
+		dataOfMetadataEntry
+	)
+	//console.log(unp,lengthItself, dataOfMetadataEntry,parst)
+
+	return parst;
+
 
 
 }
@@ -390,12 +514,15 @@ function getValueByKey(buffer, key, lengthSizes) {
  * @param {number} hashTableEntrySize - Number of entries in the hash table.
  * @returns {object|null} - The key-value pair if found, null otherwise.
  */
-function getValueByHashingKey(buffer, key, offsetByteSize, hashTableBuffer, hashTableEntrySize) {
-
+function getValueByHashingKey(buffer, key) {
+	return getValueByKey(buffer, key)
 }
 
 module.exports = {
     getValueByKey,
+	getEntryFromMetadata,
+
+	getMetadataByKey,
     getKeys,
     getMetadata,
     getValueByHashingKey,
