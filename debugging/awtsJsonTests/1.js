@@ -2,10 +2,16 @@
 
 var awtsmoosBinary = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 
-var baseObj = {ok:"hi",
+var baseObj = 
+   
+    
+   {
+    ok:"hi",
     oykay: {doykay: "asdf", well:" indeed", yes: "! ! ! cool ! !"},
     asdf: [1,2,3],
-    there:2, "well": "cool"}/*{array: [
+    there:2, "well": "cool",
+    
+    array: [
     {
     j:8123, a:123.4125152152, t:-1231244.4, g:"ok", c:undefined,
     qq:null,
@@ -35,7 +41,8 @@ var baseObj = {ok:"hi",
     {s:3},
     {j:8}
 
-]]} /*{
+]]}
+ /*{
     hi: "there",
     how: 123,
     are: [
@@ -57,16 +64,15 @@ var des = awtsmoosBinary.deserializeBinary(ser);
 
 var start = Date.now();
 
-var f = awtsmoosBinary.getValueByKey(ser, "asdf")
-
-var end = Date.now() - start
+//var f = awtsmoosBinary.getValueByKey(ser, "asdf")
 
 var keys = awtsmoosBinary.getKeysFromBinary(ser);
+
 var meta = awtsmoosBinary.getMetadataByKey(ser, "ok")
 var mapt = awtsmoosBinary.mapObject(ser, {
     asdf: true,
     ok: {
-        includes: "qh"
+        includes: "h"
     },
     oykay: {
         well: true,
@@ -75,4 +81,8 @@ var mapt = awtsmoosBinary.mapObject(ser, {
         }
     }
 })
-console.log(des, "DID it",keys,end, f,  mapt,meta);
+
+
+var end = Date.now() - start
+
+console.log(des, "DID it",keys,end,meta,mapt);
