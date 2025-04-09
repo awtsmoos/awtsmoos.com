@@ -43,13 +43,18 @@ var {
 } = require("../packing/packedLength.js");
 
 
-function getLengthSizes(buffer, offset) {
-	if(!offset) {
-		var buf = Buffer.from(magicJSON);
-		offset = buf.length;
-    }
-    
+function getLengthSizes(buffer, metadataRef = null) {
+	var offset = 0;
+	var buf = Buffer.from(magicJSON);
 
+	if(metadataRef) {
+		offset = metadataRef.offsetOfValueInMain
+	}
+
+	offset += buf.length;
+
+    
+	
     var allSizesOfLengths = buffer.readUInt8(offset++);
     var unp = {
       //  offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
@@ -66,11 +71,11 @@ function getLengthSizes(buffer, offset) {
     return unp
 }
 
-function getOffsetSizesAndLengths(buffer, lengthSizes) {
+function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
 	if(!lengthSizes) {
-		lengthSizes = getLengthSizes(buffer);
+		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
-
+	
 	var {
 		lengthSizeOfKeys,
 		sizeOfEmbeddedMetadataArrayLength,
@@ -91,7 +96,13 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
     
 
 
-	var offset = buffer.length - 
+	var endOfBuffer = buffer.length;
+	if(metadataRef) {
+		endOfBuffer = metadataRef.offsetOfValueInMain +
+			metadataRef.valueLength;
+
+	}
+	var offset = endOfBuffer - 
 		totalSizeToRead//reading backwards
 
 	var dynamicLengthsAndOffsetSizes = buffer.subarray(
@@ -176,10 +187,11 @@ function getOffsetSizesAndLengths(buffer, lengthSizes) {
 	}
 }
 
-
-function getRawMetadataTable(buffer) {
+function getOffsetOfMetadataTableInMain(buffer, metadataRef) {
 	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
-		buffer
+		buffer,
+		null,
+		metadataRef
 	);
 
 	var {
@@ -192,12 +204,35 @@ function getRawMetadataTable(buffer) {
 		beginningOfOffset
 	} = lengthsAndOffsetInfo;
 
-	var offsetToStart = buffer.length - (
+	var endOfBuffer = buffer.length;
+
+	if(metadataRef) {
+		endOfBuffer = metadataRef.offsetOfValueInMain + 
+			metadataRef.valueLength;
+	}
+
+	var offsetToStart = endOfBuffer - (
             beginningOfOffset
     )  - (
         lengthMetadataArray
     )
-    ;
+	var end = offsetToStart + lengthMetadataArray;
+	return {
+		offsetToStart,
+		end
+	}
+}
+
+
+function getRawMetadataTable(buffer, metadataRef) {
+	
+    var {
+		offsetToStart,
+		end
+	} = getOffsetOfMetadataTableInMain(
+		buffer,
+		metadataRef
+	)
 
     /*
     console.log("ar",beginningOfOffset, lengthMetadataArray, 
@@ -205,7 +240,7 @@ function getRawMetadataTable(buffer) {
 
 	var metadataTable = buffer.subarray(
 		offsetToStart,
-		offsetToStart + lengthMetadataArray
+		end
 	);
 
 	return metadataTable;
@@ -217,8 +252,8 @@ function getRawMetadataTable(buffer) {
  * @param {number} offset - Starting offset after magic bytes.
  * @returns {object} - Metadata containing size definitions.
  */
-function getMetadata(buffer) {
-	var metadataTable = getRawMetadataTable(buffer)
+function getMetadata(buffer, metadataRef) {
+	var metadataTable = getRawMetadataTable(buffer, metadataRef)
 	var des = temp.deserializeArray(metadataTable)
     var fan = des.map(parseMetadataEntry)
     return fan;
@@ -339,19 +374,25 @@ function getValueInfoFromMetadata(metadataEntry) {
 			metadataEntry.valueLength
 	}
 }
-function getValueBufferFromMetadata(buffer, metadataEntry) {
+function getValueBufferFromMetadata(buffer, metadataEntry, metadataRef) {
+	var offset = metadataEntry.offsetOfValueInMain
+	if(metadataRef) {
+		offset = metadataRef.offsetOfValueInMain +
+			metadataEntry.offsetOfValueInMain
+	}
 	var buf = buffer.subarray(
-		metadataEntry.offsetOfValueInMain,
-		metadataEntry.offsetOfValueInMain +
+		offset,
+		offset +
 		metadataEntry.valueLength
 	);
 	return buf
 }
 
-function getValueFromMetadata(buffer, metadataEntry) {
+function getValueFromMetadata(buffer, metadataEntry, metadataRef) {
 	var buf = getValueBufferFromMetadata(
 		buffer,
-		metadataEntry
+		metadataEntry,
+		metadataRef
 	)
 
 	var parst = temp.parseValueFromType({
@@ -405,10 +446,11 @@ function getValueByKey(buffer, key, lengthSizes) {
  * @param {number} offsetByteSize - Size of offset field.
  * @returns {object} - Key-value pair or null if offset is zero.
  */
-function getMetadataByKey(buffer, key, lengthSizes) {
+function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 	var offsetAndLengthInfos = getOffsetSizesAndLengths(
 		buffer,
-		lengthSizes
+		lengthSizes,
+		metadataRef
 	);
 
 	var {
@@ -432,9 +474,17 @@ function getMetadataByKey(buffer, key, lengthSizes) {
 	var byteLengthOfHashTable = (
 		lengthHashTable * 
 		hashTableEntrySize
-	)
+	);
+
+	var bufferEnd = buffer.length;
+
+	if(metadataRef) {
+		bufferEnd = metadataRef.offsetOfValueInMain + 
+			metadataRef.valueLength;
+
+	}
 	var hashTableStart = (
-		buffer.length - (
+		bufferEnd - (
 			beginningOfOffset +
 			lengthMetadataArray + 
 			byteLengthOfHashTable
@@ -447,72 +497,84 @@ function getMetadataByKey(buffer, key, lengthSizes) {
 	);
 
 
+	var parst = null;
+	var metadataTableRef = getOffsetOfMetadataTableInMain(buffer, metadataRef)
 
-	
-	var hashValue/*offsetInArrayIndexTable*/ = null;
-	
+	var metadataStartInMain = metadataTableRef.offsetToStart;
+	//console.log("Sart",metadataStartInMain)
+	var finalKey = null;
+
 	var hasht = hashKey(key, lengthHashTable);
+	while(finalKey != key) {
 
-	var hashBufer = buffer.subarray(
-		hashTableStart,
-		hashTableEnd
-	);
 
-	var metadataTable = getRawMetadataTable(buffer)
-	
-	/*console.log("Hash",
-		hashTableStart,
-		buffer,
-		metadataTable,
-		hashTableEntrySize,
-		byteLengthOfHashTable,
+		
+		/*console.log("Hash",
+			hashTableStart,
+			buffer,
+			metadataTable,
+			hashTableEntrySize,
+			byteLengthOfHashTable,
 
-		lengthHashTable,
-		hasht,
-		hashBufer,
-		hasht * hashTableEntrySize
+			lengthHashTable,
+			hasht,
+			hashBufer,
+			hasht * hashTableEntrySize
 
 
 
-	)*/;
+		)*/;
 
 
-	var offsetInMetadataArray = buffer.readUIntBE(
-		hashTableStart + hasht * hashTableEntrySize,
-		hashTableEntrySize
-	)
 
-	/**
-	 * offset in array of data.
-	 * 
-	 * but we don't know what it is etc.
-	 */
+		var offsetInMetadataArray = buffer.readUIntBE(
+			hashTableStart + hasht * hashTableEntrySize,
+			hashTableEntrySize
+		)
 
-	var firstByteInArrayAtOffset = metadataTable.readUInt8(
-		offsetInMetadataArray
-	)
-	var unp = unpackTypeAndLengthSize(
-		firstByteInArrayAtOffset
-	)
-	var sizeOfLength = unp.lengthSize;
+		/**
+		 * offset in array of data.
+		 * 
+		 * but we don't know what it is etc.
+		 */
 
-	var lengthItself = metadataTable.readUInt8(
-		offsetInMetadataArray + 1,
-		sizeOfLength
-	)
+		var firstByteInArrayAtOffset = buffer.readUInt8(
+			metadataStartInMain + 
+			offsetInMetadataArray
+		)
+		var unp = unpackTypeAndLengthSize(
+			firstByteInArrayAtOffset
+		)
+		var sizeOfLength = unp.lengthSize;
 
-	offsetInMetadataArray += 1 +  sizeOfLength
-	var dataOfMetadataEntry = metadataTable.subarray(
-		offsetInMetadataArray,
-		offsetInMetadataArray + lengthItself
-	);
+		var lengthItself = buffer.readUInt8(
+			metadataStartInMain +
+			offsetInMetadataArray + 1,
+			sizeOfLength
+		)
 
-	var parst = parseMetadataEntry
-	(
-		dataOfMetadataEntry
-	)
+		offsetInMetadataArray += 1 +  sizeOfLength
+		var dataOfMetadataEntry = buffer.subarray(
+			metadataStartInMain +
+			offsetInMetadataArray,
+
+			metadataStartInMain +
+			offsetInMetadataArray + lengthItself
+		);
+
+		parst = parseMetadataEntry
+		(
+			dataOfMetadataEntry
+		)
+		finalKey = parst.key;
+		if(finalKey != key) {
+			hasht++;
+			if(hasht >= lengthHashTable) {
+				hasht = 0; //lienar probing?
+			}
+		}
 	//console.log(unp,lengthItself, dataOfMetadataEntry,parst)
-
+	}
 	return parst;
 
 
@@ -560,14 +622,16 @@ function checkConditions(conditionsObj, value) {
  * and recursively checks object types 
  * nested} mapping 
  */
-function mapObject(buffer, mapping) {
+function mapObject(buffer, mapping, metadataRef=null) {
 	var keys = Object.keys(mapping);
 	var result = {};
 	for(var key of keys) {
 		var conditions = mapping[key]
 		var metadataEntry = getMetadataByKey(
 			buffer,
-			key
+			key,
+			null,
+			metadataRef
 		);
 		if([1].includes(
 			metadataEntry.valueType
@@ -576,7 +640,7 @@ function mapObject(buffer, mapping) {
 				buffer,
 				metadataEntry
 			)
-			var nested = mapObject(refBuf, conditions)
+			var nested = mapObject(buffer, conditions, metadataEntry)
 			result[key] = nested;
 
 			if(metadataEntry.valueType == 1) {
@@ -593,7 +657,8 @@ function mapObject(buffer, mapping) {
 		} else {
 			var value = getValueFromMetadata(
 				buffer,
-				metadataEntry
+				metadataEntry,
+				metadataRef
 			)
 			var shouldGive = checkConditions(
 				conditions,

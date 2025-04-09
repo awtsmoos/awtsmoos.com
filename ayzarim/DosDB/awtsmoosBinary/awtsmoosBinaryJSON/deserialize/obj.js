@@ -61,7 +61,7 @@ function deserializeJSON(buffer, metadata) {
     }
 
     var offset = magicJSON.length;
-    metadata = metadata || getMetadata(buffer, offset);
+    metadata = metadata || getMetadata(buffer);
    
     var obj = metadata/*array of keys with 
     value offsets and lengths,

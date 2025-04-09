@@ -27,7 +27,8 @@ var {
 } = require("./get.js");
 
 var {
-    mapObject
+    mapObject,
+    getMetadataByKey
 } = require("./deserialize/get.js");
 
 var mapBinary = require("./map.js");
@@ -65,7 +66,8 @@ module.exports = {
     deserializeBinary,
 
     mapObject,
-    
+    getMetadataByKey,
+
     serializeArray,
     serializeJSON,
 
