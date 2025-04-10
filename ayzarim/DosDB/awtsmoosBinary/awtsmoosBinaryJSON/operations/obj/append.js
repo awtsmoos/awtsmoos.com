@@ -67,7 +67,7 @@ function appendToJSON(filename, {
 		lengthNeededForValue
 	) {
 		av = findAvailableSlot(meta, lengthNeededForValue)
-		console.log(" spot!",av,meta);
+		//console.log(" spot!",av,meta);
 		if(av.middle) {
 			insertInMiddle = true;
 
