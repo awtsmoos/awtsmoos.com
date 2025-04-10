@@ -24,12 +24,14 @@ var {
     getValuesFromBinary,
     getArrayValueAtKey,
     getKeyByHashing,
-    getValueByKey
+    getValueByKey,
 } = require("./get.js");
 
 var {
     mapObject,
-    getMetadataByKey
+    getMetadataByKey,
+
+    getMetadata
 } = require("./deserialize/get.js");
 
 //var mapBinary = require("./map.js");
@@ -81,5 +83,6 @@ module.exports = {
 	getKeyByHashing,
 	getValueByKey,
 	isAwtsmoosObject,
-	deserializeArray
+	deserializeArray,
+    getMetadata
 };

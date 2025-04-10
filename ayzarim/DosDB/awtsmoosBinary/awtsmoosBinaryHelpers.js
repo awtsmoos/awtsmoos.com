@@ -244,7 +244,22 @@ function writeBitAt(byte, index) {
 
 
 
+function truncateFile(filePath, offset) {
+    if(typeof(filePath) == "object") {
+        var o = filePath;
+        offset = o.offset;
+       
+        filePath = o.filePath;
+    }
+    try {
 
+        const handle = getFileHandle(filePath);
+        return handle.truncate(offset);
+    } catch(e){
+        console.log(e);
+        return null;
+    }
+}
 /**
  * writeBytesToFileAtOffset:
  * A helper function to write structured binary data at a specified file offset.
@@ -257,7 +272,7 @@ function writeBitAt(byte, index) {
  * This function collates all the data into one large Buffer, writes it at the given offset,
  * and returns an object containing metadata about the operation.
  */
-async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
+function writeBytesToFileAtOffset(filePath, offset, dataArray) {
     if(typeof(filePath) == "object") {
         var o = filePath;
         offset = o.offset;
@@ -515,6 +530,12 @@ function getFileHandle(filePath) {
     const customHandle = {
         handle,
         isClosed: false,
+        truncate(offset) {
+            return fsSync.ftruncateSync(
+                this.handle,
+                offset
+            )
+        },
         write: function(buffer, offset = 0, length = buffer.length, position = null) {
             return fsSync.writeSync(this.handle, buffer, offset, length, position);
         },
@@ -571,6 +592,6 @@ module.exports = {
 	sizeof,
 
 	
-
+    truncateFile,
     hashKey
 }

@@ -4,9 +4,11 @@ var {
 	readFileBytesAtOffset,
 	
 	writeBytesToFileAtOffset,
+	truncateFile,
 	stat
 } = require("./awtsmoosBinaryHelpers.js");
 
+var fs = require("fs")
 var path = require("path")
 
 class FileBuffer {
@@ -177,6 +179,10 @@ class FileBuffer {
 		}`]: str
 			}]
 		});
+	}
+	
+	truncate(offset) {
+		truncateFile(this.filePath, offset)
 	}
 	
 	writeBuffer(offset, buffer) {

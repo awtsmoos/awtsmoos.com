@@ -17,7 +17,10 @@ Object.defineProperty(temp, "serializeArray", {
 
 function makeHashTableFromMetadata(metadataTable) {
 
-    var serialized = metadataTable.map(serializeMetadataEntry)
+    var serialized = metadataTable[0] instanceof Buffer ?
+    metadataTable : 
+    metadataTable.map(serializeMetadataEntry)
+    
     var serializedMetadata = temp.serializeArray(serialized);
 
     var metadataOfMetadataArray = getArray.getMetadata(
