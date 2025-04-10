@@ -17,6 +17,10 @@ var {
 	unpackLength
 } = require("../packing/packedLength.js")
 
+var serializeMetadataEntry = require("./serializeMetadataEntry");
+
+
+
 var serializeArray = null;
 Object.defineProperty(temp, "serializeArray", {
     get() {
@@ -73,11 +77,7 @@ function serializeJSON(json) {
 
     var keyNum = 0;
     for (let key of keys) {
-        const keyBuffer = Buffer.from(key, 'utf8');
-        const keyLengthInfo = writeConditional(keyBuffer.length); // Raw length
-
-        var sizeOfKeyLength = Buffer.from([keyLengthInfo.size]);
-
+        
         const value = json[key];
         const valueBufferInfo = serializeValue(value, false); 
 
@@ -85,6 +85,10 @@ function serializeJSON(json) {
         const valueDataBuffer = valueBufferInfo.data;
         
 
+        const keyBuffer = Buffer.from(key, 'utf8');
+        const keyLengthInfo = writeConditional(keyBuffer.length); // Raw length
+       
+        
         const hashIndex = hashKey(key, hashTableSize);
         let index = hashIndex;
         while (hashTable[index] !== null) 
@@ -92,12 +96,15 @@ function serializeJSON(json) {
 
         hashTable[index] = {
             key,
-            sizeOfKeyLength: keyLengthInfo.size,
+            
 
             offset,
             keyNum
         };
+
+
         var bufferOffset = writeConditional(offset)
+
 
         var packedLengthSizes = (
             packedLength(
@@ -123,7 +130,21 @@ function serializeJSON(json) {
             bufferOffset.buffer
         ])
 
-        metadataTable.push(keysAndValueTypes);
+        var metadataEntry = serializeMetadataEntry({
+            key,
+            typeLengthByte: valueBufferInfo.typeLengthByte,
+
+            valueLength: valueBufferInfo.length,
+            /*
+            valueType: valueBufferInfo.type,
+            
+            */
+            offsetOfValueInMain: offset
+        });
+        metadataTable.push(
+            metadataEntry
+         //   metadataEntry
+        );
 
         offsets.push(offset);
         dataBuffers.push(valueDataBuffer);

@@ -6,6 +6,7 @@ var {
     logBuffer,
 } = require("../awtsmoosBinaryHelpers.js");
 
+var append = require("./operations/obj/append.js")
 var  deserializeArray
  = require("./deserialize/array.js");
 
@@ -60,25 +61,25 @@ async function isAwtsmoosObject(buffer) {
 
 
 module.exports = { 
-   
-    logBuffer, 
-    serializeJSON, 
-    deserializeBinary,
+	append,
+	logBuffer, 
+	serializeJSON, 
+	deserializeBinary,
 
-    mapObject,
-    getMetadataByKey,
+	mapObject,
+	getMetadataByKey,
 
-    serializeArray,
-    serializeJSON,
+	serializeArray,
+	serializeJSON,
 
-    mapBinary: mapObject,
-    fileBuffer,
-    getKeysFromBinary,
+	mapBinary: mapObject,
+	fileBuffer,
+	getKeysFromBinary,
 
-    getValuesFromBinary,
-    getArrayValueAtKey,
-    getKeyByHashing,
-    getValueByKey,
-    isAwtsmoosObject,
-    deserializeArray
+	getValuesFromBinary,
+	getArrayValueAtKey,
+	getKeyByHashing,
+	getValueByKey,
+	isAwtsmoosObject,
+	deserializeArray
 };

@@ -192,6 +192,8 @@ function serializeValue(value, fullBuffer = true) {
         return {
             data,
             type,
+            byteLength: valueLengthInfo.size,
+            length: data.length,
             valueLengthInfo,
             typeLengthByte
 

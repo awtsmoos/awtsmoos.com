@@ -183,17 +183,7 @@ function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
 			offset,
 			sizeOfHashTableLength
 		);
-   /*
-        console.log(
-            "Got",lengthSizes,
-                totalSizeToRead, 
-                dynamicLengthsAndOffsetSizes,
-                offsetSizesPacked,
-                lengthOfTotalEntries,
-                lengthMetadataArray,
-                lengthHashTable
-        )
-                */
+
 	return {
 		lengthSizes,
 
@@ -209,14 +199,18 @@ function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
 	}
 }
 
-function getOffsetOfMetadataTableInMain(buffer, metadataRef) {
+function getMetadataTableInMainInfo(buffer,lengthSizes, metadataRef) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
 	}
 
+	if(!lengthSizes) {
+		lengthSizes = getLengthSizes(buffer, metadataRef);
+	}
+
 	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
 		buffer,
-		null,
+		lengthSizes,
 		metadataRef
 	);
 
@@ -243,23 +237,31 @@ function getOffsetOfMetadataTableInMain(buffer, metadataRef) {
         lengthMetadataArray
     )
 	var end = offsetToStart + lengthMetadataArray;
+
 	return {
 		offsetToStart,
-		end
+		end,
+		byteLength: lengthMetadataArray
 	}
 }
 
 
-function getRawMetadataTable(buffer, metadataRef) {
+
+function getRawMetadataTable(buffer, lengthSizes, metadataRef) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
+	}
+
+	if(!lengthSizes) {
+		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
 
     var {
 		offsetToStart,
 		end
-	} = getOffsetOfMetadataTableInMain(
+	} = getMetadataTableInMainInfo(
 		buffer,
+		lengthSizes,
 		metadataRef
 	)
 
@@ -271,7 +273,7 @@ function getRawMetadataTable(buffer, metadataRef) {
 		offsetToStart,
 		end
 	);
-
+	return temp.deserializeArray(metadataTable)
 	return metadataTable;
 }
 /**
@@ -287,8 +289,8 @@ function getMetadata(buffer, metadataRef) {
 	}
 
 	var metadataTable = getRawMetadataTable(buffer, metadataRef)
-	var des = temp.deserializeArray(metadataTable)
-    var fan = des.map(parseMetadataEntry)
+	
+    var fan = metadataTable.map(parseMetadataEntry)
     return fan;
 }
 
@@ -497,18 +499,13 @@ function getValueByKey(buffer, key, lengthSizes) {
 
 }
 
-
-/**
- * @method getValueByKey
- * @description Extracts a single key-value pair from the hash table, illuminated by the Ohr Ein Sof.
- * @param {Buffer} buffer - The serialized binary buffer.
- * @param {number} offset - Offset to the value data.
- * @param {number} offsetByteSize - Size of offset field.
- * @returns {object} - Key-value pair or null if offset is zero.
- */
-function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
+function getHashTableInfo(buffer,lengthSizes,  metadataRef) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
+	}
+
+	if(!lengthSizes) {
+		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
 
 	var offsetAndLengthInfos = getOffsetSizesAndLengths(
@@ -560,12 +557,48 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		lengthHashTable
 	);
 
+	return {
+		hashTableStart,
+		hashTableEnd,
+
+		lengthHashTable,
+		hashTableEntrySize
+	}
+}
+
+/**
+ * @method getValueByKey
+ * @description Extracts a single key-value pair from the hash table, illuminated by the Ohr Ein Sof.
+ * @param {Buffer} buffer - The serialized binary buffer.
+ * @param {number} offset - Offset to the value data.
+ * @param {number} offsetByteSize - Size of offset field.
+ * @returns {object} - Key-value pair or null if offset is zero.
+ */
+function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
+	if(!lengthSizes) {
+		lengthSizes = getLengthSizes(buffer, metadataRef);
+	}
+
+	var {
+		hashTableStart,
+		lengthHashTable,
+		hashTableEntrySize,
+
+	} = getHashTableInfo(buffer, lengthSizes, metadataRef);
 
 	var parst = null;
-	var metadataTableRef = getOffsetOfMetadataTableInMain(buffer, metadataRef)
+	var metadataTableRef = getMetadataTableInMainInfo(
+		buffer,
+		lengthSizes,
+		metadataRef
+	)
 
 	var metadataStartInMain = metadataTableRef.offsetToStart;
-	//console.log("Sart",metadataStartInMain)
+	
 	var finalKey = null;
 
 	var hasht = hashKey(key, lengthHashTable);
@@ -586,23 +619,6 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 	while(finalKey != key) {
 
 
-		
-		/*console.log("Hash",
-			hashTableStart,
-			buffer,
-			metadataTable,
-			hashTableEntrySize,
-			byteLengthOfHashTable,
-
-			lengthHashTable,
-			hasht,
-			hashBufer,
-			hasht * hashTableEntrySize
-
-
-
-		)*/;
-
 
 		index = (index + 1) % lengthHashTable;
 
@@ -622,7 +638,7 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 			meta = {key: null, notFound: true};
 			break;
 		}
-		//console.log("Proyb",index,meta, key)
+		
 		
 	}
 	return meta;
@@ -872,5 +888,9 @@ module.exports = {
     getMetadata,
     getValueByHashingKey,
 	getLengthSizes,
-	getOffsetSizesAndLengths
+	getOffsetSizesAndLengths,
+
+	getHashTableInfo,
+	getMetadataTableInMainInfo,
+	getRawMetadataTable
 };

@@ -100,7 +100,6 @@ var start = Date.now();
 //var f = awtsmoosBinary.getValueByKey(ser, "asdf")
 
 var keys = awtsmoosBinary.getKeysFromBinary(pth);
-
 var meta = awtsmoosBinary.getMetadataByKey(pth, "ok")
 var mapt = awtsmoosBinary.mapObject(pth, {
     asdf: true,
@@ -127,4 +126,7 @@ console.log( "DID it",
 
   //  keys,end,meta,mapt
 );
+
+
+var app = awtsmoosBinary.append(pth)
 
