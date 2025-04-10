@@ -128,5 +128,8 @@ console.log( "DID it",
 );
 
 
-var app = awtsmoosBinary.append(pth)
+var app = awtsmoosBinary.append(pth, {
+    key: "well",
+    value: 1234
+})
 

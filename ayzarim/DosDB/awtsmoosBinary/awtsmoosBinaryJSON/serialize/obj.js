@@ -3,23 +3,15 @@
 // From the Ohr Ein Sof’s boundless light, through the Kav into Atzilus,
 // this code weaves a JSON tapestry with a hash table, a divine map of renewal.
 
-var writeConditional = require("../helpers/writeConditional.js");
-var writeToBuffer = require("../helpers/writeToBuffer.js");
-var { hashKey } = require("../helpers/hashing/misc.js");
+
 const { magicJSON } = require("./../constants.js");
 var serializeValue = require("./serializeValue.js");
-var getArray = require("../deserialize/getArray.js")
 var temp = {};
 
 
-var {
-	packedLength,
-	unpackLength
-} = require("../packing/packedLength.js")
 
-var serializeMetadataEntry = require("./serializeMetadataEntry");
-
-
+var makeHashTableFromMetadata = require("./makeHashTableFromMetadata.js")
+var getSerializedMetadata = require("./getSerializedMetadata.js")
 
 var serializeArray = null;
 Object.defineProperty(temp, "serializeArray", {
@@ -41,12 +33,9 @@ function serializeJSON(json) {
     // Header: Awtsmoos’ signature
     let header = [Buffer.from(magicJSON)];
     const keys = Object.keys(json);
-    const hashTableSize = keys.length * 2;//avoid collisions
 
 
     
-
-    var lengthInfoOfHashTable = writeConditional(hashTableSize);
 
     /**
         even though the hash table and length of keys
@@ -68,14 +57,13 @@ function serializeJSON(json) {
     
     const dataBuffers = [];
     const offsets = [];
-    const hashTable = new Array(hashTableSize).fill(null);
     let offset = header.reduce((sum, buf) => sum + buf.length, 0);
 
-    var entrySizeOfMetadataTable 
+    
     var metadataTable = [];
     // Data: Key-value pairs, sparks of the Awtsmoos
 
-    var keyNum = 0;
+    
     for (let key of keys) {
         
         const value = json[key];
@@ -84,216 +72,69 @@ function serializeJSON(json) {
        
         const valueDataBuffer = valueBufferInfo.data;
         
-
-        const keyBuffer = Buffer.from(key, 'utf8');
-        const keyLengthInfo = writeConditional(keyBuffer.length); // Raw length
-       
         
-        const hashIndex = hashKey(key, hashTableSize);
-        let index = hashIndex;
-        while (hashTable[index] !== null) 
-            index = (index + 1) % hashTableSize;
-
-        hashTable[index] = {
-            key,
-            
-
-            offset,
-            keyNum
-        };
-
-
-        var bufferOffset = writeConditional(offset)
-
-
-        var packedLengthSizes = (
-            packedLength(
-                keyLengthInfo.size
-            ) << 2 | 
         
-            //0b00001100 | 
-            packedLength(
-                bufferOffset.size
-            )
-            //0b00000011
-        );
 
-        var keysAndValueTypes = Buffer.concat([
-            Buffer.from([packedLengthSizes]),
-            Buffer.from([valueBufferInfo.typeLengthByte]),
-            keyLengthInfo.buffer,
 
-            valueBufferInfo.valueLengthInfo.buffer,
-
-            keyBuffer,
-
-            bufferOffset.buffer
-        ])
-
-        var metadataEntry = serializeMetadataEntry({
+        
+        var metadataEntry = ({
             key,
             typeLengthByte: valueBufferInfo.typeLengthByte,
-
-            valueLength: valueBufferInfo.length,
+            valueLengthInfo: valueBufferInfo.valueLengthInfo,
+          //  valueLength: valueBufferInfo.length,
             /*
             valueType: valueBufferInfo.type,
             
             */
             offsetOfValueInMain: offset
         });
+
         metadataTable.push(
             metadataEntry
-         //   metadataEntry
         );
 
         offsets.push(offset);
         dataBuffers.push(valueDataBuffer);
         offset += valueDataBuffer.length;
 
-        keyNum++;
+        
     }
 
-    // Offset size: Determined by data length
-    const dataLength = dataBuffers.reduce((sum, buf) => sum + buf.length, 0);
-    const offsetSize = dataLength < 256 ? 1 
-        : dataLength < 65536 ? 2 
-        : dataLength < 4294967296 ? 4 
-        : 8;
+
    
+    const dataLength = dataBuffers.reduce((sum, buf) => sum + buf.length, 0);
+
         
-    var serializedMetadata = temp.serializeArray(metadataTable);
-
-    var sizeOfMetadataArrayInfo = writeConditional(serializedMetadata.length);
-
-    var metadataOfMetadataArray = getArray.getMetadata(
-        serializedMetadata
-    );
-
-
-   /* console.log("TAB",metadataOfMetadataArray,
-        metadataTable.length,sizeOfMetadataArrayInfo)*/
-
-    var offsetSizeMetadataArray = metadataOfMetadataArray.offsetSize;
-
-    /**
-     * make packed byte
-     * with all size bytes (2 bits each 0 1 2 3 = 
-     * 1 2 4 8) packed
-     */
-    var sizeOfMetadataArrayOffsetSizePacked = packedLength(
-        offsetSizeMetadataArray
-    );
-
-    var sizeOfEmbeddedMetadataArrayLength = packedLength(
-        sizeOfMetadataArrayInfo.size
+   
+    var {
+        hashBuffers,
+        serializedMetadata,
+        offsetSizeMetadataArray,
+        hashTableSize
+    } = makeHashTableFromMetadata(
+        metadataTable
+        
     )
 
-    var sizeOfHashTableLength = packedLength(
-        lengthInfoOfHashTable.size
-    );
-
-    var packedOffsetSize = packedLength(
-        offsetSize
-    );
-
-    var totalEntriesLength = writeConditional(
-        keys.length
-    );
-    var byteSizeOfTotalEntriesLength = packedLength(
-        totalEntriesLength.size
-    );
-
-    var packAll = (
-            //first 2 bits reserved
-            (byteSizeOfTotalEntriesLength << 4) |
-            //0b00110000
-            (sizeOfEmbeddedMetadataArrayLength << 2) |
-            //0b00001100
-            (sizeOfHashTableLength)
-            //0b00000011
-        )
-    
-    
-    offsetSizePlaceholder.writeUInt8(packAll);
-    
-    var hashBufferEntrySize = (
-        offsetSizeMetadataArray
-    );
-    // Hash table: fixed sized entries based
-    //on index
-    const hashBuffers = Buffer.alloc(
-        hashTable.length * hashBufferEntrySize
-    );
-   
-    hashTable.forEach((entry, index) => {
-        if (entry) {
-            
-            var keyNumber = entry.keyNum;
-            var offsetOfValueInMetadataArray
-            try {
-               
-                offsetOfValueInMetadataArray = getArray.getOffsetFromIndex(
-                    serializedMetadata,
-                    keyNumber,
-                    metadataOfMetadataArray
-                );
-            } catch(e) {
-                console.log("LOL",keyNumber, metadataOfMetadataArray)
-
-                console.log("ISSUE",e);
-                throw "LOL";
-            }
-
-            var bufferInHashTable = Buffer.alloc(
-                hashBufferEntrySize
-            );
-
-            var offset = 0;
-
-            bufferInHashTable.writeUIntBE(
-                offsetOfValueInMetadataArray,
-                offset,
-                offsetSizeMetadataArray
-            );
-
-           
-            bufferInHashTable.copy(
-                hashBuffers,
-                index * hashBufferEntrySize
-            )
-            
-            
-        }
+    var {
+        footer,
+        packedHeaderSizes: packAll
+    } = getSerializedMetadata({
+        serializedMetadataLength: serializedMetadata.length,
+        offsetSizeMetadataArray,
+        dataLength,
+        totalKeys: keys.length,
+        hashTableSize
     });
-    
-
-  
-
-
-  
-    var offsetSizesPacked = 
-        (packedOffsetSize << 2) | 
-        //0b00001100
-        (sizeOfMetadataArrayOffsetSizePacked);
-        //0b00000011, 
-
-    var footer = (Buffer.concat([
-
-        Buffer.from([offsetSizesPacked]),
-
-        totalEntriesLength.buffer,
-        sizeOfMetadataArrayInfo.buffer,
-        lengthInfoOfHashTable.buffer
-        
-    ]));
-    
 
     
+
+    offsetSizePlaceholder.writeUInt8(packAll);
 
     return Buffer.concat([
         Buffer.concat(header),
         Buffer.concat(dataBuffers),
-        (hashBuffers),
+        hashBuffers,
         serializedMetadata,
         footer
     ]);

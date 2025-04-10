@@ -21,6 +21,7 @@ function entryToBuffer(entry) {
 		valueType,
 		valueLength,
 		offsetOfValueInMain,
+		valueLengthInfo,
 		typeLengthByte
 	} = entry;
 
@@ -41,8 +42,11 @@ function entryToBuffer(entry) {
 		)
 		//0b00000011
 	);
+
+	if(!valueLengthInfo) {
+		valueLengthInfo = writeConditional(valueLength);
+	}
 	
-	var valueLengthInfo = writeConditional(valueLength);
 	if(!typeLengthByte) {
 
 		

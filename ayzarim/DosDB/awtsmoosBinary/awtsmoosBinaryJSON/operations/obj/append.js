@@ -10,6 +10,8 @@ var getObj = require("../../deserialize/get.js");
 var des = require("../../deserialize/obj.js")
 var serializeValue = require("../../serialize/serializeValue.js");
 
+var serializeMetadataEntry = require("../../serialize/serializeMetadataEntry.js");
+
 var fileBuffer = require("../../../fileBuffer.js")
 /**
  * @method appendToJSON
@@ -46,13 +48,24 @@ function appendToJSON(filename, {
 	var raw = getObj.getRawMetadataTable(buffer)
 	var meta = getObj.getMetadata(buffer)
 
-	var av = null;
-	
-	if(lengthNeededForValue)
+	var av = 0;
+
+	if(lengthNeededForValue) {
 		av = findAvailableSlot(meta, lengthNeededForValue)
+		av = av?.middle || av?.end
+	}
 
+	var newEntry = {
+		key,
+		valueLengthInfo: valueBufferInfo.valueLengthInfo,
+		offsetOfValueInMain: av,
+		typeLengthByte: valueBufferInfo.typeLengthByte
+	}
 
-	console.log(meta,raw, av)
+	var serializedEntry = serializeMetadataEntry(
+		newEntry
+	)
+	console.log(meta,raw, av,newEntry, serializedEntry)
 
 }
 
@@ -92,7 +105,7 @@ function findAvailableSlot(entries, sizeNeeded) {
 	}
 
 	if(currentOffset === null) {
-		return null;
+		return 0;
 	}
 
 	if(foundOffset !== null) {
