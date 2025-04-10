@@ -421,7 +421,7 @@ async function getSeries({
 				seriesId
 			
 			}/prateem`,
-			properties?({
+			properties && seriesId != "root" ?({
 				propertyMap: properties
 			}):undefined
 

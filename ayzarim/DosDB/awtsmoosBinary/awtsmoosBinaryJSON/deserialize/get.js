@@ -32,6 +32,15 @@ Object.defineProperty(temp, "parseValueFromType", {
     }
 });
 
+
+var deserializeBinary = null;
+Object.defineProperty(temp, "deserializeBinary", {
+    get() {
+        if (!deserializeBinary) deserializeBinary = require("./obj.js");
+        return deserializeBinary;
+    }
+});
+
 var deserializeArray = null;
 Object.defineProperty(temp, "deserializeArray", {
     get() {
@@ -400,6 +409,9 @@ function getValueBufferFromMetadata(buffer, metadataEntry, metadataRef) {
 }
 
 function getValueFromMetadata(buffer, metadataEntry, metadataRef) {
+	if(metadataEntry.notFound) {
+		return null
+	}
 	var buf = getValueBufferFromMetadata(
 		buffer,
 		metadataEntry,
@@ -438,6 +450,7 @@ function getValueByKey(buffer, key, lengthSizes) {
 		key,
 		lengthSizes
 	);
+
 	var value = getValueFromMetadata(
 		buffer,
 		metadataEntry
@@ -516,6 +529,20 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 	var finalKey = null;
 
 	var hasht = hashKey(key, lengthHashTable);
+	var index = hasht;
+
+	var timesProbed = 0;
+	var meta =  getMetadataFromHashTableIndex({
+		buffer, 
+		hashTableIndex: index, 
+		key,
+		hashTableStart,
+		hashTableEntrySize,
+		metadataStartInMain,
+		key
+	});
+	finalKey = meta.key;
+
 	while(finalKey != key) {
 
 
@@ -537,64 +564,97 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		)*/;
 
 
+		index = (index + 1) % lengthHashTable;
 
-		var offsetInMetadataArray = buffer.readUIntBE(
-			hashTableStart + hasht * hashTableEntrySize,
-			hashTableEntrySize
-		)
-
-		
-
-		/**
-		 * offset in array of data.
-		 * 
-		 * but we don't know what it is etc.
-		 */
-
-		var firstByteInArrayAtOffset = buffer.readUInt8(
-			metadataStartInMain + 
-			offsetInMetadataArray
-		)
-		var unp = unpackTypeAndLengthSize(
-			firstByteInArrayAtOffset
-		)
-		var sizeOfLength = unp.lengthSize;
-
-		var lengthItself = buffer.readUInt8(
-			metadataStartInMain +
-			offsetInMetadataArray + 1,
-			sizeOfLength
-		)
-
-		offsetInMetadataArray += 1 +  sizeOfLength
-		var dataOfMetadataEntry = buffer.subarray(
-			metadataStartInMain +
-			offsetInMetadataArray,
-
-			metadataStartInMain +
-			offsetInMetadataArray + lengthItself
-		);
-
-		parst = parseMetadataEntry
-		(
-			dataOfMetadataEntry
-		)
-		finalKey = parst.key;
-		if(finalKey != key) {
-			hasht++;
-			if(hasht >= lengthHashTable-1) {
-				hasht = 0; //lienar probing?
-			}
-			console.log("NO",hasht, finalKey,key)
-		} else {
+		meta =  getMetadataFromHashTableIndex({
+			buffer, 
+			hashTableIndex: index, 
+			key,
+			hashTableStart,
+			hashTableEntrySize,
+			metadataStartInMain,
+			key
+			
+		});
+		finalKey = meta.key;
+		timesProbed++
+		if(timesProbed > lengthHashTable) {
+			meta = {key: null, notFound: true};
 			break;
 		}
-	//console.log(unp,lengthItself, dataOfMetadataEntry,parst)
+		//console.log("Proyb",index,meta, key)
+		
 	}
+	return meta;
+
+
+
+}
+
+
+function getMetadataFromHashTableIndex({
+	buffer, 
+	hashTableIndex, 
+	key,
+	hashTableStart,
+	hashTableEntrySize,
+	metadataStartInMain,
+
+}) {
+	var index = hashTableIndex;
+
+
+	var offsetInMetadataArray = buffer.readUIntBE(
+		hashTableStart + index * hashTableEntrySize,
+		hashTableEntrySize
+	)
+
+	if(offsetInMetadataArray == 0) {
+	//	console.trace("ZEROED",key, temp.deserializeBinary(buffer) )
+		return {
+			zero: true,
+			key: undefined
+		}
+	}
+
+	
+
+	/**
+	 * offset in array of data.
+	 * 
+	 * but we don't know what it is etc.
+	 */
+
+	var firstByteInArrayAtOffset = buffer.readUInt8(
+		metadataStartInMain + 
+		offsetInMetadataArray
+	)
+	var unp = unpackTypeAndLengthSize(
+		firstByteInArrayAtOffset
+	)
+	var sizeOfLength = unp.lengthSize;
+
+	var lengthItself = buffer.readUInt8(
+		metadataStartInMain +
+		offsetInMetadataArray + 1,
+		sizeOfLength
+	)
+
+	offsetInMetadataArray += 1 +  sizeOfLength
+	var dataOfMetadataEntry = buffer.subarray(
+		metadataStartInMain +
+		offsetInMetadataArray,
+
+		metadataStartInMain +
+		offsetInMetadataArray + lengthItself
+	);
+
+	parst = parseMetadataEntry
+	(
+		dataOfMetadataEntry
+	)
+	
 	return parst;
-
-
-
 }
 
 /**
@@ -635,6 +695,9 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 		null,
 		parentObjRef
 	);
+	if(ref.notFound) {
+		return null
+	}
 
 	if(mapping.metadata) {
 		return ref
@@ -681,7 +744,9 @@ function mapObject(buffer, mapping, metadataRef=null) {
 		offset,
 		offset + 2
 	).toString() ;
-	console.log("magic",magic,magicArray, mapping, metadataRef)
+//	console.log("magic",magic,magicArray, mapping, metadataRef)
+
+
 	if(magic == magicArray) {
 		return mapArray(
 			buffer,
@@ -693,13 +758,16 @@ function mapObject(buffer, mapping, metadataRef=null) {
 	var result = {};
 	for(var key of keys) {
 		var conditions = mapping[key]
-		console.log("Doing keys",key,conditions,metadataRef)
+		//console.log("Doing keys",key,conditions,metadataRef)
 		var metadataEntry = getMetadataByKey(
 			buffer,
 			key,
 			null,
 			metadataRef
 		);
+		if(metadataEntry.notFound) {
+			continue;
+		}
 		if([1, 3].includes(
 			metadataEntry.valueType
 		)) {
