@@ -1,0 +1,145 @@
+//B"H
+var {
+	magicJSON,
+	magicArray
+} = require("../../constants.js")
+var appendToArray = require("../array/append.js")
+
+
+var makeHashTableFromMetadata = require("../../serialize/makeHashTableFromMetadata.js")
+var getSerializedMetadata = require("../../serialize/getSerializedMetadata.js")
+
+
+function overwriteMetadataAndHashTable(
+	buffer, 
+	metadata,
+	dataAtEnd = null
+) {
+	var {
+		serializedMetadata: 
+			serializedMetadataTable,
+		hashTableSize,
+		offsetSizeMetadataArray,
+		hashBuffers
+	} = makeHashTableFromMetadata(metadata);
+
+	var headerSize = 3 //3 magic bys, 1 packed byte
+	var totalDataSize = getOffsetOfEndOfData(metadata);
+
+
+	var {
+        footer,
+        packedHeaderSizes: packAll
+    } = getSerializedMetadata({
+        serializedMetadataLength: serializedMetadataTable.length,
+        offsetSizeMetadataArray,
+        dataLength: totalDataSize,
+        totalKeys: metadata.length,
+        hashTableSize
+    });
+
+	var tail = Buffer.concat([
+		
+		dataAtEnd || 
+		Buffer.alloc(0),
+		hashBuffers,
+		serializedMetadataTable,
+		footer
+	]);
+
+	
+	var offsetOfHeaderByte = magicJSON.length;
+	buffer.writeUInt8(
+		offsetOfHeaderByte,
+		packAll
+	);
+
+	if(dataAtEnd) {
+		totalDataSize -= dataAtEnd.length
+	}
+
+	var offsetToWriteTail = (
+		totalDataSize
+	)// - (dataAtEnd?.length || 0);
+	
+
+
+	var totalAdjustedSize = (
+	//	headerSize + 
+		totalDataSize + 
+		tail.length
+	)
+
+	buffer.writeBuffer(
+		offsetToWriteTail,
+		tail
+	);
+
+	buffer.truncate(
+		totalAdjustedSize
+	) /*
+		very important,
+		was stuck on this
+		for a while.
+	*/
+
+	
+	
+	
+/*
+	var red = buffer.subarray(0, buffer.length)
+	
+	//var des = deser(red)
+	console.log(
+		"total size expecetd",
+		totalAdjustedSize,
+		"actual",
+		buffer.length,
+		"meta",
+		metadata,
+		"tail",
+		tail,
+		offsetToWriteTail,
+		headerSize,
+		totalDataSize,
+		
+	//	des,
+	"day",
+		dataAtEnd,
+		hashBuffers,
+		serializedMetadataTable,
+		"foot ",
+		footer
+	
+	)
+
+	red = Array.from(red).map(q=>q.toString(16))
+	console.log(
+		"ful",red
+	)
+
+
+	*/
+		
+}
+
+
+function getOffsetOfEndOfData(metadata) {
+	var greatestOffset = 0;
+	var endOffset = 0;
+	metadata.forEach(q => {
+		
+
+		if(q.offsetOfValueInMain > greatestOffset) {
+			greatestOffset = q.offsetOfValueInMain 
+
+			endOffset = (
+				greatestOffset + 
+				q.valueLength
+			);
+		}
+	});
+	return endOffset;
+}
+
+module.exports = overwriteMetadataAndHashTable

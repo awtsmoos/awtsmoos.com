@@ -11,12 +11,9 @@ var getObj = require("../../deserialize/get.js");
 
 var serializeValue = require("../../serialize/serializeValue.js");
 
+var overwriteMetadataAndHashTable = require("./overwriteTail.js")
 
-
-var makeHashTableFromMetadata = require("../../serialize/makeHashTableFromMetadata.js")
-var getSerializedMetadata = require("../../serialize/getSerializedMetadata.js")
-
-
+var markEntryAsDeleted = require("./deleteKeyFromJSON.js")
 var fileBuffer = require("../../../fileBuffer.js")
 /**
  * @method appendToJSON
@@ -60,17 +57,25 @@ function appendToJSON(filename, {
 		meta = markEntryAsDeleted(buffer, key, meta)
 		
 	}
-	//console.log(meta, key);
-	//console.log(meta, av,newEntry, serializedEntry);
-	var total = getOffsetOfEndOfData(meta);
-	var av = total;
+	
+	
+	var av = 0;
 
+	var insertInMiddle = false;
 	if(
-		0
-	//	lengthNeededForValue
+	//	0
+		lengthNeededForValue
 	) {
 		av = findAvailableSlot(meta, lengthNeededForValue)
+		console.log(" spot!",av,meta);
+		if(av.middle) {
+			insertInMiddle = true;
+
+		}
 		av = av?.middle || av?.end
+	}
+	if(av == 0) {
+		return null;
 	}
 
 	var newEntry = {
@@ -88,174 +93,24 @@ function appendToJSON(filename, {
 
 
 	meta.push(serializedEntry);
-
+	if(insertInMiddle) {
+		buffer.writeBuffer(
+			av,
+			valueBufferInfo.data
+		)
+	}
 
 	overwriteMetadataAndHashTable(
 		buffer, 
 		meta,
+		!insertInMiddle ? 
 		valueBufferInfo.data
+		: null
 	);
 	return meta;
 }
 
-function overwriteMetadataAndHashTable(
-	buffer, 
-	metadata,
-	dataAtEnd = null
-) {
-	var {
-		serializedMetadata: 
-			serializedMetadataTable,
-		hashTableSize,
-		offsetSizeMetadataArray,
-		hashBuffers
-	} = makeHashTableFromMetadata(metadata);
 
-	var headerSize = 3 //3 magic bys, 1 packed byte
-	var totalDataSize = getOffsetOfEndOfData(metadata);
-
-
-	var {
-        footer,
-        packedHeaderSizes: packAll
-    } = getSerializedMetadata({
-        serializedMetadataLength: serializedMetadataTable.length,
-        offsetSizeMetadataArray,
-        dataLength: totalDataSize,
-        totalKeys: metadata.length,
-        hashTableSize
-    });
-
-	var tail = Buffer.concat([
-		
-		dataAtEnd || 
-		Buffer.alloc(0),
-		hashBuffers,
-		serializedMetadataTable,
-		footer
-	]);
-
-	
-	var offsetOfHeaderByte = magicJSON.length;
-	buffer.writeUInt8(
-		offsetOfHeaderByte,
-		packAll
-	);
-
-	if(dataAtEnd) {
-		totalDataSize -= dataAtEnd.length
-	}
-
-	var offsetToWriteTail = (
-		totalDataSize
-	)// - (dataAtEnd?.length || 0);
-	
-
-
-	var totalAdjustedSize = (
-	//	headerSize + 
-		totalDataSize + 
-		tail.length
-	)
-
-	buffer.writeBuffer(
-		offsetToWriteTail,
-		tail
-	);
-
-	buffer.truncate(
-		totalAdjustedSize
-	) /*
-		very important,
-		was stuck on this
-		for a while.
-	*/
-
-	
-	
-	
-/*
-	var red = buffer.subarray(0, buffer.length)
-	
-	//var des = deser(red)
-	console.log(
-		"total size expecetd",
-		totalAdjustedSize,
-		"actual",
-		buffer.length,
-		"meta",
-		metadata,
-		"tail",
-		tail,
-		offsetToWriteTail,
-		headerSize,
-		totalDataSize,
-		
-	//	des,
-	"day",
-		dataAtEnd,
-		hashBuffers,
-		serializedMetadataTable,
-		"foot ",
-		footer
-	
-	)
-
-	red = Array.from(red).map(q=>q.toString(16))
-	console.log(
-		"ful",red
-	)
-
-
-	*/
-		
-}
-
-function markEntryAsDeleted(buffer, key, metadata) {
-	var ind = -1;
-	var it = metadata.forEach((q,i) => {
-		if(q.key == key) {
-			ind = i;
-		}
-		
-	})
-	
-	if(ind > -1) {
-		metadata.splice(ind, 1)
-	}
-
-	
-	overwriteMetadataAndHashTable(
-		buffer,
-		metadata
-	);
-
-	var newMeta = getObj.getMetadata(
-		buffer
-	)
-	return newMeta;
-	
-
-	return metadata;
-}
-
-function getOffsetOfEndOfData(metadata) {
-	var greatestOffset = 0;
-	var endOffset = 0;
-	metadata.forEach(q => {
-		
-
-		if(q.offsetOfValueInMain > greatestOffset) {
-			greatestOffset = q.offsetOfValueInMain 
-
-			endOffset = (
-				greatestOffset + 
-				q.valueLength
-			);
-		}
-	});
-	return endOffset;
-}
 
 function getTotalDataSize(metadata) {
 	var leastOffset = null;
@@ -282,56 +137,39 @@ function getTotalDataSize(metadata) {
 }
 
 function findAvailableSlot(entries, sizeNeeded) {
-	var currentOffset = null;
-	var curLength;
+	if (!entries || entries.length === 0) return { end: 0 };
 
-	var lastOffset = null;
-	var foundOffset = null;
+	// Step 1: Sort entries by offset
+	const sorted = [...entries].sort((a, b) => a.offsetOfValueInMain - b.offsetOfValueInMain);
 
-	var spaceBetweenEntries = 0;
-	for(var q of entries) {
-		
-		currentOffset = q.offsetOfValueInMain;
-		curLength = q.valueLength;
-		if(lastOffset === null) {
-			lastOffset = currentOffset + curLength;
-		} else {
-			lastOffset += curLength;
-		}
+	const gaps = [];
 
-		spaceBetweenEntries = (currentOffset + curLength) - 
-			lastOffset;
-		
+	for (let i = 0; i < sorted.length - 1; i++) {
+		const curr = sorted[i];
+		const next = sorted[i + 1];
 
- 
-		if(
-			spaceBetweenEntries >= sizeNeeded
-		) {
-			/*console.log("RA",lastOffset,curLength,currentOffset,
-				spaceBetweenEntries,
-				sizeNeeded
-			)*/
-			foundOffset = currentOffset
-			break;
+		const endOfCurr = curr.offsetOfValueInMain + curr.valueLength;
+		const startOfNext = next.offsetOfValueInMain;
+
+		const gapSize = startOfNext - endOfCurr;
+
+		if (gapSize >= sizeNeeded) {
+			gaps.push({ offset: endOfCurr, size: gapSize });
 		}
 	}
 
-	if(currentOffset === null) {
-		return 0;
+	// Find the smallest gap that fits
+	if (gaps.length > 0) {
+		const bestFit = gaps.sort((a, b) => a.size - b.size)[0];
+		return { middle: bestFit.offset };
 	}
 
-	if(foundOffset !== null) {
-		return {
-			middle: foundOffset
-		};
-	}
-
-	foundOffset = lastOffset;
-	return {
-		end: foundOffset
-	}
-
-
+	// No suitable gap found, place at the end
+	const lastEntry = sorted[sorted.length - 1];
+	const endOffset = lastEntry.offsetOfValueInMain + lastEntry.valueLength;
+	return { end: endOffset };
 }
+
+
 
 module.exports = appendToJSON
