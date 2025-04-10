@@ -14,6 +14,8 @@ var {
     getValueByKey
 } = require("./getArray.js")
 
+var fileBuffer = require("../../fileBuffer.js");
+
 
 
 /**
@@ -23,6 +25,9 @@ var {
  * @returns {Array} - The deserialized array, reborn from the void.
  */
 function deserializeArray(arrayBuffer) {
+    if(typeof(arrayBuffer) == "string") {
+        arrayBuffer = new fileBuffer(buffer)
+    }
     const magicLength = magicArray.length;
     const magicBuffer = Buffer.from(magicArray);
 

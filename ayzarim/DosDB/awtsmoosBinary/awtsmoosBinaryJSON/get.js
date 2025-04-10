@@ -6,6 +6,8 @@ var {
 
 } = require("./constants.js");
 
+var fileBuffer = require("../fileBuffer.js");
+
 var arrayGet = require("./deserialize/getArray.js")
 var objGet = require("./deserialize/get.js");
 

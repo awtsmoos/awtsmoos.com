@@ -31,6 +31,9 @@ const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js")
  * @returns {number} - The length of the array.
  */
 function getLength(arrayBuffer) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     const magicLength = magicArray.length;
     const magicBuffer = Buffer.from(magicArray);
 
@@ -67,6 +70,9 @@ function getLength(arrayBuffer) {
  * @returns {object} - Metadata with array length and offset sizes.
  */
 function getMetadata(arrayBuffer) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     var offset = 2;
     var arrayLengthSizeANDOffsetSizeInOneByte = 0b00001111 & arrayBuffer.readUInt8(
         offset
@@ -105,6 +111,9 @@ function getMetadata(arrayBuffer) {
  * @returns {object} - Parsed value object.
  */
 function getValueByKey(arrayBuffer, itemOffset) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     var typeLengthByte = arrayBuffer.readUInt8(itemOffset);
     var {
         type,
@@ -143,20 +152,18 @@ function getValueByKey(arrayBuffer, itemOffset) {
  * @returns {Array} - Array of parsed values within the range.
  */
 function slice(arrayBuffer, start, end, offsetSize, indexTableStart) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     const result = [];
-    for (let i = start; i < end && i < arrayBuffer.length; i++) {
-        const indexOffset = indexTableStart + i * offsetSize;
-        const itemOffset = arrayBuffer.readUIntBE(
-            indexOffset,
-            offsetSize
-        );
-        const parsedValue = getValueByKey(arrayBuffer, itemOffset);
-        result.push(parsedValue.value);
-    }
+    
     return result;
 }
 
 function getIndexTableInfo(arrayBuffer, metadata) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     const indexTableSize = metadata.arrayLength * metadata.offsetSize;
     const indexTableStart = (
         arrayBuffer.length -
@@ -170,6 +177,9 @@ function getIndexTableInfo(arrayBuffer, metadata) {
 }
 
 function getIndexTable(arrayBuffer, metadata) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
 	if(!metadata) {
 		metadata = getMetadata(arrayBuffer);
 	}
@@ -188,6 +198,9 @@ function getIndexTable(arrayBuffer, metadata) {
 }
 
 function getOffsetFromIndex(arrayBuffer, index, metadata) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
 	var info = getIndexTableInfo(arrayBuffer, metadata);
 	var {
 		indexTableStart
@@ -208,6 +221,9 @@ function getOffsetFromIndex(arrayBuffer, index, metadata) {
  * @returns {any} - The parsed value at the index, or null if invalid.
  */
 function getValueByIndex(arrayBuffer, index) {
+	if(typeof(arrayBuffer) == "string") {
+		arrayBuffer = new fileBuffer(buffer)
+	}
     const magicLength = magicArray.length;
     const magicBuffer = Buffer.from(magicArray);
 

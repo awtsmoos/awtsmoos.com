@@ -85,16 +85,24 @@ var baseObj =
 
 var ser = awtsmoosBinary.serializeJSON(baseObj);
 
-var des = awtsmoosBinary.deserializeBinary(ser);
-/*
+//var des = awtsmoosBinary.deserializeBinary(ser);
+
+var pth = "debugging/awtsJsonTests/wow.awts"
+var wroyt = fs.writeFileSync(pth, ser)
+
+
+var parst = awtsmoosBinary.deserializeBinary(pth)
+var des = parst;
+//var file = fs.readFileSync("debugging/awtsJsonTests/subSeries.awtsmoosJSON")
+
 var start = Date.now();
 
 //var f = awtsmoosBinary.getValueByKey(ser, "asdf")
 
-var keys = awtsmoosBinary.getKeysFromBinary(ser);
+var keys = awtsmoosBinary.getKeysFromBinary(pth);
 
-var meta = awtsmoosBinary.getMetadataByKey(ser, "ok")
-var mapt = awtsmoosBinary.mapObject(ser, {
+var meta = awtsmoosBinary.getMetadataByKey(pth, "ok")
+var mapt = awtsmoosBinary.mapObject(pth, {
     asdf: true,
     ok: {
         includes: "h"
@@ -108,14 +116,13 @@ var mapt = awtsmoosBinary.mapObject(ser, {
             includes:"!"
         }
     }
-})*/
-
-
-//var file = fs.readFileSync("debugging/awtsJsonTests/subSeries.awtsmoosJSON")
-
+})
 console.log( "DID it",
-    des,
+   
+    parst,
     ser,
+    meta,
+    mapt
     
 
   //  keys,end,meta,mapt

@@ -7,6 +7,10 @@ const {
     magicJSON,
     magicArray
 } = require("./../constants.js");
+
+
+var fileBuffer = require("../../fileBuffer.js");
+
 const readConditional = require("../helpers/readConditionalWithSize.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 
@@ -42,6 +46,9 @@ Object.defineProperty(temp, "deserializeArray", {
  * @returns {object} - The reconstructed JSON object.
  */
 function deserializeJSON(buffer, metadata) {
+    if(typeof(buffer) == "string") {
+        buffer = new fileBuffer(buffer)
+    }
     var magic = buffer.subarray(
         0,
         magicJSON.length

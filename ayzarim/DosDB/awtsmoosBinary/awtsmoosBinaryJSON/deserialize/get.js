@@ -56,6 +56,9 @@ var {
 
 
 function getLengthSizes(buffer, metadataRef = null) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
 	var offset = 0;
 	var buf = Buffer.from(magicJSON);
 
@@ -88,6 +91,9 @@ function getLengthSizes(buffer, metadataRef = null) {
 }
 
 function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
 	if(!lengthSizes) {
 		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
@@ -204,6 +210,10 @@ function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
 }
 
 function getOffsetOfMetadataTableInMain(buffer, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
 		buffer,
 		null,
@@ -241,7 +251,10 @@ function getOffsetOfMetadataTableInMain(buffer, metadataRef) {
 
 
 function getRawMetadataTable(buffer, metadataRef) {
-	
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
     var {
 		offsetToStart,
 		end
@@ -269,6 +282,10 @@ function getRawMetadataTable(buffer, metadataRef) {
  * @returns {object} - Metadata containing size definitions.
  */
 function getMetadata(buffer, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var metadataTable = getRawMetadataTable(buffer, metadataRef)
 	var des = temp.deserializeArray(metadataTable)
     var fan = des.map(parseMetadataEntry)
@@ -377,6 +394,9 @@ function parseMetadataEntry(metadataEntryBuffer) {
  * @returns {Array} - Array of keys in order.
  */
 function getKeys(buffer, lengthsAndOffsetInfo) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
     var meta = getMetadata(
 		buffer,
 		lengthsAndOffsetInfo
@@ -395,6 +415,10 @@ function getValueInfoFromMetadata(metadataEntry) {
 	}
 }
 function getValueBufferFromMetadata(buffer, metadataEntry, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var offset = metadataEntry.offsetOfValueInMain
 	if(metadataRef) {
 		offset = metadataRef.offsetOfValueInMain +
@@ -409,6 +433,10 @@ function getValueBufferFromMetadata(buffer, metadataEntry, metadataRef) {
 }
 
 function getValueFromMetadata(buffer, metadataEntry, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	if(metadataEntry.notFound) {
 		return null
 	}
@@ -426,6 +454,10 @@ function getValueFromMetadata(buffer, metadataEntry, metadataRef) {
 	return parst.value
 }
 function getEntryFromMetadata(buffer, metadataEntry) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var value = getValueFromMetadata(
 		buffer,
 		metadataEntry
@@ -445,6 +477,10 @@ function getEntryFromMetadata(buffer, metadataEntry) {
  * @returns {object} - Key-value pair or null if offset is zero.
  */
 function getValueByKey(buffer, key, lengthSizes) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var metadataEntry = getMetadataByKey(
 		buffer,
 		key,
@@ -471,6 +507,10 @@ function getValueByKey(buffer, key, lengthSizes) {
  * @returns {object} - Key-value pair or null if offset is zero.
  */
 function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var offsetAndLengthInfos = getOffsetSizesAndLengths(
 		buffer,
 		lengthSizes,
@@ -601,6 +641,10 @@ function getMetadataFromHashTableIndex({
 	metadataStartInMain,
 
 }) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
+
 	var index = hashTableIndex;
 
 
@@ -668,6 +712,9 @@ function getMetadataFromHashTableIndex({
  * @returns {object|null} - The key-value pair if found, null otherwise.
  */
 function getValueByHashingKey(buffer, key) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
 	return getValueByKey(buffer, key)
 }
 
@@ -688,6 +735,9 @@ function checkConditions(conditionsObj, value) {
 }
 
 function mapArray(buffer, mapping, metadataRef, parentObjRef) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	}
 	//console.log("meta?",metadataRef, parentObjRef)
 	var ref = getMetadataByKey(
 		buffer,

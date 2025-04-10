@@ -269,9 +269,9 @@ module.exports = {
                     } catch (e) {}
                 }
 
-                if(await awtsmoosBinary.isAwtsmoosObject(data)) {
+                if(await awtsmoosBinary.isAwtsmoosObject(path)) {
                     return {
-                        success: await awtsmoosBinary.mapBinary(data, props)
+                        success: await awtsmoosBinary.mapBinary(path, props)
                     }
                 }
                 return null;
