@@ -341,9 +341,9 @@ function parseMetadataEntry(metadataEntryBuffer) {
 	);
 	offset += keyLength;
 
-	console.trace("Doing",keyLength, keyBuffer+"",offset,
+	/*console.log("Doing",keyLength, keyBuffer+"",offset,
 		byteOffsetByteSize
-	)
+	)*/
 
 	var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
 		offset,
@@ -582,9 +582,12 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		finalKey = parst.key;
 		if(finalKey != key) {
 			hasht++;
-			if(hasht >= lengthHashTable) {
+			if(hasht >= lengthHashTable-1) {
 				hasht = 0; //lienar probing?
 			}
+			console.log("NO",hasht, finalKey,key)
+		} else {
+			break;
 		}
 	//console.log(unp,lengthItself, dataOfMetadataEntry,parst)
 	}
@@ -678,7 +681,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 		offset,
 		offset + 2
 	).toString() ;
-	console.log("magic",magic,magicArray)
+	console.log("magic",magic,magicArray, mapping, metadataRef)
 	if(magic == magicArray) {
 		return mapArray(
 			buffer,
@@ -690,7 +693,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 	var result = {};
 	for(var key of keys) {
 		var conditions = mapping[key]
-		console.log("Doing",key,conditions,metadataRef)
+		console.log("Doing keys",key,conditions,metadataRef)
 		var metadataEntry = getMetadataByKey(
 			buffer,
 			key,
