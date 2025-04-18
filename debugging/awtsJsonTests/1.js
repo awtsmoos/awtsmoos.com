@@ -8,20 +8,7 @@ require("fs").writeFileSync("./Ok.awts", news.serializeJSON(Object.fromEntries(A
 undefined
 > o=news.deserializeBinary(require("fs").readFileSync("./Ok.awts"))
 */
-var baseObj = 
-
-{ok:1234, cooL: "Hi"}
-   /*
-    
-   {
-    wow: 
-    Object.fromEntries(
-    
-        Array.from({length:32})
-        .fill(1).map((q,i) => [256 + i * i, i + i * i])
-    
-    
-    ),
+var baseObj = {ok:2,
     jkl:[],
     pop:{},
     ok:"hi",
@@ -93,7 +80,6 @@ var pth = "debugging/awtsJsonTests/wow.awts"
 
 var parst = awtsmoosBinary.deserializeBinary(pth)
 var des = parst;
-var file = fs.readFileSync("debugging/awtsJsonTests/subSeries.awtsmoosJSON")
 
 var start = Date.now();
 
@@ -102,7 +88,7 @@ var start = Date.now();
 var keys = awtsmoosBinary.getKeysFromBinary(pth);
 var meta = awtsmoosBinary.getMetadataByKey(pth, "ok")
 var mapt = awtsmoosBinary.mapObject(pth, {
-    /*asdf: true,
+    asdf: true,
     ok: {
         includes: "h"
     },
@@ -114,7 +100,7 @@ var mapt = awtsmoosBinary.mapObject(pth, {
         yes: {
             includes:"!"
         }
-    }*/
+    }
 })
 console.log( "DID it",
    
@@ -168,4 +154,10 @@ awtsmoosBinary.deserializeBinary(pth);
 
 
 var meta = awtsmoosBinary.getMetadata(pth)
-console.log("RED",redAgain, meta, by)
+console.log("RED",redAgain, meta, by,
+
+    
+)
+
+var otherFileD = awtsmoosBinary.deserializeBinary(pth)
+console.log("Ot",otherFileD)

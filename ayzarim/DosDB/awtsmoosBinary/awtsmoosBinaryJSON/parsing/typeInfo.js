@@ -4,7 +4,10 @@ var typesWith0Length = [
     5,
     0,
     6,
-    7
+    7,
+    24,
+    25,
+    26
 
 ]
 

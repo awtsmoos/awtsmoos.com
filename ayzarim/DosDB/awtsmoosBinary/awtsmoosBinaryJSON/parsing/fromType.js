@@ -250,6 +250,43 @@ var typeHandlers = {
         };
         
     },
+
+    24: () => ({
+        value: Infinity
+        
+    }),
+
+    25: () => ({
+        value: -Infinity
+    }),
+
+    26: () => ({
+        value: NaN
+    }),
+
+    27: ({ value, currentOffset }) => {
+        
+        /**
+         * 8 byte uint,
+         * negative
+         *
+         * */
+        var string = value.toString();
+        var res = null;
+        try {
+            res = eval(`({
+                ok: ${string}    
+            })`)?.ok
+        } catch(e) {}
+        return {
+            value: res,
+            currentOffset: currentOffset + 
+                value.length
+        };
+        
+    },
+
+
     
 
 

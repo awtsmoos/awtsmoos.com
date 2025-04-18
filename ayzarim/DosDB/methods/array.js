@@ -20,7 +20,7 @@ module.exports = {
 		var myPath = null;
 		try {
 			
-			myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+			myPath =  await this.ensureAwtsmoosBinaryPath(rPath);
 
 			
 			var p=await this.parseBinaryData({path: myPath});
@@ -34,15 +34,19 @@ module.exports = {
 				inputArray.concat(s);
 				p = s;
 			} else {
-				inputArray = null;
+				inputArray = [];
+				/*
 				return ({
 					BH: 'B"H',
+
+					myPath,
 					error: {
 						message: "Array not found",
 						code: "ARRAY_404",
+						p,
 						myPath
 					}
-				})
+				})*/
 			}
 			return {
 				success: inputArray,
@@ -203,6 +207,7 @@ B"H
 		var inputArray = ar?.success;
 		myPath = ar.myPath;
 		if(!Array.isArray(inputArray) || typeof(myPath) != "string") {
+			return {success:{}}
 			return {
 				error: {
 					message: "Couldn't find array at path",
@@ -217,6 +222,7 @@ B"H
 			indexToDelete = i;
 		});
 		if(indexToDelete < 0) {
+			return {success: {}}
 			return {
 				error: {
 					message: "Couldn't delete, conditions didn't match",
@@ -303,23 +309,38 @@ B"H
 		try {
 			var inputArray  = null;
 			var myPath = null;
-			var array = await this.getArrayAtPath(rPath);
-			if(array.error) {
+			var array = []
+			try {
+				array = await this.getArrayAtPath(rPath);
+			
+				if(array.error) {
+					inputArray = [];
+					myPath = array.myPath
+					
+				}
+
+				if(array.success) {
+					inputArray = array.success;
+					myPath = array.myPath;
+				}
+			} catch(e) {
 				inputArray = [];
 				myPath = array.myPath
-			}
-
-			if(array.success) {
-				inputArray = array.success;
-				myPath = array.myPath;
-			}
-
-			if(!inputArray || !myPath) {
+				console.log("ISSUE with getting array",e)
 				return {
-					error: {
-						message: "Something's wrong with getting array",
-						code: "DIDNT_GET_ARRAY"
-					}
+					error: "Acutal problem",
+					stack:e.stack
+				}
+			}
+			if(!inputArray) {
+				inputArray = [];
+
+			}
+			if(!myPath) {
+				return {
+					error: "Coudn't find proper path",
+					myPath,
+					rPath
 				}
 			}
 			if(inputArray.includes(key)) return {

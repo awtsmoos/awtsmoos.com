@@ -8,7 +8,7 @@ var path = require("path");
 
 const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 //require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
-const { error } = require("console");
+
 module.exports = {
     /**
 	 * @method readFileWithOffset
@@ -255,9 +255,9 @@ module.exports = {
                 
             ) {
                 
-                if( await awtsmoosBinary.isAwtsmoosObject(data)) {
+                if(  awtsmoosBinary.isAwtsmoosObject(data)) {
                     return {
-                        success: await awtsmoosBinary.deserializeBinary(data)
+                        success: await  awtsmoosBinary.deserializeBinary(data)
                     }
                 }
                 return null;

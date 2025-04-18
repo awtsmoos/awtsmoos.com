@@ -289,9 +289,11 @@ function getMetadata(buffer, metadataRef) {
 	}
 
 	var metadataTable = getRawMetadataTable(buffer, metadataRef)
-	
-    var fan = metadataTable.map(parseMetadataEntry)
-    return fan;
+	if(!metadataTable) {
+		metadataTable = [];
+	}
+    var fan = metadataTable?.map?.(parseMetadataEntry)
+    return fan || [];
 }
 
 function parseMetadataEntry(metadataEntryBuffer) {

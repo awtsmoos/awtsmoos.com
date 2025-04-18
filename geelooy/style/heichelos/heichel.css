@@ -294,3 +294,156 @@
 .grid-container > * {
   transition: transform 0.2s ease;
 }
+
+
+
+/**B"H**/
+
+/* --- Existing CSS --- */
+.heichel * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* ... rest of your existing CSS ... */
+
+
+/* --- NEW Styles for Owner Controls, Context Menu, Drag & Drop --- */
+
+/* Owner Controls Buttons */
+#seriesControls {
+  padding: 10px 0; /* Add some padding */
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee; /* Separator */
+  display: flex; /* Align buttons */
+  gap: 10px; /* Space between buttons */
+}
+
+#addPostBtn,
+#addSeriesBtn {
+  margin-bottom: 15px; /* Space below add buttons */
+  display: block; /* Make them block level if needed */
+  width: fit-content; /* Size to content */
+}
+
+/* Wrapper for Card + Menu Icon */
+.card-wrapper {
+  position: relative; /* Needed for absolute positioning of icon */
+  display: block; /* Ensure it takes up block space */
+   /* Inherit margin/padding from .post-card if needed, or set here */
+   margin-bottom: 1em; /* Match post-card margin */
+}
+
+/* Adjust post-card margin if handled by wrapper */
+.heichel .post-card {
+/* margin-bottom: 0; */ /* Remove margin if wrapper handles it */
+ /* Keep other styles like background, border, padding, shadow, transition */
+ background-color: #fff;
+ border: 1px solid #ddd;
+ text-decoration: none;
+ padding: 1em;
+ border-radius: 10px;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ display: block; /* Ensure it behaves like a block inside the wrapper */
+}
+
+
+/* Context Menu Icon */
+.context-menu-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 20px;
+  line-height: 1;
+  color: #555;
+  background-color: rgba(255, 255, 255, 0.6); /* Slight background for visibility */
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.context-menu-icon:hover {
+  color: #000;
+  background-color: rgba(230, 230, 230, 0.8);
+}
+
+/* Context Menu */
+.context-menu {
+  position: absolute; /* Positioned by JS */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1000;
+  min-width: 120px;
+  padding: 5px 0;
+}
+
+.context-menu-item {
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Drag and Drop Styles */
+.card-wrapper[draggable="true"] {
+  cursor: grab;
+}
+
+.card-wrapper.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  /* Optional: Add a border or different background */
+   border: 2px dashed #0a4d8c;
+}
+
+/* Placeholder element style */
+.placeholder {
+  background: #e0e0e0;
+  border: 2px dashed #aaaaaa;
+  border-radius: 10px; /* Match card radius */
+  /* Ensure margin matches the card-wrapper for proper spacing */
+  margin-bottom: 1em; /* Match card-wrapper margin */
+  box-sizing: border-box; /* Include border in size */
+  transition: all 0.2s ease; /* Smooth appearance */
+}
+
+
+/* Style for the container when dragging over it */
+.grid-container.drag-over-container {
+  /* Optional: Add a visual cue to the whole list */
+  /* background-color: #f0f8ff; */ /* Light blue background */
+}
+
+/* Empty Message Style */
+.empty-message {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+
+/* Minor adjustments */
+.hidden {
+  display: none !important; /* Ensure hidden works reliably */
+}
+
+/* Ensure loading indicators are centered or positioned well */
+.loadingPosts, .loadingSeries {
+  text-align: center;
+  padding: 20px;
+}

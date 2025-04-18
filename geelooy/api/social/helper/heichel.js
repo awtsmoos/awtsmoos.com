@@ -623,20 +623,13 @@ async function verifyHeichelAuthority({
     
     
 	try{
-        var me = await $i.db.findInArray(
-            `${sp}/heichelos/${heichelId}/editors`,
-            {
-                
-                exact: {
-                    selfEquals: aliasId
-                }
-                
-                
-                
-            }
+        var me = await $i.db.get(
+            `${sp}/heichelos/${heichelId}/editors`
         )
-        if(me?.success) {
-            return me.success;
+        var has = me.includes(aliasId)
+      //  console.log("What",me)
+        if(has) {
+            return true
         } else {
             return false;
         }

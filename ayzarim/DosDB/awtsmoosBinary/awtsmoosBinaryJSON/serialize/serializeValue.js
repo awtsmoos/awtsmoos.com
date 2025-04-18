@@ -32,6 +32,18 @@ function serializeValue(value, fullBuffer = true) {
     let type = null;
     let data = null;
 
+    if(value === Infinity) {
+        type = 24
+        data = Buffer.alloc(0);
+    } else if(value === -Infinity) {
+		
+        type = 25
+        data = Buffer.alloc(0);
+    } else if(isNaN(value)) {
+
+        type = 26
+        data = Buffer.alloc(0);
+    }
     // The Awtsmoos peers into the essence of the value, determining its form.
     if (Array.isArray(value)) {
         type = 3;
@@ -58,11 +70,13 @@ function serializeValue(value, fullBuffer = true) {
         data = Buffer.from(value, "utf8");
     } else if (
         typeof value === "number" &&
-        !isNaN(value)
+        !isNaN(value) &&
+		value !== Infinity &&
+		value !== -Infinity
     ) {
         var info;
         
-        if(value >= 0) {
+        if(value >= 0 && value != Infinity&& value !== Infinity) {
 
             if(!hasDecimal(value)) {
 
@@ -116,8 +130,9 @@ function serializeValue(value, fullBuffer = true) {
                     
                 }
             }
-        } else {
-
+        } else if(value !== Infinity && value !== -Infinity) {
+			
+			
             info = writeConditional(value * -1);
             if(!hasDecimal(value)) {
                 switch(info.size) {
@@ -171,10 +186,14 @@ function serializeValue(value, fullBuffer = true) {
                 }
             }
         }
+		
         data = info.buffer;
     } else if (typeof value === "boolean") {
         type = value ? 0 : 5;
         data = Buffer.alloc(0);
+    } else if(typeof(value) == "function") {
+		type = 27;
+		data = Buffer.from(value.toString())
     } else if (value === undefined) {
         type = 6;
         data = Buffer.alloc(0);

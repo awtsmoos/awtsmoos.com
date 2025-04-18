@@ -250,18 +250,19 @@ async function addPostToHeichel({
 			postId
 		);*/
 
-
-		var ar = await $i.db.syncKeyInArray(
-			`${sp}/aliases/${aliasId}/postsSubmitted/inHeichel/${
+		var pth = `${sp}/aliases/${aliasId}/postsSubmitted/inHeichel/${
 				heichelId
-			}/inSeries/${seriesId}`,
+			}/inSeries/${seriesId}`
+		var ar = await $i.db.syncKeyInArray(
+			pth,
 			postId
 		);
 		if(ar.error) {
 			return er ({
 				message: "Issue syncing post entry",
 				code: "SYNC_KEY",
-				details: ar
+				details: ar,
+				pth
 			})
 		}
 		
