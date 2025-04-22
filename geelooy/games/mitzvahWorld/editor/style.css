@@ -1,0 +1,515 @@
+/* B"H */
+:root {
+    --bg-color: #282c34;
+    --panel-bg: #3b4049;
+    --panel-border: #5c6370;
+    --text-color: #abb2bf;
+    --highlight-bg: #4f5666;
+    --selected-bg: #61afef; /* Light blue for selection */
+    --selected-text: #282c34;
+    --gizmo-primary: #e06c75; /* Red */
+    --gizmo-secondary: #98c379; /* Green */
+    --gizmo-tertiary: #61afef; /* Blue */
+    --timeline-header: #4b5162;
+    --timeline-track: #353a45;
+    --timeline-keyframe: #e06c75; /* Red for keyframes */
+    --timeline-cursor: #d19a66; /* Orange */
+    --font-family: sans-serif;
+    --panel-padding: 10px;
+    --border-radius: 4px;
+    --transition-speed: 0.2s;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrollbars on body */
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block; /* Remove potential extra space */
+    z-index: 1;
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow clicks to pass through to canvas unless on a panel */
+    z-index: 10;
+}
+
+.panel {
+    position: absolute;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    padding: var(--panel-padding);
+    pointer-events: auto; /* Panels are interactive */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevent content spilling */
+    transition: all var(--transition-speed) ease-in-out;
+}
+
+.panel-content {
+    overflow-y: auto; /* Allow scrolling within panels */
+    flex-grow: 1;
+    padding-right: 5px; /* Space for scrollbar */
+}
+.panel-header {
+    font-weight: bold;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--panel-border);
+    margin-bottom: 8px;
+    flex-shrink: 0; /* Header should not shrink */
+    user-select: none; /* Prevent text selection on header */
+    cursor: grab; /* Indicate possibility of moving (future feature) */
+}
+.panel-header.collapsible::before {
+    content: '▼ '; /* Default expanded */
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.panel.collapsed .panel-header.collapsible::before {
+    content: '▶ '; /* Collapsed indicator */
+}
+.panel.collapsed .panel-content {
+    display: none;
+}
+.panel.collapsed {
+    height: auto !important; /* Adjust height when collapsed */
+    width: auto !important; /* Adjust width when collapsed */
+}
+
+
+/* --- Specific Panel Positioning --- */
+#toolbar {
+    top: 10px;
+    left: 10px;
+    right: 10px; /* Span across */
+    height: 50px;
+    flex-direction: row; /* Horizontal items */
+    align-items: center;
+    padding: 5px var(--panel-padding);
+}
+
+#object-tree-panel {
+    top: 70px; /* Below toolbar */
+    left: 10px;
+    width: 250px;
+    height: calc(50% - 80px); /* Adjust height */
+    min-height: 150px;
+}
+
+#properties-panel {
+    top: 70px; /* Below toolbar */
+    right: 10px;
+    width: 250px;
+    height: calc(100% - 80px - 220px); /* Adjust based on timeline */
+    min-height: 200px;
+}
+
+#timeline-panel {
+    bottom: 10px;
+    left: 10px;
+    right: 10px; /* Span across */
+    height: 200px;
+    min-height: 100px;
+}
+
+/* --- Object Tree Styles --- */
+.object-tree ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.object-tree li {
+    padding: 3px 0;
+}
+
+.object-tree-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.object-tree-item:hover {
+    background-color: var(--highlight-bg);
+}
+
+.object-tree-item.selected {
+    background-color: var(--selected-bg);
+    color: var(--selected-text);
+    font-weight: bold;
+}
+
+.object-tree-item .toggle-btn {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 10px;
+    line-height: 14px; /* Center content */
+    text-align: center;
+    border-radius: 3px;
+    flex-shrink: 0;
+    user-select: none;
+}
+.object-tree-item .toggle-btn:hover {
+    background-color: var(--highlight-bg);
+}
+.object-tree-item .icon { /* Placeholder for icons */
+    margin-right: 5px;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.object-tree-item .item-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.object-tree ul ul { /* Nested lists */
+    padding-left: 20px;
+}
+
+.object-tree li.collapsed > ul {
+    display: none;
+}
+
+/* --- Properties Panel Styles --- */
+.property-group {
+    margin-bottom: 15px;
+}
+
+.property-group-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--text-color); /* Ensure contrast */
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 4px;
+}
+
+.property-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.property-item label {
+    width: 80px; /* Adjust label width */
+    margin-right: 10px;
+    text-align: right;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+.property-item input[type="text"],
+.property-item input[type="number"],
+.property-item input[type="color"],
+.property-item select {
+    flex-grow: 1;
+    padding: 4px 6px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--panel-border);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    min-width: 50px; /* Prevent inputs becoming too small */
+}
+.property-item input[type="number"] {
+    width: 60px; /* Specific width for number inputs */
+    flex-grow: 0;
+}
+.property-item .vector-input {
+    display: flex;
+    gap: 4px;
+    flex-grow: 1;
+}
+
+
+/* --- Timeline Panel Styles --- */
+#timeline-panel {
+    display: flex;
+    flex-direction: column;
+}
+.timeline-controls {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--panel-border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.timeline-controls button {
+     /* Style buttons later */
+}
+.timeline-controls .time-display {
+    font-family: monospace;
+    background: var(--bg-color);
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.timeline-content {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Important */
+}
+
+.timeline-layers {
+    width: 150px; /* Width for layer names */
+    flex-shrink: 0;
+    border-right: 1px solid var(--panel-border);
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.timeline-layer-header {
+    padding: 5px;
+    background-color: var(--timeline-header);
+    border-bottom: 1px solid var(--panel-border);
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.timeline-layer-header:hover {
+    background-color: var(--highlight-bg);
+}
+
+.timeline-tracks-container {
+    flex-grow: 1;
+    overflow-x: scroll; /* Horizontal scrolling for time */
+    overflow-y: auto; /* Match layer scrolling */
+    position: relative; /* For absolute positioning of cursor */
+    background-color: var(--timeline-track); /* Base track background */
+}
+
+.timeline-ruler {
+    height: 20px;
+    background-color: var(--timeline-header);
+    position: sticky; /* Keep ruler visible */
+    top: 0;
+    z-index: 3;
+    border-bottom: 1px solid var(--panel-border);
+}
+.timeline-ruler-marks {
+    position: relative;
+    height: 100%;
+    /* Ticks added dynamically */
+}
+.timeline-tick {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--panel-border);
+}
+.timeline-tick.major { height: 10px; }
+.timeline-tick.minor { height: 5px; }
+.timeline-tick-label {
+    position: absolute;
+    bottom: 10px;
+    font-size: 10px;
+    transform: translateX(-50%); /* Center label */
+    color: var(--text-color);
+}
+
+
+.timeline-layer-tracks {
+    /* Represents the horizontal space for a layer's tracks */
+    position: relative;
+    min-height: 30px; /* Ensure layers have some height */
+    border-bottom: 1px dashed rgba(171, 178, 191, 0.2); /* Faint separator */
+}
+
+.timeline-keyframe {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Center the keyframe */
+    width: 10px;
+    height: 10px;
+    background-color: var(--timeline-keyframe);
+    border: 1px solid var(--bg-color);
+    border-radius: 2px; /* Diamond-ish shape */
+    transform: translate(-50%, -50%) rotate(45deg); /* Rotate for diamond */
+    cursor: pointer;
+    z-index: 2;
+}
+.timeline-keyframe:hover {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.2); /* Slightly larger on hover */
+}
+
+.timeline-cursor {
+    position: absolute;
+    top: 0; /* Starts from the ruler */
+    bottom: 0; /* Extends to the bottom */
+    width: 2px;
+    background-color: var(--timeline-cursor);
+    cursor: ew-resize; /* Indicate draggable */
+    z-index: 4; /* Above everything else */
+    pointer-events: none; /* Usually controlled by scrubbing the ruler */
+}
+
+/* --- Toolbar Styles --- */
+#toolbar button, #toolbar select {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+#toolbar button:hover, #toolbar select:hover {
+    background-color: var(--highlight-bg);
+}
+#toolbar button.active {
+    background-color: var(--selected-bg);
+    color: var(--selected-text);
+}
+
+/* --- Gizmo Styles --- */
+/* From original, slightly adapted */
+#orbit-gizmo-container {
+    position: absolute;
+    top: 70px; /* Adjust based on toolbar */
+    right: 280px; /* Adjust based on properties panel */
+    z-index: 5;
+}
+.obit-controls-gizmo {
+    background-color: rgba(255, 255, 255, 0); /* Transparent */
+    border-radius: 100%;
+    transition: background-color .15s linear;
+    cursor: pointer;
+}
+.obit-controls-gizmo.dragging,
+.obit-controls-gizmo:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle hover */
+}
+.obit-controls-gizmo.inactive {
+    pointer-events: none;
+    background-color: transparent !important;
+}
+
+/* --- Utility Classes --- */
+.hidden {
+    display: none !important;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.gap-1 { gap: 5px; }
+.gap-2 { gap: 10px; }
+
+.grow { flex-grow: 1; }
+.shrink-0 { flex-shrink: 0; }
+
+/* --- Scrollbar Styles (Optional but nice) --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight-bg);
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 768px) {
+    :root {
+        --panel-padding: 8px;
+    }
+    body {
+        font-size: 13px;
+    }
+    #object-tree-panel, #properties-panel {
+        width: 45%; /* Side panels take up more relative space */
+        height: calc(50% - 75px); /* Adjust height, leave space for timeline */
+        top: 65px; /* Slightly adjust top */
+    }
+    #properties-panel {
+        /* Position properties below object tree on mobile? Or keep side-by-side? */
+        /* For now, keep side by side */
+        right: 5px;
+    }
+     #object-tree-panel {
+        left: 5px;
+     }
+
+    #timeline-panel {
+        height: 180px; /* Slightly smaller timeline */
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+    }
+    #toolbar {
+        height: 45px;
+        top: 5px; left: 5px; right: 5px;
+        overflow-x: auto; /* Allow toolbar buttons to scroll */
+        padding: 5px;
+    }
+    #toolbar button, #toolbar select {
+        padding: 4px 8px;
+        white-space: nowrap; /* Prevent button text wrapping */
+    }
+     #orbit-gizmo-container {
+        /* Hide or reposition gizmo */
+        display: none; /* Simpler for now */
+     }
+     .property-item label {
+        width: 60px; /* Smaller labels */
+        margin-right: 5px;
+     }
+     .timeline-layers {
+        width: 100px; /* Narrower layer names */
+     }
+}
