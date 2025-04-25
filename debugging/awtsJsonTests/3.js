@@ -8,6 +8,13 @@ const TEST_PATH = "debugging/awtsJsonTests/INTENSE.awts";
 
 // 🔥 Raw Chaos Object
 const chaos = {
+  deep:{
+k:8,
+p:{
+  m:78,
+  k:676
+}
+  },
   numericMadness: {
     positiveInfinity: Infinity,
     negativeInfinity: -Infinity,
@@ -51,7 +58,12 @@ const filterResults = awts.mapObject(TEST_PATH, {
     negativeInfinity: { equals: -Infinity },
     nanValue: { equals: NaN }  // will fail, as NaN !== NaN
   },
-  functions: true
+  functions: true,
+  deep: {
+p:{
+  m: true
+}
+  }
 });
 console.log("🧬 Filter mapped:", filterResults);
 
