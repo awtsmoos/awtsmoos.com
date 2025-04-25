@@ -8,7 +8,8 @@ const chaos = {
     k:8,
         p:{
             m:78,
-            k:676
+            k:676,
+            ok: " okthere"
         }
     }
 }
@@ -18,7 +19,8 @@ var buf =  awts.serializeJSON(chaos);
 const filterResults = awts.mapObject(buf, {
   deep: {
     p:{
-        m: true
+        m: true,
+        k: 1
     }
   }
 });

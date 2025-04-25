@@ -847,7 +847,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 				/*
 					handle nested object
 				*/
-				console.log(metadataEntry)
+			//	console.log(metadataEntry)
 				var offsetInMain = metadataEntry.offsetOfValueInMain;
 				var lengthOfEntry = metadataEntry.valueLength;
 
