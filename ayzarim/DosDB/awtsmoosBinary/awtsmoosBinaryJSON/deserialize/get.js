@@ -841,20 +841,20 @@ function mapObject(buffer, mapping, metadataRef=null) {
 		)) {
 		
 			
-
+			var length = metadataEntry.valueLength;
+			var offsetOfEntry = metadataEntry.offsetOfValueInMain;
+			var offsetBuffer = new OffsetBuffer(
+				buffer,
+				offsetOfEntry,
+				length
+			);
 			if(metadataEntry.valueType == 1) {
 				/*
 					handle nested object
 				*/
 			//	console.log(metadataEntry)
 			
-				var length = metadataEntry.valueLength;
-				var offsetOfEntry = metadataEntry.offsetOfValueInMain;
-				var offsetBuffer = new OffsetBuffer(
-					buffer,
-					offsetOfEntry,
-					length
-				);
+				
 				var nested;
 				if(conditions && typeof(conditions) == "object") {
 					nested = mapObject(offsetBuffer, conditions)
@@ -867,12 +867,18 @@ function mapObject(buffer, mapping, metadataRef=null) {
 					handle nested array mapping
 	
 				*/
-				var nested = mapArray(
-					buffer, 
-					conditions, 
-					metadataEntry, 
-					metadataRef
-				)
+				var nested;
+				if(conditions && typeof(conditions) == "object") {
+					
+					nested = mapArray(
+						offsetBuffer, 
+						conditions, 
+						metadataEntry, 
+						metadataRef
+					)
+				} else if(conditions) {
+					nested = temp.deserializeBinary(offsetBuffer)
+				}
 				result[key] = nested;
 			} 
 		} else {
