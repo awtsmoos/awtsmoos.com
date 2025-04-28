@@ -9,7 +9,11 @@ const chaos = {
         p:{
             m: {
               well: "asdf",
-              lol: 1234
+              lol: 1234,
+              asd: [
+                2,3,
+                {d:"as"}
+              ]
             },
             k:676,
             ok: " okthere"
@@ -23,7 +27,8 @@ const filterResults = awts.mapObject(buf, {
   deep: {
     p:{
         m: {
-          lol: 2
+          lol: 2,
+          asd:true
         },
         k: 1
     }
