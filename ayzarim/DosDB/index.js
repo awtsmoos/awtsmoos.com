@@ -61,7 +61,7 @@ class DosDB {
 
 
 		this.awtsmoosBinary = awtsmoosBinary;
-		this.directory = directory || "../";
+		this.directory = this.sanitizeAwtsmoosPath(directory || "../");
 	}
 	
 	/**

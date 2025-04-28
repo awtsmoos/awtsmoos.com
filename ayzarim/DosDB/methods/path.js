@@ -26,7 +26,7 @@ module.exports = {
         if(ext !== ".awtsmoosJSON") {
             rPath += ".awtsmoosJSON";
         }
-        
+       // console.log("f",rPath)
         return await this.getAwtsmoosFilePath(rPath, false, true);;
     },
     
@@ -70,10 +70,10 @@ module.exports = {
         const basePath = path.join(mainDir, relativeId);
         
         if(path.extname(unifiedId) || isDir) return basePath;
-        
+   
         const jsonPath = `${basePath}.json`;
         const awtsmoosJsonPath = `${basePath}.awtsmoosJSON`;
-        
+      //  console.log(21221,id,basePath,mainDir,unifiedId,awtsmoosJsonPath)
         try {
             await fs.access(basePath);
             return basePath;

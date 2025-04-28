@@ -270,8 +270,10 @@ module.exports = {
                 }
 
                 if(await awtsmoosBinary.isAwtsmoosObject(path)) {
+                    var mpt =  awtsmoosBinary.mapObject(path, props);
+                 //   console.log(mpt,props,path)
                     return {
-                        success: await awtsmoosBinary.mapBinary(path, props)
+                        success: mpt
                     }
                 }
                 return null;

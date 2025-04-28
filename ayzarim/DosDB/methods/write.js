@@ -25,6 +25,7 @@ module.exports = {
     ) {
 		const isDir = !record;
 		const filePath = await this.getAwtsmoosFilePath(id, isDir, opts?.override);
+   
 		await this.ensureDir(filePath, isDir);
 		if(isDir) return;
 		
@@ -95,6 +96,7 @@ module.exports = {
                 }
             }
             const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+            console.log(myPath)
             const wrote = await fs.writeFile(myPath, awtsJson);
             return {
                 success: {

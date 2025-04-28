@@ -48,7 +48,10 @@ class OffsetBuffer {
             this._sourceBuffer = source._sourceBuffer; // Get the original underlying Buffer
             this._sourceOffset = source._sourceOffset + offset; // Add the new offset to the existing one
             effectiveSourceLength = source.length; // Bounds checking is relative to the source *OffsetBuffer*
-        } else if (source instanceof OriginalBuffer) {
+        } else if (
+            source instanceof OriginalBuffer ||
+            source.constructor.name == "FileBuffer"
+        ) {
             // Source is a standard Buffer
             this._sourceBuffer = source;
             this._sourceOffset = offset;
