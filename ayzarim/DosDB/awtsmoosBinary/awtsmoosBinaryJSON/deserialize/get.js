@@ -11,7 +11,7 @@ const {
 } = require("./../constants.js");
 
 var fileBuffer = require("../../fileBuffer.js");
-
+var OffsetBuffer = require("../offsetBuffer.js")
 
 var {
 	hashKey
@@ -848,7 +848,19 @@ function mapObject(buffer, mapping, metadataRef=null) {
 				*/
 			//	console.log(metadataEntry)
 			
-			
+				var length = metadataEntry.valueLength;
+				var offsetOfEntry = metadataEntry.offsetOfValueInMain;
+				var offsetBuffer = new OffsetBuffer(
+					buffer,
+					offsetOfEntry,
+					length
+				);
+				var nested;
+				if(conditions && typeof(conditions) == "object") {
+					nested = mapObject(offsetBuffer, conditions)
+				} else if(conditions) {
+					nested = temp.deserializeBinary(offsetBuffer)
+				}
 				result[key] = nested;
 			} else if(metadataEntry.valueType == 3) {
 				/*

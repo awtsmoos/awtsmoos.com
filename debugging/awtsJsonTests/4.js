@@ -7,7 +7,10 @@ const chaos = {
     deep:{
     k:8,
         p:{
-            m:78,
+            m: {
+              well: "asdf",
+              lol: 1234
+            },
             k:676,
             ok: " okthere"
         }
@@ -19,9 +22,12 @@ var buf =  awts.serializeJSON(chaos);
 const filterResults = awts.mapObject(buf, {
   deep: {
     p:{
-        m: true,
+        m: {
+          lol: 2
+        },
         k: 1
     }
   }
 });
-console.log("🧬 Filter mapped:", filterResults);
+var str = JSON.stringify(filterResults,0,"\t")
+console.log("🧬 Filter mapped:", filterResults,str);

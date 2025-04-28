@@ -1,5 +1,5 @@
 //B"H
-'use strict';
+
 
 // Get the original Buffer class
 const OriginalBuffer = Buffer;
@@ -464,7 +464,7 @@ class OffsetBuffer {
      * @param {number} index The index.
      * @returns {number} The byte value (0-255).
      * @throws {RangeError} If index is out of bounds.
-     */
+    
     [index] (index) {
         if (index < 0 || index >= this.length) {
             throw new RangeError(`Index ${index} out of bounds for OffsetBuffer of length ${this.length}`);
@@ -477,14 +477,14 @@ class OffsetBuffer {
      * @param {number} index The index.
      * @param {number} value The byte value (0-255).
      * @throws {RangeError} If index is out of bounds.
-     */
+    
     set [index] (index, value) {
         if (index < 0 || index >= this.length) {
             throw new RangeError(`Index ${index} out of bounds for OffsetBuffer of length ${this.length}`);
         }
         this._sourceBuffer[this._getAbsoluteOffset(index)] = value;
     }
-
+ */
     // --- Iteration ---
 
     /**
@@ -840,3 +840,5 @@ console.log("lastIndexOf(20):", searchOffsetBuf.lastIndexOf(20));       // Shoul
 
 console.log("\nB\"H - Example Finished");
 */
+
+module.exports = OffsetBuffer
