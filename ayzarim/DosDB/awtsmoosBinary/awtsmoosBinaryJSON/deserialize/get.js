@@ -11,7 +11,6 @@ const {
 } = require("./../constants.js");
 
 var fileBuffer = require("../../fileBuffer.js");
-var OffsetBuffer = require("../offsetBuffer.js")
 
 
 var {
@@ -848,11 +847,8 @@ function mapObject(buffer, mapping, metadataRef=null) {
 					handle nested object
 				*/
 			//	console.log(metadataEntry)
-				var offsetInMain = metadataEntry.offsetOfValueInMain;
-				var lengthOfEntry = metadataEntry.valueLength;
-
-				var newBuf = new OffsetBuffer(buffer, offsetInMain, lengthOfEntry)
-				var nested = mapObject(newBuf, conditions)
+			
+			
 				result[key] = nested;
 			} else if(metadataEntry.valueType == 3) {
 				/*
