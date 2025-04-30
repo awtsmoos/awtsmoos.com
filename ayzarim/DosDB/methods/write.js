@@ -97,7 +97,8 @@ module.exports = {
                 }
             }
             const myPath = await this.ensureAwtsmoosBinaryPath(rPath);
-            console.log(myPath)
+           
+            
             const wrote = await fs.writeFile(myPath, awtsJson);
             return {
                 success: {

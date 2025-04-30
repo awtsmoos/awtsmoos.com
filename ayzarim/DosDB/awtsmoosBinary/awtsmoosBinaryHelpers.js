@@ -3,6 +3,7 @@
 const crypto = require('crypto');
 
 const fs = require('fs').promises;
+var path = require("path")
 var fsSync = require("fs");
 // Global cache for open file handles. Keys are file paths; values are objects with handle and isClosed.
 const openFileHandles = {};
@@ -488,74 +489,76 @@ function readFileBytesAtOffset({
 
 global.openFileHandles = openFileHandles;
 
-
 function getFileHandle(filePath) {
     if (!filePath) {
         console.trace("No file path provided");
         return;
     }
-    if (openFileHandles[filePath] && !openFileHandles[filePath].isClosed) {
-        return openFileHandles[filePath];
+
+    // Reuse existing handle if still open
+    const existingHandle = openFileHandles[filePath];
+    if (existingHandle && !existingHandle.isClosed) {
+        return existingHandle;
     }
-    
+
+    // Ensure parent directory exists
+    const parentDir = path.dirname(filePath);
+    try {
+        fsSync.mkdirSync(parentDir, { recursive: true });
+    } catch (mkdirErr) {
+        console.error("Failed to create directory:", parentDir, mkdirErr);
+        return;
+    }
+
     let handle;
     try {
         handle = fsSync.openSync(filePath, 'r+');
-    } catch (err) {
+    } catch (readErr) {
         try {
-
-
-
+            // Try to create file if it doesn't exist
             handle = fsSync.openSync(filePath, 'w');
             fsSync.writeFileSync(filePath, " ");
-            fsSync.closeSync(handle)
-            handle = fsSync.openSync(filePath, "r+")
-        } catch (e) {
-            console.log("Trying\n\n\n", filePath);
-            console.log("Issue", e);
+            fsSync.closeSync(handle);
+            handle = fsSync.openSync(filePath, 'r+');
+        } catch (createErr) {
+            console.error("Could not create or open file:", filePath, createErr);
+            return;
         }
     }
-    
-    var keys = Object.keys(openFileHandles);
-    if (keys.length > MAX_OPEN_FILES) {
+
+    // Limit the number of open files
+    const openKeys = Object.keys(openFileHandles);
+    if (openKeys.length > MAX_OPEN_FILES) {
+        const oldest = openKeys[0];
         try {
-            var last = keys[keys.length - 1];
-            try {
-                fsSync.closeSync(
-                    openFileHandles[last].handle
-                )
-            } catch (e) {}
-            delete openFileHandles[last];
-        } catch (e) {}
+            fsSync.closeSync(openFileHandles[oldest].handle);
+        } catch (closeErr) {
+            // Ignore close error
+        }
+        delete openFileHandles[oldest];
     }
 
-    // Create a custom file handle object that includes a .write method
     const customHandle = {
         handle,
         isClosed: false,
         truncate(offset) {
-            return fsSync.ftruncateSync(
-                this.handle,
-                offset
-            )
+            return fsSync.ftruncateSync(this.handle, offset);
         },
-        write: function(buffer, offset = 0, length = buffer.length, position = null) {
+        write(buffer, offset = 0, length = buffer.length, position = null) {
             return fsSync.writeSync(this.handle, buffer, offset, length, position);
         },
-
-        read: function(buffer, offset = 0, length = buffer.length, position = null) {
-            return fsSync
-            .readSync(this.handle, buffer, offset, length, position);
+        read(buffer, offset = 0, length = buffer.length, position = null) {
+            return fsSync.readSync(this.handle, buffer, offset, length, position);
         },
-        
-        close: function() {
-            this.isClosed = true;
-            fsSync.closeSync(this.handle);
+        close() {
+            if (!this.isClosed) {
+                this.isClosed = true;
+                fsSync.closeSync(this.handle);
+            }
         }
     };
-    
+
     openFileHandles[filePath] = customHandle;
-    
     return customHandle;
 }
 

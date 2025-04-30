@@ -22,7 +22,7 @@ class FileBuffer {
 		this.isFileBuffer = true;
 		var stats = (stat(filePath));
 		this.stats = stats;
-		this._length = stats.size;
+		this._length = stats?.size || 0;
 		
 		return new Proxy(this, {
 			get(target, property) {
@@ -54,7 +54,7 @@ class FileBuffer {
 		//	if(this._length === null) {
 		var stats = (stat(this.filePath));
 		this.stats = stats;
-		this._length = stats.size;
+		this._length = stats?.size || 0;
 		
 		//}
 		return this._length

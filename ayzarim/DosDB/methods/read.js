@@ -256,9 +256,11 @@ module.exports = {
             ) {
                 
                 if(  awtsmoosBinary.isAwtsmoosObject(data)) {
-                    console.log(data,2999)
+                
+                    
                     var s =  awtsmoosBinary.deserializeBinary(data)
-                    console.log(s,44233);
+    
+                    
                     return {
                         success: s
                     }

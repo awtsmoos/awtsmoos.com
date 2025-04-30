@@ -8,6 +8,9 @@ module.exports = {
     },
 	async getMetadaOfEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+	
+		
+		
 		var meta = awtsmoosJSON.getMetadataByKey(pathic, key);
 		return meta;
 	},
@@ -25,8 +28,11 @@ module.exports = {
 		}
 		return this.appendToObj(pathic, {
 			key,
-			value: "a"// "asdfg" + Math.random()
+			value: true
 		})
+	},
+	async syncKeyInObj(pth, key) {
+		return await this.syncKeyToObj(pth, key)
 	},	
 	async deleteEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);

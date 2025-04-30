@@ -157,7 +157,8 @@ class AwtsmoosHashMap {
         let index = hashIndex;
         var gotKey = this.getKeyAtIndex(index)
         var str = (gotKey+"").trim()
-        console.log(str,key,str==key,str.length,key.length,22)
+     
+        
       // return
         while (
             gotKey != 0 &&

@@ -57,7 +57,8 @@ class AwtsmoosDB {
   async kavWrite(key, value) {
     const serialized = this.atzilusSerialize(value);
     const { shardID, offset } = await this.awtsmoosAppendToShard(serialized);
-    console.log("of",offset, shardID)
+
+    
     var sharded = { shardID, offset }
     await this.ohrEinSofInsert(this.globalIndexPath, key, sharded);
     const shardIndexPath = path.join(this.dir, `shard${shardID}.index`);
@@ -200,8 +201,7 @@ class AwtsmoosDB {
 
     buffer.writeUInt16BE(value.shardID, index * 11);
 
-    console.log("va",value)
-
+    
     buffer.writeBigUInt64BE(BigInt(value.offset), index * 11 + 2);
 
 

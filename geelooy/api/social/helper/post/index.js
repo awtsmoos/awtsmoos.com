@@ -253,7 +253,7 @@ async function addPostToHeichel({
 		var pth = `${sp}/aliases/${aliasId}/postsSubmitted/inHeichel/${
 				heichelId
 			}/inSeries/${seriesId}`
-		var ar = await $i.db.syncKeyInArray(
+		var ar = await $i.db.syncKeyInObj(
 			pth,
 			postId
 		);

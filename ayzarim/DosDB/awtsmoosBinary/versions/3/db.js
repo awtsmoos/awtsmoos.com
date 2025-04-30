@@ -130,7 +130,7 @@ class Database {
         const chunkShard = await this.appendToShard(chunkData, chunkKey);
         
         meta.entries[c.toString()] = chunkKey;
-        console.log ("chunk",meta,chunk.elements)
+        
       }
       meta.num = array.length;
     }
@@ -138,7 +138,7 @@ class Database {
     const metaData = serializeObjectOrMap(Object.entries(meta.entries));
     const metaShard = await this.appendToShard(metaData, metaKey);
 
-    console.log("wrote",metaKey)
+    
     await this.updateRoot(key, metaKey, meta.num);
   }
   
@@ -439,7 +439,7 @@ class Database {
    // console.log(`Looking for key ${key} with hash: ${keyHash.toString("hex")}`);
     for (let i = 0; i < indexBuffer.length; i += 24) {
       const entryHash = indexBuffer.subarray(i, i + 16);
-      console.log("Cool",entryHash,keyHash,key,keyHash.length,entryHash.length)
+      
       if (entryHash.equals(keyHash)) {
         const offset = Number(indexBuffer.readBigUInt64BE(i + 16));
         const shardId = Math.floor(offset / this.shardSize);

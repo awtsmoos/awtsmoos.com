@@ -502,7 +502,7 @@ async function createHeichel({
         }
     }
 
-    await $i.db.syncKeyInArray(
+    await $i.db.syncKeyInObj(
         sp +
         `/aliases/${
             aliasId
@@ -530,7 +530,7 @@ async function createHeichel({
         );
 
 
-        await $i.db.syncKeyInArray(
+        await $i.db.syncKeyInObj(
             sp +
             `/heichelos/${
             heichelId

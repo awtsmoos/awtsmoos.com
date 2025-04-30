@@ -1732,7 +1732,7 @@ async function makeNewSeries({
 			}
 			var errors = []
 			try {
-				var seriesKey = await $i.db.syncKeyInArray(
+				var seriesKey = await $i.db.syncKeyInObj(
 					`${
 						sp
 					}/aliases/${
@@ -1747,6 +1747,8 @@ async function makeNewSeries({
 			} catch(e) {
 				errors.push(er({
 					message: "Couldn't add new series index"
+					,
+					details: e.stack
 				}))
 			}
 			//return {wow: "LOL"}

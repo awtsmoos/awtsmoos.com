@@ -530,7 +530,7 @@ async function addCommentIndexToAlias(
                 });
 
                 
-        var sync = await $i.db.syncKeyInArray(
+        var sync = await $i.db.syncKeyInObj(
             allSeriesThatAliasCommentedAtInHeichel, 
             seriesId
         );
@@ -552,7 +552,7 @@ async function addCommentIndexToAlias(
                 seriesId
             });
 
-        var aliasSync = await $i.db.syncKeyInArray(
+        var aliasSync = await $i.db.syncKeyInObj(
             allAuthorsAtVerseSectionOfParent,
             aliasId
         );
