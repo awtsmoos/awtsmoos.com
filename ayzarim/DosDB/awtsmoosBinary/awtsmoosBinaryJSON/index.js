@@ -7,6 +7,7 @@ var {
 } = require("../awtsmoosBinaryHelpers.js");
 
 var append = require("./operations/obj/append.js")
+var deleteKeyFromObj = require("./operations/obj/deleteKeyFromJSON.js")
 var  deserializeArray
  = require("./deserialize/array.js");
 
@@ -64,6 +65,7 @@ async function isAwtsmoosObject(buffer) {
 
 module.exports = { 
 	appendToObj:append,
+    deleteKeyFromObj,
 	logBuffer, 
 	serializeJSON, 
 	deserializeBinary,

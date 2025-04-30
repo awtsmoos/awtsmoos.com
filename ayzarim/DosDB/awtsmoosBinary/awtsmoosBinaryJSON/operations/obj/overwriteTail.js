@@ -5,6 +5,7 @@ var {
 } = require("../../constants.js")
 var appendToArray = require("../array/append.js")
 
+var fileBuffer = require("../../../fileBuffer.js")
 
 var makeHashTableFromMetadata = require("../../serialize/makeHashTableFromMetadata.js")
 var getSerializedMetadata = require("../../serialize/getSerializedMetadata.js")
@@ -15,6 +16,9 @@ function overwriteMetadataAndHashTable(
 	metadata,
 	dataAtEnd = null
 ) {
+	if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
+	} 
 	var {
 		serializedMetadata: 
 			serializedMetadataTable,

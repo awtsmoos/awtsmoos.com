@@ -6,8 +6,8 @@ var overwriteMetadataAndHashTable = require("./overwriteTail.js")
 var getObj = require("../../deserialize/get.js");
 
 function deleteKeyFromJSON (buffer, key, metadata=null) {
-    if(typeof(filename) == "string") {
-		buffer = new fileBuffer(filename)
+    if(typeof(buffer) == "string") {
+		buffer = new fileBuffer(buffer)
 	} 
 
     if(!metadata) {

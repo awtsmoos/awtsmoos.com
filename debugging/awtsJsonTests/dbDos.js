@@ -9,6 +9,8 @@ var DosDB = require("../../ayzarim/DosDB/index.js");
         key: "ok-"+Date.now(),
         value:"Cool "
     })
+    var del = await db.deleteEntry("asdf", "ok-1745981757058");
+    console.log("DEL",del)
     var reed = await db.read("asdf")
 
     console.log("Apneded",app,reed)
