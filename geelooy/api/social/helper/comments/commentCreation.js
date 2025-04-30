@@ -1,592 +1,323 @@
+//--- START OF NEW FILE commentCreation.js ---
+
 /**
  * B"H
- * The Awtsmoos recreates all from nothing every instant, as per Chabad Chassidus Maamarim.
- * Here, comments are born, infused with the Ohr Ein Sof, channeled through the Kav into Atzilus.
+ * Comments are born, infused with the Ohr Ein Sof, channeled through the Kav into Atzilus.
+ * Refactored for simpler structure.
  */
 
-const { 
-    NO_LOGIN, 
-    sp 
+const {
+    NO_LOGIN,
+    sp
 } = require("../_awtsmoos.constants.js");
 
-const { 
-    loggedIn, 
-    er, 
-    myOpts 
+const {
+    loggedIn,
+    er,
+    myOpts
 } = require("../general.js");
 
-const { 
-    verifyHeichelAuthority 
+const {
+    verifyHeichelAuthority
 } = require("../heichel.js");
 
-const { 
-    verifyAliasOwnership 
+const {
+    verifyAliasOwnership
 } = require("../alias.js");
 
-const { 
-    getSubmittedCommentPath, 
+const {
+    // New path functions
+    getAliasCommentFilePath,
     commentsOfAliasByHeichelAndSeries,
-    getShtarPath,
-    getAliasesAtVerseSectionPath
+    getSubmittedCommentPath // Unchanged for submission logic
 } = require("./commentPaths.js");
 
 /**
  * @method addComment
- * @description Initiates comment creation, verifying ownership and authority.
- * @param {Object} params - Parameters including $i, parentType, etc.
+ * @description Initiates comment creation, verifying ownership and authority. (Checks remain similar)
  * @returns {Object} Success or error response.
  */
 async function addComment(
     {
         $i,
-        parentType = "post",
-        parentId,
+        parentType = "post", // "post" or "comment"
+        parentId, // ID of the direct parent (post or comment)
         heichelId,
-        aliasId,
-        userid,
-        postId
+        aliasId, // Author's alias ID
+        userid, // User ID for ownership verification
+        postId, // Required only if parentType is "comment", the ID of the top-level post
+        seriesId // Required: The series the parent belongs to
     }
 ) {
     try {
-        if (!aliasId) aliasId = $i.$_POST.aliasId;
+        // Input validation
+        if (!parentType || !parentId || !heichelId || !aliasId || !seriesId) {
+            return er("Missing required parameters for addComment", { parentType, parentId, heichelId, aliasId, seriesId });
+        }
+        if (parentType === "comment" && !postId) {
+            return er("postId is required when parentType is 'comment'");
+        }
+        if (!userid) userid = $i.awtsmoosSession?.user?.id || $i.moch?.userid; // Example: Get user from session
+        if (!userid) return er(NO_LOGIN);
 
-        var owns = await verifyAliasOwnership(
-            aliasId,
-            $i,
-            userid
-        );
 
+        // Verify Alias Ownership
+        var owns = await verifyAliasOwnership(aliasId, $i, userid);
         if (!owns) {
-            return er(
-                {
-                    message: "You don't have permission to post as this alias.",
-                    details: {
-                        aliasId,
-                        userid
-                    }
-                }
-            );
+            return er("You don't have permission to post as this alias.", { aliasId, userid });
         }
 
-        var ver = await verifyHeichelAuthority(
-            {
-                heichelId,
-                aliasId,
-                $i
-            }
-        );
+        // Verify Heichel Authority (for direct posting/approval)
+        var hasAuthority = await verifyHeichelAuthority({ heichelId, aliasId, $i });
 
-        if (!ver) {
-            return await submitComment(
-                {
-                    $i,
-                    parentType,
-                    parentId,
-                    heichelId,
-                    aliasId,
-                    userid,
-                    postId
-                }
-            );
-
-            return er(
-                {
-                    message: "You don't have authority to post to this heichel",
-                    code: "NO_AUTH"
-                }
-            );
+        if (!hasAuthority) {
+            // If no direct authority, submit for approval
+            console.log(`Alias ${aliasId} lacks authority for ${heichelId}, submitting comment.`);
+            return await submitComment({
+                $i, parentType, parentId, heichelId, aliasId, userid, postId
+            });
+             /* // Original logic seemed to prevent submission if no auth, corrected above
+             return er( {
+                 message: "You don't have authority to post to this heichel",
+                 code: "NO_AUTH"
+             });
+             */
         }
 
-        return await addOrApproveComment(
-            {
-                $i,
-                parentType,
-                parentId,
-                heichelId,
-                aliasId,
-                userid,
-                postId
-            }
-        );
+        // If has authority, add directly
+        console.log(`Alias ${aliasId} has authority for ${heichelId}, adding comment directly.`);
+        return await addOrApproveComment({
+            $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
+        });
+
     } catch (e) {
-        return er(
-            {
-                details: e.stack
-            }
-        );
+        console.error("Error in addComment:", e);
+        return er("Internal server error during comment addition.", { details: e.stack });
     }
 }
 
 /**
  * @method submitComment
- * @description Submits a comment for approval, storing it temporarily.
- * @param {Object} params - Parameters for submission.
+ * @description Submits a comment for approval. (Logic mostly unchanged, uses getSubmittedCommentPath)
  * @returns {Object} Submission result.
  */
 async function submitComment(
     {
-        $i,
-        parentType,
-        parentId,
-        heichelId,
-        aliasId,
-        userid,
-        postId
+        $i, parentType, parentId, heichelId, aliasId, userid, postId
     }
 ) {
-    const { 
-        content, 
-        dayuh 
-    } = $i.$_POST;
-
+    const { content, dayuh } = $i.$_POST; // Assuming data comes from POST
     const db = $i.db;
-
     const timestamp = Date.now();
-
     const commentId = "BH_tempComment_by_" + aliasId + "_at_" + timestamp;
 
-    const commentData = { 
-        aliasId, 
-        parentId, 
-        parentType, 
-        content, 
-        dayuh, 
-        timestamp 
+    // Prepare comment data
+    const commentData = {
+        aliasId, parentId, parentType, content, dayuh, timestamp, userid, // Include userid?
+        status: "submitted" // Mark as submitted
     };
 
-    const fullPath = await getSubmittedCommentPath(
-        {
-            parentType,
-            heichelId,
-            parentId,
-            postId,
-            commentId,
-            $i,
-            aliasId
-        }
-    );
-
-    if (typeof fullPath != "string" || fullPath.error) {
-        return fullPath;
+    // Get the specific path for this submitted comment
+    const submittedCommentSpecificPath = await getSubmittedCommentPath({
+        parentType, heichelId, parentId, postId, commentId, $i, aliasId
+    });
+    if (typeof submittedCommentSpecificPath !== "string" || submittedCommentSpecificPath.error) {
+        return submittedCommentSpecificPath; // Return error object if path generation failed
     }
 
-    const allSubmittedPath = `${sp}/heichelos/${heichelId}/comments/submitted/${
-        parentType
-    }/${
-        parentId
-    }`;
+    // Optional: Path to a general list of submissions for the parent (maybe for admins)
+    const allSubmittedListPath = `${sp}/heichelos/${heichelId}/comments/submitted/list/${parentType}/${parentId}`; // Example path
 
+    // Add metadata to the comment itself
     commentData.awtsmoosDayuh = {
-        BH: "Boruch Hashem",
-        fullPath,
-        submittedPath: allSubmittedPath,
-        parentId,
-        parentType,
-        postId,
-        commentAliasId: aliasId
+        BH: "Boruch Hashem - Submitted",
+        submittedCommentSpecificPath, // Path where this specific comment is stored
+       // allSubmittedListPath, // Path where it might be listed
+        parentId, parentType, postId, commentAliasId: aliasId, heichelId
     };
 
-    await db.write(
-        fullPath, 
-        commentData.awtsmoosDayuh
-    );
+    try {
+        // Write the detailed submitted comment data
+        await db.write(submittedCommentSpecificPath, commentData);
 
-    await db.write(
-        allSubmittedPath, 
-        commentData
-    );
+        // Optionally, add a reference to the general list
+        // await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp }); // Example
 
-    return { 
-        success: true, 
-        commentId, 
-        fullPath, 
-        allSubmittedPath 
-    };
+        console.log(`Comment ${commentId} submitted successfully to ${submittedCommentSpecificPath}`);
+        return {
+            success: true,
+            message: "Comment submitted for approval.",
+            commentId,
+            path: submittedCommentSpecificPath,
+           // listPath: allSubmittedListPath
+        };
+    } catch (e) {
+        console.error("Error writing submitted comment:", e);
+        return er("Failed to write submitted comment.", { details: e.stack, path: submittedCommentSpecificPath });
+    }
 }
 
 /**
  * @method addOrApproveComment
- * @description Core function to add or approve a comment.
- * @param {Object} params - Parameters for adding/approving.
+ * @description Core function to add a comment directly (or approve a submitted one - approval logic TBD).
+ * Uses the new path structure and DB operations.
  * @returns {Object} Result of operation.
  */
 async function addOrApproveComment(
     {
         $i,
-        parentType,
-        parentId,
+        parentType, // "post" or "comment"
+        parentId,   // ID of the direct parent
         heichelId,
-        aliasId,
-        userid,
-        postId,
-        seriesId,
+        aliasId,    // Author alias
+        userid,     // User ID (optional, for metadata)
+        postId,     // Required if parentType is "comment"
+        seriesId,   // Required: Series ID
+        // For approval flow (future): submittedCommentData, submittedCommentPath
         isApproval = false
     }
 ) {
     try {
-        if (!parentType) {
-            parentType = $i.$_POST.parentType;
+        // 1. Validate Input (Redundant checks removed, handled in addComment)
+        const content = $i.$_POST.content; // Or from submittedCommentData if approval
+        const dayuh = $i.$_POST.dayuh;     // Or from submittedCommentData if approval
+        const verseSection = dayuh?.verseSection ?? $i.$_POST?.dayuh?.verseSection ?? "root"; // Default to "root"
+
+        if (!content && !dayuh) {
+            return er("Comment must have content or dayuh.", { code: "EMPTY_COMMENT" });
         }
 
-        if (!parentId) {
-            parentId = $i.$_POST.parentId;
+        // 2. Prepare Shtar (Comment Data Object)
+        const commentId = "BH_" + Date.now() + "_commentBy_" + aliasId;
+        const shtar = {
+            id: commentId,
+            author: aliasId,
+            parentType,
+            parentId,
+            postId: parentType === "post" ? parentId : postId, // Ensure postId is stored
+            seriesId, // Store seriesId for context
+            timestamp: Date.now(),
+            verseSection, // Store verse section
+            ...(content && typeof content === "string" && content !== "undefined" && { content }),
+            ...(dayuh && typeof dayuh === "object" && { dayuh }),
+            ...(userid && { addedByUserId: userid }) // Optional: track user if needed
+        };
+
+        // 3. Determine the Target Path (New Structure)
+        const aliasCommentFilePath = getAliasCommentFilePath({
+            heichelId, seriesId, parentId, aliasId, parentType, postId
+        });
+        if (!aliasCommentFilePath) {
+            return er("Could not determine comment file path.", { code: "PATH_ERROR" });
         }
 
-        if(!seriesId) {
-            seriesId = $i.$_POST.parentSeriesId ||
-            $i.$_POST.seriesId;
-        }
-
-        if(!seriesId) {
-            return er({
-                message: "Need to supply the parent series "+
-                "that this comment's parent is part of",
-                code: "NO_SERIES"
-            });
-        }
-
-        var link = parentType == "post" ?
-            "atPost" : parentType == "comment" ?
-            "atComment" : null;
-
-        if (!link) {
-            return er(
-                {
-                    message: "You need to supply a parent type",
-                    code: "MISSING_PARAMS"
-                }
-            );
-        }
-
-        var postId = $i.$_POST.postId;
-
-        var isPost = parentType = "post";
-
-        var postId = isPost ? parentId : postId;
-
-        if (!postId) {
-            return er(
-                {
-                    message: "If commenting on post, provide parent ID." +
-                        "If replying to comment in a larger post, provide parentId of comment and postId",
-                    code: "MISSING_PARAMS",
-                    details: "postId"
-                }
-            );
-        }
-
-        var path = `${
-            sp
-        }/heichelos/${
-            heichelId
-        }/posts/${
-            postId
-        }`;
-
-        var post = await $i.db.access(path);
-
-        if (!post) {
-            return er(
-                {
-                    message: "Post parent not found",
-                    code: "PARENT_NOT_FOUND",
-                    details: {
-                        post: postId,
-                        heichelId: heichelId,
-                        path
-                    }
-                }
-            );
-        }
-
-        var myId = "BH_" + Date.now() + "_commentBy_" + aliasId;
-
-        var content = $i.$_POST.content;
-
-        var dayuh = $i.$_POST.dayuh;
-
-        var shtar = {};
-        shtar.id = myId;
-
-        shtar.author = aliasId;
-
-        shtar.parentType = parentType;
-
-        shtar.parentId = parentId;
-
-        if (content && typeof content == "string" && content != "undefined") {
-            shtar.content = content;
-        }
-
-        if (dayuh && typeof dayuh == "object") {
-            shtar.dayuh = dayuh;
-        }
-
-        var verseSection = shtar?.dayuh?.verseSection;
-
-        if (!verseSection && verseSection !== 0) {
-            verseSection = "root";
-        }
-
-
-        var postPath = getShtarPath(
-            {
-                heichelId,
-                link,
-                parentId,
-                aliasId,
-                verseSection,
-                
-
-                postId,
-                seriesId,
-
-
-                
-            }
-        );
-
+        // 4. Write to Database (Append to array within the object key)
         try {
-            var wrote = await $i.db.arrayAppend(
-                postPath, 
-                shtar
-            );
+            // We need an operation like "appendToArrayAtKey" or simulate it:
+            // a. Get current array for the verseSection
+            let currentComments = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
 
-            if(wrote.error) {
-                return er({
-                    message: "Couldn't append message",
-                    code: "NO_APPEND",
-                    details: wrote
-                })
+            // b. Initialize if it doesn't exist or isn't an array
+            if (!Array.isArray(currentComments)) {
+                currentComments = [];
             }
-    
-    
-            var index = await addCommentIndexToAlias(
-                {
-                    parentId,
-                    heichelId,
-                    $i,
-                    parentType,
-                    postId,
-                    userid,
-                    aliasId,
-                    commentId: myId,
-                    postPath,
-                    commentPostedAt: postPath,
-                    verseSection,
 
-                    seriesId,
+            // c. Append the new shtar
+            currentComments.push(shtar);
 
-                    shtar
-                }
-            );
-    
-            if (index.error) {
-                return index.error;
+            // d. Write the updated array back to the key
+            var writeResult = await $i.db.setObjectKey(aliasCommentFilePath, verseSection, currentComments);
+
+            if (writeResult.error) {
+                throw writeResult.error; // Rethrow DB error
             }
-    
-            return {
-                message: "Added comment!",
-                details: {
-                    id: myId,
-                    /*
-                    setCommentIndex: index,
-                    index,
-                    wrote: {
-                        parentId,
-                        aliasId
-                    },
-                    paths: {
-                        postPath
-                    }*/
-                }
-            };
-        } catch(e) {
-            return er({
-                message: "Issue appending new comment",
-                code: "ISSUE_APPEND_COMMENT",
-                details:e.stack
-            })
+
+            console.log(`Successfully added comment ${commentId} to ${aliasCommentFilePath} under key ${verseSection}`);
+
+        } catch (dbError) {
+            console.error("Database error adding comment:", dbError);
+            return er("Database error: Could not append comment.", { code: "DB_WRITE_ERROR", details: dbError, path: aliasCommentFilePath, key: verseSection });
         }
-        
-        
-    } catch (e) {
-        return er(
-            {
-                message: "Issue adding comment",
-                details: e.stack
+
+        // 5. Update Indexes (Simplified)
+        var indexResult = await addCommentIndexToAlias({
+             $i, aliasId, heichelId, seriesId // Only need these for the series index now
+        });
+
+        if (indexResult.error) {
+            // Log the error but don't necessarily fail the whole operation? Or should we roll back?
+            console.error("Failed to update alias series index:", indexResult.error);
+            // Decide on error handling strategy here. For now, return success with a warning.
+             return {
+                 warning: "Comment added, but failed to update alias series index.",
+                 details: { id: commentId, indexError: indexResult.error }
+             };
+        }
+
+        // 6. Handle Approval Flow Cleanup (Future)
+        // if (isApproval && submittedCommentPath) {
+        //     await $i.db.delete(submittedCommentPath);
+        //     // Maybe remove from submission list too
+        // }
+
+        return {
+            success: true,
+            message: isApproval ? "Comment approved and added!" : "Comment added!",
+            details: {
+                id: commentId,
+                path: aliasCommentFilePath,
+                verseSection: verseSection
             }
-        );
+        };
+
+    } catch (e) {
+        console.error("Error in addOrApproveComment:", e);
+        return er("Internal server error during comment processing.", { details: e.stack });
     }
 }
 
 /**
  * @method addCommentIndexToAlias
- * @description Indexes a comment under an alias.
- * @param {Object} params - Parameters for indexing.
+ * @description Indexes that an alias commented in a specific series within a heichel. (Simplified)
  * @returns {Object} Indexing result.
  */
-async function addCommentIndexToAlias(
-    {
-        parentId,
-        parentType,
-        userid,
-        commentId,
-        heichelId,
-        postId,
-        $i,
-        aliasId,
-        verseSection,
-        commentPostedAt = null,
-        seriesId,
-
-        shtar
-    }
-) {
-
+async function addCommentIndexToAlias({ $i, aliasId, heichelId, seriesId }) {
     try {
-        if (!commentId) {
-            return er(
-                {
-                    message: "You need to supply a commentId",
-                    code: "MISSING_PARAMS",
-                    details: "commentId"
-                }
-            );
+        // No need for ownership check here, assumed verified by caller (addComment)
+        // No need for parentId, parentType, postId, verseSection, commentId for this specific index
+
+        if (!aliasId || !heichelId || !seriesId) {
+             return er("Missing parameters for alias index update.", { aliasId, heichelId, seriesId });
         }
 
-        var owns = await verifyAliasOwnership(
-            aliasId,
-            $i,
-            userid
-        );
-
-        if (!owns) {
-            return er(
-                {
-                    message: "You don't have permission to post as this alias.",
-                    details: {
-                        aliasId,
-                        userid
-                    }
-                }
-            );
+        // Path to the list of series the alias commented on in this heichel
+        const seriesIndexPath = commentsOfAliasByHeichelAndSeries({ aliasId, heichelId });
+        if (!seriesIndexPath) {
+             return er("Could not determine series index path.");
         }
 
-        var link = parentType == "post" ?
-            "atPost" : parentType == "comment" ?
-            "atComment" : null;
+        // Use a set-like operation if possible, otherwise read-check-append
+        // Assuming db.syncKeyInObj adds the seriesId if not present (like adding to a set or list)
+        var syncResult = await $i.db.syncKeyInObj(seriesIndexPath, seriesId); // Or equivalent db.addToListIfNotExists
 
-        if (!link) {
-            return er(
-                {
-                    message: "You need to supply a parent type",
-                    code: "MISSING_PARAMS"
-                }
-            );
+        if (syncResult?.error) {
+            console.error(`Failed to sync seriesId ${seriesId} in ${seriesIndexPath}:`, syncResult.error);
+            return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }
 
-        var isPost = parentType == "post";
+        console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`);
+        return { success: true, details: syncResult }; // Return DB operation details
 
-        if (isPost) {
-            postId = parentId;
-        } else if (!postId) {
-            return er(
-                {
-                    message: "If you're commenting on another comment, need to provide postId",
-                    code: "MISSING_PARAMS",
-                    details: "postId"
-                }
-            );
-        }
-
-        
-
-        var seriesParentId = seriesId;
-
-        if (!seriesParentId) {
-            return er(
-                {
-                    message: "That parent has no series parent provided"
-                    +", not even root!",
-                    code: "NO_PARENT",
-                    details: {
-                        parentType,
-                        parentId,
-                        post
-                    }
-                }
-            );
-        }
-
-
-
-        
-
-        var allSeriesThatAliasCommentedAtInHeichel = 
-            commentsOfAliasByHeichelAndSeries({
-                    aliasId,
-                    heichelId
-                });
-
-                
-        var sync = await $i.db.syncKeyInObj(
-            allSeriesThatAliasCommentedAtInHeichel, 
-            seriesId
-        );
-
-        if(sync.error) {
-             return er({
-                k: sync
-            });
-        }
-
-        var allAuthorsAtVerseSectionOfParent = 
-            getAliasesAtVerseSectionPath({
-                heichelId,
-                link,
-                parentId,
-                verseSection,
-
-                postId,
-                seriesId
-            });
-
-        var aliasSync = await $i.db.syncKeyInObj(
-            allAuthorsAtVerseSectionOfParent,
-            aliasId
-        );
-
-        if(aliasSync.error) return er({
-            d: aliasSync
-        })
-
-        //commentId,
-
-        return {
-            success: {
-                message: "Made comment index",
-                parentId,
-                parentType,
-                verseSection,
-                aliasId,
-                sync,
-                aliasSync
-            }
-        };
     } catch (e) {
-        return er(
-            {
-                message: "Internal comment index error",
-                details: e.stack
-            }
-        );
+        console.error("Error in addCommentIndexToAlias:", e);
+        return er("Internal error updating alias index.", { details: e.stack });
     }
 }
 
-module.exports = { 
-    addComment, 
-    submitComment, 
-    addOrApproveComment, 
-    addCommentIndexToAlias 
+module.exports = {
+    addComment,
+    submitComment,
+    addOrApproveComment,
+    addCommentIndexToAlias // Exposed if needed elsewhere, otherwise internal helper
 };
+//--- END OF NEW FILE commentCreation.js ---

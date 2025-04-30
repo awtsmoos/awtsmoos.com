@@ -15,23 +15,28 @@ var {
 } = require("./mail.js")
 var {
 	addComment,
-	getComments,
+    
+    getComment,
+    deleteComment,
+    updateAllCommentIndexes,
+    addCommentIndexToAlias,
+    deleteAllCommentsOfAlias,
+    deleteAllCommentsOfParent,
+    editComment,
+    denyComment,
+    getSubmittedComments,
+    approveComment,
+	
+	updateCommentIndexesAtParent,
+    
+    
+	submitComment, 
+    addOrApproveComment, 
 
-	getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
+    getCommentsByAliasAtVerseSection,
     getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsOfCommentsAtVerseSectionInParent,
-
-	getComment,
-	deleteComment,
-	editComment,
-	deleteAllCommentsOfAlias,
-	deleteAllCommentsOfParent,
-	updateAllCommentIndexes,	
-	addCommentIndexToAlias,
-
-	denyComment,
-	getSubmittedComments,
-	approveComment
+    getAuthorsCommentingAtVerseSectionInParent,
+    getComment
 } = require("./comments/index.js");
 
 var {
@@ -105,20 +110,8 @@ module.exports = {
 	getDetailedAlias,
     
 	
-	addComment,
 	
 
-	getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
-    getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsOfCommentsAtVerseSectionInParent,
-
-	getComment,
-	deleteComment,
-	editComment,
-	deleteAllCommentsOfAlias,
-	deleteAllCommentsOfParent,
-
-    getDetailedAliasesByArray,
 	deleteAlias,
     updateAlias,
 	getAlias,
@@ -159,16 +152,35 @@ module.exports = {
     er,
 	editPostsInSeries,
 	editSubSeriesInSeries,
-	updateAllCommentIndexes,	
-	addCommentIndexToAlias,
+	
 	getSubSeries,
 	traverseSeries,
 	checkParentIDsAndAdd,
 
-	denyComment,
-	getSubmittedComments,
-	changeSubSeriesFromOneSeriesToAnother,
-	approveComment
+	
+	addComment,
+    
+    getComment,
+    deleteComment,
+    updateAllCommentIndexes,
+    addCommentIndexToAlias,
+    deleteAllCommentsOfAlias,
+    deleteAllCommentsOfParent,
+    editComment,
+    denyComment,
+    getSubmittedComments,
+    approveComment,
+	
+	updateCommentIndexesAtParent,
+    
+    
+	submitComment, 
+    addOrApproveComment, 
+
+    getCommentsByAliasAtVerseSection,
+    getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsCommentingAtVerseSectionInParent,
+    getComment
 };
 
 

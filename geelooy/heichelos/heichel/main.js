@@ -294,10 +294,18 @@ class HeichelNavigator {
 
 
             // Add Post button (near posts list)
-            const addPostButton = document.createElement("button");
+            const addPostButton = document.createElement("a");
+             addPostButton.classList.add("btn")
              addPostButton.id = "addPostBtn";
              addPostButton.textContent = "Submit New Post";
-             addPostButton.onclick = () => this.promptCreatePost();
+             addPostButton.href = location.origin + `/heichelos/${
+                this.heichelId
+             }/submit?${
+                new URLSearchParams({
+                    parentSeriesId: this.currentSeries
+                })
+             }`
+            // addPostButton.onclick = () => this.promptCreatePost();
               // Append inside the .posts span, maybe before the list
              postsContainer?.insertBefore(addPostButton, postsContainer.firstChild);
 

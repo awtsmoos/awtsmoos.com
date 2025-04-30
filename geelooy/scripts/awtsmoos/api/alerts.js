@@ -43,6 +43,7 @@ export class AwtsmoosPrompt {
   
           .${this.id} .custom-prompt-header {
             font-size: 24px;
+            color: black;
             font-weight: bold;
             margin-bottom: 10px;
           }

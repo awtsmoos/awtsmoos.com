@@ -6,11 +6,22 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		return awtsmoosJSON.appendToObj(pathic, {key, value})
     },
+	async setObjectKey(pth, key, value) {
+		return this.appendToObj(pth, {
+			key, 
+			value
+		})
+	},
+	async hasObjectKey(pth, key) {
+		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+	
+		return awtsmoosJSON.getMetadataByKey(pathic, key)
+	},
 	async getMetadaOfEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 	
 		
-		
+
 		var meta = awtsmoosJSON.getMetadataByKey(pathic, key);
 		return meta;
 	},
@@ -18,6 +29,9 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		var val = awtsmoosJSON.getValueByKey(pathic, key)
 		return val;
+	},
+	async getObjectKey(pth, key) {
+		return this.getValue(pth, key)
 	},
 	async syncKeyToObj(pth, key) {
 		//just for keeping track of keys. no values.
@@ -29,7 +43,8 @@ module.exports = {
 		return this.appendToObj(pathic, {
 			key,
 			value: true
-		})
+		});
+
 	},
 	async syncKeyInObj(pth, key) {
 		return await this.syncKeyToObj(pth, key)
@@ -37,5 +52,12 @@ module.exports = {
 	async deleteEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		return awtsmoosJSON.deleteKeyFromObj(pathic, key)
+	},
+	async deleteObjectKey(pth, key) {
+		return this.deleteEntry(pth, key)
+	},
+	async getObjectKeys(pth) {
+		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+		return awtsmoosJSON.getKeysFromBinary(pathic)
 	}
 }

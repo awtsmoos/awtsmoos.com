@@ -32,6 +32,9 @@ function appendToJSON(filename, {
 	} else {
 		return null;
 	}
+	if(typeof(key) == "number") {
+		key+=""
+	}
 	var offset = 0
 	var magic = buffer.subarray(
 		offset, 

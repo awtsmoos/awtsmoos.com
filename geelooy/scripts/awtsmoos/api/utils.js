@@ -711,7 +711,9 @@ async function getCommentsByAlias({
             postId
         }/comments/aliases/?`+new URLSearchParams(rg))
         var t = await r.json();
-       
+        if(t.success) {
+            t = t.success;
+        }
         if(vs || vs === 0) {
             if(!aliasCommentsCache
                 .heichelos[heichelId]

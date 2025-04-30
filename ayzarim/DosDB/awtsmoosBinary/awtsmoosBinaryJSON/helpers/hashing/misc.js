@@ -3,6 +3,9 @@ var crypto = require("crypto");
 
 var readConditional = require("../readConditionalWithSize.js");
 function hashKey(key, size) {
+    if(typeof(key) != "string") {
+        key += ""
+    }
     let hash = crypto.createHash('md5').update(key).digest();
     return hash.readUInt32BE(0) % size;
 }

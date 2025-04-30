@@ -1,9 +1,27 @@
 //B"H
 
+import {
+  AwtsmoosPrompt,
+  makePost
+} from "/scripts/awtsmoos/api/utils.js"
+window.AwtsmoosPrompt = AwtsmoosPrompt
 function gh() {
     return (p => p[p.length-2])(location.pathname.split("/"))
 }
+var  u = new URL(location)
+var parentSeriesId = u.searchParams.get("parentSeriesId") || "root";
 
+var heichelId = gh();
+
+var baseURL = `/heichelos/${
+	heichelId
+}?${
+	new URLSearchParams({
+		view: "posts",
+		series: parentSeriesId
+	})
+}`
+document.getElementById("backBtn").href = baseURL
 addEventListener("awtsmoosAliasChange", e => {
 	console.log("OK!",e)
 	var id = e.detail.id;
@@ -306,41 +324,32 @@ document.getElementById("submitPost").addEventListener("click", async () => {
   const sections = Array.from(document.querySelectorAll(".section")).map(section => {
     const content = Array.from(section.querySelectorAll(".section-content")).map(div => div.textContent);
     const images = Array.from(section.querySelectorAll("img")).map(img => img.src);
-    return { text: content, images };
+    var sec = { text: content  };
+    if(images.length) {
+      sec.images = images
+    }
+    return sec;
   });
 
-  const post = { aliasId, heichelId, title, sections };
+  const post = { aliasId, heichelId, parentSeriesId, title, dayuh: {sections} };
 
   // Call makePost
   try {
     const response = await makePost(post);
-    if (response.url) window.location.href = response.url;
+    if(response.success) {
+        var pr = await  AwtsmoosPrompt.go({
+          isAlert: true,
+          headerTxt: "Congrats! U submitted a new post.",
+      });
+		location.href= baseURL
+    }
+    //if (response.url) window.location.href = response.url;
   } catch (err) {
     console.error("Error submitting post:", err);
   }
 });
 
-// Mock makePost function
-async function makePost({ aliasId, heichelId, title, sections }={}) {
-  
-  console.log("Submitting post:", post);
-  var a = await (
-    await fetch(`/heichelos/${
-      heichelId
-    }/posts`, {
-      method: "POST",
-      body: new URLSearchParams({
-        aliasId,
-        title,
-        heichelId,
-        dayuh: {
-          sections
-        }
-      })
-    })
-  ).json()
-  //  return new Promise(resolve => setTimeout(() => resolve({ url: "/success" }), 1000));
-}
+
 // Initialize the toolbar
 document.addEventListener("DOMContentLoaded", () => {
 	

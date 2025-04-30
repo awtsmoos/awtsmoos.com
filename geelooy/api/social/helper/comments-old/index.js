@@ -4,10 +4,10 @@
  */
 
 const { 
-    addComment,
-    submitComment,
-    addOrApproveComment,
-    addCommentIndexToAlias
+    addComment, 
+    submitComment, 
+    addOrApproveComment, 
+    addCommentIndexToAlias 
 } = require("./commentCreation.js");
 
 const { 
@@ -17,22 +17,22 @@ const {
 } = require("./commentModeration.js");
 
 const { 
-    getCommentsByAliasAtVerseSection,
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
     getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsCommentingAtVerseSectionInParent,
-    getComment
+    getAuthorsOfCommentsAtVerseSectionInParent,
+    getComment, 
     
 } = require("./commentRetrieval.js");
 
 const { 
-    editComment,
-    updateAllCommentIndexes, // Expose if determined necessary after review
-    updateCommentIndexesAtParent
+    editComment, 
+    updateAllCommentIndexes, 
+    updateCommentIndexesAtParent 
 } = require("./commentModification.js");
 
 const { 
-    deleteComment,
-    deleteAllCommentsOfAlias,
+    deleteComment, 
+    deleteAllCommentsOfAlias, 
     deleteAllCommentsOfParent
 } = require("./commentDeletion.js");
 
@@ -56,8 +56,7 @@ module.exports = {
 	submitComment, 
     addOrApproveComment, 
 
-    getCommentsByAliasAtVerseSection,
+    getArrayOfCommentsUnderWhichAliasCommentedAtSpecificVerseSectionInParent,
     getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsCommentingAtVerseSectionInParent,
-    getComment
+    getAuthorsOfCommentsAtVerseSectionInParent
 };

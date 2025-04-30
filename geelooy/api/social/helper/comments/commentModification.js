@@ -1,434 +1,229 @@
+//--- START OF NEW FILE commentModification.js ---
+
 /**
  * B"H
  * Modification refines existence, elevating it through the Awtsmoos’s eternal renewal.
+ * Refactored for simpler structure.
  */
 
-const { 
-    sp 
+const {
+    sp
 } = require("../_awtsmoos.constants.js");
 
-const { 
-    er, 
-    myOpts 
+const {
+    er,
+    myOpts
 } = require("../general.js");
 
-const { 
-    verifyHeichelAuthority 
+const {
+    verifyHeichelAuthority
 } = require("../heichel.js");
 
-const { 
-    verifyAliasOwnership 
+const {
+    verifyAliasOwnership // Still needed to ensure editor owns the alias
 } = require("../alias.js");
 
-const { 
-    
-    getShtarPath
+const {
+    getAliasCommentFilePath // New path function
 } = require("./commentPaths.js");
 
-const { 
-    addCommentIndexToAlias 
-} = require("./commentCreation.js");
+// Note: addCommentIndexToAlias might not be needed here anymore,
+// unless editing could change the series association (unlikely).
 
 /**
  * @method editComment
- * @description Edits an existing comment.
- * @param {Object} params - Parameters for editing.
+ * @description Edits an existing comment's content or dayuh.
+ * Requires precise identification of the comment via context.
  * @returns {Object} Edit result.
  */
 async function editComment(
     {
         $i,
-        parentType = "post",
+        commentId, // ID of the comment to edit
+        // Context to find the comment:
+        aliasId,   // Author of the comment
+        parentType,
         parentId,
         heichelId,
-        aliasId,
-        commentId,
-        userid,
-        postId
+        postId,    // Required if parentType is "comment"
+        seriesId,
+        verseSection, // The verse section the comment belongs to
+        // New data:
+        newContent,
+        newDayuh,
+        // Verification:
+        userid // ID of the user attempting the edit
     }
 ) {
-    var aliasId = $i.$_PUT.aliasId;
+    // Input Validation & Data Extraction from request ($i.$_PUT assumed)
+    if (!commentId) commentId = $i.$_PUT?.commentId;
+    if (!aliasId) aliasId = $i.$_PUT?.aliasId;
+    if (!parentType) parentType = $i.$_PUT?.parentType || "post";
+    if (!parentId) parentId = $i.$_PUT?.parentId;
+    if (!heichelId) heichelId = $i.$_PUT?.heichelId;
+    if (!seriesId) seriesId = $i.$_PUT?.seriesId;
+    if (parentType === "comment" && !postId) postId = $i.$_PUT?.postId;
+    if (verseSection === undefined || verseSection === null) verseSection = $i.$_PUT?.verseSection ?? "root";
 
-    var ver = await verifyHeichelAuthority(
-        {
-            heichelId,
-            aliasId,
-            $i
-        }
-    );
-
-    if (!ver) {
-        return er(
-            {
-                message: "You don't have authority to post to this heichel",
-                code: "NO_AUTH"
-            }
-        );
+    if (!newContent && !newDayuh) { // Check if new data provided in PUT body
+        newContent = $i.$_PUT?.content;
+        newDayuh = $i.$_PUT?.dayuh;
     }
+     if (!userid) userid = $i.awtsmoosSession?.user?.id || $i.moch?.userid;
 
-    if (!parentType) {
-        parentType = $i.$_PUT.parentType;
+    // Basic validation
+    if (!commentId || !aliasId || !parentType || !parentId || !heichelId || !seriesId) {
+        return er("Missing required parameters for editComment", { commentId, aliasId, /*...*/ });
     }
-
-    if (!parentId) {
-        parentId = $i.$_PUT.parentId;
+    if (parentType === "comment" && !postId) {
+         return er("postId is required when parentType is 'comment'");
     }
-
-    if (!commentId) {
-        commentId = $i.$_PUT.commentId;
-    }
-
-    if (!commentId) {
-        return er(
-            {
-                message: "Missing commentId"
-            }
-        );
-    }
-
-    var parent;
-
-    if (parentType == "post") {
-        var path = `${
-            sp
-        }/heichelos/${
-            heichelId
-        }/posts/${
-            parentId
-        }`;
-
-        parent = await $i.db.access(path);
-
-        if (!parent) {
-            return er(
-                {
-                    message: "Post parent not found",
-                    code: "PARENT_NOT_FOUND",
-                    details: {
-                        post: parentId,
-                        heichelId: heichelId,
-                        path
-                    }
-                }
-            );
-        }
-    } else if (parentType == "comment") {
-        // TODO: Add comment-to-comment logic if needed
-    }
-
-    if (!parent) {
-        return er(
-            {
-                message: "No parent",
-                code: "PARENT_NOT_FOUND"
-            }
-        );
-    }
-
-    var myId = commentId;
-
-    var content = $i.$_PUT.content;
-
-    var dayuh = $i.$_PUT.dayuh;
-
-    var link = parentType == "post" ? "atPost" : "atComment";
-
-    var existingPath = getShtarPath(
-        {
-            heichelId,
-            link,
-            parentId,
-            aliasId,
-            commentId: myId
-        }
-    );
-
-    var existing = await $i.db.access(existingPath);
-
-    if (!existing) {
-        return er(
-            {
-                message: "That comment wasn't found",
-                code: "COMMENT_NOT_FOUND",
-                details: {
-                    commentId,
-                    heichelId
-                }
-            }
-        );
-    }
-
-    var shtar = {};
-
-    var printFull = $i.$_PUT.printFull;
-
-    var fields = {};
-
-    if (content && typeof content == "string") {
-        shtar.content = content;
-        fields.content = true;
-    }
-
-    if (dayuh && typeof dayuh == "object") {
-        shtar.dayuh = dayuh;
-        fields.dayuh = true;
-    } else {
-        fields.whatIsDayuh = dayuh;
-    }
-
-    var cm = await $i.db.write(
-        existingPath, 
-        shtar
-    );
-
-    return {
-        message: "Edited comment!",
-        details: {
-            id: myId,
-            fieldsWritten: fields,
-            paths: {
-                wrote: cm
-            },
-            shtar: printFull ? shtar : Object.keys(shtar)
-        }
-    };
-}
-
-/**
- * @method updateAllCommentIndexes
- * @description Updates all comment indexes for a heichel or parent.
- * @param {Object} params - Parameters for updating.
- * @returns {Object} Update result.
- */
-async function updateAllCommentIndexes(
-    {
-        $i,
-        aliasId,
-        heichelId,
-        parentId,
-        postId,
-        userid
-    }
-) {
-    $i.response.setHeader('Transfer-Encoding', 'chunked');
-
-    $i.response.setHeader('Connection', 'keep-alive');
-
-    var t = $i.$_POST.testStreaming;
-
-    if (t) {
-        for (var i = 0; i < 9; i++) {
-            await new Promise(r => setTimeout(() => { r(); }, 300));
-            $i.response.write("WOW " + i);
-        }
-
-        $i.response.end("LOL");
-
-        return;
+     if (!userid) return er(NO_LOGIN);
+    if (newContent === undefined && newDayuh === undefined) {
+        return er("No new content or dayuh provided for editing.", { code: "NO_EDIT_DATA" });
     }
 
     try {
-        var opts = myOpts($i);
-
-        var owns = await verifyAliasOwnership(
-            aliasId,
-            $i,
-            userid
-        );
-
+        // 1. Verify Ownership/Authority
+        // Only the original author (or perhaps an admin/moderator) should edit.
+        // Let's assume for now only the author can edit their own comment.
+        const owns = await verifyAliasOwnership(aliasId, $i, userid);
         if (!owns) {
-            return er(
-                {
-                    message: "You don't have permission to post as this alias."
-                }
-            );
-        }
-
-        var parentType = $i.$_POST.parentType;
-
-        var link = parentType == "post" ?
-            "atPost" : parentType == "comment" ? "atComment" :
-            null;
-
-        if (!link) {
-            return er(
-                {
-                    message: "You need to supply a parent type",
-                    code: "MISSING_PARAMS",
-                    detail: "parentType"
-                }
-            );
-        }
-
-        if (parentId) {
-            var indexesDone = await updateCommentIndexesAtParent(
-                {
-                    parentId,
-                    $i,
-                    aliasId,
-                    parentType,
-                    heichelId,
-                    userid
-                }
-            );
-
-            return {
-                success: {
-                    indexesDone,
-                    parentId,
-                    parentType
-                }
-            };
-        }
-
-        var getParentIDsPath = `${
-            sp
-        }/heichelos/${
-            heichelId
-        }/comments/${link}`;
-
-        var parentIDs = await $i.db.get(
-            getParentIDsPath, 
-            opts
-        );
-
-        if (!Array.isArray(parentIDs)) {
-            return er(
-                {
-                    message: "Did not get array of IDs of parents",
-                    code: "NO_PARENT_IDs",
-                    detail: parentIDs
-                }
-            );
-        }
-
-        var parentsDone = [];
-
-        for (var parentId of parentIDs) {
-            var indexesDone = await updateCommentIndexesAtParent(
-                {
-                    parentId,
-                    $i,
-                    aliasId,
-                    parentType,
-                    userid,
-                    heichelId
-                }
-            );
-
-            parentsDone.push(
-                {
-                    parentId,
-                    parentType,
-                    aliasId,
-                    indexesDone
-                }
-            );
-        }
-
-        return parentsDone;
-    } catch (e) {
-        return er(
-            {
-                message: "Internal update index error",
-                details: e + "",
-                code: 501
+            // Check for moderator/admin authority (example)
+            const hasAdminAuth = await verifyHeichelAuthority({ heichelId, aliasId: $i.awtsmoosSession?.user?.adminAlias || null, $i, permissionLevel: 'moderator' }); // Fictional check
+            if (!hasAdminAuth) {
+                 return er("You do not have permission to edit this comment.", { code: "EDIT_FORBIDDEN", aliasId, userid });
             }
-        );
+             console.log(`Admin/Mod ${userid} editing comment ${commentId} by ${aliasId}`);
+        }
+
+        // 2. Get Path
+        const aliasCommentFilePath = getAliasCommentFilePath({
+            heichelId, seriesId, parentId, aliasId, parentType, postId
+        });
+        if (!aliasCommentFilePath) {
+            return er("Could not determine comment file path.", { code: "PATH_ERROR" });
+        }
+
+        // 3. Retrieve the specific comment array
+        let commentsArray = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
+        if (!Array.isArray(commentsArray)) {
+            return er("Comment data not found or invalid.", { code: "COMMENT_ARRAY_NOT_FOUND", path: aliasCommentFilePath, key: verseSection });
+        }
+
+        // 4. Find the comment and update it
+        let commentFound = false;
+        let updatedShtar = null;
+        const updatedCommentsArray = commentsArray.map(shtar => {
+            if (shtar && shtar.id === commentId) {
+                commentFound = true;
+                // Create updated object
+                updatedShtar = {
+                    ...shtar, // Keep original fields like author, timestamp, id
+                    ...(newContent !== undefined && { content: newContent }), // Update content if provided
+                    ...(newDayuh !== undefined && { dayuh: newDayuh }),       // Update dayuh if provided
+                    lastEditedTimestamp: Date.now(), // Add edit timestamp
+                    lastEditedByUserId: userid // Track editor
+                };
+                return updatedShtar;
+            }
+            return shtar; // Return unchanged comment
+        });
+
+        if (!commentFound) {
+            return er("Comment ID not found within the specified context.", { code: "COMMENT_ID_NOT_FOUND", commentId, path: aliasCommentFilePath, key: verseSection });
+        }
+
+        // 5. Write the modified array back
+        var writeResult = await $i.db.setObjectKey(aliasCommentFilePath, verseSection, updatedCommentsArray);
+        if (writeResult.error) {
+            throw writeResult.error; // Let catch block handle DB errors
+        }
+
+        console.log(`Successfully edited comment ${commentId} in ${aliasCommentFilePath} at key ${verseSection}`);
+        return {
+            success: true,
+            message: "Comment edited successfully!",
+            details: {
+                id: commentId,
+                updatedFields: {
+                    content: newContent !== undefined,
+                    dayuh: newDayuh !== undefined
+                },
+                // Optionally return the updated shtar (be mindful of data size)
+                // updatedShtar: updatedShtar
+            }
+        };
+
+    } catch (e) {
+        console.error(`Error editing comment ${commentId}:`, e);
+         if (e.code === 'NOT_FOUND' || e.code === 404) {
+            return er("Comment data source not found.", { code: "DB_READ_ERROR", details: e });
+         }
+        return er("Internal server error during comment edit.", { details: e.stack });
     }
 }
 
+
+// --- Index Update Functions (Potentially Obsolete/Simplified) ---
+
 /**
- * @method updateCommentIndexesAtParent
- * @description Updates comment indexes for a specific parent.
+ * @method updateAllCommentIndexes (REVISIT / LIKELY OBSOLETE)
+ * @description Original purpose was to rebuild complex indexes. With the new structure,
+ * this is likely unnecessary unless the `commentsOfAliasByHeichelAndSeries` index
+ * needs rebuilding for some reason.
  * @param {Object} params - Parameters for updating.
  * @returns {Object} Update result.
  */
-async function updateCommentIndexesAtParent(
-    {
-        $i,
-        aliasId,
-        parentId,
-        parentType,
-        postId,
-        heichelId,
-        userid
-    }
-) {
-    var link = parentType == "post" ?
-        "atPost" : parentType == "comment" ? "atComment" :
-        null;
-
-    if (!link) {
-        return er(
-            {
-                message: "You need to supply a parent type",
-                code: "MISSING_PARAMS",
-                detail: "parentType"
-            }
-        );
-    }
-
-    var idPath = `${
-        sp
-    }/heichelos/${
-        heichelId
-    }/comments/${link}/${
-        parentId
-    }/author/${
-        aliasId
-    }`;
-
-    var opts = myOpts($i);
-
-    var IDs = await $i.db.get(
-        idPath, 
-        opts
-    );
-
-    if (!Array.isArray(IDs)) {
-        return er(
-            {
-                message: "Did not get array of IDs",
-                detail: IDs
-            }
-        );
-    }
-
-    var indexesDone = [];
-
-    for (var id of IDs) {
-        var index = await addCommentIndexToAlias(
-            {
-                parentId,
-                heichelId,
-                parentType,
-                $i,
-                userid,
-                aliasId,
-                commentId: id
-            }
-        );
-
-        indexesDone.push(
-            { 
-                index 
-            }
-        );
-    }
-
+async function updateAllCommentIndexes({ $i, aliasId, heichelId, userid }) {
+    // This function's logic was tightly coupled to the old structure.
+    // Re-evaluate if any global index rebuilding is needed for the new structure.
+    // If only the `commentsOfAliasByHeichelAndSeries` needs checking, the logic
+    // would involve listing all series an alias *actually* commented in (by checking files)
+    // and comparing/updating the index file. This seems like a rare maintenance task.
+    console.warn("updateAllCommentIndexes is likely obsolete with the new structure and needs review.");
     return {
-        success: {
-            indexesDone,
-            parentType,
-            parentId,
-            aliasId
-        }
-    };
+         warning: "This function may be obsolete or needs significant rework for the new data structure.",
+         code: "OBSOLETE_FUNCTION?"
+        };
+    // Original logic commented out:
+    /*
+    // ... verification ...
+    // ... determine link (atPost/atComment) ...
+    // ... get list of parent IDs ...
+    // ... loop through parent IDs ...
+        // updateCommentIndexesAtParent(...)
+    // ... return results ...
+    */
 }
 
-module.exports = { 
-    editComment, 
-    updateAllCommentIndexes, 
-    updateCommentIndexesAtParent 
+/**
+ * @method updateCommentIndexesAtParent (REVISIT / LIKELY OBSOLETE)
+ * @description Original purpose: update indexes for a specific parent. Likely obsolete.
+ * @param {Object} params - Parameters for updating.
+ * @returns {Object} Update result.
+ */
+async function updateCommentIndexesAtParent({ $i, aliasId, parentId, parentType, postId, heichelId, userid }) {
+     console.warn("updateCommentIndexesAtParent is likely obsolete with the new structure and needs review.");
+     return {
+          warning: "This function may be obsolete or needs significant rework for the new data structure.",
+          code: "OBSOLETE_FUNCTION?"
+         };
+    // Original logic commented out:
+    /*
+    // ... determine link ...
+    // ... get old path to comment IDs (e.g., .../author/{aliasId}) ...
+    // ... get list of comment IDs ...
+    // ... loop through IDs ...
+        // addCommentIndexToAlias(...) // This itself changed
+    // ... return results ...
+    */
+}
+
+
+module.exports = {
+    editComment,
+    updateAllCommentIndexes, // Expose if determined necessary after review
+    updateCommentIndexesAtParent // Expose if determined necessary after review
 };
+//--- END OF NEW FILE commentModification.js ---

@@ -544,6 +544,9 @@ function getValueByKey(buffer, key, lengthSizes) {
 		buffer = new fileBuffer(buffer)
 	}
 
+	if(typeof(key) != "string") {
+		key+=''
+	}
 	var metadataEntry = getMetadataByKey(
 		buffer,
 		key,
@@ -691,7 +694,7 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		metadataStartInMain,
 		key
 	});
-	finalKey = meta.key;
+	finalKey = meta?.key;
 	if(!finalKey) return {
 		key: null,
 		notFound: true
