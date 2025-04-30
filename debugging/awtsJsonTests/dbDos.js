@@ -2,7 +2,13 @@
 var DosDB = require("../../ayzarim/DosDB/index.js");
 (async () => {
 
+
     var db = new DosDB("awtsDb");
+    var red = await db.read("pkp");
+    console.log("RED,red",red)
+    await db.write("/wow", ["asdf","qwet"])
+    var r = await db.read("/wow");
+    console.log("ARray",r)
     await db.write("/well",{
         
         BH: "Hi",
@@ -31,5 +37,6 @@ var DosDB = require("../../ayzarim/DosDB/index.js");
             }
         }
     })
-    console.log(g,mapt);
+    var ar =await db.syncKeyInArray("pkp", "aszd-"+Date.now())
+    console.log(g,mapt,ar);
 })();

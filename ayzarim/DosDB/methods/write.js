@@ -86,7 +86,8 @@ module.exports = {
         
         try {
             const awtsJson = (
-                customWriter || 
+         
+                
                 awtsmoosBinary
             )?.serializeJSON?.(r);
             if(!awtsJson) {

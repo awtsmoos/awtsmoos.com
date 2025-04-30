@@ -5,7 +5,7 @@
 
 var fs = require("fs").promises;
 
-const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 module.exports = {
 
 	async getArrayAtPath(rPath) {
@@ -19,11 +19,13 @@ module.exports = {
 		}
 		var myPath = null;
 		try {
-			
 			myPath =  await this.ensureAwtsmoosBinaryPath(rPath);
 
 			
+			
 			var p=await this.parseBinaryData({path: myPath});
+			
+		//	console.log(1111223,myPath,rPath,p)
 			var s = p?.success;
 			var inputArray = [];
 			if(s) {
@@ -32,7 +34,7 @@ module.exports = {
 				}
 				inputArray =
 				inputArray.concat(s);
-				p = s;
+				p = inputArray
 			} else {
 				inputArray = [];
 				/*
@@ -53,7 +55,7 @@ module.exports = {
 				myPath
 			}
 		} catch(e) {
-			console.log("PATHetic",rPath)
+			//console.log("PATHetic",rPath)
 			return {
 				error: e.stack,
 				ok:"well",
@@ -207,7 +209,7 @@ B"H
 		var inputArray = ar?.success;
 		myPath = ar.myPath;
 		if(!Array.isArray(inputArray) || typeof(myPath) != "string") {
-			return {success:{}}
+		
 			return {
 				error: {
 					message: "Couldn't find array at path",
@@ -222,7 +224,8 @@ B"H
 			indexToDelete = i;
 		});
 		if(indexToDelete < 0) {
-			return {success: {}}
+			
+			
 			return {
 				error: {
 					message: "Couldn't delete, conditions didn't match",
@@ -319,6 +322,7 @@ B"H
 					
 				}
 
+				
 				if(array.success) {
 					inputArray = array.success;
 					myPath = array.myPath;
@@ -326,7 +330,7 @@ B"H
 			} catch(e) {
 				inputArray = [];
 				myPath = array.myPath
-				console.log("ISSUE with getting array",e)
+			//	console.log("ISSUE with getting array",e)
 				return {
 					error: "Acutal problem",
 					stack:e.stack
@@ -354,9 +358,12 @@ B"H
 			
 			
 			var wr = await fs.writeFile(myPath, ser)
+
+			var des = await awtsmoosJSON.deserializeBinary(myPath)
+	//		console.log(array,inputArray,des,2222,myPath)
 			return {
 				success: {
-					written: wr,
+					written: myPath,
 					serialized: ser.length,
 					inputArray
 				}

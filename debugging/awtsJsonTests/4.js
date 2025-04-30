@@ -1,7 +1,11 @@
 //B"H
-
+var fs = require("fs")
 const awts = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js");
-
+var arAy = ["asdf","fdsa"]
+var serial = awts.serializeJSON(arAy);
+var file = fs.writeFileSync("ar.awts",serial)
+var des = awts.deserializeBinary("ar.awts")
+console.log("AR",des)
 // 🔥 Raw Chaos Object
 const chaos = {
     deep:{
