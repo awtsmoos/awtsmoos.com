@@ -4,7 +4,8 @@
  */
 
 var path = require("path");
-var fs = require("fs").promises;
+var fsSync = require("fs")
+var fs = fsSync.promises;
 
 
 module.exports = {

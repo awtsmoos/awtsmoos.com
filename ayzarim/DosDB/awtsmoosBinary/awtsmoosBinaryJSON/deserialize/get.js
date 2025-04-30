@@ -59,9 +59,17 @@ function getLengthSizes(buffer, metadataRef = null) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
 	}
+	if(!buffer.length) {
+		return null;
+	}
 	var offset = 0;
 	var buf = Buffer.from(magicJSON);
 
+	var first = buffer.subarray(0,buf.length)
+	if(!first.equals(buf)) {
+		//not an awtsmoos obj
+		return null;
+	}
 	if(metadataRef) {
 		offset = metadataRef.offsetOfValueInMain
 	}
@@ -91,190 +99,226 @@ function getLengthSizes(buffer, metadataRef = null) {
 }
 
 function getOffsetSizesAndLengths(buffer, lengthSizes, metadataRef=null) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
-	}
-	if(!lengthSizes) {
-		lengthSizes = getLengthSizes(buffer, metadataRef);
-	}
-	
-	var {
-		lengthSizeOfKeys,
-		sizeOfEmbeddedMetadataArrayLength,
-		sizeOfHashTableLength
-	} = lengthSizes;
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
+
+		var endOfBuffer = buffer.length;
+		if(!endOfBuffer/*0 length*/) {
+			return null;
+		}
+		if(!lengthSizes) {
+			lengthSizes = getLengthSizes(buffer, metadataRef);
+		}
+		if(!lengthSizes) {
+			return null;
+		}
+		
+		var {
+			lengthSizeOfKeys,
+			sizeOfEmbeddedMetadataArrayLength,
+			sizeOfHashTableLength
+		} = lengthSizes;
 
 
-	var staticBytes = 1//packed offset sizes
-	var combinedByteLengthOfLengths = (
-		lengthSizeOfKeys + 
-		sizeOfEmbeddedMetadataArrayLength +
-		sizeOfHashTableLength
-	);
-
-	var totalSizeToRead = combinedByteLengthOfLengths 
-		+ staticBytes;
-
-    
-
-
-	var endOfBuffer = buffer.length;
-	if(metadataRef) {
-		endOfBuffer = metadataRef.offsetOfValueInMain +
-			metadataRef.valueLength;
-
-	}
-	var offset = endOfBuffer - 
-		totalSizeToRead//reading backwards
-
-	var dynamicLengthsAndOffsetSizes = buffer.subarray(
-		offset,
-		offset + totalSizeToRead
-	); /*load into memory first as collective byte 
-		then shift through it*/
-
-
-	offset = 0/*not the offset of original buffer,
-		changing to offset of new
-		subarray*/;
-
-	var offsetSizesPacked = dynamicLengthsAndOffsetSizes
-		.readUInt8(
-			offset++
-		);
-
-    
-	var offsetSizeInDataRegion = unpackLength(
-		0b00001100 &
-		offsetSizesPacked
-	);
-
-	var sizeOfMetadataArrayOffsetSize = unpackLength(
-		0b00000011 & 
-		offsetSizesPacked
-	);
-
-	//now we can start reading dynamic lengths
-	var lengthOfTotalEntries = dynamicLengthsAndOffsetSizes
-		.readUIntBE(
-			offset,
-			lengthSizeOfKeys
-		);
-
-    
-    
-	offset += lengthSizeOfKeys
-
-
-	var lengthMetadataArray = dynamicLengthsAndOffsetSizes
-		.readUIntBE(
-			offset,
-			sizeOfEmbeddedMetadataArrayLength
-		);
-
-        
-
-	offset += sizeOfEmbeddedMetadataArrayLength;
-
-
-
-	var lengthHashTable = dynamicLengthsAndOffsetSizes
-		.readUIntBE(
-			offset,
+		var staticBytes = 1//packed offset sizes
+		var combinedByteLengthOfLengths = (
+			lengthSizeOfKeys + 
+			sizeOfEmbeddedMetadataArrayLength +
 			sizeOfHashTableLength
 		);
 
-	return {
-		lengthSizes,
+		var totalSizeToRead = combinedByteLengthOfLengths 
+			+ staticBytes;
 
-		lengthOfTotalEntries,
-		lengthMetadataArray,
-		lengthHashTable,
+		
 
-		offsetSizeInDataRegion,
-		sizeOfMetadataArrayOffsetSize,
-		beginningOfOffset: totalSizeToRead /**
-			counts from buffer.length - this
-		*/
+
+		if(metadataRef) {
+			endOfBuffer = metadataRef.offsetOfValueInMain +
+				metadataRef.valueLength;
+
+		}
+		var offset = endOfBuffer - 
+			totalSizeToRead//reading backwards
+
+		var dynamicLengthsAndOffsetSizes = buffer.subarray(
+			offset,
+			offset + totalSizeToRead
+		); /*load into memory first as collective byte 
+			then shift through it*/
+
+
+		offset = 0/*not the offset of original buffer,
+			changing to offset of new
+			subarray*/;
+
+		var offsetSizesPacked = dynamicLengthsAndOffsetSizes
+			.readUInt8(
+				offset++
+			);
+
+		
+		var offsetSizeInDataRegion = unpackLength(
+			0b00001100 &
+			offsetSizesPacked
+		);
+
+		var sizeOfMetadataArrayOffsetSize = unpackLength(
+			0b00000011 & 
+			offsetSizesPacked
+		);
+
+		//now we can start reading dynamic lengths
+		var lengthOfTotalEntries = dynamicLengthsAndOffsetSizes
+			.readUIntBE(
+				offset,
+				lengthSizeOfKeys
+			);
+
+		
+		
+		offset += lengthSizeOfKeys
+
+
+		var lengthMetadataArray = dynamicLengthsAndOffsetSizes
+			.readUIntBE(
+				offset,
+				sizeOfEmbeddedMetadataArrayLength
+			);
+
+			
+
+		offset += sizeOfEmbeddedMetadataArrayLength;
+
+
+
+		var lengthHashTable = dynamicLengthsAndOffsetSizes
+			.readUIntBE(
+				offset,
+				sizeOfHashTableLength
+			);
+
+		return {
+			lengthSizes,
+
+			lengthOfTotalEntries,
+			lengthMetadataArray,
+			lengthHashTable,
+
+			offsetSizeInDataRegion,
+			sizeOfMetadataArrayOffsetSize,
+			beginningOfOffset: totalSizeToRead /**
+				counts from buffer.length - this
+			*/
+		}
+	} catch(e) {
+		return null
 	}
 }
 
 function getMetadataTableInMainInfo(buffer,lengthSizes, metadataRef) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
-	}
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
 
-	if(!lengthSizes) {
-		lengthSizes = getLengthSizes(buffer, metadataRef);
-	}
+		if(!lengthSizes) {
+			lengthSizes = getLengthSizes(buffer, metadataRef);
+		}
 
-	var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
-		buffer,
-		lengthSizes,
-		metadataRef
-	);
 
-	var {
-		lengthOfTotalEntries,
-		lengthMetadataArray,
-		lengthHashTable,
+		if(!lengthSizes) {
+			return null;
+		}
 
-		offsetSizeInDataRegion,
-		sizeOfMetadataArrayOffsetSize,
-		beginningOfOffset
-	} = lengthsAndOffsetInfo;
+		var lengthsAndOffsetInfo = getOffsetSizesAndLengths(
+			buffer,
+			lengthSizes,
+			metadataRef
+		);
+		if(!lengthsAndOffsetInfo) {
+			return null;
+		}
 
-	var endOfBuffer = buffer.length;
+		var {
+			lengthOfTotalEntries,
+			lengthMetadataArray,
+			lengthHashTable,
 
-	if(metadataRef) {
-		endOfBuffer = metadataRef.offsetOfValueInMain + 
-			metadataRef.valueLength;
-	}
+			offsetSizeInDataRegion,
+			sizeOfMetadataArrayOffsetSize,
+			beginningOfOffset
+		} = lengthsAndOffsetInfo;
 
-	var offsetToStart = endOfBuffer - (
-            beginningOfOffset
-    )  - (
-        lengthMetadataArray
-    )
-	var end = offsetToStart + lengthMetadataArray;
+		var endOfBuffer = buffer.length;
 
-	return {
-		offsetToStart,
-		end,
-		byteLength: lengthMetadataArray
+		if(metadataRef) {
+			endOfBuffer = metadataRef.offsetOfValueInMain + 
+				metadataRef.valueLength;
+		}
+
+		var offsetToStart = endOfBuffer - (
+				beginningOfOffset
+		)  - (
+			lengthMetadataArray
+		)
+		var end = offsetToStart + lengthMetadataArray;
+
+		return {
+			offsetToStart,
+			end,
+			byteLength: lengthMetadataArray
+		}
+	} catch(e) {
+		return null;
 	}
 }
 
 
 
 function getRawMetadataTable(buffer, lengthSizes, metadataRef) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
+
+		if(!lengthSizes) {
+			lengthSizes = getLengthSizes(buffer, metadataRef);
+		}
+
+
+		if(!lengthSizes) {
+			return null;
+		}
+
+		var ob = getMetadataTableInMainInfo(
+			buffer,
+			lengthSizes,
+			metadataRef
+		)
+
+		if(!ob) return null;
+
+		var {
+			offsetToStart,
+			end
+		} = ob;
+
+		/*
+		console.log("ar",beginningOfOffset, lengthMetadataArray, 
+			offsetToStart)*/
+
+		var metadataTable = buffer.subarray(
+			offsetToStart,
+			end
+		);
+		return temp.deserializeArray(metadataTable)
+		return metadataTable;
+	} catch(e) {
+		return null;
 	}
-
-	if(!lengthSizes) {
-		lengthSizes = getLengthSizes(buffer, metadataRef);
-	}
-
-    var {
-		offsetToStart,
-		end
-	} = getMetadataTableInMainInfo(
-		buffer,
-		lengthSizes,
-		metadataRef
-	)
-
-    /*
-    console.log("ar",beginningOfOffset, lengthMetadataArray, 
-        offsetToStart)*/
-
-	var metadataTable = buffer.subarray(
-		offsetToStart,
-		end
-	);
-	return temp.deserializeArray(metadataTable)
-	return metadataTable;
 }
 /**
  * @method getMetadata
@@ -284,107 +328,115 @@ function getRawMetadataTable(buffer, lengthSizes, metadataRef) {
  * @returns {object} - Metadata containing size definitions.
  */
 function getMetadata(buffer, metadataRef) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
-	}
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
 
-	var metadataTable = getRawMetadataTable(buffer, metadataRef)
-	if(!metadataTable) {
-		metadataTable = [];
+		var metadataTable = getRawMetadataTable(buffer, metadataRef)
+		if(!metadataTable) {
+			metadataTable = [];
+		}
+		var fan = metadataTable?.map?.(parseMetadataEntry)
+		return fan || [];
+	} catch(e) {
+		return null;
 	}
-    var fan = metadataTable?.map?.(parseMetadataEntry)
-    return fan || [];
 }
 
 function parseMetadataEntry(metadataEntryBuffer) {
-	var offset = 0;
+	try {
+		var offset = 0;
 
-	var packedSizesAndValueTypeSizeByte = (
-		metadataEntryBuffer.subarray(
-			offset, 
-			offset + 2
-		)
-	);
+		var packedSizesAndValueTypeSizeByte = (
+			metadataEntryBuffer.subarray(
+				offset, 
+				offset + 2
+			)
+		);
 
-	offset += 2;
+		offset += 2;
 
-    var packedKeyAndValueByteLengths = 
-		packedSizesAndValueTypeSizeByte.readUInt8(0);
+		var packedKeyAndValueByteLengths = 
+			packedSizesAndValueTypeSizeByte.readUInt8(0);
 
 
-	
-	var  keyLengthByteSize= unpackLength(
 		
-		(0b00001100 & packedKeyAndValueByteLengths)
-		>> 2
-	);
-//valueLengthByteSize
+		var  keyLengthByteSize= unpackLength(
+			
+			(0b00001100 & packedKeyAndValueByteLengths)
+			>> 2
+		);
+	//valueLengthByteSize
 
-	var byteOffsetByteSize = unpackLength(
-		(0b00000011 & packedKeyAndValueByteLengths)
-	)
+		var byteOffsetByteSize = unpackLength(
+			(0b00000011 & packedKeyAndValueByteLengths)
+		)
 
-	var packedValueByte = packedSizesAndValueTypeSizeByte.readUInt8(1);
-	var parst = unpackTypeAndLengthSize(
-		packedValueByte
-	)
+		var packedValueByte = packedSizesAndValueTypeSizeByte.readUInt8(1);
+		var parst = unpackTypeAndLengthSize(
+			packedValueByte
+		)
 
-	
-	var valueByteLengthSize = 
-		parst.lengthSize;
+		
+		var valueByteLengthSize = 
+			parst.lengthSize;
 
-	var valueType = parst.type;
-	var keyAndValueByteSizes = (
-		valueByteLengthSize + 
-		keyLengthByteSize
-	)
+		var valueType = parst.type;
+		var keyAndValueByteSizes = (
+			valueByteLengthSize + 
+			keyLengthByteSize
+		)
 
-	var lengths = metadataEntryBuffer.subarray(
-		offset,
-		offset + keyAndValueByteSizes
-	);
-	offset += keyAndValueByteSizes;
+		var lengths = metadataEntryBuffer.subarray(
+			offset,
+			offset + keyAndValueByteSizes
+		);
+		offset += keyAndValueByteSizes;
 
-	
+		
 
-	var keyLength = lengths.readUIntBE(
-		0, 
-		keyLengthByteSize
-	);
-/*
-	console.log("lenghs",
-		metadataEntryBuffer,
-		packedKeyAndValueByteLengths,
-		keyLengthByteSize,
-		parst,
-		keyLength,
-		lengths
-	)*/
-	var valueLength = lengths.readUIntBE(
-		keyLengthByteSize,
-		valueByteLengthSize
-	)
+		var keyLength = lengths.readUIntBE(
+			0, 
+			keyLengthByteSize
+		);
+	/*
+		console.log("lenghs",
+			metadataEntryBuffer,
+			packedKeyAndValueByteLengths,
+			keyLengthByteSize,
+			parst,
+			keyLength,
+			lengths
+		)*/
+		var valueLength = lengths.readUIntBE(
+			keyLengthByteSize,
+			valueByteLengthSize
+		)
 
-	var keyBuffer = metadataEntryBuffer.subarray(
-		offset,
-		offset + keyLength
-	);
-	offset += keyLength;
+		var keyBuffer = metadataEntryBuffer.subarray(
+			offset,
+			offset + keyLength
+		);
+		offset += keyLength;
 
-	/*console.log("Doing",keyLength, keyBuffer+"",offset,
-		byteOffsetByteSize
-	)*/
+		/*console.log("Doing",keyLength, keyBuffer+"",offset,
+			byteOffsetByteSize
+		)*/
 
-	var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
-		offset,
-		byteOffsetByteSize
-	);
+		var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
+			offset,
+			byteOffsetByteSize
+		);
 
-	return {
-		key: keyBuffer.toString(),
-		valueLength,
-		valueType,
-		offsetOfValueInMain
+		return {
+			key: keyBuffer.toString(),
+			valueLength,
+			valueType,
+			offsetOfValueInMain
+		}
+	} catch(e) {
+		return null;
 	}
 }
 
@@ -398,16 +450,19 @@ function parseMetadataEntry(metadataEntryBuffer) {
  * @returns {Array} - Array of keys in order.
  */
 function getKeys(buffer, lengthsAndOffsetInfo) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
-	}
-    var meta = getMetadata(
-		buffer,
-		lengthsAndOffsetInfo
-	);
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
+		var meta = getMetadata(
+			buffer,
+			lengthsAndOffsetInfo
+		);
 
-	return meta.map(q => q.key)
-	
+		return meta.map(q => q.key)
+	} catch(e) {
+		return null;
+	}
 }
 
 
@@ -437,25 +492,29 @@ function getValueBufferFromMetadata(buffer, metadataEntry, metadataRef) {
 }
 
 function getValueFromMetadata(buffer, metadataEntry, metadataRef) {
-	if(typeof(buffer) == "string") {
-		buffer = new fileBuffer(buffer)
-	}
+	try {
+		if(typeof(buffer) == "string") {
+			buffer = new fileBuffer(buffer)
+		}
 
-	if(metadataEntry.notFound) {
+		if(metadataEntry.notFound) {
+			return null
+		}
+		var buf = getValueBufferFromMetadata(
+			buffer,
+			metadataEntry,
+			metadataRef
+		)
+
+		var parst = temp.parseValueFromType({
+			value: buf,
+			type: metadataEntry.valueType
+		});
+
+		return parst.value
+	} catch(e) {
 		return null
 	}
-	var buf = getValueBufferFromMetadata(
-		buffer,
-		metadataEntry,
-		metadataRef
-	)
-
-	var parst = temp.parseValueFromType({
-		value: buf,
-		type: metadataEntry.valueType
-	});
-
-	return parst.value
 }
 function getEntryFromMetadata(buffer, metadataEntry) {
 	if(typeof(buffer) == "string") {
@@ -510,11 +569,19 @@ function getHashTableInfo(buffer,lengthSizes,  metadataRef) {
 		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
 
+	if(!lengthSizes) {
+		return null;
+	}
+
 	var offsetAndLengthInfos = getOffsetSizesAndLengths(
 		buffer,
 		lengthSizes,
 		metadataRef
 	);
+
+	if(!offsetAndLengthInfos) {
+		return null;
+	}
 
 	var {
 		beginningOfOffset,
@@ -585,13 +652,21 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		lengthSizes = getLengthSizes(buffer, metadataRef);
 	}
 
+
+	if(!lengthSizes) {
+		return null;
+	}
+
+	 
+	var hash = getHashTableInfo(buffer, lengthSizes, metadataRef);
+	if(!hash) return null;
+
 	var {
 		hashTableStart,
 		lengthHashTable,
 		hashTableEntrySize,
 
-	} = getHashTableInfo(buffer, lengthSizes, metadataRef);
-
+	} = hash;
 	var parst = null;
 	var metadataTableRef = getMetadataTableInMainInfo(
 		buffer,
@@ -617,6 +692,10 @@ function getMetadataByKey(buffer, key, lengthSizes, metadataRef) {
 		key
 	});
 	finalKey = meta.key;
+	if(!finalKey) return {
+		key: null,
+		notFound: true
+	}
 
 	while(finalKey != key) {
 
@@ -763,6 +842,8 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 		null,
 		parentObjRef
 	);
+	if(!ref) return  null;
+
 	if(ref.notFound) {
 		return null
 	}

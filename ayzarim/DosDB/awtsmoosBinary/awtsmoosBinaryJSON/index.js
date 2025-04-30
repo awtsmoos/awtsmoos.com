@@ -23,16 +23,27 @@ var fileBuffer = require("../fileBuffer.js");
 var {
     getKeysFromBinary,
     getValuesFromBinary,
-    getArrayValueAtKey,
-    getKeyByHashing,
+    
+    
     getValueByKey,
+    parseValueFromKey
 } = require("./get.js");
 
 var {
-    mapObject,
-    getMetadataByKey,
+    getValueByKey,
+	mapObject,
+	getEntryFromMetadata,
 
-    getMetadata
+	getMetadataByKey,
+    getKeys,
+    getMetadata,
+    getValueByHashingKey,
+	getLengthSizes,
+	getOffsetSizesAndLengths,
+
+	getHashTableInfo,
+	getMetadataTableInMainInfo,
+	getRawMetadataTable
 } = require("./deserialize/get.js");
 
 //var mapBinary = require("./map.js");
@@ -70,8 +81,6 @@ module.exports = {
 	serializeJSON, 
 	deserializeBinary,
 
-	mapObject,
-	getMetadataByKey,
 
 	serializeArray,
 	serializeJSON,
@@ -81,10 +90,25 @@ module.exports = {
 	getKeysFromBinary,
 
 	getValuesFromBinary,
-	getArrayValueAtKey,
-	getKeyByHashing,
-	getValueByKey,
+    
+
 	isAwtsmoosObject,
 	deserializeArray,
-    getMetadata
+    getMetadata,
+
+
+    getValueByKey,
+	mapObject,
+	getEntryFromMetadata,
+
+	getMetadataByKey,
+    getKeys,
+    getMetadata,
+    getValueByHashingKey,
+	getLengthSizes,
+	getOffsetSizesAndLengths,
+
+	getHashTableInfo,
+	getMetadataTableInMainInfo,
+	getRawMetadataTable
 };

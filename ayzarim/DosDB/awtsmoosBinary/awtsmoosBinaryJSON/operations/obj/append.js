@@ -49,14 +49,13 @@ function appendToJSON(filename, {
 		var ser = serialist(obj);
 		buffer.writeBuffer(0, ser)
 	}
-	console.log("MAGIC",magic,filename)
+	
 	var valueBufferInfo = serializeValue(value, false);
 
 	var lengthNeededForValue = valueBufferInfo.data.length;
 
-	
 	var meta = getObj.getMetadata(buffer)
-	console.log("META",meta)
+	
 	var alreadyExists = meta.find(q => q.key == key);
 	if(alreadyExists) {
 	//	console.log("Exists", alreadyExists, meta)
@@ -81,7 +80,7 @@ function appendToJSON(filename, {
 		}
 		av = slot?.middle || slot?.end
 	}
-	console.log("Avail",av,slot)
+	
 	/*
 	if(av == 0) {
 		return null;
@@ -109,7 +108,7 @@ function appendToJSON(filename, {
 			valueBufferInfo.data
 		)
 	}
-	console.log("MEtaph",meta)
+	
 	overwriteMetadataAndHashTable(
 		buffer, 
 		meta,

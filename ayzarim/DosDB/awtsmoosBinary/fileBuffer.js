@@ -84,7 +84,7 @@ class FileBuffer {
 				awtsmoosVal: "uint_8"
 			}
 		});
-		return result.awtsmoosVal; // Return the value of the "awtsmoosVal" field
+		return result?.awtsmoosVal; // Return the value of the "awtsmoosVal" field
 	}
 	
 	readUInt16BE(offset) {
@@ -95,7 +95,7 @@ class FileBuffer {
 				awtsmoosVal: "uint_16"
 			}
 		});
-		return result.awtsmoosVal; // Return the value of the "awtsmoosVal" field
+		return result?.awtsmoosVal; // Return the value of the "awtsmoosVal" field
 	}
 	
 	readUInt32BE(offset) {
@@ -106,7 +106,7 @@ class FileBuffer {
 				awtsmoosVal: "uint_32"
 			}
 		});
-		return result.awtsmoosVal; // Return the value of the "awtsmoosVal" field
+		return result?.awtsmoosVal; // Return the value of the "awtsmoosVal" field
 	}
 	
 	readString(offset, length) {
@@ -117,7 +117,7 @@ class FileBuffer {
 				awtsmoosVal: `string_${length}`
 			}
 		});
-		return result.awtsmoosVal; // Return the value of the "awtsmoosVal" field
+		return result?.awtsmoosVal; // Return the value of the "awtsmoosVal" field
 	}
 	
 	readBuffer(startIndex, endIndex) {
@@ -135,7 +135,7 @@ class FileBuffer {
 		});
 		
 		
-		return result.awtsmoosVal; // Return the value of the "awtsmoosVal" field
+		return result?.awtsmoosVal || Buffer.alloc(0); // Return the value of the "awtsmoosVal" field
 	}
 	
 	// Write functions for common buffer operations using existing logic

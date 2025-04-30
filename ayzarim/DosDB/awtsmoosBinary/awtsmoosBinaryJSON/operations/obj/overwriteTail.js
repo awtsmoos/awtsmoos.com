@@ -62,7 +62,8 @@ function overwriteMetadataAndHashTable(
 		totalDataSize -= dataAtEnd.length
 	}
 
-	var offsetToWriteTail = (
+	var offsetToWriteTail = Math.max(
+		3,
 		totalDataSize
 	)// - (dataAtEnd?.length || 0);
 	
@@ -73,7 +74,8 @@ function overwriteMetadataAndHashTable(
 		totalDataSize + 
 		tail.length
 	)
-
+	
+	//console.log("Tota",totalDataSize,totalAdjustedSize)
 	buffer.writeBuffer(
 		offsetToWriteTail,
 		tail
@@ -81,7 +83,15 @@ function overwriteMetadataAndHashTable(
 
 	buffer.truncate(
 		totalAdjustedSize
-	) /*
+	)
+	var magic = Buffer.from(magicJSON);
+	buffer.writeBuffer(0, magic);
+	/*console.log(magic,"M",buffer.subarray(0,buffer.length),offsetOfHeaderByte,
+	tail,
+	offsetToWriteTail,
+	packAll
+)
+	/*
 		very important,
 		was stuck on this
 		for a while.
@@ -143,7 +153,7 @@ function getOffsetOfEndOfData(metadata) {
 			);
 		}
 	});
-	return endOffset;
+	return Math.max(3, endOffset);
 }
 
 module.exports = overwriteMetadataAndHashTable

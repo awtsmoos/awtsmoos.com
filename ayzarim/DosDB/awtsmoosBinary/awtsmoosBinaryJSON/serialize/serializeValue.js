@@ -189,7 +189,7 @@ function serializeValue(value, fullBuffer = true) {
 		
         data = info.buffer;
     } else if (typeof value === "boolean") {
-        type = value ? 0 : 5;
+        type = !value ? 0 : 5;
         data = Buffer.alloc(0);
     } else if(typeof(value) == "function") {
 		type = 27;

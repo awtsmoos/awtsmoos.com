@@ -83,7 +83,8 @@ class Database {
   async writeArray(key, array, nextPart) {
     const metaKey = `${key}:meta`;
     let meta = (await this.readRaw(metaKey)) || { type: 0x03, num: 0, entries: {} };
-    console.log("META",meta,metaKey,key)
+   
+    
     if (nextPart && nextPart.match(/^\d+$/)) {
       // Writing to a specific index (keep this as is)
       const index = parseInt(nextPart, 10);

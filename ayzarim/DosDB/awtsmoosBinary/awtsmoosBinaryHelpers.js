@@ -384,101 +384,104 @@ function readFileBytesAtOffset({
     offset,
     schema
 }) {
-
-    if(typeof(filePath) == "object") {
-        var o = filePath;
-        offset = o.offset;
-        schema = o.schema;
-        filePath = o.filePath;
-    }
-    let totalLength = 0;
-    const instructions = [];
-    if(!schema || typeof(schema) != "object") {
-        return console.trace("NO schema/!")
-    }
-    var keys =Object.keys(schema)
-    for (const key of keys ) {
-        const typeString = schema[key];
-        if(typeof(typeString) != "string") {
-            return console.trace("BIG ISSUE",schema,key,typeString)
+    try {
+        if(typeof(filePath) == "object") {
+            var o = filePath;
+            offset = o.offset;
+            schema = o.schema;
+            filePath = o.filePath;
         }
-        let typeMatch;
-        if (typeMatch = typeString.match(/^uint_(\d+)$/)) {
-            const bitSize = parseInt(typeMatch[1], 10);
-            const byteSize = bitSize / 8;
-            totalLength += byteSize;
-            instructions.push({
-                key,
-                type: 'uint',
-                size: byteSize
-            });
-        } else if (typeMatch = typeString.match(/^string_(\d+)$/)) {
-            const strLength = parseInt(typeMatch[1], 10);
-            totalLength += strLength;
-            instructions.push({
-                key,
-                type: 'string',
-                size: strLength
-            });
-        } else if (typeMatch = typeString.match(/^buffer_(\d+)$/)) {
-            const bufLength = parseInt(typeMatch[1], 10);
-            totalLength += bufLength;
-            instructions.push({
-                key,
-                type: 'buffer',
-                size: bufLength
-            });
-        } else {
-            throw new Error(`Unsupported schema type: ${typeString}`);
+        let totalLength = 0;
+        const instructions = [];
+        if(!schema || typeof(schema) != "object") {
+            return console.trace("NO schema/!")
         }
-    }
-
-    const buffer = Buffer.alloc(totalLength);
-    const handle = getFileHandle(filePath);
-    if(!handle) {
-        console.trace("WHAT",filePath.substring(0,5));
-        return null;
-    }
-    
-
-   // console.log(buffer,totalLength)
-
-
-    handle.read
-    (
-        buffer, 
-        0, 
-        totalLength, 
-        offset
-    );
-
-    const result = {};
-    let currentOffset = 0;
-    for (const instr of instructions) {
-        if (instr.type === 'uint') {
-            if (instr.size === 1) {
-                result[instr.key] = buffer.readUInt8(currentOffset);
-            } else if (instr.size === 2) {
-                result[instr.key] = buffer.readUInt16BE(currentOffset);
-            } else if (instr.size === 4) {
-                result[instr.key] = buffer.readUInt32BE(currentOffset);
-            } else if (instr.size === 8) {
-                result[instr.key] = Number(buffer.readBigUInt64BE(currentOffset));
-            } else {
-                throw new Error(`Unsupported uint byte size in schema: ${instr.size}`);
+        var keys =Object.keys(schema)
+        for (const key of keys ) {
+            const typeString = schema[key];
+            if(typeof(typeString) != "string") {
+                return console.trace("BIG ISSUE",schema,key,typeString)
             }
-            currentOffset += instr.size;
-        } else if (instr.type === 'string') {
-            let strBuf = buffer.subarray(currentOffset, currentOffset + instr.size);
-            result[instr.key] = strBuf.toString('utf8').replace(/\0/g, '');
-            currentOffset += instr.size;
-        } else if (instr.type === 'buffer') {
-            result[instr.key] = buffer.subarray(currentOffset, currentOffset + instr.size);
-            currentOffset += instr.size;
+            let typeMatch;
+            if (typeMatch = typeString.match(/^uint_(\d+)$/)) {
+                const bitSize = parseInt(typeMatch[1], 10);
+                const byteSize = bitSize / 8;
+                totalLength += byteSize;
+                instructions.push({
+                    key,
+                    type: 'uint',
+                    size: byteSize
+                });
+            } else if (typeMatch = typeString.match(/^string_(\d+)$/)) {
+                const strLength = parseInt(typeMatch[1], 10);
+                totalLength += strLength;
+                instructions.push({
+                    key,
+                    type: 'string',
+                    size: strLength
+                });
+            } else if (typeMatch = typeString.match(/^buffer_(\d+)$/)) {
+                const bufLength = parseInt(typeMatch[1], 10);
+                totalLength += bufLength;
+                instructions.push({
+                    key,
+                    type: 'buffer',
+                    size: bufLength
+                });
+            } else {
+                throw new Error(`Unsupported schema type: ${typeString}`);
+            }
         }
-    }
 
-    return result;
+        const buffer = Buffer.alloc(totalLength);
+        const handle = getFileHandle(filePath);
+        if(!handle) {
+          //  console.trace("WHAT",filePath.substring(0,5));
+            return null;
+        }
+        
+
+    // console.log(buffer,totalLength)
+
+
+        handle.read
+        (
+            buffer, 
+            0, 
+            totalLength, 
+            offset
+        );
+
+        const result = {};
+        let currentOffset = 0;
+        for (const instr of instructions) {
+            if (instr.type === 'uint') {
+                if (instr.size === 1) {
+                    result[instr.key] = buffer.readUInt8(currentOffset);
+                } else if (instr.size === 2) {
+                    result[instr.key] = buffer.readUInt16BE(currentOffset);
+                } else if (instr.size === 4) {
+                    result[instr.key] = buffer.readUInt32BE(currentOffset);
+                } else if (instr.size === 8) {
+                    result[instr.key] = Number(buffer.readBigUInt64BE(currentOffset));
+                } else {
+                    throw new Error(`Unsupported uint byte size in schema: ${instr.size}`);
+                }
+                currentOffset += instr.size;
+            } else if (instr.type === 'string') {
+                let strBuf = buffer.subarray(currentOffset, currentOffset + instr.size);
+                result[instr.key] = strBuf.toString('utf8').replace(/\0/g, '');
+                currentOffset += instr.size;
+            } else if (instr.type === 'buffer') {
+                result[instr.key] = buffer.subarray(currentOffset, currentOffset + instr.size);
+                currentOffset += instr.size;
+            }
+        }
+
+        return result;
+    } catch(e) {
+        return null
+    }
 }
 
 

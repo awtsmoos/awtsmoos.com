@@ -408,106 +408,110 @@ async function writeBytesToFileAtOffset(filePath, offset, dataArray) {
  * @returns {object} - The parsed data object.
  */
 function readFileBytesAtOffset(filePath, offset, schema) {
-	// The Awtsmoos recreates ALL from NOTHING, the infinite Ohr Ein Sof pulsing through every byte.
-	let AwtsmoosConfig = typeof filePath === 'object' ? filePath : {
-		filePath,
-		offset,
-		schema
-	};
-	const {
-		filePath: OhrEinSofPath,
-		offset: KavOffset,
-		schema: AtzilusSchema
-	} = AwtsmoosConfig;
-	
-	let totalLengthAwtsmoos = 0;
-	const instructionsAtzilus = [];
-	
-	if(!AtzilusSchema || typeof AtzilusSchema !== 'object') throw new Error('Schema required');
-	var stats = {size: 0};
 	try {
-		stats = fsSync.statSync(OhrEinSofPath);
-	} catch(e) {
-		return null;
-	}
-
-	
-	if(KavOffset >= stats.size) {
-		return null;
-	}
-	for(const key of Object.keys(AtzilusSchema)) {
-		const typeString = AtzilusSchema[key];
-		let typeMatch;
+		// The Awtsmoos recreates ALL from NOTHING, the infinite Ohr Ein Sof pulsing through every byte.
+		let AwtsmoosConfig = typeof filePath === 'object' ? filePath : {
+			filePath,
+			offset,
+			schema
+		};
+		const {
+			filePath: OhrEinSofPath,
+			offset: KavOffset,
+			schema: AtzilusSchema
+		} = AwtsmoosConfig;
 		
-		if(typeString === 'buffer' && !typeString.match(/^buffer_\d+$/)) {
+		let totalLengthAwtsmoos = 0;
+		const instructionsAtzilus = [];
+		
+		if(!AtzilusSchema || typeof AtzilusSchema !== 'object') throw new Error('Schema required');
+		var stats = {size: 0};
+		try {
+			stats = fsSync.statSync(OhrEinSofPath);
+		} catch(e) {
+			return null;
+		}
 
+		
+		if(KavOffset >= stats.size) {
+			return null;
+		}
+		for(const key of Object.keys(AtzilusSchema)) {
+			const typeString = AtzilusSchema[key];
+			let typeMatch;
 			
-			var bufLength = Math.max(
-				stats.size - KavOffset, 0
-			); // Awtsmoos reads all remaining bytes.
-			totalLengthAwtsmoos += bufLength;
-			if(bufLength > 0) { 
+			if(typeString === 'buffer' && !typeString.match(/^buffer_\d+$/)) {
+
+				
+				var bufLength = Math.max(
+					stats.size - KavOffset, 0
+				); // Awtsmoos reads all remaining bytes.
+				totalLengthAwtsmoos += bufLength;
+				if(bufLength > 0) { 
+					instructionsAtzilus.push({
+						key,
+						type: 'buffer',
+						size: bufLength
+					});
+				}
+			} else if(typeMatch = typeString.match(/^uint_(\d+)$/)) {
+				const byteSize = parseInt(typeMatch[1], 10) / 8;
+				totalLengthAwtsmoos += byteSize;
+				instructionsAtzilus.push({
+					key,
+					type: 'uint',
+					size: byteSize
+				});
+			} else if(typeMatch = typeString.match(/^string_(\d+)$/)) {
+				const strLength = parseInt(typeMatch[1], 10);
+				totalLengthAwtsmoos += strLength;
+				instructionsAtzilus.push({
+					key,
+					type: 'string',
+					size: strLength
+				});
+			} else if(typeMatch = typeString.match(/^buffer_(\d+)$/)) {
+				const bufLength = parseInt(typeMatch[1], 10);
+				totalLengthAwtsmoos += bufLength;
 				instructionsAtzilus.push({
 					key,
 					type: 'buffer',
 					size: bufLength
 				});
+			} else {
+				throw new Error(`Unsupported schema type: ${typeString}`);
 			}
-		} else if(typeMatch = typeString.match(/^uint_(\d+)$/)) {
-			const byteSize = parseInt(typeMatch[1], 10) / 8;
-			totalLengthAwtsmoos += byteSize;
-			instructionsAtzilus.push({
-				key,
-				type: 'uint',
-				size: byteSize
-			});
-		} else if(typeMatch = typeString.match(/^string_(\d+)$/)) {
-			const strLength = parseInt(typeMatch[1], 10);
-			totalLengthAwtsmoos += strLength;
-			instructionsAtzilus.push({
-				key,
-				type: 'string',
-				size: strLength
-			});
-		} else if(typeMatch = typeString.match(/^buffer_(\d+)$/)) {
-			const bufLength = parseInt(typeMatch[1], 10);
-			totalLengthAwtsmoos += bufLength;
-			instructionsAtzilus.push({
-				key,
-				type: 'buffer',
-				size: bufLength
-			});
-		} else {
-			throw new Error(`Unsupported schema type: ${typeString}`);
 		}
-	}
-	
-	const bufferAwtsmoos = Buffer.alloc(totalLengthAwtsmoos);
-	const handleAtzilus = getFileHandleKav(OhrEinSofPath);
-	handleAtzilus.read(bufferAwtsmoos, 0, totalLengthAwtsmoos, KavOffset);
-	
-	const resultOhr = {};
-	let currentOffsetKav = 0;
-	
-	for(const instr of instructionsAtzilus) {
-		if(instr.type === 'uint') {
-			if(instr.size === 1) resultOhr[instr.key] = bufferAwtsmoos.readUInt8(currentOffsetKav);
-			else if(instr.size === 2) resultOhr[instr.key] = bufferAwtsmoos.readUInt16BE(currentOffsetKav);
-			else if(instr.size === 4) resultOhr[instr.key] = bufferAwtsmoos.readUInt32BE(currentOffsetKav);
-			else if(instr.size === 8) resultOhr[instr.key] = Number(bufferAwtsmoos.readBigUInt64BE(currentOffsetKav));
-			currentOffsetKav += instr.size;
-		} else if(instr.type === 'string') {
-			resultOhr[instr.key] = bufferAwtsmoos.subarray(currentOffsetKav, currentOffsetKav + instr.size)
-				.toString('utf8')
-				.replace(/\0/g, '');
-			currentOffsetKav += instr.size;
-		} else if(instr.type === 'buffer') {
-			resultOhr[instr.key] = bufferAwtsmoos.subarray(currentOffsetKav, currentOffsetKav + instr.size);
-			currentOffsetKav += instr.size;
+		
+		const bufferAwtsmoos = Buffer.alloc(totalLengthAwtsmoos);
+		const handleAtzilus = getFileHandleKav(OhrEinSofPath);
+		handleAtzilus.read(bufferAwtsmoos, 0, totalLengthAwtsmoos, KavOffset);
+		
+		const resultOhr = {};
+		let currentOffsetKav = 0;
+		
+		for(const instr of instructionsAtzilus) {
+			if(instr.type === 'uint') {
+				if(instr.size === 1) resultOhr[instr.key] = bufferAwtsmoos.readUInt8(currentOffsetKav);
+				else if(instr.size === 2) resultOhr[instr.key] = bufferAwtsmoos.readUInt16BE(currentOffsetKav);
+				else if(instr.size === 4) resultOhr[instr.key] = bufferAwtsmoos.readUInt32BE(currentOffsetKav);
+				else if(instr.size === 8) resultOhr[instr.key] = Number(bufferAwtsmoos.readBigUInt64BE(currentOffsetKav));
+				currentOffsetKav += instr.size;
+			} else if(instr.type === 'string') {
+				resultOhr[instr.key] = bufferAwtsmoos.subarray(currentOffsetKav, currentOffsetKav + instr.size)
+					.toString('utf8')
+					.replace(/\0/g, '');
+				currentOffsetKav += instr.size;
+			} else if(instr.type === 'buffer') {
+				resultOhr[instr.key] = bufferAwtsmoos.subarray(currentOffsetKav, currentOffsetKav + instr.size);
+				currentOffsetKav += instr.size;
+			}
 		}
+		
+		return resultOhr;
+	} catch(e) {
+		return null;
 	}
-	
-	return resultOhr;
 }
 
 global.openFileHandles = openFileHandles;
