@@ -63,7 +63,7 @@ async function isAwtsmoosObject(buffer) {
 
 
 module.exports = { 
-	append,
+	appendToObj:append,
 	logBuffer, 
 	serializeJSON, 
 	deserializeBinary,

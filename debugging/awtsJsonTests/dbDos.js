@@ -4,6 +4,14 @@ var DosDB = require("../../ayzarim/DosDB/index.js");
 
 
     var db = new DosDB("awtsDb");
+ //   await db.write("asdf",{ok:2})
+    var app = await db.appendToObj("asdf", {
+        key: "ok-"+Date.now(),
+        value:"Cool "
+    })
+    var reed = await db.read("asdf")
+
+    console.log("Apneded",app,reed)
     var red = await db.read("pkp");
     console.log("RED,red",red)
     await db.write("/wow", ["asdf","qwet"])

@@ -5,7 +5,7 @@ var {
 } = require("../../constants.js")
 var appendToArray = require("../array/append.js")
 
-
+var serialist = require("../../serialize/obj.js")
 var deser = require("../../deserialize/obj.js");
 var getObj = require("../../deserialize/get.js");
 
@@ -44,13 +44,19 @@ function appendToJSON(filename, {
 			value
 		})
 	}
+	var obj = {};
+	if(magic != magicJSON) {
+		var ser = serialist(obj);
+		buffer.writeBuffer(0, ser)
+	}
+	console.log("MAGIC",magic,filename)
 	var valueBufferInfo = serializeValue(value, false);
 
 	var lengthNeededForValue = valueBufferInfo.data.length;
 
 	
 	var meta = getObj.getMetadata(buffer)
-	
+	console.log("META",meta)
 	var alreadyExists = meta.find(q => q.key == key);
 	if(alreadyExists) {
 	//	console.log("Exists", alreadyExists, meta)
@@ -62,21 +68,25 @@ function appendToJSON(filename, {
 	var av = 0;
 
 	var insertInMiddle = false;
+	var slot = null;
 	if(
 	//	0
 		lengthNeededForValue
 	) {
-		av = findAvailableSlot(meta, lengthNeededForValue)
+		slot = findAvailableSlot(meta, lengthNeededForValue)
 		//console.log(" spot!",av,meta);
-		if(av.middle) {
+		if(slot.middle) {
 			insertInMiddle = true;
 
 		}
-		av = av?.middle || av?.end
+		av = slot?.middle || slot?.end
 	}
+	console.log("Avail",av,slot)
+	/*
 	if(av == 0) {
 		return null;
 	}
+		*/
 
 	var newEntry = {
 		key,
@@ -99,7 +109,7 @@ function appendToJSON(filename, {
 			valueBufferInfo.data
 		)
 	}
-
+	console.log("MEtaph",meta)
 	overwriteMetadataAndHashTable(
 		buffer, 
 		meta,
@@ -137,7 +147,7 @@ function getTotalDataSize(metadata) {
 }
 
 function findAvailableSlot(entries, sizeNeeded) {
-	if (!entries || entries.length === 0) return { end: 0 };
+	if (!entries || entries.length === 0) return { end: 3 };
 
 	// Step 1: Sort entries by offset
 	const sorted = [...entries].sort((a, b) => a.offsetOfValueInMain - b.offsetOfValueInMain);

@@ -22,6 +22,9 @@ var readMethods = require("./methods/read.js");
 
 var arrayMethods = require("./methods/array.js");
 
+
+var objMethods = require("./methods/obj.js");
+
 var pathMethods = require("./methods/path.js");
 
 
@@ -58,7 +61,8 @@ class DosDB {
 		awtsmoosMerge(this, arrayMethods);
 		awtsmoosMerge(this, directoryMethods);
 		awtsmoosMerge(this, transferVersions);
-
+		awtsmoosMerge(this, objMethods);
+		
 
 		this.awtsmoosBinary = awtsmoosBinary;
 		this.directory = this.sanitizeAwtsmoosPath(directory || "../");
