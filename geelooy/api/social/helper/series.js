@@ -1,1932 +1,807 @@
 /**
  * B"H
+ *
+ * Helper functions to manage SERIES.
+ * Series contain details (prateem), an array of subSeries IDs,
+ * and an object containing their posts.
  */
 
+const { sp } = require("./_awtsmoos.constants.js");
+const { er, myOpts, generateAwtsmoosId, loggedIn } = require("./general.js");
+const { verifyHeichelAuthority } = require("./heichel.js");
+const { deletePostFromSeries, getPostsInSeries } = require("./post/index.js"); // For recursive delete
+const { deleteAllCommentsOfParent } = require("./comments/index.js"); // For recursive delete
 
 
-
-module.exports = {
-	changeSubSeriesFromOneSeriesToAnother,
-    addContentToSeries,
-    deleteContentFromSeries,
-    deleteSeriesFromHeichel,
-    editSeriesDetails,
-    makeNewSeries,
-	getSubSeries,
-    getSeries,
-    getSubSeriesInHeichel,
-	getSeriesByProperty,
-    
-    getAllSeriesInHeichel,
-	editPostsInSeries,
-	editSubSeriesInSeries,
-	traverseSeries,
-	checkParentIDsAndAdd
-};
-
-var {
-    sp
-} = require("./_awtsmoos.constants.js");
+// Helper paths
+const seriesBasePath = (h, s) => `${sp}/heichelos/${h}/series/${s}`;
+const seriesPrateemPath = (h, s) => `${seriesBasePath(h, s)}/prateem`;
+const seriesSubSeriesPath = (h, s) => `${seriesBasePath(h, s)}/subSeries`;
+const seriesPostsPath = (h, s) => `${seriesBasePath(h, s)}/posts`;
+const aliasSeriesTrackingPath = (aliasId, h) => `${sp}/aliases/${aliasId}/seriesCreated/inHeichel/${h}`;
 
 
-var {
-    er, myOpts,
-	generateAwtsmoosId
-} = require("./general.js");
+/**
+ * @description Ensures the 'root' series structure exists within a Heichel. Creates it if not found.
+ * Internal helper function.
+ */
+async function ensureRootSeriesExists({ $i, heichelId }) {
+    const rootPrateemPath = seriesPrateemPath(heichelId, "root");
+    try {
+        // Check if root prateem already exists
+        const rootExists = await $i.db.get(rootPrateemPath, { propertyMap: { id: true } });
+        if (rootExists) {
+            return { success: true, existed: true }; // Root already exists
+        }
+    } catch (e) {
+        // If error is "Path does not exist", we need to create it.
+        // If it's another error, rethrow it.
+        if (!e.message?.includes("Path does not exist") && e.code !== 'PATH_NOT_FOUND' /* Adapt based on db error codes */) {
+            console.error(`Error checking for root series existence in ${heichelId}:`, e);
+            throw new Error(`Failed to check root series existence: ${e.message}`);
+        }
+        // Path doesn't exist, proceed to create below.
+    }
 
-var {
-    verifyHeichelAuthority
-} = require("./heichel.js")
+    // Root doesn't exist, create it
+    console.log(`Creating 'root' series structure for Heichel: ${heichelId}`);
+    try {
+        const rootPrateem = {
+            id: "root",
+            name: "Root",
+            description: "The base series of the Heichel.",
+            author: "system", // Or null, or the Heichel creator? 'system' seems reasonable.
+            parentSeriesId: null, // Root has no parent
+            createdAt: Date.now(),
+            isRoot: true
+        };
+        await $i.db.write(rootPrateemPath, rootPrateem);
+        await $i.db.write(seriesSubSeriesPath(heichelId, "root"), []); // Initialize subSeries
+        await $i.db.write(seriesPostsPath(heichelId, "root"), {});   // Initialize posts
 
-var {
-	deletePost,
-	editPostDetails,
-} = require("./post/index.js")
-
-async function checkParentIDsAndAdd({
-	aliasId,
-	postsOnly=false,
-	$i,
-	callback,
-	heichelId,
-	parentSeriesId
-}) {
-	var originalParentSeriesId = parentSeriesId
-	var aliasId = aliasId || $i.$_POST.aliasId
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId
-		
-
-	})
-	if(!ha) {
-		return er({
-			code: "NO_AUTH"
-		})
-	}
-	/*$i.propertyMap = {
-		content: 1,
-		id: true,
-		title: true,
-		name: true,
-		parentSeriesId: true,
-		dayuh: false
-	}*/
-	t=await traverseSeries({
-		seriesId: parentSeriesId,
-		heichelId,
-		$i,
-		callback: async ({post, series, parentSeriesId, id}) => {
-			var wrote = false;
-			if(post && !post.parentSeriesId) {
-				var wr = Object.assign({}, post)
-				wr.parentSeriesId = parentSeriesId
-				wrote = wr;
-				var wr =  await $i.db.write(
-					sp + `/heichelos/${
-						heichelId
-					}/posts/${id}`, wr
-				);
-			}
-			if(!postsOnly) {
-				if(series && !series.parentSeriesId) {
-					var wr = Object.assign({}, series)
-					wr.parentSeriesId = parentSeriesId
-					var wr =  await $i.db.write(
-						sp + `/heichelos/${
-							heichelId
-						}/series/${id}/prateem`, wr
-					);
-				}
-			}
-			await callback?.({post,series,parentSeriesId,id, wrote})
-		}
-	})
-	
+        return { success: true, created: true };
+    } catch (eCreate) {
+        console.error(`Failed to create 'root' series structure for Heichel ${heichelId}:`, eCreate);
+        throw new Error(`Failed to create root series: ${eCreate.message}`);
+    }
 }
 
-async function traverseSeries({
-	seriesId,
-	heichelId,
-	$i,
-	callback
-}) {
-	try {
-		var opts = myOpts($i);
-		
-		var or;
-		
-		var p = await $i.db.get(
-			sp + `/heichelos/${
-				heichelId
-			}/series/${seriesId}/posts`, opts
-		);
-		p = Array.from(p || []);
-		for(var postId of p) {
-			var post = await $i.db.get(
-				`/social/heichelos/${
-					heichelId
-				}/posts/${postId}`, opts
-			);
-			if(post) {
-				post.id = postId;
 
-			}
-			var c =await callback?.({
-				post, 
-				parentSeriesId: seriesId, 
-				id: postId, 
-				heichelId
-			})
-			if(c?.error) {
-				console.log("AIR ohyr",c)
-				return er({
-					message: "Issue with post traversing",
-					code:"POST_TRAVERSE",
-					error:c
-				})
-			}
-		}
-		var seer = await $i.db.get(
-			sp + `/heichelos/${
-				heichelId
-			}/series/${seriesId}/subSeries`
-		);
-		seer = Array.from(seer || []);
-		
-		for(var subSeriesId of seer) {
-			var series = await traverseSeries({
-				heichelId,
-				$i,
-				callback,
-				seriesId:subSeriesId
-			})
-			if(series) {
-				series.id = subSeriesId
-			}
-			var cal = await callback?.({
-				series,  parentSeriesId: seriesId
-			})
-			if(cal?.error) {
-				return er({
-					message: "Issue with series traversal",
-					code: "SERIES_TRAVERSAL",
-					details: cal
-				})
-			}
-		}
-		if(!p.length || !seer.length) {
-			var a = await callback?.({post: null, details:seriesId, seer, p, or})
-			if(a?.error) {
-				return er({
-					message:"Error in traversing",
-					details: a
-				})
-			}
-		}
-		var me = await $i.db.get(
-			`/social/heichelos/${
-				heichelId
-			}/series/${seriesId}/prateem`, opts
-		);
-		me = Object.assign({}, me)
-		me.id = seriesId;
-		
-		me.now=Date.now()
-		var posts = await $i.db.get(
-			`/social/heichelos/${
-				heichelId
-			}/series/${seriesId}/posts`, opts
-		);
-		var subs = await $i.db.get(
-			`/social/heichelos/${
-				heichelId
-			}/series/${seriesId}/subSeries`, opts
-		);
-		return {
-			
-			subSeries:subs,
-			posts,
-			series: me
-		}
-	} catch(e) {
-	
-		return er({
-			message: "error traverseing",
-			
-			stack: e?.stack
-		})
+/**
+ * @description Creates a new series, initializes its structure, and adds it to its parent.
+ * Ensures the parent (including 'root') exists before creation.
+ * @requires $_POST: { aliasId, seriesName/title/name, description?, parentSeriesId? (defaults to 'root') }
+ */
+async function makeNewSeries({ $i, heichelId }) {
+    // 1. Basic Checks & Auth
+    if (!loggedIn($i)) return er({ message: "NO_LOGIN" });
+
+    const { aliasId, description = "" } = $i.$_POST;
+    const seriesName = ($i.$_POST.seriesName || $i.$_POST.title || $i.$_POST.name || "").trim();
+    const parentSeriesId = $i.$_POST.parentSeriesId || "root";
+
+    if (!aliasId || !seriesName) {
+        return er({ code: "MISSING_PARAMS", details: "Requires aliasId and seriesName/title/name" });
+    }
+    if (seriesName.length > 100 || description.length > 888) {
+        return er({ message: "Input too long", proper: { seriesName: 100, description: 888 } });
+    }
+
+    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+    if (!isAuthorized) return er({ code: "NO_AUTH" });
+
+    // 2. Generate New Series ID
+    const seriesId = `BH_SERIES_${Date.now()}_${aliasId}_${Math.floor(Math.random() * 1000)}`;
+    const newSeriesBasePath = seriesBasePath(heichelId, seriesId); // For potential rollback
+
+    try {
+        // 3. Ensure Parent/Root Exists *Before* Creating New Series
+        if (parentSeriesId === "root") {
+            const rootResult = await ensureRootSeriesExists({ $i, heichelId });
+            if (!rootResult.success) {
+                // Error is already logged in ensureRootSeriesExists
+                return er({ code: "ROOT_ENSURE_FAILED", details: "Could not verify or create root series." });
+            }
+        } else {
+            // Check non-root parent existence
+            try {
+                const parentExists = await $i.db.get(seriesPrateemPath(heichelId, parentSeriesId), { propertyMap: { id: true } });
+                if (!parentExists) {
+                    return er({ code: "PARENT_SERIES_NOT_FOUND", details: { heichelId, parentSeriesId } });
+                }
+            } catch (e) {
+                // Handle DB error during check
+                 if (e.message?.includes("Path does not exist") || e.code === 'PATH_NOT_FOUND') {
+                      return er({ code: "PARENT_SERIES_NOT_FOUND", details: { heichelId, parentSeriesId } });
+                 }
+                 console.error(`Error checking parent series ${parentSeriesId}: ${e.message}`);
+                 return er({ code: "PARENT_CHECK_FAILED", details: e.message });
+             }
+        }
+
+        // 4. Create the new series structure (Parent/Root confirmed)
+        const prateemData = {
+            id: seriesId,
+            name: seriesName,
+            description,
+            author: aliasId,
+            parentSeriesId: parentSeriesId,
+            createdAt: Date.now()
+        };
+        await $i.db.write(seriesPrateemPath(heichelId, seriesId), prateemData);
+        await $i.db.write(seriesSubSeriesPath(heichelId, seriesId), []);
+        await $i.db.write(seriesPostsPath(heichelId, seriesId), {});
+
+        // 5. Add this new series' ID to the parent's subSeries array
+        // No need to check parent again, addSubSeriesToParent will handle array logic
+        const addedToParent = await addSubSeriesToParent({
+            $i, heichelId, parentSeriesId, childSeriesId: seriesId
+        });
+
+        if (addedToParent?.error) {
+            // Attempt rollback: Delete the newly created series structure
+            console.error(`Failed to add ${seriesId} to parent ${parentSeriesId}. Rolling back...`);
+            await $i.db.delete(newSeriesBasePath).catch(err => console.error(`Rollback failed for ${seriesId}:`, err));
+            throw new Error(`Failed to add to parent series: ${addedToParent.error.message || addedToParent.error}`);
+        }
+
+        // 6. Track series creation for the alias
+        const trackingPath = aliasSeriesTrackingPath(aliasId, heichelId);
+        const trackResult = await $i.db.syncKeyInObj(trackingPath, seriesId);
+        if (trackResult?.error) {
+            console.error(`Failed to track series ${seriesId} creation for alias ${aliasId}: ${trackResult.error}`);
+            // Non-critical error, proceed but log it
+        }
+
+        // 7. Return Success
+        return { success: { id: seriesId, name: seriesName, parentId: parentSeriesId } };
+
+    } catch (e) {
+        // Catch errors from steps 4, 5, or rethrown errors from 3
+        console.error("Error during makeNewSeries process:", e);
+        // Attempt cleanup if error happened after step 4 started
+        if (!e.code || (e.code !== 'PARENT_SERIES_NOT_FOUND' && e.code !== 'ROOT_ENSURE_FAILED')) {
+             await $i.db.delete(newSeriesBasePath).catch(err => console.error("Cleanup failed after error:", err));
+         }
+        return er({ code: "SERIES_CREATE_FAILED", details: e.message, stack: e.stack });
+    }
+}
+
+
+/**
+ * @description Helper to add a child series ID to a parent's subSeries array.
+ * Internal use by makeNewSeries and potentially move operations.
+ * Assumes parent series structure exists (checked by caller like makeNewSeries).
+ */
+async function addSubSeriesToParent({ $i, heichelId, parentSeriesId, childSeriesId }) {
+    const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentSeriesId);
+    try {
+        let subSeries;
+        try {
+            subSeries = await $i.db.get(parentSubSeriesPath);
+        } catch (eGet) {
+            // If parent path *still* doesn't exist here, something is wrong upstream
+            // or it's a race condition. Try initializing.
+             if (eGet.message?.includes("Path does not exist") || eGet.code === 'PATH_NOT_FOUND') {
+                 console.warn(`Parent series ${parentSeriesId} subSeries path not found in addSubSeriesToParent. Initializing. Caller should have ensured existence.`);
+                 subSeries = [];
+             } else {
+                 throw eGet; // Rethrow other DB errors
+             }
+         }
+
+        if (!Array.isArray(subSeries)) {
+            // Path existed but wasn't an array? Problematic. Log and overwrite.
+            console.error(`Data Corruption: Parent series ${parentSeriesId} subSeries path was not an array. Overwriting.`);
+            subSeries = [];
+        }
+
+        // Avoid duplicates
+        if (!subSeries.includes(childSeriesId)) {
+            subSeries.push(childSeriesId);
+            const writeResult = await $i.db.write(parentSubSeriesPath, subSeries);
+            if (writeResult?.error) {
+                 throw new Error(`DB write error: ${writeResult.error.message || writeResult.error}`);
+             }
+        } else {
+            // This is okay, maybe called twice or during a move.
+            console.log(`Child series ${childSeriesId} already in parent ${parentSeriesId}. Skipping add.`);
+        }
+        return { success: true };
+    } catch (e) {
+        console.error(`Failed to add ${childSeriesId} to parent ${parentSeriesId}:`, e);
+        return er({ code: "ADD_TO_PARENT_FAILED", details: e.message });
+    }
+}
+
+/**
+ * @description Edits the details (prateem) of an existing series.
+ * @requires $_PUT: { aliasId, description?, seriesName/name/title? }
+ */
+async function editSeriesDetails({ $i, heichelId, seriesId }) {
+    if (!loggedIn($i)) return er({ message: "NO_LOGIN" });
+
+    const { aliasId } = $i.$_PUT;
+    const newDescription = $i.$_PUT.description;
+    const newName = $i.$_PUT.seriesName || $i.$_PUT.name || $i.$_PUT.title;
+    // Note: Changing parentSeriesId should be handled by a dedicated "move" function.
+
+    if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
+
+    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+    if (!isAuthorized) return er({ code: "NO_AUTH" });
+
+    const prateemPath = seriesPrateemPath(heichelId, seriesId);
+
+    try {
+        // Fetch existing prateem to update
+        const currentPrateem = await $i.db.get(prateemPath);
+        if (!currentPrateem) {
+            return er({ code: "SERIES_NOT_FOUND", details: { heichelId, seriesId } });
+        }
+
+        const updatedPrateem = { ...currentPrateem };
+        let changed = false;
+
+        if (newName && typeof newName === "string" && newName.trim().length > 0 && newName.length <= 100) {
+            updatedPrateem.name = newName.trim();
+            changed = true;
+        }
+        if (newDescription !== undefined && typeof newDescription === "string" && newDescription.length <= 888) {
+             // Allow setting empty description
+             updatedPrateem.description = newDescription;
+             changed = true;
+         }
+
+        if (changed) {
+            updatedPrateem.updatedAt = Date.now();
+            const writeResult = await $i.db.write(prateemPath, updatedPrateem);
+            if (writeResult?.error) {
+                throw new Error(`DB write error: ${writeResult.error.message || writeResult.error}`);
+            }
+        }
+
+        return { success: { message: changed ? "Series updated" : "No changes applied", seriesId } };
+
+    } catch (e) {
+        console.error("Error in editSeriesDetails:", e);
+        // Check for specific DB errors like not found
+        if (e.message.includes("Path does not exist")) {
+             return er({ code: "SERIES_NOT_FOUND", details: { heichelId, seriesId } });
+        }
+        return er({ code: "SERIES_EDIT_FAILED", details: e.message });
+    }
+}
+
+
+/**
+ * @description Retrieves series data.
+ * @param withDetails If true, includes subSeries IDs and posts (full data).
+ * @param properties Optional propertyMap for prateem (ignored if withDetails is false?).
+ */
+async function getSeries({ $i, heichelId, seriesId, withDetails = false, properties }) {
+    // Add view permission checks if needed
+    const opts = myOpts($i); // For propertyMap
+    const baseP = seriesBasePath(heichelId, seriesId);
+    const prateemP = seriesPrateemPath(heichelId, seriesId);
+    const subSeriesP = seriesSubSeriesPath(heichelId, seriesId);
+    const postsP = seriesPostsPath(heichelId, seriesId);
+
+    try {
+        let prateem;
+        if (seriesId === "root") {
+             // Synthesize root prateem
+             prateem = { id: "root", name: "Root", description: "The starting point", isRoot: true };
+         } else {
+             prateem = await $i.db.get(prateemP, properties ? { propertyMap: properties } : opts);
+             if (!prateem) {
+                 return er({ code: "SERIES_NOT_FOUND", details: { heichelId, seriesId } });
+             }
+             // Ensure ID is present
+             if (!prateem.id) prateem.id = seriesId;
+         }
+
+        const result = { prateem };
+
+        if (withDetails) {
+            // Get subSeries IDs (always an array, empty if none)
+            try {
+                const subSeriesIds = await $i.db.get(subSeriesP);
+				var subSeriesPrateems = [];
+				if(Array.isArray(subSeriesIds)) {
+					/*for(var subSeriesId of subSeriesIds) {
+						var subSeriesPath = seriesPrateemPath(heichelId, subSeriesId);
+						var red = await $i.db.get(subSeriesPath);
+						subSeriesPrateems.push(red);
+					}*/
+					result.subSeries = subSeriesIds//subSeriesPrateems;
+				} else result.subSeries = [];
+            } catch (e) {
+                 if (e.message.includes("Path does not exist")) result.subSeries = [];
+                 else throw e; // Rethrow other errors
+             }
+
+
+             // Get posts (always an object, empty if none)
+             try {
+                // Get the full post objects directly
+                 const postsData = await $i.db.getObjectKeys(postsP);
+                 result.posts = (postsData && typeof postsData === 'object') ? postsData : {};
+             } catch (e) {
+                 if (e.message.includes("Path does not exist")) result.posts = {};
+                 else throw e; // Rethrow other errors
+             }
+        }
+
+        result.id = seriesId;
+        return result;
+
+    } catch (e) {
+        console.error(`Error getting series ${seriesId}:`, e);
+        if (e.message.includes("Path does not exist") || e.code === "SERIES_NOT_FOUND") {
+            return er({ code: "SERIES_NOT_FOUND", details: { heichelId, seriesId }, error: e.stack });
+        }
+        return er({ code: "SERIES_GET_FAILED", details: e.message });
+    }
+}
+
+/**
+ * @description Gets the IDs of sub-series within a parent series.
+ * @param withDetails If true, fetches full prateem for each sub-series.
+ */
+async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false }) {
+    const subSeriesP = seriesSubSeriesPath(heichelId, parentSeriesId);
+
+    try {
+        let subSeriesIds = await $i.db.get(subSeriesP);
+        if (!Array.isArray(subSeriesIds)) {
+            return []; // Return empty array if no subseries or path invalid
+        }
+
+        if (!withDetails) {
+            return subSeriesIds;
+        } else {
+            // Fetch details for each sub-series ID
+            const detailedSeries = [];
+            for (const seriesId of subSeriesIds) {
+                const seriesData = await getSeries({ $i, heichelId, seriesId, withDetails: false }); // Get only prateem
+                if (seriesData && !seriesData.error) {
+                    detailedSeries.push(seriesData.prateem);
+                } else {
+                    console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);
+                    // Optionally include a placeholder or skip
+                    detailedSeries.push({ id: seriesId, error: "Details not found" });
+                }
+            }
+            return detailedSeries;
+        }
+
+    } catch (e) {
+        if (e.message.includes("Path does not exist")) {
+            return []; // Parent series might not exist or have subSeries
+        }
+        console.error(`Error getting subSeries for ${parentSeriesId}:`, e);
+        return er({ code: "SUB_SERIES_GET_FAILED", details: e.message });
+    }
+}
+
+/**
+ * @description Deletes a series and ALL its content (sub-series and posts) recursively.
+ * @requires $_POST: { aliasId } (for auth)
+ */
+async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
+     const aliasId = $i.$_POST.aliasId; // Assuming aliasId comes via POST body for DELETE route
+     if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
+
+     if (seriesId === "root") return er({ code: "CANNOT_DELETE_ROOT" });
+
+     const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+     if (!isAuthorized) return er({ code: "NO_AUTH" });
+
+     const deletedItems = { series: [], posts: [], errors: [] };
+     const seriesProcessed = new Set(); // To prevent infinite loops in case of cycles
+
+     async function recursiveDelete(currentSeriesId) {
+         if (seriesProcessed.has(currentSeriesId)) {
+             console.warn(`Cycle detected or already processed: ${currentSeriesId}. Skipping.`);
+             deletedItems.errors.push(`Cycle detected at ${currentSeriesId}`);
+             return;
+         }
+         seriesProcessed.add(currentSeriesId);
+
+         const currentBasePath = seriesBasePath(heichelId, currentSeriesId);
+         const currentPrateemPath = seriesPrateemPath(heichelId, currentSeriesId);
+         const currentSubSeriesPath = seriesSubSeriesPath(heichelId, currentSeriesId);
+         const currentPostsPath = seriesPostsPath(heichelId, currentSeriesId);
+
+         try {
+             // 0. Get Author and Parent ID before deleting prateem
+             let author = aliasId; // Fallback
+             let parentId = null;
+              try {
+                 const prateem = await $i.db.get(currentPrateemPath, { propertyMap: { author: true, parentSeriesId: true } });
+                 if(prateem) {
+                     author = prateem.author || author;
+                     parentId = prateem.parentSeriesId;
+                 } else {
+                     console.warn(`Prateem not found for ${currentSeriesId} during delete.`);
+                      // Try to proceed? Or fail? Let's try to proceed.
+                 }
+             } catch (eGet) { console.warn(`Failed to get prateem for ${currentSeriesId}: ${eGet.message}`); }
+
+
+             // 1. Delete all posts within this series
+             try {
+                const postIds = await $i.db.getObjectKeys(currentPostsPath);
+                 if (postIds && postIds.length > 0) {
+                    for (const postId of postIds) {
+                         // We need to delete comments associated with each post first
+                         const commentDel = await deleteAllCommentsOfParent({
+                             $i, heichelId, seriesId: currentSeriesId,
+                             parentId: postId, parentType: "post"
+                         });
+                          if (commentDel?.error && commentDel.error.code !== 'NO_COM') {
+                              console.error(`Failed deleting comments for post ${postId}: ${commentDel.error}`);
+                              deletedItems.errors.push(`Comment delete fail: ${postId}`);
+                          }
+                          // No need to call deletePostFromSeries as we delete the whole posts object below
+                          deletedItems.posts.push(postId);
+                     }
+                 }
+                 // Delete the entire posts object for this series
+                 await $i.db.delete(currentPostsPath);
+             } catch (ePosts) {
+                 if (!ePosts.message.includes("Path does not exist")) {
+                     console.error(`Failed to delete posts for series ${currentSeriesId}: ${ePosts.message}`);
+                     deletedItems.errors.push(`Posts delete fail: ${currentSeriesId}`);
+                 } // Ignore if posts path didn't exist
+             }
+
+
+             // 2. Recursively delete all sub-series
+             try {
+                let subSeriesIds = await $i.db.get(currentSubSeriesPath);
+                 if (Array.isArray(subSeriesIds)) {
+                    for (const subId of subSeriesIds) {
+                         await recursiveDelete(subId); // Recursive call
+                     }
+                 }
+                 // Delete the subSeries array itself
+                 await $i.db.delete(currentSubSeriesPath);
+             } catch (eSub) {
+                 if (!eSub.message.includes("Path does not exist")) {
+                     console.error(`Failed to delete subSeries for series ${currentSeriesId}: ${eSub.message}`);
+                     deletedItems.errors.push(`SubSeries delete fail: ${currentSeriesId}`);
+                 } // Ignore if subSeries path didn't exist
+             }
+
+
+             // 3. Delete the series' prateem
+             try {
+                 await $i.db.delete(currentPrateemPath);
+             } catch (ePrat) {
+                 if (!ePrat.message.includes("Path does not exist")) {
+                     console.error(`Failed to delete prateem for series ${currentSeriesId}: ${ePrat.message}`);
+                     deletedItems.errors.push(`Prateem delete fail: ${currentSeriesId}`);
+                 }
+             }
+
+             // 4. Untrack series creation for the author
+             try {
+                 const trackingPath = aliasSeriesTrackingPath(author, heichelId);
+                 // Use deleteEntry or equivalent method to remove the key
+                 const untrackResult = await $i.db.deleteEntry(trackingPath, currentSeriesId);
+                 if (untrackResult?.error && untrackResult.error.code !== 'ENTRY_NOT_FOUND') {
+                     console.error(`Failed to untrack series ${currentSeriesId} for ${author}: ${untrackResult.error}`);
+                 }
+                 // TODO: Add cleanup of parent tracking objects if they become empty
+             } catch (eTrack) { console.error(`Untracking error for ${currentSeriesId}: ${eTrack.message}`); }
+
+
+             deletedItems.series.push(currentSeriesId);
+
+
+             // 5. Remove from parent's subSeries array (if parent known and not root)
+             // This should ideally happen *after* successful deletion, but needs parentId
+             // For simplicity in recursion, we might handle this separately after the main call,
+             // or accept potential orphans if parent deletion fails before child removal.
+             // Let's try removing from parent here.
+              if (parentId && parentId !== "root") {
+                 const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentId);
+                 try {
+                     const removalResult = await $i.db.removeElementFromArray(
+                         parentSubSeriesPath,
+                         { exact: { selfEquals: currentSeriesId } },
+                         { deleteSelfIfEmpty: false } // Don't delete parent array if empty here
+                     );
+                      if (removalResult?.error && removalResult.error.code !== 'ARRAY_404' && removalResult.error.code !== 'VALUE_NOT_FOUND') {
+                          console.error(`Failed remove ${currentSeriesId} from parent ${parentId}: ${removalResult.error}`);
+                          deletedItems.errors.push(`Parent removal fail: ${currentSeriesId} from ${parentId}`);
+                      }
+                 } catch (eRemoveParent) {
+                     console.error(`Error removing ${currentSeriesId} from parent ${parentId}: ${eRemoveParent.message}`);
+                 }
+              }
+
+
+         } catch (e) {
+             console.error(`Major error during recursive delete of ${currentSeriesId}: ${e.message}`);
+             deletedItems.errors.push(`FATAL delete error: ${currentSeriesId} - ${e.message}`);
+         }
+     }
+
+     try {
+        await recursiveDelete(seriesId); // Start the recursion
+
+         // Final check and return
+         if (deletedItems.errors.length > 0) {
+             return er({
+                 code: "SERIES_DELETE_INCOMPLETE",
+                 details: `Deleted ${deletedItems.series.length} series and ${deletedItems.posts.length} posts, but encountered errors.`,
+                 errors: deletedItems.errors,
+                 deleted: { series: deletedItems.series, posts: deletedItems.posts }
+             });
+         }
+
+         return { success: { message: `Series ${seriesId} and its contents deleted.`, deletedCount: deletedItems.series.length } };
+
+     } catch (e) {
+         console.error(`Top-level error deleting series ${seriesId}: ${e}`);
+         return er({ code: "SERIES_DELETE_FAILED", details: e.message, errors: deletedItems.errors });
+     }
+}
+
+
+/**
+ * @description Moves one or more sub-series from one parent series to another.
+ * @requires $_POST: { aliasId, subSeriesIDs (array), seriesToId (new parent) }
+ */
+async function changeSubSeriesFromOneSeriesToAnother({ $i, heichelId, seriesFromId, seriesToId }) {
+    const { aliasId, subSeriesIDs } = $i.$_POST;
+
+    if (!aliasId || !Array.isArray(subSeriesIDs) || !seriesToId || !seriesFromId) {
+        return er({ code: "MISSING_PARAMS", details: "Requires aliasId, subSeriesIDs (array), seriesFromId, seriesToId" });
+    }
+    if (seriesFromId === seriesToId) return er({ code: "CANNOT_MOVE_TO_SELF" });
+
+    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+    if (!isAuthorized) return er({ code: "NO_AUTH" });
+
+    // Check if target series exists (optional but good)
+    // ... (add check similar to makeNewSeries parent check)
+
+    const sourcePath = seriesSubSeriesPath(heichelId, seriesFromId);
+    const targetPath = seriesSubSeriesPath(heichelId, seriesToId);
+    const results = { moved: [], errors: [] };
+
+    try {
+        // 1. Remove from source series' subSeries array
+        let sourceSubSeries = await $i.db.get(sourcePath);
+        if (!Array.isArray(sourceSubSeries)) sourceSubSeries = [];
+
+        const remainingSource = sourceSubSeries.filter(id => !subSeriesIDs.includes(id));
+        const actuallyMoved = sourceSubSeries.filter(id => subSeriesIDs.includes(id)); // IDs that were actually in source
+
+        if (actuallyMoved.length > 0) {
+            const writeSource = await $i.db.write(sourcePath, remainingSource);
+            if (writeSource?.error) throw new Error(`Failed to update source series ${seriesFromId}: ${writeSource.error}`);
+        } else {
+             console.warn("None of the specified subSeriesIDs were found in the source series.");
+             // Proceed to add them to target anyway? Or return error? Let's proceed.
+        }
+
+
+        // 2. Add to target series' subSeries array
+        let targetSubSeries = await $i.db.get(targetPath);
+        if (!Array.isArray(targetSubSeries)) targetSubSeries = [];
+
+        const toAdd = subSeriesIDs.filter(id => !targetSubSeries.includes(id)); // Add only if not already present
+        if (toAdd.length > 0) {
+            const newTargetSubSeries = [...targetSubSeries, ...toAdd];
+            const writeTarget = await $i.db.write(targetPath, newTargetSubSeries);
+            if (writeTarget?.error) throw new Error(`Failed to update target series ${seriesToId}: ${writeTarget.error}`);
+        }
+
+
+        // 3. Update parentSeriesId in the moved series' prateem
+        for (const movedId of subSeriesIDs) { // Iterate over requested IDs, not just actuallyMoved
+             const movedPrateemPath = seriesPrateemPath(heichelId, movedId);
+             try {
+                 const prateem = await $i.db.get(movedPrateemPath);
+                 if (prateem) {
+                     prateem.parentSeriesId = seriesToId;
+                     prateem.updatedAt = Date.now();
+                     const updatePrateem = await $i.db.write(movedPrateemPath, prateem);
+                     if (updatePrateem?.error) {
+                          results.errors.push(`Failed to update parentId for ${movedId}: ${updatePrateem.error}`);
+                      } else {
+                          results.moved.push(movedId);
+                      }
+                 } else {
+                      results.errors.push(`Prateem not found for ${movedId}, cannot update parentId.`);
+                  }
+             } catch (ePrat) {
+                  results.errors.push(`Error updating parentId for ${movedId}: ${ePrat.message}`);
+              }
+         }
+
+        if (results.errors.length > 0) {
+             return er({ code: "SERIES_MOVE_INCOMPLETE", moved: results.moved, errors: results.errors });
+         }
+
+        return { success: { message: "Sub-series moved", moved: results.moved, from: seriesFromId, to: seriesToId } };
+
+    } catch (e) {
+        console.error("Error moving sub-series:", e);
+        return er({ code: "SERIES_MOVE_FAILED", details: e.message, moved: results.moved, errors: results.errors });
+    }
+}
+
+/**
+ * @description Replaces the entire list of sub-series for a given series.
+ * Useful for reordering or bulk setting.
+ * @requires $_POST: { aliasId, subSeriesIDs (array, the new complete list) }
+ */
+async function editSubSeriesInSeries({ $i, heichelId, seriesId }) {
+    const { aliasId, subSeriesIDs } = $i.$_POST;
+
+    if (!aliasId || !Array.isArray(subSeriesIDs)) {
+        return er({ code: "MISSING_PARAMS", details: "Requires aliasId and subSeriesIDs (array)" });
+    }
+
+    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+    if (!isAuthorized) return er({ code: "NO_AUTH" });
+
+    const subSeriesP = seriesSubSeriesPath(heichelId, seriesId);
+    const results = { updated: [], errors: [] };
+
+    try {
+        // 1. Write the new array of subSeries IDs
+        // Basic validation: check if IDs look reasonable? (optional)
+        const writeResult = await $i.db.write(subSeriesP, subSeriesIDs);
+        if (writeResult?.error) {
+            throw new Error(`DB write error: ${writeResult.error.message || writeResult.error}`);
+        }
+
+        // 2. Update parentSeriesId in all specified sub-series
+        // This ensures consistency, even if some were already children.
+        for (const subId of subSeriesIDs) {
+            const subPrateemPath = seriesPrateemPath(heichelId, subId);
+            try {
+                const prateem = await $i.db.get(subPrateemPath);
+                if (prateem && prateem.parentSeriesId !== seriesId) { // Only update if parent differs
+                     prateem.parentSeriesId = seriesId;
+                     prateem.updatedAt = Date.now();
+                     const updatePrateem = await $i.db.write(subPrateemPath, prateem);
+                     if (updatePrateem?.error) {
+                         results.errors.push(`Failed to update parentId for ${subId}: ${updatePrateem.error}`);
+                     } else {
+                         results.updated.push(subId);
+                     }
+                 } else if (!prateem) {
+                      results.errors.push(`Prateem not found for ${subId}, cannot update parentId.`);
+                  } else {
+                      // Parent ID already correct, no update needed
+                      results.updated.push(subId); // Count as successfully processed
+                  }
+            } catch (ePrat) {
+                 results.errors.push(`Error updating parentId for ${subId}: ${ePrat.message}`);
+             }
+        }
+
+        if (results.errors.length > 0) {
+             return er({ code: "SUB_SERIES_EDIT_INCOMPLETE", updatedList: subSeriesIDs, errors: results.errors });
+         }
+
+        return { success: { message: "Sub-series list updated", seriesId, newList: subSeriesIDs } };
+
+    } catch (e) {
+        console.error("Error editing sub-series list:", e);
+        return er({ code: "SUB_SERIES_EDIT_FAILED", details: e.message });
+    }
+}
+
+
+// --- Functions to keep or adapt from original, if still needed ---
+
+/**
+ * @description Gets all series IDs in a Heichel. Relies on DB structure.
+ * May need optimization (e.g., dedicated index) for large Heichels.
+ * (Keeping original logic for now, assuming `$i.db.get` on the base path works)
+ */
+async function getAllSeriesInHeichel({ $i, heichelId, withDetails = false }) {
+	try {
+		var ids = await $i.db.get(sp + `/heichelos/${heichelId}/series/`); // Assumes this lists all series IDs
+		if (!ids || !Array.isArray(ids)) { // Adapt based on actual return type
+		     console.warn(`getAllSeriesInHeichel: Could not list series IDs for ${heichelId}. Assuming empty.`);
+		     ids = [];
+		     // Alternatively, implement traversal from root if listing isn't supported.
+		 }
+
+
+		if (!withDetails) return ids;
+
+        // Fetch details concurrently
+        const detailsPromises = ids.map(id =>
+            getSeries({ $i, heichelId, seriesId: id, withDetails: false }) // Get prateem only
+            .then(result => result && !result.error ? result.prateem : {id, error: "Not found or error"})
+        );
+        const results = await Promise.all(detailsPromises);
+        return results.filter(Boolean); // Filter out potential nulls/errors if needed
+
+	} catch (e) {
+        console.error(`Error in getAllSeriesInHeichel for ${heichelId}: ${e}`);
+		return []; // Return empty on error
 	}
 }
 
-async function getSeriesByProperty({
-	heichelId,
-	parentSeriesId,
-	propertyValue,
-	$i,
-	propertyKey
-}) {
-	if(!propertyKey && propertyKey !== 0) {
-		return er({
-			message: "Property key needed",
-			code: "PROP_KEY_NEEDED"
-		})
+
+/**
+ * @description Filters sub-series based on a property in their prateem.
+ * (Logic largely unchanged, operates on array fetched by getSubSeries)
+ */
+async function getSeriesByProperty({ $i, heichelId, parentSeriesId, propertyKey, propertyValue }) {
+	if (!propertyKey && propertyKey !== 0) {
+		return er({ message: "Property key needed", code: "PROP_KEY_NEEDED" });
 	}
 
 	try {
-		var opts = myOpts($i)
-		var bs /*base*/ = await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			parentSeriesId
-		}`, opts);
-
-		if(!bs) {
-			return er({
-				message: "No parent series found",
-				code: "NO_PAR_SER",
-				details: {
-					parentSeriesId,
-					heichelId
-				}
-			})
-		}
-
-		var seriesIDs = await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			parentSeriesId
-		}/subSeries`, opts);
-		if(!seriesIDs) {
-			return er({
-				message: "No sub series!"
-				,
-				code: "NO_SUB_SER",
-				details: {
-					parentSeriesId,
-					heichelId,
-					seriesIDs
-				}
-			})
-		}
-
-		if(seriesIDs.length == 0) {
+		// Get IDs first
+		const subSeriesIds = await getSubSeries({ $i, heichelId, parentSeriesId, withDetails: false });
+		if (subSeriesIds?.error || subSeriesIds.length === 0) {
 			return [];
 		}
 
-		var filtered = [];
-		for(var i = 0; i < seriesIDs.length; i++) {
-			var c = seriesIDs[i];
-			var withProp = await $i.db.get(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				c
-			}/prateem`, {
-				propertyMap: {
-					[propertyKey]: true
-				}
-			});
-			if(withProp) {
-				if(withProp[propertyKey] == propertyValue) {
-					filtered.push(c)
-				}
-			}
-		}
-		return filtered;
-	} catch(e) {
-		return er({
-			message: "Something happpened",
-			code: "SERVER_ERROR",
-			details: e.stack
-		})
-	}
-}
-
-async function getAllSeriesInHeichel({
-	$i,
-
-
-
-	
-	userid,
-	heichelId,
-	withDetails = false,
-
-}) {
-
-	try {
-		var ids = await $i
-			.db.get(sp +
-				`/heichelos/${
-				heichelId
-				
-			}/series/`
-
-			);
-		if (!withDetails) return ids;
-		return ids.map(async id => {
-			var f = await $i
-				.db.get(sp +
-					`/heichelos/${
-				heichelId
-				
-			}/series/${id}/prateem`
-
-				);
-			return f
-
-		})
-	} catch (e) {
-		return []
-		return er({
-			code: "NO_SERIES"
-		})
-
-	}
-
-}
-
-async function getSubSeries({
-	$i,
-	parentSeriesId,
-	heichelId,
-	properties,
-	withDetails=false
-}) {
-	var opts = myOpts($i);
-	if(!parentSeriesId) return er({
-		code: "MISSING_PARAMS",
-		details: "parentSeriesId"
-	});
-	if(!heichelId) return er({
-		code: "MISSING_PARAMS",
-		details: "heichelId"
-	});
-	var ser = await $i.db.get(`${
-		sp
-	}/heichelos/${
-		heichelId
-	}/series/${
-		parentSeriesId
-	}/subSeries`);
-	ser = Array.from(ser || []);
-	if(!withDetails) return ser;
-	var detailedSeries = []
-	for(var seer of ser) {
-		var series =  await $i.db.get(`${
-			sp
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seer
-		}/prateem`, opts);
-		if(!series) {
-		//	series = {};
-		}
-		if(series) {
-			detailedSeries.push(series)
-			series.id = seer
-		}
-	}
-	return detailedSeries
-}
-async function getSeries({
-	$i,
-
-
-	seriesId,
-	withDetails = false,
-	heichelId,
-	properties
-
-}) {
-	var opts = myOpts($i);
-	//if(!properties) properties = {}
-	try {
-		var rt = {id: seriesId};
-		
-		var prateem = await $i
-			.db.get(sp +
-				`/heichelos/${
-				heichelId
-				
-			}/series/${
-				seriesId
-			
-			}/prateem`,
-			properties && seriesId != "root" ?({
-				propertyMap: properties
-			}):undefined
-
-		);
-		if(!prateem) {
-			if(seriesId == "root") {
-				prateem = {
-					name: "root",
-					description: ""
-				}
-			} else
-				return null
-		}
-			
-		if(withDetails) {
-			var subSeries = await $i
-				.db.get(sp +
-					`/heichelos/${
-					heichelId
-					
-				}/series/${
-					seriesId
-				
-				}/subSeries`
-
-				);
-
-			var posts = await $i
-				.db.get(sp +
-					`/heichelos/${
-					heichelId
-					
-				}/series/${
-					seriesId
-				
-				}/posts`
-
-				);
-			
-			if(subSeries?.success) {
-				subSeries = subSeries?.success;
-			}
-			rt.posts = Array.from(posts || []);
-			rt.subSeries = Array.from(subSeries || {
-				error: {
-					details: seriesId,
-					heichelId
-				}
-			});
-			
-			rt.prateem = prateem;
-		} else {
-			rt.prateem = prateem;//{name:prateem.name}
-		}
-		return rt
-
-	} catch (e) {
-		
-		return er({
-			code: "NO_SERIES",
-			error: e.stack
-		})
-
-	}
-
-}
-/**
- 	POST
-       contentId required
-       seriesId required
-       aliasId required
-
-       contentType required either "post" or "series"
-       contentId optional,  but if not provided then need:
-       indexInSeries optional (
-          but if not there need
-			contentId. index.. deletes
-
-		the content in that index number while
-		contentId searches for that id
-		and deletes first occurrence
-
-       )
-
-	   deleteOriginal optional default true
-		besides for removing
-		content from series, also deltes it itself.
- 
-**/
-async function deleteContentFromSeries({
-	$i,
-
-
-
-	
-	userid,
-	heichelId,
-
-
-
-}) {
-
-	var aliasId = $i.$_POST.aliasId
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId
-		
-
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH",
-			alias: aliasId,
-			heichel: heichelId
-		})
-
-	}
-
-	try {
-		var type = $i.$_POST.contentType || "post";
-		//is it a post or series?
-		var wtw = wc(type)
-		if (!wtw) {
-			return er({
-				code: "NO_TYPE"
-			})
-
-		}
-
-		//editing existing heichel
-
-		//the parent series ID to delete from
-		var seriesId = $i.$_POST.seriesId
-		var contentId = $i.$_POST.contentId
-		if(type == "series") {
-			return await deleteSeriesFromHeichel({
-				seriesId: contentId,
-				parentSeriesId: seriesId,
-				heichelId,
-				$i,
-				aliasId
-			})
-		} else if(type == "post") {
-			var postPath  = `${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/posts`
-			var posts = await $i.db.get(postPath);
-			posts = Array.from(posts || []);
-			var postId = posts.indexOf(contentId);
-			if(postId < 0) {
-				throw er({
-					message: "No post found",
-					contentId,seriesId,type
-				})
-			}
-
-			var delp = await deletePost({
-				postID: contentId,
-				heichelId,
-				aliasId,
-				$i,
-				seriesId
-			});
-			if(delp.error) {
-				throw er({
-					BH: true,
-					message: "Issue deleting post",
-					details: delp.error
-				})
-			}
-			posts.splice(postId, 1);
-			var wr = await $i.db.write(postPath, posts);
-			return {deleted: delp, rewrote: wr}
-		}
-
-	} catch (e) {
-		return er({
-			code: "NO_DEL",
-			stack:e
-		})
-
-	}
-}
-
-/**
- * 
- * @param {*} $i.$_POST
- * required:
- * aliasId 
- * seriesId (to delete)
- * @returns 
- */
-async function deleteSeriesFromHeichel ({
-	$i,
-
-
-
-	
-	
-	heichelId,
-	seriesId,
-	parentSeriesId
-
-
-
-}) {
-	
-	var aliasId = $i.$_POST.aliasId
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId
-		
-
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH"
-		})
-
-	}
-	var deleted = {}
-	var errors = {main:[]};
-	if(!deleted.posts) 
-		deleted.posts = [];
-	
-	/*
-		
-	*/
-	try {
-		var posts = []
-		var ser = await traverseSeries({
-
-			seriesId,
-			heichelId,
-			$i,
-			async callback({
-				post,
-				series
-			}) {
-				if(post) {
-					posts.push(post)
-					var del= await deletePost({
-						$i: {
-							...$i,
-							$_DELETE: $i.$_POST
-						},
-						heichelId,
-						postID:post.id,
-						aliasId
-		
-					});
-					if(del.error) {
-						console.log("ERROR here")
-						return er({
-							message: "Issue deleting post",
-							deletIssue: del,
-							postId: post.id
-						})
-					}
-					deleted.posts.push({
-						
-						postId:post.id,deletion:del
-						
-					});
-				}
-			}
-		})
-		
-		if(ser?.error) {
-			return er({
-				message: "Error in deleting",
-				code: "DEL_POST_ERROR",
-				details: ser
-			})
-			errors.main.push(er({message: "Issue deleting posts", details:ser.error}));
-		}
-		if(ser?.series?.parentSeriesId) {
-			var delPosts = await $i.db.delete(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/posts`);
-			deleted.subPosts = delPosts;
-		} else {
-			
-		}
-
-		ser = await traverseSeries({
-	
-			seriesId,
-			heichelId,
-			$i,
-			async callback({
-				post,
-				series
-			}) {
-				if(post) {
-					if(!errors.postDeletions) {
-						errors.postDeletions = [];
-					}
-					
-					errors.postDeletions.push(er({
-						message: "didn't properly delete posts",
-						details: errors
-					}))
-				}
-				if(series) {
-					if(!deleted.subSeries) {
-						deleted.subSeries = []
-					}
-					var del= await deleteSeriesFromHeichel({
-						$i,
-						heichelId,
-						seriesId:series.id
-		
-					});
-					if(del?.error) errors.main.push({
-						deletedSeriesError: del
-					})
-					deleted.subSeries.push({
-						subSeriesId: series.id,
-						deleted: del
-					});
-				}
-			}
-		})
-
-		if(ser) {
-			if(ser?.error) errors.main.push(er({message:"Issue", details: ser}));
-			
-			var par = ser?.series?.parentSeriesId;
-			if(!par) par = parentSeriesId;
-			if(!par) {
-				errors.main.push(er({
-					details: ser,
-					message: "No parent series ID"
-				}))
-			}
-
-			var author = (await $i.db.get(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/prateem`, {
-				propertyMap: {
-					author: true
-				}
-			}))?.author;
-
-			if(author) {
-				var errors = []
-				try {
-					var seriesKey = await $i.db.removeElementFromArray(
-						`${
-							sp
-						}/aliases/${
-							author
-						}/seriesCreated/inHeichel/${
-							heichelId
-						}`, {
-		
-					
-							exact: {
-								selfEquals: seriesId
-							} 
-							
-							
-						}, {
-							deleteSelfIfEmpty: true
-						}
-					)
-					if(seriesKey.error) {
-						return er({
-								message: "Series key deletion issue",
-								details: seriesKey
-						})
-					}
-				} catch(e) {
-					return (er({
-						message: "Couldn't add new series index",
-						seriesId
-					}))
-				}
-			}
-			
-			var parentSer = await $i.db.get(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				par
-			}/subSeries`);
-			parentSer = Array.from(parentSer || []);
-			var self = parentSer.indexOf(seriesId);
-			if(self < 0) {
-				errors.main.push(er({
-					message: "Issue deleting self",
-					parentSer
-				}))
-			}
-			parentSer.splice(self, 1);
-			var wroteSub = await $i.db.write(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				par
-			}/subSeries`, parentSer);
-			deleted.parentListDeletion = wroteSub;
-
-			
-			var deleteSelf = await $i.db.delete(`${
-				sp
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}`);
-			deleted.deleteSelf = deleteSelf;
-
-			
-		}
-		return {deleted, errors};
-		
-	} catch(e) {
-		return er({
-			message: "Couldn't delete",
-			stack: e.stack,
-			tried: deleted,
-			details: {
-				aliasId,
-				heichelId,
-				seriesId
-			},
-			errors,deleted,
-			code: "NO_DELETE"
-		})
-	}
-
-	try {
-		
-		
-	} catch (e) {
-		deleted.series = er({
-			code: "NO_DEL",
-			stack:e.stack
-		})
-
-	}
-	return deleted;
-
-}
-
-async function changeSubSeriesFromOneSeriesToAnother({
-	$i,
-	heichelId,
-	seriesFromId,
-	seriesToId,
-	
-}) {
-	try {
-		var test = $i.$_POST.test;
-		//return "Hi"
-		if(!seriesToId) seriesToId = $i.$_POST.seriesToId || $i.$_POST.moveTo; //seriesId to move entries to, optional.
-		var aliasId = $i.$_POST.aliasId
-	
-		var ha = await verifyHeichelAuthority({
-			$i,
-			aliasId,
-			heichelId
-		})
-	
-		if (!ha) {
-			return er({
-				code: "NO_AUTH",
-				details: aliasId,
-				heichelId,
-				seriesFromId,
-	    			aliasId
-			})
-	
-		}
-		var subSeriesIDs = $i.$_POST.subSeriesIDs;
-		if(!Array.isArray(subSeriesIDs)) {
-			return er({
-				message: "Requires an array of series IDs",
-				subSeriesIDs
-			});
-		}
-	
-		var existingSubSeries = await $i.db.get(
-			sp + 
-			`/heichelos/${
-				heichelId
-			}/series/${
-				seriesFromId
-			}/subSeries`
-		);
-		existingSubSeries = Array.from(existingSubSeries);
-		var toChange = [];
-		var i = 0;
-		for(var subSeriesId of existingSubSeries) {
-			if(subSeriesIDs.includes(subSeriesId)) {
-				existingSubSeries.splice(i, 1);
-				toChange.push(subSeriesId)
-			}
-			i++;
-		}
-		var ob = {
-			seriesToId,
-			seriesFromId,
-			toChange
-		}
-		var deleted = [];
-		var errors = [];
-		ob.errors = errors;
-		ob.deleted = deleted;
-		var existingSubSeriesInTo = await $i.db.get(
-			sp + 
-			`/heichelos/${
-				heichelId
-			}/series/${
-				seriesToId
-			}/subSeries`
-		);
-		existingSubSeriesInTo = Array.from(existingSubSeries);
-		existingSubSeriesInTo.concat(toChange);
-		
-		var resTo =!test ?  await $i.db.write(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				seriesToId
-			}/subSeries`, existingSubSeriesInTo) : {}
-		
-		if(resTo.error) {
-			return er({message: resTo.error, seriesToId});
-		}
-		var resFrom = !test ? await $i.db.write(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				seriesFromId
-			}/subSeries`, existingSubSeries) : {};
-		
-		if(resFrom.error) {
-			return er({message: resFrom.error, seriesFromId});
-		}
-		return {
-			success: {
-				resTo,
-				resFrom,
-				seriesFromId,
-				seriesToId,
-				existingSubSeries,
-				existingSubSeriesInTo
-			}
-		}
-	} catch(e) {
-		return er({
-			message: e.stack
-		})
-	}
-	
-}
-async function editSubSeriesInSeries({
-	$i,
-	heichelId,
-	seriesId,
-	
-}) {
-	var aliasId = $i.$_POST.aliasId
-
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId,
-		seriesId
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH",
-			aliasId,
-			POST: {
-				postInfo: $i.$_POST 
-			},
-			heichelId,
-			seriesId
-		})
-
-	}
-	var subSeriesIDs = $i.$_POST.subSeriesIDs;
-	if(!Array.isArray(subSeriesIDs)) {
-		return er({
-			message: "Requires an array of post IDs"
-		});
-	}
-	try {
-		var existingSubSeries = await $i.db.get(
-			sp + 
-			`/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/subSeries`
-		);
-		existingSubSeries = Array.from(existingSubSeries);
-		var changed = [];
-		for(var subSeriesId of subSeriesIDs) {
-			if(!existingSubSeries.includes(subSeriesId)) {
-				changed.push(subSeriesId)
-			}
-			
-			var prat = await $i.db.get(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				subSeriesId
-			}/prateem`);
-			prat.parentSeriesId = seriesId;
-			
-			await $i.db.write(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				subSeriesId
-			}/prateem`, prat);
-		
-		}
-		var ob = {
-			seriesId,
-			changed
-		}
-		var deleted = [];
-		var errors = [];
-		ob.errors = errors;
-		ob.deleted = deleted;
-		/*for(var toDelete of changedToDelete) {
-			var del = await $i.db.delete(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				toDelete
-			}`);
-			if(del.error) {
-				errors.main.push(del)
-				return er({
-					message: "Issue deleting",
-					code: "NO_DEL",
-					tried: ob
-				})
-			}
-			
-		}*/
-		var res = await $i.db.write(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/subSeries`, subSeriesIDs);
-		
-		if(res) {
-			return {success: subSeriesIDs}
-		}
-	} catch(e) {
-		return er({
-			message: e.stack
-		})
-	}
-}
-
-async function editPostsInSeries({
-	$i,
-	heichelId,
-	seriesId
-}) {
-	var aliasId = $i.$_POST.aliasId
-	var expandedResponse = $i.$_POST.expanded;
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId,
-		seriesId
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH"
-		})
-
-	}
-	var postIDs = $i.$_POST.postIDs;
-	if(!Array.isArray(postIDs)) {
-		return er({
-			message: "Requires an array of post IDs"
-		});
-	}
-	try {
-		var existingPosts = await $i.db.get(
-			sp + 
-			`/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/posts`
-		);
-		existingPosts = Array.from(existingPosts);
-		var changedToDelete = [];
-		for(var postId of postIDs) {
-			if(!existingPosts.includes(postId)) {
-				changedToDelete.push(postId)
-			}
-		}
-		var ob = {
-			postIDs:expandedResponse?postIDs : postIDs.length,seriesId
-		}
-		var deleted = [];
-		var errors = [];
-		ob.errors = errors;
-		ob.deleted = deleted;
-		
-		
-		var res = await $i.db.write(sp +
-				`/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-			}/posts`, postIDs)
-		ob.written = res;
-		ob.changedToDelete = changedToDelete
-		
-		
-		return {success: ob}
-		
-	} catch(e) {
-		return er({
-			message: e.stack
-		})
-	}
-}
-
-function wc /*what content*/(type) {
-	return type == "post" ? "posts" :
-		type == "series" ? "subSeries" :
-		null;
-
-
-}
-async function addContentToSeries({
-	$i,
-
-
-
-	
-	heichelId,
-	myParentSeriesId=null
-
-
-}) {
-	var aliasId = $i.$_POST.aliasId
-
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId
-
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH"
-		})
-
-	}
-
-	var type = $i.$_POST.contentType || "post";
-	var wtw = wc(type)
-	if (!wtw) {
-		return er({
-			code: "NO_TYPE"
-		})
-
-	}
-	//the parent series id;
-	var seriesId = myParentSeriesId||
-		$i.$_POST.seriesId || "root";
-	var contentId = $i.$_POST.contentId;
-	var inputIndex = $i.$_POST.index;
-
-	//editing existing heichel
-
-	
-	if(!contentId) {
-		return er({code: "NO_CONTENT_ID"});
-	}
-	try {
-		//makeNewSeries
-		// if parent (including root)
-		// doesn't exist yet
-		var sr = await $i
-			.db.get(sp +
-				`/heichelos/${
-				heichelId
-				
-			}/series/${
-				seriesId
-			
-			}/prateem`);
-		
-		if(!sr) {
-			var t=$i.$_POST.title;
-			$i.$_POST.title=seriesId;
-			var m = await makeNewSeries({
-				$i,
-				isRoot: seriesId=="root",
-				heichelId
-			});
-			if(m.error) {
-				return er({
-					code: "PROBLEM_CREATING",
-					details: m.error
-				});
-			}
-			$i.$_POST.title=t;
-		}
-		var indexAddedTo = null;
-		var existingSeries/*if the PARENT series exists:*/ = await $i
-			.db.get(sp +
-				`/heichelos/${
-				heichelId
-				
-			}/series/${
-				seriesId
-			
-			}/${wtw}`
-
-			)
-
-		if (existingSeries) {
-			var lng = existingSeries
-				.length
-
-			if (isNaN(lng + 0)) {
-				lng = 0
-
-			}
-
-
-
-			existingSeries = Array.from(
-				existingSeries
-
-			)
-
-			var index = inputIndex;
-			if(typeof(index) != "number") {
-				index = lng;
-			}
-
-
-			existingSeries
-				.splice(
-					index,
-					0,
-					contentId
-				);
-			indexAddedTo = index;
-			var ob = Object.assign({}, existingSeries)
-			ob.length = existingSeries.length;
-			var path = sp +
-			`/heichelos/${
-				heichelId
-				
-			}/series/${
-				seriesId
-			
-			}/${wtw}`;
-			
-			var wroyt = await $i
-				.db.write(path, ob);
-		
-				
-			//EDIT the parent series property of it
-			
-			var resp;
-			var ar = Array.from(ob);
-			if(type == "post") {
-				
-				
-				$i.$_PUT = {
-					aliasId,
-					parentSeriesId: seriesId
-				};
-				var pr = await editPostDetails({
-					$i,
-					heichelId,
-					
-					postID: contentId,
-					verified: true,
-					dontUpdateIndex: true
-				})
-				//contentId
-				resp = pr;
-				
-			} else {
-				var serRes = []
-				var i = 0;
-				for(var p in ar) {
-					$i.$_PUT = {
-						aliasId,
-						parentSeriesId: seriesId,
-						indexInSeries: i
-					};
-					//edit post
-					var pr = await editSeriesDetails({
-						$i,
-						heichelId,
-						seriesId: contentId,
-						verified: true,
-						dontUpdateIndex: true
-					});
-					serRes.push(pr);
-					i++;
-				}
-				resp = serRes;
-				
-				
-			}
-
-
-			return {
-				success: contentId,
-				length: lng,
-				inputIndex,
-				seriesId,
-				resp,
-				indexAddedTo
-			}
-
-		} else {
-			return er({
-				code: "SERIES_NOT_FOUND"
-			})
-
-		}
-
-	} catch (e) {
-		return er({
-			code: "NO_ADD",
-			details: e.stack
-		})
-
-	}
-
-
-}
-
-async function editSeriesDetails({
-	$i,
-
-
-
-	
-	seriesId,
-	heichelId,
-	verified = false
-
-
-
-
-
-
-
-}) {
-	var aliasId = $i.$_PUT.aliasId ||
-		$i.$_POST.aliasId;
-	if(!aliasId) {
-		return er({
-			code: "NO_ALIAS",
-			message: "No Alias Id provided"
-
-		})
-
-	}
-
-
-
-
-	if(!verified) {
-		var ha = await verifyHeichelAuthority({
-			$i,
-			aliasId,
-			heichelId
-			
-
-		})
-
-		if (!ha) {
-			return er({
-				code: "NO_AUTH"
-			})
-
-		}
-	}
-
-	try {
-
-		var d = await $i.db.get(
-			`${
-				sp
-
-			}/heichelos/${
-				heichelId
-			}/series/${
-				seriesId
-				
-			}/prateem`
-		);
-/*
-		if (!d) {
-			return er({
-				code: "NO_SERIES_FOUND"
-			})
-		}
-*/
-		if(!d) d = {}
-		var desc = $i.$_PUT.description || $i.$_POST.description;
-		var nm = $i.$_PUT.seriesName ||
-			$i.$_PUT.name ||
-			$i.$_PUT.title || $i.$_POST.title || $i.$_POST.name;
-
-		var {
-			parentSeriesId
-		} = $i.$_PUT;
-
-		var wr = {}
-		if (desc && typeof(desc) == "string") {
-			if (desc.length <= 888) {
-				d.description = desc;
-				wr.description = true
-				/*await $i.db.write(
-					`${
-						sp
-	
-					}/heichelos/${
-						heichelId
-					}/series/${
-						seriesId
-						
-					}/prateem/description`, desc);*/
-			} else return er({
-				code: "DESCRIPTION_TOO_LONG",
-				proper: 888
-			})
-
-
-		}
-
-		if (nm && typeof(nm) == "string") {
-			if (nm.length > 50) return er({
-				code: "NOT_PARAMS",
-				proper: {
-					name: 50
-				}
-			});
-			d.name = nm;
-			wr.name = true;
-	
-
-		}
-
-		if(parentSeriesId) {
-			wr.parentSeriesId = true;
-			wr.parentSeriesId = parentSeriesId
-			d.parentSeriesId = parentSeriesId;
-	
-		}
-
-		try {
-
-			await $i.db.write(
-				`${
-					sp
-
-				}/heichelos/${
-					heichelId
-				}/series/${
-					seriesId
-					
-				}/prateem`, d);
-
-				return {
-					success: wr
-				};
-		} catch (e) {
-			return er({
-				code: "NO_WRITE",
-				reason: e.stack
-			})
-
-		}
-
-	} catch (e) {
-		return er({
-			code: "NO_GET"
-		})
-
-	}
-
-}
-async function makeNewSeries({
-	$i,
-	isRoot= false, 
-
-
-
-
-	heichelId
-
-}) {
-	var aliasId = $i.$_POST.aliasId
-
-
-
-
-	
-	var ha = await verifyHeichelAuthority({
-		$i,
-		aliasId,
-		heichelId
-
-	})
-
-	if (!ha) {
-		return er({
-			code: "NO_AUTH"
-		})
-
-	}
-
-
-	//parent series to add to 
-	var seriesID = isRoot?"root":
-		$i.$_POST.seriesId;
-	
-	var seriesName = $i.$_POST.seriesName || 
-		$i.$_POST.title ||
-		$i.$_POST.name;
-
-		
-
-	if(seriesName == "undefined") seriesName = undefined;
-
-	if(typeof(seriesName) != "string") {
-		return er({
-			message: "Wrong series name",
-			got: {
-				seriesName, description,
-				seriesID
-			}
-		})
-	}
-	var description = $i.$_POST.description
-	if (!description || description == "undefined") description = ""
-	if (seriesName?.length > 100) {
-		return er({
-			message: "Too long series name",
-			proper: {
-				seriesName: 100
-			}
-		})	
-	}
-	if (description > 888) {
-		return er({
-			message: "Too long series desc",
-			proper: {
-				description: 888
-			}
-		})	
-	}
-
-	seriesName = seriesName.trim();
-
-	var existingPath = `${
-			sp
-
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesID
-		
-		}`;
-
-
-	function makeDefaultId() {
-		seriesID = "BH_" + Date.now() + "_" +
-			(Math.floor(Math.random() * 78) + 700)
-			+"_"+aliasId
-	}
-	var potentialId;
-	if(!seriesID) {
-		$i.$_POST.seriesName = seriesName;
-		var potentialSeriesId = await generateAwtsmoosId({
-			$i,
-			nameVar: "seriesName",
-			idVar: "seriesId",
-			maxInputId: 100,
-			maxNameLength: 100,
-			existingPath
-		});
-		potentialId= potentialSeriesId
-		if(potentialSeriesId?.error?.code == "ALREADY_EXISTS") {
-			makeDefaultId() 
-		} else if(potentialSeriesId?.error) {
-			return er({
-				message: "Problem making series ID",
-				details: potentialSeriesId
-			});	
-		} else if (potentialSeriesId?.seriesId != undefined) {
-			seriesID = potentialSeriesId.seriesId 
-				+ "_" + aliasId;
-		} else {
-			makeDefaultId() 
-		}
-		
-	} else {
-		console.log("Has",seriesID)
-	}
-	
-		
-	
-	var doesItExist = await $i.db.get(
-		seriesID
-	);
-	if(doesItExist) {
-		return er({
-			code: "ALREADY_EXISTS",
-			tried: seriesID,
-			isRoot
-		});
-	}
-		
-	
-	try {
-		
-
-		await makeIt();
-		var good = {
-			success: {
-				id: seriesID,
-				name:seriesName
-
-			}
-		};
-		if(isRoot) {
-			return good;
-
-		}
-		var pr=$i.$_POST.parentSeriesId;
-		if(!pr) pr= "root";
-		if(pr==seriesID) {
-			return er({
-				code:"NO_SELF_ADD",
-				seriesID,
-				potentialId,
-				pr
-
-			})
-
-		}
-		try {
-			// parent series to add to
-			// default "root"
-			$i.$_POST.seriesId=pr;
-			// this id
-			$i.$_POST.contentId=seriesID;
-			//adding series to other series
-			$i.$_POST.contentType="series"
-			var a=await addContentToSeries({
-				$i,
-				heichelId
-
-			});
-			if(a.error) {
-				return er({
-					code:
-					"NO_ADD_NEW",
-					details:
-					a.error
-
-						
-
-				})
-
-			}
-			var errors = []
+		const filteredIds = [];
+		for (const seriesId of subSeriesIds) {
 			try {
-				var seriesKey = await $i.db.syncKeyInObj(
-					`${
-						sp
-					}/aliases/${
-						aliasId
-					}/seriesCreated/inHeichel/${
-						heichelId
-					}`, seriesID
-				)
-				if(seriesKey.error) {
-					errors.push(seriesKey)
-				}
-			} catch(e) {
-				errors.push(er({
-					message: "Couldn't add new series index"
-					,
-					details: e.stack
-				}))
-			}
-			//return {wow: "LOL"}
-			return {
-				success:
-				{
-					newSeriesID: seriesID,
-					parentId:pr,
-					errors
-				}
-		        };
-
-		} catch(e) {
-			return er({
-				code:
-				"ERROR_ADDING",
-				details:e.stack
-
-			})
-
+			    const prateem = await $i.db.get(seriesPrateemPath(heichelId, seriesId), {
+				    propertyMap: { [propertyKey]: true } // Fetch only the needed property
+			    });
+			    if (prateem && prateem[propertyKey] == propertyValue) {
+				    filteredIds.push(seriesId);
+			    }
+            } catch (eGet) {
+                // Ignore series if prateem fetch fails
+                console.warn(`Could not check property for sub-series ${seriesId}: ${eGet.message}`);
+            }
 		}
-		return good;
+		return filteredIds;
 
 	} catch (e) {
-		return er({
-			code: "ISSUE_WRITING",
-			details: e.stack
-		})
-
+		console.error("Error in getSeriesByProperty:", e);
+		return er({ message: "Failed to filter series by property", code: "SERIES_FILTER_FAILED", details: e.message });
 	}
-	
-	async function makeIt() {
-		await $i.db.write(
-			`${
-			sp
-
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesID
-			
-		}/posts`, {
-
-				length: 0
-
-
-			})
-
-		await $i.db.write(`${
-			sp
-
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesID
-			
-		}/subSeries`, {
-
-			length: 0
-
-
-		})
-		var prateem = {
-			name: seriesName,
-			id: seriesID,
-			description,
-			author: aliasId
-
-
-		}
-		var pratPath = `${
-			sp
-
-		}/heichelos/${
-			heichelId
-		}/series/${
-			seriesID
-			
-		}/prateem`
-		
-		await $i.db.write(
-			pratPath, prateem)
-	}
-
-
-
-
 }
 
 
-
-async function getSubSeriesInHeichel({
-	$i,
-	userid,
-	withDetails=false,
-	heichelId
-
-}) {
-	// the series to get sub series
-	// of
-	var par=$i.$_POST.seriesId || "root";
-	var s= await getSeries({
-		$i,
-		$userid,
-		heichelId,
-		withDetails: true,
-		seriesId: par
-		
-
-	});
-
-	if(s.error) {
-		return er({
-			code:"NO_PARENT",
-			details: s.error
-
-		});
-
-	}
-
-	if(!Array.isArray(s.subSeries)) {
-		return er({
-			code: "NO_SUB_SERIES"
-
-		});
-
-	}
-	var rs=[];
-	var errors=[]
-	for(
-		var i=0;
-		i<s.subSeries. length;
-		i++
-
-	) {
-		var id=s.subSeries[i];
-		var ss= await getSeries({
-			$i,
-			heichelId,
-			withDetails, 
-			seriesId: id
-
-		});
-		if(!ss || ss.error) {
-			errors.main.push(er({
-				code:
-				"PROBLEM_WITH_SUB",
-				details:ss?
-					ss.error:
-					"NOT_HERE"
-
-			}));
-			continue;
-		}
-		if(!ss.prateem) {
-			errors.main.push(er({
-				code:
-				"NO_SUB_PRATEEM",
-				details:ss
-
-			}));
-			continue;
-
-		}
-		rs.push(ss.prateem);
-		
-
-	}
-
-	var rt={};
-	if(errors. length)
-		rt.errors=errors;
-	
-	rt. success=rs;
-	return rt;
-
-	
+// --- Deprecated / Removed Functions ---
+// - addContentToSeries: Replaced by addPostToSeries (for posts) and addSubSeriesToParent (internal for series)
+// - deleteContentFromSeries: Replaced by deletePostFromSeries and handling within deleteSeriesFromHeichel
+// - editPostsInSeries: Ordering via object keys is not reliable/intended. Removed for simplicity.
+// - traverseSeries: Complex. If needed, should be rewritten carefully based on new structure. Replace with targeted gets where possible.
+// - checkParentIDsAndAdd: Likely related to traversal/old structure. Needs reassessment if specific functionality is required. Replace with targeted updates.
 
 
+// --- Export the module ---
+module.exports = {
+    makeNewSeries,
+    editSeriesDetails,
+    getSeries,
+    getSubSeries,
+    deleteSeriesFromHeichel,
+    changeSubSeriesFromOneSeriesToAnother,
+    editSubSeriesInSeries,
+    getAllSeriesInHeichel,
+    getSeriesByProperty,
+    // Removed old functions...
 
-}
+    // --- Removed ---
+	// addContentToSeries,
+    // deleteContentFromSeries,
+	// editPostsInSeries,
+	// traverseSeries, // Consider replacing with targeted gets or simpler traversal if needed
+	// checkParentIDsAndAdd, // Consider replacing with targeted updates
+
+    // --- Post functions are now in post/index.js ---
+};

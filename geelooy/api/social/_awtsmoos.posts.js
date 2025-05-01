@@ -1,126 +1,154 @@
 /**
  * B"H
- * 
- * posts endpoints
+ *
+ * Posts API Endpoints.
+ * IMPORTANT: Posts are now accessed *through* their parent series.
+ * Standalone post endpoints are deprecated.
  */
 
+const {
+    addPostToSeries,
+    editPostInSeries,
+    deletePostFromSeries,
+    getPostFromSeries,
+    getPostsInSeries,
+    getPostsByProperty,
+    // Other helpers if needed by routes
+    er // Import error helper
+} = require("./helper/index.js");
 
-var {
-	NO_LOGIN,
-	sp,
-    
-  
-  } = require("./helper/_awtsmoos.constants.js");
+const { loggedIn } = require("./helper/general.js"); // For auth checks if needed directly
 
-var {
-	getPostsInHeichel,
-	detailedPostOperation,
-	addPostToHeichel,
-	
+module.exports = ({ $i, userid } = {}) => ({
 
-} = require("./helper/index.js" );
-
-var {
-	loggedIn,
-	er,
-	myOpts
-} = require("./helper/general.js");
-
-module.exports = ({
-	$i,
-	userid,
-} = {}) => ({
-    "/asdfg": async () => {
-        return "Hi there!"
-    },
     /**
-	 * Posts Endpoints - The Chronicles of Existence
-	 */
-	"/heichelos/:heichel/posts": async (v) => {
-	
-	
+     * @endpoint POST /heichelos/:heichel/series/:series/posts
+     * @description Adds a new post to the specified series.
+     * @requires Body: { aliasId, title, content, dayuh? }
+	 * 
+	 *  * @endpoint GET /heichelos/:heichel/series/:series/posts
+     * @description Gets posts within a series. Returns IDs by default.
+     * @query details=true - Returns full post objects.
+     * @query properties={...} - Apply property filtering (if implemented in helper).
+     */
+    "/heichelos/:heichel/series/:series/posts": async (v) => {
 		if ($i.request.method == "GET") {
-			return await getPostsInHeichel({
-				$i,
-				
-				heichelId: v.heichel
-			})
+         const withDetails = $i.$_GET.details === 'true';
+         const properties = $i.$_GET.properties ? JSON.parse($i.$_GET.properties) : null; // Basic query param parsing
+         return getPostsInSeries({
+             $i,
+             heichelId: v.heichel,
+             seriesId: v.series,
+             withDetails,
+             properties
+         });
 		}
+        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
+        // $_POST should contain aliasId, title, content
+        $i.$_POST.seriesId = v.series; // Ensure seriesId from route is used
+        return addPostToSeries({
+            $i,
+            heichelId: v.heichel,
+			seriesId: v.series
+        });
+    },
+
+
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/posts/details
+     * @description Convenience endpoint. Gets full post objects within a series.
+     * (Equivalent to GET /posts?details=true)
+     */
+    "/heichelos/:heichel/series/:series/posts/details": async (v) => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        return getPostsInSeries({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series,
+            withDetails: true
+        });
+    },
+
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/post/:post
+     * @description Gets a specific post by its ID within its series.
+     */
+	 /**
+     * @endpoint PUT /heichelos/:heichel/series/:series/post/:post
+     * @description Edits a specific post.
+     * @requires Body: { aliasId, newTitle?, newContent?, dayuh? }
+     */
+	  /**
+     * @endpoint DELETE /heichelos/:heichel/series/:series/post/:post
+     * @description Deletes a specific post.
+     * @requires Body: { aliasId } (can also be query/header depending on convention)
+     */
+    "/heichelos/:heichel/series/:series/post/:post": async (v) => {
+        if ($i.request.method === "GET") {
+            return getPostFromSeries({
+                $i,
+                heichelId: v.heichel,
+                seriesId: v.series,
+                postId: v.post
+            });
+        }
+        if ($i.request.method == "PUT") {
+         // $_PUT should contain aliasId and updates
+         return editPostInSeries({
+             $i,
+             heichelId: v.heichel,
+             seriesId: v.series,
+             postId: v.post
+         });
+		}
+
+		if ($i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
+        // Ensure aliasId is available, maybe from query or body
+        if (!$i.$_DELETE) $i.$_DELETE = {}; // Ensure object exists
+        $i.$_DELETE.aliasId = $i.$_DELETE.aliasId || $i.$_QUERY.aliasId /* or from authenticated user */;
+        if (!$i.$_DELETE.aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required for deletion"});
+
+        return deletePostFromSeries({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series,
+            postId: v.post
+        });
+
+    },
+
+   
 	
-		if ($i.request.method == "POST") {
-			return await addPostToHeichel({
-				heichelId:v.heichel,
-				
-				
-				
-				
-				$i
-			});
-		}
-	},
-	/**
-	 * @endpoint /posts/details
-	 * returned the details of a 
-	 * lot of posts.
-	 * @returns array of detailed posts
-  	 * @requires at least a parent series ID, if not gets root
-		$i.$_POST.seriesId || $i.$_GET.seriesId || "root";
-		
-	 */
 
-	"/heichelos/:heichel/posts/details": async (v) => {
-		var heichelId = v.heichel;
-		
 
-		
-			return await getPostsInHeichel({
-				$i,
-				withDetails: true,
-				
-				
-				heichelId: v.heichel
-			});
-			
-		
-	},
+     /**
+      * @endpoint GET /heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal
+      * @description Filters posts in a series by property value. Returns matching post IDs.
+      */
+     "/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal": async v => {
+         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+         let pv = v.propVal;
+         let pk = v.propKey;
+         try { pv = decodeURIComponent(pv); } catch (e) {}
+         try { pk = decodeURIComponent(pk); } catch (e) {}
 
-	/**
-	 * 
-	 * @endpoint /posts/:post
-	 * @description gets details of 
-	 * one post
-	 * 
-	 * OR if method is PUT edits post
-	 * OR if method is DELETE deletes it
-	 * 
-	 * required params (dep. on method):
-	 * postID
-	 * 
-	 * for edit:
-	 * newTitle || title
-	 * newContent || content
-	 * @returns 
-	 */
-	"/heichelos/:heichel/post/:post": async (v) => {
-		return await detailedPostOperation({
-			
-			userid,
-			postID: v.post,
-			heichelId: v.heichel,
-			$i
-			
-			
-			
-		})
-	},
-	/**
-	 * 
-	 * similar as above but just for delete simpler
-	 */
-	"/heichelos/:heichel/post/:post/delete": async(v) => {
-		
-	},
+         return getPostsByProperty({
+             $i,
+             heichelId: v.heichel,
+             seriesId: v.series,
+             propertyKey: pk,
+             propertyValue: pv
+         });
+     },
 
-    
-    
+
+    // --- Deprecated Standalone Post Routes ---
+    /*
+    "/heichelos/:heichel/posts": DEPRECATED - Use /heichelos/:heichel/series/:series/posts
+    "/heichelos/:heichel/posts/details": DEPRECATED - Use /heichelos/:heichel/series/:series/posts?details=true
+    "/heichelos/:heichel/post/:post": DEPRECATED - Use /heichelos/:heichel/series/:series/post/:post
+    "/heichelos/:heichel/post/:post/delete": DEPRECATED - Use DELETE on /heichelos/:heichel/series/:series/post/:post
+    */
+    // Add catch-all or specific handlers for deprecated routes to return errors if desired.
+
 });

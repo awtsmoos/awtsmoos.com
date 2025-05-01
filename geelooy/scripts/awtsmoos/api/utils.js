@@ -311,6 +311,8 @@ async function makePost({
         location.origin+
         `/api/social/heichelos/${
             heichelId
+        }/series/${
+            parentSeriesId
         }/posts`, {
             method: "POST",
             body: new URLSearchParams({

@@ -211,7 +211,7 @@ class HeichelNavigator {
         parentS.classList.remove("hidden");
 
         // Add "Root" link if not already at the root
-        if (this.currentSeries !== 'root' && (!breadcrumb[0] || breadcrumb[0].id !== 'root')) {
+        /*if (this.currentSeries !== 'root' && (!breadcrumb[0] || breadcrumb[0].id !== 'root')) {
              const rootLink = document.createElement("a");
              rootLink.textContent = "Root";
              rootLink.href = this.newPath("series", "root"); // Root usually shows series first
@@ -221,12 +221,12 @@ class HeichelNavigator {
              };
              parentS.appendChild(rootLink);
              parentS.appendChild(document.createTextNode(" / "));
-         }
-
+         }*/
+        breadcrumb = breadcrumb.reverse();
         breadcrumb.forEach((item, i) => {
             if (!item || !item.id) return; // Skip invalid items
             const link = document.createElement("a");
-            link.textContent = item.prateem?.name || "Unnamed";
+            link.textContent = item?.name || "Unnamed";
             // Determine view based on whether it's the last item (current view) or parent (series view)
             const viewType = (i === breadcrumb.length - 1)
                 ? (new URLSearchParams(window.location.search).get("view") || 'posts')
@@ -359,8 +359,8 @@ class HeichelNavigator {
         let posts = [];
         if (rootDetails.posts && rootDetails.posts.length > 0) {
             const postBd = new URLSearchParams({
-                seriesId: rootDetails.id, // Might not be needed if fetching by post IDs directly
-                postIds: JSON.stringify(rootDetails.posts), // Fetch specific posts
+               // seriesId: rootDetails.id, // Might not be needed if fetching by post IDs directly
+               // postIds: JSON.stringify(rootDetails.posts), // Fetch specific posts
                 propertyMap: JSON.stringify({
                     content: 256, // Limit content length
                     title: true,
@@ -373,11 +373,13 @@ class HeichelNavigator {
             });
              // Adjust endpoint if needed - this assumes fetching multiple posts by ID
              posts = await this.fetcher.fetchData(
-                 `/api/social/heichelos/${this.heichelId}/posts/details?${postBd}`
+                 `/api/social/heichelos/${this.heichelId}/series/${
+                    this.currentSeries
+                 }/posts/details?${postBd}`
              ) || [];
         }
 
-
+        
         // Fetch details for sub-series listed in rootDetails.subSeries
          let series = [];
          if (rootDetails.subSeries && rootDetails.subSeries.length > 0) {
@@ -387,7 +389,30 @@ class HeichelNavigator {
                  new URLSearchParams({ seriesIds: JSON.stringify(rootDetails.subSeries || []) })
               ) || [];
          }
-
+       
+         
+        /* var postsArray = [];
+         
+        if(!Array.isArray(posts) && typeof(posts) == "object") {
+            postsArray = [];
+            var keys = Object.keys(posts);
+            var i = 0;
+            for(var p of keys) {
+                //posts[p].indexInSeries = i
+                postsArray.push(
+                    posts[p]
+                );
+                i++;
+            }
+        } else if(Array.isArray(posts)) {
+            postsArray = posts
+        }*/
+        var i = 0;
+        for(var p of posts) {
+            p.indexInSeries = i
+            i++
+        }
+        console.log(posts,rootDetails)
         this.renderElements(posts, postsList, "post", rootDetails.id);
         this.renderElements(series, seriesList, "series", rootDetails.id);
 
@@ -463,7 +488,7 @@ class HeichelNavigator {
                  ? (dt?.content || "").substring(0, 256) + ((dt?.content || "").length > 256 ? '...' : '')
                  : (dt?.description && dt.description !== "undefined" ? dt.description : "");
 
-
+         //   console.log(item,dt,itemTitle,itemDescription,"LOL")
             if (!dt || !itemId) return; // Skip if essential data is missing
 
             const cardWrapper = document.createElement('div'); // Wrapper for card + menu icon

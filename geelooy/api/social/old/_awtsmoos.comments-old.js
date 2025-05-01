@@ -6,7 +6,7 @@ var {
 	sp,
    
   
-  } = require("./helper/_awtsmoos.constants.js");
+  } = require("../helper/_awtsmoos.constants.js");
 
 
 var {
@@ -29,13 +29,13 @@ var {
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsOfCommentsAtVerseSectionInParent
 
-} = require("./helper/index.js");
+} = require("../helper/index.js");
 
 var {
 	loggedIn,
 	er,
 	 myOpts
-} = require("./helper/general.js");
+} = require("../helper/general.js");
 
 
 

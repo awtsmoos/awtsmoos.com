@@ -5,11 +5,11 @@
 
 const { 
     sp 
-} = require("../_awtsmoos.constants.js");
+} = require("../../_awtsmoos.constants.js");
 
 const {
     er
-} = require("../general.js")
+} = require("../../general.js")
 
 /**
  * @method getShtarPath

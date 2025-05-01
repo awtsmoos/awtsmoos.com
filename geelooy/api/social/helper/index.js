@@ -1,191 +1,136 @@
 /**
  * B"H
+ * Main Awtsmoos helper index.
+ * Consolidates and exports core functionalities.
  */
 
-var {
-    loggedIn,
-    er
-} = require("./general.js");
+// General Utilities
+var { loggedIn, er } = require("./general.js");
 
-var {
-	getMail,
-	deleteMail,
-	sendMail,
-	setEmailAsRead
-} = require("./mail.js")
-var {
-	addComment,
-    
-    getComment,
-    deleteComment,
-    updateAllCommentIndexes,
-    addCommentIndexToAlias,
-    deleteAllCommentsOfAlias,
-    deleteAllCommentsOfParent,
-    editComment,
-    denyComment,
-    getSubmittedComments,
-    approveComment,
-	
-	updateCommentIndexesAtParent,
-    
-    
-	submitComment, 
-    addOrApproveComment, 
+// Mail (Assuming unchanged)
+var { getMail, deleteMail, sendMail, setEmailAsRead } = require("./mail.js");
 
-    getCommentsByAliasAtVerseSection,
-    getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsCommentingAtVerseSectionInParent,
-    getComment
+// Comments (Assuming largely unchanged, but check dependencies like deleteAllCommentsOfParent)
+var {
+    addComment, getComment, deleteComment, updateAllCommentIndexes,
+    addCommentIndexToAlias, deleteAllCommentsOfAlias, deleteAllCommentsOfParent,
+    editComment, denyComment, getSubmittedComments, approveComment,
+    updateCommentIndexesAtParent, submitComment, addOrApproveComment,
+    getCommentsByAliasAtVerseSection, getVerseSectionsCommentedByAuthorInParent,
+    getAuthorsCommentingAtVerseSectionInParent
+    // Removed getComment duplicates
 } = require("./comments/index.js");
 
+// Posts (Now Series-Centric)
 var {
-	detailedPostOperation,
-    getPost,
-	addPostToHeichel,
-	getPostsInHeichel,
-	getPostByProperty
-
+    addPostToSeries,         // Renamed/Rewritten
+    editPostInSeries,        // Renamed/Rewritten
+    deletePostFromSeries,    // Renamed/Rewritten
+    getPostFromSeries,       // Renamed/Rewritten
+    getPostsInSeries,        // Renamed/Rewritten
+    getPostsByProperty       // Renamed/Rewritten
+    // Removed old post functions
 } = require("./post/index.js");
 
-
+// Heichel (Assuming unchanged)
 var {
-	verifyHeichelAuthority,
-	updateHeichel,
-	getHeichel,
-    getHeichelos,
-	deleteHeichel,
-    verifyHeichelViewAuthority,
-	createHeichel,
-	getHeichelEditors,
-
-	removeHeichelEditor,
-    addHeichelEditor
-
+    verifyHeichelAuthority, updateHeichel, getHeichel, getHeichelos,
+    deleteHeichel, verifyHeichelViewAuthority, createHeichel,
+    getHeichelEditors, removeHeichelEditor, addHeichelEditor
 } = require("./heichel.js");
 
+// Series (Rewritten)
 var {
-	getAllSeriesInHeichel,
-	getSeries,
-    getSubSeriesInHeichel,
-	deleteContentFromSeries,
-    deleteSeriesFromHeichel,
-    editSeriesDetails,
     makeNewSeries,
-	addContentToSeries,
-	getSeriesByProperty,
-	traverseSeries,
-	checkParentIDsAndAdd,
-	getSubSeries,
-	changeSubSeriesFromOneSeriesToAnother,
-	editSubSeriesInSeries,
-	editPostsInSeries
+    editSeriesDetails,
+    getSeries,
+    getSubSeries,
+    deleteSeriesFromHeichel,
+    changeSubSeriesFromOneSeriesToAnother,
+    editSubSeriesInSeries,
+    getAllSeriesInHeichel,
+    getSeriesByProperty
+    // Removed old/deprecated series functions
 } = require("./series.js");
 
+// Alias (Assuming unchanged)
 var {
-	getAliasesDetails,
-    getAliasIDs,
-    createNewAlias,
-    verifyAliasOwnership,
-    verifyAlias,
-	getDetailedAlias,
-	
-    
-    getDetailedAliasesByArray,
-	deleteAlias,
-    updateAlias,
-	getAlias
+    getAliasesDetails, getAliasIDs, createNewAlias, verifyAliasOwnership,
+    verifyAlias, getDetailedAlias, getDetailedAliasesByArray, deleteAlias,
+    updateAlias, getAlias
 } = require("./alias.js");
 
+// Export consolidated API
 module.exports = {
-	getMail,
-	deleteMail,
-	setEmailAsRead,
-	sendMail,
+    // General
+    loggedIn,
+    er,
+
+    // Mail
+    getMail,
+    deleteMail,
+    setEmailAsRead,
+    sendMail,
+
+    // Alias
     getAliasesDetails,
     getAliasIDs,
     createNewAlias,
     verifyAliasOwnership,
     verifyAlias,
-	getDetailedAlias,
-    
-	
-	
-
-	deleteAlias,
+    getDetailedAlias,
+    getDetailedAliasesByArray,
+    deleteAlias,
     updateAlias,
-	getAlias,
+    getAlias,
 
-
-	getAllSeriesInHeichel,
-	getSeries,
-    getSubSeriesInHeichel,
-	deleteContentFromSeries,
-    deleteSeriesFromHeichel,
-    editSeriesDetails,
-    makeNewSeries,
-	addContentToSeries,
-
-
-	verifyHeichelAuthority,
-	updateHeichel,
-	getHeichel,
+    // Heichel
+    verifyHeichelAuthority,
+    updateHeichel,
+    getHeichel,
     getHeichelos,
-	deleteHeichel,
+    deleteHeichel,
     verifyHeichelViewAuthority,
-	createHeichel,
-	getHeichelEditors,
-
-	removeHeichelEditor,
+    createHeichel,
+    getHeichelEditors,
+    removeHeichelEditor,
     addHeichelEditor,
 
+    // Series (New API)
+    makeNewSeries,
+    editSeriesDetails,
+    getSeries,
+    getSubSeries,
+    deleteSeriesFromHeichel,
+    changeSubSeriesFromOneSeriesToAnother,
+    editSubSeriesInSeries,
+    getAllSeriesInHeichel,
+    getSeriesByProperty,
 
-	detailedPostOperation,
-    getPost,
-	addPostToHeichel,
-	getPostByProperty,
-	getPostsInHeichel,
+    // Posts (New Series-Centric API)
+    addPostToSeries,
+    editPostInSeries,
+    deletePostFromSeries,
+    getPostFromSeries,
+    getPostsInSeries,
+    getPostsByProperty,
 
-	getSeriesByProperty,
-
-	loggedIn,
-    er,
-	editPostsInSeries,
-	editSubSeriesInSeries,
-	
-	getSubSeries,
-	traverseSeries,
-	checkParentIDsAndAdd,
-
-	
-	addComment,
-    
-    getComment,
+    // Comments
+    addComment,
+    getComment, // Keep one reference
     deleteComment,
-    updateAllCommentIndexes,
-    addCommentIndexToAlias,
+    updateAllCommentIndexes, // Check if still relevant
+    addCommentIndexToAlias,  // Check if still relevant
     deleteAllCommentsOfAlias,
-    deleteAllCommentsOfParent,
+    deleteAllCommentsOfParent, // Ensure this uses seriesId where needed
     editComment,
     denyComment,
     getSubmittedComments,
     approveComment,
-	
-	updateCommentIndexesAtParent,
-    
-    
-	submitComment, 
-    addOrApproveComment, 
-
+    updateCommentIndexesAtParent, // Check if still relevant
+    submitComment,
+    addOrApproveComment,
     getCommentsByAliasAtVerseSection,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
-    getComment
 };
-
-
-
-
-
-   
-    

@@ -1,518 +1,348 @@
-/*
-  B"H
-  Series
-*/
-var {
-  getSeries,
-  getSubSeries,
-  deleteContentFromSeries,
-  deleteSeriesFromHeichel,
-  getSeriesByProperty,
-  getSubSeriesInHeichel,
-getPostsInHeichel,
-	changeSubSeriesFromOneSeriesToAnother,
-  editSeriesDetails,
-  makeNewSeries,
-  addContentToSeries,
-  deleteHeichel,
-  addPostToHeichel,
-  updateHeichel,
-  er,
-  getHeichelEditors,
-  verifyHeichelAuthority,
-  editPostsInSeries,
-  editSubSeriesInSeries
+/**
+ * B"H
+ * Series API Endpoints
+ */
+
+const {
+    // Series Functions
+    makeNewSeries,
+    editSeriesDetails,
+    getSeries,
+    getSubSeries,
+    deleteSeriesFromHeichel,
+    changeSubSeriesFromOneSeriesToAnother,
+    editSubSeriesInSeries,
+    getAllSeriesInHeichel,
+    getSeriesByProperty,
+
+    // Post Functions (used by series routes sometimes)
+    getPostsInSeries,
+    getPostsByProperty,
+
+    // General
+    er
 } = require("./helper/index.js");
 
+const { sp } = require("./helper/_awtsmoos.constants.js"); // If needed
 
-var {
+module.exports = ({ $i, userid } = {}) => ({
+
+    /**
+     * @endpoint POST /heichelos/:heichel/addNewSeries
+     * @description Creates a new series.
+     * @requires Body: { aliasId, seriesName/title/name, description?, parentSeriesId? ('root') }
+     */
+    "/heichelos/:heichel/addNewSeries": async (v) => {
+        if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
+        return makeNewSeries({
+            $i,
+            heichelId: v.heichel
+        });
+    },
+
+    /**
+     * @endpoint GET /heichelos/:heichel/series/
+     * @description Gets the direct sub-series (prateem only) of the 'root' series.
+     */
+    "/heichelos/:heichel/series/": async v => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        // Get sub-series of root, with details=true (fetches prateem for each)
+        return getSubSeries({
+            $i,
+            heichelId: v.heichel,
+            parentSeriesId: "root",
+            withDetails: true // Get prateem for each sub-series
+        });
+    },
+
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series
+     * @description Gets basic details (prateem) of a specific series.
+     * @query details=true - Also fetches subSeries IDs and full post data.
+     */
+    "/heichelos/:heichel/series/:series": async v => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        const withDetails = $i.$_GET.details === 'true';
+        return getSeries({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series,
+            withDetails // Pass detail flag
+            // Can add property map support via query param if needed
+        });
+    },
+
+    
 	
-	sp
-} =  require("./helper/_awtsmoos.constants.js");
-
-module.exports = ({
-	$i,
-	userid,
-} = {}) => ({
-  "/heichelos/:heichel/addNewSeries": async (v) => {
-		return makeNewSeries({
-			$i,
-			userid,
-			
-			heichelId: v.heichel
-			
-
-		})
-
-	},
-	
-	"/heichelos/:heichel/series/": async v => {
-		var sr = await getSubSeriesInHeichel({
-			$i,
-
-
-			seriesId: "root",
-			withDetails:true,
-			userid,
-			heichelId: v.heichel,
-			er
-		});
-		
-		return sr;
-
-	},
-	
-	"/heichelos/:heichel/series/:series": async v => {
-		return await getSeries({
-			$i,
-
-
-			seriesId: v.series,
-			
-			userid,
-			heichelId: v.heichel,
-			er
-		})
-
-	},
-	//getSeriesByProperty
-
-	"/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal": async v => {
-		
-		var pv = v.propVal;
-		var pk = v.propKey;
-		try {
-			pv = decodeURIComponent(pv)
-		} catch(e){
-
+	 /**
+     * @endpoint GET /heichelos/:heichel/series/:series/details
+     * @description Convenience endpoint. Gets full details of a series (prateem, subSeries IDs, posts).
+     * (Equivalent to GET /series/:series?details=true)
+     */
+    /**
+     * @endpoint POST /heichelos/:heichel/series/:series/details
+     * @description Gets details for multiple series IDs provided in the body.
+     * @requires Body: { seriesIds: [...] }
+     */
+     "/heichelos/:heichel/series/:series/details": async v => { // Note: Route seems specific, but logic is general
+        if ($i.request.method == "GET") {
+         return getSeries({
+             $i,
+             heichelId: v.heichel,
+             seriesId: v.series,
+             withDetails: true
+         }); 
 		}
-		try {
-			pk = decodeURIComponent(pk)
-		} catch(e){
+		if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
 
-		}
-		
-		return await getPostByProperty({
-			heichelId: v.heichel,
-			parentSeriesId: v.series,
-			$i,
-			propertyKey: pk,
-			propertyValue: pv
-		})
-	},
+         const seriesIds = $i.$_POST.seriesIds;
+         if (!seriesIds || !Array.isArray(seriesIds)) {
+             return er({ code: "MISSING_PARAMS", details: "Requires seriesIds array in body" });
+         }
 
-	"/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal": async v => {
-		
-		var pv = v.propVal;
-		var pk = v.propKey;
-		try {
-			pv = decodeURIComponent(pv)
-		} catch(e){
+         // Fetch details concurrently
+         const detailsPromises = seriesIds.map(id =>
+             getSeries({
+                 $i,
+                 heichelId: v.heichel, // Use heichel from route param
+                 seriesId: id,
+                 withDetails: true, // Get full details
+              //   properties: { name: true, description: 256, id: true } // Example property map
+             })
+             .catch(err => ({ id: id, error: err.message || "Failed to fetch" })) // Catch errors per ID
+         );
 
-		}
-		try {
-			pk = decodeURIComponent(pk)
-		} catch(e){
-
-		}
-		
-		return await getSeriesByProperty({
-			heichelId: v.heichel,
-			parentSeriesId: v.series,
-			$i,
-			propertyKey: pk,
-			propertyValue: pv
-		})
-	},
-	
-	"/heichelos/:heichel/series/:series/series": async v => {
-		if($i.request.method == "GET") {
-			return await getSubSeries({
-				$i,
-
-				withDetails:false,
-				parentSeriesId: v.series,
-				
-				heichelId: v.heichel,er
-				
-			});
-		} 
-
-	},
-	"/heichelos/:heichel/series/:series/subSeries/": async v => {
-		if($i.request.method == "GET") {
-			return await getSubSeries({
-				$i,
-
-				withDetails:false,
-				parentSeriesId: v.series,
-				
-				heichelId: v.heichel,er
-				
-			});
-		} 
-
-	},
-	"/heichelos/:heichel/series/:series/details": async v => {
-		if($i.request.method == "GET") {
-			return await getSeries({
-				$i,
+         const results = await Promise.all(detailsPromises);
+         return results; // Return array of results (or errors)
+     },
 
 
-				seriesId: v.series,
-				withDetails: true,
-				userid,
-				heichelId: v.heichel,er
-				
-			})
-		} 
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/subSeries
+     * @description Gets the IDs of the direct sub-series of the specified series.
+     * @query details=true - Gets prateem data for each sub-series instead of just IDs.
+     */
+    "/heichelos/:heichel/series/:series/subSeries": async v => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        const withDetails = $i.$_GET.details === 'true';
+        return getSubSeries({
+            $i,
+            heichelId: v.heichel,
+            parentSeriesId: v.series,
+            withDetails
+        });
+    },
 
-		if($i.request.method=="POST") {
-			var is=$i.$_POST.seriesIds;
-			if(!is || !Array.isArray(is)) {
-				return er({
-					code:"NO_IDs"
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/subSeries/details
+     * @description Convenience endpoint. Gets prateem data for direct sub-series.
+     * (Equivalent to GET /subSeries?details=true)
+     */
+     "/heichelos/:heichel/series/:series/subSeries/details": async v => {
+         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+         return getSubSeries({
+             $i,
+             heichelId: v.heichel,
+             parentSeriesId: v.series,
+             withDetails: true
+         });
+     },
 
-				});
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/parent
+     * @description Gets the prateem of the parent series.
+     */
+    "/heichelos/:heichel/series/:series/parent": async v => {
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
 
-			}
+        // Get current series' parent ID
+        const currentSeries = await getSeries({
+            $i, heichelId: v.heichel, seriesId: v.series,
+            properties: { parentSeriesId: true }
+        });
 
-			var details = await Promise.all(
-				is.map(id => getSeries({
-					heichelId:v.heichel,
-					seriesId: id,
-					withDetails:true,
-					
-					$i,
-					properties: {
-						name: true,
-						description:256
+        if (currentSeries?.error) return currentSeries; // Propagate error
+        const parentId = currentSeries?.prateem?.parentSeriesId;
 
-					},
-					
-					userid,
-					
-				}))
-			);
-			return details.filter(Boolean);
+        if (!parentId || parentId === "root") {
+            // Return root representation or null/empty
+            return { prateem: { id: "root", name: "Root", isRoot: true } };
+            // return null; // Or appropriate response for no parent
+        }
 
-		}
+        // Get parent's prateem
+        return getSeries({
+            $i, heichelId: v.heichel, seriesId: parentId,
+            withDetails: false // Just get prateem
+        });
+    },
 
-	},
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/breadcrumb
+     * @description Gets the ancestor series path from the current series up to root.
+     */
+    "/heichelos/:heichel/series/:series/breadcrumb": async v => {
+         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+         try {
+             const breadcrumb = [];
+             let currentId = v.series;
+             const maxDepth = 20; // Safety break
+             let depth = 0;
 
-	"/heichelos/:heichel/series/:series/parent": async v => {
-		if($i.request.method == "GET") {
-			var res = await getSeries({
-				$i,
+             while (currentId && currentId !== "root" && depth < maxDepth) {
+                 const seriesData = await getSeries({
+                     $i, heichelId: v.heichel, seriesId: currentId,
+                     properties: { parentSeriesId: true, name: true, id: true } // Get needed fields
+                 });
 
+                 if (seriesData?.error) {
+                      // Stop if a series in the chain is not found
+                      console.error(`Breadcrumb error: Series ${currentId} not found.`);
+                      breadcrumb.push({ id: currentId, name: "[Not Found]", error: true });
+                      break;
+                  }
 
-				seriesId: v.series,
-				userid,
-				properties: {
-					parentSeriesId:true
-
-				},
-				heichelId: v.heichel,
-				er
-				
-			});
-			if(res.prateem.parentSeriesId) {
-				var ser = await getSeries({
-					heichelId:v.heichel,
-					seriesId:  res.prateem.parentSeriesId,
-					
-					$i,
-					
-					userid,
-					
-				})
-				return ser;
-			}
-			
-			return res;
-		} 
-
-	
-
-	},
-	"/heichelos/:heichel/series/:series/breadcrumb": async v => {
-		if($i.request.method == "GET") {
-			try {
-				var crumb = []
-				var curID = v.series;
-				var curParent = {id:curID}
-				var start = Date.now();
-				async function getBreadcrumb() {
-					var res = await getSeries({
-						$i,
-		
-		
-						seriesId: curID,
-						userid,
-						properties: {
-							parentSeriesId: true
-		
-						},
-						heichelId: v.heichel,
-						er
-						
-					});
-					var parentSeriesId = res?.prateem?.parentSeriesId;
-					if(!parentSeriesId) parentSeriesId = "root"
-					
-					curParent = await getSeries({
-						heichelId:v.heichel,
-						seriesId:  parentSeriesId,
-						properties: {
-							parentSeriesId:true,
-							name: true,
-							id: true
-							
-		
-						},
-						$i,
-						
-						
-						userid,
-						
-					})
-					if(curParent) {
-					
-					
-						curID = curParent?.id;
-						crumb.push({...curParent,hi:Date.now()})
-					}
-				}
-				if(curParent.id != "root" && curParent) 
-					while(
-						curParent && curParent.id != "root" && curParent.id && Date.now() - start < 5 * 1000
-					) {
-						await getBreadcrumb();
-					}
-				else {
-					await getBreadcrumb();	
-				}
-				
-				
-				return crumb;
-			} catch(e) {
-				return er({
-					code: "BREADCRUMB_ISSUE",
-					details:e+""
-				})
-			}
-		} 
-
-	
-
-	},
-	//var heichelos = await $i.fetchAwtsmoos(route);
-
-	"/heichelos/:heichel/series/:series/posts": async v => {
-		if($i.request.method == "GET") {
-			$i.$_GET.seriesId = v.series;
-			var withDetails = $i.$_GET.details;
-			if(!withDetails) {
-				var details = await getSeries({
-					$i,
-	
-	
-					seriesId: v.series,
-					withDetails: true,
-					userid,
-					heichelId: v.heichel,er
-					
-				});
-				if(details.posts) {
-					return details.posts
-				} else return [];
-			} else {
-				$i.seriesId = v.series;
-				return await getPostsInHeichel({
-					$i,
-					withDetails: true,
-					
-					
-					heichelId: v.heichel
-				});	
-			}
-		}
-	},
-	"/heichelos/:heichel/series/:series/posts/details": async v => {
-		try {
-			if($i.request.method == "GET") {
-				$i.$_GET.seriesId = v.series;
-	
-				return await getPostsInHeichel({
-					$i,
-					withDetails: true,
-					seriesId:v.series,
-					
-					heichelId: v.heichel
-				});		
-				
-			}
-		} catch(e) {
-			return er({details: e.stack})
-		}
-	},
-	"/heichelos/:heichel/series/:series/subSeries/details": async v => {
-		if($i.request.method == "GET") {
-			return await getSubSeries({
-				$i,
-
-				withDetails:true,
-				parentSeriesId: v.series,
-				
-				heichelId: v.heichel,er
-				
-			});
-			if(details.subSeries) {
-				return details.subSeries
-			} else return [];
-		}
-	},
-	/**
- POST
-       contentId required
-       seriesId required
-       aliasId required
-       contentType required either "post" or "series"
- 
-
-        **/
-	"/heichelos/:heichel/addContentToSeries": async (v) => {
-		return addContentToSeries({
-			$i,
-			userid,
-			heichelId: v.heichel
-			
-			
-
-		})
-
-	},
+                 // Add current series (excluding root itself in the loop)
+                 if (seriesData.prateem) {
+                      breadcrumb.push({ // Only push essential info
+                          id: seriesData.prateem.id || currentId,
+                          name: seriesData.prateem.name || "[Unnamed]"
+                      });
+                  } else {
+                      // Should not happen if no error, but handle defensively
+                      breadcrumb.push({ id: currentId, name: "[Data Error]", error: true });
+                       break;
+                   }
 
 
-	/**
- POST
-       contentId required
-       seriesId required
-       aliasId required
-       contentType required either "post" or "series"
-       contentId optional,  but if not provided then need:
-       indexInSeries optional (
-          but if not there need
-			contentId. index.. deletes
-		the content in that index number while
-		contentId searches for that id
-		and deletes first occurrence
+                 currentId = seriesData.prateem.parentSeriesId; // Move up
+                 depth++;
+             }
 
-       )
+             if (depth >= maxDepth) console.warn("Breadcrumb generation hit max depth limit.");
 
-	   deleteOriginal optional default false
-		besides for removing
-		content from series, also deltes it itself.
- 
+             // Add root at the end (or beginning if preferred)
+             breadcrumb.push({ id: "root", name: "Root" });
 
-        **/
-	"/heichelos/:heichel/deleteContentFromSeries": async (v) => {
-		return deleteContentFromSeries({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			
-			sp
+             return breadcrumb.reverse(); // Reverse to show Root -> ... -> Current
 
-		})
+         } catch (e) {
+             console.error("Breadcrumb generation failed:", e);
+             return er({ code: "BREADCRUMB_FAILED", details: e.message });
+         }
+     },
 
-	},
-	
 
-	/**
- edits details of series itself
- POST
-       aliasId required
-       seriesId required
-       description optional
-       name optional
+    // --- Combined Series/Post Endpoints (Already in _awtsmoos.posts.js or here) ---
 
-        **/
-	"/heichelos/:heichel/series/:series/editSeriesDetails": async (v) => {
-		return editSeriesDetails({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			seriesId:v.series
-			
-			
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/posts
+     * @description Gets posts within a series (IDs or details). Handled in _awtsmoos.posts.js
+     */
+     // Note: Route definition might exist in both files. Ensure only one handles it.
+     // Assuming _awtsmoos.posts.js handles this. If defined here, remove from posts.js.
 
-		})
 
-	},
+    /**
+     * @endpoint GET /heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal
+     * @description Filters posts within a series. Handled in _awtsmoos.posts.js
+     */
+     // Assuming _awtsmoos.posts.js handles this.
 
-	/**
-		expects new $_POST.postIDs list of new IDs 
-  		to be in that series (to change order / edit)
- 	**/
-	"/heichelos/:heichel/series/:series/changePostsInSeries": async (v) => {
-		return editPostsInSeries({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			seriesId:v.series
-			
-			
 
-		})
+     /**
+      * @endpoint GET /heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal
+      * @description Filters direct sub-series by a property in their prateem. Returns matching sub-series IDs.
+      */
+     "/heichelos/:heichel/series/:series/filterSeriesBy/:propKey/:propVal": async v => {
+         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+         let pv = v.propVal;
+         let pk = v.propKey;
+         try { pv = decodeURIComponent(pv); } catch (e) {}
+         try { pk = decodeURIComponent(pk); } catch (e) {}
 
-	},
+         return getSeriesByProperty({
+             $i,
+             heichelId: v.heichel,
+             parentSeriesId: v.series,
+             propertyKey: pk,
+             propertyValue: pv
+         });
+     },
 
-	"/heichelos/:heichel/series/:series/changeSubSeriesInSeries": async (v) => {
-		return editSubSeriesInSeries({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			seriesId:v.series
-			
-			
+    // --- Modification Endpoints ---
 
-		})
+    /**
+     * @endpoint PUT /heichelos/:heichel/series/:series/editSeriesDetails
+     * @description Edits the prateem (name, description) of a series.
+     * @requires Body: { aliasId, description?, seriesName/name/title? }
+     */
+    "/heichelos/:heichel/series/:series/editSeriesDetails": async (v) => {
+        if ($i.request.method !== "PUT") return er({ code: "METHOD_NOT_ALLOWED" });
+        // $_PUT should contain aliasId and updates
+        return editSeriesDetails({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series
+        });
+    },
 
-	},
-	"/heichelos/:heichel/series/:series/changeSubSeriesFromOneSeriesToAnother/:toSeries": async (v) => {
-		
-		return changeSubSeriesFromOneSeriesToAnother({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			seriesFromId:v.series,
-			seriesToId: v.toSeries
-			
-			
+    /**
+     * @endpoint PUT /heichelos/:heichel/series/:series/changeSubSeriesInSeries
+     * @description Replaces the entire list of sub-series for the given series.
+     * @requires Body: { aliasId, subSeriesIDs: [...] }
+     */
+    "/heichelos/:heichel/series/:series/changeSubSeriesInSeries": async (v) => {
+        if ($i.request.method !== "PUT") return er({ code: "METHOD_NOT_ALLOWED" });
+        return editSubSeriesInSeries({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series
+        });
+    },
 
-		})
+    /**
+     * @endpoint POST /heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo
+     * @description Moves sub-series from one parent to another.
+     * @requires Body: { aliasId, subSeriesIDs: [...] }
+     */
+    "/heichelos/:heichel/series/:seriesFrom/moveSubSeriesTo/:seriesTo": async (v) => {
+         if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
+         return changeSubSeriesFromOneSeriesToAnother({
+             $i,
+             heichelId: v.heichel,
+             seriesFromId: v.seriesFrom,
+             seriesToId: v.seriesTo
+         });
+     },
 
-	},
-	//changeSubSeriesFromOneSeriesToAnother
-	
-	//editPostsInSeries
-	//editSubSeriesInSeries
-	/**
- POST
-       aliasId required
-       seriesId required
-       
 
-        **/
-	"/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId": async (v) => {
-		return deleteSeriesFromHeichel({
-			$i,
-			userid,
-			heichelId: v.heichel,
-			seriesId:v.seriesId
+    /**
+     * @endpoint DELETE /heichelos/:heichel/deleteSeries/:seriesId
+     * @description Deletes a series and all its contents (posts, sub-series recursively).
+     * @requires Body: { aliasId } (or query/header for auth)
+     */
+    "/heichelos/:heichel/deleteSeries/:seriesId": async (v) => {
+        if ($i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
+         // Ensure aliasId is available
+         if (!$i.$_DELETE) $i.$_DELETE = {};
+         $i.$_POST.aliasId = $i.$_DELETE.aliasId || $i.$_QUERY.aliasId /* or from auth */;
+         if (!$i.$_POST.aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
 
-		})
+        return deleteSeriesFromHeichel({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.seriesId // Use seriesId from route
+        });
+    },
 
-	},
-})
+
+    // --- Deprecated / Changed Routes ---
+    /*
+    "/heichelos/:heichel/addContentToSeries": DEPRECATED - Use POST /../addNewSeries or POST /../posts
+    "/heichelos/:heichel/deleteContentFromSeries": DEPRECATED - Use DELETE /../deleteSeries/:id or DELETE /../post/:id
+    "/heichelos/:heichel/series/:series/changePostsInSeries": DEPRECATED - Post order not managed this way.
+    "/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId": Renamed to /deleteSeries/:seriesId for clarity.
+    */
+
+});

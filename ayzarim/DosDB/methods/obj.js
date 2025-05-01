@@ -7,6 +7,13 @@ module.exports = {
 		return awtsmoosJSON.appendToObj(pathic, {key, value})
     },
 
+	async updateEntry(pth, {key, value}) {
+		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+		return awtsmoosJSON.appendToObj(pathic, {key, value}, {
+			reservePlace: true
+		});
+	},
+
 	async appendToArrayAtKey(pth, {key, shtar}) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		// We need an operation like "appendToArrayAtKey" or simulate it:

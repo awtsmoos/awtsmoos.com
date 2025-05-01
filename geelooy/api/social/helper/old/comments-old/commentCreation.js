@@ -7,21 +7,21 @@
 const { 
     NO_LOGIN, 
     sp 
-} = require("../_awtsmoos.constants.js");
+} = require("../../_awtsmoos.constants.js");
 
 const { 
     loggedIn, 
     er, 
     myOpts 
-} = require("../general.js");
+} = require("../../general.js");
 
 const { 
     verifyHeichelAuthority 
-} = require("../heichel.js");
+} = require("../../heichel.js");
 
 const { 
     verifyAliasOwnership 
-} = require("../alias.js");
+} = require("../../alias.js");
 
 const { 
     getSubmittedCommentPath, 
