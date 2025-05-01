@@ -194,14 +194,19 @@ async function addOrApproveComment(
             author: aliasId,
             parentType,
             parentId,
-            postId: parentType === "post" ? parentId : postId, // Ensure postId is stored
+            
             seriesId, // Store seriesId for context
             timestamp: Date.now(),
             verseSection, // Store verse section
             ...(content && typeof content === "string" && content !== "undefined" && { content }),
-            ...(dayuh && typeof dayuh === "object" && { dayuh }),
-            ...(userid && { addedByUserId: userid }) // Optional: track user if needed
+            ...(dayuh && typeof dayuh === "object" && { dayuh })
         };
+
+        if(parentType != "post") {
+            shtar.postId = (
+                parentType === "post" ? parentId : postId
+            ) // Ensure postId is stored
+        }
 
         // 3. Determine the Target Path (New Structure)
         const aliasCommentFilePath = getAliasCommentFilePath({
@@ -215,18 +220,12 @@ async function addOrApproveComment(
         try {
             // We need an operation like "appendToArrayAtKey" or simulate it:
             // a. Get current array for the verseSection
-            let currentComments = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
-
-            // b. Initialize if it doesn't exist or isn't an array
-            if (!Array.isArray(currentComments)) {
-                currentComments = [];
-            }
-
-            // c. Append the new shtar
-            currentComments.push(shtar);
-
-            // d. Write the updated array back to the key
-            var writeResult = await $i.db.setObjectKey(aliasCommentFilePath, verseSection, currentComments);
+            let writeResult = await $i.db.appendToArrayAtKey(
+				aliasCommentFilePath, {
+					key: verseSection,
+					shtar
+				}
+			);
 
             if (writeResult.error) {
                 throw writeResult.error; // Rethrow DB error
@@ -300,7 +299,7 @@ async function addCommentIndexToAlias({ $i, aliasId, heichelId, seriesId }) {
         // Assuming db.syncKeyInObj adds the seriesId if not present (like adding to a set or list)
         var syncResult = await $i.db.syncKeyInObj(seriesIndexPath, seriesId); // Or equivalent db.addToListIfNotExists
 
-        if (syncResult?.error) {
+        if (syncResult.error) {
             console.error(`Failed to sync seriesId ${seriesId} in ${seriesIndexPath}:`, syncResult.error);
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }

@@ -602,17 +602,32 @@ async function getCommentsOfAlias({
         } else {
             console.log("WHat are u")
         }
-        var r = await fetch(base+`/api/social/heichelos/${
+        var r = await fetch(base+
+               /* `/api/social/heichelos/${
+                    heichelId
+                }/post/${
+                    postId
+                }/comments/aliases/${
+                    aliasId
+                }/?${
+                new URLSearchParams(g)
+            }`*/
+            `/api/social/heichelos/${
                 heichelId
-            }/post/${
+            }/comments/inSeries/${
+                seriesId
+            }/atPost/${
                 postId
-            }/comments/aliases/${
+            }/atAlias/${
                 aliasId
-            }/?${
-            new URLSearchParams(g)
-        }`)
+            }?${
+                new URLSearchParams(g)
+            }`
+        )
         var t = await r.json();
-
+        if(t.success) {
+            t = t.success
+        }
         vs = get?.verseSection;
         if(vs || vs === 0) {
             if(!commentsOfAliasCache

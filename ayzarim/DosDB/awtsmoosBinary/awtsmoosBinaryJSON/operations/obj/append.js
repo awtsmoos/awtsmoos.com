@@ -61,7 +61,7 @@ function appendToJSON(filename, {
 	
 	var alreadyExists = meta.find(q => q.key == key);
 	if(alreadyExists) {
-	//	console.log("Exists", alreadyExists, meta)
+		
 		meta = markEntryAsDeleted(buffer, key, meta)
 		
 	}
@@ -76,19 +76,16 @@ function appendToJSON(filename, {
 		lengthNeededForValue
 	) {
 		slot = findAvailableSlot(meta, lengthNeededForValue)
-		//console.log(" spot!",av,meta);
+
+		
 		if(slot.middle) {
 			insertInMiddle = true;
 
 		}
 		av = slot?.middle || slot?.end
 	}
+
 	
-	/*
-	if(av == 0) {
-		return null;
-	}
-		*/
 
 	var newEntry = {
 		key,

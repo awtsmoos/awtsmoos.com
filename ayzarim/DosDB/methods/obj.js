@@ -6,6 +6,28 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		return awtsmoosJSON.appendToObj(pathic, {key, value})
     },
+
+	async appendToArrayAtKey(pth, {key, shtar}) {
+		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+		// We need an operation like "appendToArrayAtKey" or simulate it:
+		// a. Get current array for the verseSection
+		let ar = await this.getObjectKey(pathic, key);
+
+		// b. Initialize if it doesn't exist or isn't an array
+		if (!Array.isArray(ar)) {
+			ar = [];
+		}
+
+		// c. Append the new shtar
+		ar.push(shtar);
+
+		// d. Write the updated array back to the key
+		var writeResult = await this.setObjectKey(pathic, key, ar);
+
+		if (writeResult.error) {
+			throw writeResult.error; // Rethrow DB error
+		}
+	},
 	async setObjectKey(pth, key, value) {
 		return this.appendToObj(pth, {
 			key, 
@@ -15,7 +37,11 @@ module.exports = {
 	async hasObjectKey(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 	
-		return awtsmoosJSON.getMetadataByKey(pathic, key)
+		var meta = awtsmoosJSON.getMetadataByKey(pathic, key)
+		if(meta.notFound) {
+			return false;
+		}
+		return true;
 	},
 	async getMetadaOfEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);

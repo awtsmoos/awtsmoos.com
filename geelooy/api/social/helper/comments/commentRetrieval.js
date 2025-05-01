@@ -216,7 +216,7 @@ async function getAuthorsCommentingAtVerseSectionInParent({
                 // Fallback: Get value and check if it's a non-empty array
                 // const value = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
                 // const hasKey = Array.isArray(value) && value.length > 0;
-
+                console.log(hasKey,"Chec")
                 if (hasKey) {
                     authorsAtVerseSection.push(aliasId);
                 }

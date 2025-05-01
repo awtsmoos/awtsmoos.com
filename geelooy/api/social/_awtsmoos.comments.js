@@ -309,9 +309,10 @@ module.exports = ({
      */
     [
         "/heichelos/:heichel/comments/inSeries/"
-        + ":series/atPost/:post/atAlias/:alias/atVerseSection/:verseSection"
+        + ":series/atPost/:post/atAlias/:alias"
     ]: async vars => {
         if ($i.request.method == "GET") {
+            var verseSection = $i.$_GET.verseSection || "root";
             return await getCommentsByAliasAtVerseSection({ // Renamed function
                 $i,
                 heichelId: vars.heichel, // Pass heichelId
@@ -319,7 +320,7 @@ module.exports = ({
                 parentId: vars.post,
                 postId: vars.post, // Explicitly add postId
                 aliasId: vars.alias,
-                verseSection: vars.verseSection,
+                verseSection: verseSection,
                 seriesId: vars.series
             });
         } else {
