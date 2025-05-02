@@ -29,6 +29,7 @@ const {
     // New path functions
     getAliasCommentFilePath,
     commentsOfAliasByHeichelAndSeries,
+    commentsOfAliasByHeichelAndSeriesAndParent,
     getSubmittedCommentPath // Unchanged for submission logic
 } = require("./commentPaths.js");
 
@@ -240,7 +241,10 @@ async function addOrApproveComment(
 
         // 5. Update Indexes (Simplified)
         var indexResult = await addCommentIndexToAlias({
-             $i, aliasId, heichelId, seriesId // Only need these for the series index now
+             $i, aliasId, heichelId, seriesId,
+             parentType,
+             parentId,
+             postId
         });
 
         if (indexResult.error) {
@@ -280,7 +284,12 @@ async function addOrApproveComment(
  * @description Indexes that an alias commented in a specific series within a heichel. (Simplified)
  * @returns {Object} Indexing result.
  */
-async function addCommentIndexToAlias({ $i, aliasId, heichelId, seriesId }) {
+async function addCommentIndexToAlias({
+    $i, aliasId, heichelId, seriesId,
+    parentType,
+    parentId,
+    postId
+}) {
     try {
         // No need for ownership check here, assumed verified by caller (addComment)
         // No need for parentId, parentType, postId, verseSection, commentId for this specific index
@@ -290,7 +299,12 @@ async function addCommentIndexToAlias({ $i, aliasId, heichelId, seriesId }) {
         }
 
         // Path to the list of series the alias commented on in this heichel
-        const seriesIndexPath = commentsOfAliasByHeichelAndSeries({ aliasId, heichelId });
+        const seriesIndexPath = commentsOfAliasByHeichelAndSeriesAndParent({ 
+            aliasId, heichelId,
+            parentType,
+            parentId,
+            postId
+        });
         if (!seriesIndexPath) {
              return er("Could not determine series index path.");
         }

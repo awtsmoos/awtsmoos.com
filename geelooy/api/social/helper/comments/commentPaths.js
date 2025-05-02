@@ -165,6 +165,41 @@ function commentsOfAliasByHeichelAndSeries({
 }
 
 
+/**
+ * @method commentsOfAliasByHeichelAndSeries
+ * @description Path for an array storing series IDs where an alias has commented within a specific heichel.
+ * Example: /_awtsmoos/aliases/aliasXYZ/comments/heichel/heichelABC/seriesCommented.awtsmoosData
+ */
+function commentsOfAliasByHeichelAndSeriesAndParent({
+    aliasId,
+    heichelId,
+    parentType,
+    parentId,
+    postId
+}) {
+    if (!aliasId || !heichelId) {
+        er("commentsOfAliasByHeichelAndSeries requires aliasId and heichelId");
+        return null;
+    }
+    return `${
+        sp
+    }/aliases/${
+        aliasId
+    }/comments/heichel/${
+        heichelId
+    }/series${
+        seriesId
+    }/${
+        parentType == "post" ? 
+        "atPost" : `atComment/inPost/${
+            postId
+        }`
+    }/${
+        parentId
+    }`;
+}
+
+
 // --- Submission Path (Likely Unchanged) ---
 
 /**
@@ -248,6 +283,7 @@ module.exports = {
 
     // Indexing
     commentsOfAliasByHeichelAndSeries,
+    commentsOfAliasByHeichelAndSeriesAndParent,
 
     // Submission
     getSubmittedCommentPath,
