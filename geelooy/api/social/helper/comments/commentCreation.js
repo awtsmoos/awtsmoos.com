@@ -299,19 +299,19 @@ async function addCommentIndexToAlias({
         }
 
         // Path to the list of series the alias commented on in this heichel
-        const seriesIndexPath = commentsOfAliasByHeichelAndSeriesAndParent({ 
+        const parentInSeriesIndexPath = commentsOfAliasByHeichelAndSeriesAndParent({ 
             aliasId, heichelId,
+            seriesId,
             parentType,
-            parentId,
             postId
         });
-        if (!seriesIndexPath) {
-             return er("Could not determine series index path.");
+        if (!parentInSeriesIndexPath) {
+             return er("Could not determine parent @ series index path.");
         }
 
         // Use a set-like operation if possible, otherwise read-check-append
         // Assuming db.syncKeyInObj adds the seriesId if not present (like adding to a set or list)
-        var syncResult = await $i.db.syncKeyInObj(seriesIndexPath, seriesId); // Or equivalent db.addToListIfNotExists
+        var syncResult = await $i.db.syncKeyInObj(parentInSeriesIndexPath, parentId); // Or equivalent db.addToListIfNotExists
 
         if (syncResult.error) {
             console.error(`Failed to sync seriesId ${seriesId} in ${seriesIndexPath}:`, syncResult.error);

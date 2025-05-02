@@ -172,6 +172,7 @@ function commentsOfAliasByHeichelAndSeries({
  */
 function commentsOfAliasByHeichelAndSeriesAndParent({
     aliasId,
+    seriesId,
     heichelId,
     parentType,
     parentId,
@@ -194,9 +195,7 @@ function commentsOfAliasByHeichelAndSeriesAndParent({
         "atPost" : `atComment/inPost/${
             postId
         }`
-    }/${
-        parentId
-    }`;
+    }/`;
 }
 
 
