@@ -2,11 +2,11 @@
 // Rewriting the conclusion, placing appended data, finalizing pointers, sealing the structure, and truncating carefully.
 
 const fileBuffer = require("../../../fileBuffer.js"); // Adjust path if necessary
-const makeHashTableFromMetadata = require("../../serialize/makeHashTableFromMetadata.js");
-const getSerializedMetadata = require("../../serialize/getSerializedMetadata.js");
-const serializeMetadataEntry = require("../../serialize/serializeMetadataEntry.js");
+const makeHashTableFromMetadata = require("../../serialize/makeHashTableFromMetadata_v2.js");
+const getSerializedMetadata = require("../../serialize/getSerializedMetadata_v2.js");
+const serializeMetadataEntry = require("../../serialize/serializeMetadataEntry_v2.js");
 const { magicJSON } = require("../../constants.js");
-const freeSpaceManager = require("./freeSpaceManager.js");
+const freeSpaceManager = require("../../modify/freeList.js");
 const { packedLength } = require('../packing/packedLength.js'); // Assuming path is correct
 const writeConditional = require('../helpers/writeConditional.js'); // Assuming path is correct
 

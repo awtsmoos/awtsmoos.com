@@ -6,10 +6,10 @@ const { magicArray } = require("./../constants.js");
 const writeConditional = require("../helpers/writeConditional.js");
 const writeToBuffer = require("../helpers/writeToBuffer.js"); // Assuming this helper exists
 const { typesWith0Length } = require("../parsing/typeInfo.js");
-const serializeValue = require("./serializeValue.js");
+const serializeValue = require("./serializeValue_v2.js");
 const packTypeAndLengthSize = require("../packing/packTypeAndLengthSize.js");
 const { packedLength } = require("../packing/packedLength.js");
-const freeSpaceManager = require("../modify/freeSpaceManager.js");
+const freeSpaceManager = require("../modify/freeList.js");
 const fileBuffer = require("../../../fileBuffer.js"); // Adjust path if needed
 
 // Array Header Byte 1 Layout (Consistent with deserialize)

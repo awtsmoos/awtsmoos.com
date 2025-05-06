@@ -2,16 +2,16 @@
 // Helper functions for modification operations, including nested structure rewrites.
 
 const freeSpaceManager = require("./freeSpaceManager.js"); // Assuming path correct
-const { getMetadata: getArrayMetadata, deserializeArray, getHeaderInfo: getArrayHeader } = require("../deserialize/getArray.js"); // Assuming path correct
-const { getMetadata: getObjectMetadata, getHeaderInfo: getObjectHeader, parseMetadataEntry: parseObjectMetadataEntry } = require("../deserialize/get.js"); // Assuming path correct
-const serializeArray = require("../serialize/array.js"); // Assuming path correct
-const serializeObject = require("../serialize/obj.js"); // Assuming path correct
+const { getMetadata: getArrayMetadata, deserializeArray, getHeaderInfo: getArrayHeader } = require("../deserialize/getArray_v2.js"); // Assuming path correct
+const { getMetadata: getObjectMetadata, getHeaderInfo: getObjectHeader, parseMetadataEntry: parseObjectMetadataEntry } = require("../deserialize/get_v2.js"); // Assuming path correct
+const serializeArray = require("../serialize/array_v2.js"); // Assuming path correct
+const serializeObject = require("../serialize/ob_v2j.js"); // Assuming path correct
 const writeToBuffer = require('../helpers/writeToBuffer.js'); // Assuming path correct
 const writeConditional = require('../helpers/writeConditional.js'); // Assuming path correct
 const { packedLength } = require('../packing/packedLength.js'); // Assuming path correct
-const makeHashTableFromMetadata = require('../serialize/makeHashTableFromMetadata.js'); // Assuming path correct
-const getSerializedMetadata = require('../serialize/getSerializedMetadata.js'); // Assuming path correct
-const serializeMetadataEntry = require('../serialize/serializeMetadataEntry.js'); // Assuming path correct
+const makeHashTableFromMetadata = require('../serialize/makeHashTableFromMetadata_v2.js'); // Assuming path correct
+const getSerializedMetadata = require('../serialize/getSerializedMetadata_v2.js'); // Assuming path correct
+const serializeMetadataEntry = require('../serialize/serializeMetadataEntry_v2.js'); // Assuming path correct
 
 // Array Header Byte 1 Layout
 const ARR_HDR_IS_PARENT_RELATIVE_SHIFT = 7;

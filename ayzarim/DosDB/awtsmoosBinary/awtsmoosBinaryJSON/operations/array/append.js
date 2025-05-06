@@ -3,9 +3,9 @@
 
 const { magicArray, magicJSON } = require("../../constants.js");
 const fileBuffer = require("../../../../fileBuffer.js"); // Adjust path if necessary
-const { getMetadata, getHeaderInfo, deserializeArray } = require("../../deserialize/getArray.js");
-const serializeValue = require("../../serialize/serializeValue.js");
-const freeSpaceManager = require("../freeSpaceManager.js");
+const { getMetadata, getHeaderInfo, deserializeArray } = require("../../deserialize/getArray_v2.js");
+const serializeValue = require("../../serialize/serializeValue_v2.js");
+const freeSpaceManager = require("../../freeList.js");
 const writeToBuffer = require('../../helpers/writeToBuffer.js'); // Assuming path is correct
 const writeConditional = require('../../helpers/writeConditional.js'); // Assuming path is correct
 const packTypeAndLengthSize = require('../../packing/packTypeAndLengthSize.js'); // Assuming path is correct

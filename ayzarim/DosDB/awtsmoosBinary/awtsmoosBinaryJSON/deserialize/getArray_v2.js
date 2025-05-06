@@ -6,8 +6,8 @@ const fileBuffer = require("../../fileBuffer.js"); // Adjust path
 const { unpackLength, packedLength } = require("../packing/packedLength.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 const { typesWith0Length } = require("../parsing/typeInfo.js");
-const freeSpaceManager = require("../modify/freeSpaceManager.js"); // For header size
-const { AwtsmoosParentRelativeProxy } = require('./get.js'); // Import Proxy class
+const freeSpaceManager = require("../modify/freeList.js"); // For header size
+const { AwtsmoosParentRelativeProxy } = require('./get_v2.js'); // Import Proxy class
 
 var temp = {};
 var parseValueFromType = null;

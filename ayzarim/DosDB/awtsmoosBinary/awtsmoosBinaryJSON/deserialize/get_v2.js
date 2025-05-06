@@ -8,7 +8,7 @@ const { hashKey } = require("../helpers/hashing/misc.js");
 const readConditional = require("../helpers/readConditional.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 const { packedLength, unpackLength } = require("../packing/packedLength.js");
-const freeSpaceManager = require("../modify/freeSpaceManager.js"); // Needed for header size
+const freeSpaceManager = require("../modify/freeList.js"); // Needed for header size
 
 var temp = {};
 var parseValueFromType = null;
@@ -644,7 +644,7 @@ function mapObject(buffer, mapping, structureRef = null, parentBuffer = null) {
 
           // --- Get Metadata for the Metadata Array ---
           const metadataArrayBuffer = currentBuffer.subarray(metadataTableInfo.startOffset, metadataTableInfo.endOffset);
-          const { getArray } = require('./../deserialize/getArray.js'); // Lazy get
+          const { getArray } = require('./../deserialize/getArray_v2.js'); // Lazy get
           const metaOfMetaArray = getArray.getMetadata(metadataArrayBuffer, 0, false);
           if(!metaOfMetaArray) return {};
 

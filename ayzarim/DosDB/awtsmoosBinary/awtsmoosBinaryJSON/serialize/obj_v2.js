@@ -4,9 +4,9 @@
 
 const { magicJSON } = require("./../constants.js");
 const serializeValue = require("./serializeValue.js");
-const makeHashTableFromMetadata = require("./makeHashTableFromMetadata.js");
-const getSerializedMetadata = require("./getSerializedMetadata.js");
-const freeSpaceManager = require("../modify/freeSpaceManager.js");
+const makeHashTableFromMetadata = require("./makeHashTableFromMetadata_v2.js");
+const getSerializedMetadata = require("./getSerializedMetadata_v2.js");
+const freeSpaceManager = require("../modify/freeList.js");
 const { packedLength, unpackLength } = require("../packing/packedLength.js");
 const fileBuffer = require("../../../fileBuffer.js"); // Adjust path if needed
 
@@ -41,6 +41,7 @@ const HDR_HASH_TBL_LEN_SIZE_SHIFT = 0;
  * @returns {Buffer | {finalSize: number}} - New buffer or final size if modifying.
  */
 function serializeJSON(json, options = {}) {
+    
     const {
         parentRelative = PARENT_RELATIVE_DEFAULT,
         isTopLevel = true, // Assume top-level unless specified

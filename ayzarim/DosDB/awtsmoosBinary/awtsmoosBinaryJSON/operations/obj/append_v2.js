@@ -3,17 +3,17 @@
 
 const { magicJSON, magicArray } = require("../../constants.js");
 const fileBuffer = require("../../../fileBuffer.js"); // Adjust path if necessary
-const getObj = require("../../deserialize/get.js"); // Adjust path if necessary
-const serializeValue = require("../../serialize/serializeValue.js"); // Adjust path if necessary
-const overwriteTail = require("./overwriteTail.js"); // Assumes path is correct
-const freeSpaceManager = require("./freeSpaceManager.js"); // Assumes path is correct
-const { AwtsmoosParentRelativeProxy } = require('../../deserialize/get.js'); // Assumes path is correct
-const { getMetadata: getArrayMeta, deserializeArray } = require('../../deserialize/getArray.js'); // Assumes path is correct
+const getObj = require("../../deserialize/get_v2.js"); // Adjust path if necessary
+const serializeValue = require("../../serialize/serializeValue_v2.js"); // Adjust path if necessary
+const overwriteTail = require("./overwriteTail_v2.js"); // Assumes path is correct
+const freeSpaceManager = require("../../modify/freeList.js"); // Assumes path is correct
+const { AwtsmoosParentRelativeProxy } = require('../../deserialize/get_v2.js'); // Assumes path is correct
+const { getMetadata: getArrayMeta, deserializeArray } = require('../../deserialize/getArray_v2.js'); // Assumes path is correct
 // Import the rewrite helper
-const { rewriteNestedStructure } = require("./helpers.js"); // Assumes path is correct
+const { rewriteNestedStructure } = require("../modify/helpers.js"); // Assumes path is correct
 // Import serialization helpers needed for nested rewrite
-const serializeMetadataEntry = require('../../serialize/serializeMetadataEntry.js'); // Assumes path is correct
-const makeHashTableFromMetadata = require('../../serialize/makeHashTableFromMetadata.js'); // Assumes path is correct
+const serializeMetadataEntry = require('../../serialize/serializeMetadataEntry_v2.js'); // Assumes path is correct
+const makeHashTableFromMetadata = require('../../serialize/makeHashTableFromMetadata_v2.js'); // Assumes path is correct
 const getSerializedMetadata = require('../../serialize/getSerializedMetadata.js'); // Assumes path is correct
 const writeConditional = require('../../helpers/writeConditional.js'); // Assumes path is correct
 const { packedLength } = require('../../packing/packedLength.js'); // Assumes path is correct
