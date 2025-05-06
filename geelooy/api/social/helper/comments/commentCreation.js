@@ -228,7 +228,7 @@ async function addOrApproveComment(
 				}
 			);
 
-            if (writeResult.error) {
+            if (writeResult?.error) {
                 throw writeResult.error; // Rethrow DB error
             }
 
@@ -313,7 +313,7 @@ async function addCommentIndexToAlias({
         // Assuming db.syncKeyInObj adds the seriesId if not present (like adding to a set or list)
         var syncResult = await $i.db.syncKeyInObj(parentInSeriesIndexPath, parentId); // Or equivalent db.addToListIfNotExists
 
-        if (syncResult.error) {
+        if (syncResult?.error) {
             console.error(`Failed to sync seriesId ${seriesId} in ${seriesIndexPath}:`, syncResult.error);
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }

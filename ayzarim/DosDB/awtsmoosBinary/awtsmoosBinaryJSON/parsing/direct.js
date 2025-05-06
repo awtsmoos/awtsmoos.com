@@ -2,7 +2,7 @@
 var parseValueFromType = require("./fromType.js")
 var 
     readConditional
- = require("../helpers/readConditionalWithSize.js")
+ = require("../helpers/readConditional.js")
 
 var unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 

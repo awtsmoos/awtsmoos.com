@@ -1,7 +1,7 @@
 //B"H
 
 /**
- * @method readConditionalWithSize
+ * @method readConditional
  * @description Reads a value with specified size, adapting to the Awtsmoos’ precision.
  * @param {Buffer} buffer - Source buffer
  * @param {number} offset - Starting offset

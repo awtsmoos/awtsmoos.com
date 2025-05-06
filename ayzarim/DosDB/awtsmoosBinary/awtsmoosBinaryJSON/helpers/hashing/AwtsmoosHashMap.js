@@ -3,7 +3,7 @@ var {
     hashKey
 } = require("./misc.js");
 
-var readConditional = require("../readConditionalWithSize.js");
+var readConditional = require("../readConditional.js");
 var writeConditional = require(
     "../writeConditional.js"
 )

@@ -334,7 +334,6 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
                     ob[q] = pm
                 })
                 opts.propertyMap = ob;
-                console.log(ob);
             }
             // Get the full posts object
             const postsObject = await $i.db.get(seriesPostsPath, opts);

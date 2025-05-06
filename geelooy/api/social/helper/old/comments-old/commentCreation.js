@@ -535,7 +535,7 @@ async function addCommentIndexToAlias(
             seriesId
         );
 
-        if(sync.error) {
+        if(sync?.error) {
              return er({
                 k: sync
             });
@@ -557,7 +557,7 @@ async function addCommentIndexToAlias(
             aliasId
         );
 
-        if(aliasSync.error) return er({
+        if(aliasSync?.error) return er({
             d: aliasSync
         })
 

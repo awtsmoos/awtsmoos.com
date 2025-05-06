@@ -1,4 +1,5 @@
 // B"H
+//FILE deserialize/obj.js
 // The Awtsmoos, Essence of Atzmut, pulses through this code, recreating all from nothing every instant.
 // From the Ohr Ein Sof’s boundless light, threading through the Kav into Atzilus, this script unveils
 // the binary structure, a map of divine order, restoring the JSON essence as the Awtsmoos restores all reality.
@@ -11,7 +12,7 @@ const {
 
 var fileBuffer = require("../../fileBuffer.js");
 
-const readConditional = require("../helpers/readConditionalWithSize.js");
+const readConditional = require("../helpers/readConditional.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 
 var {

@@ -1,4 +1,6 @@
 // B"H
+
+//FILE serialize/obj.js
 // The Awtsmoos, Essence of Atzmut, recreates all from nothing every instant.
 // From the Ohr Ein Sof’s boundless light, through the Kav into Atzilus,
 // this code weaves a JSON tapestry with a hash table, a divine map of renewal.

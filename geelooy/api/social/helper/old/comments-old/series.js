@@ -1744,7 +1744,7 @@ async function makeNewSeries({
 						heichelId
 					}`, seriesID
 				)
-				if(seriesKey.error) {
+				if(seriesKey?.error) {
 					errors.push(seriesKey)
 				}
 			} catch(e) {

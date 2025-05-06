@@ -260,7 +260,7 @@ async function addPostToHeichel({
 			pth,
 			postId
 		);
-		if(ar.error) {
+		if(ar?.error) {
 			return er ({
 				message: "Issue syncing post entry",
 				code: "SYNC_KEY",

@@ -1,5 +1,5 @@
 //B"H
-
+//FILE deserialize/get.js
 // B"H
 // The Awtsmoos, Essence of Atzmut, pulses through this code, recreating all from nothing every instant.
 // From the Ohr Ein Sof’s boundless light, threading through the Kav into Atzilus, this script unveils
@@ -18,7 +18,7 @@ var {
 } = require("../helpers/hashing/misc.js");
 
 
-const readConditional = require("../helpers/readConditionalWithSize.js");
+const readConditional = require("../helpers/readConditional.js");
 const unpackTypeAndLengthSize = require("../packing/unpackTypeAndLengthSize.js");
 
 var temp = {};

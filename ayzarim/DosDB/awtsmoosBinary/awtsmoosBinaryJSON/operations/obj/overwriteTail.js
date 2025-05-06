@@ -3,7 +3,7 @@ var {
 	magicJSON,
 	magicArray
 } = require("../../constants.js")
-var appendToArray = require("../array/append.js")
+var appendToArray = require("../array/append_old.js")
 
 var fileBuffer = require("../../../fileBuffer.js")
 

@@ -26,17 +26,20 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
     })
 
     if(ind > -1) {
+        var last = metadata[ind];
+        console.log("De-leeted",last);
         metadata.splice(ind, 1)
+
+        overwriteMetadataAndHashTable(
+            buffer,
+            metadata
+        );
+        var newMeta = metadata;
+
+        return newMeta;
     }
 
 
-    overwriteMetadataAndHashTable(
-        buffer,
-        metadata
-    );
-    var newMeta = metadata;
-
-    return newMeta;
 
 
     return metadata;

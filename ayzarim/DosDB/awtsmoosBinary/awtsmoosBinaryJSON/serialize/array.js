@@ -1,5 +1,6 @@
 //B"H
 
+//FILE serialize/array.js
 
 var writeConditional = require("../helpers/writeConditional.js")
 var writeToBuffer = require("../helpers/writeToBuffer.js")

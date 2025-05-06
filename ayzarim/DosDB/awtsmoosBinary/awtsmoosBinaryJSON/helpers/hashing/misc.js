@@ -1,7 +1,7 @@
 //B"H
 var crypto = require("crypto");
 
-var readConditional = require("../readConditionalWithSize.js");
+var readConditional = require("../readConditional.js");
 function hashKey(key, size) {
     if(typeof(key) != "string") {
         key += ""

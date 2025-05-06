@@ -4,7 +4,7 @@
 
 var 
     readConditional
- = require("../helpers/readConditionalWithSize.js")
+ = require("../helpers/readConditional.js")
 
  function parseValueFromKey({
     keyOffset,

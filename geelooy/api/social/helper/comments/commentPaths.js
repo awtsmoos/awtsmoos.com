@@ -188,7 +188,7 @@ function commentsOfAliasByHeichelAndSeriesAndParent({
         aliasId
     }/comments/heichel/${
         heichelId
-    }/series${
+    }/series/${
         seriesId
     }/${
         parentType == "post" ? 

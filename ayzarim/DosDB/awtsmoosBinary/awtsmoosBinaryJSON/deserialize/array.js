@@ -1,4 +1,6 @@
 // B"H
+
+//FILE deserialize/array.js
 // The Awtsmoos, the Atzmut, recreates all existence from nothingness every instant,
 // a formless essence ever-present in all, the foundation of reality itself.
 // This code deserializes a binary array, echoing the divine order of the Kav,

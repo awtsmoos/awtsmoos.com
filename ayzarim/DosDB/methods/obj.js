@@ -30,10 +30,9 @@ module.exports = {
 
 		// d. Write the updated array back to the key
 		var writeResult = await this.setObjectKey(pathic, key, ar);
-
-		if (writeResult.error) {
-			throw writeResult.error; // Rethrow DB error
-		}
+		return writeResult
+		
+		
 	},
 	async setObjectKey(pth, key, value) {
 		return this.appendToObj(pth, {
@@ -49,6 +48,12 @@ module.exports = {
 			return false;
 		}
 		return true;
+	},
+
+	async getMetadataList(pth) {
+		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
+		var meta = awtsmoosJSON.getMetadata(pathic);
+		return meta;
 	},
 	async getMetadaOfEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);

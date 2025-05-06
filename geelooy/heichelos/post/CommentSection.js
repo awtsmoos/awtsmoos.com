@@ -185,7 +185,7 @@ class CommentSection {
                     }),
                 })
             ).json();
-            if (json.message == "Added comment!") {
+            if (json.success) {
                 await AwtsmoosPrompt.go({
                     isAlert: true,
                     headerTxt: "You did it! Your comment appears below.",
