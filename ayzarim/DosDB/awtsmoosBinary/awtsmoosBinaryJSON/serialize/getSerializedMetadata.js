@@ -60,7 +60,23 @@ function getSerializedMetadata({
 
 
     var packAll = (
-            //first 2 bits reserved
+
+            /*first 2 bits 
+			size of first node
+			in free space list.
+
+			If set to 0 (meaning 1 byte),
+			 no free space,
+			so headers are just this
+			one byte, plus 1 byte right 
+			after. then rest is
+			footers;
+
+			If it is set to a greater
+			value (1 = 2, 2 = 4, 3 = 8)
+			we read that many 
+
+			*/
             (byteSizeOfTotalEntriesLength << 4) |
             //0b00110000
             (sizeOfEmbeddedMetadataArrayLength << 2) |

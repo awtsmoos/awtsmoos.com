@@ -70,5 +70,19 @@ function readConditional(buffer, offset = 0, size = null) {
             size
         };
     }
+
 }
+
+/**
+ * 
+ * @param {Buffer} buffer 
+ * @param {UInt} offset 
+ * @param {byte size to read (UInt)} size 
+ * @returns uint 
+ */
+readConditional.readUIntBuffer = (buffer, offset, size) => {
+    var red = readConditional(buffer, offset, size);
+    return red.amount;
+};
+
 module.exports = readConditional;

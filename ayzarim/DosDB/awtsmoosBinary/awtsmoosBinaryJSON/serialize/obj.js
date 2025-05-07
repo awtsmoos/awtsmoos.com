@@ -83,11 +83,7 @@ function serializeJSON(json) {
             key,
             typeLengthByte: valueBufferInfo.typeLengthByte,
             valueLengthInfo: valueBufferInfo.valueLengthInfo,
-          //  valueLength: valueBufferInfo.length,
-            /*
-            valueType: valueBufferInfo.type,
-            
-            */
+ 
             offsetOfValueInMain: offset
         });
 
