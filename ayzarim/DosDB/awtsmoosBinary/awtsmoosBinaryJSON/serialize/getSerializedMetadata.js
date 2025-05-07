@@ -13,7 +13,8 @@ function getSerializedMetadata({
 	offsetSizeMetadataArray,
 	dataLength,
 	totalKeys,
-	hashTableSize
+	hashTableSize,
+	freeSlotOffsetByteSize=1
 } = {}) {
 
     var sizeOfMetadataArrayInfo = writeConditional(serializedMetadataLength);
@@ -74,9 +75,29 @@ function getSerializedMetadata({
 
 			If it is set to a greater
 			value (1 = 2, 2 = 4, 3 = 8)
-			we read that many 
+			we read that many bytes
+			right after this header.
 
+			Those bytes tell us the 
+			offset of the next available
+			free space slot. If it equals 0,
+			then we have no free space
+			(since offset must be 
+			greater than header at least).
+
+			If it's non zero value (and 
+			greater than headers),
+			we read the header(s) starting at
+			that offset to tell us
+			the length, then consider 
+			that entire area as free.
+
+			Incidentally, this is 
+			also the offset size for 
+			all entries in the entire object.
 			*/
+			(freeSlotOffsetByteSize << 6) |
+			//0b11000000
             (byteSizeOfTotalEntriesLength << 4) |
             //0b00110000
             (sizeOfEmbeddedMetadataArrayLength << 2) |

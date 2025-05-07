@@ -80,7 +80,7 @@ function getLengthSizes(buffer, metadataRef = null) {
 	
     var allSizesOfLengths = buffer.readUInt8(offset++);
     var unp = {
-      //  offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
+        offsetByteSize: unpackLength(0b11000000 & allSizesOfLengths),
         lengthSizeOfKeys: 
         	unpackLength(
 				(0b00110000 & allSizesOfLengths) >> 4
@@ -94,7 +94,7 @@ function getLengthSizes(buffer, metadataRef = null) {
         sizeOfHashTableLength: unpackLength(0b00000011 & allSizesOfLengths)
     };
 
-  //  console.log("Exposed",allSizesOfLengths.toString(2), unp)
+	
     return unp
 }
 
