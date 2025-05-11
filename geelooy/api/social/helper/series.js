@@ -389,15 +389,35 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false
  * @description Deletes a series and ALL its content (sub-series and posts) recursively.
  * @requires $_POST: { aliasId } (for auth)
  */
-async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
+async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId }) {
      const aliasId = $i.$_POST.aliasId; // Assuming aliasId comes via POST body for DELETE route
      if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
 
      if (seriesId === "root") return er({ code: "CANNOT_DELETE_ROOT" });
-
+	 parentSeriesId = parentSeriesId || $i.$_POST.parentSeriesId ||
+	 	$i.$_DELETE.parentSeriesId;
+	
      const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
      if (!isAuthorized) return er({ code: "NO_AUTH" });
+	 var pratPath = seriesPrateemPath(heichelId, seriesId)
+	 try {
+		parentSeriesId = parentSeriesId || (await $i.db.get(pratPath))?.parentSeriesId;
+	} catch(e) {
+		return er({
+			message: "Issue searching",
+			stack:e.stack,
+			pratPath
+		})
+	}
+	 if(!parentSeriesId) {
+		return er({
+			message: "Need to provide parentSeriesId",
+			code: "NO_PARENT_SERIES",
+			pratPath
 
+		})
+	 }
+	 
      const deletedItems = { series: [], posts: [], errors: [] };
      const seriesProcessed = new Set(); // To prevent infinite loops in case of cycles
 
@@ -438,7 +458,8 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
                          // We need to delete comments associated with each post first
                          const commentDel = await deleteAllCommentsOfParent({
                              $i, heichelId, seriesId: currentSeriesId,
-                             parentId: postId, parentType: "post"
+                             parentId: postId, parentType: "post",
+							 userid
                          });
                           if (commentDel?.error && commentDel.error.code !== 'NO_COM') {
                               console.error(`Failed deleting comments for post ${postId}: ${commentDel.error}`);
@@ -486,6 +507,15 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
                  }
              }
 
+			 try {
+				await $i.db.delete(currentBasePath)
+			 } catch(e) {
+				deletedItems.errors.push({
+
+					message:`Prateem delete fail: ${currentSeriesId}`,
+					stack:e.stack
+				});
+			 }
              // 4. Untrack series creation for the author
              try {
                  const trackingPath = aliasSeriesTrackingPath(author, heichelId);
@@ -506,22 +536,7 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
              // For simplicity in recursion, we might handle this separately after the main call,
              // or accept potential orphans if parent deletion fails before child removal.
              // Let's try removing from parent here.
-              if (parentId && parentId !== "root") {
-                 const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentId);
-                 try {
-                     const removalResult = await $i.db.removeElementFromArray(
-                         parentSubSeriesPath,
-                         { exact: { selfEquals: currentSeriesId } },
-                         { deleteSelfIfEmpty: false } // Don't delete parent array if empty here
-                     );
-                      if (removalResult?.error && removalResult.error.code !== 'ARRAY_404' && removalResult.error.code !== 'VALUE_NOT_FOUND') {
-                          console.error(`Failed remove ${currentSeriesId} from parent ${parentId}: ${removalResult.error}`);
-                          deletedItems.errors.push(`Parent removal fail: ${currentSeriesId} from ${parentId}`);
-                      }
-                 } catch (eRemoveParent) {
-                     console.error(`Error removing ${currentSeriesId} from parent ${parentId}: ${eRemoveParent.message}`);
-                 }
-              }
+              
 
 
          } catch (e) {
@@ -543,6 +558,22 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId }) {
              });
          }
 
+		 
+		const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentSeriesId);
+		try {
+			const removalResult = await $i.db.removeElementFromArray(
+				parentSubSeriesPath,
+				{ exact: { selfEquals: seriesId } },
+				{ deleteSelfIfEmpty: true } // Don't delete parent array if empty here
+			);
+				if (removalResult?.error && removalResult.error.code !== 'ARRAY_404' && removalResult.error.code !== 'VALUE_NOT_FOUND') {
+					console.error(`Failed remove ${seriesId} from parent ${parentSeriesId}: ${removalResult.error}`);
+					deletedItems.errors.push(`Parent removal fail: ${seriesId} from ${parentSeriesId}`);
+				}
+		} catch (eRemoveParent) {
+			console.error(`Error removing ${seriesId} from parent ${parentSeriesId}: ${eRemoveParent.message}`);
+		}
+		 
          return { success: { message: `Series ${seriesId} and its contents deleted.`, deletedCount: deletedItems.series.length } };
 
      } catch (e) {
