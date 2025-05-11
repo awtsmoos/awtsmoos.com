@@ -3,7 +3,6 @@ var {
 	magicJSON,
 	magicArray
 } = require("../../constants.js")
-var appendToArray = require("../array/append.js")
 
 var serialist = require("../../serialize/obj.js")
 var deser = require("../../deserialize/obj.js");
@@ -44,12 +43,12 @@ function appendToJSON(filename, {
 		offset + 2
 	).toString();
 	offset += 2
-
+/*
 	if(magic == magicArray) {
 		return appendToArray(filename, {
 			value
 		})
-	}
+	}*/
 	var obj = {};
 	if(magic != magicJSON) {
 		var ser = serialist(obj);

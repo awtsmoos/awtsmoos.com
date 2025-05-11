@@ -195,7 +195,7 @@ function commentsOfAliasByHeichelAndSeriesAndParent({
         "atPost" : `atComment/inPost/${
             postId
         }`
-    }/`;
+    }`;
 }
 
 

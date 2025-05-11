@@ -76,7 +76,12 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		var meta = await this.getMetadaOfEntry(pathic, key);
 		if(meta?.key) {
-			return null;
+			console.log(meta, pathic,pth,key)
+			return {
+				exists: meta,
+				path:pathic,
+				key
+			}
 		}
 		return this.appendToObj(pathic, {
 			key,
