@@ -389,7 +389,10 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false
  * @description Deletes a series and ALL its content (sub-series and posts) recursively.
  * @requires $_POST: { aliasId } (for auth)
  */
-async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId }) {
+async function deleteSeriesFromHeichel({
+	 $i, heichelId, seriesId, parentSeriesId,
+	 userid
+	}) {
      const aliasId = $i.$_POST.aliasId; // Assuming aliasId comes via POST body for DELETE route
      if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
 
@@ -463,7 +466,11 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId
                          });
                           if (commentDel?.error && commentDel.error.code !== 'NO_COM') {
                               console.error(`Failed deleting comments for post ${postId}: ${commentDel.error}`);
-                              deletedItems.errors.push(`Comment delete fail: ${postId}`);
+                              deletedItems.errors.push(
+								{
+									message: `Comment delete fail: ${postId}`,
+									commentError: commentDel
+						  	});
                           }
                           // No need to call deletePostFromSeries as we delete the whole posts object below
                           deletedItems.posts.push(postId);
@@ -474,7 +481,11 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId
              } catch (ePosts) {
                  if (!ePosts.message.includes("Path does not exist")) {
                      console.error(`Failed to delete posts for series ${currentSeriesId}: ${ePosts.message}`);
-                     deletedItems.errors.push(`Posts delete fail: ${currentSeriesId}`);
+                     deletedItems.errors.push({
+						message:
+					 	`Posts delete fail: ${currentSeriesId}`,
+						error: ePosts.stack
+				 	});
                  } // Ignore if posts path didn't exist
              }
 

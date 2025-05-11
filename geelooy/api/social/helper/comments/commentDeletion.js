@@ -469,9 +469,9 @@ async function deleteAllCommentsOfParent(
         }
 
         // 3. List all alias files within that directory (to know which indexes to update)
-        const aliasIdsResult = await $i.db.get(parentBasePath);
+        const aliasIdsResult = (await $i.db.get(parentBasePath)) || [];
         let aliasIdsToDelete = [];
-        if (aliasIdsResult.error && !(aliasIdsResult.error.code === 'NOT_FOUND' || aliasIdsResult.error.code === 404)) {
+        if (aliasIdsResult?.error && !(aliasIdsResult?.error.code === 'NOT_FOUND' || aliasIdsResult.error.code === 404)) {
             throw aliasIdsResult.error; // Throw real errors
         } else if (Array.isArray(aliasIdsResult.success)) {
             aliasIdsToDelete = aliasIdsResult.success;

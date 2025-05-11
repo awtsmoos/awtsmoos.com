@@ -342,6 +342,7 @@ module.exports = ({ $i, userid } = {}) => ({
         return deleteSeriesFromHeichel({
             $i,
             heichelId: v.heichel,
+            userid,
             seriesId: v.seriesId // Use seriesId from route
         });
     },
