@@ -4,7 +4,12 @@ const awtsmoosJSON = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 module.exports = {
     async appendToObj(pth, {key, value}={}) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
-		return awtsmoosJSON.appendToObj(pathic, {key, value})
+		var app = awtsmoosJSON.appendToObj(pathic, {key, value})
+		if(app.total && app.freeSpace) {
+			var percentage =app.freeSpace / app.total;
+			await updateTrashInfo(pathic, percentage);
+		}
+		return app;
     },
 
 	async updateEntry(pth, {key, value}) {
@@ -30,6 +35,7 @@ module.exports = {
 
 		// d. Write the updated array back to the key
 		var writeResult = await this.setObjectKey(pathic, key, ar);
+		console.log("Wroyt",writeResult,pathic)
 		return writeResult
 		
 		
@@ -66,6 +72,10 @@ module.exports = {
 	async getValue(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		var val = awtsmoosJSON.getValueByKey(pathic, key)
+		if(!val) {
+			d = await this.get(pathic)
+			console.log("GOT?",d)
+		}
 		return val;
 	},
 	async getObjectKey(pth, key) {
@@ -76,7 +86,7 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		var meta = await this.getMetadaOfEntry(pathic, key);
 		if(meta?.key) {
-			console.log(meta, pathic,pth,key)
+			//console.log(meta, pathic,pth,key)
 			return {
 				exists: meta,
 				path:pathic,
@@ -94,7 +104,12 @@ module.exports = {
 	},	
 	async deleteEntry(pth, key) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
-		return awtsmoosJSON.deleteKeyFromObj(pathic, key)
+		var del = awtsmoosJSON.deleteKeyFromObj(pathic, key)
+		if(del.total && del.freeSpace) {
+			var percentage =del.freeSpace / del.total;
+			await updateTrashInfo(pathic, percentage);
+		}
+		return del;
 	},
 	async deleteObjectKey(pth, key) {
 		return this.deleteEntry(pth, key)
@@ -102,5 +117,13 @@ module.exports = {
 	async getObjectKeys(pth) {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		return awtsmoosJSON.getKeysFromBinary(pathic)
+	},
+	async updateTrashInfo(pth, percentTrash) {
+		var trashes = await this.ensureAwtsmoosBinaryPath(".trashes");
+		var trashedPath = await this.ensureAwtsmoosBinaryPath(pth);
+		this.appendToObj(trashes, {
+			key: trashedPath,
+			value: percentTrash
+		})
 	}
 }

@@ -24,7 +24,9 @@ const {
 
 // Helper to get verseSection from input or default
 function getVerseSectionInput($i, verseSection) {
-    if (verseSection === undefined || verseSection === null) {
+    if (
+        verseSection === undefined || 
+        verseSection === null) {
         verseSection = $i.$_GET?.verseSection; // Check GET params
     }
     // Allow 0 as a valid verseSection, default to "root" otherwise
@@ -63,7 +65,7 @@ async function getCommentsByAliasAtVerseSection({
      if (parentType === "comment" && !postId) {
         return er("postId is required when parentType is 'comment'");
     }
-
+    console.log("VERST",verseSection)
     verseSection = getVerseSectionInput($i, verseSection);
 
     // Get the path to the alias's comment file
@@ -84,7 +86,7 @@ async function getCommentsByAliasAtVerseSection({
             return { success: commentsArray };
         } else {
             // Key might exist but not be an array, or not exist at all. Treat as no comments found.
-            console.log(`No comments found for alias ${aliasId} at verse ${verseSection} in ${aliasCommentFilePath}`);
+            console.log(`No comments found for alias ${aliasId} at verse ${verseSection} in ${aliasCommentFilePath}`,commentsArray);
             return { success: [] }; // Return empty array for consistency
         }
     } catch (e) {
@@ -281,6 +283,7 @@ async function getComment(
          return er("postId is required when parentType is 'comment'");
      }
 
+   // console.log("SADS",verseSection)
     verseSection = getVerseSectionInput($i, verseSection);
 
     try {

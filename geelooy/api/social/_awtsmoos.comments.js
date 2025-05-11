@@ -312,7 +312,7 @@ module.exports = ({
         + ":series/atPost/:post/atAlias/:alias"
     ]: async vars => {
         if ($i.request.method == "GET") {
-            var verseSection = $i.$_GET.verseSection || "root";
+            var verseSection = $i.$_GET.verseSection;
             return await getCommentsByAliasAtVerseSection({ // Renamed function
                 $i,
                 heichelId: vars.heichel, // Pass heichelId
@@ -452,7 +452,7 @@ module.exports = ({
                   return er({ message: "Parameter postId required when parentType is 'comment'", code: "MISSING_PARAMS" });
              }
              // Pass userid for auth checks
-             const requestingUserid = userid || $i.awtsmoosSession?.user?.id;
+             const requestingUserid = userid;
              if (!requestingUserid) return er(NO_LOGIN);
 
 
@@ -467,7 +467,8 @@ module.exports = ({
                 parentId: parentId,
                 postId: postId, // May be undefined if parentType='post'
                 seriesId: seriesId,
-                verseSection: verseSection
+                verseSection: verseSection,
+                userid
             });
         } else if ($i.request.method == "PUT") {
             // Requires PUT body: aliasId, parentType, parentId, postId, seriesId, verseSection, content/dayuh

@@ -557,6 +557,7 @@ function getValueByKey(buffer, key, lengthSizes) {
 		buffer,
 		metadataEntry
 	)
+	console.log("TRY",value,metadataEntry,key)
 	return value;
 	
 

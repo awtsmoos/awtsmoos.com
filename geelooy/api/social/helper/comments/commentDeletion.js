@@ -15,7 +15,9 @@ const {
     er,
     myOpts
 } = require("../general.js");
-
+var NO_LOGIN = {
+    message: "You're not logged in"
+}
 const {
     verifyHeichelAuthority // For permission checks
 } = require("../heichel.js");
@@ -36,7 +38,7 @@ const {
 /**
  * @async
  * @function checkAndDeleteEmptyPathRecursive
- * @description Checks if a directory/path is empty (contains no files/subdirs according to db.list/count).
+ * @description Checks if a directory/path is empty (contains no files/subdirs according to db.get/count).
  * If empty, deletes it and recursively checks the parent directory.
  * Stops recursion at a specified base path or if a non-empty dir is found.
  * @param {string} currentPath - The path to check and potentially delete.
@@ -414,9 +416,20 @@ async function deleteAllCommentsOfParent(
         postId,     // Required if parentType is "comment"
         seriesId,
         // Verification:
-        userid
+        userid,
+        aliasId
     }
 ) {
+    if(!aliasId) {
+        aliasId = $i.$_DELETE.aliasId ||
+            $i.$_POST.aliasId
+    }
+    if(!aliasId) {
+        return er({
+            message: "No alias ID",
+            code: "MISSING_ALIAS"
+        })
+    }
      // Input Validation & Data Extraction
      if (!parentType) parentType = $i.$_DELETE?.parentType || "post";
      if (!parentId) parentId = $i.$_DELETE?.parentId;
@@ -436,9 +449,14 @@ async function deleteAllCommentsOfParent(
 
     try {
          // 1. Verify Authority (Admin/Mod should do this)
-         const hasAdminAuth = await verifyHeichelAuthority({ heichelId, aliasId: $i.awtsmoosSession?.user?.adminAlias || null, $i, permissionLevel: 'admin' }); // Higher level?
+         const hasAdminAuth = await verifyHeichelAuthority({ heichelId, aliasId, $i, permissionLevel: 'admin' }); // Higher level?
          if (!hasAdminAuth) {
-              return er("You do not have permission to delete all comments of this parent.", { code: "DELETE_PARENT_FORBIDDEN", parentId, userid });
+              return er({
+                message: "You do not have permission to delete all comments of this parent.",
+                aliasId,
+                heichelId,
+                 code: "DELETE_PARENT_FORBIDDEN", parentId, userid 
+            });
          }
           console.log(`Admin/Mod ${userid} deleting all comments on parent ${parentId}`);
 
@@ -451,7 +469,7 @@ async function deleteAllCommentsOfParent(
         }
 
         // 3. List all alias files within that directory (to know which indexes to update)
-        const aliasIdsResult = await $i.db.list(parentBasePath);
+        const aliasIdsResult = await $i.db.get(parentBasePath);
         let aliasIdsToDelete = [];
         if (aliasIdsResult.error && !(aliasIdsResult.error.code === 'NOT_FOUND' || aliasIdsResult.error.code === 404)) {
             throw aliasIdsResult.error; // Throw real errors
@@ -588,7 +606,7 @@ async function checkAliasHasAnyCommentsInSeries($i, aliasId, heichelId, seriesId
 
         // Check atPost directly
         const atPostPath = `${seriesBasePath}/atPost`;
-        const postsResult = await $i.db.list(atPostPath);
+        const postsResult = await $i.db.get(atPostPath);
         if (postsResult.success && Array.isArray(postsResult.success)) {
             for (const postId of postsResult.success) {
                 const aliasFilePath = `${atPostPath}/${postId}/${aliasId}`;
@@ -598,7 +616,7 @@ async function checkAliasHasAnyCommentsInSeries($i, aliasId, heichelId, seriesId
 
                  // Also check for comments on comments within this post
                   const atCommentPath = `${atPostPath}/${postId}/atComment`;
-                  const commentsResult = await $i.db.list(atCommentPath);
+                  const commentsResult = await $i.db.get(atCommentPath);
                   if (commentsResult.success && Array.isArray(commentsResult.success)) {
                       for (const commentParentId of commentsResult.success) {
                            const aliasFilePathComment = `${atCommentPath}/${commentParentId}/${aliasId}`;

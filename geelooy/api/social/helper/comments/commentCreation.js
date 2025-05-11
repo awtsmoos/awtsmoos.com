@@ -318,7 +318,7 @@ async function addCommentIndexToAlias({
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }
 
-        console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);
+     //   console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);
         return { success: true, details: syncResult }; // Return DB operation details
 
     } catch (e) {

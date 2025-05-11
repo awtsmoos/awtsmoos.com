@@ -8,7 +8,8 @@ var serialist = require("../../serialize/obj.js")
 var deser = require("../../deserialize/obj.js");
 var getObj = require("../../deserialize/get.js");
 
-
+var getFreeSpaceOrganized = require("./getFreeSpace.js");
+var getTotalDataSize = require("./getTotalSpace.js");
 
 
 var serializeValue = require("../../serialize/serializeValue.js");
@@ -62,10 +63,19 @@ function appendToJSON(filename, {
 	var meta = getObj.getMetadata(buffer)
 	
 	var alreadyExists = meta.find(q => q.key == key);
+	var freeSpace = null;
 	if(alreadyExists) {
 		
-		meta = markEntryAsDeleted(buffer, key, meta)
-		
+		var res = markEntryAsDeleted(buffer, key, meta)
+		if(res.metadata) {
+			meta = res.metadata;
+		}
+		if(res.freeSpace) {
+			freeSpace = res.freeSpace;
+		}
+	}
+	if(!freeSpace) {
+		freeSpace = getFreeSpaceOrganized(meta);
 	}
 	
 	
@@ -77,14 +87,16 @@ function appendToJSON(filename, {
 	//	0
 		lengthNeededForValue
 	) {
-		slot = findAvailableSlot(meta, lengthNeededForValue)
+		slot = findAvailableSlot(freeSpace, lengthNeededForValue, meta)
 
 		
-		if(slot.middle) {
+		if(slot?.middle) {
 			insertInMiddle = true;
-
+			av = slot.middle
+		} else {
+			av = slot?.end
 		}
-		av = slot?.middle || slot?.end
+		
 	}
 
 	
@@ -118,67 +130,46 @@ function appendToJSON(filename, {
 		valueBufferInfo.data
 		: null
 	);
-	return meta;
-}
-
-
-
-function getTotalDataSize(metadata) {
-	var leastOffset = null;
-	var greatestOffset = 0;
-	var totalSize = 0;
-	metadata.forEach(q => {
-		if(
-			q.offsetOfValueInMain < leastOffset ||
-			leastOffset === null
-		) {
-			leastOffset = q.offsetOfValueInMain
-		}
-
-		if(q.offsetOfValueInMain > greatestOffset) {
-			greatestOffset = q.offsetOfValueInMain 
-
-			totalSize = (
-				greatestOffset + 
-				q.valueLength
-			) - leastOffset;
-		}
-	});
-	return totalSize;
-}
-
-function findAvailableSlot(entries, sizeNeeded) {
-	if (!entries || entries.length === 0) return { end: 3 };
-
-	// Step 1: Sort entries by offset
-	const sorted = [...entries].sort((a, b) => a.offsetOfValueInMain - b.offsetOfValueInMain);
-
-	const gaps = [];
-
-	for (let i = 0; i < sorted.length - 1; i++) {
-		const curr = sorted[i];
-		const next = sorted[i + 1];
-
-		const endOfCurr = curr.offsetOfValueInMain + curr.valueLength;
-		const startOfNext = next.offsetOfValueInMain;
-
-		const gapSize = startOfNext - endOfCurr;
-
-		if (gapSize >= sizeNeeded) {
-			gaps.push({ offset: endOfCurr, size: gapSize });
-		}
+	var newFreeSpace = getFreeSpaceOrganized(meta);
+	var total = getTotalDataSize(meta)
+	return {
+		freeSpace: newFreeSpace,
+		totalSpace: total,
+		metadata: meta
 	}
+}
 
+
+
+
+function findAvailableSlot(freeSpace, sizeNeeded) {
+	if(!freeSpace || !freeSpace.length) {
+		 return { end: 3 };
+
+	}
+	var gaps = freeSpace;
+	
 	// Find the smallest gap that fits
-	if (gaps.length > 0) {
-		const bestFit = gaps.sort((a, b) => a.size - b.size)[0];
+
+	const bestFit = gaps.find(q=> size >= sizeNeeded)
+		
+	if (bestFit) {
 		return { middle: bestFit.offset };
 	}
 
+	const sorted = [...metadata].sort((a, b) => a.offsetOfValueInMain - b.offsetOfValueInMain);
+	if(!sorted.length) {
+		return {
+			end: 3
+		}
+	}
 	// No suitable gap found, place at the end
 	const lastEntry = sorted[sorted.length - 1];
 	const endOffset = lastEntry.offsetOfValueInMain + lastEntry.valueLength;
-	return { end: endOffset };
+	
+	return {
+		end: endOffset
+	}
 }
 
 

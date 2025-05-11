@@ -181,8 +181,11 @@ async function editPostInSeries({ $i, heichelId, seriesId, postId }) {
  * @requires $_DELETE: { aliasId }
  * @requires params: heichelId, seriesId, postId
  */
-async function deletePostFromSeries({ $i, heichelId, seriesId, postId }) {
-    const aliasId = $i.$_DELETE.aliasId;
+async function deletePostFromSeries({
+     $i, heichelId, seriesId, postId,
+     userid
+}) {
+    const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
     if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
 
     const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
@@ -249,10 +252,15 @@ async function deletePostFromSeries({ $i, heichelId, seriesId, postId }) {
         // Delete associated comments
         const commentDeletionResult = await deleteAllCommentsOfParent({
             $i, heichelId, seriesId, // Pass seriesId
-            parentId: postId, parentType: "post"
+            parentId: postId, parentType: "post",
+            userid
         });
         if (commentDeletionResult?.error && commentDeletionResult.error.code !== "NO_COM") {
-             console.error(`Issue deleting comments for post ${postId}: ${commentDeletionResult.error}`);
+             console.error(`Issue deleting comments for post ${postId}:`,commentDeletionResult.error);
+             return er({
+                message: "Issue deleting comments for post",
+                specifics: commentDeletionResult.error
+             })
         }
 
         return { success: { message: "Post deleted", postId, commentsDeleted: !commentDeletionResult?.error } };

@@ -112,13 +112,23 @@ module.exports = ({ $i, userid } = {}) => ({
             $i,
             heichelId: v.heichel,
             seriesId: v.series,
-            postId: v.post
+            postId: v.post,
+            userid
         });
 
     },
 
    
-	
+	"/heichelos/:heichel/series/:series/post/:post/delete": async (v) => {
+      
+        return deletePostFromSeries({
+            $i,
+            heichelId: v.heichel,
+            seriesId: v.series,
+            postId: v.post,
+            userid
+        });
+    },
 
 
      /**

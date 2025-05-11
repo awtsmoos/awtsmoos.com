@@ -31,23 +31,49 @@ var baseE = "/api/social/"
  */
 async function deleteContentFromSeries(options) {
     console.log("Attempting to delete content:", options);
-    // The endpoint provided in the prompt seems slightly different, let's use that exact structure
-    // It's a POST to /deleteContentFromSeries endpoint directly under baseE
-     const body = new URLSearchParams({
-        aliasId: options.aliasId || window.curAlias,
-        seriesId: options.seriesId || "root", // Parent ID
-        contentType: options.contentType,
-        contentId: options.contentId, // ID of item to delete
-        deleteOriginal: options.deleteOriginal !== undefined ? options.deleteOriginal : true,
-        // The original prompt didn't specify heichelId here, but it's likely needed for context.
-        // If the endpoint doesn't need it, remove this line.
-        heichelId: options.heichelId
-    });
+    var t = options.contentType;
+	var body = new URLSearchParams({
+		aliasId:  options.aliasId || window.curAlias
+	});
+	
+	var req;
+    if(t == "post") {
+        var path = ({
+            heichel,
+            series,
+            post
+        }) => `${baseE}/heichelos/${
+			heichel
+        }/series/${
+			series
+		}/post/${
+			post
+		}/delete`;
+
+		req = path({
+			post: options.contentId,
+			series: options.seriesId || "root",
+			heichel: options.heichelId
+		})
+		
+    } else {
+		var path = ({
+			heichel,
+			series
+		}) => `${baseE}/heichelos/${
+			heichel
+		}/deleteSeries/${
+			series
+		}`;
+		req = path({
+			heichel: options.heichelId,
+			series: options.contentId
+		})
+	}
+	
 
      return await awtsFetcher.postData(
-        `${baseE}/heichelos/${
-            heichelId
-        }/deleteContentFromSeries`, // Using the exact endpoint name from prompt
+        req, // Using the exact endpoint name from prompt
         body
      );
 }

@@ -4,7 +4,8 @@
 var fileBuffer = require("../../../fileBuffer.js")
 var overwriteMetadataAndHashTable = require("./overwriteTail.js")
 var getObj = require("../../deserialize/get.js");
-
+var getFreeSpaceOrganized = require("./getFreeSpace.js");
+var getTotalDataSize = require("./getTotalSpace.js");
 function deleteKeyFromJSON (buffer, key, metadata=null) {
     if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
@@ -27,7 +28,7 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
 
     if(ind > -1) {
         var last = metadata[ind];
-        console.log("De-leeted",last);
+        //console.log("De-leeted",last);
         metadata.splice(ind, 1)
 
         overwriteMetadataAndHashTable(
@@ -41,8 +42,14 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
 
 
 
+    var freeSpaceLeft = getFreeSpaceOrganized(metadata)
+    var totalSpace = getTotalDataSize(metadata);
 
-    return metadata;
+    return {
+        metadata,
+        totalSpace,
+        freeSpace: freeSpaceLeft
+    }
 
 }
 
