@@ -26,9 +26,10 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
         
     })
 
+    var last;
     if(ind > -1) {
-        var last = metadata[ind];
-        //console.log("De-leeted",last);
+        last = metadata[ind];
+       
         metadata.splice(ind, 1)
 
         overwriteMetadataAndHashTable(
@@ -37,14 +38,14 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
         );
         var newMeta = metadata;
 
-        return newMeta;
+       // return newMeta;
     }
 
 
 
     var freeSpaceLeft = getFreeSpaceOrganized(metadata)
     var totalSpace = getTotalDataSize(metadata);
-
+    console.log("De-leeted",last,metadata,freeSpaceLeft,totalSpace);
     return {
         metadata,
         totalSpace,

@@ -918,7 +918,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 			null,
 			metadataRef
 		);
-		if(metadataEntry.notFound) {
+		if(!metadataEntry || metadataEntry.notFound) {
 			continue;
 		}
 		if([1, 3].includes(

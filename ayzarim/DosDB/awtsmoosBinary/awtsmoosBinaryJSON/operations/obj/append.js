@@ -64,9 +64,10 @@ function appendToJSON(filename, {
 	
 	var alreadyExists = meta.find(q => q.key == key);
 	var freeSpace = null;
+	var res;
 	if(alreadyExists) {
 		
-		var res = markEntryAsDeleted(buffer, key, meta)
+		res = markEntryAsDeleted(buffer, key, meta)
 		if(res.metadata) {
 			meta = res.metadata;
 		}
@@ -77,7 +78,7 @@ function appendToJSON(filename, {
 	if(!freeSpace) {
 		freeSpace = getFreeSpaceOrganized(meta);
 	}
-	
+	console.log("Frees",res,freeSpace)
 	
 	var av = 0;
 
@@ -96,6 +97,12 @@ function appendToJSON(filename, {
 		} else {
 			av = slot?.end
 		}
+
+		console.log(
+
+			"avios",av,
+			slot
+		)
 		
 	}
 
@@ -132,6 +139,7 @@ function appendToJSON(filename, {
 	);
 	var newFreeSpace = getFreeSpaceOrganized(meta);
 	var total = getTotalDataSize(meta)
+	console.log("met",meta,total,newFreeSpace)
 	return {
 		freeSpace: newFreeSpace,
 		totalSpace: total,
@@ -142,17 +150,17 @@ function appendToJSON(filename, {
 
 
 
-function findAvailableSlot(freeSpace, sizeNeeded) {
-	if(!freeSpace || !freeSpace.length) {
+function findAvailableSlot(freeSpace, sizeNeeded, metadata) {
+	if(!freeSpace || !metadata) {
 		 return { end: 3 };
 
 	}
 	var gaps = freeSpace;
 	
-	// Find the smallest gap that fits
+	// Find the smallsest gap that fits
 
 	const bestFit = gaps.find(q=> q.size >= sizeNeeded)
-		
+	console.log("gapizing",gaps,bestFit)
 	if (bestFit) {
 		return { middle: bestFit.offset };
 	}
