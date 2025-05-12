@@ -126,6 +126,14 @@ function appendToJSON(filename, {
 		)
 	}
 	
+	var newFreeSpace = getFreeSpaceOrganized(meta);
+	var total = getTotalDataSize(meta)
+	var first = meta[0];
+	if(first && newFreeSpace.length) {
+		console.log("Updating free space list",first,newFreeSpace);
+		first.freeSpaceHead = newFreeSpace[0].offset;
+		first.freeSpaceEntries = newFreeSpace.length;
+	}
 	overwriteMetadataAndHashTable(
 		buffer, 
 		meta,
@@ -133,8 +141,6 @@ function appendToJSON(filename, {
 		valueBufferInfo.data
 		: null
 	);
-	var newFreeSpace = getFreeSpaceOrganized(meta);
-	var total = getTotalDataSize(meta)
 	return {
 		freeSpace: newFreeSpace,
 		totalSpace: total,
