@@ -151,7 +151,7 @@ function findAvailableSlot(freeSpace, sizeNeeded) {
 	
 	// Find the smallest gap that fits
 
-	const bestFit = gaps.find(q=> size >= sizeNeeded)
+	const bestFit = gaps.find(q=> q.size >= sizeNeeded)
 		
 	if (bestFit) {
 		return { middle: bestFit.offset };
