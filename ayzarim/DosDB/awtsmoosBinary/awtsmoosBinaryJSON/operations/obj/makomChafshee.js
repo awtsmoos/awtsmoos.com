@@ -125,19 +125,18 @@ function insertFreeSpaceEntry(
 			var olderOffset = firstPage.pageOffset;
 			var olderLength = firstPage.pageSize;
 
-			
+			var newSize = serialized.length;
+
 		}
 
 	}
 }
 
+
 function lookThroughSortedEntriesToSeeIfFits(
 	buffer,
 	parsedPage,
-	entry={
-		offset=0,
-		size=0
-	}=0
+	entry
 ) {
 	var entries = parsedPage?.entries;
 	if(!Array.isArray(entries)) {
@@ -160,14 +159,14 @@ function lookThroughSortedEntriesToSeeIfFits(
 		var lastEntry = null;
 		var index = 0;
 		var foundEntry = null;
-		var entry;
-		for(entry of entries) {
+		var en;
+		for(en of entries) {
 			if(size < entry.size) {
-				lastEntry = entry;
+				lastEntry = en;
 				index++;
 				continue;
 			} else {
-				foundEntry = entry;
+				foundEntry = lastEntry;
 				break;
 
 			}
