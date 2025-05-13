@@ -40,8 +40,9 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
         var freeSpaceLeft = getFreeSpaceOrganized(metadata)
         var totalSpace = getTotalDataSize(metadata);
         //console.log("De-leeted",last,metadata,freeSpaceLeft,totalSpace);
-        metadata = updateSortedFreeSpaceAcrossMetadata(metadata, freeSpaceLeft, {
+        metadata = updateSortedFreeSpaceAcrossMetadata(metadata, {
             operation: "deleted",
+            buffer,
             entry: last ? {
                 offset: last?.offsetOfValueInMain,
                 size: last?.valueLength

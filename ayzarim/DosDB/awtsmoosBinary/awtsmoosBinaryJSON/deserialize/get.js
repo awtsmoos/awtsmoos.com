@@ -374,11 +374,13 @@ function parseMetadataEntry(metadataEntryBuffer) {
 		);
 
 		var freeSpaceOffsetSize = unpackLength(
-			0b11000000
+			(0b11000000 & packedKeyAndValueByteLengths)
+			>> 6
 		);
 
 		var freeSpaceLengthSize = unpackLength(
-			0b00110000
+			(0b00110000 & packedKeyAndValueByteLengths)
+			>> 4
 		);
 
 		//0b11000000
