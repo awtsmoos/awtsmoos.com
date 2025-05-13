@@ -83,6 +83,43 @@ function updateSortedFreeSpaceAcrossMetadata(
 	}
 }
 
+
+/*
+	first
+	look for place to insert new free
+	space entry in existing free
+	space pages.
+
+	Or if no free pages exist,
+	make new one and insert this entry
+	as first one.
+
+
+	Then, we need to modify
+	the free page itself (
+	if one already existed)
+
+	since we are adding, then
+	the page will get bigger
+
+	in that case, before marking
+	that space as "empty",
+	we conceptually "add" the
+	new serialized page to the 
+	end of the data section.
+
+	Then, we mark the old
+	space it occupied as "free".
+
+	This involves searching through the 
+	free list again to find where it
+	belongs, which involves 
+	appending it again 
+	to another page, which causes that
+	page to grow, which then repeats the
+	cycle, potentially for al 
+	existing free space pages..
+*/
 function insertFreeSpaceEntry(
 	buffer, 
 	entry, 

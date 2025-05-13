@@ -9,7 +9,7 @@ var getTotalDataSize = require("./getTotalSpace.js");
 
 var {
 	updateSortedFreeSpaceAcrossMetadata
-} = require("./makomChafshee.js")
+} = require("./makomChafshee_manual.js")
 
 function deleteKeyFromJSON (buffer, key, metadata=null) {
     if(typeof(buffer) == "string") {

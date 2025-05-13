@@ -20,7 +20,7 @@ var markEntryAsDeleted = require("./deleteKeyFromJSON.js");
 
 var {
 	updateSortedFreeSpaceAcrossMetadata
-} = require("./makomChafshee.js")
+} = require("./makomChafshee_manual.js")
 var fileBuffer = require("../../../fileBuffer.js")
 /**
  * @method appendToJSON
