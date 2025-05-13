@@ -23,8 +23,8 @@ function entryToBuffer(entry) {
 		offsetOfValueInMain,
 		valueLengthInfo,
 		typeLengthByte,
-		freeSpaceEntries,
-		freeSpaceHead
+		freeSpaceLength,
+		freeSpaceOffset
 	} = entry;
 
 	const keyBuffer = Buffer.from(key, 'utf8');
@@ -60,18 +60,18 @@ function entryToBuffer(entry) {
 	//freeSpaceHead
 
 	
-	var freeSpaceHeadWritten
-	var freeSpaceEntriesWrit
-	if(freeSpaceHead && freeSpaceEntries) {
-		freeSpaceHeadWritten = writeConditional(freeSpaceHead)
-		freeSpaceEntriesWrit = writeConditional(freeSpaceEntries);
+	var freeSpaceOffsetWritten
+	var freeSpaceSizeWrit
+	if(freeSpaceOffset && freeSpaceEntries) {
+		freeSpaceOffsetWritten = writeConditional(freeSpaceOffset)
+		freeSpaceSizeWrit = writeConditional(freeSpaceLength);
 		packedLengthSizes = (
 			packedLength(
-				freeSpaceHeadWritten.size
+				freeSpaceOffsetWritten.size
 			) << 6 |
 			//0b11000000
 			packedLength(
-				freeSpaceEntriesWrit.size
+				freeSpaceSizeWrit.size
 			) << 4 | 
 			//0b00110000
 			packedLengthSizes
@@ -91,11 +91,11 @@ function entryToBuffer(entry) {
 		keyBuffer,
 
 		bufferOffset.buffer
-	]
-	if(freeSpaceHeadWritten && freeSpaceEntriesWrit) {
-		concatted.push(freeSpaceHeadWritten.buffer);
-		concatted.push(freeSpaceEntriesWrit.buffer);
-		
+	];
+	
+	if(freeSpaceOffsetWritten && freeSpaceSizeWrit) {
+		concatted.push(freeSpaceOffsetWritten.buffer);
+		concatted.push(freeSpaceSizeWrit.buffer);
 	}
 	return Buffer.concat(concatted)
 }

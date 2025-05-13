@@ -16,7 +16,11 @@ var serializeValue = require("../../serialize/serializeValue.js");
 
 var overwriteMetadataAndHashTable = require("./overwriteTail.js")
 
-var markEntryAsDeleted = require("./deleteKeyFromJSON.js")
+var markEntryAsDeleted = require("./deleteKeyFromJSON.js");
+
+var {
+	updateSortedFreeSpaceAcrossMetadata
+} = require("./makomChafshee.js")
 var fileBuffer = require("../../../fileBuffer.js")
 /**
  * @method appendToJSON
@@ -128,12 +132,8 @@ function appendToJSON(filename, {
 	
 	var newFreeSpace = getFreeSpaceOrganized(meta);
 	var total = getTotalDataSize(meta)
-	var first = meta[0];
-	if(first && newFreeSpace.length) {
-		console.log("Updating free space list",first,newFreeSpace);
-		first.freeSpaceHead = newFreeSpace[0].offset;
-		first.freeSpaceEntries = newFreeSpace.length;
-	}
+	
+	meta = updateSortedFreeSpaceAcrossMetadata(meta, newFreeSpace)
 	overwriteMetadataAndHashTable(
 		buffer, 
 		meta,
@@ -147,8 +147,6 @@ function appendToJSON(filename, {
 		metadata: meta
 	}
 }
-
-
 
 
 function findAvailableSlot(freeSpace, sizeNeeded, metadata) {

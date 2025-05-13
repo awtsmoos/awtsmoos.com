@@ -371,7 +371,17 @@ function parseMetadataEntry(metadataEntryBuffer) {
 
 		var byteOffsetByteSize = unpackLength(
 			(0b00000011 & packedKeyAndValueByteLengths)
-		)
+		);
+
+		var freeSpaceOffsetSize = unpackLength(
+			0b11000000
+		);
+
+		var freeSpaceLengthSize = unpackLength(
+			0b00110000
+		);
+
+		//0b11000000
 
 		var packedValueByte = packedSizesAndValueTypeSizeByte.readUInt8(1);
 		var parst = unpackTypeAndLengthSize(
@@ -400,15 +410,8 @@ function parseMetadataEntry(metadataEntryBuffer) {
 			0, 
 			keyLengthByteSize
 		);
-	/*
-		console.log("lenghs",
-			metadataEntryBuffer,
-			packedKeyAndValueByteLengths,
-			keyLengthByteSize,
-			parst,
-			keyLength,
-			lengths
-		)*/
+	
+		
 		var valueLength = lengths.readUIntBE(
 			keyLengthByteSize,
 			valueByteLengthSize
@@ -420,21 +423,48 @@ function parseMetadataEntry(metadataEntryBuffer) {
 		);
 		offset += keyLength;
 
-		/*console.log("Doing",keyLength, keyBuffer+"",offset,
-			byteOffsetByteSize
-		)*/
+	
+		
 
 		var offsetOfValueInMain = metadataEntryBuffer.readUIntBE(
 			offset,
 			byteOffsetByteSize
 		);
 
-		return {
+		offset += byteOffsetByteSize;
+		var freeSpaceOffset;
+		var freeSpaceLength;
+		if(metadataEntryBuffer.length - offset > 0) {
+			try {
+				freeSpaceOffset = metadataEntryBuffer.readUIntBE(
+					offset,
+					freeSpaceOffsetSize
+				)
+				offset += freeSpaceOffsetSize;
+
+				freeSpaceLength = metadataEntryBuffer.readUIntBE(
+					offset,
+					freeSpaceLengthSize
+				)
+			} catch(e) {
+
+			}
+		}
+		var ret = {
 			key: keyBuffer.toString(),
 			valueLength,
 			valueType,
 			offsetOfValueInMain
 		}
+		
+		if(
+			freeSpaceOffset &&
+			freeSpaceLength
+		) {
+			ret.freeSpaceOffset = freeSpaceOffset;
+			ret.freeSpaceLength = freeSpaceLength;
+		}
+		return ret;
 	} catch(e) {
 		return null;
 	}

@@ -6,6 +6,11 @@ var overwriteMetadataAndHashTable = require("./overwriteTail.js")
 var getObj = require("../../deserialize/get.js");
 var getFreeSpaceOrganized = require("./getFreeSpace.js");
 var getTotalDataSize = require("./getTotalSpace.js");
+
+var {
+	updateSortedFreeSpaceAcrossMetadata
+} = require("./makomChafshee.js")
+
 function deleteKeyFromJSON (buffer, key, metadata=null) {
     if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
@@ -32,25 +37,40 @@ function deleteKeyFromJSON (buffer, key, metadata=null) {
        
         metadata.splice(ind, 1)
 
+        var freeSpaceLeft = getFreeSpaceOrganized(metadata)
+        var totalSpace = getTotalDataSize(metadata);
+        //console.log("De-leeted",last,metadata,freeSpaceLeft,totalSpace);
+        metadata = updateSortedFreeSpaceAcrossMetadata(metadata, freeSpaceLeft, {
+            operation: "deleted",
+            entry: last ? {
+                offset: last?.offsetOfValueInMain,
+                size: last?.valueLength
+            } : null
+        });
         overwriteMetadataAndHashTable(
             buffer,
             metadata
         );
-        var newMeta = metadata;
+
+        return {
+            metadata,
+            totalSpace,
+            freeSpace: freeSpaceLeft
+        }
 
        // return newMeta;
     }
 
 
 
-    var freeSpaceLeft = getFreeSpaceOrganized(metadata)
-    var totalSpace = getTotalDataSize(metadata);
-    console.log("De-leeted",last,metadata,freeSpaceLeft,totalSpace);
     return {
-        metadata,
-        totalSpace,
-        freeSpace: freeSpaceLeft
+        error: {
+            message: "No key found",
+            key
+        }
     }
+
+   
 
 }
 
