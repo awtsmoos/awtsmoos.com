@@ -99,6 +99,34 @@ function insertFreeSpaceEntry(
 			firstPageOffset,
 			firstPageLength
 		);
+		var newPageInfo = lookThroughSortedEntriesToSeeIfFits(
+			buffer,
+			firstPage,
+			entry
+		);
+		if(newPageInfo.bigger) {
+			/*
+				make new page 
+				at end of chain,
+				look through free space
+				list to see where it goes 
+				and/or append to end of data
+				section
+			*/
+		} else {
+			var {
+				serialized,
+			} = newPageInfo;
+			/*
+				delete old location of page,
+				and rewrite the serialized
+				page to new free-est location
+			*/
+			var olderOffset = firstPage.pageOffset;
+			var olderLength = firstPage.pageSize;
+
+			
+		}
 
 	}
 }
@@ -128,6 +156,35 @@ function lookThroughSortedEntriesToSeeIfFits(
 		 * that the size fits 
 		 * within this page
 		 */
+	
+		var lastEntry = null;
+		var index = 0;
+		var foundEntry = null;
+		var entry;
+		for(entry of entries) {
+			if(size < entry.size) {
+				lastEntry = entry;
+				index++;
+				continue;
+			} else {
+				foundEntry = entry;
+				break;
+
+			}
+			
+		}
+		entries.splice(index, 0, foundEntry);
+		var serialized = serializeFreeSpacePage({
+			entries,
+			nextPage
+		});
+		var pageOffset/*current page
+		 offset in buffer*/ = parsedPage.pageOffset;
+		return {
+			serialized,
+			pageOffset//offset of OLD page entry
+		}
+
 	} else {
 		/*
 			our size is bigger than
@@ -138,7 +195,28 @@ function lookThroughSortedEntriesToSeeIfFits(
 		*/
 		var nextPageOffset = parsedPage?.nextPage;
 		if(nextPageOffset) {
-			var nextPage = 
+			var nextPage = getFreeSpacePage(
+				buffer,
+				nextPageOffset
+			);
+			return lookThroughSortedEntriesToSeeIfFits(
+				buffer,
+				nextPage,
+				entry
+			)
+		} else {
+			/*
+				our free space entry
+				is bigger than all 
+				previous entries found 
+				in all existent pages.
+
+				Make new page with this entry
+			*/
+			return {
+				bigger: true
+
+			}
 		}
 	}
 }
@@ -163,8 +241,8 @@ function serializeFreeSpacePage(
 	);
 	var nextPageByteSize = nextPageData.size;
 	var entryLengthSize = entryLengthData.size;
-	var allOffsets = entries.map(q => q.entryOffset)
-	var allEntryLengths = entries.map(q => q.entryLength);
+	var allOffsets = entries.map(q => q.offset)
+	var allEntryLengths = entries.map(q => q.size);
 
 	var maxEntryLength = Math.max(...allEntryLengths);
 	var maxOffset = Math.max(...allOffsets);
@@ -209,12 +287,12 @@ function serializeFreeSpacePage(
 	for(entry of entries) {
 		var entry = Buffer.alloc(singleEntryLength);
 		entry.writeUIntBE(
-			entry.entryOffset,
+			entry.offset,
 			0,
 			maxOffset
 		);
 		entry.writeUIntBE(
-			entry.entryLength,
+			entry.size,
 			maxOffset,
 			maxEntryLength
 		);
@@ -287,6 +365,13 @@ function getFreeSpacePage(buffer, pageOffset) {
 			totalByteSizeEntries +
 			sizeOfOffsetOfNextPage
 		);
+
+		var totalByteSizeOfPage = (
+			1/*header*/ + 
+			byteSizeOfNumberOfEntries + 
+			sizeOfRemaining
+		);
+
 		var pageBuffer = buffer.subarray(
 			offset,
 			offset + sizeOfRemaining
@@ -309,7 +394,7 @@ function getFreeSpacePage(buffer, pageOffset) {
 		var entries = [];
 		var i;
 		for(i = 0; i < numberOfEntriesInThisPage; i++) {
-			var entryOffset = pageBuffer.readUIntBE(
+			var offset = pageBuffer.readUIntBE(
 				offset,
 				sizeOfEachEntryOffset
 			);
@@ -322,8 +407,8 @@ function getFreeSpacePage(buffer, pageOffset) {
 
 			offset += entryLength;
 			entries.push({
-				entryOffset,
-				entryLength
+				offset,
+				size: entryLength
 			});
 
 		}
@@ -335,43 +420,21 @@ function getFreeSpacePage(buffer, pageOffset) {
 
 		return {
 			entries,
-			nextPage
+			nextPage,
+			pageOffset,//current page offset for records 
+			pageSize: totalByteSizeOfPage
 		}
 	} catch(e) {
-
+		return {
+			error: {
+				message: "Couldn't get page",
+				stack:e.stack,
+				code: "NO_PAGE"
+			}
+		}
 	}
 }
 
-function parseFreeSpacePage(pageBuffer) {
-	var offset = 0;
-	var firstByte = pageBuffer.readUInt8(offset);
-
-	var byteSizeOfNumberOfEntries = unpackLength(
-		0b00000011 & firstByte
-	);
-	var sizeOfEachEntryOffset = unpackLength(
-		(0b00001100 & firstByte)
-		>> 2
-	);
-	var sizeOfEachEntryLength = unpackLength(
-		(0b00110000 & firstByte)
-		>> 4
-	); //even if the lengths are different,
-		//we have uniform length for each
-		//page
-	var sizeOfOffsetOfNextPage = unpackLength(
-		(0b11000000 & firstByte)
-		>> 6
-	);
-
-	offset++;
-	var numberOfEntriesInThisPage = pageBuffer.readUIntBE(
-		offset,
-		byteSizeOfNumberOfEntries
-	)
-	offset += byteSizeOfNumberOfEntries;
-	
-}
 //findChunkOfFreeSpaceEntries
 
 module.exports = {
