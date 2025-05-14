@@ -257,69 +257,20 @@ function insertFreeSpaceEntry({
 				previousPageOffset: prevPageIndex
 			});
 
+			
+			
 			var seeIfThisNewPageItselfCanFitInExistingFreeSpace = 
-				findFreeSpaceEntry({
+				findAndClaimFreeSpace({
 					buffer,
-					sizeNeeded: newPageInChain.length,
-					pageOffset: firstPageOffset
+					firstPageOffset,
+					data: newPageInChain
 				});
-			
 			var er = seeIfThisNewPageItselfCanFitInExistingFreeSpace.error;
-			if(
-				er
-			) {
-				if(er.code == "TOO_BIG_FOR_ALL") {
-					/*
-						this means that even
-						the size of our new, tiny
-						page is too big for
-						all currently available
-						free space slots.
-
-						So we got to tell whoever
-						called this function to
-						add it to end.
-
-						It should also know to 
-						update the pointer
-						of the previous page,
-						if it exists,
-						to the new offset at 
-						the end of the file.
-					*/
-					return {
-						pageAtEnd: newPageInChain,
-						previousPageToUpdate: prevPageIndex
-					}
-				} else {
-					return {
-						error: {
-							message: "Issue trying to find free space",
-							details: er
-						}
-					}
-				}
+			if(er) {
+				return er;
 			}
-
 			var suc = seeIfThisNewPageItselfCanFitInExistingFreeSpace.success;
-			if(suc) {
-				/*
-					we were able to find the specific entry,
-					and page, to CLAIM.
-
-					Now, we need to actually claim it
-					(which REMOVES it from the list and updates the list)
-				*/
-				var cl = claimFreeSpaceEntry({
-					buffer,
-					entry: suc.entry,
-					page: suc.page,
-					firstPageOffset
-				});
-
-			}
-			
-
+			if(suc) return suc;
 
 		} else {
 			var {
@@ -340,6 +291,75 @@ function insertFreeSpaceEntry({
 	}
 }
 
+function findAndClaimFreeSpace({
+	buffer,
+	firstPageOffset,
+	data//to insert
+}) {
+	var possibleFreeSpaceEntry = 
+		findFreeSpaceEntry({
+			buffer,
+			sizeNeeded: data.length,
+			pageOffset: firstPageOffset
+		});
+
+	var er = possibleFreeSpaceEntry.error;
+	if(
+		er
+	) {
+		if(er.code == "TOO_BIG_FOR_ALL") {
+			/*
+				this means that even
+				the size of our new, tiny
+				page is too big for
+				all currently available
+				free space slots.
+
+				So we got to tell whoever
+				called this function to
+				add it to end.
+
+				It should also know to 
+				update the pointer
+				of the previous page,
+				if it exists,
+				to the new offset at 
+				the end of the file.
+			*/
+			return {
+				pageAtEnd: newPageInChain,
+				previousPageToUpdate: prevPageIndex
+			}
+		} else {
+			return {
+				error: {
+					message: "Issue trying to find free space",
+					details: er
+				}
+			}
+		}
+	}
+
+	var suc = possibleFreeSpaceEntry.success;
+	if(suc) {
+		/*
+			we were able to find the specific entry,
+			and page, to CLAIM.
+
+			Now, we need to actually claim it
+			(which REMOVES it from the list and updates the list)
+		*/
+		var cl = claimFreeSpaceEntry({
+			buffer,
+			newData: data,
+			entry: suc.entry,
+			page: suc.page,
+			firstPageOffset
+		});
+		return cl;
+
+	}
+}
 
 /*
 
@@ -548,6 +568,33 @@ function claimFreeSpaceEntry({
 		extraEntries: 0 //adjust later based on size etc.
 	});
 
+	/*
+		need to mark our old page
+		as "empty" and rewrite our new claimed page
+	*/
+
+	var pageWrote = insertFreeSpaceEntry({
+		buffer,
+		entry: {
+			offset: page.pageOffset,
+			size: page.pageSize
+		},
+		firstPageOffset
+	});
+
+	if(pageWrote.error) {
+		return pageWrote;
+	}
+
+	var newPageWritten = findAndClaimFreeSpace({
+		buffer,
+		firstPageOffset,
+		data: updatedPage
+	})
+
+	if(newPageWritten.error) {
+		return newPageWritten;
+	}
 
 
 	var wrote = actuallyWriteToFreeSpace({
@@ -560,6 +607,14 @@ function claimFreeSpaceEntry({
 
 	if(wrote.error) {
 		return wrote;
+	}
+
+	return {
+		success: {
+			wroteUpdatedPage: newPageWritten,
+			wroteNewData: wrote,
+			markedOldPageAsEmpty: pageWrote
+		}
 	}
 
 
