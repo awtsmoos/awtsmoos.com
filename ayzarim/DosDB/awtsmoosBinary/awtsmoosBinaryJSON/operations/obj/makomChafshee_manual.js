@@ -27,7 +27,7 @@ var {
  */
 function updateSortedFreeSpaceAcrossMetadata(
     metadata, 
-    newFreeSpaceList,
+
     options = {
 		buffer=null,
         entry = {
@@ -170,6 +170,28 @@ function insertFreeSpaceEntry(
 }
 
 
+/*
+	this function is used to
+	ADD new free space
+	to existing free space pages,
+	or if {bigger} is returned,
+	it means that the free 
+	space entry is bigger 
+	than all available
+	slots across all free
+	space pages.
+
+	Issue, is that when a free space
+	definetely grows, it needs
+	to be rewritten, and its old 
+	page needs to be marked
+	as free, which means
+	adding a new free entry
+	back to the list.
+
+	need a way of limiting this
+
+*/
 function lookThroughSortedEntriesToSeeIfFits(
 	buffer,
 	parsedPage,
@@ -209,13 +231,27 @@ function lookThroughSortedEntriesToSeeIfFits(
 			}
 			
 		}
+
+		/*
+			insert our entry into 
+			the current free space
+			page
+		*/
 		entries.splice(index, 0, foundEntry);
+
+		/*
+			serialize new, BIGGER free 
+			space page, which needs to 
+			later be rewritten in a new
+			location, and the old 
+			free page needs to be dealt with.
+		*/
 		var serialized = serializeFreeSpacePage({
 			entries,
 			nextPage
 		});
 		var pageOffset/*current page
-		 offset in buffer*/ = parsedPage.pageOffset;
+		 offset in buffer (soon to be OLD page)*/ = parsedPage.pageOffset;
 		return {
 			serialized,
 			pageOffset//offset of OLD page entry
@@ -248,6 +284,11 @@ function lookThroughSortedEntriesToSeeIfFits(
 				in all existent pages.
 
 				Make new page with this entry
+
+				This is only if our 
+				free space entry
+				does not fit in ANY current 
+				FSPs (free space pages).
 			*/
 			return {
 				bigger: true
