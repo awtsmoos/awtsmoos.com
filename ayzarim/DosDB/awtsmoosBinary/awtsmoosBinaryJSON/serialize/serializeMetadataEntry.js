@@ -23,7 +23,8 @@ function entryToBuffer(entry) {
 		offsetOfValueInMain,
 		valueLengthInfo,
 		typeLengthByte,
-		freeSpaceLength,
+	
+		
 		freeSpaceOffset
 	} = entry;
 
@@ -61,18 +62,19 @@ function entryToBuffer(entry) {
 
 	
 	var freeSpaceOffsetWritten
-	var freeSpaceSizeWrit
+
+	
 	if(freeSpaceOffset && freeSpaceEntries) {
 		freeSpaceOffsetWritten = writeConditional(freeSpaceOffset)
-		freeSpaceSizeWrit = writeConditional(freeSpaceLength);
+
+		
 		packedLengthSizes = (
 			packedLength(
 				freeSpaceOffsetWritten.size
 			) << 6 |
 			//0b11000000
-			packedLength(
-				freeSpaceSizeWrit.size
-			) << 4 | 
+			
+			//reserved 2 bits here
 			//0b00110000
 			packedLengthSizes
 			//0b00001111
@@ -93,9 +95,8 @@ function entryToBuffer(entry) {
 		bufferOffset.buffer
 	];
 	
-	if(freeSpaceOffsetWritten && freeSpaceSizeWrit) {
+	if(freeSpaceOffsetWritten) {
 		concatted.push(freeSpaceOffsetWritten.buffer);
-		concatted.push(freeSpaceSizeWrit.buffer);
 	}
 	return Buffer.concat(concatted)
 }

@@ -186,7 +186,7 @@ class FileBuffer {
 	}
 	
 	writeBuffer(offset, buffer) {
-		writeBytesToFileAtOffset({
+		return writeBytesToFileAtOffset({
 			filePath: this.filePath,
 			offset,
 			schema: [{
@@ -195,6 +195,9 @@ class FileBuffer {
 		});
 	}
 	
+	write(offset, buffer) {
+		return this.writeBuffer(offset, buffer)
+	}
 	// Buffer-like method for subarray (to read part of the file)
 	subarray(startIndex, endIndex) {
 		if(isNaN(endIndex)) {

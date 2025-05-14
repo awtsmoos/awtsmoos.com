@@ -378,7 +378,7 @@ function parseMetadataEntry(metadataEntryBuffer) {
 			>> 6
 		);
 
-		var freeSpaceLengthSize = unpackLength(
+		var reserved2Bits = unpackLength(
 			(0b00110000 & packedKeyAndValueByteLengths)
 			>> 4
 		);
@@ -435,7 +435,7 @@ function parseMetadataEntry(metadataEntryBuffer) {
 
 		offset += byteOffsetByteSize;
 		var freeSpaceOffset;
-		var freeSpaceLength;
+		
 		if(metadataEntryBuffer.length - offset > 0) {
 			try {
 				freeSpaceOffset = metadataEntryBuffer.readUIntBE(
@@ -444,10 +444,8 @@ function parseMetadataEntry(metadataEntryBuffer) {
 				)
 				offset += freeSpaceOffsetSize;
 
-				freeSpaceLength = metadataEntryBuffer.readUIntBE(
-					offset,
-					freeSpaceLengthSize
-				)
+			
+				
 			} catch(e) {
 
 			}
@@ -460,11 +458,11 @@ function parseMetadataEntry(metadataEntryBuffer) {
 		}
 		
 		if(
-			freeSpaceOffset &&
-			freeSpaceLength
+			freeSpaceOffset
+			
 		) {
 			ret.freeSpaceOffset = freeSpaceOffset;
-			ret.freeSpaceLength = freeSpaceLength;
+			
 		}
 		return ret;
 	} catch(e) {
