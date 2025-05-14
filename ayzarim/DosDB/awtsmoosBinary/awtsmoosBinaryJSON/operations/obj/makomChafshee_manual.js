@@ -160,27 +160,16 @@ function insertFreeSpaceEntry({
 		
 		if(entrySize >= pageToMake.length) {
 			
-			var wrote = null;
-			var leftOver = entrySize - pageToMake.length;
-			wrote = actuallyWriteToFreeSpace({
+			var wrote = actuallyWriteToFreeSpace({
 				buffer,
 				freeSpaceOffset: entryOffset,
 				freeSpaceLength: entrySize,
 				firstPageOffset,
 				data: pageToMake
-			})
-			try {
-				wrote = buffer.write(
-					entryOffset,
-					pageToMake
-				);
-			} catch(e) {
-				return {
-					error: {
-						message: "Issue writing first page",
-						stack: e.stack
-					}
-				}	
+			});
+			
+			if(wrote.error) {
+				return wrote;
 			}
 
 			
