@@ -191,6 +191,36 @@ function insertFreeSpaceEntry(
 
 	need a way of limiting this
 
+
+	solution:
+
+	allocate each page with a few
+	extra entries 
+
+	when adding an new free space
+	entry to a desired page
+	and its full,
+	AND its less than the 
+	absolute "max page size" amount:
+
+	upgrade page size by a few entires
+
+	maybe, 5
+
+	insert the new free sapce block
+
+	to fix our earlier recursion issue:
+
+	insert the reference to its OLD
+	self in the NEW, bigger
+	block
+
+	this works because it has a few
+	more entries, so upgrading
+	one doesn't cascade to another.
+
+	it holds its own previous version.
+
 */
 function lookThroughSortedEntriesToSeeIfFits(
 	buffer,
