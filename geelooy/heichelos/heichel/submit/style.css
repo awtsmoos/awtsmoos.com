@@ -1,17 +1,15 @@
 /*B"H*/
 /*B"H*/
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
+
 
 body {
     font-family: "Roboto Mono", monospace;
     background-color: #0a0514;
     color: #e0e0ff;
     line-height: 1.7;
-    padding: 20px;
+    
+    
     background-image: radial-gradient(
             circle at 10% 10%,
             rgba(0, 255, 255, 0.1) 0%,
@@ -81,14 +79,14 @@ a:hover {
     font-family: "Russo One", sans-serif;
     font-size: 3em;
     color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff,
-        0 0 15px rgba(255, 0, 255, 0.7);
+   
+    
     margin-bottom: 20px;
 }
 .creator-header .page-title-glow span {
     color: #00ffff;
-    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff,
-        0 0 15px rgba(0, 255, 255, 0.7);
+   
+    
 }
 
 .meta-inputs {
@@ -151,8 +149,8 @@ a:hover {
     text-transform: uppercase;
     letter-spacing: 1px;
     color: #00ff00;
-    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00,
-        0 0 15px rgba(0, 255, 0, 0.7);
+    
+    
 }
 .editor-area-title i {
     margin-right: 10px;
@@ -283,20 +281,20 @@ a:hover {
 .content-editor h1 {
     font-size: 2em;
     color: #ff33ff;
-    text-shadow: 0 0 5px #ff33ff, 0 0 10px #ff33ff,
-        0 0 15px rgba(255, 51, 255, 0.7);
+   
+    
 }
 .content-editor h2 {
     font-size: 1.7em;
     color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff,
-        0 0 15px rgba(255, 0, 255, 0.7);
+    
+    
 }
 .content-editor h3 {
     font-size: 1.4em;
     color: #cc00cc;
-    text-shadow: 0 0 5px #cc00cc, 0 0 10px #cc00cc,
-        0 0 15px rgba(204, 0, 204, 0.7);
+   
+    
 }
 .content-editor a {
     color: #00ffff;
@@ -393,8 +391,7 @@ a:hover {
 }
 .sections-container > .editor-area-title {
     color: #00ffff;
-    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff,
-        0 0 15px rgba(0, 255, 255, 0.7);
+    
     margin-bottom: 20px;
 }
 
@@ -540,8 +537,7 @@ a:hover {
 .modal-title-glow {
     font-family: "Russo One", sans-serif;
     color: #00ffff;
-    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff,
-        0 0 15px rgba(0, 255, 255, 0.7);
+    
     text-align: center;
     margin-bottom: 25px;
     font-size: 2em;
