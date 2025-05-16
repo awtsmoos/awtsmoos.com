@@ -7,7 +7,8 @@ const {
     addComment,
     submitComment,
     addOrApproveComment,
-    addCommentIndexToAlias
+    addCommentIndexToAlias,
+    addLotsOfCommentsToPostByVerseSections
 } = require("./commentCreation.js");
 
 const { 
@@ -59,5 +60,7 @@ module.exports = {
     getCommentsByAliasAtVerseSection,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
-    getComment
+    getComment,
+
+    addLotsOfCommentsToPostByVerseSections
 };

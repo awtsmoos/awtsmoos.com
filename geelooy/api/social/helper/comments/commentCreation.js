@@ -73,7 +73,7 @@ async function addComment(
 
         if (!hasAuthority) {
             // If no direct authority, submit for approval
-            console.log(`Alias ${aliasId} lacks authority for ${heichelId}, submitting comment.`);
+          //  console.log(`Alias ${aliasId} lacks authority for ${heichelId}, submitting comment.`);
             return await submitComment({
                 $i, parentType, parentId, heichelId, aliasId, userid, postId
             });
@@ -86,7 +86,21 @@ async function addComment(
         }
 
         // If has authority, add directly
-        console.log(`Alias ${aliasId} has authority for ${heichelId}, adding comment directly.`);
+      //  console.log(`Alias ${aliasId} has authority for ${heichelId}, adding comment directly.`);
+        var commentArray = $i.$_POST.commentArray;
+        if(Array.isArray(commentArray)) {
+            return await addLotsOfCommentsToPostByVerseSections({
+                $i,
+                parentType, // "post" or "comment"
+                parentId, // ID of the direct parent (post or comment)
+                heichelId,
+                aliasId, // Author's alias ID
+                userid, // User ID for ownership verification
+                postId, // Required only if parentType is "comment", the ID of the top-level post
+                seriesId,
+                commentArray
+            })
+        }
         return await addOrApproveComment({
             $i, parentType, parentId, heichelId, aliasId, userid, postId, seriesId
         });
@@ -109,7 +123,7 @@ async function submitComment(
 ) {
     const { content, dayuh } = $i.$_POST; // Assuming data comes from POST
     const db = $i.db;
-    const timestamp = Date.now();
+    const timestamp = Math.floor(Date.now() / 1000);
     const commentId = "BH_tempComment_by_" + aliasId + "_at_" + timestamp;
 
     // Prepare comment data
@@ -142,9 +156,9 @@ async function submitComment(
         await db.write(submittedCommentSpecificPath, commentData);
 
         // Optionally, add a reference to the general list
-        // await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp }); // Example
+         await db.arrayAppend(allSubmittedListPath, { commentId, aliasId, timestamp }); // Example
 
-        console.log(`Comment ${commentId} submitted successfully to ${submittedCommentSpecificPath}`);
+     //   console.log(`Comment ${commentId} submitted successfully to ${submittedCommentSpecificPath}`);
         return {
             success: true,
             message: "Comment submitted for approval.",
@@ -158,6 +172,95 @@ async function submitComment(
     }
 }
 
+/*
+    takes in
+    array of comments with at least
+    {
+        content,
+        dayuh: {
+            verseSection: "root" or number
+        }
+    }
+*/
+
+async function addLotsOfCommentsToPostByVerseSections({
+    $i,
+    parentType, // "post" or "comment"
+    parentId,   // ID of the direct parent
+    heichelId,
+    aliasId,    // Author alias
+    userid,     // User ID (optional, for metadata)
+    postId,     // Required if parentType is "comment"
+    seriesId,   // Required: Series ID
+    commentArray
+}) {
+    try {
+        var owns = await verifyAliasOwnership(aliasId, $i, userid);
+        if (!owns) {
+            return er({
+                message:"You don't have permission to post as this alias.",
+                 aliasId, userid 
+            });
+        }
+
+        // Verify Heichel Authority (for direct posting/approval)
+        var hasAuthority = await verifyHeichelAuthority({ heichelId, aliasId, $i });
+
+        if (!hasAuthority) {
+            return er({
+                message: "No heicehlized authority!",
+                aliasId,
+                heichelId
+            })
+        }
+
+        commentArray = commentArray || $i.$_POST.commentArray || [];
+        var realArray = commentArray?.map?.(q => ({
+            content: q.content,
+            dayuh: q.dayuh
+
+        })).filter(q => q?.dayuh?.verseSection || q?.dayuh?.verseSection === 0);
+        if(!realArray || !realArray?.length) {
+            return er({
+                message: "No ARRAY of comments with verseSection dayuh attribute provided",
+                code: "NO_AR"
+            })
+        }
+        
+        var verseSections = {};
+        for(var com of realArray) {
+            var v = com?.dayuh?.verseSection 
+            v = v || v === 0 ? v : "root";
+            var r = verseSections[v];
+            if(!r) {
+                verseSections[v] = []
+            }
+            verseSections[v].push(com);
+        }
+        const aliasCommentFilePath = getAliasCommentFilePath({
+            heichelId, seriesId, parentId, aliasId, parentType, postId
+        });
+        var wr = await $i.db.write(
+            aliasCommentFilePath,
+            verseSections
+        );
+
+        return {
+            success: {
+                message: "Added lots of comments to post",
+                count: commentArray.length,
+                verseSections: Object.keys(verseSections),
+                wrote: wr
+            }
+        }
+
+    } catch(e) {
+        return er({
+            message: "ISsue when submitting",
+            stack: e.stack
+        })
+    }
+}
 /**
  * @method addOrApproveComment
  * @description Core function to add a comment directly (or approve a submitted one - approval logic TBD).
@@ -232,7 +335,7 @@ async function addOrApproveComment(
                 throw writeResult.error; // Rethrow DB error
             }
 
-            console.log(`Successfully added comment ${commentId} to ${aliasCommentFilePath} under key ${verseSection}`);
+           // console.log(`Successfully added comment ${commentId} to ${aliasCommentFilePath} under key ${verseSection}`);
 
         } catch (dbError) {
             console.error("Database error adding comment:", dbError);
@@ -258,10 +361,10 @@ async function addOrApproveComment(
         }
 
         // 6. Handle Approval Flow Cleanup (Future)
-        // if (isApproval && submittedCommentPath) {
-        //     await $i.db.delete(submittedCommentPath);
+         if (isApproval && submittedCommentPath) {
+             await $i.db.delete(submittedCommentPath);
         //     // Maybe remove from submission list too
-        // }
+         }
 
         return {
             success: true,
@@ -331,6 +434,7 @@ module.exports = {
     addComment,
     submitComment,
     addOrApproveComment,
+    addLotsOfCommentsToPostByVerseSections,
     addCommentIndexToAlias // Exposed if needed elsewhere, otherwise internal helper
 };
 //--- END OF NEW FILE commentCreation.js ---

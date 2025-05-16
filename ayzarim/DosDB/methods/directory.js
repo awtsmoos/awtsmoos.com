@@ -91,13 +91,13 @@ module.exports = {
         }
         // Get stats for each entry in parallel
         entries = await Promise.all(entries.map(async (dirent) => {
-        var entryPath = path.join(directoryPath, dirent.name);
-        var stats = await fs.stat(entryPath);
-        return {
-            name: dirent.name,
-            created: stats.birthtime,
-            modified: stats.mtime
-        };
+            var entryPath = path.join(directoryPath, dirent.name);
+            var stats = await fs.stat(entryPath);
+            return {
+                name: dirent.name,
+                created: stats.birthtime,
+                modified: stats.mtime
+            };
         }));
 
         // Sort entries based on the sortBy and order parameters

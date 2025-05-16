@@ -17,7 +17,8 @@ var {
     editComment, denyComment, getSubmittedComments, approveComment,
     updateCommentIndexesAtParent, submitComment, addOrApproveComment,
     getCommentsByAliasAtVerseSection, getVerseSectionsCommentedByAuthorInParent,
-    getAuthorsCommentingAtVerseSectionInParent
+    getAuthorsCommentingAtVerseSectionInParent,
+    addLotsOfCommentsToPostByVerseSections
     // Removed getComment duplicates
 } = require("./comments/index.js");
 
@@ -133,4 +134,6 @@ module.exports = {
     getCommentsByAliasAtVerseSection,
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
+
+    addLotsOfCommentsToPostByVerseSections
 };

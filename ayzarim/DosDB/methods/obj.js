@@ -74,7 +74,7 @@ module.exports = {
 		var val = awtsmoosJSON.getValueByKey(pathic, key)
 		if(!val) {
 			d = await this.get(pathic)
-			console.log("GOT?",d)
+			//console.log("GOT?",d)
 		}
 		return val;
 	},

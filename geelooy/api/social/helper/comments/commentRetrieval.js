@@ -65,7 +65,8 @@ async function getCommentsByAliasAtVerseSection({
      if (parentType === "comment" && !postId) {
         return er("postId is required when parentType is 'comment'");
     }
-    console.log("VERST",verseSection)
+  
+    
     verseSection = getVerseSectionInput($i, verseSection);
 
     // Get the path to the alias's comment file
@@ -82,17 +83,17 @@ async function getCommentsByAliasAtVerseSection({
 
         if (Array.isArray(commentsArray)) {
             // TODO: Apply pagination/filtering from opts if needed
-            console.log(`Retrieved ${commentsArray.length} comments for alias ${aliasId} at verse ${verseSection} from ${aliasCommentFilePath}`);
+          //  console.log(`Retrieved ${commentsArray.length} comments for alias ${aliasId} at verse ${verseSection} from ${aliasCommentFilePath}`);
             return { success: commentsArray };
         } else {
             // Key might exist but not be an array, or not exist at all. Treat as no comments found.
-            console.log(`No comments found for alias ${aliasId} at verse ${verseSection} in ${aliasCommentFilePath}`,commentsArray);
+        //    console.log(`No comments found for alias ${aliasId} at verse ${verseSection} in ${aliasCommentFilePath}`,commentsArray);
             return { success: [] }; // Return empty array for consistency
         }
     } catch (e) {
         // Handle case where the alias file itself doesn't exist (vs. key not existing)
         if (e.code === 'NOT_FOUND' || e.code === 404) { // Adjust based on actual DB error codes
-             console.log(`Alias comment file not found: ${aliasCommentFilePath}`);
+         //    console.log(`Alias comment file not found: ${aliasCommentFilePath}`);
              return { success: [] }; // No comments if file doesn't exist
         }
         console.error(`Error retrieving comments from ${aliasCommentFilePath} key ${verseSection}:`, e);
@@ -143,16 +144,16 @@ async function getVerseSectionsCommentedByAuthorInParent({
         const verseSectionKeys = await $i.db.getObjectKeys(aliasCommentFilePath);
 
         if (Array.isArray(verseSectionKeys)) {
-            console.log(`Retrieved verse sections [${verseSectionKeys.join(', ')}] for alias ${aliasId} from ${aliasCommentFilePath}`);
+        //    console.log(`Retrieved verse sections [${verseSectionKeys.join(', ')}] for alias ${aliasId} from ${aliasCommentFilePath}`);
             return { success: verseSectionKeys };
         } else {
             // Should return empty array if file exists but has no keys
-            console.log(`No verse sections found for alias ${aliasId} in ${aliasCommentFilePath} (or unexpected return type)`);
+      //      console.log(`No verse sections found for alias ${aliasId} in ${aliasCommentFilePath} (or unexpected return type)`);
             return { success: [], failed: verseSectionKeys };
         }
     } catch (e) {
          if (e.code === 'NOT_FOUND' || e.code === 404) {
-             console.log(`Alias comment file not found: ${aliasCommentFilePath}`);
+        //     console.log(`Alias comment file not found: ${aliasCommentFilePath}`);
              return { success: [] }; // No verse sections if file doesn't exist
          }
         console.error(`Error retrieving verse sections from ${aliasCommentFilePath}:`, e);
@@ -204,7 +205,7 @@ async function getAuthorsCommentingAtVerseSectionInParent({
         const allAliasIds = await $i.db.get(parentBasePath); // Returns array of alias IDs (filenames)
 
         if (!Array.isArray(allAliasIds) || allAliasIds.length === 0) {
-            console.log(`No alias comment files found in ${parentBasePath}`);
+           // console.log(`No alias comment files found in ${parentBasePath}`);
             return { success: [] };
         }
 
@@ -218,7 +219,8 @@ async function getAuthorsCommentingAtVerseSectionInParent({
                 // Fallback: Get value and check if it's a non-empty array
                 // const value = await $i.db.getObjectKey(aliasCommentFilePath, verseSection);
                 // const hasKey = Array.isArray(value) && value.length > 0;
-                console.log(hasKey,"Chec")
+                
+                
                 if (hasKey) {
                     authorsAtVerseSection.push(aliasId);
                 }
@@ -233,12 +235,12 @@ async function getAuthorsCommentingAtVerseSectionInParent({
             }
         }
 
-        console.log(`Found authors [${authorsAtVerseSection.join(', ')}] commenting at verse ${verseSection} in parent ${parentId}`);
+        //console.log(`Found authors [${authorsAtVerseSection.join(', ')}] commenting at verse ${verseSection} in parent ${parentId}`);
         return { success: authorsAtVerseSection };
 
     } catch (e) {
          if (e.code === 'NOT_FOUND' || e.code === 404) {
-             console.log(`Parent base path not found: ${parentBasePath}`);
+          //   console.log(`Parent base path not found: ${parentBasePath}`);
              return { success: [] }; // No authors if parent dir doesn't exist
          }
         console.error(`Error listing or checking aliases in ${parentBasePath}:`, e);
@@ -303,10 +305,10 @@ async function getComment(
         const foundComment = commentsArray.find(comment => comment && comment.id === commentId);
 
         if (foundComment) {
-            console.log(`Successfully retrieved comment ${commentId}`);
+          //  console.log(`Successfully retrieved comment ${commentId}`);
             return foundComment; // Return the comment object directly
         } else {
-            console.log(`Comment ${commentId} not found within the retrieved array.`);
+         //   console.log(`Comment ${commentId} not found within the retrieved array.`);
             return null; // Comment ID not found in the expected array
         }
 

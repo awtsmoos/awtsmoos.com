@@ -2,12 +2,12 @@
 /*
     free space manager
 */
-const writeConditional = require("../helpers/writeConditional.js");
+const writeConditional = require("../../helpers/writeConditional.js");
 
 var {
 	packedLength,
 	unpackLength
-} = require("../packing/packedLength.js")
+} = require("../../packing/packedLength.js")
 
 /**
  * 
@@ -34,9 +34,10 @@ function updateSortedFreeSpaceAcrossMetadata(
             offset= 0,
             size= 0
         }={},
-        operation: "deleted"
+        operation= "deleted"
     } = {}
 ) {
+	return metadata; //TODO
 	if(!buffer) {
 		return null;
 	}
