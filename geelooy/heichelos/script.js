@@ -5,7 +5,7 @@ import { AwtsmoosPrompt, makePost } from "/scripts/awtsmoos/api/utils.js"; // En
 window.AwtsmoosPrompt = AwtsmoosPrompt;
 
 // --- Global Variables & Initial Setup ---
-let curAlias = null; // Will be set by awtsmoosAliasChange
+
 let currentActiveEditor = null; // Tracks the currently focused editor
 let currentToolbarTarget = null; // Tracks the contentDiv for the active toolbar
 
@@ -34,13 +34,25 @@ const baseURL = `/heichelos/${heichelId}?${new URLSearchParams({
 })}`;
 document.getElementById("backBtn").href = baseURL;
 
-
+addEventListener("awtsmoosAliasChange", e => {
+	console.log("OK!",e)
+	var id = e.detail.id;
+	window.curAlias = id;
+		  
+	aliasIdDiv
+	.value = curAlias;
+});
+console.log("Evented",window.curAlias)
+aliasIdDiv.value = curAlias;
 // --- Event Listeners ---
 document.addEventListener("DOMContentLoaded", () => {
     window.aliasIdDiv = aliasIdDiv; // For global access if needed elsewhere
     if (window.curAlias && window.aliasIdDiv) {
-        aliasIdDiv.value = curAlias;
+        aliasIdDiv.value = window.curAlias;
+        console.log("HI",window.curAlias)
     }
+
+    console.log(curAlias,aliasIdDiv)
 
     const $_GET = new URLSearchParams(location.search);
     const ru = $_GET.get("returnURL");

@@ -59,7 +59,7 @@ module.exports = async $i => {
 
         },
         "/:heichel/edit": async v => {
-            
+          /*  
             var contentID = $i.$_GET.id;
             var action = "edit";
             var type = $i.$_GET.type;
@@ -110,13 +110,9 @@ module.exports = async $i => {
             $sd.method = method;
             $sd.contentID = contentID;
             $sd.parentSeriesId = $i.$_GET.parentSeriesId;
-            $sd.current = current;
+            $sd.current = current;*/
             var p = await $i.$ga(
-                "_awtsmoos.submitToHeichel.html", {
-                    heichel:v.heichel,
-                    series:$sd.parentSeriesId,
-                    $$sd: $sd
-                }
+                "_awtsmoos.submitToHeichel.html"
             );
             return p;
         },

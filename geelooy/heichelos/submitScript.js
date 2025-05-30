@@ -358,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const sectionsArea = document.getElementById("sectionsArea");
 	if(window.curAlias) {
 		if(window.aliasIdDiv) {
+     // console.log("asd")
 			aliasIdDiv.value = curAlias; 
 		}
 	}

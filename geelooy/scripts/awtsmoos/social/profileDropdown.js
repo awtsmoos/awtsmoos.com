@@ -294,6 +294,8 @@ export default function createProfileDropdown(parentElement) {
                 notLogged.classList.add("hidden");
                 if (alias) {
                     window.curAlias = alias;
+                    dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: alias } }));
+                    console.log("GOT",curAlias)
                     const aliasSection = document.getElementById('aliasSection');
                     aliasSection.classList.remove('hidden');
                     document.querySelectorAll('.currentAliasName').forEach(element => {
