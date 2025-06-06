@@ -1072,6 +1072,123 @@ window.AnimatorData = {
                 x: 0.5,
                 y: 0.5
             }]
+        },
+        'simple_cloud': {
+            "id": "cloud_main",
+            "dimensions": { "w": 150, "h": 60 }, // Overall bounding box
+            "shape": { "type": "rect", "fill": "rgba(0,0,0,0)" }, // Invisible container
+            "pivot": { "x": 0.5, "y": 0.5 },
+            "children": [
+                { "id": "puff1", "parentId": null, "anchorToParent": {"x":0.3, "y":0.5}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":0.5, "hFactor":0.7, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"ellipse", "fill":"#FFFFFF", "stroke":"#F0F0F0", "lineWidth": 2} },
+                { "id": "puff2", "parentId": null, "anchorToParent": {"x":0.6, "y":0.4}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":0.6, "hFactor":0.8, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"ellipse", "fill":"#F5F5F5", "stroke":"#E8E8E8", "lineWidth": 2} },
+                { "id": "puff3", "parentId": null, "anchorToParent": {"x":0.8, "y":0.6}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":0.4, "hFactor":0.6, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"ellipse", "fill":"#FEFEFE", "stroke":"#EFEFEF", "lineWidth": 2} }
+            ]
+        },
+        
+        'pine_tree': {
+            "id": "tree_main",
+            "dimensions": { "w": 60, "h": 150 },
+            "shape": { "type": "rect", "fill": "rgba(0,0,0,0)" },
+            "pivot": { "x": 0.5, "y": 0.95 }, // Pivot at base center
+            "children": [
+                { "id": "trunk", "parentId": null, "anchorToParent": {"x":0.5, "y":0.9}, "pivot": {"x":0.5, "y":1.0},
+                  "dimensions": {"wFactor":0.15, "hFactor":0.8, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"rect", "fill":"#654321"} }, // Brown trunk
+                { "id": "leaves1", "parentId": "trunk", "anchorToParent": {"x":0.5, "y":0.1}, "pivot": {"x":0.5, "y":0.8},
+                  "dimensions": {"wFactor":1.5, "hFactor":0.5, "relativeTo":"grandparentDimensions"}, // Wider than trunk, relative to whole tree
+                  "shape": {"type":"polygon", "points":[{"x":0.5, "y":0},{"x":0, "y":1},{"x":1, "y":1}], "fill":"#228B22"} }, // Dark green triangle
+                { "id": "leaves2", "parentId": "trunk", "anchorToParent": {"x":0.5, "y":0.3}, "pivot": {"x":0.5, "y":0.8},
+                  "dimensions": {"wFactor":1.2, "hFactor":0.4, "relativeTo":"grandparentDimensions"},
+                  "shape": {"type":"polygon", "points":[{"x":0.5, "y":0},{"x":0, "y":1},{"x":1, "y":1}], "fill":"#006400"} },
+                { "id": "leaves3", "parentId": "trunk", "anchorToParent": {"x":0.5, "y":0.5}, "pivot": {"x":0.5, "y":0.8},
+                  "dimensions": {"wFactor":0.9, "hFactor":0.3, "relativeTo":"grandparentDimensions"},
+                  "shape": {"type":"polygon", "points":[{"x":0.5, "y":0},{"x":0, "y":1},{"x":1, "y":1}], "fill":"#556B2F"} }
+            ]
+        },
+        
+        'deciduous_tree': {
+            "id": "tree_main",
+            "dimensions": { "w": 100, "h": 120 },
+            "shape": { "type": "rect", "fill": "rgba(0,0,0,0)" },
+            "pivot": { "x": 0.5, "y": 0.95 },
+            "children": [
+                { "id": "trunk", "parentId": null, "anchorToParent": {"x":0.5, "y":0.85}, "pivot": {"x":0.5, "y":1.0},
+                  "dimensions": {"wFactor":0.2, "hFactor":0.7, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"rect", "fill":"#8B4513"} },
+                { "id": "canopy", "parentId": "trunk", "anchorToParent": {"x":0.5, "y":0.1}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":1.0, "hFactor":0.6, "relativeTo":"grandparentDimensions"}, // Canopy relative to whole tree size
+                  "shape": {"type":"ellipse", "fill":"#3CB371"} } // Medium sea green
+            ]
+        },
+        
+        'grassy_hill': {
+            "dimensions": { "w": 300, "h": 100 },
+            "shape": { "type": "path", "pathData": [ // Smooth curve for a hill
+                {"cmd":"M", "x":-0.5, "y":0.5}, // Start bottom left (relative to center)
+                {"cmd":"Q", "x1":0, "y1":-0.5, "x":0.5, "y":0.5} // Curve up and down to bottom right
+              ], "stroke": "rgba(0,0,0,0)", "fill":"#90EE90" // Light green fill for the area under curve (if renderer supports fill for path)
+                         // If not, make it an ellipse slightly squashed or a polygon
+            },
+             "pivot": { "x": 0.5, "y": 1.0 } // Pivot at bottom center
+            // Better: Use a polygon for a filled hill shape
+            // "shape": { "type":"polygon", "points": [
+            //     {"x":0, "y":1}, {"x":0, "y":0.5}, {"x":0.1,"y":0.3}, {"x":0.3,"y":0.1}, {"x":0.5,"y":0},
+            //     {"x":0.7,"y":0.1}, {"x":0.9,"y":0.3}, {"x":1,"y":0.5}, {"x":1,"y":1}
+            //   ], "fill":"#90EE90", "stroke":"#66CDAA"
+            // },
+            // "pivot": { "x": 0.5, "y": 1.0 }
+        },
+        // For the grassy_hill, if your `path` renderer doesn't fill, it's better to use a polygon or a series of ellipses to make the shape.
+        // For simplicity, I'll use a squashed ellipse for the hill itself, and a rect for the ground.
+        
+        'simple_hill_ellipse': {
+            "dimensions": {"w":400, "h":150},
+            "shape": {"type":"ellipse", "fill":"#8FBC8F"}, // DarkSeaGreen
+            "pivot": {"x":0.5, "y":0.8} // Pivot lower part of ellipse
+        },
+        
+        'mountain_peak': {
+            "id": "mountain_main",
+            "dimensions": { "w": 200, "h": 300 },
+            "shape": { "type": "rect", "fill": "rgba(0,0,0,0)" },
+            "pivot": { "x": 0.5, "y": 1.0 }, // Pivot at base center
+            "children": [
+                { "id": "base_rock", "parentId": null, "anchorToParent": {"x":0.5, "y":0.5}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":1.0, "hFactor":1.0, "relativeTo":"parentDimensions"},
+                  "shape": {"type":"polygon", "points":[{"x":0.5, "y":0},{"x":0, "y":1},{"x":1, "y":1}], "fill":"#A9A9A9"} }, // Dark Gray
+                { "id": "snow_cap", "parentId": "base_rock", "anchorToParent": {"x":0.5, "y":0.15}, "pivot": {"x":0.5, "y":0.5},
+                  "dimensions": {"wFactor":0.6, "hFactor":0.3, "relativeTo":"parentDimensions"}, // Relative to base_rock
+                  "shape": {"type":"polygon", "points":[{"x":0.5,"y":0},{"x":0.1,"y":0.8},{"x":0.3,"y":1},{"x":0.7,"y":1},{"x":0.9,"y":0.8}], "fill":"#FFFFFF"} } // White
+            ]
+        },
+        
+        'city_building_tall': {
+            "dimensions": { "w": 70, "h": 250 },
+            "shape": { "type": "rect", "fill": "#696969" }, // DimGray
+            "pivot": { "x": 0.5, "y": 1.0 },
+            // Could add "window" children here using small rects and a loop or many definitions
+            "children": [
+                {"id":"window_row1_1", "parentId":null, "anchorToParent":{"x":0.3, "y":0.1}, "pivot":{"x":0.5,"y":0.5},
+                 "dimensions":{"wFactor":0.2, "hFactor":0.05, "relativeTo":"parentDimensions"}, "shape":{"type":"rect", "fill":"#FFFFE0"}},
+                {"id":"window_row1_2", "parentId":null, "anchorToParent":{"x":0.7, "y":0.1}, "pivot":{"x":0.5,"y":0.5},
+                 "dimensions":{"wFactor":0.2, "hFactor":0.05, "relativeTo":"parentDimensions"}, "shape":{"type":"rect", "fill":"#FFFFE0"}},
+                // ... more windows
+                 {"id":"roof_detail", "parentId":null, "anchorToParent":{"x":0.5, "y":0.01}, "pivot":{"x":0.5,"y":0.5},
+                 "dimensions":{"wFactor":1.1, "hFactor":0.03, "relativeTo":"parentDimensions"}, "shape":{"type":"rect", "fill":"#505050"}}
+            ]
+        },
+        
+        'city_building_wide': {
+            "dimensions": { "w": 120, "h": 150 },
+            "shape": { "type": "rect", "fill": "#778899" }, // LightSlateGray
+            "pivot": { "x": 0.5, "y": 1.0 }
+            // Add window children similarly if desired
         }
     },
 

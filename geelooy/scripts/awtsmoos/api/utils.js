@@ -442,6 +442,7 @@ async function leaveComment({
     postId,
     seriesId,
     heichelId,
+	commentArray,
     content,
     dayuh,
     aliasId,
@@ -453,6 +454,7 @@ async function leaveComment({
 		aliasId,
 		dayuh: JSON.stringify(dayuh),
 		content,
+		commentArray,
         seriesId
 	}
 	var body = new URLSearchParams(obs);
@@ -970,17 +972,23 @@ async function getPostById({
 
 }
 
-async function getPost(parentSeries, index, heichel) {
+async function getPost(parentSeriesId, index, heichel) {
     
-
-    var p = parentSeries.posts[index];
-    if(!p) return null;
-
     var postInfo =  await getAPI(
         `${base}/api/social/heichelos/${
             heichel
-        }/post/${p}` 
+        }/series/${parentSeriesId}/posts/details?${
+			new URLSearchParams({
+				arrayFilter: JSON.stringify({
+			        index
+			    })
+			})
+		}` 
     );
+
+	if(Array.isArray(postInfo)) {
+		return postInfo[0]
+	}
 
     return postInfo
 

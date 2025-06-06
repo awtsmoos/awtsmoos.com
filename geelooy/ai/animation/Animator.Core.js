@@ -1,26 +1,37 @@
 //B"H
-// Animator.Core.js (v1.9.1 - Refactored for Debugging + Ultra-Robust Position & Camera Focus)
-// B"H
+// Animator.Core.js (v2.0 - Enhanced Features & Modularity)
 
 class Animator {
     constructor(canvasElement, uiElements) {
         this.canvas = canvasElement; this.ctx = this.canvas.getContext('2d'); this.ui = uiElements;
-        if (!window.AnimatorData || !window.AnimatorUtils || !window.AnimatorCharacterPipeline ||
-            !window.AnimatorSceneDrawing || !window.AnimatorSpeech ||
-            !window.AnimatorCore_DataHandler || !window.AnimatorCore_CameraControls ||
-            !window.AnimatorCore_EventProcessor || !window.AnimatorCore_StateManagement) {
-            const errorMsg = "FATAL ERROR: One or more core script components not loaded! Check script include order and new module names.";
-            console.error(errorMsg); if (this.ui.statusDiv) this.ui.statusDiv.textContent = errorMsg; throw new Error(errorMsg);
-        }
-        this.DATA = window.AnimatorData; this.UTILS = window.AnimatorUtils;
-        this.CHAR_PIPELINE = window.AnimatorCharacterPipeline; this.SCENE_DRAWING = window.AnimatorSceneDrawing;
+        // Ensure all modules are loaded
+        const modules = [
+            "AnimatorData", "AnimatorUtils", "AnimatorCharacterPipeline", "AnimatorObjectPipeline",
+            "AnimatorSceneDrawing", "AnimatorSpeech", "AnimatorSFX",
+            "AnimatorCore_DataHandler", "AnimatorCore_CameraControls",
+            "AnimatorCore_EventProcessor", "AnimatorCore_StateManagement"
+        ];
+        modules.forEach(m => {
+            if (!window[m]) {
+                const errorMsg = `FATAL ERROR: Core script component ${m} not loaded!`;
+                console.error(errorMsg); if (this.ui.statusDiv) this.ui.statusDiv.textContent = errorMsg; throw new Error(errorMsg);
+            }
+        });
+
+        this.DATA_RAW = window.AnimatorData; // Raw, unchanging data definitions
+        this.DATA = JSON.parse(JSON.stringify(this.DATA_RAW)); // Active data, can be merged with scene specific
+        this.UTILS = window.AnimatorUtils;
+        this.CHAR_PIPELINE = window.AnimatorCharacterPipeline;
+        this.OBJECT_PIPELINE = window.AnimatorObjectPipeline; // NEW
+        this.SCENE_DRAWING = window.AnimatorSceneDrawing;
         this.SPEECH = window.AnimatorSpeech;
+        this.SFX = window.AnimatorSFX; // NEW
         
-        // New Modules
         this.DATA_HANDLER = window.AnimatorCore_DataHandler;
         this.CAMERA_CONTROLS = window.AnimatorCore_CameraControls;
         this.EVENT_PROCESSOR = window.AnimatorCore_EventProcessor;
         this.STATE_MGMT = window.AnimatorCore_StateManagement;
+        this.CORE = this; // Self-reference for modules that might need it and don't get animatorInstance passed
 
         this.DATA.SHAPE_RENDERERS = { ...this.UTILS._defaultShapeRenderers, ...this.DATA.SHAPE_RENDERERS };
         this.DATA.BEHAVIOR_HANDLERS = { ...this.UTILS._defaultBehaviorHandlers, ...this.DATA.BEHAVIOR_HANDLERS };
@@ -28,21 +39,26 @@ class Animator {
         this.isPlaying = false; this.animationFrameId = null; this.lastTimestamp = 0; this.currentTime = 0;
         this.eventTimeline = []; this.currentEventGroupIndex = -1; this.activeEventGroup = null; this.activeEventGroupStatus = {};
         this.charactersState = {}; this.objectsState = {};
-        // Initial camera state values - these will be properly set by loadAnimation
+        
         this.cameraState = {
-            worldX: 0, worldY: 0, zoom: 1,
-            targetWorldX: 0, targetWorldY: 0, targetZoom: 1,
-            focusEntityIds: [], panSpeed: 0.08, zoomSpeed: 0.08,
-            lerpThreshold: 0.01, zoomThreshold: 0.0001,
+            worldX: 0, worldY: 0, zoom: 1, targetWorldX: 0, targetWorldY: 0, targetZoom: 1,
+            focusEntityIds: [], panSpeed: 0.08, zoomSpeed: 0.08, lerpThreshold: 0.01, zoomThreshold: 0.0001,
             minZoom: 0.1, maxZoom: 5.0, verticalFocusBias: 0.15
         };
         this.sceneLayers = []; this.defaultLayerName = 'main';
+        
+        // New state properties for advanced features
+        this.globalTimeScaleFactor = 1.0;
+        this.activeScreenEffect = null; // { type, intensity, endTime }
+        this.globalVariables = {}; // For conditional logic
+        this.timelineUIElements = []; // For UI timeline indicators
 
         this.SPEECH.initialize((statusMsg) => {
             if (this.ui.statusDiv && !this.animationData) this.ui.statusDiv.textContent = statusMsg + " Load JSON to begin.";
         });
+        this.SFX.initialize(this.DATA.SCENE_DATA?.sfxLibrary || {});
         this._bindUIEvents();
-        this.DATA_HANDLER._checkForEmbeddedData(this); // Use DATA_HANDLER
+        this.DATA_HANDLER._checkForEmbeddedData(this);
     }
 
     _bindUIEvents() {
@@ -53,48 +69,25 @@ class Animator {
         this.ui.exportBtn.addEventListener('click', () => this.exportAnimation());
     }
     
-    // loadAnimation, _initializeCharacterState, _initializeObjectState, _resolvePalette, _checkForEmbeddedData, restartAnimationPrerequisites
-    // are now in Animator.DataHandler.js
-
-    // _updateCamera, _calculateCameraFocusTarget, _applyCameraEvent
-    // are now in Animator.CameraControls.js
-
-    // processNextEventGroup, _initiateEvent, _finalizeEvent, _checkActiveEventGroupCompletion
-    // are now in Animator.EventProcessor.js
-    
-    // _updateState, _updateObjectState
-    // are now in Animator.StateManagement.js
-
     togglePlayStop() { if (!this.animationData) return; this.isPlaying ? this.stopAnimation() : this.playAnimation(); }
 
     playAnimation() {
         if (!this.animationData || this.isPlaying) return;
-        this.isPlaying = true;
-        this.ui.playStopBtn.textContent = "Stop";
+        this.isPlaying = true; this.ui.playStopBtn.textContent = "Stop";
         if (this.currentEventGroupIndex === -1 || this.currentEventGroupIndex >= this.eventTimeline.length) {
-            console.log("[ANIM_DEBUG_FLOW] playAnimation: Restarting prerequisites due to timeline position.");
             this.DATA_HANDLER.restartAnimationPrerequisites(this);
         }
         this.lastTimestamp = performance.now();
-        if (!this.activeEventGroup && this.currentEventGroupIndex < this.eventTimeline.length -1 ) { // Check condition
-             console.log("[ANIM_DEBUG_FLOW] playAnimation: No active event group, processing next.");
+        if (!this.activeEventGroup && this.currentEventGroupIndex < this.eventTimeline.length -1 ) {
             this.EVENT_PROCESSOR.processNextEventGroup(this);
         }
-        if (!this.animationFrameId) {
-            console.log("[ANIM_DEBUG_FLOW] playAnimation: Starting animation loop.");
-            this.animationLoop();
-        }
+        if (!this.animationFrameId) this.animationLoop();
     }
 
     stopAnimation() {
-        this.isPlaying = false;
-        this.ui.playStopBtn.textContent = "Play";
-        if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
-            console.log("[ANIM_DEBUG_FLOW] stopAnimation: Cancelled animation frame.");
-        }
-        this.SPEECH.cancel();
+        this.isPlaying = false; this.ui.playStopBtn.textContent = "Play";
+        if (this.animationFrameId) { cancelAnimationFrame(this.animationFrameId); this.animationFrameId = null; }
+        this.SPEECH.cancel(); this.SFX.stopAll();
         Object.values(this.charactersState).forEach(cs => { cs.isSpeakingTTS = false; cs.ttsUtterance = null; });
         if (this.animationData) this.SCENE_DRAWING.drawScene(this);
     }
@@ -102,7 +95,6 @@ class Animator {
     restartAnimation() {
         if (!this.animationData) return;
         const wasPlaying = this.isPlaying;
-        console.log(`[ANIM_DEBUG_FLOW] restartAnimation: Initiated. Was playing: ${wasPlaying}`);
         this.stopAnimation();
         this.DATA_HANDLER.restartAnimationPrerequisites(this);
         this.SCENE_DRAWING.drawScene(this);
@@ -110,69 +102,102 @@ class Animator {
     }
 
     animationLoop() {
-        if (!this.animationData) {
+        if (!this.animationData || (!this.isPlaying && (!this.activeEventGroup || Object.values(this.activeEventGroupStatus).every(s => s.completed)))) {
             this.animationFrameId = null;
-            console.log("[ANIM_DEBUG_FLOW] animationLoop: No animation data. Loop terminated.");
-            return;
-        }
-        if (!this.isPlaying && (!this.activeEventGroup || Object.values(this.activeEventGroupStatus).every(s => s.completed))) {
-            this.animationFrameId = null;
-            this.SCENE_DRAWING.drawScene(this); // Final draw when paused and all events done
-            // console.log("[ANIM_DEBUG_FLOW] animationLoop: Paused and active group completed. Loop terminated.");
+            if(this.animationData) this.SCENE_DRAWING.drawScene(this); // Final draw if paused and all events done
             return;
         }
         const now = performance.now();
-        const dt = this.UTILS.clamp((now - this.lastTimestamp) / 1000, 0, 0.1) || 0.016;
+        const rawDt = (now - this.lastTimestamp) / 1000;
         this.lastTimestamp = now;
+        const dt = this.UTILS.clamp(rawDt, 0, 0.1) * this.globalTimeScaleFactor || (0.016 * this.globalTimeScaleFactor); // Apply time scale
+
         if (this.isPlaying) this.currentTime += dt;
 
-        // console.log(`[ANIM_DEBUG_FLOW] animationLoop: deltaTime=${dt.toFixed(4)}, currentTime=${this.currentTime.toFixed(2)}`);
-        this.STATE_MGMT._updateState(this, dt);
+        this.STATE_MGMT._updateState(this, dt); // dt is now scaled
         this.SCENE_DRAWING.drawScene(this);
         this.animationFrameId = requestAnimationFrame(() => this.animationLoop());
     }
 
+    // --- UI Timeline Indicator Methods ---
+    _buildTimelineUI() {
+        const container = this.ui.timelineIndicatorContainer;
+        if (!container) return;
+        container.innerHTML = ''; // Clear previous indicators
+        this.timelineUIElements = [];
 
+        this.eventTimeline.forEach((group, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('timeline-group-indicator');
+            indicator.textContent = `${index + 1}`;
+            indicator.dataset.groupIndex = index;
+            // Basic click to log, can be expanded for jump functionality later
+            indicator.addEventListener('click', () => {
+                console.log(`Clicked timeline group ${index + 1}. Current index: ${this.currentEventGroupIndex}. Jumping not yet implemented.`);
+                // Potential: this.jumpToEventGroup(index);
+            });
+            container.appendChild(indicator);
+            this.timelineUIElements.push(indicator);
+        });
+        this._updateTimelineUIFocus();
+    }
+
+    _updateTimelineUIFocus() {
+        if(!this.ui.timelineIndicatorContainer) return;
+        this.timelineUIElements.forEach((el, index) => {
+            el.classList.remove('active', 'completed');
+            if (index === this.currentEventGroupIndex) {
+                el.classList.add('active');
+            } else if (index < this.currentEventGroupIndex) {
+                el.classList.add('completed');
+            }
+        });
+    }
+
+    // --- Export (Placeholder - Needs significant update for new modules) ---
     exportAnimation() {
-        // THIS FUNCTION IS NOT UPDATED FOR THE REFACTORING.
-        // It will likely NOT work as expected because it doesn't know about the new JS files.
-        // For debugging, this is less critical. If you need export to work, this needs significant changes.
-        console.warn("Animator.Core.exportAnimation() has NOT been updated for the recent refactoring and may not work correctly.");
+        console.warn("Animator.Core.exportAnimation() needs a major update for new modules and will likely produce a non-functional export.");
         if (!this.animationData) { this.ui.statusDiv.textContent = "No data to export."; return; }
+        
         let html = document.documentElement.outerHTML;
-        const scriptTagsToRemovePattern = /<script src="Animator\.(Data|Utils|CharacterPipeline|SceneDrawing|Speech|Core|DataHandler|CameraControls|EventProcessor|StateManagement)\.js"><\/script>\s*/g; // Added new files to pattern
-        const coreScriptReplacementPattern = /<script src="Animator\.Core\.js"><\/script>\s*<!-- This is Animator.Core\.js -->/;
+        // This regex needs to be EXTREMELY robust or the export will fail.
+        // Listing all JS files explicitly:
+        const scriptTagsToRemovePattern = /<script src="Animator\.(Data|Utils|CharacterPipeline|ObjectPipeline|SceneDrawing|Speech|SFX|DataHandler|CameraControls|EventProcessor|StateManagement|Core)\.js"><\/script>\s*/g;
+        const coreClassDefinition = Animator.toString();
+        
+        // Stringify all modules. This is complex due to functions and internal states.
+        // This is a simplified example; a real bundler would be needed for robust export.
+        const modulesToBundle = {
+            "AnimatorData": this.DATA_RAW, // Use original raw data for export
+            "AnimatorUtils": this.UTILS,
+            "AnimatorCharacterPipeline": this.CHAR_PIPELINE,
+            "AnimatorObjectPipeline": this.OBJECT_PIPELINE,
+            "AnimatorSceneDrawing": this.SCENE_DRAWING,
+            "AnimatorSpeech": this.SPEECH,
+            "AnimatorSFX": this.SFX,
+            "AnimatorCore_DataHandler": this.DATA_HANDLER,
+            "AnimatorCore_CameraControls": this.CAMERA_CONTROLS,
+            "AnimatorCore_EventProcessor": this.EVENT_PROCESSOR,
+            "AnimatorCore_StateManagement": this.STATE_MGMT,
+        };
+
+        let bundledScripts = "";
+        for (const moduleName in modulesToBundle) {
+            bundledScripts += `window.${moduleName} = ${this._stringifyModule(modulesToBundle[moduleName])};\n\n`;
+        }
+        // Special handling for Speech and SFX due to internal Maps or AudioContexts if any
+        if (window.AnimatorSpeech._utterances instanceof Map) {
+             bundledScripts += `if(window.AnimatorSpeech && window.AnimatorSpeech._utterances && Array.isArray(window.AnimatorSpeech._utterances)) { window.AnimatorSpeech._utterances = new Map(window.AnimatorSpeech._utterances); }\n`;
+        }
+         if (window.AnimatorSFX.audioContext) { // If SFX uses AudioContext directly in its state
+            console.warn("SFX module AudioContext state not easily serializable for export. Exported SFX might not work.");
+        }
 
 
         const mainScriptContent = `
-// --- Animator.Data.js ---
-window.AnimatorData = ${JSON.stringify(this.DATA, null, 2)};
-
-// --- Animator.Utils.js ---
-window.AnimatorUtils = {${Object.entries(this.UTILS).map(([key, value]) => typeof value === 'function' ? `${key}: ${value.toString()}` : `${key}: ${JSON.stringify(value)}`).join(',\n')}};
-
-// --- Animator.CharacterPipeline.js ---
-window.AnimatorCharacterPipeline = {${Object.entries(this.CHAR_PIPELINE).map(([key, value]) => `${key}: ${value.toString()}`).join(',\n')}};
-
-// --- Animator.SceneDrawing.js ---
-window.AnimatorSceneDrawing = {${Object.entries(this.SCENE_DRAWING).map(([key, value]) => `${key}: ${value.toString()}`).join(',\n')}};
-
-// --- Animator.Speech.js ---
-window.AnimatorSpeech = {${Object.entries(this.SPEECH).map(([key, value]) => typeof value === 'function' ? `${key}: ${value.toString()}` : `${key}: ${JSON.stringify(value, (k, v) => (v instanceof Map ? Array.from(v.entries()) : v) )}`).join(',\n')}};
-if(window.AnimatorSpeech._utterances && Array.isArray(window.AnimatorSpeech._utterances)) { window.AnimatorSpeech._utterances = new Map(window.AnimatorSpeech._utterances); }
-
-// --- Animator.DataHandler.js (Example - needs real content if exporting) ---
-window.AnimatorCore_DataHandler = { /* ... stringified AnimatorCore_DataHandler ... */ };
-// --- Animator.CameraControls.js (Example) ---
-window.AnimatorCore_CameraControls = { /* ... stringified AnimatorCore_CameraControls ... */ };
-// --- Animator.EventProcessor.js (Example) ---
-window.AnimatorCore_EventProcessor = { /* ... stringified AnimatorCore_EventProcessor ... */ };
-// --- Animator.StateManagement.js (Example) ---
-window.AnimatorCore_StateManagement = { /* ... stringified AnimatorCore_StateManagement ... */ };
-
-
+${bundledScripts}
 // --- Animator.Core.js ---
-${Animator.toString()}
+${coreClassDefinition}
 
 // --- DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', () => { 
@@ -182,26 +207,29 @@ document.addEventListener('DOMContentLoaded', () => {
         loadJsonBtn: document.getElementById('loadJsonBtn'), 
         statusDiv: document.getElementById('status'), 
         animationCanvas: document.getElementById('animationCanvas'), 
-        playbackControlsContainer: document.getElementById('playbackControlsContainer'), 
+        playbackControlsContainer: document.getElementById('playbackControlsContainer'),
+        timelineIndicatorContainer: document.getElementById('timelineIndicatorContainer'), // ADDED
         playStopBtn: document.getElementById('playStopBtn'), 
         restartBtn: document.getElementById('restartBtn'), 
         exportBtn: document.getElementById('exportBtn'), 
         inputContainer: document.getElementById('inputContainer') 
-    }; 
-    // This check needs to be updated for new modules if export is to work
-    if (window.AnimatorData && window.AnimatorUtils && window.AnimatorCharacterPipeline && window.AnimatorSceneDrawing && window.AnimatorSpeech /* && New Modules */) { 
+    };
+    // Check ALL modules
+    const allModules = ["AnimatorData", "AnimatorUtils", "AnimatorCharacterPipeline", "AnimatorObjectPipeline", "AnimatorSceneDrawing", "AnimatorSpeech", "AnimatorSFX", "AnimatorCore_DataHandler", "AnimatorCore_CameraControls", "AnimatorCore_EventProcessor", "AnimatorCore_StateManagement"];
+    let allLoaded = true;
+    allModules.forEach(m => { if(!window[m]) allLoaded = false; });
+
+    if (allLoaded) { 
         window.animatorInstance = new Animator(ui.animationCanvas, ui); 
     } else { 
-        ui.statusDiv.textContent = "ERROR: Core script components not loaded after export process."; 
+        ui.statusDiv.textContent = "ERROR: Core script components not fully loaded after export process. Check console."; 
         console.error("Export error: One or more Animator modules not found in global scope after script bundling.");
     } 
 });`;
 
-        html = html.replace(scriptTagsToRemovePattern, '');
-        html = html.replace(coreScriptReplacementPattern, `<script id="mainAnimationScript">${mainScriptContent.replace(/<\/script>/g, '<\\/script>')}</script>`);
-        if (!html.includes('<script id="mainAnimationScript">')) {
-            html = html.replace('</body>', `<script id="mainAnimationScript">${mainScriptContent.replace(/<\/script>/g, '<\\/script>')}</script>\n</body>`);
-        }
+        html = html.replace(scriptTagsToRemovePattern, ''); // Remove individual script tags
+        // Add the bundled script before </body>
+        html = html.replace('</body>', `<script id="mainAnimationScript">${mainScriptContent.replace(/<\/script>/g, '<\\/script>')}</script>\n</body>`);
         
         const animDataStr=JSON.stringify(this.animationData,null,2).replace(/<\/script>/g,'<\\/script>'); 
         if(html.match(/<script id="animationDataJson" type="application\/json"[\s\S]*?>[\s\S]*?<\/script>/)){ 
@@ -210,29 +238,49 @@ document.addEventListener('DOMContentLoaded', () => {
             html=html.replace('</body>', `<script id="animationDataJson" type="application/json">${animDataStr}<\/script>\n</body>`); 
         }
         
-        const stylesMarker = '/* Exported player minimal style overrides */'; 
-        const stylesContent = `body.exported-body{justify-content:center;align-items:center;min-height:100vh;padding-top:10px;} h1.exported-h1{margin-bottom:10px;font-size:1.6em;} #inputContainer.hidden-exported,#exportBtn.hidden-exported{display:none!important;} #playbackControlsContainer.full-width-exported{width:auto;max-width:${this.canvas.width}px;box-shadow:none;background-color:transparent;padding:10px 0;margin-bottom:10px;}`; 
-        if(!html.includes(stylesMarker)){ 
-            if(html.match(/<\/style>/i)) html=html.replace(/<\/style>/i,`\n${stylesMarker}\n${stylesContent}\n<\/style>`); 
-            else html=html.replace('</head>',`<style>\n${stylesMarker}\n${stylesContent}\n</style>\n</head>`); 
-        }
+        const blob=new Blob([html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`anim_phx_v2.0_${Date.now()}.html`; document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href); this.ui.statusDiv.textContent="Exported HTML (Warning: Export function is complex and may need manual review).";
+    }
+
+    _stringifyModule(moduleObj) {
+        // Custom stringifier to handle functions. This is a basic version.
+        // For complex stateful objects, this might not be enough.
+        if (typeof moduleObj !== 'object' || moduleObj === null) return JSON.stringify(moduleObj);
         
-        const blob=new Blob([html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`anim_phx_v1.9.1_refactored_${Date.now()}.html`; document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href); this.ui.statusDiv.textContent="Exported HTML (Warning: Export function is not fully updated for refactoring).";
+        const parts = [];
+        for (const key in moduleObj) {
+            if (Object.prototype.hasOwnProperty.call(moduleObj, key)) {
+                const value = moduleObj[key];
+                if (typeof value === 'function') {
+                    parts.push(`${JSON.stringify(key)}: ${value.toString()}`);
+                } else if (value instanceof Map && (key === "_utterances" || key === "soundCache")) { // Special handling for known Maps
+                     parts.push(`${JSON.stringify(key)}: ${JSON.stringify(Array.from(value.entries()))}`);
+                } else {
+                    parts.push(`${JSON.stringify(key)}: ${this._stringifyModule(value)}`); // Recurse for nested objects
+                }
+            }
+        }
+        return `{${parts.join(',\n')}}`;
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const ui = { jsonInput: document.getElementById('jsonInput'), jsonFileUpload: document.getElementById('jsonFileUpload'), loadJsonBtn: document.getElementById('loadJsonBtn'), statusDiv: document.getElementById('status'), animationCanvas: document.getElementById('animationCanvas'), playbackControlsContainer: document.getElementById('playbackControlsContainer'), playStopBtn: document.getElementById('playStopBtn'), restartBtn: document.getElementById('restartBtn'), exportBtn: document.getElementById('exportBtn'), inputContainer: document.getElementById('inputContainer') };
+    const ui = { 
+        jsonInput: document.getElementById('jsonInput'), jsonFileUpload: document.getElementById('jsonFileUpload'), 
+        loadJsonBtn: document.getElementById('loadJsonBtn'), statusDiv: document.getElementById('status'), 
+        animationCanvas: document.getElementById('animationCanvas'), 
+        playbackControlsContainer: document.getElementById('playbackControlsContainer'),
+        timelineIndicatorContainer: document.getElementById('timelineIndicatorContainer'), // ADDED
+        playStopBtn: document.getElementById('playStopBtn'), restartBtn: document.getElementById('restartBtn'), 
+        exportBtn: document.getElementById('exportBtn'), inputContainer: document.getElementById('inputContainer') 
+    };
     
-    // Ensure all new modules are also checked here
-    if (window.AnimatorData && window.AnimatorUtils && window.AnimatorCharacterPipeline && 
-        window.AnimatorSceneDrawing && window.AnimatorSpeech &&
-        window.AnimatorCore_DataHandler && window.AnimatorCore_CameraControls &&
-        window.AnimatorCore_EventProcessor && window.AnimatorCore_StateManagement) { 
+    const allModules = ["AnimatorData", "AnimatorUtils", "AnimatorCharacterPipeline", "AnimatorObjectPipeline", "AnimatorSceneDrawing", "AnimatorSpeech", "AnimatorSFX", "AnimatorCore_DataHandler", "AnimatorCore_CameraControls", "AnimatorCore_EventProcessor", "AnimatorCore_StateManagement"];
+    let allLoaded = true;
+    allModules.forEach(m => { if(!window[m]) { console.error(`${m} not loaded!`); allLoaded = false;} });
+
+    if (allLoaded) { 
         window.animatorInstance = new Animator(ui.animationCanvas, ui);
-        console.log("[ANIM_DEBUG_FLOW] Animator instance created successfully with all modules.");
     } else {
         ui.statusDiv.textContent = "ERROR: Core script components not loaded. Check console and ensure ALL Animator modules are included correctly in your HTML.";
-        console.error("One or more core Animator modules (Data, Utils, CharacterPipeline, SceneDrawing, Speech, DataHandler, CameraControls, EventProcessor, StateManagement) not found. Script load order is critical.");
     }
 });

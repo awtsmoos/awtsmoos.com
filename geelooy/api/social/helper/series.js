@@ -90,12 +90,10 @@ async function makeNewSeries({ $i, heichelId }) {
     const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
     if (!isAuthorized) return er({ code: "NO_AUTH" });
 
-    // 2. Generate New Series ID
-    const seriesId = `BH_SERIES_${Date.now()}_${aliasId}_${Math.floor(Math.random() * 1000)}`;
-    const newSeriesBasePath = seriesBasePath(heichelId, seriesId); // For potential rollback
-
-    try {
-        // 3. Ensure Parent/Root Exists *Before* Creating New Series
+	var newSeriesBasePath
+	var seriesId;
+	try {
+		// 2. Ensure Parent/Root Exists *Before* Creating New Series
         if (parentSeriesId === "root") {
             const rootResult = await ensureRootSeriesExists({ $i, heichelId });
             if (!rootResult.success) {
@@ -118,7 +116,52 @@ async function makeNewSeries({ $i, heichelId }) {
                  return er({ code: "PARENT_CHECK_FAILED", details: e.message });
              }
         }
+		
+	    // 3. Generate New Series ID
+		var inputId = $i.$_POST.inputId;
+		if(!inputId || inputId == "undefined") {
+			inputId = $i.utils.generateId(seriesName, false, 0);
+	
+			
+		}
+		inputId = inputId.trim()
+		if(!inputId) {
+			inputId = `BH_${aliasId}_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+		}
+		//inputId = $i.utils.generateId(inputId, false, 0)
+		var parentSubSeriesIDs = await $i.db.get(
+			seriesSubSeriesPath(heichelId, parentSeriesId)
+		);
+		if(!parentSubSeriesIDs) {
+			parentSubSeriesIDs = [];
+		}
 
+		if(!Array.isArray(parentSubSeriesIDs)) {
+			return er({
+				message: "Issue with array",
+				parentSubSeriesIDs
+			})
+		}
+		var k = inputId;
+		var times = 0;
+		while(parentSubSeriesIDs.includes(k)) {
+			times++
+			k = inputId + "_" + times;
+			
+		}
+		seriesId = inputId;
+		newSeriesBasePath = seriesBasePath(heichelId, seriesId); // For potential rollback
+
+	} catch(e) {
+		return er({
+			code: "WHAT",
+			stack: e.stack
+		})
+	}
+    try {
+        
+
+		
         // 4. Create the new series structure (Parent/Root confirmed)
         const prateemData = {
             id: seriesId,
@@ -154,7 +197,12 @@ async function makeNewSeries({ $i, heichelId }) {
         }
 
         // 7. Return Success
-        return { success: { id: seriesId, name: seriesName, parentId: parentSeriesId } };
+        return { success: {
+			id: seriesId, 
+			newSeriesID: seriesId,
+			name: seriesName, 
+			parentId: parentSeriesId 
+		} };
 
     } catch (e) {
         // Catch errors from steps 4, 5, or rethrown errors from 3
@@ -279,7 +327,11 @@ async function editSeriesDetails({ $i, heichelId, seriesId }) {
  * @param withDetails If true, includes subSeries IDs and posts (full data).
  * @param properties Optional propertyMap for prateem (ignored if withDetails is false?).
  */
-async function getSeries({ $i, heichelId, seriesId, withDetails = false, properties }) {
+async function getSeries({ 
+	$i, heichelId, seriesId, 
+	withDetails = false, properties,
+	only=null//"posts", "subSeries"
+}) {
     // Add view permission checks if needed
     const opts = myOpts($i); // For propertyMap
     const baseP = seriesBasePath(heichelId, seriesId);
@@ -305,7 +357,9 @@ async function getSeries({ $i, heichelId, seriesId, withDetails = false, propert
 
         if (withDetails) {
             // Get subSeries IDs (always an array, empty if none)
-            try {
+	        if(!only || only == "subSeries") {
+			try {
+				
                 const subSeriesIds = await $i.db.get(subSeriesP);
 				var subSeriesPrateems = [];
 				if(Array.isArray(subSeriesIds)) {
@@ -320,8 +374,9 @@ async function getSeries({ $i, heichelId, seriesId, withDetails = false, propert
                  if (e.message.includes("Path does not exist")) result.subSeries = [];
                  else throw e; // Rethrow other errors
              }
+			}
 
-
+			if(!only || only == "posts") {
              // Get posts (always an object, empty if none)
              try {
                 // Get the full post objects directly
@@ -331,6 +386,7 @@ async function getSeries({ $i, heichelId, seriesId, withDetails = false, propert
                  if (e.message.includes("Path does not exist")) result.posts = {};
                  else throw e; // Rethrow other errors
              }
+			}
         }
 
         result.id = seriesId;
@@ -358,6 +414,8 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false
             return []; // Return empty array if no subseries or path invalid
         }
 
+		
+
         if (!withDetails) {
             return subSeriesIds;
         } else {
@@ -368,9 +426,9 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false
                 if (seriesData && !seriesData.error) {
                     detailedSeries.push(seriesData.prateem);
                 } else {
-                    console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);
+                  //  console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);
                     // Optionally include a placeholder or skip
-                    detailedSeries.push({ id: seriesId, error: "Details not found" });
+                   // detailedSeries.push({ id: seriesId, error: "Details not found" });
                 }
             }
             return detailedSeries;

@@ -75,7 +75,8 @@ class FileBuffer {
 	// Read functions for common buffer operations using existing logic
 	readUInt8(offset) {
 		if(isNaN(offset)) {
-			console.trace("hi", offset)
+			//console.trace("hi", offset)
+			return null;
 		}
 		const result = readFileBytesAtOffset({
 			filePath: this.filePath,

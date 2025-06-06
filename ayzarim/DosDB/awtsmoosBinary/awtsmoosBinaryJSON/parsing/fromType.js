@@ -229,6 +229,7 @@ var typeHandlers = {
          *
          * */
         var decoded = awtsmoosByteRead(value)
+       // console.log("reading",value,decoded)
         return {
             value: decoded,
             currentOffset: currentOffset + 8

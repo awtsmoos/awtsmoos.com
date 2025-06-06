@@ -271,6 +271,7 @@ async function deletePostFromSeries({
     }
 }
 
+
 /**
  * @description Gets a single post's data from its parent series.
  * @requires params: heichelId, seriesId, postId
@@ -289,6 +290,7 @@ async function getPostFromSeries({ $i, heichelId, seriesId, postId }) {
             // Fallback: get the whole posts object and extract
 			var pm = opts?.propertyMap || {title:true,dayuh:true,content:true,author:true,id:true};
             const allPosts = await $i.db.get(seriesPostsPath+"/"+postId, {
+				
 				[postId]: pm
 			});
             if (allPosts && allPosts[postId]) {
@@ -335,6 +337,7 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
              }
             return postIds || [];
         } else {
+			
             var pm = opts.propertyMap;
             if(pm) {
                 var ob = {};
@@ -350,8 +353,21 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
             }
 
              // Apply property filtering similar to original getPostsInHeichel if needed
-             let postsArray = Object.values(postsObject);
-
+            var posts = [];
+			var k;
+			var keys = Object.keys(postsObject);
+			
+			for(k of keys) {
+				var c = postsObject[k];
+				if(!c) continue;
+				posts.push({
+					id: k,
+					...c
+				})
+			}
+			let postsArray = posts;
+			//let postsArray = Object.values(postsObject).filter(Boolean);
+				
              // TODO: Re-implement property filtering if required, similar to the original getPostsInHeichel
              /* Example adaptation:
              if (properties && typeof properties === 'object') {

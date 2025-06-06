@@ -587,7 +587,8 @@ function getValueByKey(buffer, key, lengthSizes) {
 		buffer,
 		metadataEntry
 	)
-	console.log("TRY",value,metadataEntry,key)
+	
+	
 	return value;
 	
 
@@ -849,7 +850,9 @@ function getValueByHashingKey(buffer, key) {
 	return getValueByKey(buffer, key)
 }
 
-function checkConditions(conditionsObj, value) {
+function checkConditions(conditionsObj, value, index) {
+	if(!conditionsObj) return true;
+	if(typeof(conditionsObj) != "object") return true;
 	var props = Object.getOwnPropertyNames(conditionsObj);
 	if(props.includes("equals")) {
 		var eq = conditionsObj["equals"];
@@ -862,6 +865,20 @@ function checkConditions(conditionsObj, value) {
 		var does = value?.includes(inc);
 		return does;
 	}
+	
+	if(props.includes("index")) {
+		var ind = conditionsObj["index"];
+		if(typeof(ind) == "number") {
+			return index === ind;
+		}
+
+		if(Array.isArray(ind)) {
+			var fil = ind.filter(q=>
+				typeof(q) == "number"	
+			);
+			return fil.includes(index);
+		}
+	}
 	return true;
 }
 
@@ -869,6 +886,8 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
 	}
+	
+	console.log("WH",val,props,conditionsObj)
 	//console.log("meta?",metadataRef, parentObjRef)
 	var ref = getMetadataByKey(
 		buffer,
@@ -901,6 +920,19 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 		var does = val?.includes(inc);
 		return does;
 	}
+	if(props.includes("index")) {
+		var ind = conditionsObj.index;
+		if(typeof(ind) == "number") {
+			return val?.[ind];
+		}
+
+		if(Array.isArray(ind)) {
+			return ind.filter(w=>
+				typeof(w) == "number"
+			).map(q => val[q])
+			.filter(Boolean);
+		}
+	}
 
 
 	return val
@@ -915,8 +947,10 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
  * and recursively checks object types 
  * nested} mapping 
  */
-function mapObject(buffer, mapping, metadataRef=null) {
+function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
+	var pth = null;
 	if (typeof buffer === "string") {
+		pth = buffer;
 		buffer = new fileBuffer(buffer); // Assumes fileBuffer is defined elsewhere
 	}
 	var offset = 0;
@@ -927,8 +961,6 @@ function mapObject(buffer, mapping, metadataRef=null) {
 		offset,
 		offset + 2
 	).toString() ;
-//	console.log("magic",magic,magicArray, mapping, metadataRef)
-
 
 	if(magic == magicArray) {
 		return mapArray(
@@ -937,10 +969,43 @@ function mapObject(buffer, mapping, metadataRef=null) {
 			metadataRef
 		)
 	}
+	
+	//
 	var keys = Object.keys(mapping);
+	if(keys.length == 0) {
+		keys = getKeys(buffer);
+	}
+	//console.log("Try",pth,keys,arrayFilter,magic+"")
 	var result = {};
+	var hasNone = true;
+	var filteredIndecies = [];
+	var exactIndex = null;
+	if(arrayFilter) {
+		var ind = arrayFilter?.index;
+		if(typeof(ind) == "number") {
+			exactIndex = ind;
+		}
+		if(Array.isArray(ind)) {
+			filteredIndecies = ind;
+		}
+	}
+	var index = 0;
 	for(var key of keys) {
-		var conditions = mapping[key]
+		if(exactIndex !== null) {
+			
+			if(index != exactIndex) {
+				index++;
+				continue;
+			}
+		}
+
+		if(filteredIndecies.length) {
+			if(!filteredIndecies.includes(index)) {
+				index++;
+				continue;
+			}
+		}
+		var conditions = mapping?.[key] || true
 		//console.log("Doing keys",key,conditions,metadataRef)
 		var metadataEntry = getMetadataByKey(
 			buffer,
@@ -948,9 +1013,12 @@ function mapObject(buffer, mapping, metadataRef=null) {
 			null,
 			metadataRef
 		);
+		
 		if(!metadataEntry || metadataEntry.notFound) {
+			index++;
 			continue;
 		}
+		
 		if([1, 3].includes(
 			metadataEntry.valueType
 		)) {
@@ -967,8 +1035,8 @@ function mapObject(buffer, mapping, metadataRef=null) {
 				/*
 					handle nested object
 				*/
-			//	console.log(metadataEntry)
 			
+				
 				
 				var nested;
 				if(conditions && typeof(conditions) == "object") {
@@ -976,6 +1044,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 				} else if(conditions) {
 					nested = temp.deserializeBinary(offsetBuffer)
 				}
+				hasNone = false;
 				result[key] = nested;
 			} else if(metadataEntry.valueType == 3) {
 				/*
@@ -995,6 +1064,7 @@ function mapObject(buffer, mapping, metadataRef=null) {
 					nested = temp.deserializeBinary(offsetBuffer)
 				}
 				result[key] = nested;
+				hasNone = false;
 			} 
 		} else {
 			var value = getValueFromMetadata(
@@ -1004,15 +1074,23 @@ function mapObject(buffer, mapping, metadataRef=null) {
 			)
 			var shouldGive = checkConditions(
 				conditions,
-				value
+				value,
+				index
 			);
+			
+			
+			
 			if(shouldGive) {
 
-				result[key] = value
+				result[key] = value;
+				hasNone = false;
 			}
-			//console.log("Gave",key,conditions,value,shouldGive,result)
+			
+			
 		}
+		index++;
 	}
+	if(hasNone) return undefined;
 	return result;
 }
 module.exports = {

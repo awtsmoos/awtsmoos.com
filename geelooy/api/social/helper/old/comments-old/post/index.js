@@ -822,7 +822,7 @@ async function getPostsInHeichel({
 		return [];//er({code: "NO_PARENT_SERIES", details: parentSeries.error});
 	}
 	
-	var p = parentSeries.posts;
+	var p = parentSeries?.posts?.filter?.(Boolean);
 	if(!p) {
 		return [];//er({code: "NO_POSTS"});
 	}
@@ -845,6 +845,7 @@ async function getPostsInHeichel({
 			}/posts/${s}`,
 			options
 		);
+		if(!pst) continue;
 	//	console.log("Got it",pst,s,p,parentSeries)
 		if(pst) {
 			pst.id = s;
@@ -884,9 +885,7 @@ async function getPostsInHeichel({
 			
 			
 			posts.push(pst);
-		} else {
-			//posts.push({error: "Not found"})	
-		}
+		} 
 	}
 	
 	

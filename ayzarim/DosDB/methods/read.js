@@ -62,6 +62,7 @@ module.exports = {
         sortBy: "createdBy",
         showJson: true,
         propertyMap: null,
+		arrayFilter:null,
         filters: {
             propertyToSearchIn: "content",
             searchTerms: ["hello", "there"]
@@ -196,6 +197,7 @@ module.exports = {
                     ob: {
                         filePath,
                         properties: options.propertyMap,
+						arrayFilter: options.arrayFilter,
                         derech: options.derech,
                         stat: statObj,
                         maxOrech: options.maxOrech,
@@ -245,13 +247,16 @@ module.exports = {
      */
     async parseBinaryData({
         path,
-        properties
+        properties,
+		arrayFilter,
+		parseBinaryData
     }) {
-
+	
+		
         try {
             const data = await fs.readFile(path);
             if(
-                !properties
+                !properties && !arrayFilter
                 
             ) {
                 
@@ -266,23 +271,36 @@ module.exports = {
                     }
                 }
                 return null;
-            } else {
+            } 
+			
+			if(properties || arrayFilter) {
+				
                 let props = properties;
+				if(!props) props = {}
                 if(typeof props === "string") {
                     try {
                         props = JSON.parse(props);
-                    } catch (e) {}
+                    } catch (e) {
+						props = {};
+					}
                 }
 
+				
                 if(await awtsmoosBinary.isAwtsmoosObject(path)) {
-                    var mpt =  awtsmoosBinary.mapObject(path, props);
+					
+                    var mpt =  awtsmoosBinary.mapObject(
+						path,
+						props,
+						null,
+						arrayFilter
+					);
                  //   console.log(mpt,props,path)
                     return {
                         success: mpt
                     }
                 }
                 return null;
-            }
+			}
         } catch (e) {
             
             return {
@@ -310,8 +328,10 @@ module.exports = {
             try {
                 const p = await this.parseBinaryData({
                     path: joined,
-                    properties: ob.properties
+                    properties: ob.properties,
+					arrayFilter: ob.arrayFilter
                 });
+				
                 
                 if(p.success) {
                     return p;

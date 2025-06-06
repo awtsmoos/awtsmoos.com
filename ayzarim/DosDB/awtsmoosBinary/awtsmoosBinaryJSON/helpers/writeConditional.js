@@ -47,8 +47,9 @@ class AwtsmoosBufferWriter {
         ) {
             size = 8;
             awtsmoosBuffer = Buffer.alloc(8);
-            // TODO: Implement writeUInt64BE when available in Node.js natively
-            // For now, placeholder comment remains as a whisper of potential within the Awtsmoos.
+            write64BitNumber(awtsmoosBuffer, 0, amount)
+          
+            
         }
 
         const buffer = awtsmoosBuffer;
@@ -60,6 +61,20 @@ class AwtsmoosBufferWriter {
             size
         };
     }
+}
+
+function write64BitNumber(buffer, offset, value) {
+  const high = Math.floor(value / 2 ** 32);
+  const low = value >>> 0;
+
+  buffer[offset]     = (high >>> 24) & 0xFF;
+  buffer[offset + 1] = (high >>> 16) & 0xFF;
+  buffer[offset + 2] = (high >>> 8) & 0xFF;
+  buffer[offset + 3] = high & 0xFF;
+  buffer[offset + 4] = (low >>> 24) & 0xFF;
+  buffer[offset + 5] = (low >>> 16) & 0xFF;
+  buffer[offset + 6] = (low >>> 8) & 0xFF;
+  buffer[offset + 7] = low & 0xFF;
 }
 
 /**

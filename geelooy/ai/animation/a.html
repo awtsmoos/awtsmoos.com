@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expressive Character Animator - Phoenix Engine v1.2</title>
+    <title>Expressive Character Animator - Phoenix Engine v1.3 (Enhanced)</title>
 <style id="mainStylesheet">
 /* --- Basic Reset & Page Layout --- */
 body {
@@ -130,53 +130,79 @@ canvas#animationCanvas {
     justify-content: center;
 }
 
+/* --- Timeline Indicator UI --- */
+#timelineIndicatorContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: #FAFAFA;
+    border: 1px solid #CFD8DC;
+    justify-content: center;
+    max-width: 900px; /* Match other UI containers */
+    width: 100%;
+    box-sizing: border-box;
+}
+.timeline-group-indicator {
+    padding: 5px 8px;
+    font-size: 0.8em;
+    background-color: #CFD8DC;
+    border-radius: 4px;
+    cursor: default; /* For now, not clickable for jump */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: 1px solid transparent;
+}
+.timeline-group-indicator.active {
+    background-color: #7986CB; /* Lighter Indigo */
+    color: white;
+    font-weight: bold;
+    border-color: #5C6BC0;
+    transform: scale(1.05);
+}
+.timeline-group-indicator.completed {
+    background-color: #E0E0E0;
+    opacity: 0.7;
+}
+
+
 /* --- Utility Class for Hiding Elements --- */
 .hidden { display: none !important; }
 
 /* --- Styles for Exported Standalone HTML --- */
-/* These styles are applied when the body has the .exported-body class, typically added by the JS during export check */
 body.exported-body {
-    justify-content: flex-start; /* Align content to top for exported view */
+    justify-content: flex-start;
     padding: 10px;
-    background-color: #37474F; /* Darker background for better canvas contrast */
+    background-color: #37474F;
 }
-/* Optional: Style for an H1 if you plan to have one visible in exported mode (e.g., for animation title) */
 body.exported-body h1.exported-h1 {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    font-size: 1.8em;
-    color: #CFD8DC; /* Light text for dark background */
+    margin-top: 10px; margin-bottom: 15px; font-size: 1.8em; color: #CFD8DC;
 }
-#inputContainer.hidden-exported { display: none !important; }
-/* Target the export button itself to hide, not the whole group, allowing other controls to remain */
-#exportBtn.hidden-exported { display: none !important; }
+#inputContainer.hidden-exported, #exportBtn.hidden-exported { display: none !important; }
 
-#playbackControlsContainer.full-width-exported {
-    width: auto; /* Let it size to content, or set to canvas width via JS if desired */
-    max-width: calc(100% - 20px); /* Respect body padding */
+#playbackControlsContainer.full-width-exported, #timelineIndicatorContainer.full-width-exported {
+    width: auto;
+    max-width: calc(100% - 20px);
     padding: 15px;
     margin-top: 10px;
-    background-color: rgba(236, 239, 241, 0.15); /* Semi-transparent light background */
+    background-color: rgba(236, 239, 241, 0.15);
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 #playbackControlsContainer.full-width-exported .button-group button {
-    background-color: #7986CB; /* Lighter Indigo for exported controls */
-    color: #FFFFFF;
+    background-color: #7986CB; color: #FFFFFF;
 }
-#playbackControlsContainer.full-width-exported .button-group button:hover {
-    background-color: #5C6BC0;
-}
+#playbackControlsContainer.full-width-exported .button-group button:hover { background-color: #5C6BC0; }
 </style>
 </head>
 <body>
     <div class="container" id="inputContainer">
         <h1>Expressive Character Animator</h1>
-        <h2>Phoenix Engine v1.2 - Data Driven</h2>
-        <textarea id="jsonInput" placeholder="Paste JSON animation data here. (The Kabbalah-themed sample from the previous message is a good test!)"></textarea>
+        <h2>Phoenix Engine v1.3 - Enhanced</h2>
+        <textarea id="jsonInput" placeholder="Paste JSON animation data here. Check console for new feature examples in Animator.Data.js!"></textarea>
         <div class="button-group">
-            <!-- The 'label' acts as a styled button for the hidden file input -->
             <label for="jsonFileUpload" class="button-like">Upload JSON File</label>
             <input type="file" id="jsonFileUpload" accept=".json,application/json">
             <button id="loadJsonBtn">Load Animation</button>
@@ -185,6 +211,11 @@ body.exported-body h1.exported-h1 {
     </div>
 
     <canvas id="animationCanvas" width="800" height="600"></canvas>
+    
+    <!-- Timeline Indicator UI -->
+    <div id="timelineIndicatorContainer">
+        <!-- Indicators will be populated by JS -->
+    </div>
 
     <div class="container playback-controls hidden" id="playbackControlsContainer">
         <div class="button-group">
@@ -192,7 +223,6 @@ body.exported-body h1.exported-h1 {
             <button id="restartBtn">Restart</button>
         </div>
         <div class="button-group">
-             <!-- This button will be hidden in exported mode by the JS adding 'hidden-exported' -->
              <button id="exportBtn">Export Standalone HTML</button>
         </div>
     </div>
@@ -203,17 +233,15 @@ body.exported-body h1.exported-h1 {
     
     <script src="Animator.Speech.js"></script>
     <script src="Animator.CharacterPipeline.js"></script>
+    <script src="Animator.ObjectPipeline.js"></script> <!-- NEW -->
+    <script src="Animator.SFX.js"></script> <!-- NEW -->
     <script src="Animator.SceneDrawing.js"></script>
 
-    
-    <!-- NEW SCRIPT FILES (Order among these might not be strictly critical, but good practice) -->
     <script src="Animator.DataHandler.js"></script>
     <script src="Animator.CameraControls.js"></script>
     <script src="Animator.EventProcessor.js"></script>
     <script src="Animator.StateManagement.js"></script>
     
-    <script src="Animator.Core.js"></script> <!-- This is Animator.Core.js -->
-
-    <!--<script src="script.js"></script>-->
+    <script src="Animator.Core.js"></script>
 </body>
 </html>

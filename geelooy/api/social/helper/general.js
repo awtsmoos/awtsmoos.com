@@ -17,6 +17,7 @@ function myOpts($i){
 	var meta=$i.$_GET.meta||$i.$_GET.stats;
 	var propertyMap = $i.$_GET.propertyMap 
 
+	var arrayFilter = $i.$_GET.arrayFilter;
   var filterBy = $i.$_GET.filterBy;
 	return {
 		page: $i.$_GET.page || 1,
@@ -24,6 +25,7 @@ function myOpts($i){
 		derech: $i.$_GET.derech,
 		maxOrech,
 		propertyMap,
+		arrayFilter,
     filterBy,
 		meta
 	};
