@@ -11,6 +11,108 @@ const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
 
+
+async function getHeichelosOfSeriesCreatedOfAlias({$i, aliasId}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/seriesCreated/inHeichel`
+	var opts = $i.myOpts;
+	try {
+		return {
+			success: $i.db.get(pth, opts);
+		}
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
+}
+
+
+async function getSeriesCreatedOfAliasInHeichel({
+	$i, 
+	aliasId,
+	heichelId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/seriesCreated/inHeichel/${
+		heichelId
+	}`
+	var opts = $i.myOpts;
+	try {
+		return {
+			success: $i.db.get(pth, opts);
+		}
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
+}
+
+async function getHeichelosOfPostsOfAlias({$i, aliasId}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/postsSubmitted/inHeichel`
+	var opts = $i.myOpts;
+	try {
+		return {
+			success: $i.db.get(pth, opts);
+		}
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
+}
+
+
+async function getSeriesOfPostsOfAliasInHeichel({
+	$i, aliasId,
+	heichelId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/postsSubmitted/inHeichel/${
+		heichelId
+	}/inSeries`
+	var opts = $i.myOpts;
+	try {
+		return {
+			success: $i.db.get(pth, opts);
+		}
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
+}
+
+
+async function getPostsOfAliasInSeries({
+	$i, aliasId,
+	heichelId,
+	seriesId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/postsSubmitted/inHeichel/${
+		heichelId
+	}/inSeries/${
+		seriesId
+	}`
+	var opts = $i.myOpts;
+	try {
+		return {
+			success: $i.db.get(pth, opts);
+		}
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
+}
 /**
  * @description Adds a new post directly into its parent series' post object.
  * @requires $_POST: { aliasId, title, content, seriesId (parent), dayuh? }
