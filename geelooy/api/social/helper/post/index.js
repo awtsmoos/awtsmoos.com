@@ -10,22 +10,24 @@ const { sp } = require("../_awtsmoos.constants.js");
 const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
-
-
-async function getHeichelosOfSeriesCreatedOfAlias({$i, aliasId}) {
-	var pth = `${sp}/aliases/${
-		aliasId	
-	}/seriesCreated/inHeichel`
+async function get(pth, $i) {
 	var opts = $i.myOpts;
 	try {
 		return {
-			success: $i.db.get(pth, opts);
+			success: await $i.db.get(pth, opts)
 		}
 	} catch(e) {
 		return er({
 			stack: e.stack
 		})
 	}
+}
+
+async function getHeichelosOfSeriesCreatedOfAlias({$i, aliasId}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/seriesCreated/inHeichel`
+	return await get(pth, $i)
 }
 
 
@@ -39,32 +41,14 @@ async function getSeriesCreatedOfAliasInHeichel({
 	}/seriesCreated/inHeichel/${
 		heichelId
 	}`
-	var opts = $i.myOpts;
-	try {
-		return {
-			success: $i.db.get(pth, opts);
-		}
-	} catch(e) {
-		return er({
-			stack: e.stack
-		})
-	}
+	return await get(pth, $i)
 }
 
 async function getHeichelosOfPostsOfAlias({$i, aliasId}) {
 	var pth = `${sp}/aliases/${
 		aliasId	
 	}/postsSubmitted/inHeichel`
-	var opts = $i.myOpts;
-	try {
-		return {
-			success: $i.db.get(pth, opts);
-		}
-	} catch(e) {
-		return er({
-			stack: e.stack
-		})
-	}
+	return await get(pth, $i)
 }
 
 
@@ -77,16 +61,7 @@ async function getSeriesOfPostsOfAliasInHeichel({
 	}/postsSubmitted/inHeichel/${
 		heichelId
 	}/inSeries`
-	var opts = $i.myOpts;
-	try {
-		return {
-			success: $i.db.get(pth, opts);
-		}
-	} catch(e) {
-		return er({
-			stack: e.stack
-		})
-	}
+	return await get(pth, $i)
 }
 
 
@@ -102,16 +77,7 @@ async function getPostsOfAliasInSeries({
 	}/inSeries/${
 		seriesId
 	}`
-	var opts = $i.myOpts;
-	try {
-		return {
-			success: $i.db.get(pth, opts);
-		}
-	} catch(e) {
-		return er({
-			stack: e.stack
-		})
-	}
+	return await get(pth, $i)
 }
 /**
  * @description Adds a new post directly into its parent series' post object.
