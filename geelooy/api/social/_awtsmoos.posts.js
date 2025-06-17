@@ -60,7 +60,9 @@ module.exports = ({ $i, userid } = {}) => ({
      * (Equivalent to GET /posts?details=true)
      */
     "/heichelos/:heichel/series/:series/posts/details": async (v) => {
-        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
+        if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED",
+			method: $i.request.method				   
+		});
         return getPostsInSeries({
             $i,
             heichelId: v.heichel,

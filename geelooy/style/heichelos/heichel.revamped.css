@@ -1,0 +1,1451 @@
+/*==============================================*/
+/* B"H - THE AWTSMOOS ULTIMATE MANIFESTATION */
+/* Definitive, complete, and self-contained stylesheet. */
+/* Optimized for low-RAM, high-performance on all devices. */
+/* ABSOLUTE LEGIBILITY, UNIMPEDED DATA FLOW, FULL SELECTABILITY. */
+/* ALL HEICHEL-SPECIFIC RULES LOCALIZED TO .heichel-page-container. */
+/* NO EXTERNAL IMPORTS. */
+/*==============================================*/
+/*==============================================*/
+/* 0. BASE REALITY GLITCH (GLOBAL UTILITIES & RESETS) */
+/*==============================================*/
+.heichel-page.container *, 
+.heichel-page.container *::before, 
+.heichel-page.container *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* Optimize for transform and opacity for smooth UI updates */
+    will-change: transform, opacity;
+    /* Accelerated, subtle transitions for responsiveness */
+    transition: all 0.12s ease-out;
+    /* Adjusted for balance */
+}
+
+/* Base interactive elements: No ugly highlights, clear pointers */
+.heichel-page.container button,
+.heichel-page.container a, 
+.heichel-page.container .context-menu-item,
+.heichel-page.container .card-wrapper .context-menu-icon {
+    -webkit-tap-highlight-color: transparent;
+    /* No ghost highlights on tap */
+    cursor: pointer;
+    user-select: none;
+    /* Controls often non-selectable to prevent accidental drag */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Default user-select for text content */
+.heichel-page.container {
+    user-select: text;
+    /* Allow text selection by default everywhere else */
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+/* Input fields MUST be selectable/editable */
+.heichel-page.container input, .heichel-page.container textarea {
+    user-select: auto !important;
+    /* Crucial override */
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    cursor: text;
+}
+
+/* Reduce motion override for performance on older systems */
+@media (prefers-reduced-motion: reduce) {
+    .heichel-page.container *,
+    .heichel-page.container *::before,
+    .heichel-page.container *::after {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/*==============================================*/
+/* Global Awtsmoos Base Styles (Outside Heichel) */
+/*==============================================*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000511 !important;
+    /* Void background */
+    color: #f3f8ff;
+    /* Default light text color */
+    margin: 0;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll for initial load */
+}
+
+
+
+
+
+
+
+
+/*==============================================*/
+/* 1. COMPONENT ROOT & COSMIC VOID BACKGROUND   */
+/*==============================================*/
+.heichel-page-container {
+    /* -- ETERNAL ATTRIBUTES (CSS Variables) -- */
+    --h-color-void: #000103;
+    --h-color-surface: #04060C;
+    --h-color-glass: rgba(4, 6, 12, 0.96);
+    --h-color-border: #10151E;
+    --h-color-glow: #00FBFF;
+    /* Primary neon glow */
+    --h-color-accent: #00C7FF;
+    /* Main interactive accent */
+    --h-color-secondary: #52FFE4;
+    /* Secondary data highlight */
+    --h-color-danger: #FF0060;
+    /* Critical state / Danger */
+    --h-color-text: #F3F8FF;
+    /* Primary text */
+    --h-color-text-dim: #607085;
+    /* Dimmed text / Secondary info */
+    --h-font-main: 'Arial', sans-serif;
+    /* For titles and headers */
+    --h-font-body: 'Verdana', sans-serif;
+    /* For content and general text */
+    --h-shadow-intense: 0 0 25px rgba(0, 251, 255, 0.7);
+    /* Deep glow shadow */
+    --h-shadow-panel-sheen: inset 0 0 8px rgba(0, 251, 255, 0.04);
+    /* Subtle panel inner glow */
+    --h-shadow-danger-implosion: 0 0 20px rgba(255, 0, 96, 0.9);
+    /* Danger highlight */
+    --h-border-gradient: linear-gradient(45deg, var(--h-color-accent), var(--h-color-glow), var(--h-color-secondary), var(--h-color-accent));
+    /* -- VOID COMPOSITION -- */
+    width: 100%;
+    max-width: 1600px;
+    /* Constrain max width for large screens */
+    flex-grow: 1;
+    /* Allow container to grow within .main */
+    display: flex;
+    flex-direction: column;
+    font-family: var(--h-font-body);
+    color: var(--h-color-text);
+    overflow: hidden;
+    /* Contains potential lightning overflow */
+    position: relative;
+    perspective: 700px;
+    /* Slight 3D tilt for overall page */
+    z-index: 0;
+    /* Base stacking context */
+    transform-style: preserve-3d;
+    /* Enable 3D transforms for children */
+}
+
+/* Ethereal Static (Minimal, high-performance background detail) */
+.heichel-page-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.08;
+    animation: h-static-drift 90s linear infinite;
+}
+
+@keyframes h-static-drift {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -1500px -1500px;
+    }
+}
+
+/* SOUL LIGHTNING (Infrequent, intense power surge - controlled animation) */
+.heichel-page-container::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle at center, rgba(0, 251, 255, 0.7) 0%, rgba(0, 251, 255, 0.4) 15%, transparent 50%);
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: -2;
+    opacity: 0;
+    animation: h-soul-lightning 3s infinite ease-out;
+}
+
+@keyframes h-soul-lightning {
+    0%, 10%, 15%, 25%, 30%, 40%, 45%, 55%, 60%, 70%, 75%, 85%, 90%, 100% {
+        opacity: 0;
+        transform: scale(0.7) translateZ(0);
+    }
+
+    12% {
+        opacity: 0.25;
+        transform: scale(1.1) translateZ(0);
+    }
+
+    13% {
+        opacity: 0.15;
+        transform: scale(1.0) translateZ(0);
+    }
+
+    14% {
+        opacity: 0.4;
+        transform: scale(1.25) translateZ(0);
+    }
+
+    27% {
+        opacity: 0.22;
+        transform: scale(0.98) translateZ(0);
+    }
+
+    28% {
+        opacity: 0.3;
+        transform: scale(1.12) translateZ(0);
+    }
+
+    47% {
+        opacity: 0.18;
+        transform: scale(1.0);
+    }
+
+    48% {
+        opacity: 0.45;
+        transform: scale(1.3);
+    }
+
+    49% {
+        opacity: 0.08;
+        transform: scale(1.1);
+    }
+
+    62% {
+        opacity: 0.2;
+        transform: scale(1.05);
+    }
+
+    63% {
+        opacity: 0.38;
+        transform: scale(1.22);
+    }
+}
+
+/*==============================================*/
+/* 2. CORE LAYOUT & DIMENSIONAL PLANES          */
+/*==============================================*/
+.heichel-page-container .main-content-wrapper {
+    flex-grow: 1;
+    display: grid;
+    gap: 12px;
+    /* Increased spacing */
+    overflow: hidden;
+    transform: rotateX(0.8deg) scale(0.995);
+    /* Subtle 3D tilt */
+    transform-origin: center center;
+    min-height: 0;
+    /* Allow shrinking */
+    padding: 10px;
+    /* Inner padding for content wrapper */
+    /* Mobile First Grid Layout: Vertical Layering */
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "header" "content" "sidebar";
+}
+
+/* Tablet / Mid-Reality Configuration */
+@media (min-width: 768px) {
+    .heichel-page-container .main-content-wrapper {
+        grid-template-rows: auto 1fr;
+        grid-template-areas: "header" "content";
+    }
+
+    .heichel-page-container .heichel-sidebar {
+        order: 3;
+        /* Sidebar visually below content on tablets */
+        max-height: 45vh;
+        /* Limit sidebar height */
+        margin-top: 12px;
+        /* Space above sidebar */
+    }
+}
+
+/* Desktop / Higher Plane Configuration */
+@media (min-width: 1024px) {
+    .heichel-page-container .main-content-wrapper {
+        grid-template-columns: 1fr 300px;
+        /* Main content left, sidebar fixed 300px right */
+        grid-template-rows: auto 1fr;
+        grid-template-areas: "header sidebar" "content sidebar";
+        transform: rotateX(1deg) scale(0.985);
+        /* More pronounced 3D effect */
+    }
+
+    .heichel-page-container .heichel-sidebar {
+        order: unset;
+        /* Reverts order for grid-area placement */
+        height: auto;
+        max-height: unset;
+        margin-top: 0;
+    }
+}
+
+.heichel-page-container .heichel-header {
+    grid-area: header;
+}
+
+.heichel-page-container .heichel-content-panel {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    flex-grow: 1;
+}
+
+.heichel-page-container .heichel-sidebar {
+    grid-area: sidebar;
+    overflow-y: auto;
+    padding: 1.2rem;
+}
+
+/* Panel Casing (The physical manifestation of data panes) */
+.heichel-page-container .heichel-content-panel, .heichel-page-container .heichel-sidebar {
+    background-color: var(--h-color-glass);
+    border: 1px solid var(--h-color-border);
+    border-radius: 6px;
+    /* Smoother corners */
+    box-shadow: 0 0 15px rgba(0,0,0,0.4), var(--h-shadow-panel-sheen);
+    position: relative;
+    overflow: hidden;
+    max-height: calc(100vh - 170px);
+    /* Adjust based on header height, roughly */
+    display: flex;
+    /* For tabs and grid children */
+    flex-direction: column;
+}
+
+/* Unified Digital Data Flow (Scrollbar Calibration - Efficient and clean) */
+.heichel-page-container ::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Slightly wider scrollbar */
+.heichel-page-container ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.heichel-page-container ::-webkit-scrollbar-thumb {
+    background: var(--h-color-accent);
+    border-radius: 3px;
+}
+
+.heichel-page-container ::-webkit-scrollbar-thumb:hover {
+    background: var(--h-color-glow);
+}
+
+/*==============================================*/
+/* 3. ILLUMINATED TYPOGRAPHY & INTERFACE CUES   */
+/*==============================================*/
+.heichel-page-container #heichel-main-title {
+    font-family: var(--h-font-main);
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    /* BIG responsive title */
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 4px var(--h-color-glow);
+    /* Stronger glow */
+    letter-spacing: 2px;
+    margin: 0;
+    text-align: center;
+    user-select: text !important;
+}
+
+.heichel-page-container p#sidebar-description {
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #ffffff;
+    user-select: text !important;
+}
+
+.heichel-page-container #seriesNameAndInfo {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--h-color-secondary);
+    background: linear-gradient(90deg, rgba(82, 255, 228, 0.08), transparent);
+    border-radius: 4px;
+    border-image: linear-gradient(to right, rgba(82, 255, 228, 0.5) 0%, transparent 100%) 1;
+    border-width: 1px;
+    border-style: solid;
+    user-select: text;
+}
+
+.heichel-page-container #seriesNameAndInfo.hidden {
+    display: none;
+}
+
+.heichel-page-container #seriesNm {
+    font-family: var(--h-font-main);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    /* Bigger series name */
+    margin: 0.5rem 0;
+    color: var(--h-color-secondary);
+    text-shadow: 0 0 6px rgba(82, 255, 228, 0.4);
+    user-select: text !important;
+}
+
+.heichel-page-container #seriesDesc {
+    color: var(--h-color-text-dim);
+    line-height: 1.5;
+    font-size: 0.95rem;
+    user-select: text !important;
+}
+
+/* Header and Navigation adjustments */
+.heichel-page-container .heichel-header {
+    background-color: var(--h-color-glass);
+    /* padding: 1.2em 1.5em; */
+    text-align: center;
+    border-radius: 6px;
+    /* Match panel corners */
+    /* margin-bottom: 12px; */
+    /* Space below header */
+    box-shadow: 0 0 15px rgba(0,0,0,0.4), var(--h-shadow-panel-sheen);
+}
+
+.heichel-page-container nav {
+    background-color: transparent;
+    /* No background here, panel takes care */
+    padding: 0.8em 1em;
+    /* Reduced vertical padding */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    /* Spacing between buttons */
+    border-bottom: 1px solid var(--h-color-border);
+}
+
+.heichel-page-container nav button {
+    font-size: clamp(1em, 3vw, 1.2em);
+    padding: 8px 18px;
+    /* Bigger buttons */
+    background: transparent;
+    border: 1px solid var(--h-color-border);
+    color: var(--h-color-text-dim);
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.heichel-page-container nav button:hover {
+    background-color: rgba(0, 199, 255, 0.05);
+    color: var(--h-color-accent);
+    border-color: var(--h-color-accent);
+    box-shadow: 0 0 8px rgba(0, 199, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.heichel-page-container nav button.Active {
+    background-color: var(--h-color-accent);
+    color: var(--h-color-void);
+    border-color: var(--h-color-glow);
+    box-shadow: 0 0 12px var(--h-color-glow);
+    transform: translateY(-1px);
+}
+
+.heichel-page-container .controls-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 1rem 0 0.5rem;
+    /* Margin for spacing */
+    padding: 0 1rem;
+}
+
+/*==============================================*/
+/* 4. REALITY-VIEW SHIFTS & HOLOGRAPHIC GRIDS   */
+/*==============================================*/
+.heichel-page-container .grid-container {
+    flex-grow: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 15px 20px;
+    /* Increased padding */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    /* BIGGER adaptive cards */
+    gap: 1rem;
+    /* Larger gap for better separation */
+    align-content: start;
+    min-height: 0;
+    height: 100%;
+    /* direction: rtl; */
+    /* Only uncomment if the entire grid content must be RTL */
+}
+
+/* Mobile-Specific Grid Adjustments (<= 600px) */
+@media (max-width: 600px) {
+    .heichel-page-container .grid-container {
+        grid-template-columns: 1fr;
+        /* Single column, full width */
+        gap: 0.8rem;
+        padding: 15px;
+        /* Adjust padding for small screens */
+    }
+}
+
+/* For smaller tablets (601px - 767px) */
+@media (min-width: 601px) and (max-width: 767px) {
+    .heichel-page-container .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        /* 2 columns possible */
+        gap: 0.9rem;
+    }
+}
+
+.heichel-page.container .content-views {
+    height: calc(100vh);
+    overflow-y: scroll;
+}
+/*==============================================*/
+/* 5. QUANTUM ENTITY CARD DESIGN (WITH SOUL SCINTILLATION) */
+/*==============================================*/
+.heichel-page-container .card-wrapper {
+    background-color: rgba(0, 199, 255, 0.015);
+    border: 1px solid var(--h-color-border);
+    border-radius: 6px;
+    /* Smoother card corners */
+    padding: 1rem;
+    /* Increased padding for internal space */
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    /* Icon on the right */
+    align-items: flex-start;
+    gap: 10px;
+    /* Space between text and icon */
+    min-height: auto;
+    /* Let content dictate height */
+    transition: transform 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+    user-select: text;
+    /* Allow selection on card wrapper for content */
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    /* Subtle static sheen */
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -5%;
+        background: radial-gradient(circle at top right, rgba(0, 251, 255, 0.025) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+        pointer-events: none;
+        z-index: 1;
+        transform: scale(0.98);
+    }
+}
+
+/* Activated State: Reality Sheen on hover */
+.heichel-page-container .card-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 251, 255, 0.05) 0%, transparent 40%);
+    filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heichel-page-container .card-wrapper:hover {
+    transform: translateY(-4px) scale(1.01);
+    /* More pronounced lift and subtle scale */
+    border-color: var(--h-color-accent);
+    box-shadow: 0 0 18px var(--h-color-accent), inset 0 0 10px rgba(0, 251, 255, 0.2);
+    z-index: 2;
+    /* Removed aggressive breathing animation from hover for better performance */
+}
+
+.heichel-page-container .card-wrapper:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.heichel-page-container .card-wrapper:hover::after {
+    opacity: 1;
+}
+
+/* Card content (post-card container for h2 and div.post-preview) */
+.heichel-page-container .card-wrapper .post-card {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    /* direction: rtl; */
+    /* Only if Hebrew text explicitly inside post-card */
+    text-align: right;
+    /* Default text alignment */
+    padding-right: 5px;
+    /* Small buffer from icon now on the right */
+}
+
+/* Title (H2) Styling - ABSOLUTE CLARITY & DYNAMIC HEIGHT */
+.heichel-page-container .card-wrapper h2 {
+    font-family: var(--h-font-main);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    /* Larger responsive font */
+    color: var(--h-color-text);
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-align: right;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.4em;
+    word-break: break-word;
+    margin-bottom: 6px;
+    /* More space below title */
+    text-shadow: 0 0 3px rgba(243, 248, 255, 0.2);
+    user-select: text !important;
+    /* CRITICAL: Ensure title is selectable */
+}
+
+/* Preview (DIV.post-preview) Styling - FULL VISIBILITY */
+.heichel-page-container .card-wrapper .post-preview {
+    font-family: var(--h-font-body);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    /* Larger responsive font */
+    color: #e5effe;
+    line-height: 1.4em;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+    user-select: text !important;
+    /* CRITICAL: Ensure preview text is selectable */
+}
+
+/* Context menu icon in each card - Positioned correctly for RTL content */
+.heichel-page-container .card-wrapper .context-menu-icon {
+    flex-shrink: 0;
+    width: 32px;
+    /* Even larger icon for better tap target */
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    color: var(--h-color-text-dim);
+    cursor: pointer;
+    transition: all 0.1s ease-out;
+    user-select: none;
+    /* Icon is a control */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.heichel-page-container .card-wrapper .context-menu-icon::before {
+    content: '\22EE';
+    /* Unicode vertical ellipsis */
+    font-weight: bold;
+}
+
+.heichel-page-container .card-wrapper .context-menu-icon:hover {
+    background: var(--h-color-accent);
+    color: var(--h-color-void);
+    box-shadow: 0 0 8px var(--h-color-glow);
+    transform: scale(1.2);
+    /* More pronounced grow */
+}
+
+/* SOUL SCINTILLATION (Subtle flicker on hover for card H2) */
+@keyframes h-soul-scintillation {
+    0%, 100% {
+        text-shadow: 0 0 3px rgba(243, 248, 255, 0.2), 0 0 6px rgba(0, 251, 255, 0.1);
+    }
+
+    50% {
+        text-shadow: 0 0 4px rgba(243, 248, 255, 0.3), 0 0 10px rgba(0, 251, 255, 0.5);
+    }
+}
+
+.heichel-page-container .card-wrapper:hover h2 {
+    animation: h-soul-scintillation 1s infinite alternate ease-in-out;
+}
+
+/* Dragging Styles (From old CSS, adjusted) */
+.heichel-page-container .card-wrapper.dragging {
+    opacity: 0.6;
+    cursor: grabbing;
+    border: 2px dashed var(--h-color-accent);
+}
+
+.heichel-page-container .placeholder {
+    background: rgba(82, 255, 228, 0.08);
+    /* Accent colored placeholder */
+    border: 2px dashed var(--h-color-secondary);
+    border-radius: 6px;
+    margin: 0 0 1rem;
+    /* Match card-wrapper margin, effectively */
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+/*==============================================*/
+/* 6. TRANSIENT REALITY LAYERS: MODALS, TOASTS, ACTIONS */
+/*==============================================*/
+.heichel-page-container .hidden {
+    display: none !important;
+}
+
+/* MODALS: Dimensional Gateways */
+.heichel-page-container .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 1, 3, 0.96);
+    backdrop-filter: blur(8px);
+    /* More blur */
+    z-index: 9000;
+    opacity: 0;
+    transition: opacity 0.15s ease-in;
+}
+
+.heichel-page-container .modal-hidden .modal-backdrop {
+    opacity: 0;
+}
+
+/* Managed by JS, for consistency */
+.heichel-page-container .modal-hidden {
+    /* Parent hidden */
+    display: none;
+}
+
+.heichel-page-container .modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    /* Start smaller */
+    width: clamp(300px, 92vw, 600px);
+    /* Larger modal */
+    background-color: var(--h-color-surface);
+    border: 1px solid var(--h-color-accent);
+    box-shadow: 0 0 20px rgba(0, 251, 255, 0.7);
+    /* Stronger shadow */
+    border-radius: 8px;
+    /* Rounder corners */
+    padding: 1.8rem 2rem;
+    z-index: 9001;
+    opacity: 0;
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+    /* Slightly longer, smoother transition */
+    background-image: linear-gradient(0deg, var(--h-color-surface), var(--h-color-surface)), var(--h-border-gradient);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border: 1px solid transparent;
+    animation: h-modal-border-pulse 5s infinite alternate ease-in-out;
+}
+
+@keyframes h-modal-border-pulse {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.heichel-page-container .modal-content.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.heichel-page-container #modal-title {
+    font-family: var(--h-font-main);
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    margin-bottom: 2rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 12px rgba(0, 251, 255, 0.9);
+    user-select: text !important;
+}
+
+/* Data Input Protocols (Forms) */
+.heichel-page-container .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.heichel-page-container .form-group label {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    color: var(--h-color-text-dim);
+    margin-bottom: 0.5rem;
+    user-select: none;
+    /* Label is control text */
+}
+
+.heichel-page-container .form-group input, .heichel-page-container .form-group textarea {
+    width: 100%;
+    background-color: var(--h-color-void);
+    border: 1px solid var(--h-color-border);
+    padding: 0.7rem 1rem;
+    color: var(--h-color-text);
+    font-size: 1rem;
+    font-family: var(--h-font-body);
+    border-radius: 4px;
+    user-select: text !important;
+    /* CRITICAL: Input must be selectable */
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+}
+
+.heichel-page-container .form-group input:focus, .heichel-page-container .form-group textarea:focus {
+    outline: none;
+    border-color: var(--h-color-accent);
+    box-shadow: 0 0 10px var(--h-color-glow);
+}
+
+.heichel-page-container .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+/* --- BUTTONS: QUANTUM LEAP INITIATORS --- */
+:root {
+    --button-bg-start: #060910;
+    --button-bg-end: #020306;
+    --button-color-initial: #E8F8FF;
+    --button-border-initial: #00F4FF;
+    --button-shadow-initial: rgba(0, 244, 255, 0.15);
+    --hover-bg-start: #18202E;
+    --hover-bg-end: #080D15;
+    --hover-color: #52FFE4;
+    --hover-border: #52FFE4;
+    --hover-shadow-pulse: rgba(82, 255, 228, 0.4);
+    --active-bg-top: #00BFFF;
+    --active-bg-bottom: #006095;
+    --active-color: var(--h-color-void);
+    --active-border-top: #FF0060;
+    --active-border-bottom: #FF4085;
+    --active-shockwave-color: rgba(255, 0, 96, 0.7);
+}
+
+.heichel-page-container button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    /* Bigger button padding */
+    font-family: var(--h-font-main);
+    font-size: 15px;
+    /* Slightly larger font */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    /* overflow: hidden; */
+    background: linear-gradient(135deg, var(--button-bg-start) 0%, var(--button-bg-end) 100%);
+    color: var(--button-color-initial);
+    border: 1px solid var(--button-border-initial);
+    border-radius: 4px;
+    /* Consistent border radius */
+    box-shadow: 0 0 8px var(--button-shadow-initial);
+    transition: all 0.15s ease-out;
+    /* Adjusted transition for balance */
+    /* white-space: nowrap; */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background-image: radial-gradient(rgba(0,251,255,0.015) 1px, transparent 1px);
+    background-size: 6px 6px;
+    /* Slightly larger static */
+    animation: h-button-surface-shimmer 4s linear infinite alternate;
+}
+
+@keyframes h-button-surface-shimmer {
+    0%, 100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 12px 12px;
+    }
+}
+
+.heichel-page-container button:hover {
+    background: linear-gradient(135deg, var(--hover-bg-start) 0%, var(--hover-bg-end) 100%);
+    color: var(--hover-color);
+    border-color: var(--hover-border);
+    box-shadow: 0 0 20px var(--hover-shadow-pulse), inset 0 0 10px rgba(82, 255, 228, 0.25);
+    transform: translateY(-2px);
+    /* More pronounced lift */
+    animation: h-button-hover-glow 0.8s ease-out infinite alternate;
+    /* Slower, more prominent pulse */
+}
+
+@keyframes h-button-hover-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px var(--hover-shadow-pulse), inset 0 0 10px rgba(82, 255, 228, 0.25);
+    }
+
+    50% {
+        box-shadow: 0 0 35px var(--hover-shadow-pulse), inset 0 0 15px rgba(82, 255, 228, 0.4);
+    }
+}
+
+.heichel-page-container button:active {
+    background: linear-gradient(0deg, var(--active-bg-bottom) 0%, var(--active-bg-top) 100%);
+    color: var(--active-color);
+    border-color: var(--active-border-top);
+    transform: scale(0.94);
+    /* Deeper press */
+    box-shadow: inset 0 0 15px var(--active-shockwave-color);
+    transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+    /* Faster press feedback */
+    animation: none;
+}
+
+.heichel-page-container button:active::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    /* Larger effect area */
+    background: radial-gradient(circle at center, var(--active-shockwave-color) 0%, transparent 80%);
+    filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    animation: h-quantum-shockwave 0.12s ease-out forwards;
+}
+
+@keyframes h-quantum-shockwave {
+    0% {
+        transform: scale(0);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+
+    /* Larger, more intense burst */
+}
+
+/* Modal Specific Buttons (Inherit core button styling for consistency) */
+.heichel-page-container #modal-cancel-btn {
+    border-color: var(--h-color-border);
+    background: transparent;
+    color: var(--h-color-text-dim);
+    &:hover {
+        background: var(--h-color-border);
+        color: var(--h-color-text);
+        box-shadow: none;
+    }
+}
+
+.heichel-page-container #modal-submit-btn {
+    border-color: var(--h-color-accent);
+    background: var(--h-color-accent);
+    color: var(--h-color-void);
+    &:hover {
+        box-shadow: 0 0 15px var(--h-color-glow);
+    }
+}
+
+.heichel-page-container #bulk-actions-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--h-color-glass);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--h-color-border);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+    z-index: 8000;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.heichel-page-container #bulk-actions-bar.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.heichel-page-container #bulk-actions-bar span {
+    font-size: 1.1em;
+    color: var(--h-color-text);
+}
+
+.heichel-page-container #bulk-actions-bar .actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Bulk delete and exit selection buttons */
+.heichel-page-container #bulk-delete-btn {
+    background-color: var(--h-color-danger);
+    border-color: var(--h-color-danger);
+    color: white;
+}
+
+.heichel-page-container #bulk-delete-btn:hover {
+    box-shadow: 0 0 10px var(--h-shadow-danger-implosion);
+}
+
+.heichel-page-container #exit-selection-mode-btn {
+    background-color: transparent;
+    border: 1px solid var(--h-color-border);
+    color: var(--h-color-text-dim);
+}
+
+.heichel-page-container #exit-selection-mode-btn:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--h-color-text);
+}
+
+/*
+ * B"H
+ * The Nefesh, Ruach, Neshama, Chaya, Yechidah Breadcrumb
+ */
+.heichel-page-container #breadcrumb-container {
+    font-family: var(--h-font-body);
+    font-weight: normal;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    /* Fluid font size */
+    line-height: 1.4;
+    color: var(--h-color-text-dim);
+    background: rgba(4, 6, 12, 0.92);
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4), inset 0 0 4px rgba(0, 251, 255, 0.03);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    /* More space */
+    position: relative;
+    z-index: 100;
+    animation: h-breadcrumb-breathe 4s ease-in-out infinite alternate;
+    border-image: linear-gradient(45deg, rgba(0,199,255,0.25) 0%, rgba(82,255,228,0.25) 100%) 1;
+    border-width: 1px;
+    border-style: solid;
+    margin-bottom: 12px;
+    /* Space below breadcrumb */
+}
+
+@keyframes h-breadcrumb-breathe {
+    0%, 100% {
+        transform: scale(1) translateZ(0);
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4), inset 0 0 4px rgba(0, 251, 255, 0.03);
+    }
+
+    50% {
+        transform: scale(1.005) translateZ(0);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(0, 251, 255, 0.08);
+    }
+}
+
+.heichel-page-container #breadcrumb-container span {
+    color: var(--h-color-separator);
+    font-size: 1.1em;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    margin: 0 0.15em;
+}
+
+.heichel-page-container #breadcrumb-container a {
+    color: var(--h-color-link-normal);
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: all 0.1s ease-out;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.heichel-page-container #breadcrumb-container a:hover {
+    color: var(--h-color-text);
+    background: rgba(0, 199, 255, 0.15);
+    box-shadow: 0 0 6px rgba(0, 199, 255, 0.5);
+    transform: translateY(-2px);
+    /* More pronounced lift */
+}
+
+.heichel-page-container #breadcrumb-container a:last-of-type {
+    color: var(--h-color-secondary);
+    font-weight: bold;
+    cursor: default;
+    background: var(--h-color-current-page-background);
+    border: 1px solid var(--h-color-current-page-border);
+    padding: 0.4rem 0.7rem;
+    position: relative;
+    overflow: hidden;
+    user-select: text !important;
+    /* CRITICAL: Current page title MUST be selectable */
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    /* Yechidah Flicker on Current Page */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(82, 255, 228, 0.2) 0%, transparent 70%);
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        animation: h-yechidah-flicker 1.2s ease-in-out infinite alternate;
+        pointer-events: none;
+    }
+}
+
+@keyframes h-yechidah-flicker {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+}
+
+.heichel-page-container #breadcrumb-container a:first-of-type::before {
+    content: '\2302';
+    /* Unicode HOME symbol */
+    margin-right: 0.3em;
+    color: var(--h-color-home-icon, #0077B6);
+    font-size: 1.1em;
+}
+
+.heichel-page-container #breadcrumb-container a:last-child span {
+    display: none;
+}
+
+/* Responsive Adjustments for Breadcrumb */
+@media (max-width: 768px) {
+    .heichel-page-container #breadcrumb-container {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .heichel-page-container #breadcrumb-container a {
+        padding: 0.2rem 0.4rem;
+        max-width: 48%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 480px) {
+    .heichel-page-container #breadcrumb-container {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        justify-content: flex-start;
+    }
+
+    .heichel-page-container #breadcrumb-container a:last-of-type {
+        max-width: 100%;
+    }
+}
+
+/* Breadcrumb Color Variables */
+:root {
+    --h-color-separator: var(--h-color-border);
+    --h-color-link-normal: var(--h-color-accent);
+    --h-color-current-page-background: rgba(82, 255, 228, 0.1);
+    --h-color-current-page-border: rgba(82, 255, 228, 0.4);
+    --h-color-home-icon: var(--h-color-glow);
+    --h-color-separator-hover-glint: #FFDD00;
+}
+
+.heichel-page-container #breadcrumb-container a:hover + span {
+    color: var(--h-color-separator-hover-glint);
+    text-shadow: 0 0 12px rgba(255, 221, 0, 1.0);
+    transform: translateY(-1px);
+    transition: all 0.1s ease-out;
+}
+
+/*
+ * B"H
+ * The Heavenly Ledger of Transient Messages (Toasts)
+ */
+#toast-container {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: clamp(200px, 90vw, 350px);
+    /* Larger, more responsive width */
+    max-height: 80vh;
+    /* Allow more toasts before scrolling */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    /* More space between toasts */
+    z-index: 9999;
+    padding: 6px;
+    pointer-events: none;
+    /* Crucial: Allows clicks through the container */
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    mask-image: linear-gradient(to top, black 70%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to top, black 70%, transparent 95%);
+}
+
+#toast-container:hover {
+    pointer-events: auto;
+}
+
+#toast-container .toast {
+    font-family: var(--h-font-body);
+    font-size: 0.9em;
+    line-height: 1.3;
+    padding: 0.6rem 0.9rem;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    color: var(--toast-text-color-light);
+    background: var(--toast-bg-color-base);
+    border: 1px solid var(--toast-border-color-base);
+    text-align: right;
+    user-select: text;
+    /* Allow toast content to be selected */
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+    transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+    /* Slightly smoother */
+    &.entering {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    &.exiting {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.9);
+    }
+}
+
+/* Simplified opacity fading for older toasts */
+#toast-container .toast:nth-last-child(n+5) {
+    opacity: 0;
+}
+
+#toast-container .toast:nth-last-child(4) {
+    opacity: 0.4;
+}
+
+#toast-container .toast:nth-last-child(3) {
+    opacity: 0.6;
+}
+
+#toast-container .toast:nth-last-child(2) {
+    opacity: 0.8;
+}
+
+#toast-container .toast:nth-last-child(1) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Toast semantic colors */
+#toast-container .toast.info {
+    background: var(--toast-info-bg);
+    color: var(--toast-info-text);
+    border-color: var(--toast-info-border);
+}
+
+#toast-container .toast.success {
+    background: var(--toast-success-bg);
+    color: var(--toast-success-text);
+    border-color: var(--toast-success-border);
+}
+
+#toast-container .toast.warning {
+    background: var(--toast-warning-bg);
+    color: var(--toast-warning-text);
+    border-color: var(--toast-warning-border);
+}
+
+#toast-container .toast.error {
+    background: var(--toast-error-bg);
+    color: var(--toast-error-text);
+    border-color: var(--toast-error-border);
+    box-shadow: 0 0 10px var(--h-shadow-danger-implosion);
+}
+
+/* Toast color palette vars */
+:root {
+    --toast-text-color-light: var(--h-color-text);
+    --toast-bg-color-base: var(--h-color-surface);
+    --toast-border-color-base: var(--h-color-border);
+    --toast-info-bg: rgba(0, 199, 255, 0.12);
+    --toast-info-text: var(--h-color-accent);
+    --toast-info-border: rgba(0, 199, 255, 0.4);
+    --toast-success-bg: rgba(82, 255, 228, 0.12);
+    --toast-success-text: var(--h-color-secondary);
+    --toast-success-border: rgba(82, 255, 228, 0.4);
+    --toast-warning-bg: rgba(255, 165, 0, 0.12);
+    --toast-warning-text: orange;
+    --toast-warning-border: rgba(255, 165, 0, 0.4);
+    --toast-error-bg: rgba(255, 0, 96, 0.18);
+    --toast-error-text: var(--h-color-danger);
+    --toast-error-border: rgba(255, 0, 96, 0.5);
+}
+
+/*
+ * B"H
+ * Context menu: Momentary sanctum of intentions - Streamlined.
+ */
+.context-menu {
+    position: absolute;
+    left: 0;
+    z-index: 9005;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, var(--menu-bg-start) 0%, var(--menu-bg-end) 100%);
+    border: 1px solid var(--menu-border-color);
+    border-radius: 4px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
+    /* More pronounced shadow */
+    min-width: 140px;
+    /* Slightly wider */
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+    pointer-events: none;
+    /* Initially non-interactive */
+    &.is-open {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+    }
+}
+
+.context-menu-item {
+    font-family: var(--h-font-body);
+    font-weight: normal;
+    font-size: 0.95rem;
+    /* Slightly larger text */
+    color: var(--menu-item-text-color);
+    padding: 0.5rem 0.8rem;
+    /* Increased padding */
+    border-radius: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    /* More space for icons */
+    transition: all 0.1s ease-out;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    &:hover {
+        background: var(--menu-item-hover-bg);
+        color: var(--menu-item-hover-text);
+        transform: translateX(3px);
+        /* More pronounced slide */
+        box-shadow: inset 3px 0 0 0 var(--menu-item-hover-border);
+    }
+
+    &:active {
+        background: var(--menu-item-active-bg);
+        color: var(--menu-item-active-text);
+        transform: translateX(1px);
+        transition: none;
+        /* Snap on active */
+    }
+}
+
+.context-menu-item.danger-option {
+    color: var(--danger-text-color);
+    font-weight: bold;
+    &::before {
+        content: '\26A0';
+        margin-right: 0.4em;
+        color: var(--danger-icon-color);
+        font-size: 1em;
+    }
+
+    /* Warning symbol */
+    &:hover {
+        background: var(--danger-hover-bg);
+        color: var(--danger-hover-text);
+        box-shadow: inset 3px 0 0 0 var(--danger-hover-border);
+        transform: translateX(3px);
+    }
+}
+
+/* Context menu variables */
+:root {
+    --menu-bg-start: #060910;
+    --menu-bg-end: #020306;
+    --menu-border-color: rgba(0, 199, 255, 0.3);
+    --menu-item-text-color: var(--h-color-text-dim);
+    --menu-item-hover-bg: rgba(0, 199, 255, 0.1);
+    --menu-item-hover-text: var(--h-color-accent);
+    --menu-item-hover-border: var(--h-color-accent);
+    --menu-item-active-bg: rgba(0, 199, 255, 0.05);
+    --menu-item-active-text: var(--h-color-secondary);
+    --danger-text-color: var(--h-color-danger);
+    --danger-icon-color: #FFC000;
+    --danger-hover-bg: rgba(255, 0, 96, 0.15);
+    --danger-hover-text: #FFEEEE;
+    --danger-hover-border: var(--h-color-danger);
+}
+
+.heichel-page-container .loading-spinner {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: var(--h-color-text-dim);
+}
+
+.heichel-page-container .content-views {
+    height: 100vh;
+    overflow: scroll;
+}
