@@ -276,11 +276,13 @@ module.exports = {
 			if(properties || arrayFilter) {
 				
                 let props = properties;
-				if(!props) props = {}
+				if(!props) props = {};
+				
                 if(typeof props === "string") {
                     try {
                         props = JSON.parse(props);
                     } catch (e) {
+						console.log(e);
 						props = {};
 					}
                 }
@@ -294,11 +296,14 @@ module.exports = {
 						null,
 						arrayFilter
 					);
+					//console.log("LOL",path,properties, mpt)
                  //   console.log(mpt,props,path)
                     return {
                         success: mpt
                     }
-                }
+                } else {
+					console.log("WHAT",path)
+				}
                 return null;
 			}
         } catch (e) {

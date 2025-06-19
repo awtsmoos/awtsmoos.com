@@ -24,6 +24,16 @@ var {
 
 // Posts (Now Series-Centric)
 var {
+    getPostsOfAliasInSeries,
+	getSeriesOfPostsOfAliasInHeichel,
+	getHeichelosOfPostsOfAlias,
+	getSeriesCreatedOfAliasInHeichel,
+	getHeichelosOfSeriesCreatedOfAlias,
+	getHeichelosOfCommetsOfAlias,
+	getSeriesInHeichelOfCommetsOfAlias,
+	getPostsOfCommentsInSeriesOfAlias,
+
+    
     addPostToSeries,         // Renamed/Rewritten
     editPostInSeries,        // Renamed/Rewritten
     deletePostFromSeries,    // Renamed/Rewritten
@@ -135,5 +145,16 @@ module.exports = {
     getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
 
-    addLotsOfCommentsToPostByVerseSections
+    addLotsOfCommentsToPostByVerseSections,
+
+
+
+    getPostsOfAliasInSeries,
+	getSeriesOfPostsOfAliasInHeichel,
+	getHeichelosOfPostsOfAlias,
+	getSeriesCreatedOfAliasInHeichel,
+	getHeichelosOfSeriesCreatedOfAlias,
+	getHeichelosOfCommetsOfAlias,
+	getSeriesInHeichelOfCommetsOfAlias,
+	getPostsOfCommentsInSeriesOfAlias
 };

@@ -974,12 +974,22 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 	var keys = Object.keys(mapping);
 	if(keys.length == 0) {
 		keys = getKeys(buffer);
+	} else {
+		//console.log("Key Kadoish",keys)
 	}
 	//console.log("Try",pth,keys,arrayFilter,magic+"")
 	var result = {};
 	var hasNone = true;
+	var isInvalid = false;
 	var filteredIndecies = [];
 	var exactIndex = null;
+
+	var isNestedMap = false /*
+		if true then the 
+		"conditions" for each nothing checks
+		its own sub conditions 
+		(assuming its a nested obj)
+		*/
 	if(arrayFilter) {
 		var ind = arrayFilter?.index;
 		if(typeof(ind) == "number") {
@@ -988,9 +998,14 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 		if(Array.isArray(ind)) {
 			filteredIndecies = ind;
 		}
+		if(arrayFilter.nestedMap) {
+			isNestedMap = true;
+		}
 	}
 	var index = 0;
 	for(var key of keys) {
+		
+			
 		if(exactIndex !== null) {
 			
 			if(index != exactIndex) {
@@ -1005,19 +1020,22 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 				continue;
 			}
 		}
+		
 		var conditions = mapping?.[key] || true
-		//console.log("Doing keys",key,conditions,metadataRef)
+		//console.log("Doing keys",key,conditions)
 		var metadataEntry = getMetadataByKey(
 			buffer,
 			key,
 			null,
 			metadataRef
 		);
+			//console.log("j",key,conditions,buffer,metadataEntry)
 		
 		if(!metadataEntry || metadataEntry.notFound) {
 			index++;
 			continue;
 		}
+
 		
 		if([1, 3].includes(
 			metadataEntry.valueType
@@ -1041,6 +1059,7 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 				var nested;
 				if(conditions && typeof(conditions) == "object") {
 					nested = mapObject(offsetBuffer, conditions)
+					//console.log("nest",conditions, nested)
 				} else if(conditions) {
 					nested = temp.deserializeBinary(offsetBuffer)
 				}
@@ -1067,6 +1086,7 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 				hasNone = false;
 			} 
 		} else {
+			//hasNone = false;
 			var value = getValueFromMetadata(
 				buffer,
 				metadataEntry,
@@ -1077,19 +1097,22 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 				value,
 				index
 			);
-			
-			
+			//console.log("should", shouldGive, key, conditions, value, index)
+			//
 			
 			if(shouldGive) {
 
 				result[key] = value;
 				hasNone = false;
+			} else {
+				isInvalid = true;
 			}
 			
 			
 		}
 		index++;
 	}
+	if(isInvalid) return undefined;
 	if(hasNone) return undefined;
 	return result;
 }

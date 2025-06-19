@@ -13,6 +13,11 @@ const {
     getPostFromSeries,
     getPostsInSeries,
     getPostsByProperty,
+
+	getPostsOfAliasInSeries,
+	getSeriesOfPostsOfAliasInHeichel,
+	getHeichelosOfPostsOfAlias,
+	
     // Other helpers if needed by routes
     er // Import error helper
 } = require("./helper/index.js");
@@ -21,6 +26,30 @@ const { loggedIn } = require("./helper/general.js"); // For auth checks if neede
 
 module.exports = ({ $i, userid } = {}) => ({
 
+	"/aliases/:alias/postsMade/heichel/:heichel/series/:series": async vars => {
+		//console.log("Wow",vars)
+		return await getPostsOfAliasInSeries({
+			$i,
+			aliasId: vars.alias,
+			seriesId: vars.series,
+			heichelId: vars.heichel,
+			withDetails: true
+		})
+	},
+	"/aliases/:alias/postsMade/heichelos": async vars => {
+		//console.log(22,vars)
+		return await getHeichelosOfPostsOfAlias({
+			$i,
+			aliasId: vars.alias
+		})
+	},
+	"/aliases/:alias/postsMade/heichel/:heichel/series": async vars => {
+		return await getSeriesOfPostsOfAliasInHeichel({
+			$i,
+			aliasId: vars.alias,
+			heichelId: vars.heichel
+		})
+	},
     /**
      * @endpoint POST /heichelos/:heichel/series/:series/posts
      * @description Adds a new post to the specified series.

@@ -11,6 +11,17 @@ module. exports={
     ":a",
     async (vars)=>{
       
+      var t=await $i.fetchAwtsmoos(
+        "/@/_awtsmoos.ind.html",
+		{
+		  superSecret: "yes"
+        }
+
+      );
+	  return {
+        response: t
+
+      };
       var pt = `/api/social/alias/${vars.a}/ownership`;
 	  
       var belongsToMe = loggedInUser ? 

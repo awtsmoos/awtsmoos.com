@@ -208,7 +208,7 @@ export function updateActiveTab(view) {
     const container = isPosts ? DOMElements.postsList : DOMElements.seriesList;
     // The optional chaining (?.) is crucial here in case the list is empty on load
     const hasContent = container?.querySelector('.card-wrapper');
-    global.selectBtn.classList.toggle('hidden', !(appState.ownsIt && hasContent));
+    global?.selectBtn?.classList?.toggle?.('hidden', !(appState.ownsIt && hasContent));
 }
 
 function handleCardClick(item) {

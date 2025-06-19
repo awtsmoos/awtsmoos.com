@@ -10,17 +10,58 @@ const { sp } = require("../_awtsmoos.constants.js");
 const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
-async function get(pth, $i) {
+async function get(pth, $i, withOpts=true) {
 	var opts = $i.myOpts;
+	//console.log("Getting",pth)
 	try {
 		return {
-			success: await $i.db.get(pth, opts)
+			success: await $i.db.get(
+				pth, 
+				withOpts ? opts : undefined
+ 			)
 		}
 	} catch(e) {
 		return er({
 			stack: e.stack
 		})
 	}
+}
+
+async function getPostsOfCommentsInSeriesOfAlias({
+	$i,
+	aliasId,
+	heichelId,
+	seriesId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/commets/heichel/${
+		heichelId	
+	}/series/${
+		seriesId
+	}/atPost`
+	return await get(pth, $i)	
+}
+async function getSeriesInHeichelOfCommetsOfAlias({
+	$i,
+	aliasId,
+	heichelId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/commets/heichel/${
+		heichelId	
+	}/series/`
+	return await get(pth, $i)	
+}
+async function getHeichelosOfCommetsOfAlias({
+	$i,
+	aliasId
+}) {
+	var pth = `${sp}/aliases/${
+		aliasId	
+	}/commets/heichel`
+	return await get(pth, $i)	
 }
 
 async function getHeichelosOfSeriesCreatedOfAlias({$i, aliasId}) {
@@ -44,31 +85,93 @@ async function getSeriesCreatedOfAliasInHeichel({
 	return await get(pth, $i)
 }
 
-async function getHeichelosOfPostsOfAlias({$i, aliasId}) {
+async function getHeichelosOfPostsOfAlias({
+	$i, aliasId,
+	withDetails = true
+}) {
 	var pth = `${sp}/aliases/${
 		aliasId	
 	}/postsSubmitted/inHeichel`
-	return await get(pth, $i)
+	var g = await get(pth, $i);
+	if(g.error) return g;
+	if(g.success) g = g.success
+	if(!withDetails)
+		return g;
+	if(!Array.isArray(g)) g = [];
+	
+	var heichelos = [];
+	var hei;
+	for(
+		hei of g
+	) {
+		var det = await $i.db.get(
+			`${sp}/heichelos/${
+				hei
+			}/info`, {
+				propertyMap: {
+					author: true,
+					name: true
+				}
+			}
+		);
+		if(det) {
+			det.id = hei;
+			heichelos.push(det)
+		}
+	}
+
+	return {success: heichelos};
 }
 
 
 async function getSeriesOfPostsOfAliasInHeichel({
 	$i, aliasId,
-	heichelId
+	heichelId,
+	withDetails= true
 }) {
 	var pth = `${sp}/aliases/${
 		aliasId	
 	}/postsSubmitted/inHeichel/${
 		heichelId
 	}/inSeries`
-	return await get(pth, $i)
+	var g = await get(pth, $i);
+	if(!withDetails) return g;
+	if(g.success) g = g.success;
+	if(g.error) return g;
+
+	if(!Array.isArray(g)) {
+		g = [];
+	}
+	var res = []
+	var ser;
+	for(ser of g) {
+		var det = await $i.db.get(
+			`${sp}/heichelos/${
+				heichelId
+			}/series/${
+				ser
+			}/prateem`, {
+				propertyMap: {
+					author: true,
+					name: true,
+					id: true,
+					createdAt: true,
+					parentSeriesId: true
+				}
+			}
+		);
+		if(det)
+			res.push(det)
+	}
+	return {success: res};
 }
 
 
 async function getPostsOfAliasInSeries({
 	$i, aliasId,
 	heichelId,
-	seriesId
+	seriesId,
+	withDetails= false
 }) {
 	var pth = `${sp}/aliases/${
 		aliasId	
@@ -77,7 +180,113 @@ async function getPostsOfAliasInSeries({
 	}/inSeries/${
 		seriesId
 	}`
-	return await get(pth, $i)
+	var p = await get(pth, $i, false);
+	if(p.error) {
+		return er(p.error)
+	}
+	if(p.success) {
+		p = p.success
+	}
+	var k = Object.keys(p)
+	if(!withDetails) return k
+	
+	try {
+		var postsPath = `${
+				sp
+			 }/heichelos/${
+				heichelId
+			 }/series/${
+				seriesId
+			 }/posts`;
+
+		var mapObj = {};
+		for(var p of k) {
+			mapObj[p] = {
+				title: true,
+				author: {
+					equals: aliasId
+				},
+				createdAt: true,
+				id: true,
+				parentSeriesId: true
+				
+			}
+		}
+		var allPosts = await $i.db.get(
+			postsPath
+			,
+			{
+				propertyMap: mapObj
+			}
+			
+		);
+		var ind = 0;
+		var postArray = [];
+		var k;
+		var keys = Object.keys(allPosts)
+		for(k of keys) {
+			var po = allPosts[k];
+			po.index = ind;
+			postArray.push(po);
+			ind++;
+		}
+		var vals = Object.values(allPosts)
+		return {success: vals};
+
+		var postsNeedingDeletion = [];
+		var legitPosts = {};
+		var post;
+		var i = 0;
+		for(
+			post of k
+		) {
+			var realPost = allPosts.find(q=>
+				q == post 	
+			)
+			if(!realPost) {
+				postsNeedingDeletion.push(post)
+				
+				i++;
+				continue;
+			}
+
+			var details = await $i.db.get(
+				postsPath, 
+				{
+					propertyMap: {
+						[post]: {
+							title: true,
+							author: true,
+							createdAt: true,
+							id: true,
+							parentSeriesId: true
+						}
+					}
+				}
+			)
+/*
+			if(details.author != aliasId) {
+				postsNeedingDeletion.push(post)
+				i++;
+				continue;
+			}
+*/
+			legitPosts[post] = details?.[post];
+			
+			i++;
+		}
+		var res = {};
+		if(postsNeedingDeletion.length) {
+			res.postsNeedingDeletion = 
+				postsNeedingDeletion
+		}
+		res.posts = legitPosts;
+		return res;
+	} catch(e) {
+		return er({
+			stack: e.stack
+		})
+	}
 }
 /**
  * @description Adds a new post directly into its parent series' post object.
@@ -508,7 +717,20 @@ async function getPostsByProperty({ $i, heichelId, seriesId, propertyKey, proper
     }
 }
 
+
+
 module.exports = {
+	getPostsOfAliasInSeries,
+	getSeriesOfPostsOfAliasInHeichel,
+	getHeichelosOfPostsOfAlias,
+	getSeriesCreatedOfAliasInHeichel,
+	getHeichelosOfSeriesCreatedOfAlias,
+	getHeichelosOfCommetsOfAlias,
+	getSeriesInHeichelOfCommetsOfAlias,
+	getPostsOfCommentsInSeriesOfAlias,
+	
+
+	
     addPostToSeries,
     editPostInSeries,
     deletePostFromSeries,
