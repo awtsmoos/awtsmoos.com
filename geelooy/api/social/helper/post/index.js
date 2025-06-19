@@ -11,13 +11,17 @@ const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
 async function get(pth, $i, withOpts=true) {
-	var opts = $i.myOpts;
+	var opts = {};
 	//console.log("Getting",pth)
+	opts.max = true;
 	try {
 		return {
 			success: await $i.db.get(
 				pth, 
-				withOpts ? opts : undefined
+				{
+					max: true
+				}
+				//withOpts ? opts : undefined
  			)
 		}
 	} catch(e) {
@@ -31,8 +35,11 @@ async function getPostsOfCommentsInSeriesOfAlias({
 	$i,
 	aliasId,
 	heichelId,
-	seriesId
+	//seriesId,
+	crumbpath
 }) {
+	
+	
 	var pth = `${sp}/aliases/${
 		aliasId	
 	}/commets/heichel/${
@@ -123,28 +130,17 @@ async function getHeichelosOfPostsOfAlias({
 	return {success: heichelos};
 }
 
-
-async function getSeriesOfPostsOfAliasInHeichel({
-	$i, aliasId,
-	heichelId,
-	withDetails= true
+async function mapSeriesIDsToSeries({
+	$i,
+	seriesIDs,
+	heichelId
 }) {
-	var pth = `${sp}/aliases/${
-		aliasId	
-	}/postsSubmitted/inHeichel/${
-		heichelId
-	}/inSeries`
-	var g = await get(pth, $i);
-	if(!withDetails) return g;
-	if(g.success) g = g.success;
-	if(g.error) return g;
-
-	if(!Array.isArray(g)) {
-		g = [];
+	if(!Array.isArray(seriesIDs)) {
+		seriesIDs = [];
 	}
 	var res = []
 	var ser;
-	for(ser of g) {
+	for(ser of seriesIDs) {
 		var det = await $i.db.get(
 			`${sp}/heichelos/${
 				heichelId
@@ -165,30 +161,80 @@ async function getSeriesOfPostsOfAliasInHeichel({
 	}
 	return {success: res};
 }
-
-
-async function getPostsOfAliasInSeries({
+async function getSeriesOfPostsOfAliasInHeichel({
 	$i, aliasId,
 	heichelId,
-	seriesId,
-	withDetails= false
+	withDetails= true
 }) {
 	var pth = `${sp}/aliases/${
 		aliasId	
 	}/postsSubmitted/inHeichel/${
 		heichelId
+	}/inSeries`
+	var g = await get(pth, $i);
+	if(!withDetails) return g;
+	if(g.success) g = g.success;
+	if(g.error) return g;
+	return await mapSeriesIDsToSeries({
+		$i,
+		seriesIDs: g,
+		heichelId
+	})
+	
+}
+
+/*return er({
+			message: "Missing path to series",
+			code: "NO_SERIES_PATH"
+		});*/
+async function getPostsOfAliasInSeries({
+	$i, aliasId,
+	heichelId,
+	seriesId,
+	crumbpath,
+	withDetails= false
+}) {
+	
+	var mp = `${sp}/aliases/${
+			aliasId	
+		}/postsSubmitted/inHeichel/${
+			heichelId	
+		}/seriesChain/`;
+	if(
+		typeof(crumbpath) != "string" ||
+		crumbpath.length == 0
+	) {
+		var g = await get(mp, $i)
+		console.log("asd")
+		return g;
+	}
+	var crumbled = mp + crumbpath;
+	
+	var splat = crumbpath.split("/")
+	var seriesId = splat[
+		splat.length-1
+	];
+
+	/*
+	return {
+		seriesId
+	// }*
+	/*var pth = `${sp}/aliases/${
+		aliasId	
+	}/postsSubmitted/inHeichel/${
+		heichelId
 	}/inSeries/${
 		seriesId
-	}`
-	var p = await get(pth, $i, false);
+	}`*/
+	var p = await get(crumbled, $i, false);
 	if(p.error) {
 		return er(p.error)
 	}
 	if(p.success) {
 		p = p.success
 	}
-	var k = Object.keys(p)
-	if(!withDetails) return k
+	
+	//if(!withDetails) return k
 	
 	try {
 		var postsPath = `${
@@ -199,8 +245,35 @@ async function getPostsOfAliasInSeries({
 				seriesId
 			 }/posts`;
 
+		var allPostIDs = await $i.db.getObjectKeys(
+			postsPath
+		);
+		if(!allPostIDs.length) {
+			var ser = await mapSeriesIDsToSeries({
+						$i,
+						seriesIDs: p,
+						heichelId
+					});
+			if(ser.error) {
+				return ser;
+			}
+			if(Array.isArray(ser.success)) {
+				ser = ser.success;
+			} else {
+				return er({
+					message: "Something went wrong. "
+					+"Series not in right format",
+					details: ser,
+					code: "WRONG_FORMAT"
+				})
+			}
+			return {
+				seriesInPath: ser
+					
+			}
+		}
 		var mapObj = {};
-		for(var p of k) {
+		for(var p of allPostIDs) {
 			mapObj[p] = {
 				title: true,
 				author: {
@@ -220,6 +293,9 @@ async function getPostsOfAliasInSeries({
 			}
 			
 		);
+
+		
+		
 		var ind = 0;
 		var postArray = [];
 		var k;
@@ -231,7 +307,7 @@ async function getPostsOfAliasInSeries({
 			ind++;
 		}
 		var vals = Object.values(allPosts)
-		return {success: vals};
+		return {posts: vals};
 
 		var postsNeedingDeletion = [];
 		var legitPosts = {};
@@ -362,14 +438,33 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
             throw new Error(`DB Error: ${writeResult.error.message || writeResult.error}`);
         }
 
-        // Track the post creation for the alias
-        const trackingPath = `${sp}/aliases/${aliasId}/postsSubmitted/inHeichel/${heichelId}/inSeries/${seriesId}`;
-        const trackResult = await $i.db.syncKeyInObj(trackingPath, postId); // Store postId as key, maybe value = true
-        if (trackResult?.error) {
-            // Log error but don't necessarily fail the whole operation
-            console.error(`Failed to track post ${postId} for alias ${aliasId}: ${trackResult.error}`);
-        }
-
+		var bready = await fetchAwtsmoos(`/api/social/heichelos/${
+			heichelId
+		}/series/${
+			seriesId
+		}/breadcrumb`);
+		if(Array.isArray(bready)) {
+			var crumbed = bready.map(q=>q.id)
+				.join("/");
+			const trackingPath = `${
+				sp
+			}/aliases/${
+				aliasId
+			}/postsSubmitted/inHeichel/${
+				heichelId
+			}/seriesChain/${
+				crumbed	
+			}`;
+	        const trackResult = await $i.db.write(trackingPath);
+	        if(trackResult?.error) {
+				return er({
+					message: "Error in tracking",
+					details: trackResult.error
+				})
+			}
+		}
+       
+		
         return { success: { postId, seriesId, title } };
 
     } catch (e) {

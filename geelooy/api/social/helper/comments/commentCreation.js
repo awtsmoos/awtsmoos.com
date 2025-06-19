@@ -421,6 +421,29 @@ async function addCommentIndexToAlias({
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }
 
+		var bread = await fetchAwtsmoos(
+			`/api/social/heichelos/${
+				heichelId
+			}/series/${
+				seriesId
+			}/breadcrumb`
+		);
+
+		if(Array.isArray(bread)) {
+			var crumbled = bread.map(q => q.id)
+				.join("/")
+			var pth = `${
+		        sp
+		    }/aliases/${
+		        aliasId
+		    }/comments/heichel/${
+		        heichelId
+		    }/seriesChain/${
+				crumbled
+			}`;
+			var wr = await db.write(crumbled);
+		}
+
      //   console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);
         return { success: true, details: syncResult }; // Return DB operation details
 

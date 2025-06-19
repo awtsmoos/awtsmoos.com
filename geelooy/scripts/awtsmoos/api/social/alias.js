@@ -44,15 +44,16 @@ async function getAliasDetails(alias) {
 async function getPostsOfAliasInSeries({
     aliasId,
     heichelId,
-    seriesId
+    seriesId,
+    path
 }) {
     return await get(
         `/api/social/aliases/${
             aliasId
         }/postsMade/heichel/${
             heichelId   
-        }/series/${
-            seriesId
+        }/pathToSeries/${
+            btoa(encodeURIComponent(path))
         }`
     )
 }

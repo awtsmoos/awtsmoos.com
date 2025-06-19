@@ -26,12 +26,27 @@ const { loggedIn } = require("./helper/general.js"); // For auth checks if neede
 
 module.exports = ({ $i, userid } = {}) => ({
 
-	"/aliases/:alias/postsMade/heichel/:heichel/series/:series": async vars => {
+	"/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive": async vars => {
 		//console.log("Wow",vars)
+		var pathic = "";
+		try {
+			pathic = decodeURIComponent(
+				Buffer.from(
+				
+					vars
+					.pathive || "",
+					"base64"
+				).toString("utf-8")
+			)
+		} catch(e) {
+			console.log(e)
+		}
+		if(!pathic) console.log("LOL")
 		return await getPostsOfAliasInSeries({
 			$i,
 			aliasId: vars.alias,
-			seriesId: vars.series,
+			crumbpath: pathic,
+			//seriesId: vars.series,
 			heichelId: vars.heichel,
 			withDetails: true
 		})

@@ -74,7 +74,7 @@ async function fetchAwtsmoos(path, opts) {
 			return _data;
 		}
 	};
-
+	
 	try {
 		// Invoke onRequest function
 		await this.server.onRequest(mockRequest, mockResponse);
