@@ -4,121 +4,96 @@ import TabManager from "/heichelos/post/TabManager.js";
 
 var seriesInfo = {}
 var otherPostInfo = {}
-window.seriesInfo=seriesInfo
-window.otherPostInfo=otherPostInfo
+window.seriesInfo = seriesInfo
+window.otherPostInfo = otherPostInfo
 //
 window.heightFactor = .5;
 window.offset = 50;
 
-window.heightFactorSmall =3
+window.heightFactorSmall = 3
 // Global variables to store bounding box data and last active element
 
 let lastEl = null;
 
-var activePar= null
+var activePar = null
 // Function to start the highlighting with cached bounding boxes
 function startHighlighting(elId, targetClass, callback) {
-    var chai = new Highlighter(
-	    "#"+elId,
-	    "."+targetClass,
-	    (h)=>{
-		    activePar=h
-		    window. activePar=h
-		    callback({main:h})
-	    }
+    var chai = new Highlighter("#" + elId,"." + targetClass, (h) => {
+        activePar = h
+        window.activePar = h
+        callback({
+            main: h
+        })
+    }
     );
-   var subChai = new Highlighter(
-	    "#"+elId,
-	    "."+targetClass +
-	    " .sub-awtsmoos"
-,
-	    (h)=>{
-		    callback({sub:h})
-		 //  console.log("active SUB section",h)
-	    }
+    var subChai = new Highlighter("#" + elId,"." + targetClass + " .sub-awtsmoos", (h) => {
+        callback({
+            sub: h
+        })
+        //  console.log("active SUB section",h)
+    }
     );
-	
-window.subChai = subChai
-window.chai = chai
+
+    window.subChai = subChai
+    window.chai = chai
 }
 
-
 var postElement = postFrame;
-var MAX_FONT_SIZE =
-	372; // Define the max font size
-var MIN_FONT_SIZE =
-	10; // Define the min font size
-var FONT_SIZE_INCREMENT =
-	2; // Define the size increment
+var MAX_FONT_SIZE = 372;
+// Define the max font size
+var MIN_FONT_SIZE = 10;
+// Define the min font size
+var FONT_SIZE_INCREMENT = 2;
+// Define the size increment
 var postElement;
 window.adjustFontSize = adjustFontSize
 
 function adjustFontSize(action) {
-	if (!postElement)
-		postElement = document
-		.querySelector('.content');
-	let currentFontSize = window
-		.getComputedStyle(postElement,
-			null)
-		.getPropertyValue('font-size');
-	currentFontSize = parseFloat(
-		currentFontSize);
-	
-	if (action == 'increase' &&
-		currentFontSize < MAX_FONT_SIZE
-	) {
-		postElement.style.fontSize = (
-				currentFontSize +
-				FONT_SIZE_INCREMENT) +
-			'px';
-	} else if (action === 'decrease' &&
-		currentFontSize > MIN_FONT_SIZE
-	) {
-		postElement.style.fontSize = (
-				currentFontSize -
-				FONT_SIZE_INCREMENT) +
-			'px';
-	}
-	
-	localStorage.currentFontSize =
-		currentFontSize;
-	// sendSizeMessage()
+    if (!postElement)
+        postElement = document.querySelector('.content');
+    let currentFontSize = window.getComputedStyle(postElement, null).getPropertyValue('font-size');
+    currentFontSize = parseFloat(currentFontSize);
+
+    if (action == 'increase' && currentFontSize < MAX_FONT_SIZE) {
+        postElement.style.fontSize = (currentFontSize + FONT_SIZE_INCREMENT) + 'px';
+    } else if (action === 'decrease' && currentFontSize > MIN_FONT_SIZE) {
+        postElement.style.fontSize = (currentFontSize - FONT_SIZE_INCREMENT) + 'px';
+    }
+
+    localStorage.currentFontSize = currentFontSize;
+    // sendSizeMessage()
 }
 
 function loadFontSize() {
-	if (!postElement)
-		postElement = document
-		.querySelector('.content');
-	if (!postElement) {
-		return;
-	}
-	var fs = localStorage
-		.currentFontSize;
-	if (!fs) return;
-	var num = parseInt(fs);
-	if (isNaN(num)) return;
-	postElement.style.fontSize = num +
-		"px";
-	
+    if (!postElement)
+        postElement = document.querySelector('.content');
+    if (!postElement) {
+        return;
+    }
+    var fs = localStorage.currentFontSize;
+    if (!fs)
+        return;
+    var num = parseInt(fs);
+    if (isNaN(num))
+        return;
+    postElement.style.fontSize = num + "px";
+
 }
-
-
 
 function isHebrewWord(word) {
-  // Regular expression to match Hebrew letters and vowels
-  const hebrewRegex = /^[א-ת\u0590-\u05FF]+$/;
+    // Regular expression to match Hebrew letters and vowels
+    const hebrewRegex = /^[א-ת\u0590-\u05FF]+$/;
 
-  // Check if the word matches the Hebrew regex
-  return hebrewRegex.test(word);
+    // Check if the word matches the Hebrew regex
+    return hebrewRegex.test(word);
 }
-var $_GET = new URLSearchParams(location
-	.search)
-
+var $_GET = new URLSearchParams(location.search)
 
 function makeInfoHTML() {
     const post = window.post;
     const alias = window.alias;
-    if (!post) return "Couldn't load";
+    if (!post)
+        return "Couldn't load";
 
     // Main container
     const container = document.createElement("div");
@@ -164,7 +139,7 @@ function makeInfoHTML() {
     const heichelDesc = document.createElement("div");
     heichelDesc.className = "heichelDesc";
     appendHTML(post.heichel.description || "", heichelDesc);
-	
+
     heichelLink.appendChild(heichelDesc);
     heichelValue.appendChild(heichelLink);
     heichelSection.appendChild(heichelLabel);
@@ -182,8 +157,11 @@ function makeInfoHTML() {
     const seriesValue = document.createElement("div");
     seriesValue.className = "value";
 
-    const path = new URLSearchParams({ series: window.parentSeries });
-    if (window.pth) path.append("path", window.pth);
+    const path = new URLSearchParams({
+        series: window.parentSeries
+    });
+    if (window.pth)
+        path.append("path", window.pth);
 
     const seriesLink = document.createElement("a");
     seriesLink.href = `/heichelos/${post.heichel.id}/?${path}`;
@@ -211,13 +189,14 @@ function appendHTML(html, par) {
     var parser = new DOMParser();
 
     var doc = parser.parseFromString(html, "text/html");
-    Array.from(doc.body.childNodes).forEach((node, index, array) => {
+    Array.from(doc.body.childNodes).forEach( (node, index, array) => {
         appendWithSubChildren(node, par, array);
-    });
+    }
+    );
 }
 
 function appendWithSubChildren(node, parent, array) {
-	//console.log("hi",node,parent)
+    //console.log("hi",node,parent)
     if (node.tagName === "SCRIPT" && !node.src) {
         try {
             eval(node.innerHTML);
@@ -225,90 +204,80 @@ function appendWithSubChildren(node, parent, array) {
             console.log(error);
         }
     } else {
-	    var result = null
+        var result = null
         if (typeof window.toldafy === "function") {
             result = window.toldafy(node, parent, array);
         }
-	var newNodes = []; 
-	if(result == "delete") return;
-		
-	else if(result?.node) {
-		newNodes.push(result.node)
-	} else if(result?.nodes) {
-		newNodes = Array.from(result.nodes)
-	} else 
-        	newNodes.push(node.cloneNode(false));
-	var action = result?.action || {};
-	
-	newNodes.forEach(newNode => {
-		if(action.appendFirst) {
-			try {
-				newNode.appendChild(action.appendFirst)
-			} catch(e){console.log(e)}
-		}
-	        parent.appendChild(newNode);
-	        if (node.childNodes.length > 0) {
-	            Array.from(node.childNodes).forEach((childNode) => {
-	                appendWithSubChildren(childNode, newNode, array);
-	            });
-	        } 
-	});
+        var newNodes = [];
+        if (result == "delete")
+            return;
+
+        else if (result?.node) {
+            newNodes.push(result.node)
+        } else if (result?.nodes) {
+            newNodes = Array.from(result.nodes)
+        } else
+            newNodes.push(node.cloneNode(false));
+        var action = result?.action || {};
+
+        newNodes.forEach(newNode => {
+            if (action.appendFirst) {
+                try {
+                    newNode.appendChild(action.appendFirst)
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+            parent.appendChild(newNode);
+            if (node.childNodes.length > 0) {
+                Array.from(node.childNodes).forEach( (childNode) => {
+                    appendWithSubChildren(childNode, newNode, array);
+                }
+                );
+            }
+        }
+        );
     }
 }
 
 function getLinkHrefOfEditing() {
-	return `&parentSeriesId=${
-		series.id
-	    }&returnURL=${
-		location.href
-	    }`
+    return `&parentSeriesId=${series.id}&returnURL=${location.href}`
 }
-window.getLinkHrefOfEditing=getLinkHrefOfEditing
+window.getLinkHrefOfEditing = getLinkHrefOfEditing
 
-function makeNavBars(post, seriesParent,
-	indexInSeries) {
-	var html = "";
-	var myID = post.id;
-	var sr = seriesParent.id;
-	
-	var posts = seriesParent.posts
-	var cur = indexInSeries;
-	try {
-		// cur = parseInt(cur)
-	} catch (e) {
-		
-	}
-	var length = posts.length;
-	
-	var hasPrevious = cur > 0;
-	var hasNext = cur < length - 1;
-	
-	var path = null
-	html += `<div class="nav">`
-	
-	html += `<div class="controls">${
-                            cur + 1
-                        } of ${
-                            length
-                        }    
+function makeNavBars(post, seriesParent, indexInSeries) {
+    var html = "";
+    var myID = post.id;
+    var sr = seriesParent.id;
+
+    var posts = seriesParent.posts
+    var cur = indexInSeries;
+    try {// cur = parseInt(cur)
+    } catch (e) {
+    }
+    var length = posts.length;
+
+    var hasPrevious = cur > 0;
+    var hasNext = cur < length - 1;
+
+    var path = null
+    html += `<div class="nav">`
+
+    html += `<div class="controls">${cur + 1} of ${length}    
                         </div>`;
-	var last = encodeURIComponent(cur -
-		1);
-	if (hasPrevious) {
-		html +=
-			`<a id="last" class="nav button primary" href="${last}">Previous</a>`
-	}
-	
-	if (hasNext) {
-		var next = encodeURIComponent(
-			cur + 1);
-		html +=
-			`<a id="next" class="nav button primary"  href="${next}">Next</a>`
-	}
-	
-	html += `</div>`;
-	
-	html += `
+    var last = encodeURIComponent(cur - 1);
+    if (hasPrevious) {
+        html += `<a id="last" class="nav button primary" href="${last}">Previous</a>`
+    }
+
+    if (hasNext) {
+        var next = encodeURIComponent(cur + 1);
+        html += `<a id="next" class="nav button primary"  href="${next}">Next</a>`
+    }
+
+    html += `</div>`;
+
+    html += `
                         <script>
 
                             if(window.next) {
@@ -320,685 +289,693 @@ function makeNavBars(post, seriesParent,
                                 last.href = last.href
                                     
                             }
-                        </script` +
-		`>`;
-	return html;
+                        </script` + `>`;
+    return html;
 }
 var man = null;
 
-
 function addTab({
-	
-	header,
-	content,
-	append,
-	rootParent=null,
-	addClasses = false,
-	parent = null,
-	btnParent = null,
-	tabParent = null,
-	onswitch,
-	onopen,
-	onclose,
-	oninit
-}) {
-	if(!man) {
-		man = new TabManager({
-			parent:rootParent,
-			onclose() {
-				window?.commentaryBtn?.dispatchEvent(new CustomEvent("click",{}))
-			}
-			
-		})
-		window.tabManager = man;
-	}
-	return man.addTab({
-		
-		header,
-		content,
-		append,
-		addClasses,
-		parent,
-		btnParent,
-		tabParent,
-		onswitch,
-		onopen,
-		onclose,
-		oninit
-	})
+header, content, append, rootParent=null, addClasses=false, parent=null, btnParent=null, tabParent=null, onswitch, onopen, onclose, oninit}) {
+    if (!man) {
+        man = new TabManager({
+            parent: rootParent,
+            onclose() {
+                window?.commentaryBtn?.dispatchEvent(new CustomEvent("click",{}))
+            }
+
+        })
+        window.tabManager = man;
+    }
+    return man.addTab({
+
+        header,
+        content,
+        append,
+        addClasses,
+        parent,
+        btnParent,
+        tabParent,
+        onswitch,
+        onopen,
+        onclose,
+        oninit
+    })
 }
 
 function updateQueryStringParameter(key, value) {
     // Get the current URL
     const url = new URL(window.location);
-    
+
     // Update the query parameter
     url.searchParams.set(key, value);
-    
+
     // Push the new URL to the history
-    window.history.pushState({ path: url.href }, '', url.href);
+    window.history.pushState({
+        path: url.href
+    }, '', url.href);
 }
 
 function scrollToActiveEl() {
-	var search = new URLSearchParams(location.search);
-	var idx = search.get("idx")
-	if(!idx) return;
-	if(!window.sections) return;
-	var cur = sections[idx];
-	if(!cur) return;
-	var sub = search.get("sub");
-	if(!cur && cur !== 0) return;
-	if(!sub)
-		cur?.scrollIntoView();
+    var search = new URLSearchParams(location.search);
+    var idx = search.get("idx")
+    if (!idx)
+        return;
+    if (!window.sections)
+        return;
+    var cur = sections[idx];
+    if (!cur)
+        return;
+    var sub = search.get("sub");
+    if (!cur && cur !== 0)
+        return;
+    if (!sub)
+        cur?.scrollIntoView();
 
-	
-	var subIdx = cur.querySelector(`.sub-awtsmoos[data-idx="${sub}"]`);
-	if(subIdx) {
-		subIdx.scrollIntoView();
-	}
+    var subIdx = cur.querySelector(`.sub-awtsmoos[data-idx="${sub}"]`);
+    if (subIdx) {
+        subIdx.scrollIntoView();
+    }
 }
 
+// Helper to strip HTML tags
+function stripTags(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
+}
 
+function copyToClipboard({
+    text,
+    successMsg
+}) {
 
-
+    const htmlBlob = new Blob([text], { type: "text/html" });
+    const textBlob = new Blob([stripTags(text)], { type: "text/plain" });
+    
+    navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": htmlBlob,
+        "text/plain": textBlob
+      })
+    ]).then(() => {
+      console.log("Copied both HTML and plain text!");
+      makeToast(successMsg || "Copied with formatting!");
+    }).catch(err => {
+      console.error("Clipboard error:", err);
+      makeToast("Failed to copy!");
+    });
+}
 var menu = null;
 function showCustomContextMenu(x, y, e) {
-  // Helper function to get selected text, if any
-  function getSelectedText() {
-    return window.getSelection().toString();
-  }
+    // Helper function to get selected text, if any
+    function getSelectedText() {
+        return window.getSelection().toString();
+    }
 
-  // Menu actions defined as an object
-  const menuActions = {
-    "Fullscreen": (selectedText) => {
-      toggleFullscreen();
-      console.log("Fullscreen toggled" + (selectedText ? ` with selected text: "${selectedText}"` : ""));
-    },
-    "Copy": (selectedText) => {
-	if(!selectedText) {
-		selectedText = activePar?.textContent;
+    // Menu actions defined as an object
+    const menuActions = {
+        "Fullscreen": (selectedText) => {
+            toggleFullscreen();
+            console.log("Fullscreen toggled" + (selectedText ? ` with selected text: "${selectedText}"` : ""));
+        }
+        ,
+        "Copy": (selectedText) => {
+            if (!selectedText) {
+                selectedText = activePar?.textContent;
 
-	}
-      const textToCopy = selectedText || "the Awtsmoos is always with u. Now is "+Date.now();
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        console.log(`Copied: "${textToCopy}"`);
-      }).catch(err => {
-        console.error("Failed to copy text:", err);
-      });
-    },
-	...(
-		e.target.tagName == "A" ?
-		{
-			"Open in new tab": () => {
-				open(e.target.href, "_blank").focus();
-			}
-		} : {}
-	)
-  };
+            }
+            copyToClipboard({
+                text: selectedText
+            })
+            
+        }
+        ,
+        "Copy Section": (selectedText) => {
 
-  // Remove any existing menu to avoid duplicates
-  const existingMenu = document.getElementById("custom-context-menu");
-  if (existingMenu) existingMenu.remove();
-const selectedText = getSelectedText();
-  // Create the menu container
-  menu = document.createElement("div");
-  menu.id = "custom-context-menu";
-  menu.style.position = "absolute";
-  menu.style.left = `${x}px`;
-  menu.style.top = `${y}px`;
-  menu.style.backgroundColor = "#333";
-  menu.style.color = "white";
-  menu.style.borderRadius = "5px";
-  menu.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
-  menu.style.padding = "10px";
-  menu.style.zIndex = "1000";
-  menu.style.cursor = "pointer";
+            var idx = parseInt((new URL(location)).searchParams.get("idx"));
+            if (isNaN(idx)) {
+                makeToast("Can't copy section")
+                return;
+            }
+            var sec = window.sectionDayuh[idx];
+            if (Array.isArray(sec)) {
+                sec = sec.join(" ")
+            }
+            copyToClipboard({
+                text: sec,
+                successMsg: "Copied Section " + idx + "!"
+            })
+            
+        }
+        ,
+        "Copy Entire Post": (selectedText) => {
+            var txt = window.sectionDayuh.map((sec, i) => {
+                
+                if (Array.isArray(sec)) {
+                    sec = sec.join(" ")
+                }
+                return `<h4>${window?.post?.title}</h4>
+                <p>${
+                    (i + 1) + 
+                    ". " +sec
+                }</p><br><br>`;
+            });
+            copyToClipboard({
+                text: txt,
+                successMsg: "Copied Entire Post!"
+            })
+            const textToCopy = txt;
+            navigator.clipboard.writeText(textToCopy).then( () => {
+                console.log(`Copied: "${textToCopy}"`);
+                makeToast()
+            }
+            ).catch(err => {
+                console.error("Failed to copy text:", err);
+            }
+            );
+        }
+        ,
+        ...(e.target.tagName == "A" ? {
+            "Open in new tab": () => {
+                open(e.target.href, "_blank").focus();
+            }
+        } : {})
+    };
 
-menu.onblur=menu.remove
-  // Loop through each action in the menuActions object to create menu items
-  for (const [label, action] of Object.entries(menuActions)) {
-    const menuItem = document.createElement("div");
-    menuItem.innerText = label;
-    menuItem.style.padding = "8px 16px";
-    menuItem.addEventListener("click", () => {
-      
-      action(selectedText);
-      menu.remove();
-    });
+    // Remove any existing menu to avoid duplicates
+    const existingMenu = document.getElementById("custom-context-menu");
+    if (existingMenu)
+        existingMenu.remove();
+    const selectedText = getSelectedText();
+    // Create the menu container
+    menu = document.createElement("div");
+    menu.id = "custom-context-menu";
+    menu.style.position = "absolute";
+    menu.style.left = `${x}px`;
+    menu.style.top = `${y}px`;
+    menu.style.backgroundColor = "#333";
+    menu.style.color = "white";
+    menu.style.borderRadius = "5px";
+    menu.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+    menu.style.padding = "10px";
+    menu.style.zIndex = "1000";
+    menu.style.cursor = "pointer";
 
-    menuItem.addEventListener("mouseover", () => {
-      menuItem.style.backgroundColor = "#555";
-    });
-    menuItem.addEventListener("mouseout", () => {
-      menuItem.style.backgroundColor = "transparent";
-    });
-    menu.appendChild(menuItem);
-  }
+    menu.onblur = menu.remove
+    // Loop through each action in the menuActions object to create menu items
+    for (const [label,action] of Object.entries(menuActions)) {
+        const menuItem = document.createElement("div");
+        menuItem.innerText = label;
+        menuItem.style.padding = "8px 16px";
+        menuItem.addEventListener("click", () => {
 
-  // Append the menu to the document body
-  document.body.appendChild(menu);
+            action(selectedText);
+            menu.remove();
+        }
+        );
+
+        menuItem.addEventListener("mouseover", () => {
+            menuItem.style.backgroundColor = "#555";
+        }
+        );
+        menuItem.addEventListener("mouseout", () => {
+            menuItem.style.backgroundColor = "transparent";
+        }
+        );
+        menu.appendChild(menuItem);
+    }
+
+    // Append the menu to the document body
+    document.body.appendChild(menu);
 }
 // Fullscreen toggle function
 function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Safari
-      document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // IE11
-      document.documentElement.msRequestFullscreen();
+    if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            // Safari
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            // IE11
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            // Safari
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            // IE11
+            document.msExitFullscreen();
+        }
     }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) { // Safari
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { // IE11
-      document.msExitFullscreen();
-    }
-  }
 }
 
 // Show context menu on right-click
-document.addEventListener("contextmenu", function (e) {
-  e.preventDefault();
-  showCustomContextMenu(e.pageX, e.pageY, e);
+document.addEventListener("contextmenu", function(e) {
+    e.preventDefault();
+    showCustomContextMenu(e.pageX, e.pageY, e);
 });
 addEventListener("click", () => {
-	if(menu) menu.remove()
-})
+    if (menu)
+        menu.remove()
+}
+)
 
 function sanitizeContent(txt) {
-	return txt.split("[cup]")
-		.join("<b>")
-		.split("[/cup]")
-		.join("</b>")
+    return txt.split("[cup]").join("<b>").split("[/cup]").join("</b>")
 }
 
 function mapSectionData(sec) {
-	if(
-		sec?.subSections || 
-		sec?.paragraphs ||
-		Array.isArray(sec)
-	) {
-		return sec;
-	} else {
-		return sec?.text;
-	}
+    if (sec?.subSections || sec?.paragraphs || Array.isArray(sec)) {
+        return sec;
+    } else {
+        return sec?.text;
+    }
 }
 async function interpretPostDayuh(post) {
-	var dayuh = post?.dayuh;
-	if(!dayuh || typeof(dayuh) != "object") {
-		return null;
-	}
-	var sec = dayuh?.sections;
-	
-	if(typeof(sec) == "string")
-		sec = [sec];
-	
-	if (Array.isArray(
-		sec
-	)) {
-		var originalSections = sec;
-		if(typeof(sec[0]) == "object") {
-			sec =  sec.map(mapSectionData)
-		}
-		if(!sec.length) return console.log("Nothing");
-		//sec = removeAwtsmoosPage(sec)
-		var sectionId = 0;
-		for(var w of sec) {
-			
-			var isMulti = (w?.subSections || w?.paragraphs)
-				|| Array.isArray(w);
-			
-				
-			var refs = null//!isMulti ? await getReferences({sectionText:w}) : null;
-			var isRef = refs && typeof(refs) == "object" &&
-				refs?.isReference;
-			
-			//console.log("Ref",refs?.texts,w)
-			if(refs && isRef && Array.isArray(refs.texts)) {
-				var refIdx = 0;
-				for(var ref of w.texts) {
-					w.refIdx=refIdx
-					if(w.samePost) {
-						w.postId = w.startPostId
-					} else {
-						var startIdx = w.info.start.postNum;
-						var startIDs = w.startSections.slice(startIdx);
-						if(startIDs.includes(refIdx)) {
-							w.postId = w.startPostId;
-						} else w.postId = w.endPostId
-						//var endIdx = w.info.end.postNum;
-					}
-					
-					await generateSection({
-						sectionText: ref,
-						sectionId,
-						
-						allSections: sec,
-						isReference: true,
-						referenceInfo: w
-					})
-					sectionId++;
-					refIdx++
-				}
-			} else {
-				await generateSection({
-					sectionText: !isMulti ? w : null,
-					...(isMulti ? {
-						dynamic: w
-					} : {}),
-					sectionId,
-					allSections: sec,
-					data: w
-					
-				})
-			}
+    var dayuh = post?.dayuh;
+    if (!dayuh || typeof (dayuh) != "object") {
+        return null;
+    }
+    var sec = dayuh?.sections;
 
-			sectionId++;
-			
-		}
-	}
+    if (typeof (sec) == "string")
+        sec = [sec];
+
+    if (Array.isArray(sec)) {
+        var originalSections = sec;
+        if (typeof (sec[0]) == "object") {
+            sec = sec.map(mapSectionData)
+        }
+        if (!sec.length)
+            return console.log("Nothing");
+        //sec = removeAwtsmoosPage(sec)
+        var sectionId = 0;
+        for (var w of sec) {
+
+            var isMulti = (w?.subSections || w?.paragraphs) || Array.isArray(w);
+
+            var refs = null
+            //!isMulti ? await getReferences({sectionText:w}) : null;
+            var isRef = refs && typeof (refs) == "object" && refs?.isReference;
+
+            //console.log("Ref",refs?.texts,w)
+            if (refs && isRef && Array.isArray(refs.texts)) {
+                var refIdx = 0;
+                for (var ref of w.texts) {
+                    w.refIdx = refIdx
+                    if (w.samePost) {
+                        w.postId = w.startPostId
+                    } else {
+                        var startIdx = w.info.start.postNum;
+                        var startIDs = w.startSections.slice(startIdx);
+                        if (startIDs.includes(refIdx)) {
+                            w.postId = w.startPostId;
+                        } else
+                            w.postId = w.endPostId
+                        //var endIdx = w.info.end.postNum;
+                    }
+
+                    await generateSection({
+                        sectionText: ref,
+                        sectionId,
+
+                        allSections: sec,
+                        isReference: true,
+                        referenceInfo: w
+                    })
+                    sectionId++;
+                    refIdx++
+                }
+            } else {
+                await generateSection({
+                    sectionText: !isMulti ? w : null,
+                    ...(isMulti ? {
+                        dynamic: w
+                    } : {}),
+                    sectionId,
+                    allSections: sec,
+                    data: w
+
+                })
+            }
+
+            sectionId++;
+
+        }
+    }
 }
 
-async function getReferences({
-	sectionText
-}) {
-	var w = sectionText;
-	var refS = "<$awtsmoosRefStart:"
-	var refEnd = ":awtsmoosRefEnd$>"
-	var hasRef = w.indexOf(refS)
-	
-	if(hasRef < 0) return w;
-	var sub = w.slice(refS, refEnd)
-	
-	//w = w.replace(sub, "")
-	
-	var refEnd = w.indexOf(refEnd)
-	if(refEnd < 0) return w
-	var refObj = w.slice(refS.length + hasRef, refEnd)
-	
-	var p = null;
-	try {
-		p = JSON.parse(refObj)
-	} catch(e) {
-		console.log(e)
-	}
-	
-	console.log("made it",p,sub," W ",w,refObj,hasRef,refS,refEnd)
-	if(!p) {
-		return w;
-	}
-	var start = p.start;
-	var end = p.end
-	if(!start || !end) return w;
+async function getReferences({sectionText}) {
+    var w = sectionText;
+    var refS = "<$awtsmoosRefStart:"
+    var refEnd = ":awtsmoosRefEnd$>"
+    var hasRef = w.indexOf(refS)
 
-	var sourceSeries = p.sourceSeriesId;
-	if(!sourceSeries) return w;
-	var postStart = start.postNum;
-	var postEnd = end.postNum;
-	if(!postStart && postStart !== 0) return w;
-	if(!postEnd && postEnd !== 0) return w;
-	var sectionStart = start.section;
-	var sectionEnd = end.section;
-	
-	var seriesDetails = seriesInfo[sourceSeries]
-	if(!seriesDetails) {
-		var heichel = post.heichel.id;
-		
-		try {
-			 seriesDetails = await (await fetch(
-				`/api/social/heichelos/${
-					heichel
-				}/series/${sourceSeries}/details?` + 
-				new URLSearchParams({
-					propertyMap: {
-					
-						posts: true
-						
-					}
-				})
-			)).json()
-		} catch(e){
-			console.log(e,p,w)
-		}
-		
-		
-		
-	}
+    if (hasRef < 0)
+        return w;
+    var sub = w.slice(refS, refEnd)
 
-	if(!seriesDetails) return w;
-	seriesInfo[sourceSeries] = seriesDetails;
-	var startPostId = seriesDetails?.posts[postStart]
-	if(!startPostId) {
-		console.log("Couldn't find start post",p)
-		return w;
-	}
+    //w = w.replace(sub, "")
 
-	var endPostId = seriesDetails.posts[postEnd]
-	if(!endPostId) {
-		console.log("Couldn't find end post",p)
-		return w;
-	}
-	var startPostDetails = otherPostInfo[startPostId];
-	if(!startPostDetails) {
-		var heichel = post.heichel.id;
-		
-		try {
-			 startPostDetails = await (await fetch(
-				`/api/social/heichelos/${
-					heichel
-				}/post/${
-					startPostId
-				}/?` + 
-				new URLSearchParams({
-					propertyMap: {
-					
-						dayuh: {
-							sections: true
-						}
-						
-					}
-				})
-			)).json()
-		} catch(e){
-			console.log(e,p,w)
-		}
-		if(!startPostDetails) return w;
-		otherPostInfo[startPostId] = startPostDetails;
-		
-	}
+    var refEnd = w.indexOf(refEnd)
+    if (refEnd < 0)
+        return w
+    var refObj = w.slice(refS.length + hasRef, refEnd)
 
-	var endPostDetails = otherPostInfo[endPostId];
-	if(!endPostDetails) {
-		var heichel = post.heichel.id;
-		
-		try {
-			 endPostDetails = await (await fetch(
-				`/api/social/heichelos/${
-					heichel
-				}/post/${
-					endPostId
-				}/?` + 
-				new URLSearchParams({
-					propertyMap: {
-					
-						dayuh: {
-							sections: true
-						}
-						
-					}
-				})
-			)).json()
-		} catch(e){
-			console.log(e,p,w)
-		}
-		if(!endPostDetails) return w;
-		otherPostInfo[endPostId] = endPostDetails;
-		
-	}
-	var refs = [];
-	var samePost = false;
-	var startSections = startPostDetails?.dayuh?.sections;
-	
-	var endSections = endPostDetails?.dayuh?.sections;
-	var different = false;
-	if(sectionEnd == "MAX")
-		sectionEnd = endSections.length - 1;
-	if(endPostId != startPostId) {
-		var startRefs = startSections?.slice(
-			sectionStart
-		)
-	
-		var endRefs = endSections?.slice(
-			0, sectionEnd + 1
-		);
-		different = {startRefs, endRefs}
-		refs = [startRefs, endRefs].flat()
-	} else {
-		refs = startPostDetails?.dayuh?.sections.slice(
-			sectionStart, sectionEnd + 1
-		)
-	}
-	return {
-		texts: refs,
-		different,
-		info: p,
-		startSections,
-		endSections,
-		isReference: true,
-		startPostId,
-		endPostId,
-		samePost,
-		startPostDetails,
-		endPostDetails,
-		sourceSeries,
-		seriesDetails
-	};
-	
-	
+    var p = null;
+    try {
+        p = JSON.parse(refObj)
+    } catch (e) {
+        console.log(e)
+    }
+
+    console.log("made it", p, sub, " W ", w, refObj, hasRef, refS, refEnd)
+    if (!p) {
+        return w;
+    }
+    var start = p.start;
+    var end = p.end
+    if (!start || !end)
+        return w;
+
+    var sourceSeries = p.sourceSeriesId;
+    if (!sourceSeries)
+        return w;
+    var postStart = start.postNum;
+    var postEnd = end.postNum;
+    if (!postStart && postStart !== 0)
+        return w;
+    if (!postEnd && postEnd !== 0)
+        return w;
+    var sectionStart = start.section;
+    var sectionEnd = end.section;
+
+    var seriesDetails = seriesInfo[sourceSeries]
+    if (!seriesDetails) {
+        var heichel = post.heichel.id;
+
+        try {
+            seriesDetails = await (await fetch(`/api/social/heichelos/${heichel}/series/${sourceSeries}/details?` + new URLSearchParams({
+                propertyMap: {
+
+                    posts: true
+
+                }
+            }))).json()
+        } catch (e) {
+            console.log(e, p, w)
+        }
+
+    }
+
+    if (!seriesDetails)
+        return w;
+    seriesInfo[sourceSeries] = seriesDetails;
+    var startPostId = seriesDetails?.posts[postStart]
+    if (!startPostId) {
+        console.log("Couldn't find start post", p)
+        return w;
+    }
+
+    var endPostId = seriesDetails.posts[postEnd]
+    if (!endPostId) {
+        console.log("Couldn't find end post", p)
+        return w;
+    }
+    var startPostDetails = otherPostInfo[startPostId];
+    if (!startPostDetails) {
+        var heichel = post.heichel.id;
+
+        try {
+            startPostDetails = await (await fetch(`/api/social/heichelos/${heichel}/post/${startPostId}/?` + new URLSearchParams({
+                propertyMap: {
+
+                    dayuh: {
+                        sections: true
+                    }
+
+                }
+            }))).json()
+        } catch (e) {
+            console.log(e, p, w)
+        }
+        if (!startPostDetails)
+            return w;
+        otherPostInfo[startPostId] = startPostDetails;
+
+    }
+
+    var endPostDetails = otherPostInfo[endPostId];
+    if (!endPostDetails) {
+        var heichel = post.heichel.id;
+
+        try {
+            endPostDetails = await (await fetch(`/api/social/heichelos/${heichel}/post/${endPostId}/?` + new URLSearchParams({
+                propertyMap: {
+
+                    dayuh: {
+                        sections: true
+                    }
+
+                }
+            }))).json()
+        } catch (e) {
+            console.log(e, p, w)
+        }
+        if (!endPostDetails)
+            return w;
+        otherPostInfo[endPostId] = endPostDetails;
+
+    }
+    var refs = [];
+    var samePost = false;
+    var startSections = startPostDetails?.dayuh?.sections;
+
+    var endSections = endPostDetails?.dayuh?.sections;
+    var different = false;
+    if (sectionEnd == "MAX")
+        sectionEnd = endSections.length - 1;
+    if (endPostId != startPostId) {
+        var startRefs = startSections?.slice(sectionStart)
+
+        var endRefs = endSections?.slice(0, sectionEnd + 1);
+        different = {
+            startRefs,
+            endRefs
+        }
+        refs = [startRefs, endRefs].flat()
+    } else {
+        refs = startPostDetails?.dayuh?.sections.slice(sectionStart, sectionEnd + 1)
+    }
+    return {
+        texts: refs,
+        different,
+        info: p,
+        startSections,
+        endSections,
+        isReference: true,
+        startPostId,
+        endPostId,
+        samePost,
+        startPostDetails,
+        endPostDetails,
+        sourceSeries,
+        seriesDetails
+    };
+
 }
 
 function isFirstCharacterHebrew(str) {
-	return /[\u0590-\u05FF]/.test(str.slice(0, 5));
+    return /[\u0590-\u05FF]/.test(str.slice(0, 5));
 }
 
-function generateSection({
-	sectionText, sectionId, dynamic=null,
-	allSections, isReference=false,
-	referenceInfo,
-	data
-}) {
-	if(!window.sectionData) {
-		window.sectionData = []
-	}
+function generateSection({sectionText, sectionId, dynamic=null, allSections, isReference=false, referenceInfo, data}) {
+    if (!window.sectionDayuh) {
+        window.sectionDayuh = []
+    }
+    if (!window.sectionData) {
+        window.sectionData = []
+    }
 
-	if(Array.isArray(dynamic)) {
-		dynamic = {
-			subSections:dynamic
-		}
+    if (Array.isArray(dynamic)) {
+        dynamic = {
+            subSections: dynamic
+        }
 
-	}
+    }
 
-	//console.log( sectionText,dynamic)
-	
-	var i = sectionId;
-	var vs=(data.verseSection);
-	var hasVerseNumber = false;
-	if(vs || vs === 0) {
-	//	sectionId = vs;
-	//	i = vs;
-		hasVerseNumber = true
-	}
-	var sectionInfo = {
-		sectionId,
-		verseSection: vs,
-		hideVerseNumber: data.hideVerseNumber,
-		hasVerseNumber
-	};
-	window.sectionData[i] = (sectionInfo);
-	var el =
-		document
-		.createElement(
-			"div"
-		);
-	el.className =
-		"section";
-	el.dataset
-		.idx =
-		i;
-	
-	if(isReference) {
-		el.dataset.isref=true;
-		el.classList.add("reference");
-		sectionInfo.referenceInfo = referenceInfo
-	}
-	
-	var hdr = document.createElement("div");
-	hdr.classList.add("awtsmoos-section-header");
-	el.appendChild(hdr);
+    //console.log( sectionText,dynamic)
 
-	var nm = document.createElement("div");
-	nm.classList.add("awtsmoos-verse-number");
-	if(data.hideVerseNumber) {
-		nm.classList.add("hidden");
-	} else {
-		var awtsmoosVerse = nm;
-		// Bind the click to the Awtsmoos itself, tearing open the dropdown
-		awtsmoosVerse.addEventListener('click', () => 
-			weaveDropdownFromAwtsmoos(hdr, atzilusActions)
-		);
+    var i = sectionId;
+    var vs = (data.verseSection);
+    var hasVerseNumber = false;
+    if (vs || vs === 0) {
+        //	sectionId = vs;
+        //	i = vs;
+        hasVerseNumber = true
+    }
+    var sectionInfo = {
+        sectionId,
+        verseSection: vs,
+        hideVerseNumber: data.hideVerseNumber,
+        hasVerseNumber
+    };
+    window.sectionData[i] = (sectionInfo);
+    var el = document.createElement("div");
+    el.className = "section";
+    el.dataset.idx = i;
 
-	}
-	nm.textContent = vs || sectionId;
-	hdr.appendChild(nm);
+    if (isReference) {
+        el.dataset.isref = true;
+        el.classList.add("reference");
+        sectionInfo.referenceInfo = referenceInfo
+    }
 
+    var hdr = document.createElement("div");
+    hdr.classList.add("awtsmoos-section-header");
+    el.appendChild(hdr);
 
-	var content = document
-		.createElement("div")
+    var nm = document.createElement("div");
+    nm.classList.add("awtsmoos-verse-number");
+    if (data.hideVerseNumber) {
+        nm.classList.add("hidden");
+    } else {
+        var awtsmoosVerse = nm;
+        // Bind the click to the Awtsmoos itself, tearing open the dropdown
+        awtsmoosVerse.addEventListener('click', () => weaveDropdownFromAwtsmoos(hdr, atzilusActions));
 
-	
-	content.classList.add("toichen")
-	
-	el.appendChild(content)
-	realPost
-		.appendChild(
-			el
-		);
-	//
-	
-	if(sectionText) {
-		var w = sanitizeContent(sectionText);
-		
-		var a = allSections;
-		addHTML(w, content, {
-			index: i,
-			array: a
-		});
-	}
+    }
+    nm.textContent = vs || sectionId;
+    hdr.appendChild(nm);
 
-	var sectionData = [];
-	window.sectionData = sectionData;
-	if(dynamic) {
-		var section = dynamic;
-		var sectionDiv = document.createElement("div");
-		var sec = [];
-		sectionData.push(sec);
-		var subSectionsDone = 0;
-		// Check if the section has paragraphs
-		if (Array.isArray(section?.paragraphs)) {
-			section.paragraphs.forEach((paragraph, pIndex) => {
-				var paragraphDiv = document.createElement("div");
-				paragraphDiv.classList.add("awtsmoos-paragraph");
+    var content = document.createElement("div")
 
-				// Check if the paragraph has subSections
-				if (Array.isArray(paragraph?.subSections)) {
-					paragraph.subSections.forEach((subSection, subIndex) => {
-						var subSubS = document.createElement("div");
-						var txt = typeof subSection === "string" ? subSection : subSection?.text;
+    content.classList.add("toichen")
 
-						if (typeof txt !== "string") {
-							return console.log("Skipping invalid subSection:", subSection);
-						}
+    el.appendChild(content)
+    realPost.appendChild(el);
+    //
 
-						subSubS.dataset.idx = subSectionsDone;
-						subSubS.classList.add("sub-awtsmoos");
+    var sectionData = [];
+    if (sectionText) {
+        var w = sanitizeContent(sectionText);
 
-						// Sanitize and add content to subSection
-						var san = sanitizeContent(txt);
-						addHTML(san, subSubS, {
-							index: subSectionsDone,
-							array: a
-						});
+        var a = allSections;
+        addHTML(w, content, {
+            index: i,
+            array: a
+        });
+    }
 
-						// Append subSection div to the paragraph
-						paragraphDiv.appendChild(subSubS);
-						subSectionsDone++;
-						var sub = txt;
-						sec.push(sub)
-					});
-				}
+    if (dynamic) {
+        var section = dynamic;
+        var sectionDiv = document.createElement("div");
+        var sec = [];
+        sectionDayuh.push(sec);
+        var subSectionsDone = 0;
+        // Check if the section has paragraphs
+        if (Array.isArray(section?.paragraphs)) {
+            section.paragraphs.forEach( (paragraph, pIndex) => {
+                var paragraphDiv = document.createElement("div");
+                paragraphDiv.classList.add("awtsmoos-paragraph");
 
-				// Now, add the paragraph div to the section div
-				sectionDiv.appendChild(paragraphDiv);
+                // Check if the paragraph has subSections
+                if (Array.isArray(paragraph?.subSections)) {
+                    paragraph.subSections.forEach( (subSection, subIndex) => {
+                        var subSubS = document.createElement("div");
+                        var txt = typeof subSection === "string" ? subSection : subSection?.text;
 
-			});
-		}
+                        if (typeof txt !== "string") {
+                            return console.log("Skipping invalid subSection:", subSection);
+                        }
 
-		// Check if the section directly has subSections (not within paragraphs)
-		if (Array.isArray(section?.subSections)) {
-			section.subSections.forEach((subSection, subIndex) => {
-				var subS = document.createElement("div");
-				var txt = typeof subSection === "string" ? subSection : subSection?.text;
+                        subSubS.dataset.idx = subSectionsDone;
+                        subSubS.classList.add("sub-awtsmoos");
 
-				if (typeof txt !== "string") {
-					return console.log("Skipping invalid subSection:", subSection);
-				}
+                        // Sanitize and add content to subSection
+                        var san = sanitizeContent(txt);
+                        addHTML(san, subSubS, {
+                            index: subSectionsDone,
+                            array: a
+                        });
 
-				subS.dataset.idx = subSectionsDone;
-				subS.classList.add("sub-awtsmoos");
+                        // Append subSection div to the paragraph
+                        paragraphDiv.appendChild(subSubS);
+                        subSectionsDone++;
+                        var sub = txt;
+                        sec.push(sub)
+                    }
+                    );
+                }
 
-				// Sanitize and add content to subSection
-				var san = sanitizeContent(txt);
-				addHTML(san, subS, {
-					index: subSectionsDone,
-					array: a
-				});
+                // Now, add the paragraph div to the section div
+                sectionDiv.appendChild(paragraphDiv);
 
-				// Append subSection div directly to the section
-				sectionDiv.appendChild(subS);
-				sec.push(txt)
-				subSectionsDone++;
-			});
-		}
+            }
+            );
+        }
 
-		// Append the section div to the content
-		content.appendChild(sectionDiv);
-	
+        // Check if the section directly has subSections (not within paragraphs)
+        if (Array.isArray(section?.subSections)) {
+            section.subSections.forEach( (subSection, subIndex) => {
+                var subS = document.createElement("div");
+                var txt = typeof subSection === "string" ? subSection : subSection?.text;
 
-	} else {
-		console.log("NOt dynamic0",sectionText)
-	}
-	if(!content.innerText.trim().length) {
-		
-		el.parentNode.removeChild(el)
-	}
-	if(isFirstCharacterHebrew(content.innerText)) {
-		content.classList.add("heb")
-	}
-	window.sections = Array.from(document.querySelectorAll(".section"));
-	
+                if (typeof txt !== "string") {
+                    return console.log("Skipping invalid subSection:", subSection);
+                }
+
+                subS.dataset.idx = subSectionsDone;
+                subS.classList.add("sub-awtsmoos");
+
+                // Sanitize and add content to subSection
+                var san = sanitizeContent(txt);
+                addHTML(san, subS, {
+                    index: subSectionsDone,
+                    array: a
+                });
+
+                // Append subSection div directly to the section
+                sectionDiv.appendChild(subS);
+                sec.push(txt)
+                subSectionsDone++;
+            }
+            );
+        }
+
+        // Append the section div to the content
+        content.appendChild(sectionDiv);
+
+    } else {
+        sectionDayuh.push(sectionText)
+        console.log("NOt dynamic0", sectionText)
+    }
+    if (!content.innerText.trim().length) {
+
+        el.parentNode.removeChild(el)
+    }
+    if (isFirstCharacterHebrew(content.innerText)) {
+        content.classList.add("heb")
+    }
+    window.sections = Array.from(document.querySelectorAll(".section"));
+
 }
 
 function addHTML(html, parent, {index, array}={}) {
-	var h =
-		(window
-			.hayfich
-		);
-	
-	if (h &&
-		typeof (
-			h
-		) ==
-		"function"
-	) {
-		var r =
-			h(w, index,
-				array
-			)
-		appendHTML
-			(r,
-				parent
-			)
-		
-	} else {
-		appendHTML
-			(html,
-				parent
-			)
-		
-	}
+    var h = (window.hayfich);
+
+    if (h && typeof (h) == "function") {
+        var r = h(w, index, array)
+        appendHTML(r, parent)
+
+    } else {
+        appendHTML(html, parent)
+
+    }
 }
 
 // The Awtsmoos pulses through all, tearing existence apart and weaving it anew from the void.
@@ -1015,13 +992,11 @@ const atzilusActions = {
                 url: currentLink
             }).catch(err => console.error('Share failed:', err));
         } else {
-            navigator.clipboard.writeText(currentLink)
-                .then(() => makeToast('Link copied to clipboard by the will of the Awtsmoos!'))
-                .catch(err => console.error('Clipboard failed:', err));
+            navigator.clipboard.writeText(currentLink).then( () => makeToast('Link copied to clipboard by the will of the Awtsmoos!')).catch(err => console.error('Clipboard failed:', err));
         }
     },
     async Comment(e) {
-		await window?.openPanelToComments();
+        await window?.openPanelToComments();
         // A void left open, awaiting the breath of Atzilus to fill it
     }
 };
@@ -1035,10 +1010,10 @@ const atzilusActions = {
  * @returns {void}
  */
 async function weaveDropdownFromAwtsmoos(element, actions) {
-	var par = element.parentNode;
-	par.scrollIntoView();
+    var par = element.parentNode;
+    par.scrollIntoView();
     let ohrEinSofMenu = element.querySelector('.ohr-ein-sof-dropdown');
-    
+
     // If the menu exists, toggle its revelation or conceal it in the void
     if (ohrEinSofMenu) {
         ohrEinSofMenu.classList.toggle('ohr-ein-sof-revealed');
@@ -1056,11 +1031,14 @@ async function weaveDropdownFromAwtsmoos(element, actions) {
         atzilusItem.classList.add('atzilus-menu-item');
         atzilusItem.textContent = kavKey;
         atzilusItem.addEventListener('click', async (e) => {
-            e.stopPropagation(); // Prevent the click from rippling back to the void
+            e.stopPropagation();
+            // Prevent the click from rippling back to the void
             await actions[kavKey](e);
-        });
+        }
+        );
         ohrEinSofMenu.appendChild(atzilusItem);
-    });
+    }
+    );
 
     // Reveal the menu as the Awtsmoos unveils its light
     ohrEinSofMenu.classList.add('ohr-ein-sof-revealed');
@@ -1069,16 +1047,15 @@ async function weaveDropdownFromAwtsmoos(element, actions) {
 // Hide the menu if the user clicks elsewhere, returning it to the void
 document.addEventListener('click', (e) => {
     const ohrEinSofMenus = document.querySelectorAll('.ohr-ein-sof-dropdown');
-	ohrEinSofMenus.forEach(ohrEinSofMenu => {
+    ohrEinSofMenus.forEach(ohrEinSofMenu => {
 
-		if (ohrEinSofMenu && !e.target.classList.contains(
-			"awtsmoos-verse-number"
-		)) {
-			ohrEinSofMenu.classList.remove('ohr-ein-sof-revealed');
-		}
-	})
-});
-
+        if (ohrEinSofMenu && !e.target.classList.contains("awtsmoos-verse-number")) {
+            ohrEinSofMenu.classList.remove('ohr-ein-sof-revealed');
+        }
+    }
+    )
+}
+);
 
 // The Awtsmoos surges through all, shredding the fabric of being and recreating it each moment.
 // From its formless depths, the Ohr Ein Sof flows through the Kav, birthing Atzilus and all reality.
@@ -1099,53 +1076,45 @@ function makeToast(message) {
     document.body.appendChild(ohrEinSofToast);
 
     // Trigger the animation, a spark of Atzilus igniting the void
-    requestAnimationFrame(() => {
+    requestAnimationFrame( () => {
         ohrEinSofToast.classList.add('ohr-ein-sof-toast-revealed');
-    });
+    }
+    );
 
     // Fade back into the Awtsmoos after 3 seconds
-    setTimeout(() => {
+    setTimeout( () => {
         ohrEinSofToast.classList.remove('ohr-ein-sof-toast-revealed');
         ohrEinSofToast.addEventListener('transitionend', () => {
             ohrEinSofToast.remove();
-        }, { once: true });
-    }, 3000);
+        }
+        , {
+            once: true
+        });
+    }
+    , 3000);
 }
 
 // Example usage: replace alert in previous code
 // makeToast('Link copied to clipboard by the will of the Awtsmoos!');
 
-
 function removeAwtsmoosPage(arr) {
-  // Iterate through the array to find an element containing <awtsmoosPage>
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].includes('<awtsmoosPage>')) {
-      // If there's an element before and after, merge them
-      if (i > 0 && i < arr.length - 1) {
-        arr[i - 1] += arr[i + 1]; // Merge the previous and next elements
-      }
-      // Remove the element containing <awtsmoosPage>
-      arr.splice(i, 1);
-      break; // Stop after modifying the array
+    // Iterate through the array to find an element containing <awtsmoosPage>
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].includes('<awtsmoosPage>')) {
+            // If there's an element before and after, merge them
+            if (i > 0 && i < arr.length - 1) {
+                arr[i - 1] += arr[i + 1];
+                // Merge the previous and next elements
+            }
+            // Remove the element containing <awtsmoosPage>
+            arr.splice(i, 1);
+            break;
+            // Stop after modifying the array
+        }
     }
-  }
-  return arr;
+    return arr;
 }
-export {
-	getLinkHrefOfEditing,
-	makeNavBars,
-	addTab,
-	
-	appendHTML,
-
-	makeInfoHTML,
-	loadFontSize,
-	adjustFontSize,
-	startHighlighting,
-	updateQueryStringParameter,
-	interpretPostDayuh,
-	scrollToActiveEl,
-	isFirstCharacterHebrew
-	
-  
+export {getLinkHrefOfEditing, makeNavBars, addTab,
+appendHTML,
+makeInfoHTML, loadFontSize, adjustFontSize, startHighlighting, updateQueryStringParameter, interpretPostDayuh, scrollToActiveEl, isFirstCharacterHebrew
 }
