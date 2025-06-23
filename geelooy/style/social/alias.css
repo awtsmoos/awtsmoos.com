@@ -1,274 +1,338 @@
-/* B"H 
-- REFACTORED: INSANE/VIVID/FAST/LOW-RAM CSS V2
-- LOCALIZED TO .alias-page-scope
-- NEW HEADER/TIMELINE STYLES
+/* B"H
+- DIVINE FLOW INTERFACE V6 (PERFORMANCE & AESTHETIC REFACTOR)
+- RETAINS ALL ORIGINAL CLASS NAMES AND FUNCTIONALITY
+- OPTIMIZED FOR FLUID ANIMATIONS, LOW RESOURCE USAGE, AND MODERN VISUALS
 */
 
-/* --- CORE SETUP & THEME --- */
+/* --- CORE SETUP & REFINED DIVINE THEME --- */
 :root {
-  --primary-glow: #00ffff;  /* Electric Cyan */
-  --secondary-glow: #ff00ff; /* Hot Magenta */
-  --bg-color: #05020a;       /* Deep Space Purple/Black */
-  --text-color: #f0f0f0;      /* Near White */
-  --text-color-dim: #a0a0b0;  /* Dimmed text for secondary info */
-  --fast-transition: all 0.1s ease-in-out;
+    /* Main palette, kept from original */
+    --primary-glow: hsl(180, 100%, 50%); /* cyan */
+    --secondary-glow: hsl(300, 100%, 50%); /* magenta */
+    --accent-glow: hsl(0, 0%, 100%); /* white */
+    
+    /* Refined for better readability and contrast */
+    --bg-color: #04020a;
+    --text-color: #e0e0f0;
+    --text-color-dim: #9090a0;
+    --border-color: rgba(144, 144, 160, 0.25); /* Subtle grid & inactive borders */
+
+    /* Animation timings */
+    --fast-transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    --instant-transition: 0.2s ease;
+
+    /* Responsive Font Sizes (using modern clamp for fluidity) */
+    --font-size-h1: clamp(2rem, 6vw, 3rem);
+    --font-size-h2: clamp(1.75rem, 5vw, 2.5rem);
+    --font-size-item: clamp(1.5rem, 10vw, 3.5rem);
+    --font-size-sub: clamp(0.9rem, 4vw, 1.1rem);
+    --font-size-base: clamp(1rem, 3vw, 1.1rem);
 }
 
-/* Hard reset for performance and consistency */
-.alias-page-scope *, 
-.alias-page-scope *::before, 
+.alias-page-scope *,
+.alias-page-scope *::before,
 .alias-page-scope *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* --- KEYFRAME ANIMATIONS (PERFORMANCE-FOCUSED) --- */
-@keyframes text-flicker {
-  0%, 19%, 21%, 23%, 100% {
-    text-shadow: 
-      0 0 1px white, 
-      0 0 2px var(--primary-glow), 
-      0 0 3px var(--primary-glow), 
-      0 0 4px var(--secondary-glow);
-  }
-  20%, 22% {
-    text-shadow: none;
-  }
+/* --- KEYFRAME ANIMATIONS (Optimized) --- */
+@keyframes text-flicker-subtle {
+    0%, 100% {
+        text-shadow: 0 0 4px var(--primary-glow);
+    }
+    50% {
+        text-shadow: 0 0 8px var(--primary-glow), 0 0 2px var(--accent-glow);
+    }
 }
 
-@keyframes intense-focus {
-  from {
-    transform: scale(1.0);
-    box-shadow: 0 0 2px var(--secondary-glow);
-  }
-  to {
-    transform: scale(1.005); /* Slightly more noticeable pop */
-    box-shadow: 0 0 3px var(--primary-glow), 0 0 4px var(--secondary-glow);
-  }
+@keyframes column-enter {
+    from {
+        opacity: 0;
+        transform: translateY(15%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@keyframes button-press {
-  from { transform: scale(1.005); }
-  to { transform: scale(0.98); }
+@keyframes column-exit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-15%);
+    }
 }
 
-/* --- MAIN SCOPED LAYOUT --- */
+@keyframes pulse-glow {
+  /* Performant glow effect using a pseudo-element's opacity */
+  from { opacity: 0.4; transform: scale(0.8); }
+  to { opacity: 0; transform: scale(1.5); }
+}
+
+
+/* --- MAIN LAYOUT --- */
 .alias-page-scope {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Arial Black', 'Impact', sans-serif;
-  text-transform: uppercase;
-  /* min-height: 100vh; */
-  overflow: hidden; /* Prevents scrollbars from glow effects */
-  
-  /* Subtle, low-cost background texture */
-  background-image: 
-    linear-gradient(rgba(255,0,255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,255, 0.07) 1px, transparent 1px);
-  background-size: 40px 40px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* Switched to a clean system font for modern look & performance */
+    font-family: 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
-  /* Scoped layout structure */
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 1rem;
+    /* Refined grid background for a more subtle, high-tech feel */
+    background-image:
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 50px 50px;
 }
 
-/* --- NEW HEADER & TIMELINE --- */
+/* --- HEADER --- */
 .alias-page-scope .alias-header {
-  display: flex;
-  flex-wrap: wrap; /* Allow wrapping on small screens */
-  align-items: center;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--primary-glow);
-  box-shadow: 0 4px 20px -8px var(--primary-glow);
-  flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--primary-glow);
+    /* Using a cleaner, less resource-intensive shadow */
+    box-shadow: 0 0 20px -5px var(--primary-glow);
+    background: rgba(4, 2, 10, 0.7); /* Add slight transparency for depth */
+    backdrop-filter: blur(5px);
+    flex-shrink: 0;
+    z-index: 10;
 }
 
-.alias-page-scope .timeline {
-  display: flex;
-  align-items: center;
-  flex-grow: 1; /* Take remaining space */
-}
-
-.alias-page-scope .timeline-chevron {
-  color: var(--secondary-glow);
-  font-size: 1.2em;
-  margin: 0 0.5rem;
-  user-select: none; /* Can't select the '>' */
-}
-
+.alias-page-scope .timeline, 
+.alias-page-scope .home-button, 
 .alias-page-scope .timeline-item {
-  color: var(--text-color-dim);
-  opacity: 0.8;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
 }
 
-/* The current step is not a button, it's a label */
-.alias-page-scope .timeline-item.is-current-step {
-  color: var(--primary-glow);
-  font-weight: 700;
-  text-shadow: 0 0 3px var(--primary-glow);
-  cursor: default;
-  opacity: 1;
-}
-
-/* --- MAIN CONTENT AREA --- */
-.alias-page-scope .alias-navigator {
-  flex-grow: 1;
-  overflow-y: auto;
-  /* Custom scrollbar for the vibe */
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary-glow) var(--bg-color);
-}
-
-.alias-page-scope .alias-navigator::-webkit-scrollbar {
-  width: 8px;
-}
-.alias-page-scope .alias-navigator::-webkit-scrollbar-track {
-  background: var(--bg-color);
-}
-.alias-page-scope .alias-navigator::-webkit-scrollbar-thumb {
-  background-color: var(--primary-glow);
-  border-radius: 4px;
-  border: 1px solid var(--bg-color);
-}
-
-.alias-page-scope .column-header h2 {
-  font-size: 3em;
-  padding-right: 10px;
-  display: inline-block;
-  color: var(--primary-glow);
-  animation: text-flicker 3s infinite linear alternate;
-}
-
-.alias-page-scope .column-header .chronicle {
-  color: var(--secondary-glow);
-  font-size: 1.5em;
-  text-shadow: 0 0 5px var(--secondary-glow);
-}
-
-/* --- UNIFIED INTERACTIVE ELEMENTS (BUTTONS & ITEMS) --- */
-.alias-page-scope .home-button,
-.alias-page-scope .timeline-item,
-.alias-page-scope .navigator-item {
-  background: transparent;
-  border: 2px solid transparent; /* Reserve space for border */
-  color: var(--text-color);
-  cursor: pointer;
-  transition: var(--fast-transition);
-  text-align: left;
-}
-
-.alias-page-scope .home-button,
+.alias-page-scope .home-button, 
 .alias-page-scope .timeline-item {
-  font-size: 1.1em;
-  padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    padding: 0.5rem 1rem;
+    flex-grow: 0;
+    transition: all var(--instant-transition);
 }
 
 .alias-page-scope .home-button {
-  border-color: var(--secondary-glow);
-  text-shadow: 0 0 3px var(--secondary-glow);
-  font-weight: 700;
+    border-color: var(--secondary-glow);
 }
 
+.alias-page-scope .timeline-item.is-current-step {
+    color: var(--primary-glow);
+    font-weight: bold;
+    cursor: default;
+}
+
+.alias-page-scope .home-button:hover,
+.alias-page-scope .timeline-item:not(.is-current-step):hover {
+    outline: none;
+    color: var(--accent-glow);
+    background: rgba(0, 255, 255, 0.1);
+    transform: translateY(-2px); /* Subtle lift */
+    border-color: var(--primary-glow);
+}
+
+.alias-page-scope .timeline-chevron {
+    color: var(--secondary-glow);
+    font-size: 1.2em;
+    margin: 0 0.75rem;
+    opacity: 0.5;
+}
+
+/* --- VERTICAL NAVIGATOR & COLUMNS --- */
+.alias-page-scope .alias-navigator {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.alias-page-scope .navigator-body {
+    height: 100%;
+    transform: translateY(calc(var(--focus-index, 0) * -100%));
+    transition: transform var(--fast-transition);
+    will-change: transform;
+}
+
+.alias-page-scope .navigator-column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    gap: 2rem;
+    animation: column-enter var(--fast-transition) forwards;
+}
+
+.alias-page-scope .navigator-column.is-collapsing {
+    animation: column-exit var(--fast-transition) forwards;
+}
+
+.alias-page-scope .column-inner {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-glow) transparent;
+}
+.alias-page-scope .column-inner::-webkit-scrollbar { width: 6px; }
+.alias-page-scope .column-inner::-webkit-scrollbar-track { background: transparent; }
+.alias-page-scope .column-inner::-webkit-scrollbar-thumb { background-color: var(--primary-glow); border-radius: 3px; }
+
+/* --- CONTENT ITEMS & HEADERS --- */
+.alias-page-scope .column-header h2 {
+    font-size: var(--font-size-h1);
+    display: inline-block;
+    color: var(--primary-glow);
+    font-weight: 700;
+    /* More subtle flicker, less distracting */
+    animation: text-flicker-subtle 6s infinite linear alternate;
+}
+
+.alias-page-scope .column-header .chronicle {
+    color: var(--secondary-glow);
+    font-size: var(--font-size-h2);
+    font-weight: 400;
+    margin-left: 1rem;
+    opacity: 0.8;
+}
+
+/* ** REFINED ITEM STRUCTURE ** */
 .alias-page-scope .navigator-item {
-  display: flex;
-  flex-direction: column;
-  display: inline-block;
-  padding: 0.75rem 1rem;
-  border-left: 3px solid var(--primary-glow);
-  margin-bottom: 1rem;
-  /* width: 100%; */ /* Make items full width for easier clicking */
+    position: relative;
+    display: flex;
+    background: linear-gradient(90deg, rgba(0,255,255,0.03), transparent);
+    border-top: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: transform var(--instant-transition), box-shadow var(--instant-transition);
+    will-change: transform, box-shadow; /* Optimize hover animation */
+}
+
+/* The animated line, replacing border-image for better performance */
+.alias-page-scope .navigator-item::before {
+    content: '';
+    position: absolute;
+    top: -1px; /* Sits on top of the border */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--secondary-glow), var(--primary-glow));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--fast-transition);
+    z-index: 2;
+}
+
+.alias-page-scope .navigator-item:hover {
+    transform: translateY(-4px); /* Satisfying lift effect */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.alias-page-scope .navigator-item:hover::before {
+    transform: scaleX(1);
+}
+
+.alias-page-scope .item-main {
+    flex-grow: 1;
+    padding: 1.5rem;
+    cursor: pointer;
+}
+
+.alias-page-scope .item-action {
+    position: relative; /* For pseudo-element glow */
+    flex-shrink: 0;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(255, 0, 255, 0.05);
+    border-left: 1px solid var(--secondary-glow);
+    overflow: hidden; /* Contains the glow */
+    transition: background-color var(--instant-transition);
+}
+
+/* Performant glow effect on hover using a pseudo element */
+.alias-page-scope .item-action::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary-glow);
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 0;
+}
+
+.alias-page-scope .item-action:hover {
+    background-color: rgba(255, 0, 255, 0.2);
+}
+
+.alias-page-scope .item-action:hover::before {
+    animation: pulse-glow 0.6s ease-out;
+}
+
+/* Cleaner CSS arrow icon */
+.alias-page-scope .action-icon {
+    width: 20px;
+    height: 20px;
+    background-color: var(--secondary-glow);
+    clip-path: polygon(40% 0, 40% 35%, 100% 50%, 40% 65%, 40% 100%, 20% 100%, 20% 0);
+    transition: transform var(--fast-transition), background-color var(--instant-transition);
+    will-change: transform;
+    z-index: 1; /* Keep icon above the glow */
 }
 
 .alias-page-scope .item-name {
-  font-size: 2em;
-  font-weight: 700;
-  color: var(--primary-glow);
+    font-size: var(--font-size-item);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-color);
+    transition: color var(--instant-transition), text-shadow var(--instant-transition);
 }
 
 .alias-page-scope .item-author {
-  font-size: 1em;
-  padding-left: 10px;
-  color: var(--text-color-dim);
+    font-size: var(--font-size-sub);
+    font-weight: 400;
+    color: var(--text-color-dim);
+    padding-top: 0.25rem;
 }
 
-/* --- EXTREME HOVER/FOCUS STATES --- */
-.alias-page-scope .home-button:hover,
-.alias-page-scope .home-button:focus,
-.alias-page-scope .navigator-item:hover,
-.alias-page-scope .navigator-item:focus {
-  outline: none;
-  background: rgba(0, 255, 255, 0.1);
-  color: white;
-  border-color: var(--primary-glow);
-  animation: intense-focus 0.5s infinite alternate;
+/* --- HOVER & FOCUS STATES (REFINED) --- */
+.alias-page-scope .navigator-item:hover .item-name {
+    color: var(--accent-glow);
+    text-shadow: 0 0 8px var(--primary-glow);
 }
 
-.alias-page-scope .timeline-item:not(.is-current-step):hover,
-.alias-page-scope .timeline-item:not(.is-current-step):focus {
-  outline: none;
-  opacity: 1;
-  color: var(--primary-glow);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-shadow: 0 0 2px var(--primary-glow);
+.alias-page-scope .navigator-item:hover .item-action .action-icon {
+    background-color: var(--accent-glow);
+    transform: translateX(10px) scale(1.1); /* Animate position instead of rotate */
 }
 
-/* Active state for instant feedback */
-.alias-page-scope .home-button:active,
-.alias-page-scope .timeline-item:active,
-.alias-page-scope .navigator-item:active {
-    animation: button-press 0.1s forwards;
-    background: rgba(0, 255, 255, 0.2);
-}
-
-.alias-page-scope .navigator-item:hover .item-name,
-.alias-page-scope .navigator-item:focus .item-name {
-  text-shadow: 0 0 1px white, 0 0 2px var(--secondary-glow);
-}
-
-/*
-=========================================================
-== WARNING: MOBILE STYLES - DESIGNED TO BE MASSIVE     ==
-=========================================================
-*/
+/* --- MOBILE --- */
 @media (max-width: 768px) {
-  .alias-page-scope {
-    padding: 2vw;
-  }
-  
-  .alias-page-scope .alias-header {
-    gap: 2vw;
-  }
-
-  .alias-page-scope .home-button,
-  .alias-page-scope .timeline-item {
-    font-size: 5vw;
-    padding: 2vw 3vw;
-  }
-  
-  .alias-page-scope .column-header h2 {
-    font-size: 15vw; /* ABSOLUTELY MASSIVE header */
-  }
-
-  .alias-page-scope .column-header .chronicle {
-    font-size: 8vw;
-  }
-
-  .alias-page-scope .navigator-item {
-    padding: 5vw;
-    margin-bottom: 5vw;
-  }
-  
-  .alias-page-scope .item-name {
-    font-size: 10vw; /* EXTREMELY BIG item text */
-  }
-  
-  .alias-page-scope .item-author {
-    font-size: 6vw; /* Large author text */
-  }
+    .alias-page-scope .alias-header {
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    .alias-page-scope .navigator-column {
+        padding: 1.5rem;
+    }
+    .alias-page-scope .item-action {
+        width: 70px;
+    }
+    /* clamp() handles font sizes, so no major overrides are needed! */
 }
