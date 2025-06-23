@@ -427,7 +427,7 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
             for (const seriesId of subSeriesIds) {
                 const seriesData = await $i.db.get(seriesPrateemPath(heichelId, seriesId))
                 if (seriesData && !seriesData.error) {
-                    detailedSeries.push(seriesData.prateem);
+                    detailedSeries.push(seriesData);
                 } else {
                   //  console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);
                     // Optionally include a placeholder or skip
