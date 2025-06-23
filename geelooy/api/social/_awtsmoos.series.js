@@ -34,7 +34,7 @@ module.exports = ({ $i, userid } = {}) => ({
      */
     "/heichelos/:heichel/addNewSeries": async (v) => {
         if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
-        return makeNewSeries({
+        return await makeNewSeries({
             $i,
             heichelId: v.heichel
         });
@@ -47,7 +47,7 @@ module.exports = ({ $i, userid } = {}) => ({
     "/heichelos/:heichel/series/": async v => {
         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
         // Get sub-series of root, with details=true (fetches prateem for each)
-        return getSubSeries({
+        return await getSubSeries({
             $i,
             heichelId: v.heichel,
             parentSeriesId: "root",
@@ -63,7 +63,7 @@ module.exports = ({ $i, userid } = {}) => ({
     "/heichelos/:heichel/series/:series": async v => {
         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
         const withDetails = $i.$_GET.details === 'true';
-        return getSeries({
+        return await getSeries({
             $i,
             heichelId: v.heichel,
             seriesId: v.series,
@@ -167,7 +167,7 @@ module.exports = ({ $i, userid } = {}) => ({
         }
 
         // Get parent's prateem
-        return getSeries({
+        return await getSeries({
             $i, heichelId: v.heichel, seriesId: parentId,
             withDetails: false // Just get prateem
         });

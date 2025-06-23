@@ -408,7 +408,7 @@ async function getSeries({
  * @description Gets the IDs of sub-series within a parent series.
  * @param withDetails If true, fetches full prateem for each sub-series.
  */
-async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false }) {
+async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true }) {
     const subSeriesP = seriesSubSeriesPath(heichelId, parentSeriesId);
 
     try {
