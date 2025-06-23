@@ -79,6 +79,13 @@ async function loadInitial() {
 	}
 	window.post = post;
 	window.series = series;
+
+	var breadcrumb = await fetchAwtsmoos(`/api/social/heichelos/${
+		heichel
+	}/series/${
+		seriesId
+	}/breadcrumb`);
+	window.breadcrumb = breadcrumb;
 	var t =document.querySelector("title")
 	t.innerText = post.title
 }

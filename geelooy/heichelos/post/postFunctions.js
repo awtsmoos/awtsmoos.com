@@ -146,32 +146,47 @@ function makeInfoHTML() {
     heichelSection.appendChild(heichelValue);
     container.appendChild(heichelSection);
 
+
+    var breadcrumb = Array.from(
+        window.breadcrumb?.slice?.(1)
+    );
+
     // Series Section
     const seriesSection = document.createElement("div");
-    seriesSection.className = "tl post-parent-series";
+    seriesSection.className = "tl post-series-breadcrumb-piece";
 
     const seriesLabel = document.createElement("div");
     seriesLabel.className = "label";
-    seriesLabel.textContent = "Part of Series:";
+    seriesLabel.textContent = "Path:";
 
     const seriesValue = document.createElement("div");
     seriesValue.className = "value";
 
-    const path = new URLSearchParams({
-        series: window.parentSeries
-    });
-    if (window.pth)
-        path.append("path", window.pth);
+   
+    
 
-    const seriesLink = document.createElement("a");
-    seriesLink.href = `/heichelos/${post.heichel.id}/?${path}`;
-    seriesLink.className = "series-link";
-    seriesLink.textContent = window.series.prateem.name;
+    breadcrumb.forEach((q,i,a) => {
+        var id = q.id;
+        var name = q.name;
 
-    seriesValue.appendChild(seriesLink);
+         const path = new URLSearchParams({
+            series: id
+        });
+        const seriesLink = document.createElement("a");
+        seriesLink.href = `/heichelos/${post.heichel.id}/?${path}`;
+        seriesLink.className = "series-link";
+        var isLast = i == a.length - 1
+        seriesLink.textContent = name + (!isLast ? "/": "");
+            
+        seriesValue.appendChild(seriesLink);
+    })
+    
+
     seriesSection.appendChild(seriesLabel);
     seriesSection.appendChild(seriesValue);
     container.appendChild(seriesSection);
+   
+    
 
     // Edit Post Link
     if (window.doesOwn) {
