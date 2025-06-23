@@ -86,7 +86,7 @@ module.exports = ({ $i, userid } = {}) => ({
      */
      "/heichelos/:heichel/series/:series/details": async v => { // Note: Route seems specific, but logic is general
         if ($i.request.method == "GET") {
-         return getSeries({
+         return await getSeries({
              $i,
              heichelId: v.heichel,
              seriesId: v.series,
@@ -95,45 +95,22 @@ module.exports = ({ $i, userid } = {}) => ({
 		}
 		if ($i.request.method !== "POST") 
             return er({ code: "METHOD_NOT_ALLOWED" });
-
-         const seriesIds = $i.$_POST.seriesIds;
-         if (!seriesIds || !Array.isArray(seriesIds)) {
-             return er({ code: "MISSING_PARAMS", details: "Requires seriesIds array in body" });
-         }
-
-         var seriesFull = [];
-        var errors = [];
-         var id;
-         for(
-             id of seriesIds
-         ) {
-             try {
-                 var ser = await  getSeries({
-                     $i,
-                     heichelId: v.heichel, // Use heichel from route param
-                     seriesId: id,
-                     withDetails: true, // Get full details
-                  //   properties: { name: true, description: 256, id: true } // Example property map
-                 });
-                 seriesFull.push(ser);
-             } catch(e) {
-                 seriesFull.push({
-                     type: "error",
-                     details: e.stack,
-                     id,
-                     v
-                 })
-             }
-             
-         }
-
-       
-         
-
-         
-         return seriesFull; // Return array of results (or errors)
+        return {hi:3}
      },
+    "/heichelos/:heichel/series/:series/subSeriesDetails": async v => { // Note: Route seems specific, but logic is general
+        return await getSeries({
+             $i,
+             heichelId: v.heichel,
+             seriesId: v.series,
+             withSubSeriesDetails: true
+         });  
+   
+        
+        
 
+    },
+    
+        
 
     /**
      * @endpoint GET /heichelos/:heichel/series/:series/subSeries
@@ -142,8 +119,9 @@ module.exports = ({ $i, userid } = {}) => ({
      */
     "/heichelos/:heichel/series/:series/subSeries": async v => {
         if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-        const withDetails = $i.$_GET.details === 'true';
-        return getSubSeries({
+        const withDetails = $i.$_GET.details;
+       // return {v,withDetails,GET:$i.$_GET}
+        return await getSubSeries({
             $i,
             heichelId: v.heichel,
             parentSeriesId: v.series,
@@ -158,7 +136,7 @@ module.exports = ({ $i, userid } = {}) => ({
      */
      "/heichelos/:heichel/series/:series/subSeries/details": async v => {
          if ($i.request.method !== "GET") return er({ code: "METHOD_NOT_ALLOWED" });
-         return getSubSeries({
+         return await getSubSeries({
              $i,
              heichelId: v.heichel,
              parentSeriesId: v.series,

@@ -330,6 +330,7 @@ async function editSeriesDetails({ $i, heichelId, seriesId }) {
 async function getSeries({ 
 	$i, heichelId, seriesId, 
 	withDetails = false, properties,
+	withSubSeriesDetails=false,
 	only=null//"posts", "subSeries"
 }) {
     // Add view permission checks if needed
@@ -354,7 +355,9 @@ async function getSeries({
          }
 
         const result = { prateem };
-
+		if(withSubSeriesDetails) {
+			const subSeriesIds = await $i.db.get(subSeriesP);
+		}
         if (withDetails) {
             // Get subSeries IDs (always an array, empty if none)
 	        if(!only || only == "subSeries") {
@@ -422,13 +425,13 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = false
             // Fetch details for each sub-series ID
             const detailedSeries = [];
             for (const seriesId of subSeriesIds) {
-                const seriesData = await getSeries({ $i, heichelId, seriesId, withDetails: false }); // Get only prateem
+                const seriesData = await getSeries({ $i, heichelId, seriesId, withDetails: true }); // Get only prateem
                 if (seriesData && !seriesData.error) {
                     detailedSeries.push(seriesData.prateem);
                 } else {
                   //  console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);
                     // Optionally include a placeholder or skip
-                   // detailedSeries.push({ id: seriesId, error: "Details not found" });
+                   detailedSeries.push({ id: seriesId, error: "Details not found" });
                 }
             }
             return detailedSeries;

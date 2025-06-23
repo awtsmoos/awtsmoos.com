@@ -123,7 +123,7 @@ function renderGrid(container, items, type, parentId) {
         return;
     }
     items.forEach((item, idx) => {
-        const data = (type === "post") ? item : item.prateem;
+        const data = item;
         const id = item.id || item.postId;
         if (!data || !id)
             return;

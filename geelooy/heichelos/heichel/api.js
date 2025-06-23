@@ -51,7 +51,8 @@ export async function checkOwnership(aliasId, heichelId) {
 
 // Gets the main series object, including the LIST of sub-series and post IDs
 export async function getSeriesDetails(heichelId, seriesId) {
-    return fetchData(`${BASE_API_URL}heichelos/${heichelId}/series/${seriesId}/details`);
+   ///api/social//heichelos/ikar/series/theOralTorah/subSeries?details=true
+    return fetchData(`${BASE_API_URL}heichelos/${heichelId}/series/${seriesId}`);
 }
 
 // Fetches the details for posts in a series using GET
@@ -74,12 +75,9 @@ export async function getPostDetails(heichelId, seriesId) {
 
 // **CORRECTED:** Fetches details for an array of sub-series IDs using a POST request
 export async function getSubSeriesDetails(heichelId, parentSeriesId, seriesIds) {
-    if (!parentSeriesId || !seriesIds || seriesIds.length === 0) return [];
-    const body = new URLSearchParams({
-        seriesIds: JSON.stringify(seriesIds)
-    });
-    // This now correctly uses POST as per your original main.js logic
-    return postData(`${BASE_API_URL}heichelos/${heichelId}/series/${parentSeriesId}/details`, body);
+   
+    
+    return fetchData(`${BASE_API_URL}heichelos/${heichelId}/series/${parentSeriesId}/subSeries?details=true`);
 }
 
 export async function getBreadcrumb(heichelId, seriesId) {

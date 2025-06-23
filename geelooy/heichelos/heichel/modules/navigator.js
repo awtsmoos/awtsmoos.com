@@ -78,7 +78,7 @@ export class HeichelNavigator {
 
         const [postsFromApi, subSeriesFromApi] = await Promise.all([
             api.getPostDetails(appState.heichelId, seriesId),
-            api.getSubSeriesDetails(appState.heichelId, seriesId, containerSeries.subSeries)
+            api.getSubSeriesDetails(appState.heichelId, seriesId)
         ]);
         
         const contentForGrid = {
