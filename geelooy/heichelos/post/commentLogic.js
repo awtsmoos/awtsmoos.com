@@ -1015,9 +1015,13 @@ async function updateCommentHeader() {
 	)
 }
 async function indexSwitch() {
+	console.log( "LOL")
 	var idxNum = getIdx();
 	currentVerse = idxNum;
-	if(!currentVerse && idxNum !== 0) return;
+	if(!currentVerse && idxNum !== 0) {
+		currentVerse = "root"
+		
+	}
 	//currentVerse = parseInt(currentVerse);
 	var al = getInlineAliases()
 	var subSec = getSubIdx();
@@ -1053,7 +1057,7 @@ async function indexSwitch() {
 					
 			}
 		})
-		console.log("trying to add",comments)
+		//console.log("trying to add",comments)
 		addCommentsInline(comments, alias)
 	}
 	if(curTab) {

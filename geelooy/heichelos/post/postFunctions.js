@@ -17,21 +17,36 @@ let lastEl = null;
 
 var activePar = null
 // Function to start the highlighting with cached bounding boxes
-function startHighlighting(elId, targetClass, callback) {
-    var chai = new Highlighter("#" + elId,"." + targetClass, (h) => {
-        activePar = h
-        window.activePar = h
-        callback({
-            main: h
-        })
-    }
+function startHighlighting(elId, targetClass, callback, desCallback) {
+    var chai = new Highlighter(
+        "#" + elId,
+       "." + targetClass, 
+       (h) => {
+            activePar = h
+            window.activePar = h
+            callback({
+                main: h
+            })
+        },
+        {
+            deselectEnabled: true,
+            onDeselectCallback() {
+                desCallback()
+            }
+        }
     );
-    var subChai = new Highlighter("#" + elId,"." + targetClass + " .sub-awtsmoos", (h) => {
-        callback({
-            sub: h
-        })
-        //  console.log("active SUB section",h)
-    }
+    var subChai = new Highlighter(
+        "#" + elId,
+        "." + targetClass + " .sub-awtsmoos",
+        (h) => {
+            callback({
+                sub: h
+            })
+            //  console.log("active SUB section",h)
+        }, 
+        {
+            deselectEnabled: false
+        }
     );
 
     window.subChai = subChai
@@ -866,7 +881,7 @@ function generateSection({sectionText, sectionId, dynamic=null, allSections, isR
         awtsmoosVerse.addEventListener('click', () => weaveDropdownFromAwtsmoos(hdr, atzilusActions));
 
     }
-    nm.textContent = vs || sectionId;
+    nm.textContent = vs || (sectionId + 1);
     hdr.appendChild(nm);
 
     var content = document.createElement("div")

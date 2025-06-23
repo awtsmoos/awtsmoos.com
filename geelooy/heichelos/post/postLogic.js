@@ -87,7 +87,7 @@ async function loadInitial() {
 	}/breadcrumb`);
 	window.breadcrumb = breadcrumb;
 	var t =document.querySelector("title")
-	t.innerText = post.title
+	t.innerText = series.prateem.name + " | "+post.title
 }
 async function startItAll() {
 	await loadInitial();
@@ -128,7 +128,7 @@ async function startItAll() {
 		window.aliasDetails = alias;
 		window.author = alias;
 		addTab({
-			header: "Post Info",
+			header: series.prateem.name + " | " +post.title,
 			content: `<?Awtsmoos return $a("loading.html") ?>`,
 			name: "postInfo",
 			async onopen({actualTab}) {
@@ -200,8 +200,8 @@ async function startItAll() {
 		}
 		
 		appendHTML(html, realPost)
-		postTitle.innerHTML = series.prateem.name + " | " +post
-			.title;
+		/*postTitle.innerHTML = series.prateem.name + " | " +post
+			.title;*/
 		await init/*comments*/({
 			post,
 			mainParent: allTabs,
@@ -262,44 +262,66 @@ try {
 		await startItAll()
 		loadFontSize()
 		scrollToActiveEl();
-		startHighlighting('realPost','section', ({main, sub}={}) => {
-			var div = main;
-			if(div) {
-				var idx = div?.dataset.idx
-				console.log("doing",idx)
-				if(!idx && idx !== 0) return;
-				updateQueryStringParameter("idx", div.dataset.idx);
+		startHighlighting(
+			'realPost',
+			'section', 
+			({main, sub}={}) => {
+				var div = main;
+				if(div) {
+					var idx = div?.dataset.idx
+					console.log("doing",idx)
+					if(!idx && idx !== 0) return;
+					updateQueryStringParameter("idx", div.dataset.idx);
+					var ce = new CustomEvent("awtsmoos index", {
+						detail: {
+							idx: div,
+							awtsmoos: "Awtsmoos",
+							time: Date.now()
+						}
+					});
+					idx = parseInt(idx)
+					
+					//commentTab.onUpdateHeader("Comments for verse " + (idx + 1))
+					window.dispatchEvent(ce);
+				} else if(sub) {
+					
+					var subIdx = sub?.dataset.idx;
+					
+					
+					if(!subIdx && subIdx !== 0) return;
+					updateQueryStringParameter("sub", subIdx);
+					var ce = new CustomEvent("awtsmoos index", {
+						detail: {
+							subIdx: sub,
+							awtsmoos: "Awtsmoos",
+							time: Date.now()
+						}
+					});
+					subIdx = parseInt(idx)
+					
+					//commentTab.onUpdateHeader("Comments for verse " + (idx + 1))
+					window.dispatchEvent(ce);
+				}
+			},
+
+			() => {
+				const url = new URL(window.location);
+				url.searchParams.delete("idx")
+				url.searchParams.delete("sub");
+
 				var ce = new CustomEvent("awtsmoos index", {
 					detail: {
-						idx: div,
+						deselect: true,
 						awtsmoos: "Awtsmoos",
 						time: Date.now()
 					}
 				});
-				idx = parseInt(idx)
-				
-				//commentTab.onUpdateHeader("Comments for verse " + (idx + 1))
 				window.dispatchEvent(ce);
-			} else if(sub) {
-				
-				var subIdx = sub?.dataset.idx;
-				
-				
-				if(!subIdx && subIdx !== 0) return;
-				updateQueryStringParameter("sub", subIdx);
-				var ce = new CustomEvent("awtsmoos index", {
-					detail: {
-						subIdx: sub,
-						awtsmoos: "Awtsmoos",
-						time: Date.now()
-					}
-				});
-				subIdx = parseInt(idx)
-				
-				//commentTab.onUpdateHeader("Comments for verse " + (idx + 1))
-				window.dispatchEvent(ce);
+				window.history.pushState({
+			        path: url.href
+			    }, '', url.href);
 			}
-		});
+		);
 			
 	})();
 } catch (e) {
