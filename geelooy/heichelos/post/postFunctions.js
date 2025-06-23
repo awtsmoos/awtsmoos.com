@@ -877,10 +877,14 @@ function generateSection({
 			array: a
 		});
 	}
+
+	var sectionData = [];
+	window.sectionData = sectionData;
 	if(dynamic) {
 		var section = dynamic;
 		var sectionDiv = document.createElement("div");
-		
+		var sec = [];
+		sectionData.push(sec);
 		var subSectionsDone = 0;
 		// Check if the section has paragraphs
 		if (Array.isArray(section?.paragraphs)) {
@@ -911,6 +915,8 @@ function generateSection({
 						// Append subSection div to the paragraph
 						paragraphDiv.appendChild(subSubS);
 						subSectionsDone++;
+						var sub = txt;
+						sec.push(sub)
 					});
 				}
 
@@ -942,6 +948,7 @@ function generateSection({
 
 				// Append subSection div directly to the section
 				sectionDiv.appendChild(subS);
+				sec.push(txt)
 				subSectionsDone++;
 			});
 		}
