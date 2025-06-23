@@ -425,7 +425,7 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
             // Fetch details for each sub-series ID
             const detailedSeries = [];
             for (const seriesId of subSeriesIds) {
-                const seriesData = await getSeries({ $i, heichelId, seriesId, withDetails: true }); // Get only prateem
+                const seriesData = await $i.db.get(seriesPrateemPath(heichelId, seriesId))
                 if (seriesData && !seriesData.error) {
                     detailedSeries.push(seriesData.prateem);
                 } else {
