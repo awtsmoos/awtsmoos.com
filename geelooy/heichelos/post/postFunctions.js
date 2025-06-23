@@ -360,8 +360,9 @@ function scrollToActiveEl() {
 // Helper to strip HTML tags
 function stripTags(html) {
   const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || div.innerText || "";
+  div.innerHTML = html.split("</br>").join("\n");
+  var txt = div.textContent || div.innerText || "";
+  return txt;
 }
 
 function copyToClipboard({
@@ -429,12 +430,13 @@ function showCustomContextMenu(x, y, e) {
         }
         ,
         "Copy Entire Post": (selectedText) => {
-            var txt = window.sectionDayuh.map((sec, i) => {
-                
+            var txt = `<h4>${window?.post?.title}</h4>` + 
+                window.sectionDayuh.map((d, i) => {
+                var sec = d;
                 if (Array.isArray(sec)) {
                     sec = sec.join(" ")
                 }
-                return `<h4>${window?.post?.title}</h4>
+                return `
                 <p>${
                     (i + 1) + 
                     ". " +sec
