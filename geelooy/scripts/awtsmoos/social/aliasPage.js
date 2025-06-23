@@ -45,8 +45,7 @@ class AliasPageNavigator {
         this.container.className = `alias-page-scope ${this.uniqueId}`;
         this._setupDOM();
         this._bindEvents();
-        injectHyperDimensionalCSS(this.uniqueId);
-
+        
         try {
             await this._updateView();
             // Initial render of the first column
@@ -77,7 +76,7 @@ class AliasPageNavigator {
 
     // --- VIEW & STATE MANAGEMENT ---
 
-    async _updateView(isRestoring=false) {
+        async _updateView(isRestoring=false) {
         if (!isRestoring) {
             this._updateURL();
         }
@@ -85,7 +84,9 @@ class AliasPageNavigator {
         const activeColumnIndex = this.state.heichel ? this.state.path.length + 1 : 0;
 
         this._renderTimeline();
-        this._pruneFutureColumns(activeColumnIndex);
+        
+        // This is the line to change:
+        await this._pruneFutureColumns(activeColumnIndex); // Add 'await' here
 
         this.navigatorBody.style.setProperty('--focus-index', activeColumnIndex);
 
@@ -119,18 +120,51 @@ class AliasPageNavigator {
 
     // FIX: Replaced prune logic to be more robust. It now removes columns that are "in the future"
     // relative to the new navigation state, which is more predictable.
+    // The critical change is removing the column immediately instead of waiting for an animation.
+       // FIX: This version is now async and returns a Promise that resolves
+    // after all "future" columns have been fully removed from the DOM.
+    // This solves the race condition where the view would update before
+    // the columns were gone.
     _pruneFutureColumns(activeIndex) {
-        const columns = this.navigatorBody.querySelectorAll('.navigator-column');
-        columns.forEach(col => {
-            const colIndex = parseInt(col.dataset.columnIndex, 10);
-            if (colIndex >= activeIndex) {
-                col.classList.add('is-collapsing');
-                col.addEventListener('animationend', () => col.remove(), {
-                    once: true
+        return new Promise(resolve => {
+            const columnsToRemove = Array.from(this.navigatorBody.querySelectorAll('.navigator-column'))
+                .filter(col => {
+                    const colIndex = parseInt(col.dataset.columnIndex, 10);
+                    return colIndex >= activeIndex;
                 });
+
+            if (columnsToRemove.length === 0) {
+                return resolve();
             }
-        }
-        );
+
+            let columnsAnimated = 0;
+            const onAnimationEnd = () => {
+                columnsAnimated++;
+                if (columnsAnimated === columnsToRemove.length) {
+                    resolve();
+                }
+            };
+
+            columnsToRemove.forEach(col => {
+                // We add the listener before the class to catch all cases.
+                // The { once: true } option is crucial.
+                col.addEventListener('animationend', () => {
+                    col.remove();
+                    onAnimationEnd();
+                }, { once: true });
+                
+                col.classList.add('is-collapsing');
+
+                // Fallback timer: If there's no animation or it fails,
+                // remove the element after a short delay to prevent it from getting stuck.
+                setTimeout(() => {
+                    if (document.body.contains(col)) {
+                        col.remove();
+                        onAnimationEnd();
+                    }
+                }, 300); // 300ms should be longer than your CSS animation
+            });
+        });
     }
 
     // --- DATA FLOW ---
@@ -253,23 +287,35 @@ class AliasPageNavigator {
         await this._updateView();
     }
 
-    async _handleTimelineClick(event) {
+        async _handleTimelineClick(event) {
         const target = event.target.closest('[data-level]');
-        if (!target)
-            return;
+        if (!target) return;
 
         const level = parseInt(target.dataset.level, 10);
-        if (isNaN(level))
-            return;
+        if (isNaN(level)) return;
 
+        // --- NEW LOGIC ---
+        // First, prune the visual columns based on the click
+        // This makes the UI feel responsive immediately.
+        // For 'Home' (level -1), we want to get back to a state with 0 columns,
+        // so we prune from index 0. For others, we prune from level + 1.
+        const pruneFromIndex = (level === -1) ? 0 : level + 1;
+        this._pruneFutureColumns(pruneFromIndex);
+
+        // Next, update the state
         if (level === -1) {
-            // Home button
+            // Home button: Reset the entire state
             this.state = this._getDefaultState();
+        } else if (level === 0) {
+            // Clicking the Heichel name: clear the path but keep the heichel
+             this.state.path = [];
         } else {
+            // Clicking a series in the path: truncate the path
             this.state.path = this.state.path.slice(0, level);
-            // If the path is now empty, it means we clicked on the Heichel, but we should not clear it.
-            // If we want to go back to the Heichel list, we must click the home button.
         }
+        
+        // Finally, call updateView to sync the URL and render the next column if needed.
+        // Because the state is now correct and old columns are gone, this will work.
         await this._updateView();
     }
 
@@ -437,7 +483,7 @@ class AliasPageNavigator {
         const author = this._createElement('span', ['item-author'], [d.author ? `by ${d.author}` : '']);
         // NOTE: Make sure to replace '/post/path/' with your actual post URL structure
         const e = this._createElement('a', ['navigator-item', 'post-item'], [name, author], {
-            href:  `/heichelos/${data.heichel.id}/series/${d.parentSeriesId}/${d.index}`
+            href: `/heichelos/${data.heichel.id}/series/${d.parentSeriesId}/${d.index}`
         });
         // We don't add data-id, so it doesn't trigger navigation.
         return e;
@@ -451,109 +497,6 @@ export function makeAliasPage({details, container}) {
     });
 }
 
-function injectHyperDimensionalCSS(scope) {
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@300;500&display=swap');
-        
-        :root { 
-            --column-width: 350px; 
-            --column-gap: 20px; 
-            --warp-speed: 0.5s; 
-            --transition-curve: cubic-bezier(0.2, 1, 0.4, 1);
-        }
 
-        .${scope} { 
-            --glow-1: #00ddff; 
-            --glow-2: #f000ff; 
-            --dark-matter: #0A0217; 
-            --text-main: #e6f9ff; 
-            --text-sub: #819db8; 
-            --bg-column: rgba(18, 5, 40, 0.5);
-            height: 100dvh; width: 100%; display: grid; grid-template-rows: auto 1fr; 
-            background: var(--dark-matter); color: var(--text-main); 
-            font-family: 'Roboto Mono', monospace; overflow: hidden;
-            background-image: radial-gradient(circle at top left, rgba(240, 0, 255, 0.1), transparent 30%),
-                              radial-gradient(circle at bottom right, rgba(0, 221, 255, 0.1), transparent 30%);
-        }
-        
-        /* HEADER & TIMELINE */
-        .${scope} .alias-header { 
-            display: flex; align-items: center; padding: 15px 25px; gap: 15px; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; backdrop-filter: blur(5px);
-        }
-        .${scope} .home-button { 
-            font-family: 'Orbitron', sans-serif; font-size: 1.1rem; background: none; 
-            border: 1px solid var(--text-sub); color: var(--text-sub); padding: 8px 15px; 
-            border-radius: 6px; cursor: pointer; transition: all 0.3s; white-space: nowrap;
-        }
-        .${scope} .home-button:hover { border-color: var(--glow-1); color: var(--glow-1); box-shadow: 0 0 10px -5px var(--glow-1); }
-        .${scope} .timeline { display: flex; align-items: center; gap: 8px; min-width: 0; overflow-x: auto; }
-        .${scope} .timeline-chevron { color: var(--text-sub); font-size: 1.2rem; transform: translateY(-1px); }
-        .${scope} .timeline-item { 
-            background: transparent; border: 1px solid transparent; color: var(--text-sub); 
-            padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: 0.2s;
-        }
-        .${scope} .timeline-item:hover { color: var(--text-main); background: rgba(255,255,255,0.1); }
-        .${scope} .timeline-item.is-current-step { color: var(--text-main); font-weight: 500; cursor: default; }
 
-        /* HYPER-STRUCTURAL GRID */
-        .${scope} .alias-navigator { position: relative; overflow: hidden; }
-        .${scope} .navigator-body { 
-            width: 100%; height: 100%; display: grid; grid-auto-flow: column; grid-auto-columns: var(--column-width);
-            gap: var(--column-gap); padding: 0 calc(50% - (var(--column-width) / 2));
-            transform: translateX(calc(var(--focus-index, 0) * (var(--column-width) + var(--column-gap)) * -1)); 
-            transition: transform var(--warp-speed) var(--transition-curve); 
-        }
-        
-        @keyframes collapse-anim { to { opacity: 0; transform: scale(0.9); } }
-        .${scope} .navigator-column { padding: 2vh 0; will-change: transform, opacity; }
-        .${scope} .navigator-column.is-collapsing { animation: collapse-anim 0.4s var(--transition-curve) forwards; pointer-events: none; }
 
-        /* CRYSTAL CHASSIS */
-        .${scope} .column-inner { 
-            width: 100%; height: 100%; display: flex; flex-direction: column; 
-            background: var(--bg-column); border-radius: 12px; backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
-            transition: all 0.4s; overflow: hidden;
-        }
-        
-        /* HEADER & LISTS */
-        .${scope} .column-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: baseline; gap: 10px; }
-        .${scope} .column-header h2 { font-size: 1.1rem; font-family: 'Orbitron'; margin: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-        .${scope} .column-header.is-loading h2::after { content: '▋'; animation: blink 1s step-end infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-        .${scope} .column-header .chronicle { font-size: 0.8rem; color: var(--text-sub); flex-shrink: 0; }
-        .${scope} .navigator-list-container {     max-height: 65vh;flex-grow: 1; min-height: 0; overflow-y: auto; padding: 10px; }
-        
-        .${scope} .empty-message, .${scope} .error-message { padding: 20px; text-align: center; color: var(--text-sub); }
-        .${scope} .error-message { color: #ff8a8a; }
-
-        @keyframes stagger-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .${scope} .navigator-item { 
-            display: block; text-decoration: none; color: var(--text-main);
-            background: rgba(0,0,0,0.3); margin-bottom: 8px; border-radius: 6px; 
-            padding: 12px 15px; cursor: pointer; border: 1px solid transparent; 
-            transition: all 0.2s; animation: stagger-in 0.4s both; 
-            animation-delay: calc(var(--stagger-index) * 0.03s); 
-        }
-        .${scope} .navigator-item:hover { 
-            transform: translateY(-2px); background: rgba(0,221,255,0.1); border-color: rgba(0,221,255,0.5);
-            box-shadow: 0 0 10px -5px var(--glow-1);
-        }
-        .${scope} .navigator-item.is-active { 
-            pointer-events: none; background: rgba(240,0,255,0.15); border-color: var(--glow-2);
-            box-shadow: 0 0 10px -5px var(--glow-2);
-        }
-        .${scope} .item-name { display: block; font-weight: 500; }
-        .${scope} .item-author { display: block; font-size: 0.8em; color: var(--text-sub); padding-top: 4px; }
-        
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-          :root { --column-width: 280px; }
-          .${scope} .navigator-body { padding: 0 calc(50% - (var(--column-width) / 2) - 10px); }
-          .${scope} .alias-header { padding: 10px 15px; }
-        }
-    `;
-    document.head.appendChild(styleElement);
-}

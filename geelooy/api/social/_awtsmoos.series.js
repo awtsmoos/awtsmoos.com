@@ -93,27 +93,45 @@ module.exports = ({ $i, userid } = {}) => ({
              withDetails: true
          }); 
 		}
-		if ($i.request.method !== "POST") return er({ code: "METHOD_NOT_ALLOWED" });
+		if ($i.request.method !== "POST") 
+            return er({ code: "METHOD_NOT_ALLOWED" });
 
          const seriesIds = $i.$_POST.seriesIds;
          if (!seriesIds || !Array.isArray(seriesIds)) {
              return er({ code: "MISSING_PARAMS", details: "Requires seriesIds array in body" });
          }
 
-         // Fetch details concurrently
-         const detailsPromises = seriesIds.map(id =>
-             getSeries({
-                 $i,
-                 heichelId: v.heichel, // Use heichel from route param
-                 seriesId: id,
-                 withDetails: true, // Get full details
-              //   properties: { name: true, description: 256, id: true } // Example property map
-             })
-             .catch(err => ({ id: id, error: err.message || "Failed to fetch" })) // Catch errors per ID
-         );
+         var seriesFull = [];
+        var errors = [];
+         var id;
+         for(
+             id of seriesIds
+         ) {
+             try {
+                 var ser = await  getSeries({
+                     $i,
+                     heichelId: v.heichel, // Use heichel from route param
+                     seriesId: id,
+                     withDetails: true, // Get full details
+                  //   properties: { name: true, description: 256, id: true } // Example property map
+                 });
+                 seriesFull.push(ser);
+             } catch(e) {
+                 seriesFull.push({
+                     type: "error",
+                     details: e.stack,
+                     id,
+                     v
+                 })
+             }
+             
+         }
 
-         const results = await Promise.all(detailsPromises);
-         return results; // Return array of results (or errors)
+       
+         
+
+         
+         return seriesFull; // Return array of results (or errors)
      },
 
 

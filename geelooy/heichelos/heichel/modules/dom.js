@@ -67,4 +67,6 @@ export function initializeDOMElements() {
     DOMElements.modalIdInput = document.getElementById('modal-input-id');
     DOMElements.modalCancelBtn = document.getElementById('modal-cancel-btn');
     DOMElements.modalSubmitBtn = document.getElementById('modal-submit-btn');
+
+    DOMElements.authorName = document.getElementById("author-name")
 }

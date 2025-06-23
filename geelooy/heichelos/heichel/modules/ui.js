@@ -57,10 +57,14 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
 export function renderSeriesInfo(seriesData) {
     if (appState.currentSeries !== 'root' && seriesData) {
         DOMElements.sidebarTitle.textContent = seriesData.name || 'Unnamed Series';
-        DOMElements.sidebarDesc.textContent = (seriesData.description && seriesData.description !== 'undefined') ? seriesData.description : "";
+        DOMElements.sidebarDesc.innerHTML = (seriesData.description && seriesData.description !== 'undefined') ? seriesData.description : "";
+        var auth = seriesData.author
+        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`
     } else {
         DOMElements.sidebarTitle.textContent = heichelGlobal?.name || "";
-        DOMElements.sidebarDesc.textContent = heichelGlobal?.description || "";
+        DOMElements.sidebarDesc.innerHTML = heichelGlobal?.description || "";
+        var auth = heichelGlobal?.author
+        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`
     }
 }
 
