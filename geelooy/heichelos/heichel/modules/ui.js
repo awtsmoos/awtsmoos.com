@@ -4,7 +4,11 @@ import {DOMElements} from './dom.js';
 import {appState, getItemKey} from '../state.js';
 import {showContextMenu} from './contextmenu.js';
 import {openModal} from './modal.js';
-
+import * as api from "../api.js";
+import {
+    AwtsmoosPrompt
+} from "/scripts/awtsmoos/api/utils.js";
+window.AwtsmoosPrompt=AwtsmoosPrompt;
 let navigatorInstance;
 var heichelGlobal;
 var global = {};
@@ -54,18 +58,45 @@ export function renderBreadcrumb(breadcrumbData, navigator) {
     );
 }
 
-export function renderSeriesInfo(seriesData) {
+export async function renderSeriesInfo(seriesData) {
     if (appState.currentSeries !== 'root' && seriesData) {
         DOMElements.sidebarTitle.textContent = seriesData.name || 'Unnamed Series';
         DOMElements.sidebarDesc.innerHTML = (seriesData.description && seriesData.description !== 'undefined') ? seriesData.description : "";
         var auth = seriesData.author
-        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`
+        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
+        DOMElements.editorsSection.style.display="none"
     } else {
+        try {
+             DOMElements.editorsSection.style.display = ""
+        } catch(e){}
         DOMElements.sidebarTitle.textContent = heichelGlobal?.name || "";
         DOMElements.sidebarDesc.innerHTML = heichelGlobal?.description || "";
         var auth = heichelGlobal?.author
-        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`
+        DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
+        var editors = global.editors;
+        if(!editors) {
+            global.editors = await api.getEditors(heichelGlobal?.id);
+            console.log(heichelGlobal)
+            editors = global.editors;
+        }
+        if(!Array.isArray(editors)) {
+            editors = []
+        }
+        populateEditors(editors)
+        
     }
+}
+
+function populateEditors(editors) {
+    
+    DOMElements.editorHolder.innerHTML = ""
+    editors.forEach(ed => {
+       var edit = document.createElement("a")
+        edit.innerText = "@" + ed
+        edit.href = "/@" + ed;
+        DOMElements.editorHolder.appendChild(edit)
+    });
+    editorNum.innerText = editors.length;
 }
 
 export function renderOwnerControls(breadcrumb, navigator) {
@@ -77,8 +108,7 @@ export function renderOwnerControls(breadcrumb, navigator) {
 
     if (appState.ownsIt) {
         const addPostBtn = createButton('Add New Post', () => {
-            if (appState.currentSeries === 'root')
-                return notify('Cannot add posts to root. Enter a series first.', 'info');
+            
             // This behavior of opening a new page is preserved from your code.
             window.open(`/heichelos/${appState.heichelId}/submit?parentSeriesId=${appState.currentSeries}`, '_blank');
         }
@@ -88,6 +118,35 @@ export function renderOwnerControls(breadcrumb, navigator) {
         const addSeriesBtn = createButton('Add New Series', () => openModal('series', navigator));
         DOMElements.seriesControlsContainer.appendChild(addSeriesBtn);
         const selectBtn = createButton('Select Items', () => ui.toggleSelectionMode(!appState.isSelectionMode, navigator));
+        selectBtn.style.display="none"
+
+       
+
+        if(appState.currentSeries == "root") {
+             var addEditorBtn = createButton("Add New Editor", async () => {
+                var editorNm = await AwtsmoosPrompt.go({
+                    headerTxt: "Enter Editor ID"
+                    
+                })
+                if(!editorNm || !editorNm.length) {
+                    await AwtsmoosPrompt.go({
+                        headerTxt: "Canceled",
+                         isAlert: true
+                    
+                    })
+                    return;
+                }
+                var add = await api.addEditor({
+                    heichelId: appState.heichelData.id,
+                    aliasId:  window.curAlias,
+                    editorAliasId: editorNm
+                });
+                
+                console.log(add);
+            });
+            DOMElements.seriesControlsContainer.appendChild(addEditorBtn);
+        
+        }
         global.selectBtn = selectBtn;
         DOMElements.seriesControlsContainer.appendChild(selectBtn);
         

@@ -30,6 +30,7 @@ export class HeichelNavigator {
         window.curAlias = "demo-user-alias";
         
         appState.heichelData = await api.getHeichelDetails(appState.heichelId);
+        appState.heichelData.id=appState.heichelId;
         if (!appState.heichelData) throw new Error("Could not load initial Heichel data.");
         
         appState.ownsIt = await api.checkOwnership(window.curAlias, appState.heichelId);
@@ -87,7 +88,7 @@ export class HeichelNavigator {
         };
         
         ui.renderBreadcrumb(appState.breadcrumb, this);
-        ui.renderSeriesInfo(containerSeries.prateem);
+        await ui.renderSeriesInfo(containerSeries.prateem);
         ui.renderOwnerControls(appState.breadcrumb, this);
         ui.renderContentGrids(contentForGrid, this);
 

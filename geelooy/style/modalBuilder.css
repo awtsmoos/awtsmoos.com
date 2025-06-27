@@ -1,0 +1,551 @@
+/*B"H*/
+/*
+ * modalBuilder.css
+ *
+ * Styling for the dynamically generated modal.
+ * This CSS is scoped to the specific modal instance via its ID.
+ * Embraces extreme, wild, vivid, professional, cool, futuristic, ancient, epic aesthetics.
+ * Optimized for extreme performance on mobile and old devices.
+ *
+ * Author: Your Name/Company
+ * License: MIT
+ */
+
+/* --- Global Custom Properties for Easier Theming --- */
+:root {
+    --modal-bg-primary: linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(25, 25, 25, 0.99) 100%);
+    --modal-border-color: rgba(255, 255, 255, 0.08);
+    --modal-title-color: #E0FFFF; /* Electric Cyan */
+    --modal-title-shadow: 0 0 15px rgba(0, 255, 255, 0.7), 0 0 5px rgba(0, 200, 255, 0.5);
+    --modal-input-bg: rgba(30, 30, 30, 0.85);
+    --modal-input-border: 1px solid rgba(255, 255, 255, 0.18);
+    --modal-input-focus-border: 1px solid #00FFFF; /* Neon Cyan */
+    --modal-input-focus-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 1px 4px rgba(0, 0, 0, 0.4);
+    --modal-label-color: #AAA;
+    --modal-label-focus-color: #00FFFF;
+    --modal-error-color: #FF4136; /* Vivid Error Red */
+    --modal-error-border: 1px solid rgba(255, 65, 54, 0.6);
+    --modal-error-shadow: 0 0 15px rgba(255, 65, 54, 0.4);
+    --modal-success-color: #39FF14; /* Neon Green */
+    --modal-success-bg: rgba(57, 255, 20, 0.15);
+    --modal-success-border: 1px solid rgba(57, 255, 20, 0.4);
+    --modal-button-gradient-start: #6A0DAD; /* Deep Purple */
+    --modal-button-gradient-end: #9400D3; /* Dark Violet */
+    --modal-button-shadow: 0 8px 25px rgba(148, 0, 211, 0.5);
+    --modal-button-hover-shadow: 0 12px 30px rgba(148, 0, 211, 0.7);
+    --modal-close-button-bg: rgba(255, 255, 255, 0.08);
+    --modal-close-button-hover-bg: rgba(255, 255, 255, 0.15);
+    --overlay-bg-darkness: rgba(0, 0, 0, 0.9);
+    --overlay-blur: 20px;
+    --overlay-saturate: 180%;
+    --font-futuristic: 'Orbitron', 'Exo 2', 'Rajdhani', sans-serif;
+    --font-tech: 'Inter', 'Roboto Mono', 'Source Code Pro', monospace;
+}
+
+/* --- Overlay Styling --- */
+.modal-overlay-base {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-bg-darkness);
+    backdrop-filter: blur(var(--overlay-blur)) saturate(var(--overlay-saturate));
+    -webkit-backdrop-filter: blur(var(--overlay-blur)) saturate(var(--overlay-saturate));
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 2); /* More dynamic transition */
+    pointer-events: auto; /* Allow clicks */
+    will-change: opacity; /* Performance hint */
+}
+
+.modal-overlay-base.active {
+    opacity: 1;
+    display: block !important;
+}
+
+/* --- Modal Container Styling --- */
+/* Selects the modal container based on its ID, which must end with '-overlay's sibling */
+/* This uses the specific ID to ensure the correct modal is targeted */
+#\\3{id}-overlay.active + \#{id} { /* Using escaped ID selectors for maximum specificity */
+    display: flex !important;
+    opacity: 1;
+    transform: scale(1.02) translateY(0); /* Slight 'pop' effect */
+    visibility: visible;
+    filter: brightness(1) contrast(1); /* Ensure modal is bright */
+}
+
+/* The base container for the modal content */
+.modal-container-base {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.85); /* Start smaller for entrance */
+    width: 92%; /* Responsive width */
+    max-width: 700px; /* Larger max-width */
+    max-height: 95vh; /* Almost full height */
+    background: var(--modal-bg-primary);
+    border-radius: 30px; /* Large, futuristic rounded corners */
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), /* Deeper, more dramatic shadow */
+                0 0 0 3px rgba(255, 0, 255, 0.4), /* Intense Magenta pulse */
+                0 0 0 8px rgba(0, 255, 255, 0.2); /* Electric Cyan ambient */
+    z-index: 1001;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 2), /* Dynamic bounce */
+                opacity 0.4s ease-out,
+                visibility 0.4s ease-out;
+    overflow: hidden;
+    border: 1px solid var(--modal-border-color);
+    background-clip: padding-box;
+    box-sizing: border-box; /* Ensure padding and border are included in width/height */
+    backdrop-filter: blur(5px) saturate(120%); /* Subtle background blur */
+    -webkit-backdrop-filter: blur(5px) saturate(120%);
+    will-change: transform, opacity, visibility; /* Performance hint */
+}
+
+/* Content wrapper for internal padding and layout */
+.modal-container-base > .modal-content-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Enable scrolling if content exceeds max-height */
+    padding: 40px 45px; /* Generous, expansive padding */
+    box-sizing: border-box;
+}
+
+/* --- Modal Header Styling --- */
+.modal-container-base .modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px; /* More space below title */
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.15); /* More pronounced dashed border */
+    margin-bottom: 30px;
+}
+
+.modal-container-base .modal-title {
+    font-size: 2.8rem; /* Larger, more commanding title */
+    font-weight: 800; /* Extra bold */
+    color: var(--modal-title-color);
+    text-align: center;
+    letter-spacing: 2px; /* Wider spacing for epic feel */
+    text-shadow: var(--modal-title-shadow); /* Apply futuristic shadow */
+    margin: 0;
+    font-family: var(--font-futuristic); /* Use futuristic font */
+    text-transform: uppercase; /* Uppercase for impact */
+}
+
+/* --- Modal Body & Form Styling --- */
+.modal-container-base .modal-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased gap between form elements */
+}
+
+.modal-container-base .modal-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between label and input */
+    position: relative; /* For error positioning */
+    width: 100%;
+    perspective: 1000px; /* For potential 3D effects */
+}
+
+/* Label Styling */
+.modal-container-base .modal-label {
+    font-size: 1.1rem; /* Larger labels */
+    color: var(--modal-label-color);
+    font-weight: 600; /* Semi-bold */
+    letter-spacing: 0.8px;
+    display: block;
+    margin-bottom: 4px;
+    transition: color 0.3s ease-out, text-shadow 0.3s ease-out, font-weight 0.3s ease-out;
+    font-family: var(--font-tech); /* Techy font for labels */
+    position: relative;
+    z-index: 2; /* Ensure label is above input */
+}
+
+/* Label Focus/Active State */
+.modal-container-base input:focus + .modal-label,
+.modal-container-base textarea:focus + .modal-label,
+.modal-container-base select:focus + .modal-label,
+.modal-container-base input:not(:placeholder-shown) + .modal-label,
+.modal-container-base textarea:not(:placeholder-shown) + .modal-label,
+.modal-container-base select:not(:placeholder-shown) + .modal-label {
+    color: var(--modal-label-focus-color); /* Bright cyan */
+    font-weight: 700; /* Bold */
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.7); /* Enhanced glow */
+}
+
+/* Input Field Styling */
+.modal-container-base input[type="text"],
+.modal-container-base input[type="email"],
+.modal-container-base input[type="password"],
+.modal-container-base input[type="number"],
+.modal-container-base input[type="tel"],
+.modal-container-base textarea,
+.modal-container-base select {
+    width: 100%;
+    padding: 15px 20px; /* More padding */
+    border: var(--modal-input-border);
+    border-radius: 10px; /* Slightly larger radius */
+    background-color: var(--modal-input-bg);
+    color: #E0E0E0; /* Lighter text */
+    font-size: 1.1rem; /* Larger font */
+    font-family: var(--font-tech); /* Techy font */
+    outline: none; /* Remove default outline */
+    transition: all 0.3s ease-out;
+    box-shadow: inset 0 3px 8px rgba(0,0,0,0.3); /* Deeper inner shadow */
+    letter-spacing: 0.5px;
+    position: relative; /* For z-index if needed */
+    z-index: 1; /* Ensure input is behind label */
+}
+
+/* Input Field Focus Styling */
+.modal-container-base input:focus,
+.modal-container-base textarea:focus,
+.modal-container-base select:focus {
+    border-color: var(--modal-input-focus-border); /* Neon Cyan border */
+    box-shadow: var(--modal-input-focus-shadow); /* Complex focus glow */
+    color: #FFFFFF; /* Bright white text */
+    transform: translateY(-1px); /* Slight subtle lift */
+}
+
+/* Placeholder Styling */
+.modal-container-base ::placeholder {
+    color: rgba(200, 200, 200, 0.6); /* More faded placeholder */
+    opacity: 1;
+}
+
+/* Textarea Specifics */
+.modal-container-base textarea {
+    min-height: 120px; /* Taller textarea */
+    resize: vertical;
+}
+
+/* Checkbox and Radio Styling */
+.modal-container-base .modal-checkbox-label,
+.modal-container-base .modal-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Increased gap */
+    cursor: pointer;
+    color: var(--modal-label-color);
+    font-weight: 500;
+    font-family: var(--font-tech);
+}
+
+/* Custom Checkbox/Radio Base */
+.modal-container-base input[type="checkbox"],
+.modal-container-base input[type="radio"] {
+    width: 22px; /* Larger interactive area */
+    height: 22px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    border: 2px solid #666; /* Darker border */
+    background-color: rgba(20, 20, 20, 0.9); /* Darker background */
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 2); /* Dynamic transition */
+    flex-shrink: 0;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Custom Checkbox Appearance */
+.modal-container-base input[type="checkbox"] {
+    border-radius: 5px; /* Slightly rounded */
+}
+
+.modal-container-base input[type="checkbox"]:checked {
+    background-color: var(--modal-success-color); /* Neon Green check */
+    border-color: var(--modal-success-color);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.7), inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.modal-container-base input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 7px; /* Adjusted position */
+    top: 3px; /* Adjusted position */
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0; /* Thicker checkmark */
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Checkmark glow */
+}
+
+/* Custom Radio Appearance */
+.modal-container-base input[type="radio"] {
+    border-radius: 50%; /* Circular radio */
+}
+
+.modal-container-base input[type="radio"]:checked {
+    background-color: var(--modal-success-color); /* Neon Green center */
+    border-color: var(--modal-success-color);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.7), inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.modal-container-base input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px; /* Larger dot */
+    height: 12px;
+    background-color: #FFF; /* Pure White dot */
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); /* Dot glow */
+}
+
+/* Standalone Label Styling */
+.modal-container-base .modal-standalone-label {
+    font-size: 1.2rem; /* Larger standalone labels */
+    color: #F0F0F0; /* Brighter color */
+    font-weight: 700; /* Bold */
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: var(--font-futuristic);
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Subtle separator */
+    padding-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+/* --- Error Styling --- */
+.modal-container-base .modal-field-error {
+    color: var(--modal-error-color);
+    font-size: 0.9rem; /* Slightly larger error text */
+    margin-top: 8px; /* More space above error */
+    position: absolute;
+    bottom: -25px; /* Position further below */
+    left: 0;
+    width: 100%;
+    text-align: left;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 2);
+    z-index: 3; /* Ensure error is visible */
+    font-family: var(--font-tech);
+}
+
+.modal-container-base .modal-input-error {
+    border-color: var(--modal-error-color) !important;
+    box-shadow: var(--modal-error-shadow), inset 0 2px 5px rgba(0,0,0,0.3) !important; /* Error glow */
+}
+
+/* Show error message when input has error class */
+.modal-container-base .modal-input-error + .modal-field-error {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Message Display Styling --- */
+.modal-container-base .modal-message {
+    padding: 18px;
+    margin-bottom: 25px; /* More space below message */
+    border-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(-15px); /* Start higher */
+    animation: fadeInSlideUp 0.4s forwards cubic-bezier(0.23, 1, 0.32, 2);
+    letter-spacing: 0.5px;
+    font-family: var(--font-tech);
+    position: relative; /* For z-index if needed */
+    z-index: 5; /* Ensure messages are on top */
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-container-base .modal-message-success {
+    background-color: var(--modal-success-bg);
+    color: var(--modal-success-color);
+    border: var(--modal-success-border);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.8); /* Neon green text glow */
+}
+
+.modal-container-base .modal-message-error {
+    background-color: rgba(255, 65, 54, 0.15); /* Lighter error background */
+    color: var(--modal-error-color);
+    border: var(--modal-error-border);
+    text-shadow: 0 0 10px rgba(255, 65, 54, 0.7); /* Red text glow */
+}
+
+/* --- Modal Footer Styling --- */
+.modal-container-base .modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.15); /* More pronounced border */
+    margin-top: 35px; /* More space above footer */
+    gap: 20px; /* Increased gap between buttons */
+}
+
+/* --- Button Styling --- */
+.modal-container-base .modal-submit-button,
+.modal-container-base .modal-close-button {
+    padding: 14px 30px; /* Larger buttons */
+    border: none;
+    border-radius: 10px; /* Rounded buttons */
+    font-size: 1.1rem; /* Larger font */
+    font-weight: 700; /* Bold */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 2); /* Dynamic transition */
+    font-family: var(--font-futuristic);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden; /* For potential pseudo-element effects */
+    z-index: 1;
+}
+
+/* Submit Button Specifics */
+.modal-container-base .modal-submit-button {
+    background: linear-gradient(60deg, var(--modal-button-gradient-start), var(--modal-button-gradient-end)); /* Violet gradient */
+    color: #FFF;
+    box-shadow: var(--modal-button-shadow);
+    border: 1px solid transparent;
+}
+
+.modal-container-base .modal-submit-button:hover {
+    box-shadow: var(--modal-button-hover-shadow);
+    transform: translateY(-3px) scale(1.03); /* More pronounced hover effect */
+    color: #FFF;
+}
+
+/* Loading State */
+.modal-container-base .modal-submit-button.modal-loading {
+    background: linear-gradient(60deg, #555, #333); /* Muted loading state */
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Close Button Specifics */
+.modal-container-base .modal-close-button {
+    background: var(--modal-close-button-bg);
+    color: #E0E0E0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-container-base .modal-close-button:hover {
+    background: var(--modal-close-button-hover-bg);
+    color: #FFF;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* --- Body Styling when Modal is Open --- */
+body.modal-open-body {
+    overflow: hidden; /* Prevent background scrolling */
+    /* Enhance modal dominance with a slight background dimming/color shift */
+    filter: brightness(0.9) contrast(1.1) hue-rotate(-5deg); /* More dramatic background effect */
+    transition: filter 0.4s ease-out;
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Mobile and Smaller Screens */
+@media (max-width: 768px) {
+    .modal-container-base {
+        width: 95%;
+        border-radius: 20px; /* Smaller radius */
+        padding: 30px 25px; /* Less padding */
+        max-height: 90vh; /* Slightly less max height */
+    }
+
+    .modal-container-base > .modal-content-wrapper {
+        padding: 30px 25px; /* Adjusted padding */
+    }
+
+    .modal-container-base .modal-header {
+        padding-bottom: 25px;
+        margin-bottom: 25px;
+    }
+
+    .modal-container-base .modal-title {
+        font-size: 2.2rem; /* Smaller title */
+        text-shadow: 0 4px 12px rgba(0, 255, 255, 0.6); /* Adjusted shadow */
+    }
+
+    .modal-container-base .modal-body {
+        gap: 15px; /* Less gap */
+    }
+
+    .modal-container-base input,
+    .modal-container-base textarea,
+    .modal-container-base select {
+        padding: 12px 15px; /* Smaller input padding */
+        font-size: 1rem; /* Smaller input font */
+    }
+
+    .modal-container-base .modal-label {
+        font-size: 1rem; /* Smaller labels */
+    }
+
+    .modal-container-base .modal-footer {
+        padding-top: 25px;
+        margin-top: 30px;
+        flex-wrap: wrap; /* Allow buttons to wrap */
+        justify-content: space-around;
+    }
+
+    .modal-container-base .modal-submit-button,
+    .modal-container-base .modal-close-button {
+        padding: 12px 25px; /* Smaller buttons */
+        font-size: 1rem; /* Smaller button font */
+        width: 48%; /* Allow side-by-side */
+    }
+
+    /* When buttons wrap, add margin */
+    .modal-container-base .modal-footer .modal-submit-button,
+    .modal-container-base .modal-footer .modal-close-button {
+        margin-top: 12px;
+    }
+
+    /* Remove background filter on mobile for performance */
+    body.modal-open-body {
+        filter: none;
+    }
+}
+
+/* Even smaller devices / legacy */
+@media (max-width: 480px) {
+    .modal-container-base {
+        border-radius: 15px;
+        padding: 25px 20px;
+    }
+
+    .modal-container-base > .modal-content-wrapper {
+        padding: 25px 20px;
+    }
+
+    .modal-container-base .modal-title {
+        font-size: 1.8rem;
+    }
+
+    .modal-container-base .modal-footer {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px;
+    }
+
+    .modal-container-base .modal-submit-button,
+    .modal-container-base .modal-close-button {
+        width: 100%; /* Full width when stacked */
+    }
+}

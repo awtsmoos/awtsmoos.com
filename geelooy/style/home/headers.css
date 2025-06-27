@@ -15,49 +15,102 @@ body {
     padding: 10px 20px;
     box-shadow: 0px 1px 4px 0px black;
     height: 25px;
-    display: flex
-;
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-  .header-buttons {
+header.awtsmoosificationalisticaticalism   .header-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+header.awtsmoosificationalisticaticalism .BH {
     display: flex
 ;
-    flex-direction: row-reverse;
+}
+
+header.awtsmoosificationalisticaticalism .BH .lg {
+    display: inline-block;
+    font-size: 0.7em;
+  
+    margin-left: -17px;
 }
 
 
+header.awtsmoosificationalisticaticalism 
+div#dropdownProfile {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
 
-  
+header.awtsmoosificationalisticaticalism 
+.icon.btn {
+  padding: 1px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .sidebarMitzvah {
-    position: fixed;
-    top:100px;
-    left:100%;
-    transform: translateX(-100%);
-    width: 250px;
-    height: 100%;
-    padding: 20px;
-    background: #f5f5f5; /* Professional background color */
-    color: #333; /* Professional text color */
-    overflow-y: auto;
-    transition: all 0.5s ease-in-out;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
+ .sidebarMitzvah {
+  position: fixed;
+  top: 45px;
+  left: 100%;
+  transform: translateX(-100%);
+  width: 250px;
+  height: calc(100% - 45px);
+  padding: 20px;
+  background: rgb(0 0 0 / 80%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #f0f0f0;
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15),
+              0 4px 12px rgba(0, 0, 0, 0.2);
+  border-left: 2px solid rgba(0, 183, 255, 0.4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  .sidebarMitzvah a {
-    display: block;
-    padding: 10px 0;
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s ease;
-  }
+.sidebarMitzvah a {
+  position: relative;
+  display: block;
+  padding: 12px 0;
+  text-decoration: none;
+  color: #c7e4ff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.25s ease;
+  overflow: hidden;
+}
 
-  .sidebar a:hover {
-    color: #007bff; /* Hover color */
-  }
+.sidebarMitzvah a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, #00eaff, #0066ff);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.sidebarMitzvah a:hover::after {
+  transform: translateX(0);
+}
+
+.sidebarMitzvah a:hover {
+  color: #00d4ff;
+}
+
 
   .offscreen {
     transform: translateX(100%);
@@ -67,11 +120,11 @@ body {
     height:20px
   }
   
-  .header-buttons button,
-  .header-buttons a,
-  .header-buttons .button,
-  .btn {
-    background-color: #4285f4;
+ header.awtsmoosificationalisticaticalism  .header-buttons button,
+ header.awtsmoosificationalisticaticalism  .header-buttons a,
+ header.awtsmoosificationalisticaticalism  .header-buttons .button,
+ header.awtsmoosificationalisticaticalism  .btn {
+    /* background-color: #4285f4; */
     text-decoration: none;
     color: white;
     user-select: none;
@@ -83,12 +136,13 @@ body {
     margin-top: unset !important;
   }
 
-  .btn {
+ header.awtsmoosificationalisticaticalism  .btn {
     display:inline-block;
   }
-  .header-buttons button, .header-buttons a:hover
+ header.awtsmoosificationalisticaticalism .header-buttons button, 
+header.awtsmoosificationalisticaticalism .header-buttons a:hover
   ,
-  .btn:hover {
+  header.awtsmoosificationalisticaticalism  .btn:hover {
     background-color: #88b5ff;
     color: black;
 }
@@ -119,4 +173,41 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.plus {
+  background-image: url(
+    'data:image/svg+xml;utf8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20role%3D%22img%22%20aria-label%3D%22Add%20new%20post%20plus%20sign%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22plus-gradient%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2300d9ff%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230099cc%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3CradialGradient%20id%3D%22shine%22%20cx%3D%220.3%22%20cy%3D%220.3%22%20r%3D%220.5%22%20fx%3D%220.3%22%20fy%3D%220.3%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220.7%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FradialGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3C!--%20Background%20circle%20with%20gradient%20--%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22url(%23plus-gradient)%22%3E%3C%2Fcircle%3E%0A%0A%20%20%3C!--%20Plus%20vertical%20bar%20--%3E%0A%20%20%3Crect%20x%3D%2228%22%20y%3D%2216%22%20width%3D%228%22%20height%3D%2232%22%20fill%3D%22white%22%20rx%3D%223%22%20ry%3D%223%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Plus%20horizontal%20bar%20--%3E%0A%20%20%3Crect%20x%3D%2216%22%20y%3D%2228%22%20width%3D%2232%22%20height%3D%228%22%20fill%3D%22white%22%20rx%3D%223%22%20ry%3D%223%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Shiny%20highlight%20shape%20on%20top-left%20to%20simulate%20light%20reflection%20--%3E%0A%20%20%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2212%22%20fill%3D%22url(%23shine)%22%3E%3C%2Fcircle%3E%0A%0A%3C%2Fsvg%3E%0A'
+  );
+
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.plus:hover {
+  cursor: pointer;
+  background-image: url(
+    'data:image/svg+xml;utf8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20role%3D%22img%22%20aria-label%3D%22Add%20new%20post%20plus%20sign%20hover%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22plus-gradient-hover%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2333f0ff%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2300bbdd%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3CradialGradient%20id%3D%22shine-hover%22%20cx%3D%220.25%22%20cy%3D%220.25%22%20r%3D%220.6%22%20fx%3D%220.25%22%20fy%3D%220.25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220.9%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FradialGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3C!--%20Background%20circle%20with%20brighter%20gradient%20--%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22url(%23plus-gradient-hover)%22%3E%3C%2Fcircle%3E%0A%0A%20%20%3C!--%20Plus%20vertical%20bar%20with%20slight%20scale%20effect%20by%20making%20it%20a%20bit%20bigger%20--%3E%0A%20%20%3Crect%20x%3D%2227%22%20y%3D%2215%22%20width%3D%2210%22%20height%3D%2234%22%20fill%3D%22white%22%20rx%3D%223%22%20ry%3D%223%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Plus%20horizontal%20bar%20with%20same%20pop%20--%3E%0A%20%20%3Crect%20x%3D%2215%22%20y%3D%2227%22%20width%3D%2234%22%20height%3D%2210%22%20fill%3D%22white%22%20rx%3D%223%22%20ry%3D%223%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Larger%2C%20stronger%20shiny%20highlight%20circle%20on%20top-left%20--%3E%0A%20%20%3Ccircle%20cx%3D%2218%22%20cy%3D%2218%22%20r%3D%2214%22%20fill%3D%22url(%23shine-hover)%22%3E%3C%2Fcircle%3E%0A%3C%2Fsvg%3E%0A'
+  )
+}
+
+.plus:active {
+  background-image: url(
+    'data:image/svg+xml;utf8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20role%3D%22img%22%20aria-label%3D%22Add%20new%20post%20plus%20sign%20active%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22plus-gradient-active%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230099cc%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23005f7a%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%3CradialGradient%20id%3D%22shine-active%22%20cx%3D%220.4%22%20cy%3D%220.4%22%20r%3D%220.4%22%20fx%3D%220.4%22%20fy%3D%220.4%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220.4%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FradialGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3C!--%20Darker%20background%20circle%20with%20deeper%20gradient%20--%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2230%22%20fill%3D%22url(%23plus-gradient-active)%22%3E%3C%2Fcircle%3E%0A%0A%20%20%3C!--%20Plus%20vertical%20bar%2C%20slightly%20smaller%20and%20more%20inset%20for%20pressed%20effect%20--%3E%0A%20%20%3Crect%20x%3D%2229%22%20y%3D%2218%22%20width%3D%226%22%20height%3D%2228%22%20fill%3D%22white%22%20rx%3D%222%22%20ry%3D%222%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Plus%20horizontal%20bar%2C%20same%20smaller%20size%20--%3E%0A%20%20%3Crect%20x%3D%2218%22%20y%3D%2229%22%20width%3D%2228%22%20height%3D%226%22%20fill%3D%22white%22%20rx%3D%222%22%20ry%3D%222%22%3E%3C%2Frect%3E%0A%0A%20%20%3C!--%20Subtle%2C%20smaller%20shine%20highlight%20--%3E%0A%20%20%3Ccircle%20cx%3D%2222%22%20cy%3D%2222%22%20r%3D%228%22%20fill%3D%22url(%23shine-active)%22%3E%3C%2Fcircle%3E%0A%3C%2Fsvg%3E%0A'
+  )
+}
+
+@media screen and (max-width:600px) {
+  
+  header.awtsmoosificationalisticaticalism 
+  .currentAliasName.prim {
+      max-width: 75px;
+      display: flex;
+      overflow-x: scroll;
+      align-content: center;
+  }
+
+  .currentAliasName.prim::-webkit-scrollbar {
+    display:none;
+  }
 }

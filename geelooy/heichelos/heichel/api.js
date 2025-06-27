@@ -8,6 +8,7 @@ import {
     makeSeries,
     makePost
 } from "/scripts/awtsmoos/api/utils.js"
+window.makeSeries=makeSeries;
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -84,6 +85,24 @@ export async function getBreadcrumb(heichelId, seriesId) {
     if (seriesId === 'root') return [];
     const data = await fetchData(`${BASE_API_URL}heichelos/${heichelId}/series/${seriesId}/breadcrumb`);
     return data?.reverse() || [];
+}
+
+export async function getEditors(heichelId) {
+    return await fetchData(`${BASE_API_URL}heichelos/${
+        heichelId   
+    }/editors`)
+}
+//:
+export async function addEditor({
+    heichelId, aliasId,
+    editorAliasId
+}) {
+    return await postData(`${BASE_API_URL}heichelos/${
+        heichelId   
+    }/editors`, new URLSearchParams({
+        aliasId,
+        editorAliasId
+    }))
 }
 
 export async function createSeries(data) {

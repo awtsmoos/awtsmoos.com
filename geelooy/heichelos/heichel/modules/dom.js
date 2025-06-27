@@ -22,7 +22,8 @@ export function initializeDOMElements() {
             throw new Error(`CRITICAL DOM ERROR: Element with ID '#${id}' was not found. The application cannot start.`);
         }
     }
-
+    DOMElements.editorsSection = document.querySelector(".editors-section")
+    DOMElements.editorHolder = document.querySelector(".editors-holder")
     DOMElements.heichelPageContainer = document.querySelector('.heichel-page-container');
     DOMElements.mainTitle = document.getElementById('heichel-main-title');
     DOMElements.sidebarTitle = document.getElementById('sidebar-title');

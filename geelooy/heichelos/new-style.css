@@ -478,9 +478,24 @@ div#realPost {
     flex: 1;
     overflow: scroll;
     overflow-x: hidden;
+    scrollbar-width: thin;
+    
+    scrollbar-color:#0003ff transparent;
+}
+div#realPost::-webkit-scrollbar {
+    width:6px;
 }
 
 
+div#realPost::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+div#realPost::--webkit-scrollbar-thumb {
+    background: cyan;
+    border-radius:3px;
+}
 .main {
     height: unset;
     padding: 0px !important;

@@ -30,7 +30,9 @@ var {
     er,
     myOpts
 } = require("./general.js");
-
+function sortStringsAscCaseInsensitive(arr) {
+  return arr.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+}
 async function addHeichelEditor({
     $i,
     heichelId
@@ -58,14 +60,17 @@ async function addHeichelEditor({
         }/editors`) || [];
 
         var prospectAlias = $i.$_POST.editorAliasId;
-        cur.push(prospectAlias);
+		if(Array.isArray(cur)) {
+			cur.push(prospectAlias);
+			
+			cur = sortStringsAscCaseInsensitive(cur)
+		}
+       
         var wr = await $i.db.write(`${
             sp
         }/heichelos/${
             heichelId
-        }/editors/${
-            prospectAlias
-        }`);
+        }/editors`, cur);
         return {
             success: {
                 editors: cur,
@@ -77,7 +82,7 @@ async function addHeichelEditor({
     } catch(e) {
         return er({
             message: "Issue",
-            details: JSON.stringify(e)
+            details: (e.stack)
         })
     }
 }
@@ -106,12 +111,14 @@ async function removeHeichelEditor({
             sp
         }/heichelos/${
             heichelId
-        }/editors/${
-            prospectAlias
-        }`
+        }/editors`
         var cur = await $i.db.get(pth);
-        if(cur) {
-            var del = await $i.db.delete(pth);
+        if(Array.isArray(cur)) {
+			var ind = cur.indexOf(prospectAlias);
+			if(ind > -1) {
+				cur.splice(ind, 1)
+			}
+            var del = await $i.db.write(pth);
             return {
                 success: {
                     deleted: prospectAlias,
@@ -129,21 +136,6 @@ async function removeHeichelEditor({
             })
         }
 
-        cur.push(prospectAlias);
-        var wr = await $i.db.write(`${
-            sp
-        }/heichelos/${
-            heichelId
-        }/editors/${
-            prospectAlias
-        }`);
-        return {
-            success: {
-                editors: cur,
-                new: prospectAlias,
-                wr
-            }
-        }
 
     } catch(e) {
         return er({
@@ -158,11 +150,12 @@ async function getHeichelEditors({
 }) {
     var opts = myOpts($i)
     try {
-        return await $i.db.get(`${
+        var ar = await $i.db.get(`${
             sp
         }/heichelos/${
             heichelId
-        }/editors`, opts) || []
+        }/editors`, opts) || [];
+		return sortStringsAscCaseInsensitive(ar);
     } catch(e) {
 
     }

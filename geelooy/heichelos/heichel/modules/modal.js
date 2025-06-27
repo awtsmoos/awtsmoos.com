@@ -48,8 +48,8 @@ async function handleSubmit(event) {
             aliasId: window.curAlias,
             parentSeriesId: appState.currentSeries,
             inputId: id,
-            title: name,
-            descrption
+            title,
+            description
                 
         });
 

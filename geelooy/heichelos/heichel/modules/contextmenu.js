@@ -54,21 +54,22 @@ export function showContextMenu(iconElement, item, navigator) {
         ;
         menu.appendChild(menuItem);
     }
-console.log(item,33)
-    iconElement.parentNode.parentNode.appendChild(menu);
+
+    document.body.appendChild(menu);
     const rect = iconElement.getBoundingClientRect();
 
     // FIX: Calculate position relative to document, not viewport, by adding scroll offsets.
     menu.style.position = 'absolute';
-   // menu.style.top = `${rect.bottom + window.scrollY + 5}px`;
-   // menu.style.left = `${rect.right + window.scrollX - menu.offsetWidth}px`;
+    menu.style.top = `${rect.bottom + window.scrollY + 5}px`;
+    menu.style.left = `${rect.right + window.scrollX - menu.offsetWidth}px`;
     // Align to the right of the icon
-
+    menu.style.opacity = "1";
     currentMenu = menu;
-
+    console.log(item,33,menu,rect)
     // Add listeners to close the menu
     setTimeout( () => {
         // Timeout prevents immediate self-closing
+        
         document.body.addEventListener('click', closeCurrentMenu, {
             once: true
         });

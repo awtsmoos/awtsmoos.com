@@ -4,8 +4,13 @@
     
 </div>
 <script type="module">
+    import addNewBtn from "/scripts/awtsmoos/social/addNewBtn.js"
     import  createProfileDropdown  from 
     '/scripts/awtsmoos/social/profileDropdown.js';
+
+    (async () => {
+        addNewBtn.start();
+        createProfileDropdown(document.getElementById('awtsmoosDrop'));
+    })();
     
-    createProfileDropdown(document.getElementById('awtsmoosDrop'));
 </script>
