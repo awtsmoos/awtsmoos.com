@@ -1,0 +1,312 @@
+/*
+B"H
+ * @file EXTREME-DROPDOWN-CORE.css
+ * @description REIMAGINED FOR UNBOUNDED VISUAL MAGNIFICENCE & HYPER-PERFORMANCE.
+ *              Pure CSS artistry, delivering an unparalleled aesthetic experience
+ *              that still honors speed and older device compatibility.
+ */
+
+/* --- Container for Absolute Aesthetic Containment --- */
+.extreme-dropdown-container {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    isolation: isolate; /* Essential for complex visual layering */
+    perspective: 1000px; /* For subtle 3D effects */
+}
+
+/* --- The Nexus: Dropdown Trigger - A Glimmering Beacon --- */
+.extreme-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8em 1.6em; /* Substantial, inviting padding */
+    background: radial-gradient(circle at 30% 30%, hsla(200, 90%, 70%, 0.8) 0%, hsla(260, 80%, 70%, 0.6) 70%, transparent 100%); /* Inner glow gradient */
+    color: #e0e0e0; /* Luminous text */
+    border: 2px solid hsl(40, 100%, 70%); /* Fiery, energetic border */
+    border-radius: 8px; /* More pronounced, smooth rounding */
+    font-size: 1.2em;
+    font-weight: 800; /* Ultra-bold, impactful text */
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth, 'springy' transition */
+    box-shadow: 0 8px 30px hsla(0,0,0,0.5), /* Deep, grounding shadow */
+                0 0 15px hsla(40, 100%, 70%, 0.7), /* Fiery outer glow */
+                0 0 8px hsla(200, 80%, 70%, 0.5); /* Inner color glow */
+    outline: none;
+    text-shadow: 0 0 6px #fff, 0 0 12px hsla(40, 100%, 70%, 0.8); /* Intense text glow */
+    will-change: transform, box-shadow, filter;
+    text-transform: uppercase; /* Bold, assertive text */
+}
+
+.extreme-dropdown-trigger:hover,
+.extreme-dropdown-trigger:focus {
+    transform: translateY(-4px) scale(1.03) rotateX(3deg); /* Subtle 3D lift and tilt */
+    box-shadow: 0 12px 40px hsla(0,0,0,0.6),
+                0 0 20px hsla(40, 100%, 70%, 0.9),
+                0 0 12px hsla(200, 80%, 70%, 0.7);
+    /*text-shadow: 0 0 8px #fff, 0 0 16px hsla(40, 100%, 70%, 0.9);
+    filter: brightness(1.15) saturate(1.1); /* Boost vibrancy */
+*/
+}
+
+.extreme-dropdown-trigger[aria-expanded="true"] {
+    transform: translateY(-6px) scale(1.05) rotateX(5deg) rotateY(2deg); /* More dramatic active state */
+    box-shadow: 0 15px 50px hsla(0,0,0,0.7),
+                0 0 25px hsla(40, 100%, 70%, 1),
+                0 0 15px hsla(200, 80%, 70%, 0.8);
+    text-shadow: 0 0 10px #fff, 0 0 20px hsla(40, 100%, 70%, 1);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* --- The Void: Dropdown Menu - A Portal to Possibilities --- */
+.extreme-dropdown {
+    position: absolute;
+    margin-top: 10px;
+    background: rgb(0 0 0 / 80%); /* Deep, complex gradient */
+    color: #f0f0f0;
+    border-radius: 0 0 10px 10px; /* Softer bottom rounding */
+     /* Inner shimmer */
+    min-width: 220px; /* Larger, more substantial */
+    z-index: 99;
+    opacity: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    visibility: hidden;
+    transform: translateY(15px) scale(0.95) rotateX(-2deg); /* Entry with slight 3D */
+    transition: opacity 0.2s ease-out, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s linear 0.3s; /* Smoother, more involved transitions */
+    will-change: transform, opacity;
+    border-top: 3px solid hsl(40, 100%, 70%); /* Thick, energetic top border */
+    overflow: hidden; /* For rounded corners and potential future clipping */
+}
+
+.extreme-dropdown.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1) rotateX(0deg); /* Smooth, full return */
+    transition: opacity 0.25s ease-in-out, transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- Core Components: Dropdown Items - Luminous & Interactive --- */
+.extreme-dropdown__item {
+    padding: 0.8em 1.4em; /* Generous padding */
+    margin: 4px 6px; /* More breathing room */
+    border-radius: 6px; /* Rounded inner corners */
+    transition: background-color 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out, color 0.2s ease-out, text-shadow 0.2s ease-out;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    outline: none;
+    font-size: 1em;
+    color: hsl(200, 40%, 75%); /* Softer, ambient color */
+    font-weight: 600; /* Bold, but not overpowering */
+    will-change: transform, box-shadow, background-color, color, text-shadow;
+    position: relative; /* For potential overlay effects */
+    overflow: hidden; /* For background effects */
+}
+
+.extreme-dropdown__item:not(.separator):hover,
+.extreme-dropdown__item:not(.separator):focus {
+    background: linear-gradient(90deg, hsla(180, 100%, 70%, 0.1) 0%, hsla(180, 100%, 70%, 0.2) 100%); /* Shimmering gradient background */
+    color: #ffffff; /* Bright white text */
+    transform: translateX(8px) scale(1.02); /* Significant, satisfying shift and scale */
+    box-shadow: 0 5px 15px hsla(0,0,0,0.4), /* Deeper item shadow */
+                0 0 12px hsla(180, 100%, 70%, 0.6); /* Item-specific glow */
+    
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    text-shadow: 0 0 5px #fff, 0 0 10px hsla(180, 100%, 70%, 0.7); 
+*/
+}
+
+.extreme-dropdown__item:not(.separator):active {
+    background: linear-gradient(90deg, hsla(180, 100%, 70%, 0.2) 0%, hsla(180, 100%, 70%, 0.3) 100%); /* Deeper shimmer */
+    transform: translateX(6px) scale(1); /* Reset scale, slight push */
+    box-shadow: 0 3px 10px hsla(0,0,0,0.3), /* Softer item shadow */
+                0 0 8px hsla(180, 100%, 70%, 0.5);
+    color: #ffffff;
+    text-shadow: 0 0 5px #fff, 0 0 8px hsla(180, 100%, 70%, 0.6);
+}
+
+/* --- Integrated Links: Full-Width Engagement --- */
+.extreme-dropdown__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    background: none;
+    font: inherit;
+    text-align: inherit;
+    cursor: inherit;
+    border-radius: inherit;
+}
+
+/* --- The Dividing Line: Separator - Energetic Divider --- */
+.extreme-dropdown__item.separator {
+    height: 2px; /* Thicker, more impactful line */
+    background: linear-gradient(to right, transparent, hsl(40, 100%, 60%) 30%, hsl(60, 100%, 70%) 70%, transparent); /* Vibrant gradient */
+    background-size: 300% 100%; /* For animation */
+    animation: subtleSparkle 5s infinite linear; /* Subtle animation */
+    margin: 5px 6px; /* Align with item margins */
+    padding: 0;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.8;
+}
+
+.extreme-dropdown__item.separator:hover,
+.extreme-dropdown__item.separator:focus {
+    background: linear-gradient(to right, transparent, hsl(60, 100%, 70%) 30%, hsl(40, 100%, 60%) 70%, transparent); /* Color shift */
+    opacity: 1;
+    animation-play-state: paused; /* Pause animation on hover */
+}
+
+/* --- Accessibility: Hyper-Visible Focus --- */
+.extreme-dropdown__item[tabindex="0"]:focus-visible {
+    outline: none; /* Remove default */
+    box-shadow: 0 0 0 3px hsla(180, 100%, 70%, 0.4), /* Vibrant outer glow */
+                0 0 0 6px hsl(40, 100%, 70%); /* Fiery accent ring */
+    transform: translateX(8px) scale(1.02); /* Match hover */
+    background: linear-gradient(90deg, hsla(180, 100%, 70%, 0.1) 0%, hsla(180, 100%, 70%, 0.2) 100%); /* Match hover */
+    color: #ffffff; /* Match hover */
+    text-shadow: 0 0 5px #fff, 0 0 10px hsla(180, 100%, 70%, 0.7); /* Match hover */
+}
+
+/* --- Responsive Design: Dynamic Adaptations for All Devices --- */
+
+/* Standard breakpoint for significant adjustments */
+@media (max-width: 768px) {
+    .extreme-dropdown-trigger {
+        padding: 0.7em 1.4em;
+        font-size: 1.1em;
+        transform: translateY(-3px) scale(1.02) rotateX(2deg); /* Reduced 3D */
+        box-shadow: 0 7px 25px hsla(0,0,0,0.5),
+                    0 0 12px hsla(40, 100%, 70%, 0.6),
+                    0 0 6px hsla(200, 80%, 70%, 0.4);
+        text-shadow: 0 0 5px #fff, 0 0 10px hsla(40, 100%, 70%, 0.6);
+    }
+
+    .extreme-dropdown-trigger:hover,
+    .extreme-dropdown-trigger:focus {
+        transform: translateY(-4px) scale(1.03) rotateX(3deg);
+        box-shadow: 0 10px 35px hsla(0,0,0,0.55),
+                    0 0 18px hsla(40, 100%, 70%, 0.8),
+                    0 0 10px hsla(200, 80%, 70%, 0.6);
+        
+        /*text-shadow: 0 0 7px #fff, 0 0 14px hsla(40, 100%, 70%, 0.8);
+        filter: brightness(1.1) saturate(1.05);*/
+    }
+
+    .extreme-dropdown-trigger[aria-expanded="true"] {
+        transform: translateY(-5px) scale(1.04) rotateX(4deg);
+        box-shadow: 0 12px 40px hsla(0,0,0,0.6),
+                    0 0 22px hsla(40, 100%, 70%, 0.9),
+                    0 0 12px hsla(200, 80%, 70%, 0.7);
+        text-shadow: 0 0 8px #fff, 0 0 16px hsla(40, 100%, 70%, 0.9);
+    }
+
+    .extreme-dropdown {
+        min-width: 180px;
+        border-radius: 0 0 8px 8px;
+        border-top: 2px solid hsl(40, 100%, 70%);
+    }
+
+    .extreme-dropdown__item {
+        padding: 0.7em 1.2em;
+        margin: 3px 5px;
+        border-radius: 5px;
+        font-size: 0.95em;
+    }
+
+    .extreme-dropdown__item:not(.separator):hover,
+    .extreme-dropdown__item:not(.separator):focus {
+        transform: translateX(6px) scale(1.01);
+        box-shadow: 0 3px 10px hsla(0,0,0,0.35),
+                    0 0 8px hsla(180, 100%, 70%, 0.5);
+        
+        /*text-shadow: 0 0 4px #fff, 0 0 8px hsla(180, 100%, 70%, 0.6);
+    */
+    }
+
+    .extreme-dropdown__item[tabindex="0"]:focus-visible {
+        box-shadow: 0 0 0 2px hsla(180, 100%, 70%, 0.3), 0 0 0 5px hsl(40, 100%, 70%);
+        transform: translateX(6px) scale(1.01);
+    }
+}
+
+/* For very small screens, simplify but retain the 'wow' */
+@media (max-width: 480px) {
+    .extreme-dropdown-trigger {
+        padding: 0.6em 1.2em;
+        font-size: 1.05em;
+        transform: none; /* NO movement */
+        box-shadow: 0 5px 15px hsla(0,0,0,0.5), /* Reduced complexity */
+                    0 0 10px hsla(40, 100%, 70%, 0.5);
+        text-shadow: 0 0 4px #fff, 0 0 8px hsla(40, 100%, 70%, 0.5);
+    }
+
+    .extreme-dropdown-trigger:hover,
+    .extreme-dropdown-trigger:focus {
+        transform: none; /* NO movement */
+        box-shadow: 0 6px 20px hsla(0,0,0,0.55),
+                    0 0 12px hsla(40, 100%, 70%, 0.6);
+        text-shadow: 0 0 5px #fff, 0 0 10px hsla(40, 100%, 70%, 0.6);
+        filter: brightness(1.05) saturate(1.02);
+    }
+
+    .extreme-dropdown-trigger[aria-expanded="true"] {
+        transform: none; /* NO movement */
+        box-shadow: 0 7px 25px hsla(0,0,0,0.6),
+                    0 0 15px hsla(40, 100%, 70%, 0.7);
+        text-shadow: 0 0 6px #fff, 0 0 12px hsla(40, 100%, 70%, 0.7);
+    }
+
+    .extreme-dropdown {
+        min-width: 160px;
+        border-radius: 0 0 6px 6px;
+        border-top: 1.5px solid hsl(40, 100%, 70%);
+        /* Centering for small screens */
+         /* Center the dropdown */
+    }
+    .extreme-dropdown.is-visible {
+        transform: translateX(-50%); /* Keep centered on visibility */
+    }
+
+    .extreme-dropdown__item {
+        padding: 0.6em 1em;
+        margin: 3px 4px;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    .extreme-dropdown__item:not(.separator):hover,
+    .extreme-dropdown__item:not(.separator):focus {
+        transform: translateX(4px); /* Minimal movement */
+        box-shadow: 0 2px 7px hsla(0,0,0,0.3),
+                    0 0 6px hsla(180, 100%, 70%, 0.4);
+        text-shadow: 0 0 3px #fff, 0 0 6px hsla(180, 100%, 70%, 0.5);
+    }
+
+    .extreme-dropdown__item[tabindex="0"]:focus-visible {
+        box-shadow: 0 0 0 1px hsla(180, 100%, 70%, 0.2), 0 0 0 4px hsl(40, 100%, 70%);
+        transform: translateX(4px);
+    }
+}
+
+/* --- Core Animations: Subtle Sparkle --- */
+@keyframes subtleSparkle {
+    0% { background-position: 0% 50%; opacity: 0.7; }
+    50% { background-position: 100% 50%; opacity: 1; }
+    100% { background-position: 0% 50%; opacity: 0.7; }
+}

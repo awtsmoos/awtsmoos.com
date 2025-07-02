@@ -1,11 +1,42 @@
 //B"H
 
 import ModalBuilder from "/scripts/awtsmoos/modalBuilder.js"
+import ExtremeDropdown from "/scripts/awtsmoos/ExtremeDropdown.js"
+
+
 function start() {
     var btn = document.querySelector(".BH .plus.icon.btn");
     if(!btn) return null;
+
+    
+    var drop = new ExtremeDropdown({
+        parentElement: btn,
+        options: [
+            { text: 'Create new Heichel (space)', onclick() {
+                makeHeichel()
+               // drop.hide()
+            } },
+           
+            
+        ],
+        // Optional configurations:
+        // dropdownClass: 'my-custom-dropdown',
+        // triggerClass: 'my-custom-trigger',
+        // closeOnClickOutside: false,
+        // animationDuration: '0.5s',
+        // animationTimingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)' // Insane custom easing
+    })
+    window.drop=drop;
     btn.addEventListener("click", async () => {
-         makeHeichel();
+     //    makeHeichel();
+         
+        if(!drop.isVisible()) {
+            
+            drop.hide();
+           
+        } else if(drop.isVisible()){
+            drop.show();
+        }
     });
 }
 
