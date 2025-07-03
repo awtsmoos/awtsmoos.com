@@ -1,624 +1,280 @@
-/**
+/*
  * B"H
- * modalBuilder.css
- *
- * Styling for the dynamically generated modal.
- * Aesthetics: Infinitely Better, Professional, Futuristic, Insane, Intense, Vivid, Extreme, Cool.
- * Focus: Enhanced input/textarea styling, immersive visual effects, performant transitions.
- *
- * Author: Your Name/Company
- * License: MIT
+ * ✨ AWTSMOOS MODAL v3 ✨
+ * TOTAL COSMIC REBUILD: Vivid. 3D. Extreme. Zero RAM. Infinite speed.
+ * Scoped entirely under `.modal-container` (EXCEPT `.modal-overlay` and `body.modal-open-body`)
+ * No shadows. No gradients. No JS. Just brute spiritual CSS transcendence.
  */
 
-/* --- Global Custom Properties for Theming --- */
-:root {
-    /* Core Palette - Cosmic & Energetic */
-    --modal-bg-primary: linear-gradient(145deg, rgba(10, 10, 25, 0.98) 0%, rgba(25, 20, 40, 0.99) 100%);
-    --modal-bg-secondary: rgba(30, 25, 50, 0.9);
-    --modal-border-color: rgba(255, 255, 255, 0.12);
-    --modal-title-color: #00FFFF; /* Electric Cyan */
-    --modal-title-shadow: 0 0 25px rgba(0, 255, 255, 0.8), 0 0 10px rgba(0, 200, 255, 0.6), 0 0 3px rgba(0, 180, 255, 0.4);
-    --modal-input-bg: rgba(20, 15, 35, 0.85);
-    --modal-input-border: 1px solid rgba(255, 255, 255, 0.2);
-    --modal-input-focus-border: 1px solid #FF00FF; /* Vibrant Magenta */
-    --modal-input-focus-glow: 0 0 25px rgba(255, 0, 255, 0.6), inset 0 0 15px rgba(255, 0, 255, 0.4);
-    --modal-input-focus-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Cyan halo */
-    --modal-label-color: #AAAAFF; /* Soft Lavender */
-    --modal-label-focus-color: #00FF00; /* Neon Green */
-    --modal-label-active-shadow: 0 0 15px rgba(57, 255, 20, 0.8);
-    --modal-error-color: #FF6B6B; /* Intense Coral Red */
-    --modal-error-border: 1px solid rgba(255, 107, 107, 0.7);
-    --modal-error-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-    --modal-success-color: #32CD32; /* Lime Green */
-    --modal-success-bg: rgba(50, 205, 50, 0.18);
-    --modal-success-border: 1px solid rgba(50, 205, 50, 0.4);
-    --modal-button-gradient-start: #8A2BE2; /* Blue Violet */
-    --modal-button-gradient-end: #9932CC; /* Dark Orchid */
-    --modal-button-shadow: 0 10px 30px rgba(138, 43, 226, 0.6);
-    --modal-button-hover-shadow: 0 15px 40px rgba(138, 43, 226, 0.8);
-    --modal-button-hover-transform: translateY(-4px) scale(1.03);
-    --modal-close-button-bg: rgba(255, 255, 255, 0.05);
-    --modal-close-button-hover-bg: rgba(255, 255, 255, 0.12);
-    --modal-close-button-hover-border-color: rgba(255, 255, 255, 0.25);
-    --overlay-bg-darkness: rgba(5, 0, 15, 0.75); /* Deep Space Black */
-    --overlay-blur: 15px; /* Intense Blur */
-    --overlay-saturate: 200%; /* Hyper-Saturated */
-    --overlay-hue-rotate: -30deg; /* Galactic Shift */
-
-    /* Fonts - Ultra Modern & Futuristic */
-    --font-futuristic: 'Electrolize', 'Nova Square', 'Rajdhani', 'Exo 2', sans-serif;
-    --font-tech: 'Anonymous Pro', 'VT323', 'Roboto Mono', monospace;
-    --font-primary: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; /* Clean UI Font */
-}
-
-/* --- Global Body Styling for Modal Open --- */
-body.modal-open-body {
-    overflow: hidden; /* Prevent scrolling */
-    filter: brightness(0.8) contrast(1.2) hue-rotate(var(--overlay-hue-rotate)) saturate(150%);
-    transition: filter 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* --- Overlay Styling - The Cosmic Void --- */
+/* --- GLOBAL DIMENSIONAL OVERLAY --- */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--overlay-bg-darkness);
-    backdrop-filter: blur(var(--overlay-blur)) saturate(var(--overlay-saturate)) hue-rotate(var(--overlay-hue-rotate));
-    -webkit-backdrop-filter: blur(var(--overlay-blur)) saturate(var(--overlay-saturate)) hue-rotate(var(--overlay-hue-rotate));
-    z-index: 1000;
-    display: none; /* Hidden by default */
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    visibility: hidden; /* Start hidden */
-    will-change: opacity, visibility, backdrop-filter;
+  position: fixed;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 0, 15, 0.75);
+  backdrop-filter: blur(12px) saturate(200%) hue-rotate(-30deg);
+  -webkit-backdrop-filter: blur(12px) saturate(200%) hue-rotate(-30deg);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
 .modal-overlay[aria-hidden="false"] {
-    display: block !important;
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
-/* --- Modal Container - The Core Interface --- */
+body.modal-open-body {
+  overflow: hidden;
+  filter: brightness(0.9) contrast(1.1);
+  transition: filter 0.3s ease;
+}
+
+/* --- 3D SPACE WRAPPER --- */
+.modal-3d-wrapper {
+  
+
+  
+  inset: 0;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- MODAL CORE STRUCTURE --- */
 .modal-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    max-height: 75vh;
-    transform: translate(-50%, -50%) scale(0.92) rotateX(10deg); /* 3D perspective */
-    width: 90%;
-    max-width: 700px;
-    background: var(--modal-bg-primary);
-    border-radius: 35px; /* Ultra-rounded corners */
-    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.8), /* Epic shadow */
-                0 0 0 3px rgba(255, 0, 255, 0.5), /* Pulsing Magenta border */
-                0 0 0 8px rgba(0, 255, 255, 0.2); /* Ambient Cyan glow */
-    z-index: 1001;
-    display: none;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 2), /* Energetic bounce */
-                opacity 0.4s ease-out,
-                visibility 0.4s ease-out;
-    overflow: hidden;
-    border: 1px solid var(--modal-border-color);
-    background-clip: padding-box;
-    box-sizing: border-box;
-    /* padding-bottom: 50px; */
-    /* backdrop-filter: blur(8px) saturate(150%); */
-    will-change: transform, opacity, visibility;
+  /* transform-style: preserve-3d; */
+  /* backface-visibility: hidden; */
+  position: absolute;
+  z-index: 8923;
+  max-width: 700px;
+  left: 50%;
+  top: 50%;
+  width: 90%;
+  max-height: 80vh;
+  background: #0a0a19;
+  border: 3px solid transparent;
+  /* border-image: repeating-linear-gradient(45deg, #0ff 0 1px, transparent 1px 3px) 10 stretch; */
+  border-radius: 28px;
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  animation: none !important;!i;!;
 }
 
+/* --- ACTIVATE DIMENSIONAL MODAL --- */
 .modal-container[aria-hidden="false"] {
-    display: flex !important;
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  /* animation: modalBlast 0.6s ease forwards; */
+}
+
+/* --- HEADER / TITLE --- */
+.modal-container .modal-header {
+  padding: 25px 20px 15px;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  /* text-transform: uppercase; */
+  /* animation: pulseColor 2s infinite alternate; */
+  color: var(--pulse-color);
+}
+
+/* --- CONTENT --- */
+.modal-container .modal-content-wrapper {
+  /* position: relative; */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 20px;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* --- FIELDS --- */
+.modal-container .modal-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+.modal-container .modal-label {
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #aaaaff;
+}
+
+/* --- INPUTS --- */
+.modal-container input,
+.modal-container textarea,
+.modal-container select {
+  padding: 14px 18px;
+  background: #141023;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  font-family: monospace;
+  outline: none;
+  width: 95%;
+  transition: border 0.3s ease, filter 0.3s ease;
+}
+.modal-container input:focus-visible,
+.modal-container textarea:focus-visible,
+.modal-container select:focus-visible {
+  border-color: #ff00ff;
+  filter: brightness(1.1);
+  /* animation: inputFlicker 0.2s steps(2, start) infinite alternate; */
+}
+.modal-container input::placeholder,
+.modal-container textarea::placeholder {
+  color: rgba(200, 200, 255, 0.4);
+}
+.modal-container textarea {
+  resize: vertical;
+  width: 90%;
+  min-height: 120px;
+}
+
+/* --- FOOTER --- */
+.modal-container .modal-footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+  
+}
+
+/* --- BUTTONS --- */
+.modal-container button {
+  padding: 12px 28px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: #1c1c3a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  
+  
+  transition: transform 0.2s ease;
+}
+.modal-container button:hover {
+  background: #29295a;
+  transform: scale(1.02);
+}
+.modal-container button:active {
+  transform:  scale(0.98) rotateX(1deg);
+  filter: contrast(1.25);
+}
+
+/* --- MESSAGE BLOCKS --- */
+.modal-container .modal-message {
+  padding: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.95rem;
+  animation: fadeIn 0.4s ease forwards;
+}
+.modal-container .modal-message-success {
+  color: #32cd32;
+  background: rgba(50, 205, 50, 0.1);
+  border: 1px solid rgba(50, 205, 50, 0.4);
+}
+.modal-container .modal-message-error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.5);
+}
+
+/* --- SCANLINE GLOW --- */
+.modal-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(to bottom, transparent, transparent 3px, rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 4px);
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* --- DYNAMIC COLOR SHIMMER --- */
+@property --pulse-color {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #00ffff;
+}
+@keyframes pulseColor {
+  0%   { --pulse-color: #00ffff; }
+  100% { --pulse-color: #ff00ff; }
+}
+
+/* --- MODAL APPEARANCE ANIMATION --- */
+@keyframes modalBlast {
+  0% {
+    transform: translate(0, 0) rotateX(-35deg) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
     opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1) rotateX(0deg); /* Restore to normal */
+  }
 }
 
-/* --- Content Wrapper - Internal Padding --- */
-.modal-content-wrapper {
+/* --- FADE-IN --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- TEXT FLICKER --- */
+@keyframes inputFlicker {
+  0%   { background-color: #141023; }
+  100% { background-color: #1e1a33; }
+}
+
+/* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 600px) {
+  .modal-container {
+    width: 95%;
+    border-radius: 18px;
+  }
+  .modal-container .modal-header {
+    font-size: 1.8rem;
+  }
+  .modal-container button {
     width: 100%;
-    /* height: 100%; */
-    display: flex;
+    padding: 12px 0;
+  }
+  .modal-container .modal-footer {
     flex-direction: column;
-    overflow-y: auto;
-    /* margin-bottom: 50px; */
-    /* padding: 45px 50px; */ /* Generous internal padding */
-    box-sizing: border-box;
-    padding-bottom: 60px !important;!i;!;
-}
+  }
 
-/* --- Modal Header - Announcing the Interface --- */
-.modal-header {
+  .modal-container .modal-field-wrapper.modal-checkbox-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 35px;
-    margin-bottom: 35px;
-    position: relative; /* For decorative elements */
+    /* flex-direction: row-reverse; */
+    /* justify-content: center; */
+}
 }
 
-.modal-header::after { /* Futuristic border element */
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%) skewX(-20deg);
-    width: 150px;
-    height: 4px;
-    background: linear-gradient(90deg, rgba(0,255,255,0.8) 0%, rgba(255,0,255,0.6) 50%, rgba(0,255,0,0.7) 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(0,255,255,0.5), 0 0 15px rgba(255,0,255,0.4), 0 0 15px rgba(0,255,0,0.5);
-}
-
-.modal-title {
-    font-size: 3.2rem; /* Commanding title size */
-    font-weight: 900; /* Ultra bold */
-    color: var(--modal-title-color);
-    text-align: center;
-    letter-spacing: 2.5px; /* Wide spacing */
-    text-shadow: var(--modal-title-shadow);
-    margin: 0;
-    font-family: var(--font-futuristic);
-    text-transform: uppercase;
-    /*
-    animation: pulse 3s infinite ease-in-out;
-    *//* Subtle pulsing title */
-}
-
-
-
-/* --- Modal Body - The Input Nexus --- */
-.modal-body {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* Increased gap for airy feel */
-}
-
-.modal-field-wrapper {
-    display: flex;
-    flex-direction: column;
-    /* gap: 10px; */
-    width: 100%;
-    margin-bottom: 25px;
-    position: relative;
-    perspective: 1000px; /* For potential 3D effects */
-}
-
-/* --- Input Fields - Extreme Polish --- */
-.modal-input, /* For input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"] */
-.modal-textarea,
-.modal-select {
-    /* width: 100%; */
-    padding: 18px 25px; /* Generous padding for a substantial feel */
-    border: none; /* Remove default border */
-    border-radius: 15px; /* Sculpted corners */
-    background-color: var(--modal-input-bg);
-    color: #E0E0E0;
-    font-size: 1.1rem;
-    font-family: var(--font-tech);
-    outline: none;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 2); /* Epic transition */
-    box-shadow: inset 0 5px 15px rgba(0,0,0,0.4), /* Deep inner shadow */
-                0 0 0 1px rgba(255,255,255,0.05); /* Subtle outer edge */
-    letter-spacing: 0.7px;
-    position: relative;
-    z-index: 1;
-}
-
-/* Input Focus - Intense Visual Feedback */
-.modal-input:focus,
-.modal-textarea:focus,
-.modal-select:focus {
-    border-color: var(--modal-input-focus-border); /* Magenta focus */
-    box-shadow: var(--modal-input-focus-glow), var(--modal-input-focus-shadow); /* Combined glow and halo */
-    color: #FFFFFF;
-    transform: translateY(-0.5px) scale(1.01); /* Subtle lift and scale */
-    filter: brightness(1.1); /* Brighter */
-}
-
-/* Placeholder Styling - Ethereal */
-.modal-input::placeholder,
-.modal-textarea::placeholder {
-    color: rgba(180, 180, 220, 0.5); /* Faded, ethereal placeholder */
-    opacity: 1;
-    font-family: var(--font-primary); /* Use primary font for placeholders */
-    font-weight: 500;
-}
-
-/* Textarea - Expansive Input Area */
-.modal-textarea {
-    min-height: 150px; /* Tall textarea */
-    resize: vertical; /* Allow vertical resizing */
-    padding: 18px 25px; /* Maintain consistency */
-}
-
-/* --- Labels - Guiding Lights --- */
-.modal-label {
-    font-size: 1rem;
-    color: var(--modal-label-color);
-    font-weight: 600;
-    /* letter-spacing: 1px; */
-    display: block;
-    transition: all 0.3s ease-out;
-    font-family: var(--font-tech);
-    position: relative;
-    z-index: 2;
-}
-
-/* Label Activation - Dynamic Response */
-/* This targets the label when its associated input is focused OR has a value */
-.modal-field-wrapper input:focus ~ .modal-label,
-.modal-field-wrapper textarea:focus ~ .modal-label,
-.modal-field-wrapper select:focus ~ .modal-label,
-.modal-field-wrapper input[value]:not([value=""]):not([type="checkbox"]):not([type="radio"]) ~ .modal-label, /* For text-based inputs with value */
-.modal-field-wrapper textarea[value]:not([value=""]):not([type="checkbox"]):not([type="radio"]) ~ .modal-label,
-.modal-field-wrapper select:not([data-placeholder-active]) ~ .modal-label { /* For selects where placeholder behavior might differ */
-    color: var(--modal-label-focus-color);
-    font-weight: 700;
-    text-shadow: var(--modal-label-active-shadow);
-    transform: translateY(1.0px); /* Slightly float label */
-    font-size: 0.9rem; /* Smaller when floated */
-}
-
-/* Label positioning adjustments for floated state */
-.modal-field-wrapper input:focus ~ .modal-label,
-.modal-field-wrapper textarea:focus ~ .modal-label,
-.modal-field-wrapper input[value]:not([value=""]):not([type="checkbox"]):not([type="radio"]) ~ .modal-label,
-.modal-field-wrapper textarea[value]:not([value=""]):not([type="checkbox"]):not([type="radio"]) ~ .modal-label {
-   /* left: 25px; /* Align with input padding */
-}
-
-/* --- Checkbox & Radio - Interactive Elements --- */
-.modal-checkbox-wrapper,
-.modal-radio-wrapper {
-    display: flex;
-    gap: 15px;
-    margin-top: 5px;
-    align-items: center;
-    flex-direction: row-reverse;
-    justify-content: center;
-}
-
-.modal-checkbox-wrapper input[type="checkbox"],
-.modal-radio-wrapper input[type="radio"] {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    position: relative;
-    border: 2px solid rgba(255,255,255,0.3); /* Lighter border */
-    background-color: rgba(15, 5, 25, 0.8); /* Darker background */
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1.5); /* Very elastic transition */
-    flex-shrink: 0;
-    box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
-    border-radius: 7px; /* More rounded */
-}
-
-.modal-radio-wrapper input[type="radio"] {
-    border-radius: 50%; /* Circular */
-}
-
-/* Checked States - Energetic Activation */
-.modal-checkbox-wrapper input[type="checkbox"]:checked,
-.modal-radio-wrapper input[type="radio"]:checked {
-    background-color: var(--modal-success-color); /* Neon Green */
-    border-color: var(--modal-success-color);
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.7), inset 0 1px 4px rgba(0,0,0,0.4);
-}
-
-/* Checkmark/Dot - Hyper-Visual */
-.modal-checkbox-wrapper input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    left: 7px;
-    /* top: 3px; */
-    width: 8px;
-    height: 16px;
-    border: solid white;
-    border-width: 0 4px 4px 0;
-    transform: rotate(45deg);
-    /* box-shadow: 0 0 12px rgba(255, 255, 255, 0.9); */ /* Bright white glow */
-}
-
-.modal-radio-wrapper input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 14px; /* Larger dot */
-    height: 14px;
-    background-color: #FFF;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 1); /* Intense white glow */
-}
-
-/* Checkbox/Radio Label - Interactive Feel */
-.modal-checkbox-label,
-.modal-radio-label {
-    display: flex;
-    align-items: center;
-    /* gap: 12px; */
-    cursor: pointer;
-    color: var(--modal-label-color);
-    font-weight: 500;
-    font-family: var(--font-tech);
-    transition: color 0.3s ease-out, transform 0.2s ease-out;
-}
-
-.modal-checkbox-wrapper input[type="checkbox"]:focus ~ .modal-checkbox-label,
-.modal-radio-wrapper input[type="radio"]:focus ~ .modal-radio-label {
-    color: var(--modal-label-focus-color);
-    /*font-weight: 700;
-    transform: translateX(5px);  Subtle hover push */
-}
-
-/* --- Standalone Label - Section Dividers --- */
-.modal-standalone-label {
-    font-size: 1.5rem;
-    color: #E0FFFF; /* Title-like cyan */
-    font-weight: 800;
-    margin-bottom: 30px;
-    text-align: center;
-    font-family: var(--font-futuristic);
-    border-bottom: 3px double rgba(0, 255, 255, 0.4); /* Double cyan line */
-    padding-bottom: 15px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
-}
-
-/* --- Error Messages - Visual Alarms --- */
 .modal-field-error {
-    color: var(--modal-error-color);
-    font-size: 0.95rem;
-    margin-top: 10px;
-    position: absolute;
-    bottom: -28px; /* Positioned clearly below input */
-    left: 0;
-    width: 100%;
-    text-align: left;
-    font-weight: 600;
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 2); /* Elastic error reveal */
-    z-index: 3;
-    font-family: var(--font-tech);
-    background-color: rgba(255, 107, 107, 0.08); /* Subtle error background */
-    padding: 5px 10px;
-    border-radius: 5px;
-    border-left: 3px solid var(--modal-error-color); /* Accent stripe */
-}
-
-.modal-input-error {
-    border-color: var(--modal-error-color) !important;
-    box-shadow: var(--modal-error-shadow), inset 0 5px 15px rgba(0,0,0,0.4), 0 0 0 1px var(--modal-error-color) !important; /* Error border/glow */
-}
-
-/* Error message visibility trigger */
-.modal-input-error ~ .modal-field-error {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- Notification Messages - Dynamic Feedback --- */
-.modal-message {
-    padding: 20px;
-    margin-bottom: 30px; /* More spacing after message */
-    border-radius: 12px; /* Larger radius for messages */
-    font-weight: 600;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(-20px); /* Start higher */
-    animation: messageFadeInSlideUp 0.5s forwards cubic-bezier(0.23, 1, 0.32, 1.5); /* Elastic animation */
-    letter-spacing: 0.6px;
-    font-family: var(--font-tech);
-    position: relative;
-    z-index: 5;
-    border-width: 2px;
-    border-style: solid;
-}
-
-@keyframes messageFadeInSlideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.modal-message-success {
-    background-color: var(--modal-success-bg);
-    color: var(--modal-success-color);
-    border: var(--modal-success-border);
-    text-shadow: 0 0 12px rgba(57, 255, 20, 0.9); /* Intense neon green text glow */
-}
-
-.modal-message-error {
-    background-color: rgba(255, 107, 107, 0.15); /* Lighter error bg */
-    color: var(--modal-error-color);
-    border: var(--modal-error-border);
-    text-shadow: 0 0 12px rgba(255, 107, 107, 0.8); /* Intense red text glow */
-}
-
-/* --- Modal Footer - Action Hub --- */
-.modal-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 35px;
-    margin-top: 40px;
-    gap: 20px;
-    border-top: 2px dashed rgba(255, 255, 255, 0.1); /* Subtle dashed separator */
-}
-
-/* --- Buttons - Hyper-Interactive Controls --- */
-.modal-submit-button,
-.modal-close-button {
-    padding: 16px 35px; /* Larger, more substantial buttons */
-    border: none;
-    border-radius: 15px; /* Match modal radius */
-    font-size: 1.15rem; /* Larger font */
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 2); /* Epic transitions */
-    font-family: var(--font-futuristic);
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3); /* Base button shadow */
-}
-
-/* Submit Button - The Power Button */
-.modal-submit-button {
-    background: linear-gradient(90deg, var(--modal-button-gradient-start) 0%, var(--modal-button-gradient-end) 100%);
-    color: #FFF;
-    box-shadow: var(--modal-button-shadow);
-    border: 1px solid transparent;
-}
-
-.modal-submit-button:hover {
-    box-shadow: var(--modal-button-hover-shadow);
-    transform: var(--modal-button-hover-transform);
-    color: #FFF;
-}
-
-/* Loading State - Power Down */
-.modal-submit-button.modal-loading {
-    background: linear-gradient(90deg, #444 0%, #222 100%); /* Dark, muted loading */
-    color: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-    filter: grayscale(0.5) brightness(0.8); /* Visually dimmed */
-}
-
-/* Close Button - The Exit Point */
-.modal-close-button {
-    background: var(--modal-close-button-bg);
-    color: #D0D0FF; /* Slightly brighter label color */
-    border: 1px solid var(--modal-close-button-hover-border-color); /* Use hover border as default */
-}
-
-.modal-close-button:hover {
-    background: var(--modal-close-button-hover-bg);
-    color: #FFF;
-    border-color: var(--modal-close-button-hover-border-color);
-    transform: translateY(-3px);
-}
-
-/* Disabled State - Inert Elements */
-.modal-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    filter: grayscale(0.7) brightness(0.7); /* Dimmed and desaturated */
-    transform: none !important; /* Prevent transforms on disabled */
-    color: #888 !important; /* Greyed out text */
-}
-.modal-disabled:focus { /* Ensure focus styles don't interfere visually */
-    box-shadow: inset 0 5px 15px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05); /* Revert to base styling */
-    border-color: var(--modal-input-border);
-}
-
-/* --- Responsive Adjustments - Adaptability is Key --- */
-
-/* Tablet & Larger Mobile */
-@media (max-width: 768px) {
-    .modal-container {
-        /* width: 95%; */
-        border-radius: 25px;
-        /* padding: 30px 25px; */
-        /* max-height: 92vh; */
-    }
-    .modal-content-wrapper {
-        padding: 5px 25px;
-    }
-    .modal-title {
-        font-size: 2.4rem;
-        letter-spacing: 2px;
-    }
-    .modal-header::after {
-        width: 120px;
-        height: 3px;
-    }
-    .modal-body {
-        gap: 20px;
-    }
-    .modal-input, .modal-textarea, .modal-select {
-        padding: 15px 20px;
-        font-size: 1rem;
-    }
-    .modal-label {
-        font-size: 1rem;
-    }
-    .modal-footer {
-        padding-top: 30px;
-        margin-top: 30px;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-    .modal-submit-button, .modal-close-button {
-        padding: 14px 30px;
-        font-size: 1.05rem;
-        width: 48%; /* Side-by-side */
-    }
-    /* Reduce intensity of filters on smaller screens */
-    body.modal-open-body {
-        filter: none;
-    }
-    .modal-overlay {
-         backdrop-filter: blur(8px) saturate(150%);
-    }
-    .modal-container {
-        backdrop-filter: blur(6px) saturate(130%);
-    }
-}
-
-/* Small Mobile Devices */
-@media (max-width: 480px) {
-    .modal-container {
-        border-radius: 20px;
-        padding: 25px 20px;
-    }
-    .modal-content-wrapper {
-        padding: 25px 20px;
-    }
-    .modal-title {
-        font-size: 2.0rem;
-        letter-spacing: 1.5px;
-    }
-    .modal-header::after {
-        width: 120px;
-        height: 3px;
-    }
-    .modal-body {
-        gap: 18px;
-    }
-    .modal-input, .modal-textarea, .modal-select {
-        padding: 13px 18px;
-        font-size: 0.95rem;
-    }
-    .modal-footer {
-        flex-direction: column; /* Stack buttons vertically */
-        gap: 15px;
-        margin-top: 30px;
-    }
-    .modal-submit-button, .modal-close-button {
-        width: 100%; /* Full width when stacked */
-        font-size: 1rem;
-        padding: 12px 25px;
-    }
-    /* Ensure body filter is off for very small screens */
-    body.modal-open-body {
-        filter: none;
-    }
+    color: palevioletred;
 }

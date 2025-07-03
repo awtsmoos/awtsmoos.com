@@ -3,6 +3,7 @@
 html,body {
     margin: 0;
     height: 100%;
+    overflow: hidden;
     font-family: Arial, sans-serif;
   }
   
@@ -42,7 +43,7 @@ element.style {
 
 .about {
   padding: 5px;
-  box-shadow: inset -14px 16px 4px 8px azure, 0px 0px 13px 3px black;
+  box-shadow: inset -1px 4px 20px 20px azure, 0px 0px 13px 3px black;
 }
 
   

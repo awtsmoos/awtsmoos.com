@@ -131,6 +131,12 @@ class ModalBuilder {
         const submitButton = document.createElement('button');
         submitButton.classList.add('modal-submit-button');
         submitButton.textContent = this.options.submitButtonText;
+        submitButton.addEventListener("click", async () => {
+            var sub = new Event("submit", {cancelable: true});
+            var fe = this.formElement;
+            if(!fe) return console.log("NO")
+            fe.dispatchEvent(sub)
+        })
         modalFooter.appendChild(submitButton);
         // Optional Close Button
         if (this.options.showCloseButton) {
@@ -158,6 +164,8 @@ class ModalBuilder {
      * @private
      */
     populateForm(formElement) {
+        var fieldsDone = [];
+        this.fieldsDone = fieldsDone;
         this.options.fields.forEach(field => {
             const fieldWrapper = document.createElement('div');
             fieldWrapper.classList.add('modal-field-wrapper');
@@ -257,6 +265,12 @@ class ModalBuilder {
 
             // Default append logic for most field types
             if (inputElement) {
+                if(field.oninput) {
+                    inputElement.addEventListener("input", e => {
+                        field.oninput?.(e, fieldsDone)
+                    })
+                }
+                fieldsDone[field.id] = inputElement;
                 fieldWrapper.appendChild(label);
                 fieldWrapper.appendChild(inputElement);
                 formElement.appendChild(fieldWrapper);
@@ -277,8 +291,12 @@ class ModalBuilder {
         // Form submission listener
         const formElement = this.modalElement.querySelector(`#${this.options.id}-form`);
         if (formElement) {
+            console.log("GOT",formElement)
+            this.formElement  = formElement;
             formElement.addEventListener('submit', async (event) => {
                 event.preventDefault(); // Prevent default form submission
+              
+                
                 if (await this.validateAndSubmitForm(formElement)) {
                     // Submission handled within validateAndSubmitForm
                 }
@@ -307,6 +325,7 @@ class ModalBuilder {
      * @private
      */
     async validateAndSubmitForm(formElement) {
+        console.log("Trying")
         let isFormValid = true;
         const formData = {};
 
@@ -386,7 +405,11 @@ class ModalBuilder {
 
         this.currentFormData = formData; // Store the collected data
 
-        if (isFormValid) {
+        if (
+            
+            
+            isFormValid
+        ) {
             this.showLoadingState(); // Show loading indicators
             try {
                 const result = await this.options.onSubmit(this.currentFormData);

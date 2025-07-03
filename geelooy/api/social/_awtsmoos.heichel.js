@@ -42,7 +42,11 @@ module.exports = ({
 	$i,
 	userid,
 } = {}) => ({
-	
+	"/heichelActions/generateHeichelId": async () => {
+		return await generateHeichelId({
+			$i
+		})
+	},
 	"/heichelos/:heichel/editors": async vars => {
 		if($i.request.method == "GET") {
 			return await getHeichelEditors({

@@ -2,6 +2,8 @@
 header
 
 -->
+<link href="/style/home/forge.css" type="text/css" rel="stylesheet">
+
 <link href="/style/home/headers.css" type="text/css" rel="stylesheet">
 <!--
 <link type="text/css" rel="stylesheet" href="/style/awtsmoos/social/profileStyles.css">
@@ -12,11 +14,14 @@ header
 
     <div class="BH">
       <div class="lg">B"H</div>
-    
-      <div class="plus icon btn">
-       
-        
-      </div>
+       <script awts>
+        if(location.pathname != "/") {
+          return /*html*/`
+            <a class="home icon" href="/">🏠</a>
+          `
+        }
+      </script>?>
+      
     </div>
     <div class="header-buttons">
       
@@ -60,14 +65,15 @@ header
         var t = await getT("profileLink.html");
         return t;
       </script>?>
-      
-      <?<script>
-        if(location.pathname != "/") {
-          return /*html*/`
-            <a class="icon menuBtn btn" href="/">🏠</a>
-          `
-        }
-      </script>?>
+      <div class="forge icon">
+        <div class="forge-logo">
+          <div class="swirl">🌀</div>
+          <div class="symbol hammer">🔨</div>
+          <div class="symbol lightning">⚡</div>
+          <div class="symbol spark s4">✨</div>
+        </div>
+      </div>
+     
     </div>
     
 </header>

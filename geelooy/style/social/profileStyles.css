@@ -1,5 +1,6 @@
 /*B"H*/
 .awtsmoosDrop {
+    display: inline-flex;
     z-index: 999999999999999999;
     font-family: Arial, sans-serif;
 }
