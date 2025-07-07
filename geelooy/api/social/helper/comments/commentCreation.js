@@ -421,7 +421,7 @@ async function addCommentIndexToAlias({
             return er("Database error updating series index.", { code: "DB_INDEX_ERROR", details: syncResult.error });
         }
 
-		var bread = await fetchAwtsmoos(
+		var bread = await $i.fetchAwtsmoos(
 			`/api/social/heichelos/${
 				heichelId
 			}/series/${
@@ -441,7 +441,7 @@ async function addCommentIndexToAlias({
 		    }/seriesChain/${
 				crumbled
 			}`;
-			var wr = await db.write(crumbled);
+			var wr = await $i.db.write(crumbled);
 		}
 
      //   console.log(`Ensured series ${seriesId} is indexed for alias ${aliasId} in heichel ${heichelId}.`,syncResult);
@@ -449,7 +449,7 @@ async function addCommentIndexToAlias({
 
     } catch (e) {
         console.error("Error in addCommentIndexToAlias:", e);
-        return er("Internal error updating alias index.", { details: e.stack });
+        return er({message:"Internal error updating alias index.", details: e.stack });
     }
 }
 

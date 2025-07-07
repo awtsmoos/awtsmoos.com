@@ -591,6 +591,7 @@ body {
 }
 .controls .button {
     border-radius: 50%;
+    padding: 0;
     width: 35px;
     box-shadow: 0px 0px 2px 1px black;
     height: 35px;
@@ -628,6 +629,7 @@ body {
     margin-top: 5px;
     display: inline-flex;
     padding-left: 5px;
+    z-index: 5;
     position: relative;
     height: 0px;
     align-items: flex-start;
@@ -658,6 +660,7 @@ body {
     display: flex;
     gap: 7px;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .title-left {
@@ -1016,7 +1019,7 @@ body {
     color: #66ffff;
     font-weight: bold;
     text-decoration: none;
-    text-shadow: 2px 2px 8px #000, 0px 0px 5px #00ffff;
+    /* text-shadow: 2px 2px 8px #000, 0px 0px 5px #00ffff; */
     transition: all 0.4s ease;
     display: inline-block;
     position: relative;
@@ -1030,11 +1033,12 @@ body {
 
 .heichelDesc {
     font-size: 1.2rem;
-    color: #dddddd;
-    font-style: italic;
+    color: #000000;
+    white-space: break-spaces;
+    /* font-style: italic; */
     opacity: 0.85;
     margin-top: 10px;
-    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7);
+    /* text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7); */
     padding-left: 10px;
     border-left: 3px solid #ff4d4d;
     animation: fadeInUp 1.5s ease-out forwards;
@@ -1120,8 +1124,8 @@ body {
     font-size: 0.61em; /* Adjusted for readability */
     letter-spacing: 1.2px; /* Refined spacing */
     padding: 12px 24px;
-    color: #ffffff;
-    background: linear-gradient(135deg, #FF8C00, #FFD700, #FF4500); /* Multitone radiant gradient */
+    color: #000000;
+    background: #ffe400;); /* Multitone radiant gradient */
     border: none;
     border-radius: 13px; /* More dynamic curves */
     cursor: pointer;
@@ -1134,7 +1138,7 @@ body {
     box-shadow: 
         0 8px 15px rgba(0, 0, 0, 0.25), /* Enhanced depth */
         inset 0 0 10px rgba(255, 255, 255, 0.3); /* Ethereal inner glow */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Text prominence */
+    /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */ /* Text prominence */
 }
 
 .tab-button:hover {
@@ -1247,6 +1251,7 @@ body {
 .awtsmoos-verse-number {
     display: inline-block;
     user-select: none;
+    margin: 0px;
     webkit-user-select: none;
     padding: 0.5em 1em;
     font-size: 1.25rem;
@@ -1258,7 +1263,7 @@ body {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     cursor: pointer;
 }
 
@@ -1308,12 +1313,17 @@ body {
 
 .awtsmoos-section-header {
     position: relative;
+    display: flex;
+    margin: 0px;
+    margin-top: 25px;
+    /* height: 45px; */
+    padding: 0px;
 }
 
 .ohr-ein-sof-revealed {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(50px);
 }
 
 .atzilus-menu-item {
