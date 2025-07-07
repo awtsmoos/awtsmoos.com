@@ -593,7 +593,27 @@ async function interpretPostDayuh(post) {
         return null;
     }
     var sec = dayuh?.sections;
+    var name = post.title;
+    var seriesName = series.prateem.name;
+    var hd = document.createElement("div")
+    hd.classList.add("post-title");
 
+    
+    var ser = document.createElement("a")
+    ser.classList.add("series-name");
+    ser.href = `/heichelos/${
+        post.heichel.id
+    }/?view=posts&series=${series.id}`;
+    ser.textContent = seriesName + ": ";
+    hd.appendChild(ser);
+
+    var pt = document.createElement("div");
+    pt.textContent = name;
+    hd.appendChild(pt);
+
+    realPost.appendChild(hd);
+
+    
     if (typeof (sec) == "string")
         sec = [sec];
 

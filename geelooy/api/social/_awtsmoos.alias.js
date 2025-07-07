@@ -25,6 +25,7 @@
   
 var {
 	loggedIn,
+	sortArray,
 	er
 } = require("./helper/general.js");
 
@@ -252,10 +253,11 @@ module.exports = ({
 		if (!loggedIn($i)) {
 			return er(NO_LOGIN);
 		}
-		return await getAliasesDetails({
+		var ar = await getAliasesDetails({
 			$i, sp, 
 			userID:userid
 		});
+		return sortArray(ar);
 	},
 	
 	"/alias/:alias/ownership": async vars => {

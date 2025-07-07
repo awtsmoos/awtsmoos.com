@@ -6,9 +6,21 @@ module.exports = {
     loggedIn,
     myOpts,
     er,
-    generateAwtsmoosId
+    generateAwtsmoosId,
+	sortArray
 };
 
+function sortArray(ar) {
+	var sorted = Array.from(ar).sort((a, b) => {
+		var la = a?.toLowerCase?.();
+		
+		var lb = b?.toLowerCase?.();
+		if(la < lb) return -1;
+		if(la > lb) return 1;
+		return 0;
+	});
+	return sorted;
+}
 function myOpts($i){
 	var maxOrech=$i.$_GET.maxOrech ||
 			$i.$_GET.maxLength;

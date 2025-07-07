@@ -31,7 +31,8 @@ module.exports = {
 var {
     er
  ,myOpts,
- generateAwtsmoosId
+ generateAwtsmoosId,
+	sortArray
 } = require("./general.js");
 
 async function getDefaultAlias({$i, userid}) {
@@ -299,7 +300,7 @@ async function getDetailedAliasesByArray({
 		})]
 	}
        return await Promise.all(
-               aliasIds.map(id => ((async (aliasId) => {
+               sortArray(aliasIds.map(id => ((async (aliasId) => {
                    var detailedAlias = await 
                    getDetailedAlias({
                        
@@ -309,7 +310,7 @@ async function getDetailedAliasesByArray({
                    });
                    return detailedAlias;
                    
-               }))(id))
+               }))(id)))
            );
    
    }
@@ -377,8 +378,9 @@ async function getDetailedAliasesByArray({
 					options
 				);
 				
-				return aliases || [];
-				
+				var ar = aliases || [];
+				ar  = sortArray(ar);
+				return ar;
 			} catch(e) {
 				return [];
 			}
@@ -485,7 +487,7 @@ async function getAliasesDetails({
 			return er("Invalid input");
 		}
 
-		
+		aliasIds = sortArray(aliasIds);
 		
 		var details = await 
 		getDetailedAliasesByArray({
@@ -495,7 +497,7 @@ async function getAliasesDetails({
 			aliasIds
 		});
 		
-		return details;
+		return sortArray(details);
 	} else if($i.request.method == "GET") {
 		var ids= await getAliasIDs({
 				$i,
@@ -503,14 +505,16 @@ async function getAliasesDetails({
 				sp
 
 			})
-
-		return await 
+		ids = sortArray(ids);
+		var det = await 
 		getDetailedAliasesByArray({
 			$i,
 			userID,
 			sp,
 			aliasIds:ids
-		})
+		});
+		det = sortArray(det);
+		return det;
 	}
 	
 	

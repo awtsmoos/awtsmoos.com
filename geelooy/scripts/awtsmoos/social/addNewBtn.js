@@ -70,7 +70,17 @@ const heichelCreationModal = new ModalBuilder({
             validation: (value) => value.trim().length >= 3,
             errorMessage: 'Heichel Name must be at least 3 characters long.',
             async oninput(e, fd) {
-                fd["heichel-id-input"].value = Math.random()
+                //B"H
+                var f = await (await fetch(`/api/social/heichelActions/generateHeichelId`, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        heichelName: e.target.value
+                    })
+                })).json();
+                var heichelId = f?.heichelId;
+                if(heichelId) {
+                    fd["heichel-id-input"].value =heichelId
+                }
             }
         },
         {

@@ -18,7 +18,7 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
 
 /* -- THE DROPDOWN ITSELF: A VESSEL OF POTENTIAL -- */
 .extreme-dropdown {
-  position: absolute;
+  position: fixed;
   top: 100%;
   left: 0;
   min-width: 240px;
@@ -206,7 +206,7 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
 
 /* -- CLIPPED POLYGONAL FUTURISM -- */
 .extreme-dropdown {
-  clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+  /* clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%); */
 }
 
 /* -- RESPONSIVE: RETRO DEVICES AND TINY FIRECRACKERS -- */

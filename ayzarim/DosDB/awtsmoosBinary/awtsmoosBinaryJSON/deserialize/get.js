@@ -886,44 +886,53 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 	if(typeof(buffer) == "string") {
 		buffer = new fileBuffer(buffer)
 	}
+
 	
-	console.log("WH",val,props,conditionsObj)
-	//console.log("meta?",metadataRef, parentObjRef)
-	var ref = getMetadataByKey(
+	
+	
+
+
+	 
+	var val = temp.deserializeBinary(
 		buffer,
 		metadataRef.key,
 		null,
 		parentObjRef
 	);
-	if(!ref) return  null;
-
-	if(ref.notFound) {
-		return null
-	}
-
-	if(mapping.metadata) {
-		return ref
-	}
-
-
-
-	var val = getValueFromMetadata(
-		buffer,
-		ref,
-		parentObjRef
-		
-	);
 
 	var props = Object.getOwnPropertyNames(mapping);
 	if(props.includes("includes")) {
-		var inc = conditionsObj["includes"];
+		var inc = mapping["includes"];
 		var does = val?.includes(inc);
 		return does;
 	}
 	if(props.includes("index")) {
-		var ind = conditionsObj.index;
+		var ind = mapping.index;
 		if(typeof(ind) == "number") {
 			return val?.[ind];
+		}
+
+		if(ind && typeof(ind) == "object") {
+			var  r = ind.range;
+			if(r && typeof(r) == "object") {
+				var st = r.start;
+				var end = r.end;
+				
+				var total = val.length;
+				if(typeof(end) != "number") {
+					end = total;
+				}
+				if(typeof(st) == "number") {
+					var index = new Array(end - st);
+					var am = 0;
+					var i;
+					for(i = st; i < end; i++) {
+						index[am] = i;
+						am++;
+					}
+					ind = index;
+				}
+			}
 		}
 
 		if(Array.isArray(ind)) {
@@ -932,6 +941,8 @@ function mapArray(buffer, mapping, metadataRef, parentObjRef) {
 			).map(q => val[q])
 			.filter(Boolean);
 		}
+
+		
 	}
 
 
@@ -1022,14 +1033,14 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 		}
 		
 		var conditions = mapping?.[key] || true
-		//console.log("Doing keys",key,conditions)
 		var metadataEntry = getMetadataByKey(
 			buffer,
 			key,
 			null,
 			metadataRef
 		);
-			//console.log("j",key,conditions,buffer,metadataEntry)
+		
+
 		
 		if(!metadataEntry || metadataEntry.notFound) {
 			index++;
@@ -1059,10 +1070,11 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 				var nested;
 				if(conditions && typeof(conditions) == "object") {
 					nested = mapObject(offsetBuffer, conditions)
-					//console.log("nest",conditions, nested)
+					
 				} else if(conditions) {
 					nested = temp.deserializeBinary(offsetBuffer)
 				}
+				
 				hasNone = false;
 				result[key] = nested;
 			} else if(metadataEntry.valueType == 3) {
@@ -1078,13 +1090,17 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 						conditions, 
 						metadataEntry, 
 						metadataRef
-					)
+					);
 				} else if(conditions) {
-					nested = temp.deserializeBinary(offsetBuffer)
+					
+					nested = temp.deserializeBinary(offsetBuffer);
+					
 				}
 				result[key] = nested;
 				hasNone = false;
+				
 			} 
+			
 		} else {
 			//hasNone = false;
 			var value = getValueFromMetadata(
@@ -1107,7 +1123,6 @@ function mapObject(buffer, mapping, metadataRef=null, arrayFilter) {
 			} else {
 				isInvalid = true;
 			}
-			
 			
 		}
 		index++;

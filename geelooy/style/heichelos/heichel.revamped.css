@@ -20,7 +20,7 @@
     /* Accelerated, subtle transitions for responsiveness */
     transition: all 0.12s ease-out;
     /* Adjusted for balance */
-}
+} 
 
 /* Base interactive elements: No ugly highlights, clear pointers */
 .heichel-page.container button,
@@ -122,7 +122,7 @@ body {
     /* Subtle panel inner glow */
     --h-shadow-danger-implosion: 0 0 20px rgba(255, 0, 96, 0.9);
     /* Danger highlight */
-    --h-border-gradient: linear-gradient(45deg, var(--h-color-accent), var(--h-color-glow), var(--h-color-secondary), var(--h-color-accent));
+    --h-border-gradient: var(--h-color-accent);
     /* -- VOID COMPOSITION -- */
     width: 100%;
     max-width: 1600px;
@@ -136,14 +136,33 @@ body {
     overflow: hidden;
     /* Contains potential lightning overflow */
     position: relative;
-    perspective: 700px;
+    /* perspective: 700px; */
     /* Slight 3D tilt for overall page */
+    /* transform: rotateX(20deg); */
     z-index: 0;
-    /* Base stacking context */
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d; */
     /* Enable 3D transforms for children */
 }
 
+/* Tablet / Mid-Reality Configuration */
+@media (max-width: 768px) {
+    .heichel-page-container .main-content-wrapper {
+        grid-template-rows: auto 1fr;
+        grid-template-areas: "header" "content";
+    }
+
+    
+    .heichel-page-container
+    .heichel-content-panel, .heichel-page-container .heichel-sidebar {
+        order: 3;
+        /* Sidebar visually below content on tablets */
+        max-height: 200px;
+        overflow:scroll;
+        /* Limit sidebar height */
+        margin-top: 12px;
+        /* Space above sidebar */
+    }
+}
 /* Ethereal Static (Minimal, high-performance background detail) */
 .heichel-page-container::before {
     content: '';
@@ -151,7 +170,7 @@ body {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-image: rgba(255, 255, 255, 0.03);
     background-size: 60px 60px;
     opacity: 0.08;
     animation: h-static-drift 90s linear infinite;
@@ -261,42 +280,45 @@ body {
 }
 
 /* Tablet / Mid-Reality Configuration */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .heichel-page-container .main-content-wrapper {
         grid-template-rows: auto 1fr;
         grid-template-areas: "header" "content";
     }
 
-    .heichel-page-container .heichel-sidebar {
+    
+    .heichel-page-container
+    .heichel-content-panel, .heichel-page-container .heichel-sidebar {
         order: 3;
         /* Sidebar visually below content on tablets */
-        max-height: 45vh;
-        
+        max-height: 200px;
+        overflow:scroll;
         /* Limit sidebar height */
         margin-top: 12px;
         /* Space above sidebar */
     }
 }
 
-/* Desktop / Higher Plane Configuration */
-@media (min-width: 1024px) {
-    .heichel-page-container .main-content-wrapper {
-        grid-template-columns: 1fr 300px;
-        /* Main content left, sidebar fixed 300px right */
-        grid-template-rows: auto 1fr;
-        grid-template-areas: "header sidebar" "content sidebar";
-        transform: rotateX(1deg) scale(0.985);
-        /* More pronounced 3D effect */
-    }
 
-    .heichel-page-container .heichel-sidebar {
-        order: unset;
-        /* Reverts order for grid-area placement */
-        height: auto;
-        max-height: unset;
-        margin-top: 0;
-    }
+.heichel-page-container .main-content-wrapper {
+    grid-template-columns: 1fr 300px;
+    /* Main content left, sidebar fixed 300px right */
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "header sidebar" "content sidebar";
+    transform: rotateX(1deg) scale(0.985);
+    /* More pronounced 3D effect */
 }
+
+.heichel-page-container .heichel-sidebar {
+    order: unset;
+    /* Reverts order for grid-area placement */
+    
+    
+    max-height: unset;
+    margin-top: 0;
+}
+
+
 
 .heichel-page-container .heichel-header {
     grid-area: header;
@@ -326,8 +348,9 @@ body {
     /* box-shadow: 0 0 15px rgba(0,0,0,0.4), var(--h-shadow-panel-sheen); */
     position: relative;
     overflow: hidden;
-    max-height: calc(100vh - 170px);
+    /* max-height: calc(25vh); */
     /* Adjust based on header height, roughly */
+    /* height: 500px; */
     display: flex;
     /* For tabs and grid children */
     flex-direction: column;
@@ -361,7 +384,8 @@ body {
     /* BIG responsive title */
     font-weight: bold;
     color: #fff;
-    text-shadow: 0 0 4px var(--h-color-glow);
+    /* text-shadow: 0 0 4px var(--h-color-glow); */
+    w); */
     /* Stronger glow */
     letter-spacing: 2px;
     margin: 0;
@@ -382,9 +406,9 @@ body {
     margin-top: 1rem;
     padding: 1rem 1.2rem;
     border-left: 3px solid var(--h-color-secondary);
-    background: linear-gradient(90deg, rgba(82, 255, 228, 0.08), transparent);
+    background:  rgba(82, 255, 228, 0.08);
     border-radius: 4px;
-    border-image: linear-gradient(to right, rgba(82, 255, 228, 0.5) 0%, transparent 100%) 1;
+    border-image:  rgba(82, 255, 228, 0.5);
     border-width: 1px;
     border-style: solid;
     user-select: text;
@@ -400,7 +424,7 @@ body {
     /* Bigger series name */
     margin: 0.5rem 0;
     color: var(--h-color-secondary);
-    text-shadow: 0 0 6px rgba(82, 255, 228, 0.4);
+    /*text-shadow: 0 0 6px rgba(82, 255, 228, 0.4);*/
     user-select: text !important;
 }
 
@@ -510,17 +534,7 @@ body {
     
 }
 
-/* For smaller tablets (601px - 767px) */
-@media (min-width: 601px) and (max-width: 767px) {
-    .heichel-page-container p#sidebar-description {
-         max-height: 150px;
-    }
-    .heichel-page-container .grid-container {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        /* 2 columns possible */
-        gap: 0.9rem;
-    }
-}
+
 
 .heichel-page.container .content-views {
     height: calc(100vh);
@@ -573,7 +587,7 @@ body {
     content: '';
     position: absolute;
     inset: -1px;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 251, 255, 0.05) 0%, transparent 40%);
+    background: rgba(0, 251, 255, 0.05);
     filter: blur(8px);
     opacity: 0;
     transition: opacity 0.15s ease-out;
@@ -629,7 +643,7 @@ body {
     word-break: break-word;
     margin-bottom: 6px;
     /* More space below title */
-    text-shadow: 0 0 3px rgba(243, 248, 255, 0.2);
+ /*   text-shadow: 0 0 3px rgba(243, 248, 255, 0.2);*/
     user-select: text !important;
     /* CRITICAL: Ensure title is selectable */
 }
@@ -795,7 +809,7 @@ body {
     margin-bottom: 2rem;
     color: #fff;
     text-align: center;
-    text-shadow: 0 0 12px rgba(0, 251, 255, 0.9);
+   /* text-shadow: 0 0 12px rgba(0, 251, 255, 0.9);*/
     user-select: text !important;
 }
 
@@ -876,17 +890,15 @@ body {
     font-size: 15px;
     /* Slightly larger font */
     font-weight: bold;
-    
-    
     letter-spacing: 0.5px;
     cursor: pointer;
     /* overflow: hidden; */
-    background: linear-gradient(135deg, var(--button-bg-start) 0%, var(--button-bg-end) 100%);
+    background: var(--button-bg-start);
     color: var(--button-color-initial);
     border: 1px solid var(--button-border-initial);
     border-radius: 4px;
     /* Consistent border radius */
-    box-shadow: 0 0 8px var(--button-shadow-initial);
+    /* box-shadow: 0 0 8px var(--button-shadow-initial); */
     transition: all 0.15s ease-out;
     /* Adjusted transition for balance */
     /* white-space: nowrap; */
@@ -937,12 +949,12 @@ body {
 }
 
 .heichel-page-container button:active {
-    background: linear-gradient(0deg, var(--active-bg-bottom) 0%, var(--active-bg-top) 100%);
+    background: var(--active-bg-bottom);
     color: var(--active-color);
     border-color: var(--active-border-top);
     transform: scale(0.94);
     /* Deeper press */
-    box-shadow: inset 0 0 15px var(--active-shockwave-color);
+    /*box-shadow: inset 0 0 15px var(--active-shockwave-color);*/
     transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
     /* Faster press feedback */
     animation: none;
@@ -953,7 +965,7 @@ body {
     position: absolute;
     inset: -5px;
     /* Larger effect area */
-    background: radial-gradient(circle at center, var(--active-shockwave-color) 0%, transparent 80%);
+    background: var(--active-shockwave-color);
     filter: blur(4px);
     opacity: 0;
     pointer-events: none;
@@ -1146,7 +1158,7 @@ body {
         left: 50%;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle at center, rgba(82, 255, 228, 0.2) 0%, transparent 70%);
+        background: rgba(82, 255, 228, 0.2);
         transform: translate(-50%, -50%) scale(0);
         opacity: 0;
         animation: h-yechidah-flicker 1.2s ease-in-out infinite alternate;
@@ -1217,7 +1229,7 @@ body {
 
 .heichel-page-container #breadcrumb-container a:hover + span {
     color: var(--h-color-separator-hover-glint);
-    text-shadow: 0 0 12px rgba(255, 221, 0, 1.0);
+    /*text-shadow: 0 0 12px rgba(255, 221, 0, 1.0);*/
     transform: translateY(-1px);
     transition: all 0.1s ease-out;
 }
@@ -1250,8 +1262,8 @@ body {
         display: none;
     }
 
-    mask-image: linear-gradient(to top, black 70%, transparent 95%);
-    -webkit-mask-image: linear-gradient(to top, black 70%, transparent 95%);
+    mask-image: black;
+    -webkit-mask-image: black;
 }
 
 #toast-container:hover {
@@ -1365,10 +1377,10 @@ body {
     left: 0;
     z-index: 9001231235;
     padding: 0.5rem;
-    background: linear-gradient(135deg, var(--menu-bg-start) 0%, var(--menu-bg-end) 100%);
+    background: var(--menu-bg-start);
     border: 1px solid var(--menu-border-color);
     border-radius: 4px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
+    /*box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);*/
     /* More pronounced shadow */
     min-width: 140px;
     /* Slightly wider */
@@ -1472,7 +1484,7 @@ body {
 }
 
 .heichel-page-container .content-views {
-    height: 100vh;
+    height: 888800px;
     overflow: scroll;
 }
 

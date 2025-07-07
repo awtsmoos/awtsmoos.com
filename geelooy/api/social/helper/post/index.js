@@ -653,12 +653,13 @@ async function getPostFromSeries({ $i, heichelId, seriesId, postId }) {
     const opts = myOpts($i); // For propertyMap if needed
     const seriesPostsPath = `${sp}/heichelos/${heichelId}/series/${seriesId}/posts`;
     const postPath = `${seriesPostsPath}`; // Path to the specific post entry
-
+	var map = opts.propertyMap;
     try {
         let postData;
         try {
-            postData = await $i.db.getValue(postPath, postId, opts); // Assumes get works on sub-keys
+            postData = await $i.db.getValue(postPath, postId, map); // Assumes get works on sub-keys
         } catch (eGet) {
+			console.log(eGet)
             // Fallback: get the whole posts object and extract
 			var pm = opts?.propertyMap || {title:true,dayuh:true,content:true,author:true,id:true};
             const allPosts = await $i.db.get(seriesPostsPath+"/"+postId, {

@@ -146,12 +146,8 @@ class ExtremeDropdown {
      * @private
      */
     _applyInitialStyles() {
-        this._dropdownContainer.style.position = 'absolute';
-        this._dropdownContainer.style.visibility = 'hidden'; // Start hidden
-        this._dropdownContainer.style.opacity = '0';
-        this._dropdownContainer.style.transform = 'translateY(-10px)'; // Slight initial offset for opening
-        this._dropdownContainer.style.transition = `opacity ${this.animationDuration} ${this.animationTimingFunction}, transform ${this.animationDuration} ${this.animationTimingFunction}`;
-
+     
+        
         // Apply styles to the trigger element for positioning
         // This will be overridden by CSS, but sets a baseline if CSS isn't loaded yet
         this._triggerElement.style.position = this._triggerElement.style.position || 'relative';

@@ -102,6 +102,10 @@ body.modal-open-body {
   scroll-behavior: smooth;
 }
 
+.modal-container .modal-field-wrapper.modal-checkbox-wrapper {
+    flex-direction: row-reverse;
+}
+
 /* --- FIELDS --- */
 .modal-container .modal-field-wrapper {
   display: flex;
@@ -112,6 +116,7 @@ body.modal-open-body {
 }
 .modal-container .modal-label {
   font-weight: 600;
+  flex: 1;
   font-size: 1.3rem;
   color: #aaaaff;
 }
@@ -128,8 +133,12 @@ body.modal-open-body {
   font-size: 1rem;
   font-family: monospace;
   outline: none;
-  width: 95%;
+  /* width: 95%; */
   transition: border 0.3s ease, filter 0.3s ease;
+}
+
+.modal-container input[type="text"] {
+    width: 95%;
 }
 .modal-container input:focus-visible,
 .modal-container textarea:focus-visible,

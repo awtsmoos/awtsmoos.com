@@ -47,7 +47,8 @@ var {
 var {
     verifyHeichelAuthority, updateHeichel, getHeichel, getHeichelos,
     deleteHeichel, verifyHeichelViewAuthority, createHeichel,
-    getHeichelEditors, removeHeichelEditor, addHeichelEditor
+    getHeichelEditors, removeHeichelEditor, addHeichelEditor,
+	generateHeichelId
 } = require("./heichel.js");
 
 // Series (Rewritten)
@@ -106,6 +107,9 @@ module.exports = {
     getHeichelEditors,
     removeHeichelEditor,
     addHeichelEditor,
+
+	generateHeichelId,
+	
 
     // Series (New API)
     makeNewSeries,

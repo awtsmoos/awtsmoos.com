@@ -43,6 +43,7 @@ module.exports = ({
 	userid,
 } = {}) => ({
 	"/heichelActions/generateHeichelId": async () => {
+		//return "ASDF";
 		return await generateHeichelId({
 			$i
 		})
@@ -76,6 +77,17 @@ module.exports = ({
 				
 				er
 			});
+		}
+
+		if($i.request.method == "POST") {
+			return await createHeichel({
+				$i,
+				sp,
+				er,
+				
+				//
+				aliasId: $i.$_POST.aliasId
+			}) 
 		}
 
 		if ($i.request.method == "PUT") {
@@ -164,7 +176,7 @@ module.exports = ({
 					
 					er
 				});
-				console.log("Hi awd ", details, heichelIds, i)
+				//console.log("Hi awd ", details, heichelIds, i)
 				if (!details) continue;
 				details.id = heichelIds[i]
 

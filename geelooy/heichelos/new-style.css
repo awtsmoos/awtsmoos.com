@@ -7,7 +7,11 @@ for posts
 }
 
 .awtsmoos-comment-section.heb {
-    padding: 20px;
+    padding: 5px;
+    margin: 0px;
+    margin-bottom: 10px;
+    box-shadow: inset 0px 0px 4px 0px black;
+    /* border: 1px solid black; */
 }
 /* Add comment area */
 .add-comment-area {
@@ -124,7 +128,7 @@ for posts
     font-size: 0.9em;
     hyphens: auto;
     font-weight: normal;
-    padding-top: 20px;
+    padding-top: 5px;
     border-top: 1px solid black;
     margin-bottom: 75px;
 }
@@ -134,13 +138,18 @@ for posts
     text-align:left
 }
 
+h4 {
+    padding: 0px;
+    margin: 0px;
+}
 .commentator.inline {
     margin: 20px 15px;
     background: beige;
     border-radius: 5px;
     box-shadow: 0px 0px 3px black;
-    padding: 10px;
-    box-sizing: content-box; 
+    padding: 15px;
+    /* border: 1px solid black; */
+    box-sizing: content-box;
 }
 .commentator.inline .alias-name {
     font-size: 0.4em;
@@ -216,17 +225,18 @@ for posts
 
 .tooltipContent {
   visibility: hidden;
-  width: 250px;
+  /* width: 250px; */
   background: rgba(0, 0, 0, 0.8);
   color: white;
   text-align: center;
   border-radius: 8px;
   padding: 10px;
   position: absolute;
+  font-size: 0.7em;
   z-index: 10;
   bottom: 125%; /* Adjusts the tooltip position */
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
   opacity: 0;
   transition: visibility 0s linear 0.2s, opacity 0.2s linear;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -236,8 +246,8 @@ for posts
   content: "";
   position: absolute;
   top: 100%; /* Arrow on top of the tooltip */
-  left: 50%;
-  margin-left: -6px;
+  left: 0;
+  margin-left: 6px;
   border-width: 6px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
@@ -258,8 +268,9 @@ div#postTitle {
 .sub-awtsmoos {
     box-shadow: 0px 0px 10px black;
     /* margin: 30px 0px; */
-    padding: 10px;
-    margin: 15px 30px;
+    padding: 6px;
+    margin: 15px 0px;
+    word-break: break-word;
     display:inline-block;
 }
 .sub-awtsmoos.active {
@@ -392,7 +403,7 @@ div#postTitle {
 /* Initial "Add a comment" button style */
 .add-comment {
     padding: 10px 15px;
-    color: #606060;
+    color: #ffeeee;
     cursor: pointer;
     border: 1px solid #ddd;
     border-radius: 18px;
@@ -449,7 +460,7 @@ div#postTitle {
     background: #b7b7b7 !important;
 }
 .cancel-comment {
-    color: #606060;
+    /* color: #606060; */
     background-color: transparent;
     border: none;
     margin-right: 10px;
@@ -471,7 +482,7 @@ div#postTitle {
 
 
 div#realPost {
-    padding:20px;
+    /* padding: 10px; */
     padding-top: 365px;
     padding-bottom: 0px;
     box-sizing: border-box;
@@ -479,7 +490,6 @@ div#realPost {
     overflow: scroll;
     overflow-x: hidden;
     scrollbar-width: thin;
-    
     scrollbar-color:#0003ff transparent;
 }
 div#realPost::-webkit-scrollbar {
@@ -496,12 +506,37 @@ div#realPost::--webkit-scrollbar-thumb {
     background: cyan;
     border-radius:3px;
 }
+
+
+.post-frame .post-title {
+    display: flex;
+    white-space: pre-wrap;
+    flex-direction: column;
+    margin: 0 50px;
+    align-items: center;
+    user-select:none;
+    webkit-user-select: none;
+}
+
+.post-frame .post-title a.series-name {
+    text-decoration: none;
+    color:black;
+    border-radius:10px;
+    padding:5px;
+    transition: all 0.3s ease;
+}
+
+.post-frame .post-title a.series-name:hover {
+    color:#ffffff;
+    background:black;
+}
+
+/*
 .main {
-    height: unset;
+    height: calc(100vh - 100px);
     padding: 0px !important;
-    position: absolute;
-    display: flex
-;
+     position: absolute; 
+    display: flex;
     right: 0;
     left: 0;
     flex-direction: column;
@@ -510,17 +545,18 @@ div#realPost::--webkit-scrollbar-thumb {
     bottom: 0px;
     border: 3px solid yellow;
 }
-
+*/
 .all {
-    position: relative;
-    height: 100%;
+    /* margin-top: 100px; */
+    /* position: relative; */
+    /* height: 100%; */
 }
-
+/*
 body {
     overflow-y: hidden !important;
     margin: 0 !important;
     display: unset !important;
-}
+}*/
 .comment-header {
     margin: 0 20px;
     display: flex;
@@ -554,7 +590,20 @@ body {
     margin: 0 auto;
 }
 .controls .button {
+    border-radius: 50%;
+    width: 35px;
+    box-shadow: 0px 0px 2px 1px black;
+    height: 35px;
+    text-align: center;
     font-size:15px;
+}
+.text-controls {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+.text-controls .button {
+    
 }
 
 .post {
@@ -578,26 +627,28 @@ body {
 .post-header {
     margin-top: 5px;
     display: inline-flex;
+    padding-left: 5px;
     position: relative;
-    align-items: center;
-        width: 100%;
+    height: 0px;
+    align-items: flex-start;
+    width: 100%;
     flex: 0 0 auto;
     flex-direction: column;
 }
 
 .post-details {
     overflow: hidden;
-  min-height: 50px;
-  max-height: 300px;
-  transition: all 0.3s ease;
-  opacity: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #80808070;
-  position: absolute;
-  z-index: 42244242;
-  top:100%;
-  background: white;
+    min-height: 50px;
+    max-height: 300px;
+    transition: all 0.3s ease;
+    opacity: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #80808070;
+    position: absolute;
+    z-index: 42244242;
+    top: 37px;
+    background: white;
   }
 
   .comment-content p {
@@ -659,11 +710,10 @@ body {
 /* Button styles */
 .button {
     display: inline-block;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     font-size: 16px;
     font-weight: bold;
     text-align: center;
-    
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -694,6 +744,7 @@ body {
 
 .button.secondary {
     background-color: #6c757d;
+    padding: 10px;
     color: #fff;
 }
 
@@ -757,8 +808,10 @@ body {
     max-height:calc(75vh - 90px - 50px) !important;
     }
 
-        
-  html, body {margin: 0; height: 100%; overflow: hidden}
+/*
+  html, body {margin: 0;height: 100%;overflow: hidden}
+
+    */
 }
 
 
@@ -850,12 +903,9 @@ body {
     text-align: right;
 }
 .section {
-    
-    
     white-space: pre-wrap !important;
-    padding: 26px;
+    padding: 10px;
     word-break:keep-all;
-
 }
 .section .verseHeader {
         border: 1px solid black;
@@ -895,10 +945,11 @@ body {
 
 .nav {
     display: flex;
+    font-size: 1em;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 175px;
+    margin-bottom: 15px;
     margin-top: 15px;
     white-space: normal;
 }
@@ -1195,6 +1246,8 @@ body {
 
 .awtsmoos-verse-number {
     display: inline-block;
+    user-select: none;
+    webkit-user-select: none;
     padding: 0.5em 1em;
     font-size: 1.25rem;
     font-family: 'Arial', sans-serif;
@@ -1241,7 +1294,7 @@ body {
 
 .ohr-ein-sof-dropdown {
     position: absolute;
-    font-size: 0.7em;
+    font-size: 0.4em;
     background: linear-gradient(180deg, #2a004a 0%, #0f0f0f 100%);
     border: 1px solid #ff00ff;
     border-radius: 8px;

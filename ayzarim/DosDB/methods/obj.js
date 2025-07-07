@@ -69,13 +69,35 @@ module.exports = {
 		var meta = awtsmoosJSON.getMetadataByKey(pathic, key);
 		return meta;
 	},
-	async getValue(pth, key) {
+	async getValue(pth, key, map) {
+		var ty = typeof(map);
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
-		var val = awtsmoosJSON.getValueByKey(pathic, key)
-		if(!val) {
-			d = await this.get(pathic)
-			//console.log("GOT?",d)
+		var val = null;
+		
+			
+		if(map && ty == "object") {
+			var props = {}
+			props[key] = map;
+			
+			var mpt =  awtsmoosJSON.mapObject(
+				pathic,
+				props,
+				null,
+				null
+			);
+			
+		//	console.log(222,pth,key,map,val, props)
+			val = mpt[key];
+		} else {
+			
+			val = awtsmoosJSON.getValueByKey(pathic, key);
+			
+			if(!val) {
+				d = await this.get(pathic, {propertyMap: map})
+				//console.log("GOT?",d)
+			}
 		}
+		
 		return val;
 	},
 	async getObjectKey(pth, key) {
