@@ -27,6 +27,7 @@ export function initializeEventListeners(navigator) {
         navigator.loadContent(newParams.get('series') || 'root');
     });
 
+    /*
     // Card Hover Mouse Tracking for CSS effect
     DOMElements.heichelPageContainer.addEventListener('mousemove', e => {
         const containerRect = DOMElements.heichelPageContainer.getBoundingClientRect();
@@ -35,4 +36,5 @@ export function initializeEventListeners(navigator) {
         DOMElements.heichelPageContainer.style.setProperty('--mouse-x-page', `${x}px`);
         DOMElements.heichelPageContainer.style.setProperty('--mouse-y-page', `${y}px`);
     });
+    */
 }
