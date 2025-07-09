@@ -52,7 +52,9 @@ module.exports = ({
     $i, // The request context object
     userid, // User ID performing the action
 } = {}) => ({
-
+    "/aliases/:alias/commentsMade/heichelos": async vars => {
+          
+    },
     // --- Submission/Approval Routes (Largely Unchanged Externally) ---
     // GET /heichelos/:heichel/submittedComments
     "/heichelos/:heichel/submittedComments": async vars => {

@@ -336,11 +336,7 @@ body {
     }
 
     
-    .heichel-page-container p#sidebar-description {
-
-        max-height: 150px;
-       
-    }
+    .heichel-page-container p#sidebar-description {max-height: 100px;}
 
     .heichel-page-container .heichel-sidebar {
         max-width: unset;
@@ -1523,8 +1519,7 @@ body {
 }
 
 #author-name {
-    /* display: block; */
-    /* margin-top:10px; */
+    margin-top:10px;
 }
 
 .editors-holder {
