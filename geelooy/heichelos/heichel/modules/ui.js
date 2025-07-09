@@ -64,13 +64,19 @@ export async function renderSeriesInfo(seriesData) {
         DOMElements.sidebarDesc.innerHTML = (seriesData.description && seriesData.description !== 'undefined') ? seriesData.description : "";
         var auth = seriesData.author
         DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
-        DOMElements.editorsSection.style.display="none"
+        DOMElements.editorsSection.classList.add("hidden")
+            
+        
+        DOMElements.sidebarTitle.classList.remove("hidden")
     } else {
         try {
-             DOMElements.editorsSection.style.display = ""
+             DOMElements.editorsSection.classList.remove("hidden")
         } catch(e){}
+        
         DOMElements.sidebarTitle.textContent = heichelGlobal?.name || "";
         DOMElements.sidebarDesc.innerHTML = heichelGlobal?.description || "";
+
+        DOMElements.sidebarTitle.classList.add("hidden")
         var auth = heichelGlobal?.author
         DOMElements.authorName.innerHTML = `<a href="/@${auth}">@${auth}</a>`;
         var editors = global.editors;

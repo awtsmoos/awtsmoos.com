@@ -10,7 +10,9 @@ export function initializeEventListeners(navigator) {
     
     // Initialize Modal System first so it's ready.
     initializeModal();
-    
+    DOMElements.editorsSection.addEventListener("click", () => {
+        DOMElements.editorHolder.classList.toggle("extended");
+    })
     // Main Tab Navigation
     DOMElements.postsTab.addEventListener('click', () => navigator.switchView('posts'));
     DOMElements.seriesTab.addEventListener('click', () => navigator.switchView('series'));
