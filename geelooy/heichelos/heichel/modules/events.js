@@ -12,6 +12,7 @@ export function initializeEventListeners(navigator) {
     initializeModal();
     DOMElements.editorsSection.addEventListener("click", () => {
         DOMElements.editorHolder.classList.toggle("extended");
+        DOMElements.editorHeaderArrow.classList.toggle("expanded")
     })
     // Main Tab Navigation
     DOMElements.postsTab.addEventListener('click', () => navigator.switchView('posts'));
@@ -28,7 +29,10 @@ export function initializeEventListeners(navigator) {
         navigator.currentView = newParams.get('view') || 'posts';
         navigator.loadContent(newParams.get('series') || 'root');
     });
-
+    DOMElements.editorControlsHeader.addEventListener("click", () => {
+        DOMElements.editorControlsArrow.classList.toggle("expanded");
+        DOMElements.controlsContainer.classList.toggle("expanded");
+    })
     /*
     // Card Hover Mouse Tracking for CSS effect
     DOMElements.heichelPageContainer.addEventListener('mousemove', e => {

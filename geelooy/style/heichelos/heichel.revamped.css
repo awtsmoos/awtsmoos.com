@@ -139,7 +139,7 @@ body {
     /* perspective: 700px; */
     /* Slight 3D tilt for overall page */
     /* transform: rotateX(20deg); */
-    z-index: 0;
+    /* z-index: 0; */
     /* transform-style: preserve-3d; */
     /* Enable 3D transforms for children */
 }
@@ -225,6 +225,90 @@ body {
     max-width: 200px;
     max-height: unset;
     margin-top: 0;
+}
+
+.heichel-page-container 
+.editor-controls-area {
+    margin-top:10px;
+}
+
+.heichel-page-container 
+.editor-controls-area
+.controls-header,
+
+.heichel-page-container 
+.editors-section
+.editors-header {
+    display:flex;
+    padding: 10px;
+    user-select:none;
+    cursor:pointer;
+    justify-content: space-between;
+}
+
+.heichel-page-container 
+.editor-controls-area
+.controls-header:hover,
+
+.heichel-page-container 
+.editors-section
+.editors-header:hover
+
+{
+    background:white;
+    color:black;
+}
+.heichel-page-container 
+.editor-controls-area
+.controls-header:hover .controls-arrow,
+
+.heichel-page-container 
+.editors-section
+.editors-header:hover .controls-arrow
+
+{
+     border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid black;
+  
+    
+}
+
+.heichel-page-container 
+
+.controls-arrow {
+    display: inline;
+    width: 0px;
+    height: 0px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid white;
+    
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.heichel-page-container 
+
+.controls-arrow.expanded {
+    transform: rotate(90deg);
+}
+
+
+.heichel-page-container .controls-container {
+    display: flex;
+    gap: 10px;
+    margin: 0 0;
+    /* Margin for spacing */
+    max-height: 0px;
+    transition: max-height 0.3s ease;
+    overflow-y: hidden;
+    /* padding: 15px 0 0 0; */
+    flex-wrap: wrap;
+}
+
+.heichel-page-container .controls-container.expanded {
+    max-height:150px;
 }
 
 /* vertical phone */
@@ -435,17 +519,6 @@ body {
     transform: translateY(-1px);
 }
 
-.heichel-page-container .controls-container {
-    display: flex;
-    gap: 10px;
-    margin: 0 0;
-    /* Margin for spacing */
-    max-height: 150px;
-    height: 0px;
-    overflow-y: hidden;
-    padding: 15px 0 0 0;
-    flex-wrap: wrap;
-}
 
 /*==============================================*/
 /* 4. REALITY-VIEW SHIFTS & HOLOGRAPHIC GRIDS   */
@@ -1436,7 +1509,7 @@ body {
 .heichel-page-container #author-name a {
     color:white;
     padding:5px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     border: 1px solid cyan;
     user-select:none;
     border-radius:5px;
@@ -1450,32 +1523,34 @@ body {
 }
 
 #author-name {
-    margin-top:10px
+    /* display: block; */
+    /* margin-top:10px; */
 }
 
 .editors-holder {
     /* margin-top: 25px; */
     max-height: 0px;
     display: flex;
+    overflow-x: hidden;
     overflow-y:scroll;
     flex-direction: column;
     transition: max-height 0.3s ease;
 }
 
-.editors-holder.extended {
-
-    max-height: 100px;
-    
-}
+.editors-holder.extended {max-height: 100px;}
 
 .editors-title {
     cursor:pointer;
-    padding: 10px 0px;
+    /* padding: 10px 0px; */
 }
 
 .editors-holder a{
     color: white;
+    display: inline-block;
     padding: 10px;
+    /* overflow-x: hidden; */
+    word-wrap: break-word;
+    /* max-width: 100px; */
 }
 
 .editors-holder a:hover{

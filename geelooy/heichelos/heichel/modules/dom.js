@@ -9,7 +9,8 @@ export function initializeDOMElements() {
     // FIX: All critical elements, including the form and its inputs, are now checked.
     const requiredElementIds = [
         'heichel-main-title', 'sidebar-title', 'sidebar-description', 'postsTab', 
-        'seriesTab',  'postsControls', 'seriesControlsContainer',
+        'seriesTab',  
+        
         'postsList', 'seriesList', 'toast-container', 'bulk-actions-bar',
         // --- Modal Element Checklist ---
         'creation-modal', 'creation-form', 'modal-title', 'modal-input-title',
@@ -22,6 +23,9 @@ export function initializeDOMElements() {
             throw new Error(`CRITICAL DOM ERROR: Element with ID '#${id}' was not found. The application cannot start.`);
         }
     }
+
+    DOMElements.controlsContainer = document.querySelector(".controls-container")
+    DOMElements.controlsArea = document.querySelector(".editor-controls-area")
     DOMElements.editorsSection = document.querySelector(".editors-section")
     DOMElements.editorHolder = document.querySelector(".editors-holder")
     DOMElements.heichelPageContainer = document.querySelector('.heichel-page-container');
@@ -41,9 +45,20 @@ export function initializeDOMElements() {
     
     DOMElements.postsContainer = document.querySelector('.posts');
     DOMElements.seriesContainer = document.querySelector('.series');
+
+    DOMElements.editorControlsHeader = document.querySelector(
+       ".heichel-page-container .editor-controls-area .controls-header"
+    );
+    DOMElements.editorHeaderArrow = document.querySelector(
+        ".heichel-page-container .editors-section .controls-arrow"
+    );
+    DOMElements.editorControlsArrow =  document.querySelector(
+        ".heichel-page-container .editor-controls-area .controls-header .controls-arrow"
+    );
     
-    DOMElements.postsControls = document.getElementById('postsControls');
-    DOMElements.seriesControlsContainer = document.getElementById('seriesControlsContainer');
+    
+    DOMElements.postsControls = document.querySelector(".posts-controls")
+    DOMElements.seriesControlsContainer =document.querySelector(".series-controls")
     
     DOMElements.postsList = document.getElementById('postsList');
     DOMElements.seriesList = document.getElementById('seriesList');

@@ -113,6 +113,7 @@ export function renderOwnerControls(breadcrumb, navigator) {
     DOMElements.seriesControls.innerHTML = '';
 
     if (appState.ownsIt) {
+       
         const addPostBtn = createButton('Add New Post', () => {
             
             // This behavior of opening a new page is preserved from your code.
@@ -171,6 +172,8 @@ export function renderOwnerControls(breadcrumb, navigator) {
             , 'danger');
             DOMElements.seriesControls.append(editBtn, deleteBtn);
         }
+    } else {
+         DOMElements.controlsArea.classList.add("hidden")
     }
 }
 
