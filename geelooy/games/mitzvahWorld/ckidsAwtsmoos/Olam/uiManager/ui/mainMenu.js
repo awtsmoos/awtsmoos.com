@@ -13,6 +13,8 @@ import loading from "./loading.js";
 
 import uiGame from "./gameUI.js";
 import customWorldScreen from "./customWorldScreen.js";
+
+import findWorldsScreen from "./findWorldsScreen.js";
 import errorScreen from "./errorScreen.js";
 import musicLayers from "./musicLayers.js"
 import config from "../../../../tochen/config/config.awtsmoos.js";
@@ -224,7 +226,21 @@ export default [
                     }),
                     
                     mitzvahBtn({
-                        text: "Load World",
+                        text: "Find Worlds by Alias",
+                        onclick(e, $) {
+                            var mm = $("main menu");
+                            var cw = $("find worlds");
+                            if(!mm || !cw) {
+                                alert("Can't find that page")
+                                return;
+                            }
+                            mm.classList.add("hidden")
+                            cw.classList.remove("hidden")
+                        }
+                    }),
+					
+                    mitzvahBtn({
+                        text: "Load World from File",
                         onclick(e, $) {
                             var mm = $("main menu");
                             var cw = $("custom world");
@@ -245,5 +261,6 @@ export default [
     
     loading,
     customWorldScreen,
+	findWorldsScreen,
     errorScreen
 ]

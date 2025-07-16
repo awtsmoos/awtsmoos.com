@@ -130,11 +130,8 @@ export default {
                                 type: "application/javascript"
                             })
                         );
-                        /*console.log("BLOB",bl)
-                        var dayuhOfOlam = await import(
-                           bl
-                        )*/
-                            
+                 
+                        
                         
                         try {
                             ikar.dispatchEvent(

@@ -236,13 +236,14 @@ async function readFolder({$i}) {
     // Ensure the 'path' exists in POST or GET
     if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
 
+    /*
     // Ensure the user is logged in and has permission for alias
     var userid = $i?.request?.user?.info?.userId;
     if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
 
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
-
+    */
     path = addFolderName(path, false);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;

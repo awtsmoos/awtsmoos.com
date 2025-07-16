@@ -79,17 +79,41 @@ export default class OlamWorkerManager {
             activeObjectAction(a) {
                 
             },
-            downloadWorld(ob) {
+            async downloadWorld(ob) {
                 var txt = ob?.text;
 
                 if(!txt) return;
-                console.log("Hi",txt,ob)
-                var a = document.createElement("a");
-                a.href = URL.createObjectURL(new Blob([
-                    txt
-                ]))   
-                a.download="BH_"+Date.now()+".js";
-                a.click();
+				
+				if(window?.curAlias) {
+					//B"H
+					if(!window.worldName) {
+					    window.worldName = prompt("What would you like to name this world?")
+					}
+					if(window.worldName) {
+					    var d = await (await fetch(`/api/social/aliases/${window?.curAlias}/fileSystem/makeFile`,  {
+					        method: "POST",
+					        body: new URLSearchParams({
+					            path: "desktop.folder/game data.folder/worlds/"
+					                + window.worldName + ".js",
+					            value: txt
+					        })
+					    })).json()
+						if(d?.success) {
+							alert("Saved to your alias profile")
+						} else {
+							console.log(d)
+							alert("Did NOT save")
+						}
+						//return;
+					}
+				} else {
+	                var a = document.createElement("a");
+	                a.href = URL.createObjectURL(new Blob([
+	                    txt
+	                ]))   
+	                a.download="BH_"+Date.now()+".js";
+	                a.click();
+				}
                 var sav = myUi.htmlAction({
                     shaym: "Saving",
                
@@ -100,6 +124,7 @@ export default class OlamWorkerManager {
                         }
                     }
                 });
+					
             },
             deleteCanvas() {
                 if(self.canvasElement) {
