@@ -12,7 +12,7 @@
 
 import eventListeners from "./eventListeners/index.js";
 import methods from "./methods/index.js";
-
+import init from "./init.js"
 import GrassMaterial from "./materials/Grass.js"
 import * as THREE from '/games/scripts/build/three.module.js';
 import * as AWTSMOOS from '../awtsmoosCkidsGames.js';
@@ -113,7 +113,8 @@ export default class Olam extends AWTSMOOS.Nivra {
             this.scene.fog = new THREE.Fog(0x88ccee,
             this.ayin.camera.near, this.ayin.camera.far);
             this.startShlichusHandler(this);
-
+         
+            
         } catch(e) {
 
             console.log("Error",e)
@@ -142,5 +143,9 @@ export default class Olam extends AWTSMOOS.Nivra {
         if(!this.renderer) return;
         this.renderer.setPixelRatio(pr);
         
+    }
+
+    async init() {
+        await init(this);
     }
 }

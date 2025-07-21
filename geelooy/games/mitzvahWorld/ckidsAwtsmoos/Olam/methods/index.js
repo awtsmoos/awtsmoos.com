@@ -21,10 +21,9 @@ import sealayk from "./sealayk.js"
 
 
 import properties from "./properties.js";
-import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
 
 
-export default function() {
+export default async function() {
     var classTransfer = (classDef) => {
         Object.getOwnPropertyNames(classDef.prototype)
             .forEach(w => {
@@ -60,8 +59,6 @@ export default function() {
         this[w] = inst[w];
     });
 
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( '/games/scripts/jsm/libs/draco/' );
-    this.loader.setDRACOLoader( dracoLoader );
+    
     
 }

@@ -289,6 +289,7 @@ export default ${
         async heescheel/*start world*/ (options ={}) {
             
             me.olam = new Olam();
+            await me.olam.init()
 
             me.olam.on("update minimap scroll", async ({
                 center,
