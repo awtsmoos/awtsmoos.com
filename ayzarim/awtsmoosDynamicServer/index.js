@@ -33,6 +33,7 @@ var Ayzarim = require("./getAwtsmooses.js");
 var TemplateObjectGenerator = require("./TemplateObjectGenerator.js")
 var sodos = require("../tools/sodos.js");
 
+var doLogs = require("./doLogs.js");
 var {
 	binaryMimeTypes,
 	mimeTypes
@@ -384,6 +385,11 @@ class AwtsmoosStaticServer {
 		
 
 		try {
+			doLogs({
+				config,
+				filePath,
+				request
+			})
 			return await doEverything();
 		} catch(e) {
 
@@ -492,6 +498,8 @@ class AwtsmoosStaticServer {
 		
 	}
 }
+
+
 
 function btoa(input) {
     return Buffer.from(input).toString('base64');

@@ -3,16 +3,20 @@
     "public": "geelooy",
     "templateDir": "templates",
     "secret":"../../dayuh/extra/info/secret.json",
+    
+    "logFile": "../../firebase-key.json",
     "template": {
         "replace": {
-           
+            " $a":" await getT",
+            "\t$a":"\tawait getT",
+            "\n$a":"\nawait getT",
+			"$ra":"return await getT",
             "$rosh":"<?Awtsmoos",
             "$sof":"?>",
             "<?<script>":"<?Awtsmoos",
             "<script awts>":"<?Awtsmoos",
-            "</script>?>":"?>"
-			
-			
+            "</script>?>":"?>",
+			"$fa":"await fetchAwtsmoos"	
         }
     },
     
