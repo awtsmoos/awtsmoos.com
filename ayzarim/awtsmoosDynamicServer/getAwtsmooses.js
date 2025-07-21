@@ -467,6 +467,7 @@ async function doFileResponse() {
 			if(
 				ext !== "html"
 			) {
+				content = "Hello! " + ext + " " + last
 				content = textContent;
 			} else {
 				var ei/*extra info*/ = request.yeser/*extra*/;
