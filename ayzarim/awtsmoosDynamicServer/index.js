@@ -73,6 +73,20 @@ class AwtsmoosStaticServer {
 	async init() {
 		
 		if (config) {
+			if(config?.logFile) {
+				try {
+					var key = await fs.readFile(
+						config.logFile
+					)
+					var json = JSON.parse(
+						key.toString()
+					)
+					
+					if(json) {
+						this.firebaseKey = json;
+					}
+				} catch(e){}
+			}
 			if (typeof(config.dbPath) == "string") {
 				try {
 					var absoluteDbPath = path.resolve(
@@ -259,15 +273,13 @@ class AwtsmoosStaticServer {
 				parsedUrl.search.substring(1)
 			)
 		}
-		//console.log("GETTING",parsedUrl,paramKinds)
-		//  console.log(`Requested: ${url.parse(request.url).pathname}`);
-		//   console.log(`Serving file at: ${filePath}`);
+	
 		var extname = String(path.extname(filePath))
 			.toLowerCase();
 		var contentType = mimeTypes[extname] || 'application/octet-stream';
 		
 		var isBinary = false;
-		
+
 		
 		var isDirectoryWithIndex = false;
 		var isDirectoryWithoutIndex = false;
@@ -385,14 +397,16 @@ class AwtsmoosStaticServer {
 		
 
 		try {
+			
+			
 			doLogs({
-				config,
+				firebaseKey: this.firebaseKey,
 				filePath,
 				request
 			})
 			return await doEverything();
 		} catch(e) {
-
+			console.log(e);
 		}
 
 		
