@@ -462,12 +462,18 @@ async function doFileResponse() {
 		} else {
 			// Otherwise, read the file as 'utf-8' text and process it as a template.
 			var textContent = await fs.readFile(this.filePath, 'utf-8');
-			var last = this.filePath.split("/").pop()
+			var last = this.filePath
+				.split("\\")
+				.join("/").split("/").pop()
 			var ext = last.split(".")[1];
 			if(
-				ext !== "html"
+				!(ext == "html" ||
+				this.isDirectoryWithIndex)
 			) {
-				content = "Hello! " + ext + " " + last
+				/*content = "Hello! " 
+					+this.isDirectoryWithIndex+ ext + " " + last
+				
+				*/
 				content = textContent;
 			} else {
 				var ei/*extra info*/ = request.yeser/*extra*/;
@@ -475,8 +481,11 @@ async function doFileResponse() {
 					ei = {}
 					//asdf
 				}
+				
 				ei.fetchAwtsmoos = fetchAwtsmoos;
-				content = await template(textContent, ei);
+				var temp  = await template(textContent, ei);
+				content = temp
+				//content = this.isDirectoryWithIndex
 			}
 		}
 

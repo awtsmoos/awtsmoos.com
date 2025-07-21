@@ -119,9 +119,17 @@ var short = {
 async function processTemplate(template, context={}, entire=false) {
 	// Split the template into segments at each Awtsmoos script tag
 	var code = template;
-
+	if (context.config?.template?.replaceRoot) {
+		for (var [key,value] of Object.entries(context.config.template.replaceRoot)) {
+			if (typeof value === 'string') {
+		
+				code = code
+					.split(key).join(value);
+			}
+		}
+	}
 	var segments = !entire ? code.split(/<\?Awtsmoos|\?>/g) : [0, code];
-
+	
 	// Array to hold the final values of each script segment
 	var segmentObjects = Array.from({
 		length: segments.length
@@ -133,18 +141,7 @@ async function processTemplate(template, context={}, entire=false) {
 	for (let i = 1; i < segments.length; i += 2) {
 		// If a config object is provided in the context, use it to replace certain parts of the script
 		
-		if (context.config?.template?.replace) {
-			for (var [key,value] of Object.entries(context.config.template.replace)) {
-				if (typeof value === 'string') {
-					if(
-						typeof(segments[i]) 
-						== "string"
-					)
-						segments[i] = segments[i]
-							.split(key).join(value);
-				}
-			}
-		}
+		
 		await processSegment(segments, i, segmentObjects, context, sharedData);
 
 	}
@@ -219,8 +216,24 @@ async function processTemplate(template, context={}, entire=false) {
 	return finalResult;
 }
 
+function replaceIt({
+	source, context
+}) {
+	if (context.config?.template?.replaceInside) {
+		for (var [key,value] of Object.entries(context.config.template.replaceInside)) {
+			if (typeof value === 'string') {
+		
+				source = source
+					.split(key).join(value);
+			}
+		}
+	}
+	return source;
+}
 async function processSegment(segments, i, segmentObjects, context, sharedData={}) {
-	var nextHtml = segments[i];
+	var nextHtml = replaceIt({
+		source: segments[i], context
+	});
 	
 	if (context.olam && context.olam.replace) {
 
@@ -245,6 +258,7 @@ async function processSegment(segments, i, segmentObjects, context, sharedData={
             var exports = module.exports;
             
             ${segments[i]}
+					
             
             return { olam, module};
         })();
@@ -254,6 +268,12 @@ async function processSegment(segments, i, segmentObjects, context, sharedData={
 		let tochen = "";
 		var hasExports = null;
 		// Execute the script in a new VM context, spreading the context object and adding the "short" object
+		code = replaceIt({
+			source: code, 
+			context
+		})
+		
+		
 		var bichayn = await vm.runInNewContext(code, {
 			...context,
 			short

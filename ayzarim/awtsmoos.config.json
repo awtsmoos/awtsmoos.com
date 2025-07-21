@@ -6,17 +6,20 @@
     
     "logFile": "../../firebase-key.json",
     "template": {
-        "replace": {
+        "replaceInside": {
             " $a":" await getT",
             "\t$a":"\tawait getT",
             "\n$a":"\nawait getT",
 			"$ra":"return await getT",
-            "$rosh":"<?Awtsmoos",
-            "$sof":"?>",
+            "$fa":"await fetchAwtsmoos"	
+        },
+        "replaceRoot": {
+            
+          
             "<?<script>":"<?Awtsmoos",
             "<script awts>":"<?Awtsmoos",
-            "</script>?>":"?>",
-			"$fa":"await fetchAwtsmoos"	
+            "</script>?>":"?>"
+			
         }
     },
     
