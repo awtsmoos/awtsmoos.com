@@ -462,13 +462,18 @@ async function doFileResponse() {
 		} else {
 			// Otherwise, read the file as 'utf-8' text and process it as a template.
 			var textContent = await fs.readFile(this.filePath, 'utf-8');
-			var ei/*extra info*/ = request.yeser/*extra*/;
-			if(!(typeof(ei) == "object" && ei)) {
-				ei = {}
-				//asdf
+			var ext = fileName.split(".")[1];
+			if(ext !== ".html") {
+				content = textContent;
+			} else {
+				var ei/*extra info*/ = request.yeser/*extra*/;
+				if(!(typeof(ei) == "object" && ei)) {
+					ei = {}
+					//asdf
+				}
+				ei.fetchAwtsmoos = fetchAwtsmoos;
+				content = await template(textContent, ei);
 			}
-			ei.fetchAwtsmoos = fetchAwtsmoos;
-			content = await template(textContent, ei);
 		}
 
 		// Send the processed content back to the client
