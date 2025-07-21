@@ -7,12 +7,17 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
+import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
+
 import { Octree } from '/games/scripts/jsm/math/Octree.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 export default class {
     loader = new GLTFLoader(); // A GLTFLoader for loading 3D models
-
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath( '/games/scripts/jsm/libs/draco/' );
+    loader.setDRACOLoader( dracoLoader );
+    
     cameraObjectDirection = new THREE.Vector3();
 
    

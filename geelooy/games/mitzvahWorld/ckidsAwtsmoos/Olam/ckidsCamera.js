@@ -3,7 +3,8 @@
  * Ayin - An enhanced Three.js camera class that follows a target object in the scene. 
  * Provides functionalities for rotating around the target, zooming in/out, 
  * and collision avoidance with scene objects.
- */import * as THREE from '/games/scripts/build/three.module.js';
+ */
+import * as THREE from '/games/scripts/build/three.module.js';
 
  export default class Ayin {
     constructor(olam) {
