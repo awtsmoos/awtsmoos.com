@@ -462,7 +462,7 @@ async function doFileResponse() {
 		} else {
 			// Otherwise, read the file as 'utf-8' text and process it as a template.
 			var textContent = await fs.readFile(this.filePath, 'utf-8');
-			var ext = fileName.split(".")[1];
+			var ext = this.fileName.split(".")[1];
 			if(ext !== ".html") {
 				content = textContent;
 			} else {
