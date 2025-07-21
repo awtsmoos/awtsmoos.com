@@ -1,7 +1,7 @@
 //B"H
 var rightAmount = 7;
 export default /*css*/`
-
+        
         .awtsmoosAction {
             right: ${rightAmount}px;
             top: 50%;
@@ -10,7 +10,17 @@ export default /*css*/`
             position: absolute;
         }
 
-
+        .awtsmoosAction .slots .slotBtn {
+        	width: 100%;
+            
+        	height: 100%;
+            background-position: center;
+        	background-size: contain;
+            
+        	background-repeat: no-repeat;
+            transition:transform 1s ease;
+            transform: scale(1);
+        }
         .awtsmoosAction .slots {
             display: flex
         ;
@@ -24,8 +34,30 @@ export default /*css*/`
             }px), -50%);
         }
 
+        
+        .slots 
+        .actionSlot.occupied:hover {
+        	background: #00ffed;
+        	cursor: pointer;
+        }
 
-        .awtsmoosAction .actionSlot {
+        
+        .slots 
+        .actionSlot.occupied:hover 
+        .innerSlot {
+        	background: #79fff6;
+        }
+
+        .slots
+        .actionSlot.occupied:hover 
+       
+        
+        .innerSlot .slotBtn{
+            transform:scale(1.3) rotate(25deg);
+        }
+
+
+        .slots .actionSlot {
             width: 60px; /* Slot width */
             height: 60px; /* Slot height */
             background-color: #444; /* Slot background */
@@ -36,9 +68,9 @@ export default /*css*/`
             align-items: center;
         }
 
-        .awtsmoosAction .innerSlot {
-            width: 40px; /* Inner design width */
-            height: 40px; /* Inner design height */
+        .slots .innerSlot {
+            width: 90%;
+        	height: 90%;
             background-color: #777; /* Inner design background */
             border-radius: 4px; /* Inner design rounded corners */
         }
@@ -72,5 +104,22 @@ export default /*css*/`
             font-size: 12px;
             color: #fff;
         }
+
+    .awtsmoos.tooltip {
+        background: black;
+        color: #00ff00;
+        border: 1px solid white;
+        border-radius: 5px;
+        padding:10px;
+        pointer-events: none;
+        transform: translate(-100%, 0px);
+        
+    
+    }
+
+    .awtsmoos.tooltip .header {
+        font-weight: bold;
+    }
+    }
     
 `;

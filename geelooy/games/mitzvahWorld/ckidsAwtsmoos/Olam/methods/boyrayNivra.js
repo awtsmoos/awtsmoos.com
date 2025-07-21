@@ -274,8 +274,16 @@ export default class {
                 gltf.scene.traverse(child => {
                     totalChildren++
                 });
+                var boneChildren = {};
+                nivra.boneChildren = boneChildren;
+                var lastParent = null;
                 var currentChild = 0;
                 gltf.scene.traverse(child => {
+                    if(child.type == "Bone") {
+                        lastParent = child;
+                        boneChildren[child.name] = 
+                            child;
+                    }
                     currentChild++;
                     var loadingPercentage = currentChild / totalChildren;
                     this.ayshPeula("increase loading percentage", {

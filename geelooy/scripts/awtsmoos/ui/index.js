@@ -526,10 +526,10 @@ setHtml(el, opts = {}) {
     ) {
         el.outerHTML = opts.outerHTML
     }*/
-    
+    var ready = opts.ready //|| opts?.on?.ready;
     // Invoke the ready callback if specified
-    if (typeof opts.ready === "function") {
-        opts.ready(el, findOthersFunction, this);
+    if (typeof ready === "function") {
+        ready(el, findOthersFunction, this);
     }
     return el;
 }

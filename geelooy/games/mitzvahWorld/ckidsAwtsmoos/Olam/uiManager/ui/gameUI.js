@@ -8,7 +8,7 @@ import instructions from "./instructions.js";
 import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 import loginBtn from "./loginBtn.js";
-
+import startSlotsConfig from "./startSlotsConfig.js";
 var ui = [
     instructions,
     {
@@ -170,6 +170,7 @@ var ui = [
         shaym: "action bar",
         className: "awtsmoosAction",
         awtsmoosClick: true,
+        startSlotsConfig,
         children: [
             {
                 className: "minimize opened",
@@ -187,28 +188,186 @@ var ui = [
                 shaym: "action slots"
             }
         ],
+        ready(el, $f, ui) {
+           
+            
+            var slotNumbers = 5;
+            var slotsMade = 0;
+            for(var i = 0; i < slotNumbers; i++) {
+                el.dispatchEvent(
+                    new CustomEvent("addSlot", {
+                        detail: {
+                            $f,
+                            ui,
+                            el
+                        }
+                }));
+                slotsMade++;
+            }
+            var slotConfig = el?.startSlotsConfig;
+
+            console.log(slotConfig,"slotConfig")
+            slotConfig?.slots?.forEach?.(s => {
+                el.dispatchEvent(
+                    new CustomEvent("populateSlot", {
+                        detail: {
+                            sys: {
+                                $f,
+                                ui,
+                                el
+                            },
+                            slotInfo: s
+                        }
+                }));
+            })
+        },
         on: {
-            ready(e) {
-                var {
-                    el,
-                    ui,
-                    $f
-                } = e.detail;
-                var slotNumbers = 5;
-                
-                for(var i = 0; i < slotNumbers; i++) {
-                    el.dispatch("addSlot", e.detail)
+            populateSlot(e) {
+                var {$f, ui, el} = e?.detail?.sys || {};
+                var slotInfo = e?.detail?.slotInfo || null;
+                if(!slotInfo) {
+                    return console.log("Sloto error", e);
                 }
+                
+                
+
+                var empty = document.querySelector(
+                    ".actionSlot.empty .innerSlot"
+                );
+                if(!empty) {
+                    return console.log(
+                        "No available slots"
+                    )
+                }
+               
+                
+                var elementToShow = 
+                    slotInfo.show;
+                
+                var tooltip = $f(
+                    "icon tooltip"
+                );
+
+                function initTooltip() {
+                    if(!tooltip) {
+                        tooltip = $f(
+                            "icon tooltip"
+                        );
+                    }
+                    if(!tooltip) {
+                        return
+                    }
+                    tooltip.innerHTML = 
+                        `<div class="header">${
+                            slotInfo.name
+                        }</div><div class="description">${
+                            slotInfo?.description
+                        }</div>`
+                    
+                }
+                function moveTooltipToMe({
+                    x,
+                    y
+                }) {
+                    if(!tooltip) {
+                        tooltip = $f(
+                            "icon tooltip"
+                        );
+                    }
+                    if(!tooltip) {
+                        return console.log("no tip");
+                    }
+                    if(tooltip.classList.contains(
+                        "hidden"
+                    )) {
+                        tooltip.classList.remove(
+                            "hidden"
+                        )
+                    }
+                    tooltip.style.left = x+"px";
+                    tooltip.style.top = y+"px";
+                    
+                    
+                }
+
+                function hideTooltip() {
+                    if(!tooltip) {
+                        tooltip = $f(
+                            "icon tooltip"
+                        );
+                    }
+                    if(!tooltip) return;
+                    tooltip.innerHTML = ""
+                    tooltip.classList.add("hidden")
+                }
+                var slotBtn = ui.html({
+                    parent: empty,
+                    className: "slotBtn",
+                    style: {
+                        backgroundImage: `url(${
+                            slotInfo.icon
+                        })`
+                    },
+                    onclick(e) {
+                        var myEl = $f(elementToShow);
+                        if(myEl) {
+                            myEl.classList.remove("hidden")
+                        }
+                    }
+                    
+                });
+
+                empty.onmouseenter = (e) => {
+                    initTooltip()  
+                }
+                empty.onmousemove = (e) => {
+                    console.log(e);
+                    moveTooltipToMe({
+                        x: e.pageX,
+                        y: e.pageY
+                    })
+                }
+                empty.ontouchenter = (e) => {
+                    initTooltip()
+                }
+                empty.ontouchmove = (e) => {
+                    moveTooltipToMe({
+                        x: e.touches[0].pageX,
+                        y: e.touches[0].pageY
+                    })
+                }
+                empty.onblur = () => {
+                    hideTooltip()
+                }
+                
+                empty.onmouseleave = (e) => {
+                    hideTooltip()
+                }
+                
+                empty.parentNode
+                    .classList.remove("empty");
+                
+                empty.parentNode
+                    .classList.add("occupied");
+                
+                
+                if(!elementToShow) {
+                    empty.parentNode
+                        .classList.add(
+                            "disabled"
+                        )
+                }
+
             },
             addSlot(e) {
                 var {
                     $f, ui, el
 
                 } = e .detail;
-                console.log(e)
+              //  console.log(e)
                 ui.$h({
                     parent: "action slots",
-                    className: "actionSlot",
+                    className: "actionSlot empty",
                     children: [
                         {
                             className: "innerSlot"
@@ -217,6 +376,80 @@ var ui = [
                 })
             }
         }
+    },
+    {
+        shaym: "inventoryScreen",
+        awtsmoosClick: true,
+        className: "awtsmoosInventoryViewer hidden",
+        children: [
+            {
+                className: "header",
+                children: [
+                    {
+                        className: "text",
+                        
+                        innerText: "Awtsmoos Inventory"
+                    },
+                    {
+                        className: "close",
+                        innerHTML: "X",
+                        onclick(e, $f) {
+                            var par = $f(
+                                "inventoryScreen"
+                            );
+                            if(!par) return;
+                            par.classList.add("hidden")
+                        }
+                    }
+                ]
+            },
+            {
+                className: "slots",
+                ready(el, $f, ui) {
+                    var actionb = $f(
+                         "action bar"
+                    );
+                    if(!actionb) return;
+
+                    var slotConfig = actionb
+                        .startSlotsConfig;
+                    if(!slotConfig) return;
+
+                    var defaultEmptySlots = slotConfig
+                        .defaultEmptySlots;
+                    if(
+                        !defaultEmptySlots ||
+                        isNaN(defaultEmptySlots) ||
+                        typeof(defaultEmptySlots) != 
+                        "number"
+                    ) {
+                        return;
+                    }
+
+                    var i;
+                    for(
+                        i = 0;
+                        i < defaultEmptySlots;
+                        i++
+                    ) {
+                        ui.html({
+                            parent: el,
+                            className: "actionSlot empty",
+                            children: [
+                                {
+                                    className: "innerSlot"
+                                }
+                            ]
+                        })
+                    }
+                    
+                }
+            }
+        ]
+    },
+    {
+        shaym: "icon tooltip",
+        className: "awtsmoos tooltip hidden"
     },
     {
         shaym: "block selector menu",
