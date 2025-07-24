@@ -144,7 +144,7 @@ export default class {
         for(var [shaym, url] of ent) {
             //var size = await this.fetchGetSize(url)
             sizes[shaym] = 0
-            componentSize += size;
+      //      componentSize += size;
         }
         this.totalComponentSize = componentSize;
         this.componentSizes = sizes;
