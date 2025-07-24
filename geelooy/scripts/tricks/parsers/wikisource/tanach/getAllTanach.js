@@ -415,7 +415,8 @@ function downloadJSON(json, nm) {
 
 /*
 
-g = await getChapterSectionsIndex("https://he.wikisource.org/wiki/%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA_%D7%90")
+g = await getChapterSectionsIndex("https://he.wikisource.org" + 
+"/wiki/%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA_%D7%90")
 */
 
 

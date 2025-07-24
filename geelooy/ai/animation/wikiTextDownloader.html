@@ -1,6 +1,6 @@
 //B"H
 var p = new DOMParser()
-var ap = p => `https://he.wikisource.org/w/api.php?action=parse&format=json&page=${
+var ap = p => `/w/api.php?action=parse&format=json&page=${
     p
 }`;
 
@@ -71,18 +71,18 @@ async function gd(url, isJ) {
 
 
 //path for yonasan targum
-//https://he.wikisource.org/wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%9E%D7%99_(%D7%99%D7%95%D7%A0%D7%AA%D7%9F)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%92
+///wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%9E%D7%99_(%D7%99%D7%95%D7%A0%D7%AA%D7%9F)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%92
 
 //path for onkelos for entire efer at a time
 
-//https://he.wikisource.org/wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%90%D7%95%D7%A0%D7%A7%D7%9C%D7%95%D7%A1_(%D7%AA%D7%90%D7%92%27)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
+///wiki/%D7%AA%D7%A8%D7%92%D7%95%D7%9D_%D7%90%D7%95%D7%A0%D7%A7%D7%9C%D7%95%D7%A1_(%D7%AA%D7%90%D7%92%27)/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
 
 
 //path example for ENTIRE SEIFER in one page (very useful! use this!)
-//https://he.wikisource.org/wiki/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%98%D7%A2%D7%9E%D7%99%D7%9D
+///wiki/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA/%D7%98%D7%A2%D7%9E%D7%99%D7%9D
 
 
 //source to get ENTIRE Rashi (and other ocmmentaries mostly) in ONE PAGE
-//https://he.wikisource.org/wiki/%D7%A8%D7%A9%22%D7%99_%D7%9E%D7%A0%D7%95%D7%A7%D7%93_%D7%A2%D7%9C_%D7%94%D7%9E%D7%A7%D7%A8%D7%90/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
+///wiki/%D7%A8%D7%A9%22%D7%99_%D7%9E%D7%A0%D7%95%D7%A7%D7%93_%D7%A2%D7%9C_%D7%94%D7%9E%D7%A7%D7%A8%D7%90/%D7%A1%D7%A4%D7%A8_%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA
 
 a=await start("בראשית_א")
