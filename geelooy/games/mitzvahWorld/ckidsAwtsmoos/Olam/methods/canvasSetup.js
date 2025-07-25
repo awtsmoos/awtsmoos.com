@@ -30,8 +30,11 @@ export default class {
         var temp = this.rendererTemplate(
             canvas
         )
-        console.log(temp,canvas)
-        this.renderer = new temp({ antialias: true, canvas });
+		
+        this.renderer = new temp({ 
+			antialias: true, canvas,
+			logarithmicDepthBuffer: true
+		});
         if(!this.renderer.compute) this.renderer.compute = () => {}
         if(!this.renderer.renderAsync) {
 		    this.renderer.clearAsync=this.renderer.clear;

@@ -16,7 +16,7 @@ module.exports = async function({
 	if(!firebaseKey) {
 		return;
 	}
-	
+	return;
 	const serviceAccount = (firebaseKey);
 	const projectId = serviceAccount.project_id;
 	const clientEmail = serviceAccount.client_email;

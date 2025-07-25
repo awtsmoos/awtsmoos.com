@@ -727,139 +727,163 @@ export default class Domem extends Nivra {
             it by
         */,
         repeatY=1/*ibit*/,
-        childNameToSetItTo=null
+        childNameToSetItTo=null,
+		useCurveMixer = false,
+	    featherRadius = 10, // world units to feather edge
     } = {}) {
-        var self = this;
-        try {
-            baseTexture = self.olam.$gc(
-                baseTexture
-            );
-            overlayTexture = self.olam.$gc(
-                overlayTexture
-            )
-            maskTexture = self.olam.$gc(
-                maskTexture
-            )
-        } catch(e){
-            console.log("Couldnt get it",e)
-        }
-        console.log("HI!",childNameToSetItTo,baseTexture)
-      
-     //   console.log("mixing all",maskTexture,overlayTexture,baseTexture)
-         // Helper function to load texture and optionally set repeat values
-        
+        const self = this;
 
-
-        console.log("Loading..")
-        var mask;
-        var base;
-        var overlay;
-        try {
-        // Load textures asynchronously
-            mask = await self.olam.loadTexture({
-                url: maskTexture,
-                nivra: self
-            });
-            base = await self.olam.loadTexture({
-                url: baseTexture,
-                shouldRepeat: true,
-                repeatX, repeatY,
-                nivra: self
-            });
-            overlay =  await self.olam.loadTexture({
-                url: overlayTexture,
-                shouldRepeat: true,
-                repeatX, repeatY,
-                nivra: self
-            });
-        } catch(e) {
-            console.log("Issue loading!",e);
-            return;
-        }
-        console.log("Loaded",mask)
-        
-        var fogColor = new THREE.Color(0x88ccee);
-
-
-
-
-        
-        var customLambertMaterial = new THREE.MeshLambertMaterial();
-        customLambertMaterial.onBeforeCompile = function (shader) {
-            // Add custom uniforms
-            shader.uniforms.maskTexture = { value: mask };
-            shader.uniforms.baseTexture = { value: base };
-            shader.uniforms.overlayTexture = { value: overlay };
-            shader.uniforms.repeatVector = { value: new THREE.Vector2(repeatX, repeatY) };
-        
-            // Vertex shader: ensure vUv is declared and assigned
-            shader.vertexShader = 'varying vec2 vUv;\n' + shader.vertexShader;
-            shader.vertexShader = shader.vertexShader.replace(
-                '#include <uv_vertex>',
-                'vUv = uv;\n#include <uv_vertex>'
-            );
-            
-            // Fragment shader: declare custom uniforms and varyings
-            shader.fragmentShader = 'varying vec2 vUv;\n' + shader.fragmentShader;
-            shader.fragmentShader = 'uniform vec2 repeatVector;\n' + shader.fragmentShader;
-            shader.fragmentShader = 'uniform sampler2D maskTexture;\n' + shader.fragmentShader;
-            shader.fragmentShader = 'uniform sampler2D baseTexture;\n' + shader.fragmentShader;
-            shader.fragmentShader = 'uniform sampler2D overlayTexture;\n' + shader.fragmentShader;
-        
-            // Custom fragment shader code
-            var customFragmentCode = `
-                vec2 uv = vUv * repeatVector;
-                vec2 uvBase = vUv;
-
-                vec4 maskColor = texture2D(maskTexture, uvBase);
-                vec4 baseColor = texture2D(baseTexture, uv);
-                vec4 overlayColor = texture2D(overlayTexture, uv);
-                float maskFactor = maskColor.r; // Blend custom textures
-                vec4 blendedColor = mix(baseColor, overlayColor, maskFactor);
-                
-                diffuseColor *= blendedColor;
-            `;
-        
-            // Inject the custom code after UV and texture setup
-            shader.fragmentShader = shader.fragmentShader.replace(
-                '#include <map_fragment>',
-                '#include <map_fragment>\n'+customFragmentCode 
-            );
-        };
-
-        
-        var material = customLambertMaterial;
-        console.log("Seting!",childNameToSetItTo)
-        if(childNameToSetItTo) {
-            var found = false;
-            if(this.mesh)
-            this.mesh.traverse((child => {
-                
-                if(found) return;
-                if(child.name.includes(childNameToSetItTo)) {
-                    found = true;
-                    child.material = material;
-
-                    child.material.needsUpdate=true
-                    //child.material.map=overlay;
-                   // child.material.map.wrapS = child.material.map.wrapT = THREE.RepeatWrapping;
-                   // child.material.map.repeat.set(.001,.001)
-               //     child.material.map = overlay;
-                    child.material.needsUpdate=true
-					if(child.material.map)
-						child.material.map.needsUpdate=true
-                    
-                }
-            }))
-        }
+	    // Load base and overlay textures normally
+	    try {
+	        baseTexture = self.olam.$gc(baseTexture);
+	        overlayTexture = self.olam.$gc(overlayTexture);
+	    } catch (e) {
+	        console.error("Could not gc base/overlay textures", e);
+	    }
+	
+	    let base, overlay;
+	    try {
+	        base = await self.olam.loadTexture({
+	            url: baseTexture,
+	            shouldRepeat: true,
+	            repeatX,
+	            repeatY,
+	            nivra: self,
+	        });
+	        overlay = await self.olam.loadTexture({
+	            url: overlayTexture,
+	            shouldRepeat: true,
+	            repeatX,
+	            repeatY,
+	            nivra: self,
+	        });
+	    } catch (e) {
+	        console.error("Issue loading base or overlay texture", e);
+	        return;
+	    }
+	
+	    // Extract curve points and create DataTexture
+	    let curvePoints = [];
+	    if (useCurveMixer && this.mesh) {
+	        this.mesh.traverse((child) => {
+	            if (child.name.includes("mixer") && child.isMesh) {
+	                const posAttr = child.geometry.attributes.position;
+	                const matrixWorld = child.matrixWorld;
+	
+	                for (let i = 0; i < posAttr.count; i++) {
+	                    const vertex = new THREE.Vector3().fromBufferAttribute(posAttr, i);
+	                    vertex.applyMatrix4(matrixWorld);
+	                    curvePoints.push(new THREE.Vector2(vertex.x, vertex.z)); // Project to XZ
+	                }
+	            }
+	        });
+	    }
+	
+	    // Create Float32Array DataTexture for curve points
+	    const pointCount = curvePoints.length;
+	    if (pointCount === 0) {
+	        console.warn("No curve points found; falling back to overlay blend");
+	    }
+	    const texWidth = Math.max(1, pointCount);
+	    const data = new Float32Array(texWidth * 4);
+	    for (let i = 0; i < pointCount; i++) {
+	        data[i * 4] = curvePoints[i].x;
+	        data[i * 4 + 1] = curvePoints[i].y;
+	        data[i * 4 + 2] = 0;
+	        data[i * 4 + 3] = 1;
+	    }
+	    // Fill remaining pixels with zero if any
+	    for (let i = pointCount; i < texWidth; i++) {
+	        data[i * 4] = 0;
+	        data[i * 4 + 1] = 0;
+	        data[i * 4 + 2] = 0;
+	        data[i * 4 + 3] = 1;
+	    }
+	    const curveTexture = new THREE.DataTexture(data, texWidth, 1, THREE.RGBAFormat, THREE.FloatType);
+	    curveTexture.needsUpdate = true;
+	    curveTexture.wrapS = THREE.ClampToEdgeWrapping;
+	    curveTexture.wrapT = THREE.ClampToEdgeWrapping;
+	
+	    // Build custom shader material
+	    const customLambertMaterial = new THREE.MeshLambertMaterial();
+	    customLambertMaterial.onBeforeCompile = function (shader) {
+	        // Add uniforms
+	        shader.uniforms.baseTexture = { value: base };
+	        shader.uniforms.overlayTexture = { value: overlay };
+	        shader.uniforms.repeatVector = { value: new THREE.Vector2(repeatX, repeatY) };
+	        shader.uniforms.curveTexture = { value: curveTexture };
+	        shader.uniforms.curvePointCount = { value: pointCount };
+	        shader.uniforms.featherRadius = { value: featherRadius };
+	
+	        // Vertex Shader: pass vWorldPos to fragment
+	        shader.vertexShader = `
+	            varying vec3 vWorldPos;
+	        ` + shader.vertexShader;
+	
+	        shader.vertexShader = shader.vertexShader.replace(
+	            '#include <worldpos_vertex>',
+	            `
+	            #include <worldpos_vertex>
+	            vWorldPos = worldPosition.xyz;
+	            `
+	        );
+	
+	        // Fragment Shader: declare uniforms and varyings
+	        shader.fragmentShader = `
+	            uniform sampler2D baseTexture;
+	            uniform sampler2D overlayTexture;
+	            uniform vec2 repeatVector;
+	            uniform sampler2D curveTexture;
+	            uniform int curvePointCount;
+	            uniform float featherRadius;
+	            varying vec3 vWorldPos;
+	
+	            float computeMaskFromCurve(vec2 posXZ) {
+	                float minDist = 1e10;
+	                for (int i = 0; i < 1024; i++) { // max loop upper bound
+	                    if (i >= curvePointCount) break;
+	                    float u = (float(i) + 0.5) / float(curvePointCount);
+	                    vec2 pt = texture2D(curveTexture, vec2(u, 0.5)).rg;
+	                    float d = distance(posXZ, pt);
+	                    minDist = min(minDist, d);
+	                }
+	                return 1.0 - smoothstep(0.0, featherRadius, minDist);
+	            }
+	        ` + shader.fragmentShader;
+	
+	        // Replace the map fragment to use our mask
+	        shader.fragmentShader = shader.fragmentShader.replace(
+	            '#include <map_fragment>',
+	            `
+	            #include <map_fragment>
+	            vec2 uv = vUv * repeatVector;
+	            vec4 baseColor = texture2D(baseTexture, uv);
+	            vec4 overlayColor = texture2D(overlayTexture, uv);
+	            float maskFactor = computeMaskFromCurve(vWorldPos.xz);
+	            vec4 blendedColor = mix(baseColor, overlayColor, maskFactor);
+	            diffuseColor *= blendedColor;
+	            `
+	        );
+	    };
+	
+	    // Assign material to child if requested
+	    if (childNameToSetItTo && this.mesh) {
+	        this.mesh.traverse((child) => {
+	            if (child.name.includes(childNameToSetItTo)) {
+	                child.material = customLambertMaterial;
+	                child.material.needsUpdate = true;
+	            }
+	        });
+	    }
+	
+	    return customLambertMaterial;
         
     }
     
     async madeAll(olam) {
         
-            
 
-        //console.log(this,"hi")
+		
     }
 
     async ready() {
