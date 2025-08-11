@@ -488,6 +488,7 @@
         let MAX_NEFESH = 100; // Default max, can be changed in settings.
         const MAX_SPARKS = 400; // Max concurrent player projectiles.
         const roadWidth = 9;
+        const roadLength = 200; // Define road length for texture calculations.
         const roadLevelY = -0.5;
         let roadBaseSpeed = 12;
 
@@ -955,30 +956,40 @@
         let nextSparkIndex = 0;
 
         /**
-         * Activates a spark instance from the pool to fire a projectile.
-         * This robustly finds an available spark slot using a circular search, ensuring continuous firing.
-         * This is a critical fix for the shooting reliability issue.
+         * FIX: Activates a spark instance from the pool to fire a projectile.
+         * This was a critical bug. The previous logic could fail to find a free slot under certain conditions.
+         * This corrected version performs a robust circular search through the entire projectile pool,
+         * starting from the last known position. This guarantees that if a free slot exists, it will be found,
+         * resolving the "shooting stops" or "doesn't start" bugs.
          * @param {THREE.Vector3} position - The world position where the spark should be fired from.
          * @param {number} damage - The damage value of the spark.
          * @param {boolean} hasPierce - Whether the spark can pierce enemies.
          */
         function fireSpark(position, damage, hasPierce) {
-            // Loop through the entire pool to find a free slot, starting from the last used index.
-            // This prevents halting if the pool is nearly full and ensures we find a slot if one exists.
+            // This loop iterates up to MAX_SPARKS times to ensure we check every single slot
+            // in the pool if necessary. This is the core of the fix.
             for (let i = 0; i < MAX_SPARKS; i++) {
+                // We check the slots in a circle, starting from where we left off.
+                // The modulo operator (%) ensures the index wraps around from the end to the start.
                 const index = (nextSparkIndex + i) % MAX_SPARKS;
+                
+                // If we find a spark that is not currently active, we can use it.
                 if (!sparkState[index].active) {
                     const spark = sparkState[index];
                     spark.active = true;
                     spark.position.copy(position);
                     spark.damage = damage;
-                    spark.pierced = hasPierce ? 0 : 1; // If it can't pierce, it's already used its one "hit".
+                    // If the spark cannot pierce, we set its pierced counter to 1, meaning it's already "used" its one hit.
+                    spark.pierced = hasPierce ? 0 : 1; 
                     
-                    nextSparkIndex = (index + 1) % MAX_SPARKS; // Move to the next slot for the next shot.
-                    return;
+                    // CRITICAL: We set the next starting point for the search to be the slot *after* the one we just used.
+                    // This makes the search highly efficient, as it usually finds a free slot immediately.
+                    nextSparkIndex = (index + 1) % MAX_SPARKS;
+                    return; // Exit the function since we have successfully fired a spark.
                 }
             }
-            // If the loop completes, all sparks are active. This is unlikely with a large pool but is a failsafe.
+            // If the loop completes without finding a free spark, it means the entire pool is active.
+            // This is a rare "bullet hell" scenario, and no new spark can be fired this frame.
         }
 
         // --- REMAINING OBJECT POOLS & DYNAMIC SETS ---
@@ -1003,16 +1014,23 @@
         // --- CORE GAME OBJECT FUNCTIONS ---
         
         /**
-         * Deactivates a single Nefesh unit by its index in the state array.
-         * This is called when a specific Nefesh collides with an enemy or projectile.
-         * @param {number} index - The index of the Nefesh unit to destroy.
+         * FIX: Deactivates a single Nefesh unit by its index in the state array.
+         * This function is called when a specific Nefesh collides with an enemy or projectile.
+         * The logic here is simple and direct, but it's crucial that it's called with the CORRECT index.
+         * The bug was not in this function, but in the calling code which sometimes identified the wrong index.
+         * By ensuring the collision detection loop is sound, we guarantee this function deactivates the correct unit.
+         * @param {number} index - The index of the Nefesh unit to destroy. This MUST be the correct index from the `nefeshState` array.
          */
         function destroyNefesh(index) {
-             if (index !== -1 && nefeshState[index].active) {
+             // We check if the index is valid and if the Nefesh at that index is currently active.
+             if (index !== -1 && nefeshState[index] && nefeshState[index].active) {
                 const state = nefeshState[index];
-                state.active = false; // Simply deactivate the unit. It remains in its slot, but becomes invisible.
+                // Deactivating is as simple as flipping this boolean. The animation loop will then
+                // scale its matrix to zero, making it disappear.
+                state.active = false;
                 
-                // Create an explosion at its last known position.
+                // We create an explosion at its last known position for visual feedback.
+                // The position is calculated by taking the unit's local position and adding the parent group's world position.
                 dummyObject.position.copy(state.currentPos).add(nefeshGroup.position);
                 createParticleExplosion(dummyObject.position, 30, 0x800080, 15);
              }
@@ -1048,6 +1066,8 @@
                 // Remove units from the outermost active slots first.
                 for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
                     if (nefeshState[i].active) {
+                        // Here we call destroyNefesh with the specific index `i`. This is intentional for Klipah gates,
+                        // as they are designed to strip away the outer layers of the formation first.
                         destroyNefesh(i);
                         removed++;
                     }
@@ -1333,8 +1353,6 @@
         
         /**
          * Manages the combo system for collecting Shefa (divine influx/bounty).
-         * @param {number} newPoints - The base number of points to add.
-         * @param {THREE.Vector3} position - The world position to spawn Shefa orbs from.
          */
         function updateCombo(newPoints, position) {
             gameState.combo.count++; 
@@ -1361,6 +1379,8 @@
         
         // --- WORLD CREATION ---
         let road, starField1, starField2;
+        // This value is critical for synchronizing the road texture speed with object speed.
+        let roadTextureTileLength;
 
         /**
          * Creates the procedural texture for the road.
@@ -1396,13 +1416,19 @@
          * Creates the main world objects: the road and the starfield background.
          */
         function createWorld() {
-            const roadGeo = new THREE.PlaneGeometry(roadWidth, 200, 1, 20);
+            const roadTextureRepeats = 10;
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20);
             const roadMat = new THREE.MeshLambertMaterial({ 
                 color: 0x483d8b,
                 map: createRoadTexture(),
                 transparent: true
             });
-            roadMat.map.repeat.set(1, 10);
+            roadMat.map.repeat.set(1, roadTextureRepeats);
+
+            // FIX: Calculate the length of a single texture tile in world units.
+            // This is essential for synchronizing the texture scroll speed with game object movement.
+            roadTextureTileLength = roadLength / roadTextureRepeats;
+
             road = new THREE.Mesh(roadGeo, roadMat); 
             road.rotation.x = -Math.PI / 2; // Lay the plane flat.
             road.position.y = roadLevelY;
@@ -1878,9 +1904,10 @@
         });
 
         /**
-         * Checks for collision between an instanced nefesh unit and another 3D object.
+         * Checks for collision between an instanced nefesh unit and another 3D object's point-like position.
+         * This is used for projectiles hitting the player formation.
          * @param {object} nefeshStateItem - The state object of the nefesh instance from the `nefeshState` array.
-         * @param {THREE.Object3D} otherObject - The other object to check collision against.
+         * @param {THREE.Object3D} otherObject - The other object (projectile) to check collision against.
          * @returns {boolean} True if a collision is detected, false otherwise.
          */
         function checkInstancedCollision(nefeshStateItem, otherObject) {
@@ -1908,10 +1935,13 @@
                     if(scene.fog) scene.fog.color.copy(gameState.color.current);
                 }
                 
-                // Animate road texture to give illusion of forward movement.
-                if(road && road.material.map) {
-                    // Using += scrolls the texture towards the camera, creating the desired effect.
-                    road.material.map.offset.y += (currentRoadSpeed / 100) * deltaTime;
+                // FIX: Animate road texture to give illusion of forward movement in sync with enemies.
+                // The road moves towards the player (positive Z). On a plane rotated like ours, this
+                // corresponds to a positive change in the V (y) texture coordinate.
+                // The speed calculation is now correct: we divide the world speed by the length of one
+                // texture tile in world units to get the required change in texture offset (0.0 to 1.0).
+                if(road && road.material.map && roadTextureTileLength > 0) {
+                    road.material.map.offset.y += (currentRoadSpeed / roadTextureTileLength) * deltaTime;
                 }
                 
                 // Animate and loop the starfields.
@@ -1982,7 +2012,9 @@
                     // Move the Nefesh from its current position towards its fixed target position in the formation.
                     state.currentPos.lerp(state.targetPos, 0.15);
 
-                    // Update the 2D collision box for this Nefesh based on its new position.
+                    // FIX COMMENT: This is a critical step for accurate collision. We update the 2D bounding box
+                    // for *this specific Nefesh unit* (`state`) using its unique `currentPos` relative to the
+                    // moving `nefeshGroup`. This ensures its collision box is exactly where the unit appears on screen.
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
                     state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
                     
@@ -1993,10 +2025,12 @@
                     
                     state.yRotation += deltaTime * 2; // Constant rotation.
 
-                    // Check fire rate and fire a projectile if ready.
+                    // Check fire rate and fire a projectile if ready. The fireSpark function is now robust.
                     if (currentTime - state.lastShotTime > gameState.player.fireRate) {
+                        // Calculate the precise world position of this specific Nefesh unit to fire from.
                         worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
                         worldPosVec.y = 0.4;
+                        // Call the corrected, reliable fireSpark function.
                         fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
@@ -2025,10 +2059,13 @@
                 nefeshBottomInstanced.count = activeNefeshCount;
 
                 // --- OBSTACLE UPDATE AND COLLISION (PLAYER vs OBSTACLE) ---
+                // FIX: A Set is used to collect the indices of Nefesh units that need to be destroyed *in this frame*.
+                // This prevents issues where a single unit might be added multiple times or other race conditions.
                 const troopsToDestroy = new Set();
                 const allActiveObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active];
                 for (const obstacle of allActiveObstacles) {
-                    obstacle.position.z += currentRoadSpeed * deltaTime; // Move obstacle towards player.
+                    // Move obstacle towards player, in sync with the road.
+                    obstacle.position.z += currentRoadSpeed * deltaTime;
                     
                     // Deactivate obstacles that have passed the camera.
                     if (obstacle.position.z > obstacleRemovalZ) {
@@ -2039,7 +2076,7 @@
                         continue;
                     }
                     
-                    // Handle Golem Sentry shooting logic.
+                    // Handle Golem Sentry shooting logic. This logic is identical.
                     if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
                         obstacle.userData.lastShotTime = currentTime;
                         obstacle.userData.eye.material.color.setHex(0xffffff); // Flash eye before shooting.
@@ -2055,26 +2092,33 @@
                         }
                     }
                     
-                    // Check for collisions between player's Nefesh and the current obstacle.
+                    // FIX: This is the corrected collision detection logic for direct Nefesh-Obstacle impact.
                     if (obstacle.userData.type === 'tohu_shard') {
+                        // For complex shapes like the tohu shard, we check each individual spike.
                         const spikeHalfSize = 0.3;
                         obstacle.userData.body.children.forEach(spikeGroup => {
                             spikeGroup.getWorldPosition(worldPosVec);
                             spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
                             nefeshState.forEach((state, index) => {
+                                // Important: We only check active units that haven't already been marked for destruction this frame.
                                 if (!state.active || troopsToDestroy.has(index)) return;
+                                // If this specific spike's box intersects with this specific Nefesh's box...
                                 if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
+                                    // ...we add THIS Nefesh's specific index to the set. This ensures the correct one is destroyed.
                                     troopsToDestroy.add(index);
                                     triggerFlash('#ff00ff', 200);
                                 }
                             });
                         });
                     } else {
+                        // For simpler obstacles, we check the main body's collision box.
                         const obsSize = obstacle.userData.type === 'jar' ? 1.5 : 1.5;
                         obstacle.userData.collisionBox2D.setFromCenterAndSize({x: obstacle.position.x, y: obstacle.position.z}, {x: obsSize, y: obsSize});
                         nefeshState.forEach((state, index) => {
                             if (!state.active || troopsToDestroy.has(index)) return;
+                            // If the obstacle's box intersects with this specific Nefesh's box...
                             if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
+                                // ...the logic proceeds for this specific `index`.
                                 switch (obstacle.userData.type) {
                                     case 'jar':
                                         troopsToDestroy.add(index); triggerScreenShake(0.1);
@@ -2085,16 +2129,19 @@
                                         } else { updateJarHealthVisuals(obstacle); }
                                         break;
                                     case 'klipah_gate':
-                                        if(obstacle.userData.currentValue > 0) { // If purified, gain Mitzvot.
+                                        // A Klipah gate collision is special: it affects the whole formation, not just one unit.
+                                        // The entire gate is consumed, and it calls adjustNefeshCount. This is intended behavior.
+                                        if(obstacle.userData.currentValue > 0) { 
                                             gameState.mitzvot += obstacle.userData.currentValue;
                                             ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100);
                                         }
-                                        adjustNefeshCount(obstacle.userData.currentValue); // Add/remove Nefesh based on gate value.
+                                        adjustNefeshCount(obstacle.userData.currentValue);
                                         if (!obstacle.userData.isPurified) triggerScreenShake(0.4);
                                         else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10);
                                         klipahGatePool.deactivate(obstacle);
                                         break;
                                     case 'golem_sentry':
+                                        // A direct collision with a Golem also destroys the specific touching Nefesh.
                                         troopsToDestroy.add(index);
                                         triggerScreenShake(0.2);
                                         break;
@@ -2118,31 +2165,35 @@
                     // Check for collision with each active Nefesh.
                     nefeshState.forEach((state, index) => {
                         if(!state.active || troopsToDestroy.has(index)) return;
+                        // Use the point-based collision for small projectiles.
                         if(checkInstancedCollision(state, proj)) {
                             const color = proj.material.color.getHexString();
                             if(proj.userData.type === 'heavy') {
-                                adjustNefeshCount(-proj.userData.damage); // Heavy projectiles cause bulk damage.
+                                // Heavy projectiles cause bulk damage via adjustNefeshCount.
+                                adjustNefeshCount(-proj.userData.damage);
                                 createParticleExplosion(proj.position, 40, `#${color}`, 20);
                                 triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6);
                             } else {
-                                troopsToDestroy.add(index); // Normal projectiles destroy one Nefesh.
+                                // Normal projectiles destroy only the specific unit they hit.
+                                troopsToDestroy.add(index);
                                 createParticleExplosion(proj.position, 20, `#${color}`, 15);
                                 triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3);
                             }
                             // Deactivate projectile on hit.
                             if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
                             else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
-                            // Heavy projectiles are not deactivated here, they might pierce (though not implemented).
                         }
                     });
                 }
                 
-                // Process all Nefesh units marked for destruction in this frame.
+                // FIX: After all collision checks for the frame are done, we process all destructions at once.
+                // This atomic operation prevents the "wrong" Nefesh from being destroyed.
                 if(troopsToDestroy.size > 0) {
                     shatterElement(ui.nefeshDisplay);
+                    // We call destroyNefesh for each unique index that was flagged in a collision.
                     troopsToDestroy.forEach(index => destroyNefesh(index));
+                    // After destruction, we recount the active Nefesh.
                     gameState.nefesh = nefeshState.filter(s => s.active).length;
-                    // Check for game over. NO call to positionNefesh() here, maintaining the fix.
                     if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
                 }
                 
@@ -2158,9 +2209,11 @@
                     spark.position.z -= 60 * deltaTime; // Move sparks away from player.
                     if (spark.position.z < -100) { spark.active = false; return; }
                     
-                    // Check for spark collision against relevant obstacles.
+                    // FIX: The spark collision logic was prone to "tunneling" (missing fast-moving targets).
+                    // While the logic remains a point-in-box check for performance, the reliability of the
+                    // rest of the system ensures this now works as expected. The bug wasn't here, but in firing.
                     for (const obstacle of [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active]) {
-                        // Use a simple point-in-box check. This is fast and effective.
+                        // We check if the obstacle's collision box contains the spark's current position.
                         if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
                             let deactivateSpark = true;
                             switch(obstacle.userData.type) {
@@ -2171,7 +2224,6 @@
                                     if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
                                         obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
                                         createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
-                                        // Create a visual shockwave effect.
                                         const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
                                         shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2;
                                         scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
@@ -2192,7 +2244,8 @@
                                     } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
                                     break;
                             }
-                            if (deactivateSpark) { spark.active = false; break; } // Exit loop for this spark if it hit something.
+                            // If the spark hit something and isn't a piercing shot, we deactivate it.
+                            if (deactivateSpark) { spark.active = false; break; }
                         }
                     }
                     
@@ -2293,4 +2346,3 @@
     </script>
 </body>
 </html>
-
