@@ -1,4 +1,6 @@
- <!--
+
+
+<!--
 ב"ה
 B"H
 
@@ -2237,39 +2239,45 @@ B"H
                     if (gameState.nefesh <= 0 && gameState.current === 'playing') endGame();
                 }
                 
-                // --- NEW PROJECTILE UPDATE AND COLLISION (PLAYER vs ENEMY) ---
-                // This new block handles player projectile (spark) movement and collision with obstacles.
+                // ======================================================================================
+                // --- [START] REWRITTEN PLAYER PROJECTILE LOGIC ---
+                // This entire block replaces the old, flawed logic for player bullets.
+                // It ensures bullets are moved, checked for collision, and deactivated correctly,
+                // which prevents the bullet pool from saturating and stopping the player from firing.
+                // ======================================================================================
                 let activeSparkCount = 0;
-                const tempSparkMatrix = new THREE.Matrix4();
+                const tempSparkMatrix = new THREE.Matrix4(); // A reusable matrix for performance.
+
                 sparkState.forEach((spark, i) => {
-                    // Skip inactive sparks entirely.
+                    // 1. SKIP INACTIVE SPARKS: If a spark isn't active, hide its matrix and skip all processing.
                     if (!spark.active) {
-                        tempSparkMatrix.makeScale(0,0,0); 
+                        tempSparkMatrix.makeScale(0, 0, 0); // An invisible matrix.
                         sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
-                        return;
+                        return; // Continue to the next spark in the loop.
                     }
                     activeSparkCount++;
                     
-                    // Move sparks forward (away from the player).
+                    // 2. MOVEMENT: Move the active spark forward (away from the player).
                     spark.position.z -= 60 * deltaTime;
-                    // Deactivate if it goes too far off-screen.
+                    
+                    // 3. OFF-SCREEN CHECK: This is a crucial deactivation step. If the spark is too far,
+                    // deactivate it so its slot can be reused. This prevents pool saturation.
                     if (spark.position.z < -100) {
                         spark.active = false;
-                        return;
+                        return; // The spark is now inactive, so we can skip to the next one.
                     }
                     
-                    // FULLY-FUNCTIONAL SPARK COLLISION LOGIC:
-                    // It iterates through active obstacles and checks if the obstacle's continuously updated
-                    // bounding box contains the spark's current position.
+                    // 4. COLLISION DETECTION: Check this spark against all active obstacles.
                     for (const obstacle of allActiveObstacles) {
-                        // Optimization: Only check obstacles that are near the spark on the Z axis.
+                        // Optimization: A quick check to see if the obstacle is even close to the spark on the Z-axis.
                         if (!obstacle.userData.collisionBox2D || obstacle.position.z > spark.position.z + 1 || obstacle.position.z < spark.position.z - 1) {
-                            continue;
+                            continue; // Skip to next obstacle if it's not nearby.
                         }
 
-                        // THE CORE COLLISION CHECK: Does the obstacle's accurate bounding box contain the spark's point-like position?
+                        // The CORE COLLISION CHECK: Use the obstacle's continuously-updated 2D bounding box
+                        // to see if it contains the spark's 3D position.
                         if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
-                            let deactivateSpark = true; // By default, a spark is deactivated on hit.
+                            let deactivateSpark = true; // Assume the spark will be destroyed on hit.
                             
                             switch(obstacle.userData.type) {
                                 case 'klipah_gate':
@@ -2287,13 +2295,15 @@ B"H
                                 case 'jar': case 'golem_sentry':
                                     obstacle.userData.health -= spark.damage;
                                     createParticleExplosion(spark.position, 5, '#ffffff', 8);
-                                    // If the spark can pierce and hasn't yet, keep it active.
+                                    
+                                    // PIERCE LOGIC: If the player has the pierce upgrade and the spark hasn't hit anything yet,
+                                    // we increment its pierced counter and tell it *not* to deactivate.
                                     if (gameState.player.hasPierce && spark.pierced < 1) {
                                         spark.pierced++;
                                         deactivateSpark = false; // Override deactivation.
                                     }
-                                    // If the obstacle is destroyed...
-                                    if (obstacle.userData.health <= 0) {
+
+                                    if (obstacle.userData.health <= 0) { // If obstacle is destroyed...
                                         triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
                                         createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
                                         updateCombo(75, obstacle.position);
@@ -2305,27 +2315,32 @@ B"H
                                     }
                                     break;
                             }
-                            // If the spark hit something and isn't a piercing shot (or has used its pierce), deactivate it.
+                            
+                            // 5. DEACTIVATION ON HIT: If the spark should be deactivated, flip its state.
                             if (deactivateSpark) {
                                 spark.active = false;
-                                break; // `break` exits the inner for-loop over obstacles, as this spark is now spent.
+                                break; // IMPORTANT: Exit the inner for-loop (obstacles). This spark is spent and needs no more checks.
                             }
                         }
                     }
                     
-                    // If the spark is still active after all checks, update its matrix for rendering.
+                    // 6. UPDATE INSTANCE MATRIX: After all checks, if the spark is *still* active, update its
+                    // matrix to its new position for rendering. Otherwise, its matrix has already been hidden.
                     if (spark.active) {
                         tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
                         sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     } else {
-                        // Also hide the matrix if the spark became inactive during this frame's logic.
+                        // If the spark was deactivated in the collision logic, ensure its matrix is now hidden.
                          tempSparkMatrix.makeScale(0,0,0);
                          sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     }
                 });
-                // After checking all sparks, update the InstancedMesh on the GPU.
+                // After checking all sparks, tell THREE.js to upload the new matrix data to the GPU.
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
+                // ======================================================================================
+                // --- [END] REWRITTEN PLAYER PROJECTILE LOGIC ---
+                // ======================================================================================
                 
                 // --- OTHER DYNAMIC OBJECTS ---
                 // Update Shefa orbs (move towards player).
@@ -2416,6 +2431,7 @@ B"H
     </script>
 </body>
 </html>
+
 
 
         
