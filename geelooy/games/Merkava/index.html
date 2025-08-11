@@ -1,0 +1,1909 @@
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merkava: The Celestial Journey</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
+        :root {
+            --glow-color: #00ddff;
+            --shefa-color: #ffd700;
+            --klipot-color: #ff2d2d;
+            --mitzvot-color: #ffffff;
+            --nefesh-color: #c0c0c0;
+            --outline-color: #000000;
+        }
+        body { margin: 0; overflow: hidden; font-family: 'Orbitron', 'Arial', sans-serif; color: white; background-color: #050008; }
+        canvas { display: block; }
+
+        #flashOverlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: white; z-index: 1001; pointer-events: none;
+            opacity: 0;
+        }
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; background-color: rgba(0, 0, 10, 0.85);
+            backdrop-filter: blur(8px); opacity: 0; visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow-y: auto; 
+            pointer-events: none; 
+        }
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; 
+        }
+        
+        .ui-text { text-shadow: 0 0 8px currentColor, 0 0 15px currentColor, 0 0 2px black; }
+        #mitzvotDisplay, #nefeshDisplay { transition: transform 0.1s ease-out; }
+        
+        #mitzvotDisplay { position: absolute; top: 10px; left: 10px; font-size: 1.3em; background-color: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 5px; }
+        #nefeshDisplay { position: absolute; top: 10px; right: 10px; font-size: 1.3em; background-color: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 5px; }
+        #bhText { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: var(--glow-color); z-index: 999; }
+        
+        #shefaContainer { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 15px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--shefa-color); border-radius: 10px; z-index: 999; overflow: hidden; }
+        #shefaBar { width: 0%; height: 100%; background: var(--shefa-color); box-shadow: 0 0 10px var(--shefa-color), 0 0 5px var(--shefa-color) inset; transition: width 0.3s ease-out; }
+
+        #ascensionNotifier, #comboNotifier {
+            position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5);
+            pointer-events: none; z-index: 1002; opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), left 0.5s ease, top 0.5s ease;
+            text-transform: uppercase;
+        }
+        #ascensionNotifier { top: 20%; font-size: 2.2em; color: #d8a8ff; text-shadow: 0 0 10px #d8a8ff, 0 0 20px #d8a8ff; }
+        #comboNotifier { top: 30%; font-size: 2.0em; color: var(--shefa-color); text-shadow: 0 0 8px var(--shefa-color); }
+        
+        #ascensionNotifier.side-mode { left: 18%; top: 25%; }
+        #comboNotifier.side-mode { left: 18%; top: 35%; }
+
+        #ascensionNotifier.show, #comboNotifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        
+        #ascensionNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
+        #comboNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
+
+        .game-title { font-size: 4em; margin-bottom: 20px; text-align: center; color: var(--glow-color); text-transform: uppercase; }
+        .game-subtitle { font-size: 1.5em; color: var(--mitzvot-color); margin-bottom: 40px; text-align: center; }
+
+        .menu-button-group { display: flex; flex-direction: column; gap: 20px; width: 80%; max-width: 400px; padding: 20px 0; }
+        .menu-button { padding: 15px; font-size: 1.8em; background: linear-gradient(145deg, #0077ff, #0033aa); color: white; border: 2px solid var(--glow-color); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3), inset 0 0 5px rgba(255,255,255,0.3); text-transform: uppercase; }
+        .menu-button:hover { background: linear-gradient(145deg, #0088ff, #0044bb); transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0, 120, 255, 0.5), inset 0 0 8px rgba(255,255,255,0.4); }
+        .menu-button:active { transform: translateY(1px) scale(1.02); box-shadow: 0 2px 10px rgba(0, 120, 255, 0.4), inset 0 0 8px rgba(255,255,255,0.4); }
+        
+        #customPrayerTextarea {
+            width: 100%; height: 200px; font-size: 1em; color: white; background-color: rgba(0,0,0,0.7);
+            border: 2px solid var(--glow-color); border-radius: 8px; padding: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #prayerDisplayContainer {
+            position: absolute; top: 55px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 800px;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 10px; padding: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 998;
+            opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+            pointer-events: none; 
+        }
+        #prayerDisplayContainer.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        #prayerTextContainer { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; }
+        #prayerDropdownBtn {
+            position: absolute;
+            top: -15px; 
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+            z-index: 1004;
+        }
+        #prayerDropdownBtn:hover { opacity: 1; }
+
+        #prayerText {
+            flex-grow: 1; text-align: center; font-size: 1.2em; color: white;
+            text-shadow: 2px 2px 4px #000000;
+            white-space: normal;
+            word-wrap: break-word;
+            padding: 10px 0;
+            min-height: 50px; /* Ensure container has height even if text is short */
+        }
+        .prayer-nav-button {
+            background: none; border: 2px solid white; color: white; font-size: 2em;
+            cursor: pointer; padding: 0 15px; border-radius: 5px;
+            transition: background-color 0.2s, transform 0.1s;
+            user-select: none;
+        }
+        .prayer-nav-button:hover { background-color: rgba(255,255,255,0.2); }
+        .prayer-nav-button:active { transform: scale(0.95); }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+         .setting-item.checkbox {
+            flex-direction: row;
+            align-items: center;
+        }
+        .setting-item.checkbox label { margin-bottom: 0; margin-left: 10px; }
+        .setting-item.checkbox input { width: auto; }
+
+        .setting-item h3 {
+             width: 100%; text-align: center; color: var(--shefa-color);
+             margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid var(--shefa-color); padding-bottom: 8px;
+             text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .setting-item label {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: var(--glow-color);
+        }
+        .setting-item input[type="text"],
+        .setting-item textarea,
+        .setting-item input[type="color"] {
+            width: 100%;
+            font-size: 1em;
+            color: white;
+            background-color: rgba(0,0,0,0.7);
+            border: 2px solid var(--glow-color);
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif;
+        }
+        .setting-item textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .setting-item input[type="range"] {
+            width: 100%;
+        }
+
+        #prayerListOverlay { z-index: 1003; }
+        .prayer-list-modal {
+            width: 90%;
+            max-width: 700px;
+            background: rgba(10, 0, 20, 0.95);
+            border: 2px solid var(--glow-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .scrollable-list {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 221, 255, 0.3);
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .prayer-list-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 1.1em;
+        }
+        .prayer-list-item:hover { background-color: rgba(0, 100, 255, 0.3); }
+        .prayer-list-item.active { background-color: var(--shefa-color); color: #000; font-weight: bold; }
+        .prayer-list-controls { display: flex; flex-direction: column; gap: 10px; }
+        .prayer-list-controls button {
+             padding: 10px; font-size: 1.2em; background: linear-gradient(145deg, #333, #111); color: white; border: 1px solid var(--glow-color); border-radius: 5px; cursor: pointer;
+        }
+        #prayerSettingsPanel {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            border: 1px dashed var(--glow-color);
+            border-radius: 5px;
+        }
+         #prayerSettingsPanel label { font-size: 1em; color: var(--glow-color); }
+        
+        #webcamFeed {
+            display: none;
+        }
+        #globalErrorNotifier {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(200, 0, 0, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 9999;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            box-shadow: 0 0 15px black;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <video id="webcamFeed" autoplay playsinline></video>
+    <div id="globalErrorNotifier"></div>
+
+    <div id="bhText" class="ui-text">ב"ה</div>
+    <div id="flashOverlay"></div>
+    <div id="ascensionNotifier"></div>
+    <div id="comboNotifier"></div>
+
+    <div id="prayerDisplayContainer">
+        <button id="prevPrayerBtn" class="prayer-nav-button">&lt;</button>
+        <div id="prayerTextContainer">
+            <button id="prayerDropdownBtn">📜</button>
+            <div id="prayerText"></div>
+        </div>
+        <button id="nextPrayerBtn" class="prayer-nav-button">&gt;</button>
+    </div>
+
+    <div id="statsContainer">
+        <div id="mitzvotDisplay" class="ui-text">MITZVOT: 0</div>
+        <div id="nefeshDisplay" class="ui-text">NEFESH: 0</div>
+    </div>
+    <div id="shefaContainer"><div id="shefaBar"></div></div>
+
+    <div id="gameOverOverlay" class="overlay"><div class="menu-button-group">
+        <div class="game-title ui-text" style="color: var(--klipot-color);">THE MERKAVA HAS FALLEN</div>
+        <div id="finalMitzvotDisplay" class="game-subtitle">You gathered 0 Mitzvot.</div>
+        <button id="tryAgainButton" class="menu-button">ATTEMPT THE JOURNEY AGAIN</button>
+    </div></div>
+
+    <div id="customMenuOverlay" class="overlay"><div class="menu-button-group">
+        <div class="game-title ui-text">CUSTOM JOURNEY</div>
+        <div class="game-subtitle" style="margin-bottom: 20px;">Paste prayers below, separated by two new lines.</div>
+        <textarea id="customPrayerTextarea" placeholder="Prayer 1...&#10;&#10;Prayer 2..."></textarea>
+        <button id="btnGoCustom" class="menu-button">BEGIN</button>
+        <button id="btnBackToMain" class="menu-button" style="background: linear-gradient(145deg, #555, #222);">BACK</button>
+    </div></div>
+    
+    <div id="mainMenuOverlay" class="overlay visible"><div class="menu-button-group">
+        <div class="game-title ui-text">MERKAVA</div>
+        <div class="game-subtitle">The Celestial Journey</div>
+        <button id="btnBegin" class="menu-button">BEGIN THE JOURNEY</button>
+        <button id="btnCustom" class="menu-button">CUSTOM JOURNEY</button>
+        <button id="btnSettings" class="menu-button">SETTINGS</button>
+    </div></div>
+
+    <div id="settingsOverlay" class="overlay"><div class="menu-button-group" style="max-width: 600px; width: 90%;">
+        <div class="game-title ui-text">SETTINGS</div>
+
+        <h3>Gameplay</h3>
+        <div class="setting-item">
+            <label for="maxNefeshSlider">Max Nefesh: <span id="maxNefeshValue">100</span></label>
+            <input type="range" id="maxNefeshSlider" min="10" max="248" step="1">
+        </div>
+        <div class="setting-item">
+            <label for="particleSpawnRadiusSlider">Particle Spawn Radius: <span id="particleSpawnRadiusValue">60</span></label>
+            <input type="range" id="particleSpawnRadiusSlider" min="10" max="200" step="5">
+        </div>
+
+        <h3>Visual Effects</h3>
+        <div class="setting-item">
+            <label for="shakeIntensitySlider">Screen Shake: <span id="shakeIntensityValue">1</span></label>
+            <input type="range" id="shakeIntensitySlider" min="0" max="5" step="0.1">
+        </div>
+        <div class="setting-item">
+            <label for="flashIntensitySlider">Flash Intensity: <span id="flashIntensityValue">1</span></label>
+            <input type="range" id="flashIntensitySlider" min="0" max="1" step="0.05">
+        </div>
+        <div class="setting-item">
+            <label for="effectsIntensitySlider">Special Effect Intensity (FOV, Particles): <span id="effectsIntensityValue">1</span></label>
+            <input type="range" id="effectsIntensitySlider" min="0" max="2" step="0.1">
+        </div>
+        
+        <h3>Graphics</h3>
+        <div class="setting-item">
+            <label for="particleCharsTextarea">Particle Characters (comma separated):</label>
+            <textarea id="particleCharsTextarea"></textarea>
+        </div>
+        <div class="setting-item">
+            <label for="minParticleSizeSlider">Min Particle Size: <span id="minParticleSizeValue">2</span></label>
+            <input type="range" id="minParticleSizeSlider" min="0.5" max="10" step="0.1">
+        </div>
+        <div class="setting-item">
+            <label for="maxParticleSizeSlider">Max Particle Size: <span id="maxParticleSizeValue">5</span></label>
+            <input type="range" id="maxParticleSizeSlider" min="1" max="20" step="0.1">
+        </div>
+         <div class="setting-item">
+            <label for="shatterCountSlider">Shatter Particle Count: <span id="shatterCountValue">20</span></label>
+            <input type="range" id="shatterCountSlider" min="1" max="100" step="1">
+        </div>
+        <div class="setting-item">
+            <label for="shatterSpeedSlider">Shatter Particle Speed: <span id="shatterSpeedValue">25</span></label>
+            <input type="range" id="shatterSpeedSlider" min="1" max="50" step="1">
+        </div>
+
+        <h3>Custom Captions</h3>
+        <div class="setting-item">
+            <label for="captionFontInput">Caption Font:</label>
+            <input type="text" id="captionFontInput">
+        </div>
+        <div class="setting-item">
+            <label for="captionColorPicker">Caption Color:</label>
+            <input type="color" id="captionColorPicker">
+        </div>
+
+        <h3>Webcam</h3>
+        <div class="setting-item checkbox">
+             <input type="checkbox" id="enableWebcamCheckbox">
+             <label for="enableWebcamCheckbox">Enable Webcam Overlay</label>
+        </div>
+        <div class="setting-item checkbox">
+             <input type="checkbox" id="webcamPerNefeshCheckbox">
+             <label for="webcamPerNefeshCheckbox">Show on every Nefesh</label>
+        </div>
+
+        <button id="btnBackToMainFromSettings" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px;">BACK</button>
+    </div></div>
+
+    <div id="prayerListOverlay" class="overlay">
+        <div class="prayer-list-modal">
+            <div id="prayerList" class="scrollable-list"></div>
+            <div class="prayer-list-controls">
+                 <button id="prayerSettingsToggleBtn">Settings</button>
+                 <div id="prayerSettingsPanel">
+                     <label for="inGameCaptionFontInput">Font:</label>
+                     <input type="text" id="inGameCaptionFontInput">
+                     <label for="inGameCaptionColorPicker">Color:</label>
+                     <input type="color" id="inGameCaptionColorPicker">
+                 </div>
+                 <button id="backToMenuFromGameBtn" style="background: linear-gradient(145deg, #772222, #441111);">Back to Menu</button>
+                 <button id="closePrayerListBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+        // --- GLOBAL ERROR HANDLING ---
+        // A robust error handler to catch and display issues without crashing the entire experience.
+        function displayGlobalError(message) {
+            const errorDiv = document.getElementById('globalErrorNotifier');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => { errorDiv.style.display = 'none'; }, 6000);
+            }
+        }
+        window.addEventListener('error', function(event) {
+            console.error('B"H: A critical error was caught!', event.error);
+            displayGlobalError(`A critical error occurred: ${event.message}. Check console for details.`);
+        });
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('B"H: An unhandled promise rejection was caught!', event.reason);
+            displayGlobalError(`An async error occurred. Check console for details.`);
+        });
+
+
+        // --- GLOBAL SETUP ---
+        // Basic Three.js components: scene, lighting, camera, renderer.
+        const scene = new THREE.Scene();
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        dirLight.position.set(5, 10, 7.5);
+        scene.add(dirLight);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const originalCameraPos = new THREE.Vector3(0, 8, 11);
+        const cameraTargetPos = new THREE.Vector3().copy(originalCameraPos);
+        const originalFOV = 75;
+        camera.position.copy(originalCameraPos);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        const initialClearColor = new THREE.Color(0x483d8b); // Dark Slate Blue, as per screenshot
+        renderer.setClearColor(initialClearColor);
+        document.body.appendChild(renderer.domElement);
+
+        // --- UI ELEMENT CACHING ---
+        // Storing all DOM element references in one place for easy access and performance.
+        const ui = {
+            mainMenu: document.getElementById('mainMenuOverlay'),
+            gameOver: document.getElementById('gameOverOverlay'),
+            customMenu: document.getElementById('customMenuOverlay'),
+            settingsOverlay: document.getElementById('settingsOverlay'),
+            ascensionNotifier: document.getElementById('ascensionNotifier'),
+            comboNotifier: document.getElementById('comboNotifier'),
+            flashOverlay: document.getElementById('flashOverlay'),
+            btnBegin: document.getElementById('btnBegin'),
+            tryAgainButton: document.getElementById('tryAgainButton'),
+            btnCustom: document.getElementById('btnCustom'),
+            btnGoCustom: document.getElementById('btnGoCustom'),
+            btnBackToMain: document.getElementById('btnBackToMain'),
+            btnSettings: document.getElementById('btnSettings'),
+            btnBackToMainFromSettings: document.getElementById('btnBackToMainFromSettings'),
+            customPrayerTextarea: document.getElementById('customPrayerTextarea'),
+            prayerDisplayContainer: document.getElementById('prayerDisplayContainer'),
+            prayerText: document.getElementById('prayerText'),
+            prevPrayerBtn: document.getElementById('prevPrayerBtn'),
+            nextPrayerBtn: document.getElementById('nextPrayerBtn'),
+            mitzvotDisplay: document.getElementById('mitzvotDisplay'),
+            nefeshDisplay: document.getElementById('nefeshDisplay'),
+            finalMitzvotDisplay: document.getElementById('finalMitzvotDisplay'),
+            shefaBar: document.getElementById('shefaBar'),
+            particleCharsTextarea: document.getElementById('particleCharsTextarea'),
+            shakeIntensitySlider: document.getElementById('shakeIntensitySlider'),
+            shakeIntensityValue: document.getElementById('shakeIntensityValue'),
+            flashIntensitySlider: document.getElementById('flashIntensitySlider'),
+            flashIntensityValue: document.getElementById('flashIntensityValue'),
+            effectsIntensitySlider: document.getElementById('effectsIntensitySlider'),
+            effectsIntensityValue: document.getElementById('effectsIntensityValue'),
+            shatterCountSlider: document.getElementById('shatterCountSlider'),
+            shatterCountValue: document.getElementById('shatterCountValue'),
+            shatterSpeedSlider: document.getElementById('shatterSpeedSlider'),
+            shatterSpeedValue: document.getElementById('shatterSpeedValue'),
+            captionFontInput: document.getElementById('captionFontInput'),
+            captionColorPicker: document.getElementById('captionColorPicker'),
+            minParticleSizeSlider: document.getElementById('minParticleSizeSlider'),
+            minParticleSizeValue: document.getElementById('minParticleSizeValue'),
+            maxParticleSizeSlider: document.getElementById('maxParticleSizeSlider'),
+            maxParticleSizeValue: document.getElementById('maxParticleSizeValue'),
+            particleSpawnRadiusSlider: document.getElementById('particleSpawnRadiusSlider'),
+            particleSpawnRadiusValue: document.getElementById('particleSpawnRadiusValue'),
+            enableWebcamCheckbox: document.getElementById('enableWebcamCheckbox'),
+            webcamPerNefeshCheckbox: document.getElementById('webcamPerNefeshCheckbox'),
+            maxNefeshSlider: document.getElementById('maxNefeshSlider'),
+            maxNefeshValue: document.getElementById('maxNefeshValue'),
+            prayerDropdownBtn: document.getElementById('prayerDropdownBtn'),
+            prayerListOverlay: document.getElementById('prayerListOverlay'),
+            prayerList: document.getElementById('prayerList'),
+            closePrayerListBtn: document.getElementById('closePrayerListBtn'),
+            prayerSettingsToggleBtn: document.getElementById('prayerSettingsToggleBtn'),
+            prayerSettingsPanel: document.getElementById('prayerSettingsPanel'),
+            inGameCaptionFontInput: document.getElementById('inGameCaptionFontInput'),
+            inGameCaptionColorPicker: document.getElementById('inGameCaptionColorPicker'),
+            backToMenuFromGameBtn: document.getElementById('backToMenuFromGameBtn'),
+        };
+
+        // --- GAME STATE & CONSTANTS ---
+        let gameState = {}; // The main object holding all dynamic game data.
+        const clock = new THREE.Clock(); // For calculating delta time.
+        const worldPosVec = new THREE.Vector3(); // A reusable vector to avoid allocation in the loop.
+        let animationFrameId; // To control the game loop.
+
+        let MAX_NEFESH = 100; // Default max, can be changed in settings.
+        const roadWidth = 9;
+        const roadLevelY = -0.5;
+        let roadBaseSpeed = 12;
+
+        // --- UTILITY FUNCTIONS ---
+        // Gematria conversion for flavor.
+        const gematriaMap = { 1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה', 6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ', 60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ', 100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת' };
+        function toGematria(n) {
+            if (n === 15) return 'ט״ו'; if (n === 16) return 'ט״ז';
+            let str = ''; let val = Math.abs(n);
+            const sortedKeys = Object.keys(gematriaMap).map(Number).sort((a, b) => b - a);
+            while (val > 0) { for (const key of sortedKeys) { if (val >= key) { str += gematriaMap[key]; val -= key; break; } } }
+            if(str.length > 1) str = str.slice(0, -1) + '״' + str.slice(-1); else if (str.length === 1) str += '׳';
+            return str;
+        }
+        
+        // Dynamic list of particle characters for the background.
+        const specialParticleChars = [];
+        const specialParticleTextures = [];
+        
+        // Colors for different game levels/stages.
+        const levelColors = [
+            new THREE.Color(0x483d8b), new THREE.Color(0x1b0021),
+            new THREE.Color(0x2e0036), new THREE.Color(0x4d0000), 
+            new THREE.Color(0x002b4d), new THREE.Color(0x522d00), 
+            new THREE.Color(0x1a1a1a), new THREE.Color(0x400050)
+        ];
+
+        // --- DATABASE & SETTINGS PERSISTENCE ---
+        const dbName = "MerkavaSettingsDB_v2"; // Renamed to avoid conflicts with old versions.
+        let db;
+
+        // Initializes the IndexedDB for storing settings.
+        async function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 1);
+                request.onerror = event => { console.error("DB Error:", event.target.errorCode); reject("Error opening DB"); };
+                request.onsuccess = event => {
+                    db = event.target.result;
+                    resolve();
+                };
+                request.onupgradeneeded = event => {
+                    let db = event.target.result;
+                    if (!db.objectStoreNames.contains('settings')) {
+                        db.createObjectStore('settings', { keyPath: 'id' });
+                    }
+                };
+            });
+        }
+
+        // Saves a key-value pair to the database.
+        async function saveSetting(id, value) {
+            if (!db) return;
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(['settings'], 'readwrite');
+                transaction.oncomplete = () => resolve();
+                transaction.onerror = (event) => reject(event.target.error);
+                const store = transaction.objectStore('settings');
+                store.put({ id, value });
+            });
+        }
+
+        // Loads a setting from the database, falling back to a default value.
+        async function loadSetting(id, defaultValue) {
+            if (!db) return defaultValue;
+            return new Promise((resolve) => {
+                const transaction = db.transaction(['settings'], 'readonly');
+                const store = transaction.objectStore('settings');
+                const request = store.get(id);
+                request.onsuccess = event => {
+                    resolve(event.target.result ? event.target.result.value : defaultValue);
+                };
+                request.onerror = () => resolve(defaultValue);
+            });
+        }
+        
+        // Holds the current game settings.
+        let gameSettings = {};
+        const defaultSettings = {
+            particleChars: '✨,✡️,🕎,📜,🪐,☄️,⭐,🌌',
+            shakeIntensity: 1,
+            flashIntensity: 1,
+            effectsIntensity: 1,
+            shatterCount: 20,
+            shatterSpeed: 25,
+            captionFont: "'Orbitron', 'Arial', sans-serif",
+            captionColor: '#FFFFFF',
+            minParticleSize: 2,
+            maxParticleSize: 5,
+            particleSpawnRadius: 60,
+            enableWebcam: false,
+            webcamPerNefesh: false,
+            maxNefesh: 100,
+        };
+
+        // Loads all settings from DB and applies them to the UI and game variables.
+        async function applySettings() {
+            // Gameplay settings
+            gameSettings.maxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
+            ui.maxNefeshSlider.value = gameSettings.maxNefesh;
+            ui.maxNefeshValue.textContent = gameSettings.maxNefesh;
+            MAX_NEFESH = gameSettings.maxNefesh;
+            
+            gameSettings.particleSpawnRadius = parseInt(await loadSetting('particleSpawnRadius', defaultSettings.particleSpawnRadius), 10);
+            ui.particleSpawnRadiusSlider.value = gameSettings.particleSpawnRadius;
+            ui.particleSpawnRadiusValue.textContent = gameSettings.particleSpawnRadius;
+
+            // Visual settings
+            gameSettings.particleChars = await loadSetting('particleChars', defaultSettings.particleChars);
+            ui.particleCharsTextarea.value = gameSettings.particleChars;
+            const chars = gameSettings.particleChars.split(',').map(c => c.trim()).filter(Boolean);
+            specialParticleChars.length = 0;
+            specialParticleChars.push(...(chars.length > 0 ? chars : defaultSettings.particleChars.split(',')));
+            
+            specialParticleTextures.length = 0;
+            for(const char of specialParticleChars) {
+                specialParticleTextures.push(createSpecialParticleTexture(char));
+            }
+
+            gameSettings.shakeIntensity = parseFloat(await loadSetting('shakeIntensity', defaultSettings.shakeIntensity));
+            ui.shakeIntensitySlider.value = gameSettings.shakeIntensity;
+            ui.shakeIntensityValue.textContent = gameSettings.shakeIntensity;
+            
+            gameSettings.flashIntensity = parseFloat(await loadSetting('flashIntensity', defaultSettings.flashIntensity));
+            ui.flashIntensitySlider.value = gameSettings.flashIntensity;
+            ui.flashIntensityValue.textContent = gameSettings.flashIntensity;
+            
+            gameSettings.effectsIntensity = parseFloat(await loadSetting('effectsIntensity', defaultSettings.effectsIntensity));
+            ui.effectsIntensitySlider.value = gameSettings.effectsIntensity;
+            ui.effectsIntensityValue.textContent = gameSettings.effectsIntensity;
+
+            gameSettings.shatterCount = parseInt(await loadSetting('shatterCount', defaultSettings.shatterCount), 10);
+            ui.shatterCountSlider.value = gameSettings.shatterCount;
+            ui.shatterCountValue.textContent = gameSettings.shatterCount;
+            
+            gameSettings.shatterSpeed = parseInt(await loadSetting('shatterSpeed', defaultSettings.shatterSpeed), 10);
+            ui.shatterSpeedSlider.value = gameSettings.shatterSpeed;
+            ui.shatterSpeedValue.textContent = gameSettings.shatterSpeed;
+            
+            gameSettings.captionFont = await loadSetting('captionFont', defaultSettings.captionFont);
+            ui.captionFontInput.value = gameSettings.captionFont;
+            
+            gameSettings.captionColor = await loadSetting('captionColor', defaultSettings.captionColor);
+            ui.captionColorPicker.value = gameSettings.captionColor;
+
+            gameSettings.minParticleSize = parseFloat(await loadSetting('minParticleSize', defaultSettings.minParticleSize));
+            ui.minParticleSizeSlider.value = gameSettings.minParticleSize;
+            ui.minParticleSizeValue.textContent = gameSettings.minParticleSize;
+
+            gameSettings.maxParticleSize = parseFloat(await loadSetting('maxParticleSize', defaultSettings.maxParticleSize));
+            ui.maxParticleSizeSlider.value = gameSettings.maxParticleSize;
+            ui.maxParticleSizeValue.textContent = gameSettings.maxParticleSize;
+            
+            gameSettings.enableWebcam = await loadSetting('enableWebcam', defaultSettings.enableWebcam);
+            ui.enableWebcamCheckbox.checked = gameSettings.enableWebcam;
+            
+            gameSettings.webcamPerNefesh = await loadSetting('webcamPerNefesh', defaultSettings.webcamPerNefesh);
+            ui.webcamPerNefeshCheckbox.checked = gameSettings.webcamPerNefesh;
+            
+            applyCaptionStyle();
+        }
+
+        // Applies custom font and color to the prayer display.
+        function applyCaptionStyle() {
+            ui.prayerText.style.fontFamily = gameSettings.captionFont;
+            ui.prayerText.style.color = gameSettings.captionColor;
+        }
+
+        // Manages webcam integration.
+        const webcamManager = {
+            videoElement: document.getElementById('webcamFeed'),
+            stream: null,
+            texture: null,
+            alphaMap: null,
+            async start() {
+                if (this.stream) return;
+                try {
+                    this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    this.videoElement.srcObject = this.stream;
+                    this.videoElement.play();
+                    this.texture = new THREE.VideoTexture(this.videoElement);
+                    if (!this.alphaMap) {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 128; canvas.height = 128;
+                        const context = canvas.getContext('2d');
+                        context.fillStyle = 'black';
+                        context.fillRect(0, 0, 128, 128);
+                        context.fillStyle = 'white';
+                        context.beginPath();
+                        context.arc(64, 64, 64, 0, Math.PI * 2);
+                        context.fill();
+                        this.alphaMap = new THREE.CanvasTexture(canvas);
+                    }
+                } catch (err) {
+                    console.error("Could not access webcam:", err);
+                    ui.enableWebcamCheckbox.checked = false;
+                    await saveSetting('enableWebcam', false);
+                    gameSettings.enableWebcam = false;
+                }
+            },
+            stop() {
+                if (this.stream) {
+                    this.stream.getTracks().forEach(track => track.stop());
+                }
+                this.stream = null;
+                this.texture?.dispose();
+                this.texture = null;
+            }
+        };
+        
+        // --- TEXTURE & OBJECT CREATION ---
+
+        // Creates a texture from an emoji or character.
+        function createSpecialParticleTexture(text, size = 128) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const context = canvas.getContext('2d');
+            context.font = `${size * 0.8}px Arial`;
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(text, size / 2, size / 2);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // Creates a texture for displaying values on obstacles.
+        function createTextTexture(text, gematriaText, bgColor, font = '900 240px Orbitron', textColor = '#fff') {
+            const canvas = document.createElement('canvas'); const size = 1024;
+            canvas.width = size; canvas.height = size; const ctx = canvas.getContext('2d');
+            ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = font;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.strokeStyle = 'black'; ctx.lineWidth = 20;
+
+            const hasGematria = gematriaText && gematriaText !== '';
+            const textY = hasGematria ? canvas.height / 2 - 120 : canvas.height / 2;
+            ctx.strokeText(text, canvas.width / 2, textY);
+            ctx.fillStyle = textColor;
+            ctx.fillText(text, canvas.width / 2, textY);
+            
+            if(hasGematria) {
+                const gematriaFont = 'normal 260px "Times New Roman"';
+                ctx.font = gematriaFont;
+                const gematriaY = canvas.height / 2 + 120;
+                ctx.strokeText(gematriaText, canvas.width / 2, gematriaY);
+                ctx.fillStyle = textColor;
+                ctx.fillText(gematriaText, canvas.width / 2, gematriaY);
+            }
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // Generic object pool for reusing objects and improving performance.
+        class ObjectPool {
+            constructor(c, i) { this.c = c; this.p = []; this.a = new Set(); for (let j=0; j<i; j++) { const o = this.c(); o.visible=false; scene.add(o); this.p.push(o); } }
+            activate() { let o=this.p.length>0?this.p.pop():this.c(); if(!o.parent)scene.add(o); o.visible=true; this.a.add(o); return o; }
+            deactivate(o) { o.visible=false; this.a.delete(o); this.p.push(o); }
+            deactivateAll() { [...this.a].forEach(o => this.deactivate(o)); }
+        }
+
+        // --- MATERIALS & GEOMETRIES ---
+        // Pre-defining materials for all game objects.
+        const magenDavidMaterial = new THREE.MeshLambertMaterial({ color: 0x00aaff, emissive: 0x00aaff, emissiveIntensity: 0.5 });
+        const sparkMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff, fog: false }); // Player bullets are now cyan
+        const jarMaterial = new THREE.MeshStandardMaterial({ color: 0x815633, emissive: 0x4d341f, emissiveIntensity: 1.5, metalness: 0.1, roughness: 0.8 });
+        const tohuMaterial = new THREE.MeshStandardMaterial({ color: 0x800080, emissive: 0xff00ff, emissiveIntensity: 1.2, roughness: 0.2, metalness: 0.8 });
+        const klipahCrackMaterial = new THREE.MeshStandardMaterial({color: 0x550000, emissive: 0xff0000, emissiveIntensity: 1.0, roughness: 0.9});
+        const golemMaterial = new THREE.MeshStandardMaterial({ color: 0x666666, emissive: 0x333333, emissiveIntensity: 1.5, metalness: 0.8, roughness: 0.2 });
+        const golemProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xff4500, fog: false });
+        const golemFastProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, fog: false });
+        const golemHeavyProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0x4b0082, fog: false });
+        const shefaOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false });
+        const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
+
+        // --- OBJECT POOLS ---
+        // Creating pools for all frequently spawned and destroyed objects.
+        const minyanGroup = new THREE.Group();
+        scene.add(minyanGroup);
+        const magenDavidTroops = []; // This array holds the state of the formation (object or null).
+        const sparkPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial), 400);
+        const golemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial), 30);
+        const golemFastProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), golemFastProjectileMaterial), 30);
+        const golemHeavyProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 1.2), golemHeavyProjectileMaterial), 20);
+        const particlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({fog: false})), 300);
+        const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
+        
+        const specialParticlePool = new ObjectPool(() => {
+            const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 });
+            const sprite = new THREE.Sprite(material);
+            sprite.userData = { type: 'special_particle' };
+            return sprite;
+        }, 300);
+        
+        // --- DYNAMIC OBJECT SETS ---
+        const activeLights = new Set();
+        const activeShockwaves = new Set();
+        const dynamicShards = new Set();
+        
+        // --- CORE GAME OBJECT FUNCTIONS ---
+
+        // Creates a Magen David object, the player's core unit.
+        function createMagenDavid() {
+            const group = new THREE.Group();
+            const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
+            // Two cones form the star.
+            [0.2, -0.2].forEach(y => { const p = new THREE.Mesh(coneGeom, magenDavidMaterial); p.position.y = y; if(y < 0) p.rotation.x = Math.PI; group.add(p); });
+            group.userData = { lastShotTime: 0, collisionBox2D: new THREE.Box2(), targetPos: new THREE.Vector3() };
+
+            // Optional webcam plane.
+            if (webcamManager.texture) {
+                 const webcamMat = new THREE.MeshBasicMaterial({ map: webcamManager.texture, alphaMap: webcamManager.alphaMap, transparent: true });
+                 const webcamPlane = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.8), webcamMat);
+                 webcamPlane.position.y = 0.5;
+                 webcamPlane.name = 'webcam_plane';
+                 webcamPlane.visible = false;
+                 group.add(webcamPlane);
+            }
+            return group;
+        }
+
+        // Arranges the Minyan in a phyllotaxis spiral, constrained by the road width.
+        function positionNefesh() {
+            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle for spiral.
+            const radiusStep = 0.45; 
+            
+            // First, find the maximum radius the current formation would occupy without constraints.
+            let maxRadius = 0;
+            magenDavidTroops.forEach((troop, i) => {
+                if (troop) {
+                    const radius = radiusStep * Math.sqrt(i + 1);
+                    if (radius > maxRadius) maxRadius = radius;
+                }
+            });
+
+            // If the formation is wider than the road, calculate a scaling factor.
+            const scaleFactor = (maxRadius * 2 > roadWidth) ? (roadWidth / 2) / maxRadius : 1;
+
+            // Now, set the target position for each Nefesh based on the scaled spiral.
+            magenDavidTroops.forEach((troop, i) => {
+                if (troop) {
+                    const radius = radiusStep * Math.sqrt(i + 1) * scaleFactor;
+                    const angle = i * angleStep;
+                    const x = Math.cos(angle) * radius;
+                    const z = Math.sin(angle) * radius;
+                    // Position them in a circle, slightly behind the player's center point.
+                    troop.userData.targetPos.set(x, 0.4, z - 2);
+                }
+            });
+        }
+        
+        // Handles the destruction of a single Nefesh.
+        function destroyNefesh(troop) {
+             const index = magenDavidTroops.indexOf(troop);
+             if (index !== -1) {
+                createParticleExplosion(troop.getWorldPosition(worldPosVec), 30, 0x800080, 15);
+                shatterObject(troop.children[0]);
+                minyanGroup.remove(troop);
+                // Important: Set the array slot to null, leaving a gap, instead of splicing.
+                magenDavidTroops[index] = null;
+             }
+        }
+
+        // Adds or removes Nefesh from the Minyan.
+        function adjustNefeshCount(change) {
+            const initialNefesh = gameState.nefesh;
+            if (change > 0) { // Adding Nefesh
+                let added = 0;
+                // Iterate through the array to find the first available `null` slot.
+                for(let i = 0; i < MAX_NEFESH && added < change; i++) {
+                    if (magenDavidTroops[i] === null) {
+                        const newTroop = createMagenDavid(); newTroop.scale.set(0.01, 0.01, 0.01);
+                        magenDavidTroops[i] = newTroop; minyanGroup.add(newTroop);
+                        newTroop.userData.targetScale = 1; 
+                        createParticleExplosion(minyanGroup.position, 15, 0x00aaff, 10);
+                        added++;
+                    }
+                }
+            } else if (change < 0) { // Removing Nefesh
+                let removed = 0;
+                const toRemove = -change;
+                // Remove from the back of the formation first to preserve the inner core.
+                for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
+                    if (magenDavidTroops[i]) {
+                        destroyNefesh(magenDavidTroops[i]);
+                        removed++;
+                    }
+                }
+            }
+
+            // Recalculate the current count and reposition the entire formation.
+            gameState.nefesh = magenDavidTroops.filter(t => t !== null).length;
+            positionNefesh();
+            
+            if (gameState.nefesh < initialNefesh) {
+                shatterElement(ui.nefeshDisplay);
+            }
+
+            if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
+            ui.nefeshDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
+        }
+
+        // --- OBSTACLE CREATION FUNCTIONS ---
+        // Each function creates a main object and an outline object for the 3D border effect.
+
+        const klipahGatePool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeo = new THREE.BoxGeometry(3, 4, 0.5);
+            const body = new THREE.Mesh(bodyGeo, klipahCrackMaterial.clone());
+            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
+            outline.scale.setScalar(1.15); // Outline is slightly larger.
+            const valuePlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            valuePlane.position.z = 0.26;
+            group.add(outline, body, valuePlane);
+            group.userData = { type: 'klipah_gate', body, valuePlane, collisionBox2D: new THREE.Box2() };
+            return group;
+        }, 15);
+
+        function updateKlipahGateVisuals(gate) {
+            const { valuePlane, currentValue, isPurified } = gate.userData;
+            if (valuePlane.material.map) valuePlane.material.map.dispose();
+            const color = isPurified ? '#aaffaa' : '#ff4444';
+            let numText = isPurified ? `+${currentValue}` : currentValue.toString();
+            let gematria = toGematria(currentValue);
+            valuePlane.material.map = createTextTexture(numText, gematria, 'rgba(0,0,0,0)', undefined, color);
+            gate.userData.body.material.color.set(isPurified ? '#66ff66' : '#550000');
+            gate.userData.body.material.emissive.set(isPurified ? '#00ff00' : '#ff0000');
+        }
+
+        const jarPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12);
+            const body = new THREE.Mesh(bodyGeo, jarMaterial.clone());
+            body.rotation.z = Math.PI / 2; body.rotation.y = Math.random() * Math.PI;
+            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
+            outline.rotation.copy(body.rotation);
+            outline.scale.set(1.15, 1.1, 1.15);
+            const healthPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            healthPlane.position.y = 1.2;
+            group.add(outline, body, healthPlane);
+            group.userData = { type: 'jar', body, healthPlane, collisionBox2D: new THREE.Box2() };
+            return group;
+        }, 15);
+        
+        function updateJarHealthVisuals(jar) {
+            const { healthPlane, health } = jar.userData;
+            if (healthPlane.material.map) healthPlane.material.map.dispose();
+            healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF');
+        }
+
+        const tohuShardPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const spikeGeom = new THREE.ConeGeometry(0.3, 1.5, 6);
+            for(let i=0; i < 10; i++) {
+                const shardGroup = new THREE.Group();
+                const shard = new THREE.Mesh(spikeGeom, tohuMaterial.clone());
+                const outline = new THREE.Mesh(spikeGeom, outlineMaterial);
+                outline.scale.setScalar(1.2);
+                shardGroup.add(outline, shard);
+                shardGroup.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5);
+                shardGroup.userData.collisionBox2D = new THREE.Box2();
+                group.add(shardGroup);
+            }
+            group.userData = { type: 'tohu_shard', body: group };
+            return group;
+        }, 15);
+        
+        const golemSentryPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const torsoGeo = new THREE.BoxGeometry(1.5, 2.0, 1.5);
+            const torso = new THREE.Mesh(torsoGeo, golemMaterial.clone());
+            torso.position.y = 1.0;
+            const headGeo = new THREE.BoxGeometry(1.0, 1.0, 1.0);
+            const head = new THREE.Mesh(headGeo, golemMaterial.clone());
+            head.position.y = 2.5;
+            const eye = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000}));
+            eye.position.z = 0.5;
+            head.add(eye);
+            
+            const torsoOutline = new THREE.Mesh(torsoGeo, outlineMaterial);
+            torsoOutline.position.copy(torso.position);
+            torsoOutline.scale.setScalar(1.1);
+            const headOutline = new THREE.Mesh(headGeo, outlineMaterial);
+            headOutline.position.copy(head.position);
+            headOutline.scale.setScalar(1.1);
+
+            group.add(torsoOutline, headOutline, torso, head);
+            group.userData = { type: 'golem_sentry', body: group, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye };
+            return group;
+        }, 10);
+
+        // --- VISUAL EFFECTS ---
+
+        // Creates a particle burst.
+        function createParticleExplosion(position, count, color, speed) {
+            const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1));
+            for(let i=0; i < scaledCount; i++) {
+                const p = particlePool.activate(); if(!p) continue;
+                p.position.copy(position);
+                p.material.color.set(color);
+                p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 };
+            }
+        }
+        
+        // Creates a shatter effect for 3D objects.
+        function shatterObject(object) {
+            const geom = object.geometry; const mat = object.material;
+            const shatterCount = gameSettings.shatterCount;
+            const shatterSpeed = gameSettings.shatterSpeed;
+            for(let i=0; i < shatterCount; i++) {
+                const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3);
+                shard.position.copy(object.getWorldPosition(worldPosVec));
+                shard.rotation.copy(object.rotation);
+                scene.add(shard);
+                shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) };
+                dynamicShards.add(shard);
+            }
+        }
+        
+        // Creates a shatter effect for HTML elements.
+        function shatterElement(element) {
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            const container = document.createElement('div');
+            Object.assign(container.style, {
+                position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`,
+                width: `${rect.width}px`, height: `${rect.height}px`,
+                overflow: 'hidden', pointerEvents: 'none', zIndex: '2000'
+            });
+            document.body.appendChild(container);
+            const shatterCount = Math.max(5, gameSettings.shatterCount / 2);
+            const shatterSpeed = gameSettings.shatterSpeed * 0.2;
+            for (let i = 0; i < shatterCount; i++) {
+                const shard = document.createElement('div');
+                Object.assign(shard.style, {
+                    position: 'absolute', backgroundColor: 'white',
+                    width: `${Math.random() * 15 + 5}px`, height: `${Math.random() * 15 + 5}px`,
+                    left: `${Math.random() * rect.width}px`, top: `${Math.random() * rect.height}px`,
+                    transition: 'transform 1s ease-out, opacity 1s ease-out'
+                });
+                container.appendChild(shard);
+                requestAnimationFrame(() => { 
+                    const vx = (Math.random() - 0.5) * shatterSpeed * 8;
+                    const vy = (Math.random() - 0.5) * shatterSpeed * 8;
+                    shard.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg)`;
+                    shard.style.opacity = '0';
+                });
+            }
+            setTimeout(() => { if (container.parentElement) document.body.removeChild(container); }, 1000);
+        }
+
+        // Functions to trigger screen-wide visual effects.
+        let shakeIntensity = 0; let fovKick = 0;
+        function triggerScreenShake(intensity) { shakeIntensity = Math.max(shakeIntensity, intensity * gameSettings.shakeIntensity); }
+        function triggerFovKick(intensity) { fovKick = Math.max(fovKick, intensity * gameSettings.effectsIntensity); }
+        function triggerFlash(color, duration) {
+            const intensity = gameSettings.flashIntensity;
+            if (intensity <= 0) return;
+            ui.flashOverlay.style.backgroundColor = color; ui.flashOverlay.style.transition = 'opacity 0s';
+            ui.flashOverlay.style.opacity = (0.7 * intensity).toString();
+            setTimeout(() => { ui.flashOverlay.style.transition = `opacity ${duration}ms`; ui.flashOverlay.style.opacity = '0'; }, 10);
+        }
+
+        // --- GAMEPLAY SYSTEMS ---
+
+        // Manages player upgrades.
+        const allUpgrades = {
+            'gevurah': { name: "GEVURAH'S MIGHT", desc: "Projectile damage increased.", apply: () => gameState.player.projectileDamage++ },
+            'netzach': { name: "NETZACH'S SWIFTNESS", desc: "Increases fire rate.", apply: () => gameState.player.fireRate *= 0.85 },
+            'hod': { name: "HOD'S SPLENDOR", desc: "Projectiles pierce one enemy.", nonStackable: true, apply: () => gameState.player.hasPierce = true },
+            'chesed': { name: "CHESED'S GRACE", desc: "Periodically gain a shield that blocks one hit.", nonStackable: true, apply: () => gameState.player.hasShield = true },
+            'tikkun': { name: "TIKKUN OLAM", desc: "Slowly regenerate lost Nefesh over time.", nonStackable: true, apply: () => gameState.player.hasRegen = true },
+        };
+        const acquiredUpgrades = new Set();
+        
+        function grantRandomEmanation() {
+            const availableUpgrades = Object.keys(allUpgrades).filter(key => !allUpgrades[key].nonStackable || !acquiredUpgrades.has(key));
+            if(availableUpgrades.length === 0) return;
+            const chosenKey = availableUpgrades[Math.floor(Math.random() * availableUpgrades.length)];
+            const upgrade = allUpgrades[chosenKey];
+            upgrade.apply();
+            if(upgrade.nonStackable) acquiredUpgrades.add(chosenKey);
+            ui.ascensionNotifier.textContent = upgrade.name; ui.ascensionNotifier.classList.add('show');
+            createParticleExplosion(minyanGroup.position, 150, 0xd8a8ff, 20);
+            triggerFlash('#d8a8ff', 500); triggerFovKick(15);
+            for (const p of specialParticlePool.a) {
+                const direction = p.position.clone().sub(minyanGroup.position).normalize();
+                p.userData.velocity.addScaledVector(direction, 40);
+                p.userData.life = Math.min(p.userData.life, 2.0);
+            }
+            setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
+
+            const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1);
+            gameState.color.target.copy(levelColors[nextColorIndex]);
+            if (road && road.material.map) {
+                // The road texture does not change color, only the background fog.
+            }
+        }
+        
+        // Manages the combo system.
+        function updateCombo(newPoints, position) {
+            gameState.combo.count++; gameState.combo.timer = 3.0;
+            const shefaGained = newPoints * gameState.combo.count;
+            const numOrbs = Math.min(15, Math.floor(shefaGained / 10));
+            if(numOrbs === 0) return;
+            const valuePerOrb = shefaGained / numOrbs;
+            for(let i=0; i < numOrbs; i++) {
+                const orb = shefaOrbPool.activate();
+                if(orb) {
+                    orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0));
+                    orb.userData.value = valuePerOrb;
+                    orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
+                }
+            }
+            ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
+            ui.comboNotifier.classList.remove('show'); void ui.comboNotifier.offsetWidth; ui.comboNotifier.classList.add('show');
+        }
+        
+        // Creates the road and starfield.
+        let road, starField1, starField2;
+        function createRoadTexture() {
+            const canvas = document.createElement('canvas');
+            const width = 128; const height = 512;
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // The road base is transparent, the color comes from the material.
+            ctx.fillStyle = 'rgba(0,0,0,0)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Yellow dotted lines.
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
+            for(let y = 0; y < height; y += 40) {
+                ctx.fillRect(width/2 - 3, y, 6, 20);
+            }
+            
+            // Faint white edge lines.
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fillRect(width * 0.1 - 1, 0, 2, height);
+            ctx.fillRect(width * 0.9 - 1, 0, 2, height);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            return texture;
+        }
+
+        function createWorld() {
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, 200, 1, 20);
+            const roadMat = new THREE.MeshLambertMaterial({ 
+                color: 0x483d8b, // The purple color is set here.
+                map: createRoadTexture(),
+                transparent: true
+            });
+            roadMat.map.repeat.set(1, 10);
+            road = new THREE.Mesh(roadGeo, roadMat); 
+            road.rotation.x = -Math.PI / 2; 
+            road.position.y = roadLevelY;
+            scene.add(road);
+
+            const createField = () => {
+                const vertices = [];
+                for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); }
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+                const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff });
+                return new THREE.Points(geometry, material);
+            };
+            starField1 = createField(); starField2 = createField(); starField2.position.z = -500;
+            scene.add(starField1, starField2);
+        }
+
+        // --- OBSTACLE SPAWNING ---
+        const lanePositions = [-3.0, 0, 3.0];
+        const obstacleRemovalZ = camera.position.z + 5;
+        
+        function spawnObstacle(type, laneIndex, zPos) {
+            const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos);
+            const levelFactor = 1 + (gameState.level / 10);
+
+            switch(type) {
+                case 'klipah_gate': {
+                    const gate = klipahGatePool.activate(); if(!gate) return;
+                    gate.position.copy(position); gate.position.y += 2;
+                    Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false });
+                    updateKlipahGateVisuals(gate);
+                    break;
+                }
+                case 'jar': {
+                    const jar = jarPool.activate(); if(!jar) return;
+                    jar.position.copy(position); jar.position.y += 0.75;
+                    const health = Math.floor(30 + Math.random() * 40 * levelFactor);
+                    Object.assign(jar.userData, { health, maxHealth: health });
+                    updateJarHealthVisuals(jar);
+                    break;
+                }
+                case 'tohu_shard': {
+                    const shard = tohuShardPool.activate(); if(!shard) return;
+                    shard.position.copy(position);
+                    break;
+                }
+                case 'golem_sentry': {
+                    const golem = golemSentryPool.activate(); if(!golem) return;
+                    golem.position.copy(position);
+                    golem.userData.health = Math.floor(120 * levelFactor);
+                    golem.userData.lastShotTime = 0;
+                    break;
+                }
+            }
+        }
+        
+        // --- TACTICAL SPAWN PATTERNS ---
+        // A library of functions that define specific enemy placements.
+        function pattern_Wall(z) {
+            const wallType = Math.random() < 0.7 ? 'jar' : 'klipah_gate';
+            spawnObstacle(wallType, 0, z);
+            spawnObstacle(wallType, 1, z);
+            spawnObstacle(wallType, 2, z);
+        }
+        function pattern_Gauntlet(z) {
+            const lane = Math.floor(Math.random() * 3);
+            for(let i = 0; i < 4; i++) {
+                spawnObstacle('tohu_shard', lane, z - i * 15);
+            }
+        }
+        function pattern_SentryGuard(z) {
+            const lane = Math.floor(Math.random() * 3);
+            spawnObstacle('golem_sentry', lane, z - 10);
+            spawnObstacle('jar', lane, z);
+            const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1;
+            spawnObstacle('jar', sideLane, z - 5);
+        }
+        function pattern_KlipahWeave(z) {
+            const startLane = Math.random() < 0.5 ? 0 : 2;
+            spawnObstacle('klipah_gate', startLane, z);
+            spawnObstacle('klipah_gate', 1, z - 15);
+            spawnObstacle('klipah_gate', 2 - startLane, z - 30);
+            if (gameState.level > 5) spawnObstacle('jar', startLane, z - 45);
+        }
+        function pattern_GolemFlank(z) {
+            spawnObstacle('golem_sentry', 0, z);
+            spawnObstacle('golem_sentry', 2, z-5);
+            spawnObstacle('jar', 1, z);
+        }
+        function pattern_RandomMix(z) {
+            const lane1 = Math.floor(Math.random() * 3);
+            let lane2 = Math.floor(Math.random() * 3);
+            while(lane2 === lane1) { lane2 = Math.floor(Math.random() * 3); }
+            
+            spawnObstacle('jar', lane1, z);
+            spawnObstacle('klipah_gate', lane2, z - 10);
+            if (Math.random() > 0.4) {
+                spawnObstacle('tohu_shard', 3 - lane1 - lane2, z - 20);
+            }
+        }
+        function pattern_Crossfire(z) {
+            spawnObstacle('golem_sentry', 0, z);
+            spawnObstacle('golem_sentry', 2, z - 10);
+            if (Math.random() < 0.5 * (gameState.level / 10)) {
+                spawnObstacle('jar', 1, z-20);
+            }
+        }
+        function pattern_TrapCorridor(z) {
+            const openLane = Math.floor(Math.random() * 3);
+            for(let i=0; i<3; i++) {
+                if (i !== openLane) {
+                    spawnObstacle('jar', i, z);
+                    spawnObstacle('jar', i, z - 15);
+                } else {
+                     spawnObstacle('tohu_shard', i, z - 7.5);
+                }
+            }
+        }
+        
+        const patternSets = [
+            [pattern_RandomMix, pattern_Wall], // Level 1-2
+            [pattern_RandomMix, pattern_Wall, pattern_Gauntlet, pattern_SentryGuard], // Level 3-5
+            [pattern_Gauntlet, pattern_SentryGuard, pattern_KlipahWeave, pattern_Crossfire], // Level 6-8
+            [pattern_SentryGuard, pattern_KlipahWeave, pattern_GolemFlank, pattern_Crossfire, pattern_TrapCorridor], // Level 9+
+        ];
+
+        // Decides when and which pattern to spawn.
+        function trySpawnPattern() {
+            let rearmostZ = 0;
+            const allObstacles = [...klipahGatePool.a, ...jarPool.a, ...tohuShardPool.a, ...golemSentryPool.a];
+            for(const obs of allObstacles) {
+                if (obs.position.z < rearmostZ) rearmostZ = obs.position.z;
+            }
+            
+            if (rearmostZ > -80) { // If there's space on the road ahead...
+                 const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level -1) / 3));
+                 const availablePatterns = patternSets[patternSetIndex];
+                 const chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
+                 chosenPattern(-120 - Math.random() * 40); // Spawn it off-screen.
+            }
+        }
+        
+        // Spawns decorative background particles.
+        function spawnSpecialParticle() {
+            if (specialParticleTextures.length === 0) return;
+            const p = specialParticlePool.activate();
+            if (!p) return;
+            
+            const spawnRadius = gameSettings.particleSpawnRadius;
+            const spawnZ = -150;
+            const x = (Math.random() - 0.5) * spawnRadius * 2;
+            const y = (Math.random() - 0.5) * spawnRadius;
+            p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ);
+            
+            const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)];
+            p.material.map = texture;
+            p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true;
+            
+            const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize);
+            p.scale.set(scale, scale, scale);
+            
+            p.userData.life = 5.0;
+
+            const baseSpeed = 40 + (gameState.level * 3);
+            const randomSpeed = 20 + gameState.level * 2;
+            p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed);
+        }
+
+        // --- GAME STATE MANAGEMENT ---
+
+        // Initializes the game state for a new run.
+        async function initializeGame() {
+            try {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                
+                // Deactivate all pooled objects.
+                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool].forEach(pool => pool.deactivateAll());
+                dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
+                activeLights.forEach(l => scene.remove(l)); activeLights.clear();
+                activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
+                magenDavidTroops.forEach(t => { if(t) minyanGroup.remove(t); });
+                magenDavidTroops.length = 0;
+
+                // Handle webcam state.
+                if(gameSettings.enableWebcam) await webcamManager.start();
+                else webcamManager.stop();
+                
+                // Reset game state object.
+                gameState = {
+                    current: 'playing', mitzvot: 0, nefesh: 0, shefa: 0, shefaToAscend: 100, level: 1,
+                    player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false },
+                    combo: { count: 0, timer: 0 },
+                    customPrayers: gameSettings.customPrayers || null,
+                    color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) }
+                };
+                
+                scene.fog = new THREE.Fog(gameState.color.current, 50, 200);
+                renderer.setClearColor(gameState.color.current);
+
+                acquiredUpgrades.clear();
+                if(!road) createWorld();
+                
+                // Initialize troop array with nulls up to the max.
+                for(let i=0; i < MAX_NEFESH; i++) { magenDavidTroops.push(null); }
+
+                // Handle custom prayer display.
+                if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
+                    ui.prayerDisplayContainer.classList.add('visible');
+                    updatePrayerDisplay();
+                    ui.ascensionNotifier.classList.add('side-mode');
+                    ui.comboNotifier.classList.add('side-mode');
+                } else {
+                    ui.prayerDisplayContainer.classList.remove('visible');
+                    ui.ascensionNotifier.classList.remove('side-mode');
+                    ui.comboNotifier.classList.remove('side-mode');
+                }
+
+                adjustNefeshCount(10); // Start with 10 Nefesh.
+                targetCubeX = 0; minyanGroup.position.x = 0;
+
+                // Pre-spawn some obstacles.
+                for (let i=0; i < 3; i++) {
+                    const chosenPattern = patternSets[0][Math.floor(Math.random() * patternSets[0].length)];
+                    chosenPattern(-40 - i * 50);
+                }
+                
+                // Hide menus and show game UI.
+                ui.mainMenu.classList.remove('visible');
+                ui.gameOver.classList.remove('visible');
+                ui.customMenu.classList.remove('visible');
+                ui.settingsOverlay.classList.remove('visible');
+                
+                updateUIDisplays();
+                clock.start();
+                animationFrameId = requestAnimationFrame(animate); // Start the game loop.
+            } catch (error) {
+                console.error("An error occurred during game initialization:", error);
+                showMainMenu();
+            }
+        }
+
+        // Handles leveling up.
+        function addShefa(amount) {
+            gameState.shefa += amount;
+            if (gameState.shefa >= gameState.shefaToAscend) {
+                gameState.shefa -= gameState.shefaToAscend; gameState.level++;
+                gameState.shefaToAscend *= 1.5; 
+                grantRandomEmanation();
+            }
+        }
+
+        // Ends the game and shows the game over screen.
+        function endGame() {
+            gameState.current = 'gameOver';
+            if(animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+            ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`;
+            ui.gameOver.classList.add('visible');
+            ui.prayerDisplayContainer.classList.remove('visible');
+            webcamManager.stop();
+        }
+
+        // Shows the main menu.
+        function showMainMenu() {
+            gameState.current = 'mainMenu';
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+            ui.gameOver.classList.remove('visible');
+            ui.customMenu.classList.remove('visible');
+            ui.settingsOverlay.classList.remove('visible');
+            ui.mainMenu.classList.add('visible');
+            ui.prayerDisplayContainer.classList.remove('visible');
+            ui.prayerListOverlay.classList.remove('visible');
+            webcamManager.stop();
+        }
+        
+        // --- INPUT HANDLING ---
+        let isDragging = false, lastTouchX = 0, targetCubeX = 0;
+        const handleMove = (clientX) => {
+            if (!isDragging || gameState.current !== 'playing') return;
+            const deltaX = clientX - lastTouchX;
+            const moveScale = 0.03;
+            targetCubeX += deltaX * moveScale;
+            lastTouchX = clientX;
+        };
+
+        const handleInteractionStart = (e, clientX) => {
+            if (gameState.current !== 'playing') return;
+            const targetElement = e.target;
+            // Ignore clicks on UI buttons.
+            if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) {
+                return; 
+            }
+            isDragging = true;
+            lastTouchX = clientX;
+            if (e.type === 'touchstart') e.preventDefault();
+        };
+
+        document.addEventListener('mousedown', e => handleInteractionStart(e, e.clientX));
+        document.addEventListener('mousemove', e => handleMove(e.clientX));
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('touchstart', e => handleInteractionStart(e, e.touches[0].clientX), { passive: false });
+        document.addEventListener('touchmove', e => handleMove(e.touches[0].clientX), { passive: false });
+        document.addEventListener('touchend', () => isDragging = false);
+        
+        // --- UI EVENT LISTENERS ---
+        ui.tryAgainButton.addEventListener('click', () => { shatterElement(ui.tryAgainButton); initializeGame(); });
+        ui.btnBegin.addEventListener('click', () => { shatterElement(ui.btnBegin); gameSettings.customPrayers = null; initializeGame(); });
+        ui.btnCustom.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.customMenu.classList.add('visible'); });
+        ui.btnGoCustom.addEventListener('click', () => {
+            shatterElement(ui.btnGoCustom);
+            const prayers = ui.customPrayerTextarea.value.split('\n\n').map(p => p.trim()).filter(p => p.length > 0);
+            gameSettings.customPrayers = (prayers.length > 0) ? { phrases: prayers, currentIndex: 0 } : null;
+            initializeGame();
+        });
+        ui.btnBackToMain.addEventListener('click', showMainMenu);
+        ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); });
+        ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
+        ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
+
+        // Prayer navigation and display logic.
+        function updatePrayerDisplay() {
+            const prayers = gameState.customPrayers;
+            if(prayers && prayers.phrases.length > 0) {
+                ui.prayerText.textContent = prayers.phrases[prayers.currentIndex];
+                applyCaptionStyle();
+            }
+        }
+        ui.prevPrayerBtn.addEventListener('click', () => {
+            const prayers = gameState.customPrayers;
+            if (prayers && prayers.phrases.length > 0) {
+                prayers.currentIndex = (prayers.currentIndex - 1 + prayers.phrases.length) % prayers.phrases.length;
+                updatePrayerDisplay();
+                shatterElement(ui.prayerText);
+            }
+        });
+        ui.nextPrayerBtn.addEventListener('click', () => {
+            const prayers = gameState.customPrayers;
+            if (prayers && prayers.phrases.length > 0) {
+                prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length;
+                updatePrayerDisplay();
+                shatterElement(ui.prayerText);
+            }
+        });
+        
+        // Prayer list modal logic.
+        function populatePrayerList() {
+            ui.prayerList.innerHTML = '';
+            const prayers = gameState.customPrayers;
+            if (!prayers || prayers.phrases.length === 0) {
+                const item = document.createElement('div');
+                item.className = 'prayer-list-item';
+                item.textContent = "No custom prayers active.";
+                item.style.fontStyle = 'italic';
+                ui.prayerList.appendChild(item);
+                return;
+            }
+
+            prayers.phrases.forEach((phrase, index) => {
+                const item = document.createElement('div');
+                item.className = 'prayer-list-item';
+                item.textContent = phrase;
+                if (index === prayers.currentIndex) item.classList.add('active');
+                item.addEventListener('click', () => {
+                    prayers.currentIndex = index;
+                    updatePrayerDisplay();
+                    populatePrayerList(); // Re-populate to update the active item.
+                });
+                ui.prayerList.appendChild(item);
+            });
+            ui.inGameCaptionFontInput.value = gameSettings.captionFont;
+            ui.inGameCaptionColorPicker.value = gameSettings.captionColor;
+            const activeItem = ui.prayerList.querySelector('.active');
+            if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+        ui.prayerDropdownBtn.addEventListener('click', () => {
+            populatePrayerList();
+            ui.prayerListOverlay.classList.add('visible');
+        });
+        ui.closePrayerListBtn.addEventListener('click', () => ui.prayerListOverlay.classList.remove('visible'));
+        ui.prayerSettingsToggleBtn.addEventListener('click', () => {
+            const panel = ui.prayerSettingsPanel;
+            panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+        });
+
+        // Universal function for setting up listeners for the settings panel.
+        const setupSettingListener = (element, valueSpan, settingName, parseFunc) => {
+            element.addEventListener('input', e => { if(valueSpan) valueSpan.textContent = e.target.value; });
+            element.addEventListener('change', async e => {
+                try {
+                    const value = parseFunc(e.target.value, e.target.checked);
+                    await saveSetting(settingName, value);
+                    await applySettings();
+                } catch(err) {
+                    console.error(`Failed to save setting ${settingName}:`, err);
+                }
+            });
+        };
+        
+        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt);
+        ui.particleCharsTextarea.addEventListener('change', async e => { try { await saveSetting('particleChars', e.target.value); await applySettings(); } catch(err) { console.error('Failed to save particle chars:', err); } });
+        setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat);
+        setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat);
+        setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat);
+        setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt);
+        setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt);
+        setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat);
+        setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat);
+        setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt);
+        setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val);
+        setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val);
+        setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val);
+        setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val);
+        setupSettingListener(ui.enableWebcamCheckbox, null, 'enableWebcam', (val, checked) => checked);
+        setupSettingListener(ui.webcamPerNefeshCheckbox, null, 'webcamPerNefesh', (val, checked) => checked);
+
+        // Window resize handler.
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        const collisionVec2 = new THREE.Vector2();
+        function check2DCollision(obj, troop) {
+            obj.getWorldPosition(worldPosVec);
+            collisionVec2.set(worldPosVec.x, worldPosVec.z);
+            return troop.userData.collisionBox2D.containsPoint(collisionVec2);
+        }
+
+        // --- THE MAIN GAME LOOP ---
+        function animate(currentTime) {
+            animationFrameId = requestAnimationFrame(animate);
+            try {
+                if(gameState.current !== 'playing' || !gameState) return;
+                
+                const deltaTime = Math.min(0.05, clock.getDelta());
+                const currentRoadSpeed = roadBaseSpeed + gameState.level * 1.5;
+
+                // --- WORLD & VISUALS UPDATE ---
+                if (!gameState.color.current.equals(gameState.color.target)) {
+                    gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime);
+                    renderer.setClearColor(gameState.color.current);
+                    if(scene.fog) scene.fog.color.copy(gameState.color.current);
+                }
+                
+                // Animate road texture offset for illusion of movement.
+                if(road && road.material.map) {
+                    road.material.map.offset.y -= (currentRoadSpeed / 100) * deltaTime;
+                }
+
+                // Animate starfields.
+                const starSpeed = 20 + gameState.level * 2;
+                starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime;
+                if(starField1.position.z > 250) starField1.position.z -= 500; if(starField2.position.z > 250) starField2.position.z -= 500;
+                
+                // Spawn background particles.
+                const spawnChance = Math.min(0.95, 0.4 + (gameState.level * 0.025));
+                if (Math.random() < spawnChance) spawnSpecialParticle();
+                
+                for (const p of specialParticlePool.a) {
+                    p.position.addScaledVector(p.userData.velocity, deltaTime);
+                    p.userData.life -= deltaTime;
+                    p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7;
+                    if (p.userData.life <= 0 || p.position.z > camera.position.z) {
+                        specialParticlePool.deactivate(p);
+                    }
+                }
+
+                // --- PLAYER MOVEMENT & FORMATION ---
+                // Calculate the current horizontal extent of the formation.
+                let minX = 0, maxX = 0;
+                magenDavidTroops.forEach(troop => {
+                    if (troop) {
+                        if(troop.userData.targetPos.x < minX) minX = troop.userData.targetPos.x;
+                        if(troop.userData.targetPos.x > maxX) maxX = troop.userData.targetPos.x;
+                    }
+                });
+                
+                const halfFormationWidth = (maxX - minX) / 2;
+                // Dynamically calculate the maximum allowed movement based on formation width.
+                const maxMove = (roadWidth / 2) - halfFormationWidth;
+                targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
+
+                // Smoothly move the entire Minyan group.
+                minyanGroup.position.x = THREE.MathUtils.lerp(minyanGroup.position.x, targetCubeX, 0.1);
+                minyanGroup.position.z = THREE.MathUtils.lerp(minyanGroup.position.z, 0, 0.2);
+                cameraTargetPos.x = minyanGroup.position.x / 4;
+                
+                // --- GAME LOGIC (Combo, Regen, etc.) ---
+                if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime;
+                else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
+
+                if(gameState.player.hasRegen) {
+                    gameState.player.regenTimer += deltaTime;
+                    if(gameState.player.regenTimer > 15) {
+                        gameState.player.regenTimer = 0;
+                        if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1);
+                    }
+                }
+                
+                // --- NEFESH & PROJECTILE UPDATE ---
+                const troopHalfSize = 0.4;
+                magenDavidTroops.forEach((troop) => {
+                    if(!troop) return;
+                    
+                    // Each troop smoothly moves to its target position within the formation.
+                    troop.position.lerp(troop.userData.targetPos, 0.15);
+
+                    // Update webcam plane if it exists.
+                    const webcamPlane = troop.getObjectByName('webcam_plane');
+                    if (webcamPlane) {
+                        webcamPlane.lookAt(camera.position);
+                        if (gameSettings.enableWebcam) {
+                             webcamPlane.visible = gameSettings.webcamPerNefesh ? true : (magenDavidTroops.indexOf(troop) === 0);
+                        } else {
+                             webcamPlane.visible = false;
+                        }
+                    }
+
+                    // Update 2D collision box for this troop.
+                    troop.getWorldPosition(worldPosVec);
+                    troop.userData.collisionBox2D.min.set(worldPosVec.x - troopHalfSize, worldPosVec.z - troopHalfSize);
+                    troop.userData.collisionBox2D.max.set(worldPosVec.x + troopHalfSize, worldPosVec.z + troopHalfSize);
+
+                    // Handle scaling animation on spawn.
+                    if(troop.userData.targetScale) {
+                        troop.scale.lerp(new THREE.Vector3(troop.userData.targetScale, troop.userData.targetScale, troop.userData.targetScale), 0.2);
+                        if(Math.abs(troop.scale.x - troop.userData.targetScale) < 0.01) troop.userData.targetScale = null;
+                    }
+                    // Animate the rotation of the star's cones.
+                    troop.children[0].rotation.y += deltaTime * 2; troop.children[1].rotation.y -= deltaTime * 2;
+                    // Fire projectiles based on fire rate.
+                    if (currentTime - troop.userData.lastShotTime > gameState.player.fireRate) {
+                        troop.getWorldPosition(worldPosVec); worldPosVec.z -= 0.5; worldPosVec.y = 0.4;
+                        const spark = sparkPool.activate();
+                        if(spark) { spark.position.copy(worldPosVec); spark.userData.damage = gameState.player.projectileDamage; spark.userData.pierced = 0; }
+                        troop.userData.lastShotTime = currentTime;
+                    }
+                });
+
+                // --- OBSTACLE & ENEMY UPDATE ---
+                const troopsToRemove = new Set();
+                for (const obstacle of [...klipahGatePool.a, ...jarPool.a, ...tohuShardPool.a, ...golemSentryPool.a]) {
+                    obstacle.position.z += currentRoadSpeed * deltaTime;
+                    // Deactivate if off-screen.
+                    if (obstacle.position.z > obstacleRemovalZ) {
+                        if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle);
+                        continue;
+                    }
+                    
+                    // Golem firing logic.
+                    if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
+                        obstacle.userData.lastShotTime = currentTime;
+                        obstacle.userData.eye.material.color.setHex(0xffffff);
+                        setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200);
+
+                        const attackRoll = Math.random();
+                        let proj;
+                        if (gameState.level > 5 && attackRoll < 0.33) {
+                            proj = golemHeavyProjectilePool.activate();
+                            if(proj) { proj.userData.damage = 5 + Math.floor(gameState.level / 4); proj.userData.type = 'heavy'; }
+                        } else if (gameState.level > 2 && attackRoll < 0.66) {
+                            proj = golemFastProjectilePool.activate();
+                            if(proj) proj.userData.type = 'fast';
+                        } else {
+                            proj = golemProjectilePool.activate();
+                            if(proj) proj.userData.type = 'normal';
+                        }
+                        if (proj) obstacle.userData.eye.getWorldPosition(proj.position);
+                    }
+                    
+                    // Collision detection between obstacles and player troops.
+                    if (obstacle.userData.type === 'tohu_shard') {
+                        const spikeHalfSize = 0.3;
+                        obstacle.userData.body.children.forEach(spikeGroup => {
+                            spikeGroup.getWorldPosition(worldPosVec);
+                            spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
+                            for(const troop of magenDavidTroops) {
+                                if (!troop || troopsToRemove.has(troop)) continue;
+                                if (spikeGroup.userData.collisionBox2D.intersectsBox(troop.userData.collisionBox2D)) {
+                                    troopsToRemove.add(troop);
+                                    triggerFlash('#ff00ff', 200);
+                                    break; 
+                                }
+                            }
+                        });
+                    } else {
+                        const obsSize = obstacle.userData.type === 'jar' ? 1.5 : 1.5;
+                        obstacle.userData.collisionBox2D.setFromCenterAndSize({x: obstacle.position.x, y: obstacle.position.z}, {x: obsSize, y: obsSize});
+                        magenDavidTroops.forEach((troop) => {
+                            if (!troop || troopsToRemove.has(troop)) return;
+                            if (obstacle.userData.collisionBox2D.intersectsBox(troop.userData.collisionBox2D)) {
+                                switch (obstacle.userData.type) {
+                                    case 'jar':
+                                        troopsToRemove.add(troop); triggerScreenShake(0.1);
+                                        obstacle.userData.health--;
+                                        if(obstacle.userData.health <= 0) {
+                                            jarPool.deactivate(obstacle); updateCombo(50, obstacle.position);
+                                            shatterObject(obstacle.userData.body);
+                                        } else { updateJarHealthVisuals(obstacle); }
+                                        break;
+                                    case 'klipah_gate':
+                                        if(obstacle.userData.currentValue > 0) {
+                                            gameState.mitzvot += obstacle.userData.currentValue;
+                                            ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100);
+                                        }
+                                        adjustNefeshCount(obstacle.userData.currentValue);
+                                        if (!obstacle.userData.isPurified) triggerScreenShake(0.4);
+                                        else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10);
+                                        klipahGatePool.deactivate(obstacle);
+                                        break;
+                                    case 'golem_sentry':
+                                        troopsToRemove.add(troop);
+                                        triggerScreenShake(0.2);
+                                        break;
+                                }
+                            }
+                        });
+                    }
+                }
+
+                // --- ENEMY PROJECTILE UPDATE ---
+                for(const proj of [...golemProjectilePool.a, ...golemFastProjectilePool.a, ...golemHeavyProjectilePool.a]) {
+                    const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25);
+                    proj.position.z += speed * deltaTime;
+                    if(proj.position.z > obstacleRemovalZ) {
+                        if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
+                        else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
+                        else golemHeavyProjectilePool.deactivate(proj);
+                        continue;
+                    }
+                    for(const troop of magenDavidTroops) {
+                        if(!troop || troopsToRemove.has(troop)) continue;
+                        if(check2DCollision(proj, troop)) {
+                            const color = proj.material.color.getHexString();
+                            if(proj.userData.type === 'heavy') {
+                                adjustNefeshCount(-proj.userData.damage);
+                                createParticleExplosion(proj.position, 40, `#${color}`, 20);
+                                triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6);
+                            } else {
+                                troopsToRemove.add(troop);
+                                createParticleExplosion(proj.position, 20, `#${color}`, 15);
+                                triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3);
+                                if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
+                                else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
+                            }
+                            break; 
+                        }
+                    };
+                }
+
+                // Process troop destruction after all collisions are checked for the frame.
+                if(troopsToRemove.size > 0) {
+                    shatterElement(ui.nefeshDisplay);
+                    troopsToRemove.forEach(troop => destroyNefesh(troop));
+                    gameState.nefesh = magenDavidTroops.filter(t => t !== null).length;
+                    positionNefesh(); // Reposition after destruction to update constraints.
+                    if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
+                }
+
+                // --- PLAYER PROJECTILE COLLISION ---
+                for (const spark of sparkPool.a) {
+                    spark.position.z -= 60 * deltaTime;
+                    if (spark.position.z < -100) { sparkPool.deactivate(spark); continue; }
+                    for (const obstacle of [...klipahGatePool.a, ...jarPool.a, ...golemSentryPool.a]) {
+                        if (obstacle.userData.collisionBox2D.containsPoint({x: spark.position.x, y: spark.position.z})) {
+                            let deactivateSpark = true;
+                            switch(obstacle.userData.type) {
+                                case 'klipah_gate':
+                                    obstacle.userData.currentValue += spark.userData.damage;
+                                    createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
+                                    if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
+                                        obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
+                                        createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
+                                        const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
+                                        shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2;
+                                        scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
+                                    }
+                                    updateKlipahGateVisuals(obstacle);
+                                    break;
+                                case 'jar': case 'golem_sentry':
+                                    obstacle.userData.health -= spark.userData.damage;
+                                    createParticleExplosion(spark.position, 5, '#ffffff', 8);
+                                    if (gameState.player.hasPierce && spark.userData.pierced < 1) { spark.userData.pierced++; deactivateSpark = false; }
+                                    if (obstacle.userData.health <= 0) {
+                                        triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
+                                        createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
+                                        updateCombo(75, obstacle.position);
+                                        const light = new THREE.PointLight(0xffaa55, 8, 30, 2);
+                                        light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
+                                        if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
+                                    } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
+                                    break;
+                            }
+                            if (deactivateSpark) { sparkPool.deactivate(spark); break; }
+                        }
+                    }
+                }
+
+                // --- PARTICLE & EFFECTS UPDATE ---
+                for(const orb of shefaOrbPool.a) {
+                    orb.position.lerp(minyanGroup.position, 0.08); orb.position.addScaledVector(orb.userData.velocity, deltaTime);
+                    orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1);
+                    if(orb.position.distanceTo(minyanGroup.position) < 1.5) { addShefa(orb.userData.value); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb); }
+                }
+                [...particlePool.a, ...dynamicShards].forEach(p => {
+                    p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime;
+                    if(p.material && p.material.opacity) p.material.opacity = p.userData.life;
+                    if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; }
+                    if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } }
+                });
+
+                activeLights.forEach(light => { light.intensity -= 25 * deltaTime; if(light.intensity <= 0) { scene.remove(light); activeLights.delete(light); } });
+                activeShockwaves.forEach(sw => {
+                    sw.life -= 2 * deltaTime; sw.mesh.scale.multiplyScalar(1 + 5 * deltaTime); sw.mesh.material.opacity = sw.life;
+                    if(sw.life <= 0) { scene.remove(sw.mesh); activeShockwaves.delete(sw); }
+                });
+
+                // --- CAMERA & RENDER ---
+                camera.position.lerp(cameraTargetPos, 0.1);
+                if (shakeIntensity > 0) {
+                    camera.position.add(new THREE.Vector3().randomDirection().multiplyScalar(shakeIntensity));
+                    shakeIntensity = Math.max(0, shakeIntensity - deltaTime * 4.0);
+                }
+                if (fovKick > 0) {
+                    camera.fov = originalFOV + fovKick;
+                    fovKick = Math.max(0, fovKick - deltaTime * 50);
+                } else { camera.fov = THREE.MathUtils.lerp(camera.fov, originalFOV, 0.1); }
+                camera.updateProjectionMatrix();
+                
+                trySpawnPattern();
+                
+                updateUIDisplays();
+                renderer.render(scene, camera);
+            } catch (error) {
+                console.error("A critical error occurred in the animation loop:", error);
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                endGame();
+            }
+        }
+        
+        function updateUIDisplays() {
+            if (!gameState || gameState.current !== 'playing') return;
+            ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
+            ui.nefeshDisplay.textContent = `NEFESH: ${gameState.nefesh}`;
+            const shefaPercentage = Math.min(100, (gameState.shefa / gameState.shefaToAscend) * 100);
+            ui.shefaBar.style.width = `${shefaPercentage}%`;
+        }
+        
+        // --- INITIALIZATION ---
+        // This is the entry point of the entire script.
+        (async () => {
+            try {
+                await initDB();
+                await applySettings();
+                showMainMenu();
+            } catch(error) {
+                console.error("Critical error during initial setup:", error);
+                document.body.innerHTML = `<div style="color: white; text-align: center; padding-top: 50px; font-size: 2em; font-family: Arial, sans-serif;">A critical error occurred during setup. Please refresh the page or check the console.</div>`;
+                displayGlobalError("Fatal error during startup. App cannot continue.");
+            }
+        })();
+
+    </script>
+</body>
+</html>
