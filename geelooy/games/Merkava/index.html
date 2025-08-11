@@ -1,5 +1,4 @@
 
-
 <!--B'H-->
 
 <!DOCTYPE html>
@@ -2081,12 +2080,15 @@
 
                     // FIX: The bounding box for each obstacle must be updated every frame to match its new position.
                     // This was a likely source of collision detection failure.
-                    const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0);
-                    const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5);
-                    obstacle.userData.collisionBox2D.setFromCenterAndSize(
-                        { x: obstacle.position.x, y: obstacle.position.z },
-                        { x: obsSizeX, y: obsSizeZ }
-                    );
+                    // This check prevents a crash on `tohu_shard` which doesn't have a main collision box.
+                    if (obstacle.userData.collisionBox2D) {
+                        const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0);
+                        const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5);
+                        obstacle.userData.collisionBox2D.setFromCenterAndSize(
+                            { x: obstacle.position.x, y: obstacle.position.z },
+                            { x: obsSizeX, y: obsSizeZ }
+                        );
+                    }
                     
                     // Deactivate obstacles that have passed the camera.
                     if (obstacle.position.z > obstacleRemovalZ) {
@@ -2232,7 +2234,11 @@
                     // It iterates through active obstacles, checks if the obstacle's continuously updated
                     // bounding box contains the spark's position, and then processes the hit.
                     for (const obstacle of allActiveObstacles) {
-                        // The obstacle's collisionBox2D is now guaranteed to be up-to-date from the loop above.
+                         // Only check obstacles that have a collision box and are in range.
+                        if (!obstacle.userData.collisionBox2D || obstacle.position.z > spark.position.z + 1 || obstacle.position.z < spark.position.z - 1) {
+                            continue;
+                        }
+
                         if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
                             let deactivateSpark = true;
                             switch(obstacle.userData.type) {
@@ -2270,6 +2276,9 @@
                     if (spark.active) {
                         tempMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
                         sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                    } else {
+                        // Also hide the matrix if spark became inactive this frame
+                         tempMatrix.makeScale(0,0,0); sparkInstancedMesh.setMatrixAt(i, tempMatrix);
                     }
                 });
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
@@ -2329,7 +2338,7 @@
                     cancelAnimationFrame(animationFrameId);
                 }
                 displayGlobalError("A critical error in the game loop forced a stop.");
-                endGame();
+                showMainMenu(); // Fallback to main menu instead of game over, more stable
             }
         }
         
@@ -2364,3 +2373,4 @@
     </script>
 </body>
 </html>
+
