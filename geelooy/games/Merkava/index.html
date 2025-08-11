@@ -1,7 +1,8 @@
-<!--B"H-->
+ <!--
+ב"ה
+B"H
 
-
-
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -880,7 +881,7 @@
         const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
 
 
-        // --- INSTANCED MESH SETUP ---
+        // --- INSTANCED MESH SETUP (PLAYER AND PROJECTILES) ---
         let nefeshTopInstanced, nefeshBottomInstanced;
         let nefeshState = []; // Holds state for each individual Nefesh unit.
         const nefeshGroup = new THREE.Group();
@@ -942,39 +943,56 @@
             }
         }
         
+        // --- NEW, ROBUST PROJECTILE (SPARK) SETUP ---
+        // This setup is inspired by the working minimal example to ensure continuous fire.
+
+        /**
+         * The InstancedMesh for all player projectiles ("sparks"). Using an InstancedMesh is highly
+         * performant for rendering a large number of identical objects.
+         */
         const sparkGeometry = new THREE.SphereGeometry(0.12, 6, 6);
         const sparkInstancedMesh = new THREE.InstancedMesh(sparkGeometry, sparkMaterial, MAX_SPARKS);
         sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         scene.add(sparkInstancedMesh);
         
+        /**
+         * An array to hold the individual state of each spark in the pool.
+         * This includes its activity status, position, and gameplay properties like damage.
+         * This state is managed locally and then synced to the InstancedMesh for rendering.
+         */
         let sparkState = [];
         for (let i = 0; i < MAX_SPARKS; i++) {
             sparkState.push({
                 active: false,
-                position: new THREE.Vector3(0, 1000, 0),
+                position: new THREE.Vector3(0, 1000, 0), // Start far off-screen.
                 damage: 1,
-                pierced: 0
+                pierced: 0 // A counter for how many enemies this spark has pierced.
             });
         }
+        /**
+         * This index tracks the last position in the pool where a spark was fired from.
+         * The new `fireSpark` function will begin its search from here, ensuring a fast
+         * and continuous allocation of projectiles.
+         */
         let nextSparkIndex = 0;
 
         /**
-         * REWRITTEN LOGIC: Activates a spark instance from the pool to fire a projectile.
+         * REWRITTEN FIRING LOGIC: Activates a spark instance from the pool to fire a projectile.
          * This function is now completely robust, solving the "shooting stops" bug.
-         * It performs a circular search through the entire projectile pool, starting from the last known position.
-         * This guarantees that if any free slot exists, it will be found and used.
+         * It performs a circular search through the entire projectile pool, starting from the last known position (`nextSparkIndex`).
+         * This guarantees that if any free slot exists in the entire `sparkState` array, it will be found and used.
          * This ensures shooting is continuous and never stops as long as there are active Nefesh units.
          *
          * @param {THREE.Vector3} position - The world position where the spark should be fired from.
          * @param {number} damage - The damage value of the spark.
-         * @param {boolean} hasPierce - Whether the spark can pierce enemies.
+         * @param {boolean} hasPierce - Whether the spark can pierce enemies (from the 'Hod's Splendor' upgrade).
          */
         function fireSpark(position, damage, hasPierce) {
             // This loop iterates up to MAX_SPARKS times to ensure we check every single slot
             // in the pool if necessary. This is the core of the fix.
             for (let i = 0; i < MAX_SPARKS; i++) {
                 // We check the slots in a circle, starting from where we left off.
-                // The modulo operator (%) ensures the index wraps around from the end to the start.
+                // The modulo operator (%) ensures the index wraps around from the end of the array to the start.
                 const index = (nextSparkIndex + i) % MAX_SPARKS;
                 
                 // If we find a spark that is not currently active, we can use it.
@@ -984,18 +1002,18 @@
                     spark.position.copy(position);
                     spark.damage = damage;
                     // If the spark cannot pierce, we set its pierced counter to a high number, meaning it can only hit once.
-                    // Otherwise, it can pierce one enemy.
+                    // Otherwise, it can pierce one enemy (pierced < 1).
                     spark.pierced = hasPierce ? 0 : 999; 
                     
                     // CRITICAL: We set the next starting point for the search to be the slot *after* the one we just used.
-                    // This makes the search highly efficient, as it usually finds a free slot immediately.
+                    // This makes the search highly efficient, as it usually finds a free slot immediately on the next call.
                     nextSparkIndex = (index + 1) % MAX_SPARKS;
                     return; // Exit the function since we have successfully fired a spark.
                 }
             }
             // If the loop completes without finding a free spark, it means the entire pool is active.
             // This is a rare "bullet hell" scenario, and no new spark can be fired this frame.
-            // console.log("All sparks are active, cannot fire."); // Optional debug log
+            // This is expected behavior when the screen is full of projectiles and is not a bug.
         }
 
         // --- REMAINING OBJECT POOLS & DYNAMIC SETS ---
@@ -1020,7 +1038,7 @@
         // --- CORE GAME OBJECT FUNCTIONS ---
         
         /**
-         * REWRITTEN LOGIC: Deactivates a single Nefesh unit by its index in the state array.
+         * Deactivates a single Nefesh unit by its index in the state array.
          * This function is called when a specific Nefesh collides with an enemy or projectile.
          * The new game loop ensures this is called with the CORRECT index by using an atomic
          * destruction set (`troopsToDestroy`), preventing the wrong unit from being destroyed.
@@ -2024,9 +2042,9 @@
                     // Move the Nefesh from its current position towards its fixed target position in the formation.
                     state.currentPos.lerp(state.targetPos, 0.15);
 
-                    // FIX: This is a critical step for accurate collision. We update the 2D bounding box
-                    // for *this specific Nefesh unit* (`state`) using its unique `currentPos` relative to the
-                    // moving `nefeshGroup`. This ensures its collision box is exactly where the unit appears on screen.
+                    // CRITICAL FIX: We must update the 2D bounding box for *this specific Nefesh unit* (`state`)
+                    // using its unique `currentPos` relative to the moving `nefeshGroup` on EVERY FRAME.
+                    // This ensures its collision box is exactly where the unit appears on screen.
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
                     state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
                     
@@ -2037,7 +2055,7 @@
                     
                     state.yRotation += deltaTime * 2; // Constant rotation.
 
-                    // Check fire rate and fire a projectile if ready. The fireSpark function is now robust.
+                    // Check fire rate and fire a projectile if ready using the NEW, ROBUST fireSpark function.
                     if (currentTime - state.lastShotTime > gameState.player.fireRate) {
                         // Calculate the precise world position of this specific Nefesh unit to fire from.
                         worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
@@ -2071,17 +2089,17 @@
                 nefeshBottomInstanced.count = activeNefeshCount;
 
                 // --- OBSTACLE UPDATE AND COLLISION (PLAYER vs OBSTACLE) ---
-                // FIX: A Set is used to collect the indices of Nefesh units that need to be destroyed *in this frame*.
-                // This prevents issues where a single unit might be added multiple times or other race conditions.
+                // An atomic Set is used to collect the indices of Nefesh units that need to be destroyed *in this frame*.
+                // This prevents race conditions where a single unit might be added multiple times.
                 const troopsToDestroy = new Set();
                 const allActiveObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active];
+                
                 for (const obstacle of allActiveObstacles) {
                     // Move obstacle towards player, in sync with the road.
                     obstacle.position.z += currentRoadSpeed * deltaTime;
 
-                    // FIX: The bounding box for each obstacle must be updated every frame to match its new position.
-                    // This was a likely source of collision detection failure.
-                    // This check prevents a crash on `tohu_shard` which doesn't have a main collision box.
+                    // CRITICAL COLLISION FIX: The bounding box for each obstacle must be updated every frame to match
+                    // its new position. This was the primary bug causing player-obstacle collision to fail.
                     if (obstacle.userData.collisionBox2D) {
                         const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0);
                         const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5);
@@ -2116,7 +2134,7 @@
                         }
                     }
                     
-                    // FIX: This is the corrected collision detection logic for direct Nefesh-Obstacle impact.
+                    // CORRECTED COLLISION: Check for direct Nefesh-Obstacle impact using the newly updated bounding boxes.
                     if (obstacle.userData.type === 'tohu_shard') {
                         // For complex shapes like the tohu shard, we check each individual spike.
                         const spikeHalfSize = 0.3;
@@ -2124,7 +2142,7 @@
                             spikeGroup.getWorldPosition(worldPosVec);
                             spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
                             nefeshState.forEach((state, index) => {
-                                // Important: We only check active units that haven't already been marked for destruction this frame.
+                                // Important: Only check active units that haven't already been marked for destruction this frame.
                                 if (!state.active || troopsToDestroy.has(index)) return;
                                 // If this specific spike's box intersects with this specific Nefesh's box...
                                 if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
@@ -2135,7 +2153,7 @@
                             });
                         });
                     } else {
-                        // For simpler obstacles, we check against the main body's updated collision box.
+                        // For simpler obstacles, check against the main body's updated collision box.
                         nefeshState.forEach((state, index) => {
                             if (!state.active || troopsToDestroy.has(index)) return;
                             // If the obstacle's box intersects with this specific Nefesh's box...
@@ -2172,7 +2190,7 @@
                     }
                 }
                 
-                // --- PROJECTILE UPDATE AND COLLISION ---
+                // --- PROJECTILE UPDATE AND COLLISION (ENEMY vs PLAYER) ---
                 // Handle enemy projectile movement and collision with player.
                 for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) {
                     const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25);
@@ -2183,7 +2201,7 @@
                         else golemHeavyProjectilePool.deactivate(proj);
                         continue;
                     }
-                    // Check for collision with each active Nefesh.
+                    // Check for collision with each active Nefesh using its up-to-date collision box.
                     nefeshState.forEach((state, index) => {
                         if(!state.active || troopsToDestroy.has(index)) return;
                         // Use the point-based collision for small projectiles.
@@ -2208,7 +2226,7 @@
                     });
                 }
                 
-                // FIX: After all collision checks for the frame are done, we process all destructions at once.
+                // ATOMIC DESTRUCTION: After all collision checks for the frame are done, process all destructions at once.
                 // This atomic operation prevents the "wrong" Nefesh from being destroyed and other race conditions.
                 if(troopsToDestroy.size > 0) {
                     shatterElement(ui.nefeshDisplay);
@@ -2219,29 +2237,40 @@
                     if (gameState.nefesh <= 0 && gameState.current === 'playing') endGame();
                 }
                 
-                // Handle player projectile (spark) movement and collision with obstacles.
+                // --- NEW PROJECTILE UPDATE AND COLLISION (PLAYER vs ENEMY) ---
+                // This new block handles player projectile (spark) movement and collision with obstacles.
                 let activeSparkCount = 0;
+                const tempSparkMatrix = new THREE.Matrix4();
                 sparkState.forEach((spark, i) => {
+                    // Skip inactive sparks entirely.
                     if (!spark.active) {
-                        tempMatrix.makeScale(0,0,0); sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                        tempSparkMatrix.makeScale(0,0,0); 
+                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                         return;
                     }
                     activeSparkCount++;
                     
-                    spark.position.z -= 60 * deltaTime; // Move sparks away from player.
-                    if (spark.position.z < -100) { spark.active = false; return; }
+                    // Move sparks forward (away from the player).
+                    spark.position.z -= 60 * deltaTime;
+                    // Deactivate if it goes too far off-screen.
+                    if (spark.position.z < -100) {
+                        spark.active = false;
+                        return;
+                    }
                     
-                    // FIX: This is the corrected and fully functional spark collision logic.
-                    // It iterates through active obstacles, checks if the obstacle's continuously updated
-                    // bounding box contains the spark's position, and then processes the hit.
+                    // FULLY-FUNCTIONAL SPARK COLLISION LOGIC:
+                    // It iterates through active obstacles and checks if the obstacle's continuously updated
+                    // bounding box contains the spark's current position.
                     for (const obstacle of allActiveObstacles) {
-                         // Only check obstacles that have a collision box and are in range.
+                        // Optimization: Only check obstacles that are near the spark on the Z axis.
                         if (!obstacle.userData.collisionBox2D || obstacle.position.z > spark.position.z + 1 || obstacle.position.z < spark.position.z - 1) {
                             continue;
                         }
 
+                        // THE CORE COLLISION CHECK: Does the obstacle's accurate bounding box contain the spark's point-like position?
                         if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
-                            let deactivateSpark = true;
+                            let deactivateSpark = true; // By default, a spark is deactivated on hit.
+                            
                             switch(obstacle.userData.type) {
                                 case 'klipah_gate':
                                     obstacle.userData.currentValue += spark.damage; // Shooting a gate purifies it.
@@ -2258,7 +2287,12 @@
                                 case 'jar': case 'golem_sentry':
                                     obstacle.userData.health -= spark.damage;
                                     createParticleExplosion(spark.position, 5, '#ffffff', 8);
-                                    if (gameState.player.hasPierce && spark.pierced < 1) { spark.pierced++; deactivateSpark = false; }
+                                    // If the spark can pierce and hasn't yet, keep it active.
+                                    if (gameState.player.hasPierce && spark.pierced < 1) {
+                                        spark.pierced++;
+                                        deactivateSpark = false; // Override deactivation.
+                                    }
+                                    // If the obstacle is destroyed...
                                     if (obstacle.userData.health <= 0) {
                                         triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
                                         createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
@@ -2266,22 +2300,30 @@
                                         const light = new THREE.PointLight(0xffaa55, 8, 30, 2);
                                         light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
                                         if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
-                                    } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
+                                    } else if (obstacle.userData.type === 'jar') {
+                                        updateJarHealthVisuals(obstacle);
+                                    }
                                     break;
                             }
                             // If the spark hit something and isn't a piercing shot (or has used its pierce), deactivate it.
-                            if (deactivateSpark) { spark.active = false; break; } // `break` exits the inner for-loop over obstacles.
+                            if (deactivateSpark) {
+                                spark.active = false;
+                                break; // `break` exits the inner for-loop over obstacles, as this spark is now spent.
+                            }
                         }
                     }
                     
+                    // If the spark is still active after all checks, update its matrix for rendering.
                     if (spark.active) {
-                        tempMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
-                        sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                        tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
+                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     } else {
-                        // Also hide the matrix if spark became inactive this frame
-                         tempMatrix.makeScale(0,0,0); sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                        // Also hide the matrix if the spark became inactive during this frame's logic.
+                         tempSparkMatrix.makeScale(0,0,0);
+                         sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     }
                 });
+                // After checking all sparks, update the InstancedMesh on the GPU.
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
                 
@@ -2374,5 +2416,6 @@
     </script>
 </body>
 </html>
+
 
         
