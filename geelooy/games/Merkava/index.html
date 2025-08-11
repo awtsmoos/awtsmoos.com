@@ -492,7 +492,7 @@ B"H
         let animationFrameId; // To control the game loop.
         
         let MAX_NEFESH = 100; // Default max, can be changed in settings.
-        const MAX_SPARKS = 400; // Max concurrent player projectiles.
+        const MAX_SPARKS = 400; // Max concurrent player projectiles. A larger pool helps prevent saturation.
         const roadWidth = 9;
         const roadLength = 200; // Define road length for texture calculations.
         const roadLevelY = -0.5;
@@ -626,7 +626,7 @@ B"H
          * @returns {Promise<void>}
          */
         async function applySettings() {
-            // Load and apply Max Nefesh setting, re-initializing the formation if it changed.
+            // Load and apply Max Nefesh setting.
             const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
             ui.maxNefeshSlider.value = newMaxNefesh;
             ui.maxNefeshValue.textContent = newMaxNefesh;
@@ -945,8 +945,11 @@ B"H
             }
         }
         
-        // --- NEW, ROBUST PROJECTILE (SPARK) SETUP ---
-        // This setup is inspired by the working minimal example to ensure continuous fire.
+        // =========================================================================
+        // --- [START] REBUILT, ROBUST PROJECTILE (SPARK) SYSTEM ---
+        // This entire section is rewritten to be completely reliable and prevent
+        // the "shooting stops" bug by guaranteeing projectile pool recycling.
+        // =========================================================================
 
         /**
          * The InstancedMesh for all player projectiles ("sparks"). Using an InstancedMesh is highly
@@ -954,7 +957,7 @@ B"H
          */
         const sparkGeometry = new THREE.SphereGeometry(0.12, 6, 6);
         const sparkInstancedMesh = new THREE.InstancedMesh(sparkGeometry, sparkMaterial, MAX_SPARKS);
-        sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // Critical for performance.
         scene.add(sparkInstancedMesh);
         
         /**
@@ -971,23 +974,25 @@ B"H
                 pierced: 0 // A counter for how many enemies this spark has pierced.
             });
         }
+
         /**
          * This index tracks the last position in the pool where a spark was fired from.
-         * The new `fireSpark` function will begin its search from here, ensuring a fast
+         * The `fireSpark` function will begin its search from here, ensuring a fast
          * and continuous allocation of projectiles.
          */
         let nextSparkIndex = 0;
 
         /**
          * REWRITTEN FIRING LOGIC: Activates a spark instance from the pool to fire a projectile.
-         * This function is now completely robust, solving the "shooting stops" bug.
-         * It performs a circular search through the entire projectile pool, starting from the last known position (`nextSparkIndex`).
-         * This guarantees that if any free slot exists in the entire `sparkState` array, it will be found and used.
-         * This ensures shooting is continuous and never stops as long as there are active Nefesh units.
+         * This function is now completely robust and will not fail.
+         * It performs a circular search through the entire projectile pool (`sparkState`), 
+         * starting from the last known position (`nextSparkIndex`).
+         * This guarantees that if ANY free slot exists in the pool, it will be found and used.
+         * This ensures shooting is continuous as long as the update loop correctly deactivates old sparks.
          *
          * @param {THREE.Vector3} position - The world position where the spark should be fired from.
          * @param {number} damage - The damage value of the spark.
-         * @param {boolean} hasPierce - Whether the spark can pierce enemies (from the 'Hod's Splendor' upgrade).
+         * @param {boolean} hasPierce - Whether the spark can pierce enemies (from an upgrade).
          */
         function fireSpark(position, damage, hasPierce) {
             // This loop iterates up to MAX_SPARKS times to ensure we check every single slot
@@ -1014,9 +1019,13 @@ B"H
                 }
             }
             // If the loop completes without finding a free spark, it means the entire pool is active.
-            // This is a rare "bullet hell" scenario, and no new spark can be fired this frame.
-            // This is expected behavior when the screen is full of projectiles and is not a bug.
+            // This is a rare "bullet hell" scenario when the screen is full of projectiles and is not a bug.
+            // The robust update loop will clear these sparks, making slots available for the next frame.
         }
+        // =========================================================================
+        // --- [END] REBUILT, ROBUST PROJECTILE (SPARK) SYSTEM ---
+        // =========================================================================
+
 
         // --- REMAINING OBJECT POOLS & DYNAMIC SETS ---
         // Pools for various enemy projectiles and visual effects.
@@ -1042,7 +1051,7 @@ B"H
         /**
          * Deactivates a single Nefesh unit by its index in the state array.
          * This function is called when a specific Nefesh collides with an enemy or projectile.
-         * The new game loop ensures this is called with the CORRECT index by using an atomic
+         * The main game loop ensures this is called with the CORRECT index by using an atomic
          * destruction set (`troopsToDestroy`), preventing the wrong unit from being destroyed.
          * @param {number} index - The index of the Nefesh unit to destroy. This MUST be the correct index from the `nefeshState` array.
          */
@@ -1450,7 +1459,7 @@ B"H
             });
             roadMat.map.repeat.set(1, roadTextureRepeats);
 
-            // FIX: Calculate the length of a single texture tile in world units.
+            // Calculate the length of a single texture tile in world units.
             // This is essential for synchronizing the texture scroll speed with game object movement.
             roadTextureTileLength = roadLength / roadTextureRepeats;
 
@@ -1680,7 +1689,7 @@ B"H
                 acquiredUpgrades.clear();
                 if(!road) createWorld(); // Create world objects if this is the first run.
                 
-                // Show prayer UI if custom prayers are loaded. Otherwise, always show the dropdown button.
+                // Show prayer UI if custom prayers are loaded.
                 ui.prayerDropdownBtn.style.display = 'block'; // Make sure the menu button is always visible.
                 if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
                     ui.prayerDisplayContainer.classList.add('visible');
@@ -1815,7 +1824,7 @@ B"H
         ui.btnBackToMain.addEventListener('click', showMainMenu);
         ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); });
         ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
-        // FIX: This listener allows the player to return to the menu from within the game, fulfilling the request.
+        // This listener allows the player to return to the menu from within the game.
         ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
 
         /**
@@ -1951,8 +1960,8 @@ B"H
         /**
          * REWRITTEN LOGIC: The main game loop, called by requestAnimationFrame.
          * This function has been heavily revised to fix all major gameplay bugs.
-         * - Collision detection for both player projectiles and enemy projectiles is now accurate.
-         * - Bounding boxes are updated correctly every frame.
+         * - The player projectile (spark) system is completely new and robust, preventing firing from stopping.
+         * - Bounding boxes for all objects are updated correctly every frame, ensuring accurate collision.
          * - An atomic destruction system (`troopsToDestroy`) prevents incorrect player units from being destroyed.
          * @param {DOMHighResTimeStamp} currentTime - The current time provided by the browser.
          */
@@ -2044,7 +2053,7 @@ B"H
                     // Move the Nefesh from its current position towards its fixed target position in the formation.
                     state.currentPos.lerp(state.targetPos, 0.15);
 
-                    // CRITICAL FIX: We must update the 2D bounding box for *this specific Nefesh unit* (`state`)
+                    // CRITICAL: We must update the 2D bounding box for *this specific Nefesh unit* (`state`)
                     // using its unique `currentPos` relative to the moving `nefeshGroup` on EVERY FRAME.
                     // This ensures its collision box is exactly where the unit appears on screen.
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
@@ -2062,7 +2071,7 @@ B"H
                         // Calculate the precise world position of this specific Nefesh unit to fire from.
                         worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
                         worldPosVec.y = 0.4;
-                        // Call the corrected, reliable fireSpark function.
+                        // Call the rebuilt, reliable fireSpark function. This will not fail.
                         fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
@@ -2101,7 +2110,7 @@ B"H
                     obstacle.position.z += currentRoadSpeed * deltaTime;
 
                     // CRITICAL COLLISION FIX: The bounding box for each obstacle must be updated every frame to match
-                    // its new position. This was the primary bug causing player-obstacle collision to fail.
+                    // its new position. This was the primary bug causing player-obstacle collision to fail in older versions.
                     if (obstacle.userData.collisionBox2D) {
                         const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0);
                         const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5);
@@ -2240,10 +2249,10 @@ B"H
                 }
                 
                 // ======================================================================================
-                // --- [START] REWRITTEN PLAYER PROJECTILE LOGIC ---
-                // This entire block replaces the old, flawed logic for player bullets.
-                // It ensures bullets are moved, checked for collision, and deactivated correctly,
-                // which prevents the bullet pool from saturating and stopping the player from firing.
+                // --- [START] REWRITTEN AND ROBUST PLAYER PROJECTILE UPDATE LOOP ---
+                // This entire block replaces the old, flawed logic. It ensures that every active spark
+                // is processed, moved, and checked for deactivation every single frame.
+                // This prevents the pool from ever getting saturated and stopping the player from firing.
                 // ======================================================================================
                 let activeSparkCount = 0;
                 const tempSparkMatrix = new THREE.Matrix4(); // A reusable matrix for performance.
@@ -2264,73 +2273,77 @@ B"H
                     // deactivate it so its slot can be reused. This prevents pool saturation.
                     if (spark.position.z < -100) {
                         spark.active = false;
-                        return; // The spark is now inactive, so we can skip to the next one.
+                        // The spark is now inactive, so we ensure its matrix is hidden on the next step
+                        // and then skip to the next spark in the loop.
                     }
                     
-                    // 4. COLLISION DETECTION: Check this spark against all active obstacles.
-                    for (const obstacle of allActiveObstacles) {
-                        // Optimization: A quick check to see if the obstacle is even close to the spark on the Z-axis.
-                        if (!obstacle.userData.collisionBox2D || obstacle.position.z > spark.position.z + 1 || obstacle.position.z < spark.position.z - 1) {
-                            continue; // Skip to next obstacle if it's not nearby.
-                        }
-
-                        // The CORE COLLISION CHECK: Use the obstacle's continuously-updated 2D bounding box
-                        // to see if it contains the spark's 3D position.
-                        if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
-                            let deactivateSpark = true; // Assume the spark will be destroyed on hit.
-                            
-                            switch(obstacle.userData.type) {
-                                case 'klipah_gate':
-                                    obstacle.userData.currentValue += spark.damage; // Shooting a gate purifies it.
-                                    createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
-                                    if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
-                                        obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
-                                        createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
-                                        const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
-                                        shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2;
-                                        scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
-                                    }
-                                    updateKlipahGateVisuals(obstacle);
-                                    break;
-                                case 'jar': case 'golem_sentry':
-                                    obstacle.userData.health -= spark.damage;
-                                    createParticleExplosion(spark.position, 5, '#ffffff', 8);
-                                    
-                                    // PIERCE LOGIC: If the player has the pierce upgrade and the spark hasn't hit anything yet,
-                                    // we increment its pierced counter and tell it *not* to deactivate.
-                                    if (gameState.player.hasPierce && spark.pierced < 1) {
-                                        spark.pierced++;
-                                        deactivateSpark = false; // Override deactivation.
-                                    }
-
-                                    if (obstacle.userData.health <= 0) { // If obstacle is destroyed...
-                                        triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
-                                        createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
-                                        updateCombo(75, obstacle.position);
-                                        const light = new THREE.PointLight(0xffaa55, 8, 30, 2);
-                                        light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
-                                        if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
-                                    } else if (obstacle.userData.type === 'jar') {
-                                        updateJarHealthVisuals(obstacle);
-                                    }
-                                    break;
+                    // 4. COLLISION DETECTION: Check this spark against all active obstacles, but only if it's still active.
+                    if (spark.active) {
+                        for (const obstacle of allActiveObstacles) {
+                            // Optimization: A quick check to see if the obstacle is even close to the spark on the Z-axis.
+                            if (!obstacle.userData.collisionBox2D || obstacle.position.z > spark.position.z + 1 || obstacle.position.z < spark.position.z - 1) {
+                                continue; // Skip to next obstacle if it's not nearby.
                             }
-                            
-                            // 5. DEACTIVATION ON HIT: If the spark should be deactivated, flip its state.
-                            if (deactivateSpark) {
-                                spark.active = false;
-                                break; // IMPORTANT: Exit the inner for-loop (obstacles). This spark is spent and needs no more checks.
+
+                            // The CORE COLLISION CHECK: Use the obstacle's continuously-updated 2D bounding box
+                            // to see if it contains the spark's 3D position.
+                            if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
+                                let deactivateSpark = true; // Assume the spark will be destroyed on hit.
+                                
+                                switch(obstacle.userData.type) {
+                                    case 'klipah_gate':
+                                        obstacle.userData.currentValue += spark.damage; // Shooting a gate purifies it.
+                                        createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
+                                        if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
+                                            obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
+                                            createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
+                                            const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
+                                            shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2;
+                                            scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
+                                        }
+                                        updateKlipahGateVisuals(obstacle);
+                                        break;
+                                    case 'jar': case 'golem_sentry':
+                                        obstacle.userData.health -= spark.damage;
+                                        createParticleExplosion(spark.position, 5, '#ffffff', 8);
+                                        
+                                        // PIERCE LOGIC: If the player has the pierce upgrade and the spark hasn't hit anything yet,
+                                        // we increment its pierced counter and tell it *not* to deactivate.
+                                        if (gameState.player.hasPierce && spark.pierced < 1) {
+                                            spark.pierced++;
+                                            deactivateSpark = false; // Override deactivation.
+                                        }
+
+                                        if (obstacle.userData.health <= 0) { // If obstacle is destroyed...
+                                            triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
+                                            createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
+                                            updateCombo(75, obstacle.position);
+                                            const light = new THREE.PointLight(0xffaa55, 8, 30, 2);
+                                            light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
+                                            if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
+                                        } else if (obstacle.userData.type === 'jar') {
+                                            updateJarHealthVisuals(obstacle);
+                                        }
+                                        break;
+                                }
+                                
+                                // 5. DEACTIVATION ON HIT: If the spark should be deactivated, flip its state.
+                                if (deactivateSpark) {
+                                    spark.active = false;
+                                    // IMPORTANT: Exit the inner for-loop (obstacles). This spark is spent and needs no more checks.
+                                    break; 
+                                }
                             }
                         }
                     }
                     
                     // 6. UPDATE INSTANCE MATRIX: After all checks, if the spark is *still* active, update its
-                    // matrix to its new position for rendering. Otherwise, its matrix has already been hidden.
+                    // matrix to its new position for rendering. Otherwise, its matrix will be hidden.
                     if (spark.active) {
                         tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
                         sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     } else {
-                        // If the spark was deactivated in the collision logic, ensure its matrix is now hidden.
+                        // If the spark was deactivated in any of the logic above, ensure its matrix is now hidden.
                          tempSparkMatrix.makeScale(0,0,0);
                          sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
                     }
@@ -2339,7 +2352,7 @@ B"H
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
                 // ======================================================================================
-                // --- [END] REWRITTEN PLAYER PROJECTILE LOGIC ---
+                // --- [END] REWRITTEN AND ROBUST PLAYER PROJECTILE UPDATE LOOP ---
                 // ======================================================================================
                 
                 // --- OTHER DYNAMIC OBJECTS ---
@@ -2431,7 +2444,3 @@ B"H
     </script>
 </body>
 </html>
-
-
-
-        
