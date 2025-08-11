@@ -228,6 +228,22 @@
             display: none;
             text-align: center;
         }
+        /* --- NEW FEATURE: Pause Button Style --- */
+        #pauseBtn {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            font-size: 1.5em;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid white;
+            color: white;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            z-index: 999;
+            display: none; /* Hidden until game starts */
+        }
     </style>
 </head>
 <body>
@@ -251,12 +267,16 @@
     <div id="statsContainer">
         <div id="mitzvotDisplay" class="ui-text">MITZVOT: 0</div>
         <div id="nefeshDisplay" class="ui-text">NEFESH: 0</div>
+        <!-- --- NEW FEATURE: Pause Button --- -->
+        <button id="pauseBtn">⏸️</button>
     </div>
     <div id="shefaContainer"><div id="shefaBar"></div></div>
 
     <div id="gameOverOverlay" class="overlay"><div class="menu-button-group">
         <div class="game-title ui-text" style="color: var(--klipot-color);">THE MERKAVA HAS FALLEN</div>
         <div id="finalMitzvotDisplay" class="game-subtitle">You gathered 0 Mitzvot.</div>
+        <!-- --- NEW FEATURE: High Score Display --- -->
+        <div id="highScoreDisplay" class="game-subtitle" style="color: var(--shefa-color); margin-top: -20px; margin-bottom: 20px;"></div>
         <button id="tryAgainButton" class="menu-button">ATTEMPT THE JOURNEY AGAIN</button>
     </div></div>
 
@@ -275,6 +295,16 @@
         <button id="btnCustom" class="menu-button">CUSTOM JOURNEY</button>
         <button id="btnSettings" class="menu-button">SETTINGS</button>
     </div></div>
+
+    <!-- --- NEW FEATURE: Pause Menu Overlay --- -->
+    <div id="pauseOverlay" class="overlay">
+        <div class="menu-button-group">
+            <div class="game-title ui-text">PAUSED</div>
+            <button id="resumeButton" class="menu-button">RESUME</button>
+            <button id="menuFromPauseButton" class="menu-button" style="background: linear-gradient(145deg, #555, #222);">MAIN MENU</button>
+        </div>
+    </div>
+
 
     <div id="settingsOverlay" class="overlay"><div class="menu-button-group" style="max-width: 600px; width: 90%;">
         <div class="game-title ui-text">SETTINGS</div>
@@ -502,6 +532,12 @@
             particleWebValue: document.getElementById('particleWebValue'),
             energyTendrilsSlider: document.getElementById('energyTendrilsSlider'),
             energyTendrilsValue: document.getElementById('energyTendrilsValue'),
+            // --- NEW FEATURE: UI Elements ---
+            pauseBtn: document.getElementById('pauseBtn'),
+            pauseOverlay: document.getElementById('pauseOverlay'),
+            resumeButton: document.getElementById('resumeButton'),
+            menuFromPauseButton: document.getElementById('menuFromPauseButton'),
+            highScoreDisplay: document.getElementById('highScoreDisplay'),
         };
 
         // --- GAME STATE & CONSTANTS ---
@@ -1307,27 +1343,38 @@
             return texture;
         }
 
+        // --- FIX: The entire createWorld function has been refactored to fix the rendering bug.
+        // The original had issues with object transforms and transparent materials causing the road to cover the screen.
         function createWorld() {
-            // Road
+            // Road plane (for the yellow lines)
             const roadGeo = new THREE.PlaneGeometry(roadWidth, 200, 1, 1);
-            const roadMat = new THREE.MeshLambertMaterial({ 
-                color: 0x202040, 
+            const roadMat = new THREE.MeshBasicMaterial({
                 map: createRoadTexture(),
-                transparent: true
+                transparent: true,
+                depthWrite: false, // CRITICAL: This prevents the transparent plane from hiding objects behind it.
+                blending: THREE.AdditiveBlending // Gives the lines a nice glow effect.
             });
             roadMat.map.repeat.set(1, 10);
-            road = new THREE.Mesh(roadGeo, roadMat); 
-            road.rotation.x = -Math.PI / 2; 
-            road.position.y = roadLevelY;
-            scene.add(road);
+            road = new THREE.Mesh(roadGeo, roadMat);
 
             // Road Outline
             const outlineGeo = new THREE.PlaneGeometry(roadWidth + 0.2, 200, 1, 1);
-            const outlineMat = new THREE.MeshBasicMaterial({ color: gameSettings.glowColor || defaultSettings.glowColor, side: THREE.BackSide});
+            const outlineMat = new THREE.MeshBasicMaterial({
+                color: gameSettings.glowColor || defaultSettings.glowColor,
+                side: THREE.BackSide
+            });
             const roadOutline = new THREE.Mesh(outlineGeo, outlineMat);
-            roadOutline.rotation.x = -Math.PI/2;
-            roadOutline.position.y = roadLevelY - 0.01;
-            road.add(roadOutline); // Add as child so it moves with road texture offset
+            // Position the outline slightly "behind" the road plane along its local Z-axis.
+            // When the parent is rotated, this makes it appear correctly underneath.
+            roadOutline.position.z = -0.01;
+            road.add(roadOutline); // Add the outline as a child BEFORE rotating the parent.
+
+            // Now, apply the final rotation and position to the PARENT object.
+            // This correctly transforms both the road and its outline together.
+            road.rotation.x = -Math.PI / 2;
+            road.position.y = roadLevelY;
+            scene.add(road);
+
 
             // Starfields
             const createField = () => {
@@ -1338,7 +1385,9 @@
                 const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff });
                 return new THREE.Points(geometry, material);
             };
-            starField1 = createField(); starField2 = createField(); starField2.position.z = -500;
+            starField1 = createField();
+            starField2 = createField();
+            starField2.position.z = -500;
             scene.add(starField1, starField2);
 
             // Central Webcam Plane
@@ -1562,7 +1611,15 @@
                 renderer.setClearColor(gameState.color.current);
 
                 acquiredUpgrades.clear();
-                if(!road) createWorld();
+                if(!road) {
+                    createWorld();
+                } else {
+                    // --- FIX: Ensure road outline color is updated on new game ---
+                    const roadOutline = road.getObjectByProperty('type', 'Mesh');
+                    if (roadOutline) {
+                        roadOutline.material.color.set(gameSettings.glowColor || defaultSettings.glowColor);
+                    }
+                }
                 
                 for(let i=0; i < MAX_NEFESH; i++) { magenDavidTroops.push(null); }
 
@@ -1584,6 +1641,8 @@
                 if(ui.gameOver) ui.gameOver.classList.remove('visible');
                 if(ui.customMenu) ui.customMenu.classList.remove('visible');
                 if(ui.settingsOverlay) ui.settingsOverlay.classList.remove('visible');
+                if(ui.pauseOverlay) ui.pauseOverlay.classList.remove('visible');
+                if(ui.pauseBtn) ui.pauseBtn.style.display = 'block';
                 
                 updateUIDisplays();
                 clock.start();
@@ -1604,13 +1663,34 @@
             }
         }
 
-        function endGame() {
+        async function endGame() {
             gameState.current = 'gameOver';
             if(animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
-            if(ui.finalMitzvotDisplay) ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`;
+
+            // --- NEW FEATURE: High Score Logic ---
+            const currentScore = Math.floor(gameState.mitzvot);
+            const highScore = await loadSetting('highScore', 0);
+            let newHighScore = false;
+            if (currentScore > highScore) {
+                await saveSetting('highScore', currentScore);
+                newHighScore = true;
+            }
+
+            if(ui.finalMitzvotDisplay) ui.finalMitzvotDisplay.textContent = `You gathered ${currentScore} Mitzvot.`;
+            if(ui.highScoreDisplay) {
+                ui.highScoreDisplay.textContent = `High Score: ${newHighScore ? currentScore : highScore}`;
+                if (newHighScore) {
+                     ui.highScoreDisplay.style.color = 'var(--shefa-color)';
+                     ui.highScoreDisplay.textContent += ' (New Record!)';
+                } else {
+                     ui.highScoreDisplay.style.color = 'var(--mitzvot-color)';
+                }
+            }
+            
             if(ui.gameOver) ui.gameOver.classList.add('visible');
             if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.remove('visible');
+            if(ui.pauseBtn) ui.pauseBtn.style.display = 'none';
             webcamManager.stop();
         }
 
@@ -1621,10 +1701,28 @@
             if(ui.gameOver) ui.gameOver.classList.remove('visible');
             if(ui.customMenu) ui.customMenu.classList.remove('visible');
             if(ui.settingsOverlay) ui.settingsOverlay.classList.remove('visible');
+            if(ui.pauseOverlay) ui.pauseOverlay.classList.remove('visible');
             if(ui.mainMenu) ui.mainMenu.classList.add('visible');
             if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.remove('visible');
             if(ui.prayerListOverlay) ui.prayerListOverlay.classList.remove('visible');
+            if(ui.pauseBtn) ui.pauseBtn.style.display = 'none';
             webcamManager.stop();
+        }
+        
+        // --- NEW FEATURE: Pause/Resume Functions ---
+        function pauseGame() {
+            if (gameState.current !== 'playing') return;
+            gameState.current = 'paused';
+            clock.stop();
+            ui.pauseOverlay.classList.add('visible');
+        }
+
+        function resumeGame() {
+            if (gameState.current !== 'paused') return;
+            gameState.current = 'playing';
+            clock.start();
+            ui.pauseOverlay.classList.remove('visible');
+            animationFrameId = requestAnimationFrame(animate);
         }
         
         // --- INPUT HANDLING ---
@@ -1638,11 +1736,12 @@
         };
 
         const handleInteractionStart = (e, clientX) => {
-            if (gameState.current !== 'playing') return;
+            // Allow interaction with UI overlays even when game is 'playing'
             const targetElement = e.target;
-            if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) {
+            if (targetElement.closest('.overlay, .prayer-nav-button, #prayerDropdownBtn, #pauseBtn')) {
                 return; 
             }
+            if (gameState.current !== 'playing') return;
             isDragging = true;
             lastTouchX = clientX;
             if (e.type === 'touchstart') e.preventDefault();
@@ -1669,6 +1768,21 @@
         if(ui.btnSettings) ui.btnSettings.addEventListener('click', () => { if(ui.mainMenu) ui.mainMenu.classList.remove('visible'); if(ui.settingsOverlay) ui.settingsOverlay.classList.add('visible'); });
         if(ui.btnBackToMainFromSettings) ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
         if(ui.backToMenuFromGameBtn) ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
+        
+        // --- NEW FEATURE: Pause Menu Listeners ---
+        if(ui.pauseBtn) ui.pauseBtn.addEventListener('click', pauseGame);
+        if(ui.resumeButton) ui.resumeButton.addEventListener('click', resumeGame);
+        if(ui.menuFromPauseButton) ui.menuFromPauseButton.addEventListener('click', showMainMenu);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (gameState.current === 'playing') {
+                    pauseGame();
+                } else if (gameState.current === 'paused') {
+                    resumeGame();
+                }
+            }
+        });
+
 
         function updatePrayerDisplay() {
             const prayers = gameState.customPrayers;
@@ -1805,6 +1919,12 @@
         function animate(currentTime) {
             animationFrameId = requestAnimationFrame(animate);
             try {
+                // --- NEW FEATURE: If paused, skip all game logic updates. ---
+                if(gameState.current === 'paused') {
+                    renderer.render(scene, camera); // Still render the scene so it doesn't look frozen/broken
+                    return;
+                }
+                
                 if(gameState.current !== 'playing' || !gameState) return;
                 
                 const deltaTime = Math.min(0.05, clock.getDelta());
