@@ -731,6 +731,7 @@
             }
             if(shefaOrbMaterial) shefaOrbMaterial.color.set(gameSettings.shefaColor);
             if(golemProjectileMaterial) golemProjectileMaterial.color.set(gameSettings.klipotColor);
+            if(golemMaterial) golemMaterial.getObjectByName('eye_bloom')?.material.color.set(gameSettings.klipotColor);
         }
 
         function applyCaptionStyle() {
@@ -883,6 +884,10 @@
         const golemProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xff4500, fog: false });
         const shefaOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false });
         const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
+        // *** BUG FIX: Defined the missing tohuMaterial ***
+        const tohuMaterial = new THREE.MeshStandardMaterial({ color: 0x220033, metalness: 0.6, roughness: 0.8 });
+        // *** NEW OBSTACLE: Material for the new Void Orb ***
+        const voidOrbMaterial = new THREE.MeshStandardMaterial({ color: 0x1a0035, emissive: 0x330066, transparent: true, opacity: 0.8, roughness: 0.4 });
         
         // --- OBJECT POOLS ---
         const minyanGroup = new THREE.Group();
@@ -1097,6 +1102,7 @@
             const eye = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: gameSettings.klipotColor}));
             eye.position.z = 0.51;
             const eyeBloom = createBloomSprite(gameSettings.klipotColor);
+            eyeBloom.name = 'eye_bloom';
             eyeBloom.scale.setScalar(1.2);
             eye.add(eyeBloom);
             head.add(eye);
@@ -1110,6 +1116,18 @@
 
             group.add(torsoOutline, headOutline, torso, head);
             group.userData = { type: 'golem_sentry', body: group, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye, head };
+            return group;
+        }, 10);
+        
+        // *** NEW OBSTACLE: Pool for Void Orbs ***
+        const voidOrbPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const coreGeo = new THREE.SphereGeometry(1.2, 32, 16);
+            const core = new THREE.Mesh(coreGeo, voidOrbMaterial.clone());
+            const bloom = createBloomSprite(0xaa00ff);
+            bloom.scale.setScalar(5.0);
+            group.add(core, bloom);
+            group.userData = { type: 'void_orb', body: core, collisionBox2D: new THREE.Box2(), health: 50 };
             return group;
         }, 10);
 
@@ -1129,10 +1147,16 @@
             const shatterCount = gameSettings.shatterCount;
             const shatterSpeed = gameSettings.shatterSpeed;
             for(let i=0; i < shatterCount; i++) {
-                const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3);
+                const shard = new THREE.Mesh(geom, mat.clone()); 
+                shard.scale.setScalar(0.2 + Math.random()*0.3);
                 shard.position.copy(object.getWorldPosition(worldPosVec));
                 shard.rotation.copy(object.rotation);
                 scene.add(shard);
+                // Add emissive highlights to some shards for extra sparkle
+                if(Math.random() > 0.8) {
+                    shard.material.emissive = new THREE.Color(0xffffff);
+                    shard.material.emissiveIntensity = Math.random() * 2;
+                }
                 shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) };
                 dynamicShards.add(shard);
             }
@@ -1324,7 +1348,7 @@
                 blending: THREE.AdditiveBlending
             });
             const tendril = new THREE.Mesh(tubeGeo, tubeMat);
-            tendril.userData = { life: 5 + Math.random() * 5 };
+            tendril.userData = { life: 5 + Math.random() * 5, baseHue: color.getHSL({h:0,s:0,l:0}).h };
             scene.add(tendril);
             activeTendrils.add(tendril);
         }
@@ -1366,11 +1390,18 @@
                     obstacle = golem;
                     break;
                 }
+                 // *** NEW OBSTACLE: Spawning logic for Void Orb ***
+                case 'void_orb': {
+                    const orb = voidOrbPool.activate(); if(!orb) return null;
+                    orb.userData.health = Math.floor(50 * levelFactor);
+                    obstacle = orb;
+                    break;
+                }
             }
 
             if(obstacle) {
                 obstacle.position.copy(position);
-                if(obstacle.userData.body) obstacle.position.y += (obstacle.userData.type === 'jar' ? 0.75 : 2.0);
+                if(obstacle.userData.body) obstacle.position.y += (obstacle.userData.type === 'jar' ? 0.75 : (obstacle.userData.type === 'void_orb' ? 1.5 : 2.0));
                 obstacle.userData.drift = (Math.random() - 0.5) * 0.05;
                 obstacle.userData.rotSpeed = (Math.random() - 0.5) * 0.2;
             }
@@ -1378,12 +1409,12 @@
         }
         
         // --- NEW PROCEDURAL WAVE SPAWNER ---
-        const enemyTypes = ['jar', 'klipah_gate', 'golem_sentry', 'tohu_shard'];
+        const enemyTypes = ['jar', 'klipah_gate', 'golem_sentry', 'tohu_shard', 'void_orb'];
         function generateWave() {
             const zStart = -120 - Math.random() * 40;
             const difficulty = Math.min(10, 1 + gameState.level * 0.5);
             let budget = 10 + difficulty * 2;
-            const cost = { 'jar': 1, 'klipah_gate': 1.5, 'golem_sentry': 4, 'tohu_shard': 2 };
+            const cost = { 'jar': 1, 'klipah_gate': 1.5, 'golem_sentry': 4, 'tohu_shard': 2, 'void_orb': 3.5 };
             
             const patterns = [
                 // Simple patterns
@@ -1407,6 +1438,12 @@
                 () => { // Ambush
                     const lane = Math.floor(Math.random() * 3);
                     spawnObstacle('jar', lane, zStart); spawnObstacle('golem_sentry', lane, zStart - 15);
+                },
+                // *** NEW OBSTACLE: New wave pattern featuring the Void Orb ***
+                () => { // Gravitational Trap
+                    spawnObstacle('void_orb', 1, zStart - 20);
+                    spawnObstacle('jar', 0, zStart); spawnObstacle('jar', 2, zStart);
+                    spawnObstacle('klipah_gate', 1, zStart - 40);
                 }
             ];
             
@@ -1470,7 +1507,7 @@
             try {
                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
                 
-                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, particlePool, shefaOrbPool, specialParticlePool].forEach(pool => pool.deactivateAll());
+                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, voidOrbPool].forEach(pool => pool.deactivateAll());
                 dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
                 activeLights.forEach(l => scene.remove(l)); activeLights.clear();
                 activeParticleWebs.forEach(w => scene.remove(w)); activeParticleWebs.clear();
@@ -1785,6 +1822,9 @@
                 for(const tendril of activeTendrils) {
                     tendril.userData.life -= deltaTime;
                     tendril.material.opacity = Math.sin(Math.PI * (tendril.userData.life / 10)) * 0.3;
+                    // *** VISUAL IMPROVEMENT: Pulsating color for tendrils ***
+                    tendril.material.color.setHSL(tendril.userData.baseHue, 0.8, 0.3 + Math.sin(currentTime * 5 + tendril.userData.baseHue) * 0.2);
+
                     if (tendril.userData.life <= 0) {
                         scene.remove(tendril);
                         tendril.geometry.dispose();
@@ -1802,6 +1842,21 @@
                 }
 
                 // --- PLAYER MOVEMENT & FORMATION ---
+                 // *** NEW OBSTACLE LOGIC: Apply pull from Void Orbs ***
+                for (const orb of voidOrbPool.active) {
+                    const distanceX = minyanGroup.position.x - orb.position.x;
+                    const pullStrength = 30 / (distanceX * distanceX + 10); // Inverse square with dampening
+                    targetCubeX -= Math.sign(distanceX) * pullStrength * deltaTime;
+
+                    // Visual feedback: pull nearby particles towards the orb
+                     for (const p of [...specialParticlePool.active, ...particlePool.active]) {
+                        if (p.position.distanceTo(orb.position) < 30) {
+                             const direction = orb.position.clone().sub(p.position).normalize();
+                             p.userData.velocity.addScaledVector(direction, 25 * deltaTime);
+                        }
+                     }
+                }
+
                 let minX = 0, maxX = 0;
                 magenDavidTroops.forEach(troop => {
                     if (troop) {
@@ -1864,7 +1919,7 @@
 
                 // --- OBSTACLE & ENEMY UPDATE ---
                 const troopsToRemove = new Set();
-                const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active];
+                const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...voidOrbPool.active];
                 for (const obstacle of allObstacles) {
                     obstacle.position.z += currentRoadSpeed * deltaTime;
                     obstacle.position.x += obstacle.userData.drift * deltaTime * currentRoadSpeed;
@@ -1876,6 +1931,7 @@
                         else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
                         else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle);
                         else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'void_orb') voidOrbPool.deactivate(obstacle);
                         continue;
                     }
                     
@@ -1903,7 +1959,7 @@
                             }
                         });
                     } else {
-                        const obsSize = obstacle.userData.type === 'jar' ? 1.5 : 1.5;
+                        const obsSize = obstacle.userData.type === 'jar' ? 1.5 : (obstacle.userData.type === 'void_orb' ? 2.4 : 1.5);
                         obstacle.userData.collisionBox2D.setFromCenterAndSize({x: obstacle.position.x, y: obstacle.position.z}, {x: obsSize, y: obsSize});
                         magenDavidTroops.forEach((troop) => {
                             if (!troop || troopsToRemove.has(troop)) return;
@@ -1930,6 +1986,9 @@
                                     case 'golem_sentry':
                                         troopsToRemove.add(troop);
                                         triggerScreenShake(0.2);
+                                        break;
+                                    // Void Orb does not damage on touch, its threat is the pull.
+                                    case 'void_orb':
                                         break;
                                 }
                             }
@@ -1981,7 +2040,7 @@
                                     }
                                     updateKlipahGateVisuals(obstacle);
                                     break;
-                                case 'jar': case 'golem_sentry':
+                                case 'jar': case 'golem_sentry': case 'void_orb':
                                     obstacle.userData.health -= spark.userData.damage;
                                     createParticleExplosion(spark.position, 5, '#ffffff', 8);
                                     if (gameState.player.hasPierce && spark.userData.pierced < 1) { spark.userData.pierced++; deactivateSpark = false; }
@@ -1991,7 +2050,9 @@
                                         updateCombo(75, obstacle.position);
                                         const light = new THREE.PointLight(0xffaa55, 5, 30, 2);
                                         light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
-                                        if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
+                                        if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); 
+                                        else if(obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle);
+                                        else if(obstacle.userData.type === 'void_orb') voidOrbPool.deactivate(obstacle);
                                     } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
                                     break;
                             }
@@ -2010,7 +2071,15 @@
                     p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime;
                     if(p.material && p.material.opacity) p.material.opacity = p.userData.life;
                     if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; }
-                    if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } }
+                    if (p.userData.life <= 0) { 
+                        if(p.userData.type === 'particle') {
+                            particlePool.deactivate(p);
+                        } else { 
+                            p.material.dispose(); // Clean up cloned material
+                            scene.remove(p); 
+                            dynamicShards.delete(p); 
+                        } 
+                    }
                 });
 
                 activeLights.forEach(light => { light.intensity -= 15 * deltaTime; if(light.intensity <= 0) { scene.remove(light); activeLights.delete(light); } });
