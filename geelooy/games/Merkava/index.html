@@ -396,6 +396,8 @@
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
         // --- GLOBAL ERROR HANDLING ---
+        // NOTE: The "Did not find ethereum or web3" message is from a browser extension (e.g., a crypto wallet)
+        // and is not an error in this game's code. It can be safely ignored.
         function displayGlobalError(message) {
             const errorDiv = document.getElementById('globalErrorNotifier');
             if (errorDiv) {
@@ -610,6 +612,7 @@
         };
         function populateFontSelects() {
             [ui.captionFontSelect, ui.inGameCaptionFontSelect].forEach(select => {
+                if (!select) return;
                 select.innerHTML = '';
                 for(const name in availableFonts) {
                     const option = document.createElement('option');
@@ -718,23 +721,41 @@
 
         // Applies all theme-related colors to the game's CSS variables and materials.
         function updateTheme() {
-            document.documentElement.style.setProperty('--glow-color', gameSettings.glowColor);
-            document.documentElement.style.setProperty('--shefa-color', gameSettings.shefaColor);
-            document.documentElement.style.setProperty('--klipot-color', gameSettings.klipotColor);
+            // *** FIX: Use local fallbacks to prevent errors from undefined/null settings ***
+            const glowColor = gameSettings.glowColor || defaultSettings.glowColor;
+            const shefaColor = gameSettings.shefaColor || defaultSettings.shefaColor;
+            const klipotColor = gameSettings.klipotColor || defaultSettings.klipotColor;
+
+            document.documentElement.style.setProperty('--glow-color', glowColor);
+            document.documentElement.style.setProperty('--shefa-color', shefaColor);
+            document.documentElement.style.setProperty('--klipot-color', klipotColor);
 
             // Update materials in real-time if they exist
-            if(magenDavidMaterial) magenDavidMaterial.color.set(gameSettings.glowColor);
-            if(sparkMaterial) sparkMaterial.color.set(gameSettings.glowColor);
+            if(magenDavidMaterial) magenDavidMaterial.color.set(glowColor);
+            if(sparkMaterial) sparkMaterial.color.set(glowColor);
             if(klipahCrackMaterial) {
-                klipahCrackMaterial.emissive.set(gameSettings.klipotColor);
-                klipahCrackMaterial.color.set(new THREE.Color(gameSettings.klipotColor).multiplyScalar(0.3));
+                klipahCrackMaterial.emissive.set(klipotColor);
+                klipahCrackMaterial.color.set(new THREE.Color(klipotColor).multiplyScalar(0.3));
             }
-            if(shefaOrbMaterial) shefaOrbMaterial.color.set(gameSettings.shefaColor);
-            if(golemProjectileMaterial) golemProjectileMaterial.color.set(gameSettings.klipotColor);
-            if(golemMaterial) golemMaterial.getObjectByName('eye_bloom')?.material.color.set(gameSettings.klipotColor);
+            if(shefaOrbMaterial) shefaOrbMaterial.color.set(shefaColor);
+            if(golemProjectileMaterial) golemProjectileMaterial.color.set(klipotColor);
+            
+            // *** FIX: Correctly iterate through active Golems to update their color instead of calling a method on a material ***
+            if (golemSentryPool && golemSentryPool.active) {
+                for (const golem of golemSentryPool.active) {
+                    if (golem.userData.eye) {
+                        golem.userData.eye.material.color.set(klipotColor);
+                    }
+                    const eyeBloom = golem.getObjectByName('eye_bloom');
+                    if (eyeBloom) {
+                        eyeBloom.material.color.set(klipotColor);
+                    }
+                }
+            }
         }
 
         function applyCaptionStyle() {
+            if (!ui.prayerText) return;
             const font = gameSettings.captionFont === 'custom' ? ui.customFontInput.value : gameSettings.captionFont;
             ui.prayerText.style.fontFamily = font;
             ui.prayerText.style.color = gameSettings.captionColor;
@@ -766,7 +787,7 @@
                 } catch (err) {
                     console.error("Could not access webcam:", err);
                     displayGlobalError("Webcam access denied or failed.");
-                    ui.webcamModeSelect.value = 'off';
+                    if(ui.webcamModeSelect) ui.webcamModeSelect.value = 'off';
                     await saveSetting('webcamMode', 'off');
                     gameSettings.webcamMode = 'off';
                 }
@@ -883,10 +904,9 @@
         const golemMaterial = new THREE.MeshStandardMaterial({ color: 0x666666, metalness: 0.8, roughness: 0.2 });
         const golemProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xff4500, fog: false });
         const shefaOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false });
-        const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
-        // *** BUG FIX: Defined the missing tohuMaterial ***
+        // *** FIX: Added a fallback color to prevent errors if CSS variables fail to load ***
+        const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim() || '#000000'), side: THREE.BackSide, fog: false });
         const tohuMaterial = new THREE.MeshStandardMaterial({ color: 0x220033, metalness: 0.6, roughness: 0.8 });
-        // *** NEW OBSTACLE: Material for the new Void Orb ***
         const voidOrbMaterial = new THREE.MeshStandardMaterial({ color: 0x1a0035, emissive: 0x330066, transparent: true, opacity: 0.8, roughness: 0.4 });
         
         // --- OBJECT POOLS ---
@@ -896,7 +916,7 @@
         const sparkPool = new ObjectPool(() => {
             const group = new THREE.Group();
             const core = new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial);
-            const bloom = createBloomSprite(gameSettings.glowColor);
+            const bloom = createBloomSprite(gameSettings.glowColor || defaultSettings.glowColor);
             bloom.scale.setScalar(1.2);
             group.add(core, bloom);
             group.userData = {};
@@ -905,7 +925,7 @@
         const golemProjectilePool = new ObjectPool(() => {
             const group = new THREE.Group();
             const core = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial);
-            const bloom = createBloomSprite(gameSettings.klipotColor);
+            const bloom = createBloomSprite(gameSettings.klipotColor || defaultSettings.klipotColor);
             bloom.scale.setScalar(2.5);
             group.add(core, bloom);
             group.userData = {};
@@ -915,7 +935,7 @@
         const shefaOrbPool = new ObjectPool(() => {
             const group = new THREE.Group();
             const core = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial);
-            const bloom = createBloomSprite(gameSettings.shefaColor);
+            const bloom = createBloomSprite(gameSettings.shefaColor || defaultSettings.shefaColor);
             bloom.scale.setScalar(1.5);
             group.add(core, bloom);
             group.userData = {};
@@ -928,6 +948,90 @@
             sprite.userData = { type: 'special_particle' };
             return sprite;
         }, 300);
+        
+        const golemSentryPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const torsoGeo = new THREE.BoxGeometry(1.5, 2.0, 1.5);
+            const torso = new THREE.Mesh(torsoGeo, golemMaterial.clone());
+            torso.position.y = 1.0;
+            const headGeo = new THREE.BoxGeometry(1.0, 1.0, 1.0);
+            const head = new THREE.Mesh(headGeo, golemMaterial.clone());
+            head.position.y = 2.5;
+            const eye = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: gameSettings.klipotColor || defaultSettings.klipotColor}));
+            eye.position.z = 0.51;
+            const eyeBloom = createBloomSprite(gameSettings.klipotColor || defaultSettings.klipotColor);
+            eyeBloom.name = 'eye_bloom';
+            eyeBloom.scale.setScalar(1.2);
+            eye.add(eyeBloom);
+            head.add(eye);
+            
+            const torsoOutline = new THREE.Mesh(torsoGeo, outlineMaterial);
+            torsoOutline.position.copy(torso.position);
+            torsoOutline.scale.setScalar(1.1);
+            const headOutline = new THREE.Mesh(headGeo, outlineMaterial);
+            headOutline.position.copy(head.position);
+            headOutline.scale.setScalar(1.1);
+
+            group.add(torsoOutline, headOutline, torso, head);
+            group.userData = { type: 'golem_sentry', body: group, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye, head };
+            return group;
+        }, 10);
+        
+        const klipahGatePool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeo = new THREE.BoxGeometry(3, 4, 0.5);
+            const body = new THREE.Mesh(bodyGeo, klipahCrackMaterial.clone());
+            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
+            outline.scale.setScalar(1.15);
+            const valuePlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            valuePlane.position.z = 0.26;
+            group.add(outline, body, valuePlane);
+            group.userData = { type: 'klipah_gate', body, valuePlane, collisionBox2D: new THREE.Box2() };
+            return group;
+        }, 15);
+
+        const jarPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12);
+            const body = new THREE.Mesh(bodyGeo, jarMaterial.clone());
+            body.rotation.z = Math.PI / 2; body.rotation.y = Math.random() * Math.PI;
+            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
+            outline.rotation.copy(body.rotation);
+            outline.scale.set(1.15, 1.1, 1.15);
+            const healthPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            healthPlane.position.y = 1.2;
+            group.add(outline, body, healthPlane);
+            group.userData = { type: 'jar', body, healthPlane, collisionBox2D: new THREE.Box2() };
+            return group;
+        }, 15);
+        
+        const tohuShardPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const spikeGeom = new THREE.ConeGeometry(0.3, 1.5, 6);
+            for(let i=0; i < 10; i++) {
+                const shardGroup = new THREE.Group();
+                const shard = new THREE.Mesh(spikeGeom, tohuMaterial.clone());
+                const outline = new THREE.Mesh(spikeGeom, outlineMaterial);
+                outline.scale.setScalar(1.2);
+                shardGroup.add(outline, shard);
+                shardGroup.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5);
+                shardGroup.userData.collisionBox2D = new THREE.Box2();
+                group.add(shardGroup);
+            }
+            group.userData = { type: 'tohu_shard', body: group };
+            return group;
+        }, 15);
+        
+        const voidOrbPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const coreGeo = new THREE.SphereGeometry(1.2, 32, 16);
+            const core = new THREE.Mesh(coreGeo, voidOrbMaterial.clone());
+            const bloom = createBloomSprite(0xaa00ff);
+            bloom.scale.setScalar(5.0);
+            group.add(core, bloom);
+            group.userData = { type: 'void_orb', body: core, collisionBox2D: new THREE.Box2(), health: 50 };
+            return group;
+        }, 10);
         
         // --- DYNAMIC OBJECT SETS ---
         const activeLights = new Set();
@@ -942,7 +1046,7 @@
             const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
             [0.2, -0.2].forEach(y => { const p = new THREE.Mesh(coneGeom, magenDavidMaterial); p.position.y = y; if(y < 0) p.rotation.x = Math.PI; group.add(p); });
             
-            const bloom = createBloomSprite(gameSettings.glowColor);
+            const bloom = createBloomSprite(gameSettings.glowColor || defaultSettings.glowColor);
             bloom.scale.setScalar(2.5);
             group.add(bloom);
             group.userData = { lastShotTime: 0, collisionBox2D: new THREE.Box2(), targetPos: new THREE.Vector3() };
@@ -989,6 +1093,8 @@
                 createParticleExplosion(troop.getWorldPosition(worldPosVec), 30, gameSettings.klipotColor, 15);
                 shatterObject(troop.children[0]);
                 minyanGroup.remove(troop);
+                // Note: Proper disposal of geometries and materials can be complex with shared assets.
+                // For now, removing from the scene graph prevents rendering and major leaks.
                 magenDavidTroops[index] = null;
              }
         }
@@ -1025,112 +1131,32 @@
             }
 
             if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
-            ui.nefeshDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
+            if (ui.nefeshDisplay) {
+                ui.nefeshDisplay.style.transform = "scale(1.2)"; 
+                setTimeout(() => { if (ui.nefeshDisplay) ui.nefeshDisplay.style.transform = "scale(1.0)"; }, 100);
+            }
         }
 
         // --- OBSTACLE CREATION FUNCTIONS ---
-        const klipahGatePool = new ObjectPool(() => {
-            const group = new THREE.Group();
-            const bodyGeo = new THREE.BoxGeometry(3, 4, 0.5);
-            const body = new THREE.Mesh(bodyGeo, klipahCrackMaterial.clone());
-            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
-            outline.scale.setScalar(1.15);
-            const valuePlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
-            valuePlane.position.z = 0.26;
-            group.add(outline, body, valuePlane);
-            group.userData = { type: 'klipah_gate', body, valuePlane, collisionBox2D: new THREE.Box2() };
-            return group;
-        }, 15);
-
         function updateKlipahGateVisuals(gate) {
             const { valuePlane, currentValue, isPurified } = gate.userData;
             if (valuePlane.material.map) valuePlane.material.map.dispose();
-            const color = isPurified ? '#aaffaa' : gameSettings.klipotColor;
+            const color = isPurified ? '#aaffaa' : (gameSettings.klipotColor || defaultSettings.klipotColor);
             let numText = isPurified ? `+${currentValue}` : currentValue.toString();
             let gematria = toGematria(currentValue);
             valuePlane.material.map = createTextTexture(numText, gematria, 'rgba(0,0,0,0)', undefined, color);
-            gate.userData.body.material.color.set(isPurified ? '#006600' : new THREE.Color(gameSettings.klipotColor).multiplyScalar(0.3));
-            gate.userData.body.material.emissive.set(isPurified ? '#00ff00' : gameSettings.klipotColor);
+            const bodyColor = isPurified ? '#006600' : new THREE.Color(gameSettings.klipotColor || defaultSettings.klipotColor).multiplyScalar(0.3);
+            const emissiveColor = isPurified ? '#00ff00' : (gameSettings.klipotColor || defaultSettings.klipotColor);
+            gate.userData.body.material.color.set(bodyColor);
+            gate.userData.body.material.emissive.set(emissiveColor);
         }
-
-        const jarPool = new ObjectPool(() => {
-            const group = new THREE.Group();
-            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12);
-            const body = new THREE.Mesh(bodyGeo, jarMaterial.clone());
-            body.rotation.z = Math.PI / 2; body.rotation.y = Math.random() * Math.PI;
-            const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
-            outline.rotation.copy(body.rotation);
-            outline.scale.set(1.15, 1.1, 1.15);
-            const healthPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
-            healthPlane.position.y = 1.2;
-            group.add(outline, body, healthPlane);
-            group.userData = { type: 'jar', body, healthPlane, collisionBox2D: new THREE.Box2() };
-            return group;
-        }, 15);
         
         function updateJarHealthVisuals(jar) {
             const { healthPlane, health } = jar.userData;
             if (healthPlane.material.map) healthPlane.material.map.dispose();
             healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF');
         }
-
-        const tohuShardPool = new ObjectPool(() => {
-            const group = new THREE.Group();
-            const spikeGeom = new THREE.ConeGeometry(0.3, 1.5, 6);
-            for(let i=0; i < 10; i++) {
-                const shardGroup = new THREE.Group();
-                const shard = new THREE.Mesh(spikeGeom, tohuMaterial.clone());
-                const outline = new THREE.Mesh(spikeGeom, outlineMaterial);
-                outline.scale.setScalar(1.2);
-                shardGroup.add(outline, shard);
-                shardGroup.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5);
-                shardGroup.userData.collisionBox2D = new THREE.Box2();
-                group.add(shardGroup);
-            }
-            group.userData = { type: 'tohu_shard', body: group };
-            return group;
-        }, 15);
         
-        const golemSentryPool = new ObjectPool(() => {
-            const group = new THREE.Group();
-            const torsoGeo = new THREE.BoxGeometry(1.5, 2.0, 1.5);
-            const torso = new THREE.Mesh(torsoGeo, golemMaterial.clone());
-            torso.position.y = 1.0;
-            const headGeo = new THREE.BoxGeometry(1.0, 1.0, 1.0);
-            const head = new THREE.Mesh(headGeo, golemMaterial.clone());
-            head.position.y = 2.5;
-            const eye = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: gameSettings.klipotColor}));
-            eye.position.z = 0.51;
-            const eyeBloom = createBloomSprite(gameSettings.klipotColor);
-            eyeBloom.name = 'eye_bloom';
-            eyeBloom.scale.setScalar(1.2);
-            eye.add(eyeBloom);
-            head.add(eye);
-            
-            const torsoOutline = new THREE.Mesh(torsoGeo, outlineMaterial);
-            torsoOutline.position.copy(torso.position);
-            torsoOutline.scale.setScalar(1.1);
-            const headOutline = new THREE.Mesh(headGeo, outlineMaterial);
-            headOutline.position.copy(head.position);
-            headOutline.scale.setScalar(1.1);
-
-            group.add(torsoOutline, headOutline, torso, head);
-            group.userData = { type: 'golem_sentry', body: group, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye, head };
-            return group;
-        }, 10);
-        
-        // *** NEW OBSTACLE: Pool for Void Orbs ***
-        const voidOrbPool = new ObjectPool(() => {
-            const group = new THREE.Group();
-            const coreGeo = new THREE.SphereGeometry(1.2, 32, 16);
-            const core = new THREE.Mesh(coreGeo, voidOrbMaterial.clone());
-            const bloom = createBloomSprite(0xaa00ff);
-            bloom.scale.setScalar(5.0);
-            group.add(core, bloom);
-            group.userData = { type: 'void_orb', body: core, collisionBox2D: new THREE.Box2(), health: 50 };
-            return group;
-        }, 10);
-
         // --- VISUAL EFFECTS ---
         function createParticleExplosion(position, count, color, speed) {
             const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1));
@@ -1143,6 +1169,7 @@
         }
         
         function shatterObject(object) {
+            if (!object?.geometry || !object?.material) return;
             const geom = object.geometry; const mat = object.material;
             const shatterCount = gameSettings.shatterCount;
             const shatterSpeed = gameSettings.shatterSpeed;
@@ -1153,7 +1180,7 @@
                 shard.rotation.copy(object.rotation);
                 scene.add(shard);
                 // Add emissive highlights to some shards for extra sparkle
-                if(Math.random() > 0.8) {
+                if(Math.random() > 0.8 && shard.material.emissive) {
                     shard.material.emissive = new THREE.Color(0xffffff);
                     shard.material.emissiveIntensity = Math.random() * 2;
                 }
@@ -1173,7 +1200,7 @@
                 overflow: 'hidden', pointerEvents: 'none', zIndex: '2000'
             });
             document.body.appendChild(container);
-            const shatterCount = Math.max(5, gameSettings.shatterCount / 2);
+            const shatterCount = Math.max(5, Math.floor(gameSettings.shatterCount / 2));
             const shatterSpeed = gameSettings.shatterSpeed * 0.2;
             for (let i = 0; i < shatterCount; i++) {
                 const shard = document.createElement('div');
@@ -1199,7 +1226,7 @@
         function triggerFovKick(intensity) { fovKick = Math.max(fovKick, intensity * gameSettings.effectsIntensity); }
         function triggerFlash(color, duration) {
             const intensity = gameSettings.flashIntensity;
-            if (intensity <= 0) return;
+            if (intensity <= 0 || !ui.flashOverlay) return;
             ui.flashOverlay.style.backgroundColor = color; ui.flashOverlay.style.transition = 'opacity 0s';
             ui.flashOverlay.style.opacity = (0.7 * intensity).toString();
             setTimeout(() => { ui.flashOverlay.style.transition = `opacity ${duration}ms`; ui.flashOverlay.style.opacity = '0'; }, 10);
@@ -1222,7 +1249,11 @@
             const upgrade = allUpgrades[chosenKey];
             upgrade.apply();
             if(upgrade.nonStackable) acquiredUpgrades.add(chosenKey);
-            ui.ascensionNotifier.textContent = upgrade.name; ui.ascensionNotifier.classList.add('show');
+            if(ui.ascensionNotifier) {
+                ui.ascensionNotifier.textContent = upgrade.name; 
+                ui.ascensionNotifier.classList.add('show');
+                setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
+            }
             createParticleExplosion(minyanGroup.position, 150, 0xd8a8ff, 20);
             triggerFlash('#d8a8ff', 500); triggerFovKick(15);
             for (const p of specialParticlePool.active) {
@@ -1230,10 +1261,11 @@
                 p.userData.velocity.addScaledVector(direction, 40);
                 p.userData.life = Math.min(p.userData.life, 2.0);
             }
-            setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
-
+            
             const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1);
-            gameState.color.target.copy(levelColors[nextColorIndex]);
+            if (levelColors[nextColorIndex]) {
+                 gameState.color.target.copy(levelColors[nextColorIndex]);
+            }
         }
         
         function updateCombo(newPoints, position) {
@@ -1250,8 +1282,12 @@
                     orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
                 }
             }
-            ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
-            ui.comboNotifier.classList.remove('show'); void ui.comboNotifier.offsetWidth; ui.comboNotifier.classList.add('show');
+            if(ui.comboNotifier) {
+                ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
+                ui.comboNotifier.classList.remove('show'); 
+                void ui.comboNotifier.offsetWidth; // Trigger reflow
+                ui.comboNotifier.classList.add('show');
+            }
         }
         
         let road, starField1, starField2;
@@ -1287,7 +1323,7 @@
 
             // Road Outline
             const outlineGeo = new THREE.PlaneGeometry(roadWidth + 0.2, 200, 1, 1);
-            const outlineMat = new THREE.MeshBasicMaterial({ color: gameSettings.glowColor, side: THREE.BackSide});
+            const outlineMat = new THREE.MeshBasicMaterial({ color: gameSettings.glowColor || defaultSettings.glowColor, side: THREE.BackSide});
             const roadOutline = new THREE.Mesh(outlineGeo, outlineMat);
             roadOutline.rotation.x = -Math.PI/2;
             roadOutline.position.y = roadLevelY - 0.01;
@@ -1390,7 +1426,6 @@
                     obstacle = golem;
                     break;
                 }
-                 // *** NEW OBSTACLE: Spawning logic for Void Orb ***
                 case 'void_orb': {
                     const orb = voidOrbPool.activate(); if(!orb) return null;
                     orb.userData.health = Math.floor(50 * levelFactor);
@@ -1413,11 +1448,8 @@
         function generateWave() {
             const zStart = -120 - Math.random() * 40;
             const difficulty = Math.min(10, 1 + gameState.level * 0.5);
-            let budget = 10 + difficulty * 2;
-            const cost = { 'jar': 1, 'klipah_gate': 1.5, 'golem_sentry': 4, 'tohu_shard': 2, 'void_orb': 3.5 };
             
             const patterns = [
-                // Simple patterns
                 () => { // Wall
                     const type = Math.random() < 0.7 ? 'jar' : 'klipah_gate';
                     spawnObstacle(type, 0, zStart); spawnObstacle(type, 1, zStart); spawnObstacle(type, 2, zStart);
@@ -1426,7 +1458,6 @@
                     const lane = Math.floor(Math.random() * 3);
                     for (let i = 0; i < 3; i++) spawnObstacle('tohu_shard', lane, zStart - i * 15);
                 },
-                // Advanced patterns
                 () => { // Pincer
                     spawnObstacle('golem_sentry', 0, zStart); spawnObstacle('golem_sentry', 2, zStart - 10);
                 },
@@ -1439,7 +1470,6 @@
                     const lane = Math.floor(Math.random() * 3);
                     spawnObstacle('jar', lane, zStart); spawnObstacle('golem_sentry', lane, zStart - 15);
                 },
-                // *** NEW OBSTACLE: New wave pattern featuring the Void Orb ***
                 () => { // Gravitational Trap
                     spawnObstacle('void_orb', 1, zStart - 20);
                     spawnObstacle('jar', 0, zStart); spawnObstacle('jar', 2, zStart);
@@ -1489,7 +1519,7 @@
                     const geometry = new THREE.BufferGeometry();
                     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
                     const material = new THREE.LineBasicMaterial({
-                        color: new THREE.Color(gameSettings.glowColor),
+                        color: new THREE.Color(gameSettings.glowColor || defaultSettings.glowColor),
                         transparent: true,
                         opacity: 0.1,
                         blending: THREE.AdditiveBlending
@@ -1507,7 +1537,7 @@
             try {
                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
                 
-                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, voidOrbPool].forEach(pool => pool.deactivateAll());
+                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, voidOrbPool].forEach(pool => pool?.deactivateAll());
                 dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
                 activeLights.forEach(l => scene.remove(l)); activeLights.clear();
                 activeParticleWebs.forEach(w => scene.remove(w)); activeParticleWebs.clear();
@@ -1524,7 +1554,7 @@
                     player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false },
                     combo: { count: 0, timer: 0 },
                     customPrayers: gameSettings.customPrayers || null,
-                    color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) },
+                    color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0] || initialClearColor) },
                     spawnTimer: 1.0,
                 };
                 
@@ -1537,23 +1567,23 @@
                 for(let i=0; i < MAX_NEFESH; i++) { magenDavidTroops.push(null); }
 
                 if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
-                    ui.prayerDisplayContainer.classList.add('visible');
+                    if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.add('visible');
                     updatePrayerDisplay();
-                    ui.ascensionNotifier.classList.add('side-mode');
-                    ui.comboNotifier.classList.add('side-mode');
+                    if(ui.ascensionNotifier) ui.ascensionNotifier.classList.add('side-mode');
+                    if(ui.comboNotifier) ui.comboNotifier.classList.add('side-mode');
                 } else {
-                    ui.prayerDisplayContainer.classList.remove('visible');
-                    ui.ascensionNotifier.classList.remove('side-mode');
-                    ui.comboNotifier.classList.remove('side-mode');
+                    if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.remove('visible');
+                    if(ui.ascensionNotifier) ui.ascensionNotifier.classList.remove('side-mode');
+                    if(ui.comboNotifier) ui.comboNotifier.classList.remove('side-mode');
                 }
 
                 adjustNefeshCount(10);
                 targetCubeX = 0; minyanGroup.position.x = 0;
 
-                ui.mainMenu.classList.remove('visible');
-                ui.gameOver.classList.remove('visible');
-                ui.customMenu.classList.remove('visible');
-                ui.settingsOverlay.classList.remove('visible');
+                if(ui.mainMenu) ui.mainMenu.classList.remove('visible');
+                if(ui.gameOver) ui.gameOver.classList.remove('visible');
+                if(ui.customMenu) ui.customMenu.classList.remove('visible');
+                if(ui.settingsOverlay) ui.settingsOverlay.classList.remove('visible');
                 
                 updateUIDisplays();
                 clock.start();
@@ -1578,9 +1608,9 @@
             gameState.current = 'gameOver';
             if(animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
-            ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`;
-            ui.gameOver.classList.add('visible');
-            ui.prayerDisplayContainer.classList.remove('visible');
+            if(ui.finalMitzvotDisplay) ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`;
+            if(ui.gameOver) ui.gameOver.classList.add('visible');
+            if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.remove('visible');
             webcamManager.stop();
         }
 
@@ -1588,12 +1618,12 @@
             gameState.current = 'mainMenu';
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
-            ui.gameOver.classList.remove('visible');
-            ui.customMenu.classList.remove('visible');
-            ui.settingsOverlay.classList.remove('visible');
-            ui.mainMenu.classList.add('visible');
-            ui.prayerDisplayContainer.classList.remove('visible');
-            ui.prayerListOverlay.classList.remove('visible');
+            if(ui.gameOver) ui.gameOver.classList.remove('visible');
+            if(ui.customMenu) ui.customMenu.classList.remove('visible');
+            if(ui.settingsOverlay) ui.settingsOverlay.classList.remove('visible');
+            if(ui.mainMenu) ui.mainMenu.classList.add('visible');
+            if(ui.prayerDisplayContainer) ui.prayerDisplayContainer.classList.remove('visible');
+            if(ui.prayerListOverlay) ui.prayerListOverlay.classList.remove('visible');
             webcamManager.stop();
         }
         
@@ -1626,28 +1656,28 @@
         document.addEventListener('touchend', () => isDragging = false);
         
         // --- UI EVENT LISTENERS ---
-        ui.tryAgainButton.addEventListener('click', () => { shatterElement(ui.tryAgainButton); initializeGame(); });
-        ui.btnBegin.addEventListener('click', () => { shatterElement(ui.btnBegin); gameSettings.customPrayers = null; initializeGame(); });
-        ui.btnCustom.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.customMenu.classList.add('visible'); });
-        ui.btnGoCustom.addEventListener('click', () => {
+        if(ui.tryAgainButton) ui.tryAgainButton.addEventListener('click', () => { shatterElement(ui.tryAgainButton); initializeGame(); });
+        if(ui.btnBegin) ui.btnBegin.addEventListener('click', () => { shatterElement(ui.btnBegin); gameSettings.customPrayers = null; initializeGame(); });
+        if(ui.btnCustom) ui.btnCustom.addEventListener('click', () => { if(ui.mainMenu) ui.mainMenu.classList.remove('visible'); if(ui.customMenu) ui.customMenu.classList.add('visible'); });
+        if(ui.btnGoCustom) ui.btnGoCustom.addEventListener('click', () => {
             shatterElement(ui.btnGoCustom);
             const prayers = ui.customPrayerTextarea.value.split('\n\n').map(p => p.trim()).filter(p => p.length > 0);
             gameSettings.customPrayers = (prayers.length > 0) ? { phrases: prayers, currentIndex: 0 } : null;
             initializeGame();
         });
-        ui.btnBackToMain.addEventListener('click', showMainMenu);
-        ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); });
-        ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
-        ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
+        if(ui.btnBackToMain) ui.btnBackToMain.addEventListener('click', showMainMenu);
+        if(ui.btnSettings) ui.btnSettings.addEventListener('click', () => { if(ui.mainMenu) ui.mainMenu.classList.remove('visible'); if(ui.settingsOverlay) ui.settingsOverlay.classList.add('visible'); });
+        if(ui.btnBackToMainFromSettings) ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
+        if(ui.backToMenuFromGameBtn) ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
 
         function updatePrayerDisplay() {
             const prayers = gameState.customPrayers;
-            if(prayers && prayers.phrases.length > 0) {
+            if(prayers && prayers.phrases.length > 0 && ui.prayerText) {
                 ui.prayerText.textContent = prayers.phrases[prayers.currentIndex];
                 applyCaptionStyle();
             }
         }
-        ui.prevPrayerBtn.addEventListener('click', () => {
+        if(ui.prevPrayerBtn) ui.prevPrayerBtn.addEventListener('click', () => {
             const prayers = gameState.customPrayers;
             if (prayers && prayers.phrases.length > 0) {
                 prayers.currentIndex = (prayers.currentIndex - 1 + prayers.phrases.length) % prayers.phrases.length;
@@ -1655,7 +1685,7 @@
                 shatterElement(ui.prayerText);
             }
         });
-        ui.nextPrayerBtn.addEventListener('click', () => {
+        if(ui.nextPrayerBtn) ui.nextPrayerBtn.addEventListener('click', () => {
             const prayers = gameState.customPrayers;
             if (prayers && prayers.phrases.length > 0) {
                 prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length;
@@ -1665,6 +1695,7 @@
         });
         
         function populatePrayerList() {
+            if (!ui.prayerList) return;
             ui.prayerList.innerHTML = '';
             const prayers = gameState.customPrayers;
             if (!prayers || prayers.phrases.length === 0) {
@@ -1691,17 +1722,18 @@
             const activeItem = ui.prayerList.querySelector('.active');
             if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
-        ui.prayerDropdownBtn.addEventListener('click', () => {
+        if(ui.prayerDropdownBtn) ui.prayerDropdownBtn.addEventListener('click', () => {
             populatePrayerList();
-            ui.prayerListOverlay.classList.add('visible');
+            if(ui.prayerListOverlay) ui.prayerListOverlay.classList.add('visible');
         });
-        ui.closePrayerListBtn.addEventListener('click', () => ui.prayerListOverlay.classList.remove('visible'));
-        ui.prayerSettingsToggleBtn.addEventListener('click', () => {
+        if(ui.closePrayerListBtn) ui.closePrayerListBtn.addEventListener('click', () => { if(ui.prayerListOverlay) ui.prayerListOverlay.classList.remove('visible'); });
+        if(ui.prayerSettingsToggleBtn) ui.prayerSettingsToggleBtn.addEventListener('click', () => {
             const panel = ui.prayerSettingsPanel;
-            panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+            if (panel) panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
         });
 
         const setupSettingListener = (element, settingName, parseFunc, valueSpan = null, callback = null) => {
+            if(!element) return;
             element.addEventListener('input', e => { if(valueSpan) valueSpan.textContent = e.target.value; });
             element.addEventListener('change', async e => {
                 try {
@@ -1716,7 +1748,7 @@
         };
         
         setupSettingListener(ui.maxNefeshSlider, 'maxNefesh', parseInt, ui.maxNefeshValue);
-        ui.particleCharsTextarea.addEventListener('change', async e => { try { await saveSetting('particleChars', e.target.value); await applySettings(); } catch(err) { console.error('Failed to save particle chars:', err); } });
+        if(ui.particleCharsTextarea) ui.particleCharsTextarea.addEventListener('change', async e => { try { await saveSetting('particleChars', e.target.value); await applySettings(); } catch(err) { console.error('Failed to save particle chars:', err); } });
         setupSettingListener(ui.shakeIntensitySlider, 'shakeIntensity', parseFloat, ui.shakeIntensityValue);
         setupSettingListener(ui.flashIntensitySlider, 'flashIntensity', parseFloat, ui.flashIntensityValue);
         setupSettingListener(ui.effectsIntensitySlider, 'effectsIntensity', parseFloat, ui.effectsIntensityValue);
@@ -1733,6 +1765,7 @@
         setupSettingListener(ui.energyTendrilsSlider, 'energyTendrils', parseInt, ui.energyTendrilsValue);
 
         const handleFontChange = async (selectElement, inputElement) => {
+            if (!selectElement || !inputElement) return;
             let valueToSave = selectElement.value;
             if (valueToSave === 'custom') {
                 inputElement.style.display = 'block';
@@ -1744,16 +1777,16 @@
             await applySettings();
         };
 
-        ui.captionFontSelect.addEventListener('change', () => handleFontChange(ui.captionFontSelect, ui.customFontInput));
-        ui.customFontInput.addEventListener('change', () => handleFontChange(ui.captionFontSelect, ui.customFontInput));
-        ui.inGameCaptionFontSelect.addEventListener('change', () => handleFontChange(ui.inGameCaptionFontSelect, ui.inGameCustomFontInput));
-        ui.inGameCustomFontInput.addEventListener('change', () => handleFontChange(ui.inGameCaptionFontSelect, ui.inGameCustomFontInput));
+        if(ui.captionFontSelect) ui.captionFontSelect.addEventListener('change', () => handleFontChange(ui.captionFontSelect, ui.customFontInput));
+        if(ui.customFontInput) ui.customFontInput.addEventListener('change', () => handleFontChange(ui.captionFontSelect, ui.customFontInput));
+        if(ui.inGameCaptionFontSelect) ui.inGameCaptionFontSelect.addEventListener('change', () => handleFontChange(ui.inGameCaptionFontSelect, ui.inGameCustomFontInput));
+        if(ui.inGameCustomFontInput) ui.inGameCustomFontInput.addEventListener('change', () => handleFontChange(ui.inGameCaptionFontSelect, ui.inGameCustomFontInput));
 
         setupSettingListener(ui.captionColorPicker, 'captionColor', val => val, null, () => {
-             ui.inGameCaptionColorPicker.value = ui.captionColorPicker.value;
+             if(ui.inGameCaptionColorPicker && ui.captionColorPicker) ui.inGameCaptionColorPicker.value = ui.captionColorPicker.value;
         });
         setupSettingListener(ui.inGameCaptionColorPicker, 'captionColor', val => val, null, () => {
-            ui.captionColorPicker.value = ui.inGameCaptionColorPicker.value;
+            if(ui.captionColorPicker && ui.inGameCaptionColorPicker) ui.captionColorPicker.value = ui.inGameCaptionColorPicker.value;
         });
 
         window.addEventListener('resize', () => {
@@ -1790,8 +1823,10 @@
                 }
 
                 const starSpeed = 20 + gameState.level * 2;
-                starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime;
-                if(starField1.position.z > 250) starField1.position.z -= 500; if(starField2.position.z > 250) starField2.position.z -= 500;
+                if(starField1) starField1.position.z += starSpeed * deltaTime; 
+                if(starField2) starField2.position.z += starSpeed * deltaTime;
+                if(starField1 && starField1.position.z > 250) starField1.position.z -= 500; 
+                if(starField2 && starField2.position.z > 250) starField2.position.z -= 500;
                 
                 if (Math.random() < 0.95) spawnSpecialParticle();
 
@@ -1803,7 +1838,7 @@
                         scene.remove(line);
                         line.geometry.dispose();
                         activeParticleWebs.delete(line);
-                    } else {
+                    } else if (line.userData.p1?.position && line.userData.p2?.position){
                         const positions = line.geometry.attributes.position.array;
                         positions[0] = line.userData.p1.position.x;
                         positions[1] = line.userData.p1.position.y;
@@ -1822,7 +1857,6 @@
                 for(const tendril of activeTendrils) {
                     tendril.userData.life -= deltaTime;
                     tendril.material.opacity = Math.sin(Math.PI * (tendril.userData.life / 10)) * 0.3;
-                    // *** VISUAL IMPROVEMENT: Pulsating color for tendrils ***
                     tendril.material.color.setHSL(tendril.userData.baseHue, 0.8, 0.3 + Math.sin(currentTime * 5 + tendril.userData.baseHue) * 0.2);
 
                     if (tendril.userData.life <= 0) {
@@ -1842,7 +1876,6 @@
                 }
 
                 // --- PLAYER MOVEMENT & FORMATION ---
-                 // *** NEW OBSTACLE LOGIC: Apply pull from Void Orbs ***
                 for (const orb of voidOrbPool.active) {
                     const distanceX = minyanGroup.position.x - orb.position.x;
                     const pullStrength = 30 / (distanceX * distanceX + 10); // Inverse square with dampening
@@ -1873,7 +1906,7 @@
                 
                 // --- GAME LOGIC (Combo, Regen, etc.) ---
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime;
-                else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
+                else if (gameState.combo.count > 0) { gameState.combo.count = 0; if(ui.comboNotifier) ui.comboNotifier.classList.remove('show'); }
 
                 if(gameState.player.hasRegen) {
                     gameState.player.regenTimer += deltaTime;
@@ -1908,7 +1941,8 @@
                         troop.scale.lerp(new THREE.Vector3(troop.userData.targetScale, troop.userData.targetScale, troop.userData.targetScale), 0.2);
                         if(Math.abs(troop.scale.x - troop.userData.targetScale) < 0.01) troop.userData.targetScale = null;
                     }
-                    troop.children[0].rotation.y += deltaTime * 2; troop.children[1].rotation.y -= deltaTime * 2;
+                    if(troop.children[0]) troop.children[0].rotation.y += deltaTime * 2; 
+                    if(troop.children[1]) troop.children[1].rotation.y -= deltaTime * 2;
                     if (currentTime - troop.userData.lastShotTime > gameState.player.fireRate) {
                         troop.getWorldPosition(worldPosVec); worldPosVec.z -= 0.5; worldPosVec.y = 0.4;
                         const spark = sparkPool.activate();
@@ -1935,16 +1969,18 @@
                         continue;
                     }
                     
-                    if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
+                    if (obstacle.userData.type === 'golem_sentry' && obstacle.userData.eye && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
                         obstacle.userData.lastShotTime = currentTime;
-                        obstacle.userData.eye.children[0].material.color.setHex(0xffffff);
-                        setTimeout(() => obstacle.userData.eye.children[0].material.color.set(gameSettings.klipotColor), 200);
-
+                        const eyeBloom = obstacle.userData.eye.children[0];
+                        if (eyeBloom?.material) {
+                            eyeBloom.material.color.setHex(0xffffff);
+                            setTimeout(() => eyeBloom.material.color.set(gameSettings.klipotColor || defaultSettings.klipotColor), 200);
+                        }
                         const proj = golemProjectilePool.activate();
                         if (proj) obstacle.userData.eye.getWorldPosition(proj.position);
                     }
                     
-                    if (obstacle.userData.type === 'tohu_shard') {
+                    if (obstacle.userData.type === 'tohu_shard' && obstacle.userData.body?.children) {
                         const spikeHalfSize = 0.3;
                         obstacle.userData.body.children.forEach(spikeGroup => {
                             spikeGroup.getWorldPosition(worldPosVec);
@@ -1974,9 +2010,9 @@
                                         } else { updateJarHealthVisuals(obstacle); }
                                         break;
                                     case 'klipah_gate':
-                                        if(obstacle.userData.currentValue > 0) {
+                                        if(obstacle.userData.currentValue > 0 && ui.mitzvotDisplay) {
                                             gameState.mitzvot += obstacle.userData.currentValue;
-                                            ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100);
+                                            ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => { if (ui.mitzvotDisplay) ui.mitzvotDisplay.style.transform = "scale(1.0)";}, 100);
                                         }
                                         adjustNefeshCount(obstacle.userData.currentValue);
                                         if (!obstacle.userData.isPurified) triggerScreenShake(0.4);
@@ -1987,7 +2023,6 @@
                                         troopsToRemove.add(troop);
                                         triggerScreenShake(0.2);
                                         break;
-                                    // Void Orb does not damage on touch, its threat is the pull.
                                     case 'void_orb':
                                         break;
                                 }
@@ -2075,7 +2110,7 @@
                         if(p.userData.type === 'particle') {
                             particlePool.deactivate(p);
                         } else { 
-                            p.material.dispose(); // Clean up cloned material
+                            if(p.material) p.material.dispose(); // Clean up cloned material
                             scene.remove(p); 
                             dynamicShards.delete(p); 
                         } 
@@ -2111,10 +2146,10 @@
         
         function updateUIDisplays() {
             if (!gameState || gameState.current !== 'playing') return;
-            ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
-            ui.nefeshDisplay.textContent = `NEFESH: ${gameState.nefesh}`;
+            if (ui.mitzvotDisplay) ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
+            if (ui.nefeshDisplay) ui.nefeshDisplay.textContent = `NEFESH: ${gameState.nefesh}`;
             const shefaPercentage = Math.min(100, (gameState.shefa / gameState.shefaToAscend) * 100);
-            ui.shefaBar.style.width = `${shefaPercentage}%`;
+            if (ui.shefaBar) ui.shefaBar.style.width = `${shefaPercentage}%`;
         }
         
         // --- INITIALIZATION ---
