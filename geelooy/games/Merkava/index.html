@@ -375,6 +375,7 @@
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
         // --- GLOBAL ERROR HANDLING ---
+        // A robust error handler to catch and display issues without crashing the entire experience.
         function displayGlobalError(message) {
             const errorDiv = document.getElementById('globalErrorNotifier');
             if (errorDiv) {
@@ -394,6 +395,7 @@
 
 
         // --- GLOBAL SETUP ---
+        // Basic Three.js components: scene, lighting, camera, renderer.
         const scene = new THREE.Scene();
         scene.add(new THREE.AmbientLight(0xffffff, 0.6));
         const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -409,11 +411,12 @@
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        const initialClearColor = new THREE.Color(0x050008); // Near-black for better contrast with the road
+        const initialClearColor = new THREE.Color(0x483d8b); // Dark Slate Blue, as per screenshot
         renderer.setClearColor(initialClearColor);
         document.body.appendChild(renderer.domElement);
 
         // --- UI ELEMENT CACHING ---
+        // Storing all DOM element references in one place for easy access and performance.
         const ui = {
             mainMenu: document.getElementById('mainMenuOverlay'),
             gameOver: document.getElementById('gameOverOverlay'),
@@ -475,53 +478,80 @@
         // --- GAME STATE & CONSTANTS ---
         let gameState = {}; // The main object holding all dynamic game data.
         const clock = new THREE.Clock(); // For calculating delta time.
-        const worldPosVec = new THREE.Vector3(); // A reusable vector to avoid allocation in the loop.
         let animationFrameId; // To control the game loop.
-
+        
+        // Game constants, many of which can be configured in settings
         let MAX_NEFESH = 100; // Default max, can be changed in settings.
+        const MAX_SPARKS = 400; // Max concurrent player projectiles.
         const roadWidth = 9;
         const roadLevelY = -0.5;
         let roadBaseSpeed = 12;
 
+        // Reusable THREE.js objects to avoid creating new ones in the game loop (performance)
+        const worldPosVec = new THREE.Vector3(); // For getting world positions of objects
+        const dummyObject = new THREE.Object3D(); // For calculating matrices for instanced meshes
+        const collisionVec2 = new THREE.Vector2(); // For 2D collision checks
+
         // --- UTILITY FUNCTIONS ---
-        // Gematria conversion for flavor.
+        // Converts a number to its Hebrew Gematria representation for thematic UI.
         const gematriaMap = { 1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה', 6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ', 60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ', 100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת' };
         function toGematria(n) {
-            if (n === 15) return 'ט״ו'; if (n === 16) return 'ט״ז';
-            let str = ''; let val = Math.abs(n);
+            if (n === 15) return 'ט״ו'; // Special case for 15
+            if (n === 16) return 'ט״ז'; // Special case for 16
+            let str = ''; 
+            let val = Math.abs(n);
             const sortedKeys = Object.keys(gematriaMap).map(Number).sort((a, b) => b - a);
-            while (val > 0) { for (const key of sortedKeys) { if (val >= key) { str += gematriaMap[key]; val -= key; break; } } }
-            if(str.length > 1) str = str.slice(0, -1) + '״' + str.slice(-1); else if (str.length === 1) str += '׳';
+            
+            // Greedily subtract the largest possible values
+            while (val > 0) { 
+                for (const key of sortedKeys) { 
+                    if (val >= key) { 
+                        str += gematriaMap[key]; 
+                        val -= key; 
+                        break; 
+                    } 
+                } 
+            }
+            // Add Gershayim (״) for multi-character numbers, or Geresh (׳) for single characters.
+            if(str.length > 1) str = str.slice(0, -1) + '״' + str.slice(-1); 
+            else if (str.length === 1) str += '׳';
             return str;
         }
         
-        // Dynamic list of particle characters for the background.
+        // Caches for dynamically generated textures from user settings
         const specialParticleChars = [];
         const specialParticleTextures = [];
         
-        // Colors for different game levels/stages.
+        // Array of colors for background fog, cycling as the player levels up.
         const levelColors = [
-            new THREE.Color(0x050008), new THREE.Color(0x1b0021),
+            new THREE.Color(0x483d8b), new THREE.Color(0x1b0021),
             new THREE.Color(0x2e0036), new THREE.Color(0x4d0000), 
             new THREE.Color(0x002b4d), new THREE.Color(0x522d00), 
             new THREE.Color(0x1a1a1a), new THREE.Color(0x400050)
         ];
 
         // --- DATABASE & SETTINGS PERSISTENCE ---
-        const dbName = "MerkavaSettingsDB_v2"; // Renamed to avoid conflicts with old versions.
-        let db;
+        const dbName = "MerkavaSettingsDB_v2"; // Unique name for this game's DB
+        let db; // Will hold the database connection object
 
-        // Initializes the IndexedDB for storing settings.
+        // Opens or creates the IndexedDB database.
         async function initDB() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(dbName, 1);
-                request.onerror = event => { console.error("DB Error:", event.target.errorCode); reject("Error opening DB"); };
+                // Error handler
+                request.onerror = event => { 
+                    console.error("IndexedDB Error:", event.target.errorCode); 
+                    reject("Error opening DB"); 
+                };
+                // Success handler
                 request.onsuccess = event => {
                     db = event.target.result;
                     resolve();
                 };
+                // Handles database creation or version upgrade.
                 request.onupgradeneeded = event => {
                     let db = event.target.result;
+                    // Create an 'object store' (like a table) if it doesn't exist.
                     if (!db.objectStoreNames.contains('settings')) {
                         db.createObjectStore('settings', { keyPath: 'id' });
                     }
@@ -529,74 +559,74 @@
             });
         }
 
-        // Saves a key-value pair to the database.
+        // Saves a single setting (key-value pair) to the database.
         async function saveSetting(id, value) {
-            if (!db) return;
+            if (!db) return; // Don't try to save if DB isn't initialized
             return new Promise((resolve, reject) => {
+                // Start a read-write transaction.
                 const transaction = db.transaction(['settings'], 'readwrite');
-                transaction.oncomplete = () => resolve();
-                transaction.onerror = (event) => reject(event.target.error);
+                transaction.oncomplete = () => resolve(); // Resolves when the transaction is fully committed.
+                transaction.onerror = (event) => reject(event.target.error); // Rejects on error.
+                // Get the object store and use 'put' to insert or update the record.
                 const store = transaction.objectStore('settings');
                 store.put({ id, value });
             });
         }
 
-        // Loads a setting from the database, falling back to a default value.
+        // Loads a single setting from the database, returning a default value if not found.
         async function loadSetting(id, defaultValue) {
-            if (!db) return defaultValue;
+            if (!db) return defaultValue; // Return default if DB isn't ready.
             return new Promise((resolve) => {
                 const transaction = db.transaction(['settings'], 'readonly');
                 const store = transaction.objectStore('settings');
-                const request = store.get(id);
+                const request = store.get(id); // Request the setting by its ID.
                 request.onsuccess = event => {
+                    // If the result exists, return its value, otherwise return the default.
                     resolve(event.target.result ? event.target.result.value : defaultValue);
                 };
+                // On error (e.g., DB issue), gracefully fall back to the default value.
                 request.onerror = () => resolve(defaultValue);
             });
         }
         
-        // Holds the current game settings.
+        // This object will hold all the current game settings after loading.
         let gameSettings = {};
+        // Default values for all settings.
         const defaultSettings = {
-            particleChars: '✨,✡️,🕎,📜,🪐,☄️,⭐,🌌',
-            shakeIntensity: 1,
-            flashIntensity: 1,
-            effectsIntensity: 1,
-            shatterCount: 20,
-            shatterSpeed: 25,
-            captionFont: "'Orbitron', 'Arial', sans-serif",
-            captionColor: '#FFFFFF',
-            minParticleSize: 2,
-            maxParticleSize: 5,
-            particleSpawnRadius: 60,
-            enableWebcam: false,
-            webcamPerNefesh: false,
-            maxNefesh: 100,
+            particleChars: '✨,✡️,🕎,📜,🪐,☄️,⭐,🌌', shakeIntensity: 1, flashIntensity: 1,
+            effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25,
+            captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF',
+            minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60,
+            enableWebcam: false, webcamPerNefesh: false, maxNefesh: 100,
         };
 
         // Loads all settings from DB and applies them to the UI and game variables.
         async function applySettings() {
-            // Gameplay settings
-            gameSettings.maxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
-            ui.maxNefeshSlider.value = gameSettings.maxNefesh;
-            ui.maxNefeshValue.textContent = gameSettings.maxNefesh;
-            MAX_NEFESH = gameSettings.maxNefesh;
+            // --- Gameplay Settings ---
+            const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
+            ui.maxNefeshSlider.value = newMaxNefesh;
+            ui.maxNefeshValue.textContent = newMaxNefesh;
+            // If the max nefesh count has changed, we must re-initialize the instanced meshes.
+            if (MAX_NEFESH !== newMaxNefesh) {
+                MAX_NEFESH = newMaxNefesh;
+                setupInstancedNefesh();
+            }
+            gameSettings.maxNefesh = newMaxNefesh;
             
             gameSettings.particleSpawnRadius = parseInt(await loadSetting('particleSpawnRadius', defaultSettings.particleSpawnRadius), 10);
             ui.particleSpawnRadiusSlider.value = gameSettings.particleSpawnRadius;
             ui.particleSpawnRadiusValue.textContent = gameSettings.particleSpawnRadius;
 
-            // Visual settings
+            // --- Visual Settings ---
             gameSettings.particleChars = await loadSetting('particleChars', defaultSettings.particleChars);
             ui.particleCharsTextarea.value = gameSettings.particleChars;
             const chars = gameSettings.particleChars.split(',').map(c => c.trim()).filter(Boolean);
             specialParticleChars.length = 0;
             specialParticleChars.push(...(chars.length > 0 ? chars : defaultSettings.particleChars.split(',')));
             
+            // Re-create textures for the new characters
             specialParticleTextures.length = 0;
-            for(const char of specialParticleChars) {
-                specialParticleTextures.push(createSpecialParticleTexture(char));
-            }
+            specialParticleChars.forEach(char => specialParticleTextures.push(createSpecialParticleTexture(char)));
 
             gameSettings.shakeIntensity = parseFloat(await loadSetting('shakeIntensity', defaultSettings.shakeIntensity));
             ui.shakeIntensitySlider.value = gameSettings.shakeIntensity;
@@ -638,28 +668,33 @@
             gameSettings.webcamPerNefesh = await loadSetting('webcamPerNefesh', defaultSettings.webcamPerNefesh);
             ui.webcamPerNefeshCheckbox.checked = gameSettings.webcamPerNefesh;
             
+            // Apply font/color styles to the prayer display immediately.
             applyCaptionStyle();
         }
 
-        // Applies custom font and color to the prayer display.
+        // Helper function to apply custom font and color to the prayer display UI element.
         function applyCaptionStyle() {
             ui.prayerText.style.fontFamily = gameSettings.captionFont;
             ui.prayerText.style.color = gameSettings.captionColor;
         }
 
-        // Manages webcam integration.
+        // --- WEBCAM MANAGER ---
+        // Manages starting and stopping the webcam feed for overlay effects.
         const webcamManager = {
             videoElement: document.getElementById('webcamFeed'),
             stream: null,
             texture: null,
             alphaMap: null,
+            // Asynchronously starts the webcam feed.
             async start() {
-                if (this.stream) return;
+                if (this.stream) return; // Do nothing if stream is already active.
                 try {
                     this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
                     this.videoElement.srcObject = this.stream;
                     this.videoElement.play();
+                    // Create a Three.js texture from the live video feed.
                     this.texture = new THREE.VideoTexture(this.videoElement);
+                    // Create a circular alpha map to display the webcam feed in a circle.
                     if (!this.alphaMap) {
                         const canvas = document.createElement('canvas');
                         canvas.width = 128; canvas.height = 128;
@@ -673,12 +708,14 @@
                         this.alphaMap = new THREE.CanvasTexture(canvas);
                     }
                 } catch (err) {
+                    // Handle errors, like the user denying permission.
                     console.error("Could not access webcam:", err);
-                    ui.enableWebcamCheckbox.checked = false;
-                    await saveSetting('enableWebcam', false);
+                    ui.enableWebcamCheckbox.checked = false; // Uncheck the box in settings
+                    await saveSetting('enableWebcam', false); // Save this change
                     gameSettings.enableWebcam = false;
                 }
             },
+            // Stops the webcam feed and cleans up resources.
             stop() {
                 if (this.stream) {
                     this.stream.getTracks().forEach(track => track.stop());
@@ -689,9 +726,10 @@
             }
         };
         
+
         // --- TEXTURE & OBJECT CREATION ---
 
-        // Creates a texture from an emoji or character.
+        // Creates a texture from an emoji or character by drawing it onto a canvas.
         function createSpecialParticleTexture(text, size = 128) {
             const canvas = document.createElement('canvas');
             canvas.width = size;
@@ -704,31 +742,33 @@
             return new THREE.CanvasTexture(canvas);
         }
 
-        // Creates a texture for displaying values on obstacles.
-        function createTextTexture(text, gematriaText, bgColor, font = '900 280px Orbitron', textColor = '#fff') {
-            const canvas = document.createElement('canvas'); const size = 1024;
-            canvas.width = size; canvas.height = size; const ctx = canvas.getContext('2d');
-
-            // Add a semi-transparent dark background for readability on the texture itself
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        // Creates a texture for displaying text values on obstacles (e.g., gate values, jar health).
+        function createTextTexture(text, gematriaText, bgColor, font = '900 240px Orbitron', textColor = '#fff') {
+            const canvas = document.createElement('canvas'); 
+            const size = 1024; // Use a large canvas for high resolution text
+            canvas.width = size; 
+            canvas.height = size; 
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = bgColor; // Background (usually transparent)
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
             ctx.font = font;
-            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.strokeStyle = 'black'; ctx.lineWidth = 25; // Thicker outline
+            ctx.textAlign = 'center'; 
+            ctx.textBaseline = 'middle';
+            ctx.strokeStyle = 'black'; // Black outline for readability
+            ctx.lineWidth = 20;
 
             const hasGematria = gematriaText && gematriaText !== '';
-            const textY = hasGematria ? canvas.height / 2 - 140 : canvas.height / 2;
+            // Position text differently if Gematria is also present.
+            const textY = hasGematria ? canvas.height / 2 - 120 : canvas.height / 2;
             ctx.strokeText(text, canvas.width / 2, textY);
             ctx.fillStyle = textColor;
             ctx.fillText(text, canvas.width / 2, textY);
             
             if(hasGematria) {
-                const gematriaFont = 'normal 300px "Times New Roman"'; // Larger Gematria
+                const gematriaFont = 'normal 260px "Times New Roman"';
                 ctx.font = gematriaFont;
-                const gematriaY = canvas.height / 2 + 150;
+                const gematriaY = canvas.height / 2 + 120;
                 ctx.strokeText(gematriaText, canvas.width / 2, gematriaY);
                 ctx.fillStyle = textColor;
                 ctx.fillText(gematriaText, canvas.width / 2, gematriaY);
@@ -736,16 +776,47 @@
             return new THREE.CanvasTexture(canvas);
         }
 
-        // Generic object pool for reusing objects and improving performance.
+        // --- OBJECT POOLS (For non-instanced objects) ---
+        // A generic class for managing pools of reusable objects to improve performance
+        // by avoiding repeated creation and destruction of objects.
         class ObjectPool {
-            constructor(c, i) { this.c = c; this.p = []; this.a = new Set(); for (let j=0; j<i; j++) { const o = this.c(); o.visible=false; scene.add(o); this.p.push(o); } }
-            activate() { let o=this.p.length>0?this.p.pop():this.c(); if(!o.parent)scene.add(o); o.visible=true; this.a.add(o); return o; }
-            deactivate(o) { o.visible=false; this.a.delete(o); this.p.push(o); }
-            deactivateAll() { [...this.a].forEach(o => this.deactivate(o)); }
+            constructor(createFunc, initialSize) {
+                this.createFunc = createFunc;
+                this.pool = [];       // Holds inactive objects.
+                this.active = new Set(); // Holds active objects.
+                // Pre-populate the pool
+                for (let j = 0; j < initialSize; j++) {
+                    const obj = this.createFunc();
+                    obj.visible = false;
+                    scene.add(obj);
+                    this.pool.push(obj);
+                }
+            }
+
+            // Get an object from the pool or create a new one if the pool is empty.
+            activate() {
+                let obj = this.pool.length > 0 ? this.pool.pop() : this.createFunc();
+                if (!obj.parent) scene.add(obj); // Add to scene if it was removed
+                obj.visible = true;
+                this.active.add(obj);
+                return obj;
+            }
+
+            // Return an object to the pool.
+            deactivate(obj) {
+                obj.visible = false;
+                this.active.delete(obj);
+                this.pool.push(obj);
+            }
+
+            // Deactivate all active objects at once.
+            deactivateAll() {
+                [...this.active].forEach(obj => this.deactivate(obj));
+            }
         }
 
-        // --- MATERIALS & GEOMETRIES ---
-        // Pre-defining materials for all game objects.
+        // --- MATERIALS & GEOMETRIES (Shared Resources) ---
+        // Defining materials here once so they can be reused by many objects.
         const magenDavidMaterial = new THREE.MeshLambertMaterial({ color: 0x00aaff, emissive: 0x00aaff, emissiveIntensity: 0.5 });
         const sparkMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff, fog: false });
         const jarMaterial = new THREE.MeshStandardMaterial({ color: 0x815633, emissive: 0x4d341f, emissiveIntensity: 1.5, metalness: 0.1, roughness: 0.8 });
@@ -757,23 +828,95 @@
         const golemHeavyProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0x4b0082, fog: false });
         const shefaOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false });
         const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
-        // New materials for new events
-        const klipahMaelstromMaterial = new THREE.MeshBasicMaterial({ color: 0xff2d2d, fog: false, transparent: true, opacity: 0.7 });
-        const allyMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, emissive: 0x00ddff, emissiveIntensity: 1.0 });
 
-        // --- OBJECT POOLS ---
-        // Creating pools for all frequently spawned and destroyed objects.
-        const minyanGroup = new THREE.Group();
-        scene.add(minyanGroup);
-        const magenDavidTroops = []; // This array holds the state of the formation (object or null).
-        const sparkPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial), 400);
+
+        // --- INSTANCED MESH SETUP ---
+        // Nefesh (Player units) are composed of two instanced cones to form a Magen David.
+        let nefeshTopInstanced, nefeshBottomInstanced;
+        let nefeshState = []; // This array will hold the state of each individual nefesh unit.
+        const nefeshGroup = new THREE.Group(); // This parent group will be moved horizontally on the road.
+        scene.add(nefeshGroup);
+
+        // This function creates or re-creates the instanced meshes for the player's Nefesh units.
+        // It's called on startup and if the Max Nefesh setting is changed.
+        function setupInstancedNefesh() {
+            // Clean up old meshes from the scene if they exist to prevent memory leaks.
+            if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
+            if (nefeshBottomInstanced) nefeshGroup.remove(nefeshBottomInstanced);
+            
+            // The base geometry for one half of the star.
+            const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
+            
+            // Create the InstancedMesh objects. We need one for the top cone and one for the bottom.
+            nefeshTopInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
+            nefeshBottomInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
+            // Mark the matrix buffer as dynamic, which is a performance hint for the GPU.
+            nefeshTopInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            nefeshBottomInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            
+            // Add the new meshes to our parent group.
+            nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced);
+
+            // Initialize a state object for each possible instance.
+            nefeshState = [];
+            for (let i = 0; i < MAX_NEFESH; i++) {
+                nefeshState.push({
+                    active: false, // Is this instance currently visible and in the game?
+                    currentPos: new THREE.Vector3(0, 1000, 0), // Current position, starts far away
+                    targetPos: new THREE.Vector3(0, 1000, 0),  // Target position in the formation
+                    currentScale: 0.01, // For spawn animation
+                    targetScale: 1,
+                    yRotation: 0, // For spinning animation
+                    lastShotTime: 0, // To manage fire rate
+                    collisionBox2D: new THREE.Box2() // For collision detection
+                });
+            }
+        }
+        
+        // Sparks (Player bullets) are also instanced for performance.
+        const sparkGeometry = new THREE.SphereGeometry(0.12, 6, 6);
+        const sparkInstancedMesh = new THREE.InstancedMesh(sparkGeometry, sparkMaterial, MAX_SPARKS);
+        sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // Mark as dynamic
+        scene.add(sparkInstancedMesh);
+        
+        // State array for all possible spark instances.
+        let sparkState = [];
+        for (let i = 0; i < MAX_SPARKS; i++) {
+            sparkState.push({
+                active: false,
+                position: new THREE.Vector3(0, 1000, 0), // Start off-screen
+                damage: 1, // Damage value
+                pierced: 0 // How many enemies has this spark pierced?
+            });
+        }
+        let nextSparkIndex = 0; // A pointer to quickly find an available spark instance, cycling through the array.
+
+        // Activates a spark instance from the pool.
+        function fireSpark(position, damage, hasPierce) {
+            // Find an inactive spark to fire by cycling through the state array.
+            for (let i = 0; i < MAX_SPARKS; i++) {
+                const index = (nextSparkIndex + i) % MAX_SPARKS;
+                if (!sparkState[index].active) {
+                    const spark = sparkState[index];
+                    spark.active = true;
+                    spark.position.copy(position);
+                    spark.damage = damage;
+                    spark.pierced = 0;
+                    
+                    nextSparkIndex = (index + 1) % MAX_SPARKS; // Move pointer for the next shot
+                    return; // Exit after firing one spark
+                }
+            }
+            // If no inactive sparks are found, the shot is simply not fired.
+        }
+
+        // --- REMAINING OBJECT POOLS & DYNAMIC SETS ---
+        // These objects are not instanced because they have more varied geometry, materials, or behaviors.
         const golemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial), 30);
         const golemFastProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), golemFastProjectileMaterial), 30);
         const golemHeavyProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 1.2), golemHeavyProjectileMaterial), 20);
         const particlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({fog: false})), 300);
-        const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 150); // Increased pool for Shefa Stream
-        const klipahMaelstromParticlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), klipahMaelstromMaterial.clone()), 200);
-        
+        const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
         const specialParticlePool = new ObjectPool(() => {
             const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 });
             const sprite = new THREE.Sprite(material);
@@ -781,114 +924,106 @@
             return sprite;
         }, 300);
         
-        // --- DYNAMIC OBJECT SETS & STATE ---
-        const activeLights = new Set();
-        const activeShockwaves = new Set();
-        const dynamicShards = new Set();
-        const activeMaelstroms = new Set(); // For the new Klipah Maelstrom event
-        let celestialAlly = null; // For the new Celestial Ally event
+        // These sets manage temporary, dynamic objects that are created and destroyed frequently.
+        const activeLights = new Set(); // For explosion point lights
+        const activeShockwaves = new Set(); // For explosion shockwave rings
+        const dynamicShards = new Set(); // For object shatter effects
         
-        // --- CORE GAME OBJECT FUNCTIONS ---
+        // --- CORE GAME OBJECT FUNCTIONS (REFACTORED FOR INSTANCING) ---
 
-        // Creates a Magen David object, the player's core unit.
-        function createMagenDavid() {
-            const group = new THREE.Group();
-            const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
-            // Two cones form the star.
-            [0.2, -0.2].forEach(y => { const p = new THREE.Mesh(coneGeom, magenDavidMaterial); p.position.y = y; if(y < 0) p.rotation.x = Math.PI; group.add(p); });
-            group.userData = { lastShotTime: 0, collisionBox2D: new THREE.Box2(), targetPos: new THREE.Vector3() };
-
-            // Optional webcam plane.
-            if (webcamManager.texture) {
-                 const webcamMat = new THREE.MeshBasicMaterial({ map: webcamManager.texture, alphaMap: webcamManager.alphaMap, transparent: true });
-                 const webcamPlane = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.8), webcamMat);
-                 webcamPlane.position.y = 0.5;
-                 webcamPlane.name = 'webcam_plane';
-                 webcamPlane.visible = false;
-                 group.add(webcamPlane);
-            }
-            return group;
-        }
-
-        // Arranges the Minyan in a phyllotaxis spiral, constrained by the road width.
+        // Arranges the active Nefesh units in a phyllotaxis (sunflower) spiral.
         function positionNefesh() {
-            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle for spiral.
+            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle for even distribution
             const radiusStep = 0.45; 
             
-            // First, find the maximum radius the current formation would occupy without constraints.
+            // Get the indices of all currently active nefesh units.
+            const activeIndices = [];
+            nefeshState.forEach((state, i) => { if (state.active) activeIndices.push(i); });
+            
+            // Calculate the maximum radius the formation would occupy without constraints.
             let maxRadius = 0;
-            magenDavidTroops.forEach((troop, i) => {
-                if (troop) {
-                    const radius = radiusStep * Math.sqrt(i + 1);
-                    if (radius > maxRadius) maxRadius = radius;
-                }
+            activeIndices.forEach((stateIndex, formationIndex) => {
+                const radius = radiusStep * Math.sqrt(formationIndex + 1);
+                if (radius > maxRadius) maxRadius = radius;
             });
 
-            // If the formation is wider than the road, calculate a scaling factor.
-            // Add a buffer (1.0 = 0.5 on each side) to keep troops from touching the edge.
-            const effectiveRoadWidth = roadWidth - 1.0; 
-            const scaleFactor = (maxRadius * 2 > effectiveRoadWidth) ? (effectiveRoadWidth / 2) / maxRadius : 1;
+            // If the formation is wider than the road, calculate a scaling factor to squish it.
+            const scaleFactor = (maxRadius * 2 > roadWidth) ? (roadWidth / 2) / maxRadius : 1;
 
-            // Now, set the target position for each Nefesh based on the scaled spiral.
-            magenDavidTroops.forEach((troop, i) => {
-                if (troop) {
-                    const radius = radiusStep * Math.sqrt(i + 1) * scaleFactor;
-                    const angle = i * angleStep;
-                    const x = Math.cos(angle) * radius;
-                    const z = Math.sin(angle) * radius;
-                    // Position them in a circle, moved further back from z=-2 to z=-4
-                    troop.userData.targetPos.set(x, 0.4, z - 4);
-                }
+            // Now, set the target position for each active Nefesh based on the scaled spiral.
+            activeIndices.forEach((stateIndex, formationIndex) => {
+                const radius = radiusStep * Math.sqrt(formationIndex + 1) * scaleFactor;
+                const angle = formationIndex * angleStep;
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+                
+                // Set the target position relative to the main nefeshGroup.
+                // The z offset is pushed back closer to the camera as requested.
+                nefeshState[stateIndex].targetPos.set(x, 0.4, z + 3);
             });
         }
         
-        // Handles the destruction of a single Nefesh.
-        function destroyNefesh(troop) {
-             const index = magenDavidTroops.indexOf(troop);
-             if (index !== -1) {
-                createParticleExplosion(troop.getWorldPosition(worldPosVec), 30, 0x800080, 15);
-                shatterObject(troop.children[0]);
-                minyanGroup.remove(troop);
-                // Important: Set the array slot to null, leaving a gap, instead of splicing.
-                magenDavidTroops[index] = null;
+        // Deactivates a single Nefesh unit by its index in the state array.
+        function destroyNefesh(index) {
+             if (index !== -1 && nefeshState[index].active) {
+                const state = nefeshState[index];
+                state.active = false; // The core of "destruction" is just deactivation.
+                
+                // Get the unit's world position to spawn particle effects at the right place.
+                dummyObject.position.copy(state.currentPos).add(nefeshGroup.position);
+                createParticleExplosion(dummyObject.position, 30, 0x800080, 15);
+                
+                // Shattering the specific instanced mesh part isn't straightforward,
+                // so we rely on the particle explosion for the visual effect of destruction.
              }
         }
 
-        // Adds or removes Nefesh from the Minyan.
+        // Adds or removes a number of Nefesh units from the formation.
         function adjustNefeshCount(change) {
             const initialNefesh = gameState.nefesh;
+
             if (change > 0) { // Adding Nefesh
                 let added = 0;
-                // Iterate through the array to find the first available `null` slot.
+                // Find the first available inactive slots in the state array.
                 for(let i = 0; i < MAX_NEFESH && added < change; i++) {
-                    if (magenDavidTroops[i] === null) {
-                        const newTroop = createMagenDavid(); newTroop.scale.set(0.01, 0.01, 0.01);
-                        magenDavidTroops[i] = newTroop; minyanGroup.add(newTroop);
-                        newTroop.userData.targetScale = 1; 
-                        createParticleExplosion(minyanGroup.position, 15, 0x00aaff, 10);
+                    if (!nefeshState[i].active) {
+                        const state = nefeshState[i];
+                        state.active = true;
+                        // Start at the center of the group, ready to animate outwards.
+                        state.currentPos.set(0, 0.4, 0); 
+                        state.targetScale = 1;
+                        state.currentScale = 0.01; // Start small for a grow animation.
+                        state.lastShotTime = 0;
+                        createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10);
                         added++;
                     }
                 }
             } else if (change < 0) { // Removing Nefesh
                 let removed = 0;
                 const toRemove = -change;
-                // Remove from the back of the formation first to preserve the inner core.
-                for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
-                    if (magenDavidTroops[i]) {
-                        destroyNefesh(magenDavidTroops[i]);
-                        removed++;
-                    }
+
+                // Get all active units.
+                const activeIndices = [];
+                nefeshState.forEach((s, i) => { if(s.active) activeIndices.push(i); });
+                
+                // Sort them by distance from the center, so we remove the outermost units first.
+                activeIndices.sort((a, b) => nefeshState[b].targetPos.lengthSq() - nefeshState[a].targetPos.lengthSq());
+
+                // Destroy the required number of units from the sorted list.
+                for (let i = 0; i < activeIndices.length && removed < toRemove; i++) {
+                    destroyNefesh(activeIndices[i]);
+                    removed++;
                 }
             }
 
             // Recalculate the current count and reposition the entire formation.
-            gameState.nefesh = magenDavidTroops.filter(t => t !== null).length;
+            gameState.nefesh = nefeshState.filter(s => s.active).length;
             positionNefesh();
             
+            // UI feedback
             if (gameState.nefesh < initialNefesh) {
                 shatterElement(ui.nefeshDisplay);
             }
-
             if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
             ui.nefeshDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
         }
@@ -898,12 +1033,12 @@
 
         const klipahGatePool = new ObjectPool(() => {
             const group = new THREE.Group();
-            const bodyGeo = new THREE.BoxGeometry(3.5, 4.5, 0.6); // Made larger
+            const bodyGeo = new THREE.BoxGeometry(3, 4, 0.5);
             const body = new THREE.Mesh(bodyGeo, klipahCrackMaterial.clone());
             const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
             outline.scale.setScalar(1.15); // Outline is slightly larger.
-            const valuePlane = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 3.5), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
-            valuePlane.position.z = 0.31;
+            const valuePlane = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            valuePlane.position.z = 0.26;
             group.add(outline, body, valuePlane);
             group.userData = { type: 'klipah_gate', body, valuePlane, collisionBox2D: new THREE.Box2() };
             return group;
@@ -911,7 +1046,7 @@
 
         function updateKlipahGateVisuals(gate) {
             const { valuePlane, currentValue, isPurified } = gate.userData;
-            if (valuePlane.material.map) valuePlane.material.map.dispose();
+            if (valuePlane.material.map) valuePlane.material.map.dispose(); // Clean up old texture
             const color = isPurified ? '#aaffaa' : '#ff4444';
             let numText = isPurified ? `+${currentValue}` : currentValue.toString();
             let gematria = toGematria(currentValue);
@@ -922,14 +1057,14 @@
 
         const jarPool = new ObjectPool(() => {
             const group = new THREE.Group();
-            const bodyGeo = new THREE.CylinderGeometry(1.0, 1.0, 1.8, 12); // Made larger
+            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12);
             const body = new THREE.Mesh(bodyGeo, jarMaterial.clone());
             body.rotation.z = Math.PI / 2; body.rotation.y = Math.random() * Math.PI;
             const outline = new THREE.Mesh(bodyGeo, outlineMaterial);
             outline.rotation.copy(body.rotation);
             outline.scale.set(1.15, 1.1, 1.15);
-            const healthPlane = new THREE.Mesh(new THREE.PlaneGeometry(3.0, 1.5), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
-            healthPlane.position.y = 1.4;
+            const healthPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }));
+            healthPlane.position.y = 1.2;
             group.add(outline, body, healthPlane);
             group.userData = { type: 'jar', body, healthPlane, collisionBox2D: new THREE.Box2() };
             return group;
@@ -982,71 +1117,53 @@
             return group;
         }, 10);
 
-        // --- NEW EVENT OBJECTS ---
-        function createKlipahMaelstrom(position) {
-            const maelstrom = {
-                position: position.clone(),
-                life: 8.0, // Maelstrom lasts 8 seconds
-                particles: new Set(),
-                // The collision box is a long strip following the lane
-                collisionBox2D: new THREE.Box2().setFromCenterAndSize({x: position.x, y: position.z}, {x: 2.5, y: 50})
-            };
-            activeMaelstroms.add(maelstrom);
-        }
-
-        function createCelestialAlly() {
-            if (celestialAlly) return; // Only one at a time
-            const group = new THREE.Group();
-            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.1, 8, 32), allyMaterial);
-            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.1, 8, 32), allyMaterial);
-            ring2.rotation.x = Math.PI / 2;
-            group.add(ring1, ring2);
-            group.position.set(minyanGroup.position.x, 2, -5);
-            
-            celestialAlly = {
-                mesh: group,
-                life: 12.0, // Ally lasts 12 seconds
-                lastShotTime: 0,
-                ring1,
-                ring2
-            };
-            scene.add(group);
-            triggerFlash('#00ddff', 300);
-        }
-
         // --- VISUAL EFFECTS ---
 
-        // Creates a particle burst.
+        // Creates a burst of simple particles for explosions and effects.
         function createParticleExplosion(position, count, color, speed) {
+            // Scale the number of particles based on the user's effect intensity setting.
             const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1));
             for(let i=0; i < scaledCount; i++) {
-                const p = particlePool.activate(); if(!p) continue;
+                const p = particlePool.activate(); 
+                if(!p) continue; // Skip if pool is exhausted
                 p.position.copy(position);
                 p.material.color.set(color);
-                p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 };
+                p.userData = { 
+                    type: 'particle', 
+                    velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), 
+                    life: 1.2 // Lifetime in seconds
+                };
             }
         }
         
-        // Creates a shatter effect for 3D objects.
+        // Creates a shatter effect for 3D objects upon destruction.
         function shatterObject(object) {
-            const geom = object.geometry; const mat = object.material;
+            const geom = object.geometry; 
+            const mat = object.material;
             const shatterCount = gameSettings.shatterCount;
             const shatterSpeed = gameSettings.shatterSpeed;
             for(let i=0; i < shatterCount; i++) {
-                const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3);
+                const shard = new THREE.Mesh(geom, mat); 
+                shard.scale.setScalar(0.2 + Math.random()*0.3);
                 shard.position.copy(object.getWorldPosition(worldPosVec));
                 shard.rotation.copy(object.rotation);
                 scene.add(shard);
-                shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) };
-                dynamicShards.add(shard);
+                shard.userData = { 
+                    type: 'shard', 
+                    velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), 
+                    life: 2.0, 
+                    rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) 
+                };
+                dynamicShards.add(shard); // Add to a set for processing in the game loop.
             }
         }
         
-        // Creates a shatter effect for HTML elements.
+        // Creates a shatter effect for HTML elements (like UI buttons and displays).
         function shatterElement(element) {
             if (!element) return;
             const rect = element.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return;
+            if (rect.width === 0 || rect.height === 0) return; // Don't shatter invisible elements
+            // Create a container positioned exactly over the original element.
             const container = document.createElement('div');
             Object.assign(container.style, {
                 position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`,
@@ -1056,6 +1173,7 @@
             document.body.appendChild(container);
             const shatterCount = Math.max(5, gameSettings.shatterCount / 2);
             const shatterSpeed = gameSettings.shatterSpeed * 0.2;
+            // Create several small divs inside the container.
             for (let i = 0; i < shatterCount; i++) {
                 const shard = document.createElement('div');
                 Object.assign(shard.style, {
@@ -1065,6 +1183,7 @@
                     transition: 'transform 1s ease-out, opacity 1s ease-out'
                 });
                 container.appendChild(shard);
+                // Animate them outwards with a random trajectory and fade them out.
                 requestAnimationFrame(() => { 
                     const vx = (Math.random() - 0.5) * shatterSpeed * 8;
                     const vy = (Math.random() - 0.5) * shatterSpeed * 8;
@@ -1072,24 +1191,39 @@
                     shard.style.opacity = '0';
                 });
             }
+            // Clean up the container after the animation is finished.
             setTimeout(() => { if (container.parentElement) document.body.removeChild(container); }, 1000);
         }
 
-        // Functions to trigger screen-wide visual effects.
-        let shakeIntensity = 0; let fovKick = 0;
-        function triggerScreenShake(intensity) { shakeIntensity = Math.max(shakeIntensity, intensity * gameSettings.shakeIntensity); }
-        function triggerFovKick(intensity) { fovKick = Math.max(fovKick, intensity * gameSettings.effectsIntensity); }
+        // Global variables to control temporary screen-wide visual effects.
+        let shakeIntensity = 0; 
+        let fovKick = 0;
+
+        // Triggers a camera shake effect.
+        function triggerScreenShake(intensity) { 
+            shakeIntensity = Math.max(shakeIntensity, intensity * gameSettings.shakeIntensity); 
+        }
+        // Triggers a field-of-view "kick" effect.
+        function triggerFovKick(intensity) { 
+            fovKick = Math.max(fovKick, intensity * gameSettings.effectsIntensity); 
+        }
+        // Triggers a full-screen color flash.
         function triggerFlash(color, duration) {
             const intensity = gameSettings.flashIntensity;
             if (intensity <= 0) return;
-            ui.flashOverlay.style.backgroundColor = color; ui.flashOverlay.style.transition = 'opacity 0s';
-            ui.flashOverlay.style.opacity = (0.7 * intensity).toString();
-            setTimeout(() => { ui.flashOverlay.style.transition = `opacity ${duration}ms`; ui.flashOverlay.style.opacity = '0'; }, 10);
+            ui.flashOverlay.style.backgroundColor = color; 
+            ui.flashOverlay.style.transition = 'opacity 0s';
+            ui.flashOverlay.style.opacity = (0.7 * intensity).toString(); // Set initial opacity
+            // Fade out the overlay.
+            setTimeout(() => { 
+                ui.flashOverlay.style.transition = `opacity ${duration}ms`; 
+                ui.flashOverlay.style.opacity = '0'; 
+            }, 10);
         }
 
         // --- GAMEPLAY SYSTEMS ---
 
-        // Manages player upgrades.
+        // Manages player upgrades (Sefirot Emanations).
         const allUpgrades = {
             'gevurah': { name: "GEVURAH'S MIGHT", desc: "Projectile damage increased.", apply: () => gameState.player.projectileDamage++ },
             'netzach': { name: "NETZACH'S SWIFTNESS", desc: "Increases fire rate.", apply: () => gameState.player.fireRate *= 0.85 },
@@ -1097,36 +1231,50 @@
             'chesed': { name: "CHESED'S GRACE", desc: "Periodically gain a shield that blocks one hit.", nonStackable: true, apply: () => gameState.player.hasShield = true },
             'tikkun': { name: "TIKKUN OLAM", desc: "Slowly regenerate lost Nefesh over time.", nonStackable: true, apply: () => gameState.player.hasRegen = true },
         };
-        const acquiredUpgrades = new Set();
+        const acquiredUpgrades = new Set(); // To track non-stackable upgrades.
         
+        // Grants a random upgrade to the player upon leveling up.
         function grantRandomEmanation() {
+            // Filter out upgrades that are non-stackable and already acquired.
             const availableUpgrades = Object.keys(allUpgrades).filter(key => !allUpgrades[key].nonStackable || !acquiredUpgrades.has(key));
-            if(availableUpgrades.length === 0) return;
+            if(availableUpgrades.length === 0) return; // No more upgrades to grant.
+
             const chosenKey = availableUpgrades[Math.floor(Math.random() * availableUpgrades.length)];
             const upgrade = allUpgrades[chosenKey];
-            upgrade.apply();
+            
+            upgrade.apply(); // Apply the upgrade's effect to the game state.
             if(upgrade.nonStackable) acquiredUpgrades.add(chosenKey);
-            ui.ascensionNotifier.textContent = upgrade.name; ui.ascensionNotifier.classList.add('show');
-            createParticleExplosion(minyanGroup.position, 150, 0xd8a8ff, 20);
-            triggerFlash('#d8a8ff', 500); triggerFovKick(15);
-            for (const p of specialParticlePool.a) {
-                const direction = p.position.clone().sub(minyanGroup.position).normalize();
+
+            // Trigger visual flair for leveling up.
+            ui.ascensionNotifier.textContent = upgrade.name; 
+            ui.ascensionNotifier.classList.add('show');
+            createParticleExplosion(nefeshGroup.position, 150, 0xd8a8ff, 20);
+            triggerFlash('#d8a8ff', 500); 
+            triggerFovKick(15);
+
+            // Push background particles away from the player.
+            for (const p of specialParticlePool.active) {
+                const direction = p.position.clone().sub(nefeshGroup.position).normalize();
                 p.userData.velocity.addScaledVector(direction, 40);
                 p.userData.life = Math.min(p.userData.life, 2.0);
             }
             setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
 
+            // Change the background color to the next one in the sequence.
             const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1);
             gameState.color.target.copy(levelColors[nextColorIndex]);
         }
         
-        // Manages the combo system.
+        // Manages the combo system for collecting Shefa (experience points).
         function updateCombo(newPoints, position) {
-            gameState.combo.count++; gameState.combo.timer = 3.0;
-            const shefaGained = newPoints * gameState.combo.count;
-            const numOrbs = Math.min(15, Math.floor(shefaGained / 10));
+            gameState.combo.count++; 
+            gameState.combo.timer = 3.0; // Reset combo timer.
+            const shefaGained = newPoints * gameState.combo.count; // Combo multiplier
+            const numOrbs = Math.min(15, Math.floor(shefaGained / 10)); // Spawn orbs based on points
             if(numOrbs === 0) return;
+
             const valuePerOrb = shefaGained / numOrbs;
+            // Spawn Shefa orbs that fly towards the player.
             for(let i=0; i < numOrbs; i++) {
                 const orb = shefaOrbPool.activate();
                 if(orb) {
@@ -1135,12 +1283,17 @@
                     orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
                 }
             }
+            // Update combo UI display.
             ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
-            ui.comboNotifier.classList.remove('show'); void ui.comboNotifier.offsetWidth; ui.comboNotifier.classList.add('show');
+            ui.comboNotifier.classList.remove('show'); 
+            void ui.comboNotifier.offsetWidth; // Force reflow to restart CSS animation
+            ui.comboNotifier.classList.add('show');
         }
         
         // --- WORLD CREATION ---
         let road, starField1, starField2;
+
+        // Creates the procedural texture for the road.
         function createRoadTexture() {
             const canvas = document.createElement('canvas');
             const width = 128; const height = 512;
@@ -1150,78 +1303,75 @@
             ctx.fillStyle = 'rgba(0,0,0,0)';
             ctx.fillRect(0, 0, width, height);
 
-            // Brighter yellow dotted lines.
-            ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
+            // Yellow dotted center lines.
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
             for(let y = 0; y < height; y += 40) {
                 ctx.fillRect(width/2 - 3, y, 6, 20);
             }
             
-            // More prominent white edge lines.
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.fillRect(width * 0.05 - 2, 0, 4, height);
-            ctx.fillRect(width * 0.95 - 2, 0, 4, height);
+            // Faint white edge lines.
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fillRect(width * 0.1 - 1, 0, 2, height);
+            ctx.fillRect(width * 0.9 - 1, 0, 2, height);
             
             const texture = new THREE.CanvasTexture(canvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = THREE.RepeatWrapping; // Repeat horizontally
+            texture.wrapT = THREE.RepeatWrapping; // Repeat vertically
             return texture;
         }
 
+        // Creates the road mesh and the starfield background.
         function createWorld() {
+            // Road
             const roadGeo = new THREE.PlaneGeometry(roadWidth, 200, 1, 20);
-            // Road color is now a distinct dark purple/blue.
             const roadMat = new THREE.MeshLambertMaterial({ 
-                color: 0x201040, 
+                color: 0x483d8b,
                 map: createRoadTexture(),
                 transparent: true
             });
-            roadMat.map.repeat.set(1, 10);
+            roadMat.map.repeat.set(1, 10); // Repeat the texture along the road's length.
             road = new THREE.Mesh(roadGeo, roadMat); 
-            road.rotation.x = -Math.PI / 2; 
+            road.rotation.x = -Math.PI / 2; // Lay it flat.
             road.position.y = roadLevelY;
             scene.add(road);
 
-            // Add 3D borders to the road for a more defined edge.
-            const borderGeo = new THREE.BoxGeometry(0.2, 0.2, 200);
-            const borderMat = new THREE.MeshBasicMaterial({ color: 0x00ddff, emissive: 0x00ddff, emissiveIntensity: 0.5 });
-            const borderLeft = new THREE.Mesh(borderGeo, borderMat);
-            const borderRight = new THREE.Mesh(borderGeo, borderMat);
-            borderLeft.position.set(-roadWidth / 2, roadLevelY, 0);
-            borderRight.position.set(roadWidth / 2, roadLevelY, 0);
-            scene.add(borderLeft, borderRight);
-
-
+            // Starfield (two overlapping fields for a seamless looping effect)
             const createField = () => {
                 const vertices = [];
-                for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); }
+                for (let i = 0; i < 5000; i++) { 
+                    vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); 
+                }
                 const geometry = new THREE.BufferGeometry();
                 geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
                 const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff });
                 return new THREE.Points(geometry, material);
             };
-            starField1 = createField(); starField2 = createField(); starField2.position.z = -500;
+            starField1 = createField(); 
+            starField2 = createField(); 
+            starField2.position.z = -500; // Position the second field behind the first.
             scene.add(starField1, starField2);
         }
 
         // --- OBSTACLE SPAWNING ---
         const lanePositions = [-3.0, 0, 3.0];
-        const obstacleRemovalZ = camera.position.z + 5;
+        const obstacleRemovalZ = camera.position.z + 5; // Z-position at which obstacles are despawned.
         
+        // Spawns a specific type of obstacle in a given lane and Z position.
         function spawnObstacle(type, laneIndex, zPos) {
             const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos);
-            const levelFactor = 1 + (gameState.level / 10);
+            const levelFactor = 1 + (gameState.level / 10); // Enemies get tougher at higher levels.
 
             switch(type) {
                 case 'klipah_gate': {
                     const gate = klipahGatePool.activate(); if(!gate) return;
-                    gate.position.copy(position); gate.position.y += 2.25;
+                    gate.position.copy(position); gate.position.y += 2;
                     Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false });
                     updateKlipahGateVisuals(gate);
                     break;
                 }
                 case 'jar': {
                     const jar = jarPool.activate(); if(!jar) return;
-                    jar.position.copy(position); jar.position.y += 0.9;
+                    jar.position.copy(position); jar.position.y += 0.75;
                     const health = Math.floor(30 + Math.random() * 40 * levelFactor);
                     Object.assign(jar.userData, { health, maxHealth: health });
                     updateJarHealthVisuals(jar);
@@ -1243,6 +1393,7 @@
         }
         
         // --- TACTICAL SPAWN PATTERNS ---
+        // A library of functions that define specific, hand-crafted enemy placements.
         function pattern_Wall(z) {
             const wallType = Math.random() < 0.7 ? 'jar' : 'klipah_gate';
             spawnObstacle(wallType, 0, z);
@@ -1303,55 +1454,29 @@
                 }
             }
         }
-        // --- NEW PATTERNS ---
-        function pattern_ShefaStream(z) {
-            const lane = Math.floor(Math.random() * 3);
-            for(let i=0; i<15; i++) {
-                const orb = shefaOrbPool.activate();
-                if(orb) {
-                    const x = lanePositions[lane] + Math.sin(i * 0.8) * 2.5;
-                    orb.position.set(x, 1, z - i * 5);
-                    orb.userData.value = 5; // Stream orbs have fixed value
-                    orb.userData.velocity = new THREE.Vector3(0,0,0);
-                    orb.userData.isStreamOrb = true; // Mark as stationary orb
-                }
-            }
-        }
-        function pattern_KlipahMaelstrom(z) {
-            const lane = Math.floor(Math.random() * 3);
-            createKlipahMaelstrom(new THREE.Vector3(lanePositions[lane], 0, z));
-        }
-        function pattern_CelestialAlly(z) {
-            // This is a rare, positive event, simply call the creation function
-            createCelestialAlly();
-        }
         
+        // Different sets of patterns are used at different game levels to increase difficulty.
         const patternSets = [
             [pattern_RandomMix, pattern_Wall], // Level 1-2
-            [pattern_RandomMix, pattern_Wall, pattern_Gauntlet, pattern_SentryGuard, pattern_ShefaStream], // Level 3-5
-            [pattern_Gauntlet, pattern_SentryGuard, pattern_KlipahWeave, pattern_Crossfire, pattern_KlipahMaelstrom], // Level 6-8
-            [pattern_SentryGuard, pattern_KlipahWeave, pattern_GolemFlank, pattern_Crossfire, pattern_TrapCorridor, pattern_KlipahMaelstrom], // Level 9+
+            [pattern_RandomMix, pattern_Wall, pattern_Gauntlet, pattern_SentryGuard], // Level 3-5
+            [pattern_Gauntlet, pattern_SentryGuard, pattern_KlipahWeave, pattern_Crossfire], // Level 6-8
+            [pattern_SentryGuard, pattern_KlipahWeave, pattern_GolemFlank, pattern_Crossfire, pattern_TrapCorridor], // Level 9+
         ];
 
-        // Decides when and which pattern to spawn.
+        // Decides when and which pattern to spawn next.
         function trySpawnPattern() {
-            let rearmostZ = 0;
-            const allObstacles = [...klipahGatePool.a, ...jarPool.a, ...tohuShardPool.a, ...golemSentryPool.a];
+            let rearmostZ = 0; // Find the z-position of the obstacle furthest from the player.
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active];
             for(const obs of allObstacles) {
                 if (obs.position.z < rearmostZ) rearmostZ = obs.position.z;
             }
             
-            if (rearmostZ > -80) { // If there's space on the road ahead...
-                 // Enhanced algorithm: Add rare chance for a positive event
-                 let chosenPattern;
-                 if (Math.random() < 0.05 && gameState.level > 5 && !celestialAlly) {
-                     chosenPattern = pattern_CelestialAlly;
-                 } else {
-                    const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level - 1) / 3));
-                    const availablePatterns = patternSets[patternSetIndex];
-                    chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
-                 }
-                 chosenPattern(-120 - Math.random() * 40); // Spawn it off-screen.
+            // If there's enough empty space on the road ahead, spawn a new pattern.
+            if (rearmostZ > -80) {
+                 const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level -1) / 3));
+                 const availablePatterns = patternSets[patternSetIndex];
+                 const chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
+                 chosenPattern(-120 - Math.random() * 40); // Spawn it far off-screen.
             }
         }
         
@@ -1362,14 +1487,10 @@
             if (!p) return;
             
             const spawnRadius = gameSettings.particleSpawnRadius;
-            const spawnZ = -150;
-            // Improved distribution using polar coordinates for a more natural spread
-            const angle = Math.random() * Math.PI * 2;
-            const radius = Math.sqrt(Math.random()) * spawnRadius; // sqrt for even distribution over area
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius * 0.6; // Create a slightly elliptical field of view
-            
-            p.position.set(x, y, spawnZ);
+            const spawnZ = -150; // Spawn far away
+            const x = (Math.random() - 0.5) * spawnRadius * 2;
+            const y = (Math.random() - 0.5) * spawnRadius;
+            p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ);
             
             const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)];
             p.material.map = texture;
@@ -1387,32 +1508,29 @@
 
         // --- GAME STATE MANAGEMENT ---
 
-        // Initializes the game state for a new run.
+        // Initializes or resets the game state for a new run.
         async function initializeGame() {
             try {
                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
                 
-                // Deactivate all pooled objects.
-                [sparkPool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahMaelstromParticlePool].forEach(pool => pool.deactivateAll());
+                // Deactivate all pooled objects from previous games.
+                [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool].forEach(pool => pool.deactivateAll());
                 dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
                 activeLights.forEach(l => scene.remove(l)); activeLights.clear();
                 activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
-                magenDavidTroops.forEach(t => { if(t) minyanGroup.remove(t); });
-                magenDavidTroops.length = 0;
-                
-                // Clear new event objects
-                if(celestialAlly) { scene.remove(celestialAlly.mesh); celestialAlly = null; }
-                activeMaelstroms.forEach(m => m.particles.forEach(p => klipahMaelstromParticlePool.deactivate(p)));
-                activeMaelstroms.clear();
 
-                // Handle webcam state.
+                // Reset instanced meshes by deactivating all their instances.
+                nefeshState.forEach(s => s.active = false);
+                sparkState.forEach(s => s.active = false);
+
+                // Handle webcam state based on settings.
                 if(gameSettings.enableWebcam) await webcamManager.start();
                 else webcamManager.stop();
                 
-                // Reset game state object.
+                // Reset the main game state object.
                 gameState = {
                     current: 'playing', mitzvot: 0, nefesh: 0, shefa: 0, shefaToAscend: 100, level: 1,
-                    player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false, hasShield: false },
+                    player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false },
                     combo: { count: 0, timer: 0 },
                     customPrayers: gameSettings.customPrayers || null,
                     color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) }
@@ -1421,13 +1539,10 @@
                 scene.fog = new THREE.Fog(gameState.color.current, 50, 200);
                 renderer.setClearColor(gameState.color.current);
 
-                acquiredUpgrades.clear();
-                if(!road) createWorld();
+                acquiredUpgrades.clear(); // Reset acquired upgrades.
+                if(!road) createWorld(); // Create world objects if they don't exist.
                 
-                // Initialize troop array with nulls up to the max.
-                for(let i=0; i < MAX_NEFESH; i++) { magenDavidTroops.push(null); }
-
-                // Handle custom prayer display.
+                // Handle custom prayer display UI.
                 if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
                     ui.prayerDisplayContainer.classList.add('visible');
                     updatePrayerDisplay();
@@ -1439,10 +1554,10 @@
                     ui.comboNotifier.classList.remove('side-mode');
                 }
 
-                adjustNefeshCount(10); // Start with 10 Nefesh.
-                targetCubeX = 0; minyanGroup.position.x = 0;
+                adjustNefeshCount(10); // Start the game with 10 Nefesh.
+                targetCubeX = 0; nefeshGroup.position.x = 0;
 
-                // Pre-spawn some obstacles.
+                // Pre-spawn some obstacles so the road isn't empty at the start.
                 for (let i=0; i < 3; i++) {
                     const chosenPattern = patternSets[0][Math.floor(Math.random() * patternSets[0].length)];
                     chosenPattern(-40 - i * 50);
@@ -1463,12 +1578,13 @@
             }
         }
 
-        // Handles leveling up.
+        // Handles leveling up when enough Shefa is collected.
         function addShefa(amount) {
             gameState.shefa += amount;
             if (gameState.shefa >= gameState.shefaToAscend) {
-                gameState.shefa -= gameState.shefaToAscend; gameState.level++;
-                gameState.shefaToAscend *= 1.5; 
+                gameState.shefa -= gameState.shefaToAscend; 
+                gameState.level++;
+                gameState.shefaToAscend *= 1.5; // Increase Shefa needed for next level.
                 grantRandomEmanation();
             }
         }
@@ -1484,7 +1600,7 @@
             webcamManager.stop();
         }
 
-        // Shows the main menu.
+        // Shows the main menu screen.
         function showMainMenu() {
             gameState.current = 'mainMenu';
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -1500,10 +1616,12 @@
         
         // --- INPUT HANDLING ---
         let isDragging = false, lastTouchX = 0, targetCubeX = 0;
+        
+        // Handles player movement on mouse/touch drag.
         const handleMove = (clientX) => {
             if (!isDragging || gameState.current !== 'playing') return;
             const deltaX = clientX - lastTouchX;
-            const moveScale = 0.03;
+            const moveScale = 0.03; // Controls sensitivity
             targetCubeX += deltaX * moveScale;
             lastTouchX = clientX;
         };
@@ -1511,13 +1629,13 @@
         const handleInteractionStart = (e, clientX) => {
             if (gameState.current !== 'playing') return;
             const targetElement = e.target;
-            // Ignore clicks on UI buttons.
+            // Ignore clicks on UI buttons to prevent them from triggering movement.
             if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) {
                 return; 
             }
             isDragging = true;
             lastTouchX = clientX;
-            if (e.type === 'touchstart') e.preventDefault();
+            if (e.type === 'touchstart') e.preventDefault(); // Prevent page scrolling on touch devices.
         };
 
         document.addEventListener('mousedown', e => handleInteractionStart(e, e.clientX));
@@ -1609,18 +1727,21 @@
 
         // Universal function for setting up listeners for the settings panel.
         const setupSettingListener = (element, valueSpan, settingName, parseFunc) => {
+            // Update the text display next to the slider in real-time.
             element.addEventListener('input', e => { if(valueSpan) valueSpan.textContent = e.target.value; });
+            // Save the setting to the database when the user finishes changing it.
             element.addEventListener('change', async e => {
                 try {
                     const value = parseFunc(e.target.value, e.target.checked);
                     await saveSetting(settingName, value);
-                    await applySettings();
+                    await applySettings(); // Reload all settings to apply the change.
                 } catch(err) {
                     console.error(`Failed to save setting ${settingName}:`, err);
                 }
             });
         };
         
+        // Wire up all the settings controls.
         setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt);
         ui.particleCharsTextarea.addEventListener('change', async e => { try { await saveSetting('particleChars', e.target.value); await applySettings(); } catch(err) { console.error('Failed to save particle chars:', err); } });
         setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat);
@@ -1640,75 +1761,78 @@
 
         // Window resize handler.
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
+            camera.aspect = window.innerWidth / window.innerHeight; 
+            camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        const collisionVec2 = new THREE.Vector2();
-        function check2DCollision(obj, troop) {
-            obj.getWorldPosition(worldPosVec);
-            collisionVec2.set(worldPosVec.x, worldPosVec.z);
-            return troop.userData.collisionBox2D.containsPoint(collisionVec2);
+        // Helper function for checking collision between an instanced nefesh and another object.
+        function checkInstancedCollision(nefeshState, otherObject) {
+             otherObject.getWorldPosition(worldPosVec);
+             collisionVec2.set(worldPosVec.x, worldPosVec.z);
+             return nefeshState.collisionBox2D.containsPoint(collisionVec2);
         }
 
         // --- THE MAIN GAME LOOP ---
         function animate(currentTime) {
-            animationFrameId = requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate); // Request the next frame.
             try {
                 if(gameState.current !== 'playing' || !gameState) return;
                 
-                const deltaTime = Math.min(0.05, clock.getDelta());
+                const deltaTime = Math.min(0.05, clock.getDelta()); // Time since last frame. Capped to prevent physics bugs.
                 const currentRoadSpeed = roadBaseSpeed + gameState.level * 1.5;
 
                 // --- WORLD & VISUALS UPDATE ---
                 if (!gameState.color.current.equals(gameState.color.target)) {
+                    // Smoothly transition background color.
                     gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime);
                     renderer.setClearColor(gameState.color.current);
                     if(scene.fog) scene.fog.color.copy(gameState.color.current);
                 }
                 
-                // Animate road texture offset for illusion of movement. Corrected from -= to +=.
+                // Animate road texture offset for illusion of movement.
                 if(road && road.material.map) {
-                    road.material.map.offset.y += (currentRoadSpeed / 100) * deltaTime;
+                    road.material.map.offset.y -= (currentRoadSpeed / 100) * deltaTime;
                 }
 
                 // Animate starfields.
                 const starSpeed = 20 + gameState.level * 2;
                 starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime;
-                if(starField1.position.z > 250) starField1.position.z -= 500; if(starField2.position.z > 250) starField2.position.z -= 500;
+                if(starField1.position.z > 250) starField1.position.z -= 500; // Loop starfields
+                if(starField2.position.z > 250) starField2.position.z -= 500;
                 
-                // Spawn background particles.
+                // Spawn background particles based on a chance that increases with level.
                 const spawnChance = Math.min(0.95, 0.4 + (gameState.level * 0.025));
                 if (Math.random() < spawnChance) spawnSpecialParticle();
                 
-                for (const p of specialParticlePool.a) {
+                // Update active background particles
+                for (const p of specialParticlePool.active) {
                     p.position.addScaledVector(p.userData.velocity, deltaTime);
                     p.userData.life -= deltaTime;
-                    p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7;
+                    p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; // Fade out smoothly
                     if (p.userData.life <= 0 || p.position.z > camera.position.z) {
                         specialParticlePool.deactivate(p);
                     }
                 }
 
                 // --- PLAYER MOVEMENT & FORMATION ---
-                // Calculate the current horizontal extent of the formation.
                 let minX = 0, maxX = 0;
-                magenDavidTroops.forEach(troop => {
-                    if (troop) {
-                        if(troop.userData.targetPos.x < minX) minX = troop.userData.targetPos.x;
-                        if(troop.userData.targetPos.x > maxX) maxX = troop.userData.targetPos.x;
+                nefeshState.forEach(state => {
+                    if (state.active) {
+                        if(state.targetPos.x < minX) minX = state.targetPos.x;
+                        if(state.targetPos.x > maxX) maxX = state.targetPos.x;
                     }
                 });
                 
+                // Dynamically calculate the maximum allowed horizontal movement based on formation width to keep it on the road.
                 const halfFormationWidth = (maxX - minX) / 2;
-                // Dynamically calculate max movement, accounting for formation width and a safety buffer.
-                const maxMove = (roadWidth / 2) - halfFormationWidth - 0.5;
+                const maxMove = (roadWidth / 2) - halfFormationWidth;
                 targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
 
-                // Smoothly move the entire Minyan group.
-                minyanGroup.position.x = THREE.MathUtils.lerp(minyanGroup.position.x, targetCubeX, 0.1);
-                minyanGroup.position.z = THREE.MathUtils.lerp(minyanGroup.position.z, 0, 0.2);
-                cameraTargetPos.x = minyanGroup.position.x / 4;
+                // Smoothly move the entire Nefesh group towards the target X position.
+                nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
+                nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2); // Smooth Z movement
+                cameraTargetPos.x = nefeshGroup.position.x / 4; // Camera follows player slightly.
                 
                 // --- GAME LOGIC (Combo, Regen, etc.) ---
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime;
@@ -1716,58 +1840,82 @@
 
                 if(gameState.player.hasRegen) {
                     gameState.player.regenTimer += deltaTime;
-                    if(gameState.player.regenTimer > 15) {
+                    if(gameState.player.regenTimer > 15) { // Every 15 seconds
                         gameState.player.regenTimer = 0;
                         if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1);
                     }
                 }
                 
-                // --- NEFESH & PROJECTILE UPDATE ---
+                // --- INSTANCED NEFESH UPDATE ---
                 const troopHalfSize = 0.4;
-                magenDavidTroops.forEach((troop) => {
-                    if(!troop) return;
+                let activeNefeshCount = 0;
+                const tempMatrix = new THREE.Matrix4();
+                const tempQuaternion = new THREE.Quaternion();
+
+                nefeshState.forEach((state, i) => {
+                    if (!state.active) {
+                        // For inactive instances, we set their matrix to a scale of 0 to hide them.
+                        tempMatrix.makeScale(0, 0, 0);
+                        nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                        nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
+                        return;
+                    }
+                    activeNefeshCount++;
+
+                    // Smoothly move each unit to its target position within the formation.
+                    state.currentPos.lerp(state.targetPos, 0.15);
+
+                    // Update 2D collision box for this troop based on its final world position.
+                    state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
+                    state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
+
+                    // Animate scale on spawn.
+                    if(state.currentScale < state.targetScale) {
+                        state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2);
+                    }
                     
-                    // Each troop smoothly moves to its target position within the formation.
-                    troop.position.lerp(troop.userData.targetPos, 0.15);
+                    // Animate rotation.
+                    state.yRotation += deltaTime * 2;
 
-                    // Update webcam plane if it exists.
-                    const webcamPlane = troop.getObjectByName('webcam_plane');
-                    if (webcamPlane) {
-                        webcamPlane.lookAt(camera.position);
-                        if (gameSettings.enableWebcam) {
-                             webcamPlane.visible = gameSettings.webcamPerNefesh ? true : (magenDavidTroops.indexOf(troop) === 0);
-                        } else {
-                             webcamPlane.visible = false;
-                        }
-                    }
-
-                    // Update 2D collision box for this troop.
-                    troop.getWorldPosition(worldPosVec);
-                    troop.userData.collisionBox2D.min.set(worldPosVec.x - troopHalfSize, worldPosVec.z - troopHalfSize);
-                    troop.userData.collisionBox2D.max.set(worldPosVec.x + troopHalfSize, worldPosVec.z + troopHalfSize);
-
-                    // Handle scaling animation on spawn.
-                    if(troop.userData.targetScale) {
-                        troop.scale.lerp(new THREE.Vector3(troop.userData.targetScale, troop.userData.targetScale, troop.userData.targetScale), 0.2);
-                        if(Math.abs(troop.scale.x - troop.userData.targetScale) < 0.01) troop.userData.targetScale = null;
-                    }
-                    // Animate the rotation of the star's cones.
-                    troop.children[0].rotation.y += deltaTime * 2; troop.children[1].rotation.y -= deltaTime * 2;
                     // Fire projectiles based on fire rate.
-                    if (currentTime - troop.userData.lastShotTime > gameState.player.fireRate) {
-                        troop.getWorldPosition(worldPosVec); worldPosVec.z -= 0.5; worldPosVec.y = 0.4;
-                        const spark = sparkPool.activate();
-                        if(spark) { spark.position.copy(worldPosVec); spark.userData.damage = gameState.player.projectileDamage; spark.userData.pierced = 0; }
-                        troop.userData.lastShotTime = currentTime;
+                    if (currentTime - state.lastShotTime > gameState.player.fireRate) {
+                        worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
+                        worldPosVec.y = 0.4;
+                        fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
+                        state.lastShotTime = currentTime;
                     }
+
+                    // Update the matrix for this instance's top cone.
+                    tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0));
+                    tempMatrix.compose(
+                        new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z),
+                        tempQuaternion,
+                        new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)
+                    );
+                    nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                    
+                    // Update the matrix for this instance's bottom cone (inverted).
+                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0));
+                    tempMatrix.compose(
+                        new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z),
+                        tempQuaternion,
+                        new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)
+                    );
+                    nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                 });
+                // Tell Three.js to upload the new matrix data to the GPU.
+                nefeshTopInstanced.instanceMatrix.needsUpdate = true;
+                nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
+                // Set the draw count to the number of active instances.
+                nefeshTopInstanced.count = activeNefeshCount;
+                nefeshBottomInstanced.count = activeNefeshCount;
 
                 // --- OBSTACLE & ENEMY UPDATE ---
-                const troopsToRemove = new Set();
-                for (const obstacle of [...klipahGatePool.a, ...jarPool.a, ...tohuShardPool.a, ...golemSentryPool.a]) {
+                const troopsToDestroy = new Set();
+                for (const obstacle of [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active]) {
                     obstacle.position.z += currentRoadSpeed * deltaTime;
-                    // Deactivate if off-screen.
                     if (obstacle.position.z > obstacleRemovalZ) {
+                        // Deactivate based on type if off-screen.
                         if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle);
                         else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
                         else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle);
@@ -1775,51 +1923,45 @@
                         continue;
                     }
                     
-                    // Golem firing logic.
+                    // Golem firing logic
                     if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
                         obstacle.userData.lastShotTime = currentTime;
-                        obstacle.userData.eye.material.color.setHex(0xffffff);
+                        obstacle.userData.eye.material.color.setHex(0xffffff); // Eye flash
                         setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200);
 
                         const attackRoll = Math.random();
-                        let proj;
-                        if (gameState.level > 5 && attackRoll < 0.33) {
-                            proj = golemHeavyProjectilePool.activate();
-                            if(proj) { proj.userData.damage = 5 + Math.floor(gameState.level / 4); proj.userData.type = 'heavy'; }
-                        } else if (gameState.level > 2 && attackRoll < 0.66) {
-                            proj = golemFastProjectilePool.activate();
-                            if(proj) proj.userData.type = 'fast';
-                        } else {
-                            proj = golemProjectilePool.activate();
-                            if(proj) proj.userData.type = 'normal';
+                        let projPool = attackRoll < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (attackRoll < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool);
+                        let proj = projPool.activate();
+                        if (proj) {
+                           obstacle.userData.eye.getWorldPosition(proj.position);
+                           proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal');
+                           if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4);
                         }
-                        if (proj) obstacle.userData.eye.getWorldPosition(proj.position);
                     }
                     
-                    // Collision detection between obstacles and player troops.
+                    // Collision detection between obstacles and instanced player troops.
                     if (obstacle.userData.type === 'tohu_shard') {
                         const spikeHalfSize = 0.3;
                         obstacle.userData.body.children.forEach(spikeGroup => {
                             spikeGroup.getWorldPosition(worldPosVec);
                             spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
-                            for(const troop of magenDavidTroops) {
-                                if (!troop || troopsToRemove.has(troop)) continue;
-                                if (spikeGroup.userData.collisionBox2D.intersectsBox(troop.userData.collisionBox2D)) {
-                                    troopsToRemove.add(troop);
+                            nefeshState.forEach((state, index) => {
+                                if (!state.active || troopsToDestroy.has(index)) return;
+                                if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
+                                    troopsToDestroy.add(index);
                                     triggerFlash('#ff00ff', 200);
-                                    break; 
                                 }
-                            }
+                            });
                         });
                     } else {
-                        const obsSize = obstacle.userData.type === 'jar' ? 1.8 : (obstacle.userData.type === 'klipah_gate' ? 3.5 : 1.5);
+                        const obsSize = obstacle.userData.type === 'jar' ? 1.5 : 1.5;
                         obstacle.userData.collisionBox2D.setFromCenterAndSize({x: obstacle.position.x, y: obstacle.position.z}, {x: obsSize, y: obsSize});
-                        magenDavidTroops.forEach((troop) => {
-                            if (!troop || troopsToRemove.has(troop)) return;
-                            if (obstacle.userData.collisionBox2D.intersectsBox(troop.userData.collisionBox2D)) {
+                        nefeshState.forEach((state, index) => {
+                            if (!state.active || troopsToDestroy.has(index)) return;
+                            if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
                                 switch (obstacle.userData.type) {
                                     case 'jar':
-                                        troopsToRemove.add(troop); triggerScreenShake(0.1);
+                                        troopsToDestroy.add(index); triggerScreenShake(0.1);
                                         obstacle.userData.health--;
                                         if(obstacle.userData.health <= 0) {
                                             jarPool.deactivate(obstacle); updateCombo(50, obstacle.position);
@@ -1837,7 +1979,7 @@
                                         klipahGatePool.deactivate(obstacle);
                                         break;
                                     case 'golem_sentry':
-                                        troopsToRemove.add(troop);
+                                        troopsToDestroy.add(index);
                                         triggerScreenShake(0.2);
                                         break;
                                 }
@@ -1845,126 +1987,72 @@
                         });
                     }
                 }
-                
-                // --- NEW EVENT UPDATES ---
-                // Celestial Ally Update
-                if (celestialAlly) {
-                    celestialAlly.life -= deltaTime;
-                    if (celestialAlly.life <= 0) {
-                        scene.remove(celestialAlly.mesh); celestialAlly = null;
-                    } else {
-                        celestialAlly.mesh.position.x = THREE.MathUtils.lerp(celestialAlly.mesh.position.x, minyanGroup.position.x, 0.05);
-                        celestialAlly.ring1.rotation.y += deltaTime * 3;
-                        celestialAlly.ring2.rotation.x += deltaTime * 3;
-                        if (currentTime - celestialAlly.lastShotTime > 200) { // Fires rapidly
-                            celestialAlly.lastShotTime = currentTime;
-                            const spark = sparkPool.activate();
-                            if(spark) {
-                                celestialAlly.mesh.getWorldPosition(spark.position);
-                                spark.userData.damage = 2; // Ally shots are strong
-                                spark.userData.pierced = 0;
-                            }
-                        }
-                    }
-                }
 
-                // Klipah Maelstrom Update
-                for (const maelstrom of activeMaelstroms) {
-                    maelstrom.life -= deltaTime;
-                    maelstrom.position.z += currentRoadSpeed * deltaTime;
-                    maelstrom.collisionBox2D.min.y = maelstrom.position.z - 25;
-                    maelstrom.collisionBox2D.max.y = maelstrom.position.z + 25;
-
-                    if (maelstrom.life <= 0 || maelstrom.position.z > obstacleRemovalZ) {
-                        maelstrom.particles.forEach(p => klipahMaelstromParticlePool.deactivate(p));
-                        activeMaelstroms.delete(maelstrom);
-                        continue;
-                    }
-                    // Spawn particles inside the maelstrom
-                    if (Math.random() < 0.8) {
-                        const p = klipahMaelstromParticlePool.activate();
-                        if (p) {
-                            const angle = Math.random() * Math.PI * 2;
-                            const radius = Math.random() * 1.5;
-                            p.position.set(maelstrom.position.x + Math.cos(angle) * radius, roadLevelY, maelstrom.position.z + (Math.random() - 0.5) * 50);
-                            p.userData = { life: 0.8, maelstromRef: maelstrom };
-                            maelstrom.particles.add(p);
-                        }
-                    }
-                    // Particle collision with troops
-                     for (const troop of magenDavidTroops) {
-                        if (!troop || troopsToRemove.has(troop)) continue;
-                        if (maelstrom.collisionBox2D.intersectsBox(troop.userData.collisionBox2D)) {
-                           for(const p of maelstrom.particles) {
-                                if (check2DCollision(p, troop)) {
-                                     troopsToRemove.add(troop);
-                                     triggerFlash('#ff2d2d', 150);
-                                     break; // One hit per troop per frame from this maelstrom
-                                }
-                           }
-                        }
-                    }
-                }
-                 for (const p of klipahMaelstromParticlePool.a) {
-                    if (p.userData.life) p.userData.life -= deltaTime;
-                    if (!p.userData.life || p.userData.life <= 0) {
-                        if (p.userData.maelstromRef) p.userData.maelstromRef.particles.delete(p);
-                        klipahMaelstromParticlePool.deactivate(p);
-                    }
-                 }
-
-                // --- ENEMY PROJECTILE UPDATE ---
-                for(const proj of [...golemProjectilePool.a, ...golemFastProjectilePool.a, ...golemHeavyProjectilePool.a]) {
+                // --- ENEMY PROJECTILE UPDATE & COLLISION ---
+                for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) {
                     const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25);
                     proj.position.z += speed * deltaTime;
                     if(proj.position.z > obstacleRemovalZ) {
+                        // Deactivate based on type
                         if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
                         else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
                         else golemHeavyProjectilePool.deactivate(proj);
                         continue;
                     }
-                    for(const troop of magenDavidTroops) {
-                        if(!troop || troopsToRemove.has(troop)) continue;
-                        if(check2DCollision(proj, troop)) {
+                    // Check collision against player troops
+                    nefeshState.forEach((state, index) => {
+                        if(!state.active || troopsToDestroy.has(index)) return;
+                        if(checkInstancedCollision(state, proj)) {
                             const color = proj.material.color.getHexString();
                             if(proj.userData.type === 'heavy') {
                                 adjustNefeshCount(-proj.userData.damage);
                                 createParticleExplosion(proj.position, 40, `#${color}`, 20);
                                 triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6);
                             } else {
-                                troopsToRemove.add(troop);
+                                troopsToDestroy.add(index);
                                 createParticleExplosion(proj.position, 20, `#${color}`, 15);
                                 triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3);
                             }
-                            // Deactivate projectile on hit (heavy projectiles are not deactivated here to allow them to continue)
-                            if (proj.userData.type !== 'heavy') {
-                                if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
-                                else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
-                            }
-                            break; 
+                             // Deactivate normal/fast projectile on hit
+                            if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
+                            else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
                         }
-                    };
+                    });
                 }
 
-                // Process troop destruction after all collisions are checked for the frame.
-                if(troopsToRemove.size > 0) {
+                // Process all troop destructions for this frame at once.
+                if(troopsToDestroy.size > 0) {
                     shatterElement(ui.nefeshDisplay);
-                    troopsToRemove.forEach(troop => destroyNefesh(troop));
-                    gameState.nefesh = magenDavidTroops.filter(t => t !== null).length;
-                    positionNefesh(); // Reposition after destruction to update constraints.
+                    troopsToDestroy.forEach(index => destroyNefesh(index));
+                    gameState.nefesh = nefeshState.filter(s => s.active).length;
+                    positionNefesh();
                     if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
                 }
-
-                // --- PLAYER PROJECTILE COLLISION ---
-                for (const spark of sparkPool.a) {
+                
+                // --- INSTANCED SPARK (PLAYER PROJECTILE) UPDATE & COLLISION ---
+                let activeSparkCount = 0;
+                sparkState.forEach((spark, i) => {
+                    if (!spark.active) {
+                        tempMatrix.makeScale(0,0,0);
+                        sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                        return;
+                    }
+                    activeSparkCount++;
+                    
                     spark.position.z -= 60 * deltaTime;
-                    if (spark.position.z < -100) { sparkPool.deactivate(spark); continue; }
-                    for (const obstacle of [...klipahGatePool.a, ...jarPool.a, ...golemSentryPool.a]) {
-                        if (obstacle.userData.collisionBox2D.containsPoint({x: spark.position.x, y: spark.position.z})) {
+                    if (spark.position.z < -100) {
+                        spark.active = false;
+                        return;
+                    }
+                    
+                    // Collision with obstacles
+                    for (const obstacle of [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active]) {
+                        // Simple point-in-box check
+                        if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
                             let deactivateSpark = true;
                             switch(obstacle.userData.type) {
                                 case 'klipah_gate':
-                                    obstacle.userData.currentValue += spark.userData.damage;
+                                    obstacle.userData.currentValue += spark.damage;
                                     createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
                                     if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
                                         obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
@@ -1976,9 +2064,9 @@
                                     updateKlipahGateVisuals(obstacle);
                                     break;
                                 case 'jar': case 'golem_sentry':
-                                    obstacle.userData.health -= spark.userData.damage;
+                                    obstacle.userData.health -= spark.damage;
                                     createParticleExplosion(spark.position, 5, '#ffffff', 8);
-                                    if (gameState.player.hasPierce && spark.userData.pierced < 1) { spark.userData.pierced++; deactivateSpark = false; }
+                                    if (gameState.player.hasPierce && spark.pierced < 1) { spark.pierced++; deactivateSpark = false; }
                                     if (obstacle.userData.health <= 0) {
                                         triggerScreenShake(0.3); shatterObject(obstacle.userData.body);
                                         createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
@@ -1989,32 +2077,42 @@
                                     } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
                                     break;
                             }
-                            if (deactivateSpark) { sparkPool.deactivate(spark); break; }
+                            if (deactivateSpark) { 
+                                spark.active = false; 
+                                break; // Stop checking this spark against other obstacles
+                            }
                         }
                     }
-                }
+                    
+                    if (spark.active) {
+                        tempMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
+                        sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                    }
+                });
+                sparkInstancedMesh.instanceMatrix.needsUpdate = true;
+                sparkInstancedMesh.count = activeSparkCount;
 
-                // --- PARTICLE & EFFECTS UPDATE ---
-                for(const orb of shefaOrbPool.a) {
-                    // Shefa stream orbs are stationary until collected
-                    if (orb.userData.isStreamOrb) {
-                        orb.position.z += currentRoadSpeed * deltaTime;
-                        if(minyanGroup.position.distanceTo(orb.position) < 2.5) {
-                             addShefa(orb.userData.value); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb);
-                        } else if (orb.position.z > obstacleRemovalZ) {
-                             shefaOrbPool.deactivate(orb);
-                        }
-                    } else { // Normal homing orbs
-                         orb.position.lerp(minyanGroup.position, 0.08); orb.position.addScaledVector(orb.userData.velocity, deltaTime);
-                         orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1);
-                         if(orb.position.distanceTo(minyanGroup.position) < 1.5) { addShefa(orb.userData.value); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb); }
+                // --- OTHER PARTICLE & EFFECTS UPDATE ---
+                for(const orb of shefaOrbPool.active) {
+                    orb.position.lerp(nefeshGroup.position, 0.08); 
+                    orb.position.addScaledVector(orb.userData.velocity, deltaTime);
+                    orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1);
+                    if(orb.position.distanceTo(nefeshGroup.position) < 1.5) { 
+                        addShefa(orb.userData.value); 
+                        createParticleExplosion(orb.position, 3, 0xffd700, 5); 
+                        shefaOrbPool.deactivate(orb); 
                     }
                 }
-                [...particlePool.a, ...dynamicShards].forEach(p => {
-                    p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime;
+                [...particlePool.active, ...dynamicShards].forEach(p => {
+                    p.position.addScaledVector(p.userData.velocity, deltaTime); 
+                    p.userData.velocity.y -= 25 * deltaTime; // Gravity
+                    p.userData.life -= deltaTime;
                     if(p.material && p.material.opacity) p.material.opacity = p.userData.life;
                     if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; }
-                    if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } }
+                    if (p.userData.life <= 0) { 
+                        if(p.userData.type === 'particle') particlePool.deactivate(p); 
+                        else { scene.remove(p); dynamicShards.delete(p); } 
+                    }
                 });
 
                 activeLights.forEach(light => { light.intensity -= 25 * deltaTime; if(light.intensity <= 0) { scene.remove(light); activeLights.delete(light); } });
@@ -2044,10 +2142,12 @@
                 if (animationFrameId) {
                     cancelAnimationFrame(animationFrameId);
                 }
+                displayGlobalError("A critical error in the game loop forced a stop.");
                 endGame();
             }
         }
         
+        // Updates the main heads-up display (Mitzvot, Nefesh, Shefa bar).
         function updateUIDisplays() {
             if (!gameState || gameState.current !== 'playing') return;
             ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
@@ -2061,7 +2161,8 @@
         (async () => {
             try {
                 await initDB();
-                await applySettings();
+                setupInstancedNefesh(); // Initial setup of instanced meshes
+                await applySettings(); // Applies settings and might re-run setup if Max Nefesh changed
                 showMainMenu();
             } catch(error) {
                 console.error("Critical error during initial setup:", error);
@@ -2073,4 +2174,3 @@
     </script>
 </body>
 </html>
-
