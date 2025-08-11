@@ -364,6 +364,7 @@
                      <label for="inGameCaptionColorPicker">Color:</label>
                      <input type="color" id="inGameCaptionColorPicker">
                  </div>
+                 <!-- This button allows the player to exit to the main menu during gameplay, as requested. -->
                  <button id="backToMenuFromGameBtn" style="background: linear-gradient(145deg, #772222, #441111);">Back to Menu</button>
                  <button id="closePrayerListBtn">Close</button>
             </div>
@@ -490,22 +491,24 @@
         const roadLevelY = -0.5;
         let roadBaseSpeed = 12;
 
+        // Reusable vectors and objects to prevent reallocation in the game loop.
         const worldPosVec = new THREE.Vector3(); 
         const dummyObject = new THREE.Object3D();
         const collisionVec2 = new THREE.Vector2();
 
         // --- UTILITY FUNCTIONS ---
         
+        // Gematria is a system of assigning numerical value to Hebrew letters. This adds a thematic layer to the UI.
         const gematriaMap = { 1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה', 6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ', 60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ', 100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת' };
         /**
          * Converts a number to its Hebrew Gematria representation for thematic UI.
-         * Handles special cases for 15 and 16.
+         * Handles special cases for 15 and 16 to avoid constructing the name of G-d.
          * @param {number} n - The number to convert.
          * @returns {string} The Gematria representation of the number.
          */
         function toGematria(n) {
-            if (n === 15) return 'ט״ו';
-            if (n === 16) return 'ט״ז';
+            if (n === 15) return 'ט״ו'; // 9+6 instead of 10+5
+            if (n === 16) return 'ט״ז'; // 9+7 instead of 10+6
             let str = ''; 
             let val = Math.abs(n);
             const sortedKeys = Object.keys(gematriaMap).map(Number).sort((a, b) => b - a);
@@ -519,6 +522,7 @@
                     } 
                 } 
             }
+            // Add traditional punctuation for multi-letter or single-letter Gematria.
             if(str.length > 1) str = str.slice(0, -1) + '״' + str.slice(-1); 
             else if (str.length === 1) str += '׳';
             return str;
@@ -527,6 +531,7 @@
         const specialParticleChars = [];
         const specialParticleTextures = [];
         
+        // Colors for different game levels/worlds, inspired by the Sefirot and celestial realms.
         const levelColors = [
             new THREE.Color(0x483d8b), new THREE.Color(0x1b0021),
             new THREE.Color(0x2e0036), new THREE.Color(0x4d0000), 
@@ -540,7 +545,7 @@
 
         /**
          * Initializes the IndexedDB database for storing settings.
-         * Creates an object store if it doesn't already exist.
+         * This allows player preferences to be saved between sessions.
          * @returns {Promise<void>} A promise that resolves when the DB is successfully opened.
          */
         async function initDB() {
@@ -614,11 +619,13 @@
          * @returns {Promise<void>}
          */
         async function applySettings() {
+            // Load and apply Max Nefesh setting, re-initializing the formation if it changed.
             const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
             ui.maxNefeshSlider.value = newMaxNefesh;
             ui.maxNefeshValue.textContent = newMaxNefesh;
             if (MAX_NEFESH !== newMaxNefesh) {
                 MAX_NEFESH = newMaxNefesh;
+                // The formation must be rebuilt if the max number changes.
                 setupInstancedNefesh();
             }
             gameSettings.maxNefesh = newMaxNefesh;
@@ -626,16 +633,17 @@
             gameSettings.particleSpawnRadius = parseInt(await loadSetting('particleSpawnRadius', defaultSettings.particleSpawnRadius), 10);
             ui.particleSpawnRadiusSlider.value = gameSettings.particleSpawnRadius;
             ui.particleSpawnRadiusValue.textContent = gameSettings.particleSpawnRadius;
-
+            
+            // Load custom characters for background particles and generate textures for them.
             gameSettings.particleChars = await loadSetting('particleChars', defaultSettings.particleChars);
             ui.particleCharsTextarea.value = gameSettings.particleChars;
             const chars = gameSettings.particleChars.split(',').map(c => c.trim()).filter(Boolean);
             specialParticleChars.length = 0;
             specialParticleChars.push(...(chars.length > 0 ? chars : defaultSettings.particleChars.split(',')));
-            
             specialParticleTextures.length = 0;
             specialParticleChars.forEach(char => specialParticleTextures.push(createSpecialParticleTexture(char)));
 
+            // Load all visual and gameplay effect intensity settings.
             gameSettings.shakeIntensity = parseFloat(await loadSetting('shakeIntensity', defaultSettings.shakeIntensity));
             ui.shakeIntensitySlider.value = gameSettings.shakeIntensity;
             ui.shakeIntensityValue.textContent = gameSettings.shakeIntensity;
@@ -688,7 +696,7 @@
         }
 
         /**
-         * Manages starting and stopping the webcam feed for overlay effects.
+         * Manages starting and stopping the webcam feed for optional overlay effects.
          */
         const webcamManager = {
             videoElement: document.getElementById('webcamFeed'),
@@ -704,9 +712,9 @@
                 try {
                     this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
                     this.videoElement.srcObject = this.stream;
-                    this.videoElement.play();
+                    await this.videoElement.play();
                     this.texture = new THREE.VideoTexture(this.videoElement);
-                    if (!this.alphaMap) {
+                    if (!this.alphaMap) { // Create a circular alpha map once
                         const canvas = document.createElement('canvas');
                         canvas.width = 128; canvas.height = 128;
                         const context = canvas.getContext('2d');
@@ -720,6 +728,7 @@
                     }
                 } catch (err) {
                     console.error("Could not access webcam:", err);
+                    displayGlobalError("Could not access webcam. Please check permissions.");
                     ui.enableWebcamCheckbox.checked = false;
                     await saveSetting('enableWebcam', false);
                     gameSettings.enableWebcam = false;
@@ -755,7 +764,7 @@
             context.font = `${size * 0.8}px Arial`;
             context.textAlign = 'center';
             context.textBaseline = 'middle';
-            context.fillText(text, size / 2, size / 2);
+            context.fillText(text, size / 2, size / 2 + size*0.05); // Minor offset for better centering
             return new THREE.CanvasTexture(canvas);
         }
 
@@ -823,11 +832,12 @@
 
             /**
              * Retrieves an object from the pool, making it active and visible.
-             * @returns {THREE.Object3D | null} An active object, or null if the pool is exhausted (though it creates new ones).
+             * If the pool is empty, it creates a new object.
+             * @returns {THREE.Object3D | null} An active object.
              */
             activate() {
                 let obj = this.pool.length > 0 ? this.pool.pop() : this.createFunc();
-                if (!obj.parent) scene.add(obj);
+                if (!obj.parent) scene.add(obj); // Ensure object is in scene if created on-the-fly
                 obj.visible = true;
                 this.active.add(obj);
                 return obj;
@@ -844,9 +854,10 @@
             }
 
             /**
-             * Deactivates all currently active objects in the pool.
+             * Deactivates all currently active objects in the pool. Used for game reset.
              */
             deactivateAll() {
+                // Iterating over a copy of the set is safer as deactivate modifies the set.
                 [...this.active].forEach(obj => this.deactivate(obj));
             }
         }
@@ -867,38 +878,62 @@
 
         // --- INSTANCED MESH SETUP ---
         let nefeshTopInstanced, nefeshBottomInstanced;
-        let nefeshState = [];
+        let nefeshState = []; // Holds state for each individual Nefesh unit.
         const nefeshGroup = new THREE.Group();
         scene.add(nefeshGroup);
 
         /**
          * This function creates or re-creates the instanced meshes for the player's Nefesh units.
-         * It's called on startup and if the Max Nefesh setting is changed.
+         * The "Nefesh" in Jewish mysticism is the basic level of the soul, associated with the physical body and instincts.
+         * Here, they represent the player's life force and offensive capability.
+         * It calculates a fixed position for every possible Nefesh unit in a phyllotaxis (sunflower) spiral.
+         * This ensures the formation is stable and units don't shift around when others are destroyed.
          */
         function setupInstancedNefesh() {
+            // Clean up old meshes if they exist (e.g., when changing MAX_NEFESH in settings).
             if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
             if (nefeshBottomInstanced) nefeshGroup.remove(nefeshBottomInstanced);
             
+            // A cone represents one half of the Magen David (Star of David) shape.
             const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
             
+            // Create two instanced meshes, one for the top cone and one for the bottom, to form the stars.
             nefeshTopInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
             nefeshBottomInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
-            nefeshTopInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            nefeshTopInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // Important for performance.
             nefeshBottomInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
             
             nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced);
 
+            // --- FORMATION CALCULATION ---
+            // The positions for all potential Nefesh units are calculated once and stored.
+            // This prevents the formation from "re-shuffling" when units are added or removed.
+            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle for the spiral.
+            const radiusStep = 0.45;
+            
+            // First, determine the maximum radius of the full formation to scale it down if it's too wide for the road.
+            let maxRadius = radiusStep * Math.sqrt(MAX_NEFESH);
+            const scaleFactor = (maxRadius * 2 > roadWidth) ? (roadWidth / 2) / maxRadius : 1;
+
             nefeshState = [];
             for (let i = 0; i < MAX_NEFESH; i++) {
+                // Calculate the position for this specific slot in the spiral.
+                const radius = radiusStep * Math.sqrt(i + 1) * scaleFactor;
+                const angle = i * angleStep;
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+                const targetPos = new THREE.Vector3(x, 0.4, z + 3); // Position is relative to the group.
+
+                // Initialize the state for this Nefesh slot. It starts inactive and off-screen.
                 nefeshState.push({
                     active: false,
-                    currentPos: new THREE.Vector3(0, 1000, 0),
-                    targetPos: new THREE.Vector3(0, 1000, 0),
+                    currentPos: new THREE.Vector3(0, 1000, 0), // Start far away.
+                    targetPos: targetPos, // This is the fixed position it will move to when activated.
                     currentScale: 0.01,
                     targetScale: 1,
                     yRotation: 0,
                     lastShotTime: 0,
-                    collisionBox2D: new THREE.Box2()
+                    collisionBox2D: new THREE.Box2() // Bounding box for collision detection.
                 });
             }
         }
@@ -920,13 +955,16 @@
         let nextSparkIndex = 0;
 
         /**
-         * Activates a spark instance from the pool to fire a projectile. This is the fix for the shooting issue.
-         * It robustly finds an available spark slot to ensure continuous firing.
+         * Activates a spark instance from the pool to fire a projectile.
+         * This robustly finds an available spark slot using a circular search, ensuring continuous firing.
+         * This is a critical fix for the shooting reliability issue.
          * @param {THREE.Vector3} position - The world position where the spark should be fired from.
          * @param {number} damage - The damage value of the spark.
          * @param {boolean} hasPierce - Whether the spark can pierce enemies.
          */
         function fireSpark(position, damage, hasPierce) {
+            // Loop through the entire pool to find a free slot, starting from the last used index.
+            // This prevents halting if the pool is nearly full and ensures we find a slot if one exists.
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const index = (nextSparkIndex + i) % MAX_SPARKS;
                 if (!sparkState[index].active) {
@@ -934,15 +972,17 @@
                     spark.active = true;
                     spark.position.copy(position);
                     spark.damage = damage;
-                    spark.pierced = hasPierce ? 0 : 1; // If it doesn't have pierce, it starts as already having "pierced"
+                    spark.pierced = hasPierce ? 0 : 1; // If it can't pierce, it's already used its one "hit".
                     
-                    nextSparkIndex = (index + 1) % MAX_SPARKS;
+                    nextSparkIndex = (index + 1) % MAX_SPARKS; // Move to the next slot for the next shot.
                     return;
                 }
             }
+            // If the loop completes, all sparks are active. This is unlikely with a large pool but is a failsafe.
         }
 
         // --- REMAINING OBJECT POOLS & DYNAMIC SETS ---
+        // Pools for various enemy projectiles and visual effects.
         const golemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial), 30);
         const golemFastProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), golemFastProjectileMaterial), 30);
         const golemHeavyProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 1.2), golemHeavyProjectileMaterial), 20);
@@ -955,57 +995,33 @@
             return sprite;
         }, 300);
         
+        // Sets for managing non-pooled dynamic objects like lights and explosion effects.
         const activeLights = new Set();
         const activeShockwaves = new Set();
         const dynamicShards = new Set();
         
         // --- CORE GAME OBJECT FUNCTIONS ---
-
-        /**
-         * Arranges the active Nefesh units in a phyllotaxis (sunflower) spiral.
-         * This version places the formation closer to the camera.
-         */
-        function positionNefesh() {
-            const angleStep = Math.PI * (3 - Math.sqrt(5));
-            const radiusStep = 0.45; 
-            
-            const activeIndices = [];
-            nefeshState.forEach((state, i) => { if (state.active) activeIndices.push(i); });
-            
-            let maxRadius = 0;
-            activeIndices.forEach((stateIndex, formationIndex) => {
-                const radius = radiusStep * Math.sqrt(formationIndex + 1);
-                if (radius > maxRadius) maxRadius = radius;
-            });
-
-            const scaleFactor = (maxRadius * 2 > roadWidth) ? (roadWidth / 2) / maxRadius : 1;
-
-            activeIndices.forEach((stateIndex, formationIndex) => {
-                const radius = radiusStep * Math.sqrt(formationIndex + 1) * scaleFactor;
-                const angle = formationIndex * angleStep;
-                const x = Math.cos(angle) * radius;
-                const z = Math.sin(angle) * radius;
-                
-                nefeshState[stateIndex].targetPos.set(x, 0.4, z + 3);
-            });
-        }
         
         /**
          * Deactivates a single Nefesh unit by its index in the state array.
+         * This is called when a specific Nefesh collides with an enemy or projectile.
          * @param {number} index - The index of the Nefesh unit to destroy.
          */
         function destroyNefesh(index) {
              if (index !== -1 && nefeshState[index].active) {
                 const state = nefeshState[index];
-                state.active = false;
+                state.active = false; // Simply deactivate the unit. It remains in its slot, but becomes invisible.
                 
+                // Create an explosion at its last known position.
                 dummyObject.position.copy(state.currentPos).add(nefeshGroup.position);
                 createParticleExplosion(dummyObject.position, 30, 0x800080, 15);
              }
         }
 
         /**
-         * Adds or removes a number of Nefesh units from the formation.
+         * Adds or removes a number of Nefesh units.
+         * This is typically used for bulk changes, like from hitting a Klipah gate.
+         * It no longer recalculates the formation, adhering to the new fixed-slot system.
          * @param {number} change - The number of units to add (positive) or remove (negative).
          */
         function adjustNefeshCount(change) {
@@ -1013,11 +1029,12 @@
 
             if (change > 0) {
                 let added = 0;
+                // Add new units by finding the first available inactive slots (filling from the inside out).
                 for(let i = 0; i < MAX_NEFESH && added < change; i++) {
                     if (!nefeshState[i].active) {
                         const state = nefeshState[i];
                         state.active = true;
-                        state.currentPos.set(0, 0.4, 0); 
+                        state.currentPos.set(0, 0.4, 0); // Emerge from the center of the formation.
                         state.targetScale = 1;
                         state.currentScale = 0.01;
                         state.lastShotTime = 0;
@@ -1028,29 +1045,30 @@
             } else if (change < 0) {
                 let removed = 0;
                 const toRemove = -change;
-
-                const activeIndices = [];
-                nefeshState.forEach((s, i) => { if(s.active) activeIndices.push(i); });
-                
-                activeIndices.sort((a, b) => nefeshState[b].targetPos.lengthSq() - nefeshState[a].targetPos.lengthSq());
-
-                for (let i = 0; i < activeIndices.length && removed < toRemove; i++) {
-                    destroyNefesh(activeIndices[i]);
-                    removed++;
+                // Remove units from the outermost active slots first.
+                for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
+                    if (nefeshState[i].active) {
+                        destroyNefesh(i);
+                        removed++;
+                    }
                 }
             }
 
+            // Recalculate the current count and update UI.
             gameState.nefesh = nefeshState.filter(s => s.active).length;
-            positionNefesh();
             
             if (gameState.nefesh < initialNefesh) {
                 shatterElement(ui.nefeshDisplay);
             }
+            // Check for game over condition.
             if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
             ui.nefeshDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
         }
 
         // --- OBSTACLE CREATION FUNCTIONS ---
+        // These functions use object pools to efficiently create and manage enemy obstacles.
+        // "Klipah" (plural "Klipot") in Kabbalah are metaphysical "husks" or "shells" of impurity that conceal divine light.
+        // Here, they act as value gates that can either harm the player or be purified for a reward.
 
         const klipahGatePool = new ObjectPool(() => {
             const group = new THREE.Group();
@@ -1066,12 +1084,12 @@
         }, 15);
 
         /**
-         * Updates the visual appearance of a Klipah Gate, including its text and color.
+         * Updates the visual appearance of a Klipah Gate, including its text and color, based on its current value.
          * @param {THREE.Group} gate - The gate object to update.
          */
         function updateKlipahGateVisuals(gate) {
             const { valuePlane, currentValue, isPurified } = gate.userData;
-            if (valuePlane.material.map) valuePlane.material.map.dispose();
+            if (valuePlane.material.map) valuePlane.material.map.dispose(); // Free memory of old texture.
             const color = isPurified ? '#aaffaa' : '#ff4444';
             let numText = isPurified ? `+${currentValue}` : currentValue.toString();
             let gematria = toGematria(currentValue);
@@ -1104,7 +1122,8 @@
             if (healthPlane.material.map) healthPlane.material.map.dispose();
             healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF');
         }
-
+        
+        // "Tohu" means "chaos" or "formlessness", representing raw, uncontained energy.
         const tohuShardPool = new ObjectPool(() => {
             const group = new THREE.Group();
             const spikeGeom = new THREE.ConeGeometry(0.3, 1.5, 6);
@@ -1122,6 +1141,7 @@
             return group;
         }, 15);
         
+        // A "Golem" is a mythical automaton from Jewish folklore, created from clay.
         const golemSentryPool = new ObjectPool(() => {
             const group = new THREE.Group();
             const torsoGeo = new THREE.BoxGeometry(1.5, 2.0, 1.5);
@@ -1268,13 +1288,14 @@
         }
 
         // --- GAMEPLAY SYSTEMS ---
-
+        
+        // Upgrades are themed around the Sefirot, the divine emanations in Kabbalah.
         const allUpgrades = {
-            'gevurah': { name: "GEVURAH'S MIGHT", desc: "Projectile damage increased.", apply: () => gameState.player.projectileDamage++ },
-            'netzach': { name: "NETZACH'S SWIFTNESS", desc: "Increases fire rate.", apply: () => gameState.player.fireRate *= 0.85 },
-            'hod': { name: "HOD'S SPLENDOR", desc: "Projectiles pierce one enemy.", nonStackable: true, apply: () => gameState.player.hasPierce = true },
-            'chesed': { name: "CHESED'S GRACE", desc: "Periodically gain a shield that blocks one hit.", nonStackable: true, apply: () => gameState.player.hasShield = true },
-            'tikkun': { name: "TIKKUN OLAM", desc: "Slowly regenerate lost Nefesh over time.", nonStackable: true, apply: () => gameState.player.hasRegen = true },
+            'gevurah': { name: "GEVURAH'S MIGHT", desc: "Projectile damage increased. (Gevurah: Strength/Severity)", apply: () => gameState.player.projectileDamage++ },
+            'netzach': { name: "NETZACH'S SWIFTNESS", desc: "Increases fire rate. (Netzach: Endurance/Victory)", apply: () => gameState.player.fireRate *= 0.85 },
+            'hod': { name: "HOD'S SPLENDOR", desc: "Projectiles pierce one enemy. (Hod: Splendor/Glory)", nonStackable: true, apply: () => gameState.player.hasPierce = true },
+            'chesed': { name: "CHESED'S GRACE", desc: "Periodically gain a shield that blocks one hit. (Chesed: Kindness/Grace)", nonStackable: true, apply: () => gameState.player.hasShield = true },
+            'tikkun': { name: "TIKKUN OLAM", desc: "Slowly regenerate lost Nefesh over time. (Tikkun Olam: Repairing the World)", nonStackable: true, apply: () => gameState.player.hasRegen = true },
         };
         const acquiredUpgrades = new Set();
         
@@ -1297,6 +1318,7 @@
             triggerFlash('#d8a8ff', 500); 
             triggerFovKick(15);
 
+            // Push background particles away upon ascension.
             for (const p of specialParticlePool.active) {
                 const direction = p.position.clone().sub(nefeshGroup.position).normalize();
                 p.userData.velocity.addScaledVector(direction, 40);
@@ -1304,18 +1326,19 @@
             }
             setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
 
+            // Change the world color to match the new level.
             const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1);
             gameState.color.target.copy(levelColors[nextColorIndex]);
         }
         
         /**
-         * Manages the combo system for collecting Shefa (experience points).
+         * Manages the combo system for collecting Shefa (divine influx/bounty).
          * @param {number} newPoints - The base number of points to add.
          * @param {THREE.Vector3} position - The world position to spawn Shefa orbs from.
          */
         function updateCombo(newPoints, position) {
             gameState.combo.count++; 
-            gameState.combo.timer = 3.0;
+            gameState.combo.timer = 3.0; // Reset combo timer.
             const shefaGained = newPoints * gameState.combo.count;
             const numOrbs = Math.min(15, Math.floor(shefaGained / 10));
             if(numOrbs === 0) return;
@@ -1329,9 +1352,10 @@
                     orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
                 }
             }
+            // Update and show the combo UI notifier.
             ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
             ui.comboNotifier.classList.remove('show'); 
-            void ui.comboNotifier.offsetWidth;
+            void ui.comboNotifier.offsetWidth; // Force reflow to restart CSS animation.
             ui.comboNotifier.classList.add('show');
         }
         
@@ -1351,11 +1375,13 @@
             ctx.fillStyle = 'rgba(0,0,0,0)';
             ctx.fillRect(0, 0, width, height);
 
+            // Center lane markings.
             ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
             for(let y = 0; y < height; y += 40) {
                 ctx.fillRect(width/2 - 3, y, 6, 20);
             }
             
+            // Side lane markings.
             ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
             ctx.fillRect(width * 0.1 - 1, 0, 2, height);
             ctx.fillRect(width * 0.9 - 1, 0, 2, height);
@@ -1378,10 +1404,11 @@
             });
             roadMat.map.repeat.set(1, 10);
             road = new THREE.Mesh(roadGeo, roadMat); 
-            road.rotation.x = -Math.PI / 2;
+            road.rotation.x = -Math.PI / 2; // Lay the plane flat.
             road.position.y = roadLevelY;
             scene.add(road);
 
+            // Create two layers of starfields for a parallax effect.
             const createField = () => {
                 const vertices = [];
                 for (let i = 0; i < 5000; i++) { 
@@ -1394,13 +1421,13 @@
             };
             starField1 = createField(); 
             starField2 = createField(); 
-            starField2.position.z = -500;
+            starField2.position.z = -500; // Place the second field further back.
             scene.add(starField1, starField2);
         }
 
         // --- OBSTACLE SPAWNING ---
         const lanePositions = [-3.0, 0, 3.0];
-        const obstacleRemovalZ = camera.position.z + 5;
+        const obstacleRemovalZ = camera.position.z + 5; // Z-coordinate at which to despawn objects.
         
         /**
          * Spawns a specific type of obstacle in a given lane and Z position.
@@ -1410,12 +1437,13 @@
          */
         function spawnObstacle(type, laneIndex, zPos) {
             const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos);
-            const levelFactor = 1 + (gameState.level / 10);
+            const levelFactor = 1 + (gameState.level / 10); // Difficulty scaling.
 
             switch(type) {
                 case 'klipah_gate': {
                     const gate = klipahGatePool.activate(); if(!gate) return;
                     gate.position.copy(position); gate.position.y += 2;
+                    // Klipah gates start with a negative value.
                     Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false });
                     updateKlipahGateVisuals(gate);
                     break;
@@ -1437,37 +1465,26 @@
                     const golem = golemSentryPool.activate(); if(!golem) return;
                     golem.position.copy(position);
                     golem.userData.health = Math.floor(120 * levelFactor);
-                    golem.userData.lastShotTime = 0;
+                    golem.userData.lastShotTime = 0; // Reset shot timer.
                     break;
                 }
             }
         }
         
         // --- TACTICAL SPAWN PATTERNS ---
-        /**
-         * Spawns a wall of obstacles.
-         * @param {number} z - The base Z position for the pattern.
-         */
+        // These functions define pre-set arrangements of obstacles to create varied challenges.
         function pattern_Wall(z) {
             const wallType = Math.random() < 0.7 ? 'jar' : 'klipah_gate';
             spawnObstacle(wallType, 0, z);
             spawnObstacle(wallType, 1, z);
             spawnObstacle(wallType, 2, z);
         }
-        /**
-         * Spawns a line of shards in a single lane.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_Gauntlet(z) {
             const lane = Math.floor(Math.random() * 3);
             for(let i = 0; i < 4; i++) {
                 spawnObstacle('tohu_shard', lane, z - i * 15);
             }
         }
-        /**
-         * Spawns a sentry guarding a jar.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_SentryGuard(z) {
             const lane = Math.floor(Math.random() * 3);
             spawnObstacle('golem_sentry', lane, z - 10);
@@ -1475,10 +1492,6 @@
             const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1;
             spawnObstacle('jar', sideLane, z - 5);
         }
-        /**
-         * Spawns a weaving pattern of Klipah gates.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_KlipahWeave(z) {
             const startLane = Math.random() < 0.5 ? 0 : 2;
             spawnObstacle('klipah_gate', startLane, z);
@@ -1486,19 +1499,11 @@
             spawnObstacle('klipah_gate', 2 - startLane, z - 30);
             if (gameState.level > 5) spawnObstacle('jar', startLane, z - 45);
         }
-        /**
-         * Spawns two golems on the flanks.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_GolemFlank(z) {
             spawnObstacle('golem_sentry', 0, z);
             spawnObstacle('golem_sentry', 2, z-5);
             spawnObstacle('jar', 1, z);
         }
-        /**
-         * Spawns a random mix of obstacles.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_RandomMix(z) {
             const lane1 = Math.floor(Math.random() * 3);
             let lane2 = Math.floor(Math.random() * 3);
@@ -1510,10 +1515,6 @@
                 spawnObstacle('tohu_shard', 3 - lane1 - lane2, z - 20);
             }
         }
-        /**
-         * Spawns two golems in a crossfire formation.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_Crossfire(z) {
             spawnObstacle('golem_sentry', 0, z);
             spawnObstacle('golem_sentry', 2, z - 10);
@@ -1521,10 +1522,6 @@
                 spawnObstacle('jar', 1, z-20);
             }
         }
-        /**
-         * Spawns walls of jars with an open lane containing a trap.
-         * @param {number} z - The base Z position for the pattern.
-         */
         function pattern_TrapCorridor(z) {
             const openLane = Math.floor(Math.random() * 3);
             for(let i=0; i<3; i++) {
@@ -1537,6 +1534,7 @@
             }
         }
         
+        // Pattern sets are grouped by difficulty, unlocking as the player levels up.
         const patternSets = [
             [pattern_RandomMix, pattern_Wall],
             [pattern_RandomMix, pattern_Wall, pattern_Gauntlet, pattern_SentryGuard],
@@ -1554,6 +1552,7 @@
                 if (obs.position.z < rearmostZ) rearmostZ = obs.position.z;
             }
             
+            // If the last obstacle is getting close to the screen, spawn a new pattern far ahead.
             if (rearmostZ > -80) {
                  const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level -1) / 3));
                  const availablePatterns = patternSets[patternSetIndex];
@@ -1571,9 +1570,10 @@
             if (!p) return;
             
             const spawnRadius = gameSettings.particleSpawnRadius;
-            const spawnZ = -150;
+            const spawnZ = -150; // Spawn far away.
             const x = (Math.random() - 0.5) * spawnRadius * 2;
             const y = (Math.random() - 0.5) * spawnRadius;
+            // Ensure particles don't spawn right in the center view path.
             p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ);
             
             const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)];
@@ -1583,7 +1583,7 @@
             const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize);
             p.scale.set(scale, scale, scale);
             
-            p.userData.life = 5.0;
+            p.userData.life = 5.0; // Lifetime in seconds.
 
             const baseSpeed = 40 + (gameState.level * 3);
             const randomSpeed = 20 + gameState.level * 2;
@@ -1598,22 +1598,26 @@
          */
         async function initializeGame() {
             try {
-                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                if (animationFrameId) cancelAnimationFrame(animationFrameId); // Stop previous game loop.
                 
+                // Deactivate all pooled objects and clear dynamic sets to ensure a clean slate.
                 [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool].forEach(pool => pool.deactivateAll());
                 dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
                 activeLights.forEach(l => scene.remove(l)); activeLights.clear();
                 activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
 
+                // Reset all object states.
                 nefeshState.forEach(s => s.active = false);
                 sparkState.forEach(s => s.active = false);
 
+                // Start webcam if enabled.
                 if(gameSettings.enableWebcam) await webcamManager.start();
                 else webcamManager.stop();
                 
+                // Define the initial game state object.
                 gameState = {
                     current: 'playing', mitzvot: 0, nefesh: 0, shefa: 0, shefaToAscend: 100, level: 1,
-                    player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false },
+                    player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false, hasShield: false },
                     combo: { count: 0, timer: 0 },
                     customPrayers: gameSettings.customPrayers || null,
                     color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) }
@@ -1623,8 +1627,9 @@
                 renderer.setClearColor(gameState.color.current);
 
                 acquiredUpgrades.clear();
-                if(!road) createWorld();
+                if(!road) createWorld(); // Create world objects if this is the first run.
                 
+                // Show prayer UI if custom prayers are loaded.
                 if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
                     ui.prayerDisplayContainer.classList.add('visible');
                     updatePrayerDisplay();
@@ -1635,15 +1640,17 @@
                     ui.ascensionNotifier.classList.remove('side-mode');
                     ui.comboNotifier.classList.remove('side-mode');
                 }
-
-                adjustNefeshCount(10);
-                targetCubeX = 0; nefeshGroup.position.x = 0;
-
+                
+                adjustNefeshCount(10); // Start the player with 10 Nefesh units.
+                targetCubeX = 0; nefeshGroup.position.x = 0; // Reset player position.
+                
+                // Pre-spawn some initial patterns.
                 for (let i=0; i < 3; i++) {
                     const chosenPattern = patternSets[0][Math.floor(Math.random() * patternSets[0].length)];
                     chosenPattern(-40 - i * 50);
                 }
                 
+                // Hide all menus.
                 ui.mainMenu.classList.remove('visible');
                 ui.gameOver.classList.remove('visible');
                 ui.customMenu.classList.remove('visible');
@@ -1651,7 +1658,7 @@
                 
                 updateUIDisplays();
                 clock.start();
-                animationFrameId = requestAnimationFrame(animate);
+                animationFrameId = requestAnimationFrame(animate); // Start the game loop.
             } catch (error) {
                 console.error("An error occurred during game initialization:", error);
                 showMainMenu();
@@ -1667,7 +1674,7 @@
             if (gameState.shefa >= gameState.shefaToAscend) {
                 gameState.shefa -= gameState.shefaToAscend; 
                 gameState.level++;
-                gameState.shefaToAscend *= 1.5;
+                gameState.shefaToAscend *= 1.5; // Increase XP requirement for next level.
                 grantRandomEmanation();
             }
         }
@@ -1692,6 +1699,7 @@
             gameState.current = 'mainMenu';
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
+            // Hide all in-game overlays and show the main menu.
             ui.gameOver.classList.remove('visible');
             ui.customMenu.classList.remove('visible');
             ui.settingsOverlay.classList.remove('visible');
@@ -1711,7 +1719,7 @@
         const handleMove = (clientX) => {
             if (!isDragging || gameState.current !== 'playing') return;
             const deltaX = clientX - lastTouchX;
-            const moveScale = 0.03;
+            const moveScale = 0.03; // Controls sensitivity.
             targetCubeX += deltaX * moveScale;
             lastTouchX = clientX;
         };
@@ -1723,13 +1731,14 @@
          */
         const handleInteractionStart = (e, clientX) => {
             if (gameState.current !== 'playing') return;
+            // Ignore clicks on UI buttons.
             const targetElement = e.target;
             if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) {
                 return; 
             }
             isDragging = true;
             lastTouchX = clientX;
-            if (e.type === 'touchstart') e.preventDefault();
+            if (e.type === 'touchstart') e.preventDefault(); // Prevent screen scrolling on mobile.
         };
 
         document.addEventListener('mousedown', e => handleInteractionStart(e, e.clientX));
@@ -1752,6 +1761,7 @@
         ui.btnBackToMain.addEventListener('click', showMainMenu);
         ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); });
         ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu);
+        // This listener allows the player to return to the menu from within the game.
         ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
 
         /**
@@ -1804,7 +1814,7 @@
                 item.addEventListener('click', () => {
                     prayers.currentIndex = index;
                     updatePrayerDisplay();
-                    populatePrayerList();
+                    populatePrayerList(); // Re-populate to update the 'active' class.
                 });
                 ui.prayerList.appendChild(item);
             });
@@ -1825,6 +1835,7 @@
 
         /**
          * A universal function for setting up listeners for the settings panel controls.
+         * It handles input, change events, saving to the database, and reapplying settings.
          * @param {HTMLElement} element - The input element (slider, checkbox, etc.).
          * @param {HTMLElement | null} valueSpan - The span element to display the current value, if any.
          * @param {string} settingName - The key of the setting in IndexedDB.
@@ -1887,27 +1898,33 @@
             try {
                 if(gameState.current !== 'playing' || !gameState) return;
                 
-                const deltaTime = Math.min(0.05, clock.getDelta());
+                const deltaTime = Math.min(0.05, clock.getDelta()); // Delta time, capped to prevent physics bugs on lag.
                 const currentRoadSpeed = roadBaseSpeed + gameState.level * 1.5;
 
+                // Smoothly transition background color between levels.
                 if (!gameState.color.current.equals(gameState.color.target)) {
                     gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime);
                     renderer.setClearColor(gameState.color.current);
                     if(scene.fog) scene.fog.color.copy(gameState.color.current);
                 }
                 
+                // Animate road texture to give illusion of forward movement.
                 if(road && road.material.map) {
-                    road.material.map.offset.y -= (currentRoadSpeed / 100) * deltaTime;
+                    // Using += scrolls the texture towards the camera, creating the desired effect.
+                    road.material.map.offset.y += (currentRoadSpeed / 100) * deltaTime;
                 }
-
+                
+                // Animate and loop the starfields.
                 const starSpeed = 20 + gameState.level * 2;
                 starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime;
                 if(starField1.position.z > 250) starField1.position.z -= 500;
                 if(starField2.position.z > 250) starField2.position.z -= 500;
                 
+                // Randomly spawn special background particles.
                 const spawnChance = Math.min(0.95, 0.4 + (gameState.level * 0.025));
                 if (Math.random() < spawnChance) spawnSpecialParticle();
                 
+                // Update special particles (movement, lifetime, fade out).
                 for (const p of specialParticlePool.active) {
                     p.position.addScaledVector(p.userData.velocity, deltaTime);
                     p.userData.life -= deltaTime;
@@ -1917,6 +1934,8 @@
                     }
                 }
 
+                // --- PLAYER MOVEMENT ---
+                // Calculate the width of the current formation to clamp movement within the road.
                 let minX = 0, maxX = 0;
                 nefeshState.forEach(state => {
                     if (state.active) {
@@ -1924,18 +1943,19 @@
                         if(state.targetPos.x > maxX) maxX = state.targetPos.x;
                     }
                 });
-                
                 const halfFormationWidth = (maxX - minX) / 2;
                 const maxMove = (roadWidth / 2) - halfFormationWidth;
-                targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
-
+                targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX)); // Clamp target position.
+                // Smoothly interpolate the group's position towards the target.
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
-                nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2);
-                cameraTargetPos.x = nefeshGroup.position.x / 4;
+                nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2); // Bobbing effect.
+                cameraTargetPos.x = nefeshGroup.position.x / 4; // Camera follows player slightly.
                 
+                // Update combo timer and reset if it runs out.
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime;
                 else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
 
+                // Handle passive Nefesh regeneration if upgrade is acquired.
                 if(gameState.player.hasRegen) {
                     gameState.player.regenTimer += deltaTime;
                     if(gameState.player.regenTimer > 15) {
@@ -1944,13 +1964,14 @@
                     }
                 }
                 
+                // --- NEFESH UPDATE AND SHOOTING ---
                 const troopHalfSize = 0.4;
                 let activeNefeshCount = 0;
                 const tempMatrix = new THREE.Matrix4();
                 const tempQuaternion = new THREE.Quaternion();
 
                 nefeshState.forEach((state, i) => {
-                    if (!state.active) {
+                    if (!state.active) { // If inactive, scale to zero to hide it.
                         tempMatrix.makeScale(0, 0, 0);
                         nefeshTopInstanced.setMatrixAt(i, tempMatrix);
                         nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
@@ -1958,24 +1979,29 @@
                     }
                     activeNefeshCount++;
 
+                    // Move the Nefesh from its current position towards its fixed target position in the formation.
                     state.currentPos.lerp(state.targetPos, 0.15);
 
+                    // Update the 2D collision box for this Nefesh based on its new position.
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
                     state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
-
+                    
+                    // Animate scale-in effect when first spawned.
                     if(state.currentScale < state.targetScale) {
                         state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2);
                     }
                     
-                    state.yRotation += deltaTime * 2;
+                    state.yRotation += deltaTime * 2; // Constant rotation.
 
+                    // Check fire rate and fire a projectile if ready.
                     if (currentTime - state.lastShotTime > gameState.player.fireRate) {
                         worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
                         worldPosVec.y = 0.4;
                         fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
-
+                    
+                    // Update the matrices for the instanced meshes (top and bottom cones).
                     tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0));
                     tempMatrix.compose(
                         new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z),
@@ -1984,7 +2010,7 @@
                     );
                     nefeshTopInstanced.setMatrixAt(i, tempMatrix);
                     
-                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0));
+                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0)); // Inverted for bottom cone.
                     tempMatrix.compose(
                         new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z),
                         tempQuaternion,
@@ -1992,14 +2018,19 @@
                     );
                     nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                 });
+                // Tell Three.js to update the instanced mesh data on the GPU.
                 nefeshTopInstanced.instanceMatrix.needsUpdate = true;
                 nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
                 nefeshTopInstanced.count = activeNefeshCount;
                 nefeshBottomInstanced.count = activeNefeshCount;
 
+                // --- OBSTACLE UPDATE AND COLLISION (PLAYER vs OBSTACLE) ---
                 const troopsToDestroy = new Set();
-                for (const obstacle of [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active]) {
-                    obstacle.position.z += currentRoadSpeed * deltaTime;
+                const allActiveObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active];
+                for (const obstacle of allActiveObstacles) {
+                    obstacle.position.z += currentRoadSpeed * deltaTime; // Move obstacle towards player.
+                    
+                    // Deactivate obstacles that have passed the camera.
                     if (obstacle.position.z > obstacleRemovalZ) {
                         if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle);
                         else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
@@ -2008,9 +2039,10 @@
                         continue;
                     }
                     
+                    // Handle Golem Sentry shooting logic.
                     if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) {
                         obstacle.userData.lastShotTime = currentTime;
-                        obstacle.userData.eye.material.color.setHex(0xffffff);
+                        obstacle.userData.eye.material.color.setHex(0xffffff); // Flash eye before shooting.
                         setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200);
 
                         const attackRoll = Math.random();
@@ -2023,6 +2055,7 @@
                         }
                     }
                     
+                    // Check for collisions between player's Nefesh and the current obstacle.
                     if (obstacle.userData.type === 'tohu_shard') {
                         const spikeHalfSize = 0.3;
                         obstacle.userData.body.children.forEach(spikeGroup => {
@@ -2052,11 +2085,11 @@
                                         } else { updateJarHealthVisuals(obstacle); }
                                         break;
                                     case 'klipah_gate':
-                                        if(obstacle.userData.currentValue > 0) {
+                                        if(obstacle.userData.currentValue > 0) { // If purified, gain Mitzvot.
                                             gameState.mitzvot += obstacle.userData.currentValue;
                                             ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100);
                                         }
-                                        adjustNefeshCount(obstacle.userData.currentValue);
+                                        adjustNefeshCount(obstacle.userData.currentValue); // Add/remove Nefesh based on gate value.
                                         if (!obstacle.userData.isPurified) triggerScreenShake(0.4);
                                         else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10);
                                         klipahGatePool.deactivate(obstacle);
@@ -2070,68 +2103,75 @@
                         });
                     }
                 }
-
+                
+                // --- PROJECTILE UPDATE AND COLLISION ---
+                // Handle enemy projectile movement and collision with player.
                 for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) {
                     const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25);
                     proj.position.z += speed * deltaTime;
-                    if(proj.position.z > obstacleRemovalZ) {
+                    if(proj.position.z > obstacleRemovalZ) { // Despawn if off-screen.
                         if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
                         else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
                         else golemHeavyProjectilePool.deactivate(proj);
                         continue;
                     }
+                    // Check for collision with each active Nefesh.
                     nefeshState.forEach((state, index) => {
                         if(!state.active || troopsToDestroy.has(index)) return;
                         if(checkInstancedCollision(state, proj)) {
                             const color = proj.material.color.getHexString();
                             if(proj.userData.type === 'heavy') {
-                                adjustNefeshCount(-proj.userData.damage);
+                                adjustNefeshCount(-proj.userData.damage); // Heavy projectiles cause bulk damage.
                                 createParticleExplosion(proj.position, 40, `#${color}`, 20);
                                 triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6);
                             } else {
-                                troopsToDestroy.add(index);
+                                troopsToDestroy.add(index); // Normal projectiles destroy one Nefesh.
                                 createParticleExplosion(proj.position, 20, `#${color}`, 15);
                                 triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3);
                             }
+                            // Deactivate projectile on hit.
                             if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj);
                             else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj);
+                            // Heavy projectiles are not deactivated here, they might pierce (though not implemented).
                         }
                     });
                 }
-
+                
+                // Process all Nefesh units marked for destruction in this frame.
                 if(troopsToDestroy.size > 0) {
                     shatterElement(ui.nefeshDisplay);
                     troopsToDestroy.forEach(index => destroyNefesh(index));
                     gameState.nefesh = nefeshState.filter(s => s.active).length;
-                    positionNefesh();
+                    // Check for game over. NO call to positionNefesh() here, maintaining the fix.
                     if (gameState.nefesh === 0 && gameState.current === 'playing') endGame();
                 }
                 
+                // Handle player projectile (spark) movement and collision with obstacles.
                 let activeSparkCount = 0;
                 sparkState.forEach((spark, i) => {
                     if (!spark.active) {
-                        tempMatrix.makeScale(0,0,0);
-                        sparkInstancedMesh.setMatrixAt(i, tempMatrix);
+                        tempMatrix.makeScale(0,0,0); sparkInstancedMesh.setMatrixAt(i, tempMatrix);
                         return;
                     }
                     activeSparkCount++;
                     
-                    spark.position.z -= 60 * deltaTime;
-                    if (spark.position.z < -100) {
-                        spark.active = false;
-                        return;
-                    }
+                    spark.position.z -= 60 * deltaTime; // Move sparks away from player.
+                    if (spark.position.z < -100) { spark.active = false; return; }
                     
+                    // Check for spark collision against relevant obstacles.
                     for (const obstacle of [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active]) {
+                        // Use a simple point-in-box check. This is fast and effective.
                         if (obstacle.userData.collisionBox2D.containsPoint(spark.position)) {
                             let deactivateSpark = true;
                             switch(obstacle.userData.type) {
                                 case 'klipah_gate':
-                                    obstacle.userData.currentValue += spark.damage;
+                                    obstacle.userData.currentValue += spark.damage; // Shooting a gate purifies it.
                                     createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
+                                    // If value becomes non-negative, it's purified.
                                     if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
                                         obstacle.userData.isPurified = true; updateCombo(25, obstacle.position);
                                         createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
+                                        // Create a visual shockwave effect.
                                         const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
                                         shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2;
                                         scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
@@ -2152,10 +2192,7 @@
                                     } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); }
                                     break;
                             }
-                            if (deactivateSpark) { 
-                                spark.active = false; 
-                                break;
-                            }
+                            if (deactivateSpark) { spark.active = false; break; } // Exit loop for this spark if it hit something.
                         }
                     }
                     
@@ -2166,7 +2203,9 @@
                 });
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
-
+                
+                // --- OTHER DYNAMIC OBJECTS ---
+                // Update Shefa orbs (move towards player).
                 for(const orb of shefaOrbPool.active) {
                     orb.position.lerp(nefeshGroup.position, 0.08); 
                     orb.position.addScaledVector(orb.userData.velocity, deltaTime);
@@ -2177,9 +2216,10 @@
                         shefaOrbPool.deactivate(orb); 
                     }
                 }
+                // Update simple particles and shards (gravity, lifetime).
                 [...particlePool.active, ...dynamicShards].forEach(p => {
                     p.position.addScaledVector(p.userData.velocity, deltaTime); 
-                    p.userData.velocity.y -= 25 * deltaTime;
+                    p.userData.velocity.y -= 25 * deltaTime; // Simple gravity.
                     p.userData.life -= deltaTime;
                     if(p.material && p.material.opacity) p.material.opacity = p.userData.life;
                     if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; }
@@ -2189,12 +2229,14 @@
                     }
                 });
 
+                // Update temporary lights and shockwaves (fade out).
                 activeLights.forEach(light => { light.intensity -= 25 * deltaTime; if(light.intensity <= 0) { scene.remove(light); activeLights.delete(light); } });
                 activeShockwaves.forEach(sw => {
                     sw.life -= 2 * deltaTime; sw.mesh.scale.multiplyScalar(1 + 5 * deltaTime); sw.mesh.material.opacity = sw.life;
                     if(sw.life <= 0) { scene.remove(sw.mesh); activeShockwaves.delete(sw); }
                 });
 
+                // --- CAMERA UPDATE ---
                 camera.position.lerp(cameraTargetPos, 0.1);
                 if (shakeIntensity > 0) {
                     camera.position.add(new THREE.Vector3().randomDirection().multiplyScalar(shakeIntensity));
@@ -2206,10 +2248,10 @@
                 } else { camera.fov = THREE.MathUtils.lerp(camera.fov, originalFOV, 0.1); }
                 camera.updateProjectionMatrix();
                 
-                trySpawnPattern();
-                
-                updateUIDisplays();
-                renderer.render(scene, camera);
+                // --- FINAL FRAME LOGIC ---
+                trySpawnPattern(); // Check if new obstacles need to be spawned.
+                updateUIDisplays(); // Update all HUD elements.
+                renderer.render(scene, camera); // Render the final frame.
             } catch (error) {
                 console.error("A critical error occurred in the animation loop:", error);
                 if (animationFrameId) {
@@ -2238,7 +2280,7 @@
         (async () => {
             try {
                 await initDB();
-                setupInstancedNefesh();
+                setupInstancedNefesh(); // This now sets up the static formation.
                 await applySettings();
                 showMainMenu();
             } catch(error) {
@@ -2251,3 +2293,4 @@
     </script>
 </body>
 </html>
+
