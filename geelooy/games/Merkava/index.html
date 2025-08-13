@@ -3,22 +3,34 @@
 <!DOCTYPE html>
 <!--
 ב"ה B"H
-Merkava: The Celestial Journey v4.3
+Merkava: The Celestial Journey v4.4
 Developer: Gemini
-Date: 2025-08-20
+Date: 2025-08-21
 
-This file is a complete, self-contained application. This version addresses critical bugs and includes major performance enhancements.
+This file is a complete, self-contained application. This version is a major feature and stability update.
 
-* **Bug Fix: Animation Loop Crash**
-* Resolved a `ReferenceError: time is not defined` that occurred in the `updateConstellationNetwork` function, which caused the game to crash.
-* The function was re-engineered to be self-contained and no longer relies on the global `time` variable.
+* **Stability & Performance:**
+*   Resolved a crash during boss battles caused by excessive particle generation on defeat.
+*   Overhauled the Nefesh collision system for better accuracy, especially with complex obstacles and partially depleted fleets.
+*   Corrected fleet regeneration logic to ensure new Nefesh properly fill gaps in the formation from all sources.
+*   Replaced the road shader with a new, stable "River of Eden" effect that is always visible.
+*   Added numerous checks to prevent errors from uninitialized or missing game objects.
 
-* **Performance Enhancement: Constellation Network Reworked**
-* The previous system for updating the Celestial Constellations was inefficient, resetting vertex data from a backup array every frame.
-* The system now updates vertex positions incrementally, matching the far more performant logic used by the starfield. This reduces CPU overhead and improves smoothness.
-* Added safeguards to the function to prevent future errors if graphical assets are not ready.
+* **Boss Battle Overhaul:**
+*   The "Heichalot Guardian" boss now has active attack patterns, including projectile volleys and sweeping attacks.
+*   The boss has been given a vibrant, high-contrast material and a distinct outline for better visibility.
+*   A "HEICHALOT GUARDIAN APPROACHING" notifier now heralds the boss's arrival.
 
-* **All Features & Fixes from v4.2 Retained.**
+* **New Features & Enhancements:**
+*   **New Obstacle: Torah Scroll:** A new dynamic obstacle, the Torah Scroll, now appears in later levels, presenting a unique challenge.
+*   **Enhanced Constellations:** The celestial network system now dynamically connects not only distant stars but also the special Hebrew letter particles, creating a more interconnected and living cosmos.
+*   **Dynamic Lightning:** Added a new lightning effect that can trigger on "Perfect Waves" and other key moments.
+*   **Webcam System Upgrade:**
+    *   Sign posts are larger, closer to the road, and the left post now shows a mirrored image.
+    *   Added new display modes: "Central + Sign Post" and an "Alternating Sign Post" option.
+    *   A new in-game, real-time control panel allows for on-the-fly adjustment of sign post distance, height, and size.
+
+* **All Features & Fixes from v4.3 Retained.**
 -->
 <html lang="en">
 <head>
@@ -47,12 +59,13 @@ This file is a complete, self-contained application. This version addresses crit
         #bhText { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: var(--glow-color); z-index: 999; }
         #shefaContainer { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 15px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--shefa-color); border-radius: 10px; z-index: 999; overflow: hidden; }
         #shefaBar { width: 0%; height: 100%; background: var(--shefa-color); box-shadow: 0 0 10px var(--shefa-color), 0 0 5px var(--shefa-color) inset; transition: width 0.3s ease-out; }
-        #ascensionNotifier, #comboNotifier, #perfectWaveNotifier, #surpriseNotifier { position: absolute; left: 20%; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; z-index: 1002; opacity: 0; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.7s ease, top 0.6s ease; text-transform: uppercase; text-align: center; }
+        #ascensionNotifier, #comboNotifier, #perfectWaveNotifier, #surpriseNotifier, #bossNotifier { position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; z-index: 1002; opacity: 0; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.7s ease, top 0.6s ease, left 0.6s ease; text-transform: uppercase; text-align: center; }
         #ascensionNotifier { top: 30%; font-size: 1.7em; color: #d8a8ff; text-shadow: 0 0 8px #d8a8ff; }
         #comboNotifier { top: 40%; font-size: 1.5em; color: var(--shefa-color); text-shadow: 0 0 6px var(--shefa-color); }
         #perfectWaveNotifier { top: 50%; font-size: 1.9em; color: #00f0ff; text-shadow: 0 0 8px #00f0ff, 0 0 15px #00f0ff; }
         #surpriseNotifier { top: 60%; font-size: 1.8em; color: #aaffaa; text-shadow: 0 0 8px #aaffaa; }
-        #ascensionNotifier.show, #comboNotifier.show, #perfectWaveNotifier.show, #surpriseNotifier.show { transform: translate(-50%, -50%) scale(0.85); opacity: 1; }
+        #bossNotifier { top: 45%; font-size: 2.2em; color: var(--klipot-color); text-shadow: 0 0 10px var(--klipot-color), 0 0 20px var(--klipot-color); letter-spacing: 2px; }
+        #ascensionNotifier.show, #comboNotifier.show, #perfectWaveNotifier.show, #surpriseNotifier.show, #bossNotifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         .game-title { font-size: 4em; margin-bottom: 20px; text-align: center; color: var(--glow-color); text-transform: uppercase; }
         .game-subtitle { font-size: 1.5em; color: var(--mitzvot-color); margin-bottom: 40px; text-align: center; }
         .menu-button-group { display: flex; flex-direction: column; gap: 20px; width: 80%; max-width: 400px; padding: 20px 0; }
@@ -104,6 +117,10 @@ This file is a complete, self-contained application. This version addresses crit
         .upgrade-button:hover { transform: scale(1.05); box-shadow: 0 0 15px #77e6d9; }
         .upgrade-button.disabled { background: linear-gradient(145deg, #555, #222); color: #888; border-color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
         .upgrade-button.maxed { background: linear-gradient(145deg, #ffd700, #b8860b); color: black; border-color: #fff; cursor: default; }
+        #toggleSignpostControlsBtn { position: absolute; bottom: 80px; left: 10px; z-index: 1005; padding: 8px 12px; font-size: 1em; background: rgba(0,0,0,0.6); border: 1px solid var(--glow-color); color: var(--glow-color); border-radius: 5px; cursor: pointer; display: none; }
+        #inGameSignpostControls { position: absolute; bottom: 120px; left: 10px; z-index: 1005; background: rgba(0,0,10,0.8); backdrop-filter: blur(5px); border: 1px solid var(--glow-color); border-radius: 8px; padding: 10px; display: none; flex-direction: column; gap: 8px; width: 200px; }
+        #inGameSignpostControls label { font-size: 0.9em; display: flex; justify-content: space-between; }
+        #inGameSignpostControls input[type="range"] { width: 100%; }
     </style>
 </head>
 <body>
@@ -116,6 +133,7 @@ This file is a complete, self-contained application. This version addresses crit
     <div id="comboNotifier"></div>
     <div id="perfectWaveNotifier"></div>
     <div id="surpriseNotifier"></div>
+    <div id="bossNotifier"></div>
 
     <div id="prayerDisplayContainer">
         <button id="prevPrayerBtn" class="prayer-nav-button">&lt;</button>
@@ -132,6 +150,16 @@ This file is a complete, self-contained application. This version addresses crit
     </div>
 
     <div id="shefaContainer"><div id="shefaBar"></div></div>
+    
+    <button id="toggleSignpostControlsBtn">Sign Post Controls</button>
+    <div id="inGameSignpostControls">
+        <label for="signpostDistanceSlider">Distance: <span id="signpostDistanceValue">4</span></label>
+        <input type="range" id="signpostDistanceSlider" min="2" max="10" step="0.1">
+        <label for="signpostHeightSlider">Height: <span id="signpostHeightValue">2.5</span></label>
+        <input type="range" id="signpostHeightSlider" min="-2" max="5" step="0.1">
+        <label for="signpostSizeSlider">Size: <span id="signpostSizeValue">2</span></label>
+        <input type="range" id="signpostSizeSlider" min="0.5" max="5" step="0.1">
+    </div>
 
     <div id="gameOverOverlay" class="overlay"><div class="menu-button-group">
         <div class="game-title ui-text" style="color: var(--klipot-color);">THE MERKAVA HAS FALLEN</div>
@@ -161,25 +189,25 @@ This file is a complete, self-contained application. This version addresses crit
         <div class="game-title ui-text">SETTINGS</div>
         <h3>Gameplay</h3>
         <div class="setting-item">
-            <label for="maxNefeshSlider">Max Nefesh: <span id="maxNefeshValue">100</span></label>
+            <label for="maxNefeshSlider">Max Nefesh: <span id="maxNefeshValueText">100</span></label>
             <input type="range" id="maxNefeshSlider" min="10" max="248" step="1">
         </div>
         <h3>Visual Effects</h3>
         <div class="setting-item">
-            <label for="shakeIntensitySlider">Screen Shake: <span id="shakeIntensityValue">1</span></label>
+            <label for="shakeIntensitySlider">Screen Shake: <span id="shakeIntensityValueText">1</span></label>
             <input type="range" id="shakeIntensitySlider" min="0" max="5" step="0.1">
         </div>
         <div class="setting-item">
-            <label for="flashIntensitySlider">Flash Intensity: <span id="flashIntensityValue">1</span></label>
+            <label for="flashIntensitySlider">Flash Intensity: <span id="flashIntensityValueText">1</span></label>
             <input type="range" id="flashIntensitySlider" min="0" max="1" step="0.05">
         </div>
         <div class="setting-item">
-            <label for="effectsIntensitySlider">Special Effect Intensity (FOV, Particles): <span id="effectsIntensityValue">1</span></label>
+            <label for="effectsIntensitySlider">Special Effect Intensity (FOV, Particles): <span id="effectsIntensityValueText">1</span></label>
             <input type="range" id="effectsIntensitySlider" min="0" max="2" step="0.1">
         </div>
         <h3>Graphics & Particles</h3>
         <div class="setting-item">
-            <label for="starfieldDensitySlider">Starfield Density: <span id="starfieldDensityValue">2000</span></label>
+            <label for="starfieldDensitySlider">Starfield Density: <span id="starfieldDensityValueText">2000</span></label>
             <input type="range" id="starfieldDensitySlider" min="100" max="10000" step="100">
         </div>
         <div class="setting-item">
@@ -187,19 +215,19 @@ This file is a complete, self-contained application. This version addresses crit
             <textarea id="particleCharsTextarea"></textarea>
         </div>
         <div class="setting-item">
-            <label for="minParticleSizeSlider">Min Particle Size: <span id="minParticleSizeValue">2</span></label>
+            <label for="minParticleSizeSlider">Min Particle Size: <span id="minParticleSizeValueText">2</span></label>
             <input type="range" id="minParticleSizeSlider" min="0.5" max="10" step="0.1">
         </div>
         <div class="setting-item">
-            <label for="maxParticleSizeSlider">Max Particle Size: <span id="maxParticleSizeValue">5</span></label>
+            <label for="maxParticleSizeSlider">Max Particle Size: <span id="maxParticleSizeValueText">5</span></label>
             <input type="range" id="maxParticleSizeSlider" min="1" max="20" step="0.1">
         </div>
         <div class="setting-item">
-            <label for="shatterCountSlider">Shatter Particle Count: <span id="shatterCountValue">20</span></label>
+            <label for="shatterCountSlider">Shatter Particle Count: <span id="shatterCountValueText">20</span></label>
             <input type="range" id="shatterCountSlider" min="1" max="100" step="1">
         </div>
         <div class="setting-item">
-            <label for="shatterSpeedSlider">Shatter Particle Speed: <span id="shatterSpeedValue">25</span></label>
+            <label for="shatterSpeedSlider">Shatter Particle Speed: <span id="shatterSpeedValueText">25</span></label>
             <input type="range" id="shatterSpeedSlider" min="1" max="50" step="1">
         </div>
         <h3>Network Systems</h3>
@@ -208,19 +236,23 @@ This file is a complete, self-contained application. This version addresses crit
             <label for="enableFleetConduitsCheckbox">Enable Fleet Energy Conduits</label>
         </div>
         <div class="setting-item">
-            <label for="fleetConduitCountSlider">Conduits per Nefesh: <span id="fleetConduitCountValue">2</span></label>
+            <label for="fleetConduitCountSlider">Conduits per Nefesh: <span id="fleetConduitCountValueText">2</span></label>
             <input type="range" id="fleetConduitCountSlider" min="1" max="5" step="1">
         </div>
         <div class="setting-item checkbox">
             <input type="checkbox" id="enableConstellationsCheckbox">
             <label for="enableConstellationsCheckbox">Enable Celestial Constellations</label>
         </div>
+        <div class="setting-item checkbox">
+            <input type="checkbox" id="enableParticleNetworkCheckbox">
+            <label for="enableParticleNetworkCheckbox">Enable Particle Constellations</label>
+        </div>
         <div class="setting-item">
-            <label for="constellationConnectionsSlider">Connections per Star: <span id="constellationConnectionsValue">2</span></label>
+            <label for="constellationConnectionsSlider">Connections per Star: <span id="constellationConnectionsValueText">2</span></label>
             <input type="range" id="constellationConnectionsSlider" min="1" max="5" step="1">
         </div>
         <div class="setting-item">
-            <label for="constellationDistanceSlider">Max Connection Distance: <span id="constellationDistanceValue">30</span></label>
+            <label for="constellationDistanceSlider">Max Connection Distance: <span id="constellationDistanceValueText">30</span></label>
             <input type="range" id="constellationDistanceSlider" min="5" max="100" step="1">
         </div>
         <h3>Webcam</h3>
@@ -232,6 +264,7 @@ This file is a complete, self-contained application. This version addresses crit
                 <option value="individual">Individual Nefesh</option>
                 <option value="signpost">Sign Post</option>
                 <option value="both">Central + Individual</option>
+                <option value="central_signpost">Central + Sign Post</option>
             </select>
         </div>
         <div class="setting-item" id="signpostSettings" style="display: none;">
@@ -241,6 +274,10 @@ This file is a complete, self-contained application. This version addresses crit
                 <option value="right">Right</option>
                 <option value="both">Both</option>
             </select>
+             <div class="setting-item checkbox" style="margin-top: 15px;">
+                <input type="checkbox" id="signpostAlternatingCheckbox">
+                <label for="signpostAlternatingCheckbox">Alternate Posts (if Both is selected)</label>
+            </div>
         </div>
         <button id="btnBackToMainFromSettings" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px;">BACK</button>
     </div></div>
@@ -269,41 +306,138 @@ This file is a complete, self-contained application. This version addresses crit
         <button id="btnBackToMainFromUpgrades" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px; max-width: 400px;">BACK TO MAIN MENU</button>
     </div>
 
-    <script id="roadVertexShader" type="x-shader/x-vertex">
+    <script id="riverVertexShader" type="x-shader/x-vertex">
         uniform float uTime;
         uniform float uSpeed;
         varying vec2 vUv;
         void main() {
             vUv = uv;
             vec3 pos = position;
-            pos.y += sin(pos.x * 2.0 + uTime * uSpeed * 0.5) * 0.05;
-            pos.y += sin(pos.z * 1.5 + uTime * uSpeed * 0.3) * 0.05;
+            float wave1 = sin(pos.x * 2.5 + uTime * uSpeed * 0.4) * 0.07;
+            float wave2 = sin(pos.z * 1.8 + uTime * uSpeed * 0.6) * 0.07;
+            pos.y += (wave1 + wave2) * 0.5;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         }
     </script>
-    <script id="roadFragmentShader" type="x-shader/x-fragment">
+    <script id="riverFragmentShader" type="x-shader/x-fragment">
         uniform float uTime;
         uniform float uSpeed;
         uniform vec3 uColor;
-        uniform sampler2D uTexture1;
-        uniform sampler2D uTexture2;
         varying vec2 vUv;
+
+        float random(vec2 st) {
+            return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+        }
+
+        float noise(vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x;
+        }
+
         void main() {
-            vec2 uv1 = vUv;
-            vec2 uv2 = vUv;
-            uv1.y += uTime * uSpeed * 0.05;
-            uv2.y += uTime * uSpeed * 0.08;
-            vec4 tex1 = texture2D(uTexture1, uv1);
-            vec4 tex2 = texture2D(uTexture2, uv2);
-            vec4 finalColor = mix(tex1, tex2, 0.5);
-            gl_FragColor = vec4(uColor, 1.0) * finalColor;
-            gl_FragColor.rgb += vec3(0.05, 0.05, 0.1);
+            vec2 uv = vUv;
+            uv.y -= uTime * uSpeed * 0.07;
+
+            // Flowing river effect
+            vec2 noiseUv = uv * vec2(1.0, 4.0) + vec2(0.0, uTime * uSpeed * 0.1);
+            float n = noise(noiseUv * 5.0) * 0.5 + noise(noiseUv * 15.0) * 0.2;
+            vec3 riverColor = uColor + vec3(0.0, 0.0, 0.1) + n * 0.1;
+
+            // Dotted yellow lines
+            vec2 roadUv = vUv;
+            roadUv.y = fract(roadUv.y * 10.0 - uTime * uSpeed * 0.15);
+            float laneWidth = 0.08;
+            float lanePos1 = 0.5 - laneWidth/2.0;
+            float lanePos2 = 0.5 + laneWidth/2.0;
+            
+            float line = smoothstep(0.4, 0.41, roadUv.y) - smoothstep(0.5, 0.51, roadUv.y);
+            float leftDash = step(lanePos1, roadUv.x) - step(lanePos1 + 0.01, roadUv.x);
+            float rightDash = step(lanePos2, roadUv.x) - step(lanePos2 + 0.01, roadUv.x);
+            
+            vec3 finalColor = riverColor;
+            if ((leftDash > 0.0 || rightDash > 0.0) && line > 0.0) {
+                finalColor = mix(finalColor, vec3(1.0, 0.84, 0.0), 0.7);
+            }
+            
+            gl_FragColor = vec4(finalColor, 1.0);
         }
     </script>
+    <script id="torahPortalShader" type="x-shader/x-fragment">
+        uniform float uTime;
+        varying vec2 vUv;
+
+        float random (in vec2 _st) {
+            return fract(sin(dot(_st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+        }
+
+        float noise (in vec2 _st) {
+            vec2 i = floor(_st);
+            vec2 f = fract(_st);
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(a, b, u.x) + (c - a)*u.y*(1.0-u.x) + (d - b)*u.y*u.x;
+        }
+
+        #define NUM_OCTAVES 5
+
+        float fbm ( in vec2 _st) {
+            float v = 0.0;
+            float a = 0.5;
+            vec2 shift = vec2(100.0);
+            mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
+            for (int i = 0; i < NUM_OCTAVES; ++i) {
+                v += a * noise(_st);
+                _st = rot * _st * 2.0 + shift;
+                a *= 0.5;
+            }
+            return v;
+        }
+
+        void main() {
+            vec2 st = vUv;
+            st.x *= 1.0 + (st.y - 1.0) * 0.1;
+            st.x += (st.y - 1.0) * -0.1;
+
+            vec2 q = vec2(0.);
+            q.x = fbm( st + 0.1*uTime);
+            q.y = fbm( st + vec2(1.0));
+
+            vec2 r = vec2(0.);
+            r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*uTime );
+            r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*uTime);
+
+            float f = fbm(st+r);
+
+            vec3 color = mix(vec3(0.101961,0.619608,0.666667),
+                             vec3(0.666667,0.666667,0.498039),
+                             clamp((f*f)*4.0,0.0,1.0));
+
+            color = mix(color,
+                        vec3(0,0,0.164706),
+                        clamp(length(q),0.0,1.0));
+
+            color = mix(color,
+                        vec3(0.666667,1,1),
+                        clamp(length(r.x),0.0,1.0));
+
+            gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color, 1.);
+        }
+    </script>
+
 
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
+        // B"H Global Error Handling
         function displayGlobalError(message) {
             const errorDiv = document.getElementById('globalErrorNotifier');
             if (errorDiv) {
@@ -351,6 +485,7 @@ This file is a complete, self-contained application. This version addresses crit
             comboNotifier: document.getElementById('comboNotifier'),
             perfectWaveNotifier: document.getElementById('perfectWaveNotifier'),
             surpriseNotifier: document.getElementById('surpriseNotifier'),
+            bossNotifier: document.getElementById('bossNotifier'),
             flashOverlay: document.getElementById('flashOverlay'),
             btnBegin: document.getElementById('btnBegin'),
             tryAgainButton: document.getElementById('tryAgainButton'),
@@ -375,24 +510,25 @@ This file is a complete, self-contained application. This version addresses crit
             shefaBar: document.getElementById('shefaBar'),
             particleCharsTextarea: document.getElementById('particleCharsTextarea'),
             shakeIntensitySlider: document.getElementById('shakeIntensitySlider'),
-            shakeIntensityValue: document.getElementById('shakeIntensityValue'),
+            shakeIntensityValue: document.getElementById('shakeIntensityValueText'),
             flashIntensitySlider: document.getElementById('flashIntensitySlider'),
-            flashIntensityValue: document.getElementById('flashIntensityValue'),
+            flashIntensityValue: document.getElementById('flashIntensityValueText'),
             effectsIntensitySlider: document.getElementById('effectsIntensitySlider'),
-            effectsIntensityValue: document.getElementById('effectsIntensityValue'),
+            effectsIntensityValue: document.getElementById('effectsIntensityValueText'),
             shatterCountSlider: document.getElementById('shatterCountSlider'),
-            shatterCountValue: document.getElementById('shatterCountValue'),
+            shatterCountValue: document.getElementById('shatterCountValueText'),
             shatterSpeedSlider: document.getElementById('shatterSpeedSlider'),
-            shatterSpeedValue: document.getElementById('shatterSpeedValue'),
+            shatterSpeedValue: document.getElementById('shatterSpeedValueText'),
             minParticleSizeSlider: document.getElementById('minParticleSizeSlider'),
-            minParticleSizeValue: document.getElementById('minParticleSizeValue'),
+            minParticleSizeValue: document.getElementById('minParticleSizeValueText'),
             maxParticleSizeSlider: document.getElementById('maxParticleSizeSlider'),
-            maxParticleSizeValue: document.getElementById('maxParticleSizeValue'),
+            maxParticleSizeValue: document.getElementById('maxParticleSizeValueText'),
             webcamModeSelect: document.getElementById('webcamModeSelect'),
             signpostSettings: document.getElementById('signpostSettings'),
             signpostSideSelect: document.getElementById('signpostSideSelect'),
+            signpostAlternatingCheckbox: document.getElementById('signpostAlternatingCheckbox'),
             maxNefeshSlider: document.getElementById('maxNefeshSlider'),
-            maxNefeshValue: document.getElementById('maxNefeshValue'),
+            maxNefeshValue: document.getElementById('maxNefeshValueText'),
             prayerDropdownBtn: document.getElementById('prayerDropdownBtn'),
             prayerListOverlay: document.getElementById('prayerListOverlay'),
             prayerList: document.getElementById('prayerList'),
@@ -403,15 +539,24 @@ This file is a complete, self-contained application. This version addresses crit
             inGameCaptionColorPicker: document.getElementById('inGameCaptionColorPicker'),
             backToMenuFromGameBtn: document.getElementById('backToMenuFromGameBtn'),
             starfieldDensitySlider: document.getElementById('starfieldDensitySlider'),
-            starfieldDensityValue: document.getElementById('starfieldDensityValue'),
+            starfieldDensityValue: document.getElementById('starfieldDensityValueText'),
             enableFleetConduitsCheckbox: document.getElementById('enableFleetConduitsCheckbox'),
             fleetConduitCountSlider: document.getElementById('fleetConduitCountSlider'),
-            fleetConduitCountValue: document.getElementById('fleetConduitCountValue'),
+            fleetConduitCountValue: document.getElementById('fleetConduitCountValueText'),
             enableConstellationsCheckbox: document.getElementById('enableConstellationsCheckbox'),
+            enableParticleNetworkCheckbox: document.getElementById('enableParticleNetworkCheckbox'),
             constellationConnectionsSlider: document.getElementById('constellationConnectionsSlider'),
-            constellationConnectionsValue: document.getElementById('constellationConnectionsValue'),
+            constellationConnectionsValue: document.getElementById('constellationConnectionsValueText'),
             constellationDistanceSlider: document.getElementById('constellationDistanceSlider'),
-            constellationDistanceValue: document.getElementById('constellationDistanceValue'),
+            constellationDistanceValue: document.getElementById('constellationDistanceValueText'),
+            toggleSignpostControlsBtn: document.getElementById('toggleSignpostControlsBtn'),
+            inGameSignpostControls: document.getElementById('inGameSignpostControls'),
+            signpostDistanceSlider: document.getElementById('signpostDistanceSlider'),
+            signpostDistanceValue: document.getElementById('signpostDistanceValue'),
+            signpostHeightSlider: document.getElementById('signpostHeightSlider'),
+            signpostHeightValue: document.getElementById('signpostHeightValue'),
+            signpostSizeSlider: document.getElementById('signpostSizeSlider'),
+            signpostSizeValue: document.getElementById('signpostSizeValue'),
         };
 
         let gameState = {};
@@ -557,9 +702,12 @@ This file is a complete, self-contained application. This version addresses crit
             shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1,
             shatterCount: 20, shatterSpeed: 25,
             minParticleSize: 2, maxParticleSize: 5,
-            webcamMode: 'off', signpostSide: 'left', maxNefesh: 100,
+            webcamMode: 'off', signpostSide: 'left', signpostAlternating: false,
+            signpostDistance: 4, signpostHeight: 2.5, signpostSize: 2.0,
+            maxNefesh: 100,
             starfieldDensity: 2000, enableFleetConduits: true, fleetConduitCount: 2,
-            enableConstellations: true, constellationConnections: 2, constellationDistance: 30
+            enableConstellations: true, constellationConnections: 2, constellationDistance: 30,
+            enableParticleNetwork: true,
         };
         async function applySettings() {
             const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
@@ -611,6 +759,8 @@ This file is a complete, self-contained application. This version addresses crit
             ui.fleetConduitCountValue.textContent = gameSettings.fleetConduitCount;
             gameSettings.enableConstellations = await loadSetting('enableConstellations', defaultSettings.enableConstellations);
             ui.enableConstellationsCheckbox.checked = gameSettings.enableConstellations;
+            gameSettings.enableParticleNetwork = await loadSetting('enableParticleNetwork', defaultSettings.enableParticleNetwork);
+            ui.enableParticleNetworkCheckbox.checked = gameSettings.enableParticleNetwork;
             gameSettings.constellationConnections = parseInt(await loadSetting('constellationConnections', defaultSettings.constellationConnections), 10);
             ui.constellationConnectionsSlider.value = gameSettings.constellationConnections;
             ui.constellationConnectionsValue.textContent = gameSettings.constellationConnections;
@@ -622,7 +772,24 @@ This file is a complete, self-contained application. This version addresses crit
             ui.webcamModeSelect.value = gameSettings.webcamMode;
             gameSettings.signpostSide = await loadSetting('signpostSide', defaultSettings.signpostSide);
             ui.signpostSideSelect.value = gameSettings.signpostSide;
-            ui.signpostSettings.style.display = gameSettings.webcamMode === 'signpost' ? 'flex' : 'none';
+            gameSettings.signpostAlternating = await loadSetting('signpostAlternating', defaultSettings.signpostAlternating);
+            ui.signpostAlternatingCheckbox.checked = gameSettings.signpostAlternating;
+            
+            const showSignpostSettings = gameSettings.webcamMode.includes('signpost');
+            ui.signpostSettings.style.display = showSignpostSettings ? 'flex' : 'none';
+            
+            // In-game signpost controls
+            gameSettings.signpostDistance = parseFloat(await loadSetting('signpostDistance', defaultSettings.signpostDistance));
+            ui.signpostDistanceSlider.value = gameSettings.signpostDistance;
+            ui.signpostDistanceValue.textContent = gameSettings.signpostDistance;
+            gameSettings.signpostHeight = parseFloat(await loadSetting('signpostHeight', defaultSettings.signpostHeight));
+            ui.signpostHeightSlider.value = gameSettings.signpostHeight;
+            ui.signpostHeightValue.textContent = gameSettings.signpostHeight;
+            gameSettings.signpostSize = parseFloat(await loadSetting('signpostSize', defaultSettings.signpostSize));
+            ui.signpostSizeSlider.value = gameSettings.signpostSize;
+            ui.signpostSizeValue.textContent = gameSettings.signpostSize;
+
+
             await updateWebcamState();
 
             if(world.isInitialized) {
@@ -691,7 +858,14 @@ This file is a complete, self-contained application. This version addresses crit
                 }
             }
             activate() {
-                let obj = this.pool.length > 0 ? this.pool.pop() : this.createFn();
+                let obj;
+                if (this.pool.length > 0) {
+                    obj = this.pool.pop();
+                } else {
+                    obj = this.createFn();
+                    if (obj) scene.add(obj);
+                }
+                
                 if (!obj) return null;
                 if (!obj.parent) scene.add(obj);
                 obj.visible = true;
@@ -699,6 +873,7 @@ This file is a complete, self-contained application. This version addresses crit
                 return obj;
             }
             deactivate(obj) {
+                if (!obj) return;
                 obj.visible = false;
                 this.active.delete(obj);
                 this.pool.push(obj);
@@ -730,6 +905,8 @@ This file is a complete, self-contained application. This version addresses crit
         const redemptionOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xaaffaa, fog: false });
         const mitzvahOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, fog: false });
         const einSofMaterial = new THREE.SpriteMaterial({ fog: false, transparent: true, blending: THREE.AdditiveBlending });
+        const torahParchmentMaterial = new THREE.MeshStandardMaterial({ color: 0xf5deb3, roughness: 0.8 });
+        const torahHandleMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513, roughness: 0.6 });
 
         const sparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial, MAX_SPARKS );
         sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -825,7 +1002,7 @@ This file is a complete, self-contained application. This version addresses crit
         const windParticlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 1.5), new THREE.MeshBasicMaterial({color: 0xaaaaff, transparent: true, opacity: 0.5, fog: false})), 50);
         const particlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({fog: false})), 300);
         const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
-        const specialParticlePool = new ObjectPool(() => { const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 }); const sprite = new THREE.Sprite(material); sprite.userData = { type: 'special_particle' }; return sprite; }, 300);
+        const specialParticlePool = new ObjectPool(() => { const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 }); const sprite = new THREE.Sprite(material); sprite.userData = { type: 'special_particle', active: true }; return sprite; }, 300);
         const minePool = new ObjectPool(() => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.1, 8, 16), mineMaterial); m.rotation.x = Math.PI / 2; const core = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshBasicMaterial({color: 0xff4500})); g.add(m, core); g.userData = { type: 'mine', body: g, collisionBox2D: new THREE.Box2() }; return g; }, 20);
         const redemptionOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), redemptionOrbMaterial), 5);
         const mitzvahOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.15, 6, 6), mitzvahOrbMaterial), 50);
@@ -834,6 +1011,7 @@ This file is a complete, self-contained application. This version addresses crit
         const activeShockwaves = new Set();
         const dynamicShards = new Set();
         const activeEchos = [];
+        let activeLightning = null;
 
         function markNefeshForDestruction(index) {
             if (gameState.effects.invincibleTimer > 0) return;
@@ -852,7 +1030,7 @@ This file is a complete, self-contained application. This version addresses crit
         function neutralizeNefesh(index) {
             if (index < 0 || index >= nefeshState.length) return;
             const state = nefeshState[index];
-            if (!state.active) return;
+            if (!state) return;
             state.active = false;
             state.currentPos.set(0, 1000, 0);
             state.targetPos.set(0, 1000, 0);
@@ -870,6 +1048,7 @@ This file is a complete, self-contained application. This version addresses crit
             const initialNefesh = gameState.nefesh;
             if (change > 0) {
                 let added = 0;
+                // B"H: This loop now correctly finds the first inactive Nefesh, filling any gaps.
                 for (let i = 0; i < nefeshState.length && added < change; i++) {
                     const state = nefeshState[i];
                     if (state && !state.active) {
@@ -929,6 +1108,37 @@ This file is a complete, self-contained application. This version addresses crit
         const weaverPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.SphereGeometry(0.6, 16, 8); const b = new THREE.Mesh(bG, weaverMaterial.clone()); g.add(b); g.userData = { type: 'weaver', body: b, health: 40, lastShotTime: 0, moveDirection: Math.random() < 0.5 ? 1 : -1, moveSpeed: 2, collisionBox2D: new THREE.Box2() }; return g; }, 10);
         const shattererPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.IcosahedronGeometry(0.8, 0); const s = new THREE.Mesh(sG, shattererMaterial.clone()); s.position.y = 1.0; g.add(s); g.userData = { type: 'shatterer', body: s, health: 60, collisionBox2D: new THREE.Box2() }; return g; }, 8);
         const minelayerPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.BoxGeometry(1.2, 1.2, 1.8); const b = new THREE.Mesh(bG, minelayerMaterial.clone()); b.position.y = 0.6; g.add(b); g.userData = { type: 'minelayer', body: b, health: 70, lastMineTime: 0, collisionBox2D: new THREE.Box2() }; return g; }, 10);
+        
+        const torahPortalMaterial = new THREE.ShaderMaterial({
+            vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+            fragmentShader: document.getElementById('torahPortalShader').textContent,
+            uniforms: { uTime: { value: 0.0 } },
+            transparent: true,
+        });
+        const torahScrollPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const handleGeom = new THREE.CylinderGeometry(0.2, 0.2, 3.5, 8);
+            const scrollGeom = new THREE.CylinderGeometry(0.5, 0.5, 3, 16);
+            const parchmentGeom = new THREE.PlaneGeometry(2.5, 3);
+
+            const leftHandle = new THREE.Mesh(handleGeom, torahHandleMaterial);
+            leftHandle.position.x = -1.75;
+            const rightHandle = new THREE.Mesh(handleGeom, torahHandleMaterial);
+            rightHandle.position.x = 1.75;
+
+            const leftScroll = new THREE.Mesh(scrollGeom, torahParchmentMaterial);
+            leftScroll.position.x = -1.25;
+            const rightScroll = new THREE.Mesh(scrollGeom, torahParchmentMaterial);
+            rightScroll.position.x = 1.25;
+
+            const portal = new THREE.Mesh(parchmentGeom, torahPortalMaterial);
+
+            group.add(leftHandle, rightHandle, leftScroll, rightScroll, portal);
+            group.rotation.x = -Math.PI / 2;
+            group.rotation.z = Math.PI / 2;
+            group.userData = { type: 'torah_scroll', body: group, collisionBox2D: new THREE.Box2() };
+            return group;
+        }, 5);
 
         function createParticleExplosion(position, count, color, speed) {
             if(!position) return;
@@ -942,6 +1152,7 @@ This file is a complete, self-contained application. This version addresses crit
             }
         }
         function shatterObject(object) {
+            if (!object || !object.geometry || !object.material) return;
             const geom = object.geometry;
             const mat = object.material;
             const shatterCount = gameSettings.shatterCount;
@@ -997,7 +1208,9 @@ This file is a complete, self-contained application. This version addresses crit
 
         const webcam = {
             videoElement: document.getElementById('webcamFeed'),
-            videoTexture: null, centralDisplay: null, signPostLeft: null, signPostRight: null, stream: null, isInitialized: false,
+            videoTexture: null, videoTextureMirrored: null,
+            centralDisplay: null, signPostLeft: null, signPostRight: null,
+            stream: null, isInitialized: false,
             async initialize() {
                 if (this.isInitialized || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                     displayGlobalError("Webcam not supported by this browser.");
@@ -1009,6 +1222,11 @@ This file is a complete, self-contained application. This version addresses crit
                     await this.videoElement.play();
                     this.videoTexture = new THREE.VideoTexture(this.videoElement);
                     this.videoTexture.colorSpace = THREE.SRGBColorSpace;
+                    
+                    this.videoTextureMirrored = this.videoTexture.clone();
+                    this.videoTextureMirrored.wrapS = THREE.RepeatWrapping;
+                    this.videoTextureMirrored.repeat.x = -1;
+
                     this.createCentralDisplay();
                     this.createSignPosts();
                     this.isInitialized = true;
@@ -1032,25 +1250,24 @@ This file is a complete, self-contained application. This version addresses crit
             },
             createSignPosts() {
                 if(this.signPostLeft) return;
-                const createPost = () => {
+                const createPost = (isMirrored) => {
                     const group = new THREE.Group();
-                    const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 4, 12);
+                    const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 8, 12);
                     const postMat = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0.8});
                     const post = new THREE.Mesh(postGeo, postMat);
                     post.position.y = -2;
                     const signGeo = new THREE.CircleGeometry(1.5, 32);
-                    const signMat = new THREE.MeshBasicMaterial({ map: this.videoTexture, side: THREE.DoubleSide });
+                    const signMat = new THREE.MeshBasicMaterial({ map: isMirrored ? this.videoTextureMirrored : this.videoTexture, side: THREE.DoubleSide });
                     const sign = new THREE.Mesh(signGeo, signMat);
                     sign.position.y = 0.5;
-                    sign.rotation.y = Math.PI;
                     group.add(post, sign);
                     group.visible = false;
-                    group.userData = { targetY: 2.5, currentY: -4 };
+                    group.userData = { targetY: 2.5, currentY: -4, signMesh: sign };
                     scene.add(group);
                     return group;
                 }
-                this.signPostLeft = createPost(); this.signPostLeft.position.set(-roadWidth / 2 - 2, 0, 0);
-                this.signPostRight = createPost(); this.signPostRight.position.set(roadWidth / 2 + 2, 0, 0);
+                this.signPostLeft = createPost(true);
+                this.signPostRight = createPost(false);
             },
             stop() {
                 if (this.stream) { this.stream.getTracks().forEach(track => track.stop()); }
@@ -1060,33 +1277,51 @@ This file is a complete, self-contained application. This version addresses crit
             updateVisibility() {
                 const mode = gameSettings.webcamMode || 'off';
                 const side = gameSettings.signpostSide || 'left';
-                if (this.centralDisplay) { this.centralDisplay.visible = this.isInitialized && (mode === 'central' || mode === 'both'); }
-                if (this.signPostLeft) { this.signPostLeft.visible = this.isInitialized && mode === 'signpost' && (side === 'left' || side === 'both'); }
-                if (this.signPostRight) { this.signPostRight.visible = this.isInitialized && mode === 'signpost' && (side === 'right' || side === 'both'); }
+                const showCentral = this.isInitialized && (mode === 'central' || mode === 'both' || mode === 'central_signpost');
+                const showSignposts = this.isInitialized && (mode === 'signpost' || mode === 'central_signpost');
+
+                if (this.centralDisplay) { this.centralDisplay.visible = showCentral; }
+                if (this.signPostLeft) { this.signPostLeft.visible = showSignposts && (side === 'left' || side === 'both'); }
+                if (this.signPostRight) { this.signPostRight.visible = showSignposts && (side === 'right' || side === 'both'); }
+                
                 const showOnIndividual = this.isInitialized && (mode === 'individual' || mode === 'both');
                 if(nefeshWebcamInstanced) {
                     nefeshWebcamInstanced.visible = showOnIndividual;
                     nefeshWebcamInstanced.material.map = showOnIndividual ? this.videoTexture : null;
                     nefeshWebcamInstanced.material.needsUpdate = true;
                 }
+                ui.toggleSignpostControlsBtn.style.display = showSignposts ? 'block' : 'none';
             },
             update(deltaTime) {
-                const posts = [this.signPostLeft, this.signPostRight];
-                posts.forEach(post => {
-                    if (post && post.visible) {
+                const posts = [this.signPostLeft, this.signPostRight].filter(p => p);
+                posts.forEach((post, index) => {
+                    let isVisible = post.visible;
+                    if (isVisible && gameSettings.signpostAlternating && gameSettings.signpostSide === 'both') {
+                        const period = 2.0;
+                        const phase = index === 0 ? 0.0 : period / 2.0;
+                        isVisible = Math.sin((clock.getElapsedTime() + phase) * Math.PI / period) > 0;
+                    }
+                    
+                    const signMesh = post.children[1];
+                    post.position.x = (index === 0 ? -1 : 1) * gameSettings.signpostDistance;
+                    post.userData.targetY = gameSettings.signpostHeight;
+                    if (signMesh) signMesh.scale.setScalar(gameSettings.signpostSize / 2.0); // Base size is 2
+
+                    if (isVisible) {
                         post.userData.currentY = THREE.MathUtils.lerp(post.userData.currentY, post.userData.targetY, 4 * deltaTime);
                         post.position.y = post.userData.currentY;
-                        post.children[1].lookAt(camera.position);
-                    } else if(post) {
-                        post.userData.currentY = -4;
-                        post.position.y = -4;
+                        if(signMesh) signMesh.lookAt(camera.position);
+                    } else {
+                        post.userData.currentY = -8;
+                        post.position.y = THREE.MathUtils.lerp(post.position.y, post.userData.currentY, 8 * deltaTime);
                     }
                 });
             }
         };
         async function updateWebcamState() {
             const mode = gameSettings.webcamMode;
-            ui.signpostSettings.style.display = mode === 'signpost' ? 'flex' : 'none';
+            const showSignpostSettings = mode.includes('signpost');
+            ui.signpostSettings.style.display = showSignpostSettings ? 'flex' : 'none';
             if (mode === 'off') {
                 if(webcam.isInitialized) webcam.stop();
             } else {
@@ -1116,13 +1351,16 @@ This file is a complete, self-contained application. This version addresses crit
             triggerFlash('#d8a8ff', 500);
             triggerFovKick(15);
             for (const p of specialParticlePool.active) {
+                if (!p.position) continue;
                 const direction = p.position.clone().sub(nefeshGroup.position).normalize();
                 p.userData.velocity.addScaledVector(direction, 40);
                 p.userData.life = Math.min(p.userData.life, 2.0);
             }
             setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500);
             const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1);
-            gameState.color.target.copy(levelColors[nextColorIndex]);
+            if (levelColors[nextColorIndex]) {
+                 gameState.color.target.copy(levelColors[nextColorIndex]);
+            }
         }
         function updateCombo(newPoints, position) {
             gameState.combo.timer = 3.0 * (1 + (playerStats.upgrades.comboTimer?.level || 0) * 0.05);
@@ -1192,58 +1430,41 @@ This file is a complete, self-contained application. This version addresses crit
             createParticleExplosion(worldPos, 100, '#ffffff', 20);
             triggerFlash('#ffffff', 600);
         }
+        function createLightning() {
+            if (activeLightning) scene.remove(activeLightning);
+            
+            const startPoint = new THREE.Vector3((Math.random() - 0.5) * 50, 40 + Math.random() * 20, -150);
+            const endPoint = new THREE.Vector3((Math.random() - 0.5) * 50, -10, -100);
+            
+            let points = [startPoint];
+            let segment = endPoint.clone().sub(startPoint);
+            points.push(endPoint);
 
-        const world = { isInitialized: false, road: null, starfield: null, nebulae: [], constellationNetwork: null };
+            let iterations = 5;
+            for (let i = 0; i < iterations; i++) {
+                let newPoints = [];
+                for (let j = 0; j < points.length - 1; j++) {
+                    let p1 = points[j];
+                    let p2 = points[j+1];
+                    let mid = p1.clone().lerp(p2, 0.5);
+                    let offset = new THREE.Vector3().randomDirection().multiplyScalar(p1.distanceTo(p2) * 0.3);
+                    mid.add(offset);
+                    newPoints.push(p1, mid);
+                }
+                newPoints.push(points[points.length - 1]);
+                points = newPoints;
+            }
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, fog: false, blending: THREE.AdditiveBlending });
+            activeLightning = new THREE.Line(geometry, material);
+            activeLightning.userData.life = 0.5;
+            scene.add(activeLightning);
+        }
+
+        const world = { isInitialized: false, road: null, starfield: null, nebulae: [], constellationNetwork: null, specialParticleNetwork: null };
         const starfieldParticles = [];
 
-        function createFlowingTexture() {
-            const size = 512;
-            const canvas = document.createElement('canvas');
-            canvas.width = size; canvas.height = size;
-            const ctx = canvas.getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 0, size);
-            gradient.addColorStop(0, '#020018');
-            gradient.addColorStop(0.5, '#080428');
-            gradient.addColorStop(1, '#020018');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, size, size);
-            function drawNebulaCloud(centerX, centerY, maxRadius, color, iterations) {
-                for (let i = 0; i < iterations; i++) {
-                    const radius = Math.random() * maxRadius;
-                    const angle = Math.random() * 2 * Math.PI;
-                    const x = centerX + Math.cos(angle) * (radius * Math.random());
-                    const y = centerY + Math.sin(angle) * (radius * Math.random());
-                    const particleRadius = (1 - (radius / maxRadius)) * 20 + 5;
-                    const grad = ctx.createRadialGradient(x, y, 0, x, y, particleRadius);
-                    grad.addColorStop(0, `rgba(${color}, 0.15)`);
-                    grad.addColorStop(1, `rgba(${color}, 0)`);
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(x - particleRadius, y - particleRadius, particleRadius * 2, particleRadius * 2);
-                }
-            }
-            drawNebulaCloud(size * 0.25, size * 0.5, size * 0.3, '80, 120, 255', 100);
-            drawNebulaCloud(size * 0.75, size * 0.5, size * 0.4, '180, 80, 255', 150);
-            for (let i = 0; i < 50; i++) {
-                const startX = Math.random() * size;
-                const startY = Math.random() * size;
-                const length = Math.random() * 150 + 75;
-                const L = `rgba(200, 220, 255, ${Math.random() * 0.2 + 0.05})`;
-                ctx.strokeStyle = L;
-                ctx.lineWidth = Math.random() * 1.2;
-                ctx.beginPath(); ctx.moveTo(startX, startY); ctx.lineTo(startX, startY + length); ctx.stroke();
-            }
-            for (let i = 0; i < 2000; i++) {
-                const x = Math.random() * size;
-                const y = Math.random() * size;
-                const brightness = Math.random() * 0.7 + 0.3;
-                ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.6})`;
-                ctx.fillRect(x, y, 1, 1);
-            }
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            return texture;
-        }
         function createNebula() {
             const geo = new THREE.PlaneGeometry(500, 500);
             const canvas = document.createElement('canvas');
@@ -1251,7 +1472,7 @@ This file is a complete, self-contained application. This version addresses crit
             canvas.width = size; canvas.height = size;
             const ctx = canvas.getContext('2d');
             const color1 = `hsla(${Math.random() * 360}, 70%, 50%, 0.7)`;
-            const color2 = `hsla(${Math.random() * 360}, 80%, 60%, 0.5)`;
+            ctx.fillStyle = `hsla(${Math.random() * 360}, 80%, 60%, 0.5)`;
             const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
             gradient.addColorStop(0, color1);
             gradient.addColorStop(1, 'rgba(0,0,0,0)');
@@ -1265,13 +1486,13 @@ This file is a complete, self-contained application. This version addresses crit
             }
             const texture = new THREE.CanvasTexture(canvas);
             const mat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
-            const nebula = new THREE.Mesh(geo, mat);
-            return nebula;
+            return new THREE.Mesh(geo, mat);
         }
         function regenerateWorld() {
             if (world.road) scene.remove(world.road);
             if (world.starfield) scene.remove(world.starfield);
             if (world.constellationNetwork) scene.remove(world.constellationNetwork);
+            if (world.specialParticleNetwork) scene.remove(world.specialParticleNetwork);
             world.nebulae.forEach(n => scene.remove(n));
             starfieldParticles.length = 0;
             world.nebulae.length = 0;
@@ -1280,15 +1501,12 @@ This file is a complete, self-contained application. This version addresses crit
         function createWorld() {
             const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100);
             const roadMat = new THREE.ShaderMaterial({
-                vertexShader: document.getElementById('roadVertexShader').textContent,
-                fragmentShader: document.getElementById('roadFragmentShader').textContent,
+                vertexShader: document.getElementById('riverVertexShader').textContent,
+                fragmentShader: document.getElementById('riverFragmentShader').textContent,
                 uniforms: {
                     uTime: { value: 0.0 }, uSpeed: { value: 1.0 },
                     uColor: { value: new THREE.Color(0x483d8b) },
-                    uTexture1: { value: createFlowingTexture() },
-                    uTexture2: { value: createFlowingTexture() }
                 },
-                transparent: true,
             });
             world.road = new THREE.Mesh(roadGeo, roadMat);
             world.road.rotation.x = -Math.PI / 2;
@@ -1338,6 +1556,18 @@ This file is a complete, self-contained application. This version addresses crit
                 world.constellationNetwork = new THREE.LineSegments(lineGeo, lineMat);
                 scene.add(world.constellationNetwork);
             }
+            
+            if (gameSettings.enableParticleNetwork) {
+                const maxLines = 500;
+                const lineGeo = new THREE.BufferGeometry();
+                const positions = new Float32Array(maxLines * 2 * 3);
+                lineGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
+                const lineMat = new THREE.LineBasicMaterial({ color: 0x88aaff, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending, fog: false });
+                world.specialParticleNetwork = new THREE.LineSegments(lineGeo, lineMat);
+                world.specialParticleNetwork.frustumCulled = false;
+                scene.add(world.specialParticleNetwork);
+            }
+
 
             for(let i=0; i<5; i++) {
                 const nebula = createNebula();
@@ -1362,6 +1592,7 @@ This file is a complete, self-contained application. This version addresses crit
                 case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; }
                 case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; }
                 case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; }
+                case 'torah_scroll': { const scroll = torahScrollPool.activate(); if(!scroll) return null; scroll.position.copy(position); scroll.position.y += 1.8; return scroll; }
             }
             return null;
         }
@@ -1375,11 +1606,12 @@ This file is a complete, self-contained application. This version addresses crit
         function pattern_ShattererAmbush(z) { const lane = Math.floor(Math.random() * 3); return [spawnObstacle('shatterer', lane, z), spawnObstacle('jar', (lane + 1) % 3, z - 15), spawnObstacle('jar', (lane + 2) % 3, z - 15)].filter(Boolean); }
         function pattern_Minefield(z) { const lane = Math.floor(Math.random()*3); return [spawnObstacle('minelayer', lane, z)].filter(Boolean); }
         function pattern_MinerAndThorns(z) { const lane = Math.floor(Math.random()*3); return [spawnObstacle('minelayer', lane, z), spawnObstacle('tohu_shard', (lane+1)%3, z-20), spawnObstacle('tohu_shard', (lane+2)%3, z-20)].filter(Boolean); }
+        function pattern_TorahWall(z) { return [spawnObstacle('torah_scroll', 0, z), spawnObstacle('torah_scroll', 2, z)].filter(Boolean); }
         const patternSets = {
             early: [pattern_Wall, pattern_KlipahWeave],
             mid: [pattern_Gauntlet, pattern_SentryGuard, pattern_WeaverDance, pattern_Minefield],
-            late: [pattern_SentryGuard, pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns],
-            expert: [pattern_TomeKeeperGuard, pattern_WeaverDance, pattern_ShattererAmbush, pattern_MinerAndThorns]
+            late: [pattern_SentryGuard, pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns, pattern_TorahWall],
+            expert: [pattern_TomeKeeperGuard, pattern_WeaverDance, pattern_ShattererAmbush, pattern_MinerAndThorns, pattern_TorahWall]
         };
         function getPatternSet() {
             if (gameState.level < 4) return patternSets.early;
@@ -1396,16 +1628,18 @@ This file is a complete, self-contained application. This version addresses crit
             gameState.wave.waveId = gameState.nextWaveId++;
             gameState.wave.enemiesInWave.clear();
             enemies.forEach(enemy => {
-                enemy.userData.waveId = gameState.wave.waveId;
-                gameState.wave.enemiesInWave.add(enemy);
+                if (enemy) {
+                    enemy.userData.waveId = gameState.wave.waveId;
+                    gameState.wave.enemiesInWave.add(enemy);
+                }
             });
         }
         function trySpawnNextWave() {
-            if (gameState.wave.isTracking || gameState.bossManager.isActive) return;
+            if (gameState.wave.isTracking || (gameState.bossManager && gameState.bossManager.isActive)) return;
             let rearmostZ = 0;
-            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active, ...torahScrollPool.active];
             for(const obs of allObstacles) {
-                if (obs.position.z < rearmostZ) rearmostZ = obs.position.z;
+                if (obs && obs.position.z < rearmostZ) rearmostZ = obs.position.z;
             }
             if (rearmostZ > -80) {
                 const availablePatterns = getPatternSet();
@@ -1462,14 +1696,19 @@ This file is a complete, self-contained application. This version addresses crit
             create() {
                 const group = new THREE.Group();
                 const coreGeom = new THREE.IcosahedronGeometry(2, 1);
-                const coreMat = new THREE.MeshStandardMaterial({color: 0x222222, metalness: 0.9, roughness: 0.1});
+                const coreMat = new THREE.MeshStandardMaterial({color: 0x220033, metalness: 0.8, roughness: 0.2, emissive: 0xaa00ff, emissiveIntensity: 1.5});
                 const core = new THREE.Mesh(coreGeom, coreMat);
                 core.position.y = 3;
+                
+                const coreOutline = new THREE.Mesh(coreGeom, outlineMaterial);
+                coreOutline.scale.setScalar(1.1);
+                coreOutline.position.copy(core.position);
+
                 const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.2, 16, 100), golemMaterial);
                 const ring2 = new THREE.Mesh(new THREE.TorusGeometry(4, 0.2, 16, 100), golemMaterial);
                 ring1.rotation.x = Math.PI / 2;
                 ring2.rotation.x = Math.PI / 4;
-                group.add(core, ring1, ring2);
+                group.add(core, coreOutline, ring1, ring2);
                 group.userData = {core, ring1, ring2};
                 this.bossObject = group;
                 scene.add(this.bossObject);
@@ -1482,31 +1721,65 @@ This file is a complete, self-contained application. This version addresses crit
                 this.stateTimer = 5;
                 this.bossObject.position.set(0, 0, -50);
                 this.bossObject.visible = true;
+                
+                ui.bossNotifier.textContent = "HEICHALOT GUARDIAN APPROACHING";
+                ui.bossNotifier.classList.add('show');
+                setTimeout(() => ui.bossNotifier.classList.remove('show'), 4500);
                 triggerFlash('#ff0000', 1000);
             },
             update(deltaTime) {
-                if (!this.isActive) return;
+                if (!this.isActive || !this.bossObject) return;
                 this.stateTimer -= deltaTime;
                 this.bossObject.userData.ring1.rotation.z += deltaTime * 0.5;
-                this.bossObject.userData.ring2.rotation.z -= deltaTime * 0.3;
+                this.bossObject.userData.ring2.rotation.y -= deltaTime * 0.3;
+                this.bossObject.userData.core.rotation.y += deltaTime * 0.2;
                 switch(this.state) {
                     case 'intro':
                         this.bossObject.position.z = THREE.MathUtils.lerp(this.bossObject.position.z, -30, 0.05);
-                        if(this.stateTimer <= 0) { this.state = 'phase1'; this.stateTimer = 3; }
+                        if(this.stateTimer <= 0) { this.state = 'attacking_volley'; this.stateTimer = 4; }
                         break;
-                    case 'phase1':
-                        if(this.stateTimer <= 0) {
-                            for(let i = 0; i < 3; i++) {
+                    case 'attacking_volley':
+                         if(this.stateTimer <= 0) {
+                            for(let i = 0; i < 5; i++) {
+                                const proj = golemFastProjectilePool.activate();
+                                if(proj) {
+                                    const angle = (i / 5) * Math.PI - Math.PI / 2;
+                                    const direction = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 1).normalize();
+                                    proj.position.copy(this.bossObject.position).add(new THREE.Vector3(0, 3, 0));
+                                    proj.userData.velocity = direction.multiplyScalar(30);
+                                    proj.userData.type = 'fast';
+                                }
+                            }
+                            this.state = 'attacking_sweep';
+                            this.stateTimer = 3.5 - Math.min(2, gameState.level * 0.1);
+                        }
+                        break;
+                    case 'attacking_sweep':
+                        if (this.stateTimer <= 0) {
+                            const lane = Math.floor(Math.random() * 3);
+                             for(let i = 0; i < 3; i++) {
+                                if (i === lane) continue; // Leave one lane open
                                 const proj = golemHeavyProjectilePool.activate();
                                 if(proj) {
                                     proj.position.copy(this.bossObject.position).add(new THREE.Vector3(lanePositions[i], 2, 0));
                                     proj.userData.type = 'heavy';
                                     proj.userData.damage = 10;
+                                    proj.userData.velocity = new THREE.Vector3(0, 0, 18);
                                 }
                             }
-                            this.stateTimer = 3.5 - Math.min(2, gameState.level * 0.1);
+                            this.state = 'vulnerable';
+                            this.stateTimer = 3.0;
                         }
                         break;
+                    case 'vulnerable':
+                         this.bossObject.userData.core.material.emissive.setHex(0xffaa00);
+                         if (this.stateTimer <= 0) {
+                             this.bossObject.userData.core.material.emissive.setHex(0xaa00ff);
+                             this.state = 'attacking_volley';
+                             this.stateTimer = 2.0;
+                         }
+                         break;
+
                 }
             },
             takeDamage(amount) {
@@ -1520,20 +1793,21 @@ This file is a complete, self-contained application. This version addresses crit
             },
             defeat() {
                 this.isActive = false; this.state = 'defeated';
-                shatterObject(this.bossObject.userData.core);
+                // B"H: Defeat sequence now uses a controlled particle burst to prevent crashes.
+                createParticleExplosion(this.bossObject.position, 150, '#ffaa00', 30);
+                createParticleExplosion(this.bossObject.position, 150, '#aa00ff', 40);
                 this.bossObject.visible = false;
                 addShefa(200);
                 gameState.mitzvot += 1000 * (1 + (playerStats.upgrades.mitzvotGain?.level || 0) * 0.02);
-                createParticleExplosion(this.bossObject.position, 500, '#ffd700', 40);
                 triggerFlash('#ffffff', 1500);
                 triggerFovKick(30);
-                setTimeout(() => { gameState.bossManager.state = 'inactive'; }, 3000);
+                setTimeout(() => { if (gameState.bossManager) gameState.bossManager.state = 'inactive'; }, 3000);
             }
         };
 
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            const allPools = [ golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, friendlyGolemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool ];
+            const allPools = [ golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, friendlyGolemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool, torahScrollPool ];
             allPools.forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s));
             dynamicShards.clear();
@@ -1541,6 +1815,8 @@ This file is a complete, self-contained application. This version addresses crit
             activeLights.clear();
             activeShockwaves.forEach(sw => scene.remove(sw.mesh));
             activeShockwaves.clear();
+            if (activeLightning) scene.remove(activeLightning);
+            activeLightning = null;
             activeEchos.length = 0;
             nefeshState.forEach(s => s.active = false);
             sparkState.forEach(s => s.active = false);
@@ -1620,6 +1896,8 @@ This file is a complete, self-contained application. This version addresses crit
             ui.gameOver.classList.add('visible');
             ui.prayerDisplayContainer.classList.remove('visible');
             ui.prayerDropdownBtn.style.display = 'none';
+            ui.toggleSignpostControlsBtn.style.display = 'none';
+            ui.inGameSignpostControls.style.display = 'none';
         }
         function showMainMenu() {
             gameState.current = 'mainMenu';
@@ -1633,6 +1911,8 @@ This file is a complete, self-contained application. This version addresses crit
             ui.prayerDisplayContainer.classList.remove('visible');
             ui.prayerListOverlay.classList.remove('visible');
             ui.prayerDropdownBtn.style.display = 'none';
+            ui.toggleSignpostControlsBtn.style.display = 'none';
+            ui.inGameSignpostControls.style.display = 'none';
             savePlayerStats();
         }
 
@@ -1647,7 +1927,7 @@ This file is a complete, self-contained application. This version addresses crit
         const handleInteractionStart = (e, clientX) => {
             if (gameState.current !== 'playing') return;
             const targetElement = e.target;
-            if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) return;
+            if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay, #inGameSignpostControls, #toggleSignpostControlsBtn')) return;
             isDragging = true;
             lastTouchX = clientX;
             if (e.type === 'touchstart') e.preventDefault();
@@ -1769,8 +2049,13 @@ This file is a complete, self-contained application. This version addresses crit
             const panel = ui.prayerSettingsPanel;
             panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
         });
+        ui.toggleSignpostControlsBtn.addEventListener('click', () => {
+            const panel = ui.inGameSignpostControls;
+            panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+        });
 
         const setupSettingListener = (element, settingName, parseFunc, valueSpan = null, isAsync = false, callback = null) => {
+            if (!element) return;
             const eventType = element.type === 'range' ? 'input' : 'change';
             if (valueSpan) {
                 element.addEventListener('input', e => { valueSpan.textContent = e.target.value; });
@@ -1800,10 +2085,27 @@ This file is a complete, self-contained application. This version addresses crit
         setupSettingListener(ui.enableFleetConduitsCheckbox, 'enableFleetConduits', (val, checked) => checked);
         setupSettingListener(ui.fleetConduitCountSlider, 'fleetConduitCount', parseInt, ui.fleetConduitCountValue);
         setupSettingListener(ui.enableConstellationsCheckbox, 'enableConstellations', (val, checked) => checked);
+        setupSettingListener(ui.enableParticleNetworkCheckbox, 'enableParticleNetwork', (val, checked) => checked);
         setupSettingListener(ui.constellationConnectionsSlider, 'constellationConnections', parseInt, ui.constellationConnectionsValue);
         setupSettingListener(ui.constellationDistanceSlider, 'constellationDistance', parseInt, ui.constellationDistanceValue);
         setupSettingListener(ui.webcamModeSelect, 'webcamMode', val => val, null, true, updateWebcamState);
         setupSettingListener(ui.signpostSideSelect, 'signpostSide', val => val, null, true, updateWebcamState);
+        setupSettingListener(ui.signpostAlternatingCheckbox, 'signpostAlternating', (val, checked) => checked, null, true, updateWebcamState);
+        // In-game controls
+        const setupInGameSlider = (slider, valueSpan, settingName, parseFunc = parseFloat) => {
+            slider.addEventListener('input', e => {
+                const value = parseFunc(e.target.value);
+                valueSpan.textContent = value.toFixed(1);
+                gameSettings[settingName] = value;
+            });
+            slider.addEventListener('change', e => {
+                saveSetting(settingName, parseFunc(e.target.value));
+            });
+        };
+        setupInGameSlider(ui.signpostDistanceSlider, ui.signpostDistanceValue, 'signpostDistance');
+        setupInGameSlider(ui.signpostHeightSlider, ui.signpostHeightValue, 'signpostHeight');
+        setupInGameSlider(ui.signpostSizeSlider, ui.signpostSizeValue, 'signpostSize');
+        
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -1812,6 +2114,7 @@ This file is a complete, self-contained application. This version addresses crit
             updateCameraTarget();
         });
         function checkInstancedCollision(nefeshStateItem, otherObject) {
+            if (!nefeshStateItem || !otherObject) return false;
             otherObject.getWorldPosition(worldPosVec);
             collisionVec2.set(worldPosVec.x, worldPosVec.z);
             return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2);
@@ -1855,8 +2158,8 @@ This file is a complete, self-contained application. This version addresses crit
                 if(world.road) {
                     world.road.material.uniforms.uTime.value = time;
                     world.road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0;
-                    if (!world.road.visible) world.road.visible = true;
                 }
+                torahPortalMaterial.uniforms.uTime.value = time;
                 if(webcam.isInitialized) webcam.update(deltaTime);
 
                 const scrollSpeed = currentRoadSpeed * 0.1;
@@ -1868,11 +2171,11 @@ This file is a complete, self-contained application. This version addresses crit
                     }
                     world.starfield.geometry.attributes.position.needsUpdate = true;
                 }
-                // B"H: CRASH FIX - Pass the correct variables to the updated function.
                 updateConstellationNetwork(deltaTime, scrollSpeed);
 
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) {
+                    if (!p.position) { specialParticlePool.deactivate(p); continue; }
                     p.position.addScaledVector(p.userData.velocity, deltaTime);
                     p.userData.life -= deltaTime;
                     if (p.userData.type === 'ein_sof_glimmer') {
@@ -1892,6 +2195,7 @@ This file is a complete, self-contained application. This version addresses crit
                         specialParticlePool.deactivate(p);
                     }
                 }
+                updateSpecialParticleNetwork();
 
                 if (gameState.wind.timer > 0) {
                     gameState.wind.timer -= deltaTime;
@@ -1946,8 +2250,8 @@ This file is a complete, self-contained application. This version addresses crit
                 nefeshState.forEach((state, i) => {
                     if (!state.active) {
                         tempMatrix.makeScale(0, 0, 0);
-                        nefeshTopInstanced.setMatrixAt(i, tempMatrix);
-                        nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
+                        if(nefeshTopInstanced) nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                        if(nefeshBottomInstanced) nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                         if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(i, tempMatrix);
                         return;
                     }
@@ -1969,29 +2273,24 @@ This file is a complete, self-contained application. This version addresses crit
                     }
                     tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0));
                     tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale));
-                    nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                    if(nefeshTopInstanced) nefeshTopInstanced.setMatrixAt(i, tempMatrix);
                     tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0));
                     tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale));
-                    nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
+                    if(nefeshBottomInstanced) nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                     if (nefeshWebcamInstanced && nefeshWebcamInstanced.visible) {
                         tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.8, state.currentPos.z), new THREE.Quaternion(), new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale));
                         nefeshWebcamInstanced.setMatrixAt(i, tempMatrix);
                     }
                 });
-                nefeshTopInstanced.instanceMatrix.needsUpdate = true;
-                nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
-                nefeshTopInstanced.count = activeNefeshCount;
-                nefeshBottomInstanced.count = activeNefeshCount;
-                if (nefeshWebcamInstanced) {
-                    nefeshWebcamInstanced.instanceMatrix.needsUpdate = true;
-                    nefeshWebcamInstanced.count = activeNefeshCount;
-                }
+                if (nefeshTopInstanced) { nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; }
+                if (nefeshBottomInstanced) { nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.count = activeNefeshCount; }
+                if (nefeshWebcamInstanced) { nefeshWebcamInstanced.instanceMatrix.needsUpdate = true; nefeshWebcamInstanced.count = activeNefeshCount; }
                 updateFleetConduits(activeNefeshForLinks);
 
                 if (gameState.bossManager.isActive) {
                     gameState.bossManager.update(deltaTime);
                 } else {
-                    const allPools = [klipahGatePool, jarPool, tohuShardPool, golemSentryPool, tomeKeeperPool, weaverPool, shattererPool, minelayerPool, minePool];
+                    const allPools = [klipahGatePool, jarPool, tohuShardPool, golemSentryPool, tomeKeeperPool, weaverPool, shattererPool, minelayerPool, minePool, torahScrollPool];
                     allPools.forEach(pool => pool.active.forEach(obstacle => processObstacle(obstacle, deltaTime, currentRoadSpeed)));
                 }
 
@@ -2027,19 +2326,8 @@ This file is a complete, self-contained application. This version addresses crit
                 showMainMenu();
             }
         }
-
-        /**
-         * B"H: BUG FIX & PERFORMANCE TUNE-UP
-         * This function was the source of the "time is not defined" crash.
-         * It has been rewritten to be more efficient and stable. It no longer
-         * resets vertex positions from a backup array every frame. Instead, it
-         * scrolls them incrementally, just like the starfield, for smooth,
-         * consistent, and performant motion.
-         * @param {number} deltaTime - Time since last frame.
-         * @param {number} scrollSpeed - Current speed of the world scroll.
-         */
+        
         function updateConstellationNetwork(deltaTime, scrollSpeed) {
-            // B"H: Added robust checks to prevent crashes if objects are not ready.
             if (!world.constellationNetwork || !gameSettings.enableConstellations || !world.constellationNetwork.geometry || !world.constellationNetwork.geometry.attributes.position) {
                 return;
             }
@@ -2047,8 +2335,6 @@ This file is a complete, self-contained application. This version addresses crit
             const wrapZ = camera.position.z;
             const spawnZ = -1000;
             const wrapDistance = Math.abs(spawnZ - wrapZ);
-
-            // B"H: This loop now correctly scrolls the network incrementally.
             for (let i = 2; i < positions.length; i += 3) {
                 positions[i] += scrollSpeed * deltaTime;
                 if (positions[i] > wrapZ) {
@@ -2058,7 +2344,42 @@ This file is a complete, self-contained application. This version addresses crit
             world.constellationNetwork.geometry.attributes.position.needsUpdate = true;
         }
 
+        function updateSpecialParticleNetwork() {
+            if (!world.specialParticleNetwork || !gameSettings.enableParticleNetwork) return;
+            const positions = world.specialParticleNetwork.geometry.attributes.position.array;
+            let lineIndex = 0;
+            const maxLines = positions.length / 6;
+            const maxDistSq = 40*40;
+            const activeParticles = [...specialParticlePool.active];
+
+            if (activeParticles.length < 2) {
+                world.specialParticleNetwork.geometry.setDrawRange(0, 0);
+                return;
+            }
+
+            for (let i = 0; i < activeParticles.length; i++) {
+                const p1 = activeParticles[i];
+                if (lineIndex >= maxLines) break;
+                for (let j = i + 1; j < activeParticles.length; j++) {
+                    if (lineIndex >= maxLines) break;
+                    const p2 = activeParticles[j];
+                    if (p1.position.distanceToSquared(p2.position) < maxDistSq) {
+                        positions[lineIndex * 6 + 0] = p1.position.x;
+                        positions[lineIndex * 6 + 1] = p1.position.y;
+                        positions[lineIndex * 6 + 2] = p1.position.z;
+                        positions[lineIndex * 6 + 3] = p2.position.x;
+                        positions[lineIndex * 6 + 4] = p2.position.y;
+                        positions[lineIndex * 6 + 5] = p2.position.z;
+                        lineIndex++;
+                    }
+                }
+            }
+            world.specialParticleNetwork.geometry.setDrawRange(0, lineIndex * 2);
+            world.specialParticleNetwork.geometry.attributes.position.needsUpdate = true;
+        }
+
         function updateFleetConduits(activeNefesh) {
+            if (!fleetConduitNetwork || !fleetConduitNetwork.geometry) return;
             const positions = fleetConduitNetwork.geometry.attributes.position.array;
             let lineIndex = 0;
             const maxLines = positions.length / 6;
@@ -2097,6 +2418,7 @@ This file is a complete, self-contained application. This version addresses crit
         }
 
         function processObstacle(obstacle, deltaTime, speed) {
+            if (!obstacle || !obstacle.userData) return;
             obstacle.position.z += speed * deltaTime;
             let obsSizeX = 1, obsSizeZ = 1;
             switch(obstacle.userData.type) {
@@ -2108,6 +2430,7 @@ This file is a complete, self-contained application. This version addresses crit
                 case 'shatterer': obsSizeX = 1.6; obsSizeZ = 1.6; break;
                 case 'minelayer': obsSizeX = 1.2; obsSizeZ = 1.8; break;
                 case 'mine': obsSizeX = 0.8; obsSizeZ = 0.8; obstacle.position.z += (speed * 0.2) * deltaTime; break;
+                case 'torah_scroll': obsSizeX = 3.5; obsSizeZ = 0.5; break;
             }
             if (obstacle.userData.collisionBox2D) {
                 obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ });
@@ -2129,12 +2452,13 @@ This file is a complete, self-contained application. This version addresses crit
             } else if (obstacle.userData.type === 'golem_sentry' && !obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 3.5 - (gameState.level * 0.1)) {
                 obstacle.userData.lastShotTime = clock.elapsedTime;
                 obstacle.userData.eye.material.color.setHex(0xffffff);
-                setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200);
+                setTimeout(() => { if (obstacle.userData.eye) obstacle.userData.eye.material.color.setHex(0xff0000) }, 200);
                 let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool);
                 let proj = projPool.activate();
                 if (proj) {
                     obstacle.userData.eye.getWorldPosition(proj.position);
                     proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal');
+                    proj.userData.velocity = new THREE.Vector3(0, 0, 25 + gameState.level);
                     if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4);
                 }
             }
@@ -2154,52 +2478,59 @@ This file is a complete, self-contained application. This version addresses crit
             }
             if (obstacle.userData.isFriendly) return;
             const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0 || gameState.effects.invincibleTimer > 0;
-            if (obstacle.userData.type === 'tohu_shard') {
-                const spikeHalfSize = 0.3;
-                obstacle.userData.body.children.forEach(spikeGroup => {
-                    spikeGroup.getWorldPosition(worldPosVec);
-                    spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
-                    nefeshState.forEach((state, index) => {
-                        if (!state.active || destroyedNefeshIndices.has(index)) return;
+            
+            // B"H: More robust collision check for complex/instanced objects
+            nefeshState.forEach((state, index) => {
+                if (!state.active || destroyedNefeshIndices.has(index)) return;
+
+                let collided = false;
+                if (obstacle.userData.type === 'tohu_shard') {
+                    const spikeHalfSize = 0.3;
+                    for(const spikeGroup of obstacle.userData.body.children) {
+                        spikeGroup.getWorldPosition(worldPosVec);
+                        spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
                         if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
-                            if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; return; }
-                            markNefeshForDestruction(index);
-                            triggerFlash('#ff00ff', 200);
-                        }
-                    });
-                });
-            } else {
-                nefeshState.forEach((state, index) => {
-                    if (!state.active || destroyedNefeshIndices.has(index)) return;
-                    if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
-                        if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; return; }
-                        switch (obstacle.userData.type) {
-                            case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break;
-                            case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break;
-                            case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break;
-                            default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break;
+                            collided = true;
+                            if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; }
+                            else { markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); }
+                            break; 
                         }
                     }
-                });
-            }
+                } else {
+                     if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) {
+                        collided = true;
+                        if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; }
+                        else {
+                            switch (obstacle.userData.type) {
+                                case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break;
+                                case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break;
+                                case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break;
+                                case 'torah_scroll': markNefeshForDestruction(index); triggerScreenShake(0.6); createParticleExplosion(obstacle.position, 80, 0xf5deb3, 15); deactivateObstacle(obstacle); break;
+                                default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break;
+                            }
+                        }
+                    }
+                }
+            });
         }
         function deactivateObstacle(obstacle) {
+            if (!obstacle || !obstacle.userData) return;
             if (gameState.wave.enemiesInWave.has(obstacle)) {
                 gameState.wave.enemiesInWave.delete(obstacle);
             }
             const type = obstacle.userData.type;
-            const poolMap = { klipah_gate: klipahGatePool, jar: jarPool, tohu_shard: tohuShardPool, golem_sentry: golemSentryPool, tome_keeper: tomeKeeperPool, weaver: weaverPool, shatterer: shattererPool, minelayer: minelayerPool, mine: minePool, heavy: golemHeavyProjectilePool, fast: golemFastProjectilePool, normal: golemProjectilePool, redemption_orb: redemptionOrbPool };
+            const poolMap = { klipah_gate: klipahGatePool, jar: jarPool, tohu_shard: tohuShardPool, golem_sentry: golemSentryPool, tome_keeper: tomeKeeperPool, weaver: weaverPool, shatterer: shattererPool, minelayer: minelayerPool, mine: minePool, torah_scroll: torahScrollPool, heavy: golemHeavyProjectilePool, fast: golemFastProjectilePool, normal: golemProjectilePool, redemption_orb: redemptionOrbPool };
             if(poolMap[type]) poolMap[type].deactivate(obstacle);
         }
         function updateEnemyProjectiles(deltaTime) {
             const allEnemyProjPools = [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, weaverProjectilePool, shattererShardPool, friendlyGolemProjectilePool];
             allEnemyProjPools.forEach(pool => {
                 pool.active.forEach(proj => {
-                    let speed = 25;
-                    if(proj.userData.type === 'fast') speed = 45;
-                    else if (proj.userData.type === 'heavy') speed = 18;
-                    if (proj.userData.velocity) { proj.position.addScaledVector(proj.userData.velocity, deltaTime); }
-                    else { proj.position.z += speed * deltaTime; }
+                    if (proj.userData.velocity) {
+                        proj.position.addScaledVector(proj.userData.velocity, deltaTime);
+                    } else {
+                        proj.position.z += 25 * deltaTime; // Fallback speed
+                    }
 
                     if(proj.position.z > camera.position.z + 10 || proj.position.z < -150) { pool.deactivate(proj); return; }
 
@@ -2218,7 +2549,7 @@ This file is a complete, self-contained application. This version addresses crit
                             if(checkInstancedCollision(state, proj)) {
                                 if(effectiveShield) { if(gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; pool.deactivate(proj); return; }
                                 const color = proj.material.color.getHexString();
-                                if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); triggerFlash(`#${color}`, 400); triggerScreenShake(0.6); }
+                                if(proj.userData.type === 'heavy') { adjustNefeshCount(-(proj.userData.damage || 5)); triggerFlash(`#${color}`, 400); triggerScreenShake(0.6); }
                                 else { markNefeshForDestruction(index); triggerFlash(`#${color}`, 300); triggerScreenShake(0.3); }
                                 createParticleExplosion(proj.position, 20, `#${color}`, 15);
                                 pool.deactivate(proj);
@@ -2233,7 +2564,7 @@ This file is a complete, self-contained application. This version addresses crit
             const tempEchoSparkMatrix = new THREE.Matrix4();
             let activeSparkCount = 0;
             let activeEchoSparkCount = 0;
-            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active, ...torahScrollPool.active];
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
                 if (!spark.active) {
@@ -2243,12 +2574,12 @@ This file is a complete, self-contained application. This version addresses crit
                 }
                 spark.position.addScaledVector(spark.velocity, deltaTime);
                 if (spark.position.z < -150 || spark.position.z > 20 || Math.abs(spark.position.x) > roadWidth * 2) { spark.active = false; continue; }
-                if (gameState.bossManager.isActive) {
+                if (gameState.bossManager.isActive && gameState.bossManager.bossObject) {
                     const bossBox = new THREE.Box3().setFromObject(gameState.bossManager.bossObject);
                     if(bossBox.containsPoint(spark.position)) { gameState.bossManager.takeDamage(spark.damage); spark.active = false; }
                 } else {
                     for(const obstacle of allObstacles) {
-                        if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2 || obstacle.userData.isFriendly) continue;
+                        if (!spark.active || !obstacle.visible || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2 || obstacle.userData.isFriendly) continue;
                         collisionVec2.set(spark.position.x, spark.position.z);
                         if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
                             processSparkCollision(spark, obstacle);
@@ -2263,13 +2594,11 @@ This file is a complete, self-contained application. This version addresses crit
                     else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
                 }
             }
-            sparkInstancedMesh.instanceMatrix.needsUpdate = true;
-            sparkInstancedMesh.count = activeSparkCount;
-            celestialEchoSparkInstancedMesh.instanceMatrix.needsUpdate = true;
-            celestialEchoSparkInstancedMesh.count = activeEchoSparkCount;
+            if(sparkInstancedMesh) { sparkInstancedMesh.instanceMatrix.needsUpdate = true; sparkInstancedMesh.count = activeSparkCount; }
+            if(celestialEchoSparkInstancedMesh) { celestialEchoSparkInstancedMesh.instanceMatrix.needsUpdate = true; celestialEchoSparkInstancedMesh.count = activeEchoSparkCount; }
         }
         function processSparkCollision(spark, obstacle) {
-            if (obstacle.userData.isFriendly) return;
+            if (!obstacle || obstacle.userData.isFriendly) return;
             if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; }
             const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
             switch(obstacle.userData.type) {
@@ -2293,12 +2622,17 @@ This file is a complete, self-contained application. This version addresses crit
                     }
                     updateKlipahGateVisuals(obstacle);
                     break;
+                case 'torah_scroll':
+                     // Torah scrolls are indestructible by normal means
+                    createParticleExplosion(spark.position, 5, '#f5deb3', 5);
+                    break;
                 default:
+                    if (typeof obstacle.userData.health !== 'number') break;
                     obstacle.userData.health -= spark.damage;
                     createParticleExplosion(spark.position, 5, particleColor, 8);
                     if (obstacle.userData.health <= 0) {
                         triggerScreenShake(0.3);
-                        shatterObject(obstacle.userData.body);
+                        if (obstacle.userData.body) shatterObject(obstacle.userData.body);
                         createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25);
                         updateCombo(75, obstacle.position);
                         const light = new THREE.PointLight(0xffaa55, 8, 30, 2);
@@ -2356,7 +2690,7 @@ This file is a complete, self-contained application. This version addresses crit
             }
             for(const orb of redemptionOrbPool.active) {
                 orb.position.z -= 25 * deltaTime;
-                const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => !e.userData.isFriendly);
+                const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => e && !e.userData.isFriendly);
                 for(const enemy of allEnemies) {
                     if (orb.position.distanceTo(enemy.position) < 2.0) {
                         createParticleExplosion(orb.position, 80, 0xaaffaa, 20);
@@ -2411,19 +2745,27 @@ This file is a complete, self-contained application. This version addresses crit
                 sw.mesh.material.opacity = sw.life;
                 if(sw.isPrayerWave) {
                     const waveRadius = sw.mesh.geometry.parameters.radius * sw.mesh.scale.x;
-                    [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => !e.userData.isFriendly).forEach(enemy => {
+                    [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => e && !e.userData.isFriendly).forEach(enemy => {
                         if(enemy.position.distanceTo(sw.mesh.position) < waveRadius) {
                             if(enemy.userData.type === 'klipah_gate' && !enemy.userData.isPurified) {
                                 enemy.userData.currentValue = 0; enemy.userData.isPurified = true; updateKlipahGateVisuals(enemy);
                             } else if(enemy.userData.health) {
                                 enemy.userData.health -= 30 * deltaTime;
-                                if(enemy.userData.health <= 0) { deactivateObstacle(enemy); shatterObject(enemy.userData.body); }
+                                if(enemy.userData.health <= 0) { deactivateObstacle(enemy); if(enemy.userData.body) shatterObject(enemy.userData.body); }
                             }
                         }
                     });
                 }
                 if(sw.life <= 0) { scene.remove(sw.mesh); activeShockwaves.delete(sw); }
             });
+             if (activeLightning) {
+                activeLightning.userData.life -= deltaTime;
+                activeLightning.material.opacity = activeLightning.userData.life * 2;
+                if (activeLightning.userData.life <= 0) {
+                    scene.remove(activeLightning);
+                    activeLightning = null;
+                }
+            }
         }
         function triggerCelestialEcho() {
             nefeshState.forEach((state, i) => {
@@ -2459,6 +2801,7 @@ This file is a complete, self-contained application. This version addresses crit
                     }
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
                     triggerCelestialEcho();
+                    createLightning();
                 }
                 gameState.wave.isTracking = false;
             }
@@ -2505,3 +2848,4 @@ This file is a complete, self-contained application. This version addresses crit
     </script>
 </body>
 </html>
+
