@@ -1,15 +1,16 @@
-    
+
 <!--
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.0
+Merkava: The Celestial Journey v3.1
 Developer: Gemini
 Date: 2025-08-14
 
 This file is a complete, self-contained application.
-It includes critical bug fixes, new data-driven content, and major new features like boss battles.
-The code has been fully rewritten for clarity, stability, and enhanced gameplay.
+This version includes a critical bug fix for a JavaScript syntax error.
+The code has been fully reviewed for clarity, stability, and enhanced gameplay, while maintaining the original vision.
+NO MINIFIED JS AT ALL. IT IS ALL FULLY SELF CONTAINED.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -1369,8 +1370,15 @@ The code has been fully rewritten for clarity, stability, and enhanced gameplay.
             if (gameState.voidPulse < gameState.voidPulseToActivate) return;
             gameState.voidPulse = 0;
             ui.voidPulseNotifier.style.opacity = '0';
+            
+            // B"H: FIX - Correctly get the CSS variable value for use in JavaScript.
+            // The original code `color: var(...)` is CSS syntax and causes a JS error.
+            const pulseColorValue = getComputedStyle(document.documentElement).getPropertyValue('--void-pulse-color').trim();
 
-            const pulseWave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.2, 16, 100), new THREE.MeshBasicMaterial({color: var(--void-pulse-color), transparent: true}));
+            const pulseWave = new THREE.Mesh(
+                new THREE.TorusGeometry(1, 0.2, 16, 100), 
+                new THREE.MeshBasicMaterial({color: pulseColorValue, transparent: true})
+            );
             pulseWave.position.copy(nefeshGroup.position);
             pulseWave.rotation.x = Math.PI / 2;
             activeShockwaves.add({mesh: pulseWave, life: 1.0, isVoidPulse: true});
