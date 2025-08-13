@@ -3,22 +3,16 @@
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.7 (Fixed & Merged)
+Merkava: The Celestial Journey v3.8 (Error Fixed & Documented)
 Developer: Gemini
 Date: 2025-08-15
 
 This file is a complete, self-contained application.
-This version merges features from v3.3 and v3.6, fixing critical bugs
-and combining all enhancements into a single stable build.
+This version fixes a critical startup crash and adds extensive documentation for clarity and future development.
 
-*   **FIXED:** Player's Nefesh fleet is now visible and renders correctly.
-*   **FIXED:** "Ghost Firing" bug where destroyed units could still shoot is eradicated.
-*   **RESTORED:** The full boss battle mechanics from v3.3 are back.
-*   **KEPT:** Mobile-friendly on-screen button for the "Void Pulse" ability.
-*   **KEPT:** New enemies (Laser Sentinel, Klipah Husk) and associated spawn patterns.
-*   **KEPT:** Dynamic 'Living' Camera system that smoothly frames the action.
-*   **KEPT:** "Celestial Echo" reward for achieving a "PERFECT WAVE".
-*   **KEPT:** All permanent upgrades, settings, and quality-of-life features.
+*   **CRITICAL FIX:** Implemented the missing `createRoadTexture` function, resolving the "ReferenceError" that prevented the game from starting. The new texture is procedurally generated to match the game's aesthetic.
+*   **ADDED:** Extensive JSDoc comments to major functions and systems (`animate`, `initializeGame`, `processSparkCollision`, `updatePlayerProjectiles`, core object pools, etc.) to dramatically improve code readability and maintainability.
+*   **KEPT:** All features from v3.7, including the merged mechanics from v3.3 and v3.6, are fully intact and operational. This includes boss battles, all enemy types, the dynamic camera, permanent upgrades, and UI elements.
 
 -->
 <!DOCTYPE html>
@@ -26,7 +20,7 @@ and combining all enhancements into a single stable build.
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Merkava: The Celestial Journey v3.7 (Fixed)</title>
+    <title>Merkava: The Celestial Journey v3.8 (Fixed)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
         :root {
@@ -833,10 +827,21 @@ and combining all enhancements into a single stable build.
         function createCircleAlphaMap() { const size = 128; const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size; const context = canvas.getContext('2d'); context.fillStyle = 'black'; context.fillRect(0, 0, size, size); context.fillStyle = 'white'; context.beginPath(); context.arc(size/2, size/2, size/2, 0, 2 * Math.PI); context.fill(); return new THREE.CanvasTexture(canvas); }
         const circleAlphaMap = createCircleAlphaMap();
 
+        /**
+         * A generic object pool for recycling Three.js objects to improve performance.
+         * Reduces garbage collection pauses by reusing objects instead of creating/destroying them.
+         * @class
+         */
         class ObjectPool {
+            /**
+             * @param {function(): THREE.Object3D} createFn - A function that creates a new object for the pool.
+             * @param {number} initialSize - The number of objects to pre-populate the pool with.
+             */
             constructor(createFn, initialSize) {
                 this.createFn = createFn;
+                /** @type {THREE.Object3D[]} */
                 this.pool = [];
+                 /** @type {Set<THREE.Object3D>} */
                 this.active = new Set();
                 for (let i = 0; i < initialSize; i++) {
                     const obj = this.createFn();
@@ -845,6 +850,10 @@ and combining all enhancements into a single stable build.
                     this.pool.push(obj);
                 }
             }
+            /**
+             * Retrieves an object from the pool, making it active.
+             * @returns {THREE.Object3D | null} An object from the pool, or a new one if the pool is empty.
+             */
             activate() {
                 let obj = this.pool.length > 0 ? this.pool.pop() : this.createFn();
                 if (!obj) return null;
@@ -853,11 +862,18 @@ and combining all enhancements into a single stable build.
                 this.active.add(obj);
                 return obj;
             }
+            /**
+             * Returns an object to the pool, making it inactive.
+             * @param {THREE.Object3D} obj - The object to deactivate.
+             */
             deactivate(obj) {
                 obj.visible = false;
                 this.active.delete(obj);
                 this.pool.push(obj);
             }
+            /**
+             * Deactivates all currently active objects from this pool.
+             */
             deactivateAll() {
                 [...this.active].forEach(obj => this.deactivate(obj));
             }
@@ -1217,6 +1233,67 @@ and combining all enhancements into a single stable build.
             ui.comboNotifier.classList.add('show');
         }
         let road, starField1, starField2; let roadTextureTileLength;
+        
+        /**
+         * B"H - *** FIX IMPLEMENTED HERE ***
+         * Creates a procedural, tileable texture for the celestial road using a 2D canvas.
+         * This avoids external asset dependencies and fixes the "createRoadTexture is not defined" error.
+         * The texture includes glowing lane lines that match the game's defined color scheme.
+         * @returns {THREE.CanvasTexture} A Three.js texture object ready for use in a material.
+         */
+        function createRoadTexture() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const width = 256;
+            const height = 512;
+            canvas.width = width;
+            canvas.height = height;
+
+            // Base color
+            ctx.fillStyle = '#100520';
+            ctx.fillRect(0, 0, width, height);
+
+            // Add subtle noise/stardust for texture
+            for (let i = 0; i < 2000; i++) {
+                const x = Math.random() * width;
+                const y = Math.random() * height;
+                const alpha = Math.random() * 0.4;
+                ctx.fillStyle = `rgba(200, 200, 255, ${alpha})`;
+                ctx.fillRect(x, y, 1, 1);
+            }
+
+            const laneColor = getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim();
+            const laneWidth = 4;
+            const dashLength = 30;
+            const gapLength = 20;
+
+            ctx.lineWidth = laneWidth;
+            ctx.strokeStyle = laneColor;
+            
+            // Add glow effect to lines
+            ctx.shadowColor = laneColor;
+            ctx.shadowBlur = 15;
+
+            // Lane positions (3 lanes total, so 2 dividing lines)
+            const lanePositionsX = [width * 0.33, width * 0.66];
+            
+            ctx.beginPath();
+            for (const xPos of lanePositionsX) {
+                for (let y = 0; y < height; y += dashLength + gapLength) {
+                    ctx.moveTo(xPos, y);
+                    ctx.lineTo(xPos, y + dashLength);
+                }
+            }
+            ctx.stroke();
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            
+            return texture;
+        }
+
         function createWorld() { const roadTextureRepeats = 10; const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20); const roadMat = new THREE.MeshLambertMaterial({ color: 0x483d8b, map: createRoadTexture(), transparent: true }); roadMat.map.repeat.set(1, roadTextureRepeats); roadTextureTileLength = roadLength / roadTextureRepeats; road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = roadLevelY; scene.add(road); const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2); }
         const lanePositions = [-3.0, 0, 3.0];
         function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } case 'laser_sentinel': { const sentinel = laserSentinelPool.activate(); if(!sentinel) return null; sentinel.position.copy(position); sentinel.userData.health = Math.floor(100 * levelFactor); sentinel.userData.state = 'idle'; sentinel.userData.stateTimer = 2 + Math.random() * 2; sentinel.userData.telegraphLine.visible = false; sentinel.userData.laserBeam.visible = false; return sentinel; } } return null; }
@@ -1385,6 +1462,12 @@ and combining all enhancements into a single stable build.
         };
 
         // --- GAME STATE MANAGEMENT ---
+        /**
+         * Resets the game state and initializes all necessary components for a new run.
+         * This function is the primary entry point for starting or restarting the game.
+         * @async
+         * @returns {Promise<void>}
+         */
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             const allPools = [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, klipahHuskPool, laserSentinelPool];
@@ -1605,6 +1688,11 @@ and combining all enhancements into a single stable build.
         }
 
         // --- MAIN GAME LOOP ---
+        /**
+         * The heart of the application, this function is called on every frame.
+         * It updates all game logic, handles rendering, and manages the game's flow.
+         * @param {DOMHighResTimeStamp} currentTime - The current time provided by requestAnimationFrame.
+         */
         function animate(currentTime) {
             animationFrameId = requestAnimationFrame(animate);
             try {
@@ -1818,7 +1906,13 @@ and combining all enhancements into a single stable build.
                 });
             });
         }
-
+        
+        /**
+         * Updates all active player projectiles (sparks) each frame.
+         * Handles their movement, collision detection, and deactivation.
+         * This function uses instanced meshes for performance.
+         * @param {number} deltaTime - The time elapsed since the last frame.
+         */
         function updatePlayerProjectiles(deltaTime) {
             const tempSparkMatrix = new THREE.Matrix4();
             const tempEchoSparkMatrix = new THREE.Matrix4();
@@ -1874,6 +1968,12 @@ and combining all enhancements into a single stable build.
             celestialEchoSparkInstancedMesh.count = activeEchoSparkCount;
         }
         
+        /**
+         * Processes the collision between a player projectile (spark) and an obstacle.
+         * Handles damage calculation, visual effects, and obstacle state changes.
+         * @param {object} spark - The spark state object that has collided.
+         * @param {THREE.Object3D} obstacle - The obstacle object that was hit.
+         */
         function processSparkCollision(spark, obstacle) {
             const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
             
