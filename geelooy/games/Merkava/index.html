@@ -3,6 +3,12 @@
 ב"ה
 B"H
 
+Merkava: The Celestial Journey v2.0
+Developer: Gemini
+Date: 2025-08-14
+
+This file is a complete, self-contained application.
+It includes critical bug fixes and new features as per the implementation plan.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -34,41 +40,43 @@ B"H
             z-index: 1000; background-color: rgba(0, 0, 10, 0.85);
             backdrop-filter: blur(8px); opacity: 0; visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            overflow-y: auto; 
-            pointer-events: none; 
+            overflow-y: auto;
+            pointer-events: none;
         }
         .overlay.visible {
             opacity: 1;
             visibility: visible;
-            pointer-events: auto; 
+            pointer-events: auto;
         }
-        
+
         .ui-text { text-shadow: 0 0 8px currentColor, 0 0 15px currentColor, 0 0 2px black; }
         #mitzvotDisplay, #nefeshDisplay { transition: transform 0.1s ease-out; }
-        
+
         #mitzvotDisplay { position: absolute; top: 10px; left: 10px; font-size: 1.3em; background-color: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 5px; }
         #nefeshDisplay { position: absolute; top: 10px; right: 10px; font-size: 1.3em; background-color: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 5px; }
         #bhText { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: var(--glow-color); z-index: 999; }
-        
+
         #shefaContainer { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 15px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--shefa-color); border-radius: 10px; z-index: 999; overflow: hidden; }
         #shefaBar { width: 0%; height: 100%; background: var(--shefa-color); box-shadow: 0 0 10px var(--shefa-color), 0 0 5px var(--shefa-color) inset; transition: width 0.3s ease-out; }
 
-        #ascensionNotifier, #comboNotifier {
+        #ascensionNotifier, #comboNotifier, #perfectWaveNotifier {
             position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5);
             pointer-events: none; z-index: 1002; opacity: 0;
             transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), left 0.5s ease, top 0.5s ease;
             text-transform: uppercase;
+            text-align: center;
         }
         #ascensionNotifier { top: 20%; font-size: 2.2em; color: #d8a8ff; text-shadow: 0 0 10px #d8a8ff, 0 0 20px #d8a8ff; }
         #comboNotifier { top: 30%; font-size: 2.0em; color: var(--shefa-color); text-shadow: 0 0 8px var(--shefa-color); }
+        #perfectWaveNotifier { top: 40%; font-size: 2.5em; color: #00f0ff; text-shadow: 0 0 10px #00f0ff, 0 0 25px #00f0ff, 0 0 40px #00f0ff; }
         
         #ascensionNotifier.side-mode { left: 18%; top: 25%; }
         #comboNotifier.side-mode { left: 18%; top: 35%; }
+        #perfectWaveNotifier.side-mode { left: 18%; top: 45%; }
 
-        #ascensionNotifier.show, #comboNotifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        #ascensionNotifier.show, #comboNotifier.show, #perfectWaveNotifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         
-        #ascensionNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
-        #comboNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
+        #ascensionNotifier.side-mode.show, #comboNotifier.side-mode.show, #perfectWaveNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
 
         .game-title { font-size: 4em; margin-bottom: 20px; text-align: center; color: var(--glow-color); text-transform: uppercase; }
         .game-subtitle { font-size: 1.5em; color: var(--mitzvot-color); margin-bottom: 40px; text-align: center; }
@@ -92,14 +100,14 @@ B"H
             display: flex; justify-content: space-between; align-items: center;
             z-index: 998;
             opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
-            pointer-events: none; 
+            pointer-events: none;
         }
         #prayerDisplayContainer.visible { opacity: 1; visibility: visible; pointer-events: auto; }
         
         #prayerTextContainer { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; }
         #prayerDropdownBtn {
             position: absolute;
-            top: -15px; 
+            top: -15px;
             font-size: 1.5em;
             background: none;
             border: none;
@@ -164,7 +172,7 @@ B"H
             border: 2px solid var(--glow-color);
             border-radius: 8px;
             padding: 10px;
-            box-sizing: border-box; 
+            box-sizing: border-box;
             font-family: 'Arial', sans-serif;
         }
         .setting-item select {
@@ -233,7 +241,7 @@ B"H
             border-radius: 5px;
         }
          #prayerSettingsPanel label { font-size: 1em; color: var(--glow-color); }
-        
+
         #webcamFeed {
             display: none; /* B"H: Webcam feed is not displayed directly, but used as a texture */
         }
@@ -253,6 +261,94 @@ B"H
             display: none;
             text-align: center;
         }
+        
+        /* B"H: New Styles for Upgrade Shop */
+        #upgradeShopOverlay {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #totalMitzvotDisplay {
+            font-size: 1.8em;
+            color: var(--mitzvot-color);
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--mitzvot-color);
+        }
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 95%;
+            max-width: 1200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .upgrade-card {
+            background: rgba(10, 20, 40, 0.8);
+            border: 2px solid var(--glow-color);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+        .upgrade-card h3 {
+            font-size: 1.5em;
+            color: var(--shefa-color);
+            margin: 0;
+            text-align: center;
+        }
+        .upgrade-card p {
+            font-family: 'Arial', sans-serif;
+            font-size: 1em;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .upgrade-card .level-display {
+            font-size: 1.1em;
+            text-align: center;
+            color: var(--glow-color);
+        }
+        .upgrade-button {
+            padding: 10px;
+            font-size: 1.2em;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            color: white;
+            background: linear-gradient(145deg, #2a9d8f, #264653);
+            border: 1px solid #77e6d9;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .upgrade-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #77e6d9;
+        }
+        .upgrade-button.disabled {
+            background: linear-gradient(145deg, #555, #222);
+            color: #888;
+            border-color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .upgrade-button.maxed {
+            background: linear-gradient(145deg, #ffd700, #b8860b);
+            color: black;
+            border-color: #fff;
+            cursor: default;
+        }
+
     </style>
 </head>
 <body>
@@ -263,6 +359,7 @@ B"H
     <div id="flashOverlay"></div>
     <div id="ascensionNotifier"></div>
     <div id="comboNotifier"></div>
+    <div id="perfectWaveNotifier"></div>
 
     <div id="prayerDisplayContainer">
         <button id="prevPrayerBtn" class="prayer-nav-button">&lt;</button>
@@ -293,11 +390,12 @@ B"H
         <button id="btnGoCustom" class="menu-button">BEGIN</button>
         <button id="btnBackToMain" class="menu-button" style="background: linear-gradient(145deg, #555, #222);">BACK</button>
     </div></div>
-    
+
     <div id="mainMenuOverlay" class="overlay visible"><div class="menu-button-group">
         <div class="game-title ui-text">MERKAVA</div>
         <div class="game-subtitle">The Celestial Journey</div>
         <button id="btnBegin" class="menu-button">BEGIN THE JOURNEY</button>
+        <button id="btnUpgradeShop" class="menu-button" style="background: linear-gradient(145deg, #2a9d8f, #264653);">OTZAR HA'SEFIROT</button>
         <button id="btnCustom" class="menu-button">CUSTOM JOURNEY</button>
         <button id="btnSettings" class="menu-button">SETTINGS</button>
     </div></div>
@@ -328,7 +426,7 @@ B"H
             <label for="effectsIntensitySlider">Special Effect Intensity (FOV, Particles): <span id="effectsIntensityValue">1</span></label>
             <input type="range" id="effectsIntensitySlider" min="0" max="2" step="0.1">
         </div>
-        
+
         <h3>Graphics</h3>
         <div class="setting-item">
             <label for="particleCharsTextarea">Particle Characters (comma separated):</label>
@@ -391,13 +489,22 @@ B"H
             </div>
         </div>
     </div>
-
+    
+    <!-- B"H: New Overlay for Permanent Upgrades -->
+    <div id="upgradeShopOverlay" class="overlay">
+        <div class="game-title ui-text">OTZAR HA'SEFIROT</div>
+        <div id="totalMitzvotDisplay">Total Mitzvot: 0</div>
+        <div id="upgradeShopGrid" class="upgrade-grid">
+            <!-- Upgrade cards will be dynamically inserted here by JavaScript -->
+        </div>
+        <button id="btnBackToMainFromUpgrades" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px; max-width: 400px;">BACK TO MAIN MENU</button>
+    </div>
 
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
         // --- GLOBAL ERROR HANDLING ---
-        
+
         /**
          * B"H: A handler to catch disruptions in the flow of creation.
          * Displays a global error message at the bottom of the screen.
@@ -447,17 +554,23 @@ B"H
             gameOver: document.getElementById('gameOverOverlay'),
             customMenu: document.getElementById('customMenuOverlay'),
             settingsOverlay: document.getElementById('settingsOverlay'),
+            upgradeShopOverlay: document.getElementById('upgradeShopOverlay'),
             ascensionNotifier: document.getElementById('ascensionNotifier'),
             comboNotifier: document.getElementById('comboNotifier'),
+            perfectWaveNotifier: document.getElementById('perfectWaveNotifier'),
             flashOverlay: document.getElementById('flashOverlay'),
             btnBegin: document.getElementById('btnBegin'),
             tryAgainButton: document.getElementById('tryAgainButton'),
             btnCustom: document.getElementById('btnCustom'),
+            btnUpgradeShop: document.getElementById('btnUpgradeShop'),
             btnGoCustom: document.getElementById('btnGoCustom'),
             btnBackToMain: document.getElementById('btnBackToMain'),
             btnSettings: document.getElementById('btnSettings'),
             btnBackToMainFromSettings: document.getElementById('btnBackToMainFromSettings'),
             btnBackToMainFromGameOver: document.getElementById('btnBackToMainFromGameOver'),
+            btnBackToMainFromUpgrades: document.getElementById('btnBackToMainFromUpgrades'),
+            upgradeShopGrid: document.getElementById('upgradeShopGrid'),
+            totalMitzvotDisplay: document.getElementById('totalMitzvotDisplay'),
             customPrayerTextarea: document.getElementById('customPrayerTextarea'),
             prayerDisplayContainer: document.getElementById('prayerDisplayContainer'),
             prayerText: document.getElementById('prayerText'),
@@ -511,17 +624,20 @@ B"H
         const roadLength = 200;
         const roadLevelY = -0.5;
         let roadBaseSpeed = 12;
-        const worldPosVec = new THREE.Vector3(); 
+        const worldPosVec = new THREE.Vector3();
         const dummyObject = new THREE.Object3D();
         const collisionVec2 = new THREE.Vector2(); // A 2D vector for efficient ground-plane collision checks.
 
+        // B"H: New state for the Zombie Nefesh bug fix. This set queues indices for proper, safe removal at the end of the frame.
+        let destroyedNefeshIndices = new Set();
+        
         // --- UTILITY FUNCTIONS ---
         // B"H: Gematria - Unifying disparate concepts through the Ohr (Light) of number.
         const gematriaMap = { 1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה', 6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ', 60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ', 100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת' };
         
         /**
-         * Converts a number to its Gematria (Hebrew numerology) representation.
-         * Handles special cases for 15 and 16.
+         * B"H: Converts a number to its Gematria (Hebrew numerology) representation.
+         * This function understands the divine calculus and handles special cases for 15 and 16.
          * @param {number} n The number to convert.
          * @returns {string} The Gematria string.
          */
@@ -533,44 +649,127 @@ B"H
             if(str.length > 1) str = str.slice(0, -1) + '״' + str.slice(-1); else if (str.length === 1) str += '׳';
             return str;
         }
-        
+
         const specialParticleChars = [];
         const specialParticleTextures = [];
         const levelColors = [ new THREE.Color(0x483d8b), new THREE.Color(0x1b0021), new THREE.Color(0x2e0036), new THREE.Color(0x4d0000), new THREE.Color(0x002b4d), new THREE.Color(0x522d00), new THREE.Color(0x1a1a1a), new THREE.Color(0x400050) ];
 
         // --- DATABASE & SETTINGS PERSISTENCE ---
         // B"H: The memory of past worlds, the Reshimu (Impression) left after the Tzimtzum (Contraction).
-        const dbName = "MerkavaSettingsDB_v3"; // B"H Note: Incremented DB version for new settings
+        const dbName = "MerkavaSettingsDB_v3";
         let db;
-
+        
         /**
-         * Initializes the IndexedDB for storing settings.
+         * B"H: Initializes the IndexedDB for storing game settings.
+         * This establishes a vessel to hold the player's choices across journeys.
          * @returns {Promise<void>} A promise that resolves on successful DB connection or rejects on error.
          */
         async function initDB() { return new Promise((resolve, reject) => { const request = indexedDB.open(dbName, 1); request.onerror = () => reject("Error opening DB"); request.onsuccess = event => { db = event.target.result; resolve(); }; request.onupgradeneeded = event => { if (!event.target.result.objectStoreNames.contains('settings')) { event.target.result.createObjectStore('settings', { keyPath: 'id' }); } }; }); }
         
         /**
-         * Saves a setting to the IndexedDB.
-         * @param {string} id The key for the setting.
-         * @param {*} value The value of the setting.
+         * B"H: Saves a setting to the IndexedDB.
+         * @param {string} id The key for the setting, its unique name in the treasury.
+         * @param {*} value The value of the setting, the substance to be stored.
          * @returns {Promise<void>} A promise that resolves when the transaction is complete.
          */
         async function saveSetting(id, value) { if (!db) return; const transaction = db.transaction(['settings'], 'readwrite'); transaction.objectStore('settings').put({ id, value }); return new Promise(resolve => transaction.oncomplete = resolve); }
         
         /**
-         * Loads a setting from the IndexedDB.
-         * @param {string} id The key for the setting.
-         * @param {*} defaultValue The default value to return if the setting is not found.
+         * B"H: Loads a setting from the IndexedDB.
+         * @param {string} id The key for the setting to retrieve.
+         * @param {*} defaultValue The default value to return if the setting is not found, ensuring a state always exists.
          * @returns {Promise<*>} A promise that resolves with the loaded value or the default value.
          */
         async function loadSetting(id, defaultValue) { if (!db) return defaultValue; return new Promise((resolve) => { const request = db.transaction(['settings'], 'readonly').objectStore('settings').get(id); request.onsuccess = event => resolve(event.target.result ? event.target.result.value : defaultValue); request.onerror = () => resolve(defaultValue); }); }
         
+        // --- NEW META-PROGRESSION & PERMANENT UPGRADES ---
+        
+        /**
+         * B"H: playerStats holds the persistent data for the Otzar Ha'Sefirot (Treasury of Emanations).
+         * This object represents the player's accumulated spiritual wealth and permanent blessings.
+         */
+        let playerStats = {
+            totalMitzvot: 0,
+            upgrades: {} // e.g., { startNefesh: { level: 2 }, shefaGain: { level: 1 } }
+        };
+        
+        /**
+         * B"H: The catalogue of all permanent upgrades available in the Otzar Ha'Sefirot.
+         * Each entry defines a path of spiritual ascent for the player.
+         */
+        const permanentUpgrades = {
+            startNefesh: { name: "Keter's Foundation", desc: "Begin each journey with one additional Nefesh unit.", maxLevel: 10, cost: level => 500 * Math.pow(2.2, level) },
+            shefaGain: { name: "Chesed's Abundance", desc: "Gain 2% more Shefa from all sources per level.", maxLevel: 10, cost: level => 400 * Math.pow(1.9, level) },
+            damageBonus: { name: "Gevurah's Edge", desc: "Start with a 5% bonus to all projectile damage.", maxLevel: 1, cost: () => 7500 },
+            fireRateBonus: { name: "Netzach's Alacrity", desc: "Start with a 10% faster firing rate.", maxLevel: 1, cost: () => 6000 },
+            initialMitzvot: { name: "Tiferet's Endowment", desc: "Begin each journey with 100 extra Mitzvot.", maxLevel: 5, cost: level => 1500 * Math.pow(2.5, level) },
+            comboBonus: { name: "Yesod's Connection", desc: "Combo multiplier increases Shefa gains by an additional 1% per level.", maxLevel: 10, cost: level => 1000 * Math.pow(1.8, level) }
+        };
+        
+        /**
+         * B"H: Loads the player's persistent stats from localStorage.
+         * This function retrieves the player's accumulated spiritual progress from the 'memory' of the browser.
+         */
+        function loadPlayerStats() {
+            const savedMitzvot = localStorage.getItem('totalMitzvot');
+            const savedUpgrades = localStorage.getItem('playerUpgrades');
+            playerStats.totalMitzvot = savedMitzvot ? parseInt(savedMitzvot, 10) : 0;
+            playerStats.upgrades = savedUpgrades ? JSON.parse(savedUpgrades) : {};
+        }
+        
+        /**
+         * B"H: Saves the player's persistent stats to localStorage.
+         * This function commits the player's current spiritual state to memory, ensuring it endures.
+         */
+        function savePlayerStats() {
+            localStorage.setItem('totalMitzvot', playerStats.totalMitzvot.toString());
+            localStorage.setItem('playerUpgrades', JSON.stringify(playerStats.upgrades));
+        }
+        
+        /**
+         * B"H: Populates the Otzar Ha'Sefirot (Upgrade Shop) UI.
+         * This function dynamically renders the player's choices for permanent growth, reflecting their current means and progress.
+         */
+        function populateUpgradeShop() {
+            ui.totalMitzvotDisplay.textContent = `Total Mitzvot: ${Math.floor(playerStats.totalMitzvot)}`;
+            ui.upgradeShopGrid.innerHTML = ''; // Clear existing cards
+
+            for (const key in permanentUpgrades) {
+                const upgrade = permanentUpgrades[key];
+                const currentLevel = playerStats.upgrades[key]?.level || 0;
+                const cost = currentLevel < upgrade.maxLevel ? Math.floor(upgrade.cost(currentLevel)) : 0;
+                
+                const card = document.createElement('div');
+                card.className = 'upgrade-card';
+
+                const canAfford = playerStats.totalMitzvot >= cost;
+                const isMaxed = currentLevel >= upgrade.maxLevel;
+                
+                let buttonHTML = '';
+                if (isMaxed) {
+                    buttonHTML = `<button class="upgrade-button maxed" disabled>MAX LEVEL</button>`;
+                } else {
+                    buttonHTML = `<button class="upgrade-button ${canAfford ? '' : 'disabled'}" data-key="${key}" ${canAfford ? '' : 'disabled'}>
+                                      Upgrade (${cost} Mitzvot)
+                                  </button>`;
+                }
+
+                card.innerHTML = `
+                    <h3>${upgrade.name}</h3>
+                    <p>${upgrade.desc}</p>
+                    <div class="level-display">Level: ${currentLevel} / ${upgrade.maxLevel}</div>
+                    ${buttonHTML}
+                `;
+                ui.upgradeShopGrid.appendChild(card);
+            }
+        }
+
         // B"H: The Seder Hishtalshelus (Chain of Progression) of settings, from the highest potential to the lowest manifestation.
         let gameSettings = {};
         const defaultSettings = { particleChars: '✨,✡️,🕎,📜,🪐,☄️,⭐,🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25, captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF', minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60, webcamMode: 'off', maxNefesh: 100 };
         
         /**
-         * Loads all settings from the database and applies them to the game and UI.
+         * B"H: Loads all settings from the database and applies them to the game and UI.
          * @returns {Promise<void>}
          */
         async function applySettings() {
@@ -611,7 +810,7 @@ B"H
         }
 
         /**
-         * Applies the currently loaded font and color settings to the prayer caption display.
+         * B"H: Applies the currently loaded font and color settings to the prayer caption display.
          */
         function applyCaptionStyle() { ui.prayerText.style.fontFamily = gameSettings.captionFont; ui.prayerText.style.color = gameSettings.captionColor; }
 
@@ -619,7 +818,8 @@ B"H
         // B"H: Bringing forth form from the formless, giving shape to holy letters and signs.
         
         /**
-         * Creates a canvas texture from a text character (e.g., an emoji).
+         * B"H: Creates a canvas texture from a text character (e.g., an emoji).
+         * This function captures a spark of meaning and renders it as a celestial object.
          * @param {string} text The character to draw.
          * @param {number} [size=128] The width and height of the canvas texture.
          * @returns {THREE.CanvasTexture} The generated texture.
@@ -627,7 +827,8 @@ B"H
         function createSpecialParticleTexture(text, size = 128) { const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size; const context = canvas.getContext('2d'); context.font = `${size * 0.8}px Arial`; context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(text, size / 2, size / 2 + size*0.05); return new THREE.CanvasTexture(canvas); }
         
         /**
-         * Creates a canvas texture for displaying text, such as obstacle values.
+         * B"H: Creates a canvas texture for displaying text, such as obstacle values.
+         * This function inscribes letters of judgment or blessing upon the vessels of the world.
          * @param {string} text The main text to display.
          * @param {string} gematriaText The Gematria text to display below the main text.
          * @param {string} bgColor The background color of the canvas.
@@ -643,6 +844,7 @@ B"H
          */
         class ObjectPool {
             /**
+             * B"H: Constructs an ObjectPool.
              * @param {Function} createFn A function that creates a new object for the pool.
              * @param {number} initialSize The number of objects to create initially.
              */
@@ -658,18 +860,19 @@ B"H
                 }
             }
             /**
-             * Retrieves an object from the pool, making it active and visible.
-             * @returns {object} An object from the pool.
+             * B"H: Retrieves an object from the pool, making it active and visible.
+             * @returns {object|null} An object from the pool, or null if a new one cannot be created.
              */
             activate() {
                 let obj = this.pool.length > 0 ? this.pool.pop() : this.createFn();
+                if (!obj) return null;
                 if (!obj.parent) scene.add(obj);
                 obj.visible = true;
                 this.active.add(obj);
                 return obj;
             }
             /**
-             * Returns an object to the pool, making it inactive and invisible.
+             * B"H: Returns an object to the pool, making it inactive and invisible.
              * @param {object} obj The object to deactivate.
              */
             deactivate(obj) {
@@ -677,7 +880,7 @@ B"H
                 this.active.delete(obj);
                 this.pool.push(obj);
             }
-            /** Deactivates all currently active objects in the pool. */
+            /** B"H: Deactivates all currently active objects in the pool. */
             deactivateAll() {
                 [...this.active].forEach(obj => this.deactivate(obj));
             }
@@ -696,24 +899,24 @@ B"H
         const golemHeavyProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0x4b0082, fog: false });
         const shefaOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false });
         const outlineMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--outline-color').trim()), side: THREE.BackSide, fog: false });
-        
-        // =========================================================================
-        // B"H: Atzmut - The essential power of the Merkava, expressed as numberless sparks.
-        // --- [START] NEW, FULLY ERADICATED AND REBUILT PROJECTILE SYSTEM ---
-        // =========================================================================
+        // B"H: New Materials for the Tome Keeper
+        const tomeKeeperMaterial = new THREE.MeshStandardMaterial({ color: 0x3d005b, emissive: 0x8a2be2, emissiveIntensity: 1.8, metalness: 0.3, roughness: 0.4 });
+        const shieldMaterial = new THREE.MeshBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.35, side: THREE.DoubleSide });
+
+        // --- PLAYER & PROJECTILE SYSTEM ---
 
         /** B"H: The instanced mesh for rendering all player projectiles ("sparks"), a single vessel for a multitude of lights. */
         const sparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial, MAX_SPARKS );
         sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         scene.add(sparkInstancedMesh);
-        
+
         /** B"H: The state array for all sparks. This is the single source of truth (Emet) for all projectiles, reflecting their potential and actual states. */
         const sparkState = [];
         for (let i = 0; i < MAX_SPARKS; i++) {
             sparkState.push({
                 active: false,
                 position: new THREE.Vector3(0, 1000, 0),
-                velocity: new THREE.Vector3(0, 0, -80), // Increased speed for better feel
+                velocity: new THREE.Vector3(0, 0, -80),
                 damage: 1,
                 pierceCounter: 0
             });
@@ -732,44 +935,32 @@ B"H
                     spark.active = true;
                     spark.position.copy(position);
                     spark.damage = damage;
-                    spark.pierceCounter = hasPierce ? 1 : 0; // Can pierce 1 time if hasPierce is true
+                    spark.pierceCounter = hasPierce ? 1 : 0;
                     return;
                 }
             }
         }
-        // =========================================================================
-        // --- [END] REBUILT PROJECTILE SYSTEM ---
-        // =========================================================================
-        
+
         // --- INSTANCED MESH PLAYER SETUP ---
         // B"H: The Nefesh, the soul-sparks of the player's Merkava, arranged in a divine pattern.
-        let nefeshTopInstanced, nefeshBottomInstanced, webcamDisplayInstanced;
+        let nefeshTopInstanced, nefeshBottomInstanced;
         let nefeshState = [];
         const nefeshGroup = new THREE.Group();
         scene.add(nefeshGroup);
         
         /**
-         * Sets up or rebuilds the instanced meshes for the player's Nefesh collective.
-         * B"H: Atzmut manifests as a collective; a single soul is part of the whole of Israel.
+         * B"H: Sets up or rebuilds the instanced meshes for the player's Nefesh collective.
+         * Atzmut manifests as a collective; a single soul is part of the whole of Israel.
          */
         function setupInstancedNefesh() {
             if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
             if (nefeshBottomInstanced) nefeshGroup.remove(nefeshBottomInstanced);
-            if (webcamDisplayInstanced) nefeshGroup.remove(webcamDisplayInstanced);
-
             const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
             nefeshTopInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
             nefeshBottomInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
-
-            const webcamDisplayGeom = new THREE.ConeGeometry(0.5, 0.2, 32);
-            webcamDisplayInstanced = new THREE.InstancedMesh(webcamDisplayGeom, new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.85 }), MAX_NEFESH);
-            
             nefeshTopInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
             nefeshBottomInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-            webcamDisplayInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-            
-            nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced, webcamDisplayInstanced);
-            
+            nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced);
             const angleStep = Math.PI * (3 - Math.sqrt(5));
             const radiusStep = 0.45;
             let maxRadius = radiusStep * Math.sqrt(MAX_NEFESH);
@@ -784,41 +975,144 @@ B"H
                 nefeshState.push({ active: false, currentPos: new THREE.Vector3(0, 1000, 0), targetPos: targetPos, currentScale: 0.01, targetScale: 1, yRotation: 0, lastShotTime: 0, collisionBox2D: new THREE.Box2() });
             }
         }
-        
-        // --- OTHER OBJECT POOLS ---
+
+        // --- OBJECT POOLS ---
         const golemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial), 30);
         const golemFastProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), golemFastProjectileMaterial), 30);
         const golemHeavyProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 1.2), golemHeavyProjectileMaterial), 20);
+        const windParticlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 1.5), new THREE.MeshBasicMaterial({color: 0xaaaaff, transparent: true, opacity: 0.5, fog: false})), 50);
         const particlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({fog: false})), 300);
         const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
         const specialParticlePool = new ObjectPool(() => { const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 }); const sprite = new THREE.Sprite(material); sprite.userData = { type: 'special_particle' }; return sprite; }, 300);
         const activeLights = new Set();
         const activeShockwaves = new Set();
         const dynamicShards = new Set();
-        
+
         // --- CORE GAME OBJECT FUNCTIONS ---
-        
+
         /**
-         * B"H: The shattering of a vessel (Kli) when the light is withdrawn.
-         * Deactivates a Nefesh unit and creates a particle explosion.
+         * B"H: Phase 1 of the Zombie Nefesh fix. Marks a Nefesh for destruction.
+         * Instead of destroying it immediately (which causes a race condition), its index is added
+         * to a queue for safe processing at the end of the frame.
          * @param {number} index The index of the Nefesh in the `nefeshState` array.
          */
-        function destroyNefesh(index) { if (index !== -1 && nefeshState[index] && nefeshState[index].active) { const state = nefeshState[index]; state.active = false; dummyObject.position.copy(state.currentPos).add(nefeshGroup.position); createParticleExplosion(dummyObject.position, 30, 0x800080, 15); } }
-        
+        function markNefeshForDestruction(index) {
+            if (index !== -1 && nefeshState[index] && nefeshState[index].active && !destroyedNefeshIndices.has(index)) {
+                destroyedNefeshIndices.add(index);
+                // B"H: If tracking a wave for the "Perfect Wave" bonus, record the hit.
+                if (gameState.wave && gameState.wave.isTracking) {
+                    gameState.wave.hitsTakenThisWave++;
+                }
+            }
+        }
+
+        /**
+         * B"H: Phase 2 of the Zombie Nefesh fix. Performs a total state neutralization on a Nefesh unit.
+         * It teleports the unit, sets its scale to 0, and resets its state, ensuring it cannot act again.
+         * This is called safely from the end of the animation loop.
+         * @param {number} index The index of the Nefesh to neutralize.
+         */
+        function neutralizeNefesh(index) {
+            if (index < 0 || index >= nefeshState.length) return;
+            const state = nefeshState[index];
+            if (!state.active) return; // Already neutralized
+
+            state.active = false;
+            // Teleport the object far outside the playable area to prevent any lingering interactions.
+            state.currentPos.set(0, 1000, 0);
+            state.targetPos.set(0, 1000, 0);
+            state.currentScale = 0;
+            state.targetScale = 0;
+            state.lastShotTime = 0; // Reset timer to be absolutely certain.
+
+            // Also update the instanced mesh matrix to make it disappear instantly
+            dummyObject.scale.set(0, 0, 0);
+            dummyObject.updateMatrix();
+            if (nefeshTopInstanced) nefeshTopInstanced.setMatrixAt(index, dummyObject.matrix);
+            if (nefeshBottomInstanced) nefeshBottomInstanced.setMatrixAt(index, dummyObject.matrix);
+
+            // Create a particle explosion at the last known valid position before neutralization
+            const explosionPosition = nefeshGroup.position.clone().add(state.currentPos);
+            createParticleExplosion(explosionPosition, 30, 0x800080, 15);
+        }
+
         /**
          * B"H: The process of Tikkun (Rectification) or Din (Judgment), adjusting the number of manifest souls.
          * @param {number} change The number of Nefesh to add (positive) or remove (negative).
          */
-        function adjustNefeshCount(change) { const initialNefesh = gameState.nefesh; if (change > 0) { let added = 0; for(let i = 0; i < MAX_NEFESH && added < change; i++) { if (!nefeshState[i].active) { const state = nefeshState[i]; state.active = true; state.currentPos.set(0, 0.4, 0); state.targetScale = 1; state.currentScale = 0.01; state.lastShotTime = 0; createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10); added++; } } } else if (change < 0) { let removed = 0; const toRemove = -change; for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) { if (nefeshState[i].active) { destroyNefesh(i); removed++; } } } gameState.nefesh = nefeshState.filter(s => s.active).length; if (gameState.nefesh < initialNefesh) shatterElement(ui.nefeshDisplay); if (gameState.nefesh <= 0 && gameState.current === 'playing') endGame(); ui.nefeshDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100); }
+        function adjustNefeshCount(change) {
+            const initialNefesh = gameState.nefesh;
+            if (change > 0) {
+                let added = 0;
+                for(let i = 0; i < MAX_NEFESH && added < change; i++) {
+                    if (!nefeshState[i].active) {
+                        const state = nefeshState[i];
+                        state.active = true;
+                        state.currentPos.set(0, 0.4, 0);
+                        state.targetScale = 1;
+                        state.currentScale = 0.01;
+                        state.lastShotTime = 0;
+                        createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10);
+                        added++;
+                    }
+                }
+            } else if (change < 0) {
+                let removed = 0;
+                const toRemove = -change;
+                // It is critical to remove from the back to avoid shifting indices while iterating
+                for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
+                    if (nefeshState[i].active) {
+                        markNefeshForDestruction(i); // Use the new safe destruction method
+                        removed++;
+                    }
+                }
+            }
+            gameState.nefesh = nefeshState.filter(s => s.active).length;
+            if (gameState.nefesh < initialNefesh) {
+                shatterElement(ui.nefeshDisplay);
+            }
+            if (gameState.nefesh <= 0 && gameState.current === 'playing') {
+                endGame();
+            }
+            ui.nefeshDisplay.style.transform = "scale(1.2)";
+            setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
+        }
 
         // --- OBSTACLE CREATION & VISUALS ---
         // B"H: Klipot (Husks) and other Sitra Achra (Other Side) forces that conceal the Divine light.
         const klipahGatePool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.BoxGeometry(3, 4, 0.5); const b = new THREE.Mesh(bG, klipahCrackMaterial.clone()); const o = new THREE.Mesh(bG, outlineMaterial); o.scale.setScalar(1.15); const vP = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })); vP.position.z = 0.26; g.add(o, b, vP); g.userData = { type: 'klipah_gate', body: b, valuePlane: vP, collisionBox2D: new THREE.Box2() }; return g; }, 15);
         function updateKlipahGateVisuals(gate) { const { valuePlane, currentValue, isPurified } = gate.userData; if (valuePlane.material.map) valuePlane.material.map.dispose(); const color = isPurified ? '#aaffaa' : '#ff4444'; let numText = isPurified ? `+${currentValue}` : currentValue.toString(); let gematria = toGematria(currentValue); valuePlane.material.map = createTextTexture(numText, gematria, 'rgba(0,0,0,0)', undefined, color); gate.userData.body.material.color.set(isPurified ? '#66ff66' : '#550000'); gate.userData.body.material.emissive.set(isPurified ? '#00ff00' : '#ff0000'); }
-        const jarPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12); const b = new THREE.Mesh(bG, jarMaterial.clone()); b.rotation.z = Math.PI / 2; b.rotation.y = Math.random() * Math.PI; const o = new THREE.Mesh(bG, outlineMaterial); o.rotation.copy(b.rotation); o.scale.set(1.15, 1.1, 1.15); const hP = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })); hP.position.y = 1.2; g.add(o, b, hP); g.userData = { type: 'jar', body: b, healthPlane: hP, collisionBox2D: new THREE.Box2() }; return g; }, 15);
+        const jarPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12); const b = new THREE.Mesh(bG, jarMaterial.clone()); b.rotation.z = Math.PI / 2; b.rotation.y = Math.random() * Math.PI; const o = new THREE.Mesh(bG, outlineMaterial); o.rotation.copy(b.rotation); o.scale.set(1.15, 1.1, 1.15); const hP = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })); hP.position.y = 1.2; g.add(o, b, hP); g.userData = { type: 'jar', body: b, healthPlane: hP, collisionBox2D: new THREE.Box2(), isShielded: false, shieldVisual: null }; return g; }, 15);
         function updateJarHealthVisuals(jar) { const { healthPlane, health } = jar.userData; if (healthPlane.material.map) healthPlane.material.map.dispose(); healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF'); }
         const tohuShardPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.ConeGeometry(0.3, 1.5, 6); for(let i=0; i < 10; i++) { const sGr = new THREE.Group(); const s = new THREE.Mesh(sG, tohuMaterial.clone()); const o = new THREE.Mesh(sG, outlineMaterial); o.scale.setScalar(1.2); sGr.add(o, s); sGr.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5); sGr.userData.collisionBox2D = new THREE.Box2(); g.add(sGr); } g.userData = { type: 'tohu_shard', body: g }; return g; }, 15);
-        const golemSentryPool = new ObjectPool(() => { const g = new THREE.Group(); const tG = new THREE.BoxGeometry(1.5, 2.0, 1.5); const t = new THREE.Mesh(tG, golemMaterial.clone()); t.position.y = 1.0; const hG = new THREE.BoxGeometry(1.0, 1.0, 1.0); const h = new THREE.Mesh(hG, golemMaterial.clone()); h.position.y = 2.5; const e = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000})); e.position.z = 0.5; h.add(e); const tO = new THREE.Mesh(tG, outlineMaterial); tO.position.copy(t.position); tO.scale.setScalar(1.1); const hO = new THREE.Mesh(hG, outlineMaterial); hO.position.copy(h.position); hO.scale.setScalar(1.1); g.add(tO, hO, t, h); g.userData = { type: 'golem_sentry', body: g, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye: e }; return g; }, 10);
+        const golemSentryPool = new ObjectPool(() => { const g = new THREE.Group(); const tG = new THREE.BoxGeometry(1.5, 2.0, 1.5); const t = new THREE.Mesh(tG, golemMaterial.clone()); t.position.y = 1.0; const hG = new THREE.BoxGeometry(1.0, 1.0, 1.0); const h = new THREE.Mesh(hG, golemMaterial.clone()); h.position.y = 2.5; const e = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000})); e.position.z = 0.5; h.add(e); const tO = new THREE.Mesh(tG, outlineMaterial); tO.position.copy(t.position); tO.scale.setScalar(1.1); const hO = new THREE.Mesh(hG, outlineMaterial); hO.position.copy(h.position); hO.scale.setScalar(1.1); g.add(tO, hO, t, h); g.userData = { type: 'golem_sentry', body: g, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye: e, isShielded: false, shieldVisual: null }; return g; }, 10);
+        // B"H: New Object Pool for the Tome Keeper
+        const tomeKeeperPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeom = new THREE.IcosahedronGeometry(0.7, 0);
+            const body = new THREE.Mesh(bodyGeom, tomeKeeperMaterial.clone());
+            body.position.y = 1.5;
+            const outline = new THREE.Mesh(bodyGeom, outlineMaterial);
+            outline.position.copy(body.position);
+            outline.scale.setScalar(1.15);
+            
+            // The beam that connects to the shielded enemy
+            const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 });
+            const beamGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+            const shieldBeam = new THREE.Line(beamGeometry, beamMaterial);
+            
+            group.add(body, outline, shieldBeam);
+            group.userData = {
+                type: 'tome_keeper',
+                health: 50,
+                body: body,
+                shieldedEnemy: null,
+                shieldBeam: shieldBeam,
+                collisionBox2D: new THREE.Box2()
+            };
+            return group;
+        }, 5);
+
         function createParticleExplosion(position, count, color, speed) { const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1)); for(let i=0; i < scaledCount; i++) { const p = particlePool.activate(); if(!p) continue; p.position.copy(position); p.material.color.set(color); p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 }; } }
         function shatterObject(object) { const geom = object.geometry; const mat = object.material; const shatterCount = gameSettings.shatterCount; const shatterSpeed = gameSettings.shatterSpeed; for(let i=0; i < shatterCount; i++) { const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3); shard.position.copy(object.getWorldPosition(worldPosVec)); shard.rotation.copy(object.rotation); scene.add(shard); shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) }; dynamicShards.add(shard); } }
         function shatterElement(element) { if (!element) return; const rect = element.getBoundingClientRect(); if (rect.width === 0 || rect.height === 0) return; const container = document.createElement('div'); Object.assign(container.style, { position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, overflow: 'hidden', pointerEvents: 'none', zIndex: '2000' }); document.body.appendChild(container); const shatterCount = Math.max(5, gameSettings.shatterCount / 2); const shatterSpeed = gameSettings.shatterSpeed * 0.2; for (let i = 0; i < shatterCount; i++) { const shard = document.createElement('div'); Object.assign(shard.style, { position: 'absolute', backgroundColor: 'white', width: `${Math.random() * 15 + 5}px`, height: `${Math.random() * 15 + 5}px`, left: `${Math.random() * rect.width}px`, top: `${Math.random() * rect.height}px`, transition: 'transform 1s ease-out, opacity 1s ease-out' }); container.appendChild(shard); requestAnimationFrame(() => { const vx = (Math.random() - 0.5) * shatterSpeed * 8; const vy = (Math.random() - 0.5) * shatterSpeed * 8; shard.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg)`; shard.style.opacity = '0'; }); } setTimeout(() => { if (container.parentElement) document.body.removeChild(container); }, 1000); }
@@ -828,7 +1122,6 @@ B"H
         function triggerFlash(color, duration) { const intensity = gameSettings.flashIntensity; if (intensity <= 0) return; ui.flashOverlay.style.backgroundColor = color; ui.flashOverlay.style.transition = 'opacity 0s'; ui.flashOverlay.style.opacity = (0.7 * intensity).toString(); setTimeout(() => { ui.flashOverlay.style.transition = `opacity ${duration}ms`; ui.flashOverlay.style.opacity = '0'; }, 10); }
 
         // --- WEBCAM SYSTEM ---
-        // B"H: New system for handling webcam feed as a texture for various modes.
         const webcam = {
             videoElement: document.getElementById('webcamFeed'),
             videoTexture: null,
@@ -850,11 +1143,6 @@ B"H
                     this.videoTexture.magFilter = THREE.LinearFilter;
                     this.createCentralDisplay();
                     this.isInitialized = true;
-                    // B"H Update material for individual displays
-                    if (webcamDisplayInstanced) {
-                        webcamDisplayInstanced.material.map = this.videoTexture;
-                        webcamDisplayInstanced.material.needsUpdate = true;
-                    }
                     return true;
                 } catch (err) {
                     console.error("B\"H: Error accessing webcam.", err);
@@ -887,16 +1175,18 @@ B"H
 
             updateVisibility() {
                 const mode = gameSettings.webcamMode || 'off';
-                
-                // Central Display visibility
                 if (this.centralDisplay) {
                     this.centralDisplay.visible = this.isInitialized && (mode === 'central' || mode === 'both');
                 }
-
-                // Individual Nefesh displays
-                if (webcamDisplayInstanced) {
-                    webcamDisplayInstanced.visible = this.isInitialized && (mode === 'individual' || mode === 'both');
+                const showOnIndividual = this.isInitialized && (mode === 'individual' || mode === 'both');
+                if (showOnIndividual) {
+                    magenDavidMaterial.map = this.videoTexture;
+                    magenDavidMaterial.emissiveIntensity = 0;
+                } else {
+                    magenDavidMaterial.map = null;
+                    magenDavidMaterial.emissiveIntensity = 0.5;
                 }
+                magenDavidMaterial.needsUpdate = true;
             }
         };
 
@@ -911,81 +1201,117 @@ B"H
         }
 
         // --- GAMEPLAY SYSTEMS ---
-        // B"H: The Sefirot, the divine emanations that grant new powers and attributes.
+        // B"H: The Sefirot, the divine emanations that grant new powers and attributes during a run.
         const allUpgrades = { 'gevurah': { name: "GEVURAH'S MIGHT", desc: "Projectile damage increased.", apply: () => gameState.player.projectileDamage++ }, 'netzach': { name: "NETZACH'S SWIFTNESS", desc: "Increases fire rate.", apply: () => gameState.player.fireRate *= 0.85 }, 'hod': { name: "HOD'S SPLENDOR", desc: "Projectiles pierce one enemy.", nonStackable: true, apply: () => gameState.player.hasPierce = true }, 'chesed': { name: "CHESED'S GRACE", desc: "Periodically gain a shield that blocks one hit.", nonStackable: true, apply: () => gameState.player.hasShield = true }, 'tikkun': { name: "TIKKUN OLAM", desc: "Slowly regenerate lost Nefesh over time.", nonStackable: true, apply: () => gameState.player.hasRegen = true }, };
         const acquiredUpgrades = new Set();
         function grantRandomEmanation() { const availableUpgrades = Object.keys(allUpgrades).filter(key => !allUpgrades[key].nonStackable || !acquiredUpgrades.has(key)); if(availableUpgrades.length === 0) return; const chosenKey = availableUpgrades[Math.floor(Math.random() * availableUpgrades.length)]; const upgrade = allUpgrades[chosenKey]; upgrade.apply(); if(upgrade.nonStackable) acquiredUpgrades.add(chosenKey); ui.ascensionNotifier.textContent = upgrade.name; ui.ascensionNotifier.classList.add('show'); createParticleExplosion(nefeshGroup.position, 150, 0xd8a8ff, 20); triggerFlash('#d8a8ff', 500); triggerFovKick(15); for (const p of specialParticlePool.active) { const direction = p.position.clone().sub(nefeshGroup.position).normalize(); p.userData.velocity.addScaledVector(direction, 40); p.userData.life = Math.min(p.userData.life, 2.0); } setTimeout(() => ui.ascensionNotifier.classList.remove('show'), 2500); const nextColorIndex = Math.min(gameState.level - 1, levelColors.length - 1); gameState.color.target.copy(levelColors[nextColorIndex]); }
         // B"H: Shefa (Divine Flow) drawn down through righteous action (combo).
-        function updateCombo(newPoints, position) { gameState.combo.count++; gameState.combo.timer = 3.0; const shefaGained = newPoints * gameState.combo.count; const numOrbs = Math.min(15, Math.floor(shefaGained / 10)); if(numOrbs === 0) return; const valuePerOrb = shefaGained / numOrbs; for(let i=0; i < numOrbs; i++) { const orb = shefaOrbPool.activate(); if(orb) { orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0)); orb.userData.value = valuePerOrb; orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8); } } ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`; ui.comboNotifier.classList.remove('show'); void ui.comboNotifier.offsetWidth; ui.comboNotifier.classList.add('show'); }
-        let road, starField1, starField2; let roadTextureTileLength;
-        
-        function createRoadTexture() {
-            const canvas = document.createElement('canvas');
-            const width = 128; const height = 1024; // Taller for more variation
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-
-            // B"H Create a flowing river effect
-            ctx.fillStyle = 'rgba(10, 20, 50, 0.6)'; // Dark blue base
-            ctx.fillRect(0, 0, width, height);
-            
-            const waves = 5;
-            for (let i = 0; i < waves; i++) {
-                ctx.beginPath();
-                const startY = (height / waves) * i;
-                const endY = (height / waves) * (i + 1);
-                const midY = (startY + endY) / 2;
-                
-                const grad = ctx.createLinearGradient(0, startY, 0, endY);
-                grad.addColorStop(0, `rgba(100, 150, 255, ${Math.random() * 0.1 + 0.1})`);
-                grad.addColorStop(0.5, `rgba(150, 200, 255, ${Math.random() * 0.15 + 0.15})`);
-                grad.addColorStop(1, `rgba(100, 150, 255, ${Math.random() * 0.1 + 0.1})`);
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = Math.random() * 15 + 5;
-                ctx.moveTo(Math.random() * width - width/2, startY);
-                
-                ctx.bezierCurveTo(
-                    width * (Math.random() * 0.5 + 0.25), midY - (Math.random() * 50),
-                    width * (Math.random() * 0.5 + 0.25), midY + (Math.random() * 50),
-                    width + (Math.random() * width/2), endY
-                );
-                ctx.stroke();
+        function updateCombo(newPoints, position) {
+            gameState.combo.count++;
+            gameState.combo.timer = 3.0;
+            const comboBonus = 1 + (playerStats.upgrades.comboBonus?.level || 0) * 0.01;
+            const shefaGained = newPoints * gameState.combo.count * comboBonus;
+            const numOrbs = Math.min(15, Math.floor(shefaGained / 10));
+            if(numOrbs === 0) return;
+            const valuePerOrb = shefaGained / numOrbs;
+            for(let i=0; i < numOrbs; i++) {
+                const orb = shefaOrbPool.activate();
+                if(orb) {
+                    orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0));
+                    orb.userData.value = valuePerOrb;
+                    orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
+                }
             }
-
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            return texture;
+            ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
+            ui.comboNotifier.classList.remove('show');
+            void ui.comboNotifier.offsetWidth; // Trigger reflow to restart animation
+            ui.comboNotifier.classList.add('show');
         }
-
+        let road, starField1, starField2; let roadTextureTileLength;
+        function createRoadTexture() { const canvas = document.createElement('canvas'); const width = 128; const height = 512; canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.fillStyle = 'rgba(0,0,0,0)'; ctx.fillRect(0, 0, width, height); ctx.fillStyle = 'rgba(255, 255, 0, 0.7)'; for(let y = 0; y < height; y += 40) { ctx.fillRect(width/2 - 3, y, 6, 20); } ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; ctx.fillRect(width * 0.1 - 1, 0, 2, height); ctx.fillRect(width * 0.9 - 1, 0, 2, height); const texture = new THREE.CanvasTexture(canvas); texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping; return texture; }
         // B"H: Ma'aseh Bereishit (The Act of Creation) - laying down the path and the firmament.
-        function createWorld() {
-            const roadTextureRepeats = 5;
-            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20);
-            // B"H Use MeshStandardMaterial for better lighting, giving a liquid-like sheen
-            const roadMat = new THREE.MeshStandardMaterial({
-                color: 0xaaaaff,
-                map: createRoadTexture(),
-                transparent: true,
-                opacity: 0.8,
-                metalness: 0.2,
-                roughness: 0.3
-            });
-            roadMat.map.repeat.set(1, roadTextureRepeats);
-            roadTextureTileLength = roadLength / roadTextureRepeats;
-            road = new THREE.Mesh(roadGeo, roadMat);
-            road.rotation.x = -Math.PI / 2;
-            road.position.y = roadLevelY;
-            scene.add(road);
-
-            const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2);
-        }
-
+        function createWorld() { const roadTextureRepeats = 10; const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20); const roadMat = new THREE.MeshLambertMaterial({ color: 0x483d8b, map: createRoadTexture(), transparent: true }); roadMat.map.repeat.set(1, roadTextureRepeats); roadTextureTileLength = roadLength / roadTextureRepeats; road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = roadLevelY; scene.add(road); const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2); }
         const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = camera.position.z + 5;
-        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); break; } case 'jar': { const jar = jarPool.activate(); if(!jar) return; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health }); updateJarHealthVisuals(jar); break; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return; shard.position.copy(position); break; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; break; } } }
-        function pattern_Wall(z) { const wallType = Math.random() < 0.7 ? 'jar' : 'klipah_gate'; spawnObstacle(wallType, 0, z); spawnObstacle(wallType, 1, z); spawnObstacle(wallType, 2, z); } function pattern_Gauntlet(z) { const lane = Math.floor(Math.random() * 3); for(let i = 0; i < 4; i++) { spawnObstacle('tohu_shard', lane, z - i * 15); } } function pattern_SentryGuard(z) { const lane = Math.floor(Math.random() * 3); spawnObstacle('golem_sentry', lane, z - 10); spawnObstacle('jar', lane, z); const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1; spawnObstacle('jar', sideLane, z - 5); } function pattern_KlipahWeave(z) { const startLane = Math.random() < 0.5 ? 0 : 2; spawnObstacle('klipah_gate', startLane, z); spawnObstacle('klipah_gate', 1, z - 15); spawnObstacle('klipah_gate', 2 - startLane, z - 30); if (gameState.level > 5) spawnObstacle('jar', startLane, z - 45); } function pattern_GolemFlank(z) { spawnObstacle('golem_sentry', 0, z); spawnObstacle('golem_sentry', 2, z-5); spawnObstacle('jar', 1, z); } function pattern_RandomMix(z) { const lane1 = Math.floor(Math.random() * 3); let lane2 = Math.floor(Math.random() * 3); while(lane2 === lane1) { lane2 = Math.floor(Math.random() * 3); } spawnObstacle('jar', lane1, z); spawnObstacle('klipah_gate', lane2, z - 10); if (Math.random() > 0.4) { spawnObstacle('tohu_shard', 3 - lane1 - lane2, z - 20); } } function pattern_Crossfire(z) { spawnObstacle('golem_sentry', 0, z); spawnObstacle('golem_sentry', 2, z - 10); if (Math.random() < 0.5 * (gameState.level / 10)) { spawnObstacle('jar', 1, z-20); } } function pattern_TrapCorridor(z) { const openLane = Math.floor(Math.random() * 3); for(let i=0; i<3; i++) { if (i !== openLane) { spawnObstacle('jar', i, z); spawnObstacle('jar', i, z - 15); } else { spawnObstacle('tohu_shard', i, z - 7.5); } } }
-        const patternSets = [ [pattern_RandomMix, pattern_Wall], [pattern_RandomMix, pattern_Wall, pattern_Gauntlet, pattern_SentryGuard], [pattern_Gauntlet, pattern_SentryGuard, pattern_KlipahWeave, pattern_Crossfire], [pattern_SentryGuard, pattern_KlipahWeave, pattern_GolemFlank, pattern_Crossfire, pattern_TrapCorridor], ];
-        function trySpawnPattern() { let rearmostZ = 0; const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active]; for(const obs of allObstacles) { if (obs.position.z < rearmostZ) rearmostZ = obs.position.z; } if (rearmostZ > -80) { const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level -1) / 3)); const availablePatterns = patternSets[patternSetIndex]; const chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)]; chosenPattern(-120 - Math.random() * 40); } }
+        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } } return null; }
+        
+        // --- SPAWN PATTERNS & WAVE MANAGEMENT ---
+        function pattern_Wall(z) { const enemies = []; enemies.push(spawnObstacle('jar', 0, z)); enemies.push(spawnObstacle('jar', 1, z)); enemies.push(spawnObstacle('jar', 2, z)); return enemies.filter(Boolean); }
+        function pattern_Gauntlet(z) { const enemies = []; const lane = Math.floor(Math.random() * 3); for(let i = 0; i < 4; i++) { enemies.push(spawnObstacle('tohu_shard', lane, z - i * 15)); } return enemies.filter(Boolean); }
+        function pattern_SentryGuard(z) { const enemies = []; const lane = Math.floor(Math.random() * 3); enemies.push(spawnObstacle('golem_sentry', lane, z - 10)); enemies.push(spawnObstacle('jar', lane, z)); const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1; enemies.push(spawnObstacle('jar', sideLane, z - 5)); return enemies.filter(Boolean); }
+        function pattern_KlipahWeave(z) { const enemies = []; const startLane = Math.random() < 0.5 ? 0 : 2; enemies.push(spawnObstacle('klipah_gate', startLane, z)); enemies.push(spawnObstacle('klipah_gate', 1, z - 15)); enemies.push(spawnObstacle('klipah_gate', 2 - startLane, z - 30)); if (gameState.level > 5) enemies.push(spawnObstacle('jar', startLane, z - 45)); return enemies.filter(Boolean); }
+        // B"H: New pattern featuring the Tome Keeper
+        function pattern_TomeKeeperGuard(z) {
+            const enemies = [];
+            const protectedLane = Math.floor(Math.random() * 3);
+            const keeperLane = (protectedLane + 1 + Math.floor(Math.random() * 2)) % 3; // Ensure keeper is in a different lane
+            const protectedEnemy = spawnObstacle('golem_sentry', protectedLane, z);
+            if (protectedEnemy) {
+                enemies.push(protectedEnemy);
+                const tomeKeeper = spawnObstacle('tome_keeper', keeperLane, z - 5);
+                if (tomeKeeper) {
+                    enemies.push(tomeKeeper);
+                    tomeKeeper.userData.shieldedEnemy = protectedEnemy;
+                    protectedEnemy.userData.isShielded = true;
+                    // Add a visual shield to the protected enemy
+                    if (!protectedEnemy.userData.shieldVisual) {
+                        protectedEnemy.userData.shieldVisual = new THREE.Mesh(new THREE.SphereGeometry(1.5, 16, 16), shieldMaterial);
+                        protectedEnemy.add(protectedEnemy.userData.shieldVisual);
+                    }
+                    protectedEnemy.userData.shieldVisual.visible = true;
+                }
+            }
+            return enemies;
+        }
+        
+        const patternSets = [ [pattern_Wall, pattern_KlipahWeave], [pattern_Gauntlet, pattern_SentryGuard], [pattern_SentryGuard, pattern_KlipahWeave], [pattern_SentryGuard, pattern_KlipahWeave, pattern_TomeKeeperGuard], ];
+        
+        /**
+         * B"H: Spawns a wave of enemies using a given pattern and begins tracking it for the "Perfect Wave" bonus.
+         * @param {Function} patternFunction The function that defines the enemy formation (e.g., pattern_Wall).
+         * @param {number} z The base z-position for the start of the wave.
+         */
+        function spawnWave(patternFunction, z) {
+            if (!patternFunction) return;
+            const enemies = patternFunction(z);
+            if (enemies.length === 0) return;
+
+            gameState.wave.isTracking = true;
+            gameState.wave.hitsTakenThisWave = 0;
+            gameState.wave.waveId = gameState.nextWaveId++;
+            gameState.wave.enemiesInWave.clear();
+            enemies.forEach(enemy => {
+                enemy.userData.waveId = gameState.wave.waveId;
+                gameState.wave.enemiesInWave.add(enemy);
+            });
+        }
+        
+        /** B"H: Checks if a new wave should be spawned and selects one. */
+        function trySpawnNextWave() {
+            if (gameState.wave.isTracking) return; // Don't spawn a new wave while one is active
+
+            let rearmostZ = 0;
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active];
+            for(const obs of allObstacles) {
+                if (obs.position.z < rearmostZ) rearmostZ = obs.position.z;
+            }
+            
+            if (rearmostZ > -80) {
+                const patternSetIndex = Math.min(patternSets.length - 1, Math.floor((gameState.level - 1) / 2));
+                const availablePatterns = patternSets[patternSetIndex];
+                const chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
+                spawnWave(chosenPattern, -120 - Math.random() * 40);
+            }
+        }
+        
+        /** B"H: Triggers the "Celestial Winds" environmental hazard. */
+        function triggerCelestialWind() {
+             if (gameState.wind.timer <= 0 && gameState.level > 3 && Math.random() < 0.05) {
+                gameState.wind.force = (2 + Math.random() * 2 + gameState.level * 0.2);
+                gameState.wind.direction = Math.random() < 0.5 ? -1 : 1;
+                gameState.wind.timer = 4 + Math.random() * 3;
+            }
+        }
+        
         function spawnSpecialParticle() { if (specialParticleTextures.length === 0) return; const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; const x = (Math.random() - 0.5) * spawnRadius * 2; const y = (Math.random() - 0.5) * spawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); }
 
         // --- GAME STATE MANAGEMENT ---
@@ -993,45 +1319,115 @@ B"H
         /**
          * B"H: Tzimtzum (Contraction) and Reshimu (Impression) - clearing the canvas to allow a new world to emanate.
          * Initializes all game state variables and objects for a new game session.
-         * @returns {Promise<void>}
          */
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool].forEach(pool => pool.deactivateAll());
+            [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool].forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
             activeLights.forEach(l => scene.remove(l)); activeLights.clear();
             activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
             nefeshState.forEach(s => s.active = false);
             sparkState.forEach(s => s.active = false);
+            destroyedNefeshIndices.clear();
+
             // B"H: The state of the world, a reflection of the higher worlds of Atzilut, Beriah, Yetzirah, and Asiyah.
-            gameState = { current: 'playing', mitzvot: 0, nefesh: 0, shefa: 0, shefaToAscend: 100, level: 1, player: { fireRate: 350, projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false, hasShield: false }, combo: { count: 0, timer: 0 }, customPrayers: gameSettings.customPrayers || null, color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) } };
+            gameState = {
+                current: 'playing',
+                mitzvot: (playerStats.upgrades.initialMitzvot?.level || 0) * 100,
+                nefesh: 0,
+                shefa: 0,
+                shefaToAscend: 100,
+                level: 1,
+                nextWaveId: 0,
+                player: {
+                    fireRate: 350 * (1 - (playerStats.upgrades.fireRateBonus?.level || 0) * 0.1),
+                    projectileDamage: 1 * (1 + (playerStats.upgrades.damageBonus?.level || 0) * 0.05),
+                    hasRegen: false,
+                    regenTimer: 0,
+                    hasPierce: false,
+                    hasShield: false
+                },
+                combo: { count: 0, timer: 0 },
+                wave: { isTracking: false, hitsTakenThisWave: 0, waveId: -1, enemiesInWave: new Set() },
+                wind: { force: 0, timer: 0, direction: 1 },
+                customPrayers: gameSettings.customPrayers || null,
+                color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) }
+            };
             scene.fog = new THREE.Fog(gameState.color.current, 50, 200);
             renderer.setClearColor(gameState.color.current);
             acquiredUpgrades.clear();
             if(!road) createWorld();
             ui.prayerDropdownBtn.style.display = 'block';
-            if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { ui.prayerDisplayContainer.classList.add('visible'); updatePrayerDisplay(); ui.ascensionNotifier.classList.add('side-mode'); ui.comboNotifier.classList.add('side-mode'); } else { ui.prayerDisplayContainer.classList.remove('visible'); ui.ascensionNotifier.classList.remove('side-mode'); ui.comboNotifier.classList.remove('side-mode'); }
-            adjustNefeshCount(10);
+            if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { ui.prayerDisplayContainer.classList.add('visible'); updatePrayerDisplay(); ui.ascensionNotifier.classList.add('side-mode'); ui.comboNotifier.classList.add('side-mode'); ui.perfectWaveNotifier.classList.add('side-mode'); } else { ui.prayerDisplayContainer.classList.remove('visible'); ui.ascensionNotifier.classList.remove('side-mode'); ui.comboNotifier.classList.remove('side-mode'); ui.perfectWaveNotifier.classList.remove('side-mode');}
+            
+            const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
+            adjustNefeshCount(startingNefesh);
+            
             targetCubeX = 0; nefeshGroup.position.x = 0;
-            for (let i=0; i < 3; i++) { const chosenPattern = patternSets[0][Math.floor(Math.random() * patternSets[0].length)]; chosenPattern(-40 - i * 50); }
-            ui.mainMenu.classList.remove('visible'); ui.gameOver.classList.remove('visible'); ui.customMenu.classList.remove('visible'); ui.settingsOverlay.classList.remove('visible');
+            
+            // Initial wave spawn
+            const firstPattern = patternSets[0][Math.floor(Math.random() * patternSets[0].length)];
+            spawnWave(firstPattern, -40);
+
+            ui.mainMenu.classList.remove('visible');
+            ui.gameOver.classList.remove('visible');
+            ui.customMenu.classList.remove('visible');
+            ui.settingsOverlay.classList.remove('visible');
+            ui.upgradeShopOverlay.classList.remove('visible');
+            
             updateUIDisplays();
             clock.start();
             animationFrameId = requestAnimationFrame(animate);
         }
-        function addShefa(amount) { gameState.shefa += amount; if (gameState.shefa >= gameState.shefaToAscend) { gameState.shefa -= gameState.shefaToAscend; gameState.level++; gameState.shefaToAscend *= 1.5; grantRandomEmanation(); } }
+
+        /** B"H: Adds Shefa (Divine Flow) to the player's gauge, potentially triggering an ascension. */
+        function addShefa(amount) {
+            const shefaBonus = 1 + (playerStats.upgrades.shefaGain?.level || 0) * 0.02;
+            gameState.shefa += amount * shefaBonus;
+            if (gameState.shefa >= gameState.shefaToAscend) {
+                gameState.shefa -= gameState.shefaToAscend;
+                gameState.level++;
+                gameState.shefaToAscend *= 1.5;
+                grantRandomEmanation();
+            }
+        }
         
         /**
          * B"H: The end of a cycle, returning the world to the potential state before re-emanation.
          * Ends the current game session and displays the game over screen.
          */
-        function endGame() { gameState.current = 'gameOver'; if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = undefined; ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`; ui.gameOver.classList.add('visible'); ui.prayerDisplayContainer.classList.remove('visible'); ui.prayerDropdownBtn.style.display = 'none'; }
+        function endGame() {
+            gameState.current = 'gameOver';
+            if(animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+            
+            // B"H: Add this run's Mitzvot to the permanent total and save.
+            playerStats.totalMitzvot += Math.floor(gameState.mitzvot);
+            savePlayerStats();
+            
+            ui.finalMitzvotDisplay.textContent = `You gathered ${Math.floor(gameState.mitzvot)} Mitzvot.`;
+            ui.gameOver.classList.add('visible');
+            ui.prayerDisplayContainer.classList.remove('visible');
+            ui.prayerDropdownBtn.style.display = 'none';
+        }
         
         /**
-         * Shows the main menu overlay and hides all other game-related overlays.
+         * B"H: Shows the main menu overlay and hides all other game-related overlays.
          * Stops the animation loop.
          */
-        function showMainMenu() { gameState.current = 'mainMenu'; if (animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = undefined; ui.gameOver.classList.remove('visible'); ui.customMenu.classList.remove('visible'); ui.settingsOverlay.classList.remove('visible'); ui.mainMenu.classList.add('visible'); ui.prayerDisplayContainer.classList.remove('visible'); ui.prayerListOverlay.classList.remove('visible'); ui.prayerDropdownBtn.style.display = 'none'; }
+        function showMainMenu() {
+            gameState.current = 'mainMenu';
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = undefined;
+            ui.gameOver.classList.remove('visible');
+            ui.customMenu.classList.remove('visible');
+            ui.settingsOverlay.classList.remove('visible');
+            ui.upgradeShopOverlay.classList.remove('visible');
+            ui.mainMenu.classList.add('visible');
+            ui.prayerDisplayContainer.classList.remove('visible');
+            ui.prayerListOverlay.classList.remove('visible');
+            ui.prayerDropdownBtn.style.display = 'none';
+        }
         
         // --- INPUT & UI LISTENERS ---
         let isDragging = false, lastTouchX = 0, targetCubeX = 0;
@@ -1039,6 +1435,37 @@ B"H
         const handleInteractionStart = (e, clientX) => { if (gameState.current !== 'playing') return; const targetElement = e.target; if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) return; isDragging = true; lastTouchX = clientX; if (e.type === 'touchstart') e.preventDefault(); };
         document.addEventListener('mousedown', e => handleInteractionStart(e, e.clientX)); document.addEventListener('mousemove', e => handleMove(e.clientX)); document.addEventListener('mouseup', () => isDragging = false); document.addEventListener('touchstart', e => handleInteractionStart(e, e.touches[0].clientX), { passive: false }); document.addEventListener('touchmove', e => handleMove(e.touches[0].clientX), { passive: false }); document.addEventListener('touchend', () => isDragging = false);
         ui.tryAgainButton.addEventListener('click', () => { shatterElement(ui.tryAgainButton); initializeGame(); }); ui.btnBegin.addEventListener('click', () => { shatterElement(ui.btnBegin); gameSettings.customPrayers = null; initializeGame(); }); ui.btnCustom.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.customMenu.classList.add('visible'); }); ui.btnGoCustom.addEventListener('click', () => { shatterElement(ui.btnGoCustom); const prayers = ui.customPrayerTextarea.value.split('\n\n').map(p => p.trim()).filter(p => p.length > 0); gameSettings.customPrayers = (prayers.length > 0) ? { phrases: prayers, currentIndex: 0 } : null; initializeGame(); }); ui.btnBackToMain.addEventListener('click', showMainMenu); ui.btnBackToMainFromGameOver.addEventListener('click', showMainMenu); ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); }); ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu); ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
+        
+        // B"H: New listeners for the Upgrade Shop
+        ui.btnUpgradeShop.addEventListener('click', () => {
+            ui.mainMenu.classList.remove('visible');
+            populateUpgradeShop();
+            ui.upgradeShopOverlay.classList.add('visible');
+        });
+        ui.btnBackToMainFromUpgrades.addEventListener('click', showMainMenu);
+        ui.upgradeShopGrid.addEventListener('click', (e) => {
+            const button = e.target.closest('.upgrade-button');
+            if (!button || button.disabled) return;
+            
+            const key = button.dataset.key;
+            if (!key || !permanentUpgrades[key]) return;
+
+            const upgrade = permanentUpgrades[key];
+            const currentLevel = playerStats.upgrades[key]?.level || 0;
+            const cost = Math.floor(upgrade.cost(currentLevel));
+
+            if (playerStats.totalMitzvot >= cost && currentLevel < upgrade.maxLevel) {
+                playerStats.totalMitzvot -= cost;
+                if (!playerStats.upgrades[key]) {
+                    playerStats.upgrades[key] = { level: 0 };
+                }
+                playerStats.upgrades[key].level++;
+                
+                savePlayerStats();
+                populateUpgradeShop(); // Refresh the view
+            }
+        });
+
         function updatePrayerDisplay() { const prayers = gameState.customPrayers; if(prayers && prayers.phrases.length > 0) { ui.prayerText.textContent = prayers.phrases[prayers.currentIndex]; applyCaptionStyle(); } }
         ui.prevPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex - 1 + prayers.phrases.length) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
         ui.nextPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
@@ -1053,7 +1480,6 @@ B"H
                 try {
                     const value = parseFunc(e.target.value, e.target.checked);
                     await saveSetting(settingName, value);
-                    // B"H: Special handling for async settings like webcam
                     if (isAsync) {
                         gameSettings[settingName] = value;
                         await updateWebcamState();
@@ -1065,13 +1491,13 @@ B"H
                 }
             });
         };
-        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val); 
+        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val);
         setupSettingListener(ui.webcamModeSelect, null, 'webcamMode', val => val, true);
         window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
 
         // --- THE MAIN GAME LOOP ---
-        
+
         /**
          * B"H: Atzmut - The constant flow of Divine Will (Ratzon) that sustains creation moment by moment. "No thought can grasp You at all."
          * This is the main animation loop, running every frame.
@@ -1081,7 +1507,7 @@ B"H
             animationFrameId = requestAnimationFrame(animate);
             try {
                 if(gameState.current !== 'playing' || !gameState) return;
-                
+
                 const deltaTime = Math.min(0.05, clock.getDelta());
                 const currentRoadSpeed = roadBaseSpeed + gameState.level * 1.5;
 
@@ -1092,54 +1518,132 @@ B"H
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
 
-                // --- Player Movement & State ---
+                // --- Celestial Winds Update ---
+                if (gameState.wind.timer > 0) {
+                    gameState.wind.timer -= deltaTime;
+                    targetCubeX += gameState.wind.force * gameState.wind.direction * deltaTime;
+                    // Spawn wind particles
+                    if (Math.random() < 0.8) {
+                        const p = windParticlePool.activate();
+                        if (p) {
+                            const startX = gameState.wind.direction > 0 ? -roadWidth * 2 : roadWidth * 2;
+                            p.position.set(startX, Math.random() * 8, Math.random() * -80);
+                            p.userData.velocity = new THREE.Vector3(gameState.wind.direction * -(100 + Math.random() * 50), 0, 0);
+                            p.userData.life = 1.0;
+                        }
+                    }
+                }
+                windParticlePool.active.forEach(p => {
+                    p.position.x += p.userData.velocity.x * deltaTime;
+                    p.userData.life -= deltaTime;
+                    if (p.userData.life <= 0) windParticlePool.deactivate(p);
+                });
+
+
+                // --- Player Movement ---
                 let minX = 0, maxX = 0; nefeshState.forEach(state => { if (state.active) { if(state.targetPos.x < minX) minX = state.targetPos.x; if(state.targetPos.x > maxX) maxX = state.targetPos.x; } });
                 const halfFormationWidth = (maxX - minX) / 2; const maxMove = (roadWidth / 2) - halfFormationWidth; targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1); nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2); cameraTargetPos.x = nefeshGroup.position.x / 4;
+
+                // --- Player State & Nefesh Update ---
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime; else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
-                
-                // B"H: First, update Nefesh positions and collision boxes for this frame.
-                const troopHalfSize = 0.4;
-                nefeshState.forEach((state) => {
-                    if (!state.active) return;
+                const troopHalfSize = 0.4; let activeNefeshCount = 0; const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
+                nefeshState.forEach((state, i) => {
+                    if (!state.active) { tempMatrix.makeScale(0, 0, 0); nefeshTopInstanced.setMatrixAt(i, tempMatrix); nefeshBottomInstanced.setMatrixAt(i, tempMatrix); return; }
+                    activeNefeshCount++;
                     state.currentPos.lerp(state.targetPos, 0.15);
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
                     state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
+                    if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
+                    state.yRotation += deltaTime * 2;
+                    if (state.active && currentTime - state.lastShotTime > gameState.player.fireRate) { worldPosVec.copy(state.currentPos).add(nefeshGroup.position); worldPosVec.y = 0.4; fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce); state.lastShotTime = currentTime; }
+                    tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                 });
+                nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; nefeshBottomInstanced.count = activeNefeshCount;
 
-                // --- Obstacle & Enemy Logic (Movement and Collision) ---
-                // B"H: A Set for all troops that will be destroyed in this frame.
-                const troopsToDestroy = new Set();
-                
-                // B"H: Process each obstacle, moving it and checking for collisions with the player's Nefesh.
+                // --- Obstacle & Enemy Logic ---
                 const processObstacle = (obstacle) => {
                     obstacle.position.z += currentRoadSpeed * deltaTime;
-                    if (obstacle.userData.collisionBox2D) { const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0); const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5); obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
-                    if (obstacle.position.z > obstacleRemovalZ) { if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle); else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle); else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle); return; }
-                    if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) { obstacle.userData.lastShotTime = currentTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
-                    if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || troopsToDestroy.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { troopsToDestroy.add(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || troopsToDestroy.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { switch (obstacle.userData.type) { case 'jar': troopsToDestroy.add(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { jarPool.deactivate(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } break; case 'klipah_gate': if(obstacle.userData.currentValue > 0) { gameState.mitzvot += obstacle.userData.currentValue; ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100); } adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); klipahGatePool.deactivate(obstacle); break; case 'golem_sentry': troopsToDestroy.add(index); triggerScreenShake(0.2); break; } } }); }
+                    let obsSizeX = 3.0; let obsSizeZ = 0.5;
+                    if(obstacle.userData.type === 'jar') { obsSizeX = 1.6; obsSizeZ = 1.6; }
+                    else if (obstacle.userData.type === 'golem_sentry') { obsSizeX = 1.5; obsSizeZ = 1.5; }
+                    else if (obstacle.userData.type === 'tome_keeper') { obsSizeX = 1.4; obsSizeZ = 1.4; }
+                    if (obstacle.userData.collisionBox2D) { obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
+
+                    // Deactivate if off-screen
+                    if (obstacle.position.z > obstacleRemovalZ) {
+                        if (gameState.wave.enemiesInWave.has(obstacle)) { gameState.wave.enemiesInWave.delete(obstacle); }
+                        if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle);
+                        else if (obstacle.userData.type === 'tome_keeper') tomeKeeperPool.deactivate(obstacle);
+                        return;
+                    }
+                    
+                    // Specific enemy logic
+                    if (obstacle.userData.type === 'golem_sentry' && !obstacle.userData.isShielded && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) { obstacle.userData.lastShotTime = currentTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
+                    
+                    // Player-Obstacle collision
+                    if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { switch (obstacle.userData.type) { case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { jarPool.deactivate(obstacle); if (gameState.wave.enemiesInWave.has(obstacle)) gameState.wave.enemiesInWave.delete(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break; case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); klipahGatePool.deactivate(obstacle); if (gameState.wave.enemiesInWave.has(obstacle)) gameState.wave.enemiesInWave.delete(obstacle); break; case 'golem_sentry': case 'tome_keeper': if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break; } } }); }
                 };
 
                 klipahGatePool.active.forEach(processObstacle);
                 jarPool.active.forEach(processObstacle);
                 tohuShardPool.active.forEach(processObstacle);
                 golemSentryPool.active.forEach(processObstacle);
-                
-                // B"H Process incoming enemy projectiles.
-                for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) { const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25); proj.position.z += speed * deltaTime; if(proj.position.z > obstacleRemovalZ) { if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); continue; } nefeshState.forEach((state, index) => { if(!state.active || troopsToDestroy.has(index)) return; if(checkInstancedCollision(state, proj)) { const color = proj.material.color.getHexString(); if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); createParticleExplosion(proj.position, 40, `#${color}`, 20); triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6); } else { troopsToDestroy.add(index); createParticleExplosion(proj.position, 20, `#${color}`, 15); triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3); } if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); } }); }
-                
-                // B"H Now, after all collisions are detected, destroy the marked troops.
-                if(troopsToDestroy.size > 0) { shatterElement(ui.nefeshDisplay); troopsToDestroy.forEach(index => destroyNefesh(index)); gameState.nefesh = nefeshState.filter(s => s.active).length; if (gameState.nefesh <= 0 && gameState.current === 'playing') endGame(); }
-                
-                // ======================================================================================
-                // B"H: Atzmut - The interaction between Light (Ohr) and Vessel (Kli), where potential is actualized.
-                // --- [START] ROBUST PLAYER PROJECTILE UPDATE & COLLISION LOOP ---
-                // ======================================================================================
+                tomeKeeperPool.active.forEach(processObstacle);
+
+                for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) { const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25); proj.position.z += speed * deltaTime; if(proj.position.z > obstacleRemovalZ) { if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); continue; } nefeshState.forEach((state, index) => { if(!state.active || destroyedNefeshIndices.has(index)) return; if(checkInstancedCollision(state, proj)) { const color = proj.material.color.getHexString(); if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); createParticleExplosion(proj.position, 40, `#${color}`, 20); triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6); } else { markNefeshForDestruction(index); createParticleExplosion(proj.position, 20, `#${color}`, 15); triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3); } if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); } }); }
+
+                // B"H: Update Tome Keepers' shield logic
+                tomeKeeperPool.active.forEach(keeper => {
+                    const shielded = keeper.userData.shieldedEnemy;
+                    if (shielded && shielded.visible) {
+                        const beam = keeper.userData.shieldBeam;
+                        beam.visible = true;
+                        const positions = beam.geometry.attributes.position.array;
+                        const keeperPos = keeper.getWorldPosition(new THREE.Vector3());
+                        const shieldedPos = shielded.getWorldPosition(new THREE.Vector3());
+                        positions[0] = keeperPos.x; positions[1] = keeperPos.y; positions[2] = keeperPos.z;
+                        positions[3] = shieldedPos.x; positions[4] = shieldedPos.y; positions[5] = shieldedPos.z;
+                        beam.geometry.attributes.position.needsUpdate = true;
+                    } else {
+                        keeper.userData.shieldBeam.visible = false;
+                        if(shielded) shielded.userData.isShielded = false; // Unshield if target is gone
+                        keeper.userData.shieldedEnemy = null;
+                    }
+                });
+
+                // --- PLAYER PROJECTILE UPDATE & COLLISION LOOP ---
                 const tempSparkMatrix = new THREE.Matrix4();
                 let activeSparkCount = 0;
                 
-                const checkSparkCollision = (spark, obstacle) => { if (!spark.active || Math.abs(obstacle.position.z - spark.position.z) > 2) return; collisionVec2.set(spark.position.x, spark.position.z); if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) { if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; } switch(obstacle.userData.type) { case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); } updateKlipahGateVisuals(obstacle); break; case 'jar': case 'golem_sentry': obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, '#ffffff', 8); if (obstacle.userData.health <= 0) { triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light); if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle); } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } break; } } };
+                const checkSparkCollision = (spark, obstacle) => {
+                    if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2) return;
+                    collisionVec2.set(spark.position.x, spark.position.z);
+                    if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
+                        if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; }
+                        switch(obstacle.userData.type) {
+                            case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); } updateKlipahGateVisuals(obstacle); break;
+                            case 'jar': case 'golem_sentry': case 'tome_keeper': obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, '#ffffff', 8); if (obstacle.userData.health <= 0) {
+                                triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
+                                if (gameState.wave.enemiesInWave.has(obstacle)) { gameState.wave.enemiesInWave.delete(obstacle); }
+                                if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle);
+                                else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle);
+                                else if (obstacle.userData.type === 'tome_keeper') {
+                                    if(obstacle.userData.shieldedEnemy) {
+                                        obstacle.userData.shieldedEnemy.userData.isShielded = false;
+                                        if (obstacle.userData.shieldedEnemy.userData.shieldVisual) obstacle.userData.shieldedEnemy.userData.shieldVisual.visible = false;
+                                    }
+                                    tomeKeeperPool.deactivate(obstacle);
+                                }
+                            } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } break;
+                        }
+                    }
+                };
 
                 for (let i = 0; i < MAX_SPARKS; i++) {
                     const spark = sparkState[i];
@@ -1149,75 +1653,16 @@ B"H
                     if (spark.position.z < -100) { spark.active = false; tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); continue; }
                     klipahGatePool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     jarPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
-                    tohuShardPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     golemSentryPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
+                    tomeKeeperPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     if (spark.active) { tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); } else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
                 }
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
-                // ======================================================================================
-                // --- [END] PROJECTILE LOGIC ---
-                // ======================================================================================
-
-                // --- Final Nefesh Updates (Firing and Visuals) ---
-                const tempMatrix = new THREE.Matrix4();
-                const tempQuaternion = new THREE.Quaternion();
-                let activeNefeshCount = 0;
                 
-                nefeshState.forEach((state, i) => {
-                    if (!state.active) { // If not active, ensure all its meshes are scaled to 0
-                        tempMatrix.makeScale(0, 0, 0);
-                        nefeshTopInstanced.setMatrixAt(i, tempMatrix);
-                        nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
-                        if (webcamDisplayInstanced) webcamDisplayInstanced.setMatrixAt(i, tempMatrix);
-                        return;
-                    }
-                    activeNefeshCount++;
-                    
-                    // B"H Fire projectiles ONLY from surviving Nefesh.
-                    if (currentTime - state.lastShotTime > gameState.player.fireRate) {
-                        worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
-                        worldPosVec.y = 0.4;
-                        fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
-                        state.lastShotTime = currentTime;
-                    }
-
-                    // B"H Update scale, rotation, and final matrix for drawing.
-                    if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
-                    state.yRotation += deltaTime * 2;
-                    
-                    const posVec = new THREE.Vector3(state.currentPos.x, state.currentPos.y, state.currentPos.z);
-                    const scaleVec = new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale);
-                    
-                    // Top cone
-                    tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0));
-                    tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y + 0.2, posVec.z), tempQuaternion, scaleVec);
-                    nefeshTopInstanced.setMatrixAt(i, tempMatrix);
-
-                    // Bottom cone
-                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0));
-                    tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y - 0.2, posVec.z), tempQuaternion, scaleVec);
-                    nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
-
-                    // Webcam display cone
-                    if (webcamDisplayInstanced) {
-                       tempQuaternion.setFromEuler(new THREE.Euler(0, 0, 0));
-                       tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y + 0.8, posVec.z), tempQuaternion, scaleVec);
-                       webcamDisplayInstanced.setMatrixAt(i, tempMatrix);
-                    }
-                });
-
-                nefeshTopInstanced.instanceMatrix.needsUpdate = true;
-                nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
-                if (webcamDisplayInstanced) webcamDisplayInstanced.instanceMatrix.needsUpdate = true;
-
-                nefeshTopInstanced.count = activeNefeshCount;
-                nefeshBottomInstanced.count = activeNefeshCount;
-                if (webcamDisplayInstanced) webcamDisplayInstanced.count = activeNefeshCount;
-
                 // --- Final Updates ---
                 for(const orb of shefaOrbPool.active) { orb.position.lerp(nefeshGroup.position, 0.08); orb.position.addScaledVector(orb.userData.velocity, deltaTime); orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1); if(orb.position.distanceTo(nefeshGroup.position) < 1.5) { addShefa( orb.userData.value ); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb); } }
-                
+
                 const updateDynamicParticle = p => { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime; if(p.material && p.material.opacity) p.material.opacity = p.userData.life; if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; } if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } } };
                 particlePool.active.forEach(updateDynamicParticle);
                 dynamicShards.forEach(updateDynamicParticle);
@@ -1228,8 +1673,42 @@ B"H
                 if (shakeIntensity > 0) { camera.position.add(new THREE.Vector3().randomDirection().multiplyScalar(shakeIntensity)); shakeIntensity = Math.max(0, shakeIntensity - deltaTime * 4.0); }
                 if (fovKick > 0) { camera.fov = originalFOV + fovKick; fovKick = Math.max(0, fovKick - deltaTime * 50); } else { camera.fov = THREE.MathUtils.lerp(camera.fov, originalFOV, 0.1); }
                 camera.updateProjectionMatrix();
+
+                // B"H: Perfect Wave Check
+                if (gameState.wave.isTracking && gameState.wave.enemiesInWave.size === 0) {
+                    if (gameState.wave.hitsTakenThisWave === 0) {
+                        ui.perfectWaveNotifier.textContent = "PERFECT WAVE!";
+                        ui.perfectWaveNotifier.classList.add('show');
+                        setTimeout(() => ui.perfectWaveNotifier.classList.remove('show'), 2000);
+                        addShefa(50); // Bonus Shefa
+                        gameState.mitzvot += 100; // Bonus Mitzvot
+                        createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
+                    }
+                    gameState.wave.isTracking = false; // Wave is over
+                }
                 
-                trySpawnPattern();
+                // B"H: Environmental and Spawning Triggers
+                trySpawnNextWave();
+                triggerCelestialWind();
+                
+                // --- ZOMBIE FIX: TWO-PHASE CLEANUP PROTOCOL (PHASE 2) ---
+                if (destroyedNefeshIndices.size > 0) {
+                    destroyedNefeshIndices.forEach(index => {
+                        neutralizeNefesh(index);
+                    });
+                    
+                    const currentNefesh = nefeshState.filter(s => s.active).length;
+                    if (currentNefesh !== gameState.nefesh) {
+                       if (currentNefesh < gameState.nefesh) shatterElement(ui.nefeshDisplay);
+                       gameState.nefesh = currentNefesh;
+                    }
+                    destroyedNefeshIndices.clear();
+
+                    if (currentNefesh <= 0 && gameState.current === 'playing') {
+                        endGame();
+                    }
+                }
+                
                 updateUIDisplays();
                 renderer.render(scene, camera);
             } catch (error) {
@@ -1239,7 +1718,7 @@ B"H
                 showMainMenu();
             }
         }
-        
+
         function updateUIDisplays() {
             if (!gameState || gameState.current !== 'playing') return;
             ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
@@ -1247,27 +1726,22 @@ B"H
             const shefaPercentage = Math.min(100, (gameState.shefa / gameState.shefaToAscend) * 100);
             ui.shefaBar.style.width = `${shefaPercentage}%`;
         }
-        
+
         // --- INITIALIZATION ---
         // B"H: The beginning of the journey, where the Will to Create becomes the Act of Creation.
         (async () => {
             try {
-                // Attempt to initialize the database, but don't let it stop the game if it fails
-                // (e.g., in private browsing mode or other restrictive environments).
                 await initDB();
             } catch (dbError) {
                 console.warn("Could not initialize IndexedDB. Settings will not be saved or loaded.", dbError);
-                // The 'db' variable will remain undefined, and the load/save functions
-                // are already designed to handle this by doing nothing or returning defaults.
             }
 
             try {
-                // The rest of the setup proceeds regardless of DB status.
+                loadPlayerStats();
                 setupInstancedNefesh();
-                await applySettings(); // Will use default settings if DB failed.
+                await applySettings();
                 showMainMenu();
             } catch(setupError) {
-                // This block now only catches other, truly fatal setup errors.
                 console.error("Critical error during initial game setup:", setupError);
                 document.body.innerHTML = `<div style="color: white; text-align: center; padding-top: 50px; font-size: 2em; font-family: Arial, sans-serif;">A critical error occurred during setup. Please refresh the page or check the console for details.</div>`;
                 displayGlobalError("Fatal error during startup. The application cannot continue.");
@@ -1277,4 +1751,3 @@ B"H
     </script>
 </body>
 </html>
-
