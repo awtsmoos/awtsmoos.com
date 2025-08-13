@@ -4,37 +4,29 @@
 <!DOCTYPE html>
 <!--
 ב"ה B"H
-Merkava: The Celestial Journey v4.5
+Merkava: The Celestial Journey v4.6
 Developer: Gemini
-Date: 2025-08-22
+Date: 2025-08-23
 
-This file is a complete, self-contained application. This version is a major feature and stability update based on user feedback.
+This file is a complete, self-contained application. This version includes critical bug fixes for rendering and state management.
 
-* **Stability & Performance:**
-*   Resolved a crash during boss battles caused by excessive particle generation on defeat by significantly reducing particle counts.
-*   Overhauled the Nefesh collision system for better accuracy, especially with complex obstacles like Tohu Shards.
-*   Corrected fleet regeneration logic to ensure new Nefesh properly fill gaps in the formation from all sources.
-*   Replaced the non-functional road shader with a new, stable "River of Eden" effect that is always visible and dynamic.
-*   Removed the "Celestial Wind" effect to improve gameplay focus and resolve related issues.
-*   Added numerous checks to prevent errors from uninitialized or missing game objects.
+* **FIXED (Critical): Invisible Road Texture:**
+*   The custom "River of Eden" road shader was not accounting for scene fog, causing it to be rendered with the solid fog color.
+*   **SOLUTION:** Integrated Three.js's standard fog shader chunks (`fog_pars_fragment` and `fog_fragment`) into the road's fragment shader. The road is now always visible and correctly blends with the fog in the distance.
 
-* **Boss Battle Overhaul:**
-*   The "Heichalot Guardian" boss now has active attack patterns, including projectile volleys and sweeping attacks.
-*   The boss has been given a vibrant, high-contrast material and a distinct outline for better visibility.
-*   A "HEICHALOT GUARDIAN APPROACHING" notifier now heralds the boss's arrival.
+* **FIXED (Critical): "Ghost Shooters" & State Corruption:**
+*   A state desynchronization could occur where a Nefesh's visual mesh was removed, but its logical state remained active, causing it to shoot indefinitely ("ghost shooter").
+*   This corrupted state could persist after a game reset, preventing any Nefesh from appearing in subsequent games.
+*   **SOLUTION (Multi-pronged):**
+    *   Added a definitive `state.active` check to the firing logic in the main animation loop. An inactive Nefesh can no longer fire under any circumstances.
+    *   Overhauled the game reset logic in `initializeGame()`. It now performs a "deep reset" of every Nefesh's state (position, scale, timers), not just the `active` flag, guaranteeing a clean slate for every new game.
+    *   Reinforced the logic to ensure that when a Nefesh's matrix is scaled to zero, its `active` state is always `false`.
 
-* **New Features & Enhancements:**
-*   **Gameplay Pacing:** The early-game difficulty has been significantly increased. More complex and challenging enemy patterns now appear from the start of the journey.
-*   **New Obstacle: Torah Scroll:** A new dynamic obstacle, the Torah Scroll, now appears in later levels, presenting a unique challenge.
-*   **Enhanced Constellations:** The celestial network system now dynamically connects not only distant stars but also the special Hebrew letter particles, creating a more interconnected and living cosmos.
-*   **Dynamic Lightning:** Added a new lightning effect that can trigger on "Perfect Waves" and other key moments.
-*   **Webcam System Rework (Major Fixes):**
-    *   **FIXED:** The rendering logic has been rewritten. Sign posts now "grow" upwards from the ground and no longer clip through the road plane.
-    *   **FIXED:** The right-side webcam sign post no longer freezes on the first frame and now plays the video correctly.
-    *   The left post correctly shows a mirrored image.
-    *   A new in-game, real-time control panel allows for on-the-fly adjustment of sign post distance, height, and size.
+* **FIXED: Road Line Direction:**
+*   The yellow dashed lines on the road were moving toward the player (incorrect direction).
+*   **SOLUTION:** Reversed the time calculation in the road's fragment shader, causing the lines to correctly move away from the player, with the flow of the road.
 
-* **All Features & Fixes from v4.4 Retained.**
+* **All Features & Fixes from v4.5 Retained.**
 -->
 <html lang="en">
 <head>
@@ -329,6 +321,9 @@ This file is a complete, self-contained application. This version is a major fea
         uniform vec3 uColor;
         varying vec2 vUv;
 
+        // B"H FIX: Include fog parameters to correctly handle scene fog.
+        #include <fog_pars_fragment>
+
         float random(vec2 st) {
             return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
         }
@@ -355,7 +350,8 @@ This file is a complete, self-contained application. This version is a major fea
 
             // Dotted yellow lines
             vec2 roadUv = vUv;
-            roadUv.y = fract(roadUv.y * 10.0 - uTime * uSpeed * 0.15);
+            // B"H FIX: Changed '-' to '+' to make lines move away from the camera.
+            roadUv.y = fract(roadUv.y * 10.0 + uTime * uSpeed * 0.15);
             float laneWidth = 0.08;
             float lanePos1 = 0.5 - laneWidth/2.0;
             float lanePos2 = 0.5 + laneWidth/2.0;
@@ -370,6 +366,9 @@ This file is a complete, self-contained application. This version is a major fea
             }
             
             gl_FragColor = vec4(finalColor, 1.0);
+
+            // B"H FIX: Apply fog to the final color. This makes the road visible.
+            #include <fog_fragment>
         }
     </script>
     <script id="torahPortalShader" type="x-shader/x-fragment">
@@ -1023,7 +1022,9 @@ This file is a complete, self-contained application. This version is a major fea
                     triggerTikkunHagadol(index);
                     return;
                 }
-                nefeshState[index].lastShotTime = Infinity;
+                // Mark for destruction; the main loop will handle neutralization.
+                // This prevents race conditions with state updates.
+                nefeshState[index].lastShotTime = Infinity; // Prevent firing while marked
                 destroyedNefeshIndices.add(index);
                 if (gameState.wave && gameState.wave.isTracking) {
                     gameState.wave.hitsTakenThisWave++;
@@ -1031,19 +1032,22 @@ This file is a complete, self-contained application. This version is a major fea
             }
         }
         function neutralizeNefesh(index) {
+            // This function definitively deactivates a Nefesh, both visually and logically.
             if (index < 0 || index >= nefeshState.length) return;
             const state = nefeshState[index];
             if (!state) return;
+
             state.active = false;
-            state.currentPos.set(0, 1000, 0);
-            state.targetPos.set(0, 1000, 0);
+            state.currentPos.set(0, 1000, 0); // Move it off-screen
             state.currentScale = 0;
             state.targetScale = 0;
+            
             dummyObject.scale.set(0, 0, 0);
             dummyObject.updateMatrix();
             if (nefeshTopInstanced) nefeshTopInstanced.setMatrixAt(index, dummyObject.matrix);
             if (nefeshBottomInstanced) nefeshBottomInstanced.setMatrixAt(index, dummyObject.matrix);
             if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(index, dummyObject.matrix);
+
             const explosionPosition = nefeshGroup.position.clone().add(state.currentPos);
             createParticleExplosion(explosionPosition, 30, 0x800080, 15);
         }
@@ -1056,10 +1060,10 @@ This file is a complete, self-contained application. This version is a major fea
                     const state = nefeshState[i];
                     if (state && !state.active) {
                         state.active = true;
-                        state.currentPos.set(0, 0.4, 0);
+                        state.currentPos.set(0, 0.4, 0); // Start at center
                         state.targetScale = 1;
                         state.currentScale = 0.01;
-                        state.lastShotTime = 0;
+                        state.lastShotTime = 0; // Reset shot timer
                         added++;
                     }
                 }
@@ -1068,19 +1072,21 @@ This file is a complete, self-contained application. This version is a major fea
                 if (gameState.effects.invincibleTimer > 0) return;
                 let removed = 0;
                 const toRemove = -change;
+                // Mark for destruction starting from the outermost Nefesh.
                 for (let i = nefeshState.length - 1; i >= 0 && removed < toRemove; i--) {
                     const state = nefeshState[i];
-                    if (state && state.active) {
+                    if (state && state.active && !destroyedNefeshIndices.has(i)) {
                         markNefeshForDestruction(i);
                         removed++;
                     }
                 }
             }
-            gameState.nefesh = nefeshState.filter(s => s.active && !destroyedNefeshIndices.has(nefeshState.indexOf(s))).length;
-            if (gameState.nefesh < initialNefesh) {
+            // The actual count is updated after destruction is processed in the main loop.
+            const newNefeshCount = nefeshState.filter(s => s.active && !destroyedNefeshIndices.has(nefeshState.indexOf(s))).length;
+            if (newNefeshCount < initialNefesh) {
                 shatterElement(ui.nefeshDisplay);
             }
-            if (gameState.nefesh <= 0 && gameState.current === 'playing') {
+            if (newNefeshCount <= 0 && gameState.current === 'playing') {
                 endGame();
             }
             ui.nefeshDisplay.style.transform = "scale(1.2)";
@@ -1530,14 +1536,19 @@ This file is a complete, self-contained application. This version is a major fea
         }
         function createWorld() {
             const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100);
-            // B"H FIX: Use the functional custom shader for the road
+            // B"H FIX: Use the functional custom shader for the road, which now handles fog.
             const roadMat = new THREE.ShaderMaterial({
                 vertexShader: document.getElementById('riverVertexShader').textContent,
                 fragmentShader: document.getElementById('riverFragmentShader').textContent,
-                uniforms: {
-                    uTime: { value: 0.0 }, uSpeed: { value: 1.0 },
-                    uColor: { value: new THREE.Color(0x483d8b) },
-                },
+                uniforms: THREE.UniformsUtils.merge([
+                    THREE.UniformsLib['fog'],
+                    {
+                        uTime: { value: 0.0 },
+                        uSpeed: { value: 1.0 },
+                        uColor: { value: new THREE.Color(0x483d8b) },
+                    }
+                ]),
+                fog: true, // Tell Three.js to send fog uniforms to this material
             });
             world.road = new THREE.Mesh(roadGeo, roadMat);
             world.road.rotation.x = -Math.PI / 2;
@@ -1844,7 +1855,17 @@ This file is a complete, self-contained application. This version is a major fea
             if (activeLightning) scene.remove(activeLightning);
             activeLightning = null;
             activeEchos.length = 0;
-            nefeshState.forEach(s => s.active = false);
+            
+            // B"H FIX: Thoroughly reset the state of every Nefesh to prevent state corruption between games.
+            nefeshState.forEach(state => {
+                state.active = false;
+                state.currentPos.set(0, 1000, 0); // Reset position to be off-screen.
+                state.currentScale = 0.01;
+                state.targetScale = 1;
+                state.yRotation = 0;
+                state.lastShotTime = 0; // Crucial for stopping ghost firing on restart.
+            });
+
             sparkState.forEach(s => s.active = false);
             destroyedNefeshIndices.clear();
             gameState = {
@@ -2276,7 +2297,9 @@ This file is a complete, self-contained application. This version is a major fea
                         state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2);
                     }
                     state.yRotation += deltaTime * 2;
-                    if (!destroyedNefeshIndices.has(i) && currentTime - state.lastShotTime > gameState.player.fireRate) {
+                    
+                    // B"H FIX: Added 'state.active' check to prevent "ghost" shooters. This is a critical state-check.
+                    if (state.active && !destroyedNefeshIndices.has(i) && currentTime - state.lastShotTime > gameState.player.fireRate) {
                         fireSpark(new THREE.Vector3(worldX, 0.4, worldZ), gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
@@ -2817,13 +2840,15 @@ This file is a complete, self-contained application. This version is a major fea
         function processNefeshDestruction() {
             if (destroyedNefeshIndices.size > 0) {
                 destroyedNefeshIndices.forEach(index => neutralizeNefesh(index));
-                const currentNefesh = nefeshState.filter(s => s.active).length;
-                if (currentNefesh !== gameState.nefesh) {
-                    if (currentNefesh < gameState.nefesh) shatterElement(ui.nefeshDisplay);
-                    gameState.nefesh = currentNefesh;
+                
+                const currentNefeshCount = nefeshState.filter(s => s.active).length;
+                if (currentNefeshCount < gameState.nefesh) {
+                    shatterElement(ui.nefeshDisplay);
                 }
+                gameState.nefesh = currentNefeshCount;
+                
                 destroyedNefeshIndices.clear();
-                if (currentNefesh <= 0 && gameState.current === 'playing') {
+                if (currentNefeshCount <= 0 && gameState.current === 'playing') {
                     endGame();
                 }
                 updateCameraTarget();
@@ -2856,5 +2881,3 @@ This file is a complete, self-contained application. This version is a major fea
     </script>
 </body>
 </html>
-
-
