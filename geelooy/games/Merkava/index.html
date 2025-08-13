@@ -1,34 +1,4 @@
-B"H
 
-Of course. I have analyzed your request and the provided code for "Merkava: The Celestial Journey v3.1". I've addressed the critical "ghost firing" bug, implemented your requested features for webcam positioning and gameplay progression, added more content, and improved the code's clarity with extensive comments as per your direction.
-
-The file below is a complete, self-contained application with all the requested modifications.
-
-### Summary of Changes:
-
-*   **Critical Bug Fix:** The "ghost firing" issue, where a destroyed Nefesh's empty space would continue to fire, has been resolved. A redundant safeguard was added to ensure a deactivated Nefesh can no longer enter the firing logic state.
-*   **Webcam and Fleet Positioning:**
-    *   The entire player fleet has been moved significantly closer to the camera for a more immediate and engaging perspective.
-    *   In "Individual" and "Both" webcam modes, the camera feed for each Nefesh now correctly appears directly above its corresponding unit.
-    *   The central, general webcam display is now rendered on the floor in front of the fleet, rotated to appear as part of the roadway.
-*   **More Upgrades (Otzar Ha'Sefirot):** Three new powerful, permanent upgrades have been added to the shop:
-    *   **Da'at's Opening:** Grants a scaling chance for projectiles to deal critical (double) damage.
-    *   **Yesod's Treasury:** Increases the base value of all Shefa orbs collected.
-    *   **Binah's Edict:** Empowers the "Void Pulse" ability, causing it to deal significant damage to all enemies it touches.
-*   **New Enemy & Dynamic Progression:**
-    *   A new enemy, the **"Minelayer,"** has been introduced. This enemy strategically drops persistent energy mines on the road, creating new spatial challenges for the player.
-    *   New wave patterns incorporating the Minelayer have been added to the game's spawning logic.
-    *   The wave generation system is now more dynamic, introducing more complex and varied enemy encounters as the player's level increases.
-*   **Enhanced Code Quality:**
-    *   The JavaScript code has been thoroughly documented with JSDoc-style comments, explaining the purpose of functions, parameters, and complex logic blocks.
-    *   The code remains fully self-contained and unminified, as requested.
-*   **No Placeholders:** All new features are fully implemented and functional.
-
-Here is the updated and complete HTML file.
-
----
-**FILE: Merkava_The_Celestial_Journey_v3.2.html**
-```html
 <!--
 ב"ה
 B"H
@@ -42,7 +12,22 @@ This version addresses a critical "ghost firing" bug, implements significant fea
 adds new content (upgrades, enemies), and improves code clarity with extensive JSDoc comments
 based on user feedback. The core vision of the game is maintained and expanded upon.
 
-NO MINIFIED JS AT ALL. IT IS ALL FULLY SELF CONTAINED.
+
+*   **Webcam and Fleet Positioning:**
+    *   The entire player fleet has been moved significantly closer to the camera for a more immediate and engaging perspective.
+    *   In "Individual" and "Both" webcam modes, the camera feed for each Nefesh now correctly appears directly above its corresponding unit.
+    *   The central, general webcam display is now rendered on the floor in front of the fleet, rotated to appear as part of the roadway.
+*   **More Upgrades (Otzar Ha'Sefirot):** Three new powerful, permanent upgrades have been added to the shop:
+    *   **Da'at's Opening:** Grants a scaling chance for projectiles to deal critical (double) damage.
+    *   **Yesod's Treasury:** Increases the base value of all Shefa orbs collected.
+    *   **Binah's Edict:** Empowers the "Void Pulse" ability, causing it to deal significant damage to all enemies it touches.
+*   **New Enemy & Dynamic Progression:**
+    *   A new enemy, the **"Minelayer,"** has been introduced. This enemy strategically drops persistent energy mines on the road, creating new spatial challenges for the player.
+    *   New wave patterns incorporating the Minelayer have been added to the game's spawning logic.
+    *   The wave generation system is now more dynamic, introducing more complex and varied enemy encounters as the player's level increases.
+
+
+
 -->
 <!DOCTYPE html>
 <html lang="en">
