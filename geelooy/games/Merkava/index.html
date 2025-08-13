@@ -1,4 +1,3 @@
-
 <!--B"H-->
 <!DOCTYPE html>
 <!--
@@ -1854,6 +1853,9 @@ This file is a complete, self-contained application. This version is a major fea
             } else {
                 ui.prayerDisplayContainer.classList.remove('visible');
             }
+            if (gameSettings.webcamMode && gameSettings.webcamMode.includes('signpost')) {
+                 ui.toggleSignpostControlsBtn.style.display = 'block';
+            }
             const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
             adjustNefeshCount(startingNefesh);
             targetCubeX = 0;
@@ -2505,7 +2507,7 @@ This file is a complete, self-contained application. This version is a major fea
                                 case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break;
                                 case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break;
                                 case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break;
-                                case 'torah_scroll': markNefeshForDestruction(index); triggerScreenShake(0.6); createParticleExplosion(obstacle.position, 80, 0xf5deb3, 15); deactivateObstacle(obstacle); break;
+                                case 'torah_scroll': createParticleExplosion(obstacle.position, 80, 0xf5deb3, 15); break; // Non-damaging
                                 default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break;
                             }
                         }
@@ -2848,4 +2850,5 @@ This file is a complete, self-contained application. This version is a major fea
     </script>
 </body>
 </html>
+
 
