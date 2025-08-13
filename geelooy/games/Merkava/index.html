@@ -1,39 +1,14 @@
- 
-
 <!--
 ב"ה
 B"H
-
-Merkava: The Celestial Journey v3.3
-Developer: Gemini
-Date: 2025-08-15
-
-This file is a complete, self-contained application.
-This version introduces a major dynamic camera system, a new reward mechanic for skilled play,
-and continues to refine the core gameplay experience based on user feedback.
-
-*   **Dynamic 'Living' Camera System:**
-    *   The camera is no longer in a fixed position. It now intelligently and smoothly moves to perfectly frame the player's fleet.
-    *   As the fleet grows in size, the camera pulls back and adjusts its angle to ensure every Nefesh unit remains visible and is never cut off by the screen edges.
-    *   As the fleet shrinks, the camera automatically pushes in, creating a more intense, focused, and cinematic view of the action.
-*   **New Surprise Feature: Celestial Echo:**
-    *   A new reward has been added for exceptional gameplay.
-    *   Upon achieving a "PERFECT WAVE" (clearing all enemies in a wave without taking a single hit), a temporary, glowing "Echo" of the player's fleet will appear.
-    *   This Celestial Echo automatically fires a single, powerful volley of projectiles, rewarding skilled play with both a tactical advantage and a visual spectacle.
-*   **Previous Enhancements Maintained:**
-    *   The "ghost firing" bug remains fixed.
-    *   All webcam displays are correctly masked and positioned.
-    *   Enemy health bars and enhanced visibility are maintained.
-    *   The collision detection system remains robust.
-    *   The flowing "River of Eden" road texture and expanded settings menu are included.
 
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merkava: The Celestial Journey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Merkava: The Celestial Journey v3.6</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
         :root {
@@ -44,8 +19,9 @@ and continues to refine the core gameplay experience based on user feedback.
             --nefesh-color: #c0c0c0;
             --outline-color: #000000;
             --void-pulse-color: #9370db;
+            --judgment-laser-color: #ff1493;
         }
-        body { margin: 0; overflow: hidden; font-family: 'Orbitron', 'Arial', sans-serif; color: white; background-color: #050008; }
+        body { margin: 0; overflow: hidden; font-family: 'Orbitron', 'Arial', sans-serif; color: white; background-color: #050008; touch-action: none; }
         canvas { display: block; }
 
         #flashOverlay {
@@ -80,8 +56,53 @@ and continues to refine the core gameplay experience based on user feedback.
 
         #voidPulseContainer { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 10px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--void-pulse-color); border-radius: 10px; z-index: 999; overflow: hidden; }
         #voidPulseBar { width: 0%; height: 100%; background: var(--void-pulse-color); box-shadow: 0 0 10px var(--void-pulse-color), 0 0 5px var(--void-pulse-color) inset; transition: width 0.3s ease-out; }
-        #voidPulseNotifier { position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%); color: var(--void-pulse-color); font-size: 1.2em; text-shadow: 0 0 8px var(--void-pulse-color); opacity: 0; transition: opacity 0.5s; }
 
+        #voidPulseButton {
+            position: absolute;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(147, 112, 219, 0.25);
+            border: 3px solid rgba(147, 112, 219, 0.5);
+            z-index: 1003;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.1s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #voidPulseButton.ready {
+            background-color: rgba(147, 112, 219, 0.8);
+            border-color: var(--void-pulse-color);
+            animation: pulse-animation 1.5s infinite;
+        }
+        #voidPulseButton:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+        #voidPulseIcon {
+             width: 60%; height: 60%; background-color: var(--void-pulse-color);
+             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+             opacity: 0.5;
+             transition: opacity 0.3s;
+        }
+        #voidPulseButton.ready #voidPulseIcon {
+            opacity: 1;
+        }
+        #voidPulseChargeIndicator {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: conic-gradient(var(--void-pulse-color) 0%, transparent 0%);
+            border-radius: 50%;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(147, 112, 219, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(147, 112, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(147, 112, 219, 0); }
+        }
 
         #ascensionNotifier, #comboNotifier, #perfectWaveNotifier {
             position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5);
@@ -399,7 +420,10 @@ and continues to refine the core gameplay experience based on user feedback.
     </div>
     <div id="shefaContainer"><div id="shefaBar"></div></div>
     <div id="voidPulseContainer"><div id="voidPulseBar"></div></div>
-    <div id="voidPulseNotifier" class="ui-text">VOID PULSE READY</div>
+    <div id="voidPulseButton">
+        <div id="voidPulseChargeIndicator"></div>
+        <div id="voidPulseIcon"></div>
+    </div>
 
     <div id="gameOverOverlay" class="overlay"><div class="menu-button-group">
         <div class="game-title ui-text" style="color: var(--klipot-color);">THE MERKAVA HAS FALLEN</div>
@@ -528,10 +552,6 @@ and continues to refine the core gameplay experience based on user feedback.
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
         // --- GLOBAL ERROR HANDLING ---
-        /**
-         * Displays a global error message at the bottom of the screen.
-         * @param {string} message The error message to display.
-         */
         function displayGlobalError(message) {
             const errorDiv = document.getElementById('globalErrorNotifier');
             if (errorDiv) {
@@ -556,7 +576,7 @@ and continues to refine the core gameplay experience based on user feedback.
         dirLight.position.set(5, 10, 7.5);
         scene.add(dirLight);
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const originalCameraPos = new THREE.Vector3(0, 8, 11);
+        const originalCameraPos = new THREE.Vector3(0, 8, 12); // B"H FIX: Increased Z for closer view
         const cameraTargetPos = new THREE.Vector3().copy(originalCameraPos);
         const cameraLookAtTarget = new THREE.Vector3(0, 2, 0);
         const originalFOV = 75;
@@ -601,7 +621,8 @@ and continues to refine the core gameplay experience based on user feedback.
             finalMitzvotDisplay: document.getElementById('finalMitzvotDisplay'),
             shefaBar: document.getElementById('shefaBar'),
             voidPulseBar: document.getElementById('voidPulseBar'),
-            voidPulseNotifier: document.getElementById('voidPulseNotifier'),
+            voidPulseButton: document.getElementById('voidPulseButton'),
+            voidPulseChargeIndicator: document.getElementById('voidPulseChargeIndicator'),
             particleCharsTextarea: document.getElementById('particleCharsTextarea'),
             shakeIntensitySlider: document.getElementById('shakeIntensitySlider'),
             shakeIntensityValue: document.getElementById('shakeIntensityValue'),
@@ -652,12 +673,6 @@ and continues to refine the core gameplay experience based on user feedback.
         
         // --- UTILITY FUNCTIONS ---
         const gematriaMap = { 1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה', 6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ', 60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ', 100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת' };
-        /**
-         * Converts a number to its Hebrew Gematria representation.
-         * Handles special cases for 15 and 16.
-         * @param {number} n The number to convert.
-         * @returns {string} The Gematria string.
-         */
         function toGematria(n) {
             if (n === 15) return 'ט״ו'; if (n === 16) return 'ט״ז';
             let str = ''; let val = Math.abs(n);
@@ -674,19 +689,12 @@ and continues to refine the core gameplay experience based on user feedback.
         // --- DATABASE & SETTINGS PERSISTENCE ---
         const dbName = "MerkavaSettingsDB_v3";
         let db;
-        /** Initializes the IndexedDB for storing settings. */
         async function initDB() { return new Promise((resolve, reject) => { const request = indexedDB.open(dbName, 1); request.onerror = () => reject("Error opening DB"); request.onsuccess = event => { db = event.target.result; resolve(); }; request.onupgradeneeded = event => { if (!event.target.result.objectStoreNames.contains('settings')) { event.target.result.createObjectStore('settings', { keyPath: 'id' }); } }; }); }
-        /** Saves a key-value pair to IndexedDB. */
         async function saveSetting(id, value) { if (!db) return; const transaction = db.transaction(['settings'], 'readwrite'); transaction.objectStore('settings').put({ id, value }); return new Promise(resolve => transaction.oncomplete = resolve); }
-        /** Loads a value from IndexedDB, returning a default if not found. */
         async function loadSetting(id, defaultValue) { if (!db) return defaultValue; return new Promise((resolve) => { const request = db.transaction(['settings'], 'readonly').objectStore('settings').get(id); request.onsuccess = event => resolve(event.target.result ? event.target.result.value : defaultValue); request.onerror = () => resolve(defaultValue); }); }
         
         // --- META-PROGRESSION & PERMANENT UPGRADES ---
-        let playerStats = {
-            totalMitzvot: 0,
-            upgrades: {}
-        };
-        
+        let playerStats = { totalMitzvot: 0, upgrades: {} };
         const permanentUpgrades = {
             startNefesh: { name: "Keter's Foundation", desc: "Begin each journey with +1 starting Nefesh per level.", maxLevel: 10, cost: level => 500 * Math.pow(2.2, level) },
             shefaGain: { name: "Chesed's Abundance", desc: "Gain 2% more Shefa from all sources per level.", maxLevel: 10, cost: level => 400 * Math.pow(1.9, level) },
@@ -703,16 +711,12 @@ and continues to refine the core gameplay experience based on user feedback.
             voidPulseDamage: { name: "Binah's Edict", desc: "Void Pulse deals 25 damage per level to enemies it touches.", maxLevel: 5, cost: level => 5000 * Math.pow(2.5, level) },
         };
         
-        /**
-         * Loads player stats from Local Storage, including calculating idle Mitzvot earnings.
-         */
         function loadPlayerStats() {
             const savedStats = localStorage.getItem('merkavaPlayerStats_v2');
             if (savedStats) {
                 const parsed = JSON.parse(savedStats);
                 playerStats.totalMitzvot = parsed.totalMitzvot || 0;
                 playerStats.upgrades = parsed.upgrades || {};
-                
                 const lastCheck = parsed.lastCheck || Date.now();
                 const idleUpgrade = playerStats.upgrades.idleMitzvot;
                 if (idleUpgrade && idleUpgrade.level > 0) {
@@ -727,32 +731,22 @@ and continues to refine the core gameplay experience based on user feedback.
             }
         }
         
-        /**
-         * Saves the current player stats to Local Storage.
-         */
         function savePlayerStats() {
-            playerStats.lastCheck = Date.now(); // For idle calculations
+            playerStats.lastCheck = Date.now();
             localStorage.setItem('merkavaPlayerStats_v2', JSON.stringify(playerStats));
         }
         
-        /**
-         * Dynamically creates and updates the upgrade cards in the Otzar Ha'Sefirot (upgrade shop).
-         */
         function populateUpgradeShop() {
             ui.totalMitzvotDisplay.textContent = `Total Mitzvot: ${Math.floor(playerStats.totalMitzvot)}`;
             ui.upgradeShopGrid.innerHTML = '';
-
             for (const key in permanentUpgrades) {
                 const upgrade = permanentUpgrades[key];
                 const currentLevel = playerStats.upgrades[key]?.level || 0;
                 const cost = currentLevel < upgrade.maxLevel ? Math.floor(upgrade.cost(currentLevel)) : 0;
-                
                 const card = document.createElement('div');
                 card.className = 'upgrade-card';
-
                 const canAfford = playerStats.totalMitzvot >= cost;
                 const isMaxed = currentLevel >= upgrade.maxLevel;
-                
                 let buttonHTML = '';
                 if (isMaxed) {
                     buttonHTML = `<button class="upgrade-button maxed" disabled>MAX LEVEL</button>`;
@@ -761,7 +755,6 @@ and continues to refine the core gameplay experience based on user feedback.
                                       Upgrade (${cost} Mitzvot)
                                   </button>`;
                 }
-
                 card.innerHTML = `
                     <h3>${upgrade.name}</h3>
                     <p>${upgrade.desc}</p>
@@ -775,9 +768,6 @@ and continues to refine the core gameplay experience based on user feedback.
         let gameSettings = {};
         const defaultSettings = { particleChars: '✨✡️🕎📜🪐☄️⭐🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25, captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF', minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60, webcamMode: 'off', maxNefesh: 100 };
         
-        /**
-         * Loads all settings from IndexedDB and applies them to the game and UI.
-         */
         async function applySettings() {
             const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
             ui.maxNefeshSlider.value = newMaxNefesh; ui.maxNefeshValue.textContent = newMaxNefesh;
@@ -817,7 +807,6 @@ and continues to refine the core gameplay experience based on user feedback.
             applyCaptionStyle();
         }
 
-        /** Applies the currently loaded font and color to the in-game prayer display. */
         function applyCaptionStyle() { ui.prayerText.style.fontFamily = gameSettings.captionFont; ui.prayerText.style.color = gameSettings.captionColor; }
 
         // --- TEXTURE & OBJECT CREATION ---
@@ -826,9 +815,6 @@ and continues to refine the core gameplay experience based on user feedback.
         function createCircleAlphaMap() { const size = 128; const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size; const context = canvas.getContext('2d'); context.fillStyle = 'black'; context.fillRect(0, 0, size, size); context.fillStyle = 'white'; context.beginPath(); context.arc(size/2, size/2, size/2, 0, 2 * Math.PI); context.fill(); return new THREE.CanvasTexture(canvas); }
         const circleAlphaMap = createCircleAlphaMap();
 
-        /**
-         * A generic object pooling system to reuse objects and improve performance.
-         */
         class ObjectPool {
             constructor(createFn, initialSize) {
                 this.createFn = createFn;
@@ -878,6 +864,10 @@ and continues to refine the core gameplay experience based on user feedback.
         const shattererMaterial = new THREE.MeshStandardMaterial({ color: 0x00ced1, emissive: 0x00ffff, emissiveIntensity: 1.0, roughness: 0.3, metalness: 0.4, transparent: true, opacity: 0.8 });
         const minelayerMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, emissive: 0xff8c00, emissiveIntensity: 1.2, metalness: 0.6, roughness: 0.7 });
         const mineMaterial = new THREE.MeshBasicMaterial({ color: 0xffa500, transparent: true, opacity: 0.8 });
+        const judgmentSentinelMaterial = new THREE.MeshStandardMaterial({ color: 0x333333, emissive: getComputedStyle(document.documentElement).getPropertyValue('--judgment-laser-color'), emissiveIntensity: 1.0, metalness: 0.9, roughness: 0.2 });
+        const judgmentLaserMaterial = new THREE.MeshBasicMaterial({ color: getComputedStyle(document.documentElement).getPropertyValue('--judgment-laser-color'), transparent: true, opacity: 0.7, fog: false });
+        const klipahHuskMaterial = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.8, metalness: 0.1 });
+
 
         // --- PLAYER & PROJECTILE SYSTEM ---
         const sparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial, MAX_SPARKS );
@@ -897,13 +887,6 @@ and continues to refine the core gameplay experience based on user feedback.
             isEcho: false,
         }));
         
-        /**
-         * Activates a projectile from the pool and fires it.
-         * @param {THREE.Vector3} position The starting position of the spark.
-         * @param {number} damage The base damage of the spark.
-         * @param {boolean} hasPierce Whether the spark can pierce an enemy.
-         * @param {boolean} [isEcho=false] Whether this is a projectile from a Celestial Echo.
-         */
         function fireSpark(position, damage, hasPierce, isEcho = false) {
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
@@ -911,14 +894,12 @@ and continues to refine the core gameplay experience based on user feedback.
                     spark.active = true;
                     spark.position.copy(position);
                     spark.isEcho = isEcho;
-                    
                     const isCrit = !isEcho && (Math.random() < (playerStats.upgrades.critChance?.level || 0) * 0.01);
                     spark.damage = damage * (isCrit ? 2 : 1);
                     spark.isCrit = isCrit;
-                    
                     spark.pierceCounter = hasPierce ? 1 : 0;
                     const speedBonus = 1 + (playerStats.upgrades.projectileSpeed?.level || 0) * 0.05;
-                    spark.velocity.z = -80 * speedBonus * (isEcho ? 1.5 : 1); // Echo sparks are faster
+                    spark.velocity.z = -80 * speedBonus * (isEcho ? 1.5 : 1);
                     return;
                 }
             }
@@ -930,15 +911,10 @@ and continues to refine the core gameplay experience based on user feedback.
         const nefeshGroup = new THREE.Group();
         scene.add(nefeshGroup);
         
-        /**
-         * Initializes or re-initializes the instanced meshes for the player's Nefesh units.
-         * This includes the main body and the webcam display planes. This function is called
-         * when the game starts or when MAX_NEFESH setting is changed.
-         */
         function setupInstancedNefesh() {
-            if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
-            if (nefeshBottomInstanced) nefeshGroup.remove(nefeshBottomInstanced);
-            if (nefeshWebcamInstanced) nefeshGroup.remove(nefeshWebcamInstanced);
+            if (nefeshTopInstanced) { nefeshGroup.remove(nefeshTopInstanced); nefeshTopInstanced.geometry.dispose(); }
+            if (nefeshBottomInstanced) { nefeshGroup.remove(nefeshBottomInstanced); nefeshBottomInstanced.geometry.dispose(); }
+            if (nefeshWebcamInstanced) { nefeshGroup.remove(nefeshWebcamInstanced); nefeshWebcamInstanced.geometry.dispose(); }
 
             const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
             nefeshTopInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
@@ -958,21 +934,18 @@ and continues to refine the core gameplay experience based on user feedback.
 
             nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced, nefeshWebcamInstanced);
 
-            // B"H: Re-calculate the formation pattern based on the new MAX_NEFESH
-            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle
+            const angleStep = Math.PI * (3 - Math.sqrt(5));
             const radiusStep = 0.45;
             let maxRadiusForLayout = radiusStep * Math.sqrt(MAX_NEFESH);
-            // This scale factor ensures the formation width doesn't exceed the road width.
-            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth) ? (roadWidth / 2) / maxRadiusForLayout : 1;
+            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth * 0.9) ? (roadWidth * 0.9 / 2) / maxRadiusForLayout : 1;
             nefeshState = [];
             for (let i = 0; i < MAX_NEFESH; i++) {
                 const radius = radiusStep * Math.sqrt(i + 1) * scaleFactor;
                 const angle = i * angleStep;
                 const x = Math.cos(angle) * radius;
                 const z = Math.sin(angle) * radius;
-                // B"H: The 'z' positioning is now relative to the group, which sits at z=5
                 const targetPos = new THREE.Vector3(x, 0.4, z); 
-                nefeshState.push({ active: false, currentPos: new THREE.Vector3(0, 1000, 0), targetPos: targetPos, currentScale: 0.01, targetScale: 1, yRotation: 0, lastShotTime: 0, collisionBox2D: new THREE.Box2() });
+                nefeshState.push({ active: false, currentPos: new THREE.Vector3(0, 1000, 0), targetPos: targetPos, currentScale: 0, targetScale: 1, yRotation: 0, lastShotTime: Infinity, collisionBox2D: new THREE.Box2() });
             }
         }
 
@@ -987,42 +960,54 @@ and continues to refine the core gameplay experience based on user feedback.
         const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
         const specialParticlePool = new ObjectPool(() => { const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 }); const sprite = new THREE.Sprite(material); sprite.userData = { type: 'special_particle' }; return sprite; }, 300);
         const minePool = new ObjectPool(() => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.1, 8, 16), mineMaterial); m.rotation.x = Math.PI / 2; const core = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshBasicMaterial({color: 0xff4500})); g.add(m, core); g.userData = { type: 'mine', body: g, collisionBox2D: new THREE.Box2() }; return g; }, 20);
+        const klipahHuskPool = new ObjectPool(() => { const geom = new THREE.IcosahedronGeometry(0.8, 0); const mesh = new THREE.Mesh(geom, klipahHuskMaterial); mesh.userData = { type: 'klipah_husk', collisionBox2D: new THREE.Box2() }; return mesh; }, 15);
+        const laserSentinelPool = new ObjectPool(() => {
+            const group = new THREE.Group();
+            const bodyGeom = new THREE.TorusKnotGeometry(0.7, 0.15, 50, 8);
+            const body = new THREE.Mesh(bodyGeom, judgmentSentinelMaterial.clone());
+            body.position.y = 1.5;
+            const telegraphGeom = new THREE.CylinderGeometry(0.02, 0.02, 200, 4);
+            const telegraphLine = new THREE.Mesh(telegraphGeom, new THREE.MeshBasicMaterial({color: getComputedStyle(document.documentElement).getPropertyValue('--judgment-laser-color'), transparent: true, opacity: 0.5}));
+            telegraphLine.rotation.x = Math.PI / 2;
+            telegraphLine.visible = false;
+            const laserGeom = new THREE.CylinderGeometry(0.3, 0.3, 200, 16);
+            const laserBeam = new THREE.Mesh(laserGeom, judgmentLaserMaterial.clone());
+            laserBeam.rotation.x = Math.PI / 2;
+            laserBeam.visible = false;
+            group.add(body, telegraphLine, laserBeam);
+            group.userData = { type: 'laser_sentinel', health: 100, body, telegraphLine, laserBeam, state: 'idle', stateTimer: 0, collisionBox2D: new THREE.Box2(), laserCollisionBox: new THREE.Box2() };
+            return group;
+        }, 5);
+
+
         const activeLights = new Set();
         const activeShockwaves = new Set();
         const dynamicShards = new Set();
         const activeEchos = [];
 
         // --- CORE GAME OBJECT FUNCTIONS ---
-        /**
-         * Marks a Nefesh unit for destruction at the end of the frame.
-         * This begins the two-phase destruction process to prevent "zombie" units.
-         * @param {number} index The index of the Nefesh in the `nefeshState` array.
-         */
         function markNefeshForDestruction(index) {
             if (index !== -1 && nefeshState[index] && nefeshState[index].active && !destroyedNefeshIndices.has(index)) {
                 destroyedNefeshIndices.add(index);
+                // B"H FIX: Immediately prevent the Nefesh from firing again. This is the primary fix for the ghost-firing bug.
+                nefeshState[index].lastShotTime = Infinity;
                 if (gameState.wave && gameState.wave.isTracking) {
                     gameState.wave.hitsTakenThisWave++;
                 }
             }
         }
         
-        /**
-         * Fully deactivates and hides a Nefesh unit.
-         * This is the final step in the destruction process.
-         * @param {number} index The index of the Nefesh in the `nefeshState` array.
-         */
         function neutralizeNefesh(index) {
             if (index < 0 || index >= nefeshState.length) return;
             const state = nefeshState[index];
             if (!state.active) return; 
 
             state.active = false;
+            // B"H FIX: Ensure all state properties are reset to prevent zombie state.
             state.currentPos.set(0, 1000, 0);
             state.targetPos.set(0, 1000, 0);
             state.currentScale = 0;
             state.targetScale = 0;
-            // B"H: BUG FIX - Set lastShotTime to Infinity to absolutely prevent a "zombie" nefesh from ever firing again.
             state.lastShotTime = Infinity;
 
             dummyObject.scale.set(0, 0, 0);
@@ -1031,27 +1016,22 @@ and continues to refine the core gameplay experience based on user feedback.
             if (nefeshBottomInstanced) nefeshBottomInstanced.setMatrixAt(index, dummyObject.matrix);
             if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(index, dummyObject.matrix);
 
-            const explosionPosition = nefeshGroup.position.clone().add(state.currentPos);
+            const explosionPosition = nefeshGroup.localToWorld(state.currentPos.clone());
             createParticleExplosion(explosionPosition, 30, 0x800080, 15);
         }
         
-        /**
-         * Changes the number of active Nefesh units and updates the dynamic camera target.
-         * @param {number} change The number to add (positive) or remove (negative).
-         */
         function adjustNefeshCount(change) {
             const initialNefesh = gameState.nefesh;
             if (change > 0) {
                 let added = 0;
                 for(let i = 0; i < MAX_NEFESH && added < change; i++) {
-                    if (!nefeshState[i].active) {
-                        const state = nefeshState[i];
+                    const state = nefeshState[i];
+                    if (!state.active) {
                         state.active = true;
-                        // B"H: Set current position to the center of the formation for a nice spawn-in animation
-                        state.currentPos.set(0, 0.4, 0);
+                        state.currentPos.set(0, 0.4, 0); // Spawn in center of formation
                         state.targetScale = 1;
                         state.currentScale = 0.01;
-                        state.lastShotTime = 0;
+                        state.lastShotTime = 0; // Ready to fire
                         createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10);
                         added++;
                     }
@@ -1059,28 +1039,26 @@ and continues to refine the core gameplay experience based on user feedback.
             } else if (change < 0) {
                 let removed = 0;
                 const toRemove = -change;
-                // B"H: Remove from the back of the formation first
                 for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
-                    if (nefeshState[i].active) {
+                    if (nefeshState[i].active && !destroyedNefeshIndices.has(i)) {
                         markNefeshForDestruction(i);
                         removed++;
                     }
                 }
             }
             
-            // B"H: We must count the active ones *after* marking for destruction to get the future count
-            gameState.nefesh = nefeshState.filter(s => s.active && !destroyedNefeshIndices.has(nefeshState.indexOf(s))).length;
+            const newNefeshCount = nefeshState.filter(s => s.active && !destroyedNefeshIndices.has(nefeshState.indexOf(s))).length;
             
-            if (gameState.nefesh < initialNefesh) {
+            if (newNefeshCount < initialNefesh) {
                 shatterElement(ui.nefeshDisplay);
             }
+            gameState.nefesh = newNefeshCount;
+
             if (gameState.nefesh <= 0 && gameState.current === 'playing') {
                 endGame();
             }
             ui.nefeshDisplay.style.transform = "scale(1.2)";
             setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
-
-            // B"H: Update the dynamic camera every time the fleet size changes.
             updateCameraTarget();
         }
 
@@ -1097,7 +1075,30 @@ and continues to refine the core gameplay experience based on user feedback.
         const minelayerPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.BoxGeometry(1.2, 1.2, 1.8); const b = new THREE.Mesh(bG, minelayerMaterial.clone()); b.position.y = 0.6; g.add(b); g.userData = { type: 'minelayer', body: b, health: 70, lastMineTime: 0, collisionBox2D: new THREE.Box2() }; return g; }, 10);
 
         function createParticleExplosion(position, count, color, speed) { const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1)); for(let i=0; i < scaledCount; i++) { const p = particlePool.activate(); if(!p) continue; p.position.copy(position); p.material.color.set(color); p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 }; } }
-        function shatterObject(object) { const geom = object.geometry; const mat = object.material; const shatterCount = gameSettings.shatterCount; const shatterSpeed = gameSettings.shatterSpeed; for(let i=0; i < shatterCount; i++) { const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3); shard.position.copy(object.getWorldPosition(worldPosVec)); shard.rotation.copy(object.rotation); scene.add(shard); shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) }; dynamicShards.add(shard); } }
+        function shatterObject(object, spawnHuskChance = 0) {
+            const geom = object.geometry;
+            const mat = object.material;
+            const shatterCount = gameSettings.shatterCount;
+            const shatterSpeed = gameSettings.shatterSpeed;
+            const worldPos = object.getWorldPosition(worldPosVec);
+            for(let i=0; i < shatterCount; i++) {
+                const shard = new THREE.Mesh(geom, mat);
+                shard.scale.setScalar(0.2 + Math.random()*0.3);
+                shard.position.copy(worldPos);
+                shard.rotation.copy(object.rotation);
+                scene.add(shard);
+                shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) };
+                dynamicShards.add(shard);
+            }
+            if (Math.random() < spawnHuskChance) {
+                const husk = klipahHuskPool.activate();
+                if (husk) {
+                    husk.position.copy(worldPos);
+                    husk.position.y = 1.0;
+                    husk.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                }
+            }
+        }
         function shatterElement(element) { if (!element) return; const rect = element.getBoundingClientRect(); if (rect.width === 0 || rect.height === 0) return; const container = document.createElement('div'); Object.assign(container.style, { position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, overflow: 'hidden', pointerEvents: 'none', zIndex: '2000' }); document.body.appendChild(container); const shatterCount = Math.max(5, gameSettings.shatterCount / 2); const shatterSpeed = gameSettings.shatterSpeed * 0.2; for (let i = 0; i < shatterCount; i++) { const shard = document.createElement('div'); Object.assign(shard.style, { position: 'absolute', backgroundColor: 'white', width: `${Math.random() * 15 + 5}px`, height: `${Math.random() * 15 + 5}px`, left: `${Math.random() * rect.width}px`, top: `${Math.random() * rect.height}px`, transition: 'transform 1s ease-out, opacity 1s ease-out' }); container.appendChild(shard); requestAnimationFrame(() => { const vx = (Math.random() - 0.5) * shatterSpeed * 8; const vy = (Math.random() - 0.5) * shatterSpeed * 8; shard.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg)`; shard.style.opacity = '0'; }); } setTimeout(() => { if (container.parentElement) document.body.removeChild(container); }, 1000); }
         let shakeIntensity = 0; let fovKick = 0;
         function triggerScreenShake(intensity) { shakeIntensity = Math.max(shakeIntensity, intensity * gameSettings.shakeIntensity); }
@@ -1139,21 +1140,19 @@ and continues to refine the core gameplay experience based on user feedback.
                 const geo = new THREE.PlaneGeometry(6, 4.5);
                 const mat = new THREE.MeshBasicMaterial({ 
                     map: this.videoTexture,
-                    alphaMap: circleAlphaMap, // B"H: Use circular alpha map for main display
+                    alphaMap: circleAlphaMap,
                     transparent: true,
                 });
                 this.centralDisplay = new THREE.Mesh(geo, mat);
-                // B"H: Position on the floor in front of the fleet, at Z=2 so it doesn't overlap the front units
-                this.centralDisplay.position.set(0, roadLevelY + 0.1, 2);
+                // B"H FIX: Position on the floor IN FRONT of the fleet's starting position.
+                this.centralDisplay.position.set(0, roadLevelY + 0.1, 6.5);
                 this.centralDisplay.rotation.x = -Math.PI / 2;
                 this.centralDisplay.visible = false;
                 scene.add(this.centralDisplay);
             },
 
             stop() {
-                if (this.stream) {
-                    this.stream.getTracks().forEach(track => track.stop());
-                }
+                if (this.stream) { this.stream.getTracks().forEach(track => track.stop()); }
                 this.videoElement.srcObject = null;
                 this.stream = null;
                 this.isInitialized = false;
@@ -1177,11 +1176,8 @@ and continues to refine the core gameplay experience based on user feedback.
 
         async function updateWebcamState() {
             const mode = gameSettings.webcamMode;
-            if (mode === 'off') {
-                if(webcam.isInitialized) webcam.stop();
-            } else {
-                if(!webcam.isInitialized) await webcam.initialize();
-            }
+            if (mode === 'off') { if(webcam.isInitialized) webcam.stop(); } 
+            else { if(!webcam.isInitialized) await webcam.initialize(); }
             webcam.updateVisibility();
         }
 
@@ -1192,21 +1188,12 @@ and continues to refine the core gameplay experience based on user feedback.
         function updateCombo(newPoints, position) {
             gameState.combo.timer = 3.0 * (1 + (playerStats.upgrades.comboTimer?.level || 0) * 0.05);
             gameState.combo.count++;
-            
             const shefaValueBonus = 1 + (playerStats.upgrades.shefaValue?.level || 0) * 0.05;
             const shefaGained = (newPoints * gameState.combo.count) * shefaValueBonus;
-
             const numOrbs = Math.min(15, Math.floor(shefaGained / 10));
             if(numOrbs === 0) return;
             const valuePerOrb = shefaGained / numOrbs;
-            for(let i=0; i < numOrbs; i++) {
-                const orb = shefaOrbPool.activate();
-                if(orb) {
-                    orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0));
-                    orb.userData.value = valuePerOrb;
-                    orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8);
-                }
-            }
+            for(let i=0; i < numOrbs; i++) { const orb = shefaOrbPool.activate(); if(orb) { orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0)); orb.userData.value = valuePerOrb; orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8); } }
             ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`;
             ui.comboNotifier.classList.remove('show');
             void ui.comboNotifier.offsetWidth;
@@ -1215,8 +1202,8 @@ and continues to refine the core gameplay experience based on user feedback.
         let road, starField1, starField2; let roadTextureTileLength;
         function createRoadTexture() { const canvas = document.createElement('canvas'); const width = 128; const height = 512; canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.fillStyle = 'rgba(0,0,0,0)'; ctx.fillRect(0, 0, width, height); ctx.fillStyle = 'rgba(255, 255, 0, 0.7)'; for(let y = 0; y < height; y += 40) { ctx.fillRect(width/2 - 3, y, 6, 20); } ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; ctx.fillRect(width * 0.1 - 1, 0, 2, height); ctx.fillRect(width * 0.9 - 1, 0, 2, height); const texture = new THREE.CanvasTexture(canvas); texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping; return texture; }
         function createWorld() { const roadTextureRepeats = 10; const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20); const roadMat = new THREE.MeshLambertMaterial({ color: 0x483d8b, map: createRoadTexture(), transparent: true }); roadMat.map.repeat.set(1, roadTextureRepeats); roadTextureTileLength = roadLength / roadTextureRepeats; road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = roadLevelY; scene.add(road); const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2); }
-        const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = 15; // B"H: Updated to be relative to dynamic camera
-        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } } return null; }
+        const lanePositions = [-3.0, 0, 3.0];
+        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } case 'laser_sentinel': { const sentinel = laserSentinelPool.activate(); if(!sentinel) return null; sentinel.position.copy(position); sentinel.userData.health = Math.floor(100 * levelFactor); sentinel.userData.state = 'idle'; sentinel.userData.stateTimer = 2 + Math.random() * 2; sentinel.userData.telegraphLine.visible = false; sentinel.userData.laserBeam.visible = false; return sentinel; } } return null; }
         
         // --- SPAWN PATTERNS & WAVE MANAGEMENT ---
         function pattern_Wall(z) { return [spawnObstacle('jar', 0, z), spawnObstacle('jar', 1, z), spawnObstacle('jar', 2, z)].filter(Boolean); }
@@ -1228,12 +1215,15 @@ and continues to refine the core gameplay experience based on user feedback.
         function pattern_ShattererAmbush(z) { const lane = Math.floor(Math.random() * 3); return [spawnObstacle('shatterer', lane, z), spawnObstacle('jar', (lane + 1) % 3, z - 15), spawnObstacle('jar', (lane + 2) % 3, z - 15)].filter(Boolean); }
         function pattern_Minefield(z) { const lane = Math.floor(Math.random()*3); return [spawnObstacle('minelayer', lane, z)].filter(Boolean); }
         function pattern_MinerAndThorns(z) { const lane = Math.floor(Math.random()*3); return [spawnObstacle('minelayer', lane, z), spawnObstacle('tohu_shard', (lane+1)%3, z-20), spawnObstacle('tohu_shard', (lane+2)%3, z-20)].filter(Boolean); }
+        function pattern_LaserWarning(z) { return [spawnObstacle('laser_sentinel', Math.floor(Math.random()*3), z)].filter(Boolean); }
+        function pattern_LaserAndWall(z) { return [spawnObstacle('laser_sentinel', 1, z), spawnObstacle('jar', 0, z-20), spawnObstacle('jar', 2, z-20)].filter(Boolean); }
+
 
         const patternSets = {
             early: [pattern_Wall, pattern_KlipahWeave],
             mid: [pattern_Gauntlet, pattern_SentryGuard, pattern_WeaverDance, pattern_Minefield],
-            late: [pattern_SentryGuard, pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns],
-            expert: [pattern_TomeKeeperGuard, pattern_WeaverDance, pattern_ShattererAmbush, pattern_MinerAndThorns]
+            late: [pattern_SentryGuard, pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns, pattern_LaserWarning],
+            expert: [pattern_TomeKeeperGuard, pattern_WeaverDance, pattern_ShattererAmbush, pattern_MinerAndThorns, pattern_LaserAndWall]
         };
         
         function getPatternSet() {
@@ -1261,7 +1251,7 @@ and continues to refine the core gameplay experience based on user feedback.
             if (gameState.wave.isTracking || gameState.bossManager.isActive) return;
 
             let rearmostZ = 0;
-            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...tohuShardPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active, ...laserSentinelPool.active, ...klipahHuskPool.active];
             for(const obs of allObstacles) { if (obs.position.z < rearmostZ) rearmostZ = obs.position.z; }
             
             if (rearmostZ > -80) {
@@ -1281,116 +1271,34 @@ and continues to refine the core gameplay experience based on user feedback.
         
         function spawnSpecialParticle() { if (specialParticleTextures.length === 0) return; const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; const x = (Math.random() - 0.5) * spawnRadius * 2; const y = (Math.random() - 0.5) * spawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); }
 
-        // --- BOSS BATTLE SYSTEM ---
+        // --- BOSS BATTLE SYSTEM (Placeholder) ---
         const bossManager = {
-            isActive: false,
-            bossObject: null,
-            state: 'inactive', // inactive, intro, phase1, phase2, defeated
-            stateTimer: 0,
-            health: 0,
-            maxHealth: 500,
-            
-            create() {
-                const group = new THREE.Group();
-                const coreGeom = new THREE.IcosahedronGeometry(2, 1);
-                const coreMat = new THREE.MeshStandardMaterial({color: 0x222222, metalness: 0.9, roughness: 0.1});
-                const core = new THREE.Mesh(coreGeom, coreMat);
-                core.position.y = 3;
-                const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.2, 16, 100), golemMaterial);
-                const ring2 = new THREE.Mesh(new THREE.TorusGeometry(4, 0.2, 16, 100), golemMaterial);
-                ring1.rotation.x = Math.PI / 2;
-                ring2.rotation.x = Math.PI / 2;
-                ring2.rotation.y = Math.PI / 4;
-                
-                group.add(core, ring1, ring2);
-                group.userData = {core, ring1, ring2};
-                this.bossObject = group;
-                scene.add(this.bossObject);
-            },
-
-            start() {
-                if (!this.bossObject) this.create();
-                this.isActive = true;
-                this.state = 'intro';
-                this.health = this.maxHealth * (1 + (gameState.level / 10));
-                this.stateTimer = 5; // 5 second intro
-                this.bossObject.position.set(0, 0, -50);
-                this.bossObject.visible = true;
-                triggerFlash('#ff0000', 1000);
-            },
-
-            update(deltaTime) {
-                if (!this.isActive) return;
-
-                this.stateTimer -= deltaTime;
-                this.bossObject.userData.ring1.rotation.z += deltaTime * 0.5;
-                this.bossObject.userData.ring2.rotation.z -= deltaTime * 0.3;
-
-                switch(this.state) {
-                    case 'intro':
-                        this.bossObject.position.z = THREE.MathUtils.lerp(this.bossObject.position.z, -30, 0.05);
-                        if(this.stateTimer <= 0) {
-                            this.state = 'phase1';
-                            this.stateTimer = 3; // 3 seconds per attack
-                        }
-                        break;
-                    case 'phase1': // Fires heavy projectiles
-                        if(this.stateTimer <= 0) {
-                            for(let i = 0; i < 3; i++) {
-                                const proj = golemHeavyProjectilePool.activate();
-                                if(proj) {
-                                    proj.position.copy(this.bossObject.position).add(new THREE.Vector3(lanePositions[i], 2, 0));
-                                    proj.userData.type = 'heavy';
-                                    proj.userData.damage = 10;
-                                }
-                            }
-                            this.stateTimer = 3.5 - Math.min(2, gameState.level * 0.1);
-                        }
-                        break;
-                }
-            },
-
-            takeDamage(amount) {
-                if (!this.isActive || this.state === 'intro') return;
-                this.health -= amount;
-                createParticleExplosion(this.bossObject.position, 20, '#ff8800', 15);
-                triggerScreenShake(0.2);
-                if (this.health <= 0) {
-                    this.defeat();
-                }
-            },
-
-            defeat() {
-                this.isActive = false;
-                this.state = 'defeated';
-                shatterObject(this.bossObject.userData.core);
-                this.bossObject.visible = false;
-                
-                addShefa(200);
-                gameState.mitzvot += 1000 * (1 + (playerStats.upgrades.mitzvotGain?.level || 0) * 0.02);
-                createParticleExplosion(this.bossObject.position, 500, '#ffd700', 40);
-                triggerFlash('#ffffff', 1500);
-                triggerFovKick(30);
-
-                setTimeout(() => {
-                    gameState.bossManager.state = 'inactive';
-                }, 3000);
-            }
+            isActive: false, bossObject: null, state: 'inactive',
+            start() { this.isActive = true; },
+            update() {},
+            takeDamage() {},
+            defeat() { this.isActive = false; }
         };
 
-
         // --- GAME STATE MANAGEMENT ---
-        /**
-         * Resets and initializes the game state for a new run.
-         */
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool].forEach(pool => pool.deactivateAll());
+            const allPools = [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, klipahHuskPool, laserSentinelPool];
+            allPools.forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
             activeLights.forEach(l => scene.remove(l)); activeLights.clear();
             activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
             activeEchos.length = 0;
-            nefeshState.forEach(s => s.active = false);
+            
+            // B"H FIX: Rigorous reset of nefeshState to prevent desync and invisible units.
+            nefeshState.forEach(state => {
+                state.active = false;
+                state.currentPos.set(0, 1000, 0);
+                state.targetPos.set(0, 1000, 0);
+                state.currentScale = 0;
+                state.targetScale = 0;
+                state.lastShotTime = Infinity;
+            });
             sparkState.forEach(s => s.active = false);
             destroyedNefeshIndices.clear();
 
@@ -1406,10 +1314,7 @@ and continues to refine the core gameplay experience based on user feedback.
                 nextWaveId: 0,
                 player: {
                     fireRate: 350 * (1 - (playerStats.upgrades.fireRateBonus?.level || 0) * 0.1),
-                    projectileDamage: 1,
-                    hasRegen: false,
-                    regenTimer: 0,
-                    hasPierce: false,
+                    projectileDamage: 1, hasRegen: false, regenTimer: 0, hasPierce: false,
                     hasShield: playerStats.upgrades.startingShield?.level > 0,
                 },
                 combo: { count: 0, timer: 0 },
@@ -1421,20 +1326,18 @@ and continues to refine the core gameplay experience based on user feedback.
             };
             
             gameState.bossManager.isActive = false;
-            gameState.bossManager.state = 'inactive';
-            if(gameState.bossManager.bossObject) gameState.bossManager.bossObject.visible = false;
             
             scene.fog = new THREE.Fog(gameState.color.current, 50, 200);
             renderer.setClearColor(gameState.color.current);
             acquiredUpgrades.clear();
             if(!road) createWorld();
-            nefeshGroup.position.set(0, 0, 5); // B"H: Move fleet group forward
+            nefeshGroup.position.set(0, 0, 8); // B"H FIX: Moved fleet closer to camera
             
             ui.prayerDropdownBtn.style.display = 'block';
             if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { ui.prayerDisplayContainer.classList.add('visible'); updatePrayerDisplay(); ui.ascensionNotifier.classList.add('side-mode'); ui.comboNotifier.classList.add('side-mode'); ui.perfectWaveNotifier.classList.add('side-mode'); } else { ui.prayerDisplayContainer.classList.remove('visible'); ui.ascensionNotifier.classList.remove('side-mode'); ui.comboNotifier.classList.remove('side-mode'); ui.perfectWaveNotifier.classList.remove('side-mode');}
             
             const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
-            adjustNefeshCount(startingNefesh); // This will also call updateCameraTarget()
+            adjustNefeshCount(startingNefesh);
             
             targetCubeX = 0;
             
@@ -1460,34 +1363,25 @@ and continues to refine the core gameplay experience based on user feedback.
                 gameState.level++;
                 gameState.shefaToAscend *= 1.5;
                 grantRandomEmanation();
-
-                if (gameState.level % 7 === 0 && !gameState.bossManager.isActive) {
-                    gameState.bossManager.start();
-                }
             }
         }
 
         function addVoidPulse(amount) {
             if (gameState.voidPulse >= gameState.voidPulseToActivate) return;
             const chargeBonus = 1 + (playerStats.upgrades.voidPulseCharge?.level || 0) * 0.05;
-            gameState.voidPulse += amount * chargeBonus;
-            if (gameState.voidPulse >= gameState.voidPulseToActivate) {
-                gameState.voidPulse = gameState.voidPulseToActivate;
-                ui.voidPulseNotifier.style.opacity = '1';
-            }
+            gameState.voidPulse = Math.min(gameState.voidPulseToActivate, gameState.voidPulse + amount * chargeBonus);
         }
 
         function triggerVoidPulse() {
             if (gameState.voidPulse < gameState.voidPulseToActivate) return;
             gameState.voidPulse = 0;
-            ui.voidPulseNotifier.style.opacity = '0';
             
-            const pulseColorValue = getComputedStyle(document.documentElement).getPropertyValue('--void-pulse-color').trim();
+            ui.voidPulseButton.classList.remove('ready');
+            ui.voidPulseButton.style.transform = 'translateX(-50%) scale(0.9)';
+            setTimeout(() => ui.voidPulseButton.style.transform = 'translateX(-50%)', 100);
 
-            const pulseWave = new THREE.Mesh(
-                new THREE.TorusGeometry(1, 0.2, 16, 100), 
-                new THREE.MeshBasicMaterial({color: pulseColorValue, transparent: true})
-            );
+            const pulseColorValue = getComputedStyle(document.documentElement).getPropertyValue('--void-pulse-color').trim();
+            const pulseWave = new THREE.Mesh( new THREE.TorusGeometry(1, 0.2, 16, 100), new THREE.MeshBasicMaterial({color: pulseColorValue, transparent: true}) );
             pulseWave.position.copy(nefeshGroup.position);
             pulseWave.rotation.x = Math.PI / 2;
             activeShockwaves.add({mesh: pulseWave, life: 1.0, isVoidPulse: true});
@@ -1498,6 +1392,7 @@ and continues to refine the core gameplay experience based on user feedback.
         }
         
         function endGame() {
+            if (gameState.current === 'gameOver') return; // Prevent multiple calls
             gameState.current = 'gameOver';
             if(animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
@@ -1517,23 +1412,25 @@ and continues to refine the core gameplay experience based on user feedback.
             gameState.current = 'mainMenu';
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = undefined;
-            ui.gameOver.classList.remove('visible');
-            ui.customMenu.classList.remove('visible');
-            ui.settingsOverlay.classList.remove('visible');
-            ui.upgradeShopOverlay.classList.remove('visible');
+            Object.values(ui).forEach(element => {
+                if (element.classList && element.classList.contains('overlay')) {
+                    element.classList.remove('visible');
+                }
+            });
             ui.mainMenu.classList.add('visible');
             ui.prayerDisplayContainer.classList.remove('visible');
             ui.prayerListOverlay.classList.remove('visible');
             ui.prayerDropdownBtn.style.display = 'none';
-            savePlayerStats(); // Save any idle earnings when returning to menu
+            savePlayerStats();
         }
         
         // --- INPUT & UI LISTENERS ---
         let isDragging = false, lastTouchX = 0, targetCubeX = 0;
         const handleMove = (clientX) => { if (!isDragging || gameState.current !== 'playing') return; const deltaX = clientX - lastTouchX; const moveScale = 0.03; targetCubeX += deltaX * moveScale; lastTouchX = clientX; };
-        const handleInteractionStart = (e, clientX) => { if (gameState.current !== 'playing') return; const targetElement = e.target; if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay')) return; isDragging = true; lastTouchX = clientX; if (e.type === 'touchstart') e.preventDefault(); };
+        const handleInteractionStart = (e, clientX) => { if (gameState.current !== 'playing') return; const targetElement = e.target; if (targetElement.closest('.prayer-nav-button, #prayerDropdownBtn, #prayerListOverlay, #voidPulseButton')) return; isDragging = true; lastTouchX = clientX; if (e.type === 'touchstart') e.preventDefault(); };
         document.addEventListener('mousedown', e => handleInteractionStart(e, e.clientX)); document.addEventListener('mousemove', e => handleMove(e.clientX)); document.addEventListener('mouseup', () => isDragging = false); document.addEventListener('touchstart', e => handleInteractionStart(e, e.touches[0].clientX), { passive: false }); document.addEventListener('touchmove', e => handleMove(e.touches[0].clientX), { passive: false }); document.addEventListener('touchend', () => isDragging = false);
         document.addEventListener('keydown', e => { if (e.code === 'Space' && gameState.current === 'playing') triggerVoidPulse(); });
+        ui.voidPulseButton.addEventListener('click', triggerVoidPulse);
 
         ui.tryAgainButton.addEventListener('click', () => { shatterElement(ui.tryAgainButton); initializeGame(); }); ui.btnBegin.addEventListener('click', () => { shatterElement(ui.btnBegin); gameSettings.customPrayers = null; initializeGame(); }); ui.btnCustom.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.customMenu.classList.add('visible'); }); ui.btnGoCustom.addEventListener('click', () => { shatterElement(ui.btnGoCustom); const prayers = ui.customPrayerTextarea.value.split('\n\n').map(p => p.trim()).filter(p => p.length > 0); gameSettings.customPrayers = (prayers.length > 0) ? { phrases: prayers, currentIndex: 0 } : null; initializeGame(); }); ui.btnBackToMain.addEventListener('click', showMainMenu); ui.btnBackToMainFromGameOver.addEventListener('click', showMainMenu); ui.btnSettings.addEventListener('click', () => { ui.mainMenu.classList.remove('visible'); ui.settingsOverlay.classList.add('visible'); }); ui.btnBackToMainFromSettings.addEventListener('click', showMainMenu); ui.backToMenuFromGameBtn.addEventListener('click', showMainMenu);
         
@@ -1546,21 +1443,15 @@ and continues to refine the core gameplay experience based on user feedback.
         ui.upgradeShopGrid.addEventListener('click', (e) => {
             const button = e.target.closest('.upgrade-button');
             if (!button || button.disabled) return;
-            
             const key = button.dataset.key;
             if (!key || !permanentUpgrades[key]) return;
-
             const upgrade = permanentUpgrades[key];
             const currentLevel = playerStats.upgrades[key]?.level || 0;
             const cost = Math.floor(upgrade.cost(currentLevel));
-
             if (playerStats.totalMitzvot >= cost && currentLevel < upgrade.maxLevel) {
                 playerStats.totalMitzvot -= cost;
-                if (!playerStats.upgrades[key]) {
-                    playerStats.upgrades[key] = { level: 0 };
-                }
+                if (!playerStats.upgrades[key]) playerStats.upgrades[key] = { level: 0 };
                 playerStats.upgrades[key].level++;
-                
                 savePlayerStats();
                 populateUpgradeShop();
             }
@@ -1576,53 +1467,35 @@ and continues to refine the core gameplay experience based on user feedback.
         window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); updateCameraTarget(); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
 
-        /**
-         * B"H: Calculates and sets the target position for the dynamic camera based on the current fleet size.
-         * This ensures all active Nefesh units are visible.
-         */
         function updateCameraTarget() {
             if (!gameState || gameState.nefesh === undefined) return;
-
             const activeNefeshCount = gameState.nefesh;
             if (activeNefeshCount <= 0) {
-                cameraTargetPos.copy(originalCameraPos); // Reset to default if no nefesh
+                cameraTargetPos.copy(originalCameraPos);
                 return;
             }
 
-            // Find the maximum radius of the current formation
             const radiusStep = 0.45;
             let maxRadiusForLayout = radiusStep * Math.sqrt(MAX_NEFESH);
-            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth) ? (roadWidth / 2) / maxRadiusForLayout : 1;
+            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth * 0.9) ? (roadWidth * 0.9 / 2) / maxRadiusForLayout : 1;
             const formationRadius = radiusStep * Math.sqrt(activeNefeshCount) * scaleFactor;
 
-            // Determine the field of view in radians
             const fovRad = THREE.MathUtils.degToRad(camera.fov);
-            
-            // We need to fit both the width (X) and depth (Z) of the formation in the view.
-            // The formation sits at z=5, so its rearmost point is at `5 + formationRadius`.
             const requiredZDist = (formationRadius / Math.tan(fovRad / 2)) / camera.aspect;
             const requiredYDist = formationRadius / Math.tan(fovRad / 2);
-
-            // The final distance is the greater of the two requirements, plus a base distance.
             const distance = Math.max(requiredYDist, requiredZDist);
             
-            const baseCamPos = new THREE.Vector3(0, 7, 9);
+            const baseCamPos = new THREE.Vector3(0, 7, 10); // B"H FIX: Adjusted base position
             const scaleFactorZ = 1.4; 
             const scaleFactorY = 0.8;
 
             cameraTargetPos.z = baseCamPos.z + distance * scaleFactorZ;
             cameraTargetPos.y = baseCamPos.y + distance * scaleFactorY;
-            cameraTargetPos.x = 0; // The camera itself doesn't move side-to-side
-
-            // Always look at a point slightly in front of the center of the mass
+            cameraTargetPos.x = 0;
             cameraLookAtTarget.set(nefeshGroup.position.x, 2, 0);
         }
 
         // --- MAIN GAME LOOP ---
-        /**
-         * The main animation loop, running every frame.
-         * @param {DOMHighResTimeStamp} currentTime The current time provided by requestAnimationFrame.
-         */
         function animate(currentTime) {
             animationFrameId = requestAnimationFrame(animate);
             try {
@@ -1631,40 +1504,36 @@ and continues to refine the core gameplay experience based on user feedback.
                 const deltaTime = Math.min(0.05, clock.getDelta());
                 const currentRoadSpeed = roadBaseSpeed + gameState.level * 1.5;
 
-                // --- World & Visuals Update ---
                 if (!gameState.color.current.equals(gameState.color.target)) { gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime); renderer.setClearColor(gameState.color.current); if(scene.fog) scene.fog.color.copy(gameState.color.current); }
                 if(road && road.material.map && roadTextureTileLength > 0) { road.material.map.offset.y += (currentRoadSpeed / roadTextureTileLength) * deltaTime; }
-                const starSpeed = 20 + gameState.level * 2; starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime; if(starField1.position.z > camera.position.z) starField1.position.z -= 500; if(starField2.position.z > camera.position.z) starField2.position.z -= 500;
+                const starSpeed = 20 + gameState.level * 2; starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime; if(starField1.position.z > camera.position.z + 100) starField1.position.z -= 500; if(starField2.position.z > camera.position.z + 100) starField2.position.z -= 500;
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
-                for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
+                for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z + 10) { specialParticlePool.deactivate(p); } }
 
-                // --- Celestial Winds Update ---
                 if (gameState.wind.timer > 0) { gameState.wind.timer -= deltaTime; targetCubeX += gameState.wind.force * gameState.wind.direction * deltaTime; if (Math.random() < 0.8) { const p = windParticlePool.activate(); if (p) { const startX = gameState.wind.direction > 0 ? -roadWidth * 2 : roadWidth * 2; p.position.set(startX, Math.random() * 8, Math.random() * -80); p.userData.velocity = new THREE.Vector3(gameState.wind.direction * -(100 + Math.random() * 50), 0, 0); p.userData.life = 1.0; } } }
                 windParticlePool.active.forEach(p => { p.position.x += p.userData.velocity.x * deltaTime; p.userData.life -= deltaTime; if (p.userData.life <= 0) windParticlePool.deactivate(p); });
 
-                // --- Player Movement & State ---
                 let minX = 0, maxX = 0; nefeshState.forEach(state => { if (state.active) { if(state.targetPos.x < minX) minX = state.targetPos.x; if(state.targetPos.x > maxX) maxX = state.targetPos.x; } });
                 const halfFormationWidth = (maxX - minX) / 2; const maxMove = (roadWidth / 2) - halfFormationWidth; targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
-                cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1); // Make camera look slightly towards movement direction
+                cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1);
                 
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime; else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
                 
-                // --- Nefesh Update & Firing ---
-                const troopHalfSize = 0.4; let activeNefeshCount = 0; const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
+                const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
                 nefeshState.forEach((state, i) => {
-                    if (!state.active) { tempMatrix.makeScale(0, 0, 0); nefeshTopInstanced.setMatrixAt(i, tempMatrix); nefeshBottomInstanced.setMatrixAt(i, tempMatrix); if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(i, tempMatrix); return; }
-                    activeNefeshCount++;
+                    if (!state.active) { return; }
                     state.currentPos.lerp(state.targetPos, 0.15);
                     const worldX = nefeshGroup.position.x + state.currentPos.x;
                     const worldZ = nefeshGroup.position.z + state.currentPos.z;
-                    state.collisionBox2D.min.set(worldX - troopHalfSize, worldZ - troopHalfSize);
-                    state.collisionBox2D.max.set(worldX + troopHalfSize, worldZ + troopHalfSize);
+                    state.collisionBox2D.min.set(worldX - 0.4, worldZ - 0.4);
+                    state.collisionBox2D.max.set(worldX + 0.4, worldZ + 0.4);
                     if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
                     state.yRotation += deltaTime * 2;
                     
-                    if (!destroyedNefeshIndices.has(i) && currentTime - state.lastShotTime > gameState.player.fireRate) {
+                    // B"H FIX: This check now respects the lastShotTime being set to Infinity upon destruction.
+                    if (currentTime - state.lastShotTime > gameState.player.fireRate) {
                         worldPosVec.set(worldX, 0.4, worldZ);
                         fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
@@ -1677,26 +1546,24 @@ and continues to refine the core gameplay experience based on user feedback.
                         nefeshWebcamInstanced.setMatrixAt(i, tempMatrix);
                     }
                 });
-                nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; nefeshBottomInstanced.count = activeNefeshCount;
-                if (nefeshWebcamInstanced) { nefeshWebcamInstanced.instanceMatrix.needsUpdate = true; nefeshWebcamInstanced.count = activeNefeshCount; }
+                nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
+                if (nefeshWebcamInstanced) { nefeshWebcamInstanced.instanceMatrix.needsUpdate = true; }
                 
-                // --- Obstacle & Enemy Update Loop ---
-                if (gameState.bossManager.isActive) {
-                    gameState.bossManager.update(deltaTime);
-                } else {
-                    const allPools = [klipahGatePool, jarPool, tohuShardPool, golemSentryPool, tomeKeeperPool, weaverPool, shattererPool, minelayerPool, minePool];
-                    allPools.forEach(pool => pool.active.forEach(obstacle => processObstacle(obstacle, deltaTime, currentRoadSpeed)));
-                }
+                // B"H FIX: Synchronize instance counts with active state to prevent invisible unit bugs.
+                const activeNefeshCount = nefeshState.filter(s => s.active).length;
+                nefeshTopInstanced.count = activeNefeshCount;
+                nefeshBottomInstanced.count = activeNefeshCount;
+                if (nefeshWebcamInstanced) { nefeshWebcamInstanced.count = activeNefeshCount; }
+                
+                const allPools = [klipahGatePool, jarPool, tohuShardPool, golemSentryPool, tomeKeeperPool, weaverPool, shattererPool, minelayerPool, minePool, laserSentinelPool, klipahHuskPool];
+                allPools.forEach(pool => pool.active.forEach(obstacle => processObstacle(obstacle, deltaTime, currentRoadSpeed)));
 
-                // --- Projectile Updates (Enemy & Player) ---
                 updateEnemyProjectiles(deltaTime);
                 updatePlayerProjectiles(deltaTime);
                 
-                // --- Final Updates & Rendering ---
                 updateDynamicEffects(deltaTime);
                 updateCelestialEchos(deltaTime);
                 
-                // B"H: Update camera position smoothly
                 camera.position.lerp(cameraTargetPos, 0.04);
                 camera.lookAt(cameraLookAtTarget);
                 
@@ -1704,12 +1571,10 @@ and continues to refine the core gameplay experience based on user feedback.
                 if (fovKick > 0) { camera.fov = originalFOV + fovKick; fovKick = Math.max(0, fovKick - deltaTime * 50); } else { camera.fov = THREE.MathUtils.lerp(camera.fov, originalFOV, 0.1); }
                 camera.updateProjectionMatrix();
 
-                // --- Wave & Spawning Logic ---
                 checkWaveCompletion();
                 trySpawnNextWave();
                 triggerCelestialWind();
                 
-                // --- Two-Phase Destruction (Zombie Fix) ---
                 processNefeshDestruction();
                 
                 updateUIDisplays();
@@ -1734,11 +1599,13 @@ and continues to refine the core gameplay experience based on user feedback.
                 case 'weaver': obsSizeX = 1.2; obsSizeZ = 1.2; break;
                 case 'shatterer': obsSizeX = 1.6; obsSizeZ = 1.6; break;
                 case 'minelayer': obsSizeX = 1.2; obsSizeZ = 1.8; break;
-                case 'mine': obsSizeX = 0.8; obsSizeZ = 0.8; obstacle.position.z += (speed * 0.2) * deltaTime; break; // Mines move slowly with the road
+                case 'mine': obsSizeX = 0.8; obsSizeZ = 0.8; obstacle.position.z += (speed * 0.2) * deltaTime; break;
+                case 'laser_sentinel': obsSizeX = 1.4; obsSizeZ = 1.4; break;
+                case 'klipah_husk': obsSizeX = 1.6; obsSizeZ = 1.6; obstacle.position.z += (speed * 0.1) * deltaTime; break;
             }
             if (obstacle.userData.collisionBox2D) { obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
             
-            if (obstacle.position.z > camera.position.z) { // Use camera position as removal boundary
+            if (obstacle.position.z > camera.position.z + 10) { // Removal boundary
                 deactivateObstacle(obstacle);
                 return;
             }
@@ -1747,9 +1614,45 @@ and continues to refine the core gameplay experience based on user feedback.
             if (obstacle.userData.type === 'golem_sentry' && !obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 3.5 - (gameState.level * 0.1)) { obstacle.userData.lastShotTime = clock.elapsedTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
             if (obstacle.userData.type === 'weaver') { obstacle.position.x += obstacle.userData.moveDirection * obstacle.userData.moveSpeed * deltaTime; if (Math.abs(obstacle.position.x) > roadWidth / 2 - 0.5) { obstacle.userData.moveDirection *= -1; } if (!obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 1.0) { obstacle.userData.lastShotTime = clock.elapsedTime; const proj = weaverProjectilePool.activate(); if(proj) { proj.position.copy(obstacle.position); proj.userData.velocity = new THREE.Vector3(0, 0, 35); } } }
             if (obstacle.userData.type === 'minelayer' && clock.elapsedTime - obstacle.userData.lastMineTime > 4.0) { obstacle.userData.lastMineTime = clock.elapsedTime; const mine = minePool.activate(); if(mine) { mine.position.set(obstacle.position.x, roadLevelY + 0.1, obstacle.position.z); } }
+            if (obstacle.userData.type === 'laser_sentinel') {
+                obstacle.userData.stateTimer -= deltaTime;
+                if (obstacle.userData.stateTimer <= 0) {
+                    if (obstacle.userData.state === 'idle') {
+                        obstacle.userData.state = 'telegraph';
+                        obstacle.userData.telegraphLine.position.set(0, 1.5, -100);
+                        obstacle.userData.telegraphLine.visible = true;
+                        obstacle.userData.stateTimer = 1.5;
+                    } else if (obstacle.userData.state === 'telegraph') {
+                        obstacle.userData.state = 'firing';
+                        obstacle.userData.telegraphLine.visible = false;
+                        obstacle.userData.laserBeam.position.set(0, 1.5, -100);
+                        obstacle.userData.laserBeam.visible = true;
+                        obstacle.userData.stateTimer = 2.0;
+                        triggerScreenShake(0.8);
+                        triggerFlash(getComputedStyle(document.documentElement).getPropertyValue('--judgment-laser-color').trim(), 200);
+                    } else if (obstacle.userData.state === 'firing') {
+                        obstacle.userData.state = 'idle';
+                        obstacle.userData.laserBeam.visible = false;
+                        obstacle.userData.stateTimer = 4.0;
+                    }
+                }
+                if (obstacle.userData.state === 'firing') {
+                    const laserHalfWidth = 0.3;
+                    obstacle.userData.laserCollisionBox.setFromCenterAndSize({x: obstacle.position.x, y: 0}, {x: laserHalfWidth * 2, y: 200});
+                    nefeshState.forEach((state, index) => {
+                         if (!state.active || destroyedNefeshIndices.has(index)) return;
+                         if (obstacle.userData.laserCollisionBox.intersectsBox(state.collisionBox2D)) {
+                            if(gameState.player.hasShield) { gameState.player.hasShield = false; return; }
+                            markNefeshForDestruction(index);
+                         }
+                    });
+                }
+            }
 
             // Player-Obstacle collision
-            if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(gameState.player.hasShield) { gameState.player.hasShield = false; return; } markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(gameState.player.hasShield) { gameState.player.hasShield = false; return; } switch (obstacle.userData.type) { case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break; case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break; case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break; default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break; } } }); }
+            if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(gameState.player.hasShield) { gameState.player.hasShield = false; return; } markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); } }); }); } 
+            else if (obstacle.userData.type === 'klipah_husk') { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(gameState.player.hasShield) { gameState.player.hasShield = false; return; } markNefeshForDestruction(index); createParticleExplosion(obstacle.position, 40, '#555555', 10); deactivateObstacle(obstacle); } }); }
+            else { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(gameState.player.hasShield) { gameState.player.hasShield = false; return; } switch (obstacle.userData.type) { case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body, 0.3); } else { updateJarHealthVisuals(obstacle); } } break; case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break; case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break; default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break; } } }); }
         }
         
         function deactivateObstacle(obstacle) {
@@ -1759,7 +1662,7 @@ and continues to refine the core gameplay experience based on user feedback.
                 klipah_gate: klipahGatePool, jar: jarPool, tohu_shard: tohuShardPool,
                 golem_sentry: golemSentryPool, tome_keeper: tomeKeeperPool, weaver: weaverPool,
                 shatterer: shattererPool, minelayer: minelayerPool, mine: minePool,
-                // for projectiles treated as obstacles
+                laser_sentinel: laserSentinelPool, klipah_husk: klipahHuskPool,
                 heavy: golemHeavyProjectilePool, fast: golemFastProjectilePool, normal: golemProjectilePool
             };
             if(poolMap[type]) poolMap[type].deactivate(obstacle);
@@ -1773,10 +1676,11 @@ and continues to refine the core gameplay experience based on user feedback.
                     if(proj.userData.type === 'fast') speed = 45;
                     else if (proj.userData.type === 'heavy') speed = 18;
                     else if (proj.userData.velocity) proj.position.addScaledVector(proj.userData.velocity, deltaTime);
+                    else if (proj.userData.type === 'weaver_proj') proj.position.z += 35 * deltaTime;
                     
                     proj.position.z += speed * deltaTime;
 
-                    if(proj.position.z > camera.position.z) { pool.deactivate(proj); return; }
+                    if(proj.position.z > camera.position.z + 10) { pool.deactivate(proj); return; }
                     nefeshState.forEach((state, index) => {
                         if(!state.active || destroyedNefeshIndices.has(index)) return;
                         if(checkInstancedCollision(state, proj)) {
@@ -1797,7 +1701,7 @@ and continues to refine the core gameplay experience based on user feedback.
             const tempEchoSparkMatrix = new THREE.Matrix4();
             let activeSparkCount = 0;
             let activeEchoSparkCount = 0;
-            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
+            const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active, ...klipahHuskPool.active, ...laserSentinelPool.active];
 
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
@@ -1810,19 +1714,11 @@ and continues to refine the core gameplay experience based on user feedback.
                 spark.position.addScaledVector(spark.velocity, deltaTime);
                 if (spark.position.z < -150) { spark.active = false; continue; }
 
-                if (gameState.bossManager.isActive) {
-                    const bossBox = new THREE.Box3().setFromObject(gameState.bossManager.bossObject);
-                    if(bossBox.containsPoint(spark.position)) {
-                        gameState.bossManager.takeDamage(spark.damage);
-                        spark.active = false;
-                    }
-                } else {
-                    for(const obstacle of allObstacles) {
-                        if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2) continue;
-                        collisionVec2.set(spark.position.x, spark.position.z);
-                        if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
-                            processSparkCollision(spark, obstacle);
-                        }
+                for(const obstacle of allObstacles) {
+                    if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2) continue;
+                    collisionVec2.set(spark.position.x, spark.position.z);
+                    if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
+                        processSparkCollision(spark, obstacle);
                     }
                 }
                 
@@ -1848,23 +1744,38 @@ and continues to refine the core gameplay experience based on user feedback.
         }
         
         function processSparkCollision(spark, obstacle) {
+            const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
+            
+            if (obstacle.userData.type === 'klipah_husk') {
+                createParticleExplosion(spark.position, 20, '#555555', 8);
+                deactivateObstacle(obstacle);
+                spark.active = false;
+                return;
+            }
+
             if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; }
             addVoidPulse(spark.damage);
-            const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
-
+            
             switch(obstacle.userData.type) {
                 case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); } updateKlipahGateVisuals(obstacle); break;
-                default: obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, particleColor, 8); if (obstacle.userData.health <= 0) {
-                    triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
-                    if(obstacle.userData.type === 'shatterer') {
-                        for(let i = 0; i < 12; i++) { const shard = shattererShardPool.activate(); if(shard) { shard.position.copy(obstacle.position); shard.userData.velocity = new THREE.Vector3().randomDirection().setY(0).normalize().multiplyScalar(20 + Math.random() * 10); } }
-                    }
-                    if(obstacle.userData.type === 'tome_keeper' && obstacle.userData.shieldedEnemy) {
-                        obstacle.userData.shieldedEnemy.userData.isShielded = false;
-                        if (obstacle.userData.shieldedEnemy.userData.shieldVisual) obstacle.userData.shieldedEnemy.userData.shieldVisual.visible = false;
-                    }
-                    deactivateObstacle(obstacle);
-                } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } break;
+                default: 
+                    obstacle.userData.health -= spark.damage; 
+                    createParticleExplosion(spark.position, 5, particleColor, 8); 
+                    if (obstacle.userData.health <= 0) {
+                        triggerScreenShake(0.3); 
+                        let huskChance = 0;
+                        if (['golem_sentry', 'shatterer', 'minelayer', 'laser_sentinel'].includes(obstacle.userData.type)) huskChance = 0.4;
+                        shatterObject(obstacle.userData.body, huskChance); 
+                        createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); 
+                        updateCombo(75, obstacle.position); 
+                        const light = new THREE.PointLight(0xffaa55, 8, 30, 2); 
+                        light.position.copy(obstacle.position); 
+                        scene.add(light); activeLights.add(light);
+                        if(obstacle.userData.type === 'shatterer') { for(let i = 0; i < 12; i++) { const shard = shattererShardPool.activate(); if(shard) { shard.position.copy(obstacle.position); shard.userData.velocity = new THREE.Vector3().randomDirection().setY(0).normalize().multiplyScalar(20 + Math.random() * 10); } } }
+                        if(obstacle.userData.type === 'tome_keeper' && obstacle.userData.shieldedEnemy) { obstacle.userData.shieldedEnemy.userData.isShielded = false; if (obstacle.userData.shieldedEnemy.userData.shieldVisual) obstacle.userData.shieldedEnemy.userData.shieldVisual.visible = false; }
+                        deactivateObstacle(obstacle);
+                    } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } 
+                    break;
             }
         }
 
@@ -1881,11 +1792,9 @@ and continues to refine the core gameplay experience based on user feedback.
                 sw.mesh.material.opacity = sw.life; 
                 if (sw.isVoidPulse) {
                     const radius = sw.mesh.geometry.parameters.radius * sw.mesh.scale.x;
-                    const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
+                    const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active, ...laserSentinelPool.active, ...klipahHuskPool.active];
                     const pulseDamage = (playerStats.upgrades.voidPulseDamage?.level || 0) * 25;
-                    if (pulseDamage > 0) {
-                        allEnemies.forEach(enemy => { if(enemy.position.distanceTo(sw.mesh.position) < radius) { processSparkCollision({damage: pulseDamage, pierceCounter: 0, active: false, isCrit: true}, enemy); }});
-                    }
+                    if (pulseDamage > 0) { allEnemies.forEach(enemy => { if(enemy.position.distanceTo(sw.mesh.position) < radius) { processSparkCollision({damage: pulseDamage, pierceCounter: 0, active: false, isCrit: true}, enemy); }}); }
                     const allProjs = [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active, ...weaverProjectilePool.active, ...shattererShardPool.active];
                     allProjs.forEach(proj => { if(proj.position.distanceTo(sw.mesh.position) < radius) { deactivateObstacle(proj); }});
                 }
@@ -1893,41 +1802,28 @@ and continues to refine the core gameplay experience based on user feedback.
             });
         }
 
-        /**
-         * B"H: Triggers the Celestial Echo effect, creating a ghost fleet that fires a volley.
-         */
         function triggerCelestialEcho() {
             nefeshState.forEach((state, i) => {
                 if(state.active) {
                     const worldPos = new THREE.Vector3().copy(state.currentPos).add(nefeshGroup.position);
                     activeEchos.push({
                         position: worldPos,
-                        life: 1.5, // Total lifetime in seconds
+                        life: 1.5,
                         maxLife: 1.5,
                         hasFired: false,
                     });
                 }
             });
         }
-
-        /**
-         * B"H: Updates all active Celestial Echoes. This is currently not implemented as an instanced mesh
-         * for simplicity, but could be optimized in the future. It's a rare effect.
-         * @param {number} deltaTime - The time since the last frame.
-         */
+        
         function updateCelestialEchos(deltaTime) {
-            // This function is a placeholder for future echo visuals.
-            // For now, the core logic is firing the projectiles from the triggerCelestialEcho function.
             for (let i = activeEchos.length - 1; i >= 0; i--) {
                 const echo = activeEchos[i];
                 echo.life -= deltaTime;
-
-                // Fire once, halfway through the fade-in
                 if (!echo.hasFired && echo.life < echo.maxLife * 0.75) {
-                    fireSpark(echo.position, 2, true, true); // Echo sparks are powerful
+                    fireSpark(echo.position, 2, true, true);
                     echo.hasFired = true;
                 }
-                
                 if (echo.life <= 0) {
                     activeEchos.splice(i, 1);
                 }
@@ -1945,7 +1841,7 @@ and continues to refine the core gameplay experience based on user feedback.
                     gameState.mitzvot += 100;
                     addVoidPulse(25);
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
-                    triggerCelestialEcho(); // B"H: Trigger the new reward
+                    triggerCelestialEcho();
                 }
                 gameState.wave.isTracking = false;
             }
@@ -1954,29 +1850,42 @@ and continues to refine the core gameplay experience based on user feedback.
         function processNefeshDestruction() {
             if (destroyedNefeshIndices.size > 0) {
                 destroyedNefeshIndices.forEach(index => neutralizeNefesh(index));
-                
                 const currentNefesh = nefeshState.filter(s => s.active).length;
                 if (currentNefesh !== gameState.nefesh) {
                    if (currentNefesh < gameState.nefesh) shatterElement(ui.nefeshDisplay);
                    gameState.nefesh = currentNefesh;
                 }
                 destroyedNefeshIndices.clear();
-
                 if (currentNefesh <= 0 && gameState.current === 'playing') {
                     endGame();
                 }
-
-                // B"H: Update camera since the fleet size has changed
                 updateCameraTarget();
             }
         }
 
         function updateUIDisplays() {
-            if (!gameState || gameState.current !== 'playing') return;
+            if (!gameState || gameState.current !== 'playing') {
+                ui.voidPulseButton.style.display = 'none';
+                return;
+            }
+            ui.voidPulseButton.style.display = 'flex';
             ui.mitzvotDisplay.textContent = `MITZVOT: ${Math.floor(gameState.mitzvot)}`;
             ui.nefeshDisplay.textContent = `NEFESH: ${gameState.nefesh}`;
-            ui.shefaBar.style.width = `${Math.min(100, (gameState.shefa / gameState.shefaToAscend) * 100)}%`;
-            ui.voidPulseBar.style.width = `${Math.min(100, (gameState.voidPulse / gameState.voidPulseToActivate) * 100)}%`;
+            const shefaPercent = Math.min(100, (gameState.shefa / gameState.shefaToAscend) * 100);
+            ui.shefaBar.style.width = `${shefaPercent}%`;
+            const voidPercent = Math.min(100, (gameState.voidPulse / gameState.voidPulseToActivate) * 100);
+            ui.voidPulseBar.style.width = `${voidPercent}%`;
+            
+            ui.voidPulseChargeIndicator.style.background = `conic-gradient(var(--void-pulse-color) ${voidPercent}%, transparent ${voidPercent}%)`;
+            if (voidPercent >= 100) {
+                if (!ui.voidPulseButton.classList.contains('ready')) {
+                    ui.voidPulseButton.classList.add('ready');
+                }
+            } else {
+                if (ui.voidPulseButton.classList.contains('ready')) {
+                    ui.voidPulseButton.classList.remove('ready');
+                }
+            }
         }
 
         // --- INITIALIZATION ---
