@@ -1,40 +1,32 @@
 
-
+    
 <!--B"H-->
 <!DOCTYPE html>
 <!--
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v4.1
+Merkava: The Celestial Journey v4.2
 Developer: Gemini
 Date: 2025-08-20
 
 This file is a complete, self-contained application.
-This version is a major feature update based on a detailed development report, focusing on the new Celestial Constellation network.
+This version addresses critical bugs and includes major performance enhancements.
 
-*   **New Feature 1: Celestial Constellation Network:**
-    *   A new system now connects the background starfield particles.
-    *   Built for performance using a single, dynamic `LineSegments` object.
-    *   Stars find their nearest neighbors upon creation to form natural-looking clusters.
-    *   The entire network flows with the starfield, creating a dynamic background.
-    *   Fully configurable in Settings: Enable/Disable, Connections Per Star, and Max Connection Distance.
+*   **Bug Fix: Game Start Crash**
+    *   Resolved a TypeError in the `adjustNefeshCount` function that occurred when starting a game after changing the "Max Nefesh" setting.
+    *   The function's loops now safely iterate based on the array's actual length, preventing out-of-bounds errors.
 
-*   **New Feature 2: Fleet Energy Conduits:**
-    *   The original "particle network" idea is now applied specifically to the player's fleet.
-    *   Uses a pool of `TubeGeometry` to draw energy lines between active Nefesh units, creating a distinct visual for the fleet.
+*   **Performance Enhancement: Fleet Energy Conduits Reworked**
+    *   The previous system for drawing energy lines between Nefesh units, which inefficiently created and destroyed many `TubeGeometry` objects each frame, has been completely replaced.
+    *   It now uses a single, dynamic `LineSegments` object, similar to the Celestial Constellation network.
+    *   This new method updates vertex data directly, eliminating per-frame object creation and disposal, resulting in a massive performance improvement and smoother gameplay.
 
-*   **New Feature 3: "Weaver" Enemy & "Celestial Winds" Hazard:**
-    *   The new Weaver enemy and the Celestial Winds environmental event have been fully implemented as described in the development report.
+*   **Code Quality:**
+    *   Removed obsolete code and placeholder comments related to the inefficient conduit system.
+    *   The codebase is now more stable and performant.
 
-*   **New Surprise Events: "Celestial Echo" & "Vessel of Light":**
-    *   These new reward events for "Perfect Waves" and "Jar" destruction have been added to the game.
-
-*   **Enhancement: Reorganized & Expanded Settings:**
-    *   The Settings menu is now clearly organized with sections.
-    *   New controls for both the Constellation Network and the Fleet Conduits have been added.
-
-*   **Bug Fixes from All Previous Versions Retained.**
+*   **All Features & Fixes from v4.1 Retained.**
 
 -->
 <html lang="en">
@@ -1052,6 +1044,37 @@ This version is a major feature update based on a detailed development report, f
         let nefeshState = [];
         const nefeshGroup = new THREE.Group();
         scene.add(nefeshGroup);
+        // B"H: New performant fleet conduit network
+        let fleetConduitNetwork;
+
+        /**
+         * B"H: Creates a reusable, dynamic LineSegments object for the fleet conduits.
+         * This is highly performant as it avoids creating new geometries every frame.
+         */
+        function rebuildFleetConduitNetwork() {
+            if (fleetConduitNetwork) scene.remove(fleetConduitNetwork);
+
+            // Max possible connections: each nefesh connects to 'n' others.
+            const maxConduitsPerNefesh = 5; // From slider max value
+            const maxLines = MAX_NEFESH * maxConduitsPerNefesh;
+            
+            const lineGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(maxLines * 2 * 3); // max lines * 2 vertices/line * 3 coords/vertex
+            lineGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
+            
+            const lineMat = new THREE.LineBasicMaterial({
+                color: 0x00aaff,
+                transparent: true,
+                opacity: 0.25,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                fog: false
+            });
+
+            fleetConduitNetwork = new THREE.LineSegments(lineGeo, lineMat);
+            fleetConduitNetwork.frustumCulled = false; // Prevent it from disappearing at screen edges
+            scene.add(fleetConduitNetwork);
+        }
 
         /**
          * Initializes or re-initializes the instanced meshes for the player's Nefesh units.
@@ -1080,6 +1103,9 @@ This version is a major feature update based on a detailed development report, f
             nefeshWebcamInstanced.visible = false;
 
             nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced, nefeshWebcamInstanced);
+            
+            // B"H: Rebuild the performant fleet conduit network to match the new max nefesh count.
+            rebuildFleetConduitNetwork();
 
             // B"H: Re-calculate the formation pattern based on the new MAX_NEFESH
             const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle
@@ -1113,15 +1139,6 @@ This version is a major feature update based on a detailed development report, f
         const minePool = new ObjectPool(() => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.1, 8, 16), mineMaterial); m.rotation.x = Math.PI / 2; const core = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshBasicMaterial({color: 0xff4500})); g.add(m, core); g.userData = { type: 'mine', body: g, collisionBox2D: new THREE.Box2() }; return g; }, 20);
         const redemptionOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), redemptionOrbMaterial), 5);
         const mitzvahOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.15, 6, 6), mitzvahOrbMaterial), 50);
-        // B"H: New pool for Fleet Energy Conduits
-        const fleetConduitPool = new ObjectPool(() => {
-            const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending });
-            // B"H ERROR FIX: TubeGeometry requires a Curve, not a Line3. We create a placeholder geometry here which will be replaced.
-            const placeholderCurve = new THREE.LineCurve3(new THREE.Vector3(), new THREE.Vector3(0,0,1));
-            const mesh = new THREE.Mesh(new THREE.TubeGeometry(placeholderCurve, 1, 0.02, 3, false), material);
-            return mesh;
-        }, 100);
-
 
         const activeLights = new Set();
         const activeShockwaves = new Set();
@@ -1188,26 +1205,29 @@ This version is a major feature update based on a detailed development report, f
             const initialNefesh = gameState.nefesh;
             if (change > 0) {
                 let added = 0;
-                for(let i = 0; i < MAX_NEFESH && added < change; i++) {
-                    if (!nefeshState[i].active) {
-                        const state = nefeshState[i];
+                // B"H BUG FIX: Loop up to the actual array length, not the MAX_NEFESH variable, to prevent crashes if they are out of sync.
+                for (let i = 0; i < nefeshState.length && added < change; i++) {
+                    const state = nefeshState[i];
+                    if (state && !state.active) {
                         state.active = true;
                         // B"H: Set current position to the center of the formation for a nice spawn-in animation
                         state.currentPos.set(0, 0.4, 0);
                         state.targetScale = 1;
                         state.currentScale = 0.01;
                         state.lastShotTime = 0;
-                        createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10);
                         added++;
                     }
                 }
+                if (added > 0) createParticleExplosion(nefeshGroup.position, 15, 0x00aaff, 10);
+
             } else if (change < 0) {
                 if (gameState.effects.invincibleTimer > 0) return; // Invincible check
                 let removed = 0;
                 const toRemove = -change;
-                // B"H: Remove from the back of the formation first
-                for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
-                    if (nefeshState[i].active) {
+                // B"H BUG FIX: Loop down from the actual array length for safety and robustness.
+                for (let i = nefeshState.length - 1; i >= 0 && removed < toRemove; i--) {
+                    const state = nefeshState[i];
+                    if (state && state.active) {
                         markNefeshForDestruction(i);
                         removed++;
                     }
@@ -1863,8 +1883,7 @@ This version is a major feature update based on a detailed development report, f
                 particlePool, shefaOrbPool, specialParticlePool, klipahGatePool,
                 jarPool, tohuShardPool, golemSentryPool, windParticlePool,
                 tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool,
-                shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool,
-                fleetConduitPool
+                shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool
             ];
             allPools.forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
@@ -2205,7 +2224,7 @@ This version is a major feature update based on a detailed development report, f
                 });
                 nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; nefeshBottomInstanced.count = activeNefeshCount;
                 if (nefeshWebcamInstanced) { nefeshWebcamInstanced.instanceMatrix.needsUpdate = true; nefeshWebcamInstanced.count = activeNefeshCount; }
-                if(gameSettings.enableFleetConduits) updateFleetConduits(activeNefeshForLinks);
+                updateFleetConduits(activeNefeshForLinks);
 
 
                 // --- Obstacle & Enemy Update Loop ---
@@ -2260,10 +2279,22 @@ This version is a major feature update based on a detailed development report, f
             world.constellationNetwork.geometry.attributes.position.needsUpdate = true;
         }
 
+        /**
+         * B"H: Updates the fleet's energy conduit network.
+         * This is a highly performant method that updates a single LineSegments object
+         * instead of creating and destroying many complex geometries.
+         * @param {Array<Object>} activeNefesh An array of active nefesh units with their world positions.
+         */
         function updateFleetConduits(activeNefesh) {
-            fleetConduitPool.deactivateAll();
-            if (activeNefesh.length < 2) return;
-            
+            const positions = fleetConduitNetwork.geometry.attributes.position.array;
+            let lineIndex = 0;
+            const maxLines = positions.length / 6; // 6 values (2 vertices * 3 coords) per line
+
+            if (!gameSettings.enableFleetConduits || activeNefesh.length < 2) {
+                fleetConduitNetwork.geometry.setDrawRange(0, 0); // Draw nothing
+                return;
+            }
+
             for (let i = 0; i < activeNefesh.length; i++) {
                 const p1Data = activeNefesh[i];
                 let neighbors = [];
@@ -2274,18 +2305,31 @@ This version is a major feature update based on a detailed development report, f
                 neighbors.sort((a,b) => a.distSq - b.distSq);
 
                 for (let k = 0; k < gameSettings.fleetConduitCount && k < neighbors.length; k++) {
-                    const p2Data = activeNefesh[neighbors[k].index];
-                    if (i < neighbors[k].index) { // Avoid duplicate tubes
-                        const tube = fleetConduitPool.activate();
-                        if (tube) {
-                            // B"H ERROR FIX: Create a new LineCurve3 for the TubeGeometry
-                            const curve = new THREE.LineCurve3(p1Data.pos, p2Data.pos);
-                            tube.geometry.dispose(); // Dispose of the old geometry to prevent memory leaks
-                            tube.geometry = new THREE.TubeGeometry(curve, 1, 0.02, 3, false);
-                        }
+                    const neighborIndex = neighbors[k].index;
+                    // To avoid drawing each line twice (A->B and B->A), only draw if i < neighborIndex.
+                    if (i < neighborIndex) {
+                        if (lineIndex >= maxLines) break; // Safety break to prevent buffer overflow
+                        
+                        const p2Data = activeNefesh[neighborIndex];
+                        const p1 = p1Data.pos;
+                        const p2 = p2Data.pos;
+                        
+                        // Set positions for the line's two vertices
+                        positions[lineIndex * 6 + 0] = p1.x;
+                        positions[lineIndex * 6 + 1] = p1.y;
+                        positions[lineIndex * 6 + 2] = p1.z;
+                        positions[lineIndex * 6 + 3] = p2.x;
+                        positions[lineIndex * 6 + 4] = p2.y;
+                        positions[lineIndex * 6 + 5] = p2.z;
+                        lineIndex++;
                     }
                 }
+                if (lineIndex >= maxLines) break;
             }
+
+            // Tell Three.js how many vertices to draw and to update the buffer.
+            fleetConduitNetwork.geometry.setDrawRange(0, lineIndex * 2);
+            fleetConduitNetwork.geometry.attributes.position.needsUpdate = true;
         }
 
 
@@ -2601,5 +2645,4 @@ This version is a major feature update based on a detailed development report, f
     </script>
 </body>
 </html>
-
-            
+        
