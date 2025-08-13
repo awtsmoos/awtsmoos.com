@@ -743,7 +743,7 @@ B"H
         
         // --- INSTANCED MESH PLAYER SETUP ---
         // B"H: The Nefesh, the soul-sparks of the player's Merkava, arranged in a divine pattern.
-        let nefeshTopInstanced, nefeshBottomInstanced;
+        let nefeshTopInstanced, nefeshBottomInstanced, webcamDisplayInstanced;
         let nefeshState = [];
         const nefeshGroup = new THREE.Group();
         scene.add(nefeshGroup);
@@ -755,12 +755,21 @@ B"H
         function setupInstancedNefesh() {
             if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
             if (nefeshBottomInstanced) nefeshGroup.remove(nefeshBottomInstanced);
+            if (webcamDisplayInstanced) nefeshGroup.remove(webcamDisplayInstanced);
+
             const coneGeom = new THREE.ConeGeometry(0.4, 0.6, 3);
             nefeshTopInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
             nefeshBottomInstanced = new THREE.InstancedMesh(coneGeom, magenDavidMaterial, MAX_NEFESH);
+
+            const webcamDisplayGeom = new THREE.ConeGeometry(0.5, 0.2, 32);
+            webcamDisplayInstanced = new THREE.InstancedMesh(webcamDisplayGeom, new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.85 }), MAX_NEFESH);
+            
             nefeshTopInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
             nefeshBottomInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-            nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced);
+            webcamDisplayInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            
+            nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced, webcamDisplayInstanced);
+            
             const angleStep = Math.PI * (3 - Math.sqrt(5));
             const radiusStep = 0.45;
             let maxRadius = radiusStep * Math.sqrt(MAX_NEFESH);
@@ -841,6 +850,11 @@ B"H
                     this.videoTexture.magFilter = THREE.LinearFilter;
                     this.createCentralDisplay();
                     this.isInitialized = true;
+                    // B"H Update material for individual displays
+                    if (webcamDisplayInstanced) {
+                        webcamDisplayInstanced.material.map = this.videoTexture;
+                        webcamDisplayInstanced.material.needsUpdate = true;
+                    }
                     return true;
                 } catch (err) {
                     console.error("B\"H: Error accessing webcam.", err);
@@ -879,16 +893,10 @@ B"H
                     this.centralDisplay.visible = this.isInitialized && (mode === 'central' || mode === 'both');
                 }
 
-                // Individual Nefesh texture
-                const showOnIndividual = this.isInitialized && (mode === 'individual' || mode === 'both');
-                if (showOnIndividual) {
-                    magenDavidMaterial.map = this.videoTexture;
-                    magenDavidMaterial.emissiveIntensity = 0; // Don't want emissive glow when video is on
-                } else {
-                    magenDavidMaterial.map = null;
-                    magenDavidMaterial.emissiveIntensity = 0.5; // Restore emissive glow
+                // Individual Nefesh displays
+                if (webcamDisplayInstanced) {
+                    webcamDisplayInstanced.visible = this.isInitialized && (mode === 'individual' || mode === 'both');
                 }
-                magenDavidMaterial.needsUpdate = true;
             }
         };
 
@@ -910,9 +918,69 @@ B"H
         // B"H: Shefa (Divine Flow) drawn down through righteous action (combo).
         function updateCombo(newPoints, position) { gameState.combo.count++; gameState.combo.timer = 3.0; const shefaGained = newPoints * gameState.combo.count; const numOrbs = Math.min(15, Math.floor(shefaGained / 10)); if(numOrbs === 0) return; const valuePerOrb = shefaGained / numOrbs; for(let i=0; i < numOrbs; i++) { const orb = shefaOrbPool.activate(); if(orb) { orb.position.copy(position).add(new THREE.Vector3((Math.random()-0.5)*3, (Math.random()-0.5)*3, 0)); orb.userData.value = valuePerOrb; orb.userData.velocity = new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * 8); } } ui.comboNotifier.textContent = `COMBO x${gameState.combo.count}`; ui.comboNotifier.classList.remove('show'); void ui.comboNotifier.offsetWidth; ui.comboNotifier.classList.add('show'); }
         let road, starField1, starField2; let roadTextureTileLength;
-        function createRoadTexture() { const canvas = document.createElement('canvas'); const width = 128; const height = 512; canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.fillStyle = 'rgba(0,0,0,0)'; ctx.fillRect(0, 0, width, height); ctx.fillStyle = 'rgba(255, 255, 0, 0.7)'; for(let y = 0; y < height; y += 40) { ctx.fillRect(width/2 - 3, y, 6, 20); } ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; ctx.fillRect(width * 0.1 - 1, 0, 2, height); ctx.fillRect(width * 0.9 - 1, 0, 2, height); const texture = new THREE.CanvasTexture(canvas); texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping; return texture; }
+        
+        function createRoadTexture() {
+            const canvas = document.createElement('canvas');
+            const width = 128; const height = 1024; // Taller for more variation
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // B"H Create a flowing river effect
+            ctx.fillStyle = 'rgba(10, 20, 50, 0.6)'; // Dark blue base
+            ctx.fillRect(0, 0, width, height);
+            
+            const waves = 5;
+            for (let i = 0; i < waves; i++) {
+                ctx.beginPath();
+                const startY = (height / waves) * i;
+                const endY = (height / waves) * (i + 1);
+                const midY = (startY + endY) / 2;
+                
+                const grad = ctx.createLinearGradient(0, startY, 0, endY);
+                grad.addColorStop(0, `rgba(100, 150, 255, ${Math.random() * 0.1 + 0.1})`);
+                grad.addColorStop(0.5, `rgba(150, 200, 255, ${Math.random() * 0.15 + 0.15})`);
+                grad.addColorStop(1, `rgba(100, 150, 255, ${Math.random() * 0.1 + 0.1})`);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = Math.random() * 15 + 5;
+                ctx.moveTo(Math.random() * width - width/2, startY);
+                
+                ctx.bezierCurveTo(
+                    width * (Math.random() * 0.5 + 0.25), midY - (Math.random() * 50),
+                    width * (Math.random() * 0.5 + 0.25), midY + (Math.random() * 50),
+                    width + (Math.random() * width/2), endY
+                );
+                ctx.stroke();
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            return texture;
+        }
+
         // B"H: Ma'aseh Bereishit (The Act of Creation) - laying down the path and the firmament.
-        function createWorld() { const roadTextureRepeats = 10; const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20); const roadMat = new THREE.MeshLambertMaterial({ color: 0x483d8b, map: createRoadTexture(), transparent: true }); roadMat.map.repeat.set(1, roadTextureRepeats); roadTextureTileLength = roadLength / roadTextureRepeats; road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = roadLevelY; scene.add(road); const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2); }
+        function createWorld() {
+            const roadTextureRepeats = 5;
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20);
+            // B"H Use MeshStandardMaterial for better lighting, giving a liquid-like sheen
+            const roadMat = new THREE.MeshStandardMaterial({
+                color: 0xaaaaff,
+                map: createRoadTexture(),
+                transparent: true,
+                opacity: 0.8,
+                metalness: 0.2,
+                roughness: 0.3
+            });
+            roadMat.map.repeat.set(1, roadTextureRepeats);
+            roadTextureTileLength = roadLength / roadTextureRepeats;
+            road = new THREE.Mesh(roadGeo, roadMat);
+            road.rotation.x = -Math.PI / 2;
+            road.position.y = roadLevelY;
+            scene.add(road);
+
+            const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2);
+        }
+
         const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = camera.position.z + 5;
         function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); break; } case 'jar': { const jar = jarPool.activate(); if(!jar) return; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health }); updateJarHealthVisuals(jar); break; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return; shard.position.copy(position); break; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; break; } } }
         function pattern_Wall(z) { const wallType = Math.random() < 0.7 ? 'jar' : 'klipah_gate'; spawnObstacle(wallType, 0, z); spawnObstacle(wallType, 1, z); spawnObstacle(wallType, 2, z); } function pattern_Gauntlet(z) { const lane = Math.floor(Math.random() * 3); for(let i = 0; i < 4; i++) { spawnObstacle('tohu_shard', lane, z - i * 15); } } function pattern_SentryGuard(z) { const lane = Math.floor(Math.random() * 3); spawnObstacle('golem_sentry', lane, z - 10); spawnObstacle('jar', lane, z); const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1; spawnObstacle('jar', sideLane, z - 5); } function pattern_KlipahWeave(z) { const startLane = Math.random() < 0.5 ? 0 : 2; spawnObstacle('klipah_gate', startLane, z); spawnObstacle('klipah_gate', 1, z - 15); spawnObstacle('klipah_gate', 2 - startLane, z - 30); if (gameState.level > 5) spawnObstacle('jar', startLane, z - 45); } function pattern_GolemFlank(z) { spawnObstacle('golem_sentry', 0, z); spawnObstacle('golem_sentry', 2, z-5); spawnObstacle('jar', 1, z); } function pattern_RandomMix(z) { const lane1 = Math.floor(Math.random() * 3); let lane2 = Math.floor(Math.random() * 3); while(lane2 === lane1) { lane2 = Math.floor(Math.random() * 3); } spawnObstacle('jar', lane1, z); spawnObstacle('klipah_gate', lane2, z - 10); if (Math.random() > 0.4) { spawnObstacle('tohu_shard', 3 - lane1 - lane2, z - 20); } } function pattern_Crossfire(z) { spawnObstacle('golem_sentry', 0, z); spawnObstacle('golem_sentry', 2, z - 10); if (Math.random() < 0.5 * (gameState.level / 10)) { spawnObstacle('jar', 1, z-20); } } function pattern_TrapCorridor(z) { const openLane = Math.floor(Math.random() * 3); for(let i=0; i<3; i++) { if (i !== openLane) { spawnObstacle('jar', i, z); spawnObstacle('jar', i, z - 15); } else { spawnObstacle('tohu_shard', i, z - 7.5); } } }
@@ -1024,50 +1092,44 @@ B"H
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
 
-                // --- Player Movement ---
+                // --- Player Movement & State ---
                 let minX = 0, maxX = 0; nefeshState.forEach(state => { if (state.active) { if(state.targetPos.x < minX) minX = state.targetPos.x; if(state.targetPos.x > maxX) maxX = state.targetPos.x; } });
                 const halfFormationWidth = (maxX - minX) / 2; const maxMove = (roadWidth / 2) - halfFormationWidth; targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1); nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2); cameraTargetPos.x = nefeshGroup.position.x / 4;
-                
-                // --- Player State & Nefesh Update ---
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime; else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
-                const troopHalfSize = 0.4; let activeNefeshCount = 0; const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
-                nefeshState.forEach((state, i) => {
-                    if (!state.active) { tempMatrix.makeScale(0, 0, 0); nefeshTopInstanced.setMatrixAt(i, tempMatrix); nefeshBottomInstanced.setMatrixAt(i, tempMatrix); return; }
-                    activeNefeshCount++;
+                
+                // B"H: First, update Nefesh positions and collision boxes for this frame.
+                const troopHalfSize = 0.4;
+                nefeshState.forEach((state) => {
+                    if (!state.active) return;
                     state.currentPos.lerp(state.targetPos, 0.15);
                     state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
                     state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
-                    if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
-                    state.yRotation += deltaTime * 2;
-                    // B"H Bugfix: Ensure shooting only happens for truly active units at the time of firing.
-                    if (state.active && currentTime - state.lastShotTime > gameState.player.fireRate) { worldPosVec.copy(state.currentPos).add(nefeshGroup.position); worldPosVec.y = 0.4; fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce); state.lastShotTime = currentTime; }
-                    tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshTopInstanced.setMatrixAt(i, tempMatrix);
-                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                 });
-                nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; nefeshBottomInstanced.count = activeNefeshCount;
 
-                // --- Obstacle & Enemy Logic ---
+                // --- Obstacle & Enemy Logic (Movement and Collision) ---
+                // B"H: A Set for all troops that will be destroyed in this frame.
                 const troopsToDestroy = new Set();
                 
-                // B"H: This function processes a single obstacle. It's called for each active obstacle from each pool
-                // to avoid creating a new array of all obstacles every frame, which improves performance.
+                // B"H: Process each obstacle, moving it and checking for collisions with the player's Nefesh.
                 const processObstacle = (obstacle) => {
                     obstacle.position.z += currentRoadSpeed * deltaTime;
                     if (obstacle.userData.collisionBox2D) { const obsSizeX = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 3.0); const obsSizeZ = obstacle.userData.type === 'jar' ? 1.6 : (obstacle.userData.type === 'golem_sentry' ? 1.5 : 0.5); obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
                     if (obstacle.position.z > obstacleRemovalZ) { if (obstacle.userData.type === 'klipah_gate') klipahGatePool.deactivate(obstacle); else if (obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else if (obstacle.userData.type === 'tohu_shard') tohuShardPool.deactivate(obstacle); else if (obstacle.userData.type === 'golem_sentry') golemSentryPool.deactivate(obstacle); return; }
                     if (obstacle.userData.type === 'golem_sentry' && currentTime - obstacle.userData.lastShotTime > 3500 - (gameState.level * 100)) { obstacle.userData.lastShotTime = currentTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
                     if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || troopsToDestroy.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { troopsToDestroy.add(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || troopsToDestroy.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { switch (obstacle.userData.type) { case 'jar': troopsToDestroy.add(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { jarPool.deactivate(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } break; case 'klipah_gate': if(obstacle.userData.currentValue > 0) { gameState.mitzvot += obstacle.userData.currentValue; ui.mitzvotDisplay.style.transform = "scale(1.2)"; setTimeout(() => ui.mitzvotDisplay.style.transform = "scale(1.0)", 100); } adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); klipahGatePool.deactivate(obstacle); break; case 'golem_sentry': troopsToDestroy.add(index); triggerScreenShake(0.2); break; } } }); }
-                }
+                };
 
-                // B"H: Iterate over each obstacle pool directly to avoid creating a new array each frame.
                 klipahGatePool.active.forEach(processObstacle);
                 jarPool.active.forEach(processObstacle);
                 tohuShardPool.active.forEach(processObstacle);
                 golemSentryPool.active.forEach(processObstacle);
-
+                
+                // B"H Process incoming enemy projectiles.
                 for(const proj of [...golemProjectilePool.active, ...golemFastProjectilePool.active, ...golemHeavyProjectilePool.active]) { const speed = proj.userData.type === 'fast' ? 45 : (proj.userData.type === 'heavy' ? 18 : 25); proj.position.z += speed * deltaTime; if(proj.position.z > obstacleRemovalZ) { if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); continue; } nefeshState.forEach((state, index) => { if(!state.active || troopsToDestroy.has(index)) return; if(checkInstancedCollision(state, proj)) { const color = proj.material.color.getHexString(); if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); createParticleExplosion(proj.position, 40, `#${color}`, 20); triggerFlash(`#${color}`, 400); triggerFovKick(15); triggerScreenShake(0.6); } else { troopsToDestroy.add(index); createParticleExplosion(proj.position, 20, `#${color}`, 15); triggerFlash(`#${color}`, 300); triggerFovKick(10); triggerScreenShake(0.3); } if (proj.userData.type === 'normal') golemProjectilePool.deactivate(proj); else if (proj.userData.type === 'fast') golemFastProjectilePool.deactivate(proj); else golemHeavyProjectilePool.deactivate(proj); } }); }
+                
+                // B"H Now, after all collisions are detected, destroy the marked troops.
                 if(troopsToDestroy.size > 0) { shatterElement(ui.nefeshDisplay); troopsToDestroy.forEach(index => destroyNefesh(index)); gameState.nefesh = nefeshState.filter(s => s.active).length; if (gameState.nefesh <= 0 && gameState.current === 'playing') endGame(); }
                 
                 // ======================================================================================
@@ -1077,72 +1139,19 @@ B"H
                 const tempSparkMatrix = new THREE.Matrix4();
                 let activeSparkCount = 0;
                 
-                // B"H: This function checks for collision between a single spark and a single obstacle.
-                const checkSparkCollision = (spark, obstacle) => {
-                    if (!spark.active || Math.abs(obstacle.position.z - spark.position.z) > 2) return;
-                    
-                    collisionVec2.set(spark.position.x, spark.position.z);
-                    if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
-                        if (spark.pierceCounter <= 0) { spark.active = false; }
-                        else { spark.pierceCounter--; }
-
-                        switch(obstacle.userData.type) {
-                            case 'klipah_gate':
-                                obstacle.userData.currentValue += spark.damage;
-                                createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5);
-                                if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) {
-                                    obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
-                                    const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0});
-                                }
-                                updateKlipahGateVisuals(obstacle);
-                                break;
-                            case 'jar':
-                            case 'golem_sentry':
-                                obstacle.userData.health -= spark.damage;
-                                createParticleExplosion(spark.position, 5, '#ffffff', 8);
-                                if (obstacle.userData.health <= 0) {
-                                    triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
-                                    if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle);
-                                } else if (obstacle.userData.type === 'jar') {
-                                    updateJarHealthVisuals(obstacle);
-                                }
-                                break;
-                        }
-                    }
-                };
+                const checkSparkCollision = (spark, obstacle) => { if (!spark.active || Math.abs(obstacle.position.z - spark.position.z) > 2) return; collisionVec2.set(spark.position.x, spark.position.z); if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) { if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; } switch(obstacle.userData.type) { case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); } updateKlipahGateVisuals(obstacle); break; case 'jar': case 'golem_sentry': obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, '#ffffff', 8); if (obstacle.userData.health <= 0) { triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light); if(obstacle.userData.type === 'jar') jarPool.deactivate(obstacle); else golemSentryPool.deactivate(obstacle); } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } break; } } };
 
                 for (let i = 0; i < MAX_SPARKS; i++) {
                     const spark = sparkState[i];
-
-                    if (!spark.active) {
-                        tempSparkMatrix.makeScale(0, 0, 0);
-                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
-                        continue;
-                    }
-
+                    if (!spark.active) { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); continue; }
                     activeSparkCount++;
                     spark.position.addScaledVector(spark.velocity, deltaTime);
-
-                    if (spark.position.z < -100) {
-                        spark.active = false;
-                        tempSparkMatrix.makeScale(0, 0, 0);
-                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
-                        continue;
-                    }
-                    
-                    // B"H: Check spark collision against each obstacle pool directly for performance.
+                    if (spark.position.z < -100) { spark.active = false; tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); continue; }
                     klipahGatePool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     jarPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     tohuShardPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
                     golemSentryPool.active.forEach(obstacle => checkSparkCollision(spark, obstacle));
-                    
-                    if (spark.active) {
-                        tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
-                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
-                    } else {
-                        tempSparkMatrix.makeScale(0, 0, 0);
-                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
-                    }
+                    if (spark.active) { tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); } else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
                 }
                 sparkInstancedMesh.instanceMatrix.needsUpdate = true;
                 sparkInstancedMesh.count = activeSparkCount;
@@ -1150,21 +1159,66 @@ B"H
                 // --- [END] PROJECTILE LOGIC ---
                 // ======================================================================================
 
+                // --- Final Nefesh Updates (Firing and Visuals) ---
+                const tempMatrix = new THREE.Matrix4();
+                const tempQuaternion = new THREE.Quaternion();
+                let activeNefeshCount = 0;
+                
+                nefeshState.forEach((state, i) => {
+                    if (!state.active) { // If not active, ensure all its meshes are scaled to 0
+                        tempMatrix.makeScale(0, 0, 0);
+                        nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+                        nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
+                        if (webcamDisplayInstanced) webcamDisplayInstanced.setMatrixAt(i, tempMatrix);
+                        return;
+                    }
+                    activeNefeshCount++;
+                    
+                    // B"H Fire projectiles ONLY from surviving Nefesh.
+                    if (currentTime - state.lastShotTime > gameState.player.fireRate) {
+                        worldPosVec.copy(state.currentPos).add(nefeshGroup.position);
+                        worldPosVec.y = 0.4;
+                        fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
+                        state.lastShotTime = currentTime;
+                    }
+
+                    // B"H Update scale, rotation, and final matrix for drawing.
+                    if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
+                    state.yRotation += deltaTime * 2;
+                    
+                    const posVec = new THREE.Vector3(state.currentPos.x, state.currentPos.y, state.currentPos.z);
+                    const scaleVec = new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale);
+                    
+                    // Top cone
+                    tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0));
+                    tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y + 0.2, posVec.z), tempQuaternion, scaleVec);
+                    nefeshTopInstanced.setMatrixAt(i, tempMatrix);
+
+                    // Bottom cone
+                    tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0));
+                    tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y - 0.2, posVec.z), tempQuaternion, scaleVec);
+                    nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
+
+                    // Webcam display cone
+                    if (webcamDisplayInstanced) {
+                       tempQuaternion.setFromEuler(new THREE.Euler(0, 0, 0));
+                       tempMatrix.compose(new THREE.Vector3(posVec.x, posVec.y + 0.8, posVec.z), tempQuaternion, scaleVec);
+                       webcamDisplayInstanced.setMatrixAt(i, tempMatrix);
+                    }
+                });
+
+                nefeshTopInstanced.instanceMatrix.needsUpdate = true;
+                nefeshBottomInstanced.instanceMatrix.needsUpdate = true;
+                if (webcamDisplayInstanced) webcamDisplayInstanced.instanceMatrix.needsUpdate = true;
+
+                nefeshTopInstanced.count = activeNefeshCount;
+                nefeshBottomInstanced.count = activeNefeshCount;
+                if (webcamDisplayInstanced) webcamDisplayInstanced.count = activeNefeshCount;
+
                 // --- Final Updates ---
                 for(const orb of shefaOrbPool.active) { orb.position.lerp(nefeshGroup.position, 0.08); orb.position.addScaledVector(orb.userData.velocity, deltaTime); orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1); if(orb.position.distanceTo(nefeshGroup.position) < 1.5) { addShefa( orb.userData.value ); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb); } }
                 
-                const updateDynamicParticle = p => {
-                     p.position.addScaledVector(p.userData.velocity, deltaTime);
-                     p.userData.velocity.y -= 25 * deltaTime;
-                     p.userData.life -= deltaTime;
-                     if(p.material && p.material.opacity) p.material.opacity = p.userData.life;
-                     if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; }
-                     if (p.userData.life <= 0) {
-                         if(p.userData.type === 'particle') particlePool.deactivate(p);
-                         else { scene.remove(p); dynamicShards.delete(p); }
-                     }
-                };
-
+                const updateDynamicParticle = p => { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime; if(p.material && p.material.opacity) p.material.opacity = p.userData.life; if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; } if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } } };
                 particlePool.active.forEach(updateDynamicParticle);
                 dynamicShards.forEach(updateDynamicParticle);
 
@@ -1223,3 +1277,4 @@ B"H
     </script>
 </body>
 </html>
+
