@@ -1,4 +1,5 @@
 
+
 <!--B"H-->
 <!DOCTYPE html>
 <!--
@@ -1115,7 +1116,9 @@ This version is a major feature update based on a detailed development report, f
         // B"H: New pool for Fleet Energy Conduits
         const fleetConduitPool = new ObjectPool(() => {
             const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending });
-            const mesh = new THREE.Mesh(new THREE.TubeGeometry(new THREE.Line3(new THREE.Vector3(), new THREE.Vector3(0,0,1)), 1, 0.02, 3, false), material);
+            // B"H ERROR FIX: TubeGeometry requires a Curve, not a Line3. We create a placeholder geometry here which will be replaced.
+            const placeholderCurve = new THREE.LineCurve3(new THREE.Vector3(), new THREE.Vector3(0,0,1));
+            const mesh = new THREE.Mesh(new THREE.TubeGeometry(placeholderCurve, 1, 0.02, 3, false), material);
             return mesh;
         }, 100);
 
@@ -1749,8 +1752,7 @@ This version is a major feature update based on a detailed development report, f
         }
 
         function spawnSpecialParticle() { 
-            // B"H: This function seems to be missing the particle spawn radius setting
-            const particleSpawnRadius = 60; // Placeholder, should be from gameSettings
+            const particleSpawnRadius = 60; 
             if (specialParticleTextures.length === 0) return; if (Math.random() < 0.005) { const p = specialParticlePool.activate(); if (!p) return; const spawnZ = -150; p.position.set((Math.random() - 0.5) * particleSpawnRadius * 2, (Math.random() - 0.5) * particleSpawnRadius, spawnZ); p.material.map = null; p.material.color = new THREE.Color(0xffffff); p.material.needsUpdate = true; p.scale.set(3, 3, 3); p.userData.life = 6.0; p.userData.type = 'ein_sof_glimmer'; p.userData.velocity = new THREE.Vector3(0, 0, 50 + gameState.level * 3); showSurpriseNotifier("A Glimmer of Ein Sof appears!", "#ffffff"); return; } const p = specialParticlePool.activate(); if (!p) return; const spawnZ = -150; const x = (Math.random() - 0.5) * particleSpawnRadius * 2; const y = (Math.random() - 0.5) * particleSpawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); p.userData.type = 'special_particle'; }
 
         // --- BOSS BATTLE SYSTEM ---
@@ -2055,21 +2057,21 @@ This version is a major feature update based on a detailed development report, f
         // B"H: Setup all settings listeners
         setupSettingListener(ui.maxNefeshSlider, 'maxNefesh', parseInt, ui.maxNefeshValue);
         setupSettingListener(ui.shakeIntensitySlider, 'shakeIntensity', parseFloat, ui.shakeIntensityValue);
-        setupSetting-listener(ui.flashIntensitySlider, 'flashIntensity', parseFloat, ui.flashIntensityValue);
-        setup-listener(ui.effectsIntensitySlider, 'effectsIntensity', parseFloat, ui.effectsIntensityValue);
-        setup-listener(ui.starfieldDensitySlider, 'starfieldDensity', parseInt, ui.starfieldDensityValue);
-        setup-listener(ui.particleCharsTextarea, 'particleChars', val => val);
-        setup-listener(ui.minParticleSizeSlider, 'minParticleSize', parseFloat, ui.minParticleSizeValue);
-        setup-listener(ui.maxParticleSizeSlider, 'maxParticleSize', parseFloat, ui.maxParticleSizeValue);
-        setup-listener(ui.shatterCountSlider, 'shatterCount', parseInt, ui.shatterCountValue);
-        setup-listener(ui.shatterSpeedSlider, 'shatterSpeed', parseInt, ui.shatterSpeedValue);
-        setup-listener(ui.enableFleetConduitsCheckbox, 'enableFleetConduits', (val, checked) => checked);
-        setup-listener(ui.fleetConduitCountSlider, 'fleetConduitCount', parseInt, ui.fleetConduitCountValue);
-        setup-listener(ui.enableConstellationsCheckbox, 'enableConstellations', (val, checked) => checked);
-        setup-listener(ui.constellationConnectionsSlider, 'constellationConnections', parseInt, ui.constellationConnectionsValue);
-        setup-listener(ui.constellationDistanceSlider, 'constellationDistance', parseInt, ui.constellationDistanceValue);
-        setup-listener(ui.webcamModeSelect, 'webcamMode', val => val, null, true, updateWebcamState);
-        setup-listener(ui.signpostSideSelect, 'signpostSide', val => val, null, true, updateWebcamState);
+        setupSettingListener(ui.flashIntensitySlider, 'flashIntensity', parseFloat, ui.flashIntensityValue);
+        setupSettingListener(ui.effectsIntensitySlider, 'effectsIntensity', parseFloat, ui.effectsIntensityValue);
+        setupSettingListener(ui.starfieldDensitySlider, 'starfieldDensity', parseInt, ui.starfieldDensityValue);
+        setupSettingListener(ui.particleCharsTextarea, 'particleChars', val => val);
+        setupSettingListener(ui.minParticleSizeSlider, 'minParticleSize', parseFloat, ui.minParticleSizeValue);
+        setupSettingListener(ui.maxParticleSizeSlider, 'maxParticleSize', parseFloat, ui.maxParticleSizeValue);
+        setupSettingListener(ui.shatterCountSlider, 'shatterCount', parseInt, ui.shatterCountValue);
+        setupSettingListener(ui.shatterSpeedSlider, 'shatterSpeed', parseInt, ui.shatterSpeedValue);
+        setupSettingListener(ui.enableFleetConduitsCheckbox, 'enableFleetConduits', (val, checked) => checked);
+        setupSettingListener(ui.fleetConduitCountSlider, 'fleetConduitCount', parseInt, ui.fleetConduitCountValue);
+        setupSettingListener(ui.enableConstellationsCheckbox, 'enableConstellations', (val, checked) => checked);
+        setupSettingListener(ui.constellationConnectionsSlider, 'constellationConnections', parseInt, ui.constellationConnectionsValue);
+        setupSettingListener(ui.constellationDistanceSlider, 'constellationDistance', parseInt, ui.constellationDistanceValue);
+        setupSettingListener(ui.webcamModeSelect, 'webcamMode', val => val, null, true, updateWebcamState);
+        setupSettingListener(ui.signpostSideSelect, 'signpostSide', val => val, null, true, updateWebcamState);
         
         window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); updateCameraTarget(); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
@@ -2127,7 +2129,6 @@ This version is a major feature update based on a detailed development report, f
                 if(world.road) {
                     world.road.material.uniforms.uTime.value = time;
                     world.road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0;
-                    // B"H: Added failsafe for road visibility
                     if (!world.road.visible) world.road.visible = true;
                 }
                 if(webcam.isInitialized) webcam.update(deltaTime);
@@ -2277,8 +2278,9 @@ This version is a major feature update based on a detailed development report, f
                     if (i < neighbors[k].index) { // Avoid duplicate tubes
                         const tube = fleetConduitPool.activate();
                         if (tube) {
-                            const curve = new THREE.Line3(p1Data.pos, p2Data.pos);
-                            tube.geometry.dispose();
+                            // B"H ERROR FIX: Create a new LineCurve3 for the TubeGeometry
+                            const curve = new THREE.LineCurve3(p1Data.pos, p2Data.pos);
+                            tube.geometry.dispose(); // Dispose of the old geometry to prevent memory leaks
                             tube.geometry = new THREE.TubeGeometry(curve, 1, 0.02, 3, false);
                         }
                     }
@@ -2599,3 +2601,5 @@ This version is a major feature update based on a detailed development report, f
     </script>
 </body>
 </html>
+
+            
