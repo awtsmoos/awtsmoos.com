@@ -1,3 +1,5 @@
+
+
 <!--
 ב"ה
 B"H
@@ -8,31 +10,36 @@ B"H
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.4
+Merkava: The Celestial Journey v3.5
 Developer: Gemini
 Date: 2025-08-15
 
 This file is a complete, self-contained application.
-This version removes the non-functional Void Pulse feature, introduces a new shader-based flowing road,
-and adds four new surprise features for more dynamic gameplay.
+This version fixes a critical bug related to the Redemption Orb and introduces five new surprise features for deeper, more dynamic gameplay, while retaining all previous enhancements.
 
-*   **New "River of Eden" Flowing Road:**
-    *   The static road texture is replaced by a dynamic, flowing river effect using a custom GLSL shader.
-    *   This creates the impression of a celestial river with gentle, wave-like undulations.
-*   **New Surprise Feature 1: Sefirah Resonance:**
-    *   Collecting Shefa orbs has a chance to trigger a "Sefirah Resonance."
-    *   When active, the entire fleet glows, and all projectiles temporarily travel much faster.
-*   **New Surprise Feature 2: Klipah's Redemption:**
-    *   Purifying a "Klipah Gate" now releases a friendly "Redemption Orb" that destroys the next enemy it hits.
-*   **New Surprise Feature 3: Mitzvah Cascade:**
-    *   Achieving a high combo count triggers a "Mitzvah Cascade" on the next enemy kill, releasing a shower of bonus Mitzvot.
-*   **New Surprise Feature 4: Tikkun HaGadol (The Great Repair):**
-    *   A rare chance upon losing a Nefesh unit to have it instantly restored and the entire fleet granted a temporary shield.
+*   **Bug Fix:**
+    *   Corrected a `TypeError` that occurred when a "Redemption Orb" destroyed an enemy, caused by passing an object without a `position` property to the particle effect system. The system now correctly uses the orb's position.
+
+*   **New Surprise Feature 1: Golem's Betrayal:**
+    *   Rarely, a Golem Sentry will spawn as a friendly "Clay Servant" with a golden glow.
+    *   It will fight alongside the player for a limited time before peacefully crumbling to dust.
+*   **New Surprise Feature 2: Ein Sof's Glimmer:**
+    *   A very rare, shimmering, rainbow-colored particle may appear in the cosmos.
+    *   Flying through it grants temporary invincibility and makes all shots critical hits.
+*   **New Surprise Feature 3: The Shattered Vase:**
+    *   When destroying a Jar, there's a chance it was a "Vessel of Light" in disguise.
+    *   Upon destruction, it releases a powerful radial volley of piercing projectiles.
+*   **New Surprise Feature 4: Echoes of Sinai:**
+    *   Achieving a "PERFECT WAVE" now has a chance to award a "Tablet Fragment."
+    *   Collecting 10 fragments (a persistent stat) unlocks a powerful new permanent upgrade in the Otzar Ha'Sefirot.
+*   **New Surprise Feature 5: Prayer Chain Resonance:**
+    *   When using Custom Prayers, rapidly cycling through three unique prayers triggers a shockwave.
+    *   This holy wave purifies Klipah Gates and damages all other enemies it touches.
 *   **Previous Enhancements Maintained:**
-    *   Dynamic 'Living' Camera system is fully functional.
-    *   "PERFECT WAVE" and the "Celestial Echo" reward are maintained.
+    *   The "River of Eden" flowing road shader is fully functional.
+    *   Sefirah Resonance, Klipah's Redemption, Mitzvah Cascade, and Tikkun HaGadol features are active.
+    *   Dynamic 'Living' Camera system, "PERFECT WAVE" and "Celestial Echo" rewards are all maintained.
     *   All webcam, collision, and UI systems remain robust and operational.
-    *   Code is clean, un-minified, and well-documented.
 
 -->
 <html lang="en">
@@ -725,7 +732,8 @@ and adds four new surprise features for more dynamic gameplay.
         // --- META-PROGRESSION & PERMANENT UPGRADES ---
         let playerStats = {
             totalMitzvot: 0,
-            upgrades: {}
+            upgrades: {},
+            tabletFragments: 0,
         };
 
         const permanentUpgrades = {
@@ -740,6 +748,7 @@ and adds four new surprise features for more dynamic gameplay.
             idleMitzvot: { name: "Chochmah's Wisdom", desc: "Passively gain 1 Mitzvah every 10 seconds, even when the game is closed.", maxLevel: 5, cost: level => 10000 * Math.pow(3, level) },
             critChance: { name: "Da'at's Opening", desc: "Projectiles have a 1% chance per level to deal critical (2x) damage.", maxLevel: 10, cost: level => 2000 * Math.pow(2.1, level) },
             shefaValue: { name: "Yesod's Treasury", desc: "Shefa orbs are worth 5% more per level.", maxLevel: 10, cost: level => 1800 * Math.pow(1.8, level) },
+            commandmentsAuthority: { name: "Commandment's Authority", desc: "Klipah Gates are 1% less potent per level. Requires 10 Tablet Fragments from PERFECT WAVES to unlock.", maxLevel: 10, cost: level => 5000 * Math.pow(2.5, level), isLocked: () => playerStats.tabletFragments < 10 },
         };
 
         /**
@@ -751,6 +760,7 @@ and adds four new surprise features for more dynamic gameplay.
                 const parsed = JSON.parse(savedStats);
                 playerStats.totalMitzvot = parsed.totalMitzvot || 0;
                 playerStats.upgrades = parsed.upgrades || {};
+                playerStats.tabletFragments = parsed.tabletFragments || 0;
 
                 const lastCheck = parsed.lastCheck || Date.now();
                 const idleUpgrade = playerStats.upgrades.idleMitzvot;
@@ -789,11 +799,14 @@ and adds four new surprise features for more dynamic gameplay.
                 const card = document.createElement('div');
                 card.className = 'upgrade-card';
 
+                const isLocked = upgrade.isLocked ? upgrade.isLocked() : false;
                 const canAfford = playerStats.totalMitzvot >= cost;
                 const isMaxed = currentLevel >= upgrade.maxLevel;
 
                 let buttonHTML = '';
-                if (isMaxed) {
+                if (isLocked) {
+                    buttonHTML = `<button class="upgrade-button disabled" disabled>LOCKED</button>`;
+                } else if (isMaxed) {
                     buttonHTML = `<button class="upgrade-button maxed" disabled>MAX LEVEL</button>`;
                 } else {
                     buttonHTML = `<button class="upgrade-button ${canAfford ? '' : 'disabled'}" data-key="${key}" ${canAfford ? '' : 'disabled'}>
@@ -906,6 +919,7 @@ and adds four new surprise features for more dynamic gameplay.
         const tohuMaterial = new THREE.MeshStandardMaterial({ color: 0x800080, emissive: 0xff00ff, emissiveIntensity: 1.2, roughness: 0.2, metalness: 0.8 });
         const klipahCrackMaterial = new THREE.MeshStandardMaterial({color: 0x550000, emissive: 0xff0000, emissiveIntensity: 1.0, roughness: 0.9});
         const golemMaterial = new THREE.MeshStandardMaterial({ color: 0x666666, emissive: 0x333333, emissiveIntensity: 1.5, metalness: 0.8, roughness: 0.2 });
+        const golemFriendlyMaterial = new THREE.MeshStandardMaterial({ color: 0xb8860b, emissive: 0xffd700, emissiveIntensity: 1.5, metalness: 0.5, roughness: 0.3 });
         const golemProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xff4500, fog: false });
         const golemFastProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, fog: false });
         const golemHeavyProjectileMaterial = new THREE.MeshBasicMaterial({ color: 0x4b0082, fog: false });
@@ -919,6 +933,7 @@ and adds four new surprise features for more dynamic gameplay.
         const mineMaterial = new THREE.MeshBasicMaterial({ color: 0xffa500, transparent: true, opacity: 0.8 });
         const redemptionOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xaaffaa, fog: false });
         const mitzvahOrbMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, fog: false });
+        const einSofMaterial = new THREE.SpriteMaterial({ fog: false, transparent: true, blending: THREE.AdditiveBlending });
 
         // --- PLAYER & PROJECTILE SYSTEM ---
         const sparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial, MAX_SPARKS );
@@ -944,8 +959,9 @@ and adds four new surprise features for more dynamic gameplay.
          * @param {number} damage The base damage of the spark.
          * @param {boolean} hasPierce Whether the spark can pierce an enemy.
          * @param {boolean} [isEcho=false] Whether this is a projectile from a Celestial Echo.
+         * @param {THREE.Vector3} [velocity] Optional velocity vector.
          */
-        function fireSpark(position, damage, hasPierce, isEcho = false) {
+        function fireSpark(position, damage, hasPierce, isEcho = false, velocity = null) {
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
                 if (!spark.active) {
@@ -953,7 +969,7 @@ and adds four new surprise features for more dynamic gameplay.
                     spark.position.copy(position);
                     spark.isEcho = isEcho;
 
-                    const isCrit = !isEcho && (Math.random() < (playerStats.upgrades.critChance?.level || 0) * 0.01);
+                    const isCrit = !isEcho && (gameState.effects.allCritTimer > 0 || Math.random() < (playerStats.upgrades.critChance?.level || 0) * 0.01);
                     spark.damage = damage * (isCrit ? 2 : 1);
                     spark.isCrit = isCrit;
 
@@ -961,7 +977,12 @@ and adds four new surprise features for more dynamic gameplay.
                     let speedMultiplier = 1.0;
                     if (gameState.effects.sefirahResonance > 0) speedMultiplier *= 1.8; // Sefirah Resonance speed boost
                     const speedBonus = 1 + (playerStats.upgrades.projectileSpeed?.level || 0) * 0.05;
-                    spark.velocity.z = -80 * speedBonus * speedMultiplier * (isEcho ? 1.5 : 1); // Echo sparks are faster
+                    
+                    if (velocity) {
+                        spark.velocity.copy(velocity).multiplyScalar(speedBonus * speedMultiplier);
+                    } else {
+                        spark.velocity.set(0, 0, -80 * speedBonus * speedMultiplier * (isEcho ? 1.5 : 1)); // Echo sparks are faster
+                    }
                     return;
                 }
             }
@@ -1023,6 +1044,7 @@ and adds four new surprise features for more dynamic gameplay.
         const golemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 8), golemProjectileMaterial), 30);
         const golemFastProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), golemFastProjectileMaterial), 30);
         const golemHeavyProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 1.2), golemHeavyProjectileMaterial), 20);
+        const friendlyGolemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffd700 })), 20);
         const weaverProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xcccccc })), 50);
         const shattererShardPool = new ObjectPool(() => new THREE.Mesh(new THREE.IcosahedronGeometry(0.15, 0), shattererMaterial.clone()), 100);
         const windParticlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 1.5), new THREE.MeshBasicMaterial({color: 0xaaaaff, transparent: true, opacity: 0.5, fog: false})), 50);
@@ -1045,6 +1067,8 @@ and adds four new surprise features for more dynamic gameplay.
          * @param {number} index The index of the Nefesh in the `nefeshState` array.
          */
         function markNefeshForDestruction(index) {
+            if (gameState.effects.invincibleTimer > 0) return; // Invincible check
+
             if (index !== -1 && nefeshState[index] && nefeshState[index].active && !destroyedNefeshIndices.has(index)) {
                 // B"H: Tikkun HaGadol surprise feature check
                 if (Math.random() < 0.02) { // 2% chance for a great repair
@@ -1109,6 +1133,7 @@ and adds four new surprise features for more dynamic gameplay.
                     }
                 }
             } else if (change < 0) {
+                if (gameState.effects.invincibleTimer > 0) return; // Invincible check
                 let removed = 0;
                 const toRemove = -change;
                 // B"H: Remove from the back of the formation first
@@ -1142,13 +1167,13 @@ and adds four new surprise features for more dynamic gameplay.
         const jarPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.CylinderGeometry(0.8, 0.8, 1.5, 12); const b = new THREE.Mesh(bG, jarMaterial.clone()); b.rotation.z = Math.PI / 2; b.rotation.y = Math.random() * Math.PI; const o = new THREE.Mesh(bG, outlineMaterial); o.rotation.copy(b.rotation); o.scale.set(1.15, 1.1, 1.15); const hP = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })); hP.position.y = 1.2; g.add(o, b, hP); g.userData = { type: 'jar', body: b, healthPlane: hP, collisionBox2D: new THREE.Box2(), isShielded: false, shieldVisual: null }; return g; }, 15);
         function updateJarHealthVisuals(jar) { const { healthPlane, health } = jar.userData; if (healthPlane.material.map) healthPlane.material.map.dispose(); healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF'); }
         const tohuShardPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.ConeGeometry(0.3, 1.5, 6); for(let i=0; i < 10; i++) { const sGr = new THREE.Group(); const s = new THREE.Mesh(sG, tohuMaterial.clone()); const o = new THREE.Mesh(sG, outlineMaterial); o.scale.setScalar(1.2); sGr.add(o, s); sGr.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5); sGr.userData.collisionBox2D = new THREE.Box2(); g.add(sGr); } g.userData = { type: 'tohu_shard', body: g }; return g; }, 15);
-        const golemSentryPool = new ObjectPool(() => { const g = new THREE.Group(); const tG = new THREE.BoxGeometry(1.5, 2.0, 1.5); const t = new THREE.Mesh(tG, golemMaterial.clone()); t.position.y = 1.0; const hG = new THREE.BoxGeometry(1.0, 1.0, 1.0); const h = new THREE.Mesh(hG, golemMaterial.clone()); h.position.y = 2.5; const e = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000})); e.position.z = 0.5; h.add(e); const tO = new THREE.Mesh(tG, outlineMaterial); tO.position.copy(t.position); tO.scale.setScalar(1.1); const hO = new THREE.Mesh(hG, outlineMaterial); hO.position.copy(h.position); hO.scale.setScalar(1.1); g.add(tO, hO, t, h); g.userData = { type: 'golem_sentry', body: g, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye: e, isShielded: false, shieldVisual: null }; return g; }, 10);
+        const golemSentryPool = new ObjectPool(() => { const g = new THREE.Group(); const tG = new THREE.BoxGeometry(1.5, 2.0, 1.5); const t = new THREE.Mesh(tG, golemMaterial.clone()); t.position.y = 1.0; const hG = new THREE.BoxGeometry(1.0, 1.0, 1.0); const h = new THREE.Mesh(hG, golemMaterial.clone()); h.position.y = 2.5; const e = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000})); e.position.z = 0.5; h.add(e); const tO = new THREE.Mesh(tG, outlineMaterial); tO.position.copy(t.position); tO.scale.setScalar(1.1); const hO = new THREE.Mesh(hG, outlineMaterial); hO.position.copy(h.position); hO.scale.setScalar(1.1); g.add(tO, hO, t, h); g.userData = { type: 'golem_sentry', body: g, torso: t, head: h, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye: e, isShielded: false, shieldVisual: null, isFriendly: false }; return g; }, 10);
         const tomeKeeperPool = new ObjectPool(() => { const group = new THREE.Group(); const bodyGeom = new THREE.IcosahedronGeometry(0.7, 0); const body = new THREE.Mesh(bodyGeom, tomeKeeperMaterial.clone()); body.position.y = 1.5; const outline = new THREE.Mesh(bodyGeom, outlineMaterial); outline.position.copy(body.position); outline.scale.setScalar(1.15); const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 }); const beamGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]); const shieldBeam = new THREE.Line(beamGeometry, beamMaterial); group.add(body, outline, shieldBeam); group.userData = { type: 'tome_keeper', health: 50, body: body, shieldedEnemy: null, shieldBeam: shieldBeam, collisionBox2D: new THREE.Box2() }; return group; }, 5);
         const weaverPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.SphereGeometry(0.6, 16, 8); const b = new THREE.Mesh(bG, weaverMaterial.clone()); g.add(b); g.userData = { type: 'weaver', body: b, health: 40, lastShotTime: 0, moveDirection: Math.random() < 0.5 ? 1 : -1, moveSpeed: 2, collisionBox2D: new THREE.Box2() }; return g; }, 10);
         const shattererPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.IcosahedronGeometry(0.8, 0); const s = new THREE.Mesh(sG, shattererMaterial.clone()); s.position.y = 1.0; g.add(s); g.userData = { type: 'shatterer', body: s, health: 60, collisionBox2D: new THREE.Box2() }; return g; }, 8);
         const minelayerPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.BoxGeometry(1.2, 1.2, 1.8); const b = new THREE.Mesh(bG, minelayerMaterial.clone()); b.position.y = 0.6; g.add(b); g.userData = { type: 'minelayer', body: b, health: 70, lastMineTime: 0, collisionBox2D: new THREE.Box2() }; return g; }, 10);
 
-        function createParticleExplosion(position, count, color, speed) { const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1)); for(let i=0; i < scaledCount; i++) { const p = particlePool.activate(); if(!p) continue; p.position.copy(position); p.material.color.set(color); p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 }; } }
+        function createParticleExplosion(position, count, color, speed) { if(!position) return; const scaledCount = Math.floor(count * (gameSettings.effectsIntensity || 1)); for(let i=0; i < scaledCount; i++) { const p = particlePool.activate(); if(!p) continue; p.position.copy(position); p.material.color.set(color); p.userData = { type: 'particle', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * speed), life: 1.2 }; } }
         function shatterObject(object) { const geom = object.geometry; const mat = object.material; const shatterCount = gameSettings.shatterCount; const shatterSpeed = gameSettings.shatterSpeed; for(let i=0; i < shatterCount; i++) { const shard = new THREE.Mesh(geom, mat); shard.scale.setScalar(0.2 + Math.random()*0.3); shard.position.copy(object.getWorldPosition(worldPosVec)); shard.rotation.copy(object.rotation); scene.add(shard); shard.userData = { type: 'shard', velocity: new THREE.Vector3().randomDirection().multiplyScalar(Math.random() * shatterSpeed), life: 2.0, rotationSpeed: new THREE.Vector3().random().multiplyScalar(5) }; dynamicShards.add(shard); } }
         function shatterElement(element) { if (!element) return; const rect = element.getBoundingClientRect(); if (rect.width === 0 || rect.height === 0) return; const container = document.createElement('div'); Object.assign(container.style, { position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, overflow: 'hidden', pointerEvents: 'none', zIndex: '2000' }); document.body.appendChild(container); const shatterCount = Math.max(5, gameSettings.shatterCount / 2); const shatterSpeed = gameSettings.shatterSpeed * 0.2; for (let i = 0; i < shatterCount; i++) { const shard = document.createElement('div'); Object.assign(shard.style, { position: 'absolute', backgroundColor: 'white', width: `${Math.random() * 15 + 5}px`, height: `${Math.random() * 15 + 5}px`, left: `${Math.random() * rect.width}px`, top: `${Math.random() * rect.height}px`, transition: 'transform 1s ease-out, opacity 1s ease-out' }); container.appendChild(shard); requestAnimationFrame(() => { const vx = (Math.random() - 0.5) * shatterSpeed * 8; const vy = (Math.random() - 0.5) * shatterSpeed * 8; shard.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg)`; shard.style.opacity = '0'; }); } setTimeout(() => { if (container.parentElement) document.body.removeChild(container); }, 1000); }
         let shakeIntensity = 0; let fovKick = 0;
@@ -1276,7 +1301,7 @@ and adds four new surprise features for more dynamic gameplay.
             ui.surpriseNotifier.style.color = color;
             ui.surpriseNotifier.style.textShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
             ui.surpriseNotifier.classList.add('show');
-            setTimeout(() => ui.surpriseNotifier.classList.remove('show'), 2500);
+            setTimeout(() => ui.surpriseNotifier.classList.remove('show'), 3500);
         }
 
         function triggerSefirahResonance() {
@@ -1296,7 +1321,7 @@ and adds four new surprise features for more dynamic gameplay.
         }
 
         function triggerMitzvahCascade(position) {
-            showSurpriseNotifier("Mitzvah Cascade!", "hi");
+            showSurpriseNotifier("Mitzvah Cascade!");
             const bonusMitzvot = 250 + Math.floor(Math.random() * 250);
             const numOrbs = 20;
             const valuePerOrb = bonusMitzvot / numOrbs;
@@ -1389,7 +1414,7 @@ and adds four new surprise features for more dynamic gameplay.
             scene.add(starField1, starField2);
         }
         const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = 15; // B"H: Updated to be relative to dynamic camera
-        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } } return null; }
+        function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; const authorityBonus = 1.0 - ((playerStats.upgrades.commandmentsAuthority?.level || 0) * 0.01); const value = Math.floor(-(5 + Math.floor(Math.random() * 15 * levelFactor)) * authorityBonus); Object.assign(gate.userData, { currentValue: value, isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; golem.userData.isFriendly = false; golem.userData.torso.material = golemMaterial; golem.userData.head.material = golemMaterial; if (Math.random() < 0.02) { golem.userData.isFriendly = true; golem.userData.lifeTimer = 15.0; golem.userData.torso.material = golemFriendlyMaterial; golem.userData.head.material = golemFriendlyMaterial; showSurpriseNotifier("A Clay Servant assists you!", "#ffd700"); } return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } } return null; }
 
         // --- SPAWN PATTERNS & WAVE MANAGEMENT ---
         function pattern_Wall(z) { return [spawnObstacle('jar', 0, z), spawnObstacle('jar', 1, z), spawnObstacle('jar', 2, z)].filter(Boolean); }
@@ -1452,7 +1477,7 @@ and adds four new surprise features for more dynamic gameplay.
             }
         }
 
-        function spawnSpecialParticle() { if (specialParticleTextures.length === 0) return; const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; const x = (Math.random() - 0.5) * spawnRadius * 2; const y = (Math.random() - 0.5) * spawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); }
+        function spawnSpecialParticle() { if (specialParticleTextures.length === 0) return; if (Math.random() < 0.005) { const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; p.position.set((Math.random() - 0.5) * spawnRadius * 2, (Math.random() - 0.5) * spawnRadius, spawnZ); p.material.map = null; p.material.color = new THREE.Color(0xffffff); p.material.needsUpdate = true; p.scale.set(3, 3, 3); p.userData.life = 6.0; p.userData.type = 'ein_sof_glimmer'; p.userData.velocity = new THREE.Vector3(0, 0, 50 + gameState.level * 3); showSurpriseNotifier("A Glimmer of Ein Sof appears!", "#ffffff"); return; } const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; const x = (Math.random() - 0.5) * spawnRadius * 2; const y = (Math.random() - 0.5) * spawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); p.userData.type = 'special_particle'; }
 
         // --- BOSS BATTLE SYSTEM ---
         const bossManager = {
@@ -1472,8 +1497,7 @@ and adds four new surprise features for more dynamic gameplay.
                 const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3, 0.2, 16, 100), golemMaterial);
                 const ring2 = new THREE.Mesh(new THREE.TorusGeometry(4, 0.2, 16, 100), golemMaterial);
                 ring1.rotation.x = Math.PI / 2;
-                ring2.rotation.x = Math.PI / 2;
-                ring2.rotation.y = Math.PI / 4;
+                ring2.rotation.x = Math.PI / 4;
 
                 group.add(core, ring1, ring2);
                 group.userData = {core, ring1, ring2};
@@ -1559,7 +1583,7 @@ and adds four new surprise features for more dynamic gameplay.
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             const allPools = [
-                golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool,
+                golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, friendlyGolemProjectilePool,
                 particlePool, shefaOrbPool, specialParticlePool, klipahGatePool,
                 jarPool, tohuShardPool, golemSentryPool, windParticlePool,
                 tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool,
@@ -1590,15 +1614,18 @@ and adds four new surprise features for more dynamic gameplay.
                     hasPierce: false,
                     hasShield: playerStats.upgrades.startingShield?.level > 0,
                 },
-                effects: { // B"H: New state for temporary effects
+                effects: {
                     sefirahResonance: 0,
                     globalShield: 0,
+                    invincibleTimer: 0,
+                    allCritTimer: 0,
                 },
                 combo: { count: 0, timer: 0 },
                 wave: { isTracking: false, hitsTakenThisWave: 0, waveId: -1, enemiesInWave: new Set() },
                 wind: { force: 0, timer: 0, direction: 1 },
                 bossManager: bossManager,
                 customPrayers: gameSettings.customPrayers || null,
+                prayerChain: { history: [], lastChangeTime: 0 },
                 color: { current: new THREE.Color(initialClearColor), target: new THREE.Color(levelColors[0]) }
             };
 
@@ -1734,7 +1761,7 @@ and adds four new surprise features for more dynamic gameplay.
             }
         });
 
-        function updatePrayerDisplay() { const prayers = gameState.customPrayers; if(prayers && prayers.phrases.length > 0) { ui.prayerText.textContent = prayers.phrases[prayers.currentIndex]; applyCaptionStyle(); } }
+        function updatePrayerDisplay() { if(!gameState.customPrayers) return; const prayers = gameState.customPrayers; if(prayers && prayers.phrases.length > 0) { ui.prayerText.textContent = prayers.phrases[prayers.currentIndex]; applyCaptionStyle(); const now = clock.getElapsedTime(); const timeSinceChange = now - gameState.prayerChain.lastChangeTime; gameState.prayerChain.lastChangeTime = now; const history = gameState.prayerChain.history; history.push(prayers.currentIndex); if (history.length > 3) history.shift(); if (history.length === 3 && timeSinceChange < 4.0) { const uniquePrayers = new Set(history); if (uniquePrayers.size === 3) { showSurpriseNotifier("Prayer Chain Resonance!", "#ffd700"); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.2, 16, 64), new THREE.MeshBasicMaterial({color: 0xffd700, transparent: true, opacity: 0.9})); shockwave.position.copy(nefeshGroup.position); shockwave.position.y = 1; shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 3.0, isPrayerWave: true}); history.length = 0; } } } }
         ui.prevPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex - 1 + prayers.phrases.length) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
         ui.nextPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
         function populatePrayerList() { ui.prayerList.innerHTML = ''; if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { gameState.customPrayers.phrases.forEach((phrase, index) => { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = phrase; if (index === gameState.customPrayers.currentIndex) item.classList.add('active'); item.addEventListener('click', () => { gameState.customPrayers.currentIndex = index; updatePrayerDisplay(); populatePrayerList(); }); ui.prayerList.appendChild(item); }); ui.prayerSettingsToggleBtn.style.display = 'block'; } else { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = "No custom prayers active."; item.style.fontStyle = 'italic'; ui.prayerList.appendChild(item); ui.prayerSettingsToggleBtn.style.display = 'none'; } ui.inGameCaptionFontInput.value = gameSettings.captionFont; ui.inGameCaptionColorPicker.value = gameSettings.captionColor; const activeItem = ui.prayerList.querySelector('.active'); if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
@@ -1812,9 +1839,8 @@ and adds four new surprise features for more dynamic gameplay.
                     road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0; // Scale speed for shader
                 }
 
-                // Starfield is now handled by the background, road is handled by shader
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
-                for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
+                for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; if (p.userData.type === 'ein_sof_glimmer') { p.material.opacity = 0.5 + Math.sin(time * 5) * 0.5; const boundingSphere = new THREE.Sphere(nefeshGroup.position, 5); if (boundingSphere.containsPoint(p.position)) { showSurpriseNotifier("✨ EIN SOF'S BLESSING! ✨", "#ffffff"); gameState.effects.invincibleTimer = 5.0; gameState.effects.allCritTimer = 5.0; triggerFlash("#ffffff", 800); p.userData.life = 0; } } else { p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; } if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
 
                 // --- Celestial Winds Update ---
                 if (gameState.wind.timer > 0) { gameState.wind.timer -= deltaTime; targetCubeX += gameState.wind.force * gameState.wind.direction * deltaTime; if (Math.random() < 0.8) { const p = windParticlePool.activate(); if (p) { const startX = gameState.wind.direction > 0 ? -roadWidth * 2 : roadWidth * 2; p.position.set(startX, Math.random() * 8, Math.random() * -80); p.userData.velocity = new THREE.Vector3(gameState.wind.direction * -(100 + Math.random() * 50), 0, 0); p.userData.life = 1.0; } } }
@@ -1830,7 +1856,8 @@ and adds four new surprise features for more dynamic gameplay.
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
                 if(gameState.effects.sefirahResonance > 0) gameState.effects.sefirahResonance -= deltaTime;
                 if(gameState.effects.globalShield > 0) gameState.effects.globalShield -= deltaTime;
-
+                if(gameState.effects.invincibleTimer > 0) gameState.effects.invincibleTimer -= deltaTime;
+                if(gameState.effects.allCritTimer > 0) gameState.effects.allCritTimer -= deltaTime;
 
                 // --- Nefesh Update & Firing ---
                 const troopHalfSize = 0.4; let activeNefeshCount = 0; const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
@@ -1925,13 +1952,15 @@ and adds four new surprise features for more dynamic gameplay.
             }
 
             // Specific enemy logic
-            if (obstacle.userData.type === 'golem_sentry' && !obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 3.5 - (gameState.level * 0.1)) { obstacle.userData.lastShotTime = clock.elapsedTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
+            if (obstacle.userData.isFriendly) { if (obstacle.userData.type === 'golem_sentry') { obstacle.userData.lifeTimer -= deltaTime; if (obstacle.userData.lifeTimer <= 0) { createParticleExplosion(obstacle.position, 50, 0x8B4513, 5); deactivateObstacle(obstacle); return; } if (clock.elapsedTime - obstacle.userData.lastShotTime > 2.0) { obstacle.userData.lastShotTime = clock.elapsedTime; const proj = friendlyGolemProjectilePool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.velocity = new THREE.Vector3(0, 0, -30); } } } }
+            else if (obstacle.userData.type === 'golem_sentry' && !obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 3.5 - (gameState.level * 0.1)) { obstacle.userData.lastShotTime = clock.elapsedTime; obstacle.userData.eye.material.color.setHex(0xffffff); setTimeout(() => obstacle.userData.eye.material.color.setHex(0xff0000), 200); let projPool = Math.random() < 0.33 && gameState.level > 5 ? golemHeavyProjectilePool : (Math.random() < 0.66 && gameState.level > 2 ? golemFastProjectilePool : golemProjectilePool); let proj = projPool.activate(); if (proj) { obstacle.userData.eye.getWorldPosition(proj.position); proj.userData.type = projPool === golemHeavyProjectilePool ? 'heavy' : (projPool === golemFastProjectilePool ? 'fast' : 'normal'); if(proj.userData.type === 'heavy') proj.userData.damage = 5 + Math.floor(gameState.level / 4); } }
             if (obstacle.userData.type === 'weaver') { obstacle.position.x += obstacle.userData.moveDirection * obstacle.userData.moveSpeed * deltaTime; if (Math.abs(obstacle.position.x) > roadWidth / 2 - 0.5) { obstacle.userData.moveDirection *= -1; } if (!obstacle.userData.isShielded && clock.elapsedTime - obstacle.userData.lastShotTime > 1.0) { obstacle.userData.lastShotTime = clock.elapsedTime; const proj = weaverProjectilePool.activate(); if(proj) { proj.position.copy(obstacle.position); proj.userData.velocity = new THREE.Vector3(0, 0, 35); } } }
             if (obstacle.userData.type === 'minelayer' && clock.elapsedTime - obstacle.userData.lastMineTime > 4.0) { obstacle.userData.lastMineTime = clock.elapsedTime; const mine = minePool.activate(); if(mine) { mine.position.set(obstacle.position.x, roadLevelY + 0.1, obstacle.position.z); } }
 
             // Player-Obstacle collision
-            const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0;
-            if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(effectiveShield) { gameState.player.hasShield = false; return; } markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(effectiveShield) { gameState.player.hasShield = false; return; } switch (obstacle.userData.type) { case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break; case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break; case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break; default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break; } } }); }
+            if (obstacle.userData.isFriendly) return;
+            const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0 || gameState.effects.invincibleTimer > 0;
+            if (obstacle.userData.type === 'tohu_shard') { const spikeHalfSize = 0.3; obstacle.userData.body.children.forEach(spikeGroup => { spikeGroup.getWorldPosition(worldPosVec); spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize}); nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (spikeGroup.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; return; } markNefeshForDestruction(index); triggerFlash('#ff00ff', 200); } }); }); } else { nefeshState.forEach((state, index) => { if (!state.active || destroyedNefeshIndices.has(index)) return; if (obstacle.userData.collisionBox2D.intersectsBox(state.collisionBox2D)) { if(effectiveShield) { if (gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; return; } switch (obstacle.userData.type) { case 'jar': if(!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.1); obstacle.userData.health--; if(obstacle.userData.health <= 0) { deactivateObstacle(obstacle); updateCombo(50, obstacle.position); shatterObject(obstacle.userData.body); } else { updateJarHealthVisuals(obstacle); } } break; case 'klipah_gate': adjustNefeshCount(obstacle.userData.currentValue); if (!obstacle.userData.isPurified) triggerScreenShake(0.4); else createParticleExplosion(obstacle.position, 20, 0x00ff00, 10); deactivateObstacle(obstacle); break; case 'mine': markNefeshForDestruction(index); triggerScreenShake(0.5); createParticleExplosion(obstacle.position, 60, 0xffa500, 20); deactivateObstacle(obstacle); break; default: if (!obstacle.userData.isShielded) { markNefeshForDestruction(index); triggerScreenShake(0.2); } break; } } }); }
         }
 
         function deactivateObstacle(obstacle) {
@@ -1949,29 +1978,45 @@ and adds four new surprise features for more dynamic gameplay.
         }
 
         function updateEnemyProjectiles(deltaTime) {
-            const allEnemyProjPools = [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, weaverProjectilePool, shattererShardPool];
+            const allEnemyProjPools = [golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, weaverProjectilePool, shattererShardPool, friendlyGolemProjectilePool];
             allEnemyProjPools.forEach(pool => {
                 pool.active.forEach(proj => {
                     let speed = 25;
                     if(proj.userData.type === 'fast') speed = 45;
                     else if (proj.userData.type === 'heavy') speed = 18;
-                    else if (proj.userData.velocity) proj.position.addScaledVector(proj.userData.velocity, deltaTime);
 
-                    proj.position.z += speed * deltaTime;
+                    if (proj.userData.velocity) {
+                        proj.position.addScaledVector(proj.userData.velocity, deltaTime);
+                    } else {
+                        proj.position.z += speed * deltaTime;
+                    }
 
-                    if(proj.position.z > camera.position.z + 10) { pool.deactivate(proj); return; }
-                    const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0;
-                    nefeshState.forEach((state, index) => {
-                        if(!state.active || destroyedNefeshIndices.has(index)) return;
-                        if(checkInstancedCollision(state, proj)) {
-                            if(effectiveShield) { gameState.player.hasShield = false; pool.deactivate(proj); return; }
-                            const color = proj.material.color.getHexString();
-                            if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); triggerFlash(`#${color}`, 400); triggerScreenShake(0.6); }
-                            else { markNefeshForDestruction(index); triggerFlash(`#${color}`, 300); triggerScreenShake(0.3); }
-                            createParticleExplosion(proj.position, 20, `#${color}`, 15);
-                            pool.deactivate(proj);
+
+                    if(proj.position.z > camera.position.z + 10 || proj.position.z < -150) { pool.deactivate(proj); return; }
+                    
+                    const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0 || gameState.effects.invincibleTimer > 0;
+                    if (pool === friendlyGolemProjectilePool) {
+                        const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active.values()].filter(e => !e.userData.isFriendly);
+                         for (const enemy of allEnemies) {
+                            if (enemy.position.distanceTo(proj.position) < 1.5) {
+                                processSparkCollision({ position: proj.position, damage: 5, pierceCounter: 0, isCrit: false, isEcho: false, active: true }, enemy);
+                                pool.deactivate(proj);
+                                return;
+                            }
                         }
-                    });
+                    } else {
+                         nefeshState.forEach((state, index) => {
+                            if(!state.active || destroyedNefeshIndices.has(index)) return;
+                            if(checkInstancedCollision(state, proj)) {
+                                if(effectiveShield) { if(gameState.effects.invincibleTimer <= 0) gameState.player.hasShield = false; pool.deactivate(proj); return; }
+                                const color = proj.material.color.getHexString();
+                                if(proj.userData.type === 'heavy') { adjustNefeshCount(-proj.userData.damage); triggerFlash(`#${color}`, 400); triggerScreenShake(0.6); }
+                                else { markNefeshForDestruction(index); triggerFlash(`#${color}`, 300); triggerScreenShake(0.3); }
+                                createParticleExplosion(proj.position, 20, `#${color}`, 15);
+                                pool.deactivate(proj);
+                            }
+                        });
+                    }
                 });
             });
         }
@@ -1992,7 +2037,7 @@ and adds four new surprise features for more dynamic gameplay.
                 }
 
                 spark.position.addScaledVector(spark.velocity, deltaTime);
-                if (spark.position.z < -150) { spark.active = false; continue; }
+                if (spark.position.z < -150 || spark.position.z > 20 || Math.abs(spark.position.x) > roadWidth * 2) { spark.active = false; continue; }
 
                 if (gameState.bossManager.isActive) {
                     const bossBox = new THREE.Box3().setFromObject(gameState.bossManager.bossObject);
@@ -2002,7 +2047,7 @@ and adds four new surprise features for more dynamic gameplay.
                     }
                 } else {
                     for(const obstacle of allObstacles) {
-                        if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2) continue;
+                        if (!spark.active || obstacle.userData.isShielded || Math.abs(obstacle.position.z - spark.position.z) > 2 || obstacle.userData.isFriendly) continue;
                         collisionVec2.set(spark.position.x, spark.position.z);
                         if (obstacle.userData.collisionBox2D && obstacle.userData.collisionBox2D.containsPoint(collisionVec2)) {
                             processSparkCollision(spark, obstacle);
@@ -2032,6 +2077,7 @@ and adds four new surprise features for more dynamic gameplay.
         }
 
         function processSparkCollision(spark, obstacle) {
+            if (obstacle.userData.isFriendly) return;
             if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; }
             const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
 
@@ -2039,6 +2085,7 @@ and adds four new surprise features for more dynamic gameplay.
                 case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); triggerKlipahRedemption(obstacle.position); } updateKlipahGateVisuals(obstacle); break;
                 default: obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, particleColor, 8); if (obstacle.userData.health <= 0) {
                     triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
+                    if(obstacle.userData.type === 'jar' && Math.random() < 0.1) { showSurpriseNotifier("A Vessel of Light Shatters!", "#ffffff"); for (let i = 0; i < 8; i++) { const angle = (i / 8) * Math.PI * 2; const velocity = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(40); fireSpark(obstacle.position, 1, true, false, velocity); } }
                     if(obstacle.userData.type === 'shatterer') {
                         for(let i = 0; i < 12; i++) { const shard = shattererShardPool.activate(); if(shard) { shard.position.copy(obstacle.position); shard.userData.velocity = new THREE.Vector3().randomDirection().setY(0).normalize().multiplyScalar(20 + Math.random() * 10); } }
                     }
@@ -2054,13 +2101,13 @@ and adds four new surprise features for more dynamic gameplay.
         function updateDynamicEffects(deltaTime) {
             for(const orb of shefaOrbPool.active) { orb.position.lerp(nefeshGroup.position, 0.08); orb.position.addScaledVector(orb.userData.velocity, deltaTime); orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.1); if(orb.position.distanceTo(nefeshGroup.position) < 1.5) { addShefa( orb.userData.value ); createParticleExplosion(orb.position, 3, 0xffd700, 5); shefaOrbPool.deactivate(orb); } }
             for(const orb of mitzvahOrbPool.active) { orb.position.lerp(nefeshGroup.position, 0.1); orb.position.addScaledVector(orb.userData.velocity, deltaTime); orb.userData.velocity.lerp(new THREE.Vector3(0,0,0), 0.15); if(orb.position.distanceTo(nefeshGroup.position) < 1.5) { gameState.mitzvot += orb.userData.value; createParticleExplosion(orb.position, 2, 0xffffff, 4); mitzvahOrbPool.deactivate(orb); } }
-            for(const orb of redemptionOrbPool.active) { orb.position.z -= 25 * deltaTime; const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active]; for(const enemy of allEnemies) { if (orb.position.distanceTo(enemy.position) < 2.0) { createParticleExplosion(orb.position, 80, 0xaaffaa, 20); if(enemy.userData.health) enemy.userData.health = 0; processSparkCollision({damage: 9999, pierceCounter: 0, active: false}, enemy); redemptionOrbPool.deactivate(orb); break; } } if (orb.position.z < -150) { redemptionOrbPool.deactivate(orb); } }
+            for(const orb of redemptionOrbPool.active) { orb.position.z -= 25 * deltaTime; const allEnemies = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => !e.userData.isFriendly); for(const enemy of allEnemies) { if (orb.position.distanceTo(enemy.position) < 2.0) { createParticleExplosion(orb.position, 80, 0xaaffaa, 20); if(enemy.userData.health) enemy.userData.health = 0; processSparkCollision({position: orb.position, damage: 9999, pierceCounter: 0, active: false, isCrit: false, isEcho: false}, enemy); redemptionOrbPool.deactivate(orb); break; } } if (orb.position.z < -150) { redemptionOrbPool.deactivate(orb); } }
             const updateDynamicParticle = p => { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.velocity.y -= 25 * deltaTime; p.userData.life -= deltaTime; if(p.material && p.material.opacity) p.material.opacity = p.userData.life; if (p.userData.type === 'shard') { p.rotation.x += p.userData.rotationSpeed.x * deltaTime; p.rotation.y += p.userData.rotationSpeed.y * deltaTime; } if (p.userData.life <= 0) { if(p.userData.type === 'particle') particlePool.deactivate(p); else { scene.remove(p); dynamicShards.delete(p); } } };
             particlePool.active.forEach(updateDynamicParticle);
             dynamicShards.forEach(updateDynamicParticle);
             activeLights.forEach(light => { light.intensity -= 25 * deltaTime; if(light.intensity <= 0) { scene.remove(light); activeLights.delete(light); } });
             tomeKeeperPool.active.forEach(keeper => { const shielded = keeper.userData.shieldedEnemy; if (shielded && shielded.visible) { const beam = keeper.userData.shieldBeam; beam.visible = true; const positions = beam.geometry.attributes.position.array; const keeperPos = keeper.getWorldPosition(new THREE.Vector3()); const shieldedPos = shielded.getWorldPosition(new THREE.Vector3()); positions[0] = keeperPos.x; positions[1] = keeperPos.y; positions[2] = keeperPos.z; positions[3] = shieldedPos.x; positions[4] = shieldedPos.y; positions[5] = shieldedPos.z; beam.geometry.attributes.position.needsUpdate = true; } else { keeper.userData.shieldBeam.visible = false; if(shielded) shielded.userData.isShielded = false; keeper.userData.shieldedEnemy = null; } });
-            activeShockwaves.forEach(sw => { sw.life -= 2 * deltaTime; sw.mesh.scale.multiplyScalar(1 + 5 * deltaTime); sw.mesh.material.opacity = sw.life; if(sw.life <= 0) { scene.remove(sw.mesh); activeShockwaves.delete(sw); } });
+            activeShockwaves.forEach(sw => { sw.life -= 2 * deltaTime; sw.mesh.scale.multiplyScalar(1 + (sw.isPrayerWave ? 2 : 5) * deltaTime); sw.mesh.material.opacity = sw.life; if(sw.isPrayerWave) { const waveRadius = sw.mesh.geometry.parameters.radius * sw.mesh.scale.x; [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active].filter(e => !e.userData.isFriendly).forEach(enemy => { if(enemy.position.distanceTo(sw.mesh.position) < waveRadius) { if(enemy.userData.type === 'klipah_gate' && !enemy.userData.isPurified) { enemy.userData.currentValue = 0; enemy.userData.isPurified = true; updateKlipahGateVisuals(enemy); } else if(enemy.userData.health) { enemy.userData.health -= 30 * deltaTime; if(enemy.userData.health <= 0) { deactivateObstacle(enemy); shatterObject(enemy.userData.body); } } } }); } if(sw.life <= 0) { scene.remove(sw.mesh); activeShockwaves.delete(sw); } });
         }
 
         /**
@@ -2109,6 +2156,11 @@ and adds four new surprise features for more dynamic gameplay.
                     setTimeout(() => ui.perfectWaveNotifier.classList.remove('show'), 2000);
                     addShefa(50);
                     gameState.mitzvot += 100;
+                    if(Math.random() < 0.25 && playerStats.upgrades.commandmentsAuthority?.level < 10) {
+                        playerStats.tabletFragments++;
+                        savePlayerStats();
+                        showSurpriseNotifier(`Tablet Fragment Found! (${playerStats.tabletFragments}/10)`, "#00f0ff");
+                    }
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
                     triggerCelestialEcho(); // B"H: Trigger the new reward
                 }
