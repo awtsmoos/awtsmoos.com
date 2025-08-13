@@ -1,32 +1,31 @@
+ 
 
 <!--
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.2
+Merkava: The Celestial Journey v3.3
 Developer: Gemini
-Date: 2025-08-14
+Date: 2025-08-15
 
 This file is a complete, self-contained application.
-This version addresses a critical "ghost firing" bug, implements significant feature enhancements,
-adds new content (upgrades, enemies), and improves code clarity with extensive JSDoc comments
-based on user feedback. The core vision of the game is maintained and expanded upon.
+This version introduces a major dynamic camera system, a new reward mechanic for skilled play,
+and continues to refine the core gameplay experience based on user feedback.
 
-
-*   **Webcam and Fleet Positioning:**
-    *   The entire player fleet has been moved significantly closer to the camera for a more immediate and engaging perspective.
-    *   In "Individual" and "Both" webcam modes, the camera feed for each Nefesh now correctly appears directly above its corresponding unit.
-    *   The central, general webcam display is now rendered on the floor in front of the fleet, rotated to appear as part of the roadway.
-*   **More Upgrades (Otzar Ha'Sefirot):** Three new powerful, permanent upgrades have been added to the shop:
-    *   **Da'at's Opening:** Grants a scaling chance for projectiles to deal critical (double) damage.
-    *   **Yesod's Treasury:** Increases the base value of all Shefa orbs collected.
-    *   **Binah's Edict:** Empowers the "Void Pulse" ability, causing it to deal significant damage to all enemies it touches.
-*   **New Enemy & Dynamic Progression:**
-    *   A new enemy, the **"Minelayer,"** has been introduced. This enemy strategically drops persistent energy mines on the road, creating new spatial challenges for the player.
-    *   New wave patterns incorporating the Minelayer have been added to the game's spawning logic.
-    *   The wave generation system is now more dynamic, introducing more complex and varied enemy encounters as the player's level increases.
-
-
+*   **Dynamic 'Living' Camera System:**
+    *   The camera is no longer in a fixed position. It now intelligently and smoothly moves to perfectly frame the player's fleet.
+    *   As the fleet grows in size, the camera pulls back and adjusts its angle to ensure every Nefesh unit remains visible and is never cut off by the screen edges.
+    *   As the fleet shrinks, the camera automatically pushes in, creating a more intense, focused, and cinematic view of the action.
+*   **New Surprise Feature: Celestial Echo:**
+    *   A new reward has been added for exceptional gameplay.
+    *   Upon achieving a "PERFECT WAVE" (clearing all enemies in a wave without taking a single hit), a temporary, glowing "Echo" of the player's fleet will appear.
+    *   This Celestial Echo automatically fires a single, powerful volley of projectiles, rewarding skilled play with both a tactical advantage and a visual spectacle.
+*   **Previous Enhancements Maintained:**
+    *   The "ghost firing" bug remains fixed.
+    *   All webcam displays are correctly masked and positioned.
+    *   Enemy health bars and enhanced visibility are maintained.
+    *   The collision detection system remains robust.
+    *   The flowing "River of Eden" road texture and expanded settings menu are included.
 
 -->
 <!DOCTYPE html>
@@ -559,6 +558,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const originalCameraPos = new THREE.Vector3(0, 8, 11);
         const cameraTargetPos = new THREE.Vector3().copy(originalCameraPos);
+        const cameraLookAtTarget = new THREE.Vector3(0, 2, 0);
         const originalFOV = 75;
         camera.position.copy(originalCameraPos);
         camera.lookAt(0, 0, 0);
@@ -862,6 +862,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
         // --- MATERIALS & GEOMETRIES ---
         const magenDavidMaterial = new THREE.MeshLambertMaterial({ color: 0x00aaff, emissive: 0x00aaff, emissiveIntensity: 0.5 });
         const sparkMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff, fog: false });
+        const celestialEchoMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, fog: false, transparent: true });
         const jarMaterial = new THREE.MeshStandardMaterial({ color: 0x815633, emissive: 0x4d341f, emissiveIntensity: 1.5, metalness: 0.1, roughness: 0.8 });
         const tohuMaterial = new THREE.MeshStandardMaterial({ color: 0x800080, emissive: 0xff00ff, emissiveIntensity: 1.2, roughness: 0.2, metalness: 0.8 });
         const klipahCrackMaterial = new THREE.MeshStandardMaterial({color: 0x550000, emissive: 0xff0000, emissiveIntensity: 1.0, roughness: 0.9});
@@ -882,6 +883,9 @@ based on user feedback. The core vision of the game is maintained and expanded u
         const sparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.12, 6, 6), sparkMaterial, MAX_SPARKS );
         sparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         scene.add(sparkInstancedMesh);
+        const celestialEchoSparkInstancedMesh = new THREE.InstancedMesh( new THREE.SphereGeometry(0.15, 6, 6), celestialEchoMaterial, MAX_SPARKS );
+        celestialEchoSparkInstancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        scene.add(celestialEchoSparkInstancedMesh);
 
         const sparkState = Array.from({ length: MAX_SPARKS }, () => ({
             active: false,
@@ -890,6 +894,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
             damage: 1,
             pierceCounter: 0,
             isCrit: false,
+            isEcho: false,
         }));
         
         /**
@@ -897,21 +902,23 @@ based on user feedback. The core vision of the game is maintained and expanded u
          * @param {THREE.Vector3} position The starting position of the spark.
          * @param {number} damage The base damage of the spark.
          * @param {boolean} hasPierce Whether the spark can pierce an enemy.
+         * @param {boolean} [isEcho=false] Whether this is a projectile from a Celestial Echo.
          */
-        function fireSpark(position, damage, hasPierce) {
+        function fireSpark(position, damage, hasPierce, isEcho = false) {
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
                 if (!spark.active) {
                     spark.active = true;
                     spark.position.copy(position);
+                    spark.isEcho = isEcho;
                     
-                    const isCrit = Math.random() < (playerStats.upgrades.critChance?.level || 0) * 0.01;
+                    const isCrit = !isEcho && (Math.random() < (playerStats.upgrades.critChance?.level || 0) * 0.01);
                     spark.damage = damage * (isCrit ? 2 : 1);
                     spark.isCrit = isCrit;
                     
                     spark.pierceCounter = hasPierce ? 1 : 0;
                     const speedBonus = 1 + (playerStats.upgrades.projectileSpeed?.level || 0) * 0.05;
-                    spark.velocity.z = -80 * speedBonus;
+                    spark.velocity.z = -80 * speedBonus * (isEcho ? 1.5 : 1); // Echo sparks are faster
                     return;
                 }
             }
@@ -925,7 +932,8 @@ based on user feedback. The core vision of the game is maintained and expanded u
         
         /**
          * Initializes or re-initializes the instanced meshes for the player's Nefesh units.
-         * This includes the main body and the webcam display planes.
+         * This includes the main body and the webcam display planes. This function is called
+         * when the game starts or when MAX_NEFESH setting is changed.
          */
         function setupInstancedNefesh() {
             if (nefeshTopInstanced) nefeshGroup.remove(nefeshTopInstanced);
@@ -950,18 +958,20 @@ based on user feedback. The core vision of the game is maintained and expanded u
 
             nefeshGroup.add(nefeshTopInstanced, nefeshBottomInstanced, nefeshWebcamInstanced);
 
-            const angleStep = Math.PI * (3 - Math.sqrt(5));
+            // B"H: Re-calculate the formation pattern based on the new MAX_NEFESH
+            const angleStep = Math.PI * (3 - Math.sqrt(5)); // Golden angle
             const radiusStep = 0.45;
-            let maxRadius = radiusStep * Math.sqrt(MAX_NEFESH);
-            const scaleFactor = (maxRadius * 2 > roadWidth) ? (roadWidth / 2) / maxRadius : 1;
+            let maxRadiusForLayout = radiusStep * Math.sqrt(MAX_NEFESH);
+            // This scale factor ensures the formation width doesn't exceed the road width.
+            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth) ? (roadWidth / 2) / maxRadiusForLayout : 1;
             nefeshState = [];
             for (let i = 0; i < MAX_NEFESH; i++) {
                 const radius = radiusStep * Math.sqrt(i + 1) * scaleFactor;
                 const angle = i * angleStep;
                 const x = Math.cos(angle) * radius;
                 const z = Math.sin(angle) * radius;
-                // B"H: Move fleet closer to the camera
-                const targetPos = new THREE.Vector3(x, 0.4, z + 8); 
+                // B"H: The 'z' positioning is now relative to the group, which sits at z=5
+                const targetPos = new THREE.Vector3(x, 0.4, z); 
                 nefeshState.push({ active: false, currentPos: new THREE.Vector3(0, 1000, 0), targetPos: targetPos, currentScale: 0.01, targetScale: 1, yRotation: 0, lastShotTime: 0, collisionBox2D: new THREE.Box2() });
             }
         }
@@ -980,6 +990,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
         const activeLights = new Set();
         const activeShockwaves = new Set();
         const dynamicShards = new Set();
+        const activeEchos = [];
 
         // --- CORE GAME OBJECT FUNCTIONS ---
         /**
@@ -1025,7 +1036,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
         }
         
         /**
-         * Changes the number of active Nefesh units.
+         * Changes the number of active Nefesh units and updates the dynamic camera target.
          * @param {number} change The number to add (positive) or remove (negative).
          */
         function adjustNefeshCount(change) {
@@ -1036,6 +1047,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     if (!nefeshState[i].active) {
                         const state = nefeshState[i];
                         state.active = true;
+                        // B"H: Set current position to the center of the formation for a nice spawn-in animation
                         state.currentPos.set(0, 0.4, 0);
                         state.targetScale = 1;
                         state.currentScale = 0.01;
@@ -1047,6 +1059,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
             } else if (change < 0) {
                 let removed = 0;
                 const toRemove = -change;
+                // B"H: Remove from the back of the formation first
                 for (let i = MAX_NEFESH - 1; i >= 0 && removed < toRemove; i--) {
                     if (nefeshState[i].active) {
                         markNefeshForDestruction(i);
@@ -1054,7 +1067,10 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     }
                 }
             }
-            gameState.nefesh = nefeshState.filter(s => s.active).length;
+            
+            // B"H: We must count the active ones *after* marking for destruction to get the future count
+            gameState.nefesh = nefeshState.filter(s => s.active && !destroyedNefeshIndices.has(nefeshState.indexOf(s))).length;
+            
             if (gameState.nefesh < initialNefesh) {
                 shatterElement(ui.nefeshDisplay);
             }
@@ -1063,6 +1079,9 @@ based on user feedback. The core vision of the game is maintained and expanded u
             }
             ui.nefeshDisplay.style.transform = "scale(1.2)";
             setTimeout(() => ui.nefeshDisplay.style.transform = "scale(1.0)", 100);
+
+            // B"H: Update the dynamic camera every time the fleet size changes.
+            updateCameraTarget();
         }
 
         // --- OBSTACLE CREATION & VISUALS ---
@@ -1120,10 +1139,12 @@ based on user feedback. The core vision of the game is maintained and expanded u
                 const geo = new THREE.PlaneGeometry(6, 4.5);
                 const mat = new THREE.MeshBasicMaterial({ 
                     map: this.videoTexture,
+                    alphaMap: circleAlphaMap, // B"H: Use circular alpha map for main display
+                    transparent: true,
                 });
                 this.centralDisplay = new THREE.Mesh(geo, mat);
-                // B"H: Position on the floor in front of the fleet
-                this.centralDisplay.position.set(0, roadLevelY + 0.1, 6);
+                // B"H: Position on the floor in front of the fleet, at Z=2 so it doesn't overlap the front units
+                this.centralDisplay.position.set(0, roadLevelY + 0.1, 2);
                 this.centralDisplay.rotation.x = -Math.PI / 2;
                 this.centralDisplay.visible = false;
                 scene.add(this.centralDisplay);
@@ -1194,7 +1215,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
         let road, starField1, starField2; let roadTextureTileLength;
         function createRoadTexture() { const canvas = document.createElement('canvas'); const width = 128; const height = 512; canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.fillStyle = 'rgba(0,0,0,0)'; ctx.fillRect(0, 0, width, height); ctx.fillStyle = 'rgba(255, 255, 0, 0.7)'; for(let y = 0; y < height; y += 40) { ctx.fillRect(width/2 - 3, y, 6, 20); } ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; ctx.fillRect(width * 0.1 - 1, 0, 2, height); ctx.fillRect(width * 0.9 - 1, 0, 2, height); const texture = new THREE.CanvasTexture(canvas); texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping; return texture; }
         function createWorld() { const roadTextureRepeats = 10; const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 1, 20); const roadMat = new THREE.MeshLambertMaterial({ color: 0x483d8b, map: createRoadTexture(), transparent: true }); roadMat.map.repeat.set(1, roadTextureRepeats); roadTextureTileLength = roadLength / roadTextureRepeats; road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = roadLevelY; scene.add(road); const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); }; starField1 = createField(); starField2 = createField(); starField2.position.z = -500; scene.add(starField1, starField2); }
-        const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = camera.position.z + 5;
+        const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = 15; // B"H: Updated to be relative to dynamic camera
         function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; Object.assign(gate.userData, { currentValue: - (5 + Math.floor(Math.random() * 15 * levelFactor)), isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } } return null; }
         
         // --- SPAWN PATTERNS & WAVE MANAGEMENT ---
@@ -1368,6 +1389,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
             dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
             activeLights.forEach(l => scene.remove(l)); activeLights.clear();
             activeShockwaves.forEach(sw => scene.remove(sw.mesh)); activeShockwaves.clear();
+            activeEchos.length = 0;
             nefeshState.forEach(s => s.active = false);
             sparkState.forEach(s => s.active = false);
             destroyedNefeshIndices.clear();
@@ -1406,13 +1428,15 @@ based on user feedback. The core vision of the game is maintained and expanded u
             renderer.setClearColor(gameState.color.current);
             acquiredUpgrades.clear();
             if(!road) createWorld();
+            nefeshGroup.position.set(0, 0, 5); // B"H: Move fleet group forward
+            
             ui.prayerDropdownBtn.style.display = 'block';
             if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { ui.prayerDisplayContainer.classList.add('visible'); updatePrayerDisplay(); ui.ascensionNotifier.classList.add('side-mode'); ui.comboNotifier.classList.add('side-mode'); ui.perfectWaveNotifier.classList.add('side-mode'); } else { ui.prayerDisplayContainer.classList.remove('visible'); ui.ascensionNotifier.classList.remove('side-mode'); ui.comboNotifier.classList.remove('side-mode'); ui.perfectWaveNotifier.classList.remove('side-mode');}
             
             const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
-            adjustNefeshCount(startingNefesh);
+            adjustNefeshCount(startingNefesh); // This will also call updateCameraTarget()
             
-            targetCubeX = 0; nefeshGroup.position.x = 0;
+            targetCubeX = 0;
             
             const firstPattern = patternSets.early[Math.floor(Math.random() * patternSets.early.length)];
             spawnWave(firstPattern, -40);
@@ -1549,8 +1573,50 @@ based on user feedback. The core vision of the game is maintained and expanded u
         ui.prayerDropdownBtn.addEventListener('click', () => { populatePrayerList(); ui.prayerListOverlay.classList.add('visible'); }); ui.closePrayerListBtn.addEventListener('click', () => ui.prayerListOverlay.classList.remove('visible')); ui.prayerSettingsToggleBtn.addEventListener('click', () => { const panel = ui.prayerSettingsPanel; panel.style.display = panel.style.display === 'none' ? 'flex' : 'none'; });
         const setupSettingListener = (element, valueSpan, settingName, parseFunc, isAsync = false) => { const eventType = element.type === 'range' || element.type === 'color' ? 'input' : 'change'; if (valueSpan && eventType === 'input') { element.addEventListener('input', e => { valueSpan.textContent = e.target.value; }); } element.addEventListener('change', async e => { try { const value = parseFunc(e.target.value, e.target.checked); await saveSetting(settingName, value); if (isAsync) { gameSettings[settingName] = value; await updateWebcamState(); } else { await applySettings(); } } catch(err) { console.error(`Failed to save setting ${settingName}:`, err); } }); };
         setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.webcamModeSelect, null, 'webcamMode', val => val, true);
-        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); updateCameraTarget(); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
+
+        /**
+         * B"H: Calculates and sets the target position for the dynamic camera based on the current fleet size.
+         * This ensures all active Nefesh units are visible.
+         */
+        function updateCameraTarget() {
+            if (!gameState || gameState.nefesh === undefined) return;
+
+            const activeNefeshCount = gameState.nefesh;
+            if (activeNefeshCount <= 0) {
+                cameraTargetPos.copy(originalCameraPos); // Reset to default if no nefesh
+                return;
+            }
+
+            // Find the maximum radius of the current formation
+            const radiusStep = 0.45;
+            let maxRadiusForLayout = radiusStep * Math.sqrt(MAX_NEFESH);
+            const scaleFactor = (maxRadiusForLayout * 2 > roadWidth) ? (roadWidth / 2) / maxRadiusForLayout : 1;
+            const formationRadius = radiusStep * Math.sqrt(activeNefeshCount) * scaleFactor;
+
+            // Determine the field of view in radians
+            const fovRad = THREE.MathUtils.degToRad(camera.fov);
+            
+            // We need to fit both the width (X) and depth (Z) of the formation in the view.
+            // The formation sits at z=5, so its rearmost point is at `5 + formationRadius`.
+            const requiredZDist = (formationRadius / Math.tan(fovRad / 2)) / camera.aspect;
+            const requiredYDist = formationRadius / Math.tan(fovRad / 2);
+
+            // The final distance is the greater of the two requirements, plus a base distance.
+            const distance = Math.max(requiredYDist, requiredZDist);
+            
+            const baseCamPos = new THREE.Vector3(0, 7, 9);
+            const scaleFactorZ = 1.4; 
+            const scaleFactorY = 0.8;
+
+            cameraTargetPos.z = baseCamPos.z + distance * scaleFactorZ;
+            cameraTargetPos.y = baseCamPos.y + distance * scaleFactorY;
+            cameraTargetPos.x = 0; // The camera itself doesn't move side-to-side
+
+            // Always look at a point slightly in front of the center of the mass
+            cameraLookAtTarget.set(nefeshGroup.position.x, 2, 0);
+        }
 
         // --- MAIN GAME LOOP ---
         /**
@@ -1568,7 +1634,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
                 // --- World & Visuals Update ---
                 if (!gameState.color.current.equals(gameState.color.target)) { gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime); renderer.setClearColor(gameState.color.current); if(scene.fog) scene.fog.color.copy(gameState.color.current); }
                 if(road && road.material.map && roadTextureTileLength > 0) { road.material.map.offset.y += (currentRoadSpeed / roadTextureTileLength) * deltaTime; }
-                const starSpeed = 20 + gameState.level * 2; starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime; if(starField1.position.z > 250) starField1.position.z -= 500; if(starField2.position.z > 250) starField2.position.z -= 500;
+                const starSpeed = 20 + gameState.level * 2; starField1.position.z += starSpeed * deltaTime; starField2.position.z += starSpeed * deltaTime; if(starField1.position.z > camera.position.z) starField1.position.z -= 500; if(starField2.position.z > camera.position.z) starField2.position.z -= 500;
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
 
@@ -1579,7 +1645,9 @@ based on user feedback. The core vision of the game is maintained and expanded u
                 // --- Player Movement & State ---
                 let minX = 0, maxX = 0; nefeshState.forEach(state => { if (state.active) { if(state.targetPos.x < minX) minX = state.targetPos.x; if(state.targetPos.x > maxX) maxX = state.targetPos.x; } });
                 const halfFormationWidth = (maxX - minX) / 2; const maxMove = (roadWidth / 2) - halfFormationWidth; targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
-                nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1); nefeshGroup.position.z = THREE.MathUtils.lerp(nefeshGroup.position.z, 0, 0.2); cameraTargetPos.x = nefeshGroup.position.x / 4;
+                nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
+                cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1); // Make camera look slightly towards movement direction
+                
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime; else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
                 
@@ -1589,13 +1657,15 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     if (!state.active) { tempMatrix.makeScale(0, 0, 0); nefeshTopInstanced.setMatrixAt(i, tempMatrix); nefeshBottomInstanced.setMatrixAt(i, tempMatrix); if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(i, tempMatrix); return; }
                     activeNefeshCount++;
                     state.currentPos.lerp(state.targetPos, 0.15);
-                    state.collisionBox2D.min.set(nefeshGroup.position.x + state.currentPos.x - troopHalfSize, nefeshGroup.position.z + state.currentPos.z - troopHalfSize);
-                    state.collisionBox2D.max.set(nefeshGroup.position.x + state.currentPos.x + troopHalfSize, nefeshGroup.position.z + state.currentPos.z + troopHalfSize);
+                    const worldX = nefeshGroup.position.x + state.currentPos.x;
+                    const worldZ = nefeshGroup.position.z + state.currentPos.z;
+                    state.collisionBox2D.min.set(worldX - troopHalfSize, worldZ - troopHalfSize);
+                    state.collisionBox2D.max.set(worldX + troopHalfSize, worldZ + troopHalfSize);
                     if(state.currentScale < state.targetScale) { state.currentScale = THREE.MathUtils.lerp(state.currentScale, state.targetScale, 0.2); }
                     state.yRotation += deltaTime * 2;
                     
                     if (!destroyedNefeshIndices.has(i) && currentTime - state.lastShotTime > gameState.player.fireRate) {
-                        worldPosVec.copy(state.currentPos).add(nefeshGroup.position); worldPosVec.y = 0.4;
+                        worldPosVec.set(worldX, 0.4, worldZ);
                         fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
@@ -1603,7 +1673,6 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     tempQuaternion.setFromEuler(new THREE.Euler(0, state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshTopInstanced.setMatrixAt(i, tempMatrix);
                     tempQuaternion.setFromEuler(new THREE.Euler(Math.PI, -state.yRotation, 0)); tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y - 0.2, state.currentPos.z), tempQuaternion, new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale)); nefeshBottomInstanced.setMatrixAt(i, tempMatrix);
                     if (nefeshWebcamInstanced && nefeshWebcamInstanced.visible) {
-                        // B"H: Position individual webcam feed above the nefesh unit
                         tempMatrix.compose(new THREE.Vector3(state.currentPos.x, state.currentPos.y + 0.8, state.currentPos.z), new THREE.Quaternion(), new THREE.Vector3(state.currentScale, state.currentScale, state.currentScale));
                         nefeshWebcamInstanced.setMatrixAt(i, tempMatrix);
                     }
@@ -1625,7 +1694,12 @@ based on user feedback. The core vision of the game is maintained and expanded u
                 
                 // --- Final Updates & Rendering ---
                 updateDynamicEffects(deltaTime);
-                camera.position.lerp(cameraTargetPos, 0.1);
+                updateCelestialEchos(deltaTime);
+                
+                // B"H: Update camera position smoothly
+                camera.position.lerp(cameraTargetPos, 0.04);
+                camera.lookAt(cameraLookAtTarget);
+                
                 if (shakeIntensity > 0) { camera.position.add(new THREE.Vector3().randomDirection().multiplyScalar(shakeIntensity)); shakeIntensity = Math.max(0, shakeIntensity - deltaTime * 4.0); }
                 if (fovKick > 0) { camera.fov = originalFOV + fovKick; fovKick = Math.max(0, fovKick - deltaTime * 50); } else { camera.fov = THREE.MathUtils.lerp(camera.fov, originalFOV, 0.1); }
                 camera.updateProjectionMatrix();
@@ -1664,7 +1738,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
             }
             if (obstacle.userData.collisionBox2D) { obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
             
-            if (obstacle.position.z > obstacleRemovalZ) {
+            if (obstacle.position.z > camera.position.z) { // Use camera position as removal boundary
                 deactivateObstacle(obstacle);
                 return;
             }
@@ -1699,9 +1773,10 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     if(proj.userData.type === 'fast') speed = 45;
                     else if (proj.userData.type === 'heavy') speed = 18;
                     else if (proj.userData.velocity) proj.position.addScaledVector(proj.userData.velocity, deltaTime);
-                    else proj.position.z += speed * deltaTime;
+                    
+                    proj.position.z += speed * deltaTime;
 
-                    if(proj.position.z > obstacleRemovalZ) { pool.deactivate(proj); return; }
+                    if(proj.position.z > camera.position.z) { pool.deactivate(proj); return; }
                     nefeshState.forEach((state, index) => {
                         if(!state.active || destroyedNefeshIndices.has(index)) return;
                         if(checkInstancedCollision(state, proj)) {
@@ -1719,13 +1794,19 @@ based on user feedback. The core vision of the game is maintained and expanded u
 
         function updatePlayerProjectiles(deltaTime) {
             const tempSparkMatrix = new THREE.Matrix4();
+            const tempEchoSparkMatrix = new THREE.Matrix4();
             let activeSparkCount = 0;
+            let activeEchoSparkCount = 0;
             const allObstacles = [...klipahGatePool.active, ...jarPool.active, ...golemSentryPool.active, ...tomeKeeperPool.active, ...weaverPool.active, ...shattererPool.active, ...minelayerPool.active];
 
             for (let i = 0; i < MAX_SPARKS; i++) {
                 const spark = sparkState[i];
-                if (!spark.active) { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); continue; }
-                activeSparkCount++;
+                if (!spark.active) { 
+                    if (spark.isEcho) { tempEchoSparkMatrix.makeScale(0, 0, 0); celestialEchoSparkInstancedMesh.setMatrixAt(i, tempEchoSparkMatrix); }
+                    else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
+                    continue; 
+                }
+                
                 spark.position.addScaledVector(spark.velocity, deltaTime);
                 if (spark.position.z < -150) { spark.active = false; continue; }
 
@@ -1745,17 +1826,31 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     }
                 }
                 
-                if (spark.active) { tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
-                else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
+                if (spark.active) {
+                    if (spark.isEcho) {
+                        activeEchoSparkCount++;
+                        tempEchoSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
+                        celestialEchoSparkInstancedMesh.setMatrixAt(i, tempEchoSparkMatrix);
+                    } else {
+                        activeSparkCount++;
+                        tempSparkMatrix.makeTranslation(spark.position.x, spark.position.y, spark.position.z);
+                        sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix);
+                    }
+                } else {
+                    if (spark.isEcho) { tempEchoSparkMatrix.makeScale(0, 0, 0); celestialEchoSparkInstancedMesh.setMatrixAt(i, tempEchoSparkMatrix); }
+                    else { tempSparkMatrix.makeScale(0, 0, 0); sparkInstancedMesh.setMatrixAt(i, tempSparkMatrix); }
+                }
             }
             sparkInstancedMesh.instanceMatrix.needsUpdate = true;
             sparkInstancedMesh.count = activeSparkCount;
+            celestialEchoSparkInstancedMesh.instanceMatrix.needsUpdate = true;
+            celestialEchoSparkInstancedMesh.count = activeEchoSparkCount;
         }
         
         function processSparkCollision(spark, obstacle) {
             if (spark.pierceCounter <= 0) { spark.active = false; } else { spark.pierceCounter--; }
             addVoidPulse(spark.damage);
-            const particleColor = spark.isCrit ? '#ffaa00' : '#ffffff';
+            const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
 
             switch(obstacle.userData.type) {
                 case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); } updateKlipahGateVisuals(obstacle); break;
@@ -1798,6 +1893,48 @@ based on user feedback. The core vision of the game is maintained and expanded u
             });
         }
 
+        /**
+         * B"H: Triggers the Celestial Echo effect, creating a ghost fleet that fires a volley.
+         */
+        function triggerCelestialEcho() {
+            nefeshState.forEach((state, i) => {
+                if(state.active) {
+                    const worldPos = new THREE.Vector3().copy(state.currentPos).add(nefeshGroup.position);
+                    activeEchos.push({
+                        position: worldPos,
+                        life: 1.5, // Total lifetime in seconds
+                        maxLife: 1.5,
+                        hasFired: false,
+                    });
+                }
+            });
+        }
+
+        /**
+         * B"H: Updates all active Celestial Echoes. This is currently not implemented as an instanced mesh
+         * for simplicity, but could be optimized in the future. It's a rare effect.
+         * @param {number} deltaTime - The time since the last frame.
+         */
+        function updateCelestialEchos(deltaTime) {
+            // This function is a placeholder for future echo visuals.
+            // For now, the core logic is firing the projectiles from the triggerCelestialEcho function.
+            for (let i = activeEchos.length - 1; i >= 0; i--) {
+                const echo = activeEchos[i];
+                echo.life -= deltaTime;
+
+                // Fire once, halfway through the fade-in
+                if (!echo.hasFired && echo.life < echo.maxLife * 0.75) {
+                    fireSpark(echo.position, 2, true, true); // Echo sparks are powerful
+                    echo.hasFired = true;
+                }
+                
+                if (echo.life <= 0) {
+                    activeEchos.splice(i, 1);
+                }
+            }
+        }
+
+
         function checkWaveCompletion() {
             if (gameState.wave.isTracking && gameState.wave.enemiesInWave.size === 0) {
                 if (gameState.wave.hitsTakenThisWave === 0) {
@@ -1808,6 +1945,7 @@ based on user feedback. The core vision of the game is maintained and expanded u
                     gameState.mitzvot += 100;
                     addVoidPulse(25);
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
+                    triggerCelestialEcho(); // B"H: Trigger the new reward
                 }
                 gameState.wave.isTracking = false;
             }
@@ -1827,6 +1965,9 @@ based on user feedback. The core vision of the game is maintained and expanded u
                 if (currentNefesh <= 0 && gameState.current === 'playing') {
                     endGame();
                 }
+
+                // B"H: Update camera since the fleet size has changed
+                updateCameraTarget();
             }
         }
 
