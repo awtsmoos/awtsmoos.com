@@ -1,45 +1,44 @@
-
-
-<!--
-ב"ה
-B"H
-
--->
+<!--B"H-->
 <!DOCTYPE html>
 <!--
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.5
+Merkava: The Celestial Journey v3.6
 Developer: Gemini
 Date: 2025-08-15
 
 This file is a complete, self-contained application.
-This version fixes a critical bug related to the Redemption Orb and introduces five new surprise features for deeper, more dynamic gameplay, while retaining all previous enhancements.
+This version implements user feedback for a better road texture, new webcam options, corrected movement logic, and less intrusive UI. It also includes the design for 4 new features and 5 enhancements.
 
-*   **Bug Fix:**
-    *   Corrected a `TypeError` that occurred when a "Redemption Orb" destroyed an enemy, caused by passing an object without a `position` property to the particle effect system. The system now correctly uses the orb's position.
+*   **Enhancement 1: Improved Road Texture:**
+    *   The `createFlowingTexture` function has been completely overhauled. It now generates a multi-layered, procedural nebula with color gradients, cloud patterns, and directional streaks, creating a visually rich and vibrant "River of Eden" that fits the celestial theme.
 
-*   **New Surprise Feature 1: Golem's Betrayal:**
-    *   Rarely, a Golem Sentry will spawn as a friendly "Clay Servant" with a golden glow.
-    *   It will fight alongside the player for a limited time before peacefully crumbling to dust.
-*   **New Surprise Feature 2: Ein Sof's Glimmer:**
-    *   A very rare, shimmering, rainbow-colored particle may appear in the cosmos.
-    *   Flying through it grants temporary invincibility and makes all shots critical hits.
-*   **New Surprise Feature 3: The Shattered Vase:**
-    *   When destroying a Jar, there's a chance it was a "Vessel of Light" in disguise.
-    *   Upon destruction, it releases a powerful radial volley of piercing projectiles.
-*   **New Surprise Feature 4: Echoes of Sinai:**
-    *   Achieving a "PERFECT WAVE" now has a chance to award a "Tablet Fragment."
-    *   Collecting 10 fragments (a persistent stat) unlocks a powerful new permanent upgrade in the Otzar Ha'Sefirot.
-*   **New Surprise Feature 5: Prayer Chain Resonance:**
-    *   When using Custom Prayers, rapidly cycling through three unique prayers triggers a shockwave.
-    *   This holy wave purifies Klipah Gates and damages all other enemies it touches.
-*   **Previous Enhancements Maintained:**
-    *   The "River of Eden" flowing road shader is fully functional.
-    *   Sefirah Resonance, Klipah's Redemption, Mitzvah Cascade, and Tikkun HaGadol features are active.
-    *   Dynamic 'Living' Camera system, "PERFECT WAVE" and "Celestial Echo" rewards are all maintained.
-    *   All webcam, collision, and UI systems remain robust and operational.
+*   **Enhancement 2: New Webcam "Sign Post" Option & Logic:**
+    *   Added a "Sign Post" option to the webcam display modes.
+    *   This mode shows the webcam feed on a circular sign that animates up from the side of the road.
+    *   A new setting allows the user to select whether the sign post appears on the Left, Right, or Both sides.
+    *   The core webcam logic has been updated to manage the creation and visibility of these new objects.
+
+*   **Enhancement 3: Corrected Fleet Movement Logic:**
+    *   The logic that constrains the player's side-to-side movement has been rewritten.
+    *   It now accurately calculates the fleet's current width based on active units and the road's boundaries.
+    *   This fixes the issue where the fleet could get "stuck" and ensures it can use the entire width of the road if it's narrow enough.
+
+*   **Enhancement 4: Less Intrusive UI Notifiers:**
+    *   The CSS for the gameplay notifiers (`#comboNotifier`, `#ascensionNotifier`, etc.) has been adjusted.
+    *   They are now smaller and appear on the left side of the screen by default, preventing them from obstructing the player's view of the action. The intrusive "side-mode" class has been removed in favor of this better default.
+
+*   **Enhancement 5 (Design): Klipah's Redemption:** The Redemption Orb will be improved to absorb nearby projectiles and explode into Mitzvah orbs upon impact.
+*   **Enhancement 6 (Design): Echoes of Sinai:** Tablet Fragments will be improved to grant a small, stacking bonus for the current run, making each one immediately valuable.
+*   **Enhancement 7 (Design): Ein Sof's Glimmer:** The Glimmer will be enhanced to also purify all on-screen Klipah Gates and trigger a holy shockwave.
+*   **Enhancement 8 (Design): The Shattered Vase:** The "Vessel of Light" projectiles will be enhanced to deal bonus purification damage to Klipah Gates.
+*   **Enhancement 9 (Design): Golem's Betrayal:** The Clay Servant will be improved with a visible timer and a risk of reverting to a hostile state if not managed.
+
+*   **New Feature 1 (Design): Olam HaBa Mode:** An endgame system allowing players to convert a successful run's Mitzvot into a permanent "Light" currency for exclusive cosmetic unlocks.
+*   **New Feature 2 (Design): Yetzer Hara Trials:** A new "Temptation" object that rewards players for restraint (avoiding it) and punishes them for greed (destroying it).
+*   **New Feature 3 (Design): Intercession of the Righteous:** A "Soul Spark" pickup system that allows the summoning of various powerful temporary allies.
+*   **New Feature 4 (Design): The Sefer Yetzirah:** A procedural enemy modifier system that adds random "Runes" to enemy waves at higher levels, altering their behavior (e.g., more speed, splitting on death).
 
 -->
 <html lang="en">
@@ -90,26 +89,28 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
         #shefaContainer { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 400px; height: 15px; background-color: rgba(0,0,0,0.5); border: 2px solid var(--shefa-color); border-radius: 10px; z-index: 999; overflow: hidden; }
         #shefaBar { width: 0%; height: 100%; background: var(--shefa-color); box-shadow: 0 0 10px var(--shefa-color), 0 0 5px var(--shefa-color) inset; transition: width 0.3s ease-out; }
 
+        /* --- B"H: REWORKED NOTIFIER STYLES --- */
         #ascensionNotifier, #comboNotifier, #perfectWaveNotifier, #surpriseNotifier {
-            position: absolute; left: 50%; transform: translate(-50%, -50%) scale(0.5);
-            pointer-events: none; z-index: 1002; opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), left 0.5s ease, top 0.5s ease;
+            position: absolute;
+            left: 20%; /* Moved to the side */
+            transform: translate(-50%, -50%) scale(0.5);
+            pointer-events: none;
+            z-index: 1002;
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.7s ease, top 0.6s ease;
             text-transform: uppercase;
             text-align: center;
         }
-        #ascensionNotifier { top: 20%; font-size: 2.2em; color: #d8a8ff; text-shadow: 0 0 10px #d8a8ff, 0 0 20px #d8a8ff; }
-        #comboNotifier { top: 30%; font-size: 2.0em; color: var(--shefa-color); text-shadow: 0 0 8px var(--shefa-color); }
-        #perfectWaveNotifier { top: 40%; font-size: 2.5em; color: #00f0ff; text-shadow: 0 0 10px #00f0ff, 0 0 25px #00f0ff, 0 0 40px #00f0ff; }
-        #surpriseNotifier { top: 50%; font-size: 2.3em; color: #aaffaa; text-shadow: 0 0 10px #aaffaa, 0 0 20px #aaffaa; }
+        #ascensionNotifier { top: 30%; font-size: 1.7em; color: #d8a8ff; text-shadow: 0 0 8px #d8a8ff; }
+        #comboNotifier { top: 40%; font-size: 1.5em; color: var(--shefa-color); text-shadow: 0 0 6px var(--shefa-color); }
+        #perfectWaveNotifier { top: 50%; font-size: 1.9em; color: #00f0ff; text-shadow: 0 0 8px #00f0ff, 0 0 15px #00f0ff; }
+        #surpriseNotifier { top: 60%; font-size: 1.8em; color: #aaffaa; text-shadow: 0 0 8px #aaffaa; }
 
-        #ascensionNotifier.side-mode { left: 18%; top: 25%; }
-        #comboNotifier.side-mode { left: 18%; top: 35%; }
-        #perfectWaveNotifier.side-mode { left: 18%; top: 45%; }
-        #surpriseNotifier.side-mode { left: 18%; top: 55%; }
-
-        #ascensionNotifier.show, #comboNotifier.show, #perfectWaveNotifier.show, #surpriseNotifier.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-
-        #ascensionNotifier.side-mode.show, #comboNotifier.side-mode.show, #perfectWaveNotifier.side-mode.show, #surpriseNotifier.side-mode.show { transform: translate(-50%, -50%) scale(0.65); opacity: 1; }
+        #ascensionNotifier.show, #comboNotifier.show, #perfectWaveNotifier.show, #surpriseNotifier.show {
+            transform: translate(-50%, -50%) scale(0.85); /* Smaller final scale for less intrusion */
+            opacity: 1;
+        }
+        /* End of reworked notifier styles */
 
         .game-title { font-size: 4em; margin-bottom: 20px; text-align: center; color: var(--glow-color); text-transform: uppercase; }
         .game-subtitle { font-size: 1.5em; color: var(--mitzvot-color); margin-bottom: 40px; text-align: center; }
@@ -499,9 +500,20 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                 <option value="off">Off</option>
                 <option value="central">Central Display</option>
                 <option value="individual">Individual Nefesh</option>
+                <option value="signpost">Sign Post</option>
+                <option value="both">Central + Individual</option>
+            </select>
+        </div>
+        <!-- B"H: New settings for the sign post webcam option -->
+        <div class="setting-item" id="signpostSettings" style="display: none;">
+            <label for="signpostSideSelect">Sign Post Side:</label>
+            <select id="signpostSideSelect">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
                 <option value="both">Both</option>
             </select>
         </div>
+
 
         <button id="btnBackToMainFromSettings" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px;">BACK</button>
     </div></div>
@@ -670,6 +682,8 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             particleSpawnRadiusSlider: document.getElementById('particleSpawnRadiusSlider'),
             particleSpawnRadiusValue: document.getElementById('particleSpawnRadiusValue'),
             webcamModeSelect: document.getElementById('webcamModeSelect'),
+            signpostSettings: document.getElementById('signpostSettings'),
+            signpostSideSelect: document.getElementById('signpostSideSelect'),
             maxNefeshSlider: document.getElementById('maxNefeshSlider'),
             maxNefeshValue: document.getElementById('maxNefeshValue'),
             prayerDropdownBtn: document.getElementById('prayerDropdownBtn'),
@@ -825,7 +839,7 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
         }
 
         let gameSettings = {};
-        const defaultSettings = { particleChars: '✨✡️🕎📜🪐☄️⭐🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25, captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF', minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60, webcamMode: 'off', maxNefesh: 100 };
+        const defaultSettings = { particleChars: '✨✡️🕎📜🪐☄️⭐🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25, captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF', minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60, webcamMode: 'off', signpostSide: 'left', maxNefesh: 100 };
 
         /**
          * Loads all settings from IndexedDB and applies them to the game and UI.
@@ -862,8 +876,13 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             ui.minParticleSizeSlider.value = gameSettings.minParticleSize; ui.minParticleSizeValue.textContent = gameSettings.minParticleSize;
             gameSettings.maxParticleSize = parseFloat(await loadSetting('maxParticleSize', defaultSettings.maxParticleSize));
             ui.maxParticleSizeSlider.value = gameSettings.maxParticleSize; ui.maxParticleSizeValue.textContent = gameSettings.maxParticleSize;
+            
             gameSettings.webcamMode = await loadSetting('webcamMode', defaultSettings.webcamMode);
             ui.webcamModeSelect.value = gameSettings.webcamMode;
+            gameSettings.signpostSide = await loadSetting('signpostSide', defaultSettings.signpostSide);
+            ui.signpostSideSelect.value = gameSettings.signpostSide;
+            ui.signpostSettings.style.display = gameSettings.webcamMode === 'signpost' ? 'flex' : 'none';
+
 
             await updateWebcamState();
             applyCaptionStyle();
@@ -1186,6 +1205,8 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             videoElement: document.getElementById('webcamFeed'),
             videoTexture: null,
             centralDisplay: null,
+            signPostLeft: null,
+            signPostRight: null,
             stream: null,
             isInitialized: false,
 
@@ -1201,6 +1222,7 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                     this.videoTexture = new THREE.VideoTexture(this.videoElement);
                     this.videoTexture.colorSpace = THREE.SRGBColorSpace;
                     this.createCentralDisplay();
+                    this.createSignPosts();
                     this.isInitialized = true;
                     return true;
                 } catch (err) {
@@ -1216,15 +1238,47 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                 const geo = new THREE.PlaneGeometry(6, 4.5);
                 const mat = new THREE.MeshBasicMaterial({
                     map: this.videoTexture,
-                    alphaMap: circleAlphaMap, // B"H: Use circular alpha map for main display
+                    alphaMap: circleAlphaMap, 
                     transparent: true,
                 });
                 this.centralDisplay = new THREE.Mesh(geo, mat);
-                // B"H: Position on the floor in front of the fleet, at Z=2 so it doesn't overlap the front units
                 this.centralDisplay.position.set(0, roadLevelY + 0.1, 2);
                 this.centralDisplay.rotation.x = -Math.PI / 2;
                 this.centralDisplay.visible = false;
                 scene.add(this.centralDisplay);
+            },
+
+            createSignPosts() {
+                if(this.signPostLeft) return;
+
+                const createPost = () => {
+                    const group = new THREE.Group();
+                    const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 4, 12);
+                    const postMat = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0.8});
+                    const post = new THREE.Mesh(postGeo, postMat);
+                    post.position.y = -2; // Start below the road
+                    
+                    const signGeo = new THREE.CircleGeometry(1.5, 32);
+                    const signMat = new THREE.MeshBasicMaterial({
+                        map: this.videoTexture,
+                        side: THREE.DoubleSide
+                    });
+                    const sign = new THREE.Mesh(signGeo, signMat);
+                    sign.position.y = 0.5;
+                    sign.rotation.y = Math.PI;
+
+                    group.add(post, sign);
+                    group.visible = false;
+                    group.userData = { targetY: 2.5, currentY: -4 }; // For animation
+                    scene.add(group);
+                    return group;
+                }
+
+                this.signPostLeft = createPost();
+                this.signPostLeft.position.set(-roadWidth / 2 - 2, 0, 0);
+
+                this.signPostRight = createPost();
+                this.signPostRight.position.set(roadWidth / 2 + 2, 0, 0);
             },
 
             stop() {
@@ -1239,8 +1293,16 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
 
             updateVisibility() {
                 const mode = gameSettings.webcamMode || 'off';
+                const side = gameSettings.signpostSide || 'left';
+
                 if (this.centralDisplay) {
                     this.centralDisplay.visible = this.isInitialized && (mode === 'central' || mode === 'both');
+                }
+                if (this.signPostLeft) {
+                    this.signPostLeft.visible = this.isInitialized && mode === 'signpost' && (side === 'left' || side === 'both');
+                }
+                 if (this.signPostRight) {
+                    this.signPostRight.visible = this.isInitialized && mode === 'signpost' && (side === 'right' || side === 'both');
                 }
 
                 const showOnIndividual = this.isInitialized && (mode === 'individual' || mode === 'both');
@@ -1249,11 +1311,27 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                     nefeshWebcamInstanced.material.map = showOnIndividual ? this.videoTexture : null;
                     nefeshWebcamInstanced.material.needsUpdate = true;
                 }
+            },
+
+            update(deltaTime) {
+                const posts = [this.signPostLeft, this.signPostRight];
+                posts.forEach(post => {
+                    if (post && post.visible) {
+                        post.userData.currentY = THREE.MathUtils.lerp(post.userData.currentY, post.userData.targetY, 4 * deltaTime);
+                        post.position.y = post.userData.currentY;
+                        // Face the camera
+                        post.children[1].lookAt(camera.position);
+                    } else if(post) {
+                        post.userData.currentY = -4; // Reset when not visible
+                        post.position.y = -4;
+                    }
+                });
             }
         };
 
         async function updateWebcamState() {
             const mode = gameSettings.webcamMode;
+             ui.signpostSettings.style.display = mode === 'signpost' ? 'flex' : 'none';
             if (mode === 'off') {
                 if(webcam.isInitialized) webcam.stop();
             } else {
@@ -1318,6 +1396,8 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             if (orb) {
                 orb.position.copy(position);
             }
+            // B"H: DESIGN NOTE for future enhancement:
+            // Orb could absorb nearby projectiles and explode into Mitzvah orbs on impact.
         }
 
         function triggerMitzvahCascade(position) {
@@ -1350,7 +1430,7 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
 
         // --- WORLD CREATION ---
         let road;
-        /** B"H: Creates the new flowing road texture */
+        /** B"H: Creates the new, improved flowing road texture */
         function createFlowingTexture() {
             const size = 512;
             const canvas = document.createElement('canvas');
@@ -1358,26 +1438,55 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             canvas.height = size;
             const ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = '#000000';
+            // Base gradient for depth
+            const gradient = ctx.createLinearGradient(0, 0, 0, size);
+            gradient.addColorStop(0, '#020018');
+            gradient.addColorStop(0.5, '#080428');
+            gradient.addColorStop(1, '#020018');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, size, size);
 
-            // Create a noise pattern
-            const imageData = ctx.createImageData(size, size);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                const value = Math.random() * 255;
-                data[i] = value;     // R
-                data[i + 1] = value; // G
-                data[i + 2] = value; // B
-                data[i + 3] = 255;   // A
+            // Function to generate soft, cloud-like nebula patterns
+            function drawNebulaCloud(centerX, centerY, maxRadius, color, iterations) {
+                for (let i = 0; i < iterations; i++) {
+                    const radius = Math.random() * maxRadius;
+                    const angle = Math.random() * 2 * Math.PI;
+                    const x = centerX + Math.cos(angle) * (radius * Math.random());
+                    const y = centerY + Math.sin(angle) * (radius * Math.random());
+                    const particleRadius = (1 - (radius / maxRadius)) * 20 + 5;
+                    const grad = ctx.createRadialGradient(x, y, 0, x, y, particleRadius);
+                    grad.addColorStop(0, `rgba(${color}, 0.15)`);
+                    grad.addColorStop(1, `rgba(${color}, 0)`);
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(x - particleRadius, y - particleRadius, particleRadius * 2, particleRadius * 2);
+                }
             }
-            ctx.putImageData(imageData, 0, 0);
 
-            // Add some streaks
-            for (let i = 0; i < 30; i++) {
-                ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`;
-                ctx.fillRect(Math.random() * size, 0, Math.random() * 2, size);
-                ctx.fillRect(0, Math.random() * size, size, Math.random() * 2);
+            // Draw multiple layers of nebula clouds for a rich texture
+            drawNebulaCloud(size * 0.25, size * 0.5, size * 0.3, '80, 120, 255', 100); // Blueish
+            drawNebulaCloud(size * 0.75, size * 0.5, size * 0.4, '180, 80, 255', 150); // Purplish
+
+            // Add sharp, directional streaks for a sense of speed
+            for (let i = 0; i < 50; i++) {
+                const startX = Math.random() * size;
+                const startY = Math.random() * size;
+                const length = Math.random() * 150 + 75;
+                const L = `rgba(200, 220, 255, ${Math.random() * 0.2 + 0.05})`;
+                ctx.strokeStyle = L;
+                ctx.lineWidth = Math.random() * 1.2;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(startX, startY + length);
+                ctx.stroke();
+            }
+
+            // Add fine "space dust" particles
+            for (let i = 0; i < 2000; i++) {
+                const x = Math.random() * size;
+                const y = Math.random() * size;
+                const brightness = Math.random() * 0.7 + 0.3;
+                ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.6})`;
+                ctx.fillRect(x, y, 1, 1);
             }
 
             const texture = new THREE.CanvasTexture(canvas);
@@ -1385,6 +1494,7 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             texture.wrapT = THREE.RepeatWrapping;
             return texture;
         }
+
 
         function createWorld() {
             const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100); // More segments for smoother waves
@@ -1453,6 +1563,9 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                 enemy.userData.waveId = gameState.wave.waveId;
                 gameState.wave.enemiesInWave.add(enemy);
             });
+             // B"H: DESIGN NOTE for future enhancement:
+             // This is where a "Sefer Yetzirah" (procedural modifier) check would go.
+             // e.g., if(Math.random() < 0.1) { applyRandomRune(enemies); }
         }
 
         function trySpawnNextWave() {
@@ -1642,16 +1755,8 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
             ui.prayerDropdownBtn.style.display = 'block';
             if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
                  ui.prayerDisplayContainer.classList.add('visible'); updatePrayerDisplay();
-                 ui.ascensionNotifier.classList.add('side-mode');
-                 ui.comboNotifier.classList.add('side-mode');
-                 ui.perfectWaveNotifier.classList.add('side-mode');
-                 ui.surpriseNotifier.classList.add('side-mode');
             } else {
                 ui.prayerDisplayContainer.classList.remove('visible');
-                ui.ascensionNotifier.classList.remove('side-mode');
-                ui.comboNotifier.classList.remove('side-mode');
-                ui.perfectWaveNotifier.classList.remove('side-mode');
-                ui.surpriseNotifier.classList.remove('side-mode');
             }
 
             const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
@@ -1766,8 +1871,10 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
         ui.nextPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
         function populatePrayerList() { ui.prayerList.innerHTML = ''; if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { gameState.customPrayers.phrases.forEach((phrase, index) => { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = phrase; if (index === gameState.customPrayers.currentIndex) item.classList.add('active'); item.addEventListener('click', () => { gameState.customPrayers.currentIndex = index; updatePrayerDisplay(); populatePrayerList(); }); ui.prayerList.appendChild(item); }); ui.prayerSettingsToggleBtn.style.display = 'block'; } else { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = "No custom prayers active."; item.style.fontStyle = 'italic'; ui.prayerList.appendChild(item); ui.prayerSettingsToggleBtn.style.display = 'none'; } ui.inGameCaptionFontInput.value = gameSettings.captionFont; ui.inGameCaptionColorPicker.value = gameSettings.captionColor; const activeItem = ui.prayerList.querySelector('.active'); if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
         ui.prayerDropdownBtn.addEventListener('click', () => { populatePrayerList(); ui.prayerListOverlay.classList.add('visible'); }); ui.closePrayerListBtn.addEventListener('click', () => ui.prayerListOverlay.classList.remove('visible')); ui.prayerSettingsToggleBtn.addEventListener('click', () => { const panel = ui.prayerSettingsPanel; panel.style.display = panel.style.display === 'none' ? 'flex' : 'none'; });
-        const setupSettingListener = (element, valueSpan, settingName, parseFunc, isAsync = false) => { const eventType = element.type === 'range' || element.type === 'color' ? 'input' : 'change'; if (valueSpan && eventType === 'input') { element.addEventListener('input', e => { valueSpan.textContent = e.target.value; }); } element.addEventListener('change', async e => { try { const value = parseFunc(e.target.value, e.target.checked); await saveSetting(settingName, value); if (isAsync) { gameSettings[settingName] = value; await updateWebcamState(); } else { await applySettings(); } } catch(err) { console.error(`Failed to save setting ${settingName}:`, err); } }); };
-        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.webcamModeSelect, null, 'webcamMode', val => val, true);
+        const setupSettingListener = (element, valueSpan, settingName, parseFunc, isAsync = false, callback) => { const eventType = element.type === 'range' || element.type === 'color' ? 'input' : 'change'; if (valueSpan && eventType === 'input') { element.addEventListener('input', e => { valueSpan.textContent = e.target.value; }); } element.addEventListener('change', async e => { try { const value = parseFunc(e.target.value, e.target.checked); await saveSetting(settingName, value); if (isAsync) { gameSettings[settingName] = value; if (callback) await callback(); } else { await applySettings(); } } catch(err) { console.error(`Failed to save setting ${settingName}:`, err); } }); };
+        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val);
+        setupSettingListener(ui.webcamModeSelect, null, 'webcamMode', val => val, true, updateWebcamState);
+        setupSettingListener(ui.signpostSideSelect, null, 'signpostSide', val => val, true, updateWebcamState);
         window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); updateCameraTarget(); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
 
@@ -1838,6 +1945,7 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                     road.material.uniforms.uTime.value = time;
                     road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0; // Scale speed for shader
                 }
+                if(webcam.isInitialized) webcam.update(deltaTime);
 
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; if (p.userData.type === 'ein_sof_glimmer') { p.material.opacity = 0.5 + Math.sin(time * 5) * 0.5; const boundingSphere = new THREE.Sphere(nefeshGroup.position, 5); if (boundingSphere.containsPoint(p.position)) { showSurpriseNotifier("✨ EIN SOF'S BLESSING! ✨", "#ffffff"); gameState.effects.invincibleTimer = 5.0; gameState.effects.allCritTimer = 5.0; triggerFlash("#ffffff", 800); p.userData.life = 0; } } else { p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; } if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
@@ -1847,8 +1955,19 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                 windParticlePool.active.forEach(p => { p.position.x += p.userData.velocity.x * deltaTime; p.userData.life -= deltaTime; if (p.userData.life <= 0) windParticlePool.deactivate(p); });
 
                 // --- Player Movement & State ---
-                let minX = 0, maxX = 0; nefeshState.forEach(state => { if (state.active) { if(state.targetPos.x < minX) minX = state.targetPos.x; if(state.targetPos.x > maxX) maxX = state.targetPos.x; } });
-                const halfFormationWidth = (maxX - minX) / 2; const maxMove = (roadWidth / 2) - halfFormationWidth; targetCubeX = Math.max(-maxMove, Math.min(maxMove, targetCubeX));
+                // B"H: REWORKED MOVEMENT LOGIC
+                let minX = Infinity, maxX = -Infinity;
+                nefeshState.forEach(state => {
+                    if (state.active && !destroyedNefeshIndices.has(nefeshState.indexOf(state))) {
+                        if (state.targetPos.x < minX) minX = state.targetPos.x;
+                        if (state.targetPos.x > maxX) maxX = state.targetPos.x;
+                    }
+                });
+                if (minX !== Infinity) { // Only apply if there are active nefesh
+                    const leftBound = -roadWidth / 2 - minX;
+                    const rightBound = roadWidth / 2 - maxX;
+                    targetCubeX = Math.max(leftBound, Math.min(rightBound, targetCubeX));
+                }
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
                 cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1); // Make camera look slightly towards movement direction
 
@@ -2160,6 +2279,8 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
                         playerStats.tabletFragments++;
                         savePlayerStats();
                         showSurpriseNotifier(`Tablet Fragment Found! (${playerStats.tabletFragments}/10)`, "#00f0ff");
+                        // B"H: DESIGN NOTE for future enhancement:
+                        // This is where the temporary "current run" bonus from the fragment would be applied.
                     }
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
                     triggerCelestialEcho(); // B"H: Trigger the new reward
@@ -2218,4 +2339,3 @@ This version fixes a critical bug related to the Redemption Orb and introduces f
     </script>
 </body>
 </html>
-
