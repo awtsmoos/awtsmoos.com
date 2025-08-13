@@ -1,18 +1,21 @@
+
+
 <!--B"H-->
 <!DOCTYPE html>
 <!--
 ב"ה B"H
-Merkava: The Celestial Journey v4.4
+Merkava: The Celestial Journey v4.5
 Developer: Gemini
-Date: 2025-08-21
+Date: 2025-08-22
 
-This file is a complete, self-contained application. This version is a major feature and stability update.
+This file is a complete, self-contained application. This version is a major feature and stability update based on user feedback.
 
 * **Stability & Performance:**
-*   Resolved a crash during boss battles caused by excessive particle generation on defeat.
-*   Overhauled the Nefesh collision system for better accuracy, especially with complex obstacles and partially depleted fleets.
+*   Resolved a crash during boss battles caused by excessive particle generation on defeat by significantly reducing particle counts.
+*   Overhauled the Nefesh collision system for better accuracy, especially with complex obstacles like Tohu Shards.
 *   Corrected fleet regeneration logic to ensure new Nefesh properly fill gaps in the formation from all sources.
-*   Replaced the road shader with a new, stable "River of Eden" effect that is always visible.
+*   Replaced the non-functional road shader with a new, stable "River of Eden" effect that is always visible and dynamic.
+*   Removed the "Celestial Wind" effect to improve gameplay focus and resolve related issues.
 *   Added numerous checks to prevent errors from uninitialized or missing game objects.
 
 * **Boss Battle Overhaul:**
@@ -21,15 +24,17 @@ This file is a complete, self-contained application. This version is a major fea
 *   A "HEICHALOT GUARDIAN APPROACHING" notifier now heralds the boss's arrival.
 
 * **New Features & Enhancements:**
+*   **Gameplay Pacing:** The early-game difficulty has been significantly increased. More complex and challenging enemy patterns now appear from the start of the journey.
 *   **New Obstacle: Torah Scroll:** A new dynamic obstacle, the Torah Scroll, now appears in later levels, presenting a unique challenge.
 *   **Enhanced Constellations:** The celestial network system now dynamically connects not only distant stars but also the special Hebrew letter particles, creating a more interconnected and living cosmos.
 *   **Dynamic Lightning:** Added a new lightning effect that can trigger on "Perfect Waves" and other key moments.
-*   **Webcam System Upgrade:**
-    *   Sign posts are larger, closer to the road, and the left post now shows a mirrored image.
-    *   Added new display modes: "Central + Sign Post" and an "Alternating Sign Post" option.
+*   **Webcam System Rework (Major Fixes):**
+    *   **FIXED:** The rendering logic has been rewritten. Sign posts now "grow" upwards from the ground and no longer clip through the road plane.
+    *   **FIXED:** The right-side webcam sign post no longer freezes on the first frame and now plays the video correctly.
+    *   The left post correctly shows a mirrored image.
     *   A new in-game, real-time control panel allows for on-the-fly adjustment of sign post distance, height, and size.
 
-* **All Features & Fixes from v4.3 Retained.**
+* **All Features & Fixes from v4.4 Retained.**
 -->
 <html lang="en">
 <head>
@@ -998,7 +1003,6 @@ This file is a complete, self-contained application. This version is a major fea
         const friendlyGolemProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffd700 })), 20);
         const weaverProjectilePool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xcccccc })), 50);
         const shattererShardPool = new ObjectPool(() => new THREE.Mesh(new THREE.IcosahedronGeometry(0.15, 0), shattererMaterial.clone()), 100);
-        const windParticlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 1.5), new THREE.MeshBasicMaterial({color: 0xaaaaff, transparent: true, opacity: 0.5, fog: false})), 50);
         const particlePool = new ObjectPool(() => new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), new THREE.MeshBasicMaterial({fog: false})), 300);
         const shefaOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), shefaOrbMaterial), 100);
         const specialParticlePool = new ObjectPool(() => { const material = new THREE.SpriteMaterial({ fog: false, transparent: true, opacity: 0.7 }); const sprite = new THREE.Sprite(material); sprite.userData = { type: 'special_particle', active: true }; return sprite; }, 300);
@@ -1101,7 +1105,7 @@ This file is a complete, self-contained application. This version is a major fea
             if (healthPlane.material.map) healthPlane.material.map.dispose();
             healthPlane.material.map = createTextTexture(health.toString(), "", 'rgba(0,0,0,0)', undefined, '#FFFFFF');
         }
-        const tohuShardPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.ConeGeometry(0.3, 1.5, 6); for(let i=0; i < 10; i++) { const sGr = new THREE.Group(); const s = new THREE.Mesh(sG, tohuMaterial.clone()); const o = new THREE.Mesh(sG, outlineMaterial); o.scale.setScalar(1.2); sGr.add(o, s); sGr.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5); sGr.userData.collisionBox2D = new THREE.Box2(); g.add(sGr); } g.userData = { type: 'tohu_shard', body: g }; return g; }, 15);
+        const tohuShardPool = new ObjectPool(() => { const g = new THREE.Group(); const sG = new THREE.ConeGeometry(0.45, 1.5, 6); for(let i=0; i < 10; i++) { const sGr = new THREE.Group(); const s = new THREE.Mesh(sG, tohuMaterial.clone()); const o = new THREE.Mesh(sG, outlineMaterial); o.scale.setScalar(1.2); sGr.add(o, s); sGr.position.set((Math.random()-0.5)*2.5, 0.75, (Math.random()-0.5)*0.5); sGr.userData.collisionBox2D = new THREE.Box2(); g.add(sGr); } g.userData = { type: 'tohu_shard', body: g }; return g; }, 15);
         const golemSentryPool = new ObjectPool(() => { const g = new THREE.Group(); const tG = new THREE.BoxGeometry(1.5, 2.0, 1.5); const t = new THREE.Mesh(tG, golemMaterial.clone()); t.position.y = 1.0; const hG = new THREE.BoxGeometry(1.0, 1.0, 1.0); const h = new THREE.Mesh(hG, golemMaterial.clone()); h.position.y = 2.5; const e = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({color: 0xff0000})); e.position.z = 0.5; h.add(e); const tO = new THREE.Mesh(tG, outlineMaterial); tO.position.copy(t.position); tO.scale.setScalar(1.1); const hO = new THREE.Mesh(hG, outlineMaterial); hO.position.copy(h.position); hO.scale.setScalar(1.1); g.add(tO, hO, t, h); g.userData = { type: 'golem_sentry', body: g, torso: t, head: h, collisionBox2D: new THREE.Box2(), health: 100, lastShotTime: 0, eye: e, isShielded: false, shieldVisual: null, isFriendly: false }; return g; }, 10);
         const tomeKeeperPool = new ObjectPool(() => { const group = new THREE.Group(); const bodyGeom = new THREE.IcosahedronGeometry(0.7, 0); const body = new THREE.Mesh(bodyGeom, tomeKeeperMaterial.clone()); body.position.y = 1.5; const outline = new THREE.Mesh(bodyGeom, outlineMaterial); outline.position.copy(body.position); outline.scale.setScalar(1.15); const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 }); const beamGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]); const shieldBeam = new THREE.Line(beamGeometry, beamMaterial); group.add(body, outline, shieldBeam); group.userData = { type: 'tome_keeper', health: 50, body: body, shieldedEnemy: null, shieldBeam: shieldBeam, collisionBox2D: new THREE.Box2() }; return group; }, 5);
         const weaverPool = new ObjectPool(() => { const g = new THREE.Group(); const bG = new THREE.SphereGeometry(0.6, 16, 8); const b = new THREE.Mesh(bG, weaverMaterial.clone()); g.add(b); g.userData = { type: 'weaver', body: b, health: 40, lastShotTime: 0, moveDirection: Math.random() < 0.5 ? 1 : -1, moveSpeed: 2, collisionBox2D: new THREE.Box2() }; return g; }, 10);
@@ -1219,10 +1223,14 @@ This file is a complete, self-contained application. This version is a major fea
                     this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
                     this.videoElement.srcObject = this.stream;
                     await this.videoElement.play();
+                    
+                    // B"H FIX: Create two separate VideoTexture instances from the same element
+                    // to solve the frozen frame issue on the non-mirrored texture.
                     this.videoTexture = new THREE.VideoTexture(this.videoElement);
                     this.videoTexture.colorSpace = THREE.SRGBColorSpace;
                     
-                    this.videoTextureMirrored = this.videoTexture.clone();
+                    this.videoTextureMirrored = new THREE.VideoTexture(this.videoElement);
+                    this.videoTextureMirrored.colorSpace = THREE.SRGBColorSpace;
                     this.videoTextureMirrored.wrapS = THREE.RepeatWrapping;
                     this.videoTextureMirrored.repeat.x = -1;
 
@@ -1248,20 +1256,29 @@ This file is a complete, self-contained application. This version is a major fea
                 scene.add(this.centralDisplay);
             },
             createSignPosts() {
-                if(this.signPostLeft) return;
+                if(this.signPostLeft) scene.remove(this.signPostLeft);
+                if(this.signPostRight) scene.remove(this.signPostRight);
+
                 const createPost = (isMirrored) => {
                     const group = new THREE.Group();
-                    const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 8, 12);
-                    const postMat = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0.8});
+                    // B"H FIX: Use a unit-height pole with its base at the origin.
+                    // This allows it to be scaled vertically from the ground up.
+                    const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 1, 12);
+                    postGeo.translate(0, 0.5, 0); // Move base to y=0
+                    const postMat = new THREE.MeshStandardMaterial({ color: 0x555555, metalness: 0.8 });
                     const post = new THREE.Mesh(postGeo, postMat);
-                    post.position.y = -2;
-                    const signGeo = new THREE.CircleGeometry(1.5, 32);
-                    const signMat = new THREE.MeshBasicMaterial({ map: isMirrored ? this.videoTextureMirrored : this.videoTexture, side: THREE.DoubleSide });
+                    
+                    const signGeo = new THREE.CircleGeometry(1, 32); // Base radius of 1, will be scaled
+                    const signMat = new THREE.MeshBasicMaterial({
+                        map: isMirrored ? this.videoTextureMirrored : this.videoTexture,
+                        side: THREE.DoubleSide
+                    });
                     const sign = new THREE.Mesh(signGeo, signMat);
-                    sign.position.y = 0.5;
+
                     group.add(post, sign);
                     group.visible = false;
-                    group.userData = { targetY: 2.5, currentY: -4, signMesh: sign };
+                    // Store refs and state data. currentY will now represent height.
+                    group.userData = { signMesh: sign, postMesh: post, currentY: -8 };
                     scene.add(group);
                     return group;
                 }
@@ -1292,7 +1309,9 @@ This file is a complete, self-contained application. This version is a major fea
                 ui.toggleSignpostControlsBtn.style.display = showSignposts ? 'block' : 'none';
             },
             update(deltaTime) {
+                if (!this.isInitialized) return;
                 const posts = [this.signPostLeft, this.signPostRight].filter(p => p);
+
                 posts.forEach((post, index) => {
                     let isVisible = post.visible;
                     if (isVisible && gameSettings.signpostAlternating && gameSettings.signpostSide === 'both') {
@@ -1301,18 +1320,30 @@ This file is a complete, self-contained application. This version is a major fea
                         isVisible = Math.sin((clock.getElapsedTime() + phase) * Math.PI / period) > 0;
                     }
                     
-                    const signMesh = post.children[1];
-                    post.position.x = (index === 0 ? -1 : 1) * gameSettings.signpostDistance;
-                    post.userData.targetY = gameSettings.signpostHeight;
-                    if (signMesh) signMesh.scale.setScalar(gameSettings.signpostSize / 2.0); // Base size is 2
+                    const { signMesh, postMesh } = post.userData;
+                    
+                    // B"H REWORK: Animate height instead of group Y-position
+                    const targetHeight = isVisible ? gameSettings.signpostHeight : -8;
+                    post.userData.currentY = THREE.MathUtils.lerp(post.userData.currentY, targetHeight, 4 * deltaTime);
+                    const currentHeight = Math.max(0, post.userData.currentY);
 
-                    if (isVisible) {
-                        post.userData.currentY = THREE.MathUtils.lerp(post.userData.currentY, post.userData.targetY, 4 * deltaTime);
-                        post.position.y = post.userData.currentY;
-                        if(signMesh) signMesh.lookAt(camera.position);
-                    } else {
-                        post.userData.currentY = -8;
-                        post.position.y = THREE.MathUtils.lerp(post.position.y, post.userData.currentY, 8 * deltaTime);
+                    // Position the whole group on the XZ plane at road level
+                    post.position.set(
+                        (index === 0 ? -1 : 1) * gameSettings.signpostDistance,
+                        roadLevelY,
+                        0 // Z position relative to camera, can be adjusted
+                    );
+                    
+                    // Scale the pole to connect the ground to the sign
+                    if (postMesh) {
+                        postMesh.scale.y = currentHeight;
+                    }
+
+                    // Position the sign at the top of the pole and scale it
+                    if (signMesh) {
+                        signMesh.position.y = currentHeight;
+                        signMesh.scale.setScalar(gameSettings.signpostSize);
+                        signMesh.lookAt(camera.position);
                     }
                 });
             }
@@ -1499,6 +1530,7 @@ This file is a complete, self-contained application. This version is a major fea
         }
         function createWorld() {
             const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100);
+            // B"H FIX: Use the functional custom shader for the road
             const roadMat = new THREE.ShaderMaterial({
                 vertexShader: document.getElementById('riverVertexShader').textContent,
                 fragmentShader: document.getElementById('riverFragmentShader').textContent,
@@ -1597,7 +1629,7 @@ This file is a complete, self-contained application. This version is a major fea
         }
 
         function pattern_Wall(z) { return [spawnObstacle('jar', 0, z), spawnObstacle('jar', 1, z), spawnObstacle('jar', 2, z)].filter(Boolean); }
-        function pattern_Gauntlet(z) { const enemies = []; const lane = Math.floor(Math.random() * 3); for(let i = 0; i < 4; i++) { enemies.push(spawnObstacle('tohu_shard', lane, z - i * 15)); } return enemies; }
+        function pattern_Gauntlet(z) { const enemies = []; const lane = Math.floor(Math.random() * 3); for(let i = 0; i < 4; i++) { enemies.push(spawnObstacle('tohu_shard', lane, z - i * 15)); } return enemies.filter(Boolean); }
         function pattern_SentryGuard(z) { const lane = Math.floor(Math.random() * 3); const sideLane = lane === 1 ? (Math.random() < 0.5 ? 0 : 2) : 1; return [spawnObstacle('golem_sentry', lane, z - 10), spawnObstacle('jar', lane, z), spawnObstacle('jar', sideLane, z - 5)].filter(Boolean); }
         function pattern_KlipahWeave(z) { const startLane = Math.random() < 0.5 ? 0 : 2; return [spawnObstacle('klipah_gate', startLane, z), spawnObstacle('klipah_gate', 1, z - 15), spawnObstacle('klipah_gate', 2 - startLane, z - 30)].filter(Boolean); }
         function pattern_TomeKeeperGuard(z) { const enemies = []; const protectedLane = Math.floor(Math.random() * 3); const keeperLane = (protectedLane + 1 + Math.floor(Math.random() * 2)) % 3; const protectedEnemy = spawnObstacle('golem_sentry', protectedLane, z); if (protectedEnemy) { enemies.push(protectedEnemy); const tomeKeeper = spawnObstacle('tome_keeper', keeperLane, z - 5); if (tomeKeeper) { enemies.push(tomeKeeper); tomeKeeper.userData.shieldedEnemy = protectedEnemy; protectedEnemy.userData.isShielded = true; if (!protectedEnemy.userData.shieldVisual) { protectedEnemy.userData.shieldVisual = new THREE.Mesh(new THREE.SphereGeometry(1.5, 16, 16), shieldMaterial); protectedEnemy.add(protectedEnemy.userData.shieldVisual); } protectedEnemy.userData.shieldVisual.visible = true; } } return enemies; }
@@ -1607,14 +1639,15 @@ This file is a complete, self-contained application. This version is a major fea
         function pattern_MinerAndThorns(z) { const lane = Math.floor(Math.random()*3); return [spawnObstacle('minelayer', lane, z), spawnObstacle('tohu_shard', (lane+1)%3, z-20), spawnObstacle('tohu_shard', (lane+2)%3, z-20)].filter(Boolean); }
         function pattern_TorahWall(z) { return [spawnObstacle('torah_scroll', 0, z), spawnObstacle('torah_scroll', 2, z)].filter(Boolean); }
         const patternSets = {
-            early: [pattern_Wall, pattern_KlipahWeave],
-            mid: [pattern_Gauntlet, pattern_SentryGuard, pattern_WeaverDance, pattern_Minefield],
-            late: [pattern_SentryGuard, pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns, pattern_TorahWall],
+            early: [pattern_Wall, pattern_KlipahWeave, pattern_SentryGuard],
+            mid: [pattern_Gauntlet, pattern_SentryGuard, pattern_WeaverDance, pattern_Minefield, pattern_TomeKeeperGuard],
+            late: [pattern_TomeKeeperGuard, pattern_ShattererAmbush, pattern_KlipahWeave, pattern_MinerAndThorns, pattern_TorahWall],
             expert: [pattern_TomeKeeperGuard, pattern_WeaverDance, pattern_ShattererAmbush, pattern_MinerAndThorns, pattern_TorahWall]
         };
         function getPatternSet() {
-            if (gameState.level < 4) return patternSets.early;
-            if (gameState.level < 8) return [...patternSets.early, ...patternSets.mid];
+            // B"H: Difficulty ramp adjusted to be more challenging earlier.
+            if (gameState.level < 3) return patternSets.early;
+            if (gameState.level < 7) return [...patternSets.early, ...patternSets.mid];
             if (gameState.level < 12) return [...patternSets.mid, ...patternSets.late];
             return [...patternSets.late, ...patternSets.expert];
         }
@@ -1640,17 +1673,11 @@ This file is a complete, self-contained application. This version is a major fea
             for(const obs of allObstacles) {
                 if (obs && obs.position.z < rearmostZ) rearmostZ = obs.position.z;
             }
-            if (rearmostZ > -80) {
+            // B"H: Increased spawn aggression. Waves spawn when the screen is clearer.
+            if (rearmostZ > -100) {
                 const availablePatterns = getPatternSet();
                 const chosenPattern = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
-                spawnWave(chosenPattern, -120 - Math.random() * 40);
-            }
-        }
-        function triggerCelestialWind() {
-            if (gameState.wind.timer <= 0 && gameState.level > 3 && Math.random() < 0.05) {
-                gameState.wind.force = (2 + Math.random() * 2 + gameState.level * 0.2);
-                gameState.wind.direction = Math.random() < 0.5 ? -1 : 1;
-                gameState.wind.timer = 4 + Math.random() * 3;
+                spawnWave(chosenPattern, -130 - Math.random() * 40);
             }
         }
         function spawnSpecialParticle() {
@@ -1784,7 +1811,7 @@ This file is a complete, self-contained application. This version is a major fea
             takeDamage(amount) {
                 if (!this.isActive || this.state === 'intro') return;
                 this.health -= amount;
-                createParticleExplosion(this.bossObject.position, 20, '#ff8800', 15);
+                createParticleExplosion(this.bossObject.position, 10, '#ff8800', 15);
                 triggerScreenShake(0.2);
                 if (this.health <= 0) {
                     this.defeat();
@@ -1793,8 +1820,8 @@ This file is a complete, self-contained application. This version is a major fea
             defeat() {
                 this.isActive = false; this.state = 'defeated';
                 // B"H: Defeat sequence now uses a controlled particle burst to prevent crashes.
-                createParticleExplosion(this.bossObject.position, 150, '#ffaa00', 30);
-                createParticleExplosion(this.bossObject.position, 150, '#aa00ff', 40);
+                createParticleExplosion(this.bossObject.position, 75, '#ffaa00', 30);
+                createParticleExplosion(this.bossObject.position, 50, '#aa00ff', 40);
                 this.bossObject.visible = false;
                 addShefa(200);
                 gameState.mitzvot += 1000 * (1 + (playerStats.upgrades.mitzvotGain?.level || 0) * 0.02);
@@ -1806,7 +1833,7 @@ This file is a complete, self-contained application. This version is a major fea
 
         async function initializeGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            const allPools = [ golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, friendlyGolemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, windParticlePool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool, torahScrollPool ];
+            const allPools = [ golemProjectilePool, golemFastProjectilePool, golemHeavyProjectilePool, friendlyGolemProjectilePool, particlePool, shefaOrbPool, specialParticlePool, klipahGatePool, jarPool, tohuShardPool, golemSentryPool, tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool, shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool, torahScrollPool ];
             allPools.forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s));
             dynamicShards.clear();
@@ -1832,7 +1859,6 @@ This file is a complete, self-contained application. This version is a major fea
                 effects: { sefirahResonance: 0, globalShield: 0, invincibleTimer: 0, allCritTimer: 0, },
                 combo: { count: 0, timer: 0 },
                 wave: { isTracking: false, hitsTakenThisWave: 0, waveId: -1, enemiesInWave: new Set() },
-                wind: { force: 0, timer: 0, direction: 1 },
                 bossManager: bossManager,
                 customPrayers: gameSettings.customPrayers || null,
                 prayerChain: { history: [], lastChangeTime: 0 },
@@ -2199,25 +2225,6 @@ This file is a complete, self-contained application. This version is a major fea
                 }
                 updateSpecialParticleNetwork();
 
-                if (gameState.wind.timer > 0) {
-                    gameState.wind.timer -= deltaTime;
-                    targetCubeX += gameState.wind.force * gameState.wind.direction * deltaTime;
-                    if (Math.random() < 0.8) {
-                        const p = windParticlePool.activate();
-                        if (p) {
-                            const startX = gameState.wind.direction > 0 ? -roadWidth * 2 : roadWidth * 2;
-                            p.position.set(startX, Math.random() * 8, Math.random() * -80);
-                            p.userData.velocity = new THREE.Vector3(gameState.wind.direction * -(100 + Math.random() * 50), 0, 0);
-                            p.userData.life = 1.0;
-                        }
-                    }
-                }
-                windParticlePool.active.forEach(p => {
-                    p.position.x += p.userData.velocity.x * deltaTime;
-                    p.userData.life -= deltaTime;
-                    if (p.userData.life <= 0) windParticlePool.deactivate(p);
-                });
-
                 let minX = Infinity, maxX = -Infinity;
                 nefeshState.forEach(state => {
                     if (state.active && !destroyedNefeshIndices.has(nefeshState.indexOf(state))) {
@@ -2317,7 +2324,6 @@ This file is a complete, self-contained application. This version is a major fea
 
                 checkWaveCompletion();
                 trySpawnNextWave();
-                triggerCelestialWind();
                 processNefeshDestruction();
                 updateUIDisplays();
                 renderer.render(scene, camera);
@@ -2481,13 +2487,13 @@ This file is a complete, self-contained application. This version is a major fea
             if (obstacle.userData.isFriendly) return;
             const effectiveShield = gameState.player.hasShield || gameState.effects.globalShield > 0 || gameState.effects.invincibleTimer > 0;
             
-            // B"H: More robust collision check for complex/instanced objects
             nefeshState.forEach((state, index) => {
                 if (!state.active || destroyedNefeshIndices.has(index)) return;
 
                 let collided = false;
                 if (obstacle.userData.type === 'tohu_shard') {
-                    const spikeHalfSize = 0.3;
+                    // B"H FIX: Increased collision box size for spikes to make collisions more reliable.
+                    const spikeHalfSize = 0.45;
                     for(const spikeGroup of obstacle.userData.body.children) {
                         spikeGroup.getWorldPosition(worldPosVec);
                         spikeGroup.userData.collisionBox2D.setFromCenterAndSize({x: worldPosVec.x, y: worldPosVec.z}, {x: spikeHalfSize, y: spikeHalfSize});
