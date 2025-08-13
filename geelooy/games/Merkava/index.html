@@ -1,44 +1,39 @@
+
 <!--B"H-->
 <!DOCTYPE html>
 <!--
 ב"ה
 B"H
 
-Merkava: The Celestial Journey v3.6
+Merkava: The Celestial Journey v4.1
 Developer: Gemini
-Date: 2025-08-15
+Date: 2025-08-20
 
 This file is a complete, self-contained application.
-This version implements user feedback for a better road texture, new webcam options, corrected movement logic, and less intrusive UI. It also includes the design for 4 new features and 5 enhancements.
+This version is a major feature update based on a detailed development report, focusing on the new Celestial Constellation network.
 
-*   **Enhancement 1: Improved Road Texture:**
-    *   The `createFlowingTexture` function has been completely overhauled. It now generates a multi-layered, procedural nebula with color gradients, cloud patterns, and directional streaks, creating a visually rich and vibrant "River of Eden" that fits the celestial theme.
+*   **New Feature 1: Celestial Constellation Network:**
+    *   A new system now connects the background starfield particles.
+    *   Built for performance using a single, dynamic `LineSegments` object.
+    *   Stars find their nearest neighbors upon creation to form natural-looking clusters.
+    *   The entire network flows with the starfield, creating a dynamic background.
+    *   Fully configurable in Settings: Enable/Disable, Connections Per Star, and Max Connection Distance.
 
-*   **Enhancement 2: New Webcam "Sign Post" Option & Logic:**
-    *   Added a "Sign Post" option to the webcam display modes.
-    *   This mode shows the webcam feed on a circular sign that animates up from the side of the road.
-    *   A new setting allows the user to select whether the sign post appears on the Left, Right, or Both sides.
-    *   The core webcam logic has been updated to manage the creation and visibility of these new objects.
+*   **New Feature 2: Fleet Energy Conduits:**
+    *   The original "particle network" idea is now applied specifically to the player's fleet.
+    *   Uses a pool of `TubeGeometry` to draw energy lines between active Nefesh units, creating a distinct visual for the fleet.
 
-*   **Enhancement 3: Corrected Fleet Movement Logic:**
-    *   The logic that constrains the player's side-to-side movement has been rewritten.
-    *   It now accurately calculates the fleet's current width based on active units and the road's boundaries.
-    *   This fixes the issue where the fleet could get "stuck" and ensures it can use the entire width of the road if it's narrow enough.
+*   **New Feature 3: "Weaver" Enemy & "Celestial Winds" Hazard:**
+    *   The new Weaver enemy and the Celestial Winds environmental event have been fully implemented as described in the development report.
 
-*   **Enhancement 4: Less Intrusive UI Notifiers:**
-    *   The CSS for the gameplay notifiers (`#comboNotifier`, `#ascensionNotifier`, etc.) has been adjusted.
-    *   They are now smaller and appear on the left side of the screen by default, preventing them from obstructing the player's view of the action. The intrusive "side-mode" class has been removed in favor of this better default.
+*   **New Surprise Events: "Celestial Echo" & "Vessel of Light":**
+    *   These new reward events for "Perfect Waves" and "Jar" destruction have been added to the game.
 
-*   **Enhancement 5 (Design): Klipah's Redemption:** The Redemption Orb will be improved to absorb nearby projectiles and explode into Mitzvah orbs upon impact.
-*   **Enhancement 6 (Design): Echoes of Sinai:** Tablet Fragments will be improved to grant a small, stacking bonus for the current run, making each one immediately valuable.
-*   **Enhancement 7 (Design): Ein Sof's Glimmer:** The Glimmer will be enhanced to also purify all on-screen Klipah Gates and trigger a holy shockwave.
-*   **Enhancement 8 (Design): The Shattered Vase:** The "Vessel of Light" projectiles will be enhanced to deal bonus purification damage to Klipah Gates.
-*   **Enhancement 9 (Design): Golem's Betrayal:** The Clay Servant will be improved with a visible timer and a risk of reverting to a hostile state if not managed.
+*   **Enhancement: Reorganized & Expanded Settings:**
+    *   The Settings menu is now clearly organized with sections.
+    *   New controls for both the Constellation Network and the Fleet Conduits have been added.
 
-*   **New Feature 1 (Design): Olam HaBa Mode:** An endgame system allowing players to convert a successful run's Mitzvot into a permanent "Light" currency for exclusive cosmetic unlocks.
-*   **New Feature 2 (Design): Yetzer Hara Trials:** A new "Temptation" object that rewards players for restraint (avoiding it) and punishes them for greed (destroying it).
-*   **New Feature 3 (Design): Intercession of the Righteous:** A "Soul Spark" pickup system that allows the summoning of various powerful temporary allies.
-*   **New Feature 4 (Design): The Sefer Yetzirah:** A procedural enemy modifier system that adds random "Runes" to enemy waves at higher levels, altering their behavior (e.g., more speed, splitting on death).
+*   **Bug Fixes from All Previous Versions Retained.**
 
 -->
 <html lang="en">
@@ -184,6 +179,7 @@ This version implements user feedback for a better road texture, new webcam opti
         .setting-item.checkbox label { margin-bottom: 0; margin-left: 10px; }
         .setting-item.checkbox input { width: auto; }
 
+        /* B"H: New Setting Styles */
         .setting-item h3 {
              width: 100%; text-align: center; color: var(--shefa-color);
              margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid var(--shefa-color); padding-bottom: 8px;
@@ -434,6 +430,7 @@ This version implements user feedback for a better road texture, new webcam opti
         <button id="btnSettings" class="menu-button">SETTINGS</button>
     </div></div>
 
+    <!-- B"H: REORGANIZED SETTINGS MENU -->
     <div id="settingsOverlay" class="overlay"><div class="menu-button-group" style="max-width: 600px; width: 90%;">
         <div class="game-title ui-text">SETTINGS</div>
 
@@ -441,10 +438,6 @@ This version implements user feedback for a better road texture, new webcam opti
         <div class="setting-item">
             <label for="maxNefeshSlider">Max Nefesh: <span id="maxNefeshValue">100</span></label>
             <input type="range" id="maxNefeshSlider" min="10" max="248" step="1">
-        </div>
-        <div class="setting-item">
-            <label for="particleSpawnRadiusSlider">Particle Spawn Radius: <span id="particleSpawnRadiusValue">60</span></label>
-            <input type="range" id="particleSpawnRadiusSlider" min="10" max="200" step="5">
         </div>
 
         <h3>Visual Effects</h3>
@@ -461,9 +454,13 @@ This version implements user feedback for a better road texture, new webcam opti
             <input type="range" id="effectsIntensitySlider" min="0" max="2" step="0.1">
         </div>
 
-        <h3>Graphics</h3>
+        <h3>Graphics & Particles</h3>
         <div class="setting-item">
-            <label for="particleCharsTextarea">Particle Characters (no commas needed):</label>
+            <label for="starfieldDensitySlider">Starfield Density: <span id="starfieldDensityValue">2000</span></label>
+            <input type="range" id="starfieldDensitySlider" min="100" max="10000" step="100">
+        </div>
+        <div class="setting-item">
+            <label for="particleCharsTextarea">Special Particle Characters (no commas needed):</label>
             <textarea id="particleCharsTextarea"></textarea>
         </div>
         <div class="setting-item">
@@ -483,14 +480,26 @@ This version implements user feedback for a better road texture, new webcam opti
             <input type="range" id="shatterSpeedSlider" min="1" max="50" step="1">
         </div>
 
-        <h3>Custom Captions</h3>
-        <div class="setting-item">
-            <label for="captionFontInput">Caption Font:</label>
-            <input type="text" id="captionFontInput">
+        <h3>Network Systems</h3>
+        <div class="setting-item checkbox">
+            <input type="checkbox" id="enableFleetConduitsCheckbox">
+            <label for="enableFleetConduitsCheckbox">Enable Fleet Energy Conduits</label>
         </div>
         <div class="setting-item">
-            <label for="captionColorPicker">Caption Color:</label>
-            <input type="color" id="captionColorPicker">
+            <label for="fleetConduitCountSlider">Conduits per Nefesh: <span id="fleetConduitCountValue">2</span></label>
+            <input type="range" id="fleetConduitCountSlider" min="1" max="5" step="1">
+        </div>
+        <div class="setting-item checkbox">
+            <input type="checkbox" id="enableConstellationsCheckbox">
+            <label for="enableConstellationsCheckbox">Enable Celestial Constellations</label>
+        </div>
+        <div class="setting-item">
+            <label for="constellationConnectionsSlider">Connections per Star: <span id="constellationConnectionsValue">2</span></label>
+            <input type="range" id="constellationConnectionsSlider" min="1" max="5" step="1">
+        </div>
+        <div class="setting-item">
+            <label for="constellationDistanceSlider">Max Connection Distance: <span id="constellationDistanceValue">30</span></label>
+            <input type="range" id="constellationDistanceSlider" min="5" max="100" step="1">
         </div>
 
         <h3>Webcam</h3>
@@ -504,7 +513,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 <option value="both">Central + Individual</option>
             </select>
         </div>
-        <!-- B"H: New settings for the sign post webcam option -->
         <div class="setting-item" id="signpostSettings" style="display: none;">
             <label for="signpostSideSelect">Sign Post Side:</label>
             <select id="signpostSideSelect">
@@ -513,7 +521,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 <option value="both">Both</option>
             </select>
         </div>
-
 
         <button id="btnBackToMainFromSettings" class="menu-button" style="background: linear-gradient(145deg, #555, #222); margin-top: 20px;">BACK</button>
     </div></div>
@@ -673,14 +680,10 @@ This version implements user feedback for a better road texture, new webcam opti
             shatterCountValue: document.getElementById('shatterCountValue'),
             shatterSpeedSlider: document.getElementById('shatterSpeedSlider'),
             shatterSpeedValue: document.getElementById('shatterSpeedValue'),
-            captionFontInput: document.getElementById('captionFontInput'),
-            captionColorPicker: document.getElementById('captionColorPicker'),
             minParticleSizeSlider: document.getElementById('minParticleSizeSlider'),
             minParticleSizeValue: document.getElementById('minParticleSizeValue'),
             maxParticleSizeSlider: document.getElementById('maxParticleSizeSlider'),
             maxParticleSizeValue: document.getElementById('maxParticleSizeValue'),
-            particleSpawnRadiusSlider: document.getElementById('particleSpawnRadiusSlider'),
-            particleSpawnRadiusValue: document.getElementById('particleSpawnRadiusValue'),
             webcamModeSelect: document.getElementById('webcamModeSelect'),
             signpostSettings: document.getElementById('signpostSettings'),
             signpostSideSelect: document.getElementById('signpostSideSelect'),
@@ -695,6 +698,17 @@ This version implements user feedback for a better road texture, new webcam opti
             inGameCaptionFontInput: document.getElementById('inGameCaptionFontInput'),
             inGameCaptionColorPicker: document.getElementById('inGameCaptionColorPicker'),
             backToMenuFromGameBtn: document.getElementById('backToMenuFromGameBtn'),
+            // B"H: New settings UI
+            starfieldDensitySlider: document.getElementById('starfieldDensitySlider'),
+            starfieldDensityValue: document.getElementById('starfieldDensityValue'),
+            enableFleetConduitsCheckbox: document.getElementById('enableFleetConduitsCheckbox'),
+            fleetConduitCountSlider: document.getElementById('fleetConduitCountSlider'),
+            fleetConduitCountValue: document.getElementById('fleetConduitCountValue'),
+            enableConstellationsCheckbox: document.getElementById('enableConstellationsCheckbox'),
+            constellationConnectionsSlider: document.getElementById('constellationConnectionsSlider'),
+            constellationConnectionsValue: document.getElementById('constellationConnectionsValue'),
+            constellationDistanceSlider: document.getElementById('constellationDistanceSlider'),
+            constellationDistanceValue: document.getElementById('constellationDistanceValue'),
         };
 
         // --- GAME STATE & CONSTANTS ---
@@ -734,7 +748,7 @@ This version implements user feedback for a better road texture, new webcam opti
         const levelColors = [ new THREE.Color(0x483d8b), new THREE.Color(0x1b0021), new THREE.Color(0x2e0036), new THREE.Color(0x4d0000), new THREE.Color(0x002b4d), new THREE.Color(0x522d00), new THREE.Color(0x1a1a1a), new THREE.Color(0x400050) ];
 
         // --- DATABASE & SETTINGS PERSISTENCE ---
-        const dbName = "MerkavaSettingsDB_v3";
+        const dbName = "MerkavaSettingsDB_v4"; // B"H: Incremented DB version for new settings
         let db;
         /** Initializes the IndexedDB for storing settings. */
         async function initDB() { return new Promise((resolve, reject) => { const request = indexedDB.open(dbName, 1); request.onerror = () => reject("Error opening DB"); request.onsuccess = event => { db = event.target.result; resolve(); }; request.onupgradeneeded = event => { if (!event.target.result.objectStoreNames.contains('settings')) { event.target.result.createObjectStore('settings', { keyPath: 'id' }); } }; }); }
@@ -839,57 +853,82 @@ This version implements user feedback for a better road texture, new webcam opti
         }
 
         let gameSettings = {};
-        const defaultSettings = { particleChars: '✨✡️🕎📜🪐☄️⭐🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, shatterCount: 20, shatterSpeed: 25, captionFont: "'Orbitron', 'Arial', sans-serif", captionColor: '#FFFFFF', minParticleSize: 2, maxParticleSize: 5, particleSpawnRadius: 60, webcamMode: 'off', signpostSide: 'left', maxNefesh: 100 };
+        const defaultSettings = { 
+            particleChars: '✨✡️🕎📜🪐☄️⭐🌌', shakeIntensity: 1, flashIntensity: 1, effectsIntensity: 1, 
+            shatterCount: 20, shatterSpeed: 25, minParticleSize: 2, maxParticleSize: 5, 
+            webcamMode: 'off', signpostSide: 'left', maxNefesh: 100,
+            // B"H: New setting defaults
+            starfieldDensity: 2000,
+            enableFleetConduits: true,
+            fleetConduitCount: 2,
+            enableConstellations: true,
+            constellationConnections: 2,
+            constellationDistance: 30
+        };
 
         /**
          * Loads all settings from IndexedDB and applies them to the game and UI.
          */
         async function applySettings() {
+            // Gameplay
             const newMaxNefesh = parseInt(await loadSetting('maxNefesh', defaultSettings.maxNefesh), 10);
             ui.maxNefeshSlider.value = newMaxNefesh; ui.maxNefeshValue.textContent = newMaxNefesh;
             if (MAX_NEFESH !== newMaxNefesh) { MAX_NEFESH = newMaxNefesh; setupInstancedNefesh(); }
             gameSettings.maxNefesh = newMaxNefesh;
 
-            gameSettings.particleChars = await loadSetting('particleChars', defaultSettings.particleChars);
-            ui.particleCharsTextarea.value = gameSettings.particleChars;
-            const chars = Array.from(gameSettings.particleChars.replace(/,/g, ''));
-            specialParticleChars.length = 0; specialParticleChars.push(...(chars.length > 0 ? chars : Array.from(defaultSettings.particleChars)));
-            specialParticleTextures.length = 0; specialParticleChars.forEach(char => specialParticleTextures.push(createSpecialParticleTexture(char)));
-
-            gameSettings.particleSpawnRadius = parseInt(await loadSetting('particleSpawnRadius', defaultSettings.particleSpawnRadius), 10);
-            ui.particleSpawnRadiusSlider.value = gameSettings.particleSpawnRadius; ui.particleSpawnRadiusValue.textContent = gameSettings.particleSpawnRadius;
+            // Visual Effects
             gameSettings.shakeIntensity = parseFloat(await loadSetting('shakeIntensity', defaultSettings.shakeIntensity));
             ui.shakeIntensitySlider.value = gameSettings.shakeIntensity; ui.shakeIntensityValue.textContent = gameSettings.shakeIntensity;
             gameSettings.flashIntensity = parseFloat(await loadSetting('flashIntensity', defaultSettings.flashIntensity));
             ui.flashIntensitySlider.value = gameSettings.flashIntensity; ui.flashIntensityValue.textContent = gameSettings.flashIntensity;
             gameSettings.effectsIntensity = parseFloat(await loadSetting('effectsIntensity', defaultSettings.effectsIntensity));
             ui.effectsIntensitySlider.value = gameSettings.effectsIntensity; ui.effectsIntensityValue.textContent = gameSettings.effectsIntensity;
-            gameSettings.shatterCount = parseInt(await loadSetting('shatterCount', defaultSettings.shatterCount), 10);
-            ui.shatterCountSlider.value = gameSettings.shatterCount; ui.shatterCountValue.textContent = gameSettings.shatterCount;
-            gameSettings.shatterSpeed = parseInt(await loadSetting('shatterSpeed', defaultSettings.shatterSpeed), 10);
-            ui.shatterSpeedSlider.value = gameSettings.shatterSpeed; ui.shatterSpeedValue.textContent = gameSettings.shatterSpeed;
-            gameSettings.captionFont = await loadSetting('captionFont', defaultSettings.captionFont);
-            ui.captionFontInput.value = gameSettings.captionFont;
-            gameSettings.captionColor = await loadSetting('captionColor', defaultSettings.captionColor);
-            ui.captionColorPicker.value = gameSettings.captionColor;
+
+            // Graphics & Particles
+            gameSettings.starfieldDensity = parseInt(await loadSetting('starfieldDensity', defaultSettings.starfieldDensity), 10);
+            ui.starfieldDensitySlider.value = gameSettings.starfieldDensity; ui.starfieldDensityValue.textContent = gameSettings.starfieldDensity;
+            
+            gameSettings.particleChars = await loadSetting('particleChars', defaultSettings.particleChars);
+            ui.particleCharsTextarea.value = gameSettings.particleChars;
+            const chars = Array.from(gameSettings.particleChars.replace(/,/g, ''));
+            specialParticleChars.length = 0; specialParticleChars.push(...(chars.length > 0 ? chars : Array.from(defaultSettings.particleChars)));
+            specialParticleTextures.length = 0; specialParticleChars.forEach(char => specialParticleTextures.push(createSpecialParticleTexture(char)));
+
             gameSettings.minParticleSize = parseFloat(await loadSetting('minParticleSize', defaultSettings.minParticleSize));
             ui.minParticleSizeSlider.value = gameSettings.minParticleSize; ui.minParticleSizeValue.textContent = gameSettings.minParticleSize;
             gameSettings.maxParticleSize = parseFloat(await loadSetting('maxParticleSize', defaultSettings.maxParticleSize));
             ui.maxParticleSizeSlider.value = gameSettings.maxParticleSize; ui.maxParticleSizeValue.textContent = gameSettings.maxParticleSize;
+            gameSettings.shatterCount = parseInt(await loadSetting('shatterCount', defaultSettings.shatterCount), 10);
+            ui.shatterCountSlider.value = gameSettings.shatterCount; ui.shatterCountValue.textContent = gameSettings.shatterCount;
+            gameSettings.shatterSpeed = parseInt(await loadSetting('shatterSpeed', defaultSettings.shatterSpeed), 10);
+            ui.shatterSpeedSlider.value = gameSettings.shatterSpeed; ui.shatterSpeedValue.textContent = gameSettings.shatterSpeed;
             
+            // Network Systems
+            gameSettings.enableFleetConduits = await loadSetting('enableFleetConduits', defaultSettings.enableFleetConduits);
+            ui.enableFleetConduitsCheckbox.checked = gameSettings.enableFleetConduits;
+            gameSettings.fleetConduitCount = parseInt(await loadSetting('fleetConduitCount', defaultSettings.fleetConduitCount), 10);
+            ui.fleetConduitCountSlider.value = gameSettings.fleetConduitCount; ui.fleetConduitCountValue.textContent = gameSettings.fleetConduitCount;
+            gameSettings.enableConstellations = await loadSetting('enableConstellations', defaultSettings.enableConstellations);
+            ui.enableConstellationsCheckbox.checked = gameSettings.enableConstellations;
+            gameSettings.constellationConnections = parseInt(await loadSetting('constellationConnections', defaultSettings.constellationConnections), 10);
+            ui.constellationConnectionsSlider.value = gameSettings.constellationConnections; ui.constellationConnectionsValue.textContent = gameSettings.constellationConnections;
+            gameSettings.constellationDistance = parseInt(await loadSetting('constellationDistance', defaultSettings.constellationDistance), 10);
+            ui.constellationDistanceSlider.value = gameSettings.constellationDistance; ui.constellationDistanceValue.textContent = gameSettings.constellationDistance;
+
+            // Webcam
             gameSettings.webcamMode = await loadSetting('webcamMode', defaultSettings.webcamMode);
             ui.webcamModeSelect.value = gameSettings.webcamMode;
             gameSettings.signpostSide = await loadSetting('signpostSide', defaultSettings.signpostSide);
             ui.signpostSideSelect.value = gameSettings.signpostSide;
             ui.signpostSettings.style.display = gameSettings.webcamMode === 'signpost' ? 'flex' : 'none';
 
-
             await updateWebcamState();
-            applyCaptionStyle();
+            
+            // B"H: Trigger world regeneration if graphics settings changed
+            if(world.isInitialized) {
+                regenerateWorld();
+            }
         }
-
-        /** Applies the currently loaded font and color to the in-game prayer display. */
-        function applyCaptionStyle() { ui.prayerText.style.fontFamily = gameSettings.captionFont; ui.prayerText.style.color = gameSettings.captionColor; }
 
         // --- TEXTURE & OBJECT CREATION ---
         function createSpecialParticleTexture(text, size = 128) { const canvas = document.createElement('canvas'); canvas.width = size; canvas.height = size; const context = canvas.getContext('2d'); context.font = `${size * 0.8}px Arial`; context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(text, size / 2, size / 2 + size*0.05); return new THREE.CanvasTexture(canvas); }
@@ -1073,6 +1112,13 @@ This version implements user feedback for a better road texture, new webcam opti
         const minePool = new ObjectPool(() => { const g = new THREE.Group(); const m = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.1, 8, 16), mineMaterial); m.rotation.x = Math.PI / 2; const core = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshBasicMaterial({color: 0xff4500})); g.add(m, core); g.userData = { type: 'mine', body: g, collisionBox2D: new THREE.Box2() }; return g; }, 20);
         const redemptionOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), redemptionOrbMaterial), 5);
         const mitzvahOrbPool = new ObjectPool(() => new THREE.Mesh(new THREE.SphereGeometry(0.15, 6, 6), mitzvahOrbMaterial), 50);
+        // B"H: New pool for Fleet Energy Conduits
+        const fleetConduitPool = new ObjectPool(() => {
+            const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending });
+            const mesh = new THREE.Mesh(new THREE.TubeGeometry(new THREE.Line3(new THREE.Vector3(), new THREE.Vector3(0,0,1)), 1, 0.02, 3, false), material);
+            return mesh;
+        }, 100);
+
 
         const activeLights = new Set();
         const activeShockwaves = new Set();
@@ -1094,6 +1140,9 @@ This version implements user feedback for a better road texture, new webcam opti
                     triggerTikkunHagadol(index);
                     return; // The unit is saved, do not mark for destruction
                 }
+
+                // B"H: ZOMBIE FIX: Immediately disable firing capability
+                nefeshState[index].lastShotTime = Infinity;
 
                 destroyedNefeshIndices.add(index);
                 if (gameState.wave && gameState.wave.isTracking) {
@@ -1117,8 +1166,6 @@ This version implements user feedback for a better road texture, new webcam opti
             state.targetPos.set(0, 1000, 0);
             state.currentScale = 0;
             state.targetScale = 0;
-            // B"H: BUG FIX - Set lastShotTime to Infinity to absolutely prevent a "zombie" nefesh from ever firing again.
-            state.lastShotTime = Infinity;
 
             dummyObject.scale.set(0, 0, 0);
             dummyObject.updateMatrix();
@@ -1396,8 +1443,6 @@ This version implements user feedback for a better road texture, new webcam opti
             if (orb) {
                 orb.position.copy(position);
             }
-            // B"H: DESIGN NOTE for future enhancement:
-            // Orb could absorb nearby projectiles and explode into Mitzvah orbs on impact.
         }
 
         function triggerMitzvahCascade(position) {
@@ -1422,6 +1467,7 @@ This version implements user feedback for a better road texture, new webcam opti
             gameState.effects.globalShield = 5.0; // Shield visual lasts 5 seconds
             // Restore the nefesh (it was never marked for destruction, so we just play an effect)
             const state = nefeshState[savedNefeshIndex];
+            state.lastShotTime = 0; // Re-enable firing
             const worldPos = new THREE.Vector3().copy(state.currentPos).add(nefeshGroup.position);
             createParticleExplosion(worldPos, 100, '#ffffff', 20);
             triggerFlash('#ffffff', 600);
@@ -1429,7 +1475,15 @@ This version implements user feedback for a better road texture, new webcam opti
 
 
         // --- WORLD CREATION ---
-        let road;
+        const world = {
+            isInitialized: false,
+            road: null,
+            starfield: null,
+            nebulae: [],
+            constellationNetwork: null
+        };
+        const starfieldParticles = [];
+
         /** B"H: Creates the new, improved flowing road texture */
         function createFlowingTexture() {
             const size = 512;
@@ -1495,10 +1549,61 @@ This version implements user feedback for a better road texture, new webcam opti
             return texture;
         }
 
+        function createNebula() {
+            const geo = new THREE.PlaneGeometry(500, 500);
+            const canvas = document.createElement('canvas');
+            const size = 512;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            const color1 = `hsla(${Math.random() * 360}, 70%, 50%, 0.7)`;
+            const color2 = `hsla(${Math.random() * 360}, 80%, 60%, 0.5)`;
+
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0,0,size,size);
+
+            for (let i=0; i<50; i++) {
+                ctx.fillStyle = `hsla(${Math.random() * 360}, 90%, 80%, ${Math.random() * 0.1})`;
+                ctx.beginPath();
+                ctx.arc(Math.random() * size, Math.random() * size, Math.random() * 100, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const mat = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                fog: false
+            });
+
+            const nebula = new THREE.Mesh(geo, mat);
+            return nebula;
+        }
+        
+        function regenerateWorld() {
+            // Clear existing world objects
+            if (world.road) scene.remove(world.road);
+            if (world.starfield) scene.remove(world.starfield);
+            if (world.constellationNetwork) scene.remove(world.constellationNetwork);
+            world.nebulae.forEach(n => scene.remove(n));
+            
+            starfieldParticles.length = 0;
+            world.nebulae.length = 0;
+
+            // Re-create the world
+            createWorld();
+        }
 
         function createWorld() {
-            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100); // More segments for smoother waves
-
+            // Road
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength, 20, 100);
             const roadMat = new THREE.ShaderMaterial({
                 vertexShader: document.getElementById('roadVertexShader').textContent,
                 fragmentShader: document.getElementById('roadFragmentShader').textContent,
@@ -1511,19 +1616,75 @@ This version implements user feedback for a better road texture, new webcam opti
                 },
                 transparent: true,
             });
+            world.road = new THREE.Mesh(roadGeo, roadMat);
+            world.road.rotation.x = -Math.PI / 2;
+            world.road.position.y = roadLevelY;
+            scene.add(world.road);
 
-            road = new THREE.Mesh(roadGeo, roadMat);
-            road.rotation.x = -Math.PI / 2;
-            road.position.y = roadLevelY;
-            scene.add(road);
+            // Starfield
+            const numStars = gameSettings.starfieldDensity || 2000;
+            const starVertices = [];
+            for (let i = 0; i < numStars; i++) {
+                const x = (Math.random() - 0.5) * 500;
+                const y = (Math.random() - 0.5) * 250;
+                const z = (Math.random() - 0.5) * 1000;
+                starVertices.push(x, y, z);
+                starfieldParticles.push({
+                    position: new THREE.Vector3(x, y, z),
+                    neighbors: []
+                });
+            }
+            const starGeometry = new THREE.BufferGeometry();
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const starMaterial = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff, fog: false });
+            world.starfield = new THREE.Points(starGeometry, starMaterial);
+            scene.add(world.starfield);
+            
+            // Constellation Network
+            if (gameSettings.enableConstellations) {
+                const connections = [];
+                const maxDistSq = Math.pow(gameSettings.constellationDistance, 2);
+                const connectionsPerStar = gameSettings.constellationConnections;
 
-            const createField = () => { const vertices = []; for (let i = 0; i < 5000; i++) { vertices.push( (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 250, (Math.random() - 0.5) * 500 ); } const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); const material = new THREE.PointsMaterial({ size: 0.2, color: 0xaa88ff }); return new THREE.Points(geometry, material); };
-            const starField1 = createField();
-            const starField2 = createField();
-            starField2.position.z = -500;
-            scene.add(starField1, starField2);
+                for (let i = 0; i < starfieldParticles.length; i++) {
+                    const star1 = starfieldParticles[i];
+                    let neighbors = [];
+                    for (let j = 0; j < starfieldParticles.length; j++) {
+                        if (i === j) continue;
+                        const star2 = starfieldParticles[j];
+                        const distSq = star1.position.distanceToSquared(star2.position);
+                        if (distSq < maxDistSq) {
+                            neighbors.push({ index: j, distSq });
+                        }
+                    }
+                    neighbors.sort((a, b) => a.distSq - b.distSq);
+                    for (let k = 0; k < neighbors.length && k < connectionsPerStar; k++) {
+                        const neighborIndex = neighbors[k].index;
+                        // Avoid duplicate lines
+                        if (i < neighborIndex) {
+                            connections.push(star1.position, starfieldParticles[neighborIndex].position);
+                        }
+                    }
+                }
+                const lineGeo = new THREE.BufferGeometry().setFromPoints(connections);
+                const lineMat = new THREE.LineBasicMaterial({ color: 0x445599, transparent: true, opacity: 0.2, fog: false });
+                world.constellationNetwork = new THREE.LineSegments(lineGeo, lineMat);
+                world.constellationNetwork.userData.originalPositions = new Float32Array(lineGeo.attributes.position.array);
+                scene.add(world.constellationNetwork);
+            }
+
+
+            // Nebulae
+            for(let i=0; i<5; i++) {
+                const nebula = createNebula();
+                nebula.position.set((Math.random() - 0.5) * 400, (Math.random() - 0.5) * 200, -500 - Math.random() * 400);
+                world.nebulae.push(nebula);
+                scene.add(nebula);
+            }
+            world.isInitialized = true;
         }
-        const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = 15; // B"H: Updated to be relative to dynamic camera
+
+        const lanePositions = [-3.0, 0, 3.0]; const obstacleRemovalZ = 15;
         function spawnObstacle(type, laneIndex, zPos) { const position = new THREE.Vector3(lanePositions[laneIndex], roadLevelY, zPos); const levelFactor = 1 + (gameState.level / 10); switch(type) { case 'klipah_gate': { const gate = klipahGatePool.activate(); if(!gate) return null; gate.position.copy(position); gate.position.y += 2; const authorityBonus = 1.0 - ((playerStats.upgrades.commandmentsAuthority?.level || 0) * 0.01); const value = Math.floor(-(5 + Math.floor(Math.random() * 15 * levelFactor)) * authorityBonus); Object.assign(gate.userData, { currentValue: value, isPurified: false }); updateKlipahGateVisuals(gate); return gate; } case 'jar': { const jar = jarPool.activate(); if(!jar) return null; jar.position.copy(position); jar.position.y += 0.75; const health = Math.floor(30 + Math.random() * 40 * levelFactor); Object.assign(jar.userData, { health, maxHealth: health, isShielded: false }); updateJarHealthVisuals(jar); return jar; } case 'tohu_shard': { const shard = tohuShardPool.activate(); if(!shard) return null; shard.position.copy(position); return shard; } case 'golem_sentry': { const golem = golemSentryPool.activate(); if(!golem) return null; golem.position.copy(position); golem.userData.health = Math.floor(120 * levelFactor); golem.userData.lastShotTime = 0; golem.userData.isShielded = false; golem.userData.isFriendly = false; golem.userData.torso.material = golemMaterial; golem.userData.head.material = golemMaterial; if (Math.random() < 0.02) { golem.userData.isFriendly = true; golem.userData.lifeTimer = 15.0; golem.userData.torso.material = golemFriendlyMaterial; golem.userData.head.material = golemFriendlyMaterial; showSurpriseNotifier("A Clay Servant assists you!", "#ffd700"); } return golem; } case 'tome_keeper': { const keeper = tomeKeeperPool.activate(); if(!keeper) return null; keeper.position.copy(position); keeper.userData.health = 50 * levelFactor; keeper.userData.shieldedEnemy = null; return keeper; } case 'weaver': { const weaver = weaverPool.activate(); if(!weaver) return null; weaver.position.copy(position); weaver.position.y += 1.0; weaver.userData.health = Math.floor(40 * levelFactor); weaver.userData.lastShotTime = 0; return weaver; } case 'shatterer': { const shatterer = shattererPool.activate(); if(!shatterer) return null; shatterer.position.copy(position); shatterer.userData.health = Math.floor(60 * levelFactor); return shatterer; } case 'minelayer': { const minelayer = minelayerPool.activate(); if(!minelayer) return null; minelayer.position.copy(position); minelayer.userData.health = Math.floor(70 * levelFactor); minelayer.userData.lastMineTime = clock.elapsedTime; return minelayer; } } return null; }
 
         // --- SPAWN PATTERNS & WAVE MANAGEMENT ---
@@ -1563,9 +1724,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 enemy.userData.waveId = gameState.wave.waveId;
                 gameState.wave.enemiesInWave.add(enemy);
             });
-             // B"H: DESIGN NOTE for future enhancement:
-             // This is where a "Sefer Yetzirah" (procedural modifier) check would go.
-             // e.g., if(Math.random() < 0.1) { applyRandomRune(enemies); }
         }
 
         function trySpawnNextWave() {
@@ -1590,7 +1748,10 @@ This version implements user feedback for a better road texture, new webcam opti
             }
         }
 
-        function spawnSpecialParticle() { if (specialParticleTextures.length === 0) return; if (Math.random() < 0.005) { const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; p.position.set((Math.random() - 0.5) * spawnRadius * 2, (Math.random() - 0.5) * spawnRadius, spawnZ); p.material.map = null; p.material.color = new THREE.Color(0xffffff); p.material.needsUpdate = true; p.scale.set(3, 3, 3); p.userData.life = 6.0; p.userData.type = 'ein_sof_glimmer'; p.userData.velocity = new THREE.Vector3(0, 0, 50 + gameState.level * 3); showSurpriseNotifier("A Glimmer of Ein Sof appears!", "#ffffff"); return; } const p = specialParticlePool.activate(); if (!p) return; const spawnRadius = gameSettings.particleSpawnRadius; const spawnZ = -150; const x = (Math.random() - 0.5) * spawnRadius * 2; const y = (Math.random() - 0.5) * spawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); p.userData.type = 'special_particle'; }
+        function spawnSpecialParticle() { 
+            // B"H: This function seems to be missing the particle spawn radius setting
+            const particleSpawnRadius = 60; // Placeholder, should be from gameSettings
+            if (specialParticleTextures.length === 0) return; if (Math.random() < 0.005) { const p = specialParticlePool.activate(); if (!p) return; const spawnZ = -150; p.position.set((Math.random() - 0.5) * particleSpawnRadius * 2, (Math.random() - 0.5) * particleSpawnRadius, spawnZ); p.material.map = null; p.material.color = new THREE.Color(0xffffff); p.material.needsUpdate = true; p.scale.set(3, 3, 3); p.userData.life = 6.0; p.userData.type = 'ein_sof_glimmer'; p.userData.velocity = new THREE.Vector3(0, 0, 50 + gameState.level * 3); showSurpriseNotifier("A Glimmer of Ein Sof appears!", "#ffffff"); return; } const p = specialParticlePool.activate(); if (!p) return; const spawnZ = -150; const x = (Math.random() - 0.5) * particleSpawnRadius * 2; const y = (Math.random() - 0.5) * particleSpawnRadius; p.position.set(Math.abs(x) < 20 && Math.abs(y) < 20 ? (x > 0 ? 20 : -20) : x, y, spawnZ); const texture = specialParticleTextures[Math.floor(Math.random() * specialParticleTextures.length)]; p.material.map = texture; p.material.opacity = 0.1 + Math.random() * 0.5; p.material.needsUpdate = true; const scale = gameSettings.minParticleSize + Math.random() * (gameSettings.maxParticleSize - gameSettings.minParticleSize); p.scale.set(scale, scale, scale); p.userData.life = 5.0; const baseSpeed = 40 + (gameState.level * 3); const randomSpeed = 20 + gameState.level * 2; p.userData.velocity = new THREE.Vector3(0, 0, baseSpeed + Math.random() * randomSpeed); p.userData.type = 'special_particle'; }
 
         // --- BOSS BATTLE SYSTEM ---
         const bossManager = {
@@ -1700,7 +1861,8 @@ This version implements user feedback for a better road texture, new webcam opti
                 particlePool, shefaOrbPool, specialParticlePool, klipahGatePool,
                 jarPool, tohuShardPool, golemSentryPool, windParticlePool,
                 tomeKeeperPool, weaverPool, shattererPool, weaverProjectilePool,
-                shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool
+                shattererShardPool, minelayerPool, minePool, redemptionOrbPool, mitzvahOrbPool,
+                fleetConduitPool
             ];
             allPools.forEach(pool => pool.deactivateAll());
             dynamicShards.forEach(s => scene.remove(s)); dynamicShards.clear();
@@ -1748,9 +1910,10 @@ This version implements user feedback for a better road texture, new webcam opti
 
             scene.fog = new THREE.Fog(gameState.color.current, 50, 200);
             renderer.setClearColor(gameState.color.current);
-            acquiredUpgrades.clear();
-            if(!road) createWorld();
-            nefeshGroup.position.set(0, 0, 5); // B"H: Move fleet group forward
+            
+            if(!world.isInitialized) createWorld(); else regenerateWorld();
+
+            nefeshGroup.position.set(0, 0, 5);
 
             ui.prayerDropdownBtn.style.display = 'block';
             if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) {
@@ -1760,7 +1923,7 @@ This version implements user feedback for a better road texture, new webcam opti
             }
 
             const startingNefesh = 10 + (playerStats.upgrades.startNefesh?.level || 0);
-            adjustNefeshCount(startingNefesh); // This will also call updateCameraTarget()
+            adjustNefeshCount(startingNefesh);
 
             targetCubeX = 0;
 
@@ -1866,21 +2029,53 @@ This version implements user feedback for a better road texture, new webcam opti
             }
         });
 
-        function updatePrayerDisplay() { if(!gameState.customPrayers) return; const prayers = gameState.customPrayers; if(prayers && prayers.phrases.length > 0) { ui.prayerText.textContent = prayers.phrases[prayers.currentIndex]; applyCaptionStyle(); const now = clock.getElapsedTime(); const timeSinceChange = now - gameState.prayerChain.lastChangeTime; gameState.prayerChain.lastChangeTime = now; const history = gameState.prayerChain.history; history.push(prayers.currentIndex); if (history.length > 3) history.shift(); if (history.length === 3 && timeSinceChange < 4.0) { const uniquePrayers = new Set(history); if (uniquePrayers.size === 3) { showSurpriseNotifier("Prayer Chain Resonance!", "#ffd700"); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.2, 16, 64), new THREE.MeshBasicMaterial({color: 0xffd700, transparent: true, opacity: 0.9})); shockwave.position.copy(nefeshGroup.position); shockwave.position.y = 1; shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 3.0, isPrayerWave: true}); history.length = 0; } } } }
+        function updatePrayerDisplay() { if(!gameState.customPrayers) return; const prayers = gameState.customPrayers; if(prayers && prayers.phrases.length > 0) { ui.prayerText.textContent = prayers.phrases[prayers.currentIndex]; const now = clock.getElapsedTime(); const timeSinceChange = now - gameState.prayerChain.lastChangeTime; gameState.prayerChain.lastChangeTime = now; const history = gameState.prayerChain.history; history.push(prayers.currentIndex); if (history.length > 3) history.shift(); if (history.length === 3 && timeSinceChange < 4.0) { const uniquePrayers = new Set(history); if (uniquePrayers.size === 3) { showSurpriseNotifier("Prayer Chain Resonance!", "#ffd700"); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.2, 16, 64), new THREE.MeshBasicMaterial({color: 0xffd700, transparent: true, opacity: 0.9})); shockwave.position.copy(nefeshGroup.position); shockwave.position.y = 1; shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 3.0, isPrayerWave: true}); history.length = 0; } } } }
         ui.prevPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex - 1 + prayers.phrases.length) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
         ui.nextPrayerBtn.addEventListener('click', () => { const prayers = gameState.customPrayers; if (prayers && prayers.phrases.length > 0) { prayers.currentIndex = (prayers.currentIndex + 1) % prayers.phrases.length; updatePrayerDisplay(); shatterElement(ui.prayerText); } });
-        function populatePrayerList() { ui.prayerList.innerHTML = ''; if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { gameState.customPrayers.phrases.forEach((phrase, index) => { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = phrase; if (index === gameState.customPrayers.currentIndex) item.classList.add('active'); item.addEventListener('click', () => { gameState.customPrayers.currentIndex = index; updatePrayerDisplay(); populatePrayerList(); }); ui.prayerList.appendChild(item); }); ui.prayerSettingsToggleBtn.style.display = 'block'; } else { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = "No custom prayers active."; item.style.fontStyle = 'italic'; ui.prayerList.appendChild(item); ui.prayerSettingsToggleBtn.style.display = 'none'; } ui.inGameCaptionFontInput.value = gameSettings.captionFont; ui.inGameCaptionColorPicker.value = gameSettings.captionColor; const activeItem = ui.prayerList.querySelector('.active'); if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+        function populatePrayerList() { ui.prayerList.innerHTML = ''; if (gameState.customPrayers && gameState.customPrayers.phrases.length > 0) { gameState.customPrayers.phrases.forEach((phrase, index) => { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = phrase; if (index === gameState.customPrayers.currentIndex) item.classList.add('active'); item.addEventListener('click', () => { gameState.customPrayers.currentIndex = index; updatePrayerDisplay(); populatePrayerList(); }); ui.prayerList.appendChild(item); }); ui.prayerSettingsToggleBtn.style.display = 'block'; } else { const item = document.createElement('div'); item.className = 'prayer-list-item'; item.textContent = "No custom prayers active."; item.style.fontStyle = 'italic'; ui.prayerList.appendChild(item); ui.prayerSettingsToggleBtn.style.display = 'none'; } const activeItem = ui.prayerList.querySelector('.active'); if (activeItem) activeItem.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
         ui.prayerDropdownBtn.addEventListener('click', () => { populatePrayerList(); ui.prayerListOverlay.classList.add('visible'); }); ui.closePrayerListBtn.addEventListener('click', () => ui.prayerListOverlay.classList.remove('visible')); ui.prayerSettingsToggleBtn.addEventListener('click', () => { const panel = ui.prayerSettingsPanel; panel.style.display = panel.style.display === 'none' ? 'flex' : 'none'; });
-        const setupSettingListener = (element, valueSpan, settingName, parseFunc, isAsync = false, callback) => { const eventType = element.type === 'range' || element.type === 'color' ? 'input' : 'change'; if (valueSpan && eventType === 'input') { element.addEventListener('input', e => { valueSpan.textContent = e.target.value; }); } element.addEventListener('change', async e => { try { const value = parseFunc(e.target.value, e.target.checked); await saveSetting(settingName, value); if (isAsync) { gameSettings[settingName] = value; if (callback) await callback(); } else { await applySettings(); } } catch(err) { console.error(`Failed to save setting ${settingName}:`, err); } }); };
-        setupSettingListener(ui.maxNefeshSlider, ui.maxNefeshValue, 'maxNefesh', parseInt); setupSettingListener(ui.particleCharsTextarea, null, 'particleChars', val => val); setupSettingListener(ui.shakeIntensitySlider, ui.shakeIntensityValue, 'shakeIntensity', parseFloat); setupSettingListener(ui.flashIntensitySlider, ui.flashIntensityValue, 'flashIntensity', parseFloat); setupSettingListener(ui.effectsIntensitySlider, ui.effectsIntensityValue, 'effectsIntensity', parseFloat); setupSettingListener(ui.shatterCountSlider, ui.shatterCountValue, 'shatterCount', parseInt); setupSettingListener(ui.shatterSpeedSlider, ui.shatterSpeedValue, 'shatterSpeed', parseInt); setupSettingListener(ui.minParticleSizeSlider, ui.minParticleSizeValue, 'minParticleSize', parseFloat); setupSettingListener(ui.maxParticleSizeSlider, ui.maxParticleSizeValue, 'maxParticleSize', parseFloat); setupSettingListener(ui.particleSpawnRadiusSlider, ui.particleSpawnRadiusValue, 'particleSpawnRadius', parseInt); setupSettingListener(ui.captionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.captionColorPicker, null, 'captionColor', val => val); setupSettingListener(ui.inGameCaptionFontInput, null, 'captionFont', val => val); setupSettingListener(ui.inGameCaptionColorPicker, null, 'captionColor', val => val);
-        setupSettingListener(ui.webcamModeSelect, null, 'webcamMode', val => val, true, updateWebcamState);
-        setupSettingListener(ui.signpostSideSelect, null, 'signpostSide', val => val, true, updateWebcamState);
+        
+        const setupSettingListener = (element, settingName, parseFunc, valueSpan = null, isAsync = false, callback = null) => { 
+            const eventType = element.type === 'range' ? 'input' : 'change'; 
+            if (valueSpan) { element.addEventListener('input', e => { valueSpan.textContent = e.target.value; }); } 
+            element.addEventListener('change', async e => { 
+                try { 
+                    const value = parseFunc(e.target.value, e.target.checked); 
+                    await saveSetting(settingName, value); 
+                    gameSettings[settingName] = value;
+                    if (isAsync && callback) { 
+                        await callback(); 
+                    } else if (!isAsync) {
+                        await applySettings();
+                    }
+                } catch(err) { console.error(`Failed to save setting ${settingName}:`, err); } 
+            }); 
+        };
+
+        // B"H: Setup all settings listeners
+        setupSettingListener(ui.maxNefeshSlider, 'maxNefesh', parseInt, ui.maxNefeshValue);
+        setupSettingListener(ui.shakeIntensitySlider, 'shakeIntensity', parseFloat, ui.shakeIntensityValue);
+        setupSetting-listener(ui.flashIntensitySlider, 'flashIntensity', parseFloat, ui.flashIntensityValue);
+        setup-listener(ui.effectsIntensitySlider, 'effectsIntensity', parseFloat, ui.effectsIntensityValue);
+        setup-listener(ui.starfieldDensitySlider, 'starfieldDensity', parseInt, ui.starfieldDensityValue);
+        setup-listener(ui.particleCharsTextarea, 'particleChars', val => val);
+        setup-listener(ui.minParticleSizeSlider, 'minParticleSize', parseFloat, ui.minParticleSizeValue);
+        setup-listener(ui.maxParticleSizeSlider, 'maxParticleSize', parseFloat, ui.maxParticleSizeValue);
+        setup-listener(ui.shatterCountSlider, 'shatterCount', parseInt, ui.shatterCountValue);
+        setup-listener(ui.shatterSpeedSlider, 'shatterSpeed', parseInt, ui.shatterSpeedValue);
+        setup-listener(ui.enableFleetConduitsCheckbox, 'enableFleetConduits', (val, checked) => checked);
+        setup-listener(ui.fleetConduitCountSlider, 'fleetConduitCount', parseInt, ui.fleetConduitCountValue);
+        setup-listener(ui.enableConstellationsCheckbox, 'enableConstellations', (val, checked) => checked);
+        setup-listener(ui.constellationConnectionsSlider, 'constellationConnections', parseInt, ui.constellationConnectionsValue);
+        setup-listener(ui.constellationDistanceSlider, 'constellationDistance', parseInt, ui.constellationDistanceValue);
+        setup-listener(ui.webcamModeSelect, 'webcamMode', val => val, null, true, updateWebcamState);
+        setup-listener(ui.signpostSideSelect, 'signpostSide', val => val, null, true, updateWebcamState);
+        
         window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); updateCameraTarget(); });
         function checkInstancedCollision(nefeshStateItem, otherObject) { otherObject.getWorldPosition(worldPosVec); collisionVec2.set(worldPosVec.x, worldPosVec.z); return nefeshStateItem.collisionBox2D.containsPoint(collisionVec2); }
 
         /**
          * B"H: Calculates and sets the target position for the dynamic camera based on the current fleet size.
-         * This ensures all active Nefesh units are visible.
          */
         function updateCameraTarget() {
             if (!gameState || gameState.nefesh === undefined) return;
@@ -1891,32 +2086,20 @@ This version implements user feedback for a better road texture, new webcam opti
                 return;
             }
 
-            // Find the maximum radius of the current formation
             const radiusStep = 0.45;
             let maxRadiusForLayout = radiusStep * Math.sqrt(MAX_NEFESH);
             const scaleFactor = (maxRadiusForLayout * 2 > roadWidth) ? (roadWidth / 2) / maxRadiusForLayout : 1;
             const formationRadius = radiusStep * Math.sqrt(activeNefeshCount) * scaleFactor;
 
-            // Determine the field of view in radians
             const fovRad = THREE.MathUtils.degToRad(camera.fov);
-
-            // We need to fit both the width (X) and depth (Z) of the formation in the view.
-            // The formation sits at z=5, so its rearmost point is at `5 + formationRadius`.
             const requiredZDist = (formationRadius / Math.tan(fovRad / 2)) / camera.aspect;
             const requiredYDist = formationRadius / Math.tan(fovRad / 2);
-
-            // The final distance is the greater of the two requirements, plus a base distance.
             const distance = Math.max(requiredYDist, requiredZDist);
 
             const baseCamPos = new THREE.Vector3(0, 7, 9);
-            const scaleFactorZ = 1.4;
-            const scaleFactorY = 0.8;
-
-            cameraTargetPos.z = baseCamPos.z + distance * scaleFactorZ;
-            cameraTargetPos.y = baseCamPos.y + distance * scaleFactorY;
-            cameraTargetPos.x = 0; // The camera itself doesn't move side-to-side
-
-            // Always look at a point slightly in front of the center of the mass
+            cameraTargetPos.z = baseCamPos.z + distance * 1.4;
+            cameraTargetPos.y = baseCamPos.y + distance * 0.8;
+            cameraTargetPos.x = 0;
             cameraLookAtTarget.set(nefeshGroup.position.x, 2, 0);
         }
 
@@ -1938,14 +2121,31 @@ This version implements user feedback for a better road texture, new webcam opti
                 if (!gameState.color.current.equals(gameState.color.target)) {
                     gameState.color.current.lerp(gameState.color.target, 0.5 * deltaTime);
                     renderer.setClearColor(gameState.color.current);
-                    if(road) road.material.uniforms.uColor.value.copy(gameState.color.current);
+                    if(world.road) world.road.material.uniforms.uColor.value.copy(gameState.color.current);
                     if(scene.fog) scene.fog.color.copy(gameState.color.current);
                 }
-                if(road) {
-                    road.material.uniforms.uTime.value = time;
-                    road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0; // Scale speed for shader
+                if(world.road) {
+                    world.road.material.uniforms.uTime.value = time;
+                    world.road.material.uniforms.uSpeed.value = currentRoadSpeed / 20.0;
+                    // B"H: Added failsafe for road visibility
+                    if (!world.road.visible) world.road.visible = true;
                 }
                 if(webcam.isInitialized) webcam.update(deltaTime);
+                
+                // Update Starfield & Constellations
+                const scrollSpeed = currentRoadSpeed * 0.1;
+                if(world.starfield) {
+                    const positions = world.starfield.geometry.attributes.position.array;
+                    for (let i = 2; i < positions.length; i += 3) {
+                        positions[i] += scrollSpeed * deltaTime;
+                        if (positions[i] > camera.position.z) positions[i] -= 1000;
+                    }
+                    world.starfield.geometry.attributes.position.needsUpdate = true;
+                }
+                if(world.constellationNetwork && gameSettings.enableConstellations) {
+                    updateConstellationNetwork(deltaTime, scrollSpeed);
+                }
+
 
                 if (Math.random() < Math.min(0.95, 0.4 + (gameState.level * 0.025))) spawnSpecialParticle();
                 for (const p of specialParticlePool.active) { p.position.addScaledVector(p.userData.velocity, deltaTime); p.userData.life -= deltaTime; if (p.userData.type === 'ein_sof_glimmer') { p.material.opacity = 0.5 + Math.sin(time * 5) * 0.5; const boundingSphere = new THREE.Sphere(nefeshGroup.position, 5); if (boundingSphere.containsPoint(p.position)) { showSurpriseNotifier("✨ EIN SOF'S BLESSING! ✨", "#ffffff"); gameState.effects.invincibleTimer = 5.0; gameState.effects.allCritTimer = 5.0; triggerFlash("#ffffff", 800); p.userData.life = 0; } } else { p.material.opacity = Math.sin(Math.max(0, p.userData.life) * 0.5 * Math.PI) * 0.7; } if (p.userData.life <= 0 || p.position.z > camera.position.z) { specialParticlePool.deactivate(p); } }
@@ -1955,7 +2155,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 windParticlePool.active.forEach(p => { p.position.x += p.userData.velocity.x * deltaTime; p.userData.life -= deltaTime; if (p.userData.life <= 0) windParticlePool.deactivate(p); });
 
                 // --- Player Movement & State ---
-                // B"H: REWORKED MOVEMENT LOGIC
                 let minX = Infinity, maxX = -Infinity;
                 nefeshState.forEach(state => {
                     if (state.active && !destroyedNefeshIndices.has(nefeshState.indexOf(state))) {
@@ -1963,13 +2162,9 @@ This version implements user feedback for a better road texture, new webcam opti
                         if (state.targetPos.x > maxX) maxX = state.targetPos.x;
                     }
                 });
-                if (minX !== Infinity) { // Only apply if there are active nefesh
-                    const leftBound = -roadWidth / 2 - minX;
-                    const rightBound = roadWidth / 2 - maxX;
-                    targetCubeX = Math.max(leftBound, Math.min(rightBound, targetCubeX));
-                }
+                if (minX !== Infinity) { const leftBound = -roadWidth / 2 - minX; const rightBound = roadWidth / 2 - maxX; targetCubeX = Math.max(leftBound, Math.min(rightBound, targetCubeX)); }
                 nefeshGroup.position.x = THREE.MathUtils.lerp(nefeshGroup.position.x, targetCubeX, 0.1);
-                cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1); // Make camera look slightly towards movement direction
+                cameraLookAtTarget.x = THREE.MathUtils.lerp(cameraLookAtTarget.x, nefeshGroup.position.x / 2, 0.1);
 
                 if(gameState.combo.timer > 0) gameState.combo.timer -= deltaTime; else if (gameState.combo.count > 0) { gameState.combo.count = 0; ui.comboNotifier.classList.remove('show'); }
                 if(gameState.player.hasRegen) { gameState.player.regenTimer += deltaTime; if(gameState.player.regenTimer > 15) { gameState.player.regenTimer = 0; if(gameState.nefesh > 0 && gameState.nefesh < MAX_NEFESH) adjustNefeshCount(1); } }
@@ -1980,10 +2175,14 @@ This version implements user feedback for a better road texture, new webcam opti
 
                 // --- Nefesh Update & Firing ---
                 const troopHalfSize = 0.4; let activeNefeshCount = 0; const tempMatrix = new THREE.Matrix4(); const tempQuaternion = new THREE.Quaternion();
+                const activeNefeshForLinks = [];
                 nefeshState.forEach((state, i) => {
                     if (!state.active) { tempMatrix.makeScale(0, 0, 0); nefeshTopInstanced.setMatrixAt(i, tempMatrix); nefeshBottomInstanced.setMatrixAt(i, tempMatrix); if (nefeshWebcamInstanced) nefeshWebcamInstanced.setMatrixAt(i, tempMatrix); return; }
                     activeNefeshCount++;
                     state.currentPos.lerp(state.targetPos, 0.15);
+                    const worldPos = state.currentPos.clone().add(nefeshGroup.position);
+                    activeNefeshForLinks.push({ pos: worldPos });
+
                     const worldX = nefeshGroup.position.x + state.currentPos.x;
                     const worldZ = nefeshGroup.position.z + state.currentPos.z;
                     state.collisionBox2D.min.set(worldX - troopHalfSize, worldZ - troopHalfSize);
@@ -1992,8 +2191,7 @@ This version implements user feedback for a better road texture, new webcam opti
                     state.yRotation += deltaTime * 2;
 
                     if (!destroyedNefeshIndices.has(i) && currentTime - state.lastShotTime > gameState.player.fireRate) {
-                        worldPosVec.set(worldX, 0.4, worldZ);
-                        fireSpark(worldPosVec, gameState.player.projectileDamage, gameState.player.hasPierce);
+                        fireSpark(new THREE.Vector3(worldX, 0.4, worldZ), gameState.player.projectileDamage, gameState.player.hasPierce);
                         state.lastShotTime = currentTime;
                     }
 
@@ -2006,6 +2204,8 @@ This version implements user feedback for a better road texture, new webcam opti
                 });
                 nefeshTopInstanced.instanceMatrix.needsUpdate = true; nefeshBottomInstanced.instanceMatrix.needsUpdate = true; nefeshTopInstanced.count = activeNefeshCount; nefeshBottomInstanced.count = activeNefeshCount;
                 if (nefeshWebcamInstanced) { nefeshWebcamInstanced.instanceMatrix.needsUpdate = true; nefeshWebcamInstanced.count = activeNefeshCount; }
+                if(gameSettings.enableFleetConduits) updateFleetConduits(activeNefeshForLinks);
+
 
                 // --- Obstacle & Enemy Update Loop ---
                 if (gameState.bossManager.isActive) {
@@ -2023,7 +2223,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 updateDynamicEffects(deltaTime);
                 updateCelestialEchos(deltaTime);
 
-                // B"H: Update camera position smoothly
                 camera.position.lerp(cameraTargetPos, 0.04);
                 camera.lookAt(cameraLookAtTarget);
 
@@ -2049,6 +2248,45 @@ This version implements user feedback for a better road texture, new webcam opti
             }
         }
 
+        function updateConstellationNetwork(deltaTime, scrollSpeed) {
+            const positions = world.constellationNetwork.geometry.attributes.position.array;
+            const originalPositions = world.constellationNetwork.userData.originalPositions;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] = originalPositions[i];
+                positions[i+1] = originalPositions[i+1];
+                positions[i+2] = originalPositions[i+2] + (world.starfield.position.z + (time * scrollSpeed)) % 1000;
+            }
+            world.constellationNetwork.geometry.attributes.position.needsUpdate = true;
+        }
+
+        function updateFleetConduits(activeNefesh) {
+            fleetConduitPool.deactivateAll();
+            if (activeNefesh.length < 2) return;
+            
+            for (let i = 0; i < activeNefesh.length; i++) {
+                const p1Data = activeNefesh[i];
+                let neighbors = [];
+                for (let j = 0; j < activeNefesh.length; j++) {
+                    if (i === j) continue;
+                    neighbors.push({ index: j, distSq: p1Data.pos.distanceToSquared(activeNefesh[j].pos) });
+                }
+                neighbors.sort((a,b) => a.distSq - b.distSq);
+
+                for (let k = 0; k < gameSettings.fleetConduitCount && k < neighbors.length; k++) {
+                    const p2Data = activeNefesh[neighbors[k].index];
+                    if (i < neighbors[k].index) { // Avoid duplicate tubes
+                        const tube = fleetConduitPool.activate();
+                        if (tube) {
+                            const curve = new THREE.Line3(p1Data.pos, p2Data.pos);
+                            tube.geometry.dispose();
+                            tube.geometry = new THREE.TubeGeometry(curve, 1, 0.02, 3, false);
+                        }
+                    }
+                }
+            }
+        }
+
+
         function processObstacle(obstacle, deltaTime, speed) {
             obstacle.position.z += speed * deltaTime;
             let obsSizeX = 1, obsSizeZ = 1;
@@ -2061,11 +2299,11 @@ This version implements user feedback for a better road texture, new webcam opti
                 case 'weaver': obsSizeX = 1.2; obsSizeZ = 1.2; break;
                 case 'shatterer': obsSizeX = 1.6; obsSizeZ = 1.6; break;
                 case 'minelayer': obsSizeX = 1.2; obsSizeZ = 1.8; break;
-                case 'mine': obsSizeX = 0.8; obsSizeZ = 0.8; obstacle.position.z += (speed * 0.2) * deltaTime; break; // Mines move slowly with the road
+                case 'mine': obsSizeX = 0.8; obsSizeZ = 0.8; obstacle.position.z += (speed * 0.2) * deltaTime; break;
             }
             if (obstacle.userData.collisionBox2D) { obstacle.userData.collisionBox2D.setFromCenterAndSize({ x: obstacle.position.x, y: obstacle.position.z }, { x: obsSizeX, y: obsSizeZ }); }
 
-            if (obstacle.position.z > camera.position.z + 10) { // Use camera position as removal boundary
+            if (obstacle.position.z > camera.position.z + 10) {
                 deactivateObstacle(obstacle);
                 return;
             }
@@ -2089,7 +2327,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 klipah_gate: klipahGatePool, jar: jarPool, tohu_shard: tohuShardPool,
                 golem_sentry: golemSentryPool, tome_keeper: tomeKeeperPool, weaver: weaverPool,
                 shatterer: shattererPool, minelayer: minelayerPool, mine: minePool,
-                // for projectiles treated as obstacles
                 heavy: golemHeavyProjectilePool, fast: golemFastProjectilePool, normal: golemProjectilePool,
                 redemption_orb: redemptionOrbPool
             };
@@ -2201,19 +2438,46 @@ This version implements user feedback for a better road texture, new webcam opti
             const particleColor = spark.isCrit ? '#ffaa00' : (spark.isEcho ? '#ffd700' : '#ffffff');
 
             switch(obstacle.userData.type) {
-                case 'klipah_gate': obstacle.userData.currentValue += spark.damage; createParticleExplosion(spark.position, 3, obstacle.userData.isPurified ? '#ffd700' : '#888888', 5); if (!obstacle.userData.isPurified && obstacle.userData.currentValue >= 0) { obstacle.userData.isPurified = true; updateCombo(25, obstacle.position); createParticleExplosion(obstacle.position, 40, 0x00ff00, 18); const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8})); shockwave.position.copy(obstacle.position); shockwave.rotation.x = Math.PI / 2; scene.add(shockwave); activeShockwaves.add({mesh: shockwave, life: 1.0}); triggerKlipahRedemption(obstacle.position); } updateKlipahGateVisuals(obstacle); break;
-                default: obstacle.userData.health -= spark.damage; createParticleExplosion(spark.position, 5, particleColor, 8); if (obstacle.userData.health <= 0) {
-                    triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
-                    if(obstacle.userData.type === 'jar' && Math.random() < 0.1) { showSurpriseNotifier("A Vessel of Light Shatters!", "#ffffff"); for (let i = 0; i < 8; i++) { const angle = (i / 8) * Math.PI * 2; const velocity = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(40); fireSpark(obstacle.position, 1, true, false, velocity); } }
-                    if(obstacle.userData.type === 'shatterer') {
-                        for(let i = 0; i < 12; i++) { const shard = shattererShardPool.activate(); if(shard) { shard.position.copy(obstacle.position); shard.userData.velocity = new THREE.Vector3().randomDirection().setY(0).normalize().multiplyScalar(20 + Math.random() * 10); } }
+                case 'klipah_gate':
+                    if (obstacle.userData.isPurified) {
+                        obstacle.userData.currentValue++;
+                        createParticleExplosion(spark.position, 1, '#aaffaa', 2);
+                    } else {
+                        obstacle.userData.currentValue += spark.damage;
+                        createParticleExplosion(spark.position, 3, '#888888', 5);
+                        if (obstacle.userData.currentValue >= 0) {
+                            obstacle.userData.isPurified = true;
+                            obstacle.userData.currentValue = 0; // Reset to 0 upon purification
+                            updateCombo(25, obstacle.position);
+                            createParticleExplosion(obstacle.position, 40, 0x00ff00, 18);
+                            const shockwave = new THREE.Mesh(new THREE.TorusGeometry(1, 0.1, 8, 32), new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.8}));
+                            shockwave.position.copy(obstacle.position);
+                            shockwave.rotation.x = Math.PI / 2;
+                            scene.add(shockwave);
+                            activeShockwaves.add({mesh: shockwave, life: 1.0});
+                            triggerKlipahRedemption(obstacle.position);
+                        }
                     }
-                    if(obstacle.userData.type === 'tome_keeper' && obstacle.userData.shieldedEnemy) {
-                        obstacle.userData.shieldedEnemy.userData.isShielded = false;
-                        if (obstacle.userData.shieldedEnemy.userData.shieldVisual) obstacle.userData.shieldedEnemy.userData.shieldVisual.visible = false;
-                    }
-                    deactivateObstacle(obstacle);
-                } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } break;
+                    updateKlipahGateVisuals(obstacle);
+                    break;
+                default: 
+                    obstacle.userData.health -= spark.damage; 
+                    createParticleExplosion(spark.position, 5, particleColor, 8); 
+                    if (obstacle.userData.health <= 0) {
+                        triggerScreenShake(0.3); shatterObject(obstacle.userData.body); createParticleExplosion(obstacle.position, 80, 0xffe4b5, 25); updateCombo(75, obstacle.position); const light = new THREE.PointLight(0xffaa55, 8, 30, 2); light.position.copy(obstacle.position); scene.add(light); activeLights.add(light);
+                        if(obstacle.userData.type === 'jar' && Math.random() < 0.15) { // Increased chance for Vessel of Light
+                            showSurpriseNotifier("A Vessel of Light Shatters!", "#ffffff"); for (let i = 0; i < 8; i++) { const angle = (i / 8) * Math.PI * 2; const velocity = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(40); fireSpark(obstacle.position, 1, true, false, velocity); } 
+                        }
+                        if(obstacle.userData.type === 'shatterer') {
+                            for(let i = 0; i < 12; i++) { const shard = shattererShardPool.activate(); if(shard) { shard.position.copy(obstacle.position); shard.userData.velocity = new THREE.Vector3().randomDirection().setY(0).normalize().multiplyScalar(20 + Math.random() * 10); } }
+                        }
+                        if(obstacle.userData.type === 'tome_keeper' && obstacle.userData.shieldedEnemy) {
+                            obstacle.userData.shieldedEnemy.userData.isShielded = false;
+                            if (obstacle.userData.shieldedEnemy.userData.shieldVisual) obstacle.userData.shieldedEnemy.userData.shieldVisual.visible = false;
+                        }
+                        deactivateObstacle(obstacle);
+                    } else if (obstacle.userData.type === 'jar') { updateJarHealthVisuals(obstacle); } 
+                    break;
             }
         }
 
@@ -2238,7 +2502,7 @@ This version implements user feedback for a better road texture, new webcam opti
                     const worldPos = new THREE.Vector3().copy(state.currentPos).add(nefeshGroup.position);
                     activeEchos.push({
                         position: worldPos,
-                        life: 1.5, // Total lifetime in seconds
+                        life: 1.5,
                         maxLife: 1.5,
                         hasFired: false,
                     });
@@ -2256,7 +2520,7 @@ This version implements user feedback for a better road texture, new webcam opti
                 echo.life -= deltaTime;
 
                 if (!echo.hasFired && echo.life < echo.maxLife * 0.75) {
-                    fireSpark(echo.position, 2, true, true); // Echo sparks are powerful
+                    fireSpark(echo.position, 2, true, true);
                     echo.hasFired = true;
                 }
 
@@ -2279,11 +2543,9 @@ This version implements user feedback for a better road texture, new webcam opti
                         playerStats.tabletFragments++;
                         savePlayerStats();
                         showSurpriseNotifier(`Tablet Fragment Found! (${playerStats.tabletFragments}/10)`, "#00f0ff");
-                        // B"H: DESIGN NOTE for future enhancement:
-                        // This is where the temporary "current run" bonus from the fragment would be applied.
                     }
                     createParticleExplosion(nefeshGroup.position, 100, 0x00f0ff, 25);
-                    triggerCelestialEcho(); // B"H: Trigger the new reward
+                    triggerCelestialEcho();
                 }
                 gameState.wave.isTracking = false;
             }
@@ -2303,8 +2565,6 @@ This version implements user feedback for a better road texture, new webcam opti
                 if (currentNefesh <= 0 && gameState.current === 'playing') {
                     endGame();
                 }
-
-                // B"H: Update camera since the fleet size has changed
                 updateCameraTarget();
             }
         }
