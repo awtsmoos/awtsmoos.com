@@ -16,6 +16,31 @@ export const MALCHUT = {
     init(Olam) { this.Olam = Olam; },
 
     /**
+     * @description This is the new function. It finds all UI elements with handler tags
+     * and correctly binds the now-existing functions to them.
+     */
+    bindUIEvents() {
+        const allElements = this.Olam.ui.root.querySelectorAll('[data-on-click], [data-on-input], [data-on-change]');
+        const eventHandlers = ASSIAH.eventHandlers;
+
+        allElements.forEach(el => {
+            const clickHandlerName = el.dataset.onClick;
+            const inputHandlerName = el.dataset.onInput;
+            const changeHandlerName = el.dataset.onChange;
+
+            if (clickHandlerName && eventHandlers[clickHandlerName]) {
+                el.addEventListener('click', eventHandlers[clickHandlerName].bind(this.Olam.ASSIYAH));
+            }
+            if (inputHandlerName && eventHandlers[inputHandlerName]) {
+                el.addEventListener('input', eventHandlers[inputHandlerName].bind(this.Olam.ASSIYAH));
+            }
+            if (changeHandlerName && eventHandlers[changeHandlerName]) {
+                el.addEventListener('change', eventHandlers[changeHandlerName].bind(this.Olam.ASSIYAH));
+            }
+        });
+    },
+
+    /**
      * @description The system that ensures the physical kingdom (the UI) reflects the spiritual state (the Olam).
      * Called every frame to update HUD elements.
      */
@@ -264,4 +289,7 @@ export const MALCHUT = {
             setTimeout(() => notifier.classList.remove('show'), 2500);
         }
     }
+
+
+    
 };
