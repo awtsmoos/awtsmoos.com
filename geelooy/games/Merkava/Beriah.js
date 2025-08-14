@@ -189,7 +189,7 @@ export const BERIAH = {
             const eventType = def.onClick ? 'click' : (def.onInput ? 'input' : 'change');
     
             if (handlerName) {
-                const handlerFn = this.Olam.ASSIYAH.eventHandlers[handlerName];
+                const handlerFn = ASSIAH.eventHandlers[handlerName];
                 if (handlerFn && typeof handlerFn === 'function') {
                     // Bind the main ASSIAH object so handlers like `this.BINAH.startGame()` work.
                     el.addEventListener(eventType, handlerFn.bind(this.Olam.ASSIYAH));
