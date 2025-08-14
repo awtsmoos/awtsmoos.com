@@ -549,8 +549,7 @@ export const TIFERET = {
 
     // TIFERET - Beauty/Harmony: Visual effects, particles, scene beauty.
 
-    // ADD THIS NEW FUNCTION HERE
-    updateCameraTarget() {
+        updateCameraTarget() {
         const Olam = this.Olam;
         if (!Olam.game.nefeshCount) {
             Olam.three.cameraTargetPos.copy(Olam.three.originalCameraPos);
@@ -568,7 +567,6 @@ export const TIFERET = {
         const aspect = Olam.three.camera.aspect;
         const requiredDist = (formationRadius / Math.tan(fovRad / 2));
         
-        // Adjust distance based on whichever dimension (width or height) is more constrained
         const distance = Math.max(requiredDist, (requiredDist / aspect) * 0.8);
 
         const baseCamPos = Olam.three.originalCameraPos;
