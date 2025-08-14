@@ -72,7 +72,8 @@ export const NETZACH = {
         Olam.game.wave.hitsTakenThisWave = 0;
         Olam.game.wave.nextSpawnTime = Olam.three.clock.getElapsedTime() + Math.abs(furthestZOffset / Olam.game.roadSpeed) + 4;
     },
-    
+    // Assiyah/NeHY.js - inside NETZACH
+
     spawnSpecialParticle() {
         const Olam = this.Olam;
         if (Olam.assets.specialParticleTextures.length === 0) return;
@@ -85,8 +86,10 @@ export const NETZACH = {
             particle.object3D.scale.set(3, 3, 3);
             particle.object3D.position.set((Math.random() - 0.5) * 120, (Math.random() - 0.5) * 60, -150);
             const state = particle.components.State;
-            state.life = 6.0; state.type = 'ein_sof_glimmer'; state.velocity.set(0, 0, 50 + Olam.game.level * 3);
-            ASSIAH.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
+            state.life = 6.0; state.type = 'ein_sof_glimmer'; 
+            // *** FIX 2: Access the new top-level Velocity component. ***
+            particle.components.Velocity.set(0, 0, 50 + Olam.game.level * 3);
+            this.Olam.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
             return;
         }
 
@@ -108,7 +111,8 @@ export const NETZACH = {
         state.life = 5.0; state.type = 'special_particle';
         const baseSpeed = 40 + (Olam.game.level * 3);
         const randomSpeed = 20 + Olam.game.level * 2;
-        state.velocity.set(0, 0, baseSpeed + Math.random() * randomSpeed);
+        // *** FIX 3: Access the new top-level Velocity component here as well. ***
+        particle.components.Velocity.set(0, 0, baseSpeed + Math.random() * randomSpeed);
     },
 
     checkWaveCompletion() {
