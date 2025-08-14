@@ -10,6 +10,7 @@ B"H
  * This file contains no logic outside of the ATZILUT constant. It is pure data, pure potential.
  */
 
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 export const ATZILUT = {
     // Geometries: The Otiot (Letters) of Creation, the fundamental shapes from which all matter is formed.
