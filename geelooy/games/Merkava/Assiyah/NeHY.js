@@ -366,16 +366,20 @@ Olam.game.wave.enemiesInWave.forEach(id => {
             });
         });
 
+        // Assiyah/NeHY.js - inside YESOD.movementAndPhysicsSystem
+
         Olam.pools.SpecialParticle.forEach(p => {
             if (p.components.State.active) {
                 const state = p.components.State; const pos = p.object3D.position;
-                pos.addScaledVector(state.velocity, deltaTime); state.life -= deltaTime;
+                // *** FIX 4: Use the top-level Velocity component for physics calculations. ***
+                pos.addScaledVector(p.components.Velocity, deltaTime); 
+                state.life -= deltaTime;
                 if (state.type === 'ein_sof_glimmer') {
                     p.object3D.material.opacity = 0.5 + Math.sin(Olam.three.clock.getElapsedTime() * 5) * 0.5;
                     if (pos.distanceTo(merkavaPos) < 5) {
-                        ASSIAH.MALCHUT.showNotifier('surprise', "✨ EIN SOF'S BLESSING! ✨", "#ffffff");
+                        this.Olam.MALCHUT.showNotifier('surprise', "✨ EIN SOF'S BLESSING! ✨", "#ffffff");
                         Olam.game.effects.invincibleTimer = 5.0; Olam.game.effects.allCritTimer = 5.0;
-                        ASSIAH.TIFERET.triggerEffect('flash', { color: "#ffffff", duration: 800 });
+                        this.Olam.TIFERET.triggerEffect('flash', { color: "#ffffff", duration: 800 });
                         state.life = 0; // Deactivate particle
                     }
                 } else {
