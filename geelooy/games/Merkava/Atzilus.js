@@ -88,7 +88,10 @@ export const ATZILUT = {
         MerkavaWood: { type: 'MeshStandardMaterial', props: { color: 0x8b5a2b, roughness: 0.7, metalness: 0.1 } },
         MerkavaMetal: { type: 'MeshStandardMaterial', props: { color: 0x666666, roughness: 0.3, metalness: 0.9 } },
         MerkavaWebcam: { type: 'MeshBasicMaterial', props: { map: 'placeholder_webcam_mirrored', side: 'DoubleSide' } },
-        CosmicRiver: { type: 'ShaderMaterial', props: { vertexShader: 'cosmicRiverVertexShader', fragmentShader: 'cosmicRiverFragmentShader', uniforms: { uTime: { value: 0.0 }, uSpeed: { value: 1.0 }, uColor: { value: new THREE.Color(0x483d8b) }, uOpacity: { value: 0.85 } }, transparent: true, fog: false } },
+        
+        
+        CosmicRiver: { type: 'ShaderMaterial', props: { vertexShader: 'cosmicRiverVertexShader', fragmentShader: 'cosmicRiverFragmentShader', uniforms: { uTime: { value: 0.0 }, uSpeed: { value: 1.0 }, uColor: { value: new THREE.Color(0x483d8b) }, uOpacity: { value: 0.85 } }, transparent: true, fog: false, depthWrite: false } },
+        
         ShefaOrb: { type: 'MeshBasicMaterial', props: { color: 0xffd700, fog: false } },
         MitzvahOrb: { type: 'MeshBasicMaterial', props: { color: 0xffffff, fog: false } },
         RedemptionOrb: { type: 'MeshBasicMaterial', props: { color: 0xaaffaa, fog: false } },
