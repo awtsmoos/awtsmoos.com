@@ -498,6 +498,12 @@ export const GEVURAH = {
 
 
 
+
+
+
+
+
+
 // TIFERET - Beauty/Harmony: Visual effects, particles, scene beauty.
 export const TIFERET = {
     Olam: null,
@@ -734,19 +740,28 @@ export const TIFERET = {
                 const ai = keeper.components.AI;
                 const shieldedEntity = Olam.entities[ai.shieldedEnemyId];
                 if(shieldedEntity && shieldedEntity.components.State.active) {
-                    // This assumes a beam object is created and stored on the keeper entity
-                    // For now, this logic path is complete even if the beam visual isn't created yet
+                    if(!keeper.refs.shieldBeam) {
+                        const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 });
+                        const beamGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+                        keeper.refs.shieldBeam = new THREE.Line(beamGeometry, beamMaterial);
+                        keeper.object3D.add(keeper.refs.shieldBeam);
+                    }
+                    keeper.refs.shieldBeam.visible = true;
+                    const positions = keeper.refs.shieldBeam.geometry.attributes.position.array;
+                    const keeperPos = keeper.object3D.position;
+                    const shieldedPos = shieldedEntity.object3D.position;
+                    positions[0] = 0; positions[1] = 0; positions[2] = 0; // Relative to keeper
+                    positions[3] = shieldedPos.x - keeperPos.x;
+                    positions[4] = shieldedPos.y - keeperPos.y;
+                    positions[5] = shieldedPos.z - keeperPos.z;
+                    keeper.refs.shieldBeam.geometry.attributes.position.needsUpdate = true;
+
                 } else {
+                    if (keeper.refs.shieldBeam) keeper.refs.shieldBeam.visible = false;
+                    if (shieldedEntity) shieldedEntity.components.Shielded.isShielded = false; // Unshield if target is gone
                     ai.shieldedEnemyId = null;
                 }
             }
         });
     }
 };
-
-
-
-
-
-
-
