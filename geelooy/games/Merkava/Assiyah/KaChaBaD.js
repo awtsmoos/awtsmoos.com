@@ -340,7 +340,9 @@ export const DAAT = {
         
     },
     
-    onWindowResize() { const Olam = this.Olam; Olam.three.camera.aspect = window.innerWidth / window.innerHeight; Olam.three.camera.updateProjectionMatrix(); Olam.three.renderer.setSize(window.innerWidth, window.innerHeight); },
+    onWindowResize() { const Olam = this.Olam; Olam.three.camera.aspect = window.innerWidth / window.innerHeight; Olam.three.camera.updateProjectionMatrix(); Olam.three.renderer.setSize(window.innerWidth, window.innerHeight); if(Olam.state === 'playing') Olam.ASSIYAH.TIFERET.updateCameraTarget(); },
+    
+    
     handleInteractionStart(e, clientX) { if (this.Olam.state !== 'playing') return; const Merkava = this.Olam.pools.Merkava[0]; if (!Merkava) return; const input = Merkava.components.Input; input.isDragging = true; input.lastTouchX = clientX; if (e.cancelable) e.preventDefault(); },
     handleInteractionMove(e, clientX) { const Merkava = this.Olam.pools.Merkava[0]; if (!Merkava || !Merkava.components.Input.isDragging) return; const input = Merkava.components.Input; const deltaX = clientX - input.lastTouchX; input.targetX += deltaX * 0.03; input.lastTouchX = clientX; },
     handleInteractionEnd() { const Merkava = this.Olam.pools.Merkava[0]; if (Merkava) Merkava.components.Input.isDragging = false; }
