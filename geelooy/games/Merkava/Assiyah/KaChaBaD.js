@@ -81,16 +81,24 @@ export const CHOCHMAH = {
         this.Olam.assets.circleAlphaMap = this.createCircleAlphaMap();
 
         window.addEventListener('resize', () => ASSIAH.DAAT.onWindowResize());
-        const interactionEvents = ['mousedown', 'mousemove', 'mouseup', 'touchstart', 'touchmove', 'touchend'];
-        const handlers = [ASSIAH.DAAT.handleInteractionStart, ASSIAH.DAAT.handleInteractionMove, ASSIAH.DAAT.handleInteractionEnd, (e, c) => ASSIAH.DAAT.handleInteractionStart(e, c), (e, c) => ASSIAH.DAAT.handleInteractionMove(e, c), ASSIAH.DAAT.handleInteractionEnd];
-        interactionEvents.forEach((evt, i) => {
-            document.addEventListener(evt, (e) => {
-                const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
-                if (clientX !== undefined || e.type.endsWith('up') || e.type.endsWith('end')) {
-                    handlers[i](e, clientX);
-                }
-            }, { passive: !evt.startsWith('touch') });
-        });
+        
+        
+        
+        const interactionEvents = {
+    'mousedown': ASSIAH.DAAT.handleInteractionStart.bind(ASSIAH.DAAT),
+    'mousemove': ASSIAH.DAAT.handleInteractionMove.bind(ASSIAH.DAAT),
+    'mouseup': ASSIAH.DAAT.handleInteractionEnd.bind(ASSIAH.DAAT),
+    'touchstart': ASSIAH.DAAT.handleInteractionStart.bind(ASSIAH.DAAT),
+    'touchmove': ASSIAH.DAAT.handleInteractionMove.bind(ASSIAH.DAAT),
+    'touchend': ASSIAH.DAAT.handleInteractionEnd.bind(ASSIAH.DAAT)
+};
+
+for (const eventName in interactionEvents) {
+    document.addEventListener(eventName, (e) => {
+        const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
+        interactionEvents[eventName](e, clientX);
+    }, { passive: !eventName.startsWith('touch') });
+}
     },
     
     /**
