@@ -143,6 +143,44 @@ export const BERIAH = {
         }
     },
 
+    // ADD THIS ENTIRE FUNCTION TO THE BERIAH OBJECT IN Beriah.js
+
+createEntityFromPool(type, options = {}) {
+    const pool = this.Olam.pools[type];
+    if (!pool) {
+        console.error(`No pool found for type ${type}`);
+        return null;
+    }
+    
+    for(let i=0; i < pool.length; i++) {
+        const entity = pool[i];
+        if (!entity.components.State.active) {
+            // Reset components to archetype defaults to clear any previous state
+            const archetype = this.Olam.ATZILUT.archetypes[type];
+            entity.components = JSON.parse(JSON.stringify(archetype.components));
+
+            // Apply any new options
+            for(const key in options) {
+                 if (entity.components[key]) Object.assign(entity.components[key], options[key]);
+                 else entity.components[key] = options[key];
+            }
+            
+            // Activate and make visible
+            entity.components.State.active = true;
+            entity.object3D.visible = true;
+
+            // Set initial position if provided
+            if(entity.components.Position) {
+                entity.object3D.position.set(entity.components.Position.x, entity.components.Position.y, entity.components.Position.z);
+            }
+            return entity;
+        }
+    }
+    
+    console.warn(`Pool for ${type} is empty.`);
+    return null;
+},
+
     /**
      * @description The Architect of Interfaces. This function constructs the HTML Document Object Model
      * from the UI schemas defined in Atzilut. It is a work of translation, turning pure data into
