@@ -168,54 +168,47 @@ export const BERIAH = {
         return null;
     },
 
-    // IN Beriah.js - REPLACE THE ENTIRE buildUI FUNCTION
-    // IN Beriah.js - REPLACE THE ENTIRE buildUI FUNCTION
-buildUI(schemaName, root) {
-    const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
+    // Beriah.js
 
-    const buildElement = (def) => {
-        const el = document.createElement(def.tag);
-        if (def.id) el.id = def.id;
-        if (def.baseClass) el.className = def.baseClass;
-        if (def.class) el.classList.add(...def.class.split(' '));
-        if (def.text) el.textContent = def.text;
-        if (def.style) el.style.cssText = def.style;
-        if (def.placeholder) el.placeholder = def.placeholder;
-
-        // *** THE FINAL, CRITICAL FIX IS HERE ***
-        const handlerName = def.onClick || def.onInput || def.onChange;
-        const eventType = def.onClick ? 'click' : (def.onInput ? 'input' : 'change');
-
-        if (handlerName) {
-            // Find which Sefirah the handler belongs to
-            let context = null;
-            let handlerFn = null;
-            
-            // Search through all Sefirot on the main ASSIAH object
-            for (const sefirahName in this.Olam.ASSIYAH) {
-                const sefirah = this.Olam.ASSIYAH[sefirahName];
-                if (sefirah && typeof sefirah[handlerName] === 'function') {
-                    context = sefirah;
-                    handlerFn = sefirah[handlerName];
-                    break;
+    buildUI(schemaName, root) {
+        const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
+    
+        const buildElement = (def) => {
+            const el = document.createElement(def.tag);
+            if (def.id) el.id = def.id;
+            if (def.baseClass) el.className = def.baseClass;
+            if (def.class) el.classList.add(...def.class.split(' '));
+            if (def.text) el.textContent = def.text;
+            if (def.style) el.style.cssText = def.style;
+            if (def.placeholder) el.placeholder = def.placeholder;
+    
+            // *** FIX 3 (UI FIX): Unified and corrected event handler logic. ***
+            // This now correctly finds the handler function in ASSIAH.eventHandlers and binds it
+            // with the correct 'this' context (the main ASSIAH object).
+            const handlerName = def.onClick || def.onInput || def.onChange;
+            const eventType = def.onClick ? 'click' : (def.onInput ? 'input' : 'change');
+    
+            if (handlerName) {
+                const handlerFn = this.Olam.ASSIYAH.eventHandlers[handlerName];
+                if (handlerFn && typeof handlerFn === 'function') {
+                    // Bind the main ASSIAH object so handlers like `this.BINAH.startGame()` work.
+                    el.addEventListener(eventType, handlerFn.bind(this.Olam.ASSIYAH));
+                } else {
+                    console.warn(`Beriah.buildUI: Event handler '${handlerName}' not found in ASSIAH.eventHandlers for element:`, def);
                 }
             }
-
-            if (context && handlerFn) {
-                // Bind the Sefirah object itself as the 'this' context
-                el.addEventListener(eventType, handlerFn.bind(context));
+            
+            if (def.children) {
+                def.children.forEach(childDef => el.appendChild(buildElement(childDef)));
             }
+            return el;
         }
-        
-        if (def.children) {
-            def.children.forEach(childDef => el.appendChild(buildElement(childDef)));
-        }
-        return el;
-    }
+    
+        const rootEl = buildElement(schema);
+        this.Olam.ui.elements[schemaName] = rootEl;
+        root.appendChild(rootEl);
+    },
 
-    const rootEl = buildElement(schema);
-    this.Olam.ui.elements[schemaName] = rootEl;
-    root.appendChild(rootEl);
-},
+
 
 };
