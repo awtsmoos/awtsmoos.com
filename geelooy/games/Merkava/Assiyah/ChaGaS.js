@@ -463,12 +463,17 @@ const entity = Olam.pools[entityType]?.[entityIndex];
     },
 
     deactivateKlipah(entity) {
+        // In GEVURAH.deactivateKlipah, add this at the top:
+if (entity.type === 'TomeKeeper' && entity.components.AI.shieldedEnemyId) {
+    const [shieldedType, shieldedIndex] = entity.components.AI.shieldedEnemyId.split('_');
+    const shieldedEntity = this.Olam.pools[shieldedType]?.[shieldedIndex];
+    if (shieldedEntity) {
+        shieldedEntity.components.Shielded.isShielded = false;
+    }
+}
         if (!entity || !entity.components.State || !entity.components.State.active) return;
         
-        if (entity.type === 'TomeKeeper' && entity.components.AI.shieldedEnemyId) {
-            const shielded = Olam.entities[entity.components.AI.shieldedEnemyId];
-            if (shielded) shielded.components.Shielded.isShielded = false;
-        }
+        
 
         entity.components.State.active = false;
         entity.object3D.visible = false;
