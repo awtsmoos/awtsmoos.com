@@ -29,13 +29,13 @@ export const MALCHUT = {
             const changeHandlerName = el.dataset.onChange;
 
             if (clickHandlerName && eventHandlers[clickHandlerName]) {
-                el.addEventListener('click', eventHandlers[clickHandlerName].bind(this.Olam.ASSIYAH));
+                el.addEventListener('click', eventHandlers[clickHandlerName].bind(ASSIAH));
             }
             if (inputHandlerName && eventHandlers[inputHandlerName]) {
-                el.addEventListener('input', eventHandlers[inputHandlerName].bind(this.Olam.ASSIYAH));
+                el.addEventListener('input', eventHandlers[inputHandlerName].bind(ASSIAH));
             }
             if (changeHandlerName && eventHandlers[changeHandlerName]) {
-                el.addEventListener('change', eventHandlers[changeHandlerName].bind(this.Olam.ASSIYAH));
+                el.addEventListener('change', eventHandlers[changeHandlerName].bind(ASSIAH));
             }
         });
     },
