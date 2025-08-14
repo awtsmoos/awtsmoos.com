@@ -187,7 +187,7 @@ export const ATZILUT = {
                 material: 'SpecialParticleMaterial'
             }
         },
-},
+
     },
     uiSchemas: {
         mainMenu: { id: 'mainMenuOverlay', tag: 'div', baseClass: 'overlay', children: [
