@@ -165,8 +165,36 @@ createEntityFromPool(type, options = {}) {
     for(let i=0; i < pool.length; i++) {
         const entity = pool[i];
         if (!entity.components.State.active) {
-            const archetype = this.Olam.ATZILUT.archetypes[type];
+            // In Beriah.js -> createEntityFromPool
+// FIND THIS BLOCK:
+// const archetype = ...
+// deepCopyAndVectorize(entity.components, archetype.components);
+// if(options) { ... }
+
+// REPLACE WITH THIS:
+const archetype = this.Olam.ATZILUT.archetypes[type];
             
+// Reset components to archetype defaults *first*. This is the key.
+entity.components = JSON.parse(JSON.stringify(archetype.components));
+
+// Re-instantiate any declared vector components
+if (archetype.vectorComponents) {
+    archetype.vectorComponents.forEach(compName => {
+        const keys = compName.split('.');
+        let target = entity.components;
+        let source = archetype.components;
+        for (let j = 0; j < keys.length - 1; j++) { target = target[keys[j]]; source = source[keys[j]]; }
+        const finalKey = keys[keys.length - 1];
+        const sourceVec = source[finalKey];
+        target[finalKey] = new THREE.Vector3(sourceVec.x, sourceVec.y, sourceVec.z);
+    });
+}
+
+// Apply any new options
+for(const key in options) {
+     if (entity.components[key]) Object.assign(entity.components[key], options[key]);
+     else entity.components[key] = options[key];
+}
             // This function recursively copies properties, instantiating THREE.Vector3 where needed.
             const deepCopyAndVectorize = (target, source) => {
                 for (const key in source) {
