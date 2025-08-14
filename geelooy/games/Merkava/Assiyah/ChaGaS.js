@@ -243,22 +243,38 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                         }
                      }
                     break;
+                    // Assiyah/ChaGaS.js - inside GEVURAH.updateKlipotAI()
+
                 case 'shielder':
-                    if(!ai.shieldedEnemyId || !Olam.entities[ai.shieldedEnemyId]?.components.State.active) {
+                    // *** FIX 4 (LOGIC FIX): Correctly look up the shielded entity. ***
+                    // The old code used `Olam.entities[id]`, which was always undefined.
+                    // This new code properly finds the entity in the pools using its ID.
+                    let shieldedEntity = null;
+                    if (ai.shieldedEnemyId) {
+                        const [type, index] = ai.shieldedEnemyId.split('_');
+                        shieldedEntity = Olam.pools[type]?.[index];
+                    }
+
+                    if (!shieldedEntity || !shieldedEntity.components.State.active) {
                         let closestEnemy = null;
                         let min_dist_sq = Infinity;
+                        
                         activeKlipotIds.forEach(otherId => {
-                            if(entity.id === otherId) return;
-                            const otherEntity = Olam.entities[otherId];
-                            if(otherEntity && otherEntity.components.Shielded && !otherEntity.components.Shielded.isShielded) {
+                            if (entity.id === otherId) return;
+                            // Look up the other entity from the pools
+                            const [otherType, otherIndex] = otherId.split('_');
+                            const otherEntity = Olam.pools[otherType]?.[otherIndex];
+
+                            if (otherEntity && otherEntity.components.Shielded && !otherEntity.components.Shielded.isShielded) {
                                 const dist_sq = entityPos.distanceToSquared(otherEntity.object3D.position);
-                                if(dist_sq < min_dist_sq) {
+                                if (dist_sq < min_dist_sq) {
                                     min_dist_sq = dist_sq;
                                     closestEnemy = otherEntity;
                                 }
                             }
                         });
-                        if(closestEnemy) {
+
+                        if (closestEnemy) {
                             ai.shieldedEnemyId = closestEnemy.id;
                             closestEnemy.components.Shielded.isShielded = true;
                         } else {
@@ -266,6 +282,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                         }
                     }
                     break;
+                
             }
         });
     },
@@ -300,11 +317,15 @@ const entity = Olam.pools[entityType]?.[entityIndex];
         const Olam = this.Olam;
         
         
+        // Assiyah/ChaGaS.js - inside GEVURAH.processCollisions()
+
+        // *** FIX 5 (LOGIC FIX): Correctly define the list of active Klipot. ***
+        // The old code used `Olam.entities[id]`, which was always undefined.
+        // This now correctly maps each ID to its entity from the pools.
         const activeKlipot = Array.from(Olam.game.wave.enemiesInWave).map(id => {
-    const entityType = id.split('_')[0];
-    const entityIndex = parseInt(id.split('_')[1], 10);
-    return Olam.pools[entityType]?.[entityIndex];
-}).filter(e => e && e.components.State.active);
+            const [type, index] = id.split('_');
+            return Olam.pools[type]?.[index];
+        }).filter(e => e && e.components.State.active);
         
         const activeOhr = Olam.pools.Ohr.filter(p => p.components.State.active);
         const activeNefesh = Olam.pools.Nefesh.filter(n => n.components.State.active);
@@ -748,11 +769,21 @@ export const TIFERET = {
             }
         });
 
+
+        // Assiyah/ChaGaS.js - inside TIFERET.updateDynamicEffects()
+
         // Update shielder beams
         Olam.pools.TomeKeeper.forEach(keeper => {
             if(keeper.components.State.active) {
                 const ai = keeper.components.AI;
-                const shieldedEntity = Olam.entities[ai.shieldedEnemyId];
+                
+                // *** FIX 6 (LOGIC FIX): Correctly find the shielded entity. ***
+                let shieldedEntity = null;
+                if (ai.shieldedEnemyId) {
+                    const [type, index] = ai.shieldedEnemyId.split('_');
+                    shieldedEntity = Olam.pools[type]?.[index];
+                }
+
                 if(shieldedEntity && shieldedEntity.components.State.active) {
                     if(!keeper.refs.shieldBeam) {
                         const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 });
@@ -777,5 +808,7 @@ export const TIFERET = {
                 }
             }
         });
+
+        
     }
 };
