@@ -86,7 +86,7 @@ export const NETZACH = {
             particle.object3D.position.set((Math.random() - 0.5) * 120, (Math.random() - 0.5) * 60, -150);
             const state = particle.components.State;
             state.life = 6.0; state.type = 'ein_sof_glimmer'; state.velocity.set(0, 0, 50 + Olam.game.level * 3);
-            Olam.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
+            ASSIAH.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
             return;
         }
 
@@ -117,14 +117,14 @@ export const NETZACH = {
             Olam.game.wave.isTracking = false;
             
             if (Olam.game.wave.hitsTakenThisWave === 0) {
-                Olam.MALCHUT.showNotifier('perfectWave', "PERFECT WAVE!");
+                ASSIAH.MALCHUT.showNotifier('perfectWave', "PERFECT WAVE!");
                 Olam.YETZIRAH.addShefa(50);
                 Olam.game.mitzvot += 100;
 
                 if(Math.random() < 0.25 && Olam.playerStats.upgrades.commandmentsAuthority?.level < 10) {
                     Olam.playerStats.tabletFragments++;
                     Olam.BINAH.savePlayerStats();
-                    Olam.MALCHUT.showNotifier('surprise', `Tablet Fragment Found! (${Olam.playerStats.tabletFragments}/10)`, "#00f0ff");
+                    ASSIAH.MALCHUT.showNotifier('surprise', `Tablet Fragment Found! (${Olam.playerStats.tabletFragments}/10)`, "#00f0ff");
                 }
                 
                 Olam.pools.Nefesh.forEach(nefesh => {
@@ -362,9 +362,9 @@ export const YESOD = {
                 if (state.type === 'ein_sof_glimmer') {
                     p.object3D.material.opacity = 0.5 + Math.sin(Olam.three.clock.getElapsedTime() * 5) * 0.5;
                     if (pos.distanceTo(merkavaPos) < 5) {
-                        Olam.MALCHUT.showNotifier('surprise', "✨ EIN SOF'S BLESSING! ✨", "#ffffff");
+                        ASSIAH.MALCHUT.showNotifier('surprise', "✨ EIN SOF'S BLESSING! ✨", "#ffffff");
                         Olam.game.effects.invincibleTimer = 5.0; Olam.game.effects.allCritTimer = 5.0;
-                        Olam.TIFERET.triggerEffect('flash', { color: "#ffffff", duration: 800 });
+                        ASSIAH.TIFERET.triggerEffect('flash', { color: "#ffffff", duration: 800 });
                         state.life = 0; // Deactivate particle
                     }
                 } else {
