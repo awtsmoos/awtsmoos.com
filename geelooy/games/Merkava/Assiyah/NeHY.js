@@ -317,6 +317,7 @@ export const YESOD = {
         }
         
         // --- Klipot Movement ---
+        // --- Klipot Movement ---
 const roadSpeed = Olam.config.roadSpeed;
 Olam.game.wave.enemiesInWave.forEach(id => {
     // CORRECTED LOGIC: Find the entity in the correct pool by its ID.
@@ -332,6 +333,7 @@ Olam.game.wave.enemiesInWave.forEach(id => {
         }
     }
 });
+
         
         const allProjectilePools = ['Ohr', 'GolemProjectile', 'GolemFastProjectile', 'GolemHeavyProjectile', 'WeaverProjectile', 'ShattererShard'];
         allProjectilePools.forEach(type => {
