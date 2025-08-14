@@ -89,7 +89,7 @@ export const NETZACH = {
             state.life = 6.0; state.type = 'ein_sof_glimmer'; 
             // *** FIX 2: Access the new top-level Velocity component. ***
             particle.components.Velocity.set(0, 0, 50 + Olam.game.level * 3);
-            this.Olam.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
+            this.Olam.ASSIYAH.MALCHUT.showNotifier('surprise', "A Glimmer of Ein Sof appears!", "#ffffff");
             return;
         }
 
