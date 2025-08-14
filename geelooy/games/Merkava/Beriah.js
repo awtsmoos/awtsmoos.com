@@ -168,44 +168,32 @@ export const BERIAH = {
         return null;
     },
 
-    buildUI(schemaName, root) {
-        const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
-        const eventHandlers = ASSIAH.eventHandlers;
+    // IN Beriah.js - REPLACE THE ENTIRE buildUI FUNCTION
+buildUI(schemaName, root) {
+    const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
 
-        const buildElement = (def) => {
-            const el = document.createElement(def.tag);
-            if (def.id) el.id = def.id;
-            if (def.baseClass) el.className = def.baseClass;
-            if (def.class) el.classList.add(...def.class.split(' '));
-            if (def.text) el.textContent = def.text;
-            if (def.style) el.style.cssText = def.style;
-            if (def.placeholder) el.placeholder = def.placeholder;
+    const buildElement = (def) => {
+        const el = document.createElement(def.tag);
+        if (def.id) el.id = def.id;
+        if (def.baseClass) el.className = def.baseClass;
+        if (def.class) el.classList.add(...def.class.split(' '));
+        if (def.text) el.textContent = def.text;
+        if (def.style) el.style.cssText = def.style;
+        if (def.placeholder) el.placeholder = def.placeholder;
 
-            const handler = eventHandlers[def.onClick] || eventHandlers[def.onInput] || eventHandlers[def.onChange];
-            const eventType = def.onClick ? 'click' : (def.onInput ? 'input' : 'change');
-
-            if (handler) {
-                // Find which Sefirah the handler belongs to
-                let context = null;
-                for (const sefirah of Object.values(this.Olam.ASSIYAH)) {
-                    if (sefirah && typeof sefirah[handler.name] === 'function') {
-                        context = sefirah;
-                        break;
-                    }
-                }
-                if(context) {
-                    el.addEventListener(eventType, handler.bind(context));
-                }
-            }
-            
-            if (def.children) {
-                def.children.forEach(childDef => el.appendChild(buildElement(childDef)));
-            }
-            return el;
+        // THE FIX: Instead of binding the event, store its name in a data attribute.
+        if (def.onClick) el.dataset.onClick = def.onClick;
+        if (def.onInput) el.dataset.onInput = def.onInput;
+        if (def.onChange) el.dataset.onChange = def.onChange;
+        
+        if (def.children) {
+            def.children.forEach(childDef => el.appendChild(buildElement(childDef)));
         }
+        return el;
+    }
 
-        const rootEl = buildElement(schema);
-        this.Olam.ui.elements[schemaName] = rootEl;
-        root.appendChild(rootEl);
-    },
+    const rootEl = buildElement(schema);
+    this.Olam.ui.elements[schemaName] = rootEl;
+    root.appendChild(rootEl);
+},
 };
