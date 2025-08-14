@@ -304,7 +304,7 @@ export const BINAH = {
             setTimeout(() => { errorDiv.style.display = 'none'; }, 6000);
         }
     }
-},
+}
 
 // DAAT - Knowledge: The bridge. Input, event handling, and data translation.
 export const DAAT = {
