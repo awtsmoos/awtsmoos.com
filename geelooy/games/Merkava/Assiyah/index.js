@@ -54,13 +54,32 @@ export const ASSIAH = {
         }
     },
 
+     // Assiyah/index.js
+
     init(ATZILUT, BERIAH, YETZIRAH) {
+        // Create the Olam (World) object, the central context for all modules.
         this.Olam = { ATZILUT, BERIAH, YETZIRAH, ASSIAH: this };
+
+        // *** FIX 1 (CRASH FIX): Initialize the other Worlds. ***
+        // This was the source of the "Cannot read properties of null (reading 'ATZILUT')" error.
+        // BERIAH and YETZIRAH must be given the Olam context before they can be used.
+        this.Olam.BERIAH.init(this.Olam);
+        this.Olam.YETZIRAH.init(this.Olam);
+
+        // Initialize all the Sefirot within Assiah.
         const sefirot = [ this.KETER, this.CHOCHMAH, this.BINAH, this.DAAT, this.CHESED, this.GEVURAH, this.TIFERET, this.NETZACH, this.HOD, this.YESOD, this.MALCHUT ];
         sefirot.forEach(sefirah => sefirah.init(this.Olam));
         
+        // This call builds the entire game state, objects, and UI.
         this.CHOCHMAH.genesis();
-        this.MALCHUT.bindUIEvents(); // Call bindUIEvents AFTER genesis.
+        
+        // *** FIX 2 (UI FIX): Remove redundant/broken event binding call. ***
+        // The corrected Beriah.buildUI function now handles all event binding at creation time,
+        // so the separate MALCHUT.bindUIEvents call is no longer needed.
+        // this.MALCHUT.bindUIEvents(); 
+
+        // Show the main menu to the player.
         this.eventHandlers.showMainMenu.bind(this)();
-    }
+    },
+    
 };
