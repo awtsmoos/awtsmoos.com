@@ -136,7 +136,7 @@ export const BERIAH = {
                     entity.object3D = this.buildRenderable(archetype.renderable, entity);
                     entity.object3D.userData.entityId = entity.id;
                     entity.object3D.visible = false;
-                    this.Olam.three.scene.add(entity.object3D);
+                    //this.Olam.three.scene.add(entity.object3D);
                 }
                 this.Olam.pools[type].push(entity);
             }
@@ -193,6 +193,9 @@ createEntityFromPool(type, options = {}) {
             
             entity.components.State.active = true;
             entity.object3D.visible = true;
+            if (!entity.object3D.parent) {
+        this.Olam.three.scene.add(entity.object3D);
+    }
 
             if(entity.components.Position) {
                 entity.object3D.position.set(entity.components.Position.x, entity.components.Position.y, entity.components.Position.z);
