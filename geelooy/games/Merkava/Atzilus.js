@@ -90,8 +90,7 @@ export const ATZILUT = {
         MerkavaWebcam: { type: 'MeshBasicMaterial', props: { map: 'placeholder_webcam_mirrored', side: 'DoubleSide' } },
         
         
-        CosmicRiver: { type: 'ShaderMaterial', props: { vertexShader: 'cosmicRiverVertexShader', fragmentShader: 'cosmicRiverFragmentShader', uniforms: { uTime: { value: 0.0 }, uSpeed: { value: 1.0 }, uColor: { value: new THREE.Color(0x483d8b) }, uOpacity: { value: 0.85 } }, transparent: true, fog: false, depthWrite: false } },
-        
+        CosmicRiver: { type: 'ShaderMaterial', props: { vertexShader: 'cosmicRiverVertexShader', fragmentShader: 'cosmicRiverFragmentShader', uniforms: { uTime: { value: 0.0 }, uSpeed: { value: 1.0 }, uColor: { value: new THREE.Color(0x483d8b) } }, fog: false } },
         ShefaOrb: { type: 'MeshBasicMaterial', props: { color: 0xffd700, fog: false } },
         MitzvahOrb: { type: 'MeshBasicMaterial', props: { color: 0xffffff, fog: false } },
         RedemptionOrb: { type: 'MeshBasicMaterial', props: { color: 0xaaffaa, fog: false } },
