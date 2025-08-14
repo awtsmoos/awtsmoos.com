@@ -87,6 +87,10 @@ export const BERIAH = {
             case 'mesh':
                 obj = new THREE.Mesh(this.createGeometry(renderableDef.geometry), this.createMaterial(renderableDef.material));
                 break;
+            case 'sprite':
+        const material = this.createMaterial(renderableDef.material);
+        obj = new THREE.Sprite(material);
+        break;
             default:
                 throw new Error(`Unknown renderable type in ATZILUT: ${type}`);
         }
