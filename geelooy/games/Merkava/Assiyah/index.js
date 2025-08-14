@@ -16,49 +16,51 @@ import { CHESED, GEVURAH, TIFERET } from './ChaGaS.js';
 import { NETZACH, HOD, YESOD } from './NeHY.js';
 import { MALCHUT } from './Malchus.js';
 
+
 export const ASSIAH = {
     Olam: null,
+    KETER, CHOCHMAH, BINAH, DAAT, CHESED, GEVURAH, TIFERET, NETZACH, HOD, YESOD, MALCHUT,
 
-    // The Ten Sefirot, fully populated by the imported modules.
-    KETER,
-    CHOCHMAH,
-    BINAH,
-    DAAT,
-    CHESED,
-    GEVURAH,
-    TIFERET,
-    NETZACH,
-    HOD,
-    YESOD,
-    MALCHUT,
+    // THE EVENT HANDLERS OBJECT MUST EXIST HERE
+    eventHandlers: {
+        startGame: function() { this.BINAH.startGame(false); },
+        startCustomGame: function() { this.BINAH.startGame(true); },
+        showMainMenu: function() { this.MALCHUT.updateUIVisibility('mainMenu'); },
+        showUpgrades: function() { this.MALCHUT.populateUpgradeShop(); this.MALCHUT.updateUIVisibility('upgradeShop'); },
+        showCustom: function() { this.MALCHUT.updateUIVisibility('customMenu'); },
+        showSettings: function() { this.MALCHUT.populateSettings(); this.MALCHUT.updateUIVisibility('settings'); },
+        closePrayerList: function() { this.Olam.ui.elements.prayerList.classList.remove('visible'); },
+        openPrayerList: function() { this.MALCHUT.populatePrayerList(); this.Olam.ui.elements.prayerList.classList.add('visible'); },
+        prevPrayer: function() { this.MALCHUT.changePrayer(-1); },
+        nextPrayer: function() { this.MALCHUT.changePrayer(1); },
+        purchaseUpgrade: function(e) {
+            const key = e.target.dataset.key; if(!key) return; const upgrade = this.Olam.ATZILUT.upgrades[key]; const stats = this.Olam.playerStats;
+            const currentLevel = stats.upgrades[key]?.level || 0; if (currentLevel >= upgrade.maxLevel) return;
+            const cost = Math.floor(upgrade.cost(currentLevel));
+            if (stats.totalMitzvot >= cost) {
+                stats.totalMitzvot -= cost; if (!stats.upgrades[key]) stats.upgrades[key] = { level: 0 };
+                stats.upgrades[key].level++; this.BINAH.savePlayerStats(); this.MALCHUT.populateUpgradeShop();
+            }
+        },
+        updateSetting: function(e) {
+            const id = e.target.id.replace('setting-',''); const def = this.Olam.ATZILUT.settings.find(s => s.id === id); if(!def) return;
+            let value;
+            switch(def.type) { case 'checkbox': value = e.target.checked; break; case 'range': value = parseFloat(e.target.value); break; default: value = e.target.value; }
+            this.BINAH.saveSetting(id, value);
+        },
+        updateSettingValueText: function(e) {
+            const id = e.target.id.replace('setting-',''); const span = document.getElementById(`setting-value-${id}`);
+            if(span) span.textContent = e.target.value;
+        }
+    },
 
-    /**
-     * @description The init function that breathes life into the entire structure of Assiah.
-     * It creates the Olam (world state), passes it to all sub-modules for initialization,
-     * and begins the process of creation.
-     * @param {object} ATZILUT - The World of Emanation.
-     * @param {object} BERIAH - The World of Creation.
-     * @param {object} YETZIRAH - The World of Formation.
-     */
     init(ATZILUT, BERIAH, YETZIRAH) {
-        window.ASSIAH = this;
         this.Olam = { ATZILUT, BERIAH, YETZIRAH, ASSIAH: this };
-        
-        // Initialize all Sefirot, passing them a reference to the Olam.
-        const sefirot = [
-            this.KETER, this.CHOCHMAH, this.BINAH, this.DAAT,
-            this.CHESED, this.GEVURAH, this.TIFERET,
-            this.NETZACH, this.HOD, this.YESOD,
-            this.MALCHUT
-        ];
+        const sefirot = [ this.KETER, this.CHOCHMAH, this.BINAH, this.DAAT, this.CHESED, this.GEVURAH, this.TIFERET, this.NETZACH, this.HOD, this.YESOD, this.MALCHUT ];
         sefirot.forEach(sefirah => sefirah.init(this.Olam));
         
-        // Chochmah, the first flash of thought, begins the creation process.
         this.CHOCHMAH.genesis();
-
-        this.MALCHUT.bindUIEvents()
-        
-        // Da'at, the bridge, reveals the first state of the world to the user.
-        this.DAAT.eventHandlers.showMainMenu();
+        this.MALCHUT.bindUIEvents(); // Call bindUIEvents AFTER genesis.
+        this.eventHandlers.showMainMenu.bind(this)();
     }
 };
