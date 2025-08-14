@@ -319,6 +319,7 @@ export const YESOD = {
         // --- Klipot Movement ---
         // --- Klipot Movement ---
                 // --- Klipot Movement ---
+                // --- Klipot Movement ---
         const roadSpeed = Olam.config.roadSpeed;
         const inactiveIds = [];
         Olam.game.wave.enemiesInWave.forEach(id => {
@@ -326,21 +327,20 @@ export const YESOD = {
             const entityIndex = parseInt(id.split('_')[1], 10);
             const entity = Olam.pools[entityType]?.[entityIndex];
 
-            // Check if the entity is valid and active
+            // If the entity is active, move it.
             if(entity && entity.components.State.active) {
                 const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
                 entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
-                // If it goes off-screen, deactivate it (which also removes it from the set)
                 if(entity.object3D.position.z > 20) {
                     Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
                 }
             } else {
-                // If the entity is inactive or missing, its ID is stale. Mark for cleanup.
+                // If the entity is no longer active (destroyed in combat), mark its ID for removal.
                 inactiveIds.push(id);
             }
         });
         
-        // After iterating, remove any stale IDs found. This prevents an infinite loop.
+        // After checking all enemies, remove the stale IDs. This un-stalls the wave spawner.
         if (inactiveIds.length > 0) {
             inactiveIds.forEach(id => Olam.game.wave.enemiesInWave.delete(id));
         }
