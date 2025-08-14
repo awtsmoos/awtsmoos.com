@@ -54,6 +54,8 @@ export const ASSIAH = {
         
         // Chochmah, the first flash of thought, begins the creation process.
         this.CHOCHMAH.genesis();
+
+        this.MALCHUT.bindUIEvents()
         
         // Da'at, the bridge, reveals the first state of the world to the user.
         this.DAAT.eventHandlers.showMainMenu();
