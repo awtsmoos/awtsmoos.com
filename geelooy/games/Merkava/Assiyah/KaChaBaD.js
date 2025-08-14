@@ -54,6 +54,7 @@ export const CHOCHMAH = {
         this.Olam.three = { scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000), renderer: new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" }), clock: new THREE.Clock(), originalCameraPos: new THREE.Vector3(0, 8, 11), cameraTargetPos: new THREE.Vector3(0, 8, 11), cameraLookAtTarget: new THREE.Vector3(0, 2, 0) };
         this.Olam.config = { roadWidth: 9, roadLevelY: -0.5, roadSpeed: 12, lanePositions: [-3.0, 0, 3.0] };
         this.Olam.assets = { webcam: { isInitialized: false, videoElement: document.getElementById('webcamFeed'), stream: null, videoTexture: null, videoTextureMirrored: null }, circleAlphaMap: null, specialParticleTextures: [], dynamicShards: new Set(), activeLights: new Set(), activeShockwaves: new Set() };
+        this.Olam.entities = {}; 
         this.Olam.pools = {}; this.Olam.game = {}; this.Olam.playerStats = { totalMitzvot: 0, upgrades: {}, tabletFragments: 0, lastCheck: Date.now() }; this.Olam.settings = {}; this.Olam.ui = { root: document.getElementById('ui-root'), elements: {}, notifiers: {} }; this.Olam.animationFrameId = null;
 
         const { renderer, camera, scene } = this.Olam.three;
