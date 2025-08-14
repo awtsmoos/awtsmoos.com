@@ -58,7 +58,8 @@ export const ASSIAH = {
 
     init(ATZILUT, BERIAH, YETZIRAH) {
         // Create the Olam (World) object, the central context for all modules.
-        this.Olam = { ATZILUT, BERIAH, YETZIRAH, ASSIAH: this };
+        this.Olam = { ATZILUT, BERIAH, YETZIRAH, ASSIAH: this,
+                    ASSIYAH: this};
 
         // *** FIX 1 (CRASH FIX): Initialize the other Worlds. ***
         // This was the source of the "Cannot read properties of null (reading 'ATZILUT')" error.
