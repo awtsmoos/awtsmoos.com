@@ -170,7 +170,7 @@ export const BERIAH = {
 
     buildUI(schemaName, root) {
         const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
-        const eventHandlers = this.Olam.ASSIYAH.eventHandlers;
+        const eventHandlers = ASSIAH.eventHandlers;
 
         const buildElement = (def) => {
             const el = document.createElement(def.tag);
