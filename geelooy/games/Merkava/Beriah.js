@@ -169,6 +169,7 @@ export const BERIAH = {
     },
 
     // IN Beriah.js - REPLACE THE ENTIRE buildUI FUNCTION
+    // IN Beriah.js - REPLACE THE ENTIRE buildUI FUNCTION
 buildUI(schemaName, root) {
     const schema = this.Olam.ATZILUT.uiSchemas[schemaName];
 
@@ -181,10 +182,30 @@ buildUI(schemaName, root) {
         if (def.style) el.style.cssText = def.style;
         if (def.placeholder) el.placeholder = def.placeholder;
 
-        // THE FIX: Instead of binding the event, store its name in a data attribute.
-        if (def.onClick) el.dataset.onClick = def.onClick;
-        if (def.onInput) el.dataset.onInput = def.onInput;
-        if (def.onChange) el.dataset.onChange = def.onChange;
+        // *** THE FINAL, CRITICAL FIX IS HERE ***
+        const handlerName = def.onClick || def.onInput || def.onChange;
+        const eventType = def.onClick ? 'click' : (def.onInput ? 'input' : 'change');
+
+        if (handlerName) {
+            // Find which Sefirah the handler belongs to
+            let context = null;
+            let handlerFn = null;
+            
+            // Search through all Sefirot on the main ASSIAH object
+            for (const sefirahName in this.Olam.ASSIYAH) {
+                const sefirah = this.Olam.ASSIYAH[sefirahName];
+                if (sefirah && typeof sefirah[handlerName] === 'function') {
+                    context = sefirah;
+                    handlerFn = sefirah[handlerName];
+                    break;
+                }
+            }
+
+            if (context && handlerFn) {
+                // Bind the Sefirah object itself as the 'this' context
+                el.addEventListener(eventType, handlerFn.bind(context));
+            }
+        }
         
         if (def.children) {
             def.children.forEach(childDef => el.appendChild(buildElement(childDef)));
@@ -196,4 +217,5 @@ buildUI(schemaName, root) {
     this.Olam.ui.elements[schemaName] = rootEl;
     root.appendChild(rootEl);
 },
+
 };
