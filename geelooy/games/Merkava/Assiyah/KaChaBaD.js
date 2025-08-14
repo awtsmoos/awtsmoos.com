@@ -79,7 +79,7 @@ genesis() {
 
     // 2. Configure the renderer and scene
     const { renderer, camera, scene } = this.Olam.three;
-    renderer.setSize(window.innerWidth / window.innerHeight);
+    renderer.setSize(window.innerWidth,  window.innerHeight);
     renderer.setClearColor(new THREE.Color(0x030005));
     document.body.insertBefore(renderer.domElement, this.Olam.ui.root);
     camera.position.copy(this.Olam.three.originalCameraPos);
