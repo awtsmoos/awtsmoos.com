@@ -14,7 +14,7 @@ B"H
 import { KETER, CHOCHMAH, BINAH, DAAT } from './KaChaBaD.js';
 import { CHESED, GEVURAH, TIFERET } from './ChaGaS.js';
 import { NETZACH, HOD, YESOD } from './NeHY.js';
-import { MALCHUT } from './Malchut.js';
+import { MALCHUT } from './Malchus.js';
 
 export const ASSIAH = {
     Olam: null,
