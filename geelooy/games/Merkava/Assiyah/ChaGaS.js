@@ -108,7 +108,7 @@ export const CHESED = {
         }
 
         if (Olam.game.nefeshCount <= 0 && Olam.state === 'playing') {
-            Olam.BINAH.endGame();
+            Olam.ASSIYAH.BINAH.endGame();
         }
     },
 
@@ -127,7 +127,7 @@ export const CHESED = {
         emanation.apply(Olam);
         if (emanation.nonStackable) Olam.game.player.acquiredEmanations.add(chosenKey);
         
-        Olam.MALCHUT.showNotifier('ascension', emanation.name);
+        Olam.ASSIYAH.MALCHUT.showNotifier('ascension', emanation.name);
         TIFERET.triggerEffect('particleExplosion', { position: Olam.pools.Merkava[0].object3D.position, count: 150, color: 0xd8a8ff, speed: 20 });
         TIFERET.triggerEffect('flash', { color: '#d8a8ff', duration: 500 });
         TIFERET.triggerEffect('fovKick', { intensity: 15 });
@@ -167,7 +167,7 @@ export const CHESED = {
     },
     
     triggerTikkunHagadol(savedPosition) {
-        this.Olam.MALCHUT.showNotifier('surprise', "Tikkun HaGadol!");
+        this.Olam.ASSIYAH.MALCHUT.showNotifier('surprise', "Tikkun HaGadol!");
         this.Olam.game.player.hasShield = true;
         this.Olam.game.player.shieldGenTimer = 0;
         TIFERET.triggerEffect('particleExplosion', { position: savedPosition, count: 100, color: 0xffffff, speed: 20 });
