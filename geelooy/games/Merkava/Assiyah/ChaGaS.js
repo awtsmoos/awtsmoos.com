@@ -436,7 +436,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                 if(klipahComp.value >= 0) {
                     klipahComp.isPurified = true;
                     klipahComp.value = 1;
-                    Olam.TIFERET.triggerKlipahRedemption(klipah.object3D.position);
+                    ASSIAH.TIFERET.triggerKlipahRedemption(klipah.object3D.position);
                 }
             } else {
                 klipahComp.value++;
@@ -458,8 +458,8 @@ const entity = Olam.pools[entityType]?.[entityIndex];
         boss.components.Health.value = boss.components.Health.max * (1 + (Olam.game.level / 10));
         boss.object3D.position.set(0, 0, -50);
         
-        Olam.MALCHUT.showNotifier('boss', "HEICHALOT GUARDIAN APPROACHING");
-        Olam.TIFERET.triggerEffect('flash', { color: '#ff0000', duration: 1000 });
+        ASSIAH.MALCHUT.showNotifier('boss', "HEICHALOT GUARDIAN APPROACHING");
+        ASSIAH.TIFERET.triggerEffect('flash', { color: '#ff0000', duration: 1000 });
     },
 
     deactivateKlipah(entity) {
