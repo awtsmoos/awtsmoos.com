@@ -41,6 +41,7 @@ export const ASSIAH = {
      * @param {object} YETZIRAH - The World of Formation.
      */
     init(ATZILUT, BERIAH, YETZIRAH) {
+        window.ASSIAH = this;
         this.Olam = { ATZILUT, BERIAH, YETZIRAH, ASSIAH: this };
         
         // Initialize all Sefirot, passing them a reference to the Olam.
