@@ -194,7 +194,9 @@ export const GEVURAH = {
         const activeKlipotIds = Olam.game.wave.enemiesInWave;
 
         activeKlipotIds.forEach(entityId => {
-            const entity = Olam.entities[entityId];
+            const entityType = entityId.split('_')[0];
+const entityIndex = parseInt(entityId.split('_')[1], 10);
+const entity = Olam.pools[entityType]?.[entityIndex];
             if (!entity || !entity.components.State.active || !entity.components.AI) return;
             
             const ai = entity.components.AI;
