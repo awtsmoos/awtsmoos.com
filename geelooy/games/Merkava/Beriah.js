@@ -163,7 +163,7 @@ export const BERIAH = {
             if (def.onClick && eventHandlers[def.onClick]) {
     // Find which Sefirah holds the target function
     let sefirahContext = null;
-    for (const sefirah of Object.values(this.Olam.ASSIYAH)) {
+    for (const sefirah of Object.values(this.Olam.ASSIAH)) {
         if (typeof sefirah === 'object' && sefirah !== null && sefirah[def.onClick]) {
             sefirahContext = sefirah;
             break;
