@@ -45,62 +45,65 @@ export const CHOCHMAH = {
     Olam: null,
     init(Olam) { this.Olam = Olam; },
     
-    /**
-     * @description The act of Genesis. Creates the Olam and all its foundational structures.
-     * The scent of ozone and newly-forged spacetime fills the air as the boundaries of reality are defined.
-     */
-    genesis() {
-        this.Olam.state = 'loading';
-        this.Olam.three = { scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000), renderer: new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" }), clock: new THREE.Clock(), originalCameraPos: new THREE.Vector3(0, 8, 11), cameraTargetPos: new THREE.Vector3(0, 8, 11), cameraLookAtTarget: new THREE.Vector3(0, 2, 0) };
-        this.Olam.config = { roadWidth: 9, roadLevelY: -0.5, roadSpeed: 12, lanePositions: [-3.0, 0, 3.0] };
-        this.Olam.assets = { webcam: { isInitialized: false, videoElement: document.getElementById('webcamFeed'), stream: null, videoTexture: null, videoTextureMirrored: null }, circleAlphaMap: null, specialParticleTextures: [], dynamicShards: new Set(), activeLights: new Set(), activeShockwaves: new Set() };
-        this.Olam.entities = {}; 
-        this.Olam.pools = {}; this.Olam.game = {}; this.Olam.playerStats = { totalMitzvot: 0, upgrades: {}, tabletFragments: 0, lastCheck: Date.now() }; this.Olam.settings = {}; this.Olam.ui = { root: document.getElementById('ui-root'), elements: {}, notifiers: {} }; this.Olam.animationFrameId = null;
 
-        const { renderer, camera, scene } = this.Olam.three;
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(new THREE.Color(0x030005));
-        document.body.insertBefore(renderer.domElement, this.Olam.ui.root);
-        camera.position.copy(this.Olam.three.originalCameraPos);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        dirLight.position.set(5, 10, 7.5);
-        scene.add(dirLight);
 
-        this.Olam.BERIAH.init(this.Olam);
-        this.Olam.YETZIRAH.init(this.Olam);
-        
-        this.Olam.BERIAH.createPools();
-        for (const schemaName in this.Olam.ATZILUT.uiSchemas) {
-            this.Olam.BERIAH.buildUI(schemaName, this.Olam.ui.root);
-        }
-        const notifierIds = ['ascension', 'combo', 'perfectWave', 'surprise', 'boss'];
-        notifierIds.forEach(id => this.Olam.ui.notifiers[id] = document.getElementById(`${id}Notifier`));
+genesis() {
+    this.Olam.state = 'loading';
+    
+    // 1. Initialize core world properties
+    this.Olam.three = {
+        scene: new THREE.Scene(),
+        camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
+        renderer: new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" }),
+        clock: new THREE.Clock(),
+        originalCameraPos: new THREE.Vector3(0, 8, 11),
+        cameraTargetPos: new THREE.Vector3(0, 8, 11),
+        cameraLookAtTarget: new THREE.Vector3(0, 2, 0)
+    };
+    this.Olam.config = { roadWidth: 9, roadLevelY: -0.5, roadSpeed: 12, lanePositions: [-3.0, 0, 3.0] };
+    this.Olam.assets = {
+        webcam: { isInitialized: false, videoElement: document.getElementById('webcamFeed'), stream: null, videoTexture: null, videoTextureMirrored: null },
+        circleAlphaMap: null,
+        specialParticleTextures: [],
+        dynamicShards: new Set(),
+        activeLights: new Set(),
+        activeShockwaves: new Set()
+    };
+    this.Olam.pools = {};
+    this.Olam.entities = {}; // Initialize the master entity list
+    this.Olam.game = {};
+    this.Olam.playerStats = { totalMitzvot: 0, upgrades: {}, tabletFragments: 0, lastCheck: Date.now() };
+    this.Olam.settings = {};
+    this.Olam.ui = { root: document.getElementById('ui-root'), elements: {}, notifiers: {} };
+    this.Olam.animationFrameId = null;
 
-        ASSIAH.BINAH.initializeSettings();
-        ASSIAH.BINAH.loadPlayerStats();
-        this.Olam.assets.circleAlphaMap = this.createCircleAlphaMap();
+    // 2. Configure the renderer and scene
+    const { renderer, camera, scene } = this.Olam.three;
+    renderer.setSize(window.innerWidth / window.innerHeight);
+    renderer.setClearColor(new THREE.Color(0x030005));
+    document.body.insertBefore(renderer.domElement, this.Olam.ui.root);
+    camera.position.copy(this.Olam.three.originalCameraPos);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    dirLight.position.set(5, 10, 7.5);
+    scene.add(dirLight);
 
-        window.addEventListener('resize', () => ASSIAH.DAAT.onWindowResize());
-        
-        
-        
-        const interactionEvents = {
-    'mousedown': ASSIAH.DAAT.handleInteractionStart.bind(ASSIAH.DAAT),
-    'mousemove': ASSIAH.DAAT.handleInteractionMove.bind(ASSIAH.DAAT),
-    'mouseup': ASSIAH.DAAT.handleInteractionEnd.bind(ASSIAH.DAAT),
-    'touchstart': ASSIAH.DAAT.handleInteractionStart.bind(ASSIAH.DAAT),
-    'touchmove': ASSIAH.DAAT.handleInteractionMove.bind(ASSIAH.DAAT),
-    'touchend': ASSIAH.DAAT.handleInteractionEnd.bind(ASSIAH.DAAT)
-};
+    // 3. Create all game objects and UI elements from blueprints
+    this.Olam.BERIAH.createPools();
+    for (const schemaName in this.Olam.ATZILUT.uiSchemas) {
+        this.Olam.BERIAH.buildUI(schemaName, this.Olam.ui.root);
+    }
 
-for (const eventName in interactionEvents) {
-    document.addEventListener(eventName, (e) => {
-        const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
-        interactionEvents[eventName](e, clientX);
-    }, { passive: !eventName.startsWith('touch') });
-}
-    },
+    // 4. Cache references to notifier elements
+    const notifierIds = ['ascension', 'combo', 'perfectWave', 'surprise', 'boss'];
+    notifierIds.forEach(id => this.Olam.ui.notifiers[id] = document.getElementById(`${id}Notifier`));
+    
+    // 5. Load data and create initial assets
+    this.Olam.ASSIYAH.BINAH.initializeSettings();
+    this.Olam.ASSIYAH.BINAH.loadPlayerStats();
+    this.Olam.assets.circleAlphaMap = this.createCircleAlphaMap();
+},
+
     
     /**
      * @description Creates a circular alpha map texture, a fundamental glyph used throughout creation.
@@ -318,38 +321,25 @@ export const BINAH = {
 // DAAT - Knowledge: The bridge. Input, event handling, and data translation.
 export const DAAT = {
     Olam: null,
-    init(Olam) { this.Olam = Olam; },
-    eventHandlers: {
-        startGame: () => ASSIAH.BINAH.startGame(false),
-        startCustomGame: () => ASSIAH.BINAH.startGame(true),
-        showMainMenu: () => ASSIAH.MALCHUT.updateUIVisibility('mainMenu'),
-        showUpgrades: () => { ASSIAH.MALCHUT.populateUpgradeShop(); ASSIAH.MALCHUT.updateUIVisibility('upgradeShop'); },
-        showCustom: () => ASSIAH.MALCHUT.updateUIVisibility('customMenu'),
-        showSettings: () => { ASSIAH.MALCHUT.populateSettings(); ASSIAH.MALCHUT.updateUIVisibility('settings'); },
-        closePrayerList: () => ASSIAH.Olam.ui.elements.prayerList.classList.remove('visible'),
-        openPrayerList: () => { ASSIAH.MALCHUT.populatePrayerList(); ASSIAH.Olam.ui.elements.prayerList.classList.add('visible'); },
-        prevPrayer: () => ASSIAH.MALCHUT.changePrayer(-1),
-        nextPrayer: () => ASSIAH.MALCHUT.changePrayer(1),
-        purchaseUpgrade: (e) => {
-            const key = e.target.dataset.key; if(!key) return; const upgrade = ASSIAH.Olam.ATZILUT.upgrades[key]; const stats = ASSIAH.Olam.playerStats;
-            const currentLevel = stats.upgrades[key]?.level || 0; if (currentLevel >= upgrade.maxLevel) return;
-            const cost = Math.floor(upgrade.cost(currentLevel));
-            if (stats.totalMitzvot >= cost) {
-                stats.totalMitzvot -= cost; if (!stats.upgrades[key]) stats.upgrades[key] = { level: 0 };
-                stats.upgrades[key].level++; ASSIAH.BINAH.savePlayerStats(); ASSIAH.MALCHUT.populateUpgradeShop();
-            }
-        },
-        updateSetting: (e) => {
-            const id = e.target.id.replace('setting-',''); const def = ASSIAH.Olam.ATZILUT.settings.find(s => s.id === id); if(!def) return;
-            let value;
-            switch(def.type) { case 'checkbox': value = e.target.checked; break; case 'range': value = parseFloat(e.target.value); break; default: value = e.target.value; }
-            ASSIAH.BINAH.saveSetting(id, value);
-        },
-        updateSettingValueText: (e) => {
-            const id = e.target.id.replace('setting-',''); const span = document.getElementById(`setting-value-${id}`);
-            if(span) span.textContent = e.target.value;
+    init(Olam) { 
+        this.Olam = Olam;
+        const interactionEvents = {
+            'mousedown': this.handleInteractionStart,
+            'mousemove': this.handleInteractionMove,
+            'mouseup': this.handleInteractionEnd,
+            'touchstart': this.handleInteractionStart,
+            'touchmove': this.handleInteractionMove,
+            'touchend': this.handleInteractionEnd
+        };
+        for (const eventName in interactionEvents) {
+            document.addEventListener(eventName, (e) => {
+                const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
+                interactionEvents[eventName].bind(this)(e, clientX); // Bind the context
+            }, { passive: !eventName.startsWith('touch') });
         }
+        
     },
+    
     onWindowResize() { const Olam = this.Olam; Olam.three.camera.aspect = window.innerWidth / window.innerHeight; Olam.three.camera.updateProjectionMatrix(); Olam.three.renderer.setSize(window.innerWidth, window.innerHeight); },
     handleInteractionStart(e, clientX) { if (this.Olam.state !== 'playing') return; const Merkava = this.Olam.pools.Merkava[0]; if (!Merkava) return; const input = Merkava.components.Input; input.isDragging = true; input.lastTouchX = clientX; if (e.cancelable) e.preventDefault(); },
     handleInteractionMove(e, clientX) { const Merkava = this.Olam.pools.Merkava[0]; if (!Merkava || !Merkava.components.Input.isDragging) return; const input = Merkava.components.Input; const deltaX = clientX - input.lastTouchX; input.targetX += deltaX * 0.03; input.lastTouchX = clientX; },
