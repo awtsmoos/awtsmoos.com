@@ -122,26 +122,34 @@ export const BERIAH = {
      * waiting in the wings of creation for its moment to be called forth into the world of action.
      * The workshop floor is filled with silent, motionless forms, a silent army awaiting the first command.
      */
-    createPools() {
-        for (const type in this.Olam.ATZILUT.archetypes) {
-            const archetype = this.Olam.ATZILUT.archetypes[type];
-            this.Olam.pools[type] = [];
-            for (let i = 0; i < archetype.poolSize; i++) {
-                const entity = {
-                    id: `${type}_${i}`, type: type,
-                    components: JSON.parse(JSON.stringify(archetype.components)),
-                    refs: { webcamTargets: {} }
-                };
-                if (archetype.renderable) {
-                    entity.object3D = this.buildRenderable(archetype.renderable, entity);
-                    entity.object3D.userData.entityId = entity.id;
-                    entity.object3D.visible = false;
-                    //this.Olam.three.scene.add(entity.object3D);
+    // IN Beriah.js - REPLACE THE ENTIRE createPools FUNCTION
+
+createPools() {
+    for (const type in this.Olam.ATZILUT.archetypes) {
+        const archetype = this.Olam.ATZILUT.archetypes[type];
+        this.Olam.pools[type] = [];
+        for (let i = 0; i < archetype.poolSize; i++) {
+            const entity = {
+                id: `${type}_${i}`, type: type,
+                components: JSON.parse(JSON.stringify(archetype.components)),
+                refs: { webcamTargets: {} }
+            };
+            if (archetype.renderable) {
+                entity.object3D = this.buildRenderable(archetype.renderable, entity);
+                entity.object3D.userData.entityId = entity.id;
+                entity.object3D.visible = false;
+
+                // *** THE FINAL, CRITICAL FIX IS HERE ***
+                // If the entity is a singleton that should always exist (like the Chariot),
+                // add it to the scene immediately. Otherwise, keep it out of the scene until it's spawned.
+                if (archetype.isSingleton) {
+                    this.Olam.three.scene.add(entity.object3D);
                 }
-                this.Olam.pools[type].push(entity);
             }
+            this.Olam.pools[type].push(entity);
         }
-    },
+    }
+},
 
     // IN Beriah.js - REPLACE THE ENTIRE FUNCTION
 
