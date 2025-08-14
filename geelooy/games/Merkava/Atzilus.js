@@ -164,6 +164,24 @@ export const ATZILUT = {
         ShefaOrb: { poolSize: 100, components: { Type: 'ShefaOrb', Position:{}, Velocity:{}, State: {active: false, value: 1} }, renderable: { type: 'mesh', geometry: 'ShefaOrb', material: 'ShefaOrb' } },
         MitzvahOrb: { poolSize: 50, components: { Type: 'MitzvahOrb', Position:{}, Velocity:{}, State: {active: false, value: 1} }, renderable: { type: 'mesh', geometry: 'MitzvahOrb', material: 'MitzvahOrb' } },
         RedemptionOrb: { poolSize: 5, components: { Type: 'RedemptionOrb', Position:{}, Velocity:{}, State: {active: false} }, renderable: { type: 'mesh', geometry: 'RedemptionOrb', material: 'RedemptionOrb' } },
+        SpecialParticle: {
+    poolSize: 300,
+    components: {
+        Type: 'SpecialParticle',
+        Position: {},
+        State: {
+            active: false,
+            life: 0,
+            type: 'special_particle', // Can also be 'ein_sof_glimmer'
+            velocity: { x: 0, y: 0, z: 0 }
+        }
+    },
+    renderable: {
+        // Note: This is a 'sprite', not a 'mesh'
+        type: 'sprite',
+        material: 'SpecialParticleMaterial'
+    }
+},
     },
     uiSchemas: {
         mainMenu: { id: 'mainMenuOverlay', tag: 'div', baseClass: 'overlay', children: [
