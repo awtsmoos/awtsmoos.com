@@ -298,7 +298,14 @@ const entity = Olam.pools[entityType]?.[entityIndex];
     
     processCollisions() {
         const Olam = this.Olam;
-        const activeKlipot = Array.from(Olam.game.wave.enemiesInWave).map(id => Olam.entities[id]).filter(e => e && e.components.State.active);
+        
+        
+        const activeKlipot = Array.from(Olam.game.wave.enemiesInWave).map(id => {
+    const entityType = id.split('_')[0];
+    const entityIndex = parseInt(id.split('_')[1], 10);
+    return Olam.pools[entityType]?.[entityIndex];
+}).filter(e => e && e.components.State.active);
+        
         const activeOhr = Olam.pools.Ohr.filter(p => p.components.State.active);
         const activeNefesh = Olam.pools.Nefesh.filter(n => n.components.State.active);
         const enemyProjectiles = [
@@ -392,7 +399,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
             ohrState.pierce--;
         }
         
-        Olam.TIFERET.triggerEffect('particleExplosion', {
+        ASSIAH.TIFERET.triggerEffect('particleExplosion', {
             position: ohr.object3D.position,
             count: ohrState.isCrit ? 10 : 3,
             color: ohrState.isCrit ? 0xffaa00 : 0xffffff,
@@ -412,7 +419,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                     }
                 }
                 if (klipah.type === 'Jar' && Math.random() < 0.15) {
-                    Olam.MALCHUT.showNotifier('surprise', "A Vessel of Light Shatters!");
+                    ASSIAH.MALCHUT.showNotifier('surprise', "A Vessel of Light Shatters!");
                     for (let i = 0; i < 8; i++) {
                         const angle = (i / 8) * Math.PI * 2;
                         const velocity = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(40);
