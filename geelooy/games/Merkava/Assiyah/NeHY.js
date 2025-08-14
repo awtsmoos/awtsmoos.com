@@ -308,11 +308,11 @@ export const YESOD = {
             const input = Merkava.components.Input;
             pos.x = THREE.MathUtils.lerp(pos.x, input.targetX, 10 * deltaTime);
             Merkava.object3D.position.x = pos.x;
-            const wheelRotation = (Olam.game.roadSpeed * deltaTime) / 0.8;
+            const wheelRotation = (Olam.config.roadSpeed * deltaTime) / 0.8;
             Merkava.components.Children.wheels.forEach(ref => { if(Merkava.refs[ref]) Merkava.refs[ref].rotation.x -= wheelRotation; });
         }
         
-        const roadSpeed = Olam.game.roadSpeed;
+        const roadSpeed = Olam.config.roadSpeed;
         Olam.game.wave.enemiesInWave.forEach(id => {
             const entity = Olam.entities[id];
             if(entity && entity.components.State.active) {
