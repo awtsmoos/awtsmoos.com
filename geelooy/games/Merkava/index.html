@@ -112,7 +112,7 @@ B"H
         uniform float uTime;
         uniform float uSpeed;
         uniform vec3 uColor;
-        uniform float uOpacity;
+        
         varying vec2 vUv;
 
         float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123); }
@@ -141,7 +141,7 @@ B"H
             if ((leftDash > 0.0 || rightDash > 0.0) && line > 0.0) {
                 finalColor = mix(finalColor, vec3(1.0, 0.84, 0.0), 0.7);
             }
-            gl_FragColor = vec4(finalColor, uOpacity);
+            gl_FragColor = vec4(finalColor, 1.0);
         }
     </script>
     <script id="torahPortalShader" type="x-shader/x-fragment">
