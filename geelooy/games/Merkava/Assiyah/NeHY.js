@@ -59,10 +59,10 @@ export const NETZACH = {
                 z: spawnZ + (klipahDef.zOffset || 0)
             };
             const klipah = Olam.BERIAH.createEntityFromPool(klipahDef.type, { Position: position });
-            if (klipah) {
-                klipah.userData.waveId = waveId;
-                Olam.game.wave.enemiesInWave.add(klipah.id);
-            }
+if (klipah) {
+    klipah.object3D.userData.waveId = waveId; // <<< THIS IS THE FIX
+    Olam.game.wave.enemiesInWave.add(klipah.id);
+}
         });
 
         Olam.game.wave.isTracking = true;
