@@ -92,6 +92,7 @@ export const ATZILUT = {
         ShefaOrb: { type: 'MeshBasicMaterial', props: { color: 0xffd700, fog: false } },
         MitzvahOrb: { type: 'MeshBasicMaterial', props: { color: 0xffffff, fog: false } },
         RedemptionOrb: { type: 'MeshBasicMaterial', props: { color: 0xaaffaa, fog: false } },
+        SpecialParticleMaterial: { type: 'SpriteMaterial', props: { fog: false, transparent: true } },
     },
 
     // Archetypes: The very essence of a being, its components and innate behaviors.
