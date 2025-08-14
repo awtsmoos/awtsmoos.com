@@ -143,6 +143,8 @@ export const BERIAH = {
         }
     },
 
+    // IN Beriah.js - REPLACE THE ENTIRE FUNCTION
+
 createEntityFromPool(type, options = {}) {
     const pool = this.Olam.pools[type];
     if (!pool) {
@@ -158,8 +160,13 @@ createEntityFromPool(type, options = {}) {
             // Deep copy components, but re-instantiate special THREE objects
             for (const compName in archetype.components) {
                 const archComp = archetype.components[compName];
-                if (compName === 'Velocity' || compName === 'CurrentPos' || compName === 'TargetPos') {
-                    // If it's a vector-like object, create a new THREE.Vector3
+                const entityComp = entity.components[compName];
+
+                if (entityComp instanceof THREE.Vector3) {
+                    // If the component in the pool is already a Vector3, just copy the archetype's values
+                    entityComp.set(archComp.x, archComp.y, archComp.z);
+                } else if (compName === 'Velocity' || compName === 'CurrentPos' || compName === 'TargetPos') {
+                    // If it's not a Vector3 yet, create a new one
                     entity.components[compName] = new THREE.Vector3(archComp.x, archComp.y, archComp.z);
                 } else {
                     // Otherwise, do a simple deep copy for plain objects
@@ -167,9 +174,17 @@ createEntityFromPool(type, options = {}) {
                 }
             }
 
+            // Apply any new options, intelligently handling vectors
             for(const key in options) {
-                 if (entity.components[key]) Object.assign(entity.components[key], options[key]);
-                 else entity.components[key] = options[key];
+                 if (entity.components[key] instanceof THREE.Vector3 && typeof options[key] === 'object') {
+                    // If the target is a Vector3 and the option is an object, use .set()
+                    entity.components[key].set(options[key].x, options[key].y, options[key].z);
+                 } else if (entity.components[key]) {
+                    // Otherwise, just assign the properties
+                    Object.assign(entity.components[key], options[key]);
+                 } else {
+                    entity.components[key] = options[key];
+                 }
             }
             
             entity.components.State.active = true;
@@ -185,6 +200,8 @@ createEntityFromPool(type, options = {}) {
     console.warn(`Pool for ${type} is empty.`);
     return null;
 },
+
+
 
     /**
      * @description The Architect of Interfaces. This function constructs the HTML Document Object Model
