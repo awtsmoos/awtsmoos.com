@@ -143,8 +143,6 @@ export const BERIAH = {
         }
     },
 
-    // ADD THIS ENTIRE FUNCTION TO THE BERIAH OBJECT IN Beriah.js
-
 createEntityFromPool(type, options = {}) {
     const pool = this.Olam.pools[type];
     if (!pool) {
@@ -155,21 +153,28 @@ createEntityFromPool(type, options = {}) {
     for(let i=0; i < pool.length; i++) {
         const entity = pool[i];
         if (!entity.components.State.active) {
-            // Reset components to archetype defaults to clear any previous state
             const archetype = this.Olam.ATZILUT.archetypes[type];
-            entity.components = JSON.parse(JSON.stringify(archetype.components));
+            
+            // Deep copy components, but re-instantiate special THREE objects
+            for (const compName in archetype.components) {
+                const archComp = archetype.components[compName];
+                if (compName === 'Velocity' || compName === 'CurrentPos' || compName === 'TargetPos') {
+                    // If it's a vector-like object, create a new THREE.Vector3
+                    entity.components[compName] = new THREE.Vector3(archComp.x, archComp.y, archComp.z);
+                } else {
+                    // Otherwise, do a simple deep copy for plain objects
+                    entity.components[compName] = JSON.parse(JSON.stringify(archComp));
+                }
+            }
 
-            // Apply any new options
             for(const key in options) {
                  if (entity.components[key]) Object.assign(entity.components[key], options[key]);
                  else entity.components[key] = options[key];
             }
             
-            // Activate and make visible
             entity.components.State.active = true;
             entity.object3D.visible = true;
 
-            // Set initial position if provided
             if(entity.components.Position) {
                 entity.object3D.position.set(entity.components.Position.x, entity.components.Position.y, entity.components.Position.z);
             }
