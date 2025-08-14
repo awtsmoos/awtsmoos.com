@@ -369,7 +369,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
         if (Olam.game.effects.invincibleTimer > 0 || !nefesh.components.State.active) return;
         
         const damage = obstacle.components.State.damage || 1;
-        Olam.CHESED.adjustNefeshCount(-damage);
+        ASSIAH.CHESED.adjustNefeshCount(-damage);
         
         switch(obstacle.type) {
             case 'Jar':
@@ -377,7 +377,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                 if (obstacle.components.Health.value <= 0) { this.deactivateKlipah(obstacle); }
                 break;
             case 'KlipahGate':
-                Olam.CHESED.adjustNefeshCount(obstacle.components.Klipah.value);
+                ASSIAH.CHESED.adjustNefeshCount(obstacle.components.Klipah.value);
                 this.deactivateKlipah(obstacle);
                 break;
             case 'Mine':
@@ -641,7 +641,7 @@ export const TIFERET = {
     triggerMitzvahCascade(position) {
         this.Olam.MALCHUT.showNotifier('surprise', "Mitzvah Cascade!");
         const bonusMitzvot = 250 + Math.floor(Math.random() * 250);
-        this.Olam.CHESED.spawnMitzvahOrbs(position, bonusMitzvot);
+        this.ASSIAH.CHESED.spawnMitzvahOrbs(position, bonusMitzvot);
     },
 
     triggerKlipahRedemption(position) {
