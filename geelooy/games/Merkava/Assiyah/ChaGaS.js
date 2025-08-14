@@ -110,6 +110,8 @@ export const CHESED = {
         if (Olam.game.nefeshCount <= 0 && Olam.state === 'playing') {
             Olam.ASSIYAH.BINAH.endGame();
         }
+
+        Olam.ASSIYAH.TIFERET.updateCameraTarget()
     },
 
     grantRandomEmanation() {
@@ -543,6 +545,39 @@ if (entity.type === 'TomeKeeper' && entity.components.AI.shieldedEnemyId) {
 export const TIFERET = {
     Olam: null,
     init(Olam) { this.Olam = Olam; },
+
+
+    // TIFERET - Beauty/Harmony: Visual effects, particles, scene beauty.
+
+    // ADD THIS NEW FUNCTION HERE
+    updateCameraTarget() {
+        const Olam = this.Olam;
+        if (!Olam.game.nefeshCount) {
+            Olam.three.cameraTargetPos.copy(Olam.three.originalCameraPos);
+            return;
+        }
+
+        const activeNefeshCount = Olam.game.nefeshCount;
+        const radiusStep = 0.45;
+        let maxRadiusForLayout = radiusStep * Math.sqrt(Olam.settings.maxNefesh);
+        const roadWidth = Olam.config.roadWidth;
+        const scaleFactor = (maxRadiusForLayout * 2 > roadWidth * 0.9) ? (roadWidth * 0.9) / (maxRadiusForLayout * 2) : 1;
+        const formationRadius = radiusStep * Math.sqrt(activeNefeshCount) * scaleFactor;
+
+        const fovRad = THREE.MathUtils.degToRad(Olam.three.camera.fov);
+        const aspect = Olam.three.camera.aspect;
+        const requiredDist = (formationRadius / Math.tan(fovRad / 2));
+        
+        // Adjust distance based on whichever dimension (width or height) is more constrained
+        const distance = Math.max(requiredDist, (requiredDist / aspect) * 0.8);
+
+        const baseCamPos = Olam.three.originalCameraPos;
+        Olam.three.cameraTargetPos.z = baseCamPos.z + distance * 1.2;
+        Olam.three.cameraTargetPos.y = baseCamPos.y + distance * 0.7;
+        Olam.three.cameraTargetPos.x = 0;
+        Olam.three.cameraLookAtTarget.set(Olam.pools.Merkava[0].object3D.position.x, 2, 0);
+    },
+    
     
     effectsAndBeautySystem(deltaTime) {
         this.updateCamera(deltaTime);
