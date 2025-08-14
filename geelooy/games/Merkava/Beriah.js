@@ -159,7 +159,23 @@ export const BERIAH = {
             if (def.style) el.style.cssText = def.style;
             if (def.placeholder) el.placeholder = def.placeholder;
 
-            if (def.onClick && eventHandlers[def.onClick]) el.addEventListener('click', (e) => eventHandlers[def.onClick](e));
+            
+            if (def.onClick && eventHandlers[def.onClick]) {
+    // Find which Sefirah holds the target function
+    let sefirahContext = null;
+    for (const sefirah of Object.values(this.Olam.ASSIYAH)) {
+        if (typeof sefirah === 'object' && sefirah !== null && sefirah[def.onClick]) {
+            sefirahContext = sefirah;
+            break;
+        }
+    }
+    // Bind the Sefirah as the 'this' context for the event listener
+    if (sefirahContext) {
+        el.addEventListener('click', eventHandlers[def.onClick].bind(sefirahContext));
+    }
+}
+
+            
             if (def.onInput && eventHandlers[def.onInput]) el.addEventListener('input', (e) => eventHandlers[def.onInput](e));
             if (def.onChange && eventHandlers[def.onChange]) el.addEventListener('change', (e) => eventHandlers[def.onChange](e));
 
