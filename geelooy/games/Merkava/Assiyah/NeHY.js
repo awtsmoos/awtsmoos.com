@@ -318,21 +318,32 @@ export const YESOD = {
         
         // --- Klipot Movement ---
         // --- Klipot Movement ---
-const roadSpeed = Olam.config.roadSpeed;
-Olam.game.wave.enemiesInWave.forEach(id => {
-    // CORRECTED LOGIC: Find the entity in the correct pool by its ID.
-    const entityType = id.split('_')[0];
-    const entityIndex = parseInt(id.split('_')[1], 10);
-    const entity = Olam.pools[entityType]?.[entityIndex];
+                // --- Klipot Movement ---
+        const roadSpeed = Olam.config.roadSpeed;
+        const inactiveIds = [];
+        Olam.game.wave.enemiesInWave.forEach(id => {
+            const entityType = id.split('_')[0];
+            const entityIndex = parseInt(id.split('_')[1], 10);
+            const entity = Olam.pools[entityType]?.[entityIndex];
 
-    if(entity && entity.components.State.active) {
-        const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
-        entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
-        if(entity.object3D.position.z > 20) {
-            Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
+            // Check if the entity is valid and active
+            if(entity && entity.components.State.active) {
+                const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
+                entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
+                // If it goes off-screen, deactivate it (which also removes it from the set)
+                if(entity.object3D.position.z > 20) {
+                    Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
+                }
+            } else {
+                // If the entity is inactive or missing, its ID is stale. Mark for cleanup.
+                inactiveIds.push(id);
+            }
+        });
+        
+        // After iterating, remove any stale IDs found. This prevents an infinite loop.
+        if (inactiveIds.length > 0) {
+            inactiveIds.forEach(id => Olam.game.wave.enemiesInWave.delete(id));
         }
-    }
-});
 
         
         const allProjectilePools = ['Ohr', 'GolemProjectile', 'GolemFastProjectile', 'GolemHeavyProjectile', 'WeaverProjectile', 'ShattererShard'];
