@@ -312,15 +312,22 @@ export const YESOD = {
             Merkava.components.Children.wheels.forEach(ref => { if(Merkava.refs[ref]) Merkava.refs[ref].rotation.x -= wheelRotation; });
         }
         
-        const roadSpeed = Olam.config.roadSpeed;
-        Olam.game.wave.enemiesInWave.forEach(id => {
-            const entity = Olam.entities[id];
-            if(entity && entity.components.State.active) {
-                const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
-                entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
-                if(entity.object3D.position.z > 20) { Olam.GEVURAH.deactivateKlipah(entity); }
-            }
-        });
+        // --- Klipot Movement ---
+const roadSpeed = Olam.config.roadSpeed;
+Olam.game.wave.enemiesInWave.forEach(id => {
+    // CORRECTED LOGIC: Find the entity in the correct pool by its ID.
+    const entityType = id.split('_')[0];
+    const entityIndex = parseInt(id.split('_')[1], 10);
+    const entity = Olam.pools[entityType]?.[entityIndex];
+
+    if(entity && entity.components.State.active) {
+        const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
+        entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
+        if(entity.object3D.position.z > 20) {
+            Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
+        }
+    }
+});
         
         const allProjectilePools = ['Ohr', 'GolemProjectile', 'GolemFastProjectile', 'GolemHeavyProjectile', 'WeaverProjectile', 'ShattererShard'];
         allProjectilePools.forEach(type => {
