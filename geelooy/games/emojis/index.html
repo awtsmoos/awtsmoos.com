@@ -119,6 +119,7 @@ body,html{
 .menu-button:hover { background-color: #45a049; }
 .menu-container h1 { font-size: 48px; text-shadow: 3px 3px 6px #000; margin-bottom: 20px; text-align: center; }
 .menu-container h2 { font-size: 28px; color: #ccc; }
+.menu-container h3 { font-size: 22px; margin-bottom: 10px; color: #4CAF50; }
 .menu-container textarea {
     width: 90%;
     max-width: 500px;
@@ -142,6 +143,8 @@ body,html{
     border-radius: 8px;
     margin: 10px 0;
     text-align: center;
+    width: 90%;
+    max-width: 600px;
 }
 
 #imageUploadLabel {
@@ -281,11 +284,21 @@ body,html{
     <h1>Settings</h1>
 
     <div class="setting-group">
+        <h3>Gameplay Settings</h3>
+        <label for="playerSizeSlider">Player Size: <span id="playerSizeValue">150</span></label>
+        <br>
+        <input type="range" id="playerSizeSlider" min="30" max="200" value="150" style="width: 80%; vertical-align: middle;">
+        <button class="menu-button" onclick="saveGameplaySettings()">Save Gameplay</button>
+    </div>
+
+    <div class="setting-group">
+        <h3>Customize Emojis</h3>
         <label for="badEmojisTextarea">Bad Emojis (Enemies):</label>
         <textarea id="badEmojisTextarea"></textarea>
         <label for="goodEmojisTextarea">Good Emojis (Drop Powerups):</label>
         <textarea id="goodEmojisTextarea"></textarea>
         <button class="menu-button" onclick="saveEmojis()">Save Emojis</button>
+        <button class="menu-button" onclick="resetEmojis()" style="background-color:#f44336;">Reset Defaults</button>
     </div>
 
     <div class="setting-group">
@@ -338,14 +351,15 @@ const webcamFeed = document.getElementById('webcamFeed');
 const mainMenu = document.getElementById('mainMenu'), settingsMenu = document.getElementById('settingsMenu'), gameOverMenu = document.getElementById('gameOverMenu'), customCaptionsMenu = document.getElementById('customCaptionsMenu'), captionListMenu = document.getElementById('captionListMenu'), captionDisplayBox = document.getElementById('captionDisplayBox'), captionTextBox = document.getElementById('captionTextBox'), captionsTextarea = document.getElementById('captionsTextarea'), imageUploader = document.getElementById('imageUploader'), fileCount = document.getElementById('fileCount'), currentScoreValue = document.getElementById('currentScoreValue'), highScoreValue = document.getElementById('highScoreValue'), playerLivesValue = document.getElementById('playerLivesValue'), finalScoreValue = document.getElementById('finalScoreValue'), badEmojisTextarea = document.getElementById('badEmojisTextarea'), goodEmojisTextarea = document.getElementById('goodEmojisTextarea'), powerUpContainer = document.getElementById('powerUpContainer'), gameMessageDisplay = document.getElementById('gameMessageDisplay'), comboInfo = document.getElementById('comboInfo'), captionListContainer = document.getElementById('captionListContainer');
 
 // --- GAME CONFIG ---
-const PLAYER_SIZE = 160
+let playerSize = 150; // Player size is now a mutable variable
 const PLAYER_INVINCIBILITY_DURATION = 2000;
-const BULLET_EMOJI = "💨";
 const ENEMY_BULLET_EMOJI = "🔥";
 const DEFAULT_BAD_EMOJIS = "😡😠😩🤢👿🦋🧐🦗🦣🪳😵‍💫✈️🐌🤬🫠🤨🧐🌊🗣️✨🥸🙀✊🌪️🌞🦇";
 const DEFAULT_GOOD_EMOJIS = "😀😇😍🥳🤩💎🎁💖";
+const HEBREW_LETTERS = Array.from("אבגדהוזחטיכךלמםנןסעפףצץקרשת");
+const BULLET_COLORS = ['#ff00ff', '#00ffff', '#ffff00', '#00ff00', '#ff8800', '#ff44cc'];
 const POWERUP_TYPES = { 'SHIELD': { emoji: "🛡️", duration: 10000 }, 'SPREAD_SHOT': { emoji: "☄️", duration: 8000 }, 'RAPID_FIRE': { emoji: "🔥", duration: 7000 }, 'BOMB': { emoji: "💣", duration: 0 }, 'TIME_WARP': { emoji: "⏳", duration: 5000 } };
-const PLAYER_SHOOT_DELAY = 180, PLAYER_RAPID_FIRE_DELAY = 80, COMBO_TIMEOUT = 2500;
+const PLAYER_SHOOT_DELAY = 120, PLAYER_RAPID_FIRE_DELAY = 60, COMBO_TIMEOUT = 2500;
 const HELPER_MAX_COUNT = 26;
 
 // --- GAME STATE ---
@@ -385,9 +399,9 @@ function playSound(type, ...args) {
 
 // --- GAME OBJECT CLASSES ---
 class GameObject { constructor(x, y, size, emoji) { this.x=x; this.y=y; this.size=size; this.emoji=emoji; this.radius=size/2; this.toBeRemoved = false; } draw() { ctx.font = `${this.size}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(this.emoji, this.x, this.y); } update(timeScale = 1) {} }
-class Player extends GameObject { constructor(x, y) { super(x, y, PLAYER_SIZE, "😀"); this.shielded = false; this.helpers = []; } draw() { const isInvincible = Date.now() < playerInvincibilityEnd; if (isInvincible && Math.floor(Date.now()/100)%2===0) return; if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } if (this.shielded) { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius+15, 0, Math.PI*2); ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.sin(Date.now()*0.01)*0.3})`; ctx.lineWidth=5; ctx.stroke(); } } update() { this.x = Math.max(this.radius, Math.min(k.width - this.radius, this.x)); this.y = Math.max(this.radius, Math.min(k.height - this.radius, this.y)); this.updateHelpers(); } updateHelpers() { const numHelpers = this.helpers.length; if (numHelpers === 0) return; const angleStep = Math.PI * 2 / numHelpers; let distance = 100; if(numHelpers > 7) distance = 150; if(numHelpers > 15) distance = 200; this.helpers.forEach((helper, i) => { const angle = (i * angleStep) - (Math.PI / 2); helper.targetX = this.x + Math.cos(angle) * distance; helper.targetY = this.y + Math.sin(angle) * distance; }); } addHelpers(count) { const currentCount = this.helpers.length; const toAdd = Math.min(count, HELPER_MAX_COUNT - currentCount); for(let i = 0; i < toAdd; i++) { this.helpers.push(new HelperShip(this.x, this.y)); } } }
-class HelperShip extends GameObject { constructor(x, y) { super(x, y, PLAYER_SIZE * 0.6, "🙂"); this.targetX = x; this.targetY = y; this.lastShotTime = 0; } update() { this.x += (this.targetX - this.x) * 0.1; this.y += (this.targetY - this.y) * 0.1; const shootDelay = activePowerUps['RAPID_FIRE'] ? PLAYER_RAPID_FIRE_DELAY * 2 : PLAYER_SHOOT_DELAY * 2; if (Date.now() - this.lastShotTime > shootDelay) { bullets.push(new Bullet(this.x, this.y + this.radius)); this.lastShotTime = Date.now(); } } draw() { if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } } }
-class Bullet extends GameObject { constructor(x, y) { super(x, y, 30, BULLET_EMOJI); this.speed = 18; } update() { this.y += this.speed; if (this.y > k.height) this.toBeRemoved = true; } }
+class Player extends GameObject { constructor(x, y) { super(x, y, playerSize, "😀"); this.shielded = false; this.helpers = []; } draw() { const isInvincible = Date.now() < playerInvincibilityEnd; if (isInvincible && Math.floor(Date.now()/100)%2===0) return; if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } if (this.shielded) { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius+15, 0, Math.PI*2); ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.sin(Date.now()*0.01)*0.3})`; ctx.lineWidth=5; ctx.stroke(); } } update() { this.x = Math.max(this.radius, Math.min(k.width - this.radius, this.x)); this.y = Math.max(this.radius, Math.min(k.height - this.radius, this.y)); this.updateHelpers(); } updateHelpers() { const numHelpers = this.helpers.length; if (numHelpers === 0) return; const angleStep = Math.PI * 2 / numHelpers; let distance = 100; if(numHelpers > 7) distance = 150; if(numHelpers > 15) distance = 200; this.helpers.forEach((helper, i) => { const angle = (i * angleStep) - (Math.PI / 2); helper.targetX = this.x + Math.cos(angle) * distance; helper.targetY = this.y + Math.sin(angle) * distance; }); } addHelpers(count) { const currentCount = this.helpers.length; const toAdd = Math.min(count, HELPER_MAX_COUNT - currentCount); for(let i = 0; i < toAdd; i++) { this.helpers.push(new HelperShip(this.x, this.y)); } } }
+class HelperShip extends GameObject { constructor(x, y) { super(x, y, playerSize * 0.6, "🙂"); this.targetX = x; this.targetY = y; this.lastShotTime = 0; } update() { this.x += (this.targetX - this.x) * 0.1; this.y += (this.targetY - this.y) * 0.1; const shootDelay = activePowerUps['RAPID_FIRE'] ? PLAYER_RAPID_FIRE_DELAY * 2 : PLAYER_SHOOT_DELAY * 2; if (Date.now() - this.lastShotTime > shootDelay) { bullets.push(new Bullet(this.x, this.y + this.radius)); this.lastShotTime = Date.now(); } } draw() { if (webcamActive && showWebcamOnPlayer && webcamFeed.readyState >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.clip(); const vW=webcamFeed.videoWidth, vH=webcamFeed.videoHeight, vRatio=vW/vH, r=this.radius; let sW,sH,sX,sY; if(vRatio > 1){sH=vH;sW=vH;sX=(vW-sW)/2;sY=0;}else{sW=vW;sH=vW;sX=0;sY=(vH-sH)/2;} ctx.drawImage(webcamFeed,sX,sY,sW,sH,this.x-r,this.y-r,r*2,r*2); ctx.restore(); } else { super.draw(); } } }
+class Bullet extends GameObject { constructor(x, y) { const emoji = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)]; super(x, y, 40, emoji); this.speed = 18; this.color = BULLET_COLORS[Math.floor(Math.random() * BULLET_COLORS.length)]; } update() { this.y += this.speed; if (this.y > k.height) this.toBeRemoved = true; } draw() { ctx.save(); ctx.font = `bold ${this.size}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.shadowColor = this.color; ctx.shadowBlur = 15; ctx.strokeStyle = 'black'; ctx.lineWidth = 3; ctx.strokeText(this.emoji, this.x, this.y); ctx.fillStyle = this.color; ctx.fillText(this.emoji, this.x, this.y); ctx.restore(); } }
 class SpreadBullet extends Bullet { constructor(x, y, angle) { super(x, y); this.vx = Math.sin(angle) * this.speed; this.vy = Math.cos(angle) * this.speed; } update() { this.x += this.vx; this.y += this.vy; if (this.y > k.height || this.x < 0 || this.x > k.width) this.toBeRemoved = true; } }
 class EnemyBullet extends GameObject { constructor(x, y, vx = 0, vy = -8 * Math.sqrt(difficulty)) { super(x, y, 25, ENEMY_BULLET_EMOJI); this.vx = vx; this.vy = vy; } update(timeScale=1) { this.x += this.vx * timeScale; this.y += this.vy * timeScale; if (this.y > k.height || this.y < -this.size || this.x < -this.size || this.x > k.width + this.size) this.toBeRemoved = true; } }
 class Enemy extends GameObject { constructor(x, y, size, emoji, speed, health=1) { super(x, y, size, emoji); this.speed=speed; this.health=health; this.maxHealth=health; this.hitTimer=0; this.baseScore = 100; this.scale=1;} update(timeScale=1) { this.y -= this.speed * timeScale; if (this.y < -this.size) this.toBeRemoved = true; if (this.hitTimer>0) {this.hitTimer--; this.scale += (1.2 - this.scale) * 0.5;} else {this.scale += (1 - this.scale) * 0.2;} } draw() { ctx.save(); if (this.hitTimer > 0) ctx.filter = 'brightness(2)'; ctx.translate(this.x, this.y); ctx.scale(this.scale, this.scale); ctx.translate(-this.x, -this.y); super.draw(); ctx.restore(); if (this.health > 1) { const bw = this.size; ctx.fillStyle="#555"; ctx.fillRect(this.x-bw/2, this.y-this.radius-10, bw, 5); ctx.fillStyle="red"; ctx.fillRect(this.x-bw/2, this.y-this.radius-10, bw * (this.health/this.maxHealth), 5); } } takeDamage() { this.health--; this.hitTimer=5; playSound('hit'); return this.health <= 0; } }
@@ -618,11 +632,38 @@ function showMainMenu() {
     captionImageUrls.forEach(url => URL.revokeObjectURL(url)); captionImageUrls = [];
     fileCount.textContent = '0 images selected'; imageUploader.value = '';
 }
-function showSettingsMenu() { mainMenu.style.display='none'; settingsMenu.style.display='flex'; badEmojisTextarea.value=badEmojis.join(''); goodEmojisTextarea.value=goodEmojis.join(''); document.getElementById('enableWebcamPlayer').checked = showWebcamOnPlayer; document.getElementById('enableWebcamBg').checked = showWebcamInBackground; }
+function showSettingsMenu() { 
+    mainMenu.style.display='none'; 
+    settingsMenu.style.display='flex'; 
+    badEmojisTextarea.value=badEmojis.join(''); 
+    goodEmojisTextarea.value=goodEmojis.join(''); 
+    document.getElementById('enableWebcamPlayer').checked = showWebcamOnPlayer; 
+    document.getElementById('enableWebcamBg').checked = showWebcamInBackground; 
+    
+    const slider = document.getElementById('playerSizeSlider');
+    const valueLabel = document.getElementById('playerSizeValue');
+    slider.value = playerSize;
+    valueLabel.textContent = playerSize;
+    slider.oninput = () => { valueLabel.textContent = slider.value; };
+}
 function saveEmojis() {
     const newBad = Array.from(badEmojisTextarea.value.trim()); if(newBad.length > 0) { localStorage.setItem('customBadEmojis', newBad.join('')); badEmojis = newBad; } else { localStorage.removeItem('customBadEmojis'); badEmojis = Array.from(DEFAULT_BAD_EMOJIS); }
     const newGood = Array.from(goodEmojisTextarea.value.trim()); if(newGood.length > 0) { localStorage.setItem('customGoodEmojis', newGood.join('')); goodEmojis = newGood; } else { localStorage.removeItem('customGoodEmojis'); goodEmojis = Array.from(DEFAULT_GOOD_EMOJIS); }
     alert('Emojis saved!');
+}
+function resetEmojis() {
+    localStorage.removeItem('customBadEmojis');
+    localStorage.removeItem('customGoodEmojis');
+    badEmojis = Array.from(DEFAULT_BAD_EMOJIS);
+    goodEmojis = Array.from(DEFAULT_GOOD_EMOJIS);
+    badEmojisTextarea.value = badEmojis.join('');
+    goodEmojisTextarea.value = goodEmojis.join('');
+    alert('Emojis reset to default!');
+}
+function saveGameplaySettings() {
+    playerSize = parseInt(document.getElementById('playerSizeSlider').value);
+    localStorage.setItem('playerSize', playerSize);
+    alert('Gameplay settings saved!');
 }
 function loadSettings() {
     highScore=localStorage.getItem('emojiShooterHighScore')?parseInt(localStorage.getItem('emojiShooterHighScore')):0;
@@ -630,6 +671,7 @@ function loadSettings() {
     goodEmojis = localStorage.getItem('customGoodEmojis') ? Array.from(localStorage.getItem('customGoodEmojis')) : Array.from(DEFAULT_GOOD_EMOJIS);
     showWebcamOnPlayer = localStorage.getItem('webcamPlayer') === 'true';
     showWebcamInBackground = localStorage.getItem('webcamBg') === 'true';
+    playerSize = localStorage.getItem('playerSize') ? parseInt(localStorage.getItem('playerSize')) : 150;
 }
 
 // --- WEBCAM FUNCTIONS ---
