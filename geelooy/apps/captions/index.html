@@ -8,698 +8,925 @@ B"H
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ein Sof Engine [Quantum Core v2]</title>
-    <style>
-        :root {
-            --bg-color: #0c0c10;
-            --widget-bg: #1a1a22;
-            --text-color: #e8e8f0;
-            --primary-color: #ff3c78;
-            --secondary-color: #00f2ea;
-            --border-color: #2a2a33;
-            --font-display: 'Teko', sans-serif;
-            --font-mono: 'Fira Code', monospace;
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
-        
-        * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ein Sof Engine [Omega Engine v11.1]</title>
+<style>
+:root {
+--bg-color: #0c0c10;
+--widget-bg: #1a1a22;
+--text-color: #e8e8f0;
+--primary-color: #ff3c78;
+--secondary-color: #00f2ea;
+--border-color: #2a2a33;
+--font-display: 'Teko', sans-serif;
+--font-mono: 'Fira Code', monospace;
+}
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
+    <fieldset><legend>Gevulot</legend>
+        <div class="control-group"><label for="batchInput">Input (Batch)</label><textarea id="batchInput" placeholder="Enter text here..."></textarea></div>
+        <div class="control-group"><label for="headerInput">Header Text</label><input type="text" id="headerInput" placeholder="Optional..."></div>
+    </fieldset>
+    
+    <fieldset><legend>Tzimtzum (Hologram)</legend>
+        <div class="control-group"><label for="boxWidth">Box Width % <span class="value-display" id="boxWidthValue">85</span></label><input type="range" id="boxWidth" min="10" max="100" value="85"></div>
+        <div class="control-group"><label for="boxHeight">Box Height % <span class="value-display" id="boxHeightValue">50</span></label><input type="range" id="boxHeight" min="10" max="100" value="50"></div>
+        <div class="control-group" data-control-name="hologramSkew"><div class="label-with-random"><label for="hologramSkew">Hologram Skew <span class="value-display" id="hologramSkewValue">0.2</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="hologramSkew" min="-1" max="1" step="0.05" value="0.2"><div class="randomize-controls"><label>Min: <span class="value-display" id="hologramSkew_minValue">-0.5</span></label><input type="range" id="hologramSkew_min" min="-1" max="1" step="0.05" value="-0.5"><label>Max: <span class="value-display" id="hologramSkew_maxValue">0.5</span></label><input type="range" id="hologramSkew_max" min="-1" max="1" step="0.05" value="0.5"></div></div>
+        <div class="control-group" data-control-name="lightX"><div class="label-with-random"><label for="lightX">Light Position X % <span class="value-display" id="lightXValue">50</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="lightX" min="-50" max="150" value="50"><div class="randomize-controls"><label>Min: <span class="value-display" id="lightX_minValue">0</span></label><input type="range" id="lightX_min" min="-50" max="150" value="0"><label>Max: <span class="value-display" id="lightX_maxValue">100</span></label><input type="range" id="lightX_max" min="-50" max="150" value="100"></div></div>
+        <div class="control-group" data-control-name="lightY"><div class="label-with-random"><label for="lightY">Light Position Y % <span class="value-display" id="lightYValue">50</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="lightY" min="-50" max="150" value="50"><div class="randomize-controls"><label>Min: <span class="value-display" id="lightY_minValue">0</span></label><input type="range" id="lightY_min" min="-50" max="150" value="0"><label>Max: <span class="value-display" id="lightY_maxValue">100</span></label><input type="range" id="lightY_max" min="-50" max="150" value="100"></div></div>
+    </fieldset>
+    
+    <fieldset><legend>Olam Yetzirah</legend>
+        <div class="control-group" data-control-name="particleDensity"><div class="label-with-random"><label for="particleDensity">Particle Density <span class="value-display" id="particleDensityValue">1800</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="particleDensity" min="100" max="5000" value="1800"><div class="randomize-controls"><label>Min: <span class="value-display" id="particleDensity_minValue">1000</span></label><input type="range" id="particleDensity_min" min="100" max="5000" value="1000"><label>Max: <span class="value-display" id="particleDensity_maxValue">2500</span></label><input type="range" id="particleDensity_max" min="100" max="5000" value="2500"></div></div>
+        <div class="control-group"><label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label><input type="range" id="minParticleSize" min="1" max="50" value="10"></div>
+        <div class="control-group"><label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label><input type="range" id="maxParticleSize" min="10" max="150" value="90"></div>
+        <div class="control-group"><label for="particleChars">Particle Chars</label><textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea></div>
+        <div class="control-group" data-control-name="windAngle"><div class="label-with-random"><label for="windAngle">Cosmic Wind Angle <span class="value-display" id="windAngleValue">45</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="windAngle" min="0" max="360" value="45"><div class="randomize-controls"><label>Min: <span class="value-display" id="windAngle_minValue">0</span></label><input type="range" id="windAngle_min" min="0" max="360" value="0"><label>Max: <span class="value-display" id="windAngle_maxValue">360</span></label><input type="range" id="windAngle_max" min="0" max="360" value="360"></div></div>
+        <div class="control-group" data-control-name="windStrength"><div class="label-with-random"><label for="windStrength">Wind Strength <span class="value-display" id="windStrengthValue">50</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="windStrength" min="0" max="500" value="50"><div class="randomize-controls"><label>Min: <span class="value-display" id="windStrength_minValue">0</span></label><input type="range" id="windStrength_min" min="0" max="500" value="0"><label>Max: <span class="value-display" id="windStrength_maxValue">150</span></label><input type="range" id="windStrength_max" min="0" max="500" value="150"></div></div>
+    </fieldset>
+    
+    <fieldset><legend>Marot Elokim</legend>
+        <div class="control-group"><label for="baseBgColor">Base Color</label><input type="color" id="baseBgColor" value="#0A0814"></div>
+        <div class="control-group"><label for="textureScale">Texture Scale <span class="value-display" id="textureScaleValue">200</span></label><input type="range" id="textureScale" min="50" max="1000" value="200"></div>
+        <div class="control-group"><label for="textureDetail">Texture Detail <span class="value-display" id="textureDetailValue">4</span></label><input type="range" id="textureDetail" min="1" max="8" step="1" value="4"></div>
+        <div class="control-group"><label for="nebulaColor1">Nebula Color 1</label><input type="color" id="nebulaColor1" value="#505ac8"></div>
+        <div class="control-group"><label for="nebulaColor2">Nebula Color 2</label><input type="color" id="nebulaColor2" value="#c85096"></div>
+        <div class="control-group"><label for="nebulaColor3">Nebula Color 3</label><input type="color" id="nebulaColor3" value="#50c896"></div>
+        <div class="control-group" data-control-name="riftCount"><div class="label-with-random"><label for="riftCount">Fractal Rifts <span class="value-display" id="riftCountValue">3</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="riftCount" min="0" max="10" step="1" value="3"><div class="randomize-controls"><label>Min: <span class="value-display" id="riftCount_minValue">1</span></label><input type="range" id="riftCount_min" min="0" max="10" value="1"><label>Max: <span class="value-display" id="riftCount_maxValue">5</span></label><input type="range" id="riftCount_max" min="0" max="10" value="5"></div></div>
+        <div class="control-group" data-control-name="celestialBodyCount"><div class="label-with-random"><label for="celestialBodyCount">Celestial Bodies <span class="value-display" id="celestialBodyCountValue">3</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="celestialBodyCount" min="0" max="10" step="1" value="3"><div class="randomize-controls"><label>Min: <span class="value-display" id="celestialBodyCount_minValue">1</span></label><input type="range" id="celestialBodyCount_min" min="0" max="10" value="1"><label>Max: <span class="value-display" id="celestialBodyCount_maxValue">5</span></label><input type="range" id="celestialBodyCount_max" min="0" max="10" value="5"></div></div>
+        <div class="control-group" data-control-name="stutterEchoes"><div class="label-with-random"><label for="stutterEchoes">Chrono-Stutter Echoes <span class="value-display" id="stutterEchoesValue">3</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="stutterEchoes" min="0" max="10" step="1" value="3"><div class="randomize-controls"><label>Min: <span class="value-display" id="stutterEchoes_minValue">0</span></label><input type="range" id="stutterEchoes_min" min="0" max="10" step="1" value="0"><label>Max: <span class="value-display" id="stutterEchoes_maxValue">6</span></label><input type="range" id="stutterEchoes_max" min="0" max="10" step="1" value="6"></div></div>
+        <div class="control-group" data-control-name="stutterDilation"><div class="label-with-random"><label for="stutterDilation">Time Dilation <span class="value-display" id="stutterDilationValue">5</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="stutterDilation" min="0" max="20" value="5"><div class="randomize-controls"><label>Min: <span class="value-display" id="stutterDilation_minValue">1</span></label><input type="range" id="stutterDilation_min" min="0" max="20" value="1"><label>Max: <span class="value-display" id="stutterDilation_maxValue">10</span></label><input type="range" id="stutterDilation_max" min="0" max="20" value="10"></div></div>
+        <div class="control-group" data-control-name="lensDistortion"><div class="label-with-random"><label for="lensDistortion">Lens Distortion <span class="value-display" id="lensDistortionValue">0.1</span></label><input type="checkbox" class="randomize-toggle"></div><input type="range" id="lensDistortion" min="0" max="1" step="0.05" value="0.1"><div class="randomize-controls"><label>Min: <span class="value-display" id="lensDistortion_minValue">0</span></label><input type="range" id="lensDistortion_min" min="0" max="1" step="0.05" value="0"><label>Max: <span class="value-display" id="lensDistortion_maxValue">0.3</span></label><input type="range" id="lensDistortion_max" min="0" max="1" step="0.05" value="0.3"></div></div>
+    </fieldset>
 
-        body {
-            font-family: var(--font-mono);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 30px;
-            background-color: var(--bg-color);
-            padding: 20px;
-            margin: 0;
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
+    <fieldset><legend>Output</legend>
+        <div class="control-group" style="display: flex; align-items: center; justify-content: space-between;">
+            <label for="useFolderPicker" style="margin-bottom: 0;">Use Folder Picker</label>
+            <input type="checkbox" id="useFolderPicker" checked>
+        </div>
+        <div class="util-btn-group">
+            <button id="copySettingsBtn" class="util-btn">Copy Settings</button>
+            <button id="pasteSettingsBtn" class="util-btn">Paste Settings</button>
+        </div>
+         <button id="resetSettingsBtn" class="util-btn">Reset to Default</button>
+    </fieldset>
 
-        #controls {
-            width: 500px;
-            padding: 20px;
-            background-color: var(--widget-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 70px rgba(0,0,0,0.9);
-            overflow-y: auto;
-            max-height: 95vh;
-        }
-        
-        /* Custom Scrollbar */
-        #controls::-webkit-scrollbar { width: 8px; }
-        #controls::-webkit-scrollbar-track { background: var(--bg-color); }
-        #controls::-webkit-scrollbar-thumb { background-color: var(--secondary-color); border-radius: 4px; border: 2px solid var(--bg-color); }
+    <button id="generateBtn">A S C E N D</button>
+    <div id="processingStatus">AWAITING COMMAND</div>
+</div>
 
-        h2 {
-            font-family: var(--font-display);
-            font-size: 3em;
-            color: var(--text-color);
-            text-align: center;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin: 10px 0 30px 0;
-            text-shadow: 0 0 15px var(--secondary-color), 0 0 5px #fff;
-        }
+<div id="preview-container"><canvas id="previewCanvas"></canvas></div>
 
-        fieldset {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+<!-- Omega Engine Worker v11.1 -->
+<script id="workerScript" type="javascript/worker">
+    const PARTICLE_COLORS = ['#ff5c78', '#00f2ea', '#f9c80e', '#be73ff', '#ffffff'];
 
-        legend {
-            font-family: var(--font-display);
-            color: var(--secondary-color);
-            letter-spacing: 3px;
-            font-size: 2em;
-            text-transform: uppercase;
-            padding: 0 15px;
-            text-shadow: 0 0 10px var(--secondary-color);
-        }
+    // --- UTILITY FUNCTIONS ---
+    function hexToRgb(hex) {
+        const r = parseInt(hex.substring(1, 3), 16);
+        const g = parseInt(hex.substring(3, 5), 16);
+        const b = parseInt(hex.substring(5, 7), 16);
+        return {r: r, g: g, b: b};
+    }
+    function hexToRgba(hex, alpha) {
+        const rgb = hexToRgb(hex);
+        return 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ')';
+    }
+    // Psuedo-random number generator for seeded randomness
+    function PRNG(seed) {
+        this.seed = seed % 2147483647;
+        if (this.seed <= 0) this.seed += 2147483646;
+    }
+    PRNG.prototype.next = function() {
+        return this.seed = this.seed * 16807 % 2147483647;
+    };
+    PRNG.prototype.random = function() {
+        return (this.next() - 1) / 2147483646;
+    };
 
-        .control-group { margin-bottom: 20px; }
-        
-        label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #ccc;
-        }
-        
-        .value-display { font-weight: bold; color: var(--secondary-color); float: right; }
-        
-        input[type="range"] { width: 100%; margin-top: 5px; -webkit-appearance: none; background: transparent; }
-        input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border-color); border-radius: 2px;}
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; background: var(--secondary-color); border-radius: 50%; border: 2px solid var(--bg-color); margin-top: -8px; box-shadow: 0 0 10px var(--secondary-color); cursor: pointer; }
-        
-        input[type="color"] { height: 40px; padding: 2px; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color);}
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: #0c0c10;
-            color: var(--text-color);
-            font-size: 16px;
-            font-family: var(--font-mono);
-        }
-        
-        textarea { height: 150px; resize: vertical; line-height: 1.6; }
-        
-        #generateBtn {
-            width: 100%;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: 700;
-            color: #000;
-            background: linear-gradient(45deg, var(--secondary-color), #f9c80e);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            letter-spacing: 4px;
-            font-family: var(--font-display);
-            margin-top: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            animation: pulse-glow 2.5s infinite ease-in-out;
-        }
+    // --- RENDER PIPELINE ORCHESTRATOR ---
+    function BorehOlam(mainCtx, caption, header, initialSettings, resolution) {
+        const seed = Math.random();
+        const rng = new PRNG(seed * 10000);
+        const settings = randomizeSettings(initialSettings, rng);
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 234, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(0, 242, 234, 0.8); }
-        }
+        // Layer Setup
+        const baseLayer = new OffscreenCanvas(resolution.width, resolution.height);
+        const baseCtx = baseLayer.getContext('2d');
+        const particleLayer = new OffscreenCanvas(resolution.width, resolution.height);
+        const particleCtx = particleLayer.getContext('2d');
+        const glowLayer = new OffscreenCanvas(resolution.width, resolution.height);
+        const glowCtx = glowLayer.getContext('2d');
+        const compositeLayer = new OffscreenCanvas(resolution.width, resolution.height);
+        const compositeCtx = compositeLayer.getContext('2d');
+        const uiLayer = new OffscreenCanvas(resolution.width, resolution.height);
+        const uiCtx = uiLayer.getContext('2d');
+        
+        // 1. Render static background elements
+        renderBackground(baseCtx, settings, resolution, seed);
+        renderNebulas(baseCtx, settings, resolution, rng);
+        renderFractalRifts(baseCtx, settings, resolution, rng);
+        renderCelestialBodies(baseCtx, glowCtx, settings, resolution, rng);
 
-        #generateBtn:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); }
-        #generateBtn:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none;}
+        // 2. Render all particles to their own layer
+        const universe = generateUniverse(settings, resolution, rng);
+        renderParticles(particleCtx, glowCtx, universe.particles, settings);
         
-        #processingStatus { display: none; text-align: center; margin-top: 20px; font-size: 20px; font-family: var(--font-display); letter-spacing: 2px; color: var(--primary-color); animation: status-flicker 1.2s infinite; }
-        
-        @keyframes status-flicker { 0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--primary-color); } 50% { opacity: 0.7; text-shadow: none; } }
-        
-        #preview-container {
-            width: 540px;
-            height: 960px;
-            position: relative;
-            box-shadow: 0 10px 60px rgba(0,0,0,0.9);
-            background-color: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid var(--border-color);
-            flex-shrink: 0;
-        }
-        #previewCanvas { width: 100%; height: 100%; display: block; }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 1100px) {
-            body {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
+        // 3. Composite the background and time-stuttered particles
+        compositeCtx.drawImage(baseLayer, 0, 0);
+        if (settings.stutterEchoes > 0) {
+            compositeCtx.save();
+            compositeCtx.globalAlpha = 1.0 / (settings.stutterEchoes + 1);
+            for (let i = settings.stutterEchoes; i >= 0; i--) {
+                const timeOffset = i * settings.stutterDilation;
+                const tempParticleCanvas = new OffscreenCanvas(resolution.width, resolution.height);
+                const tempParticleCtx = tempParticleCanvas.getContext('2d');
+                applyWindToParticles(tempParticleCtx, particleLayer, settings, timeOffset);
+                compositeCtx.drawImage(tempParticleCanvas, 0, 0);
             }
-            #controls {
-                width: 95vw;
-                max-height: none;
-                padding: 15px;
-            }
-            #preview-container {
-                width: 95vw;
-                height: calc(95vw * 1.7777); /* Maintain 9:16 aspect ratio */
-            }
-            h2 { font-size: 2.5em; }
-            legend { font-size: 1.8em; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="controls">
-        <h2>Ein Sof Engine</h2>
-        
-        <fieldset>
-            <legend>Gevulot (Boundaries)</legend>
-            <div class="control-group">
-                <label for="batchInput">Input (Single or Batch)</label>
-                <textarea id="batchInput" placeholder="Enter text here. Separate paragraphs with a blank line for batch generation."></textarea>
-            </div>
-            <div class="control-group">
-                <label for="headerInput">Header Text</label>
-                <input type="text" id="headerInput" placeholder="Optional: Appears above caption">
-            </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Tzimtzum (Contraction)</legend>
-            <div class="control-group">
-                 <label for="boxColor">Box Color</label>
-                 <input type="color" id="boxColor" value="#101018">
-            </div>
-            <div class="control-group">
-                <label for="boxOpacity">Box Opacity <span class="value-display" id="boxOpacityValue">0.75</span></label>
-                <input type="range" id="boxOpacity" min="0" max="1" step="0.05" value="0.75">
-            </div>
-            <div class="control-group">
-                <label for="boxPadding">Padding <span class="value-display" id="boxPaddingValue">50</span></label>
-                <input type="range" id="boxPadding" min="0" max="200" value="50">
-            </div>
-            <div class="control-group">
-                <label for="boxRadius">Border Radius <span class="value-display" id="boxRadiusValue">20</span></label>
-                <input type="range" id="boxRadius" min="0" max="300" value="20">
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Olam Yetzirah (Formation)</legend>
-            <div class="control-group">
-                <label for="particleDensity">Density <span class="value-display" id="particleDensityValue">1800</span></label>
-                <input type="range" id="particleDensity" min="100" max="5000" value="1800">
-            </div>
-             <div class="control-group">
-                <label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label>
-                <input type="range" id="minParticleSize" min="1" max="50" value="10">
-            </div>
-            <div class="control-group">
-                <label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label>
-                <input type="range" id="maxParticleSize" min="10" max="150" value="90">
-            </div>
-            <div class="control-group">
-                <label for="particleStyle">Particle Style</label>
-                <select id="particleStyle">
-                    <option value="fragmented">Fragmented</option>
-                    <option value="full">Full</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="particleChars">Particle Characters</label>
-                <textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea>
-            </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Kavim v'Sefirot (Connections)</legend>
-            <div class="control-group">
-                <label for="networkType">Algorithm</label>
-                <select id="networkType">
-                    <option value="web">Fine Web</option>
-                    <option value="arcs">Energy Arcs</option>
-                    <option value="synapse">Neural Synapse</option>
-                    <option value="none">None</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="connectionDensity">Connection Density <span class="value-display" id="connectionDensityValue">4</span></label>
-                <input type="range" id="connectionDensity" min="0" max="10" value="4">
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Marot Elokim (Visions)</legend>
-            <div class="control-group">
-                <label for="baseBgColor">Base Background Color</label>
-                <input type="color" id="baseBgColor" value="#0A0814">
-            </div>
-            <div class="control-group">
-                <label for="filmGrain">Film Grain Intensity <span class="value-display" id="filmGrainValue">25</span></label>
-                <input type="range" id="filmGrain" min="0" max="50" value="25">
-            </div>
-             <div class="control-group">
-                <label for="bloomIntensity">Bloom Intensity <span class="value-display" id="bloomIntensityValue">10</span></label>
-                <input type="range" id="bloomIntensity" min="0" max="30" value="10">
-            </div>
-        </fieldset>
-
-        <button id="generateBtn">A S C E N D</button>
-        <div id="processingStatus">AWAITING COMMAND</div>
-    </div>
-
-    <div id="preview-container">
-        <canvas id="previewCanvas"></canvas>
-    </div>
-
-    <script>
-    // --- EMBEDDED WEB WORKER ---
-    const workerScript = `
-        const PARTICLE_COLORS = ['#ff5c98', '#00f2ea', '#f9c80e', '#be73ff', '#6f6f6f', '#ffffff'];
-
-        // Core rendering orchestration
-        function BorehOlam(ctx, caption, header, settings, resolution) {
-            // Setup multiple layers for advanced effects
-            const baseLayer = new OffscreenCanvas(resolution.width, resolution.height);
-            const baseCtx = baseLayer.getContext('2d');
-            const glowLayer = new OffscreenCanvas(resolution.width, resolution.height);
-            const glowCtx = glowLayer.getContext('2d');
-
-            const universe = generateUniqueUniverse(settings, resolution);
-            
-            // 1. Render the foundational layers
-            renderBackground(baseCtx, settings, resolution);
-            renderParticles(baseCtx, glowCtx, universe.particles, settings);
-            renderNetwork(baseCtx, glowCtx, universe.particles, settings, resolution);
-            
-            // 2. Composite the glow layer onto the base layer
-            applyBloom(baseCtx, glowLayer, settings);
-
-            // 3. Render the UI text box on top
-            renderText(baseCtx, caption, header, settings, resolution);
-            
-            // 4. Render corner text overlays
-            renderCornerText(baseCtx, resolution);
-
-            // 5. Apply final pixel-level post-processing
-            applyPostProcessing(baseCtx, settings, resolution);
-
-            // 6. Final draw to the main context
-            ctx.drawImage(baseLayer, 0, 0);
+            compositeCtx.restore();
+        } else {
+             applyWindToParticles(compositeCtx, particleLayer, settings, 0);
         }
         
-        function generateUniqueUniverse(settings, resolution) {
-            const particles = [];
-            const chars = Array.from(settings.particleChars);
-            if (chars.length === 0) chars.push('•');
-            for (let i = 0; i < settings.particleDensity; i++) {
-                const z = Math.random();
-                particles.push({
-                    x: Math.random() * resolution.width, y: Math.random() * resolution.height, z,
-                    size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z),
-                    char: chars[Math.floor(Math.random() * chars.length)],
-                    color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
-                });
-            }
-            particles.sort((a, b) => a.z - b.z);
-            return { particles };
-        }
+        // 4. Draw final composite to main canvas and apply bloom
+        // *** FIX: Draw the CANVAS (compositeLayer), not the context (compositeCtx) ***
+        mainCtx.drawImage(compositeLayer, 0, 0);
+        applyBloom(mainCtx, glowLayer);
+        
+        // 5. Apply final post-processing to the entire universe
+        applyPostProcessing(mainCtx, rng, settings, resolution);
+        
+        // 6. Render the pristine UI layer on top of the finished universe
+        renderHologram(uiLayer, caption, header, settings, resolution, rng);
+        renderCornerText(uiLayer, resolution);
+        mainCtx.drawImage(uiLayer, 0, 0);
+    }
 
-        function renderBackground(ctx, settings, resolution) {
-            ctx.fillStyle = settings.baseBgColor;
+    function randomizeSettings(initialSettings, rng) {
+        const settings = {};
+        for (const key in initialSettings) {
+            const setting = initialSettings[key];
+            if (setting && setting.randomize) {
+                const min = parseFloat(setting.min);
+                const max = parseFloat(setting.max);
+                const val = min + rng.random() * (max - min);
+                const isInt = Number.isInteger(parseFloat(setting.value));
+                settings[key] = isInt ? Math.round(val) : val;
+            } else {
+                settings[key] = setting.value;
+            }
+        }
+        return settings;
+    }
+
+    function generateUniverse(settings, resolution, rng) {
+        const particles = [];
+        const chars = Array.from(settings.particleChars).length > 0 ? Array.from(settings.particleChars) : ['•'];
+        for (let i = 0; i < settings.particleDensity; i++) {
+            const z = rng.random();
+            particles.push({
+                x: rng.random() * resolution.width, y: rng.random() * resolution.height, z: z,
+                size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z),
+                char: chars[Math.floor(rng.random() * chars.length)],
+                color: PARTICLE_COLORS[Math.floor(rng.random() * PARTICLE_COLORS.length)],
+            });
+        }
+        particles.sort((a, b) => a.z - b.z);
+        return { particles: particles };
+    }
+    
+    function renderBackground(ctx, settings, resolution, seed) {
+        const p = new Array(512);
+        const permutation = [ 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,77,109,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,135,130,116,188,159,86,164,100,101,152,112,147,43,126,93,163,114,119,70,189,191,141,186,195,124,193,178,162,221,179,215,185,108,58,22,212,172,44,249,155,202,242,128,217,214,118,127,248,64,250,210,246,121,241,157,113,205,251,192,206,14,184,82,34,50,42,207,222,154,129,223,79,16,196,138,61,227,236,218,255,232,52,146,106,17,31,98,24,183,173,180,123,182,239,28,49,38,156,213,228,198,84,19,4,9,13,107,238,72,176,167,81,153,67,104,12,39,145,5,199,254,170,115,59,235,181,2,78,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255 ];
+        for (let i=0; i < 256 ; i++) p[256+i] = p[i] = permutation[i];
+        const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+        const lerp = (t, a, b) => a + t * (b - a);
+        const grad = (hash, x, y) => {
+            const h = hash & 15;
+            const u = h < 8 ? x : y, v = h < 4 ? y : h === 12 || h === 14 ? x : 0;
+            return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+        };
+        const noise = (x, y, evolution) => {
+            x += evolution; y += evolution;
+            const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+            x -= Math.floor(x); y -= Math.floor(y);
+            const u = fade(x), v = fade(y);
+            const a = p[X] + Y, b = p[X + 1] + Y;
+            return lerp(v, lerp(u, grad(p[a], x, y), grad(p[b], x - 1, y)),
+                           lerp(u, grad(p[a + 1], x, y - 1), grad(p[b + 1], x - 1, y - 1)));
+        };
+
+        const imageData = ctx.createImageData(resolution.width, resolution.height);
+        const pixels = imageData.data;
+        const baseColor = hexToRgb(settings.baseBgColor);
+
+        for (let y = 0; y < resolution.height; y++) {
+            for (let x = 0; x < resolution.width; x++) {
+                let value = 0;
+                let frequency = 1;
+                let amplitude = 1;
+                for (let i = 0; i < settings.textureDetail; i++) {
+                    value += noise(x * frequency / settings.textureScale, y * frequency / settings.textureScale, seed * 5) * amplitude;
+                    frequency *= 2;
+                    amplitude *= 0.5;
+                }
+                const color = (value + 1) * 20;
+                const i = (y * resolution.width + x) * 4;
+                pixels[i] = baseColor.r + color;
+                pixels[i + 1] = baseColor.g + color;
+                pixels[i + 2] = baseColor.b + color;
+                pixels[i + 3] = 255;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    function renderNebulas(ctx, settings, resolution, rng) {
+        const createNebula = function(x, y, radius, color, intensity) {
+            const rgbaColor = hexToRgba(color, intensity);
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+            gradient.addColorStop(0, rgbaColor);
+            gradient.addColorStop(1, hexToRgba(color, 0));
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, resolution.width, resolution.height);
+        };
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        createNebula(resolution.width * rng.random(), resolution.height * rng.random(), resolution.width * (0.6 + rng.random() * 0.4), settings.nebulaColor1, 0.25);
+        createNebula(resolution.width * rng.random(), resolution.height * rng.random(), resolution.width * (0.5 + rng.random() * 0.4), settings.nebulaColor2, 0.20);
+        createNebula(resolution.width * rng.random(), resolution.height * rng.random(), resolution.width * (0.7 + rng.random() * 0.4), settings.nebulaColor3, 0.15);
+        ctx.restore();
+    }
 
-            // More complex nebula effect
-            const createNebula = (x, y, radius, color) => {
-                const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                gradient.addColorStop(0, color);
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, resolution.width, resolution.height);
-            };
-
-            ctx.globalCompositeOperation = 'lighter';
-            createNebula(resolution.width * 0.2, resolution.height * 0.3, resolution.width * 0.7, 'rgba(80, 90, 200, 0.15)');
-            createNebula(resolution.width * 0.8, resolution.height * 0.7, resolution.width * 0.6, 'rgba(200, 80, 150, 0.12)');
-            ctx.globalCompositeOperation = 'source-over';
-        }
+    function renderFractalRifts(ctx, settings, resolution, rng) {
+        if (settings.riftCount <= 0) return;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(200, 220, 255, 0.1)';
+        ctx.shadowColor = 'rgba(180, 210, 255, 1)';
+        ctx.shadowBlur = 15;
+        ctx.lineWidth = 2;
         
-        function renderParticles(ctx, glowCtx, particles, settings) {
-            particles.forEach(p => {
-                const opacity = 0.2 + p.z * 0.8;
-                const isBright = p.color === '#ffffff' || p.color === '#f9c80e' || p.color === '#00f2ea';
-                
-                if (isBright) {
-                    glowCtx.font = \`\${p.size}px sans-serif\`;
-                    glowCtx.fillStyle = p.color;
-                    glowCtx.textAlign = 'center'; glowCtx.textBaseline = 'middle';
-                    glowCtx.globalAlpha = opacity * 0.9;
-                    glowCtx.fillText(p.char, p.x, p.y);
-                }
-                
-                ctx.globalAlpha = opacity;
-                ctx.font = \`\${p.size}px sans-serif\`;
-                ctx.fillStyle = p.color;
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                
-                if (settings.particleStyle === 'fragmented') {
-                    ctx.save();
-                    ctx.beginPath();
-                    const angle = Math.random() * Math.PI * 2;
-                    ctx.rect(
-                        p.x - p.size / 2 + Math.cos(angle) * p.size / 4,
-                        p.y - p.size / 2 + Math.sin(angle) * p.size / 4,
-                        p.size, p.size
-                    );
-                    ctx.clip();
-                    ctx.fillText(p.char, p.x, p.y);
-                    ctx.restore();
-                } else {
-                    ctx.fillText(p.char, p.x, p.y);
-                }
-            });
-            ctx.globalAlpha = 1.0;
-        }
-
-        function renderNetwork(ctx, glowCtx, particles, settings, resolution) {
-             const connectable = particles.filter(p => p.z > 0.4);
-             connectable.forEach(p1 => {
-                let neighbors = connectable.filter(p2 => p1 !== p2)
-                    .sort((a, b) => Math.hypot(p1.x - a.x, p1.y - a.y) - Math.hypot(p1.x - b.x, p1.y - b.y))
-                    .slice(0, settings.connectionDensity);
-                
-                neighbors.forEach(p2 => {
-                    if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 400) return;
-                    const opacity = Math.min(p1.z, p2.z) * 0.8;
-                    const color = p1.color;
-                    
-                    const drawFunc = (targetCtx) => {
-                        switch(settings.networkType) {
-                            case 'web': drawWeb(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                            case 'arcs': drawLightning(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                            case 'synapse': drawSynapse(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                        }
-                    };
-                    drawFunc(glowCtx);
-                    drawFunc(ctx);
-                });
-            });
-        }
-        
-        function renderText(ctx, caption, header, settings, resolution) {
-            const targetBox = { width: resolution.width * 0.9, height: resolution.height * 0.4 };
-            const fullCaption = header ? \`\${header}\\n\\n\${caption}\` : caption;
-            const { lines } = calculateOptimalFontSize(ctx, fullCaption, header, targetBox.width - settings.boxPadding * 2, targetBox.height - settings.boxPadding * 2);
-
-            if (lines.length === 0) return;
-
-            let maxLineWidth = 0;
-            lines.forEach(line => {
-                ctx.font = \`700 \${line.fontSize}px 'Teko', sans-serif\`;
-                maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line.text).width);
-            });
-            const totalTextHeight = lines.reduce((acc, line) => acc + line.height, 0);
-
-            const boxWidth = maxLineWidth + settings.boxPadding * 2;
-            const boxHeight = totalTextHeight + settings.boxPadding * 2;
-            const boxX = (resolution.width - boxWidth) / 2;
-            const boxY = (resolution.height - boxHeight) / 2;
-            
-            const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
-            const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
-            const blurCtx = blurCanvas.getContext('2d');
-            blurCtx.putImageData(snap, 0, 0);
-            blurCtx.filter = 'blur(15px) brightness(0.8)';
-            blurCtx.drawImage(blurCanvas, 0, 0);
-
-            ctx.save();
+        function drawRift(x, y, angle, length, depth) {
+            if (depth <= 0 || length < 5) return;
             ctx.beginPath();
-            ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
-            ctx.clip();
-            ctx.drawImage(blurCanvas, boxX, boxY);
-            ctx.fillStyle = hexToRgba(settings.boxColor, settings.boxOpacity);
-            ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-            ctx.restore();
-            
-            ctx.strokeStyle = 'rgba(0, 242, 234, 0.5)';
-            ctx.lineWidth = 2;
-            ctx.shadowColor = 'rgba(0, 242, 234, 1)';
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
+            ctx.moveTo(x, y);
+            const x2 = x + Math.cos(angle) * length;
+            const y2 = y + Math.sin(angle) * length;
+            ctx.lineTo(x2, y2);
             ctx.stroke();
-            ctx.shadowColor = 'transparent';
+            
+            const angleChange = (rng.random() - 0.5) * 1.5;
+            const lengthScale = 0.7 + rng.random() * 0.2;
+            drawRift(x2, y2, angle + angleChange, length * lengthScale, depth - 1);
+            if (rng.random() > 0.6) {
+                const branchAngle = angle + (rng.random() > 0.5 ? 1 : -1) * (Math.PI / 3);
+                drawRift(x2, y2, branchAngle, length * 0.6, depth - 1);
+            }
+        }
+        for(let i=0; i<settings.riftCount; i++) {
+            drawRift(rng.random() * resolution.width, rng.random() * resolution.height, rng.random() * Math.PI * 2, resolution.height / 4, 10);
+        }
+        ctx.restore();
+    }
 
-            let currentY = boxY + settings.boxPadding;
-            lines.forEach(line => {
-                const y = currentY + line.height / 2;
-                drawTextWithBorder(ctx, line.text, resolution.width/2, y, line.fontSize, line.isHeader ? 'rgba(220,220,255,0.9)' : '#FFFFFF', line.fontSize * 0.1);
-                currentY += line.height;
-            });
+    function renderCelestialBodies(ctx, glowCtx, settings, resolution, rng) {
+        if (settings.celestialBodyCount <= 0) return;
+        for (let i = 0; i < settings.celestialBodyCount; i++) {
+            const size = (rng.random() * 0.8 + 0.2) * (resolution.width / 8);
+            const x = rng.random() * resolution.width;
+            const y = rng.random() * resolution.height;
+            const color = [settings.nebulaColor1, settings.nebulaColor2, settings.nebulaColor3][Math.floor(rng.random() * 3)];
+            const rgb = hexToRgb(color);
+
+            // Draw main body
+            ctx.save();
+            const bodyGrad = ctx.createRadialGradient(x - size * 0.2, y - size * 0.2, size * 0.1, x, y, size);
+            bodyGrad.addColorStop(0, `rgba(${rgb.r+80}, ${rgb.g+80}, ${rgb.b+80}, 1)`);
+            bodyGrad.addColorStop(0.8, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`);
+            bodyGrad.addColorStop(1, `rgba(${rgb.r/2}, ${rgb.g/2}, ${rgb.b/2}, 1)`);
+            ctx.fillStyle = bodyGrad;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            // Draw glow on glow layer
+            glowCtx.save();
+            const glowGrad = glowCtx.createRadialGradient(x, y, size * 0.8, x, y, size * 2.5);
+            glowGrad.addColorStop(0, hexToRgba(color, 0.4));
+            glowGrad.addColorStop(1, hexToRgba(color, 0));
+            glowCtx.fillStyle = glowGrad;
+            glowCtx.beginPath();
+            glowCtx.arc(x, y, size * 2.5, 0, Math.PI * 2);
+            glowCtx.fill();
+            glowCtx.restore();
+        }
+    }
+    
+    function renderParticles(ctx, glowCtx, particles, settings) {
+        particles.forEach(p => {
+            const fontSize = p.size;
+            ctx.font = `${fontSize}px Fira Code`;
+            const alpha = 0.2 + p.z * 0.8;
+            ctx.fillStyle = hexToRgba(p.color, alpha);
+            ctx.fillText(p.char, p.x, p.y);
+            
+            if (fontSize > settings.maxParticleSize * 0.7) {
+                glowCtx.fillStyle = hexToRgba(p.color, 0.6);
+                glowCtx.fillText(p.char, p.x, p.y);
+            }
+        });
+    }
+    
+    function applyWindToParticles(ctx, particleLayer, settings, timeOffset) {
+        if (timeOffset === 0 && settings.windStrength === 0) {
+             ctx.drawImage(particleLayer, 0, 0);
+             return;
+        }
+        const angleRad = settings.windAngle * (Math.PI / 180);
+        const windX = Math.cos(angleRad) * settings.windStrength * (timeOffset / 100);
+        const windY = Math.sin(angleRad) * settings.windStrength * (timeOffset / 100);
+        ctx.setTransform(1, 0, 0, 1, windX, windY);
+        ctx.drawImage(particleLayer, 0, 0);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    }
+    
+    function renderHologram(ctx, caption, header, settings, resolution, rng) {
+        const w = resolution.width;
+        const h = resolution.height;
+        const boxW = w * (settings.boxWidth / 100);
+        const boxH = h * (settings.boxHeight / 100);
+        const boxX = (w - boxW) / 2;
+        const boxY = (h - boxH) / 2;
+        
+        ctx.save();
+        ctx.translate(boxX, boxY);
+        
+        // Apply Skew
+        ctx.transform(1, 0, settings.hologramSkew, 1, -settings.hologramSkew * (boxH/2), 0);
+        
+        // Draw Box and Scanlines
+        ctx.strokeStyle = '#00f2ea';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#00f2ea';
+        ctx.shadowBlur = 20;
+        ctx.strokeRect(0, 0, boxW, boxH);
+        ctx.lineWidth = 1;
+        ctx.shadowBlur = 5;
+        for (let i = 0; i < boxH; i += 4) {
+            ctx.beginPath();
+            ctx.moveTo(0, i);
+            ctx.lineTo(boxW, i);
+            ctx.globalAlpha = 0.1 + rng.random() * 0.2;
+            ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        
+        // Draw Text
+        const padding = 40;
+        const textMaxWidth = boxW - padding * 2;
+        const textMaxHeight = boxH - padding * 2 - (header ? 60 : 0);
+        const { fontSize, lines } = calculateOptimalFontSize(ctx, caption, textMaxWidth, textMaxHeight);
+        
+        const lightX = (settings.lightX / 100) * boxW;
+        const lightY = (settings.lightY / 100) * boxH;
+
+        // Draw Header
+        if(header) {
+             drawTextWithAberration(ctx, header, boxW / 2, padding, fontSize * 1.2, true, lightX, lightY);
         }
         
-        function renderCornerText(ctx, resolution) {
-            ctx.font = "700 40px 'Teko', sans-serif";
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
-            ctx.fillText('B"H', 35, 35);
+        // Draw Main Text
+        const totalTextHeight = lines.length * fontSize * 1.5;
+        let currentY = (boxH - totalTextHeight) / 2 + (header ? 30 : 0);
+        
+        lines.forEach(line => {
+            drawTextWithAberration(ctx, line, boxW / 2, currentY, fontSize, false, lightX, lightY);
+            currentY += fontSize * 1.5;
+        });
+        
+        ctx.restore();
+    }
+
+    function calculateOptimalFontSize(ctx, text, maxWidth, maxHeight) {
+        let fontSize = 200;
+        let lines = [];
+        
+        while (fontSize > 10) {
+            ctx.font = `bold ${fontSize}px Fira Code`;
+            const words = text.split(' ');
+            lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                const word = words[i];
+                const testLine = currentLine + " " + word;
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && i > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            lines.push(currentLine);
             
-            ctx.textAlign = 'right';
-            ctx.fillText('ב"ה', resolution.width - 35, 35);
+            const totalHeight = lines.length * fontSize * 1.5;
+            if (totalHeight <= maxHeight) {
+                return { fontSize, lines };
+            }
+            fontSize -= 2;
         }
+        return { fontSize: 10, lines };
+    }
 
-        function applyBloom(ctx, glowLayer, settings) {
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            
-            // Apply a wide, soft glow first
-            ctx.filter = \`blur(\${settings.bloomIntensity * 2}px)\`;
-            ctx.globalAlpha = 0.6;
-            ctx.drawImage(glowLayer, 0, 0);
+    function drawTextWithAberration(ctx, text, x, y, size, isHeader, lightX, lightY) {
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${isHeader ? 'bold' : ''} ${size}px ${isHeader ? 'Teko' : 'Fira Code'}`;
+        if(isHeader) ctx.textTransform = 'uppercase';
 
-            // Apply a tighter, brighter glow on top
-            ctx.filter = \`blur(\${settings.bloomIntensity * 0.5}px)\`;
-            ctx.globalAlpha = 1.0;
-            ctx.drawImage(glowLayer, 0, 0);
+        // Base text with gradient
+        const gradient = ctx.createLinearGradient(x-size*2, y-size, x+size*2, y+size);
+        const dist = Math.sqrt(Math.pow(x - lightX, 2) + Math.pow(y - lightY, 2));
+        const brightness = Math.max(0.2, 1 - dist / 1000);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${brightness})`);
+        gradient.addColorStop(0.5, `rgba(200, 255, 255, ${brightness})`);
+        gradient.addColorStop(1, `rgba(180, 240, 230, ${brightness})`);
+        ctx.fillStyle = gradient;
 
-            ctx.restore();
-        }
+        // Chromatic aberration
+        const offset = size / 50;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = 'rgba(255, 0, 100, 0.8)';
+        ctx.fillText(text, x - offset, y);
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)';
+        ctx.fillText(text, x + offset, y);
+        
+        // Base text on top
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = gradient;
+        ctx.shadowColor = '#00f2ea';
+        ctx.shadowBlur = 15;
+        ctx.fillText(text, x, y);
+        
+        ctx.restore();
+    }
 
-        function applyPostProcessing(ctx, settings, resolution) {
-            const imageData = ctx.getImageData(0, 0, resolution.width, resolution.height);
-            const pixels = imageData.data;
-            const srcPixels = new Uint8ClampedArray(pixels);
+    function renderCornerText(ctx, resolution) {
+        ctx.save();
+        ctx.font = "24px Teko";
+        ctx.fillStyle = "rgba(0, 242, 234, 0.5)";
+        ctx.textAlign = "left";
+        ctx.fillText("OMEGA ENGINE v11.1 // EIN SOF", 20, 30);
+        ctx.textAlign = "right";
+        ctx.fillText("STATUS: ACTIVE // BorehOlam()", resolution.width - 20, resolution.height - 20);
+        ctx.restore();
+    }
+    
+    function applyBloom(ctx, glowLayer) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = 0.8;
+        ctx.filter = 'blur(15px)';
+        ctx.drawImage(glowLayer, 0, 0);
+        ctx.globalAlpha = 0.5;
+        ctx.filter = 'blur(40px)';
+        ctx.drawImage(glowLayer, 0, 0);
+        ctx.restore();
+    }
 
+    function applyPostProcessing(mainCtx, rng, settings, resolution) {
+        // Vignette
+        const gradient = mainCtx.createRadialGradient(
+            resolution.width/2, resolution.height/2, resolution.height/2,
+            resolution.width/2, resolution.height/2, resolution.height
+        );
+        gradient.addColorStop(0, 'rgba(0,0,0,0)');
+        gradient.addColorStop(1, 'rgba(0,0,0,0.5)');
+        mainCtx.fillStyle = gradient;
+        mainCtx.fillRect(0, 0, resolution.width, resolution.height);
+
+        // Lens Distortion
+        if (settings.lensDistortion > 0) {
+            mainCtx.save();
             const centerX = resolution.width / 2;
             const centerY = resolution.height / 2;
-            const maxDist = Math.hypot(centerX, centerY);
-
-            for (let i = 0; i < pixels.length; i += 4) {
-                const x = (i / 4) % resolution.width;
-                const y = Math.floor((i / 4) / resolution.width);
-                const dist = Math.hypot(x - centerX, y - centerY);
-                
-                // Vignette & Scanlines
-                const vAmount = Math.pow(dist / maxDist, 2.0) * 0.98;
-                const scanLine = (y % 3 === 0) ? 0.95 : 1.0;
-                
-                // Film Grain
-                const grain = (Math.random() - 0.5) * settings.filmGrain;
-                
-                // Chromatic Aberration
-                const caOffset = Math.pow(dist / maxDist, 2.5) * 12;
-                const rIndex = ((y * resolution.width + (x - Math.floor(caOffset))) * 4);
-                const bIndex = ((y * resolution.width + (x + Math.floor(caOffset))) * 4);
-                
-                const r = srcPixels[rIndex] || srcPixels[i];
-                const g = srcPixels[i + 1];
-                const b = srcPixels[bIndex + 2] || srcPixels[i + 2];
-
-                pixels[i]   = Math.max(0, r * (1 - vAmount) * scanLine + grain);
-                pixels[i+1] = Math.max(0, g * (1 - vAmount) * scanLine + grain);
-                pixels[i+2] = Math.max(0, b * (1 - vAmount) * scanLine + grain);
-            }
-            ctx.putImageData(imageData, 0, 0);
+            const scale = 1.0 + settings.lensDistortion;
+            mainCtx.translate(centerX, centerY);
+            mainCtx.scale(scale, scale);
+            mainCtx.translate(-centerX, -centerY);
+            mainCtx.drawImage(mainCtx.canvas, 0, 0); // draw the already-drawn canvas onto itself with distortion
+            mainCtx.restore();
         }
+    }
 
-        // Helper functions
-        function calculateOptimalFontSize(ctx, fullText, header, maxWidth, maxHeight) {
-            for (let fs = 250; fs > 10; fs-=2) {
-                const headerSize = fs * 0.55;
-                let currentY = 0;
-                let lines = [];
-                const blocks = fullText.split('\\n\\n');
-                
-                for(const block of blocks) {
-                    const isHeaderBlock = header && lines.length === 0 && block.startsWith(header);
-                    const fontSize = isHeaderBlock ? headerSize : fs;
-                    const lineHeight = fontSize * 1.1;
-                    ctx.font = \`700 \${fontSize}px 'Teko', sans-serif\`;
-                    
-                    const words = block.split(' ');
-                    let currentLine = '';
-                    for (const word of words) {
-                        const testLine = currentLine ? \`\${currentLine} \${word}\` : word;
-                        if (ctx.measureText(testLine).width > maxWidth && currentLine) {
-                            lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock });
-                            currentY += lineHeight;
-                            currentLine = word;
-                        } else { currentLine = testLine; }
-                    }
-                    lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock });
-                    currentY += lineHeight;
-                }
-                if (currentY <= maxHeight) return { optimalFontSize: fs, lines };
-            }
-            return { optimalFontSize: 0, lines: [] };
-        }
-        function drawTextWithBorder(ctx, text, x, y, size, color, borderWidth) { ctx.font = \`700 \${size}px 'Teko', sans-serif\`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = borderWidth; ctx.strokeText(text, x, y); ctx.fillStyle = color; ctx.fillText(text, x, y); }
-        function drawWeb(ctx, x1, y1, x2, y2, color, opacity) { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.strokeStyle = hexToRgba(color, opacity * 0.6); ctx.lineWidth = 0.5 + opacity; ctx.stroke(); }
-        function drawLightning(ctx, x1, y1, x2, y2, color, opacity) { let p=[[x1,y1]],d=Math.hypot(x1-x2,y1-y2); for(let i=0;i<d/15;i++){let r=Math.random();p.push([x1+(x2-x1)*r,y1+(y2-y1)*r])} p.push([x2,y2]);p.sort((a,b)=>Math.hypot(a[0]-x1,a[1]-y1)-Math.hypot(b[0]-x1,b[1]-y1)); for(let i=1;i<p.length-1;i++){p[i][0]+=(Math.random()-0.5)*20;p[i][1]+=(Math.random()-0.5)*20} ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);p.forEach(pt=>ctx.lineTo(pt[0],pt[1]));ctx.strokeStyle=hexToRgba(color,opacity);ctx.lineWidth=1+opacity*3;ctx.stroke();}
-        function drawSynapse(ctx, x1, y1, x2, y2, color, opacity) { const grad=ctx.createLinearGradient(x1,y1,x2,y2); grad.addColorStop(0,hexToRgba(color,opacity*0.2)); grad.addColorStop(0.5,hexToRgba(color,opacity)); grad.addColorStop(1,hexToRgba(color,opacity*0.2)); ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=grad;ctx.lineWidth=1+opacity;ctx.stroke();const s=3+opacity*6;ctx.fillStyle=hexToRgba(color,opacity);ctx.globalAlpha=opacity;ctx.beginPath();ctx.arc(x1,y1,s,0,2*Math.PI);ctx.fill();ctx.beginPath();ctx.arc(x2,y2,s,0,2*Math.PI);ctx.fill();ctx.globalAlpha=1;}
-        function hexToRgba(hex, alpha) { const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16); return \`rgba(\${r},\${g},\${b},\${alpha})\`;}
-
-        // --- Worker Entry Point ---
-        self.onmessage = async (e) => {
-            const { settings, captions, resolution } = e.data;
-            const offscreenCanvas = new OffscreenCanvas(resolution.width, resolution.height);
-            const offscreenCtx = offscreenCanvas.getContext('2d', { willReadFrequently: true });
-            
+    self.onmessage = function(event) {
+        const { settings, captions, resolution } = event.data;
+        const canvas = new OffscreenCanvas(resolution.width, resolution.height);
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        
+        const processCaptions = async function() {
             for (let i = 0; i < captions.length; i++) {
-                postMessage({ type: 'progress', message: \`INITIATING VISION \${i + 1}/\${captions.length}\` });
-                await new Promise(r => setTimeout(r, 20));
-                BorehOlam(offscreenCtx, captions[i], settings.headerInput, settings, resolution);
-                
-                postMessage({ type: 'progress', message: \`TRANSMITTING VISION \${i + 1}/\${captions.length}\` });
-                const imageBitmap = offscreenCanvas.transferToImageBitmap();
-                postMessage({ type: 'result', imageBitmap, index: i + 1 }, [imageBitmap]);
+                self.postMessage({ type: 'progress', message: 'INITIATING VISION ' + (i + 1) + '/' + captions.length, index: i });
+                await new Promise(resolve => setTimeout(resolve, 20));
+                BorehOlam(context, captions[i], settings.headerInput.value, settings, resolution);
+                self.postMessage({ type: 'progress', message: 'TRANSMITTING VISION ' + (i + 1) + '/' + captions.length, index: i });
+                const imageBitmap = canvas.transferToImageBitmap();
+                self.postMessage({ type: 'result', imageBitmap: imageBitmap, index: i }, [imageBitmap]);
             }
-            postMessage({ type: 'complete', message: 'ASCENSION COMPLETE' });
+            self.postMessage({ type: 'complete', message: 'ASCENSION COMPLETE' });
         };
-    `;
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- UI AND MAIN THREAD LOGIC ---
-        const previewCanvas = document.getElementById('previewCanvas');
-        const pCtx = previewCanvas.getContext('2d');
-        const resolution = { width: 1080, height: 1920 };
-        previewCanvas.width = resolution.width;
-        previewCanvas.height = resolution.height;
+        processCaptions();
+    };
+</script>
 
-        const controls = {};
-        const controlIds = [
-            'batchInput', 'headerInput', 'networkType', 'particleChars', 'generateBtn', 'processingStatus',
-            'particleDensity', 'minParticleSize', 'maxParticleSize', 'connectionDensity',
-            'particleStyle', 'boxColor', 'boxOpacity', 'boxPadding', 'boxRadius',
-            'baseBgColor', 'filmGrain', 'bloomIntensity'
-        ];
-        controlIds.forEach(id => controls[id] = document.getElementById(id));
+<!-- MAIN THREAD SCRIPT -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const DEFAULT_SETTINGS = {
+        batchInput: { value: "Enter text here...\n\nSeparate paragraphs for batch processing." },
+        headerInput: { value: "CLASSIFIED" },
+        boxWidth: { value: 85 },
+        boxHeight: { value: 50 },
+        hologramSkew: { value: 0.2, randomize: false, min: -0.5, max: 0.5 },
+        lightX: { value: 50, randomize: true, min: 0, max: 100 },
+        lightY: { value: 50, randomize: true, min: 0, max: 100 },
+        particleDensity: { value: 1800, randomize: false, min: 1000, max: 2500 },
+        minParticleSize: { value: 10 },
+        maxParticleSize: { value: 90 },
+        particleChars: { value: "אבגדהוזחטיכלמנסעפצקרשת" },
+        windAngle: { value: 45, randomize: true, min: 0, max: 360 },
+        windStrength: { value: 50, randomize: false, min: 0, max: 150 },
+        baseBgColor: { value: "#0A0814" },
+        textureScale: { value: 200 },
+        textureDetail: { value: 4 },
+        nebulaColor1: { value: "#505ac8" },
+        nebulaColor2: { value: "#c85096" },
+        nebulaColor3: { value: "#50c896" },
+        riftCount: { value: 3, randomize: true, min: 1, max: 5 },
+        celestialBodyCount: { value: 3, randomize: true, min: 1, max: 5 },
+        stutterEchoes: { value: 3, randomize: true, min: 0, max: 6 },
+        stutterDilation: { value: 5, randomize: false, min: 1, max: 10 },
+        lensDistortion: { value: 0.1, randomize: true, min: 0, max: 0.3 },
+        useFolderPicker: { value: true }
+    };
 
-        let worker;
-        function initializeWorker() {
-            const blob = new Blob([workerScript], { type: 'application/javascript' });
-            worker = new Worker(URL.createObjectURL(blob));
-            worker.onmessage = handleWorkerMessage;
-        }
-        
-        function handleWorkerMessage(e) {
-            const { type, message, imageBitmap, index } = e.data;
-            switch(type) {
-                case 'progress':
-                    controls.processingStatus.textContent = message;
-                    break;
-                case 'result':
-                    pCtx.drawImage(imageBitmap, 0, 0);
-                    downloadCanvas(previewCanvas, index);
-                    break;
-                case 'complete':
-                    controls.processingStatus.textContent = message;
-                    setTimeout(() => {
-                        controls.processingStatus.style.display = 'none';
-                        controls.generateBtn.disabled = false;
-                    }, 2000);
-                    break;
-            }
-        }
+    const UI = {
+        elements: {},
+        init: function() {
+            const allIds = Array.from(document.querySelectorAll('[id]'));
+            allIds.forEach(el => { this.elements[el.id] = el; });
+            this.setupEventListeners();
+            this.drawInitialState();
+            this.updateAllSliderDisplays();
+        },
+        setupEventListeners: function() {
+            this.elements.generateBtn.addEventListener('click', () => App.generate());
+            this.elements.copySettingsBtn.addEventListener('click', () => App.copySettings());
+            this.elements.pasteSettingsBtn.addEventListener('click', () => App.pasteSettings());
+            this.elements.resetSettingsBtn.addEventListener('click', () => {
+                if(confirm("Are you sure you want to reset all settings to their default values?")) {
+                     this.applySettings(DEFAULT_SETTINGS);
+                     App.saveSettings();
+                }
+            });
+            
+            const allControls = document.querySelectorAll('input, select, textarea');
+            allControls.forEach(control => {
+                const eventType = (control.type === 'range' || control.type === 'checkbox') ? 'input' : 'change';
+                control.addEventListener(eventType, () => App.saveSettings());
+            });
 
-        function handleBatchGenerate() {
-            controls.generateBtn.disabled = true;
-            controls.processingStatus.style.display = 'block';
+            document.querySelectorAll('input[type="range"]').forEach(slider => {
+                slider.addEventListener('input', () => { 
+                    const display = this.elements[slider.id + 'Value'];
+                    if (display) display.textContent = slider.value;
+                });
+            });
 
+            document.querySelectorAll('.randomize-toggle').forEach(toggle => {
+                toggle.addEventListener('change', (event) => {
+                    const controls = event.target.closest('.control-group').querySelector('.randomize-controls');
+                    if (controls) controls.style.display = event.target.checked ? 'block' : 'none';
+                });
+            });
+        },
+        getSettings: function() {
             const settings = {};
-            for (const id in controls) {
-                const el = controls[id];
-                if (el && typeof el.value !== 'undefined') {
-                    const value = el.type === 'range' ? parseFloat(el.value) : el.value;
-                    settings[id.replace('Value', '')] = value;
+            const controlGroups = document.querySelectorAll('.control-group');
+            controlGroups.forEach(group => {
+                const control = group.querySelector('input:not([type=checkbox]), select, textarea');
+                if (control) {
+                    const id = control.id;
+                    const controlName = group.dataset.controlName || id;
+
+                    if (group.dataset.controlName) {
+                        settings[controlName] = {
+                            value: control.type === 'range' ? parseFloat(control.value) : control.value,
+                            randomize: group.querySelector('.randomize-toggle').checked,
+                            min: this.elements[controlName + '_min'] ? this.elements[controlName + '_min'].value : null,
+                            max: this.elements[controlName + '_max'] ? this.elements[controlName + '_max'].value : null,
+                        };
+                    } else {
+                        settings[id] = { value: control.type === 'checkbox' ? control.checked : control.value };
+                    }
+                } else { // Handle standalone checkboxes
+                     const checkbox = group.querySelector('input[type=checkbox]');
+                     if (checkbox) {
+                         settings[checkbox.id] = { value: checkbox.checked };
+                     }
+                }
+            });
+            return settings;
+        },
+        applySettings: function(settings) {
+            if (!settings) return;
+            for (const key in settings) {
+                const data = settings[key];
+                if(data === null || typeof data === 'undefined') continue;
+
+                const control = this.elements[key];
+                if (!control) continue;
+                
+                if (typeof data.value !== 'undefined') control.value = data.value;
+
+                if (control.type === 'checkbox') {
+                     control.checked = data.value;
+                }
+
+                if (data.randomize !== undefined) {
+                   const group = control.closest('.control-group');
+                   const toggle = group ? group.querySelector('.randomize-toggle') : null;
+                   if (toggle) {
+                       toggle.checked = data.randomize;
+                   }
+                   if (this.elements[key + '_min']) this.elements[key + '_min'].value = data.min;
+                   if (this.elements[key + '_max']) this.elements[key + '_max'].value = data.max;
                 }
             }
-            const captions = parseInput(settings.batchInput);
-            
-            worker.postMessage({ settings, captions, resolution });
-        }
-        
-        function setupEventListeners() {
-            controls.generateBtn.addEventListener('click', handleBatchGenerate);
-            document.querySelectorAll('input[type="range"]').forEach(slider => {
-                const display = document.getElementById(`${slider.id}Value`);
-                if (display) { slider.addEventListener('input', () => { display.textContent = slider.value; }); }
+            this.updateAllSliderDisplays();
+            document.querySelectorAll('.randomize-toggle').forEach(t => t.dispatchEvent(new Event('change')));
+        },
+        updateAllSliderDisplays: function() {
+             document.querySelectorAll('input[type="range"]').forEach(slider => {
+                const displayId = slider.id + 'Value';
+                const minDisplayId = slider.id + '_minValue';
+                const maxDisplayId = slider.id + '_maxValue';
+                if (this.elements[displayId]) this.elements[displayId].textContent = this.elements[slider.id].value;
+                if (this.elements[minDisplayId]) this.elements[minDisplayId].textContent = this.elements[slider.id+'_min']?.value || 'N/A';
+                if (this.elements[maxDisplayId]) this.elements[maxDisplayId].textContent = this.elements[slider.id+'_max']?.value || 'N/A';
             });
-        }
-        
-        function parseInput(text) { if (!text.trim()) return [" "]; const blocks = text.split(/\n\s*\n/); return blocks.map(block => block.trim()).filter(block => block.length > 0); }
-        
-        async function downloadCanvas(canvas, index) {
-            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
-            const link = document.createElement('a');
-            const sanitizedCaption = parseInput(document.getElementById('batchInput').value)[index-1] || 'vision';
-            const filename = sanitizedCaption.substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            link.download = `EinSof_${filename}_${index}.jpg`;
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
-        }
-
-        function drawInitialState() {
-            const grad = pCtx.createLinearGradient(0,0,0,resolution.height);
+        },
+        updateStatus: function(message, isAlert = false) {
+            this.elements.processingStatus.textContent = message;
+            this.elements.processingStatus.style.color = isAlert ? 'yellow' : 'var(--primary-color)';
+        },
+        showProcessing: function() {
+            this.elements.generateBtn.disabled = true;
+            this.elements.processingStatus.style.display = 'block';
+        },
+        hideProcessing: function() {
+            setTimeout(() => {
+                this.elements.processingStatus.style.display = 'none';
+                this.elements.generateBtn.disabled = false;
+            }, 2000);
+        },
+        drawInitialState: function() {
+            const pCtx = this.elements.previewCanvas.getContext('2d');
+            const res = { width: 1080, height: 1920 };
+            this.elements.previewCanvas.width = res.width;
+            this.elements.previewCanvas.height = res.height;
+            const grad = pCtx.createLinearGradient(0, 0, 0, res.height);
             grad.addColorStop(0, '#1a1a22');
             grad.addColorStop(1, '#0c0c10');
             pCtx.fillStyle = grad;
-            pCtx.fillRect(0,0,resolution.width, resolution.height);
-            
+            pCtx.fillRect(0, 0, res.width, res.height);
             pCtx.font = "700 150px 'Teko', sans-serif";
             pCtx.textAlign = 'center';
             pCtx.textBaseline = 'middle';
             pCtx.fillStyle = 'rgba(0, 242, 234, 0.8)';
             pCtx.shadowColor = 'rgba(0, 242, 234, 1)';
             pCtx.shadowBlur = 25;
-            pCtx.fillText("EIN SOF ENGINE", resolution.width/2, resolution.height/2 - 50);
+            pCtx.fillText("OMEGA ENGINE", res.width / 2, res.height / 2 - 50);
             pCtx.shadowBlur = 0;
-            
             pCtx.font = "40px 'Teko', sans-serif";
-            pCtx.fillStyle='rgba(255,255,255,0.7)';
-            pCtx.fillText("QUANTUM CORE v2. AWAITING COMMAND.", resolution.width/2, resolution.height/2 + 100);
+            pCtx.fillStyle = 'rgba(255,255,255,0.7)';
+            pCtx.fillText("QUANTUM CORE v11.1. AWAITING COMMAND.", res.width / 2, res.height / 2 + 100);
         }
+    };
 
-        initializeWorker();
-        setupEventListeners();
-        drawInitialState();
-    });
-    </script>
-</body>
-</html>
+    const Persistence = {
+        db: null,
+        initPromise: null,
+        DB_NAME: 'EinSofEngineDB_v11',
+        STORE_NAME: 'settingsStore_v11',
+        KEY: 'current_settings',
+        
+        init: function() {
+            if (this.initPromise) return this.initPromise;
+            this.initPromise = new Promise((resolve, reject) => {
+                if (!window.indexedDB) {
+                    console.warn("IndexedDB not supported. Falling back to localStorage.");
+                    return reject("No IndexedDB support.");
+                }
+                const request = indexedDB.open(this.DB_NAME, 1);
+                request.onupgradeneeded = event => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                        db.createObjectStore(this.STORE_NAME);
+                    }
+                };
+                request.onerror = event => {
+                    console.error("IndexedDB Error:", event.target.error);
+                    reject("Failed to open database.");
+                };
+                request.onsuccess = event => {
+                    this.db = event.target.result;
+                    resolve(this.db);
+                };
+            });
+            return this.initPromise;
+        },
+
+        save: async function(settingsObject) {
+            try {
+                const db = await this.init();
+                const transaction = db.transaction(this.STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(this.STORE_NAME);
+                store.put(JSON.stringify(settingsObject), this.KEY);
+            } catch (error) {
+                console.warn("IndexedDB save failed, falling back to LocalStorage.", error);
+                try { localStorage.setItem(this.KEY, JSON.stringify(settingsObject)); } catch (e) { console.error("LocalStorage save also failed.", e); }
+            }
+        },
+
+        load: async function() {
+            try {
+                const db = await this.init();
+                return await new Promise((resolve, reject) => {
+                    const transaction = db.transaction(this.STORE_NAME, 'readonly');
+                    const store = transaction.objectStore(this.STORE_NAME);
+                    const request = store.get(this.KEY);
+                    request.onsuccess = () => resolve(JSON.parse(request.result || JSON.stringify(DEFAULT_SETTINGS)));
+                    request.onerror = e => reject(e.target.error);
+                });
+            } catch (error) {
+                console.warn("IndexedDB load failed, falling back to LocalStorage.", error);
+                try { return JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(DEFAULT_SETTINGS)); } catch (e) { console.error("LocalStorage load also failed.", e); return DEFAULT_SETTINGS; }
+            }
+        }
+    };
+
+    const App = {
+        worker: null,
+        directoryHandle: null,
+        generationTimestamp: 0,
+        
+        start: async function() {
+            UI.init();
+            this.initWorker();
+            try {
+                const savedSettings = await Persistence.load();
+                UI.applySettings(savedSettings);
+            } catch (error) {
+                console.error("Failed to load settings, using defaults:", error);
+                UI.applySettings(DEFAULT_SETTINGS);
+            }
+        },
+
+        initWorker: function() {
+            try {
+                const workerScriptElement = document.getElementById('workerScript');
+                const workerCode = workerScriptElement.textContent;
+                const blob = new Blob([workerCode], { type: 'application/javascript' });
+                this.worker = new Worker(URL.createObjectURL(blob));
+                this.worker.onmessage = (event) => this.handleWorkerMessage(event.data);
+            } catch (e) {
+                console.error("Worker Initialization Failed:", e);
+                UI.updateStatus("CRITICAL: WORKER FAILED TO START", true);
+            }
+        },
+
+        handleWorkerMessage: function(data) {
+            const { type, message, imageBitmap, index } = data;
+            switch(type) {
+                case 'progress': 
+                    UI.updateStatus(message); 
+                    if (message.startsWith('INITIATING')) {
+                       const canvas = UI.elements.previewCanvas;
+                       const ctx = canvas.getContext('2d');
+                       ctx.fillStyle = 'black';
+                       ctx.fillRect(0,0, canvas.width, canvas.height);
+                       ctx.fillStyle = 'white';
+                       ctx.font = "50px Teko";
+                       ctx.textAlign = "center";
+                       ctx.fillText(message, canvas.width/2, canvas.height/2);
+                    }
+                    break;
+                case 'result':
+                    const canvas = UI.elements.previewCanvas;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                    this.downloadCanvas(canvas, index);
+                    break;
+                case 'complete':
+                    UI.updateStatus(message);
+                    this.directoryHandle = null;
+                    UI.hideProcessing();
+                    break;
+            }
+        },
+
+        generate: async function() {
+            const captions = (UI.elements.batchInput.value.trim() || " ").split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+            if (captions.length === 0) {
+                alert("Please provide some text in the Input field.");
+                return;
+            }
+
+            UI.showProcessing();
+            this.generationTimestamp = Date.now();
+            this.directoryHandle = null; // Reset handle for each new batch
+            
+            if (UI.elements.useFolderPicker.checked && window.showDirectoryPicker) {
+                try {
+                     this.directoryHandle = await window.showDirectoryPicker();
+                } catch (err) {
+                    console.info("User cancelled folder picker. Files will be downloaded individually.");
+                    UI.updateStatus("FOLDER PICKER CANCELLED", true);
+                }
+            }
+            
+            const settings = UI.getSettings();
+            const resolution = { width: 1080, height: 1920 };
+            this.worker.postMessage({ settings: settings, captions: captions, resolution: resolution });
+        },
+        
+        saveSettings: async function() {
+            const settings = UI.getSettings();
+            await Persistence.save(settings);
+        },
+        
+        copySettings: async function() {
+             try {
+                const settingsString = JSON.stringify(UI.getSettings(), null, 2);
+                await navigator.clipboard.writeText(settingsString);
+                UI.updateStatus("SETTINGS COPIED TO CLIPBOARD", true);
+            } catch (err) {
+                console.error('Failed to copy settings: ', err);
+                UI.updateStatus("FAILED TO COPY SETTINGS", true);
+            }
+        },
+        
+        pasteSettings: async function() {
+            try {
+                const text = await navigator.clipboard.readText();
+                const settings = JSON.parse(text);
+                UI.applySettings(settings);
+                await this.saveSettings();
+                UI.updateStatus("SETTINGS PASTED FROM CLIPBOARD", true);
+            } catch (err) {
+                console.error('Failed to paste settings: ', err);
+                 UI.updateStatus("INVALID SETTINGS IN CLIPBOARD", true);
+            }
+        },
+
+        downloadCanvas: async function(canvas, index) {
+            try {
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                const captions = (UI.elements.batchInput.value.trim() || "vision").split(/\n\s*\n/);
+                const sanitizedCaption = (captions[index] || 'vision').substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                const filename = `BH_${this.generationTimestamp}_${sanitizedCaption}_${(index + 1)}.jpg`;
+
+                if (this.directoryHandle) {
+                    const fileHandle = await this.directoryHandle.getFileHandle(filename, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(blob);
+                    await writable.close();
+                } else {
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = URL.createObjectURL(blob);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                }
+            } catch (error) {
+                console.error("Download failed:", error);
+                UI.updateStatus(`DOWNLOAD ERROR: ${error.name}`, true);
+                // On folder picker error, nullify the handle to revert to single downloads for the rest of the batch.
+                if(error.name === 'NotAllowedError' || error.name === 'NotFoundError') {
+                    this.directoryHandle = null; 
+                }
+            }
+        }
+    };
+    App.start();
+});
+</script>
+                                                         </body>
+    </html>
