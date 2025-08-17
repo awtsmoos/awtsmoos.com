@@ -1,11 +1,14 @@
 
+
 <!--
 
 B"H
 ב"ה
 
 -->
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -23,7 +26,145 @@ B"H
 --font-mono: 'Fira Code', monospace;
 }
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
-    <fieldset><legend>Gevulot</legend>
+
+code
+Code
+download
+content_copy
+expand_less
+
+* { box-sizing: border-box; }
+
+    body {
+        font-family: var(--font-mono);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+        background-color: var(--bg-color);
+        padding: 20px;
+        margin: 0;
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    #controls {
+        width: 500px;
+        padding: 20px;
+        background-color: var(--widget-bg);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 70px rgba(0,0,0,0.9);
+        overflow-y: auto;
+        max-height: 95vh;
+    }
+    
+    #controls::-webkit-scrollbar { width: 8px; }
+    #controls::-webkit-scrollbar-track { background: var(--bg-color); }
+    #controls::-webkit-scrollbar-thumb { background-color: var(--secondary-color); border-radius: 4px; border: 2px solid var(--bg-color); }
+
+    h2 {
+        font-family: var(--font-display);
+        font-size: 3em;
+        color: var(--text-color);
+        text-align: center;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin: 10px 0 30px 0;
+        text-shadow: 0 0 15px var(--secondary-color), 0 0 5px #fff;
+    }
+
+    fieldset {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    legend {
+        font-family: var(--font-display);
+        color: var(--secondary-color);
+        letter-spacing: 3px;
+        font-size: 2em;
+        text-transform: uppercase;
+        padding: 0 15px;
+        text-shadow: 0 0 10px var(--secondary-color);
+    }
+
+    .control-group { margin-bottom: 20px; }
+    .randomize-controls { display: none; margin-top: 10px; padding-left: 20px; border-left: 2px solid var(--border-color); }
+    .randomize-toggle:checked ~ .randomize-controls { display: block; }
+
+    label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #ccc;
+    }
+    
+    .value-display { font-weight: bold; color: var(--secondary-color); float: right; }
+    .label-with-random { display: flex; justify-content: space-between; align-items: center; }
+    .randomize-toggle { margin-left: 10px; accent-color: var(--secondary-color); }
+    
+    input[type="range"] { width: 100%; margin-top: 5px; -webkit-appearance: none; background: transparent; }
+    input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border-color); border-radius: 2px;}
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; background: var(--secondary-color); border-radius: 50%; border: 2px solid var(--bg-color); margin-top: -8px; box-shadow: 0 0 10px var(--secondary-color); cursor: pointer; }
+    
+    input, textarea, select, button.util-btn {
+        width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;
+        background-color: #0c0c10; color: var(--text-color); font-size: 16px; font-family: var(--font-mono);
+    }
+    input[type="color"] { height: 40px; padding: 2px; }
+    input[type="checkbox"] { width: auto; }
+    textarea { height: 150px; resize: vertical; line-height: 1.6; }
+    
+    .util-btn-group { display: flex; gap: 10px; margin-bottom: 10px; }
+    button.util-btn { cursor: pointer; background: var(--widget-bg); color: var(--secondary-color); transition: background-color 0.2s, color 0.2s; }
+    button.util-btn:hover { background: var(--secondary-color); color: var(--bg-color); }
+    
+    #generateBtn {
+        width: 100%; padding: 20px; font-size: 28px; font-weight: 700; color: #000;
+        background: linear-gradient(45deg, var(--secondary-color), #f9c80e); border: none; border-radius: 10px;
+        cursor: pointer; transition: all 0.3s ease-in-out; letter-spacing: 4px; font-family: var(--font-display);
+        margin-top: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); animation: pulse-glow 2.5s infinite ease-in-out;
+    }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 234, 0.4); } 50% { box-shadow: 0 0 35px rgba(0, 242, 234, 0.8); } }
+    #generateBtn:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); }
+    #generateBtn:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none;}
+    
+    #processingStatus { display: none; text-align: center; margin-top: 20px; font-size: 20px; font-family: var(--font-display); letter-spacing: 2px; color: var(--primary-color); animation: status-flicker 1.2s infinite; }
+    @keyframes status-flicker { 0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--primary-color); } 50% { opacity: 0.7; text-shadow: none; } }
+    
+    #preview-container {
+        width: 540px; height: 960px; position: relative; box-shadow: 0 10px 60px rgba(0,0,0,0.9);
+        background-color: #000; border-radius: 16px; overflow: hidden; border: 2px solid var(--border-color); flex-shrink: 0;
+        cursor: crosshair;
+    }
+    #previewCanvas { width: 100%; height: 100%; display: block; }
+
+    @media (max-width: 1100px) {
+        body { flex-direction: column; align-items: center; padding: 10px; }
+        #controls { width: 95vw; max-height: none; padding: 15px; }
+        #preview-container { width: 95vw; height: calc(95vw * 1.7777); }
+    }
+</style>
+</head>
+<body>
+<div id="controls">
+<h2>Omega Engine</h2>
+
+code
+Code
+download
+content_copy
+expand_less
+IGNORE_WHEN_COPYING_START
+IGNORE_WHEN_COPYING_END
+<fieldset><legend>Gevulot</legend>
         <div class="control-group"><label for="batchInput">Input (Batch)</label><textarea id="batchInput" placeholder="Enter text here..."></textarea></div>
         <div class="control-group"><label for="headerInput">Header Text</label><input type="text" id="headerInput" placeholder="Optional..."></div>
     </fieldset>
@@ -928,5 +1069,5 @@ document.addEventListener('DOMContentLoaded', function() {
     App.start();
 });
 </script>
-                                                         </body>
-    </html>
+</body>
+</html>
