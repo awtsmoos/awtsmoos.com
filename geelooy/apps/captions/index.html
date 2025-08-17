@@ -1,4 +1,3 @@
-
 <!--
 
 B"H
@@ -10,7 +9,7 @@ B"H
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ein Sof Engine [Quantum Core v2.2]</title>
+    <title>Ein Sof Engine [Quantum Core v2.5]</title>
     <style>
         :root {
             --bg-color: #0c0c10;
@@ -291,151 +290,210 @@ B"H
 
     <!-- DEDICATED WEB WORKER SCRIPT -->
     <script type="javascript/worker" id="einSofWorker">
-        const PARTICLE_COLORS = ['#ff5c98', '#00f2ea', '#f9c80e', '#be73ff', '#6f6f6f', '#ffffff'];
-
+        /**
+         * Main rendering function orchestrating the creation of a single image.
+         */
         function BorehOlam(ctx, caption, header, settings, resolution) {
+            // Generate a unique, cohesive color palette for this specific generation.
+            const palette = generateCohesivePalette(6);
+            
+            // Prepare offscreen canvases for layered rendering and effects.
             const baseLayer = new OffscreenCanvas(resolution.width, resolution.height);
             const baseCtx = baseLayer.getContext('2d');
             const glowLayer = new OffscreenCanvas(resolution.width, resolution.height);
             const glowCtx = glowLayer.getContext('2d');
-            const universe = generateUniqueUniverse(settings, resolution);
-            renderBackground(baseCtx, settings, resolution);
+            
+            // Generate the positions, sizes, and characters for all particles.
+            const universe = generateUniqueUniverse(settings, resolution, palette);
+            
+            // --- Render Pipeline ---
+            // Each step builds upon the previous one.
+            renderBackground(baseCtx, settings, resolution, palette);
             renderParticles(baseCtx, glowCtx, universe.particles, settings);
             renderNetwork(baseCtx, glowCtx, universe.particles, settings, resolution);
             applyBloom(baseCtx, glowLayer, settings);
-            renderText(baseCtx, caption, header, settings, resolution);
-            renderCornerText(baseCtx, resolution);
+            renderText(baseCtx, caption, header, settings, resolution, palette);
             applyPostProcessing(baseCtx, settings, resolution);
+            
+            // CRITICAL FIX: The corner text is rendered *after* all post-processing effects.
+            // This ensures it is always visible and not obscured by vignette or grain.
+            renderCornerText(baseCtx, resolution);
+            
+            // Draw the final, completed image to the main canvas context.
             ctx.drawImage(baseLayer, 0, 0);
         }
-        
-        function generateUniqueUniverse(settings, resolution) {
-            const particles = [];
-            const chars = Array.from(settings.particleChars);
-            if (chars.length === 0) chars.push('•');
-            for (let i = 0; i < settings.particleDensity; i++) {
-                const z = Math.random();
-                particles.push({
-                    x: Math.random() * resolution.width, y: Math.random() * resolution.height, z: z,
-                    size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z),
-                    char: chars[Math.floor(Math.random() * chars.length)],
-                    color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
-                });
-            }
-            particles.sort(function(a, b) { return a.z - b.z; });
-            return { particles: particles };
-        }
 
-        // IMPROVED Background Rendering Function
-        function renderBackground(ctx, settings, resolution) {
+        /**
+         * Generates the entire starfield and nebula background with multiple layers of depth.
+         */
+        function renderBackground(ctx, settings, resolution, palette) {
+            // Base dark gradient
             const bgGrad = ctx.createLinearGradient(0, 0, 0, resolution.height);
-            bgGrad.addColorStop(0, hexToRgba(settings.baseBgColor, 1.0));
+            bgGrad.addColorStop(0, settings.baseBgColor);
             bgGrad.addColorStop(1, '#000000');
             ctx.fillStyle = bgGrad;
             ctx.fillRect(0, 0, resolution.width, resolution.height);
+            
+            ctx.globalCompositeOperation = 'lighter';
 
-            // Layer 1: Distant, tiny stars
-            for (let i = 0; i < 700; i++) {
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (Math.random() * 0.3) + ')';
+            // --- NEW BACKGROUND ENHANCEMENT 1: Galactic Core Glow ---
+            // A large, soft, distant light source to give the scene direction.
+            const coreX = resolution.width * (Math.random() < 0.5 ? -0.2 : 1.2);
+            const coreY = resolution.height * Math.random();
+            const coreGrad = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, resolution.width * 1.5);
+            coreGrad.addColorStop(0, hexToRgba(palette[0], 0.1));
+            coreGrad.addColorStop(1, hexToRgba(palette[0], 0));
+            ctx.fillStyle = coreGrad;
+            ctx.fillRect(0, 0, resolution.width, resolution.height);
+
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // --- NEW BACKGROUND ENHANCEMENT 2: Cosmic Dust Clouds ---
+            // Fills the "empty" space with subtle, dark texture.
+            for (let i = 0; i < 4; i++) {
+                const dustX = resolution.width * Math.random();
+                const dustY = resolution.height * Math.random();
+                const dustRadius = resolution.width * random(0.4, 0.8);
+                const dustGrad = ctx.createRadialGradient(dustX, dustY, 0, dustX, dustY, dustRadius);
+                dustGrad.addColorStop(0, 'rgba(0, 0, 0, 0.0)');
+                dustGrad.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
+                ctx.fillStyle = dustGrad;
+                ctx.fillRect(0, 0, resolution.width, resolution.height);
+            }
+            
+            // --- Layered Starfield ---
+            // Distant, tiny stars
+            for (let i = 0; i < 1500; i++) {
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.1 + Math.random() * 0.3) + ')';
                 ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 1, 1);
             }
-
-            // Layer 2: Mid-ground, slightly larger stars
-            for (let i = 0; i < 100; i++) {
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.2 + Math.random() * 0.3) + ')';
+            // Mid-ground stars
+            for (let i = 0; i < 200; i++) {
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.3 + Math.random() * 0.4) + ')';
                 ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 2, 2);
             }
+             // --- NEW BACKGROUND ENHANCEMENT 3: "Hero" Stars ---
+             // A few very bright, glowing stars to act as focal points.
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * resolution.width;
+                const y = Math.random() * resolution.height;
+                const bright = 0.6 + Math.random() * 0.4;
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (bright * 0.2) + ')';
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + bright + ')';
+                ctx.fillRect(x - 1, y - 1, 3, 3);
+            }
 
-            const createNebula = function(x, y, radius, color) {
+            // --- Main Nebula Clouds ---
+            const createNebula = (x, y, radius, color) => {
                 const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                gradient.addColorStop(0, color);
+                gradient.addColorStop(0, hexToRgba(color, 0.4));
+                gradient.addColorStop(0.5, hexToRgba(color, 0.1));
                 gradient.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, resolution.width, resolution.height);
             };
 
             ctx.globalCompositeOperation = 'lighter';
-            createNebula(resolution.width * 0.15, resolution.height * 0.25, resolution.width * 0.6, 'rgba(80, 90, 200, 0.18)');
-            createNebula(resolution.width * 0.8, resolution.height * 0.7, resolution.width * 0.55, 'rgba(200, 80, 150, 0.15)');
-            createNebula(resolution.width * 0.5, resolution.height * 0.5, resolution.width * 0.8, 'rgba(80, 200, 150, 0.1)');
-            createNebula(resolution.width * 0.9, resolution.height * 0.1, resolution.width * 0.5, 'rgba(249, 200, 14, 0.08)');
+            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.5, 0.9), palette[0]);
+            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.6, 1.0), palette[1]);
+            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.7, 1.1), palette[2]);
+            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.4, 0.8), palette[3]);
             ctx.globalCompositeOperation = 'source-over';
+            
+            // --- NEW BACKGROUND ENHANCEMENT 4: Shooting Stars ---
+            // Adds a dynamic element to the scene.
+            for (let i = 0; i < randomInt(2, 4); i++) {
+                const startX = Math.random() * resolution.width;
+                const startY = Math.random() * resolution.height;
+                const length = Math.random() * 200 + 100;
+                const angle = Math.random() * Math.PI * 2;
+                const endX = startX + Math.cos(angle) * length;
+                const endY = startY + Math.sin(angle) * length;
+
+                const meteorGrad = ctx.createLinearGradient(startX, startY, endX, endY);
+                meteorGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+                meteorGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                
+                ctx.strokeStyle = meteorGrad;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+            }
         }
         
+        /**
+         * Renders all the Hebrew character particles onto the main canvas and a glow map.
+         */
         function renderParticles(ctx, glowCtx, particles, settings) {
-            particles.forEach(function(p) {
+            particles.forEach(p => {
                 const opacity = 0.2 + p.z * 0.8;
-                const isBright = p.color === '#ffffff' || p.color === '#f9c80e' || p.color === '#00f2ea';
+                const isBright = p.color === '#ffffff' || p.z > 0.8;
                 if (isBright) {
                     glowCtx.font = p.size + 'px sans-serif';
                     glowCtx.fillStyle = p.color;
-                    glowCtx.textAlign = 'center'; glowCtx.textBaseline = 'middle';
+                    glowCtx.textAlign = 'center';
+                    glowCtx.textBaseline = 'middle';
                     glowCtx.globalAlpha = opacity * 0.9;
                     glowCtx.fillText(p.char, p.x, p.y);
                 }
                 ctx.globalAlpha = opacity;
                 ctx.font = p.size + 'px sans-serif';
                 ctx.fillStyle = p.color;
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
                 if (settings.particleStyle === 'fragmented') {
                     ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((Math.random() - 0.5) * 0.2);
                     ctx.beginPath();
                     const angle = Math.random() * Math.PI * 2;
-                    ctx.rect(p.x - p.size / 2 + Math.cos(angle) * p.size / 4, p.y - p.size / 2 + Math.sin(angle) * p.size / 4, p.size, p.size);
+                    ctx.rect(-p.size / 2 + Math.cos(angle) * p.size / 4, -p.size / 2 + Math.sin(angle) * p.size / 4, p.size, p.size);
                     ctx.clip();
-                    ctx.fillText(p.char, p.x, p.y);
+                    ctx.fillText(p.char, 0, 0);
                     ctx.restore();
-                } else { ctx.fillText(p.char, p.x, p.y); }
+                } else {
+                    ctx.fillText(p.char, p.x, p.y);
+                }
             });
             ctx.globalAlpha = 1.0;
         }
 
-        function renderNetwork(ctx, glowCtx, particles, settings, resolution) {
-             if (settings.networkType === 'none') return;
-             const connectable = particles.filter(function(p) { return p.z > 0.4; });
-             connectable.forEach(function(p1) {
-                let neighbors = connectable.filter(function(p2) { return p1 !== p2; })
-                    .sort(function(a, b) { return Math.hypot(p1.x - a.x, p1.y - a.y) - Math.hypot(p1.x - b.x, p1.y - b.y); })
-                    .slice(0, Math.floor(settings.connectionDensity));
-                neighbors.forEach(function(p2) {
-                    if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 400) return;
-                    const opacity = Math.min(p1.z, p2.z) * 0.8;
-                    const color = p1.color;
-                    const drawFunc = function(targetCtx) {
-                        switch(settings.networkType) {
-                            case 'web': drawWeb(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                            case 'arcs': drawLightning(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                            case 'synapse': drawSynapse(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break;
-                        }
-                    };
-                    drawFunc(glowCtx);
-                    drawFunc(ctx);
-                });
-            });
-        }
-        
-        function renderText(ctx, caption, header, settings, resolution) {
+        /**
+         * Renders the text box with blur effect, border, and the main caption.
+         */
+        function renderText(ctx, caption, header, settings, resolution, palette) {
             const targetBox = { width: resolution.width * 0.9, height: resolution.height * 0.4 };
             const fullCaption = header ? header + '\n\n' + caption : caption;
             const textLayout = calculateOptimalFontSize(ctx, fullCaption, header, targetBox.width - settings.boxPadding * 2, targetBox.height - settings.boxPadding * 2);
             const lines = textLayout.lines;
             if (lines.length === 0) return;
+            
             let maxLineWidth = 0;
-            lines.forEach(function(line) {
+            lines.forEach(line => {
                 ctx.font = '700 ' + line.fontSize + "px 'Teko', sans-serif";
                 maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line.text).width);
             });
-            const totalTextHeight = lines.reduce(function(acc, line) { return acc + line.height; }, 0);
+            
+            const totalTextHeight = lines.reduce((acc, line) => acc + line.height, 0);
             const boxWidth = maxLineWidth + settings.boxPadding * 2;
             const boxHeight = totalTextHeight + settings.boxPadding * 2;
             const boxX = (resolution.width - boxWidth) / 2;
             const boxY = (resolution.height - boxHeight) / 2;
+            
+            // Background blur effect
             const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
             const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
-            const blurCtx = blurCanvas.getContext('2d');
+            // PERFORMANCE FIX: Add willReadFrequently hint for the blur operation.
+            const blurCtx = blurCanvas.getContext('2d', { willReadFrequently: true });
             blurCtx.putImageData(snap, 0, 0);
             blurCtx.filter = 'blur(15px) brightness(0.8)';
             blurCtx.drawImage(blurCanvas, 0, 0);
+            
             ctx.save();
             ctx.beginPath();
             ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
@@ -444,44 +502,49 @@ B"H
             ctx.fillStyle = hexToRgba(settings.boxColor, settings.boxOpacity);
             ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
             ctx.restore();
-            ctx.strokeStyle = 'rgba(0, 242, 234, 0.5)';
-            ctx.lineWidth = 2;
-            ctx.shadowColor = 'rgba(0, 242, 234, 1)';
+            
+            // Use a gradient for the border stroke for more visual depth
+            const borderGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
+            borderGrad.addColorStop(0, palette[1]);
+            borderGrad.addColorStop(0.5, palette[3]);
+            borderGrad.addColorStop(1, palette[0]);
+            
+            ctx.strokeStyle = borderGrad;
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = palette[2];
             ctx.shadowBlur = 15;
             ctx.beginPath();
             ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
             ctx.stroke();
             ctx.shadowColor = 'transparent';
+
+            // Draw the actual text lines
             let currentY = boxY + settings.boxPadding;
-            lines.forEach(function(line) {
+            lines.forEach(line => {
                 const y = currentY + line.height / 2;
                 drawTextWithBorder(ctx, line.text, resolution.width/2, y, line.fontSize, line.isHeader ? 'rgba(220,220,255,0.9)' : '#FFFFFF', line.fontSize * 0.1);
                 currentY += line.height;
             });
         }
         
+        /**
+         * Renders the final corner text (B"H / ב"ה).
+         */
         function renderCornerText(ctx, resolution) {
+            ctx.save();
             ctx.font = "700 40px 'Teko', sans-serif";
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
             ctx.fillText('B"H', 35, 35);
             ctx.textAlign = 'right';
             ctx.fillText('ב"ה', resolution.width - 35, 35);
-        }
-
-        function applyBloom(ctx, glowLayer, settings) {
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.filter = 'blur(' + (settings.bloomIntensity * 2) + 'px)';
-            ctx.globalAlpha = 0.6;
-            ctx.drawImage(glowLayer, 0, 0);
-            ctx.filter = 'blur(' + (settings.bloomIntensity * 0.5) + 'px)';
-            ctx.globalAlpha = 1.0;
-            ctx.drawImage(glowLayer, 0, 0);
             ctx.restore();
         }
 
+        /**
+         * Applies post-processing effects like film grain, vignette, and chromatic aberration.
+         */
         function applyPostProcessing(ctx, settings, resolution) {
             const imageData = ctx.getImageData(0, 0, resolution.width, resolution.height);
             const pixels = imageData.data;
@@ -509,69 +572,33 @@ B"H
             ctx.putImageData(imageData, 0, 0);
         }
 
-        // Helper functions
-        function calculateOptimalFontSize(ctx, fullText, header, maxWidth, maxHeight) {
-            for (let fs = 250; fs > 10; fs-=2) {
-                const headerSize = fs * 0.55; let currentY = 0; let lines = [];
-                const blocks = fullText.split('\n\n');
-                for(let blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
-                    const block = blocks[blockIndex];
-                    const isHeaderBlock = header && lines.length === 0 && block.startsWith(header);
-                    const fontSize = isHeaderBlock ? headerSize : fs; const lineHeight = fontSize * 1.1;
-                    ctx.font = '700 ' + fontSize + "px 'Teko', sans-serif";
-                    const words = block.split(' '); let currentLine = '';
-                    for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
-                        const word = words[wordIndex];
-                        const testLine = currentLine ? currentLine + ' ' + word : word;
-                        if (ctx.measureText(testLine).width > maxWidth && currentLine) {
-                            lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock });
-                            currentY += lineHeight; currentLine = word;
-                        } else { currentLine = testLine; }
-                    }
-                    lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock });
-                    currentY += lineHeight;
-                }
-                if (currentY <= maxHeight) return { optimalFontSize: fs, lines: lines };
-            }
-            return { optimalFontSize: 0, lines: [] };
-        }
+        // --- All other functions (unchanged logic, just clean) ---
+        function generateUniqueUniverse(settings, resolution, palette) { const particles = []; const chars = Array.from(settings.particleChars); if (chars.length === 0) chars.push('•'); const fullPalette = [...palette, '#ffffff', '#999999']; for (let i = 0; i < settings.particleDensity; i++) { const z = Math.random(); particles.push({ x: Math.random() * resolution.width, y: Math.random() * resolution.height, z: z, size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z), char: chars[Math.floor(Math.random() * chars.length)], color: fullPalette[Math.floor(Math.random() * fullPalette.length)], }); } particles.sort((a, b) => a.z - b.z); return { particles: particles }; }
+        function renderNetwork(ctx, glowCtx, particles, settings, resolution) { if (settings.networkType === 'none') return; const connectable = particles.filter(p => p.z > 0.4); connectable.forEach(p1 => { let neighbors = connectable.filter(p2 => p1 !== p2).sort((a, b) => Math.hypot(p1.x - a.x, p1.y - a.y) - Math.hypot(p1.x - b.x, p1.y - b.y)).slice(0, Math.floor(settings.connectionDensity)); neighbors.forEach(p2 => { if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 400) return; const opacity = Math.min(p1.z, p2.z) * 0.8; const color = p1.color; const drawFunc = targetCtx => { switch(settings.networkType) { case 'web': drawWeb(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'arcs': drawLightning(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'synapse': drawSynapse(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; } }; drawFunc(glowCtx); drawFunc(ctx); }); }); }
+        function applyBloom(ctx, glowLayer, settings) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.filter = 'blur(' + (settings.bloomIntensity * 2) + 'px)'; ctx.globalAlpha = 0.6; ctx.drawImage(glowLayer, 0, 0); ctx.filter = 'blur(' + (settings.bloomIntensity * 0.5) + 'px)'; ctx.globalAlpha = 1.0; ctx.drawImage(glowLayer, 0, 0); ctx.restore(); }
+        function generateCohesivePalette(numColors = 5) { const palette = []; const baseHue = Math.random() * 360; for (let i = 0; i < numColors; i++) { const hue = (baseHue + i * (360 / numColors) + (Math.random() - 0.5) * 40) % 360; const saturation = 80 + Math.random() * 20; const lightness = 65 + Math.random() * 15; palette.push(hslToHex(hue, saturation, lightness)); } return palette; }
+        function hslToHex(h, s, l) { l /= 100; const a = s * Math.min(l, 1 - l) / 100; const f = n => { const k = (n + h / 30) % 12; const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); return Math.round(255 * color).toString(16).padStart(2, '0'); }; return `#${f(0)}${f(8)}${f(4)}`; }
+        function calculateOptimalFontSize(ctx, fullText, header, maxWidth, maxHeight) { for (let fs = 250; fs > 10; fs-=2) { const headerSize = fs * 0.55; let currentY = 0; let lines = []; const blocks = fullText.split('\n\n'); for(let blockIndex = 0; blockIndex < blocks.length; blockIndex++) { const block = blocks[blockIndex]; const isHeaderBlock = header && lines.length === 0 && block.startsWith(header); const fontSize = isHeaderBlock ? headerSize : fs; const lineHeight = fontSize * 1.1; ctx.font = '700 ' + fontSize + "px 'Teko', sans-serif"; const words = block.split(' '); let currentLine = ''; for (let wordIndex = 0; wordIndex < words.length; wordIndex++) { const word = words[wordIndex]; const testLine = currentLine ? currentLine + ' ' + word : word; if (ctx.measureText(testLine).width > maxWidth && currentLine) { lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock }); currentY += lineHeight; currentLine = word; } else { currentLine = testLine; } } lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock }); currentY += lineHeight; } if (currentY <= maxHeight) return { optimalFontSize: fs, lines: lines }; } return { optimalFontSize: 0, lines: [] }; }
         function drawTextWithBorder(ctx, text, x, y, size, color, borderWidth) { ctx.font = '700 ' + size + "px 'Teko', sans-serif"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = borderWidth; ctx.strokeText(text, x, y); ctx.fillStyle = color; ctx.fillText(text, x, y); }
         function drawWeb(ctx, x1, y1, x2, y2, color, opacity) { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.strokeStyle = hexToRgba(color, opacity * 0.6); ctx.lineWidth = 0.5 + opacity; ctx.stroke(); }
-        function drawLightning(ctx, x1, y1, x2, y2, color, opacity) { let p=[[x1,y1]],d=Math.hypot(x1-x2,y1-y2); for(let i=0;i<d/15;i++){let r=Math.random();p.push([x1+(x2-x1)*r,y1+(y2-y1)*r])} p.push([x2,y2]);p.sort(function(a,b){return Math.hypot(a[0]-x1,a[1]-y1)-Math.hypot(b[0]-x1,b[1]-y1)}); for(let i=1;i<p.length-1;i++){p[i][0]+=(Math.random()-0.5)*20;p[i][1]+=(Math.random()-0.5)*20} ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);p.forEach(function(pt){ctx.lineTo(pt[0],pt[1])});ctx.strokeStyle=hexToRgba(color,opacity);ctx.lineWidth=1+opacity*3;ctx.stroke();}
+        function drawLightning(ctx, x1, y1, x2, y2, color, opacity) { let p=[[x1,y1]],d=Math.hypot(x1-x2,y1-y2); for(let i=0;i<d/15;i++){let r=Math.random();p.push([x1+(x2-x1)*r,y1+(y2-y1)*r])} p.push([x2,y2]);p.sort((a,b)=>Math.hypot(a[0]-x1,a[1]-y1)-Math.hypot(b[0]-x1,b[1]-y1)); for(let i=1;i<p.length-1;i++){p[i][0]+=(Math.random()-0.5)*20;p[i][1]+=(Math.random()-0.5)*20} ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);p.forEach(pt => ctx.lineTo(pt[0],pt[1]));ctx.strokeStyle=hexToRgba(color,opacity);ctx.lineWidth=1+opacity*3;ctx.stroke();}
         function drawSynapse(ctx, x1, y1, x2, y2, color, opacity) { const grad=ctx.createLinearGradient(x1,y1,x2,y2); grad.addColorStop(0,hexToRgba(color,opacity*0.2)); grad.addColorStop(0.5,hexToRgba(color,opacity)); grad.addColorStop(1,hexToRgba(color,opacity*0.2)); ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=grad;ctx.lineWidth=1+opacity;ctx.stroke();const s=3+opacity*6;ctx.fillStyle=hexToRgba(color,opacity);ctx.globalAlpha=opacity;ctx.beginPath();ctx.arc(x1,y1,s,0,2*Math.PI);ctx.fill();ctx.beginPath();ctx.arc(x2,y2,s,0,2*Math.PI);ctx.fill();ctx.globalAlpha=1;}
         function hexToRgba(hex, alpha) { const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16); return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')'; }
         function random(min, max) { return min + Math.random() * (max - min); }
         function randomInt(min, max) { return Math.floor(random(min, max + 1)); }
         function randomHexColor() { return '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); }
+        function resolveSettings(settings) { const resolved = {}; for (const key in settings) { const setting = settings[key]; if (setting && setting.randomize) { if (setting.type === 'color') { resolved[key] = randomHexColor(); } else { const min = Math.min(setting.min, setting.max); const max = Math.max(setting.min, setting.max); resolved[key] = setting.isFloat ? random(min, max) : randomInt(min, max); } } else { resolved[key] = setting.value; } } return resolved; }
         
-        function resolveSettings(settings) {
-            const resolved = {};
-            for (const key in settings) {
-                const setting = settings[key];
-                if (setting && setting.randomize) {
-                    if (setting.type === 'color') {
-                        resolved[key] = randomHexColor();
-                    } else {
-                        const min = Math.min(setting.min, setting.max);
-                        const max = Math.max(setting.min, setting.max);
-                        resolved[key] = setting.isFloat ? random(min, max) : randomInt(min, max);
-                    }
-                } else {
-                    resolved[key] = setting.value;
-                }
-            }
-            return resolved;
-        }
-
-        self.onmessage = async function(e) {
+        self.onmessage = async e => {
             const { settings, captions, resolution } = e.data;
+            // PERFORMANCE FIX: Add willReadFrequently hint for the main composition canvas.
             const offscreenCanvas = new OffscreenCanvas(resolution.width, resolution.height);
             const offscreenCtx = offscreenCanvas.getContext('2d', { willReadFrequently: true });
             
             for (let i = 0; i < captions.length; i++) {
                 postMessage({ type: 'progress', message: 'INITIATING VISION ' + (i + 1) + '/' + captions.length });
                 const currentSettings = resolveSettings(settings);
-                await new Promise(function(r) { return setTimeout(r, 20); });
+                await new Promise(r => setTimeout(r, 20));
                 BorehOlam(offscreenCtx, captions[i], currentSettings.headerInput, currentSettings, resolution);
                 
                 postMessage({ type: 'progress', message: 'TRANSMITTING VISION ' + (i + 1) + '/' + captions.length });
@@ -592,57 +619,81 @@ B"H
         previewCanvas.width = resolution.width;
         previewCanvas.height = resolution.height;
         let directoryHandle = null;
-
-        // --- IndexedDB for Settings Persistence ---
-        const DB_NAME = 'EinSofEngineDB';
-        const STORE_NAME = 'settingsStore';
         let db;
 
+        const DB_NAME = 'EinSofEngineDB';
+        const STORE_NAME = 'settingsStore';
+        const DB_VERSION = 2; // Versioning is key to managing DB schema changes.
+
+        /**
+         * Initializes the IndexedDB database.
+         * Handles creation and version upgrades robustly.
+         */
         function initDB() {
-            return new Promise(function(resolve, reject) {
-                const request = indexedDB.open(DB_NAME, 1);
-                request.onupgradeneeded = function(e) {
-                    e.target.result.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onupgradeneeded = event => {
+                    let dbHandle = event.target.result;
+                    if (!dbHandle.objectStoreNames.contains(STORE_NAME)) {
+                        dbHandle.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                    }
                 };
-                request.onsuccess = function(e) {
-                    db = e.target.result;
+                
+                request.onsuccess = event => {
+                    db = event.target.result;
                     console.log('IndexedDB connection successful.');
                     resolve();
                 };
-                request.onerror = function(e) {
-                    console.error('IndexedDB error:', e.target.error);
-                    reject(e.target.error);
+                
+                request.onerror = event => {
+                    // This will catch the "Internal error opening backing store"
+                    console.error('IndexedDB error:', event.target.error);
+                    reject(event.target.error);
                 };
             });
         }
 
+        /**
+         * Saves all control values to IndexedDB.
+         */
         function saveSettings() {
-            if (!db) return;
+            if (!db) return; // Don't try to save if DB initialization failed.
+            
             const settingsToSave = {};
-            document.querySelectorAll('[id]').forEach(function(el) {
+            document.querySelectorAll('[id]').forEach(el => {
                 if (el.type === 'checkbox') {
                     settingsToSave[el.id] = el.checked;
                 } else if (el.value !== undefined) {
                     settingsToSave[el.id] = el.value;
                 }
             });
-            document.querySelectorAll('.control-group[data-control-name]').forEach(function(group) {
+            document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
                 const name = group.dataset.controlName;
                 settingsToSave[name + '_randomize_active'] = group.classList.contains('randomize-active');
             });
 
-            const transaction = db.transaction(STORE_NAME, 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            store.put({ id: 'userSettings', ...settingsToSave });
+            try {
+                const transaction = db.transaction(STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                store.put({ id: 'userSettings', ...settingsToSave });
+            } catch (err) {
+                console.error("Failed to execute save transaction.", err);
+            }
         }
 
+        /**
+         * Loads settings from IndexedDB and applies them to the controls.
+         */
         async function loadSettings() {
-            if (!db) return;
+            if (!db) return; // Don't try to load if DB is not available.
+            
             const transaction = db.transaction(STORE_NAME, 'readonly');
             const store = transaction.objectStore(STORE_NAME);
             const request = store.get('userSettings');
-            request.onsuccess = function(e) {
-                const settings = e.target.result;
+            
+            request.onsuccess = event => {
+                const settings = event.target.result;
                 if (settings) {
                     console.log('Loading settings from IndexedDB.');
                     for (const key in settings) {
@@ -653,10 +704,11 @@ B"H
                             } else {
                                 el.value = settings[key];
                             }
+                            // Trigger input event to update UI elements like range sliders
                             el.dispatchEvent(new Event('input', { bubbles: true }));
                         }
                     }
-                    document.querySelectorAll('.control-group[data-control-name]').forEach(function(group) {
+                    document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
                         const name = group.dataset.controlName;
                         if (settings[name + '_randomize_active']) {
                             group.classList.add('randomize-active');
@@ -669,7 +721,6 @@ B"H
             };
         }
 
-        // --- UI AND MAIN THREAD LOGIC ---
         let worker;
         function initializeWorker() {
             const workerCode = document.getElementById('einSofWorker').textContent;
@@ -690,11 +741,10 @@ B"H
                     break;
                 case 'complete':
                     document.getElementById('processingStatus').textContent = message;
-                    setTimeout(function() {
+                    setTimeout(() => {
                         document.getElementById('processingStatus').style.display = 'none';
                         document.getElementById('generateBtn').disabled = false;
                     }, 2000);
-                    directoryHandle = null;
                     break;
             }
         }
@@ -703,13 +753,18 @@ B"H
             document.getElementById('generateBtn').disabled = true;
             document.getElementById('processingStatus').style.display = 'block';
 
+            // FILE SYSTEM API FIX: Reset the handle at the beginning of a *new* batch,
+            // not at the end of the old one.
+            directoryHandle = null;
+
             if (document.getElementById('useDirectoryPicker').checked) {
                 try {
+                    // This will prompt the user to select a directory.
                     directoryHandle = await window.showDirectoryPicker();
                 } catch (err) {
                     console.log('User cancelled directory picker or an error occurred:', err);
                     document.getElementById('processingStatus').textContent = 'DIRECTORY SELECTION CANCELLED';
-                    setTimeout(function() {
+                    setTimeout(() => {
                         document.getElementById('processingStatus').style.display = 'none';
                         document.getElementById('generateBtn').disabled = false;
                     }, 2000);
@@ -717,14 +772,13 @@ B"H
                 }
             }
 
+            // Gather all settings
             const settings = {};
-            document.querySelectorAll('.control-group[data-control-name]').forEach(function(group) {
+            document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
                 const name = group.dataset.controlName;
                 const mainInput = group.querySelector('input, select, textarea');
                 const isRandom = group.classList.contains('randomize-active');
-                
                 settings[name] = { randomize: isRandom };
-
                 if (isRandom) {
                     if (mainInput.type === 'color') {
                         settings[name].type = 'color';
@@ -739,25 +793,24 @@ B"H
                      settings[name].value = mainInput.type === 'range' ? parseFloat(mainInput.value) : mainInput.value;
                 }
             });
-            ['batchInput', 'headerInput', 'particleStyle', 'networkType', 'particleChars'].forEach(function(id) {
+            ['batchInput', 'headerInput', 'particleStyle', 'networkType', 'particleChars'].forEach(id => {
                 settings[id] = { randomize: false, value: document.getElementById(id).value };
             });
 
-            const captions = parseInput(settings.batchInput.value);
+            const captions = parseInput(document.getElementById('batchInput').value);
             worker.postMessage({ settings: settings, captions: captions, resolution: resolution });
         }
         
         function setupEventListeners() {
             document.getElementById('generateBtn').addEventListener('click', handleBatchGenerate);
-            document.querySelectorAll('input[type="range"]').forEach(function(slider) {
+            document.querySelectorAll('input[type="range"]').forEach(slider => {
                 const display = document.getElementById(slider.id + 'Value');
-                if (display) { slider.addEventListener('input', function() { display.textContent = slider.value; }); }
+                if (display) { slider.addEventListener('input', () => { display.textContent = slider.value; }); }
             });
-            document.querySelectorAll('.randomize-toggle').forEach(function(toggle) {
+            document.querySelectorAll('.randomize-toggle').forEach(toggle => {
                 toggle.addEventListener('click', function() {
-                    const group = toggle.closest('.control-group');
-                    group.classList.toggle('randomize-active');
-                    toggle.classList.toggle('active');
+                    this.closest('.control-group').classList.toggle('randomize-active');
+                    this.classList.toggle('active');
                     saveSettings();
                 });
             });
@@ -768,13 +821,14 @@ B"H
             }
         }
         
-        function parseInput(text) { if (!text.trim()) return [" "]; const blocks = text.split(/\n\s*\n/); return blocks.map(function(block) { return block.trim() }).filter(function(block) { return block.length > 0; }); }
+        function parseInput(text) { if (!text.trim()) return [" "]; return text.split(/\n\s*\n/).map(block => block.trim()).filter(block => block.length > 0); }
         
         async function downloadCanvas(canvas, index) {
-            const blob = await new Promise(function(r) { return canvas.toBlob(r, 'image/jpeg', 0.92); });
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
             const sanitizedCaption = (parseInput(document.getElementById('batchInput').value)[index-1] || 'vision').substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            const filename = "BH_" + Date.now() + "_EinSof_" + sanitizedCaption + "_" + index + ".jpg";
+            const filename = `BH_${Date.now()}_EinSof_${sanitizedCaption}_${index}.jpg`;
 
+            // If a directory handle exists from the user selection, use it.
             if (directoryHandle) {
                 try {
                     const fileHandle = await directoryHandle.getFileHandle(filename, { create: true });
@@ -782,11 +836,12 @@ B"H
                     await writable.write(blob);
                     await writable.close();
                 } catch (err) {
-                    console.error('Error saving file with File System Access API:', err);
-                    directoryHandle = null;
+                    console.error('Error saving with File System API, falling back to download:', err);
+                    directoryHandle = null; // Invalidate handle on error
                     downloadLink(blob, filename);
                 }
             } else {
+                // Otherwise, use the standard download link method.
                 downloadLink(blob, filename);
             }
         }
@@ -811,18 +866,23 @@ B"H
             pCtx.shadowBlur = 0;
             pCtx.font = "40px 'Teko', sans-serif";
             pCtx.fillStyle='rgba(255,255,255,0.7)';
-            pCtx.fillText("QUANTUM CORE v2.2. AWAITING COMMAND.", resolution.width/2, resolution.height/2 + 100);
+            pCtx.fillText("QUANTUM CORE v2.5. AWAITING COMMAND.", resolution.width/2, resolution.height/2 + 100);
         }
 
+        /**
+         * The main entry point for the application.
+         */
         async function main() {
             initializeWorker();
             setupEventListeners();
             drawInitialState();
+            
+            // ROBUST DB INITIALIZATION: Wrap in a try/catch block.
             try {
                 await initDB();
                 await loadSettings();
             } catch (err) {
-                console.error("Could not initialize database. Settings will not be saved.", err);
+                console.warn("Could not initialize database. Settings will not be saved. This can happen in private browsing mode or if storage is corrupted.", err);
             }
         }
 
