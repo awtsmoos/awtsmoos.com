@@ -1,3 +1,6 @@
+
+
+
 <!-- ב"ה
 B"H -->
 
@@ -11,167 +14,57 @@ B"H -->
 <style>
 :root {
 --glow-cyan: rgba(0, 255, 255, 0.7);
---glow-red: rgba(255, 68, 68, 0.7);
---glow-orange: rgba(255, 136, 0, 0.6);
 --cosmic-bg: #02021a;
 --text-light: #e0e0e0;
 }
-
-
-
-body {
-        margin: 0;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: var(--cosmic-bg);
-        color: var(--text-light);
-        font-family: 'Cormorant Garamond', serif;
-        touch-action: none;
-    }
-
-    canvas {
-        display: none;
-        background-color: #000;
-        box-shadow: 0 0 30px var(--glow-cyan);
-        cursor: none;
-    }
-    
-    #boundary-vignette {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        box-shadow: inset 0 0 150px 50px rgba(255, 0, 0, 0);
-        pointer-events: none;
-        z-index: 5;
-        transition: box-shadow 0.5s ease-out;
-    }
-    #boundary-vignette.active {
-        box-shadow: inset 0 0 150px 50px rgba(255, 0, 0, 0.6);
-    }
-
-    .menu {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        z-index: 10;
-        background-color: rgba(10, 10, 40, 0.9);
-        padding: 40px;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 550px;
-        box-sizing: border-box;
-    }
-
-    #mainMenu {
-        box-shadow: 0 0 40px var(--glow-cyan);
-    }
-    #mainMenu h1 {
-        font-size: 3.2em;
-        color: #00ffff;
-        text-shadow: 0 0 15px var(--glow-cyan);
-        margin: 0;
-    }
-    #mainMenu p { font-size: 1.2em; line-height: 1.5; }
-
-    #gameOverScreen {
-        display: none;
-        box-shadow: 0 0 40px var(--glow-red);
-    }
-    #gameOverScreen h2 {
-        font-size: 3em;
-        color: #ff4444;
-        text-shadow: 0 0 20px var(--glow-red);
-        margin-bottom: 15px;
-    }
-    #scoreDisplay { font-size: 1.6em; margin-bottom: 30px; }
-
-    .menu-button, .settings-toggle {
-        padding: 15px 30px;
-        font-size: 1.4em;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: 'Cormorant Garamond', serif;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-        margin: 10px 5px 0;
-        color: var(--cosmic-bg);
-    }
-
-    #playButton { background-color: #00ffff; }
-    #playButton:hover { background-color: #5fffff; transform: translateY(-3px) scale(1.05); }
-    #restartButton { background-color: var(--glow-orange); }
-    #restartButton:hover { background-color: #ffaa33; transform: translateY(-3px) scale(1.05); }
-    .settings-toggle { background-color: #888; color: #fff; font-size: 1.2em; padding: 10px 20px;}
-    .settings-toggle:hover { background-color: #aaa; }
-    
-    /* Settings Modal */
-    #settingsMenu {
-        display: none;
-        box-shadow: 0 0 30px #fff;
-    }
-    #settingsMenu h2 { color: #fff; }
-    .setting-row { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; font-size: 1.3em;}
-    /* Cool toggle switch */
-    .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-    .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-    input:checked + .slider { background-color: #00ffff; }
-    input:checked + .slider:before { transform: translateX(26px); }
-
-    /* Caption System */
-    #caption-container {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background-color: rgba(2, 2, 26, 0.7);
-        border: 1px solid var(--glow-cyan);
-        border-radius: 10px;
-        padding: 15px;
-        max-width: 350px;
-        color: var(--text-light);
-        z-index: 100;
-        cursor: grab;
-        display: none; /* Initially hidden */
-        box-shadow: 0 5px 25px rgba(0, 255, 255, 0.2);
-        backdrop-filter: blur(5px);
-    }
-    #caption-container:active { cursor: grabbing; }
-    #caption-text {
-        font-size: 1.3em;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px #000;
-        line-height: 1.4;
-        margin-bottom: 10px;
-    }
-    #caption-controls { display: flex; justify-content: space-between; align-items: center; }
-    .caption-btn { background: none; border: none; font-size: 2em; color: #00ffff; cursor: pointer; transition: color 0.2s; padding: 0 15px; }
-    .caption-btn:hover { color: #fff; }
-    
-    #captionEditor {
-        display: none;
-        box-shadow: 0 0 30px #fff;
-    }
-    #captionTextarea { width: 100%; height: 200px; background-color: #111; color: #fff; border: 1px solid #555; font-size: 1em; padding: 10px; box-sizing: border-box;}
-
-    /* Hidden video element for webcam */
-    #webcamFeed { display: none; }
+body { margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: var(--cosmic-bg); color: var(--text-light); font-family: 'Cormorant Garamond', serif; touch-action: none; }
+canvas { display: none; background-color: #000; cursor: none; }
+.menu { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 20; background-color: rgba(10, 10, 40, 0.9); padding: 40px; border-radius: 15px; width: 90%; max-width: 550px; box-sizing: border-box; backdrop-filter: blur(8px); border: 1px solid rgba(0, 255, 255, 0.3); }
+h1, h2 { margin: 0; padding: 0; }
+#mainMenu h1 { font-size: 3.2em; color: #00ffff; text-shadow: 0 0 15px var(--glow-cyan); }
+#mainMenu p { font-size: 1.2em; line-height: 1.5; }
+#gameOverScreen h2 { font-size: 3em; color: #ff4444; text-shadow: 0 0 20px rgba(255, 68, 68, 0.7); }
+#scoreDisplay { font-size: 1.6em; margin: 20px 0; }
+.menu-button, .settings-toggle { padding: 15px 30px; font-size: 1.4em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-family: 'Cormorant Garamond', serif; margin: 10px 5px 0; color: var(--cosmic-bg); background-color: #00ffff; }
+.menu-button:hover, .settings-toggle:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 15px rgba(0, 255, 255, 0.2); }
+#restartButton { background-color: #ff8800; }
+.settings-toggle { background-color: #888; color: #fff; font-size: 1.2em; padding: 10px 20px; }
+#settingsMenu { display: none; box-shadow: 0 0 30px #fff; }
+#settingsMenu h2 { color: #fff; }
+.setting-row { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; font-size: 1.3em;}
+.switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: #00ffff; }
+input:checked + .slider:before { transform: translateX(26px); }
+#caption-container { position: absolute; top: 20px; left: 20px; background-color: rgba(2, 2, 26, 0.7); border: 1px solid var(--glow-cyan); border-radius: 10px; padding: 15px; max-width: 350px; color: var(--text-light); z-index: 100; cursor: grab; display: none; box-shadow: 0 5px 25px rgba(0, 255, 255, 0.2); backdrop-filter: blur(5px); }
+#caption-container:active { cursor: grabbing; }
+#caption-text { font-size: 1.3em; font-weight: bold; text-shadow: 2px 2px 4px #000; line-height: 1.4; margin-bottom: 10px; }
+#caption-controls { display: flex; justify-content: space-between; align-items: center; }
+.caption-btn { background: none; border: none; font-size: 2em; color: #00ffff; cursor: pointer; transition: color 0.2s; padding: 0 15px; }
+.caption-btn:hover { color: #fff; }
+#captionEditor, #caption-list-modal { display: none; }
+#captionTextarea { width: 100%; height: 200px; background-color: #111; color: #fff; border: 1px solid #555; font-size: 1em; padding: 10px; box-sizing: border-box;}
+#caption-list-ul { list-style: none; padding: 0; margin: 20px 0; max-height: 50vh; overflow-y: auto; text-align: left; }
+#caption-list-ul li { padding: 10px; background-color: rgba(0,0,0,0.2); margin-bottom: 5px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; }
+#caption-list-ul li:hover { background-color: rgba(0, 255, 255, 0.2); }
+#webcamFeed { display: none; }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <video id="webcamFeed" playsinline autoplay></video>
-<div id="boundary-vignette"></div>
 
+code
+Code
+download
+content_copy
+expand_less
 
 <div id="mainMenu" class="menu">
     <h1>Tikkun HaNachash</h1>
-    <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification. Gather the scattered sparks (Nitzotzot) of creation to restore its holy form. Move freely towards your cursor or touch.</p>
+    <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification. Gather scattered sparks (Nitzotzot) and reclaim its holy form. Steer by dragging your finger or mouse left and right.</p>
     <div>
         <button id="playButton" class="menu-button">Begin Rectification</button>
         <button id="settingsButton" class="settings-toggle">⚙️ Settings</button>
@@ -180,20 +73,8 @@ body {
 
 <div id="settingsMenu" class="menu">
     <h2>Settings</h2>
-    <div class="setting-row">
-        <span>Activate Webcam Projection</span>
-        <label class="switch">
-            <input type="checkbox" id="webcamToggle">
-            <span class="slider"></span>
-        </label>
-    </div>
-    <div class="setting-row">
-        <span>Show Story Captions</span>
-         <label class="switch">
-            <input type="checkbox" id="captionToggle" checked>
-            <span class="slider"></span>
-        </label>
-    </div>
+    <div class="setting-row"><span>Webcam Projection</span><label class="switch"><input type="checkbox" id="webcamToggle"><span class="slider"></span></label></div>
+    <div class="setting-row"><span>Show Story Captions</span><label class="switch"><input type="checkbox" id="captionToggle" checked><span class="slider"></span></label></div>
     <button id="editCaptionsButton" class="settings-toggle">Edit Captions</button>
     <button id="closeSettingsButton" class="settings-toggle">Close</button>
 </div>
@@ -205,6 +86,12 @@ body {
     <button id="saveCaptionsButton" class="settings-toggle">Save & Close</button>
 </div>
 
+<div id="caption-list-modal" class="menu">
+    <h2>Story Chapters</h2>
+    <ul id="caption-list-ul"></ul>
+    <button id="closeCaptionList" class="settings-toggle">Close</button>
+</div>
+
 <canvas id="gameCanvas"></canvas>
 
 <div id="gameOverScreen" class="menu">
@@ -214,7 +101,7 @@ body {
 </div>
 
 <div id="caption-container">
-    <div id="caption-text">Caption text will appear here.</div>
+    <div id="caption-text"></div>
     <div id="caption-controls">
         <button id="prevCaptionBtn" class="caption-btn">«</button>
         <button id="selectCaptionBtn" class="caption-btn">📜</button>
@@ -224,43 +111,97 @@ body {
 
 <script>
     // --- DOM Elements ---
-    const mainMenu = document.getElementById('mainMenu');
-    const gameOverScreen = document.getElementById('gameOverScreen');
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const settingsMenu = document.getElementById('settingsMenu');
-    const webcamToggle = document.getElementById('webcamToggle');
-    const webcamFeed = document.getElementById('webcamFeed');
-    const boundaryVignette = document.getElementById('boundary-vignette');
-    const captionToggle = document.getElementById('captionToggle');
-    const captionContainer = document.getElementById('caption-container');
-    const captionText = document.getElementById('caption-text');
-    const captionEditor = document.getElementById('captionEditor');
-    const captionTextarea = document.getElementById('captionTextarea');
+    const ui = {
+        mainMenu: document.getElementById('mainMenu'),
+        gameOverScreen: document.getElementById('gameOverScreen'),
+        settingsMenu: document.getElementById('settingsMenu'),
+        captionEditor: document.getElementById('captionEditor'),
+        captionListModal: document.getElementById('caption-list-modal'),
+        captionListUl: document.getElementById('caption-list-ul'),
+        scoreDisplay: document.getElementById('scoreDisplay'),
+        canvas: document.getElementById('gameCanvas'),
+        webcamToggle: document.getElementById('webcamToggle'),
+        webcamFeed: document.getElementById('webcamFeed'),
+        captionToggle: document.getElementById('captionToggle'),
+        captionContainer: document.getElementById('caption-container'),
+        captionText: document.getElementById('caption-text'),
+        captionTextarea: document.getElementById('captionTextarea'),
+    };
+    const ctx = ui.canvas.getContext('2d');
 
-    // --- Game Constants ---
-    const WORLD_WIDTH = 4000;
-    const WORLD_HEIGHT = 4000;
-    const SNAKE_THICKNESS = 30;
-    const START_LENGTH = 15;
-    const MOVEMENT_SPEED = 4.5;
-    const SEGMENT_DISTANCE = 8; // How far apart body segments are
-    const POWERUP_DURATION = 8000; // 8 seconds
+    // --- Kabbalistic Constants ---
+    /** @description The boundless expanse of creation. */
+    const EIN_SOF = { WIDTH: 5000, HEIGHT: 5000 };
+    /** @description The Primordial Serpent. */
+    const NACHASH_HAKADMONI = {
+        THICKNESS: 35,
+        START_LENGTH: 20,
+        TURN_RATE: 0.004,
+        MAX_SPEED: 4,
+        MIN_SPEED: 2
+    };
+    /** @description Distance between segments of the Nachash's body. */
+    const SEGMENT_DISTANCE = 9;
+    /** @description Number of holy sparks scattered in the world. */
+    const NITZOTZOT_COUNT = 30;
+    /** @description Number of empty husks drifting in the void. */
+    const KLIPOT_COUNT = 15;
     
     // --- Game State ---
-    let gameState = 'menu'; // 'menu', 'playing', 'gameover'
-    let nachashPath = []; // Array of {x, y, angle} points for the snake's body
-    let nitzotzot = []; // Sustenance items
+    let gameState = 'menu';
+    let nachash; // The snake object
+    let nitzotzot = [];
+    let klipot = [];
+    let powerUps = [];
     let particles = [];
-    let score = 0;
-    let mouse = { x: 0, y: 0 };
     let camera = { x: 0, y: 0 };
+    let input = { lastX: window.innerWidth / 2, active: false };
     let activePowerUp = null;
     let powerUpEndTime = 0;
+    let shockwave = null; // For Gevurah power-up
     let isWebcamActive = false;
     let captions = [];
     let currentCaptionIndex = 0;
+
+    /**
+     * @description Manages all audio playback using the Web Audio API.
+     */
+    const audioManager = {
+        context: null,
+        sounds: {},
+        init() {
+            this.context = new (window.AudioContext || window.webkitAudioContext)();
+            this.sounds.collect = this.createSound(880, 0.1, 'triangle', 0.5, 0.01);
+            this.sounds.hit = this.createSound(120, 0.3, 'sawtooth', 0.8, 0.2);
+            this.sounds.powerup = this.createSound(1320, 0.5, 'sine', 1, 0.01);
+            this.sounds.shockwave = this.createSound(80, 0.8, 'square', 1.2, 0.6);
+        },
+        createSound(freq, duration, type, startVol, endVol) {
+            const osc = this.context.createOscillator();
+            const gain = this.context.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.context.currentTime);
+            gain.gain.setValueAtTime(startVol, this.context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(endVol, this.context.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(this.context.destination);
+            return { osc, gain, duration };
+        },
+        play(soundName) {
+            if (!this.context || !this.sounds[soundName]) return;
+            const sound = this.sounds[soundName];
+            const newOsc = this.context.createOscillator();
+            const newGain = this.context.createGain();
+            newOsc.type = sound.osc.type;
+            newOsc.frequency.value = sound.osc.frequency.value;
+            newGain.gain.setValueAtTime(sound.gain.gain.value, this.context.currentTime);
+            newGain.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + sound.duration);
+            newOsc.connect(newGain);
+            newGain.connect(this.context.destination);
+            newOsc.start(this.context.currentTime);
+            newOsc.stop(this.context.currentTime + sound.duration);
+        }
+    };
 
     // --- STORYLINE ---
     const defaultCaptions = [
@@ -272,354 +213,473 @@ body {
         "When the final spark is gathered, the Serpent will not be a symbol of temptation, but the ultimate servant, a vessel for the Endless Light, ready for the final redemption. This is your purpose. This is my destiny."
     ].join('\n\n');
 
-    // --- Initialization ---
-    function initializeGame() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+    /**
+     * @description The main entry point. Sets up the canvas, event listeners, and initial state.
+     */
+    function initialize() {
+        ui.canvas.width = window.innerWidth;
+        ui.canvas.height = window.innerHeight;
         
-        // Load captions
-        captionTextarea.value = localStorage.getItem('customCaptions') || defaultCaptions;
-        parseCaptions();
+        loadCaptions();
         updateCaptionDisplay();
-
-        mainMenu.querySelector('#playButton').onclick = startGame;
-        gameOverScreen.querySelector('#restartButton').onclick = startGame;
-        document.getElementById('settingsButton').onclick = () => showMenu(settingsMenu);
-        document.getElementById('closeSettingsButton').onclick = () => showMenu(mainMenu);
-        document.getElementById('editCaptionsButton').onclick = () => showMenu(captionEditor);
-        document.getElementById('saveCaptionsButton').onclick = saveCaptions;
+        setupEventListeners();
         
-        webcamToggle.onchange = setupWebcam;
-        captionToggle.onchange = () => {
-            captionContainer.style.display = captionToggle.checked ? 'block' : 'none';
-        };
-        
-        setupCaptionControls();
+        showMenu('mainMenu');
     }
 
+    /**
+     * @description Begins a new game session, resetting all relevant states.
+     */
     function startGame() {
         gameState = 'playing';
-        showMenu(null); // Hide all menus
-        canvas.style.display = 'block';
-        if (captionToggle.checked) captionContainer.style.display = 'block';
+        showMenu(null);
+        ui.canvas.style.display = 'block';
+        if (ui.captionToggle.checked) ui.captionContainer.style.display = 'block';
+        if (audioManager.context === null) audioManager.init();
 
-        score = 0;
-        nachashPath = [];
-        nitzotzot = [];
-        particles = [];
-        activePowerUp = null;
-
-        const startX = WORLD_WIDTH / 2;
-        const startY = WORLD_HEIGHT / 2;
-        for (let i = 0; i < START_LENGTH * SEGMENT_DISTANCE; i += SEGMENT_DISTANCE) {
-            nachashPath.push({ x: startX, y: startY + i, angle: -Math.PI / 2 });
+        nachash = {
+            path: [],
+            score: 0,
+            angle: -Math.PI / 2,
+            speed: NACHASH_HAKADMONI.MIN_SPEED
+        };
+        const startX = EIN_SOF.WIDTH / 2;
+        const startY = EIN_SOF.HEIGHT / 2;
+        for (let i = 0; i < NACHASH_HAKADMONI.START_LENGTH * SEGMENT_DISTANCE; i++) {
+            nachash.path.push({ x: startX, y: startY + i });
         }
 
-        for (let i = 0; i < 25; i++) spawnNitzotz();
+        nitzotzot = Array.from({ length: NITZOTZOT_COUNT }, () => spawnEntity('nitzotz'));
+        klipot = Array.from({ length: KLIPOT_COUNT }, () => spawnEntity('klipah'));
+        powerUps = [];
+        particles = [];
+        activePowerUp = null;
         
-        camera.x = startX - canvas.width / 2;
-        camera.y = startY - canvas.height / 2;
+        // Spawn one powerup to start
+        setTimeout(() => powerUps.push(spawnEntity('powerup')), 5000);
 
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        gameLoop();
+        requestAnimationFrame(gameLoop);
     }
-    
-    let animationFrameId;
+
+    /**
+     * @description The core game loop, handling updates and rendering.
+     * @param {number} timestamp - The current time provided by requestAnimationFrame.
+     */
     function gameLoop(timestamp) {
         if (gameState !== 'playing') return;
         
-        update();
-        draw();
-        animationFrameId = requestAnimationFrame(gameLoop);
+        update(timestamp);
+        draw(timestamp);
+        requestAnimationFrame(gameLoop);
     }
 
-    // --- Update Logic ---
+    /**
+     * @description Handles all game logic updates per frame.
+     */
     function update() {
-        // Free-form snake movement
-        const head = nachashPath[0];
-        const targetX = camera.x + mouse.x;
-        const targetY = camera.y + mouse.y;
+        // --- Movement ---
+        const head = nachash.path[0];
+        const speedMultiplier = (activePowerUp?.type === 'BINAH') ? 0.5 : 1;
+        nachash.speed = Math.max(NACHASH_HAKADMONI.MIN_SPEED, nachash.speed - 0.01);
+        const dx = Math.cos(nachash.angle) * nachash.speed * speedMultiplier;
+        const dy = Math.sin(nachash.angle) * nachash.speed * speedMultiplier;
+        const newHead = { x: head.x + dx, y: head.y + dy };
+        nachash.path.unshift(newHead);
+
+        // --- Maintain Body Segments ---
+        for (let i = 1; i < nachash.path.length; i++) {
+            const prev = nachash.path[i-1];
+            const curr = nachash.path[i];
+            const angle = Math.atan2(prev.y - curr.y, prev.x - curr.x);
+            curr.x = prev.x - Math.cos(angle) * SEGMENT_DISTANCE;
+            curr.y = prev.y - Math.sin(angle) * SEGMENT_DISTANCE;
+        }
+        const maxLength = (NACHASH_HAKADMONI.START_LENGTH + nachash.score);
+        while (nachash.path.length > maxLength) nachash.path.pop();
         
-        const angle = Math.atan2(targetY - head.y, targetX - head.x);
-        const dx = Math.cos(angle) * MOVEMENT_SPEED;
-        const dy = Math.sin(angle) * MOVEMENT_SPEED;
-
-        const newHead = { x: head.x + dx, y: head.y + dy, angle: angle };
-        nachashPath.unshift(newHead);
-
-        // Collision detection
         handleCollisions();
-        
-        // Trim snake tail if not growing
-        const maxLen = (START_LENGTH + score) * SEGMENT_DISTANCE;
-        while (nachashPath.length > maxLen) {
-            nachashPath.pop();
-        }
 
-        // Update camera to keep head centered
-        camera.x = head.x - canvas.width / 2;
-        camera.y = head.y - canvas.height / 2;
+        // --- Camera ---
+        camera.x = head.x - ui.canvas.width / 2;
+        camera.y = head.y - ui.canvas.height / 2;
 
-        // Power-up expiration
-        if (activePowerUp && Date.now() > powerUpEndTime) {
-            activePowerUp = null;
-        }
-
-        // Particles
+        // --- Particles & Effects ---
         particles.forEach((p, i) => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.life -= 1;
+            p.x += p.vx; p.y += p.vy; p.life--;
             if (p.life <= 0) particles.splice(i, 1);
         });
-        
-        // Boundary check
-        const boundaryThreshold = 150;
-         if (head.x < boundaryThreshold || head.x > WORLD_WIDTH - boundaryThreshold ||
-            head.y < boundaryThreshold || head.y > WORLD_HEIGHT - boundaryThreshold) {
-            boundaryVignette.classList.add('active');
-        } else {
-            boundaryVignette.classList.remove('active');
+        if (shockwave) {
+            shockwave.radius += shockwave.speed;
+            shockwave.opacity -= 0.02;
+            if (shockwave.opacity <= 0) shockwave = null;
         }
+        if (activePowerUp && Date.now() > powerUpEndTime) activePowerUp = null;
     }
     
+    /**
+     * @description Checks and handles all collisions between game objects.
+     */
     function handleCollisions() {
-        const head = nachashPath[0];
-        
-        // World boundaries
-        if (head.x < 0 || head.x > WORLD_WIDTH || head.y < 0 || head.y > WORLD_HEIGHT) {
-            return endGame();
+        const head = nachash.path[0];
+
+        // World boundaries & Self-collision
+        const isShielded = activePowerUp?.type === 'CHESED';
+        if (!isShielded && (head.x < 0 || head.x > EIN_SOF.WIDTH || head.y < 0 || head.y > EIN_SOF.HEIGHT)) return endGame();
+        for (let i = NACHASH_HAKADMONI.THICKNESS; i < nachash.path.length; i++) {
+            if (!isShielded && Math.hypot(head.x - nachash.path[i].x, head.y - nachash.path[i].y) < NACHASH_HAKADMONI.THICKNESS) return endGame();
         }
 
-        // Self collision
-        for (let i = SNAKE_THICKNESS; i < nachashPath.length; i++) {
-            const seg = nachashPath[i];
-            const dist = Math.hypot(head.x - seg.x, head.y - seg.y);
-            if (dist < SNAKE_THICKNESS) {
-                return endGame();
-            }
-        }
-        
-        // Nitzotzot (sustenance)
-        nitzotzot.forEach((nitzotz, i) => {
-            const dist = Math.hypot(head.x - nitzotz.x, head.y - nitzotz.y);
-            if (dist < SNAKE_THICKNESS / 2 + nitzotz.radius) {
-                score++;
-                createParticles(nitzotz.x, nitzotz.y, nitzotz.color, 20);
+        // Nitzotzot
+        nitzotzot.forEach((n, i) => {
+            if (Math.hypot(head.x - n.x, head.y - n.y) < NACHASH_HAKADMONI.THICKNESS / 2 + n.radius) {
+                nachash.score++;
+                nachash.speed = NACHASH_HAKADMONI.MAX_SPEED; // Speed boost on collect
+                audioManager.play('collect');
+                createParticles(n.x, n.y, n.color, 30, 4);
                 nitzotzot.splice(i, 1);
-                spawnNitzotz();
+                nitzotzot.push(spawnEntity('nitzotz'));
             }
         });
-    }
 
+        // Klipot
+        klipot.forEach((k, i) => {
+            if (Math.hypot(head.x - k.x, head.y - k.y) < NACHASH_HAKADMONI.THICKNESS / 2 + k.radius) {
+                if (isShielded) return;
+                nachash.score = Math.max(0, nachash.score - 5);
+                audioManager.play('hit');
+                createParticles(k.x, k.y, '#550055', 20, 2, -1);
+                klipot.splice(i, 1);
+                klipot.push(spawnEntity('klipah'));
+                if (nachash.score <= 0 && nachash.path.length <= NACHASH_HAKADMONI.START_LENGTH) endGame();
+            }
+        });
+
+        // Power-ups
+        powerUps.forEach((p, i) => {
+             if (Math.hypot(head.x - p.x, head.y - p.y) < NACHASH_HAKADMONI.THICKNESS / 2 + p.radius) {
+                 audioManager.play('powerup');
+                 activatePowerUp(p.type);
+                 powerUps.splice(i, 1);
+                 // Spawn a new one after a delay
+                 setTimeout(() => powerUps.push(spawnEntity('powerup')), 15000);
+             }
+        });
+    }
+    
+    /**
+     * @description Ends the current game and shows the game over screen.
+     */
     function endGame() {
         gameState = 'gameover';
-        showMenu(gameOverScreen);
-        scoreDisplay.textContent = `Final Rectification: ${score}`;
-        boundaryVignette.classList.remove('active');
+        showMenu('gameOverScreen');
+        ui.scoreDisplay.textContent = `Final Rectification: ${nachash.score}`;
     }
 
-    // --- Drawing Logic ---
-    function draw() {
+    /**
+     * @description Renders all visual elements to the canvas.
+     * @param {number} timestamp - The current time for animations.
+     */
+    function draw(timestamp) {
         ctx.save();
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Heartbeat of Creation
+        const pulse = (Math.sin(timestamp * 0.001 + nachash.score * 0.01) + 1) / 2;
+        const bgColor = `rgb(2, 2, ${26 + Math.floor(pulse * 10)})`;
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, ui.canvas.width, ui.canvas.height);
         ctx.translate(-camera.x, -camera.y);
 
-        // Draw World Boundary
-        ctx.strokeStyle = 'rgba(0, 255, 255, 0.3)';
-        ctx.lineWidth = 10;
-        ctx.strokeRect(5, 5, WORLD_WIDTH - 10, WORLD_HEIGHT - 10);
+        // World Boundary Glow
+        ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 + pulse * 0.3})`;
+        ctx.lineWidth = 15;
+        ctx.strokeRect(7.5, 7.5, EIN_SOF.WIDTH - 15, EIN_SOF.HEIGHT - 15);
         
-        // Draw Nitzotzot
-        nitzotzot.forEach(n => {
+        // Nitzotzot, Klipot, PowerUps
+        [...nitzotzot, ...klipot, ...powerUps].forEach(e => e.draw(ctx));
+        
+        // Nachash
+        for (let i = nachash.path.length - 1; i > 0; i--) {
+            const seg = nachash.path[i];
+            const scale = Math.max(0.2, 1 - (i / nachash.path.length));
+            const thickness = NACHASH_HAKADMONI.THICKNESS * scale;
+            // Underglow
             ctx.beginPath();
-            ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-            ctx.fillStyle = n.color;
-            ctx.shadowColor = n.color;
+            ctx.arc(seg.x, seg.y, thickness / 2, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${180 + nachash.score}, 100%, 50%)`;
+            ctx.shadowColor = `hsl(${180 + nachash.score}, 100%, 50%)`;
             ctx.shadowBlur = 20;
             ctx.fill();
-            ctx.shadowBlur = 0;
-        });
-
-        // Draw Nachash (Serpent)
-        const gradient = ctx.createLinearGradient(0, -SNAKE_THICKNESS, 0, SNAKE_THICKNESS);
-        const baseHue = 120 + (score * 2) % 180; // Shifts from green to cyan to blue to magenta
-        gradient.addColorStop(0, `hsl(${baseHue}, 100%, 70%)`);
-        gradient.addColorStop(0.5, `hsl(${baseHue}, 100%, 50%)`);
-        gradient.addColorStop(1, `hsl(${baseHue}, 100%, 30%)`);
-
-        for (let i = nachashPath.length - 1; i >= 0; i--) {
-            const seg = nachashPath[i];
-            const scale = 1 - (i / (nachashPath.length * 1.5)); // Tail tapers
+        }
+        ctx.shadowBlur = 0;
+        // Body
+        for (let i = nachash.path.length - 1; i > 0; i--) {
+            const seg = nachash.path[i];
+            const scale = Math.max(0.2, 1 - (i / nachash.path.length));
+            const thickness = NACHASH_HAKADMONI.THICKNESS * scale;
             ctx.beginPath();
-            ctx.arc(seg.x, seg.y, SNAKE_THICKNESS / 2 * scale, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
+            ctx.arc(seg.x, seg.y, thickness / 2 * 0.8, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${120 + nachash.score}, 100%, 40%)`;
             ctx.fill();
         }
+        // Chesed Shield
+        if (activePowerUp?.type === 'CHESED') {
+            const head = nachash.path[0];
+            const shieldOpacity = Math.min(1, (powerUpEndTime - Date.now()) / 2000);
+            ctx.beginPath();
+            ctx.arc(head.x, head.y, NACHASH_HAKADMONI.THICKNESS, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 182, 193, ${0.4 * shieldOpacity})`;
+            ctx.strokeStyle = `rgba(255, 182, 193, ${0.8 * shieldOpacity})`;
+            ctx.lineWidth = 3;
+            ctx.fill();
+            ctx.stroke();
+        }
 
-        // Draw Particles
+
+        // Particles
         particles.forEach(p => {
             ctx.globalAlpha = p.life / p.startLife;
             ctx.fillStyle = p.color;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * (p.life / p.startLife), 0, Math.PI * 2); ctx.fill();
         });
+        ctx.globalAlpha = 1;
         
-        // Draw Webcam Feed if active
-        if (isWebcamActive && webcamFeed.readyState >= 2) {
-            const head = nachashPath[0];
+        // Special Power-Up Effects
+        if (activePowerUp?.type === 'CHOCHMAH') {
+            const head = nachash.path[0];
+            ctx.strokeStyle = `rgba(255, 215, 0, ${Math.min(1, (powerUpEndTime - Date.now())/2000)})`;
+            ctx.lineWidth = 1;
+            nitzotzot.forEach(n => {
+                ctx.beginPath(); ctx.moveTo(head.x, head.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+            });
+        }
+        if (shockwave) {
+            ctx.beginPath();
+            ctx.arc(shockwave.x, shockwave.y, shockwave.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(255, 0, 0, ${shockwave.opacity})`;
+            ctx.lineWidth = 15 * shockwave.opacity;
+            ctx.stroke();
+        }
+        
+        // Webcam Feed
+        if (isWebcamActive && ui.webcamFeed.readyState >= 2) {
+            const head = nachash.path[0];
             const radius = 60;
-            // Position ahead of the snake's head
             const lookAhead = 100;
-            const drawX = head.x + Math.cos(head.angle) * lookAhead;
-            const drawY = head.y + Math.sin(head.angle) * lookAhead;
-
+            const drawX = head.x + Math.cos(nachash.angle) * lookAhead;
+            const drawY = head.y + Math.sin(nachash.angle) * lookAhead;
             ctx.save();
             ctx.beginPath();
             ctx.arc(drawX, drawY, radius, 0, Math.PI * 2);
-            ctx.strokeStyle = '#00ffff';
-            ctx.lineWidth = 5;
-            ctx.stroke();
-            ctx.clip();
-            ctx.drawImage(webcamFeed, drawX - radius, drawY - radius, radius * 2, radius * 2);
+            ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 5; ctx.stroke(); ctx.clip();
+            ctx.drawImage(ui.webcamFeed, drawX - radius, drawY - radius, radius * 2, radius * 2);
             ctx.restore();
         }
 
         ctx.restore(); // Back to screen coordinates
         
-        // Draw UI
+        // UI Text
         ctx.fillStyle = '#fff';
         ctx.font = '24px "Cormorant Garamond"';
-        ctx.fillText(`Rectification: ${score}`, 20, 40);
+        ctx.fillText(`Rectification: ${nachash.score}`, 20, 40);
+        if(activePowerUp) {
+            ctx.textAlign = 'right';
+            ctx.fillText(`${activePowerUp.name} [${Math.ceil((powerUpEndTime - Date.now())/1000)}s]`, ui.canvas.width - 20, 40);
+            ctx.textAlign = 'left';
+        }
+    }
+    
+    // --- Power-Up Logic ---
+    function activatePowerUp(type) {
+        const DURATION = 8000;
+        powerUpEndTime = Date.now() + DURATION;
+        activePowerUp = { type, name: type.charAt(0) + type.slice(1).toLowerCase() };
+
+        switch (type) {
+            case 'GEVURAH':
+                const head = nachash.path[0];
+                shockwave = { x: head.x, y: head.y, radius: 0, speed: 20, opacity: 1 };
+                audioManager.play('shockwave');
+                klipot.forEach((k, i) => {
+                    if (Math.hypot(head.x - k.x, head.y - k.y) < 400) {
+                        createParticles(k.x, k.y, '#aa00aa', 20, 2, 1);
+                        klipot.splice(i, 1);
+                        klipot.push(spawnEntity('klipah'));
+                    }
+                });
+                break;
+            case 'CHESED':
+                nachash.score += 10; // Growth burst
+                break;
+        }
     }
 
-    // --- Helper Functions ---
-    function showMenu(menuToShow) {
-        [mainMenu, gameOverScreen, settingsMenu, captionEditor].forEach(m => m.style.display = 'none');
-        if (menuToShow) menuToShow.style.display = 'block';
+    // --- Entity Spawning & Drawing ---
+    function spawnEntity(type) {
+        const entity = {
+            x: Math.random() * EIN_SOF.WIDTH,
+            y: Math.random() * EIN_SOF.HEIGHT,
+        };
+
+        switch (type) {
+            case 'nitzotz':
+                entity.radius = 8 + Math.random() * 8;
+                entity.color = `hsl(${Math.random() * 60 + 180}, 100%, 60%)`; // Blues and cyans
+                entity.draw = (ctx) => {
+                    ctx.beginPath(); ctx.arc(entity.x, entity.y, entity.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = entity.color; ctx.shadowColor = entity.color; ctx.shadowBlur = 25; ctx.fill(); ctx.shadowBlur = 0;
+                };
+                break;
+            case 'klipah':
+                entity.radius = 15 + Math.random() * 15;
+                entity.color = '#330033';
+                entity.draw = (ctx) => {
+                    ctx.beginPath(); ctx.arc(entity.x, entity.y, entity.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = entity.color; ctx.strokeStyle = '#660066'; ctx.lineWidth = 3; ctx.fill(); ctx.stroke();
+                };
+                break;
+            case 'powerup':
+                const types = ['CHOCHMAH', 'BINAH', 'GEVURAH', 'CHESED'];
+                entity.type = types[Math.floor(Math.random() * types.length)];
+                entity.radius = 15;
+                const colors = { CHOCHMAH: '#FFD700', BINAH: '#8A2BE2', GEVURAH: '#FF4500', CHESED: '#FFB6C1'};
+                entity.color = colors[entity.type];
+                entity.draw = (ctx) => {
+                     ctx.save();
+                     ctx.translate(entity.x, entity.y);
+                     ctx.rotate(Date.now() * 0.001);
+                     ctx.beginPath();
+                     for (let i = 0; i < 5; i++) {
+                        ctx.lineTo(Math.cos(i*2*Math.PI/5) * entity.radius, Math.sin(i*2*Math.PI/5) * entity.radius);
+                        ctx.lineTo(Math.cos((i+0.5)*2*Math.PI/5) * entity.radius/2, Math.sin((i+0.5)*2*Math.PI/5) * entity.radius/2);
+                     }
+                     ctx.closePath();
+                     ctx.fillStyle = entity.color; ctx.shadowColor = entity.color; ctx.shadowBlur = 20; ctx.fill();
+                     ctx.restore();
+                     ctx.shadowBlur = 0;
+                }
+        }
+        return entity;
     }
-    
-    function spawnNitzotz() {
-        nitzotzot.push({
-            x: Math.random() * WORLD_WIDTH,
-            y: Math.random() * WORLD_HEIGHT,
-            radius: 10 + Math.random() * 10,
-            color: `hsl(${Math.random() * 360}, 100%, 60%)`
-        });
-    }
-    
-    function createParticles(x, y, color, count) {
+
+    /**
+     * @description Generates and manages particles for visual effects.
+     */
+    function createParticles(x, y, color, count, speed, direction = 1) {
         for (let i = 0; i < count; i++) {
             const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 4 + 1;
+            const spd = Math.random() * speed + 1;
             particles.push({
                 x, y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                radius: Math.random() * 3 + 1,
-                color: color,
-                life: Math.random() * 60 + 30,
-                startLife: 100
+                vx: Math.cos(angle) * spd * direction, vy: Math.sin(angle) * spd * direction,
+                radius: Math.random() * 4 + 1, color: color,
+                life: Math.random() * 60 + 30, startLife: 100
             });
         }
     }
     
+    // --- UI & Event Handlers ---
+    function setupEventListeners() {
+        // Menus
+        ui.mainMenu.querySelector('#playButton').onclick = startGame;
+        ui.gameOverScreen.querySelector('#restartButton').onclick = startGame;
+        document.getElementById('settingsButton').onclick = () => showMenu('settingsMenu');
+        document.getElementById('closeSettingsButton').onclick = () => showMenu('mainMenu');
+        document.getElementById('editCaptionsButton').onclick = () => showMenu('captionEditor');
+        document.getElementById('saveCaptionsButton').onclick = saveCaptions;
+        document.getElementById('selectCaptionBtn').onclick = showCaptionList;
+        document.getElementById('closeCaptionList').onclick = () => showMenu(null, true);
+        
+        // Settings
+        ui.webcamToggle.onchange = setupWebcam;
+        ui.captionToggle.onchange = () => { ui.captionContainer.style.display = ui.captionToggle.checked ? 'block' : 'none'; };
+
+        // Captions
+        setupCaptionControls();
+        
+        // Game Input
+        const handleMove = (x) => {
+            if (!input.active) return;
+            const deltaX = x - input.lastX;
+            nachash.angle += deltaX * NACHASH_HAKADMONI.TURN_RATE;
+            input.lastX = x;
+        };
+        window.addEventListener('mousedown', e => { input.active = true; input.lastX = e.clientX; });
+        window.addEventListener('mouseup', () => input.active = false);
+        window.addEventListener('mousemove', e => handleMove(e.clientX));
+        window.addEventListener('touchstart', e => { input.active = true; input.lastX = e.touches[0].clientX; }, { passive: false });
+        window.addEventListener('touchend', () => input.active = false);
+        window.addEventListener('touchmove', e => { e.preventDefault(); handleMove(e.touches[0].clientX); }, { passive: false });
+        window.addEventListener('resize', () => { ui.canvas.width = window.innerWidth; ui.canvas.height = window.innerHeight; });
+    }
+
+    function showMenu(menuName, keepGameVisible = false) {
+        [ui.mainMenu, ui.gameOverScreen, ui.settingsMenu, ui.captionEditor, ui.captionListModal].forEach(m => m.style.display = 'none');
+        if (menuName) ui[menuName].style.display = 'block';
+        if (!keepGameVisible) ui.canvas.style.display = 'none';
+    }
+
     async function setupWebcam() {
-        isWebcamActive = webcamToggle.checked;
+        isWebcamActive = ui.webcamToggle.checked;
         if (isWebcamActive) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                webcamFeed.srcObject = stream;
+                ui.webcamFeed.srcObject = await navigator.mediaDevices.getUserMedia({ video: true });
             } catch (err) {
                 console.error("Webcam access denied:", err);
-                webcamToggle.checked = false;
-                isWebcamActive = false;
-                alert("Could not access webcam. Please check permissions.");
+                ui.webcamToggle.checked = false; isWebcamActive = false;
             }
-        } else {
-            if (webcamFeed.srcObject) {
-                webcamFeed.srcObject.getTracks().forEach(track => track.stop());
-            }
+        } else if (ui.webcamFeed.srcObject) {
+            ui.webcamFeed.srcObject.getTracks().forEach(track => track.stop());
         }
     }
     
-    // --- Caption System Logic ---
+    // --- Caption System ---
     function setupCaptionControls() {
         document.getElementById('prevCaptionBtn').onclick = () => changeCaption(-1);
         document.getElementById('nextCaptionBtn').onclick = () => changeCaption(1);
-        // document.getElementById('selectCaptionBtn').onclick = () => { /* Future: show list */ alert('Caption selection coming soon!'); };
-
-        // Dragging logic
-        let isDragging = false;
-        let offset = { x: 0, y: 0 };
-        captionContainer.onmousedown = (e) => {
+        // Dragging logic for caption box
+        let isDragging = false, offset = { x: 0, y: 0 };
+        ui.captionContainer.onmousedown = (e) => {
             isDragging = true;
-            offset.x = e.clientX - captionContainer.offsetLeft;
-            offset.y = e.clientY - captionContainer.offsetTop;
-            captionContainer.style.cursor = 'grabbing';
+            offset = { x: e.clientX - ui.captionContainer.offsetLeft, y: e.clientY - ui.captionContainer.offsetTop };
         };
         window.onmousemove = (e) => {
             if (!isDragging) return;
-            captionContainer.style.left = `${e.clientX - offset.x}px`;
-            captionContainer.style.top = `${e.clientY - offset.y}px`;
+            ui.captionContainer.style.left = `${e.clientX - offset.x}px`;
+            ui.captionContainer.style.top = `${e.clientY - offset.y}px`;
         };
-        window.onmouseup = () => {
-            isDragging = false;
-            captionContainer.style.cursor = 'grab';
-        };
+        window.onmouseup = () => isDragging = false;
     }
-
-    function parseCaptions() {
-        captions = captionTextarea.value.split('\n\n').filter(c => c.trim() !== '');
+    function loadCaptions() {
+        ui.captionTextarea.value = localStorage.getItem('customCaptions') || defaultCaptions;
+        captions = ui.captionTextarea.value.split('\n\n').filter(c => c.trim() !== '');
     }
-
     function saveCaptions() {
-        localStorage.setItem('customCaptions', captionTextarea.value);
-        parseCaptions();
-        currentCaptionIndex = 0;
-        updateCaptionDisplay();
-        showMenu(settingsMenu);
+        localStorage.setItem('customCaptions', ui.captionTextarea.value);
+        loadCaptions(); currentCaptionIndex = 0; updateCaptionDisplay(); showMenu('settingsMenu');
     }
-
     function changeCaption(direction) {
-        currentCaptionIndex += direction;
-        if (currentCaptionIndex < 0) currentCaptionIndex = captions.length - 1;
-        if (currentCaptionIndex >= captions.length) currentCaptionIndex = 0;
+        currentCaptionIndex = (currentCaptionIndex + direction + captions.length) % captions.length;
         updateCaptionDisplay();
     }
-
     function updateCaptionDisplay() {
-        if (captions.length > 0) {
-            captionText.textContent = captions[currentCaptionIndex];
-        } else {
-            captionText.textContent = "No captions loaded.";
-        }
+        ui.captionText.textContent = captions.length > 0 ? captions[currentCaptionIndex] : "No captions.";
+    }
+    function showCaptionList() {
+        ui.captionListUl.innerHTML = '';
+        captions.forEach((caption, index) => {
+            const li = document.createElement('li');
+            li.textContent = `${index + 1}. ${caption.substring(0, 50)}...`;
+            li.onclick = () => {
+                currentCaptionIndex = index;
+                updateCaptionDisplay();
+                showMenu(null, true); // Hide modal, keep game visible
+            };
+            ui.captionListUl.appendChild(li);
+        });
+        showMenu('captionListModal', true);
     }
 
-    // --- Event Listeners ---
-    window.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-    window.addEventListener('touchmove', e => {
-        if (e.touches[0]) {
-            mouse.x = e.touches[0].clientX;
-            mouse.y = e.touches[0].clientY;
-        }
-    });
-    window.addEventListener('resize', () => {
-        if (gameState === 'playing') {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-    });
-
-    // --- Start ---
-    initializeGame();
+    // --- Liftoff! ---
+    initialize();
 </script>
 </body>
 </html>
