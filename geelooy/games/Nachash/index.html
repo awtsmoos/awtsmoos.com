@@ -1,0 +1,579 @@
+<!-- ב"ה
+B"H -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Olam HaNevuah - The World of Prophetic Life</title>
+<style>
+body {
+margin: 0;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background-color: #05052b; /* Deep cosmic blue/purple */
+color: #e0e0e0;
+font-family: 'Cormorant Garamond', serif;
+touch-action: none; /* Prevents browser gestures on mobile */
+cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="cyan" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L17.29 4.71L20 10L17.29 15.29L20 20L17.29 23.29L12 20.58L6.71 23.29L4 20L6.71 14.71L4 10L6.71 4.71L12 2Z"></path></svg>'), auto;
+}
+canvas {
+border: 3px solid #00ffff; /* Cyan border */
+background-color: #000000;
+display: none; /* Initially hidden */
+box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+.menu {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+text-align: center;
+z-index: 10;
+background-color: rgba(10, 10, 40, 0.85);
+padding: 40px;
+border-radius: 15px;
+width: 80%;
+max-width: 500px;
+box-sizing: border-box;
+}
+#mainMenu {
+box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+}
+#mainMenu h1 {
+margin-top: 0;
+font-size: 3.5em;
+color: #00ffff;
+text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+#mainMenu p {
+font-size: 1.2em;
+line-height: 1.5;
+}
+#gameOverScreen {
+display: none;
+box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+}
+#gameOverScreen h2 {
+font-size: 3em;
+color: #ff4444;
+text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+margin-bottom: 15px;
+}
+#scoreDisplay {
+font-size: 1.6em;
+margin-bottom: 30px;
+color: #cccccc;
+}
+.menu-button {
+padding: 18px 35px;
+font-size: 1.5em;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-family: 'Cormorant Garamond', serif;
+text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+margin-top: 10px;
+}
+#playButton {
+background-color: #00ffff;
+color: #05052b;
+}
+#playButton:hover {
+background-color: #5fffff;
+transform: translateY(-3px) scale(1.05);
+box-shadow: 0 8px 15px rgba(0, 255, 255, 0.3);
+}
+#restartButton {
+background-color: #ff8800;
+color: #05052b;
+}
+#restartButton:hover {
+background-color: #ffaa33;
+transform: translateY(-3px) scale(1.05);
+box-shadow: 0 8px 15px rgba(255, 136, 0, 0.3);
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+code
+Code
+download
+content_copy
+expand_less
+
+<div id="mainMenu" class="menu">
+    <h1>Olam HaNevuah</h1>
+    <p>Navigate the currents of existence, gather sustenance, and embody the unfolding path. Use Arrow Keys or Swipe to guide.</p>
+    <button id="playButton" class="menu-button">Begin the Journey</button>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<div id="gameOverScreen" class="menu">
+    <h2>Keitz Hashevirah</h2> <!-- End of the Breaking -->
+    <div id="scoreDisplay">Sachar Acharon: 0</div> <!-- Final Reward -->
+    <button id="restartButton" class="menu-button">Tikkun HaDerech</button> <!-- Rectify the Path -->
+</div>
+
+<script>
+    /*
+    ב"ה
+    B"H
+
+    --- ERROR ANALYSIS ---
+    The primary error was a "SyntaxError: Missing initializer in const declaration".
+    This was caused by including comments inside variable declarations like `const NAME (comment) = value;`.
+    This is invalid JavaScript syntax. The fix is to move the comments to standard JS format, like `// comment`.
+    This error was present in multiple `const`, `let`, and other variable declarations.
+
+    --- 6 MAJOR IMPROVEMENTS ---
+    1.  **Grid-Based Movement:** The original code used continuous pixel-based movement which makes precise collision detection difficult. I have refactored the game to use a proper grid system, where the snake moves one full `TZAVRIM_SIZE` block at a time. This is standard for snake games and provides a much better, more predictable player experience.
+    2.  **Fully Implemented Power-Ups:** The original `applyKoachEffects` function was mostly placeholder comments. I have fully implemented several key power-ups:
+        *   **Netzach (Speed Boost):** Temporarily decreases the game interval, speeding up the snake.
+        *   **Binah (Slow Motion):** Temporarily increases the game interval, slowing everything down.
+        *   **Keter (Invincibility):** Allows the snake to pass through itself and walls without penalty.
+        *   **Malchut (Score Multiplier):** Doubles the score value of each sustenance collected.
+    3.  **Keyboard Controls:** The game was mobile-only (touch controls). I have added full keyboard support using the Arrow Keys, making it playable on desktops.
+    4.  **Enhanced Visuals & Aesthetics:**
+        *   **Starfield Background:** Replaced the static black background with a dynamic, parallax-scrolling starfield for a more immersive "cosmic" feel.
+        *   **Distinct Snake Head:** The head of the snake is now a different, brighter color, making it easy to track direction.
+        *   **Glowing Sustenance:** Sustenance items are now rendered as glowing circles instead of squares, making them visually more appealing and distinct.
+    5.  **Refined Game State Management:** The game loop and start/end logic have been cleaned up into clearer `startGame`, `gameLoop`, and `endGame` functions. This improves readability and prevents bugs related to lingering `setInterval` timers.
+    6.  **Responsive UI & Mobile Experience:** The UI menus are now more responsive to different screen sizes. Touch controls are more robust, and the `user-scalable=no` meta tag prevents accidental zooming on mobile devices, which can disrupt gameplay.
+    */
+
+    // --- DOM Element References ---
+    const gameCanvas = document.getElementById('gameCanvas');
+    const ctx = gameCanvas.getContext('2d');
+    const mainMenuDiv = document.getElementById('mainMenu');
+    const playButtonElement = document.getElementById('playButton');
+    const gameOverScreenDiv = document.getElementById('gameOverScreen');
+    const scoreDisplayElement = document.getElementById('scoreDisplay');
+    const restartButtonElement = document.getElementById('restartButton');
+
+    // --- Constants Representing Aspects of Existence ---
+
+    // The vast, encompassing reality
+    const OLAM_HADACH = 3000; // World of Unity (Width)
+    const OLAM_HAGAVOH = 3000; // World of Breadth (Height)
+
+    // The limited window of perception
+    const EINAYIM_WIDTH = 800; // Width of Eyes
+    const EINAYIM_HEIGHT = 600; // Height of Eyes
+
+    // The fundamental unit of life/existence
+    const TZAVRIM_SIZE = 20; // Size of Ribs (Grid size)
+
+    // The initial state of the Nevuah (life force)
+    const NEVUAH_START_LENGTH = 5;
+
+    // The pulse of existence
+    const KESHESH_HAMAHIR_DEFAULT = 100; // Default milliseconds between game logic updates
+
+    // Sustenance needed for growth
+    const VAMIK_COUNT_INIT = 10; // Initial Sustenance Count
+
+    // Threshold for changing direction via touch
+    const GORAL_HASHIMUSH = 30; // Minimum drag distance to change direction
+
+    // Power-up related constants
+    const KOACH_DURATION = 6000; // 6 seconds duration for most power-ups
+    const KOACH_BINAH_DURATION = 8000; // Longer duration for Binah's slow motion
+    const KOACH_NETZACH_SPEED_MULTIPLIER = 0.6; // Game loop runs at 60% of normal time (faster)
+    const KOACH_BINAH_SPEED_MULTIPLIER = 1.8; // Game loop runs at 180% of normal time (slower)
+    const KOACH_MALCHUT_SCORE_MULTIPLIER = 2; // Double score
+
+    // --- Game State Variables ---
+    let nevua = []; // The snake's path of existence: Array of {x, y}
+    let hanhaga; // Current Guidance: { dx: 0, dy: -1 } etc.
+    let nextHanhaga; // Queued next direction
+    let mikol = []; // Collection of Sustenance (food items)
+    let machshavot = []; // Obstacles
+    let shevirah; // Breaking/Game Over State
+    let sachar; // Reward/Score
+    let gameInterval = null; // Timer for game ticks
+    let keshesh_hamahir_current; // Current game speed
+
+    // --- Input State Variables ---
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    // --- Camera State Variables ---
+    let mar_eh_x = 0; // Vision X (Camera's x-coordinate)
+    let mar_eh_y = 0; // Vision Y (Camera's y-coordinate)
+
+    // --- Sefirotic Power-Up State ---
+    let active_koach = null; // Info about the active power-up
+    let koach_end_time = 0;
+    let isInvincible = false;
+    let scoreMultiplier = 1;
+
+    // --- Visuals ---
+    let stars = [];
+
+
+    function initializeCanvas() {
+        gameCanvas.width = EINAYIM_WIDTH;
+        gameCanvas.height = EINAYIM_HEIGHT;
+        // Generate a static starfield
+        stars = [];
+        for (let i = 0; i < 200; i++) {
+            stars.push({
+                x: Math.random() * OLAM_HADACH,
+                y: Math.random() * OLAM_HAGAVOH,
+                radius: Math.random() * 1.5 + 0.5,
+                alpha: Math.random() * 0.5 + 0.5 // Varying brightness
+            });
+        }
+    }
+
+    function startGame() {
+        // Reset game state
+        sachar = 0;
+        shevirah = false;
+        mikol = [];
+        machshavot = [];
+        nevua = [];
+        active_koach = null;
+        isInvincible = false;
+        scoreMultiplier = 1;
+        keshesh_hamahir_current = KESHESH_HAMAHIR_DEFAULT;
+
+        // Initial snake position and direction
+        const startX = Math.floor((OLAM_HADACH / TZAVRIM_SIZE) / 2) * TZAVRIM_SIZE;
+        const startY = Math.floor((OLAM_HAGAVOH / TZAVRIM_SIZE) / 2) * TZAVRIM_SIZE;
+
+        for (let i = 0; i < NEVUAH_START_LENGTH; i++) {
+            nevua.push({ x: startX, y: startY + i * TZAVRIM_SIZE });
+        }
+        hanhaga = { dx: 0, dy: -1 }; // Start moving up
+        nextHanhaga = { dx: 0, dy: -1 };
+
+        // Populate with initial sustenance
+        for (let i = 0; i < VAMIK_COUNT_INIT; i++) {
+            spawnMikol();
+        }
+
+        // Set initial camera position
+        updateEinayimPosition();
+        clampEinayim();
+
+        // Manage UI
+        mainMenuDiv.style.display = 'none';
+        gameOverScreenDiv.style.display = 'none';
+        gameCanvas.style.display = 'block';
+
+        // Start the game loop
+        setGameSpeed(KESHESH_HAMAHIR_DEFAULT);
+    }
+    
+    function setGameSpeed(intervalTime) {
+        keshesh_hamahir_current = intervalTime;
+        if (gameInterval) clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, keshesh_hamahir_current);
+    }
+
+    function gameLoop() {
+        if (shevirah) {
+            endGame();
+            return;
+        }
+        handlePowerUpExpiration();
+        updateNevuaMovement();
+        checkCollisions();
+        // A second check in case collisions happened
+        if(shevirah) {
+            endGame();
+            return;
+        }
+        updateEinayimPosition();
+        drawOlam();
+    }
+
+    function endGame() {
+        if (gameInterval) clearInterval(gameInterval);
+        gameInterval = null;
+        shevirah = true;
+        scoreDisplayElement.textContent = `Sachar Acharon: ${sachar}`;
+        gameOverScreenDiv.style.display = 'block';
+    }
+
+    function updateNevuaMovement() {
+        hanhaga = nextHanhaga;
+        const rosh_nevua = { ...nevua[0] }; // The current head
+
+        rosh_nevua.x += hanhaga.dx * TZAVRIM_SIZE;
+        rosh_nevua.y += hanhaga.dy * TZAVRIM_SIZE;
+        nevua.unshift(rosh_nevua);
+
+        let consumed_mikol = false;
+        for (let i = mikol.length - 1; i >= 0; i--) {
+            if (mikol[i].x === rosh_nevua.x && mikol[i].y === rosh_nevua.y) {
+                sachar += (1 * scoreMultiplier);
+                consumed_mikol = true;
+                activateSefirahKoach(mikol[i].koach_type);
+                mikol.splice(i, 1);
+                spawnMikol();
+                break;
+            }
+        }
+
+        if (!consumed_mikol) {
+            nevua.pop();
+        }
+    }
+
+    function checkCollisions() {
+        const rosh_nevua = nevua[0];
+
+        // Wall collision
+        if (rosh_nevua.x < 0 || rosh_nevua.x >= OLAM_HADACH ||
+            rosh_nevua.y < 0 || rosh_nevua.y >= OLAM_HAGAVOH) {
+            if (!isInvincible) shevirah = true;
+            else {
+                // Wrap around logic for Keter power-up
+                if (rosh_nevua.x < 0) rosh_nevua.x = OLAM_HADACH - TZAVRIM_SIZE;
+                if (rosh_nevua.x >= OLAM_HADACH) rosh_nevua.x = 0;
+                if (rosh_nevua.y < 0) rosh_nevua.y = OLAM_HAGAVOH - TZAVRIM_SIZE;
+                if (rosh_nevua.y >= OLAM_HAGAVOH) rosh_nevua.y = 0;
+            }
+            return;
+        }
+
+        // Self-collision
+        for (let i = 1; i < nevua.length; i++) {
+            if (rosh_nevua.x === nevua[i].x && rosh_nevua.y === nevua[i].y) {
+                if (!isInvincible) shevirah = true;
+                return;
+            }
+        }
+    }
+
+    function spawnMikol() {
+        let position;
+        do {
+            position = {
+                x: Math.floor(Math.random() * (OLAM_HADACH / TZAVRIM_SIZE)) * TZAVRIM_SIZE,
+                y: Math.floor(Math.random() * (OLAM_HAGAVOH / TZAVRIM_SIZE)) * TZAVRIM_SIZE,
+                koach_type: getRandomSefirahKoach()
+            };
+        } while (isPositionOnNevua(position));
+        mikol.push(position);
+    }
+
+    function isPositionOnNevua(position) {
+        return nevua.some(segment => segment.x === position.x && segment.y === position.y);
+    }
+
+    function updateEinayimPosition() {
+        const rosh_nevua = nevua[0];
+        const follow_speed = 0.1; // Smoothness of camera
+        mar_eh_x += (rosh_nevua.x - mar_eh_x - EINAYIM_WIDTH / 2 + TZAVRIM_SIZE / 2) * follow_speed;
+        mar_eh_y += (rosh_nevua.y - mar_eh_y - EINAYIM_HEIGHT / 2 + TZAVRIM_SIZE / 2) * follow_speed;
+        clampEinayim();
+    }
+
+    function clampEinayim() {
+        mar_eh_x = Math.max(0, Math.min(mar_eh_x, OLAM_HADACH - EINAYIM_WIDTH));
+        mar_eh_y = Math.max(0, Math.min(mar_eh_y, OLAM_HAGAVOH - EINAYIM_HEIGHT));
+    }
+
+    function drawOlam() {
+        ctx.clearRect(0, 0, EINAYIM_WIDTH, EINAYIM_HEIGHT);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, EINAYIM_WIDTH, EINAYIM_HEIGHT);
+
+        // Draw starfield with parallax
+        stars.forEach(star => {
+            const screenX = (star.x - mar_eh_x * 0.8) % OLAM_HADACH; // Slower scroll for depth
+            const screenY = (star.y - mar_eh_y * 0.8) % OLAM_HAGAVOH;
+            ctx.beginPath();
+            ctx.arc(screenX, screenY, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+            ctx.fill();
+        });
+
+        // Draw sustenance
+        mikol.forEach(sustenance => {
+            const { color, displayName } = getSefirahVisuals(sustenance.koach_type);
+            ctx.save();
+            ctx.fillStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.arc(sustenance.x - mar_eh_x + TZAVRIM_SIZE / 2, sustenance.y - mar_eh_y + TZAVRIM_SIZE / 2, TZAVRIM_SIZE / 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+        
+        // Draw Nevuah
+        nevua.forEach((segment, index) => {
+            if (index === 0) {
+                ctx.fillStyle = isInvincible ? '#FFFFFF' : '#00FF00'; // Bright green or white head
+            } else {
+                ctx.fillStyle = isInvincible ? '#CCCCCC' : '#00AA00'; // Darker green body
+            }
+            ctx.fillRect(segment.x - mar_eh_x, segment.y - mar_eh_y, TZAVRIM_SIZE, TZAVRIM_SIZE);
+            ctx.strokeStyle = '#000';
+            ctx.strokeRect(segment.x - mar_eh_x, segment.y - mar_eh_y, TZAVRIM_SIZE, TZAVRIM_SIZE);
+        });
+
+        // Draw UI
+        ctx.fillStyle = '#00ffff';
+        ctx.font = '24px "Cormorant Garamond", serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Sachar: ${sachar}`, 15, 30);
+        
+        if (active_koach) {
+            const time_remaining = Math.max(0, Math.ceil((koach_end_time - Date.now()) / 1000));
+            if (time_remaining > 0) {
+                ctx.fillStyle = getSefirahVisuals(active_koach.type).color;
+                ctx.font = '20px "Cormorant Garamond", serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${active_koach.display_name} (${time_remaining}s)`, EINAYIM_WIDTH - 15, 30);
+            }
+        }
+    }
+    
+    // --- Sefirotic Power-Up Logic ---
+
+    function getRandomSefirahKoach() {
+        const sefirot = ['keter', 'binah', 'chesed', 'netzach', 'malchut'];
+        // 80% chance for default, 20% for a power-up
+        if (Math.random() < 0.8) return 'default';
+        return sefirot[Math.floor(Math.random() * sefirot.length)];
+    }
+    
+    function getSefirahVisuals(type) {
+         switch (type) {
+            case 'keter': return { color: '#FFFFFF', displayName: 'Keter' };
+            case 'chochmah': return { color: '#FFD700', displayName: 'Chochmah' };
+            case 'binah': return { color: '#8A2BE2', displayName: 'Binah' };
+            case 'chesed': return { color: '#FFC0CB', displayName: 'Chesed' };
+            case 'gevurah': return { color: '#FF4500', displayName: 'Gevurah' };
+            case 'tiferet': return { color: '#90EE90', displayName: 'Tiferet' };
+            case 'netzach': return { color: '#FFA500', displayName: 'Netzach' };
+            case 'hod': return { color: '#ADD8E6', displayName: 'Hod' };
+            case 'yesod': return { color: '#FFFF00', displayName: 'Yesod' };
+            case 'malchut': return { color: '#4169E1', displayName: 'Malchut' };
+            default: return { color: '#FF6347', displayName: 'Manna' }; // Tomato red for default
+        }
+    }
+
+    function activateSefirahKoach(koach_type) {
+        if (!koach_type || koach_type === 'default') return;
+
+        resetPowerUpEffects(); // Reset previous before applying new one
+        
+        const { displayName } = getSefirahVisuals(koach_type);
+        let duration = KOACH_DURATION;
+        
+        active_koach = { type: koach_type, display_name: displayName };
+
+        switch (koach_type) {
+            case 'keter': // Invincibility
+                isInvincible = true;
+                break;
+            case 'binah': // Slow Motion
+                duration = KOACH_BINAH_DURATION;
+                setGameSpeed(KESHESH_HAMAHIR_DEFAULT * KOACH_BINAH_SPEED_MULTIPLIER);
+                break;
+            case 'chesed': // Growth Spurt (instant effect)
+                // Add 3 extra segments without removing the tail
+                const tail = nevua[nevua.length - 1];
+                for(let i=0; i<3; i++) nevua.push({...tail});
+                break;
+            case 'netzach': // Speed Burst
+                setGameSpeed(KESHESH_HAMAHIR_DEFAULT * KOACH_NETZACH_SPEED_MULTIPLIER);
+                break;
+            case 'malchut': // Score Multiplier
+                scoreMultiplier = KOACH_MALCHUT_SCORE_MULTIPLIER;
+                break;
+        }
+        koach_end_time = Date.now() + duration;
+    }
+    
+    function handlePowerUpExpiration() {
+        if (active_koach && Date.now() > koach_end_time) {
+            resetPowerUpEffects();
+        }
+    }
+
+    function resetPowerUpEffects() {
+        if (!active_koach) return;
+        // Reset variables modified by power-ups
+        isInvincible = false;
+        scoreMultiplier = 1;
+        // Only reset game speed if it was the active power-up
+        if (active_koach.type === 'binah' || active_koach.type === 'netzach') {
+            setGameSpeed(KESHESH_HAMAHIR_DEFAULT);
+        }
+        active_koach = null;
+    }
+
+    // --- Input Handling ---
+
+    function changeDirection(dx, dy) {
+        const isOpposite = (hanhaga.dx === -dx && hanhaga.dy === -dy);
+        if (!isOpposite) {
+            nextHanhaga = { dx, dy };
+        }
+    }
+
+    function handleKeyDown(event) {
+        switch (event.key) {
+            case "ArrowUp":    changeDirection(0, -1); break;
+            case "ArrowDown":  changeDirection(0, 1); break;
+            case "ArrowLeft":  changeDirection(-1, 0); break;
+            case "ArrowRight": changeDirection(1, 0); break;
+        }
+    }
+
+    function handleTouchStart(event) {
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }
+    
+    function handleTouchMove(event) {
+        event.preventDefault(); // Prevent scrolling
+        if (!touchStartX || !touchStartY) return;
+
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        
+        if (Math.abs(deltaX) > GORAL_HASHIMUSH || Math.abs(deltaY) > GORAL_HASHIMUSH) {
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                changeDirection(deltaX > 0 ? 1 : -1, 0); // Horizontal swipe
+            } else {
+                changeDirection(0, deltaY > 0 ? 1 : -1); // Vertical swipe
+            }
+            // Reset start points to allow for continuous direction changes
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        }
+    }
+    
+    // --- Event Listeners ---
+    playButtonElement.addEventListener('click', startGame);
+    restartButtonElement.addEventListener('click', startGame);
+    document.addEventListener('keydown', handleKeyDown);
+    gameCanvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    gameCanvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    // --- Initial Setup ---
+    initializeCanvas();
+
+</script>
+</body>
+</html>
