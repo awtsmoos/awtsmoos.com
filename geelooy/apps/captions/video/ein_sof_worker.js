@@ -5,6 +5,16 @@ B"H
 
 // --- Worker Setup ---
 
+// *** ADD THIS CODE BLOCK ***
+
+// Polyfill AudioBuffer for the Worker scope.
+// This fake class will satisfy the library's "instanceof AudioBuffer" check.
+function AudioBuffer(options) {
+	/* ב"ה B"H */
+	// This is a polyfill. We just need to be able to hold the properties.
+	Object.assign(this, options);
+}
+
 // 1. Create the 'exports' object in the worker's global scope.
 self.exports = {};
 
@@ -190,20 +200,23 @@ async function generateVideo({
 	output.addVideoTrack(canvasSource);
     
     // *** THE FIX STARTS HERE ***
-	let audioBufferSource = null;
-	if (plainAudioBuffer) {
-        // We still need the shim for the *initial codec check*, which only looks at metadata.
-		const audioBufferShim = {
-			...plainAudioBuffer,
-			getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
-		};
-		const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
-		audioBufferSource = new mediabunny.AudioBufferSource({
-			codec: audioCodec,
-			bitrate: 128_000
-		});
-		output.addAudioTrack(audioBufferSource);
-	}
+	// *** REPLACE WITH THIS CODE BLOCK ***
+
+let audioBufferSource = null;
+let audioBufferShim = null;
+if (plainAudioBuffer) {
+    // Instantiate our new fake AudioBuffer class
+    audioBufferShim = new AudioBuffer({
+        ...plainAudioBuffer,
+        getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
+    });
+    const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
+    audioBufferSource = new mediabunny.AudioBufferSource({
+        codec: audioCodec,
+        bitrate: 128_000
+    });
+    output.addAudioTrack(audioBufferSource);
+}
     // *** THE FIX ENDS HERE (PART 1) ***
 
 	await output.start();
