@@ -274,38 +274,18 @@ if (plainAudioBuffer) {
 	canvasSource.close();
     
     // *** THE FIX STARTS HERE (PART 2) ***
-	if (audioBufferSource && plainAudioBuffer) {
-		self.postMessage({
-			type: 'STATUS_UPDATE',
-			payload: {
-				message: 'Encoding audio...'
-			}
-		});
-
-        // Interleave the separate channel data into a single buffer
-        const numberOfFrames = plainAudioBuffer.length;
-        const numberOfChannels = plainAudioBuffer.numberOfChannels;
-        const interleaved = new Float32Array(numberOfFrames * numberOfChannels);
-        for (let i = 0; i < numberOfFrames; i++) {
-            for (let channel = 0; channel < numberOfChannels; channel++) {
-                interleaved[i * numberOfChannels + channel] = plainAudioBuffer.channels[channel][i];
-            }
+	// *** REPLACE WITH THIS CORRECT CODE ***
+if (audioBufferSource) {
+    self.postMessage({
+        type: 'STATUS_UPDATE',
+        payload: {
+            message: 'Encoding audio...'
         }
-        
-        // Create the proper AudioData object
-        const audioData = new AudioData({
-            format: 'f32-planar', // Or 'f32' if interleaved
-            sampleRate: plainAudioBuffer.sampleRate,
-            numberOfFrames: plainAudioBuffer.length,
-            numberOfChannels: plainAudioBuffer.numberOfChannels,
-            timestamp: 0, // start at the beginning
-            data: interleaved
-        });
-        
-        // Use the new AudioData object
-		await audioBufferSource.add(audioData);
-		audioBufferSource.close();
-	}
+    });
+    // The library's add() method expects the AudioBuffer shim we already created.
+    await audioBufferSource.add(audioBufferShim);
+    audioBufferSource.close();
+}
     // *** THE FIX ENDS HERE (PART 2) ***
 
 	self.postMessage({
