@@ -1,0 +1,1154 @@
+
+<!--
+
+B"H
+ב"ה
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ein Sof Engine [Quantum Core v4.2 - Audio Patched]</title>
+    <style>
+        :root {
+            --bg-color: #0c0c10;
+            --widget-bg: #1a1a22;
+            --text-color: #e8e8f0;
+            --primary-color: #ff3c78;
+            --secondary-color: #00f2ea;
+            --border-color: #2a2a33;
+            --font-display: 'Teko', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --color-success: #28a745;
+            --color-error: #dc3545;
+            --color-warning: #ffc107;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
+        
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-mono); display: flex; flex-wrap: wrap; justify-content: center;
+            align-items: flex-start; gap: 30px; background-color: var(--bg-color);
+            padding: 20px; margin: 0; color: var(--text-color); overflow-x: hidden;
+        }
+        
+        #controls-wrapper {
+            width: 500px; max-width: 100%; position: relative;
+        }
+
+        #controls {
+            width: 100%; padding: 0; background-color: var(--widget-bg); border-radius: 16px;
+            border: 1px solid var(--border-color); box-shadow: 0 20px 70px rgba(0,0,0,0.9);
+            max-height: 95vh; display: flex; flex-direction: column; transition: filter 0.3s ease;
+        }
+        
+        #controls-wrapper.rendering #controls {
+            filter: blur(2px) brightness(0.6);
+            pointer-events: none;
+        }
+
+        #render-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+
+        #controls-wrapper.rendering #render-overlay { display: flex; }
+
+        #cancelButton {
+            width: 80%; padding: 15px; font-size: 24px; font-weight: 700; color: #fff;
+            background: linear-gradient(45deg, var(--primary-color), #c31432); border: none;
+            border-radius: 10px; cursor: pointer; transition: all 0.3s ease-in-out;
+            letter-spacing: 4px; font-family: var(--font-display);
+        }
+        #cancelButton:hover { transform: scale(1.05); }
+
+        #settings-container { overflow-y: auto; padding: 20px 20px: 0 20px; flex-grow: 1; }
+        #settings-container::-webkit-scrollbar { width: 8px; }
+        #settings-container::-webkit-scrollbar-track { background: var(--bg-color); }
+        #settings-container::-webkit-scrollbar-thumb { background-color: var(--secondary-color); border-radius: 4px; border: 2px solid var(--bg-color); }
+
+        h2 {
+            font-family: var(--font-display); font-size: 3em; color: var(--text-color); text-align: center;
+            letter-spacing: 4px; text-transform: uppercase; margin: 10px 0 30px 0;
+            text-shadow: 0 0 15px var(--secondary-color), 0 0 5px #fff;
+        }
+        
+        .header-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .header-actions button, .header-actions select {
+            background: var(--border-color); border: 1px solid var(--secondary-color); color: var(--secondary-color);
+            padding: 8px 15px; font-family: var(--font-mono); font-size: 14px;
+            border-radius: 6px; cursor: pointer; transition: all 0.2s;
+        }
+        .header-actions button:hover { background: var(--secondary-color); color: var(--bg-color); text-shadow: none; }
+
+        fieldset { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; position: relative; }
+
+        legend {
+            font-family: var(--font-display); color: var(--secondary-color); letter-spacing: 3px;
+            font-size: 2em; text-transform: uppercase; padding: 0 15px; text-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        .fieldset-randomize { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px; opacity: 0.5; transition: all 0.2s; }
+        .fieldset-randomize:hover { opacity: 1; transform: scale(1.2) rotate(15deg); color: var(--secondary-color); }
+        
+        .control-group, .form-group { margin-bottom: 20px; position: relative; }
+        label { display: block; font-weight: 500; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: #ccc; }
+        .value-display { font-weight: bold; color: var(--secondary-color); float: right; }
+        
+        input[type="range"] { width: 100%; margin-top: 5px; -webkit-appearance: none; background: transparent; }
+        input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border-color); border-radius: 2px;}
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; background: var(--secondary-color); border-radius: 50%; border: 2px solid var(--bg-color); margin-top: -8px; box-shadow: 0 0 10px var(--secondary-color); cursor: pointer; }
+        
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); font-size: 16px; font-family: var(--font-mono); transition: border-color 0.2s, box-shadow 0.2s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--secondary-color); box-shadow: 0 0 0 4px rgba(0, 242, 234, 0.2); }
+        input[type="color"] { height: 40px; padding: 2px; }
+        textarea { height: 120px; resize: vertical; line-height: 1.6; }
+        textarea[readonly] { background-color: #111; color: #999; cursor: default; }
+        
+        .randomize-toggle { position: absolute; top: 5px; right: 0; cursor: pointer; font-size: 20px; opacity: 0.6; transition: all 0.2s ease; user-select: none; }
+        .randomize-toggle:hover { opacity: 1; transform: scale(1.2); }
+        .randomize-toggle.active { opacity: 1; color: var(--secondary-color); text-shadow: 0 0 10px var(--secondary-color); }
+        .randomize-controls { display: none; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; }
+        .control-group.randomize-active .randomize-controls { display: flex; gap: 10px; align-items: center; }
+        .randomize-controls label { margin: 0; font-size: 12px; }
+        .randomize-controls input { width: 100%; padding: 8px; }
+        
+        #actions-footer { flex-shrink: 0; padding: 20px; background: var(--widget-bg); border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px; }
+        .button-group { display: flex; gap: 10px; }
+        #previewButton { width: 80px; padding: 0 15px; font-size: 28px; background: linear-gradient(45deg, #444, #666); color: #fff; flex-shrink: 0; animation: none; box-shadow: none; border:none; border-radius: 10px; font-family: var(--font-display); cursor:pointer;}
+
+        #renderButton {
+            flex-grow: 1; padding: 20px; font-size: 28px; font-weight: 700; color: #000;
+            background: linear-gradient(45deg, var(--secondary-color), #f9c80e); border: none;
+            border-radius: 10px; cursor: pointer; transition: all 0.3s ease-in-out;
+            letter-spacing: 4px; font-family: var(--font-display);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); animation: pulse-glow 2.5s infinite ease-in-out;
+        }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 234, 0.4); } 50% { box-shadow: 0 0 35px rgba(0, 242, 234, 0.8); } }
+        #renderButton:hover:not(:disabled), #previewButton:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); }
+        #renderButton:disabled, #previewButton:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none;}
+        
+        #status { text-align: center; margin-bottom: 20px; font-size: 20px; font-family: var(--font-display); letter-spacing: 2px; color: var(--primary-color); min-height: 1.5em; }
+        #status.success { color: var(--color-success); } #status.error { color: var(--color-error); } #status.warning { color: var(--color-warning); }
+
+        .progress-bar-container { width: 100%; height: 8px; background-color: var(--bg-color); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--border-color); display: none; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--secondary-color), var(--primary-color)); width: 0%; transition: width 0.2s ease-out; }
+
+        .toggle-switch { display: flex; align-items: center; gap: 0.75rem; color: #ccc; cursor: pointer; user-select: none; text-transform: uppercase; font-size: 14px; letter-spacing: 1.5px; }
+        .toggle-switch input { width: auto; }
+        
+        #preview-container {
+            width: 960px; height: 540px; position: relative; max-width: 100%;
+            box-shadow: 0 10px 60px rgba(0,0,0,0.9); background-color: #000;
+            border-radius: 16px; overflow: hidden; border: 2px solid var(--border-color);
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        #previewCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+        #outputVideo {
+            position: relative; z-index: 10;
+            display: none;
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+        }
+        .hidden-control { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="controls-wrapper">
+        <div id="controls">
+            <div id="settings-container">
+                <h2>Ein Sof Engine</h2>
+
+                <div class="header-actions">
+                     <select id="preset-select"><option value="">Load Preset...</option></select>
+                     <button id="save-preset-btn">Save</button>
+                     <button id="delete-preset-btn">Delete</button>
+                     <button id="randomize-all-btn">Randomize All</button>
+                </div>
+    
+                <fieldset>
+                    <legend>Merkabah (Chariot)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                     <div class="form-group"><label for="renderMode">Render Mode</label><select id="renderMode"><option value="video">Video</option><option value="image">Image</option></select></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Kelim (Vessels)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="headerText">Frame Header</label><input type="text" id="headerText" placeholder="Optional text above main caption"></div>
+                    <div id="simple-caption-controls">
+                        <div class="form-group"><label for="mainCaptions">Captions</label><textarea id="mainCaptions" placeholder="Separate captions with a blank line."></textarea></div>
+                        <div class="form-group hidden-control" id="translation-controls"><label for="translationCaptions">Translation Captions</label><textarea id="translationCaptions" placeholder="For dual language videos."></textarea></div>
+                    </div>
+                     <div id="srt-caption-controls" class="hidden-control">
+                        <div class="form-group"><label for="srtFile">Primary SRT File</label><input type="file" id="srtFile" accept=".srt,.txt"></div>
+                        <textarea id="srtPreview" readonly placeholder="Primary SRT content will appear here..."></textarea>
+                        <div class="form-group" style="margin-top:20px;"><label for="translationSrtFile">Translation SRT File (Optional)</label><input type="file" id="translationSrtFile" accept=".srt,.txt"></div>
+                        <textarea id="translationSrtPreview" readonly placeholder="Translation SRT content will appear here..."></textarea>
+                    </div>
+                    <label class="toggle-switch hidden-control" style="margin-top:10px;" id="dual-caption-toggle-container"><input type="checkbox" id="dualCaptionToggle"> Enable Vertical Translation</label>
+                </fieldset>
+    
+                <fieldset class="hidden-control" id="timing-controls">
+                    <legend>Orot (Lights & Time)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="captionSource">Caption Timing</label><select id="captionSource"><option value="simple">Simple Mode</option><option value="srt">SRT Mode</option></select></div>
+                    <div class="form-group" id="simple-timing-controls"><label for="captionDuration">Duration per Caption (s)</label><input type="number" id="captionDuration" value="2.5" min="0.1" step="0.1"></div>
+                    <div class="form-group"><label for="audioFile">Audio Source (Optional)</label><input type="file" id="audioFile" accept="audio/*"></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="dynamicBackgroundToggle" checked> Dynamic Background</label></div>
+                    <div class="form-group" id="fps-controls"><label for="frameRate">Frame Rate (FPS)</label><input type="number" id="frameRate" value="24" min="1" max="60" step="1"></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Gevulot (Boundaries)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="videoWidth">Width</label><input type="number" id="videoWidth" value="1920" min="100" step="2"></div>
+                    <div class="form-group"><label for="videoHeight">Height</label><input type="number" id="videoHeight" value="1080" min="100" step="2"></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam Yetzirah (Formation)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="particleDensity"><label for="particleDensity">Particle Density <span class="value-display" id="particleDensityValue">150</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleDensity" min="0" max="200" value="150"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="50"><label>Max</label><input type="number" class="rand-max" value="200"></div></div>
+                    <div class="control-group" data-control-name="minParticleSize"><label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="minParticleSize" min="1" max="50" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="maxParticleSize"><label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label><span class="randomize-toggle">🌱</span><input type="range" id="maxParticleSize" min="10" max="150" value="90"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="70"><label>Max</label><input type="number" class="rand-max" value="120"></div></div>
+                    <div class="form-group"><label for="particleChars">Particle Characters</label><textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Kavim v'Sefirot (Connections)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="networkType">Algorithm</label><select id="networkType"><option value="web">Fine Web</option><option value="arcs">Energy Arcs</option><option value="synapse">Neural Synapse</option><option value="none">None</option></select></div>
+                    <div class="control-group" data-control-name="connectionDensity"><label for="connectionDensity">Connection Density <span class="value-display" id="connectionDensityValue">4</span></label><span class="randomize-toggle">🌱</span><input type="range" id="connectionDensity" min="0" max="10" value="4"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="2"><label>Max</label><input type="number" class="rand-max" value="6"></div></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Olam Briah (Creation)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="basePaletteColor"><label for="basePaletteColor">Base Palette Color</label><span class="randomize-toggle">🌱</span><input type="color" id="basePaletteColor" value="#8A2BE2"><div class="randomize-controls"></div></div>
+                    <div class="form-group" id="regen-bg-controls"><label class="toggle-switch"><input type="checkbox" id="regenerateBgToggle"> Randomize Palette Per Caption</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="randomizeBoxColorToggle"> Randomize Box Color</label></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Tzelem (Form & Text)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="textBoxWidth"><label for="textBoxWidth">Box Width (%) <span class="value-display" id="textBoxWidthValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxWidth" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
+                    <div class="control-group" data-control-name="textBoxHeight"><label for="textBoxHeight">Box Height (%) <span class="value-display" id="textBoxHeightValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxHeight" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
+                    <div class="control-group" data-control-name="textBoxPadding"><label for="textBoxPadding">Padding (%) <span class="value-display" id="textBoxPaddingValue">8</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxPadding" min="0" max="25" value="8"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="textBoxBorderRadius"><label for="textBoxBorderRadius">Border Radius (px) <span class="value-display" id="textBoxBorderRadiusValue">20</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxBorderRadius" min="0" max="200" value="20"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="10"><label>Max</label><input type="number" class="rand-max" value="50"></div></div>
+                    <div class="control-group" data-control-name="textBoxGap"><label for="textBoxGap">Dual Box Gap (px) <span class="value-display" id="textBoxGapValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxGap" min="0" max="200" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="20"><label>Max</label><input type="number" class="rand-max" value="80"></div></div>
+                    <div class="control-group" data-control-name="textBoxOpacity"><label for="textBoxOpacity">Box Opacity <span class="value-display" id="textBoxOpacityValue">0.75</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxOpacity" min="0" max="1" value="0.75" step="0.01"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0.5" step="0.01"><label>Max</label><input type="number" class="rand-max" value="0.9" step="0.01"></div></div>
+                </fieldset>
+    
+                 <fieldset>
+                    <legend>Portals (Images)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="portalImages">Portal Images (Optional)</label><input type="file" id="portalImages" accept="image/*" multiple></div>
+                    <div class="control-group" data-control-name="portalCount"><label for="portalCount">Portal Count <span class="value-display" id="portalCountValue">3</span></label><span class="randomize-toggle">🌱</span><input type="range" id="portalCount" min="0" max="10" value="3" step="1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="1"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam HaTohu (Chaos & FX)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="bloomIntensity"><label for="bloomIntensity">Bloom Intensity <span class="value-display" id="bloomIntensityValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="bloomIntensity" min="0" max="30" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="quantumDistortion"><label for="quantumDistortion">Quantum Distortion <span class="value-display" id="quantumDistortionValue">0</span></label><span class="randomize-toggle">🌱</span><input type="range" id="quantumDistortion" min="0" max="15" value="0" step="0.1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVignette" checked> Enable Vignette</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableFilmGrain"> Enable Film Grain</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensflare"> Enable Lens Flare</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableGodRays"> Enable God Rays</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableInterference"> Enable Static Interference</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLightLeaks"> Enable Light Leaks</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableCRTCurvature"> Enable CRT Curvature</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableChromaticAberration"> Enable Chromatic Aberration</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableScanLines"> Enable Scan Lines</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableRgbShift"> Enable RGB Shift</label></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam Asiyah (Final Touches)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="particleColorShift"><label for="particleColorShift">Particle Color Shift <span class="value-display" id="particleColorShiftValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleColorShift" min="0" max="180" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="90"></div></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensDirt"> Enable Lens Dirt/Scratches</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDustAndScratches"> Enable Dust & Scratches</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDataCorruption"> Enable Data Corruption Text</label></div>
+                </fieldset>
+            </div>
+            <div id="actions-footer">
+                <div id="status">Initializing Engine...</div>
+                <div id="progressContainer" class="progress-bar-container"><div id="progressBar" class="progress-bar"></div></div>
+                <div class="button-group">
+                    <button id="previewButton" title="Quick Preview">👁️</button>
+                    <button id="renderButton" disabled>R E N D E R</button>
+                </div>
+            </div>
+        </div>
+        <div id="render-overlay">
+            <button id="cancelButton">C A N C E L</button>
+        </div>
+    </div>
+
+    <div id="preview-container">
+        <canvas id="previewCanvas"></canvas>
+        <video id="outputVideo" controls loop playsinline></video>
+    </div>
+    
+    <script>
+    /*
+    ב"ה
+    B"H
+    */
+    document.addEventListener('DOMContentLoaded', function() {
+        /*
+        ב"ה
+        B"H
+        */
+
+        // --- DOM Elements ---
+        const dom = {
+            controlsWrapper: document.getElementById('controls-wrapper'),
+            renderButton: document.getElementById('renderButton'),
+            previewButton: document.getElementById('previewButton'),
+            cancelButton: document.getElementById('cancelButton'),
+            previewCanvas: document.getElementById('previewCanvas'),
+            outputVideo: document.getElementById('outputVideo'),
+            status: document.getElementById('status'),
+            progressContainer: document.getElementById('progressContainer'),
+            progressBar: document.getElementById('progressBar'),
+            renderMode: document.getElementById('renderMode'),
+            timingControls: document.getElementById('timing-controls'),
+            captionSource: document.getElementById('captionSource'),
+            mainCaptions: document.getElementById('mainCaptions'),
+            translationCaptions: document.getElementById('translationCaptions'),
+            presetSelect: document.getElementById('preset-select'),
+            savePresetBtn: document.getElementById('save-preset-btn'),
+            deletePresetBtn: document.getElementById('delete-preset-btn'),
+            randomizeAllBtn: document.getElementById('randomize-all-btn'),
+            dynamicBackgroundToggle: document.getElementById('dynamicBackgroundToggle'),
+            fpsControls: document.getElementById('fps-controls'),
+            regenBgControls: document.getElementById('regen-bg-controls')
+        };
+        const pCtx = dom.previewCanvas.getContext('2d');
+
+        // --- App State ---
+        let appState = {
+            appStatus: 'INITIALIZING', // INITIALIZING, IDLE, RENDERING, PREVIEWING
+            worker: null,
+            db: null,
+            portalImageBitmaps: [],
+            simpleCaptions: { main: '', translation: '' },
+            srtCaptions: { main: '', translation: '' },
+            currentVideoURL: null
+        };
+        
+        // --- Core Functions ---
+        
+        function setStatus(message, type = '') {
+            /*
+            ב"ה
+            B"H
+            */
+            dom.status.textContent = message;
+            dom.status.className = type;
+        }
+
+        function updateUIState() {
+            /*
+            ב"ה
+            B"H
+            */
+            const isRendering = appState.appStatus === 'RENDERING';
+            const isIdle = appState.appStatus === 'IDLE';
+
+            dom.controlsWrapper.classList.toggle('rendering', isRendering);
+            
+            let hasCaptions = false;
+            if (dom.renderMode.value === 'image' || dom.captionSource.value === 'simple') {
+                hasCaptions = dom.mainCaptions.value.trim().length > 0;
+            } else { // Video + SRT
+                hasCaptions = appState.srtCaptions.main.trim().length > 0;
+            }
+            
+            const width = parseInt(document.getElementById('videoWidth').value);
+            const height = parseInt(document.getElementById('videoHeight').value);
+            const canRender = width > 0 && height > 0 && width % 2 === 0 && height % 2 === 0 && hasCaptions;
+
+            dom.renderButton.disabled = !isIdle || !canRender;
+            dom.previewButton.disabled = !isIdle || !canRender;
+
+            if (isIdle) {
+                if (!canRender && hasCaptions) setStatus('Width/Height must be even numbers.', 'warning');
+                else if (!hasCaptions) setStatus('Please provide captions to render.', 'warning');
+                else setStatus('Awaiting Command.', '');
+            }
+
+            // Show/hide FPS controls based on dynamic background toggle
+            const isVideo = dom.renderMode.value === 'video';
+            const isDynamicBg = dom.dynamicBackgroundToggle.checked;
+            dom.fpsControls.style.display = isVideo && isDynamicBg ? 'block' : 'none';
+        }
+
+        function initializeWorker() {
+            /*
+            ב"ה
+            B"H
+            */
+            try {
+                appState.worker = new Worker('ein_sof_worker.js');
+                appState.worker.onmessage = handleWorkerMessage;
+                appState.worker.onerror = (err) => {
+                    console.error("Unhandled Worker Error:", err);
+                    setStatus(`Critical Worker Error: ${err.message}`, 'error');
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                };
+            } catch (error) {
+                console.error("Failed to initialize worker:", error);
+                setStatus('FATAL: Could not load render engine.', 'error');
+                dom.renderButton.disabled = true;
+                dom.previewButton.disabled = true;
+            }
+        }
+
+        function handleWorkerMessage(event) {
+            /*
+            ב"ה
+            B"H
+            */
+            const { type, payload } = event.data;
+
+            switch (type) {
+                case 'WORKER_READY':
+                    setStatus('Engine ready. Awaiting command.');
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                    break;
+                case 'STATUS_UPDATE':
+                    setStatus(payload.message);
+                    break;
+                case 'PROGRESS_UPDATE':
+                    dom.progressContainer.style.display = 'block';
+                    dom.progressBar.style.width = `${payload.percent}%`;
+                    break;
+                case 'PREVIEW_READY':
+                    pCtx.drawImage(payload.bitmap, 0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
+                    payload.bitmap.close();
+                    setStatus('Preview generated.', 'success');
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                    break;
+                case 'VIDEO_COMPLETE':
+                    if (appState.currentVideoURL) {
+                        URL.revokeObjectURL(appState.currentVideoURL);
+                    }
+                    appState.currentVideoURL = URL.createObjectURL(payload.blob);
+                    dom.outputVideo.src = appState.currentVideoURL;
+                    dom.outputVideo.style.display = 'block';
+                    dom.previewCanvas.style.display = 'none';
+                    dom.progressContainer.style.display = 'none';
+                    setStatus('Render complete.', 'success');
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                    break;
+                case 'FATAL_ERROR':
+                    console.error('Error from worker:', payload);
+                    setStatus(`Render Failed: ${payload.message}`, 'error');
+                    dom.progressContainer.style.display = 'none';
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                    break;
+            }
+        }
+        
+        // --- Event Handlers ---
+
+        async function handleRender() {
+            /*
+            ב"ה
+            B"H
+            */
+            if (appState.appStatus !== 'IDLE') return;
+
+            appState.appStatus = 'RENDERING';
+            updateUIState();
+            setStatus('Preparing render...');
+            dom.outputVideo.style.display = 'none';
+            dom.previewCanvas.style.display = 'block';
+
+            const settings = getSettings();
+            const resolution = { 
+                width: parseInt(document.getElementById('videoWidth').value), 
+                height: parseInt(document.getElementById('videoHeight').value) 
+            };
+            const mode = dom.renderMode.value;
+
+            // Prepare caption data
+            const captionData = await getCaptionData();
+            if (mode === 'video' && captionData.primary.length === 0) {
+                setStatus('No valid captions found for video.', 'error');
+                appState.appStatus = 'IDLE';
+                updateUIState();
+                return;
+            }
+
+            // *** FIX HERE: Prepare transferable objects, including audio channels ***
+            const transferableObjects = appState.portalImageBitmaps ? [...appState.portalImageBitmaps] : [];
+            if (captionData.plainAudioBuffer) {
+                captionData.plainAudioBuffer.channels.forEach(channel => {
+                    transferableObjects.push(channel.buffer);
+                });
+            }
+
+            appState.worker.postMessage({
+                type: 'START_RENDER',
+                payload: {
+                    mode,
+                    settings,
+                    resolution,
+                    captionData,
+                    portalBitmaps: appState.portalImageBitmaps,
+                    // *** FIX HERE: Send the new plain object, not the original AudioBuffer ***
+                    plainAudioBuffer: captionData.plainAudioBuffer,
+                    isDynamic: dom.dynamicBackgroundToggle.checked,
+                    fps: parseInt(document.getElementById('frameRate').value)
+                }
+            }, transferableObjects);
+            
+            // The bitmaps are now owned by the worker. We don't need to re-acquire them here
+            // as the user would re-upload if they want to change them.
+            appState.portalImageBitmaps = [];
+        }
+
+        async function handlePreview() {
+            /*
+            ב"ה
+            B"H
+            */
+            if (appState.appStatus !== 'IDLE') return;
+
+            appState.appStatus = 'PREVIEWING';
+            setStatus('Generating quick preview...');
+            updateUIState();
+            dom.outputVideo.style.display = 'none';
+            dom.previewCanvas.style.display = 'block';
+
+            const settings = resolveSettings(getSettings());
+            const resolution = { 
+                width: parseInt(document.getElementById('videoWidth').value), 
+                height: parseInt(document.getElementById('videoHeight').value) 
+            };
+            const primaryCaption = (dom.mainCaptions.value.split(/\n\s*\n/)[0] || 'PREVIEW').trim();
+            
+            // Transfer ownership
+            const transferableObjects = appState.portalImageBitmaps ? [...appState.portalImageBitmaps] : [];
+
+            appState.worker.postMessage({
+                type: 'GENERATE_PREVIEW',
+                payload: {
+                    settings,
+                    resolution,
+                    primaryCaption,
+                    portalBitmaps: appState.portalImageBitmaps,
+                }
+            }, transferableObjects);
+            
+            appState.portalImageBitmaps = [];
+        }
+
+        function handleCancel() {
+             /*
+            ב"ה
+            B"H
+            */
+            if (appState.appStatus !== 'RENDERING') return;
+            // Terminate the current worker. It's the simplest and most reliable way to stop.
+            appState.worker.terminate();
+            // Start a new one for the next job.
+            initializeWorker();
+            setStatus('Render canceled by user.', 'warning');
+            dom.progressContainer.style.display = 'none';
+            // State will be set to IDLE by the new worker's 'WORKER_READY' message
+        }
+
+        // --- Data & Settings Management ---
+
+        function getSettings() {
+            /*
+            ב"ה
+            B"H
+            */
+            const settings = {};
+            document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; const mainInput = group.querySelector('input, select, textarea'); const isRandom = group.classList.contains('randomize-active'); settings[name] = { randomize: isRandom }; if (isRandom) { if (mainInput.type === 'color') { settings[name].type = 'color'; } else { settings[name].min = parseFloat(group.querySelector('.rand-min').value); settings[name].max = parseFloat(group.querySelector('.rand-max').value); settings[name].isFloat = mainInput.step && parseFloat(mainInput.step) < 1; } } else { settings[name].value = mainInput.type === 'range' ? parseFloat(mainInput.value) : mainInput.value; } });
+            ['headerText', 'particleChars', 'networkType', 'enableVignette', 'enableFilmGrain', 'regenerateBgToggle', 'randomizeBoxColorToggle', 'enableLensDirt', 'enableDataCorruption', 'enableLensflare', 'enableGodRays', 'enableInterference', 'enableLightLeaks', 'enableCRTCurvature', 'enableChromaticAberration', 'enableScanLines', 'enableRgbShift', 'enableDustAndScratches'].forEach(id => { const el = document.getElementById(id); settings[id] = el.type === 'checkbox' ? el.checked : el.value; });
+            return settings;
+        }
+        
+        function resolveSettings(settings, isStatic = true) {
+             /*
+            ב"ה
+            B"H
+            */
+            const resolved = {};
+            for (const key in settings) {
+                const setting = settings[key];
+                if (setting && typeof setting === 'object' && setting.randomize) {
+                    if (setting.type === 'color') { resolved[key] = '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); } 
+                    else { const min = Math.min(setting.min, setting.max); const max = Math.max(setting.min, setting.max); resolved[key] = setting.isFloat ? (min + Math.random() * (max - min)) : Math.floor(min + Math.random() * (max - min + 1)); }
+                } else { resolved[key] = (setting && typeof setting === 'object') ? setting.value : setting; }
+            }
+            if (!isStatic) {
+                resolved.time = Date.now();
+            }
+            return resolved;
+        }
+
+        async function getCaptionData() {
+            /*
+            ב"ה
+            B"H
+            */
+            const parseSimple = (text) => text.trim() ? text.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean) : [];
+            const parseSRT = (srt) => { const caps = []; if(!srt) return []; srt.trim().replace(/\r/g, '').split(/\n\n/).forEach(b => { const l = b.split('\n'); if(l.length < 2) return; const m = l[1]?.match(/(\d{2}):(\d{2}):(\d{2})[,.](\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2})[,.](\d{3})/); const t = l.slice(2).join('\n').trim(); if (m&&t){ const p = (h,m,s,ms) => parseInt(h,10)*3600+parseInt(m,10)*60+parseInt(s,10)+parseInt(ms,10)/1000; caps.push({startTime:p(m[1],m[2],m[3],m[4]), endTime:p(m[5],m[6],m[7],m[8]), text:t});}}); return caps; };
+            const simpleToTimed = (text, duration) => parseSimple(text).map((t, i) => ({ startTime: i * duration, endTime: (i + 1) * duration, text: t }));
+            
+            let primary = [], translation = [];
+            
+            if (dom.captionSource.value === 'srt') {
+                primary = parseSRT(appState.srtCaptions.main);
+                if (document.getElementById('dualCaptionToggle').checked) translation = parseSRT(appState.srtCaptions.translation);
+            } else {
+                const duration = parseFloat(document.getElementById('captionDuration').value);
+                primary = simpleToTimed(dom.mainCaptions.value, duration);
+                if (document.getElementById('dualCaptionToggle').checked) translation = simpleToTimed(dom.translationCaptions.value, duration);
+            }
+            
+            // *** FIX HERE: Deconstruct AudioBuffer into a transferable format ***
+            let plainAudioBuffer = null;
+            const audioFile = document.getElementById('audioFile').files[0];
+            if (audioFile) {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audioBuffer = await audioContext.decodeAudioData(await audioFile.arrayBuffer());
+                
+                const channels = [];
+                for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                    channels.push(audioBuffer.getChannelData(i));
+                }
+                
+                plainAudioBuffer = {
+                    channels,
+                    length: audioBuffer.length,
+                    sampleRate: audioBuffer.sampleRate,
+                    numberOfChannels: audioBuffer.numberOfChannels,
+                    duration: audioBuffer.duration
+                };
+                
+                audioContext.close();
+            }
+
+            return { primary, translation, plainAudioBuffer };
+        }
+
+        // --- UI Setup & Helpers ---
+        function setupUI() {
+            /*
+            ב"ה
+            B"H
+            */
+            function updateUIMode() {
+                const isVideo = dom.renderMode.value === 'video';
+                dom.previewCanvas.style.display = 'block'; dom.outputVideo.style.display = 'none';
+                if (appState.currentVideoURL) { URL.revokeObjectURL(appState.currentVideoURL); appState.currentVideoURL = null; }
+                dom.timingControls.classList.toggle('hidden-control', !isVideo);
+                dom.regenBgControls.classList.toggle('hidden-control', isVideo && !dom.dynamicBackgroundToggle.checked);
+                document.getElementById('dual-caption-toggle-container').classList.toggle('hidden-control', !isVideo);
+                updateCaptionMode();
+                dom.renderButton.textContent = isVideo ? 'R E N D E R  V I D E O' : 'G E N E R A T E  I M A G E S';
+                updateUIState();
+            }
+            function updateCaptionMode() {
+                const isSrt = dom.captionSource.value === 'srt';
+                document.getElementById('simple-caption-controls').classList.toggle('hidden-control', isSrt);
+                document.getElementById('srt-caption-controls').classList.toggle('hidden-control', !isSrt);
+                document.getElementById('simple-timing-controls').classList.toggle('hidden-control', isSrt);
+                document.getElementById('translation-controls').classList.toggle('hidden-control', isSrt);
+                if (isSrt) {
+                    appState.simpleCaptions.main = dom.mainCaptions.value;
+                    appState.simpleCaptions.translation = dom.translationCaptions.value;
+                    dom.mainCaptions.value = ''; dom.translationCaptions.value = '';
+                } else {
+                    dom.mainCaptions.value = appState.simpleCaptions.main;
+                    dom.translationCaptions.value = appState.simpleCaptions.translation;
+                }
+                updateUIState();
+            }
+
+            dom.renderButton.addEventListener('click', handleRender);
+            dom.previewButton.addEventListener('click', handlePreview);
+            dom.cancelButton.addEventListener('click', handleCancel);
+            dom.renderMode.addEventListener('change', updateUIMode);
+            dom.captionSource.addEventListener('change', updateCaptionMode);
+            dom.dynamicBackgroundToggle.addEventListener('change', () => {
+                const isVideo = dom.renderMode.value === 'video';
+                dom.regenBgControls.classList.toggle('hidden-control', isVideo && !dom.dynamicBackgroundToggle.checked);
+                updateUIState();
+            });
+            document.getElementById('controls').addEventListener('input', () => { updateUIState(); saveSettings(); });
+            document.getElementById('portalImages').addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files); if (files.length === 0) return; setStatus(`Processing ${files.length} images...`);
+                try {
+                    appState.portalImageBitmaps = await Promise.all(files.map(file => createImageBitmap(file))); setStatus(`Loaded ${files.length} images.`, 'success');
+                } catch(err) {
+                    setStatus(`Error loading images: ${err.message}`, 'error');
+                }
+            });
+            document.getElementById('srtFile').addEventListener('change', async (e) => { const file = e.target.files[0]; if (!file) return; try { const text = await file.text(); appState.srtCaptions.main = text; document.getElementById('srtPreview').value = text; updateUIState(); } catch (e) { setStatus(`Error reading SRT: ${e.message}`, 'error'); } });
+            document.getElementById('translationSrtFile').addEventListener('change', async (e) => { const file = e.target.files[0]; if (!file) return; try { const text = await file.text(); appState.srtCaptions.translation = text; document.getElementById('translationSrtPreview').value = text; updateUIState(); } catch (e) { setStatus(`Error reading SRT: ${e.message}`, 'error'); } });
+            document.querySelectorAll('input[type="range"]').forEach(slider => { const display = document.getElementById(slider.id + 'Value'); if (display) { slider.addEventListener('input', () => { display.textContent = slider.value; }); } });
+            document.querySelectorAll('.randomize-toggle').forEach(toggle => { toggle.addEventListener('click', function() { this.closest('.control-group').classList.toggle('randomize-active'); this.classList.toggle('active'); saveSettings(); }); });
+            document.querySelectorAll('.fieldset-randomize').forEach(btn => { btn.addEventListener('click', () => { btn.closest('fieldset').querySelectorAll('.randomize-toggle:not(.active)').forEach(t => t.click()); }); });
+            dom.randomizeAllBtn.addEventListener('click', () => document.querySelectorAll('fieldset .randomize-toggle:not(.active)').forEach(t => t.click()));
+
+            updateUIMode();
+            pCtx.fillStyle = '#0c0c10'; pCtx.fillRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
+        }
+
+        // --- Database & Presets ---
+        function initDB() { /* ב"ה B"H */ return new Promise((resolve) => { const request = indexedDB.open('EinSofEngineDB_v4', 1); request.onupgradeneeded = e => { const db = e.target.result; if (!db.objectStoreNames.contains('settingsStore')) db.createObjectStore('settingsStore', { keyPath: 'id' }); if (!db.objectStoreNames.contains('presets')) db.createObjectStore('presets', { keyPath: 'name' }); }; request.onsuccess = e => { appState.db = e.target.result; resolve(); }; request.onerror = e => { console.warn('IndexedDB failed.', e.target.error); resolve(); }; }); }
+        function saveSettings() { /* ב"ה B"H */ if (!appState.db) return; const settings = {}; document.querySelectorAll('[id]').forEach(el => { if (el.type === 'checkbox') settings[el.id] = el.checked; else if (el.value !== undefined && el.type !== 'file' && !el.readOnly) settings[el.id] = el.value; }); document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; settings[name + '_randomize'] = group.classList.contains('randomize-active'); }); appState.db.transaction('settingsStore', 'readwrite').objectStore('settingsStore').put({ id: 'userSettings', ...settings }); }
+        function loadSettings() { /* ב"ה B"H */ if (!appState.db) return; return new Promise(resolve => { const request = appState.db.transaction('settingsStore', 'readonly').objectStore('settingsStore').get('userSettings'); request.onsuccess = e => { const settings = e.target.result; if (settings) { for (const key in settings) { const el = document.getElementById(key); if (el && !el.readOnly) { if (el.type === 'checkbox') el.checked = settings[key]; else el.value = settings[key]; el.dispatchEvent(new Event('input', { bubbles: true })); } } document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; if (settings[name + '_randomize']) { group.classList.add('randomize-active'); group.querySelector('.randomize-toggle').classList.add('active'); } else { group.classList.remove('randomize-active'); group.querySelector('.randomize-toggle').classList.remove('active'); }}); appState.simpleCaptions.main = settings.mainCaptions || ''; appState.simpleCaptions.translation = settings.translationCaptions || ''; } resolve(); }; }); }
+        function loadPresets() { /* ב"ה B"H */ if (!appState.db) return; const tx = appState.db.transaction('presets', 'readonly'); const store = tx.objectStore('presets'); const request = store.getAll(); request.onsuccess = () => { dom.presetSelect.innerHTML = '<option value="">Load Preset...</option>'; request.result.forEach(preset => { const option = document.createElement('option'); option.value = preset.name; option.textContent = preset.name; dom.presetSelect.appendChild(option); }); }; }
+        function savePreset() { /* ב"ה B"H */ if (!appState.db) return; const name = prompt("Enter preset name:"); if (!name) return; const settings = {}; document.querySelectorAll('[id]').forEach(el => { if (el.value !== undefined && el.type !== 'file' && !el.readOnly && el.id !== 'preset-select') { if (el.type === 'checkbox') settings[el.id] = el.checked; else settings[el.id] = el.value; }}); document.querySelectorAll('.control-group[data-control-name]').forEach(g => { settings[g.dataset.controlName + '_randomize'] = g.classList.contains('randomize-active'); }); appState.db.transaction('presets', 'readwrite').objectStore('presets').put({ name, settings }).onsuccess = () => { alert(`Preset "${name}" saved.`); loadPresets(); }; }
+        function deletePreset() { /* ב"ה B"H */ if (!appState.db) return; const name = dom.presetSelect.value; if (!name) return; if (confirm(`Delete preset "${name}"?`)) { appState.db.transaction('presets', 'readwrite').objectStore('presets').delete(name).onsuccess = () => { alert(`Preset "${name}" deleted.`); loadPresets(); }; } }
+        function applyPreset(name) { /* ב"ה B"H */ if (!appState.db || !name) return; appState.db.transaction('presets', 'readonly').objectStore('presets').get(name).onsuccess = e => { const preset = e.target.result; if (preset) { for (const key in preset.settings) { const el = document.getElementById(key); if (el && !el.readOnly) { if (el.type === 'checkbox') el.checked = preset.settings[key]; else el.value = preset.settings[key]; el.dispatchEvent(new Event('input', { bubbles: true })); } } document.querySelectorAll('.control-group[data-control-name]').forEach(g => { const randKey = g.dataset.controlName + '_randomize'; if (preset.settings[randKey]) { g.classList.add('randomize-active'); g.querySelector('.randomize-toggle').classList.add('active'); } else { g.classList.remove('randomize-active'); g.querySelector('.randomize-toggle').classList.remove('active'); }}); } }; }
+        dom.savePresetBtn.addEventListener('click', savePreset); dom.deletePresetBtn.addEventListener('click', deletePreset); dom.presetSelect.addEventListener('change', (e) => applyPreset(e.target.value));
+
+        // --- Main Execution ---
+        async function main() {
+            /*
+            ב"ה
+            B"H
+            */
+            setupUI();
+            await initDB();
+            await loadSettings();
+            loadPresets();
+            initializeWorker();
+        }
+
+        main();
+    });
+    </script>
+</body>
+</html>
+```
+
+---
+
+### Corrected File 2: `ein_sof_worker.js`
+
+Only the `generateVideo` function has changed to handle the new "plain audio buffer" format.
+
+```javascript
+/*
+ב"ה
+B"H
+*/
+
+// --- Worker Setup ---
+
+// 1. Create the 'exports' object in the worker's global scope.
+self.exports = {};
+
+// 2. Load the library. It will populate self.exports.
+try {
+    importScripts('mediabunny-library.js');
+} catch(e) {
+    console.error("Failed to import mediabunny library", e);
+    // Send a fatal error back to the main thread
+    self.postMessage({ type: 'FATAL_ERROR', payload: { message: "Could not load mediabunny-library.js. Is the file in the same directory?" }});
+}
+
+
+// 3. Assign the populated object to a convenient local constant.
+const mediabunny = self.exports;
+
+// --- Global Worker State ---
+let einSofRenderer = {}; // All rendering functions will be attached to this.
+const MIN_SEGMENT_DURATION = 1e-6; // Minimum time for a segment to be valid
+
+// --- Main Message Handler ---
+self.onmessage = async (event) => {
+    /*
+    ב"ה
+    B"H
+    */
+    try {
+        const { type, payload } = event.data;
+
+        if (type === 'START_RENDER') {
+            await handleRender(payload);
+        } else if (type === 'GENERATE_PREVIEW') {
+            await handlePreview(payload);
+        }
+    } catch (error) {
+        console.error("Error during worker execution:", error);
+        self.postMessage({
+            type: 'FATAL_ERROR',
+            payload: { message: error.message, stack: error.stack }
+        });
+    }
+};
+
+// --- Core Worker Functions ---
+
+async function handleRender(payload) {
+    /*
+    ב"ה
+    B"H
+    */
+    // *** FIX HERE: Receive plainAudioBuffer instead of audioBuffer ***
+    const { mode, settings, resolution, captionData, portalBitmaps, plainAudioBuffer, isDynamic, fps } = payload;
+    
+    if (mode === 'video') {
+        await generateVideo({ settings, resolution, captionData, portalBitmaps, plainAudioBuffer, isDynamic, fps });
+    } else {
+        await generateImageBatch({ settings, resolution, captionData, portalBitmaps });
+    }
+}
+
+async function handlePreview(payload) {
+    /*
+    ב"ה
+    B"H
+    */
+    const { settings, resolution, primaryCaption, portalBitmaps } = payload;
+    const canvas = new OffscreenCanvas(resolution.width, resolution.height);
+    const ctx = canvas.getContext('2d');
+
+    const { canvas: bgCanvas } = einSofRenderer.generateBackgroundCanvas(settings, resolution, portalBitmaps);
+    einSofRenderer.renderOverlays(ctx, bgCanvas, primaryCaption, null, settings.headerText, settings, resolution, []);
+    
+    const bitmap = canvas.transferToImageBitmap();
+    self.postMessage({ type: 'PREVIEW_READY', payload: { bitmap } }, [bitmap]);
+}
+
+// --- Video Generation Logic ---
+async function generateVideo({ settings, resolution, captionData, portalBitmaps, plainAudioBuffer, isDynamic, fps }) {
+    /*
+    ב"ה
+    B"H
+    */
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing video encoder...' } });
+
+    // 1. Prepare Timeline and Caches
+    const { timeEvents, lastTime } = createTimeEvents(captionData, plainAudioBuffer);
+    if (lastTime === 0) {
+        throw new Error("No valid timeline. Check caption data.");
+    }
+
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Caching caption overlays...' } });
+    const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution);
+    
+    // 2. Setup Encoder
+    const output = new mediabunny.Output({ format: new mediabunny.Mp4OutputFormat(), target: new mediabunny.BufferTarget() });
+    const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
+    const ctx = renderCanvas.getContext('2d', { alpha: false });
+    
+    let videoCodec = 'avc1.42001E'; // A safe default
+    try { videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height }); } 
+    catch(e){ console.warn("Codec check failed, using default."); }
+
+    const canvasSource = new mediabunny.CanvasSource(renderCanvas, { codec: videoCodec, bitrate: mediabunny.QUALITY_HIGH });
+    output.addVideoTrack(canvasSource);
+    
+    // *** FIX HERE: Reconstruct an AudioBuffer-like object for mediabunny ***
+    let audioBufferSource = null;
+    let audioBufferShim = null;
+    if (plainAudioBuffer) {
+        audioBufferShim = {
+            ...plainAudioBuffer,
+            getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
+        };
+        const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
+        audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec, bitrate: 128_000 });
+        output.addAudioTrack(audioBufferSource);
+    }
+    await output.start();
+
+    // 3. Render Loop
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Generating master background...' } });
+    const masterBg = isDynamic ? null : einSofRenderer.generateBackgroundCanvas(resolveSettings(settings), resolution, portalBitmaps).canvas;
+
+    for (let i = 0; i < timeEvents.length - 1; i++) {
+        const segmentStartTime = timeEvents[i];
+        const segmentEndTime = timeEvents[i + 1];
+        const segmentDuration = segmentEndTime - segmentStartTime;
+        if (segmentDuration < MIN_SEGMENT_DURATION) continue;
+
+        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Rendering segment ${i + 1}/${timeEvents.length - 1}` } });
+        self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: (segmentStartTime / lastTime) * 90 } });
+
+        const primaryCap = findCaptionActiveAt(segmentStartTime, captionData.primary);
+        const translationCap = findCaptionActiveAt(segmentStartTime, captionData.translation);
+        
+        const currentSettings = resolveSettings(settings);
+
+        if (isDynamic) {
+            // Render frame-by-frame for dynamic background
+            const framesInSegment = Math.max(1, Math.round(segmentDuration * fps));
+            const frameDuration = segmentDuration / framesInSegment;
+
+            for (let frameIndex = 0; frameIndex < framesInSegment; frameIndex++) {
+                const frameTime = segmentStartTime + (frameIndex * frameDuration);
+                const dynamicBg = einSofRenderer.generateBackgroundCanvas(resolveSettings(settings, false), resolution, portalBitmaps).canvas;
+                renderCompositeFrame(ctx, dynamicBg, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
+                await canvasSource.add(frameTime, frameDuration);
+            }
+        } else {
+            // Render one frame for a static background segment
+            const bgToUse = settings.regenerateBgToggle ? einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps).canvas : masterBg;
+            renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
+            await canvasSource.add(segmentStartTime, segmentDuration);
+        }
+    }
+
+    // 4. Finalize
+    canvasSource.close();
+    if (audioBufferSource) {
+        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
+        await audioBufferSource.add(audioBufferShim);
+        audioBufferSource.close();
+    }
+    
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
+    self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 98 } });
+    await output.finalize();
+
+    self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 100 } });
+    self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob: new Blob([output.target.buffer], { type: output.format.mimeType }) } });
+}
+
+function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, settings, resolution, cache) {
+    /*
+    ב"ה
+    B"H
+    */
+    ctx.drawImage(bgCanvas, 0, 0);
+    einSofRenderer.renderFrameHeader(ctx, settings.headerText, settings, resolution);
+    
+    if (primaryCap) {
+        const overlay = cache.get(primaryCap.text);
+        if(overlay) ctx.drawImage(overlay.primary, overlay.primaryBox.x, overlay.primaryBox.y);
+    }
+    if (translationCap) {
+        const overlay = cache.get(translationCap.text);
+        if(overlay) ctx.drawImage(overlay.secondary, overlay.secondaryBox.x, overlay.secondaryBox.y);
+    }
+    
+    einSofRenderer.renderCornerText(ctx, settings, resolution);
+}
+
+// --- Image Batch Generation ---
+async function generateImageBatch({ settings, resolution, captionData, portalBitmaps }) {
+    /*
+    ב"ה
+    B"H
+    */
+    throw new Error("Image batch generation is not supported in this version.");
+}
+
+// --- Helper Functions ---
+
+function createTimeEvents(captionData, plainAudioBuffer) {
+    /*
+    ב"ה
+    B"H
+    */
+    const timeSet = new Set([0]);
+    [...captionData.primary, ...captionData.translation].forEach(cap => {
+        timeSet.add(cap.startTime);
+        timeSet.add(cap.endTime);
+    });
+    
+    let lastTime = 0;
+    if (timeSet.size > 1) {
+        lastTime = Math.max(...Array.from(timeSet));
+    }
+    if (plainAudioBuffer && plainAudioBuffer.duration > lastTime) {
+        lastTime = plainAudioBuffer.duration;
+        timeSet.add(lastTime);
+    }
+
+    const timeEvents = Array.from(timeSet).sort((a, b) => a - b);
+    
+    // Deduplicate and filter out invalid values
+    return {
+        timeEvents: timeEvents.filter((t, i) => i === 0 || t > timeEvents[i - 1] + MIN_SEGMENT_DURATION),
+        lastTime
+    };
+}
+
+function findCaptionActiveAt(time, captions) {
+    /*
+    ב"ה
+    B"H
+    */
+    // A caption is active if time is within [startTime, endTime).
+    return captions.find(c => time >= c.startTime && time < c.endTime);
+}
+
+function getLayoutBoxes(settings, resolution, hasDualCaptions) {
+    /*
+    ב"ה
+    B"H
+    */
+    const isHorizontalLayout = hasDualCaptions && (resolution.width > resolution.height);
+    const boxWidthPercent = settings.textBoxWidth / 100;
+    const boxHeightPercent = settings.textBoxHeight / 100;
+    const gap = settings.textBoxGap;
+    let primaryBox, secondaryBox;
+    if (hasDualCaptions) {
+        if (isHorizontalLayout) { // Side-by-side
+            const totalWidth = resolution.width * boxWidthPercent; const boxWidth = (totalWidth - gap) / 2; const boxHeight = resolution.height * boxHeightPercent; const y = (resolution.height - boxHeight) / 2; const x1 = (resolution.width - totalWidth) / 2; const x2 = x1 + boxWidth + gap;
+            primaryBox = { x: x1, y: y, width: boxWidth, height: boxHeight }; secondaryBox = { x: x2, y: y, width: boxWidth, height: boxHeight };
+        } else { // Top-and-bottom
+            const totalHeight = resolution.height * boxHeightPercent; const boxHeight = (totalHeight - gap) / 2; const boxWidth = resolution.width * boxWidthPercent; const x = (resolution.width - boxWidth) / 2; const y1 = (resolution.height - totalHeight) / 2; const y2 = y1 + boxHeight + gap;
+            primaryBox = { x: x, y: y1, width: boxWidth, height: boxHeight }; secondaryBox = { x: x, y: y2, width: boxWidth, height: boxHeight };
+        }
+    } else { // Single box
+        const boxWidth = resolution.width * boxWidthPercent; const boxHeight = resolution.height * boxHeightPercent; const x = (resolution.width - boxWidth) / 2; const y = (resolution.height - boxHeight) / 2;
+        primaryBox = { x: x, y: y, width: boxWidth, height: boxHeight };
+    }
+    return { primaryBox, secondaryBox };
+}
+
+async function cacheAllOverlays(captionData, settings, resolution) {
+    /*
+    ב"ה
+    B"H
+    */
+    const uniqueTexts = new Set([...captionData.primary.map(c => c.text), ...captionData.translation.map(c => c.text)]);
+    const cache = new Map();
+    const hasDual = captionData.translation.length > 0;
+    
+    for (const text of uniqueTexts) {
+        const resolvedSettings = resolveSettings(settings);
+        const boxes = getLayoutBoxes(resolvedSettings, resolution, hasDual);
+
+        // Render this text as if it's the primary caption
+        const primaryResult = renderSingleOverlay(text, boxes.primaryBox, resolvedSettings, resolution);
+        // Render this text as if it's the secondary caption
+        const secondaryResult = hasDual ? renderSingleOverlay(text, boxes.secondaryBox, resolvedSettings, resolution) : null;
+        
+        cache.set(text, {
+            primary: primaryResult,
+            secondary: secondaryResult,
+            primaryBox: boxes.primaryBox,
+            secondaryBox: boxes.secondaryBox
+        });
+    }
+    return cache;
+}
+
+function renderSingleOverlay(text, box, settings, resolution) {
+    /*
+    ב"ה
+    B"H
+    */
+    if (!text || !box) return null;
+
+    const overlayCanvas = new OffscreenCanvas(box.width, box.height);
+    const ctx = overlayCanvas.getContext('2d');
+    const padding = box.width * (settings.textBoxPadding / 100);
+    const innerWidth = box.width - (padding * 2);
+    const innerHeight = box.height - (padding * 2);
+    const layout = einSofRenderer.calculateOptimalFontSize(ctx, text, innerWidth, innerHeight);
+    if (layout.lines.length === 0) return null;
+
+    const borderRadius = settings.textBoxBorderRadius;
+    const boxColor = settings.randomizeBoxColorToggle ? einSofRenderer.randomHexColor() : '#101018';
+    
+    ctx.fillStyle = einSofRenderer.hexToRgba(boxColor, settings.textBoxOpacity);
+    ctx.beginPath(); ctx.roundRect(0, 0, box.width, box.height, borderRadius); ctx.fill();
+
+    const totalTextHeight = layout.lines.reduce((acc, line) => acc + line.height, 0);
+    let currentY = (box.height - totalTextHeight) / 2;
+
+    ctx.textBaseline = 'middle';
+    layout.lines.forEach(line => { 
+        const y = currentY + line.height / 2; 
+        einSofRenderer.drawTextWithBorder(ctx, line.text, box.width / 2, y, line.fontSize, '#FFFFFF', line.fontSize * 0.1); 
+        currentY += line.height; 
+    });
+    return overlayCanvas;
+}
+
+function resolveSettings(settings, isDynamic = false) {
+    /*
+    ב"ה
+    B"H
+    */
+    const resolved = {};
+    for (const key in settings) {
+        const setting = settings[key];
+        if (setting && typeof setting === 'object' && setting.randomize) {
+            if (setting.type === 'color') { resolved[key] = '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); } 
+            else { const min = Math.min(setting.min, setting.max); const max = Math.max(setting.min, setting.max); resolved[key] = setting.isFloat ? (min + Math.random() * (max - min)) : Math.floor(min + Math.random() * (max - min + 1)); }
+        } else { resolved[key] = (setting && typeof setting === 'object') ? setting.value : setting; }
+    }
+    if (isDynamic) {
+        resolved.time = performance.now();
+    }
+    return resolved;
+}
+
+
+// --- RENDERER ENGINE (Copied from HTML) ---
+// This entire object contains the graphics functions. It has no dependency on the DOM.
+einSofRenderer.generateBackgroundCanvas = function(settings, resolution, portalBitmaps) { /* ב"ה B"H */ const backgroundCanvas = new OffscreenCanvas(resolution.width, resolution.height); const ctx = backgroundCanvas.getContext('2d'); const palette = this.generateCohesivePalette(6, settings.basePaletteColor); const baseLayer = new OffscreenCanvas(resolution.width, resolution.height); const baseCtx = baseLayer.getContext('2d'); const glowLayer = new OffscreenCanvas(resolution.width, resolution.height); const glowCtx = glowLayer.getContext('2d'); const universe = this.generateUniqueUniverse(settings, resolution, palette); this.renderBackground(baseCtx, settings, resolution, palette); const portalNodes = this.renderPortals(baseCtx, settings, resolution, portalBitmaps); this.renderParticles(baseCtx, glowCtx, universe.particles); const allNodes = [...universe.particles, ...portalNodes]; this.renderNetwork(baseCtx, glowCtx, allNodes, settings); this.applyBloom(baseCtx, glowLayer, settings); this.applyFrameEffects(baseCtx, settings, resolution, palette); ctx.drawImage(baseLayer, 0, 0); return { canvas: backgroundCanvas, palette: palette }; };
+einSofRenderer.renderOverlays = function(ctx, backgroundCanvas, primaryCaption, secondaryCaption, header, settings, resolution, palette) { /* ב"ה B"H */ ctx.drawImage(backgroundCanvas, 0, 0); this.renderFrameHeader(ctx, header, settings, resolution); this.renderText(ctx, primaryCaption, secondaryCaption, settings, resolution, palette); this.renderCornerText(ctx, settings, resolution); }
+einSofRenderer.renderBackground = function(ctx, settings, resolution, palette) { /* ב"ה B"H */ const bgGrad = ctx.createLinearGradient(0, 0, 0, resolution.height); bgGrad.addColorStop(0, '#0A0814'); bgGrad.addColorStop(1, '#000000'); ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, resolution.width, resolution.height); ctx.globalCompositeOperation = 'source-over'; for (let i = 0; i < 4; i++) { const dustX = resolution.width * Math.random(); const dustY = resolution.height * Math.random(); const dustRadius = resolution.width * this.random(0.4, 0.8); const dustGrad = ctx.createRadialGradient(dustX, dustY, 0, dustX, dustY, dustRadius); dustGrad.addColorStop(0, 'rgba(0, 0, 0, 0.0)'); dustGrad.addColorStop(1, 'rgba(0, 0, 0, 0.2)'); ctx.fillStyle = dustGrad; ctx.fillRect(0, 0, resolution.width, resolution.height); } for (let i = 0; i < 1500; i++) { ctx.fillStyle = `rgba(255, 255, 255, ${0.1 + Math.random() * 0.3})`; ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 1, 1); } for (let i = 0; i < 100; i++) { ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + Math.random() * 0.4})`; ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 2, 2); } ctx.globalCompositeOperation = 'lighter'; const coreX = resolution.width * (Math.random() < 0.5 ? -0.2 : 1.2); const coreY = resolution.height * Math.random(); const coreGrad = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, resolution.width * 1.5); coreGrad.addColorStop(0, this.hexToRgba(palette[0], 0.1)); coreGrad.addColorStop(1, this.hexToRgba(palette[0], 0)); ctx.fillStyle = coreGrad; ctx.fillRect(0, 0, resolution.width, resolution.height); const createNebula = (x, y, radius, color) => { const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius); gradient.addColorStop(0, this.hexToRgba(color, 0.4)); gradient.addColorStop(0.5, this.hexToRgba(color, 0.1)); gradient.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = gradient; ctx.fillRect(0, 0, resolution.width, resolution.height); }; createNebula(resolution.width * this.random(0.1, 0.9), resolution.height * this.random(0.1, 0.9), resolution.width * this.random(0.5, 0.9), palette[0]); createNebula(resolution.width * this.random(0.1, 0.9), resolution.height * this.random(0.1, 0.9), resolution.width * this.random(0.6, 1.0), palette[1]); ctx.globalCompositeOperation = 'source-over'; };
+einSofRenderer.generateUniqueUniverse = function(settings, resolution, palette) { /* ב"ה B"H */ const particles = []; const chars = Array.from(settings.particleChars); if (chars.length === 0) { chars.push('•'); } const basePalette = [...palette, '#ffffff', '#999999']; for (let i = 0; i < settings.particleDensity; i++) { const z = Math.random(); const x = Math.random() * resolution.width; const y = Math.random() * resolution.height; let color = basePalette[Math.floor(Math.random() * basePalette.length)]; if (settings.particleColorShift > 0) { const rgbColor = this.hexToRgb(color); const baseHsl = this.rgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b); const hueShift = (x / resolution.width - 0.5) * settings.particleColorShift; const newHue = (baseHsl.h * 360 + hueShift + 360) % 360; color = this.hslToHex(newHue, baseHsl.s * 100, baseHsl.l * 100); } particles.push({ x, y, z, size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z), char: chars[Math.floor(Math.random() * chars.length)], color }); } particles.sort((a, b) => a.z - b.z); return { particles }; };
+einSofRenderer.renderParticles = function(ctx, glowCtx, particles) { /* ב"ה B"H */ particles.forEach(p => { const opacity = 0.2 + p.z * 0.8; if (p.z > 0.8) { glowCtx.font = `${p.size}px sans-serif`; glowCtx.fillStyle = p.color; glowCtx.textAlign = 'center'; glowCtx.textBaseline = 'middle'; glowCtx.globalAlpha = opacity * 0.9; glowCtx.fillText(p.char, p.x, p.y); } ctx.globalAlpha = opacity; ctx.font = `${p.size}px sans-serif`; ctx.fillStyle = p.color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(p.char, p.x, p.y); }); ctx.globalAlpha = 1.0; };
+einSofRenderer.renderNetwork = function(ctx, glowCtx, particles, settings) { /* ב"ה B"H */ if (settings.networkType === 'none') return; const connectable = particles.filter(p => p.z > 0.4); connectable.forEach(p1 => { let neighbors = connectable.filter(p2 => p1 !== p2).sort((a, b) => Math.hypot(p1.x - a.x, p1.y - a.y) - Math.hypot(p1.x - b.x, p1.y - b.y)).slice(0, Math.floor(settings.connectionDensity)); neighbors.forEach(p2 => { if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 400) return; const opacity = Math.min(p1.z, p2.z) * 0.8; const color = p1.color || '#ffffff'; const drawFunc = (targetCtx) => { switch(settings.networkType) { case 'web': this.drawWeb(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'arcs': this.drawLightning(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'synapse': this.drawSynapse(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; } }; drawFunc(glowCtx); drawFunc(ctx); }); }); };
+einSofRenderer.applyBloom = function(ctx, glowLayer, settings) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.filter = `blur(${settings.bloomIntensity * 2}px)`; ctx.globalAlpha = 0.6; ctx.drawImage(glowLayer, 0, 0); ctx.filter = `blur(${settings.bloomIntensity * 0.5}px)`; ctx.globalAlpha = 1.0; ctx.drawImage(glowLayer, 0, 0); ctx.restore(); };
+einSofRenderer.renderFrameHeader = function(ctx, header, settings, resolution) { /* ב"ה B"H */ if (!header || header.trim() === "") return; const padding = resolution.height / 30; const headerFontSize = resolution.height / 28; const maxAllowedWidth = resolution.width * 0.9; const font = `700 ${headerFontSize}px 'Teko', sans-serif`; const headerLines = this.wrapText(ctx, header, maxAllowedWidth, font); if (headerLines.length > 0) { const lineHeight = headerFontSize * 1.2; const totalTextHeight = (headerLines.length -1) * lineHeight + headerFontSize; ctx.font = font; const actualTextWidth = headerLines.reduce((max, line) => Math.max(max, ctx.measureText(line).width), 0); const boxWidth = actualTextWidth + padding * 2; const boxHeight = totalTextHeight + padding; const boxX = (resolution.width - boxWidth) / 2; const boxY = padding; ctx.fillStyle = 'rgba(16, 16, 24, 0.6)'; ctx.beginPath(); ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 8); ctx.fill(); let currentY = boxY + padding / 2; ctx.textBaseline = 'top'; ctx.textAlign = 'center'; headerLines.forEach(line => { this.drawTextWithBorder(ctx, line, resolution.width / 2, currentY, headerFontSize, '#FFFFFF', headerFontSize * 0.1); currentY += lineHeight; }); } };
+einSofRenderer.renderText = function(ctx, primaryCaption, secondaryCaption, settings, resolution, palette) { /* ב"ה B"H */ const hasDualCaptions = secondaryCaption && secondaryCaption.trim() !== ''; const { primaryBox, secondaryBox } = getLayoutBoxes(settings, resolution, hasDualCaptions); const renderSingleBox = (text, box) => { if (!text || text.trim() === '' || !box) return; const padding = box.width * (settings.textBoxPadding / 100); const innerWidth = box.width - (padding * 2); const innerHeight = box.height - (padding * 2); const layout = this.calculateOptimalFontSize(ctx, text, innerWidth, innerHeight); if (layout.lines.length === 0) return; const { x: boxX, y: boxY, width: boxWidth, height: boxHeight } = box; const borderRadius = settings.textBoxBorderRadius; const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight); const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight); const blurCtx = blurCanvas.getContext('2d', { willReadFrequently: true }); blurCtx.putImageData(snap, 0, 0); blurCtx.filter = 'blur(15px) brightness(0.8)'; blurCtx.drawImage(blurCanvas, 0, 0); ctx.save(); ctx.beginPath(); ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius); ctx.clip(); ctx.drawImage(blurCanvas, boxX, boxY); const boxColor = settings.randomizeBoxColorToggle ? this.randomHexColor() : '#101018'; ctx.fillStyle = this.hexToRgba(boxColor, settings.textBoxOpacity); ctx.fillRect(boxX, boxY, boxWidth, boxHeight); ctx.restore(); const borderGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight); borderGrad.addColorStop(0, palette[1]); borderGrad.addColorStop(0.5, palette[3]); borderGrad.addColorStop(1, palette[0]); ctx.save(); ctx.strokeStyle = palette[2]; ctx.shadowColor = palette[2]; ctx.shadowBlur = 25; ctx.lineWidth = 4; ctx.beginPath(); ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius); ctx.stroke(); ctx.shadowBlur = 0; ctx.strokeStyle = borderGrad; ctx.lineWidth = 2.5; ctx.stroke(); ctx.restore(); const totalTextHeight = layout.lines.reduce((acc, line) => acc + line.height, 0); let currentY = boxY + (boxHeight - totalTextHeight) / 2; ctx.textBaseline = 'middle'; layout.lines.forEach(line => { const y = currentY + line.height / 2; this.drawTextWithBorder(ctx, line.text, boxX + boxWidth / 2, y, line.fontSize, '#FFFFFF', line.fontSize * 0.1); currentY += line.height; }); }; renderSingleBox(primaryCaption, primaryBox); if (hasDualCaptions) renderSingleBox(secondaryCaption, secondaryBox); };
+einSofRenderer.applyFrameEffects = function(ctx, settings, resolution, palette) { /* ב"ה B"H */ const t = settings.time || Date.now(); if (settings.quantumDistortion > 0) this.applyDistortion(ctx, settings, resolution, t); if (settings.enableFilmGrain) this.applyFilmGrain(ctx, resolution); if (settings.enableGodRays) this.drawGodRays(ctx, resolution, palette); if (settings.enableLightLeaks) this.applyLightLeaks(ctx, resolution, palette); if (settings.enableLensDirt) this.applyLensDirt(ctx, resolution); if (settings.enableDustAndScratches) this.applyDustAndScratches(ctx, resolution); if (settings.enableLensflare) this.drawLensflare(ctx, resolution, palette); if (settings.enableInterference) this.applyInterference(ctx, resolution); if (settings.enableScanLines) this.applyScanLines(ctx, resolution); if (settings.enableRgbShift) this.applyRgbShift(ctx, resolution); if (settings.enableCRTCurvature) this.applyCRTCurvature(ctx, resolution); if (settings.enableChromaticAberration) this.applyChromaticAberration(ctx, resolution); if (settings.enableVignette) this.applyVignette(ctx, resolution); };
+einSofRenderer.renderCornerText = function(ctx, settings, resolution) { /* ב"ה B"H */ const textCanvas = new OffscreenCanvas(resolution.width, resolution.height); const tCtx = textCanvas.getContext('2d'); tCtx.font = "700 40px 'Teko', sans-serif"; tCtx.fillStyle = 'rgba(255, 255, 255, 0.5)'; tCtx.textAlign = 'left'; tCtx.textBaseline = 'top'; tCtx.fillText('B"H', 35, 35); tCtx.textAlign = 'right'; tCtx.fillText('ב"ה', resolution.width - 35, 35); if (settings.enableDataCorruption) { for (let i = 0; i < 7; i++) { const y = Math.random() * 80; const h = this.random(1, 4); const xOffset = (Math.random() - 0.5) * 20; const slice = tCtx.getImageData(0, y, resolution.width, h); tCtx.putImageData(slice, xOffset, y); } } ctx.drawImage(textCanvas, 0, 0); };
+einSofRenderer.applyScanLines = function(ctx, resolution) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.15; ctx.fillStyle = '#000'; for (let y = 0; y < resolution.height; y += 4) { ctx.fillRect(0, y, resolution.width, 2); } ctx.restore(); };
+einSofRenderer.applyRgbShift = function(ctx, resolution) { /* ב"ה B"H */ const shift = resolution.width * 0.005; ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.8; ctx.drawImage(ctx.canvas, shift, 0); ctx.globalCompositeOperation = 'difference'; ctx.fillStyle = '#FFF'; ctx.fillRect(0,0,resolution.width, resolution.height); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(ctx.canvas, -shift, 0); ctx.restore(); };
+einSofRenderer.applyDustAndScratches = function(ctx, resolution) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'overlay'; for(let i = 0; i < 20; i++) { ctx.beginPath(); ctx.arc(this.random(0, resolution.width), this.random(0, resolution.height), this.random(1, 4), 0, Math.PI * 2); ctx.fillStyle = `rgba(255, 255, 255, ${this.random(0.1, 0.6)})`; ctx.fill(); } for(let i = 0; i < 5; i++) { ctx.beginPath(); ctx.moveTo(this.random(0, resolution.width), this.random(0, resolution.height)); ctx.lineTo(this.random(0, resolution.width), this.random(0, resolution.height)); ctx.strokeStyle = `rgba(255, 255, 255, ${this.random(0.1, 0.3)})`; ctx.lineWidth = this.random(0.5, 2); ctx.stroke(); } ctx.restore(); };
+einSofRenderer.drawGodRays = function(ctx, resolution, palette) { /* ב"ה B"H */ const lightSourceX = resolution.width * (Math.random() < 0.5 ? -0.1 : 1.1); const lightSourceY = resolution.height * this.random(-0.1, 0.5); const numRays = this.random(20, 40); const color = this.hexToRgba(palette[Math.floor(this.random(0, palette.length))], 0.03 + Math.random() * 0.05); ctx.save(); ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < numRays; i++) { const angle = this.random(0, Math.PI * 2); const rayLength = resolution.width * 1.5; const endX = lightSourceX + Math.cos(angle) * rayLength; const endY = lightSourceY + Math.sin(angle) * rayLength; const spread = this.random(resolution.width * 0.05, resolution.width * 0.2); const endX2 = lightSourceX + Math.cos(angle + 0.05) * rayLength + (Math.random() - 0.5) * spread; const endY2 = lightSourceY + Math.sin(angle + 0.05) * rayLength + (Math.random() - 0.5) * spread; ctx.beginPath(); ctx.moveTo(lightSourceX, lightSourceY); ctx.lineTo(endX, endY); ctx.lineTo(endX2, endY2); ctx.closePath(); ctx.fillStyle = color; ctx.fill(); } ctx.restore(); };
+einSofRenderer.drawLensflare = function(ctx, resolution, palette) { /* ב"ה B"H */ const margin = 0.2; const x = this.random(0, resolution.width * (1 - margin * 2)) + resolution.width * margin * (Math.random() < 0.5 ? 0 : 1); const y = this.random(0, resolution.height * (1 - margin * 2)) + resolution.height * margin * (Math.random() < 0.5 ? 0 : 1); const centerX = resolution.width / 2; const centerY = resolution.height / 2; const dx = centerX - x; const dy = centerY - y; const angle = Math.atan2(dy, dx); const baseColor = palette[Math.floor(this.random(0, palette.length))]; ctx.save(); ctx.globalCompositeOperation = 'lighter'; const streakWidth = this.random(resolution.width * 0.5, resolution.width * 1.2); const streakHeight = this.random(1, 3); const streakGrad = ctx.createLinearGradient(x - streakWidth/2, y, x + streakWidth/2, y); const streakColor = this.hexToRgba(baseColor, 0.3); streakGrad.addColorStop(0, 'rgba(0,0,0,0)'); streakGrad.addColorStop(0.4, streakColor); streakGrad.addColorStop(0.5, this.hexToRgba(baseColor, 0.5)); streakGrad.addColorStop(0.6, streakColor); streakGrad.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = streakGrad; ctx.fillRect(x - streakWidth/2, y - streakHeight/2, streakWidth, streakHeight); const coreSize = this.random(100, 250); const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, coreSize); coreGrad.addColorStop(0, this.hexToRgba('#FFFFFF', 0.6)); coreGrad.addColorStop(0.2, this.hexToRgba(baseColor, 0.3)); coreGrad.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = coreGrad; ctx.fillRect(x - coreSize, y - coreSize, coreSize * 2, coreSize * 2); const numGhosts = 7; for (let i = 0; i < numGhosts; i++) { const step = (i / numGhosts) * 1.5 + this.random(-0.1, 0.1); const ghostX = x + dx * step; const ghostY = y + dy * step; if (ghostX < 0 || ghostX > resolution.width || ghostY < 0 || ghostY > resolution.height) continue; const ghostSize = (1 - (step / 2)) * this.random(20, 100); const ghostColor = palette[(i + 1) % palette.length]; const ghostOpacity = 0.2 * (1 - step / 2); ctx.globalAlpha = ghostOpacity; const ghostGrad = ctx.createRadialGradient(ghostX, ghostY, 0, ghostX, ghostY, ghostSize); ghostGrad.addColorStop(0, this.hexToRgba(this.hslToHex((this.rgbToHsl(...Object.values(this.hexToRgb(ghostColor))).h*360 + 10) % 360, 100, 75), 0.5)); ghostGrad.addColorStop(0.7, this.hexToRgba(ghostColor, 0.2)); ghostGrad.addColorStop(1, this.hexToRgba(ghostColor, 0)); ctx.fillStyle = ghostGrad; const sides = Math.floor(this.random(5, 9)); ctx.beginPath(); for (let j = 0; j < sides; j++) { ctx.lineTo(ghostX + ghostSize * Math.cos(angle + j * Math.PI * 2 / sides), ghostY + ghostSize * Math.sin(angle + j * Math.PI * 2 / sides)); } ctx.closePath(); ctx.fill(); } ctx.restore(); };
+einSofRenderer.renderPortals = function(ctx, settings, resolution, portalBitmaps) { /* ב"ה B"H */ if (!portalBitmaps || portalBitmaps.length === 0) return []; const portalNodes = []; const count = Math.min(portalBitmaps.length, settings.portalCount); const shuffled = [...portalBitmaps].sort(() => 0.5 - Math.random()); const blendModes = ['lighter', 'screen', 'overlay', 'normal']; for (let i = 0; i < count; i++) { const img = shuffled[i]; const scale = this.random(0.15, 0.4); const w = img.width * scale; const h = img.height * scale; const { x, y } = this.getRandomPortalPosition(resolution, w, h); ctx.save(); ctx.globalAlpha = this.random(0.5, 0.9); ctx.globalCompositeOperation = blendModes[Math.floor(Math.random() * blendModes.length)]; ctx.translate(x + w/2, y + h/2); ctx.rotate(this.random(0, Math.PI * 2)); ctx.drawImage(img, -w/2, -h/2, w, h); ctx.restore(); portalNodes.push({ x: x + w/2, y: y + h/2, z: 0.5 + scale, color: '#ffffff' }); } return portalNodes; };
+einSofRenderer.getRandomPortalPosition = function(resolution, w, h) { /* ב"ה B"H */ const margin = 0.15; const side = Math.floor(Math.random() * 4); let x, y; switch(side) { case 0: x = this.random(0, resolution.width - w); y = this.random(0, resolution.height * margin - h); break; case 1: x = this.random(resolution.width * (1 - margin), resolution.width - w); y = this.random(0, resolution.height - h); break; case 2: x = this.random(0, resolution.width - w); y = this.random(resolution.height * (1 - margin), resolution.height - h); break; case 3: x = this.random(0, resolution.width * margin - w); y = this.random(0, resolution.height - h); break; default: x = 0; y=0; } return { x, y }; };
+einSofRenderer.applyDistortion = function(ctx, settings, resolution, t) { /* ב"ה B"H */ const tempCanvas = new OffscreenCanvas(resolution.width, resolution.height); const tempCtx = tempCanvas.getContext('2d'); tempCtx.drawImage(ctx.canvas, 0, 0); const imageData = tempCtx.getImageData(0, 0, resolution.width, resolution.height); const pixels = imageData.data; const tempPixels = new Uint8ClampedArray(pixels); const time = t / 3000; const distortion = settings.quantumDistortion; for (let y = 0; y < resolution.height; y++) { const yOffset = Math.sin(y / 80 + time) * distortion; for (let x = 0; x < resolution.width; x++) { const xOffset = Math.sin(y / 100 + x / 80 + time) * distortion; const srcX = Math.round(x + xOffset); const srcY = Math.round(y + yOffset); if (srcX >= 0 && srcX < resolution.width && srcY >= 0 && srcY < resolution.height) { const dstIdx = (y * resolution.width + x) * 4; const srcIdx = (srcY * resolution.width + srcX) * 4; pixels[dstIdx] = tempPixels[srcIdx]; pixels[dstIdx + 1] = tempPixels[srcIdx + 1]; pixels[dstIdx + 2] = tempPixels[srcIdx + 2]; } } } ctx.putImageData(imageData, 0, 0); };
+einSofRenderer.applyVignette = function(ctx, resolution) { /* ב"ה B"H */ const g = ctx.createRadialGradient(resolution.width / 2, resolution.height / 2, Math.max(resolution.width, resolution.height) / 3, resolution.width / 2, resolution.height / 2, Math.max(resolution.width, resolution.height)); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.7)'); ctx.fillStyle = g; ctx.fillRect(0, 0, resolution.width, resolution.height); };
+einSofRenderer.applyFilmGrain = function(ctx, resolution) { /* ב"ה B"H */ const iD = ctx.createImageData(resolution.width, resolution.height); const d = iD.data; for (let i = 0; i < d.length; i += 4) { const v = Math.random() * 40; d[i] = v; d[i+1] = v; d[i+2] = v; d[i+3] = 20; } const tC = new OffscreenCanvas(resolution.width, resolution.height); tC.getContext('2d').putImageData(iD, 0, 0); ctx.save(); ctx.globalAlpha = 0.5; ctx.globalCompositeOperation = 'overlay'; ctx.drawImage(tC, 0, 0); ctx.restore(); };
+einSofRenderer.applyLensDirt = function(ctx, resolution) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.05; for(let i=0; i<10; i++){ ctx.beginPath(); ctx.arc(this.random(0, resolution.width), this.random(0, resolution.height), this.random(10, 100), 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fill(); } for(let i=0; i<15; i++){ ctx.beginPath(); ctx.moveTo(this.random(0, resolution.width), this.random(0, resolution.height)); ctx.lineTo(this.random(0, resolution.width), this.random(0, resolution.height)); ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth= this.random(0.5, 1.5); ctx.stroke(); } ctx.restore(); };
+einSofRenderer.applyInterference = function(ctx, resolution) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.08; for (let y = 0; y < resolution.height; y += 4) { ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5})`; ctx.fillRect(0, y, resolution.width, 2); } ctx.restore(); };
+einSofRenderer.applyLightLeaks = function(ctx, resolution, palette) { /* ב"ה B"H */ ctx.save(); ctx.globalCompositeOperation = 'lighter'; const numLeaks = this.random(2, 4); for (let i = 0; i < numLeaks; i++) { const x = this.random(-0.1, 1.1) * resolution.width; const y = this.random(-0.1, 1.1) * resolution.height; const radius = this.random(0.4, 0.8) * Math.max(resolution.width, resolution.height); const color = this.hexToRgba(palette[Math.floor(this.random(0, palette.length))], this.random(0.05, 0.2)); const colorTransparent = this.hexToRgba(palette[Math.floor(this.random(0, palette.length))], 0); const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius); gradient.addColorStop(0, color); gradient.addColorStop(1, colorTransparent); ctx.fillStyle = gradient; ctx.fillRect(0, 0, resolution.width, resolution.height); } ctx.restore(); };
+einSofRenderer.applyCRTCurvature = function(ctx, resolution) { /* ב"ה B"H */ const tempCanvas = new OffscreenCanvas(resolution.width, resolution.height); const tempCtx = tempCanvas.getContext('2d'); tempCtx.drawImage(ctx.canvas, 0, 0); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, resolution.width, resolution.height); const strength = 0.04; const h = resolution.height; for (let y = 0; y < h; y++) { const dy = y - h / 2; const curve = 1 - (dy / (h / 2)) * (dy / (h / 2)); const scale = 1 - strength + (strength * curve); const newWidth = resolution.width * scale; const xOffset = (resolution.width - newWidth) / 2; ctx.drawImage(tempCanvas, 0, y, resolution.width, 1, xOffset, y, newWidth, 1); } };
+einSofRenderer.applyChromaticAberration = function(ctx, resolution) { /* ב"ה B"H */ const imageData = ctx.getImageData(0, 0, resolution.width, resolution.height); const data = imageData.data; const temp = new Uint8ClampedArray(data); const amount = 3; for (let i = 0; i < data.length; i += 4) { const rIndex = i - (amount * 4); if (rIndex >= 0) { data[i] = temp[rIndex]; } const bIndex = i + (amount * 4); if (bIndex < data.length) { data[i + 2] = temp[bIndex + 2]; } } ctx.putImageData(imageData, 0, 0); };
+einSofRenderer.generateCohesivePalette = function(numColors, baseHex) { /* ב"ה B"H */ const baseRgb = this.hexToRgb(baseHex); const baseHsl = this.rgbToHsl(baseRgb.r, baseRgb.g, baseRgb.b); const palette = []; const baseHue = baseHsl.h * 360; for (let i = 0; i < numColors; i++) { const hue = (baseHue + i * (360 / numColors) + (Math.random() - 0.5) * 40) % 360; const saturation = 80 + Math.random() * 20; const lightness = 65 + Math.random() * 15; palette.push(this.hslToHex(hue, saturation, lightness)); } return palette; };
+einSofRenderer.calculateOptimalFontSize = function(ctx, text, maxWidth, maxHeight) { /* ב"ה B"H */ for (let fs = Math.ceil(Math.min(maxHeight, maxWidth / 2)); fs > 10; fs -= 2) { let currentY = 0; let lines = []; const lineHeight = fs * 1.2; ctx.font = `700 ${fs}px 'Teko', sans-serif`; const words = text.split(' '); let currentLine = ''; for (let wordIndex = 0; wordIndex < words.length; wordIndex++) { const word = words[wordIndex]; const testLine = currentLine ? currentLine + ' ' + word : word; if (ctx.measureText(testLine).width > maxWidth && currentLine) { lines.push({ text: currentLine, height: lineHeight, fontSize: fs }); currentY += lineHeight; currentLine = word; } else { currentLine = testLine; } } lines.push({ text: currentLine, height: lineHeight, fontSize: fs }); currentY += lineHeight; if (currentY <= maxHeight && currentY > 0) return { optimalFontSize: fs, lines: lines }; } return { optimalFontSize: 10, lines: this.wrapText(ctx, text, maxWidth, `700 10px 'Teko', sans-serif`).map(l => ({text: l, height: 12, fontSize: 10})) }; };
+einSofRenderer.drawTextWithBorder = function(ctx, text, x, y, size, color, borderWidth) { /* ב"ה B"H */ ctx.font = `700 ${size}px 'Teko', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = borderWidth; ctx.strokeText(text, x, y); ctx.fillStyle = color; ctx.fillText(text, x, y); };
+einSofRenderer.drawWeb = function(ctx, x1, y1, x2, y2, color, opacity) { /* ב"ה B"H */ ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = this.hexToRgba(color, opacity * 0.6); ctx.lineWidth = 0.5 + opacity; ctx.stroke(); };
+einSofRenderer.drawLightning = function(ctx, x1, y1, x2, y2, color, opacity) { /* ב"ה B"H */ let p = [[x1, y1]]; const d = Math.hypot(x1 - x2, y1 - y2); for (let i = 0; i < d / 15; i++) { let r = Math.random(); p.push([x1 + (x2 - x1) * r, y1 + (y2 - y1) * r]) } p.push([x2, y2]); p.sort((a, b) => Math.hypot(a[0] - x1, a[1] - y1) - Math.hypot(b[0] - x1, b[1] - y1)); for (let i = 1; i < p.length - 1; i++) { p[i][0] += (Math.random() - 0.5) * 20; p[i][1] += (Math.random() - 0.5) * 20; } ctx.beginPath(); ctx.moveTo(p[0][0], p[0][1]); p.forEach(pt => ctx.lineTo(pt[0], pt[1])); ctx.strokeStyle = this.hexToRgba(color, opacity); ctx.lineWidth = 1 + opacity * 3; ctx.stroke(); };
+einSofRenderer.drawSynapse = function(ctx, x1, y1, x2, y2, color, opacity) { /* ב"ה B"H */ const grad = ctx.createLinearGradient(x1, y1, x2, y2); grad.addColorStop(0, this.hexToRgba(color, opacity * 0.2)); grad.addColorStop(0.5, this.hexToRgba(color, opacity)); grad.addColorStop(1, this.hexToRgba(color, opacity * 0.2)); ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = grad; ctx.lineWidth = 1 + opacity; ctx.stroke(); const s = 3 + opacity * 6; ctx.fillStyle = this.hexToRgba(color, opacity); ctx.globalAlpha = opacity; ctx.beginPath(); ctx.arc(x1, y1, s, 0, 2 * Math.PI); ctx.fill(); ctx.beginPath(); ctx.arc(x2, y2, s, 0, 2 * Math.PI); ctx.fill(); ctx.globalAlpha = 1; };
+einSofRenderer.wrapText = function(ctx, text, maxWidth, font) { /* ב"ה B"H */ ctx.font = font; const words = text.split(' '); let lines = []; let currentLine = ''; for (const word of words) { const testLine = currentLine ? currentLine + ' ' + word : word; if (ctx.measureText(testLine).width > maxWidth && currentLine) { lines.push(currentLine); currentLine = word; } else { currentLine = testLine; } } if (currentLine) { lines.push(currentLine); } return lines; };
+einSofRenderer.hexToRgba = function(hex, alpha) { /* ב"ה B"H */ const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); return `rgba(${r},${g},${b},${alpha})`; };
+einSofRenderer.hexToRgb = function(hex) { /* ב"ה B"H */ let r = 0, g = 0, b = 0; if (hex.length == 4) { r = "0x" + hex[1] + hex[1]; g = "0x" + hex[2] + hex[2]; b = "0x" + hex[3] + hex[3]; } else if (hex.length == 7) { r = "0x" + hex[1] + hex[2]; g = "0x" + hex[3] + hex[4]; b = "0x" + hex[5] + hex[6]; } return { r: +r, g: +g, b: +b }; };
+einSofRenderer.rgbToHsl = function(r, g, b) { /* ב"ה B"H */ r /= 255; g /= 255; b /= 255; let max = Math.max(r, g, b), min = Math.min(r, g, b); let h=0, s=0, l = (max + min) / 2; if (max !== min) { let d = max - min; s = l > 0.5 ? d / (2 - max - min) : d / (max + min); switch (max) { case r: h = (g - b) / d + (g < b ? 6 : 0); break; case g: h = (b - r) / d + 2; break; case b: h = (r - g) / d + 4; break; } h /= 6; } return { h, s, l }; };
+einSofRenderer.hslToHex = function(h, s, l) { /* ב"ה B"H */ l /= 100; const a = s * Math.min(l, 1 - l) / 100; const f = n => { const k = (n + h / 30) % 12; const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); return Math.round(255 * color).toString(16).padStart(2, '0'); }; return `#${f(0)}${f(8)}${f(4)}`; };
+einSofRenderer.random = function(min, max) { /* ב"ה B"H */ return min + Math.random() * (max - min); };
+einSofRenderer.randomHexColor = function() { /* ב"ה B"H */ return '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); };
+    </script>
+</body>
+</html>
