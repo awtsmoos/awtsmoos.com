@@ -188,11 +188,12 @@ async function generateVideo({
 		bitrate: mediabunny.QUALITY_HIGH
 	});
 	output.addVideoTrack(canvasSource);
-
+    
+    // *** THE FIX STARTS HERE ***
 	let audioBufferSource = null;
-	let audioBufferShim = null;
 	if (plainAudioBuffer) {
-		audioBufferShim = {
+        // We still need the shim for the *initial codec check*, which only looks at metadata.
+		const audioBufferShim = {
 			...plainAudioBuffer,
 			getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
 		};
@@ -203,6 +204,8 @@ async function generateVideo({
 		});
 		output.addAudioTrack(audioBufferSource);
 	}
+    // *** THE FIX ENDS HERE (PART 1) ***
+
 	await output.start();
 
 	// 3. Render Loop
@@ -239,10 +242,8 @@ async function generateVideo({
 		const currentSettings = resolveSettings(settings);
 
 		if (isDynamic) {
-			// Render frame-by-frame for dynamic background
 			const framesInSegment = Math.max(1, Math.round(segmentDuration * fps));
 			const frameDuration = segmentDuration / framesInSegment;
-
 			for (let frameIndex = 0; frameIndex < framesInSegment; frameIndex++) {
 				const frameTime = segmentStartTime + (frameIndex * frameDuration);
 				const dynamicBg = einSofRenderer.generateBackgroundCanvas(resolveSettings(settings, false), resolution, portalBitmaps).canvas;
@@ -250,7 +251,6 @@ async function generateVideo({
 				await canvasSource.add(frameTime, frameDuration);
 			}
 		} else {
-			// Render one frame for a static background segment
 			const bgToUse = settings.regenerateBgToggle ? einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps).canvas : masterBg;
 			renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
 			await canvasSource.add(segmentStartTime, segmentDuration);
@@ -259,16 +259,41 @@ async function generateVideo({
 
 	// 4. Finalize
 	canvasSource.close();
-	if (audioBufferSource) {
+    
+    // *** THE FIX STARTS HERE (PART 2) ***
+	if (audioBufferSource && plainAudioBuffer) {
 		self.postMessage({
 			type: 'STATUS_UPDATE',
 			payload: {
 				message: 'Encoding audio...'
 			}
 		});
-		await audioBufferSource.add(audioBufferShim);
+
+        // Interleave the separate channel data into a single buffer
+        const numberOfFrames = plainAudioBuffer.length;
+        const numberOfChannels = plainAudioBuffer.numberOfChannels;
+        const interleaved = new Float32Array(numberOfFrames * numberOfChannels);
+        for (let i = 0; i < numberOfFrames; i++) {
+            for (let channel = 0; channel < numberOfChannels; channel++) {
+                interleaved[i * numberOfChannels + channel] = plainAudioBuffer.channels[channel][i];
+            }
+        }
+        
+        // Create the proper AudioData object
+        const audioData = new AudioData({
+            format: 'f32-planar', // Or 'f32' if interleaved
+            sampleRate: plainAudioBuffer.sampleRate,
+            numberOfFrames: plainAudioBuffer.length,
+            numberOfChannels: plainAudioBuffer.numberOfChannels,
+            timestamp: 0, // start at the beginning
+            data: interleaved
+        });
+        
+        // Use the new AudioData object
+		await audioBufferSource.add(audioData);
 		audioBufferSource.close();
 	}
+    // *** THE FIX ENDS HERE (PART 2) ***
 
 	self.postMessage({
 		type: 'STATUS_UPDATE',
@@ -299,6 +324,7 @@ async function generateVideo({
 		}
 	});
 }
+
 
 function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, settings, resolution, cache) {
 	/*
