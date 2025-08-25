@@ -9,14 +9,32 @@ B"H
 
 // Polyfill AudioBuffer for the Worker scope.
 // This fake class will satisfy the library's "instanceof AudioBuffer" check.
-function AudioBuffer(options) {
+// *** REPLACE WITH THIS ROBUST POLYFILL ***
+self.AudioBuffer = function(options) {
 	/* ב"ה B"H */
-	// This is a polyfill. We just need to be able to hold the properties.
-	Object.assign(this, options);
-}
+	// This is a polyfill that mimics the real AudioBuffer interface
+	// enough for the mediabunny library to work.
+	Object.assign(this, options); // Copies sampleRate, duration, channels array, etc.
 
-self.AudioBuffer=AudioBuffer;
+	this.getChannelData = function(channelIndex) {
+		/* ב"ה B"H */
+		return this.channels[channelIndex];
+	};
 
+	this.copyFromChannel = function(destination, channelNumber, startInChannel = 0) {
+		/* ב"ה B"H */
+		// This is the critical function the library needs.
+		const source = this.channels[channelNumber];
+		if (!source) return;
+
+		// Create a view of the source data starting from the specified offset.
+		// The slice to copy is limited by the destination's length.
+		const sourceSlice = source.subarray(startInChannel, startInChannel + destination.length);
+
+		// Copy the data from our source channel into the destination array the library provides.
+		destination.set(sourceSlice);
+	};
+};
 
 // 1. Create the 'exports' object in the worker's global scope.
 self.exports = {};
