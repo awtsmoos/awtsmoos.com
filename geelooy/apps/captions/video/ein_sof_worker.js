@@ -15,6 +15,9 @@ function AudioBuffer(options) {
 	Object.assign(this, options);
 }
 
+self.AudioBuffer=AudioBuffer;
+
+
 // 1. Create the 'exports' object in the worker's global scope.
 self.exports = {};
 
