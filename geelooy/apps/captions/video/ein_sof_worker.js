@@ -165,6 +165,9 @@ async function handleRender(payload) {
 
 
 	// REPLACE your entire existing `async function handlePreview(...) { ... }`
+// in ein_sof_worker.js
+
+// --- NEW, CORRECTED CODE ---
 async function handlePreview(payload) {
 	/*
 	ב"ה
@@ -179,12 +182,11 @@ async function handlePreview(payload) {
 	const canvas = new OffscreenCanvas(resolution.width, resolution.height);
 	const ctx = canvas.getContext('2d');
 
-    // FIX HERE: Use the already-resolved settings passed in the payload.
-    // The main thread resolves them before sending.
-	const {
-		canvas: bgCanvas
-	} = einSofRenderer.generateBackgroundCanvas(settings, resolution, portalBitmaps);
-	einSofRenderer.renderOverlays(ctx, bgCanvas, primaryCaption, null, settings.headerText, settings, resolution, []);
+	// FIX: Capture both the canvas AND the generated palette.
+	const { canvas: bgCanvas, palette } = einSofRenderer.generateBackgroundCanvas(settings, resolution, portalBitmaps);
+	
+	// FIX: Pass the real palette instead of an empty array.
+	einSofRenderer.renderOverlays(ctx, bgCanvas, primaryCaption, null, settings.headerText, settings, resolution, palette);
 
 	const bitmap = canvas.transferToImageBitmap();
 	self.postMessage({
@@ -194,7 +196,6 @@ async function handlePreview(payload) {
 		}
 	}, [bitmap]);
 }
-
 	
 // --- Video Generation Logic ---
 
