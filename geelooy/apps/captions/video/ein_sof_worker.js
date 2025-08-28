@@ -1576,7 +1576,31 @@ einSofRenderer.renderSingleOverlayCanvas = function(text, box, settings, resolut
 };
 
 
+// Inside the `einSofRenderer` object in `ein_sof_worker.js`
+// For example, you can add it here, after the existing helper functions:
 
+einSofRenderer.resolveSettings = function(settings, isDynamic = false) {
+    /* ב"ה B"H */
+    const resolved = {};
+    for (const key in settings) {
+        const setting = settings[key];
+        if (setting && typeof setting === 'object' && setting.randomize) {
+            if (setting.type === 'color') {
+                resolved[key] = '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6);
+            } else {
+                const min = Math.min(setting.min, setting.max);
+                const max = Math.max(setting.min, setting.max);
+                resolved[key] = setting.isFloat ? (min + Math.random() * (max - min)) : Math.floor(min + Math.random() * (max - min + 1));
+            }
+        } else {
+            resolved[key] = (setting && typeof setting === 'object') ? setting.value : setting;
+        }
+    }
+    if (isDynamic) {
+        resolved.time = performance.now();
+    }
+    return resolved;
+};
 
 
 self.postMessage({ type: 'WORKER_READY' });
