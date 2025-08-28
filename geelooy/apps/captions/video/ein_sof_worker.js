@@ -761,23 +761,36 @@ einSofRenderer.renderFrameHeader = function(ctx, header, settings, resolution) {
 
 
 // REPLACE your entire existing `einSofRenderer.renderText = function(...) { ... }`
+
+
+
+// in ein_sof_worker.js
+
+// --- NEW, CORRECTED & OPTIMIZED CODE ---
 einSofRenderer.renderText = function(ctx, primaryCaptionText, secondaryCaptionText, settings, resolution, palette, cachedOverlays) {
     /* ב"ה B"H */
     const hasDualCaptions = secondaryCaptionText && secondaryCaptionText.trim() !== '';
-    const { primaryBox, secondaryBox } = einSofRenderer.getLayoutBoxes(settings, resolution, hasDualCaptions);
 
-    const renderSingleBoxContent = (text, box, isPrimary) => {
-        if (!text || text.trim() === '' || !box) return;
+    // This function now uses the pre-calculated and rounded box dimensions from the cache.
+    const renderSingleBoxContent = (text, isPrimary) => {
+        if (!text || text.trim() === '') return;
 
         const cacheEntry = cachedOverlays.get(text);
+        // If there's no cache entry for this text, we cannot render it.
         if (!cacheEntry) return;
 
+        // CRITICAL FIX: Use the box dimensions stored in the cache entry.
+        // This ensures the geometry is identical to the pre-rendered overlay canvas
+        // and that the values are the rounded integers from the initial calculation.
+        const box = isPrimary ? cacheEntry.primaryBox : cacheEntry.secondaryBox;
         const overlayCanvas = isPrimary ? cacheEntry.primary : cacheEntry.secondary;
-        if (!overlayCanvas) return;
+        
+        if (!box || !overlayCanvas) return;
 
         const { x: boxX, y: boxY, width: boxWidth, height: boxHeight } = box;
         const borderRadius = settings.textBoxBorderRadius;
 
+        // This call is now guaranteed to have integer values for x, y, width, and height.
         const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
         const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
         const blurCtx = blurCanvas.getContext('2d', { willReadFrequently: true });
@@ -814,8 +827,8 @@ einSofRenderer.renderText = function(ctx, primaryCaptionText, secondaryCaptionTe
         ctx.restore();
     };
 
-    renderSingleBoxContent(primaryCaptionText, primaryBox, true);
-    if (hasDualCaptions) renderSingleBoxContent(secondaryCaptionText, secondaryBox, false);
+    renderSingleBoxContent(primaryCaptionText, true);
+    if (hasDualCaptions) renderSingleBoxContent(secondaryCaptionText, false);
 };
 
 
