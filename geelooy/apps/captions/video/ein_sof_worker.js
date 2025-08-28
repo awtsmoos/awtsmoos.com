@@ -200,6 +200,14 @@ async function handlePreview(payload) {
 
 
 // REPLACE your entire existing `async function generateVideo(...) { ... }`
+
+	
+	
+	
+	
+
+
+// REPLACE your entire existing `async function generateVideo(...)`
 async function generateVideo({
 	settings,
 	resolution,
@@ -213,82 +221,46 @@ async function generateVideo({
 	ב"ה
 	B"H
 	*/
-	self.postMessage({
-		type: 'STATUS_UPDATE',
-		payload: {
-			message: 'Initializing video encoder...'
-		}
-	});
+	self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing video encoder...' } });
 
-	// 1. Prepare Timeline and Caches
-	const {
-		timeEvents,
-		lastTime
-	} = createTimeEvents(captionData, plainAudioBuffer);
-	if (lastTime === 0) {
-		throw new Error("No valid timeline. Check caption data.");
-	}
+	const { timeEvents, lastTime } = createTimeEvents(captionData, plainAudioBuffer);
+	if (lastTime === 0) { throw new Error("No valid timeline. Check caption data."); }
 
-	self.postMessage({
-		type: 'STATUS_UPDATE',
-		payload: {
-			message: 'Caching caption overlays...'
-		}
-	});
+	self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Caching caption overlays...' } });
 	const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution);
 
-	// 2. Setup Encoder
 	const output = new mediabunny.Output({
 		format: new mediabunny.Mp4OutputFormat(),
 		target: new mediabunny.BufferTarget()
 	});
 	const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
-	const ctx = renderCanvas.getContext('2d', {
-		alpha: false
-	});
+	const ctx = renderCanvas.getContext('2d', { alpha: false });
 
 	let videoCodec = 'avc1.42001E';
 	try {
-		videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), {
-			width: resolution.width,
-			height: resolution.height
-		});
-	} catch (e) {
-		console.warn("Codec check failed, using default.");
-	}
+		videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height });
+	} catch (e) { console.warn("Codec check failed, using default."); }
 
-	const canvasSource = new mediabunny.CanvasSource(renderCanvas, {
-		codec: videoCodec,
-		bitrate: mediabunny.QUALITY_HIGH
-	});
+	const canvasSource = new mediabunny.CanvasSource(renderCanvas, { codec: videoCodec, bitrate: mediabunny.QUALITY_HIGH });
 	output.addVideoTrack(canvasSource);
 
     let audioBufferSource = null;
     let audioBufferShim = null;
     if (plainAudioBuffer) {
-        audioBufferShim = new AudioBuffer({
-            ...plainAudiounny,
-            getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
-        });
+        audioBufferShim = new AudioBuffer({ ...plainAudioBuffer, getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex] });
         const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
-        audioBufferSource = new mediabunny.AudioBufferSource({
-            codec: audioCodec,
-            bitrate: 128_000
-        });
+        audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec, bitrate: 128_000 });
         output.addAudioTrack(audioBufferSource);
     }
-
 	await output.start();
 
-	// 3. Render Loop
-	self.postMessage({
-		type: 'STATUS_UPDATE',
-		payload: {
-			message: 'Generating master background...'
-		}
-	});
-    // FIX HERE
-	const masterBg = isDynamic ? null : einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps).canvas;
+	self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Generating master background...' } });
+	let masterBg, masterPalette;
+	if (!isDynamic) {
+		const bgData = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps);
+		masterBg = bgData.canvas;
+		masterPalette = bgData.palette;
+	}
 
 	for (let i = 0; i < timeEvents.length - 1; i++) {
 		const segmentStartTime = timeEvents[i];
@@ -296,23 +268,11 @@ async function generateVideo({
 		const segmentDuration = segmentEndTime - segmentStartTime;
 		if (segmentDuration < MIN_SEGMENT_DURATION) continue;
 
-		self.postMessage({
-			type: 'STATUS_UPDATE',
-			payload: {
-				message: `Rendering segment ${i + 1}/${timeEvents.length - 1}`
-			}
-		});
-		self.postMessage({
-			type: 'PROGRESS_UPDATE',
-			payload: {
-				percent: (segmentStartTime / lastTime) * 90
-			}
-		});
+		self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Rendering segment ${i + 1}/${timeEvents.length - 1}` } });
+		self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: (segmentStartTime / lastTime) * 90 } });
 
 		const primaryCap = findCaptionActiveAt(segmentStartTime, captionData.primary);
 		const translationCap = findCaptionActiveAt(segmentStartTime, captionData.translation);
-
-        // FIX HERE
 		const currentSettings = einSofRenderer.resolveSettings(settings);
 
 		if (isDynamic) {
@@ -320,102 +280,85 @@ async function generateVideo({
 			const frameDuration = segmentDuration / framesInSegment;
 			for (let frameIndex = 0; frameIndex < framesInSegment; frameIndex++) {
 				const frameTime = segmentStartTime + (frameIndex * frameDuration);
-                // FIX HERE
-				const dynamicBg = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings, false), resolution, portalBitmaps).canvas;
-				renderCompositeFrame(ctx, dynamicBg, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
+				const { canvas: dynamicBg, palette: dynamicPalette } = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings, false), resolution, portalBitmaps);
+				renderCompositeFrame(ctx, dynamicBg, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, dynamicPalette);
 				await canvasSource.add(frameTime, frameDuration);
 			}
 		} else {
-			const bgToUse = settings.regenerateBgToggle ? einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps).canvas : masterBg;
-			renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
+			let bgToUse = masterBg;
+			let paletteToUse = masterPalette;
+			if (settings.regenerateBgToggle) {
+				const bgData = einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps);
+				bgToUse = bgData.canvas;
+				paletteToUse = bgData.palette;
+			}
+			renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, paletteToUse);
 			await canvasSource.add(segmentStartTime, segmentDuration);
 		}
 	}
 
-	// 4. Finalize
 	canvasSource.close();
     
     if (audioBufferSource) {
-        self.postMessage({
-            type: 'STATUS_UPDATE',
-            payload: {
-                message: 'Encoding audio...'
-            }
-        });
+        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
         await audioBufferSource.add(audioBufferShim);
         audioBufferSource.close();
     }
 
-	self.postMessage({
-		type: 'STATUS_UPDATE',
-		payload: {
-			message: 'Finalizing video file...'
-		}
-	});
-	self.postMessage({
-		type: 'PROGRESS_UPDATE',
-		payload: {
-			percent: 98
-		}
-	});
+	self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
+	self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 98 } });
 	await output.finalize();
 
-	self.postMessage({
-		type: 'PROGRESS_UPDATE',
-		payload: {
-			percent: 100
+	self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 100 } });
+	self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob: new Blob([output.target.buffer], { type: output.format.mimeType }) } });
 		}
-	});
-	self.postMessage({
-		type: 'VIDEO_COMPLETE',
-		payload: {
-			blob: new Blob([output.target.buffer], {
-				type: output.format.mimeType
-			})
-		}
-	});
-}
 
 
+	
 
 
 // REPLACE your entire existing `function renderCompositeFrame(...) { ... }`
-function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, settings, resolution, cache) {
-    /* ב"ה B"H */
-    ctx.drawImage(bgCanvas, 0, 0);
-    einSofRenderer.renderFrameHeader(ctx, settings.headerText, settings, resolution);
+// REPLACE your entire existing `function renderCompositeFrame(...)`
+function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, settings, resolution, cache, palette) {
+	/*
+	ב"ה
+	B"H
+	*/
+	ctx.drawImage(bgCanvas, 0, 0);
+	einSofRenderer.renderFrameHeader(ctx, settings.headerText, settings, resolution);
 
-    // Pass the actual caption text strings and the cache
-    einSofRenderer.renderText(
-        ctx,
-        primaryCap ? primaryCap.text : '',
-        translationCap ? translationCap.text : '',
-        settings,
-        resolution,
-        [], // Empty array for palette, as renderText now handles palette in the overlay canvas (or pass actual palette if needed for border)
-        cache // Pass the cached overlays here
-    );
+	einSofRenderer.renderText(
+		ctx,
+		primaryCap ? primaryCap.text : '',
+		translationCap ? translationCap.text : '',
+		settings,
+		resolution,
+		palette, // Pass the palette through
+		cache
+	);
 
-    einSofRenderer.renderCornerText(ctx, settings, resolution);
+	einSofRenderer.renderCornerText(ctx, settings, resolution);
 }
-
 // --- Image Batch Generation ---
 // REPLACE your entire existing `async function generateImageBatch(...) { ... }`
+
+	
+	
+// REPLACE your entire existing `async function generateImageBatch(...)`
 async function generateImageBatch({ settings, resolution, captionData, portalBitmaps, enableImageDownload }) {
     /* ב"ה B"H */
-    if (!enableImageDownload) {
-        throw new Error("Image batch generation called without 'enableImageDownload' being true. This should not happen.");
-    }
-
+    if (!enableImageDownload) { throw new Error("Image batch generation called without 'enableImageDownload' being true."); }
     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Starting image batch generation...' } });
 
     const primaryCaptions = captionData.primary;
-    if (primaryCaptions.length === 0) {
-        throw new Error("No primary captions found for image batch generation.");
-    }
+    if (primaryCaptions.length === 0) { throw new Error("No primary captions found for image batch generation."); }
 
-    const masterBg = settings.dynamicBackgroundToggle ? null : einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps).canvas;
-    const hasDual = captionData.translation.length > 0;
+    let masterBg, masterPalette;
+    if (!settings.dynamicBackgroundToggle) {
+        const bgData = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps);
+        masterBg = bgData.canvas;
+        masterPalette = bgData.palette;
+    }
     const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution);
 
     for (let i = 0; i < primaryCaptions.length; i++) {
@@ -427,27 +370,23 @@ async function generateImageBatch({ settings, resolution, captionData, portalBit
 
         const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
         const ctx = renderCanvas.getContext('2d', { alpha: false });
-
         const currentSettings = einSofRenderer.resolveSettings(settings);
-        const bgToUse = settings.regenerateBgToggle ? einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps).canvas : masterBg;
+        
+        let bgToUse = masterBg;
+        let paletteToUse = masterPalette;
+        if (settings.regenerateBgToggle || settings.dynamicBackgroundToggle) {
+            const bgData = einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps);
+            bgToUse = bgData.canvas;
+            paletteToUse = bgData.palette;
+        }
 
-        einSofRenderer.renderCompositeFrame(
-            ctx,
-            bgToUse,
-            { text: primaryCap.text },
-            translationCap ? { text: translationCap.text } : null,
-            currentSettings,
-            resolution,
-            [],
-            cachedOverlays
-        );
+        renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, paletteToUse);
 
         const timestamp = Date.now();
         const captionExcerpt = primaryCap.text.substring(0, 50).replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_|_$/g, '');
         const filename = `BH_${timestamp}_${captionExcerpt || 'caption'}.png`;
 
         const blob = await renderCanvas.convertToBlob({ type: 'image/png' });
-
         self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
     }
 
@@ -596,11 +535,12 @@ async function cacheAllOverlays(captionData, settings, resolution) {
 
 // --- RENDERER ENGINE (Copied from HTML) ---
 // This entire object contains the graphics functions. It has no dependency on the DOM.
+// REPLACE your entire existing `einSofRenderer.generateBackgroundCanvas = function(...)`
 einSofRenderer.generateBackgroundCanvas = function(settings, resolution, portalBitmaps) {
 	/* ב"ה B"H */
 	const backgroundCanvas = new OffscreenCanvas(resolution.width, resolution.height);
 	const ctx = backgroundCanvas.getContext('2d');
-	const palette = this.generateCohesivePalette(6, settings.basePaletteColor);
+	const palette = this.generateCohesivePalette(6, settings.basePaletteColor); // This palette is now returned
 	const baseLayer = new OffscreenCanvas(resolution.width, resolution.height);
 	const baseCtx = baseLayer.getContext('2d');
 	const glowLayer = new OffscreenCanvas(resolution.width, resolution.height);
@@ -616,9 +556,12 @@ einSofRenderer.generateBackgroundCanvas = function(settings, resolution, portalB
 	ctx.drawImage(baseLayer, 0, 0);
 	return {
 		canvas: backgroundCanvas,
-		palette: palette
+		palette: palette // Return the generated palette
 	};
 };
+
+
+	
 einSofRenderer.renderOverlays = function(ctx, backgroundCanvas, primaryCaption, secondaryCaption, header, settings, resolution, palette) {
 	/* ב"ה B"H */
 	ctx.drawImage(backgroundCanvas, 0, 0);
