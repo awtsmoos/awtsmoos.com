@@ -341,8 +341,7 @@ function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, setting
 // --- Image Batch Generation ---
 // REPLACE your entire existing `async function generateImageBatch(...) { ... }`
 
-	
-	
+einSofRenderer.renderCompositeFrame=renderCompositeFrame
 // REPLACE your entire existing `async function generateImageBatch(...)`
 async function generateImageBatch({ settings, resolution, captionData, portalBitmaps, enableImageDownload }) {
     /* ב"ה B"H */
