@@ -440,6 +440,11 @@ function findCaptionActiveAt(time, captions) {
 
 
 // ATTACH this function to the einSofRenderer object
+
+
+// in ein_sof_worker.js
+
+// ATTACH this function to the einSofRenderer object
 einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) {
 	/*
 	ב"ה
@@ -450,6 +455,7 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 	const boxHeightPercent = settings.textBoxHeight / 100;
 	const gap = settings.textBoxGap;
 	let primaryBox, secondaryBox;
+
 	if (hasDualCaptions) {
 		if (isHorizontalLayout) { // Side-by-side
 			const totalWidth = resolution.width * boxWidthPercent;
@@ -459,16 +465,16 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 			const x1 = (resolution.width - totalWidth) / 2;
 			const x2 = x1 + boxWidth + gap;
 			primaryBox = {
-				x: x1,
-				y: y,
-				width: boxWidth,
-				height: boxHeight
+				x: Math.round(x1),
+				y: Math.round(y),
+				width: Math.round(boxWidth),
+				height: Math.round(boxHeight)
 			};
 			secondaryBox = {
-				x: x2,
-				y: y,
-				width: boxWidth,
-				height: boxHeight
+				x: Math.round(x2),
+				y: Math.round(y),
+				width: Math.round(boxWidth),
+				height: Math.round(boxHeight)
 			};
 		} else { // Top-and-bottom
 			const totalHeight = resolution.height * boxHeightPercent;
@@ -478,16 +484,16 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 			const y1 = (resolution.height - totalHeight) / 2;
 			const y2 = y1 + boxHeight + gap;
 			primaryBox = {
-				x: x,
-				y: y1,
-				width: boxWidth,
-				height: boxHeight
+				x: Math.round(x),
+				y: Math.round(y1),
+				width: Math.round(boxWidth),
+				height: Math.round(boxHeight)
 			};
 			secondaryBox = {
-				x: x,
-				y: y2,
-				width: boxWidth,
-				height: boxHeight
+				x: Math.round(x),
+				y: Math.round(y2),
+				width: Math.round(boxWidth),
+				height: Math.round(boxHeight)
 			};
 		}
 	} else { // Single box
@@ -496,10 +502,10 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 		const x = (resolution.width - boxWidth) / 2;
 		const y = (resolution.height - boxHeight) / 2;
 		primaryBox = {
-			x: x,
-			y: y,
-			width: boxWidth,
-			height: boxHeight
+			x: Math.round(x),
+			y: Math.round(y),
+			width: Math.round(boxWidth),
+			height: Math.round(boxHeight)
 		};
 	}
 	return {
@@ -507,6 +513,7 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 		secondaryBox
 	};
 };
+
 
 
 // REPLACE your entire existing `async function cacheAllOverlays(...) { ... }`
