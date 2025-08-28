@@ -489,7 +489,10 @@ function findCaptionActiveAt(time, captions) {
 	return captions.find(c => time >= c.startTime && time < c.endTime);
 }
 
-function getLayoutBoxes(settings, resolution, hasDualCaptions) {
+
+
+// ATTACH this function to the einSofRenderer object
+einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) {
 	/*
 	ב"ה
 	B"H
@@ -555,7 +558,8 @@ function getLayoutBoxes(settings, resolution, hasDualCaptions) {
 		primaryBox,
 		secondaryBox
 	};
-}
+};
+
 
 // REPLACE your entire existing `async function cacheAllOverlays(...) { ... }`
 async function cacheAllOverlays(captionData, settings, resolution) {
@@ -581,66 +585,6 @@ async function cacheAllOverlays(captionData, settings, resolution) {
     return cache;
 }
 
-function renderSingleOverlay(text, box, settings, resolution) {
-	/*
-	ב"ה
-	B"H
-	*/
-	if (!text || !box) return null;
-
-	const overlayCanvas = new OffscreenCanvas(box.width, box.height);
-	const ctx = overlayCanvas.getContext('2d');
-	const padding = box.width * (settings.textBoxPadding / 100);
-	const innerWidth = box.width - (padding * 2);
-	const innerHeight = box.height - (padding * 2);
-	const layout = einSofRenderer.calculateOptimalFontSize(ctx, text, innerWidth, innerHeight);
-	if (layout.lines.length === 0) return null;
-
-	const borderRadius = settings.textBoxBorderRadius;
-	const boxColor = settings.randomizeBoxColorToggle ? einSofRenderer.randomHexColor() : '#101018';
-
-	ctx.fillStyle = einSofRenderer.hexToRgba(boxColor, settings.textBoxOpacity);
-	ctx.beginPath();
-	ctx.roundRect(0, 0, box.width, box.height, borderRadius);
-	ctx.fill();
-
-	const totalTextHeight = layout.lines.reduce((acc, line) => acc + line.height, 0);
-	let currentY = (box.height - totalTextHeight) / 2;
-
-	ctx.textBaseline = 'middle';
-	layout.lines.forEach(line => {
-		const y = currentY + line.height / 2;
-		einSofRenderer.drawTextWithBorder(ctx, line.text, box.width / 2, y, line.fontSize, '#FFFFFF', line.fontSize * 0.1);
-		currentY += line.height;
-	});
-	return overlayCanvas;
-}
-
-function resolveSettings(settings, isDynamic = false) {
-	/*
-	ב"ה
-	B"H
-	*/
-	const resolved = {};
-	for (const key in settings) {
-		const setting = settings[key];
-		if (setting && typeof setting === 'object' && setting.randomize) {
-			if (setting.type === 'color') {
-				resolved[key] = '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6);
-			} else {
-				const min = Math.min(setting.min, setting.max);
-				const max = Math.max(setting.min, setting.max);
-				resolved[key] = setting.isFloat ? (min + Math.random() * (max - min)) : Math.floor(min + Math.random() * (max - min + 1));
-			}
-		} else {
-			resolved[key] = (setting && typeof setting === 'object') ? setting.value : setting;
-		}
-	}
-	if (isDynamic) {
-		resolved.time = performance.now();
-	}
-	return resolved;
-}
 
 
 // --- RENDERER ENGINE (Copied from HTML) ---
