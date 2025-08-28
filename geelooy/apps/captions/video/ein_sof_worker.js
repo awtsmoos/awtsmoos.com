@@ -1223,79 +1223,80 @@ einSofRenderer.generateCohesivePalette = function(numColors, baseHex) {
 
 
 // REPLACE your entire existing `einSofRenderer.calculateOptimalFontSize = function(...) { ... }`
+// in ein_sof_worker.js
+
+// --- NEW, ROBUST FONT-SIZING LOGIC ---
 einSofRenderer.calculateOptimalFontSize = function(ctx, text, maxWidth, maxHeight) {
     /* ב"ה B"H */
-    const MIN_FONT_SIZE = 12; // Minimum readable font size
-    const MAX_FONT_SIZE = maxHeight; // Max possible font size is the box height
+    const MIN_FONT_SIZE = 8;
+    const MAX_FONT_SIZE = maxHeight;
 
-    let optimalFontSize = MIN_FONT_SIZE;
-    let lines = [];
+    let optimalSize = MIN_FONT_SIZE;
+    let finalLines = [];
 
-    // Binary search for the optimal font size
+    // Binary search for the best font size
     let low = MIN_FONT_SIZE;
     let high = MAX_FONT_SIZE;
 
     while (low <= high) {
-        let mid = Math.floor((low + high) / 2);
+        const mid = Math.floor((low + high) / 2);
         if (mid < MIN_FONT_SIZE) {
-            mid = MIN_FONT_SIZE;
+            low = MIN_FONT_SIZE;
+            continue;
         }
 
         ctx.font = `700 ${mid}px 'Teko', sans-serif`;
-        const words = text.split(' ');
-        let currentLine = '';
-        let testLines = [];
-        let currentHeight = 0;
         const lineHeight = mid * 1.2;
+        const words = text.split(' ');
+        
+        let testLines = [];
+        let currentLine = '';
+        let isPossible = true;
 
-        for (let i = 0; i < words.length; i++) {
-            const word = words[i];
+        // More reliable word-wrapping logic
+        for (const word of words) {
+            // Check if a single word is too long. If so, this font size is invalid.
+            if (ctx.measureText(word).width > maxWidth) {
+                isPossible = false;
+                break;
+            }
+
             const testLine = currentLine ? currentLine + ' ' + word : word;
-
-            if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+            if (ctx.measureText(testLine).width > maxWidth) {
                 testLines.push({ text: currentLine, height: lineHeight, fontSize: mid });
-                currentHeight += lineHeight;
                 currentLine = word;
             } else {
                 currentLine = testLine;
             }
         }
-        if (currentLine) {
-            testLines.push({ text: currentLine, height: lineHeight, fontSize: mid });
-            currentHeight += lineHeight;
+        
+        if (!isPossible) {
+            high = mid - 1; // Font size is too big, try a smaller one
+            continue;
         }
 
-        if (currentHeight <= maxHeight && testLines.length > 0) {
-            optimalFontSize = mid;
-            lines = testLines;
+        if (currentLine) {
+            testLines.push({ text: currentLine, height: lineHeight, fontSize: mid });
+        }
+
+        const totalHeight = testLines.length * lineHeight;
+
+        if (totalHeight <= maxHeight) {
+            // This font size works, try for a slightly larger one
+            optimalSize = mid;
+            finalLines = testLines;
             low = mid + 1;
         } else {
+            // This font size is too big, try a smaller one
             high = mid - 1;
         }
     }
 
-    if (lines.length === 0 && text.trim() !== '') {
-        let fallbackFs = MIN_FONT_SIZE;
-        let singleLineText = text;
-        ctx.font = `700 ${fallbackFs}px 'Teko', sans-serif`;
-        while (ctx.measureText(singleLineText).width > maxWidth && fallbackFs > 5) {
-            fallbackFs -= 1;
-            ctx.font = `700 ${fallbackFs}px 'Teko', sans-serif`;
-        }
-        lines.push({ text: singleLineText, height: fallbackFs * 1.2, fontSize: fallbackFs });
-        optimalFontSize = fallbackFs;
-    }
-
     return {
-        optimalFontSize: optimalFontSize,
-        lines: lines
+        optimalFontSize: optimalSize,
+        lines: finalLines
     };
 };
-
-
-
-
-
 
 einSofRenderer.drawTextWithBorder = function(ctx, text, x, y, size, color, borderWidth) {
 	/* ב"ה B"H */
