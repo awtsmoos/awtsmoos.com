@@ -161,6 +161,9 @@ async function handleRender(payload) {
 
 
 async function handlePreview(payload) {
+
+	// REPLACE your entire existing `async function handlePreview(...) { ... }`
+async function handlePreview(payload) {
 	/*
 	ב"ה
 	B"H
@@ -174,6 +177,8 @@ async function handlePreview(payload) {
 	const canvas = new OffscreenCanvas(resolution.width, resolution.height);
 	const ctx = canvas.getContext('2d');
 
+    // FIX HERE: Use the already-resolved settings passed in the payload.
+    // The main thread resolves them before sending.
 	const {
 		canvas: bgCanvas
 	} = einSofRenderer.generateBackgroundCanvas(settings, resolution, portalBitmaps);
@@ -188,7 +193,13 @@ async function handlePreview(payload) {
 	}, [bitmap]);
 }
 
+	
 // --- Video Generation Logic ---
+
+
+
+
+// REPLACE your entire existing `async function generateVideo(...) { ... }`
 async function generateVideo({
 	settings,
 	resolution,
@@ -236,7 +247,7 @@ async function generateVideo({
 		alpha: false
 	});
 
-	let videoCodec = 'avc1.42001E'; // A safe default
+	let videoCodec = 'avc1.42001E';
 	try {
 		videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), {
 			width: resolution.width,
@@ -251,26 +262,21 @@ async function generateVideo({
 		bitrate: mediabunny.QUALITY_HIGH
 	});
 	output.addVideoTrack(canvasSource);
-    
-    // *** THE FIX STARTS HERE ***
-	// *** REPLACE WITH THIS CODE BLOCK ***
 
-let audioBufferSource = null;
-let audioBufferShim = null;
-if (plainAudioBuffer) {
-    // Instantiate our new fake AudioBuffer class
-    audioBufferShim = new AudioBuffer({
-        ...plainAudioBuffer,
-        getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
-    });
-    const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
-    audioBufferSource = new mediabunny.AudioBufferSource({
-        codec: audioCodec,
-        bitrate: 128_000
-    });
-    output.addAudioTrack(audioBufferSource);
-}
-    // *** THE FIX ENDS HERE (PART 1) ***
+    let audioBufferSource = null;
+    let audioBufferShim = null;
+    if (plainAudioBuffer) {
+        audioBufferShim = new AudioBuffer({
+            ...plainAudiounny,
+            getChannelData: (channelIndex) => plainAudioBuffer.channels[channelIndex]
+        });
+        const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), audioBufferShim);
+        audioBufferSource = new mediabunny.AudioBufferSource({
+            codec: audioCodec,
+            bitrate: 128_000
+        });
+        output.addAudioTrack(audioBufferSource);
+    }
 
 	await output.start();
 
@@ -281,7 +287,8 @@ if (plainAudioBuffer) {
 			message: 'Generating master background...'
 		}
 	});
-	const masterBg = isDynamic ? null : einSofRenderer.generateBackgroundCanvas(resolveSettings(settings), resolution, portalBitmaps).canvas;
+    // FIX HERE
+	const masterBg = isDynamic ? null : einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps).canvas;
 
 	for (let i = 0; i < timeEvents.length - 1; i++) {
 		const segmentStartTime = timeEvents[i];
@@ -305,14 +312,16 @@ if (plainAudioBuffer) {
 		const primaryCap = findCaptionActiveAt(segmentStartTime, captionData.primary);
 		const translationCap = findCaptionActiveAt(segmentStartTime, captionData.translation);
 
-		const currentSettings = resolveSettings(settings);
+        // FIX HERE
+		const currentSettings = einSofRenderer.resolveSettings(settings);
 
 		if (isDynamic) {
 			const framesInSegment = Math.max(1, Math.round(segmentDuration * fps));
 			const frameDuration = segmentDuration / framesInSegment;
 			for (let frameIndex = 0; frameIndex < framesInSegment; frameIndex++) {
 				const frameTime = segmentStartTime + (frameIndex * frameDuration);
-				const dynamicBg = einSofRenderer.generateBackgroundCanvas(resolveSettings(settings, false), resolution, portalBitmaps).canvas;
+                // FIX HERE
+				const dynamicBg = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings, false), resolution, portalBitmaps).canvas;
 				renderCompositeFrame(ctx, dynamicBg, primaryCap, translationCap, currentSettings, resolution, cachedOverlays);
 				await canvasSource.add(frameTime, frameDuration);
 			}
@@ -326,20 +335,16 @@ if (plainAudioBuffer) {
 	// 4. Finalize
 	canvasSource.close();
     
-    // *** THE FIX STARTS HERE (PART 2) ***
-	// *** REPLACE WITH THIS CORRECT CODE ***
-if (audioBufferSource) {
-    self.postMessage({
-        type: 'STATUS_UPDATE',
-        payload: {
-            message: 'Encoding audio...'
-        }
-    });
-    // The library's add() method expects the AudioBuffer shim we already created.
-    await audioBufferSource.add(audioBufferShim);
-    audioBufferSource.close();
-}
-    // *** THE FIX ENDS HERE (PART 2) ***
+    if (audioBufferSource) {
+        self.postMessage({
+            type: 'STATUS_UPDATE',
+            payload: {
+                message: 'Encoding audio...'
+            }
+        });
+        await audioBufferSource.add(audioBufferShim);
+        audioBufferSource.close();
+    }
 
 	self.postMessage({
 		type: 'STATUS_UPDATE',
@@ -370,6 +375,8 @@ if (audioBufferSource) {
 		}
 	});
 }
+
+
 
 
 // REPLACE your entire existing `function renderCompositeFrame(...) { ... }`
