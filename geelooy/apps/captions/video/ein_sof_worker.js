@@ -160,7 +160,6 @@ async function handleRender(payload) {
 
 
 
-async function handlePreview(payload) {
 
 	// REPLACE your entire existing `async function handlePreview(...) { ... }`
 async function handlePreview(payload) {
