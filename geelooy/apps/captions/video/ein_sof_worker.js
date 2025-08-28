@@ -126,36 +126,39 @@ async function handleRender(payload) {
             portalBitmaps,
             enableImageDownload
         });
-    } else {
-        // This handles a single 'image' render mode if image batch download is NOT enabled.
-        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Generating single image...' } });
-        const canvas = new OffscreenCanvas(resolution.width, resolution.height);
-        const ctx = canvas.getContext('2d');
+    // --- NEW, CORRECTED CODE ---
+} else {
+    // This handles a single 'image' render mode if image batch download is NOT enabled.
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Generating single image...' } });
+    const canvas = new OffscreenCanvas(resolution.width, resolution.height);
+    const ctx = canvas.getContext('2d');
 
-        // Get the first primary caption, or a placeholder if none
-        const primaryCaption = captionData.primary.length > 0 ? captionData.primary[0].text : 'No Caption';
-        const translationCaption = captionData.translation.length > 0 ? captionData.translation[0].text : null;
+    // Get the first primary caption, or a placeholder if none
+    const primaryCaption = captionData.primary.length > 0 ? captionData.primary[0].text : 'No Caption';
+    const translationCaption = captionData.translation.length > 0 ? captionData.translation[0].text : null;
 
-        const { canvas: bgCanvas } = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps);
-        const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution); // Cache overlays for single image
+    // FIX: Capture both the canvas and the palette from the background generation.
+    const { canvas: bgCanvas, palette } = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps);
+    const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution);
 
-        // Render the frame with the first caption
-        einSofRenderer.renderCompositeFrame(
-            ctx,
-            bgCanvas,
-            { text: primaryCaption }, // Pass an object to match `primaryCap` structure expected by `renderCompositeFrame` for `primaryCap.text`
-            translationCaption ? { text: translationCaption } : null, // Same for translation
-            settings,
-            resolution,
-            
-            cachedOverlays // Pass the cached overlays here
-        );
+    // Render the frame with the first caption
+    // FIX: Pass the palette as the final argument to match the function's definition.
+    renderCompositeFrame(
+        ctx,
+        bgCanvas,
+        { text: primaryCaption },
+        translationCaption ? { text: translationCaption } : null,
+        settings,
+        resolution,
+        cachedOverlays,
+        palette // The missing palette argument is now included.
+    );
 
-        const blob = await canvas.convertToBlob({ type: 'image/png' });
-        const filename = `BH_${Date.now()}_single_image.png`;
-        self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
-        self.postMessage({ type: 'BATCH_COMPLETE' }); // Treat single image as a batch of one
-    }
+    const blob = await canvas.convertToBlob({ type: 'image/png' });
+    const filename = `BH_${Date.now()}_single_image.png`;
+    self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
+    self.postMessage({ type: 'BATCH_COMPLETE' }); // Treat single image as a batch of one
+	}
 }
 
 
