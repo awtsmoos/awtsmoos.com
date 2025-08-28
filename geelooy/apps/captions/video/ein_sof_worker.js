@@ -445,6 +445,12 @@ function findCaptionActiveAt(time, captions) {
 // in ein_sof_worker.js
 
 // ATTACH this function to the einSofRenderer object
+
+
+
+// in ein_sof_worker.js
+
+// REPLACE this entire function
 einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) {
 	/*
 	ב"ה
@@ -513,6 +519,7 @@ einSofRenderer.getLayoutBoxes = function(settings, resolution, hasDualCaptions) 
 		secondaryBox
 	};
 };
+
 
 
 
