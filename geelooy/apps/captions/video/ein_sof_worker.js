@@ -147,7 +147,7 @@ async function handleRender(payload) {
             translationCaption ? { text: translationCaption } : null, // Same for translation
             settings,
             resolution,
-            [], // palette (if needed, pass it)
+            
             cachedOverlays // Pass the cached overlays here
         );
 
@@ -332,7 +332,8 @@ function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, setting
 		translationCap ? translationCap.text : '',
 		settings,
 		resolution,
-		palette, // Pass the palette through
+		palette,
+	
 		cache
 	);
 
