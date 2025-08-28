@@ -92,41 +92,73 @@ self.onmessage = async (event) => {
 
 // --- Core Worker Functions ---
 
+// REPLACE your entire existing `async function handleRender(payload) { ... }`
 async function handleRender(payload) {
-	/*
-	ב"ה
-	B"H
-	*/
-	const {
-		mode,
-		settings,
-		resolution,
-		captionData,
-		portalBitmaps,
-		plainAudioBuffer,
-		isDynamic,
-		fps
-	} = payload;
+    /* ב"ה B"H */
+    const {
+        mode, // This will be 'video' or 'imageBatch'
+        settings,
+        resolution,
+        captionData,
+        portalBitmaps,
+        plainAudioBuffer,
+        isDynamic,
+        fps,
+        enableImageDownload // New payload parameter
+    } = payload;
 
-	if (mode === 'video') {
-		await generateVideo({
-			settings,
-			resolution,
-			captionData,
-			portalBitmaps,
-			plainAudioBuffer,
-			isDynamic,
-			fps
-		});
-	} else {
-		await generateImageBatch({
-			settings,
-			resolution,
-			captionData,
-			portalBitmaps
-		});
-	}
+    if (mode === 'video') {
+        await generateVideo({
+            settings,
+            resolution,
+            captionData,
+            portalBitmaps,
+            plainAudioBuffer,
+            isDynamic,
+            fps,
+            enableImageDownload
+        });
+    } else if (mode === 'imageBatch') { // Handle the new mode for image batch
+        await generateImageBatch({
+            settings,
+            resolution,
+            captionData,
+            portalBitmaps,
+            enableImageDownload
+        });
+    } else {
+        // This handles a single 'image' render mode if image batch download is NOT enabled.
+        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Generating single image...' } });
+        const canvas = new OffscreenCanvas(resolution.width, resolution.height);
+        const ctx = canvas.getContext('2d');
+
+        // Get the first primary caption, or a placeholder if none
+        const primaryCaption = captionData.primary.length > 0 ? captionData.primary[0].text : 'No Caption';
+        const translationCaption = captionData.translation.length > 0 ? captionData.translation[0].text : null;
+
+        const { canvas: bgCanvas } = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps);
+        const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution); // Cache overlays for single image
+
+        // Render the frame with the first caption
+        einSofRenderer.renderCompositeFrame(
+            ctx,
+            bgCanvas,
+            { text: primaryCaption }, // Pass an object to match `primaryCap` structure expected by `renderCompositeFrame` for `primaryCap.text`
+            translationCaption ? { text: translationCaption } : null, // Same for translation
+            settings,
+            resolution,
+            [], // palette (if needed, pass it)
+            cachedOverlays // Pass the cached overlays here
+        );
+
+        const blob = await canvas.convertToBlob({ type: 'image/png' });
+        const filename = `BH_${Date.now()}_single_image.png`;
+        self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
+        self.postMessage({ type: 'BATCH_COMPLETE' }); // Treat single image as a batch of one
+    }
 }
+
+
 
 async function handlePreview(payload) {
 	/*
@@ -340,38 +372,81 @@ if (audioBufferSource) {
 }
 
 
+// REPLACE your entire existing `function renderCompositeFrame(...) { ... }`
 function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, settings, resolution, cache) {
-	/*
-	ב"ה
-	B"H
-	*/
-	ctx.drawImage(bgCanvas, 0, 0);
-	einSofRenderer.renderFrameHeader(ctx, settings.headerText, settings, resolution);
+    /* ב"ה B"H */
+    ctx.drawImage(bgCanvas, 0, 0);
+    einSofRenderer.renderFrameHeader(ctx, settings.headerText, settings, resolution);
 
-	if (primaryCap) {
-		const overlay = cache.get(primaryCap.text);
-		if (overlay) ctx.drawImage(overlay.primary, overlay.primaryBox.x, overlay.primaryBox.y);
-	}
-	if (translationCap) {
-		const overlay = cache.get(translationCap.text);
-		if (overlay) ctx.drawImage(overlay.secondary, overlay.secondaryBox.x, overlay.secondaryBox.y);
-	}
+    // Pass the actual caption text strings and the cache
+    einSofRenderer.renderText(
+        ctx,
+        primaryCap ? primaryCap.text : '',
+        translationCap ? translationCap.text : '',
+        settings,
+        resolution,
+        [], // Empty array for palette, as renderText now handles palette in the overlay canvas (or pass actual palette if needed for border)
+        cache // Pass the cached overlays here
+    );
 
-	einSofRenderer.renderCornerText(ctx, settings, resolution);
+    einSofRenderer.renderCornerText(ctx, settings, resolution);
 }
 
 // --- Image Batch Generation ---
-async function generateImageBatch({
-	settings,
-	resolution,
-	captionData,
-	portalBitmaps
-}) {
-	/*
-	ב"ה
-	B"H
-	*/
-	throw new Error("Image batch generation is not supported in this version.");
+// REPLACE your entire existing `async function generateImageBatch(...) { ... }`
+async function generateImageBatch({ settings, resolution, captionData, portalBitmaps, enableImageDownload }) {
+    /* ב"ה B"H */
+    if (!enableImageDownload) {
+        throw new Error("Image batch generation called without 'enableImageDownload' being true. This should not happen.");
+    }
+
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Starting image batch generation...' } });
+
+    const primaryCaptions = captionData.primary;
+    if (primaryCaptions.length === 0) {
+        throw new Error("No primary captions found for image batch generation.");
+    }
+
+    const masterBg = settings.dynamicBackgroundToggle ? null : einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings), resolution, portalBitmaps).canvas;
+    const hasDual = captionData.translation.length > 0;
+    const cachedOverlays = await cacheAllOverlays(captionData, settings, resolution);
+
+    for (let i = 0; i < primaryCaptions.length; i++) {
+        const primaryCap = primaryCaptions[i];
+        const translationCap = findCaptionActiveAt(primaryCap.startTime, captionData.translation);
+
+        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Generating image ${i + 1}/${primaryCaptions.length}` } });
+        self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: (i / primaryCaptions.length) * 99 } });
+
+        const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
+        const ctx = renderCanvas.getContext('2d', { alpha: false });
+
+        const currentSettings = einSofRenderer.resolveSettings(settings);
+        const bgToUse = settings.regenerateBgToggle ? einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, portalBitmaps).canvas : masterBg;
+
+        einSofRenderer.renderCompositeFrame(
+            ctx,
+            bgToUse,
+            { text: primaryCap.text },
+            translationCap ? { text: translationCap.text } : null,
+            currentSettings,
+            resolution,
+            [],
+            cachedOverlays
+        );
+
+        const timestamp = Date.now();
+        const captionExcerpt = primaryCap.text.substring(0, 50).replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_|_$/g, '');
+        const filename = `BH_${timestamp}_${captionExcerpt || 'caption'}.png`;
+
+        const blob = await renderCanvas.convertToBlob({ type: 'image/png' });
+
+        self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
+    }
+
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Image batch generation complete.' } });
+    self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 100 } });
+    self.postMessage({ type: 'BATCH_COMPLETE' });
 }
 
 // --- Helper Functions ---
@@ -482,32 +557,28 @@ function getLayoutBoxes(settings, resolution, hasDualCaptions) {
 	};
 }
 
+// REPLACE your entire existing `async function cacheAllOverlays(...) { ... }`
 async function cacheAllOverlays(captionData, settings, resolution) {
-	/*
-	ב"ה
-	B"H
-	*/
-	const uniqueTexts = new Set([...captionData.primary.map(c => c.text), ...captionData.translation.map(c => c.text)]);
-	const cache = new Map();
-	const hasDual = captionData.translation.length > 0;
+    /* ב"ה B"H */
+    const uniqueTexts = new Set([...captionData.primary.map(c => c.text), ...captionData.translation.map(c => c.text)]);
+    const cache = new Map();
+    const hasDual = captionData.translation.length > 0;
 
-	for (const text of uniqueTexts) {
-		const resolvedSettings = resolveSettings(settings);
-		const boxes = getLayoutBoxes(resolvedSettings, resolution, hasDual);
+    for (const text of uniqueTexts) {
+        const resolvedSettings = einSofRenderer.resolveSettings(settings);
+        const boxes = einSofRenderer.getLayoutBoxes(resolvedSettings, resolution, hasDual);
 
-		// Render this text as if it's the primary caption
-		const primaryResult = renderSingleOverlay(text, boxes.primaryBox, resolvedSettings, resolution);
-		// Render this text as if it's the secondary caption
-		const secondaryResult = hasDual ? renderSingleOverlay(text, boxes.secondaryBox, resolvedSettings, resolution) : null;
+        const primaryOverlayCanvas = einSofRenderer.renderSingleOverlayCanvas(text, boxes.primaryBox, resolvedSettings, resolution);
+        const secondaryOverlayCanvas = hasDual ? einSofRenderer.renderSingleOverlayCanvas(text, boxes.secondaryBox, resolvedSettings, resolution) : null;
 
-		cache.set(text, {
-			primary: primaryResult,
-			secondary: secondaryResult,
-			primaryBox: boxes.primaryBox,
-			secondaryBox: boxes.secondaryBox
-		});
-	}
-	return cache;
+        cache.set(text, {
+            primary: primaryOverlayCanvas,
+            secondary: secondaryOverlayCanvas,
+            primaryBox: boxes.primaryBox,
+            secondaryBox: boxes.secondaryBox
+        });
+    }
+    return cache;
 }
 
 function renderSingleOverlay(text, box, settings, resolution) {
@@ -775,73 +846,71 @@ einSofRenderer.renderFrameHeader = function(ctx, header, settings, resolution) {
 		});
 	}
 };
-einSofRenderer.renderText = function(ctx, primaryCaption, secondaryCaption, settings, resolution, palette) {
-	/* ב"ה B"H */
-	const hasDualCaptions = secondaryCaption && secondaryCaption.trim() !== '';
-	const {
-		primaryBox,
-		secondaryBox
-	} = getLayoutBoxes(settings, resolution, hasDualCaptions);
-	const renderSingleBox = (text, box) => {
-		if (!text || text.trim() === '' || !box) return;
-		const padding = box.width * (settings.textBoxPadding / 100);
-		const innerWidth = box.width - (padding * 2);
-		const innerHeight = box.height - (padding * 2);
-		const layout = this.calculateOptimalFontSize(ctx, text, innerWidth, innerHeight);
-		if (layout.lines.length === 0) return;
-		const {
-			x: boxX,
-			y: boxY,
-			width: boxWidth,
-			height: boxHeight
-		} = box;
-		const borderRadius = settings.textBoxBorderRadius;
-		const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
-		const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
-		const blurCtx = blurCanvas.getContext('2d', {
-			willReadFrequently: true
-		});
-		blurCtx.putImageData(snap, 0, 0);
-		blurCtx.filter = 'blur(15px) brightness(0.8)';
-		blurCtx.drawImage(blurCanvas, 0, 0);
-		ctx.save();
-		ctx.beginPath();
-		ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius);
-		ctx.clip();
-		ctx.drawImage(blurCanvas, boxX, boxY);
-		const boxColor = settings.randomizeBoxColorToggle ? this.randomHexColor() : '#101018';
-		ctx.fillStyle = this.hexToRgba(boxColor, settings.textBoxOpacity);
-		ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-		ctx.restore();
-		const borderGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
-		borderGrad.addColorStop(0, palette[1]);
-		borderGrad.addColorStop(0.5, palette[3]);
-		borderGrad.addColorStop(1, palette[0]);
-		ctx.save();
-		ctx.strokeStyle = palette[2];
-		ctx.shadowColor = palette[2];
-		ctx.shadowBlur = 25;
-		ctx.lineWidth = 4;
-		ctx.beginPath();
-		ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius);
-		ctx.stroke();
-		ctx.shadowBlur = 0;
-		ctx.strokeStyle = borderGrad;
-		ctx.lineWidth = 2.5;
-		ctx.stroke();
-		ctx.restore();
-		const totalTextHeight = layout.lines.reduce((acc, line) => acc + line.height, 0);
-		let currentY = boxY + (boxHeight - totalTextHeight) / 2;
-		ctx.textBaseline = 'middle';
-		layout.lines.forEach(line => {
-			const y = currentY + line.height / 2;
-			this.drawTextWithBorder(ctx, line.text, boxX + boxWidth / 2, y, line.fontSize, '#FFFFFF', line.fontSize * 0.1);
-			currentY += line.height;
-		});
-	};
-	renderSingleBox(primaryCaption, primaryBox);
-	if (hasDualCaptions) renderSingleBox(secondaryCaption, secondaryBox);
+
+
+
+// REPLACE your entire existing `einSofRenderer.renderText = function(...) { ... }`
+einSofRenderer.renderText = function(ctx, primaryCaptionText, secondaryCaptionText, settings, resolution, palette, cachedOverlays) {
+    /* ב"ה B"H */
+    const hasDualCaptions = secondaryCaptionText && secondaryCaptionText.trim() !== '';
+    const { primaryBox, secondaryBox } = einSofRenderer.getLayoutBoxes(settings, resolution, hasDualCaptions);
+
+    const renderSingleBoxContent = (text, box, isPrimary) => {
+        if (!text || text.trim() === '' || !box) return;
+
+        const cacheEntry = cachedOverlays.get(text);
+        if (!cacheEntry) return;
+
+        const overlayCanvas = isPrimary ? cacheEntry.primary : cacheEntry.secondary;
+        if (!overlayCanvas) return;
+
+        const { x: boxX, y: boxY, width: boxWidth, height: boxHeight } = box;
+        const borderRadius = settings.textBoxBorderRadius;
+
+        const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
+        const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
+        const blurCtx = blurCanvas.getContext('2d', { willReadFrequently: true });
+        blurCtx.putImageData(snap, 0, 0);
+        blurCtx.filter = 'blur(15px) brightness(0.8)';
+        blurCtx.drawImage(blurCanvas, 0, 0);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius);
+        ctx.clip();
+        ctx.drawImage(blurCanvas, boxX, boxY);
+        ctx.restore();
+
+        ctx.drawImage(overlayCanvas, boxX, boxY, boxWidth, boxHeight);
+
+        const borderGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
+        borderGrad.addColorStop(0, palette[1]);
+        borderGrad.addColorStop(0.5, palette[3]);
+        borderGrad.addColorStop(1, palette[0]);
+
+        ctx.save();
+        ctx.strokeStyle = palette[2];
+        ctx.shadowColor = palette[2];
+        ctx.shadowBlur = 25;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxWidth, boxHeight, borderRadius);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = borderGrad;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.restore();
+    };
+
+    renderSingleBoxContent(primaryCaptionText, primaryBox, true);
+    if (hasDualCaptions) renderSingleBoxContent(secondaryCaptionText, secondaryBox, false);
 };
+
+
+
+
+
 einSofRenderer.applyFrameEffects = function(ctx, settings, resolution, palette) {
 	/* ב"ה B"H */
 	const t = settings.time || Date.now();
@@ -1226,50 +1295,84 @@ einSofRenderer.generateCohesivePalette = function(numColors, baseHex) {
 	}
 	return palette;
 };
+
+
+
+// REPLACE your entire existing `einSofRenderer.calculateOptimalFontSize = function(...) { ... }`
 einSofRenderer.calculateOptimalFontSize = function(ctx, text, maxWidth, maxHeight) {
-	/* ב"ה B"H */
-	for (let fs = Math.ceil(Math.min(maxHeight, maxWidth / 2)); fs > 10; fs -= 2) {
-		let currentY = 0;
-		let lines = [];
-		const lineHeight = fs * 1.2;
-		ctx.font = `700 ${fs}px 'Teko', sans-serif`;
-		const words = text.split(' ');
-		let currentLine = '';
-		for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
-			const word = words[wordIndex];
-			const testLine = currentLine ? currentLine + ' ' + word : word;
-			if (ctx.measureText(testLine).width > maxWidth && currentLine) {
-				lines.push({
-					text: currentLine,
-					height: lineHeight,
-					fontSize: fs
-				});
-				currentY += lineHeight;
-				currentLine = word;
-			} else {
-				currentLine = testLine;
-			}
-		}
-		lines.push({
-			text: currentLine,
-			height: lineHeight,
-			fontSize: fs
-		});
-		currentY += lineHeight;
-		if (currentY <= maxHeight && currentY > 0) return {
-			optimalFontSize: fs,
-			lines: lines
-		};
-	}
-	return {
-		optimalFontSize: 10,
-		lines: this.wrapText(ctx, text, maxWidth, `700 10px 'Teko', sans-serif`).map(l => ({
-			text: l,
-			height: 12,
-			fontSize: 10
-		}))
-	};
+    /* ב"ה B"H */
+    const MIN_FONT_SIZE = 12; // Minimum readable font size
+    const MAX_FONT_SIZE = maxHeight; // Max possible font size is the box height
+
+    let optimalFontSize = MIN_FONT_SIZE;
+    let lines = [];
+
+    // Binary search for the optimal font size
+    let low = MIN_FONT_SIZE;
+    let high = MAX_FONT_SIZE;
+
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+        if (mid < MIN_FONT_SIZE) {
+            mid = MIN_FONT_SIZE;
+        }
+
+        ctx.font = `700 ${mid}px 'Teko', sans-serif`;
+        const words = text.split(' ');
+        let currentLine = '';
+        let testLines = [];
+        let currentHeight = 0;
+        const lineHeight = mid * 1.2;
+
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            const testLine = currentLine ? currentLine + ' ' + word : word;
+
+            if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+                testLines.push({ text: currentLine, height: lineHeight, fontSize: mid });
+                currentHeight += lineHeight;
+                currentLine = word;
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) {
+            testLines.push({ text: currentLine, height: lineHeight, fontSize: mid });
+            currentHeight += lineHeight;
+        }
+
+        if (currentHeight <= maxHeight && testLines.length > 0) {
+            optimalFontSize = mid;
+            lines = testLines;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    if (lines.length === 0 && text.trim() !== '') {
+        let fallbackFs = MIN_FONT_SIZE;
+        let singleLineText = text;
+        ctx.font = `700 ${fallbackFs}px 'Teko', sans-serif`;
+        while (ctx.measureText(singleLineText).width > maxWidth && fallbackFs > 5) {
+            fallbackFs -= 1;
+            ctx.font = `700 ${fallbackFs}px 'Teko', sans-serif`;
+        }
+        lines.push({ text: singleLineText, height: fallbackFs * 1.2, fontSize: fallbackFs });
+        optimalFontSize = fallbackFs;
+    }
+
+    return {
+        optimalFontSize: optimalFontSize,
+        lines: lines
+    };
 };
+
+
+
+
+
+
 einSofRenderer.drawTextWithBorder = function(ctx, text, x, y, size, color, borderWidth) {
 	/* ב"ה B"H */
 	ctx.font = `700 ${size}px 'Teko', sans-serif`;
@@ -1435,5 +1538,45 @@ einSofRenderer.randomHexColor = function() {
 	/* ב"ה B"H */
 	return '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6);
 };
+
+// ADD this new function, or REPLACE an existing `einSofRenderer.renderSingleOverlay` function.
+einSofRenderer.renderSingleOverlayCanvas = function(text, box, settings, resolution) {
+    /* ב"ה B"H */
+    if (!text || text.trim() === '' || !box) return null;
+
+    const overlayCanvas = new OffscreenCanvas(box.width, box.height);
+    const ctx = overlayCanvas.getContext('2d', { willReadFrequently: true });
+
+    const padding = box.width * (settings.textBoxPadding / 100);
+    const innerWidth = box.width - (padding * 2);
+    const innerHeight = box.height - (padding * 2);
+
+    const layout = this.calculateOptimalFontSize(ctx, text, innerWidth, innerHeight);
+    if (layout.lines.length === 0) return null;
+
+    const borderRadius = settings.textBoxBorderRadius;
+    const boxColor = settings.randomizeBoxColorToggle ? this.randomHexColor() : '#101018';
+
+    ctx.fillStyle = this.hexToRgba(boxColor, settings.textBoxOpacity);
+    ctx.beginPath();
+    ctx.roundRect(0, 0, box.width, box.height, borderRadius);
+    ctx.fill();
+
+    const totalTextHeight = layout.lines.reduce((acc, line) => acc + line.height, 0);
+    let currentY = (box.height - totalTextHeight) / 2;
+
+    ctx.textBaseline = 'middle';
+    layout.lines.forEach(line => {
+        const y = currentY + line.height / 2;
+        this.drawTextWithBorder(ctx, line.text, box.width / 2, y, line.fontSize, '#FFFFFF', line.fontSize * 0.1);
+        currentY += line.height;
+    });
+
+    return overlayCanvas;
+};
+
+
+
+
 
 self.postMessage({ type: 'WORKER_READY' });
