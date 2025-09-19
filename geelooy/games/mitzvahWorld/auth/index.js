@@ -63,14 +63,15 @@ function updateProgress(data) {
         ).then(rs=>{
             
          //   console.log("Wrote!",rs);
-            r({
-                name: myName,
-                sessionId: session,
-                data
-            })
+            
         }).catch(e => {
             console.log("No")
             j(e)
+        })
+        r({
+            name: myName,
+            sessionId: session,
+            data
         })
     })
     

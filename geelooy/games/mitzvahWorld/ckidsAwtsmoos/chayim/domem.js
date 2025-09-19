@@ -700,13 +700,9 @@ export default class Domem extends Nivra {
      * plugged in somewhere
      * else as threeMesh.material.map=returnValue
      */
-    async mixTextures({
-        maskTexture/*
-            the "factor"
-            texture
-            with white being one 
-            and black the other
-        */,
+   
+	async mixTextures({
+       
         baseTexture/*
             represented by 
             the black color
@@ -727,156 +723,183 @@ export default class Domem extends Nivra {
             it by
         */,
         repeatY=1/*ibit*/,
+		fragmentShaderSnippet=null,
+		
+		fragmentDeclarations,
+		extraUniforms=null,
         childNameToSetItTo=null,
 		useCurveMixer = false,
+		
+	    textureScale = 0.1, // Controls texture size for procedural UVs
 	    featherRadius = 10, // world units to feather edge
     } = {}) {
-        const self = this;
+        var self = this;
+        try {
+            baseTexture = self.olam.$gc(
+                baseTexture
+            );
+            overlayTexture = self.olam.$gc(
+                overlayTexture
+            )
+           
+			
+        } catch(e){
+            console.log("Couldnt get it",e)
+        }
+       
+		
 
-	    // Load base and overlay textures normally
-	    try {
-	        baseTexture = self.olam.$gc(baseTexture);
-	        overlayTexture = self.olam.$gc(overlayTexture);
-	    } catch (e) {
-	        console.error("Could not gc base/overlay textures", e);
-	    }
-	
-	    let base, overlay;
-	    try {
-	        base = await self.olam.loadTexture({
-	            url: baseTexture,
-	            shouldRepeat: true,
-	            repeatX,
-	            repeatY,
-	            nivra: self,
-	        });
-	        overlay = await self.olam.loadTexture({
-	            url: overlayTexture,
-	            shouldRepeat: true,
-	            repeatX,
-	            repeatY,
-	            nivra: self,
-	        });
-	    } catch (e) {
-	        console.error("Issue loading base or overlay texture", e);
-	        return;
-	    }
-	
-	    // Extract curve points and create DataTexture
-	    let curvePoints = [];
-	    if (useCurveMixer && this.mesh) {
-	        this.mesh.traverse((child) => {
-	            if (child.name.includes("mixer") && child.isMesh) {
-	                const posAttr = child.geometry.attributes.position;
-	                const matrixWorld = child.matrixWorld;
-	
-	                for (let i = 0; i < posAttr.count; i++) {
-	                    const vertex = new THREE.Vector3().fromBufferAttribute(posAttr, i);
-	                    vertex.applyMatrix4(matrixWorld);
-	                    curvePoints.push(new THREE.Vector2(vertex.x, vertex.z)); // Project to XZ
-	                }
-	            }
-	        });
-	    }
-	
-	    // Create Float32Array DataTexture for curve points
-	    const pointCount = curvePoints.length;
-	    if (pointCount === 0) {
-	        console.warn("No curve points found; falling back to overlay blend");
-	    }
-	    const texWidth = Math.max(1, pointCount);
-	    const data = new Float32Array(texWidth * 4);
-	    for (let i = 0; i < pointCount; i++) {
-	        data[i * 4] = curvePoints[i].x;
-	        data[i * 4 + 1] = curvePoints[i].y;
-	        data[i * 4 + 2] = 0;
-	        data[i * 4 + 3] = 1;
-	    }
-	    // Fill remaining pixels with zero if any
-	    for (let i = pointCount; i < texWidth; i++) {
-	        data[i * 4] = 0;
-	        data[i * 4 + 1] = 0;
-	        data[i * 4 + 2] = 0;
-	        data[i * 4 + 3] = 1;
-	    }
-	    const curveTexture = new THREE.DataTexture(data, texWidth, 1, THREE.RGBAFormat, THREE.FloatType);
-	    curveTexture.needsUpdate = true;
-	    curveTexture.wrapS = THREE.ClampToEdgeWrapping;
-	    curveTexture.wrapT = THREE.ClampToEdgeWrapping;
-	
-	    // Build custom shader material
-	    const customLambertMaterial = new THREE.MeshLambertMaterial();
-	    customLambertMaterial.onBeforeCompile = function (shader) {
-	        // Add uniforms
-	        shader.uniforms.baseTexture = { value: base };
-	        shader.uniforms.overlayTexture = { value: overlay };
-	        shader.uniforms.repeatVector = { value: new THREE.Vector2(repeatX, repeatY) };
-	        shader.uniforms.curveTexture = { value: curveTexture };
-	        shader.uniforms.curvePointCount = { value: pointCount };
-	        shader.uniforms.featherRadius = { value: featherRadius };
-	
-	        // Vertex Shader: pass vWorldPos to fragment
-	        shader.vertexShader = `
-	            varying vec3 vWorldPos;
-	        ` + shader.vertexShader;
-	
-	        shader.vertexShader = shader.vertexShader.replace(
-	            '#include <worldpos_vertex>',
-	            `
-	            #include <worldpos_vertex>
-	            vWorldPos = worldPosition.xyz;
-	            `
-	        );
-	
-	        // Fragment Shader: declare uniforms and varyings
-	        shader.fragmentShader = `
-	            uniform sampler2D baseTexture;
-	            uniform sampler2D overlayTexture;
-	            uniform vec2 repeatVector;
-	            uniform sampler2D curveTexture;
-	            uniform int curvePointCount;
-	            uniform float featherRadius;
-	            varying vec3 vWorldPos;
-	
-	            float computeMaskFromCurve(vec2 posXZ) {
-	                float minDist = 1e10;
-	                for (int i = 0; i < 1024; i++) { // max loop upper bound
-	                    if (i >= curvePointCount) break;
-	                    float u = (float(i) + 0.5) / float(curvePointCount);
-	                    vec2 pt = texture2D(curveTexture, vec2(u, 0.5)).rg;
-	                    float d = distance(posXZ, pt);
-	                    minDist = min(minDist, d);
-	                }
-	                return 1.0 - smoothstep(0.0, featherRadius, minDist);
-	            }
-	        ` + shader.fragmentShader;
-	
-	        // Replace the map fragment to use our mask
-	        shader.fragmentShader = shader.fragmentShader.replace(
-	            '#include <map_fragment>',
-	            `
-	            #include <map_fragment>
-	            vec2 uv = vUv * repeatVector;
-	            vec4 baseColor = texture2D(baseTexture, uv);
-	            vec4 overlayColor = texture2D(overlayTexture, uv);
-	            float maskFactor = computeMaskFromCurve(vWorldPos.xz);
-	            vec4 blendedColor = mix(baseColor, overlayColor, maskFactor);
-	            diffuseColor *= blendedColor;
-	            `
-	        );
-	    };
-	
-	    // Assign material to child if requested
+
+
+		
+        var base;
+        var overlay;
+        try {
+        // Load textures asynchronously
+           
+			
+            base = await self.olam.loadTexture({
+                url: baseTexture,
+                shouldRepeat: true,
+                repeatX, repeatY,
+                nivra: self
+            });
+            overlay =  await self.olam.loadTexture({
+                url: overlayTexture,
+                shouldRepeat: true,
+                repeatX, repeatY,
+                nivra: self
+            });
+        } catch(e) {
+            console.log("Issue loading!",e);
+            return;
+        }
+       
+		
+        var fogColor = new THREE.Color(0x88ccee);
+		// Find the target child mesh to check its geometry
+	    var targetChild = null;
 	    if (childNameToSetItTo && this.mesh) {
 	        this.mesh.traverse((child) => {
-	            if (child.name.includes(childNameToSetItTo)) {
-	                child.material = customLambertMaterial;
-	                child.material.needsUpdate = true;
+	            if (!targetChild && child.isMesh && child.name.includes(childNameToSetItTo)) {
+	                targetChild = child;
 	            }
 	        });
 	    }
 	
-	    return customLambertMaterial;
+	    if (!targetChild) {
+	        console.error("Could not find the child mesh:", childNameToSetItTo);
+	        return;
+	    }
+
+		 // --- The Fallback Logic Check ---
+	    const hasUVs = targetChild.geometry.attributes.uv ? true : false;
+
+
+
+
+        
+        var customLambertMaterial = new THREE.MeshLambertMaterial();
+		
+		
+        customLambertMaterial.onBeforeCompile = function (shader) {
+            // Add custom uniforms
+			
+            shader.uniforms.baseTexture = { value: base };
+            shader.uniforms.overlayTexture = { value: overlay };
+            shader.uniforms.repeatVector = { value: new THREE.Vector2(repeatX, repeatY) };
+			shader.uniforms.generateUvs = { value: !hasUVs }; // Tell shader if it needs to generate UVs
+			shader.uniforms.textureScale = { value: textureScale };
+			if(typeof(extraUniforms) == "function") {
+				extraUniforms = extraUniforms(self)
+			}
+			if(
+				extraUniforms &&
+				typeof(extraUniforms) == "object"
+			) {
+				var keys = Object.keys(extraUniforms);
+				for(var key of keys) {
+					var extraUn = extraUniforms[key];
+					shader.uniforms[key] = extraUn;
+				}
+			}
+            // Vertex shader: ensure vUv is declared and assigned
+           
+
+			shader.vertexShader = `
+			uniform bool generateUvs;
+			varying vec2 vUv;
+			varying vec3 vPos;
+			` + shader.vertexShader;
+
+
+			
+			shader.vertexShader = shader.vertexShader.replace(
+			  '#include <uv_vertex>',
+			  `
+				#ifdef USE_UV
+	                if (generateUvs) {
+	                    // Generate UVs from a top-down projection of the vertex position
+	                    vUv = position.xz * textureScale;
+	                } else {
+	                    // Use the model's built-in UVs
+	                    vUv = uv;
+	                }
+	            #endif
+				vPos = position;
+				
+				
+				#include <uv_vertex>
+			  `
+			);
+
+			
+
+			// 1. Define your declarations and logic separately.
+            var fragmentDeclarationsStart = `
+                uniform sampler2D baseTexture;
+                uniform sampler2D overlayTexture;
+                uniform vec2 repeatVector;
+                varying vec2 vUv;
+				
+            `;
+
+			if(
+				fragmentDeclarations && 
+				fragmentDeclarations != "undefined" &&
+				typeof(fragmentDeclarations) == "string"
+			) {
+				fragmentDeclarationsStart += fragmentDeclarations
+			}
+
+            var fragmentLogic = `
+                vec4 baseColor = texture2D(baseTexture, vUv);
+                diffuseColor *= baseColor;
+            `;
+
+			// Use the custom snippet if provided
+			if(typeof(fragmentShaderSnippet) == "string") {
+				fragmentLogic = fragmentShaderSnippet;
+			}
+        
+            // 2. Inject the declarations at the top of the shader, before main().
+            // A reliable way is to prepend them to the shader string.
+            shader.fragmentShader = fragmentDeclarationsStart + shader.fragmentShader;
+
+            // 3. Inject the logic inside main(), after the color is sampled from the map.
+            shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <map_fragment>',
+                '#include <map_fragment>\n' + fragmentLogic 
+            );
+        
+        };
+
+        
+		var material = customLambertMaterial;
+		material.side = THREE.DoubleSide; // <-- ADD THIS LINE
+		
+		targetChild.material = material;
+	    targetChild.material.needsUpdate = true;
         
     }
     

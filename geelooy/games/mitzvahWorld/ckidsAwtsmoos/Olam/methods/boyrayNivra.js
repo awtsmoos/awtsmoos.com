@@ -485,7 +485,10 @@ export default class {
                                 );
                                 if(!child.isMesh) return;
                                 if(child.isWater) return;
-                                this.worldOctree.fromGraphNode(child);
+                                var isNotSolid = child.userData.notSolid;
+                                if(!isNotSolid) {
+                                    this.worldOctree.fromGraphNode(child);
+                                }
                                 /*var isAnywaysSolid = 
                                     checkAndSetProperty(child,
                                 "isAnywaysSolid");
