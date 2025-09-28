@@ -1,0 +1,202 @@
+
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Extreme Web Synthesizer</title>
+    <style>
+        :root { --white-key-width: 160px; }
+        body, html { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; user-select: none; -webkit-user-select: none; height: 100%; width: 100%; background-color: #000; }
+        #start-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #1a1a1a; display: flex; justify-content: center; align-items: center; z-index: 200; }
+        #start-button { padding: 20px 40px; font-size: 2em; color: white; background-color: #007bff; border: none; border-radius: 10px; cursor: pointer; }
+        #app-container { display: none; flex-direction: column; height: 100%; width: 100%; }
+        #keyboard-container { flex-grow: 1; overflow: hidden; position: relative; }
+
+        /* --- PERFECTED OVERLAY MENU --- */
+        #ui-overlay { position: absolute; top: 10px; left: 10px; z-index: 100; max-width: calc(100% - 20px); }
+        #settings-bar {
+            background-color: rgba(40, 40, 40, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            color: white; padding: 5px; display: flex; align-items: flex-start;
+            max-height: 48px; /* Collapsed height */
+            overflow: hidden; transition: max-height 0.4s ease-in-out; border: 1px solid rgba(80, 80, 80, 0.5);
+            border-radius: 10px;
+        }
+        #settings-bar.expanded { max-height: 320px; }
+        .menu-icon { cursor: pointer; padding: 8px 5px; margin-right: 5px; flex-shrink: 0; }
+        .menu-icon .bar { width: 30px; height: 3px; background-color: white; margin: 5px 0; }
+        .settings-wrapper { display: none; flex-direction: column; gap: 15px; width: 100%; padding: 5px 10px; }
+        #settings-bar.expanded .settings-wrapper { display: flex; }
+        
+        .settings-content { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 15px; }
+        .nested-menu { border-top: 1px solid #555; padding-top: 15px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding-top 0.4s; }
+        .nested-menu.visible { max-height: 200px; opacity: 1; }
+        .settings-content label { white-space: nowrap; color: #eee; font-size: 0.9em; }
+        .settings-content button, .settings-content select, .settings-content input { padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; background-color: #555; color: white; }
+        .settings-content button { background-color: #007bff; }
+        #record-button.recording { background-color: #dc3545; }
+
+        #custom-scrollbar-container { width: 100%; height: 15px; background-color: rgba(68, 68, 68, 0.8); cursor: grab; touch-action: none; position: relative; border-radius: 7px; overflow: hidden; }
+        #custom-scrollbar-thumb { height: 100%; background-color: #007bff; position: absolute; left: 0; cursor: grab; border-radius: 7px; }
+        
+        #piano-keyboard { position: absolute; height: 100%; left: 0; will-change: transform; }
+        .key { position: absolute; box-sizing: border-box; display: flex; justify-content: center; font-size: 1em; font-weight: bold; cursor: pointer; transition: background-color 0.05s ease; border: 1px solid #111; touch-action: none; border-radius: 0 0 6px 6px; }
+        .white-key { width: var(--white-key-width); height: 100%; background-color: white; z-index: 1; color: #333; align-items: flex-end; }
+        .white-key.active { background-color: #ccc; }
+        .black-key { width: calc(var(--white-key-width) * 0.6); height: 60%; background-color: black; color: white; z-index: 2; align-items: flex-end; }
+        .black-key.active { background-color: #444; }
+        .key-label { padding-bottom: 8px; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div id="start-screen"><button id="start-button">Start Synthesizer</button></div>
+    <div id="app-container">
+        <div id="keyboard-container"><div id="piano-keyboard"></div></div>
+        <div id="ui-overlay">
+            <div id="settings-bar">
+                 <div class="menu-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+                 <div class="settings-wrapper">
+                    <div class="settings-content">
+                        <button id="record-button">Record</button>
+                        <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option></select>
+                        <label>Start:</label><select id="octave-select"><option value="1">C1</option><option value="2">C2</option><option value="3" selected>C3</option><option value="4">C4</option></select>
+                        <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
+                        <button id="advanced-synth-toggle">Advanced Synth</button>
+                    </div>
+                    <div id="advanced-synth-menu" class="nested-menu settings-content">
+                        <label>Attack:</label><input type="range" id="attack-slider" min="0.01" max="1" step="0.01" value="0.02"><label>Decay:</label><input type="range" id="decay-slider" min="0.01" max="1" step="0.01" value="0.1"><label>Sustain:</label><input type="range" id="sustain-slider" min="0" max="1" step="0.01" value="0.8"><label>Release:</label><input type="range" id="release-slider" min="0.1" max="2" step="0.01" value="0.3">
+                        <label>Wave 2:</label><select id="waveform2-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option></select>
+                        <label>Mix:</label><input type="range" id="osc-mix-slider" min="0" max="1" step="0.01" value="0.0"><label>Detune:</label><input type="range" id="detune-slider" min="-1200" max="1200" step="1" value="5">
+                        <label>Cutoff:</label><input type="range" id="filter-cutoff-slider" min="100" max="15000" step="10" value="15000"><label>Resonance:</label><input type="range" id="filter-q-slider" min="0" max="20" step="0.1" value="0">
+                        <label>LFO Rate:</label><input type="range" id="lfo-rate-slider" min="0.1" max="20" step="0.1" value="5"><label>LFO Depth:</label><input type="range" id="lfo-depth-slider" min="0" max="8000" step="10" value="0">
+                        <label>Reverb:</label><input type="range" id="reverb-slider" min="0" max="1" step="0.01" value="0">
+                    </div>
+                    <div id="custom-scrollbar-container"><div id="custom-scrollbar-thumb"></div></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const settingsBar = document.getElementById('settings-bar');
+            const elements = { startButton: document.getElementById('start-button'), startScreen: document.getElementById('start-screen'), appContainer: document.getElementById('app-container'), pianoKeyboard: document.getElementById('piano-keyboard'), keyboardContainer: document.getElementById('keyboard-container'), settingsBar: settingsBar, scrollbarContainer: document.getElementById('custom-scrollbar-container'), scrollbarThumb: document.getElementById('custom-scrollbar-thumb'), recordButton: document.getElementById('record-button'), waveformSelect: document.getElementById('waveform-select'), octaveSelect: document.getElementById('octave-select'), keyWidthSlider: document.getElementById('key-width-slider'), advancedSynthToggle: document.getElementById('advanced-synth-toggle'), advancedSynthMenu: document.getElementById('advanced-synth-menu'), attack: document.getElementById('attack-slider'), decay: document.getElementById('decay-slider'), sustain: document.getElementById('sustain-slider'), release: document.getElementById('release-slider'), waveform2: document.getElementById('waveform2-select'), oscMix: document.getElementById('osc-mix-slider'), detune: document.getElementById('detune-slider'), filterCutoff: document.getElementById('filter-cutoff-slider'), filterQ: document.getElementById('filter-q-slider'), lfoRate: document.getElementById('lfo-rate-slider'), lfoDepth: document.getElementById('lfo-depth-slider'), reverb: document.getElementById('reverb-slider'), menuIcon: settingsBar.querySelector('.menu-icon') };
+            let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, customWaves = {};
+            const activeNotes = new Map(), noteFrequencies = { 'C': 16.35, 'C#': 17.32, 'D': 18.35, 'D#': 19.45, 'E': 20.60, 'F': 21.83, 'F#': 23.12, 'G': 24.50, 'G#': 25.96, 'A': 27.50, 'A#': 29.14, 'B': 30.87 };
+
+            // --- INITIALIZATION ---
+            elements.startButton.addEventListener('click', () => {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    mediaStreamDestination = audioContext.createMediaStreamDestination();
+                    masterGain = audioContext.createGain(); masterGain.gain.value = 0.7; masterGain.connect(audioContext.destination);
+                    if (audioContext.state === 'suspended') audioContext.resume();
+                } catch (e) { alert('Web Audio API not supported.'); return; }
+                createCustomWaves(); setupReverb(); setupLFO();
+                elements.startScreen.style.display = 'none'; elements.appContainer.style.display = 'flex';
+                setupPiano();
+            });
+
+            function setupPiano() { loadSettings(); generateKeyboard(); setupEventListeners(); setKeyboardTransform(0); }
+            function setupEventListeners() {
+                elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
+                elements.recordButton.addEventListener('click', toggleRecording);
+                elements.advancedSynthToggle.addEventListener('click', () => { elements.advancedSynthMenu.classList.toggle('visible'); saveSettings(); });
+                Object.keys(elements).forEach(key => { const el = elements[key]; if (el && (el.tagName === 'SELECT' || el.type === 'range')) { el.addEventListener('input', () => { if (key === 'octaveSelect' || key === 'keyWidthSlider') generateKeyboard(); if (key === 'lfoRate' || key === 'lfoDepth') updateLFO(); saveSettings(); }); } });
+                elements.keyboardContainer.addEventListener('pointerdown', handlePointerDown);
+                document.addEventListener('pointerup', handlePointerUpOrCancel);
+                document.addEventListener('pointercancel', handlePointerUpOrCancel);
+                elements.scrollbarContainer.addEventListener('pointerdown', handleScrollbarPointerDown);
+                document.addEventListener('pointermove', handleDocumentPointerMove);
+                window.addEventListener('resize', () => setKeyboardTransform(getKeyboardTransform()));
+            }
+
+            // --- SYNTH ENGINE ---
+            function createCustomWaves() {
+                const n = 4096; const real = new Float32Array(n);
+                const waves = { pulse: new Float32Array(n), 'detuned-saw': new Float32Array(n), wobble: new Float32Array(n), crystalline: new Float32Array(n), tonewheel: new Float32Array(n) };
+                for (let i = 1; i < n; i++) {
+                    if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i); // Pulse
+                    waves['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n)); // Detuned Saw
+                    waves.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n)); // Wobble
+                }
+                waves.crystalline[1] = 1; waves.crystalline[4] = 0.5; waves.crystalline[9] = 0.3; waves.crystalline[16] = 0.2; // Crystalline
+                waves.tonewheel[1] = 1; waves.tonewheel[2] = 0.8; waves.tonewheel[3] = 0.6; waves.tonewheel[4] = 0.4; waves.tonewheel[6] = 0.2; // Tonewheel Organ
+                Object.keys(waves).forEach(name => { customWaves[name] = audioContext.createPeriodicWave(real, waves[name], { disableNormalization: true }); });
+            }
+
+            function setupReverb() { convolver = audioContext.createConvolver(); wetGain = audioContext.createGain(); wetGain.gain.value = 0; convolver.connect(wetGain); wetGain.connect(masterGain); const sampleRate = audioContext.sampleRate, length = sampleRate * 1.5, decay = 2; const impulseBuffer = audioContext.createBuffer(2, length, sampleRate); for (let c = 0; c < 2; c++) { const data = impulseBuffer.getChannelData(c); for (let i = 0; i < length; i++) data[i] = (Math.random()*2-1)*Math.pow(1-i/length,decay); } convolver.buffer = impulseBuffer; }
+            function setupLFO() { lfo = { osc: audioContext.createOscillator(), gain: audioContext.createGain() }; lfo.osc.connect(lfo.gain); lfo.osc.start(); updateLFO(); }
+            function updateLFO() { if(!lfo) return; lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRate.value), audioContext.currentTime, 0.01); lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepth.value), audioContext.currentTime, 0.01); }
+            function playNote(frequency, keyElement, pointerId) {
+                if (!audioContext || audioContext.state !== 'running' || activeNotes.has(pointerId)) return;
+                const osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(), gain1 = audioContext.createGain(), gain2 = audioContext.createGain(), filter = audioContext.createBiquadFilter(), noteGain = audioContext.createGain(), currentTime = audioContext.currentTime;
+                const wave1 = elements.waveformSelect.value, wave2 = elements.waveform2.value;
+                if (customWaves[wave1]) osc1.setPeriodicWave(customWaves[wave1]); else osc1.type = wave1;
+                if (customWaves[wave2]) osc2.setPeriodicWave(customWaves[wave2]); else osc2.type = wave2;
+                osc1.frequency.setValueAtTime(frequency, currentTime); osc2.frequency.setValueAtTime(frequency, currentTime); osc2.detune.setValueAtTime(parseFloat(elements.detune.value), currentTime);
+                gain1.gain.value = 1 - parseFloat(elements.oscMix.value); gain2.gain.value = parseFloat(elements.oscMix.value);
+                filter.type = 'lowpass'; filter.frequency.setValueAtTime(parseFloat(elements.filterCutoff.value), currentTime); filter.Q.setValueAtTime(parseFloat(elements.filterQ.value), currentTime); lfo.gain.connect(filter.frequency);
+                const { attack, decay, sustain } = Object.fromEntries(['attack', 'decay', 'sustain'].map(p => [p, parseFloat(elements[p].value)]));
+                const peakGain = 0.5;
+                noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(0.001, currentTime); noteGain.gain.linearRampToValueAtTime(peakGain, currentTime + attack); noteGain.gain.setTargetAtTime(peakGain * sustain, currentTime + attack, decay + 0.001);
+                osc1.connect(gain1); osc2.connect(gain2); gain1.connect(noteGain); gain2.connect(noteGain); noteGain.connect(filter); filter.connect(masterGain); masterGain.connect(convolver);
+                if (mediaRecorder && mediaRecorder.state === 'recording') masterGain.connect(mediaStreamDestination);
+                wetGain.gain.setTargetAtTime(parseFloat(elements.reverb.value), currentTime, 0.01);
+                osc1.start(currentTime); osc2.start(currentTime);
+                activeNotes.set(pointerId, { osc1, osc2, noteGain, keyElement, filter }); keyElement.classList.add('active');
+            }
+            function stopNote(pointerId) {
+                const activeNote = activeNotes.get(pointerId); if (!activeNote) return;
+                const { osc1, osc2, noteGain, keyElement, filter } = activeNote;
+                const release = parseFloat(elements.release.value), currentTime = audioContext.currentTime;
+                noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(noteGain.gain.value, currentTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + release);
+                const stopTime = currentTime + release + 0.1;
+                osc1.stop(stopTime); osc2.stop(stopTime);
+                osc1.onended = () => { lfo.gain.disconnect(filter.frequency); };
+                keyElement.classList.remove('active'); activeNotes.delete(pointerId);
+            }
+
+            // --- KEYBOARD & UI ---
+            function generateKeyboard() {
+                elements.pianoKeyboard.innerHTML = ''; let whiteKeyX = 0; const whiteKeyWidth = parseInt(elements.keyWidthSlider.value);
+                document.documentElement.style.setProperty('--white-key-width', `${whiteKeyWidth}px`);
+                const blackKeyWidth = whiteKeyWidth * 0.6, startOctave = parseInt(elements.octaveSelect.value);
+                const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+                for (let oct = startOctave; oct < startOctave + 7; oct++) {
+                    notes.forEach(note => {
+                        const keyElement = document.createElement('div'), isBlack = note.includes('#'), noteName = note + oct;
+                        keyElement.className = `key ${isBlack ? 'black-key' : 'white-key'}`; keyElement.dataset.note = noteName;
+                        const label = document.createElement('span'); label.className = 'key-label'; label.textContent = noteName; keyElement.appendChild(label);
+                        if (isBlack) { keyElement.style.left = `${whiteKeyX - (blackKeyWidth / 2)}px`; }
+                        else { keyElement.style.left = `${whiteKeyX}px`; whiteKeyX += whiteKeyWidth; }
+                        elements.pianoKeyboard.appendChild(keyElement);
+                    });
+                }
+                elements.pianoKeyboard.style.width = `${whiteKeyX}px`; setKeyboardTransform(getKeyboardTransform());
+            }
+
+            // --- RECORDING ---
+            function toggleRecording() { if (elements.recordButton.classList.contains('recording')) { mediaRecorder.stop(); elements.recordButton.textContent = 'Record'; elements.recordButton.classList.remove('recording'); } else { let recordedChunks = []; mediaRecorder = new MediaRecorder(mediaStreamDestination.stream); mediaRecorder.ondataavailable = e => recordedChunks.push(e.data); mediaRecorder.onstop = () => { const blob = new Blob(recordedChunks, { type: 'audio/wav' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.style.display = 'none'; a.href = url; a.download = 'synth-recording.wav'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); a.remove(); }; mediaRecorder.start(); elements.recordButton.textContent = 'Stop'; elements.recordButton.classList.add('recording'); } }
+            
+            // --- POINTER & SCROLLING ---
+            let isDragging = false, isThumbDragging = false, dragStartX = 0, keyboardStartTransform = 0;
+            function handlePointerDown(e) { const target = e.target; if (target.closest('.key')) { const keyElement = target.closest('.key'), noteName = keyElement.dataset.note, note = noteName.replace(/\d/g, ''), octave = parseInt(noteName.match(/\d+/g)[0]), frequency = noteFrequencies[note] * Math.pow(2, octave); playNote(frequency, keyElement, e.pointerId); } }
+            function handlePointerUpOrCancel(e) { if (activeNotes.has(e.pointerId)) stopNote(e.pointerId); isDragging = false; isThumbDragging = false; }
+            function handleScrollbarPointerDown(e) { e.preventDefault(); e.stopPropagation(); isThumbDragging = true; dragStartX = e.clientX; keyboardStartTransform = getKeyboardTransform(); elements.scrollbarContainer.setPointerCapture(e.pointerId); }
+            function handleDocumentPointerMove(e) { if (isThumbDragging) { e.preventDefault(); const dx = e.clientX - dragStartX; const scrollRatio = (elements.pianoKeyboard.offsetWidth - elements.keyboardContainer.clientWidth) / (elements.scrollbarContainer.clientWidth - elements.scrollbarThumb.offsetWidth); setKeyboardTransform(keyboardStartTransform - (dx * scrollRatio)); } }
+            
+            function getKeyboardTransform() { const transform = window.getComputedStyle(elements.pianoKeyboard).transform; return transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41; }
+            function setKeyboardTransform(newX) { const pianoW = elements.pianoKeyboard.offsetWidth, viewportW = elements.keyboardContainer.clientWidth; const maxScroll = 0, minScroll = -(pianoW - viewportW); const clampedX = Math.max(minScroll || 0, Math.min(maxScroll, newX || 0)); if(pianoW > viewportW) elements.pianoKeyboard.style.transform = `translateX(${clampedX}px)`; updateScrollbarThumb(); }
+            function updateScrollbarThumb() { const pianoW = elements.pianoKeyboard.offsetWidth, viewportW = elements.keyboardContainer.clientWidth; if (pianoW <= viewportW) { elements.scrollbarContainer.style.display = 'none'; return; } elements.scrollbarContainer.style.display = 'block'; const scrollbarW = elements.scrollbarContainer.clientWidth, thumbW = (viewportW / pianoW) * scrollbarW; elements.scrollbarThumb.style.width = `${thumbW}px`; const scrollPercent = -getKeyboardTransform() / (pianoW - viewportW); elements.scrollbarThumb.style.left = `${scrollPercent * (scrollbarW - thumbW)}px`; }
+
+            // --- LOCAL STORAGE ---
+            function saveSettings() { const settings = {}; Object.keys(elements).forEach(key => { const el = elements[key]; if (el && (el.tagName === 'SELECT' || el.type === 'range')) settings[key] = el.value; }); settings.advMenu = elements.advancedSynthMenu.classList.contains('visible'); localStorage.setItem('pianoSettings', JSON.stringify(settings)); }
+            function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key] && (elements[key].tagName === 'SELECT' || elements[key].type === 'range')) elements[key].value = settings[key]; }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); } }
+        });
+    </script>
+</body>
+</html>
