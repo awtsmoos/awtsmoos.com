@@ -6,265 +6,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - INTENSE DAYLIGHT</title>
+    <title>Awtsmoos Apps - Dynamic Reality</title>
     
-    <!-- Font for maximum readability under intense lighting effects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;800&display=swap" rel="stylesheet">
 
     <style>
         /*
         ================================================================================
-        I. CORE AESTHETICS - Intense Daylight & Pseudo-3D
+        I. CORE SYSTEM - DYNAMIC DAY/NIGHT THEME
         ================================================================================
         */
         :root {
-            --color-sun: #FFD700;       /* Intense Gold */
-            --color-sky-light: #87CEEB; /* Bright Sky Blue */
-            --color-sky-dark: #00BFFF;  /* Deep Sky Blue */
-            --color-text: #2c3e50;      /* Dark, readable text */
-            --color-highlight: rgba(255, 255, 255, 0.9);
-            --color-shadow: rgba(0, 0, 0, 0.2);
             --font-main: 'Inter', sans-serif;
+            --transition-speed: 0.8s; /* Slower for smooth ambient transitions */
         }
 
-        /* The page background simulates a bright, sunlit sky */
+        /* DAY THEME */
+        .day-theme {
+            --bg-grad-1: #87CEEB; /* Sky Blue */
+            --bg-grad-2: #4682B4; /* Steel Blue */
+            --panel-bg: rgba(255, 255, 255, 0.4);
+            --panel-glow: rgba(255, 255, 255, 0.5);
+            --text-color: #1a2a3a;
+            --logo-grad-1: #2c3e50;
+            --logo-grad-2: #4682B4;
+            --button-bg: rgba(255, 255, 255, 0.7);
+            --button-hover-bg: rgba(255, 255, 255, 1);
+        }
+
+        /* NIGHT THEME */
+        .night-theme {
+            --bg-grad-1: #0f0c29; /* Deep Purple */
+            --bg-grad-2: #0d253f; /* Deep Blue */
+            --panel-bg: rgba(15, 25, 50, 0.4);
+            --panel-glow: rgba(0, 255, 255, 0.2);
+            --text-color: #e0e5ff;
+            --logo-grad-1: #00ffff;
+            --logo-grad-2: #8a2be2;
+            --button-bg: rgba(10, 20, 40, 0.7);
+            --button-hover-bg: rgba(20, 30, 60, 1);
+        }
+
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: radial-gradient(ellipse at top, var(--color-sky-light), var(--color-sky-dark));
-            font-family: var(--font-main);
-        }
-
-        /* The canvas for light reflections sits behind the content */
-        #reflection-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0.5;
-            mix-blend-mode: overlay; /* Blends reflections beautifully with the sky */
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; font-family: var(--font-main);
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            transition: background var(--transition-speed) ease-in-out;
         }
 
         /*
         ================================================================================
-        II. SERVER TEMPLATE STYLES (Unmodified as requested)
+        II. BACKGROUND ANIMATIONS - SUN, MOON, AURORAS
         ================================================================================
         */
-        .awtsmoospage {
-            position: relative;
-            z-index: 2;
-            height: 100%;
+        .emoji-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+        .emoji {
+            position: absolute; font-size: 2rem;
+            animation: drift 20s linear infinite alternate;
+            opacity: 0; transition: opacity 1s;
+        }
+        .day-theme .sun, .night-theme .moon { opacity: 0.8; }
+        .emoji:nth-child(1) { top: 10%; left: 10%; animation-duration: 25s; }
+        .emoji:nth-child(2) { top: 20%; left: 80%; animation-duration: 30s; }
+        .emoji:nth-child(3) { top: 80%; left: 20%; animation-duration: 22s; }
+        .emoji:nth-child(4) { top: 70%; left: 90%; animation-duration: 28s; }
+        @keyframes drift {
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(40px, 60px) rotate(360deg); }
         }
 
+        .aurora {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 255, 127, 0.2) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
+            animation: aurora-flow 20s infinite alternate;
+            z-index: 0; opacity: 0; transition: opacity 2s;
+        }
+        .night-theme .aurora { opacity: 1; }
+        @keyframes aurora-flow {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.5) rotate(20deg); }
+        }
+
+        /*
+        ================================================================================
+        III. SERVER TEMPLATE STYLES (Unmodified)
+        ================================================================================
+        */
+        .awtsmoospage { position: relative; z-index: 2; height: 100%; }
         .main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            padding: 1rem;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; height: 100vh; text-align: center; padding: 1rem;
         }
 
         /*
         ================================================================================
-        III. CONTENT STYLES (INSIDE .main)
-             - "Insane" pseudo-3D bevels and daylight effects.
+        IV. CONTENT STYLES (INSIDE .main) - "Insane" Glassmorphism & Functionality
         ================================================================================
         */
-        
-        /* THE LOGO - A bulging, sun-bleached 3D effect */
-        .main .logo {
-            font-weight: 800;
-            font-size: clamp(3rem, 12vw, 9rem);
-            color: var(--color-text);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 4rem;
+        .app-panel {
+            width: 90%; max-width: 500px;
+            height: 80vh; max-height: 700px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex; flex-direction: column;
+            transition: background var(--transition-speed) ease-in-out;
+            /* Inner glow effect */
             position: relative;
-            /* Multi-layered text-shadow creates the pseudo-3D bevel */
-            text-shadow: 
-                -1px -1px 1px var(--color-highlight),
-                1px 1px 1px var(--color-shadow),
-                -2px -2px 2px var(--color-highlight),
-                2px 2px 2px var(--color-shadow),
-                -3px -3px 3px var(--color-highlight),
-                3px 3px 3px var(--color-shadow),
-                -4px -4px 4px var(--color-highlight),
-                4px 4px 4px var(--color-shadow),
-                0 0 20px rgba(255, 215, 0, 0.5); /* A subtle sun glow */
-            transition: all 0.2s ease-out;
+        }
+        .app-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 2rem;
+            box-shadow: inset 0 0 100px var(--panel-glow);
+            transition: box-shadow var(--transition-speed) ease-in-out;
         }
 
-        /* THE NAVIGATION - Readable, beveled, and pressable buttons */
-        .main .about {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-        }
-        
-        .main .about a {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            font-weight: 800;
-            color: var(--color-text);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 1.5rem 3rem;
-            border-radius: 20px;
-            background: #E0E5EC; /* A neutral, clay-like base */
-            position: relative;
-            transition: all 0.1s ease-in-out;
-            /* The core of the "bulging bevel" effect using multiple inset shadows */
-            box-shadow: 
-                inset 5px 5px 10px #a3b1c6,
-                inset -5px -5px 10px #ffffff,
-                5px 5px 15px rgba(0, 0, 0, 0.1);
+        /* The re-designed, properly sized logo */
+        .app-panel .logo {
+            font-size: clamp(2rem, 8vw, 2.5rem);
+            font-weight: 800; text-transform: uppercase;
+            padding: 1.5rem; flex-shrink: 0;
+            background: linear-gradient(45deg, var(--logo-grad-1), var(--logo-grad-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: background var(--transition-speed) ease-in-out;
         }
 
-        /* Creates a "pressed" effect on click, reversing the shadows */
-        .main .about a:active {
-            transform: translateY(2px);
-            box-shadow: 
-                inset -5px -5px 10px #a3b1c6,
-                inset 5px 5px 10px #ffffff,
-                2px 2px 5px rgba(0, 0, 0, 0.1);
+        /* THE SCROLLABLE BUTTON LIST - This fixes the core problem */
+        .app-panel .list {
+            flex-grow: 1; overflow-y: auto;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        /* Custom scrollbar for a professional look */
+        .app-panel .list::-webkit-scrollbar { width: 8px; }
+        .app-panel .list::-webkit-scrollbar-track { background: transparent; }
+        .app-panel .list::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 10px; }
+
+        .app-panel a {
+            display: block; width: 100%; padding: 1.25rem;
+            text-decoration: none; color: var(--text-color);
+            background: var(--button-bg);
+            border-radius: 1rem; font-weight: 500; font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: scale(1);
+            transition: transform 0.2s ease, background 0.2s ease, color var(--transition-speed) ease-in-out;
+        }
+        .app-panel a:hover {
+            transform: scale(1.05);
+            background: var(--button-hover-bg);
+        }
+        .app-panel a:active {
+            transform: scale(0.98);
         }
 
     </style>
 </head>
-<body>
-    <!-- Canvas for the "insane" daylight reflections -->
-    <canvas id="reflection-canvas"></canvas>
+<body class="day-theme"> <!-- Starts with Day Theme -->
+
+    <div class="emoji-container">
+        <div class="emoji sun">☀️</div> <div class="emoji sun">☀️</div>
+        <div class="emoji sun">☀️</div> <div class="emoji sun">☀️</div>
+        <div class="emoji moon">🌙</div> <div class="emoji moon">🌙</div>
+        <div class="emoji moon">🌙</div> <div class="emoji moon">🌙</div>
+    </div>
+    <div class="aurora"></div>
 
     <!-- SERVER TEMPLATE STRUCTURE (Unmodified) -->
     <div class="all awtsmoospage">
-        <?<script> return $a("nav/header.html") </script>?>
-        
         <div class="main">
-            <!-- CONTENT WITHIN .main (Modified for daylight/3D theme) -->
-            <div class="logo">Awtsmoos Apps</div>
-            <div class="about list">
-                <a href="./code">Awtsmoos Code Editor</a>
-                <a href="./piano">Piano/Synthesizer</a>
-                <a href="/os">Awtsmoos OS</a>
-                <a href="/ayin">Awtsmoos Recorder</a>
+            <!-- CONTENT WITHIN .main (Completely Rebuilt) -->
+            <div class="app-panel">
+                <header class="logo">Awtsmoos Apps</header>
+                <nav class="list">
+                    <a href="./code">Awtsmoos Code Editor</a>
+                    <a href="./piano">Piano/Synthesizer</a>
+                    <a href="/os">Awtsmoos OS</a>
+                    <a href="/ayin">Awtsmoos Recorder</a>
+                    <!-- Add more links here and watch it scroll! -->
+                    <a href="#">Another App</a>
+                    <a href="#">And Another</a>
+                    <a href="#">Example App Link</a>
+                </nav>
             </div>
         </div>
     </div>
 
     <script>
-        /*
-        ================================================================================
-        JAVASCRIPT - DYNAMIC SUNLIGHT REFLECTIONS
-        - This script creates a subtle, chaotic "caustic" light effect that
-          simulates intense sunlight reflecting off an uneven surface.
-        - It's lightweight and designed to be an atmospheric background element.
-        ================================================================================
-        */
-        const canvas = document.getElementById('reflection-canvas');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            let isDay = true;
 
-        let points = [];
-        const pointer = { x: width / 2, y: height / 2 };
-        
-        const options = {
-            pointCount: 30,
-            maxDist: 150, // How far points connect
-            speed: 0.1
-        };
-
-        class Point {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * options.speed;
-                this.vy = (Math.random() - 0.5) * options.speed;
-            }
-
-            update() {
-                // Interaction with the pointer
-                const dx = this.x - pointer.x;
-                const dy = this.y - pointer.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if(dist < 200) {
-                    this.vx += (dx / dist) * 0.5; // Gently push away from pointer
-                    this.vy += (dy / dist) * 0.5;
+            // Automatically switch themes every 30 seconds for a dynamic feel
+            setInterval(() => {
+                if (isDay) {
+                    body.classList.remove('day-theme');
+                    body.classList.add('night-theme');
+                } else {
+                    body.classList.remove('night-theme');
+                    body.classList.add('day-theme');
                 }
-
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                // Damping
-                this.vx *= 0.98;
-                this.vy *= 0.98;
-
-                // Edge wrapping
-                if(this.x > width) this.x = 0;
-                if(this.x < 0) this.x = width;
-                if(this.y > height) this.y = 0;
-                if(this.y < 0) this.y = height;
-            }
-        }
-
-        function setup() {
-            points = [];
-            for (let i = 0; i < options.pointCount; i++) {
-                points.push(new Point());
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            for(let i = 0; i < points.length; i++) {
-                points[i].update();
-                for(let j = i + 1; j < points.length; j++) {
-                    const dx = points[i].x - points[j].x;
-                    const dy = points[i].y - points[j].y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-
-                    if(dist < options.maxDist) {
-                        const opacity = 1 - (dist / options.maxDist);
-                        ctx.beginPath();
-                        ctx.moveTo(points[i].x, points[i].y);
-                        ctx.lineTo(points[j].x, points[j].y);
-                        ctx.strokeStyle = `rgba(255, 255, 224, ${opacity * 0.5})`; // Light yellow for sunlight
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // --- Event Listeners ---
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            setup();
+                isDay = !isDay;
+            }, 30000);
         });
-
-        window.addEventListener('mousemove', e => {
-            pointer.x = e.clientX;
-            pointer.y = e.clientY;
-        });
-
-        // --- Initialization ---
-        setup();
-        animate();
     </script>
+
 </body>
 </html>
- 
