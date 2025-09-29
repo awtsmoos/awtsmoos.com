@@ -1,222 +1,178 @@
-
-
+ 
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - Dynamic Reality</title>
+    <title>Awtsmoos Apps - UNSTABLE CORE</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@800&display=swap" rel="stylesheet">
 
     <style>
         /*
         ================================================================================
-        I. CORE SYSTEM - DYNAMIC DAY/NIGHT THEME
+        I. CORE AESTHETICS - EXTREME & UNSTABLE
+        - I will not style body/html directly to ensure template purity,
+          but will use a pseudo-element for the background.
         ================================================================================
         */
         :root {
-            --font-main: 'Inter', sans-serif;
-            --transition-speed: 0.8s; /* Slower for smooth ambient transitions */
+            --color-core-1: #ff4800; /* Molten Orange */
+            --color-core-2: #ff8c00; /* Dark Orange */
+            --color-bg-1: #12000a;   /* Deepest Magenta */
+            --color-bg-2: #2e081c;
+            --color-text: #f0f0f0;
+            --font-main: 'Exo 2', sans-serif;
         }
 
-        /* DAY THEME */
-        .day-theme {
-            --bg-grad-1: #87CEEB; /* Sky Blue */
-            --bg-grad-2: #4682B4; /* Steel Blue */
-            --panel-bg: rgba(255, 255, 255, 0.4);
-            --panel-glow: rgba(255, 255, 255, 0.5);
-            --text-color: #1a2a3a;
-            --logo-grad-1: #2c3e50;
-            --logo-grad-2: #4682B4;
-            --button-bg: rgba(255, 255, 255, 0.7);
-            --button-hover-bg: rgba(255, 255, 255, 1);
+        /* The background is a fixed pseudo-element on the root. */
+        html::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            background: radial-gradient(circle at center, var(--color-bg-2), var(--color-bg-1));
+            background-size: 200% 200%;
+            animation: roil 20s ease-in-out infinite alternate;
         }
 
-        /* NIGHT THEME */
-        .night-theme {
-            --bg-grad-1: #0f0c29; /* Deep Purple */
-            --bg-grad-2: #0d253f; /* Deep Blue */
-            --panel-bg: rgba(15, 25, 50, 0.4);
-            --panel-glow: rgba(0, 255, 255, 0.2);
-            --text-color: #e0e5ff;
-            --logo-grad-1: #00ffff;
-            --logo-grad-2: #8a2be2;
-            --button-bg: rgba(10, 20, 40, 0.7);
-            --button-hover-bg: rgba(20, 30, 60, 1);
+        /* A second pseudo-element for the interactive cursor flare */
+        html::after {
+            content: '';
+            position: fixed;
+            top: var(--y, 50%); left: var(--x, 50%);
+            transform: translate(-50%, -50%);
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            transition: top 0.1s linear, left 0.1s linear;
+        }
+        
+        @keyframes roil {
+            from { background-position: 0% 50%; }
+            to { background-position: 100% 50%; }
         }
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden; font-family: var(--font-main);
-            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
-            transition: background var(--transition-speed) ease-in-out;
-        }
-
-        /*
-        ================================================================================
-        II. BACKGROUND ANIMATIONS - SUN, MOON, AURORAS
-        ================================================================================
-        */
-        .emoji-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-        .emoji {
-            position: absolute; font-size: 2rem;
-            animation: drift 20s linear infinite alternate;
-            opacity: 0; transition: opacity 1s;
-        }
-        .day-theme .sun, .night-theme .moon { opacity: 0.8; }
-        .emoji:nth-child(1) { top: 10%; left: 10%; animation-duration: 25s; }
-        .emoji:nth-child(2) { top: 20%; left: 80%; animation-duration: 30s; }
-        .emoji:nth-child(3) { top: 80%; left: 20%; animation-duration: 22s; }
-        .emoji:nth-child(4) { top: 70%; left: 90%; animation-duration: 28s; }
-        @keyframes drift {
-            from { transform: translate(0, 0) rotate(0deg); }
-            to { transform: translate(40px, 60px) rotate(360deg); }
-        }
-
-        .aurora {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(ellipse at 20% 20%, rgba(0, 255, 127, 0.2) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 70%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
-            animation: aurora-flow 20s infinite alternate;
-            z-index: 0; opacity: 0; transition: opacity 2s;
-        }
-        .night-theme .aurora { opacity: 1; }
-        @keyframes aurora-flow {
-            from { transform: scale(1) rotate(0deg); }
-            to { transform: scale(1.5) rotate(20deg); }
-        }
+        
 
         /*
         ================================================================================
-        III. SERVER TEMPLATE STYLES (Unmodified)
+        III. CONTENT STYLES (INSIDE .main) - PURE CHAOS
         ================================================================================
         */
-        .awtsmoospage { position: relative; z-index: 2; height: 100%; }
-        .main {
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; height: 100vh; text-align: center; padding: 1rem;
-        }
-
-        /*
-        ================================================================================
-        IV. CONTENT STYLES (INSIDE .main) - "Insane" Glassmorphism & Functionality
-        ================================================================================
-        */
-        .app-panel {
-            width: 90%; max-width: 500px;
-            height: 80vh; max-height: 700px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: flex; flex-direction: column;
-            transition: background var(--transition-speed) ease-in-out;
-            /* Inner glow effect */
+        
+        /* THE LOGO - CRACKING, MOLTEN, AND EXTREME */
+        .main .logo {
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: clamp(3rem, 10vw, 7rem);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text);
+            margin-bottom: 4rem;
             position: relative;
+            /* Multi-layered shadow for a hot, pulsing glow from within */
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1);
+            animation: pulse 4s infinite ease-in-out;
         }
-        .app-panel::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 2rem;
-            box-shadow: inset 0 0 100px var(--panel-glow);
-            transition: box-shadow var(--transition-speed) ease-in-out;
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1); }
+            50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--color-core-2), 0 0 40px var(--color-core-2); }
+        }
+        
+        /* Animated cracking texture overlay */
+        .main .logo::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(45deg,
+                transparent 0, transparent 20px,
+                rgba(0,0,0,0.5) 20px, rgba(0,0,0,0.5) 22px);
+            mix-blend-mode: multiply;
+            opacity: 0.8;
+            animation: crackle 30s linear infinite;
+        }
+        @keyframes crackle {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 0; }
         }
 
-        /* The re-designed, properly sized logo */
-        .app-panel .logo {
-            font-size: clamp(2rem, 8vw, 2.5rem);
-            font-weight: 800; text-transform: uppercase;
-            padding: 1.5rem; flex-shrink: 0;
-            background: linear-gradient(45deg, var(--logo-grad-1), var(--logo-grad-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: background var(--transition-speed) ease-in-out;
+
+        /* THE NAVIGATION - SHATTERED VOLCANIC SHARDS */
+        .main .about {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .main .about a {
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 1.25rem 2.5rem;
+            position: relative;
+            border: 2px solid rgba(255,100,0,0.5);
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+
+            /* The EXTREME shattered shape */
+            clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%);
         }
 
-        /* THE SCROLLABLE BUTTON LIST - This fixes the core problem */
-        .app-panel .list {
-            flex-grow: 1; overflow-y: auto;
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            display: flex; flex-direction: column; gap: 1rem;
+        /* Staggered shapes for a more chaotic look */
+        .main .about a:nth-child(2n) {
+            clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 85%);
         }
-        /* Custom scrollbar for a professional look */
-        .app-panel .list::-webkit-scrollbar { width: 8px; }
-        .app-panel .list::-webkit-scrollbar-track { background: transparent; }
-        .app-panel .list::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.3); border-radius: 10px; }
 
-        .app-panel a {
-            display: block; width: 100%; padding: 1.25rem;
-            text-decoration: none; color: var(--text-color);
-            background: var(--button-bg);
-            border-radius: 1rem; font-weight: 500; font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transform: scale(1);
-            transition: transform 0.2s ease, background 0.2s ease, color var(--transition-speed) ease-in-out;
+        .main .about a:hover {
+            color: #ffffff;
+            transform: scale(1.1) rotate(1deg);
+            /* IGNITE on hover */
+            box-shadow: 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1);
+            border-color: var(--color-core-2);
+            animation: jitter 0.2s infinite;
         }
-        .app-panel a:hover {
-            transform: scale(1.05);
-            background: var(--button-hover-bg);
-        }
-        .app-panel a:active {
-            transform: scale(0.98);
+        
+        @keyframes jitter {
+            0% { transform: scale(1.1) translate(1px, -1px) rotate(1deg); }
+            50% { transform: scale(1.1) translate(-1px, 1px) rotate(-1deg); }
+            100% { transform: scale(1.1) translate(1px, -1px) rotate(1deg); }
         }
 
     </style>
 </head>
-<body class="day-theme"> <!-- Starts with Day Theme -->
+<body>
 
-    <div class="emoji-container">
-        <div class="emoji sun">☀️</div> <div class="emoji sun">☀️</div>
-        <div class="emoji sun">☀️</div> <div class="emoji sun">☀️</div>
-        <div class="emoji moon">🌙</div> <div class="emoji moon">🌙</div>
-        <div class="emoji moon">🌙</div> <div class="emoji moon">🌙</div>
-    </div>
-    <div class="aurora"></div>
-
-    <!-- SERVER TEMPLATE STRUCTURE (Unmodified) -->
+    <!-- SERVER TEMPLATE STRUCTURE (100% UNTOUCHED) -->
     <div class="all awtsmoospage">
+        <?<script> return $a("nav/header.html") </script>?>
+        
         <div class="main">
-            <!-- CONTENT WITHIN .main (Completely Rebuilt) -->
-            <div class="app-panel">
-                <header class="logo">Awtsmoos Apps</header>
-                <nav class="list">
-                    <a href="./code">Awtsmoos Code Editor</a>
-                    <a href="./piano">Piano/Synthesizer</a>
-                    <a href="/os">Awtsmoos OS</a>
-                    <a href="/ayin">Awtsmoos Recorder</a>
-                    <!-- Add more links here and watch it scroll! -->
-                    <a href="#">Another App</a>
-                    <a href="#">And Another</a>
-                    <a href="#">Example App Link</a>
-                </nav>
+            <!-- CONTENT WITHIN .main (REBUILT FOR EXTREME ENERGY) -->
+            <div class="logo">Awtsmoos Apps</div>
+            <div class="about list">
+                <a href="./code">Awtsmoos Code Editor</a>
+                <a href="./piano">Piano/Synthesizer</a>
+                <a href="/os">Awtsmoos OS</a>
+                <a href="/ayin">Awtsmoos Recorder</a>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const body = document.body;
-            let isDay = true;
-
-            // Automatically switch themes every 30 seconds for a dynamic feel
-            setInterval(() => {
-                if (isDay) {
-                    body.classList.remove('day-theme');
-                    body.classList.add('night-theme');
-                } else {
-                    body.classList.remove('night-theme');
-                    body.classList.add('day-theme');
-                }
-                isDay = !isDay;
-            }, 30000);
+        // Tiny script for the EXTREME reactive cursor flare. No libraries.
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--y', `${e.clientY}px`);
         });
     </script>
 
