@@ -1,57 +1,60 @@
 
+
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - EXTREME CLARITY</title>
+    <title>Awtsmoos Apps - INTENSE DAYLIGHT</title>
     
-    <!-- Fonts chosen for EXTREME impact (Syne) and supreme READABILITY (Inter) -->
+    <!-- Font for maximum readability under intense lighting effects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap" rel="stylesheet">
 
     <style>
         /*
         ================================================================================
-        I. CORE AESTHETICS - A balance of chaos and order.
+        I. CORE AESTHETICS - Intense Daylight & Pseudo-3D
         ================================================================================
         */
         :root {
-            --color-background: #000000;
-            --color-primary: #00ffff;   /* Pure Cyan */
-            --color-secondary: #ff00ff; /* Pure Magenta */
-            --color-text: #ffffff;
-            --font-display: 'Syne', sans-serif;
-            --font-readable: 'Inter', sans-serif;
+            --color-sun: #FFD700;       /* Intense Gold */
+            --color-sky-light: #87CEEB; /* Bright Sky Blue */
+            --color-sky-dark: #00BFFF;  /* Deep Sky Blue */
+            --color-text: #2c3e50;      /* Dark, readable text */
+            --color-highlight: rgba(255, 255, 255, 0.9);
+            --color-shadow: rgba(0, 0, 0, 0.2);
+            --font-main: 'Inter', sans-serif;
         }
 
-        /* Basic setup, ensuring a full-screen, high-performance canvas environment */
+        /* The page background simulates a bright, sunlit sky */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--color-background);
-            color: var(--color-text);
+            background: radial-gradient(ellipse at top, var(--color-sky-light), var(--color-sky-dark));
+            font-family: var(--font-main);
         }
 
-        /* The canvas is the chaotic background, sitting behind all content */
-        #interactive-canvas {
+        /* The canvas for light reflections sits behind the content */
+        #reflection-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
+            opacity: 0.5;
+            mix-blend-mode: overlay; /* Blends reflections beautifully with the sky */
         }
 
         /*
         ================================================================================
-        II. SERVER TEMPLATE STYLES - Unmodified as requested.
-           - These classes provide the foundational structure.
+        II. SERVER TEMPLATE STYLES (Unmodified as requested)
         ================================================================================
         */
         .awtsmoospage {
@@ -72,106 +75,83 @@
 
         /*
         ================================================================================
-        III. CONTENT STYLES - All modifications are INSIDE .main
-             - Logo: More extreme glitch effect.
-             - Links: More readable and professional design.
+        III. CONTENT STYLES (INSIDE .main)
+             - "Insane" pseudo-3D bevels and daylight effects.
         ================================================================================
         */
         
-        /* THE LOGO - Designed to be "insane" and profoundly glitchy */
+        /* THE LOGO - A bulging, sun-bleached 3D effect */
         .main .logo {
-            font-family: var(--font-display);
             font-weight: 800;
-            font-size: clamp(3rem, 10vw, 8rem);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
+            font-size: clamp(3rem, 12vw, 9rem);
             color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 4rem;
             position: relative;
-            /* The text itself is a stable anchor */
-        }
-        
-        /* We use pseudo-elements for persistent, chaotic glitch layers */
-        .main .logo::before,
-        .main .logo::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-background);
-            overflow: hidden;
+            /* Multi-layered text-shadow creates the pseudo-3D bevel */
+            text-shadow: 
+                -1px -1px 1px var(--color-highlight),
+                1px 1px 1px var(--color-shadow),
+                -2px -2px 2px var(--color-highlight),
+                2px 2px 2px var(--color-shadow),
+                -3px -3px 3px var(--color-highlight),
+                3px 3px 3px var(--color-shadow),
+                -4px -4px 4px var(--color-highlight),
+                4px 4px 4px var(--color-shadow),
+                0 0 20px rgba(255, 215, 0, 0.5); /* A subtle sun glow */
+            transition: all 0.2s ease-out;
         }
 
-        .main .logo::before {
-            color: var(--color-primary);
-            animation: extreme-glitch-1 3s infinite linear alternate-reverse;
-        }
-
-        .main .logo::after {
-            color: var(--color-secondary);
-            animation: extreme-glitch-2 2s infinite linear alternate-reverse;
-        }
-
-        /* Keyframes for a more extreme, jarring glitch effect using clip-path */
-        @keyframes extreme-glitch-1 {
-            0% { clip-path: inset(45% 0 50% 0); transform: translate(-0.05em, 0.02em); }
-            20% { clip-path: inset(15% 0 70% 0); transform: translate(0.02em, -0.01em); }
-            40% { clip-path: inset(85% 0 2% 0); transform: translate(-0.03em, 0.05em); }
-            60% { clip-path: inset(30% 0 60% 0); transform: translate(0.01em, 0.03em); }
-            80% { clip-path: inset(55% 0 25% 0); transform: translate(-0.05em, -0.02em); }
-            100% { clip-path: inset(5% 0 90% 0); transform: translate(0.04em, 0.01em); }
-        }
-
-        @keyframes extreme-glitch-2 {
-            0% { clip-path: inset(80% 0 5% 0); transform: translate(0.05em, -0.05em); }
-            25% { clip-path: inset(10% 0 88% 0); transform: translate(-0.01em, 0.03em); }
-            50% { clip-path: inset(40% 0 42% 0); transform: translate(0.03em, -0.01em); }
-            75% { clip-path: inset(92% 0 2% 0); transform: translate(-0.05em, 0.05em); }
-            100% { clip-path: inset(25% 0 70% 0); transform: translate(0.02em, -0.02em); }
-        }
-
-        /* THE NAVIGATION - Designed for maximum readability and a professional, smooth feel */
+        /* THE NAVIGATION - Readable, beveled, and pressable buttons */
         .main .about {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem; /* Clean spacing for readability */
+            gap: 2rem;
         }
         
         .main .about a {
-            font-family: var(--font-readable);
-            font-weight: 500;
-            font-size: clamp(1rem, 2vw, 1.1rem);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-weight: 800;
             color: var(--color-text);
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            padding: 1rem 2rem;
+            letter-spacing: 0.05em;
+            padding: 1.5rem 3rem;
+            border-radius: 20px;
+            background: #E0E5EC; /* A neutral, clay-like base */
             position: relative;
-            transition: color 0.4s ease, border-color 0.4s ease;
+            transition: all 0.1s ease-in-out;
+            /* The core of the "bulging bevel" effect using multiple inset shadows */
+            box-shadow: 
+                inset 5px 5px 10px #a3b1c6,
+                inset -5px -5px 10px #ffffff,
+                5px 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .main .about a:hover {
-            color: var(--color-primary);
-            border-color: var(--color-primary);
+        /* Creates a "pressed" effect on click, reversing the shadows */
+        .main .about a:active {
+            transform: translateY(2px);
+            box-shadow: 
+                inset -5px -5px 10px #a3b1c6,
+                inset 5px 5px 10px #ffffff,
+                2px 2px 5px rgba(0, 0, 0, 0.1);
         }
 
     </style>
 </head>
 <body>
-    <!-- The "insane" interactive background canvas -->
-    <canvas id="interactive-canvas"></canvas>
+    <!-- Canvas for the "insane" daylight reflections -->
+    <canvas id="reflection-canvas"></canvas>
 
     <!-- SERVER TEMPLATE STRUCTURE (Unmodified) -->
     <div class="all awtsmoospage">
         <?<script> return $a("nav/header.html") </script>?>
         
         <div class="main">
-            <!-- CONTENT WITHIN .main (Modified for extreme/readable goals) -->
-            <div class="logo" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
+            <!-- CONTENT WITHIN .main (Modified for daylight/3D theme) -->
+            <div class="logo">Awtsmoos Apps</div>
             <div class="about list">
                 <a href="./code">Awtsmoos Code Editor</a>
                 <a href="./piano">Piano/Synthesizer</a>
@@ -182,100 +162,89 @@
     </div>
 
     <script>
-        const canvas = document.getElementById('interactive-canvas');
+        /*
+        ================================================================================
+        JAVASCRIPT - DYNAMIC SUNLIGHT REFLECTIONS
+        - This script creates a subtle, chaotic "caustic" light effect that
+          simulates intense sunlight reflecting off an uneven surface.
+        - It's lightweight and designed to be an atmospheric background element.
+        ================================================================================
+        */
+        const canvas = document.getElementById('reflection-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
-        let particles = [];
-        const pointer = { x: width / 2, y: height / 2, active: false };
-
-        // Configuration for a MORE EXTREME particle vortex effect
+        let points = [];
+        const pointer = { x: width / 2, y: height / 2 };
+        
         const options = {
-            particleCount: 500,
-            particleSize: 1.5,
-            attractionForce: 0.02, // Force pulling particles to center
-            repulsionForce: 200,   // "Explosive" force from the cursor
-            repulsionRadius: 250,  // How far the cursor's force reaches
-            maxSpeed: 50,          // Maximum particle speed
-            trailLength: 0.1,      // Lower value = longer, more intense trails
+            pointCount: 30,
+            maxDist: 150, // How far points connect
+            speed: 0.1
         };
 
-        class Particle {
+        class Point {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = 0;
-                this.vy = 0;
-                this.hue = Math.random() * 60 + 180; // Hues of cyan/blue
+                this.vx = (Math.random() - 0.5) * options.speed;
+                this.vy = (Math.random() - 0.5) * options.speed;
             }
 
             update() {
-                // Attraction to the center of the screen
-                const dxCenter = width / 2 - this.x;
-                const dyCenter = height / 2 - this.y;
-                this.vx += dxCenter * options.attractionForce;
-                this.vy += dyCenter * options.attractionForce;
-
-                // Extreme repulsion from the user's cursor
-                if (pointer.active) {
-                    const dx = this.x - pointer.x;
-                    const dy = this.y - pointer.y;
-                    const distSq = dx * dx + dy * dy;
-
-                    if (distSq < options.repulsionRadius * options.repulsionRadius) {
-                        const dist = Math.sqrt(distSq);
-                        const force = (options.repulsionRadius - dist) / options.repulsionRadius;
-                        const angle = Math.atan2(dy, dx);
-                        this.vx += Math.cos(angle) * force * options.repulsionForce;
-                        this.vy += Math.sin(angle) * force * options.repulsionForce;
-                    }
-                }
-
-                // Clamp speed to prevent insane velocities
-                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                if (speed > options.maxSpeed) {
-                    this.vx = (this.vx / speed) * options.maxSpeed;
-                    this.vy = (this.vy / speed) * options.maxSpeed;
+                // Interaction with the pointer
+                const dx = this.x - pointer.x;
+                const dy = this.y - pointer.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if(dist < 200) {
+                    this.vx += (dx / dist) * 0.5; // Gently push away from pointer
+                    this.vy += (dy / dist) * 0.5;
                 }
 
                 this.x += this.vx;
                 this.y += this.vy;
+                
+                // Damping
+                this.vx *= 0.98;
+                this.vy *= 0.98;
 
-                // Friction/damping to slow particles down
-                this.vx *= 0.95;
-                this.vy *= 0.95;
-
-                // Screen wrapping
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, options.particleSize, 0, Math.PI * 2);
-                ctx.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
-                ctx.fill();
+                // Edge wrapping
+                if(this.x > width) this.x = 0;
+                if(this.x < 0) this.x = width;
+                if(this.y > height) this.y = 0;
+                if(this.y < 0) this.y = height;
             }
         }
 
         function setup() {
-            particles = [];
-            for (let i = 0; i < options.particleCount; i++) {
-                particles.push(new Particle());
+            points = [];
+            for (let i = 0; i < options.pointCount; i++) {
+                points.push(new Point());
             }
         }
 
         function animate() {
-            ctx.fillStyle = `rgba(0, 0, 0, ${options.trailLength})`;
-            ctx.fillRect(0, 0, width, height);
+            ctx.clearRect(0, 0, width, height);
+            
+            for(let i = 0; i < points.length; i++) {
+                points[i].update();
+                for(let j = i + 1; j < points.length; j++) {
+                    const dx = points[i].x - points[j].x;
+                    const dy = points[i].y - points[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
 
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+                    if(dist < options.maxDist) {
+                        const opacity = 1 - (dist / options.maxDist);
+                        ctx.beginPath();
+                        ctx.moveTo(points[i].x, points[i].y);
+                        ctx.lineTo(points[j].x, points[j].y);
+                        ctx.strokeStyle = `rgba(255, 255, 224, ${opacity * 0.5})`; // Light yellow for sunlight
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
 
             requestAnimationFrame(animate);
         }
@@ -287,20 +256,10 @@
             setup();
         });
 
-        const updatePointer = (e) => {
-            pointer.x = e.clientX || (e.touches && e.touches[0].clientX);
-            pointer.y = e.clientY || (e.touches && e.touches[0].clientY);
-            pointer.active = true;
-        };
-
-        const deactivatePointer = () => {
-            pointer.active = false;
-        };
-
-        window.addEventListener('mousemove', updatePointer);
-        window.addEventListener('touchmove', e => { e.preventDefault(); updatePointer(e); }, { passive: false });
-        window.addEventListener('mouseleave', deactivatePointer);
-        window.addEventListener('touchend', deactivatePointer);
+        window.addEventListener('mousemove', e => {
+            pointer.x = e.clientX;
+            pointer.y = e.clientY;
+        });
 
         // --- Initialization ---
         setup();
@@ -308,3 +267,4 @@
     </script>
 </body>
 </html>
+ 
