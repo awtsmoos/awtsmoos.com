@@ -1,30 +1,31 @@
- 
+
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - UNSTABLE CORE</title>
+    <title>Awtsmoos Apps - UNSTABLE CORE v2</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@900&display=swap" rel="stylesheet">
 
     <style>
         /*
         ================================================================================
-        I. CORE AESTHETICS - EXTREME & UNSTABLE
-        - I will not style body/html directly to ensure template purity,
-          but will use a pseudo-element for the background.
+        I. CORE AESTHETICS - REFINED CHAOS & INTENSE ENERGY
+        - The foundational aesthetic is now more dynamic, with multiple layers of
+          animation to create a sense of deep, cosmic instability.
         ================================================================================
         */
         :root {
-            --color-core-1: #ff4800; /* Molten Orange */
-            --color-core-2: #ff8c00; /* Dark Orange */
-            --color-bg-1: #12000a;   /* Deepest Magenta */
-            --color-bg-2: #2e081c;
-            --color-text: #f0f0f0;
+            --color-core-1: #ff3c00;      /* Blazing Sun Orange */
+            --color-core-2: #ff7b00;      /* Supernova Gold */
+            --color-accent: #e500ff;      /* Volatile Violet */
+            --color-bg-1: #0d000f;        /* Abyssal Purple */
+            --color-bg-2: #1f0122;        /* Deep Nebula */
+            --color-text: #fafafa;
             --font-main: 'Exo 2', sans-serif;
         }
 
@@ -33,24 +34,22 @@
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 0;
+            z-index: -2;
             background: radial-gradient(circle at center, var(--color-bg-2), var(--color-bg-1));
             background-size: 200% 200%;
-            animation: roil 20s ease-in-out infinite alternate;
+            animation: roil 25s ease-in-out infinite alternate;
         }
 
-        /* A second pseudo-element for the interactive cursor flare */
+        /* A second pseudo-element for a cosmic dust/starfield effect */
         html::after {
             content: '';
             position: fixed;
-            top: var(--y, 50%); left: var(--x, 50%);
-            transform: translate(-50%, -50%);
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-            transition: top 0.1s linear, left 0.1s linear;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle fill="%23FFF" cx="150" cy="150" r="1.5"/><circle fill="%23FFF" cx="800" cy="200" r="1"/><circle fill="%23FFF" cx="500" cy="900" r="1.2"/><circle fill="%23FFF" cx="300" cy="750" r="0.8"/><circle fill="%23FFF" cx="900" cy="650" r="1.1"/><circle fill="%23FFF" cx="50" cy="500" r="1.3"/><circle fill="%23FFF" cx="450" cy="300" r="0.9"/><circle fill="%23FFF" cx="700" cy="800" r="1.4"/></svg>');
+            background-size: 500px 500px;
+            opacity: 0.15;
+            animation: drift 120s linear infinite;
         }
         
         @keyframes roil {
@@ -58,96 +57,139 @@
             to { background-position: 100% 50%; }
         }
 
-        
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-500px, -500px); }
+        }
 
         /*
         ================================================================================
-        III. CONTENT STYLES (INSIDE .main) - PURE CHAOS
+        III. CONTENT STYLES - PROFOUND & INSANE
         ================================================================================
         */
         
-        /* THE LOGO - CRACKING, MOLTEN, AND EXTREME */
+        /* THE LOGO - A SINGULARITY OF POWER */
         .main .logo {
             font-family: var(--font-main);
-            font-weight: 800;
-            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            font-size: clamp(3.5rem, 12vw, 8rem);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--color-text);
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
             position: relative;
-            /* Multi-layered shadow for a hot, pulsing glow from within */
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1);
-            animation: pulse 4s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1); }
-            50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--color-core-2), 0 0 40px var(--color-core-2); }
+            text-align: center;
+            animation: core-flicker 8s infinite ease-in-out;
+            transform-style: preserve-3d; /* Enable 3D transformations */
         }
         
-        /* Animated cracking texture overlay */
+        /* Static base glow */
         .main .logo::before {
-            content: '';
+            content: attr(data-text); /* Use data-text for duplication */
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: repeating-linear-gradient(45deg,
-                transparent 0, transparent 20px,
-                rgba(0,0,0,0.5) 20px, rgba(0,0,0,0.5) 22px);
-            mix-blend-mode: multiply;
+            top: 0; left: 0; right: 0;
+            z-index: -1;
+            color: var(--color-core-1);
+            filter: blur(15px);
             opacity: 0.8;
-            animation: crackle 30s linear infinite;
         }
-        @keyframes crackle {
-            from { background-position: 0 0; }
-            to { background-position: 1000px 0; }
+        
+        /* The unstable, glitching energy layer */
+        .main .logo::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            z-index: -2;
+            color: var(--color-accent);
+            text-shadow: -3px 0 var(--color-core-2), 3px 0 var(--color-accent);
+            mix-blend-mode: screen;
+            animation: glitch 5s linear infinite alternate-reverse;
         }
 
+        @keyframes core-flicker {
+            0%, 100% {
+                text-shadow: 0 0 5px #fff, 0 0 15px var(--color-core-1), 0 0 25px var(--color-core-1);
+                transform: scale(1) perspective(1000px) rotateY(0deg);
+            }
+            50% {
+                text-shadow: 0 0 10px #fff, 0 0 20px var(--color-core-2), 0 0 35px var(--color-core-2);
+                transform: scale(1.02) perspective(1000px) rotateY(1deg);
+            }
+        }
+        
+        @keyframes glitch {
+            0% { clip-path: inset(45% 0 50% 0); transform: translate(-0.05em, 0.02em); }
+            20% { clip-path: inset(80% 0 15% 0); transform: translate(0.02em, -0.01em); }
+            40% { clip-path: inset(20% 0 70% 0); transform: translate(-0.01em, 0.03em); }
+            60% { clip-path: inset(90% 0 5% 0); transform: translate(0.03em, -0.02em); }
+            80% { clip-path: inset(40% 0 45% 0); transform: translate(-0.02em, 0.01em); }
+            100% { clip-path: inset(60% 0 30% 0); transform: translate(0.01em, -0.03em); }
+        }
 
-        /* THE NAVIGATION - SHATTERED VOLCANIC SHARDS */
+        /* THE NAVIGATION - CRYSTALLIZED ENERGY SHARDS */
         .main .about {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
+            perspective: 800px; /* Create a 3D space for the items */
         }
         
         .main .about a {
             font-family: var(--font-main);
-            font-weight: 800;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: rgba(255,255,255,0.7);
+            font-weight: 900;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             text-transform: uppercase;
-            padding: 1.25rem 2.5rem;
+            padding: 1.5rem 3rem;
             position: relative;
-            border: 2px solid rgba(255,100,0,0.5);
-            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
-
-            /* The EXTREME shattered shape */
-            clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%);
+            border: 2px solid transparent;
+            background: linear-gradient(145deg, rgba(31, 1, 34, 0.5), rgba(13, 0, 15, 0.5));
+            backdrop-filter: blur(5px);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.4s, background 0.4s;
+            transform-style: preserve-3d;
         }
 
-        /* Staggered shapes for a more chaotic look */
-        .main .about a:nth-child(2n) {
-            clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 85%);
+        /* The glowing, crystalline border effect */
+        .main .about a::before,
+        .main .about a::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: conic-gradient(from var(--angle), transparent 50%, var(--color-core-1), var(--color-accent));
+            animation: spin 6s linear infinite;
+            --angle: 0deg;
+            transition: opacity 0.4s;
+        }
+        
+        .main .about a::after {
+            filter: blur(15px);
+        }
+        
+        /* Initially hide the glow */
+        .main .about a:not(:hover)::before,
+        .main .about a:not(:hover)::after {
+            opacity: 0;
         }
 
         .main .about a:hover {
             color: #ffffff;
-            transform: scale(1.1) rotate(1deg);
-            /* IGNITE on hover */
-            box-shadow: 0 0 20px var(--color-core-1), 0 0 30px var(--color-core-1);
-            border-color: var(--color-core-2);
-            animation: jitter 0.2s infinite;
+            transform: translateZ(40px) scale(1.05); /* Push forward in 3D space */
+            background: linear-gradient(145deg, rgba(31, 1, 34, 0.8), rgba(13, 0, 15, 0.8));
+            cursor: pointer;
         }
         
-        @keyframes jitter {
-            0% { transform: scale(1.1) translate(1px, -1px) rotate(1deg); }
-            50% { transform: scale(1.1) translate(-1px, 1px) rotate(-1deg); }
-            100% { transform: scale(1.1) translate(1px, -1px) rotate(1deg); }
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
         }
-
+        
+        @keyframes spin {
+            to { --angle: 360deg; }
+        }
     </style>
 </head>
 <body>
@@ -158,7 +200,7 @@
         
         <div class="main">
             <!-- CONTENT WITHIN .main (REBUILT FOR EXTREME ENERGY) -->
-            <div class="logo">Awtsmoos Apps</div>
+            <div class="logo" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
             <div class="about list">
                 <a href="./code">Awtsmoos Code Editor</a>
                 <a href="./piano">Piano/Synthesizer</a>
@@ -168,13 +210,7 @@
         </div>
     </div>
 
-    <script>
-        // Tiny script for the EXTREME reactive cursor flare. No libraries.
-        document.addEventListener('mousemove', (e) => {
-            document.documentElement.style.setProperty('--x', `${e.clientX}px`);
-            document.documentElement.style.setProperty('--y', `${e.clientY}px`);
-        });
-    </script>
+    <!-- The original script is no longer needed as there's no cursor flare. -->
 
 </body>
 </html>
