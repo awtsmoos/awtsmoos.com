@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    
+        
 
 
 
@@ -97,8 +97,22 @@
     .menu-bar { display: flex; align-items: center; height: 52px; padding: 0 12px; flex-shrink: 0; gap: 8px; }
     .tab-bar { display: flex; overflow-x: auto; align-items: flex-end; }
     
-    .main-content { grid-row: 2 / 3; grid-column: 2 / 3; position: relative; display: flex; overflow: hidden; }
-    .editor-area { flex-grow: 1; display: flex; position: relative; background-color: transparent; }
+    .main-content { 
+        grid-row: 2 / 3; grid-column: 2 / 3; position: relative; 
+        display: flex; flex-direction: column; 
+        overflow: hidden; 
+    }
+    
+    
+    
+    .editor-area { 
+        flex-grow: 1; /* B"H - CRITICAL: This tells the editor to take up all available vertical space */
+        display: flex; 
+        position: relative; 
+        overflow-y: auto; /* B"H - CRITICAL: This enables vertical scrolling ONLY within this area */
+        background-color: transparent; 
+    }
+    
     
     .status-bar { 
         grid-row: 3 / 4; grid-column: 1 / 3; height: 28px; 
@@ -392,6 +406,46 @@
     }
     ::-webkit-scrollbar-thumb:hover { background-color: var(--neon-cyan); }
     
+    
+    
+        /* --- KEYBOARD HELPER --- */
+    .keyboard-helper {
+        display: none; /* Hidden by default */
+        flex-shrink: 0;
+        background-color: var(--color-bg-deep);
+        padding: 6px 8px;
+        gap: 6px;
+        overflow-x: auto;
+        border-bottom: 2px solid var(--color-border);
+    }
+    /* Add this class with JS to show the bar */
+    .keyboard-helper.is-visible {
+        display: flex;
+    }
+    .kh-btn {
+        font-family: var(--font-code);
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        padding: 8px 12px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--timing-fast) ease;
+    }
+    .kh-btn:hover {
+        background-color: var(--color-border);
+        color: var(--neon-cyan);
+        border-color: var(--neon-cyan);
+    }
+    .kh-separator {
+        border-left: 2px solid var(--color-border);
+        margin: 0 4px;
+    }
+    
+    
+    
     /* --- MOBILE RESPONSIVENESS (UNCHANGED LOGIC) --- */
     @media (max-width: 768px) {
         .app-container { grid-template-columns: 1fr; }
@@ -411,6 +465,8 @@
         .status-bar { font-size: 0.8em; }
     }
     #hamburger-sidebar-toggle { display: none; }
+    
+    
     @media (max-width: 768px) {
         #hamburger-sidebar-toggle { display: inline-flex; }
     }
@@ -454,6 +510,19 @@
         </div>
         
         <div class="main-content">
+        <!-- B"H - NEW KEYBOARD HELPER BAR -->
+            <div id="keyboard-helper" class="keyboard-helper">
+                <button class="kh-btn" data-key="tab" title="Insert Tab (4 spaces)">Tab</button>
+                <button class="kh-btn" data-key="left" title="Move cursor left">◀</button>
+                <button class="kh-btn" data-key="up" title="Move cursor up">▲</button>
+                <button class="kh-btn" data-key="down" title="Move cursor down">▼</button>
+                <button class="kh-btn" data-key="right" title="Move cursor right">▶</button>
+                <span class="kh-separator"></span>
+                <button class="kh-btn" data-pair="{}" title="Insert curly braces">{ }</button>
+                <button class="kh-btn" data-pair="[]" title="Insert square brackets">[ ]</button>
+                <button class="kh-btn" data-pair="<>" title="Insert angle brackets">< ></button>
+                <button class="kh-btn" data-pair='""' title="Insert double quotes">" "</button>
+            </div>
             <div class="editor-area">
                 <div id="editor-wrapper" class="hidden">
                     <div id="line-numbers">1</div>
@@ -507,6 +576,8 @@ document.addEventListener('DOMContentLoaded', () => {
         workspaces: [], nextWorkspaceId: 0,
         contextTarget: null, githubToken: null, db: null,
         domItemMap: new Map(), // Maps "workspaceId::path" to { el, item }
+        useTabs: true,
+    
     };
 
     // --- DOM ELEMENT REFERENCES ---
@@ -530,6 +601,9 @@ document.addEventListener('DOMContentLoaded', () => {
         contextMenu: document.getElementById('context-menu'),
         findReplacePanel: document.getElementById('find-replace-panel'),
         addWorkspaceBtn: document.getElementById('add-workspace-btn'),
+        findInput: document.getElementById('find-input'),         // <-- ADD THIS
+        replaceInput: document.getElementById('replace-input'), // <-- AND THIS
+        keyboardHelper: document.getElementById('keyboard-helper'), 
     };
     
     // --- CORE MODULES ---
@@ -588,6 +662,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const keydownHandler = (e) => {
                     if (e.key === 'Enter' && hasInput && !hasTextarea) { e.preventDefault(); okBtn.click(); }
                     else if (e.key === 'Escape' && cancelBtn) { cancelBtn.click(); }
+                    // B"H - ADD THIS ELSE IF BLOCK
+                else if (e.key === 'Tab') {
+                    e.preventDefault(); // Stop focus from moving to the next element
+                    const editor = DOM.editor;
+                    const start = editor.selectionStart;
+                    const end = editor.selectionEnd;
+                    editor.setRangeText(App.getTabString(), start, end, 'end');
+                    editor.dispatchEvent(new Event('input', { bubbles: true }));
+                }
                 };
                 
                 dialog.onclick = (e) => {
@@ -1242,6 +1325,7 @@ const Menus = {
             }
         },
 
+        
         show(e, item) {
             e.preventDefault(); 
             e.stopPropagation();
@@ -1258,12 +1342,14 @@ const Menus = {
             const isDir = item.kind === 'directory';
             const isWorkspaceRoot = item.path === '/';
 
+            // B"H - THIS IS THE CORRECT LOGIC FOR THE CONTEXT MENU
             const menuItems = [
-                { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
-                { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
-                { isSeparator: true },
-                { label: 'Settings', action: 'settings', icon: 'settings' }
-            ];
+                isDir ? { label: 'New File', action: 'new-file', icon: 'file' } : null,
+                isDir ? { label: 'New Folder', action: 'new-folder', icon: 'folder' } : null,
+                isDir ? { isSeparator: true } : null,
+                !isWorkspaceRoot ? { label: 'Delete', action: 'delete', icon: 'x', danger: true } : null,
+                isWorkspaceRoot ? { label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true } : null
+            ].filter(Boolean);
 
             DOM.contextMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
                 `<button class="menu-button" data-action="${i.action}" ${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
@@ -1273,6 +1359,7 @@ const Menus = {
             
             this.positionAndDisplay(DOM.contextMenu, e);
         },
+
         showMainMenu(e) {
             e.stopPropagation();
             this.hideAll();
@@ -1291,6 +1378,9 @@ const Menus = {
                 { label: 'Select All', action: 'select-all', icon: 'select-all', disabled: !activeTab },
                 { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
                 { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
+                
+                { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
+                
                 { isSeparator: true },
                 { label: 'Settings', action: 'settings', icon: 'settings' }
             ];
@@ -1353,6 +1443,11 @@ case 'select-all': {
                         }
                         break;
                     }
+                    
+                    
+                    case 'toggle-keyboard-helper': // <-- ADD THIS CASE BLOCK
+                        DOM.keyboardHelper.classList.toggle('is-visible');
+                        break;
 
 
 
@@ -1506,6 +1601,7 @@ case 'delete-workspace': {
      * App Module: Main application controller and initializer.
      */
     const App = {
+        getTabString: () => State.useTabs ? '\t' : '    ',
         async initialize() {
             UI.showLoading("VIVID X Initializing...");
             this.setupEventListeners();
@@ -1522,11 +1618,17 @@ case 'delete-workspace': {
             UI.showToast("Welcome to VIVID X // Profound Edition", 'success');
         },
         saveSettings: () => {
-             localStorage.setItem('vividX_settings_profound', JSON.stringify({ githubToken: State.githubToken }));
+             // B"H - Now saves the githubToken AND the useTabs preference
+             localStorage.setItem('vividX_settings_profound', JSON.stringify({ 
+                 githubToken: State.githubToken,
+                 useTabs: State.useTabs 
+             }));
         },
         loadSettings: () => {
              const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
              State.githubToken = settings.githubToken || null;
+             // B"H - Load the useTabs setting, defaulting to false if not found
+             State.useTabs = settings.useTabs ?? false;
         },
         setupEventListeners() {
             DOM.editor.addEventListener('input', () => {
@@ -1609,6 +1711,22 @@ case 'delete-workspace': {
                     else Menus.hideAll();
                 }
             });
+            
+            
+            
+            // B"H - Enable Tab key in Find/Replace inputs
+            const handleTabInInputs = (e) => {
+                if (e.key === 'Tab') {
+                    e.preventDefault(); // Prevent focus change
+                    const input = e.target;
+                    const start = input.selectionStart;
+                    const end = input.selectionEnd;
+                    // Use setRangeText which is available on input elements too
+                    input.setRangeText(App.getTabString(), start, end, 'end');
+                }
+            };
+            DOM.findInput.addEventListener('keydown', handleTabInInputs);
+            DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
 
 // B"H - ADDING SMART INDENT ON ENTER KEY
             DOM.editor.addEventListener('keydown', (e) => {
@@ -1643,6 +1761,56 @@ case 'delete-workspace': {
                     // Manually trigger an input event so UI elements like line numbers update correctly
                     editor.dispatchEvent(new Event('input', { bubbles: true }));
                 }
+            });
+            
+            
+            
+            
+            // B"H - KEYBOARD HELPER FUNCTIONALITY
+            DOM.keyboardHelper.addEventListener('click', (e) => {
+                const button = e.target.closest('button.kh-btn');
+                if (!button) return;
+
+                const editor = DOM.editor;
+                const key = button.dataset.key;
+                const pair = button.dataset.pair;
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+
+                if (pair) {
+                    const [charStart, charEnd] = pair;
+                    const selectedText = editor.value.substring(start, end);
+                    const textToInsert = charStart + selectedText + charEnd;
+                    editor.setRangeText(textToInsert, start, end, 'select');
+                    // Place cursor inside for empty pairs
+                    if (start === end) {
+                        editor.selectionStart = editor.selectionEnd = start + 1;
+                    }
+                } else if (key) {
+                    switch (key) {
+                        case 'tab':
+                            // B"H - Uses the new configurable tab string
+                            editor.setRangeText(App.getTabString(), start, end, 'end');
+                            break;
+                        case 'left':
+                            editor.selectionStart = editor.selectionEnd = Math.max(0, start - 1);
+                            break;
+                        case 'right':
+                            editor.selectionStart = editor.selectionEnd = Math.min(editor.value.length, start + 1);
+                            break;
+                        // Note: Up/Down are simplified for reliability.
+                        case 'up':
+                            const upPos = editor.value.substring(0, start).lastIndexOf('\n');
+                            editor.selectionStart = editor.selectionEnd = Math.max(0, upPos);
+                            break;
+                        case 'down':
+                            const downPos = editor.value.indexOf('\n', start);
+                            editor.selectionStart = editor.selectionEnd = (downPos > -1) ? downPos + 1 : editor.value.length;
+                            break;
+                    }
+                }
+                editor.focus(); // Always return focus to the editor
+                editor.dispatchEvent(new Event('input', { bubbles: true }));
             });
 
             window.onbeforeunload = (e) => {
@@ -1769,20 +1937,29 @@ case 'delete-workspace': {
             } finally { UI.hideLoading(); }
         },
         async showSettings() {
+            // B"H - Added a checkbox for the new setting
             const contentHTML = `
                 <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
                 <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                    <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
+                    <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
+                </div>
             `;
             const result = await UI.showDialog({ title: 'Settings', contentHTML, okText: 'Save', cancelText: 'Cancel' });
 
             if (result) {
                 const token = document.getElementById('github-token-input').value;
                 State.githubToken = token || null;
+                // B"H - Read the checkbox value on save
+                State.useTabs = document.getElementById('use-tabs-checkbox').checked;
                 this.saveSettings();
                 UI.showToast('Settings saved.', 'success');
             }
         },
     };
+    	
+        
 
     // --- INITIALIZE THE APPLICATION ---
     App.initialize();
