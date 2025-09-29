@@ -1,29 +1,45 @@
+
 <!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - MAXIMUM INSANITY</title>
+    <title>Awtsmoos Apps - EXTREME CLARITY</title>
+    
+    <!-- Fonts chosen for EXTREME impact (Syne) and supreme READABILITY (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@500&display=swap" rel="stylesheet">
+
     <style>
+        /*
+        ================================================================================
+        I. CORE AESTHETICS - A balance of chaos and order.
+        ================================================================================
+        */
         :root {
-            --primary-color: #ff00ff; /* Neon Pink */
-            --secondary-color: #00ffff; /* Neon Cyan */
-            --background-color: #000000;
+            --color-background: #000000;
+            --color-primary: #00ffff;   /* Pure Cyan */
+            --color-secondary: #ff00ff; /* Pure Magenta */
+            --color-text: #ffffff;
+            --font-display: 'Syne', sans-serif;
+            --font-readable: 'Inter', sans-serif;
         }
 
+        /* Basic setup, ensuring a full-screen, high-performance canvas environment */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--color-background);
+            color: var(--color-text);
         }
 
-        #insane-canvas {
+        /* The canvas is the chaotic background, sitting behind all content */
+        #interactive-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -32,7 +48,13 @@
             z-index: 1;
         }
 
-        .all {
+        /*
+        ================================================================================
+        II. SERVER TEMPLATE STYLES - Unmodified as requested.
+           - These classes provide the foundational structure.
+        ================================================================================
+        */
+        .awtsmoospage {
             position: relative;
             z-index: 2;
             height: 100%;
@@ -46,172 +68,195 @@
             height: 100vh;
             text-align: center;
             padding: 1rem;
+        }
+
+        /*
+        ================================================================================
+        III. CONTENT STYLES - All modifications are INSIDE .main
+             - Logo: More extreme glitch effect.
+             - Links: More readable and professional design.
+        ================================================================================
+        */
+        
+        /* THE LOGO - Designed to be "insane" and profoundly glitchy */
+        .main .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(3rem, 10vw, 8rem);
             text-transform: uppercase;
-        }
-
-        .logo {
-            font-size: clamp(3rem, 12vw, 8rem);
-            font-weight: 900;
-            margin-bottom: 2rem;
-            letter-spacing: 0.5rem;
-            z-index: 3;
-        }
-
-        .about a {
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            color: var(--secondary-color);
-            text-decoration: none;
-            margin: 0.5rem 1rem;
-            display: inline-block;
-            border: 3px solid var(--secondary-color);
-            padding: 0.75rem 1.5rem;
-            transition: all 0.1s ease;
+            letter-spacing: 0.2em;
+            color: var(--color-text);
+            margin-bottom: 4rem;
             position: relative;
-            z-index: 3;
+            /* The text itself is a stable anchor */
         }
-
-        .about a:hover {
-            background-color: var(--secondary-color);
-            color: var(--background-color);
-            text-shadow: 0 0 15px var(--primary-color);
-        }
-
-        .glitch {
-            position: relative;
-            text-shadow: 
-                -3px -3px 0 var(--primary-color), 
-                3px 3px 0 var(--secondary-color);
-            animation: glitch-main 5s infinite linear alternate-reverse;
-        }
-
-        .glitch::before,
-        .glitch::after {
+        
+        /* We use pseudo-elements for persistent, chaotic glitch layers */
+        .main .logo::before,
+        .main .logo::after {
             content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--background-color);
+            background: var(--color-background);
             overflow: hidden;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
-        .glitch::before {
-            left: -3px;
-            text-shadow: -3px 0 var(--primary-color);
-            animation: glitch-before 3s infinite linear alternate-reverse;
+        .main .logo::before {
+            color: var(--color-primary);
+            animation: extreme-glitch-1 3s infinite linear alternate-reverse;
         }
 
-        .glitch::after {
-            left: 3px;
-            text-shadow: -3px 0 var(--secondary-color);
-            animation: glitch-after 2s infinite linear alternate-reverse;
+        .main .logo::after {
+            color: var(--color-secondary);
+            animation: extreme-glitch-2 2s infinite linear alternate-reverse;
         }
 
-        @keyframes glitch-main {
-            0% { transform: translate(0); }
-            10% { transform: translate(-7px, 7px); }
-            20% { transform: translate(7px, -7px); }
-            30% { transform: translate(-7px, -7px); }
-            40% { transform: translate(7px, 7px); }
-            50% { transform: translate(0); }
-            100% { transform: translate(0); }
+        /* Keyframes for a more extreme, jarring glitch effect using clip-path */
+        @keyframes extreme-glitch-1 {
+            0% { clip-path: inset(45% 0 50% 0); transform: translate(-0.05em, 0.02em); }
+            20% { clip-path: inset(15% 0 70% 0); transform: translate(0.02em, -0.01em); }
+            40% { clip-path: inset(85% 0 2% 0); transform: translate(-0.03em, 0.05em); }
+            60% { clip-path: inset(30% 0 60% 0); transform: translate(0.01em, 0.03em); }
+            80% { clip-path: inset(55% 0 25% 0); transform: translate(-0.05em, -0.02em); }
+            100% { clip-path: inset(5% 0 90% 0); transform: translate(0.04em, 0.01em); }
         }
 
-        @keyframes glitch-before {
-            0% { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); }
-            10% { clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%); }
-            20% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); }
-            30% { clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%); }
-            40% { clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%); }
-            50% { clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%); }
-            60% { clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%); }
-            70% { clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%); }
-            80% { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); }
-            90% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
-            100% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+        @keyframes extreme-glitch-2 {
+            0% { clip-path: inset(80% 0 5% 0); transform: translate(0.05em, -0.05em); }
+            25% { clip-path: inset(10% 0 88% 0); transform: translate(-0.01em, 0.03em); }
+            50% { clip-path: inset(40% 0 42% 0); transform: translate(0.03em, -0.01em); }
+            75% { clip-path: inset(92% 0 2% 0); transform: translate(-0.05em, 0.05em); }
+            100% { clip-path: inset(25% 0 70% 0); transform: translate(0.02em, -0.02em); }
         }
 
-        @keyframes glitch-after {
-            0% { clip-path: polygon(0 5%, 100% 5%, 100% 6%, 0 6%); }
-            10% { clip-path: polygon(0 8%, 100% 8%, 100% 8%, 0 8%); }
-            20% { clip-path: polygon(0 20%, 100% 20%, 100% 25%, 0 25%); }
-            30% { clip-path: polygon(0 25%, 100% 25%, 100% 25%, 0 25%); }
-            40% { clip-path: polygon(0 40%, 100% 40%, 100% 42%, 0 42%); }
-            50% { clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%); }
-            60% { clip-path: polygon(0 60%, 100% 60%, 100% 65%, 0 65%); }
-            70% { clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%); }
-            80% { clip-path: polygon(0 85%, 100% 85%, 100% 90%, 0 90%); }
-            90% { clip-path: polygon(0 95%, 100% 95%, 100% 96%, 0 96%); }
-            100% { clip-path: polygon(0 98%, 100% 98%, 100% 100%, 0 100%); }
+        /* THE NAVIGATION - Designed for maximum readability and a professional, smooth feel */
+        .main .about {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem; /* Clean spacing for readability */
         }
+        
+        .main .about a {
+            font-family: var(--font-readable);
+            font-weight: 500;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            color: var(--color-text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 1rem 2rem;
+            position: relative;
+            transition: color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .main .about a:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
     </style>
 </head>
 <body>
-    <canvas id="insane-canvas"></canvas>
+    <!-- The "insane" interactive background canvas -->
+    <canvas id="interactive-canvas"></canvas>
 
+    <!-- SERVER TEMPLATE STRUCTURE (Unmodified) -->
     <div class="all awtsmoospage">
         <?<script> return $a("nav/header.html") </script>?>
         
         <div class="main">
-            <div class="logo glitch" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
+            <!-- CONTENT WITHIN .main (Modified for extreme/readable goals) -->
+            <div class="logo" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
             <div class="about list">
-                <a href="./code" class="glitch" data-text="Awtsmoos Code Editor">Awtsmoos Code Editor</a>
-                <a href="./piano" class="glitch" data-text="Piano/Synthesizer">Piano/Synthesizer</a>
-                <br>
-                <a href="/os" class="glitch" data-text="Awtsmoos OS">Awtsmoos OS</a>
-                <a href="/ayin" class="glitch" data-text="Awtsmoos Recorder">Awtsmoos Recorder</a>
+                <a href="./code">Awtsmoos Code Editor</a>
+                <a href="./piano">Piano/Synthesizer</a>
+                <a href="/os">Awtsmoos OS</a>
+                <a href="/ayin">Awtsmoos Recorder</a>
             </div>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('insane-canvas');
+        const canvas = document.getElementById('interactive-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-        let particles = [];
-        let pointer = { x: width / 2, y: height / 2 };
 
+        let particles = [];
+        const pointer = { x: width / 2, y: height / 2, active: false };
+
+        // Configuration for a MORE EXTREME particle vortex effect
         const options = {
             particleCount: 500,
-            particleSize: 2,
-            speed: 15,
-            trailLength: 0.1,
-            hue: 170 // Start hue for cyan
+            particleSize: 1.5,
+            attractionForce: 0.02, // Force pulling particles to center
+            repulsionForce: 200,   // "Explosive" force from the cursor
+            repulsionRadius: 250,  // How far the cursor's force reaches
+            maxSpeed: 50,          // Maximum particle speed
+            trailLength: 0.1,      // Lower value = longer, more intense trails
         };
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * options.speed;
-                this.vy = (Math.random() - 0.5) * options.speed;
+                this.vx = 0;
+                this.vy = 0;
+                this.hue = Math.random() * 60 + 180; // Hues of cyan/blue
             }
 
             update() {
-                const dx = this.x - pointer.x;
-                const dy = this.y - pointer.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const angle = Math.atan2(dy, dx);
+                // Attraction to the center of the screen
+                const dxCenter = width / 2 - this.x;
+                const dyCenter = height / 2 - this.y;
+                this.vx += dxCenter * options.attractionForce;
+                this.vy += dyCenter * options.attractionForce;
 
-                if (dist > 1) {
-                    this.x -= Math.cos(angle) * (1 + 100 / dist);
-                    this.y -= Math.sin(angle) * (1 + 100 / dist);
+                // Extreme repulsion from the user's cursor
+                if (pointer.active) {
+                    const dx = this.x - pointer.x;
+                    const dy = this.y - pointer.y;
+                    const distSq = dx * dx + dy * dy;
+
+                    if (distSq < options.repulsionRadius * options.repulsionRadius) {
+                        const dist = Math.sqrt(distSq);
+                        const force = (options.repulsionRadius - dist) / options.repulsionRadius;
+                        const angle = Math.atan2(dy, dx);
+                        this.vx += Math.cos(angle) * force * options.repulsionForce;
+                        this.vy += Math.sin(angle) * force * options.repulsionForce;
+                    }
                 }
-                
+
+                // Clamp speed to prevent insane velocities
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > options.maxSpeed) {
+                    this.vx = (this.vx / speed) * options.maxSpeed;
+                    this.vy = (this.vy / speed) * options.maxSpeed;
+                }
+
                 this.x += this.vx;
                 this.y += this.vy;
 
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
+                // Friction/damping to slow particles down
+                this.vx *= 0.95;
+                this.vy *= 0.95;
+
+                // Screen wrapping
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
             }
 
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, options.particleSize, 0, Math.PI * 2);
-                ctx.fillStyle = `hsl(${options.hue}, 100%, 50%)`;
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
                 ctx.fill();
             }
         }
@@ -232,28 +277,32 @@
                 p.draw();
             });
 
-            options.hue += 0.5;
-
             requestAnimationFrame(animate);
         }
 
+        // --- Event Listeners ---
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             setup();
         });
 
-        window.addEventListener('mousemove', (e) => {
-            pointer.x = e.clientX;
-            pointer.y = e.clientY;
-        });
-        
-        window.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            pointer.x = e.touches[0].clientX;
-            pointer.y = e.touches[0].clientY;
-        });
+        const updatePointer = (e) => {
+            pointer.x = e.clientX || (e.touches && e.touches[0].clientX);
+            pointer.y = e.clientY || (e.touches && e.touches[0].clientY);
+            pointer.active = true;
+        };
 
+        const deactivatePointer = () => {
+            pointer.active = false;
+        };
+
+        window.addEventListener('mousemove', updatePointer);
+        window.addEventListener('touchmove', e => { e.preventDefault(); updatePointer(e); }, { passive: false });
+        window.addEventListener('mouseleave', deactivatePointer);
+        window.addEventListener('touchend', deactivatePointer);
+
+        // --- Initialization ---
         setup();
         animate();
     </script>
