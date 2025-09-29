@@ -1,4 +1,4 @@
-
+ 
 <!--B"H-->
 
 <!DOCTYPE html>
@@ -29,12 +29,12 @@
             gap: 5px;
             padding: 0 10px;
             box-sizing: border-box;
-            pointer-events: none; /* Pass clicks through unless on a scrollbar */
+            pointer-events: none;
         }
 
         #left-ui-container {
             position: absolute;
-            top: 25px; /* Position below scrollbars */
+            top: 25px;
             left: 20px;
             z-index: 102;
             display: flex;
@@ -57,41 +57,42 @@
             justify-content: center; 
             align-items: center;
         }
-            .menu-icon .bar { width: 30px; height: 4px; background-color: white; margin: 4px 0; border-radius: 2px; } /* Makes bars visible */
+            .menu-icon .bar { width: 30px; height: 4px; background-color: white; margin: 4px 0; border-radius: 2px; }
     
     #settings-bar {
         margin-top: 2px;
         background-color: rgba(40, 40, 40, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: white; 
-        max-height: 0; width: fit-content; overflow: scroll; 
+        max-height: 0; width: fit-content; overflow-y: scroll; overflow-x:hidden;
         transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, border-width 0.4s ease-in-out; 
-        border: 0 solid rgba(80, 80, 80, 0.5); /* Fixes remnant by starting border at 0 */
+        border: 0 solid rgba(80, 80, 80, 0.5);
         border-radius: 10px; padding: 0 15px;
         box-sizing: border-box;
-display:none;
+        display:none;
     }
     #settings-bar.expanded { 
-        max-height: 380px; 
-max-width:80vw;
+        max-height: calc(100vh - 100px);
+        max-width: 80vw;
         padding: 15px; 
-display:unset;
-        border-width: 1px; /* Applies border only when expanded */
+        display: block;
+        border-width: 1px;
     }
         
-        .settings-content { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 10px; }
-        .nested-menu { border-top: 1px solid #555; padding-top: 15px; max-height: 0; opacity: 0; overflow: scroll; transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding-top 0.4s; display:none}
-        .nested-menu.visible { display:unset;max-height: 200px; opacity: 1; }
+        .settings-content { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 15px; }
+        .nested-menu { border-top: 1px solid #555; padding-top: 15px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding-top 0.4s; display:none}
+        .nested-menu.visible { display: block; max-height: 300px; opacity: 1; overflow-y: scroll; }
         .settings-content label { white-space: nowrap; color: #eee; font-size: 0.9em; display: inline-flex; align-items: center; gap: 5px;}
         .settings-content button, .settings-content select, .settings-content input { padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; background-color: #555; color: white; }
         .settings-content button { background-color: #007bff; }
         #record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
         .settings-content input[type="checkbox"] { width: 16px; height: 16px; }
+        .hidden-ui { display: none !important; }
 
         /* --- SCROLLBAR --- */
         .custom-scrollbar-container { 
             width: 100%;
             height: 15px; background-color: rgba(68, 68, 68, 0.8); cursor: grab; 
             touch-action: none; position: relative; border-radius: 7px; overflow: hidden; display: none;
-            pointer-events: auto; /* Make scrollbars clickable */
+            pointer-events: auto;
         }
         .custom-scrollbar-thumb { height: 100%; background-color: #007bff; position: absolute; left: 0; cursor: grab; border-radius: 7px; }
         
@@ -104,20 +105,17 @@ display:unset;
         .black-key.active { background-color: #444; }
         .key-label { padding-bottom: 8px; pointer-events: none; }
 
-
-
-
-#middle-scrollbar-container {
-        position: absolute;
-        width: 100%;
-        top: 50%; /* Center vertically */
-        transform: translateY(-50%); /* Adjust for its own height */
-        z-index: 50; /* Above keys, below menu */
-        display: none; /* Hidden by default */
-        padding: 5px 10px;
-        box-sizing: border-box;
-        pointer-events: none;
-    }
+        #middle-scrollbar-container {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            display: none;
+            padding: 5px 10px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -126,14 +124,12 @@ display:unset;
         <div id="keyboard-container"></div>
         
         <div id="top-scrollbars-container">
-        <!-- This is now the permanent home for the main/bottom scrollbar -->
-        <div id="custom-scrollbar-container" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb" class="custom-scrollbar-thumb"></div></div>
-    </div>
+            <div id="custom-scrollbar-container" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb" class="custom-scrollbar-thumb"></div></div>
+        </div>
 
-    <!-- This new container will be shown between the keyboards in independent mode -->
-    <div id="middle-scrollbar-container" style="display: none;">
-         <div id="custom-scrollbar-container-top" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb-top" class="custom-scrollbar-thumb"></div></div>
-    </div>
+        <div id="middle-scrollbar-container">
+             <div id="custom-scrollbar-container-top" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb-top" class="custom-scrollbar-thumb"></div></div>
+        </div>
 
         <div id="left-ui-container">
             <div class="menu-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
@@ -143,22 +139,32 @@ display:unset;
                         <button id="record-button">Record</button>
                         <button id="mic-button">Enable Mic</button>
                         <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
-                        <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option></select>
+                        <label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+                        <br>
+                        <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option></select>
                         <label>Start:</label><select id="octave-select"><option value="1" selected>C1</option><option value="2">C2</option><option value="3">C3</option><option value="4">C4</option></select>
                         <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
+                        <br>
                         <label><input type="checkbox" id="play-chords-checkbox"> Play Chords</label>
-                        <label><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                        <label id="always-dual-label"><input type="checkbox" id="always-dual-checkbox"> Always Dual View</label>
+                        <label id="independent-scroll-label" class="hidden-ui"><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                        <br>
                         <button id="advanced-synth-toggle">Advanced</button>
                         <button id="chord-settings-toggle">Chords</button>
+                        <button id="restore-defaults-button" style="background-color: #6c757d;">Defaults</button>
                     </div>
                     <div id="chord-settings-menu" class="nested-menu settings-content">
                          <label>Mode:</label><select id="chord-mode-select"><option value="auto" selected>Auto-Detect</option><option value="major">Major</option><option value="minor">Minor</option></select>
+                         <label>Octave:</label><select id="chord-octave-select"><option value="auto" selected>Auto</option><option value="-1">1 Octave Below</option><option value="0">Current Octave</option><option value="1">1 Octave Above</option></select>
                     </div>
                     <div id="advanced-synth-menu" class="nested-menu settings-content">
                         <label>Attack:</label><input type="range" id="attack-slider" min="0.01" max="1" step="0.01" value="0.02"><label>Decay:</label><input type="range" id="decay-slider" min="0.01" max="1" step="0.01" value="0.1"><label>Sustain:</label><input type="range" id="sustain-slider" min="0" max="1" step="0.01" value="0.8"><label>Release:</label><input type="range" id="release-slider" min="0.1" max="2" step="0.01" value="0.3">
-                        <label>Wave 2:</label><select id="waveform2-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option></select>
+                        <br>
+                        <label>Wave 2:</label><select id="waveform2-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option></select>
                         <label>Mix:</label><input type="range" id="osc-mix-slider" min="0" max="1" step="0.01" value="0.0"><label>Detune:</label><input type="range" id="detune-slider" min="-1200" max="1200" step="1" value="5">
+                        <br>
                         <label>Cutoff:</label><input type="range" id="filter-cutoff-slider" min="100" max="15000" step="10" value="15000"><label>Resonance:</label><input type="range" id="filter-q-slider" min="0" max="20" step="0.1" value="0">
+                        <br>
                         <label>LFO Rate:</label><input type="range" id="lfo-rate-slider" min="0.1" max="20" step="0.1" value="5"><label>LFO Depth:</label><input type="range" id="lfo-depth-slider" min="0" max="8000" step="10" value="0">
                         <label>Reverb:</label><input type="range" id="reverb-slider" min="0" max="1" step="0.01" value="0">
                     </div>
@@ -177,14 +183,18 @@ display:unset;
                 recordButton: document.getElementById('record-button'), waveformSelect: document.getElementById('waveform-select'), octaveSelect: document.getElementById('octave-select'), keyWidthSlider: document.getElementById('key-width-slider'), 
                 advancedSynthToggle: document.getElementById('advanced-synth-toggle'), advancedSynthMenu: document.getElementById('advanced-synth-menu'),
                 chordSettingsToggle: document.getElementById('chord-settings-toggle'), chordSettingsMenu: document.getElementById('chord-settings-menu'),
-                playChordsCheckbox: document.getElementById('play-chords-checkbox'), independentScrollCheckbox: document.getElementById('independent-scroll-checkbox'),
-                chordModeSelect: document.getElementById('chord-mode-select'),
+                playChordsCheckbox: document.getElementById('play-chords-checkbox'), 
+                alwaysDualCheckbox: document.getElementById('always-dual-checkbox'), independentScrollCheckbox: document.getElementById('independent-scroll-checkbox'),
+                independentScrollLabel: document.getElementById('independent-scroll-label'),
+                chordModeSelect: document.getElementById('chord-mode-select'), chordOctaveSelect: document.getElementById('chord-octave-select'),
                 attack: document.getElementById('attack-slider'), decay: document.getElementById('decay-slider'), sustain: document.getElementById('sustain-slider'), release: document.getElementById('release-slider'), waveform2: document.getElementById('waveform2-select'), oscMix: document.getElementById('osc-mix-slider'), detune: document.getElementById('detune-slider'), filterCutoff: document.getElementById('filter-cutoff-slider'), filterQ: document.getElementById('filter-q-slider'), lfoRate: document.getElementById('lfo-rate-slider'), lfoDepth: document.getElementById('lfo-depth-slider'), reverb: document.getElementById('reverb-slider'), 
                 menuIcon: document.querySelector('.menu-icon'),
-                micButton: document.getElementById('mic-button'), micVolumeSlider: document.getElementById('mic-volume-slider')
+                micButton: document.getElementById('mic-button'), micVolumeSlider: document.getElementById('mic-volume-slider'), micPlaybackCheckbox: document.getElementById('mic-playback-checkbox'),
+                restoreDefaultsButton: document.getElementById('restore-defaults-button')
             };
+            let defaultSettings = {};
             let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, customWaves = {};
-            let microphoneSource, microphoneGain;
+            let microphoneSource, microphoneGain, micPlaybackGain;
             let currentChordRoot = null, currentChordNodes = [], noteHistory = [];
             
             const activeNotes = new Map();
@@ -195,54 +205,103 @@ display:unset;
             const minor7thChords = { 'C': ['C', 'D#', 'G', 'A#'], 'D': ['D', 'F', 'A', 'C'], 'E': ['E', 'G', 'B', 'D'], 'F': ['F', 'G#', 'C', 'D#'], 'G': ['G', 'A#', 'D', 'F'], 'A': ['A', 'C', 'E', 'G'], 'B': ['B', 'D', 'F#', 'A'] };
 
             let scrollState = { x: 0, x2: 0 };
+            let activeScroller = { index: -1, isDragging: false, startX: 0, startTransform: 0 };
 
             // --- INITIALIZATION ---
-            elements.startButton.addEventListener('click', () => { try { audioContext = new (window.AudioContext || window.webkitAudioContext)(); mediaStreamDestination = audioContext.createMediaStreamDestination(); masterGain = audioContext.createGain(); masterGain.gain.value = 0.7; masterGain.connect(audioContext.destination); masterGain.connect(mediaStreamDestination); if (audioContext.state === 'suspended') audioContext.resume(); } catch (e) { alert('Web Audio API not supported.'); return; } createCustomWaves(); setupReverb(); setupLFO(); elements.startScreen.style.display = 'none'; elements.appContainer.style.display = 'flex'; setupPiano(); });
-            function setupPiano() { loadSettings(); handleKeyboardResize(); setupEventListeners(); if (!loadScrollState()) { scrollToMiddleC(); } }
+            elements.startButton.addEventListener('click', () => { 
+                try { 
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)(); 
+                    mediaStreamDestination = audioContext.createMediaStreamDestination(); 
+                    masterGain = audioContext.createGain(); 
+                    masterGain.gain.value = 0.6; // Lower default master gain to prevent clipping
+                    masterGain.connect(audioContext.destination); 
+                    masterGain.connect(mediaStreamDestination); 
+                    if (audioContext.state === 'suspended') audioContext.resume(); 
+                } catch (e) { 
+                    alert('Web Audio API not supported.'); return; 
+                } 
+                createCustomWaves(); 
+                setupReverb(); 
+                setupLFO();
+                storeDefaultSettings();
+                elements.startScreen.style.display = 'none'; 
+                elements.appContainer.style.display = 'flex'; 
+                setupPiano(); 
+            });
 
+            function setupPiano() { 
+                loadSettings(); 
+                handleKeyboardResize(); 
+                setupEventListeners(); 
+                if (!loadScrollState()) { 
+                    // Future: scrollToMiddleC(); 
+                } 
+            }
 
             function setupEventListeners() {
                 elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
                 elements.recordButton.addEventListener('click', toggleRecording);
                 elements.micButton.addEventListener('click', toggleMicrophone);
+                elements.restoreDefaultsButton.addEventListener('click', restoreDefaults);
+
+                elements.advancedSynthToggle.addEventListener('click', () => { elements.advancedSynthMenu.classList.toggle('visible'); saveSettings(); });
+                elements.chordSettingsToggle.addEventListener('click', () => { elements.chordSettingsMenu.classList.toggle('visible'); saveSettings(); });
+                
+                // --- Event Listeners with specific logic ---
+                elements.keyWidthSlider.addEventListener('input', () => { handleKeyboardResize(); saveSettings(); });
+                elements.octaveSelect.addEventListener('input', () => { handleKeyboardResize(); saveSettings(); });
+                elements.alwaysDualCheckbox.addEventListener('input', () => { handleKeyboardResize(); saveSettings(); });
+                elements.independentScrollCheckbox.addEventListener('input', () => { handleKeyboardResize(); saveSettings(); });
+                
                 elements.micVolumeSlider.addEventListener('input', () => {
                     if (microphoneGain) microphoneGain.gain.setTargetAtTime(parseFloat(elements.micVolumeSlider.value), audioContext.currentTime, 0.01);
                     saveSettings();
                 });
-                elements.advancedSynthToggle.addEventListener('click', () => { elements.advancedSynthMenu.classList.toggle('visible'); saveSettings(); });
-                elements.chordSettingsToggle.addEventListener('click', () => { elements.chordSettingsMenu.classList.toggle('visible'); saveSettings(); });
-                
-                Object.keys(elements).forEach(key => { 
-                    const el = elements[key]; if (!el || ['menuIcon', 'micVolumeSlider'].includes(key)) return;
-                    if (el.tagName === 'SELECT' || el.type === 'checkbox') { el.addEventListener('input', () => { if (['octaveSelect', 'keyWidthSlider', 'independentScrollCheckbox'].includes(key)) handleKeyboardResize(); saveSettings(); }); 
-                    } else if (el.type === 'range') { el.addEventListener('input', () => { if (key === 'keyWidthSlider') handleKeyboardResize(); else updateAllActiveNotesParameters(); if (key === 'lfoRate' || key === 'lfoDepth') updateLFO(); saveSettings(); }); }
+                elements.micPlaybackCheckbox.addEventListener('input', () => {
+                    if (micPlaybackGain) micPlaybackGain.gain.setTargetAtTime(elements.micPlaybackCheckbox.checked ? 1.0 : 0.0, audioContext.currentTime, 0.01);
+                    saveSettings();
                 });
 
+                // Generic listeners for other controls
+                const synthParamControls = [
+                    'waveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect', 
+                    'attack', 'decay', 'sustain', 'release', 'waveform2', 'oscMix', 'detune', 
+                    'filterCutoff', 'filterQ', 'lfoRate', 'lfoDepth', 'reverb'
+                ];
+                synthParamControls.forEach(key => {
+                    elements[key].addEventListener('input', () => {
+                        updateAllActiveNotesParameters();
+                        if (key === 'lfoRate' || key === 'lfoDepth') updateLFO();
+                        saveSettings();
+                    });
+                });
+
+                // Pointer and scroll events
                 elements.keyboardContainer.addEventListener('pointerdown', handlePointerDown);
                 document.addEventListener('pointerup', handlePointerUpOrCancel);
                 document.addEventListener('pointercancel', handlePointerUpOrCancel);
-
                 elements.scrollbarContainer.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 0));
                 elements.scrollbarContainerTop.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 1));
-                
                 document.addEventListener('pointermove', handleDocumentPointerMove);
                 window.addEventListener('resize', handleKeyboardResize);
             }
             
             function handleKeyboardResize() {
-                let scrollPercent = 0, scrollPercent2 = 0;
                 const oldKb = elements.keyboardContainer.querySelector('#keyboard-bottom');
-                if (oldKb) { const maxScroll = oldKb.offsetWidth - elements.keyboardContainer.clientWidth; if (maxScroll > 0) { scrollPercent = scrollState.x / maxScroll; } }
-                const oldKbTop = elements.keyboardContainer.querySelector('#keyboard-top');
-                 if (oldKbTop) { const maxScroll = oldKbTop.offsetWidth - elements.keyboardContainer.clientWidth; if (maxScroll > 0) { scrollPercent2 = scrollState.x2 / maxScroll; } }
+                let scrollPercent = 0;
+                if (oldKb) {
+                    const maxScroll = oldKb.offsetWidth - elements.keyboardContainer.clientWidth;
+                    if (maxScroll > 0) scrollPercent = scrollState.x / maxScroll;
+                }
 
                 generateKeyboard();
                 updateScrollbarThumbs();
                 
                 const newKb = elements.keyboardContainer.querySelector('#keyboard-bottom');
-                if (newKb) { const newMaxScroll = newKb.offsetWidth - elements.keyboardContainer.clientWidth; setScroll(scrollPercent * newMaxScroll, 0); }
-                const newKbTop = elements.keyboardContainer.querySelector('#keyboard-top');
-                if (newKbTop) { const newMaxScroll = newKbTop.offsetWidth - elements.keyboardContainer.clientWidth; setScroll(scrollPercent2 * newMaxScroll, 1); }
+                if (newKb) {
+                    const newMaxScroll = newKb.offsetWidth - elements.keyboardContainer.clientWidth;
+                    setScroll(scrollPercent * newMaxScroll, 0); // Always adjust the primary keyboard
+                }
             }
 
             // --- SYNTH ENGINE ---
@@ -254,17 +313,15 @@ display:unset;
                 const currentTime = audioContext.currentTime;
                 
                 let attack, decay, sustain, peakGain;
-
                 if (isChord) {
-                    attack = 0.08; sustain = 0.6; decay = 0.3; peakGain = 0.25; // Lowered gain to prevent clipping
+                    attack = 0.08; sustain = 0.6; decay = 0.3; peakGain = 0.20; // Lowered gain for chords
                 } else {
-                    attack = baseADSR.attack; decay = baseADSR.decay; sustain = baseADSR.sustain; peakGain = 0.45; // Lowered gain
+                    attack = baseADSR.attack; decay = baseADSR.decay; sustain = baseADSR.sustain; peakGain = 0.40; // Lowered gain for notes
                 }
                 
-                // Perceptual volume boost for sine and triangle waves
                 const selectedWave = elements.waveformSelect.value;
                 if (['sine', 'triangle'].includes(selectedWave)) {
-                    peakGain *= 1.6; // Boost perceived volume
+                    peakGain *= 1.8; // Boost perceived volume for softer waves
                 }
 
                 noteGain.gain.cancelScheduledValues(currentTime);
@@ -276,9 +333,8 @@ display:unset;
                 gain1.connect(noteGain); gain2.connect(noteGain);
                 noteGain.connect(filter);
                 
-                // --- CORRECTED AUDIO ROUTING ---
-                filter.connect(masterGain);     // Dry signal path
-                filter.connect(convolver);      // Wet signal path (send to reverb)
+                filter.connect(masterGain); 
+                filter.connect(convolver);
 
                 wetGain.gain.setTargetAtTime(parseFloat(elements.reverb.value), currentTime, 0.01);
                 const nodes = { osc1, osc2, gain1, gain2, filter, noteGain };
@@ -287,68 +343,79 @@ display:unset;
             }
             function startSynth(nodes, frequency) { const currentTime = audioContext.currentTime; nodes.osc1.frequency.setValueAtTime(frequency, currentTime); nodes.osc2.frequency.setValueAtTime(frequency, currentTime); nodes.osc1.start(currentTime); nodes.osc2.start(currentTime); }
             function stopSynth(nodes, isChord = false) { if (!nodes) return; const { osc1, osc2, noteGain, filter } = nodes; const baseRelease = parseFloat(elements.release.value); const releaseTime = isChord ? baseRelease + 0.5 : baseRelease; const currentTime = audioContext.currentTime; noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(noteGain.gain.value, currentTime); noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime); const stopTime = currentTime + releaseTime + 0.1; osc1.stop(stopTime); osc2.stop(stopTime); osc1.onended = () => { if (filter?.frequency && lfo?.gain) { try { lfo.gain.disconnect(filter.frequency); } catch(e) {} } }; }
-            function playNote(frequency, note, keyElement, pointerId) { if (activeNotes.has(pointerId)) return; noteHistory.push(note); if (noteHistory.length > 12) noteHistory.shift(); const synthNodes = createSynthNode(false); if (synthNodes) { startSynth(synthNodes, frequency); activeNotes.set(pointerId, { synthNodes, keyElement }); keyElement.classList.add('active'); } }
+            function playNote(frequency, note, keyElement, pointerId) { if (activeNotes.has(pointerId)) return; noteHistory.push(note); if (noteHistory.length > 12) noteHistory.shift(); const synthNodes = createSynthNode(false); if (synthNodes) { startSynth(synthNodes, frequency); activeNotes.set(pointerId, { synthNodes, keyElement, note }); keyElement.classList.add('active'); } }
             function stopNote(pointerId) { const activeNote = activeNotes.get(pointerId); if (!activeNote) return; stopSynth(activeNote.synthNodes, false); activeNote.keyElement.classList.remove('active'); activeNotes.delete(pointerId); }
-            function getChordQuality(rootNote) { const mode = elements.chordModeSelect.value; if (mode === 'major') return 'major'; if (mode === 'minor') return 'minor'; const rootIndex = noteNames.indexOf(rootNote); const majorThird = noteNames[(rootIndex + 4) % 12]; const minorThird = noteNames[(rootIndex + 3) % 12]; if (noteHistory.includes(minorThird) && !noteHistory.includes(majorThird)) { return 'minor'; } return 'major'; }
-            function triggerChord(note, octave, frequency) { const rootNote = note.replace('#', ''); if (!major7thChords[rootNote] || rootNote === currentChordRoot) return; currentChordNodes.forEach(node => stopSynth(node, true)); currentChordNodes = []; currentChordRoot = rootNote; const quality = getChordQuality(rootNote); const chordNotes = (quality === 'minor') ? minor7thChords[rootNote] : major7thChords[rootNote]; const targetRootFreq = frequency / 4; let chordOctave = 1; let minDiff = Infinity; for (let i = 1; i < 5; i++) { const freqAtOctave = noteFrequencies[rootNote] * Math.pow(2, i); const diff = Math.abs(targetRootFreq - freqAtOctave); if (diff < minDiff) { minDiff = diff; chordOctave = i; } } chordNotes.forEach(chordNoteName => { const noteFreq = noteFrequencies[chordNoteName] * Math.pow(2, chordOctave); const synthNodes = createSynthNode(true); if (synthNodes) { startSynth(synthNodes, noteFreq); currentChordNodes.push(synthNodes); } }); }
+            function getChordQuality(rootNote) { const mode = elements.chordModeSelect.value; if (mode === 'major') return 'major'; if (mode === 'minor') return 'minor'; const rootIndex = noteNames.indexOf(rootNote); const majorThird = noteNames[(rootIndex + 4) % 12]; const minorThird = noteNames[(rootIndex + 3) % 12]; const recentNotes = noteHistory.slice(-5); if (recentNotes.includes(minorThird) && !recentNotes.includes(majorThird)) { return 'minor'; } return 'major'; }
+            function triggerChord(note, octave, frequency) {
+                const rootNote = note.replace('#', '');
+                if (!major7thChords[rootNote] || rootNote === currentChordRoot) return;
+                currentChordNodes.forEach(node => stopSynth(node, true));
+                currentChordNodes = [];
+                currentChordRoot = rootNote;
+                
+                const quality = getChordQuality(rootNote);
+                const chordNotes = (quality === 'minor') ? minor7thChords[rootNote] : major7thChords[rootNote];
+                
+                let chordOctave;
+                const chordOctaveSetting = elements.chordOctaveSelect.value;
+
+                if (chordOctaveSetting === 'auto') {
+                    const targetRootFreq = frequency / 4;
+                    let minDiff = Infinity;
+                    for (let i = 1; i < 5; i++) {
+                        const freqAtOctave = noteFrequencies[rootNote] * Math.pow(2, i);
+                        const diff = Math.abs(targetRootFreq - freqAtOctave);
+                        if (diff < minDiff) { minDiff = diff; chordOctave = i; }
+                    }
+                } else {
+                    chordOctave = octave + parseInt(chordOctaveSetting);
+                }
+                chordOctave = Math.max(1, Math.min(6, chordOctave)); // Clamp octave
+
+                chordNotes.forEach(chordNoteName => {
+                    const noteFreq = noteFrequencies[chordNoteName] * Math.pow(2, chordOctave);
+                    const synthNodes = createSynthNode(true);
+                    if (synthNodes) { startSynth(synthNodes, noteFreq); currentChordNodes.push(synthNodes); }
+                });
+            }
             function getADSR() { return { attack: parseFloat(elements.attack.value), decay: parseFloat(elements.decay.value), sustain: parseFloat(elements.sustain.value) }; }
             function applyCurrentParameters(nodes) { const wave1 = elements.waveformSelect.value, wave2 = elements.waveform2.value; if (customWaves[wave1]) nodes.osc1.setPeriodicWave(customWaves[wave1]); else nodes.osc1.type = wave1; if (customWaves[wave2]) nodes.osc2.setPeriodicWave(customWaves[wave2]); else nodes.osc2.type = wave2; nodes.osc2.detune.value = parseFloat(elements.detune.value); nodes.gain1.gain.value = 1 - parseFloat(elements.oscMix.value); nodes.gain2.gain.value = parseFloat(elements.oscMix.value); nodes.filter.type = 'lowpass'; nodes.filter.frequency.value = parseFloat(elements.filterCutoff.value); nodes.filter.Q.value = parseFloat(elements.filterQ.value); lfo.gain.connect(nodes.filter.frequency); }
             function updateAllActiveNotesParameters() { const allNodes = [...activeNotes.values()].map(n => n.synthNodes).concat(currentChordNodes); const rampTime = audioContext.currentTime + 0.05; allNodes.forEach(nodes => { if (!nodes) return; nodes.osc2.detune.linearRampToValueAtTime(parseFloat(elements.detune.value), rampTime); nodes.gain1.gain.linearRampToValueAtTime(1 - parseFloat(elements.oscMix.value), rampTime); nodes.gain2.gain.linearRampToValueAtTime(parseFloat(elements.oscMix.value), rampTime); nodes.filter.frequency.linearRampToValueAtTime(parseFloat(elements.filterCutoff.value), rampTime); nodes.filter.Q.linearRampToValueAtTime(parseFloat(elements.filterQ.value), rampTime); wetGain.gain.linearRampToValueAtTime(parseFloat(elements.reverb.value), rampTime); }); }
             
-            
-
-function createCustomWaves() {
+            function createCustomWaves() {
                 const n = 4096;
-                const real = new Float32Array(n); // For cosine components (usually all zeros for imag)
-                const imag = new Float32Array(n); // For sine components
+                const real = new Float32Array(n).fill(0);
+                const imag = {}; // Use an object to build arrays
+                const waveNames = ['pulse', 'detuned-saw', 'wobble', 'crystalline', 'tonewheel', 'super-fm', 'pluck', 'formant', 'rave-lead', 'hard-bass', 'acid-pulse'];
+                waveNames.forEach(name => imag[name] = new Float32Array(n).fill(0));
 
-                // --- Define all wave shapes here ---
-                const waves = {
-                    pulse: new Float32Array(n), 'detuned-saw': new Float32Array(n), wobble: new Float32Array(n),
-                    crystalline: new Float32Array(n), tonewheel: new Float32Array(n), 'super-fm': new Float32Array(n),
-                    pluck: new Float32Array(n), formant: new Float32Array(n)
-                };
-
-                // --- Generate Original Waves ---
                 for (let i = 1; i < n; i++) {
-                    if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i); // Pulse (approximated square)
-                    waves['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n));
-                    waves.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n));
-                }
-
-                // --- CORRECTED DEFINITIONS for Crystalline and Tonewheel ---
-                waves.crystalline[1] = 1; 
-                waves.crystalline[4] = 0.5; 
-                waves.crystalline[9] = 0.3; 
-                waves.crystalline[16] = 0.2;
-
-                waves.tonewheel[1] = 1; 
-                waves.tonewheel[2] = 0.8; 
-                waves.tonewheel[3] = 0.6; 
-                waves.tonewheel[4] = 0.4; 
-                waves.tonewheel[6] = 0.2;
-
-                // --- Generate New Waves ---
-                for (let i = 1; i < n; i++) {
-                    waves['super-fm'][i] = (1 / i) * Math.sin((i * Math.PI) / 6) + (0.5 / (i * 1.5)) * Math.sin((i * Math.PI) / 3.5);
-                    waves.pluck[i] = Math.pow(0.98, i) * (0.5 + 0.5 * Math.sin(i * 0.1));
+                    if (i % 2 !== 0) imag.pulse[i] = 4 / (Math.PI * i);
+                    imag['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n));
+                    imag.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n));
                     
-                    // Formant calculation requires frequency context
                     const freq = i * (audioContext.sampleRate / (2 * n));
                     const form1 = Math.exp(-Math.pow((freq - 700) / 150, 2));
                     const form2 = Math.exp(-Math.pow((freq - 1200) / 200, 2));
-                    waves.formant[i] = (form1 + 0.5 * form2) / (i * 0.5 + 1); // Normalize amplitude
+                    imag.formant[i] = (form1 + 0.5 * form2) / (i * 0.5 + 1);
+
+                    // Techno waves
+                    for (let k = 1; k <= 10; k++) { // Supersaw effect for Rave Lead
+                         imag['rave-lead'][i] += (1 / (i * k)) * 0.1;
+                    }
+                    if (i % 2 !== 0) imag['hard-bass'][i] = (1 / (i*i)) + 0.2 / i; // Aggressive harmonics
+                    if (i % 2 !== 0) imag['acid-pulse'][i] = 0.8 / i + 0.2 / (i*1.5);
                 }
+
+                imag.crystalline[1] = 1; imag.crystalline[4] = 0.5; imag.crystalline[9] = 0.3; imag.crystalline[16] = 0.2;
+                imag.tonewheel[1] = 1; imag.tonewheel[2] = 0.8; imag.tonewheel[3] = 0.6; imag.tonewheel[4] = 0.4; imag.tonewheel[6] = 0.2;
+                imag.pluck[1] = 1; imag.pluck[2] = 0.1; imag.pluck[3] = 0.5; imag.pluck[4]=0.1;
+                imag['super-fm'][1] = 0.8; imag['super-fm'][3] = 0.6; imag['super-fm'][5] = 0.4; imag['super-fm'][7] = 0.2;
                 
-                // --- Create the PeriodicWave objects ---
-                Object.keys(waves).forEach(name => {
-                    // The bug was here. We need to pass the Float32Array from our 'waves' object.
-                    customWaves[name] = audioContext.createPeriodicWave(real, waves[name], { disableNormalization: false });
+                Object.keys(imag).forEach(name => {
+                    customWaves[name] = audioContext.createPeriodicWave(real, imag[name], { disableNormalization: true });
                 });
             }
-
-
-
             function setupReverb() { convolver = audioContext.createConvolver(); wetGain = audioContext.createGain(); wetGain.gain.value = 0; convolver.connect(wetGain); wetGain.connect(masterGain); const sampleRate = audioContext.sampleRate, length = sampleRate * 1.5, decay = 2; const impulseBuffer = audioContext.createBuffer(2, length, sampleRate); for (let c = 0; c < 2; c++) { const data = impulseBuffer.getChannelData(c); for (let i = 0; i < length; i++) data[i] = (Math.random()*2-1)*Math.pow(1-i/length,decay); } convolver.buffer = impulseBuffer; }
             function setupLFO() { lfo = { osc: audioContext.createOscillator(), gain: audioContext.createGain() }; lfo.osc.connect(lfo.gain); lfo.osc.start(); updateLFO(); }
             function updateLFO() { if(!lfo) return; lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRate.value), audioContext.currentTime, 0.01); lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepth.value), audioContext.currentTime, 0.01); }
@@ -357,7 +424,8 @@ function createCustomWaves() {
             async function toggleMicrophone() {
                 if (microphoneSource) {
                     microphoneSource.mediaStream.getTracks().forEach(track => track.stop());
-                    microphoneSource = null; microphoneGain = null;
+                    microphoneSource.disconnect();
+                    microphoneSource = null; microphoneGain = null; micPlaybackGain = null;
                     elements.micButton.classList.remove('mic-active'); elements.micButton.textContent = 'Enable Mic';
                     elements.micVolumeSlider.disabled = true;
                 } else {
@@ -365,9 +433,15 @@ function createCustomWaves() {
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                         microphoneSource = audioContext.createMediaStreamSource(stream);
                         microphoneGain = audioContext.createGain();
+                        micPlaybackGain = audioContext.createGain();
                         microphoneGain.gain.value = parseFloat(elements.micVolumeSlider.value);
+                        micPlaybackGain.gain.value = elements.micPlaybackCheckbox.checked ? 1.0 : 0.0;
+                        
                         microphoneSource.connect(microphoneGain);
-                        microphoneGain.connect(masterGain);
+                        microphoneGain.connect(mediaStreamDestination); // For recording
+                        microphoneGain.connect(micPlaybackGain);         // For hearing yourself
+                        micPlaybackGain.connect(masterGain);             // Route to main output
+                        
                         elements.micButton.classList.add('mic-active'); elements.micButton.textContent = 'Disable Mic';
                         elements.micVolumeSlider.disabled = false;
                     } catch (err) { alert('Microphone access denied.'); console.error('Error accessing microphone:', err); }
@@ -379,10 +453,37 @@ function createCustomWaves() {
                 elements.keyboardContainer.innerHTML = '';
                 document.documentElement.style.setProperty('--white-key-width', `${parseInt(elements.keyWidthSlider.value)}px`);
                 const isVertical = window.innerHeight > window.innerWidth;
-                const isIndependent = elements.independentScrollCheckbox.checked;
-                if (isVertical && !isIndependent) { const rowTop = document.createElement('div'); rowTop.className = 'keyboard-row'; const rowBottom = document.createElement('div'); rowBottom.className = 'keyboard-row'; const keyboard1 = createKeyboardPanel(0, 8); const keyboard2 = createKeyboardPanel(0, 8); keyboard1.id = 'keyboard-bottom'; keyboard2.id = 'keyboard-top'; rowBottom.appendChild(keyboard1); rowTop.appendChild(keyboard2); elements.keyboardContainer.appendChild(rowTop); elements.keyboardContainer.appendChild(rowBottom);
-                } else if (isVertical && isIndependent) { const rowTop = document.createElement('div'); rowTop.className = 'keyboard-row'; const rowBottom = document.createElement('div'); rowBottom.className = 'keyboard-row'; const keyboardBottom = createKeyboardPanel(0, 4); const keyboardTop = createKeyboardPanel(4, 4); keyboardBottom.id = 'keyboard-bottom'; keyboardTop.id = 'keyboard-top'; rowBottom.appendChild(keyboardBottom); rowTop.appendChild(keyboardTop); elements.keyboardContainer.appendChild(rowTop); elements.keyboardContainer.appendChild(rowBottom);
-                } else { const rowSingle = document.createElement('div'); rowSingle.className = 'keyboard-row'; const keyboard = createKeyboardPanel(0, 8); keyboard.id = 'keyboard-bottom'; rowSingle.appendChild(keyboard); elements.keyboardContainer.appendChild(rowSingle); }
+                const alwaysDual = elements.alwaysDualCheckbox.checked;
+                let isDualView = alwaysDual || isVertical;
+
+                if (isDualView) {
+                    const rowTop = document.createElement('div'); rowTop.className = 'keyboard-row';
+                    const rowBottom = document.createElement('div'); rowBottom.className = 'keyboard-row';
+                    
+                    const isIndependent = elements.independentScrollCheckbox.checked;
+                    const octavesPerKeyboard = isIndependent ? 4 : 8;
+                    const topStartOctave = isIndependent ? 4 : 0;
+
+                    const keyboardBottom = createKeyboardPanel(0, octavesPerKeyboard);
+                    const keyboardTop = createKeyboardPanel(topStartOctave, octavesPerKeyboard);
+
+                    keyboardBottom.id = 'keyboard-bottom';
+                    keyboardTop.id = 'keyboard-top';
+
+                    rowBottom.appendChild(keyboardBottom);
+                    rowTop.appendChild(keyboardTop);
+                    elements.keyboardContainer.appendChild(rowTop);
+                    elements.keyboardContainer.appendChild(rowBottom);
+                    elements.independentScrollLabel.classList.remove('hidden-ui');
+                } else {
+                    const rowSingle = document.createElement('div');
+                    rowSingle.className = 'keyboard-row';
+                    const keyboard = createKeyboardPanel(0, 8);
+                    keyboard.id = 'keyboard-bottom';
+                    rowSingle.appendChild(keyboard);
+                    elements.keyboardContainer.appendChild(rowSingle);
+                    elements.independentScrollLabel.classList.add('hidden-ui');
+                }
             }
             function createKeyboardPanel(startOctaveOffset, numOctaves) {
                 const keyboardDiv = document.createElement('div'); keyboardDiv.className = 'piano-keyboard';
@@ -390,7 +491,7 @@ function createCustomWaves() {
                 const baseStartOctave = parseInt(elements.octaveSelect.value);
                 for (let oct = baseStartOctave + startOctaveOffset; oct < baseStartOctave + startOctaveOffset + numOctaves; oct++) {
                     noteNames.forEach(note => {
-                        const totalOctave = oct + (noteNames.indexOf(note) / 12); if (totalOctave > 8.0) return; // Limit to C8
+                        const totalOctave = oct + (noteNames.indexOf(note) / 12); if (totalOctave > 8.0) return;
                         const keyElement = document.createElement('div'), isBlack = note.includes('#'), noteName = note + oct;
                         keyElement.className = `key ${isBlack ? 'black-key' : 'white-key'}`; keyElement.dataset.note = noteName;
                         const label = document.createElement('span'); label.className = 'key-label'; label.textContent = noteName; keyElement.appendChild(label);
@@ -401,79 +502,86 @@ function createCustomWaves() {
                 keyboardDiv.style.width = `${whiteKeyX}px`; return keyboardDiv;
             }
 
-            // --- POINTER & SCROLLING ---
-            let activeScroller = { index: -1, isDragging: false, startX: 0, startTransform: 0 };
+            // --- POINTER & SCROLLING (ORIGINAL LOGIC RESTORED) ---
             function handlePointerDown(e) { const target = e.target; if (target.closest('.key')) { const keyElement = target.closest('.key'); const noteName = keyElement.dataset.note; const note = noteName.replace(/\d/g, ''); const octave = parseInt(noteName.match(/\d+/g)); const frequency = noteFrequencies[note] * Math.pow(2, octave); if (elements.playChordsCheckbox.checked) { triggerChord(note, octave, frequency); } playNote(frequency, note, keyElement, e.pointerId); } }
             function handlePointerUpOrCancel(e) { if (activeNotes.has(e.pointerId)) stopNote(e.pointerId); if (activeNotes.size === 0 && elements.playChordsCheckbox.checked) { currentChordNodes.forEach(node => stopSynth(node, true)); currentChordNodes = []; currentChordRoot = null; } if(activeScroller.isDragging) { activeScroller.isDragging = false; saveScrollState(); } }
-            function handleScrollbarPointerDown(e, physicalIndex) {
-                e.preventDefault(); e.stopPropagation();
-                const isIndependent = elements.independentScrollCheckbox.checked;
-                let logicalIndex = isIndependent ? ((physicalIndex === 0) ? 1 : 0) : 0;
-                activeScroller = { index: physicalIndex, isDragging: true, startX: e.clientX, startTransform: (logicalIndex === 0) ? scrollState.x : scrollState.x2 };
-                e.currentTarget.setPointerCapture(e.pointerId);
-            }
+            function handleScrollbarPointerDown(e, index) { e.preventDefault(); e.stopPropagation(); activeScroller = { index, isDragging: true, startX: e.clientX, startTransform: index === 0 ? scrollState.x : scrollState.x2 }; e.currentTarget.setPointerCapture(e.pointerId); }
             function handleDocumentPointerMove(e) {
                 if (!activeScroller.isDragging) return; e.preventDefault();
                 const dx = e.clientX - activeScroller.startX;
-                const logicalIndex = elements.independentScrollCheckbox.checked ? ((activeScroller.index === 0) ? 1 : 0) : 0;
-                const kb = (logicalIndex === 0) ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top');
-                if (!kb) return;
-                const maxKbScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
                 const newX = activeScroller.startTransform - dx;
-                setScroll(newX, logicalIndex);
+                setScroll(newX, activeScroller.index);
             }
-            function setScroll(newX, logicalIndex) {
+            function setScroll(newX, index) {
+                const kb = index === 0 ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top');
+                if (!kb) return;
+
+                const rowWidth = elements.keyboardContainer.clientWidth;
+                const totalWidth = kb.offsetWidth;
+                const maxScroll = totalWidth > rowWidth ? totalWidth - rowWidth : 0;
+                const clampedX = Math.max(0, Math.min(maxScroll, newX || 0));
+                
+                if (index === 0) scrollState.x = clampedX; else scrollState.x2 = clampedX;
+
                 const isVertical = window.innerHeight > window.innerWidth;
                 const isIndependent = elements.independentScrollCheckbox.checked;
-                if (isVertical && !isIndependent) {
-                    const kb = document.getElementById('keyboard-bottom'); if (!kb) return;
-                    const rowWidth = elements.keyboardContainer.clientWidth; const totalWidth = kb.offsetWidth; const maxScroll = totalWidth - rowWidth; 
-                    const clampedX = Math.max(0, Math.min(maxScroll, newX || 0)); scrollState.x = clampedX;
+                const alwaysDual = elements.alwaysDualCheckbox.checked;
+                const isDualView = isVertical || alwaysDual;
+
+                if (isDualView && !isIndependent) {
+                    // Original Continuous Scrolling Logic
                     const topKb = document.getElementById('keyboard-top');
-                    kb.style.transform = `translateX(${-clampedX}px)`; if(topKb) topKb.style.transform = `translateX(${rowWidth - clampedX}px)`;
+                    document.getElementById('keyboard-bottom').style.transform = `translateX(${-clampedX}px)`;
+                    if (topKb) topKb.style.transform = `translateX(${rowWidth - clampedX}px)`;
+                    scrollState.x2 = clampedX; // Keep them in sync
                 } else {
-                    const kb = (logicalIndex === 0) ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top');
-                    if (!kb) return;
-                    const maxScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
-                    const clampedX = Math.max(0, Math.min(maxScroll < 0 ? 0 : maxScroll, newX || 0));
-                    if (logicalIndex === 0) scrollState.x = clampedX; else scrollState.x2 = clampedX;
+                    // Independent or Single view scrolling
                     kb.style.transform = `translateX(${-clampedX}px)`;
                 }
                 updateScrollbarThumbs();
             }
             function updateScrollbarThumbs() {
-                elements.scrollbarContainer.style.display = 'none'; elements.middleScrollbarContainer.style.display = 'none';
-                const kbBottom = document.getElementById('keyboard-bottom');
-                const kbTop = document.getElementById('keyboard-top');
-                const viewportWidth = elements.keyboardContainer.clientWidth;
+                const isVertical = window.innerHeight > window.innerWidth;
+                const alwaysDual = elements.alwaysDualCheckbox.checked;
+                const isDualView = isVertical || alwaysDual;
+
                 const setupScroller = (kb, container, thumb, scrollVal) => {
-                    if (!kb) return;
-                    const maxScroll = kb.offsetWidth - viewportWidth;
+                    if (!kb || !container) { return; }
+                    const maxScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
                     if (maxScroll > 0) {
-                        if (container.parentElement === elements.middleScrollbarContainer) elements.middleScrollbarContainer.style.display = 'block';
                         container.style.display = 'block';
-                        const thumbW = (viewportWidth / kb.offsetWidth) * container.clientWidth;
+                        const thumbW = (elements.keyboardContainer.clientWidth / kb.offsetWidth) * container.clientWidth;
                         thumb.style.width = `${thumbW}px`;
                         const maxThumbScroll = container.clientWidth - thumbW;
-                        if (maxThumbScroll > 0) thumb.style.transform = `translateX(${(scrollVal / maxScroll) * maxThumbScroll}px)`;
+                        if(maxThumbScroll > 0) {
+                            thumb.style.transform = `translateX(${(scrollVal / maxScroll) * maxThumbScroll}px)`;
+                        }
                     } else {
-                         container.style.display = 'none';
+                        container.style.display = 'none';
                     }
                 };
-                if (elements.independentScrollCheckbox.checked && window.innerHeight > window.innerWidth) {
-                    setupScroller(kbTop, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x2);
+
+                const kbBottom = document.getElementById('keyboard-bottom');
+                const kbTop = document.getElementById('keyboard-top');
+                
+                elements.middleScrollbarContainer.style.display = 'none'; // Hide by default
+
+                if (isDualView && elements.independentScrollCheckbox.checked) {
+                    elements.middleScrollbarContainer.style.display = 'block';
                     setupScroller(kbBottom, elements.scrollbarContainerTop, elements.scrollbarThumbTop, scrollState.x);
+                    setupScroller(kbTop, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x2);
                 } else {
                     setupScroller(kbBottom, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x);
                 }
             }
             
-            // --- LOCAL STORAGE ---
+            // --- LOCAL STORAGE & DEFAULTS ---
+            function storeDefaultSettings() { Object.keys(elements).forEach(key => { const el = elements[key]; if (el) { if (el.type === 'checkbox') defaultSettings[key] = el.checked; else if (el.tagName === 'SELECT' || el.type === 'range') defaultSettings[key] = el.value; } }); defaultSettings.advMenu = false; defaultSettings.chordMenu = false; }
+            function restoreDefaults() { if (!defaultSettings) return; Object.keys(defaultSettings).forEach(key => { if (elements[key]) { if (elements[key].type === 'checkbox') elements[key].checked = defaultSettings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = defaultSettings[key]; } }); elements.advancedSynthMenu.classList.remove('visible'); elements.chordSettingsMenu.classList.remove('visible'); saveSettings(); handleKeyboardResize(); updateAllActiveNotesParameters(); }
             function saveSettings() { const settings = {}; Object.keys(elements).forEach(key => { const el = elements[key]; if (el) { if (el.type === 'checkbox') settings[key] = el.checked; else if (el.tagName === 'SELECT' || el.type === 'range') settings[key] = el.value; } }); settings.advMenu = elements.advancedSynthMenu.classList.contains('visible'); settings.chordMenu = elements.chordSettingsMenu.classList.contains('visible'); localStorage.setItem('pianoSettings', JSON.stringify(settings)); }
-            function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key]) { if (elements[key].type === 'checkbox') elements[key].checked = settings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = settings[key]; } }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); if (settings.chordMenu) elements.chordSettingsMenu.classList.add('visible'); } }
+            function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key] && settings[key] !== undefined) { if (elements[key].type === 'checkbox') elements[key].checked = settings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = settings[key]; } }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); if (settings.chordMenu) elements.chordSettingsMenu.classList.add('visible'); } }
             function saveScrollState() { localStorage.setItem('pianoScrollState', JSON.stringify(scrollState)); }
-            function loadScrollState() { const state = JSON.parse(localStorage.getItem('pianoScrollState')); if(state) { scrollState = state; setScroll(scrollState.x, 0); if(state.x2) setScroll(scrollState.x2, 1); return true; } return false; }
-            function scrollToMiddleC() { /* Placeholder for future implementation */ }
+            function loadScrollState() { const state = JSON.parse(localStorage.getItem('pianoScrollState')); if(state) { scrollState = state; setScroll(scrollState.x || 0, 0); if (state.x2 !== undefined) setScroll(state.x2, 1); return true; } return false; }
         });
     </script>
 </body>
