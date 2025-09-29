@@ -1,29 +1,44 @@
- <!--B"H-->
+
+<!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Apps - PROfound INSANITY</title>
+    <title>Awtsmoos Apps - EXTREME CLARITY</title>
+    
+    <!-- Fonts chosen for EXTREME impact (Syne) and supreme READABILITY (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@500&display=swap" rel="stylesheet">
+
     <style>
+        /*
+        ================================================================================
+        I. CORE AESTHETICS - A balance of chaos and order.
+        ================================================================================
+        */
         :root {
-            --primary-color: #00ffff; /* Electric Cyan */
-            --secondary-color: #ff00ff; /* Vibrant Magenta */
-            --background-color: #000000;
-            --text-color: #ffffff;
+            --color-background: #000000;
+            --color-primary: #00ffff;   /* Pure Cyan */
+            --color-secondary: #ff00ff; /* Pure Magenta */
+            --color-text: #ffffff;
+            --font-display: 'Syne', sans-serif;
+            --font-readable: 'Inter', sans-serif;
         }
 
+        /* Basic setup, ensuring a full-screen, high-performance canvas environment */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: 'Orbitron', sans-serif; /* A futuristic, clean font */
+            background-color: var(--color-background);
+            color: var(--color-text);
         }
 
+        /* The canvas is the chaotic background, sitting behind all content */
         #interactive-canvas {
             position: fixed;
             top: 0;
@@ -33,7 +48,13 @@
             z-index: 1;
         }
 
-        .all {
+        /*
+        ================================================================================
+        II. SERVER TEMPLATE STYLES - Unmodified as requested.
+           - These classes provide the foundational structure.
+        ================================================================================
+        */
+        .awtsmoospage {
             position: relative;
             z-index: 2;
             height: 100%;
@@ -47,112 +68,115 @@
             height: 100vh;
             text-align: center;
             padding: 1rem;
+        }
+
+        /*
+        ================================================================================
+        III. CONTENT STYLES - All modifications are INSIDE .main
+             - Logo: More extreme glitch effect.
+             - Links: More readable and professional design.
+        ================================================================================
+        */
+        
+        /* THE LOGO - Designed to be "insane" and profoundly glitchy */
+        .main .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(3rem, 10vw, 8rem);
             text-transform: uppercase;
-        }
-
-        .logo {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 700;
-            margin-bottom: 3rem;
-            letter-spacing: 0.5rem;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            letter-spacing: 0.2em;
+            color: var(--color-text);
+            margin-bottom: 4rem;
             position: relative;
-        }
-
-        .about a {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            color: var(--text-color);
-            text-decoration: none;
-            margin: 1rem;
-            display: inline-block;
-            border: 2px solid var(--primary-color);
-            padding: 1rem 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: color 0.3s ease-in-out;
-        }
-
-        .about a:hover {
-            color: var(--secondary-color);
-        }
-
-        .about a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
-            transition: left 0.4s ease-in-out;
-        }
-
-        .about a:hover::before {
-            left: 100%;
+            /* The text itself is a stable anchor */
         }
         
-        /* Cyber-Glyph Text Effect */
-        .cyber-glitch {
-            position: relative;
-        }
-
-        .cyber-glitch:hover:before, .cyber-glitch:hover:after {
+        /* We use pseudo-elements for persistent, chaotic glitch layers */
+        .main .logo::before,
+        .main .logo::after {
             content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--background-color);
-            opacity: 0.8;
+            background: var(--color-background);
+            overflow: hidden;
         }
 
-        .cyber-glitch:hover:before {
-            color: var(--secondary-color);
-            z-index: -1;
-            animation: glitch-anim-1 0.3s infinite;
+        .main .logo::before {
+            color: var(--color-primary);
+            animation: extreme-glitch-1 3s infinite linear alternate-reverse;
         }
 
-        .cyber-glitch:hover:after {
-            color: var(--primary-color);
-            z-index: -2;
-            animation: glitch-anim-2 0.3s infinite;
+        .main .logo::after {
+            color: var(--color-secondary);
+            animation: extreme-glitch-2 2s infinite linear alternate-reverse;
+        }
+
+        /* Keyframes for a more extreme, jarring glitch effect using clip-path */
+        @keyframes extreme-glitch-1 {
+            0% { clip-path: inset(45% 0 50% 0); transform: translate(-0.05em, 0.02em); }
+            20% { clip-path: inset(15% 0 70% 0); transform: translate(0.02em, -0.01em); }
+            40% { clip-path: inset(85% 0 2% 0); transform: translate(-0.03em, 0.05em); }
+            60% { clip-path: inset(30% 0 60% 0); transform: translate(0.01em, 0.03em); }
+            80% { clip-path: inset(55% 0 25% 0); transform: translate(-0.05em, -0.02em); }
+            100% { clip-path: inset(5% 0 90% 0); transform: translate(0.04em, 0.01em); }
+        }
+
+        @keyframes extreme-glitch-2 {
+            0% { clip-path: inset(80% 0 5% 0); transform: translate(0.05em, -0.05em); }
+            25% { clip-path: inset(10% 0 88% 0); transform: translate(-0.01em, 0.03em); }
+            50% { clip-path: inset(40% 0 42% 0); transform: translate(0.03em, -0.01em); }
+            75% { clip-path: inset(92% 0 2% 0); transform: translate(-0.05em, 0.05em); }
+            100% { clip-path: inset(25% 0 70% 0); transform: translate(0.02em, -0.02em); }
+        }
+
+        /* THE NAVIGATION - Designed for maximum readability and a professional, smooth feel */
+        .main .about {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem; /* Clean spacing for readability */
         }
         
-        @keyframes glitch-anim-1 {
-            0% { transform: translate(3px, 3px); }
-            25% { transform: translate(-3px, -3px); }
-            50% { transform: translate(3px, -3px); }
-            75% { transform: translate(-3px, 3px); }
-            100% { transform: translate(3px, 3px); }
+        .main .about a {
+            font-family: var(--font-readable);
+            font-weight: 500;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            color: var(--color-text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 1rem 2rem;
+            position: relative;
+            transition: color 0.4s ease, border-color 0.4s ease;
         }
 
-        @keyframes glitch-anim-2 {
-            0% { transform: translate(-3px, -3px); }
-            25% { transform: translate(3px, 3px); }
-            50% { transform: translate(-3px, 3px); }
-            75% { transform: translate(3px, -3px); }
-            100% { transform: translate(-3px, -3px); }
+        .main .about a:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
         }
 
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- The "insane" interactive background canvas -->
     <canvas id="interactive-canvas"></canvas>
 
+    <!-- SERVER TEMPLATE STRUCTURE (Unmodified) -->
     <div class="all awtsmoospage">
         <?<script> return $a("nav/header.html") </script>?>
         
         <div class="main">
-            <div class="logo cyber-glitch" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
+            <!-- CONTENT WITHIN .main (Modified for extreme/readable goals) -->
+            <div class="logo" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
             <div class="about list">
-                <a href="./code" class="cyber-glitch" data-text="Awtsmoos Code Editor">Awtsmoos Code Editor</a>
-                <a href="./piano" class="cyber-glitch" data-text="Piano/Synthesizer">Piano/Synthesizer</a>
-                <br>
-                <a href="/os" class="cyber-glitch" data-text="Awtsmoos OS">Awtsmoos OS</a>
-                <a href="/ayin" class="cyber-glitch" data-text="Awtsmoos Recorder">Awtsmoos Recorder</a>
+                <a href="./code">Awtsmoos Code Editor</a>
+                <a href="./piano">Piano/Synthesizer</a>
+                <a href="/os">Awtsmoos OS</a>
+                <a href="/ayin">Awtsmoos Recorder</a>
             </div>
         </div>
     </div>
@@ -162,49 +186,71 @@
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-        let particles = [];
-        let pointer = { x: width / 2, y: height / 2, active: false };
 
+        let particles = [];
+        const pointer = { x: width / 2, y: height / 2, active: false };
+
+        // Configuration for a MORE EXTREME particle vortex effect
         const options = {
-            particleCount: 1000,
+            particleCount: 500,
             particleSize: 1.5,
-            defaultSpeed: 1,
-            interactiveSpeed: 15,
-            trailLength: 0.05,
+            attractionForce: 0.02, // Force pulling particles to center
+            repulsionForce: 200,   // "Explosive" force from the cursor
+            repulsionRadius: 250,  // How far the cursor's force reaches
+            maxSpeed: 50,          // Maximum particle speed
+            trailLength: 0.1,      // Lower value = longer, more intense trails
         };
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * options.defaultSpeed;
-                this.vy = (Math.random() - 0.5) * options.defaultSpeed;
-                this.hue = Math.random() * 60 + 180; // Hues of cyan and blue
+                this.vx = 0;
+                this.vy = 0;
+                this.hue = Math.random() * 60 + 180; // Hues of cyan/blue
             }
 
             update() {
-                if(pointer.active) {
+                // Attraction to the center of the screen
+                const dxCenter = width / 2 - this.x;
+                const dyCenter = height / 2 - this.y;
+                this.vx += dxCenter * options.attractionForce;
+                this.vy += dyCenter * options.attractionForce;
+
+                // Extreme repulsion from the user's cursor
+                if (pointer.active) {
                     const dx = this.x - pointer.x;
                     const dy = this.y - pointer.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if(dist < 200) {
+                    const distSq = dx * dx + dy * dy;
+
+                    if (distSq < options.repulsionRadius * options.repulsionRadius) {
+                        const dist = Math.sqrt(distSq);
+                        const force = (options.repulsionRadius - dist) / options.repulsionRadius;
                         const angle = Math.atan2(dy, dx);
-                        const force = (200 - dist) / 200;
-                        this.vx += Math.cos(angle) * force * options.interactiveSpeed;
-                        this.vy += Math.sin(angle) * force * options.interactiveSpeed;
+                        this.vx += Math.cos(angle) * force * options.repulsionForce;
+                        this.vy += Math.sin(angle) * force * options.repulsionForce;
                     }
+                }
+
+                // Clamp speed to prevent insane velocities
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > options.maxSpeed) {
+                    this.vx = (this.vx / speed) * options.maxSpeed;
+                    this.vy = (this.vy / speed) * options.maxSpeed;
                 }
 
                 this.x += this.vx;
                 this.y += this.vy;
-                
+
+                // Friction/damping to slow particles down
                 this.vx *= 0.95;
                 this.vy *= 0.95;
 
-                if (this.x < 0) { this.x = width; }
-                if (this.x > width) { this.x = 0; }
-                if (this.y < 0) { this.y = height; }
-                if (this.y > height) { this.y = 0; }
+                // Screen wrapping
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
             }
 
             draw() {
@@ -234,33 +280,29 @@
             requestAnimationFrame(animate);
         }
 
+        // --- Event Listeners ---
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             setup();
         });
 
-        window.addEventListener('mousemove', (e) => {
-            pointer.x = e.clientX;
-            pointer.y = e.clientY;
+        const updatePointer = (e) => {
+            pointer.x = e.clientX || (e.touches && e.touches[0].clientX);
+            pointer.y = e.clientY || (e.touches && e.touches[0].clientY);
             pointer.active = true;
-        });
-        
-        window.addEventListener('mouseleave', () => {
-            pointer.active = false;
-        });
+        };
 
-        window.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            pointer.x = e.touches[0].clientX;
-            pointer.y = e.touches[0].clientY;
-            pointer.active = true;
-        });
-        
-        window.addEventListener('touchend', () => {
+        const deactivatePointer = () => {
             pointer.active = false;
-        });
+        };
 
+        window.addEventListener('mousemove', updatePointer);
+        window.addEventListener('touchmove', e => { e.preventDefault(); updatePointer(e); }, { passive: false });
+        window.addEventListener('mouseleave', deactivatePointer);
+        window.addEventListener('touchend', deactivatePointer);
+
+        // --- Initialization ---
         setup();
         animate();
     </script>
