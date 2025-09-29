@@ -295,38 +295,60 @@ display:unset;
             function applyCurrentParameters(nodes) { const wave1 = elements.waveformSelect.value, wave2 = elements.waveform2.value; if (customWaves[wave1]) nodes.osc1.setPeriodicWave(customWaves[wave1]); else nodes.osc1.type = wave1; if (customWaves[wave2]) nodes.osc2.setPeriodicWave(customWaves[wave2]); else nodes.osc2.type = wave2; nodes.osc2.detune.value = parseFloat(elements.detune.value); nodes.gain1.gain.value = 1 - parseFloat(elements.oscMix.value); nodes.gain2.gain.value = parseFloat(elements.oscMix.value); nodes.filter.type = 'lowpass'; nodes.filter.frequency.value = parseFloat(elements.filterCutoff.value); nodes.filter.Q.value = parseFloat(elements.filterQ.value); lfo.gain.connect(nodes.filter.frequency); }
             function updateAllActiveNotesParameters() { const allNodes = [...activeNotes.values()].map(n => n.synthNodes).concat(currentChordNodes); const rampTime = audioContext.currentTime + 0.05; allNodes.forEach(nodes => { if (!nodes) return; nodes.osc2.detune.linearRampToValueAtTime(parseFloat(elements.detune.value), rampTime); nodes.gain1.gain.linearRampToValueAtTime(1 - parseFloat(elements.oscMix.value), rampTime); nodes.gain2.gain.linearRampToValueAtTime(parseFloat(elements.oscMix.value), rampTime); nodes.filter.frequency.linearRampToValueAtTime(parseFloat(elements.filterCutoff.value), rampTime); nodes.filter.Q.linearRampToValueAtTime(parseFloat(elements.filterQ.value), rampTime); wetGain.gain.linearRampToValueAtTime(parseFloat(elements.reverb.value), rampTime); }); }
             
-            function createCustomWaves() {
+            
+
+function createCustomWaves() {
                 const n = 4096;
-                const real = new Float32Array(n); // For cosine components
+                const real = new Float32Array(n); // For cosine components (usually all zeros for imag)
+                const imag = new Float32Array(n); // For sine components
+
+                // --- Define all wave shapes here ---
                 const waves = {
                     pulse: new Float32Array(n), 'detuned-saw': new Float32Array(n), wobble: new Float32Array(n),
                     crystalline: new Float32Array(n), tonewheel: new Float32Array(n), 'super-fm': new Float32Array(n),
                     pluck: new Float32Array(n), formant: new Float32Array(n)
                 };
 
+                // --- Generate Original Waves ---
                 for (let i = 1; i < n; i++) {
-                    if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i);
+                    if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i); // Pulse (approximated square)
                     waves['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n));
                     waves.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n));
                 }
-                // --- BUG FIX: Correctly assign to array indices ---
-                waves.crystalline = 1; waves.crystalline = 0.5; waves.crystalline = 0.3; waves.crystalline = 0.2;
-                waves.tonewheel = 1; waves.tonewheel = 0.8; waves.tonewheel = 0.6; waves.tonewheel = 0.4; waves.tonewheel = 0.2;
 
-                // --- NEW WAVES ---
+                // --- CORRECTED DEFINITIONS for Crystalline and Tonewheel ---
+                waves.crystalline[1] = 1; 
+                waves.crystalline[4] = 0.5; 
+                waves.crystalline[9] = 0.3; 
+                waves.crystalline[16] = 0.2;
+
+                waves.tonewheel[1] = 1; 
+                waves.tonewheel[2] = 0.8; 
+                waves.tonewheel[3] = 0.6; 
+                waves.tonewheel[4] = 0.4; 
+                waves.tonewheel[6] = 0.2;
+
+                // --- Generate New Waves ---
                 for (let i = 1; i < n; i++) {
                     waves['super-fm'][i] = (1 / i) * Math.sin((i * Math.PI) / 6) + (0.5 / (i * 1.5)) * Math.sin((i * Math.PI) / 3.5);
-                    waves.pluck[i] = Math.pow(0.9, i) * (0.5 + 0.5 * Math.sin(i * 0.1));
+                    waves.pluck[i] = Math.pow(0.98, i) * (0.5 + 0.5 * Math.sin(i * 0.1));
+                    
+                    // Formant calculation requires frequency context
                     const freq = i * (audioContext.sampleRate / (2 * n));
                     const form1 = Math.exp(-Math.pow((freq - 700) / 150, 2));
                     const form2 = Math.exp(-Math.pow((freq - 1200) / 200, 2));
-                    waves.formant[i] = (form1 + 0.5 * form2) / i;
+                    waves.formant[i] = (form1 + 0.5 * form2) / (i * 0.5 + 1); // Normalize amplitude
                 }
                 
+                // --- Create the PeriodicWave objects ---
                 Object.keys(waves).forEach(name => {
+                    // The bug was here. We need to pass the Float32Array from our 'waves' object.
                     customWaves[name] = audioContext.createPeriodicWave(real, waves[name], { disableNormalization: false });
                 });
             }
+
+
+
             function setupReverb() { convolver = audioContext.createConvolver(); wetGain = audioContext.createGain(); wetGain.gain.value = 0; convolver.connect(wetGain); wetGain.connect(masterGain); const sampleRate = audioContext.sampleRate, length = sampleRate * 1.5, decay = 2; const impulseBuffer = audioContext.createBuffer(2, length, sampleRate); for (let c = 0; c < 2; c++) { const data = impulseBuffer.getChannelData(c); for (let i = 0; i < length; i++) data[i] = (Math.random()*2-1)*Math.pow(1-i/length,decay); } convolver.buffer = impulseBuffer; }
             function setupLFO() { lfo = { osc: audioContext.createOscillator(), gain: audioContext.createGain() }; lfo.osc.connect(lfo.gain); lfo.osc.start(); updateLFO(); }
             function updateLFO() { if(!lfo) return; lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRate.value), audioContext.currentTime, 0.01); lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepth.value), audioContext.currentTime, 0.01); }
