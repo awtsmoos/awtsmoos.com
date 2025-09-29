@@ -1,4 +1,6 @@
 
+
+
 <!--B"H-->
 
 <!DOCTYPE html>
@@ -83,7 +85,7 @@ display:unset;
         .settings-content label { white-space: nowrap; color: #eee; font-size: 0.9em; display: inline-flex; align-items: center; gap: 5px;}
         .settings-content button, .settings-content select, .settings-content input { padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; background-color: #555; color: white; }
         .settings-content button { background-color: #007bff; }
-        #record-button.recording { background-color: #dc3545; }
+        #record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
         .settings-content input[type="checkbox"] { width: 16px; height: 16px; }
 
         /* --- SCROLLBAR --- */
@@ -141,6 +143,8 @@ display:unset;
                  <div class="settings-wrapper">
                     <div class="settings-content">
                         <button id="record-button">Record</button>
+                        <button id="mic-button">Enable Mic</button>
+                        <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
                         <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option></select>
                         <label>Start:</label><select id="octave-select"><option value="1" selected>C1</option><option value="2">C2</option><option value="3">C3</option><option value="4">C4</option></select>
                         <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
@@ -168,9 +172,7 @@ display:unset;
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const elements = { 
-middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
-
-
+                middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
                 startButton: document.getElementById('start-button'), startScreen: document.getElementById('start-screen'), appContainer: document.getElementById('app-container'), keyboardContainer: document.getElementById('keyboard-container'), settingsBar: document.getElementById('settings-bar'), 
                 scrollbarContainer: document.getElementById('custom-scrollbar-container'), scrollbarThumb: document.getElementById('custom-scrollbar-thumb'), 
                 scrollbarContainerTop: document.getElementById('custom-scrollbar-container-top'), scrollbarThumbTop: document.getElementById('custom-scrollbar-thumb-top'),
@@ -180,9 +182,11 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
                 playChordsCheckbox: document.getElementById('play-chords-checkbox'), independentScrollCheckbox: document.getElementById('independent-scroll-checkbox'),
                 chordModeSelect: document.getElementById('chord-mode-select'),
                 attack: document.getElementById('attack-slider'), decay: document.getElementById('decay-slider'), sustain: document.getElementById('sustain-slider'), release: document.getElementById('release-slider'), waveform2: document.getElementById('waveform2-select'), oscMix: document.getElementById('osc-mix-slider'), detune: document.getElementById('detune-slider'), filterCutoff: document.getElementById('filter-cutoff-slider'), filterQ: document.getElementById('filter-q-slider'), lfoRate: document.getElementById('lfo-rate-slider'), lfoDepth: document.getElementById('lfo-depth-slider'), reverb: document.getElementById('reverb-slider'), 
-                menuIcon: document.querySelector('.menu-icon')
+                menuIcon: document.querySelector('.menu-icon'),
+                micButton: document.getElementById('mic-button'), micVolumeSlider: document.getElementById('mic-volume-slider')
             };
             let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, customWaves = {};
+            let microphoneSource, microphoneGain;
             let currentChordRoot = null, currentChordNodes = [], noteHistory = [];
             
             const activeNotes = new Map();
@@ -195,18 +199,23 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
             let scrollState = { x: 0, x2: 0 };
 
             // --- INITIALIZATION ---
-            elements.startButton.addEventListener('click', () => { try { audioContext = new (window.AudioContext || window.webkitAudioContext)(); mediaStreamDestination = audioContext.createMediaStreamDestination(); masterGain = audioContext.createGain(); masterGain.gain.value = 0.6; masterGain.connect(audioContext.destination); if (audioContext.state === 'suspended') audioContext.resume(); } catch (e) { alert('Web Audio API not supported.'); return; } createCustomWaves(); setupReverb(); setupLFO(); elements.startScreen.style.display = 'none'; elements.appContainer.style.display = 'flex'; setupPiano(); });
+            elements.startButton.addEventListener('click', () => { try { audioContext = new (window.AudioContext || window.webkitAudioContext)(); mediaStreamDestination = audioContext.createMediaStreamDestination(); masterGain = audioContext.createGain(); masterGain.gain.value = 0.6; masterGain.connect(audioContext.destination); masterGain.connect(mediaStreamDestination); if (audioContext.state === 'suspended') audioContext.resume(); } catch (e) { alert('Web Audio API not supported.'); return; } createCustomWaves(); setupReverb(); setupLFO(); elements.startScreen.style.display = 'none'; elements.appContainer.style.display = 'flex'; setupPiano(); });
             function setupPiano() { loadSettings(); handleKeyboardResize(); setupEventListeners(); if (!loadScrollState()) { scrollToMiddleC(); } }
 
 
             function setupEventListeners() {
                 elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
                 elements.recordButton.addEventListener('click', toggleRecording);
+                elements.micButton.addEventListener('click', toggleMicrophone);
+                elements.micVolumeSlider.addEventListener('input', () => {
+                    if (microphoneGain) microphoneGain.gain.setTargetAtTime(parseFloat(elements.micVolumeSlider.value), audioContext.currentTime, 0.01);
+                    saveSettings();
+                });
                 elements.advancedSynthToggle.addEventListener('click', () => { elements.advancedSynthMenu.classList.toggle('visible'); saveSettings(); });
                 elements.chordSettingsToggle.addEventListener('click', () => { elements.chordSettingsMenu.classList.toggle('visible'); saveSettings(); });
                 
                 Object.keys(elements).forEach(key => { 
-                    const el = elements[key]; if (!el || key === 'menuIcon') return;
+                    const el = elements[key]; if (!el || ['menuIcon', 'micVolumeSlider'].includes(key)) return;
                     if (el.tagName === 'SELECT' || el.type === 'checkbox') { el.addEventListener('input', () => { if (['octaveSelect', 'keyWidthSlider', 'independentScrollCheckbox'].includes(key)) handleKeyboardResize(); saveSettings(); }); 
                     } else if (el.type === 'range') { el.addEventListener('input', () => { if (key === 'keyWidthSlider') handleKeyboardResize(); else updateAllActiveNotesParameters(); if (key === 'lfoRate' || key === 'lfoDepth') updateLFO(); saveSettings(); }); }
                 });
@@ -215,17 +224,12 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
                 document.addEventListener('pointerup', handlePointerUpOrCancel);
                 document.addEventListener('pointercancel', handlePointerUpOrCancel);
 
-                // CORRECT MAPPING: Top bar controls keyboard 0, Middle bar controls keyboard 1
                 elements.scrollbarContainer.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 0));
                 elements.scrollbarContainerTop.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 1));
                 
                 document.addEventListener('pointermove', handleDocumentPointerMove);
                 window.addEventListener('resize', handleKeyboardResize);
             }
-
-
-
-
             
             function handleKeyboardResize() {
                 let scrollPercent = 0, scrollPercent2 = 0;
@@ -242,8 +246,8 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
                 if (newKbTop) { const newMaxScroll = newKbTop.offsetWidth - elements.keyboardContainer.clientWidth; setScroll(scrollPercent2 * newMaxScroll, 1); }
             }
 
-            // --- SYNTH ENGINE (Unchanged) ---
-            function createSynthNode(isChord = false) { const osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(); const gain1 = audioContext.createGain(), gain2 = audioContext.createGain(); const filter = audioContext.createBiquadFilter(), noteGain = audioContext.createGain(); const baseADSR = getADSR(); const currentTime = audioContext.currentTime; let attack, decay, sustain, peakGain; if (isChord) { attack = 0.08; sustain = 0.6; decay = 0.3; peakGain = 0.30; } else { attack = baseADSR.attack; decay = baseADSR.decay; sustain = baseADSR.sustain; peakGain = 0.5; } noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(0.001, currentTime); noteGain.gain.linearRampToValueAtTime(peakGain, currentTime + attack); noteGain.gain.setTargetAtTime(peakGain * sustain, currentTime + attack, decay + 0.001); osc1.connect(gain1); osc2.connect(gain2); gain1.connect(noteGain); gain2.connect(noteGain); noteGain.connect(filter); filter.connect(masterGain); masterGain.connect(convolver); if (mediaRecorder && mediaRecorder.state === 'recording') masterGain.connect(mediaStreamDestination); wetGain.gain.setTargetAtTime(parseFloat(elements.reverb.value), currentTime, 0.01); const nodes = { osc1, osc2, gain1, gain2, filter, noteGain }; applyCurrentParameters(nodes); return nodes; }
+            // --- SYNTH ENGINE ---
+            function createSynthNode(isChord = false) { const osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(); const gain1 = audioContext.createGain(), gain2 = audioContext.createGain(); const filter = audioContext.createBiquadFilter(), noteGain = audioContext.createGain(); const baseADSR = getADSR(); const currentTime = audioContext.currentTime; let attack, decay, sustain, peakGain; if (isChord) { attack = 0.08; sustain = 0.6; decay = 0.3; peakGain = 0.30; } else { attack = baseADSR.attack; decay = baseADSR.decay; sustain = baseADSR.sustain; peakGain = 0.5; } noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(0.001, currentTime); noteGain.gain.linearRampToValueAtTime(peakGain, currentTime + attack); noteGain.gain.setTargetAtTime(peakGain * sustain, currentTime + attack, decay + 0.001); osc1.connect(gain1); osc2.connect(gain2); gain1.connect(noteGain); gain2.connect(noteGain); noteGain.connect(filter); filter.connect(masterGain); convolver.connect(wetGain); wetGain.connect(masterGain); wetGain.gain.setTargetAtTime(parseFloat(elements.reverb.value), currentTime, 0.01); const nodes = { osc1, osc2, gain1, gain2, filter, noteGain }; applyCurrentParameters(nodes); return nodes; }
             function startSynth(nodes, frequency) { const currentTime = audioContext.currentTime; nodes.osc1.frequency.setValueAtTime(frequency, currentTime); nodes.osc2.frequency.setValueAtTime(frequency, currentTime); nodes.osc1.start(currentTime); nodes.osc2.start(currentTime); }
             function stopSynth(nodes, isChord = false) { if (!nodes) return; const { osc1, osc2, noteGain, filter } = nodes; const baseRelease = parseFloat(elements.release.value); const releaseTime = isChord ? baseRelease + 0.5 : baseRelease; const currentTime = audioContext.currentTime; noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(noteGain.gain.value, currentTime); noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime); const stopTime = currentTime + releaseTime + 0.1; osc1.stop(stopTime); osc2.stop(stopTime); osc1.onended = () => { if (filter?.frequency && lfo?.gain) { try { lfo.gain.disconnect(filter.frequency); } catch(e) {} } }; }
             function playNote(frequency, note, keyElement, pointerId) { if (activeNotes.has(pointerId)) return; noteHistory.push(note); if (noteHistory.length > 12) noteHistory.shift(); const synthNodes = createSynthNode(false); if (synthNodes) { startSynth(synthNodes, frequency); activeNotes.set(pointerId, { synthNodes, keyElement }); keyElement.classList.add('active'); } }
@@ -253,12 +257,38 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
             function getADSR() { return { attack: parseFloat(elements.attack.value), decay: parseFloat(elements.decay.value), sustain: parseFloat(elements.sustain.value) }; }
             function applyCurrentParameters(nodes) { const wave1 = elements.waveformSelect.value, wave2 = elements.waveform2.value; if (customWaves[wave1]) nodes.osc1.setPeriodicWave(customWaves[wave1]); else nodes.osc1.type = wave1; if (customWaves[wave2]) nodes.osc2.setPeriodicWave(customWaves[wave2]); else nodes.osc2.type = wave2; nodes.osc2.detune.value = parseFloat(elements.detune.value); nodes.gain1.gain.value = 1 - parseFloat(elements.oscMix.value); nodes.gain2.gain.value = parseFloat(elements.oscMix.value); nodes.filter.type = 'lowpass'; nodes.filter.frequency.value = parseFloat(elements.filterCutoff.value); nodes.filter.Q.value = parseFloat(elements.filterQ.value); lfo.gain.connect(nodes.filter.frequency); }
             function updateAllActiveNotesParameters() { const allNodes = [...activeNotes.values()].map(n => n.synthNodes).concat(currentChordNodes); const rampTime = audioContext.currentTime + 0.05; allNodes.forEach(nodes => { if (!nodes) return; nodes.osc2.detune.linearRampToValueAtTime(parseFloat(elements.detune.value), rampTime); nodes.gain1.gain.linearRampToValueAtTime(1 - parseFloat(elements.oscMix.value), rampTime); nodes.gain2.gain.linearRampToValueAtTime(parseFloat(elements.oscMix.value), rampTime); nodes.filter.frequency.linearRampToValueAtTime(parseFloat(elements.filterCutoff.value), rampTime); nodes.filter.Q.linearRampToValueAtTime(parseFloat(elements.filterQ.value), rampTime); wetGain.gain.linearRampToValueAtTime(parseFloat(elements.reverb.value), rampTime); }); }
-            function createCustomWaves() { const n = 4096; const real = new Float32Array(n); const waves = { pulse: new Float32Array(n), 'detuned-saw': new Float32Array(n), wobble: new Float32Array(n), crystalline: new Float32Array(n), tonewheel: new Float32Array(n) }; for (let i = 1; i < n; i++) { if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i); waves['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n)); waves.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n)); } waves.crystalline[1] = 1; waves.crystalline[4] = 0.5; waves.crystalline[9] = 0.3; waves.crystalline[16] = 0.2; waves.tonewheel[1] = 1; waves.tonewheel[2] = 0.8; waves.tonewheel[3] = 0.6; waves.tonewheel[4] = 0.4; waves.tonewheel[6] = 0.2; Object.keys(waves).forEach(name => { customWaves[name] = audioContext.createPeriodicWave(real, waves[name], { disableNormalization: true }); }); }
-            function setupReverb() { convolver = audioContext.createConvolver(); wetGain = audioContext.createGain(); wetGain.gain.value = 0; convolver.connect(wetGain); wetGain.connect(masterGain); const sampleRate = audioContext.sampleRate, length = sampleRate * 1.5, decay = 2; const impulseBuffer = audioContext.createBuffer(2, length, sampleRate); for (let c = 0; c < 2; c++) { const data = impulseBuffer.getChannelData(c); for (let i = 0; i < length; i++) data[i] = (Math.random()*2-1)*Math.pow(1-i/length,decay); } convolver.buffer = impulseBuffer; }
+            function createCustomWaves() { const n = 4096; const real = new Float32Array(n); const waves = { pulse: new Float32Array(n), 'detuned-saw': new Float32Array(n), wobble: new Float32Array(n), crystalline: new Float32Array(n), tonewheel: new Float32Array(n) }; for (let i = 1; i < n; i++) { if (i % 2 !== 0) waves.pulse[i] = 4 / (Math.PI * i); waves['detuned-saw'][i] = (2 / (Math.PI * i)) * (1 + 0.5 * Math.cos(20 * i / n)); waves.wobble[i] = (1 / i) * (0.3 + 0.7 * Math.sin(100 * i / n) * Math.sin(30 * i / n)); } waves.crystalline = 1; waves.crystalline = 0.5; waves.crystalline = 0.3; waves.crystalline = 0.2; waves.tonewheel = 1; waves.tonewheel = 0.8; waves.tonewheel = 0.6; waves.tonewheel = 0.4; waves.tonewheel = 0.2; Object.keys(waves).forEach(name => { customWaves[name] = audioContext.createPeriodicWave(real, waves[name], { disableNormalization: true }); }); }
+            function setupReverb() { convolver = audioContext.createConvolver(); wetGain = audioContext.createGain(); wetGain.gain.value = 0; const sampleRate = audioContext.sampleRate, length = sampleRate * 1.5, decay = 2; const impulseBuffer = audioContext.createBuffer(2, length, sampleRate); for (let c = 0; c < 2; c++) { const data = impulseBuffer.getChannelData(c); for (let i = 0; i < length; i++) data[i] = (Math.random()*2-1)*Math.pow(1-i/length,decay); } convolver.buffer = impulseBuffer; }
             function setupLFO() { lfo = { osc: audioContext.createOscillator(), gain: audioContext.createGain() }; lfo.osc.connect(lfo.gain); lfo.osc.start(); updateLFO(); }
             function updateLFO() { if(!lfo) return; lfo.osc.frequency.setTargetAtTime(parseFloat(elements.lfoRate.value), audioContext.currentTime, 0.01); lfo.gain.gain.setTargetAtTime(parseFloat(elements.lfoDepth.value), audioContext.currentTime, 0.01); }
             function toggleRecording() { if (elements.recordButton.classList.contains('recording')) { mediaRecorder.stop(); elements.recordButton.textContent = 'Record'; elements.recordButton.classList.remove('recording'); } else { let recordedChunks = []; mediaRecorder = new MediaRecorder(mediaStreamDestination.stream); mediaRecorder.ondataavailable = e => recordedChunks.push(e.data); mediaRecorder.onstop = () => { const blob = new Blob(recordedChunks, { type: 'audio/wav' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.style.display = 'none'; a.href = url; a.download = 'synth-recording.wav'; document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(url); a.remove(); }; mediaRecorder.start(); elements.recordButton.textContent = 'Stop'; elements.recordButton.classList.add('recording'); } }
             
+            async function toggleMicrophone() {
+                if (microphoneSource) {
+                    microphoneSource.mediaStream.getTracks().forEach(track => track.stop());
+                    microphoneSource = null;
+                    microphoneGain = null;
+                    elements.micButton.classList.remove('mic-active');
+                    elements.micButton.textContent = 'Enable Mic';
+                    elements.micVolumeSlider.disabled = true;
+                } else {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        microphoneSource = audioContext.createMediaStreamSource(stream);
+                        microphoneGain = audioContext.createGain();
+                        microphoneGain.gain.value = parseFloat(elements.micVolumeSlider.value);
+                        microphoneSource.connect(microphoneGain);
+                        microphoneGain.connect(masterGain);
+                        elements.micButton.classList.add('mic-active');
+                        elements.micButton.textContent = 'Disable Mic';
+                        elements.micVolumeSlider.disabled = false;
+                    } catch (err) {
+                        alert('Microphone access denied.');
+                        console.error('Error accessing microphone:', err);
+                    }
+                }
+            }
+
             // --- KEYBOARD & UI ---
             function generateKeyboard() {
                 elements.keyboardContainer.innerHTML = '';
@@ -288,41 +318,16 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
 
             // --- POINTER & SCROLLING ---
             let activeScroller = { index: -1, isDragging: false, startX: 0, startTransform: 0 };
-            function handlePointerDown(e) { const target = e.target; if (target.closest('.key')) { const keyElement = target.closest('.key'); const noteName = keyElement.dataset.note; const note = noteName.replace(/\d/g, ''); const octave = parseInt(noteName.match(/\d+/g)[0]); const frequency = noteFrequencies[note] * Math.pow(2, octave); if (elements.playChordsCheckbox.checked) { triggerChord(note, octave, frequency); } playNote(frequency, note, keyElement, e.pointerId); } }
+            function handlePointerDown(e) { const target = e.target; if (target.closest('.key')) { const keyElement = target.closest('.key'); const noteName = keyElement.dataset.note; const note = noteName.replace(/\d/g, ''); const octave = parseInt(noteName.match(/\d+/g)); const frequency = noteFrequencies[note] * Math.pow(2, octave); if (elements.playChordsCheckbox.checked) { triggerChord(note, octave, frequency); } playNote(frequency, note, keyElement, e.pointerId); } }
             function handlePointerUpOrCancel(e) { if (activeNotes.has(e.pointerId)) stopNote(e.pointerId); if (activeNotes.size === 0 && elements.playChordsCheckbox.checked) { currentChordNodes.forEach(node => stopSynth(node, true)); currentChordNodes = []; currentChordRoot = null; } if(activeScroller.isDragging) { activeScroller.isDragging = false; saveScrollState(); } }
-
-
             function handleScrollbarPointerDown(e, physicalIndex) {
-                e.preventDefault();
-                e.stopPropagation();
-
+                e.preventDefault(); e.stopPropagation();
                 const isIndependent = elements.independentScrollCheckbox.checked;
-                let logicalIndex; // This will be the index of the keyboard we actually control
-                
-                if (isIndependent) {
-                    // In independent mode, we swap the controls:
-                    // Top scrollbar (physicalIndex 0) controls top keyboard (logicalIndex 1)
-                    // Middle scrollbar (physicalIndex 1) controls bottom keyboard (logicalIndex 0)
-                    logicalIndex = (physicalIndex === 0) ? 1 : 0;
-                } else {
-                    // In automatic mode, any scrollbar always controls the bottom keyboard (logicalIndex 0)
-                    logicalIndex = 0;
-                }
-
-                activeScroller = { 
-                    index: physicalIndex, // Keep track of which scrollbar was physically clicked
-                    isDragging: true, 
-                    startX: e.clientX, 
-                    // Get the starting scroll position from the CORRECT keyboard's state
-                    startTransform: (logicalIndex === 0) ? scrollState.x : scrollState.x2 
-                };
+                let logicalIndex;
+                if (isIndependent) { logicalIndex = (physicalIndex === 0) ? 1 : 0; } else { logicalIndex = 0; }
+                activeScroller = { index: physicalIndex, isDragging: true, startX: e.clientX, startTransform: (logicalIndex === 0) ? scrollState.x : scrollState.x2 };
                 e.currentTarget.setPointerCapture(e.pointerId);
             }
-
-
-
-
-            
             function handleDocumentPointerMove(e) {
                 if (!activeScroller.isDragging) return; e.preventDefault();
                 const dx = e.clientX - activeScroller.startX;
@@ -334,112 +339,63 @@ middleScrollbarContainer: document.getElementById('middle-scrollbar-container'),
                 const newX = activeScroller.startTransform + (dx * scrollRatio);
                 setScroll(newX, activeScroller.index);
             }
-
-
-
-
             function setScroll(newX, physicalIndex) {
                 const isVertical = window.innerHeight > window.innerWidth;
                 const isIndependent = elements.independentScrollCheckbox.checked;
-
                 if (isVertical && !isIndependent) {
-                    // This is the continuous vertical mode, which is handled separately and correctly.
                     const kb = document.getElementById('keyboard-bottom'); if (!kb) return;
                     const rowWidth = elements.keyboardContainer.clientWidth; const totalWidth = kb.offsetWidth; const maxScroll = totalWidth - rowWidth; 
                     const clampedX = Math.max(0, Math.min(maxScroll, newX || 0)); scrollState.x = clampedX;
                     const topKb = document.getElementById('keyboard-top');
                     kb.style.transform = `translateX(${-clampedX}px)`; if(topKb) topKb.style.transform = `translateX(${rowWidth - clampedX}px)`;
                 } else {
-                    let logicalIndex; // The index of the keyboard/state we actually want to change
-                    if (isIndependent) {
-                        // In independent mode, swap the mapping
-                        logicalIndex = (physicalIndex === 0) ? 1 : 0;
-                    } else {
-                        // In automatic mode, any scrollbar controls the bottom keyboard
-                        logicalIndex = 0;
-                    }
-
+                    let logicalIndex;
+                    if (isIndependent) { logicalIndex = (physicalIndex === 0) ? 1 : 0; } else { logicalIndex = 0; }
                     const kb = (logicalIndex === 0) ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top');
                     if (!kb) return;
-
                     const maxScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
                     const clampedX = Math.max(0, Math.min(maxScroll < 0 ? 0 : maxScroll, newX || 0));
-
-                    // Update the correct state variable based on which keyboard was moved
                     if (logicalIndex === 0) scrollState.x = clampedX; else scrollState.x2 = clampedX;
-                    
                     kb.style.transform = `translateX(${-clampedX}px)`;
                 }
                 updateScrollbarThumbs();
             }
-
-
-
-
-            
-
-
-
-
             function updateScrollbarThumbs() {
                 const isVertical = window.innerHeight > window.innerWidth;
                 const isIndependent = elements.independentScrollCheckbox.checked;
-
                 elements.scrollbarContainer.style.display = 'none';
                 elements.middleScrollbarContainer.style.display = 'none';
-
                 const kbBottom = document.getElementById('keyboard-bottom');
                 const kbTop = document.getElementById('keyboard-top');
                 const viewportWidth = elements.keyboardContainer.clientWidth;
-
                 const setupScroller = (kb, container, thumb, scrollVal) => {
                     if (!kb) return;
                     const maxScroll = kb.offsetWidth - viewportWidth;
                     if (maxScroll > 0) {
-                        if (container.parentElement === elements.middleScrollbarContainer) {
-                            elements.middleScrollbarContainer.style.display = 'block';
-                        }
+                        if (container.parentElement === elements.middleScrollbarContainer) { elements.middleScrollbarContainer.style.display = 'block'; }
                         container.style.display = 'block';
                         const thumbW = (viewportWidth / kb.offsetWidth) * container.clientWidth;
                         thumb.style.width = `${thumbW}px`;
                         const maxThumbScroll = container.clientWidth - thumbW;
-                        if (maxThumbScroll <= 0) {
-                            thumb.style.left = '0px';
-                            return;
-                        }
+                        if (maxThumbScroll <= 0) { thumb.style.left = '0px'; return; }
                         const scrollPercent = scrollVal / maxScroll;
                         thumb.style.left = `${scrollPercent * maxThumbScroll}px`;
                     }
                 };
-                
                 if (isVertical && isIndependent) {
-                    // Independent mode (SWAPPED LOGIC):
-                    // Top scrollbar visually tracks the top keyboard (scrollState.x2)
                     setupScroller(kbTop, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x2);
-                    // Middle scrollbar visually tracks the bottom keyboard (scrollState.x)
                     setupScroller(kbBottom, elements.scrollbarContainerTop, elements.scrollbarThumbTop, scrollState.x);
                 } else {
-                    // Automatic mode: Top scrollbar tracks the bottom keyboard
                     setupScroller(kbBottom, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x);
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
             
             // --- LOCAL STORAGE ---
             function saveSettings() { const settings = {}; Object.keys(elements).forEach(key => { const el = elements[key]; if (el) { if (el.type === 'checkbox') settings[key] = el.checked; else if (el.tagName === 'SELECT' || el.type === 'range') settings[key] = el.value; } }); settings.advMenu = elements.advancedSynthMenu.classList.contains('visible'); settings.chordMenu = elements.chordSettingsMenu.classList.contains('visible'); localStorage.setItem('pianoSettings', JSON.stringify(settings)); }
             function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key]) { if (elements[key].type === 'checkbox') elements[key].checked = settings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = settings[key]; } }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); if (settings.chordMenu) elements.chordSettingsMenu.classList.add('visible'); } }
             function saveScrollState() { localStorage.setItem('pianoScrollState', JSON.stringify(scrollState)); }
             function loadScrollState() { const state = JSON.parse(localStorage.getItem('pianoScrollState')); if(state) { scrollState = state; setScroll(scrollState.x, 0); setScroll(scrollState.x2, 1); return true; } return false; }
+            function scrollToMiddleC() { /* Placeholder for future implementation */ }
         });
     </script>
 </body>
