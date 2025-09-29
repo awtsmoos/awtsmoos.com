@@ -493,4 +493,4 @@ when navigating to `/endpoint/wow/hi/asd/awtsmoos/k` then vars.asd will be "wow"
 
 Awtsmoos is the revelation of the essence
 
-
+Awtsmoos is Awesome 
