@@ -1,1970 +1,268 @@
-<!-- B"H -->
+ <!--B"H-->
 <!DOCTYPE html>
-
-<html lang="en" class="theme-vivid-dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>⚡ VIVID X // Profound Edition ⚡</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-        
-
-
-
-<style>
-    /* --- THEME & VARIABLES (VIVID X - EXTREME NEON EDITION v2) --- */
-    :root {
-    --font-ui: 'Inter', sans-serif;
-    --font-code: 'Fira Code', monospace;
-    --timing-fast: 0.15s;
-    --timing-med: 0.3s;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --shadow-color: rgba(0, 0, 0, 0.6);
-
-    /* --- NEW EXTREME COLOR PALETTE --- */
-    --neon-cyan: #00f6ff;
-    --neon-magenta: #ff00ff;
-    --neon-lime: #a8ff00;
-    
-    --glow-cyan: rgba(0, 246, 255, 0.5);
-    --glow-magenta: rgba(255, 0, 255, 0.4);
-    --glow-lime: rgba(168, 255, 0, 0.6);
-
-    /* B"H - SERIOUSLY BRIGHTER BACKGROUNDS, NO MORE JOKES */
-    --color-bg-deep: #191c29;      /* Was #02040a */
-    --color-bg-primary: #2c3047;   /* Was #0a0c14 */
-    --color-bg-secondary: #383e5e; /* Was #121522 */
-    --color-bg-tertiary: #505886;  /* Was #22273d */
-    --color-border: #626AAE;       /* Was #2a2f4a */
-    --color-border-accent: var(--neon-cyan);
-    
-    /* B"H - BRIGHTER TEXT & ICONS */
-    --color-text-primary: #ffffff; 
-    --color-text-secondary: #d1d9ff; /* Was #c0d0ff */
-    --color-text-tertiary: #a0a8d0;   /* Was #5f6b8a - HUGE JUMP FOR ICONS */
-    
-    --color-accent-primary: var(--neon-cyan); 
-    --color-accent-secondary: var(--neon-lime); 
-    --color-accent-danger: #f75d65;
-    --color-backdrop: rgba(26, 29, 46, 0.6); /* Matched to new bg */
-}
-
-
-    .theme-vivid-dark { /* Keep class for compatibility */
-        /* All variables are now defined in :root */
-    }
-    
-    /* --- BASE & LAYOUT --- */
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { 
-        height: 100%; margin: 0; font-family: var(--font-ui); 
-        background-color: var(--color-bg-deep); color: var(--color-text-primary); 
-        overflow: hidden; -webkit-font-smoothing: antialiased; font-synthesis: none;
-        font-size: 16px;
-    }
-    body {
-         background-color: #000;
-         background-image:
-            linear-gradient(var(--neon-cyan) 1px, transparent 1px),
-            linear-gradient(to right, var(--neon-cyan) 1px, transparent 1px);
-         background-size: 40px 40px;
-         background-position: -1px -1px;
-         animation: bg-flicker 10s infinite linear;
-    }
-    @keyframes bg-flicker {
-        0%, 100% { background-color: rgba(2, 4, 10, 0.9); }
-        50% { background-color: rgba(10, 12, 20, 0.95); }
-    }
-    .app-container { 
-        display: grid; grid-template-rows: auto 1fr auto; 
-        grid-template-columns: 300px 1fr; height: 100vh; height: 100dvh; 
-        background-color: var(--color-bg-primary); 
-        opacity: 0; animation: appFadeIn 0.5s ease forwards;
-    }
-    @keyframes appFadeIn { to { opacity: 1; } }
-
-    .top-panel { 
-        grid-row: 1 / 2; grid-column: 1 / 3; display: flex; flex-direction: column; 
-        background-color: var(--color-bg-secondary); 
-        border-bottom: 2px solid var(--color-border);
-        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-        z-index: 100;
-    }
-    .menu-bar { display: flex; align-items: center; height: 52px; padding: 0 12px; flex-shrink: 0; gap: 8px; }
-    .tab-bar { display: flex; overflow-x: auto; align-items: flex-end; }
-    
-    .main-content { 
-        grid-row: 2 / 3; grid-column: 2 / 3; position: relative; 
-        display: flex; flex-direction: column; 
-        overflow: hidden; 
-    }
-    
-    
-    
-    .editor-area { 
-        flex-grow: 1; /* B"H - CRITICAL: This tells the editor to take up all available vertical space */
-        display: flex; 
-        position: relative; 
-        overflow-y: auto; /* B"H - CRITICAL: This enables vertical scrolling ONLY within this area */
-        background-color: transparent; 
-    }
-    
-    
-    .status-bar { 
-        grid-row: 3 / 4; grid-column: 1 / 3; height: 28px; 
-        background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
-        color: var(--color-bg-deep); 
-        display: flex; align-items: center; justify-content: space-between; 
-        padding: 0 16px; font-size: 0.9em; font-weight: 700; user-select: none; z-index: 100;
-        
-        letter-spacing: 1px;
-    }
-    
-    /* --- SIDEBAR & VISUAL AUDIO GUIDE EXPLORER --- */
-    .sidebar { 
-    grid-row: 1 / 4; grid-column: 1 / 2;
-    /* B"H - Replaced the flat dark color with a subtle vertical gradient for more depth! */
-    background: linear-gradient(to bottom, #191d30, #121522);
-    display: flex; flex-direction: column; 
-    border-right: 2px solid var(--color-border);
-    transition: transform var(--timing-med) ease, width var(--timing-med) ease; flex-shrink: 0;
-    position: relative;
-    z-index: 3200;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.4);
-}
-    .sidebar-header { 
-        display: flex; justify-content: space-between; align-items: center; 
-        padding: 0 8px 0 16px; height: 52px; 
-        border-bottom: 2px solid var(--color-border); 
-        flex-shrink: 0;  font-size: 0.9em; letter-spacing: 2px; user-select: none; font-weight: 700;
-        color: var(--neon-cyan);
-        /* --- BRIGHTER HEADER GLOW --- */
-        text-shadow: 0 0 12px var(--glow-cyan), 0 0 4px var(--neon-cyan);
-    }
-    .workspaces-container { 
-        flex-grow: 1; overflow-y: auto; padding: 8px;
-    }
-    
-    /* --- NEW VERTICAL HIERARCHY STYLES --- */
-    .workspace-header { 
-    display: flex; align-items: center; justify-content: space-between; 
-    padding: 12px; font-weight: 700; cursor: pointer; user-select: none; 
-    border-radius: var(--radius-sm); transition: all var(--timing-fast);
-    position: relative; overflow: hidden;
-    
-    letter-spacing: 1px;
-    /* B"H - Made the background a brighter and more saturated blue/purple */
-    background-color: #252a4a;
-    /* B"H - Gave it a vivid cyan border and a subtle inner glow! */
-    border: 1px solid rgba(0, 246, 255, 0.4);
-    box-shadow: inset 0 0 15px rgba(0, 246, 255, 0.2);
-    margin-bottom: 8px; /* Space between workspaces */
-    /* --- BRIGHTER WORKSPACE HEADER --- */
-    color: var(--color-text-secondary);
-}
-    .workspace-header:hover { 
-        background-color: var(--color-border); 
-        color: var(--neon-cyan);
-        border-color: var(--neon-cyan);
-        text-shadow: 0 0 8px var(--glow-cyan);
-    }
-    
-    .tree-item {
-        display: flex;
-        flex-direction: column; /* Children (UL) will stack below the name-wrap */
-        align-items: stretch;
-        position: relative;
-        user-select: none;
-    }
-    .tree-item-name-wrap {
-        display: flex; align-items: center; flex-grow: 1;
-        min-height: 40px;
-        cursor: pointer;
-        padding: 6px 8px;
-        border-radius: var(--radius-sm);
-        transition: background-color var(--timing-fast);
-    }
-    
-    /* --- INSANE BRIGHTNESS & GLOW ON HOVER --- */
-    .tree-item > .tree-item-name-wrap:hover {
-        background-color: var(--color-bg-tertiary);
-    }
-    .tree-item > .tree-item-name-wrap:hover .tree-item-name {
-        color: var(--neon-lime);
-        text-shadow: 0 0 10px var(--glow-lime);
-        transform: scale(1.02);
-    }
-    .tree-item.context-active > .tree-item-name-wrap .tree-item-name {
-        color: var(--neon-magenta);
-        text-shadow: 0 0 10px var(--glow-magenta);
-    }
-
-    .tree-item-arrow { 
-        width: 20px; text-align: center; display: inline-block; 
-        transition: transform var(--timing-fast) ease; user-select: none; 
-        color: var(--color-text-tertiary);
-        font-size: 1.2em;
-    }
-    .tree-item.expanded > .tree-item-name-wrap > .tree-item-arrow { transform: rotate(90deg); }
-    
-    .tree-item-name { 
-        margin-left: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.95em;
-        /* --- BRIGHTER FILE NAMES BY DEFAULT --- */
-        font-weight: 600;
-        color: var(--color-text-primary);
-        transition: all var(--timing-fast) ease;
-    }
-
-    /* This is the key for the new layout */
-    .tree-item > ul {
-        margin: 4px 0 4px 20px; /* Indent the entire child block */
-        padding-left: 15px; /* Add space from the guide line */
-        border-left: 1px solid var(--color-border); /* The vertical guide line */
-        list-style: none; /* remove default list styles */
-    }
-    .tree-item > ul:hover {
-        border-left-color: var(--neon-cyan);
-    }
-
-
-    /* --- TABS --- */
-    .tab-bar::-webkit-scrollbar { height: 4px; } 
-    .tab-bar::-webkit-scrollbar-thumb { background: var(--color-border-accent); border-radius: 4px; }
-    .tab { 
-        display: inline-flex; align-items: center; padding: 0 16px;
-        min-height: 48px; max-width: 240px; 
-        border-top: 4px solid transparent;
-        border-right: 1px solid var(--color-border); 
-        cursor: pointer; position: relative;
-        color: var(--color-text-secondary); 
-        background: linear-gradient(to top, var(--color-bg-primary) 95%, transparent);
-        transition: all var(--timing-fast) ease; 
-    }
-    .tab:hover { 
-        background-color: var(--color-bg-primary); 
-        color: var(--color-text-primary); 
-        text-shadow: 0 0 5px var(--glow-cyan);
-    }
-    .tab.active { 
-        background-color: var(--color-bg-primary); 
-        border-top-color: var(--color-border-accent); 
-        color: var(--color-text-primary); 
-        font-weight: 700;
-        text-shadow: 0 0 12px var(--glow-cyan);
-        box-shadow: inset 0 10px 20px -10px var(--color-bg-deep);
-    }
-    .tab.dirty .tab-name::after { content: ' ●'; color: var(--neon-magenta); font-size: 0.9em; }
-    .tab-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; padding-right: 24px; }
-    .close-tab-btn { 
-        position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-        border-radius: var(--radius-sm); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
-    }
-    .close-tab-btn:hover { background-color: var(--color-bg-tertiary); color: var(--neon-magenta); }
-
-    /* --- EDITOR --- */
-    #editor-wrapper { display: flex; flex-grow: 1; height: 100%; position: relative; }
-    #line-numbers { 
-        font-family: var(--font-code); padding: 16px 8px; font-size: 1em; line-height: 1.7; 
-        color: var(--color-text-tertiary); text-align: right; user-select: none; 
-        background-color: transparent; border-right: 1px solid var(--color-border);
-        overflow-y: hidden; white-space: pre; 
-    }
-    #editor { 
-        flex-grow: 1; height: 100%; border: none; background: transparent; color: var(--color-text-primary); 
-        font-family: var(--font-code); font-size: 1em; line-height: 1.7; 
-        padding: 16px; resize: none; outline: none; white-space: pre; overflow: auto;
-    }
-    .empty-editor-message { 
-        position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); 
-        color: var(--color-text-secondary); text-align: center; user-select: none; opacity: 0.6; padding: 16px;
-        letter-spacing: 4px;
-    }
-    
-    /* --- OVERLAYS & DIALOGS --- */
-    .hidden { display: none !important; } 
-    .visible { display: flex !important; }
-    .svg-icon { width: 1.25em; height: 1.25em; fill: currentColor; vertical-align: middle; }
-    .dialog-overlay { 
-        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-        background-color: rgba(2, 4, 10, 0.7); z-index: 2000; justify-content: center; align-items: center; 
-        backdrop-filter: blur(10px) saturate(150%); animation: fadeIn var(--timing-fast) ease; 
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .dialog-content { 
-        background-color: var(--color-bg-secondary); 
-        border: 2px solid var(--color-border-accent); 
-        border-radius: var(--radius-md); padding: 30px; width: 90%; max-width: 500px; 
-        display: flex; flex-direction: column; gap: 15px; 
-        box-shadow: 0 0 40px var(--glow-cyan); 
-        transform: scale(0.95); animation: scaleUp var(--timing-med) cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-    }
-    @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-    #context-menu, #main-menu { 
-        position: fixed; z-index: 10000; background-color: var(--color-backdrop); 
-        border: 1px solid var(--color-border); backdrop-filter: blur(15px); border-radius: var(--radius-md); 
-        padding: 8px; min-width: 260px; display: none; 
-        box-shadow: 0 10px 40px var(--shadow-color), 0 0 15px var(--glow-magenta);
-        transform-origin: top left; animation: scaleUp var(--timing-fast) ease forwards;
-    }
-    #loading-overlay { 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); 
-        z-index: 9999; display: none; justify-content: center; align-items: center; 
-        color: var(--neon-cyan); font-size: 1.5em; backdrop-filter: blur(5px); 
-        text-shadow: 0 0 10px var(--glow-cyan);
-        
-        letter-spacing: 2px;
-    }
-    .toast-container { 
-        position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 10001; 
-        display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none;
-    }
-    .toast { 
-        color: white; padding: 14px 22px; border-radius: var(--radius-md); opacity: 0; 
-        transform: translateY(20px); transition: all var(--timing-med) ease; box-shadow: 0 5px 20px var(--shadow-color); 
-        font-weight: 600; text-align: center; backdrop-filter: blur(10px);
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-    .toast.error { background-color: rgba(247, 93, 101, 0.8); border: 1px solid var(--color-accent-danger); box-shadow: 0 0 15px rgba(247, 93, 101, 0.6); } 
-    .toast.success { background-color: rgba(168, 255, 0, 0.8); border: 1px solid var(--neon-lime); color: var(--color-bg-deep); box-shadow: 0 0 15px rgba(168, 255, 0, 0.6);} 
-    .toast.info { background-color: rgba(0, 246, 255, 0.8); border: 1px solid var(--neon-cyan); color: var(--color-bg-deep); box-shadow: 0 0 15px var(--glow-cyan);}
-    
-    /* --- BUTTONS & INPUTS --- */
-    button, .button { font-family: var(--font-ui); cursor: pointer; border: none; transition: all var(--timing-fast) ease; user-select: none; }
-    .icon-button { 
-        background: none; color: var(--color-text-secondary); font-size: 1.2em;
-        line-height: 1; vertical-align: middle; padding: 10px; border-radius: var(--radius-md); 
-        width: 44px; height: 44px; display: inline-flex; justify-content: center; align-items: center;
-    }
-    .icon-button:hover:not(:disabled) { 
-        background-color: var(--color-bg-tertiary); color: var(--neon-cyan); 
-        transform: scale(1.1); text-shadow: 0 0 8px var(--glow-cyan);
-    }
-    .primary-btn { 
-        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta));
-        color: white; border:none; 
-        padding: 12px 20px; border-radius: var(--radius-sm); font-weight: bold; min-height: 44px;
-        text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-    }
-    .primary-btn:hover:not(:disabled) { 
-        filter: brightness(1.2); 
-        box-shadow: 0 0 20px -2px var(--glow-magenta); 
-        transform: translateY(-2px); 
-    }
-    .secondary-btn { 
-        background-color: transparent; color: var(--color-text-primary); 
-        border:1px solid var(--color-border); 
-        padding: 12px 20px; border-radius: var(--radius-sm); min-height: 44px;
-    }
-    .secondary-btn:hover:not(:disabled) { 
-        background-color: var(--color-border); border-color: var(--neon-cyan);
-        color: var(--neon-cyan);
-    }
-    .menu-button { 
-        display: flex; align-items: center; gap: 12px; width: 100%; background: none; color: var(--color-text-primary); 
-        padding: 12px 16px; text-align: left; font-size: 1em; border-radius: var(--radius-sm); min-height: 44px;
-    }
-    .menu-button:hover:not(:disabled) { 
-        background-color: var(--color-accent-primary); 
-        color: var(--color-bg-deep); 
-        text-shadow: none;
-    }
-    .menu-separator { border: none; border-top: 1px solid var(--color-border); margin: 8px 0; }
-    input[type="text"], input[type="password"], textarea { 
-        background: var(--color-bg-deep); border: 1px solid var(--color-border); 
-        color: var(--color-text-primary); padding: 12px; border-radius: var(--radius-sm); 
-        font-family: var(--font-ui); width: 100%; font-size: 1em;
-    }
-    input:focus, textarea:focus { 
-        outline: none; border-color: var(--color-border-accent);
-        box-shadow: 0 0 15px -2px var(--glow-cyan);
-    }
-    
-    #find-replace-panel { 
-        position: absolute; top: 12px; right: 12px; z-index: 100; 
-        background-color: var(--color-backdrop); 
-        border: 1px solid var(--color-border); 
-        padding: 12px; border-radius: var(--radius-md); 
-        box-shadow: 0 5px 30px var(--shadow-color); 
-        width: calc(100% - 24px); max-width: 380px; display: none; 
-        grid-template-columns: 1fr; gap: 8px; animation: fadeIn var(--timing-fast); 
-        backdrop-filter: blur(10px);
-    }
-    .fr-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-    #find-replace-panel .button-group { display: flex; gap: 4px; }
-    
-    /* --- CUSTOM SCROLLBARS & MOBILE --- */
-    ::-webkit-scrollbar { width: 12px; height: 12px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { 
-        background-color: var(--color-bg-tertiary); 
-        border-radius: 10px; 
-        border: 3px solid var(--color-bg-primary); 
-    }
-    ::-webkit-scrollbar-thumb:hover { background-color: var(--neon-cyan); }
-    
-    
-    
-        /* --- KEYBOARD HELPER --- */
-    .keyboard-helper {
-        display: none; /* Hidden by default */
-        flex-shrink: 0;
-        background-color: var(--color-bg-deep);
-        padding: 6px 8px;
-        gap: 6px;
-        overflow-x: auto;
-        border-bottom: 2px solid var(--color-border);
-    }
-    /* Add this class with JS to show the bar */
-    .keyboard-helper.is-visible {
-        display: flex;
-    }
-    .kh-btn {
-        font-family: var(--font-code);
-        background-color: var(--color-bg-secondary);
-        color: var(--color-text-secondary);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-sm);
-        padding: 8px 12px;
-        font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all var(--timing-fast) ease;
-    }
-    .kh-btn:hover {
-        background-color: var(--color-border);
-        color: var(--neon-cyan);
-        border-color: var(--neon-cyan);
-    }
-    .kh-separator {
-        border-left: 2px solid var(--color-border);
-        margin: 0 4px;
-    }
-    
-    
-    
-    /* --- MOBILE RESPONSIVENESS (UNCHANGED LOGIC) --- */
-    @media (max-width: 768px) {
-        .app-container { grid-template-columns: 1fr; }
-        .sidebar {
-            grid-row: 1 / 4; position: fixed; top: 0; left: 0; height: 100%; width: 85%; max-width: 320px;
-            transform: translateX(-100%); z-index: 1100; box-shadow: 10px 0 40px var(--shadow-color);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awtsmoos Apps - PROfound INSANITY</title>
+    <style>
+        :root {
+            --primary-color: #00ffff; /* Electric Cyan */
+            --secondary-color: #ff00ff; /* Vibrant Magenta */
+            --background-color: #000000;
+            --text-color: #ffffff;
         }
-        .sidebar.is-open { transform: translateX(0); }
-        .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1099;
-            opacity: 0; transition: opacity var(--timing-med) ease; pointer-events: none;
-        }
-        .sidebar-overlay.is-visible { opacity: 0; }
-        .main-content { grid-column: 1 / 2; }
-        .top-panel { grid-column: 1 / 2; }
-        .status-bar { font-size: 0.8em; }
-    }
-    #hamburger-sidebar-toggle { display: none; }
-    
-    
-    @media (max-width: 768px) {
-        #hamburger-sidebar-toggle { display: inline-flex; }
-    }
-</style>
 
- 
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Orbitron', sans-serif; /* A futuristic, clean font */
+        }
+
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .all {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 1rem;
+            text-transform: uppercase;
+        }
+
+        .logo {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: 0.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            position: relative;
+        }
+
+        .about a {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 1rem;
+            display: inline-block;
+            border: 2px solid var(--primary-color);
+            padding: 1rem 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .about a:hover {
+            color: var(--secondary-color);
+        }
+
+        .about a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+            transition: left 0.4s ease-in-out;
+        }
+
+        .about a:hover::before {
+            left: 100%;
+        }
+        
+        /* Cyber-Glyph Text Effect */
+        .cyber-glitch {
+            position: relative;
+        }
+
+        .cyber-glitch:hover:before, .cyber-glitch:hover:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-color);
+            opacity: 0.8;
+        }
+
+        .cyber-glitch:hover:before {
+            color: var(--secondary-color);
+            z-index: -1;
+            animation: glitch-anim-1 0.3s infinite;
+        }
+
+        .cyber-glitch:hover:after {
+            color: var(--primary-color);
+            z-index: -2;
+            animation: glitch-anim-2 0.3s infinite;
+        }
+        
+        @keyframes glitch-anim-1 {
+            0% { transform: translate(3px, 3px); }
+            25% { transform: translate(-3px, -3px); }
+            50% { transform: translate(3px, -3px); }
+            75% { transform: translate(-3px, 3px); }
+            100% { transform: translate(3px, 3px); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { transform: translate(-3px, -3px); }
+            25% { transform: translate(3px, 3px); }
+            50% { transform: translate(-3px, 3px); }
+            75% { transform: translate(3px, -3px); }
+            100% { transform: translate(-3px, -3px); }
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- SVG Icon Definitions -->
-    <svg width="0" height="0" class="hidden">
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-menu"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-folder"><path d="M10 4H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8c0-1.11-.9-2-2-2h-8l-2-2z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-file"><path d="M6 2c-1.11 0-2 .89-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm8 7h-2V4l4 4h-2z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-save"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-settings"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17-.59-1.69-.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12-.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69-.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-plus"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-x"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-github"><path d="M12 1.27a11 11 0 0 0-3.48 21.46c.55.1.73-.24.73-.53v-1.84c-3.03.66-3.67-1.47-3.67-1.47-.5-.1.27-1.22-.5-.1.27-1.22.87-1.5.08-1.87-1.28-.15-2.63-.64-2.63-2.85 0-.63.23-1.15.6-1.55-.07-.15-.25-1.74.05-1.52 0 0 .48-.15 1.58.6.46-.13.95-.2 1.44-.2.49 0 .98.07 1.44.2 1.1-1.75 1.58-.6 1.58-.6.3.22.12 1.37.05 1.52.38.4.6 1.92.6 1.55 0 2.22-1.35 2.7-2.64 2.85.23.2.44.58.44 1.18v1.72c0 .29.18.63.73.53A11 11 0 0 0 12 1.27"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-brain"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.68.81 3.14 2.05 4.05L8 14.5v1.5h8v-1.5l-1.05-3.45C16.19 10.14 17 8.68 17 7c0-2.76-2.24-5-5-5zm-3 8.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm6 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-laptop"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-search"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-select-all"><path d="M3 5h2V3c-1.1 0-2 .9-2 2zm0 8h2v-2H3v2zm4 8h2v-2H7v2zM3 9h2V7H3v2zm10-6h-2v2h2V3zm6 0v2h2c0-1.1-.9-2-2-2zM5 21v-2H3c0 1.1.9 2 2 2zm-2-4h2v-2H3v2zm8 4h2v-2h-2v2zm4-4h2v-2h-2v2zm4-10h-2v2h2V7zm0 8h2v-2h-2v2zm-4 4h2v-2h-2v2zm0-16h-2v2h2V3z"/></symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-copy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol>
-</svg>
-    
-    <div class="app-container">
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <span>Explorer</span>
-                <button id="add-workspace-btn" title="Add Workspace" class="icon-button"><svg class="svg-icon"><use href="#icon-plus"></use></svg></button>
-            </div>
-            <div id="workspaces-container" class="workspaces-container"></div>
-        </div>
+    <canvas id="interactive-canvas"></canvas>
+
+    <div class="all awtsmoospage">
+        <?<script> return $a("nav/header.html") </script>?>
         
-        <div class="top-panel">
-            <div class="menu-bar">
-                 <button class="icon-button" id="hamburger-menu-btn" title="Main Menu"><svg class="svg-icon"><use href="#icon-menu"></use></svg></button>
-                 <button class="icon-button" id="hamburger-sidebar-toggle" title="Toggle Explorer"><svg class="svg-icon"><use href="#icon-menu"></use></svg></button>
+        <div class="main">
+            <div class="logo cyber-glitch" data-text="Awtsmoos Apps">Awtsmoos Apps</div>
+            <div class="about list">
+                <a href="./code" class="cyber-glitch" data-text="Awtsmoos Code Editor">Awtsmoos Code Editor</a>
+                <a href="./piano" class="cyber-glitch" data-text="Piano/Synthesizer">Piano/Synthesizer</a>
+                <br>
+                <a href="/os" class="cyber-glitch" data-text="Awtsmoos OS">Awtsmoos OS</a>
+                <a href="/ayin" class="cyber-glitch" data-text="Awtsmoos Recorder">Awtsmoos Recorder</a>
             </div>
-            <div id="tab-bar" class="tab-bar"></div>
-        </div>
-        
-        <div class="main-content">
-        <!-- B"H - NEW KEYBOARD HELPER BAR -->
-            <div id="keyboard-helper" class="keyboard-helper">
-                <button class="kh-btn" data-key="tab" title="Insert Tab (4 spaces)">Tab</button>
-                <button class="kh-btn" data-key="left" title="Move cursor left">◀</button>
-                <button class="kh-btn" data-key="up" title="Move cursor up">▲</button>
-                <button class="kh-btn" data-key="down" title="Move cursor down">▼</button>
-                <button class="kh-btn" data-key="right" title="Move cursor right">▶</button>
-                <span class="kh-separator"></span>
-                <button class="kh-btn" data-pair="{}" title="Insert curly braces">{ }</button>
-                <button class="kh-btn" data-pair="[]" title="Insert square brackets">[ ]</button>
-                <button class="kh-btn" data-pair="<>" title="Insert angle brackets">< ></button>
-                <button class="kh-btn" data-pair='""' title="Insert double quotes">" "</button>
-            </div>
-            <div class="editor-area">
-                <div id="editor-wrapper" class="hidden">
-                    <div id="line-numbers">1</div>
-                    <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" rows="1"></textarea>
-                </div>
-                <div id="find-replace-panel">
-                    <div class="fr-row">
-                        <input type="text" id="find-input" placeholder="Find">
-                        <div class="button-group">
-                            <button id="find-prev-btn" class="secondary-btn" title="Previous">&lt;</button>
-                            <button id="find-next-btn" class="secondary-btn" title="Next">&gt;</button>
-                            <button id="find-close-btn" class="icon-button" title="Close"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
-                        </div>
-                    </div>
-                     <div class="fr-row">
-                        <input type="text" id="replace-input" placeholder="Replace">
-                        <div class="button-group">
-                            <button id="replace-btn" class="secondary-btn">Replace</button>
-                            <button id="replace-all-btn" class="secondary-btn">All</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="empty-editor-message" class="empty-editor-message">
-                    <h2>VIVID X</h2>
-                    <p>Add a workspace to begin</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="status-bar">
-            <div id="status-left"></div>
-            <div id="status-right"></div>
         </div>
     </div>
 
-    <!-- Overlays -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
-    <div id="loading-overlay" class="loading-overlay"><span>Processing...</span></div>
-    <div id="toast-container" class="toast-container"></div>
-    <div id="main-menu"></div>
-    <div id="context-menu"></div>
-    <div id="generic-dialog" class="dialog-overlay"></div>
+    <script>
+        const canvas = document.getElementById('interactive-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let particles = [];
+        let pointer = { x: width / 2, y: height / 2, active: false };
 
-<script>
-// VIVID X - PROFOUND EDITION (REWRITTEN) - B"H
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- APPLICATION STATE ---
-    const State = {
-        tabs: [], activeTabId: null, nextTabId: 0,
-        workspaces: [], nextWorkspaceId: 0,
-        contextTarget: null, githubToken: null, db: null,
-        domItemMap: new Map(), // Maps "workspaceId::path" to { el, item }
-        useTabs: true,
-    
-    };
+        const options = {
+            particleCount: 1000,
+            particleSize: 1.5,
+            defaultSpeed: 1,
+            interactiveSpeed: 15,
+            trailLength: 0.05,
+        };
 
-    // --- DOM ELEMENT REFERENCES ---
-    const DOM = {
-        sidebar: document.getElementById('sidebar'),
-        sidebarOverlay: document.getElementById('sidebar-overlay'),
-        hamburgerMenuBtn: document.getElementById('hamburger-menu-btn'),
-        mobileSidebarToggle: document.getElementById('hamburger-sidebar-toggle'),
-        mainMenu: document.getElementById('main-menu'),
-        workspacesContainer: document.getElementById('workspaces-container'),
-        editorWrapper: document.getElementById('editor-wrapper'),
-        editor: document.getElementById('editor'),
-        lineNumbers: document.getElementById('line-numbers'),
-        emptyEditorMessage: document.getElementById('empty-editor-message'),
-        tabBar: document.getElementById('tab-bar'),
-        statusLeft: document.getElementById('status-left'),
-        statusRight: document.getElementById('status-right'),
-        loadingOverlay: document.getElementById('loading-overlay'),
-        toastContainer: document.getElementById('toast-container'),
-        genericDialog: document.getElementById('generic-dialog'),
-        contextMenu: document.getElementById('context-menu'),
-        findReplacePanel: document.getElementById('find-replace-panel'),
-        addWorkspaceBtn: document.getElementById('add-workspace-btn'),
-        findInput: document.getElementById('find-input'),         // <-- ADD THIS
-        replaceInput: document.getElementById('replace-input'), // <-- AND THIS
-        keyboardHelper: document.getElementById('keyboard-helper'), 
-    };
-    
-    // --- CORE MODULES ---
-
-    /**
-     * UI Module: Handles all UI updates like dialogs, toasts, and loading indicators.
-     */
-    const UI = {
-        showLoading: (msg = 'Processing...') => {
-            DOM.loadingOverlay.querySelector('span').textContent = msg;
-            DOM.loadingOverlay.style.display = 'flex';
-        },
-        hideLoading: () => {
-            DOM.loadingOverlay.style.display = 'none';
-        },
-        showToast: (message, type = 'info', duration = 3000) => {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            DOM.toastContainer.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
-                }, duration);
-            }, 10);
-        },
-        showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '' }) => {
-            return new Promise(resolve => {
-                const dialog = DOM.genericDialog;
-                dialog.innerHTML = `
-                    <div class="dialog-content" id="dialog-content">
-                        <h3>${title}</h3>
-                        ${message ? `<p>${message}</p>` : ''}
-                        ${contentHTML}
-                        ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
-                        ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
-                        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
-                            ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
-                            ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
-                        </div>
-                    </div>`;
-                
-                const input = dialog.querySelector('#dialog-input');
-                const textarea = dialog.querySelector('#dialog-textarea');
-                const okBtn = dialog.querySelector('#dialog-ok-btn');
-                const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
-
-                const cleanupAndResolve = (value) => {
-                    dialog.classList.remove('visible');
-                    document.removeEventListener('keydown', keydownHandler);
-                    resolve(value);
-                };
-
-                const keydownHandler = (e) => {
-                    if (e.key === 'Enter' && hasInput && !hasTextarea) { e.preventDefault(); okBtn.click(); }
-                    else if (e.key === 'Escape' && cancelBtn) { cancelBtn.click(); }
-                    // B"H - ADD THIS ELSE IF BLOCK
-                else if (e.key === 'Tab') {
-                    e.preventDefault(); // Stop focus from moving to the next element
-                    const editor = DOM.editor;
-                    const start = editor.selectionStart;
-                    const end = editor.selectionEnd;
-                    editor.setRangeText(App.getTabString(), start, end, 'end');
-                    editor.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                };
-                
-                dialog.onclick = (e) => {
-                    if (e.target.id === 'generic-dialog' && cancelBtn) cancelBtn.click();
-                };
-
-                if(okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
-                if(cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
-                
-                dialog.classList.add('visible');
-                if (input) input.focus();
-                if (textarea) textarea.focus();
-                document.addEventListener('keydown', keydownHandler);
-            });
-        },
-        updateLineNumbers: () => {
-            if (DOM.editorWrapper.classList.contains('hidden')) return;
-            const lineCount = DOM.editor.value.split('\n').length || 1;
-            const numbersText = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
-            if (DOM.lineNumbers.innerText !== numbersText) {
-                DOM.lineNumbers.innerText = numbersText;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * options.defaultSpeed;
+                this.vy = (Math.random() - 0.5) * options.defaultSpeed;
+                this.hue = Math.random() * 60 + 180; // Hues of cyan and blue
             }
-        },
-        syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop
-    };
 
-    /**
-     * Editor Module: Manages the main text editor area.
-     */
-    const Editor = {
-        setContent: (content = "", filename = "") => {
-            DOM.editor.value = content;
-            UI.updateLineNumbers();
-            StatusBar.updateLanguage(filename);
-            setTimeout(() => { UI.syncScroll(); Editor.focus(); }, 0);
-        },
-        getContent: () => DOM.editor.value,
-        getCursorInfo: () => {
-            try {
-                const textLines = DOM.editor.value.substring(0, DOM.editor.selectionStart).split("\n");
-                return { line: textLines.length, col: textLines[textLines.length - 1].length + 1 };
-            } catch (e) { return { line: 1, col: 1 }; }
-        },
-        focus: () => DOM.editor.focus(),
-    };
-
-    /**
-     * StatusBar Module: Controls the bottom status bar.
-     */
-    const StatusBar = {
-        update: () => {
-            const { line, col } = Editor.getCursorInfo();
-            DOM.statusLeft.textContent = `Ln ${line}, Col ${col}`;
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if(activeTab) {
-                StatusBar.updateLanguage(activeTab.item.name);
-                if (activeTab.item.type === 'github') {
-                   StatusBar.updateGit(activeTab.item.branch);
-                }
-            } else { StatusBar.clear(); }
-        },
-        updateLanguage: (filename) => {
-            const extension = filename ? filename.split('.').pop().toLowerCase() : '';
-            const langMap = { js: 'JavaScript', html: 'HTML', css: 'CSS', md: 'Markdown', json: 'JSON', py: 'Python', default: 'Plain Text' };
-            DOM.statusRight.textContent = langMap[extension] || langMap.default;
-        },
-        updateGit: (branch) => { if(branch) DOM.statusRight.textContent += `  |  ${branch}`; },
-        clear: () => { DOM.statusLeft.textContent = ''; DOM.statusRight.textContent = ''; }
-    };
-    
-    /**
-     * FileSystemProvider: An abstraction layer for different file systems (Local, IndexedDB, GitHub).
-     */
-    const FileSystemProvider = {
-        async list(item) {
-            try {
-                switch(item.type) {
-                    case 'local': return this.Local.list(item);
-                    case 'indexeddb': return this.IndexedDB.list(item);
-                    case 'github': return this.GitHub.list(item);
-                    default: throw new Error('Unsupported workspace type');
-                }
-            } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
-        },
-        async read(item) {
-            try {
-                switch(item.type) {
-                    case 'local': return this.Local.read(item);
-                    case 'indexeddb': return this.IndexedDB.read(item);
-                    case 'github': return this.GitHub.read(item);
-                }
-            } catch (e) { console.error(`[FS READ FAILED]`, e); throw e; }
-        },
-        async write(item, content, commitMessage) {
-             try {
-                switch(item.type) {
-                    case 'local': return this.Local.write(item, content);
-                    case 'indexeddb': return this.IndexedDB.write(item, content);
-                    case 'github': return this.GitHub.write(item, content, commitMessage);
-                }
-            } catch (e) { console.error(`[FS WRITE FAILED]`, e); throw e; }
-        },
-        async create(parentDir, name, kind) {
-             try {
-                switch(parentDir.type) {
-                    case 'local': return this.Local.create(parentDir, name, kind);
-                    case 'indexeddb': return this.IndexedDB.create(parentDir, name, kind);
-                    case 'github': return this.GitHub.create(parentDir, name, kind);
-                }
-            } catch (e) { console.error(`[FS CREATE FAILED]`, e); throw e; }
-        },
-        async delete(item) {
-             try {
-                switch(item.type) {
-                    case 'local': return this.Local.delete(item);
-                    case 'indexeddb': return this.IndexedDB.delete(item);
-                    case 'github': return this.GitHub.delete(item);
-                }
-            } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
-        },
-
-        Local: {
-            async getHandle(rootHandle, path, { kind, create = false } = {}) {
-                let currentHandle = rootHandle;
-                if (!path || path === '/') return currentHandle;
-                const parts = path.split('/').filter(p => p);
-                for (let i = 0; i < parts.length; i++) {
-                    const part = parts[i];
-                    const isLast = i === parts.length - 1;
-                    if (isLast && kind === 'file') {
-                        return await currentHandle.getFileHandle(part, { create });
+            update() {
+                if(pointer.active) {
+                    const dx = this.x - pointer.x;
+                    const dy = this.y - pointer.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if(dist < 200) {
+                        const angle = Math.atan2(dy, dx);
+                        const force = (200 - dist) / 200;
+                        this.vx += Math.cos(angle) * force * options.interactiveSpeed;
+                        this.vy += Math.sin(angle) * force * options.interactiveSpeed;
                     }
-                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
                 }
-                return currentHandle;
-            },
-            async list({ handle, path }) {
-                const dirHandle = await this.getHandle(handle, path);
-                const entries = [];
-                for await (const entry of dirHandle.values()) {
-                    entries.push({ 
-                        name: entry.name, kind: entry.kind, 
-                        path: `${path === '/' ? '' : path}/${entry.name}`, 
-                    });
-                }
-                return entries;
-            },
-            async read({ handle, path }) { 
-                const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-                const file = await fileHandle.getFile();
-                return file.text(); 
-            },
-            async write({ handle, path }, content) {
-                const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-                const writable = await fileHandle.createWritable();
-                await writable.write(content);
-                await writable.close();
-            },
-            async create({ handle, path }, name, kind) {
-                const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
-                if (kind === 'file') await parentHandle.getFileHandle(name, { create: true });
-                else await parentHandle.getDirectoryHandle(name, { create: true });
-            },
-            async delete({ handle, path }) {
-                const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
-                const name = path.substring(path.lastIndexOf('/') + 1);
-                const parentHandle = await this.getHandle(handle, parentPath);
-                await parentHandle.removeEntry(name, { recursive: true });
-            }
-        },
-        IndexedDB: {
-            DB_NAME: "VIVID_X_FS_PROFOUND", STORE_NAME: "files",
-            init: () => new Promise((resolve, reject) => {
-                if(State.db) return resolve(State.db);
-                const request = indexedDB.open(this.DB_NAME, 1);
-                request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-                request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-                request.onerror = e => reject(e.target.error);
-            }),
-            list: ({ path }) => new Promise((resolve, reject) => {
-                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-                const request = store.getAll();
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = () => {
-                    const children = new Map();
-                    const dirPrefix = path === '/' ? '' : path + '/';
-                    request.result.forEach(item => {
-                        if (item.path.startsWith(dirPrefix) && item.path !== path) {
-                             const relativePath = item.path.substring(dirPrefix.length);
-                            const segment = relativePath.split('/')[0];
-                            if (!segment) return;
-                            if (!children.has(segment)) {
-                                const isDir = relativePath.includes('/') || item.isDir;
-                                children.set(segment, { 
-                                    name: segment, kind: isDir ? 'directory' : 'file', 
-                                    path: dirPrefix + segment
-                                });
-                            }
-                        }
-                    });
-                    resolve(Array.from(children.values()));
-                };
-            }),
-            read: ({ path }) => new Promise((resolve, reject) => {
-                const req = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME).get(path);
-                req.onsuccess = e => resolve(e.target.result?.content ?? '');
-                req.onerror = e => reject(e.target.error);
-            }),
-            write: ({ path }, content) => new Promise((resolve, reject) => {
-                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                const store = tx.objectStore(this.STORE_NAME);
-                const req = store.get(path);
-                req.onsuccess = () => {
-                    const data = req.result || { path, isDir: false };
-                    data.content = content;
-                    store.put(data);
-                };
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            }),
-            create: ({ path }, name, kind) => {
-                const newPath = path === '/' ? name : `${path}/${name}`;
-                return new Promise((resolve, reject) => {
-                    const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                    tx.objectStore(this.STORE_NAME).put({ path: newPath, content: '', isDir: kind === 'directory' });
-                    tx.oncomplete = resolve;
-                    tx.onerror = () => reject(tx.error);
-                });
-            },
-            delete: ({ path, kind }) => new Promise((resolve, reject) => {
-                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                const store = tx.objectStore(this.STORE_NAME);
-                if (kind === 'directory') {
-                    const range = IDBKeyRange.bound(path, path + '\uffff');
-                    store.delete(range);
-                } else {
-                    store.delete(path);
-                }
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            }),
-        },
-        GitHub: {
-            api: async (endpoint, options = {}) => {
-                if (!State.githubToken) throw new Error("GitHub token not set.");
-                const headers = { 'Authorization': `Bearer ${State.githubToken}`, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...options.headers };
-                const response = await fetch(`https://api.github.com${endpoint}`, { ...options, headers });
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({ message: response.statusText }));
-                    throw new Error(err.message || `GitHub API Error: ${response.status}`);
-                }
-                return response.status === 204 ? null : response.json();
-            },
-            utf8_to_b64: str => btoa(unescape(encodeURIComponent(str))),
-            b64_to_utf8: str => decodeURIComponent(escape(atob(str))),
-            async list({ repoInfo, branch, path }) {
-                const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path === '/' ? '' : path}?ref=${branch}`);
-                return contents.map(c => ({ 
-                    name: c.name, kind: c.type === 'dir' ? 'directory' : 'file', path: c.path, sha: c.sha
-                }));
-            },
-            async read({ repoInfo, sha }) {
-                const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
-                if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
-                return this.b64_to_utf8(blob.content);
-            },
-            async write(item, content, commitMessage) {
-                const { repoInfo, branch, path, name } = item;
-                let existingSha;
-                try {
-                    const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-                    existingSha = fileData.sha;
-                } catch (e) { /* File doesn't exist, which is fine */ }
 
-                const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({ 
-                        message: commitMessage || `B"H
-Boruch Hashem!
-Biezras Hashem 
-Blessed is He
-update ${name}
-At ${new Date()}`, 
-                        content: this.utf8_to_b64(content), sha: existingSha, branch 
-                    })
-                });
-                item.sha = result.content.sha;
-            },
-            async create({ repoInfo, branch, path }, name, kind) {
-                const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
-                const message = `B"H
-Boruch Hashem!
-Biezras Hashem 
-Blessed is He
-At ${new Date()}: create ${kind} '${name}'`;
-                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
-                });
-            },
-            async delete({ repoInfo, branch, path, name, sha, kind }) {
-                if(kind === 'directory') throw new Error("Deleting non-empty folders via API is complex and not supported in this version.");
-                const message = `B"H
-Boruch Hashem!
-Biezras Hashem 
-Blessed is He
-update ${name}
-At ${new Date()}: delete ${name}`;
-                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                    method: 'DELETE',
-                    body: JSON.stringify({ message, sha, branch })
-                });
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                this.vx *= 0.95;
+                this.vy *= 0.95;
+
+                if (this.x < 0) { this.x = width; }
+                if (this.x > width) { this.x = 0; }
+                if (this.y < 0) { this.y = height; }
+                if (this.y > height) { this.y = 0; }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, options.particleSize, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
+                ctx.fill();
             }
         }
-    };
-    
-    /**
-     * Tabs Module: Manages all aspects of file tabs.
-     */
-    const Tabs = {
-        getUniquePath: (item) => `${item.workspaceId}::${item.path}`,
-        create(item) {
-            const uniquePath = this.getUniquePath(item);
-            const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-            if (existingTab) {
-                this.activate(existingTab.id);
-                return;
-            }
-            const newTab = { id: State.nextTabId++, item, content: null, isDirty: false, uniquePath };
-            State.tabs.push(newTab);
-            this.activate(newTab.id);
-        },
-        async activate(tabId) {
-            State.activeTabId = tabId;
-            const tab = State.tabs.find(t => t.id === tabId);
 
-            if (!tab) {
-                DOM.editorWrapper.classList.add('hidden');
-                DOM.emptyEditorMessage.classList.remove('hidden');
-                StatusBar.clear();
-                this.render();
-                return;
-            }
-
-            DOM.editorWrapper.classList.remove('hidden');
-            DOM.emptyEditorMessage.classList.add('hidden');
-
-            if (tab.content === null) {
-                UI.showLoading(`Opening ${tab.item.name}...`);
-                try {
-                    tab.content = await FileSystemProvider.read(tab.item);
-                } catch (e) {
-                    UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-                    this.close(tab.id, true); // Force close if opening failed
-                    return;
-                } finally { UI.hideLoading(); }
-            }
-            Editor.setContent(tab.content, tab.item.name);
-            this.render();
-        },
-        async close(tabId, force = false) {
-            const tabIndex = State.tabs.findIndex(t => t.id === tabId);
-            if (tabIndex === -1) return;
-
-            const tabToClose = State.tabs[tabIndex];
-            if (tabToClose.isDirty && !force) {
-                const choice = await new Promise(resolve => {
-                    UI.showDialog({ 
-                        title: "Unsaved Changes", 
-                        message: `Do you want to save the changes you made to "${tabToClose.item.name}"?`,
-                        contentHTML: `<div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
-                            <button class="secondary-btn" id="dialog-custom-dont-save">Don't Save</button>
-                            <button class="secondary-btn" id="dialog-custom-cancel">Cancel</button>
-                            <button class="primary-btn" id="dialog-custom-save">Save</button>
-                        </div>`,
-                        okText: '', cancelText: ''
-                    });
-                    document.getElementById('dialog-custom-save').onclick = () => resolve('save');
-                    document.getElementById('dialog-custom-dont-save').onclick = () => resolve('dont-save');
-                    document.getElementById('dialog-custom-cancel').onclick = () => resolve('cancel');
-                });
-
-                DOM.genericDialog.classList.remove('visible');
-
-                if (choice === 'save') await this.save(tabToClose);
-                else if (choice === 'cancel') return;
-            }
-
-            State.tabs.splice(tabIndex, 1);
-            if (State.activeTabId === tabId) {
-                const nextTab = State.tabs[tabIndex] || State.tabs[tabIndex - 1] || null;
-                await this.activate(nextTab ? nextTab.id : null);
-            } else {
-                // If closing a background tab, just re-render without changing activation
-                this.render();
-            }
-        },
-        async saveActive() {
-            const tab = State.tabs.find(t => t.id === State.activeTabId);
-            if (!tab) return UI.showToast('No active file to save.', 'info');
-            if (!tab.isDirty) return UI.showToast('No changes to save.', 'info');
-            await this.save(tab);
-        },
-        async save(tab) {
-            UI.showLoading(`Saving ${tab.item.name}...`);
-            try {
-                // Ensure the editor content is up-to-date in the tab state
-                if (tab.id === State.activeTabId) {
-                    tab.content = Editor.getContent();
-                }
-
-                let commitMessage;
-                if (tab.item.type === 'github') {
-                    commitMessage = await UI.showDialog({ 
-                        title: 'Commit Changes', hasTextarea: true, 
-                        textareaContent: `B"H
-Boruch Hashem!
-Biezras Hashem 
-Blessed is He
-At ${new Date()}, updated ${tab.item.name}`, 
-                        okText: 'Commit & Save',
-                        message: `Enter a commit message for changes to "${tab.item.name}".`
-                    });
-                    if (!commitMessage) throw new Error("Save cancelled.");
-                }
-
-                await FileSystemProvider.write(tab.item, tab.content, commitMessage);
-                tab.isDirty = false;
-                UI.showToast(`Saved "${tab.item.name}"`, 'success');
-                this.render();
-            } catch (e) {
-                UI.showToast(`Save failed: ${e.message}`, 'error');
-            } finally { UI.hideLoading(); }
-        },
-        render() {
-            DOM.tabBar.innerHTML = '';
-            State.tabs.forEach(tab => {
-                const tabEl = document.createElement('div');
-                tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''}`;
-                tabEl.dataset.tabId = tab.id;
-                tabEl.title = tab.item.path;
-                tabEl.innerHTML = `
-                    <span class="tab-name">${tab.item.name}</span>
-                    <button class="icon-button close-tab-btn" title="Close"><svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg></button>`;
-                
-                tabEl.onclick = (e) => {
-                    if (e.target.closest('.close-tab-btn')) {
-                        e.stopPropagation(); this.close(tab.id);
-                    } else if (State.activeTabId !== tab.id) {
-                        this.activate(tab.id);
-                    }
-                };
-                DOM.tabBar.appendChild(tabEl);
-            });
-            const activeTabEl = DOM.tabBar.querySelector('.tab.active');
-            if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            StatusBar.update();
-        },
-    };
-
-    /**
-     * Workspaces Module: Manages the file explorer tree view.
-     */
-    const Workspaces = {
-        add(ws) {
-            const newWs = { id: State.nextWorkspaceId++, isCollapsed: false, ...ws };
-            State.workspaces.push(newWs);
-            this.render(); // Re-render the entire sidebar to add the new workspace
-        },
-        render() {
-            DOM.workspacesContainer.innerHTML = '';
-            State.domItemMap.clear();
-            if (State.workspaces.length === 0) {
-                 DOM.workspacesContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Add a workspace to get started.</div>`;
-                return;
-            }
-
-            State.workspaces.forEach(ws => {
-                const wsRoot = document.createElement('div');
-                wsRoot.className = 'workspace-root';
-                
-                const iconMap = { local: 'laptop', github: 'github', indexeddb: 'brain' };
-                wsRoot.innerHTML = `
-                    <div class="workspace-header">
-                        <strong><svg class="svg-icon" style="margin-right:8px;"><use href="#icon-${iconMap[ws.type]}"></use></svg>${ws.name}</strong>
-                    </div>
-                    <ul class="workspace-tree ${ws.isCollapsed ? 'hidden' : ''}"></ul>`;
-                
-                const header = wsRoot.querySelector('.workspace-header');
-                const tree = wsRoot.querySelector('.workspace-tree');
-                
-                header.onclick = () => {
-                    ws.isCollapsed = !ws.isCollapsed;
-                    tree.classList.toggle('hidden', ws.isCollapsed);
-                    // Load tree content only when expanded for the first time
-                    if (!ws.isCollapsed && !tree.hasChildNodes()) {
-                        this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
-                    }
-                };
-                header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
-
-                DOM.workspacesContainer.appendChild(wsRoot);
-                const rootItem = { ...ws, path: '/', workspaceId: ws.id };
-                State.domItemMap.set(`${ws.id}::/`, { el: wsRoot, item: rootItem });
-                if (!ws.isCollapsed) {
-                   this.renderTree(tree, { ...rootItem, kind: 'directory' }, 1);
-                }
-            });
-        },
-        async renderTree(parentElement, parentItem, depth) {
-            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
-            try {
-                const children = await FileSystemProvider.list(parentItem);
-                
-                parentElement.innerHTML = '';
-                children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
-                
-                if (children.length === 0) {
-                    parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
-                    return;
-                }
-
-                children.forEach(child => {
-                    const li = document.createElement('li');
-                    li.className = 'tree-item';
-                    li.style.setProperty('--depth', depth);
-                    
-                    const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
-                    const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
-                    li.title = fullChildItem.path;
-                    State.domItemMap.set(`${workspace.id}::${child.path}`, { el: li, item: fullChildItem });
-
-                    const icon = child.kind === 'directory' ? 'folder' : 'file';
-                    const arrow = child.kind === 'directory' ? `<span class="tree-item-arrow">▶</span>` : `<span class="tree-item-arrow" style="opacity:0;">•</span>`;
-
-                    li.innerHTML = `
-                        <div class="tree-item-name-wrap">
-                            ${arrow}
-                            <svg class="svg-icon" style="flex-shrink:0; margin-right:2px;"><use href="#icon-${icon}"/></svg>
-                            <span class="tree-item-name">${child.name}</span>
-                        </div>`;
-                    
-                    const nameWrap = li.querySelector('.tree-item-name-wrap');
-                    nameWrap.onclick = (e) => {
-                        e.stopPropagation();
-                        if (child.kind === 'directory') {
-                            const subList = li.querySelector('ul');
-                            if (subList) { 
-                                subList.remove(); li.classList.remove('expanded');
-                            } else {
-                                li.classList.add('expanded');
-                                const newUl = document.createElement('ul');
-                                li.appendChild(newUl);
-                                this.renderTree(newUl, fullChildItem, depth + 1);
-                            }
-                        } else { Tabs.create(fullChildItem); }
-                    };
-                    li.oncontextmenu = (e) => Menus.show(e, fullChildItem);
-                    parentElement.appendChild(li);
-                });
-            } catch (e) {
-                parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
-            }
-        },
-        async refreshNode(item) {
-            const mapKey = `${item.workspaceId}::${item.path}`;
-            const entry = State.domItemMap.get(mapKey);
-            if (!entry) return;
-
-            const isDir = item.kind === 'directory';
-            const nodeToRefresh = isDir ? entry : State.domItemMap.get(`${item.workspaceId}::${item.path.substring(0, item.path.lastIndexOf('/')) || '/'}`);
-            
-            if (nodeToRefresh) {
-                const parentEl = nodeToRefresh.el;
-                const ul = parentEl.querySelector('ul');
-                if (ul) {
-                    const depth = (nodeToRefresh.item.path.match(/\//g) || []).length;
-                    this.renderTree(ul, nodeToRefresh.item, depth + 1);
-                } else if (nodeToRefresh.item.path === '/') { // It's a workspace root
-                    const tree = parentEl.querySelector('.workspace-tree');
-                    if(tree) this.renderTree(tree, nodeToRefresh.item, 1);
-                }
+        function setup() {
+            particles = [];
+            for (let i = 0; i < options.particleCount; i++) {
+                particles.push(new Particle());
             }
         }
-    };
 
+        function animate() {
+            ctx.fillStyle = `rgba(0, 0, 0, ${options.trailLength})`;
+            ctx.fillRect(0, 0, width, height);
 
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Clipboard Module: Handles copying text with fallback for older browsers/insecure contexts.
-     */
-    const Clipboard = {
-        async write(text) {
-            try {
-                // Try the modern, preferred API first. It's cleaner and asynchronous.
-                await navigator.clipboard.writeText(text);
-                return true; // Indicates success
-            } catch (err) {
-                console.warn("navigator.clipboard.writeText failed, falling back to execCommand.", err);
-                // If the modern API fails (e.g., due to permissions), use the classic method.
-                try {
-                    const tempTextarea = document.createElement('textarea');
-                    // Hide the temporary element from view
-                    tempTextarea.style.position = 'absolute';
-                    tempTextarea.style.left = '-9999px';
-                    tempTextarea.value = text;
-                    document.body.appendChild(tempTextarea);
-                    tempTextarea.select();
-                    const success = document.execCommand('copy');
-                    document.body.removeChild(tempTextarea);
-                    
-                    if (!success) throw new Error('execCommand returned false.');
-                    return true; // Indicates success
-                } catch (fallbackErr) {
-                    console.error("Fallback copy method also failed.", fallbackErr);
-                    return false; // Indicates failure
-                }
-            }
+            requestAnimationFrame(animate);
         }
-    };
 
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            setup();
+        });
 
-
-
-
-    /**
-     * Menus Module: Handles context and main menus.
-     */
-
-
-const Menus = {
-        // This function will now be managed dynamically.
-        handleDocumentClick: (e) => {
-            if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
-                Menus.hideAll();
-            }
-        },
-
+        window.addEventListener('mousemove', (e) => {
+            pointer.x = e.clientX;
+            pointer.y = e.clientY;
+            pointer.active = true;
+        });
         
-        show(e, item) {
-            e.preventDefault(); 
-            e.stopPropagation();
-            State.contextTarget = item;
-            this.hideAll(); // Hide any other menus first.
+        window.addEventListener('mouseleave', () => {
+            pointer.active = false;
+        });
 
-            // Add the listener to the whole document, but only AFTER this click is done.
-            setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
-
-            const mapKey = `${item.workspaceId}::${item.path || '/'}`;
-            const targetEl = State.domItemMap.get(mapKey)?.el;
-            if(targetEl) targetEl.classList.add('context-active');
-
-            const isDir = item.kind === 'directory';
-            const isWorkspaceRoot = item.path === '/';
-
-            // B"H - THIS IS THE CORRECT LOGIC FOR THE CONTEXT MENU
-            const menuItems = [
-                isDir ? { label: 'New File', action: 'new-file', icon: 'file' } : null,
-                isDir ? { label: 'New Folder', action: 'new-folder', icon: 'folder' } : null,
-                isDir ? { isSeparator: true } : null,
-                !isWorkspaceRoot ? { label: 'Delete', action: 'delete', icon: 'x', danger: true } : null,
-                isWorkspaceRoot ? { label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true } : null
-            ].filter(Boolean);
-
-            DOM.contextMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
-                `<button class="menu-button" data-action="${i.action}" ${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
-                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-                 </button>`
-            ).join('');
-            
-            this.positionAndDisplay(DOM.contextMenu, e);
-        },
-
-        showMainMenu(e) {
-            e.stopPropagation();
-            this.hideAll();
-
-            setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
-
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            /* B"H - Check if there is a selection to enable/disable the copy button */
-            const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
-
-            const menuItems = [
-                { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
-                { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
-                { isSeparator: true },
-                /* B"H - NEW, SEPARATE MENU BUTTONS */
-                { label: 'Select All', action: 'select-all', icon: 'select-all', disabled: !activeTab },
-                { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
-                { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
-                
-                { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
-                
-                { isSeparator: true },
-                { label: 'Settings', action: 'settings', icon: 'settings' }
-            ];
-DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
-                `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-                 </button>`
-            ).join('');
-            
-            const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
-            this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
-        },
-        hideAll() {
-            DOM.contextMenu.style.display = 'none';
-            DOM.mainMenu.style.display = 'none';
-            document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
-            // This is the crucial part: we clean up the listener.
-            document.removeEventListener('click', this.handleDocumentClick);
-        },
-        positionAndDisplay(menu, coords) {
-             const { clientX: x, clientY: y } = coords;
-            menu.style.display = 'block';
-            const menuRect = menu.getBoundingClientRect();
-            const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 5 : x;
-            const adjustedY = (y + menuRect.height > window.innerHeight) ? window.innerHeight - menuRect.height - 5 : y;
-            menu.style.left = `${adjustedX}px`;
-            menu.style.top = `${adjustedY}px`;
-        },
-        async handleAction(action) {
-            const item = State.contextTarget;
-            this.hideAll();
-
-            try {
-                switch(action) {
-                    case 'save': Tabs.saveActive(); break;
-                    case 'find-replace': FindReplace.show(); break;
-                    case 'settings': App.showSettings(); break;
-
-case 'select-all': {
-                        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-                        if (activeTab) {
-                            DOM.editor.focus();
-                            DOM.editor.select();
-                        }
-                        break;
-                    }
-                    case 'copy': {
-                        const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-                        if (selectedText) {
-                            const success = await Clipboard.write(selectedText);
-                            UI.showToast(success ? 'Selection copied!' : 'Copy failed!', success ? 'success' : 'error');
-                        }
-                        break;
-                    }
-                    case 'copy-all': {
-                        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-                        if (activeTab && DOM.editor.value) {
-                            const success = await Clipboard.write(DOM.editor.value);
-                            UI.showToast(success ? 'All content copied!' : 'Copy failed!', success ? 'success' : 'error');
-                        }
-                        break;
-                    }
-                    
-                    
-                    case 'toggle-keyboard-helper': // <-- ADD THIS CASE BLOCK
-                        DOM.keyboardHelper.classList.toggle('is-visible');
-                        break;
-
-
-
-
-                    case 'new-file':
-                    case 'new-folder': {
-                        if(!item) break;
-                        const kind = action.split('-')[1];
-                        const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
-                        if (name) {
-                            UI.showLoading(`Creating ${kind}...`);
-                            await FileSystemProvider.create(item, name, kind);
-                            UI.showToast(`${kind} '${name}' created.`, 'success');
-                            await Workspaces.refreshNode(item);
-                        }
-                        break;
-                    }
-case 'delete-workspace': {
-                        if (!item || item.path !== '/') break;
-                         const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Are you sure you want to remove '${item.name}'? This does not delete the actual files.`, okText: 'Remove', cancelText: 'Cancel' });
-                        if(confirmed) {
-                            UI.showLoading('Removing workspace...');
-                            const wsId = item.workspaceId;
-                            const tabsToClose = State.tabs.filter(t => t.item.workspaceId === wsId);
-                            for(const tab of tabsToClose) await Tabs.close(tab.id, true);
-                            State.workspaces = State.workspaces.filter(ws => ws.id !== wsId);
-                            Workspaces.render();
-                            UI.showToast(`Workspace removed.`, 'success');
-                        }
-                        break;
-                    }
-                    case 'delete': {
-                        if(!item) break;
-                        const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: `Are you sure you want to permanently delete '${item.name}'?`, okText: 'Delete', cancelText: 'Cancel' });
-                        if(confirmed) {
-                            UI.showLoading('Deleting...');
-                            const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
-                            if (tab) await Tabs.close(tab.id, true);
-                            await FileSystemProvider.delete(item);
-                            UI.showToast(`'${item.name}' deleted.`, 'success');
-                            
-                            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-                            const parentItem = { ...item, path: parentPath, kind: 'directory' };
-                            await Workspaces.refreshNode(parentItem);
-                        }
-                        break;
-                    }
-                }
-            } catch(e) { UI.showToast(`Error: ${e.message}`, 'error'); } 
-              finally { UI.hideLoading(); }
-        }
-    };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * FindReplace Module: Controls the find/replace panel in the editor.
-     */
-    const FindReplace = {
-        panel: DOM.findReplacePanel,
-        findInput: DOM.findReplacePanel.querySelector('#find-input'),
-        replaceInput: DOM.findReplacePanel.querySelector('#replace-input'),
+        window.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            pointer.x = e.touches[0].clientX;
+            pointer.y = e.touches[0].clientY;
+            pointer.active = true;
+        });
         
-        show() { this.panel.style.display = 'grid'; this.findInput.focus(); this.findInput.select(); },
-        hide() { this.panel.style.display = 'none'; Editor.focus(); },
-        find(reverse = false) {
-            const query = this.findInput.value; if(!query) return;
-            const body = DOM.editor.value;
-            let from = DOM.editor.selectionEnd;
-            let index = -1;
+        window.addEventListener('touchend', () => {
+            pointer.active = false;
+        });
 
-            if (reverse) {
-                from = DOM.editor.selectionStart - 1;
-                index = body.lastIndexOf(query, from);
-            } else {
-                index = body.indexOf(query, from);
-            }
-
-            if (index !== -1) {
-                DOM.editor.setSelectionRange(index, index + query.length);
-                DOM.editor.focus();
-                DOM.editor.scrollTo(0, DOM.editor.scrollTop); // Hack to force viewport update
-            } else {
-                UI.showToast('No more occurrences found.', 'info');
-            }
-        },
-        replace() {
-            const query = this.findInput.value; const replacement = this.replaceInput.value;
-            if (!query) return;
-            const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-            if (selectedText.toLowerCase() === query.toLowerCase()) {
-                DOM.editor.setRangeText(replacement, DOM.editor.selectionStart, DOM.editor.selectionEnd, 'end');
-                this.find();
-            } else { this.find(); }
-        },
-        replaceAll() {
-            const query = this.findInput.value; const replacement = this.replaceInput.value;
-            if (!query) return;
-            const originalValue = DOM.editor.value;
-            const newValue = originalValue.replaceAll(query, replacement);
-            if(originalValue !== newValue) {
-                DOM.editor.value = newValue;
-                UI.showToast(`Replaced all occurrences.`, 'success');
-                DOM.editor.dispatchEvent(new Event('input'));
-            } else {
-                UI.showToast(`No occurrences of "${query}" found.`, 'info');
-            }
-        },
-        init() {
-            DOM.findReplacePanel.querySelector('#find-next-btn').onclick = () => this.find();
-            DOM.findReplacePanel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-            DOM.findReplacePanel.querySelector('#find-close-btn').onclick = () => this.hide();
-            DOM.findReplacePanel.querySelector('#replace-btn').onclick = () => this.replace();
-            DOM.findReplacePanel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
-        }
-    };
-    
-    /**
-     * App Module: Main application controller and initializer.
-     */
-    const App = {
-        getTabString: () => State.useTabs ? '\t' : '    ',
-        async initialize() {
-            UI.showLoading("VIVID X Initializing...");
-            this.setupEventListeners();
-            this.loadSettings();
-            
-            try { await FileSystemProvider.IndexedDB.init(); } 
-            catch (e) { UI.showToast("Browser Storage (IndexedDB) failed.", 'error'); }
-            
-            Workspaces.render();
-            Tabs.activate(null);
-            FindReplace.init();
-            
-            UI.hideLoading();
-            UI.showToast("Welcome to VIVID X // Profound Edition", 'success');
-        },
-        saveSettings: () => {
-             // B"H - Now saves the githubToken AND the useTabs preference
-             localStorage.setItem('vividX_settings_profound', JSON.stringify({ 
-                 githubToken: State.githubToken,
-                 useTabs: State.useTabs 
-             }));
-        },
-        loadSettings: () => {
-             const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
-             State.githubToken = settings.githubToken || null;
-             // B"H - Load the useTabs setting, defaulting to false if not found
-             State.useTabs = settings.useTabs ?? false;
-        },
-        setupEventListeners() {
-            DOM.editor.addEventListener('input', () => {
-                const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-                if (activeTab && !activeTab.isDirty) {
-                    activeTab.isDirty = true;
-                    Tabs.render();
-                }
-                UI.updateLineNumbers();
-            });
-            DOM.editor.addEventListener('scroll', UI.syncScroll);
-            DOM.editor.addEventListener('keyup', StatusBar.update);
-            DOM.editor.addEventListener('click', StatusBar.update);
-            new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
-            
-            document.addEventListener('click', (e) => {
-                if(!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) Menus.hideAll();
-            });
-            DOM.contextMenu.addEventListener('click', (e) => {
-                const button = e.target.closest('button');
-                if (button) Menus.handleAction(button.dataset.action);
-            });
-            DOM.mainMenu.addEventListener('click', (e) => {
-                const button = e.target.closest('button');
-                if (button && !button.disabled) Menus.handleAction(button.dataset.action);
-            });
-            DOM.hamburgerMenuBtn.onclick = (e) => Menus.showMainMenu(e);
-            DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
-
-
-
-// Prevent clicks inside the sidebar from bubbling up to the document,
-            // which stops the global click listener from incorrectly collapsing the UI.
-            DOM.sidebar.addEventListener('click', (e) => {
-                e.stopPropagation();
-            });
-
-
-            DOM.mobileSidebarToggle.onclick = () => {
-                DOM.sidebar.classList.toggle('is-open');
-                DOM.sidebarOverlay.classList.toggle('is-visible');
-            };
-            const closeMobileSidebar = () => {
-                DOM.sidebar.classList.remove('is-open');
-                DOM.sidebarOverlay.classList.remove('is-visible');
-                // Clean up the master listener when the sidebar is closed.
-                document.removeEventListener('click', handleOutsideClick);
-            };
-
-            const handleOutsideClick = (e) => {
-                // If the click is NOT inside the sidebar, close it.
-                if (!e.target.closest('#sidebar')) {
-                    closeMobileSidebar();
-                }
-            };
-
-            DOM.mobileSidebarToggle.onclick = (e) => {
-                // Stop this button click from being immediately caught by our new listener.
-                e.stopPropagation(); 
-                
-                const isOpen = DOM.sidebar.classList.contains('is-open');
-
-                if (isOpen) {
-                    closeMobileSidebar();
-                } else {
-                    DOM.sidebar.classList.add('is-open');
-                    DOM.sidebarOverlay.classList.add('is-visible');
-                    // Add a master listener to the whole page to watch for the next click.
-                    document.addEventListener('click', handleOutsideClick);
-                }
-            };
-
-            window.addEventListener('keydown', (e) => {
-                const hasModifier = e.ctrlKey || e.metaKey;
-                if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
-                if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
-                if (e.key === 'Escape') {
-                    if (DOM.genericDialog.classList.contains('visible')) return;
-                    if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
-                    else Menus.hideAll();
-                }
-            });
-            
-            
-            
-            // B"H - Enable Tab key in Find/Replace inputs
-            const handleTabInInputs = (e) => {
-                if (e.key === 'Tab') {
-                    e.preventDefault(); // Prevent focus change
-                    const input = e.target;
-                    const start = input.selectionStart;
-                    const end = input.selectionEnd;
-                    // Use setRangeText which is available on input elements too
-                    input.setRangeText(App.getTabString(), start, end, 'end');
-                }
-            };
-            DOM.findInput.addEventListener('keydown', handleTabInInputs);
-            DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
-
-// B"H - ADDING SMART INDENT ON ENTER KEY
-            DOM.editor.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault(); // Stop the default newline action
-
-                    const editor = DOM.editor;
-                    const fullText = editor.value;
-                    const cursorPosition = editor.selectionStart;
-
-                    // Find the start of the line the cursor is on
-                    const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
-                    
-                    // Find the end of that same line
-                    let lineEndPos = fullText.indexOf('\n', cursorPosition);
-                    if (lineEndPos === -1) {
-                        lineEndPos = fullText.length;
-                    }
-                    
-                    // Extract the full text of the current line
-                    const currentLineText = fullText.substring(lineStartPos, lineEndPos);
-                    
-                    // Get the leading whitespace (spaces or tabs) from that line
-                    const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
-                    const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
-                    
-                    const textToInsert = '\n' + indent;
-
-                    // Insert the newline and the captured indentation at the cursor
-                    editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
-                    
-                    // Manually trigger an input event so UI elements like line numbers update correctly
-                    editor.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-            });
-            
-            
-            
-            
-            // B"H - KEYBOARD HELPER FUNCTIONALITY
-            DOM.keyboardHelper.addEventListener('click', (e) => {
-                const button = e.target.closest('button.kh-btn');
-                if (!button) return;
-
-                const editor = DOM.editor;
-                const key = button.dataset.key;
-                const pair = button.dataset.pair;
-                const start = editor.selectionStart;
-                const end = editor.selectionEnd;
-
-                if (pair) {
-                    const [charStart, charEnd] = pair;
-                    const selectedText = editor.value.substring(start, end);
-                    const textToInsert = charStart + selectedText + charEnd;
-                    editor.setRangeText(textToInsert, start, end, 'select');
-                    // Place cursor inside for empty pairs
-                    if (start === end) {
-                        editor.selectionStart = editor.selectionEnd = start + 1;
-                    }
-                } else if (key) {
-                    switch (key) {
-                        case 'tab':
-                            // B"H - Uses the new configurable tab string
-                            editor.setRangeText(App.getTabString(), start, end, 'end');
-                            break;
-                        case 'left':
-                            editor.selectionStart = editor.selectionEnd = Math.max(0, start - 1);
-                            break;
-                        case 'right':
-                            editor.selectionStart = editor.selectionEnd = Math.min(editor.value.length, start + 1);
-                            break;
-                        // Note: Up/Down are simplified for reliability.
-                        case 'up':
-                            const upPos = editor.value.substring(0, start).lastIndexOf('\n');
-                            editor.selectionStart = editor.selectionEnd = Math.max(0, upPos);
-                            break;
-                        case 'down':
-                            const downPos = editor.value.indexOf('\n', start);
-                            editor.selectionStart = editor.selectionEnd = (downPos > -1) ? downPos + 1 : editor.value.length;
-                            break;
-                    }
-                }
-                editor.focus(); // Always return focus to the editor
-                editor.dispatchEvent(new Event('input', { bubbles: true }));
-            });
-
-            window.onbeforeunload = (e) => {
-                if (State.tabs.some(t => t.isDirty)) {
-                    e.preventDefault(); e.returnValue = ''; return '';
-                }
-            };
-        },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        async showAddWorkspaceDialog() {
-            const contentHTML = `
-                <div id="workspace-options">
-                    <button class="menu-button" data-action="local"><svg class="svg-icon"><use href="#icon-laptop"></use></svg> Local Folder</button>
-                    <button class="menu-button" data-action="github"><svg class="svg-icon"><use href="#icon-github"></use></svg> GitHub Repository</button>
-                    <button class="menu-button" data-action="idb"><svg class="svg-icon"><use href="#icon-brain"></use></svg> Browser Storage</button>
-                </div>
-            `;
-            
-            // Show a dialog that only displays content and has its own close button.
-            // We will handle all actions manually to avoid event conflicts.
-            UI.showDialog({ 
-                title: 'Add New Workspace', 
-                contentHTML, 
-                okText: '', // Remove the default OK button
-                cancelText: 'Cancel' // Use the default cancel button for closing
-            });
-
-            // The logic MUST be attached to a unique element inside the dialog content.
-            const optionsContainer = document.getElementById('workspace-options');
-            if (!optionsContainer) return; // Safety check
-
-            // Use a single event listener to handle all button clicks within the container.
-            optionsContainer.addEventListener('click', (e) => {
-                const button = e.target.closest('button');
-                if (!button) return;
-
-                const action = button.dataset.action;
-                
-                // IMPORTANT: First, always close the dialog cleanly.
-                DOM.genericDialog.classList.remove('visible');
-
-                // Second, perform the action.
-                switch (action) {
-                    case 'local':
-                        this.addLocalWorkspace();
-                        break;
-                    case 'github':
-                        this.addGithubWorkspace();
-                        break;
-                    case 'idb':
-                        this.addIdbWorkspace();
-                        break;
-                }
-            });
-        },
-
-
-
-
-        async addLocalWorkspace() {
-            DOM.genericDialog.classList.remove('visible'); // Close the selection dialog
-            try {
-                // `showDirectoryPicker` must be called in response to a user gesture
-                const handle = await window.showDirectoryPicker();
-                // Check for readwrite permission
-                if (await handle.queryPermission({ mode: 'readwrite' }) !== 'granted') {
-                    if (await handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
-                         throw new Error('Permission to write to directory was denied.');
-                    }
-                }
-                Workspaces.add({ name: `💻 ${handle.name}`, type: 'local', handle, kind: 'directory' });
-            } catch (e) {
-                // AbortError is common if user cancels the picker, so we ignore it
-                if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
-            }
-        },
-        async addIdbWorkspace() {
-            DOM.genericDialog.classList.remove('visible');
-            Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb', kind: 'directory' });
-        },
-        async addGithubWorkspace() {
-            DOM.genericDialog.classList.remove('visible');
-            if (!State.githubToken) {
-                const token = await UI.showDialog({ title: "GitHub Personal Access Token", message: "Enter a PAT with 'repo' scope to access your repositories:", hasInput: true, inputType: 'password', placeholder: "ghp_..." , cancelText: 'Cancel'});
-                if (token) { State.githubToken = token; this.saveSettings(); } else return;
-            }
-            UI.showLoading("Fetching repositories...");
-            try {
-                const repos = await FileSystemProvider.GitHub.api('/user/repos?sort=updated&per_page=100');
-                const repoListHTML = repos.map(repo => `<button class="menu-button" data-repo-full-name="${repo.full_name}">${repo.full_name}</button>`).join('');
-                
-                UI.showDialog({ title: 'Select a Repository', contentHTML: `<div style="max-height: 50vh; overflow-y: auto;">${repoListHTML}</div>`, okText: '', cancelText: 'Cancel'});
-                
-                const dialogContent = document.getElementById('dialog-content');
-                dialogContent.querySelectorAll('.menu-button').forEach(btn => {
-                    btn.onclick = () => {
-                        const fullName = btn.dataset.repoFullName;
-                        const [owner, repoName] = fullName.split('/');
-                        const repoData = repos.find(r => r.full_name === fullName);
-                        Workspaces.add({ name: `📦 ${fullName}`, type: 'github', repoInfo: { owner, repo: repoName }, kind: 'directory', branch: repoData.default_branch });
-                        DOM.genericDialog.classList.remove('visible');
-                    };
-                });
-            } catch (e) {
-                UI.showToast(`Failed to fetch repos: ${e.message}`, 'error');
-                const clearToken = await UI.showDialog({title: "Authentication Error", message: "Your GitHub token may be invalid or expired. Clear the saved token and try again?", okText: "Clear Token", cancelText: "Cancel"});
-                if (clearToken) { State.githubToken = null; this.saveSettings(); UI.showToast("GitHub token cleared.", "info"); }
-            } finally { UI.hideLoading(); }
-        },
-        async showSettings() {
-            // B"H - Added a checkbox for the new setting
-            const contentHTML = `
-                <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
-                <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
-                <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
-                    <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
-                    <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
-                </div>
-            `;
-            const result = await UI.showDialog({ title: 'Settings', contentHTML, okText: 'Save', cancelText: 'Cancel' });
-
-            if (result) {
-                const token = document.getElementById('github-token-input').value;
-                State.githubToken = token || null;
-                // B"H - Read the checkbox value on save
-                State.useTabs = document.getElementById('use-tabs-checkbox').checked;
-                this.saveSettings();
-                UI.showToast('Settings saved.', 'success');
-            }
-        },
-    };
-    	
-        
-
-    // --- INITIALIZE THE APPLICATION ---
-    App.initialize();
-    
-});
-</script>
+        setup();
+        animate();
+    </script>
 </body>
 </html>
