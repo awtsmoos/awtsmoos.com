@@ -1610,6 +1610,41 @@ case 'delete-workspace': {
                 }
             });
 
+// B"H - ADDING SMART INDENT ON ENTER KEY
+            DOM.editor.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Stop the default newline action
+
+                    const editor = DOM.editor;
+                    const fullText = editor.value;
+                    const cursorPosition = editor.selectionStart;
+
+                    // Find the start of the line the cursor is on
+                    const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
+                    
+                    // Find the end of that same line
+                    let lineEndPos = fullText.indexOf('\n', cursorPosition);
+                    if (lineEndPos === -1) {
+                        lineEndPos = fullText.length;
+                    }
+                    
+                    // Extract the full text of the current line
+                    const currentLineText = fullText.substring(lineStartPos, lineEndPos);
+                    
+                    // Get the leading whitespace (spaces or tabs) from that line
+                    const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
+                    const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+                    
+                    const textToInsert = '\n' + indent;
+
+                    // Insert the newline and the captured indentation at the cursor
+                    editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
+                    
+                    // Manually trigger an input event so UI elements like line numbers update correctly
+                    editor.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            });
+
             window.onbeforeunload = (e) => {
                 if (State.tabs.some(t => t.isDirty)) {
                     e.preventDefault(); e.returnValue = ''; return '';
@@ -1751,6 +1786,7 @@ case 'delete-workspace': {
 
     // --- INITIALIZE THE APPLICATION ---
     App.initialize();
+    
 });
 </script>
 </body>
