@@ -491,4 +491,6 @@ when navigating to `/endpoint/wow/hi/asd/awtsmoos/k` then vars.asd will be "wow"
         getDeleteData,
 ```
 
+Awtsmoos is the revelation of the essence
+
 
