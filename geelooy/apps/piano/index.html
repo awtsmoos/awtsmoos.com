@@ -1,5 +1,4 @@
 
-
 <!--B"H-->
 
 <!DOCTYPE html>
@@ -38,8 +37,9 @@
         .hidden-ui { display: none !important; }
 
         /* --- SCROLLBAR --- */
-        .custom-scrollbar-container { width: 100%; height: 15px; background-color: rgba(68, 68, 68, 0.8); cursor: grab; touch-action: none; position: relative; border-radius: 7px; overflow: hidden; display: none; pointer-events: auto; }
+        .custom-scrollbar-container { width: 100%; height: 15px; background-color: rgba(68, 68, 68, 0.8); cursor: default; touch-action: none; position: relative; border-radius: 7px; overflow: hidden; display: none; pointer-events: auto; }
         .custom-scrollbar-thumb { height: 100%; background-color: #007bff; position: absolute; left: 0; cursor: grab; border-radius: 7px; }
+        .custom-scrollbar-thumb:active { cursor: grabbing; }
         
         /* --- KEYBOARD --- */
         .piano-keyboard { position: absolute; height: 100%; left: 0; will-change: transform; }
@@ -69,7 +69,7 @@
                         <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
                         <label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
                         <br>
-                        <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option><option value="hyper-saw">Hyper Saw</option><option value="growl-bass">Growl Bass</option></select>
+                        <label>Wave:</label><select id="waveform-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option><option value="hyper-saw">Hyper Saw</option><option value="growl-bass">Growl Bass</option><option value="neuro-bass">Neuro Bass</option><option value="trance-gate">Trance Gate</option><option value="hardstyle">Hardstyle</option><option value="reese-bass">Reese Bass</option><option value="digital-hoover">Digital Hoover</option></select>
                         <label>Start:</label><select id="octave-select"><option value="1" selected>C1</option><option value="2">C2</option><option value="3">C3</option><option value="4">C4</option></select>
                         <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
                         <br>
@@ -88,7 +88,7 @@
                     <div id="advanced-synth-menu" class="nested-menu settings-content">
                         <label>Attack:</label><input type="range" id="attack-slider" min="0.01" max="1" step="0.01" value="0.02"><label>Decay:</label><input type="range" id="decay-slider" min="0.01" max="1" step="0.01" value="0.1"><label>Sustain:</label><input type="range" id="sustain-slider" min="0" max="1" step="0.01" value="0.8"><label>Release:</label><input type="range" id="release-slider" min="0.1" max="2" step="0.01" value="0.3">
                         <br>
-                        <label>Wave 2:</label><select id="waveform2-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option><option value="hyper-saw">Hyper Saw</option><option value="growl-bass">Growl Bass</option></select>
+                        <label>Wave 2:</label><select id="waveform2-select"><option>triangle</option><option>sine</option><option>sawtooth</option><option>square</option><option value="pulse">Pulse</option><option value="detuned-saw">Detuned Saw</option><option value="wobble">Wobble</option><option value="crystalline">Crystalline</option><option value="tonewheel">Tonewheel</option><option value="super-fm">Super FM</option><option value="pluck">Pluck</option><option value="formant">Formant</option><option value="rave-lead">Rave Lead</option><option value="hard-bass">Hard Bass</option><option value="acid-pulse">Acid Pulse</option><option value="hyper-saw">Hyper Saw</option><option value="growl-bass">Growl Bass</option><option value="neuro-bass">Neuro Bass</option><option value="trance-gate">Trance Gate</option><option value="hardstyle">Hardstyle</option><option value="reese-bass">Reese Bass</option><option value="digital-hoover">Digital Hoover</option></select>
                         <label>Mix:</label><input type="range" id="osc-mix-slider" min="0" max="1" step="0.01" value="0.0"><label>Detune:</label><input type="range" id="detune-slider" min="-1200" max="1200" step="1" value="5">
                         <br>
                         <label>Cutoff:</label><input type="range" id="filter-cutoff-slider" min="100" max="15000" step="10" value="15000"><label>Resonance:</label><input type="range" id="filter-q-slider" min="0" max="20" step="0.1" value="0">
@@ -124,7 +124,7 @@
             };
 
             // --- GLOBAL STATE ---
-            let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, customWaves = {};
+            let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, compressor, customWaves = {};
             let microphoneSource, microphoneGain, micPlaybackGain;
             let defaultSettings = {};
             let currentChordRoot = null, currentChordNodes = [], noteHistory = [];
@@ -143,10 +143,21 @@
                 try { 
                     audioContext = new (window.AudioContext || window.webkitAudioContext)(); 
                     mediaStreamDestination = audioContext.createMediaStreamDestination(); 
+                    
+                    // --- MASTER AUDIO CHAIN ---
                     masterGain = audioContext.createGain(); 
-                    masterGain.gain.value = 0.5; // Lowered master gain for more headroom
-                    masterGain.connect(audioContext.destination); 
-                    masterGain.connect(mediaStreamDestination); 
+                    compressor = audioContext.createDynamicsCompressor();
+                    compressor.threshold.value = -12; // Catch loud peaks
+                    compressor.knee.value = 20;
+                    compressor.ratio.value = 12;
+                    compressor.attack.value = 0.003;
+                    compressor.release.value = 0.25;
+
+                    masterGain.gain.value = 0.7; // Healthy master volume
+                    masterGain.connect(compressor);
+                    compressor.connect(audioContext.destination); 
+                    compressor.connect(mediaStreamDestination); 
+                    
                     if (audioContext.state === 'suspended') audioContext.resume(); 
                 } catch (e) { alert('Web Audio API not supported.'); return; } 
                 createCustomWaves(); 
@@ -160,6 +171,22 @@
 
             function setupPiano() { loadSettings(); handleKeyboardResize(); setupEventListeners(); loadScrollState(); }
 
+            // BUG FIX: This function was missing in the previous version.
+            function handlePointerDown(e) { 
+                const target = e.target; 
+                if (target.closest('.key')) { 
+                    const keyElement = target.closest('.key'); 
+                    const noteName = keyElement.dataset.note; 
+                    const note = noteName.replace(/\d/g, ''); 
+                    const octave = parseInt(noteName.match(/\d+/g)); 
+                    const frequency = noteFrequencies[note] * Math.pow(2, octave); 
+                    if (elements.playChordsCheckbox.checked) { 
+                        triggerChord(note, octave, frequency); 
+                    } 
+                    playNote(frequency, note, keyElement, e.pointerId); 
+                } 
+            }
+            
             function setupEventListeners() {
                 elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
                 elements.recordButton.addEventListener('click', toggleRecording);
@@ -168,7 +195,6 @@
                 elements.advancedSynthToggle.addEventListener('click', () => { elements.advancedSynthMenu.classList.toggle('visible'); saveSettings(); });
                 elements.chordSettingsToggle.addEventListener('click', () => { elements.chordSettingsMenu.classList.toggle('visible'); saveSettings(); });
                 
-                // UI controls that trigger a keyboard redraw
                 ['keyWidthSlider', 'octaveSelect', 'alwaysDualCheckbox', 'independentScrollCheckbox'].forEach(key => {
                     elements[key].addEventListener('input', () => { handleKeyboardResize(); saveSettings(); });
                 });
@@ -176,55 +202,49 @@
                 elements.micVolumeSlider.addEventListener('input', () => { if (microphoneGain) microphoneGain.gain.setTargetAtTime(parseFloat(elements.micVolumeSlider.value), audioContext.currentTime, 0.01); saveSettings(); });
                 elements.micPlaybackCheckbox.addEventListener('input', () => { if (micPlaybackGain) micPlaybackGain.gain.setTargetAtTime(elements.micPlaybackCheckbox.checked ? 1.0 : 0.0, audioContext.currentTime, 0.01); saveSettings(); });
 
-                // All other synth controls
                 const synthParamControls = [ 'waveformSelect', 'playChordsCheckbox', 'chordModeSelect', 'chordOctaveSelect', 'attack', 'decay', 'sustain', 'release', 'waveform2', 'oscMix', 'detune', 'filterCutoff', 'filterQ', 'lfoRate', 'lfoDepth', 'reverb' ];
                 synthParamControls.forEach(key => { elements[key].addEventListener('input', () => { updateAllActiveNotesParameters(); if (['lfoRate', 'lfoDepth'].includes(key)) updateLFO(); saveSettings(); }); });
 
-                // Pointer and scroll events
+                // Pointer events
                 elements.keyboardContainer.addEventListener('pointerdown', handlePointerDown);
                 document.addEventListener('pointerup', handlePointerUpOrCancel);
                 document.addEventListener('pointercancel', handlePointerUpOrCancel);
-                elements.scrollbarContainer.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 0)); // Top bar
-                elements.scrollbarContainerTop.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 1)); // Middle bar
+
+                // Scrollbar events
+                elements.scrollbarThumb.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 0)); // Top bar's thumb
+                elements.scrollbarThumbTop.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 1)); // Middle bar's thumb
                 document.addEventListener('pointermove', handleDocumentPointerMove);
-                window.addEventListener('resize', handleKeyboardResize);
             }
             
             // --- SYNTH ENGINE ---
             function createSynthNode(isChord = false) {
                 const osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(), filter = audioContext.createBiquadFilter(), noteGain = audioContext.createGain(), gain1 = audioContext.createGain(), gain2 = audioContext.createGain();
                 const currentTime = audioContext.currentTime, baseADSR = getADSR();
-                let attack, decay, sustain, peakGain;
-                if (isChord) {
-                    attack = 0.1; sustain = 0.7; decay = 0.4; peakGain = 0.15; // Smoother, lower gain for chords
-                } else {
-                    attack = baseADSR.attack; decay = baseADSR.decay; sustain = baseADSR.sustain; peakGain = 0.35;
-                }
-                
+                let peakGain = isChord ? 0.20 : 0.45; // Significantly reduced gain to prevent ANY clipping
                 if (['sine', 'triangle'].includes(elements.waveformSelect.value)) peakGain *= 1.8;
 
                 noteGain.gain.cancelScheduledValues(currentTime);
                 noteGain.gain.setValueAtTime(0.001, currentTime);
-                noteGain.gain.linearRampToValueAtTime(peakGain, currentTime + attack);
-                noteGain.gain.setTargetAtTime(peakGain * sustain, currentTime + attack, decay + 0.001);
+                noteGain.gain.linearRampToValueAtTime(peakGain, currentTime + baseADSR.attack);
+                noteGain.gain.setTargetAtTime(peakGain * baseADSR.sustain, currentTime + baseADSR.attack, baseADSR.decay + 0.001);
                 
                 osc1.connect(gain1); osc2.connect(gain2); gain1.connect(noteGain); gain2.connect(noteGain); noteGain.connect(filter);
-                filter.connect(masterGain); filter.connect(convolver);
+                filter.connect(masterGain); filter.connect(convolver); // Send to both master and reverb
                 wetGain.gain.setTargetAtTime(parseFloat(elements.reverb.value), currentTime, 0.01);
                 
                 const nodes = { osc1, osc2, gain1, gain2, filter, noteGain };
                 applyCurrentParameters(nodes);
                 return nodes;
             }
-            function startSynth(nodes, frequency) { const currentTime = audioContext.currentTime; nodes.osc1.frequency.setValueAtTime(frequency, currentTime); nodes.osc2.frequency.setValueAtTime(frequency, currentTime); nodes.osc1.start(currentTime); nodes.osc2.start(currentTime); }
-            function stopSynth(nodes, isChord = false) { if (!nodes) return; const { osc1, osc2, noteGain, filter } = nodes; const releaseTime = parseFloat(elements.release.value) + (isChord ? 0.5 : 0); const currentTime = audioContext.currentTime; noteGain.gain.cancelScheduledValues(currentTime); noteGain.gain.setValueAtTime(noteGain.gain.value, currentTime); noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime); const stopTime = currentTime + releaseTime + 0.1; osc1.stop(stopTime); osc2.stop(stopTime); osc1.onended = () => { if (filter?.frequency && lfo?.gain) { try { lfo.gain.disconnect(filter.frequency); } catch(e) {} } }; }
+            function startSynth(nodes, frequency) { const ct = audioContext.currentTime; nodes.osc1.frequency.setValueAtTime(frequency, ct); nodes.osc2.frequency.setValueAtTime(frequency, ct); nodes.osc1.start(ct); nodes.osc2.start(ct); }
+            function stopSynth(nodes) { if (!nodes) return; const { osc1, osc2, noteGain, filter } = nodes; const releaseTime = parseFloat(elements.release.value); const ct = audioContext.currentTime; noteGain.gain.cancelScheduledValues(ct); noteGain.gain.setValueAtTime(noteGain.gain.value, ct); noteGain.gain.exponentialRampToValueAtTime(0.001, ct + releaseTime); const stopTime = ct + releaseTime + 0.1; osc1.stop(stopTime); osc2.stop(stopTime); osc1.onended = () => { if (filter?.frequency && lfo?.gain) { try { lfo.gain.disconnect(filter.frequency); } catch(e) {} } }; }
             function playNote(frequency, note, keyElement, pointerId) { if (activeNotes.has(pointerId)) return; noteHistory.push(note); if (noteHistory.length > 12) noteHistory.shift(); const synthNodes = createSynthNode(false); if (synthNodes) { startSynth(synthNodes, frequency); activeNotes.set(pointerId, { synthNodes, keyElement }); keyElement.classList.add('active'); } }
-            function stopNote(pointerId) { const activeNote = activeNotes.get(pointerId); if (activeNote) { stopSynth(activeNote.synthNodes, false); activeNote.keyElement.classList.remove('active'); activeNotes.delete(pointerId); } }
+            function stopNote(pointerId) { const activeNote = activeNotes.get(pointerId); if (activeNote) { stopSynth(activeNote.synthNodes); activeNote.keyElement.classList.remove('active'); activeNotes.delete(pointerId); } }
             function getChordQuality(rootNote) { const mode = elements.chordModeSelect.value; if (mode !== 'auto') return mode; const rootIndex = noteNames.indexOf(rootNote); const majorThird = noteNames[(rootIndex + 4) % 12]; const minorThird = noteNames[(rootIndex + 3) % 12]; const recentNotes = noteHistory.slice(-5); return (recentNotes.includes(minorThird) && !recentNotes.includes(majorThird)) ? 'minor' : 'major'; }
             function triggerChord(note, octave, frequency) {
                 const rootNote = note.replace('#', '');
                 if (!major7thChords[rootNote] || rootNote === currentChordRoot) return;
-                currentChordNodes.forEach(node => stopSynth(node, true));
+                currentChordNodes.forEach(node => stopSynth(node));
                 currentChordNodes = []; currentChordRoot = rootNote;
                 const quality = getChordQuality(rootNote), chordNotes = (quality === 'minor') ? minor7thChords[rootNote] : major7thChords[rootNote];
                 let chordOctave;
@@ -241,7 +261,7 @@
             
             function createCustomWaves() {
                 const n = 4096, real = new Float32Array(n).fill(0), imag = {};
-                const waveNames = ['pulse', 'detuned-saw', 'wobble', 'crystalline', 'tonewheel', 'super-fm', 'pluck', 'formant', 'rave-lead', 'hard-bass', 'acid-pulse', 'hyper-saw', 'growl-bass'];
+                const waveNames = ['pulse','detuned-saw','wobble','crystalline','tonewheel','super-fm','pluck','formant','rave-lead','hard-bass','acid-pulse','hyper-saw','growl-bass','neuro-bass','trance-gate','hardstyle','reese-bass','digital-hoover'];
                 waveNames.forEach(name => imag[name] = new Float32Array(n).fill(0));
 
                 for (let i = 1; i < n; i++) {
@@ -255,6 +275,12 @@
                     if (i % 2 !== 0) imag['acid-pulse'][i] = 0.8 / i + 0.2 / (i*1.5);
                     for (let k = 0; k < 7; k++) imag['hyper-saw'][i] += (1 / (i + k*0.1)) * (2 / (Math.PI * (i + k * 0.1)));
                     imag['growl-bass'][i] = (1 / i) * Math.sin((i * Math.PI) / 2.5 + Math.sin(i*0.05));
+                    // New 6 Synths
+                    imag['neuro-bass'][i] = (1 / i) * (0.4 * Math.sin(i*0.1) + 0.6 * Math.sin(i*0.03));
+                    for (let k = 1; k <= 8; k+=2) imag['trance-gate'][i] += (1 / (i * k)) * (0.5 + 0.5 * Math.cos(i*0.01));
+                    if (i % 2 !== 0) imag['hardstyle'][i] = (1 / i) + (0.5 / (i*i)) * Math.sin(i*0.01);
+                    for(let k=0; k<2; k++) imag['reese-bass'][i] += (1 / (i + k*0.05)) * (2 / (Math.PI * (i + k*0.05)));
+                    for(let k=1; k<8; k++) imag['digital-hoover'][i] += 1 / (i * k * 1.02);
                 }
                 imag.crystalline[1]=1; imag.crystalline[4]=0.5; imag.crystalline[9]=0.3; imag.crystalline[16]=0.2;
                 imag.tonewheel[1]=1; imag.tonewheel[2]=0.8; imag.tonewheel[3]=0.6; imag.tonewheel[4]=0.4; imag.tonewheel[6]=0.2;
@@ -270,14 +296,14 @@
             async function toggleMicrophone() { if (microphoneSource) { microphoneSource.mediaStream.getTracks().forEach(track => track.stop()); microphoneSource.disconnect(); microphoneSource = null; microphoneGain = null; micPlaybackGain = null; elements.micButton.classList.remove('mic-active'); elements.micButton.textContent = 'Enable Mic'; elements.micVolumeSlider.disabled = true; } else { try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); microphoneSource = audioContext.createMediaStreamSource(stream); microphoneGain = audioContext.createGain(); micPlaybackGain = audioContext.createGain(); microphoneGain.gain.value = parseFloat(elements.micVolumeSlider.value); micPlaybackGain.gain.value = elements.micPlaybackCheckbox.checked ? 1.0 : 0.0; microphoneSource.connect(microphoneGain); microphoneGain.connect(mediaStreamDestination); microphoneGain.connect(micPlaybackGain); micPlaybackGain.connect(masterGain); elements.micButton.classList.add('mic-active'); elements.micButton.textContent = 'Disable Mic'; elements.micVolumeSlider.disabled = false; } catch (err) { alert('Microphone access denied.'); console.error(err); } } }
 
             // --- KEYBOARD & UI LAYOUT ---
-            function handleKeyboardResize() { const oldKb = elements.keyboardContainer.querySelector('#keyboard-bottom'); let scrollPercent = 0; if (oldKb) { const maxScroll = oldKb.offsetWidth - elements.keyboardContainer.clientWidth; if (maxScroll > 0) scrollPercent = scrollState.x / maxScroll; } generateKeyboard(); const newKb = elements.keyboardContainer.querySelector('#keyboard-bottom'); if (newKb) { const newMaxScroll = newKb.offsetWidth - elements.keyboardContainer.clientWidth; setScroll(scrollPercent * newMaxScroll, 0); } updateScrollbarThumbs(); }
+            function handleKeyboardResize() { const oldKb = elements.keyboardContainer.querySelector('#keyboard-bottom'); let scrollPercent = 0; if (oldKb) { const maxScroll = oldKb.offsetWidth - elements.keyboardContainer.clientWidth; if (maxScroll > 0) scrollPercent = scrollState.x / maxScroll; } generateKeyboard(); const newKb = elements.keyboardContainer.querySelector('#keyboard-bottom'); if (newKb) { const newMaxScroll = newKb.offsetWidth - elements.keyboardContainer.clientWidth; setScroll(scrollPercent * newMaxScroll, 0, true); } updateScrollbarThumbs(); }
             function generateKeyboard() { elements.keyboardContainer.innerHTML = ''; document.documentElement.style.setProperty('--white-key-width', `${parseInt(elements.keyWidthSlider.value)}px`); const isVertical = window.innerHeight > window.innerWidth; const alwaysDual = elements.alwaysDualCheckbox.checked; let isDualView = alwaysDual || isVertical; if (isDualView) { const rowTop = document.createElement('div'), rowBottom = document.createElement('div'); rowTop.className = 'keyboard-row'; rowBottom.className = 'keyboard-row'; const isIndependent = elements.independentScrollCheckbox.checked; const octaves = isIndependent ? 4 : 8, topStartOctave = isIndependent ? 4 : 0; const keyboardBottom = createKeyboardPanel(0, octaves), keyboardTop = createKeyboardPanel(topStartOctave, octaves); keyboardBottom.id = 'keyboard-bottom'; keyboardTop.id = 'keyboard-top'; rowBottom.appendChild(keyboardBottom); rowTop.appendChild(keyboardTop); elements.keyboardContainer.appendChild(rowTop); elements.keyboardContainer.appendChild(rowBottom); elements.independentScrollLabel.classList.remove('hidden-ui'); } else { const rowSingle = document.createElement('div'); rowSingle.className = 'keyboard-row'; const keyboard = createKeyboardPanel(0, 8); keyboard.id = 'keyboard-bottom'; rowSingle.appendChild(keyboard); elements.keyboardContainer.appendChild(rowSingle); elements.independentScrollLabel.classList.add('hidden-ui'); } }
             function createKeyboardPanel(startOctaveOffset, numOctaves) { const keyboardDiv = document.createElement('div'); keyboardDiv.className = 'piano-keyboard'; let whiteKeyX = 0; const whiteKeyWidth = parseInt(elements.keyWidthSlider.value), blackKeyWidth = whiteKeyWidth * 0.6; const baseStartOctave = parseInt(elements.octaveSelect.value); for (let oct = baseStartOctave + startOctaveOffset; oct < baseStartOctave + startOctaveOffset + numOctaves; oct++) { noteNames.forEach(note => { if (oct + (noteNames.indexOf(note)/12) > 8.0) return; const keyElement = document.createElement('div'), isBlack = note.includes('#'), noteName = note + oct; keyElement.className = `key ${isBlack ? 'black-key' : 'white-key'}`; keyElement.dataset.note = noteName; const label = document.createElement('span'); label.className = 'key-label'; label.textContent = noteName; keyElement.appendChild(label); if (isBlack) { keyElement.style.left = `${whiteKeyX - (blackKeyWidth / 2)}px`; } else { keyElement.style.left = `${whiteKeyX}px`; whiteKeyX += whiteKeyWidth; } keyboardDiv.appendChild(keyElement); }); } keyboardDiv.style.width = `${whiteKeyX}px`; return keyboardDiv; }
 
-            // --- NEW SCROLLING LOGIC ---
-            function handleScrollbarPointerDown(e, index) { e.preventDefault(); e.stopPropagation(); const thumb = e.target; const container = thumb.parentElement; const kb = index === 0 ? document.getElementById('keyboard-top') : document.getElementById('keyboard-bottom'); if (!kb) return; const maxKbScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth; const maxThumbScroll = container.clientWidth - thumb.offsetWidth; activeScroller = { isDragging: true, index, kb, thumb, container, startX: e.clientX, startThumbX: thumb.offsetLeft, scrollRatio: maxKbScroll / maxThumbScroll }; thumb.setPointerCapture(e.pointerId); }
-            function handleDocumentPointerMove(e) { if (!activeScroller.isDragging) return; e.preventDefault(); const dx = e.clientX - activeScroller.startX; const newThumbX = Math.max(0, Math.min(activeScroller.container.clientWidth - activeScroller.thumb.offsetWidth, activeScroller.startThumbX + dx)); const newKbX = newThumbX * activeScroller.scrollRatio; const logicalIndex = activeScroller.index === 0 ? 1 : 0; setScroll(newKbX, logicalIndex); }
-            function setScroll(newX, logicalIndex) {
+            // --- REWRITTEN SCROLLING LOGIC ---
+            function handleScrollbarPointerDown(e, index) { e.preventDefault(); e.stopPropagation(); const thumb = e.target; const container = thumb.parentElement; const isIndependent = elements.independentScrollCheckbox.checked; const isDual = document.getElementById('keyboard-top'); let logicalIndex; if (isDual && isIndependent) { logicalIndex = index === 0 ? 1 : 0; } else { logicalIndex = 0; } const kb = logicalIndex === 0 ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top'); if (!kb) return; const maxKbScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth; const maxThumbScroll = container.clientWidth - thumb.offsetWidth; activeScroller = { isDragging: true, index, thumb, startX: e.clientX, startThumbX: thumb.offsetLeft, scrollRatio: maxKbScroll / maxThumbScroll, logicalIndex }; thumb.setPointerCapture(e.pointerId); thumb.style.cursor = 'grabbing'; }
+            function handleDocumentPointerMove(e) { if (!activeScroller.isDragging) return; e.preventDefault(); const dx = e.clientX - activeScroller.startX; const maxThumbScroll = activeScroller.thumb.parentElement.clientWidth - activeScroller.thumb.offsetWidth; const newThumbX = Math.max(0, Math.min(maxThumbScroll, activeScroller.startThumbX + dx)); const newKbX = newThumbX * activeScroller.scrollRatio; setScroll(newKbX, activeScroller.logicalIndex); }
+            function setScroll(newX, logicalIndex, fromResize = false) {
                 const kb = logicalIndex === 0 ? document.getElementById('keyboard-bottom') : document.getElementById('keyboard-top');
                 if (!kb) return;
                 const maxScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
@@ -285,22 +311,20 @@
                 
                 if (logicalIndex === 0) scrollState.x = clampedX; else scrollState.x2 = clampedX;
                 
-                const isDual = document.getElementById('keyboard-top');
+                const isDual = !!document.getElementById('keyboard-top');
                 const isIndependent = elements.independentScrollCheckbox.checked;
                 if(isDual && !isIndependent) {
                     const topKb = document.getElementById('keyboard-top'), bottomKb = document.getElementById('keyboard-bottom');
                     const rowWidth = elements.keyboardContainer.clientWidth;
                     bottomKb.style.transform = `translateX(${-clampedX}px)`;
                     topKb.style.transform = `translateX(${rowWidth - clampedX}px)`;
-                    scrollState.x = scrollState.x2 = clampedX;
-                } else {
-                    kb.style.transform = `translateX(${-clampedX}px)`;
-                }
-                updateScrollbarThumbs();
+                    if(!fromResize) scrollState.x = scrollState.x2 = clampedX;
+                } else { kb.style.transform = `translateX(${-clampedX}px)`; }
+                if(!fromResize) updateScrollbarThumbs();
             }
             function updateScrollbarThumbs() {
                 const setup = (kb, container, thumb, scrollVal) => {
-                    if (!kb || !container) { container.style.display = 'none'; return; }
+                    if (!kb || !container || !thumb) { if(container) container.style.display = 'none'; return; }
                     const maxScroll = kb.offsetWidth - elements.keyboardContainer.clientWidth;
                     if (maxScroll > 0) {
                         container.style.display = 'block';
@@ -318,17 +342,18 @@
                 } else {
                     elements.middleScrollbarContainer.style.display = 'none';
                     setup(kbBottom, elements.scrollbarContainer, elements.scrollbarThumb, scrollState.x);
+                    setup(kbTop, null, null, 0); // Hide top scroller if not independent
                 }
             }
-            function handlePointerUpOrCancel(e) { if(activeScroller.isDragging) { activeScroller.isDragging = false; saveScrollState(); } const activeNote = activeNotes.get(e.pointerId); if (activeNote) stopNote(e.pointerId); if (activeNotes.size === 0 && elements.playChordsCheckbox.checked) { currentChordNodes.forEach(n => stopSynth(n, true)); currentChordNodes = []; currentChordRoot = null; } }
+            function handlePointerUpOrCancel(e) { if (activeScroller.isDragging) { activeScroller.thumb.style.cursor = 'grab'; activeScroller.isDragging = false; saveScrollState(); } stopNote(e.pointerId); if (activeNotes.size === 0 && elements.playChordsCheckbox.checked) { currentChordNodes.forEach(n => stopSynth(n)); currentChordNodes = []; currentChordRoot = null; } }
             
             // --- LOCAL STORAGE & DEFAULTS ---
-            function storeDefaultSettings() { Object.keys(elements).forEach(key => { const el = elements[key]; if (el) { if (el.type === 'checkbox') defaultSettings[key] = el.checked; else if (el.tagName === 'SELECT' || el.type === 'range') defaultSettings[key] = el.value; } }); defaultSettings.advMenu = false; defaultSettings.chordMenu = false; }
-            function restoreDefaults() { if (!defaultSettings) return; Object.keys(defaultSettings).forEach(key => { if (elements[key]) { if (elements[key].type === 'checkbox') elements[key].checked = defaultSettings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = defaultSettings[key]; } }); elements.advancedSynthMenu.classList.remove('visible'); elements.chordSettingsMenu.classList.remove('visible'); saveSettings(); handleKeyboardResize(); updateAllActiveNotesParameters(); }
-            function saveSettings() { const settings = {}; Object.keys(elements).forEach(key => { const el = elements[key]; if (el) { if (el.type === 'checkbox') settings[key] = el.checked; else if (el.tagName === 'SELECT' || el.type === 'range') settings[key] = el.value; } }); settings.advMenu = elements.advancedSynthMenu.classList.contains('visible'); settings.chordMenu = elements.chordSettingsMenu.classList.contains('visible'); localStorage.setItem('pianoSettings', JSON.stringify(settings)); }
-            function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key] && settings[key] !== undefined) { if (elements[key].type === 'checkbox') elements[key].checked = settings[key]; else if (elements[key].tagName === 'SELECT' || elements[key].type === 'range') elements[key].value = settings[key]; } }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); if (settings.chordMenu) elements.chordSettingsMenu.classList.add('visible'); } }
+            function storeDefaultSettings() { Object.keys(elements).forEach(key => { const el = elements[key]; if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range')) { if (el.type === 'checkbox') defaultSettings[key] = el.checked; else defaultSettings[key] = el.value; } }); defaultSettings.advMenu = false; defaultSettings.chordMenu = false; }
+            function restoreDefaults() { if (!defaultSettings) return; Object.keys(defaultSettings).forEach(key => { if (elements[key] && defaultSettings[key] !== undefined) { if (elements[key].type === 'checkbox') elements[key].checked = defaultSettings[key]; else elements[key].value = defaultSettings[key]; } }); elements.advancedSynthMenu.classList.remove('visible'); elements.chordSettingsMenu.classList.remove('visible'); saveSettings(); handleKeyboardResize(); updateAllActiveNotesParameters(); }
+            function saveSettings() { const settings = {}; Object.keys(elements).forEach(key => { const el = elements[key]; if (el && (el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'range')) { if (el.type === 'checkbox') settings[key] = el.checked; else settings[key] = el.value; } }); settings.advMenu = elements.advancedSynthMenu.classList.contains('visible'); settings.chordMenu = elements.chordSettingsMenu.classList.contains('visible'); localStorage.setItem('pianoSettings', JSON.stringify(settings)); }
+            function loadSettings() { const settings = JSON.parse(localStorage.getItem('pianoSettings')); if (settings) { Object.keys(settings).forEach(key => { if (elements[key] && settings[key] !== undefined) { if (elements[key].type === 'checkbox') elements[key].checked = settings[key]; else elements[key].value = settings[key]; } }); if (settings.advMenu) elements.advancedSynthMenu.classList.add('visible'); if (settings.chordMenu) elements.chordSettingsMenu.classList.add('visible'); } }
             function saveScrollState() { localStorage.setItem('pianoScrollState', JSON.stringify(scrollState)); }
-            function loadScrollState() { const state = JSON.parse(localStorage.getItem('pianoScrollState')); if(state) { scrollState = state; setScroll(scrollState.x || 0, 0); if (state.x2 !== undefined) setScroll(state.x2, 1); return true; } return false; }
+            function loadScrollState() { const state = JSON.parse(localStorage.getItem('pianoScrollState')); if (state) { scrollState = state; setScroll(state.x || 0, 0); if (state.x2 !== undefined) setScroll(state.x2, 1); updateScrollbarThumbs(); return true; } return false; }
         });
     </script>
 </body>
