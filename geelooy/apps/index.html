@@ -10,10 +10,7 @@ boruch Hashem
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrystalis Interface (Corrected)</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@800&display=swap" rel="stylesheet">
-
+    
     <style>
         /*
         ================================================================================
@@ -56,8 +53,7 @@ boruch Hashem
             text-align: center;
             font-weight: 800;
             filter: url(#chrystalis-surface);
-            text-shadow: 0 0 5px #fff, 0 0 10px var(--color-glow-2), 0 0 20px var(--color-glow-2);
-        }
+          }
         
         .chrystalis-title {
             font-size: clamp(2.5rem, 10vw, 4rem);
@@ -82,11 +78,9 @@ boruch Hashem
             color: white;
             background-color: var(--color-crystal-dark);
             border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.5), 0 0 10px var(--color-glow-1);
-            transition: 
+                   transition: 
                 transform 0.2s ease, 
-                box-shadow 0.2s ease,
-                --turbulence-frequency 0.3s ease;
+                      --turbulence-frequency 0.3s ease;
         }
 
         /* FRACTURED EDGES (Default Subtle Glitch) */
@@ -104,13 +98,11 @@ boruch Hashem
         }
 
         .chrystalis-element::before {
-            text-shadow: -1px 0 var(--color-glow-1);
-            animation: glitch-subtle-1 3s infinite linear alternate-reverse;
+            nimation: glitch-subtle-1 3s infinite linear alternate-reverse;
         }
 
         .chrystalis-element::after {
-            text-shadow: 1px 0 var(--color-glow-2);
-            animation: glitch-subtle-2 2s infinite linear alternate-reverse;
+             animation: glitch-subtle-2 2s infinite linear alternate-reverse;
         }
 
         @keyframes glitch-subtle-1 {
@@ -208,65 +200,6 @@ boruch Hashem
         </div>
     </div>
 
-    <script>
-    // This script is updated to work within the .main container.
-
-    // Get a reference to the .main container
-    const mainContainer = document.querySelector('.main');
-
-    document.querySelectorAll('.chrystalis-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const destination = this.href;
-
-            const buttonRect = button.getBoundingClientRect();
-            // Get the position of the .main container itself
-            const mainRect = mainContainer.getBoundingClientRect();
-
-            let container = document.querySelector('.shatter-container');
-            if (!container) {
-                container = document.createElement('div');
-                container.className = 'shatter-container';
-                // APPEND THE SHATTER EFFECT INSIDE .main
-                mainContainer.appendChild(container);
-            }
-            container.innerHTML = '';
-            
-            const numShards = 50;
-            for (let i = 0; i < numShards; i++) {
-                const shard = document.createElement('div');
-                shard.className = 'shard';
-                
-                // CRITICAL FIX: Calculate the shard's starting position *relative* to the .main container
-                const startX = (buttonRect.left - mainRect.left) + (buttonRect.width / 2);
-                const startY = (buttonRect.top - mainRect.top) + (buttonRect.height / 2);
-
-                shard.style.left = `${startX}px`;
-                shard.style.top = `${startY}px`;
-
-                const endX = (Math.random() - 0.5) * mainRect.width * 2;
-                const endY = (Math.random() - 0.5) * mainRect.height * 2;
-                const endRotate = (Math.random() - 0.5) * 720;
-                shard.style.setProperty('--shard-end-transform', `translate(${endX}px, ${endY}px) rotate(${endRotate}deg)`);
-
-                const color = Math.random() > 0.5 ? 'var(--color-glow-1)' : 'var(--color-glow-2)';
-                shard.style.background = color;
-                shard.style.boxShadow = `0 0 10px ${color}`;
-
-                container.appendChild(shard);
-            }
-            
-            button.style.opacity = '0';
-            
-            setTimeout(() => {
-                window.location.href = destination;
-            }, 800);
-        });
-    });
     
-    document.querySelectorAll('.chrystalis-element').forEach(el => {
-        el.setAttribute('data-text', el.textContent);
-    });
-    </script>
 </body>
 </html>
