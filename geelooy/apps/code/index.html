@@ -566,7 +566,10 @@
     <div id="context-menu"></div>
     <div id="generic-dialog" class="dialog-overlay"></div>
 
-<script>
+<script type="module">
+import pnimi from 
+"https://awtsmoos.com/scripts/awtsmoos/coding/pnimi.js";
+
 // VIVID X - PROFOUND EDITION (REWRITTEN) - B"H
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -696,6 +699,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop
     };
+    
+    function getExt(name) {
+        var ld=name.lastIndexOf(".")
+        if(ld<0) return "";
+        var last = name. substring (ld)
+        return last;
+    }
 
     /**
      * Editor Module: Manages the main text editor area.
@@ -705,7 +715,19 @@ document.addEventListener('DOMContentLoaded', () => {
             DOM.editor.value = content;
             UI.updateLineNumbers();
             StatusBar.updateLanguage(filename);
-            setTimeout(() => { UI.syncScroll(); Editor.focus(); }, 0);
+            setTimeout(() => { 
+                UI.syncScroll(); 
+                Editor.focus();
+                var ext=getExt(filename);
+                var real ={
+                    ".js":"js",
+                    ".css":"css",
+                    ".html":"html"
+                
+                }
+                var f=real[ext]
+                var pan = new pnimi(DOM.editor, f || "js")
+            }, 0);
         },
         getContent: () => DOM.editor.value,
         getCursorInfo: () => {
