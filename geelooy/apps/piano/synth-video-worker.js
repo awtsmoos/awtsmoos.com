@@ -1,13 +1,15 @@
 /*
- ਬ"ה 
+ ב"ה 
 B"H 
+File: /scripts/awtsmoos/video/synth-video-worker.js
 */
 
 // Import the base worker library (assuming it's in the same directory)
-importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
+importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js'); // NOTE: The typo 'wirker' is maintained as per your path
 
 // --- Project-Specific Drawing Constants ---
 const UI_COLOR = {
+// ... (UI_COLOR and NOTE_NAMES_FLAT are unchanged)
     WHITE_KEY: 'rgb(255, 255, 255)',
     BLACK_KEY: 'rgb(0, 0, 0)',
     ACTIVE_WHITE: 'rgb(204, 204, 204)', // #ccc
@@ -21,8 +23,9 @@ const UI_COLOR = {
 
 const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-// Function to pre-calculate all key positions (same logic as main keyboard generation)
+// Function to pre-calculate all key positions (unchanged)
 function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
+// ... (unchanged)
     const layout = [];
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
@@ -61,17 +64,19 @@ function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
  * Renders one frame for every state change recorded.
  */
 async function synthWorkerLogic(context) {
-    const { payload, renderer, canvas, ctx } = context;
-    const { keyPressData, resolution, style } = payload;
-    
+    // --- CONTEXT CHANGE: Access mediabunny components directly ---
+    const { payload, canvasSource, resolution } = context; 
+    const { keyPressData, style } = payload;
+    const ctx = context.ctx; // OffscreenCanvas context
+
     // Video-specific constants
     const FRAME_RATE = 30; // 30 FPS for smooth key transitions if needed
     const FRAME_DURATION = 1 / FRAME_RATE;
     
     // --- 1. Calculate Keyboard Layout ---
-    // Assuming the video focuses on the bottom keyboard (octave 0, 8 octaves)
+    // Assuming the video focuses on the bottom keyboard (octave 1 to 8, total 8 octaves)
     const { layout } = calculateKeyLayout(
-        parseInt(payload.startOctave || 1), // Default start octave C1 or C4 as per settings
+        parseInt(payload.startOctave || 1), // Use the start octave passed from the main thread
         8, 
         style.whiteKeyWidth
     );
@@ -89,15 +94,25 @@ async function synthWorkerLogic(context) {
         keyPressData.unshift({ time: 0, keys: [], scrollX: 0, keyboardWidth: style.keyboardWidth, keyWidth: style.whiteKeyWidth });
     }
     
-    // Iterate through key press data to determine frame rendering times
-    while (dataIndex < keyPressData.length) {
+    // Find the total audio duration to ensure video length matches
+    const totalAudioDuration = payload.audioBufferShim ? payload.audioBufferShim.duration : 0;
+    
+    // The loop will continue until all key states are processed AND the audio duration is met.
+    while (dataIndex < keyPressData.length || frameTime < totalAudioDuration) {
         
-        const currentData = keyPressData[dataIndex];
+        const currentData = keyPressData[Math.min(dataIndex, keyPressData.length - 1)];
         const nextData = keyPressData[dataIndex + 1];
         
-        let endTime = nextData ? nextData.time : currentData.time + 1.0; // Last state holds for 1 second
+        // Determine the time until the next key state change
+        let endTime = nextData ? nextData.time : totalAudioDuration + 0.1; 
         
-        // Loop from the current state time up to the next state time (or end of video)
+        // Clamp the end time to the total audio duration
+        endTime = Math.min(endTime, totalAudioDuration + FRAME_DURATION); 
+
+        // If frameTime has passed the end of the last recorded state, break the outer loop (will be caught by totalAudioDuration check)
+        if (dataIndex >= keyPressData.length && frameTime >= totalAudioDuration) break;
+        
+        // Loop from the current state time up to the next state time/audio end
         while (frameTime < endTime) {
             
             // a. Clear Canvas & Set Background
@@ -113,6 +128,7 @@ async function synthWorkerLogic(context) {
                 if (key.isBlack !== isTopLayer) return;
 
                 const isActive = activeKeySet.has(key.note);
+                // Use the scrollX and keyboard width from the recorded data
                 const xPos = key.x - currentData.scrollX;
                 const width = key.width;
                 const height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
@@ -151,7 +167,8 @@ async function synthWorkerLogic(context) {
             layout.forEach(key => renderKey(key, true));
 
             // c. Add the rendered frame to Mediabunny
-            await renderer.addFrame(frameTime, FRAME_DURATION);
+            // --- CONTEXT CHANGE: Use canvasSource ---
+            await canvasSource.add(frameTime, FRAME_DURATION); 
             
             // Increment frame time
             frameTime += FRAME_DURATION;
@@ -159,26 +176,23 @@ async function synthWorkerLogic(context) {
             self.postMessage({
                 type: 'PROGRESS_UPDATE',
                 payload: {
-                    percent: Math.min(95, Math.floor(frameTime / payload.audioBufferShim.duration * 100))
+                    percent: Math.min(95, Math.floor(frameTime / totalAudioDuration * 100))
                 }
             });
         }
         
-        // Move to the next key press data point
+        // Move to the next key press data point only after the frame loop finishes the segment
         dataIndex++;
     }
     
-    // Ensure the video duration matches the audio duration
-    // The last state is drawn up until audio duration
-    while (frameTime < payload.audioBufferShim.duration) {
-         // Render the final (silent) frame
-         await renderer.addFrame(frameTime, FRAME_DURATION);
-         frameTime += FRAME_DURATION;
+    // Ensure the final frame is rendered up to the total duration
+    if (frameTime < totalAudioDuration) {
+        await canvasSource.add(frameTime, totalAudioDuration - frameTime);
     }
 }
 
 // Bootstrap the worker with the project-specific logic
 bootstrapMediabunnyWorker(synthWorkerLogic, {
-    // Assuming the base worker is in the same folder as mediabunny-library.js
+    // Assuming the base worker and the library are in the same directory relative to this file
     libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' 
 });
