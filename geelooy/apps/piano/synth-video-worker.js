@@ -3,8 +3,8 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A high-accuracy, real-time, event-driven renderer.
-VERSION 25.0 - The "Definitive Real-Time" Edition
+Description: A high-accuracy, real-time renderer with corrected note name logic.
+VERSION 25.1 - The "Note Accuracy" Final Fix
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -14,8 +14,8 @@ let keyEvents = [];
 let scrollEvents = [{ time: 0, scrollX: 0, scrollX2: 0 }];
 let bottomKeyboardLayout = null, topKeyboardLayout = null, keyCache = {};
 let particles = [], starfield = [], zoomFactor = 1;
-let renderer = null; // This will hold our MediaBunnyBase instance
-let lastRenderedTime = 0; // The worker's internal clock
+let renderer = null; 
+let lastRenderedTime = 0; 
 
 // --- Visuals & Constants ---
 const UI_STYLE = {
@@ -23,18 +23,39 @@ const UI_STYLE = {
 };
 const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-// --- Utility Functions (calculateKeyLayout, etc.) ---
-// These are unchanged and correct.
+// --- Utility Functions ---
 function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
-    const layout = []; let whiteKeyX = 0; const blackKeyWidth = whiteKeyWidth * 0.6;
+    const layout = []; 
+    let whiteKeyX = 0; 
+    const blackKeyWidth = whiteKeyWidth * 0.6;
+    
+    // This map ensures 100% correct conversion from flat to sharp names.
+    const flatToSharpMap = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
+
     for (let oct = startOctave; oct < startOctave + numOctaves; oct++) {
         NOTE_NAMES_FLAT.forEach(note => {
-            const isBlack = note.includes('b'); const noteName = (isBlack ? note.replace('b', '#') : note) + oct;
-            layout.push({ note: noteName, isBlack, x: isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
+            const isBlack = note.includes('b');
+            
+            // --- THE CRITICAL FIX IS HERE ---
+            // Use the map for correct conversion instead of a flawed string replacement.
+            const noteNameWithSharp = isBlack ? flatToSharpMap[note] : note;
+            const finalNoteName = noteNameWithSharp + oct;
+            // --- END FIX ---
+
+            layout.push({ 
+                note: finalNoteName, 
+                isBlack, 
+                x: isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX, 
+                width: isBlack ? blackKeyWidth : whiteKeyWidth, 
+                pressAnimation: 0 
+            });
+
             if (!isBlack) whiteKeyX += whiteKeyWidth;
         });
-    } return layout;
+    } 
+    return layout;
 }
+
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65; const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight); const wCtx = wCanvas.getContext('2d'); wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); const aoGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0); aoGradient.addColorStop(0, UI_STYLE.WHITE_KEY_AO); aoGradient.addColorStop(0.1, 'transparent'); aoGradient.addColorStop(0.9, 'transparent'); aoGradient.addColorStop(1, UI_STYLE.WHITE_KEY_AO); wCtx.fillStyle = aoGradient; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); keyCache['white_default'] = wCanvas; const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight); const bCtx = bCanvas.getContext('2d'); bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); const bGradient = bCtx.createLinearGradient(0, 0, blackKeyWidth, 0); bGradient.addColorStop(0, UI_STYLE.BLACK_KEY_HIGHLIGHT); bGradient.addColorStop(0.5, 'transparent'); bCtx.fillStyle = bGradient; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); keyCache['black_default'] = bCanvas;
 }
@@ -42,12 +63,11 @@ function createParticles(x, y) { for (let i = 0; i < 80; i++) { const angle = Ma
 
 
 // --- The Frame Drawing Function ---
-// Its only job is to draw a single frame for a given time. It is perfect as is.
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
     const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
     
-    if (bottomKeyboardLayout === null) { // One-time setup
+    if (bottomKeyboardLayout === null) { 
         const baseStartOctave = parseInt(startOctave); const userKeyWidth = style.userKeyWidth; const isDualView = alwaysDual || isVertical;
         if (isDualView) { const octaves = independentScroll ? 4 : 8; const topStartOctaveOffset = independentScroll ? 4 : 0; bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, octaves, userKeyWidth); topKeyboardLayout = calculateKeyLayout(baseStartOctave + topStartOctaveOffset, octaves, userKeyWidth); } else { bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, 8, userKeyWidth); topKeyboardLayout = null; }
         const userViewportWidth = style.userViewportWidth || resolution.width; zoomFactor = userViewportWidth > 0 ? resolution.width / userViewportWidth : 1;
@@ -56,12 +76,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
     }
     
     const frameTime = framePayload.time; const deltaTime = framePayload.duration;
-    // ACCURATE STATE RECONSTRUCTION: Checks the complete event history for this exact moment.
     const activeKeys = new Set(); keyEvents.forEach(event => { if (frameTime >= event.start && frameTime < event.end) activeKeys.add(event.note); });
     const relevantScrollEvent = scrollEvents.slice().reverse().find(e => e.time <= frameTime);
     const currentScrollX = relevantScrollEvent.scrollX, currentScrollX2 = relevantScrollEvent.scrollX2;
 
-    // --- FULL DRAWING LOGIC (Unchanged) ---
     ctx.save(); ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, resolution.width, resolution.height);
     for(let i=0; i < resolution.width; i+= 50) { ctx.fillStyle = UI_STYLE.GRID_COLOR; ctx.fillRect(i, 0, 1, resolution.height); } for(let i=0; i < resolution.height; i+= 50) { ctx.fillStyle = UI_STYLE.GRID_COLOR; ctx.fillRect(0, i, resolution.width, 1); }
     starfield.forEach(star => { star.y += star.speed * deltaTime; if(star.y > resolution.height) {star.y=0; star.x=Math.random()*resolution.width;} }); ctx.fillStyle = UI_STYLE.STAR_COLOR; starfield.forEach(star => ctx.fillRect(star.x, star.y, star.size, star.size));
@@ -93,22 +111,18 @@ self.onmessage = async (e) => {
         case 'INITIALIZE_RENDERER':
             renderer = new MediaBunnyBase(payload, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
-            lastRenderedTime = 0; // Reset the clock
+            lastRenderedTime = 0;
             break;
 
         case 'ADD_KEY_EVENT':
             if (!renderer) return;
             keyEvents.push(payload);
-
-            // This is the real-time rendering trigger!
-            // Render all frames from the last point in time up to the end of this new event.
             const renderUntilTime = payload.end;
             const { fps } = renderer.config.outputFormat;
             const deltaTime = 1 / fps;
-
             while (lastRenderedTime < renderUntilTime) {
                 await renderer.addFrame({ time: lastRenderedTime, duration: deltaTime });
-                lastRenderedTime += deltaTime; // Advance the worker's clock
+                lastRenderedTime += deltaTime;
             }
             break;
 
@@ -118,17 +132,13 @@ self.onmessage = async (e) => {
 
         case 'FINALIZE_MUXING':
             if (!renderer) return;
-            
-            // Final catch-up render: render any remaining silence at the end of the audio.
             const finalDuration = payload.audioBufferShim.duration;
             const { fps: finalFps } = renderer.config.outputFormat;
             const finalDeltaTime = 1 / finalFps;
-
             while (lastRenderedTime < finalDuration) {
                  await renderer.addFrame({ time: lastRenderedTime, duration: finalDeltaTime });
                  lastRenderedTime += finalDeltaTime;
             }
-            
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-Piano-Render-${Date.now()}.mp4` });
             break;
