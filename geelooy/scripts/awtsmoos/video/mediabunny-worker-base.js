@@ -151,7 +151,8 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
                 // --- END OF FIX ---
 
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Using audio codec: ${audioCodec}` } });
-                const audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec });
+                const audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec, bitrate: 128_000 }); // The bitrate was missing
+                
                 workerContext.output.addAudioTrack(audioBufferSource);
                 
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
