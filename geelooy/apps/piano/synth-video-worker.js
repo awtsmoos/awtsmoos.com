@@ -285,7 +285,9 @@ async function drawKeyboard() {
  */
 function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 console.log("about to start loading")
+    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'awtsmoosing...' } });
     
+    return;
     if (typeof self !== 'undefined' && self.importScripts) {
 
         const libraryPath = options.libraryPath || './mediabunny-library.js';
