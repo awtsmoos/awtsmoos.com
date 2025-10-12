@@ -839,7 +839,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 
 	// NEW: Video Recording Logic
-	// In script.js - REPLACE the whole function
+	
 
 async function toggleVideoRecording() {
     if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
@@ -862,28 +862,35 @@ async function toggleVideoRecording() {
         };
         
     } else {
-        // --- START VIDEO RECORDING (CORRECTED LOGIC) ---
+        // --- START VIDEO RECORDING (DEFINITIVE LOGIC) ---
         
-        // 1. GATHER ALL UI SETTINGS CORRECTLY
+        // 1. GATHER UI STATE
         const alwaysDual = elements.alwaysDualCheckbox.checked;
         const isVertical = window.innerHeight > window.innerWidth;
         const isIndependent = elements.independentScrollCheckbox.checked;
-        
-        // This is the business logic you reminded me of:
-        const isDualView = alwaysDual || isVertical; 
-        
-        // Determine the number of octaves for the main (bottom) keyboard layout
-        const numOctaves = isDualView && isIndependent ? 4 : 8;
+        const isDualView = alwaysDual || isVertical;
 
-        // 2. Calculate Resolution
+        // 2. DEFINE VIDEO RESOLUTION
         const HD_WIDTH = 1080;
         const HD_HEIGHT = 1920;
         const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
+        const videoCanvasWidth = videoResolution.width;
 
-        // 3. Start Worker and Media Recorder
+        // 3. THE CRITICAL "ZOOM FACTOR" CALCULATION
+        // This is the fix for "too many keys"
+        const userKeyWidth = parseInt(elements.keyWidthSlider.value);
+        const userViewportWidth = elements.keyboardContainer.clientWidth;
+        
+        // If the user's viewport is valid, calculate the zoom needed to match the view
+        const zoomFactor = userViewportWidth > 0 ? videoCanvasWidth / userViewportWidth : 1;
+        const videoKeyWidth = userKeyWidth * zoomFactor;
+
+        // 4. DETERMINE KEYBOARD STRUCTURE (This logic is now correct)
+        const numOctaves = isDualView && isIndependent ? 4 : 8;
+
+        // 5. START WORKER AND RECORDER
         videoWorker = new Worker('./synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
-        // It's good practice to have an error handler
         videoWorker.onerror = (e) => console.error(`Worker Error: ${e.message}`, e);
 
         audioChunks = [];
@@ -891,7 +898,7 @@ async function toggleVideoRecording() {
         mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType }); 
         mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); }; 
 
-        // 4. Create and SEND the INITIALIZE payload
+        // 6. CREATE AND SEND THE PERFECTLY SCALED PAYLOAD
         videoStartTime = audioContext.currentTime;
         const initialPayload = {
             type: 'INITIALIZE_RENDERER',
@@ -899,21 +906,21 @@ async function toggleVideoRecording() {
                 resolution: videoResolution,
                 outputFormat: { format: 'mp4' },
                 startOctave: elements.octaveSelect.value,
-                alwaysDual: alwaysDual, // Send the state of the checkbox
+                alwaysDual: alwaysDual,
                 independentScroll: isIndependent,
-                isVertical: isVertical, // Send the screen orientation
-                numOctaves: numOctaves, // Send the calculated number of octaves
+                isVertical: isVertical,
+                numOctaves: numOctaves,
                 style: {
-                    whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+                    // Send the SCALED key width, not the user's key width
+                    whiteKeyWidth: videoKeyWidth,
                 }
             }
         };
-
-        // This log helps us confirm we are sending the right data
-        console.log("MAIN SCRIPT: Sending INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
+        
+        console.log("MAIN SCRIPT: Sending FINAL INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
         videoWorker.postMessage(initialPayload);
         
-        // 5. Start Recording and update UI
+        // 7. START RECORDING
         mediaRecorder.start();
         isVideoRecording = true;
         elements.recordVideoButton.textContent = 'STOP Video';
