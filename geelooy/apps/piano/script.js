@@ -825,54 +825,76 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 
 	// NEW: Video Recording Logic
-	function toggleVideoRecording() {
-		if (!mediaStreamDestination) {
-			alert("Audio engine not initialized.");
-			return;
-		}
-		if (elements.recordAudioButton.classList.contains('recording')) {
-			alert("Please stop audio recording first.");
-			return;
-		}
+	
+	// MODIFIED: Logic to start/stop the worker
+async function toggleVideoRecording() {
+    if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
+    if (elements.recordAudioButton.classList.contains('recording')) {
+         alert("Please stop audio recording first.");
+         return;
+    }
 
-		if (isVideoRecording) {
-			// --- STOP VIDEO RECORDING ---
-			mediaRecorder.stop();
-			isVideoRecording = false;
-			elements.recordVideoButton.textContent = 'Record Video';
-			elements.recordVideoButton.classList.remove('recording');
-			elements.videoProgress.textContent = 'Processing...';
+    if (isVideoRecording) {
+        // --- STOP VIDEO RECORDING ---
+        mediaRecorder.stop();
+        isVideoRecording = false;
+        elements.recordVideoButton.textContent = 'Processing...';
+        elements.recordVideoButton.classList.remove('recording');
+        
+        // 1. Send final frame state
+        sendFrameStateToWorker(true); 
 
-			// Wait for MediaRecorder to finish collecting the audio blob
-			mediaRecorder.onstop = () => processVideoAndAudio();
+        // 2. Stop audio capture and wait for blob
+        mediaRecorder.onstop = () => {
+            // 3. Process the audio blob and send to worker for final muxing
+            processAudioAndFinalize(audioChunks);
+        };
+        
+    } else {
+        // --- START VIDEO RECORDING ---
+        
+        // 1. Calculate Resolution and get settings
+	const isVertical = window.innerHeight > window.innerWidth;
+        const HD_WIDTH = 1080;
+        const HD_HEIGHT = 1920;
+        const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
 
-		} else {
-			// --- START VIDEO RECORDING ---
-			videoRecordingData = [];
-			audioChunks = [];
-			videoStartTime = audioContext.currentTime;
-			isVideoRecording = true;
+        // 2. Start Persistent Worker
+        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
+        setupVideoWorkerListeners(videoWorker);
+        
+        // 3. Start Audio Recorder
+        audioChunks = [];
+        const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
+        mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType }); 
+        mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); }; 
 
-			const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
-			mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, {
-				mimeType
-			});
-
-			mediaRecorder.ondataavailable = e => {
-				if (e.data.size > 0) audioChunks.push(e.data);
-			};
-
-			mediaRecorder.start();
-			elements.recordVideoButton.textContent = 'STOP Video';
-			elements.recordVideoButton.classList.add('recording');
-			elements.videoProgress.textContent = 'Recording...';
-
-			// Log the initial state
-			logVideoFrame();
-		}
-
-
-	}
+        // 4. Send INITIALIZE Command to Worker
+        videoStartTime = audioContext.currentTime;
+        videoWorker.postMessage({
+            type: 'INITIALIZE_RENDERER',
+            payload: {
+                resolution: videoResolution, 
+                outputFormat: { format: 'mp4' }, 
+                startOctave: elements.octaveSelect.value, 
+                alwaysDual: elements.alwaysDualCheckbox.checked,
+                independentScroll: elements.independentScrollCheckbox.checked,
+                isVertical: isVertical, 
+                style: {
+                    whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+                }
+            }
+        });
+        // 5. Start Recording and send initial frame
+        mediaRecorder.start();
+        isVideoRecording = true;
+        elements.recordVideoButton.textContent = 'STOP Video';
+        elements.recordVideoButton.classList.add('recording');
+        elements.videoProgress.textContent = 'Recording (Frames Rendering in Background)...';
+        
+        sendFrameStateToWorker(true);
+    }
+}
 
 	// NEW: Processing the recorded Audio Blob into an AudioBufferShim for the Worker
 	function processVideoAndAudio() {
