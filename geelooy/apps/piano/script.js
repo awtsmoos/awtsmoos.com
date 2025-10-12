@@ -72,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		noteHistory = [];
 		let newlyPressedKeys = []; // <-- ADD THIS
 	const activeNotes = new Map();
+	
+	
+	let videoKeyDownMap = new Map()
+	
+	
 	let scrollState = {
 		x: 0,
 		x2: 0
@@ -128,36 +133,22 @@ let audioChunks = []; // Still needed for final audio muxing
  * This is the central function for keeping the video perfectly in sync with the UI.
  * @param {boolean} isKeyChange - True if the event was a key press/release.
  */
-function sendFrameStateToWorker(isKeyChange = true) {
+// REPLACE the old sendFrameStateToWorker function with this one
+function sendFrameStateToWorker() {
     if (!isVideoRecording || !videoWorker) return;
 
-    // 1. Get the current set of all pressed keys.
-    const keys = [];
-    activeNotes.forEach((note) => {
-        keys.push(note.keyElement.dataset.note);
-    });
-
-    // 2. Calculate the precise timestamp for this event.
     const timestamp = audioContext.currentTime - videoStartTime;
 
-    // 3. Construct the payload with all necessary visual information.
-    const framePayload = {
-        type: 'RENDER_FRAME',
+    // This function now ONLY sends scroll state updates.
+    // Key states are sent transactionally from stopNote.
+    videoWorker.postMessage({
+        type: 'UPDATE_SCROLL',
         payload: {
             time: timestamp,
-            keys: keys,
             scrollX: scrollState.x,
-            scrollX2: scrollState.x2 || 0,
-            newlyPressedKeys: newlyPressedKeys // Keys pressed since the last frame.
+            scrollX2: scrollState.x2 || 0
         }
-    };
-
-    // 4. Send the state to the worker.
-    videoWorker.postMessage(framePayload);
-
-    // 5. CRUCIAL: Clear the list of newly pressed keys immediately after sending.
-    // This ensures a key press is only registered as "new" for a single frame event.
-    newlyPressedKeys = [];
+    });
 }
 
 
@@ -534,43 +525,65 @@ function sendFrameStateToWorker(isKeyChange = true) {
 		};
 	}
 
-	function playNote(frequency, note, keyElement, pointerId,noteName) {
-		if (activeNotes.has(pointerId)) return;
+	
+	
+	
+	// REPLACE the old playNote function with this one
+function playNote(frequency, note, keyElement, pointerId, noteName) {
+    if (activeNotes.has(pointerId)) return;
 
-		noteHistory.push(note);
-		if (noteHistory.length > 12) noteHistory.shift();
+    noteHistory.push(note);
+    if (noteHistory.length > 12) noteHistory.shift();
 
-		const synthNodes = createSynthNode(false);
+    const synthNodes = createSynthNode(false);
 
-		if (synthNodes) {
-			startSynth(synthNodes, frequency);
-			activeNotes.set(pointerId, {
-				synthNodes,
-				keyElement
-			});
-			keyElement.classList.add('active');
+    if (synthNodes) {
+        startSynth(synthNodes, frequency);
+        activeNotes.set(pointerId, { synthNodes, keyElement });
+        keyElement.classList.add('active');
 
-			if (isVideoRecording) { 
-				newlyPressedKeys.push(noteName);
-			}
-			sendFrameStateToWorker(true); // A key press is a state change.
-		}
-	}
+        // VIDEO LOGIC: If recording, log the key's start time.
+        if (isVideoRecording) {
+            videoKeyDownMap.set(noteName, audioContext.currentTime);
+        }
+    }
+}
 
-	function stopNote(pointerId) {
-		const activeNote = activeNotes.get(pointerId);
-		if (activeNote) {
-			stopSynth(activeNote.synthNodes);
-			activeNote.keyElement.classList.remove('active');
-			activeNotes.delete(pointerId);
+// REPLACE the old stopNote function with this one
+function stopNote(pointerId) {
+    const activeNote = activeNotes.get(pointerId);
+    if (activeNote) {
+        stopSynth(activeNote.synthNodes);
+        activeNote.keyElement.classList.remove('active');
+        const noteName = activeNote.keyElement.dataset.note;
+        activeNotes.delete(pointerId);
 
-
-			if (isVideoRecording) {
-				// A key release is also a state change.
-				sendFrameStateToWorker(true); 
-			}
-		}
-	}
+        // VIDEO LOGIC: If recording, complete the event and send it to the worker.
+        if (isVideoRecording && videoKeyDownMap.has(noteName)) {
+            const startTime = videoKeyDownMap.get(noteName);
+            const endTime = audioContext.currentTime;
+            
+            // Send the completed key press "transaction" to the worker
+            videoWorker.postMessage({
+                type: 'ADD_KEY_EVENT',
+                payload: {
+                    note: noteName,
+                    // Normalize times relative to the video start
+                    start: startTime - videoStartTime,
+                    end: endTime - videoStartTime
+                }
+            });
+            
+            // Remove from the pending map
+            videoKeyDownMap.delete(noteName);
+        }
+    }
+}
+	
+	
+	
+	
+	
 
 	// ... (getChordQuality, triggerChord are largely the same, but triggerChord now uses isChord=true in createSynthNode) ...
 	function getChordQuality(rootNote) {
@@ -836,8 +849,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 	// NEW: Video Recording Logic
 	
-
-
+// REPLACE the old toggleVideoRecording function with this one
 async function toggleVideoRecording() {
     if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
     if (elements.recordAudioButton.classList.contains('recording')) {
@@ -847,41 +859,38 @@ async function toggleVideoRecording() {
 
     if (isVideoRecording) {
         // --- STOP VIDEO RECORDING ---
+        // 1. FLUSH any remaining pressed keys
+        const stopTime = audioContext.currentTime;
+        videoKeyDownMap.forEach((startTime, noteName) => {
+            videoWorker.postMessage({
+                type: 'ADD_KEY_EVENT',
+                payload: {
+                    note: noteName,
+                    start: startTime - videoStartTime,
+                    end: stopTime - videoStartTime
+                }
+            });
+        });
+        videoKeyDownMap.clear(); // Clear the map
+
+        // 2. Stop the audio recorder
         mediaRecorder.stop();
         isVideoRecording = false;
         elements.recordVideoButton.textContent = 'Processing...';
         elements.recordVideoButton.classList.remove('recording');
-        sendFrameStateToWorker(true); 
+        
+        // 3. The onstop event will handle finalization
         mediaRecorder.onstop = () => processAudioAndFinalize(audioChunks);
         
     } else {
-        // --- START VIDEO RECORDING (DEFINITIVE LOGIC) ---
+        // --- START VIDEO RECORDING ---
+        videoKeyDownMap.clear(); // Ensure the map is empty on start
         
-        // 1. GATHER UI STATE
         const alwaysDual = elements.alwaysDualCheckbox.checked;
         const isVertical = window.innerHeight > window.innerWidth;
-        const isIndependent = elements.independentScrollCheckbox.checked;
-        const isDualView = alwaysDual || isVertical;
+        const videoResolution = isVertical ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 };
 
-        // 2. DEFINE VIDEO RESOLUTION
-        const HD_WIDTH = 1080;
-        const HD_HEIGHT = 1920;
-        const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
-        const videoCanvasWidth = videoResolution.width;
-
-        // 3. CALCULATE "ZOOM FACTOR" TO MATCH USER'S VIEW
-        const userKeyWidth = parseInt(elements.keyWidthSlider.value);
-        const userViewportWidth = elements.keyboardContainer.clientWidth;
-        const zoomFactor = userViewportWidth > 0 ? videoCanvasWidth / userViewportWidth : 1;
-        const videoKeyWidth = userKeyWidth * zoomFactor;
-
-        // 4. *** CRITICAL LOGIC FIX ***
-        // This ensures the worker is told to build a layout that matches the UI's intent.
-        // In dual view, each panel is smaller, regardless of independent scrolling.
-        const numOctaves = isDualView ? 4 : 8;
-
-        // 5. START WORKER AND RECORDER
-        videoWorker = new Worker('./synth-video-worker.js'); 
+        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
         videoWorker.onerror = (e) => console.error(`Worker Error: ${e.message}`, e);
 
@@ -890,38 +899,39 @@ async function toggleVideoRecording() {
         mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType }); 
         mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); }; 
 
-        // 6. CREATE AND SEND THE PERFECTLY SCALED PAYLOAD
         videoStartTime = audioContext.currentTime;
         const initialPayload = {
-    type: 'INITIALIZE_RENDERER',
-    payload: {
-        resolution: videoResolution,
-        outputFormat: { format: 'mp4' },
-        startOctave: elements.octaveSelect.value,
-        alwaysDual: alwaysDual,
-        independentScroll: isIndependent,
-        isVertical: isVertical,
-        // --- THE CRITICAL FIX ---
-        // Send the RAW user values. The worker will handle the scaling.
-        style: {
-            userKeyWidth: parseInt(elements.keyWidthSlider.value),
-            userViewportWidth: elements.keyboardContainer.clientWidth
-        }
-    }
-};
+            type: 'INITIALIZE_RENDERER',
+            payload: {
+                resolution: videoResolution,
+                outputFormat: { format: 'mp4', quality: 0.9, fps: 60 }, // Requesting 60fps
+                startOctave: elements.octaveSelect.value,
+                alwaysDual: alwaysDual,
+                independentScroll: elements.independentScrollCheckbox.checked,
+                isVertical: isVertical,
+                style: {
+                    userKeyWidth: parseInt(elements.keyWidthSlider.value),
+                    userViewportWidth: elements.keyboardContainer.clientWidth
+                }
+            }
+        };
         
         videoWorker.postMessage(initialPayload);
         
-        // 7. START RECORDING
         mediaRecorder.start();
         isVideoRecording = true;
         elements.recordVideoButton.textContent = 'STOP Video';
         elements.recordVideoButton.classList.add('recording');
         elements.videoProgress.textContent = 'Recording...';
-        sendFrameStateToWorker(true);
+        
+        // Send initial scroll state
+        sendFrameStateToWorker();
     }
 }
 
+
+        
+        
 
 
 
