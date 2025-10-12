@@ -897,20 +897,22 @@ async function toggleVideoRecording() {
         // 6. CREATE AND SEND THE PERFECTLY SCALED PAYLOAD
         videoStartTime = audioContext.currentTime;
         const initialPayload = {
-            type: 'INITIALIZE_RENDERER',
-            payload: {
-                resolution: videoResolution,
-                outputFormat: { format: 'mp4' },
-                startOctave: elements.octaveSelect.value,
-                alwaysDual: alwaysDual,
-                independentScroll: isIndependent,
-                isVertical: isVertical,
-                numOctaves: numOctaves, // Send the CORRECT number of octaves
-                style: {
-                    whiteKeyWidth: videoKeyWidth, // Send the SCALED key width
-                }
-            }
-        };
+    type: 'INITIALIZE_RENDERER',
+    payload: {
+        resolution: videoResolution,
+        outputFormat: { format: 'mp4' },
+        startOctave: elements.octaveSelect.value,
+        alwaysDual: alwaysDual,
+        independentScroll: isIndependent,
+        isVertical: isVertical,
+        // --- THE CRITICAL FIX ---
+        // Send the RAW user values. The worker will handle the scaling.
+        style: {
+            userKeyWidth: parseInt(elements.keyWidthSlider.value),
+            userViewportWidth: elements.keyboardContainer.clientWidth
+        }
+    }
+};
         
         videoWorker.postMessage(initialPayload);
         
