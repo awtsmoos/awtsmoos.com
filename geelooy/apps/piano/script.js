@@ -896,6 +896,37 @@ async function toggleVideoRecording() {
     }
 }
 
+function processAudioAndFinalize(audioChunks) {
+    const audioBlob = new Blob(audioChunks, { type: audioChunks[0].type });
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        elements.videoProgress.textContent = 'Decoding Audio...';
+        try {
+            const audioBuffer = await audioContext.decodeAudioData(e.target.result);
+            const audioBufferShim = {
+                sampleRate: audioBuffer.sampleRate, length: audioBuffer.length, duration: audioBuffer.duration,
+                numberOfChannels: audioBuffer.numberOfChannels, channels: []
+            };
+            for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                audioBufferShim.channels.push(audioBuffer.getChannelData(i));
+            }
+
+            // Send audio and finalization command to the persistent worker
+            elements.videoProgress.textContent = 'Muxing Video and Audio...';
+            videoWorker.postMessage({
+                type: 'FINALIZE_MUXING',
+                payload: { audioBufferShim: audioBufferShim }
+            }, audioBufferShim.channels.map(c => c.buffer)); 
+
+        } catch (error) {
+            console.error("Error decoding audio data:", error);
+            elements.videoProgress.textContent = 'Error processing audio.';
+            if (videoWorker) videoWorker.terminate();
+        }
+    };
+    reader.readAsArrayBuffer(audioBlob);
+}
+
 	// NEW: Processing the recorded Audio Blob into an AudioBufferShim for the Worker
 	function processVideoAndAudio() {
 		const audioBlob = new Blob(audioChunks, {
