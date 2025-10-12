@@ -839,8 +839,8 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 
 	// NEW: Video Recording Logic
-	
-	// MODIFIED: Logic to start/stop the worker
+	// In script.js - REPLACE the whole function
+
 async function toggleVideoRecording() {
     if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
     if (elements.recordAudioButton.classList.contains('recording')) {
@@ -855,69 +855,76 @@ async function toggleVideoRecording() {
         elements.recordVideoButton.textContent = 'Processing...';
         elements.recordVideoButton.classList.remove('recording');
         
-        // 1. Send final frame state
         sendFrameStateToWorker(true); 
 
-        // 2. Stop audio capture and wait for blob
         mediaRecorder.onstop = () => {
-            // 3. Process the audio blob and send to worker for final muxing
             processAudioAndFinalize(audioChunks);
         };
         
     } else {
-        // --- START VIDEO RECORDING ---
+        // --- START VIDEO RECORDING (CORRECTED LOGIC) ---
         
-        // 1. Calculate Resolution and get settings
-	const isVertical = window.innerHeight > window.innerWidth;
+        // 1. GATHER ALL UI SETTINGS CORRECTLY
+        const alwaysDual = elements.alwaysDualCheckbox.checked;
+        const isVertical = window.innerHeight > window.innerWidth;
+        const isIndependent = elements.independentScrollCheckbox.checked;
+        
+        // This is the business logic you reminded me of:
+        const isDualView = alwaysDual || isVertical; 
+        
+        // Determine the number of octaves for the main (bottom) keyboard layout
+        const numOctaves = isDualView && isIndependent ? 4 : 8;
+
+        // 2. Calculate Resolution
         const HD_WIDTH = 1080;
         const HD_HEIGHT = 1920;
         const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
 
-        // 2. Start Persistent Worker
+        // 3. Start Worker and Media Recorder
         videoWorker = new Worker('./synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
-        
-        // 3. Start Audio Recorder
+        // It's good practice to have an error handler
+        videoWorker.onerror = (e) => console.error(`Worker Error: ${e.message}`, e);
+
         audioChunks = [];
         const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
         mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType }); 
         mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); }; 
 
-        // 4. Send INITIALIZE Command to Worker
+        // 4. Create and SEND the INITIALIZE payload
         videoStartTime = audioContext.currentTime;
-    const initialPayload = { // Create a temporary object for logging
-        type: 'INITIALIZE_RENDERER',
-        payload: {
-            resolution: videoResolution,
-            outputFormat: { format: 'mp4' },
-            startOctave: elements.octaveSelect.value,
-            alwaysDual: alwaysDual,
-            independentScroll: isIndependent,
-            isVertical: isVertical,
-            numOctaves: numOctaves, // Send the correct number of octaves
-            style: {
-                whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+        const initialPayload = {
+            type: 'INITIALIZE_RENDERER',
+            payload: {
+                resolution: videoResolution,
+                outputFormat: { format: 'mp4' },
+                startOctave: elements.octaveSelect.value,
+                alwaysDual: alwaysDual, // Send the state of the checkbox
+                independentScroll: isIndependent,
+                isVertical: isVertical, // Send the screen orientation
+                numOctaves: numOctaves, // Send the calculated number of octaves
+                style: {
+                    whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+                }
             }
-        }
-    };
-    videoWorker.postMessage(initialPayload)
+        };
 
-    // =========================================================
-    // === ADD THIS CRITICAL LOG ===
-    console.log("MAIN SCRIPT: Sending INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
+        // This log helps us confirm we are sending the right data
+        console.log("MAIN SCRIPT: Sending INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
+        videoWorker.postMessage(initialPayload);
         
-        
-        
-        // 5. Start Recording and send initial frame
+        // 5. Start Recording and update UI
         mediaRecorder.start();
         isVideoRecording = true;
         elements.recordVideoButton.textContent = 'STOP Video';
         elements.recordVideoButton.classList.add('recording');
-        elements.videoProgress.textContent = 'Recording (Frames Rendering in Background)...';
+        elements.videoProgress.textContent = 'Recording...';
         
         sendFrameStateToWorker(true);
     }
 }
+
+
 
 function processAudioAndFinalize(audioChunks) {
     const audioBlob = new Blob(audioChunks, { type: audioChunks[0].type });
