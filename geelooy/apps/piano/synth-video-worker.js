@@ -5,7 +5,7 @@ File: /scripts/awtsmoos/video/synth-video-worker.js
 */
 
 // Import the base worker library
-importScripts('/scripts/awtsmoos/video/mediabunny-wirker-base.js');
+importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Project-Specific Drawing Constants ---
 const UI_COLOR = {
