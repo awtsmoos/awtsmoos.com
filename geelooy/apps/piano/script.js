@@ -913,6 +913,8 @@ function processAudioAndFinalize(audioChunks) {
 
             // Send audio and finalization command to the persistent worker
             elements.videoProgress.textContent = 'Muxing Video and Audio...';
+            console.log("MAIN: Sending a simple test message...");
+            videoWorker.postMessage({ type: 'TEST', payload: 'Is anyone there?' });
             console. log("sending final message")
             videoWorker.postMessage({
                 type: 'FINALIZE_MUXING',
