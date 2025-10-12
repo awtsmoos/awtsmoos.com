@@ -7,7 +7,7 @@ File: /scripts/awtsmoos/video/synth-video-worker.js
 
 // Import the base worker library (Using the user-specified path)
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
-
+console.log("worker loaded")
 // --- Global Worker State ---
 let workerContext = null;
 let lastFrameTime = 0;
