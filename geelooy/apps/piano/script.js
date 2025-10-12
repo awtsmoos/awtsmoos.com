@@ -141,7 +141,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
     const timestamp = audioContext.currentTime - videoStartTime;
 
     // 3. Send render command
-    videoWorker.postMessage({
+    const framePayload = { // Create a temporary object for logging
         type: 'RENDER_FRAME',
         payload: {
             time: timestamp,
@@ -150,7 +150,14 @@ function sendFrameStateToWorker(isKeyChange = true) {
             scrollX2: scrollState.x2 || 0,
             newlyPressedKeys: newlyPressedKeys
         }
-    });
+    };
+
+    // =========================================================
+    // === ADD THIS LOG (Optional but good for timing) ===
+    if (newlyPressedKeys.length > 0) {
+        console.log("MAIN SCRIPT: Sending RENDER_FRAME with new keys:", JSON.parse(JSON.stringify(framePayload)));
+       }
+       videoWorker.postMessage(framePayload)
        // --- Crucially, clear the list after sending ---
     newlyPressedKeys = [];
 }
@@ -878,23 +885,29 @@ async function toggleVideoRecording() {
 
         // 4. Send INITIALIZE Command to Worker
         videoStartTime = audioContext.currentTime;
-        videoWorker.postMessage({
-    type: 'INITIALIZE_RENDERER',
-    payload: {
-        resolution: videoResolution,
-        outputFormat: { format: 'mp4' },
-        startOctave: elements.octaveSelect.value,
-        alwaysDual: elements.alwaysDualCheckbox.checked,
-        independentScroll: elements.independentScrollCheckbox.checked,
-        isVertical: isVertical,
-        // --- ADD THESE NEW PROPERTIES ---
-        numOctaves: (elements.independentScrollCheckbox.checked && isVertical) ? 4 : 8,
-        // ---
-        style: {
-            whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+    const initialPayload = { // Create a temporary object for logging
+        type: 'INITIALIZE_RENDERER',
+        payload: {
+            resolution: videoResolution,
+            outputFormat: { format: 'mp4' },
+            startOctave: elements.octaveSelect.value,
+            alwaysDual: alwaysDual,
+            independentScroll: isIndependent,
+            isVertical: isVertical,
+            numOctaves: numOctaves, // Send the correct number of octaves
+            style: {
+                whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+            }
         }
-    }
-});
+    };
+    videoWorker.postMessage(initialPayload)
+
+    // =========================================================
+    // === ADD THIS CRITICAL LOG ===
+    console.log("MAIN SCRIPT: Sending INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
+        
+        
+        
         // 5. Start Recording and send initial frame
         mediaRecorder.start();
         isVideoRecording = true;
