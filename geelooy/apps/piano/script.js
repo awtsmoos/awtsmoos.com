@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	function startVideoWorker(audioBufferShim) {
 		// Ensure the path is correct based on your server structure. 
 		// User provided: /scripts/awtsmoos/video/mediabunny-wirker-base.js
-		const worker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js');
+		const worker = new Worker('./synth-video-worker.js');
 
 		worker.onmessage = (event) => {
 			const data = event.data;
