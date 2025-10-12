@@ -53,7 +53,7 @@ const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', '
 
 // --- Utility Functions ---
 
-function calculateKeyLayout(startOctave, whiteKeyWidth) {
+function calculateKeyLayout(startOctave, whiteKeyWidth, numOctaves) {
     const layout = [];
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
