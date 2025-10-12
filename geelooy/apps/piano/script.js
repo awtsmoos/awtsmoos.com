@@ -860,7 +860,7 @@ async function toggleVideoRecording() {
         const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
 
         // 2. Start Persistent Worker
-        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
+        videoWorker = new Worker(`./synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
         
         // 3. Start Audio Recorder
