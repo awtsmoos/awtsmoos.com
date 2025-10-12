@@ -430,6 +430,6 @@ if (typeof self !== 'undefined') {
     self.bootstrapMediabunnyWorker(renderCurrentFrame, {
         libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' // Use the correct library path
     });
-} else {console.log("no self")
+} else {console.log("no self")}
 
 console.log("end of worker")
