@@ -1,5 +1,6 @@
 
-/* ב"ה 
+/*
+ ב"ה 
 
 B"H */
 
@@ -230,93 +231,4 @@ if (typeof self !== 'undefined') {
 	self.bootstrapMediabunnyWorker = bootstrapMediabunnyWorker;
 }
 
-code
-Code
-download
-content_copy
-expand_less
-# # # 2. The Project Worker Logic: The Ultimate Minimalist Script(`video-renderer-worker.js`)
 
-Your worker script now contains only your custom dependency functions and the main logic loop, which operates purely on the provided `context`
-object.
-
-``
-`javascript
-/* video-renderer-worker.js */
-/* ב"ה B"H */
-
-// --- A. Import Base Script and Project Helpers ---
-importScripts('mediabunny-worker-base.js'); 
-// Assuming all your custom functions are defined here or imported.
-
-// Example Definitions (replace with your actual code for findCaptionActiveAt and renderCompositeFrame)
-function findCaptionActiveAt(time, captionArray) { /* YOUR LOGIC */ return { text: 'test', start: time, end: time + 1 }; }
-function renderCompositeFrame(ctx, bg, primary, translation, settings, res, overlays, palette) { /* YOUR LOGIC */ }
-
-
-/**
- * The single function containing all your specific rendering orchestration.
- * 
- * @param {RenderingContext} context - The pre-configured environment.
- */
-async function runVideoRenderingPipeline(context) {
-    /* ב"ה B"H */
-    
-    // Destructure everything you need from the context and payload
-    const { einSofRenderer, ctx, masterBg, masterPalette, renderer, payload } = context;
-    const { settings, resolution, captionData, timeEvents, lastTime, fps, cachedOverlays } = payload;
-    
-    // -----------------------------------------------------------------
-    // RENDERING LOOP: (The ONLY part with your custom flow logic)
-    // -----------------------------------------------------------------
-    for (let i = 0; i < timeEvents.length - 1; i++) {
-        const segmentStartTime = timeEvents[i];
-        const segmentDuration = timeEvents[i + 1] - segmentStartTime;
-        const isDynamic = settings.isDynamic || false; 
-
-        self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `
-Rendering segment $ {
-	i + 1
-}
-/${timeEvents.length - 1}` } });
-self.postMessage({
-	type: 'PROGRESS_UPDATE',
-	payload: {
-		percent: (segmentStartTime / lastTime) * 90
-	}
-});
-
-// Your custom frame generation logic using context properties
-const primaryCap = findCaptionActiveAt(segmentStartTime, captionData.primary);
-const translationCap = findCaptionActiveAt(segmentStartTime, captionData.translation);
-const currentSettings = einSofRenderer.resolveSettings(settings);
-
-if (isDynamic) {
-	const framesInSegment = Math.max(1, Math.round(segmentDuration * fps));
-	const frameDuration = segmentDuration / framesInSegment;
-	for (let frameIndex = 0; frameIndex < framesInSegment; frameIndex++) {
-		const frameTime = segmentStartTime + (frameIndex * frameDuration);
-		const {
-			canvas: dynamicBg,
-			palette: dynamicPalette
-		} = einSofRenderer.generateBackgroundCanvas(einSofRenderer.resolveSettings(settings, false), resolution, payload.portalBitmaps);
-		renderCompositeFrame(ctx, dynamicBg, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, dynamicPalette);
-		await renderer.addFrame(frameTime, frameDuration); // Muxer call via the abstract renderer
-	}
-} else {
-	let bgToUse = masterBg;
-	let paletteToUse = masterPalette;
-	if (settings.regenerateBgToggle) {
-		const bgData = einSofRenderer.generateBackgroundCanvas(currentSettings, resolution, payload.portalBitmaps);
-		bgToUse = bgData.canvas;
-		paletteToUse = bgData.palette;
-	}
-	renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, paletteToUse);
-	await renderer.addFrame(segmentStartTime, segmentDuration); // Muxer call via the abstract renderer
-}
-}
-// The final audio/finalize steps are now handled automatically by the bootstrap wrapper!
-}
-
-// --- C. KICK OFF: The final single line of code. ---
-bootstrapMediabunnyWorker(runVideoRenderingPipeline);
