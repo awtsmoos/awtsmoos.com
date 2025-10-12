@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let currentChordRoot = null,
 		currentChordNodes = [],
 		noteHistory = [];
+		let newlyPressedKeys = []; // <-- ADD THIS
 	const activeNotes = new Map();
 	let scrollState = {
 		x: 0,
@@ -147,8 +148,11 @@ function sendFrameStateToWorker(isKeyChange = true) {
             keys: keys,
             scrollX: scrollState.x,
             scrollX2: scrollState.x2 || 0,
+            newlyPressedKeys: newlyPressedKeys
         }
     });
+       // --- Crucially, clear the list after sending ---
+    newlyPressedKeys = [];
 }
 
 
@@ -257,7 +261,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 			if (elements.playChordsCheckbox.checked) {
 				triggerChord(note, octave, frequency);
 			}
-			playNote(frequency, note, keyElement, e.pointerId);
+			playNote(frequency, note, keyElement, e.pointerId, noteName);
 		}
 	}
 
@@ -525,7 +529,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 		};
 	}
 
-	function playNote(frequency, note, keyElement, pointerId) {
+	function playNote(frequency, note, keyElement, pointerId,noteName) {
 		if (activeNotes.has(pointerId)) return;
 
 		noteHistory.push(note);
@@ -543,6 +547,9 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 			sendFrameStateToWorker(true); // Key press is a state change
 		}
+		if (isVideoRecording) { // <-- ADD THIS BLOCK
+            newlyPressedKeys.push(noteName);
+        }
 	}
 
 	function stopNote(pointerId) {
@@ -872,19 +879,22 @@ async function toggleVideoRecording() {
         // 4. Send INITIALIZE Command to Worker
         videoStartTime = audioContext.currentTime;
         videoWorker.postMessage({
-            type: 'INITIALIZE_RENDERER',
-            payload: {
-                resolution: videoResolution, 
-                outputFormat: { format: 'mp4' }, 
-                startOctave: elements.octaveSelect.value, 
-                alwaysDual: elements.alwaysDualCheckbox.checked,
-                independentScroll: elements.independentScrollCheckbox.checked,
-                isVertical: isVertical, 
-                style: {
-                    whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
-                }
-            }
-        });
+    type: 'INITIALIZE_RENDERER',
+    payload: {
+        resolution: videoResolution,
+        outputFormat: { format: 'mp4' },
+        startOctave: elements.octaveSelect.value,
+        alwaysDual: elements.alwaysDualCheckbox.checked,
+        independentScroll: elements.independentScrollCheckbox.checked,
+        isVertical: isVertical,
+        // --- ADD THESE NEW PROPERTIES ---
+        numOctaves: (elements.independentScrollCheckbox.checked && isVertical) ? 4 : 8,
+        // ---
+        style: {
+            whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+        }
+    }
+});
         // 5. Start Recording and send initial frame
         mediaRecorder.start();
         isVideoRecording = true;
