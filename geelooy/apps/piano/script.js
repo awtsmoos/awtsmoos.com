@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		'super-fm', 'pluck', 'formant', 'rave-lead', 'hard-bass',
 		'acid-pulse', 'hyper-saw', 'growl-bass', 'neuro-bass',
 		'trance-gate', 'hardstyle', 'reese-bass', 'digital-hoover',
-		
+
 		'bell-ep', 'organ-drawbar', 'metal-hit', 'soft-pad',
 		'sub-osc', 'fifths-saw', 'shimmer-sine'
 	];
@@ -58,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 	elements.menuIcon = document.querySelector('.menu-icon');
 	elements.alwaysDualLabel = document.getElementById('always-dual-label');
+	// Note: The element ID recordButton is now recordAudioButton in HTML, but we need to check the JS variables:
+	elements.recordAudioButton = document.getElementById('record-audio-button');
+	elements.recordVideoButton = document.getElementById('record-video-button');
+	elements.videoProgress = document.getElementById('video-progress');
 
 	// --- GLOBAL STATE ---
 	let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, compressor, customWaves = {};
@@ -74,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	let activeScroller = {
 		isDragging: false
 	};
-	
-	let hiddenAudioProxy = null; 
+
+	let hiddenAudioProxy = null;
 
 	// --- INITIALIZATION ---
 
@@ -104,22 +108,22 @@ document.addEventListener('DOMContentLoaded', () => {
 				sampleRate: 44100
 			});
 			mediaStreamDestination = audioContext.createMediaStreamDestination();
-			
+
 			hiddenAudioProxy = document.createElement('audio');
 			hiddenAudioProxy.setAttribute('playsinline', 'true'); // Necessary for mobile iOS/Android to play without fullscreen
-                hiddenAudioProxy.setAttribute('loop', 'true');        // Forces the browser to keep the stream active indefinitely
-                
-            hiddenAudioProxy.style.display = 'none'; // Keep it out of view
-          //  hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
-            document.body.appendChild(hiddenAudioProxy);
-            
-            hiddenAudioProxy.srcObject = mediaStreamDestination.stream;
-                        // Start playback to signal the OS media system that audio is active.
-            // This is the key step that usually makes device recording work.
-                        hiddenAudioProxy.play().catch(e => console.warn("Audio play() failed (Autoplay policy issue, but stream is connected).", e));
-                
-            
-            
+			hiddenAudioProxy.setAttribute('loop', 'true'); // Forces the browser to keep the stream active indefinitely
+
+			hiddenAudioProxy.style.display = 'none'; // Keep it out of view
+			//  hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
+			document.body.appendChild(hiddenAudioProxy);
+
+			//  hiddenAudioProxy.srcObject = mediaStreamDestination.stream;
+			// Start playback to signal the OS media system that audio is active.
+			// This is the key step that usually makes device recording work.
+			//   hiddenAudioProxy.play().catch(e => console.warn("Audio play() failed (Autoplay policy issue, but stream is connected).", e));
+
+
+
 
 			// --- MASTER AUDIO CHAIN with robust clipping prevention ---
 			masterGain = audioContext.createGain();
@@ -203,7 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function setupEventListeners() {
 		elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
-		elements.recordButton.addEventListener('click', toggleRecording);
+
+
+		elements.recordAudioButton.addEventListener('click', toggleAudioRecording);
+
+		// NEW: Video recording listener
+		elements.recordVideoButton.addEventListener('click', toggleVideoRecording);
+
 		elements.micButton.addEventListener('click', toggleMicrophone);
 		elements.restoreDefaultsButton.addEventListener('click', restoreDefaults);
 
@@ -266,6 +276,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		elements.customScrollbarThumbTop.addEventListener('pointerdown', (e) => handleScrollbarPointerDown(e, 1)); // Middle bar's thumb
 		document.addEventListener('pointermove', handleDocumentPointerMove);
 	}
+
+	// NEW: Log the current state for video frame generation
+	function logVideoFrame() {
+		if (!isVideoRecording) return;
+
+		const timestamp = audioContext.currentTime - videoStartTime;
+		const keys = [];
+		activeNotes.forEach((note, pointerId) => {
+			keys.push({
+				note: note.keyElement.dataset.note,
+				isBlack: note.keyElement.classList.contains('black-key')
+			});
+		});
+		// Only log if there's a state change (i.e., key press/release)
+		if (keys.length > 0 || videoRecordingData.length === 0) {
+			videoRecordingData.push({
+				time: timestamp,
+				keys: keys,
+				scrollX: scrollState.x,
+				keyboardWidth: elements.keyboardContainer.clientWidth,
+				keyWidth: parseInt(elements.keyWidthSlider.value),
+			});
+		}
+	}
+
+
+
 
 	// --- SYNTH ENGINE ---
 
@@ -432,6 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				keyElement
 			});
 			keyElement.classList.add('active');
+
+			logVideoFrame(); // LOG FRAME ON START
 		}
 	}
 
@@ -441,6 +480,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			stopSynth(activeNote.synthNodes);
 			activeNote.keyElement.classList.remove('active');
 			activeNotes.delete(pointerId);
+
+
+			if (isVideoRecording) {
+				// Log a final frame for the key-up event after the note is stopped
+				logVideoFrame();
+				// If no notes are active, log a silent frame to capture the final release state
+				if (activeNotes.size === 0) logVideoFrame();
+			}
 		}
 	}
 
@@ -661,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	//    a) audioContext.destination (for speakers/headphones)
 	//    b) mediaStreamDestination (for recording APIs like MediaRecorder or screen capture tools).
 	// The master chain logic in the initial setup handles this.
-	function toggleRecording() {
+	function toggleAudioRecording() {
 		if (!mediaStreamDestination) {
 			alert("Audio engine not initialized.");
 			return;
@@ -704,6 +751,147 @@ document.addEventListener('DOMContentLoaded', () => {
 			elements.recordButton.classList.add('recording');
 		}
 	}
+
+
+	// NEW: Video Recording Logic
+	function toggleVideoRecording() {
+		if (!mediaStreamDestination) {
+			alert("Audio engine not initialized.");
+			return;
+		}
+		if (elements.recordAudioButton.classList.contains('recording')) {
+			alert("Please stop audio recording first.");
+			return;
+		}
+
+		if (isVideoRecording) {
+			// --- STOP VIDEO RECORDING ---
+			mediaRecorder.stop();
+			isVideoRecording = false;
+			elements.recordVideoButton.textContent = 'Record Video';
+			elements.recordVideoButton.classList.remove('recording');
+			elements.videoProgress.textContent = 'Processing...';
+
+			// Wait for MediaRecorder to finish collecting the audio blob
+			mediaRecorder.onstop = () => processVideoAndAudio();
+
+		} else {
+			// --- START VIDEO RECORDING ---
+			videoRecordingData = [];
+			audioChunks = [];
+			videoStartTime = audioContext.currentTime;
+			isVideoRecording = true;
+
+			const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
+			mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, {
+				mimeType
+			});
+
+			mediaRecorder.ondataavailable = e => {
+				if (e.data.size > 0) audioChunks.push(e.data);
+			};
+
+			mediaRecorder.start();
+			elements.recordVideoButton.textContent = 'STOP Video';
+			elements.recordVideoButton.classList.add('recording');
+			elements.videoProgress.textContent = 'Recording...';
+
+			// Log the initial state
+			logVideoFrame();
+		}
+
+
+	}
+
+	// NEW: Processing the recorded Audio Blob into an AudioBufferShim for the Worker
+	function processVideoAndAudio() {
+		const audioBlob = new Blob(audioChunks, {
+			type: audioChunks[0].type
+		});
+		const reader = new FileReader();
+		reader.onload = async (e) => {
+			elements.videoProgress.textContent = 'Decoding Audio...';
+			try {
+				// Decode the audio blob into a Web Audio API AudioBuffer
+				const audioBuffer = await audioContext.decodeAudioData(e.target.result);
+				// Create a shim object the worker expects (MediabunnyBaseRenderer constructor)
+				const audioBufferShim = {
+					sampleRate: audioBuffer.sampleRate,
+					length: audioBuffer.length,
+					duration: audioBuffer.duration,
+					numberOfChannels: audioBuffer.numberOfChannels,
+					channels: []
+				};
+				for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+					audioBufferShim.channels.push(audioBuffer.getChannelData(i));
+				}
+
+				// Call the worker with the data
+				elements.videoProgress.textContent = 'Starting Video Render...';
+				startVideoWorker(audioBufferShim);
+
+			} catch (error) {
+				console.error("Error decoding audio data:", error);
+				elements.videoProgress.textContent = 'Error processing audio.';
+			}
+		};
+		reader.readAsArrayBuffer(audioBlob);
+	}
+
+
+	function startVideoWorker(audioBufferShim) {
+		// Ensure the path is correct based on your server structure. 
+		// User provided: /scripts/awtsmoos/video/mediabunny-wirker-base.js
+		const worker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js');
+
+		worker.onmessage = (event) => {
+			const data = event.data;
+			if (data.type === 'STATUS_UPDATE' && data.payload) {
+				elements.videoProgress.textContent = data.payload.message;
+			} else if (data.type === 'PROGRESS_UPDATE' && data.payload) {
+				elements.videoProgress.textContent = `Rendering: ${data.payload.percent}%`;
+			} else if (data.type === 'VIDEO_COMPLETE' && data.payload.blob) {
+				// Video finished, offer download (similar to audio recording)
+				elements.videoProgress.textContent = 'Video Complete!';
+				const url = URL.createObjectURL(data.payload.blob);
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.href = url;
+				a.download = `BH-WebSynth-Video-${Date.now()}.mp4`;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				a.remove();
+				worker.terminate();
+			} else if (data.type === 'FATAL_ERROR') {
+				elements.videoProgress.textContent = `FATAL ERROR: ${data.payload.message}`;
+				console.error('Worker Error:', data.payload.error);
+				worker.terminate();
+			}
+		};
+		// Send data to the worker
+		worker.postMessage({
+			type: 'START_RENDERING',
+			payload: {
+				// Pass data needed by the worker
+				audioBufferShim: audioBufferShim,
+				keyPressData: videoRecordingData,
+				resolution: {
+					width: 1280,
+					height: 720
+				}, // Fixed HD resolution for the video
+				outputFormat: {
+					format: 'mp4'
+				}, // Assuming MP4 is supported by Mediabunny
+				// Pass current keyboard styling variables
+				style: {
+					whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+					keyboardHeight: elements.keyboardContainer.clientHeight // Use container height
+				}
+			}
+		}, audioBufferShim.channels.map(c => c.buffer)); // Transfer array buffers to worker
+	}
+
 
 	async function toggleMicrophone() {
 		if (microphoneSource) {
