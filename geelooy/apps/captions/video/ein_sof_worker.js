@@ -41,7 +41,7 @@ self.exports = {};
 
 // 2. Load the library. It will populate self.exports.
 try {
-	importScripts('mediabunny-library.js');
+	importScripts('/scripts/awtsmoos/video/mediabunny-library.js');
 } catch (e) {
 	console.error("Failed to import mediabunny library", e);
 	// Send a fatal error back to the main thread
