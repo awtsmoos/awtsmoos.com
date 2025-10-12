@@ -137,18 +137,9 @@ let audioChunks = []; // Still needed for final audio muxing
 // REPLACE your entire sendFrameStateToWorker function
 function sendFrameStateToWorker() {
     if (!isVideoRecording || !videoWorker) return;
-
-    // Send a message the bootstrap understands, with our custom scroll data
     videoWorker.postMessage({
-        type: 'RENDER_FRAME', // Use the expected type
-        payload: {
-            dataType: 'SCROLL_UPDATE', // Add a subtype for our logic
-            scroll: {
-                time: audioContext.currentTime - videoStartTime,
-                scrollX: scrollState.x,
-                scrollX2: scrollState.x2 || 0
-            }
-        }
+        type: 'UPDATE_SCROLL',
+        payload: { time: audioContext.currentTime - videoStartTime, scrollX: scrollState.x, scrollX2: scrollState.x2 || 0 }
     });
 }
 
@@ -560,24 +551,13 @@ function stopNote(pointerId) {
         const noteName = activeNote.keyElement.dataset.note;
         activeNotes.delete(pointerId);
 
-        // --- MODIFIED VIDEO LOGIC ---
         if (isVideoRecording && videoKeyDownMap.has(noteName)) {
             const startTime = videoKeyDownMap.get(noteName);
             const endTime = audioContext.currentTime;
-            
-            // Send a message the bootstrap understands, with our custom data inside
             videoWorker.postMessage({
-                type: 'RENDER_FRAME', // Use the expected type
-                payload: {
-                    dataType: 'KEY_EVENT', // Add a subtype for our logic
-                    event: {
-                        note: noteName,
-                        start: startTime - videoStartTime,
-                        end: endTime - videoStartTime
-                    }
-                }
+                type: 'ADD_KEY_EVENT',
+                payload: { note: noteName, start: startTime - videoStartTime, end: endTime - videoStartTime }
             });
-            
             videoKeyDownMap.delete(noteName);
         }
     }
