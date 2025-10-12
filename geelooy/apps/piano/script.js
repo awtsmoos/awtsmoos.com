@@ -917,7 +917,9 @@ function processAudioAndFinalize(audioChunks) {
             videoWorker.postMessage({
                 type: 'FINALIZE_MUXING',
                 payload: { audioBufferShim: audioBufferShim }
-            }, audioBufferShim.channels.map(c => c.buffer));
+            })
+            
+        
             console.log("finished post message final") 
 
         } catch (error) {
