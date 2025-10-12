@@ -4,7 +4,7 @@
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 Description: A high-performance, visually stunning piano renderer.
-VERSION 2.0 - Corrected dual-keyboard and scrolling logic.
+VERSION 3.0 - "Insane" visual overhaul and bug fixes.
 */
 
 // Import the base worker library
@@ -14,41 +14,44 @@ importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 let currentActiveKeys = new Set();
 let currentScrollX = 0;
 let currentScrollX2 = 0;
-// NEW: Separate layouts for each row for clean logic
 let bottomKeyboardLayout = null;
 let topKeyboardLayout = null;
 
-// --- Particle System & Style Constants (Unchanged) ---
+// --- Advanced Effects State ---
 let particles = [];
-const PARTICLE_LIFESPAN = 0.8;
-const PARTICLE_COUNT = 30;
-const PARTICLE_SPEED = 150;
-const UI_STYLE = { /* ... Your beautiful style constants ... */ };
-UI_STYLE.BACKGROUND_GRADIENT_START = '#1a1c20';
-UI_STYLE.BACKGROUND_GRADIENT_END = '#2c2f36';
-UI_STYLE.SEPARATOR_LINE = 'rgba(255, 255, 255, 0.1)';
-UI_STYLE.WHITE_KEY_GRADIENT_START = '#FFFFFF';
-UI_STYLE.WHITE_KEY_GRADIENT_END = '#E8E8E8';
-UI_STYLE.WHITE_KEY_SHADOW = 'rgba(0, 0, 0, 0.4)';
-UI_STYLE.ACTIVE_WHITE_KEY_GRADIENT_START = '#4a90e2';
-UI_STYLE.ACTIVE_WHITE_KEY_GRADIENT_END = '#3a7bc8';
-UI_STYLE.BLACK_KEY_GRADIENT_START = '#282828';
-UI_STYLE.BLACK_KEY_GRADIENT_END = '#1a1a1a';
-UI_STYLE.BLACK_KEY_SHADOW = 'rgba(0, 0, 0, 0.6)';
-UI_STYLE.ACTIVE_BLACK_KEY_GRADIENT_START = '#333333';
-UI_STYLE.ACTIVE_BLACK_KEY_GRADIENT_END = '#222222';
-UI_STYLE.ACTIVE_KEY_GLOW = 'rgba(74, 144, 226, 0.7)';
-UI_STYLE.LABEL_COLOR = '#555555';
-UI_STYLE.ACTIVE_LABEL_COLOR = '#FFFFFF';
-UI_STYLE.KEY_HEIGHT_RATIO = 0.6;
+let backgroundAngle = 0; // For animated background
+
+// --- CINEMATIC VISUAL STYLE ---
+const UI_STYLE = {
+    // A dark, moody background with a dynamic radial highlight
+    BACKGROUND_COLOR: '#0a0a0c',
+    BACKGROUND_GLOW_INNER: 'rgba(30, 80, 150, 0.2)',
+    BACKGROUND_GLOW_OUTER: 'rgba(10, 10, 12, 0)',
+
+    // Keys with a 3D, material feel
+    WHITE_KEY_FILL: '#f0f0f0',
+    WHITE_KEY_STROKE: '#c0c0c0',
+    WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.3)',
+    BLACK_KEY_GRADIENT_START: '#3a3a3a',
+    BLACK_KEY_GRADIENT_END: '#111111',
+    BLACK_KEY_SHADOW: 'rgba(0, 0, 0, 0.7)',
+
+    // Key press effects that feel powerful
+    ACTIVE_KEY_COLOR: '#00ffff', // Electric Cyan
+    ACTIVE_KEY_GLOW: 'rgba(0, 255, 255, 0.7)',
+    ACTIVE_KEY_SHOCKWAVE: 'rgba(0, 255, 255, 0.3)',
+    
+    // Elegant labels
+    LABEL_COLOR: '#888888',
+    ACTIVE_LABEL_COLOR: '#000000',
+
+    KEY_HEIGHT_RATIO: 0.6
+};
+
 const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
 // --- Utility Functions ---
 
-/**
- * REWRITTEN: Now generates a keyboard layout for a specific start octave and number of octaves.
- * This is the key to having separate layouts for each row.
- */
 function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
     const layout = [];
     let whiteKeyX = 0;
@@ -59,31 +62,30 @@ function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
         NOTE_NAMES_FLAT.forEach(note => {
             const isBlack = note.includes('b');
             const noteName = (isBlack ? note.replace('b', '#') : note) + oct;
-
             layout.push({
-                note: noteName,
-                isBlack: isBlack,
+                note: noteName, isBlack: isBlack,
                 x: isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX,
                 width: isBlack ? blackKeyWidth : whiteKeyWidth,
-                justPressed: false
+                pressTime: -1 // Used for animations
             });
-
             if (!isBlack) whiteKeyX += whiteKeyWidth;
         });
     }
     return layout;
 }
 
-function createParticles(x, y, isBlackKey) { /* ... Unchanged ... */ }
-function createParticles(x, y, isBlackKey) {
-    const color = isBlackKey ? `rgba(200, 200, 255, 0.9)` : `rgba(74, 144, 226, 0.9)`;
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+// Upgraded particle system for a "spark" effect
+function createParticles(x, y) {
+    for (let i = 0; i < 40; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * PARTICLE_SPEED;
+        const speed = Math.random() * 250 + 50;
         particles.push({
-            x: x, y: y,
-            vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-            life: PARTICLE_LIFESPAN, radius: Math.random() * 2 + 1, color: color
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: Math.random() * 1.0 + 0.5,
+            radius: Math.random() * 2.5 + 1,
+            alpha: 1
         });
     }
 }
@@ -91,14 +93,10 @@ function createParticles(x, y, isBlackKey) {
 
 // --- The Core Drawing Logic ---
 
-/**
- * REWRITTEN: The main drawing function with corrected logic.
- */
 async function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
     const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
     const deltaTime = framePayload ? framePayload.duration : (1 / 30);
-
     const isDualView = alwaysDual || isVertical;
 
     // --- State Update ---
@@ -108,10 +106,7 @@ async function drawKeyboardFrame(workerContext, framePayload) {
             framePayload.newlyPressedKeys.forEach(note => {
                 for (const layout of allLayouts) {
                     const key = layout.find(k => k.note === note);
-                    if (key) {
-                        key.justPressed = true;
-                        break;
-                    }
+                    if (key) key.pressTime = 0; // Start animation
                 }
             });
         }
@@ -120,7 +115,7 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         currentScrollX2 = framePayload.scrollX2;
     }
 
-    // --- CRITICAL FIX: Generate layouts ONCE based on payload ---
+    // --- Initialize Layouts ---
     if (bottomKeyboardLayout === null) {
         const bottomOctaves = isDualView && independentScroll ? 4 : 8;
         bottomKeyboardLayout = calculateKeyLayout(startOctave, bottomOctaves, style.whiteKeyWidth);
@@ -130,75 +125,125 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         }
     }
 
-    // --- Drawing Setup ---
-    const rowHeight = resolution.height / (isDualView ? 2 : 1);
+    // --- Drawing Layers ---
 
-    // 1. Draw Background & Particles (Unchanged)
-    const bgGradient = ctx.createLinearGradient(0, 0, 0, resolution.height);
-    bgGradient.addColorStop(0, UI_STYLE.BACKGROUND_GRADIENT_START);
-    bgGradient.addColorStop(1, UI_STYLE.BACKGROUND_GRADIENT_END);
+    // 1. Animated Background
+    backgroundAngle += deltaTime * 0.2;
+    const centerX = resolution.width / 2;
+    const centerY = resolution.height / 2;
+    const bgGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, resolution.width * 0.8);
+    bgGradient.addColorStop(0, UI_STYLE.BACKGROUND_GLOW_INNER);
+    bgGradient.addColorStop(1, UI_STYLE.BACKGROUND_GLOW_OUTER);
+    ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR;
+    ctx.fillRect(0, 0, resolution.width, resolution.height);
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(backgroundAngle);
+    ctx.translate(-centerX, -centerY);
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, resolution.width, resolution.height);
-    for (let i = particles.length - 1; i >= 0; i--) { /* ... Particle logic ... */ }
-        const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.life -= deltaTime;
-        if (p.life <= 0) { particles.splice(i, 1); } else {
-            ctx.globalAlpha = p.life / PARTICLE_LIFESPAN; ctx.fillStyle = p.color;
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
-        }
-    ctx.globalAlpha = 1;
+    ctx.restore();
 
-
-    // --- 2. Render Keys (SIMPLIFIED AND CORRECTED) ---
-    const renderRow = (layout, yStart, scroll) => {
-        const renderPass = (isBlackPass) => {
-            layout.forEach(key => {
-                if (key.isBlack !== isBlackPass) return;
-                renderKey(key, key.x - scroll, yStart, rowHeight, yStart === 0);
-            });
-        };
-        renderPass(false); // White keys first
-        renderPass(true);  // Black keys on top
-    };
-
-    const yStartBottom = isDualView ? rowHeight : 0;
-    renderRow(bottomKeyboardLayout, yStartBottom, currentScrollX);
-    if (isDualView) {
-        const topScroll = independentScroll ? currentScrollX2 : currentScrollX;
-        renderRow(topKeyboardLayout, 0, topScroll);
-    }
-
-    // Key rendering function (mostly unchanged)
-    const renderKey = (key, keyScreenX, yStart, rowH, isTopRow) => { /* ... Your beautiful key rendering logic ... */ };
+    // 2. Render Keys (with a single, correct renderKey function)
+    const rowHeight = resolution.height / (isDualView ? 2 : 1);
+    
+    // THIS IS THE FIX: 'renderKey' is defined only ONCE inside this scope.
     const renderKey = (key, keyScreenX, yStart, rowH, isTopRow) => {
         if (keyScreenX + key.width < 0 || keyScreenX > resolution.width) return;
+
         const isActive = currentActiveKeys.has(key.note);
+        if (isActive && key.pressTime >= 0) {
+            key.pressTime += deltaTime;
+        } else {
+            key.pressTime = -1;
+        }
+
         const whiteKeyHeight = rowH * 0.95;
         const blackKeyHeight = whiteKeyHeight * UI_STYLE.KEY_HEIGHT_RATIO;
-        const keyY = (isTopRow ? yStart : yStart + rowH - whiteKeyHeight) + (key.isBlack ? 0 : blackKeyHeight * 0.02);
+        const pressDepth = isActive ? 5 : 0; // Key "press down" effect
+
+        const yPos = isTopRow ? yStart : yStart + rowH - whiteKeyHeight;
+        const keyY = yPos + pressDepth;
         const keyH = key.isBlack ? blackKeyHeight : whiteKeyHeight;
-        if (key.justPressed) { createParticles(keyScreenX + key.width / 2, keyY + keyH * 0.8, key.isBlack); key.justPressed = false; }
+        
+        if (key.pressTime === 0) createParticles(keyScreenX + key.width / 2, keyY + keyH * 0.9);
+
+        // Key Body
         ctx.save();
         ctx.shadowColor = key.isBlack ? UI_STYLE.BLACK_KEY_SHADOW : UI_STYLE.WHITE_KEY_SHADOW;
-        ctx.shadowBlur = key.isBlack ? 12 : 8; ctx.shadowOffsetY = key.isBlack ? 6 : 4;
-        const gradient = ctx.createLinearGradient(keyScreenX, keyY, keyScreenX, keyY + keyH);
-        if (key.isBlack) { gradient.addColorStop(0, isActive ? UI_STYLE.ACTIVE_BLACK_KEY_GRADIENT_START : UI_STYLE.BLACK_KEY_GRADIENT_START); gradient.addColorStop(1, isActive ? UI_STYLE.ACTIVE_BLACK_KEY_GRADIENT_END : UI_STYLE.BLACK_KEY_GRADIENT_END);
-        } else { gradient.addColorStop(0, isActive ? UI_STYLE.ACTIVE_WHITE_KEY_GRADIENT_START : UI_STYLE.WHITE_KEY_GRADIENT_START); gradient.addColorStop(1, isActive ? UI_STYLE.ACTIVE_WHITE_KEY_GRADIENT_END : UI_STYLE.WHITE_KEY_GRADIENT_END); }
-        ctx.fillStyle = gradient; ctx.fillRect(keyScreenX, keyY, key.width, keyH);
+        ctx.shadowBlur = 15;
+        ctx.shadowOffsetY = 8;
+        if (key.isBlack) {
+            const gradient = ctx.createLinearGradient(keyScreenX, keyY, keyScreenX, keyY + keyH);
+            gradient.addColorStop(0, UI_STYLE.BLACK_KEY_GRADIENT_START);
+            gradient.addColorStop(1, UI_STYLE.BLACK_KEY_GRADIENT_END);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(keyScreenX, keyY, key.width, keyH);
+        } else {
+            ctx.fillStyle = UI_STYLE.WHITE_KEY_FILL;
+            ctx.strokeStyle = UI_STYLE.WHITE_KEY_STROKE;
+            ctx.lineWidth = 1;
+            ctx.fillRect(keyScreenX, keyY, key.width, keyH);
+            ctx.strokeRect(keyScreenX, keyY, key.width, keyH);
+        }
         ctx.restore();
-        if (isActive) { ctx.save(); ctx.shadowColor = UI_STYLE.ACTIVE_KEY_GLOW; ctx.shadowBlur = 25; ctx.fillStyle = UI_STYLE.ACTIVE_KEY_GLOW; ctx.fillRect(keyScreenX, keyY, key.width, keyH); ctx.restore(); }
-        if (!key.isBlack) { ctx.fillStyle = isActive ? UI_STYLE.ACTIVE_LABEL_COLOR : UI_STYLE.LABEL_COLOR; ctx.font = `bold ${style.whiteKeyWidth * 0.3}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(key.note, keyScreenX + key.width / 2, keyY + keyH - 10); }
+
+        // Active Key Lighting Effects
+        if (isActive) {
+            const shockwaveRadius = Math.min(key.pressTime * 400, key.width * 2);
+            const shockwaveGradient = ctx.createRadialGradient(keyScreenX + key.width / 2, keyY + keyH, 0, keyScreenX + key.width / 2, keyY + keyH, shockwaveRadius);
+            shockwaveGradient.addColorStop(0, UI_STYLE.ACTIVE_KEY_SHOCKWAVE);
+            shockwaveGradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+            ctx.fillStyle = shockwaveGradient;
+            ctx.fillRect(keyScreenX - shockwaveRadius, keyY, key.width + shockwaveRadius*2, keyH);
+            
+            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_COLOR;
+            ctx.globalAlpha = 0.8;
+            ctx.fillRect(keyScreenX, keyY, key.width, keyH);
+            ctx.globalAlpha = 1;
+        }
+
+        // Labels
+        if (!key.isBlack) {
+            ctx.fillStyle = isActive ? UI_STYLE.ACTIVE_LABEL_COLOR : UI_STYLE.LABEL_COLOR;
+            ctx.font = `bold ${style.whiteKeyWidth * 0.3}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(key.note, keyScreenX + key.width / 2, yPos + whiteKeyHeight - 10);
+        }
     };
 
+    const renderRow = (layout, yStart, scroll) => {
+        const renderPass = (isBlackPass) => layout.forEach(key => (key.isBlack === isBlackPass) && renderKey(key, key.x - scroll, yStart, rowHeight, yStart === 0));
+        renderPass(false);
+        renderPass(true);
+    };
 
-    // --- 3. Draw Separator Line ---
-    if (isDualView) {
-        ctx.strokeStyle = UI_STYLE.SEPARATOR_LINE;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, rowHeight);
-        ctx.lineTo(resolution.width, rowHeight);
-        ctx.stroke();
+    renderRow(bottomKeyboardLayout, isDualView ? rowHeight : 0, currentScrollX);
+    if (isDualView) renderRow(topKeyboardLayout, 0, independentScroll ? currentScrollX2 : currentScrollX);
+
+    // 3. Particles (drawn on top of keys)
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.vy += 200 * deltaTime; // Gravity
+        p.x += p.vx * deltaTime;
+        p.y += p.vy * deltaTime;
+        p.life -= deltaTime;
+        p.alpha = Math.max(0, p.life / 1.5);
+
+        if (p.life <= 0) particles.splice(i, 1);
+        else {
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_COLOR;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
+    ctx.globalAlpha = 1;
+
+    // 4. Separator Line
+    if (isDualView) { /* ... Unchanged ... */ }
 }
 
 // --- Bootstrap the Worker ---
