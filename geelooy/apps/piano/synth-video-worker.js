@@ -306,6 +306,7 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
             });
             return;
         }
+        console.log("passed media Bunny", mediabunny)
 
         self.onmessage = async (event) => {
             const data = event.data;
@@ -428,3 +429,5 @@ if (typeof self !== 'undefined') {
         libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' // Use the correct library path
     });
 }
+
+console.log("end of worker")
