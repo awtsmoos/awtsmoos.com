@@ -913,11 +913,12 @@ function processAudioAndFinalize(audioChunks) {
 
             // Send audio and finalization command to the persistent worker
             elements.videoProgress.textContent = 'Muxing Video and Audio...';
-            console. log("sent final message")
+            console. log("sending final message")
             videoWorker.postMessage({
                 type: 'FINALIZE_MUXING',
                 payload: { audioBufferShim: audioBufferShim }
-            }, audioBufferShim.channels.map(c => c.buffer)); 
+            }, audioBufferShim.channels.map(c => c.buffer));
+            console.log("finished post message final") 
 
         } catch (error) {
             console.error("Error decoding audio data:", error);
