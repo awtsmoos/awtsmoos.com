@@ -65,10 +65,12 @@ function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
  */
 async function synthWorkerLogic(context) {
     // --- CONTEXT CHANGE: Access mediabunny components directly ---
-    const { payload, canvasSource, resolution } = context; 
-    const { keyPressData, style } = payload;
+    const { payload, canvasSource } = context; 
+    
+    // FIX: Access resolution directly from payload
+    const { resolution, keyPressData, style } = payload; 
+    
     const ctx = context.ctx; // OffscreenCanvas context
-
     // Video-specific constants
     const FRAME_RATE = 30; // 30 FPS for smooth key transitions if needed
     const FRAME_DURATION = 1 / FRAME_RATE;
