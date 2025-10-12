@@ -27,6 +27,8 @@ class MediabunnyBaseRenderer {
 /* ב"ה B"H */
 constructor(mediabunnyExports, resolution, outputFormat) {
 	if (!mediabunnyExports.CanvasSource || !mediabunnyExports.MP4Muxer) {
+	console.log("got",mediabunnyExports.MP4Muxer);
+	
 		throw new Error("Mediabunny library did not load necessary components.");
 	}
 	this.output = new mediabunnyExports.MP4Muxer({
