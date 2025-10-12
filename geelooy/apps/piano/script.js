@@ -79,14 +79,80 @@ document.addEventListener('DOMContentLoaded', () => {
 		isDragging: false
 	};
 	
-	let isVideoRecording = false;
-    let videoRecordingData = [];
-    let videoStartTime = 0;
-    let audioChunks = [];
+	let videoWorker = null; // Persistent Worker reference
+let isVideoRecording = false;
+let videoStartTime = 0;
+let audioChunks = []; // Still needed for final audio muxing
 
 	let hiddenAudioProxy = null;
 
 	// --- INITIALIZATION ---
+	function setupVideoWorkerListeners(worker) {
+    worker.onmessage = (event) => {
+        const data = event.data;
+        if (data.type === 'STATUS_UPDATE' && data.payload) {
+            elements.videoProgress.textContent = data.payload.message;
+        } else if (data.type === 'PROGRESS_UPDATE' && data.payload) {
+            // PROGRESS_UPDATE from worker now reports finalization progress, not real-time frame rate
+            elements.videoProgress.textContent = `Processing: ${data.payload.percent}%`;
+        } else if (data.type === 'VIDEO_COMPLETE' && data.payload.blob) {
+            elements.videoProgress.textContent = 'Video Complete! (Downloading)';
+            const url = URL.createObjectURL(data.payload.blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `BH-WebSynth-Video-${Date.now()}.mp4`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+            
+            // Cleanup and reset
+            worker.terminate();
+            videoWorker = null;
+            elements.recordVideoButton.textContent = 'Record Video';
+            elements.videoProgress.textContent = '';
+        } else if (data.type === 'FATAL_ERROR') {
+            elements.videoProgress.textContent = `FATAL ERROR: ${data.payload.message}`;
+            console.error('Worker Error:', data.payload.error);
+            if (worker) worker.terminate();
+            videoWorker = null;
+        }
+    };
+}
+
+
+// NEW: Sends the current state to the worker for an immediate frame render
+function sendFrameStateToWorker(isKeyChange = true) {
+    if (!isVideoRecording || !videoWorker) return;
+
+    // 1. Get current visual state
+    const keys = [];
+    activeNotes.forEach((note) => {
+        // Collect ALL keys that are currently pressed down
+        keys.push(note.keyElement.dataset.note);
+    });
+    
+    // We only send a frame if a key state changed, or if it's the initial/final frame
+    if (!isKeyChange && keys.length > 0) return; // Only log scroll if keys are active
+
+    // 2. Calculate elapsed time
+    const timestamp = audioContext.currentTime - videoStartTime;
+
+    // 3. Send render command
+    videoWorker.postMessage({
+        type: 'RENDER_FRAME',
+        payload: {
+            time: timestamp,
+            keys: keys,
+            scrollX: scrollState.x,
+            scrollX2: scrollState.x2 || 0,
+        }
+    });
+}
+
+
+	
 
 	// Populate Select elements with all waveforms
 	function populateWaveformSelects() {
@@ -475,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			keyElement.classList.add('active');
 
-			logVideoFrame(); // LOG FRAME ON START
+			sendFrameStateToWorker(true); // Key press is a state change
 		}
 	}
 
