@@ -60,6 +60,7 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
 
     self.onmessage = async (event) => {
         const data = event.data;
+        console.log("days", data)
 
         // --- HANDLER 1: INITIALIZE_RENDERER ---
         if (data.type === 'INITIALIZE_RENDERER') {
