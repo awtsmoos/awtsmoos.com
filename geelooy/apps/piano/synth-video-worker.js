@@ -5,7 +5,7 @@ B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 */
 
-// Import the base worker library
+// Import the base worker library (Using the user-specified path)
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Global Worker State ---
@@ -18,29 +18,37 @@ let currentScrollX = 0;
 let currentScrollX2 = 0;
 
 
-// --- Project-Specific Drawing Constants (Same as previous step, good styles) ---
+// --- Project-Specific Drawing Constants (Improved Styles) ---
 const UI_COLOR = {
+    // General
     BACKGROUND: 'rgb(20, 20, 20)', 
     BORDER: 'rgba(0, 0, 0, 0.5)',
-    KEY_THICKNESS: 0.98, 
+    KEY_THICKNESS: 0.98, // Keys are slightly thinner than the row height
+    
+    // White Keys
     WHITE_KEY_BASE: 'rgb(255, 255, 255)',
     WHITE_KEY_HIGHLIGHT: 'rgb(245, 245, 245)',
     ACTIVE_WHITE_BASE: 'rgb(220, 220, 220)',
     ACTIVE_WHITE_HIGHLIGHT: 'rgb(240, 240, 240)',
+    
+    // Black Keys
     BLACK_KEY_BASE: 'rgb(10, 10, 10)',
     BLACK_KEY_HIGHLIGHT: 'rgb(40, 40, 40)',
     ACTIVE_BLACK_BASE: 'rgb(60, 60, 60)',
     ACTIVE_BLACK_HIGHLIGHT: 'rgb(90, 90, 90)',
-    ACTIVE_GLOW: 'rgba(0, 123, 255, 0.8)', 
+    
+    // Effects
+    ACTIVE_GLOW: 'rgba(0, 123, 255, 0.8)', // Brighter blue flash
     LABEL: 'rgb(0, 0, 0)',
     KEY_HEIGHT_RATIO: 0.6 
 };
 
 const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-// Function to pre-calculate all key positions (UNCHANGED)
+/**
+ * Calculates the full 8-octave layout from the starting C.
+ */
 function calculateKeyLayout(startOctave, whiteKeyWidth) {
-    // ... (logic is the same, calculates 8 octaves) ...
     const layout = [];
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
@@ -90,6 +98,7 @@ async function renderCurrentFrame(time, keys, scrollX, scrollX2) {
     let framesToRender = 1;
     let timePerFrame = timeDelta;
 
+    // Only render extra frames if a large time jump occurred (to fill animation gap)
     if (timeDelta > FRAME_DURATION * 1.5) {
         framesToRender = Math.ceil(timeDelta / FRAME_DURATION);
         timePerFrame = timeDelta / framesToRender;
@@ -109,12 +118,14 @@ async function renderCurrentFrame(time, keys, scrollX, scrollX2) {
  * The actual drawing function that uses the global state.
  */
 async function drawKeyboard() {
-    const { payload, canvasSource, ctx, canvas } = workerContext;
+    // Access context and payload properties
+    const { payload, ctx, canvas } = workerContext;
     const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
     
     const isDualView = alwaysDual || isVertical;
     const bottomStartOctave = parseInt(startOctave || 1);
     
+    // Calculate dimensions
     const rowHeight = resolution.height / (isDualView ? 2 : 1);
     const totalKeyAreaHeight = rowHeight * UI_COLOR.KEY_THICKNESS;
     const whiteKeyHeight = totalKeyAreaHeight;
@@ -136,13 +147,16 @@ async function drawKeyboard() {
         
         const verticalPadding = (rowHeight - whiteKeyHeight) / 2;
         
+        // White Key Y Position (Reference point for black keys)
         let wKeyYPos;
         if (isTopRow) {
             wKeyYPos = yStart + verticalPadding; 
         } else {
+            // Keys rest on the bottom of the row area
             wKeyYPos = yStart + rowHeight - whiteKeyHeight - verticalPadding; 
         }
 
+        // Key's actual drawing rectangle
         let keyRectY = wKeyYPos;
         let keyRectH = whiteKeyHeight;
         
@@ -153,85 +167,115 @@ async function drawKeyboard() {
         // Skip if key is entirely off-screen
         if (keyLayoutX + width < 0 || keyLayoutX > resolution.width) return;
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(keyLayoutX, keyRectY, width, keyRectH);
-        ctx.clip(); 
-
-        // Key Body Fill
-        let baseColor, highlightColor;
+        // Draw Order: White Keys first, then Black Keys to ensure Z-index is correct
         if (key.isBlack) {
-            baseColor = isActive ? UI_COLOR.ACTIVE_BLACK_BASE : UI_COLOR.BLACK_KEY_BASE;
-            highlightColor = isActive ? UI_COLOR.ACTIVE_BLACK_HIGHLIGHT : UI_COLOR.BLACK_KEY_HIGHLIGHT;
-        } else {
-            baseColor = isActive ? UI_COLOR.ACTIVE_WHITE_BASE : UI_COLOR.WHITE_KEY_BASE;
-            highlightColor = isActive ? UI_COLOR.ACTIVE_WHITE_HIGHLIGHT : UI_COLOR.WHITE_KEY_HIGHLIGHT;
-        }
-        
-        let gradient = ctx.createLinearGradient(keyLayoutX, keyRectY, keyLayoutX, keyRectY + keyRectH);
-        gradient.addColorStop(0, highlightColor); 
-        gradient.addColorStop(0.9, baseColor); 
-        ctx.fillStyle = gradient;
-        ctx.fill();
+             // Pass 1: Black Keys
+             
+             ctx.save();
+             ctx.beginPath();
+             ctx.rect(keyLayoutX, keyRectY, width, keyRectH);
+             ctx.clip(); 
+             
+             // Key Body Fill
+             let baseColor = isActive ? UI_COLOR.ACTIVE_BLACK_BASE : UI_COLOR.BLACK_KEY_BASE;
+             let highlightColor = isActive ? UI_COLOR.ACTIVE_BLACK_HIGHLIGHT : UI_COLOR.BLACK_KEY_HIGHLIGHT;
+             
+             let gradient = ctx.createLinearGradient(keyLayoutX, keyRectY, keyLayoutX, keyRectY + keyRectH);
+             gradient.addColorStop(0, highlightColor); 
+             gradient.addColorStop(0.9, baseColor); 
+             ctx.fillStyle = gradient;
+             ctx.fill();
 
-        // Border/Shadow
-        if (!key.isBlack) {
+             // Active Light
+             if (isActive) {
+                 ctx.fillStyle = UI_COLOR.ACTIVE_GLOW;
+                 ctx.fillRect(keyLayoutX, keyRectY + keyRectH - 8, width, 8); 
+             }
+             
+             ctx.restore();
+             
+        } else {
+            // Pass 2: White Keys
+            
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(keyLayoutX, keyRectY, width, keyRectH);
+            ctx.clip(); 
+
+            // Key Body Fill
+            let baseColor = isActive ? UI_COLOR.ACTIVE_WHITE_BASE : UI_COLOR.WHITE_KEY_BASE;
+            let highlightColor = isActive ? UI_COLOR.ACTIVE_WHITE_HIGHLIGHT : UI_COLOR.WHITE_KEY_HIGHLIGHT;
+            
+            let gradient = ctx.createLinearGradient(keyLayoutX, keyRectY, keyLayoutX, keyRectY + keyRectH);
+            gradient.addColorStop(0, highlightColor); 
+            gradient.addColorStop(0.9, baseColor); 
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Border/Shadow
             ctx.strokeStyle = UI_COLOR.BORDER;
             ctx.lineWidth = 1;
             ctx.strokeRect(keyLayoutX, keyRectY, width, keyRectH);
-        }
-        
-        // Active Light
-        if (isActive) {
-            ctx.fillStyle = UI_COLOR.ACTIVE_GLOW;
-            ctx.fillRect(keyLayoutX, keyRectY + keyRectH - 8, width, 8); 
-        }
-        
-        // Key Label
-        if (!key.isBlack) { 
+            
+            // Key Label
             ctx.fillStyle = UI_COLOR.LABEL;
             ctx.font = `24px sans-serif`;
             ctx.textAlign = 'center';
             ctx.fillText(key.note, keyLayoutX + width / 2, wKeyYPos + whiteKeyHeight - 10);
+            
+            ctx.restore();
         }
-        
-        ctx.restore();
     };
 
+    // --- DRAW LOGIC: The loop must run twice to handle Z-index (White then Black) ---
 
-    // --- DRAW BOTTOM/SINGLE KEYBOARD (Logical Index 0) ---
-    const scrollX0 = currentScrollX;
     const yStartBottom = isDualView ? rowHeight : 0; 
-    
+
+    // --- PASS 1: WHITE KEYS ---
     fullKeyboardLayout.forEach(key => {
-        const keyLayoutX = key.x - scrollX0;
-        renderKey(key, keyLayoutX, yStartBottom, rowHeight, false);
+        if (key.isBlack) return;
+        const keyLayoutX = key.x - currentScrollX;
+        renderKey(key, keyLayoutX, yStartBottom, rowHeight, false); // Bottom White
+
+        if (isDualView) {
+            const actualTopScroll = independentScroll ? currentScrollX2 : currentScrollX;
+            const drawOffset = C5_X_POS - actualTopScroll;
+            const keyOctave = parseInt(key.note.match(/\d+/g));
+            
+            if (keyOctave >= bottomStartOctave + 4) {
+                 const keyLayoutX = key.x - drawOffset;
+                 renderKey(key, keyLayoutX, 0, rowHeight, true); // Top White
+            }
+        }
     });
 
-    // --- DRAW TOP KEYBOARD (Logical Index 1) ---
-    if (isDualView) {
-         const scrollX1 = currentScrollX2;
-         const yStartTop = 0; 
-         
-         const actualTopScroll = independentScroll ? scrollX1 : scrollX0;
-         const drawOffset = C5_X_POS - actualTopScroll;
+    // --- PASS 2: BLACK KEYS ---
+    fullKeyboardLayout.forEach(key => {
+        if (!key.isBlack) return;
+        const keyLayoutX = key.x - currentScrollX;
+        renderKey(key, keyLayoutX, yStartBottom, rowHeight, false); // Bottom Black
 
-         fullKeyboardLayout.forEach(key => {
-             const keyOctave = parseInt(key.note.match(/\d+/g));
-             
-             if (keyOctave >= bottomStartOctave + 4) {
+        if (isDualView) {
+            const actualTopScroll = independentScroll ? currentScrollX2 : currentScrollX;
+            const drawOffset = C5_X_POS - actualTopScroll;
+            const keyOctave = parseInt(key.note.match(/\d+/g));
+            
+            if (keyOctave >= bottomStartOctave + 4) {
                  const keyLayoutX = key.x - drawOffset;
-                 renderKey(key, keyLayoutX, yStartTop, rowHeight, true); 
-             }
-         });
+                 renderKey(key, keyLayoutX, 0, rowHeight, true); // Top Black
+            }
+        }
+    });
 
-         // Separator line
-         ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-         ctx.lineWidth = 2;
-         ctx.beginPath();
-         ctx.moveTo(0, rowHeight);
-         ctx.lineTo(resolution.width, rowHeight);
-         ctx.stroke();
+
+    // Separator line (Drawn between the two passes for correct Z-index)
+    if (isDualView) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, rowHeight);
+        ctx.lineTo(resolution.width, rowHeight);
+        ctx.stroke();
     }
 }
 
@@ -240,8 +284,6 @@ async function drawKeyboard() {
  * The main bootstrap function for the worker.
  */
 function bootstrapMediabunnyWorker(workerLogic, options = {}) {
-    // ... (This function is the same as the base worker, but we modify self.onmessage)
-    // to handle the new messaging structure.
     
     if (typeof self !== 'undefined' && self.importScripts) {
 
@@ -272,16 +314,20 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                 const payload = data.payload;
                 const { resolution } = payload;
                 
-                // Initialize the Muxer and Context (same as the old START_RENDERING logic)
+                // Initialization (Same logic as provided working structure)
                 try {
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing video encoder...' } });
 
                     const output = new mediabunny.Output({ format: new mediabunny.Mp4OutputFormat(), target: new mediabunny.BufferTarget() });
+                    
+                    // --- CRITICAL MIRRORING: ORIGINAL VIDEO CODEC NEGOTIATION ---
                     let videoCodec = 'avc1.42001E'; 
                     try {
                         videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height });
-                    } catch (e) { console.warn("Codec check failed, using default.", e.message); }
-
+                    } catch (e) { 
+                        console.warn("Codec check failed, using default (which previously caused an error).", e.message); 
+                    }
+                    
                     const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
                     const ctx = renderCanvas.getContext('2d', { alpha: false });
                     const canvasSource = new mediabunny.CanvasSource(renderCanvas, { codec: videoCodec, bitrate: 4_000_000 });
@@ -289,7 +335,6 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                     
                     await output.start();
                     
-                    // Create the persistent worker context
                     workerContext = new RenderingContext(payload, output, canvasSource, null, renderCanvas, ctx);
 
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Renderer Ready.' } });
@@ -299,39 +344,46 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                 }
 
             } else if (data.type === 'RENDER_FRAME' && workerContext) {
-                // Real-time rendering: only update the frame using current state
+                // Real-time rendering
                 const { time, keys, scrollX, scrollX2 } = data.payload;
                 await renderCurrentFrame(time, keys, scrollX, scrollX2);
                 
             } else if (data.type === 'FINALIZE_MUXING' && workerContext) {
-                // Finalization: Mux audio and close file
                 const { audioBufferShim } = data.payload;
                 
                 try {
-                const totalDuration = audioBufferShim.duration;
+                    // --- VIDEO TRACK COMPLETION ---
+                    const totalDuration = audioBufferShim.duration;
                     const timeRemaining = totalDuration - lastFrameTime;
+                    
                     if (timeRemaining > 0.001) { 
-                        // Render the last known visual state (already in global state)
-                        // This fills the time gap between the last key press/scroll and the audio end.
                         await drawKeyboard(); 
                         await workerContext.canvasSource.add(lastFrameTime, timeRemaining);
                     }
-                    // Now, close the video source, signaling to the muxer that the video track is complete.
                     workerContext.canvasSource.close();
                     
+                    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing Audio Encoder...' } });
                     
-                    ;
-                    
-                    // Audio Muxing
+                    // --- AUDIO TRACK SETUP ---
                     const audioBufferSource = new mediabunny.AudioBufferSource({});
                     const finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
                     
-                    const audioCodec = await mediabunny.getFirstEncodableAudioCodec(workerContext.output.format.getSupportedAudioCodecs(), finalAudioBufferShim);
+                    let audioCodec = 'aac'; 
+                    try {
+                        // Fragile but necessary negotiation mirroring
+                        audioCodec = await mediabunny.getFirstEncodableAudioCodec(workerContext.output.format.getSupportedAudioCodecs(), finalAudioBufferShim);
+                    } catch (e) {
+                         console.warn(`Audio Codec negotiation failed: ${e.message}. Using default 'aac'.`);
+                         audioCodec = 'aac'; 
+                    }
+
                     audioBufferSource.codec = audioCodec;
-                    workerContext.output.addAudioTrack(audioBufferSource); // Add track now that we have the codec
+                    workerContext.output.addAudioTrack(audioBufferSource); 
                     
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
-                    await audioBufferSource.add(finalAudioBufferShim);
+                    
+                    // The duration is added for stability
+                    await audioBufferSource.add(finalAudioBufferShim, audioBufferShim.duration); 
                     
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
                     await workerContext.output.finalize();
@@ -344,6 +396,7 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                             }) 
                         } 
                     });
+
                 } catch (e) {
                     self.postMessage({ type: 'FATAL_ERROR', payload: { message: `Finalization failed: ${e.message}`, error: e } });
                 }
@@ -361,6 +414,6 @@ if (typeof self !== 'undefined') {
 	self.bootstrapMediabunnyWorker = bootstrapMediabunnyWorker;
     // Call bootstrap with the project-specific logic
     self.bootstrapMediabunnyWorker(renderCurrentFrame, {
-        libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' 
+        libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' // Use the correct library path
     });
 }
