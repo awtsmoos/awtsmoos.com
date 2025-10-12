@@ -3,8 +3,8 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A high-performance, cinematic piano renderer with volumetric lighting.
-VERSION 6.0 - The Definitive, Bug-Free, and Visually Enhanced Edition.
+Description: A high-performance, cinematic piano renderer with "Aurora Flow" visuals.
+VERSION 8.0 - The Definitive, Bug-Free, and Visually Final Edition.
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -13,28 +13,28 @@ importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 let currentActiveKeys = new Set();
 let currentScrollX = 0, currentScrollX2 = 0;
 let bottomKeyboardLayout = null, topKeyboardLayout = null;
-let keyCache = {}; // For high-performance pre-rendered key images
+let keyCache = {};
 let particles = [];
+let backgroundOffset = { x: 0, y: 0 };
 
-// --- CINEMATIC "NEON NOIR" VISUAL STYLE ---
+// --- "AURORA FLOW" VISUAL STYLE ---
 const UI_STYLE = {
-    BACKGROUND_COLOR: '#0c0d10',
-    SEPARATOR_LINE: 'rgba(255, 255, 255, 0.1)',
+    BACKGROUND_GRADIENT_START: '#0a0a0f',
+    BACKGROUND_GRADIENT_END: '#1a1a2a',
+    NEBULA_COLOR_1: 'rgba(50, 80, 180, 0.2)',
+    NEBULA_COLOR_2: 'rgba(150, 50, 180, 0.15)',
     
-    // Keys with a clean, 3D feel
-    WHITE_KEY_FILL: '#e8e9ed',
+    WHITE_KEY_FILL: 'rgba(240, 240, 255, 0.9)',
     WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.4)',
-    BLACK_KEY_FILL: '#1a1c20',
-    BLACK_KEY_SHADOW: 'rgba(0, 0, 0, 0.6)',
+    BLACK_KEY_FILL: 'rgba(20, 20, 30, 0.85)',
+    BLACK_KEY_SHADOW: 'rgba(0, 0, 0, 0.7)',
     
-    // Powerful, electric key press effects
-    ACTIVE_KEY_COLOR: '#00e0ff', // Vivid Cyan
-    GOD_RAY_COLOR: 'rgba(0, 224, 255, 0.12)',
+    AURORA_COLOR: '#00eaff',
+    AURORA_GLOW: 'rgba(0, 234, 255, 0.8)',
+    AURORA_TRAIL: 'rgba(0, 234, 255, 0.2)',
     
-    // Elegant labels
-    LABEL_COLOR: '#a0a0a0',
-    ACTIVE_LABEL_COLOR: '#000000',
-
+    LABEL_COLOR: 'rgba(0, 0, 0, 0.4)',
+    ACTIVE_LABEL_COLOR: 'rgba(0, 0, 0, 0.9)',
     KEY_HEIGHT_RATIO: 0.65
 };
 
@@ -45,8 +45,7 @@ const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', '
 function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
     const layout = []; let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
-    const baseOctave = parseInt(startOctave);
-    for (let oct = baseOctave; oct < baseOctave + numOctaves; oct++) {
+    for (let oct = startOctave; oct < startOctave + numOctaves; oct++) {
         NOTE_NAMES_FLAT.forEach(note => {
             const isBlack = note.includes('b');
             const noteName = (isBlack ? note.replace('b', '#') : note) + oct;
@@ -60,65 +59,70 @@ function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
     return layout;
 }
 
-// Pre-renders key states to offscreen canvases for a massive performance boost
+// Pre-renders key states for a massive performance boost
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const blackKeyWidth = whiteKeyWidth * 0.6;
     const blackKeyHeight = whiteKeyHeight * UI_STYLE.KEY_HEIGHT_RATIO;
-    const states = ['default', 'active'];
-
-    states.forEach(state => {
-        // --- White Key Cache ---
+    ['default', 'active'].forEach(state => {
+        const isActive = state === 'active';
+        // White Key
         const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight);
         const wCtx = wCanvas.getContext('2d');
-        wCtx.fillStyle = state === 'active' ? UI_STYLE.ACTIVE_KEY_COLOR : UI_STYLE.WHITE_KEY_FILL;
+        wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL;
         wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
-        // Add a subtle inner gradient for 3D effect
-        const wGradient = wCtx.createLinearGradient(0, 0, 0, whiteKeyHeight);
-        wGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-        wGradient.addColorStop(0.2, 'rgba(255, 255, 255, 0)');
+        const wGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0);
+        wGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+        wGradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.0)');
         wCtx.fillStyle = wGradient;
         wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
+        if (isActive) {
+            wCtx.fillStyle = UI_STYLE.AURORA_COLOR;
+            wCtx.globalAlpha = 0.8;
+            wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
+            wCtx.globalAlpha = 1;
+        }
         keyCache[`white_${state}`] = wCanvas;
-
-        // --- Black Key Cache ---
+        // Black Key
         const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight);
         const bCtx = bCanvas.getContext('2d');
-        bCtx.fillStyle = state === 'active' ? UI_STYLE.ACTIVE_KEY_COLOR : UI_STYLE.BLACK_KEY_FILL;
+        bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL;
         bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
-        // Add a subtle highlight for a rounded look
-        const bGradient = bCtx.createLinearGradient(0, 0, blackKeyWidth, 0);
-        bGradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-        bGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.0)');
-        bGradient.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
+        const bGradient = bCtx.createLinearGradient(0, 0, blackKeyWidth * 0.5, 0);
+        bGradient.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+        bGradient.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
         bCtx.fillStyle = bGradient;
         bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
+        if (isActive) {
+            bCtx.fillStyle = UI_STYLE.AURORA_COLOR;
+            bCtx.globalAlpha = 0.8;
+            bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
+            bCtx.globalAlpha = 1;
+        }
         keyCache[`black_${state}`] = bCanvas;
     });
 }
 
-// "Digital Dissolve" particle system
+// "Stardust" particle system
 function createParticles(x, y) {
-    const count = 30;
-    for (let i = 0; i < count; i++) {
-        const angle = (i / count) * Math.PI * 2;
-        const speed = Math.random() * 80 + 20;
+    for (let i = 0; i < 25; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 100 + 50;
         particles.push({
             x, y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            life: Math.random() * 0.8 + 0.4,
-            initialLife: 1 // Will be set on first update
+            vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: Math.random() * 1.2 + 0.6,
+            initialLife: Math.random() * 1.2 + 0.6,
+            radius: Math.random() * 2 + 1
         });
     }
 }
-
 
 // --- The Core Drawing Logic ---
 
 async function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
-    const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave, numOctaves } = payload;
-    const deltaTime = framePayload ? framePayload.duration : (1 / 30);
+    const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
+    const deltaTime = framePayload ? (framePayload.duration || 1 / 30) : (1 / 30);
     const isDualView = alwaysDual || isVertical;
 
     // --- State Update & Animation Tick ---
@@ -137,14 +141,19 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         }
     }
     const allLayouts = [bottomKeyboardLayout, topKeyboardLayout].filter(Boolean);
-    allLayouts.forEach(layout => layout.forEach(key => key.pressAnimation = Math.max(0, key.pressAnimation - deltaTime * 2.5)));
+    allLayouts.forEach(layout => layout.forEach(key => key.pressAnimation = Math.max(0, key.pressAnimation - deltaTime * 1.5)));
 
-    // --- One-Time Initialization ---
+    // --- One-Time Layout Initialization (PERFECT UI MIRROR LOGIC) ---
     if (bottomKeyboardLayout === null) {
-        bottomKeyboardLayout = calculateKeyLayout(startOctave, numOctaves, style.whiteKeyWidth);
+        const baseStartOctave = parseInt(startOctave);
         if (isDualView) {
-            const topStartOctave = independentScroll ? (parseInt(startOctave) + 4) : parseInt(startOctave);
-            topKeyboardLayout = calculateKeyLayout(topStartOctave, numOctaves, style.whiteKeyWidth);
+            const octaves = independentScroll ? 4 : 8;
+            const topStartOctaveOffset = independentScroll ? 4 : 0;
+            bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, octaves, style.whiteKeyWidth);
+            topKeyboardLayout = calculateKeyLayout(baseStartOctave + topStartOctaveOffset, octaves, style.whiteKeyWidth);
+        } else {
+            bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, 8, style.whiteKeyWidth);
+            topKeyboardLayout = null;
         }
         const rowHeight = resolution.height / (isDualView ? 2 : 1);
         cacheKeyRenders(style.whiteKeyWidth, rowHeight * 0.95);
@@ -152,13 +161,25 @@ async function drawKeyboardFrame(workerContext, framePayload) {
 
     // --- Drawing ---
 
-    // 1. Background
-    ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR;
+    // 1. Animated Nebula Background
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, resolution.height);
+    bgGradient.addColorStop(0, UI_STYLE.BACKGROUND_GRADIENT_START);
+    bgGradient.addColorStop(1, UI_STYLE.BACKGROUND_GRADIENT_END);
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, resolution.width, resolution.height);
+    backgroundOffset.x += deltaTime * 5;
+    backgroundOffset.y += deltaTime * 3;
+    const nebulaGradient = ctx.createRadialGradient(
+        resolution.width / 2 + Math.sin(backgroundOffset.x / 10) * 200, resolution.height / 2 + Math.cos(backgroundOffset.y / 10) * 150, 0,
+        resolution.width / 2, resolution.height / 2, Math.max(resolution.width, resolution.height));
+    nebulaGradient.addColorStop(0, UI_STYLE.NEBULA_COLOR_1);
+    nebulaGradient.addColorStop(1, UI_STYLE.NEBULA_COLOR_2);
+    ctx.fillStyle = nebulaGradient;
+    ctx.fillRect(0, 0, resolution.width, resolution.height);
+
 
     // 2. Render Keys
     const rowHeight = resolution.height / (isDualView ? 2 : 1);
-    
     const renderKey = (key, keyScreenX, yStart, rowH, isTopRow) => {
         if (keyScreenX + key.width < 0 || keyScreenX > resolution.width) return;
 
@@ -169,35 +190,29 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         const cacheName = `${key.isBlack ? 'black' : 'white'}_${isActive ? 'active' : 'default'}`;
         const keyImage = keyCache[cacheName];
         if (!keyImage) return;
-        
-        // Trigger particles on the first frame of animation
-        if (key.pressAnimation > 0.95) createParticles(keyScreenX + key.width / 2, yPos + (isTopRow ? keyImage.height * 0.9 : keyImage.height * 0.1));
+
+        if (key.pressAnimation > 0.95) createParticles(keyScreenX + key.width / 2, yPos);
 
         // Draw Shadow
         ctx.shadowColor = key.isBlack ? UI_STYLE.BLACK_KEY_SHADOW : UI_STYLE.WHITE_KEY_SHADOW;
-        ctx.shadowBlur = 15;
-        ctx.shadowOffsetY = 8 - pressDepth;
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetY = 10 - pressDepth;
         
         // Draw pre-rendered key from cache (FAST)
         ctx.drawImage(keyImage, keyScreenX, yPos);
-        ctx.shadowColor = 'transparent'; // Reset shadow for other elements
+        ctx.shadowColor = 'transparent';
 
-        // God Rays Effect
+        // Aurora Effect
         if (key.pressAnimation > 0) {
-            const rayY = isTopRow ? yPos + keyImage.height : yPos;
-            // Use LinearGradient for stability and appearance
-            const rayGradient = ctx.createLinearGradient(0, rayY, 0, isTopRow ? rayY + 300 : rayY - 300);
-            rayGradient.addColorStop(0, UI_STYLE.GOD_RAY_COLOR);
-            rayGradient.addColorStop(1, 'rgba(0, 224, 255, 0)');
-            
+            const auroraHeight = whiteKeyHeight * 1.5;
+            const auroraY = isTopRow ? yPos + whiteKeyHeight : yPos - auroraHeight / 2;
+            const auroraGradient = ctx.createLinearGradient(0, auroraY, 0, isTopRow ? auroraY + auroraHeight : auroraY - auroraHeight);
+            auroraGradient.addColorStop(0, 'transparent');
+            auroraGradient.addColorStop(0.5, UI_STYLE.AURORA_TRAIL);
+            auroraGradient.addColorStop(1, 'transparent');
             ctx.globalAlpha = key.pressAnimation;
-            ctx.fillStyle = rayGradient;
-            ctx.beginPath();
-            ctx.moveTo(keyScreenX - key.width, isTopRow ? rayY : rayY + 2);
-            ctx.lineTo(keyScreenX + key.width / 2, isTopRow ? resolution.height : 0);
-            ctx.lineTo(keyScreenX + key.width * 2, isTopRow ? rayY : rayY + 2);
-            ctx.closePath();
-            ctx.fill();
+            ctx.fillStyle = auroraGradient;
+            ctx.fillRect(keyScreenX, isTopRow ? yPos : auroraY - auroraHeight, key.width, auroraHeight * 2);
             ctx.globalAlpha = 1;
         }
 
@@ -207,36 +222,36 @@ async function drawKeyboardFrame(workerContext, framePayload) {
             ctx.font = `bold ${style.whiteKeyWidth * 0.28}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
+            ctx.globalAlpha = 0.9;
             ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + rowH - (rowH * 0.05));
+            ctx.globalAlpha = 1;
         }
     };
 
     const renderRow = (layout, yStart, scroll) => {
+        if (!layout) return;
         const renderPass = isBlackPass => layout.forEach(key => (key.isBlack === isBlackPass) && renderKey(key, key.x - scroll, yStart, rowHeight, yStart === 0));
-        renderPass(false); // White keys first for correct layering
+        renderPass(false);
         renderPass(true);
     };
 
     renderRow(bottomKeyboardLayout, isDualView ? rowHeight : 0, currentScrollX);
     if (isDualView) renderRow(topKeyboardLayout, 0, independentScroll ? currentScrollX2 : currentScrollX);
 
-    // 3. Particles (Drawn on top of everything)
+    // 3. Particles (Drawn on top)
     for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
-        if (p.initialLife === 1) p.initialLife = p.life; // Set initial life on first frame
         p.x += p.vx * deltaTime;
         p.y += p.vy * deltaTime;
-        p.vy += 20 * deltaTime; // Slight drift
         p.life -= deltaTime;
         const lifePercent = Math.max(0, p.life / p.initialLife);
-
         if (lifePercent <= 0) {
             particles.splice(i, 1);
         } else {
-            ctx.globalAlpha = lifePercent * 0.8;
-            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_COLOR;
+            ctx.globalAlpha = lifePercent;
+            ctx.fillStyle = UI_STYLE.AURORA_COLOR;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, lifePercent * 2.5, 0, Math.PI * 2); // Particles shrink over time
+            ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2);
             ctx.fill();
         }
     }
@@ -246,12 +261,10 @@ async function drawKeyboardFrame(workerContext, framePayload) {
     if (isDualView) {
         ctx.strokeStyle = UI_STYLE.SEPARATOR_LINE;
         ctx.lineWidth = 1;
-        ctx.setLineDash([5, 10]);
         ctx.beginPath();
         ctx.moveTo(0, rowHeight);
         ctx.lineTo(resolution.width, rowHeight);
         ctx.stroke();
-        ctx.setLineDash([]);
     }
 }
 
