@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	let activeScroller = {
 		isDragging: false
 	};
+	
+	let hiddenAudioProxy = null; 
 
 	// --- INITIALIZATION ---
 
@@ -102,6 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
 				sampleRate: 44100
 			});
 			mediaStreamDestination = audioContext.createMediaStreamDestination();
+			
+			hiddenAudioProxy = document.createElement('audio');
+            hiddenAudioProxy.style.display = 'none'; // Keep it out of view
+            hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
+            document.body.appendChild(hiddenAudioProxy);
+            
+            hiddenAudioProxy.srcObject = mediaStreamDestination.stream;
+                        // Start playback to signal the OS media system that audio is active.
+            // This is the key step that usually makes device recording work.
+                        hiddenAudioProxy.play().catch(e => console.warn("Audio play() failed (Autoplay policy issue, but stream is connected).", e));
+                
+            
+            
 
 			// --- MASTER AUDIO CHAIN with robust clipping prevention ---
 			masterGain = audioContext.createGain();
