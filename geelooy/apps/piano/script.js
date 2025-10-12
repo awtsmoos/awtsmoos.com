@@ -842,61 +842,47 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 		reader.readAsArrayBuffer(audioBlob);
 	}
+	
+	// script.js (Inside startVideoWorker function)
+
+// ...
+function startVideoWorker(audioBufferShim) {
+    
+    // --- NEW: Calculate Resolution based on current window orientation ---
+    const isVertical = window.innerHeight > window.innerWidth;
+    const HD_WIDTH = 1080;
+    const HD_HEIGHT = 1920;
+    const videoResolution = isVertical 
+        ? { width: HD_WIDTH, height: HD_HEIGHT } 
+        : { width: HD_HEIGHT, height: HD_WIDTH }; // 1920x1080 for landscape
+
+    // ... (worker instantiation) ...
+
+    worker.postMessage({
+        type: 'START_RENDERING',
+        payload: {
+            audioBufferShim: audioBufferShim,
+            keyPressData: videoRecordingData,
+            // --- UPDATED RESOLUTION ---
+            resolution: videoResolution, 
+            outputFormat: { format: 'mp4' }, 
+            startOctave: elements.octaveSelect.value, 
+            // --- CRITICAL: PASS DUAL VIEW SETTINGS ---
+            alwaysDual: elements.alwaysDualCheckbox.checked,
+            independentScroll: elements.independentScrollCheckbox.checked,
+            isVertical: isVertical, // Pass the initial orientation
+            // ---
+            style: {
+                whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
+                // We no longer need keyboardContainer.clientHeight as we use videoResolution.height
+            }
+        }
+    }, audioBufferShim.channels.map(c => c.buffer));
+}
+// ...
 
 
-	function startVideoWorker(audioBufferShim) {
-		// Ensure the path is correct based on your server structure. 
-		// User provided: /scripts/awtsmoos/video/mediabunny-wirker-base.js
-		const worker = new Worker('./synth-video-worker.js');
-
-		worker.onmessage = (event) => {
-			const data = event.data;
-			if (data.type === 'STATUS_UPDATE' && data.payload) {
-				elements.videoProgress.textContent = data.payload.message;
-			} else if (data.type === 'PROGRESS_UPDATE' && data.payload) {
-				elements.videoProgress.textContent = `Rendering: ${data.payload.percent}%`;
-			} else if (data.type === 'VIDEO_COMPLETE' && data.payload.blob) {
-				// Video finished, offer download (similar to audio recording)
-				elements.videoProgress.textContent = 'Video Complete!';
-				const url = URL.createObjectURL(data.payload.blob);
-				const a = document.createElement('a');
-				a.style.display = 'none';
-				a.href = url;
-				a.download = `BH-WebSynth-Video-${Date.now()}.mp4`;
-				document.body.appendChild(a);
-				a.click();
-				window.URL.revokeObjectURL(url);
-				a.remove();
-				worker.terminate();
-			} else if (data.type === 'FATAL_ERROR') {
-				elements.videoProgress.textContent = `FATAL ERROR: ${data.payload.message}`;
-				console.error('Worker Error:', data.payload.error);
-				worker.terminate();
-			}
-		};
-		// Send data to the worker
-		worker.postMessage({
-			type: 'START_RENDERING',
-			payload: {
-				// Pass data needed by the worker
-				audioBufferShim: audioBufferShim,
-				keyPressData: videoRecordingData,
-				resolution: {
-					width: 1280,
-					height: 720
-				}, // Fixed HD resolution for the video
-				outputFormat: {
-					format: 'mp4'
-				}, // Assuming MP4 is supported by Mediabunny
-				// Pass current keyboard styling variables
-				style: {
-					whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
-					keyboardHeight: elements.keyboardContainer.clientHeight // Use container height
-				}
-			}
-		}, audioBufferShim.channels.map(c => c.buffer)); // Transfer array buffers to worker
-	}
-
+	
 
 	async function toggleMicrophone() {
 		if (microphoneSource) {
