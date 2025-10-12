@@ -711,6 +711,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * Editor Module: Manages the main text editor area.
      */
     const Editor = {
+    
+        currentHighlighter: null, // B"H - Add this line to track the instance
+        setContent: (content = "", filename = "") => {
         setContent: (content = "", filename = "") => {
             DOM.editor.value = content;
             UI.updateLineNumbers();
@@ -718,15 +721,24 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { 
                 UI.syncScroll(); 
                 Editor.focus();
+
+                // B"H --- THE FIX IS HERE ---
+                // 1. If a highlighter from a previous file exists, destroy it first.
+                if (Editor.currentHighlighter) {
+                    Editor.currentHighlighter.destroy();
+                }
+
                 var ext=getExt(filename);
                 var real ={
                     ".js":"js",
                     ".css":"css",
                     ".html":"html"
-                
                 }
-                var f=real[ext]
-                var pan = new pnimi(DOM.editor, f || "js")
+                var f = real[ext];
+
+                // 2. Create the new instance and SAVE it to our tracking variable.
+                Editor.currentHighlighter = new pnimi(DOM.editor, f || "js");
+
             }, 0);
         },
         getContent: () => DOM.editor.value,
