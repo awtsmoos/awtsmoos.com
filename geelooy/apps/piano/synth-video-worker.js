@@ -355,13 +355,13 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                     // --- VIDEO TRACK COMPLETION ---
                     const totalDuration = audioBufferShim.duration;
                     const timeRemaining = totalDuration - lastFrameTime;
-                    
+                    console.log("setting up")
                     if (timeRemaining > 0.001) { 
                         await drawKeyboard(); 
                         await workerContext.canvasSource.add(lastFrameTime, timeRemaining);
                     }
                     workerContext.canvasSource.close();
-                    
+                    console.log("drawn")
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing Audio Encoder...' } });
                     
                     // 2. AUDIO TRACK SETUP AND MUXING (The original batch method)
