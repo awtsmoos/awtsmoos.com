@@ -308,7 +308,19 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                 const { audioBufferShim } = data.payload;
                 
                 try {
+                const totalDuration = audioBufferShim.duration;
+                    const timeRemaining = totalDuration - lastFrameTime;
+                    if (timeRemaining > 0.001) { 
+                        // Render the last known visual state (already in global state)
+                        // This fills the time gap between the last key press/scroll and the audio end.
+                        await drawKeyboard(); 
+                        await workerContext.canvasSource.add(lastFrameTime, timeRemaining);
+                    }
+                    // Now, close the video source, signaling to the muxer that the video track is complete.
                     workerContext.canvasSource.close();
+                    
+                    
+                    ;
                     
                     // Audio Muxing
                     const audioBufferSource = new mediabunny.AudioBufferSource({});
