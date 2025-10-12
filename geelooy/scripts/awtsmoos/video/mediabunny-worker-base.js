@@ -71,7 +71,9 @@ if (typeof self !== 'undefined' && self.importScripts) {
 	// The mediabunny library is expected to load components into the global `mediabunny` object.
 	try {
         // NOTE: We rely on the library to expose itself as 'mediabunny' globally
+		self.exports={}
 		self.importScripts(libraryPath);
+		var mediabunny=self.exports
         if (typeof mediabunny === 'undefined' || !mediabunny.Output) {
             throw new Error("Mediabunny library did not expose 'mediabunny' object correctly.");
         }
