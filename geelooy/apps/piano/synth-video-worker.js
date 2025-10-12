@@ -4,28 +4,26 @@ B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 */
 
-// Import the base worker library (assuming it's in the same directory)
-importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js'); // NOTE: The typo 'wirker' is maintained as per your path
+// Import the base worker library
+importScripts('/scripts/awtsmoos/video/mediabunny-wirker-base.js');
 
 // --- Project-Specific Drawing Constants ---
 const UI_COLOR = {
-// ... (UI_COLOR and NOTE_NAMES_FLAT are unchanged)
     WHITE_KEY: 'rgb(255, 255, 255)',
     BLACK_KEY: 'rgb(0, 0, 0)',
-    ACTIVE_WHITE: 'rgb(204, 204, 204)', // #ccc
-    ACTIVE_BLACK: 'rgb(68, 68, 68)',   // #444
+    ACTIVE_WHITE: '#f0f0f0', // Slightly less bright for effect
+    ACTIVE_BLACK: '#1a1a1a', 
     LABEL: 'rgb(0, 0, 0)',
     BACKGROUND: 'rgb(0, 0, 0)',
     BORDER: 'rgb(17, 17, 17)',
-    ACTIVE_KEY_LIGHT: 'rgba(0, 123, 255, 0.7)', // #007bff
-    KEY_HEIGHT_RATIO: 0.6 // Black key height relative to white key height
+    ACTIVE_KEY_GLOW: 'rgba(0, 123, 255, 0.7)', // #007bff
+    KEY_HEIGHT_RATIO: 0.6 
 };
 
 const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
 
-// Function to pre-calculate all key positions (unchanged)
+// Function to pre-calculate all key positions (Slightly modified to return total width)
 function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
-// ... (unchanged)
     const layout = [];
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
@@ -61,118 +59,151 @@ function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
 
 /**
  * The core video rendering logic for the Web Synth.
- * Renders one frame for every state change recorded.
  */
 async function synthWorkerLogic(context) {
-    // --- CONTEXT CHANGE: Access mediabunny components directly ---
+    
     const { payload, canvasSource } = context; 
+    const { resolution, keyPressData, style, alwaysDual, independentScroll, isVertical } = payload; 
+    const ctx = context.ctx; 
+
+    // Determine the keyboard layout based on main thread settings
+    const isDualView = alwaysDual || isVertical;
+    const numOctaves = isDualView && !independentScroll ? 8 : 4;
+    const bottomStartOctave = parseInt(payload.startOctave || 1);
+    const topStartOctave = isDualView && !independentScroll ? bottomStartOctave : bottomStartOctave + 4;
     
-    // FIX: Access resolution directly from payload
-    const { resolution, keyPressData, style } = payload; 
-    
-    const ctx = context.ctx; // OffscreenCanvas context
-    // Video-specific constants
-    const FRAME_RATE = 30; // 30 FPS for smooth key transitions if needed
-    const FRAME_DURATION = 1 / FRAME_RATE;
-    
-    // --- 1. Calculate Keyboard Layout ---
-    // Assuming the video focuses on the bottom keyboard (octave 1 to 8, total 8 octaves)
-    const { layout } = calculateKeyLayout(
-        parseInt(payload.startOctave || 1), // Use the start octave passed from the main thread
-        8, 
-        style.whiteKeyWidth
-    );
-    const keyboardHeight = resolution.height * 0.9; // Keyboard takes up 90% of screen height
+    // --- 1. Keyboard Dimensions & Layout Calculations ---
+    const keyboardHeight = resolution.height / (isDualView ? 2 : 1) * 0.95; // 95% of row height
     const whiteKeyHeight = keyboardHeight;
     const blackKeyHeight = whiteKeyHeight * UI_COLOR.KEY_HEIGHT_RATIO;
+    const { layout: layoutBottom } = calculateKeyLayout(bottomStartOctave, 8, style.whiteKeyWidth);
     
+    let layoutTop = [];
+    if (isDualView) {
+        // Only calculate top layout if in dual view, using the correct start offset
+        const { layout: layoutTopCalc } = calculateKeyLayout(topStartOctave, 8, style.whiteKeyWidth);
+        layoutTop = layoutTopCalc;
+    }
+    
+    // --- 2. Drawing Function with Shadows/Gradients ---
+    
+    const renderKey = (key, xOffset, yStart, rowHeight, activeKeySet) => {
+        const isActive = activeKeySet.has(key.note);
+        const xPos = key.x - xOffset;
+        const width = key.width;
+        const height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
+        const yPos = yStart + rowHeight - height; // Draw from the bottom of the row
+
+        // Skip if key is entirely off-screen
+        if (xPos + width < 0 || xPos > resolution.width) return;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(xPos, yPos, width, height);
+        ctx.clip(); // Ensure gradients/shadows don't bleed
+
+        // Subtle Key Body Fill (Gradient for 3D effect)
+        let gradient = ctx.createLinearGradient(xPos, yPos, xPos, yPos + height);
+        if (key.isBlack) {
+            gradient.addColorStop(0, isActive ? UI_COLOR.ACTIVE_BLACK : UI_COLOR.BLACK_KEY);
+            gradient.addColorStop(1, '#080808'); 
+            ctx.fillStyle = gradient;
+        } else {
+            gradient.addColorStop(0, isActive ? UI_COLOR.ACTIVE_WHITE : UI_COLOR.WHITE_KEY);
+            gradient.addColorStop(1, '#e0e0e0');
+            ctx.fillStyle = gradient;
+            
+            // Subtle White Key Shadow/Border
+            ctx.strokeStyle = UI_COLOR.BORDER;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(xPos, yPos, width, height);
+        }
+        ctx.fill();
+
+        // Active Light (Flash Effect)
+        if (isActive) {
+            ctx.fillStyle = UI_COLOR.ACTIVE_KEY_GLOW;
+            ctx.fillRect(xPos, yPos + height - 10, width, 10);
+        }
+        
+        // Key Label
+        ctx.fillStyle = key.isBlack ? UI_COLOR.WHITE_KEY : UI_COLOR.LABEL;
+        ctx.font = `${key.isBlack ? 16 : 24}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(key.note, xPos + width / 2, yPos + height - 10);
+        
+        ctx.restore();
+    };
+    
+    // --- 3. Rendering Loop Setup ---
+
+    const FRAME_RATE = 30; 
+    const FRAME_DURATION = 1 / FRAME_RATE;
     let frameTime = 0;
     let dataIndex = 0;
     
-    // --- 2. Rendering Loop ---
-    
-    // Create an empty state at T=0 to start from
     if (keyPressData.length === 0 || keyPressData[0].time !== 0) {
-        keyPressData.unshift({ time: 0, keys: [], scrollX: 0, keyboardWidth: style.keyboardWidth, keyWidth: style.whiteKeyWidth });
+        keyPressData.unshift({ time: 0, keys: [], scrollX: 0, scrollX2: 0, keyboardWidth: style.keyboardWidth, keyWidth: style.whiteKeyWidth });
     }
     
-    // Find the total audio duration to ensure video length matches
     const totalAudioDuration = payload.audioBufferShim ? payload.audioBufferShim.duration : 0;
     
-    // The loop will continue until all key states are processed AND the audio duration is met.
+    // Get the scroll state property names based on independence
+    const getScrollX = (data, logicalIndex) => {
+        if (!isDualView || !independentScroll || logicalIndex === 0) return data.scrollX || 0;
+        return data.scrollX2 || 0;
+    };
+    
+    // The total height of one keyboard row
+    const rowHeight = resolution.height / (isDualView ? 2 : 1);
+    
     while (dataIndex < keyPressData.length || frameTime < totalAudioDuration) {
         
         const currentData = keyPressData[Math.min(dataIndex, keyPressData.length - 1)];
         const nextData = keyPressData[dataIndex + 1];
         
-        // Determine the time until the next key state change
         let endTime = nextData ? nextData.time : totalAudioDuration + 0.1; 
-        
-        // Clamp the end time to the total audio duration
         endTime = Math.min(endTime, totalAudioDuration + FRAME_DURATION); 
 
-        // If frameTime has passed the end of the last recorded state, break the outer loop (will be caught by totalAudioDuration check)
         if (dataIndex >= keyPressData.length && frameTime >= totalAudioDuration) break;
         
-        // Loop from the current state time up to the next state time/audio end
         while (frameTime < endTime) {
             
             // a. Clear Canvas & Set Background
             ctx.fillStyle = UI_COLOR.BACKGROUND;
             ctx.fillRect(0, 0, resolution.width, resolution.height);
             
-            // b. Draw Keys (Black keys first for correct Z-index)
-            
-            // Determine active keys (for quick lookup)
+            // b. Set Active Keys
             const activeKeySet = new Set(currentData.keys.map(k => k.note));
             
-            const renderKey = (key, isTopLayer) => {
-                if (key.isBlack !== isTopLayer) return;
+            // --- DRAW BOTTOM KEYBOARD (Logical Index 0) ---
+            const scrollX0 = getScrollX(currentData, 0);
+            
+            // Draw Z-index 1 (White keys)
+            layoutBottom.forEach(key => renderKey(key, scrollX0, rowHeight * (isDualView ? 1 : 0), rowHeight, activeKeySet));
+            // Draw Z-index 2 (Black keys)
+            layoutBottom.forEach(key => renderKey(key, scrollX0, rowHeight * (isDualView ? 1 : 0), rowHeight, activeKeySet));
 
-                const isActive = activeKeySet.has(key.note);
-                // Use the scrollX and keyboard width from the recorded data
-                const xPos = key.x - currentData.scrollX;
-                const width = key.width;
-                const height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
-                const yPos = resolution.height - height; // Draw from the bottom
+            // --- DRAW TOP KEYBOARD (Logical Index 1) ---
+            if (isDualView) {
+                 const scrollX1 = getScrollX(currentData, 1);
+                 
+                 // The top keyboard is positioned at y=0, with its own scroll
+                 layoutTop.forEach(key => renderKey(key, scrollX1, 0, rowHeight, activeKeySet));
+                 layoutTop.forEach(key => renderKey(key, scrollX1, 0, rowHeight, activeKeySet));
 
-                // Skip if key is entirely off-screen
-                if (xPos + width < 0 || xPos > resolution.width) return;
-
-                // Key Body
-                ctx.fillStyle = isActive 
-                    ? (key.isBlack ? UI_COLOR.ACTIVE_BLACK : UI_COLOR.ACTIVE_WHITE)
-                    : (key.isBlack ? UI_COLOR.BLACK_KEY : UI_COLOR.WHITE_KEY);
-                
-                ctx.fillRect(xPos, yPos, width, height);
-                
-                // Key Border (Simple line for contrast)
-                ctx.strokeStyle = UI_COLOR.BORDER;
-                ctx.strokeRect(xPos, yPos, width, height);
-
-                // Active Light (Simple flash on active)
-                if (isActive) {
-                    ctx.fillStyle = UI_COLOR.ACTIVE_KEY_LIGHT;
-                    ctx.fillRect(xPos, yPos + height - 10, width, 10);
-                }
-                
-                // Key Label
-                ctx.fillStyle = key.isBlack ? UI_COLOR.WHITE_KEY : UI_COLOR.LABEL;
-                ctx.font = `${key.isBlack ? 16 : 24}px sans-serif`;
-                ctx.textAlign = 'center';
-                ctx.fillText(key.note, xPos + width / 2, yPos + height - 10);
-            };
-
-            // Draw white keys (Z-index 1)
-            layout.forEach(key => renderKey(key, false));
-            // Draw black keys (Z-index 2)
-            layout.forEach(key => renderKey(key, true));
+                 // Draw a subtle separator line
+                 ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                 ctx.lineWidth = 2;
+                 ctx.beginPath();
+                 ctx.moveTo(0, rowHeight);
+                 ctx.lineTo(resolution.width, rowHeight);
+                 ctx.stroke();
+            }
 
             // c. Add the rendered frame to Mediabunny
-            // --- CONTEXT CHANGE: Use canvasSource ---
             await canvasSource.add(frameTime, FRAME_DURATION); 
             
-            // Increment frame time
             frameTime += FRAME_DURATION;
             
             self.postMessage({
@@ -183,11 +214,9 @@ async function synthWorkerLogic(context) {
             });
         }
         
-        // Move to the next key press data point only after the frame loop finishes the segment
         dataIndex++;
     }
     
-    // Ensure the final frame is rendered up to the total duration
     if (frameTime < totalAudioDuration) {
         await canvasSource.add(frameTime, totalAudioDuration - frameTime);
     }
@@ -195,6 +224,5 @@ async function synthWorkerLogic(context) {
 
 // Bootstrap the worker with the project-specific logic
 bootstrapMediabunnyWorker(synthWorkerLogic, {
-    // Assuming the base worker and the library are in the same directory relative to this file
     libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' 
 });
