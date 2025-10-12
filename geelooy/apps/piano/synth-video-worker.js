@@ -390,9 +390,11 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
                     
                     // --- THE HANG FIX: Adding audio as a single, batch operation ---
+                    console.log("adding")
                     await audioBufferSource.add(finalAudioBufferShim); 
+                    console.log("added")
                     audioBufferSource.close();
-                    
+                    console.log("closed")
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
                     await workerContext.output.finalize();
 
