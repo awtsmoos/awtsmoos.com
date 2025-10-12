@@ -169,6 +169,7 @@ if (typeof self !== 'undefined' && self.importScripts) {
 		self.exports = {};
 		self.importScripts(libraryPath);
 		M = self.exports;
+		console.log("x",M)
 	} catch (e) {
 		const error = {
 			message: `FATAL: Could not load mediabunny library from ${libraryPath}.`,
