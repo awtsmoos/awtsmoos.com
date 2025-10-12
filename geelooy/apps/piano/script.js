@@ -752,8 +752,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			};
 
 			mediaRecorder.start();
-			elements.recordButton.textContent = 'Stop';
-			elements.recordButton.classList.add('recording');
+			elements.recordAudioButton.textContent = 'Stop';
+			elements.recordAudioButton.classList.add('recording');
 		}
 	}
 
