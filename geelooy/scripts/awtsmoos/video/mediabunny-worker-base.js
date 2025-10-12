@@ -4,7 +4,7 @@
 B"H
 File: /scripts/awtsmoos/video/mediabunny-worker-base.js
 Description: A refactored, reusable base worker for real-time video rendering.
-VERSION 2.0 - Corrects the track initialization order.
+VERSION 3.0 - The Correct and Final Initialization Logic.
 */
 
 // --- AudioBuffer Polyfill (Local) ---
@@ -51,10 +51,7 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
             throw new Error("Mediabunny library failed to load or expose 'Output' class.");
         }
     } catch (e) {
-        self.postMessage({
-            type: 'FATAL_ERROR',
-            payload: { message: `FATAL: Could not load mediabunny library from ${libraryPath}.`, error: e }
-        });
+        self.postMessage({ type: 'FATAL_ERROR', payload: { message: `FATAL: Could not load mediabunny library from ${libraryPath}.`, error: e }});
         return;
     }
 
@@ -69,23 +66,29 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
             const payload = data.payload;
             const { resolution } = payload;
             try {
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Preparing video encoder...' } });
+                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing encoders...' } });
 
                 const output = new mediabunny.Output({ format: new mediabunny.Mp4OutputFormat(), target: new mediabunny.BufferTarget() });
 
+                // 1. Configure and add VIDEO track
                 let videoCodec = 'avc1.42001E';
                 try {
                     videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height });
                 } catch (e) { console.warn("Video codec check failed, using default.", e.message); }
-
                 const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
                 const ctx = renderCanvas.getContext('2d', { alpha: false });
                 const canvasSource = new mediabunny.CanvasSource(renderCanvas, { codec: videoCodec, bitrate: 4_000_000 });
-                
-                // Add video track, but DO NOT start the output yet.
                 output.addVideoTrack(canvasSource);
+
+                // 2. Configure and add AUDIO track (with a standard default codec)
+                const audioBufferSource = new mediabunny.AudioBufferSource({ codec: 'aac', bitrate: 128_000 });
+                output.addAudioTrack(audioBufferSource);
                 
-                workerContext = { payload, output, canvasSource, canvas: renderCanvas, ctx };
+                // 3. START the output now that all tracks are added
+                await output.start();
+                
+                // 4. Store context for future messages
+                workerContext = { payload, output, canvasSource, audioBufferSource, canvas: renderCanvas, ctx };
                 lastFrameTime = 0;
 
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Renderer Ready.' } });
@@ -104,6 +107,7 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
 
                 await frameDrawingFunction(workerContext, data.payload);
                 
+                // This will now succeed because the output has been started
                 if (duration > 0) {
                     await workerContext.canvasSource.add(lastFrameTime, duration);
                 }
@@ -127,28 +131,13 @@ function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
                 }
                 workerContext.canvasSource.close();
 
-                // 2. Configure and ADD the audio track
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Configuring audio track...' } });
-                const finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
-                let audioCodec = 'aac';
-                try {
-                    const foundCodec = await mediabunny.getFirstEncodableAudioCodec(workerContext.output.format.getSupportedAudioCodecs(), finalAudioBufferShim);
-                    if (foundCodec) audioCodec = foundCodec;
-                } catch (e) { console.warn(`Audio Codec negotiation failed: ${e.message}. Using 'aac'.`); }
-
-                const audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec, bitrate: 128_000 });
-                workerContext.output.addAudioTrack(audioBufferSource);
-                
-                // 3. NOW that all tracks are added, START the output
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Starting muxer...' } });
-                await workerContext.output.start();
-
-                // 4. Add the audio data to its track
+                // 2. Add data to the already-existing audio track
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
-                await audioBufferSource.add(finalAudioBufferShim);
-                audioBufferSource.close();
+                const finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
+                await workerContext.audioBufferSource.add(finalAudioBufferShim);
+                workerContext.audioBufferSource.close();
 
-                // 5. Finalize the entire file
+                // 3. Finalize the entire file
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
                 await workerContext.output.finalize();
 
