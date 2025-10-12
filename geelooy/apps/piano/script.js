@@ -890,7 +890,7 @@ async function toggleVideoRecording() {
         const isVertical = window.innerHeight > window.innerWidth;
         const videoResolution = isVertical ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 };
 
-        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
+        videoWorker = new Worker('./synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
         videoWorker.onerror = (e) => console.error(`Worker Error: ${e.message}`, e);
 
