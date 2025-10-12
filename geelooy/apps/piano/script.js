@@ -557,7 +557,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 				// Log a final frame for the key-up event after the note is stopped
 				sendFrameStateToWorker(true); // Key release is a state change
 				// If no notes are active, log a silent frame to capture the final release state
-				if (activeNotes.size === 0) logVideoFrame();
+				//if (activeNotes.size === 0) logVideoFrame();
 			}
 		}
 	}
