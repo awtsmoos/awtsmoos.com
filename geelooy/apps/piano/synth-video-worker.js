@@ -4,7 +4,7 @@
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 Description: A high-performance, cinematic piano renderer with perfect 1:1 UI mirroring.
-VERSION 17.0 - The Final, Logically Perfect "Mirrored Scroll" Edition.
+VERSION 18.0 - The Definitive, Flawless "Event Horizon" Edition.
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -18,17 +18,17 @@ let particles = [];
 let starfield = [];
 let zoomFactor = 1;
 
-// --- "HYPERNOVA" VISUAL STYLE ---
+// --- "EVENT HORIZON" VISUAL STYLE ---
 const UI_STYLE = {
-    BACKGROUND_COLOR: '#040509',
+    BACKGROUND_COLOR: '#020204',
     STAR_COLOR: 'rgba(200, 220, 255, 0.5)',
     WHITE_KEY_FILL: '#dfe2e8',
-    WHITE_KEY_AO: 'rgba(0, 0, 0, 0.2)',
+    WHITE_KEY_AO: 'rgba(0, 0, 0, 0.2)', // Ambient Occlusion
     BLACK_KEY_FILL: '#121317',
     BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.05)',
-    ACTIVE_KEY_COLOR: '#ff8000',
-    HYPERNOVA_GLOW: 'rgba(255, 128, 0, 0.8)',
-    HYPERNOVA_SHOCKWAVE: 'rgba(255, 128, 0, 0.3)',
+    ACTIVE_KEY_COLOR: '#f040ff', // Intense Magenta
+    SINGULARITY_GLOW: 'rgba(240, 64, 255, 0.8)',
+    SINGULARITY_SHOCKWAVE: 'rgba(240, 64, 255, 0.3)',
     LABEL_COLOR: '#808080',
     ACTIVE_LABEL_COLOR: '#000000',
     KEY_HEIGHT_RATIO: 0.65
@@ -61,6 +61,7 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const blackKeyHeight = whiteKeyHeight * UI_STYLE.KEY_HEIGHT_RATIO;
     ['default', 'active'].forEach(state => {
         const isActive = state === 'active';
+        // White Key
         const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight);
         const wCtx = wCanvas.getContext('2d');
         wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
@@ -70,7 +71,7 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
         wCtx.fillStyle = aoGradient; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
         if (isActive) { wCtx.fillStyle = UI_STYLE.ACTIVE_KEY_COLOR; wCtx.globalAlpha = 0.9; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); wCtx.globalAlpha = 1; }
         keyCache[`white_${state}`] = wCanvas;
-
+        // Black Key
         const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight);
         const bCtx = bCanvas.getContext('2d');
         bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
@@ -98,7 +99,14 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         if (framePayload.newlyPressedKeys) {
             const allLayouts = [bottomKeyboardLayout, topKeyboardLayout].filter(Boolean);
             framePayload.newlyPressedKeys.forEach(note => {
-                for (const layout of allLayouts) { const key = layout.find(k => k.note === note); if (key) key.pressAnimation = 1.0; }
+                for (const layout of allLayouts) {
+                    const key = layout.find(k => k.note === note);
+                    // *** THIS IS THE FINAL BUG FIX. ***
+                    // It now updates the key in EVERY layout, instead of stopping after the first.
+                    if (key) {
+                        key.pressAnimation = 1.0;
+                    }
+                }
             });
         }
     }
@@ -170,7 +178,7 @@ async function drawKeyboardFrame(workerContext, framePayload) {
                 ctx.globalAlpha = key.pressAnimation * 0.8;
                 const shockwaveGradient = ctx.createRadialGradient(keyScreenX + key.width / 2, yPos + whiteKeyHeight / 2, 0, keyScreenX + key.width / 2, yPos + whiteKeyHeight / 2, shockwaveRadius);
                 shockwaveGradient.addColorStop(0, 'transparent');
-                shockwaveGradient.addColorStop(0.5, UI_STYLE.HYPERNOVA_SHOCKWAVE);
+                shockwaveGradient.addColorStop(0.5, UI_STYLE.SINGULARITY_SHOCKWAVE);
                 shockwaveGradient.addColorStop(1, 'transparent');
                 ctx.fillStyle = shockwaveGradient;
                 ctx.fillRect(keyScreenX - shockwaveRadius, yPos - shockwaveRadius, key.width + shockwaveRadius * 2, whiteKeyHeight + shockwaveRadius * 2);
@@ -200,17 +208,15 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         renderPass(true);
     };
 
-    // --- THE DEFINITIVE LOGIC ---
     const bottomTransform = -currentScrollX;
     renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, bottomTransform);
-
     if (isDualView) {
         const topTransform = independentScroll ? -currentScrollX2 : (style.userViewportWidth - currentScrollX);
         renderRow(topKeyboardLayout, 0, topTransform);
     }
     
     // 4. Particles
-    for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; if(p.initialLife === -1) p.initialLife = p.life; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; const lifePercent = Math.max(0, p.life / p.initialLife); if (lifePercent <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = lifePercent; ctx.fillStyle = UI_STYLE.HYPERNOVA_GLOW; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2); ctx.fill(); } }
+    for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; if(p.initialLife === -1) p.initialLife = p.life; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; const lifePercent = Math.max(0, p.life / p.initialLife); if (lifePercent <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = lifePercent; ctx.fillStyle = UI_STYLE.SINGULARITY_GLOW; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2); ctx.fill(); } }
     
     ctx.restore();
 
