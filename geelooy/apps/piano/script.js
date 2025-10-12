@@ -719,10 +719,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			return;
 		}
 
-		if (elements.recordButton.classList.contains('recording')) {
+		if (elements.recordAudioButton.classList.contains('recording')) {
 			mediaRecorder.stop();
-			elements.recordButton.textContent = 'Record';
-			elements.recordButton.classList.remove('recording');
+			elements.recordAudioButton.textContent = 'Record 🎤';
+			elements.recordAudioButton.classList.remove('recording');
 		} else {
 			let recordedChunks = [];
 			// Use 'audio/ogg' or 'audio/webm' for broader browser support, 
