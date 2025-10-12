@@ -555,7 +555,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 			if (isVideoRecording) {
 				// Log a final frame for the key-up event after the note is stopped
-				logVideoFrame();
+				sendFrameStateToWorker(true); // Key release is a state change
 				// If no notes are active, log a silent frame to capture the final release state
 				if (activeNotes.size === 0) logVideoFrame();
 			}
@@ -1199,6 +1199,9 @@ function startVideoWorker(audioBufferShim) {
 		}
 
 		if (!fromResize) updateScrollbarThumbs();
+		// Send a frame to render the scroll update
+    sendFrameStateToWorker(false); // Scroll change is a state change (isKeyChange = false)
+	
 	}
 
 	function updateScrollbarThumbs() {
