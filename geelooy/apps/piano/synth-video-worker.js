@@ -284,6 +284,7 @@ async function drawKeyboard() {
  * The main bootstrap function for the worker.
  */
 function bootstrapMediabunnyWorker(workerLogic, options = {}) {
+console.log("about to start loading")
     
     if (typeof self !== 'undefined' && self.importScripts) {
 
@@ -425,9 +426,10 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 if (typeof self !== 'undefined') {
 	self.bootstrapMediabunnyWorker = bootstrapMediabunnyWorker;
     // Call bootstrap with the project-specific logic
+    console.log("have self",self,"about to call boot")
     self.bootstrapMediabunnyWorker(renderCurrentFrame, {
         libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' // Use the correct library path
     });
-}
+} else {console.log("no self")
 
 console.log("end of worker")
