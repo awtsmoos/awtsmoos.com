@@ -4,7 +4,7 @@
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 Description: A high-performance, cinematic piano renderer with perfect 1:1 UI mirroring.
-VERSION 18.0 - The Definitive, Flawless "Event Horizon" Edition.
+VERSION 18.1 - The "Event Horizon" Edition (Enhanced Visuals)
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -83,7 +83,31 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     });
 }
 
-function createParticles(x, y) { for (let i = 0; i < 40; i++) { const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 200 + 50; particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 1.5 + 0.5, initialLife: -1, radius: Math.random() * 2.5 + 1 }); } }
+/**
+ * Creates an explosion of particles for a key press effect.
+ * This has been enhanced for more visual impact.
+ * @param {number} x - The center x-coordinate for the particle explosion.
+ * @param {number} y - The center y-coordinate for the particle explosion.
+ */
+function createParticles(x, y) {
+    // ENHANCEMENT: Increased particle count from 40 to 80.
+    for (let i = 0; i < 80; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        // ENHANCEMENT: Slightly increased speed range for more energy.
+        const speed = Math.random() * 250 + 75;
+        particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            // ENHANCEMENT: Increased lifespan for a longer-lasting effect.
+            life: Math.random() * 2.0 + 1.0,
+            initialLife: -1,
+            radius: Math.random() * 2.5 + 1
+        });
+    }
+}
+
 
 // --- The Core Drawing Logic ---
 async function drawKeyboardFrame(workerContext, framePayload) {
@@ -101,8 +125,8 @@ async function drawKeyboardFrame(workerContext, framePayload) {
             framePayload.newlyPressedKeys.forEach(note => {
                 for (const layout of allLayouts) {
                     const key = layout.find(k => k.note === note);
-                    // *** THIS IS THE FINAL BUG FIX. ***
-                    // It now updates the key in EVERY layout, instead of stopping after the first.
+                    // This logic correctly finds the pressed key in *any* layout it exists in
+                    // and triggers its press animation.
                     if (key) {
                         key.pressAnimation = 1.0;
                     }
