@@ -4,7 +4,7 @@
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
 Description: A high-performance, cinematic piano renderer with perfect 1:1 UI mirroring.
-VERSION 16.0 - The Definitive, Logically Perfect "Final Judgment" Edition.
+VERSION 17.0 - The Final, Logically Perfect "Mirrored Scroll" Edition.
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -111,17 +111,12 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         const userKeyWidth = style.userKeyWidth;
         const isDualView = alwaysDual || isVertical;
         
-        // This is the definitive, corrected logic.
         if (isDualView) {
-            const octaves = 4; // In dual view, each panel is always 4 octaves.
+            const octaves = independentScroll ? 4 : 8;
+            const topStartOctaveOffset = independentScroll ? 4 : 0;
             bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, octaves, userKeyWidth);
-            
-            // The top keyboard ALWAYS starts 4 octaves higher in independent mode.
-            // In non-independent mode, it's a visual clone, but we create it separately for clarity.
-            const topStartOctave = baseStartOctave + (independentScroll ? 4 : 0);
-            topKeyboardLayout = calculateKeyLayout(topStartOctave, octaves, userKeyWidth);
+            topKeyboardLayout = calculateKeyLayout(baseStartOctave + topStartOctaveOffset, octaves, userKeyWidth);
         } else {
-            // Single view is always 8 octaves.
             bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, 8, userKeyWidth);
             topKeyboardLayout = null;
         }
@@ -192,11 +187,11 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         }
     };
 
-    const renderRow = (layout, yStart, scroll) => {
+    const renderRow = (layout, yStart, transform) => {
         if (!layout) return;
         const renderPass = isBlackPass => layout.forEach(key => {
             if (key.isBlack !== isBlackPass) return;
-            const keyScreenX = key.x - scroll;
+            const keyScreenX = key.x + transform;
             if (keyScreenX + key.width > 0 && keyScreenX < style.userViewportWidth) {
                  renderKey(key, keyScreenX, yStart);
             }
@@ -205,17 +200,22 @@ async function drawKeyboardFrame(workerContext, framePayload) {
         renderPass(true);
     };
 
-    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, currentScrollX);
-    if (isDualView) renderRow(topKeyboardLayout, 0, independentScroll ? currentScrollX2 : currentScrollX);
+    // --- THE DEFINITIVE LOGIC ---
+    const bottomTransform = -currentScrollX;
+    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, bottomTransform);
 
+    if (isDualView) {
+        const topTransform = independentScroll ? -currentScrollX2 : (style.userViewportWidth - currentScrollX);
+        renderRow(topKeyboardLayout, 0, topTransform);
+    }
+    
+    // 4. Particles
     for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; if(p.initialLife === -1) p.initialLife = p.life; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; const lifePercent = Math.max(0, p.life / p.initialLife); if (lifePercent <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = lifePercent; ctx.fillStyle = UI_STYLE.HYPERNOVA_GLOW; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2); ctx.fill(); } }
     
     ctx.restore();
 
+    // 5. Separator line
     if (isDualView) { ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, resolution.height / 2); ctx.lineTo(resolution.width, resolution.height / 2); ctx.stroke(); }
 }
 
 if (typeof self !== 'undefined' && self.bootstrapMediabunnyWorker) { self.bootstrapMediabunnyWorker(drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }); }
-
-
-
