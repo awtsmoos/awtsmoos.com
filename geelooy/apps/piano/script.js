@@ -134,19 +134,20 @@ let audioChunks = []; // Still needed for final audio muxing
  * @param {boolean} isKeyChange - True if the event was a key press/release.
  */
 // REPLACE the old sendFrameStateToWorker function with this one
+// REPLACE your entire sendFrameStateToWorker function
 function sendFrameStateToWorker() {
     if (!isVideoRecording || !videoWorker) return;
 
-    const timestamp = audioContext.currentTime - videoStartTime;
-
-    // This function now ONLY sends scroll state updates.
-    // Key states are sent transactionally from stopNote.
+    // Send a message the bootstrap understands, with our custom scroll data
     videoWorker.postMessage({
-        type: 'UPDATE_SCROLL',
+        type: 'RENDER_FRAME', // Use the expected type
         payload: {
-            time: timestamp,
-            scrollX: scrollState.x,
-            scrollX2: scrollState.x2 || 0
+            dataType: 'SCROLL_UPDATE', // Add a subtype for our logic
+            scroll: {
+                time: audioContext.currentTime - videoStartTime,
+                scrollX: scrollState.x,
+                scrollX2: scrollState.x2 || 0
+            }
         }
     });
 }
@@ -550,6 +551,7 @@ function playNote(frequency, note, keyElement, pointerId, noteName) {
 }
 
 // REPLACE the old stopNote function with this one
+// REPLACE the video logic inside your stopNote function
 function stopNote(pointerId) {
     const activeNote = activeNotes.get(pointerId);
     if (activeNote) {
@@ -558,23 +560,24 @@ function stopNote(pointerId) {
         const noteName = activeNote.keyElement.dataset.note;
         activeNotes.delete(pointerId);
 
-        // VIDEO LOGIC: If recording, complete the event and send it to the worker.
+        // --- MODIFIED VIDEO LOGIC ---
         if (isVideoRecording && videoKeyDownMap.has(noteName)) {
             const startTime = videoKeyDownMap.get(noteName);
             const endTime = audioContext.currentTime;
             
-            // Send the completed key press "transaction" to the worker
+            // Send a message the bootstrap understands, with our custom data inside
             videoWorker.postMessage({
-                type: 'ADD_KEY_EVENT',
+                type: 'RENDER_FRAME', // Use the expected type
                 payload: {
-                    note: noteName,
-                    // Normalize times relative to the video start
-                    start: startTime - videoStartTime,
-                    end: endTime - videoStartTime
+                    dataType: 'KEY_EVENT', // Add a subtype for our logic
+                    event: {
+                        note: noteName,
+                        start: startTime - videoStartTime,
+                        end: endTime - videoStartTime
+                    }
                 }
             });
             
-            // Remove from the pending map
             videoKeyDownMap.delete(noteName);
         }
     }
