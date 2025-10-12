@@ -106,6 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			mediaStreamDestination = audioContext.createMediaStreamDestination();
 			
 			hiddenAudioProxy = document.createElement('audio');
+			hiddenAudioProxy.setAttribute('playsinline', 'true'); // Necessary for mobile iOS/Android to play without fullscreen
+                hiddenAudioProxy.setAttribute('loop', 'true');        // Forces the browser to keep the stream active indefinitely
+                
             hiddenAudioProxy.style.display = 'none'; // Keep it out of view
           //  hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
             document.body.appendChild(hiddenAudioProxy);
