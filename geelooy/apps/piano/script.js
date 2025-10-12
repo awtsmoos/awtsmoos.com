@@ -913,7 +913,7 @@ function processAudioAndFinalize(audioChunks) {
 
             // Send audio and finalization command to the persistent worker
             elements.videoProgress.textContent = 'Muxing Video and Audio...';
-            console log("sent final message")
+            console. log("sent final message")
             videoWorker.postMessage({
                 type: 'FINALIZE_MUXING',
                 payload: { audioBufferShim: audioBufferShim }
