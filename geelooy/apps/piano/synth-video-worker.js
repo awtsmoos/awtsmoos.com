@@ -309,6 +309,7 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 
         self.onmessage = async (event) => {
             const data = event.data;
+            console.log("days",data)
             
             if (data.type === 'INITIALIZE_RENDERER') {
                 const payload = data.payload;
