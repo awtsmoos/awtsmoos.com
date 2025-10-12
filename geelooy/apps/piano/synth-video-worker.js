@@ -59,7 +59,7 @@ function calculateKeyLayout(startOctave, whiteKeyWidth) {
     const blackKeyWidth = whiteKeyWidth * 0.6;
     const baseStartOctave = parseInt(startOctave);
 
-    for (let oct = baseStartOctave; oct < baseStartOctave + 9; oct++) {
+    for (let oct = baseStartOctave; oct < baseStartOctave + numOctaves; oct++) {
         NOTE_NAMES_FLAT.forEach(note => {
             if (oct + (NOTE_NAMES_FLAT.indexOf(note) / 12) > 9.0) return;
 
@@ -108,20 +108,17 @@ function createParticles(x, y, isBlackKey) {
  */
 async function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
-    const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
+    const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave, numOctaves} = payload;
     const deltaTime = framePayload ? framePayload.duration : (1 / 30);
 
     // --- State Update ---
     if (framePayload) {
-        const newKeys = new Set(framePayload.keys);
-        
-        // Check for newly pressed keys to trigger animations
-        newKeys.forEach(note => {
-            if (!currentActiveKeys.has(note)) {
+        if (framePayload.newlyPressedKeys) {
+            framePayload.newlyPressedKeys.forEach(note => {
                 const key = fullKeyboardLayout.find(k => k.note === note);
                 if (key) key.justPressed = true;
-            }
-        });
+            });
+        }
 
         currentActiveKeys = newKeys;
         currentScrollX = framePayload.scrollX;
@@ -130,7 +127,7 @@ async function drawKeyboardFrame(workerContext, framePayload) {
 
     // --- Recalculate layout only if it's not cached ---
     if (fullKeyboardLayout.length === 0) {
-        fullKeyboardLayout = calculateKeyLayout(startOctave, style.whiteKeyWidth);
+        fullKeyboardLayout = calculateKeyLayout(startOctave, style.whiteKeyWidth, numOctaves);
     }
     
     // --- Drawing Setup ---
