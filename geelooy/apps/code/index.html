@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const Editor = {
     
         currentHighlighter: null, // B"H - Add this line to track the instance
-        setContent: (content = "", filename = "") => {
+        
         setContent: (content = "", filename = "") => {
             DOM.editor.value = content;
             UI.updateLineNumbers();
