@@ -841,6 +841,7 @@ function sendFrameStateToWorker(isKeyChange = true) {
 	// NEW: Video Recording Logic
 	
 
+
 async function toggleVideoRecording() {
     if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
     if (elements.recordAudioButton.classList.contains('recording')) {
@@ -854,12 +855,8 @@ async function toggleVideoRecording() {
         isVideoRecording = false;
         elements.recordVideoButton.textContent = 'Processing...';
         elements.recordVideoButton.classList.remove('recording');
-        
         sendFrameStateToWorker(true); 
-
-        mediaRecorder.onstop = () => {
-            processAudioAndFinalize(audioChunks);
-        };
+        mediaRecorder.onstop = () => processAudioAndFinalize(audioChunks);
         
     } else {
         // --- START VIDEO RECORDING (DEFINITIVE LOGIC) ---
@@ -876,17 +873,16 @@ async function toggleVideoRecording() {
         const videoResolution = isVertical ? { width: HD_WIDTH, height: HD_HEIGHT } : { width: HD_HEIGHT, height: HD_WIDTH };
         const videoCanvasWidth = videoResolution.width;
 
-        // 3. THE CRITICAL "ZOOM FACTOR" CALCULATION
-        // This is the fix for "too many keys"
+        // 3. CALCULATE "ZOOM FACTOR" TO MATCH USER'S VIEW
         const userKeyWidth = parseInt(elements.keyWidthSlider.value);
         const userViewportWidth = elements.keyboardContainer.clientWidth;
-        
-        // If the user's viewport is valid, calculate the zoom needed to match the view
         const zoomFactor = userViewportWidth > 0 ? videoCanvasWidth / userViewportWidth : 1;
         const videoKeyWidth = userKeyWidth * zoomFactor;
 
-        // 4. DETERMINE KEYBOARD STRUCTURE (This logic is now correct)
-        const numOctaves = isDualView && isIndependent ? 4 : 8;
+        // 4. *** CRITICAL LOGIC FIX ***
+        // This ensures the worker is told to build a layout that matches the UI's intent.
+        // In dual view, each panel is smaller, regardless of independent scrolling.
+        const numOctaves = isDualView ? 4 : 8;
 
         // 5. START WORKER AND RECORDER
         videoWorker = new Worker('./synth-video-worker.js'); 
@@ -909,15 +905,13 @@ async function toggleVideoRecording() {
                 alwaysDual: alwaysDual,
                 independentScroll: isIndependent,
                 isVertical: isVertical,
-                numOctaves: numOctaves,
+                numOctaves: numOctaves, // Send the CORRECT number of octaves
                 style: {
-                    // Send the SCALED key width, not the user's key width
-                    whiteKeyWidth: videoKeyWidth,
+                    whiteKeyWidth: videoKeyWidth, // Send the SCALED key width
                 }
             }
         };
         
-        console.log("MAIN SCRIPT: Sending FINAL INITIALIZE payload:", JSON.parse(JSON.stringify(initialPayload)));
         videoWorker.postMessage(initialPayload);
         
         // 7. START RECORDING
@@ -926,10 +920,30 @@ async function toggleVideoRecording() {
         elements.recordVideoButton.textContent = 'STOP Video';
         elements.recordVideoButton.classList.add('recording');
         elements.videoProgress.textContent = 'Recording...';
-        
         sendFrameStateToWorker(true);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
