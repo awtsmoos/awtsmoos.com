@@ -3,158 +3,126 @@
 
 B"H
 File: /scripts/awtsmoos/video/mediabunny-worker-base.js
-Description: A refactored, reusable base worker for real-time video rendering.
-VERSION 3.0 - The Correct and Final Initialization Logic.
+Description: A class-based, reusable base worker with restored core logic.
+VERSION 4.1 - The "Definitive Fix" Architecture
 */
 
 // --- AudioBuffer Polyfill (Local) ---
-const createAudioBufferPolyfill = () => {
-    /* ב"ה B"H */
-    return function AudioBuffer(options) {
-        this.channels = options.channels || [];
-        this.sampleRate = options.sampleRate;
-        this.length = options.length;
-        this.duration = options.duration;
-        this.numberOfChannels = options.numberOfChannels;
-
-        this.getChannelData = (i) => this.channels[i];
-        this.copyFromChannel = (dest, channelNum, start = 0) => {
-            const source = this.channels[channelNum];
-            if (source) dest.set(source.subarray(start, start + dest.length));
-        };
+self.AudioBuffer = self.AudioBuffer || function AudioBuffer(options) {
+    this.channels = options.channels || [];
+    this.sampleRate = options.sampleRate;
+    this.length = options.length;
+    this.duration = options.duration;
+    this.numberOfChannels = options.numberOfChannels;
+    this.getChannelData = (i) => this.channels[i];
+    this.copyFromChannel = (dest, channelNum, start = 0) => {
+        const source = this.channels[channelNum];
+        if (source) dest.set(source.subarray(start, start + dest.length));
     };
 };
 
-/**
- * The main bootstrap function for the worker.
- * @param {function} frameDrawingFunction - A function that takes (context, payload) and draws a single frame.
- * @param {object} options - Configuration options like the library path.
- */
-function bootstrapMediabunnyWorker(frameDrawingFunction, options = {}) {
-    /* ב"ה B"H */
+class MediaBunnyBase {
+    constructor(config, frameDrawingFunction, options = {}) {
+        this.config = config;
+        this.frameDrawingFunction = frameDrawingFunction;
+        this.libraryPath = options.libraryPath || './mediabunny-library.js';
+        this.mediabunny = null;
+        this.isStarted = false;
+        this.lastFrameTime = 0;
 
-    if (typeof self === 'undefined' || !self.importScripts) {
-        console.error("bootstrapMediabunnyWorker must be run in a Web Worker environment.");
-        return;
+        // Load the core library immediately
+        try {
+            self.exports = {};
+            self.importScripts(this.libraryPath);
+            this.mediabunny = self.exports;
+            if (!this.mediabunny || !this.mediabunny.Output) {
+                throw new Error("Mediabunny library failed to load or expose 'Output' class.");
+            }
+        } catch (e) {
+            this._postFatalError(`Could not load library from ${this.libraryPath}.`, e);
+            throw e;
+        }
     }
 
-    const libraryPath = options.libraryPath || './mediabunny-library.js';
-    self.AudioBuffer = createAudioBufferPolyfill();
+    async start() {
+        if (this.isStarted) return;
+        this._postStatus('Initializing encoders...');
+        const { resolution, outputFormat } = this.config;
+        try {
+            this.output = new this.mediabunny.Output({
+                format: new this.mediabunny.Mp4OutputFormat(),
+                target: new this.mediabunny.BufferTarget()
+            });
 
-    let mediabunny = null;
-    try {
-        self.exports = {};
-        self.importScripts(libraryPath);
-        mediabunny = self.exports;
+            // --- VIDEO TRACK WITH RESTORED CORE LOGIC ---
+            this.canvas = new OffscreenCanvas(resolution.width, resolution.height);
+            this.ctx = this.canvas.getContext('2d', { alpha: false });
+            
+            // RESTORED: Dynamically find the best supported video codec.
+            let videoCodec = 'avc1.42001E'; // A sensible default
+            try {
+                videoCodec = await this.mediabunny.getFirstEncodableVideoCodec(
+                    this.output.format.getSupportedVideoCodecs(),
+                    { width: resolution.width, height: resolution.height }
+                );
+            } catch (e) {
+                console.warn("Dynamic video codec check failed, using default.", e.message);
+            }
+            
+            this.canvasSource = new this.mediabunny.CanvasSource(this.canvas, {
+                codec: videoCodec,
+                bitrate: (outputFormat.quality || 0.5) * 8_000_000
+            });
+            this.output.addVideoTrack(this.canvasSource);
 
-        if (typeof mediabunny === 'undefined' || !mediabunny.Output) {
-            throw new Error("Mediabunny library failed to load or expose 'Output' class.");
+            // --- AUDIO TRACK ---
+            this.audioBufferSource = new this.mediabunny.AudioBufferSource({ codec: 'aac', bitrate: 128_000 });
+            this.output.addAudioTrack(this.audioBufferSource);
+
+            await this.output.start();
+            this.isStarted = true;
+            this._postStatus('Renderer Ready.');
+
+        } catch (e) {
+            this._postFatalError(`Worker initialization failed: ${e.message}`, e);
+            throw e;
         }
-    } catch (e) {
-        self.postMessage({ type: 'FATAL_ERROR', payload: { message: `FATAL: Could not load mediabunny library from ${libraryPath}.`, error: e }});
-        return;
     }
 
-    let workerContext = null;
-    let lastFrameTime = 0;
-
-    self.onmessage = async (event) => {
-        const data = event.data;
-        console.log("days", data)
-
-        // --- HANDLER 1: INITIALIZE_RENDERER ---
-        if (data.type === 'INITIALIZE_RENDERER') {
-            const payload = data.payload;
-            const { resolution } = payload;
-            try {
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing encoders...' } });
-
-                const output = new mediabunny.Output({ format: new mediabunny.Mp4OutputFormat(), target: new mediabunny.BufferTarget() });
-
-                // 1. Configure and add VIDEO track
-                let videoCodec = 'avc1.42001E';
-                try {
-                    videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height });
-                } catch (e) { console.warn("Video codec check failed, using default.", e.message); }
-                const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
-                const ctx = renderCanvas.getContext('2d', { alpha: false });
-                const canvasSource = new mediabunny.CanvasSource(renderCanvas, { codec: videoCodec, bitrate: 4_000_000 });
-                output.addVideoTrack(canvasSource);
-
-                // 2. Configure and add AUDIO track (with a standard default codec)
-                const audioBufferSource = new mediabunny.AudioBufferSource({ codec: 'aac', bitrate: 128_000 });
-                output.addAudioTrack(audioBufferSource);
-                
-                // 3. START the output now that all tracks are added
-                await output.start();
-                
-                // 4. Store context for future messages
-                workerContext = { payload, output, canvasSource, audioBufferSource, canvas: renderCanvas, ctx };
-                lastFrameTime = 0;
-
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Renderer Ready.' } });
-
-            } catch (e) {
-                self.postMessage({ type: 'FATAL_ERROR', payload: { message: `Worker initialization failed: ${e.message}`, error: e } });
-            }
+    async addFrame(framePayload) {
+        if (!this.isStarted) throw new Error("Renderer must be started before adding frames.");
+        
+        await this.frameDrawingFunction({ payload: this.config, ctx: this.ctx, canvas: this.canvas }, framePayload);
+        
+        if (framePayload.duration > 0) {
+            await this.canvasSource.add(this.lastFrameTime, framePayload.duration);
         }
+        this.lastFrameTime = framePayload.time;
+    }
 
-        // --- HANDLER 2: RENDER_FRAME ---
-        else if (data.type === 'RENDER_FRAME' && workerContext) {
-            try {
-                const timestamp = data.payload.time;
-                const duration = Math.max(0, timestamp - lastFrameTime);
-                data.payload.duration = duration; // Add delta time to payload for animations
-
-                await frameDrawingFunction(workerContext, data.payload);
-                
-                // This will now succeed because the output has been started
-                if (duration > 0) {
-                    await workerContext.canvasSource.add(lastFrameTime, duration);
-                }
-                lastFrameTime = timestamp;
-
-            } catch (e) {
-                 self.postMessage({ type: 'FATAL_ERROR', payload: { message: `Frame rendering failed: ${e.message}`, error: e } });
-            }
+    async finalize(audioBufferShim) {
+        if (!this.isStarted) throw new Error("Renderer must be started before finalization.");
+        this._postStatus('Finalizing video track...');
+        
+        const totalDuration = audioBufferShim.duration;
+        const timeRemaining = totalDuration - this.lastFrameTime;
+        if (timeRemaining > 0.001) {
+            await this.addFrame({ time: totalDuration, duration: timeRemaining });
         }
+        this.canvasSource.close();
 
-        // --- HANDLER 3: FINALIZE_MUXING ---
-        else if (data.type === 'FINALIZE_MUXING' && workerContext) {
-            const { audioBufferShim } = data.payload;
-            try {
-                // 1. Finalize the video track
-                const totalDuration = audioBufferShim.duration;
-                const timeRemaining = totalDuration - lastFrameTime;
-                if (timeRemaining > 0.001) {
-                    await frameDrawingFunction(workerContext, null); // Draw one last static frame
-                    await workerContext.canvasSource.add(lastFrameTime, timeRemaining);
-                }
-                workerContext.canvasSource.close();
+        this._postStatus('Encoding audio...');
+        const finalAudioBuffer = new self.AudioBuffer(audioBufferShim);
+        await this.audioBufferSource.add(finalAudioBuffer);
+        this.audioBufferSource.close();
 
-                // 2. Add data to the already-existing audio track
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
-                const finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
-                await workerContext.audioBufferSource.add(finalAudioBufferShim);
-                workerContext.audioBufferSource.close();
+        this._postStatus('Muxing video file...');
+        await this.output.finalize();
+        
+        return new Blob([this.output.target.buffer], { type: this.output.format.mimeType });
+    }
 
-                // 3. Finalize the entire file
-                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
-                await workerContext.output.finalize();
-
-                self.postMessage({
-                    type: 'VIDEO_COMPLETE',
-                    payload: { blob: new Blob([workerContext.output.target.buffer], { type: workerContext.output.format.mimeType }) }
-                });
-
-            } catch (e) {
-                self.postMessage({ type: 'FATAL_ERROR', payload: { message: `Finalization failed: ${e.message}`, error: e } });
-            }
-        }
-    };
-}
-
-// Expose the bootstrap function globally
-if (typeof self !== 'undefined') {
-    self.bootstrapMediabunnyWorker = bootstrapMediabunnyWorker;
+    _postStatus(message) { self.postMessage({ type: 'STATUS_UPDATE', payload: { message } }); }
+    _postComplete(blob, options) { self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, ...options } }); }
+    _postFatalError(message, error) { self.postMessage({ type: 'FATAL_ERROR', payload: { message, error: error.toString() } }); }
 }
