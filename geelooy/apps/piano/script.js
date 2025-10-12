@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			
 			hiddenAudioProxy = document.createElement('audio');
             hiddenAudioProxy.style.display = 'none'; // Keep it out of view
-            hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
+          //  hiddenAudioProxy.muted = true;             // Crucial: Mute to prevent double audio (since masterGain already routes to speakers)
             document.body.appendChild(hiddenAudioProxy);
             
             hiddenAudioProxy.srcObject = mediaStreamDestination.stream;
