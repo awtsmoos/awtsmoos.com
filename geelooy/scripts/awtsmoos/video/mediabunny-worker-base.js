@@ -165,7 +165,11 @@ if (typeof self !== 'undefined' && self.importScripts) {
 	self.AudioBuffer = createAudioBufferPolyfill();
 
 	let M = null; // M is short for mediabunnyExports
-	try {
+	
+
+	self.onmessage = async (event) => {
+	if(!M) {
+	    try {
 		self.exports = {};
 		self.importScripts(libraryPath);
 		M = self.exports;
@@ -181,8 +185,7 @@ if (typeof self !== 'undefined' && self.importScripts) {
 		});
 		return;
 	}
-
-	self.onmessage = async (event) => {
+	}
 		if (event.data.type === 'START_RENDERING' && M) {
 			const payload = event.data.payload;
 
