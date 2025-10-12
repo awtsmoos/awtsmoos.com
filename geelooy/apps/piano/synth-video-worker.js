@@ -427,9 +427,9 @@ if (typeof self !== 'undefined') {
 	self.bootstrapMediabunnyWorker = bootstrapMediabunnyWorker;
     // Call bootstrap with the project-specific logic
     console.log("have self",self,"about to call boot")
-    self.bootstrapMediabunnyWorker(renderCurrentFrame, {
+    bootstrapMediabunnyWorker()/*renderCurrentFrame, {
         libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' // Use the correct library path
-    });
+    });*/
 } else {console.log("no self")}
 
 console.log("end of worker")
