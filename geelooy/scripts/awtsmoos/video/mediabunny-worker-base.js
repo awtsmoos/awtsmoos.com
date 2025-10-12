@@ -157,11 +157,8 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 
 if (typeof self !== 'undefined' && self.importScripts) {
 
-	code
-	Code
-	download
-	content_copy
-	expand_less
+	
+	
 	const libraryPath = options.libraryPath || './mediabunny-library.js';
 	self.AudioBuffer = createAudioBufferPolyfill();
 
