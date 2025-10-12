@@ -120,7 +120,7 @@ async function drawKeyboardFrame(workerContext, framePayload) {
             });
         }
 
-        currentActiveKeys = newKeys;
+        currentActiveKeys = new Set(framePayload.keys);
         currentScrollX = framePayload.scrollX;
         currentScrollX2 = framePayload.scrollX2;
     }
