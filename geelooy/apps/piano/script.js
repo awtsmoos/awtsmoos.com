@@ -78,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	let activeScroller = {
 		isDragging: false
 	};
+	
+	let isVideoRecording = false;
+    let videoRecordingData = [];
+    let videoStartTime = 0;
+    let audioChunks = [];
 
 	let hiddenAudioProxy = null;
 
