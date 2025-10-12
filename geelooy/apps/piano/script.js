@@ -123,42 +123,40 @@ let audioChunks = []; // Still needed for final audio muxing
 }
 
 
-// NEW: Sends the current state to the worker for an immediate frame render
+/**
+ * Sends the current piano state to the video worker to render a frame.
+ * This is the central function for keeping the video perfectly in sync with the UI.
+ * @param {boolean} isKeyChange - True if the event was a key press/release.
+ */
 function sendFrameStateToWorker(isKeyChange = true) {
     if (!isVideoRecording || !videoWorker) return;
 
-    // 1. Get current visual state
+    // 1. Get the current set of all pressed keys.
     const keys = [];
     activeNotes.forEach((note) => {
-        // Collect ALL keys that are currently pressed down
         keys.push(note.keyElement.dataset.note);
     });
-    
-    // We only send a frame if a key state changed, or if it's the initial/final frame
-    if (!isKeyChange && keys.length > 0) return; // Only log scroll if keys are active
 
-    // 2. Calculate elapsed time
+    // 2. Calculate the precise timestamp for this event.
     const timestamp = audioContext.currentTime - videoStartTime;
 
-    // 3. Send render command
-    const framePayload = { // Create a temporary object for logging
+    // 3. Construct the payload with all necessary visual information.
+    const framePayload = {
         type: 'RENDER_FRAME',
         payload: {
             time: timestamp,
             keys: keys,
             scrollX: scrollState.x,
             scrollX2: scrollState.x2 || 0,
-            newlyPressedKeys: newlyPressedKeys
+            newlyPressedKeys: newlyPressedKeys // Keys pressed since the last frame.
         }
     };
 
-    // =========================================================
-    // === ADD THIS LOG (Optional but good for timing) ===
-    if (newlyPressedKeys.length > 0) {
-        console.log("MAIN SCRIPT: Sending RENDER_FRAME with new keys:", JSON.parse(JSON.stringify(framePayload)));
-       }
-       videoWorker.postMessage(framePayload)
-       // --- Crucially, clear the list after sending ---
+    // 4. Send the state to the worker.
+    videoWorker.postMessage(framePayload);
+
+    // 5. CRUCIAL: Clear the list of newly pressed keys immediately after sending.
+    // This ensures a key press is only registered as "new" for a single frame event.
     newlyPressedKeys = [];
 }
 
@@ -552,11 +550,11 @@ function sendFrameStateToWorker(isKeyChange = true) {
 			});
 			keyElement.classList.add('active');
 
-			sendFrameStateToWorker(true); // Key press is a state change
+			if (isVideoRecording) { 
+				newlyPressedKeys.push(noteName);
+			}
+			sendFrameStateToWorker(true); // A key press is a state change.
 		}
-		if (isVideoRecording) { // <-- ADD THIS BLOCK
-            newlyPressedKeys.push(noteName);
-        }
 	}
 
 	function stopNote(pointerId) {
@@ -568,10 +566,8 @@ function sendFrameStateToWorker(isKeyChange = true) {
 
 
 			if (isVideoRecording) {
-				// Log a final frame for the key-up event after the note is stopped
-				sendFrameStateToWorker(true); // Key release is a state change
-				// If no notes are active, log a silent frame to capture the final release state
-				//if (activeNotes.size === 0) logVideoFrame();
+				// A key release is also a state change.
+				sendFrameStateToWorker(true); 
 			}
 		}
 	}
@@ -1311,8 +1307,9 @@ function startVideoWorker(audioBufferShim) {
 		}
 
 		if (!fromResize) updateScrollbarThumbs();
-		// Send a frame to render the scroll update
-    sendFrameStateToWorker(false); // Scroll change is a state change (isKeyChange = false)
+		// A scroll event is a state change, so send the new coordinates to the worker.
+		// Set isKeyChange to false.
+		sendFrameStateToWorker(false);
 	
 	}
 
