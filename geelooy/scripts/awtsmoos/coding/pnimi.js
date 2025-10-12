@@ -1,5 +1,6 @@
 /**
- * @file B"H - The Ein Sof of Code Highlighting
+ * @ B"H 
+ - The Ein Sof of Code Highlighting
  * @author Your Name
  * @version 1.0.0
  *
@@ -95,6 +96,9 @@ class VirtualizedEditor {
             console.error('The vessel must be a TEXTAREA element.');
             return;
         }
+        
+               /** @private The new wrapper element that contains both the textarea and the overlay. */
+        this.wrapper = null; 
 
         /** @private The textarea element, the foundation (Yesod) of our world. */
         this.textarea = textarea;
@@ -132,36 +136,70 @@ class VirtualizedEditor {
      * separating the world of colored text from the underlying (and now transparent) textarea.
      * It is Gevurah because it sets firm boundaries and structures.
      */
-    _initializeVessels() {
+     
+     _initializeVessels() {
         const computed = window.getComputedStyle(this.textarea);
 
-        // Make the original text transparent, its light is now channeled elsewhere.
+        // 1. Create and style the wrapper
+        this.wrapper = document.createElement('div');
+        this.wrapper.className = 'virtualized-editor-wrapper';
+        
+        // Copy essential styles (size, padding, border) from textarea to wrapper
+        ['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
+            if (prop === 'position' && computed[prop] === 'static') {
+                this.wrapper.style.position = 'relative'; 
+            } else {
+                this.wrapper.style[prop] = computed[prop];
+            }
+        });
+        
+        // 2. Replace the textarea with the wrapper in the DOM
+        this.textarea.parentNode.insertBefore(this.wrapper, this.textarea);
+        this.wrapper.appendChild(this.textarea);
+
+        // 3. Style the textarea to cover the wrapper
+        this.textarea.style.position = 'absolute'; // Overlaid inside wrapper
+        this.textarea.style.top = '0';
+        this.textarea.style.left = '0';
+        this.textarea.style.width = '100%';
+        this.textarea.style.height = '100%';
+        this.textarea.style.resize = 'none'; // Prevent resize handle visual issues
+
+        // Make the original text transparent
         this.textarea.style.color = 'transparent';
         this.textarea.style.background = 'transparent';
-        this.textarea.style.caretColor = computed.color; // The caret remains visible, a guide for the user's soul.
+        this.textarea.style.caretColor = computed.color;
 
-        /** @private A unique ID for styles, a "Holy Name" for this instance. */
+        // 4. Create and style the overlay
         this.styleId = `BH_EDITOR_${Date.now()}`;
-
-        /** @private The overlay, a fixed-position firmament that holds our rendered world. */
         this.overlay = document.createElement('div');
-        /** @private The viewport, the part of the firmament that moves, revealing different heavens. */
         this.viewport = document.createElement('div');
         this.overlay.appendChild(this.viewport);
-
-        this.overlay.style.position = "fixed";
+        
+        // Positioning: Absolute to the wrapper, perfectly covering the textarea
+        this.overlay.style.position = "absolute"; 
         this.overlay.style.zIndex = 1;
-        this.overlay.style.pointerEvents = 'none';
+        this.overlay.style.top = '0';
+        this.overlay.style.left = '0';
+        this.overlay.style.width = '100%';
+        this.overlay.style.height = '100%';
+        this.overlay.style.pointerEvents = 'none'; // Essential for user interaction
+        this.overlay.style.overflow = 'hidden'; // Now acts as the clipping boundary
         this.overlay.style.font = computed.font;
+        this.overlay.style.padding = computed.padding; // Inherit padding for correct alignment
+        this.overlay.style.border = computed.border;   // Inherit border for correct alignment
+        this.overlay.style.boxSizing = computed.boxSizing;
+
         this.viewport.style.whiteSpace = "pre";
 
-        const existingOverlay = document.querySelector('.bh-overlay-' + this.styleId);
-        if (existingOverlay) existingOverlay.remove();
+        // 5. Place the overlay into the wrapper
         this.overlay.classList.add('bh-overlay-' + this.styleId);
-        document.body.appendChild(this.overlay);
-
+        // document.body.appendChild(this.overlay); // DELETE THIS LINE
+        this.wrapper.appendChild(this.overlay); 
         this._applyColors();
     }
+        
+    
 
     /**
      * @private
@@ -207,17 +245,14 @@ class VirtualizedEditor {
         });
 
         const onScroll = () => window.requestAnimationFrame(() => this._render());
-        new ResizeObserver(onScroll).observe(this.textarea);
-        this.textarea.addEventListener('scroll', onScroll);
+        
+        // Observe the wrapper, not the textarea, for visual size changes
+        new ResizeObserver(onScroll).observe(this.wrapper); // <<< CHANGE: Observe wrapper
+        
+        this.textarea.addEventListener('scroll', onScroll); // Keep listening to textarea's scroll
 
-        // The light must also follow the scroll of the outer vessels (parent elements).
-        let parent = this.textarea.parentElement;
-        while (parent) {
-            parent.addEventListener('scroll', onScroll);
-            parent = parent.parentElement;
-        }
+        
     }
-
     /**
      * @private
      * @function _measureAndRender
@@ -485,36 +520,7 @@ class VirtualizedEditor {
     }
     // --- END: PARSER LOGIC ---
 
-    /**
-     * @private
-     * @function _getVisibleRect
-     * @description This function perceives the "World of Assiah" (the physical world of the DOM).
-     * It calculates the true visible portion of the textarea, accounting for all scrolled parent
-     * containers. It reveals what is truly "seen" by clipping the element's rectangle against
-     * the rectangles of its ancestors.
-     * @param {HTMLElement} element - The element whose visible portion we need to find.
-     * @returns {DOMRect} The rectangle representing the visible part of the element.
-     */
-    _getVisibleRect(element) {
-        let rect = element.getBoundingClientRect();
-        let parent = element.parentElement;
-        while (parent && parent !== document.body) {
-            const parentRect = parent.getBoundingClientRect();
-            const parentStyle = getComputedStyle(parent);
-            if (['auto', 'scroll'].includes(parentStyle.overflow) || ['auto', 'scroll'].includes(parentStyle.overflowY)) {
-                rect = {
-                    top: Math.max(rect.top, parentRect.top),
-                    left: Math.max(rect.left, parentRect.left),
-                    bottom: Math.min(rect.bottom, parentRect.bottom),
-                    right: Math.min(rect.right, parentRect.right),
-                    width: Math.min(rect.right, parentRect.right) - Math.max(rect.left, parentRect.left),
-                    height: Math.min(rect.bottom, parentRect.bottom) - Math.max(rect.top, parentRect.top)
-                };
-            }
-            parent = parent.parentElement;
-        }
-        return rect;
-    }
+    
 
     /**
      * @private
@@ -528,24 +534,11 @@ class VirtualizedEditor {
     _render() {
         if (!this.lines) return;
 
-        // Find the location of our Kingdom in the greater world.
-        const fullRect = this.textarea.getBoundingClientRect();
-        const visibleRect = this._getVisibleRect(this.textarea);
         
-        // Position the firmament (overlay) exactly over the textarea.
-        this.overlay.style.left = fullRect.left + "px";
-        this.overlay.style.top = fullRect.top + "px";
-        this.overlay.style.width = fullRect.width + "px";
-        this.overlay.style.height = fullRect.height + "px";
-
-        // Create a "Tzimtzum" (constriction) on the overlay, clipping it to the visible part.
-        const clipTop = Math.max(0, visibleRect.top - fullRect.top);
-        const clipLeft = Math.max(0, visibleRect.left - fullRect.left);
-        const clipBottom = Math.max(0, fullRect.bottom - visibleRect.bottom);
-        const clipRight = Math.max(0, fullRect.right - visibleRect.right);
-        this.overlay.style.clipPath = `inset(${clipTop}px ${clipRight}px ${clipBottom}px ${clipLeft}px)`;
         
         const scrollTop = this.textarea.scrollTop;
+        const scrollLeft = this.textarea.scrollLeft;
+        
         // Calculate the first visible "verse" (line) from the scroll position.
         const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
         const firstLineToRender = Math.max(0, firstVisibleLine - 1); // Render one above for smoothness.
@@ -573,10 +566,8 @@ class VirtualizedEditor {
 
         // Finally, position the viewport itself, accounting for both horizontal and vertical scroll.
         const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-        const computed = window.getComputedStyle(this.textarea);
-        const paddingLeft = parseFloat(computed.paddingLeft);
-        const paddingTop = parseFloat(computed.paddingTop);
-        this.viewport.style.transform = `translate(${-this.textarea.scrollLeft + paddingLeft}px, ${-scrollRemainder + paddingTop}px)`;
+        this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
+        
     }
 
     /**
@@ -615,7 +606,8 @@ class VirtualizedEditor {
         }
         
         // Ensure we have enough vessels (divs) for the visible lines.
-        const neededDivs = Math.ceil(this.textarea.clientHeight / this.lineHeight) + 2;
+        const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2; 
+        
         if (this.viewportDivs.length !== neededDivs) {
             this.viewportDivs = [];
             this.viewport.innerHTML = '';
@@ -648,19 +640,29 @@ class VirtualizedEditor {
      * restoring the textarea to its primordial state.
      */
     destroy() {
-        // Remove listeners to prevent memory leaks (souls trapped between worlds).
-        // Note: A more robust implementation would store references to listeners to remove them.
-        // For this example, we assume this is the final cleanup.
-
-        // Remove the created vessels.
+        // Remove created vessels.
         if (this.overlay) this.overlay.remove();
         const styleEl = document.querySelector("#" + this.styleId + "-style");
         if (styleEl) styleEl.remove();
 
-        // Restore the textarea's visibility.
+        // 1. Move the textarea back out of the wrapper
+        if (this.wrapper && this.textarea.parentNode === this.wrapper) {
+            this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
+        }
+
+        // 2. Remove the wrapper itself
+        if (this.wrapper) this.wrapper.remove();
+        
+        // 3. Restore the textarea's visibility and positioning
         this.textarea.style.color = '';
         this.textarea.style.background = '';
         this.textarea.style.caretColor = '';
+        this.textarea.style.position = ''; // Restore positioning
+        this.textarea.style.top = '';      // Restore positioning
+        this.textarea.style.left = '';  
+        this.textarea.style.width = '';    // Restore size
+        this.textarea.style.height = '';   // Restore size
+        this.textarea.style.resize = '';   // Restore resize
     }
 }
 
