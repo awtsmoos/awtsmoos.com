@@ -8,14 +8,8 @@ File: /scripts/awtsmoos/video/mediabunny-wirker-base.js
 // --- AudioBuffer Polyfill (Local) ---
 const createAudioBufferPolyfill = () => {
 	/* ב"ה B"H */
-	// This polyfill allows passing raw channel data buffers (like the audioBufferShim)
 	return function AudioBuffer(options) {
-		// Note: The original implementation in your snippet uses a getter 
-        // that's incompatible with plain object properties, so this polyfill 
-        // must expose getChannelData correctly for Mediabunny.
-        
-        // Ensure options.channels is an array of Float32Array (which it is)
-        this.channels = options.channels || [];
+		this.channels = options.channels || [];
         this.sampleRate = options.sampleRate;
         this.length = options.length;
         this.duration = options.duration;
@@ -32,20 +26,17 @@ const createAudioBufferPolyfill = () => {
 
 /**
  * Holds all pre-configured environment objects for the custom rendering logic.
- * This context is passed to the workerLogic function.
  */
 class RenderingContext {
 /* ב"ה B"H */
 constructor(payload, output, canvasSource, audioBufferSource, renderCanvas, ctx) {
 	this.payload = payload;
 
-	// Mediabunny Components
 	this.output = output; 
 	this.canvasSource = canvasSource;
 	this.audioBufferSource = audioBufferSource;
 
-	// Canvas Context
-    this.canvas = renderCanvas;
+	this.canvas = renderCanvas;
 	this.ctx = ctx;
 }
 }
@@ -53,11 +44,6 @@ constructor(payload, output, canvasSource, audioBufferSource, renderCanvas, ctx)
 
 /**
  * The main bootstrap function for the worker.
- *
- * @param {function(RenderingContext)} workerLogic - The function that contains 
- * the project's specific rendering loop.
- * @param {Object} [options] - Configuration options.
- * @param {string} [options.libraryPath='./mediabunny-library.js'] - Path to the library.
  */
 function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 
@@ -66,16 +52,16 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
 if (typeof self !== 'undefined' && self.importScripts) {
 
 	const libraryPath = options.libraryPath || './mediabunny-library.js';
-	self.AudioBuffer = createAudioBufferPolyfill(); // Register the polyfill
+	self.AudioBuffer = createAudioBufferPolyfill();
 
-	// The mediabunny library is expected to load components into the global `mediabunny` object.
+	let mediabunny = null;
 	try {
-        // NOTE: We rely on the library to expose itself as 'mediabunny' globally
-		self.exports={}
+		self.exports = {};
 		self.importScripts(libraryPath);
-		var mediabunny=self.exports
+		mediabunny = self.exports;
+        
         if (typeof mediabunny === 'undefined' || !mediabunny.Output) {
-            throw new Error("Mediabunny library did not expose 'mediabunny' object correctly.");
+            throw new Error("Mediabunny library failed to load or expose 'Output' class.");
         }
 	} catch (e) {
 		self.postMessage({
@@ -98,40 +84,44 @@ if (typeof self !== 'undefined' && self.importScripts) {
                 const renderCanvas = new OffscreenCanvas(resolution.width, resolution.height);
 	            const ctx = renderCanvas.getContext('2d', { alpha: false });
 
-				// 2. Instantiate the Mediabunny Components (using explicit names from snippet)
+				// 2. Instantiate the Mediabunny Components
                 
-                // CRITICAL: Output setup
+                // Output setup
                 const output = new mediabunny.Output({
-                    // CRITICAL: Determine format based on payload, assuming Mp4OutputFormat exists
                     format: new mediabunny.Mp4OutputFormat(), 
                     target: new mediabunny.BufferTarget()
                 });
 
-                // Video Codec Check (Simplified - always use default)
-                // In a real scenario, we'd copy the check from your snippet, but for a base worker, 
-                // we'll use a direct codec path or rely on Mediabunny defaults.
-                let videoCodec = 'avc1.42001E'; // Default H.264
+                // --- CRITICAL CORRECTION: MIRROR DYNAMIC CODEC LOGIC ---
+                let videoCodec = 'avc1.42001E'; // Default from original snippet
+                try {
+                    videoCodec = await mediabunny.getFirstEncodableVideoCodec(output.format.getSupportedVideoCodecs(), { width: resolution.width, height: resolution.height });
+                } catch (e) { 
+                    console.warn("Codec check failed, using default (which may be invalid).", e.message); 
+                }
+                // If the check fails, videoCodec is 'avc1.42001E', which will then cause the error.
+                // The user must ensure this dynamic check returns a valid simple codec like 'vp8' or 'avc'.
                 
 				const canvasSource = new mediabunny.CanvasSource(renderCanvas, { 
                     codec: videoCodec, 
-                    bitrate: 4_000_000 // Placeholder for good quality
+                    bitrate: 4_000_000 
                 });
                 output.addVideoTrack(canvasSource);
 
                 let audioBufferSource = null;
                 let finalAudioBufferShim = null;
-
+                
                 if (audioBufferShim) {
-                    // CRITICAL: Create the AudioBuffer from the shim
                     finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
                     
-                    // Audio Codec Check (Simplified - assuming a default AAC codec is used)
-                    // We must guess a bitrate since it wasn't passed in payload
-                    audioBufferSource = new mediabunny.AudioBufferSource({ codec: 'aac', bitrate: 128_000 });
+                    // --- CRITICAL CORRECTION: MIRROR DYNAMIC AUDIO CODEC LOGIC ---
+                    const audioCodec = await mediabunny.getFirstEncodableAudioCodec(output.format.getSupportedAudioCodecs(), finalAudioBufferShim);
+                    
+                    audioBufferSource = new mediabunny.AudioBufferSource({ codec: audioCodec, bitrate: 128_000 });
                     output.addAudioTrack(audioBufferSource);
                 }
                 
-                // CRITICAL: Start the muxer
+                // Start the muxer
                 await output.start();
                 
 				// 3. Setup Context 
@@ -140,27 +130,22 @@ if (typeof self !== 'undefined' && self.importScripts) {
 				// 4. Execute the project-specific rendering logic
 				await workerLogic(context);
 
-				// 5. Finalize Video (Boilerplate directly from user's working snippet structure)
+				// 5. Finalize Video
                 
-                // 1. Close the video source
                 context.canvasSource.close();
     
-                // 2. Add and close the audio source
                 if (context.audioBufferSource) {
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
-                    // CRITICAL: Use the created finalAudioBufferShim for encoding
                     await context.audioBufferSource.add(finalAudioBufferShim);
                     context.audioBufferSource.close();
                 }
 
-                // 3. Finalize the main output
 				self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
 				self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 98 } });
 				await context.output.finalize();
 
 				self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: 100 } });
 				
-				// 4. Send the final blob back
 				self.postMessage({ 
                     type: 'VIDEO_COMPLETE', 
                     payload: { 
