@@ -364,26 +364,33 @@ function bootstrapMediabunnyWorker(workerLogic, options = {}) {
                     
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing Audio Encoder...' } });
                     
-                    // --- AUDIO TRACK SETUP ---
+                    // 2. AUDIO TRACK SETUP AND MUXING (The original batch method)
+                    self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Initializing Audio Encoder...' } });
+                    
                     const audioBufferSource = new mediabunny.AudioBufferSource({});
                     const finalAudioBufferShim = new self.AudioBuffer(audioBufferShim);
                     
+                    // --- CRITICAL MIRRORING: ORIGINAL AUDIO CODEC NEGOTIATION ---
                     let audioCodec = 'aac'; 
                     try {
-                        // Fragile but necessary negotiation mirroring
                         audioCodec = await mediabunny.getFirstEncodableAudioCodec(workerContext.output.format.getSupportedAudioCodecs(), finalAudioBufferShim);
                     } catch (e) {
+                         // The fallback must be retained for non-hanging operation
                          console.warn(`Audio Codec negotiation failed: ${e.message}. Using default 'aac'.`);
                          audioCodec = 'aac'; 
                     }
 
                     audioBufferSource.codec = audioCodec;
+                    
+                    // This is the key: The AudioTrack is ADDED NOW, right before encoding
                     workerContext.output.addAudioTrack(audioBufferSource); 
+                    
+                    
                     
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Encoding audio...' } });
                     
-                    // The duration is added for stability
-                    await audioBufferSource.add(finalAudioBufferShim, audioBufferShim.duration); 
+                    // --- THE HANG FIX: Adding audio as a single, batch operation ---
+                    await audioBufferSource.add(finalAudioBufferShim); 
                     
                     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Finalizing video file...' } });
                     await workerContext.output.finalize();
