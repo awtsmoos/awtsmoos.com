@@ -843,43 +843,82 @@ document.addEventListener('DOMContentLoaded', () => {
 		reader.readAsArrayBuffer(audioBlob);
 	}
 	
-	// script.js (Inside startVideoWorker function)
+	
+	// script.js (Complete startVideoWorker function)
 
-// ...
+/**
+ * Initiates the Web Worker to render the video and audio file.
+ * @param {object} audioBufferShim - The recorded audio data object.
+ */
 function startVideoWorker(audioBufferShim) {
     
-    // --- NEW: Calculate Resolution based on current window orientation ---
+    // --- 1. Calculate Video Resolution (1080p in correct orientation) ---
     const isVertical = window.innerHeight > window.innerWidth;
     const HD_WIDTH = 1080;
     const HD_HEIGHT = 1920;
+    
+    // Set video resolution to 1080x1920 (Portrait) or 1920x1080 (Landscape)
     const videoResolution = isVertical 
         ? { width: HD_WIDTH, height: HD_HEIGHT } 
-        : { width: HD_HEIGHT, height: HD_WIDTH }; // 1920x1080 for landscape
+        : { width: HD_HEIGHT, height: HD_WIDTH }; 
 
-    // ... (worker instantiation) ...
+    // --- 2. Worker Instantiation (Ensure path is correct) ---
+    // The worker is the project-specific logic file that imports the base worker.
+    const worker = new Worker('./synth-video-worker.js'); 
 
+    // --- 3. Worker Communication Setup ---
+    worker.onmessage = (event) => {
+        const data = event.data;
+        if (data.type === 'STATUS_UPDATE' && data.payload) {
+            elements.videoProgress.textContent = data.payload.message;
+        } else if (data.type === 'PROGRESS_UPDATE' && data.payload) {
+            elements.videoProgress.textContent = `Rendering: ${data.payload.percent}%`;
+        } else if (data.type === 'VIDEO_COMPLETE' && data.payload.blob) {
+            // Video finished, offer download
+            elements.videoProgress.textContent = 'Video Complete!';
+            const url = URL.createObjectURL(data.payload.blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `BH-${Date.now}-WebSynth-Video-${Date.now()}.mp4`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+            worker.terminate();
+        } else if (data.type === 'FATAL_ERROR') {
+            elements.videoProgress.textContent = `FATAL ERROR: ${data.payload.message}`;
+            console.error('Worker Error:', data.payload.error);
+            worker.terminate();
+        }
+    };
+
+    // --- 4. Send START_RENDERING Payload ---
     worker.postMessage({
         type: 'START_RENDERING',
         payload: {
             audioBufferShim: audioBufferShim,
             keyPressData: videoRecordingData,
-            // --- UPDATED RESOLUTION ---
+            
+            // --- Resolution and Format ---
             resolution: videoResolution, 
             outputFormat: { format: 'mp4' }, 
+            
+            // --- Keyboard/UI Settings ---
             startOctave: elements.octaveSelect.value, 
-            // --- CRITICAL: PASS DUAL VIEW SETTINGS ---
             alwaysDual: elements.alwaysDualCheckbox.checked,
             independentScroll: elements.independentScrollCheckbox.checked,
-            isVertical: isVertical, // Pass the initial orientation
-            // ---
+            isVertical: isVertical, 
+            
+            // --- Styling Data ---
             style: {
                 whiteKeyWidth: parseInt(elements.keyWidthSlider.value),
-                // We no longer need keyboardContainer.clientHeight as we use videoResolution.height
+                // keyboardHeight is calculated within the worker based on resolution
             }
         }
-    }, audioBufferShim.channels.map(c => c.buffer));
+    }, audioBufferShim.channels.map(c => c.buffer)); // Transfer array buffers to worker
 }
-// ...
+	
 
 
 	
