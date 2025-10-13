@@ -897,7 +897,7 @@ async function toggleVideoRecording() {
             payload: {
                 renderMode: renderMode,
                 resolution: videoResolution,
-                outputFormat: { fps: 60, quality: 0.8 },
+                outputFormat: { fps: 18, quality: 0.8 },
                 startOctave: elements.octaveSelect.value,
                 alwaysDual: elements.alwaysDualCheckbox.checked,
                 independentScroll: elements.independentScrollCheckbox.checked,
@@ -905,7 +905,10 @@ async function toggleVideoRecording() {
                 style: {
                     userKeyWidth: parseInt(elements.keyWidthSlider.value),
                     userViewportWidth: elements.keyboardContainer.clientWidth
-                }
+                },
+                initialScrollX: scrollState.x,
+        initialScrollX2: scrollState.x2 || 0
+    
             }
         });
         
