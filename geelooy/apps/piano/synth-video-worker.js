@@ -3,18 +3,17 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A return to the stable, reliable "render-at-the-end" architecture.
-             - FIX: All complex pipelining/real-time logic has been REMOVED to resolve freezing and rendering bugs.
-             - RETAINED: All advanced visuals are kept, including rich particles, lightning, and 3D beveled keys.
-             - RETAINED: Includes critical stability fixes (particle cap) and performance optimizations (VFR simulation).
-VERSION 66.0 - The "Stable Architecture" Build
+Description: A stability-first build that resolves rendering hangs.
+             - FIX: The complex and unstable "smart frame skipping" (VFR) logic has been completely REMOVED.
+             - The worker now uses a simple, reliable frame-by-frame loop, preventing hangs.
+             - RETAINED: All advanced visuals (rich particles, lightning) and the critical particle cap for memory safety.
+VERSION 67.0 - The "Stability-First" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Global State ---
 let workerConfig = null;
-// Simple arrays for the stable "render-at-the-end" architecture
 let keyPressHistory = [];
 let scrollHistory = [];
 
@@ -121,13 +120,7 @@ function createLightningBolt(p1, p2) {
     segments.push({ x: p2.x, y: p2.y }); lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
 }
 
-// --- Scene State & Drawing ---
-function isSceneStaticAt(time) {
-    if (keyPressHistory.some(e => time >= e.start && time < e.end)) return false;
-    if (particles.length > 0 || shockwaves.length > 0 || touchPoints.length > 0 || lightningBolts.length > 0) return false;
-    return true;
-}
-
+// --- Frame Drawing ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
@@ -207,22 +200,12 @@ self.onmessage = async (e) => {
             
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
-            const totalFrames = Math.floor(finalDuration / deltaTime);
             let lastReportedProgress = -1;
 
+            // --- STABLE RENDER LOOP ---
+            // The buggy "smart frame skipping" logic has been removed.
             for (let time = 0; time < finalDuration; time += deltaTime) {
-                // Smart Frame Skipping (VFR) Logic
-                if (isSceneStaticAt(time)) {
-                    let staticEndTime = time;
-                    while (staticEndTime < finalDuration && isSceneStaticAt(staticEndTime + deltaTime)) {
-                        staticEndTime += deltaTime;
-                    }
-                    const staticDuration = staticEndTime - time;
-                    await renderer.addFrame({ time, duration: staticDuration });
-                    time = staticEndTime - deltaTime; // Adjust loop to jump to the end of the static period
-                } else {
-                    await renderer.addFrame({ time, duration: deltaTime });
-                }
+                await renderer.addFrame({ time, duration: deltaTime });
 
                 const progress = Math.floor((time / finalDuration) * 100);
                 if (progress > lastReportedProgress) {
