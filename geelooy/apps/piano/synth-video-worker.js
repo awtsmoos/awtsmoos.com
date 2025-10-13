@@ -3,12 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A performance-focused build that removes all background rendering.
-             - All visual focus is on the high-intensity key and particle effects.
-             - Features a music-responsive neon perspective grid.
-             - Keys have a multi-layered glow effect when pressed.
-             - Adds an expanding shockwave effect on new key presses.
-VERSION 55.0 - The "Focused Effects" Build
+Description: Correctly implements progress reporting to match the main script's listener.
+             - Restores and features Hebrew letter particle explosions.
+             - White keys remain white when active, gaining a "bloom" effect.
+             - All visual focus is on high-intensity effects against a black background.
+VERSION 57.0 - The "Correct Progress & Sacred Sparks" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -20,28 +19,28 @@ let workerConfig = null;
 
 let masterKeyboardLayout = null;
 let particles = [];
-let shockwaves = []; // For the new press effect
+let shockwaves = [];
 
-// The starting x-positions (offsets) of the two "viewports" into the master layout.
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
-// --- VISUALS & CONSTANTS (Effects-Focused Theme) ---
+// --- VISUALS & CONSTANTS ---
 const UI_STYLE = {
-    BACKGROUND_COLOR: '#000000', // Pure black for stark contrast
+    BACKGROUND_COLOR: '#000000',
     // Key Colors (Inactive)
     WHITE_KEY_FILL: '#1a182d',
     WHITE_KEY_BORDER: 'rgba(80, 120, 200, 0.5)',
     BLACK_KEY_FILL: '#080610',
     BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.05)',
     // Key Colors (Active)
-    ACTIVE_KEY_BASE_COLOR: '#00ffff',
-    ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.15)', // For the bloom effect
+    ACTIVE_WHITE_KEY_FILL: '#ffffff', // Pure white when active
+    ACTIVE_KEY_BASE_COLOR: '#00ffff', // For black keys and glow
+    ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.2)', // For the bloom effect
     SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
     // Label Colors
     LABEL_COLOR_WHITE_KEY: '#707080',
     LABEL_COLOR_BLACK_KEY: '#a0a0b0',
-    ACTIVE_LABEL_COLOR: '#ffffff'
+    ACTIVE_LABEL_COLOR: '#000000' // Black label on active white key for clarity
 };
 const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const HEBREW_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
@@ -87,8 +86,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX;
     const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
 
-    // --- DRAWING LOGIC ---
-    // 1. Clear canvas to solid black. No other background is drawn.
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR;
     ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
 
@@ -105,11 +102,9 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
 
-        // Trigger effects
         if (isActive && eventData && !eventData.effectTriggered) {
             const effectX = keyScreenX + (eventData.x / zoomFactor);
             const effectY = yStart + (eventData.y / zoomFactor);
-            // Check if the effect mode is 'explosion' before creating particles.
             if (config.effectMode === 'explosion') {
                 createParticles(effectX, effectY);
             }
@@ -122,7 +117,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
         const width = key.width;
 
-        // Draw Inactive Key
         ctx.fillStyle = key.isBlack ? UI_STYLE.BLACK_KEY_FILL : UI_STYLE.WHITE_KEY_FILL;
         ctx.fillRect(keyScreenX, yPos, width, height);
         if (!key.isBlack) {
@@ -134,27 +128,34 @@ function drawKeyboardFrame(workerContext, framePayload) {
             ctx.fillRect(keyScreenX, yPos, width, 2);
         }
 
-        // Active Key Glow Effect
         if (key.pressAnimation > 0) {
-            ctx.globalAlpha = key.pressAnimation * 0.8;
+            ctx.globalAlpha = key.pressAnimation;
             ctx.fillStyle = UI_STYLE.ACTIVE_KEY_GLOW_COLOR;
             ctx.fillRect(keyScreenX - width * 0.5, yPos - height * 0.5, width * 2, height * 2);
-            ctx.globalAlpha = key.pressAnimation * 1.0;
             ctx.fillRect(keyScreenX - width * 0.2, yPos - height * 0.2, width * 1.4, height * 1.4);
-            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_BASE_COLOR;
+            
+            if (key.isBlack) {
+                ctx.fillStyle = UI_STYLE.ACTIVE_KEY_BASE_COLOR;
+            } else {
+                ctx.fillStyle = UI_STYLE.ACTIVE_WHITE_KEY_FILL;
+            }
             ctx.fillRect(keyScreenX, yPos, width, height);
             ctx.globalAlpha = 1;
         }
 
-        // Draw Label
         const isHighlight = key.pressAnimation > 0.5;
         ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`;
         ctx.textAlign = 'center';
-        ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
+        const labelColor = isHighlight ? 
+            (key.isBlack ? '#FFFFFF' : UI_STYLE.ACTIVE_LABEL_COLOR) : 
+            (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
+        ctx.fillStyle = labelColor;
+        
         if (isHighlight) {
             ctx.shadowColor = UI_STYLE.ACTIVE_KEY_BASE_COLOR;
             ctx.shadowBlur = 10;
         }
+
         if (key.isBlack) {
             ctx.textBaseline = 'middle';
             ctx.fillText(key.note.slice(0, -1), keyScreenX + width / 2, yPos + height * 0.8);
@@ -182,8 +183,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
 
-    // --- Update and Render Effects OVER the keys ---
-    // 1. Shockwaves
     ctx.lineWidth = 4;
     for (let i = shockwaves.length - 1; i >= 0; i--) {
         const sw = shockwaves[i];
@@ -200,7 +199,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
         }
     }
 
-    // 2. Particles (only if effectMode is 'explosion')
     if (config.effectMode === 'explosion') {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -208,16 +206,14 @@ function drawKeyboardFrame(workerContext, framePayload) {
             const p = particles[i];
             p.x += p.vx * deltaTime;
             p.y += p.vy * deltaTime;
-            p.vy += 600 * deltaTime; // Stronger gravity
+            p.vy += 600 * deltaTime;
             p.life -= deltaTime;
-
             if (p.life <= 0) {
                 particles.splice(i, 1);
             } else {
                 if (p.initialLife === -1) p.initialLife = p.life;
                 const lifeRatio = p.life / p.initialLife;
                 ctx.globalAlpha = lifeRatio;
-                // Fade to white at the end of life
                 const lightness = 75 + (1 - lifeRatio) * 25;
                 ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`;
                 ctx.font = `bold ${p.radius * 8}px sans-serif`;
@@ -282,12 +278,18 @@ self.onmessage = async (e) => {
 
                 const progress = Math.floor((i / totalFrames) * 100);
                 if (progress > lastReportedProgress) {
-                    self.postMessage({ type: 'RENDER_PROGRESS', payload: { progress: progress } });
+                    // --- THE FIX ---
+                    // This message now perfectly matches what the main script expects.
+                    self.postMessage({
+                        type: 'PROGRESS_UPDATE',
+                        payload: {
+                            percent: progress
+                        }
+                    });
                     lastReportedProgress = progress;
                 }
             }
 
-            self.postMessage({ type: 'RENDER_PROGRESS', payload: { progress: 100 } });
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
             break;
