@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: Correctly implements progress reporting to match the main script's listener.
-             - Restores and features Hebrew letter particle explosions.
-             - White keys remain white when active, gaining a "bloom" effect.
-             - All visual focus is on high-intensity effects against a black background.
-VERSION 57.0 - The "Correct Progress & Sacred Sparks" Build
+Description: Implements critical bug fix for Hebrew letters and corrects key color to pure white.
+             - FIX: Worker now correctly reads `renderMode` from main script, enabling particle effects.
+             - FIX: White key color is now `#FFFFFF` (pure white).
+             - Retains the "white with shadow" 3D aesthetic and all other effects.
+VERSION 60.0 - The "True White & Letters Implemented" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -18,36 +18,80 @@ let scrollHistory = [];
 let workerConfig = null;
 
 let masterKeyboardLayout = null;
+let keyCache = {}; // We will pre-render the keys for performance
 let particles = [];
 let shockwaves = [];
 
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
-// --- VISUALS & CONSTANTS ---
+// --- VISUALS & CONSTANTS (Corrected Style) ---
 const UI_STYLE = {
     BACKGROUND_COLOR: '#000000',
-    // Key Colors (Inactive)
-    WHITE_KEY_FILL: '#1a182d',
-    WHITE_KEY_BORDER: 'rgba(80, 120, 200, 0.5)',
-    BLACK_KEY_FILL: '#080610',
-    BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.05)',
-    // Key Colors (Active)
-    ACTIVE_WHITE_KEY_FILL: '#ffffff', // Pure white when active
-    ACTIVE_KEY_BASE_COLOR: '#00ffff', // For black keys and glow
-    ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.2)', // For the bloom effect
+    // White Key Style
+    WHITE_KEY_FILL: '#FFFFFF', // CORRECTED: Pure white as requested.
+    WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.4)',
+    WHITE_KEY_BEVEL: 'rgba(255, 255, 255, 0.6)',
+    WHITE_KEY_AO: 'rgba(0, 0, 0, 0.25)', // Ambient Occlusion
+    // Black Key Style
+    BLACK_KEY_GRADIENT_START: '#3a3a3c',
+    BLACK_KEY_GRADIENT_END: '#121317',
+    BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.15)',
+    // Active Effects
+    ACTIVE_KEY_OVERLAY_COLOR: 'rgba(0, 255, 255, 0.7)',
     SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
-    // Label Colors
+    // Labels
     LABEL_COLOR_WHITE_KEY: '#707080',
     LABEL_COLOR_BLACK_KEY: '#a0a0b0',
-    ACTIVE_LABEL_COLOR: '#000000' // Black label on active white key for clarity
+    ACTIVE_LABEL_COLOR: '#000000' // Black label on active white key for contrast
 };
 const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const HEBREW_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
 const MIDI_NOTE_START = 21; // A0
 const MIDI_NOTE_END = 108; // C8
 
-// --- Utility Functions ---
+
+// --- Key Pre-Rendering Function ---
+function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
+    const blackKeyWidth = whiteKeyWidth * 0.6;
+    const blackKeyHeight = whiteKeyHeight * 0.65;
+    const shadowOffset = whiteKeyWidth * 0.05;
+
+    // --- White Key ---
+    const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight + shadowOffset);
+    const wCtx = wCanvas.getContext('2d');
+    wCtx.fillStyle = UI_STYLE.WHITE_KEY_SHADOW;
+    wCtx.fillRect(0, shadowOffset, whiteKeyWidth, whiteKeyHeight);
+    wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL;
+    wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
+    const bevelGradient = wCtx.createLinearGradient(0, 0, 0, 5);
+    bevelGradient.addColorStop(0, UI_STYLE.WHITE_KEY_BEVEL);
+    bevelGradient.addColorStop(1, 'transparent');
+    wCtx.fillStyle = bevelGradient;
+    wCtx.fillRect(0, 0, whiteKeyWidth, 5);
+    const aoGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0);
+    aoGradient.addColorStop(0, UI_STYLE.WHITE_KEY_AO);
+    aoGradient.addColorStop(0.1, 'transparent');
+    aoGradient.addColorStop(0.9, 'transparent');
+    aoGradient.addColorStop(1, UI_STYLE.WHITE_KEY_AO);
+    wCtx.fillStyle = aoGradient;
+    wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight);
+    keyCache['white_default'] = wCanvas;
+
+    // --- Black Key ---
+    const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight);
+    const bCtx = bCanvas.getContext('2d');
+    const bodyGradient = bCtx.createLinearGradient(0, 0, 0, blackKeyHeight);
+    bodyGradient.addColorStop(0, UI_STYLE.BLACK_KEY_GRADIENT_START);
+    bodyGradient.addColorStop(1, UI_STYLE.BLACK_KEY_GRADIENT_END);
+    bCtx.fillStyle = bodyGradient;
+    bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
+    bCtx.fillStyle = UI_STYLE.BLACK_KEY_BEVEL_HIGHLIGHT;
+    bCtx.fillRect(0, 0, blackKeyWidth, 2);
+    keyCache['black_default'] = bCanvas;
+}
+
+
 function calculateMasterLayout(whiteKeyWidth) {
     const layout = new Map();
     let whiteKeyX = 0;
@@ -102,68 +146,49 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
 
+        // --- EFFECT TRIGGER (WITH BUG FIX) ---
         if (isActive && eventData && !eventData.effectTriggered) {
             const effectX = keyScreenX + (eventData.x / zoomFactor);
             const effectY = yStart + (eventData.y / zoomFactor);
-            if (config.effectMode === 'explosion') {
+            
+            // CRITICAL FIX: Check for `renderMode`, not `effectMode`.
+            if (config.renderMode === 'explosion') {
                 createParticles(effectX, effectY);
             }
             shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 });
             eventData.effectTriggered = true;
         }
 
-        const whiteKeyHeight = unscaledRowHeight * 0.95, blackKeyHeight = whiteKeyHeight * 0.65;
+        const whiteKeyHeight = unscaledRowHeight * 0.95;
+        const pressDepth = key.pressAnimation * 4;
         const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
-        const height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
-        const width = key.width;
 
-        ctx.fillStyle = key.isBlack ? UI_STYLE.BLACK_KEY_FILL : UI_STYLE.WHITE_KEY_FILL;
-        ctx.fillRect(keyScreenX, yPos, width, height);
-        if (!key.isBlack) {
-            ctx.strokeStyle = UI_STYLE.WHITE_KEY_BORDER;
-            ctx.lineWidth = 1;
-            ctx.strokeRect(keyScreenX + 1, yPos, width - 2, height);
-        } else {
-            ctx.fillStyle = UI_STYLE.BLACK_KEY_HIGHLIGHT;
-            ctx.fillRect(keyScreenX, yPos, width, 2);
-        }
-
+        // Draw the pre-rendered key with its shadow
+        ctx.drawImage(keyCache[key.isBlack ? 'black_default' : 'white_default'], keyScreenX, yPos + pressDepth);
+        
+        // Draw active state overlay
         if (key.pressAnimation > 0) {
             ctx.globalAlpha = key.pressAnimation;
-            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_GLOW_COLOR;
-            ctx.fillRect(keyScreenX - width * 0.5, yPos - height * 0.5, width * 2, height * 2);
-            ctx.fillRect(keyScreenX - width * 0.2, yPos - height * 0.2, width * 1.4, height * 1.4);
-            
-            if (key.isBlack) {
-                ctx.fillStyle = UI_STYLE.ACTIVE_KEY_BASE_COLOR;
-            } else {
-                ctx.fillStyle = UI_STYLE.ACTIVE_WHITE_KEY_FILL;
-            }
-            ctx.fillRect(keyScreenX, yPos, width, height);
+            ctx.fillStyle = UI_STYLE.ACTIVE_KEY_OVERLAY_COLOR;
+            const height = key.isBlack ? whiteKeyHeight * 0.65 : whiteKeyHeight;
+            ctx.fillRect(keyScreenX, yPos + pressDepth, key.width, height);
             ctx.globalAlpha = 1;
         }
 
+        // Draw Label
         const isHighlight = key.pressAnimation > 0.5;
         ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`;
         ctx.textAlign = 'center';
-        const labelColor = isHighlight ? 
-            (key.isBlack ? '#FFFFFF' : UI_STYLE.ACTIVE_LABEL_COLOR) : 
-            (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
-        ctx.fillStyle = labelColor;
-        
-        if (isHighlight) {
-            ctx.shadowColor = UI_STYLE.ACTIVE_KEY_BASE_COLOR;
-            ctx.shadowBlur = 10;
-        }
+        ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
 
         if (key.isBlack) {
+            const blackKeyHeight = whiteKeyHeight * 0.65;
             ctx.textBaseline = 'middle';
-            ctx.fillText(key.note.slice(0, -1), keyScreenX + width / 2, yPos + height * 0.8);
+            ctx.fillText(key.note.slice(0, -1), keyScreenX + key.width / 2, yPos + blackKeyHeight * 0.8 + pressDepth);
         } else {
             ctx.textBaseline = 'bottom';
-            ctx.fillText(key.note, keyScreenX + width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05));
+            ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth);
         }
-        ctx.shadowBlur = 0;
     };
 
     const renderRow = (layout, yStart, scroll) => {
@@ -179,10 +204,12 @@ function drawKeyboardFrame(workerContext, framePayload) {
             });
         });
     };
-
+    
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
 
+    // --- Render Effects On Top ---
+    // Shockwaves
     ctx.lineWidth = 4;
     for (let i = shockwaves.length - 1; i >= 0; i--) {
         const sw = shockwaves[i];
@@ -198,33 +225,33 @@ function drawKeyboardFrame(workerContext, framePayload) {
             ctx.stroke();
         }
     }
-
-    if (config.effectMode === 'explosion') {
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            p.x += p.vx * deltaTime;
-            p.y += p.vy * deltaTime;
-            p.vy += 600 * deltaTime;
-            p.life -= deltaTime;
-            if (p.life <= 0) {
-                particles.splice(i, 1);
-            } else {
-                if (p.initialLife === -1) p.initialLife = p.life;
-                const lifeRatio = p.life / p.initialLife;
-                ctx.globalAlpha = lifeRatio;
-                const lightness = 75 + (1 - lifeRatio) * 25;
-                ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`;
-                ctx.font = `bold ${p.radius * 8}px sans-serif`;
-                ctx.fillText(p.letter, p.x, p.y);
-            }
+    
+    // Hebrew Letter Particles
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx * deltaTime;
+        p.y += p.vy * deltaTime;
+        p.vy += 600 * deltaTime;
+        p.life -= deltaTime;
+        if (p.life <= 0) {
+            particles.splice(i, 1);
+        } else {
+            if (p.initialLife === -1) p.initialLife = p.life;
+            const lifeRatio = p.life / p.initialLife;
+            ctx.globalAlpha = lifeRatio;
+            const lightness = 75 + (1 - lifeRatio) * 25;
+            ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`;
+            ctx.font = `bold ${p.radius * 8}px sans-serif`;
+            ctx.fillText(p.letter, p.x, p.y);
         }
     }
     ctx.globalAlpha = 1;
 
     ctx.restore();
 }
+
 
 // --- Main Worker Control Logic ---
 self.onmessage = async (e) => {
@@ -255,6 +282,10 @@ self.onmessage = async (e) => {
             
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
 
+            const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
+            const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
+            cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
+
             const uiStartOctave = parseInt(workerConfig.startOctave);
             const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
@@ -278,13 +309,9 @@ self.onmessage = async (e) => {
 
                 const progress = Math.floor((i / totalFrames) * 100);
                 if (progress > lastReportedProgress) {
-                    // --- THE FIX ---
-                    // This message now perfectly matches what the main script expects.
                     self.postMessage({
                         type: 'PROGRESS_UPDATE',
-                        payload: {
-                            percent: progress
-                        }
+                        payload: { percent: progress }
                     });
                     lastReportedProgress = progress;
                 }
