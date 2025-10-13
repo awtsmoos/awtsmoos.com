@@ -922,7 +922,7 @@ async function toggleVideoRecording() {
                     lightningAmount: parseFloat(document.getElementById('lightning-amount').value),
                 
                     
-                    
+                    },
                 initialScollX: scrollState.x,
         initialScrollX2: scrollState.x2 || 0
     
