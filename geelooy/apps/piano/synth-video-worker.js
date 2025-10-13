@@ -3,10 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A complete, from-scratch rewrite that literally implements the user's simple,
-             correct rules: 1) In Linked Mode, the top keyboard starts one white note lower.
-             2) In Linked Mode, both keyboards scroll in the same direction. This is the definitive build.
-VERSION 50.0 - The "Simple Truth" Definitive Build
+Description: A complete rewrite that correctly mirrors the main application's rendering logic.
+             1) In Linked Mode, the top keyboard is offset by exactly one viewport width to the left.
+             2) This build uses pixel-perfect logic, not flawed musical note calculations.
+VERSION 51.0 - The "Pixel-Perfect Mirror" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -16,12 +16,12 @@ let keyPressHistory = [];
 let scrollHistory = [];
 let workerConfig = null;
 
-let masterKeyboardLayout = null; // The ONE "World"
+let masterKeyboardLayout = null; // The single source-of-truth for all notes.
 let keyCache = {};
 let particles = [];
 let starfield = [];
 
-// The starting x-positions of the two "Windows" on the master layout.
+// The starting x-positions (offsets) of the two "viewports" into the master layout.
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
@@ -37,11 +37,19 @@ function calculateMasterLayout(whiteKeyWidth) {
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
     for (let midi = MIDI_NOTE_START; midi <= MIDI_NOTE_END; midi++) {
-        const noteName = NOTE_NAMES_SHARP[midi % 12] + (Math.floor(midi / 12) - 1);
-        const isBlack = noteName.includes('#');
+        const octave = Math.floor(midi / 12) - 1;
+        const note = NOTE_NAMES_SHARP[midi % 12];
+        const noteName = note + octave;
+        const isBlack = note.includes('#');
+        
+        // The x position is based on the preceding white key's position
         const x = isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX;
+        
         layout.set(noteName, { note: noteName, isBlack, x, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
-        if (!isBlack) { whiteKeyX += whiteKeyWidth; }
+
+        if (!isBlack) {
+            whiteKeyX += whiteKeyWidth;
+        }
     }
     return layout;
 }
@@ -54,12 +62,13 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
 
+    // Find the most recent scroll state for the current frame's time
     const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) { activeKeys.add(k.note); } });
 
-    // **THE DEFINITIVE FIX IN ACTION**: Calculate the final position of each "Window".
-    // They both scroll in the same direction, using their correct offsets.
+    // Calculate the final scroll position for each keyboard viewport.
+    // These base offsets are now calculated correctly in the FINALIZE_MUXING stage.
     const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX;
     const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
 
@@ -91,9 +100,11 @@ function drawKeyboardFrame(workerContext, framePayload) {
 
     const renderRow = (layout, yStart, scroll) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) renderKey(key, keyScreenX, yStart); } }); }); };
 
+    // Render the bottom keyboard, then the top one if in dual view.
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
 
+    // Particle effect rendering
     if (config.effectMode === 'explosion') { for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; if (p.life <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = p.life / (p.initialLife || p.life); ctx.fillStyle = UI_STYLE.PARTICLE_COLOR; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); } } }
 
     ctx.restore();
@@ -103,7 +114,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
     switch (type) {
-        // STAGE 1: Collect all data. Do not render.
+        // STAGE 1: Collect all event data (key presses, scrolls). Do not render yet.
         case 'INITIALIZE_RENDERER':
             workerConfig = payload;
             scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }];
@@ -128,38 +139,43 @@ self.onmessage = async (e) => {
             
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
 
-            // **THE DEFINITIVE FIX IMPLEMENTATION**: Determine the starting note for each "Window".
+            // ========================= THE CORRECTED LOGIC =========================
+            // This section now perfectly mirrors the main app's behavior.
+
             const uiStartOctave = parseInt(workerConfig.startOctave);
-            let topStartNote, bottomStartNote;
+            const bottomStartNote = `C${uiStartOctave}`;
+            
+            // 1. Calculate the base offset for the bottom keyboard. This is our reference point.
+            baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
 
             if (workerConfig.independentScroll) {
-                // INDEPENDENT MODE: Bottom is at N, Top is at N+4.
-                bottomStartNote = `C${uiStartOctave}`;
-                topStartNote = `C${uiStartOctave + 4}`;
+                // INDEPENDENT MODE: Top keyboard starts at a separate musical octave. This is correct as is.
+                const topStartNote = `C${uiStartOctave + 4}`;
+                baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0;
             } else {
-                // LINKED MODE: Bottom is at N, Top is at N-1 plus one white key.
-                // The "One Note Off" rule.
-                bottomStartNote = `C${uiStartOctave}`;
-                topStartNote = `D${uiStartOctave - 1}`;
+                // LINKED MODE (THE FIX): Top keyboard is offset by exactly one viewport width.
+                // This is a pixel-based calculation that directly copies the main app's `transform` logic.
+                const viewportWidth = workerConfig.style.userViewportWidth;
+                baseOffset_Top = baseOffset_Bottom - viewportWidth;
             }
-
-            // Find the x-positions of these starting notes on the master layout.
-            baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
-            baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0;
+            // ======================= END OF CORRECTED LOGIC ========================
             
+            // Prepare assets for rendering
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
 
+            // Render every frame of the video
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             for (let time = 0; time < finalDuration; time += deltaTime) {
                 await renderer.addFrame({ time, duration: deltaTime });
             }
 
+            // Finalize the video file with audio and post it back to the main thread.
             const blob = await renderer.finalize(payload.audioBufferShim);
-            renderer._postComplete(blob, { download: true, fileName: `BH-Piano-Render-${Date.now()}.mp4` });
+            renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
             break;
     }
 };
