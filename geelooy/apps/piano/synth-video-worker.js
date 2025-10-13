@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A definitive, stable build that reverts to the correct "render-at-the-end" architecture to fix all hangs and black screen bugs.
-             - FIX: All complex, flawed simulation logic has been REMOVED and replaced with a simple, robust render loop.
-             - This permanently resolves the "black screen" and finalization crash issues.
-             - RETAINED: The final, most pronounced shadows and all advanced particle/lightning effects.
-VERSION 74.0 - The "Definitive Stability Restoration" Build
+Description: A definitive restoration that fixes the "black screen" bug by reverting to the last stable architecture.
+             - FIX: The flawed, complex rendering architecture has been completely REMOVED.
+             - RESTORED: The simple, reliable "render-at-the-end" model that was proven to work.
+             - RETAINED: All final visual upgrades, including pronounced shadows and configurable effects.
+VERSION 75.0 - The "Stable Restoration" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -19,7 +19,6 @@ let scrollHistory = [];
 
 let masterKeyboardLayout = null;
 let keyCache = {};
-// These arrays are now correctly managed by the simple, stable render loop
 let particles = [];
 let shockwaves = [];
 let touchPoints = [];
@@ -131,32 +130,35 @@ function createLightningBolt(p1, p2) {
     segments.push({ x: p2.x, y: p2.y }); lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
 }
 
-// --- Frame Drawing ---
+// --- Frame Drawing (Stateful) ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
-    const { time, duration: deltaTime } = framePayload; // We will calculate state inside this function again
+    const { time, duration: deltaTime } = framePayload;
     
-    // Determine current state for THIS frame
+    // 1. UPDATE SIMULATION for this frame
+    for (let i = shockwaves.length - 1; i >= 0; i--) { shockwaves[i].life -= deltaTime * 1.5; if (shockwaves[i].life <= 0) shockwaves.splice(i, 1); }
+    for (let i = touchPoints.length - 1; i >= 0; i--) { touchPoints[i].life -= deltaTime * 2.0; if (touchPoints[i].life <= 0) touchPoints.splice(i, 1); }
+    for (let i = lightningBolts.length - 1; i >= 0; i--) { lightningBolts[i].life -= deltaTime; if (lightningBolts[i].life <= 0) lightningBolts.splice(i, 1); }
+    for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
+    const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
+    if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
+
+    // 2. DETERMINE CURRENT STATE for drawing
     const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
+    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX; const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
     
-    // Update key animations FOR THIS FRAME
-    masterKeyboardLayout.forEach(key => {
-        const targetAnimation = activeKeys.has(key.note) ? 1.0 : 0.0;
-        if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } 
-        else { key.pressAnimation = targetAnimation; }
-    });
-
-    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX;
-    const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
-    
+    // 3. DRAW EVERYTHING
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
     const isDualView = config.alwaysDual || config.isVertical, unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
     
     const renderKey = (key, keyScreenX, yStart) => {
+        const isActive = activeKeys.has(key.note);
+        const targetAnimation = isActive ? 1.0 : 0.0;
+        if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
         const pressDepth = key.pressAnimation * 4;
         const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight * 0.95));
         ctx.drawImage(keyCache[key.isBlack ? 'black_default' : 'white_default'], keyScreenX, yPos + pressDepth);
@@ -188,7 +190,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
     
-    // Draw all effects
+    // Draw all effects that are currently alive
     ctx.lineWidth = 4;
     shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
     touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
@@ -252,14 +254,7 @@ self.onmessage = async (e) => {
             masterKeyboardLayout.forEach(key => key.pressAnimation = 0);
 
             for (let time = 0; time < finalDuration; time += deltaTime) {
-                // --- CORRECT, STABLE SIMULATION LOGIC ---
-                // 1. Update all effect physics for this timestep
-                for (let i = shockwaves.length - 1; i >= 0; i--) { shockwaves[i].life -= deltaTime * 1.5; if (shockwaves[i].life <= 0) shockwaves.splice(i, 1); }
-                for (let i = touchPoints.length - 1; i >= 0; i--) { touchPoints[i].life -= deltaTime * 2.0; if (touchPoints[i].life <= 0) touchPoints.splice(i, 1); }
-                for (let i = lightningBolts.length - 1; i >= 0; i--) { lightningBolts[i].life -= deltaTime; if (lightningBolts[i].life <= 0) lightningBolts.splice(i, 1); }
-                for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
-                
-                // 2. Create new effects that start in this timestep
+                // --- CREATE NEW EFFECTS for this frame ---
                 const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
                 keyPressHistory.forEach(event => {
                     if (event.start >= time && event.start < time + deltaTime && !event.effectTriggered) {
@@ -278,15 +273,11 @@ self.onmessage = async (e) => {
                         }
                     }
                 });
-                
-                // 3. Create new lightning
-                const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
-                if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
 
-                // 4. Render the frame
+                // Render the frame. The draw function will handle its own internal state updates.
                 await renderer.addFrame({ time, duration: deltaTime });
 
-                // 5. Update Progress
+                // Update Progress
                 const progress = Math.floor((time / finalDuration) * 100);
                 if (progress > lastReportedProgress) {
                     self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: progress } });
