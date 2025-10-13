@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: The final, optimized build combining pipelined rendering with ultimate key visuals.
-             - RE-IMPLEMENTED: The stable "smart worker" pipeline for massively reduced post-processing time.
-             - ENHANCED: Key visuals have been rebuilt with advanced gradients for a "shiny," realistic 3D bevel and depth.
-             - All features are retained: rich particles, lightning, memory caps, and stability fixes.
-VERSION 68.0 - The "Pipelined & Polished" Build
+Description: The definitive build with worker-only pipelining and configurable effects.
+             - ARCHITECTURE: Implements the robust "smart worker" pipeline internally. Works with the user's existing main script.
+             - VISUALS: Features the final, most pronounced shadows and shiny 3D beveled keys.
+             - CONFIGURABLE: Reads all particle and lightning settings passed from the main script.
+VERSION 70.0 - The "Final Architecture" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -32,21 +32,23 @@ let baseOffset_Top = 0;
 
 const RENDER_LATENCY_SECONDS = 2.0;
 const MAX_PARTICLES = 1500;
-const PARTICLE_DENSITY = 15;
 
-// --- VISUALS & CONSTANTS (Polished 3D Style) ---
+// Default effects settings in case they aren't provided
+const DEFAULT_EFFECTS = {
+    types: { hebrew: true, emojis: true, sparks: true, bubbles: true },
+    density: 15, speed: 1.0, size: 1.0, lifespan: 1.0, lightningAmount: 0.3
+};
+
+// --- VISUALS & CONSTANTS (More Pronounced Shadows) ---
 const UI_STYLE = {
     BACKGROUND_COLOR: '#000000',
-    // White Key Style (Enhanced)
-    WHITE_KEY_FILL_TOP: '#FFFFFF', WHITE_KEY_FILL_BOTTOM: '#F4F5F8', // Brighter, cleaner gradient
-    WHITE_KEY_FRONT_FACE: '#C8CDD5', WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.25)', // Less pronounced shadow
-    WHITE_KEY_SHINY_BEVEL_START: 'rgba(255, 255, 255, 0.9)', // Brighter, sharper highlight
+    WHITE_KEY_FILL_TOP: '#FFFFFF', WHITE_KEY_FILL_BOTTOM: '#F4F5F8',
+    WHITE_KEY_FRONT_FACE: '#C8CDD5', WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.6)', // MORE PRONOUNCED SHADOW
+    WHITE_KEY_SHINY_BEVEL_START: 'rgba(255, 255, 255, 1.0)',
     WHITE_KEY_SHINY_BEVEL_END: 'rgba(255, 255, 255, 0.0)',
-    WHITE_KEY_INNER_SHADOW: 'rgba(0, 0, 0, 0.1)', // Softer inner shadow
-    // Black Key Style
+    WHITE_KEY_INNER_SHADOW: 'rgba(0, 0, 0, 0.15)',
     BLACK_KEY_GRADIENT_START: '#404248', BLACK_KEY_GRADIENT_END: '#18191C',
-    BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.2)', // Shinier black key highlight
-    // Active Effects
+    BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.2)',
     ACTIVE_KEY_OVERLAY_COLOR: 'rgba(0, 255, 255, 0.7)',
     TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.4)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
     PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)', LIGHTNING_COLOR: 'rgba(150, 220, 255, 0.8)',
@@ -62,7 +64,8 @@ const MIDI_NOTE_START = 21; const MIDI_NOTE_END = 108;
 // --- Key Pre-Rendering (Polished Version) ---
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65;
-    const shadowOffset = whiteKeyWidth * 0.05, keyFrontHeight = whiteKeyWidth * 0.07;
+    const shadowOffset = whiteKeyWidth * 0.1; // MORE PRONOUNCED SHADOW OFFSET
+    const keyFrontHeight = whiteKeyWidth * 0.07;
     const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight + shadowOffset);
     const wCtx = wCanvas.getContext('2d');
     wCtx.fillStyle = UI_STYLE.WHITE_KEY_SHADOW; wCtx.fillRect(0, shadowOffset, whiteKeyWidth, whiteKeyHeight);
@@ -73,9 +76,9 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const innerShadow = wCtx.createLinearGradient(0, 0, 0, 8);
     innerShadow.addColorStop(0, UI_STYLE.WHITE_KEY_INNER_SHADOW); innerShadow.addColorStop(1, 'transparent');
     wCtx.fillStyle = innerShadow; wCtx.fillRect(0, 1, whiteKeyWidth, 7);
-    const shinyBevel = wCtx.createLinearGradient(0, 0, 0, 4);
+    const shinyBevel = wCtx.createLinearGradient(0, 0, 0, 3);
     shinyBevel.addColorStop(0, UI_STYLE.WHITE_KEY_SHINY_BEVEL_START); shinyBevel.addColorStop(1, UI_STYLE.WHITE_KEY_SHINY_BEVEL_END);
-    wCtx.fillStyle = shinyBevel; wCtx.fillRect(0, 0, whiteKeyWidth, 4);
+    wCtx.fillStyle = shinyBevel; wCtx.fillRect(0, 0, whiteKeyWidth, 3);
     keyCache['white_default'] = wCanvas;
     const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight);
     const bCtx = bCanvas.getContext('2d');
@@ -99,19 +102,24 @@ function calculateMasterLayout(whiteKeyWidth) {
     return layout;
 }
 
-// --- Effect Creation & Management ---
+// --- CONFIGURABLE Effect Creation ---
 function createRichExplosion(x, y) {
-    if (particles.length + PARTICLE_DENSITY > MAX_PARTICLES) {
-        particles.splice(0, particles.length + PARTICLE_DENSITY - MAX_PARTICLES);
-    }
-    for (let i = 0; i < PARTICLE_DENSITY; i++) {
-        const angle = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75;
-        const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 3.0 + 1.5, initialLife: -1, radius: 0 };
-        const typeRoll = Math.random();
-        if (typeRoll < 0.4) { p.type = 'hebrew'; p.content = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)]; p.hue = Math.random() * 360; p.radius = Math.random() * 4 + 3; }
-        else if (typeRoll < 0.6) { p.type = 'emoji'; p.content = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]; p.radius = Math.random() * 6 + 5; }
-        else if (typeRoll < 0.8) { p.type = 'spark'; p.life = Math.random() * 1.0 + 0.5; p.radius = Math.random() * 1.5 + 1; }
-        else { p.type = 'bubble'; p.vy = -Math.random() * 50 - 25; p.life = Math.random() * 4.0 + 2.0; p.radius = Math.random() * 8 + 4; }
+    const effects = workerConfig.effects || DEFAULT_EFFECTS;
+    const density = effects.density;
+    if (particles.length + density > MAX_PARTICLES) { particles.splice(0, particles.length + density - MAX_PARTICLES); }
+    const enabledTypes = Object.entries(effects.types).filter(([,isEnabled]) => isEnabled).map(([type]) => type);
+    if (enabledTypes.length === 0) return;
+    for (let i = 0; i < density; i++) {
+        const angle = Math.random() * Math.PI * 2, speed = (Math.random() * 250 + 75) * effects.speed;
+        const life = (Math.random() * 3.0 + 1.5) * effects.lifespan;
+        const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life, initialLife: -1, radius: 0 };
+        const type = enabledTypes[Math.floor(Math.random() * enabledTypes.length)];
+        switch (type) {
+            case 'hebrew': p.type = 'hebrew'; p.content = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)]; p.hue = Math.random() * 360; p.radius = (Math.random() * 4 + 3) * effects.size; break;
+            case 'emojis': p.type = 'emoji'; p.content = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]; p.radius = (Math.random() * 6 + 5) * effects.size; break;
+            case 'sparks': p.type = 'spark'; p.life *= 0.5; p.radius = (Math.random() * 1.5 + 1) * effects.size; break;
+            case 'bubbles': p.type = 'bubble'; p.vy = (-Math.random() * 50 - 25) * effects.speed; p.life *= 1.5; p.radius = (Math.random() * 8 + 4) * effects.size; break;
+        }
         particles.push(p);
     }
 }
@@ -165,18 +173,19 @@ function drawKeyboardFrame(workerContext, framePayload) {
     for (let i = touchPoints.length - 1; i >= 0; i--) { const tp = touchPoints[i]; tp.life -= deltaTime * 2.0; if (tp.life <= 0) touchPoints.splice(i, 1); }
     for (let i = lightningBolts.length - 1; i >= 0; i--) { const l = lightningBolts[i]; l.life -= deltaTime; if (l.life <= 0) lightningBolts.splice(i, 1); }
     for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
-    if (particles.length > 2 && Math.random() < 0.3) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
+    const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
+    if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
     ctx.lineWidth = 4; shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
     touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
     lightningBolts.forEach(bolt => { ctx.globalAlpha = (bolt.life / bolt.initialLife) * 0.8; ctx.strokeStyle = UI_STYLE.LIGHTNING_COLOR; ctx.lineWidth = 1 + (bolt.life / bolt.initialLife) * 3; ctx.shadowColor = UI_STYLE.LIGHTNING_COLOR; ctx.shadowBlur = 15; ctx.beginPath(); ctx.moveTo(bolt.segments[0].x, bolt.segments[0].y); for (let i = 1; i < bolt.segments.length; i++) { ctx.lineTo(bolt.segments[i].x, bolt.segments[i].y); } ctx.stroke(); });
     ctx.shadowBlur = 0;
-    particles.forEach(p => { if (p.initialLife === -1) p.initialLife = p.life; const lifeRatio = p.life / p.initialLife; ctx.globalAlpha = lifeRatio; switch (p.type) { case 'hebrew': case 'emoji': const fontSize = p.type === 'hebrew' ? p.radius * 8 : p.radius * 6; ctx.font = `bold ${fontSize}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; if (p.type === 'hebrew') { const lightness = 75 + (1 - lifeRatio) * 25; ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`; ctx.strokeStyle = UI_STYLE.PARTICLE_BORDER_COLOR; ctx.lineWidth = 2; ctx.strokeText(p.content, p.x, p.y); } else { ctx.fillStyle = '#FFFFFF'; } ctx.fillText(p.content, p.x, p.y); break; case 'spark': ctx.fillStyle = `rgba(255, 255, 200, ${lifeRatio})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); break; case 'bubble': ctx.strokeStyle = UI_STYLE.BUBBLE_COLOR; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * (1 - lifeRatio), 0, Math.PI * 2); ctx.stroke(); break; } });
+    particles.forEach(p => { if (p.initialLife === -1) p.initialLife = p.life; const lifeRatio = p.life / p.initialLife; ctx.globalAlpha = lifeRatio; switch (p.type) { case 'hebrew': case 'emoji': const fontSize = p.radius * (p.type === 'hebrew' ? 8 : 6); ctx.font = `bold ${fontSize}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; if (p.type === 'hebrew') { const lightness = 75 + (1 - lifeRatio) * 25; ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`; ctx.strokeStyle = UI_STYLE.PARTICLE_BORDER_COLOR; ctx.lineWidth = 2; ctx.strokeText(p.content, p.x, p.y); } else { ctx.fillStyle = '#FFFFFF'; } ctx.fillText(p.content, p.x, p.y); break; case 'spark': ctx.fillStyle = `rgba(255, 255, 200, ${lifeRatio})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); break; case 'bubble': ctx.strokeStyle = UI_STYLE.BUBBLE_COLOR; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * (1 - lifeRatio), 0, Math.PI * 2); ctx.stroke(); break; } });
     ctx.globalAlpha = 1; ctx.restore();
 }
 
 // --- Pipelined Processing Engine ---
 async function processEventQueue() {
-    if (!renderer || isFinalizing) return;
+    if (!renderer || isFinalizing || !workerConfig) return;
     const latestEventTime = eventQueue.length > 0 ? (eventQueue[eventQueue.length - 1].payload.time ?? eventQueue[eventQueue.length - 1].payload.end) : lastRenderedTime;
     let renderUpToTime = latestEventTime - RENDER_LATENCY_SECONDS; if (renderUpToTime <= lastRenderedTime) return;
     const deltaTime = 1 / workerConfig.outputFormat.fps;
@@ -192,6 +201,7 @@ self.onmessage = async (e) => {
     if (isFinalizing && type !== 'FINALIZE_MUXING') return;
     switch (type) {
         case 'INITIALIZE_RENDERER':
+            payload.effects = { ...DEFAULT_EFFECTS, ...(payload.effects || {}) };
             workerConfig = payload;
             eventQueue = []; lastRenderedTime = 0.0; isFinalizing = false;
             particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
@@ -200,7 +210,7 @@ self.onmessage = async (e) => {
             await renderer.start();
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
-            const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
+            const unscaledRowHeight = (config.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             const uiStartOctave = parseInt(workerConfig.startOctave); const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
@@ -217,7 +227,6 @@ self.onmessage = async (e) => {
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             let lastReportedProgress = -1;
-            // The final render pass is now a simple, reliable loop
             for (let time = lastRenderedTime; time < finalDuration; time += deltaTime) {
                 await renderer.addFrame({ time, duration: deltaTime });
                 const progress = Math.floor((time / finalDuration) * 100);
