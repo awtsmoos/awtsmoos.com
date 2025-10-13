@@ -3,34 +3,29 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A highly efficient, event-driven rewrite. Instead of rendering at a fixed FPS,
-             this worker generates frames ONLY when a visual change occurs (key press/release, scroll).
-             It calculates the duration between these changes to ensure the final video's timing is
-             sample-accurate, while dramatically speeding up the rendering process.
-VERSION 52.0 - The "Event-Driven Efficiency" Build
+Description: This build corrects a bug in the event-driven model where key release animations
+             would fail due to variable frame durations. The gradual animation interpolation has been
+             removed in favor of a direct, binary state change (on/off), ensuring that key
+             releases are rendered instantly and correctly.
+VERSION 52.1 - The "Animation Fix" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
-// --- Global State ---
+// --- Global State & Constants (Unchanged) ---
 let keyPressHistory = [];
 let scrollHistory = [];
 let workerConfig = null;
-
-let masterKeyboardLayout = null; // The single source-of-truth for all notes.
+let masterKeyboardLayout = null;
 let keyCache = {};
 let particles = [];
 let starfield = [];
-
-// The starting x-positions (offsets) of the two "viewports" into the master layout.
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
-
-// --- Visuals & Constants (Unchanged) ---
 const UI_STYLE = { BACKGROUND_COLOR: '#000000', GRID_COLOR: 'rgba(0, 150, 255, 0.1)', STAR_COLOR: 'rgba(220, 235, 255, 0.8)', WHITE_KEY_FILL: '#dfe2e8', WHITE_KEY_AO: 'rgba(0, 0, 0, 0.25)', BLACK_KEY_FILL: '#121317', BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.1)', ACTIVE_KEY_BASE_COLOR: '#00ffff', ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.7)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.6)', PARTICLE_COLOR: '#ffffff', TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.9)', LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000' };
 const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const MIDI_NOTE_START = 21; // A0
-const MIDI_NOTE_END = 108;   // C8
+const MIDI_NOTE_START = 21;
+const MIDI_NOTE_END = 108;
 
 // --- Utility Functions (Unchanged) ---
 function calculateMasterLayout(whiteKeyWidth) {
@@ -48,12 +43,10 @@ function calculateMasterLayout(whiteKeyWidth) {
     }
     return layout;
 }
-
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) { const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65; const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight); const wCtx = wCanvas.getContext('2d'); wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); const aoGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0); aoGradient.addColorStop(0, UI_STYLE.WHITE_KEY_AO); aoGradient.addColorStop(0.1, 'transparent'); aoGradient.addColorStop(0.9, 'transparent'); aoGradient.addColorStop(1, UI_STYLE.WHITE_KEY_AO); wCtx.fillStyle = aoGradient; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); keyCache['white_default'] = wCanvas; const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight); const bCtx = bCanvas.getContext('2d'); bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); keyCache['black_default'] = bCanvas; }
 function createParticles(x, y) { for (let i = 0; i < 80; i++) { const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 250 + 75; particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 2.0 + 0.8, initialLife: -1, radius: Math.random() * 2.5 + 1 }); } }
 
-// --- The Frame Drawing Function (Unchanged) ---
-// This function is still perfect. It correctly draws the state of the keyboards for any given point in time.
+// --- The Frame Drawing Function (CORRECTED) ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
@@ -70,12 +63,27 @@ function drawKeyboardFrame(workerContext, framePayload) {
     ctx.scale(zoomFactor, zoomFactor);
     const isDualView = config.alwaysDual || config.isVertical;
     const unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
+    
     const renderKey = (key, keyScreenX, yStart) => {
         const isActive = activeKeys.has(key.note);
-        const eventData = isActive ? keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end) : null;
-        const targetAnimation = isActive ? 1.0 : 0.0;
-        if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
-        if (config.effectMode === 'explosion' && isActive && eventData && !eventData.effectTriggered) { const effectX = keyScreenX + (eventData.x / zoomFactor); const effectY = yStart + (eventData.y / zoomFactor); createParticles(effectX, effectY); eventData.effectTriggered = true; }
+        
+        // ============================ THE FIX ============================
+        // REMOVED: The old interpolation logic that failed with variable frame durations.
+        // REPLACED WITH: A direct state assignment. If the key is active for this frame's timestamp,
+        // its animation value is 1.0. Otherwise, it is 0.0. This makes the state snap correctly.
+        key.pressAnimation = isActive ? 1.0 : 0.0;
+        // ========================= END OF FIX ==========================
+
+        if (isActive && config.effectMode === 'explosion') {
+            const eventData = keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end);
+            if (eventData && !eventData.effectTriggered) {
+                const effectX = keyScreenX + (eventData.x / zoomFactor);
+                const effectY = yStart + (eventData.y / zoomFactor);
+                createParticles(effectX, effectY);
+                eventData.effectTriggered = true;
+            }
+        }
+
         const whiteKeyHeight = unscaledRowHeight * 0.95, blackKeyHeight = whiteKeyHeight * 0.65;
         const pressDepth = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight), height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
         ctx.drawImage(keyCache[`${key.isBlack ? 'black' : 'white'}_default`], keyScreenX, yPos + pressDepth);
@@ -83,6 +91,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const isHighlight = key.pressAnimation > 0.5; ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`; ctx.textAlign = 'center'; ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
         if (key.isBlack) { ctx.textBaseline = 'middle'; ctx.fillText(key.note.slice(0, -1), keyScreenX + key.width / 2, yPos + height * 0.8); } else { ctx.textBaseline = 'bottom'; ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05)); }
     };
+    
     const renderRow = (layout, yStart, scroll) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) renderKey(key, keyScreenX, yStart); } }); }); };
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
@@ -90,11 +99,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
     ctx.restore();
 }
 
-// --- Main Worker Control Logic ---
+// --- Main Worker Control Logic (Unchanged) ---
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
     switch (type) {
-        // STAGE 1: Collect all event data (Unchanged)
         case 'INITIALIZE_RENDERER':
             workerConfig = payload;
             scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }];
@@ -110,7 +118,6 @@ self.onmessage = async (e) => {
             scrollHistory.push(payload);
             break;
 
-        // STAGE 2: Build and render the video using the new efficient method.
         case 'FINALIZE_MUXING':
             if (!workerConfig) { console.error("Worker not initialized!"); return; }
 
@@ -119,7 +126,6 @@ self.onmessage = async (e) => {
             
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             
-            // Setup keyboard positioning (Pixel-perfect logic is preserved)
             const uiStartOctave = parseInt(workerConfig.startOctave);
             const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
@@ -136,10 +142,8 @@ self.onmessage = async (e) => {
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
             
-            // ================== NEW EVENT-DRIVEN RENDER LOGIC ==================
-            
-            // 1. Create a master list of every timestamp where a visual change occurred.
-            const timestampSet = new Set([0]); // Always start at time 0
+            // The efficient event-driven loop logic is correct and remains unchanged.
+            const timestampSet = new Set([0]);
             keyPressHistory.forEach(k => {
                 timestampSet.add(k.start);
                 timestampSet.add(k.end);
@@ -147,33 +151,20 @@ self.onmessage = async (e) => {
             scrollHistory.forEach(s => {
                 timestampSet.add(s.time);
             });
-            
-            // 2. Sort the timestamps chronologically. These are our "keyframes".
             const keyframeTimes = Array.from(timestampSet).sort((a, b) => a - b);
             
-            // 3. Render one frame for each state and tell the encoder how long to hold it.
-            //    This is far more efficient than a fixed-FPS loop.
             let lastTime = 0;
             for (const currentTime of keyframeTimes) {
-                // Ensure we only process frames forward in time and with a valid duration
                 if (currentTime <= lastTime) continue; 
-                
                 const duration = currentTime - lastTime;
-                
-                // Render the frame representing the state from 'lastTime' until 'currentTime'.
-                // The drawKeyboardFrame function already knows how to find the correct state for any given time.
                 await renderer.addFrame({ time: lastTime, duration: duration });
-                
                 lastTime = currentTime;
             }
             
-            // 4. Add the final frame to cover the time from the last event to the end of the audio.
             const finalDuration = payload.audioBufferShim.duration;
             if (finalDuration > lastTime) {
                 await renderer.addFrame({ time: lastTime, duration: finalDuration - lastTime });
             }
-            
-            // ======================= END OF NEW LOGIC ========================
 
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
