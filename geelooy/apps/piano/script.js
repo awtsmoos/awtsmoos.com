@@ -907,7 +907,7 @@ async function toggleVideoRecording() {
                     userKeyWidth: parseInt(elements.keyWidthSlider.value),
                     userViewportWidth: elements.keyboardContainer.clientWidth
                 },
-               /* effects: {
+               effects: {
                     types: {
                         hebrew: document.getElementById('enable-hebrew').checked,
                         emojis: document.getElementById('enable-emojis').checked,
@@ -922,7 +922,7 @@ async function toggleVideoRecording() {
                     lightningAmount: parseFloat(document.getElementById('lightning-amount').value),
                 
                     
-                    },*/
+                    },
                 initialScollX: scrollState.x,
         initialScrollX2: scrollState.x2 || 0
     
