@@ -3,11 +3,12 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A direct bugfix build that resolves the "config is not defined" ReferenceError.
-             - FIX: Corrected a critical typo in the INITIALIZE_RENDERER handler.
-             - The architecture is the stable "render-at-the-end" model.
-             - All advanced visuals (pronounced shadows, rich particles, lightning) are retained.
-VERSION 72.1 - The "Direct Bugfix" Build
+Description: A definitive, architecturally correct build that resolves the "black screen" rendering bug.
+             - FIX: Restored the critical state-passing logic to the main render loop, ensuring frames are drawn correctly.
+             - This permanently resolves the "pitch black" video issue.
+             - RETAINED: Stable "render-at-the-end" architecture.
+             - RETAINED: All advanced visuals (pronounced shadows, rich particles, configurable effects).
+VERSION 73.0 - The "Architectural Restoration" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -19,6 +20,7 @@ let scrollHistory = [];
 
 let masterKeyboardLayout = null;
 let keyCache = {};
+// These arrays are managed by the main render loop
 let particles = [];
 let shockwaves = [];
 let touchPoints = [];
@@ -130,50 +132,65 @@ function createLightningBolt(p1, p2) {
     segments.push({ x: p2.x, y: p2.y }); lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
 }
 
-// --- Frame Drawing ---
+// --- Frame Drawing Function (Now Stateless) ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
-    const { time, duration: deltaTime } = framePayload;
-    const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
-    const activeKeys = new Set();
-    keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
-    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX, finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
+    const { frameState } = framePayload;
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
     const isDualView = config.alwaysDual || config.isVertical, unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
+
     const renderKey = (key, keyScreenX, yStart) => {
-        const isActive = activeKeys.has(key.note), eventData = isActive ? keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end) : null;
-        const targetAnimation = isActive ? 1.0 : 0.0; if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
-        const whiteKeyHeight = unscaledRowHeight * 0.95, pressDepth = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
-        if (isActive && eventData && !eventData.effectTriggered) {
-            const effectX = keyScreenX + (eventData.x / zoomFactor), effectY = yPos + (eventData.y / zoomFactor);
-            if (config.renderMode === 'explosion') { createRichExplosion(effectX, effectY); } else if (config.renderMode === 'touchpoint') { createTouchEvent(effectX, effectY); }
-            shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 }); eventData.effectTriggered = true;
-        }
+        const pressDepth = key.pressAnimation * 4;
+        const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight * 0.95));
         ctx.drawImage(keyCache[key.isBlack ? 'black_default' : 'white_default'], keyScreenX, yPos + pressDepth);
         if (key.pressAnimation > 0) {
             ctx.globalAlpha = key.pressAnimation; ctx.fillStyle = UI_STYLE.ACTIVE_KEY_OVERLAY_COLOR;
-            const height = key.isBlack ? whiteKeyHeight * 0.65 : whiteKeyHeight; ctx.fillRect(keyScreenX, yPos + pressDepth, key.width, height); ctx.globalAlpha = 1;
+            const height = key.isBlack ? (unscaledRowHeight * 0.95) * 0.65 : unscaledRowHeight * 0.95;
+            ctx.fillRect(keyScreenX, yPos + pressDepth, key.width, height); ctx.globalAlpha = 1;
         }
         const isHighlight = key.pressAnimation > 0.5; ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`; ctx.textAlign = 'center';
         ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
-        const keyText = key.isBlack ? key.note.slice(0, -1) : key.note, textY = key.isBlack ? yPos + (whiteKeyHeight * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
-        ctx.textBaseline = key.isBlack ? 'middle' : 'bottom'; ctx.fillText(keyText, keyScreenX + key.width / 2, textY);
+        const keyText = key.isBlack ? key.note.slice(0, -1) : key.note;
+        const textY = key.isBlack ? yPos + ((unscaledRowHeight * 0.95) * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
+        ctx.textBaseline = key.isBlack ? 'middle' : 'bottom';
+        ctx.fillText(keyText, keyScreenX + key.width / 2, textY);
     };
-    const renderRow = (layout, yStart, scroll) => { ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) { renderKey(key, keyScreenX, yStart); } } }); }); };
-    renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom); if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
-    for (let i = shockwaves.length - 1; i >= 0; i--) { const sw = shockwaves[i]; sw.life -= deltaTime * 1.5; if (sw.life <= 0) shockwaves.splice(i, 1); }
-    for (let i = touchPoints.length - 1; i >= 0; i--) { const tp = touchPoints[i]; tp.life -= deltaTime * 2.0; if (tp.life <= 0) touchPoints.splice(i, 1); }
-    for (let i = lightningBolts.length - 1; i >= 0; i--) { const l = lightningBolts[i]; l.life -= deltaTime; if (l.life <= 0) lightningBolts.splice(i, 1); }
-    for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
-    const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
-    if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
-    ctx.lineWidth = 4; shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
-    touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
-    lightningBolts.forEach(bolt => { ctx.globalAlpha = (bolt.life / bolt.initialLife) * 0.8; ctx.strokeStyle = UI_STYLE.LIGHTNING_COLOR; ctx.lineWidth = 1 + (bolt.life / bolt.initialLife) * 3; ctx.shadowColor = UI_STYLE.LIGHTNING_COLOR; ctx.shadowBlur = 15; ctx.beginPath(); ctx.moveTo(bolt.segments[0].x, bolt.segments[0].y); for (let i = 1; i < bolt.segments.length; i++) { ctx.lineTo(bolt.segments[i].x, bolt.segments[i].y); } ctx.stroke(); });
+
+    const renderRow = (layout, yStart, scroll) => {
+        ['white', 'black'].forEach(type => {
+            layout.forEach(key => {
+                if ((type === 'black') === key.isBlack) {
+                    const keyScreenX = key.x - scroll;
+                    if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) {
+                        renderKey(key, keyScreenX, yStart);
+                    }
+                }
+            });
+        });
+    };
+    renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, frameState.finalScroll_Bottom);
+    if (isDualView) renderRow(masterKeyboardLayout, 0, frameState.finalScroll_Top);
+    
+    ctx.lineWidth = 4;
+    frameState.shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
+    frameState.touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
+    frameState.lightningBolts.forEach(bolt => { ctx.globalAlpha = (bolt.life / bolt.initialLife) * 0.8; ctx.strokeStyle = UI_STYLE.LIGHTNING_COLOR; ctx.lineWidth = 1 + (bolt.life / bolt.initialLife) * 3; ctx.shadowColor = UI_STYLE.LIGHTNING_COLOR; ctx.shadowBlur = 15; ctx.beginPath(); ctx.moveTo(bolt.segments[0].x, bolt.segments[0].y); for (let i = 1; i < bolt.segments.length; i++) { ctx.lineTo(bolt.segments[i].x, bolt.segments[i].y); } ctx.stroke(); });
     ctx.shadowBlur = 0;
-    particles.forEach(p => { if (p.initialLife === -1) p.initialLife = p.life; const lifeRatio = p.life / p.initialLife; ctx.globalAlpha = lifeRatio; switch (p.type) { case 'hebrew': case 'emoji': const fontSize = p.radius * (p.type === 'hebrew' ? 8 : 6); ctx.font = `bold ${fontSize}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; if (p.type === 'hebrew') { const lightness = 75 + (1 - lifeRatio) * 25; ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`; ctx.strokeStyle = UI_STYLE.PARTICLE_BORDER_COLOR; ctx.lineWidth = 2; ctx.strokeText(p.content, p.x, p.y); } else { ctx.fillStyle = '#FFFFFF'; } ctx.fillText(p.content, p.x, p.y); break; case 'spark': ctx.fillStyle = `rgba(255, 255, 200, ${lifeRatio})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); break; case 'bubble': ctx.strokeStyle = UI_STYLE.BUBBLE_COLOR; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * (1 - lifeRatio), 0, Math.PI * 2); ctx.stroke(); break; } });
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    frameState.particles.forEach(p => {
+        const lifeRatio = p.life / p.initialLife; ctx.globalAlpha = lifeRatio;
+        switch (p.type) {
+            case 'hebrew': case 'emoji':
+                const fontSize = p.radius * (p.type === 'hebrew' ? 8 : 6); ctx.font = `bold ${fontSize}px sans-serif`;
+                if (p.type === 'hebrew') { const lightness = 75 + (1 - lifeRatio) * 25; ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`; ctx.strokeStyle = UI_STYLE.PARTICLE_BORDER_COLOR; ctx.lineWidth = 2; ctx.strokeText(p.content, p.x, p.y); }
+                else { ctx.fillStyle = '#FFFFFF'; }
+                ctx.fillText(p.content, p.x, p.y); break;
+            case 'spark': ctx.fillStyle = `rgba(255, 255, 200, ${lifeRatio})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); break;
+            case 'bubble': ctx.strokeStyle = UI_STYLE.BUBBLE_COLOR; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * (1 - lifeRatio), 0, Math.PI * 2); ctx.stroke(); break;
+        }
+    });
     ctx.globalAlpha = 1; ctx.restore();
 }
 
@@ -184,10 +201,8 @@ self.onmessage = async (e) => {
         case 'INITIALIZE_RENDERER':
             payload.effects = { ...DEFAULT_EFFECTS, ...(payload.effects || {}) };
             workerConfig = payload;
-            keyPressHistory = [];
-            // CRITICAL BUG FIX IS HERE
+            keyPressHistory = []; 
             scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }];
-            particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
             break;
         case 'ADD_KEY_EVENT':
             payload.effectTriggered = false;
@@ -206,7 +221,6 @@ self.onmessage = async (e) => {
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
-
             const uiStartOctave = parseInt(workerConfig.startOctave); const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
             if (workerConfig.independentScroll) { const topStartNote = `C${uiStartOctave + 4}`; baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0; }
@@ -216,9 +230,53 @@ self.onmessage = async (e) => {
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             let lastReportedProgress = -1;
 
-            // Simple, reliable render loop
+            particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
+            masterKeyboardLayout.forEach(key => key.pressAnimation = 0);
+
             for (let time = 0; time < finalDuration; time += deltaTime) {
-                await renderer.addFrame({ time, duration: deltaTime });
+                const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
+                const activeKeys = new Set();
+                keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
+                
+                masterKeyboardLayout.forEach(key => {
+                    const targetAnimation = activeKeys.has(key.note) ? 1.0 : 0.0;
+                    if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } 
+                    else { key.pressAnimation = targetAnimation; }
+                });
+
+                for (let i = shockwaves.length - 1; i >= 0; i--) { shockwaves[i].life -= deltaTime * 1.5; if (shockwaves[i].life <= 0) shockwaves.splice(i, 1); }
+                for (let i = touchPoints.length - 1; i >= 0; i--) { touchPoints[i].life -= deltaTime * 2.0; if (touchPoints[i].life <= 0) touchPoints.splice(i, 1); }
+                for (let i = lightningBolts.length - 1; i >= 0; i--) { lightningBolts[i].life -= deltaTime; if (lightningBolts[i].life <= 0) lightningBolts.splice(i, 1); }
+                for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
+                
+                keyPressHistory.forEach(event => {
+                    if (event.start >= time && event.start < time + deltaTime && !event.effectTriggered) {
+                        const key = masterKeyboardLayout.get(event.note);
+                        if (key) {
+                            const scrollX = relevantScroll.scrollX; // Simplified for clarity
+                            const keyScreenX = key.x - scrollX;
+                            const yStart = (workerConfig.alwaysDual || workerConfig.isVertical) ? unscaledRowHeight : 0;
+                            const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight*0.95));
+                            const effectX = keyScreenX + (event.x / zoomFactor);
+                            const effectY = yPos + (event.y / zoomFactor);
+                            if (workerConfig.renderMode === 'explosion') createRichExplosion(effectX, effectY);
+                            else if (workerConfig.renderMode === 'touchpoint') createTouchEvent(effectX, effectY);
+                            shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 });
+                            event.effectTriggered = true;
+                        }
+                    }
+                });
+                
+                const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
+                if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
+
+                const frameState = {
+                    finalScroll_Bottom: baseOffset_Bottom + relevantScroll.scrollX,
+                    finalScroll_Top: baseOffset_Top + (workerConfig.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX),
+                    particles: [...particles], shockwaves: [...shockwaves], touchPoints: [...touchPoints], lightningBolts: [...lightningBolts]
+                };
+                await renderer.addFrame({ time, duration: deltaTime, frameState });
+
                 const progress = Math.floor((time / finalDuration) * 100);
                 if (progress > lastReportedProgress) {
                     self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: progress } });
