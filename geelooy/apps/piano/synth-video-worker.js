@@ -3,10 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A robust, offline renderer that CORRECTLY implements the user's explicit
-             "Linked Mode" logic: The bottom keyboard is ALWAYS one full octave higher than the top,
-             and they scroll together. This is the definitive build that trusts the user's word.
-VERSION 44.0 - The "Listen to the User" Definitive Build
+Description: A robust, offline renderer that correctly implements the user's explicit and
+             final "Linked Mode" logic: The bottom keyboard is ALWAYS one full octave higher
+             than the top, and they scroll together. This is the definitive build.
+VERSION 45.0 - The "Literal Rule" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -22,7 +22,7 @@ let keyCache = {};
 let particles = [];
 let starfield = [];
 
-// Two unique base offsets. Their values are derived from the simple, correct rules.
+// Two unique base offsets, whose values are derived from the simple, correct rules.
 let baseScrollOffset_Bottom = 0;
 let baseScrollOffset_Top = 0;
 
@@ -126,20 +126,22 @@ self.onmessage = async (e) => {
             if (workerConfig.alwaysDual || workerConfig.isVertical) topKeyboardLayout = calculateKeyLayout(workerConfig.style.userKeyWidth);
 
             // **THE DEFINITIVE FIX IMPLEMENTATION**: Calculate the two separate base offsets
-            // by literally implementing the user's correct description of the behavior.
+            // by literally implementing the user's explicit rule.
             const startOctaveNum = parseInt(workerConfig.startOctave);
 
-            // The bottom keyboard starts at the octave selected in the UI.
-            baseScrollOffset_Bottom = bottomKeyboardLayout.get(`C${startOctaveNum}`)?.x || 0;
-
             if (workerConfig.independentScroll) {
-                // INDEPENDENT MODE: The main script starts the top keyboard 4 octaves higher.
+                // INDEPENDENT MODE: The main script starts the bottom at the UI octave, and the top 4 octaves higher.
+                baseScrollOffset_Bottom = bottomKeyboardLayout.get(`C${startOctaveNum}`)?.x || 0;
                 const topStartOctave = startOctaveNum + 4;
                 baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
             } else {
-                // LINKED MODE: The user has clarified the top keyboard is ONE octave lower than the bottom.
+                // LINKED MODE: The user has specified the bottom is ONE octave HIGHER than the top.
+                // This means if the UI (bottom) is set to octave N, the top must be N-1.
                 const topStartOctave = startOctaveNum - 1;
+                const bottomStartOctave = startOctaveNum;
+
                 baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
+                baseScrollOffset_Bottom = bottomKeyboardLayout.get(`C${bottomStartOctave}`)?.x || 0;
             }
 
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
