@@ -3,8 +3,8 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A unified, real-time renderer with corrected layout and effect logic.
-VERSION 32.0 - The "Stable Real-Time Revert" Final Version
+Description: A unified, real-time renderer with a robust, absolute MIDI-based layout and corrected effect logic.
+VERSION 34.0 - The "Absolute Accuracy" Fix
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -19,42 +19,94 @@ let lastRenderedTime = 0; // The worker's unified internal clock
 
 // --- Visuals & Constants ---
 const UI_STYLE = { BACKGROUND_COLOR: '#000000', GRID_COLOR: 'rgba(0, 150, 255, 0.1)', STAR_COLOR: 'rgba(220, 235, 255, 0.8)', WHITE_KEY_FILL: '#dfe2e8', WHITE_KEY_AO: 'rgba(0, 0, 0, 0.25)', BLACK_KEY_FILL: '#121317', BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.1)', ACTIVE_KEY_BASE_COLOR: '#00ffff', ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.7)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.6)', PARTICLE_COLOR: '#ffffff', TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.9)', LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000' };
-const NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-const flatToSharpMap = { 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#' };
+// **FIX**: Use a single, sharp-based note name array that directly matches the main script's `dataset.note`.
+const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const MIDI_NOTE_START = 21; // A0 on a standard 88-key piano
+const MIDI_NOTE_END = 108;   // C8 on a standard 88-key piano
 
 // --- Utility Functions ---
-function calculateKeyLayout(startOctave, numOctaves, whiteKeyWidth) {
-    const layout = []; let whiteKeyX = 0; const blackKeyWidth = whiteKeyWidth * 0.6;
-    for (let oct = startOctave; oct < startOctave + numOctaves; oct++) {
-        NOTE_NAMES_FLAT.forEach(note => {
-            const isBlack = note.includes('b'); const noteNameWithSharp = isBlack ? flatToSharpMap[note] : note; const finalNoteName = noteNameWithSharp + oct;
-            layout.push({ note: finalNoteName, isBlack, x: isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
-            if (!isBlack) whiteKeyX += whiteKeyWidth;
+
+/**
+ * Converts a MIDI note number to its standard string name (e.g., 60 -> "C4").
+ * @param {number} midi - The MIDI note number.
+ * @returns {string|null} The note name or null if out of range.
+ */
+function midiToNoteName(midi) {
+    if (midi < MIDI_NOTE_START || midi > MIDI_NOTE_END) return null;
+    const octave = Math.floor(midi / 12) - 1;
+    const noteIndex = midi % 12;
+    return NOTE_NAMES_SHARP[noteIndex] + octave;
+}
+
+/**
+ * **FIX**: Creates a complete, absolute layout for a standard 88-key piano.
+ * This function is now the single source of truth and is independent of any 'startOctave' parameter.
+ * It builds a universal map that will correctly match any note name sent from the main script.
+ * @param {number} whiteKeyWidth - The width of a single white key.
+ * @returns {Map<string, object>} A map of the entire keyboard layout, keyed by note name.
+ */
+function calculateKeyLayout(whiteKeyWidth) {
+    const layout = new Map();
+    let whiteKeyX = 0;
+    const blackKeyWidth = whiteKeyWidth * 0.6;
+
+    for (let midi = MIDI_NOTE_START; midi <= MIDI_NOTE_END; midi++) {
+        const noteName = midiToNoteName(midi);
+        if (!noteName) continue;
+
+        const noteIndexInOctave = midi % 12;
+        const isBlack = [1, 3, 6, 8, 10].includes(noteIndexInOctave);
+        
+        const xPosition = isBlack ? (whiteKeyX - (whiteKeyWidth / 2)) - (blackKeyWidth / 2) : whiteKeyX;
+
+        layout.set(noteName, {
+            note: noteName,
+            isBlack,
+            x: xPosition,
+            width: isBlack ? blackKeyWidth : whiteKeyWidth,
+            pressAnimation: 0
         });
-    } return layout;
+
+        if (!isBlack) {
+            whiteKeyX += whiteKeyWidth;
+        }
+    }
+    return layout;
 }
+
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
-    const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65; const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight); const wCtx = wCanvas.getContext('2d'); wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); const aoGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0); aoGradient.addColorStop(0, UI_STYLE.WHITE_KEY_AO); aoGradient.addColorStop(0.1, 'transparent'); aoGradient.addColorStop(0.9, 'transparent'); aoGradient.addColorStop(1, UI_STYLE.WHITE_KEY_AO); wCtx.fillStyle = aoGradient; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); keyCache['white_default'] = wCanvas; const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight); const bCtx = bCanvas.getContext('2d'); bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); const bGradient = bCtx.createLinearGradient(0, 0, blackKeyWidth, 0); bGradient.addColorStop(0, UI_STYLE.BLACK_KEY_HIGHLIGHT); bGradient.addColorStop(0.5, 'transparent'); bCtx.fillStyle = bGradient; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); keyCache['black_default'] = bCanvas;
+    const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65;
+    const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight); const wCtx = wCanvas.getContext('2d'); wCtx.fillStyle = UI_STYLE.WHITE_KEY_FILL; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); const aoGradient = wCtx.createLinearGradient(0, 0, whiteKeyWidth, 0); aoGradient.addColorStop(0, UI_STYLE.WHITE_KEY_AO); aoGradient.addColorStop(0.1, 'transparent'); aoGradient.addColorStop(0.9, 'transparent'); aoGradient.addColorStop(1, UI_STYLE.WHITE_KEY_AO); wCtx.fillStyle = aoGradient; wCtx.fillRect(0, 0, whiteKeyWidth, whiteKeyHeight); keyCache['white_default'] = wCanvas; const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight); const bCtx = bCanvas.getContext('2d'); bCtx.fillStyle = UI_STYLE.BLACK_KEY_FILL; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); const bGradient = bCtx.createLinearGradient(0, 0, blackKeyWidth, 0); bGradient.addColorStop(0, UI_STYLE.BLACK_KEY_HIGHLIGHT); bGradient.addColorStop(0.5, 'transparent'); bCtx.fillStyle = bGradient; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight); keyCache['black_default'] = bCanvas;
 }
+
 function createParticles(x, y) { for (let i = 0; i < 80; i++) { const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 250 + 75; particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 2.0 + 0.8, initialLife: -1, radius: Math.random() * 2.5 + 1 }); } }
 
 // --- The Frame Drawing Function ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
-    const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
+    const { resolution, style, alwaysDual, independentScroll, isVertical } = payload;
 
     if (bottomKeyboardLayout === null) {
-        const baseStartOctave = parseInt(startOctave); const userKeyWidth = style.userKeyWidth; const isDualView = alwaysDual || isVertical;
-        if (isDualView) { const octaves = independentScroll ? 4 : 8; const topStartOctaveOffset = independentScroll ? 4 : 0; bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, octaves, userKeyWidth); topKeyboardLayout = calculateKeyLayout(baseStartOctave + topStartOctaveOffset, octaves, userKeyWidth); } else { bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, 8, userKeyWidth); topKeyboardLayout = null; }
-        const userViewportWidth = style.userViewportWidth || resolution.width; zoomFactor = userViewportWidth > 0 ? resolution.width / userViewportWidth : 1;
-        const rowHeight = (resolution.height / zoomFactor) / (isDualView ? 2 : 1); cacheKeyRenders(userKeyWidth, rowHeight * 0.95);
+        const userKeyWidth = style.userKeyWidth;
+        // The layout now spans the entire standard 88-key piano range, ignoring the `startOctave` from payload.
+        // This ensures the worker's understanding of the keyboard is always correct and complete.
+        bottomKeyboardLayout = calculateKeyLayout(userKeyWidth);
+        topKeyboardLayout = (alwaysDual || isVertical) ? calculateKeyLayout(userKeyWidth) : null;
+
+        const userViewportWidth = style.userViewportWidth || resolution.width;
+        zoomFactor = userViewportWidth > 0 ? resolution.width / userViewportWidth : 1;
+        const rowHeight = (resolution.height / zoomFactor) / (alwaysDual || isVertical ? 2 : 1);
+        cacheKeyRenders(userKeyWidth, rowHeight * 0.95);
         for (let i = 0; i < 600; i++) { starfield.push({ x: Math.random() * resolution.width, y: Math.random() * resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 }); }
     }
 
     const frameTime = framePayload.time; const deltaTime = framePayload.duration;
     const activeKeys = new Set();
+    // Check which keys should be active based on the current frame time
     keyEvents.forEach((event, note) => { if (frameTime >= event.start && frameTime < event.end) activeKeys.add(note); });
-    const relevantScrollEvent = scrollEvents.slice().reverse().find(e => e.time <= frameTime);
+    
+    // Find the most recent scroll event that has already occurred
+    const relevantScrollEvent = scrollEvents.slice().reverse().find(e => e.time <= frameTime) || scrollEvents[0];
     const currentScrollX = relevantScrollEvent.scrollX, currentScrollX2 = relevantScrollEvent.scrollX2;
 
     ctx.save();
@@ -69,13 +121,16 @@ function drawKeyboardFrame(workerContext, framePayload) {
 
     const renderKey = (key, keyScreenX, yStart) => {
         const whiteKeyHeight = unscaledRowHeight * 0.95, blackKeyHeight = whiteKeyHeight * 0.65; const isActive = activeKeys.has(key.note); const eventData = keyEvents.get(key.note);
+        
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
 
-        if (effectMode === 'explosion' && isActive && key.pressAnimation > 0.95 && (key.pressAnimation - 12.0 * deltaTime <= 0.95) && eventData) {
+        // **FIX**: Implement a robust, flag-based effect trigger.
+        if (effectMode === 'explosion' && isActive && eventData && !eventData.effectTriggered) {
             const effectX = keyScreenX + (eventData.x / zoomFactor);
             const effectY = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight) + (eventData.y / zoomFactor);
             createParticles(effectX, effectY);
+            eventData.effectTriggered = true; // Set the flag to guarantee the effect fires only once.
         }
         
         const pressDepth = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight), height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
@@ -98,8 +153,34 @@ function drawKeyboardFrame(workerContext, framePayload) {
         if (key.isBlack) { ctx.textBaseline = 'middle'; ctx.fillText(key.note.slice(0, -1), keyScreenX + key.width / 2, yPos + height * 0.8); } else { ctx.textBaseline = 'bottom'; ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05)); }
     };
 
-    const renderRow = (layout, yStart, transform) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') !== key.isBlack) return; const keyScreenX = key.x + transform; if (keyScreenX + key.width > 0 && keyScreenX < style.userViewportWidth) renderKey(key, keyScreenX, yStart); }); }); };
-    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, -currentScrollX); if (isDualView) renderRow(topKeyboardLayout, 0, independentScroll ? -currentScrollX2 : (style.userViewportWidth - currentScrollX));
+    const renderRow = (layout, yStart, scroll) => {
+        if (!layout) return;
+        const unscaledViewportWidth = style.userViewportWidth || resolution.width;
+        
+        // **FIX**: Correctly layer keys by drawing all white keys first, then all black keys on top.
+        // This prevents visual glitches where black keys are overlapped by adjacent white keys.
+        const whiteKeys = [], blackKeys = [];
+        layout.forEach(key => key.isBlack ? blackKeys.push(key) : whiteKeys.push(key));
+
+        whiteKeys.forEach(key => {
+            const keyScreenX = key.x + scroll;
+            if (keyScreenX + key.width > 0 && keyScreenX < unscaledViewportWidth) {
+                renderKey(key, keyScreenX, yStart);
+            }
+        });
+        blackKeys.forEach(key => {
+            const keyScreenX = key.x + scroll;
+            if (keyScreenX + key.width > 0 && keyScreenX < unscaledViewportWidth) {
+                renderKey(key, keyScreenX, yStart);
+            }
+        });
+    };
+    
+    // The scroll values (currentScrollX) from the main script are now correctly interpreted
+    // as a "camera" moving over the worker's complete and accurate keyboard map.
+    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, -currentScrollX);
+    if (isDualView) renderRow(topKeyboardLayout, 0, independentScroll ? -currentScrollX2 : (style.userViewportWidth - currentScrollX));
+
     if (effectMode === 'explosion') { for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; if (p.initialLife === -1) p.initialLife = p.life; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; const lifePercent = Math.max(0, p.life / p.initialLife); if (lifePercent <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = lifePercent; ctx.fillStyle = UI_STYLE.PARTICLE_COLOR; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2); ctx.fill(); } } }
     
     ctx.restore();
@@ -119,10 +200,10 @@ self.onmessage = async (e) => {
 
         case 'ADD_KEY_EVENT':
             if (!renderer) return;
+            // **FIX**: Add the effect trigger flag to the event payload upon arrival.
+            payload.effectTriggered = false; 
             keyEvents.set(payload.note, payload);
 
-            // This is the stable, real-time render trigger.
-            // It renders the "chunk" of time that just passed.
             const renderUntilTime = payload.end;
             const { fps } = renderer.config.outputFormat;
             const deltaTime = 1 / fps;
@@ -134,6 +215,8 @@ self.onmessage = async (e) => {
 
         case 'UPDATE_SCROLL':
             scrollEvents.push(payload);
+            // Sort to ensure chronological order, which is good practice.
+            scrollEvents.sort((a, b) => a.time - b.time);
             break;
 
         case 'FINALIZE_MUXING':
@@ -141,7 +224,7 @@ self.onmessage = async (e) => {
             const finalDuration = payload.audioBufferShim.duration;
             const { fps: finalFps } = renderer.config.outputFormat;
             const finalDeltaTime = 1 / finalFps;
-            // Final catch-up render loop
+            // Final render loop to catch any remaining time.
             while (lastRenderedTime < finalDuration) {
                 await renderer.addFrame({ time: lastRenderedTime, duration: finalDeltaTime });
                 lastRenderedTime += finalDeltaTime;
