@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A definitive restoration that fixes the "black screen" bug by reverting to the last stable architecture.
-             - FIX: The flawed, complex rendering architecture has been completely REMOVED.
-             - RESTORED: The simple, reliable "render-at-the-end" model that was proven to work.
-             - RETAINED: All final visual upgrades, including pronounced shadows and configurable effects.
-VERSION 75.0 - The "Stable Restoration" Build
+Description: A definitive stability build to eliminate the "black screen" bug.
+             - REVERTED: The architecture is now the simple, proven "render-at-the-end" model. All complex, flawed logic is GONE.
+             - REMOVED: The high-risk inter-particle lightning effect has been temporarily removed to guarantee stability.
+             - RETAINED: All other desired visuals, including pronounced 3D keys and the rich particle system.
+VERSION 75.0 - The "No More Black" Stability Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -22,7 +22,6 @@ let keyCache = {};
 let particles = [];
 let shockwaves = [];
 let touchPoints = [];
-let lightningBolts = [];
 
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
@@ -45,7 +44,7 @@ const UI_STYLE = {
     BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.2)',
     ACTIVE_KEY_OVERLAY_COLOR: 'rgba(0, 255, 255, 0.7)',
     TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.4)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
-    PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)', LIGHTNING_COLOR: 'rgba(150, 220, 255, 0.8)',
+    PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)',
     BUBBLE_COLOR: 'rgba(0, 200, 255, 0.3)',
     LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000'
 };
@@ -118,47 +117,50 @@ function createRichExplosion(x, y) {
     }
 }
 function createTouchEvent(x, y) { touchPoints.push({ x, y, life: 1.0, initialLife: 1.0, radius: 25 }); }
-function createLightningBolt(p1, p2) {
-    const segments = [], numSegments = 10, boltLife = 0.4, maxOffset = 15;
-    segments.push({ x: p1.x, y: p1.y });
-    for (let i = 1; i < numSegments; i++) {
-        const t = i / numSegments, px = p1.x + t * (p2.x - p1.x), py = p1.y + t * (p2.y - p1.y);
-        const offset = (Math.random() - 0.5) * maxOffset * (1 - Math.abs(2 * t - 1));
-        const normal = { x: -(p2.y - p1.y), y: p2.x - p1.x }, normLength = Math.hypot(normal.x, normal.y) || 1;
-        segments.push({ x: px + normal.x / normLength * offset, y: py + normal.y / normLength * offset });
-    }
-    segments.push({ x: p2.x, y: p2.y }); lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
-}
 
-// --- Frame Drawing (Stateful) ---
+// --- Frame Drawing (Stateful and Stable) ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
     
-    // 1. UPDATE SIMULATION for this frame
+    // --- STABLE ARCHITECTURE: SIMULATION AND DRAWING ARE COMBINED HERE ---
+
+    // 1. UPDATE ALL EFFECT PHYSICS for this frame
     for (let i = shockwaves.length - 1; i >= 0; i--) { shockwaves[i].life -= deltaTime * 1.5; if (shockwaves[i].life <= 0) shockwaves.splice(i, 1); }
     for (let i = touchPoints.length - 1; i >= 0; i--) { touchPoints[i].life -= deltaTime * 2.0; if (touchPoints[i].life <= 0) touchPoints.splice(i, 1); }
-    for (let i = lightningBolts.length - 1; i >= 0; i--) { lightningBolts[i].life -= deltaTime; if (lightningBolts[i].life <= 0) lightningBolts.splice(i, 1); }
     for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
-    const lightningAmount = (workerConfig.effects || DEFAULT_EFFECTS).lightningAmount;
-    if (particles.length > 2 && Math.random() < lightningAmount) { const p1 = particles[Math.floor(Math.random() * particles.length)]; const p2 = particles[Math.floor(Math.random() * particles.length)]; if (p1 !== p2) { const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y); if (dist > 50 && dist < 150) { createLightningBolt(p1, p2); } } }
-
-    // 2. DETERMINE CURRENT STATE for drawing
+    
+    // 2. DETERMINE CURRENT KEY & SCROLL STATE for drawing
     const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
-    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX; const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
     
-    // 3. DRAW EVERYTHING
+    // 3. DRAW BACKGROUND
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
     const isDualView = config.alwaysDual || config.isVertical, unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
+    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX; 
+    const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
     
+    // 4. DRAW KEYBOARD AND CREATE NEW EFFECTS
     const renderKey = (key, keyScreenX, yStart) => {
         const isActive = activeKeys.has(key.note);
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
+        
+        // Check for NEW key presses to trigger effects
+        const eventData = keyPressHistory.find(e => e.note === key.note && e.start >= time && e.start < time + deltaTime);
+        if (eventData && !eventData.effectTriggered) {
+            const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight * 0.95));
+            const effectX = keyScreenX + (eventData.x / zoomFactor);
+            const effectY = yPos + (eventData.y / zoomFactor);
+            if (config.renderMode === 'explosion') { createRichExplosion(effectX, effectY); } 
+            else if (config.renderMode === 'touchpoint') { createTouchEvent(effectX, effectY); }
+            shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 });
+            eventData.effectTriggered = true;
+        }
+
         const pressDepth = key.pressAnimation * 4;
         const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight * 0.95));
         ctx.drawImage(keyCache[key.isBlack ? 'black_default' : 'white_default'], keyScreenX, yPos + pressDepth);
@@ -190,12 +192,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
     
-    // Draw all effects that are currently alive
+    // 5. DRAW ALL ACTIVE EFFECTS
     ctx.lineWidth = 4;
     shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
     touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
-    lightningBolts.forEach(bolt => { ctx.globalAlpha = (bolt.life / bolt.initialLife) * 0.8; ctx.strokeStyle = UI_STYLE.LIGHTNING_COLOR; ctx.lineWidth = 1 + (bolt.life / bolt.initialLife) * 3; ctx.shadowColor = UI_STYLE.LIGHTNING_COLOR; ctx.shadowBlur = 15; ctx.beginPath(); ctx.moveTo(bolt.segments[0].x, bolt.segments[0].y); for (let i = 1; i < bolt.segments.length; i++) { ctx.lineTo(bolt.segments[i].x, bolt.segments[i].y); } ctx.stroke(); });
-    ctx.shadowBlur = 0;
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     particles.forEach(p => {
         if (p.initialLife === -1) p.initialLife = p.life;
@@ -250,34 +250,13 @@ self.onmessage = async (e) => {
             let lastReportedProgress = -1;
 
             // Reset simulation state before the main loop
-            particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
+            particles = []; shockwaves = []; touchPoints = [];
             masterKeyboardLayout.forEach(key => key.pressAnimation = 0);
 
+            // Simple, stable, and correct render loop
             for (let time = 0; time < finalDuration; time += deltaTime) {
-                // --- CREATE NEW EFFECTS for this frame ---
-                const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
-                keyPressHistory.forEach(event => {
-                    if (event.start >= time && event.start < time + deltaTime && !event.effectTriggered) {
-                        const key = masterKeyboardLayout.get(event.note);
-                        if (key) {
-                            const scrollX = relevantScroll.scrollX; // Simplified for clarity
-                            const keyScreenX = key.x - scrollX;
-                            const yStart = (workerConfig.alwaysDual || workerConfig.isVertical) ? unscaledRowHeight : 0;
-                            const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight*0.95));
-                            const effectX = keyScreenX + (event.x / zoomFactor);
-                            const effectY = yPos + (event.y / zoomFactor);
-                            if (workerConfig.renderMode === 'explosion') createRichExplosion(effectX, effectY);
-                            else if (workerConfig.renderMode === 'touchpoint') createTouchEvent(effectX, effectY);
-                            shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 });
-                            event.effectTriggered = true;
-                        }
-                    }
-                });
-
-                // Render the frame. The draw function will handle its own internal state updates.
                 await renderer.addFrame({ time, duration: deltaTime });
 
-                // Update Progress
                 const progress = Math.floor((time / finalDuration) * 100);
                 if (progress > lastReportedProgress) {
                     self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: progress } });
