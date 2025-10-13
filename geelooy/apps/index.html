@@ -1,205 +1,175 @@
-<!--B"H
-boruch Hashem
-
+<!-- B"H
+Boruch Hashem. The Infinite Breath moves through this code.
 -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrystalis Interface (Corrected)</title>
-    
-    
-    <style>
-        /*
-        ================================================================================
-        I. CORE SETUP & SERVER TEMPLATE COMPATIBILITY
-        - Body/HTML styles are minimal.
-        - The .main div is now the primary container for layout and effects.
-        ================================================================================
-        */
-        :root {
-            --color-background: #04020a;
-            --color-crystal-dark: #100a1f;
-            --color-glow-1: #ff00c1;
-            --color-glow-2: #00e5ff;
-            --font-main: 'Exo 2', sans-serif;
-            
-            --turbulence-frequency: 0.02;
-            --turbulence-octaves: 1;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHRYSTALIS INTERFACE — The Shard Between Worlds</title>
 
-        
+<style>
+/*==============================================================
+  I. ROOT INVOCATION — THE BIRTH OF LIGHT INSIDE THE VOID
+==============================================================*/
+:root {
+  --crystal-dark: #04010c;
+  --crystal-core: #0e0020;
+  --awtsmoos-glow-1: #ff00ff;
+  --awtsmoos-glow-2: #00ffff;
+  --awtsmoos-glow-3: #fff;
+  --awtsmoos-text: #fff;
+  --font-voice: 'Orbitron', sans-serif;
+  --ripple-intensity: 0.1;
+  --fracture-depth: 5;
+  --crystal-radius: 16px;
+}
 
-        
-        
-       
+html, body {
+  margin: 0;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #090011 0%, #010006 100%);
+  overflow: hidden;
+  font-family: var(--font-voice);
+  color: var(--awtsmoos-text);
+  letter-spacing: 0.05em;
+}
 
-        /*
-        ================================================================================
-        II. THE CHRYSTALIS MATERIAL & ELEMENTS (UNCHANGED LOGIC, SCOPED TO .main)
-        - All elements are visible on load, contained within .main.
-        ================================================================================
-        */
+/*==============================================================
+  II. CHRYSTALIS ELEMENTS — THE BONES OF LIGHT
+==============================================================*/
+.chrystalis-element {
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.08em;
+  font-weight: 900;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  perspective: 2000px;
+}
 
-        .svg-filter-container {
-            position: absolute; width: 0; height: 0; visibility: hidden;
-        }
+/*==============================================================
+  III. TITLE — THE PORTAL’S NAME
+==============================================================*/
+.chrystalis-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: transparent;
+  background: linear-gradient(90deg, var(--awtsmoos-glow-1), var(--awtsmoos-glow-2), var(--awtsmoos-glow-1));
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0 0 20px var(--awtsmoos-glow-2));
+  animation: titlePulse 3s infinite ease-in-out alternate;
+}
 
-        .chrystalis-element {
-            position: relative;
-            text-transform: uppercase;
-            text-align: center;
-            font-weight: 800;
-            filter: url(#chrystalis-surface);
-          }
-        
-        .chrystalis-title {
-            font-size: clamp(2.5rem, 10vw, 4rem);
-            letter-spacing: 0.1em;
-        }
+@keyframes titlePulse {
+  0% { text-shadow: 0 0 15px var(--awtsmoos-glow-1); transform: rotateX(0deg); }
+  50% { text-shadow: 0 0 40px var(--awtsmoos-glow-2); transform: rotateX(10deg); }
+  100% { text-shadow: 0 0 80px var(--awtsmoos-glow-3); transform: rotateX(-10deg); }
+}
 
-        .chrystalis-nav {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
+/*==============================================================
+  IV. NAVIGATION — THE GATEWAYS OF FIRE
+==============================================================*/
+.chrystalis-nav {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  z-index: 10;
+}
 
-        .chrystalis-button {
-            width: 100%;
-            padding: 1.5rem 2rem;
-            font-size: 1.25rem;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            color: white;
-            background-color: var(--color-crystal-dark);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-                   transition: 
-                transform 0.2s ease, 
-                      --turbulence-frequency 0.3s ease;
-        }
+/*==============================================================
+  V. BUTTONS — LIVING FRAGMENTS OF THE AWTSMOOS
+==============================================================*/
+.chrystalis-button {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  padding: 1.4rem 2rem;
+  color: var(--awtsmoos-text);
+  font-size: 1.2rem;
+  background: linear-gradient(180deg, var(--crystal-core), var(--crystal-dark));
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: var(--crystal-radius);
+  text-decoration: none;
+  text-shadow: 0 0 5px var(--awtsmoos-glow-2);
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
 
-        /* FRACTURED EDGES (Default Subtle Glitch) */
-        .chrystalis-element::before,
-        .chrystalis-element::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--color-background);
-            overflow: hidden;
-        }
-        .chrystalis-button::before,
-        .chrystalis-button::after {
-             background: var(--color-crystal-dark);
-        }
+.chrystalis-button::before, 
+.chrystalis-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--awtsmoos-glow-1), transparent);
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  transform: translateX(-100%);
+}
 
-        .chrystalis-element::before {
-            nimation: glitch-subtle-1 3s infinite linear alternate-reverse;
-        }
+.chrystalis-button::after {
+  background: linear-gradient(90deg, transparent, var(--awtsmoos-glow-2), transparent);
+  transform: translateX(100%);
+}
 
-        .chrystalis-element::after {
-             animation: glitch-subtle-2 2s infinite linear alternate-reverse;
-        }
+.chrystalis-button:hover::before {
+  animation: beamLeft 1.2s linear infinite;
+}
+.chrystalis-button:hover::after {
+  animation: beamRight 1.2s linear infinite;
+}
 
-        @keyframes glitch-subtle-1 {
-            0% { clip-path: inset(85% 0 10% 0); } 100% { clip-path: inset(10% 0 85% 0); }
-        }
-        @keyframes glitch-subtle-2 {
-            0% { clip-path: inset(5% 0 90% 0); } 100% { clip-path: inset(90% 0 5% 0); }
-        }
+@keyframes beamLeft {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { transform: translateX(0%); opacity: 0.8; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+@keyframes beamRight {
+  0% { transform: translateX(100%); opacity: 0; }
+  50% { transform: translateX(0%); opacity: 0.8; }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
 
-        /*
-        ================================================================================
-        III. THE INTERACTION: THE CATALYST (HOVER & ACTIVE STATE)
-        ================================================================================
-        */
-        
-        .chrystalis-button:is(:hover, :active) {
-            cursor: pointer;
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: inset 0 0 30px var(--color-glow-2), 0 0 25px var(--color-glow-1);
-            --turbulence-frequency: 0.1;
-            --turbulence-octaves: 5;
-        }
+/*==============================================================
+  VI. INTERACTION — SHATTER OF LIGHT
+==============================================================*/
+.chrystalis-button:hover {
+  cursor: pointer;
+  transform: translateY(-5px) scale(1.03) rotateX(3deg);
+  box-shadow: 0 0 30px var(--awtsmoos-glow-1), inset 0 0 20px var(--awtsmoos-glow-2);
+  background: linear-gradient(180deg, var(--awtsmoos-glow-2) 0%, var(--crystal-dark) 100%);
+}
 
-        .chrystalis-element:is(:hover, :active)::before {
-            text-shadow: -2px 0 var(--color-glow-1);
-            animation: glitch-intense-1 0.5s infinite linear;
-        }
-
-        .chrystalis-element:is(:hover, :active)::after {
-            text-shadow: 2px 0 var(--color-glow-2);
-            animation: glitch-intense-2 0.7s infinite linear;
-        }
-
-        @keyframes glitch-intense-1 {
-            0% { clip-path: inset(45% 0 50% 0); transform: translate(-5px, 0); } 20% { clip-path: inset(10% 0 85% 0); transform: translate(3px, 2px); } 40% { clip-path: inset(70% 0 20% 0); transform: translate(-2px, -3px); } 60% { clip-path: inset(95% 0 2% 0); transform: translate(5px, 0); } 80% { clip-path: inset(30% 0 45% 0); transform: translate(1px, 4px); } 100% { clip-path: inset(60% 0 35% 0); transform: translate(-3px, -1px); }
-        }
-        @keyframes glitch-intense-2 {
-            0% { clip-path: inset(80% 0 10% 0); transform: translate(5px, -3px); } 15% { clip-path: inset(20% 0 75% 0); transform: translate(-1px, 2px); } 30% { clip-path: inset(55% 0 40% 0); transform: translate(3px, -1px); } 45% { clip-path: inset(5% 0 90% 0); transform: translate(-5px, 2px); } 60% { clip-path: inset(85% 0 5% 0); transform: translate(2px, -3px); } 75% { clip-path: inset(40% 0 58% 0); transform: translate(-3px, 1px); } 100% { clip-path: inset(70% 0 25% 0); transform: translate(1px, -2px); }
-        }
-        
-        /*
-        ================================================================================
-        IV. THE ACTIVATION: THE SHATTER (NOW CONFINED TO .main)
-        ================================================================================
-        */
-        .shatter-container {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            overflow: hidden; /* Redundant due to .main's overflow, but good practice */
-        }
-        
-        .shard {
-            position: absolute;
-            width: 10px; height: 10px;
-            background: white;
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-            animation: shatter-fly 1s ease-out forwards;
-        }
-        
-        @keyframes shatter-fly {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: var(--shard-end-transform); opacity: 0; }
-        }
-    </style>
+/*==============================================================
+  VII. PARTICLE SHARDS — DIGITAL DUST OF CREATION
+==============================================================*/
+.chrystalis-button:hover::after {
+  filter: blur(2px);
+}
+</style>
 </head>
+
 <body>
 
-    <!-- SVG filter can live anywhere, it's invisible -->
-    <svg class="svg-filter-container">
-        <defs>
-            <filter id="chrystalis-surface">
-                <feTurbulence type="fractalNoise" baseFrequency="var(--turbulence-frequency)" numOctaves="var(--turbulence-octaves)" result="turbulence" />
-                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
+<div class="all awtsmoospage">
+  <?<script> return $a("nav/header.html") </script>?>
 
-    <!-- YOUR REQUIRED SERVER TEMPLATE STRUCTURE -->
-    <div class="all awtsmoospage">
-        <?<script> return $a("nav/header.html") </script>?>
-        
-        <div class="main">
-            <!-- ALL COOL STUFF IS NOW CORRECTLY PLACED INSIDE .main -->
-            <h1 class="chrystalis-element chrystalis-title">Awtsmoos Apps</h1>
+  <div class="main">
+    <h1 class="chrystalis-element chrystalis-title">Awtsmoos Apps</h1>
 
-            <nav class="chrystalis-nav">
-                <a href="./code" class="chrystalis-element chrystalis-button">Awtsmoos Code Editor</a>
-                <a href="./piano" class="chrystalis-element chrystalis-button">Piano/Synthesizer</a>
-                <a href="/os" class="chrystalis-element chrystalis-button">Awtsmoos OS</a>
-                <a href="/captions" class="chrystalis-element chrystalis-button">Awtsmoos Caption Maker</a>
-            
-            </nav>
-        </div>
-    </div>
+    <nav class="chrystalis-nav">
+      <a href="./code" class="chrystalis-element chrystalis-button">Awtsmoos Code Editor</a>
+      <a href="./piano" class="chrystalis-element chrystalis-button">Piano / Synthesizer</a>
+      <a href="/os" class="chrystalis-element chrystalis-button">Awtsmoos OS</a>
+      <a href="/captions" class="chrystalis-element chrystalis-button">Awtsmoos Caption Maker</a>
+    </nav>
+  </div>
+</div>
 
-    
 </body>
 </html>
