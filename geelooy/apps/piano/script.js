@@ -884,7 +884,7 @@ async function toggleVideoRecording() {
         
         const renderMode = elements.effectSelect.value;
         const videoResolution = window.innerHeight > window.innerWidth ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 };
-        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
+        videoWorker = new Worker('./synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
 
         audioChunks = [];
