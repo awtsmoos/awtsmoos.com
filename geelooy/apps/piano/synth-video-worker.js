@@ -3,10 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A robust, offline renderer that correctly implements the user's explicit
-             "Linked Mode" logic: The bottom keyboard is always one octave higher than the top,
-             and they scroll together. This is the definitive build.
-VERSION 43.0 - The "Literal Rule" Definitive Build
+Description: A robust, offline renderer that CORRECTLY implements the user's explicit
+             "Linked Mode" logic: The bottom keyboard is ALWAYS one full octave higher than the top,
+             and they scroll together. This is the definitive build that trusts the user's word.
+VERSION 44.0 - The "Listen to the User" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -22,7 +22,7 @@ let keyCache = {};
 let particles = [];
 let starfield = [];
 
-// Two unique base offsets. Their values will be determined by the one, simple rule.
+// Two unique base offsets. Their values are derived from the simple, correct rules.
 let baseScrollOffset_Bottom = 0;
 let baseScrollOffset_Top = 0;
 
@@ -58,7 +58,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
         finalScrollX_Top = baseScrollOffset_Top + relevantScroll.scrollX2;
     } else {
         // LINKED MODE: Top uses its own offset (one octave lower) and the SAME scroll data as the bottom.
-        // This makes them scroll together, maintaining their fixed octave relationship.
+        // This makes them scroll together, maintaining their fixed one-octave relationship.
         finalScrollX_Top = baseScrollOffset_Top + relevantScroll.scrollX;
     }
 
