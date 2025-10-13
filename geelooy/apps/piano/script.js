@@ -923,7 +923,7 @@ async function toggleVideoRecording() {
                 
                     
                     },*/
-                initialScollX: scrollState.x,
+                initialScrollX: scrollState.x,
         initialScrollX2: scrollState.x2 || 0
     
             }
