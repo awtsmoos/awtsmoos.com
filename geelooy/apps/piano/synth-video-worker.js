@@ -3,12 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A definitive, architecturally correct build that resolves the "black screen" rendering bug.
-             - FIX: Restored the critical state-passing logic to the main render loop, ensuring frames are drawn correctly.
-             - This permanently resolves the "pitch black" video issue.
-             - RETAINED: Stable "render-at-the-end" architecture.
-             - RETAINED: All advanced visuals (pronounced shadows, rich particles, configurable effects).
-VERSION 73.0 - The "Architectural Restoration" Build
+Description: A direct bugfix build that resolves the "Cannot read properties of undefined" TypeError.
+             - FIX: The drawing function now handles the final cleanup frame from the encoder gracefully.
+             - This permanently resolves the crash that occurred during finalization.
+             - RETAINED: Stable "render-at-the-end" architecture and all advanced visuals.
+VERSION 73.1 - The "Finalization Fix" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -20,7 +19,6 @@ let scrollHistory = [];
 
 let masterKeyboardLayout = null;
 let keyCache = {};
-// These arrays are managed by the main render loop
 let particles = [];
 let shockwaves = [];
 let touchPoints = [];
@@ -36,7 +34,7 @@ const DEFAULT_EFFECTS = {
     density: 15, speed: 1.0, size: 1.0, lifespan: 1.0, lightningAmount: 0.3
 };
 
-// --- VISUALS & CONSTANTS (More Pronounced Shadows) ---
+// --- VISUALS & CONSTANTS ---
 const UI_STYLE = {
     BACKGROUND_COLOR: '#000000',
     WHITE_KEY_FILL_TOP: '#FFFFFF', WHITE_KEY_FILL_BOTTOM: '#F4F5F8',
@@ -135,7 +133,15 @@ function createLightningBolt(p1, p2) {
 // --- Frame Drawing Function (Now Stateless) ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
-    const { frameState } = framePayload;
+    
+    // --- CRITICAL BUG FIX IS HERE ---
+    // Provide a default empty state to handle the final cleanup frame from MediaBunny.
+    const { frameState = {
+        finalScroll_Bottom: baseOffset_Bottom,
+        finalScroll_Top: baseOffset_Top,
+        particles: [], shockwaves: [], touchPoints: [], lightningBolts: []
+    } } = framePayload;
+    
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
@@ -253,7 +259,7 @@ self.onmessage = async (e) => {
                     if (event.start >= time && event.start < time + deltaTime && !event.effectTriggered) {
                         const key = masterKeyboardLayout.get(event.note);
                         if (key) {
-                            const scrollX = relevantScroll.scrollX; // Simplified for clarity
+                            const scrollX = relevantScroll.scrollX;
                             const keyScreenX = key.x - scrollX;
                             const yStart = (workerConfig.alwaysDual || workerConfig.isVertical) ? unscaledRowHeight : 0;
                             const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight*0.95));
