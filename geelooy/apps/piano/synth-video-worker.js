@@ -187,4 +187,134 @@ function drawKeyboardFrame(workerContext, framePayload) {
                 ctx.arc(keyScreenX + key.width / 2, yPos + pressDepth + height / 2, shockwaveRadius, 0, Math.PI * 2);
                 ctx.stroke();
             }
-            ct
+            ctx.globalAlpha = 1;
+        }
+
+        if (renderMode === 'touchpoint' && isActive && eventData) {
+            const touchX = keyScreenX + (eventData.x / zoomFactor);
+            const touchY = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight) + (eventData.y / zoomFactor);
+            ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR;
+            ctx.beginPath();
+            ctx.arc(touchX, touchY, 15, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        const isHighlight = key.pressAnimation > 0.5;
+        ctx.font = `bold ${style.userKeyWidth * 0.22}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
+        if (key.isBlack) {
+            ctx.textBaseline = 'middle';
+            ctx.fillText(key.note.slice(0, -1), keyScreenX + key.width / 2, yPos + height * 0.8);
+        } else {
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05));
+        }
+    };
+
+    const renderRow = (layout, yStart, transform) => {
+        if (!layout) return;
+        ['white', 'black'].forEach(type => {
+            layout.forEach(key => {
+                if ((type === 'black') !== key.isBlack) return;
+                const keyScreenX = key.x + transform;
+                if (keyScreenX + key.width > 0 && keyScreenX < style.userViewportWidth) {
+                    renderKey(key, keyScreenX, yStart);
+                }
+            });
+        });
+    };
+
+    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, -currentScrollX);
+    if (isDualView) {
+        renderRow(topKeyboardLayout, 0, independentScroll ? -currentScrollX2 : (style.userViewportWidth - currentScrollX));
+    }
+
+    if (renderMode === 'explosion') {
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            if (p.initialLife === -1) p.initialLife = p.life;
+            p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime;
+            const lifePercent = Math.max(0, p.life / p.initialLife);
+            if (lifePercent <= 0) {
+                particles.splice(i, 1);
+            } else {
+                ctx.globalAlpha = lifePercent;
+                ctx.fillStyle = UI_STYLE.PARTICLE_COLOR;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius * lifePercent, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+    ctx.restore();
+    if (isDualView) {
+        ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, resolution.height / 2);
+        ctx.lineTo(resolution.width, resolution.height / 2);
+        ctx.stroke();
+    }
+}
+
+
+// --- Main Worker Control Logic ---
+self.onmessage = async (e) => {
+    const { type, payload } = e.data;
+    switch (type) {
+        case 'INITIALIZE_RENDERER':
+            renderMode = payload.renderMode;
+            renderer = new MediaBunnyBase(payload, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
+            await renderer.start();
+            break;
+
+        case 'ADD_KEY_EVENT':
+            // This is the master log for Explosion mode's final render.
+            // For Touch Point mode, it's just a backup.
+            keyEvents.set(payload.note, payload);
+            break;
+
+        case 'KEY_DOWN':
+            if (renderMode === 'touchpoint' && renderer) {
+                keyEvents.set(payload.note, payload); // Add to map to make it active
+                await renderer.addFrame({ time: payload.time, duration: 0.01 });
+            }
+            break;
+
+        case 'KEY_UP':
+            if (renderMode === 'touchpoint' && renderer) {
+                keyEvents.delete(payload.note); // Remove from map to make it inactive
+                await renderer.addFrame({ time: payload.time, duration: 0.01 });
+            }
+            break;
+
+        case 'UPDATE_SCROLL':
+            scrollEvents.push(payload);
+            break;
+
+        case 'FINALIZE_MUXING':
+            if (!renderer) return;
+
+            if (renderMode === 'explosion') {
+                // Explosion Mode: Run the high-speed loop to generate all frames now.
+                const { fps } = renderer.config.outputFormat;
+                const duration = payload.audioBufferShim.duration;
+                const totalFrames = Math.floor(duration * fps);
+                const deltaTime = 1 / fps;
+                self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Rendering ${totalFrames} frames...` } });
+                for (let i = 0; i < totalFrames; i++) {
+                    await renderer.addFrame({ time: i * deltaTime, duration: deltaTime });
+                    if (i > 0 && i % fps === 0) {
+                        const percent = ((i / totalFrames) * 100).toFixed(1);
+                        self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: percent, message: `Rendering: ${percent}%` } });
+                    }
+                }
+            }
+            // For Touch Point mode, no loop is needed. All frames were added in real-time.
+            
+            const blob = await renderer.finalize(payload.audioBufferShim);
+            renderer._postComplete(blob, { download: true, fileName: `BH-Piano-Render-${Date.now()}.mp4` });
+            break;
+    }
+};
