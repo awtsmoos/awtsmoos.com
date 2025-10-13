@@ -39,6 +39,27 @@
                         <button id="chord-settings-toggle">Chord Settings</button>
                         <button id="audio-io-toggle">Audio I/O</button>
                         <button id="restore-defaults-button" style="background-color: #6c757d;">Defaults</button>
+                    <!-- ADD THIS ENTIRE BLOCK for Visual Effects Configuration -->
+                        <button id="visual-effects-toggle">Visual Effects</button>
+                    </div> <!-- This closes the settings-content div -->
+                    
+                    <div id="visual-effects-menu" class="nested-menu settings-content">
+                        <h4>Particle Types</h4>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="enable-hebrew" checked> Hebrew</label>
+                            <label><input type="checkbox" id="enable-emojis" checked> Emojis</label>
+                            <label><input type="checkbox" id="enable-sparks" checked> Sparks</label>
+                            <label><input type="checkbox" id="enable-bubbles" checked> Bubbles</label>
+                        </div>
+                        <br>
+                        <h4>Particle Physics</h4>
+                        <label>Density:</label><input type="range" id="particle-density" min="1" max="50" step="1" value="15">
+                        <label>Speed:</label><input type="range" id="particle-speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Size Var:</label><input type="range" id="particle-size" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Lifespan:</label><input type="range" id="particle-lifespan" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <br>
+                        <h4>Lightning</h4>
+                        <label>Amount:</label><input type="range" id="lightning-amount" min="0" max="1.0" step="0.05" value="0.3">
                     </div>
                     
                     <div id="chord-settings-menu" class="nested-menu settings-content">
