@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A definitive stability build to eliminate the "black screen" bug.
-             - REVERTED: The architecture is now the simple, proven "render-at-the-end" model. All complex, flawed logic is GONE.
-             - REMOVED: The high-risk inter-particle lightning effect has been temporarily removed to guarantee stability.
-             - RETAINED: All other desired visuals, including pronounced 3D keys and the rich particle system.
-VERSION 75.0 - The "No More Black" Stability Build
+Description: A definitive reversion to a proven, stable architecture to PERMANENTLY fix the black screen bug.
+             - COMPLETE REVERT: All complex, buggy rendering architectures have been deleted. This is the simple, reliable model.
+             - REMOVED FOR STABILITY: The high-risk lightning effect is gone.
+             - RETAINED: The final, best visuals for the 3D keys and the rich particle system.
+VERSION 76.0 - The "Back to Stable" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -30,7 +30,7 @@ const MAX_PARTICLES = 1500;
 
 const DEFAULT_EFFECTS = {
     types: { hebrew: true, emojis: true, sparks: true, bubbles: true },
-    density: 15, speed: 1.0, size: 1.0, lifespan: 1.0, lightningAmount: 0.3
+    density: 15, speed: 1.0, size: 1.0, lifespan: 1.0
 };
 
 // --- VISUALS & CONSTANTS (More Pronounced Shadows) ---
@@ -123,14 +123,12 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
     
-    // --- STABLE ARCHITECTURE: SIMULATION AND DRAWING ARE COMBINED HERE ---
-
     // 1. UPDATE ALL EFFECT PHYSICS for this frame
     for (let i = shockwaves.length - 1; i >= 0; i--) { shockwaves[i].life -= deltaTime * 1.5; if (shockwaves[i].life <= 0) shockwaves.splice(i, 1); }
     for (let i = touchPoints.length - 1; i >= 0; i--) { touchPoints[i].life -= deltaTime * 2.0; if (touchPoints[i].life <= 0) touchPoints.splice(i, 1); }
     for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
     
-    // 2. DETERMINE CURRENT KEY & SCROLL STATE for drawing
+    // 2. DETERMINE CURRENT KEY & SCROLL STATE
     const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
@@ -149,7 +147,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
         
-        // Check for NEW key presses to trigger effects
         const eventData = keyPressHistory.find(e => e.note === key.note && e.start >= time && e.start < time + deltaTime);
         if (eventData && !eventData.effectTriggered) {
             const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - (unscaledRowHeight * 0.95));
@@ -249,7 +246,7 @@ self.onmessage = async (e) => {
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             let lastReportedProgress = -1;
 
-            // Reset simulation state before the main loop
+            // Reset all simulation states before starting the render.
             particles = []; shockwaves = []; touchPoints = [];
             masterKeyboardLayout.forEach(key => key.pressAnimation = 0);
 
