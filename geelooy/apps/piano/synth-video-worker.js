@@ -3,22 +3,20 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A stabilized build that resolves hanging issues during finalization.
-             - FIX: Implements a strict cap on the total number of particles to prevent memory overload on long recordings.
-             - FIX: Uses a more robust finalization method to prevent timing conflicts between the video and audio tracks.
-             - Retains all advanced features: pipelining, VFR simulation, lightning, and rich particles.
-VERSION 65.0 - The "Stabilization" Build
+Description: A return to the stable, reliable "render-at-the-end" architecture.
+             - FIX: All complex pipelining/real-time logic has been REMOVED to resolve freezing and rendering bugs.
+             - RETAINED: All advanced visuals are kept, including rich particles, lightning, and 3D beveled keys.
+             - RETAINED: Includes critical stability fixes (particle cap) and performance optimizations (VFR simulation).
+VERSION 66.0 - The "Stable Architecture" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Global State ---
 let workerConfig = null;
-let eventQueue = [];
-let renderer = null;
-let lastRenderedTime = 0.0;
-let isFinalizing = false;
-let processingInterval = null;
+// Simple arrays for the stable "render-at-the-end" architecture
+let keyPressHistory = [];
+let scrollHistory = [];
 
 let masterKeyboardLayout = null;
 let keyCache = {};
@@ -30,8 +28,7 @@ let lightningBolts = [];
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
-const RENDER_LATENCY_SECONDS = 2.0;
-const MAX_PARTICLES = 1500; // MEMORY FIX: Hard limit on total particles
+const MAX_PARTICLES = 1500; // Stability: Hard limit on total particles
 const PARTICLE_DENSITY = 15; // User-tunable particle density
 
 // --- VISUALS & CONSTANTS ---
@@ -95,11 +92,9 @@ function calculateMasterLayout(whiteKeyWidth) {
 
 // --- Effect Creation ---
 function createRichExplosion(x, y) {
-    // MEMORY FIX: If we're about to exceed the particle cap, remove the oldest ones.
     if (particles.length + PARTICLE_DENSITY > MAX_PARTICLES) {
         particles.splice(0, particles.length + PARTICLE_DENSITY - MAX_PARTICLES);
     }
-
     for (let i = 0; i < PARTICLE_DENSITY; i++) {
         const angle = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75;
         const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 3.0 + 1.5, initialLife: -1, radius: 0 };
@@ -128,7 +123,7 @@ function createLightningBolt(p1, p2) {
 
 // --- Scene State & Drawing ---
 function isSceneStaticAt(time) {
-    if (eventQueue.some(e => e.type === 'ADD_KEY_EVENT' && time >= e.payload.start && time < e.payload.end)) return false;
+    if (keyPressHistory.some(e => time >= e.start && time < e.end)) return false;
     if (particles.length > 0 || shockwaves.length > 0 || touchPoints.length > 0 || lightningBolts.length > 0) return false;
     return true;
 }
@@ -136,16 +131,16 @@ function isSceneStaticAt(time) {
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
-    const relevantScroll = eventQueue.filter(e => e.type === 'UPDATE_SCROLL' && e.payload.time <= time).map(e => e.payload).pop() || { time: 0, scrollX: config.initialScrollX, scrollX2: config.initialScrollX2 };
-    const activeKeys = new Set(); const activeKeyEvents = [];
-    eventQueue.forEach(e => { if (e.type === 'ADD_KEY_EVENT' && time >= e.payload.start && time < e.payload.end) { activeKeys.add(e.payload.note); activeKeyEvents.push(e.payload); } });
+    const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
+    const activeKeys = new Set();
+    keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
     const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX; const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
     const isDualView = config.alwaysDual || config.isVertical; const unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
     const renderKey = (key, keyScreenX, yStart) => {
-        const isActive = activeKeys.has(key.note); const eventData = isActive ? activeKeyEvents.find(e => e.note === key.note) : null;
+        const isActive = activeKeys.has(key.note); const eventData = isActive ? keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end) : null;
         const targetAnimation = isActive ? 1.0 : 0.0; if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
         const whiteKeyHeight = unscaledRowHeight * 0.95; const pressDepth = key.pressAnimation * 4; const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
         if (isActive && eventData && !eventData.effectTriggered) {
@@ -153,8 +148,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
             if (config.renderMode === 'explosion') { createRichExplosion(effectX, effectY); } else if (config.renderMode === 'touchpoint') { createTouchEvent(effectX, effectY); }
             shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 }); eventData.effectTriggered = true;
         }
-        const cacheImage = keyCache[key.isBlack ? 'black_default' : 'white_default']; if (!cacheImage) { return; }
-        ctx.drawImage(cacheImage, keyScreenX, yPos + pressDepth);
+        ctx.drawImage(keyCache[key.isBlack ? 'black_default' : 'white_default'], keyScreenX, yPos + pressDepth);
         if (key.pressAnimation > 0) {
             ctx.globalAlpha = key.pressAnimation; ctx.fillStyle = UI_STYLE.ACTIVE_KEY_OVERLAY_COLOR;
             const height = key.isBlack ? whiteKeyHeight * 0.65 : whiteKeyHeight; ctx.fillRect(keyScreenX, yPos + pressDepth, key.width, height); ctx.globalAlpha = 1;
@@ -164,7 +158,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const keyText = key.isBlack ? key.note.slice(0, -1) : key.note; const textY = key.isBlack ? yPos + (whiteKeyHeight * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
         ctx.textBaseline = key.isBlack ? 'middle' : 'bottom'; ctx.fillText(keyText, keyScreenX + key.width / 2, textY);
     };
-    const renderRow = (layout, yStart, scroll) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) { renderKey(key, keyScreenX, yStart); } } }); }); };
+    const renderRow = (layout, yStart, scroll) => { ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) { renderKey(key, keyScreenX, yStart); } } }); }); };
     renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom); if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
     for (let i = shockwaves.length - 1; i >= 0; i--) { const sw = shockwaves[i]; sw.life -= deltaTime * 1.5; if (sw.life <= 0) shockwaves.splice(i, 1); }
     for (let i = touchPoints.length - 1; i >= 0; i--) { const tp = touchPoints[i]; tp.life -= deltaTime * 2.0; if (tp.life <= 0) touchPoints.splice(i, 1); }
@@ -179,50 +173,63 @@ function drawKeyboardFrame(workerContext, framePayload) {
     ctx.globalAlpha = 1; ctx.restore();
 }
 
-async function processEventQueue() {
-    if (!renderer || isFinalizing) return;
-    const latestEventTime = eventQueue.length > 0 ? (eventQueue[eventQueue.length - 1].payload.time ?? eventQueue[eventQueue.length - 1].payload.end) : lastRenderedTime;
-    let renderUpToTime = latestEventTime - RENDER_LATENCY_SECONDS; if (renderUpToTime <= lastRenderedTime) return;
-    const deltaTime = 1 / workerConfig.outputFormat.fps;
-    for (let time = lastRenderedTime; time < renderUpToTime; time += deltaTime) {
-        if (isSceneStaticAt(time)) {
-            let staticEndTime = time; while (staticEndTime < renderUpToTime && isSceneStaticAt(staticEndTime + deltaTime)) { staticEndTime += deltaTime; }
-            const staticDuration = staticEndTime - time; await renderer.addFrame({ time, duration: staticDuration }); time = staticEndTime - deltaTime;
-        } else { await renderer.addFrame({ time, duration: deltaTime }); }
-    }
-    lastRenderedTime = renderUpToTime;
-}
-
+// --- Main Worker Control Logic (Stable Architecture) ---
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
-    if (isFinalizing && type !== 'FINALIZE_MUXING') return;
     switch (type) {
         case 'INITIALIZE_RENDERER':
             workerConfig = payload;
-            eventQueue = []; lastRenderedTime = 0.0; isFinalizing = false;
+            keyPressHistory = []; scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }];
             particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
-            if (processingInterval) clearInterval(processingInterval);
-            renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
+            break;
+        case 'ADD_KEY_EVENT':
+            payload.effectTriggered = false;
+            keyPressHistory.push(payload);
+            break;
+        case 'UPDATE_SCROLL':
+            scrollHistory.push(payload);
+            break;
+        case 'FINALIZE_MUXING':
+            if (!workerConfig) { console.error("Worker not initialized!"); return; }
+
+            const renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
+            
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
+
             const uiStartOctave = parseInt(workerConfig.startOctave); const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
             if (workerConfig.independentScroll) { const topStartNote = `C${uiStartOctave + 4}`; baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0; }
             else { baseOffset_Top = baseOffset_Bottom - workerConfig.style.userViewportWidth; }
-            processingInterval = setInterval(processEventQueue, 500);
-            break;
-        case 'ADD_KEY_EVENT': case 'UPDATE_SCROLL':
-            if (payload.start !== undefined) payload.effectTriggered = false;
-            eventQueue.push({ type, payload });
-            break;
-        case 'FINALIZE_MUXING':
-            isFinalizing = true; if (processingInterval) clearInterval(processingInterval);
             
-            // TIMING FIX: Let the MediaBunny 'finalize' method handle the last frame perfectly.
-            // We no longer render the last few frames manually.
+            const finalDuration = payload.audioBufferShim.duration;
+            const deltaTime = 1 / workerConfig.outputFormat.fps;
+            const totalFrames = Math.floor(finalDuration / deltaTime);
+            let lastReportedProgress = -1;
+
+            for (let time = 0; time < finalDuration; time += deltaTime) {
+                // Smart Frame Skipping (VFR) Logic
+                if (isSceneStaticAt(time)) {
+                    let staticEndTime = time;
+                    while (staticEndTime < finalDuration && isSceneStaticAt(staticEndTime + deltaTime)) {
+                        staticEndTime += deltaTime;
+                    }
+                    const staticDuration = staticEndTime - time;
+                    await renderer.addFrame({ time, duration: staticDuration });
+                    time = staticEndTime - deltaTime; // Adjust loop to jump to the end of the static period
+                } else {
+                    await renderer.addFrame({ time, duration: deltaTime });
+                }
+
+                const progress = Math.floor((time / finalDuration) * 100);
+                if (progress > lastReportedProgress) {
+                    self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: progress } });
+                    lastReportedProgress = progress;
+                }
+            }
             
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
