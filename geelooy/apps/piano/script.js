@@ -274,6 +274,7 @@ function sendFrameStateToWorker() {
 
 	function setupEventListeners() {
 		elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
+		elements.visualEffectsToggle.addEventListener('click', () => elements.visualEffectsMenu.classList.toggle('visible'));
 
 
 		elements.recordAudioButton.addEventListener('click', toggleAudioRecording);
@@ -906,7 +907,23 @@ async function toggleVideoRecording() {
                     userKeyWidth: parseInt(elements.keyWidthSlider.value),
                     userViewportWidth: elements.keyboardContainer.clientWidth
                 },
-                initialScrollX: scrollState.x,
+                effects: {
+                    types: {
+                        hebrew: document.getElementById('enable-hebrew').checked,
+                        emojis: document.getElementById('enable-emojis').checked,
+                        sparks: document.getElementById('enable-sparks').checked,
+                        bubbles: document.getElementById('enable-bubbles').checked,
+                    },
+                    density: parseInt(document.getElementById('particle-density').value),
+                    speed: parseFloat(document.getElementById('particle-speed').value),
+                    size: parseFloat(document.getElementById('particle-size').value),
+                    
+                    lifespan: parseFloat(document.getElementById('particle-lifespan').value),
+                    lightningAmount: parseFloat(document.getElementById('lightning-amount').value),
+                
+                    
+                    
+                initialScollX: scrollState.x,
         initialScrollX2: scrollState.x2 || 0
     
             }
