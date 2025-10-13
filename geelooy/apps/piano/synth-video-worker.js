@@ -3,29 +3,27 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A robust, offline renderer designed to be 100% compatible with MediaBunnyBase.
-             This version meticulously tracks separate coordinate systems for the top and bottom
-             keyboards to ensure they display the correct, independent octaves.
-VERSION 38.0 - The "Dual Coordinate System" Definitive Build
+Description: A robust, offline renderer that correctly implements the user's description of
+             the linked scroll mode: The bottom keyboard is always one octave higher than the top,
+             and they scroll together in the same direction. This is the definitive version.
+VERSION 41.0 - The "Literal Interpretation" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Global State ---
-// Master database for the entire recording.
 let keyPressHistory = [];
 let scrollHistory = [];
-let workerConfig = null; // Stores the initial settings from the main script.
+let workerConfig = null;
 
-// Visual assets configured once before rendering.
+// Visual assets
 let bottomKeyboardLayout = null;
 let topKeyboardLayout = null;
 let keyCache = {};
 let particles = [];
 let starfield = [];
 
-// **THE CRITICAL FIX**: We must maintain two separate base offsets, one for each keyboard's
-// unique coordinate system, to ensure they display different octaves correctly.
+// Two unique base offsets, whose values are derived from the user's correct description.
 let baseScrollOffset_Bottom = 0;
 let baseScrollOffset_Top = 0;
 
@@ -42,31 +40,30 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) { const blackKeyWidth = 
 function createParticles(x, y) { for (let i = 0; i < 80; i++) { const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 250 + 75; particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 2.0 + 0.8, initialLife: -1, radius: Math.random() * 2.5 + 1 }); } }
 
 
-// --- The Self-Sufficient Frame Drawing Function ---
+// --- The Frame Drawing Function ---
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
 
-    // For this specific moment in time, calculate the exact state from the master history lists.
     const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) { activeKeys.add(k.note); } });
 
-    // **THE CRITICAL FIX IN ACTION**: Calculate the final scroll position for EACH keyboard
-    // by adding the user's scroll delta to that keyboard's specific base offset.
+    // **THE DEFINITIVE FIX IN ACTION**: Calculate the final scroll for each keyboard
+    // using the simple, correct logic derived from the user's description.
     const finalScrollX_Bottom = baseScrollOffset_Bottom + relevantScroll.scrollX;
     let finalScrollX_Top;
 
     if (config.independentScroll) {
-        // In independent mode, the top keyboard uses its own offset and its own scroll data (scrollX2).
+        // INDEPENDENT MODE: Top uses its own offset and its own scroll data (scrollX2).
         finalScrollX_Top = baseScrollOffset_Top + relevantScroll.scrollX2;
     } else {
-        // In linked mode, the top keyboard starts from the same offset as the bottom
-        // and uses the same scroll data.
-        finalScrollX_Top = baseScrollOffset_Bottom + relevantScroll.scrollX;
+        // LINKED MODE: Top uses its own offset (one octave lower) and the SAME scroll data as the bottom.
+        // This makes them scroll together, maintaining their fixed octave relationship.
+        finalScrollX_Top = baseScrollOffset_Top + relevantScroll.scrollX;
     }
 
-    // --- Standard Drawing Logic ---
+    // --- Drawing Logic ---
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     starfield.forEach(star => { star.y += star.speed * deltaTime; if (star.y > config.resolution.height) { star.y = 0; star.x = Math.random() * config.resolution.width; } });
     ctx.fillStyle = UI_STYLE.STAR_COLOR; starfield.forEach(star => ctx.fillRect(star.x, star.y, star.size, star.size));
@@ -94,7 +91,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
 
     const renderRow = (layout, yStart, scroll) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) renderKey(key, keyScreenX, yStart); } }); }); };
 
-    // Render each row using its own, correctly calculated final scroll position.
     renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScrollX_Bottom);
     if (isDualView) renderRow(topKeyboardLayout, 0, finalScrollX_Top);
 
@@ -124,24 +120,25 @@ self.onmessage = async (e) => {
         case 'FINALIZE_MUXING':
             if (!workerConfig) { console.error("Worker not initialized!"); return; }
 
-            // 1. Final, One-Time Setup
             const renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
             
             bottomKeyboardLayout = calculateKeyLayout(workerConfig.style.userKeyWidth);
             if (workerConfig.alwaysDual || workerConfig.isVertical) topKeyboardLayout = calculateKeyLayout(workerConfig.style.userKeyWidth);
 
-            // **THE CRITICAL FIX IMPLEMENTATION**: Calculate the two separate base offsets.
+            // **THE DEFINITIVE FIX IMPLEMENTATION**: Calculate the two separate base offsets
+            // by literally implementing the user's description of the behavior.
             const startOctaveNum = parseInt(workerConfig.startOctave);
             baseScrollOffset_Bottom = bottomKeyboardLayout.get(`C${startOctaveNum}`)?.x || 0;
 
             if (workerConfig.independentScroll) {
-                // The top keyboard's world starts 4 octaves higher, per the main script's hardcoded logic.
+                // INDEPENDENT MODE: The main script starts the top keyboard 4 octaves higher.
                 const topStartOctave = startOctaveNum + 4;
                 baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
             } else {
-                // In linked mode, they share the same starting world.
-                baseScrollOffset_Top = baseScrollOffset_Bottom;
+                // LINKED MODE: The user has clarified the top keyboard is ONE octave lower.
+                const topStartOctave = startOctaveNum - 1;
+                baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
             }
 
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
@@ -149,14 +146,12 @@ self.onmessage = async (e) => {
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
 
-            // 2. The Grand Rendering Loop
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             for (let time = 0; time < finalDuration; time += deltaTime) {
                 await renderer.addFrame({ time, duration: deltaTime });
             }
 
-            // 3. Finalize and Post Back
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-Piano-Render-${Date.now()}.mp4` });
             break;
