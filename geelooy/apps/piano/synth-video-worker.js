@@ -3,10 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A robust, offline renderer that correctly implements the user's description of
-             the linked scroll mode: The bottom keyboard is always one octave higher than the top,
-             and they scroll together in the same direction. This is the definitive version.
-VERSION 41.0 - The "Literal Interpretation" Definitive Build
+Description: A robust, offline renderer that correctly implements the user's explicit
+             "Linked Mode" logic: The bottom keyboard is always one octave higher than the top,
+             and they scroll together. This is the definitive build.
+VERSION 43.0 - The "Literal Rule" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -16,14 +16,13 @@ let keyPressHistory = [];
 let scrollHistory = [];
 let workerConfig = null;
 
-// Visual assets
 let bottomKeyboardLayout = null;
 let topKeyboardLayout = null;
 let keyCache = {};
 let particles = [];
 let starfield = [];
 
-// Two unique base offsets, whose values are derived from the user's correct description.
+// Two unique base offsets. Their values will be determined by the one, simple rule.
 let baseScrollOffset_Bottom = 0;
 let baseScrollOffset_Top = 0;
 
@@ -50,7 +49,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) { activeKeys.add(k.note); } });
 
     // **THE DEFINITIVE FIX IN ACTION**: Calculate the final scroll for each keyboard
-    // using the simple, correct logic derived from the user's description.
+    // using the simple, correct logic.
     const finalScrollX_Bottom = baseScrollOffset_Bottom + relevantScroll.scrollX;
     let finalScrollX_Top;
 
@@ -127,8 +126,10 @@ self.onmessage = async (e) => {
             if (workerConfig.alwaysDual || workerConfig.isVertical) topKeyboardLayout = calculateKeyLayout(workerConfig.style.userKeyWidth);
 
             // **THE DEFINITIVE FIX IMPLEMENTATION**: Calculate the two separate base offsets
-            // by literally implementing the user's description of the behavior.
+            // by literally implementing the user's correct description of the behavior.
             const startOctaveNum = parseInt(workerConfig.startOctave);
+
+            // The bottom keyboard starts at the octave selected in the UI.
             baseScrollOffset_Bottom = bottomKeyboardLayout.get(`C${startOctaveNum}`)?.x || 0;
 
             if (workerConfig.independentScroll) {
@@ -136,7 +137,7 @@ self.onmessage = async (e) => {
                 const topStartOctave = startOctaveNum + 4;
                 baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
             } else {
-                // LINKED MODE: The user has clarified the top keyboard is ONE octave lower.
+                // LINKED MODE: The user has clarified the top keyboard is ONE octave lower than the bottom.
                 const topStartOctave = startOctaveNum - 1;
                 baseScrollOffset_Top = topKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
             }
