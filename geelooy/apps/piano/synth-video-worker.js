@@ -3,10 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A complete, from-scratch rewrite. This worker uses an offline-first "historian"
-             model and perfectly mirrors the main script's keyboard generation and scrolling logic
-             to be definitively correct under all conditions.
-VERSION 46.0 - The "From Scratch, Perfect Mirror" Definitive Build
+Description: A complete, from-scratch rewrite based on the "One World, Two Windows" model.
+             This worker creates a single master keyboard and positions two "cameras" (top and bottom views)
+             according to the user's exact, literal rules, ensuring a perfect match with the app.
+VERSION 47.0 - The "One World" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -17,47 +17,40 @@ let keyPressHistory = [];
 let scrollHistory = [];
 let workerConfig = null;
 
-// Visual assets that are built ONCE during the finalization stage.
-let bottomKeyboardLayout = null;
-let topKeyboardLayout = null;
+// Visual assets built ONCE during finalization.
+let masterKeyboardLayout = null; // The ONE "World"
 let keyCache = {};
 let particles = [];
 let starfield = [];
 
+// The starting x-positions of the two "Windows" on the master layout.
+let baseOffset_Bottom = 0;
+let baseOffset_Top = 0;
+
 // --- Visuals & Constants ---
 const UI_STYLE = { BACKGROUND_COLOR: '#000000', GRID_COLOR: 'rgba(0, 150, 255, 0.1)', STAR_COLOR: 'rgba(220, 235, 255, 0.8)', WHITE_KEY_FILL: '#dfe2e8', WHITE_KEY_AO: 'rgba(0, 0, 0, 0.25)', BLACK_KEY_FILL: '#121317', BLACK_KEY_HIGHLIGHT: 'rgba(255, 255, 255, 0.1)', ACTIVE_KEY_BASE_COLOR: '#00ffff', ACTIVE_KEY_GLOW_COLOR: 'rgba(0, 255, 255, 0.7)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.6)', PARTICLE_COLOR: '#ffffff', TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.9)', LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000' };
 const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const NUM_OCTAVES_TO_DRAW = 8; // Mirrors the main script's hardcoded value.
+const MIDI_NOTE_START = 21; // A0
+const MIDI_NOTE_END = 108;   // C8
 
 // --- Utility Functions ---
 
 /**
- * **THE NEW KEYBOARD BUILDER**
- * Creates a keyboard layout that is a perfect 1-to-1 mirror of the main script's `createKeyboardPanel`.
- * It does NOT use a universal 88-key map. It builds a specific 8-octave keyboard from a starting point.
- * This completely eliminates all coordinate system and offset bugs.
- * @param {number} startOctave - The octave to start building from (e.g., 1, 2, 4).
- * @param {number} whiteKeyWidth - The width of a white key.
- * @returns {Map<string, object>} A layout map for this specific keyboard.
+ * **THE NEW, CORRECT KEYBOARD BUILDER**
+ * Creates ONE single, universal 88-key layout. This is the "World".
+ * All positions are absolute, eliminating all previous coordinate system bugs.
  */
-function createMirroredKeyboardLayout(startOctave, whiteKeyWidth) {
+function calculateMasterLayout(whiteKeyWidth) {
     const layout = new Map();
     let whiteKeyX = 0;
     const blackKeyWidth = whiteKeyWidth * 0.6;
-
-    for (let oct = startOctave; oct < startOctave + NUM_OCTAVES_TO_DRAW; oct++) {
-        for (const note of NOTE_NAMES_SHARP) {
-            // This boundary check perfectly mirrors the one in the main script.
-            if (oct + (NOTE_NAMES_SHARP.indexOf(note) / 12) > 8.5) continue;
-
-            const noteName = note + oct;
-            const isBlack = note.includes('#');
-            const x = isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX;
-            layout.set(noteName, { note: noteName, isBlack, x, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
-
-            if (!isBlack) {
-                whiteKeyX += whiteKeyWidth;
-            }
+    for (let midi = MIDI_NOTE_START; midi <= MIDI_NOTE_END; midi++) {
+        const noteName = NOTE_NAMES_SHARP[midi % 12] + (Math.floor(midi / 12) - 1);
+        const isBlack = noteName.includes('#');
+        const x = isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX;
+        layout.set(noteName, { note: noteName, isBlack, x, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
+        if (!isBlack) {
+            whiteKeyX += whiteKeyWidth;
         }
     }
     return layout;
@@ -75,9 +68,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) { activeKeys.add(k.note); } });
 
-    // Scroll values are now used DIRECTLY, because our keyboards are perfect mirrors.
-    const scrollX_Bottom = relevantScroll.scrollX;
-    const scrollX_Top = config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX;
+    // **THE DEFINITIVE FIX IN ACTION**: Calculate the final position of each "Window"
+    // by adding the user's scroll to the correct base offset.
+    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX;
+    const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
 
     // --- Drawing Logic ---
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
@@ -96,13 +90,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const eventData = isActive ? keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end) : null;
         const targetAnimation = isActive ? 1.0 : 0.0;
         if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
-        // Reliable effect trigger
-        if (config.effectMode === 'explosion' && isActive && eventData && !eventData.effectTriggered) {
-            const effectX = keyScreenX + (eventData.x / zoomFactor);
-            const effectY = yStart + (eventData.y / zoomFactor);
-            createParticles(effectX, effectY);
-            eventData.effectTriggered = true; // Guarantees it fires only once
-        }
+        if (config.effectMode === 'explosion' && isActive && eventData && !eventData.effectTriggered) { const effectX = keyScreenX + (eventData.x / zoomFactor); const effectY = yStart + (eventData.y / zoomFactor); createParticles(effectX, effectY); eventData.effectTriggered = true; }
         const whiteKeyHeight = unscaledRowHeight * 0.95, blackKeyHeight = whiteKeyHeight * 0.65;
         const pressDepth = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight), height = key.isBlack ? blackKeyHeight : whiteKeyHeight;
         ctx.drawImage(keyCache[`${key.isBlack ? 'black' : 'white'}_default`], keyScreenX, yPos + pressDepth);
@@ -113,8 +101,8 @@ function drawKeyboardFrame(workerContext, framePayload) {
 
     const renderRow = (layout, yStart, scroll) => { if (!layout) return; ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) renderKey(key, keyScreenX, yStart); } }); }); };
 
-    renderRow(bottomKeyboardLayout, isDualView ? unscaledRowHeight : 0, scrollX_Bottom);
-    if (isDualView) renderRow(topKeyboardLayout, 0, scrollX_Top);
+    renderRow(masterKeyboardLayout, isDualView ? unscaledRowHeight : 0, finalScroll_Bottom);
+    if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
 
     if (config.effectMode === 'explosion') { for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 400 * deltaTime; p.life -= deltaTime; if (p.life <= 0) { particles.splice(i, 1); } else { ctx.globalAlpha = p.life / (p.initialLife || p.life); ctx.fillStyle = UI_STYLE.PARTICLE_COLOR; ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill(); } } }
 
@@ -133,7 +121,7 @@ self.onmessage = async (e) => {
             break;
 
         case 'ADD_KEY_EVENT':
-            payload.effectTriggered = false; // Add the flag for reliable effects
+            payload.effectTriggered = false;
             keyPressHistory.push(payload);
             break;
 
@@ -148,25 +136,34 @@ self.onmessage = async (e) => {
             const renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
             
-            // **THE DEFINITIVE FIX IMPLEMENTATION**: Build the layouts by perfectly mirroring the main script's rules.
-            const startOctaveNum = parseInt(workerConfig.startOctave);
+            // 1. Build the ONE master keyboard layout.
+            masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
+
+            // 2. Determine the starting octaves for each "Window" based on the mode.
+            const uiStartOctave = parseInt(workerConfig.startOctave);
+            let topStartOctave, bottomStartOctave;
 
             if (workerConfig.independentScroll) {
-                // INDEPENDENT MODE: Bottom starts at N, Top starts at N+4.
-                bottomKeyboardLayout = createMirroredKeyboardLayout(startOctaveNum, workerConfig.style.userKeyWidth);
-                topKeyboardLayout = createMirroredKeyboardLayout(startOctaveNum + 4, workerConfig.style.userKeyWidth);
+                // INDEPENDENT MODE: Bottom is at N, Top is at N+4.
+                bottomStartOctave = uiStartOctave;
+                topStartOctave = uiStartOctave + 4;
             } else {
-                // LINKED MODE: Bottom is ONE octave HIGHER than Top.
-                // If the UI (bottom) is at N, the Top MUST be at N-1.
-                bottomKeyboardLayout = createMirroredKeyboardLayout(startOctaveNum, workerConfig.style.userKeyWidth);
-                topKeyboardLayout = createMirroredKeyboardLayout(startOctaveNum - 1, workerConfig.style.userKeyWidth);
+                // LINKED MODE: Bottom is at N, Top is at N-1.
+                bottomStartOctave = uiStartOctave;
+                topStartOctave = uiStartOctave - 1;
             }
 
+            // 3. Find the x-positions of these starting notes on the master layout.
+            baseOffset_Bottom = masterKeyboardLayout.get(`C${bottomStartOctave}`)?.x || 0;
+            baseOffset_Top = masterKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
+            
+            // 4. Standard setup.
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
 
+            // 5. The Grand Rendering Loop.
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             for (let time = 0; time < finalDuration; time += deltaTime) {
