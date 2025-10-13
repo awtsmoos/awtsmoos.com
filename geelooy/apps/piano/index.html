@@ -40,10 +40,19 @@
                         <button id="audio-io-toggle">Audio I/O</button>
                         <button id="restore-defaults-button" style="background-color: #6c757d;">Defaults</button>
                     <!-- ADD THIS ENTIRE BLOCK for Visual Effects Configuration -->
-                        <button id="visual-effects-toggle">Visual Effects</button>
-                    </div> <!-- This closes the settings-content div -->
+                        
+                     </div> <!-- This closes the settings-content div -->
                     
                     <div id="visual-effects-menu" class="nested-menu settings-content">
+                    <div class="setting-item">
+                    <label for="myFPS">fps:</label><input id="myFPS" type="number" value="18">
+                         
+    <label for="effect-select">Visual Effect:</label>
+    <select id="effect-select" class="control-select">
+        <option value="explosion" selected>Explosion (Continuous Video)</option>
+        <option value="touchpoint">Touch Point (Event-Based Video)</option>
+    </select>
+</div>
                         <h4>Particle Types</h4>
                         <div class="checkbox-group">
                             <label><input type="checkbox" id="enable-hebrew" checked> Hebrew</label>
@@ -51,6 +60,7 @@
                             <label><input type="checkbox" id="enable-sparks" checked> Sparks</label>
                             <label><input type="checkbox" id="enable-bubbles" checked> Bubbles</label>
                         </div>
+                        
                         <br>
                         <h4>Particle Physics</h4>
                         <label>Density:</label><input type="range" id="particle-density" min="1" max="50" step="1" value="15">
@@ -80,13 +90,10 @@
                         <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
                         <label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
                         <div id="video-progress" style="width:100%; margin-top:10px; color:#ffc107; font-weight:bold;"></div>
-                        <div class="setting-item">
-    <label for="effect-select">Visual Effect:</label>
-    <select id="effect-select" class="control-select">
-        <option value="explosion" selected>Explosion (Continuous Video)</option>
-        <option value="touchpoint">Touch Point (Event-Based Video)</option>
-    </select>
-</div>
+                        
+                        <button id="visual-effects-toggle">Visual Effects</button>
+                   
+                        
                     </div>
  
                     <div id="advanced-synth-menu" class="nested-menu settings-content">
