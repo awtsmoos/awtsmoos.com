@@ -3,12 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: The definitive, optimized build.
-             - Implements pipelined rendering for massively reduced post-processing time.
-             - Features a smart frame-skipping optimization for silent/static sections (VFR simulation).
-             - Hebrew letter explosions now erupt from the precise point of touch.
-             - Includes enhanced 3D beveled keys and dual effect modes.
-VERSION 62.0 - The "Definitive & Optimized" Build
+Description: The ultimate effects build with a rich, multi-layered particle system and inter-particle lightning.
+             - Explosions are now a mix of multicolored Hebrew letters (with borders), emojis, bubbles, and sparks.
+             - A new system generates random, jagged lightning bolts that connect nearby particles.
+             - Retains all advanced features: pipelined rendering, smart frame skipping, and 3D keys.
+VERSION 63.0 - The "Living Constellation" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -23,9 +22,10 @@ let processingInterval = null;
 
 let masterKeyboardLayout = null;
 let keyCache = {};
-let particles = [];
+let particles = []; // Unified particle system
 let shockwaves = [];
 let touchPoints = [];
+let lightningBolts = []; // For the new lightning effect
 
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
@@ -42,15 +42,20 @@ const UI_STYLE = {
     BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.15)',
     ACTIVE_KEY_OVERLAY_COLOR: 'rgba(0, 255, 255, 0.7)',
     TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.4)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
+    PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)',
+    LIGHTNING_COLOR: 'rgba(150, 220, 255, 0.8)',
+    BUBBLE_COLOR: 'rgba(0, 200, 255, 0.3)',
     LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000'
 };
 const NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const HEBREW_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
+const EMOJIS = ['✨', '🌕', '🌏', '🌎', '🧬', '🔥', '🎇', '👑', '☀️'];
 const MIDI_NOTE_START = 21; const MIDI_NOTE_END = 108;
 
 
 // --- Key Pre-Rendering & Layout ---
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
+    // This function remains the same, providing the excellent 3D keys.
     const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65;
     const shadowOffset = whiteKeyWidth * 0.06, keyFrontHeight = whiteKeyWidth * 0.08;
     const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight + shadowOffset);
@@ -98,26 +103,71 @@ function calculateMasterLayout(whiteKeyWidth) {
     return layout;
 }
 
-// --- Effect Creation ---
-function createParticles(x, y) {
-    for (let i = 0; i < 80; i++) {
-        const angle = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75;
-        const letter = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)], hue = Math.random() * 360;
-        particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 2.5 + 1.0, initialLife: -1, radius: Math.random() * 3.5 + 2, letter, hue });
+// --- NEW UNIFIED EFFECT CREATION ---
+function createRichExplosion(x, y) {
+    const numParticles = 100;
+    for (let i = 0; i < numParticles; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 250 + 75;
+        const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 3.0 + 1.5, initialLife: -1, radius: 0 };
+        
+        const typeRoll = Math.random();
+        if (typeRoll < 0.4) { // 40% Hebrew Letters
+            p.type = 'hebrew';
+            p.content = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)];
+            p.hue = Math.random() * 360;
+            p.radius = Math.random() * 4 + 3;
+        } else if (typeRoll < 0.6) { // 20% Emojis
+            p.type = 'emoji';
+            p.content = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+            p.radius = Math.random() * 6 + 5;
+        } else if (typeRoll < 0.8) { // 20% Sparks
+            p.type = 'spark';
+            p.life = Math.random() * 1.0 + 0.5; // Sparks are fast
+            p.radius = Math.random() * 1.5 + 1;
+        } else { // 20% Bubbles
+            p.type = 'bubble';
+            p.vy = -Math.random() * 50 - 25; // Bubbles float up
+            p.life = Math.random() * 4.0 + 2.0;
+            p.radius = Math.random() * 8 + 4;
+        }
+        particles.push(p);
     }
 }
+
 function createTouchEvent(x, y) {
     const life = 1.0;
     touchPoints.push({ x, y, life, initialLife: life, radius: 25 });
 }
 
+// --- NEW LIGHTNING LOGIC ---
+function createLightningBolt(p1, p2) {
+    const segments = [];
+    const numSegments = 10;
+    const boltLife = 0.4;
+    const maxOffset = 15;
+
+    segments.push({ x: p1.x, y: p1.y });
+    for (let i = 1; i < numSegments; i++) {
+        const t = i / numSegments;
+        const px = p1.x + t * (p2.x - p1.x);
+        const py = p1.y + t * (p2.y - p1.y);
+        const offset = (Math.random() - 0.5) * maxOffset * (1 - Math.abs(2 * t - 1));
+        const normal = { x: -(p2.y - p1.y), y: p2.x - p1.x };
+        const normLength = Math.sqrt(normal.x * normal.x + normal.y * normal.y) || 1;
+        segments.push({ x: px + normal.x / normLength * offset, y: py + normal.y / normLength * offset });
+    }
+    segments.push({ x: p2.x, y: p2.y });
+    lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
+}
+
+
 // --- Scene State & Drawing ---
 function isSceneStaticAt(time) {
     const keyIsActive = eventQueue.some(e => e.type === 'ADD_KEY_EVENT' && time >= e.payload.start && time < e.payload.end);
     if (keyIsActive) return false;
-    // Check if any effects would be alive at this time
-    if (particles.length > 0 || shockwaves.length > 0 || touchPoints.length > 0) return false;
-    // This could be expanded to check for scroll changes if scrolling were animated
+    // Effects are considered part of the scene's state
+    if (particles.length > 0 || shockwaves.length > 0 || touchPoints.length > 0 || lightningBolts.length > 0) return false;
     return true;
 }
 
@@ -158,12 +208,11 @@ function drawKeyboardFrame(workerContext, framePayload) {
         const pressDepth = key.pressAnimation * 4;
         const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
 
-        // --- PRECISE EFFECT TRIGGER ---
         if (isActive && eventData && !eventData.effectTriggered) {
             const effectX = keyScreenX + (eventData.x / zoomFactor);
-            const effectY = yPos + (eventData.y / zoomFactor); // Use key's y + touch y
+            const effectY = yPos + (eventData.y / zoomFactor);
             if (config.renderMode === 'explosion') {
-                createParticles(effectX, effectY);
+                createRichExplosion(effectX, effectY);
             } else if (config.renderMode === 'touchpoint') {
                 createTouchEvent(effectX, effectY);
             }
@@ -183,14 +232,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
         ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`;
         ctx.textAlign = 'center';
         ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
-        if (key.isBlack) {
-            const blackKeyHeight = whiteKeyHeight * 0.65;
-            ctx.textBaseline = 'middle';
-            ctx.fillText(key.note.slice(0, -1), keyScreenX + key.width / 2, yPos + blackKeyHeight * 0.8 + pressDepth);
-        } else {
-            ctx.textBaseline = 'bottom';
-            ctx.fillText(key.note, keyScreenX + key.width / 2, yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth);
-        }
+        const keyText = key.isBlack ? key.note.slice(0, -1) : key.note;
+        const textY = key.isBlack ? yPos + (whiteKeyHeight * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
+        ctx.textBaseline = key.isBlack ? 'middle' : 'bottom';
+        ctx.fillText(keyText, keyScreenX + key.width / 2, textY);
     };
     
     const renderRow = (layout, yStart, scroll) => {
@@ -210,22 +255,89 @@ function drawKeyboardFrame(workerContext, framePayload) {
     if (isDualView) renderRow(masterKeyboardLayout, 0, finalScroll_Top);
 
     // --- Update and Render All Effects ---
-    // This part runs regardless of time, as effects have their own lifecycle
+    // 1. Update Physics
     for (let i = shockwaves.length - 1; i >= 0; i--) { const sw = shockwaves[i]; sw.life -= deltaTime * 1.5; if (sw.life <= 0) shockwaves.splice(i, 1); }
     for (let i = touchPoints.length - 1; i >= 0; i--) { const tp = touchPoints[i]; tp.life -= deltaTime * 2.0; if (tp.life <= 0) touchPoints.splice(i, 1); }
+    for (let i = lightningBolts.length - 1; i >= 0; i--) { const l = lightningBolts[i]; l.life -= deltaTime; if (l.life <= 0) lightningBolts.splice(i, 1); }
     for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.vx * deltaTime; p.y += p.vy * deltaTime; p.vy += 600 * deltaTime; p.life -= deltaTime; if (p.life <= 0) particles.splice(i, 1); }
     
-    // --- Render All Effects ---
+    // 2. Create New Lightning
+    if (particles.length > 2 && Math.random() < 0.3) { // Only run sometimes for performance
+        const p1 = particles[Math.floor(Math.random() * particles.length)];
+        const p2 = particles[Math.floor(Math.random() * particles.length)];
+        if (p1 !== p2) {
+            const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+            if (dist > 50 && dist < 150) { // Connect particles in a sweet spot range
+                createLightningBolt(p1, p2);
+            }
+        }
+    }
+
+    // 3. Render Visuals
     ctx.lineWidth = 4;
     shockwaves.forEach(sw => { ctx.globalAlpha = sw.life; ctx.strokeStyle = UI_STYLE.SHOCKWAVE_COLOR; ctx.beginPath(); ctx.arc(sw.x, sw.y, (1.0 - sw.life) * 200, 0, Math.PI * 2); ctx.stroke(); });
     touchPoints.forEach(tp => { ctx.globalAlpha = (tp.life / tp.initialLife) * 0.7; ctx.fillStyle = UI_STYLE.TOUCH_POINT_COLOR; ctx.beginPath(); ctx.arc(tp.x, tp.y, tp.radius, 0, Math.PI * 2); ctx.fill(); });
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    particles.forEach(p => { const lifeRatio = p.life / p.initialLife; ctx.globalAlpha = lifeRatio; const lightness = 75 + (1 - lifeRatio) * 25; ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`; ctx.font = `bold ${p.radius * 8}px sans-serif`; ctx.fillText(p.letter, p.x, p.y); });
+    
+    lightningBolts.forEach(bolt => {
+        ctx.globalAlpha = (bolt.life / bolt.initialLife) * 0.8;
+        ctx.strokeStyle = UI_STYLE.LIGHTNING_COLOR;
+        ctx.lineWidth = 1 + (bolt.life / bolt.initialLife) * 3;
+        ctx.shadowColor = UI_STYLE.LIGHTNING_COLOR;
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.moveTo(bolt.segments[0].x, bolt.segments[0].y);
+        for (let i = 1; i < bolt.segments.length; i++) {
+            ctx.lineTo(bolt.segments[i].x, bolt.segments[i].y);
+        }
+        ctx.stroke();
+    });
+    ctx.shadowBlur = 0;
+
+    particles.forEach(p => {
+        if (p.initialLife === -1) p.initialLife = p.life;
+        const lifeRatio = p.life / p.initialLife;
+        ctx.globalAlpha = lifeRatio;
+        
+        switch (p.type) {
+            case 'hebrew':
+            case 'emoji':
+                const fontSize = p.type === 'hebrew' ? p.radius * 8 : p.radius * 6;
+                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                if (p.type === 'hebrew') {
+                    const lightness = 75 + (1 - lifeRatio) * 25;
+                    ctx.fillStyle = `hsl(${p.hue}, 100%, ${lightness}%)`;
+                    ctx.strokeStyle = UI_STYLE.PARTICLE_BORDER_COLOR;
+                    ctx.lineWidth = 2;
+                    ctx.strokeText(p.content, p.x, p.y);
+                } else {
+                    ctx.fillStyle = '#FFFFFF'; // Emojis have their own colors
+                }
+                ctx.fillText(p.content, p.x, p.y);
+                break;
+            case 'spark':
+                ctx.fillStyle = `rgba(255, 255, 200, ${lifeRatio})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+            case 'bubble':
+                ctx.strokeStyle = UI_STYLE.BUBBLE_COLOR;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius * (1 - lifeRatio), 0, Math.PI * 2); // Bubble shrinks as it dies
+                ctx.stroke();
+                break;
+        }
+    });
     ctx.globalAlpha = 1;
     ctx.restore();
 }
 
-// --- Pipelined Processing Engine ---
+// --- Pipelined Processing Engine & Main Control Logic ---
+// This section remains the same as the previous optimized build,
+// ensuring fast rendering and all core functionality.
+
 async function processEventQueue() {
     if (!renderer || isFinalizing) return;
     const latestEventTime = eventQueue.length > 0 ? (eventQueue[eventQueue.length - 1].payload.time ?? eventQueue[eventQueue.length - 1].payload.end) : lastRenderedTime;
@@ -234,17 +346,14 @@ async function processEventQueue() {
 
     const deltaTime = 1 / workerConfig.outputFormat.fps;
     for (let time = lastRenderedTime; time < renderUpToTime; time += deltaTime) {
-        // --- VFR OPTIMIZATION ---
         if (isSceneStaticAt(time)) {
             let staticEndTime = time;
-            // Find how long the scene remains static
             while (staticEndTime < renderUpToTime && isSceneStaticAt(staticEndTime + deltaTime)) {
                 staticEndTime += deltaTime;
             }
             const staticDuration = staticEndTime - time;
-            // Render the single static frame and hold it for the full duration
             await renderer.addFrame({ time, duration: staticDuration });
-            time = staticEndTime - deltaTime; // Adjust loop counter to skip the held frames
+            time = staticEndTime - deltaTime;
         } else {
             await renderer.addFrame({ time, duration: deltaTime });
         }
@@ -252,8 +361,6 @@ async function processEventQueue() {
     lastRenderedTime = renderUpToTime;
 }
 
-
-// --- Main Worker Control Logic ---
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
     if (isFinalizing && type !== 'FINALIZE_MUXING') return;
@@ -262,7 +369,7 @@ self.onmessage = async (e) => {
         case 'INITIALIZE_RENDERER':
             workerConfig = payload;
             eventQueue = []; lastRenderedTime = 0.0; isFinalizing = false;
-            particles = []; shockwaves = []; touchPoints = [];
+            particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
             if (processingInterval) clearInterval(processingInterval);
             
             renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
@@ -270,7 +377,7 @@ self.onmessage = async (e) => {
 
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
-            const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
+            const unscaledRowHeight = (config.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             const uiStartOctave = parseInt(workerConfig.startOctave);
             const bottomStartNote = `C${uiStartOctave}`;
@@ -295,12 +402,14 @@ self.onmessage = async (e) => {
             isFinalizing = true;
             if (processingInterval) clearInterval(processingInterval);
             
-            // Final render pass for the remaining few seconds
-            const finalEventTime = eventQueue.length > 0 ? (eventQueue[eventQueue.length - 1].payload.time ?? eventQueue[eventQueue.length - 1].payload.end) : payload.audioBufferShim.duration;
+            const finalEventTime = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
-            for (let time = lastRenderedTime; time < finalEventTime; time += deltaTime) {
-                await renderer.addFrame({ time, duration: deltaTime });
+            if (lastRenderedTime < finalEventTime) {
+                 for (let time = lastRenderedTime; time < finalEventTime; time += deltaTime) {
+                    await renderer.addFrame({ time, duration: deltaTime });
+                 }
             }
+           
             lastRenderedTime = finalEventTime;
 
             const blob = await renderer.finalize(payload.audioBufferShim);
