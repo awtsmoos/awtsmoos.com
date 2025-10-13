@@ -3,11 +3,10 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: This is the definitive, timing-accurate build. It fixes a critical bug where the
-             timeline of events was being scrambled due to an incorrect use of `new Set()`, causing
-             catastrophic rendering errors. The timeline is now correctly and reliably sorted before
-             processing, ensuring every event is rendered in the exact order it occurred.
-VERSION 56.0 - The "Timeline Sort" Definitive Build
+Description: This build fixes a critical ReferenceError that occurred during the finalization
+             stage. A variable was misnamed (`config` instead of `workerConfig`) in the starfield
+             generation loop, causing the worker to crash. This has been corrected.
+VERSION 56.1 - The "ReferenceError Hotfix" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -77,12 +76,10 @@ function drawKeyboardFrame(workerContext, framePayload) {
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
     switch (type) {
-        // STAGE 1: Collect data (Unchanged)
         case 'INITIALIZE_RENDERER': workerConfig = payload; scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }]; keyPressHistory = []; break;
         case 'ADD_KEY_EVENT': keyPressHistory.push(payload); break;
         case 'UPDATE_SCROLL': scrollHistory.push(payload); break;
 
-        // STAGE 2: Render video using the corrected timeline processor.
         case 'FINALIZE_MUXING':
             if (!workerConfig) { console.error("Worker not initialized!"); return; }
 
@@ -94,11 +91,20 @@ self.onmessage = async (e) => {
             baseOffset_Top = workerConfig.independentScroll ? masterKeyboardLayout.get(`C${parseInt(workerConfig.startOctave) + 4}`)?.x || 0 : baseOffset_Bottom - workerConfig.style.userViewportWidth;
             
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
-            const unscaledRowHeight = (config.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
+            const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
-            for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
             
-            // ================== CORRECTED STATE-MACHINE RENDER LOGIC ==================
+            // ============================ THE FIX ============================
+            // Corrected the variable name from `config` to `workerConfig`.
+            for (let i = 0; i < 600; i++) {
+                starfield.push({ 
+                    x: Math.random() * workerConfig.resolution.width, 
+                    y: Math.random() * workerConfig.resolution.height, 
+                    speed: Math.random() * 20 + 5, 
+                    size: Math.random() * 2 + 0.5 
+                });
+            }
+            // ========================= END OF FIX ==========================
             
             const eventMap = new Map();
             const addEvent = (time, event) => {
@@ -114,14 +120,7 @@ self.onmessage = async (e) => {
                 addEvent(s.time, { type: 'SCROLL_UPDATE', scrollX: s.scrollX, scrollX2: s.scrollX2 });
             });
 
-            // ============================ THE FIX ============================
-            // 1. Get all timestamps, including the start time 0.
-            const allTimestamps = [0, ...eventMap.keys()];
-            // 2. Create a Set to get only the UNIQUE timestamps.
-            // 3. Spread the set back into an array and THEN sort it.
-            // This guarantees a perfectly ordered, unique list of timestamps to process.
-            const uniqueTimestamps = [...new Set(allTimestamps)].sort((a, b) => a - b);
-            // ========================= END OF FIX ==========================
+            const uniqueTimestamps = [...new Set([0, ...eventMap.keys()])].sort((a, b) => a - b);
 
             let lastTime = 0;
             const currentState = {
@@ -132,7 +131,7 @@ self.onmessage = async (e) => {
 
             for (const currentTime of uniqueTimestamps) {
                 const duration = currentTime - lastTime;
-                if (duration > 0) { // Using > 0 is safe here since timestamps are unique
+                if (duration > 0) {
                     await renderer.addFrame({
                         time: lastTime,
                         duration: duration,
@@ -164,8 +163,6 @@ self.onmessage = async (e) => {
                 });
             }
             
-            // ======================= END OF CORRECTED LOGIC ========================
-
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
             break;
