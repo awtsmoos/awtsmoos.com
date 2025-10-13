@@ -3,21 +3,19 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A complete, from-scratch rewrite based on the "One World, Two Windows" model.
-             This worker creates a single master keyboard and positions two "cameras" (top and bottom views)
-             according to the user's exact, literal rules, ensuring a perfect match with the app.
-VERSION 47.0 - The "One World" Definitive Build
+Description: A complete, from-scratch rewrite that literally implements the user's simple,
+             correct rules: 1) In Linked Mode, the top keyboard starts one white note lower.
+             2) In Linked Mode, both keyboards scroll in the same direction. This is the definitive build.
+VERSION 50.0 - The "Simple Truth" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- Global State ---
-// Master database for the entire recording. No rendering happens until FINALIZED.
 let keyPressHistory = [];
 let scrollHistory = [];
 let workerConfig = null;
 
-// Visual assets built ONCE during finalization.
 let masterKeyboardLayout = null; // The ONE "World"
 let keyCache = {};
 let particles = [];
@@ -34,12 +32,6 @@ const MIDI_NOTE_START = 21; // A0
 const MIDI_NOTE_END = 108;   // C8
 
 // --- Utility Functions ---
-
-/**
- * **THE NEW, CORRECT KEYBOARD BUILDER**
- * Creates ONE single, universal 88-key layout. This is the "World".
- * All positions are absolute, eliminating all previous coordinate system bugs.
- */
 function calculateMasterLayout(whiteKeyWidth) {
     const layout = new Map();
     let whiteKeyX = 0;
@@ -49,9 +41,7 @@ function calculateMasterLayout(whiteKeyWidth) {
         const isBlack = noteName.includes('#');
         const x = isBlack ? whiteKeyX - (blackKeyWidth / 2) : whiteKeyX;
         layout.set(noteName, { note: noteName, isBlack, x, width: isBlack ? blackKeyWidth : whiteKeyWidth, pressAnimation: 0 });
-        if (!isBlack) {
-            whiteKeyX += whiteKeyWidth;
-        }
+        if (!isBlack) { whiteKeyX += whiteKeyWidth; }
     }
     return layout;
 }
@@ -68,8 +58,8 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const activeKeys = new Set();
     keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) { activeKeys.add(k.note); } });
 
-    // **THE DEFINITIVE FIX IN ACTION**: Calculate the final position of each "Window"
-    // by adding the user's scroll to the correct base offset.
+    // **THE DEFINITIVE FIX IN ACTION**: Calculate the final position of each "Window".
+    // They both scroll in the same direction, using their correct offsets.
     const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX;
     const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
 
@@ -136,34 +126,32 @@ self.onmessage = async (e) => {
             const renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
             
-            // 1. Build the ONE master keyboard layout.
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
 
-            // 2. Determine the starting octaves for each "Window" based on the mode.
+            // **THE DEFINITIVE FIX IMPLEMENTATION**: Determine the starting note for each "Window".
             const uiStartOctave = parseInt(workerConfig.startOctave);
-            let topStartOctave, bottomStartOctave;
+            let topStartNote, bottomStartNote;
 
             if (workerConfig.independentScroll) {
                 // INDEPENDENT MODE: Bottom is at N, Top is at N+4.
-                bottomStartOctave = uiStartOctave;
-                topStartOctave = uiStartOctave + 4;
+                bottomStartNote = `C${uiStartOctave}`;
+                topStartNote = `C${uiStartOctave + 4}`;
             } else {
-                // LINKED MODE: Bottom is at N, Top is at N-1.
-                bottomStartOctave = uiStartOctave;
-                topStartOctave = uiStartOctave - 1;
+                // LINKED MODE: Bottom is at N, Top is at N-1 plus one white key.
+                // The "One Note Off" rule.
+                bottomStartNote = `C${uiStartOctave}`;
+                topStartNote = `D${uiStartOctave - 1}`;
             }
 
-            // 3. Find the x-positions of these starting notes on the master layout.
-            baseOffset_Bottom = masterKeyboardLayout.get(`C${bottomStartOctave}`)?.x || 0;
-            baseOffset_Top = masterKeyboardLayout.get(`C${topStartOctave}`)?.x || 0;
+            // Find the x-positions of these starting notes on the master layout.
+            baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
+            baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0;
             
-            // 4. Standard setup.
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
 
-            // 5. The Grand Rendering Loop.
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             for (let time = 0; time < finalDuration; time += deltaTime) {
