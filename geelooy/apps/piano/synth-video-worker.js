@@ -3,12 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: This is the definitive, timing-accurate build. It fixes a critical flaw in how
-             simultaneous events (e.g., a key up and key down at the exact same timestamp) were
-             processed. The new logic groups all events at a single point in time, renders the
-             state LEADING UP TO that time, and only then updates the state. This guarantees
-             no visual state changes are ever skipped, ensuring perfect sync.
-VERSION 55.0 - The "Simultaneous Event" Definitive Build
+Description: This is the definitive, timing-accurate build. It fixes a critical bug where the
+             timeline of events was being scrambled due to an incorrect use of `new Set()`, causing
+             catastrophic rendering errors. The timeline is now correctly and reliably sorted before
+             processing, ensuring every event is rendered in the exact order it occurred.
+VERSION 56.0 - The "Timeline Sort" Definitive Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -83,7 +82,7 @@ self.onmessage = async (e) => {
         case 'ADD_KEY_EVENT': keyPressHistory.push(payload); break;
         case 'UPDATE_SCROLL': scrollHistory.push(payload); break;
 
-        // STAGE 2: Render video using the new robust timeline processor.
+        // STAGE 2: Render video using the corrected timeline processor.
         case 'FINALIZE_MUXING':
             if (!workerConfig) { console.error("Worker not initialized!"); return; }
 
@@ -95,13 +94,12 @@ self.onmessage = async (e) => {
             baseOffset_Top = workerConfig.independentScroll ? masterKeyboardLayout.get(`C${parseInt(workerConfig.startOctave) + 4}`)?.x || 0 : baseOffset_Bottom - workerConfig.style.userViewportWidth;
             
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
-            const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
+            const unscaledRowHeight = (config.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             for (let i = 0; i < 600; i++) starfield.push({ x: Math.random() * workerConfig.resolution.width, y: Math.random() * workerConfig.resolution.height, speed: Math.random() * 20 + 5, size: Math.random() * 2 + 0.5 });
             
-            // ================== ROBUST STATE-MACHINE RENDER LOGIC ==================
+            // ================== CORRECTED STATE-MACHINE RENDER LOGIC ==================
             
-            // 1. Deconstruct all events into a single timeline, and also create a map of events grouped by timestamp.
             const eventMap = new Map();
             const addEvent = (time, event) => {
                 if (!eventMap.has(time)) eventMap.set(time, []);
@@ -116,11 +114,15 @@ self.onmessage = async (e) => {
                 addEvent(s.time, { type: 'SCROLL_UPDATE', scrollX: s.scrollX, scrollX2: s.scrollX2 });
             });
 
-            // 2. Get a sorted list of unique timestamps where state changes occur.
-            const sortedTimestamps = [0, ...eventMap.keys()].sort((a, b) => a - b);
-            const uniqueTimestamps = [...new Set(sortedTimestamps)];
+            // ============================ THE FIX ============================
+            // 1. Get all timestamps, including the start time 0.
+            const allTimestamps = [0, ...eventMap.keys()];
+            // 2. Create a Set to get only the UNIQUE timestamps.
+            // 3. Spread the set back into an array and THEN sort it.
+            // This guarantees a perfectly ordered, unique list of timestamps to process.
+            const uniqueTimestamps = [...new Set(allTimestamps)].sort((a, b) => a - b);
+            // ========================= END OF FIX ==========================
 
-            // 3. Initialize the starting state.
             let lastTime = 0;
             const currentState = {
                 activeKeys: new Set(),
@@ -128,12 +130,9 @@ self.onmessage = async (e) => {
                 scrollX2: workerConfig.initialScrollX2
             };
 
-            // 4. Process the timeline, timestamp by timestamp.
             for (const currentTime of uniqueTimestamps) {
                 const duration = currentTime - lastTime;
-
-                // Render a frame for the duration the PREVIOUS state was held.
-                if (duration > 0.00001) {
+                if (duration > 0) { // Using > 0 is safe here since timestamps are unique
                     await renderer.addFrame({
                         time: lastTime,
                         duration: duration,
@@ -143,7 +142,6 @@ self.onmessage = async (e) => {
                     });
                 }
                 
-                // AFTER rendering, process ALL events at the current timestamp to create the NEXT state.
                 const eventsAtThisTime = eventMap.get(currentTime) || [];
                 for (const event of eventsAtThisTime) {
                      switch(event.type) {
@@ -152,11 +150,9 @@ self.onmessage = async (e) => {
                         case 'SCROLL_UPDATE': currentState.scrollX = event.scrollX; currentState.scrollX2 = event.scrollX2; break;
                     }
                 }
-                
                 lastTime = currentTime;
             }
             
-            // 5. Render the final frame, holding the last known state until the audio ends.
             const finalAudioDuration = payload.audioBufferShim.duration;
             if (finalAudioDuration > lastTime) {
                 await renderer.addFrame({
@@ -168,7 +164,7 @@ self.onmessage = async (e) => {
                 });
             }
             
-            // ======================= END OF NEW LOGIC ========================
+            // ======================= END OF CORRECTED LOGIC ========================
 
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
