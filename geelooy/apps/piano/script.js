@@ -897,7 +897,7 @@ async function toggleVideoRecording() {
             payload: {
                 renderMode: renderMode,
                 resolution: videoResolution,
-                outputFormat: { fps: 18, quality: 0.8 },
+                outputFormat: { quality: 0.8 },
                 startOctave: elements.octaveSelect.value,
                 alwaysDual: elements.alwaysDualCheckbox.checked,
                 independentScroll: elements.independentScrollCheckbox.checked,
