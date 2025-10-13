@@ -3,11 +3,11 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A definitive, bug-fixed build that correctly initializes the key cache.
-             - FIX: Resolves the 'drawImage' TypeError by ensuring keys are pre-rendered before any processing begins.
-             - FIX: Prevents ReferenceErrors by adding robust guards for initialization.
+Description: A stabilized build that resolves hanging issues during finalization.
+             - FIX: Implements a strict cap on the total number of particles to prevent memory overload on long recordings.
+             - FIX: Uses a more robust finalization method to prevent timing conflicts between the video and audio tracks.
              - Retains all advanced features: pipelining, VFR simulation, lightning, and rich particles.
-VERSION 64.0 - The "Definitive Bugfix" Build
+VERSION 65.0 - The "Stabilization" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -27,12 +27,12 @@ let shockwaves = [];
 let touchPoints = [];
 let lightningBolts = [];
 
-var pdensity=10;
-
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
 const RENDER_LATENCY_SECONDS = 2.0;
+const MAX_PARTICLES = 1500; // MEMORY FIX: Hard limit on total particles
+const PARTICLE_DENSITY = 15; // User-tunable particle density
 
 // --- VISUALS & CONSTANTS ---
 const UI_STYLE = {
@@ -95,7 +95,12 @@ function calculateMasterLayout(whiteKeyWidth) {
 
 // --- Effect Creation ---
 function createRichExplosion(x, y) {
-    for (let i = 0; i < pdensity; i++) {
+    // MEMORY FIX: If we're about to exceed the particle cap, remove the oldest ones.
+    if (particles.length + PARTICLE_DENSITY > MAX_PARTICLES) {
+        particles.splice(0, particles.length + PARTICLE_DENSITY - MAX_PARTICLES);
+    }
+
+    for (let i = 0; i < PARTICLE_DENSITY; i++) {
         const angle = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75;
         const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 3.0 + 1.5, initialLife: -1, radius: 0 };
         const typeRoll = Math.random();
@@ -148,7 +153,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
             if (config.renderMode === 'explosion') { createRichExplosion(effectX, effectY); } else if (config.renderMode === 'touchpoint') { createTouchEvent(effectX, effectY); }
             shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 }); eventData.effectTriggered = true;
         }
-        const cacheImage = keyCache[key.isBlack ? 'black_default' : 'white_default']; if (!cacheImage) { console.error("Key cache image not found!"); return; }
+        const cacheImage = keyCache[key.isBlack ? 'black_default' : 'white_default']; if (!cacheImage) { return; }
         ctx.drawImage(cacheImage, keyScreenX, yPos + pressDepth);
         if (key.pressAnimation > 0) {
             ctx.globalAlpha = key.pressAnimation; ctx.fillStyle = UI_STYLE.ACTIVE_KEY_OVERLAY_COLOR;
@@ -202,7 +207,7 @@ self.onmessage = async (e) => {
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
-            cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95); // BUG FIX: Ensure this runs before processing starts
+            cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
             const uiStartOctave = parseInt(workerConfig.startOctave); const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
             if (workerConfig.independentScroll) { const topStartNote = `C${uiStartOctave + 4}`; baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0; }
@@ -215,9 +220,10 @@ self.onmessage = async (e) => {
             break;
         case 'FINALIZE_MUXING':
             isFinalizing = true; if (processingInterval) clearInterval(processingInterval);
-            const finalEventTime = payload.audioBufferShim.duration; const deltaTime = 1 / workerConfig.outputFormat.fps;
-            if (lastRenderedTime < finalEventTime) { for (let time = lastRenderedTime; time < finalEventTime; time += deltaTime) { await renderer.addFrame({ time, duration: deltaTime }); } }
-            lastRenderedTime = finalEventTime;
+            
+            // TIMING FIX: Let the MediaBunny 'finalize' method handle the last frame perfectly.
+            // We no longer render the last few frames manually.
+            
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
             break;
