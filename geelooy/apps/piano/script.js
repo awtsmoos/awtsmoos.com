@@ -62,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	elements.recordAudioButton = document.getElementById('record-audio-button');
 	elements.recordVideoButton = document.getElementById('record-video-button');
 	elements.videoProgress = document.getElementById('video-progress');
+	// Inside your element caching logic
+elements.effectSelect = document.getElementById('effect-select');
 
 	// --- GLOBAL STATE ---
 	let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, compressor, customWaves = {};
@@ -235,23 +237,25 @@ function sendFrameStateToWorker() {
 	// --- EVENT HANDLERS ---
 
 	function handlePointerDown(e) {
-		const target = e.target;
-		const keyElement = target.closest('.key');
-		if (keyElement) {
-			e.preventDefault(); // Prevent scrolling/panning on touch devices
-			if (activeNotes.has(e.pointerId)) return; // Prevent re-triggering with the same pointer
+    const target = e.target;
+    const keyElement = target.closest('.key');
+    if (keyElement) {
+        e.preventDefault();
+        if (activeNotes.has(e.pointerId)) return;
 
-			const noteName = keyElement.dataset.note;
-			const note = noteName.replace(/\d/g, '');
-			const octave = parseInt(noteName.match(/\d+/g));
-			const frequency = noteFrequencies[note] * Math.pow(2, octave);
-
-			if (elements.playChordsCheckbox.checked) {
-				triggerChord(note, octave, frequency);
-			}
-			playNote(frequency, note, keyElement, e.pointerId, noteName);
-		}
-	}
+        const noteName = keyElement.dataset.note;
+        const keyRect = keyElement.getBoundingClientRect();
+        const touchX = e.clientX - keyRect.left;
+        const touchY = e.clientY - keyRect.top;
+        
+        // This is now simplified, just pass the raw data down
+        const note = noteName.replace(/\d/g, '');
+        const octave = parseInt(noteName.match(/\d+/g));
+        const frequency = noteFrequencies[note] * Math.pow(2, octave);
+        if (elements.playChordsCheckbox.checked) triggerChord(note, octave, frequency);
+        playNote(frequency, note, keyElement, e.pointerId, noteName, { x: touchX, y: touchY });
+    }
+}
 
 	function handlePointerUpOrCancel(e) {
 		if (activeScroller.isDragging) {
@@ -521,22 +525,26 @@ function sendFrameStateToWorker() {
 	
 	
 	// REPLACE the old playNote function with this one
-function playNote(frequency, note, keyElement, pointerId, noteName) {
+function playNote(frequency, note, keyElement, pointerId, noteName, touchCoords) {
     if (activeNotes.has(pointerId)) return;
-
-    noteHistory.push(note);
-    if (noteHistory.length > 12) noteHistory.shift();
-
     const synthNodes = createSynthNode(false);
-
     if (synthNodes) {
         startSynth(synthNodes, frequency);
         activeNotes.set(pointerId, { synthNodes, keyElement });
         keyElement.classList.add('active');
 
-        // VIDEO LOGIC: If recording, log the key's start time.
         if (isVideoRecording) {
-            videoKeyDownMap.set(noteName, audioContext.currentTime);
+            const downTime = audioContext.currentTime;
+            // Log the start time and coordinates
+            videoKeyDownMap.set(noteName, { startTime: downTime, x: touchCoords.x, y: touchCoords.y });
+            
+            // If in Touch Point mode, send an immediate KEY_DOWN event
+            if (elements.effectSelect.value === 'touchpoint') {
+                videoWorker.postMessage({
+                    type: 'KEY_DOWN',
+                    payload: { note: noteName, time: downTime - videoStartTime, x: touchCoords.x, y: touchCoords.y }
+                });
+            }
         }
     }
 }
@@ -552,16 +560,26 @@ function stopNote(pointerId) {
         activeNotes.delete(pointerId);
 
         if (isVideoRecording && videoKeyDownMap.has(noteName)) {
-            const startTime = videoKeyDownMap.get(noteName);
-            const endTime = audioContext.currentTime;
+            const downEvent = videoKeyDownMap.get(noteName);
+            const upTime = audioContext.currentTime;
+            
+            // ALWAYS send the full event data for the master log
             videoWorker.postMessage({
                 type: 'ADD_KEY_EVENT',
-                payload: { note: noteName, start: startTime - videoStartTime, end: endTime - videoStartTime }
+                payload: { note: noteName, start: downEvent.startTime - videoStartTime, end: upTime - videoStartTime, x: downEvent.x, y: downEvent.y }
             });
+            
+            // If in Touch Point mode, send a discrete KEY_UP event
+            if (elements.effectSelect.value === 'touchpoint') {
+                videoWorker.postMessage({
+                    type: 'KEY_UP',
+                    payload: { note: noteName, time: upTime - videoStartTime }
+                });
+            }
             videoKeyDownMap.delete(noteName);
         }
-    }
-}
+       }
+      }
 	
 	
 	
@@ -833,86 +851,69 @@ function stopNote(pointerId) {
 	// NEW: Video Recording Logic
 	
 // REPLACE the old toggleVideoRecording function with this one
+
+// REPLACE your ENTIRE toggleVideoRecording function
 async function toggleVideoRecording() {
     if (!mediaStreamDestination) { alert("Audio engine not initialized."); return; }
-    if (elements.recordAudioButton.classList.contains('recording')) {
-         alert("Please stop audio recording first.");
-         return;
-    }
 
     if (isVideoRecording) {
-        // --- STOP VIDEO RECORDING ---
-        // 1. FLUSH any remaining pressed keys
+        // --- STOP ---
         const stopTime = audioContext.currentTime;
-        videoKeyDownMap.forEach((startTime, noteName) => {
+        videoKeyDownMap.forEach((downEvent, noteName) => {
+            const upTime = stopTime;
+            // Flush the full event
             videoWorker.postMessage({
                 type: 'ADD_KEY_EVENT',
-                payload: {
-                    note: noteName,
-                    start: startTime - videoStartTime,
-                    end: stopTime - videoStartTime
-                }
+                payload: { note: noteName, start: downEvent.startTime - videoStartTime, end: upTime - videoStartTime, x: downEvent.x, y: downEvent.y }
             });
+            // Flush the discrete event if needed
+            if (elements.effectSelect.value === 'touchpoint') {
+                videoWorker.postMessage({ type: 'KEY_UP', payload: { note: noteName, time: upTime - videoStartTime }});
+            }
         });
-        videoKeyDownMap.clear(); // Clear the map
-
-        // 2. Stop the audio recorder
+        videoKeyDownMap.clear();
+        
         mediaRecorder.stop();
         isVideoRecording = false;
         elements.recordVideoButton.textContent = 'Processing...';
-        elements.recordVideoButton.classList.remove('recording');
-        
-        // 3. The onstop event will handle finalization
         mediaRecorder.onstop = () => processAudioAndFinalize(audioChunks);
         
     } else {
-        // --- START VIDEO RECORDING ---
-        videoKeyDownMap.clear(); // Ensure the map is empty on start
+        // --- START ---
+        videoKeyDownMap.clear();
         
-        const alwaysDual = elements.alwaysDualCheckbox.checked;
-        const isVertical = window.innerHeight > window.innerWidth;
-        const videoResolution = isVertical ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 };
-
-        videoWorker = new Worker('./synth-video-worker.js'); 
+        const renderMode = elements.effectSelect.value;
+        const videoResolution = window.innerHeight > window.innerWidth ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 };
+        videoWorker = new Worker('/scripts/awtsmoos/video/synth-video-worker.js'); 
         setupVideoWorkerListeners(videoWorker);
-        videoWorker.onerror = (e) => console.error(`Worker Error: ${e.message}`, e);
 
         audioChunks = [];
-        const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
-        mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType }); 
+        mediaRecorder = new MediaRecorder(mediaStreamDestination.stream, { mimeType: 'audio/webm' }); 
         mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); }; 
 
         videoStartTime = audioContext.currentTime;
-        const initialPayload = {
+        videoWorker.postMessage({
             type: 'INITIALIZE_RENDERER',
             payload: {
+                renderMode: renderMode,
                 resolution: videoResolution,
-                outputFormat: { format: 'mp4', quality: 0.9, fps: 60 }, // Requesting 60fps
+                outputFormat: { fps: 60, quality: 0.8 },
                 startOctave: elements.octaveSelect.value,
-                alwaysDual: alwaysDual,
+                alwaysDual: elements.alwaysDualCheckbox.checked,
                 independentScroll: elements.independentScrollCheckbox.checked,
-                isVertical: isVertical,
+                isVertical: window.innerHeight > window.innerWidth,
                 style: {
                     userKeyWidth: parseInt(elements.keyWidthSlider.value),
                     userViewportWidth: elements.keyboardContainer.clientWidth
                 }
             }
-        };
-        
-        videoWorker.postMessage(initialPayload);
+        });
         
         mediaRecorder.start();
         isVideoRecording = true;
         elements.recordVideoButton.textContent = 'STOP Video';
-        elements.recordVideoButton.classList.add('recording');
-        elements.videoProgress.textContent = 'Recording...';
-        
-        // Send initial scroll state
-        sendFrameStateToWorker();
     }
 }
-
-
         
         
 
