@@ -3,8 +3,8 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A high-accuracy, post-process renderer with corrected layout logic and selectable effects.
-VERSION 30.0 - The "Stable Post-Process" Final Version
+Description: A high-accuracy, post-process renderer with CORRECTED layout logic.
+VERSION 31.0 - The "Stable Revert" Final Version
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -46,19 +46,23 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const { payload, ctx, canvas } = workerContext;
     const { resolution, style, alwaysDual, independentScroll, isVertical, startOctave } = payload;
 
-    // --- ONE-TIME LAYOUT INITIALIZATION (WITH THE CRITICAL FIX) ---
+    // --- ONE-TIME LAYOUT INITIALIZATION (WITH THE DEFINITIVE FIX) ---
     if (bottomKeyboardLayout === null) {
         const baseStartOctave = parseInt(startOctave);
         const userKeyWidth = style.userKeyWidth;
+        
+        // This logic now EXACTLY mirrors your UI script, fixing the layout bug.
         const isDualView = alwaysDual || isVertical;
 
-        // THIS IS THE CORRECTED LOGIC THAT FIXES THE "WRONG OCTAVES" BUG
         if (isDualView) {
-            const octaves = independentScroll ? 4 : 8; // Correctly check independentScroll
+            // In dual view, the number of octaves depends on the "independentScroll" flag.
+            const octaves = independentScroll ? 4 : 8;
             const topStartOctaveOffset = independentScroll ? 4 : 0;
+            
             bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, octaves, userKeyWidth);
             topKeyboardLayout = calculateKeyLayout(baseStartOctave + topStartOctaveOffset, octaves, userKeyWidth);
         } else {
+            // In single view, it's always one 8-octave keyboard.
             bottomKeyboardLayout = calculateKeyLayout(baseStartOctave, 8, userKeyWidth);
             topKeyboardLayout = null;
         }
@@ -73,7 +77,6 @@ function drawKeyboardFrame(workerContext, framePayload) {
     const frameTime = framePayload.time; const deltaTime = framePayload.duration;
 
     const activeKeys = new Set();
-    // In this architecture, we always check the time interval
     keyEvents.forEach((event, note) => {
         if (frameTime >= event.start && frameTime < event.end) {
             activeKeys.add(note);
@@ -136,7 +139,8 @@ self.onmessage = async (e) => {
     const { type, payload } = e.data;
     switch (type) {
         case 'INITIALIZE_RENDERER':
-            effectMode = payload.effectMode;
+            // The payload now contains an 'effectMode' property
+            effectMode = payload.effectMode || 'explosion';
             renderer = new MediaBunnyBase(payload, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
             break;
@@ -151,6 +155,7 @@ self.onmessage = async (e) => {
 
         case 'FINALIZE_MUXING':
             if (!renderer) return;
+            
             const { fps } = renderer.config.outputFormat;
             const duration = payload.audioBufferShim.duration;
             const totalFrames = Math.floor(duration * fps);
