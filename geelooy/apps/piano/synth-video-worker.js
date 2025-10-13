@@ -3,19 +3,22 @@
 
 B"H
 File: /scripts/awtsmoos/video/synth-video-worker.js
-Description: A stability-first build that resolves rendering hangs.
-             - FIX: The complex and unstable "smart frame skipping" (VFR) logic has been completely REMOVED.
-             - The worker now uses a simple, reliable frame-by-frame loop, preventing hangs.
-             - RETAINED: All advanced visuals (rich particles, lightning) and the critical particle cap for memory safety.
-VERSION 67.0 - The "Stability-First" Build
+Description: The final, optimized build combining pipelined rendering with ultimate key visuals.
+             - RE-IMPLEMENTED: The stable "smart worker" pipeline for massively reduced post-processing time.
+             - ENHANCED: Key visuals have been rebuilt with advanced gradients for a "shiny," realistic 3D bevel and depth.
+             - All features are retained: rich particles, lightning, memory caps, and stability fixes.
+VERSION 68.0 - The "Pipelined & Polished" Build
 */
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
-// --- Global State ---
+// --- Global State for Pipelining ---
 let workerConfig = null;
-let keyPressHistory = [];
-let scrollHistory = [];
+let eventQueue = [];
+let renderer = null;
+let lastRenderedTime = 0.0;
+let isFinalizing = false;
+let processingInterval = null;
 
 let masterKeyboardLayout = null;
 let keyCache = {};
@@ -27,21 +30,26 @@ let lightningBolts = [];
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
-const MAX_PARTICLES = 1500; // Stability: Hard limit on total particles
-const PARTICLE_DENSITY = 15; // User-tunable particle density
+const RENDER_LATENCY_SECONDS = 2.0;
+const MAX_PARTICLES = 1500;
+const PARTICLE_DENSITY = 15;
 
-// --- VISUALS & CONSTANTS ---
+// --- VISUALS & CONSTANTS (Polished 3D Style) ---
 const UI_STYLE = {
     BACKGROUND_COLOR: '#000000',
-    WHITE_KEY_FILL_TOP: '#FFFFFF', WHITE_KEY_FILL_BOTTOM: '#FAFAFE',
-    WHITE_KEY_FRONT_FACE: '#D8DCE4', WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.4)',
-    WHITE_KEY_BEVEL: 'rgba(255, 255, 255, 0.8)', WHITE_KEY_INNER_SHADOW: 'rgba(0, 0, 0, 0.15)',
-    BLACK_KEY_GRADIENT_START: '#3a3a3c', BLACK_KEY_GRADIENT_END: '#121317',
-    BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.15)',
+    // White Key Style (Enhanced)
+    WHITE_KEY_FILL_TOP: '#FFFFFF', WHITE_KEY_FILL_BOTTOM: '#F4F5F8', // Brighter, cleaner gradient
+    WHITE_KEY_FRONT_FACE: '#C8CDD5', WHITE_KEY_SHADOW: 'rgba(0, 0, 0, 0.25)', // Less pronounced shadow
+    WHITE_KEY_SHINY_BEVEL_START: 'rgba(255, 255, 255, 0.9)', // Brighter, sharper highlight
+    WHITE_KEY_SHINY_BEVEL_END: 'rgba(255, 255, 255, 0.0)',
+    WHITE_KEY_INNER_SHADOW: 'rgba(0, 0, 0, 0.1)', // Softer inner shadow
+    // Black Key Style
+    BLACK_KEY_GRADIENT_START: '#404248', BLACK_KEY_GRADIENT_END: '#18191C',
+    BLACK_KEY_BEVEL_HIGHLIGHT: 'rgba(255, 255, 255, 0.2)', // Shinier black key highlight
+    // Active Effects
     ACTIVE_KEY_OVERLAY_COLOR: 'rgba(0, 255, 255, 0.7)',
     TOUCH_POINT_COLOR: 'rgba(0, 255, 255, 0.4)', SHOCKWAVE_COLOR: 'rgba(0, 255, 255, 0.7)',
-    PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)',
-    LIGHTNING_COLOR: 'rgba(150, 220, 255, 0.8)',
+    PARTICLE_BORDER_COLOR: 'rgba(0, 0, 0, 0.5)', LIGHTNING_COLOR: 'rgba(150, 220, 255, 0.8)',
     BUBBLE_COLOR: 'rgba(0, 200, 255, 0.3)',
     LABEL_COLOR_WHITE_KEY: '#707080', LABEL_COLOR_BLACK_KEY: '#a0a0b0', ACTIVE_LABEL_COLOR: '#000000'
 };
@@ -51,10 +59,10 @@ const EMOJIS = ['✨', '🌕', '🌏', '🌎', '🧬', '🔥', '🎇', '👑', '
 const MIDI_NOTE_START = 21; const MIDI_NOTE_END = 108;
 
 
-// --- Key Pre-Rendering & Layout ---
+// --- Key Pre-Rendering (Polished Version) ---
 function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     const blackKeyWidth = whiteKeyWidth * 0.6, blackKeyHeight = whiteKeyHeight * 0.65;
-    const shadowOffset = whiteKeyWidth * 0.06, keyFrontHeight = whiteKeyWidth * 0.08;
+    const shadowOffset = whiteKeyWidth * 0.05, keyFrontHeight = whiteKeyWidth * 0.07;
     const wCanvas = new OffscreenCanvas(whiteKeyWidth, whiteKeyHeight + shadowOffset);
     const wCtx = wCanvas.getContext('2d');
     wCtx.fillStyle = UI_STYLE.WHITE_KEY_SHADOW; wCtx.fillRect(0, shadowOffset, whiteKeyWidth, whiteKeyHeight);
@@ -64,15 +72,17 @@ function cacheKeyRenders(whiteKeyWidth, whiteKeyHeight) {
     wCtx.fillStyle = UI_STYLE.WHITE_KEY_FRONT_FACE; wCtx.fillRect(0, whiteKeyHeight - keyFrontHeight, whiteKeyWidth, keyFrontHeight);
     const innerShadow = wCtx.createLinearGradient(0, 0, 0, 8);
     innerShadow.addColorStop(0, UI_STYLE.WHITE_KEY_INNER_SHADOW); innerShadow.addColorStop(1, 'transparent');
-    wCtx.fillStyle = innerShadow; wCtx.fillRect(0, 2, whiteKeyWidth, 6);
-    wCtx.fillStyle = UI_STYLE.WHITE_KEY_BEVEL; wCtx.fillRect(0, 0, whiteKeyWidth, 2);
+    wCtx.fillStyle = innerShadow; wCtx.fillRect(0, 1, whiteKeyWidth, 7);
+    const shinyBevel = wCtx.createLinearGradient(0, 0, 0, 4);
+    shinyBevel.addColorStop(0, UI_STYLE.WHITE_KEY_SHINY_BEVEL_START); shinyBevel.addColorStop(1, UI_STYLE.WHITE_KEY_SHINY_BEVEL_END);
+    wCtx.fillStyle = shinyBevel; wCtx.fillRect(0, 0, whiteKeyWidth, 4);
     keyCache['white_default'] = wCanvas;
     const bCanvas = new OffscreenCanvas(blackKeyWidth, blackKeyHeight);
     const bCtx = bCanvas.getContext('2d');
     const bGradient = bCtx.createLinearGradient(0, 0, 0, blackKeyHeight);
     bGradient.addColorStop(0, UI_STYLE.BLACK_KEY_GRADIENT_START); bGradient.addColorStop(1, UI_STYLE.BLACK_KEY_GRADIENT_END);
     bCtx.fillStyle = bGradient; bCtx.fillRect(0, 0, blackKeyWidth, blackKeyHeight);
-    bCtx.fillStyle = UI_STYLE.BLACK_KEY_BEVEL_HIGHLIGHT; bCtx.fillRect(0, 0, blackKeyWidth, 2);
+    bCtx.fillStyle = UI_STYLE.BLACK_KEY_BEVEL_HIGHLIGHT; bCtx.fillRect(0, 0, blackKeyWidth, 2.5);
     keyCache['black_default'] = bCanvas;
 }
 
@@ -89,7 +99,7 @@ function calculateMasterLayout(whiteKeyWidth) {
     return layout;
 }
 
-// --- Effect Creation ---
+// --- Effect Creation & Management ---
 function createRichExplosion(x, y) {
     if (particles.length + PARTICLE_DENSITY > MAX_PARTICLES) {
         particles.splice(0, particles.length + PARTICLE_DENSITY - MAX_PARTICLES);
@@ -105,16 +115,14 @@ function createRichExplosion(x, y) {
         particles.push(p);
     }
 }
-
 function createTouchEvent(x, y) { touchPoints.push({ x, y, life: 1.0, initialLife: 1.0, radius: 25 }); }
-
 function createLightningBolt(p1, p2) {
     const segments = [], numSegments = 10, boltLife = 0.4, maxOffset = 15;
     segments.push({ x: p1.x, y: p1.y });
     for (let i = 1; i < numSegments; i++) {
-        const t = i / numSegments; const px = p1.x + t * (p2.x - p1.x); const py = p1.y + t * (p2.y - p1.y);
+        const t = i / numSegments, px = p1.x + t * (p2.x - p1.x), py = p1.y + t * (p2.y - p1.y);
         const offset = (Math.random() - 0.5) * maxOffset * (1 - Math.abs(2 * t - 1));
-        const normal = { x: -(p2.y - p1.y), y: p2.x - p1.x }; const normLength = Math.hypot(normal.x, normal.y) || 1;
+        const normal = { x: -(p2.y - p1.y), y: p2.x - p1.x }, normLength = Math.hypot(normal.x, normal.y) || 1;
         segments.push({ x: px + normal.x / normLength * offset, y: py + normal.y / normLength * offset });
     }
     segments.push({ x: p2.x, y: p2.y }); lightningBolts.push({ segments, life: boltLife, initialLife: boltLife });
@@ -124,20 +132,20 @@ function createLightningBolt(p1, p2) {
 function drawKeyboardFrame(workerContext, framePayload) {
     const { payload: config, ctx } = workerContext;
     const { time, duration: deltaTime } = framePayload;
-    const relevantScroll = scrollHistory.slice().reverse().find(s => s.time <= time) || scrollHistory[0];
-    const activeKeys = new Set();
-    keyPressHistory.forEach(k => { if (time >= k.start && time < k.end) activeKeys.add(k.note); });
-    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX; const finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
+    const relevantScroll = eventQueue.filter(e => e.type === 'UPDATE_SCROLL' && e.payload.time <= time).map(e => e.payload).pop() || { time: 0, scrollX: config.initialScrollX, scrollX2: config.initialScrollX2 };
+    const activeKeys = new Set(), activeKeyEvents = [];
+    eventQueue.forEach(e => { if (e.type === 'ADD_KEY_EVENT' && time >= e.payload.start && time < e.payload.end) { activeKeys.add(e.payload.note); activeKeyEvents.push(e.payload); } });
+    const finalScroll_Bottom = baseOffset_Bottom + relevantScroll.scrollX, finalScroll_Top = baseOffset_Top + (config.independentScroll ? relevantScroll.scrollX2 : relevantScroll.scrollX);
     ctx.fillStyle = UI_STYLE.BACKGROUND_COLOR; ctx.fillRect(0, 0, config.resolution.width, config.resolution.height);
     ctx.save();
     const zoomFactor = config.resolution.width / config.style.userViewportWidth; ctx.scale(zoomFactor, zoomFactor);
-    const isDualView = config.alwaysDual || config.isVertical; const unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
+    const isDualView = config.alwaysDual || config.isVertical, unscaledRowHeight = (config.resolution.height / zoomFactor) / (isDualView ? 2 : 1);
     const renderKey = (key, keyScreenX, yStart) => {
-        const isActive = activeKeys.has(key.note); const eventData = isActive ? keyPressHistory.find(e => e.note === key.note && time >= e.start && time < e.end) : null;
+        const isActive = activeKeys.has(key.note), eventData = isActive ? activeKeyEvents.find(e => e.note === key.note) : null;
         const targetAnimation = isActive ? 1.0 : 0.0; if (Math.abs(key.pressAnimation - targetAnimation) > 0.01) { key.pressAnimation += (targetAnimation - key.pressAnimation) * 12.0 * deltaTime; } else { key.pressAnimation = targetAnimation; }
-        const whiteKeyHeight = unscaledRowHeight * 0.95; const pressDepth = key.pressAnimation * 4; const yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
+        const whiteKeyHeight = unscaledRowHeight * 0.95, pressDepth = key.pressAnimation * 4, yPos = yStart + (key.isBlack ? 0 : unscaledRowHeight - whiteKeyHeight);
         if (isActive && eventData && !eventData.effectTriggered) {
-            const effectX = keyScreenX + (eventData.x / zoomFactor); const effectY = yPos + (eventData.y / zoomFactor);
+            const effectX = keyScreenX + (eventData.x / zoomFactor), effectY = yPos + (eventData.y / zoomFactor);
             if (config.renderMode === 'explosion') { createRichExplosion(effectX, effectY); } else if (config.renderMode === 'touchpoint') { createTouchEvent(effectX, effectY); }
             shockwaves.push({ x: effectX, y: effectY, life: 1.0, size: 0 }); eventData.effectTriggered = true;
         }
@@ -148,7 +156,7 @@ function drawKeyboardFrame(workerContext, framePayload) {
         }
         const isHighlight = key.pressAnimation > 0.5; ctx.font = `bold ${config.style.userKeyWidth * 0.22}px sans-serif`; ctx.textAlign = 'center';
         ctx.fillStyle = isHighlight ? UI_STYLE.ACTIVE_LABEL_COLOR : (key.isBlack ? UI_STYLE.LABEL_COLOR_BLACK_KEY : UI_STYLE.LABEL_COLOR_WHITE_KEY);
-        const keyText = key.isBlack ? key.note.slice(0, -1) : key.note; const textY = key.isBlack ? yPos + (whiteKeyHeight * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
+        const keyText = key.isBlack ? key.note.slice(0, -1) : key.note, textY = key.isBlack ? yPos + (whiteKeyHeight * 0.65) * 0.8 + pressDepth : yStart + unscaledRowHeight - (unscaledRowHeight * 0.05) + pressDepth;
         ctx.textBaseline = key.isBlack ? 'middle' : 'bottom'; ctx.fillText(keyText, keyScreenX + key.width / 2, textY);
     };
     const renderRow = (layout, yStart, scroll) => { ['white', 'black'].forEach(type => { layout.forEach(key => { if ((type === 'black') === key.isBlack) { const keyScreenX = key.x - scroll; if (keyScreenX + key.width > 0 && keyScreenX < config.style.userViewportWidth) { renderKey(key, keyScreenX, yStart); } } }); }); };
@@ -166,54 +174,58 @@ function drawKeyboardFrame(workerContext, framePayload) {
     ctx.globalAlpha = 1; ctx.restore();
 }
 
-// --- Main Worker Control Logic (Stable Architecture) ---
+// --- Pipelined Processing Engine ---
+async function processEventQueue() {
+    if (!renderer || isFinalizing) return;
+    const latestEventTime = eventQueue.length > 0 ? (eventQueue[eventQueue.length - 1].payload.time ?? eventQueue[eventQueue.length - 1].payload.end) : lastRenderedTime;
+    let renderUpToTime = latestEventTime - RENDER_LATENCY_SECONDS; if (renderUpToTime <= lastRenderedTime) return;
+    const deltaTime = 1 / workerConfig.outputFormat.fps;
+    for (let time = lastRenderedTime; time < renderUpToTime; time += deltaTime) {
+        await renderer.addFrame({ time, duration: deltaTime });
+    }
+    lastRenderedTime = renderUpToTime;
+}
+
+// --- Main Worker Control Logic ---
 self.onmessage = async (e) => {
     const { type, payload } = e.data;
+    if (isFinalizing && type !== 'FINALIZE_MUXING') return;
     switch (type) {
         case 'INITIALIZE_RENDERER':
             workerConfig = payload;
-            keyPressHistory = []; scrollHistory = [{ time: 0, scrollX: payload.initialScrollX, scrollX2: payload.initialScrollX2 }];
+            eventQueue = []; lastRenderedTime = 0.0; isFinalizing = false;
             particles = []; shockwaves = []; touchPoints = []; lightningBolts = [];
-            break;
-        case 'ADD_KEY_EVENT':
-            payload.effectTriggered = false;
-            keyPressHistory.push(payload);
-            break;
-        case 'UPDATE_SCROLL':
-            scrollHistory.push(payload);
-            break;
-        case 'FINALIZE_MUXING':
-            if (!workerConfig) { console.error("Worker not initialized!"); return; }
-
-            const renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
+            if (processingInterval) clearInterval(processingInterval);
+            renderer = new MediaBunnyBase(workerConfig, drawKeyboardFrame, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' });
             await renderer.start();
-            
             masterKeyboardLayout = calculateMasterLayout(workerConfig.style.userKeyWidth);
             const zoomFactor = workerConfig.resolution.width / workerConfig.style.userViewportWidth;
             const unscaledRowHeight = (workerConfig.resolution.height / zoomFactor) / ((workerConfig.alwaysDual || workerConfig.isVertical) ? 2 : 1);
             cacheKeyRenders(workerConfig.style.userKeyWidth, unscaledRowHeight * 0.95);
-
             const uiStartOctave = parseInt(workerConfig.startOctave); const bottomStartNote = `C${uiStartOctave}`;
             baseOffset_Bottom = masterKeyboardLayout.get(bottomStartNote)?.x || 0;
             if (workerConfig.independentScroll) { const topStartNote = `C${uiStartOctave + 4}`; baseOffset_Top = masterKeyboardLayout.get(topStartNote)?.x || 0; }
             else { baseOffset_Top = baseOffset_Bottom - workerConfig.style.userViewportWidth; }
-            
+            processingInterval = setInterval(processEventQueue, 500);
+            break;
+        case 'ADD_KEY_EVENT': case 'UPDATE_SCROLL':
+            if (payload.start !== undefined) payload.effectTriggered = false;
+            eventQueue.push({ type, payload });
+            break;
+        case 'FINALIZE_MUXING':
+            isFinalizing = true; if (processingInterval) clearInterval(processingInterval);
             const finalDuration = payload.audioBufferShim.duration;
             const deltaTime = 1 / workerConfig.outputFormat.fps;
             let lastReportedProgress = -1;
-
-            // --- STABLE RENDER LOOP ---
-            // The buggy "smart frame skipping" logic has been removed.
-            for (let time = 0; time < finalDuration; time += deltaTime) {
+            // The final render pass is now a simple, reliable loop
+            for (let time = lastRenderedTime; time < finalDuration; time += deltaTime) {
                 await renderer.addFrame({ time, duration: deltaTime });
-
                 const progress = Math.floor((time / finalDuration) * 100);
-                if (progress > lastReportedProgress) {
+                if (progress > lastReportedProgress && progress > (lastRenderedTime / finalDuration * 100)) {
                     self.postMessage({ type: 'PROGRESS_UPDATE', payload: { percent: progress } });
                     lastReportedProgress = progress;
                 }
             }
-            
             const blob = await renderer.finalize(payload.audioBufferShim);
             renderer._postComplete(blob, { download: true, fileName: `BH-WebSynth-Video-${Date.now()}.mp4` });
             break;
