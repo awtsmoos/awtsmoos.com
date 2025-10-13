@@ -27,6 +27,8 @@ let shockwaves = [];
 let touchPoints = [];
 let lightningBolts = [];
 
+var pdensity=10;
+
 let baseOffset_Bottom = 0;
 let baseOffset_Top = 0;
 
@@ -93,7 +95,7 @@ function calculateMasterLayout(whiteKeyWidth) {
 
 // --- Effect Creation ---
 function createRichExplosion(x, y) {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < pdensity; i++) {
         const angle = Math.random() * Math.PI * 2, speed = Math.random() * 250 + 75;
         const p = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: Math.random() * 3.0 + 1.5, initialLife: -1, radius: 0 };
         const typeRoll = Math.random();
