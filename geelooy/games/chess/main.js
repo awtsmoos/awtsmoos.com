@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementById('chessCanvas');
 	const canvasContext = canvas.getContext('2d');
 	
+	const declareDrawButton = document.getElementById('declareDrawButton');
+	
+	
 	const capturedByBlackCanvas = document.getElementById('capturedByBlackCanvas');
 	const capturedByWhiteCanvas = document.getElementById('capturedByWhiteCanvas');
 	const capturedBlackCtx = capturedByBlackCanvas.getContext('2d');
@@ -436,16 +439,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (gameState.gameOver || gameState.isAIMoving) return;
 		gameState.isAIMoving = true;
 		const fen = generateFEN();
-		gameState.fenHistory.push(fen.split(' ')[0]);
+		
+		// Note: We now use the FEN from before the move, which is correct
+		const fenForHistory = fen.split(' ').slice(0, 4).join(' ');
+		gameState.fenHistory.push(fenForHistory);
+
 		messageDiv.textContent = `${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
-		// Add a small delay to allow the "thinking" message to render
 		setTimeout(() => {
 			aiWorker.postMessage({
 				command: 'calculate_move',
 				fen,
 				maxDepth: 4,
 				color: gameState.turn,
-				fenHistory: gameState.fenHistory
+				fenHistory: gameState.fenHistory // Send the history to the worker
 			});
 		}, 100);
 	}
@@ -665,6 +671,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		} = getSquareFromCoordinates(clientX, clientY);
 		if (r >= 0 && r < 8 && c >= 0 && c < 8) handleSquareClick(r, c);
 	}
+	
+	function canClaimThreefoldRepetition() {
+		const currentFen = generateFEN().split(' ').slice(0, 4).join(' '); // Ignore clocks
+		const count = gameState.fenHistory.reduce((acc, fen) => {
+			return fen === currentFen ? acc + 1 : acc;
+		}, 0);
+		return count >= 2; // The current position plus 2 previous makes 3
+	}
+
 
 	function startGame(mode, playerColor = 'w') {
 		mainMenu.style.display = 'none';
@@ -722,6 +737,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		a.click();
 		URL.revokeObjectURL(url);
 	});
+	// Put this with your other event listeners at the bottom of the file
+	declareDrawButton.addEventListener('click', () => {
+		if (canClaimThreefoldRepetition()) {
+			showGameOver("Draw by Threefold Repetition", "1/2-1/2");
+		} else {
+			alert("Draw cannot be claimed for this position.");
+		}
+	});
+	
+	
 	playVsAiButton.onclick = () => {
 		mainMenu.style.display = 'none';
 		colorSelectionMenu.style.display = 'flex';
