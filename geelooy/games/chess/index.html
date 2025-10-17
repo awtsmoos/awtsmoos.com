@@ -20,8 +20,12 @@
         <button id="playAsBlackButton" class="menu-button">Play as Black</button>
     </div>
     
-    <div id="capturedByBlack" class="captured-pieces-container"></div>
-
+    <div class="captured-pieces-container">
+        <!-- The canvas is very wide to prevent pieces from wrapping -->
+        <canvas id="capturedByBlackCanvas" height="55" width="800"></canvas>
+    </div>
+    
+    
     <div id="gameContainer">
         <div id="chessContainer">
             <canvas id="chessCanvas"></canvas>
@@ -36,8 +40,10 @@
         </div>
     </div>
 
-    <div id="capturedByWhite" class="captured-pieces-container"></div>
-
+    <div class="captured-pieces-container">
+        <!-- The canvas is very wide to prevent pieces from wrapping -->
+        <canvas id="capturedByWhiteCanvas" height="55" width="800"></canvas>
+    </div>
     <script src="main.js" defer></script>
 </body>
 </html>
