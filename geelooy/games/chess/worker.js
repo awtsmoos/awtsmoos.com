@@ -103,16 +103,31 @@ function makeMove(board, move) { const nB = board.map(r=>r.slice()); const p = n
 
 // --- AI Core: Move Ordering ---
 function orderMoves(moves, board, ttMove, ply) {
-    return moves.sort((a, b) => {
-        let scoreA = 0, scoreB = 0;
-        if (ttMove && a.from[0] === ttMove.from[0] && a.from[1] === ttMove.from[1] && a.to[0] === ttMove.to[0] && a.to[1] === ttMove.to[1]) scoreA = 100000;
-        if (ttMove && b.from[0] === ttMove.from[0] && b.from[1] === ttMove.from[1] && b.to[0] === ttMove.to[0] && b.to[1] === ttMove.to[1]) scoreB = 100000;
-        if (a.capture) scoreA = pieceValues[ (a.isEnPassant ? 'P' : board[a.to[0]][a.to[1]].toUpperCase()) ] * 10 - pieceValues[ a.piece.toUpperCase() ] + 10000;
-        if (b.capture) scoreB = pieceValues[ (b.isEnPassant ? 'P' : board[b.to[0]][b.to[1]].toUpperCase()) ] * 10 - pieceValues[ b.piece.toUpperCase() ] + 10000;
-        if (!a.capture && killerMoves[ply][0] && a.from[0] === killerMoves[ply][0].from[0] && a.to[0] === killerMoves[ply][0].to[0]) scoreA = 5000;
-        if (!b.capture && killerMoves[ply][0] && b.from[0] === killerMoves[ply][0].from[0] && b.to[0] === killerMoves[ply][0].to[0]) scoreB = 5000;
-        return scoreB - scoreA;
-    });
+    const moveScores = [];
+    for (const move of moves) {
+        let score = 0;
+        if (ttMove && move.from[0] === ttMove.from[0] && move.from[1] === ttMove.from[1] && move.to[0] === ttMove.to[0] && move.to[1] === ttMove.to[1]) {
+            score = 200000; // Always search the TT move first
+        } else if (move.capture) {
+            // *** THE FIX: Give captures a HUGE bonus ***
+            // This forces the engine to look at winning material above all else.
+            const victim = move.isEnPassant ? 'P' : board[move.to[0]][move.to[1]].toUpperCase();
+            const attacker = move.piece.toUpperCase();
+            score = 100000 + (pieceValues[victim] * 10 - pieceValues[attacker]); // MVV-LVA on top of a massive bonus
+        } else {
+            const killer1 = killerMoves[ply][0];
+            const killer2 = killerMoves[ply][1];
+            if (killer1 && move.from[0] === killer1.from[0] && move.from[1] === killer1.from[1] && move.to[0] === killer1.to[0] && move.to[1] === killer1.to[1]) {
+                score = 5000; // Killer moves are next best
+            } else if (killer2 && move.from[0] === killer2.from[0] && move.from[1] === killer2.from[1] && move.to[0] === killer2.to[0] && move.to[1] === killer2.to[1]) {
+                score = 4000;
+            } else {
+                score = 0; // Quiet moves are last
+            }
+        }
+        moveScores.push({ move, score });
+    }
+    return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
 function storeKillerMove(move, ply) { if (!move.capture) { killerMoves[ply][1] = killerMoves[ply][0]; killerMoves[ply][0] = move; } }
 
