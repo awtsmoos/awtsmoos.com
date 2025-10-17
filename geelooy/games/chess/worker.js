@@ -148,14 +148,18 @@ function quiesce(board, alpha, beta, color, cr, ep) {
     return alpha;
 }
 
-function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) { // Added history
-    // --- START: Repetition Check ---
-    const hash = computeZobristHash(board, cr, ep, color);
-    if (history.has(hash)) {
-        return 0; // This position is a repetition, it's a draw.
+function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
+    // --- FIX IS HERE: Only check for repetitions on future moves (ply > 0) ---
+    if (ply > 0) {
+        const hash = computeZobristHash(board, cr, ep, color);
+        if (history.has(hash)) {
+            return 0; // This position is a repetition, it's a draw.
+        }
     }
-    // --- END: Repetition Check ---
+    // --- END OF FIX ---
 
+    // The hash is now calculated here, after the root check.
+    const hash = computeZobristHash(board, cr, ep, color);
     const ttEntry = transpositionTable.get(hash);
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -169,7 +173,6 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) { // Ad
     }
     nodeCount++;
     
-    // Add current position to the history for this search branch
     const newHistory = new Set(history);
     newHistory.add(hash);
 
@@ -196,7 +199,6 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) { // Ad
         if (move.from[0] === 0 && move.from[1] === 7 || move.to[0] === 0 && move.to[1] === 7) newCR.k = false;
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
         
-        // Pass the new history down the tree
         score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
         
         if (score > alpha) {
