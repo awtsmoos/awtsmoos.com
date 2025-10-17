@@ -466,34 +466,107 @@ function evaluate(board) {
 
 
 
-function quiesce(board, alpha, beta, color) {
-    if (stopSearch) return 0;
-    nodeCount++;
-    const sign = color === 'w' ? 1 : -1;
-    let standPat = sign * evaluate(board);
-    if (standPat >= beta) return beta;
-    if (alpha < standPat) alpha = standPat;
-    const moves = generateLegalMoves(board, color, {}, null).filter(m => m.capture);
-    moves.sort((a,b) => (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) - (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()])); // MVV-LVA
-    for (const move of moves) {
-        const newBoard = makeMove(board, move);
-        let score = -quiesce(newBoard, -beta, -alpha, color === 'w' ? 'b' : 'w');
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
-    }
-    return alpha;
-}
 
 
 // =================================================================
 //              AI CORE V12: PVS SEARCH ALGORITHM
 // =================================================================
 
+
+
+// =================================================================
+//        V12 STABLE SEARCH DRIVER
+// =================================================================
+
+
+
+// =================================================================
+//                      MAIN MESSAGE HANDLER
+// =================================================================
+/**
+ * A new helper function to intelligently order moves.
+ * This is the heart of the performance upgrade, allowing the search to be
+ * much more efficient by looking at the most promising moves first.
+ *
+ * @param {Array<object>} moves - The list of legal moves.
+ * @param {string} pvMove - The best move from the previous search iteration (Principal Variation).
+ * @param {number} ply - The current depth in the search tree.
+ * @returns {Array<object>} The sorted list of moves.
+ */
+function orderMoves(moves, pvMove, ply) {
+    const moveScores = moves.map(move => {
+        if (move === pvMove) {
+            return 100000; // Prioritize the principal variation move
+        }
+        if (move.capture) {
+            // Score captures using MVV-LVA (Most Valuable Victim - Least Valuable Aggressor)
+            // A higher score is better.
+            return 90000 + (pieceValues[move.capture.toLowerCase()] * 10 - pieceValues[move.piece.toLowerCase()]);
+        } else {
+            // Score quiet moves based on Killer and History heuristics
+            if (killerMoves[ply][0] === move) {
+                return 80000; // Primary killer move
+            }
+            if (killerMoves[ply][1] === move) {
+                return 70000; // Secondary killer move
+            }
+            // A simple placeholder for history heuristic score
+            return historyTable[move.piece.toLowerCase()][move.to[0] * 8 + move.to[1]] || 0;
+        }
+    });
+
+    // Sort moves in descending order based on their scores
+    moves.sort((a, b) => {
+        const scoreA = moveScores[moves.indexOf(a)];
+        const scoreB = moveScores[moves.indexOf(b)];
+        return scoreB - scoreA;
+    });
+
+    return moves;
+}
+
+/**
+ * The Quiescence Search, now with more accurate capture ordering.
+ * It ensures the engine doesn't end its analysis in the middle of a tactical skirmish.
+ */
+function quiesce(board, alpha, beta, color) {
+    if (stopSearch) return 0;
+    nodeCount++;
+
+    const standPat = (color === 'w' ? 1 : -1) * evaluate(board);
+
+    if (standPat >= beta) return beta;
+    if (alpha < standPat) alpha = standPat;
+
+    const moves = generateLegalMoves(board, color, {}, null).filter(m => m.capture);
+    // Use MVV-LVA to order captures for maximum efficiency in tactical sequences
+    moves.sort((a, b) =>
+        (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) -
+        (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()])
+    );
+
+    for (const move of moves) {
+        const newBoard = makeMove(board, move);
+        const score = -quiesce(newBoard, -beta, -alpha, color === 'w' ? 'b' : 'w');
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
+    }
+
+    return alpha;
+}
+
+/**
+ * The core recursive search function, now using a true Principal Variation Search (PVS)
+ * and intelligent move ordering to achieve much greater depth and efficiency.
+ */
 function search(board, depth, alpha, beta, color, ply, cr, ep) {
     if (depth <= 0) return quiesce(board, alpha, beta, color);
     if (stopSearch) return 0;
     nodeCount++;
-    if (nodeCount % 2048 === 0) if (performance.now() - searchStartTime > timeLimit) stopSearch = true;
+    if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+        return 0;
+    }
 
     const moves = generateLegalMoves(board, color, cr, ep);
     if (moves.length === 0) {
@@ -501,67 +574,94 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
         return isSquareAttacked(board, king.r, king.c, color === 'w' ? 'b' : 'w') ? -MATE_SCORE + ply : 0;
     }
 
-    // Move ordering logic would go here...
+    orderMoves(moves, null, ply); // No PV move available deep in the search
 
     let isFirstMove = true;
     for (const move of moves) {
         const newBoard = makeMove(board, move);
-        const newCR = { ...cr }; // Simplified castling update
+        const newCR = { ...cr }; // Simplified updates
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+
         let score;
         if (isFirstMove) {
             isFirstMove = false;
             score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
         } else {
+            // Principal Variation Search (PVS) null-window search
             score = -search(newBoard, depth - 1, -alpha - 1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+            // If it fails high, we must re-search with the full window
             if (score > alpha && score < beta) {
                 score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
             }
         }
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+
+        if (score >= beta) {
+            // This is a beta-cutoff, a "good" move that refutes the opponent's line.
+            if (!move.capture) {
+                // Store this good quiet move as a "killer move"
+                killerMoves[ply][1] = killerMoves[ply][0];
+                killerMoves[ply][0] = move;
+                // Reward this move in the history table
+                historyTable[move.piece.toLowerCase()][move.to[0] * 8 + move.to[1]] += depth * depth;
+            }
+            return beta; // Fail hard
+        }
+        if (score > alpha) {
+            alpha = score;
+        }
     }
+
     return alpha;
 }
 
 
-// =================================================================
-//        V12 STABLE SEARCH DRIVER
-// =================================================================
-
+/**
+ * The main search driver, rewritten for professional-grade efficiency.
+ * It implements iterative deepening and passes the Principal Variation
+ * to the next search iteration for optimal move ordering.
+ */
 function findBestMove(board, turn, cr, ep) {
     let bestMoveFound = null;
     let bestScore = -Infinity;
-    
+    let pvLine = []; // To store the principal variation
+
+    // Clear heuristics at the start of a new search
+    killerMoves = Array(MATE_IN_MAX_PLY).fill(null).map(() => [null, null]);
+    historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+
     for (let currentDepth = 1; currentDepth <= MATE_IN_MAX_PLY; currentDepth++) {
         const moves = generateLegalMoves(board, turn, cr, ep);
         if (moves.length === 0) break;
-        if (!bestMoveFound) bestMoveFound = moves[0];
+        
+        orderMoves(moves, pvLine[0], 0); // Order root moves, using PV from last iteration
 
         let currentBestMoveInIteration = null;
         let alpha = -Infinity;
+        let beta = Infinity;
 
-        for(const move of moves) {
+        for (const move of moves) {
             const newBoard = makeMove(board, move);
             const newCR = { ...cr }; // Simplified updates
             const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
             
-            const score = -search(newBoard, currentDepth - 1, -Infinity, Infinity, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
+            const score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
 
-            if (stopSearch) break; // Check for stop signal after each root move search
+            if (stopSearch) break;
 
             if (score > alpha) {
                 alpha = score;
                 currentBestMoveInIteration = move;
+                // A better move was found, we would update the pvLine here in a full implementation
             }
         }
-        
+
         if (stopSearch || performance.now() - searchStartTime > timeLimit) {
             break;
         }
         
         bestMoveFound = currentBestMoveInIteration;
         bestScore = alpha;
+        pvLine[0] = bestMoveFound; // Update the PV for the next iteration
 
         if (Math.abs(bestScore) >= MATE_SCORE - currentDepth) {
             break; // Mate found
@@ -570,11 +670,6 @@ function findBestMove(board, turn, cr, ep) {
     
     return { bestMove: bestMoveFound, score: bestScore };
 }
-
-
-// =================================================================
-//                      MAIN MESSAGE HANDLER
-// =================================================================
 
 self.onmessage = function(e) {
     const { command, fen, maxTime } = e.data;
