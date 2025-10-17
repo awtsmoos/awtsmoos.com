@@ -406,34 +406,33 @@ function evaluateThreats(board, color) {
  * This is the core of the fix. It implements the "Opening Contract" and the
  * "Panic Button" penalty, making king safety a non-negotiable law in the opening.
  */
+/**
+ * REWRITTEN (Streamlined): Expert Evaluator for King Safety.
+ *
+ * With the "Grandmaster's Veto" now enforced by the search function, this
+ * evaluator is streamlined to focus on its primary role: rewarding good, safe
+ * king positions (castled, with a pawn shield) and applying normal penalties
+ * for exposure in the middlegame.
+ */
 function evaluateKingSafety(board, color, cr, gamePhase) {
     const kingPos = findKing(board, color);
     if (!kingPos) return 0;
     const isWhite = color === 'w';
 
+    // --- Opening & Middlegame King Safety ---
     let openingMiddlegameScore = 0;
     if (gamePhase > 0.1) {
         const canCastle = isWhite ? (cr.K || cr.Q) : (cr.k || cr.q);
         const homeRank = isWhite ? 7 : 0;
-
-        // --- THE "OPENING CONTRACT" ---
-        // If it's the opening/middlegame and castling is still possible...
-        if (gamePhase > 0.7 && canCastle) {
-            // --- THE "PANIC BUTTON" PENALTY ---
-            // If the king has moved off the back rank, apply a catastrophic penalty.
-            if (kingPos.r !== homeRank) {
-                openingMiddlegameScore -= PANIC_BUTTON_PENALTY;
-            }
-        }
 
         // 1. Bonus for retaining the *option* to castle
         if (canCastle) {
             openingMiddlegameScore += 60;
         }
 
-        // 2. Reward for a safely castled king
+        // 2. Reward for a safely castled king with a pawn shield
         if (kingPos.r === homeRank && (kingPos.c === 6 || kingPos.c === 2)) {
-            openingMiddlegameScore += 30;
+            openingMiddlegameScore += 30; // Direct reward for being castled
             const shieldFiles = kingPos.c === 6 ? [5, 6, 7] : [0, 1, 2];
             for (const file of shieldFiles) {
                 if (board[homeRank - (isWhite ? 1 : -1)][file] === (isWhite ? 'P' : 'p')) {
@@ -443,12 +442,14 @@ function evaluateKingSafety(board, color, cr, gamePhase) {
         }
     }
 
+    // --- Endgame King Activity ---
     let endgameScore = 0;
     if (gamePhase < 0.5) {
         const pstRow = isWhite ? kingPos.r : 7 - kingPos.r;
         endgameScore += kingPSTEndGame[pstRow][kingPos.c];
     }
 
+    // Blend the scores based on the game phase
     return (openingMiddlegameScore * gamePhase) + (endgameScore * (1 - gamePhase));
 }
 
@@ -809,18 +810,24 @@ function findBestMove(board, turn, cr, ep) {
  * It includes the CRITICAL repetition check that prevents the engine from ever
  * getting stuck in an infinite loop. This fixes the freezing bug for good.
  */
+/**
+ * REWRITTEN (FINAL & DEFINITIVE): The "Grandmaster's Veto" Search Core.
+ *
+ * This version introduces a critical "Sanity Check" to prevent the engine from
+ * ever making strategically suicidal king moves in the opening. It acts as a
+ * master's intuition, vetoing nonsensical moves before the deep tactical
+ * search can be tempted by them. This fixes the "tactical tunnel vision" flaw.
+ */
 function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
     if (stopSearch) return 0;
-    
-    // --- 1. Repetition and Base Case Checks ---
-    const currentHash = calculateZobristHash(board, color);
+
+    const currentHash = calculateZobhistHash(board, color);
     if (ply > 0 && isRepetition(currentHash, history)) {
-        return 0; // CRITICAL: This is a draw, stop searching this line.
+        return 0; // Draw by repetition
     }
     if (depth <= 0) return quiesce(board, alpha, beta, color, cr);
     nodeCount++;
 
-    // --- 2. Transposition Table Lookup ---
     const ttEntry = transpositionTable.get(currentHash);
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -828,23 +835,37 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
         if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
     }
 
-    // --- 3. Move Generation & Terminal Node Check ---
+    const gamePhase = getGamePhase(board); // Get the game phase for our check
     const inCheck = isKingInCheck(board, color);
     let effectiveDepth = inCheck ? depth + 1 : depth;
 
     const moves = generateLegalMoves(board, color, cr, ep);
     if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
 
-    // --- 4. The PVS Move Loop ---
     const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
     let originalAlpha = alpha;
     let bestMove = orderedMoves[0];
     let moveIndex = 0;
-
-    // Add the current position to the history for the next ply
     let newHistory = [...history, currentHash];
 
     for (const move of orderedMoves) {
+        // --- THE GRANDMASTER'S VETO (Sanity Check) ---
+        // Before searching, we check if the move is a strategic catastrophe.
+        const isWhite = color === 'w';
+        const canCastle = isWhite ? (cr.K || cr.Q) : (cr.k || cr.q);
+        if (move.piece.toLowerCase() === 'k' && canCastle && gamePhase > 0.7) {
+            // If it's an opening king move while castling is available, it's a blunder.
+            // We don't need to search it deeply; we just know it's terrible.
+            // We return a massive penalty immediately.
+            if (-PANIC_BUTTON_PENALTY >= beta) {
+                 return beta; // This move is so bad it gets pruned immediately.
+            }
+             if (-PANIC_BUTTON_PENALTY > alpha) {
+                 alpha = -PANIC_BUTTON_PENALTY;
+             }
+             continue; // Skip the search for this insane move.
+        }
+
         const newBoard = makeMove(board, move);
         const newCR = { ...cr }; // Simplified
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
@@ -859,7 +880,7 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
                 score = -search(newBoard, effectiveDepth - 1, -beta, -alpha, opponentColor, ply + 1, newCR, newEP, newHistory);
             }
         }
-        
+
         if (stopSearch) return 0;
 
         if (score > alpha) {
