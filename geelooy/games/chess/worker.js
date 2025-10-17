@@ -501,8 +501,7 @@ function generateLegalMoves(board, color, cr, ep) {
 
 /**
  * Generates all pseudo-legal moves for a single piece on the board.
- * "Pseudo-legal" means it follows the piece's movement rules but does not
- * check if the king is left in check, as that is handled later by the move generator.
+ * V3: Adds checks to ensure the king can never be a capture target.
  *
  * @param {string} p - The piece to move (e.g., 'P', 'n', 'K').
  * @param {number} r - The starting row of the piece (0-7).
@@ -515,14 +514,13 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
     const moves = [];
     const pieceType = p.toLowerCase();
     const isWhite = (p === p.toUpperCase());
-    const direction = isWhite ? -1 : 1; // White moves from high row to low, Black from low to high
+    const direction = isWhite ? -1 : 1;
 
     // --- PAWN MOVES ---
     if (pieceType === 'p') {
-        // 1. Single Pawn Push
+        // 1. Single Pawn Push & Promotions
         const oneStepForward = r + direction;
         if (oneStepForward >= 0 && oneStepForward < 8 && !b[oneStepForward][c]) {
-            // Check for promotion
             const isPromotion = oneStepForward === 0 || oneStepForward === 7;
             if (isPromotion) {
                 const promotions = isWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
@@ -532,36 +530,34 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
             } else {
                  moves.push({ from: [r, c], to: [oneStepForward, c], piece: p });
             }
-
-            // 2. Double Pawn Push (only from starting rank)
+            // 2. Double Pawn Push
             const startingRank = isWhite ? 6 : 1;
-            const twoStepsForward = r + (2 * direction);
-            if (r === startingRank && !b[twoStepsForward][c]) {
-                moves.push({ from: [r, c], to: [twoStepsForward, c], piece: p, isPawnDoubleMove: true });
+            if (r === startingRank && !b[r + 2 * direction]?.[c]) {
+                moves.push({ from: [r, c], to: [r + 2 * direction, c], piece: p, isPawnDoubleMove: true });
             }
         }
-
-        // 3. Pawn Captures (diagonal)
-        for (let dc = -1; dc <= 1; dc += 2) { // dc is -1 (left) and +1 (right)
+        // 3. Pawn Captures
+        for (let dc = -1; dc <= 1; dc += 2) {
             const captureCol = c + dc;
             const captureRow = r + direction;
             if (captureCol >= 0 && captureCol < 8 && captureRow >= 0 && captureRow < 8) {
                 const targetPiece = b[captureRow][captureCol];
-                const isPromotion = captureRow === 0 || captureRow === 7;
-
                 // Standard capture
-                if (targetPiece && (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
-                    if (isPromotion) {
-                         const promotions = isWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
-                         promotions.forEach(promo => {
-                            moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece, promotion: promo });
-                         });
-                    } else {
-                        moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece });
+                if (targetPiece && (targetPiece.toUpperCase() === targetPiece) !== isWhite) {
+                    // *** FIX: A pawn cannot capture a king ***
+                    if (targetPiece.toLowerCase() !== 'k') {
+                        const isPromotion = captureRow === 0 || captureRow === 7;
+                        if (isPromotion) {
+                             const promotions = isWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
+                             promotions.forEach(promo => {
+                                moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece, promotion: promo });
+                             });
+                        } else {
+                            moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece });
+                        }
                     }
                 }
-
-                // En Passant capture
+                // En Passant
                 if (ep && captureRow === ep[0] && captureCol === ep[1]) {
                     const capturedPawn = isWhite ? 'p' : 'P';
                     moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: capturedPawn, isEnPassant: true });
@@ -578,12 +574,15 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
             if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                 const targetPiece = b[newRow][newCol];
                 if (!targetPiece || (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
+                     // Note: The king's own move generator doesn't need a king check,
+                     // because isSquareAttacked in the main generator will prevent it
+                     // from moving next to the other king.
                     moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: targetPiece || undefined });
                 }
             }
         }
     }
-    // --- KNIGHT, BISHOP, ROOK, QUEEN MOVES ---
+    // --- SLIDING PIECES & KNIGHTS ---
     else {
         const moveOffsets = {
             n: [ [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1] ],
@@ -595,28 +594,22 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
         for (const [dr, dc] of moveOffsets) {
             let newRow = r + dr;
             let newCol = c + dc;
-
             while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                 const targetPiece = b[newRow][newCol];
-
                 if (targetPiece) {
-                    // It's an opponent's piece, can capture.
+                    // *** FIX: A piece cannot capture a king ***
+                    if (targetPiece.toLowerCase() === 'k') {
+                        break;
+                    }
                     if ((targetPiece === targetPiece.toUpperCase()) !== isWhite) {
                         moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: targetPiece });
                     }
-                    // It's a friendly piece, so the path is blocked.
                     break;
                 }
-
-                // It's an empty square.
                 moves.push({ from: [r, c], to: [newRow, newCol], piece: p });
-
-                // Knights only move once, so break after the first step.
                 if (pieceType === 'n') {
                     break;
                 }
-
-                // Continue sliding for B, R, Q.
                 newRow += dr;
                 newCol += dc;
             }
@@ -624,7 +617,6 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
     }
     return moves;
 }
-
 
 
 function makeMove(b, m) {
