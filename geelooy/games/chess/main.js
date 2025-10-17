@@ -476,34 +476,28 @@ document.addEventListener('DOMContentLoaded', () => {
 	function renderPiece(piece, x, y) {
 		const isWhite = piece === piece.toUpperCase();
 		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
+		
+		// --- FIX STARTS HERE ---
+
+		// 1. Save the current state of the canvas (so the filter doesn't affect other drawings)
+		canvasContext.save();
+
+		// 2. Apply a filter to make white pieces brighter and black pieces darker.
+		// This creates the "tint" effect you want.
+		canvasContext.filter = isWhite ? 'brightness(135%)' : 'brightness(70%) saturate(120%)';
+
 		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
 		canvasContext.textAlign = 'center';
 		canvasContext.textBaseline = 'middle';
 
-		// --- FIX STARTS HERE ---
-
-		// 1. Set the fill style to a solid color before drawing the text.
-		canvasContext.fillStyle = isWhite ? 'white' : 'black';
+		// 3. Draw the emoji. The filter will be applied to it automatically.
 		canvasContext.fillText(emoji, x, y);
 
-		// 2. (Optional but Recommended) Add a thin outline to white pieces.
-		// This makes them much easier to see on the light-colored squares.
-		if (isWhite) {
-			canvasContext.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-			canvasContext.lineWidth = 1.5;
-			canvasContext.strokeText(emoji, x, y);
-		}
-
-		// 3. The old tinting logic is removed, as it was the source of the issue.
-		/*
-		const tintColor = isWhite ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.35)';
-		canvasContext.fillStyle = tintColor;
-		canvasContext.globalCompositeOperation = 'source-atop';
-		canvasContext.fillRect(x - SQUARE_SIZE / 2, y - SQUARE_SIZE / 2, SQUARE_SIZE, SQUARE_SIZE);
-		canvasContext.globalCompositeOperation = 'source-over';
-		*/
+		// 4. Restore the canvas to its original state, removing the filter.
+		canvasContext.restore();
 		
 		// --- FIX ENDS HERE ---
+		// (The old tinting logic with globalCompositeOperation has been removed)
 
 		if (piece.toLowerCase() === 'b') {
 			const yamulkaRadius = SQUARE_SIZE * 0.16;
@@ -518,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			canvasContext.restore();
 		}
 	}
+	
 
 	function drawCapturedPieces() {
 		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
