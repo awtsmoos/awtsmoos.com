@@ -1,7 +1,7 @@
 /*B"H*/
 
 // =================================================================
-//                 WEB WORKER (DEFINITIVE GRANDMASTER AI ENGINE)
+//         WEB WORKER (FINAL OPTIMIZED GRANDMASTER AI ENGINE)
 // =================================================================
 
 // --- Piece and Positional Evaluation Data ---
@@ -38,42 +38,34 @@ function makeMove(board, move) {
     return newBoard;
 }
 
-// --- FEN Utilities (BUG FIXED) ---
-function createBoardFromFEN(fen) {
-    // Correctly parse only the board part of the FEN string.
-    const boardPart = fen.split(' ')[0];
-    return boardPart.split('/').map(row => { let newRow = []; for (const char of row) { if (isNaN(parseInt(char))) newRow.push(char); else for (let i = 0; i < parseInt(char); i++) newRow.push(''); } return newRow; });
-}
-function boardToFEN(board) {
-    return board.map(row => { let empty = 0; let fenRow = ''; for (const cell of row) { if (cell === '') empty++; else { if (empty > 0) { fenRow += empty; empty = 0; } fenRow += cell; }} if (empty > 0) fenRow += empty; return fenRow; }).join('/');
-}
+// --- FEN Utilities ---
+function createBoardFromFEN(fen) { const boardPart = fen.split(' ')[0]; return boardPart.split('/').map(row => { let newRow = []; for (const char of row) { if (isNaN(parseInt(char))) newRow.push(char); else for (let i = 0; i < parseInt(char); i++) newRow.push(''); } return newRow; }); }
+function boardToFEN(board) { return board.map(row => { let empty = 0; let fenRow = ''; for (const cell of row) { if (cell === '') empty++; else { if (empty > 0) { fenRow += empty; empty = 0; } fenRow += cell; } } if (empty > 0) fenRow += empty; return fenRow; }).join('/'); }
 
-// --- Move Generation (Standardized Object Format) ---
-function getPawnMoves(r, c, b) { const m = []; const p = b[r][c]; const iW = p === 'P'; const d = iW ? -1 : 1; const sR = iW ? 6 : 1; if (r + d < 0 || r + d >= 8) return m; if (b[r + d][c] === '') { m.push({ from: [r, c], to: [r + d, c] }); if (r === sR && b[r + 2 * d][c] === '') { m.push({ from: [r, c], to: [r + 2 * d, c] }) } } const o = [[d, -1], [d, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t !== '' && iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } return m; }
-function getKnightMoves(r, c, b) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); const o = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }) } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } } return m; }
-function getSlidingMoves(r, c, b, directions) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); for (const [dr, dc] of directions) { let nR = r + dr, nC = c + dc; while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }); } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }); } break; } nR += dr; nC += dc; } } return m; }
-function getKingMoves(r, c, b) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); const o = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }) } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } } return m; }
-function getPseudoLegalMovesForPiece(p, r, c, b) { switch (p.toLowerCase()) { case 'p': return getPawnMoves(r, c, b); case 'n': return getKnightMoves(r, c, b); case 'b': return getSlidingMoves(r, c, b, [[-1, -1], [-1, 1], [1, -1], [1, 1]]); case 'r': return getSlidingMoves(r, c, b, [[-1, 0], [1, 0], [0, -1], [0, 1]]); case 'q': return getSlidingMoves(r, c, b, [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]]); case 'k': return getKingMoves(r, c, b); default: return []; } }
+// --- Move Generation (Optimized) ---
+function getPseudoLegalMovesForPiece(p, r, c, b) {
+    const m = []; const pL = p.toLowerCase();
+    const iW = p === p.toUpperCase();
+    if (pL === 'p') { const d = iW ? -1 : 1; const sR = iW ? 6 : 1; if (r + d >= 0 && r + d < 8) { if (b[r + d][c] === '') { m.push({ from: [r, c], to: [r + d, c] }); if (r === sR && b[r + 2 * d][c] === '') { m.push({ from: [r, c], to: [r + 2 * d, c] }) } } for (let dc = -1; dc <= 1; dc += 2) { const nC = c + dc; if (nC >= 0 && nC < 8) { const t = b[r + d][nC]; if (t && iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [r + d, nC] }) } } } return m; }
+    const o = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], k: [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]] }[pL];
+    if (o) { for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '' || iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }) } } return m; }
+    const d = { b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
+    if (d) { for (const [dr, dc] of d) { let nR = r + dr, nC = c + dc; while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }); } else { if (iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }); break; } nR += dr; nC += dc; } } }
+    return m;
+}
 function findKing(b, color) { const k = color === 'w' ? 'K' : 'k'; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (b[r][c] === k) return { r, c }; return null; }
 function isSquareAttacked(b, r, c, aC) { for (let rA = 0; rA < 8; rA++) for (let cA = 0; cA < 8; cA++) { const p = b[rA][cA]; if (p === '') continue; const iW = p === p.toUpperCase(); if ((aC === 'w' && !iW) || (aC === 'b' && iW)) continue; const m = getPseudoLegalMovesForPiece(p, rA, cA, b); for (const move of m) if (move.to[0] === r && move.to[1] === c) { if (p.toLowerCase() === 'p') { if (move.from[1] !== c) return true } else { return true } } } return false; }
-function generateAllLegalMoves(b, color) {
-    const lM = [];
-    const oC = color === 'w' ? 'b' : 'w';
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const p = b[r][c];
-            if (p === '') continue;
-            const iW = p === p.toUpperCase();
-            if ((color === 'w' && !iW) || (color === 'b' && iW)) continue;
-            const pM = getPseudoLegalMovesForPiece(p, r, c, b);
-            for (const m of pM) {
-                const nB = makeMove(b, m);
-                const kP = findKing(nB, color);
-                if (kP && !isSquareAttacked(nB, kP.r, kP.c, oC)) {
-                    m.piece = p;
-                    m.capture = b[m.to[0]][m.to[1]] !== '';
-                    lM.push(m);
-                }
+function generateAllLegalMoves(b, color, capturesOnly = false) {
+    const lM = []; const oC = color === 'w' ? 'b' : 'w';
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = b[r][c]; if (p === '') continue; const iW = p === p.toUpperCase();
+        if ((color === 'w' && !iW) || (color === 'b' && iW)) continue;
+        const pM = getPseudoLegalMovesForPiece(p, r, c, b);
+        for (const m of pM) {
+            if (capturesOnly && !b[m.to[0]][m.to[1]]) continue;
+            const nB = makeMove(b, m); const kP = findKing(nB, color);
+            if (kP && !isSquareAttacked(nB, kP.r, kP.c, oC)) {
+                m.piece = p; m.capture = !!b[m.to[0]][m.to[1]]; lM.push(m);
             }
         }
     }
@@ -81,29 +73,35 @@ function generateAllLegalMoves(b, color) {
 }
 
 // --- AI Core: Advanced Evaluation ---
-function evaluateBoard(board, turn) {
-    let materialScore = 0;
-    let mobilityScore = 0;
-    let pieceCount = 0;
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = board[r][c];
-            if (piece === '') continue;
-            pieceCount++;
-            const isWhite = piece === piece.toUpperCase();
-            const pieceType = piece.toUpperCase();
-            const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame }[pieceType];
-            const pstScore = isWhite ? pst[r][c] : pst[7 - r][c];
-            materialScore += (isWhite ? 1 : -1) * (pieceValues[pieceType] + pstScore);
-        }
+function evaluateBoard(board) {
+    let score = 0; let pieceCount = 0;
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = board[r][c]; if (!p) continue; pieceCount++;
+        const iW = p === p.toUpperCase(); const pT = p.toUpperCase();
+        const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 12 ? kingPSTMidGame : kingPSTEndGame }[pT];
+        const pstScore = iW ? pst[r][c] : pst[7 - r][c];
+        score += (iW ? 1 : -1) * (pieceValues[pT] + pstScore);
     }
-    const whiteMoves = generateAllLegalMoves(board, 'w').length;
-    const blackMoves = generateAllLegalMoves(board, 'b').length;
-    mobilityScore = 0.1 * (whiteMoves - blackMoves);
-    return (turn === 'w' ? 1 : -1) * (materialScore + mobilityScore);
+    return score;
 }
 
 // --- AI Core: Advanced Search with Alpha-Beta Pruning ---
+function quiesce(board, alpha, beta, turn) {
+    nodeCount++;
+    const standPat = (turn === 'w' ? 1 : -1) * evaluateBoard(board);
+    if (standPat >= beta) return beta;
+    if (alpha < standPat) alpha = standPat;
+
+    const captureMoves = generateAllLegalMoves(board, turn, true);
+    for (const move of captureMoves) {
+        const newBoard = makeMove(board, move);
+        const score = -quiesce(newBoard, -beta, -alpha, turn === 'w' ? 'b' : 'w');
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
+    }
+    return alpha;
+}
+
 function search(board, depth, alpha, beta, turn, ply, fenHistory) {
     const boardFEN = boardToFEN(board);
     if (fenHistory[boardFEN] >= 2) return 0;
@@ -116,7 +114,7 @@ function search(board, depth, alpha, beta, turn, ply, fenHistory) {
         if (alpha >= beta) return ttEntry.score;
     }
 
-    if (depth === 0) return evaluateBoard(board, turn);
+    if (depth <= 0) return quiesce(board, alpha, beta, turn);
     nodeCount++;
     const legalMoves = generateAllLegalMoves(board, turn);
 
@@ -166,13 +164,15 @@ self.onmessage = function(e) {
         const historyMap = {};
         fenHistory.forEach(f => historyMap[f] = (historyMap[f] || 0) + 1);
 
-        for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-            const legalMoves = generateAllLegalMoves(board, color);
-            if (legalMoves.length === 0) { bestMove = null; break; }
+        const legalMoves = generateAllLegalMoves(board, color);
+        if (legalMoves.length === 0) {
+            postMessage({ bestMove: null });
+            return;
+        }
 
+        for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
             let alpha = -Infinity;
             let beta = Infinity;
-
             for (const move of legalMoves) {
                 const newBoard = makeMove(board, move);
                 const score = -search(newBoard, currentDepth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', 1, historyMap);
