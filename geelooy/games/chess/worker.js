@@ -42,7 +42,6 @@ let stopSearch = false;
 let killerMoves = Array(MATE_IN_MAX_PLY).fill(null).map(() => [null, null]);
 let historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
 
-const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
 // --- Piece-Square Tables ---
 // prettier-ignore
