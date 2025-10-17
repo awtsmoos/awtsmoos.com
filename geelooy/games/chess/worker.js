@@ -58,14 +58,40 @@ function makeMove(board, move) {
 function createBoardFromFEN(fen) { const [boardPart, turn, castling, enPassant] = fen.split(' '); return { board: boardPart.split('/').map(row => { let newRow = []; for (const char of row) { if (isNaN(parseInt(char))) newRow.push(char); else for (let i = 0; i < parseInt(char); i++) newRow.push(''); } return newRow; }), castlingRights: { K: castling.includes('K'), Q: castling.includes('Q'), k: castling.includes('k'), q: castling.includes('q') }, enPassantTarget: enPassant === '-' ? null : [(8 - parseInt(enPassant[1])), 'abcdefgh'.indexOf(enPassant[0])] }; }
 function findKing(b, color) { const k = color === 'w' ? 'K' : 'k'; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (b[r][c] === k) return { r, c }; return null; }
 function isSquareAttacked(b, r, c, aC) { for (let rA = 0; rA < 8; rA++) for (let cA = 0; cA < 8; cA++) { const p = b[rA][cA]; if (p === '') continue; const iW = p === p.toUpperCase(); if ((aC === 'w' && !iW) || (aC === 'b' && iW)) continue; const m = getPseudoLegalMovesForPiece(p, rA, cA, b, {}, null); for (const move of m) if (move.to[0] === r && move.to[1] === c) { if (p.toLowerCase() === 'p') { if (move.from[1] !== c) return true } else { return true } } } return false; }
+
+
 function getPseudoLegalMovesForPiece(p, r, c, b, cr, ep) {
     const m = []; const pL = p.toLowerCase(); const iW = p === p.toUpperCase();
     if (pL === 'p') { const d = iW ? -1 : 1; const sR = iW ? 6 : 1; if (r + d >= 0 && r + d < 8) { if (b[r + d][c] === '') { m.push({ from: [r, c], to: [r + d, c] }); if (r === sR && b[r + 2 * d][c] === '') m.push({ from: [r, c], to: [r + 2 * d, c], isPawnDoubleMove: true }); } for (let dc = -1; dc <= 1; dc += 2) { const nC = c + dc; if (nC >= 0 && nC < 8) { const t = b[r + d][nC]; if (t && iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [r + d, nC] }); if (ep && r + d === ep[0] && nC === ep[1]) m.push({ from: [r, c], to: [r + d, nC], isEnPassant: true }); } } } return m; }
-    if (pL === 'k') { const o = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '' || iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }) } } if(!isSquareAttacked(b, r, c, iW ? 'b':'w')){ if ((iW?cr.K:cr.k) && !b[r][5] && !b[r][6] && !isSquareAttacked(b, r, 5, iW ? 'b' : 'w') && !isSquareAttacked(b, r, 6, iW ? 'b' : 'w')) m.push({ from: [r, 4], to: [r, 6], isCastle: true }); if ((iW?cr.Q:cr.q) && !b[r][1] && !b[r][2] && !b[r][3] && !isSquareAttacked(b, r, 2, iW ? 'b' : 'w') && !isSquareAttacked(b, r, 3, iW ? 'b' : 'w')) m.push({ from: [r, 4], to: [r, 2], isCastle: true }); } return m; }
+    if (pL === 'k') { 
+        const o = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]; 
+        for (const [dr, dc] of o) { 
+            const nR = r + dr, nC = c + dc; 
+            if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { 
+                const t = b[nR][nC]; 
+                if (t === '' || iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }) 
+            } 
+        } 
+        
+        // --- FIX IS HERE ---
+        // This check prevents the infinite recursion. Castling logic is only
+        // evaluated when real castling rights are passed in, not from isSquareAttacked.
+        if (cr && Object.keys(cr).length > 0) {
+            if(!isSquareAttacked(b, r, c, iW ? 'b':'w')){ 
+                if ((iW?cr.K:cr.k) && !b[r][5] && !b[r][6] && !isSquareAttacked(b, r, 5, iW ? 'b' : 'w') && !isSquareAttacked(b, r, 6, iW ? 'b' : 'w')) m.push({ from: [r, 4], to: [r, 6], isCastle: true }); 
+                if ((iW?cr.Q:cr.q) && !b[r][1] && !b[r][2] && !b[r][3] && !isSquareAttacked(b, r, 2, iW ? 'b' : 'w') && !isSquareAttacked(b, r, 3, iW ? 'b' : 'w')) m.push({ from: [r, 4], to: [r, 2], isCastle: true }); 
+            }
+        }
+        // --- END OF FIX ---
+
+        return m; 
+    }
     const o = { n: [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]] }[pL]; if (o) { for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '' || iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }) } } return m; }
     const d = { b: [[-1,-1],[-1,1],[1,-1],[1,1]], r: [[-1,0],[1,0],[0,-1],[0,1]], q: [[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]] }[pL]; if (d) { for (const [dr, dc] of d) { let nR = r + dr, nC = c + dc; while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') m.push({ from: [r, c], to: [nR, nC] }); else { if (iW !== (t === t.toUpperCase())) m.push({ from: [r, c], to: [nR, nC] }); break; } nR += dr; nC += dc; } } }
     return m;
 }
+
+
 function generateAllLegalMoves(b, color, cr, ep) { const lM = []; const oC = color === 'w' ? 'b' : 'w'; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) { const p = b[r][c]; if (p === '') continue; const iW = p === p.toUpperCase(); if ((color === 'w' && !iW) || (color === 'b' && iW)) continue; const pM = getPseudoLegalMovesForPiece(p, r, c, b, cr, ep); for (const m of pM) { const nB = makeMove(b, m); const kP = findKing(nB, color); if (kP && !isSquareAttacked(nB, kP.r, kP.c, oC)) { m.piece = p; m.capture = !!b[m.to[0]][m.to[1]] || m.isEnPassant; lM.push(m); } } } return lM; }
 
 // --- AI Core: Evaluation (Unchanged) ---
