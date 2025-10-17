@@ -232,10 +232,104 @@ function evaluateKingSafety(board, color, kingPos) {
     return score;
 }
 
+// =================================================================
+//        V12+ STRATEGICALLY ENHANCED EVALUATION
+// =================================================================
+// This new evaluation function adds several layers of strategic understanding
+// to the engine's core tactical ability, specifically to prevent the types of
+// positional blunders seen in the analysis.
+
+/**
+ * Calculates a mobility score based on the number of available pseudo-legal moves.
+ * This is the core fix to prevent the engine from entering cramped positions.
+ * @param {string[][]} board - The game board.
+ * @param {string} color - The color to evaluate ('w' or 'b').
+ * @returns {number} The mobility score.
+ */
+function calculateMobility(board, color) {
+    let mobilityScore = 0;
+    const isWhite = color === 'w';
+
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = board[r][c];
+            if (piece && (piece.toUpperCase() === piece) === isWhite) {
+                // getPseudoLegalMovesForPiece is fast enough for evaluation purposes.
+                const moves = getPseudoLegalMovesForPiece(piece, r, c, board, null);
+                // Weight mobility by piece type; queen and rook mobility is more important.
+                const pType = piece.toLowerCase();
+                if (pType === 'q') mobilityScore += moves.length * 0.5;
+                if (pType === 'r') mobilityScore += moves.length * 0.3;
+                if (pType === 'b' || pType === 'n') mobilityScore += moves.length * 0.2;
+            }
+        }
+    }
+    return Math.floor(mobilityScore);
+}
+
+/**
+ * Evaluates pawn structure for passed, doubled, and isolated pawns.
+ * @param {string[][]} board - The game board.
+ * @param {string} color - The color to evaluate ('w' or 'b').
+ * @returns {number} The pawn structure score.
+ */
+function evaluatePawnStructureAndActivity(board, color) {
+    let score = 0;
+    const isWhite = color === 'w';
+    const friendlyPawn = isWhite ? 'P' : 'p';
+    const enemyPawn = isWhite ? 'p' : 'P';
+    const pawnDir = isWhite ? -1 : 1;
+
+    let pawnFiles = Array(8).fill(0);
+
+    for (let c = 0; c < 8; c++) {
+        let hasFriendlyPawn = false;
+        let hasEnemyPawn = false;
+        for (let r = 0; r < 8; r++) {
+            const piece = board[r][c];
+            if (piece === friendlyPawn) {
+                pawnFiles[c]++;
+                hasFriendlyPawn = true;
+                 // --- Passed Pawn Evaluation ---
+                let isPassed = true;
+                for (let lookAheadRow = r + pawnDir; lookAheadRow >= 0 && lookAheadRow < 8; lookAheadRow += pawnDir) {
+                    if (board[lookAheadRow][c] === enemyPawn || board[lookAheadRow][c-1] === enemyPawn || board[lookAheadRow][c+1] === enemyPawn) {
+                        isPassed = false;
+                        break;
+                    }
+                }
+                if (isPassed) {
+                    const rank = isWhite ? 7 - r : r;
+                    score += rank * rank * 2; // Bonus scales exponentially with rank
+                }
+            } else if (piece === enemyPawn) {
+                hasEnemyPawn = true;
+            } else if (piece && piece.toLowerCase() === 'r' && (piece.toUpperCase() === piece) === isWhite) {
+                 // --- Rooks on Open/Semi-Open Files ---
+                if (!hasFriendlyPawn) {
+                    score += hasEnemyPawn ? 10 : 20; // 10 for semi-open, 20 for open
+                }
+            }
+        }
+    }
+
+    // --- Doubled and Isolated Pawn Penalties ---
+    for (let c = 0; c < 8; c++) {
+        if (pawnFiles[c] > 1) score -= 15; // Doubled pawn penalty
+        if (pawnFiles[c] > 0 && (c === 0 || pawnFiles[c-1] === 0) && (c === 7 || pawnFiles[c+1] === 0)) {
+            score -= 10; // Isolated pawn penalty
+        }
+    }
+
+    return score;
+}
+
+
 function evaluate(board) {
     let material = 0, pstScore = 0, kingSafety = 0;
     let kingPos = {};
     let totalMaterial = 0;
+
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -244,29 +338,56 @@ function evaluate(board) {
             const sign = isWhite ? 1 : -1;
             const pType = p.toLowerCase();
             const value = pieceValues[pType];
+
             material += value * sign;
             totalMaterial += value;
-            if (pType === 'k') { kingPos[isWhite ? 'w' : 'b'] = { r, c }; continue; }
+
+            if (pType === 'k') {
+                kingPos[isWhite ? 'w' : 'b'] = { r, c };
+                continue;
+            }
             const pstRow = isWhite ? r : 7 - r;
             const pst = {p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST}[pType];
             pstScore += pst[pstRow][c] * sign;
         }
     }
-    const gamePhase = Math.max(0, Math.min(1, (3900 - totalMaterial) / 1600));
+
+    // --- Tapered Evaluation for King PSTs ---
+    const gamePhase = Math.max(0, Math.min(1, (3900 - totalMaterial) / 1600)); // 0=Endgame, 1=Midgame
     if (kingPos.w) {
         const midScore = kingPSTMidGame[kingPos.w.r][kingPos.w.c];
         const endScore = kingPSTEndGame[kingPos.w.r][kingPos.w.c];
-        pstScore += (midScore * (1 - gamePhase)) + (endScore * gamePhase);
+        pstScore += (midScore * gamePhase) + (endScore * (1 - gamePhase));
         kingSafety += evaluateKingSafety(board, 'w', kingPos.w);
     }
     if (kingPos.b) {
         const midScore = kingPSTMidGame[7 - kingPos.b.r][kingPos.b.c];
         const endScore = kingPSTEndGame[7 - kingPos.b.r][kingPos.b.c];
-        pstScore -= ((midScore * (1 - gamePhase)) + (endScore * gamePhase));
+        pstScore -= ((midScore * gamePhase) + (endScore * (1 - gamePhase)));
         kingSafety -= evaluateKingSafety(board, 'b', kingPos.b);
     }
-    return material + pstScore + kingSafety;
+
+    // --- NEW STRATEGIC TERMS ---
+    const whiteMobility = calculateMobility(board, 'w');
+    const blackMobility = calculateMobility(board, 'b');
+    const mobilityAdvantage = whiteMobility - blackMobility;
+
+    const whiteStrategicAdvantage = evaluatePawnStructureAndActivity(board, 'w');
+    const blackStrategicAdvantage = evaluatePawnStructureAndActivity(board, 'b');
+    const strategicAdvantage = whiteStrategicAdvantage - blackStrategicAdvantage;
+
+
+    // --- FINAL SCORE CALCULATION ---
+    // The mobility and strategic scores are added to the existing evaluation.
+    const finalScore = material + pstScore + kingSafety + mobilityAdvantage + strategicAdvantage;
+
+    return finalScore;
 }
+
+
+
+
+
 
 function quiesce(board, alpha, beta, color) {
     if (stopSearch) return 0;
