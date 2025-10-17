@@ -481,34 +481,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		canvasContext.save();
 
-		// 1. Special filter for the White Pawn ('P')
-		if (piece === 'P') {
-			// This combination removes color and boosts brightness to make it appear white
-			canvasContext.filter = 'grayscale(1) brightness(2)';
+		// A more nuanced filter to create a high-contrast "sharp" black and white feel
+		// while preserving the original emoji's details.
+		let pieceFilter;
+		if (isWhite) {
+			// For WHITE pieces: Sharply increase contrast and brightness, slightly reduce color.
+			pieceFilter = 'contrast(180%) brightness(120%) saturate(80%)';
 		} else {
-			// The original tinting filter for all other pieces
-			canvasContext.filter = isWhite ? 'brightness(135%)' : 'brightness(70%) saturate(120%)';
+			// For BLACK pieces: Sharply increase contrast and reduce brightness, slightly reduce color.
+			pieceFilter = 'contrast(180%) brightness(75%) saturate(80%)';
 		}
+		canvasContext.filter = pieceFilter;
 
 		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
 		canvasContext.textAlign = 'center';
 		canvasContext.textBaseline = 'middle';
 
-		// First, draw the main emoji with its tint/filter
+		// Draw the main, filtered emoji.
 		canvasContext.fillText(emoji, x, y);
 
-		// 2. Add the black and white border
-		// Set the color of the outline (black for white pieces, white for black pieces)
+		// Keep the pronounced black or white border for that sharp, sticker-like effect.
 		canvasContext.strokeStyle = isWhite ? 'black' : 'white';
-		// Set the thickness of the outline
-		canvasContext.lineWidth = 2.5; 
-		// Draw the outline on top of the emoji we just drew
+		canvasContext.lineWidth = 4; // This is the thicker border
 		canvasContext.strokeText(emoji, x, y);
 
 		canvasContext.restore();
 
 		// --- END OF CHANGES ---
 
+		// The special drawing for the bishop's yamulka remains unchanged.
 		if (piece.toLowerCase() === 'b') {
 			const yamulkaRadius = SQUARE_SIZE * 0.16;
 			const yamulkaY = y - SQUARE_SIZE * 0.28;
