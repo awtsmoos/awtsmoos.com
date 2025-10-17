@@ -325,6 +325,85 @@ function evaluatePawnStructureAndActivity(board, color) {
 }
 
 
+/**
+ * Evaluates advanced strategic and positional features of the board.
+ * This function gives the AI the "chess common sense" it currently lacks.
+ * It is designed to be called by the main evaluate function.
+ *
+ * @param {string[][]} board - The game board.
+ * @param {string} color - The color to evaluate ('w' or 'b').
+ * @param {number} gamePhase - A number from 0.0 (Opening) to 1.0 (Endgame) to taper bonuses.
+ * @returns {number} The strategic score for the given color.
+ */
+function evaluateStrategicFeatures(board, color, gamePhase) {
+    let strategicScore = 0;
+    const isWhite = color === 'w';
+    const homeRank = isWhite ? 7 : 0;
+    const pawnHomeRank = isWhite ? 6 : 1;
+
+    // This entire block is tapered: its effect is strongest in the opening and fades to nothing in the endgame.
+    if (gamePhase < 0.8) { // Only apply in opening/middlegame
+        let developmentScore = 0;
+        let tempoScore = 0;
+
+        // Loop through the home rank to check for undeveloped pieces.
+        for (let c = 1; c < 7; c++) { // Ignore rooks for this calculation
+            const piece = board[homeRank][c];
+            if (piece && piece.toLowerCase() !== 'k' && piece.toLowerCase() !== 'q') {
+                // Apply a penalty for each knight/bishop that hasn't moved.
+                developmentScore -= 10;
+            }
+        }
+
+        // Apply a penalty for moving the Queen out too early.
+        const queenStartPos = isWhite ? 'd1' : 'd8';
+        const queenCurrentPos = board.flat().indexOf(isWhite ? 'Q' : 'q');
+        const queenStartIdx = isWhite ? 60 : 4;
+        if (queenCurrentPos !== -1 && queenCurrentPos !== queenStartIdx) {
+            tempoScore -= 10;
+        }
+
+        // Taper the scores based on the game phase. The closer to the opening, the stronger the effect.
+        strategicScore += (developmentScore + tempoScore) * (1 - gamePhase);
+    }
+
+    // --- Space Control Evaluation ---
+    // This bonus is not tapered as space can be important at all stages.
+    let spaceControlScore = 0;
+    const friendlyPawn = isWhite ? 'P' : 'p';
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            if (board[r][c] === friendlyPawn) {
+                // For each pawn, find which squares it controls.
+                const pawnDir = isWhite ? -1 : 1;
+                const attackedSq1 = { r: r + pawnDir, c: c - 1 };
+                const attackedSq2 = { r: r + pawnDir, c: c + 1 };
+
+                // Give points for controlling squares on the opponent's side of the board.
+                if (isWhite) {
+                    if (attackedSq1.r < 4) spaceControlScore += 2;
+                    if (attackedSq2.r < 4) spaceControlScore += 2;
+                } else { // isBlack
+                    if (attackedSq1.r > 3) spaceControlScore += 2;
+                    if (attackedSq2.r > 3) spaceControlScore += 2;
+                }
+            }
+        }
+    }
+    strategicScore += spaceControlScore;
+
+    return Math.floor(strategicScore);
+}
+
+
+/**
+ * The main evaluation function, now enhanced with strategic intelligence.
+ * It combines material, piece-square tables, king safety, and the new
+ * strategic features to form a complete picture of the position.
+ *
+ * @param {string[][]} board - The game board.
+ * @returns {number} The final evaluation score from White's perspective.
+ */
 function evaluate(board) {
     let material = 0, pstScore = 0, kingSafety = 0;
     let kingPos = {};
@@ -340,7 +419,10 @@ function evaluate(board) {
             const value = pieceValues[pType];
 
             material += value * sign;
-            totalMaterial += value;
+            // We use total material (ignoring kings) to determine the game phase.
+            if (pType !== 'k') {
+                totalMaterial += value;
+            }
 
             if (pType === 'k') {
                 kingPos[isWhite ? 'w' : 'b'] = { r, c };
@@ -353,37 +435,32 @@ function evaluate(board) {
     }
 
     // --- Tapered Evaluation for King PSTs ---
-    const gamePhase = Math.max(0, Math.min(1, (3900 - totalMaterial) / 1600)); // 0=Endgame, 1=Midgame
+    // A simple game phase calculation: 1.0 is full board (opening), 0.0 is late endgame.
+    const gamePhase = Math.min(1, totalMaterial / 7800); // Max material is ~7800
+
     if (kingPos.w) {
         const midScore = kingPSTMidGame[kingPos.w.r][kingPos.w.c];
         const endScore = kingPSTEndGame[kingPos.w.r][kingPos.w.c];
         pstScore += (midScore * gamePhase) + (endScore * (1 - gamePhase));
-        kingSafety += evaluateKingSafety(board, 'w', kingPos.w);
+        kingSafety += evaluateKingSafety(board, 'w', kingPos.w); // Assumes evaluateKingSafety exists
     }
     if (kingPos.b) {
         const midScore = kingPSTMidGame[7 - kingPos.b.r][kingPos.b.c];
         const endScore = kingPSTEndGame[7 - kingPos.b.r][kingPos.b.c];
         pstScore -= ((midScore * gamePhase) + (endScore * (1 - gamePhase)));
-        kingSafety -= evaluateKingSafety(board, 'b', kingPos.b);
+        kingSafety -= evaluateKingSafety(board, 'b', kingPos.b); // Assumes evaluateKingSafety exists
     }
 
-    // --- NEW STRATEGIC TERMS ---
-    const whiteMobility = calculateMobility(board, 'w');
-    const blackMobility = calculateMobility(board, 'b');
-    const mobilityAdvantage = whiteMobility - blackMobility;
-
-    const whiteStrategicAdvantage = evaluatePawnStructureAndActivity(board, 'w');
-    const blackStrategicAdvantage = evaluatePawnStructureAndActivity(board, 'b');
-    const strategicAdvantage = whiteStrategicAdvantage - blackStrategicAdvantage;
-
+    // --- NEW: Call the strategic features evaluation ---
+    const whiteStrategicScore = evaluateStrategicFeatures(board, 'w', gamePhase);
+    const blackStrategicScore = evaluateStrategicFeatures(board, 'b', gamePhase);
+    const strategicAdvantage = whiteStrategicScore - blackStrategicScore;
 
     // --- FINAL SCORE CALCULATION ---
-    // The mobility and strategic scores are added to the existing evaluation.
-    const finalScore = material + pstScore + kingSafety + mobilityAdvantage + strategicAdvantage;
+    const finalScore = material + pstScore + kingSafety + strategicAdvantage;
 
     return finalScore;
 }
-
 
 
 
