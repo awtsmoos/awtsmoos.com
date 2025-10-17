@@ -1,7 +1,7 @@
 /*B"H*/
 
 // =================================================================
-//                 WEB WORKER (GRANDMASTER AI ENGINE)
+//                 WEB WORKER (DEFINITIVE GRANDMASTER AI ENGINE)
 // =================================================================
 
 // --- Piece and Positional Evaluation Data ---
@@ -48,31 +48,32 @@ function boardToFEN(board) {
     return board.map(row => { let empty = 0; let fenRow = ''; for (const cell of row) { if (cell === '') empty++; else { if (empty > 0) { fenRow += empty; empty = 0; } fenRow += cell; }} if (empty > 0) fenRow += empty; return fenRow; }).join('/');
 }
 
-// --- Move Generation ---
-function getPawnMoves(r, c, board) { const m = []; const p = board[r][c]; const iW = p === 'P'; const d = iW ? -1 : 1; const sR = iW ? 6 : 1; if (r + d < 0 || r + d >= 8) return m; if (board[r+d][c] === '') { m.push({f:[r,c],t:[r+d,c]}); if(r===sR && board[r+2*d][c]===''){m.push({f:[r,c],t:[r+2*d,c]})}} const o=[[d,-1],[d,1]]; for(const[dr,dc] of o){const nR=r+dr,nC=c+dc; if(nR>=0&&nR<8&&nC>=0&&nC<8){const t=b[nR][nC];if(t!==''&&iW!==(t===t.toUpperCase())){m.push({f:[r,c],t:[nR,nC]})}}} return m;}
-function getKnightMoves(r, c, board) { const m = []; const iW = board[r][c] === board[r][c].toUpperCase(); const o=[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]; for(const[dr,dc] of o){const nR=r+dr,nC=c+dc;if(nR>=0&&nR<8&&nC>=0&&nC<8){const t=b[nR][nC];if(t===''){m.push({f:[r,c],t:[nR,nC]})}else{if(iW!==(t===t.toUpperCase())){m.push({f:[r,c],t:[nR,nC]})}}}} return m;}
-function getSlidingMoves(r, c, board, directions) { const m = []; const iW = board[r][c] === board[r][c].toUpperCase(); for (const [dr, dc] of directions) { let nR = r + dr, nC = c + dc; while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ f: [r, c], t: [nR, nC] }); } else { if (iW !== (t === t.toUpperCase())) { m.push({ f: [r, c], t: [nR, nC] }); } break; } nR += dr; nC += dc; } } return m; }
-function getKingMoves(r, c, board) { const m = []; const iW = board[r][c] === board[r][c].toUpperCase(); const o=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]; for(const[dr,dc] of o){const nR=r+dr,nC=c+dc;if(nR>=0&&nR<8&&nC>=0&&nC<8){const t=b[nR][nC];if(t===''){m.push({f:[r,c],t:[nR,nC]})}else{if(iW!==(t===t.toUpperCase())){m.push({f:[r,c],t:[nR,nC]})}}}} return m;}
-function getPseudoLegalMovesForPiece(p, r, c, b) { switch (p.toLowerCase()) { case 'p': return getPawnMoves(r, c, b); case 'n': return getKnightMoves(r, c, b); case 'b': return getSlidingMoves(r, c, b, [[-1,-1],[-1,1],[1,-1],[1,1]]); case 'r': return getSlidingMoves(r, c, b, [[-1,0],[1,0],[0,-1],[0,1]]); case 'q': return getSlidingMoves(r, c, b, [[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]]); case 'k': return getKingMoves(r, c, b); default: return []; } }
-function findKing(b, color) { const k = color==='w'?'K':'k'; for (let r=0;r<8;r++) for(let c=0;c<8;c++) if(b[r][c]===k) return {r,c}; return null; }
-function isSquareAttacked(b, r, c, aC) { for (let rA=0;rA<8;rA++) for(let cA=0;cA<8;cA++) { const p=b[rA][cA]; if(p==='') continue; const iW=p===p.toUpperCase(); if((aC==='w'&&!iW)||(aC==='b'&&iW)) continue; const m=getPseudoLegalMovesForPiece(p,rA,cA,b); for(const move of m) if(move.t[0]===r&&move.t[1]===c){ if(p.toLowerCase()==='p'){if(move.f[1]!==c) return true} else{return true}}} return false; }
+// --- Move Generation (Standardized Object Format) ---
+function getPawnMoves(r, c, b) { const m = []; const p = b[r][c]; const iW = p === 'P'; const d = iW ? -1 : 1; const sR = iW ? 6 : 1; if (r + d < 0 || r + d >= 8) return m; if (b[r + d][c] === '') { m.push({ from: [r, c], to: [r + d, c] }); if (r === sR && b[r + 2 * d][c] === '') { m.push({ from: [r, c], to: [r + 2 * d, c] }) } } const o = [[d, -1], [d, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t !== '' && iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } return m; }
+function getKnightMoves(r, c, b) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); const o = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }) } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } } return m; }
+function getSlidingMoves(r, c, b, directions) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); for (const [dr, dc] of directions) { let nR = r + dr, nC = c + dc; while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }); } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }); } break; } nR += dr; nC += dc; } } return m; }
+function getKingMoves(r, c, b) { const m = []; const iW = b[r][c] === b[r][c].toUpperCase(); const o = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]; for (const [dr, dc] of o) { const nR = r + dr, nC = c + dc; if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) { const t = b[nR][nC]; if (t === '') { m.push({ from: [r, c], to: [nR, nC] }) } else { if (iW !== (t === t.toUpperCase())) { m.push({ from: [r, c], to: [nR, nC] }) } } } } return m; }
+function getPseudoLegalMovesForPiece(p, r, c, b) { switch (p.toLowerCase()) { case 'p': return getPawnMoves(r, c, b); case 'n': return getKnightMoves(r, c, b); case 'b': return getSlidingMoves(r, c, b, [[-1, -1], [-1, 1], [1, -1], [1, 1]]); case 'r': return getSlidingMoves(r, c, b, [[-1, 0], [1, 0], [0, -1], [0, 1]]); case 'q': return getSlidingMoves(r, c, b, [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]]); case 'k': return getKingMoves(r, c, b); default: return []; } }
+function findKing(b, color) { const k = color === 'w' ? 'K' : 'k'; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (b[r][c] === k) return { r, c }; return null; }
+function isSquareAttacked(b, r, c, aC) { for (let rA = 0; rA < 8; rA++) for (let cA = 0; cA < 8; cA++) { const p = b[rA][cA]; if (p === '') continue; const iW = p === p.toUpperCase(); if ((aC === 'w' && !iW) || (aC === 'b' && iW)) continue; const m = getPseudoLegalMovesForPiece(p, rA, cA, b); for (const move of m) if (move.to[0] === r && move.to[1] === c) { if (p.toLowerCase() === 'p') { if (move.from[1] !== c) return true } else { return true } } } return false; }
 function generateAllLegalMoves(b, color) {
     const lM = [];
     const oC = color === 'w' ? 'b' : 'w';
-    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
-        const p = b[r][c];
-        if (p === '') continue;
-        const iW = p === p.toUpperCase();
-        if ((color === 'w' && !iW) || (color === 'b' && iW)) continue;
-        // Use simpler move object for performance
-        const pM = getPseudoLegalMovesForPiece(p, r, c, b).map(move => ({from: move.f, to: move.t}));
-        for (const m of pM) {
-            const nB = makeMove(b, m);
-            const kP = findKing(nB, color);
-            if (kP && !isSquareAttacked(nB, kP.r, kP.c, oC)) {
-                m.piece = p;
-                m.capture = b[m.to[0]][m.to[1]] !== '';
-                lM.push(m);
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = b[r][c];
+            if (p === '') continue;
+            const iW = p === p.toUpperCase();
+            if ((color === 'w' && !iW) || (color === 'b' && iW)) continue;
+            const pM = getPseudoLegalMovesForPiece(p, r, c, b);
+            for (const m of pM) {
+                const nB = makeMove(b, m);
+                const kP = findKing(nB, color);
+                if (kP && !isSquareAttacked(nB, kP.r, kP.c, oC)) {
+                    m.piece = p;
+                    m.capture = b[m.to[0]][m.to[1]] !== '';
+                    lM.push(m);
+                }
             }
         }
     }
@@ -83,9 +84,7 @@ function generateAllLegalMoves(b, color) {
 function evaluateBoard(board, turn) {
     let materialScore = 0;
     let mobilityScore = 0;
-    let pawnStructureScore = 0;
     let pieceCount = 0;
-
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const piece = board[r][c];
@@ -93,31 +92,22 @@ function evaluateBoard(board, turn) {
             pieceCount++;
             const isWhite = piece === piece.toUpperCase();
             const pieceType = piece.toUpperCase();
-            
-            // Material and PST score
-            const pst = {P:pawnPST, N:knightPST, B:bishopPST, R:rookPST, Q:queenPST, K:pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame}[pieceType];
-            const pstScore = isWhite ? pst[r][c] : pst[7-r][c];
+            const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame }[pieceType];
+            const pstScore = isWhite ? pst[r][c] : pst[7 - r][c];
             materialScore += (isWhite ? 1 : -1) * (pieceValues[pieceType] + pstScore);
         }
     }
-
-    // Mobility Score
     const whiteMoves = generateAllLegalMoves(board, 'w').length;
     const blackMoves = generateAllLegalMoves(board, 'b').length;
     mobilityScore = 0.1 * (whiteMoves - blackMoves);
-    
-    const perspective = turn === 'w' ? 1 : -1;
-    return perspective * (materialScore + mobilityScore + pawnStructureScore);
+    return (turn === 'w' ? 1 : -1) * (materialScore + mobilityScore);
 }
 
 // --- AI Core: Advanced Search with Alpha-Beta Pruning ---
 function search(board, depth, alpha, beta, turn, ply, fenHistory) {
     const boardFEN = boardToFEN(board);
-    if (fenHistory[boardFEN] && fenHistory[boardFEN] >= 2) {
-        return 0; // Threefold repetition is a draw
-    }
+    if (fenHistory[boardFEN] >= 2) return 0;
 
-    // Transposition Table Lookup
     const ttEntry = transpositionTable[boardFEN];
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TTABLE_FLAGS.EXACT) return ttEntry.score;
@@ -126,19 +116,15 @@ function search(board, depth, alpha, beta, turn, ply, fenHistory) {
         if (alpha >= beta) return ttEntry.score;
     }
 
-    if (depth === 0) {
-        return evaluateBoard(board, turn);
-    }
+    if (depth === 0) return evaluateBoard(board, turn);
     nodeCount++;
     const legalMoves = generateAllLegalMoves(board, turn);
 
     if (legalMoves.length === 0) {
         const kingPos = findKing(board, turn);
-        const opponentColor = turn === 'w' ? 'b' : 'w';
-        return isSquareAttacked(board, kingPos.r, kingPos.c, opponentColor) ? -20000 + ply : 0;
+        return isSquareAttacked(board, kingPos.r, kingPos.c, turn === 'w' ? 'b' : 'w') ? -20000 + ply : 0;
     }
 
-    // Move Ordering
     legalMoves.sort((a, b) => {
         const victimA = a.capture ? pieceValues[board[a.to[0]][a.to[1]].toUpperCase()] : 0;
         const victimB = b.capture ? pieceValues[board[b.to[0]][b.to[1]].toUpperCase()] : 0;
@@ -147,28 +133,16 @@ function search(board, depth, alpha, beta, turn, ply, fenHistory) {
 
     let bestScore = -Infinity;
     let originalAlpha = alpha;
-
-    for (let i = 0; i < legalMoves.length; i++) {
-        const move = legalMoves[i];
-        const newBoard = makeMove(board, {from: move.from, to: move.to});
+    for (const move of legalMoves) {
         fenHistory[boardFEN] = (fenHistory[boardFEN] || 0) + 1;
-
-        let score;
-        // Late Move Reduction (LMR)
-        if (depth >= 3 && i >= 4 && !move.capture) {
-            score = -search(newBoard, depth - 2, -alpha - 1, -alpha, turn === 'w' ? 'b' : 'w', ply + 1, fenHistory);
-        } else {
-            score = -search(newBoard, depth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', ply + 1, fenHistory);
-        }
-
-        fenHistory[boardFEN] -= 1;
-
+        const newBoard = makeMove(board, move);
+        const score = -search(newBoard, depth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', ply + 1, fenHistory);
+        fenHistory[boardFEN]--;
         if (score > bestScore) bestScore = score;
         if (score > alpha) alpha = score;
         if (alpha >= beta) break;
     }
 
-    // Transposition Table Store
     let flag = TTABLE_FLAGS.EXACT;
     if (bestScore <= originalAlpha) flag = TTABLE_FLAGS.UPPERBOUND;
     else if (bestScore >= beta) flag = TTABLE_FLAGS.LOWERBOUND;
@@ -184,21 +158,17 @@ self.onmessage = function(e) {
         const startTime = performance.now();
         const board = createBoardFromFEN(fen);
         nodeCount = 0;
-        
+        transpositionTable = {};
+
         let bestMove = null;
         let bestScore = -Infinity;
-        let lastIterationBestMove = null;
 
         const historyMap = {};
         fenHistory.forEach(f => historyMap[f] = (historyMap[f] || 0) + 1);
 
-        // Iterative Deepening with Aspiration Windows
         for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
             const legalMoves = generateAllLegalMoves(board, color);
-            if (legalMoves.length === 0) {
-                bestMove = null;
-                break;
-            }
+            if (legalMoves.length === 0) { bestMove = null; break; }
 
             let alpha = -Infinity;
             let beta = Infinity;
@@ -206,18 +176,15 @@ self.onmessage = function(e) {
             for (const move of legalMoves) {
                 const newBoard = makeMove(board, move);
                 const score = -search(newBoard, currentDepth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', 1, historyMap);
-                
                 if (score > bestScore) {
                     bestScore = score;
                     bestMove = move;
                 }
                 if (score > alpha) alpha = score;
             }
-            lastIterationBestMove = bestMove;
         }
         
-        const finalMove = bestMove || lastIterationBestMove;
         const endTime = performance.now();
-        postMessage({ bestMove: { from: finalMove.from, to: finalMove.to }, timeTaken: (endTime - startTime).toFixed(2), nodesSearched: nodeCount });
+        postMessage({ bestMove, timeTaken: (endTime - startTime).toFixed(2), nodesSearched: nodeCount });
     }
 };
