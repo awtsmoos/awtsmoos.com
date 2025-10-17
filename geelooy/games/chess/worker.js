@@ -478,11 +478,50 @@ function evaluate(board) {
 //        V12 STABLE SEARCH DRIVER
 // =================================================================
 
+/**
+ * A new helper function to intelligently order moves.
+ * This is the heart of the performance upgrade, allowing the search to be
+ * much more efficient by looking at the most promising moves first.
+ * CRITICAL BUG FIX: Correctly maps piece characters to numerical indices.
+ *
+ * @param {Array<object>} moves - The list of legal moves.
+ * @param {string} pvMove - The best move from the previous search iteration (Principal Variation).
+ * @param {number} ply - The current depth in the search tree.
+ * @returns {Array<object>} The sorted list of moves.
+ */
+function orderMoves(moves, pvMove, ply) {
+    const pieceMap = 'PNBRQKpnbrqk'; // Maps piece character to index 0-11
 
+    // Create a list of [move, score] pairs to sort efficiently.
+    const movesWithScores = moves.map(move => {
+        let score = 0;
+        if (move === pvMove) {
+            score = 100000;
+        } else if (move.capture) {
+            score = 90000 + (pieceValues[move.capture.toLowerCase()] * 10 - pieceValues[move.piece.toLowerCase()]);
+        } else {
+            if (killerMoves[ply] && killerMoves[ply][0] === move) {
+                score = 80000;
+            } else if (killerMoves[ply] && killerMoves[ply][1] === move) {
+                score = 70000;
+            } else if (move.piece) {
+                const pieceIndex = pieceMap.indexOf(move.piece);
+                const toSquare = move.to[0] * 8 + move.to[1];
+                if (pieceIndex !== -1) {
+                    score = historyTable[pieceIndex][toSquare] || 0;
+                }
+            }
+        }
+        return [move, score];
+    });
 
-// =================================================================
-//                      MAIN MESSAGE HANDLER
-// =================================================================
+    // Sort the pairs based on score in descending order.
+    movesWithScores.sort((a, b) => b[1] - a[1]);
+
+    // Return just the sorted moves.
+    return movesWithScores.map(pair => pair[0]);
+}
+
 
 /**
  * The Quiescence Search, now with more accurate capture ordering.
@@ -514,53 +553,10 @@ function quiesce(board, alpha, beta, color) {
     return alpha;
 }
 
-/**
- * A new helper function to intelligently order moves.
- * This is the heart of the performance upgrade, allowing the search to be
- * much more efficient by looking at the most promising moves first.
- * CRITICAL BUG FIX: Correctly maps piece characters to numerical indices.
- *
- * @param {Array<object>} moves - The list of legal moves.
- * @param {string} pvMove - The best move from the previous search iteration (Principal Variation).
- * @param {number} ply - The current depth in the search tree.
- * @returns {Array<object>} The sorted list of moves.
- */
-function orderMoves(moves, pvMove, ply) {
-    const pieceMap = 'PNBRQKpnbrqk'; // Maps piece character to index 0-11
-
-    // Create a list of [move, score] pairs to sort efficiently.
-    const movesWithScores = moves.map(move => {
-        let score = 0;
-        if (move === pvMove) {
-            score = 100000;
-        } else if (move.capture) {
-            score = 90000 + (pieceValues[move.capture.toLowerCase()] * 10 - pieceValues[move.piece.toLowerCase()]);
-        } else {
-            if (killerMoves[ply] && killerMoves[ply][0] === move) {
-                score = 80000;
-            } else if (killerMoves[ply] && killerMoves[ply][1] === move) {
-                score = 70000;
-            } else if (move.piece) { // BUG FIX: Ensure move.piece exists
-                const pieceIndex = pieceMap.indexOf(move.piece);
-                const toSquare = move.to[0] * 8 + move.to[1];
-                if (pieceIndex !== -1) {
-                    score = historyTable[pieceIndex][toSquare] || 0;
-                }
-            }
-        }
-        return [move, score];
-    });
-
-    // Sort the pairs based on score in descending order.
-    movesWithScores.sort((a, b) => b[1] - a[1]);
-
-    // Return just the sorted moves.
-    return movesWithScores.map(pair => pair[0]);
-}
-
 
 /**
- * The core recursive search function, now with the bug fix for history table updates.
+ * The core recursive search function, now massively enhanced with professional pruning
+ * techniques (NMP and LMR) to achieve much greater depth and efficiency.
  */
 function search(board, depth, alpha, beta, color, ply, cr, ep) {
     if (depth <= 0) return quiesce(board, alpha, beta, color);
@@ -571,27 +567,48 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
         return 0;
     }
 
-    const moves = generateLegalMoves(board, color, cr, ep);
-    if (moves.length === 0) {
-        const king = findKing(board, color);
-        if (!king) return 0; // Should not happen in a legal position
-        return isSquareAttacked(board, king.r, king.c, color === 'w' ? 'b' : 'w') ? -MATE_SCORE + ply : 0;
+    // --- Null Move Pruning (NMP) ---
+    // A powerful heuristic to prune large parts of the search tree.
+    const inCheck = isSquareAttacked(board, findKing(board, color).r, findKing(board, color).c, color === 'w'?'b':'w');
+    if (!inCheck && depth >= 3 && ply > 0) {
+        const reduction = 2;
+        const newBoard = board; // We don't actually make a move, just switch sides
+        const score = -search(newBoard, depth - 1 - reduction, -beta, -beta + 1, color === 'w' ? 'b' : 'w', ply + 1, cr, null);
+        if (score >= beta) {
+            return beta; // Prune this branch
+        }
     }
 
-    orderMoves(moves, null, ply);
+    const moves = generateLegalMoves(board, color, cr, ep);
+    if (moves.length === 0) {
+        return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
+    }
 
-    let isFirstMove = true;
-    for (const move of moves) {
+    const orderedMoves = orderMoves(moves, null, ply);
+    let moveCount = 0;
+
+    for (const move of orderedMoves) {
+        moveCount++;
         const newBoard = makeMove(board, move);
         const newCR = { ...cr };
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-
+        
         let score;
-        if (isFirstMove) {
-            isFirstMove = false;
+        // --- Late Move Reductions (LMR) ---
+        let reduction = 0;
+        if (depth >= 4 && moveCount > 4 && !move.capture && !inCheck) {
+            reduction = 1; // Reduce the search depth for less promising moves
+        }
+
+        // Principal Variation Search (PVS)
+        if (moveCount === 1) {
             score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
         } else {
-            score = -search(newBoard, depth - 1, -alpha - 1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+            score = -search(newBoard, depth - 1 - reduction, -alpha - 1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+            if (reduction > 0 && score > alpha) {
+                // Re-search with full depth if the move showed promise
+                score = -search(newBoard, depth - 1, -alpha-1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+            }
             if (score > alpha && score < beta) {
                 score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
             }
@@ -601,8 +618,6 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
             if (!move.capture) {
                 killerMoves[ply][1] = killerMoves[ply][0];
                 killerMoves[ply][0] = move;
-
-                // CRITICAL BUG FIX: Use a numerical index to update the history table.
                 const pieceMap = 'PNBRQKpnbrqk';
                 const pieceIndex = pieceMap.indexOf(move.piece);
                 if (pieceIndex !== -1) {
@@ -622,7 +637,7 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
 
 
 /**
- * The main search driver, updated to integrate with the bug-fixed functions.
+ * The main search driver, updated to integrate with the new, faster search.
  */
 function findBestMove(board, turn, cr, ep) {
     let bestMoveFound = null;
@@ -638,33 +653,22 @@ function findBestMove(board, turn, cr, ep) {
         
         const orderedMoves = orderMoves(moves, pvLine[0], 0);
 
-        let currentBestMoveInIteration = orderedMoves[0]; // Fallback to the best guess
+        let currentBestMoveInIteration = orderedMoves[0];
         let alpha = -Infinity;
         let beta = Infinity;
-        let isFirstMove = true;
 
         for (const move of orderedMoves) {
             const newBoard = makeMove(board, move);
             const newCR = { ...cr };
             const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
             
-            let score;
-            if(isFirstMove) {
-                isFirstMove = false;
-                score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
-            } else {
-                score = -search(newBoard, currentDepth - 1, -alpha - 1, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
-                if (score > alpha && score < beta) {
-                    score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
-                }
-            }
+            const score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
 
             if (stopSearch) break;
 
             if (score > alpha) {
                 alpha = score;
                 currentBestMoveInIteration = move;
-                // In a full implementation, the rest of the PV line would be constructed here.
             }
         }
 
@@ -683,6 +687,11 @@ function findBestMove(board, turn, cr, ep) {
     
     return { bestMove: bestMoveFound, score: bestScore };
 }
+
+// =================================================================
+//                      MAIN MESSAGE HANDLER
+// =================================================================
+
 
 self.onmessage = function(e) {
     const { command, fen, maxTime } = e.data;
