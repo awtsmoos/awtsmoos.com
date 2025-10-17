@@ -449,33 +449,72 @@ function evaluateKingSafety(board, kingPos, kingColor) {
     if (!kingPos) return 0;
     let attackScore = 0;
     const attackerColor = kingColor === 'w' ? 'b' : 'w';
-    
-    // --- Penalty for Weak Pawn Shield ---
-    // This is the single most important fix for king safety.
+    const KING_ATTACK_WEIGHTS = { 'Q': 10, 'R': 6, 'B': 4, 'N': 4 }; // Increased weights
+
+    // --- 1. Enhanced Pawn Shield Penalty ---
     let pawnShieldPenalty = 0;
     const pawn = kingColor === 'w' ? 'P' : 'p';
-    const startRank = kingColor === 'w' ? 6 : 1;
-    for(let dc = -1; dc <= 1; dc++) {
-        const file = kingPos.c + dc;
+    const kingFile = kingPos.c;
+    const kingRank = kingPos.r;
+
+    // Check files directly in front of and adjacent to the king
+    for (let df = -1; df <= 1; df++) {
+        const file = kingFile + df;
         if (file < 0 || file > 7) continue;
-        
-        let pawnFoundOnRank = -1;
-        for (let r = 0; r < 8; r++) {
+
+        let pawnFound = false;
+        // Scan ranks forward from the king
+        for (let r = kingRank + (kingColor === 'w' ? -1 : 1); r >= 0 && r < 8; r += (kingColor === 'w' ? -1 : 1)) {
             if (board[r][file] === pawn) {
-                pawnFoundOnRank = r;
+                pawnFound = true;
                 break;
             }
         }
-        if (pawnFoundOnRank === -1) {
-            pawnShieldPenalty += 30; // Missing pawn
-        } else {
-            pawnShieldPenalty += Math.abs(pawnFoundOnRank - startRank) * 10; // Pawn pushed too far
+        if (!pawnFound) {
+            pawnShieldPenalty += 45; // Significantly increased penalty for a missing pawn shield
         }
     }
     attackScore += pawnShieldPenalty;
 
-    // --- Score for nearby attackers ---
-    const KING_ATTACK_WEIGHTS = { 'Q': 9, 'R': 5, 'B': 3, 'N': 3 };
+
+    // --- 2. King Ring Attacker Evaluation ---
+    let kingRingAttackers = 0;
+    let kingRingAttackerWeight = 0;
+
+    // Iterate through all squares around the king
+    for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            const r = kingPos.r + dr;
+            const c = kingPos.c + dc;
+            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                // Is this square attacked by the opponent?
+                if (isSquareAttacked(board, r, c, attackerColor)) {
+                    kingRingAttackers++;
+                    // Find which piece is attacking to weigh the threat
+                     for (let rA = 0; rA < 8; rA++) {
+                        for (let cA = 0; cA < 8; cA++) {
+                            const p = board[rA][cA];
+                            if (!p) continue;
+                            const isWhite = p === p.toUpperCase();
+                            if ((attackerColor === 'w' && !isWhite) || (attackerColor === 'b' && isWhite)) continue;
+                            const moves = getPseudoLegalMovesForPiece(p, rA, cA, board, true);
+                            if (moves.some(mv => mv.to[0] === r && mv.to[1] === c)) {
+                                 kingRingAttackerWeight += KING_ATTACK_WEIGHTS[p.toUpperCase()] || 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Exponentially increase penalty for multiple attackers
+    if (kingRingAttackers > 1) {
+        attackScore += kingRingAttackerWeight * kingRingAttackers;
+    }
+
+
+    // --- 3. Nearby Attackers (existing logic is good, but let's boost it) ---
 	for (let r = 0; r < 8; r++) {
 		for (let c = 0; c < 8; c++) {
 			const p = board[r][c];
@@ -488,13 +527,13 @@ function evaluateKingSafety(board, kingPos, kingColor) {
 				for (const move of moves) {
 					const dist = Math.max(Math.abs(move.to[0] - kingPos.r), Math.abs(move.to[1] - kingPos.c));
 					if (dist <= 3) {
-                        attackScore += KING_ATTACK_WEIGHTS[p.toUpperCase()] * (4 - dist);
+                        attackScore += (KING_ATTACK_WEIGHTS[p.toUpperCase()] * (4 - dist)) * 1.5; // Boosted score
                     }
 				}
 			}
 		}
     }
-	return -attackScore; // Return as a penalty
+	return -attackScore;
 }
 
 
