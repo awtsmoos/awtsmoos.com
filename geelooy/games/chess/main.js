@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM Element References ---
 	const canvas = document.getElementById('chessCanvas');
 	const canvasContext = canvas.getContext('2d');
+	
+	const capturedByBlackCanvas = document.getElementById('capturedByBlackCanvas');
+	const capturedByWhiteCanvas = document.getElementById('capturedByWhiteCanvas');
+	const capturedBlackCtx = capturedByBlackCanvas.getContext('2d');
+	const capturedWhiteCtx = capturedByWhiteCanvas.getContext('2d');
+	
 	const messageDiv = document.getElementById('message');
 	const mainMenu = document.getElementById('mainMenu');
 	const gameContainer = document.getElementById('gameContainer');
@@ -469,68 +475,73 @@ document.addEventListener('DOMContentLoaded', () => {
 					}
 				}
 				const piece = board[r][c];
-				if (piece && !(isAnimating && animationState.pieceToAnimate[0] === r && animationState.pieceToAnimate[1] === c)) renderPiece(piece, c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2);
+				if (piece && !(isAnimating && animationState.pieceToAnimate[0] === r && animationState.pieceToAnimate[1] === c)) 
+				renderPiece(canvasContext, piece, c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE);
 			}
 	}
 
-	function renderPiece(piece, x, y) {
+	function renderPiece(ctx, piece, x, y, size) {
 		const isWhite = piece === piece.toUpperCase();
 		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
 
-		// --- START OF CHANGES ---
+		ctx.save();
 
-		canvasContext.save();
-
-		// Apply a high-contrast grayscale filter to ALL pieces.
 		let pieceFilter;
 		if (isWhite) {
-			// For WHITE pieces: Remove all color and make them extremely bright to appear solid white.
-			// You can increase the brightness value (e.g., to 3) to make it even whiter.
-			pieceFilter = 'grayscale(1) brightness(2.0)';
+			pieceFilter = 'grayscale(1) brightness(2.2)';
 		} else {
-			// For BLACK pieces: Remove all color and make them very dark to appear solid black.
-			// You can lower the brightness value (e.g., to 0.1) to make it even darker.
-			pieceFilter = 'grayscale(1) brightness(0.4)';
+			pieceFilter = 'grayscale(1) brightness(0.35)';
 		}
-		canvasContext.filter = pieceFilter;
+		ctx.filter = pieceFilter;
 
-		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
-		canvasContext.textAlign = 'center';
-		canvasContext.textBaseline = 'middle';
+		ctx.font = `${size * 0.8}px serif`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		
+		ctx.fillText(emoji, x, y);
 
-		// Draw the main, filtered black or white emoji shape.
-		canvasContext.fillText(emoji, x, y);
+		ctx.strokeStyle = isWhite ? 'black' : 'white';
+		ctx.lineWidth = 4;
+		ctx.strokeText(emoji, x, y);
 
-		// Add a thicker, more pronounced border.
-		canvasContext.strokeStyle = isWhite ? 'black' : 'white';
-		// Tweak this number to make the border thicker or thinner.
-		canvasContext.lineWidth = 4; // Increased from 2.5 to 4
-		canvasContext.strokeText(emoji, x, y);
+		ctx.restore();
 
-		canvasContext.restore();
-
-		// --- END OF CHANGES ---
-
-		// The special drawing for the bishop's yamulka remains unchanged.
 		if (piece.toLowerCase() === 'b') {
-			const yamulkaRadius = SQUARE_SIZE * 0.16;
-			const yamulkaY = y - SQUARE_SIZE * 0.28;
-			canvasContext.save();
-			canvasContext.translate(x, yamulkaY);
-			canvasContext.scale(1.5, 1);
-			// We give the yamulka a solid color so it stands out from the grayscale piece.
-			canvasContext.fillStyle = isWhite ? '#87CEEB' : '#00008B';
-			canvasContext.beginPath();
-			canvasContext.arc(0, 0, yamulkaRadius, Math.PI, 0);
-			canvasContext.fill();
-			canvasContext.restore();
+			const yamulkaRadius = size * 0.16;
+			const yamulkaY = y - size * 0.28;
+			ctx.save();
+			ctx.translate(x, yamulkaY);
+			ctx.scale(1.5, 1);
+			ctx.fillStyle = isWhite ? '#87CEEB' : '#00008B';
+			ctx.beginPath();
+			ctx.arc(0, 0, yamulkaRadius, Math.PI, 0);
+			ctx.fill();
+			ctx.restore();
 		}
 	}
 
 	function drawCapturedPieces() {
 		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
-		capturedByWhiteDiv.innerHTML = gameState.capturedByWhite.sort(sortPieces).map(p => PIECE_EMOJIS[p.toUpperCase()]).join(' ');
-		capturedByBlackDiv.innerHTML = gameState.capturedByBlack.sort(sortPieces).map(p => PIECE_EMOJIS[p.toUpperCase()]).join(' ');
+		const capturedPieceSize = 45; // A good size for the captured area
+		const padding = 5;
+
+		// Clear the canvases before redrawing
+		capturedWhiteCtx.clearRect(0, 0, capturedByWhiteCanvas.width, capturedByWhiteCanvas.height);
+		capturedBlackCtx.clearRect(0, 0, capturedByBlackCanvas.width, capturedByBlackCanvas.height);
+
+		// Draw pieces captured by White (these are black pieces)
+		gameState.capturedByWhite.sort(sortPieces).forEach((p, i) => {
+			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
+			const y = capturedByWhiteCanvas.height / 2; // Center vertically
+			renderPiece(capturedWhiteCtx, p, x, y, capturedPieceSize);
+		});
+
+		// Draw pieces captured by Black (these are white pieces)
+		gameState.capturedByBlack.sort(sortPieces).forEach((p, i) => {
+			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
+			const y = capturedByBlackCanvas.height / 2; // Center vertically
+			renderPiece(capturedBlackCtx, p, x, y, capturedPieceSize);
+		});
 	}
 
 	// --- Player Interaction ---
@@ -587,7 +598,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		drawBoard(true);
 		const currentX = animationState.startX + (animationState.endX - animationState.startX) * progress;
 		const currentY = animationState.startY + (animationState.endY - animationState.startY) * progress;
-		renderPiece(animationState.piece, currentX, currentY);
+		
+		renderPiece(canvasContext, animationState.piece, currentX, currentY, SQUARE_SIZE);
+		
 		if (progress < 1) {
 			requestAnimationFrame(animationLoop);
 		} else {
