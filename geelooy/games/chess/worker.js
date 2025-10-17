@@ -170,50 +170,28 @@ function quiesce(board, alpha, beta, color, cr, ep) {
 function evaluateBoard(board, cr) {
     let score = 0;
     let pieceCount = 0;
-    let whiteBishops = 0;
-    let blackBishops = 0;
 
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
         const p = board[r][c]; if (!p) continue; pieceCount++;
         const iW = p === p.toUpperCase();
         const pT = p.toUpperCase();
-
-        if (pT === 'B') iW ? whiteBishops++ : blackBishops++;
         
         const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame }[pT];
         const pstScore = iW ? pst[r][c] : pst[7 - r][c];
         score += (iW ? 1 : -1) * (pieceValues[pT] + pstScore);
 
-        // --- NEW STRATEGIC BONUSES ---
-        // 1. Rook on Open/Semi-Open File Bonus
-        if (pT === 'R') {
-            const isSemiOpenFile = !board.some(row => row[c] === (iW ? 'P' : 'p'));
-            if (isSemiOpenFile) {
-                const isOpenFile = !board.some(row => row[c] === (iW ? 'p' : 'P'));
-                score += (iW ? 1 : -1) * (isOpenFile ? 25 : 15);
-            }
-        }
-        // 2. Passed Pawn Bonus (Crucial for Endgames)
-        if (pT === 'P') {
-             let isPassed = true;
-             for(let look_r = r + (iW ? -1 : 1); look_r >= 0 && look_r < 8; look_r += (iW ? -1 : 1)) {
-                 if (board[look_r][c]) { isPassed = false; break; } // Path blocked
-                 if (c > 0 && board[look_r][c-1] === (iW ? 'p' : 'P')) { isPassed = false; break; }
-                 if (c < 7 && board[look_r][c+1] === (iW ? 'p' : 'P')) { isPassed = false; break; }
-             }
-             if(isPassed) {
-                 const rank = iW ? 7 - r : r;
-                 score += (iW ? 1 : -1) * (rank * rank * 3); // Bonus increases exponentially the closer it gets
-             }
+        // --- NEW: Piece Mobility Bonus ---
+        // This encourages active development and strong defensive positions.
+        if(pT !== 'K' && pT !== 'P') { // Don't calculate for kings or pawns
+             const moves = getPseudoLegalMovesForPiece(p, r, c, board, null, null, true);
+             const mobilityBonus = moves.length * 2; // e.g., 2 points per move
+             score += (iW ? 1 : -1) * mobilityBonus;
         }
     }
 
-    if (whiteBishops >= 2) score += 30;
-    if (blackBishops >= 2) score -= 30;
-
-    // 3. HUGE Castling Bonus (to prevent King marches)
-    if(cr.K || cr.Q) score += 50;
-    if(cr.k || cr.q) score -= 50;
+    // Previous strategic bonuses remain, but are now balanced by mobility.
+    if ((cr.K || cr.Q) && pieceCount > 20) score += 30; // Castling is mainly important in the opening/midgame
+    if ((cr.k || cr.q) && pieceCount > 20) score -= 30;
 
     return score;
 }
