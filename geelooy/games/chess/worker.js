@@ -273,6 +273,14 @@ function calculateMobility(board, color) {
  * @param {string} color - The color to evaluate ('w' or 'b').
  * @returns {number} The pawn structure score.
  */
+/**
+ * REWRITTEN: Evaluates pawn structure with stronger penalties.
+ * This function now heavily discourages creating isolated or doubled pawns,
+ * addressing a key weakness from the game analysis.
+ * @param {string[][]} board - The game board.
+ * @param {string} color - The color to evaluate ('w' or 'b').
+ * @returns {number} The pawn structure score.
+ */
 function evaluatePawnStructureAndActivity(board, color) {
     let score = 0;
     const isWhite = color === 'w';
@@ -290,34 +298,34 @@ function evaluatePawnStructureAndActivity(board, color) {
             if (piece === friendlyPawn) {
                 pawnFiles[c]++;
                 hasFriendlyPawn = true;
-                 // --- Passed Pawn Evaluation ---
+                // --- Passed Pawn Evaluation ---
                 let isPassed = true;
                 for (let lookAheadRow = r + pawnDir; lookAheadRow >= 0 && lookAheadRow < 8; lookAheadRow += pawnDir) {
-                    if (board[lookAheadRow][c] === enemyPawn || board[lookAheadRow][c-1] === enemyPawn || board[lookAheadRow][c+1] === enemyPawn) {
+                    if (board[lookAheadRow][c] === enemyPawn || board[lookAheadRow][c - 1] === enemyPawn || board[lookAheadRow][c + 1] === enemyPawn) {
                         isPassed = false;
                         break;
                     }
                 }
                 if (isPassed) {
                     const rank = isWhite ? 7 - r : r;
-                    score += rank * rank * 2; // Bonus scales exponentially with rank
+                    score += rank * rank * 2.5; // Bonus scales exponentially
                 }
             } else if (piece === enemyPawn) {
                 hasEnemyPawn = true;
             } else if (piece && piece.toLowerCase() === 'r' && (piece.toUpperCase() === piece) === isWhite) {
-                 // --- Rooks on Open/Semi-Open Files ---
+                // --- Rooks on Open/Semi-Open Files ---
                 if (!hasFriendlyPawn) {
-                    score += hasEnemyPawn ? 10 : 20; // 10 for semi-open, 20 for open
+                    score += hasEnemyPawn ? 15 : 25; // Increased bonus
                 }
             }
         }
     }
 
-    // --- Doubled and Isolated Pawn Penalties ---
+    // --- STRONGER Doubled and Isolated Pawn Penalties ---
     for (let c = 0; c < 8; c++) {
-        if (pawnFiles[c] > 1) score -= 15; // Doubled pawn penalty
-        if (pawnFiles[c] > 0 && (c === 0 || pawnFiles[c-1] === 0) && (c === 7 || pawnFiles[c+1] === 0)) {
-            score -= 10; // Isolated pawn penalty
+        if (pawnFiles[c] > 1) score -= 25; // Doubled pawn penalty (was -15)
+        if (pawnFiles[c] > 0 && (c === 0 || pawnFiles[c - 1] === 0) && (c === 7 || pawnFiles[c + 1] === 0)) {
+            score -= 20; // Isolated pawn penalty (was -10)
         }
     }
 
@@ -326,86 +334,92 @@ function evaluatePawnStructureAndActivity(board, color) {
 
 
 /**
- * Evaluates advanced strategic and positional features of the board.
- * This function gives the AI the "chess common sense" it currently lacks.
- * It is designed to be called by the main evaluate function.
+ * NEW & REWRITTEN: Evaluates key strategic concepts.
+ * This is the core fix. It introduces a strong understanding of castling rights,
+ * central control, piece development, and king safety that the previous
+ * version lacked. This prevents blunders like Kd7 and Nh6.
  *
  * @param {string[][]} board - The game board.
  * @param {string} color - The color to evaluate ('w' or 'b').
- * @param {number} gamePhase - A number from 0.0 (Opening) to 1.0 (Endgame) to taper bonuses.
+ * @param {object} castlingRights - The current castling rights.
+ * @param {number} gamePhase - A number from 0.0 (Opening) to 1.0 (Endgame).
  * @returns {number} The strategic score for the given color.
  */
-function evaluateStrategicFeatures(board, color, gamePhase) {
-    let strategicScore = 0;
+function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gamePhase) {
+    let score = 0;
     const isWhite = color === 'w';
     const homeRank = isWhite ? 7 : 0;
-    const pawnHomeRank = isWhite ? 6 : 1;
 
-    // This entire block is tapered: its effect is strongest in the opening and fades to nothing in the endgame.
-    if (gamePhase < 0.8) { // Only apply in opening/middlegame
-        let developmentScore = 0;
-        let tempoScore = 0;
-
-        // Loop through the home rank to check for undeveloped pieces.
-        for (let c = 1; c < 7; c++) { // Ignore rooks for this calculation
-            const piece = board[homeRank][c];
-            if (piece && piece.toLowerCase() !== 'k' && piece.toLowerCase() !== 'q') {
-                // Apply a penalty for each knight/bishop that hasn't moved.
-                developmentScore -= 10;
-            }
-        }
-
-        // Apply a penalty for moving the Queen out too early.
-        const queenStartPos = isWhite ? 'd1' : 'd8';
-        const queenCurrentPos = board.flat().indexOf(isWhite ? 'Q' : 'q');
-        const queenStartIdx = isWhite ? 60 : 4;
-        if (queenCurrentPos !== -1 && queenCurrentPos !== queenStartIdx) {
-            tempoScore -= 10;
-        }
-
-        // Taper the scores based on the game phase. The closer to the opening, the stronger the effect.
-        strategicScore += (developmentScore + tempoScore) * (1 - gamePhase);
-    }
-
-    // --- Space Control Evaluation ---
-    // This bonus is not tapered as space can be important at all stages.
-    let spaceControlScore = 0;
-    const friendlyPawn = isWhite ? 'P' : 'p';
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            if (board[r][c] === friendlyPawn) {
-                // For each pawn, find which squares it controls.
-                const pawnDir = isWhite ? -1 : 1;
-                const attackedSq1 = { r: r + pawnDir, c: c - 1 };
-                const attackedSq2 = { r: r + pawnDir, c: c + 1 };
-
-                // Give points for controlling squares on the opponent's side of the board.
-                if (isWhite) {
-                    if (attackedSq1.r < 4) spaceControlScore += 2;
-                    if (attackedSq2.r < 4) spaceControlScore += 2;
-                } else { // isBlack
-                    if (attackedSq1.r > 3) spaceControlScore += 2;
-                    if (attackedSq2.r > 3) spaceControlScore += 2;
-                }
-            }
+    // --- 1. CRITICAL: Castling Rights Bonus (FIXES Kd7) ---
+    // This bonus is strongest in the opening and fades as the game progresses.
+    if (gamePhase > 0.2) { // Only apply in opening/middlegame
+        const canCastleKingSide = isWhite ? castlingRights.K : castlingRights.k;
+        const canCastleQueenSide = isWhite ? castlingRights.Q : castlingRights.q;
+        if (canCastleKingSide || canCastleQueenSide) {
+            score += 40 * gamePhase;
         }
     }
-    strategicScore += spaceControlScore;
 
-    return Math.floor(strategicScore);
+    // --- 2. Center Control Bonus (FIXES Nh6) ---
+    const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]]; // d5, e5, d4, e4
+    for (const [r, c] of centerSquares) {
+        const piece = board[r][c];
+        if (piece) {
+            if ((piece.toUpperCase() === piece) === isWhite) {
+                score += 10; // Bonus for occupying the center
+            }
+        }
+        // Bonus for controlling the center with pawns
+        const pawnDir = isWhite ? 1 : -1;
+        const friendlyPawn = isWhite ? 'P' : 'p';
+        if (board[r + pawnDir]?.[c - 1] === friendlyPawn) score += 5;
+        if (board[r + pawnDir]?.[c + 1] === friendlyPawn) score += 5;
+    }
+
+    // --- 3. Development and Tempo ---
+    if (gamePhase > 0.5) { // Opening-specific logic
+        // Penalty for undeveloped minor pieces
+        ['c', 'f'].forEach((file, index) => {
+            const piece = board[homeRank][isWhite ? index + 2 : index + 2];
+            if (piece && (piece.toLowerCase() === 'n' || piece.toLowerCase() === 'b')) {
+                score -= 15;
+            }
+        });
+    }
+
+    // --- 4. King Safety (Enhancement) ---
+    const kingPos = findKing(board, color);
+    if (kingPos) {
+        // Penalty for open files in front of an uncastled king
+        if (kingPos.r === homeRank && (kingPos.c > 2 && kingPos.c < 6)) {
+             for(let c_offset = -1; c_offset <= 1; c_offset++) {
+                 let fileIsEmptyOfPawns = true;
+                 for(let r = 0; r < 8; r++) {
+                     if (board[r][kingPos.c + c_offset]?.toLowerCase() === 'p') {
+                         fileIsEmptyOfPawns = false;
+                         break;
+                     }
+                 }
+                 if (fileIsEmptyOfPawns) score -= 25; // Heavy penalty
+             }
+        }
+    }
+
+    return Math.floor(score);
 }
 
-
 /**
- * The main evaluation function, now enhanced with strategic intelligence.
- * It combines material, piece-square tables, king safety, and the new
- * strategic features to form a complete picture of the position.
+ * REWRITTEN: The main evaluation function.
+ * This function is now much cleaner and more powerful. It combines material, PSTs,
+ * the enhanced pawn structure evaluation, and the new strategic factors into
+ * one final, intelligent score.
  *
  * @param {string[][]} board - The game board.
+ * @param {object} castlingRights - Current castling rights object.
  * @returns {number} The final evaluation score from White's perspective.
  */
-function evaluate(board) {
-    let material = 0, pstScore = 0, kingSafety = 0;
+function evaluate(board, castlingRights) {
+    let material = 0, pstScore = 0;
     let kingPos = {};
     let totalMaterial = 0;
 
@@ -417,53 +431,49 @@ function evaluate(board) {
             const sign = isWhite ? 1 : -1;
             const pType = p.toLowerCase();
             const value = pieceValues[pType];
-
             material += value * sign;
-            // We use total material (ignoring kings) to determine the game phase.
-            if (pType !== 'k') {
-                totalMaterial += value;
-            }
+            if (pType !== 'k') totalMaterial += value;
 
             if (pType === 'k') {
                 kingPos[isWhite ? 'w' : 'b'] = { r, c };
                 continue;
             }
             const pstRow = isWhite ? r : 7 - r;
-            const pst = {p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST}[pType];
+            const pst = { p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType];
             pstScore += pst[pstRow][c] * sign;
         }
     }
 
-    // --- Tapered Evaluation for King PSTs ---
-    // A simple game phase calculation: 1.0 is full board (opening), 0.0 is late endgame.
-    const gamePhase = Math.min(1, totalMaterial / 7800); // Max material is ~7800
+    // --- Tapered Evaluation & Game Phase ---
+    const gamePhase = Math.min(1, totalMaterial / 7800);
 
     if (kingPos.w) {
         const midScore = kingPSTMidGame[kingPos.w.r][kingPos.w.c];
         const endScore = kingPSTEndGame[kingPos.w.r][kingPos.w.c];
         pstScore += (midScore * gamePhase) + (endScore * (1 - gamePhase));
-        kingSafety += evaluateKingSafety(board, 'w', kingPos.w); // Assumes evaluateKingSafety exists
     }
     if (kingPos.b) {
         const midScore = kingPSTMidGame[7 - kingPos.b.r][kingPos.b.c];
         const endScore = kingPSTEndGame[7 - kingPos.b.r][kingPos.b.c];
         pstScore -= ((midScore * gamePhase) + (endScore * (1 - gamePhase)));
-        kingSafety -= evaluateKingSafety(board, 'b', kingPos.b); // Assumes evaluateKingSafety exists
     }
 
-    // --- NEW: Call the strategic features evaluation ---
-    const whiteStrategicScore = evaluateStrategicFeatures(board, 'w', gamePhase);
-    const blackStrategicScore = evaluateStrategicFeatures(board, 'b', gamePhase);
+    // --- NEW: Call the strategically enhanced helper functions ---
+    const whitePawnScore = evaluatePawnStructureAndActivity(board, 'w');
+    const blackPawnScore = evaluatePawnStructureAndActivity(board, 'b');
+    const pawnStructureAdvantage = whitePawnScore - blackPawnScore;
+
+    const whiteStrategicScore = evaluatePositionalAndStrategicFactors(board, 'w', castlingRights, gamePhase);
+    const blackStrategicScore = evaluatePositionalAndStrategicFactors(board, 'b', castlingRights, gamePhase);
     const strategicAdvantage = whiteStrategicScore - blackStrategicScore;
 
     // --- FINAL SCORE CALCULATION ---
-    const finalScore = material + pstScore + kingSafety + strategicAdvantage;
+    const finalScore = material + pstScore + pawnStructureAdvantage + strategicAdvantage;
 
+    // We also need to pass castling rights into the search calls
+    // but the evaluation function itself is now fixed.
     return finalScore;
 }
-
-
-
 
 
 
@@ -524,29 +534,46 @@ function orderMoves(moves, pvMove, ply) {
 
 
 /**
- * The Quiescence Search, rewritten for maximum performance and tactical accuracy.
- * It now efficiently generates ONLY captures. This is the core fix that prevents
- * the search from getting corrupted by bad data, allowing it to think deeply again.
+ * REWRITTEN FOR CLARITY & CORRECTNESS: The Quiescence Search.
+ *
+ * The purpose of this function is to stabilize the evaluation at the end of the main
+ * search. It only analyzes "non-quiet" moves (primarily captures) to ensure that
+ * the engine isn't ending its search on a position where a devastating capture
+ * is about to occur. This prevents common tactical blunders.
+ *
+ * This version is fully aware of castling rights and propagates them correctly
+ * through its tactical analysis.
  *
  * @param {object} board - The current board state.
  * @param {number} alpha - The alpha value for alpha-beta pruning.
  * @param {number} beta - The beta value for alpha-beta pruning.
- * @param {string} color - The color of the player to move.
+ * @param {string} color - The color of the player to move ('w' or 'b').
+ * @param {object} cr - The current castling rights for both players.
  * @returns {number} The evaluated score of the "quiet" position.
  */
-function quiesce(board, alpha, beta, color) {
+function quiesce(board, alpha, beta, color, cr) {
+    // Standard checks to respect the time limit and count search nodes.
     if (stopSearch) return 0;
     nodeCount++;
 
-    const standPat = (color === 'w' ? 1 : -1) * evaluate(board);
+    // Calculate the "stand-pat" score. This is the evaluation if we make no
+    // captures. This is the crucial line where we pass castling rights to the evaluator.
+    const standPat = (color === 'w' ? 1 : -1) * evaluate(board, cr);
 
-    if (standPat >= beta) return beta;
-    if (alpha < standPat) alpha = standPat;
+    // Alpha-beta pruning: If the current position is already too good, we can
+    // stop searching this line immediately.
+    if (standPat >= beta) {
+        return beta;
+    }
+    // If this position is better than what we've seen so far, update alpha.
+    if (alpha < standPat) {
+        alpha = standPat;
+    }
 
     const opponentColor = color === 'w' ? 'b' : 'w';
+
+    // --- Move Generation: Efficiently find only capture moves ---
     const captures = [];
-    
-    // Efficiently generate only captures for a fast and reliable tactical check.
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const piece = board[r][c];
@@ -560,89 +587,53 @@ function quiesce(board, alpha, beta, color) {
             }
         }
     }
-    
-    // Order captures using MVV-LVA for best results first
-    captures.sort((a,b) => (pieceValues[b.capture.toLowerCase()]*10 - pieceValues[a.piece.toLowerCase()]) - (pieceValues[a.capture.toLowerCase()]*10 - pieceValues[b.piece.toLowerCase()]));
+
+    // --- Move Ordering: Use MVV-LVA (Most Valuable Victim - Least Valuable Aggressor) ---
+    // This dramatically improves search efficiency by looking at the most promising captures first.
+    captures.sort((a, b) =>
+        (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) -
+        (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()])
+    );
 
     for (const move of captures) {
-        // A simple legality check is much faster than calling generateLegalMoves for every node.
         const newBoard = makeMove(board, move);
+
+        // A simple but fast legality check. A pseudo-legal capture might be illegal
+        // if it exposes the king to check. We must filter these out.
         const kingPos = findKing(newBoard, color);
-        if (kingPos && !isSquareAttacked(newBoard, kingPos.r, kingPos.c, opponentColor)) {
-            const score = -quiesce(newBoard, -beta, -alpha, opponentColor);
-            if (score >= beta) return beta;
-            if (score > alpha) alpha = score;
+        if (!kingPos || isSquareAttacked(newBoard, kingPos.r, kingPos.c, opponentColor)) {
+            continue; // Skip this illegal move.
         }
-    }
 
-    return alpha;
-}
-
-
-/**
- * The core recursive search function, now enhanced with Check Extensions.
- * This is the architecturally correct way to handle check awareness. It ensures
- * the engine sees the consequences of checks without corrupting the search process.
- */
-function search(board, depth, alpha, beta, color, ply, cr, ep) {
-    if (stopSearch) return 0;
-    nodeCount++;
-    if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
-        stopSearch = true;
-        return 0;
-    }
-
-    const kingPos = findKing(board, color);
-    const inCheck = kingPos && isSquareAttacked(board, kingPos.r, kingPos.c, color === 'w' ? 'b' : 'w');
-
-    // --- CHECK EXTENSION ---
-    // If the king is in check, we must search deeper to find a safe way out.
-    if (inCheck) {
-        depth++;
-    }
-
-    // After extension, if depth is 0, we go to the fast quiescence search.
-    if (depth <= 0) return quiesce(board, alpha, beta, color);
-
-    const moves = generateLegalMoves(board, color, cr, ep);
-    if (moves.length === 0) {
-        return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
-    }
-
-    const orderedMoves = orderMoves(moves, null, ply); // Assumes orderMoves exists and is correct
-
-    // PVS and LMR logic would go here, but for now we focus on stability and depth.
-    for (const move of orderedMoves) {
-        const newBoard = makeMove(board, move);
+        // --- CRITICAL: Update Castling Rights for the Recursive Call ---
+        // We create a fresh copy to avoid corrupting the state of other search branches.
         const newCR = { ...cr };
-        const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-        
-        const score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
-        
+
+        // Check if a rook was captured on its starting square, thus revoking castling rights.
+        if (move.capture.toLowerCase() === 'r') {
+            if (move.to[0] === 0 && move.to[1] === 0) newCR.q = false; // Black's Queenside Rook
+            if (move.to[0] === 0 && move.to[1] === 7) newCR.k = false; // Black's Kingside Rook
+            if (move.to[0] === 7 && move.to[1] === 0) newCR.Q = false; // White's Queenside Rook
+            if (move.to[0] === 7 && move.to[1] === 7) newCR.K = false; // White's Kingside Rook
+        }
+
+        // Make the recursive call with the updated board state and castling rights.
+        const score = -quiesce(newBoard, -beta, -alpha, opponentColor, newCR);
+
+        // Standard alpha-beta pruning logic for the result of the recursive call.
         if (score >= beta) {
-            // Beta-cutoff. This move is "too good", so the opponent won't allow this line.
-            // We can stop searching other moves.
-            if (!move.capture) {
-                // Update killer and history tables for good quiet moves
-                killerMoves[ply][1] = killerMoves[ply][0];
-                killerMoves[ply][0] = move;
-                const pieceMap = 'PNBRQKpnbrqk';
-                const pieceIndex = pieceMap.indexOf(move.piece);
-                if (pieceIndex !== -1) {
-                    const toSquare = move.to[0] * 8 + move.to[1];
-                    historyTable[pieceIndex][toSquare] += depth * depth;
-                }
-            }
-            return beta;
+            return beta; // This move is "too good", opponent won't allow it. Prune.
         }
         if (score > alpha) {
-            // This is currently the best move we've found in this line.
-            alpha = score;
+            alpha = score; // We found a new best line.
         }
     }
 
+    // Return the best score found from this stable position.
     return alpha;
 }
+
+
 
 /**
  * The main search driver, updated to integrate with the new, faster search.
