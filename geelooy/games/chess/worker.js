@@ -8,6 +8,9 @@
 const pieceValues = {
 	'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 20000
 };
+// New constants for SEE
+const pieceSeeValues = { 'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 10000 };
+const BISHOP_PAIR_BONUS = 50; // Increased value
 // prettier-ignore
 const pawnPST = [
     [0,  0,  0,  0,  0,  0,  0,  0],
@@ -392,10 +395,17 @@ function evaluateBasicEndgame(board, winningSide, kingPos, loneKingPos) {
 /**
  * The main evaluation function, now with endgame detection.
  */
+/**
+ * The main evaluation function, combining all strategic and tactical insights.
+ * It detects basic endgames and, if none are found, performs a deep
+ * analysis of material, position, mobility, pawn structure, and king safety.
+ */
 function evaluateBoard(board, colorToMove) {
-    // --- 0. Endgame Detection and Evaluation ---
-    let pieceCount = { w: 0, b: 0, wQ: 0, wR: 0, wB: 0, wN: 0, bQ: 0, bR: 0, bB: 0, bN: 0 };
+    // --- Part 0: Basic Endgame Detection ---
+    // First, check if we are in a simple, won endgame. If so, use a specialized evaluation.
+    let pieceCount = { w: 0, b: 0, wQ: 0, wR: 0, bQ: 0, bR: 0 };
     let kingPos = { w: null, b: null };
+    let hasPawns = false;
 
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
@@ -404,64 +414,49 @@ function evaluateBoard(board, colorToMove) {
             const isWhite = p === p.toUpperCase();
             if (isWhite) pieceCount.w++; else pieceCount.b++;
             const pT = p.toUpperCase();
-            if (pT === 'K') kingPos[isWhite ? 'w' : 'b'] = { r, c };
+            if (pT === 'P') hasPawns = true;
+            else if (pT === 'K') kingPos[isWhite ? 'w' : 'b'] = { r, c };
             else if (pT === 'Q') isWhite ? pieceCount.wQ++ : pieceCount.bQ++;
             else if (pT === 'R') isWhite ? pieceCount.wR++ : pieceCount.bR++;
-            else if (pT === 'B') isWhite ? pieceCount.wB++ : pieceCount.bB++;
-            else if (pT === 'N') isWhite ? pieceCount.wN++ : pieceCount.bN++;
         }
     }
 
-    // Check for King + Queen vs King
-    if (pieceCount.w === 1 && pieceCount.b === pieceCount.bQ + 1 && pieceCount.bQ >= 1) {
-        // Black has a winning endgame (e.g., K+Q vs K, K+2Q vs K, K+Q+R vs K)
-        const score = evaluateBasicEndgame(board, 'b', kingPos, kingPos.w);
-        return colorToMove === 'b' ? score : -score;
-    }
-    if (pieceCount.b === 1 && pieceCount.w === pieceCount.wQ + 1 && pieceCount.wQ >= 1) {
-        // White has a winning endgame
-        const score = evaluateBasicEndgame(board, 'w', kingPos, kingPos.b);
-        return colorToMove === 'w' ? score : -score;
-    }
-
-    // Check for King + Rook vs King
-    if (pieceCount.w === 1 && pieceCount.b === pieceCount.bR + 1 && pieceCount.bR >= 1 && pieceCount.bQ === 0) {
-        // Black has K+R vs K
-        const score = evaluateBasicEndgame(board, 'b', kingPos, kingPos.w);
-        return colorToMove === 'b' ? score : -score;
-    }
-    if (pieceCount.b === 1 && pieceCount.w === pieceCount.wR + 1 && pieceCount.wR >= 1 && pieceCount.wQ === 0) {
-        // White has K+R vs K
-        const score = evaluateBasicEndgame(board, 'w', kingPos, kingPos.b);
-        return colorToMove === 'w' ? score : -score;
+    // Only trigger endgame logic if there are no pawns, to avoid complex pawn-endgame scenarios.
+    if (!hasPawns) {
+        // Check for King + Queen(s) vs lone King
+        if (pieceCount.w === 1 && pieceCount.b === (pieceCount.bQ + pieceCount.bR + 1) && pieceCount.bQ >= 1) {
+            const score = evaluateBasicEndgame(board, 'b', kingPos, kingPos.w);
+            return colorToMove === 'b' ? score : -score;
+        }
+        if (pieceCount.b === 1 && pieceCount.w === (pieceCount.wQ + pieceCount.wR + 1) && pieceCount.wQ >= 1) {
+            const score = evaluateBasicEndgame(board, 'w', kingPos, kingPos.b);
+            return colorToMove === 'w' ? score : -score;
+        }
+        // Check for King + Rook(s) vs lone King (and no Queens)
+        if (pieceCount.w === 1 && pieceCount.b === (pieceCount.bR + 1) && pieceCount.bR >= 1 && pieceCount.bQ === 0) {
+            const score = evaluateBasicEndgame(board, 'b', kingPos, kingPos.w);
+            return colorToMove === 'b' ? score : -score;
+        }
+        if (pieceCount.b === 1 && pieceCount.w === (pieceCount.wR + 1) && pieceCount.wR >= 1 && pieceCount.wQ === 0) {
+            const score = evaluateBasicEndgame(board, 'w', kingPos, kingPos.b);
+            return colorToMove === 'w' ? score : -score;
+        }
     }
 
-
-    // --- IF NOT A BASIC ENDGAME, PROCEED WITH NORMAL EVALUATION ---
-
+    // --- Part 1: General Evaluation (If not a basic endgame) ---
     let materialScore = 0, positionalScore = 0, mobilityScore = 0, pawnStructureScore = 0, kingSafetyScore = 0;
-    
-    // [ ... PASTE THE ENTIRE "Vastly Improved Evaluation" `evaluateBoard` function from the previous answer here ... ]
-    // This includes:
-    // 1. Pre-computation and Game Phase Detection
-    // 2. Main Evaluation Loop (Material, Position, Mobility)
-    // 3. Pawn Structure Evaluation
-    // 4. Strategic Bonuses
-    // 5. King Safety
-    // 6. Final Summation
-    
-    // For clarity, I'm pasting it again below.
 
-    // --- 1. Pre-computation and Game Phase Detection ---
+    // Pre-computation and Game Phase Detection
     let totalPieceValue = 0;
     const initialPieceValue = 2 * (4 * pieceValues['N'] + 4 * pieceValues['B'] + 4 * pieceValues['R'] + 2 * pieceValues['Q']);
     
     const boardState = {
         white: { bishops: 0, pawnFiles: new Set(), pawnRanks: {} },
         black: { bishops: 0, pawnFiles: new Set(), pawnRanks: {} },
-        kingPos: kingPos // We already computed this
+        kingPos: kingPos // Reuse from endgame check
     };
     
+    let queenPresent = false;
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -470,6 +465,7 @@ function evaluateBoard(board, colorToMove) {
             const isWhite = p === pT;
             const color = isWhite ? 'white' : 'black';
             if (pT !== 'P' && pT !== 'K') totalPieceValue += pieceValues[pT];
+            if (pT === 'Q') queenPresent = true;
             if (pT === 'B') boardState[color].bishops++;
             if (pT === 'P') {
                 boardState[color].pawnFiles.add(c);
@@ -481,7 +477,7 @@ function evaluateBoard(board, colorToMove) {
     }
     const gamePhase = Math.max(0, Math.min(1, (initialPieceValue - totalPieceValue) / initialPieceValue));
 
-    // --- 2. Main Evaluation Loop (Material, Position, Mobility) ---
+    // --- Part 2: Main Evaluation Loop (Material, Position, Mobility) ---
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -489,13 +485,19 @@ function evaluateBoard(board, colorToMove) {
             const isWhite = p === p.toUpperCase();
             const sign = isWhite ? 1 : -1;
             const pT = p.toUpperCase();
+
+            // a) Material Score
             materialScore += sign * pieceValues[pT];
+
+            // b) Positional Score (Tapered Piece-Square Tables)
             const mgPST = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: kingPSTMidGame }[pT];
             const egPST = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: kingPSTEndGame }[pT];
             const pstRow = isWhite ? r : 7 - r;
             const mgScore = mgPST[pstRow][c];
             const egScore = egPST[pstRow][c];
             positionalScore += sign * (mgScore * (1 - gamePhase) + egScore * gamePhase);
+            
+            // c) Mobility and Piece-Specific Bonuses
             if (MOBILITY_WEIGHT[pT]) {
                 const moves = getPseudoLegalMovesForPiece(p, r, c, board);
                 mobilityScore += sign * moves.length * MOBILITY_WEIGHT[pT];
@@ -511,63 +513,58 @@ function evaluateBoard(board, colorToMove) {
             }
             if (pT === 'N') {
                 const outpostRank = isWhite ? r <= 3 : r >= 4;
-                if(outpostRank) {
+                if (outpostRank) {
                     const friendlyPawn = isWhite ? 'P' : 'p';
-                    let isProtectedByPawn = false;
-                    if(c > 0 && board[r + (isWhite ? 1 : -1)]?.[c - 1] === friendlyPawn) isProtectedByPawn = true;
-                    if(c < 7 && board[r + (isWhite ? 1 : -1)]?.[c + 1] === friendlyPawn) isProtectedByPawn = true;
-                    if(isProtectedByPawn) positionalScore += sign * KNIGHT_OUTPOST_BONUS;
+                    if ((c > 0 && board[r + (isWhite ? 1 : -1)]?.[c - 1] === friendlyPawn) ||
+                        (c < 7 && board[r + (isWhite ? 1 : -1)]?.[c + 1] === friendlyPawn)) {
+                        positionalScore += sign * KNIGHT_OUTPOST_BONUS;
+                    }
                 }
             }
         }
     }
     
-    // --- 3. Pawn Structure Evaluation ---
+    // --- Part 3: Pawn Structure Evaluation ---
     ['white', 'black'].forEach(color => {
         const sign = color === 'white' ? 1 : -1;
         const pawnRanks = boardState[color].pawnRanks;
         const friendlyPawn = color === 'white' ? 'P' : 'p';
         const opponentPawn = color === 'white' ? 'p' : 'P';
-        for (const c in pawnRanks) {
-            const col = parseInt(c);
-            const r = pawnRanks[col];
+        boardState[color].pawnFiles.forEach(c => {
+            const r = pawnRanks[c];
             let pawnCountInFile = 0;
-            for(let i = 0; i < 8; i++) if(board[i][col] === friendlyPawn) pawnCountInFile++;
+            for(let i = 0; i < 8; i++) if(board[i][c] === friendlyPawn) pawnCountInFile++;
             if(pawnCountInFile > 1) pawnStructureScore += sign * DOUBLED_PAWN_PENALTY * (pawnCountInFile - 1);
-            if (!boardState[color].pawnFiles.has(col - 1) && !boardState[color].pawnFiles.has(col + 1)) {
+            if (!boardState[color].pawnFiles.has(c - 1) && !boardState[color].pawnFiles.has(c + 1)) {
                  pawnStructureScore += sign * ISOLATED_PAWN_PENALTY;
             }
-            if ( (boardState[color].pawnFiles.has(col - 1) && board[r + sign * -1]?.[col - 1] === friendlyPawn) || 
-                 (boardState[color].pawnFiles.has(col + 1) && board[r + sign * -1]?.[col + 1] === friendlyPawn) ) {
+            if ((boardState[color].pawnFiles.has(c - 1)) || (boardState[color].pawnFiles.has(c + 1))) {
                 pawnStructureScore += sign * CONNECTED_PAWN_BONUS;
             }
             let isPassed = true;
             for (let forwardRank = r + sign; forwardRank >= 0 && forwardRank < 8; forwardRank += sign) {
-                if (board[forwardRank][col] === opponentPawn) { isPassed = false; break; }
-                if (col > 0 && board[forwardRank][col - 1] === opponentPawn) { isPassed = false; break; }
-                if (col < 7 && board[forwardRank][col + 1] === opponentPawn) { isPassed = false; break; }
+                if (board[forwardRank][c] === opponentPawn || board[forwardRank][c - 1] === opponentPawn || board[forwardRank][c + 1] === opponentPawn) { isPassed = false; break; }
             }
             if (isPassed) {
-                const rankBonus = PASSED_PAWN_BONUS[color === 'white' ? 7 - r : r];
-                pawnStructureScore += sign * rankBonus;
+                pawnStructureScore += sign * PASSED_PAWN_BONUS[color === 'white' ? 7 - r : r];
             }
-        }
+        });
     });
     
-    // --- 4. Strategic Bonuses ---
-    if (boardState.white.bishops >= 2) positionalScore += BISHOP_PAIR_BONUS * (1 - gamePhase);
-    if (boardState.black.bishops >= 2) positionalScore -= BISHOP_PAIR_BONUS * (1 - gamePhase);
+    // --- Part 4: Strategic Bonuses ---
+    if (boardState.white.bishops >= 2) positionalScore += BISHOP_PAIR_BONUS;
+    if (boardState.black.bishops >= 2) positionalScore -= BISHOP_PAIR_BONUS;
     
-    // --- 5. King Safety ---
+    // --- Part 5: King Safety ---
+    const kingSafetyTaper = queenPresent ? 1 : (1 - gamePhase);
     const whiteKingSafety = calculateKingSafetyScore(board, boardState, 'w');
     const blackKingSafety = calculateKingSafetyScore(board, boardState, 'b');
-    kingSafetyScore = (whiteKingSafety - blackKingSafety) * (1 - gamePhase);
+    kingSafetyScore = (whiteKingSafety - blackKingSafety) * kingSafetyTaper;
 
-    // --- 6. Final Summation ---
+    // --- Part 6: Final Summation ---
     const totalScore = materialScore + positionalScore + mobilityScore + pawnStructureScore + kingSafetyScore;
     return (colorToMove === 'w' ? 1 : -1) * totalScore;
 }
-
 
 // PASTE this function as well, as it's used by the main evaluation
 function calculateKingSafetyScore(board, boardState, kingColor) {
@@ -725,37 +722,25 @@ function evaluateKingSafety(board, kingPos, kingColor) {
 // --- AI Core: Search ---
 // The search algorithm is solid, but now it will be guided by a much smarter evaluation.
 function orderMoves(moves, board, ttMove, ply) {
-    // Using MVV-LVA (Most Valuable Victim - Least Valuable Aggressor) for capture sorting
-    const MVV_LVA_TABLE = [
-        [0, 0, 0, 0, 0, 0], // attacker K
-        [105, 104, 103, 102, 101, 100], // attacker Q
-        [205, 204, 203, 202, 201, 200], // attacker R
-        [305, 304, 303, 302, 301, 300], // attacker B
-        [405, 404, 403, 402, 401, 400], // attacker N
-        [505, 504, 503, 502, 501, 500]  // attacker P
-    ];
-    const pieceMap = { 'Q': 1, 'R': 2, 'B': 3, 'N': 4, 'P': 5, 'K': 0 };
-
-	const mS = [];
-	for (const m of moves) {
-		let s = 0;
-		if (ttMove && m.from[0] === ttMove.from[0] && m.to[0] === ttMove.to[0] && m.from[1] === ttMove.from[1] && m.to[1] === ttMove.to[1]) {
-            s = 2e5;
+    const mS = [];
+    for (const m of moves) {
+        let s = 0;
+        if (ttMove && m.from[0] === ttMove.from[0] && m.to[0] === ttMove.to[0] && m.from[1] === ttMove.from[1] && m.to[1] === ttMove.to[1]) {
+            s = 200000;
         } else if (m.capture) {
-            const victim = m.isEnPassant ? 'P' : board[m.to[0]][m.to[1]].toUpperCase();
-            const attacker = m.piece.toUpperCase();
-            s = 1e5 + MVV_LVA_TABLE[pieceMap[attacker]][pieceMap[victim]];
+            // *** NEW: Use SEE to score captures ***
+            // This will correctly identify that Qxd2 is a terrible move.
+            const seeScore = staticExchangeEvaluation(board, m.from, m.to);
+            s = 100000 + seeScore;
         } else {
-			const k1 = killerMoves[ply][0],
-				  k2 = killerMoves[ply][1];
-			if (k1 && m.from[0] === k1.from[0] && m.to[0] === k1.to[0] && m.from[1] === k1.from[1] && m.to[1] === k1.to[1]) s = 5e3;
-			else if (k2 && m.from[0] === k2.from[0] && m.to[0] === k2.to[0] && m.from[1] === k2.from[1] && m.to[1] === k2.to[1]) s = 4e3;
+			const k1 = killerMoves[ply][0], k2 = killerMoves[ply][1];
+			if (k1 && m.from[0] === k1.from[0] && m.to[0] === k1.to[0] && m.from[1] === k1.from[1] && m.to[1] === k1.to[1]) s = 5000;
+			else if (k2 && m.from[0] === k2.from[0] && m.to[0] === k2.to[0] && m.from[1] === k2.from[1] && m.to[1] === k2.to[1]) s = 4000;
 		}
 		mS.push({ move: m, score: s });
 	}
 	return mS.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
-
 function storeKillerMove(move, ply) { /* ... (no changes) ... */
 	if (!move.capture) {
 		killerMoves[ply][1] = killerMoves[ply][0];
