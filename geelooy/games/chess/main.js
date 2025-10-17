@@ -481,44 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		canvasContext.save();
 
-		// A more nuanced filter to create a high-contrast "sharp" black and white feel
-		// while preserving the original emoji's details.
-		let pieceFilter;
-		if (isWhite) {
-			// For WHITE pieces: Sharply increase contrast and brightness, slightly reduce color.
-			pieceFilter = 'contrast(180%) brightness(120%) saturate(80%)';
-		} else {
-			// For BLACK pieces: Sharply increase contrast and reduce brightness, slightly reduce color.
-			pieceFilter = 'contrast(180%) brightness(75%) saturate(80%)';
-		}
-		canvasContext.filter = pieceFilter;
-
-		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
-		canvasContext.textAlign = 'center';
-		canvasContext.textBaseline = 'middle';
-
-		// Draw the main, filtered emoji.
-		canvasContext.fillText(emoji, x, y);
-
-		// Keep the pronounced black or white border for that sharp, sticker-like effect.
-		canvasContext.strokeStyle = isWhite ? 'black' : 'white';
-		canvasContext.lineWidth = 4; // This is the thicker border
-		canvasContext.strokeText(emoji, x, y);
-
-		canvasContext.restore();
-
-		// --- END OF CHANGES ---
-
-		// The special drawing for the bishop's yamulka remains unchanged.
-		if (piece.toLowerCase() === 'b') {
-function renderPiece(piece, x, y) {
-		const isWhite = piece === piece.toUpperCase();
-		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
-
-		// --- START OF CHANGES ---
-
-		canvasContext.save();
-
 		// Apply a high-contrast grayscale filter to ALL pieces.
 		let pieceFilter;
 		if (isWhite) {
@@ -564,7 +526,6 @@ function renderPiece(piece, x, y) {
 			canvasContext.restore();
 		}
 	}
-	
 
 	function drawCapturedPieces() {
 		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
