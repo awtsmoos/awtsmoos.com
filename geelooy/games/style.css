@@ -1,48 +1,52 @@
-/*B"H*/
-
+/* B"H 
+— Awtsmoos shines through every pixel of creation */
 
 .logo {
   font-family: "Poppins", "Inter", sans-serif;
   font-weight: 800;
-  font-size: clamp(36px, 8vw, 96px);
+  font-size: clamp(40px, 10vw, 100px);
   text-align: center;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #ff2cff, #00eaff);
+  color: transparent;
+  background: linear-gradient(135deg, #6c63ff 0%, #00eaff 50%, #ff00ff 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3),
-               0 0 60px rgba(0, 200, 255, 0.2);
-  animation: glow 4s ease-in-out infinite alternate;
-  margin-top: 12vh;
+  text-shadow: 0 0 40px rgba(0, 200, 255, 0.35);
+  margin: 10vh 0 6vh;
+  animation: pulse 3.6s ease-in-out infinite alternate;
 }
 
-@keyframes glow {
-  from { filter: brightness(1) saturate(1); transform: scale(1); }
-  to   { filter: brightness(1.4) saturate(1.4); transform: scale(1.02); }
+@keyframes pulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.02); filter: brightness(1.4); }
 }
 
 .about.list {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
 }
 
 .about.list a {
+  width: clamp(200px, 70%, 380px);
+  text-align: center;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  color: #fff;
+  letter-spacing: 0.04em;
   text-decoration: none;
-  background: linear-gradient(135deg, #ff2cff, #00eaff);
-  border-radius: 12px;
-  padding: 12px 28px;
-  box-shadow: 0 4px 20px rgba(0, 200, 255, 0.4);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  color: #fff;
+  background: linear-gradient(135deg, #6c63ff, #00eaff);
+  border-radius: 18px;
+  padding: 16px 0;
+  box-shadow:
+    0 0 12px rgba(0, 200, 255, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
 }
 
 .about.list a:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 200, 255, 0.6);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 0 20px rgba(0, 200, 255, 0.7),
+    inset 0 0 12px rgba(255, 255, 255, 0.2);
+  filter: brightness(1.2);
 }
