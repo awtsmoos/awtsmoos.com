@@ -476,28 +476,38 @@ document.addEventListener('DOMContentLoaded', () => {
 	function renderPiece(piece, x, y) {
 		const isWhite = piece === piece.toUpperCase();
 		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
-		
-		// --- FIX STARTS HERE ---
 
-		// 1. Save the current state of the canvas (so the filter doesn't affect other drawings)
+		// --- START OF CHANGES ---
+
 		canvasContext.save();
 
-		// 2. Apply a filter to make white pieces brighter and black pieces darker.
-		// This creates the "tint" effect you want.
-		canvasContext.filter = isWhite ? 'brightness(135%)' : 'brightness(70%) saturate(120%)';
+		// 1. Special filter for the White Pawn ('P')
+		if (piece === 'P') {
+			// This combination removes color and boosts brightness to make it appear white
+			canvasContext.filter = 'grayscale(1) brightness(2)';
+		} else {
+			// The original tinting filter for all other pieces
+			canvasContext.filter = isWhite ? 'brightness(135%)' : 'brightness(70%) saturate(120%)';
+		}
 
 		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
 		canvasContext.textAlign = 'center';
 		canvasContext.textBaseline = 'middle';
 
-		// 3. Draw the emoji. The filter will be applied to it automatically.
+		// First, draw the main emoji with its tint/filter
 		canvasContext.fillText(emoji, x, y);
 
-		// 4. Restore the canvas to its original state, removing the filter.
+		// 2. Add the black and white border
+		// Set the color of the outline (black for white pieces, white for black pieces)
+		canvasContext.strokeStyle = isWhite ? 'black' : 'white';
+		// Set the thickness of the outline
+		canvasContext.lineWidth = 2.5; 
+		// Draw the outline on top of the emoji we just drew
+		canvasContext.strokeText(emoji, x, y);
+
 		canvasContext.restore();
-		
-		// --- FIX ENDS HERE ---
-		// (The old tinting logic with globalCompositeOperation has been removed)
+
+		// --- END OF CHANGES ---
 
 		if (piece.toLowerCase() === 'b') {
 			const yamulkaRadius = SQUARE_SIZE * 0.16;
