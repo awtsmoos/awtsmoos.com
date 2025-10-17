@@ -1,7 +1,6 @@
 /*B"H*/
 
 // =================================================================
-// =================================================================
 //         MAIN THREAD (UI/CANVAS/EVENTS - STABLE REWRITE)
 // =================================================================
 
@@ -190,4 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGame(mode, playerColor = 'w') { mainMenu.style.display = 'none'; colorSelectionMenu.style.display = 'none'; chessContainer.style.display = 'block'; resetGameState(); gameState.gameMode = mode; gameState.playerColor = playerColor; const fenData = gameState.fen.split(' '); board = fenData[0].split('/').map(r=>{let nR=[];for(const c of r)if(isNaN(parseInt(c)))nR.push(c);else for(let i=0;i<parseInt(c);i++)nR.push('');return nR}); gameState.fenHistory.push(fenData[0]); updateGameStatus(); drawBoard(); drawCapturedPieces(); switch (mode) { case 'pva': messageDiv.textContent = `You are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`; if (playerColor === 'b') startAIMove(); break; case 'pvp': messageDiv.textContent = "White's turn to move."; break; case 'ava': messageDiv.textContent = "AI vs AI. White to move."; startAIMove(); break; } }
 
     // --- Event Listeners ---
-    canvas.addEventListener('mouseup', handleCanvasEvent);
+    canvas.addEventListener('mouseup', handleCanvasEvent); canvas.addEventListener('touchend', handleCanvasEvent);
+    replayButton.addEventListener('click', () => { gameOverOverlay.style.display = 'none'; chessContainer.style.display = 'none'; mainMenu.style.display = 'flex'; messageDiv.textContent = ''; });
+    downloadButton.addEventListener('click', () => { const pgn = generatePGN(); const blob = new Blob([pgn], { type: 'application/x-chess-pgn' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'BH-' + Date.now() + 'chess-game.pgn'; a.click(); URL.revokeObjectURL(url); });
+    playVsAiButton.onclick = () => { mainMenu.style.display = 'none'; colorSelectionMenu.style.display = 'flex'; };
+    playAsWhiteButton.onclick = () => startGame('pva', 'w'); playAsBlackButton.onclick = () => startGame('pva', 'b');
+    playVsPlayerButton.onclick = () => startGame('pvp'); aiVsAiButton.onclick = () => startGame('ava');
+
+    mainMenu.style.display = 'flex';
+    resetGameState();
+});
