@@ -511,11 +511,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		// The special drawing for the bishop's yamulka remains unchanged.
 		if (piece.toLowerCase() === 'b') {
+function renderPiece(piece, x, y) {
+		const isWhite = piece === piece.toUpperCase();
+		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
+
+		// --- START OF CHANGES ---
+
+		canvasContext.save();
+
+		// Apply a high-contrast grayscale filter to ALL pieces.
+		let pieceFilter;
+		if (isWhite) {
+			// For WHITE pieces: Remove all color and make them extremely bright to appear solid white.
+			// You can increase the brightness value (e.g., to 3) to make it even whiter.
+			pieceFilter = 'grayscale(1) brightness(2.5)';
+		} else {
+			// For BLACK pieces: Remove all color and make them very dark to appear solid black.
+			// You can lower the brightness value (e.g., to 0.1) to make it even darker.
+			pieceFilter = 'grayscale(1) brightness(0.2)';
+		}
+		canvasContext.filter = pieceFilter;
+
+		canvasContext.font = `${SQUARE_SIZE * 0.8}px serif`;
+		canvasContext.textAlign = 'center';
+		canvasContext.textBaseline = 'middle';
+
+		// Draw the main, filtered black or white emoji shape.
+		canvasContext.fillText(emoji, x, y);
+
+		// Add a thicker, more pronounced border.
+		canvasContext.strokeStyle = isWhite ? 'black' : 'white';
+		// Tweak this number to make the border thicker or thinner.
+		canvasContext.lineWidth = 4; // Increased from 2.5 to 4
+		canvasContext.strokeText(emoji, x, y);
+
+		canvasContext.restore();
+
+		// --- END OF CHANGES ---
+
+		// The special drawing for the bishop's yamulka remains unchanged.
+		if (piece.toLowerCase() === 'b') {
 			const yamulkaRadius = SQUARE_SIZE * 0.16;
 			const yamulkaY = y - SQUARE_SIZE * 0.28;
 			canvasContext.save();
 			canvasContext.translate(x, yamulkaY);
 			canvasContext.scale(1.5, 1);
+			// We give the yamulka a solid color so it stands out from the grayscale piece.
 			canvasContext.fillStyle = isWhite ? '#87CEEB' : '#00008B';
 			canvasContext.beginPath();
 			canvasContext.arc(0, 0, yamulkaRadius, Math.PI, 0);
