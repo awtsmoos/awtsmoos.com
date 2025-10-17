@@ -524,10 +524,9 @@ function orderMoves(moves, pvMove, ply) {
 
 
 /**
- * The Quiescence Search, now upgraded to be "check-aware."
- * This is the definitive fix for the tactical blind spot that caused the Ke7 blunder.
- * It now extends the search for both captures AND checks, ensuring the engine
- * never stops its analysis in a tactically volatile position.
+ * The Quiescence Search, rewritten for maximum performance and tactical accuracy.
+ * It now efficiently generates ONLY captures. This is the core fix that prevents
+ * the search from getting corrupted by bad data, allowing it to think deeply again.
  *
  * @param {object} board - The current board state.
  * @param {number} alpha - The alpha value for alpha-beta pruning.
@@ -544,50 +543,48 @@ function quiesce(board, alpha, beta, color) {
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
 
-    // --- UPGRADED MOVE GENERATION ---
-    // Instead of only looking at captures, we now look at all tactical moves:
-    // captures AND checks. This is the critical fix.
     const opponentColor = color === 'w' ? 'b' : 'w';
-    const tacticalMoves = [];
-    const legalMoves = generateLegalMoves(board, color, {}, null);
-
-    for (const move of legalMoves) {
-        if (move.capture) {
-            tacticalMoves.push(move);
-            continue; // Go to next move to avoid double-adding
-        }
-        // Check if the move gives check to the opponent
-        const newBoard = makeMove(board, move);
-        const opponentKingPos = findKing(newBoard, opponentColor);
-        if (opponentKingPos && isSquareAttacked(newBoard, opponentKingPos.r, opponentKingPos.c, color)) {
-            tacticalMoves.push(move);
+    const captures = [];
+    
+    // Efficiently generate only captures for a fast and reliable tactical check.
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = board[r][c];
+            if (piece && (piece.toUpperCase() === piece) === (color === 'w')) {
+                const moves = getPseudoLegalMovesForPiece(piece, r, c, board, null);
+                for (const move of moves) {
+                    if (move.capture) {
+                        captures.push(move);
+                    }
+                }
+            }
         }
     }
+    
+    // Order captures using MVV-LVA for best results first
+    captures.sort((a,b) => (pieceValues[b.capture.toLowerCase()]*10 - pieceValues[a.piece.toLowerCase()]) - (pieceValues[a.capture.toLowerCase()]*10 - pieceValues[b.piece.toLowerCase()]));
 
-    // Use MVV-LVA to order captures and prioritize them over simple checks
-    tacticalMoves.sort((a, b) => {
-        const scoreA = a.capture ? 90000 + (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) : 0;
-        const scoreB = b.capture ? 90000 + (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()]) : 0;
-        return scoreB - scoreA;
-    });
-
-
-    for (const move of tacticalMoves) {
+    for (const move of captures) {
+        // A simple legality check is much faster than calling generateLegalMoves for every node.
         const newBoard = makeMove(board, move);
-        const score = -quiesce(newBoard, -beta, -alpha, opponentColor);
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+        const kingPos = findKing(newBoard, color);
+        if (kingPos && !isSquareAttacked(newBoard, kingPos.r, kingPos.c, opponentColor)) {
+            const score = -quiesce(newBoard, -beta, -alpha, opponentColor);
+            if (score >= beta) return beta;
+            if (score > alpha) alpha = score;
+        }
     }
 
     return alpha;
 }
 
+
 /**
- * The core recursive search function, now massively enhanced with professional pruning
- * techniques (NMP and LMR) to achieve much greater depth and efficiency.
+ * The core recursive search function, now enhanced with Check Extensions.
+ * This is the architecturally correct way to handle check awareness. It ensures
+ * the engine sees the consequences of checks without corrupting the search process.
  */
 function search(board, depth, alpha, beta, color, ply, cr, ep) {
-    if (depth <= 0) return quiesce(board, alpha, beta, color);
     if (stopSearch) return 0;
     nodeCount++;
     if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
@@ -595,55 +592,38 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
         return 0;
     }
 
-    // --- Null Move Pruning (NMP) ---
-    // A powerful heuristic to prune large parts of the search tree.
-    const inCheck = isSquareAttacked(board, findKing(board, color).r, findKing(board, color).c, color === 'w'?'b':'w');
-    if (!inCheck && depth >= 3 && ply > 0) {
-        const reduction = 2;
-        const newBoard = board; // We don't actually make a move, just switch sides
-        const score = -search(newBoard, depth - 1 - reduction, -beta, -beta + 1, color === 'w' ? 'b' : 'w', ply + 1, cr, null);
-        if (score >= beta) {
-            return beta; // Prune this branch
-        }
+    const kingPos = findKing(board, color);
+    const inCheck = kingPos && isSquareAttacked(board, kingPos.r, kingPos.c, color === 'w' ? 'b' : 'w');
+
+    // --- CHECK EXTENSION ---
+    // If the king is in check, we must search deeper to find a safe way out.
+    if (inCheck) {
+        depth++;
     }
+
+    // After extension, if depth is 0, we go to the fast quiescence search.
+    if (depth <= 0) return quiesce(board, alpha, beta, color);
 
     const moves = generateLegalMoves(board, color, cr, ep);
     if (moves.length === 0) {
         return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
     }
 
-    const orderedMoves = orderMoves(moves, null, ply);
-    let moveCount = 0;
+    const orderedMoves = orderMoves(moves, null, ply); // Assumes orderMoves exists and is correct
 
+    // PVS and LMR logic would go here, but for now we focus on stability and depth.
     for (const move of orderedMoves) {
-        moveCount++;
         const newBoard = makeMove(board, move);
         const newCR = { ...cr };
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
         
-        let score;
-        // --- Late Move Reductions (LMR) ---
-        let reduction = 0;
-        if (depth >= 4 && moveCount > 4 && !move.capture && !inCheck) {
-            reduction = 1; // Reduce the search depth for less promising moves
-        }
-
-        // Principal Variation Search (PVS)
-        if (moveCount === 1) {
-            score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
-        } else {
-            score = -search(newBoard, depth - 1 - reduction, -alpha - 1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
-            if (reduction > 0 && score > alpha) {
-                // Re-search with full depth if the move showed promise
-                score = -search(newBoard, depth - 1, -alpha-1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
-            }
-            if (score > alpha && score < beta) {
-                score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
-            }
-        }
-
+        const score = -search(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+        
         if (score >= beta) {
+            // Beta-cutoff. This move is "too good", so the opponent won't allow this line.
+            // We can stop searching other moves.
             if (!move.capture) {
+                // Update killer and history tables for good quiet moves
                 killerMoves[ply][1] = killerMoves[ply][0];
                 killerMoves[ply][0] = move;
                 const pieceMap = 'PNBRQKpnbrqk';
@@ -656,13 +636,13 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
             return beta;
         }
         if (score > alpha) {
+            // This is currently the best move we've found in this line.
             alpha = score;
         }
     }
 
     return alpha;
 }
-
 
 /**
  * The main search driver, updated to integrate with the new, faster search.
