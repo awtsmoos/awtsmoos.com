@@ -713,6 +713,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		mainMenu.style.display = 'none';
 		colorSelectionMenu.style.display = 'none';
 		chessContainer.style.display = 'block';
+		
+		
+		gameContainer.classList.remove("hidden")
+		
+		
+		
 		resetGameState();
 		gameState.gameMode = mode;
 		gameState.playerColor = playerColor;
@@ -753,6 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		chessContainer.style.display = 'none';
 		mainMenu.style.display = 'flex';
 		messageDiv.textContent = '';
+		gameContainer.classList.add("hidden")
 	});
 	downloadButton.addEventListener('click', () => {
 		const pgn = generatePGN();
