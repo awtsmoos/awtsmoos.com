@@ -1,7 +1,7 @@
 /*B"H*/
 
 // =================================================================
-//                 WEB WORKER (AI LOGIC - FLAWLESS REWRITE)
+//                 WEB WORKER (AI LOGIC - FINAL VERSION)
 // =================================================================
 
 // --- Piece and Positional Evaluation Data ---
@@ -14,7 +14,6 @@ const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5
 const kingPSTMidGame = [[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
 const kingPSTEndGame = [[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
-let transpositionTable = {};
 let nodeCount = 0;
 
 // --- Board State Utilities ---
@@ -30,7 +29,7 @@ function makeMove(board, move) {
     return newBoard;
 }
 
-// --- Move Generation (No changes needed here) ---
+// --- Move Generation ---
 function getPawnMoves(r, c, board) {
     const moves = []; const piece = board[r][c]; const isWhite = piece === 'P'; const dir = isWhite ? -1 : 1; const startRow = isWhite ? 6 : 1;
     if (r + dir < 0 || r + dir >= 8) return moves;
@@ -77,7 +76,7 @@ function isSquareAttacked(board, r, c, attackerColor) {
     }
     return false;
 }
-function generateAllLegalMoves(board, color, capturesOnly = false) {
+function generateAllLegalMoves(board, color) {
     const legalMoves = [];
     const opponentColor = color === 'w' ? 'b' : 'w';
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
@@ -87,7 +86,6 @@ function generateAllLegalMoves(board, color, capturesOnly = false) {
         if ((color === 'w' && !isWhitePiece) || (color === 'b' && isWhitePiece)) continue;
         const pseudoMoves = getPseudoLegalMovesForPiece(piece, r, c, board);
         for (const move of pseudoMoves) {
-            if (capturesOnly && board[move.to[0]][move.to[1]] === '') continue;
             const newBoard = makeMove(board, move);
             const kingPos = findKing(newBoard, color);
             if (kingPos && !isSquareAttacked(newBoard, kingPos.r, kingPos.c, opponentColor)) {
@@ -100,7 +98,7 @@ function generateAllLegalMoves(board, color, capturesOnly = false) {
 
 // --- FEN Utilities ---
 function createBoardFromFEN(fen) {
-    const [boardPart] = fen.split(' ');
+    const [boardPart] = fen.split(' ')[0];
     return boardPart.split('/').map(row => { let newRow = []; for (const char of row) { if (isNaN(parseInt(char))) newRow.push(char); else for (let i = 0; i < parseInt(char); i++) newRow.push(''); } return newRow; });
 }
 function boardToFEN(board) {
@@ -108,7 +106,7 @@ function boardToFEN(board) {
 }
 
 // --- AI Core: Evaluation ---
-function evaluateBoard(board) {
+function evaluateBoard(board, moveCount) {
     let totalScore = 0;
     let pieceCount = 0;
     for (let r = 0; r < 8; r++) {
@@ -127,33 +125,37 @@ function evaluateBoard(board) {
                 case 'Q': pst = queenPST; break; case 'K': pst = isEndgame ? kingPSTEndGame : kingPSTMidGame; break;
             }
             score += isWhite ? pst[r][c] : pst[7 - r][c];
+
+            // ** NEW: Aggressive Opening Principles **
+            if (moveCount < 20) { // Active for the first 10 full moves
+                const startRow = isWhite ? 7 : 0;
+                // Bonus for developing minor pieces
+                if ((pieceType === 'N' || pieceType === 'B') && r !== startRow) {
+                    score += 15;
+                }
+                // Penalty for moving major pieces too early
+                if ((pieceType === 'Q' || pieceType === 'R') && r !== startRow) {
+                    score -= 20;
+                }
+            }
+
             totalScore += isWhite ? score : -score;
         }
     }
     return totalScore;
 }
 
-// --- AI Core: Search (Rewritten for Correctness) ---
-function quiesce(board, alpha, beta, turn) {
-    nodeCount++;
-    const standPat = (turn === 'w' ? 1 : -1) * evaluateBoard(board);
-
-    if (standPat >= beta) return beta;
-    if (alpha < standPat) alpha = standPat;
-
-    const captureMoves = generateAllLegalMoves(board, turn, true);
-    for (const move of captureMoves) {
-        const newBoard = makeMove(board, move);
-        const score = -quiesce(newBoard, -beta, -alpha, turn === 'w' ? 'b' : 'w');
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+// --- AI Core: Search ---
+function negamax(board, depth, alpha, beta, turn, moveCount, fenHistory) {
+    // ** NEW: Repetition check. If the position has been seen before, it's a draw. Penalize it.**
+    const boardFEN = boardToFEN(board);
+    if (fenHistory.includes(boardFEN)) {
+        return 0;
     }
-    return alpha;
-}
 
-function negamax(board, depth, alpha, beta, turn) {
     if (depth === 0) {
-        return quiesce(board, alpha, beta, turn);
+        // At the end of the search, evaluate the position from the current player's perspective
+        return (turn === 'w' ? 1 : -1) * evaluateBoard(board, moveCount);
     }
     nodeCount++;
 
@@ -166,60 +168,55 @@ function negamax(board, depth, alpha, beta, turn) {
 
     for (const move of legalMoves) {
         const newBoard = makeMove(board, move);
-        const score = -negamax(newBoard, depth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w');
-        if (score >= beta) return beta; // Fail-hard beta cutoff
-        if (score > alpha) alpha = score;
+        const newHistory = [...fenHistory, boardFEN];
+        const score = -negamax(newBoard, depth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', moveCount + 1, newHistory);
+        if (score >= beta) {
+            return beta;
+        }
+        if (score > alpha) {
+            alpha = score;
+        }
     }
     return alpha;
 }
 
-function search(board, maxDepth, color) {
+// --- Main AI Driver ---
+function searchRoot(board, maxDepth, color, moveCount, fenHistory) {
     let bestMove = null;
     let bestScore = -Infinity;
     
-    // Iterative Deepening Loop
-    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        const legalMoves = generateAllLegalMoves(board, color);
-        if (legalMoves.length === 0) return null;
+    const legalMoves = generateAllLegalMoves(board, color);
+    if (legalMoves.length === 0) return null;
 
-        // Move Ordering: Most Valuable Victim - Least Valuable Aggressor
-        legalMoves.sort((a, b) => {
-            const victimA = board[a.to[0]][a.to[1]] ? pieceValues[board[a.to[0]][a.to[1]].toUpperCase()] : 0;
-            const victimB = board[b.to[0]][b.to[1]] ? pieceValues[board[b.to[0]][b.to[1]].toUpperCase()] : 0;
-            return victimB - victimA;
-        });
+    // Move Ordering: Helps find better moves faster.
+    legalMoves.sort((a, b) => {
+        const victimA = board[a.to[0]][a.to[1]] ? pieceValues[board[a.to[0]][a.to[1]].toUpperCase()] : 0;
+        const victimB = board[b.to[0]][b.to[1]] ? pieceValues[board[b.to[0]][b.to[1]].toUpperCase()] : 0;
+        return victimB - victimA;
+    });
+    
+    for (const move of legalMoves) {
+        const newBoard = makeMove(board, move);
+        // Initial call to the search function for each legal move.
+        const score = -negamax(newBoard, maxDepth - 1, -Infinity, Infinity, color === 'w' ? 'b' : 'w', moveCount + 1, fenHistory);
         
-        let currentBestMoveForDepth = legalMoves[0];
-        let alpha = -Infinity;
-        let beta = Infinity;
-
-        for (const move of legalMoves) {
-            const newBoard = makeMove(board, move);
-            const score = -negamax(newBoard, currentDepth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w');
-            
-            if (score > bestScore) {
-                bestScore = score;
-                currentBestMoveForDepth = move;
-            }
-            if (score > alpha) {
-                alpha = score;
-            }
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
         }
-        bestMove = currentBestMoveForDepth;
     }
     return bestMove;
 }
 
 // --- Web worker entry point ---
 self.onmessage = function(e) {
-    const { command, fen, maxDepth, color } = e.data;
+    const { command, fen, maxDepth, color, moveCount, fenHistory } = e.data;
     if (command === 'calculate_move') {
         const startTime = performance.now();
         const board = createBoardFromFEN(fen);
         nodeCount = 0;
-        transpositionTable = {}; // In this simple version, TT is less crucial but good practice.
         
-        const bestMove = search(board, maxDepth, color);
+        const bestMove = searchRoot(board, maxDepth, color, moveCount, fenHistory);
         
         const endTime = performance.now();
         postMessage({ bestMove, timeTaken: (endTime - startTime).toFixed(2), nodesSearched: nodeCount });
