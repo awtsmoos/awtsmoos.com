@@ -10,8 +10,7 @@ const pieceValues = {
 };
 // New constants for SEE
 const pieceSeeValues = { 'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 10000 };
-const BISHOP_PAIR_BONUS = 50; // Increased value
-// prettier-ignore
+
 const pawnPST = [
     [0,  0,  0,  0,  0,  0,  0,  0],
     [50, 50, 50, 50, 50, 50, 50, 50],
@@ -344,7 +343,7 @@ function makeMove(b, m) { /* ... (no changes) ... */
 // --- AI Core: THE FLAWLESS EVALUATION V3 ---
 
 // --- New, more nuanced evaluation constants ---
-const BISHOP_PAIR_BONUS = 40;
+const BISHOP_PAIR_BONUS = 50;
 const ROOK_ON_OPEN_FILE_BONUS = 20;
 const ROOK_ON_SEMI_OPEN_FILE_BONUS = 10;
 const ROOK_ON_SEVENTH_RANK_BONUS = 35;
