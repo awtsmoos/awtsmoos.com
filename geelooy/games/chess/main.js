@@ -486,11 +486,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (isWhite) {
 			// For WHITE pieces: Remove all color and make them extremely bright to appear solid white.
 			// You can increase the brightness value (e.g., to 3) to make it even whiter.
-			pieceFilter = 'grayscale(1) brightness(2.5)';
+			pieceFilter = 'grayscale(1) brightness(2.0)';
 		} else {
 			// For BLACK pieces: Remove all color and make them very dark to appear solid black.
 			// You can lower the brightness value (e.g., to 0.1) to make it even darker.
-			pieceFilter = 'grayscale(1) brightness(0.2)';
+			pieceFilter = 'grayscale(1) brightness(0.4)';
 		}
 		canvasContext.filter = pieceFilter;
 
