@@ -308,8 +308,9 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
 		d = iW ? -1 : 1;
 	const oC = iW ? 'b' : 'w';
 	if (pL === 'p') {
-		if (r + d > -1 && r + d < 8 && !b[r + d][c]) {
-			m.push({
+		if (((iW && r === 6) || (!iW && r === 1)) && !b[r + 2 * d][c])
+		 m.push({	
+			
 				from: [r, c],
 				to: [r + d, c],
 				piece: p
