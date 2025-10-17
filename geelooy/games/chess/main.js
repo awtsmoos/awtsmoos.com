@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'chess-game.pgn';
+        a.download = 'BH-'+Date.now()+'chess-game.pgn';
         a.click();
         URL.revokeObjectURL(url);
     });
