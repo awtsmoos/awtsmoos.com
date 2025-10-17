@@ -183,7 +183,7 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
     if (moves.length === 0) {
     // *** FIX: Make delivering mate much more attractive ***
     // A mate found sooner (at a lower ply) will now have a significantly higher score.
-    return inCheck ? -30000 + ply * 100 : 0;
+    return inCheck ? -30000 + ply * 20 : 0;
 }
 
     const orderedMoves = orderMoves(moves, board, ttEntry ? ttEntry.bestMove : null, ply);
@@ -249,8 +249,17 @@ self.onmessage = function(e) {
         
         // --- NEW: Logic for adding variety ---
         let topMoves = [];
-        const moveSelectionMargin = 25; // in centipawns. 25 is a good balance.
-
+        
+        let moveSelectionMargin;
+        const pieceCount = board.flat().filter(p => p).length;
+        if (pieceCount > 20) {
+            moveSelectionMargin = 5; // Be very strict in the opening
+        } else if (pieceCount > 10) {
+            moveSelectionMargin = 15; // Allow more variety in the middlegame
+        } else {
+            moveSelectionMargin = 30; // Allow a lot of choice in the endgame
+        }
+        
         for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
             let alpha = -Infinity;
             let beta = Infinity;
