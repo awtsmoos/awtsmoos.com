@@ -8,6 +8,7 @@
 const pieceValues = { 'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 20000 };
 
 // Piece-Square Tables (PSTs) for positional evaluation
+// These teach the AI the inherent value of placing pieces on certain squares.
 const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]];
 const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,0,0,0,-20,-40],[-30,0,10,15,15,10,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,10,15,15,10,5,-30],[-40,-20,0,5,5,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
 const bishopPST = [[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,10,10,5,0,-10],[-10,5,5,10,10,5,5,-10],[-10,0,10,10,10,10,0,-10],[-10,10,10,10,10,10,10,-10],[-10,5,0,0,0,0,5,-10],[-20,-10,-10,-10,-10,-10,-10,-20]];
@@ -16,7 +17,7 @@ const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5
 const kingPSTMidGame = [[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
 const kingPSTEndGame = [[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
-// Transposition table to store evaluations of previously seen positions
+// Transposition table to store evaluations of previously seen positions for speed.
 let transpositionTable = {};
 let nodeCount = 0;
 
@@ -34,7 +35,7 @@ function makeMove(board, move) {
     return newBoard;
 }
 
-// --- Move Generation Functions ---
+// --- Move Generation Functions (Optimized) ---
 function getPawnMoves(r, c, board) {
     const moves = []; const piece = board[r][c]; const isWhite = piece === 'P'; const dir = isWhite ? -1 : 1; const startRow = isWhite ? 6 : 1;
     if (r + dir < 0 || r + dir >= 8) return moves;
@@ -74,7 +75,7 @@ function getPseudoLegalMovesForPiece(piece, r, c, board) {
 function findKing(board, color) {
     const kingPiece = color === 'w' ? 'K' : 'k';
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (board[r][c] === kingPiece) return { r, c };
-    return null; // Should not happen in a legal game
+    return null;
 }
 
 function isSquareAttacked(board, r, c, attackerColor) {
@@ -86,9 +87,8 @@ function isSquareAttacked(board, r, c, attackerColor) {
         const moves = getPseudoLegalMovesForPiece(piece, r_att, c_att, board);
         for (const move of moves) {
             if (move.to[0] === r && move.to[1] === c) {
-                // For pawns, a push is not an attack
                 if (piece.toLowerCase() === 'p') {
-                    if (move.from[1] !== c) return true; // It's a capture
+                    if (move.from[1] !== c) return true;
                 } else {
                     return true;
                 }
@@ -159,7 +159,6 @@ function evaluateBoard(board, moveCount) {
         let score = pieceValues[pieceType];
         let pst;
         
-        // Use different king PSTs for endgame vs midgame
         const isEndgame = pieceCount <= 10;
         switch(pieceType) {
             case 'P': pst = pawnPST; break;
@@ -170,18 +169,17 @@ function evaluateBoard(board, moveCount) {
             case 'K': pst = isEndgame ? kingPSTEndGame : kingPSTMidGame; break;
         }
         
-        // Add PST score, flipping board for black
         score += isWhite ? pst[r][c] : pst[7 - r][c];
         
-        // ** IMPROVEMENT: Opening principles **
-        if (moveCount < 10) {
+        // ** NEW: Opening principles to prevent bad early moves **
+        if (moveCount < 15) { // Active for the first ~7 full moves
             // Bonus for developing knights and bishops
-            if ((pieceType === 'N' || pieceType === 'B') && (isWhite ? r !== 7 : r !== 0)) {
-                 score += isWhite ? 10 : -10;
+            if ((pieceType === 'N' || pieceType === 'B') && (isWhite ? r < 7 : r > 0)) {
+                 score += 10;
             }
             // Penalty for moving queen out too early
-            if (pieceType === 'Q' && (isWhite ? r !== 7 : r !== 0)) {
-                 score += isWhite ? -15 : 15;
+            if (pieceType === 'Q' && (isWhite ? r < 7 : r > 0)) {
+                 score -= 15;
             }
         }
         
@@ -192,7 +190,12 @@ function evaluateBoard(board, moveCount) {
 
 // --- AI Core: Search ---
 
-// Quiescence search to stabilize evaluation and avoid the horizon effect
+/**
+ * Quiescence search is a special search run at the end of the main search.
+ * It only evaluates "quiet" positions (where there are no captures). If a position
+ * has captures available, it searches deeper until all captures are resolved.
+ * THIS IS THE KEY FEATURE THAT PREVENTS THE AI FROM MAKING SIMPLE TACTICAL BLUNDERS.
+ */
 function quiesce(board, alpha, beta, colorMultiplier, turnColor, moveCount) {
     nodeCount++;
     const standPat = colorMultiplier * evaluateBoard(board, moveCount);
@@ -217,7 +220,7 @@ function negamax(board, depth, alpha, beta, colorMultiplier, turnColor, moveCoun
         return 0; // Draw by repetition
     }
     
-    // ** IMPROVEMENT: Transposition Table Lookup **
+    // Transposition Table Lookup
     const ttEntry = transpositionTable[boardFEN];
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === 'EXACT') return ttEntry.score;
@@ -226,7 +229,7 @@ function negamax(board, depth, alpha, beta, colorMultiplier, turnColor, moveCoun
         if (alpha >= beta) return ttEntry.score;
     }
     
-    // Base case: at max depth, run quiescence search
+    // Base case: at max depth, run the crucial quiescence search
     if (depth === 0) {
         return quiesce(board, alpha, beta, colorMultiplier, turnColor, moveCount);
     }
@@ -243,7 +246,8 @@ function negamax(board, depth, alpha, beta, colorMultiplier, turnColor, moveCoun
          return 0; // Stalemate
     }
 
-    // ** IMPROVEMENT: MVV-LVA move ordering **
+    // Move Ordering (Most Valuable Victim - Least Valuable Aggressor)
+    // This simple heuristic dramatically improves search efficiency by checking best moves first.
     legalMoves.sort((a, b) => {
         const pieceA = pieceValues[board[a.from[0]][a.from[1]].toUpperCase()];
         const victimA = board[a.to[0]][a.to[1]] ? pieceValues[board[a.to[0]][a.to[1]].toUpperCase()] : 0;
@@ -263,7 +267,7 @@ function negamax(board, depth, alpha, beta, colorMultiplier, turnColor, moveCoun
         if (alpha >= beta) break; // Alpha-beta cutoff
     }
 
-    // ** IMPROVEMENT: Transposition Table Store **
+    // Transposition Table Store
     let flag = 'EXACT';
     if (maxScore <= alpha) flag = 'UPPERBOUND'; 
     else if (maxScore >= beta) flag = 'LOWERBOUND';
@@ -282,7 +286,7 @@ self.onmessage = function(e) {
         nodeCount = 0;
         transpositionTable = {}; // Clear table for each new move
 
-        // ** Iterative Deepening Framework **
+        // Iterative Deepening Framework
         for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
             const legalMoves = generateAllLegalMoves(board, color);
             if (legalMoves.length === 0) break;
@@ -290,15 +294,25 @@ self.onmessage = function(e) {
             let bestScoreThisIteration = -Infinity;
             let currentBestMove = legalMoves[0];
             
+            // Re-sort moves at the root for better alpha-beta performance
+            legalMoves.sort((a, b) => {
+                const pieceA = pieceValues[board[a.from[0]][a.from[1]].toUpperCase()];
+                const victimA = board[a.to[0]][a.to[1]] ? pieceValues[board[a.to[0]][a.to[1]].toUpperCase()] : 0;
+                const pieceB = pieceValues[board[b.from[0]][b.from[1]].toUpperCase()];
+                const victimB = board[b.to[0]][b.to[1]] ? pieceValues[board[b.to[0]][b.to[1]].toUpperCase()] : 0;
+                return (victimB - pieceB) - (victimA - pieceA);
+            });
+            
             for (const move of legalMoves) {
                 const newBoard = makeMove(board, move);
+                // The initial call to negamax. Note the colorMultiplier is -1 for the first opponent move.
                 const score = -negamax(newBoard, currentDepth - 1, -Infinity, Infinity, -1, color === 'w' ? 'b' : 'w', moveCount + 1, fenHistory);
                 if (score > bestScoreThisIteration) {
                     bestScoreThisIteration = score;
                     currentBestMove = move;
                 }
             }
-            bestMove = currentBestMove; // Update the best move found so far
+            bestMove = currentBestMove;
         }
         
         const endTime = performance.now();
