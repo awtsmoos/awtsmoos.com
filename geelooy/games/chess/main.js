@@ -487,44 +487,62 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function renderPiece(ctx, piece, x, y, size) {
-		const isWhite = piece === piece.toUpperCase();
-		const emoji = PIECE_EMOJIS[piece.toUpperCase()];
+	const isWhite = piece === piece.toUpperCase();
+	const emoji = PIECE_EMOJIS[piece.toUpperCase()];
+	const pieceType = piece.toLowerCase();
 
-		ctx.save();
+	ctx.save();
 
-		let pieceFilter;
+	let pieceFilter;
+
+	// Check if the piece is a pawn
+	if (pieceType === 'p') {
+		// Pawns get the original, full grayscale effect
 		if (isWhite) {
 			pieceFilter = 'grayscale(1) brightness(2.2)';
 		} else {
 			pieceFilter = 'grayscale(1) brightness(0.35)';
 		}
-		ctx.filter = pieceFilter;
-
-		ctx.font = `${size * 0.8}px serif`;
-		ctx.textAlign = 'center';
-		ctx.textBaseline = 'middle';
-		
-		ctx.fillText(emoji, x, y);
-
-		ctx.strokeStyle = isWhite ? 'black' : 'white';
-		ctx.lineWidth = 4;
-		ctx.strokeText(emoji, x, y);
-
-		ctx.restore();
-
-		if (piece.toLowerCase() === 'b') {
-			const yamulkaRadius = size * 0.16;
-			const yamulkaY = y - size * 0.28;
-			ctx.save();
-			ctx.translate(x, yamulkaY);
-			ctx.scale(1.5, 1);
-			ctx.fillStyle = isWhite ? '#87CEEB' : '#00008B';
-			ctx.beginPath();
-			ctx.arc(0, 0, yamulkaRadius, Math.PI, 0);
-			ctx.fill();
-			ctx.restore();
+	} else {
+		// All other pieces get a partial grayscale, retaining some color
+		if (isWhite) {
+			// 70% grayscale allows 30% of the color to show through
+			pieceFilter = 'grayscale(0.7) brightness(1.8)'; 
+		} else {
+			// A slightly different brightness for black pieces looks better with color
+			pieceFilter = 'grayscale(0.7) brightness(0.5)';
 		}
 	}
+	
+	ctx.filter = pieceFilter;
+
+	ctx.font = `${size * 0.8}px serif`;
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	
+	ctx.fillText(emoji, x, y);
+    
+    // The outline helps with clarity, especially with the subtle color
+	ctx.strokeStyle = isWhite ? 'black' : 'white';
+	ctx.lineWidth = 4;
+	ctx.strokeText(emoji, x, y);
+
+	ctx.restore();
+
+    // This code for the bishop's yamulka remains the same and will work as before
+	if (piece.toLowerCase() === 'b') {
+		const yamulkaRadius = size * 0.16;
+		const yamulkaY = y - size * 0.28;
+		ctx.save();
+		ctx.translate(x, yamulkaY);
+		ctx.scale(1.5, 1);
+		ctx.fillStyle = isWhite ? '#87CEEB' : '#00008B';
+		ctx.beginPath();
+		ctx.arc(0, 0, yamulkaRadius, Math.PI, 0);
+		ctx.fill();
+		ctx.restore();
+	}
+}
 
 	function drawCapturedPieces() {
 		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
@@ -655,7 +673,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function handleCanvasEvent(event) {
+		try {
+		
 		event.preventDefault();
+		} catch(e){console. log(e)}
+		
 		let clientX, clientY;
 		if (event.changedTouches && event.changedTouches.length > 0) {
 			clientX = event.changedTouches[0].clientX;
