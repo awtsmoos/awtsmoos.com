@@ -99,20 +99,7 @@ function generateAllLegalMoves(b, color, cr, ep) { const lM = []; const oC = col
 function makeMove(board, move) { const nB = board.map(r=>r.slice()); const p = nB[move.from[0]][move.from[1]]; nB[move.to[0]][move.to[1]] = p; nB[move.from[0]][move.from[1]] = ''; if (move.isCastle) { const r = move.from[0]; const rF = move.to[1]>4?7:0; const rT = move.to[1]>4?5:3; nB[r][rT] = nB[r][rF]; nB[r][rF] = ''; } if (move.isEnPassant) { nB[move.from[0]][move.to[1]] = ''; } if (p.toLowerCase()==='p'&&(move.to[0]===0||move.to[0]===7)) { nB[move.to[0]][move.to[1]] = p==='P'?'Q':'q'; } return nB; }
 
 // --- AI Core: Evaluation ---
-function evaluateBoard(board) {
-    let score = 0; let pieceCount = 0; let whiteBishops = 0; let blackBishops = 0;
-    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
-        const p = board[r][c]; if (!p) continue; pieceCount++;
-        const iW = p === p.toUpperCase(); const pT = p.toUpperCase();
-        if (pT === 'B') iW ? whiteBishops++ : blackBishops++;
-        const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame }[pT];
-        const pstScore = iW ? pst[r][c] : pst[7 - r][c];
-        score += (iW ? 1 : -1) * (pieceValues[pT] + pstScore);
-    }
-    if (whiteBishops >= 2) score += 30; // Bishop pair bonus
-    if (blackBishops >= 2) score -= 30;
-    return score;
-}
+
 
 // --- AI Core: Move Ordering ---
 function orderMoves(moves, board, ttMove, ply) {
@@ -148,17 +135,64 @@ function quiesce(board, alpha, beta, color, cr, ep) {
     return alpha;
 }
 
-function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
-    // --- FIX IS HERE: Only check for repetitions on future moves (ply > 0) ---
-    if (ply > 0) {
-        const hash = computeZobristHash(board, cr, ep, color);
-        if (history.has(hash)) {
-            return 0; // This position is a repetition, it's a draw.
+// --- AI Core: The NEW, Smarter Evaluation Function ---
+function evaluateBoard(board, cr) {
+    let score = 0;
+    let pieceCount = 0;
+    let whiteBishops = 0;
+    let blackBishops = 0;
+
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = board[r][c]; if (!p) continue; pieceCount++;
+        const iW = p === p.toUpperCase();
+        const pT = p.toUpperCase();
+
+        if (pT === 'B') iW ? whiteBishops++ : blackBishops++;
+        
+        const pst = { P: pawnPST, N: knightPST, B: bishopPST, R: rookPST, Q: queenPST, K: pieceCount > 10 ? kingPSTMidGame : kingPSTEndGame }[pT];
+        const pstScore = iW ? pst[r][c] : pst[7 - r][c];
+        score += (iW ? 1 : -1) * (pieceValues[pT] + pstScore);
+
+        // --- NEW STRATEGIC BONUSES ---
+        // 1. Rook on Open/Semi-Open File Bonus
+        if (pT === 'R') {
+            const isSemiOpenFile = !board.some(row => row[c] === (iW ? 'P' : 'p'));
+            if (isSemiOpenFile) {
+                const isOpenFile = !board.some(row => row[c] === (iW ? 'p' : 'P'));
+                score += (iW ? 1 : -1) * (isOpenFile ? 25 : 15);
+            }
+        }
+        // 2. Passed Pawn Bonus (Crucial for Endgames)
+        if (pT === 'P') {
+             let isPassed = true;
+             for(let look_r = r + (iW ? -1 : 1); look_r >= 0 && look_r < 8; look_r += (iW ? -1 : 1)) {
+                 if (board[look_r][c]) { isPassed = false; break; } // Path blocked
+                 if (c > 0 && board[look_r][c-1] === (iW ? 'p' : 'P')) { isPassed = false; break; }
+                 if (c < 7 && board[look_r][c+1] === (iW ? 'p' : 'P')) { isPassed = false; break; }
+             }
+             if(isPassed) {
+                 const rank = iW ? 7 - r : r;
+                 score += (iW ? 1 : -1) * (rank * rank * 3); // Bonus increases exponentially the closer it gets
+             }
         }
     }
-    // --- END OF FIX ---
 
-    // The hash is now calculated here, after the root check.
+    if (whiteBishops >= 2) score += 30;
+    if (blackBishops >= 2) score -= 30;
+
+    // 3. HUGE Castling Bonus (to prevent King marches)
+    if(cr.K || cr.Q) score += 50;
+    if(cr.k || cr.q) score -= 50;
+
+    return score;
+}
+
+
+function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
+    if (ply > 0) {
+        const hash = computeZobristHash(board, cr, ep, color);
+        if (history.has(hash)) { return 0; }
+    }
     const hash = computeZobristHash(board, cr, ep, color);
     const ttEntry = transpositionTable.get(hash);
     if (ttEntry && ttEntry.depth >= depth) {
@@ -167,42 +201,33 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
         else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, ttEntry.score);
         if (alpha >= beta) return ttEntry.score;
     }
-
     if (depth <= 0) {
         return quiesce(board, alpha, beta, color, cr, ep);
     }
     nodeCount++;
-    
     const newHistory = new Set(history);
     newHistory.add(hash);
-
     const inCheck = isSquareAttacked(board, findKing(board, color).r, findKing(board, color).c, color === 'w' ? 'b' : 'w');
     if (inCheck) depth++;
-
     const moves = generateAllLegalMoves(board, color, cr, ep);
     if (moves.length === 0) {
-    // *** FIX: Make delivering mate much more attractive ***
-    // A mate found sooner (at a lower ply) will now have a significantly higher score.
-    return inCheck ? -30000 + ply * 20 : 0;
-}
-
+        // --- FIX: Simplified Mate Score to remove paranoia ---
+        return inCheck ? -30000 : 0; // Static score, no ply bonus
+    }
     const orderedMoves = orderMoves(moves, board, ttEntry ? ttEntry.bestMove : null, ply);
     let bestMove = null;
     let score = -Infinity;
     let ttFlag = TT_UPPERBOUND;
-
     for (const move of orderedMoves) {
         const newBoard = makeMove(board, move);
         const newCR = { ...cr };
         if (move.piece === 'K') { newCR.K = false; newCR.Q = false; } else if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
-        if (move.from[0] === 7 && move.from[1] === 0 || move.to[0] === 7 && move.to[1] === 0) newCR.Q = false;
-        if (move.from[0] === 7 && move.from[1] === 7 || move.to[0] === 7 && move.to[1] === 7) newCR.K = false;
-        if (move.from[0] === 0 && move.from[1] === 0 || move.to[0] === 0 && move.to[1] === 0) newCR.q = false;
-        if (move.from[0] === 0 && move.from[1] === 7 || move.to[0] === 0 && move.to[1] === 7) newCR.k = false;
+        if (move.from[0] === 7 && (move.from[1] === 0 || move.to[1] === 0)) newCR.Q = false;
+        if (move.from[0] === 7 && (move.from[1] === 7 || move.to[1] === 7)) newCR.K = false;
+        if (move.from[0] === 0 && (move.from[1] === 0 || move.to[1] === 0)) newCR.q = false;
+        if (move.from[0] === 0 && (move.from[1] === 7 || move.to[1] === 7)) newCR.k = false;
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-        
         score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
-        
         if (score > alpha) {
             alpha = score;
             bestMove = move;
@@ -217,7 +242,6 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
     transpositionTable.set(hash, { score: alpha, depth, flag: ttFlag, bestMove });
     return alpha;
 }
-
 // --- Main AI Driver ---
 self.onmessage = function(e) {
     const { command, fen, maxDepth, fenHistory } = e.data;
