@@ -499,7 +499,6 @@ function generateLegalMoves(board, color, cr, ep) {
     return finalLegalMoves;
 }
 
-
 /**
  * Generates all pseudo-legal moves for a single piece on the board.
  * "Pseudo-legal" means it follows the piece's movement rules but does not
@@ -523,7 +522,16 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
         // 1. Single Pawn Push
         const oneStepForward = r + direction;
         if (oneStepForward >= 0 && oneStepForward < 8 && !b[oneStepForward][c]) {
-            moves.push({ from: [r, c], to: [oneStepForward, c], piece: p });
+            // Check for promotion
+            const isPromotion = oneStepForward === 0 || oneStepForward === 7;
+            if (isPromotion) {
+                const promotions = isWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
+                promotions.forEach(promo => {
+                    moves.push({ from: [r, c], to: [oneStepForward, c], piece: p, promotion: promo });
+                });
+            } else {
+                 moves.push({ from: [r, c], to: [oneStepForward, c], piece: p });
+            }
 
             // 2. Double Pawn Push (only from starting rank)
             const startingRank = isWhite ? 6 : 1;
@@ -539,15 +547,24 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
             const captureRow = r + direction;
             if (captureCol >= 0 && captureCol < 8 && captureRow >= 0 && captureRow < 8) {
                 const targetPiece = b[captureRow][captureCol];
+                const isPromotion = captureRow === 0 || captureRow === 7;
 
                 // Standard capture
                 if (targetPiece && (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
-                    moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: true });
+                    if (isPromotion) {
+                         const promotions = isWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
+                         promotions.forEach(promo => {
+                            moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece, promotion: promo });
+                         });
+                    } else {
+                        moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: targetPiece });
+                    }
                 }
 
                 // En Passant capture
                 if (ep && captureRow === ep[0] && captureCol === ep[1]) {
-                    moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: true, isEnPassant: true });
+                    const capturedPawn = isWhite ? 'p' : 'P';
+                    moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: capturedPawn, isEnPassant: true });
                 }
             }
         }
@@ -561,7 +578,7 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
             if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                 const targetPiece = b[newRow][newCol];
                 if (!targetPiece || (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
-                    moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: !!targetPiece });
+                    moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: targetPiece || undefined });
                 }
             }
         }
@@ -585,7 +602,7 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
                 if (targetPiece) {
                     // It's an opponent's piece, can capture.
                     if ((targetPiece === targetPiece.toUpperCase()) !== isWhite) {
-                        moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: true });
+                        moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: targetPiece });
                     }
                     // It's a friendly piece, so the path is blocked.
                     break;
@@ -607,6 +624,8 @@ function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
     }
     return moves;
 }
+
+
 
 function makeMove(b, m) {
 	/* ... A fast, non-validating version for the search ... */
