@@ -697,7 +697,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					for (let i = 0; i < parseInt(c); i++) nR.push('');
 			return nR
 		});
-		gameState.fenHistory.push(fenData[0]);
+		gameState.fenHistory.push(fenData.slice(0, 4).join(' '));
+		
 		updateGameStatus();
 		drawBoard();
 		drawCapturedPieces();
