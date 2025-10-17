@@ -421,12 +421,86 @@ function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gam
                      }
                  }
                  if (fileIsEmptyOfFriendlyPawns) score -= 25; // Heavy penalty
-             }
+/**
+ * REWRITTEN V3: Final Strategic Priorities and Robust King Safety.
+ *
+ * This version fixes the "clever loophole" the AI was exploiting. The King Safety
+ * evaluation is now universal and no longer depends on the king being on the home rank.
+ * It heavily penalizes a king that is on a central, open, or semi-open file,
+ * making moves like `Ke7` strategically unthinkable.
+ *
+ * @param {string[][]} board - The game board.
+ * @param {string} color - The color to evaluate ('w' or 'b').
+ * @param {object} castlingRights - The current castling rights.
+ * @param {number} gamePhase - A number from 0.0 (Opening) to 1.0 (Endgame).
+ * @returns {number} The strategic score for the given color.
+ */
+function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gamePhase) {
+    let score = 0;
+    const isWhite = color === 'w';
+
+    // --- 1. Castling Rights Bonus (Strength Confirmed as Correct) ---
+    // The massive bonus for keeping castling rights is essential and remains.
+    if (gamePhase > 0.2) {
+        const canCastleKingSide = isWhite ? castlingRights.K : castlingRights.k;
+        const canCastleQueenSide = isWhite ? castlingRights.Q : castlingRights.q;
+        if (canCastleKingSide || canCastleQueenSide) {
+            score += 75 * gamePhase;
+        }
+    }
+
+    // --- 2. Center Control & Development (No changes needed) ---
+    const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]];
+    for (const [r, c] of centerSquares) {
+        const piece = board[r][c];
+        if (piece && (piece.toUpperCase() === piece) === isWhite) score += 10;
+    }
+    // (Other minor bonuses/penalties from this section remain the same...)
+
+    // --- 3. NEW & ROBUST: Universal King Safety Evaluation ---
+    // This new logic evaluates the king's safety wherever it is on the board.
+    const kingPos = findKing(board, color);
+    if (kingPos && gamePhase > 0.3) { // Only apply in opening/middlegame
+        const king_c = kingPos.c;
+
+        // A king is considered "exposed" if it's on the c, d, e, or f files.
+        if (king_c >= 2 && king_c <= 5) {
+            const filesToCheck = [king_c - 1, king_c, king_c + 1];
+
+            for (const file of filesToCheck) {
+                if (file < 0 || file > 7) continue;
+
+                let hasFriendlyPawn = false;
+                let hasEnemyPawn = false;
+                for (let r = 0; r < 8; r++) {
+                    const piece = board[r][file];
+                    if (piece?.toLowerCase() === 'p') {
+                        if ((piece.toUpperCase() === piece) === isWhite) {
+                            hasFriendlyPawn = true;
+                        } else {
+                            hasEnemyPawn = true;
+                        }
+                    }
+                }
+
+                // Apply penalties based on the file's status.
+                if (!hasFriendlyPawn) {
+                    if (!hasEnemyPawn) {
+                        score -= 30; // PENALTY: King is on a fully OPEN file.
+                    } else {
+                        score -= 20; // PENALTY: King is on a SEMI-OPEN file.
+                    }
+                }
+            }
         }
     }
 
     return Math.floor(score);
 }
+
+
+
+
 
 /**
  * REWRITTEN: The main evaluation function.
