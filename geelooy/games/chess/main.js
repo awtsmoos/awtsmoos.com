@@ -679,6 +679,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 0);
 		return count >= 2; // The current position plus 2 previous makes 3
 	}
+	
+	function canClaim50MoveRule() {
+		// The halfmoveClock is reset after a capture or pawn move.
+		// 50 moves by each player is 100 half-moves.
+		return gameState.halfmoveClock >= 100;
+	}
 
 
 	function startGame(mode, playerColor = 'w') {
@@ -739,11 +745,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		URL.revokeObjectURL(url);
 	});
 	// Put this with your other event listeners at the bottom of the file
-	declareDrawButton.addEventListener('click', () => {
-		if (canClaimThreefoldRepetition()) {
-			showGameOver("Draw by Threefold Repetition", "1/2-1/2");
-		} else {
-			alert("Draw cannot be claimed for this position.");
+	drawButton.addEventListener('click', () => {
+		// If the game isn't over, this button will immediately end it in a draw.
+		if (!gameState.gameOver) {
+			showGameOver("Game Drawn by Agreement", "1/2-1/2");
 		}
 	});
 	
