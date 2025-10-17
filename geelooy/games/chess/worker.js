@@ -55,8 +55,24 @@ const bishopPST=[[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,
 const rookPST=[[0,0,0,0,0,0,0,0],[5,10,10,10,10,10,10,5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[0,0,0,5,5,0,0,0]];
 // prettier-ignore
 const queenPST=[[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]];
-// prettier-ignore
-const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
+
+
+// REWRITTEN: King Piece-Square Table for the Middlegame
+// This version creates a strong "penalty zone" on the 2nd and 3rd ranks
+// to teach the AI that the king must stay on the back rank for safety
+// during the opening and middlegame.
+const kingPSTMidGame=[
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-20, -30, -30, -40, -40, -30, -30, -20],
+    [-10, -20, -20, -20, -20, -20, -20, -10],
+    [ 20,  20,   0,   0,   0,   0,  20,  20],
+    [ 20,  30,  10,   0,   0,  10,  30,  20]
+];
+
+
 // prettier-ignore
 const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
@@ -334,10 +350,12 @@ function evaluatePawnStructureAndActivity(board, color) {
 
 
 /**
- * NEW & REWRITTEN: Evaluates key strategic concepts.
- * This is the core fix. It introduces a strong understanding of castling rights,
- * central control, piece development, and king safety that the previous
- * version lacked. This prevents blunders like Kd7 and Nh6.
+ * REWRITTEN V2: Evaluates key strategic concepts with stronger priorities.
+ *
+ * This version addresses the core strategic flaws from the second game by:
+ * 1. DRAMATICALLY increasing the castling bonus to make king safety the top priority.
+ * 2. Increasing the penalty for undeveloped pieces to encourage active defense and
+ *    development (e.g., blocking checks with pieces instead of moving the king).
  *
  * @param {string[][]} board - The game board.
  * @param {string} color - The color to evaluate ('w' or 'b').
@@ -350,17 +368,17 @@ function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gam
     const isWhite = color === 'w';
     const homeRank = isWhite ? 7 : 0;
 
-    // --- 1. CRITICAL: Castling Rights Bonus (FIXES Kd7) ---
-    // This bonus is strongest in the opening and fades as the game progresses.
+    // --- 1. CRITICAL: Heavily Increased Castling Rights Bonus (FIXES Ke7) ---
+    // The bonus is now so large that voluntarily giving it up is almost unthinkable.
     if (gamePhase > 0.2) { // Only apply in opening/middlegame
         const canCastleKingSide = isWhite ? castlingRights.K : castlingRights.k;
         const canCastleQueenSide = isWhite ? castlingRights.Q : castlingRights.q;
         if (canCastleKingSide || canCastleQueenSide) {
-            score += 40 * gamePhase;
+            score += 75 * gamePhase; // Drastically increased from 40
         }
     }
 
-    // --- 2. Center Control Bonus (FIXES Nh6) ---
+    // --- 2. Center Control Bonus ---
     const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]]; // d5, e5, d4, e4
     for (const [r, c] of centerSquares) {
         const piece = board[r][c];
@@ -369,38 +387,40 @@ function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gam
                 score += 10; // Bonus for occupying the center
             }
         }
-        // Bonus for controlling the center with pawns
         const pawnDir = isWhite ? 1 : -1;
         const friendlyPawn = isWhite ? 'P' : 'p';
         if (board[r + pawnDir]?.[c - 1] === friendlyPawn) score += 5;
         if (board[r + pawnDir]?.[c + 1] === friendlyPawn) score += 5;
     }
 
-    // --- 3. Development and Tempo ---
+    // --- 3. Development and Tempo (FIXES Kc8) ---
+    // The increased penalty makes developing moves more attractive than passive king moves.
     if (gamePhase > 0.5) { // Opening-specific logic
-        // Penalty for undeveloped minor pieces
-        ['c', 'f'].forEach((file, index) => {
-            const piece = board[homeRank][isWhite ? index + 2 : index + 2];
-            if (piece && (piece.toLowerCase() === 'n' || piece.toLowerCase() === 'b')) {
-                score -= 15;
+        // Penalty for undeveloped minor pieces on the back rank.
+        const knightAndBishopSquares = [2, 3, 5, 6]; // c, d, f, g files
+        for(const c of knightAndBishopSquares){
+            const piece = board[homeRank][c];
+            // Check for minor pieces (Bishops or Knights) on their home squares
+            if(piece && (piece.toLowerCase() === 'b' || piece.toLowerCase() === 'n')){
+                 score -= 20; // Increased penalty from 15
             }
-        });
+        }
     }
 
     // --- 4. King Safety (Enhancement) ---
     const kingPos = findKing(board, color);
     if (kingPos) {
-        // Penalty for open files in front of an uncastled king
+        // Penalty for open files near an uncastled king
         if (kingPos.r === homeRank && (kingPos.c > 2 && kingPos.c < 6)) {
              for(let c_offset = -1; c_offset <= 1; c_offset++) {
-                 let fileIsEmptyOfPawns = true;
+                 let fileIsEmptyOfFriendlyPawns = true;
                  for(let r = 0; r < 8; r++) {
-                     if (board[r][kingPos.c + c_offset]?.toLowerCase() === 'p') {
-                         fileIsEmptyOfPawns = false;
+                     if (board[r][kingPos.c + c_offset]?.toLowerCase() === 'p' && (board[r][kingPos.c + c_offset].toUpperCase() === board[r][kingPos.c + c_offset]) === isWhite) {
+                         fileIsEmptyOfFriendlyPawns = false;
                          break;
                      }
                  }
-                 if (fileIsEmptyOfPawns) score -= 25; // Heavy penalty
+                 if (fileIsEmptyOfFriendlyPawns) score -= 25; // Heavy penalty
              }
         }
     }
