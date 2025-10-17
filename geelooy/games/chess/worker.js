@@ -539,32 +539,55 @@ function storeKillerMove(move, ply) { /* ... (no changes) ... */
 	}
 }
 
+
+// --- AI Core: Quiescence Search V2 (Tactically Aware) ---
+// This new version is much smarter and will prevent the kind of blunders you saw.
 function quiesce(board, alpha, beta, color, cr, ep) {
 	nodeCount++;
-	const standPat = evaluateBoard(board, color);
-	if (standPat >= beta) return beta;
-	if (alpha < standPat) alpha = standPat;
 
-	const moves = generateAllLegalMoves(board, color, cr, ep).filter(m => m.capture);
-	const orderedMoves = orderMoves(moves, board, null, 0);
+    // Time check for safety during long quiescence searches
+    if ((nodeCount & 2047) === 0 && (performance.now() - searchStartTime > timeLimit)) {
+		throw "TimeOut";
+	}
+
+	const standPat = evaluateBoard(board, color);
+
+	if (standPat >= beta) {
+		return beta;
+	}
+	if (alpha < standPat) {
+		alpha = standPat;
+	}
+
+    // --- UPGRADE: Generate ALL moves, not just captures ---
+    // We will then filter them to only look at forcing moves (captures and checks).
+	const allMoves = generateAllLegalMoves(board, color, cr, ep);
+    const forcingMoves = allMoves.filter(m => m.capture || m.check);
+
+	const orderedMoves = orderMoves(forcingMoves, board, null, 0); // Order the forcing moves
 
 	for (const move of orderedMoves) {
+        // --- NEW: We no longer ignore non-captures if they are checks ---
 		const nB = makeMove(board, move);
-		const newCR = { ...cr }; // Update castling rights as before
+		const newCR = { ...cr };
         if (move.piece === 'K') { newCR.K = false; newCR.Q = false; }
 		if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
 		if (move.from[0] === 7 && move.from[1] === 0) newCR.Q = false;
 		if (move.from[0] === 7 && move.from[1] === 7) newCR.K = false;
 		if (move.from[0] === 0 && move.from[1] === 0) newCR.q = false;
 		if (move.from[0] === 0 && move.from[1] === 7) newCR.k = false;
-		
+        
 		const score = -quiesce(nB, -beta, -alpha, color === 'w' ? 'b' : 'w', newCR, null);
-		if (score >= beta) return beta;
-		if (score > alpha) alpha = score;
+
+		if (score >= beta) {
+			return beta;
+		}
+		if (score > alpha) {
+			alpha = score;
+		}
 	}
 	return alpha;
 }
-
 // --- AI Core: Search V3 (High-Speed with Advanced Pruning) ---
 
 // Add these global variables to your worker for time management
