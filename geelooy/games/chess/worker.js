@@ -337,12 +337,6 @@ function makeMove(b, m) { /* ... (no changes) ... */
 
 // --- AI Core: THE FLAWLESS EVALUATION V2 ---
 // Constants for the new evaluation terms
-const BISHOP_PAIR_BONUS = 50;
-const ROOK_ON_OPEN_FILE_BONUS = 25;
-const ROOK_ON_SEMI_OPEN_FILE_BONUS = 15;
-const PASSED_PAWN_BONUS = [0, 10, 20, 35, 55, 80, 110, 150];
-const ISOLATED_PAWN_PENALTY = -15;
-const DOUBLED_PAWN_PENALTY = -10;
 
 // --- AI Core: THE FLAWLESS EVALUATION V3 ---
 
