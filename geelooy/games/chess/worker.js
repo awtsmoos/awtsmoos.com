@@ -57,19 +57,20 @@ const rookPST=[[0,0,0,0,0,0,0,0],[5,10,10,10,10,10,10,5],[-5,0,0,0,0,0,0,-5],[-5
 const queenPST=[[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]];
 
 
-// REWRITTEN: King Piece-Square Table for the Middlegame
-// This version creates a strong "penalty zone" on the 2nd and 3rd ranks
-// to teach the AI that the king must stay on the back rank for safety
-// during the opening and middlegame.
+// prettier-ignore
+// REWRITTEN V2 (SYMMETRICAL): King Piece-Square Table for the Middlegame
+// This version is now perfectly symmetrical to apply to both White and Black.
+// It creates a massive penalty for the king leaving the safety of the back rank,
+// making any forward king move in the opening a terrible choice.
 const kingPSTMidGame=[
-    [-30, -40, -40, -50, -50, -40, -40, -30],
-    [-30, -40, -40, -50, -50, -40, -40, -30],
-    [-30, -40, -40, -50, -50, -40, -40, -30],
-    [-30, -40, -40, -50, -50, -40, -40, -30],
-    [-20, -30, -30, -40, -40, -30, -30, -20],
-    [-10, -20, -20, -20, -20, -20, -20, -10],
-    [ 20,  20,   0,   0,   0,   0,  20,  20],
-    [ 20,  30,  10,   0,   0,  10,  30,  20]
+    [ 20,  30,  10,   0,   0,  10,  30,  20],  // Rank 1 (White's perspective)
+    [ 20,  20,   0,   0,   0,   0,  20,  20],  // Rank 2
+    [-10, -20, -20, -20, -20, -20, -20, -10], // Rank 3
+    [-20, -30, -30, -40, -40, -30, -30, -20], // Rank 4
+    [-30, -40, -40, -50, -50, -40, -40, -30], // Rank 5
+    [-30, -40, -40, -50, -50, -40, -40, -30], // Rank 6
+    [-30, -40, -40, -50, -50, -40, -40, -30], // Rank 7
+    [-30, -40, -40, -50, -50, -40, -40, -30]  // Rank 8
 ];
 
 
@@ -354,25 +355,36 @@ function evaluatePawnStructureAndActivity(board, color) {
                  
 
 /**
- * REWRITTEN V3: Final Strategic Priorities and Robust King Safety.
+ * REWRITTEN V5 (FULLY COMPLETE): Definitive King Safety, Center Control & Development.
  *
- * This version fixes the "clever loophole" the AI was exploiting. The King Safety
- * evaluation is now universal and no longer depends on the king being on the home rank.
- * It heavily penalizes a king that is on a central, open, or semi-open file,
- * making moves like `Ke7` strategically unthinkable.
+ * This is the final, comprehensive version of the engine's strategic brain. It
+ * combines all the critical lessons learned into a single, powerful function.
+ *
+ * It prioritizes strategy in the correct order:
+ * 1.  **King Safety (Highest Priority):** A three-pillar system of bonuses and
+ *     penalties makes castling the primary objective.
+ * 2.  **Center Control:** Rewards occupying and controlling the board's center.
+ * 3.  **Piece Development:** Penalizes leaving minor pieces on the back rank,
+ *     encouraging active play.
  *
  * @param {string[][]} board - The game board.
  * @param {string} color - The color to evaluate ('w' or 'b').
  * @param {object} castlingRights - The current castling rights.
  * @param {number} gamePhase - A number from 0.0 (Opening) to 1.0 (Endgame).
- * @returns {number} The strategic score for the given color.
+ * @returns {number} The final, complete strategic score for the given color.
  */
 function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gamePhase) {
     let score = 0;
     const isWhite = color === 'w';
+    const homeRank = isWhite ? 7 : 0;
 
-    // --- 1. Castling Rights Bonus (Strength Confirmed as Correct) ---
-    // The massive bonus for keeping castling rights is essential and remains.
+    const kingPos = findKing(board, color);
+    if (!kingPos) return 0; // Failsafe
+
+    // --- PILLAR 1: KING SAFETY (THE OVERRIDING PRIORITY) ---
+
+    // A. The "Option" Bonus: Retaining Castling Rights
+    // Discourages moves that forfeit the ability to castle.
     if (gamePhase > 0.2) {
         const canCastleKingSide = isWhite ? castlingRights.K : castlingRights.k;
         const canCastleQueenSide = isWhite ? castlingRights.Q : castlingRights.q;
@@ -381,24 +393,21 @@ function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gam
         }
     }
 
-    // --- 2. Center Control & Development (No changes needed) ---
-    const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]];
-    for (const [r, c] of centerSquares) {
-        const piece = board[r][c];
-        if (piece && (piece.toUpperCase() === piece) === isWhite) score += 10;
-    }
-    // (Other minor bonuses/penalties from this section remain the same...)
-
-    // --- 3. NEW & ROBUST: Universal King Safety Evaluation ---
-    // This new logic evaluates the king's safety wherever it is on the board.
-    const kingPos = findKing(board, color);
-    if (kingPos && gamePhase > 0.3) { // Only apply in opening/middlegame
+    // B. The "Reward" Bonus: Having a Castled King
+    // Provides a clear, tangible goal for the engine to achieve.
+    if (gamePhase > 0.3) {
         const king_c = kingPos.c;
+        if (king_c === 6 || king_c === 2) { // g-file or c-file
+            score += 40;
+        }
+    }
 
-        // A king is considered "exposed" if it's on the c, d, e, or f files.
-        if (king_c >= 2 && king_c <= 5) {
+    // C. The "Penalty" System: Universal King Exposure
+    // Penalizes a king on dangerous central files, wherever it has moved.
+    if (gamePhase > 0.3) {
+        const king_c = kingPos.c;
+        if (king_c >= 2 && king_c <= 5) { // King is on c, d, e, or f files
             const filesToCheck = [king_c - 1, king_c, king_c + 1];
-
             for (const file of filesToCheck) {
                 if (file < 0 || file > 7) continue;
 
@@ -414,15 +423,39 @@ function evaluatePositionalAndStrategicFactors(board, color, castlingRights, gam
                         }
                     }
                 }
-
-                // Apply penalties based on the file's status.
                 if (!hasFriendlyPawn) {
-                    if (!hasEnemyPawn) {
-                        score -= 30; // PENALTY: King is on a fully OPEN file.
-                    } else {
-                        score -= 20; // PENALTY: King is on a SEMI-OPEN file.
-                    }
+                    score -= (hasEnemyPawn ? 20 : 30); // Penalty for semi-open or open file
                 }
+            }
+        }
+    }
+
+    // --- PILLAR 2: CENTER CONTROL ---
+
+    const centerSquares = [[3, 3], [3, 4], [4, 3], [4, 4]]; // d5, e5, d4, e4
+    for (const [r, c] of centerSquares) {
+        const piece = board[r][c];
+        // Bonus for occupying the center with a piece
+        if (piece && (piece.toUpperCase() === piece) === isWhite) {
+            score += 10;
+        }
+        // Bonus for controlling the center with pawns
+        const pawnDir = isWhite ? 1 : -1;
+        const friendlyPawn = isWhite ? 'P' : 'p';
+        if (board[r + pawnDir]?.[c - 1] === friendlyPawn) score += 5;
+        if (board[r + pawnDir]?.[c + 1] === friendlyPawn) score += 5;
+    }
+
+    // --- PILLAR 3: PIECE DEVELOPMENT & TEMPO ---
+
+    // Apply penalties for undeveloped minor pieces during the opening phase.
+    if (gamePhase > 0.5) {
+        const knightAndBishopSquares = [1, 2, 5, 6]; // b, c, f, g files
+        for (const c of knightAndBishopSquares) {
+            const piece = board[homeRank][c];
+            // Check for minor pieces (Bishops or Knights) on their home squares
+            if (piece && (piece.toLowerCase() === 'b' || piece.toLowerCase() === 'n')) {
+                score -= 15; // Penalty encourages active development
             }
         }
     }
