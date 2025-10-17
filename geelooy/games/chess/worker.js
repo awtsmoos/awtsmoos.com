@@ -565,12 +565,33 @@ function quiesce(board, alpha, beta, color, cr, ep) {
 	return alpha;
 }
 
+// --- AI Core: Search V3 (High-Speed with Advanced Pruning) ---
+
+// Add these global variables to your worker for time management
+let searchStartTime;
+let timeLimit;
+
 function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
-    const hash = computeZobristHash(board, cr, ep, color);
-    // Modified repetition check: returning 0 can cause passive draws. 
-    // A more advanced engine might return a small penalty to avoid draws when winning.
-	if (ply > 0 && history.has(hash)) return 0;
-    
+    // =================================================================
+	// 1. TERMINATION & TRANSPOSITION TABLE LOOKUP
+	// =================================================================
+
+	// --- Time Limit Check ---
+    // This allows the search to be stopped gracefully if it's taking too long.
+    // It's essential for iterative deepening and time management.
+	if ((nodeCount & 2047) === 0 && (performance.now() - searchStartTime > timeLimit)) {
+		throw "TimeOut"; // Use an exception to instantly unwind the search stack
+	}
+
+    // --- Repetition & Draw Check ---
+	const hash = computeZobristHash(board, cr, ep, color);
+	if (ply > 0 && history.has(hash)) {
+		return 0; // This is a draw by repetition
+	}
+
+    // --- Transposition Table Lookup ---
+    // If we have already evaluated this exact position to an equal or greater depth,
+    // we can use the stored score immediately. This saves huge amounts of computation.
 	const ttEntry = transpositionTable.get(hash);
 	if (ttEntry && ttEntry.depth >= depth) {
 		if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -579,25 +600,60 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
 		if (alpha >= beta) return ttEntry.score;
 	}
 
-	if (depth <= 0) return quiesce(board, alpha, beta, color, cr, ep);
-	nodeCount++;
+    // --- Base Case: Quiescence Search ---
+    // When we reach the maximum search depth, we switch to a special "quiescence"
+    // search that only evaluates captures, ensuring we don't miss any obvious tactics.
+	if (depth <= 0) {
+		return quiesce(board, alpha, beta, color, cr, ep);
+	}
 
+	nodeCount++;
 	const newHistory = new Set(history);
 	newHistory.add(hash);
 
+    // =================================================================
+	// 2. PRUNING AND EXTENSIONS
+	// =================================================================
+
 	const inCheck = isSquareAttacked(board, findKing(board, color).r, findKing(board, color).c, color === 'w' ? 'b' : 'w');
-	if (inCheck) depth++;
+
+	// --- Check Extension ---
+    // If we are in check, it's a critical situation. We increase the search depth
+    // to ensure we can see the consequences and find an escape if one exists.
+	if (inCheck) {
+		depth++;
+	}
+
+	// --- Null Move Pruning (NMP) ---
+    // A massive speedup. We give the opponent a "free" move. If their score after
+    // this free move is STILL not good enough to beat our beta, then our current
+    // position is so dominant that this entire branch can be pruned.
+    const canNullMove = !inCheck && ply > 0 && depth >= 3;
+    if (canNullMove) {
+        const nullMoveReduction = 3;
+        const score = -negamax(board, depth - 1 - nullMoveReduction, -beta, -beta + 1, color === 'w' ? 'b' : 'w', ply + 1, cr, null, newHistory);
+        if (score >= beta) {
+            return beta; // Prune this branch
+        }
+    }
+
+	// =================================================================
+	// 3. PRINCIPAL VARIATION SEARCH (PVS) & LATE MOVE REDUCTIONS (LMR)
+	// =================================================================
 
 	const moves = generateAllLegalMoves(board, color, cr, ep);
-	if (moves.length === 0) return inCheck ? -30000 + ply : 0; // Checkmate or stalemate
+	if (moves.length === 0) {
+		return inCheck ? -30000 + ply : 0; // Checkmate or stalemate
+	}
 
 	const orderedMoves = orderMoves(moves, board, ttEntry ? ttEntry.bestMove : null, ply);
 	let bestMove = null;
-    let ttFlag = TT_UPPERBOUND;
+	let ttFlag = TT_UPPERBOUND;
+    let moveIndex = 0;
 
 	for (const move of orderedMoves) {
 		const newBoard = makeMove(board, move);
-		const newCR = { ...cr }; // Update castling rights as before
+		const newCR = { ...cr };
         if (move.piece === 'K') { newCR.K = false; newCR.Q = false; }
 		if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
 		if (move.from[0] === 7 && move.from[1] === 0) newCR.Q = false;
@@ -605,29 +661,73 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
 		if (move.from[0] === 0 && move.from[1] === 0) newCR.q = false;
 		if (move.from[0] === 0 && move.from[1] === 7) newCR.k = false;
 		const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+        
+        let score;
 
-		const score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
+        if (moveIndex === 0) {
+            // --- Principal Variation Search (Full Window) ---
+            // We fully search the first move, assuming it's the best one.
+            score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
+        } else {
+            // --- Late Move Reductions (LMR) ---
+            // For later moves that are not captures or checks, we assume they are worse
+            // and search them with a reduced depth to save time.
+            const canReduce = depth >= 3 && !move.capture && !move.check;
+            if (canReduce) {
+                // Search with a reduced depth first.
+                score = -negamax(newBoard, depth - 2, -alpha - 1, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
+            } else {
+                 score = alpha + 1; // Ensure we do a full search if we can't reduce
+            }
+            
+            // --- Principal Variation Search (Zero Window & Re-search) ---
+            // If the reduced search (or if we couldn't reduce) seems promising,
+            // we must do a full re-search to get an accurate score.
+            if (score > alpha) {
+                score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
+            }
+        }
 		
+		moveIndex++;
+
+        // --- Update Alpha-Beta and Best Move ---
 		if (score > alpha) {
 			alpha = score;
 			bestMove = move;
-			ttFlag = TT_EXACT;
+			ttFlag = TT_EXACT; // We found a new best move, so this is the "exact" score.
 		}
 
 		if (alpha >= beta) {
+			// --- Beta Cutoff ---
+            // This move is too good; the opponent will have avoided this line earlier.
+            // We can stop searching the rest of the moves.
 			storeKillerMove(move, ply);
-			transpositionTable.set(hash, { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
+			transpositionTable.set(hash, {
+				score: beta,
+				depth,
+				flag: TT_LOWERBOUND,
+				bestMove: move
+			});
 			return beta;
 		}
 	}
 
-	transpositionTable.set(hash, { score: alpha, depth, flag: ttFlag, bestMove });
+    // =================================================================
+	// 4. SAVE TO TRANSPOSITION TABLE
+	// =================================================================
+	transpositionTable.set(hash, {
+		score: alpha,
+		depth,
+		flag: ttFlag,
+		bestMove
+	});
+
 	return alpha;
 }
 
-
 // --- AI Driver ---
-self.onmessage = function(e) { /* ... (no changes needed here) ... */
+// --- AI Driver ---
+self.onmessage = function(e) {
 	const {
 		command,
 		fen,
@@ -639,46 +739,61 @@ self.onmessage = function(e) { /* ... (no changes needed here) ... */
 		nodeCount = 0;
 		transpositionTable.clear();
 		killerMoves = Array(50).fill(null).map(() => Array(2).fill(null));
-		const history = new Set();
+		
+        const history = new Set();
 		if (fenHistory) {
 			fenHistory.forEach(f => {
-				const {
-					board,
-					turn,
-					castlingRights,
-					enPassantTarget
-				} = createBoardFromFEN(f);
-				const hash = computeZobristHash(board, castlingRights, enPassantTarget, turn);
-				history.add(hash)
+				const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(f);
+				history.add(computeZobristHash(board, castlingRights, enPassantTarget, turn));
 			})
 		}
-		const {
-			board,
-			turn,
-			castlingRights,
-			enPassantTarget
-		} = createBoardFromFEN(fen);
+		
+        const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(fen);
 		let bestMove = null;
-        let bestScore = -Infinity;
-		for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-			const score = negamax(board, currentDepth, -Infinity, Infinity, turn, 0, castlingRights, enPassantTarget, history);
-			const ttEntry = transpositionTable.get(computeZobristHash(board, castlingRights, enPassantTarget, turn));
-			if (ttEntry && ttEntry.bestMove) {
-                bestMove = ttEntry.bestMove;
-                bestScore = ttEntry.score;
-            } else {
-				const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
-				if (legalMoves.length > 0) bestMove = legalMoves[0];
-				else bestMove = null
-			}
-            // Optional: Post intermediate results
-            // postMessage({ bestMove, depth: currentDepth, score: bestScore });
-		}
+
+        // --- NEW: Top-Level Move Evaluation for Variety ---
+        const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
+        if (legalMoves.length === 0) {
+            postMessage({ bestMove: null });
+            return;
+        }
+
+        let moveScores = [];
+
+        for (const move of legalMoves) {
+            const newBoard = makeMove(board, move);
+            const newCR = { ...castlingRights };
+            if (move.piece === 'K') { newCR.K = false; newCR.Q = false; }
+            if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
+            if (move.from[0] === 7 && move.from[1] === 0) newCR.Q = false;
+            if (move.from[0] === 7 && move.from[1] === 7) newCR.K = false;
+            if (move.from[0] === 0 && move.from[1] === 0) newCR.q = false;
+            if (move.from[0] === 0 && move.from[1] === 7) newCR.k = false;
+            const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+            
+            // Search each move individually to a slightly lower depth
+            const score = -negamax(newBoard, maxDepth - 1, -Infinity, Infinity, turn === 'w' ? 'b' : 'w', 1, newCR, newEP, history);
+            moveScores.push({ move: move, score: score });
+        }
+
+        // Sort moves from best to worst
+        moveScores.sort((a, b) => b.score - a.score);
+
+        // Get the best score
+        const bestScore = moveScores[0].score;
+
+        // Create a pool of "best" moves (e.g., within 15 centipawns of the best score)
+        const VARIETY_THRESHOLD = 15; // This is a tunable parameter
+        const bestMovesPool = moveScores.filter(ms => Math.abs(bestScore - ms.score) <= VARIETY_THRESHOLD);
+
+        // Randomly select a move from the pool
+        bestMove = bestMovesPool[Math.floor(Math.random() * bestMovesPool.length)].move;
+
 		const endTime = performance.now();
 		postMessage({
 			bestMove,
 			timeTaken: (endTime - startTime).toFixed(2),
 			nodesSearched: nodeCount
-		})
+		});
 	}
 };
