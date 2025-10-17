@@ -279,17 +279,27 @@ function calculateMobility(board, color) {
 // advanced evaluation system that understands how the value of strategic
 // concepts changes as the game progresses from opening to endgame.
 
+
+// =================================================================
+//        V16: HIERARCHICAL & PRINCIPLED EVALUATION ENGINE
+// =================================================================
+// This block replaces all previous evaluation functions. It teaches the engine to
+// think with a hierarchy of principles, prioritizing King Safety above all else
+// in the opening. It introduces a "Threat Detector" to prevent panicked reactions
+// and an "Opening Contract" with a "Panic Button" penalty to enforce discipline.
+
 // --- Evaluation Constants for Easy Tuning ---
 const BISHOP_PAIR_BONUS = 30;
 const ROOK_ON_OPEN_FILE_BONUS = 20;
 const ROOK_ON_SEMI_OPEN_FILE_BONUS = 10;
 const ROOK_ON_SEVENTH_RANK_BONUS = 35;
+const PIN_PENALTY_BASE = 15; // Base penalty for a pin
+const PANIC_BUTTON_PENALTY = 500; // A massive, overriding penalty
 
 // --- Helper: Calculates the current phase of the game ---
-// Returns a value from 1.0 (full board, opening) to 0.0 (very few pieces, endgame).
 function getGamePhase(board) {
-    const OPENING_MATERIAL = 7800; // Starting material value (excluding kings)
-    const ENDGAME_MATERIAL = 1500; // A threshold for when the endgame truly begins
+    const OPENING_MATERIAL = 7800;
+    const ENDGAME_MATERIAL = 1500;
     let totalMaterial = 0;
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
@@ -299,191 +309,147 @@ function getGamePhase(board) {
             }
         }
     }
-    // Normalize the material count to a 0-1 phase value
     const phase = (totalMaterial - ENDGAME_MATERIAL) / (OPENING_MATERIAL - ENDGAME_MATERIAL);
-    return Math.max(0, Math.min(1, phase)); // Clamp between 0 and 1
+    return Math.max(0, Math.min(1, phase));
 }
 
 /**
- * Expert Evaluator: Analyzes pawn structure.
- * It identifies doubled, isolated, and passed pawns. The value of a passed
- * pawn is dynamically scaled based on the game phase, as they are most
- * critical in the endgame.
+ * NEW EXPERT EVALUATOR: Threat Detector.
+ * This function quantifies the danger of immediate threats like pins against the
+ * king. This gives the AI a rational way to measure danger instead of panicking.
  */
-function evaluatePawnStructure(board, color, gamePhase) {
+function evaluateThreats(board, color) {
     let score = 0;
+    const kingPos = findKing(board, color);
+    if (!kingPos) return 0;
     const isWhite = color === 'w';
-    const friendlyPawn = isWhite ? 'P' : 'p';
-    const enemyPawn = isWhite ? 'p' : 'P';
-    const pawnDir = isWhite ? -1 : 1;
-    let pawnFiles = Array(8).fill(0);
 
-    for (let c = 0; c < 8; c++) {
-        for (let r = 0; r < 8; r++) {
-            if (board[r][c] === friendlyPawn) {
-                pawnFiles[c]++;
-                // --- Passed Pawn Evaluation ---
-                let isPassed = true;
-                for (let lookAheadRow = r + pawnDir; lookAheadRow >= 0 && lookAheadRow < 8; lookAheadRow += pawnDir) {
-                    if (board[lookAheadRow][c] === enemyPawn || board[lookAheadRow][c - 1] === enemyPawn || board[lookAheadRow][c + 1] === enemyPawn) {
-                        isPassed = false;
-                        break;
+    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
+    for (let i = 0; i < directions.length; i++) {
+        const [dr, dc] = directions[i];
+        let friendlyPiecesInPath = 0;
+        let pathLength = 0;
+        for (let dist = 1; dist < 8; dist++) {
+            const nR = kingPos.r + dr * dist;
+            const nC = kingPos.c + dc * dist;
+            if (nR < 0 || nR >= 8 || nC < 0 || nC >= 8) break;
+            pathLength++;
+            const piece = board[nR][nC];
+            if (piece) {
+                if ((piece.toUpperCase() === piece) === isWhite) {
+                    friendlyPiecesInPath++;
+                } else { // Enemy piece
+                    if (friendlyPiecesInPath === 1) { // This is a potential pin!
+                        const pType = piece.toLowerCase();
+                        const isRookMove = i < 4;
+                        const isBishopMove = i >= 4;
+                        if (pType === 'q' || (isRookMove && pType === 'r') || (isBishopMove && pType === 'b')) {
+                            // It's a true pin. Apply a penalty scaled by the attacker's value.
+                            score -= PIN_PENALTY_BASE * (pieceValues[pType] / 100);
+                        }
                     }
-                }
-                if (isPassed) {
-                    const rank = isWhite ? 7 - r : r;
-                    // The bonus for a passed pawn increases dramatically as the endgame approaches
-                    score += (rank * rank * (3 - 2 * gamePhase));
+                    break; // Path is blocked by the enemy piece
                 }
             }
-        }
-    }
-
-    // --- Doubled and Isolated Pawn Penalties ---
-    for (let c = 0; c < 8; c++) {
-        if (pawnFiles[c] > 1) score -= (20 * gamePhase); // Less of a penalty in the endgame
-        if (pawnFiles[c] > 0 && (c === 0 || pawnFiles[c - 1] === 0) && (c === 7 || pawnFiles[c + 1] === 0)) {
-            score -= 15;
         }
     }
     return score;
 }
 
 /**
- * Expert Evaluator: Analyzes piece activity and strategic positioning.
- * It understands concepts like rooks on open files, the bishop pair, and mobility.
- */
-function evaluatePieceActivity(board, color) {
-    let score = 0;
-    const isWhite = color === 'w';
-    let bishopCount = 0;
-    let friendlyRookFiles = [];
-
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = board[r][c];
-            if (piece && (piece.toUpperCase() === piece) === isWhite) {
-                const pType = piece.toLowerCase();
-                // --- Rook Placement ---
-                if (pType === 'r') {
-                    friendlyRookFiles.push(c);
-                    // Huge bonus for rooks on the 7th rank (2nd for black)
-                    if ((isWhite && r === 1) || (!isWhite && r === 6)) {
-                        score += ROOK_ON_SEVENTH_RANK_BONUS;
-                    }
-                }
-                // --- Bishop Pair ---
-                if (pType === 'b') {
-                    bishopCount++;
-                }
-                // --- Mobility Bonus (a simple proxy for activity) ---
-                const moves = getPseudoLegalMovesForPiece(piece, r, c, board, null);
-                score += moves.length * 0.5; // Small bonus for each available move
-            }
-        }
-    }
-
-    // Apply the bishop pair bonus if the player has both bishops
-    if (bishopCount === 2) {
-        score += BISHOP_PAIR_BONUS;
-    }
-
-    // --- Evaluate Rook Files ---
-    for (const rookFile of friendlyRookFiles) {
-        let hasFriendlyPawn = false;
-        let hasEnemyPawn = false;
-        for (let r = 0; r < 8; r++) {
-            const p = board[r][rookFile]?.toLowerCase();
-            if (p === 'p') {
-                if ((board[r][rookFile].toUpperCase() === board[r][rookFile]) === isWhite) hasFriendlyPawn = true;
-                else hasEnemyPawn = true;
-            }
-        }
-        if (!hasFriendlyPawn) {
-            score += hasEnemyPawn ? ROOK_ON_SEMI_OPEN_FILE_BONUS : ROOK_ON_OPEN_FILE_BONUS;
-        }
-    }
-
-    return score;
-}
-
-/**
- * Expert Evaluator: Analyzes King Safety.
- * This is the most critical strategic component. Its logic is tapered: in the
- * opening/middlegame it demands castling and a pawn shield. In the endgame, it
- * rewards an active king that moves to the center.
+ * UPGRADED EXPERT EVALUATOR: Hierarchical King Safety.
+ * This is the core of the fix. It implements the "Opening Contract" and the
+ * "Panic Button" penalty, making king safety a non-negotiable law in the opening.
  */
 function evaluateKingSafety(board, color, cr, gamePhase) {
     const kingPos = findKing(board, color);
     if (!kingPos) return 0;
     const isWhite = color === 'w';
 
-    // --- Opening & Middlegame King Safety ---
     let openingMiddlegameScore = 0;
-    if (gamePhase > 0.1) { // This logic fades out in the deep endgame
-        // 1. Huge bonus for retaining the *option* to castle
+    if (gamePhase > 0.1) {
         const canCastle = isWhite ? (cr.K || cr.Q) : (cr.k || cr.q);
+        const homeRank = isWhite ? 7 : 0;
+
+        // --- THE "OPENING CONTRACT" ---
+        // If it's the opening/middlegame and castling is still possible...
+        if (gamePhase > 0.7 && canCastle) {
+            // --- THE "PANIC BUTTON" PENALTY ---
+            // If the king has moved off the back rank, apply a catastrophic penalty.
+            if (kingPos.r !== homeRank) {
+                openingMiddlegameScore -= PANIC_BUTTON_PENALTY;
+            }
+        }
+
+        // 1. Bonus for retaining the *option* to castle
         if (canCastle) {
             openingMiddlegameScore += 60;
         }
 
-        const king_c = kingPos.c;
-        const king_r = kingPos.r;
-
-        // 2. Check for a safely castled king
-        if ((isWhite && king_r === 7) || (!isWhite && king_r === 0)) {
-            if (king_c === 6 || king_c === 2) { // Castled King or Queen-side
-                openingMiddlegameScore += 30; // Direct reward for being castled
-                // Bonus for a pawn shield in front of the castled king
-                const shieldFiles = king_c === 6 ? [5, 6, 7] : [0, 1, 2];
-                for (const file of shieldFiles) {
-                    const pawnRank = isWhite ? 6 : 1;
-                    if (board[pawnRank][file] === (isWhite ? 'P' : 'p')) {
-                        openingMiddlegameScore += 10;
-                    }
+        // 2. Reward for a safely castled king
+        if (kingPos.r === homeRank && (kingPos.c === 6 || kingPos.c === 2)) {
+            openingMiddlegameScore += 30;
+            const shieldFiles = kingPos.c === 6 ? [5, 6, 7] : [0, 1, 2];
+            for (const file of shieldFiles) {
+                if (board[homeRank - (isWhite ? 1 : -1)][file] === (isWhite ? 'P' : 'p')) {
+                    openingMiddlegameScore += 10;
                 }
             }
         }
-
-        // 3. Penalty for an exposed king in the center
-        if (king_c >= 2 && king_c <= 5) { // King on c, d, e, or f files
-            let openFilePenalty = 0;
-            for(let c_offset = -1; c_offset <=1; c_offset++) {
-                 let fileIsEmptyOfFriendlyPawns = true;
-                 for(let r=0; r<8; r++){
-                     if(board[r][king_c + c_offset]?.toLowerCase() === 'p' && (board[r][king_c + c_offset].toUpperCase() === board[r][king_c + c_offset]) === isWhite){
-                         fileIsEmptyOfFriendlyPawns = false;
-                         break;
-                     }
-                 }
-                 if(fileIsEmptyOfFriendlyPawns) openFilePenalty += 25;
-            }
-             openingMiddlegameScore -= openFilePenalty;
-        }
     }
 
-    // --- Endgame King Activity ---
     let endgameScore = 0;
-    if (gamePhase < 0.5) { // This logic fades in as the endgame approaches
-        // In the endgame, we use the endgame PST which rewards an active king
+    if (gamePhase < 0.5) {
         const pstRow = isWhite ? kingPos.r : 7 - kingPos.r;
         endgameScore += kingPSTEndGame[pstRow][kingPos.c];
     }
 
-    // Blend the scores based on the game phase
     return (openingMiddlegameScore * gamePhase) + (endgameScore * (1 - gamePhase));
+}
+
+// (The evaluatePawnStructure and evaluatePieceActivity functions remain the same as the previous advanced version)
+function evaluatePawnStructure(board, color, gamePhase) {
+    let score = 0;
+    const isWhite = color === 'w'; const friendlyPawn = isWhite ? 'P' : 'p'; const enemyPawn = isWhite ? 'p' : 'P'; const pawnDir = isWhite ? -1 : 1; let pawnFiles = Array(8).fill(0);
+    for (let c = 0; c < 8; c++) {
+        for (let r = 0; r < 8; r++) {
+            if (board[r][c] === friendlyPawn) {
+                pawnFiles[c]++; let isPassed = true;
+                for (let lookAheadRow = r + pawnDir; lookAheadRow >= 0 && lookAheadRow < 8; lookAheadRow += pawnDir) { if (board[lookAheadRow][c] === enemyPawn || board[lookAheadRow][c - 1] === enemyPawn || board[lookAheadRow][c + 1] === enemyPawn) { isPassed = false; break; } }
+                if (isPassed) { const rank = isWhite ? 7 - r : r; score += (rank * rank * (3 - 2 * gamePhase)); }
+            }
+        }
+    }
+    for (let c = 0; c < 8; c++) { if (pawnFiles[c] > 1) score -= (20 * gamePhase); if (pawnFiles[c] > 0 && (c === 0 || pawnFiles[c - 1] === 0) && (c === 7 || pawnFiles[c + 1] === 0)) { score -= 15; } }
+    return score;
+}
+function evaluatePieceActivity(board, color) {
+    let score = 0; const isWhite = color === 'w'; let bishopCount = 0; let friendlyRookFiles = [];
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = board[r][c];
+            if (piece && (piece.toUpperCase() === piece) === isWhite) {
+                const pType = piece.toLowerCase();
+                if (pType === 'r') { friendlyRookFiles.push(c); if ((isWhite && r === 1) || (!isWhite && r === 6)) { score += ROOK_ON_SEVENTH_RANK_BONUS; } }
+                if (pType === 'b') { bishopCount++; }
+                score += getPseudoLegalMovesForPiece(piece, r, c, board, null).length * 0.5;
+            }
+        }
+    }
+    if (bishopCount === 2) { score += BISHOP_PAIR_BONUS; }
+    for (const rookFile of friendlyRookFiles) {
+        let hasFriendlyPawn = false; let hasEnemyPawn = false;
+        for (let r = 0; r < 8; r++) { const p = board[r][rookFile]?.toLowerCase(); if (p === 'p') { if ((board[r][rookFile].toUpperCase() === board[r][rookFile]) === isWhite) hasFriendlyPawn = true; else hasEnemyPawn = true; } }
+        if (!hasFriendlyPawn) { score += hasEnemyPawn ? ROOK_ON_SEMI_OPEN_FILE_BONUS : ROOK_ON_OPEN_FILE_BONUS; }
+    }
+    return score;
 }
 
 
 /**
- * The MASTER Evaluation Function.
- * This function acts as the conductor, directing the expert evaluators and
- * blending their analysis into a single, nuanced score. It replaces all previous
- * 'evaluate' and helper functions.
- *
- * @param {string[][]} board - The game board.
- * @param {object} cr - Current castling rights object.
- * @returns {number} The final evaluation score from White's perspective.
+ * The MASTER Evaluation Function (Conductor).
+ * This function now directs a team of highly specialized experts, including the new
+ * Threat Detector, and orchestrates them according to the game phase.
  */
 function evaluate(board, cr) {
     const gamePhase = getGamePhase(board);
@@ -496,20 +462,14 @@ function evaluate(board, cr) {
             const p = board[r][c];
             if (!p) continue;
             const isWhite = (p === p.toUpperCase());
-            const sign = isWhite ? 1 : -1;
             const pType = p.toLowerCase();
             let score = pieceValues[pType];
-
-            // Add PST score (using tapered King PST)
             if (pType === 'k') {
                 const midPstRow = isWhite ? r : 7 - r;
-                const midScore = kingPSTMidGame[midPstRow][c];
-                // Endgame PST is handled in evaluateKingSafety
-                score += (midScore * gamePhase);
+                score += (kingPSTMidGame[midPstRow][c] * gamePhase);
             } else {
                 const pstRow = isWhite ? r : 7 - r;
-                const pst = { p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType];
-                score += pst[pstRow][c];
+                score += ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
             }
             if (isWhite) whiteScore += score;
             else blackScore += score;
@@ -526,9 +486,15 @@ function evaluate(board, cr) {
     whiteScore += evaluateKingSafety(board, 'w', cr, gamePhase);
     blackScore += evaluateKingSafety(board, 'b', cr, gamePhase);
 
+    whiteScore += evaluateThreats(board, 'w');
+    blackScore += evaluateThreats(board, 'b');
+
     // --- 3. Return the final score from White's perspective ---
     return Math.floor(whiteScore - blackScore);
 }
+
+
+
 
 
 // =================================================================
