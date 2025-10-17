@@ -262,42 +262,241 @@ function isSquareAttacked(board, r, c, attackerColor) {
 	return false;
 }
 
+
+
+// =================================================================
+//        V8+ HIGH-PERFORMANCE MOVE GENERATION (REPLACEMENT)
+// =================================================================
+/**
+ * Generates all legal moves for a given color. This is a high-performance
+ * function that avoids the slow "generate-and-test" method. It works by
+ * first analyzing the board to identify checks and pinned pieces, and then
+ * generating only the moves that are legal under those constraints.
+ *
+ * @param {Array<Array<string>>} board - The current board state.
+ * @param {string} color - The color to move ('w' or 'b').
+ * @param {object} cr - The current castling rights.
+ * @param {Array<number>|null} ep - The en passant target square.
+ * @returns {Array<object>} An array of legal move objects.
+ */
 function generateLegalMoves(board, color, cr, ep) {
-	const legalMoves = [];
-	const opponentColor = color === 'w' ? 'b' : 'w';
-	for (let r = 0; r < 8; r++) {
-		for (let c = 0; c < 8; c++) {
-			const piece = board[r][c];
-			if (!piece || (piece === piece.toUpperCase()) !== (color === 'w')) continue;
+    const legalMoves = [];
+    const opponentColor = color === 'w' ? 'b' : 'w';
+    const kingPos = findKing(board, color);
 
-			const pseudoMoves = getPseudoLegalMovesForPiece(piece, r, c, board, ep);
+    // If the king can't be found, something is wrong, return no moves.
+    if (!kingPos) return [];
 
-			for (const move of pseudoMoves) {
-				const newBoard = makeMove(board, move);
-				const kingPos = findKing(newBoard, color);
-				if (kingPos && !isSquareAttacked(newBoard, kingPos.r, kingPos.c, opponentColor)) {
-					legalMoves.push(move);
-				}
-			}
-		}
-	}
-	// Castling
-	if (!isSquareAttacked(board, color === 'w' ? 7 : 0, 4, opponentColor)) {
-		const r = color === 'w' ? 7 : 0;
-		if ((color === 'w' ? cr.K : cr.k) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) legalMoves.push({
-			from: [r, 4],
-			to: [r, 6],
-			piece: color === 'w' ? 'K' : 'k',
-			isCastle: true
-		});
-		if ((color === 'w' ? cr.Q : cr.q) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) legalMoves.push({
-			from: [r, 4],
-			to: [r, 2],
-			piece: color === 'w' ? 'K' : 'k',
-			isCastle: true
-		});
-	}
-	return legalMoves;
+    // --- Phase 1: Analyze Board for Checks and Pins ---
+    const kingRow = kingPos.r;
+    const kingCol = kingPos.c;
+
+    const attackers = [];
+    const pins = new Map(); // Maps a pinned piece's square "r,c" to its pin direction vector
+
+    // Check for sliding attacks (Rook, Bishop, Queen) and pins
+    const directions = [ [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1] ];
+    for (const [dr, dc] of directions) {
+        let potentialPin = null;
+        for (let i = 1; i < 8; i++) {
+            const r = kingRow + dr * i;
+            const c = kingCol + dc * i;
+            if (r < 0 || r >= 8 || c < 0 || c >= 8) break;
+
+            const piece = board[r][c];
+            if (piece) {
+                const isOpponent = (piece.toUpperCase() === piece) !== (color === 'w');
+                if (isOpponent) {
+                    const pType = piece.toLowerCase();
+                    const isSlidingPiece = (pType === 'r' && (dr === 0 || dc === 0)) ||
+                                           (pType === 'b' && (dr !== 0 && dc !== 0)) ||
+                                            pType === 'q';
+                    if (isSlidingPiece) {
+                        if (potentialPin) {
+                            // This is a pin
+                            pins.set(`${potentialPin.r},${potentialPin.c}`, [dr, dc]);
+                        } else {
+                            // This is a direct check
+                            attackers.push({ r, c });
+                        }
+                    }
+                } else { // Friendly piece
+                    if (potentialPin) {
+                        // Two friendly pieces in a row, no pin from this direction
+                        break;
+                    } else {
+                        potentialPin = { r, c };
+                    }
+                }
+                break; // Stop searching in this direction after finding any piece
+            }
+        }
+    }
+
+    // Check for Knight attacks
+    const knightMoves = [ [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1] ];
+    for (const [dr, dc] of knightMoves) {
+        const r = kingRow + dr;
+        const c = kingCol + dc;
+        if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+            const piece = board[r][c];
+            if (piece && piece.toLowerCase() === 'n' && (piece.toUpperCase() === piece) !== (color === 'w')) {
+                attackers.push({ r, c });
+            }
+        }
+    }
+
+    // Check for Pawn attacks
+    const pawnDir = color === 'w' ? -1 : 1;
+    for (const dc of [-1, 1]) {
+        const r = kingRow + pawnDir;
+        const c = kingCol + dc;
+        if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+            const piece = board[r][c];
+            if (piece && piece.toLowerCase() === 'p' && (piece.toUpperCase() === piece) !== (color === 'w')) {
+                attackers.push({ r, c });
+            }
+        }
+    }
+
+
+    // --- Phase 2: Generate Moves Based on Check/Pin Analysis ---
+    const inCheck = attackers.length > 0;
+
+    // A helper function to add moves if they are legal under pin constraints
+    function addMoveIfLegal(move) {
+        const fromKey = `${move.from[0]},${move.from[1]}`;
+        const pinDir = pins.get(fromKey);
+
+        if (!pinDir) {
+            // Piece is not pinned, move is legal in this context
+            legalMoves.push(move);
+            return;
+        }
+
+        // Piece is pinned, check if it's moving along the pin line
+        const moveDir = [Math.sign(move.to[0] - move.from[0]), Math.sign(move.to[1] - move.from[1])];
+        if (moveDir[0] === pinDir[0] && moveDir[1] === pinDir[1] ||
+            moveDir[0] === -pinDir[0] && moveDir[1] === -pinDir[1]) {
+            legalMoves.push(move);
+        }
+    }
+
+    if (inCheck) {
+        // --- In Check Logic ---
+        if (attackers.length > 1) {
+            // Double check: Only king moves are legal
+            const kingPseudoMoves = getPseudoLegalMovesForPiece(color === 'w' ? 'K' : 'k', kingRow, kingCol, board, ep);
+            for (const move of kingPseudoMoves) {
+                if (!isSquareAttacked(board, move.to[0], move.to[1], opponentColor)) {
+                    legalMoves.push(move);
+                }
+            }
+        } else {
+            // Single check: Can move king, block, or capture the attacker
+            const attacker = attackers[0];
+            const attackerRow = attacker.r;
+            const attackerCol = attacker.c;
+
+            // 1. Generate king moves to safe squares
+            const kingPseudoMoves = getPseudoLegalMovesForPiece(color === 'w' ? 'K' : 'k', kingRow, kingCol, board, ep);
+            for (const move of kingPseudoMoves) {
+                if (!isSquareAttacked(board, move.to[0], move.to[1], opponentColor)) {
+                    legalMoves.push(move);
+                }
+            }
+
+            // 2. Generate blocks and captures
+            const blockSquares = [];
+            const attackerType = board[attackerRow][attackerCol].toLowerCase();
+            if (['r', 'b', 'q'].includes(attackerType)) {
+                const dr = Math.sign(kingRow - attackerRow);
+                const dc = Math.sign(kingCol - attackerCol);
+                for (let i = 1; i < 8; i++) {
+                    const r = attackerRow + dr * i;
+                    const c = attackerCol + dc * i;
+                    if (r === kingRow && c === kingCol) break;
+                    blockSquares.push({ r, c });
+                }
+            }
+
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const piece = board[r][c];
+                    // Skip the king, as its moves are already generated
+                    if (!piece || piece.toLowerCase() === 'k' || (piece.toUpperCase() === piece) !== (color === 'w')) continue;
+
+                    const pseudoMoves = getPseudoLegalMovesForPiece(piece, r, c, board, ep);
+                    for (const move of pseudoMoves) {
+                        // Check if the move is a capture of the attacker OR a block
+                        const isCapture = move.to[0] === attackerRow && move.to[1] === attackerCol;
+                        const isBlock = blockSquares.some(sq => sq.r === move.to[0] && sq.c === move.to[1]);
+                        
+                        if (isCapture || isBlock) {
+                            addMoveIfLegal(move);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        // --- Not in Check Logic ---
+        // Generate all pseudo-legal moves and validate them against pins
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                const piece = board[r][c];
+                if (!piece || (piece.toUpperCase() === piece) !== (color === 'w')) continue;
+
+                const pseudoMoves = getPseudoLegalMovesForPiece(piece, r, c, board, ep);
+                for (const move of pseudoMoves) {
+                    if (piece.toLowerCase() === 'k') {
+                        // For the king, we must check if the destination square is attacked
+                        if (!isSquareAttacked(board, move.to[0], move.to[1], opponentColor)) {
+                            legalMoves.push(move);
+                        }
+                    } else {
+                        // For other pieces, just check against the pin map
+                        addMoveIfLegal(move);
+                    }
+                }
+            }
+        }
+
+        // Castling (can only happen if not in check)
+        const canCastleKingside = color === 'w' ? cr.K : cr.k;
+        if (canCastleKingside && !board[kingRow][5] && !board[kingRow][6] &&
+            !isSquareAttacked(board, kingRow, 5, opponentColor) &&
+            !isSquareAttacked(board, kingRow, 6, opponentColor)) {
+            legalMoves.push({ from: [kingRow, 4], to: [kingRow, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+        const canCastleQueenside = color === 'w' ? cr.Q : cr.q;
+        if (canCastleQueenside && !board[kingRow][1] && !board[kingRow][2] && !board[kingRow][3] &&
+            !isSquareAttacked(board, kingRow, 2, opponentColor) &&
+            !isSquareAttacked(board, kingRow, 3, opponentColor)) {
+            legalMoves.push({ from: [kingRow, 4], to: [kingRow, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+    }
+    
+    // Final check for en passant legality (rare discovered check case)
+    // This is a complex check and often simplified, but here's a robust way
+    const finalLegalMoves = [];
+    for (const move of legalMoves) {
+        if (move.isEnPassant) {
+            // Simulate the en passant capture to see if it puts the king in check
+            const tempBoard = board.map(row => row.slice());
+            const pawnDir = color === 'w' ? 1 : -1;
+            tempBoard[move.to[0]][move.to[1]] = move.piece;
+            tempBoard[move.from[0]][move.from[1]] = '';
+            tempBoard[move.to[0] - pawnDir][move.to[1]] = ''; // Remove the captured pawn
+            if (!isSquareAttacked(tempBoard, kingPos.r, kingPos.c, opponentColor)) {
+                finalLegalMoves.push(move);
+            }
+        } else {
+            finalLegalMoves.push(move);
+        }
+    }
+
+    return finalLegalMoves;
 }
 
 
