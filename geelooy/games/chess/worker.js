@@ -339,7 +339,9 @@ function makeMove(b, m) { /* ... (no changes) ... */
 
 // --- AI Core: THE FLAWLESS EVALUATION V2 ---
 // Constants for the new evaluation terms
-
+// New constants for SEE
+const pieceSeeValues = { 'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 10000 };
+const BISHOP_PAIR_BONUS = 50; // Increased value
 // --- AI Core: THE FLAWLESS EVALUATION V3 ---
 
 // --- New, more nuanced evaluation constants ---
