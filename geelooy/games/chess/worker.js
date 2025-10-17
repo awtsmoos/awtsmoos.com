@@ -727,72 +727,58 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
 
 // --- AI Driver ---
 // --- AI Driver ---
+// --- AI Driver V3 (Iterative Deepening - STRONGEST VERSION) ---
+
 self.onmessage = function(e) {
 	const {
 		command,
 		fen,
-		maxDepth,
+		maxTime, // This version uses maxTime
 		fenHistory
 	} = e.data;
 	if (command === 'calculate_move') {
-		const startTime = performance.now();
+		searchStartTime = performance.now();
+        timeLimit = maxTime;
 		nodeCount = 0;
 		transpositionTable.clear();
 		killerMoves = Array(50).fill(null).map(() => Array(2).fill(null));
-		
-        const history = new Set();
+
+		const history = new Set();
 		if (fenHistory) {
 			fenHistory.forEach(f => {
 				const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(f);
 				history.add(computeZobristHash(board, castlingRights, enPassantTarget, turn));
 			})
 		}
+		const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(fen);
 		
-        const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(fen);
-		let bestMove = null;
+        let bestMove = null;
 
-        // --- NEW: Top-Level Move Evaluation for Variety ---
-        const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
-        if (legalMoves.length === 0) {
-            postMessage({ bestMove: null });
-            return;
+        try {
+            // Iterative deepening loop: Search depth 1, then 2, then 3... until time runs out.
+            for (let currentDepth = 1; currentDepth <= 50; currentDepth++) {
+                negamax(board, currentDepth, -Infinity, Infinity, turn, 0, castlingRights, enPassantTarget, history);
+                
+                // After each completed search, save the best move found so far.
+                const ttEntry = transpositionTable.get(computeZobristHash(board, castlingRights, enPassantTarget, turn));
+                if (ttEntry && ttEntry.bestMove) {
+                    bestMove = ttEntry.bestMove;
+                } else {
+                    // Fallback if somehow no move is in the TT
+                    if (!bestMove) {
+                        const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
+                        bestMove = legalMoves.length > 0 ? legalMoves[0] : null;
+                    }
+                }
+            }
+        } catch (e) {
+            if (e !== "TimeOut") throw e; // This is the expected way to stop the search.
         }
-
-        let moveScores = [];
-
-        for (const move of legalMoves) {
-            const newBoard = makeMove(board, move);
-            const newCR = { ...castlingRights };
-            if (move.piece === 'K') { newCR.K = false; newCR.Q = false; }
-            if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
-            if (move.from[0] === 7 && move.from[1] === 0) newCR.Q = false;
-            if (move.from[0] === 7 && move.from[1] === 7) newCR.K = false;
-            if (move.from[0] === 0 && move.from[1] === 0) newCR.q = false;
-            if (move.from[0] === 0 && move.from[1] === 7) newCR.k = false;
-            const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-            
-            // Search each move individually to a slightly lower depth
-            const score = -negamax(newBoard, maxDepth - 1, -Infinity, Infinity, turn === 'w' ? 'b' : 'w', 1, newCR, newEP, history);
-            moveScores.push({ move: move, score: score });
-        }
-
-        // Sort moves from best to worst
-        moveScores.sort((a, b) => b.score - a.score);
-
-        // Get the best score
-        const bestScore = moveScores[0].score;
-
-        // Create a pool of "best" moves (e.g., within 15 centipawns of the best score)
-        const VARIETY_THRESHOLD = 15; // This is a tunable parameter
-        const bestMovesPool = moveScores.filter(ms => Math.abs(bestScore - ms.score) <= VARIETY_THRESHOLD);
-
-        // Randomly select a move from the pool
-        bestMove = bestMovesPool[Math.floor(Math.random() * bestMovesPool.length)].move;
-
+		
 		const endTime = performance.now();
 		postMessage({
-			bestMove,
-			timeTaken: (endTime - startTime).toFixed(2),
+			bestMove, // Post the best move from the last fully completed search
+			timeTaken: (endTime - searchStartTime).toFixed(2),
 			nodesSearched: nodeCount
 		});
 	}
