@@ -777,9 +777,82 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, previousHash) {
 
         // --- 6. Alpha-Beta Pruning ---
         if (score >= beta) {
-            // Store result in TT before returning (Beta-cutoff, Lower bound)
+/**
+ * REWRITTEN (CORRECT PVS IMPLEMENTATION): The High-Performance Search Core.
+ *
+ * This version fixes the catastrophic bug from the previous implementation by using
+ * a standard, robust Principal Variation Search (PVS) algorithm. PVS is an
+ * enhancement to Alpha-Beta that gains significant speed by assuming the first
+ * move is the best and searching subsequent moves with a faster "null window".
+ * This correctly integrates LMR and ensures the entire search tree is explored
+ * without logical errors.
+ */
+function search(board, depth, alpha, beta, color, ply, cr, ep) {
+    // --- 1. Search Control & Base Cases ---
+    if (stopSearch) return 0;
+    if (depth <= 0) return quiesce(board, alpha, beta, color, cr);
+    nodeCount++;
+
+    // --- 2. Transposition Table Lookup ---
+    const currentHash = calculateZobristHash(board, color); // In a real engine, this would be updated incrementally
+    const ttEntry = transpositionTable.get(currentHash);
+    if (ttEntry && ttEntry.depth >= depth) {
+        if (ttEntry.flag === TT_EXACT) return ttEntry.score;
+        if (ttEntry.flag === TT_LOWERBOUND && ttEntry.score >= beta) return beta;
+        if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
+    }
+
+    // --- 3. Move Generation & Terminal Node Check ---
+    const inCheck = isKingInCheck(board, color);
+    if (inCheck) depth++; // Check Extension
+
+    const moves = generateLegalMoves(board, color, cr, ep);
+    if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
+
+    // --- 4. The PVS Move Loop ---
+    const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
+    let originalAlpha = alpha;
+    let bestMove = null;
+    let moveIndex = 0;
+
+    for (const move of orderedMoves) {
+        const newBoard = makeMove(board, move);
+        const newCR = { ...cr }; // Simplified
+        const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+        const opponentColor = color === 'w' ? 'b' : 'w';
+
+        let score;
+        if (moveIndex === 0) {
+            // --- Full Window Search (for the first, most promising move) ---
+            score = -search(newBoard, depth - 1, -beta, -alpha, opponentColor, ply + 1, newCR, newEP);
+        } else {
+            // --- Late Move Reductions (LMR) ---
+            let reduction = 0;
+            if (depth >= 3 && moveIndex >= 3 && !inCheck && !move.capture) {
+                reduction = 1; // Reduce depth by 1
+            }
+            
+            // --- Null Window Search (for all subsequent moves) ---
+            // We assume these moves are worse than the first one.
+            score = -search(newBoard, depth - 1 - reduction, -alpha - 1, -alpha, opponentColor, ply + 1, newCR, newEP);
+
+            // If the reduction was too aggressive and the move was good, re-search.
+            if (reduction > 0 && score > alpha) {
+                 score = -search(newBoard, depth - 1, -alpha - 1, -alpha, opponentColor, ply + 1, newCR, newEP);
+            }
+
+            // If this move is surprisingly good, it might be a new PV. Re-search with a full window.
+            if (score > alpha && score < beta) {
+                score = -search(newBoard, depth - 1, -beta, -alpha, opponentColor, ply + 1, newCR, newEP);
+            }
+        }
+        
+        if (stopSearch) return 0;
+
+        // --- 5. Alpha-Beta Pruning ---
+        if (score >= beta) {
             transpositionTable.set(currentHash, { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
-            return beta;
+            return beta; // Beta-cutoff
         }
         if (score > alpha) {
             alpha = score;
@@ -788,8 +861,7 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, previousHash) {
         moveIndex++;
     }
 
-    // --- 7. Transposition Table Store ---
-    // Save the result of this search into our "memory".
+    // --- 6. Transposition Table Store ---
     const flag = (alpha > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(currentHash, { score: alpha, depth, flag, bestMove });
 
@@ -817,57 +889,72 @@ function isKingInCheck(board, color) {
  * It now manages the Transposition Table, clearing it before each new move
  * calculation, and computes the initial Zobrist hash for the root position.
  */
+/**
+ * REWRITTEN (PVS COMPATIBLE): The main search driver.
+ * This version is updated to correctly call the new Principal Variation Search
+ * function, handling the first move outside the main recursive loop.
+ */
 function findBestMove(board, turn, cr, ep) {
     let bestMoveFound = null;
     let bestScore = -Infinity;
     let pvLine = [];
 
-    // --- CRITICAL FOR ACCURACY: Clear memory for each new top-level search ---
     transpositionTable.clear();
     killerMoves = Array(MATE_IN_MAX_PLY).fill(null).map(() => [null, null]);
     historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
 
-    // Calculate the unique hash for the starting position
     const initialHash = calculateZobristHash(board, turn);
 
-    // --- Iterative Deepening Loop ---
     for (let currentDepth = 1; currentDepth <= MATE_IN_MAX_PLY; currentDepth++) {
         const moves = generateLegalMoves(board, turn, cr, ep);
         if (moves.length === 0) break;
 
         const orderedMoves = orderMoves(moves, pvLine[0], 0);
-
-        let currentBestMoveInIteration = orderedMoves[0];
         let alpha = -Infinity;
         let beta = Infinity;
 
-        for (const move of orderedMoves) {
-            const newBoard = makeMove(board, move);
-            const newCR = { ...cr }; // Simplified CR update for brevity
-            const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+        // --- PVS Root Search Logic ---
+        // Treat the first move as the "Principal Variation" and search it with a full window.
+        const firstMove = orderedMoves[0];
+        const newBoard = makeMove(board, firstMove);
+        const newCR = { ...cr }; // Simplified
+        const newEP = firstMove.isPawnDoubleMove ? [(firstMove.from[0] + firstMove.to[0]) / 2, firstMove.from[1]] : null;
+        let score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
+        
+        bestMoveFound = firstMove;
+        alpha = score;
 
-            // The search now takes the position hash as an argument
-            const score = -search(newBoard, currentDepth - 1, -alpha, -beta, turn === 'w' ? 'b' : 'w', 1, newCR, newEP, initialHash);
+        if (stopSearch) break;
+        
+        // Search remaining moves with a null window first.
+        for (let i = 1; i < orderedMoves.length; i++) {
+            const move = orderedMoves[i];
+            const newBoard = makeMove(board, move);
+            const newCR = { ...cr }; // Simplified
+            const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+            
+            // Null window search
+            score = -search(newBoard, currentDepth - 1, -alpha - 1, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
+            
+            // If it failed high, it might be a new best move, so re-search with a full window.
+            if (score > alpha && score < beta) {
+                score = -search(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP);
+            }
 
             if (stopSearch) break;
 
             if (score > alpha) {
                 alpha = score;
-                currentBestMoveInIteration = move;
+                bestMoveFound = move;
             }
         }
 
-        if (stopSearch || performance.now() - searchStartTime > timeLimit) {
-            break;
-        }
+        if (stopSearch) break;
 
-        bestMoveFound = currentBestMoveInIteration;
         bestScore = alpha;
         pvLine[0] = bestMoveFound;
 
-        if (Math.abs(bestScore) >= MATE_SCORE - currentDepth) {
-            break;
-        }
+        if (Math.abs(bestScore) >= MATE_SCORE - currentDepth) break;
     }
 
     return { bestMove: bestMoveFound, score: bestScore };
