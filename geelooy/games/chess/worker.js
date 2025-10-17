@@ -181,8 +181,10 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
 
     const moves = generateAllLegalMoves(board, color, cr, ep);
     if (moves.length === 0) {
-        return inCheck ? -20000 + ply : 0;
-    }
+    // *** FIX: Make delivering mate much more attractive ***
+    // A mate found sooner (at a lower ply) will now have a significantly higher score.
+    return inCheck ? -30000 + ply * 100 : 0;
+}
 
     const orderedMoves = orderMoves(moves, board, ttEntry ? ttEntry.bestMove : null, ply);
     let bestMove = null;
@@ -218,40 +220,75 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) {
 
 // --- Main AI Driver ---
 self.onmessage = function(e) {
-    const { command, fen, maxDepth, fenHistory } = e.data; // Now receiving fenHistory
+    const { command, fen, maxDepth, fenHistory } = e.data;
     if (command === 'calculate_move') {
         const startTime = performance.now();
         nodeCount = 0;
         transpositionTable.clear();
         killerMoves = Array(50).fill(null).map(() => Array(2).fill(null));
 
-        // --- Create a history set of hashes from the FEN history ---
         const history = new Set();
         if (fenHistory) {
             fenHistory.forEach(pastFen => {
-                const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(pastFen + " 0 1"); // Add dummy clocks
+                const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(pastFen);
                 const hash = computeZobristHash(board, castlingRights, enPassantTarget, turn);
                 history.add(hash);
             });
         }
 
         const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(fen);
+        const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
         
-        let bestMove = null;
-        let bestScore = -Infinity;
+        if (legalMoves.length === 0) {
+            postMessage({ bestMove: null });
+            return;
+        }
 
-        // Iterative Deepening Loop
+        let bestMove = legalMoves[0];
+        let bestScore = -Infinity;
+        
+        // --- NEW: Logic for adding variety ---
+        let topMoves = [];
+        const moveSelectionMargin = 25; // in centipawns. 25 is a good balance.
+
         for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-            // Pass the historical positions into the search
-            const score = negamax(board, currentDepth, -Infinity, Infinity, turn, 0, castlingRights, enPassantTarget, history);
-            const ttEntry = transpositionTable.get(computeZobristHash(board, castlingRights, enPassantTarget, turn));
-            if (ttEntry && ttEntry.bestMove) {
-                bestMove = ttEntry.bestMove;
-                bestScore = ttEntry.score;
-            } else {
-                const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
-                if (legalMoves.length > 0) bestMove = legalMoves[0];
-                else bestMove = null;
+            let alpha = -Infinity;
+            let beta = Infinity;
+            
+            // At the start of each new search, reset the list of top moves
+            topMoves = []; 
+            bestScore = -Infinity;
+
+            const orderedMoves = orderMoves(legalMoves, board, bestMove, 0);
+
+            for (const move of orderedMoves) {
+                const newBoard = makeMove(board, move);
+                const newCR = { ...castlingRights };
+                if (move.piece === 'K') { newCR.K = false; newCR.Q = false; } else if (move.piece === 'k') { newCR.k = false; newCR.q = false; }
+                if (move.from[0] === 7 && (move.from[1] === 0 || move.to[1] === 0)) newCR.Q = false;
+                if (move.from[0] === 7 && (move.from[1] === 7 || move.to[1] === 7)) newCR.K = false;
+                if (move.from[0] === 0 && (move.from[1] === 0 || move.to[1] === 0)) newCR.q = false;
+                if (move.from[0] === 0 && (move.from[1] === 7 || move.to[1] === 7)) newCR.k = false;
+
+                const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
+                const score = -negamax(newBoard, currentDepth - 1, -beta, -alpha, turn === 'w' ? 'b' : 'w', 1, newCR, newEP, history);
+                
+                if (score > bestScore) {
+                    bestScore = score;
+                    // This is the new best move, so clear the list and add it.
+                    topMoves = [move]; 
+                } else if (Math.abs(score - bestScore) <= moveSelectionMargin) {
+                    // This move is "good enough" to be considered, so add it to the list.
+                    topMoves.push(move);
+                }
+                
+                if (score > alpha) {
+                    alpha = score;
+                }
+            }
+            // Select a random move from the list of top candidates
+            if (topMoves.length > 0) {
+                bestMove = topMoves[Math.floor(Math.random() * topMoves.length)];
             }
         }
         
