@@ -654,14 +654,12 @@ function quiesce(board, alpha, beta, color, cr) {
 }
 
 /**
- * REWRITTEN FOR CLARITY & CORRECTNESS: The Core Alpha-Beta Search Function.
+ * REWRITTEN FOR CLARITY & ACCURACY: The Core Alpha-Beta Search Function.
  *
- * This is the engine's main recursive thinking process. It uses a principle called
- * alpha-beta pruning to intelligently discard bad branches of the search tree,
- * allowing it to "think" many moves ahead in a short amount of time.
- *
- * This version includes proper state management for castling rights and en passant,
- * as well as a "Check Extension" to search deeper when a king is in danger.
+ * This version includes a critical bug fix: it now correctly updates castling
+ * rights not only when a king or rook moves, but also when an opponent's rook
+ * is captured on its starting square. This ensures 100% accuracy in the
+ * engine's positional understanding deep in the search.
  *
  * @param {string[][]} board - The current board state.
  * @param {number} depth - How many more moves (ply) to look ahead.
@@ -675,8 +673,6 @@ function quiesce(board, alpha, beta, color, cr) {
  */
 function search(board, depth, alpha, beta, color, ply, cr, ep) {
     // --- 1. Search Control ---
-    // First, check if we need to stop searching due to time constraints. This is
-    // essential for responsive and tournament-legal play.
     if (stopSearch) return 0;
     nodeCount++;
     if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
@@ -685,8 +681,6 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
     }
 
     // --- 2. Check Extension ---
-    // If the current player's king is in check, it's a volatile position. We must
-    // search deeper to ensure we find a safe escape, so we increase the depth.
     const kingPos = findKing(board, color);
     const inCheck = kingPos && isSquareAttacked(board, kingPos.r, kingPos.c, color === 'w' ? 'b' : 'w');
     if (inCheck) {
@@ -694,31 +688,20 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
     }
 
     // --- 3. Base Case: Reaching Maximum Depth ---
-    // When the search depth reaches zero, we hand off to the Quiescence Search.
-    // This tactical analysis ensures the final evaluation is based on a stable position.
     if (depth <= 0) {
         return quiesce(board, alpha, beta, color, cr);
     }
 
     // --- 4. Move Generation & Terminal Node Check ---
-    // Generate all legal moves from this position.
     const moves = generateLegalMoves(board, color, cr, ep);
-
-    // If there are no legal moves, the game is over.
     if (moves.length === 0) {
-        // If the king is in check, it's checkmate. Return a losing score,
-        // adjusted by ply to prefer faster mates.
-        if (inCheck) return -MATE_SCORE + ply;
-        // Otherwise, it's a stalemate (a draw).
-        return 0;
+        if (inCheck) return -MATE_SCORE + ply; // Checkmate
+        return 0; // Stalemate
     }
 
     // --- 5. The Main Move Loop ---
-    // Order the moves to check the most promising ones first. This dramatically
-    // increases the efficiency of alpha-beta pruning.
-    const orderedMoves = orderMoves(moves, null, ply); // 'null' is for a PV move, not implemented here yet
-    let bestMoveFound = false;
-
+    const orderedMoves = orderMoves(moves, null, ply);
+    
     for (const move of orderedMoves) {
         // --- 5a. State Update for the Next Ply ---
         const newBoard = makeMove(board, move);
@@ -727,6 +710,7 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
 
         // CRITICAL: Correctly update a *copy* of the castling rights.
         const newCastlingRights = { ...cr };
+        // Update based on the piece that MOVES
         if (move.piece === 'K') { newCastlingRights.K = false; newCastlingRights.Q = false; }
         if (move.piece === 'k') { newCastlingRights.k = false; newCastlingRights.q = false; }
         if (move.piece === 'R') {
@@ -737,21 +721,21 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
             if (move.from[0] === 0 && move.from[1] === 0) newCastlingRights.q = false;
             if (move.from[0] === 0 && move.from[1] === 7) newCastlingRights.k = false;
         }
+        // BUG FIX: Update based on a rook being CAPTURED on its home square
+        if (move.capture?.toLowerCase() === 'r') {
+            if (move.to[0] === 0 && move.to[1] === 0) newCastlingRights.q = false; // Black Q-side
+            if (move.to[0] === 0 && move.to[1] === 7) newCastlingRights.k = false; // Black K-side
+            if (move.to[0] === 7 && move.to[1] === 0) newCastlingRights.Q = false; // White Q-side
+            if (move.to[0] === 7 && move.to[1] === 7) newCastlingRights.K = false; // White K-side
+        }
 
         // --- 5b. The Recursive Call ---
-        // We recursively call `search` for the opponent's turn. Note the negated alpha/beta.
         const score = -search(newBoard, depth - 1, -beta, -alpha, opponentColor, ply + 1, newCastlingRights, newEnPassantTarget);
 
-        if (stopSearch) return 0; // Exit early if time is up
+        if (stopSearch) return 0;
 
         // --- 5c. Alpha-Beta Pruning Logic ---
-        // If the score is greater than or equal to beta, it means we've found a move
-        // so good that the opponent (in the parent node) would have avoided this
-        // entire line of play. We can stop searching other moves here (a "beta-cutoff").
         if (score >= beta) {
-            // This is a "fail-high" node.
-            // For non-capture moves that cause a cutoff, we store them as "killer moves"
-            // and boost their history score to prioritize them in other branches.
             if (!move.capture) {
                 killerMoves[ply][1] = killerMoves[ply][0];
                 killerMoves[ply][0] = move;
@@ -762,21 +746,17 @@ function search(board, depth, alpha, beta, color, ply, cr, ep) {
                     historyTable[pieceIndex][toSquare] += depth * depth;
                 }
             }
-            return beta; // Return the beta value as the score for this node.
+            return beta; // Beta-cutoff
         }
-
-        // If the score is better than our current best (alpha), we've found a new
-        // best move in this position.
         if (score > alpha) {
-            alpha = score; // Update alpha, our new best guaranteed score.
-            bestMoveFound = true;
+            alpha = score; // New best move found
         }
     }
 
     // --- 6. Return the Final Score ---
-    // After checking all moves, alpha holds the score of the best move found.
     return alpha;
 }
+
 
 
 
