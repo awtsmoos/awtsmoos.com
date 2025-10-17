@@ -300,132 +300,113 @@ function generateLegalMoves(board, color, cr, ep) {
 	return legalMoves;
 }
 
+
+/**
+ * Generates all pseudo-legal moves for a single piece on the board.
+ * "Pseudo-legal" means it follows the piece's movement rules but does not
+ * check if the king is left in check, as that is handled later by the move generator.
+ *
+ * @param {string} p - The piece to move (e.g., 'P', 'n', 'K').
+ * @param {number} r - The starting row of the piece (0-7).
+ * @param {number} c - The starting column of the piece (0-7).
+ * @param {Array<Array<string>>} b - The current board state.
+ * @param {Array<number>|null} ep - The en passant target square, if any (e.g., [2, 4]).
+ * @returns {Array<object>} An array of move objects.
+ */
 function getPseudoLegalMovesForPiece(p, r, c, b, ep) {
-	/* ... A condensed version of the previous logic ... */
-	const m = [],
-		pL = p.toLowerCase(),
-		iW = p === p.toUpperCase(),
-		d = iW ? -1 : 1;
-	const oC = iW ? 'b' : 'w';
-	if (pL === 'p') {
-		if (((iW && r === 6) || (!iW && r === 1)) && !b[r + 2 * d][c])
-		 m.push({	
-			
-				from: [r, c],
-				to: [r + d, c],
-				piece: p
-			});
-			if ((iW && r === 6) || (!iW && r === 1)) && !b[r + 2 * d][c] m.push({
-				from: [r, c],
-				to: [r + 2 * d, c],
-				piece: p,
-				isPawnDoubleMove: true
-			})
-		}
-		for (let dc = -1; dc <= 1; dc += 2) {
-			const nC = c + dc;
-			if (nC > -1 && nC < 8 && r + d > -1 && r + d < 8) {
-				const t = b[r + d][nC];
-				if (t && (t === t.toUpperCase()) !== (p === p.toUpperCase())) m.push({
-					from: [r, c],
-					to: [r + d, nC],
-					piece: p,
-					capture: true
-				})
-			}
-			if (ep && r + d === ep[0] && nC === ep[1]) m.push({
-				from: [r, c],
-				to: [r + d, nC],
-				piece: p,
-				capture: true,
-				isEnPassant: true
-			})
-		}
-	} else if (pL === 'k') {
-		const o = [
-			[-1, -1],
-			[-1, 0],
-			[-1, 1],
-			[0, -1],
-			[0, 1],
-			[1, -1],
-			[1, 0],
-			[1, 1]
-		];
-		for (const [dr, dc] of o) {
-			const nR = r + dr,
-				nC = c + dc;
-			if (nR > -1 && nR < 8 && nC > -1 && nC < 8) {
-				const t = b[nR][nC];
-				if (!t || (t === t.toUpperCase()) !== (p === p.toUpperCase())) m.push({
-					from: [r, c],
-					to: [nR, nC],
-					piece: p,
-					capture: !!t
-				})
-			}
-		}
-	} else {
-		const o = {
-			n: [
-				[-2, -1],
-				[-2, 1],
-				[-1, -2],
-				[-1, 2],
-				[1, -2],
-				[1, 2],
-				[2, -1],
-				[2, 1]
-			],
-			b: [
-				[-1, -1],
-				[-1, 1],
-				[1, -1],
-				[1, 1]
-			],
-			r: [
-				[-1, 0],
-				[1, 0],
-				[0, -1],
-				[0, 1]
-			],
-			q: [
-				[-1, -1],
-				[-1, 1],
-				[1, -1],
-				[1, 1],
-				[-1, 0],
-				[1, 0],
-				[0, -1],
-				[0, 1]
-			]
-		} [pL];
-		for (const [dr, dc] of o) {
-			let nR = r + dr,
-				nC = c + dc;
-			while (nR > -1 && nR < 8 && nC > -1 && nC < 8) {
-				const t = b[nR][nC];
-				if (t) {
-					if ((t === t.toUpperCase()) !== (p === p.toUpperCase())) m.push({
-						from: [r, c],
-						to: [nR, nC],
-						piece: p,
-						capture: true
-					});
-					break
-				}
-				m.push({
-					from: [r, c],
-					to: [nR, nC],
-					piece: p
-				});
-				if (pL === 'n') break;
-				nR += dr;
-				nC += dc
-			}
-		}
-	}
-	return m;
+    const moves = [];
+    const pieceType = p.toLowerCase();
+    const isWhite = (p === p.toUpperCase());
+    const direction = isWhite ? -1 : 1; // White moves from high row to low, Black from low to high
+
+    // --- PAWN MOVES ---
+    if (pieceType === 'p') {
+        // 1. Single Pawn Push
+        const oneStepForward = r + direction;
+        if (oneStepForward >= 0 && oneStepForward < 8 && !b[oneStepForward][c]) {
+            moves.push({ from: [r, c], to: [oneStepForward, c], piece: p });
+
+            // 2. Double Pawn Push (only from starting rank)
+            const startingRank = isWhite ? 6 : 1;
+            const twoStepsForward = r + (2 * direction);
+            if (r === startingRank && !b[twoStepsForward][c]) {
+                moves.push({ from: [r, c], to: [twoStepsForward, c], piece: p, isPawnDoubleMove: true });
+            }
+        }
+
+        // 3. Pawn Captures (diagonal)
+        for (let dc = -1; dc <= 1; dc += 2) { // dc is -1 (left) and +1 (right)
+            const captureCol = c + dc;
+            const captureRow = r + direction;
+            if (captureCol >= 0 && captureCol < 8 && captureRow >= 0 && captureRow < 8) {
+                const targetPiece = b[captureRow][captureCol];
+
+                // Standard capture
+                if (targetPiece && (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
+                    moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: true });
+                }
+
+                // En Passant capture
+                if (ep && captureRow === ep[0] && captureCol === ep[1]) {
+                    moves.push({ from: [r, c], to: [captureRow, captureCol], piece: p, capture: true, isEnPassant: true });
+                }
+            }
+        }
+    }
+    // --- KING MOVES ---
+    else if (pieceType === 'k') {
+        const kingOffsets = [ [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1] ];
+        for (const [dr, dc] of kingOffsets) {
+            const newRow = r + dr;
+            const newCol = c + dc;
+            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                const targetPiece = b[newRow][newCol];
+                if (!targetPiece || (targetPiece === targetPiece.toUpperCase()) !== isWhite) {
+                    moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: !!targetPiece });
+                }
+            }
+        }
+    }
+    // --- KNIGHT, BISHOP, ROOK, QUEEN MOVES ---
+    else {
+        const moveOffsets = {
+            n: [ [-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1] ],
+            b: [ [-1, -1], [-1, 1], [1, -1], [1, 1] ],
+            r: [ [-1, 0], [1, 0], [0, -1], [0, 1] ],
+            q: [ [-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1] ]
+        }[pieceType];
+
+        for (const [dr, dc] of moveOffsets) {
+            let newRow = r + dr;
+            let newCol = c + dc;
+
+            while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                const targetPiece = b[newRow][newCol];
+
+                if (targetPiece) {
+                    // It's an opponent's piece, can capture.
+                    if ((targetPiece === targetPiece.toUpperCase()) !== isWhite) {
+                        moves.push({ from: [r, c], to: [newRow, newCol], piece: p, capture: true });
+                    }
+                    // It's a friendly piece, so the path is blocked.
+                    break;
+                }
+
+                // It's an empty square.
+                moves.push({ from: [r, c], to: [newRow, newCol], piece: p });
+
+                // Knights only move once, so break after the first step.
+                if (pieceType === 'n') {
+                    break;
+                }
+
+                // Continue sliding for B, R, Q.
+                newRow += dr;
+                newCol += dc;
+            }
+        }
+    }
+    return moves;
 }
 
 function makeMove(b, m) {
