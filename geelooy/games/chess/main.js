@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let gameState = {};
 	const PIECE_EMOJIS = {
 		'K': '👑',
-		'Q': '✡️',
+		'Q': '👸',
 		'R': '🏰',
 		'B': '🧔',
 		'N': '🐴',
