@@ -61,7 +61,30 @@ function computeZobristHash(board, cr, ep, turn) {
 }
 
 // --- FEN & Legality (Unchanged) ---
-function createBoardFromFEN(fen) { const [boardPart, turn, castling, enPassant] = fen.split(' '); return { board: boardPart.split('/').map(row => { let newRow = []; for (const char of row) { if (isNaN(parseInt(char))) newRow.push(char); else for (let i = 0; i < parseInt(char); i++) newRow.push(''); } return newRow; }), turn, castlingRights: { K: castling.includes('K'), Q: castling.includes('Q'), k: castling.includes('k'), q: castling.includes('q') }, enPassantTarget: enPassant === '-' ? null : [(8 - parseInt(enPassant[1])), 'abcdefgh'.indexOf(enPassant[0])] }; }
+function createBoardFromFEN(fen) {
+    // Provide default values to prevent destructuring errors on incomplete FENs
+    const [boardPart, turn = 'w', castling = '-', enPassant = '-'] = fen.split(' '); 
+    
+    return { 
+        board: boardPart.split('/').map(row => { 
+            let newRow = []; 
+            for (const char of row) { 
+                if (isNaN(parseInt(char))) newRow.push(char); 
+                else for (let i = 0; i < parseInt(char); i++) newRow.push(''); 
+            } 
+            return newRow; 
+        }), 
+        turn, 
+        castlingRights: { 
+            K: castling.includes('K'), 
+            Q: castling.includes('Q'), 
+            k: castling.includes('k'), 
+            q: castling.includes('q') 
+        }, 
+        enPassantTarget: enPassant === '-' ? null : [(8 - parseInt(enPassant[1])), 'abcdefgh'.indexOf(enPassant[0])] 
+    }; 
+}
+
 function findKing(b, color) { const k = color === 'w' ? 'K' : 'k'; for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (b[r][c] === k) return { r, c }; return null; }
 function isSquareAttacked(b, r, c, attackerColor) { for (let rA = 0; rA < 8; rA++) for (let cA = 0; cA < 8; cA++) { const p = b[rA][cA]; if (!p) continue; const isWhite = p === p.toUpperCase(); const correctColor = (attackerColor === 'w' && isWhite) || (attackerColor === 'b' && !isWhite); if (!correctColor) continue; const m = getPseudoLegalMovesForPiece(p, rA, cA, b, null, null, true); for (const move of m) if (move.to[0] === r && move.to[1] === c) return true; } return false; }
 function getPseudoLegalMovesForPiece(p, r, c, b, cr, ep, isForAttackCheck = false) {
