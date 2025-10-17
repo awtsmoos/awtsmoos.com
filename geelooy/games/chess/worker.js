@@ -720,63 +720,6 @@ function quiesce(board, alpha, beta, color, cr) {
  * This function integrates Transposition Tables (memory) and Late Move Reductions
  * (intelligent skipping) to dramatically increase search speed.
  */
-function search(board, depth, alpha, beta, color, ply, cr, ep, previousHash) {
-    // --- 1. Search Control & Basic Checks ---
-    if (stopSearch) return 0;
-    nodeCount++;
-    if (ply >= MATE_IN_MAX_PLY) return evaluate(board, cr); // Horizon reached
-
-    // --- 2. Transposition Table Lookup (The "Memory" Check) ---
-    // Calculate the hash for the current position by incrementally updating it.
-    // NOTE: For a real engine, this hash update would be more robust, handling castling/ep rights.
-    // For this implementation, we re-calculate for simplicity, the concept remains.
-    const currentHash = calculateZobristHash(board, color);
-    const ttEntry = transpositionTable.get(currentHash);
-    if (ttEntry && ttEntry.depth >= depth) {
-        if (ttEntry.flag === TT_EXACT) return ttEntry.score;
-        if (ttEntry.flag === TT_LOWERBOUND && ttEntry.score >= beta) return beta;
-        if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
-    }
-
-    // --- 3. Base Case & Check Extension ---
-    const inCheck = isKingInCheck(board, color); // Assumes a helper function `isKingInCheck`
-    if (inCheck) depth++;
-    if (depth <= 0) return quiesce(board, alpha, beta, color, cr);
-
-    // --- 4. The Main Move Loop with LMR ---
-    const moves = generateLegalMoves(board, color, cr, ep);
-    if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
-
-    const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
-    let bestMove = null;
-    let originalAlpha = alpha;
-    let moveIndex = 0;
-
-    for (const move of orderedMoves) {
-        const newBoard = makeMove(board, move);
-        const newCR = { ...cr }; // Simplified update
-        const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-        const opponentColor = color === 'w' ? 'b' : 'w';
-
-        let score;
-        // --- 5. Late Move Reductions (LMR) ---
-        // If a move looks bad (late in the list), search it with a reduced depth.
-        if (depth >= 3 && moveIndex >= 3 && !inCheck && !move.capture) {
-            // Search with reduced depth (e.g., depth - 2)
-            score = -search(newBoard, depth - 2, -alpha - 1, -alpha, opponentColor, ply + 1, newCR, newEP, currentHash);
-        } else {
-            score = alpha + 1; // Ensure we do a full search for moves that aren't reduced
-        }
-
-        // If the reduced search was promising, do a full re-search.
-        if (score > alpha) {
-            score = -search(newBoard, depth - 1, -beta, -alpha, opponentColor, ply + 1, newCR, newEP, currentHash);
-        }
-
-        if (stopSearch) return 0;
-
-        // --- 6. Alpha-Beta Pruning ---
-        if (score >= beta) {
 /**
  * REWRITTEN (CORRECT PVS IMPLEMENTATION): The High-Performance Search Core.
  *
