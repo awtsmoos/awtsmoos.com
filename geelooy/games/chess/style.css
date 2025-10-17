@@ -13,6 +13,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
+.hidden {
+display: none;
+}
 #gameContainer {
     position: relative;
     margin-bottom: 60px; /* Space for the message div */
