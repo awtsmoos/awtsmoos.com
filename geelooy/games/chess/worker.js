@@ -818,10 +818,19 @@ function findBestMove(board, turn, cr, ep) {
  * master's intuition, vetoing nonsensical moves before the deep tactical
  * search can be tempted by them. This fixes the "tactical tunnel vision" flaw.
  */
+/**
+ * REWRITTEN (TYPO FIX): The "Grandmaster's Veto" Search Core.
+ *
+ * This version fixes a critical typo in the function call to calculateZobristHash,
+ * which was causing the worker to crash. The strategic logic remains the same.
+ */
 function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
     if (stopSearch) return 0;
 
-    const currentHash = calculateZobhistHash(board, color);
+    // --- TYPO FIXED HERE ---
+    const currentHash = calculateZobristHash(board, color);
+    // ---------------------
+
     if (ply > 0 && isRepetition(currentHash, history)) {
         return 0; // Draw by repetition
     }
@@ -835,7 +844,7 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
         if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
     }
 
-    const gamePhase = getGamePhase(board); // Get the game phase for our check
+    const gamePhase = getGamePhase(board);
     const inCheck = isKingInCheck(board, color);
     let effectiveDepth = inCheck ? depth + 1 : depth;
 
@@ -849,21 +858,16 @@ function search(board, depth, alpha, beta, color, ply, cr, ep, history) {
     let newHistory = [...history, currentHash];
 
     for (const move of orderedMoves) {
-        // --- THE GRANDMASTER'S VETO (Sanity Check) ---
-        // Before searching, we check if the move is a strategic catastrophe.
         const isWhite = color === 'w';
         const canCastle = isWhite ? (cr.K || cr.Q) : (cr.k || cr.q);
         if (move.piece.toLowerCase() === 'k' && canCastle && gamePhase > 0.7) {
-            // If it's an opening king move while castling is available, it's a blunder.
-            // We don't need to search it deeply; we just know it's terrible.
-            // We return a massive penalty immediately.
             if (-PANIC_BUTTON_PENALTY >= beta) {
-                 return beta; // This move is so bad it gets pruned immediately.
+                 return beta;
             }
              if (-PANIC_BUTTON_PENALTY > alpha) {
                  alpha = -PANIC_BUTTON_PENALTY;
              }
-             continue; // Skip the search for this insane move.
+             continue;
         }
 
         const newBoard = makeMove(board, move);
