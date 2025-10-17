@@ -125,8 +125,14 @@ function quiesce(board, alpha, beta, color, cr, ep) {
     return alpha;
 }
 
-function negamax(board, depth, alpha, beta, color, ply, cr, ep) {
+function negamax(board, depth, alpha, beta, color, ply, cr, ep, history) { // Added history
+    // --- START: Repetition Check ---
     const hash = computeZobristHash(board, cr, ep, color);
+    if (history.has(hash)) {
+        return 0; // This position is a repetition, it's a draw.
+    }
+    // --- END: Repetition Check ---
+
     const ttEntry = transpositionTable.get(hash);
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -139,13 +145,17 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep) {
         return quiesce(board, alpha, beta, color, cr, ep);
     }
     nodeCount++;
+    
+    // Add current position to the history for this search branch
+    const newHistory = new Set(history);
+    newHistory.add(hash);
 
     const inCheck = isSquareAttacked(board, findKing(board, color).r, findKing(board, color).c, color === 'w' ? 'b' : 'w');
-    if (inCheck) depth++; // Check extension
+    if (inCheck) depth++;
 
     const moves = generateAllLegalMoves(board, color, cr, ep);
     if (moves.length === 0) {
-        return inCheck ? -20000 + ply : 0; // Checkmate or stalemate
+        return inCheck ? -20000 + ply : 0;
     }
 
     const orderedMoves = orderMoves(moves, board, ttEntry ? ttEntry.bestMove : null, ply);
@@ -163,7 +173,8 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep) {
         if (move.from[0] === 0 && move.from[1] === 7 || move.to[0] === 0 && move.to[1] === 7) newCR.k = false;
         const newEP = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
         
-        score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP);
+        // Pass the new history down the tree
+        score = -negamax(newBoard, depth - 1, -beta, -alpha, color === 'w' ? 'b' : 'w', ply + 1, newCR, newEP, newHistory);
         
         if (score > alpha) {
             alpha = score;
@@ -182,12 +193,22 @@ function negamax(board, depth, alpha, beta, color, ply, cr, ep) {
 
 // --- Main AI Driver ---
 self.onmessage = function(e) {
-    const { command, fen, maxDepth } = e.data;
+    const { command, fen, maxDepth, fenHistory } = e.data; // Now receiving fenHistory
     if (command === 'calculate_move') {
         const startTime = performance.now();
         nodeCount = 0;
         transpositionTable.clear();
         killerMoves = Array(50).fill(null).map(() => Array(2).fill(null));
+
+        // --- Create a history set of hashes from the FEN history ---
+        const history = new Set();
+        if (fenHistory) {
+            fenHistory.forEach(pastFen => {
+                const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(pastFen + " 0 1"); // Add dummy clocks
+                const hash = computeZobristHash(board, castlingRights, enPassantTarget, turn);
+                history.add(hash);
+            });
+        }
 
         const { board, turn, castlingRights, enPassantTarget } = createBoardFromFEN(fen);
         
@@ -196,15 +217,16 @@ self.onmessage = function(e) {
 
         // Iterative Deepening Loop
         for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-            const score = negamax(board, currentDepth, -Infinity, Infinity, turn, 0, castlingRights, enPassantTarget);
+            // Pass the historical positions into the search
+            const score = negamax(board, currentDepth, -Infinity, Infinity, turn, 0, castlingRights, enPassantTarget, history);
             const ttEntry = transpositionTable.get(computeZobristHash(board, castlingRights, enPassantTarget, turn));
-            if(ttEntry && ttEntry.bestMove) {
+            if (ttEntry && ttEntry.bestMove) {
                 bestMove = ttEntry.bestMove;
                 bestScore = ttEntry.score;
             } else {
-                // Fallback if TT somehow doesn't have a move (e.g., immediate mate)
                 const legalMoves = generateAllLegalMoves(board, turn, castlingRights, enPassantTarget);
-                bestMove = legalMoves[0];
+                if (legalMoves.length > 0) bestMove = legalMoves[0];
+                else bestMove = null;
             }
         }
         
