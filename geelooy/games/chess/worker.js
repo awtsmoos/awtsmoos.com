@@ -119,16 +119,32 @@ function storeKillerMove(move, ply) { if (!move.capture) { killerMoves[ply][1] =
 // --- AI Core: Search ---
 function quiesce(board, alpha, beta, color, cr, ep) {
     nodeCount++;
-    const standPat = (color === 'w' ? 1 : -1) * evaluateBoard(board);
+    // The initial call to evaluateBoard is safe, as cr is passed in correctly.
+    const standPat = (color === 'w' ? 1 : -1) * evaluateBoard(board, cr);
+
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
 
     const moves = generateAllLegalMoves(board, color, cr, ep).filter(m => m.capture || m.check);
-    const orderedMoves = orderMoves(moves, board, null, 0); // Simple ordering for q-search
+    const orderedMoves = orderMoves(moves, board, null, 0);
 
     for (const move of orderedMoves) {
         const newBoard = makeMove(board, move);
-        const score = -quiesce(newBoard, -beta, -alpha, color === 'w' ? 'b' : 'w', cr, null);
+        
+        // --- FIX IS HERE: Update castling rights inside quiescence search ---
+        // This was missing before, causing the crash.
+        const newCR = { ...cr };
+        if (move.piece === 'K' || move.from[0] === 7 && move.from[1] === 4) { newCR.K = false; newCR.Q = false; }
+        if (move.piece === 'k' || move.from[0] === 0 && move.from[1] === 4) { newCR.k = false; newCR.q = false; }
+        if (move.from[0] === 7 && move.from[1] === 0 || move.to[0] === 7 && move.to[1] === 0) newCR.Q = false;
+        if (move.from[0] === 7 && move.from[1] === 7 || move.to[0] === 7 && move.to[1] === 7) newCR.K = false;
+        if (move.from[0] === 0 && move.from[1] === 0 || move.to[0] === 0 && move.to[1] === 0) newCR.q = false;
+        if (move.from[0] === 0 && move.from[1] === 7 || move.to[0] === 0 && move.to[1] === 7) newCR.k = false;
+        // --- END OF FIX ---
+        
+        // Pass the UPDATED castling rights to the recursive call.
+        const score = -quiesce(newBoard, -beta, -alpha, color === 'w' ? 'b' : 'w', newCR, null);
+
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
     }
