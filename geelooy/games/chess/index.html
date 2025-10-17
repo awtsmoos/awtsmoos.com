@@ -1,0 +1,39 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Ultimate Chess AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="mainMenu" class="menu">
+        <button id="playVsAiButton" class="menu-button">Player vs AI</button>
+        <button id="playVsPlayerButton" class="menu-button">Player vs Player</button>
+        <button id="aiVsAiButton" class="menu-button">AI vs AI</button>
+    </div>
+
+    <div id="colorSelectionMenu" class="menu">
+        <button id="playAsWhiteButton" class="menu-button">Play as White</button>
+        <button id="playAsBlackButton" class="menu-button">Play as Black</button>
+    </div>
+    
+    <div id="gameContainer">
+        <div id="chessContainer">
+            <canvas id="chessCanvas"></canvas>
+        </div>
+        <div id="message"></div>
+        <div id="gameOverOverlay">
+            <div id="gameOverText"></div>
+            <div>
+                <button id="replayButton" class="menu-button">Main Menu</button>
+                <button id="downloadButton" class="menu-button">Download PGN</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
