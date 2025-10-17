@@ -317,17 +317,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// --- Game Flow & State Management ---
 	function performMove(move) {
+		// Determine captured piece and augment the move object for the SAN generator
 		const capturedPiece = move.isEnPassant ? (gameState.turn === 'w' ? 'p' : 'P') : board[move.to[0]][move.to[1]];
+		move.capturedPiece = capturedPiece;
+
+		// Generate the base SAN notation *before* the board state changes
+		let san = getSanForMove(move, gameState.legalMoves);
+
+		// --- Execute the move and update the board state ---
 		if (capturedPiece) {
 			(gameState.turn === 'w' ? gameState.capturedByWhite : gameState.capturedByBlack).push(capturedPiece);
 		}
 		board = makeMove(board, move);
+		updateStateAfterMove(move); // This flips the turn, updates clocks etc.
+
+		// --- Check for check/checkmate to append symbol ---
+		const opponentColor = gameState.turn;
+		const opponentKingPos = chessLogic.findKing(board, opponentColor);
+		if (opponentKingPos && chessLogic.isSquareAttacked(board, opponentKingPos.r, opponentKingPos.c, opponentColor === 'w' ? 'b' : 'w')) {
+			// The opponent is in check. Check for checkmate.
+			const opponentLegalMoves = chessLogic.generateAllLegalMoves(board, opponentColor, gameState.castlingRights, gameState.enPassantTarget);
+			if (opponentLegalMoves.length === 0) {
+				san += '#';
+			} else {
+				san += '+';
+			}
+		}
+
+		// --- Store the complete record in history ---
 		gameState.moveHistory.push({
 			move,
 			piece: move.piece,
-			capturedPiece
+			capturedPiece,
+			san // The complete and unambiguous SAN string
 		});
-		updateStateAfterMove(move);
+
+		// --- Update UI and continue game flow ---
 		drawBoard();
 		drawCapturedPieces();
 
@@ -340,6 +365,69 @@ document.addEventListener('DOMContentLoaded', () => {
 				messageDiv.textContent = `${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
 			}
 		}
+	}
+	
+	/**
+	 * Generates the Standard Algebraic Notation (SAN) for a move, resolving ambiguity.
+	 * @param {object} move - The move object.
+	 * @param {Array} allLegalMoves - All legal moves available in the current position.
+	 * @returns {string} The SAN string for the move.
+	 */
+	function getSanForMove(move, allLegalMoves) {
+		const files = 'abcdefgh';
+		const piece = move.piece;
+		const to = move.to;
+		const from = move.from;
+
+		// 1. Castling
+		if (move.isCastle) {
+			return to[1] > 4 ? 'O-O' : 'O-O-O';
+		}
+
+		const pieceLetter = piece.toUpperCase() === 'P' ? '' : piece.toUpperCase();
+		const destSquare = files[to[1]] + (8 - to[0]);
+
+		// 2. Pawn moves
+		if (piece.toUpperCase() === 'P') {
+			let notation = move.capturedPiece ? files[from[1]] + 'x' + destSquare : destSquare;
+			if (to[0] === 0 || to[0] === 7) {
+				notation += '=Q'; // Assumes auto-queen for simplicity
+			}
+			return notation;
+		}
+
+		// 3. Other pieces (with ambiguity check)
+		let notation = pieceLetter;
+
+		// Find other pieces of the same type that could also move to the destination
+		const ambiguousMoves = allLegalMoves.filter(m =>
+			m.piece === piece &&
+			(m.to[0] === to[0] && m.to[1] === to[1]) &&
+			!(m.from[0] === from[0] && m.from[1] === from[1])
+		);
+
+		if (ambiguousMoves.length > 0) {
+			// Disambiguation is required. Add the minimum information to make it unique.
+			const canUseFile = !ambiguousMoves.some(m => m.from[1] === from[1]);
+			if (canUseFile) {
+				notation += files[from[1]];
+			} else {
+				const canUseRank = !ambiguousMoves.some(m => m.from[0] === from[0]);
+				if (canUseRank) {
+					notation += (8 - from[0]);
+				} else {
+					// Need both file and rank
+					notation += files[from[1]] + (8 - from[0]);
+				}
+			}
+		}
+
+		if (move.capturedPiece) {
+			notation += 'x';
+		}
+
+		notation += destSquare;
+		return notation;
 	}
 
 	function makeMove(b, move) {
@@ -637,24 +725,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	function generatePGN() {
 		const date = new Date();
 		const pgnDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-		let pgn = `[Event "Ultimate AI Chess Game"]\n[Site "Browser"]\n[Date "${pgnDate}"]\n[White "${gameState.gameMode==='pva'&&gameState.playerColor==='w'?'Player':(gameState.gameMode==='pvp'?'Player 1':'AI White')}"]\n[Black "${gameState.gameMode==='pva'&&gameState.playerColor==='b'?'Player':(gameState.gameMode==='pvp'?'Player 2':'AI Black')}"]\n[Result "${gameState.pgnResult}"]\n\n`;
-		const files = 'abcdefgh';
+		
+		const pgnHeader = `[Event "Ultimate AI Chess Game"]
+[Site "Browser"]
+[Date "${pgnDate}"]
+[White "${gameState.gameMode==='pva'&&gameState.playerColor==='w'?'Player':(gameState.gameMode==='pvp'?'Player 1':'AI White')}"]
+[Black "${gameState.gameMode==='pva'&&gameState.playerColor==='b'?'Player':(gameState.gameMode==='pvp'?'Player 2':'AI Black')}"]
+[Result "${gameState.pgnResult}"]
+
+`;
+
 		let moveText = '';
 		gameState.moveHistory.forEach((record, index) => {
-			if (index % 2 === 0) moveText += `${Math.floor(index / 2) + 1}. `;
-			if (record.move.isCastle) {
-				moveText += record.move.to[1] > 4 ? 'O-O ' : 'O-O-O ';
-				return;
+			if (index % 2 === 0) {
+				moveText += `${Math.floor(index / 2) + 1}. `;
 			}
-			let notation = record.piece.toUpperCase() === 'P' ? '' : record.piece.toUpperCase();
-			if (record.capturedPiece) {
-				if (record.piece.toUpperCase() === 'P') notation += files[record.move.from[1]];
-				notation += 'x';
-			}
-			notation += files[record.move.to[1]] + (8 - record.move.to[0]);
-			moveText += notation + ' ';
+			moveText += record.san + ' ';
 		});
-		return pgn + moveText.trim() + ' ' + gameState.pgnResult;
+
+		return pgnHeader + moveText.trim() + ' ' + gameState.pgnResult;
 	}
 
 	function getSquareFromCoordinates(x, y) {
