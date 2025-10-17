@@ -524,8 +524,16 @@ function orderMoves(moves, pvMove, ply) {
 
 
 /**
- * The Quiescence Search, now with more accurate capture ordering.
- * It ensures the engine doesn't end its analysis in the middle of a tactical skirmish.
+ * The Quiescence Search, now upgraded to be "check-aware."
+ * This is the definitive fix for the tactical blind spot that caused the Ke7 blunder.
+ * It now extends the search for both captures AND checks, ensuring the engine
+ * never stops its analysis in a tactically volatile position.
+ *
+ * @param {object} board - The current board state.
+ * @param {number} alpha - The alpha value for alpha-beta pruning.
+ * @param {number} beta - The beta value for alpha-beta pruning.
+ * @param {string} color - The color of the player to move.
+ * @returns {number} The evaluated score of the "quiet" position.
  */
 function quiesce(board, alpha, beta, color) {
     if (stopSearch) return 0;
@@ -536,23 +544,43 @@ function quiesce(board, alpha, beta, color) {
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
 
-    const moves = generateLegalMoves(board, color, {}, null).filter(m => m.capture);
-    // Use MVV-LVA to order captures for maximum efficiency in tactical sequences
-    moves.sort((a, b) =>
-        (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) -
-        (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()])
-    );
+    // --- UPGRADED MOVE GENERATION ---
+    // Instead of only looking at captures, we now look at all tactical moves:
+    // captures AND checks. This is the critical fix.
+    const opponentColor = color === 'w' ? 'b' : 'w';
+    const tacticalMoves = [];
+    const legalMoves = generateLegalMoves(board, color, {}, null);
 
-    for (const move of moves) {
+    for (const move of legalMoves) {
+        if (move.capture) {
+            tacticalMoves.push(move);
+            continue; // Go to next move to avoid double-adding
+        }
+        // Check if the move gives check to the opponent
         const newBoard = makeMove(board, move);
-        const score = -quiesce(newBoard, -beta, -alpha, color === 'w' ? 'b' : 'w');
+        const opponentKingPos = findKing(newBoard, opponentColor);
+        if (opponentKingPos && isSquareAttacked(newBoard, opponentKingPos.r, opponentKingPos.c, color)) {
+            tacticalMoves.push(move);
+        }
+    }
+
+    // Use MVV-LVA to order captures and prioritize them over simple checks
+    tacticalMoves.sort((a, b) => {
+        const scoreA = a.capture ? 90000 + (pieceValues[a.capture.toLowerCase()] * 10 - pieceValues[a.piece.toLowerCase()]) : 0;
+        const scoreB = b.capture ? 90000 + (pieceValues[b.capture.toLowerCase()] * 10 - pieceValues[b.piece.toLowerCase()]) : 0;
+        return scoreB - scoreA;
+    });
+
+
+    for (const move of tacticalMoves) {
+        const newBoard = makeMove(board, move);
+        const score = -quiesce(newBoard, -beta, -alpha, opponentColor);
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
     }
 
     return alpha;
 }
-
 
 /**
  * The core recursive search function, now massively enhanced with professional pruning
