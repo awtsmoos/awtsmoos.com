@@ -338,10 +338,87 @@ function makeMove(b, m) { /* ... (no changes) ... */
 
 
 // --- AI Core: THE FLAWLESS EVALUATION V2 ---
+/**
+ * Static Exchange Evaluation (SEE)
+ * A crucial function to determine if a capture is likely to be profitable.
+ * It analyzes the series of captures on a single square to see the net material gain/loss.
+ */
+function staticExchangeEvaluation(board, from, to) {
+    const p = board[from[0]][from[1]];
+    if (!p) return 0;
+
+    let gain = [pieceSeeValues[board[to[0]][to[1]]?.toUpperCase()] || 0];
+    let tempBoard = board.map(r => r.slice());
+
+    const pT = p.toUpperCase();
+    let fromR = from[0], fromC = from[1];
+    let toR = to[0], toC = to[1];
+    let turn = p === pT ? 'b' : 'w'; // It's now the other side's turn to recapture
+
+    while (true) {
+        // Find the least valuable attacker for the current side
+        let attacker = null;
+        let minAttackerValue = 10001;
+
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                const piece = tempBoard[r][c];
+                if (!piece) continue;
+                const isWhite = piece === piece.toUpperCase();
+                if ((turn === 'w' && !isWhite) || (turn === 'b' && isWhite)) continue;
+
+                const moves = getPseudoLegalMovesForPiece(piece, r, c, tempBoard, true);
+                if (moves.some(m => m.to[0] === toR && m.to[1] === toC)) {
+                    const val = pieceSeeValues[piece.toUpperCase()];
+                    if (val < minAttackerValue) {
+                        minAttackerValue = val;
+                        attacker = { r: r, c: c, piece: piece };
+                    }
+                }
+            }
+        }
+
+        if (!attacker) break; // No more attackers
+
+        // Add the value of the piece being captured to the gain list
+        gain.push(pieceSeeValues[tempBoard[toR][toC].toUpperCase()]);
+
+        // Simulate the capture
+        tempBoard[toR][toC] = attacker.piece;
+        tempBoard[attacker.r][attacker.c] = '';
+        
+        turn = turn === 'w' ? 'b' : 'w'; // Switch turns
+    }
+
+    // Calculate the final score from the gain list
+    let score = 0;
+    for (let i = 0; i < gain.length; i++) {
+        score += (i % 2 === 0) ? gain[i] : -gain[i];
+    }
+    // If the initial move was a capture, the first gain is positive. If not, it's 0.
+    // Subsequent captures will alternate sign. Let's adjust based on whose move it was initially.
+    const isWhiteMove = p === pT;
+    if (!isWhiteMove) score *= -1;
+
+    // The logic is a bit tricky. Let's simplify the final calculation.
+    // The main attacker starts. He gains the victim. Then the defender recaptures, so we subtract.
+    let netScore = gain[0];
+    for (let i = 1; i < gain.length; i++) {
+        netScore -= gain[i];
+        if (i + 1 < gain.length) {
+            netScore += gain[i + 1];
+            i++;
+        }
+    }
+    
+    return netScore;
+}
+
+
 // Constants for the new evaluation terms
 // New constants for SEE
-const pieceSeeValues = { 'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 10000 };
-const BISHOP_PAIR_BONUS = 50; // Increased value
+
+
 // --- AI Core: THE FLAWLESS EVALUATION V3 ---
 
 // --- New, more nuanced evaluation constants ---
@@ -719,7 +796,8 @@ function evaluateKingSafety(board, kingPos, kingColor) {
 	return -attackScore;
 }
 
-
+// New constants for SEE
+// Increased value
 // --- AI Core: Search ---
 // The search algorithm is solid, but now it will be guided by a much smarter evaluation.
 function orderMoves(moves, board, ttMove, ply) {
