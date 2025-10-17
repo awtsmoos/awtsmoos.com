@@ -1,275 +1,48 @@
 /*B"H*/
-/* INSANE VIVID IMAGE CSS for only the given classes
-   - No body / global resets — only .logo and .about.list (and their children)
-   - Ultra-intense layered gradients, animated noise, glitch, molten glow, and tactile 3D
-*/
 
-/* CSS variables for easy tuning */
-.logo,
-.about.list,
-.about.list a {
-  --neon1: #ff1a9c;
-  --neon2: #00e3ff;
-  --core: #ffd200;
-  --venom: #5b00ff;
-  --deep: #0b0026;
-  --glass-alpha: 0.12;
-  --pulse-speed: 3s;
-  --glitch-speed: 0.85s;
-}
 
-/* The title — Awtsmoos Games — a living, molten, cosmic sigil */
 .logo {
-  display: inline-block;
-  position: relative;
-  font-family: "Inter", "Anton", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  letter-spacing: -0.02em;
-  font-weight: 900;
-  font-size: clamp(28px, 6vw, 96px); /* responsive colossal */
-  line-height: 0.88;
-  text-transform: none;
-  color: transparent;
-
-  /* layered backgrounds for surreal texture (nebula, magma, electric) */
-  background-image:
-    /* chaotic electric veins */
-    radial-gradient(1200px 600px at 10% 20%, rgba(255,255,255,0.06), transparent 10%),
-    conic-gradient(from 210deg at 70% 30%, var(--neon1), var(--neon2), var(--core) 60%, transparent 61%),
-    linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)),
-    linear-gradient(120deg, var(--deep), rgba(10,0,30,0.6));
-  background-size: 200% 200%, 160% 160%, 100% 100%, 100% 100%;
-  background-blend-mode: screen, overlay, soft-light, normal;
+  font-family: "Poppins", "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 8vw, 96px);
+  text-align: center;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #ff2cff, #00eaff);
   -webkit-background-clip: text;
-  background-clip: text;
-
-  /* multilevel text shadow to carve into the page */
-  text-shadow:
-    0 0 40px rgba(0,0,0,0.85),
-    0 12px 48px rgba(0,0,0,0.6),
-    0 0 18px rgba(255, 255, 255, 0.06);
-
-  transform: perspective(900px) rotateX(6deg) rotateY(-3deg) translateZ(0);
-  will-change: transform, filter;
-
-  /* subtle 3D parallax wobble */
-  animation:
-    logoPulse var(--pulse-speed) ease-in-out infinite,
-    logoShift 18s linear infinite;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3),
+               0 0 60px rgba(0, 200, 255, 0.2);
+  animation: glow 4s ease-in-out infinite alternate;
+  margin-top: 12vh;
 }
 
-/* molten aura behind the logo */
-.logo::after {
-  content: "";
-  position: absolute;
-  inset: -8% -12% -18% -12%;
-  z-index: -1;
-  border-radius: 20px;
-  pointer-events: none;
-
-  /* animated molten flame / aurora */
-  background:
-    radial-gradient(40% 60% at 10% 20%, rgba(255,26,156,0.14), transparent 12%),
-    radial-gradient(60% 40% at 85% 30%, rgba(0,227,255,0.12), transparent 12%),
-    linear-gradient(180deg, rgba(255,210,0,0.06), rgba(11,0,38,0.18));
-  filter: blur(28px) saturate(150%) contrast(1.05);
-  mix-blend-mode: screen;
-  animation: auraFlow 6s ease-in-out infinite;
-  transform: translateZ(-1px);
+@keyframes glow {
+  from { filter: brightness(1) saturate(1); transform: scale(1); }
+  to   { filter: brightness(1.4) saturate(1.4); transform: scale(1.02); }
 }
 
-/* brutal neon & slice-glitch layer */
-.logo::before {
-  content: attr(data-label);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  background-image: linear-gradient(90deg, var(--neon1), var(--neon2), var(--core));
-  mix-blend-mode: screen;
-  filter: blur(0.8px) saturate(180%);
-  transform-origin: left top;
-  animation: logoGlitch var(--glitch-speed) infinite steps(2, end);
-  pointer-events: none;
-}
-
-/* Link list — a shard of polished obsidian with veins of light */
 .about.list {
-  display: inline-flex;
-  gap: 14px;
-  align-items: center;
-  padding: 10px;
-  border-radius: 16px;
-  position: relative;
-  isolation: isolate;
-  transform: translateZ(0);
-
-  /* background is a layered shard: inner glass + outer nebula */
-  background-image:
-    radial-gradient(600px 200px at 10% 80%, rgba(255,255,255,0.02), transparent 8%),
-    linear-gradient(180deg, rgba(255,255,255,var(--glass-alpha)), rgba(0,0,0,0.06));
-  backdrop-filter: blur(6px) saturate(140%);
-  box-shadow:
-    0 4px 30px rgba(0,0,0,0.65),
-    0 1px 0 rgba(255,255,255,0.02) inset;
-
-  /* cut shards edges with clip-path for organic fragment look */
-  clip-path: polygon(0% 4%, 96% 0%, 100% 28%, 86% 100%, 10% 92%, 0% 68%);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
 }
 
-/* animated shy nebula under the links */
-.about.list::after {
-  content: "";
-  position: absolute;
-  left: -20%;
-  right: -30%;
-  bottom: -40%;
-  height: 180%;
-  z-index: -1;
-  background-image:
-    radial-gradient(40% 40% at 10% 30%, rgba(91,0,255,0.12), transparent 12%),
-    radial-gradient(40% 30% at 80% 70%, rgba(0,227,255,0.10), transparent 14%),
-    conic-gradient(from 120deg at 50% 50%, rgba(255,26,156,0.06), transparent 40%);
-  filter: blur(42px) contrast(1.1) saturate(160%);
-  transform: rotate(-8deg) scale(1.08);
-  animation: nebulaDrift 14s linear infinite;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* anchor styling — each link is a polished energy-chip */
 .about.list a {
-  position: relative;
-  display: inline-block;
-  padding: 12px 18px;
-  border-radius: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #fff;
   text-decoration: none;
-  font-weight: 700;
-  font-family: "Inter", system-ui, "Segoe UI", Roboto, Arial;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: white;
-  color: rgba(255,255,255,0.98);
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow:
-    0 8px 28px rgba(11,0,38,0.55),
-    0 1px 0 rgba(255,255,255,0.02) inset;
-  transition: transform 240ms cubic-bezier(.2,.9,.2,1), box-shadow 240ms ease, filter 240ms ease;
-  overflow: visible;
-  z-index: 1;
-  transform-origin: center;
-}
-
-/* small electric edge and inner glow */
-.about.list a::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+  background: linear-gradient(135deg, #ff2cff, #00eaff);
   border-radius: 12px;
-  padding: 1px;
-  background:
-    linear-gradient(90deg, rgba(255,26,156,0.18), rgba(0,227,255,0.14)),
-    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 60%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  filter: blur(6px) saturate(160%) contrast(1.02);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transform: translateZ(-1px);
+  padding: 12px 28px;
+  box-shadow: 0 4px 20px rgba(0, 200, 255, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* small animated shard that skitters across the link on hover */
-.about.list a::after {
-  content: "";
-  position: absolute;
-  left: -60%;
-  top: -40%;
-  width: 220%;
-  height: 180%;
-  border-radius: 50%;
-  background: radial-gradient(100px 60px at 30% 40%, rgba(255,255,255,0.12), transparent 10%),
-              linear-gradient(90deg, rgba(255,26,156,0.08), rgba(0,227,255,0.06));
-  mix-blend-mode: overlay;
-  transform: translateY(6px) scale(0.9) rotate(-6deg);
-  opacity: 0;
-  transition: opacity 240ms ease, transform 320ms cubic-bezier(.2,.9,.2,1);
-  pointer-events: none;
-}
-
-/* hover + focus interactions — explosive tactile feedback */
-.about.list a:hover,
-.about.list a:focus {
-  transform: translateY(-6px) rotateX(6deg) scale(1.03);
-  box-shadow:
-    0 24px 64px rgba(11,0,38,0.72),
-    0 2px 0 rgba(255,255,255,0.03) inset;
-  filter: saturate(150%) brightness(1.05);
-}
-.about.list a:hover::after,
-.about.list a:focus::after {
-  opacity: 1;
-  transform: translateY(-12px) scale(1.06) rotate(-6deg);
-}
-
-/* an optional tiny flicker for active link */
-.about.list a:active {
-  transform: translateY(-2px) scale(0.99);
-  transition-duration: 80ms;
-  filter: saturate(170%) brightness(1.06) contrast(1.02);
-}
-
-/* Glitch / slice effect for logo text (fast stepping offsets) */
-@keyframes logoGlitch {
-  0%   { clip-path: inset(0 0 0 0); transform: translateX(0) skewX(0); opacity: 1; }
-  10%  { clip-path: inset(2% 0 78% 0); transform: translateX(-2px) skewX(-0.6deg); opacity: .98; }
-  20%  { clip-path: inset(30% 0 46% 0); transform: translateX(3px) skewX(1.2deg); opacity: .96; }
-  30%  { clip-path: inset(0 0 0 0); transform: translateX(0) skewX(0); opacity: 1; }
-  40%  { clip-path: inset(6% 0 72% 0); transform: translateX(-4px) skewX(-1.4deg); }
-  50%  { clip-path: inset(0 0 0 0); transform: translateX(0); }
-  100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
-}
-
-/* breathing molten pulse */
-@keyframes logoPulse {
-  0%   { filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)) saturate(1) brightness(1); transform: perspective(900px) rotateX(6deg) rotateY(-3deg) translateZ(0) scale(1); }
-  50%  { filter: drop-shadow(0 24px 40px rgba(0,0,0,0.8)) saturate(1.25) brightness(1.06); transform: perspective(900px) rotateX(7deg) rotateY(-2deg) translateZ(8px) scale(1.015); }
-  100% { filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)) saturate(1) brightness(1); transform: perspective(900px) rotateX(6deg) rotateY(-3deg) translateZ(0) scale(1); }
-}
-
-/* slow cosmic drift for the logo's background */
-@keyframes logoShift {
-  0%   { background-position: 10% 20%, 0% 0%, 0% 0%, 0% 0%; }
-  50%  { background-position: 70% 80%, 40% 60%, 0% 0%, 0% 0%; }
-  100% { background-position: 10% 20%, 0% 0%, 0% 0%, 0% 0%; }
-}
-
-/* molten aura flow */
-@keyframes auraFlow {
-  0%   { transform: translateY(0) scale(1) rotate(-1deg); opacity: .98; }
-  50%  { transform: translateY(-6%) scale(1.04) rotate(3deg); opacity: 1; }
-  100% { transform: translateY(0) scale(1) rotate(-1deg); opacity: .98; }
-}
-
-/* drifting nebula under the link cluster */
-@keyframes nebulaDrift {
-  0%   { transform: translateX(-8%) rotate(-8deg) scale(1.02); opacity: .96; background-position: 0% 0%, 20% 10%, 50% 50%; }
-  50%  { transform: translateX(6%) rotate(-6deg) scale(1.08); opacity: 1; background-position: 50% 40%, 80% 70%, 10% 90%; }
-  100% { transform: translateX(-8%) rotate(-8deg) scale(1.02); opacity: .96; background-position: 0% 0%, 20% 10%, 50% 50%; }
-}
-
-/* accessibility: reduce motion respect for users who prefer less animation */
-@media (prefers-reduced-motion: reduce) {
-  .logo,
-  .logo::after,
-  .logo::before,
-  .about.list::after,
-  .about.list a::after {
-    animation: none !important;
-    transition: none !important;
-  }
+.about.list a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 200, 255, 0.6);
 }
