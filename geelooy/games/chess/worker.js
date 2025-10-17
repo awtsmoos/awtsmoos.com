@@ -491,52 +491,152 @@ function evaluatePieceActivity(board, color) {
     return score;
 }
 
+/**
+ * NEW EXPERT HELPER (THE CORE FIX): Stability Index Calculator.
+ *
+ * This function is the AI's new "common sense." It performs a holistic
+ * assessment of the position to generate a "Stability Index" from 0.0 (total chaos)
+ * to 1.0 (a fortress). This index acts as the master control knob, giving the
+ * engine permission to take risks only when its position is safe.
+ *
+ * @param {string[][]} board - The current board state.
+ * @param {string} color - The color to evaluate.
+ * @param {object} cr - The current castling rights.
+ * @param {number} gamePhase - The current phase of the game.
+ * @returns {number} The Stability Index (0.0 to 1.0).
+ */
+function calculateStabilityIndex(board, color, cr, gamePhase) {
+    let stability = 1.0; // Start with perfect stability
+    const isWhite = color === 'w';
+    const kingPos = findKing(board, color);
+    if (!kingPos) return 0.0; // No king, no stability
+
+    // --- Factor 1: King Safety (The most important factor) ---
+    const homeRank = isWhite ? 7 : 0;
+    const canCastle = isWhite ? (cr.K || cr.Q) : (cr.k || cr.q);
+    const isCastled = (kingPos.r === homeRank && (kingPos.c === 6 || kingPos.c === 2));
+
+    if (!isCastled && gamePhase > 0.3) {
+        if (canCastle) {
+            // Uncastled but can still castle: moderately unstable.
+            stability -= 0.3;
+        } else {
+            // Uncastled and CANNOT castle: critically unstable.
+            stability -= 0.8;
+        }
+    }
+
+    // --- Factor 2: Open Center ---
+    // An open center is dangerous if the king isn't safe.
+    let d_pawn = false, e_pawn = false;
+    for (let r=0; r<8; r++) {
+        if (board[r][3]?.toLowerCase() === 'p') d_pawn = true;
+        if (board[r][4]?.toLowerCase() === 'p') e_pawn = true;
+    }
+    if (!d_pawn || !e_pawn) {
+        // For each missing central pawn, reduce stability if the king isn't castled.
+        if (!isCastled) {
+             stability -= (!d_pawn ? 0.15 : 0);
+             stability -= (!e_pawn ? 0.15 : 0);
+        }
+    }
+
+    // --- Factor 3: Queen Threat ---
+    // Is the enemy queen developed and active?
+    const enemyQueen = isWhite ? 'q' : 'Q';
+    const queenPos = board.flat().indexOf(enemyQueen);
+    if (queenPos !== -1 && gamePhase > 0.6) {
+        // If the enemy queen is out early and our king is not safe, reduce stability.
+        if (!isCastled) {
+            stability -= 0.1;
+        }
+    }
+
+    // Ensure stability is clamped between a minimum of 0.1 (to avoid zeroing out scores) and 1.0.
+    return Math.max(0.1, Math.min(1.0, stability));
+}
+
+
+
 
 /**
  * The MASTER Evaluation Function (Conductor).
  * This function now directs a team of highly specialized experts, including the new
  * Threat Detector, and orchestrates them according to the game phase.
  */
+/**
+ * The MASTER Evaluation Function (V17 - FINAL VERSION).
+ *
+ * This function implements the "Strategic Prudence" framework. It acts as a CEO,
+ * using the Stability Index to intelligently manage its "Reckless Trader" (tactical brain).
+ * It will now prioritize safety and stability above all else when the position is
+ * dangerous, permanently fixing the "tactical addict" flaw.
+ *
+ * @param {string[][]} board - The game board.
+ * @param {object} cr - Current castling rights object.
+ * @returns {number} The final, strategically sound evaluation score.
+ */
 function evaluate(board, cr) {
+    // --- Phase 1: The CEO's Assessment ---
+    // First, determine the game phase and the stability of each side.
     const gamePhase = getGamePhase(board);
-    let whiteScore = 0;
-    let blackScore = 0;
+    const whiteStability = calculateStabilityIndex(board, 'w', cr, gamePhase);
+    const blackStability = calculateStabilityIndex(board, 'b', cr, gamePhase);
 
-    // --- 1. Base Material and PST values ---
+    // --- Phase 2: Gather Reports from Expert Departments ---
+    let whiteScores = { material: 0, pst: 0, pawns: 0, activity: 0, kingSafety: 0, threats: 0 };
+    let blackScores = { material: 0, pst: 0, pawns: 0, activity: 0, kingSafety: 0, threats: 0 };
+
+    // Material and PST scores
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
             if (!p) continue;
             const isWhite = (p === p.toUpperCase());
             const pType = p.toLowerCase();
-            let score = pieceValues[pType];
+            const scoreTarget = isWhite ? whiteScores : blackScores;
+            scoreTarget.material += pieceValues[pType];
             if (pType === 'k') {
-                const midPstRow = isWhite ? r : 7 - r;
-                score += (kingPSTMidGame[midPstRow][c] * gamePhase);
+                 const midPstRow = isWhite ? r : 7 - r;
+                 scoreTarget.pst += (kingPSTMidGame[midPstRow][c] * gamePhase);
             } else {
-                const pstRow = isWhite ? r : 7 - r;
-                score += ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
+                 const pstRow = isWhite ? r : 7 - r;
+                 scoreTarget.pst += ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
             }
-            if (isWhite) whiteScore += score;
-            else blackScore += score;
         }
     }
 
-    // --- 2. Add scores from our expert evaluators ---
-    whiteScore += evaluatePawnStructure(board, 'w', gamePhase);
-    blackScore += evaluatePawnStructure(board, 'b', gamePhase);
+    // Expert positional analysis
+    whiteScores.pawns = evaluatePawnStructure(board, 'w', gamePhase);
+    blackScores.pawns = evaluatePawnStructure(board, 'b', gamePhase);
+    whiteScores.activity = evaluatePieceActivity(board, 'w');
+    blackScores.activity = evaluatePieceActivity(board, 'b');
+    whiteScores.kingSafety = evaluateKingSafety(board, 'w', cr, gamePhase);
+    blackScores.kingSafety = evaluateKingSafety(board, 'b', cr, gamePhase);
+    whiteScores.threats = evaluateThreats(board, 'w');
+    blackScores.threats = evaluateThreats(board, 'b');
 
-    whiteScore += evaluatePieceActivity(board, 'w');
-    blackScore += evaluatePieceActivity(board, 'b');
+    // --- Phase 3: The CEO's Final Decision (Applying Strategic Prudence) ---
+    
+    // THE TACTICAL LEASH: The value of piece activity and threats is
+    // directly scaled by the position's stability. Earn the right to attack.
+    whiteScores.activity *= whiteStability;
+    whiteScores.threats *= whiteStability;
+    blackScores.activity *= blackStability;
+    blackScores.threats *= blackStability;
 
-    whiteScore += evaluateKingSafety(board, 'w', cr, gamePhase);
-    blackScore += evaluateKingSafety(board, 'b', cr, gamePhase);
+    // THE POSITIONAL CLAMP: When stability is low, the engine gets a direct
+    // bonus for its strategic health. This encourages it to fix problems.
+    let whiteStrategicHealth = whiteScores.kingSafety + whiteScores.pawns;
+    let blackStrategicHealth = blackScores.kingSafety + blackScores.pawns;
+    if (whiteStability < 0.7) whiteScores.kingSafety += (whiteStrategicHealth * (1 - whiteStability));
+    if (blackStability < 0.7) blackScores.kingSafety += (blackStrategicHealth * (1 - blackStability));
 
-    whiteScore += evaluateThreats(board, 'w');
-    blackScore += evaluateThreats(board, 'b');
+    // --- Summing up the final scores ---
+    const whiteFinal = whiteScores.material + whiteScores.pst + whiteScores.pawns + whiteScores.activity + whiteScores.kingSafety + whiteScores.threats;
+    const blackFinal = blackScores.material + blackScores.pst + blackScores.pawns + blackScores.activity + blackScores.kingSafety + blackScores.threats;
 
-    // --- 3. Return the final score from White's perspective ---
-    return Math.floor(whiteScore - blackScore);
+    return Math.floor(whiteFinal - blackFinal);
 }
 
 
