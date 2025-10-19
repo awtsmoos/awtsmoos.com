@@ -75,17 +75,29 @@ function calculateZobristHash(state) {
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const piece = state.board[r][c];
-            if (piece) hash ^= zobristKeys[pieceMap.indexOf(piece)][r * 8 + c];
+            if (piece) {
+                // Defensive cast to BigInt
+                hash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][r * 8 + c]);
+            }
         }
     }
-    if (state.enPassantTarget) hash ^= zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[1])];
-    if (state.castlingRights.K) hash ^= zobristCastlingKeys[0];
-    if (state.castlingRights.Q) hash ^= zobristCastlingKeys[1];
-    if (state.castlingRights.k) hash ^= zobristCastlingKeys[2];
-    if (state.castlingRights.q) hash ^= zobristCastlingKeys[3];
-    if (state.turn === 'b') hash ^= zobristTurnKey;
+    if (state.enPassantTarget) {
+        // Defensive cast to BigInt
+        hash ^= BigInt(zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[1])]);
+    }
+    // Defensive casts for all castling keys
+    if (state.castlingRights.K) hash ^= BigInt(zobristCastlingKeys[0]);
+    if (state.castlingRights.Q) hash ^= BigInt(zobristCastlingKeys[1]);
+    if (state.castlingRights.k) hash ^= BigInt(zobristCastlingKeys[2]);
+    if (state.castlingRights.q) hash ^= BigInt(zobristCastlingKeys[3]);
+    
+    if (state.turn === 'b') {
+        // Defensive cast to BigInt
+        hash ^= BigInt(zobristTurnKey);
+    }
     return hash;
 }
+
 
 function createGameState(fen) {
     const [pieces, turn, castling, enPassant, half, full] = fen.split(' ');
