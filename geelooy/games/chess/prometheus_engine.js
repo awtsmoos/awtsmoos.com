@@ -380,7 +380,7 @@ function calculateZobristHash(state) {
         }
     }
     if (state.enPassantTarget) {
-        hash ^= zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[0])];
+        hash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
     }
     // The castling key is now a single index from 0-15, which is unambiguous.
     hash ^= zobristCastlingKeys[state.castlingRights];
@@ -414,11 +414,16 @@ function createGameState(fen) {
     if (castling.includes('k')) castlingRights |= 2;
     if (castling.includes('q')) castlingRights |= 1;
     
+    const enPassantTarget = enPassant === '-' ? null : {
+    file: 'abcdefgh'.indexOf(enPassant[0]),
+    rank: 8 - parseInt(enPassant[1])
+};
+    
     const state = {
         board,
         turn,
         castlingRights, // Now an integer
-        enPassantTarget: enPassant === '-' ? null : [enPassant[0], parseInt(enPassant[1])],
+        enPassantTarget,
         kingPos: { w: findKing(board, 'w'), b: findKing(board, 'b') },
         moveCount: ((parseInt(full) || 1) - 1) * 2 + (turn === 'b' ? 1 : 0)
     };
@@ -464,9 +469,10 @@ function makeMove(state, move) {
     
     // 2. Update hashes for turn and previous en-passant state
     newHash ^= zobristTurnKey;
+    
     if (enPassantTarget) {
-        newHash ^= zobristEnPassantKeys['abcdefgh'.indexOf(enPassantTarget[0])];
-    }
+        zobristEnPassantKeys[enPassantTarget[1]];
+     }
     
     // 3. Handle captures
     let capturedPiece = move.capture;
