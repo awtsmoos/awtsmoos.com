@@ -813,6 +813,7 @@ function searchRoot(initialState, maxDepth) {
             if (staticEval + futilityMargin <= alpha) {
                 continue; // Prune this move
             }
+            }
             
             
             
