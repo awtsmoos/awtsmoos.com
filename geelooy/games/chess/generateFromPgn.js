@@ -8,6 +8,7 @@
 // battle-tested createGameState and generateLegalMoves functions.
 // This guarantees that the converter's logic is 100% in sync with the
 // engine's logic, permanently eliminating parsing errors.
+importScripts("helpers.js");
 
 
 class PgnConverter {
