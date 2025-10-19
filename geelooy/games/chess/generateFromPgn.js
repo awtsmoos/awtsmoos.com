@@ -70,6 +70,9 @@ class PgnConverter {
     /**
      * A completely new, simplified, and correct SAN parser.
      */
+    /**
+     * A completely new, simplified, and correct SAN parser.
+     */
     parseSan(san) {
         const originalSan = san;
         san = san.replace(/[+#?!=]/g, '');
