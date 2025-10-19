@@ -350,39 +350,52 @@ function evaluate(state) {
 // ====================================================================================
 //            EVALUATE STRATEGIC BONUSES (Mk. IX - WITH CASTLING & KING MOVEMENT)
 // ====================================================================================
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. X - BUGFIX, TEMPO & ENHANCED MOBILITY)
+// ====================================================================================
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
+    const startRank = isWhite ? 7 : 0;
     
-    // --- NEW: CASTLING RIGHTS BONUS ---
-    // Heavily reward the engine for preserving the *option* to castle.
-    // This is a powerful incentive to not move the king or rooks needlessly.
-    const kingSideMask = isWhite ? 8 : 2;
-    const queenSideMask = isWhite ? 4 : 1;
-    if ((state.castlingRights & kingSideMask) || (state.castlingRights & queenSideMask)) {
-        // A large midgame bonus for having castling available. It's less critical in the endgame.
-        score.add(new TaperedScore(40, 5));
+    // --- NEW: DEVELOPMENT & TEMPO BONUS ---
+    // Reward for moving minor pieces off the back rank. This teaches the engine about tempo.
+    const myKnights = isWhite ? pieceData.N : pieceData.n;
+    const myBishops = isWhite ? pieceData.B : pieceData.b;
+    for (const knight of myKnights) {
+        if (knight.r !== startRank) {
+            score.add(new TaperedScore(10, 0)); // Small bonus for a developed knight
+        }
+    }
+    for (const bishop of myBishops) {
+        if (bishop.r !== startRank) {
+            score.add(new TaperedScore(10, 0)); // Small bonus for a developed bishop
+        }
     }
 
-    // --- NEW: PENALTY FOR PREMATURE KING MOVEMENT ---
-    // Penalize the engine for moving its king before the endgame.
+    // --- CASTLING RIGHTS BONUS ---
+    const kingSideMask = isWhite ? 8 : 2;
+    const queenSideMask = isWhite ? 4 : 1;
+    const canCastle = (state.castlingRights & kingSideMask) || (state.castlingRights & queenSideMask);
+    if (canCastle) {
+        score.add(new TaperedScore(50, 5)); // Reduced bonus, as development is now also rewarded.
+    }
+
+    // --- BUGFIX & REVISED: PENALTY FOR PREMATURE KING MOVEMENT ---
+    // This logic is now safer and correctly penalizes moving the king only when it's a clear mistake.
     const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
-    const startRank = isWhite ? 7 : 0;
-    const startFile = 4; // The 'e' file
-    // Check if the king has moved from its starting square (e1 or e8)
-    if (myKingPos && (myKingPos.r !== startRank || myKingPos.c !== startFile)) {
-        // Apply a penalty to the midgame score, but NOT the endgame score.
-        // In the endgame, king activity is good, so we don't want to penalize it.
+    const kingStartFile = 4;
+    // Only apply the penalty if the king has moved AND the engine can no longer castle.
+    if (!canCastle && myKingPos && (myKingPos.r !== startRank || myKingPos.c !== kingStartFile)) {
         score.subtract(new TaperedScore(35, 0));
     }
 
-    // Bishop Pair Bonus
-    const myBishops = isWhite ? pieceData.B : pieceData.b;
+    // --- Bishop Pair Bonus ---
     if (myBishops.length >= 2) {
         score.add(new TaperedScore(50, 75));
     }
 
-    // Rook on Open/Semi-Open File Bonus
+    // --- Rook on Open/Semi-Open File Bonus ---
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
              score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 20 : 40, 15));
@@ -392,24 +405,22 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // PAWN STRUCTURE EVALUATION
+    // --- PAWN STRUCTURE EVALUATION ---
     const myPawns = isWhite ? pieceData.P : pieceData.p;
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
         pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
-        // Isolated Pawn Penalty
         if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
-            score.subtract(new TaperedScore(20, 25));
+            score.subtract(new TaperedScore(20, 25)); // Isolated Pawn
         }
     }
-    // Doubled Pawn Penalty
     for (const count of pawnFileCounts.values()) {
         if (count > 1) {
-            score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1)));
+            score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1))); // Doubled Pawn
         }
     }
 
-    // GOOD vs. BAD BISHOP EVALUATION
+    // --- GOOD vs. BAD BISHOP EVALUATION ---
     for (const bishop of myBishops) {
         const bishopColor = (bishop.r + bishop.c) % 2;
         let trappedPawns = 0;
@@ -421,7 +432,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         score.subtract(new TaperedScore(trappedPawns * 10, trappedPawns * 5));
     }
 
-    // LIGHTWEIGHT MOBILITY
+    // --- ENHANCED: LIGHTWEIGHT MOBILITY WITH INCREASED WEIGHT ---
     let mobilityScore = 0;
     const pieceTypesForMobility = ['N', 'B', 'R', 'Q'];
     for(const pType of pieceTypesForMobility) {
@@ -440,10 +451,16 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
             }
         }
     }
-    score.add(new TaperedScore(mobilityScore, mobilityScore / 2));
+    // The mobility score is now multiplied by 1.5 to give it a higher priority.
+    score.add(new TaperedScore(mobilityScore * 1.5, mobilityScore));
 
     return score;
 }
+
+
+
+
+
 // --- NEW FUNCTION: THREAT ANALYSIS ---
 // Rewards the engine for creating threats against enemy pieces.
 
