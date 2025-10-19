@@ -652,21 +652,25 @@ function orderMoves(moves, pvMove, ply) {
 // =================================================================
 
 // Main search function with optimized repetition checking.
-function search(state, depth, alpha, beta, ply, repetitionTable) {
+// =================================================================
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (v1.1 - Hard Time Limit)
+// =================================================================
+
+function search(state, depth, alpha, beta, ply) {
+    // CRITICAL FIX: Check the time limit frequently inside the search.
+    // This ensures the engine stops thinking almost immediately when time is up,
+    // rather than only after finishing a long search on a single move.
+    if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+    }
     if (stopSearch) return 0;
 
-    // OPTIMIZATION: Replaced slow array scan with a fast Map lookup.
-    // This checks for draw by three-fold repetition instantly.
-    const currentHashStr = state.zobristHash.toString();
-    if (ply > 0 && (repetitionTable.get(currentHashStr) || 0) >= 2) {
-        return CONTEMPT_FACTOR; // Return a score indicating a likely draw
-    }
-    
+    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return CONTEMPT_FACTOR;
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
     if (depth <= 0) return quiesce(state, alpha, beta);
     nodeCount++;
 
-    const ttEntry = transpositionTable.get(currentHashStr);
+    const ttEntry = transpositionTable.get(state.zobristHash.toString());
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
         if (ttEntry.flag === TT_LOWERBOUND && ttEntry.score >= beta) return beta;
@@ -676,11 +680,9 @@ function search(state, depth, alpha, beta, ply, repetitionTable) {
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
     if (inCheck) depth++;
 
-    // Null-Move Pruning: A check to see if the position is so good we can 'pass' a turn
-    // and still be winning. Avoids this in the opening or when in check.
     if (!inCheck && depth >= NULL_MOVE_R + 1 && ply > 0 && state.moveCount > 5) {
         const { newState: nullMoveState } = makeMove(state, { isNullMove: true });
-        const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, repetitionTable);
+        const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1);
         if (score >= beta) return beta;
     }
 
@@ -692,25 +694,16 @@ function search(state, depth, alpha, beta, ply, repetitionTable) {
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
         const { newState } = makeMove(state, move);
-        
-        // Update the repetition table for the next node
-        const newHashStr = newState.zobristHash.toString();
-        repetitionTable.set(newHashStr, (repetitionTable.get(newHashStr) || 0) + 1);
-
+        repetitionHistory.push(newState.zobristHash);
         let score;
-        if (i === 0) { // Principal Variation Search
-            score = -search(newState, depth - 1, -beta, -alpha, ply + 1, repetitionTable);
-        } else { // Late Move Reductions
+        if (i === 0) {
+            score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
+        } else {
             let reduction = (depth >= 3 && i >= 3 && !inCheck && !move.capture) ? 1 : 0;
-            score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, repetitionTable);
-            if (score > alpha && score < beta) { // Re-search if it proves better than expected
-                score = -search(newState, depth - 1, -beta, -alpha, ply + 1, repetitionTable);
-            }
+            score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
+            if (score > alpha && score < beta) score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         }
-        
-        // Backtrack the repetition table state
-        repetitionTable.set(newHashStr, repetitionTable.get(newHashStr) - 1);
-
+        repetitionHistory.pop();
         if (stopSearch) return 0;
         if (score > alpha) {
             alpha = score; bestMove = move;
@@ -720,15 +713,23 @@ function search(state, depth, alpha, beta, ply, repetitionTable) {
                     killerMoves[ply][0] = move;
                     historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] += depth * depth;
                 }
-                transpositionTable.set(currentHashStr, { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
+                transpositionTable.set(state.zobristHash.toString(), { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
                 return beta;
             }
         }
     }
     const flag = (alpha > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
-    transpositionTable.set(currentHashStr, { score: alpha, depth, flag, bestMove });
+    transpositionTable.set(state.zobristHash.toString(), { score: alpha, depth, flag, bestMove });
     return alpha;
 }
+
+
+
+
+
+
+
+
 
 
 // The root of the search, modified to use the new repetition table.
@@ -789,16 +790,20 @@ function searchRoot(initialState, maxDepth) {
       
       
 
+// =================================================================
+//              THE CONDUCTOR: MAIN WORKER DRIVER (v1.1)
+// =================================================================
+
 self.onmessage = function(e) {
     const { command, fen, maxDepth, maxTime } = e.data;
     if (command === 'calculate_move') {
-         // Initialize engine state and build the opening book once.
         if (!zobristKeys) {
             syncHashingWithBook();
             buildOpeningBook(); 
         }
         searchStartTime = performance.now();
-        timeLimit = maxTime || 6000;
+        // FIX: Set a strict 5-second absolute time limit as requested.
+        timeLimit = maxTime || 5000;
         stopSearch = false;
         nodeCount = 0;
         transpositionTable = new Map();
@@ -807,9 +812,16 @@ self.onmessage = function(e) {
 
         const initialState = createGameState(fen);
         repetitionHistory = [initialState.zobristHash];
+        const currentHash = initialState.zobristHash.toString();
 
-        if (openingBook.has(initialState.zobristHash.toString())) {
-            const bookMoves = openingBook.get(initialState.zobristHash.toString());
+        // --- DEBUGGING TOOL for Hash Mismatch ---
+        // To find the hashing bug, uncomment the line below. It will print the live hash.
+        // Then, add a similar console.log inside buildOpeningBook() to see the book hashes.
+        // Compare them to find the discrepancy.
+        // console.log(`Live FEN: ${fen} | Live Hash: ${currentHash}`);
+
+        if (openingBook.has(currentHash)) {
+            const bookMoves = openingBook.get(currentHash);
             const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
             postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
             return;
