@@ -169,6 +169,11 @@ function getGamePhase(board) {
 // This version removes the disastrous move generation from the evaluation,
 // restoring the engine's speed and playing strength.
 
+// ====================================================================================
+//            FINAL, CORRECTED, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version correctly passes variables between functions, fixing the 'undefined' crash.
+
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board);
@@ -179,6 +184,10 @@ function evaluate(state) {
     const pieceData = { P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] };
     for (let r = 0; r < 8; r++) { for (let c = 0; c < 8; c++) { if (board[r][c]) pieceData[board[r][c]].push({ r, c }); } }
 
+    // --- Create the pawn file sets here, in the main function ---
+    const whitePawnFiles = new Set(pieceData.P.map(p => p.c));
+    const blackPawnFiles = new Set(pieceData.p.map(p => p.c));
+
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -187,7 +196,7 @@ function evaluate(state) {
             const pType = p.toLowerCase();
             const scoreTarget = isWhite ? whiteScore : blackScore;
             
-            // 1. Material & PST Score
+            // Material & PST Score (unchanged)
             scoreTarget.mg += pieceValues[pType].mg;
             scoreTarget.eg += pieceValues[pType].eg;
             const pstRow = isWhite ? 7 - r : r;
@@ -202,19 +211,17 @@ function evaluate(state) {
         }
     }
 
-    // 2. Piece Position & Mobility Score (replaces the slow activity check)
-    whiteScore.add(evaluatePiecePositions(state, 'w', pieceData));
-    blackScore.add(evaluatePiecePositions(state, 'b', pieceData));
+    // --- **THE FIX IS HERE:** Pass the pawn file sets as arguments ---
+    whiteScore.add(evaluatePiecePositions(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
+    blackScore.add(evaluatePiecePositions(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
-    // 3. King Safety
+    // (The rest of the evaluation calls are unchanged)
     if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(board, state.kingPos.w, 'b');
     if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(board, state.kingPos.b, 'w');
-
-    // 4. Endgame-Specific Factors
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
 
-    // 5. Final Tapered Score
+    // Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
@@ -222,9 +229,9 @@ function evaluate(state) {
 }
 
 
-// **THE NEW, FAST PIECE EVALUATION**
-// This function replaces `evaluatePieceActivity`. It is static and does not generate moves.
-function evaluatePiecePositions(state, color, pieceData) {
+// **THE CORRECTED PIECE EVALUATION HELPER**
+// This function now correctly receives the pawn file information it needs.
+function evaluatePiecePositions(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) { // <<<< FIX: Added arguments
     const score = new TaperedScore();
     const { board } = state;
     const isWhite = color === 'w';
@@ -232,8 +239,7 @@ function evaluatePiecePositions(state, color, pieceData) {
     // --- Standard Bonuses (Bishop Pair, Rooks on files) ---
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) score.add(new TaperedScore(50, 65));
     
-    const friendlyPawnFiles = new Set((isWhite ? pieceData.P : pieceData.p).map(p => p.c));
-    const enemyPawnFiles = new Set((isWhite ? pieceData.p : pieceData.P).map(p => p.c));
+    // This logic will now work correctly because friendlyPawnFiles and enemyPawnFiles are defined.
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
              score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 15 : 25, 10));
@@ -241,9 +247,7 @@ function evaluatePiecePositions(state, color, pieceData) {
         if (rook.r === (isWhite ? 1 : 6)) score.add(new TaperedScore(35, 45));
     }
 
-    // --- FAST MOBILITY CALCULATION ---
-    // Instead of generating all moves, we just count the empty squares a piece can attack.
-    // This is a very fast and effective heuristic for piece activity.
+    // --- FAST MOBILITY CALCULATION (unchanged) ---
     let mobilityScore = 0;
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
@@ -270,7 +274,6 @@ function evaluatePiecePositions(state, color, pieceData) {
         }
     }
 
-    // Add mobility bonus (scaled down to avoid over-valuing it).
     score.mg += Math.floor(mobilityScore / 2);
     score.eg += Math.floor(mobilityScore / 2);
     
@@ -278,76 +281,6 @@ function evaluatePiecePositions(state, color, pieceData) {
 }
 
 
-
-
-function evaluatePawnStructure(friendlyPawns, enemyPawns, color) {
-    const score = new TaperedScore();
-    const friendlyFiles = new Set(friendlyPawns.map(p => p.c));
-
-    // Passed Pawns: Pawns with no opposing pawns in front of them on the same or adjacent files.
-    for (const p of friendlyPawns) {
-        let isPassed = true;
-        for (const ep of enemyPawns) {
-            if (Math.abs(ep.c - p.c) <= 1 && (color === 'w' ? ep.r < p.r : ep.r > p.r)) {
-                isPassed = false;
-                break;
-            }
-        }
-        if (isPassed) {
-            const rank = color === 'w' ? 7 - p.r : p.r;
-            const bonus = [0, 10, 20, 35, 55, 80, 110, 150][rank];
-            score.add(new TaperedScore(bonus, bonus * 1.5)); // Passed pawns are monsters in the endgame
-        }
-    }
-
-    // Doubled and Isolated Pawns
-    const fileCounts = {};
-    for (const p of friendlyPawns) fileCounts[p.c] = (fileCounts[p.c] || 0) + 1;
-    for (const file in fileCounts) {
-        if (fileCounts[file] > 1) score.subtract(new TaperedScore(20, 25)); // Doubled pawn penalty
-        if (!friendlyFiles.has(parseInt(file) - 1) && !friendlyFiles.has(parseInt(file) + 1)) {
-            score.subtract(new TaperedScore(15, 20)); // Isolated pawn penalty
-        }
-    }
-    return score;
-}
-
-function evaluatePiecePositions(board, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
-    const score = new TaperedScore();
-    const isWhite = color === 'w';
-
-    // Bishop Pair: A significant, long-term advantage.
-    const bishops = isWhite ? pieceData.B : pieceData.b;
-    if (bishops.length >= 2) {
-        score.add(new TaperedScore(45, 60));
-    }
-
-    // Rooks: Value rooks on open files and the 7th rank.
-    const rooks = isWhite ? pieceData.R : pieceData.r;
-    for (const rook of rooks) {
-        const onOpenFile = !friendlyPawnFiles.has(rook.c) && !enemyPawnFiles.has(rook.c);
-        const onSemiOpenFile = !friendlyPawnFiles.has(rook.c);
-        if (onOpenFile) score.add(new TaperedScore(25, 15));
-        else if (onSemiOpenFile) score.add(new TaperedScore(15, 10));
-        
-        const seventhRank = isWhite ? 1 : 6;
-        if (rook.r === seventhRank) score.add(new TaperedScore(35, 45));
-    }
-
-    // Knights: Reward outposts (deep, protected by a pawn).
-    const knights = isWhite ? pieceData.N : pieceData.n;
-    for (const knight of knights) {
-        const outpostRank = (isWhite && knight.r <= 3) || (!isWhite && knight.r >= 4);
-        if (outpostRank) {
-            const pawnSupport = isWhite ? 
-                board[knight.r + 1]?.[knight.c - 1] === 'P' || board[knight.r + 1]?.[knight.c + 1] === 'P' :
-                board[knight.r - 1]?.[knight.c - 1] === 'p' || board[knight.r - 1]?.[knight.c + 1] === 'p';
-            if (pawnSupport) score.add(new TaperedScore(20, 15));
-        }
-    }
-    
-    return score;
-}
 
 
 // **NEW: SPECIALIZED ENDGAME EVALUATION**
