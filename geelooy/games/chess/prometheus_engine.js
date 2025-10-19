@@ -611,8 +611,16 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
         }
     }
     
-    const scaledDanger = dangerScore * (attackerCount - 1);
-    danger.mg += scaledDanger;
+    // This scales the danger based on the number of attackers but does so in a much
+    // more controlled, linear way, preventing the score from exploding.
+    const scaledDanger = dangerScore * (1 + (attackerCount / 4));
+
+    danger.mg += Math.round(scaledDanger);
+    danger.eg += Math.round(scaledDanger / 2);
+
+    return danger;
+    
+      danger.mg += scaledDanger;
     danger.eg += scaledDanger / 2;
 
     return danger;
