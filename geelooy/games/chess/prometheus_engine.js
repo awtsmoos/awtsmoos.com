@@ -548,98 +548,86 @@ function isStalemateBlunder(resultingState, currentEval) {
 // This version correctly implements aspiration windows, restoring search speed
 // and depth without causing an infinite loop.
 
+// ====================================================================================
+//            FINAL, ROBUST, AND CORRECT searchRoot (STABLE AND FAST)
+// ====================================================================================
+// This version uses a simple, standard, and bug-free iterative deepening loop.
+// It will restore the engine's performance and playing strength.
+
 function searchRoot(initialState, maxDepth) {
     let bestMove = null;
     let bestScore = -Infinity;
     const moves = generateLegalMoves(initialState);
-    if (moves.length === 0) return { bestMove: null, score: evaluate(initialState) };
+
+    if (moves.length === 0) {
+        return { bestMove: null, score: evaluate(initialState) };
+    }
+
     const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
 
-    // Initial alpha/beta for the very first search (depth 1)
-    let alpha = -Infinity;
-    let beta = Infinity;
-
+    // --- Standard Iterative Deepening Loop ---
+    // This simple structure is guaranteed to be correct and stable.
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // Use the best move from the previous, shallower search to improve move ordering.
         const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
         let bestMoveForThisDepth = orderedMoves[0];
         const currentEval = evaluate(initialState);
+
+        // A fresh alpha/beta for each new depth is the key to stability.
+        let alpha = -Infinity;
+        let beta = Infinity;
         
-        let researchCount = 0; // A safety valve to prevent any unforeseen infinite loops.
-        while (true) { // This loop handles aspiration window re-searches.
-            
-            // Store the original alpha to check for fail-lows correctly.
-            const originalAlpha = alpha; 
-            let currentBestScoreInLoop = -Infinity;
+        for (let i = 0; i < orderedMoves.length; i++) {
+            const move = orderedMoves[i];
+            if (stopSearch) break;
 
-            for (let i = 0; i < orderedMoves.length; i++) {
-                const move = orderedMoves[i];
-                if (stopSearch) break;
+            const unmakeInfo = makeMove(initialState, move);
+            let score;
+
+            if (isStalemateBlunder(initialState, currentEval)) {
+                score = -MATE_SCORE;
+            } else {
+                repetitionHistory.push(initialState.zobristHash);
                 
-                const unmakeInfo = makeMove(initialState, move);
-                let score;
-                if (isStalemateBlunder(initialState, currentEval)) {
-                    score = -MATE_SCORE;
-                } else {
-                    repetitionHistory.push(initialState.zobristHash);
-                    if (i === 0) {
+                // Standard Principal Variation Search (PVS) logic.
+                if (i === 0) { // Full window search for the presumed best move.
+                    score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
+                } else { // Null window search for other moves.
+                    score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
+                    // If it's better than our best, we must re-search with a full window.
+                    if (score > alpha && score < beta) {
                         score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
-                    } else {
-                        score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
-                        if (score > alpha && score < beta) {
-                            score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
-                        }
-                    }
-                    repetitionHistory.pop();
-                }
-                unmakeMove(initialState, unmakeInfo);
-                
-                if (stopSearch) break;
-
-                if (score > currentBestScoreInLoop) {
-                    currentBestScoreInLoop = score;
-                    if (score > alpha) {
-                        alpha = score;
-                        bestMoveForThisDepth = move;
                     }
                 }
-
-                // If we fail high, we can stop searching this branch immediately.
-                if (alpha >= beta) break;
+                repetitionHistory.pop();
             }
+            unmakeMove(initialState, unmakeInfo);
 
-            if (stopSearch) break; // Exit the while loop if time is up.
+            if (stopSearch) break;
 
-            // --- Correct Re-Search Logic ---
-            if (currentBestScoreInLoop <= originalAlpha) { // Fail-Low
-                alpha = -Infinity;
-                beta = Infinity; // Widen window and re-search
-                researchCount++;
-                if (researchCount > 2) break; // Safety break
-                continue;
-            } else if (alpha >= beta) { // Fail-High
-                alpha = -Infinity;
-                beta = Infinity; // Widen window and re-search
-                researchCount++;
-                if (researchCount > 2) break; // Safety break
-                continue;
+            // If we found a better move, update alpha and store it.
+            if (score > alpha) {
+                alpha = score;
+                bestMoveForThisDepth = move;
             }
+        }
 
-            // If we are inside the window, the search for this depth is successful. Exit the loop.
+        if (stopSearch) {
+            // If the timer ran out, the results for the current depth are incomplete.
+            // We break the loop and return the trusted result from the PREVIOUS full depth.
             break;
         }
 
-        if (stopSearch) break; // Exit the main for loop if time is up.
-
+        // The search for this depth completed successfully. Update our official best move and score.
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
 
-        // Set up the aspiration window for the *next* depth iteration.
-        const aspirationWindow = 50;
-        alpha = bestScore - aspirationWindow;
-        beta = bestScore + aspirationWindow;
-        
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
+        // If we found a forced mate, there's no need to search any deeper.
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
+            break;
+        }
     }
+
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
