@@ -204,11 +204,9 @@ function getKingZone(kingPos) {
         }
     }
     return zone;
-}```
 
-**REPLACE** your existing `evaluate`, `evaluateStrategicBonuses`, `evaluateKingSafety`, and `evaluateEndgameFactors` functions with this entire block of new code:
 
-```javascript
+
 // ====================================================================================
 //         MASTER EVALUATION HUB & ALL NEW STRATEGIC/TACTICAL FUNCTIONS (Mk. VII)
 // ====================================================================================
