@@ -602,33 +602,33 @@ function orderMoves(moves, state, pvMove, ply) {
 
 
 // ADVANCED SEARCH WITH DYNAMIC CONTEMPT
+// ====================================================================================
+//                 FINAL, COMPLETE, AND OPTIMIZED SEARCH FUNCTION (Mk. VI)
+// ====================================================================================
+
 function search(state, depth, alpha, beta, ply) {
-    // --- Step 1: Termination & Draw Checks ---
+    // --- Step 1: Termination & Draw Condition Checks ---
+    // Check for time-out to gracefully stop the search.
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
     if (stopSearch) return 0;
 
-    // **NEW: DYNAMIC CONTEMPT FOR REPETITIONS**
-    // Severely discourage draws in equal or winning positions.
+    // Check for draw by threefold repetition.
+    // The contempt factor is dynamic: it discourages draws when winning and seeks them when losing.
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
         const staticEval = evaluate(state);
-        // If we are winning, a draw is bad (negative score).
-        // If we are losing, a draw is good (positive score).
-        // The contempt value is roughly 80% of a pawn's value, scaled by the position.
-        // A positive evaluation means we are better, so we treat a draw as a loss.
-        // A negative evaluation means we are worse, so we treat a draw as a win.
         const contempt = -80 + Math.abs(staticEval) / 20;
         return Math.sign(staticEval) > 0 ? -contempt : contempt;
     }
 
+    // Stop the search at the maximum ply to prevent stack overflow.
     if (ply >= MATE_IN_MAX_PLY) {
-        return evaluate(state); // Max depth reached
+        return evaluate(state);
     }
 
-    // --- (The rest of the search function remains the same as the Mk. V version) ---
-
     // --- Step 2: Transposition Table Lookup ---
+    // Use stored results from previous searches to save time.
     const isRoot = ply === 0;
     const ttEntry = !isRoot ? transpositionTable.get(state.zobristHash.toString()) : null;
     if (ttEntry && ttEntry.depth >= depth) {
@@ -637,16 +637,34 @@ function search(state, depth, alpha, beta, ply) {
         if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
     }
 
-    // --- Step 3: Quiescence Search & Pruning Prep ---
+    // --- Step 3: Branch to Quiescence Search at Leaf Nodes ---
     nodeCount++;
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+
+    // At depth 0, we switch to a specialized "quiescence" search to resolve all tactical sequences.
     if (depth <= 0) {
         return quiesce(state, alpha, beta, ply);
     }
+    
+    // Check Extension: If the king is in check, search deeper to find a safe move.
     if (inCheck) depth++;
+
     const staticEval = evaluate(state);
 
-    // --- Step 4: Advanced Pruning Techniques ---
+    // --- Step 4: Advanced Pruning for Speed ---
+
+    // **NEW OPTIMIZATION: FUTILITY PRUNING**
+    // If the current static evaluation is very bad, we can prune unpromising quiet moves.
+    // This dramatically speeds up the search.
+    if (!inCheck && depth <= 3) {
+        // A margin of safety. A pawn is worth ~100.
+        const futilityMargin = 120 * depth;
+        if (staticEval + futilityMargin <= alpha) {
+            return alpha; // Prune this entire node.
+        }
+    }
+
+    // Null Move Pruning (NMP)
     if (!inCheck && !isRoot && depth >= NULL_MOVE_R + 1 && state.moveCount > 5 && staticEval >= beta) {
         const { newState: nullMoveState } = makeMove(state, { isNullMove: true });
         const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1);
@@ -655,14 +673,14 @@ function search(state, depth, alpha, beta, ply) {
         }
     }
 
-    // --- Step 5: Generate and Order Moves ---
+    // --- Step 5: Generate, Order, and Iterate Through Moves ---
     const moves = generateLegalMoves(state);
     if (moves.length === 0) {
-        return inCheck ? -MATE_SCORE + ply : 0;
+        return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or Stalemate
     }
+
     const orderedMoves = orderMoves(moves, state, ttEntry ? ttEntry.bestMove : null, ply);
 
-    // --- Step 6: Iterate Through Moves ---
     let originalAlpha = alpha;
     let bestMove = null;
     let bestScore = -Infinity;
@@ -670,35 +688,70 @@ function search(state, depth, alpha, beta, ply) {
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
         const { newState } = makeMove(state, move);
+
+        // Stalemate Blunder Avoidance
         if (isStalemateBlunder(newState, staticEval)) {
-            continue;
+            continue; // Skip this move entirely.
         }
+
         repetitionHistory.push(newState.zobristHash);
+        
         let score;
+        
+        // Principal Variation Search (PVS) with Late Move Reductions (LMR)
         if (i === 0) {
+            // First move is the best guess; do a full search.
             score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         } else {
+            // For other moves, apply Late Move Reductions (LMR).
             let reduction = 0;
             if (depth >= 3 && i >= 3 && !inCheck && !move.capture && !move.promotion) {
                  reduction = 1 + Math.floor(Math.log(i) * Math.log(depth) / 2);
                  reduction = Math.min(reduction, depth - 2);
             }
+            
+            // Assume this move is bad and search with a tiny ("null") window. This is faster.
             score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
+
+            // If the assumption was wrong, we must re-search with the full window.
             if (score > alpha && score < beta) {
                 score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
             }
         }
+        
+        // **ANTI-SHUFFLING / PROGRESS PENALTY**
+        // Apply a small penalty for quiet moves that don't improve the piece's position.
+        const opponentColor = state.turn === 'w' ? 'b' : 'w';
+        const isNewStateInCheck = newState.kingPos[opponentColor] && isSquareAttacked(newState.board, newState.kingPos[opponentColor].r, newState.kingPos[opponentColor].c, state.turn);
+        if (!move.capture && !move.promotion && !inCheck && !isNewStateInCheck) {
+            const pType = move.piece.toLowerCase();
+            if (pType !== 'k') {
+                const pst = { p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType];
+                const fromRow = state.turn === 'w' ? 7 - move.from[0] : move.from[0];
+                const toRow = state.turn === 'w' ? 7 - move.to[0] : move.to[0];
+                if (pst[toRow][move.to[1]] < pst[fromRow][move.from[1]]) {
+                    score -= 20; // Penalize retreating to a worse square.
+                }
+            }
+        }
+
         repetitionHistory.pop();
+
         if (stopSearch) return 0;
+
         if (score > bestScore) {
             bestScore = score;
             bestMove = move;
         }
+
         if (bestScore > alpha) {
             alpha = bestScore;
         }
+
+        // Beta-cutoff: This move is "too good," and the opponent will avoid this line.
         if (alpha >= beta) {
             if (!move.capture) {
+                // Store this good quiet move as a "Killer Move" to try it earlier in other branches.
                 if (killerMoves[ply]?.[0] !== move) {
                     killerMoves[ply][1] = killerMoves[ply][0];
                     killerMoves[ply][0] = move;
@@ -712,12 +765,12 @@ function search(state, depth, alpha, beta, ply) {
         }
     }
 
-    // --- Step 7: Store Result ---
+    // --- Step 6: Store Result in Transposition Table ---
     const flag = (bestScore > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
+
     return bestScore;
 }
-
 
 
 
