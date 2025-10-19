@@ -8,7 +8,7 @@
 // the PGN converter import this file to ensure 100% consistency.
 
 // --- ZOBRIST & HASHING GLOBALS ---
-let zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
+var zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
 const pieceMap = 'PNBRQKpnbrqk';
 
 // --- MOVE GENERATION CONSTANTS ---
