@@ -11,6 +11,38 @@
 // prioritizing king safety, material advantage, and dynamic piece activity.
 
 importScripts('grandmaster_library.js');
+// =================================================================
+//                 OPENING BOOK PROCESSING LOGIC
+// =================================================================
+
+// This will store the processed book: { hash: [moves] }
+const openingBook = new Map();
+
+function buildOpeningBook() {
+    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
+
+    // Use the engine's own hashing function to guarantee a match
+    if (!zobristKeys) syncHashingWithBook();
+
+    for (const entry of rawOpeningBook) {
+        const fen = entry[0];
+        const hash = calculateZobristHash(createGameState(fen)); // Use engine's own logic
+        
+        const moves = [];
+        for (let i = 1; i < entry.length; i++) {
+            // Convert SAN to the engine's move object format
+            const moveData = entry[i];
+            moves.push({
+                from: moveData.from,
+                to: moveData.to,
+                san: moveData.san // Keep for debugging/info
+            });
+        }
+        openingBook.set(hash.toString(), moves);
+    }
+    // console.log(`Opening book built with ${openingBook.size} positions.`);
+}
+
 
 // =================================================================
 //                       CONSTANTS & CONFIGURATION
@@ -554,6 +586,11 @@ function searchRoot(initialState, maxDepth) {
 self.onmessage = function(e) {
     const { command, fen, maxDepth, maxTime } = e.data;
     if (command === 'calculate_move') {
+         // Initialize engine state and build the opening book once.
+        if (!zobristKeys) {
+            syncHashingWithBook();
+            buildOpeningBook(); 
+        }
         searchStartTime = performance.now();
         timeLimit = maxTime || 6000;
         stopSearch = false;
