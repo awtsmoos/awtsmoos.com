@@ -89,6 +89,33 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 // =================================================================
 //        ZOBRIST HASHING & STATE MANAGEMENT
 // =================================================================
+// =================================================================
+//        ZOBRIST HASHING & STATE MANAGEMENT
+// =================================================================
+
+// *** ADD THIS ENTIRE FUNCTION ***
+function initializeBookHashing() {
+    if (bookZobristKeys) return;
+    let seed = 19880128;
+    const pseudoRandom = () => { seed = (seed * 16807) % 2147483647; return BigInt(seed); };
+    const random64 = () => (pseudoRandom() << 32n) | pseudoRandom();
+    
+    // This is the global variable from the library, which is now undefined
+    // We create the engine's own keys instead.
+    zobristKeys = Array(12).fill(null).map(() => Array(64).fill(0n).map(() => random64()));
+    zobristTurnKey = random64();
+    zobristCastlingKeys = Array(4).fill(0n).map(() => random64());
+    zobristEnPassantKeys = Array(8).fill(0n).map(() => random64());
+
+    // Also define the library-scope variables for the book builder
+    bookZobristKeys = zobristKeys;
+    bookZobristTurnKey = zobristTurnKey;
+    bookZobristCastlingKeys = zobristCastlingKeys;
+    bookZobristEnPassantKeys = zobristEnPassantKeys;
+}
+
+
+
 
 function syncHashingWithBook() {
     if (zobristKeys) return;
