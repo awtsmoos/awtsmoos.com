@@ -534,7 +534,13 @@ function isStalemateBlunder(resultingState, currentEval) {
  * @param {number} maxDepth - The maximum depth for iterative deepening.
  * @returns {object} The best move found and the final evaluation.
  */
+// ====================================================================================
+//                 FINAL SEARCH WITH NULL MOVE RECURSION GUARD
+// ====================================================================================
+
 function searchRoot(initialState, maxDepth) {
+    // This function's only change is how it calls the main search function.
+    // It passes `false` for the new `previousMoveWasNull` parameter.
     let bestMove = null, bestScore = -Infinity;
     let alpha = -Infinity, beta = Infinity;
     const moves = generateLegalMoves(initialState);
@@ -548,36 +554,30 @@ function searchRoot(initialState, maxDepth) {
 
         for (const move of orderedMoves) {
             if (stopSearch) break;
-            
-            // --- High-Performance Pattern: Make, Search, Unmake ---
             const unmakeInfo = makeMove(initialState, move);
             let score;
-            
             if (isStalemateBlunder(initialState, currentEval)) {
                 score = -MATE_SCORE;
             } else {
                 repetitionHistory.push(initialState.zobristHash);
                 if (move === orderedMoves[0]) {
-                    score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
+                    // Initial call to search, previous move was NOT null.
+                    score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                 } else {
-                    score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1);
+                    score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
                     if (score > alpha && score < beta) {
-                        score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
+                        score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                     }
                 }
                 repetitionHistory.pop();
             }
-            
             unmakeMove(initialState, unmakeInfo);
-            // --- End of Pattern ---
-
             if (stopSearch) break;
             if (score > alpha) {
                 alpha = score;
                 bestMoveForThisDepth = move;
             }
         }
-
         if (stopSearch) break;
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
@@ -596,13 +596,19 @@ function searchRoot(initialState, maxDepth) {
 }
 
 
+// The main search function, now with the critical null move guard.
+
+
+
+
+
+
 /**
  * The main recursive search function (negamax with alpha-beta pruning).
  * It uses the high-performance make/unmake pattern for maximum speed.
  * @param {object} state - The global game state object (which will be modified and reverted).
  */
-function search(state, depth, alpha, beta, ply) {
-    // --- Step 1: Termination & Draw Checks ---
+function search(state, depth, alpha, beta, ply, previousMoveWasNull) { // <<<< NEW PARAMETER
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
@@ -612,7 +618,6 @@ function search(state, depth, alpha, beta, ply) {
     }
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
-    // --- Step 2: Transposition Table Lookup ---
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -620,25 +625,20 @@ function search(state, depth, alpha, beta, ply) {
         if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
     }
 
-    // --- Step 3: Quiescence Search & Pruning Prep ---
     nodeCount++;
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
     if (depth <= 0) return quiesce(state, alpha, beta, ply);
     if (inCheck) depth++;
     const staticEval = evaluate(state);
 
-    // --- Step 4: Advanced Pruning (Futility & NMP) ---
-    if (!inCheck && depth <= 3) {
-        if (staticEval + (120 * depth) <= alpha) return alpha;
-    }
-    if (!inCheck && ply > 0 && depth >= NULL_MOVE_R + 1 && state.moveCount > 5 && staticEval >= beta) {
+    // --- **THE FINAL NULL MOVE FIX** ---
+    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1 && state.moveCount > 5 && staticEval >= beta) {
         const unmakeInfo = makeMove(state, { isNullMove: true });
-        const score = -search(state, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1);
+        const score = -search(state, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, true);
         unmakeMove(state, unmakeInfo);
         if (score >= beta) return beta;
     }
 
-    // --- Step 5: Move Generation and Iteration ---
     const moves = generateLegalMoves(state);
     if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
     const orderedMoves = orderMoves(moves, state, ttEntry ? ttEntry.bestMove : null, ply);
@@ -648,7 +648,6 @@ function search(state, depth, alpha, beta, ply) {
     
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
-        
         const unmakeInfo = makeMove(state, move);
         repetitionHistory.push(state.zobristHash);
         
@@ -657,16 +656,16 @@ function search(state, depth, alpha, beta, ply) {
             score = -MATE_SCORE;
         } else {
             if (i === 0) {
-                score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+                score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
             } else {
                 let reduction = 0;
                 if (depth >= 3 && i >= 3 && !inCheck && !move.capture && !move.promotion) {
                     reduction = 1 + Math.floor(Math.log(i) * Math.log(depth) / 2);
                     reduction = Math.min(reduction, depth - 2);
                 }
-                score = -search(state, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
+                score = -search(state, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, false);
                 if (score > alpha && score < beta) {
-                    score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+                    score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
                 }
             }
         }
@@ -692,8 +691,6 @@ function search(state, depth, alpha, beta, ply) {
             return beta;
         }
     }
-
-    // --- Step 6: Store Result and Return ---
     const flag = (bestScore > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
     return bestScore;
