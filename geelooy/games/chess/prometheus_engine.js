@@ -72,31 +72,34 @@ function syncHashingWithBook() {
 function calculateZobristHash(state) {
     if (!zobristKeys) syncHashingWithBook();
     let hash = 0n;
+
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const piece = state.board[r][c];
-            if (piece) {
-                // Defensive cast to BigInt
-                hash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][r * 8 + c]);
-            }
+            if (piece) hash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][r * 8 + c]);
         }
     }
+    
+    // *** CORRECTED LOGIC FOR EN PASSANT HASHING ***
     if (state.enPassantTarget) {
-        // Defensive cast to BigInt
-        hash ^= BigInt(zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[1])]);
+        // The column index is already a number in state.enPassantTarget[1]
+        const fileIndex = state.enPassantTarget[1]; 
+        hash ^= BigInt(zobristEnPassantKeys[fileIndex]);
     }
-    // Defensive casts for all castling keys
+    
     if (state.castlingRights.K) hash ^= BigInt(zobristCastlingKeys[0]);
     if (state.castlingRights.Q) hash ^= BigInt(zobristCastlingKeys[1]);
     if (state.castlingRights.k) hash ^= BigInt(zobristCastlingKeys[2]);
     if (state.castlingRights.q) hash ^= BigInt(zobristCastlingKeys[3]);
     
     if (state.turn === 'b') {
-        // Defensive cast to BigInt
         hash ^= BigInt(zobristTurnKey);
     }
     return hash;
 }
+
+
+
 
 
 function createGameState(fen) {
