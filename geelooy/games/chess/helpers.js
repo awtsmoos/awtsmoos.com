@@ -131,59 +131,68 @@ function generateMovesForPiece(moves, p, r, c, state) {
     }
 }
 
+// ====================================================================================
+//            FINAL, COMPLETE, AND HIGH-PERFORMANCE generateLegalMoves
+// ====================================================================================
+// This version is fully optimized and correctly handles all move legality checks,
+// including castling, using the fast make/unmake pattern.
+
 function generateLegalMoves(state) {
     const legalMoves = [];
     const pseudoLegalMoves = [];
-    const { board, turn, castlingRights, kingPos } = state;
-    const color = turn;
-    const opponentColor = color === 'w' ? 'b' : 'w';
-    const kingPosition = kingPos[color];
+    const { turn, castlingRights, kingPos } = state;
+    const opponentColor = turn === 'w' ? 'b' : 'w';
+    const kingPosition = kingPos[turn];
+
+    // --- Step 1: Generate all pseudo-legal moves for pieces ---
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
-            const p = board[r][c];
-            if (p && (p.toUpperCase() === p) === (color === 'w')) {
+            const p = state.board[r][c];
+            if (p && (p.toUpperCase() === p) === (turn === 'w')) {
                 generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
             }
         }
     }
-    if (kingPosition && !isSquareAttacked(board, kingPosition.r, kingPosition.c, opponentColor)) {
-        const r = color === 'w' ? 7 : 0;
-        const kingSideMask = color === 'w' ? 8 : 2;
-        // FIX: Removed redundant check for the destination square being attacked.
-        // The main validation loop already checks the king's final position.
-        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+
+    // --- Step 2: Generate pseudo-legal castling moves ---
+    // We generate these separately because their legality check is special.
+    if (kingPosition && !isSquareAttacked(state.board, kingPosition.r, kingPosition.c, opponentColor)) {
+        const r = turn === 'w' ? 7 : 0;
+        
+        // Kingside Castling
+        const kingSideMask = turn === 'w' ? 8 : 2;
+        if ((castlingRights & kingSideMask) && !state.board[r][5] && !state.board[r][6] &&
+            !isSquareAttacked(state.board, r, 5, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: turn === 'w' ? 'K' : 'k', isCastle: true });
         }
-        const queenSideMask = color === 'w' ? 4 : 1;
-        // FIX: Removed redundant check for the destination square being attacked.
-        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 3, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        
+        // Queenside Castling
+        const queenSideMask = turn === 'w' ? 4 : 1;
+        if ((castlingRights & queenSideMask) && !state.board[r][1] && !state.board[r][2] && !state.board[r][3] &&
+            !isSquareAttacked(state.board, r, 3, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: turn === 'w' ? 'K' : 'k', isCastle: true });
         }
     }
+
+    // --- Step 3: Filter for full legality using the fast make/unmake pattern ---
+    // This is the core of the optimization. No more slow board copies.
     for (const move of pseudoLegalMoves) {
-        const [fromR, fromC] = move.from;
-        const [toR, toC] = move.to;
-        const piece = board[fromR][fromC];
-        const tempBoard = board.map(row => row.slice());
-        tempBoard[toR][toC] = piece;
-        tempBoard[fromR][fromC] = '';
-        if (move.isCastle) {
-            const rookFromC = toC === 6 ? 7 : 0;
-            const rookToC = toC === 6 ? 5 : 3;
-            tempBoard[fromR][rookToC] = tempBoard[fromR][rookFromC];
-            tempBoard[fromR][rookFromC] = '';
-        }
-        if (move.isEnPassant) {
-            tempBoard[color === 'w' ? toR + 1 : toR - 1][toC] = '';
-        }
-        const currentKingPos = (piece.toLowerCase() === 'k') ? { r: toR, c: toC } : kingPosition;
-        if (currentKingPos && !isSquareAttacked(tempBoard, currentKingPos.r, currentKingPos.c, opponentColor)) {
+        const unmakeInfo = makeMove(state, move);
+        
+        // After making the move, the turn has flipped. We check if the king of the
+        // player who JUST moved (the "original" player) is now under attack.
+        const kingOfOriginalPlayer = kingPos[turn];
+        
+        // The king must exist and not be under attack for the move to be legal.
+        if (kingOfOriginalPlayer && !isSquareAttacked(state.board, kingOfOriginalPlayer.r, kingOfOriginalPlayer.c, state.turn)) {
             legalMoves.push(move);
         }
+        
+        unmakeMove(state, unmakeInfo);
     }
+    
     return legalMoves;
 }
-
 
 function calculateZobristHash(state) {
     let hash = 0n;
