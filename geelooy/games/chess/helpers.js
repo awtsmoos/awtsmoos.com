@@ -1,5 +1,8 @@
 
 //B"H
+let zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
+
+
 function initializeZobristKeys() {
     if (zobristKeys) return;
     
