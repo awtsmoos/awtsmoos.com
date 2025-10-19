@@ -1121,10 +1121,12 @@ self.onmessage = function(e) {
         const currentHash = initialState.zobristHash;
         let alternativeHash = null;
 
-        if (initialState.enPassantTarget) {
-            const epFileIndex = 'abcdefgh'.indexOf(initialState.enPassantTarget[0]);
-            alternativeHash = currentHash ^ zobristEnPassantKeys[epFileIndex];
-        }
+        // Corrected code:
+if (initialState.enPassantTarget) {
+    // The enPassantTarget is [row, col]. We need the column index, which is [1].
+    const epFileIndex = initialState.enPassantTarget[1]; 
+    alternativeHash = currentHash ^ zobristEnPassantKeys[epFileIndex];
+}
 
         const correctHashInBook = openingBook.has(currentHash.toString());
         const alternativeHashInBook = alternativeHash && openingBook.has(alternativeHash.toString());
