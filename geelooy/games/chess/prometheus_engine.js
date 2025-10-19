@@ -486,7 +486,8 @@ function makeMove(state, move) {
     // 4. Set new en-passant target
     let newEnPassantTarget = null;
     if (move.isPawnDoubleMove) {
-        newEnPassantTarget = ['abcdefgh'[fromC], turn === 'w' ? 3 : 6];
+        newEnPassantTarget = [turn === 'w' ? fromR - 1 : fromR + 1, fromC];
+        // Hash using the column index
         newHash ^= zobristEnPassantKeys[fromC];
     }
 
