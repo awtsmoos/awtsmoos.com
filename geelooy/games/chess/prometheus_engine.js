@@ -339,7 +339,6 @@ function evaluate(state) {
     // 5. King Safety (Applied last as a penalty)
     if (state.kingPos.w) whiteScore.subtract(evaluateKingSafety(state, state.kingPos.w, 'b', pieceData));
 if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos.b, 'w', pieceData));
-
     
     
     // 6. Final Tapered Score
@@ -561,24 +560,40 @@ function evaluateThreats(state, color, pieceData) {
 // This version now returns a TaperedScore to apply penalties in the endgame,
 // preventing the king from making suicidal marches.
 
+// ====================================================================================
+//            King Safety with "Queen Danger" Sense (Mk. XIV - FINAL)
+// ====================================================================================
+// This version adds a massive penalty for enemy queen proximity, fixing both
+// unsound sacrifices and the failure to escape perpetual check.
+
 function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
     const danger = new TaperedScore();
     const isAttackerWhite = attackerColor === 'w';
     
-    let attackerCount = 0;
-    const kingHalf = kingPos.c < 4 ? 'queen' : 'king';
-    const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
-
-    for (const pType of attackerPieceTypes) {
-        const attackers = pieceData[pType];
-        for (const attacker of attackers) {
-            const attackerHalf = attacker.c < 4 ? 'queen' : 'king';
-            if (attackerHalf === kingHalf) attackerCount++;
+    // --- NEW: QUEEN PROXIMITY PENALTY ---
+    // This is the most important part of the fix. If the enemy queen is close,
+    // the position is inherently dangerous, even if there are no other attackers.
+    const enemyQueen = isAttackerWhite ? pieceData.Q[0] : pieceData.q[0];
+    if (enemyQueen) {
+        const queenDist = Math.max(Math.abs(kingPos.r - enemyQueen.r), Math.abs(kingPos.c - enemyQueen.c));
+        if (queenDist <= 2) { // Queen is within a 2-square radius
+            danger.mg += 100; // Massive penalty
+            danger.eg += 50;
+        } else if (queenDist <= 3) {
+            danger.mg += 50;
+            danger.eg += 25;
         }
     }
 
+    let attackerCount = 0;
+    const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
+    for (const pType of attackerPieceTypes) {
+        attackerCount += pieceData[pType].length;
+    }
+
+    // Only proceed with detailed calculation if there are enough pieces for an attack.
     if (attackerCount < 2) {
-        return danger; // Not a coordinated attack, position is likely safe.
+        return danger;
     }
 
     let dangerScore = 0;
@@ -596,14 +611,9 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
         }
     }
     
-    // Scale the danger score based on the number of attackers.
     const scaledDanger = dangerScore * (attackerCount - 1);
-
-    // **THE CRITICAL CHANGE**: Apply the penalty to BOTH midgame and endgame phases.
-    // The danger is slightly less critical in the endgame as the king has more escape squares,
-    // but it is FAR from zero. This will stop the suicidal king walks.
-    danger.mg = scaledDanger;
-    danger.eg = scaledDanger / 2;
+    danger.mg += scaledDanger;
+    danger.eg += scaledDanger / 2;
 
     return danger;
 }
