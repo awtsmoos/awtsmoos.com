@@ -305,7 +305,30 @@ function makeMoveImmutable(state, move) {
 // This new pair of functions modifies the state directly and then reverts it.
 // This is thousands of times faster and is essential for the search.
 
+// ====================================================================================
+//            FINAL & ROBUST MAKE/UNMAKE FUNCTIONS (WITH NULL MOVE FIX)
+// ====================================================================================
+
 function makeMove(state, move) {
+    // --- **NEW: HANDLE NULL MOVE CASE** ---
+    // This is the critical fix for the infinite loop.
+    if (move.isNullMove) {
+        const unmakeInfo = {
+            isNullMove: true,
+            oldEnPassantTarget: state.enPassantTarget,
+            zobristHash: state.zobristHash
+        };
+        state.turn = state.turn === 'w' ? 'b' : 'w';
+        state.enPassantTarget = null;
+        // Update hash for turn flip and cleared en passant square
+        state.zobristHash ^= zobristTurnKey;
+        if (unmakeInfo.oldEnPassantTarget) {
+            state.zobristHash ^= zobristEnPassantKeys[unmakeInfo.oldEnPassantTarget[1]];
+        }
+        return unmakeInfo;
+    }
+    // --- **END OF FIX** ---
+
     const unmakeInfo = {
         from: move.from, to: move.to, captured: state.board[move.to[0]][move.to[1]] || null, promotion: move.promotion || null,
         isEnPassant: move.isEnPassant || false, isCastle: move.isCastle || false,
@@ -336,42 +359,31 @@ function makeMove(state, move) {
     state.castlingRights &= castlingUpdateMask[toR * 8 + toC];
     state.turn = state.turn === 'w' ? 'b' : 'w';
     state.moveCount++;
-    state.zobristHash = calculateZobristHash(state); // For robustness
+    state.zobristHash = calculateZobristHash(state);
     return unmakeInfo;
 }
 
-
-// ====================================================================================
-//                 FINAL, CORRECTED, AND ROBUST UNMAKE_MOVE FUNCTION
-// ====================================================================================
-
 function unmakeMove(state, unmakeInfo) {
-    // --- Revert all state changes in reverse order ---
-    
-    const originalTurn = state.turn === 'w' ? 'b' : 'w'; // <<<<<<< FIX: Determine the original turn color BEFORE reverting.
+    // --- **NEW: HANDLE NULL MOVE CASE** ---
+    if (unmakeInfo.isNullMove) {
+        state.turn = state.turn === 'w' ? 'b' : 'w';
+        state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
+        state.zobristHash = unmakeInfo.zobristHash; // The simplest way is to restore the hash
+        return;
+    }
+    // --- **END OF FIX** ---
 
-    // 1. Revert turn and move count
+    const originalTurn = state.turn === 'w' ? 'b' : 'w';
     state.turn = originalTurn;
     state.moveCount = unmakeInfo.oldMoveCount;
-
-    // 2. Restore all simple state variables from before the move
     state.castlingRights = unmakeInfo.oldCastlingRights;
     state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
-    
     const [fromR, fromC] = unmakeInfo.from;
     const [toR, toC] = unmakeInfo.to;
     let piece = state.board[toR][toC];
-
-    // 3. Handle promotion revert
-    if (unmakeInfo.promotion) {
-        piece = originalTurn === 'w' ? 'P' : 'p'; // <<<<<<< FIX: Use the correct original turn color.
-    }
-
-    // 4. Move the piece back
+    if (unmakeInfo.promotion) { piece = originalTurn === 'w' ? 'P' : 'p'; }
     state.board[fromR][fromC] = piece;
-    state.board[toR][toC] = unmakeInfo.captured; // Puts back the captured piece (or null if none)
-
-    // 5. Revert special move types
+    state.board[toR][toC] = unmakeInfo.captured;
     if (unmakeInfo.isEnPassant) {
         const capturedPawnR = originalTurn === 'w' ? toR + 1 : toR - 1;
         state.board[capturedPawnR][toC] = unmakeInfo.captured;
@@ -381,14 +393,8 @@ function unmakeMove(state, unmakeInfo) {
         const rookToC = toC === 6 ? 5 : 3;
         const rook = state.board[fromR][rookToC];
         state.board[fromR][rookToC] = null;
-        state.board[fromR][rookFromC] = rook;
+        state.board[fromR][rookFromC] = rook.
     }
-    
-    // 6. Revert king position if it moved
-    if (piece.toLowerCase() === 'k') {
-        state.kingPos[originalTurn] = { r: fromR, c: fromC };
-    }
-    
-    // 7. Restore the Zobrist hash (the fastest and safest way)
+    if (piece.toLowerCase() === 'k') { state.kingPos[originalTurn] = { r: fromR, c: fromC }; }
     state.zobristHash = unmakeInfo.zobristHash;
 }
