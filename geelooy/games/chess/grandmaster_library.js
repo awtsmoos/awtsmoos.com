@@ -1,7 +1,7 @@
 /* B"H */
 
 // =================================================================
-//      THE GRANDMASTER'S LIBRARY (DEFINITIVE EDITION)
+//      THE GRANDMASTER'S LIBRARY (DEFINITIVE & SYNCHRONIZED EDITION)
 // =================================================================
 // This is a complete and substantial opening book. It is self-contained and
 // uses a deterministic hashing algorithm to generate its own keys from FENs,
@@ -10,30 +10,47 @@
 const bookPieceMap = 'PNBRQKpnbrqk';
 let bookZobristKeys = null;
 let bookZobristTurnKey = null;
+let bookZobristCastlingKeys = null; // <-- ADDED
+let bookZobristEnPassantKeys = null; // <-- ADDED
 
 // --- Self-Contained, Deterministic Hashing Utility ---
 function initializeBookHashing() {
     if (bookZobristKeys) return;
-    bookZobristKeys = Array(12).fill(null).map(() => Array(64).fill(0));
-    let seed = 19880128; // A fixed seed ensures the same keys are generated every time.
+
+    // --- DO NOT CHANGE THIS SEED ---
+    // It ensures the same random numbers are generated every time,
+    // which is critical for the hashes to match.
+    let seed = 19880128;
     const pseudoRandom = () => {
         seed = (seed * 16807) % 2147483647;
-        return seed;
+        return BigInt(seed);
     };
+    const random64 = () => (pseudoRandom() << 32n) | pseudoRandom();
+
+    // 1. Piece/Square Keys
+    bookZobristKeys = Array(12).fill(null).map(() => Array(64).fill(0n));
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 64; j++) {
-            const r1 = BigInt(pseudoRandom());
-            const r2 = BigInt(pseudoRandom());
-            bookZobristKeys[i][j] = (r1 << 32n) | r2;
+            bookZobristKeys[i][j] = random64();
         }
     }
-    bookZobristTurnKey = (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
+
+    // 2. Black-to-move Key
+    bookZobristTurnKey = random64();
+
+    // 3. Castling Rights Keys (K, Q, k, q)
+    bookZobristCastlingKeys = Array(4).fill(0n).map(() => random64());
+
+    // 4. En Passant File Keys (files a through h)
+    bookZobristEnPassantKeys = Array(8).fill(0n).map(() => random64());
 }
 
 function generateHashFromFEN(fen) {
     initializeBookHashing();
-    const [fenBoard, turn] = fen.split(' ').slice(0, 2);
+    const [fenBoard, turn, castling, enPassant] = fen.split(' ');
     let hash = 0n;
+
+    // Hash pieces on board
     let row = 0, col = 0;
     for (const char of fenBoard) {
         if (char === '/') {
@@ -48,13 +65,30 @@ function generateHashFromFEN(fen) {
             col++;
         }
     }
+
+    // Hash turn
     if (turn === 'b') {
         hash ^= bookZobristTurnKey;
     }
+
+    // Hash castling rights
+    if (castling.includes('K')) hash ^= bookZobristCastlingKeys[0];
+    if (castling.includes('Q')) hash ^= bookZobristCastlingKeys[1];
+    if (castling.includes('k')) hash ^= bookZobristCastlingKeys[2];
+    if (castling.includes('q')) hash ^= bookZobristCastlingKeys[3];
+
+    // Hash en passant target
+    if (enPassant !== '-') {
+        const file = 'abcdefgh'.indexOf(enPassant[0]);
+        hash ^= bookZobristEnPassantKeys[file];
+    }
+
     return hash.toString();
 }
 
 const openingBook = new Map();
+
+
 
 // --- BOOK POSITIONS (OVER 50 LINES) ---
 // Note: Moves are { from: [row, col], to: [row, col] }
