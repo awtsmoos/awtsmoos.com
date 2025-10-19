@@ -344,7 +344,7 @@ const sourceBook = [
 
 
 
-importScript("generateFromPgn.js")
+importScripts("generateFromPgn.js")
 
 // Generate the final book that the engine worker will use.
 const rawOpeningBook = generateRawBook(sourceBook);
