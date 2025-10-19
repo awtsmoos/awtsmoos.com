@@ -271,27 +271,40 @@ function findKing(board, color) {
 //      MOVE VALIDATION (v2.0 - CORRECTED)
 // =================================================================
 
+// =================================================================
+//      MOVE VALIDATION (v3.0 - FINAL & CORRECTED)
+// =================================================================
+// This version fixes a critical logic error in the pawn attack check
+// that was preventing castling from ever being legal.
+
 function isSquareAttacked(board, r, c, attackerColor) {
     const isWhiteAttacker = attackerColor === 'w';
     const pawn = isWhiteAttacker ? 'P' : 'p';
     
-    // --- CRITICAL FIX START ---
-    // The pawn attack direction was inverted.
-    // White pawns (attacker) are on a lower rank (r-1) to attack r.
-    // Black pawns (attacker) are on a higher rank (r+1) to attack r.
-    const pawnDir = isWhiteAttacker ? -1 : 1; 
-    // --- CRITICAL FIX END ---
+    // --- THE CORRECTED PAWN ATTACK LOGIC ---
+    // To see if a square at rank `r` is attacked by a white pawn, we must look
+    // "up" the board (to a lower rank index) for the attacker.
+    // To see if it's attacked by a black pawn, we look "down" (higher rank index).
+    const pawnAttackDir = isWhiteAttacker ? 1 : -1;
+    
+    if (board[r + pawnAttackDir]?.[c - 1] === pawn || board[r + pawnAttackDir]?.[c + 1] === pawn) {
+        return true;
+    }
+    // --- END OF FIX ---
 
-    if (board[r + pawnDir]?.[c - 1] === pawn || board[r + pawnDir]?.[c + 1] === pawn) return true;
-
+    // Knight attacks
     for (const [dr, dc] of knightMoves) {
         const piece = board[r + dr]?.[c + dc];
         if (piece && piece.toLowerCase() === 'n' && (piece.toUpperCase() === piece) === isWhiteAttacker) return true;
     }
+
+    // King attacks
     for (const [dr, dc] of kingMoves) {
         const piece = board[r + dr]?.[c + dc];
         if (piece && piece.toLowerCase() === 'k' && (piece.toUpperCase() === piece) === isWhiteAttacker) return true;
     }
+
+    // Rook and Queen sliding attacks
     for (const [dr, dc] of rookDirections) {
         for (let i = 1; i < 8; i++) {
             const nR = r + dr * i, nC = c + dc * i;
@@ -302,6 +315,8 @@ function isSquareAttacked(board, r, c, attackerColor) {
             }
         }
     }
+
+    // Bishop and Queen sliding attacks
     for (const [dr, dc] of bishopDirections) {
         for (let i = 1; i < 8; i++) {
             const nR = r + dr * i, nC = c + dc * i;
@@ -312,6 +327,7 @@ function isSquareAttacked(board, r, c, attackerColor) {
             }
         }
     }
+
     return false;
 }
 
