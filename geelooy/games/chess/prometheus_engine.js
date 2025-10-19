@@ -371,6 +371,7 @@ function initializeZobristKeys() {
     zobristEnPassantKeys = Array(8).fill(0n).map(() => random64());
 }
 
+
 function calculateZobristHash(state) {
     let hash = 0n;
     for (let r = 0; r < 8; r++) {
@@ -382,13 +383,18 @@ function calculateZobristHash(state) {
     if (state.enPassantTarget) {
         hash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
     }
-    // The castling key is now a single index from 0-15, which is unambiguous.
-    hash ^= zobristCastlingKeys[state.castlingRights];
+
+    // *** THE FIX IS HERE ***
+    // Explicitly convert the key to a BigInt before the XOR operation.
+    // This handles the case where the array might contain Numbers.
+    hash ^= BigInt(zobristCastlingKeys[state.castlingRights]);
+    
     if (state.turn === 'b') {
         hash ^= zobristTurnKey;
     }
     return hash;
 }
+
 
 function createGameState(fen) {
     initializeZobristKeys();
