@@ -309,22 +309,23 @@ function makeMoveImmutable(state, move) {
 //            FINAL & ROBUST MAKE/UNMAKE FUNCTIONS (WITH NULL MOVE FIX)
 // ====================================================================================
 
+// ====================================================================================
+//            FINAL, ROBUST, AND CORRECT MAKE/UNMAKE (WITH NULL MOVE FIX V2)
+// ====================================================================================
+
 function makeMove(state, move) {
-    // --- **NEW: HANDLE NULL MOVE CASE** ---
-    // This is the critical fix for the infinite loop.
+    // --- **ROBUST NULL MOVE HANDLER** ---
     if (move.isNullMove) {
         const unmakeInfo = {
             isNullMove: true,
             oldEnPassantTarget: state.enPassantTarget,
+            oldMoveCount: state.moveCount, // Must save and update moveCount
             zobristHash: state.zobristHash
         };
         state.turn = state.turn === 'w' ? 'b' : 'w';
         state.enPassantTarget = null;
-        // Update hash for turn flip and cleared en passant square
-        state.zobristHash ^= zobristTurnKey;
-        if (unmakeInfo.oldEnPassantTarget) {
-            state.zobristHash ^= zobristEnPassantKeys[unmakeInfo.oldEnPassantTarget[1]];
-        }
+        state.moveCount++; // This was a critical missing piece
+        state.zobristHash = calculateZobristHash(state); // Use full recalculation for 100% safety
         return unmakeInfo;
     }
     // --- **END OF FIX** ---
@@ -363,22 +364,16 @@ function makeMove(state, move) {
     return unmakeInfo;
 }
 
-
-
-
-// ====================================================================================
-//                 FINAL, CORRECTED, AND ROBUST UNMAKE_MOVE FUNCTION
-// ====================================================================================
-
 function unmakeMove(state, unmakeInfo) {
-    // --- HANDLE NULL MOVE CASE ---
+    // --- **ROBUST NULL MOVE HANDLER** ---
     if (unmakeInfo.isNullMove) {
         state.turn = state.turn === 'w' ? 'b' : 'w';
         state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
+        state.moveCount = unmakeInfo.oldMoveCount;
         state.zobristHash = unmakeInfo.zobristHash;
         return;
     }
-    // --- END OF NULL MOVE CASE ---
+    // --- **END OF FIX** ---
 
     const originalTurn = state.turn === 'w' ? 'b' : 'w';
     state.turn = originalTurn;
@@ -400,9 +395,8 @@ function unmakeMove(state, unmakeInfo) {
         const rookToC = toC === 6 ? 5 : 3;
         const rook = state.board[fromR][rookToC];
         state.board[fromR][rookToC] = null;
-        state.board[fromR][rookFromC] = rook; // <<<<<<< SYNTAX ERROR FIXED HERE
+        state.board[fromR][rookFromC] = rook;
     }
     if (piece.toLowerCase() === 'k') { state.kingPos[originalTurn] = { r: fromR, c: fromC }; }
     state.zobristHash = unmakeInfo.zobristHash;
 }
-
