@@ -194,6 +194,49 @@ function generateLegalMoves(state) {
     return legalMoves;
 }
 
+
+
+// ====================================================================================
+//            FINAL, HIGH-PERFORMANCE PSEUDO-LEGAL MOVE GENERATOR
+// ====================================================================================
+// This function is now extremely fast because it ONLY generates moves.
+// It does not check for legality (leaving the king in check).
+
+function generatePseudoLegalMoves(state) {
+    const pseudoLegalMoves = [];
+    const { turn, castlingRights, kingPos } = state;
+    const opponentColor = turn === 'w' ? 'b' : 'w';
+
+    // --- Step 1: Generate all piece moves ---
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = state.board[r][c];
+            if (p && (p.toUpperCase() === p) === (turn === 'w')) {
+                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
+            }
+        }
+    }
+
+    // --- Step 2: Generate castling moves ---
+    const kingPosition = kingPos[turn];
+    if (kingPosition && !isSquareAttacked(state.board, kingPosition.r, kingPosition.c, opponentColor)) {
+        const r = turn === 'w' ? 7 : 0;
+        // Kingside
+        const kingSideMask = turn === 'w' ? 8 : 2;
+        if ((castlingRights & kingSideMask) && !state.board[r][5] && !state.board[r][6] && !isSquareAttacked(state.board, r, 5, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: turn === 'w' ? 'K' : 'k', isCastle: true });
+        }
+        // Queenside
+        const queenSideMask = turn === 'w' ? 4 : 1;
+        if ((castlingRights & queenSideMask) && !state.board[r][1] && !state.board[r][2] && !state.board[r][3] && !isSquareAttacked(state.board, r, 3, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: turn === 'w' ? 'K' : 'k', isCastle: true });
+        }
+    }
+    
+    return pseudoLegalMoves;
+}
+
+
 function calculateZobristHash(state) {
     let hash = 0n;
     for (let r = 0; r < 8; r++) {
