@@ -6,7 +6,6 @@
 // This final version includes a grandmaster-level SAN parser capable of
 // resolving all forms of ambiguity (file, rank, and full coordinate).
 // This ensures the maximum possible opening lines are parsed correctly.
-importScripts("helpers.js");
 
 class PgnConverter {
     constructor() {
