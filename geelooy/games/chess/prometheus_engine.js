@@ -148,7 +148,7 @@ function evaluate(state) {
 
     // Data collection pass
     const pieceData = {
-        P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: []
+        P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] // <-- FIX IS HERE
     };
     const whitePawnFiles = new Set(), blackPawnFiles = new Set();
 
@@ -157,6 +157,7 @@ function evaluate(state) {
             const p = board[r][c];
             if (!p) continue;
             
+            // This line will now work correctly for all pieces, including kings.
             pieceData[p].push({ r, c });
             if (p === 'P') whitePawnFiles.add(c);
             if (p === 'p') blackPawnFiles.add(c);
@@ -212,6 +213,8 @@ function evaluate(state) {
     // Return score from the perspective of the current player
     return (state.turn === 'w' ? 1 : -1) * evaluation;
 }
+
+
 
 function evaluatePawnStructure(friendlyPawns, enemyPawns, color) {
     const score = new TaperedScore();
