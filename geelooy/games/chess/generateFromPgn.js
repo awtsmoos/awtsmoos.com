@@ -243,9 +243,10 @@ function generateRawBook(source) {
             const entry = bookMap.get(currentFen);
             
             const moveExists = entry.slice(2).some(m => m.san === move.san);
-            if (!moveExists) {
-                entry.push({ from: move.from, to: move.to, san: move.san });
-            }
+if (!moveExists) {
+    // Push the entire move object, which includes flags like isCastle, etc.
+    entry.push(move);
+}
 
             converter.applyMove(move);
             currentFen = converter.toFen();
