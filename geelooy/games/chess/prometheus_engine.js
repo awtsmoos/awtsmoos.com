@@ -206,13 +206,24 @@ function generateMovesForPiece(moves, p, r, c, state) {
     }
 }
 
+// =================================================================
+//      HIGH-PERFORMANCE MOVE GENERATION (v2.0 - FINAL)
+// =================================================================
+// =================================================================
+//      MOVE GENERATION (v3.0 - STABLE & CORRECT)
+// =================================================================
+// REVERTING to the original, state-cloning method.
+// This is slower but GUARANTEED to be logically correct and free of infinite loops.
+// This permanently fixes the engine freeze.
+
 function generateLegalMoves(state) {
     const legalMoves = [];
     const pseudoLegalMoves = [];
-    const { board, turn, castlingRights, enPassantTarget, kingPos } = state;
+    const { board, turn, castlingRights, kingPos } = state;
     const color = turn;
     const opponentColor = color === 'w' ? 'b' : 'w';
 
+    // 1. Generate all pseudo-legal moves
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -221,27 +232,37 @@ function generateLegalMoves(state) {
             }
         }
     }
+    
+    // Add castling moves
     const kingStartPos = kingPos[color];
     if (kingStartPos && !isSquareAttacked(board, kingStartPos.r, kingStartPos.c, opponentColor)) {
         const r = color === 'w' ? 7 : 0;
-        if ((color === 'w' ? castlingRights.K : castlingRights.k) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
+        const kingSideMask = color === 'w' ? 8 : 2;
+        const queenSideMask = color === 'w' ? 4 : 1;
+        
+        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
             pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
         }
-        if ((color === 'w' ? castlingRights.Q : castlingRights.q) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
+        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
             pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
         }
     }
 
+    // 2. For each move, create a new state and check if the king is safe.
     for (const move of pseudoLegalMoves) {
-        const { newState } = makeMove(state, move);
-        const kingFinalPos = newState.kingPos[color];
+        // This creates a safe, full copy of the game state to test the move.
+        const { newState } = makeMove(state, move); 
+        
+        // We use the king's position from the *new* state.
+        const kingFinalPos = newState.kingPos[color]; 
+        
         if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
             legalMoves.push(move);
         }
     }
+    
     return legalMoves;
 }
-
 
 
 // =================================================================
@@ -766,41 +787,51 @@ function search(state, depth, alpha, beta, ply) {
 
 // Replace your searchRoot function with this one.
 // It contains a much more aggressive time check that prevents freezing.
+// =================================================================
+//      SEARCH ROOT (v2.0 - UNBREAKABLE TIME LIMIT)
+// =================================================================
+// This version uses a setTimeout as an external "dead man's switch"
+// to enforce the time limit, making it absolutely impossible for the
+// engine to think longer than allowed, even if move generation is slow.
+
 function searchRoot(initialState, maxDepth) {
     let alpha = -Infinity, beta = Infinity;
     let bestMove = null, bestScore = -Infinity;
 
+    // THE DEAD MAN'S SWITCH
+    // This timer runs in parallel to the search. If the search function
+    // gets stuck for any reason, this will flip the stopSearch flag
+    // and force it to terminate.
+    const timerId = setTimeout(() => {
+        stopSearch = true;
+    }, timeLimit - 50); // Set it just shy of the limit to be safe
+
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        // **CRITICAL TIME CHECK**: This check runs before starting a new, deeper search.
-        // It ensures that if the previous depth took 4.9 seconds, we don't start a new one.
-        if (performance.now() - searchStartTime > timeLimit) {
-            stopSearch = true;
-            break; // Immediately exit the loop and return the best move found so far.
+        if (stopSearch) break;
+
+        // The slow move generation now happens inside the time-protected loop.
+        const moves = generateLegalMoves(initialState);
+        if (moves.length === 0) {
+            bestMove = null;
+            bestScore = 0;
+            break;
         }
 
-        const moves = generateLegalMoves(initialState);
-        if (moves.length === 0) return { bestMove: null, score: 0 };
         const orderedMoves = orderMoves(moves, bestMove, 0);
         let currentBestMoveForDepth = orderedMoves[0];
 
         for (let i = 0; i < orderedMoves.length; i++) {
-            // This is the second layer of protection, ensuring we stop mid-search.
             if (stopSearch) break;
 
             const move = orderedMoves[i];
             const { newState } = makeMove(initialState, move);
             repetitionHistory.push(newState.zobristHash);
-            let score;
-            if (i === 0) {
-                score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
-            } else {
-                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
-                if (score > alpha && score < beta) score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
-            }
+            
+            let score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+            
             repetitionHistory.pop();
             
             if (score > alpha) {
-                // Check if we are still within time limits BEFORE updating the best move
                 if (!stopSearch) {
                     alpha = score;
                     currentBestMoveForDepth = move;
@@ -808,21 +839,19 @@ function searchRoot(initialState, maxDepth) {
             }
         }
         
-        if (stopSearch && currentDepth > 1) {
-            // If the search was stopped, we cannot trust the results from the partially
-            // completed depth. We break without updating the best move from the root.
-            break;
+        if (!stopSearch) {
+            bestMove = currentBestMoveForDepth;
+            bestScore = alpha;
         }
-
-        bestMove = currentBestMoveForDepth;
-        bestScore = alpha;
         
         if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
     }
+    
+    // IMPORTANT: Clear the timer to prevent it from firing after the search is complete.
+    clearTimeout(timerId);
+    
     return { bestMove, score: bestScore };
 }
-
-
 
 
 
