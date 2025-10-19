@@ -35,16 +35,29 @@
 // to the hash calculated during live gameplay, permanently solving all
 // hash mismatch bugs and "BOOK FAILURE" errors.
 
+/* B"H */
+
+/**
+ * A synchronized chess logic simulator to process PGN moves for book generation.
+ * This class is designed to perfectly mirror the state representation and move
+ * logic of the main Prometheus engine (prometheus_engine.js).
+ * Key features for synchronization:
+ *   - Uses empty strings ('') for empty squares, preventing type errors.
+ *   - Uses an integer (0-15) for castling rights.
+ *   - Uses the exact same castling update mask as the engine.
+ * This ensures the Zobrist hash calculated during book generation is IDENTICAL
+ * to the hash calculated during live gameplay.
+ */
 class PgnConverter {
     constructor() {
         this.board = [];
         this.turn = 'w';
-        this.castlingRights = 15; // Now an integer: 1111 binary (KQkq)
-        this.enPassantTarget = null; // [file, rank] e.g., ['e', 3]
+        this.castlingRights = 15; // Integer: 1111 binary (KQkq)
+        this.enPassantTarget = null; // [row, col] format, e.g., [2, 4] for e3
         this.halfmoveClock = 0;
         this.fullmoveNumber = 1;
 
-        // This mask is identical to the one in the main engine.
+        // This mask MUST be identical to the one in prometheus_engine.js
         this.castlingUpdateMask = [
              7, 15, 15, 15,  3, 15, 15, 11,
             15, 15, 15, 15, 15, 15, 15, 15,
@@ -58,14 +71,18 @@ class PgnConverter {
         this.reset();
     }
 
+    /**
+     * Resets the board to the standard starting position.
+     * Crucially, it uses '' for empty squares.
+     */
     reset() {
         this.board = [
             ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
             ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
             ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
             ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
         ];
@@ -76,6 +93,9 @@ class PgnConverter {
         this.fullmoveNumber = 1;
     }
 
+    /**
+     * Generates a FEN string from the current board state.
+     */
     toFen() {
         let fen = '';
         for (let r = 0; r < 8; r++) {
@@ -104,35 +124,50 @@ class PgnConverter {
         return `${fen} ${this.turn} ${castlingStr || '-'} ${enPassantStr} ${this.halfmoveClock} ${this.fullmoveNumber}`;
     }
 
-    // parseSan and _generateMovesForPiece remain the same as the Promotion Fix version.
-    // They are already robust. The key change is in applyMove.
+    /**
+     * Parses a Standard Algebraic Notation (SAN) move string to determine the move object.
+     * This is a complex but necessary function for reading PGNs.
+     * @param {string} san - The move in SAN format (e.g., "Nf3", "e4", "O-O").
+     * @returns {object|null} A detailed move object or null if parsing fails.
+     */
     parseSan(san) {
         const originalSan = san;
         san = san.replace(/[+#?!=]/g, '');
-        if (san === 'O-O') { const r = this.turn === 'w' ? 7 : 0; return { san: originalSan, from: [r, 4], to: [r, 6], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true }; }
-        if (san === 'O-O-O') { const r = this.turn === 'w' ? 7 : 0; return { san: originalSan, from: [r, 4], to: [r, 2], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true }; }
+
+        if (san === 'O-O') {
+            const r = this.turn === 'w' ? 7 : 0;
+            return { san: originalSan, from: [r, 4], to: [r, 6], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
+        }
+        if (san === 'O-O-O') {
+            const r = this.turn === 'w' ? 7 : 0;
+            return { san: originalSan, from: [r, 4], to: [r, 2], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
+        }
+
         let promotion = null;
-        if (san.includes('=')) { promotion = san.slice(-1); san = san.slice(0, -2); }
+        if (san.includes('=')) {
+            promotion = san.slice(-1);
+            san = san.slice(0, -2);
+        }
+
         const piece = (san[0] >= 'A' && san[0] <= 'Z') ? san[0] : 'P';
-        const targetSquare = san.match(/[a-h][1-8]/)[0];
+        const targetSquareMatch = san.match(/[a-h][1-8]/);
+        if (!targetSquareMatch) return null; // Invalid SAN
+        const targetSquare = targetSquareMatch[0];
         const toC = targetSquare.charCodeAt(0) - 'a'.charCodeAt(0);
         const toR = 8 - parseInt(targetSquare[1]);
+
         const isCapture = san.includes('x');
         const ambiguity = san.slice(piece === 'P' ? 0 : 1, san.indexOf(targetSquare)).replace('x', '');
         const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
-        const candidateMoves = [];
-        for (let r = 0; r < 8; r++) {
-            for (let c = 0; c < 8; c++) {
-                if (this.board[r][c] === pieceToFind) {
-                    candidateMoves.push(...this._generateMovesForPiece(r, c));
-                }
-            }
-        }
+
+        const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind);
+
         for (const move of candidateMoves) {
             if (move.to[0] === toR && move.to[1] === toC) {
                 let isMatch = false;
-                if (!ambiguity && !(piece === 'P' && isCapture)) isMatch = true;
-                else {
+                if (!ambiguity && !(piece === 'P' && isCapture)) {
+                    isMatch = true;
+                } else {
                     const fromFile = 'abcdefgh'[move.from[1]];
                     const fromRank = (8 - move.from[0]).toString();
                     if (ambiguity) {
@@ -142,6 +177,7 @@ class PgnConverter {
                         if (fromFile === san[0]) isMatch = true;
                     }
                 }
+
                 if (isMatch) {
                     const finalMove = { ...move, san: originalSan };
                     if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
@@ -149,53 +185,35 @@ class PgnConverter {
                 }
             }
         }
-        return null;
+        return null; // Should not happen with valid PGNs
     }
-    _generateMovesForPiece(r, c) {
-        const moves = []; const p = this.board[r][c]; if (!p) return [];
-        const pL = p.toLowerCase(); const addMove = (toR, toC, flags = {}) => moves.push({ from: [r, c], to: [toR, toC], piece: p, ...flags });
-        if (pL === 'p') {
-            const dir = this.turn === 'w' ? -1 : 1; const startRank = this.turn === 'w' ? 6 : 1;
-            if (r + dir >= 0 && r + dir < 8 && !this.board[r+dir][c]) { addMove(r+dir, c); if (r === startRank && !this.board[r+2*dir][c]) addMove(r+2*dir, c, { isPawnDoubleMove: true }); }
-            for (let dc of [-1, 1]) {
-                const nR = r + dir; const nC = c + dc; if (nR < 0 || nR > 7 || nC < 0 || nC > 7) continue;
-                if (this.board[nR][nC]) addMove(nR, nC);
-                else if (this.enPassantTarget && nR === this.enPassantTarget[0] && nC === this.enPassantTarget[1]) addMove(nR, nC, { isEnPassant: true });
-            }
-        } else {
-            const directions = { n:[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]], b:[[-1,-1],[-1,1],[1,-1],[1,1]], r:[[-1,0],[1,0],[0,-1],[0,1]], q:[[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]], k:[[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]] }[pL];
-            for (const [dr, dc] of directions) {
-                let nR = r + dr, nC = c + dc;
-                while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-                    addMove(nR, nC); if (this.board[nR][nC]) break; if (pL === 'n' || pL === 'k') break; nR += dr; nC += dc;
-                }
-            }
-        }
-        return moves;
-    }
-    
-    // This is the core of the fix. It now mirrors makeMove exactly.
+
+    /**
+     * Applies a move object to the board, updating the game state.
+     * This logic mirrors the engine's `makeMove` function.
+     * @param {object} move - The move object from `parseSan`.
+     */
     applyMove(move) {
         const [fromR, fromC] = move.from;
         const [toR, toC] = move.to;
         const piece = this.board[fromR][fromC];
 
         if (piece?.toLowerCase() === 'p' || this.board[toR][toC]) this.halfmoveClock = 0; else this.halfmoveClock++;
-        
+
         // Handle en passant capture
         if (move.isEnPassant) {
             const capturedPawnRow = this.turn === 'w' ? toR + 1 : toR - 1;
-            this.board[capturedPawnRow][toC] = null;
+            this.board[capturedPawnRow][toC] = ''; // Use ''
         }
-        
-        // Set new en passant target
-        this.enPassantTarget = move.isPawnDoubleMove ? [this.turn === 'w' ? fromR - 1 : fromR + 1, fromC] : null;
+
+        // Set new en passant target in [row, col] format
+        this.enPassantTarget = move.isPawnDoubleMove ? [(fromR + toR) / 2, fromC] : null;
 
         // Move piece and handle promotion
         this.board[toR][toC] = move.promotion ? move.promotion : piece;
-        this.board[fromR][fromC] = null;
+        this.board[fromR][fromC] = ''; // Use ''
 
-        // *** SYNCHRONIZED CASTLING RIGHTS UPDATE ***
+        // Synchronized castling rights update
         this.castlingRights &= this.castlingUpdateMask[fromR * 8 + fromC];
         this.castlingRights &= this.castlingUpdateMask[toR * 8 + toC];
 
@@ -204,14 +222,84 @@ class PgnConverter {
             const rookFromC = toC === 6 ? 7 : 0;
             const rookToC = toC === 6 ? 5 : 3;
             this.board[fromR][rookToC] = this.board[fromR][rookFromC];
-            this.board[fromR][rookFromC] = null;
+            this.board[fromR][rookFromC] = ''; // Use ''
         }
 
         if (this.turn === 'b') this.fullmoveNumber++;
         this.turn = this.turn === 'w' ? 'b' : 'w';
     }
-}
 
+    // Internal helper to generate all possible moves for a piece type
+    _generateCandidateMovesForPieceType(pieceToFind) {
+        const allMoves = [];
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                if (this.board[r][c] === pieceToFind) {
+                    allMoves.push(...this._generateMovesForPiece(r, c));
+                }
+            }
+        }
+        return allMoves;
+    }
+
+    // Internal helper to generate moves from a specific square
+    _generateMovesForPiece(r, c) {
+        const moves = [];
+        const p = this.board[r][c];
+        if (!p) return [];
+
+        const pL = p.toLowerCase();
+        const addMove = (toR, toC, flags = {}) => moves.push({ from: [r, c], to: [toR, toC], piece: p, ...flags });
+
+        if (pL === 'p') {
+            const dir = this.turn === 'w' ? -1 : 1;
+            const startRank = this.turn === 'w' ? 6 : 1;
+            // Forward moves
+            if (this.board[r + dir]?.[c] === '') {
+                addMove(r + dir, c);
+                if (r === startRank && this.board[r + 2 * dir]?.[c] === '') {
+                    addMove(r + 2 * dir, c, { isPawnDoubleMove: true });
+                }
+            }
+            // Captures
+            for (let dc of [-1, 1]) {
+                const nR = r + dir;
+                const nC = c + dc;
+                if (nR < 0 || nR > 7 || nC < 0 || nC > 7) continue;
+
+                // Regular capture
+                if (this.board[nR][nC] && (this.board[nR][nC].toUpperCase() === this.board[nR][nC]) !== (p.toUpperCase() === p)) {
+                    addMove(nR, nC);
+                }
+                // En passant capture
+                if (this.enPassantTarget && nR === this.enPassantTarget[0] && nC === this.enPassantTarget[1]) {
+                    addMove(nR, nC, { isEnPassant: true });
+                }
+            }
+        } else {
+            const directions = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]], k: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
+            for (const [dr, dc] of directions) {
+                let nR = r + dr;
+                let nC = c + dc;
+                while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
+                    const targetPiece = this.board[nR][nC];
+                    if (targetPiece) {
+                        // If it's an opponent's piece, it's a valid move (capture)
+                        if ((targetPiece.toUpperCase() === targetPiece) !== (p.toUpperCase() === p)) {
+                            addMove(nR, nC);
+                        }
+                        break; // Stop sliding past any piece
+                    }
+                    addMove(nR, nC); // It's an empty square
+                    if (pL === 'n' || pL === 'k') break; // These pieces don't slide
+                    nR += dr;
+                    nC += dc;
+                }
+            }
+        }
+        return moves;
+    }
+}
 
 /**
  * Main function to generate the rawOpeningBook from the sourceBook.
