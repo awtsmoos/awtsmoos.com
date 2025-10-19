@@ -538,33 +538,51 @@ function isStalemateBlunder(resultingState, currentEval) {
 //                 FINAL SEARCH WITH NULL MOVE RECURSION GUARD
 // ====================================================================================
 
+// ====================================================================================
+//            FINAL, ROBUST, AND STABLE searchRoot (ASPIRATION WINDOWS REMOVED)
+// ====================================================================================
+
 function searchRoot(initialState, maxDepth) {
-    // This function's only change is how it calls the main search function.
-    // It passes `false` for the new `previousMoveWasNull` parameter.
-    let bestMove = null, bestScore = -Infinity;
-    let alpha = -Infinity, beta = Infinity;
+    let bestMove = null;
+    let bestScore = -Infinity;
     const moves = generateLegalMoves(initialState);
-    if (moves.length === 0) return { bestMove: null, score: evaluate(initialState) };
+
+    if (moves.length === 0) {
+        return { bestMove: null, score: evaluate(initialState) };
+    }
+
     const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
 
+    // This is a simple, robust iterative deepening loop. It cannot get stuck.
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // Use the best move from the previous, shallower search to order moves better.
         const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
         let bestMoveForThisDepth = orderedMoves[0];
         const currentEval = evaluate(initialState);
 
-        for (const move of orderedMoves) {
+        // We use a fresh alpha/beta for each iteration.
+        let alpha = -Infinity;
+        let beta = Infinity;
+        
+        for (let i = 0; i < orderedMoves.length; i++) {
+            const move = orderedMoves[i];
             if (stopSearch) break;
+
             const unmakeInfo = makeMove(initialState, move);
             let score;
+
             if (isStalemateBlunder(initialState, currentEval)) {
                 score = -MATE_SCORE;
             } else {
                 repetitionHistory.push(initialState.zobristHash);
-                if (move === orderedMoves[0]) {
-                    // Initial call to search, previous move was NOT null.
+                
+                // PVS Search: Search the first move with a full window.
+                if (i === 0) {
                     score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                 } else {
+                    // Search subsequent moves with a null window first.
                     score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
+                    // If it beats alpha, we must re-search with a full window.
                     if (score > alpha && score < beta) {
                         score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                     }
@@ -572,30 +590,34 @@ function searchRoot(initialState, maxDepth) {
                 repetitionHistory.pop();
             }
             unmakeMove(initialState, unmakeInfo);
+
             if (stopSearch) break;
+
             if (score > alpha) {
                 alpha = score;
                 bestMoveForThisDepth = move;
             }
         }
-        if (stopSearch) break;
+
+        if (stopSearch) {
+            // If the search was stopped, the results from this partial iteration are unreliable.
+            // It's often better to break and return the best move from the *previous* full iteration.
+            break;
+        }
+
+        // The search for this depth is complete and successful.
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
-        if (bestScore <= alpha || bestScore >= beta) {
-            alpha = -Infinity; beta = Infinity;
-            if (currentDepth > 1) currentDepth--;
-            continue;
+
+        // Check for mate, and if found, we can stop searching deeper.
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
+            break;
         }
-        const aspirationWindow = 50;
-        alpha = bestScore - aspirationWindow;
-        beta = bestScore + aspirationWindow;
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
     }
+
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
-
-
 // The main search function, now with the critical null move guard.
 
 
