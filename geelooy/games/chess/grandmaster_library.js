@@ -328,18 +328,15 @@ const sourceBook = [
     { name: "Indian Game: Przepiorka Variation", pgn: "1. d4 Nf6 2. Nf3 g6 3. g3 Bg7 4. Bg2 c5 5. d5" },
 
     // --- Final Unique & Experimental Gambits ---
-    { name: "Wing Gambit", pgn: "1. e4 c5 2. b4 cxb4 3. a3 d5" },
-    
-    
-    { name: "Rousseau Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 f5 4. d3" },
-    { name: "Charlick Gambit", pgn: "1. d4 e5 2. dxe5 d6" },
-    { name: "Diemer-Duhm Gambit", pgn: "1. d4 d5 2. e4 dxe4 3. c4 e5" },
-    { name: "Queen's Pawn Game: Zukertort Variation", pgn: "1. d4 d5 2. Nf3 Nf6 3. e3 e6 4. Nbd2" },
-    { name: "King's Gambit Accepted, Modern Defense", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 d5" },
-    { name: "English Opening: King's English, Three Knights System", pgn: "1. c4 e5 2. Nc3 Nf6 3. Nf3 Nc6 4. e3" },
-    { name: "Slav Gambit", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. e4" },
-    { name: "Canard Opening", pgn: "1. f4 d5 2. e4 dxe4" },
-    
+    { name: "Wing Gambit: Main Line", pgn: "1. e4 c5 2. b4 cxb4 3. a3 d5 4. exd5 Qxd5 5. Nf3 e5 6. axb4 Bxb4 7. c3 Be7 8. Na3 Nc6 9. Nb5 Qd8" },
+    { name: "Rousseau Gambit: Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 f5 4. d3 Nf6 5. O-O Bc5 6. Nc3 d6 7. Bg5 Na5 8. exf5 Nxc4 9. dxc4 c6" },
+    { name: "Charlick Gambit (Hartlaub Gambit)", pgn: "1. d4 e5 2. dxe5 d6 3. exd6 Bxd6 4. Nf3 Nf6 5. Bg5 h6 6. Bh4 Nc6 7. Nc3 g5 8. Bg3 Bxg3 9. hxg3 Qxd1+ 10. Rxd1" },
+    { name: "Diemer-Duhm Gambit: Main Line", pgn: "1. d4 d5 2. e4 dxe4 3. c4 e5 4. d5 f5 5. Nc3 Nf6 6. f3 Bc5 7. fxe4 O-O 8. Nf3 fxe4 9. Ng5 Bf2+ 10. Kxf2 Ng4+" },
+    { name: "Queen's Pawn Game: Zukertort Variation (Colle-Zukertort)", pgn: "1. d4 d5 2. Nf3 Nf6 3. e3 e6 4. Nbd2 c5 5. b3 Nc6 6. Bb2 Be7 7. a3 O-O 8. Bd3 b6 9. O-O Bb7 10. Qe2" },
+    { name: "King's Gambit Accepted, Modern (Fischer) Defense", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 d5 4. exd5 Nf6 5. Bb5+ c6 6. dxc6 bxc6 7. Bc4 Nd5 8. O-O Be7 9. d4 O-O 10. Bxd5 cxd5" },
+    { name: "English Opening: King's English, Three Knights System", pgn: "1. c4 e5 2. Nc3 Nf6 3. Nf3 Nc6 4. e3 Bb4 5. Qc2 O-O 6. Nd5 Re8 7. a3 Bf8 8. d3 d6 9. Be2" },
+    { name: "Slav Gambit: Main Line", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. e4 b5 6. e5 Nd5 7. a4 e6 8. axb5 Nxc3 9. bxc3 cxb5 10. Ng5 Bb7 11. Qh5" },
+    { name: "Canard Opening (Against d5)", pgn: "1. f4 d5 2. e4 dxe4 3. Nc3 Nf6 4. Qe2 Bf5 5. Qb5+ Bd7 6. Qxb7 Nc6 7. Nb5 Nd5 8. c3 Rb8 9. Qa6" },
     
     
     // --- Further Professional & Solid Systems ---
@@ -412,7 +409,98 @@ const sourceBook = [
     
     
     
+    /* B"H */
+
+// =================================================================
+// This pack contains additional grandmaster-level openings and deeper
+// variations of existing lines to make the book even more comprehensive.
+
+    // --- Major Anti-Sicilian Systems ---
+    { name: "Sicilian Defense: Rossolimo Variation", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 g6 4. Bxc6 bxc6 5. O-O Bg7 6. Re1 e5 7. b4 cxb4 8. a3 b3 9. cxb3 Ne7 10. Bb2 d6 11. d4 exd4 12. Bxd4" },
+    { name: "Sicilian Defense: Moscow Variation (3.Bb5+)", pgn: "1. e4 c5 2. Nf3 d6 3. Bb5+ Nd7 4. d4 cxd4 5. Qxd4 a6 6. Bxd7+ Bxd7 7. O-O e5 8. Qd3 Rc8 9. c4 Be7 10. Nc3" },
+    { name: "Sicilian Defense: Alapin, Main Line", pgn: "1. e4 c5 2. c3 d5 3. exd5 Qxd5 4. d4 Nf6 5. Nf3 e6 6. Be3 cxd4 7. cxd4 Nc6 8. Nc3 Qd6 9. a3 Be7 10. Bd3 O-O" },
+
+    // --- Deeper Lines in 1.e4 e5 ---
+    { name: "Ruy Lopez: Anti-Marshall System (8.a4)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. a4 Bb7 9. d3 d6 10. Nbd2 Na5 11. Ba2 c5 12. Nf1 Re8 13. Ng3" },
+    { name: "Scotch Game: Classical Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Bc5 5. Be3 Qf6 6. c3 Nge7 7. Bc4 Ne5 8. Be2 Qg6 9. O-O d6 10. f3 O-O" },
+    { name: "Italian Game: Two Knights, Polerio Defense", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Na5 6. Bb5+ c6 7. dxc6 bxc6 8. Be2 h6 9. Nf3 e4 10. Ne5 Bd6 11. d4" },
+    { name: "Petroff Defense: Main Line, Jaenisch Attack", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nf3 Nxe4 5. d4 d5 6. Bd3 Nc6 7. O-O Be7 8. c4 Nb4 9. Be2 O-O 10. Nc3 Bf5" },
+    { name: "King's Gambit Accepted: Cunningham Defense", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 Be7 4. Bc4 Bh4+ 5. g3 fxg3 6. O-O gxh2+ 7. Kh1 d5 8. Bxd5 Nf6" },
+
+    // --- Deeper Lines in 1.d4 Openings ---
+    { name: "Queen's Gambit Declined: Vienna Variation", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 dxc4 5. e4 Bb4 6. Bg5 c5 7. Bxc4 cxd4 8. Nxd4 Bxc3+ 9. bxc3 Qa5 10. Bb5+ Nbd7 11. Bxf6 Qxc3+ 12. Kf1 gxf6" },
+    { name: "Semi-Slav Defense: Anti-Meran (Botvinnik System)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bh4 dxc4 7. e4 g5 8. Bg3 b5 9. Be2 Bb7 10. O-O Nbd7" },
+    { name: "Modern Benoni: Fianchetto Variation", pgn: "1. d4 Nf6 2. c4 c5 3. d5 e6 4. Nc3 exd5 5. cxd5 d6 6. Nf3 g6 7. g3 Bg7 8. Bg2 O-O 9. O-O a6 10. a4 Re8 11. Nd2 Nbd7 12. h3 Rb8" },
+    { name: "Nimzo-Indian Defense: Classical (4.Qc2) Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 O-O 5. a3 Bxc3+ 6. Qxc3 d5 7. Bg5 c5 8. dxc5 d4 9. Qf3 Nbd7 10. b4 a5 11. Rd1 axb4 12. axb4" },
+    { name: "Grünfeld Defense: Exchange, Classical Main Line", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 O-O 9. O-O Nc6 10. Be3 Bg4 11. f3 Na5 12. Bd3 cxd4 13. cxd4 Be6 14. Rc1" },
+    { name: "King's Indian Defense: Gligoric System", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. Be3 Ng4 8. Bg5 f6 9. Bh4 Nc6 10. d5 Ne7 11. Nd2 Nh6" },
+    { name: "Catalan Opening: Open, Classical Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 Be7 6. O-O O-O 7. Qc2 a6 8. a4 Bd7 9. Qxc4 Bc6 10. Bg5 Nbd7 11. Nc3 h6 12. Bxf6 Nxf6" },
+
+    // --- Other Major Systems and Defenses ---
+    { name: "French Defense: Winawer, Advance Variation", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Ne7 7. a4 Nbc6 8. Nf3 Qa5 9. Bd2 Bd7 10. Be2 f6" },
+    { name: "Caro-Kann Defense: Fantasy Variation", pgn: "1. e4 c6 2. d4 d5 3. f3 dxe4 4. fxe4 e5 5. Nf3 Bg4 6. Bc4 Nd7 7. O-O Ngf6 8. c3 Bd6 9. Be3 O-O 10. Nbd2" },
+    { name: "English Opening: Reversed Dragon", pgn: "1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Nxd5 5. Bg2 Nb6 6. Nf3 Nc6 7. O-O Be7 8. a3 O-O 9. b4 Be6 10. Rb1 f6 11. d3 a5" },
+    { name: "Réti Opening: New York System", pgn: "1. Nf3 d5 2. c4 e6 3. g3 Nf6 4. Bg2 Be7 5. O-O O-O 6. b3 c5 7. Bb2 Nc6 8. e3 b6 9. Nc3 Ba6" },
+
+/* B"H */
+
+// This pack adds a diverse range of sound but less common grandmaster
+// openings, including aggressive gambits and tricky positional systems.
+
+
+    // --- Aggressive and Tricky Gambits ---
+    { name: "King's Gambit, Kieseritzky Gambit", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ne5 Nf6 6. d4 d6 7. Nd3 Nxe4 8. Bxf4 Bg7 9. c3 O-O" },
+    { name: "Benko Gambit: Nescafe Frappe Attack", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. Nc3 axb5 6. e4 b4 7. Nb5 d6 8. Bf4" },
+    { name: "Scotch Gambit: Haxo Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4 Bc5 5. c3 d5 6. exd5 Qe7+ 7. Kf1 Ne5" },
+    { name: "Blumenfeld Gambit Accepted", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 c5 4. d5 b5 5. dxe6 fxe6 6. cxb5 d5 7. e3 Bd6 8. Nc3 O-O" },
+    { name: "Latvian Gambit", pgn: "1. e4 e5 2. Nf3 f5 3. Nxe5 Qf6 4. d4 d6 5. Nc4 fxe4 6. Nc3 Qg6 7. f3 exf3 8. Qxf3" },
+    { name: "Elephant Gambit", pgn: "1. e4 e5 2. Nf3 d5 3. exd5 e4 4. Qe2 Nf6 5. d3 Qxd5 6. Nbd2 Be7 7. dxe4" },
+
+    // --- Sound but Less Common 1. e4 Systems ---
+    { name: "Vienna Game: Mieses Variation", pgn: "1. e4 e5 2. Nc3 Nc6 3. g3 Nf6 4. Bg2 Bc5 5. d3 d6 6. Na4 Bb6 7. Ne2" },
+    { name: "Pirc Defense: 150 Attack", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Be3 Bg7 5. Qd2 c6 6. f3 b5 7. h4 h5 8. Nh3" },
+    { name: "Alekhine's Defense: Chase Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. c4 Nb6 4. b3 d6 5. exd6 cxd6 6. d4 g6" },
+    { name: "Philidor Defense: Larsen Variation", pgn: "1. e4 e5 2. Nf3 d6 3. d4 exd4 4. Nxd4 g6 5. Nc3 Bg7 6. Be3 Nf6" },
+    { name: "Giuoco Piano: Scotch Gambit Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d4 exd4 5. c3 Nf6 6. cxd4 Bb4+ 7. Nc3" },
+
+    // --- Respected d-pawn and Flank Systems ---
+    { name: "Grünfeld Defense: Hungarian Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Nf3 Bg7 5. Bg5 Ne4 6. cxd5 Nxg5 7. Nxg5 e6 8. Nf3 exd5" },
+    { name: "Queen's Indian Defense: Fianchetto Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. g3 Bb7 5. Bg2 c5 6. d5 exd5 7. Nh4 g6 8. cxd5 Bg7" },
+    { name: "Trompowsky Attack: Raptor Variation", pgn: "1. d4 Nf6 2. Bg5 Ne4 3. h4 c5 4. d5 Qb6 5. Nd2 Nxg5 6. hxg5 Qxb2 7. g6" },
+    { name: "English Opening: Agincourt Defense", pgn: "1. c4 e6 2. Nf3 d5 3. g3 c5 4. Bg2 Nc6 5. O-O Nf6 6. cxd5 exd5 7. d4" },
+    { name: "King's Indian Attack: Spassky Variation", pgn: "1. Nf3 Nf6 2. g3 b5 3. Bg2 Bb7 4. O-O e6 5. d3 c5 6. e4 d6" },
+    { name: "Catalan Opening: Bogo-Indian Variation", pgn: "1. d4 Nf6 2. c4 e6 3. g3 Bb4+ 4. Bd2 Qe7 5. Bg2 Nc6 6. Nf3 Bxd2+ 7. Nbxd2 d6" },
+
+    // --- Hypermodern and Fianchetto Setups ---
+    { name: "Modern Defense: Tiger's Modern", pgn: "1. e4 g6 2. d4 Bg7 3. Nc3 d6 4. Nf3 a6 5. a4 b6 6. Bc4 e6 7. O-O Ne7" },
+    { name: "Larsen's Opening: Classical Variation", pgn: "1. b3 d5 2. Bb2 Nf6 3. e3 Bf5 4. c4 e6 5. Nf3 Nbd7 6. Be2 h6" },
+    { name: "Van Geet Opening: Reversed Scandinavian", pgn: "1. Nc3 d5 2. e4 dxe4 3. Nxe4 Qd5 4. Nc3 Qa5 5. d4 Nf6 6. Bd2" },
+    { name: "Hippopotamus Defense", pgn: "1. e4 b6 2. d4 Bb7 3. Bd3 e6 4. Nf3 g6 5. O-O Bg7 6. Re1 d6 7. c3 Ne7" },
     
+    // --- Deep Theory in Major Complexes (Third Expansion) ---
+    { name: "Ruy Lopez: Neo-Arkhangelsk Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O b5 6. Bb3 Bc5 7. a4 Rb8 8. c3 d6 9. d4 Bb6 10. axb5 axb5 11. Na3 O-O 12. Nxb5 Bg4" },
+    { name: "Sicilian Defense: Najdorf, Polugaevsky Variation", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 b5 8. e5 dxe5 9. fxe5 Qc7 10. exf6 Qe5+ 11. Be2 Qxg5 12. O-O Ra7" },
+    { name: "Caro-Kann Defense: Advance, Short Variation", pgn: "1. e4 c6 2. d4 d5 3. e5 Bf5 4. Nf3 e6 5. Be2 c5 6. Be3 cxd4 7. Nxd4 Ne7 8. O-O Nbc6 9. Bb5 a6 10. Ba4 b5 11. Bb3 Nxd4 12. Bxd4 Nc6" },
+    { name: "French Defense: Tarrasch, Guimard Variation", pgn: "1. e4 e6 2. d4 d5 3. Nd2 Nc6 4. Ngf3 Nf6 5. e5 Nd7 6. Nb3 a5 7. a4 Be7 8. Bb5 Na7 9. Be2 b6 10. O-O O-O" },
+    { name: "Nimzo-Indian Defense: Fischer Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. e3 b6 5. Ne2 Ba6 6. a3 Be7 7. Nf4 d5 8. cxd5 Bxf1 9. Kxf1 exd5 10. g4 c6 11. g5 Nfd7" },
+    { name: "King's Indian Defense: Makogonov System", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. h3 e5 7. d5 a5 8. Bg5 Na6 9. Be2 Qe8 10. g4 Nd7 11. a3" },
+    { name: "Grünfeld Defense: Prins Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Nf3 Bg7 5. Qa4+ Bd7 6. Qb3 dxc4 7. Qxc4 O-O 8. e4 Na6 9. Be2 c5 10. d5 b5 11. Nxb5 Bxb5 12. Qxb5" },
+    { name: "Catalan Opening: Open, Alekhine Variation", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 c5 6. O-O Nc6 7. Qa4 Bd7 8. Qxc4 b5 9. Qd3 c4 10. Qc2 Rc8" },
+    { name: "Slav Defense: Krause Attack", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Na6 7. e3 Nb4 8. Bxc4 e6 9. O-O Bd6 10. Qe2 h6" },
+
+    // --- Modern and Respected Sidelines ---
+    { name: "Sicilian Defense: Sveshnikov, Positional Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Bxf6 gxf6 10. Nd5 f5 11. c3 Bg7 12. exf5 Bxf5 13. Nc2 O-O" },
+    { name: "Petroff Defense: Italian Variation", pgn: "1. e4 e5 2. Nf3 Nf6 3. Bc4 Nxe4 4. Nc3 Nxc3 5. dxc3 f6 6. O-O c6 7. Nh4 g6 8. f4 d5 9. Bb3" },
+    { name: "Scandinavian Defense: 3...Qd6 Variation", pgn: "1. e4 d5 2. exd5 Qxd5 3. Nc3 Qd6 4. d4 Nf6 5. Nf3 c6 6. Ne5 Nbd7 7. f4 Nb6 8. Be2 g6 9. O-O Bg7 10. a4 a5" },
+    { name: "English Opening: Symmetrical, Keres Variation", pgn: "1. c4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nf3 e6 6. d4 cxd4 7. Nb5 d5 8. cxd5 Qa5+ 9. Qd2 Qxb5 10. dxc6 bxc6 11. Nxd4" },
+    { name: "Réti Opening: Lasker's System", pgn: "1. Nf3 d5 2. c4 e6 3. b3 Nf6 4. g3 Be7 5. Bg2 O-O 6. O-O c5 7. Bb2 Nc6 8. cxd5 exd5 9. d4 Ne4 10. dxc5" },
+    { name: "Dutch Defense: Stonewall, Modern Setup", pgn: "1. d4 f5 2. g3 Nf6 3. Bg2 e6 4. Nf3 d5 5. O-O Bd6 6. c4 c6 7. b3 Qe7 8. a4 a5 9. Ba3 Bxa3 10. Nxa3" },
+    { name: "Queen's Gambit Declined: Rubinstein Variation", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Qc2 c5 8. Rd1 Qa5 9. Bd3 h6 10. Bh4 cxd4" },
+    { name: "King's Indian Attack vs. Caro-Kann", pgn: "1. e4 c6 2. d3 d5 3. Nd2 g6 4. Ngf3 Bg7 5. g3 Nf6 6. Bg2 O-O 7. O-O dxe4 8. dxe4 Na6 9. Qe2" },
+    { name: "Modern Defense: Austrian Attack, Gurgenidze System", pgn: "1. e4 g6 2. d4 Bg7 3. Nc3 c6 4. f4 d5 5. e5 h5 6. Nf3 Bg4 7. Be2 Nh6 8. O-O e6" },
+    { name: "Torre Attack: Main Line with ...h6", pgn: "1. d4 Nf6 2. Nf3 e6 3. Bg5 h6 4. Bh4 c5 5. e3 b6 6. Nbd2 Bb7 7. c3 Be7 8. Bd3 O-O 9. O-O d6" },
+
+
 
 
 ];
