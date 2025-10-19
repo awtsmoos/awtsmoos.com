@@ -1382,7 +1382,127 @@ const rawOpeningBook = [
   
   
   
+  ,
+  // [----------------------------------------------------------------]
+  // [         THE ULTIMATE & ENCYCLOPEDIC EXPANSION (FINAL)          ]
+  // [----------------------------------------------------------------]
+
+  // --- COVERING THE ITALIAN FOUR KNIGHTS & RELATED LINES ---
+
+  // #101: Four Knights Game: Italian Variation (Covers the miss)
+  ['r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 4 4', "Four Knights Game", { from:[7,5], to:[4,2], san:'Bc4' }],
+  ['r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R b KQkq - 5 4', "Four Knights: Italian Variation", { from:[7,5], to:[3,1], san:'Bb4' }],
+  ['r1bqk2r/pppp1ppp/2n2n2/4p3/1bB1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5', "Four Knights: Italian Variation", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r1bqk2r/pppp1ppp/2n2n2/4p3/1bB1P3/2N2N2/PPPP1PPP/R1BQ1RK1 b kq - 7 5', "Four Knights: Italian Variation", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r1bq1rk1/pppp1ppp/2n2n2/4p3/1bB1P3/2N2N2/PPPP1PPP/R1BQ1RK1 w - - 8 6', "Four Knights: Italian Variation", { from:[6,3], to:[4,3], san:'d3' }],
+  ['r1bq1rk1/pppp1ppp/2n2n2/4p3/1b1PP3/2N2N2/PPP2PPP/R1BQ1RK1 b - - 0 6', "Four Knights: Italian Variation", { from:[1,1], to:[2,2], san:'Bxc3' }],
+  ['r1bq1rk1/pppp1ppp/2n2n2/4p3/3PP3/1Pb2N2/P1P2PPP/R1BQ1RK1 w - - 0 7', "Four Knights: Italian Variation", { from:[1,1], to:[2,2], san:'bxc3' }],
+  ['r1bq1rk1/pppp1ppp/2n2n2/4p3/3PP3/2P2N2/P1P2PPP/R1BQ1RK1 b - - 0 7', "Four Knights: Italian Variation", { from:[4,4], to:[3,3], san:'exd4' }],
+
+  // --- MAJOR NEW OPENING SYSTEMS ---
+
+  // #102: Closed Sicilian
+  ['rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', "Closed Sicilian", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkbnr/pp1ppppp/8/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 2', "Closed Sicilian", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 3', "Closed Sicilian", { from:[1,6], to:[3,5], san:'g3' }],
+  ['r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N3P1/PPPP1P1P/R1BQKBNR b KQkq - 0 3', "Closed Sicilian", { from:[1,6], to:[2,6], san:'g6' }],
+  ['r1bqkbnr/pp2pppp/2np2p1/2p5/4P3/2N3P1/PPPP1P1P/R1BQKBNR w KQkq - 1 4', "Closed Sicilian", { from:[7,5], to:[6,5], san:'Bg2' }],
+  ['r1bqkbnr/pp2pppp/2np2p1/2p5/4P3/2N3P1/PPPPPPBP/R1BQK1NR b KQkq - 3 4', "Closed Sicilian", { from:[7,5], to:[6,5], san:'Bg7' }],
+  ['r1bqk2r/pp2ppbp/2np2p1/2p5/4P3/2N3P1/PPPPPPBP/R1BQK1NR w KQkq - 4 5', "Closed Sicilian", { from:[6,3], to:[4,3], san:'d3' }],
+  ['r1bqk2r/pp2ppbp/2np2p1/2p5/4P3/2NP2P1/PPP1PPBP/R1BQK1NR b KQkq - 0 5', "Closed Sicilian", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['r1bq1rk1/pp2ppbp/2np1np1/2p5/4P3/2NP2P1/PPP1PPBP/R1BQK1NR w KQ - 1 6', "Closed Sicilian", { from:[6,5], to:[4,5], san:'f4' }],
+
+  // #103: Sicilian: Grand Prix Attack
+  ['rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', "Grand Prix Attack", { from:[6,5], to:[4,5], san:'f4' }],
+  ['rnbqkbnr/pp1ppppp/8/2p5/4PP2/8/PPPP2PP/RNBQKBNR b KQkq - 0 2', "Grand Prix Attack", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/pp2pppp/8/2pp4/4PP2/8/PPPP2PP/RNBQKBNR w KQkq - 0 3', "Grand Prix Attack", { from:[4,4], to:[3,3], san:'exd5' }],
+  ['rnbqkbnr/pp2pppp/8/3p4/4PP2/8/PPPP2PP/RNBQKBNR b KQkq - 0 3', "Grand Prix Attack", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/pp2pppp/5n2/3p4/4PP2/8/PPPP2PP/RNBQKBNR w KQkq - 1 4', "Grand Prix Attack", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/pp2pppp/5n2/3p4/4PP2/2N5/PPP3PP/R1BQKBNR b KQkq - 0 4', "Grand Prix Attack", { from:[3,3], to:[4,4], san:'dxe4' }],
+  ['rnbqkb1r/pp2pppp/5n2/8/3ppP2/2N5/PPP3PP/R1BQKBNR w KQkq - 0 5', "Grand Prix Attack", { from:[7,3], to:[4,4], san:'Qxd4' }],
+  ['rnbqkb1r/pp2pppp/5n2/8/3Q1P2/2N5/PPP3PP/R1B1KBNR b KQkq - 0 5', "Grand Prix Attack", { from:[7,3], to:[3,3], san:'Qxd4' }],
+
+  // #104: Colle-Zukertort System
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/3P4/3BPN2/PPP2PPP/RNBQK2R b KQkq - 1 4', "Colle-Zukertort", { from:[1,2], to:[3,2], san:'c5' }],
+  ['rnbqkb1r/pp3ppp/4pn2/2pp4/3P4/3BPN2/PPP2PPP/RNBQK2R w KQkq - 2 5', "Colle-Zukertort", { from:[6,1], to:[4,1], san:'b3' }],
+  ['rnbqkb1r/pp3ppp/4pn2/2pp4/3P4/1P1BPN2/P1P2PPP/RNBQK2R b KQkq - 0 5', "Colle-Zukertort", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkb1r/pp3ppp/2n1pn2/2pp4/3P4/1P1BPN2/P1P2PPP/RNBQK2R w KQkq - 1 6', "Colle-Zukertort", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r1bqkb1r/pp3ppp/2n1pn2/2pp4/3P4/1P1BPN2/P1P2PPP/RNBQ1RK1 b kq - 2 6', "Colle-Zukertort", { from:[3,3], to:[2,2], san:'cxd4' }],
+  ['r1bqkb1r/pp3ppp/2n1pn2/8/2pP4/1P1BPN2/P4PPP/RNBQ1RK1 w kq - 0 7', "Colle-Zukertort", { from:[4,4], to:[3,3], san:'exd4' }],
+
+  // #105: QGD: Lasker Defense
+  ['r1bq1rk1/pp1nbppp/2p1pn2/3p2B1/2PP4/2N1PN2/PPQ2PPP/R3KB1R b KQ - 4 7', "QGD Orthodox", { from:[2,5], to:[4,4], san:'Ne4' }],
+  ['r1bq1rk1/pp1nbppp/2p1p3/3p2B1/2PPn3/2N1PN2/PPQ2PPP/R3KB1R w KQ - 1 8', "QGD: Lasker Defense", { from:[6,6], to:[4,4], san:'Bxe7' }],
+  ['r1bq1rk1/pp2bppp/2p1p3/3p4/2PPn3/2N1PN2/PPQ2PPP/R3KB1R b KQ - 0 8', "QGD: Lasker Defense", { from:[7,3], to:[4,4], san:'Qxe7' }],
+  ['r1b2rk1/pp2qppp/2p1p3/3p4/2PPn3/2N1PN2/PPQ2PPP/R3KB1R w KQ - 1 9', "QGD: Lasker Defense", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['r1b2rk1/pp2qppp/2p1p3/3p4/2PPn3/2NBPN2/PPQ2PPP/R3K2R b KQ - 2 9', "QGD: Lasker Defense", { from:[1,5], to:[3,5], san:'f5' }],
+  ['r1b2rk1/pp2q1pp/2p1p3/3p1p2/2PPn3/2NBPN2/PPQ2PPP/R3K2R w KQ - 0 10', "QGD: Lasker Defense", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // #106: QGD: Tartakower (Makogonov-Bondarevsky) System
+  ['r1bq1rk1/pp1nbppp/2p1pn2/3p2B1/2PP4/2N1PN2/PPQ2PPP/R3KB1R b KQ - 4 7', "QGD Orthodox", { from:[1,7], to:[2,7], san:'h6' }],
+  ['r1bq1rk1/pp1nbpp1/2p1pn1p/3p2B1/2PP4/2N1PN2/PPQ2PPP/R3KB1R w KQ - 0 8', "QGD: Tartakower System", { from:[6,6], to:[5,7], san:'Bh4' }],
+  ['r1bq1rk1/pp1nbpp1/2p1pn1p/3p4/2PP3B/2N1PN2/PPQ2PPP/R3KB1R b KQ - 1 8', "QGD: Tartakower System", { from:[1,4], to:[3,4], san:'b6' }],
+  ['r1bqr1k1/pp1nbpp1/1qp1pn1p/3p4/2PP3B/2N1PN2/PPQ2PPP/R3KB1R w KQ - 2 9', "QGD: Tartakower System", { from:[2,3], to:[3,3], san:'cxd5' }],
+  ['r1bqr1k1/pp1nbpp1/1qp1pn1p/3P4/7B/2N1PN2/PPQ2PPP/R3KB1R b KQ - 0 9', "QGD: Tartakower System", { from:[4,4], to:[3,3], san:'exd5' }],
+  ['r1bqr1k1/pp1nbpp1/1qp2n1p/3p4/7B/2N1PN2/PPQ2PPP/R3KB1R w KQ - 1 10', "QGD: Tartakower System", { from:[7,5], to:[4,3], san:'Bd3' }],
+
+  // #107: Slav Defense: Geller Gambit
+  ['rnbqkb1r/pp2pppp/2p2n2/8/P1pP4/2N2N2/1P2PPPP/R1BQKB1R b KQkq - 0 5', "Slav Defense", { from:[7,5], to:[3,1], san:'Bf5' }],
+  ['rn1qkb1r/pp2pppp/2p2n2/5b2/P1pP4/2N2N2/1P2PPPP/R1BQKB1R w KQkq - 1 6', "Slav Geller Gambit", { from:[4,4], to:[5,5], san:'e4' }],
+  ['rn1qkb1r/pp2pppp/2p2n2/5b2/P1pPP3/2N2N2/1P3PPP/R1BQKB1R b KQkq - 0 6', "Slav Geller Gambit", { from:[5,5], to:[4,4], san:'Bxe4' }],
+  ['rn1qkb1r/pp2pppp/2p2n2/8/P1pPb3/2N2N2/1P3PPP/R1BQKB1R w KQkq - 0 7', "Slav Geller Gambit", { from:[2,2], to:[4,4], san:'Nxe4' }],
+  ['rn1qkb1r/pp2pppp/2p2n2/8/P1pPN3/5N2/1P3PPP/R1BQKB1R b KQkq - 0 7', "Slav Geller Gambit", { from:[2,5], to:[4,4], san:'Nxe4' }],
+  ['rn1qkb1r/pp2pppp/2p5/8/P1pPn3/5N2/1P3PPP/R1BQKB1R w KQkq - 0 8', "Slav Geller Gambit", { from:[7,5], to:[3,1], san:'Bxc4' }],
+
+  // #108: Staunton Gambit (Dutch Defense)
+  ['rnbqkb1r/ppppp1pp/5n2/5p2/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 1 3', "Dutch Defense", { from:[4,4], to:[5,5], san:'e4' }],
+  ['rnbqkb1r/ppppp1pp/5n2/5p2/2PP4/8/PP2PPPP/RNBQKBNR b KQkq - 0 3', "Staunton Gambit", { from:[5,5], to:[4,4], san:'fxe4' }],
+  ['rnbqkb1r/ppppp2p/5n2/8/2PPp3/8/PP3PPP/RNBQKBNR w KQkq - 0 4', "Staunton Gambit Accepted", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/ppppp2p/5n2/8/2PPp3/2N5/PP3PPP/R1BQKBNR b KQkq - 1 4', "Staunton Gambit Accepted", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbq1b1r/ppppp2p/5n2/8/2PPp3/2N5/PP3PPP/R1BQKBNR w KQkq - 2 5', "Staunton Gambit Accepted", { from:[7,5], to:[6,6], san:'Bg5' }],
+  ['rnbq1b1r/ppppp2p/5n2/6p1/2PPp1B1/2N5/PP3PPP/R1BQK1NR b KQkq - 3 5', "Staunton Gambit Accepted", { from:[1,7], to:[2,7], san:'h6' }],
+
+  // #109: Englund Gambit
+  ['rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1', "Englund Gambit", { from:[1,4], to:[3,4], san:'e5' }],
+  ['rnbqkbnr/pppp1ppp/8/4p3/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2', "Englund Gambit Accepted", { from:[3,3], to:[4,4], san:'dxe5' }],
+  ['rnbqkbnr/pppp1ppp/8/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2', "Englund Gambit Accepted", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/pppp1ppp/2n5/4P3/8/8/PPPP1PPP/RNBQKBNR w KQkq - 1 3', "Englund Gambit Accepted", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PPPP1PPP/RNBQKB1R b KQkq - 2 3', "Englund Gambit Accepted", { from:[7,3], to:[4,4], san:'Qe7' }],
+  ['r1b1kbnr/ppppqppp/2n5/4P3/8/5N2/PPPP1PPP/RNBQKB1R w KQkq - 3 4', "Englund Gambit Accepted", { from:[7,5], to:[3,1], san:'Bf4' }],
+
+  // #110: Bird's Opening: From's Gambit Declined
+  ['rnbqkbnr/pppp1ppp/8/4p3/5P2/8/PPPPPP1P/RNBQKBNR w KQkq - 0 2', "From's Gambit", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqkbnr/pppp1ppp/8/4p3/5P2/5N2/PPPPP1PP/RNBQKB1R b KQkq - 1 2', "Bird's Opening", { from:[0,6], to:[2,5], san:'Nf6' }], // Transposes
+  // A true decline
+  ['rnbqkbnr/pppp1ppp/8/4p3/5P2/8/PPPPPP1P/RNBQKBNR w KQkq - 0 2', "From's Gambit Declined", { from:[4,4], to:[5,5], san:'e4' }],
+  ['rnbqkbnr/pppp1ppp/8/8/4pP2/8/PPPP2PP/RNBQKBNR b KQkq - 0 2', "Bird's Opening", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/ppp2ppp/8/3pp3/4pP2/8/PPPP2PP/RNBQKBNR w KQkq - 0 3', "Bird's Opening", { from:[6,3], to:[4,3], san:'d3' }],
+  ['rnbqkbnr/ppp2ppp/8/3pp3/4pP2/3P4/PPP3PP/RNBQKBNR b KQkq - 0 3', "Bird's Opening", { from:[0,6], to:[2,5], san:'Nf6' }],
+
+  // #111: Reti Opening: Advance Variation
+  ['rnbqkbnr/ppp1pppp/8/3p4/2P5/5N2/PPPPPPPP/RNBQKB1R b KQkq - 0 2', "Reti Opening", { from:[3,3], to:[4,3], san:'d4' }],
+  ['rnbqkbnr/ppp1pppp/8/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 0 3', "Reti Advance Variation", { from:[4,4], to:[5,5], san:'e3' }],
+  ['rnbqkbnr/ppp1pppp/8/8/2pP4/4P3/PP3PPP/RNBQKBNR b KQkq - 0 3', "Reti Advance Variation", { from:[1,4], to:[3,4], san:'b5' }],
+  ['rnbqkbnr/p1p1pppp/8/1p6/2pP4/4P3/PP3PPP/RNBQKBNR w KQkq - 0 4', "Reti Advance Variation", { from:[6,0], to:[4,0], san:'a4' }],
+  ['rnbqkbnr/p1p1pppp/8/1p6/P1pP4/4P3/1P3PPP/RNBQKBNR b KQkq - 0 4', "Reti Advance Variation", { from:[1,2], to:[3,2], san:'c6' }],
+  ['rnbqkbnr/p3pppp/2p5/1p6/P1pP4/4P3/1P3PPP/RNBQKBNR w KQkq - 0 5', "Reti Advance Variation", { from:[1,1], to:[2,2], san:'axb5' }],
+
+  // #112: Sicilian Defense: Smith-Morra Declined
+  ['rnbqkbnr/pp2pppp/3p4/8/3pP3/2P2N2/PP3PPP/RNBQKB1R b KQkq - 0 4', "Smith-Morra Declined", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/pp2pppp/3p1n2/8/3pP3/2P2N2/PP3PPP/RNBQKB1R w KQkq - 1 5', "Smith-Morra Declined", { from:[2,2], to:[3,3], san:'cxd4' }],
+  ['rnbqkb1r/pp2pppp/3p1n2/8/3PP3/5N2/PP3PPP/RNBQKB1R b KQkq - 0 5', "Smith-Morra Declined", { from:[2,5], to:[3,3], san:'Nxe4' }],
+  ['rnbqkb1r/pp2pppp/3p4/8/3nP3/5N2/PP3PPP/RNBQKB1R w KQkq - 0 6', "Smith-Morra Declined", { from:[5,3], to:[3,3], san:'Nxd4' }],
+  ['rnbqkb1r/pp2pppp/3p4/8/3N4/8/PPP2PPP/RNBQKB1R b KQkq - 0 6', "Smith-Morra Declined", { from:[1,4], to:[2,4], san:'e5' }],
+  ['rnbqk2r/pp2bppp/3p4/4p3/3N4/8/PPP2PPP/RNBQKB1R w KQkq - 0 7', "Smith-Morra Declined", { from:[3,3], to:[1,1], san:'Nb3' }],
   
+  // #113: Ruy Lopez: Steinitz Defense
+  ['r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', "Ruy Lopez: Steinitz", { from:[1,3], to:[2,3], san:'d6' }],
+  ['r1bqkbnr/ppp2ppp/2np4/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4', "Ruy Lopez: Steinitz", { from:[6,3], to:[4,3], san:'d4' }],
+  ['r1bqkbnr/ppp2ppp/2np4/1B2p3/3PP3/5N2/PPP2PPP/RNBQK2R b KQkq - 0 4', "Ruy Lopez: Steinitz", { from:[7,5], to:[3,1], san:'Bd7' }],
+  ['r2qkbnr/pppb1ppp/2np4/1B2p3/3PP3/5N2/PPP2PPP/RNBQK2R w KQkq - 1 5', "Ruy Lopez: Steinitz", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['r2qkbnr/pppb1ppp/2np4/1B2p3/3PP3/2N2N2/PPP2PPP/R1BQK2R b KQkq - 2 5', "Ruy Lopez: Steinitz", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['r2qkb1r/pppb1ppp/2np1n2/1B2p3/3PP3/2N2N2/PPP2PPP/R1BQK2R w KQkq - 3 6', "Ruy Lopez: Steinitz", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r2qkb1r/pppb1ppp/2np1n2/1B2p3/3PP3/2N2N2/PPP2PPP/R1BQ1RK1 b kq - 4 6', "Ruy Lopez: Steinitz", { from:[2,5], to:[4,4], san:'Be7' }]
   
   
   
