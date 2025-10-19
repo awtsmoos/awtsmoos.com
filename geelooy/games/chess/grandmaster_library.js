@@ -113,6 +113,7 @@ const sourceBook = [
     
     // --- Hypermodern & Fianchetto Systems ---
     { name: "King's Indian Attack: Main Line", pgn: "1. Nf3 d5 2. g3 Nf6 3. Bg2 e6 4. O-O Be7 5. d3 O-O 6. Nbd2 c5 7. e4 Nc6" },
+    
     { name: "Pirc Defense: Classical System", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Nf3 Bg7 5. Be2 O-O 6. O-O Bg4 7. Be3" },
     { name: "Modern Defense: Averbakh System", pgn: "1. e4 g6 2. d4 Bg7 3. c4 d6 4. Nc3 Nc6 5. Be3 e5 6. d5 Nce7" },
     { name: "Benoni Defense: Taimanov Variation", pgn: "1. d4 Nf6 2. c4 c5 3. d5 e6 4. Nc3 exd5 5. cxd5 d6 6. e4 g6 7. f4 Bg7 8. Bb5+" },
@@ -216,8 +217,8 @@ const sourceBook = [
     { name: "English Opening: Great Snake Variation", pgn: "1. c4 g6 2. Nc3 Bg7 3. g3 c5 4. Bg2 Nc6 5. Nf3 e5" },
     { name: "English Opening: Kramnik-Shirov Counterattack", pgn: "1. c4 e5 2. Nc3 Bb4 3. Nd5 Be7 4. d4" },
     { name: "Réti Opening: Advance Variation", pgn: "1. Nf3 d5 2. c4 d4 3. b4 f6 4. e3" },
-    { name: "Réti Opening: King's Indian Attack", pgn: "1. Nf3 d5 2. g3 Bg7 3. Bg2 e5 4. d3" },
-
+    
+    { name: "Réti Opening: King's Indian Attack", pgn: "1. Nf3 d5 2. g3 g6 3. Bg2 Bg7 4. O-O e5 5. d3" },
     // --- More Gambits ---
     { name: "Urusov Gambit", pgn: "1. e4 e5 2. Bc4 Nf6 3. d4 exd4 4. Nf3" },
     { name: "Belgrade Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. d4 exd4 5. Nd5" },
