@@ -18,29 +18,31 @@ importScripts('grandmaster_library.js');
 // This will store the processed book: { hash: [moves] }
 const openingBook = new Map();
 
-function buildOpeningBook() {
-    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
+// =================================================================
+//                 OPENING BOOK PROCESSING LOGIC (v2.0 - Corrected)
+// =================================================================
 
-    // Use the engine's own hashing function to guarantee a match
-    if (!zobristKeys) syncHashingWithBook();
+function buildOpeningBook() {
+    // This function now assumes keys have already been initialized.
+    // It has been simplified to prevent any startup errors.
+    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
 
     for (const entry of rawOpeningBook) {
         const fen = entry[0];
-        const hash = calculateZobristHash(createGameState(fen)); // Use engine's own logic
+        // It now uses the globally correct createGameState and calculateZobristHash
+        const hash = calculateZobristHash(createGameState(fen));
         
         const moves = [];
         for (let i = 1; i < entry.length; i++) {
-            // Convert SAN to the engine's move object format
             const moveData = entry[i];
             moves.push({
                 from: moveData.from,
                 to: moveData.to,
-                san: moveData.san // Keep for debugging/info
+                san: moveData.san
             });
         }
         openingBook.set(hash.toString(), moves);
     }
-    // console.log(`Opening book built with ${openingBook.size} positions.`);
 }
 
 
@@ -760,71 +762,6 @@ function search(state, depth, alpha, beta, ply) {
 //              THE CONDUCTOR: MAIN WORKER DRIVER (v1.2 - Hardened)
 // =================================================================
 
-// Add a global variable for debug mode at the top of your worker script.
-let DEBUG_MODE = true;
-
-self.onmessage = function(e) {
-    const { command, fen, maxDepth, maxTime, debug } = e.data;
-
-    // The new debug command allows you to turn logging on and off.
-    if (command === 'set_debug') {
-        DEBUG_MODE = debug;
-        // When enabling debug mode, print all book hashes for easy comparison.
-        if (DEBUG_MODE && openingBook.size > 0) {
-            console.log("--- START OPENING BOOK DUMP ---");
-            for (const [hash, moves] of openingBook.entries()) {
-                const fenForHash = [...rawOpeningBook].find(entry => calculateZobristHash(createGameState(entry[0])).toString() === hash)?.[0];
-                console.log(`Hash: ${hash} | FEN: ${fenForHash || 'Unknown'} | Moves: ${moves.map(m => m.san).join(', ')}`);
-            }
-            console.log("--- END OPENING BOOK DUMP ---");
-        }
-        return;
-    }
-
-    if (command === 'calculate_move') {
-        
-        searchStartTime = performance.now();
-        timeLimit = maxTime || 5000; // Enforce 5-second limit
-        stopSearch = false;
-        nodeCount = 0;
-        transpositionTable = new Map();
-        killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
-        historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
-
-        const initialState = createGameState(fen);
-        repetitionHistory = [initialState.zobristHash];
-        const currentHash = initialState.zobristHash.toString();
-
-        if (DEBUG_MODE) {
-            console.log(`---------------------------------`);
-            console.log(`Calculating move for FEN: ${fen}`);
-            console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
-            if (!openingBook.has(currentHash)) {
-                console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
-            }
-        }
-
-        if (openingBook.has(currentHash)) {
-            const bookMoves = openingBook.get(currentHash);
-            const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
-            postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
-            return;
-        }
-
-        if (DEBUG_MODE) {
-            console.warn("Engine is now THINKING because of a book miss.");
-        }
-
-        const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
-
-        postMessage({
-            bestMove: bestMove,
-            score: score,
-            timeTaken: (performance.now() - searchStartTime).toFixed(2),
-            nodesSearched: nodeCount
-        });
-    }
-};
 
 
 // Replace your searchRoot function with this one.
@@ -884,3 +821,82 @@ function searchRoot(initialState, maxDepth) {
     }
     return { bestMove, score: bestScore };
 }
+
+
+
+
+
+
+// =================================================================
+//              THE CONDUCTOR: MAIN WORKER DRIVER (v2.0 - Corrected Startup)
+// =================================================================
+
+let DEBUG_MODE = true; // Keep this on for now
+let isInitialized = false; // Prevents re-initialization
+
+function initializeEngine() {
+    if (isInitialized) return;
+    initializeZobristKeys(); // 1. Keys are created FIRST.
+    buildOpeningBook();      // 2. Book is built SECOND, using the new keys.
+    isInitialized = true;
+    console.log("Prometheus Engine Initialized Successfully.");
+}
+
+self.onmessage = function(e) {
+    const { command, fen, maxDepth, maxTime } = e.data;
+
+    // This ensures the engine is fully ready before any command is processed.
+    initializeEngine();
+
+    if (command === 'set_debug') {
+        DEBUG_MODE = e.data.debug;
+        return;
+    }
+
+    if (command === 'calculate_move') {
+        searchStartTime = performance.now();
+        timeLimit = maxTime || 5000;
+        stopSearch = false;
+        nodeCount = 0;
+        transpositionTable = new Map();
+        killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
+        historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+
+        const initialState = createGameState(fen);
+        repetitionHistory = [initialState.zobristHash];
+        const currentHash = initialState.zobristHash.toString();
+
+        if (DEBUG_MODE) {
+            console.log(`---------------------------------`);
+            console.log(`Calculating move for FEN: ${fen}`);
+            console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
+            if (!openingBook.has(currentHash)) {
+                console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
+            } else {
+                console.log(`**CACHE HIT**: Hash found in book.`);
+            }
+        }
+
+        if (openingBook.has(currentHash)) {
+            const bookMoves = openingBook.get(currentHash);
+            const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
+            postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
+            return;
+        }
+
+        if (DEBUG_MODE) {
+            console.warn("Engine is now THINKING because of a book miss.");
+        }
+
+        const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
+
+        postMessage({
+            bestMove: bestMove,
+            score: score,
+            timeTaken: (performance.now() - searchStartTime).toFixed(2),
+            nodesSearched: nodeCount
+        });
+    }
+};
+
+
