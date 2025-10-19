@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// --- AI Worker ---
-	const aiWorker = new Worker('worker.js');
+	const aiWorker = new Worker('prometheus_engine.js');
 	aiWorker.onmessage = function(e) {
 		gameState.isAIMoving = false;
 		const {
