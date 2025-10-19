@@ -240,14 +240,6 @@ function createGameState(fen) {
 // This file contains both the IMMUTABLE move function for tools
 // and the high-performance MUTABLE make/unmake pair for the engine.
 
-// --- (All your Zobrist, Constants, and Initialization functions are here and unchanged) ---
-var zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
-const pieceMap = 'PNBRQKpnbrqk';
-// ... (knightMoves, kingMoves, etc. are all unchanged) ...
-// ... (initializeZobristKeys is unchanged) ...
-// ... (findKing, isSquareAttacked, generateMovesForPiece, generateLegalMoves are all unchanged) ...
-// ... (calculateZobristHash and createGameState are all unchanged) ...
-
 
 // =================================================================================
 //   VERSION 1: IMMUTABLE FUNCTION FOR TOOLS (LIKE PGN CONVERTER)
