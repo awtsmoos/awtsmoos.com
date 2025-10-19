@@ -127,8 +127,10 @@ const rawOpeningBook = [
   
   
   
-  ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/R3KB1R w KQ - 3 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[7,7], to:[7,5], san:'O-O-O' }],
-  ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/2KR1B1R b - - 4 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[0,1], to:[2,2], san:'Nbd7' }],
+  ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/R3KB1R w KQ - 3 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[7,4], to:[7,2], san:'O-O-O' }],
+ 
+  
+    ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/2KR1B1R b - - 4 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[0,1], to:[2,2], san:'Nbd7' }],
   ['r1b2rk1/1p1nbppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/2KR1B1R w - - 5 10', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[3,5], to:[5,5], san:'Nf3' }],
 
   // Sicilian: Dragon Variation
@@ -336,7 +338,7 @@ const rawOpeningBook = [
   // #4: Two Knights Defense: Fried Liver Attack
   ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 4 4', "Two Knights Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
  
-   ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 5 5', "Two Knights Defense: Fried Liver Attack", { from:[5,5], to:[6,6], san:'Ng5' }],
+   ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 5 5', "Two Knights Defense: Fried Liver Attack", { from:[5,5], to:[3,6], san:'Ng5' }],
   
   ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/6N1/PPPP1PPP/RNBQK2R b KQkq - 6 5', "Two Knights Defense: Fried Liver Attack", { from:[7,7], to:[7,5], san:'O-O' }],
   ['r1bq1rk1/pppp1ppp/2n2n2/2b1p3/2B1P3/6N1/PPPP1PPP/RNBQK2R w KQ - 7 6', "Two Knights Defense: Fried Liver Attack", { from:[6,3], to:[4,3], san:'d4' }],
@@ -1118,8 +1120,15 @@ const rawOpeningBook = [
   ['r1bqkbnr/ppp1pppp/2n5/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 1 3', "Chigorin Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
   ['r1bqkbnr/ppp1pppp/2n5/3p4/2PP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 2 3', "Chigorin Defense", { from:[3,3], to:[2,2], san:'dxc4' }],
   ['r1bqkbnr/ppp1pppp/2n5/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 0 4', "Chigorin Defense", { from:[6,3], to:[4,3], san:'d5' }],
-  ['r1bqkbnr/ppp1pppp/2n5/8/2pP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 0 4', "Chigorin Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['r1bqkb1r/ppp1pppp/2n2n2/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 2 5', "Chigorin Defense", { from:[4,4], to:[5,5], san:'e3' }],
+ 
+  
+   
+     ['r1bqkbnr/ppp1pppp/2n5/8/2pP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 0 4', "Chigorin Defense", { from:[2,2], to:[0,1], san:'Nb8'  }],
+ 
+  
+   
+    
+      ['r1bqkb1r/ppp1pppp/2n2n2/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 2 5', "Chigorin Defense", { from:[4,4], to:[5,5], san:'e3' }],
   ['r1bqkb1r/ppp1pppp/2n2n2/8/2pP4/4PN2/PP3PPP/RNBQKB1R b KQkq - 0 5', "Chigorin Defense", { from:[7,5], to:[3,1], san:'Bg4' }],
   ['r2qkb1r/ppp1pppp/2n2n2/8/2pP2b1/4PN2/PP3PPP/RNBQKB1R w KQkq - 1 6', "Chigorin Defense", { from:[7,1], to:[5,2], san:'Nc3' }],
 
