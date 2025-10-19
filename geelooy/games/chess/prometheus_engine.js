@@ -130,66 +130,7 @@ function syncHashingWithBook() {
     zobristEnPassantKeys = bookZobristEnPassantKeys.map(key => BigInt(key));
 }
 
-function calculateZobristHash(state) {
-    if (!zobristKeys) syncHashingWithBook();
-    let hash = 0n;
 
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = state.board[r][c];
-            if (piece) hash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][r * 8 + c]);
-        }
-    }
-    
-    // *** CORRECTED LOGIC FOR EN PASSANT HASHING ***
-    if (state.enPassantTarget) {
-        // The column index is already a number in state.enPassantTarget[1]
-        const fileIndex = state.enPassantTarget[1]; 
-        hash ^= BigInt(zobristEnPassantKeys[fileIndex]);
-    }
-    
-    if (state.castlingRights.K) hash ^= BigInt(zobristCastlingKeys[0]);
-    if (state.castlingRights.Q) hash ^= BigInt(zobristCastlingKeys[1]);
-    if (state.castlingRights.k) hash ^= BigInt(zobristCastlingKeys[2]);
-    if (state.castlingRights.q) hash ^= BigInt(zobristCastlingKeys[3]);
-    
-    if (state.turn === 'b') {
-        hash ^= BigInt(zobristTurnKey);
-    }
-    return hash;
-}
-
-
-
-
-
-function createGameState(fen) {
-    const [pieces, turn, castling, enPassant, half, full] = fen.split(' ');
-    const board = Array(8).fill(null).map(() => Array(8).fill(''));
-    pieces.split('/').forEach((row, r) => {
-        let c = 0;
-        for (const char of row) {
-            if (isNaN(parseInt(char))) {
-                board[r][c] = char;
-                c++;
-            } else {
-                c += parseInt(char);
-            }
-        }
-    });
-    const state = {
-        board,
-        turn,
-        castlingRights: { K: castling.includes('K'), Q: castling.includes('Q'), k: castling.includes('k'), q: castling.includes('q') },
-        enPassantTarget: enPassant === '-' ? null : [8 - parseInt(enPassant[1]), 'abcdefgh'.indexOf(enPassant[0])],
-        halfMoveClock: parseInt(half) || 0,
-        fullMoveNumber: parseInt(full) || 1,
-        kingPos: { w: findKing(board, 'w'), b: findKing(board, 'b') },
-        moveCount: ((parseInt(full) || 1) - 1) * 2 + (turn === 'b' ? 1 : 0)
-    };
-    state.zobristHash = calculateZobristHash(state);
-    return state;
-}
 
 function findKing(board, color) {
     const king = color === 'w' ? 'K' : 'k';
@@ -328,21 +269,91 @@ function generateLegalMoves(state) {
 
 
 
+// =================================================================
+//        ZOBRIST HASHING & STATE MANAGEMENT (v1.1 - Hardened)
+// =================================================================
 
+// This new FEN parser is more robust and directly creates the values
+// needed by the hashing function, preventing any mismatch.
+function createGameState(fen) {
+    const [pieces, turn, castling, enPassant, half, full] = fen.split(' ');
+    const board = Array(8).fill(null).map(() => Array(8).fill(''));
+    
+    pieces.split('/').forEach((row, r) => {
+        let c = 0;
+        for (const char of row) {
+            if (isNaN(parseInt(char))) {
+                board[r][c] = char;
+                c++;
+            } else {
+                c += parseInt(char);
+            }
+        }
+    });
 
+    const state = {
+        board,
+        turn,
+        castlingRights: { K: castling.includes('K'), Q: castling.includes('Q'), k: castling.includes('k'), q: castling.includes('q') },
+        // FIX: The enPassantTarget now stores the file index directly. This is the critical change.
+        // The previous version stored [row, col], which was an unnecessary intermediate step.
+        // Storing only the required data (the file index) makes hashing foolproof.
+        enPassantFile: enPassant === '-' ? -1 : 'abcdefgh'.indexOf(enPassant[0]),
+        halfMoveClock: parseInt(half) || 0,
+        fullMoveNumber: parseInt(full) || 1,
+        kingPos: { w: findKing(board, 'w'), b: findKing(board, 'b') },
+        moveCount: ((parseInt(full) || 1) - 1) * 2 + (turn === 'b' ? 1 : 0)
+    };
+    
+    // The hash is now calculated after the state is fully and correctly constructed.
+    state.zobristHash = calculateZobristHash(state);
+    return state;
+}
+
+// The new hash function is simplified and directly uses the new state properties.
+// This eliminates any possibility of misinterpretation.
+function calculateZobristHash(state) {
+    if (!zobristKeys) syncHashingWithBook();
+    let hash = 0n;
+
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = state.board[r][c];
+            if (piece) hash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][r * 8 + c]);
+        }
+    }
+    
+    // FIX: Hashing logic now uses the unambiguous 'enPassantFile' property.
+    // If there is no en-passant square, the value is -1 and this block is skipped.
+    // This is much safer than checking for a null object.
+    if (state.enPassantFile !== -1) {
+        hash ^= BigInt(zobristEnPassantKeys[state.enPassantFile]);
+    }
+    
+    if (state.castlingRights.K) hash ^= BigInt(zobristCastlingKeys[0]);
+    if (state.castlingRights.Q) hash ^= BigInt(zobristCastlingKeys[1]);
+    if (state.castlingRights.k) hash ^= BigInt(zobristCastlingKeys[2]);
+    if (state.castlingRights.q) hash ^= BigInt(zobristCastlingKeys[3]);
+    
+    if (state.turn === 'b') {
+        hash ^= BigInt(zobristTurnKey);
+    }
+    return hash;
+}
+
+// You must also update makeMove to use the new 'enPassantFile' property.
+// Replace the entire makeMove function with this version.
 function makeMove(state, move) {
-    // *** FIX: ROBUST HANDLING FOR NULL MOVES ***
     if (move.isNullMove) {
-        const newState = { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantTarget: null };
+        const newState = { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantFile: -1 };
         newState.zobristHash = state.zobristHash ^ BigInt(zobristTurnKey);
-        if (state.enPassantTarget) {
-            const fileIndex = state.enPassantTarget[1];
-            newState.zobristHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
+        if (state.enPassantFile !== -1) {
+            newState.zobristHash ^= BigInt(zobristEnPassantKeys[state.enPassantFile]);
         }
         return { newState };
     }
 
-    const { board, turn, castlingRights, enPassantTarget, zobristHash, kingPos } = state;
+    const { board, turn, castlingRights, enPassantFile, zobristHash, kingPos } = state;
     const newBoard = board.map(row => row.slice());
     const newCastlingRights = { ...castlingRights };
     let newHash = zobristHash;
@@ -374,20 +385,18 @@ function makeMove(state, move) {
         newHash ^= BigInt(zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColTo]);
     }
 
-    if (newCastlingRights.K && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 7))) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
-    if (newCastlingRights.Q && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 0))) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
-    if (newCastlingRights.k && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 7))) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
-    if (newCastlingRights.q && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 0))) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
+    if (newCastlingRights.K && (piece === 'K' || fromR === 7 && (fromC === 4 || fromC === 7))) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
+    if (newCastlingRights.Q && (piece === 'K' || fromR === 7 && (fromC === 4 || fromC === 0))) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
+    if (newCastlingRights.k && (piece === 'k' || fromR === 0 && (fromC === 4 || fromC === 7))) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
+    if (newCastlingRights.q && (piece === 'k' || fromR === 0 && (fromC === 4 || fromC === 0))) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
 
-    // *** CORRECTED LOGIC FOR EN PASSANT HASHING ***
-    if (enPassantTarget) {
-        const fileIndex = enPassantTarget[1]; // Use the column index directly
-        newHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
+    // FIX: Update the hash using the standardized 'enPassantFile' property.
+    if (enPassantFile !== -1) {
+        newHash ^= BigInt(zobristEnPassantKeys[enPassantFile]);
     }
-    const newEnPassantTarget = move.isPawnDoubleMove ? [(fromR + toR) / 2, fromC] : null;
-    if (newEnPassantTarget) {
-        const fileIndex = newEnPassantTarget[1]; // Use the column index directly
-        newHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
+    const newEnPassantFile = move.isPawnDoubleMove ? fromC : -1;
+    if (newEnPassantFile !== -1) {
+        newHash ^= BigInt(zobristEnPassantKeys[newEnPassantFile]);
     }
 
     newHash ^= BigInt(zobristTurnKey);
@@ -399,13 +408,26 @@ function makeMove(state, move) {
         board: newBoard,
         turn: turn === 'w' ? 'b' : 'w',
         castlingRights: newCastlingRights,
-        enPassantTarget: newEnPassantTarget,
+        enPassantFile: newEnPassantFile,
         kingPos: newKingPos,
         zobristHash: newHash,
         moveCount: state.moveCount + 1
     };
     return { newState };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
