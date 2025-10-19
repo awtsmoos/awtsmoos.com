@@ -354,32 +354,6 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 
 // --- NEW FUNCTION: THREAT ANALYSIS ---
 // Rewards the engine for creating threats against enemy pieces.
-function evaluateThreats(state, color, pieceData) {
-    const score = new TaperedScore();
-    const isWhite = color === 'w';
-    const pieceTypes = ['P', 'N', 'B', 'R', 'Q'];
-
-    for (const pType of pieceTypes) {
-        const pTypeLower = pType.toLowerCase();
-        const pieces = isWhite ? pieceData[pType] : pieceData[pTypeLower];
-        
-        for (const piece of pieces) {
-            const moves = [];
-            generateMovesForPiece(moves, state.board[piece.r][piece.c], piece.r, piece.c, state);
-            for(const move of moves) {
-                if(move.capture) {
-                    // Bonus for attacking a more valuable piece
-                    const attackerValue = pieceValues[pTypeLower].mg;
-                    const victimValue = pieceValues[move.capture.toLowerCase()].mg;
-                    if (victimValue > attackerValue) {
-                         score.add(new TaperedScore(Math.round(victimValue / 20), 0));
-                    }
-                }
-            }
-        }
-    }
-    return score;
-}
 
 // --- ENHANCED: ENDGAME FACTORS ---
 // Now includes logic for "candidate" passed pawns.
@@ -426,6 +400,43 @@ function evaluateEndgameFactors(state, color, pieceData) {
     }
     return score;
 }
+
+// ====================================================================================
+//            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
+// ====================================================================================
+// This version is extremely fast as it avoids move generation entirely.
+function evaluateThreats(state, color, pieceData) {
+    const score = new TaperedScore();
+    const isWhite = color === 'w';
+    const attackerPieceTypes = isWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
+    const victimPieceTypes = isWhite ? ['p', 'n', 'b', 'r', 'q'] : ['P', 'N', 'B', 'R', 'Q'];
+
+    for (const attackerPType of attackerPieceTypes) {
+        const attackers = pieceData[attackerPType];
+        if (attackers.length === 0) continue;
+
+        for (const victimPType of victimPieceTypes) {
+            const victims = pieceData[victimPType];
+            if (victims.length === 0) continue;
+
+            for (const attacker of attackers) {
+                for (const victim of victims) {
+                    // Check if the attacker piece directly attacks the victim's square
+                    if (isSquareAttackedByPiece(state.board, victim.r, victim.c, attacker.r, attacker.c, color)) {
+                        const attackerValue = pieceValues[attackerPType.toLowerCase()].mg;
+                        const victimValue = pieceValues[victimPType.toLowerCase()].mg;
+                        // Add a small bonus for creating a threat, especially against a more valuable piece
+                        if (victimValue > attackerValue) {
+                            score.mg += Math.round(victimValue / 25);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return score;
+}
+
 
 // --- COMPLETELY REWRITTEN: KING SAFETY ---
 // This new version evaluates threats to the "King Zone" for a much more accurate danger assessment.
@@ -710,22 +721,24 @@ function searchRoot(initialState, maxDepth) {
 // ====================================================================================
 //            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH AGGRESSIVE REPETITION HANDLING)
 // ====================================================================================
+
+// ====================================================================================
+//            CORRECTED SEARCH (WITH ROBUST REPETITION HANDLING)
+// ====================================================================================
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- **NEW: AGGRESSIVE REPETITION HANDLING** ---
-    // This is the "NEVER draw a won game" logic.
-    if (ply > 0 && repetitionHistory.some(h => h === state.zobristHash)) {
+    // --- **FIXED: ROBUST REPETITION HANDLING** ---
+    // This now correctly checks if the current position has appeared three times.
+    // The old logic was flawed and caused the search to exit immediately.
+    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
         const staticEval = evaluate(state);
-        const WINNING_THRESHOLD = 80; // Roughly a one-pawn advantage.
+        const WINNING_THRESHOLD = 80;
 
-        // If we are winning, a draw is a blunder. Return 0, which is much worse than our winning score.
-        if (staticEval > WINNING_THRESHOLD) return 0;
-        // If we are losing, a draw is a victory. Return 0, which is much better than our losing score.
-        if (staticEval < -WINNING_THRESHOLD) return 0;
-        // If the game is equal, a draw is a likely outcome, but we prefer to play on.
-        return CONTEMPT_FACTOR;
+        if (staticEval > WINNING_THRESHOLD) return 0; // Winning, so a draw is a blunder.
+        if (staticEval < -WINNING_THRESHOLD) return 0; // Losing, so a draw is a win.
+        return CONTEMPT_FACTOR; // Equal, prefer to play on.
     }
 
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
@@ -779,8 +792,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
             if (i === 0) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
             } else {
-                let reduction = 0;
-                score = -search(state, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, false);
+                score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1, false);
                 if (score > alpha && score < beta) {
                     score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
                 }
@@ -809,6 +821,8 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
     return bestScore;
 }
+
+
 
 
 /**
