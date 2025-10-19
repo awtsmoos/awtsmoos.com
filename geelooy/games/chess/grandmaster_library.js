@@ -63,8 +63,11 @@ const rawOpeningBook = [
  
   
     ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 w kq - 7 8', "Ruy Lopez: Closed Main Line", { from:[6,2], to:[4,2], san:'c3' }],
-  ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 b kq - 0 8', "Ruy Lopez: Closed Main Line", { from:[0,7], to:[0,5], san:'O-O' }],
-  ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 w - - 1 9', "Ruy Lopez: Closed Main Line", { from:[6,3], to:[5,3], san:'d4' }],
+  ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 b kq - 0 8', "Ruy Lopez: Closed Main Line", { from:[0,4], to:[0,6], san:'O-O' }],
+ 
+  
+   
+     ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 w - - 1 9', "Ruy Lopez: Closed Main Line", { from:[6,3], to:[5,3], san:'d4' }],
   ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/3PP3/1BP2N2/PP3PPP/RNBQ1RK1 b - - 2 9', "Ruy Lopez: Zaitsev Variation", { from:[1,1], to:[2,0], san:'Ba5' }],
   ['1rb2rk1/2pp1ppp/p1nq1n2/bp2p3/3PP3/1BP2N2/PP3PPP/RNBQ1RK1 w - - 3 10', "Ruy Lopez: Zaitsev Variation", { from:[7,3], to:[5,3], san:'d5' }],
 
