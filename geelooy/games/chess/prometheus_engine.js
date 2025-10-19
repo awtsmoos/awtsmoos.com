@@ -754,78 +754,38 @@ function search(state, depth, alpha, beta, ply) {
 
 
 
-// The root of the search, modified to use the new repetition table.
-function searchRoot(initialState, maxDepth) {
-    let alpha = -Infinity, beta = Infinity;
-    let bestMove = null, bestScore = -Infinity;
-
-    // The repetition table is now a Map for O(1) lookups instead of a slow array.
-    const repetitionTable = new Map();
-    repetitionTable.set(initialState.zobristHash.toString(), 1);
-
-    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        const moves = generateLegalMoves(initialState);
-        if (moves.length === 0) return { bestMove: null, score: 0 };
-        const orderedMoves = orderMoves(moves, bestMove, 0);
-        let currentBestMoveForDepth = orderedMoves[0];
-
-        for (let i = 0; i < orderedMoves.length; i++) {
-            const move = orderedMoves[i];
-            const { newState } = makeMove(initialState, move);
-            
-            const newHashStr = newState.zobristHash.toString();
-            repetitionTable.set(newHashStr, (repetitionTable.get(newHashStr) || 0) + 1);
-
-            let score;
-            if (i === 0) {
-                score = -search(newState, currentDepth - 1, -beta, -alpha, 1, repetitionTable);
-            } else {
-                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1, repetitionTable);
-                if (score > alpha && score < beta) score = -search(newState, currentDepth - 1, -beta, -alpha, 1, repetitionTable);
-            }
-            
-            repetitionTable.set(newHashStr, repetitionTable.get(newHashStr) - 1);
-
-            if (performance.now() - searchStartTime > timeLimit) { stopSearch = true; break; }
-            if (score > alpha) { alpha = score; currentBestMoveForDepth = move; }
-        }
-        if (stopSearch && currentDepth > 1) break;
-        bestMove = currentBestMoveForDepth;
-        bestScore = alpha;
-
-        // Post intermediate results to the main thread for a better UI experience
-        postMessage({
-            interim: true,
-            depth: currentDepth,
-            score: bestScore,
-            bestMove: bestMove,
-            nodesSearched: nodeCount
-        });
-
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
-    }
-    return { bestMove, score: bestScore };
-}
-    
-      
-      
-      
-      
-
 // =================================================================
-//              THE CONDUCTOR: MAIN WORKER DRIVER (v1.1)
+//              THE CONDUCTOR: MAIN WORKER DRIVER (v1.2 - Hardened)
 // =================================================================
+
+// Add a global variable for debug mode at the top of your worker script.
+let DEBUG_MODE = true;
 
 self.onmessage = function(e) {
-    const { command, fen, maxDepth, maxTime } = e.data;
+    const { command, fen, maxDepth, maxTime, debug } = e.data;
+
+    // The new debug command allows you to turn logging on and off.
+    if (command === 'set_debug') {
+        DEBUG_MODE = debug;
+        // When enabling debug mode, print all book hashes for easy comparison.
+        if (DEBUG_MODE && openingBook.size > 0) {
+            console.log("--- START OPENING BOOK DUMP ---");
+            for (const [hash, moves] of openingBook.entries()) {
+                const fenForHash = [...rawOpeningBook].find(entry => calculateZobristHash(createGameState(entry[0])).toString() === hash)?.[0];
+                console.log(`Hash: ${hash} | FEN: ${fenForHash || 'Unknown'} | Moves: ${moves.map(m => m.san).join(', ')}`);
+            }
+            console.log("--- END OPENING BOOK DUMP ---");
+        }
+        return;
+    }
+
     if (command === 'calculate_move') {
         if (!zobristKeys) {
             syncHashingWithBook();
-            buildOpeningBook(); 
+            buildOpeningBook();
         }
         searchStartTime = performance.now();
-        // FIX: Set a strict 5-second absolute time limit as requested.
-        timeLimit = maxTime || 5000;
+        timeLimit = maxTime || 5000; // Enforce 5-second limit
         stopSearch = false;
         nodeCount = 0;
         transpositionTable = new Map();
@@ -836,17 +796,24 @@ self.onmessage = function(e) {
         repetitionHistory = [initialState.zobristHash];
         const currentHash = initialState.zobristHash.toString();
 
-        // --- DEBUGGING TOOL for Hash Mismatch ---
-        // To find the hashing bug, uncomment the line below. It will print the live hash.
-        // Then, add a similar console.log inside buildOpeningBook() to see the book hashes.
-        // Compare them to find the discrepancy.
-        // console.log(`Live FEN: ${fen} | Live Hash: ${currentHash}`);
+        if (DEBUG_MODE) {
+            console.log(`---------------------------------`);
+            console.log(`Calculating move for FEN: ${fen}`);
+            console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
+            if (!openingBook.has(currentHash)) {
+                console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
+            }
+        }
 
         if (openingBook.has(currentHash)) {
             const bookMoves = openingBook.get(currentHash);
             const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
             postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
             return;
+        }
+
+        if (DEBUG_MODE) {
+            console.warn("Engine is now THINKING because of a book miss.");
         }
 
         const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
@@ -859,3 +826,62 @@ self.onmessage = function(e) {
         });
     }
 };
+
+
+// Replace your searchRoot function with this one.
+// It contains a much more aggressive time check that prevents freezing.
+function searchRoot(initialState, maxDepth) {
+    let alpha = -Infinity, beta = Infinity;
+    let bestMove = null, bestScore = -Infinity;
+
+    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // **CRITICAL TIME CHECK**: This check runs before starting a new, deeper search.
+        // It ensures that if the previous depth took 4.9 seconds, we don't start a new one.
+        if (performance.now() - searchStartTime > timeLimit) {
+            stopSearch = true;
+            break; // Immediately exit the loop and return the best move found so far.
+        }
+
+        const moves = generateLegalMoves(initialState);
+        if (moves.length === 0) return { bestMove: null, score: 0 };
+        const orderedMoves = orderMoves(moves, bestMove, 0);
+        let currentBestMoveForDepth = orderedMoves[0];
+
+        for (let i = 0; i < orderedMoves.length; i++) {
+            // This is the second layer of protection, ensuring we stop mid-search.
+            if (stopSearch) break;
+
+            const move = orderedMoves[i];
+            const { newState } = makeMove(initialState, move);
+            repetitionHistory.push(newState.zobristHash);
+            let score;
+            if (i === 0) {
+                score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+            } else {
+                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
+                if (score > alpha && score < beta) score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+            }
+            repetitionHistory.pop();
+            
+            if (score > alpha) {
+                // Check if we are still within time limits BEFORE updating the best move
+                if (!stopSearch) {
+                    alpha = score;
+                    currentBestMoveForDepth = move;
+                }
+            }
+        }
+        
+        if (stopSearch && currentDepth > 1) {
+            // If the search was stopped, we cannot trust the results from the partially
+            // completed depth. We break without updating the best move from the root.
+            break;
+        }
+
+        bestMove = currentBestMoveForDepth;
+        bestScore = alpha;
+        
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
+    }
+    return { bestMove, score: bestScore };
+}
