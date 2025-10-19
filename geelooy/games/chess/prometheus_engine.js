@@ -265,13 +265,18 @@ function generateLegalMoves(state) {
     return legalMoves;
 }
 
+
+
+
+
 function makeMove(state, move) {
     // *** FIX: ROBUST HANDLING FOR NULL MOVES ***
     if (move.isNullMove) {
         const newState = { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantTarget: null };
-        newState.zobristHash = state.zobristHash ^ zobristTurnKey;
+        newState.zobristHash = state.zobristHash ^ BigInt(zobristTurnKey);
         if (state.enPassantTarget) {
-            newState.zobristHash ^= zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[1])];
+            const fileIndex = state.enPassantTarget[1];
+            newState.zobristHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
         }
         return { newState };
     }
@@ -287,13 +292,13 @@ function makeMove(state, move) {
     newBoard[fromR][fromC] = '';
     newBoard[toR][toC] = move.promotion ? move.promotion : piece;
 
-    newHash ^= zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC];
-    newHash ^= zobristKeys[pieceMap.indexOf(newBoard[toR][toC])][toR * 8 + toC];
+    newHash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC]);
+    newHash ^= BigInt(zobristKeys[pieceMap.indexOf(newBoard[toR][toC])][toR * 8 + toC]);
 
     if (move.capture) {
         const captureSquare = move.isEnPassant ? [fromR, toC] : [toR, toC];
         const capturedPiece = move.isEnPassant ? (turn === 'w' ? 'p' : 'P') : board[toR][toC];
-        newHash ^= zobristKeys[pieceMap.indexOf(capturedPiece)][captureSquare[0] * 8 + captureSquare[1]];
+        newHash ^= BigInt(zobristKeys[pieceMap.indexOf(capturedPiece)][captureSquare[0] * 8 + captureSquare[1]]);
         if(move.isEnPassant) newBoard[fromR][toC] = '';
     }
 
@@ -304,20 +309,27 @@ function makeMove(state, move) {
         const rook = newBoard[r][rookColFrom];
         newBoard[r][rookColFrom] = '';
         newBoard[r][rookColTo] = rook;
-        newHash ^= zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColFrom];
-        newHash ^= zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColTo];
+        newHash ^= BigInt(zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColFrom]);
+        newHash ^= BigInt(zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColTo]);
     }
 
-    if (newCastlingRights.K && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 7))) { newCastlingRights.K = false; newHash ^= zobristCastlingKeys[0]; }
-    if (newCastlingRights.Q && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 0))) { newCastlingRights.Q = false; newHash ^= zobristCastlingKeys[1]; }
-    if (newCastlingRights.k && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 7))) { newCastlingRights.k = false; newHash ^= zobristCastlingKeys[2]; }
-    if (newCastlingRights.q && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 0))) { newCastlingRights.q = false; newHash ^= zobristCastlingKeys[3]; }
+    if (newCastlingRights.K && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 7))) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
+    if (newCastlingRights.Q && (piece === 'K' || (piece === 'R' && fromR === 7 && fromC === 0))) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
+    if (newCastlingRights.k && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 7))) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
+    if (newCastlingRights.q && (piece === 'k' || (piece === 'r' && fromR === 0 && fromC === 0))) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
 
-    if (enPassantTarget) newHash ^= zobristEnPassantKeys['abcdefgh'.indexOf(enPassantTarget[1])];
+    // *** CORRECTED LOGIC FOR EN PASSANT HASHING ***
+    if (enPassantTarget) {
+        const fileIndex = enPassantTarget[1]; // Use the column index directly
+        newHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
+    }
     const newEnPassantTarget = move.isPawnDoubleMove ? [(fromR + toR) / 2, fromC] : null;
-    if (newEnPassantTarget) newHash ^= zobristEnPassantKeys[newEnPassantTarget[1]];
+    if (newEnPassantTarget) {
+        const fileIndex = newEnPassantTarget[1]; // Use the column index directly
+        newHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
+    }
 
-    newHash ^= zobristTurnKey;
+    newHash ^= BigInt(zobristTurnKey);
 
     const newKingPos = { ...kingPos };
     if (piece.toLowerCase() === 'k') newKingPos[turn] = { r: toR, c: toC };
@@ -333,6 +345,9 @@ function makeMove(state, move) {
     };
     return { newState };
 }
+
+
+    
 
 
 // =================================================================
