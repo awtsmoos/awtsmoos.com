@@ -805,7 +805,7 @@ function searchRoot(initialState, maxDepth) {
         // - We are in the late-middle to endgame (ply > 0).
         // - The move is a quiet move (not a capture or promotion).
         // - The search depth is low (we are near the horizon).
-        if (!inCheck && ply > 0 && !move.capture && !move.promotion && depth <= 3) {
+       /* if (!inCheck && ply > 0 && !move.capture && !move.promotion && depth <= 3) {
             const futilityMargin = [0, 150, 350, 550][depth]; // Margin increases as depth gets shallower
             
             // If the current evaluation plus the margin is still worse than alpha,
@@ -814,7 +814,7 @@ function searchRoot(initialState, maxDepth) {
                 continue; // Prune this move
             }
             }
-            
+            */
             
             
             const unmakeInfo = makeMove(initialState, move);
