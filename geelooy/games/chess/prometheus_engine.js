@@ -424,10 +424,30 @@ function getGamePhase(board) {
     return Math.max(0, Math.min(1, phase));
 }
 
+
+// =================================================================
+//                 THE ORACLE v3.0: GRANDMASTER EVALUATION
+// =================================================================
+// This new evaluation function is the core of the engine's intelligence.
+// It moves beyond simple material counting to understand deep positional concepts.
+// PHILOSOPHY: A safe king, active pieces, a strong pawn structure, and
+// control of the center are the pillars of a winning position.
+
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board); // 1.0 = opening, 0.0 = endgame
-    let whiteScore = 0, blackScore = 0;
+    let whiteScore = 0;
+    let blackScore = 0;
+    
+    // Pre-calculate pawn positions for structure analysis to improve speed
+    const whitePawnFiles = [];
+    const blackPawnFiles = [];
+    for (let c = 0; c < 8; c++) {
+        for (let r = 0; r < 8; r++) {
+            if (board[r][c] === 'P') whitePawnFiles.push(c);
+            if (board[r][c] === 'p') blackPawnFiles.push(c);
+        }
+    }
 
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
@@ -437,37 +457,145 @@ function evaluate(state) {
             const isWhite = p.toUpperCase() === p;
             const pType = p.toLowerCase();
             let score = pieceValues[pType];
-            
-            // Tapered Piece-Square Tables (Fast and effective)
             const pstRow = isWhite ? 7 - r : r;
+            const rank = r;
+            const file = c;
+
+            // 1. TAPERED PIECE-SQUARE TABLES (Existing Strength)
             if (pType === 'k') {
                 score += (kingPSTMidGame[pstRow][c] * gamePhase) + (kingPSTEndGame[pstRow][c] * (1 - gamePhase));
             } else {
                 score += ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
             }
 
+            // 2. PIECE MOBILITY (The engine now understands active pieces are better)
+            // A simplified, fast mobility calculation.
+            let mobility = 0;
+            if (pType === 'n') { // Knight
+                for (const [dr, dc] of knightMoves) {
+                    if (board[r + dr]?.[c + dc] === undefined) continue;
+                    mobility++;
+                }
+                score += mobility * 3; // Knights love activity
+            } else if (pType === 'b' || pType === 'r' || pType === 'q') { // Sliding pieces
+                const directions = pType === 'b' ? bishopDirections : (pType === 'r' ? rookDirections : queenDirections);
+                for (const [dr, dc] of directions) {
+                    for (let i = 1; i < 8; i++) {
+                        const nR = r + i * dr, nC = c + i * dc;
+                        if (board[nR]?.[nC] === undefined) break; // Off board
+                        mobility++;
+                        if (board[nR][nC]) break; // Blocked
+                    }
+                }
+                score += mobility * 2; // Sliding pieces thrive on open lines
+            }
+
+            // 3. PAWN STRUCTURE (The engine now understands pawn weaknesses and strengths)
+            if (pType === 'p') {
+                // Passed Pawns: A pawn with no opposing pawns in front of it. Game-winning.
+                let isPassed = true;
+                const opponentPawnFiles = isWhite ? blackPawnFiles : whitePawnFiles;
+                const forwardRank = isWhite ? r - 1 : r + 1;
+                for (let i = forwardRank; (isWhite ? i >= 0 : i < 8); i += (isWhite ? -1 : 1)) {
+                    if (opponentPawnFiles.includes(file) || opponentPawnFiles.includes(file - 1) || opponentPawnFiles.includes(file + 1)) {
+                        isPassed = false;
+                        break;
+                    }
+                }
+                if (isPassed) {
+                    const distanceToPromo = isWhite ? rank : 7 - rank;
+                    score += (8 - distanceToPromo) * 20; // Bonus scales up closer to promotion
+                }
+                
+                // Isolated Pawns: Pawns with no friendly pawns on adjacent files. A weakness.
+                if (!whitePawnFiles.includes(file - 1) && !whitePawnFiles.includes(file + 1)) {
+                    score -= 12;
+                }
+
+                // Doubled Pawns (More accurate check)
+                if ((isWhite ? whitePawnFiles : blackPawnFiles).filter(f => f === file).length > 1) {
+                    score -= 15;
+                }
+            }
+
+            // 4. ROOKS ON OPEN/SEMI-OPEN FILES (A critical strategic advantage)
+            if (pType === 'r') {
+                const isFileOpen = !whitePawnFiles.includes(file) && !blackPawnFiles.includes(file);
+                const isSemiOpenFile = (isWhite && !whitePawnFiles.includes(file)) || (!isWhite && !blackPawnFiles.includes(file));
+                if (isFileOpen) score += 25;
+                else if (isSemiOpenFile) score += 15;
+                // Rooks on the 7th rank are monsters
+                if ((isWhite && rank === 1) || (!isWhite && rank === 6)) {
+                    score += 30;
+                }
+            }
+            
+            // 5. CENTER CONTROL (Bonus for pieces controlling e4/d4/e5/d5)
+            if (pawnPST[pstRow][c] > 0) { // Simple proxy for being in/near the center
+                score += 10; // General bonus for central placement
+            }
+
             if (isWhite) whiteScore += score; else blackScore += score;
         }
     }
     
-    // Add fast, high-impact bonuses without expensive calculations
-    if (board.flat().filter(p => p === 'B').length >= 2) whiteScore += 40;
-    if (board.flat().filter(p => p === 'b').length >= 2) blackScore += 40;
+    // 6. KING SAFETY (The MOST important new concept)
+    // We evaluate the safety of both kings and apply a large penalty for being unsafe.
+    const whiteKingPos = state.kingPos.w;
+    const blackKingPos = state.kingPos.b;
+    
+    // Penalty for a king being exposed, especially in the middlegame.
+    if (whiteKingPos) whiteScore -= calculateKingDanger(board, whiteKingPos, 'b') * gamePhase;
+    if (blackKingPos) blackScore -= calculateKingDanger(board, blackKingPos, 'w') * gamePhase;
 
-    // Fast pawn structure evaluation
-    for (let c = 0; c < 8; c++) {
-        let whitePawnsInFile = 0, blackPawnsInFile = 0;
-        for (let r = 0; r < 8; r++) {
-            if (board[r][c] === 'P') whitePawnsInFile++;
-            if (board[r][c] === 'p') blackPawnsInFile++;
-        }
-        if (whitePawnsInFile > 1) whiteScore -= 15 * whitePawnsInFile; // Doubled pawns
-        if (blackPawnsInFile > 1) blackScore -= 15 * blackPawnsInFile; // Doubled pawns
-    }
+    // 7. PIECE COORDINATION BONUSES (Existing strength, slightly enhanced)
+    if (board.flat().filter(p => p === 'B').length >= 2) whiteScore += 45; // Bishop pair is even more valuable now
+    if (board.flat().filter(p => p === 'b').length >= 2) blackScore += 45;
 
     const perspective = state.turn === 'w' ? 1 : -1;
     return perspective * (whiteScore - blackScore);
 }
+
+// HELPER FUNCTION for the new evaluation. Add this function right below evaluate().
+function calculateKingDanger(board, kingPos, attackerColor) {
+    let dangerScore = 0;
+    const kingR = kingPos.r;
+    const kingC = kingPos.c;
+
+    // A. Penalty for open files near the king.
+    let isKingFileOpen = true;
+    for (let r = 0; r < 8; r++) {
+        if (board[r][kingC]?.toLowerCase() === 'p') {
+            isKingFileOpen = false;
+            break;
+        }
+    }
+    if (isKingFileOpen) dangerScore += 25;
+
+    // B. Count number of attackers aiming at the king's zone (a 3x3 square around the king).
+    let attackerCount = 0;
+    for (let r_offset = -1; r_offset <= 1; r_offset++) {
+        for (let c_offset = -1; c_offset <= 1; c_offset++) {
+            const zoneR = kingR + r_offset;
+            const zoneC = kingC + c_offset;
+            if (zoneR < 0 || zoneR > 7 || zoneC < 0 || zoneC > 7) continue;
+            
+            if (isSquareAttacked(board, zoneR, zoneC, attackerColor)) {
+                attackerCount++;
+            }
+        }
+    }
+    // The danger scales exponentially with the number of attackers.
+    dangerScore += [0, 10, 30, 60, 100][Math.min(attackerCount, 4)];
+    
+    return dangerScore;
+}
+
+
+
+
+
+
 // =================================================================
 //                 THE LABYRINTH: HIGH-SPEED SEARCH
 // =================================================================
@@ -515,14 +643,30 @@ function orderMoves(moves, pvMove, ply) {
     }).sort((a, b) => b.score - a.score).map(item => item.move);
 }
 
-function search(state, depth, alpha, beta, ply) {
+
+
+ 
+  
+   // =================================================================
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (OPTIMIZED)
+// =================================================================
+
+// Main search function with optimized repetition checking.
+function search(state, depth, alpha, beta, ply, repetitionTable) {
     if (stopSearch) return 0;
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return CONTEMPT_FACTOR;
+
+    // OPTIMIZATION: Replaced slow array scan with a fast Map lookup.
+    // This checks for draw by three-fold repetition instantly.
+    const currentHashStr = state.zobristHash.toString();
+    if (ply > 0 && (repetitionTable.get(currentHashStr) || 0) >= 2) {
+        return CONTEMPT_FACTOR; // Return a score indicating a likely draw
+    }
+    
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
     if (depth <= 0) return quiesce(state, alpha, beta);
     nodeCount++;
 
-    const ttEntry = transpositionTable.get(state.zobristHash.toString());
+    const ttEntry = transpositionTable.get(currentHashStr);
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
         if (ttEntry.flag === TT_LOWERBOUND && ttEntry.score >= beta) return beta;
@@ -532,9 +676,11 @@ function search(state, depth, alpha, beta, ply) {
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
     if (inCheck) depth++;
 
+    // Null-Move Pruning: A check to see if the position is so good we can 'pass' a turn
+    // and still be winning. Avoids this in the opening or when in check.
     if (!inCheck && depth >= NULL_MOVE_R + 1 && ply > 0 && state.moveCount > 5) {
         const { newState: nullMoveState } = makeMove(state, { isNullMove: true });
-        const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1);
+        const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, repetitionTable);
         if (score >= beta) return beta;
     }
 
@@ -546,16 +692,25 @@ function search(state, depth, alpha, beta, ply) {
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
         const { newState } = makeMove(state, move);
-        repetitionHistory.push(newState.zobristHash);
+        
+        // Update the repetition table for the next node
+        const newHashStr = newState.zobristHash.toString();
+        repetitionTable.set(newHashStr, (repetitionTable.get(newHashStr) || 0) + 1);
+
         let score;
-        if (i === 0) {
-            score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
-        } else {
+        if (i === 0) { // Principal Variation Search
+            score = -search(newState, depth - 1, -beta, -alpha, ply + 1, repetitionTable);
+        } else { // Late Move Reductions
             let reduction = (depth >= 3 && i >= 3 && !inCheck && !move.capture) ? 1 : 0;
-            score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
-            if (score > alpha && score < beta) score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
+            score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, repetitionTable);
+            if (score > alpha && score < beta) { // Re-search if it proves better than expected
+                score = -search(newState, depth - 1, -beta, -alpha, ply + 1, repetitionTable);
+            }
         }
-        repetitionHistory.pop();
+        
+        // Backtrack the repetition table state
+        repetitionTable.set(newHashStr, repetitionTable.get(newHashStr) - 1);
+
         if (stopSearch) return 0;
         if (score > alpha) {
             alpha = score; bestMove = move;
@@ -565,23 +720,25 @@ function search(state, depth, alpha, beta, ply) {
                     killerMoves[ply][0] = move;
                     historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] += depth * depth;
                 }
-                transpositionTable.set(state.zobristHash.toString(), { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
+                transpositionTable.set(currentHashStr, { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
                 return beta;
             }
         }
     }
     const flag = (alpha > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
-    transpositionTable.set(state.zobristHash.toString(), { score: alpha, depth, flag, bestMove });
+    transpositionTable.set(currentHashStr, { score: alpha, depth, flag, bestMove });
     return alpha;
 }
 
-// =================================================================
-//              THE CONDUCTOR: MAIN WORKER DRIVER
-// =================================================================
 
+// The root of the search, modified to use the new repetition table.
 function searchRoot(initialState, maxDepth) {
     let alpha = -Infinity, beta = Infinity;
     let bestMove = null, bestScore = -Infinity;
+
+    // The repetition table is now a Map for O(1) lookups instead of a slow array.
+    const repetitionTable = new Map();
+    repetitionTable.set(initialState.zobristHash.toString(), 1);
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         const moves = generateLegalMoves(initialState);
@@ -592,25 +749,45 @@ function searchRoot(initialState, maxDepth) {
         for (let i = 0; i < orderedMoves.length; i++) {
             const move = orderedMoves[i];
             const { newState } = makeMove(initialState, move);
-            repetitionHistory.push(newState.zobristHash);
+            
+            const newHashStr = newState.zobristHash.toString();
+            repetitionTable.set(newHashStr, (repetitionTable.get(newHashStr) || 0) + 1);
+
             let score;
             if (i === 0) {
-                score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+                score = -search(newState, currentDepth - 1, -beta, -alpha, 1, repetitionTable);
             } else {
-                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
-                if (score > alpha && score < beta) score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1, repetitionTable);
+                if (score > alpha && score < beta) score = -search(newState, currentDepth - 1, -beta, -alpha, 1, repetitionTable);
             }
-            repetitionHistory.pop();
+            
+            repetitionTable.set(newHashStr, repetitionTable.get(newHashStr) - 1);
+
             if (performance.now() - searchStartTime > timeLimit) { stopSearch = true; break; }
             if (score > alpha) { alpha = score; currentBestMoveForDepth = move; }
         }
         if (stopSearch && currentDepth > 1) break;
         bestMove = currentBestMoveForDepth;
         bestScore = alpha;
+
+        // Post intermediate results to the main thread for a better UI experience
+        postMessage({
+            interim: true,
+            depth: currentDepth,
+            score: bestScore,
+            bestMove: bestMove,
+            nodesSearched: nodeCount
+        });
+
         if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
     }
     return { bestMove, score: bestScore };
 }
+    
+      
+      
+      
+      
 
 self.onmessage = function(e) {
     const { command, fen, maxDepth, maxTime } = e.data;
