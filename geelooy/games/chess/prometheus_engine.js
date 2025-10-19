@@ -776,38 +776,77 @@ function search(state, depth, alpha, beta, ply) {
 
 
 
+// *** COMPLETE AND CORRECTED SEARCHROOT FUNCTION ***
 function searchRoot(initialState, maxDepth) {
-    // This function remains exactly the same as you provided
     let bestMove = null, bestScore = -Infinity;
     let alpha = -Infinity, beta = Infinity;
     const moves = generateLegalMoves(initialState);
-    if (moves.length === 0) return { bestMove: null, score: evaluate(initialState) };
+
+    if (moves.length === 0) {
+        return { bestMove: null, score: evaluate(initialState) };
+    }
+
     const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
+
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        const orderedMoves = orderMoves(moves, bestMove, 0);
+        const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
         let bestMoveForThisDepth = orderedMoves[0];
+        const currentEval = evaluate(initialState); // Get eval for stalemate check
+
         for (const move of orderedMoves) {
             if (stopSearch) break;
+
             const { newState } = makeMove(initialState, move);
-            repetitionHistory.push(newState.zobristHash);
             let score;
-            if (move === orderedMoves[0]) { score = -search(newState, currentDepth - 1, -beta, -alpha, 1); }
-            else {
-                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
-                if (score > alpha && score < beta) { score = -search(newState, currentDepth - 1, -beta, -alpha, 1); }
+
+            // **NEW AND CRITICAL: STALEMATE AVOIDANCE AT THE ROOT**
+            // Before starting the search, check if this top-level move is a stalemate blunder.
+            if (isStalemateBlunder(newState, currentEval)) {
+                // This move is catastrophic. Assign it the worst possible score so it's never chosen.
+                score = -MATE_SCORE; 
+            } else {
+                // If it's not a blunder, proceed with the normal search.
+                repetitionHistory.push(newState.zobristHash);
+                if (move === orderedMoves[0]) {
+                    score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+                } else {
+                    score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
+                    if (score > alpha && score < beta) {
+                        score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+                    }
+                }
+                repetitionHistory.pop();
             }
-            repetitionHistory.pop();
+
             if (stopSearch) break;
-            if (score > alpha) { alpha = score; bestMoveForThisDepth = move; }
+
+            if (score > alpha) {
+                alpha = score;
+                bestMoveForThisDepth = move;
+            }
         }
+
         if (stopSearch) break;
+
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
-        if (bestScore <= alpha || bestScore >= beta) { alpha = -Infinity; beta = Infinity; currentDepth--; continue; }
+
+        if (bestScore <= alpha || bestScore >= beta) {
+            alpha = -Infinity;
+            beta = Infinity;
+            if (currentDepth > 1) currentDepth--; // Re-search at same depth with wider window
+            continue;
+        }
+
         const aspirationWindow = 50;
-        alpha = bestScore - aspirationWindow; beta = bestScore + aspirationWindow;
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
+        alpha = bestScore - aspirationWindow;
+        beta = bestScore + aspirationWindow;
+
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
+            break; // Mate found, no need to search deeper.
+        }
     }
+
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
