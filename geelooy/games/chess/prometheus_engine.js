@@ -183,6 +183,38 @@ function getGamePhase(board) {
 // This version removes the disastrous mobility loop from the evaluation,
 // relying on fast Piece-Square Tables to restore the engine's speed and strength.
 
+
+
+
+
+// ====================================================================================
+//                        NEW HELPER: KING SAFETY ZONE
+// ====================================================================================
+// This helper function gets the 9 squares in the king's immediate vicinity.
+function getKingZone(kingPos) {
+    if (!kingPos) return [];
+    const zone = [];
+    for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+            const r = kingPos.r + dr;
+            const c = kingPos.c + dc;
+            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                zone.push({ r, c });
+            }
+        }
+    }
+    return zone;
+}```
+
+**REPLACE** your existing `evaluate`, `evaluateStrategicBonuses`, `evaluateKingSafety`, and `evaluateEndgameFactors` functions with this entire block of new code:
+
+```javascript
+// ====================================================================================
+//         MASTER EVALUATION HUB & ALL NEW STRATEGIC/TACTICAL FUNCTIONS (Mk. VII)
+// ====================================================================================
+
+// --- MASTER EVALUATION HUB ---
+// This function now coordinates all the new, smarter evaluation components.
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board);
@@ -190,12 +222,14 @@ function evaluate(state) {
     let whiteScore = new TaperedScore();
     let blackScore = new TaperedScore();
 
+    // Pre-calculate piece locations and pawn files once to pass to helper functions.
     const pieceData = { P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] };
     for (let r = 0; r < 8; r++) { for (let c = 0; c < 8; c++) { if (board[r][c]) pieceData[board[r][c]].push({ r, c }); } }
     
     const whitePawnFiles = new Set(pieceData.P.map(p => p.c));
     const blackPawnFiles = new Set(pieceData.p.map(p => p.c));
 
+    // 1. Base Material and Positional Score
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
@@ -204,12 +238,9 @@ function evaluate(state) {
             const pType = p.toLowerCase();
             const scoreTarget = isWhite ? whiteScore : blackScore;
             
-            // 1. Material Score
             scoreTarget.mg += pieceValues[pType].mg;
             scoreTarget.eg += pieceValues[pType].eg;
 
-            // 2. Positional Score (from Piece-Square Tables)
-            // This is the core of a fast evaluation.
             const pstRow = isWhite ? 7 - r : r;
             if (pType === 'k') {
                 scoreTarget.mg += kingPSTMidGame[pstRow][c];
@@ -222,17 +253,21 @@ function evaluate(state) {
         }
     }
 
-    // 3. Strategic Bonuses (these are fast and important)
+    // 2. Advanced Strategic Bonuses (Pawn Structure, Mobility, etc.)
     whiteScore.add(evaluateStrategicBonuses(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
     blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
-    // 4. King Safety
-    if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(board, state.kingPos.w, 'b');
-    if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(board, state.kingPos.b, 'w');
+    // 3. Threat Analysis
+    whiteScore.add(evaluateThreats(state, 'w', pieceData));
+    blackScore.add(evaluateThreats(state, 'b', pieceData));
 
-    // 5. Endgame-Specific Factors
+    // 4. Endgame-Specific Factors (Passed Pawns, King Activity)
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
+    
+    // 5. King Safety (Applied last as a penalty)
+    if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(state, state.kingPos.w, 'b', pieceData);
+    if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(state, state.kingPos.b, 'w', pieceData);
 
     // 6. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
@@ -242,128 +277,207 @@ function evaluate(state) {
 }
 
 
-// **THE NEW, FAST STRATEGIC BONUS FUNCTION**
-// This replaces the slow `evaluatePiecePositions`. It only checks for key strategic features.
+// --- REWRITTEN & ENHANCED: STRATEGIC BONUSES ---
+// Now includes Pawn Structure, Mobility, and Good vs. Bad Bishops.
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
     
     // Bishop Pair Bonus
-    if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
-        score.add(new TaperedScore(50, 65));
+    const myBishops = isWhite ? pieceData.B : pieceData.b;
+    if (myBishops.length >= 2) {
+        score.add(new TaperedScore(50, 75));
     }
-    
+
     // Rook on Open/Semi-Open File Bonus
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
-             // If friendly pawns are gone, it's at least semi-open.
-             // If enemy pawns are also gone, it's a full open file.
-             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 15 : 25, 10));
+             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 20 : 40, 15));
         }
-        // Rook on 7th Rank Bonus
-        if (rook.r === (isWhite ? 1 : 6)) {
-            score.add(new TaperedScore(35, 45));
+        if (rook.r === (isWhite ? 1 : 6)) { // Rook on 7th rank
+            score.add(new TaperedScore(40, 50));
         }
     }
-    
+
+    // --- NEW: PAWN STRUCTURE EVALUATION ---
+    const myPawns = isWhite ? pieceData.P : pieceData.p;
+    const pawnFileCounts = new Map();
+    for (const pawn of myPawns) {
+        pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
+        // Isolated Pawn Penalty
+        if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
+            score.subtract(new TaperedScore(20, 25));
+        }
+    }
+    // Doubled Pawn Penalty
+    for (const count of pawnFileCounts.values()) {
+        if (count > 1) {
+            score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1)));
+        }
+    }
+
+    // --- NEW: GOOD vs. BAD BISHOP EVALUATION ---
+    for (const bishop of myBishops) {
+        const bishopColor = (bishop.r + bishop.c) % 2;
+        let trappedPawns = 0;
+        // Check central pawns that might trap the bishop
+        for (const pawn of myPawns) {
+            if ((pawn.c >= 3 && pawn.c <= 4) && (pawn.r + pawn.c) % 2 === bishopColor) {
+                trappedPawns++;
+            }
+        }
+        score.subtract(new TaperedScore(trappedPawns * 10, trappedPawns * 5));
+    }
+
+    // --- NEW: LIGHTWEIGHT MOBILITY ---
+    // A fast approximation of piece activity.
+    let mobilityScore = 0;
+    const pieceTypesForMobility = ['N', 'B', 'R', 'Q'];
+    for(const pType of pieceTypesForMobility) {
+        const pieces = isWhite ? pieceData[pType] : pieceData[pType.toLowerCase()];
+        const directions = { N: knightMoves, B: bishopDirections, R: rookDirections, Q: queenDirections }[pType];
+        
+        for(const piece of pieces) {
+            for(const [dr, dc] of directions) {
+                let nR = piece.r + dr, nC = piece.c + dc;
+                while(nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
+                    if (state.board[nR][nC]) break; // Path is blocked
+                    mobilityScore += 1; // Bonus for each empty square the piece can see
+                    if (pType === 'N') break; // Knights don't slide
+                    nR += dr; nC += dc;
+                }
+            }
+        }
+    }
+    score.add(new TaperedScore(mobilityScore, mobilityScore / 2)); // Mobility is more important in middlegame
+
     return score;
 }
 
+// --- NEW FUNCTION: THREAT ANALYSIS ---
+// Rewards the engine for creating threats against enemy pieces.
+function evaluateThreats(state, color, pieceData) {
+    const score = new TaperedScore();
+    const isWhite = color === 'w';
+    const pieceTypes = ['P', 'N', 'B', 'R', 'Q'];
 
+    for (const pType of pieceTypes) {
+        const pTypeLower = pType.toLowerCase();
+        const pieces = isWhite ? pieceData[pType] : pieceData[pTypeLower];
+        
+        for (const piece of pieces) {
+            const moves = [];
+            generateMovesForPiece(moves, state.board[piece.r][piece.c], piece.r, piece.c, state);
+            for(const move of moves) {
+                if(move.capture) {
+                    // Bonus for attacking a more valuable piece
+                    const attackerValue = pieceValues[pTypeLower].mg;
+                    const victimValue = pieceValues[move.capture.toLowerCase()].mg;
+                    if (victimValue > attackerValue) {
+                         score.add(new TaperedScore(Math.round(victimValue / 20), 0));
+                    }
+                }
+            }
+        }
+    }
+    return score;
+}
 
-
-
-
-
-
-
-
-
-// **NEW: SPECIALIZED ENDGAME EVALUATION**
+// --- ENHANCED: ENDGAME FACTORS ---
+// Now includes logic for "candidate" passed pawns.
 function evaluateEndgameFactors(state, color, pieceData) {
     const score = new TaperedScore();
-    const { board } = state;
     const isWhite = color === 'w';
     const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
     const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
-    if (!myKingPos || !enemyKingPos) return score; // Should not happen
+    if (!myKingPos || !enemyKingPos) return score;
 
-    // --- 1. King Activity Bonus ---
-    // In the endgame, the king is a powerful attacking piece. Reward it for being active and central.
     const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
-    score.eg += Math.round(kingCentrality * 10); // Heavily reward a central king in the endgame
-
-    // Reward the king for being close to the enemy king (to attack pawns and restrict movement)
+    score.eg += Math.round(kingCentrality * 10);
     const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
     score.eg += kingProximity * 5;
 
-    // --- 2. Passed Pawn Enhancements ---
-    // We need to make the existing passed pawn bonus much, much stronger.
     const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
     const enemyPawns = isWhite ? pieceData.p : pieceData.P;
 
     for (const p of friendlyPawns) {
         let isPassed = true;
+        let stoppers = 0; // --- NEW: Count potential blockers
         for (const ep of enemyPawns) {
             if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
                 isPassed = false;
-                break;
+                stoppers++;
             }
         }
         if (isPassed) {
             const rank = isWhite ? 7 - p.r : p.r;
-            // Exponential bonus: the closer the pawn is to promotion, the more valuable it becomes.
             const bonus = [0, 20, 30, 50, 80, 150, 300, 500][rank];
-            score.mg += bonus / 2; // A passed pawn is good in the midgame...
-            score.eg += bonus * 2; // ...but it's an absolute monster in the endgame.
-
-            // Bonus for the king supporting the passed pawn
+            score.mg += bonus;
+            score.eg += bonus * 2.5;
             const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
             score.eg += (8 - kingPawnDist) * 10;
+        } else {
+            // --- NEW: Candidate Passed Pawn Bonus ---
+            // If a pawn isn't passed but has few or no stoppers, it's a future threat.
+            if (stoppers === 0) {
+                 score.add(new TaperedScore(20, 40)); // True candidate
+            } else if (stoppers === 1) {
+                 score.add(new TaperedScore(10, 20)); // Potential candidate
+            }
         }
     }
     return score;
 }
 
-
-function evaluateKingSafety(board, kingPos, attackerColor) {
+// --- COMPLETELY REWRITTEN: KING SAFETY ---
+// This new version evaluates threats to the "King Zone" for a much more accurate danger assessment.
+function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
     let dangerScore = 0;
     const isAttackerWhite = attackerColor === 'w';
-
-    // 1. Pawn Shield: Penalize missing or advanced pawns in front of the king.
+    const kingZone = getKingZone(kingPos);
+    const attackWeights = { q: 10, r: 5, b: 3, n: 3, p: 1 };
+    
+    // 1. Pawn Shield Penalty
     const kingFile = kingPos.c;
-    const kingRank = kingPos.r;
-    if (kingFile > 1 && kingFile < 6) { // Only evaluate pawn shield for castled/central kings
-        const shieldRank = isAttackerWhite ? kingRank - 1 : kingRank + 1;
+    const shieldRank = isAttackerWhite ? kingPos.r - 1 : kingPos.r + 1;
+    if (kingFile > 0 && kingFile < 7) { // Avoid edges
         for (let c = kingFile - 1; c <= kingFile + 1; c++) {
             const friendlyPawn = isAttackerWhite ? 'p' : 'P';
-            if (board[shieldRank]?.[c] !== friendlyPawn) {
-                 dangerScore += 15; // Penalty for each missing pawn in the shield.
+            if (state.board[shieldRank]?.[c] !== friendlyPawn) {
+                 dangerScore += 20; // Penalty for each missing or advanced pawn shield.
             }
         }
     }
 
-    // 2. Attacker Proximity and Value
-    let attackWeight = 0;
-    const attackerValues = { p: 1, n: 3, b: 3, r: 5, q: 9 };
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = board[r][c];
-            if (!piece || (piece.toUpperCase() === piece) !== isAttackerWhite) continue;
-
-            const dist = Math.max(Math.abs(r - kingPos.r), Math.abs(c - kingPos.c));
-            if (dist <= 3) { // Consider attackers within a 3-square radius
-                 // Simple check if the piece can attack the king's zone (can be improved)
-                 if(isSquareAttackedByPiece(board, kingPos.r, kingPos.c, r, c, attackerColor)) {
-                    attackWeight += attackerValues[piece.toLowerCase()] * (4 - dist); // Closer attackers are more dangerous
-                 }
+    // 2. King Zone Attack Score
+    const attackerPieceTypes = isAttackerWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
+    for (const pType of attackerPieceTypes) {
+        const attackers = pieceData[pType];
+        for (const attacker of attackers) {
+            // Check if this piece attacks any of the 9 squares in the king's zone
+            for (const zoneSquare of kingZone) {
+                if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
+                    dangerScore += attackWeights[pType.toLowerCase()];
+                }
             }
         }
     }
 
-    dangerScore += attackWeight * 2;
-    return Math.min(dangerScore, 150); // Cap the penalty to avoid extreme swings
+    // Scale the danger score exponentially. A single attacker is a nuisance; multiple attackers are a crisis.
+    if (dangerScore > 20) {
+        return Math.round(dangerScore * dangerScore / 20);
+    }
+    return dangerScore;
 }
+
+
+
+
+
+
+
+
+
 
 // You will need this NEW HELPER function for evaluateKingSafety to work.
 // It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
@@ -595,14 +709,27 @@ function searchRoot(initialState, maxDepth) {
 //            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH INTERNAL LEGALITY CHECK)
 // ====================================================================================
 
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH AGGRESSIVE REPETITION HANDLING)
+// ====================================================================================
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
+
+    // --- **NEW: AGGRESSIVE REPETITION HANDLING** ---
+    // This is the "NEVER draw a won game" logic.
+    if (ply > 0 && repetitionHistory.some(h => h === state.zobristHash)) {
         const staticEval = evaluate(state);
-        const contempt = -80 + Math.abs(staticEval) / 20;
-        return Math.sign(staticEval) > 0 ? -contempt : contempt;
+        const WINNING_THRESHOLD = 80; // Roughly a one-pawn advantage.
+
+        // If we are winning, a draw is a blunder. Return 0, which is much worse than our winning score.
+        if (staticEval > WINNING_THRESHOLD) return 0;
+        // If we are losing, a draw is a victory. Return 0, which is much better than our losing score.
+        if (staticEval < -WINNING_THRESHOLD) return 0;
+        // If the game is equal, a draw is a likely outcome, but we prefer to play on.
+        return CONTEMPT_FACTOR;
     }
+
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
@@ -625,8 +752,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         if (score >= beta) return beta;
     }
 
-    // --- **NEW EFFICIENT ARCHITECTURE STARTS HERE** ---
-    const moves = generatePseudoLegalMoves(state); // 1. Get fast, unfiltered moves.
+    const moves = generatePseudoLegalMoves(state);
     const orderedMoves = orderMoves(moves, state, ttEntry ? ttEntry.bestMove : null, ply);
     
     let originalAlpha = alpha;
@@ -638,11 +764,10 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         const move = orderedMoves[i];
         const unmakeInfo = makeMove(state, move);
         
-        // 2. Check legality AFTER making the move.
         const originalTurn = state.turn === 'w' ? 'b' : 'w';
         const kingPos = state.kingPos[originalTurn];
         if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
-            unmakeMove(state, unmakeInfo); // If illegal, unmake and skip to the next move.
+            unmakeMove(state, unmakeInfo);
             continue;
         }
         legalMovesFound++;
@@ -653,11 +778,10 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         if (isStalemateBlunder(state, staticEval)) {
             score = -MATE_SCORE;
         } else {
-            // 3. If legal, proceed with the search.
             if (i === 0) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
             } else {
-                let reduction = 0; // ... (LMR logic is the same)
+                let reduction = 0;
                 score = -search(state, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, false);
                 if (score > alpha && score < beta) {
                     score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
@@ -675,13 +799,12 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         }
         if (bestScore > alpha) alpha = bestScore;
         if (alpha >= beta) {
-            // ... (killer move and TT logic is the same)
             return beta;
         }
     }
 
     if (legalMovesFound === 0) {
-        return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or Stalemate
+        return inCheck ? -MATE_SCORE + ply : 0;
     }
 
     const flag = (bestScore > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
