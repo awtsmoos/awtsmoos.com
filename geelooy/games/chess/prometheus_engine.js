@@ -872,7 +872,50 @@ function search(state, depth, alpha, beta, ply) {
     return alpha;
 }
 
+// =================================================================
+//                 MOVE ORDERING v2.0: STRATEGIC INTUITION
+// =================================================================
+// This function is critical for search efficiency. It sorts moves at each node
+// to ensure the best ones are searched first, enabling much deeper and faster
+// alpha-beta pruning. A well-ordered move list can be the difference between
+// an amateur and a master-level engine.
 
+function orderMoves(moves, pvMove, ply) {
+    return moves.map(move => {
+        let score = 0;
+
+        // 1. Principal Variation (PV) Move: The absolute highest priority.
+        // This is the best move found in the previous search iteration.
+        if (pvMove && move.from[0] === pvMove.from[0] && move.from[1] === pvMove.from[1] && move.to[0] === pvMove.to[0] && move.to[1] === pvMove.to[1]) {
+            score = 100000;
+        
+        // 2. Captures (MVV-LVA): Sorted by "Most Valuable Victim - Least Valuable Attacker".
+        // Taking a queen with a pawn is better than taking a pawn with a queen.
+        } else if (move.capture) {
+            // We give captures a high base score to ensure they are searched before quiet moves.
+            // The specific value is determined by the victim's value minus the attacker's.
+            score = 90000 + (pieceValues[move.capture.toLowerCase()] * 10 - pieceValues[move.piece.toLowerCase()]);
+        
+        // 3. Killer Moves: Powerful quiet moves that caused cutoffs at the same ply.
+        // We store two killer moves per ply level.
+        } else if (killerMoves[ply]) {
+            if (killerMoves[ply][0]?.from[0] === move.from[0] && killerMoves[ply][0]?.from[1] === move.from[1] && killerMoves[ply][0]?.to[0] === move.to[0] && killerMoves[ply][0]?.to[1] === move.to[1]) {
+                score = 80000;
+            } else if (killerMoves[ply][1]?.from[0] === move.from[0] && killerMoves[ply][1]?.from[1] === move.from[1] && killerMoves[ply][1]?.to[0] === move.to[0] && killerMoves[ply][1]?.to[1] === move.to[1]) {
+                score = 70000;
+            }
+        
+        // 4. History Heuristic: Scores quiet moves based on how often they have been successful.
+        // This provides a general-purpose ordering for all other non-capture moves.
+        } else if (move.piece) {
+            score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
+        }
+
+        return { move, score };
+    })
+    .sort((a, b) => b.score - a.score) // Sort in descending order of score
+    .map(item => item.move);           // Return only the move objects
+}
 // =================================================================
 //      SEARCH ROOT (v3.0 - ASPIRATION WINDOWS)
 // =================================================================
