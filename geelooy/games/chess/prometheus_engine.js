@@ -736,6 +736,11 @@ function isStalemateBlunder(state, currentEval) {
 // This version uses a simple, standard, and bug-free iterative deepening loop.
 // It will restore the engine's performance and playing strength.
 
+// ====================================================================================
+//            BUGFIXED & CORRECT searchRoot (STABLE AND FAST)
+// ====================================================================================
+// This version removes the incorrect repetition history management that was causing
+// the "0 nodes searched" bug.
 function searchRoot(initialState, maxDepth) {
     let bestMove = null;
     let bestScore = -Infinity;
@@ -747,15 +752,11 @@ function searchRoot(initialState, maxDepth) {
 
     const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
 
-    // --- Standard Iterative Deepening Loop ---
-    // This simple structure is guaranteed to be correct and stable.
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        // Use the best move from the previous, shallower search to improve move ordering.
         const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
         let bestMoveForThisDepth = orderedMoves[0];
         const currentEval = evaluate(initialState);
 
-        // A fresh alpha/beta for each new depth is the key to stability.
         let alpha = -Infinity;
         let beta = Infinity;
         
@@ -769,25 +770,22 @@ function searchRoot(initialState, maxDepth) {
             if (isStalemateBlunder(initialState, currentEval)) {
                 score = -MATE_SCORE;
             } else {
-                repetitionHistory.push(initialState.zobristHash);
-                
-                // Standard Principal Variation Search (PVS) logic.
-                if (i === 0) { // Full window search for the presumed best move.
+                // **THE BUG WAS HERE.** The search function handles its own repetition history.
+                // The push/pop calls that were previously here in searchRoot were incorrect.
+
+                if (i === 0) {
                     score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
-                } else { // Null window search for other moves.
+                } else {
                     score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
-                    // If it's better than our best, we must re-search with a full window.
                     if (score > alpha && score < beta) {
                         score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                     }
                 }
-                repetitionHistory.pop();
             }
             unmakeMove(initialState, unmakeInfo);
 
             if (stopSearch) break;
 
-            // If we found a better move, update alpha and store it.
             if (score > alpha) {
                 alpha = score;
                 bestMoveForThisDepth = move;
@@ -795,16 +793,12 @@ function searchRoot(initialState, maxDepth) {
         }
 
         if (stopSearch) {
-            // If the timer ran out, the results for the current depth are incomplete.
-            // We break the loop and return the trusted result from the PREVIOUS full depth.
             break;
         }
 
-        // The search for this depth completed successfully. Update our official best move and score.
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
 
-        // If we found a forced mate, there's no need to search any deeper.
         if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
             break;
         }
@@ -813,7 +807,6 @@ function searchRoot(initialState, maxDepth) {
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
-
 
 
 
