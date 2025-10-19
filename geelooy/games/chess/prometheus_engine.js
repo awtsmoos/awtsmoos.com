@@ -27,31 +27,30 @@ const openingBook = new Map();
 // =================================================================
 
 function buildOpeningBook() {
-    // This function is now robust against empty entries in the opening book array.
     if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
 
     for (const entry of rawOpeningBook) {
-        // --- CRITICAL FIX START ---
-        // If the entry is empty or undefined (from an extra comma), skip it.
         if (!entry) {
             continue; 
         }
-        // --- CRITICAL FIX END ---
 
         const fen = entry[0];
-        const hash = calculateZobristHash(createGameState(fen));
+        const hash = calculateZobristHash(createGameState(fen)).toString();
         
-        const moves = [];
-        // Loop starts at index 2 to skip the opening name string.
+        // Check if we already have moves for this position
+        const existingMoves = openingBook.has(hash) ? openingBook.get(hash) : [];
+        
         for (let i = 2; i < entry.length; i++) {
             const moveData = entry[i];
-            moves.push({
+            existingMoves.push({
                 from: moveData.from,
                 to: moveData.to,
                 san: moveData.san
             });
         }
-        openingBook.set(hash.toString(), moves);
+        
+        // Set the combined list of moves
+        openingBook.set(hash, existingMoves);
     }
 }
 
