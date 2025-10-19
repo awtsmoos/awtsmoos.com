@@ -243,62 +243,74 @@ class PgnConverter {
     }
 
     // Internal helper to generate moves from a specific square
-    _generateMovesForPiece(r, c) {
-        const moves = [];
-        const p = this.board[r][c];
-        if (!p) return [];
+    // REPLACE the old _generateMovesForPiece with this one:
+_generateMovesForPiece(r, c) {
+    const moves = [];
+    const p = this.board[r][c];
+    if (!p) return [];
 
-        const pL = p.toLowerCase();
-        const addMove = (toR, toC, flags = {}) => moves.push({ from: [r, c], to: [toR, toC], piece: p, ...flags });
+    const pL = p.toLowerCase();
+    const isWhite = p === p.toUpperCase();
+    const addMove = (toR, toC, flags = {}) => moves.push({ from: [r, c], to: [toR, toC], piece: p, ...flags });
 
-        if (pL === 'p') {
-            const dir = this.turn === 'w' ? -1 : 1;
-            const startRank = this.turn === 'w' ? 6 : 1;
-            // Forward moves
-            if (this.board[r + dir]?.[c] === '') {
-                addMove(r + dir, c);
-                if (r === startRank && this.board[r + 2 * dir]?.[c] === '') {
-                    addMove(r + 2 * dir, c, { isPawnDoubleMove: true });
-                }
-            }
-            // Captures
-            for (let dc of [-1, 1]) {
-                const nR = r + dir;
-                const nC = c + dc;
-                if (nR < 0 || nR > 7 || nC < 0 || nC > 7) continue;
-
-                // Regular capture
-                if (this.board[nR][nC] && (this.board[nR][nC].toUpperCase() === this.board[nR][nC]) !== (p.toUpperCase() === p)) {
-                    addMove(nR, nC);
-                }
-                // En passant capture
-                if (this.enPassantTarget && nR === this.enPassantTarget[0] && nC === this.enPassantTarget[1]) {
-                    addMove(nR, nC, { isEnPassant: true });
-                }
-            }
-        } else {
-            const directions = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]], k: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
-            for (const [dr, dc] of directions) {
-                let nR = r + dr;
-                let nC = c + dc;
-                while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-                    const targetPiece = this.board[nR][nC];
-                    if (targetPiece) {
-                        // If it's an opponent's piece, it's a valid move (capture)
-                        if ((targetPiece.toUpperCase() === targetPiece) !== (p.toUpperCase() === p)) {
-                            addMove(nR, nC);
-                        }
-                        break; // Stop sliding past any piece
-                    }
-                    addMove(nR, nC); // It's an empty square
-                    if (pL === 'n' || pL === 'k') break; // These pieces don't slide
-                    nR += dr;
-                    nC += dc;
-                }
+    if (pL === 'p') {
+        const dir = isWhite ? -1 : 1;
+        const startRank = isWhite ? 6 : 1;
+        // Forward moves
+        if (this.board[r + dir]?.[c] === '') {
+            addMove(r + dir, c);
+            if (r === startRank && this.board[r + 2 * dir]?.[c] === '') {
+                addMove(r + 2 * dir, c, { isPawnDoubleMove: true });
             }
         }
-        return moves;
+        // Captures
+        for (let dc of [-1, 1]) {
+            const nR = r + dir;
+            const nC = c + dc;
+            if (nR < 0 || nR > 7 || nC < 0 || nC > 7) continue;
+
+            const targetPiece = this.board[nR][nC];
+            // Regular capture
+            if (targetPiece && (targetPiece.toUpperCase() === targetPiece) !== isWhite) {
+                addMove(nR, nC);
+            }
+            // En passant capture
+            if (this.enPassantTarget && nR === this.enPassantTarget[0] && nC === this.enPassantTarget[1]) {
+                addMove(nR, nC, { isEnPassant: true });
+            }
+        }
+    } else {
+        const directions = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1,1], [-1, 0], [1, 0], [0, -1], [0, 1]], k: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
+        for (const [dr, dc] of directions) {
+            let nR = r + dr;
+            let nC = c + dc;
+            while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
+                const targetPiece = this.board[nR][nC];
+                
+                if (targetPiece === '') {
+                    // --- Case 1: Empty Square ---
+                    addMove(nR, nC);
+                } else {
+                    // --- Case 2: Occupied Square ---
+                    const isTargetWhite = targetPiece.toUpperCase() === targetPiece;
+                    if (isTargetWhite !== isWhite) {
+                        // It's an opponent's piece, add as a capture.
+                        addMove(nR, nC);
+                    }
+                    // Stop sliding whether it was a friend or foe.
+                    break;
+                }
+                
+                // Knights and Kings do not slide.
+                if (pL === 'n' || pL === 'k') break;
+
+                nR += dr;
+                nC += dc;
+            }
+        }
     }
+    return moves;
+}
 }
 
 /**
