@@ -782,7 +782,42 @@ function orderMoves(moves, state, pvMove, ply) {
 // ====================================================================================
 
 
+// ====================================================================================
+//                 PERFT - THE ULTIMATE MAKE/UNMAKE DEBUGGING TOOL
+// ====================================================================================
+let perftNodeCount = 0;
 
+function perft(state, depth) {
+    if (depth === 0) {
+        perftNodeCount++;
+        return;
+    }
+
+    const moves = generateLegalMoves(state);
+    for (const move of moves) {
+        const unmakeInfo = makeMove(state, move);
+        perft(state, depth - 1);
+        unmakeMove(state, unmakeInfo);
+    }
+}
+
+// A helper to run the test and log the results.
+function runPerftTest(fen, depth) {
+    console.log(`Starting Perft Test for FEN: "${fen}" at depth ${depth}`);
+    const state = createGameState(fen);
+    perftNodeCount = 0;
+    const startTime = performance.now();
+    perft(state, depth);
+    const endTime = performance.now();
+    const duration = (endTime - startTime).toFixed(2);
+    const nps = (perftNodeCount / (duration / 1000)).toFixed(0);
+    console.log(`Perft Test Complete.`);
+    console.log(`Result: ${perftNodeCount} nodes found.`);
+    console.log(`Time: ${duration}ms`);
+    console.log(`Speed: ${nps} nodes/sec`);
+    return perftNodeCount;
+}
+var tested=0
 // =================================================================
 //              MAIN WORKER DRIVER (UNCHANGED)
 // =================================================================
@@ -804,6 +839,12 @@ self.onmessage = function(e) {
     if (command === 'set_debug') {
         DEBUG_MODE = e.data.debug;
         return;
+    }
+    
+    if(tested < 1){
+    tested++
+    runPerftTest(fen, maxDepth);
+    
     }
 
     if (command === 'calculate_move') {
