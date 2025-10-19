@@ -106,12 +106,22 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 // approach instead of cloning the entire game state for every pseudo-legal move,
 // making it orders of magnitude faster.
 
+// =================================================================
+//      HIGH-PERFORMANCE LEGAL MOVE GENERATION (v4.0 - ROBUST)
+// =================================================================
+// This version is designed to be both fast and completely reliable. Instead of
+// calling the complex `makeMove` function for every pseudo-legal move, it performs
+// a lightweight simulation on a temporary board to verify king safety. This
+// decouples legal move generation from the main state-updating logic, preventing
+// cascading bugs and eliminating a major source of illegal moves.
+
 function generateLegalMoves(state) {
     const legalMoves = [];
     const pseudoLegalMoves = [];
-    const { board, turn, castlingRights } = state;
+    const { board, turn, castlingRights, kingPos } = state;
     const color = turn;
     const opponentColor = color === 'w' ? 'b' : 'w';
+    const kingPosition = kingPos[color];
 
     // 1. Generate all pseudo-legal moves (captures, quiet moves, etc.)
     for (let r = 0; r < 8; r++) {
@@ -124,8 +134,7 @@ function generateLegalMoves(state) {
     }
     
     // 2. Add pseudo-legal castling moves
-    const kingStartPos = state.kingPos[color];
-    if (kingStartPos && !isSquareAttacked(board, kingStartPos.r, kingStartPos.c, opponentColor)) {
+    if (kingPosition && !isSquareAttacked(board, kingPosition.r, kingPosition.c, opponentColor)) {
         const r = color === 'w' ? 7 : 0;
         const kingSideMask = color === 'w' ? 8 : 2;
         const queenSideMask = color === 'w' ? 4 : 1;
@@ -138,23 +147,34 @@ function generateLegalMoves(state) {
         }
     }
 
-    // 3. For each pseudo-legal move, execute it, check for king safety, and then undo it.
+    // 3. For each pseudo-legal move, simulate it and check for king safety.
     for (const move of pseudoLegalMoves) {
-        // This is the core of the performance gain. No more state cloning.
-        const { newState } = makeMove(state, move); // We still use your makeMove, but will revert its effects.
+        const [fromR, fromC] = move.from;
+        const [toR, toC] = move.to;
+        const piece = board[fromR][fromC];
 
-        // Find the king's new position from the temporary state
-        const kingFinalPos = newState.kingPos[color];
+        // Create a temporary board for the simulation
+        const tempBoard = board.map(row => row.slice());
+        tempBoard[toR][toC] = piece;
+        tempBoard[fromR][fromC] = '';
+
+        // Handle en-passant capture
+        if (move.isEnPassant) {
+            const capturedPawnRow = color === 'w' ? toR + 1 : toR - 1;
+            tempBoard[capturedPawnRow][toC] = '';
+        }
         
-        // Check if the king is attacked in the new position.
-        if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
+        // Find where the king is after the move
+        const currentKingPos = (piece.toLowerCase() === 'k') ? { r: toR, c: toC } : kingPosition;
+        
+        // If the king is not attacked after the move, it's a legal move.
+        if (currentKingPos && !isSquareAttacked(tempBoard, currentKingPos.r, currentKingPos.c, opponentColor)) {
             legalMoves.push(move);
         }
     }
     
     return legalMoves;
 }
-
 
 // =================================================================
 //      HELPER: TACTICAL MOVE GENERATION
@@ -202,10 +222,22 @@ function findKing(board, color) {
 //      COMPLETE & EFFICIENT MOVE GENERATION & EXECUTION
 // =================================================================
 
+
+// =================================================================
+//      MOVE VALIDATION (v2.0 - CORRECTED)
+// =================================================================
+
 function isSquareAttacked(board, r, c, attackerColor) {
     const isWhiteAttacker = attackerColor === 'w';
     const pawn = isWhiteAttacker ? 'P' : 'p';
-    const pawnDir = isWhiteAttacker ? 1 : -1;
+    
+    // --- CRITICAL FIX START ---
+    // The pawn attack direction was inverted.
+    // White pawns (attacker) are on a lower rank (r-1) to attack r.
+    // Black pawns (attacker) are on a higher rank (r+1) to attack r.
+    const pawnDir = isWhiteAttacker ? -1 : 1; 
+    // --- CRITICAL FIX END ---
+
     if (board[r + pawnDir]?.[c - 1] === pawn || board[r + pawnDir]?.[c + 1] === pawn) return true;
 
     for (const [dr, dc] of knightMoves) {
@@ -238,6 +270,10 @@ function isSquareAttacked(board, r, c, attackerColor) {
     }
     return false;
 }
+
+
+
+
 
 function generateMovesForPiece(moves, p, r, c, state) {
     const { board, enPassantTarget } = state;
