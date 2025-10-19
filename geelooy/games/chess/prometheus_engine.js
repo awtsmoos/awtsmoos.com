@@ -560,12 +560,18 @@ function evaluate(state) {
 
             // 3. PAWN STRUCTURE (The engine now understands pawn weaknesses and strengths)
             if (pType === 'p') {
-                // Passed Pawns: A pawn with no opposing pawns in front of it. Game-winning.
+                // --- CORRECTED PASSED PAWN LOGIC ---
                 let isPassed = true;
-                const opponentPawnFiles = isWhite ? blackPawnFiles : whitePawnFiles;
-                const forwardRank = isWhite ? r - 1 : r + 1;
-                for (let i = forwardRank; (isWhite ? i >= 0 : i < 8); i += (isWhite ? -1 : 1)) {
-                    if (opponentPawnFiles.includes(file) || opponentPawnFiles.includes(file - 1) || opponentPawnFiles.includes(file + 1)) {
+                const opponentPawn = isWhite ? 'p' : 'P';
+                const dir = isWhite ? -1 : 1;
+
+                // Check the files in front of the pawn for enemy pawns
+                for (let i = r + dir; i >= 0 && i < 8; i += dir) {
+                    if (
+                        (board[i][file] === opponentPawn) ||      // Check the pawn's own file
+                        (board[i][file - 1] === opponentPawn) ||  // Check the file to the left
+                        (board[i][file + 1] === opponentPawn)     // Check the file to the right
+                    ) {
                         isPassed = false;
                         break;
                     }
@@ -576,7 +582,7 @@ function evaluate(state) {
                 }
                 
                 // Isolated Pawns: Pawns with no friendly pawns on adjacent files. A weakness.
-                if (!whitePawnFiles.includes(file - 1) && !whitePawnFiles.includes(file + 1)) {
+                if (!(isWhite ? whitePawnFiles : blackPawnFiles).includes(file - 1) && !(isWhite ? whitePawnFiles : blackPawnFiles).includes(file + 1)) {
                     score -= 12;
                 }
 
@@ -585,6 +591,7 @@ function evaluate(state) {
                     score -= 15;
                 }
             }
+
 
             // 4. ROOKS ON OPEN/SEMI-OPEN FILES (A critical strategic advantage)
             if (pType === 'r') {
