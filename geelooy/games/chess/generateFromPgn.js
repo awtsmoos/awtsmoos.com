@@ -241,6 +241,7 @@ class PgnConverter {
  * @param {Array} source - The sourceBook array of {name, pgn} objects.
  * @returns {Array} The processed rawOpeningBook.
  */
+
 function generateRawBook(source) {
     const converter = new PgnConverter();
     const bookMap = new Map();
@@ -251,32 +252,36 @@ function generateRawBook(source) {
         let currentFen = startFen;
         let positionName = "Start Position";
 
-        // Remove move numbers and result from PGN
         const moves = opening.pgn.replace(/\d+\.\s/g, '').replace(/\s\*/g, '').split(' ').filter(Boolean);
 
         for (const san of moves) {
-            // Find the move object {from, to, san}
             const move = converter.parseSan(san);
-            
-            // Get the entry for the current position or create a new one
+            if (!move) continue; // Skip if a move can't be parsed
+
             if (!bookMap.has(currentFen)) {
                 bookMap.set(currentFen, [currentFen, positionName]);
             }
             const entry = bookMap.get(currentFen);
             
-            // Add the move if it's not already listed for this position
             const moveExists = entry.slice(2).some(m => m.san === move.san);
             if (!moveExists) {
                 entry.push({ from: move.from, to: move.to, san: move.san });
             }
 
-            // Apply the move to get the next position
             converter.applyMove(move);
             currentFen = converter.toFen();
-            positionName = opening.name; // The next FEN's name is the opening it leads to
+            positionName = opening.name;
         }
+        
+        // ======================= ADD THIS BLOCK =======================
+        // After the loop finishes for an opening, the 'currentFen' holds
+        // the final position of that line. We must ensure this final
+        // position is added to the book, even if it has no moves following it.
+        if (!bookMap.has(currentFen)) {
+            bookMap.set(currentFen, [currentFen, opening.name]);
+        }
+        // ===============================================================
     }
     
     return Array.from(bookMap.values());
 }
-
