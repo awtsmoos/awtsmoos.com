@@ -197,8 +197,16 @@ function evaluate(state) {
     // 4. King Safety (from previous version)
     if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(board, state.kingPos.w, 'b');
     if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(board, state.kingPos.b, 'w');
+    
+    
+    // **NEW: 5. Endgame-Specific Factors**
+    // This logic will only have a significant effect when gamePhase is low (in an endgame).
+    whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
+    blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
 
-    // 5. Final Tapered Score
+
+
+    // 6. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
@@ -338,6 +346,54 @@ function evaluatePiecePositions(board, color, pieceData, friendlyPawnFiles, enem
     
     return score;
 }
+
+
+// **NEW: SPECIALIZED ENDGAME EVALUATION**
+function evaluateEndgameFactors(state, color, pieceData) {
+    const score = new TaperedScore();
+    const { board } = state;
+    const isWhite = color === 'w';
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
+    if (!myKingPos || !enemyKingPos) return score; // Should not happen
+
+    // --- 1. King Activity Bonus ---
+    // In the endgame, the king is a powerful attacking piece. Reward it for being active and central.
+    const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
+    score.eg += Math.round(kingCentrality * 10); // Heavily reward a central king in the endgame
+
+    // Reward the king for being close to the enemy king (to attack pawns and restrict movement)
+    const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
+    score.eg += kingProximity * 5;
+
+    // --- 2. Passed Pawn Enhancements ---
+    // We need to make the existing passed pawn bonus much, much stronger.
+    const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
+    const enemyPawns = isWhite ? pieceData.p : pieceData.P;
+
+    for (const p of friendlyPawns) {
+        let isPassed = true;
+        for (const ep of enemyPawns) {
+            if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
+                isPassed = false;
+                break;
+            }
+        }
+        if (isPassed) {
+            const rank = isWhite ? 7 - p.r : p.r;
+            // Exponential bonus: the closer the pawn is to promotion, the more valuable it becomes.
+            const bonus = [0, 20, 30, 50, 80, 150, 300, 500][rank];
+            score.mg += bonus / 2; // A passed pawn is good in the midgame...
+            score.eg += bonus * 2; // ...but it's an absolute monster in the endgame.
+
+            // Bonus for the king supporting the passed pawn
+            const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
+            score.eg += (8 - kingPawnDist) * 10;
+        }
+    }
+    return score;
+}
+
 
 function evaluateKingSafety(board, kingPos, attackerColor) {
     let dangerScore = 0;
