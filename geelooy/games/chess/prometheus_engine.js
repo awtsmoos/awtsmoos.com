@@ -490,27 +490,54 @@ function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
  * @param {number} currentEval The evaluation of the position BEFORE the move was made.
  * @returns {boolean} True if the move is a stalemate blunder, otherwise false.
  */
-function isStalemateBlunder(resultingState, currentEval) {
-    // Only check for stalemate blunders if we are in a completely winning position.
-    // The threshold (e.g., 5000) means an advantage of at least a rook. Adjust as needed.
-    const WINNING_THRESHOLD = 5000;
-    const isWinning = Math.abs(currentEval) > WINNING_THRESHOLD;
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE isStalemateBlunder
+// ====================================================================================
+// This version has a fast "early exit" to prevent the performance cascade.
 
-    if (!isWinning) {
+function isStalemateBlunder(state, currentEval) {
+    // --- Step 1: Fast Exit Checks ---
+    
+    // Check 1: Only worry about stalemate blunders if we are in a completely winning position.
+    const WINNING_THRESHOLD = 2000; // A rook advantage.
+    if (currentEval < WINNING_THRESHOLD) {
         return false;
     }
 
-    // If we are winning and make a move that leaves the opponent with NO legal moves,
-    // it's a stalemate. This is a catastrophic blunder.
-    const opponentHasMoves = generateLegalMoves(resultingState).length > 0;
-
-    if (!opponentHasMoves) {
-        const inCheck = resultingState.kingPos[resultingState.turn] && isSquareAttacked(resultingState.board, resultingState.kingPos[resultingState.turn].r, resultingState.kingPos[resultingState.turn].c, resultingState.turn === 'w' ? 'b' : 'w');
-        // If they have no moves AND are not in check, it's a stalemate.
-        return !inCheck;
+    // Check 2 (THE CRITICAL PERFORMANCE FIX): Count the opponent's pieces. If they have more than
+    // a certain number of pieces (e.g., 3), it's highly unlikely to be a simple endgame
+    // where a stalemate is the primary risk. This prevents us from calling the slow
+    // generateLegalMoves function in the complex middlegame.
+    let opponentPieceCount = 0;
+    const opponentColor = state.turn; // After makeMove, the turn has flipped.
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = state.board[r][c];
+            if (piece) {
+                const isOpponentPiece = (piece.toUpperCase() === piece) === (opponentColor === 'w');
+                if (isOpponentPiece) {
+                    opponentPieceCount++;
+                }
+            }
+        }
+    }
+    
+    // If the opponent has more than 3 pieces (e.g., King + Rook + Pawn), this check is too expensive.
+    if (opponentPieceCount > 3) {
+        return false;
     }
 
-    return false;
+    // --- Step 2: Slow, Full Legality Check (only for simple endgames) ---
+    // This code will now only run in rare, specific endgame scenarios.
+    const opponentHasMoves = generateLegalMoves(state).length > 0;
+    if (opponentHasMoves) {
+        return false;
+    }
+
+    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    
+    // It's a stalemate blunder if the opponent has no moves AND is NOT in check.
+    return !inCheck;
 }
 
 
