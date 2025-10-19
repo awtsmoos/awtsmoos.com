@@ -365,40 +365,48 @@ function getGamePhase(board) {
 
 function evaluate(state) {
     const { board } = state;
-    const gamePhase = getGamePhase(board);
+    const gamePhase = getGamePhase(board); // 1.0 = opening, 0.0 = endgame
     let whiteScore = 0, blackScore = 0;
 
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
             if (!p) continue;
+            
             const isWhite = p.toUpperCase() === p;
             const pType = p.toLowerCase();
             let score = pieceValues[pType];
+            
+            // Tapered Piece-Square Tables (Fast and effective)
             const pstRow = isWhite ? 7 - r : r;
             if (pType === 'k') {
                 score += (kingPSTMidGame[pstRow][c] * gamePhase) + (kingPSTEndGame[pstRow][c] * (1 - gamePhase));
             } else {
                 score += ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
             }
-            const moves = [];
-            generateMovesForPiece(moves, p, r, c, state);
-            score += moves.length * 2;
+
             if (isWhite) whiteScore += score; else blackScore += score;
         }
     }
+    
+    // Add fast, high-impact bonuses without expensive calculations
     if (board.flat().filter(p => p === 'B').length >= 2) whiteScore += 40;
     if (board.flat().filter(p => p === 'b').length >= 2) blackScore += 40;
+
+    // Fast pawn structure evaluation
     for (let c = 0; c < 8; c++) {
         let whitePawnsInFile = 0, blackPawnsInFile = 0;
-        for (let r = 0; r < 8; r++) { if (board[r][c] === 'P') whitePawnsInFile++; if (board[r][c] === 'p') blackPawnsInFile++; }
-        if (whitePawnsInFile > 1) whiteScore -= 15 * whitePawnsInFile;
-        if (blackPawnsInFile > 1) blackScore -= 15 * blackPawnsInFile;
+        for (let r = 0; r < 8; r++) {
+            if (board[r][c] === 'P') whitePawnsInFile++;
+            if (board[r][c] === 'p') blackPawnsInFile++;
+        }
+        if (whitePawnsInFile > 1) whiteScore -= 15 * whitePawnsInFile; // Doubled pawns
+        if (blackPawnsInFile > 1) blackScore -= 15 * blackPawnsInFile; // Doubled pawns
     }
+
     const perspective = state.turn === 'w' ? 1 : -1;
     return perspective * (whiteScore - blackScore);
 }
-
 // =================================================================
 //                 THE LABYRINTH: HIGH-SPEED SEARCH
 // =================================================================
