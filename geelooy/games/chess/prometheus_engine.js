@@ -881,17 +881,31 @@ function searchRoot(initialState, maxDepth) {
 // This restores the original, correct search structure that searched thousands of nodes.
 // The ONLY change is to the inside of the repetition check to make it more aggressive.
 
+// ====================================================================================
+//            SEARCH WITH RUTHLESS "ANTI-DRAW" LOGIC (FINAL VERSION)
+// ====================================================================================
+// This version fixes the bug where the engine forces a draw in a winning position.
+
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- THIS IS YOUR ORIGINAL, WORKING REPETITION LOGIC ---
-    // The only change is the return value, to make it avoid draws when winning.
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
-        // This is the standard 3-fold repetition rule. Your original condition was correct.
-        // Now, we tell the engine that this result is a DRAW (score 0).
-        // If the engine has a winning score (e.g., +200), it will see 0 as a bad result
-        // and will avoid this line of play, just as you wanted.
+    // --- **NEW: RUTHLESS REPETITION HANDLING** ---
+    // This logic now treats drawing a won position as a catastrophic blunder.
+    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 1) {
+        const staticEval = evaluate(state);
+        const WINNING_THRESHOLD = 150; // A clear 1.5 pawn advantage.
+
+        // If we are clearly winning, returning a massive penalty tells the search
+        // that this draw is a blunder equivalent to losing the queen.
+        if (staticEval > WINNING_THRESHOLD) {
+            return -MATE_SCORE / 2;
+        }
+        // If we are clearly losing, a draw is a fantastic result.
+        if (staticEval < -WINNING_THRESHOLD) {
+            return MATE_SCORE / 2;
+        }
+        // If the game is roughly equal, a draw is a neutral outcome.
         return 0;
     }
 
@@ -977,8 +991,6 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
     return bestScore;
 }
-
-
 
 
 
