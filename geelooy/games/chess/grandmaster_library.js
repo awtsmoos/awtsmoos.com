@@ -47,8 +47,10 @@ const rawOpeningBook = [
   // Ruy Lopez: Morphy Defense -> Closed Main Line
   ['r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4', "Ruy Lopez: Morphy Defense", { from:[3,1], to:[2,0], san:'Ba4' }],
   ['r1bqkbnr/1ppp1ppp/p1n5/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 4', "Ruy Lopez: Morphy Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 1 5', "Ruy Lopez: Morphy Defense", { from:[7,7], to:[7,5], san:'O-O' }],
-  ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 5', "Ruy Lopez: Closed Defenses", { from:[2,5], to:[4,4], san:'Be7' }],
+  ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 1 5', "Ruy Lopez: Morphy Defense", { from:[7,4], to:[7,6], san:'O-O' }],
+ 
+  
+    ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 5', "Ruy Lopez: Closed Defenses", { from:[2,5], to:[4,4], san:'Be7' }],
   
   
   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 2 6', "Ruy Lopez: Closed Main Line", { from:[7,5], to:[7,4], san:'Re1' }],
@@ -57,8 +59,10 @@ const rawOpeningBook = [
    ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
 ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
 
-['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[0,3], to:[1,3], san:'d6' }],
-  ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 w kq - 7 8', "Ruy Lopez: Closed Main Line", { from:[6,2], to:[4,2], san:'c3' }],
+['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[1,3], to:[2,3], san:'d6' }],
+ 
+  
+    ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 w kq - 7 8', "Ruy Lopez: Closed Main Line", { from:[6,2], to:[4,2], san:'c3' }],
   ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 b kq - 0 8', "Ruy Lopez: Closed Main Line", { from:[0,7], to:[0,5], san:'O-O' }],
   ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 w - - 1 9', "Ruy Lopez: Closed Main Line", { from:[6,3], to:[5,3], san:'d4' }],
   ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/3PP3/1BP2N2/PP3PPP/RNBQ1RK1 b - - 2 9', "Ruy Lopez: Zaitsev Variation", { from:[1,1], to:[2,0], san:'Ba5' }],
