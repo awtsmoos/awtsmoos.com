@@ -162,6 +162,76 @@ function getGamePhase(board) {
 
 
 
+// ====================================================================================
+//            NEW HELPER #1: getAttackers - Essential for SEE
+// ====================================================================================
+// Finds all pieces of a given color that are attacking a specific square.
+function getAttackers(state, r, c, attackerColor) {
+    const attackers = [];
+    const board = state.board;
+    // Loop through all pieces of the attacker's color
+    for (let pr = 0; pr < 8; pr++) {
+        for (let pc = 0; pc < 8; pc++) {
+            const piece = board[pr][pc];
+            if (piece && (piece.toUpperCase() === piece) === (attackerColor === 'w')) {
+                if (isSquareAttackedByPiece(board, r, c, pr, pc, attackerColor)) {
+                    attackers.push({ piece, r: pr, c: pc });
+                }
+            }
+        }
+    }
+    // Sort attackers by their value, least valuable first (pawn, knight, etc.)
+    attackers.sort((a, b) => pieceValues[a.piece.toLowerCase()].mg - pieceValues[b.piece.toLowerCase()].mg);
+    return attackers;
+}
+
+// ====================================================================================
+//            NEW HELPER #2: Static Exchange Evaluation (SEE)
+// ====================================================================================
+// Determines the material gain/loss from a series of captures on a target square.
+// A positive score means the exchange is favorable.
+function see(state, fromR, fromC, toR, toC) {
+    const board = state.board;
+    const initialAttacker = board[fromR][fromC];
+    const initialVictim = board[toR][toC];
+    if (!initialAttacker || !initialVictim) return 0;
+
+    let gain = [pieceValues[initialVictim.toLowerCase()].mg];
+    let currentBoard = board.map(row => row.slice());
+    let currentAttacker = { piece: initialAttacker, r: fromR, c: fromC };
+    let turn = state.turn;
+
+    // Simulate the capture
+    currentBoard[toR][toC] = currentAttacker.piece;
+    currentBoard[fromR][fromC] = null;
+
+    while (true) {
+        turn = (turn === 'w') ? 'b' : 'w'; // Switch sides for the recapture
+        let attackers = getAttackers({ board: currentBoard }, toR, toC, turn);
+        
+        // If the other side has no attackers for the square, the exchange is over.
+        if (attackers.length === 0) break;
+
+        // The next attacker is the least valuable one.
+        currentAttacker = attackers[0];
+        
+        // Add the value of the piece we just captured to our gain list.
+        gain.push(pieceValues[currentBoard[toR][toC].toLowerCase()].mg);
+
+        // Simulate the recapture
+        currentBoard[toR][toC] = currentAttacker.piece;
+        currentBoard[currentAttacker.r][currentAttacker.c] = null;
+    }
+
+    // Negamax the gain list to find the final result.
+    let score = 0;
+    for (let i = gain.length - 1; i >= 0; i--) {
+        score = gain[i] - score;
+    }
+    
+    return score;
+}
+
 
 // ====================================================================================
 //            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
@@ -277,10 +347,35 @@ function evaluate(state) {
 
 // --- REWRITTEN & ENHANCED: STRATEGIC BONUSES ---
 // Now includes Pawn Structure, Mobility, and Good vs. Bad Bishops.
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. IX - WITH CASTLING & KING MOVEMENT)
+// ====================================================================================
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
     
+    // --- NEW: CASTLING RIGHTS BONUS ---
+    // Heavily reward the engine for preserving the *option* to castle.
+    // This is a powerful incentive to not move the king or rooks needlessly.
+    const kingSideMask = isWhite ? 8 : 2;
+    const queenSideMask = isWhite ? 4 : 1;
+    if ((state.castlingRights & kingSideMask) || (state.castlingRights & queenSideMask)) {
+        // A large midgame bonus for having castling available. It's less critical in the endgame.
+        score.add(new TaperedScore(40, 5));
+    }
+
+    // --- NEW: PENALTY FOR PREMATURE KING MOVEMENT ---
+    // Penalize the engine for moving its king before the endgame.
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    const startRank = isWhite ? 7 : 0;
+    const startFile = 4; // The 'e' file
+    // Check if the king has moved from its starting square (e1 or e8)
+    if (myKingPos && (myKingPos.r !== startRank || myKingPos.c !== startFile)) {
+        // Apply a penalty to the midgame score, but NOT the endgame score.
+        // In the endgame, king activity is good, so we don't want to penalize it.
+        score.subtract(new TaperedScore(35, 0));
+    }
+
     // Bishop Pair Bonus
     const myBishops = isWhite ? pieceData.B : pieceData.b;
     if (myBishops.length >= 2) {
@@ -297,7 +392,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // --- NEW: PAWN STRUCTURE EVALUATION ---
+    // PAWN STRUCTURE EVALUATION
     const myPawns = isWhite ? pieceData.P : pieceData.p;
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
@@ -314,11 +409,10 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // --- NEW: GOOD vs. BAD BISHOP EVALUATION ---
+    // GOOD vs. BAD BISHOP EVALUATION
     for (const bishop of myBishops) {
         const bishopColor = (bishop.r + bishop.c) % 2;
         let trappedPawns = 0;
-        // Check central pawns that might trap the bishop
         for (const pawn of myPawns) {
             if ((pawn.c >= 3 && pawn.c <= 4) && (pawn.r + pawn.c) % 2 === bishopColor) {
                 trappedPawns++;
@@ -327,8 +421,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         score.subtract(new TaperedScore(trappedPawns * 10, trappedPawns * 5));
     }
 
-    // --- NEW: LIGHTWEIGHT MOBILITY ---
-    // A fast approximation of piece activity.
+    // LIGHTWEIGHT MOBILITY
     let mobilityScore = 0;
     const pieceTypesForMobility = ['N', 'B', 'R', 'Q'];
     for(const pType of pieceTypesForMobility) {
@@ -339,19 +432,18 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
             for(const [dr, dc] of directions) {
                 let nR = piece.r + dr, nC = piece.c + dc;
                 while(nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-                    if (state.board[nR][nC]) break; // Path is blocked
-                    mobilityScore += 1; // Bonus for each empty square the piece can see
-                    if (pType === 'N') break; // Knights don't slide
+                    if (state.board[nR][nC]) break;
+                    mobilityScore += 1;
+                    if (pType === 'N') break;
                     nR += dr; nC += dc;
                 }
             }
         }
     }
-    score.add(new TaperedScore(mobilityScore, mobilityScore / 2)); // Mobility is more important in middlegame
+    score.add(new TaperedScore(mobilityScore, mobilityScore / 2));
 
     return score;
 }
-
 // --- NEW FUNCTION: THREAT ANALYSIS ---
 // Rewards the engine for creating threats against enemy pieces.
 
@@ -725,20 +817,25 @@ function searchRoot(initialState, maxDepth) {
 // ====================================================================================
 //            CORRECTED SEARCH (WITH ROBUST REPETITION HANDLING)
 // ====================================================================================
+
+
+
+// ====================================================================================
+//            SEARCH WITH MORE AGGRESSIVE REPETITION HANDLING
+// ====================================================================================
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- **FIXED: ROBUST REPETITION HANDLING** ---
-    // This now correctly checks if the current position has appeared three times.
-    // The old logic was flawed and caused the search to exit immediately.
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
+    // --- **REVISED: MORE AGGRESSIVE REPETITION HANDLING** ---
+    // Now triggers on the *second* instance of a position, not the third.
+    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 1) {
         const staticEval = evaluate(state);
         const WINNING_THRESHOLD = 80;
 
-        if (staticEval > WINNING_THRESHOLD) return 0; // Winning, so a draw is a blunder.
-        if (staticEval < -WINNING_THRESHOLD) return 0; // Losing, so a draw is a win.
-        return CONTEMPT_FACTOR; // Equal, prefer to play on.
+        if (staticEval > WINNING_THRESHOLD) return 0;
+        if (staticEval < -WINNING_THRESHOLD) return 0;
+        return CONTEMPT_FACTOR;
     }
 
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
@@ -825,30 +922,37 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
 
 
-/**
- * A specialized, recursive search that only analyzes tactical moves (captures, promotions, checks).
- * This prevents the engine from making blunders due to the "horizon effect".
- * @param {object} state - The global game state object.
- */
+
+// ====================================================================================
+//            REWRITTEN QUIESCENCE SEARCH (WITH STATIC EXCHANGE EVALUATION)
+// ====================================================================================
 function quiesce(state, alpha, beta, ply) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
+
     nodeCount++;
     const standPat = evaluate(state);
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
+
     const moves = generateTacticalMoves(state);
-    moves.sort((a, b) => {
-        let scoreA = 0, scoreB = 0;
-        if (a.capture) scoreA = (pieceValues[a.capture.toLowerCase()].mg * 10) - pieceValues[a.piece.toLowerCase()].mg;
-        if (a.promotion) scoreA += pieceValues[a.promotion.toLowerCase()].mg;
-        if (b.capture) scoreB = (pieceValues[b.capture.toLowerCase()].mg * 10) - pieceValues[b.piece.toLowerCase()].mg;
-        if (b.promotion) scoreB += pieceValues[b.promotion.toLowerCase()].mg;
+    moves.sort((a, b) => { // Simple MVV-LVA for initial ordering
+        let scoreA = a.capture ? (pieceValues[a.capture.toLowerCase()].mg * 10) - pieceValues[a.piece.toLowerCase()].mg : 0;
+        let scoreB = b.capture ? (pieceValues[b.capture.toLowerCase()].mg * 10) - pieceValues[b.piece.toLowerCase()].mg : 0;
         return scoreB - scoreA;
     });
 
     for (const move of moves) {
+        // --- **THE SEE FILTER** ---
+        // If it's a capture, we first check if it's tactically sound using SEE.
+        // We only search captures that are winning or equal (SEE >= 0).
+        if (move.capture) {
+            if (see(state, move.from[0], move.from[1], move.to[0], move.to[1]) < 0) {
+                continue; // This is a bad capture, so we prune it immediately.
+            }
+        }
+
         const unmakeInfo = makeMove(state, move);
         repetitionHistory.push(state.zobristHash);
         const score = -quiesce(state, -beta, -alpha, ply + 1);
@@ -861,6 +965,10 @@ function quiesce(state, alpha, beta, ply) {
     }
     return alpha;
 }
+
+
+
+
 
 
 
