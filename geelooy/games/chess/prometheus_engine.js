@@ -29,11 +29,12 @@ function buildOpeningBook() {
 
     for (const entry of rawOpeningBook) {
         const fen = entry[0];
-        // It now uses the globally correct createGameState and calculateZobristHash
+        // The opening name at entry[1] is skipped, which is correct.
         const hash = calculateZobristHash(createGameState(fen));
         
         const moves = [];
-        for (let i = 1; i < entry.length; i++) {
+        // CHANGE THIS LINE: Start the loop from index 2 to skip the opening name.
+        for (let i = 2; i < entry.length; i++) {
             const moveData = entry[i];
             moves.push({
                 from: moveData.from,
@@ -44,7 +45,6 @@ function buildOpeningBook() {
         openingBook.set(hash.toString(), moves);
     }
 }
-
 
 // =================================================================
 //                       CONSTANTS & CONFIGURATION
