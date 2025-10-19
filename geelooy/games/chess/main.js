@@ -892,7 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	downloadButton.addEventListener('click', () => {
 		const pgn = generatePGN();
 		const blob = new Blob([pgn], {
-			type: 'application/x-chess-pgn'
+			type: 'text/plain'
 		});
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
