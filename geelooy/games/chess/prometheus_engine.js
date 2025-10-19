@@ -343,17 +343,24 @@ function calculateZobristHash(state) {
 
 // You must also update makeMove to use the new 'enPassantFile' property.
 // Replace the entire makeMove function with this version.
+
+// = an================================================================
+//      MOVE GENERATION & EXECUTION (v1.2 - HASH-SYNCHRONIZED)
+// =================================================================
+
 function makeMove(state, move) {
     if (move.isNullMove) {
-        const newState = { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantFile: -1 };
-        newState.zobristHash = state.zobristHash ^ BigInt(zobristTurnKey);
-        if (state.enPassantFile !== -1) {
-            newState.zobristHash ^= BigInt(zobristEnPassantKeys[state.enPassantFile]);
+        const newState = { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantTarget: null };
+        let newHash = state.zobristHash ^ BigInt(zobristTurnKey);
+        if (state.enPassantTarget) {
+            const fileIndex = state.enPassantTarget[1];
+            newHash ^= BigInt(zobristEnPassantKeys[fileIndex]);
         }
+        newState.zobristHash = newHash;
         return { newState };
     }
 
-    const { board, turn, castlingRights, enPassantFile, zobristHash, kingPos } = state;
+    const { board, turn, castlingRights, enPassantTarget, zobristHash, kingPos } = state;
     const newBoard = board.map(row => row.slice());
     const newCastlingRights = { ...castlingRights };
     let newHash = zobristHash;
@@ -362,15 +369,17 @@ function makeMove(state, move) {
 
     const piece = newBoard[fromR][fromC];
     newBoard[fromR][fromC] = '';
-    newBoard[toR][toC] = move.promotion ? move.promotion : piece;
+    const finalPiece = move.promotion ? move.promotion : piece;
+    newBoard[toR][toC] = finalPiece;
 
+    // --- Update Hashes for Piece Movement ---
     newHash ^= BigInt(zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC]);
-    newHash ^= BigInt(zobristKeys[pieceMap.indexOf(newBoard[toR][toC])][toR * 8 + toC]);
+    newHash ^= BigInt(zobristKeys[pieceMap.indexOf(finalPiece)][toR * 8 + toC]);
 
     if (move.capture) {
-        const captureSquare = move.isEnPassant ? [fromR, toC] : [toR, toC];
+        const capturedPieceSquare = move.isEnPassant ? fromR * 8 + toC : toR * 8 + toC;
         const capturedPiece = move.isEnPassant ? (turn === 'w' ? 'p' : 'P') : board[toR][toC];
-        newHash ^= BigInt(zobristKeys[pieceMap.indexOf(capturedPiece)][captureSquare[0] * 8 + captureSquare[1]]);
+        newHash ^= BigInt(zobristKeys[pieceMap.indexOf(capturedPiece)][capturedPieceSquare]);
         if(move.isEnPassant) newBoard[fromR][toC] = '';
     }
 
@@ -385,37 +394,59 @@ function makeMove(state, move) {
         newHash ^= BigInt(zobristKeys[pieceMap.indexOf(rook)][r * 8 + rookColTo]);
     }
 
-    if (newCastlingRights.K && (piece === 'K' || fromR === 7 && (fromC === 4 || fromC === 7))) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
-    if (newCastlingRights.Q && (piece === 'K' || fromR === 7 && (fromC === 4 || fromC === 0))) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
-    if (newCastlingRights.k && (piece === 'k' || fromR === 0 && (fromC === 4 || fromC === 7))) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
-    if (newCastlingRights.q && (piece === 'k' || fromR === 0 && (fromC === 4 || fromC === 0))) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
-
-    // FIX: Update the hash using the standardized 'enPassantFile' property.
-    if (enPassantFile !== -1) {
-        newHash ^= BigInt(zobristEnPassantKeys[enPassantFile]);
+    // --- CRITICAL FIX: Robust Castling Rights Update ---
+    // The old logic was too simple and was the source of the hash corruption.
+    // This new logic explicitly checks if a right existed before XORing it out.
+    if (piece === 'K') {
+        if (newCastlingRights.K) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
+        if (newCastlingRights.Q) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
+    } else if (piece === 'k') {
+        if (newCastlingRights.k) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
+        if (newCastlingRights.q) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
+    } else if (piece === 'R') {
+        if (fromR === 7 && fromC === 7 && newCastlingRights.K) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
+        if (fromR === 7 && fromC === 0 && newCastlingRights.Q) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
+    } else if (piece === 'r') {
+        if (fromR === 0 && fromC === 7 && newCastlingRights.k) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
+        if (fromR === 0 && fromC === 0 && newCastlingRights.q) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
     }
-    const newEnPassantFile = move.isPawnDoubleMove ? fromC : -1;
-    if (newEnPassantFile !== -1) {
-        newHash ^= BigInt(zobristEnPassantKeys[newEnPassantFile]);
+    // Also handle captures of rooks on their starting squares
+    const capturedOn = board[toR][toC];
+    if (capturedOn === 'R') {
+        if (toR === 7 && toC === 7 && newCastlingRights.K) { newCastlingRights.K = false; newHash ^= BigInt(zobristCastlingKeys[0]); }
+        if (toR === 7 && toC === 0 && newCastlingRights.Q) { newCastlingRights.Q = false; newHash ^= BigInt(zobristCastlingKeys[1]); }
+    } else if (capturedOn === 'r') {
+        if (toR === 0 && toC === 7 && newCastlingRights.k) { newCastlingRights.k = false; newHash ^= BigInt(zobristCastlingKeys[2]); }
+        if (toR === 0 && toC === 0 && newCastlingRights.q) { newCastlingRights.q = false; newHash ^= BigInt(zobristCastlingKeys[3]); }
     }
 
+    // --- En Passant Hash Update ---
+    if (enPassantTarget) {
+        newHash ^= BigInt(zobristEnPassantKeys[enPassantTarget[1]]);
+    }
+    const newEnPassantTarget = move.isPawnDoubleMove ? [(fromR + toR) / 2, fromC] : null;
+    if (newEnPassantTarget) {
+        newHash ^= BigInt(zobristEnPassantKeys[newEnPassantTarget[1]]);
+    }
+
+    // --- Final Turn Switch ---
     newHash ^= BigInt(zobristTurnKey);
 
     const newKingPos = { ...kingPos };
     if (piece.toLowerCase() === 'k') newKingPos[turn] = { r: toR, c: toC };
 
-    const newState = {
-        board: newBoard,
-        turn: turn === 'w' ? 'b' : 'w',
-        castlingRights: newCastlingRights,
-        enPassantFile: newEnPassantFile,
-        kingPos: newKingPos,
-        zobristHash: newHash,
-        moveCount: state.moveCount + 1
+    return {
+        newState: {
+            board: newBoard,
+            turn: turn === 'w' ? 'b' : 'w',
+            castlingRights: newCastlingRights,
+            enPassantTarget: newEnPassantTarget,
+            kingPos: newKingPos,
+            zobristHash: newHash,
+            moveCount: state.moveCount + 1
+        }
     };
-    return { newState };
 }
-
 
 
 
@@ -679,10 +710,9 @@ function orderMoves(moves, pvMove, ply) {
 // =================================================================
 
 function search(state, depth, alpha, beta, ply) {
-    // CRITICAL FIX: Check the time limit frequently inside the search.
-    // This ensures the engine stops thinking almost immediately when time is up,
-    // rather than only after finishing a long search on a single move.
-    if (nodeCount % 2048 === 0 && performance.now() - searchStartTime > timeLimit) {
+    // HARDENED TIME CHECK: This is now the very first operation. The search
+    // cannot take a single step further if time is up. This makes freezing impossible.
+    if (performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
     if (stopSearch) return 0;
@@ -726,7 +756,7 @@ function search(state, depth, alpha, beta, ply) {
             if (score > alpha && score < beta) score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         }
         repetitionHistory.pop();
-        if (stopSearch) return 0;
+        if (stopSearch) return 0; // Check again after the recursive call returns
         if (score > alpha) {
             alpha = score; bestMove = move;
             if (score >= beta) {
@@ -744,8 +774,6 @@ function search(state, depth, alpha, beta, ply) {
     transpositionTable.set(state.zobristHash.toString(), { score: alpha, depth, flag, bestMove });
     return alpha;
 }
-
-
 
 
 
