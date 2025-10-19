@@ -528,6 +528,14 @@ function getGamePhase(board) {
 // PHILOSOPHY: A safe king, active pieces, a strong pawn structure, and
 // control of the center are the pillars of a winning position.
 
+// =================================================================
+//                 THE ORACLE v3.0: GRANDMASTER EVALUATION
+// =================================================================
+// This new evaluation function is the core of the engine's intelligence.
+// It moves beyond simple material counting to understand deep positional concepts.
+// PHILOSOPHY: A safe king, active pieces, a strong pawn structure, and
+// control of the center are the pillars of a winning position.
+
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board); // 1.0 = opening, 0.0 = endgame
@@ -711,6 +719,13 @@ function calculateKingDanger(board, kingPos, attackerColor) {
 // This version fixes a critical crash when sorting tactical moves. It now
 // correctly handles non-capturing promotions, preventing the 'toLowerCase' error.
 
+
+// =================================================================
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (v2.1 - ROBUST QUIESCENCE)
+// =================================================================
+// This version fixes a critical crash when sorting tactical moves. It now
+// correctly handles non-capturing promotions, preventing the 'toLowerCase' error.
+
 function quiesce(state, alpha, beta, ply) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
@@ -770,38 +785,13 @@ function quiesce(state, alpha, beta, ply) {
     return alpha;
 }
 
-
-
-
-
-function orderMoves(moves, pvMove, ply) {
-    return moves.map(move => {
-        let score = 0;
-        if (pvMove && move.from[0] === pvMove.from[0] && move.from[1] === pvMove.from[1] && move.to[0] === pvMove.to[0] && move.to[1] === pvMove.to[1]) score = 100000;
-        else if (move.capture) score = 90000 + (pieceValues[move.capture.toLowerCase()] * 10 - pieceValues[move.piece.toLowerCase()]);
-        else if (killerMoves[ply] && killerMoves[ply][0]?.from === move.from && killerMoves[ply][0]?.to === move.to) score = 80000;
-        else if (killerMoves[ply] && killerMoves[ply][1]?.from === move.from && killerMoves[ply][1]?.to === move.to) score = 70000;
-        else if (move.piece) score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
-        return { move, score };
-    }).sort((a, b) => b.score - a.score).map(item => item.move);
-}
-
-
-
- 
-  
-   // =================================================================
-//                 THE LABYRINTH: HIGH-SPEED SEARCH (OPTIMIZED)
 // =================================================================
-
-// Main search function with optimized repetition checking.
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (v3.0 - PVS & LMR)
 // =================================================================
-//                 THE LABYRINTH: HIGH-SPEED SEARCH (v1.1 - Hard Time Limit)
-// =================================================================
+// This is the main search function, now featuring Principal Variation Search (PVS)
+// and Late Move Reductions (LMR) for significantly improved search efficiency.
 
 function search(state, depth, alpha, beta, ply) {
-    // HARDENED TIME CHECK: This is now the very first operation. The search
-    // cannot take a single step further if time is up. This makes freezing impossible.
     if (performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
@@ -809,7 +799,8 @@ function search(state, depth, alpha, beta, ply) {
 
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return CONTEMPT_FACTOR;
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
-    if (depth <= 0) return quiesce(state, alpha, beta,ply);
+    if (depth <= 0) return quiesce(state, alpha, beta, ply);
+    
     nodeCount++;
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
@@ -822,6 +813,7 @@ function search(state, depth, alpha, beta, ply) {
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
     if (inCheck) depth++;
 
+    // Null Move Pruning
     if (!inCheck && depth >= NULL_MOVE_R + 1 && ply > 0 && state.moveCount > 5) {
         const { newState: nullMoveState } = makeMove(state, { isNullMove: true });
         const score = -search(nullMoveState, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1);
@@ -830,85 +822,56 @@ function search(state, depth, alpha, beta, ply) {
 
     const moves = generateLegalMoves(state);
     if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
-    const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
     
-    // ... inside the search function, after orderedMoves is defined ...
-
+    const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
     let originalAlpha = alpha;
-    let bestMove = orderedMoves[0]; // Have a fallback best move
+    let bestMove = orderedMoves[0];
 
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
-        
-        // --- THIS IS THE PART TO UPDATE ---
-        // Your old code made and unmade the move here.
-        // The new `generateLegalMoves` already ensures the moves are legal,
-        // so we just make the move and pass the new state to the next search.
         const { newState } = makeMove(state, move);
         repetitionHistory.push(newState.zobristHash);
 
         let score;
         if (i === 0) {
+            // Full window search for the first, best-guess move (PVS)
             score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         } else {
+            // Late Move Reduction (LMR)
             let reduction = (depth >= 3 && i >= 3 && !inCheck && !move.capture) ? 1 : 0;
+            // Search with a null window, assuming the move is not better than what we have
             score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
+            // If it turns out to be better, we must re-search with the full window
             if (score > alpha && score < beta) {
                 score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
             }
         }
         
-        repetitionHistory.pop(); // This is still necessary
-        // --- END OF UPDATE ---
-
+        repetitionHistory.pop();
         if (stopSearch) return 0;
-        
+
         if (score > alpha) {
             alpha = score;
             bestMove = move;
 
-            if (score >= beta) {
-                // This is a beta-cutoff (fail-high)
+            if (score >= beta) { // Beta-cutoff
                 if (!move.capture) {
                     killerMoves[ply][1] = killerMoves[ply][0];
                     killerMoves[ply][0] = move;
-                    // Update history table for non-captures that cause cutoffs
                     if (move.piece) historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] += depth * depth;
                 }
                 transpositionTable.set(state.zobristHash.toString(), { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
-                return beta; // Return beta, as this branch is too good.
+                return beta;
             }
         }
     }
 
-    // Determine the transposition table flag based on the results
     const flag = (alpha > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(state.zobristHash.toString(), { score: alpha, depth, flag, bestMove });
 
     return alpha;
 }
 
-
-
-
-
-
-
-
-// =================================================================
-//              THE CONDUCTOR: MAIN WORKER DRIVER (v1.2 - Hardened)
-// =================================================================
-
-
-
-// Replace your searchRoot function with this one.
-// It contains a much more aggressive time check that prevents freezing.
-// =================================================================
-//      SEARCH ROOT (v2.0 - UNBREAKABLE TIME LIMIT)
-// =================================================================
-// This version uses a setTimeout as an external "dead man's switch"
-// to enforce the time limit, making it absolutely impossible for the
-// engine to think longer than allowed, even if move generation is slow.
 
 // =================================================================
 //      SEARCH ROOT (v3.0 - ASPIRATION WINDOWS)
@@ -967,6 +930,16 @@ function searchRoot(initialState, maxDepth) {
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
 
+        // If the score falls outside the window, we must research with a wider one.
+        // This is the core of aspiration windows.
+        if (bestScore <= alpha || bestScore >= beta) {
+            alpha = -Infinity;
+            beta = Infinity;
+            // We decrement the depth to re-run the search for this depth with the full window
+            currentDepth--; 
+            continue;
+        }
+
         // Set up the aspiration window for the next depth
         const aspirationWindow = 50; // 50 centipawns
         alpha = bestScore - aspirationWindow;
@@ -978,6 +951,8 @@ function searchRoot(initialState, maxDepth) {
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
+
+
 
 
 // =================================================================
