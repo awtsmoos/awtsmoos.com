@@ -65,48 +65,51 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 
 // **NEW: TACTICAL MOVE GENERATOR (INCLUDES CHECKS)**
 // **CORRECTED AND OPTIMIZED TACTICAL MOVE GENERATOR**
+// ====================================================================================
+//            Smarter Tactical Move Generation for Quiescence Search
+// ====================================================================================
+// Now includes checks and direct attacks on valuable pieces to improve tactical vision.
+
 function generateTacticalMoves(state) {
     const tacticalMoves = [];
-    const pseudoLegalMoves = [];
+    const pseudoLegalMoves = generatePseudoLegalMoves(state); // Use the faster generator
     const opponentColor = state.turn === 'w' ? 'b' : 'w';
+    const highValueVictims = ['q', 'r']; // We are interested in threats to queens and rooks
 
-    // 1. Generate all possible pseudo-legal moves for the current player.
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const p = state.board[r][c];
-            if (p && (p.toUpperCase() === p) === (state.turn === 'w')) {
-                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
-            }
-        }
-    }
-
-    // 2. Filter for tactical moves (captures, promotions, checks) that are fully legal.
     for (const move of pseudoLegalMoves) {
-        
         // --- High-Performance Pattern: Make, Check, Unmake ---
         const unmakeInfo = makeMove(state, move);
         
-        // Check if the move we just made left our own king in check. If so, it's illegal.
-        const ownKingPos = state.kingPos[opponentColor]; // Note: after makeMove, the turn flips, so our king is now the "opponent"
+        const ownKingPos = state.kingPos[opponentColor];
         const isIllegal = ownKingPos && isSquareAttacked(state.board, ownKingPos.r, ownKingPos.c, state.turn);
         
         if (!isIllegal) {
-            // If the move was legal, check if it's tactical.
+            // A move is tactical if it's a capture, a promotion, a check,
+            // or if it attacks an enemy queen or rook.
             const enemyKingPos = state.kingPos[state.turn];
             const isCheck = enemyKingPos && isSquareAttacked(state.board, enemyKingPos.r, enemyKingPos.c, opponentColor);
+            
+            let isHighValueThreat = false;
+            if (!move.capture) { // Only check for threats on non-capture moves
+                const victim = state.board[move.to[0]][move.to[1]];
+                if (victim && highValueVictims.includes(victim.toLowerCase())) {
+                     // Check if our moving piece is now attacking this high-value piece
+                     if(isSquareAttackedByPiece(state.board, move.to[0], move.to[1], move.to[0], move.to[1], opponentColor)) {
+                         isHighValueThreat = true;
+                     }
+                }
+            }
 
-            if (move.capture || move.promotion || isCheck) {
+            if (move.capture || move.promotion || isCheck || isHighValueThreat) {
                 tacticalMoves.push(move);
             }
         }
         
         unmakeMove(state, unmakeInfo);
-        // --- End of Pattern ---
     }
     
     return tacticalMoves;
 }
-
 
 
 
@@ -334,9 +337,11 @@ function evaluate(state) {
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
     
     // 5. King Safety (Applied last as a penalty)
-    if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(state, state.kingPos.w, 'b', pieceData);
-    if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(state, state.kingPos.b, 'w', pieceData);
+    if (state.kingPos.w) whiteScore.subtract(evaluateKingSafety(state, state.kingPos.w, 'b', pieceData));
+if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos.b, 'w', pieceData));
 
+    
+    
     // 6. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
@@ -353,49 +358,47 @@ function evaluate(state) {
 // ====================================================================================
 //            EVALUATE STRATEGIC BONUSES (Mk. X - BUGFIX, TEMPO & ENHANCED MOBILITY)
 // ====================================================================================
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. XIII - WITH CASTLING INCENTIVE)
+// ====================================================================================
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
     const startRank = isWhite ? 7 : 0;
     
-    // --- NEW: DEVELOPMENT & TEMPO BONUS ---
-    // Reward for moving minor pieces off the back rank. This teaches the engine about tempo.
+    // --- NEW: POWERFUL INCENTIVE TO CASTLE ---
+    // We check if the king has castled and give a significant midgame bonus for it.
+    // This teaches the engine that castling is a high-priority strategic goal.
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    if (myKingPos) {
+        // Check for kingside castling (King on g-file)
+        if (myKingPos.c === 6 && myKingPos.r === startRank) {
+            score.add(new TaperedScore(50, 10)); // Strong midgame safety bonus
+        }
+        // Check for queenside castling (King on c-file)
+        else if (myKingPos.c === 2 && myKingPos.r === startRank) {
+            score.add(new TaperedScore(40, 5)); // Slightly smaller bonus as queenside can be riskier
+        }
+    }
+
+    // --- EXISTING LOGIC BELOW ---
+
+    // Development & Tempo Bonus
     const myKnights = isWhite ? pieceData.N : pieceData.n;
     const myBishops = isWhite ? pieceData.B : pieceData.b;
     for (const knight of myKnights) {
-        if (knight.r !== startRank) {
-            score.add(new TaperedScore(10, 0)); // Small bonus for a developed knight
-        }
+        if (knight.r !== startRank) score.add(new TaperedScore(10, 0));
     }
     for (const bishop of myBishops) {
-        if (bishop.r !== startRank) {
-            score.add(new TaperedScore(10, 0)); // Small bonus for a developed bishop
-        }
+        if (bishop.r !== startRank) score.add(new TaperedScore(10, 0));
     }
 
-    // --- CASTLING RIGHTS BONUS ---
-    const kingSideMask = isWhite ? 8 : 2;
-    const queenSideMask = isWhite ? 4 : 1;
-    const canCastle = (state.castlingRights & kingSideMask) || (state.castlingRights & queenSideMask);
-    if (canCastle) {
-        score.add(new TaperedScore(50, 5)); // Reduced bonus, as development is now also rewarded.
-    }
-
-    // --- BUGFIX & REVISED: PENALTY FOR PREMATURE KING MOVEMENT ---
-    // This logic is now safer and correctly penalizes moving the king only when it's a clear mistake.
-    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
-    const kingStartFile = 4;
-    // Only apply the penalty if the king has moved AND the engine can no longer castle.
-    if (!canCastle && myKingPos && (myKingPos.r !== startRank || myKingPos.c !== kingStartFile)) {
-        score.subtract(new TaperedScore(35, 0));
-    }
-
-    // --- Bishop Pair Bonus ---
+    // Bishop Pair Bonus
     if (myBishops.length >= 2) {
         score.add(new TaperedScore(50, 75));
     }
 
-    // --- Rook on Open/Semi-Open File Bonus ---
+    // Rook on Open/Semi-Open File Bonus
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
              score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 20 : 40, 15));
@@ -405,7 +408,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // --- PAWN STRUCTURE EVALUATION ---
+    // Pawn Structure Evaluation
     const myPawns = isWhite ? pieceData.P : pieceData.p;
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
@@ -420,7 +423,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // --- GOOD vs. BAD BISHOP EVALUATION ---
+    // Good vs. Bad Bishop Evaluation
     for (const bishop of myBishops) {
         const bishopColor = (bishop.r + bishop.c) % 2;
         let trappedPawns = 0;
@@ -432,7 +435,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         score.subtract(new TaperedScore(trappedPawns * 10, trappedPawns * 5));
     }
 
-    // --- ENHANCED: LIGHTWEIGHT MOBILITY WITH INCREASED WEIGHT ---
+    // Lightweight Mobility
     let mobilityScore = 0;
     const pieceTypesForMobility = ['N', 'B', 'R', 'Q'];
     for(const pType of pieceTypesForMobility) {
@@ -451,12 +454,10 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
             }
         }
     }
-    // The mobility score is now multiplied by 1.5 to give it a higher priority.
-    score.add(new TaperedScore(mobilityScore * 1.5, mobilityScore));
+    score.add(new TaperedScore(mobilityScore, mobilityScore / 2));
 
     return score;
 }
-
 
 
 
@@ -554,74 +555,58 @@ function evaluateThreats(state, color, pieceData) {
 // ====================================================================================
 // This version is faster and better understands real threats vs. passive exposure.
 
+// ====================================================================================
+//            King Safety with Endgame Awareness (Mk. XII)
+// ====================================================================================
+// This version now returns a TaperedScore to apply penalties in the endgame,
+// preventing the king from making suicidal marches.
+
 function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
-    let dangerScore = 0;
+    const danger = new TaperedScore();
     const isAttackerWhite = attackerColor === 'w';
     
-    // 1. Attacker Count: The most important factor in king safety is the number of
-    //    enemy pieces that are participating in an attack.
     let attackerCount = 0;
-    const kingHalf = kingPos.c < 4 ? 'queen' : 'king'; // Which side of the board is the king on?
+    const kingHalf = kingPos.c < 4 ? 'queen' : 'king';
     const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
 
     for (const pType of attackerPieceTypes) {
         const attackers = pieceData[pType];
         for (const attacker of attackers) {
             const attackerHalf = attacker.c < 4 ? 'queen' : 'king';
-            // A piece is considered a potential attacker if it's on the same side of the board as the king.
-            if (attackerHalf === kingHalf) {
-                attackerCount++;
-            }
+            if (attackerHalf === kingHalf) attackerCount++;
         }
     }
 
-    // 2. King Zone Attack Score
-    // Only calculate detailed attacks if there are enough pieces nearby to pose a real threat.
-    if (attackerCount > 1) {
-        const kingZone = getKingZone(kingPos);
-        const attackWeights = { q: 9, r: 5, b: 3, n: 3 }; // Pawns are less critical for zone control
-        
-        for (const pType of attackerPieceTypes) {
-            const attackers = pieceData[pType];
-            for (const attacker of attackers) {
-                // Check if this piece attacks any of the 9 squares in the king's zone
-                for (const zoneSquare of kingZone) {
-                    if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
-                        dangerScore += attackWeights[pType.toLowerCase()];
-                    }
+    if (attackerCount < 2) {
+        return danger; // Not a coordinated attack, position is likely safe.
+    }
+
+    let dangerScore = 0;
+    const kingZone = getKingZone(kingPos);
+    const attackWeights = { q: 9, r: 5, b: 3, n: 3 };
+    
+    for (const pType of attackerPieceTypes) {
+        const attackers = pieceData[pType];
+        for (const attacker of attackers) {
+            for (const zoneSquare of kingZone) {
+                if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
+                    dangerScore += attackWeights[pType.toLowerCase()];
                 }
             }
         }
     }
+    
+    // Scale the danger score based on the number of attackers.
+    const scaledDanger = dangerScore * (attackerCount - 1);
 
-    // 3. Pawn Shield Penalty
-    // A broken pawn shield is only dangerous if there are attackers to exploit it.
-    if (attackerCount > 0) {
-        const kingFile = kingPos.c;
-        const shieldRank = isAttackerWhite ? kingPos.r - 1 : kingPos.r + 1;
-        if (kingFile > 0 && kingFile < 7) {
-            for (let c = kingFile - 1; c <= kingFile + 1; c++) {
-                const friendlyPawn = isAttackerWhite ? 'p' : 'P';
-                if (state.board[shieldRank]?.[c] !== friendlyPawn) {
-                     dangerScore += 10;
-                }
-            }
-        }
-    }
+    // **THE CRITICAL CHANGE**: Apply the penalty to BOTH midgame and endgame phases.
+    // The danger is slightly less critical in the endgame as the king has more escape squares,
+    // but it is FAR from zero. This will stop the suicidal king walks.
+    danger.mg = scaledDanger;
+    danger.eg = scaledDanger / 2;
 
-    // Scale the danger score based on the number of attackers. This is the key.
-    // A danger score of 20 with 4 attackers is a crisis. A score of 20 with 1 attacker is manageable.
-    if (attackerCount > 1) {
-        return dangerScore * (attackerCount - 1);
-    }
-
-    return 0; // If there are no coordinated attackers, the position is considered safe.
+    return danger;
 }
-
-
-
-
-
 
 
 
