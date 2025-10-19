@@ -79,10 +79,10 @@ const rawOpeningBook = [
   ['r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', "Italian Game", { from:[7,5], to:[4,2], san:'Bc4' }],
   
   
-  ['r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', "Italian Game: Main Defenses", 
-    { from:[0,5], to:[2,2], san:'Bc5' },   // Correct move: 3...Bc5 (Giuoco Piano)
-    { from:[0,6], to:[2,5], san:'Nf6' }    // Correct move: 3...Nf6 (Two Knights Defense)
-  ],
+  ['r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', "Italian Game: Main Defenses",
+  { from:[0,5], to:[3,2], san:'Bc5' },   // Corrected! Now represents f8 -> c5
+  { from:[0,6], to:[2,5], san:'Nf6' }
+],
   
   // Italian Game: Giuoco Piano (Corrected Sequence)
 ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq d3 0 5', "Italian Game: Giuoco Piano", { from:[4,4], to:[3,3], san:'exd4' }],
@@ -520,7 +520,9 @@ const rawOpeningBook = [
   ['rnbqk2r/1bp2ppp/p3pn2/1p6/2PP4/5NP1/P1Q1PPBP/RNBR2K1 b kq - 3 7', "Queen's Indian Defense", { from:[0,1], to:[2,2], san:'Nbd7' }],
 
   // #20: Modern Benoni: Main Line
-  ['rnbqkb1r/pppp1ppp/5n2/4p3/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3', "Modern Benoni", { from:[3,3], to:[2,2], san:'dxc5' }],
+  // #20: Modern Benoni: Main Line
+['rnbqkb1r/pppp1ppp/5n2/4p3/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3', "Modern Benoni", { from:[4,3], to:[3,2], san:'dxc5' }], // Corrected!
+  
   ['rnbqkb1r/pppp1ppp/5n2/4p3/2P5/8/PP1PPPPP/RNBQKBNR b KQkq - 0 3', "Modern Benoni", { from:[1,4], to:[2,4], san:'e6' }],
   ['rnbqkb1r/ppp2ppp/4pn2/3p4/2P5/8/PP1PPPPP/RNBQKBNR w KQkq - 0 4', "Modern Benoni", { from:[7,1], to:[5,2], san:'Nc3' }],
   ['rnbqkb1r/ppp2ppp/4pn2/3p4/2P5/2N5/PP1PPPPP/R1BQKBNR b KQkq - 1 4', "Modern Benoni", { from:[2,5], to:[3,3], san:'cxd4' }],
