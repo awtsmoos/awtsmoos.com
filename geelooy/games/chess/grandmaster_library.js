@@ -67,8 +67,9 @@ const sourceBook = [
     { name: "Smith-Morra Gambit Accepted", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 d6 6. Bc4 e6" },
     
     // --- Gambits for Black (vs 1. e4) ---
-    { name: "Latvian Gambit", pgn: "1. e4 e5 2. Nf3 f5 3. Nxe5 Qf6 4. d4 d6 5. Nc4 fxe4" },
-    { name: "Elephant Gambit", pgn: "1. e4 e5 2. Nf3 d5 3. exd5 e4 4. Qe2 Nf6 5. d3" },
+    
+    
+      
     { name: "Falkbeer Countergambit", pgn: "1. e4 e5 2. f4 d5 3. exd5 e4 4. d3 Nf6 5. dxe4" },
     
     // --- More 1. d4 Lines ---
@@ -97,8 +98,9 @@ const sourceBook = [
     { name: "Polish (Sokolsky) Opening", pgn: "1. b4 d5 2. Bb2 Nf6 3. e3 Bf5 4. c4" },
     
     // --- Unorthodox & Rare Lines ---
-    { name: "Grob's Attack", pgn: "1. g4 d5 2. Bg2 c6 3. h3 e5" },
-    { name: "Ware Opening", pgn: "1. a4 e5 2. d4 d5 3. dxe5 Nc6" },
+    
+    
+    
     { name: "Van't Kruijs Opening", pgn: "1. e3 e5 2. c4 Nc6 3. Nc3 Nf6 4. Nf3" },
     { name: "Nimzowitsch-Larsen Attack", pgn: "1. Nf3 d5 2. b3 c5 3. e3 Nf6 4. Bb2" },
     { name: "Hippopotamus Defense (Setup)", pgn: "1. e4 g6 2. d4 Bg7 3. Nf3 d6 4. Bc4 b6 5. O-O Bb7" },
@@ -145,8 +147,9 @@ const sourceBook = [
     // --- Aggressive Gambits ---
     { name: "Stafford Gambit", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. d3 Bc5" },
     { name: "Fried Liver Attack", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Nxd5 6. Nxf7 Kxf7" },
-    { name: "Jerome Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. Bxf7+ Kxf7 5. Nxe5+" },
-    { name: "Cochrane Gambit", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nxf7 Kxf7 5. d4" },
+    
+    
+      { name: "Cochrane Gambit", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nxf7 Kxf7 5. d4" },
     { name: "Volga Gambit (Benko Gambit Declined)", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. Nf3 g6 5. cxb5 a6 6. b6" },
     { name: "King's Gambit Declined: Classical", pgn: "1. e4 e5 2. f4 Bc5 3. Nf3 d6 4. c3 Nf6" },
     { name: "From's Gambit", pgn: "1. f4 e5 2. fxe5 d6 3. exd6 Bxd6 4. Nf3" },
@@ -230,9 +233,9 @@ const sourceBook = [
     { name: "Clemenz Opening", pgn: "1. h3 e5 2. e4 Nf6" },
     { name: "Dunst Opening", pgn: "1. Nc3 e5 2. Nf3 Nc6 3. d4" },
     { name: "Kádas Opening", pgn: "1. h4 d5 2. d4 Nf6" },
-    { name: "Amar Opening (Paris Gambit)", pgn: "1. Nh3 d5 2. g3 e5 3. f4" },
-    { name: "Sodium Attack", pgn: "1. Na3 e5 2. c4" },
-    { name: "Old Benoni Defense", pgn: "1. d4 c5 2. d5 d6 3. e4" },
+    
+    
+      { name: "Old Benoni Defense", pgn: "1. d4 c5 2. d5 d6 3. e4" },
     { name: "Horwitz Defense", pgn: "1. d4 e6 2. c4 b6" },
     { name: "Scandinavian Defense: Mieses-Kotroc Variation", pgn: "1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. b4" },
     { name: "Alekhine's Defense: Modern Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3 Bg4" },
@@ -294,19 +297,20 @@ const sourceBook = [
     { name: "Réti Opening: Capablanca's Variation", pgn: "1. Nf3 Nf6 2. c4 c6 3. b3 d5 4. Bb2" },
     { name: "King's Indian Attack: Keres Variation", pgn: "1. Nf3 d5 2. g3 Bg4 3. Bg2 Nd7 4. c4" },
     { name: "Van Geet Opening (Dunst)", pgn: "1. Nc3 d5 2. e4 d4 3. Nce2 e5" },
-    { name: "Barnes Opening", pgn: "1. f3 e5 2. Kf2" },
+    
+    
     { name: "Saragossa Opening", pgn: "1. c3 e5 2. d4" },
-    { name: "Desprez Opening (Kadas)", pgn: "1. h4 e5 2. c4" },
-
+    
     // --- Rare Defenses & Counter-Gambits ---
     { name: "Scandinavian Defense: Icelandic-Palme Gambit", pgn: "1. e4 d5 2. exd5 Nf6 3. c4 e6 4. dxe6 Bxe6" },
     { name: "Alekhine's Defense: Exchange Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. c4 Nb6 5. exd6 cxd6" },
     { name: "Pterodactyl Defense", pgn: "1. e4 g6 2. d4 Bg7 3. Nc3 c5 4. Nf3 Qa5" },
     { name: "Rat Defense: English Rat", pgn: "1. d4 d6 2. c4 e5 3. dxe5 a5" },
-    { name: "Colorado Gambit", pgn: "1. e4 Nc6 2. Nf3 f5 3. exf5 d5" },
-    { name: "Budapest Gambit: Fajarowicz Variation", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ne4 4. Nf3" },
-    { name: "Englund Gambit Complex: Soller Gambit", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 f6 4. exf6" },
-    { name: "Vaganian Gambit", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. Nc3" },
+    
+    
+      { name: "Budapest Gambit: Fajarowicz Variation", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ne4 4. Nf3" },
+    
+     { name: "Vaganian Gambit", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. Nc3" },
     { name: "Queen's Knight Defense", pgn: "1. d4 Nc6 2. c4 e5" },
 
     // --- More 1. e4 Systems ---
@@ -324,7 +328,8 @@ const sourceBook = [
 
     // --- Final Unique & Experimental Gambits ---
     { name: "Wing Gambit", pgn: "1. e4 c5 2. b4 cxb4 3. a3 d5" },
-    { name: "Fred Defense", pgn: "1. e4 f5 2. exf5 Kf7" },
+    
+    
     { name: "Rousseau Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 f5 4. d3" },
     { name: "Charlick Gambit", pgn: "1. d4 e5 2. dxe5 d6" },
     { name: "Diemer-Duhm Gambit", pgn: "1. d4 d5 2. e4 dxe4 3. c4 e5" },
@@ -333,8 +338,7 @@ const sourceBook = [
     { name: "English Opening: King's English, Three Knights System", pgn: "1. c4 e5 2. Nc3 Nf6 3. Nf3 Nc6 4. e3" },
     { name: "Slav Gambit", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. e4" },
     { name: "Canard Opening", pgn: "1. f4 d5 2. e4 dxe4" },
-    { name: "Gibbins-Weidenhagen Gambit", pgn: "1. d4 Nf6 2. g4 Nxg4 3. f3" },
-
+    
     
     
     
