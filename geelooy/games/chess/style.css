@@ -76,14 +76,13 @@ display: none;
     height: 40px;
     width: calc(100vw-200px);
     max-width: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    
+    
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 28px;
     color: #ccc;
     overflow-x:scroll;
     margin: 5px 0;
-    flex-wrap: wrap;
+    
 }
