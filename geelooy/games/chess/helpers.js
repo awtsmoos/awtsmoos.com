@@ -1,5 +1,25 @@
 
 //B"H
+function initializeZobristKeys() {
+    if (zobristKeys) return;
+    
+    // This pseudo-random generator is guaranteed to produce Numbers.
+    const pseudoRandom = (() => {
+        let seed = 19880128;
+        return () => seed = (seed * 16807) % 2147483647;
+    })();
+
+    // This function MUST return a BigInt.
+    const random64 = () => (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
+
+    // Initialize all key arrays using the BigInt generator.
+    zobristKeys = Array(12).fill(null).map(() => Array(64).fill(0n).map(random64));
+    zobristTurnKey = random64();
+    zobristCastlingKeys = Array(16).fill(0n).map(random64); // For indices 0-15
+    zobristEnPassantKeys = Array(8).fill(0n).map(random64); // For indices 0-7 (files a-h)
+}
+
+
 function createGameState(fen) {
     initializeZobristKeys(); // Ensure keys are ready
     const [pieces, turn, castling, enPassant, half, full] = fen.split(' ');
