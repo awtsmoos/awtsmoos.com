@@ -63,9 +63,12 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 //                 EVALUATION & SEARCH (UNCHANGED)
 // =================================================================
 
+// **NEW: TACTICAL MOVE GENERATOR (INCLUDES CHECKS)**
 function generateTacticalMoves(state) {
     const tacticalMoves = [];
     const pseudoLegalMoves = [];
+    const opponentColor = state.turn === 'w' ? 'b' : 'w';
+
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = state.board[r][c];
@@ -74,13 +77,22 @@ function generateTacticalMoves(state) {
             }
         }
     }
+
     for (const move of pseudoLegalMoves) {
-        if (move.capture || move.promotion) {
-            const { newState } = makeMove(state, move);
-            const kingPos = newState.kingPos[state.turn];
-            if(kingPos && !isSquareAttacked(newState.board, kingPos.r, kingPos.c, newState.turn)) {
-                tacticalMoves.push(move);
-            }
+        // A tactical move is a capture, a promotion, or a check.
+        const { newState } = makeMove(state, move);
+        const kingPos = newState.kingPos[opponentColor];
+        
+        // We must ensure the move is legal by checking if our own king is safe.
+        const ownKingPos = newState.kingPos[state.turn];
+        if (ownKingPos && isSquareAttacked(newState.board, ownKingPos.r, ownKingPos.c, opponentColor)) {
+            continue; // Skip illegal moves
+        }
+
+        const isCheck = kingPos && isSquareAttacked(newState.board, kingPos.r, kingPos.c, state.turn);
+
+        if (move.capture || move.promotion || isCheck) {
+            tacticalMoves.push(move);
         }
     }
     return tacticalMoves;
@@ -440,32 +452,55 @@ function isStalemateBlunder(resultingState, currentEval) {
 
 
 
+// *** ENHANCED QUIESCENCE SEARCH (CHECKS FORKS AND OTHER THREATS) ***
 function quiesce(state, alpha, beta, ply) {
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+    }
     if (stopSearch) return 0;
-    if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
+
+    if (ply >= MATE_IN_MAX_PLY) {
+        return evaluate(state);
+    }
     nodeCount++;
+
     const standPat = evaluate(state);
-    if (standPat >= beta) return beta;
-    if (alpha < standPat) alpha = standPat;
+    if (standPat >= beta) {
+        return beta; // Fail-high
+    }
+    if (alpha < standPat) {
+        alpha = standPat;
+    }
+
+    // Use the new generator that includes checks
     const moves = generateTacticalMoves(state);
+    
+    // Simple move ordering for quiescence (MVV-LVA)
     moves.sort((a, b) => {
         let scoreA = 0, scoreB = 0;
-        if (a.capture) scoreA = (pieceValues[a.capture.toLowerCase()] * 10) - pieceValues[a.piece.toLowerCase()];
-        if (a.promotion) scoreA += pieceValues[a.promotion.toLowerCase()];
-        if (b.capture) scoreB = (pieceValues[b.capture.toLowerCase()] * 10) - pieceValues[b.piece.toLowerCase()];
-        if (b.promotion) scoreB += pieceValues[b.promotion.toLowerCase()];
+        if (a.capture) scoreA = (pieceValues[a.capture.toLowerCase()].mg * 10) - pieceValues[a.piece.toLowerCase()].mg;
+        if (a.promotion) scoreA += pieceValues[a.promotion.toLowerCase()].mg;
+        if (b.capture) scoreB = (pieceValues[b.capture.toLowerCase()].mg * 10) - pieceValues[b.piece.toLowerCase()].mg;
+        if (b.promotion) scoreB += pieceValues[b.promotion.toLowerCase()].mg;
         return scoreB - scoreA;
     });
+
     for (const move of moves) {
         const { newState } = makeMove(state, move);
         repetitionHistory.push(newState.zobristHash);
         const score = -quiesce(newState, -beta, -alpha, ply + 1);
         repetitionHistory.pop();
+
         if (stopSearch) return 0;
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+
+        if (score >= beta) {
+            return beta; // Beta-cutoff
+        }
+        if (score > alpha) {
+            alpha = score;
+        }
     }
+
     return alpha;
 }
 
@@ -693,7 +728,7 @@ self.onmessage = function(e) {
 
     if (command === 'calculate_move') {
         searchStartTime = performance.now();
-        timeLimit = maxTime || 5000;
+        timeLimit = maxTime || 4000;
         stopSearch = false;
         nodeCount = 0;
         transpositionTable = new Map();
