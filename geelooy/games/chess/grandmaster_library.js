@@ -332,7 +332,9 @@ const rawOpeningBook = [
 
   // #4: Two Knights Defense: Fried Liver Attack
   ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 4 4', "Two Knights Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 5 5', "Two Knights Defense: Fried Liver Attack", { from:[5,5], to:[6,6], san:'Ng5' }],
+ 
+   ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 5 5', "Two Knights Defense: Fried Liver Attack", { from:[5,5], to:[6,6], san:'Ng5' }],
+  
   ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/6N1/PPPP1PPP/RNBQK2R b KQkq - 6 5', "Two Knights Defense: Fried Liver Attack", { from:[7,7], to:[7,5], san:'O-O' }],
   ['r1bq1rk1/pppp1ppp/2n2n2/2b1p3/2B1P3/6N1/PPPP1PPP/RNBQK2R w KQ - 7 6', "Two Knights Defense: Fried Liver Attack", { from:[6,3], to:[4,3], san:'d4' }],
   ['r1bq1rk1/pppp1ppp/2n2n2/2b1p3/2BPP3/6N1/PPP2PPP/RNBQK2R b KQ - 0 6', "Two Knights Defense: Fried Liver Attack", { from:[4,4], to:[3,3], san:'exd4' }],
