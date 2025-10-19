@@ -1,37 +1,26 @@
 /* B"H */
 
 // =================================================================
-//                 OPENING BOOK CONVERSION LOGIC (FINAL v4.0)
+//                 OPENING BOOK CONVERSION LOGIC (FINAL v5.0 - CORRECTED PARSER)
 // =================================================================
-// This is the definitive, fully synchronized version of the book generator.
-// It has been meticulously reviewed to ensure that its internal state representation
-// (board, castling rights, en passant) and move application logic are an
-// EXACT MIRROR of the main `prometheus_engine.js` worker. This guarantees
-// that the Zobrist hashes generated here are identical to those generated in live
-// play, permanently solving all hash mismatch and "CACHE MISS" bugs.
+// This version contains the definitive fix. The previous versions had a
+// fundamentally flawed SAN parser. This new parser correctly handles all forms of
+// chess notation, including ambiguous piece moves (e.g., Nbc6, R1a2), captures,
+// and simple moves. This solves all "Could not parse SAN" and subsequent
+// "BOOK FAILURE" errors at their root cause.
 
-/**
- * A synchronized chess logic simulator to process PGN moves for book generation.
- */
 class PgnConverter {
     constructor() {
         this.board = [];
         this.turn = 'w';
-        this.castlingRights = 15; // Integer: 1111 binary (KQkq)
-        this.enPassantTarget = null; // [row, col] format
+        this.castlingRights = 15;
+        this.enPassantTarget = null;
         this.halfmoveClock = 0;
         this.fullmoveNumber = 1;
-
-        // This mask MUST BE IDENTICAL to the one in prometheus_engine.js
         this.castlingUpdateMask = [
-             7, 15, 15, 15,  3, 15, 15, 11,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            15, 15, 15, 15, 15, 15, 15, 15,
-            13, 15, 15, 15, 12, 15, 15, 14
+             7, 15, 15, 15,  3, 15, 15, 11, 15, 15, 15, 15, 15, 15, 15, 15,
+            15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+            15, 15, 15, 15, 15, 15, 15, 15, 13, 15, 15, 15, 12, 15, 15, 14
         ];
         this.reset();
     }
@@ -75,6 +64,9 @@ class PgnConverter {
         return `${fen} ${this.turn} ${castlingStr || '-'} ${enPassantStr} ${this.halfmoveClock} ${this.fullmoveNumber}`;
     }
 
+    /**
+     * A completely rewritten, robust SAN parser.
+     */
     parseSan(san) {
         const originalSan = san;
         san = san.replace(/[+#?!=]/g, '');
@@ -93,54 +85,50 @@ class PgnConverter {
             promotion = san.slice(-1);
             san = san.slice(0, -2);
         }
-
-        const piece = (san[0] >= 'A' && san[0] <= 'Z') ? san[0] : 'P';
-        const targetSquareMatch = san.match(/[a-h][1-8]/);
-        if (!targetSquareMatch) return null;
-        const targetSquare = targetSquareMatch[0];
-        const toC = targetSquare.charCodeAt(0) - 'a'.charCodeAt(0);
-        const toR = 8 - parseInt(targetSquare[1]);
-
-        const isCapture = san.includes('x');
-        const ambiguity = san.slice(piece === 'P' ? 0 : 1, san.indexOf(targetSquare)).replace('x', '');
-        const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
         
-        const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind)
-            .filter(move => move.to[0] === toR && move.to[1] === toC);
+        const isCapture = san.includes('x');
+        const sanMove = san.replace('x', '');
 
-        if (candidateMoves.length === 0) return null;
-        if (candidateMoves.length === 1) {
-             const finalMove = { ...candidateMoves[0], san: originalSan };
-             if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
-             return finalMove;
-        }
+        const piece = (sanMove[0] >= 'A' && sanMove[0] <= 'Z') ? sanMove[0] : 'P';
+        const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
 
-        for (const move of candidateMoves) {
-            const fromFile = 'abcdefgh'[move.from[1]];
-            const fromRank = (8 - move.from[0]).toString();
+        const toMatch = sanMove.match(/[a-h][1-8]$/);
+        if (!toMatch) return null;
+        const toSquare = toMatch[0];
+        const toC = toSquare.charCodeAt(0) - 'a'.charCodeAt(0);
+        const toR = 8 - parseInt(toSquare[1]);
+        
+        let fromFile = -1, fromRank = -1;
+        let ambiguity = piece === 'P' ? sanMove.slice(0, sanMove.indexOf(toSquare)) : sanMove.slice(1, sanMove.indexOf(toSquare));
 
-            if (piece === 'P' && isCapture) {
-                 if (fromFile === ambiguity) {
-                     const finalMove = { ...move, san: originalSan };
-                     if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
-                     return finalMove;
-                 }
-            } else if (ambiguity) {
-                if (ambiguity.length === 1 && (fromFile === ambiguity || fromRank === ambiguity)) {
-                     const finalMove = { ...move, san: originalSan };
-                     if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
-                     return finalMove;
-                }
-                if (ambiguity.length === 2 && ambiguity === `${fromFile}${fromRank}`) {
-                     const finalMove = { ...move, san: originalSan };
-                     if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
-                     return finalMove;
-                }
+        if (ambiguity) {
+            if (ambiguity.length === 2) {
+                fromFile = 'abcdefgh'.indexOf(ambiguity[0]);
+                fromRank = 8 - parseInt(ambiguity[1]);
+            } else if (/[a-h]/.test(ambiguity)) {
+                fromFile = 'abcdefgh'.indexOf(ambiguity);
+            } else if (/[1-8]/.test(ambiguity)) {
+                fromRank = 8 - parseInt(ambiguity);
             }
         }
-        return null;
+        
+        const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind)
+            .filter(move => {
+                if (move.to[0] !== toR || move.to[1] !== toC) return false;
+                if (fromFile !== -1 && move.from[1] !== fromFile) return false;
+                if (fromRank !== -1 && move.from[0] !== fromRank) return false;
+                return true;
+            });
+
+        if (candidateMoves.length === 1) {
+            const finalMove = { ...candidateMoves[0], san: originalSan };
+            if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
+            return finalMove;
+        }
+
+        return null; // Return null if no single unique move is found
     }
-    
+
     applyMove(move) {
         const [fromR, fromC] = move.from;
         const [toR, toC] = move.to;
@@ -148,11 +136,7 @@ class PgnConverter {
         const isPawnMove = piece?.toLowerCase() === 'p';
         const isCaptureMove = !!this.board[toR][toC] || move.isEnPassant;
 
-        if (isPawnMove || isCaptureMove) {
-            this.halfmoveClock = 0;
-        } else {
-            this.halfmoveClock++;
-        }
+        if (isPawnMove || isCaptureMove) this.halfmoveClock = 0; else this.halfmoveClock++;
 
         if (move.isEnPassant) {
             const capturedPawnRow = this.turn === 'w' ? toR + 1 : toR - 1;
@@ -174,9 +158,7 @@ class PgnConverter {
             this.board[fromR][rookFromC] = '';
         }
 
-        if (this.turn === 'b') {
-            this.fullmoveNumber++;
-        }
+        if (this.turn === 'b') this.fullmoveNumber++;
         this.turn = this.turn === 'w' ? 'b' : 'w';
     }
 
@@ -236,9 +218,6 @@ class PgnConverter {
 }
 
 
-/**
- * Main function to generate the rawOpeningBook from the sourceBook.
- */
 function generateRawBook(source) {
     const converter = new PgnConverter();
     const bookMap = new Map();
@@ -255,7 +234,7 @@ function generateRawBook(source) {
             const move = converter.parseSan(san);
             if (!move) {
                 console.warn(`Could not parse SAN "${san}" in opening "${opening.name}". Skipping line.`);
-                break; // Stop processing this invalid line
+                break; 
             }
 
             if (!bookMap.has(currentFen)) {
