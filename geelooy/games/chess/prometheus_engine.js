@@ -790,37 +790,62 @@ function search(state, depth, alpha, beta, ply) {
     const moves = generateLegalMoves(state);
     if (moves.length === 0) return inCheck ? -MATE_SCORE + ply : 0;
     const orderedMoves = orderMoves(moves, ttEntry ? ttEntry.bestMove : null, ply);
-    let originalAlpha = alpha, bestMove = orderedMoves[0];
+    
+    // ... inside the search function, after orderedMoves is defined ...
+
+    let originalAlpha = alpha;
+    let bestMove = orderedMoves[0]; // Have a fallback best move
 
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
         const { newState } = makeMove(state, move);
         repetitionHistory.push(newState.zobristHash);
+        
         let score;
+        // --- CORRECTED PVS LOGIC ---
         if (i === 0) {
+            // 1. First move is searched with a full window, as always.
             score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         } else {
+            // 2. Subsequent moves are tested with a fast zero-window search.
             let reduction = (depth >= 3 && i >= 3 && !inCheck && !move.capture) ? 1 : 0;
             score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
-            if (score > alpha && score < beta) score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
+
+            // 3. If the zero-window search showed promise (score > alpha)
+            //    AND isn't already a game-ending move (score < beta),
+            //    we MUST re-search with a full window to get the true score.
+            if (score > alpha && score < beta) {
+                score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
+            }
         }
+        // --- END OF CORRECTION ---
+
         repetitionHistory.pop();
-        if (stopSearch) return 0; // Check again after the recursive call returns
+
+        if (stopSearch) return 0;
+
         if (score > alpha) {
-            alpha = score; bestMove = move;
+            alpha = score;
+            bestMove = move;
+
             if (score >= beta) {
+                // This is a beta-cutoff (fail-high)
                 if (!move.capture) {
                     killerMoves[ply][1] = killerMoves[ply][0];
                     killerMoves[ply][0] = move;
-                    historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] += depth * depth;
+                    // Update history table for non-captures that cause cutoffs
+                    if (move.piece) historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] += depth * depth;
                 }
                 transpositionTable.set(state.zobristHash.toString(), { score: beta, depth, flag: TT_LOWERBOUND, bestMove: move });
-                return beta;
+                return beta; // Return beta, as this branch is too good.
             }
         }
     }
+
+    // Determine the transposition table flag based on the results
     const flag = (alpha > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(state.zobristHash.toString(), { score: alpha, depth, flag, bestMove });
+
     return alpha;
 }
 
