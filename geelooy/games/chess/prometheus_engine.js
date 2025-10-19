@@ -782,10 +782,7 @@ self.onmessage = function(e) {
     }
 
     if (command === 'calculate_move') {
-        if (!zobristKeys) {
-            syncHashingWithBook();
-            buildOpeningBook();
-        }
+        
         searchStartTime = performance.now();
         timeLimit = maxTime || 5000; // Enforce 5-second limit
         stopSearch = false;
