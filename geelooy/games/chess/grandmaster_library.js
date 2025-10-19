@@ -991,4 +991,125 @@ const rawOpeningBook = [
   ['rnbqk2r/p2pbppp/1p2pn2/8/3PP3/3B4/PP3PPP/RNBQK1NR w KQkq - 0 5', "Owen's Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
   ['rnbqk2r/p2pbppp/1p2pn2/8/3PP3/3B1N2/PP3PPP/RNBQK2R b KQkq - 1 5', "Owen's Defense", { from:[7,7], to:[7,5], san:'O-O' }]
   
+  
+  
+  
+  ,
+  // [----------------------------------------------------------------]
+  // [         ENCYCLOPEDIC EXPANSION (COVERING ALL SIDELINES)        ]
+  // [----------------------------------------------------------------]
+
+  // --- COVERING THE LATEST MISS & OTHER FRENCH DEFENSE SIDELINES ---
+
+  // #63: French Defense: Steinitz Attack (3. Bd3)
+  ['rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "French Defense", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/3B4/PPP2PPP/RNBQK1NR b KQkq - 1 3', "French: Steinitz Attack", { from:[3,3], to:[4,4], san:'dxe4' }],
+  ['rnbqkbnr/ppp2ppp/4p3/8/3Pp3/3B4/PPP2PPP/RNBQK1NR w KQkq - 0 4', "French: Steinitz Attack", { from:[3,1], to:[4,4], san:'Bxe4' }],
+  ['rnbqkbnr/ppp2ppp/4p3/8/4B3/8/PPPP1PPP/RNBQK1NR b KQkq - 0 4', "French: Steinitz Attack", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/8/4B3/8/PPPP1PPP/RNBQK1NR w KQkq - 1 5', "French: Steinitz Attack", { from:[4,4], to:[5,4], san:'Be3' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/8/8/4B3/PPPP1PPP/RN1QK1NR b KQkq - 2 5', "French: Steinitz Attack", { from:[2,5], to:[4,4], san:'Be7' }],
+  ['rnbqk2r/ppp1bppp/4pn2/8/8/4B3/PPPP1PPP/RN1QK1NR w KQkq - 3 6', "French: Steinitz Attack", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqk2r/ppp1bppp/4pn2/8/8/4BN2/PPPP1PPP/R2QKB1R b KQkq - 4 6', "French: Steinitz Attack", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['rnbq1rk1/ppp1bppp/4pn2/8/8/4BN2/PPPP1PPP/R2QKB1R w KQ - 5 7', "French: Steinitz Attack", { from:[6,2], to:[4,2], san:'c4' }],
+
+  // #64: French Defense: Exchange Variation
+  ['rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "French: Exchange Variation", { from:[4,4], to:[5,5], san:'exd5' }],
+  ['rnbqkbnr/ppp2ppp/4p3/3P4/3P4/8/PPP2PPP/RNBQKBNR b KQkq - 0 3', "French: Exchange Variation", { from:[4,4], to:[3,3], san:'exd5' }],
+  ['rnbqkbnr/ppp2ppp/8/3p4/3P4/8/PPP2PPP/RNBQKBNR w KQkq - 0 4', "French: Exchange Variation", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['rnbqkbnr/ppp2ppp/8/3p4/3P4/3B4/PPP2PPP/RNBQK1NR b KQkq - 1 4', "French: Exchange Variation", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/ppp2ppp/2n5/3p4/3P4/3B4/PPP2PPP/RNBQK1NR w KQkq - 2 5', "French: Exchange Variation", { from:[6,2], to:[4,2], san:'c3' }],
+  ['r1bqkbnr/ppp2ppp/2n5/3p4/3P4/2P1B3/PP3PPP/RN1QKBNR b KQkq - 0 5', "French: Exchange Variation", { from:[7,5], to:[3,1], san:'Bd6' }],
+  ['r1bqk2r/ppp2ppp/2nb4/3p4/3P4/2P1B3/PP3PPP/RN1QKBNR w KQkq - 1 6', "French: Exchange Variation", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['r1bqk2r/ppp2ppp/2nb4/3p4/3P4/2P1BN2/PP3PPP/R2QKB1R b KQkq - 2 6', "French: Exchange Variation", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // --- MORE 1. e4 SIDELINES ---
+
+  // #65: Danish Gambit
+  ['rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2', "Center Game", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnbqkbnr/pppp1ppp/8/4p3/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2', "Center Game", { from:[4,4], to:[3,3], san:'exd4' }],
+  ['rnbqkbnr/pppp1ppp/8/8/3pP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Danish Gambit", { from:[6,2], to:[4,2], san:'c3' }],
+  ['rnbqkbnr/pppp1ppp/8/8/3pP3/2P5/PP3PPP/RNBQKBNR b KQkq - 0 3', "Danish Gambit Accepted", { from:[3,3], to:[2,2], san:'dxc3' }],
+  ['rnbqkbnr/pppp1ppp/8/8/4P3/2p5/PP3PPP/RNBQKBNR w KQkq - 0 4', "Danish Gambit Accepted", { from:[7,5], to:[3,1], san:'Bc4' }],
+  ['rnbqkbnr/pppp1ppp/8/8/2B1P3/2p5/PP3PPP/RNBQK1NR b KQkq - 1 4', "Danish Gambit Accepted", { from:[2,2], to:[1,1], san:'cxb2' }],
+  ['rnbqkbnr/p1pp1ppp/8/1p6/2B1P3/8/Pp3PPP/RNBQK1NR w KQkq - 0 5', "Danish Gambit Accepted", { from:[3,1], to:[1,1], san:'Bxb2' }],
+  ['rnbqkbnr/p1pp1ppp/8/1p6/4P3/8/PB3PPP/RN1QKBNR b KQkq - 0 5', "Danish Gambit Accepted", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/p1pp1ppp/5n2/1p6/4P3/8/PB3PPP/RN1QKBNR w KQkq - 1 6', "Danish Gambit Accepted", { from:[7,1], to:[5,2], san:'Nc3' }],
+
+  // #66: Elephant Gambit
+  ['rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', "Elephant Gambit", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PP1P1PPP/RNBQKB1R w KQkq - 0 3', "Elephant Gambit", { from:[4,4], to:[3,3], san:'exd5' }],
+  ['rnbqkbnr/pppp1ppp/8/8/4P3/5N2/PP1P1PPP/RNBQKB1R b KQkq - 0 3', "Elephant Gambit", { from:[1,3], to:[2,3], san:'d4' }],
+  ['rnbqkbnr/ppp2ppp/8/3pp3/4P3/5N2/PP1P1PPP/RNBQKB1R w KQkq - 0 4', "Elephant Gambit", { from:[5,3], to:[3,3], san:'Nxd4' }],
+  ['rnbqkbnr/ppp2ppp/8/3p4/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 4', "Elephant Gambit", { from:[7,5], to:[3,3], san:'Bxd4' }],
+  ['rnbqk2r/ppp2ppp/8/3p4/3BP3/8/PPP2PPP/RN1QKB1R b KQkq - 0 5', "Elephant Gambit", { from:[1,4], to:[2,4], san:'e6' }],
+  ['rnbqk2r/ppp1bppp/4p3/3p4/3BP3/8/PPP2PPP/RN1QKB1R w KQkq - 1 6', "Elephant Gambit", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqk2r/ppp1bppp/4p3/3p4/3BP3/2N5/PPP2PPP/R2QKB1R b KQkq - 2 6', "Elephant Gambit", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // #67: Latvian Gambit
+  ['rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', "Latvian Gambit", { from:[1,5], to:[3,5], san:'f5' }],
+  ['rnbqkbnr/pppp2pp/8/4pp2/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3', "Latvian Gambit", { from:[5,3], to:[4,4], san:'Nxe5' }],
+  ['rnbqkbnr/pppp2pp/8/4Np2/4P3/8/PPPP1PPP/RNBQKB1R b KQkq - 0 3', "Latvian Gambit", { from:[7,3], to:[4,4], san:'Qe7' }],
+  ['rnb1kbnr/ppppq1pp/8/4Np2/4P3/8/PPPP1PPP/RNBQKB1R w KQkq - 1 4', "Latvian Gambit", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnb1kbnr/ppppq1pp/8/4Np2/3PP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 4', "Latvian Gambit", { from:[1,3], to:[2,3], san:'d6' }],
+  ['rnb1kbnr/ppp1q1pp/3p4/4Np2/3PP3/8/PPP2PPP/RNBQKB1R w KQkq - 0 5', "Latvian Gambit", { from:[4,4], to:[2,2], san:'Nf3' }],
+  ['rnb1kbnr/ppp1q1pp/3p4/5p2/3PP3/5N2/PPP2PPP/RNBQKB1R b KQkq - 1 5', "Latvian Gambit", { from:[1,5], to:[2,5], san:'fxe4' }],
+  ['rnb1kbnr/ppp1q1pp/3p4/8/3Pp3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 6', "Latvian Gambit", { from:[3,5], to:[4,4], san:'Nfd2' }],
+
+  // --- MORE 1. d4 & FLANK SIDELINES ---
+
+  // #68: Albin Countergambit
+  ['rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2', "Albin Countergambit", { from:[1,4], to:[3,4], san:'e5' }],
+  ['rnbqkbnr/ppp2ppp/8/3pp3/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3', "Albin Countergambit", { from:[3,3], to:[4,4], san:'dxe5' }],
+  ['rnbqkbnr/ppp2ppp/8/3pP3/2P5/8/PP2PPPP/RNBQKBNR b KQkq - 0 3', "Albin Countergambit", { from:[1,3], to:[3,3], san:'d4' }],
+  ['rnbqkbnr/ppp2ppp/8/8/3pP3/8/PP2PPPP/RNBQKBNR w KQkq - 0 4', "Albin Countergambit", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqkbnr/ppp2ppp/8/8/3pP3/5N2/PP2PPPP/RNBQKB1R b KQkq - 1 4', "Albin Countergambit", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/ppp2ppp/2n5/8/3pP3/5N2/PP2PPPP/RNBQKB1R w KQkq - 2 5', "Albin Countergambit", { from:[1,6], to:[3,5], san:'g3' }],
+  ['r1bqkbnr/ppp2ppp/2n5/8/3pP3/5NP1/PP2PP1P/RNBQKB1R b KQkq - 0 5', "Albin Countergambit", { from:[7,5], to:[3,1], san:'Bb4+' }],
+  ['r1bqk1nr/ppp2ppp/2n5/8/1b1pP3/5NP1/PP2PP1P/RNBQKB1R w KQkq - 1 6', "Albin Countergambit", { from:[7,5], to:[4,3], san:'Bd2' }],
+
+  // #69: Chigorin Defense
+  ['rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2', "Chigorin Defense", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/ppp1pppp/2n5/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 1 3', "Chigorin Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['r1bqkbnr/ppp1pppp/2n5/3p4/2PP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 2 3', "Chigorin Defense", { from:[3,3], to:[2,2], san:'dxc4' }],
+  ['r1bqkbnr/ppp1pppp/2n5/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 0 4', "Chigorin Defense", { from:[6,3], to:[4,3], san:'d5' }],
+  ['r1bqkbnr/ppp1pppp/2n5/8/2pP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 0 4', "Chigorin Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['r1bqkb1r/ppp1pppp/2n2n2/8/2pP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 2 5', "Chigorin Defense", { from:[4,4], to:[5,5], san:'e3' }],
+  ['r1bqkb1r/ppp1pppp/2n2n2/8/2pP4/4PN2/PP3PPP/RNBQKB1R b KQkq - 0 5', "Chigorin Defense", { from:[7,5], to:[3,1], san:'Bg4' }],
+  ['r2qkb1r/ppp1pppp/2n2n2/8/2pP2b1/4PN2/PP3PPP/RNBQKB1R w KQkq - 1 6', "Chigorin Defense", { from:[7,1], to:[5,2], san:'Nc3' }],
+
+  // #70: Stonewall Attack
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Stonewall Attack", { from:[4,4], to:[5,5], san:'e3' }],
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/4P3/PPP2PPP/RNBQKBNR b KQkq - 0 2', "Stonewall Attack", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/4P3/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Stonewall Attack", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/3BP3/PPP2PPP/RNBQK1NR b KQkq - 2 3', "Stonewall Attack", { from:[1,2], to:[3,2], san:'c5' }],
+  ['rnbqkb1r/pp2pppp/5n2/2pp4/3P4/3BP3/PPP2PPP/RNBQK1NR w KQkq - 0 4', "Stonewall Attack", { from:[6,2], to:[4,2], san:'c3' }],
+  ['rnbqkb1r/pp2pppp/5n2/2pp4/2PP4/3BP3/PP3PPP/RNBQK1NR b KQkq - 0 4', "Stonewall Attack", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkb1r/pp2pppp/2n2n2/2pp4/2PP4/3BP3/PP3PPP/RNBQK1NR w KQkq - 1 5', "Stonewall Attack", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['r1bqkb1r/pp2pppp/2n2n2/2pp4/2PP4/3BPN2/PP3PPP/RNBQK2R b KQkq - 2 5', "Stonewall Attack", { from:[1,4], to:[2,4], san:'e6' }],
+  ['r1bqk2r/pp2bppp/2n1pn2/2pp4/2PP4/3BPN2/PP3PPP/RNBQK2R w KQkq - 0 6', "Stonewall Attack", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // #71: Veresov Attack
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Veresov Attack", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/2N5/PPP1PPPP/R1BQKBNR b KQkq - 2 2', "Veresov Attack", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/2N5/PPP1PPPP/R1BQKBNR w KQkq - 0 3', "Veresov Attack", { from:[7,5], to:[6,6], san:'Bg5' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p2B1/3P4/2N5/PPP1PPPP/R2QKBNR b KQkq - 1 3', "Veresov Attack", { from:[0,1], to:[2,2], san:'Nbd7' }],
+  ['r2qkb1r/pppbpppp/5n2/3p2B1/3P4/2N5/PPP1PPPP/R2QKBNR w KQkq - 2 4', "Veresov Attack", { from:[6,5], to:[4,5], san:'f3' }],
+  ['r2qkb1r/pppbpppp/5n2/3p2B1/3P4/2N2P2/PPP1P1PP/R2QKBNR b KQkq - 0 4', "Veresov Attack", { from:[1,2], to:[3,2], san:'c5' }],
+  ['r2qkb1r/pp1bpppp/5n2/2pp2B1/3P4/2N2P2/PPP1P1PP/R2QKBNR w KQkq - 0 5', "Veresov Attack", { from:[4,4], to:[5,5], san:'e4' }],
+  ['r2qkb1r/pp1bpppp/5n2/2pp2B1/3PP3/2N2P2/PPP1P1PP/R2QKBNR b KQkq - 0 5', "Veresov Attack", { from:[3,3], to:[4,4], san:'dxe4' }],
+  ['r2qkb1r/pp1bpppp/5n2/2p3B1/3pP3/2N2P2/PPP1P1PP/R2QKBNR w KQkq - 0 6', "Veresov Attack", { from:[2,2], to:[4,4], san:'Nxe4' }],
+
+  // #72: Grob's Attack
+  ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', "Grob's Attack", { from:[1,6], to:[3,5], san:'g4' }],
+  ['rnbqkbnr/pppppppp/8/8/6P1/8/PPPPPP1P/RNBQKBNR b KQkq - 0 1', "Grob's Attack", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/ppp1pppp/8/3p4/6P1/8/PPPPPP1P/RNBQKBNR w KQkq - 0 2', "Grob's Attack", { from:[7,5], to:[6,5], san:'Bg2' }],
+  ['rnbqkbnr/ppp1pppp/8/3p4/6P1/8/PPPPPPBP/RNBQK1NR b KQkq - 1 2', "Grob's Attack", { from:[1,2], to:[3,2], san:'c6' }],
+  ['rnbqkbnr/pp2pppp/2p5/3p4/6P1/8/PPPPPPBP/RNBQK1NR w KQkq - 0 3', "Grob's Attack", { from:[6,7], to:[5,7], san:'h3' }],
+  ['rnbqkbnr/pp2pppp/2p5/3p4/6P1/7P/PPPPPPBP/RNBQK1NR b KQkq - 1 3', "Grob's Attack", { from:[1,4], to:[3,4], san:'e5' }],
+  ['rnbqkbnr/pp3ppp/2p5/3pp1P1/8/7P/PPPPPPBP/RNBQK1NR w KQkq - 0 4', "Grob's Attack", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnbqkbnr/pp3ppp/2p5/3pp1P1/3P4/7P/PPP1PPBP/RNBQK1NR b KQkq - 0 4', "Grob's Attack", { from:[2,5], to:[4,4], san:'e4' }]
+  
+  
+  
+  
 ];
