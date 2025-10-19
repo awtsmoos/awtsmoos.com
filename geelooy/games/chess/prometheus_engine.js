@@ -64,11 +64,13 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 // =================================================================
 
 // **NEW: TACTICAL MOVE GENERATOR (INCLUDES CHECKS)**
+// **CORRECTED AND OPTIMIZED TACTICAL MOVE GENERATOR**
 function generateTacticalMoves(state) {
     const tacticalMoves = [];
     const pseudoLegalMoves = [];
     const opponentColor = state.turn === 'w' ? 'b' : 'w';
 
+    // 1. Generate all possible pseudo-legal moves for the current player.
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = state.board[r][c];
@@ -78,26 +80,32 @@ function generateTacticalMoves(state) {
         }
     }
 
+    // 2. Filter for tactical moves (captures, promotions, checks) that are fully legal.
     for (const move of pseudoLegalMoves) {
-        // A tactical move is a capture, a promotion, or a check.
-        const { newState } = makeMove(state, move);
-        const kingPos = newState.kingPos[opponentColor];
         
-        // We must ensure the move is legal by checking if our own king is safe.
-        const ownKingPos = newState.kingPos[state.turn];
-        if (ownKingPos && isSquareAttacked(newState.board, ownKingPos.r, ownKingPos.c, opponentColor)) {
-            continue; // Skip illegal moves
-        }
+        // --- High-Performance Pattern: Make, Check, Unmake ---
+        const unmakeInfo = makeMove(state, move);
+        
+        // Check if the move we just made left our own king in check. If so, it's illegal.
+        const ownKingPos = state.kingPos[opponentColor]; // Note: after makeMove, the turn flips, so our king is now the "opponent"
+        const isIllegal = ownKingPos && isSquareAttacked(state.board, ownKingPos.r, ownKingPos.c, state.turn);
+        
+        if (!isIllegal) {
+            // If the move was legal, check if it's tactical.
+            const enemyKingPos = state.kingPos[state.turn];
+            const isCheck = enemyKingPos && isSquareAttacked(state.board, enemyKingPos.r, enemyKingPos.c, opponentColor);
 
-        const isCheck = kingPos && isSquareAttacked(newState.board, kingPos.r, kingPos.c, state.turn);
-
-        if (move.capture || move.promotion || isCheck) {
-            tacticalMoves.push(move);
+            if (move.capture || move.promotion || isCheck) {
+                tacticalMoves.push(move);
+            }
         }
+        
+        unmakeMove(state, unmakeInfo);
+        // --- End of Pattern ---
     }
+    
     return tacticalMoves;
 }
-
 
 
 
