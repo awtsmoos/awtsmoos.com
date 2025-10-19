@@ -588,10 +588,14 @@ const rawOpeningBook = [
   ['rnbqkb1r/ppp1pppp/8/8/4P2p/8/PPPP1PPP/RN1QKBNR b KQkq - 0 5', "Trompowsky Attack", { from:[1,4], to:[2,4], san:'e5' }],
   ['rnbqkb1r/ppp2ppp/8/3pp3/4P2p/8/PPPP1PPP/RN1QKBNR w KQkq - 0 6', "Trompowsky Attack", { from:[7,6], to:[5,5], san:'Nf3' }],
 
-  // #25: Colle System (Zukertort Variation)
-  ['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Colle System", { from:[7,6], to:[5,5], san:'Nf3' }],
-  ['rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 2 2', "Colle System", { from:[1,3], to:[3,3], san:'d5' }],
-  ['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 0 3', "Colle System", { from:[4,4], to:[5,5], san:'e3' }],
+  // #25: Colle System (Zukertort Variation) (Corrected)
+['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Colle System", { from:[7,6], to:[5,5], san:'Nf3' }],
+['rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 2 2', "Colle System", { from:[1,3], to:[3,3], san:'d5' }],
+['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 0 3', "Colle System", { from:[6,4], to:[4,4], san:'e3' }], // <-- CORRECTED LINE
+// ... rest of the Colle System lines
+  
+    
+  
   ['rnbqkb1r/ppp1pppp/5n2/3p4/3P4/4PN2/PPP2PPP/RNBQKB1R b KQkq - 0 3', "Colle System", { from:[1,4], to:[2,4], san:'e6' }],
   ['rnbqkb1r/ppp2ppp/4pn2/3p4/3P4/4PN2/PPP2PPP/RNBQKB1R w KQkq - 0 4', "Colle-Zukertort", { from:[7,5], to:[4,3], san:'Bd3' }],
   ['rnbqkb1r/ppp2ppp/4pn2/3p4/3P4/3BPN2/PPP2PPP/RNBQK2R b KQkq - 1 4', "Colle-Zukertort", { from:[1,2], to:[3,2], san:'c5' }],
