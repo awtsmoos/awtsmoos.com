@@ -46,64 +46,92 @@ class PgnConverter {
         return `${fen} ${turn} ${castlingStr || '-'} ${enPassantStr} ${halfmoveClock} ${fullmoveNumber}`;
     }
 
-    parseSan(san) {
-        const legalMoves = generateLegalMoves(this.currentState);
-        const originalSan = san;
-        san = san.replace(/[+#?!=]/g, '');
+    // In your generateFromPgn.js file
 
-        if (san === 'O-O') {
-            return legalMoves.find(m => m.isCastle && m.to[1] === 6) || null;
-        }
-        if (san === 'O-O-O') {
-            return legalMoves.find(m => m.isCastle && m.to[1] === 2) || null;
-        }
+function parseSan(san) {
+    const legalMoves = generateLegalMoves(this.currentState);
+    const originalSan = san;
+    san = san.replace(/[+#?!=]/g, ''); // Keep this line
 
-        let promotionPiece = null;
-        if (san.includes('=')) {
-            promotionPiece = san.slice(-1);
-            san = san.slice(0, -2);
-        }
-        
-        const sanClean = san.replace('x', '');
-        const piece = (sanClean[0] >= 'A' && sanClean[0] <= 'Z') ? sanClean[0] : 'P';
-        const pieceToFind = this.currentState.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
-        
-        const toMatch = sanClean.match(/[a-h][1-8]$/);
-        if (!toMatch) return null;
-        const toSquare = toMatch[0];
-        const toC = toSquare.charCodeAt(0) - 'a'.charCodeAt(0);
-        const toR = 8 - parseInt(toSquare[1]);
-
-        const ambiguity = sanClean.substring(piece === 'P' ? 0 : 1, sanClean.indexOf(toSquare));
-
-        const candidateMoves = legalMoves.filter(move => {
-            if (move.piece !== pieceToFind || move.to[0] !== toR || move.to[1] !== toC) {
-                return false;
-            }
-            
-            // Check for promotion match
-            if (promotionPiece && (!move.promotion || move.promotion.toLowerCase() !== promotionPiece.toLowerCase())) {
-                return false;
-            }
-
-            if (ambiguity) {
-                const fromFile = 'abcdefgh'[move.from[1]];
-                const fromRank = (8 - move.from[0]).toString();
-                if (!ambiguity.includes(fromFile) && !ambiguity.includes(fromRank)) {
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        if (candidateMoves.length === 1) {
-            // Add the san back for the book data structure
-            candidateMoves[0].san = originalSan;
-            return candidateMoves[0];
-        }
-        
-        return null; // No single, unambiguous move found
+    // 1. Handle Castling
+    if (san === 'O-O') {
+        const move = legalMoves.find(m => m.isCastle && m.to[1] === 6);
+        if (move) move.san = originalSan;
+        return move || null;
     }
+    if (san === 'O-O-O') {
+        const move = legalMoves.find(m => m.isCastle && m.to[1] === 2);
+        if (move) move.san = originalSan;
+        return move || null;
+    }
+
+    // 2. Identify the target square and promotion piece
+    let promotionPiece = null;
+    if (san.includes('=')) {
+        promotionPiece = san.slice(-1);
+        san = san.slice(0, -2);
+    }
+
+    const toMatch = san.match(/[a-h][1-8]$/);
+    if (!toMatch) return null;
+    const toSquareStr = toMatch[0];
+    const toC = toSquareStr.charCodeAt(0) - 'a'.charCodeAt(0);
+    const toR = 8 - parseInt(toSquareStr[1]);
+
+    // 3. Identify the moving piece type
+    const sanNoDest = san.substring(0, san.length - 2).replace('x', '');
+    const pieceChar = (sanNoDest.length > 0 && sanNoDest[0] >= 'A' && sanNoDest[0] <= 'Z') ? sanNoDest[0] : 'P';
+    const pieceToFind = this.currentState.turn === 'w' ? pieceChar.toUpperCase() : pieceChar.toLowerCase();
+
+    // 4. Handle Disambiguation
+    const disambiguationStr = (pieceChar === 'P') ? sanNoDest : sanNoDest.substring(1);
+
+    // 5. Filter legal moves to find the single matching candidate
+    const candidateMoves = legalMoves.filter(move => {
+        // Must match piece type, target square, and promotion
+        if (move.piece !== pieceToFind || move.to[0] !== toR || move.to[1] !== toC) {
+            return false;
+        }
+        if (promotionPiece && (!move.promotion || move.promotion.toLowerCase() !== promotionPiece.toLowerCase())) {
+            return false;
+        }
+
+        // Check against disambiguation string
+        if (disambiguationStr) {
+            const fromFile = 'abcdefgh'[move.from[1]];
+            const fromRank = (8 - move.from[0]).toString();
+            // Case 1: "Nbd2" -> file is specified
+            if (disambiguationStr.length === 1 && 'abcdefgh'.includes(disambiguationStr)) {
+                if (fromFile !== disambiguationStr) return false;
+            }
+            // Case 2: "N1d2" -> rank is specified
+            else if (disambiguationStr.length === 1 && '12345678'.includes(disambiguationStr)) {
+                if (fromRank !== disambiguationStr) return false;
+            }
+            // Case 3: "Nfxd4" or "Qh4e1" -> file and rank are specified
+            else if (disambiguationStr.length === 2) {
+                if (fromFile !== disambiguationStr[0] || fromRank !== disambiguationStr[1]) return false;
+            }
+        }
+        return true;
+    });
+
+    if (candidateMoves.length === 1) {
+        candidateMoves[0].san = originalSan; // Add san for the book data
+        return candidateMoves[0];
+    }
+
+    // If still ambiguous or no move found, log an error for debugging
+    console.error(`Failed to parse SAN: "${originalSan}" for FEN: ${this.toFen()}`);
+    console.error(`Found ${candidateMoves.length} candidates.`);
+    return null;
+}
+    
+    
+    
+    
+    
+    
 
     applyMove(move) {
         const { newState } = makeMove(this.currentState, move);
