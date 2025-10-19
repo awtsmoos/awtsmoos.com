@@ -145,11 +145,14 @@ function generateLegalMoves(state) {
     if (kingPosition && !isSquareAttacked(board, kingPosition.r, kingPosition.c, opponentColor)) {
         const r = color === 'w' ? 7 : 0;
         const kingSideMask = color === 'w' ? 8 : 2;
-        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
+        // FIX: Removed redundant check for the destination square being attacked.
+        // The main validation loop already checks the king's final position.
+        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor)) {
             pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
         }
         const queenSideMask = color === 'w' ? 4 : 1;
-        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
+        // FIX: Removed redundant check for the destination square being attacked.
+        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 3, opponentColor)) {
             pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
         }
     }
@@ -176,6 +179,7 @@ function generateLegalMoves(state) {
     }
     return legalMoves;
 }
+
 
 function calculateZobristHash(state) {
     let hash = 0n;
