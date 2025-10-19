@@ -705,6 +705,12 @@ function calculateKingDanger(board, kingPos, attackerColor) {
 // =================================================================
 //                 THE LABYRINTH: HIGH-SPEED SEARCH (v2.0 - FAST QUIESCENCE)
 // =================================================================
+// =================================================================
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (v2.1 - ROBUST QUIESCENCE)
+// =================================================================
+// This version fixes a critical crash when sorting tactical moves. It now
+// correctly handles non-capturing promotions, preventing the 'toLowerCase' error.
+
 function quiesce(state, alpha, beta, ply) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
@@ -717,22 +723,39 @@ function quiesce(state, alpha, beta, ply) {
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
 
-    // CRITICAL CHANGE: Use the new, fast tactical move generator.
     const moves = generateTacticalMoves(state);
     
-    // Order moves: Most Valuable Victim - Least Valuable Attacker (MVV-LVA)
+    // --- START OF CRITICAL FIX ---
+    // This new sorting logic correctly handles both captures and promotions.
     moves.sort((a, b) => {
-        const valA = (pieceValues[a.capture.toLowerCase()] * 10) - pieceValues[a.piece.toLowerCase()];
-        const valB = (pieceValues[b.capture.toLowerCase()] * 10) - pieceValues[b.piece.toLowerCase()];
-        return valB - valA;
+        let scoreA = 0;
+        let scoreB = 0;
+
+        if (a.capture) {
+            scoreA = (pieceValues[a.capture.toLowerCase()] * 10) - pieceValues[a.piece.toLowerCase()];
+        }
+        if (a.promotion) {
+            scoreA += pieceValues[a.promotion.toLowerCase()];
+        }
+
+        if (b.capture) {
+            scoreB = (pieceValues[b.capture.toLowerCase()] * 10) - pieceValues[b.piece.toLowerCase()];
+        }
+        if (b.promotion) {
+            scoreB += pieceValues[b.promotion.toLowerCase()];
+        }
+        
+        return scoreB - scoreA;
     });
+    // --- END OF CRITICAL FIX ---
 
     for (const move of moves) {
-        // We must still check if the tactical move is legal.
+        // The legality check here is still important for edge cases.
         const { newState } = makeMove(state, move);
         const opponentColor = state.turn === 'w' ? 'b' : 'w';
         const kingFinalPos = newState.kingPos[state.turn];
 
+        // Ensure the move doesn't leave the king in check
         if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
             repetitionHistory.push(newState.zobristHash);
             const score = -quiesce(newState, -beta, -alpha, ply + 1);
