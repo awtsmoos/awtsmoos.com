@@ -49,14 +49,15 @@ const rawOpeningBook = [
   ['r1bqkbnr/1ppp1ppp/p1n5/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 4', "Ruy Lopez: Morphy Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
   ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 1 5', "Ruy Lopez: Morphy Defense", { from:[7,7], to:[7,5], san:'O-O' }],
   ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 5', "Ruy Lopez: Closed Defenses", { from:[2,5], to:[4,4], san:'Be7' }],
-  ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 2 6', "Ruy Lopez: Closed Main Line", { from:[7,4], to:[6,4], san:'Re1' }],
- 
-   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
-   
-   
   
-   ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
-  ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[0,3], to:[1,3], san:'d6' }],
+  
+  ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 2 6', "Ruy Lopez: Closed Main Line", { from:[7,5], to:[7,4], san:'Re1' }],
+  
+  
+   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
+['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
+
+['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[0,3], to:[1,3], san:'d6' }],
   ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 w kq - 7 8', "Ruy Lopez: Closed Main Line", { from:[6,2], to:[4,2], san:'c3' }],
   ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 b kq - 0 8', "Ruy Lopez: Closed Main Line", { from:[0,7], to:[0,5], san:'O-O' }],
   ['r1b2rk1/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 w - - 1 9', "Ruy Lopez: Closed Main Line", { from:[6,3], to:[5,3], san:'d4' }],
@@ -84,12 +85,16 @@ const rawOpeningBook = [
   { from:[0,6], to:[2,5], san:'Nf6' }
 ],
   
+  
   // Italian Game: Giuoco Piano (Corrected Sequence)
-['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq d3 0 5', "Italian Game: Giuoco Piano", { from:[4,4], to:[3,3], san:'exd4' }],
-['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,2], to:[3,3], san:'cxd4' }],
-['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,1], to:[4,3], san:'Bb4+' }], // Note: This is an alternative 6th move for black
-['r1bqk2r/pppp1ppp/2n2n2/1B2p3/3PP3/2b2N2/PP3PPP/RNBQK2R w KQkq - 0 7', "Italian Game: Giuoco Piano", { from:[7,1], to:[5,2], san:'Nc3' }],
-['r1bqk2r/pppp1ppp/2n2n2/1B2p3/3PP3/2N2N2/PPP2PPP/R1BQK2R b KQkq - 1 7', "Italian Game: Giuoco Piano", { from:[2,4], to:[4,4], san:'Nxe4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/P2P1PPP/RNBQK2R w KQkq - 1 5', "Italian Game: Giuoco Piano", { from:[6,3], to:[4,3], san:'d4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq d3 0 5', "Italian Game: Giuoco Piano", { from:[3,4], to:[4,3], san:'exd4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b5/2BpP3/2P2N2/PP3PPP/RNBQK2R w KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,2], to:[3,3], san:'cxd4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b5/3PP3/5N2/PP3PPP/RNBQKB1R b KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,1], to:[4,3], san:'Bb4+' }],
+['r1bqk2r/1ppp1ppp/p1n2n2/2b5/3PP3/5N2/PP3PPP/RNBQKB1R w KQkq - 0 7', "Italian Game: Giuoco Piano", { from:[7,1], to:[5,2], san:'Nc3' }],
+['r1bqk2r/1ppp1ppp/p1n2n2/2b5/3PP3/2N2N2/PP3PPP/R1BQKB1R b KQkq - 1 7', "Italian Game: Giuoco Piano", { from:[2,5], to:[4,4], san:'Nxe4' }],
+
+
   
   
   // --- Sicilian Defense ---
