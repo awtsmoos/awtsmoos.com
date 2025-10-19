@@ -56,8 +56,11 @@ const rawOpeningBook = [
   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 2 6', "Ruy Lopez: Closed Main Line", { from:[7,5], to:[7,4], san:'Re1' }],
   
   
-   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
-['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
+   // This is the corrected, logical sequence of FENs and moves.
+['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQR1K1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
+['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/5N2/PPPP1PPP/RNBQR1K1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[4,0], to:[5,1], san:'Bb3' }],
+
+
 
 ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[1,3], to:[2,3], san:'d6' }],
  
@@ -1062,9 +1065,14 @@ const rawOpeningBook = [
 
   // --- MORE 1. e4 SIDELINES ---
 
-  // #65: Danish Gambit
-  ['rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2', "Center Game", { from:[6,3], to:[4,3], san:'d4' }],
-  ['rnbqkbnr/pppp1ppp/8/4p3/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2', "Center Game", { from:[4,4], to:[3,3], san:'exd4' }],
+ // #65: Danish Gambit (Corrected)
+['rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2', "Center Game", { from:[6,3], to:[4,3], san:'d4' }],
+['rnbqkbnr/pppp1ppp/8/4p3/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2', "Center Game", { from:[3,4], to:[4,3], san:'exd4' }], // <-- CORRECTED LINE
+// ...
+  
+  
+  
+  
   ['rnbqkbnr/pppp1ppp/8/8/3pP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Danish Gambit", { from:[6,2], to:[4,2], san:'c3' }],
   ['rnbqkbnr/pppp1ppp/8/8/3pP3/2P5/PP3PPP/RNBQKBNR b KQkq - 0 3', "Danish Gambit Accepted", { from:[3,3], to:[2,2], san:'dxc3' }],
   ['rnbqkbnr/pppp1ppp/8/8/4P3/2p5/PP3PPP/RNBQKBNR w KQkq - 0 4', "Danish Gambit Accepted", { from:[7,5], to:[3,1], san:'Bc4' }],
