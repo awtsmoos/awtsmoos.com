@@ -1055,6 +1055,10 @@ function searchRoot(initialState, maxDepth) {
 //              THE CONDUCTOR: MAIN WORKER DRIVER (v2.2 - EP COMPATIBILITY)
 // =================================================================
 
+// =================================================================
+//              THE CONDUCTOR: MAIN WORKER DRIVER (v3.0 - VERIFIED BOOK)
+// =================================================================
+
 let DEBUG_MODE = true;
 let isInitialized = false;
 
@@ -1088,21 +1092,14 @@ self.onmessage = function(e) {
         const initialState = createGameState(fen);
         repetitionHistory = [initialState.zobristHash];
         
-        // --- START EN PASSANT COMPATIBILITY PATCH ---
-
         const currentHash = initialState.zobristHash;
         let alternativeHash = null;
 
-        // 1. Check if the current, correct position has an en passant target.
         if (initialState.enPassantTarget) {
-            if (DEBUG_MODE) console.log("EP target found. Calculating alternative hash for book lookup.");
-            // 2. If it does, create an alternative hash by XORing out the en passant key.
-            // This effectively creates the hash for the SAME position but with NO en passant square.
             const epFileIndex = 'abcdefgh'.indexOf(initialState.enPassantTarget[0]);
             alternativeHash = currentHash ^ zobristEnPassantKeys[epFileIndex];
         }
 
-        // 3. Check if either the correct hash OR the alternative (no-EP) hash is in the book.
         const correctHashInBook = openingBook.has(currentHash.toString());
         const alternativeHashInBook = alternativeHash && openingBook.has(alternativeHash.toString());
 
@@ -1110,25 +1107,48 @@ self.onmessage = function(e) {
             console.log(`---------------------------------`);
             console.log(`Calculating move for FEN: ${fen}`);
             console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
-            if (alternativeHash) console.log(`ALT (NO-EP) HASH:  ${alternativeHash}`);
         }
 
         if (correctHashInBook || alternativeHashInBook) {
-            // 4. Determine which hash was the one that hit.
             const bookHash = correctHashInBook ? currentHash.toString() : alternativeHash.toString();
-            
-            if (DEBUG_MODE) {
-                console.log(`**CACHE HIT**: Hash found in book (using ${correctHashInBook ? 'live' : 'alternative'} hash).`);
-            }
-
             const bookMoves = openingBook.get(bookHash);
-            const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
-            postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
-            return;
-        }
 
-        // --- END EN PASSANT COMPATIBILITY PATCH ---
+            // --- START OF CRITICAL FIX: VERIFY THE BOOK MOVE ---
+            // We no longer blindly trust the book. We verify its suggestions are legal.
+
+            // 1. Generate all genuinely legal moves for the current position.
+            const legalMoves = generateLegalMoves(initialState);
+            
+            // 2. Filter the book's suggestions to find ones that are actually legal.
+            const verifiedBookMoves = bookMoves.filter(bookMove => 
+                legalMoves.some(legalMove => 
+                    legalMove.from[0] === bookMove.from[0] &&
+                    legalMove.from[1] === bookMove.from[1] &&
+                    legalMove.to[0] === bookMove.to[0] &&
+                    legalMove.to[1] === bookMove.to[1]
+                )
+            );
+
+            // 3. Only proceed if there is at least one verified legal move.
+            if (verifiedBookMoves.length > 0) {
+                if (DEBUG_MODE) {
+                    console.log(`**CACHE HIT**: Hash found in book and move verified as legal.`);
+                }
+                const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
+                
+                // Post the original "thin" move object, respecting the main thread's format.
+                postMessage({ bestMove: randomVerifiedMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
+                return; // The move is legal and sent. We are done.
+            } else {
+                // If we are here, the book entry existed but ALL its moves were illegal.
+                if (DEBUG_MODE) {
+                    console.error(`**BOOK FAILURE**: Hash found, but all book moves were ILLEGAL. Treating as a cache miss.`);
+                }
+            }
+            // --- END OF CRITICAL FIX ---
+        }
         
+        // If the book check fails (either no entry or illegal moves), we fall through to here.
         if (DEBUG_MODE) {
             console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
             console.warn("Engine is now THINKING because of a book miss.");
@@ -1144,4 +1164,3 @@ self.onmessage = function(e) {
         });
     }
 };
-
