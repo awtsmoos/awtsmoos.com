@@ -847,35 +847,28 @@ function search(state, depth, alpha, beta, ply) {
 // engine to think longer than allowed, even if move generation is slow.
 
 function searchRoot(initialState, maxDepth) {
-    let alpha = -Infinity, beta = Infinity;
     let bestMove = null, bestScore = -Infinity;
 
-    // THE DEAD MAN'S SWITCH
-    // This timer runs in parallel to the search. If the search function
-    // gets stuck for any reason, this will flip the stopSearch flag
-    // and force it to terminate.
+    const moves = generateLegalMoves(initialState);
+    if (moves.length === 0) {
+        return { bestMove: null, score: evaluate(initialState) };
+    }
+
     const timerId = setTimeout(() => {
         stopSearch = true;
-    }, timeLimit - 50); // Set it just shy of the limit to be safe
+    }, timeLimit - 50);
 
+    // Iterative deepening loop
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        if (stopSearch) break;
-
-        // The slow move generation now happens inside the time-protected loop.
-        const moves = generateLegalMoves(initialState);
-        if (moves.length === 0) {
-            bestMove = null;
-            bestScore = 0;
-            break;
-        }
-
+        // --- CRITICAL FIX: Reset alpha and beta for each new depth search ---
+        let alpha = -Infinity, beta = Infinity; 
+        
         const orderedMoves = orderMoves(moves, bestMove, 0);
-        let currentBestMoveForDepth = orderedMoves[0];
+        let bestMoveForThisDepth = orderedMoves[0];
 
-        for (let i = 0; i < orderedMoves.length; i++) {
+        for (const move of orderedMoves) {
             if (stopSearch) break;
 
-            const move = orderedMoves[i];
             const { newState } = makeMove(initialState, move);
             repetitionHistory.push(newState.zobristHash);
             
@@ -883,28 +876,35 @@ function searchRoot(initialState, maxDepth) {
             
             repetitionHistory.pop();
             
+            if (stopSearch) break;
+
             if (score > alpha) {
-                if (!stopSearch) {
-                    alpha = score;
-                    currentBestMoveForDepth = move;
-                }
+                alpha = score;
+                bestMoveForThisDepth = move;
             }
         }
         
-        if (!stopSearch) {
-            bestMove = currentBestMoveForDepth;
-            bestScore = alpha;
+        if (stopSearch) {
+            // Time ran out, so the results of this partial search are not reliable.
+            // We break and use the results from the last fully completed depth.
+            break; 
         }
-        
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
+
+        // The full depth completed without running out of time.
+        // We can now safely update our overall best move and score.
+        bestMove = bestMoveForThisDepth;
+        bestScore = alpha;
+
+        // If a real mate is found, we can stop early.
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
+            break;
+        }
     }
     
-    // IMPORTANT: Clear the timer to prevent it from firing after the search is complete.
     clearTimeout(timerId);
     
     return { bestMove, score: bestScore };
 }
-
 
 
 
