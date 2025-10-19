@@ -1047,13 +1047,21 @@ function searchRoot(initialState, maxDepth) {
 //              THE CONDUCTOR: MAIN WORKER DRIVER (v2.0 - Corrected Startup)
 // =================================================================
 
-let DEBUG_MODE = true; // Keep this on for now
-let isInitialized = false; // Prevents re-initialization
+
+
+
+
+// =================================================================
+//              THE CONDUCTOR: MAIN WORKER DRIVER (v2.2 - EP COMPATIBILITY)
+// =================================================================
+
+let DEBUG_MODE = true;
+let isInitialized = false;
 
 function initializeEngine() {
     if (isInitialized) return;
-    initializeZobristKeys(); // 1. Keys are created FIRST.
-    buildOpeningBook();      // 2. Book is built SECOND, using the new keys.
+    initializeZobristKeys();
+    buildOpeningBook();
     isInitialized = true;
     console.log("Prometheus Engine Initialized Successfully.");
 }
@@ -1061,7 +1069,6 @@ function initializeEngine() {
 self.onmessage = function(e) {
     const { command, fen, maxDepth, maxTime } = e.data;
 
-    // This ensures the engine is fully ready before any command is processed.
     initializeEngine();
 
     if (command === 'set_debug') {
@@ -1080,27 +1087,50 @@ self.onmessage = function(e) {
 
         const initialState = createGameState(fen);
         repetitionHistory = [initialState.zobristHash];
-        const currentHash = initialState.zobristHash.toString();
+        
+        // --- START EN PASSANT COMPATIBILITY PATCH ---
+
+        const currentHash = initialState.zobristHash;
+        let alternativeHash = null;
+
+        // 1. Check if the current, correct position has an en passant target.
+        if (initialState.enPassantTarget) {
+            if (DEBUG_MODE) console.log("EP target found. Calculating alternative hash for book lookup.");
+            // 2. If it does, create an alternative hash by XORing out the en passant key.
+            // This effectively creates the hash for the SAME position but with NO en passant square.
+            const epFileIndex = 'abcdefgh'.indexOf(initialState.enPassantTarget[0]);
+            alternativeHash = currentHash ^ zobristEnPassantKeys[epFileIndex];
+        }
+
+        // 3. Check if either the correct hash OR the alternative (no-EP) hash is in the book.
+        const correctHashInBook = openingBook.has(currentHash.toString());
+        const alternativeHashInBook = alternativeHash && openingBook.has(alternativeHash.toString());
 
         if (DEBUG_MODE) {
             console.log(`---------------------------------`);
             console.log(`Calculating move for FEN: ${fen}`);
             console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
-            if (!openingBook.has(currentHash)) {
-                console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
-            } else {
-                console.log(`**CACHE HIT**: Hash found in book.`);
-            }
+            if (alternativeHash) console.log(`ALT (NO-EP) HASH:  ${alternativeHash}`);
         }
 
-        if (openingBook.has(currentHash)) {
-            const bookMoves = openingBook.get(currentHash);
+        if (correctHashInBook || alternativeHashInBook) {
+            // 4. Determine which hash was the one that hit.
+            const bookHash = correctHashInBook ? currentHash.toString() : alternativeHash.toString();
+            
+            if (DEBUG_MODE) {
+                console.log(`**CACHE HIT**: Hash found in book (using ${correctHashInBook ? 'live' : 'alternative'} hash).`);
+            }
+
+            const bookMoves = openingBook.get(bookHash);
             const randomMove = bookMoves[Math.floor(Math.random() * bookMoves.length)];
             postMessage({ bestMove: randomMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
             return;
         }
 
+        // --- END EN PASSANT COMPATIBILITY PATCH ---
+        
         if (DEBUG_MODE) {
+            console.error(`**CACHE MISS**: The live hash was NOT found in the opening book.`);
             console.warn("Engine is now THINKING because of a book miss.");
         }
 
@@ -1114,5 +1144,4 @@ self.onmessage = function(e) {
         });
     }
 };
-
 
