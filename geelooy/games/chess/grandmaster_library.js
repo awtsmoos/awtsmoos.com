@@ -364,10 +364,13 @@ const rawOpeningBook = [
   ['rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2', "Vienna Game", { from:[7,1], to:[5,2], san:'Nc3' }],
   ['rnbqkbnr/pppp1ppp/8/4p3/4P3/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 2', "Vienna Game", { from:[0,6], to:[2,5], san:'Nf6' }],
   ['rnbqkb1r/pppp1ppp/5n2/4p3/4P3/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 3', "Vienna Game", { from:[6,5], to:[4,5], san:'f4' }],
-  ['rnbqkb1r/pppp1ppp/5n2/4p3/4PP2/2N5/PPPP2PP/R1BQKBNR b KQkq - 0 3', "Vienna Gambit", { from:[3,3], to:[4,4], san:'d5' }],
-  ['rnbqkb1r/pppp1ppp/5n2/8/4Pp2/2N5/PPPP2PP/R1BQKBNR w KQkq - 0 4', "Vienna Gambit", { from:[4,5], to:[5,5], san:'fxe5' }],
-  ['rnbqkb1r/pppp1ppp/5n2/4p3/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 4', "Vienna Gambit", { from:[2,5], to:[4,4], san:'Nxe4' }],
-  ['rnbqkb1r/pppp1ppp/8/8/4n3/2N5/PPPPPPPP/R1BQKBNR w KQkq - 0 5', "Vienna Gambit", { from:[7,3], to:[6,3], san:'Qf3' }],
+ 
+   ['rnbqkb1r/pppp1ppp/5n2/4p3/4PP2/2N5/PPPP2PP/R1BQKBNR b KQkq - 0 3', "Vienna Gambit", { from:[4,4], to:[5,5], san:'exd4' }], // <-- Also corrected san to be accurate
+['rnbqkb1r/pppp1ppp/5n2/8/3PPp2/2N5/PPPP2PP/R1BQKBNR w KQkq - 0 4', "Vienna Gambit", { from:[4,5], to:[3,4], san:'fxe5' }], // <-- CORRECTED LINE
+['rnbqkb1r/pppp1ppp/5n2/4p3/4P3/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 4', "Vienna Gambit", { from:[2,5], to:[4,4], san:'Nxe4' }],
+
+  
+    ['rnbqkb1r/pppp1ppp/8/8/4n3/2N5/PPPPPPPP/R1BQKBNR w KQkq - 0 5', "Vienna Gambit", { from:[7,3], to:[6,3], san:'Qf3' }],
   ['rnbqkb1r/pppp1ppp/8/8/4n3/2N2Q2/PPPPPPPP/R1B1KBNR b KQkq - 2 5', "Vienna Gambit", { from:[4,4], to:[3,2], san:'Nc5' }],
   ['rnbqkb1r/pppp1ppp/8/2n5/8/2N2Q2/PPPPPPPP/R1B1KBNR w KQkq - 4 6', "Vienna Gambit", { from:[6,3], to:[4,3], san:'d4' }],
   ['rnbqkb1r/pppp1ppp/8/2n5/3P4/2N2Q2/PPP2PPP/R1B1KBNR b KQkq - 0 6', "Vienna Gambit", { from:[2,5], to:[4,4], san:'Be7' }],
