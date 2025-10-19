@@ -174,6 +174,15 @@ function getGamePhase(board) {
 // ====================================================================================
 // This version correctly passes variables between functions, fixing the 'undefined' crash.
 
+
+
+
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version removes the disastrous mobility loop from the evaluation,
+// relying on fast Piece-Square Tables to restore the engine's speed and strength.
+
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board);
@@ -183,8 +192,7 @@ function evaluate(state) {
 
     const pieceData = { P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] };
     for (let r = 0; r < 8; r++) { for (let c = 0; c < 8; c++) { if (board[r][c]) pieceData[board[r][c]].push({ r, c }); } }
-
-    // --- Create the pawn file sets here, in the main function ---
+    
     const whitePawnFiles = new Set(pieceData.P.map(p => p.c));
     const blackPawnFiles = new Set(pieceData.p.map(p => p.c));
 
@@ -196,9 +204,12 @@ function evaluate(state) {
             const pType = p.toLowerCase();
             const scoreTarget = isWhite ? whiteScore : blackScore;
             
-            // Material & PST Score (unchanged)
+            // 1. Material Score
             scoreTarget.mg += pieceValues[pType].mg;
             scoreTarget.eg += pieceValues[pType].eg;
+
+            // 2. Positional Score (from Piece-Square Tables)
+            // This is the core of a fast evaluation.
             const pstRow = isWhite ? 7 - r : r;
             if (pType === 'k') {
                 scoreTarget.mg += kingPSTMidGame[pstRow][c];
@@ -211,17 +222,19 @@ function evaluate(state) {
         }
     }
 
-    // --- **THE FIX IS HERE:** Pass the pawn file sets as arguments ---
-    whiteScore.add(evaluatePiecePositions(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
-    blackScore.add(evaluatePiecePositions(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
+    // 3. Strategic Bonuses (these are fast and important)
+    whiteScore.add(evaluateStrategicBonuses(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
+    blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
-    // (The rest of the evaluation calls are unchanged)
+    // 4. King Safety
     if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(board, state.kingPos.w, 'b');
     if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(board, state.kingPos.b, 'w');
+
+    // 5. Endgame-Specific Factors
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
 
-    // Final Tapered Score
+    // 6. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
@@ -229,56 +242,39 @@ function evaluate(state) {
 }
 
 
-// **THE CORRECTED PIECE EVALUATION HELPER**
-// This function now correctly receives the pawn file information it needs.
-function evaluatePiecePositions(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) { // <<<< FIX: Added arguments
+// **THE NEW, FAST STRATEGIC BONUS FUNCTION**
+// This replaces the slow `evaluatePiecePositions`. It only checks for key strategic features.
+function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
-    const { board } = state;
     const isWhite = color === 'w';
     
-    // --- Standard Bonuses (Bishop Pair, Rooks on files) ---
-    if ((isWhite ? pieceData.B : pieceData.b).length >= 2) score.add(new TaperedScore(50, 65));
+    // Bishop Pair Bonus
+    if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
+        score.add(new TaperedScore(50, 65));
+    }
     
-    // This logic will now work correctly because friendlyPawnFiles and enemyPawnFiles are defined.
+    // Rook on Open/Semi-Open File Bonus
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
+             // If friendly pawns are gone, it's at least semi-open.
+             // If enemy pawns are also gone, it's a full open file.
              score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 15 : 25, 10));
         }
-        if (rook.r === (isWhite ? 1 : 6)) score.add(new TaperedScore(35, 45));
-    }
-
-    // --- FAST MOBILITY CALCULATION (unchanged) ---
-    let mobilityScore = 0;
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const p = board[r][c];
-            if (!p || (p.toUpperCase() === p) !== isWhite) continue;
-
-            const pType = p.toLowerCase();
-            if (pType === 'n') {
-                for (const [dr, dc] of knightMoves) {
-                    if (board[r + dr]?.[c + dc] === undefined || !board[r + dr][c + dc]) mobilityScore += 1;
-                }
-            } else if (pType === 'b' || pType === 'r' || pType === 'q') {
-                const directions = pType === 'b' ? bishopDirections : (pType === 'r' ? rookDirections : queenDirections);
-                for (const [dr, dc] of directions) {
-                    for (let i = 1; i < 8; i++) {
-                        const nR = r + i * dr, nC = c + i * dc;
-                        if (board[nR]?.[nC] !== undefined) {
-                             if (board[nR][nC]) break;
-                             mobilityScore += 1;
-                        } else { break; }
-                    }
-                }
-            }
+        // Rook on 7th Rank Bonus
+        if (rook.r === (isWhite ? 1 : 6)) {
+            score.add(new TaperedScore(35, 45));
         }
     }
-
-    score.mg += Math.floor(mobilityScore / 2);
-    score.eg += Math.floor(mobilityScore / 2);
     
     return score;
 }
+
+
+
+
+
+
+
 
 
 
@@ -811,7 +807,7 @@ function runPerftTest(fen, depth) {
     console.log(`Speed: ${nps} nodes/sec`);
     return perftNodeCount;
 }
-var tested=0
+var tested=1
 // =================================================================
 //              MAIN WORKER DRIVER (UNCHANGED)
 // =================================================================
