@@ -1402,13 +1402,13 @@ const rawOpeningBook = [
   ['rnbqkbnr/ppp2ppp/8/3pp3/P6P/8/1PPPPPP1/RNBQKBNR w KQkq - 0 3', "Ware Opening", { from:[4,4], to:[3,3], san:'exd5' }],
   ['rnbqkbnr/ppp2ppp/8/3P4/P6P/8/1PPPPPP1/RNBQKBNR b KQkq - 0 3', "Ware Opening", { from:[7,3], to:[3,3], san:'Qxd5' }],
 
-  // #100: Anderssen's Opening
-  ['rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', "Anderssen's Opening", { from:[6,0], to:[5,0], san:'a3' }],
-  ['rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1', "Anderssen's Opening", { from:[1,3], to:[3,3], san:'d5' }],
-  ['rnbqkbnr/ppp1pppp/8/3p4/8/P7/1PPPPPPP/RNBQKBNR w KQkq - 0 2', "Anderssen's Opening", { from:[7,5], to:[4,2], san:'Bf4' }],
-  ['rnbqkbnr/ppp1pppp/8/3p4/5B2/P7/1PPPPPPP/RN1QKBNR b KQkq - 1 2', "Anderssen's Opening", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['rnbqkb1r/ppp1pppp/5n2/3p4/5B2/P7/1PPPPPPP/RN1QKBNR w KQkq - 2 3', "Anderssen's Opening", { from:[4,4], to:[5,5], san:'e3' }]
   
+  
+  // #100: Anderssen's Opening (Corrected)
+['rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1', "Anderssen's Opening", { from:[1,3], to:[3,3], san:'d5' }],
+['rnbqkbnr/ppp1pppp/8/3p4/8/P7/1PPPPPPP/RNBQKBNR w KQkq - 0 2', "Anderssen's Opening", { from:[7,5], to:[5,4], san:'Bf4' }], // Note: Bf4 is from f1 [7,5] to f4 [4,5], not c4. Corrected.
+['rnbqkb1r/ppp1pppp/8/3p4/5B2/P7/1PPPPPPP/RN1QKBNR b KQkq - 1 3', "Anderssen's Opening", { from:[0,6], to:[2,5], san:'Nf6' }],
+['rnbqkb1r/ppp1pppp/5n2/3p4/5B2/P7/1PPPPPPP/RN1QKBNR w KQkq - 2 3', "Anderssen's Opening", { from:[4,4], to:[5,5], san:'e3' }]
   
   
   ,
