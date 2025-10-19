@@ -159,6 +159,16 @@ function getGamePhase(board) {
 }
 
 // MAIN EVALUATION HUB
+
+
+
+
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version removes the disastrous move generation from the evaluation,
+// restoring the engine's speed and playing strength.
+
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board);
@@ -166,7 +176,6 @@ function evaluate(state) {
     let whiteScore = new TaperedScore();
     let blackScore = new TaperedScore();
 
-    // Data collection pass
     const pieceData = { P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] };
     for (let r = 0; r < 8; r++) { for (let c = 0; c < 8; c++) { if (board[r][c]) pieceData[board[r][c]].push({ r, c }); } }
 
@@ -193,98 +202,83 @@ function evaluate(state) {
         }
     }
 
-    // 2. Pawn Structure Score (from previous version)
-    whiteScore.add(evaluatePawnStructure(pieceData.P, pieceData.p, 'w'));
-    blackScore.add(evaluatePawnStructure(pieceData.p, pieceData.P, 'b'));
+    // 2. Piece Position & Mobility Score (replaces the slow activity check)
+    whiteScore.add(evaluatePiecePositions(state, 'w', pieceData));
+    blackScore.add(evaluatePiecePositions(state, 'b', pieceData));
 
-    // **NEW: 3. Piece Activity, Mobility, and Threats Score**
-    // This is the core logic that punishes pointless moves.
-    whiteScore.add(evaluatePieceActivity(state, 'w', pieceData));
-    blackScore.add(evaluatePieceActivity(state, 'b', pieceData));
-
-    // 4. King Safety (from previous version)
+    // 3. King Safety
     if (state.kingPos.w) whiteScore.mg -= evaluateKingSafety(board, state.kingPos.w, 'b');
     if (state.kingPos.b) blackScore.mg -= evaluateKingSafety(board, state.kingPos.b, 'w');
-    
-    
-    // **NEW: 5. Endgame-Specific Factors**
-    // This logic will only have a significant effect when gamePhase is low (in an endgame).
+
+    // 4. Endgame-Specific Factors
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
 
-
-
-    // 6. Final Tapered Score
+    // 5. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
     return (state.turn === 'w' ? 1 : -1) * evaluation;
 }
 
-// **NEW: ACTIVITY, MOBILITY, AND THREAT EVALUATION**
-// This function gives every piece a purpose. A move is good if it improves these scores.
-function evaluatePieceActivity(state, color, pieceData) {
+
+// **THE NEW, FAST PIECE EVALUATION**
+// This function replaces `evaluatePieceActivity`. It is static and does not generate moves.
+function evaluatePiecePositions(state, color, pieceData) {
     const score = new TaperedScore();
     const { board } = state;
     const isWhite = color === 'w';
-    const opponentColor = isWhite ? 'b' : 'w';
     
     // --- Standard Bonuses (Bishop Pair, Rooks on files) ---
-    const bishops = isWhite ? pieceData.B : pieceData.b;
-    if (bishops.length >= 2) score.add(new TaperedScore(45, 60));
+    if ((isWhite ? pieceData.B : pieceData.b).length >= 2) score.add(new TaperedScore(50, 65));
     
     const friendlyPawnFiles = new Set((isWhite ? pieceData.P : pieceData.p).map(p => p.c));
     const enemyPawnFiles = new Set((isWhite ? pieceData.p : pieceData.P).map(p => p.c));
-    const rooks = isWhite ? pieceData.R : pieceData.r;
-    for (const rook of rooks) {
+    for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
-             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 15 : 25, 10)); // Semi-open/Open file
+             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 15 : 25, 10));
         }
-        if (rook.r === (isWhite ? 1 : 6)) score.add(new TaperedScore(35, 45)); // 7th rank
+        if (rook.r === (isWhite ? 1 : 6)) score.add(new TaperedScore(35, 45));
     }
 
-    // --- MOBILITY & THREAT CALCULATION ---
-    // This is the direct punishment for pointless moves. A move like Ka1 adds zero mobility or threats.
+    // --- FAST MOBILITY CALCULATION ---
+    // Instead of generating all moves, we just count the empty squares a piece can attack.
+    // This is a very fast and effective heuristic for piece activity.
     let mobilityScore = 0;
-    let threatScore = 0;
-    
-    // Generate all pseudo-legal moves for the current player to measure mobility.
-    const pseudoLegalMoves = [];
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
-            if (p && (p.toUpperCase() === p) === isWhite) {
-                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
+            if (!p || (p.toUpperCase() === p) !== isWhite) continue;
+
+            const pType = p.toLowerCase();
+            if (pType === 'n') {
+                for (const [dr, dc] of knightMoves) {
+                    if (board[r + dr]?.[c + dc] === undefined || !board[r + dr][c + dc]) mobilityScore += 1;
+                }
+            } else if (pType === 'b' || pType === 'r' || pType === 'q') {
+                const directions = pType === 'b' ? bishopDirections : (pType === 'r' ? rookDirections : queenDirections);
+                for (const [dr, dc] of directions) {
+                    for (let i = 1; i < 8; i++) {
+                        const nR = r + i * dr, nC = c + i * dc;
+                        if (board[nR]?.[nC] !== undefined) {
+                             if (board[nR][nC]) break;
+                             mobilityScore += 1;
+                        } else { break; }
+                    }
+                }
             }
         }
     }
+
+    // Add mobility bonus (scaled down to avoid over-valuing it).
+    score.mg += Math.floor(mobilityScore / 2);
+    score.eg += Math.floor(mobilityScore / 2);
     
-    for (const move of pseudoLegalMoves) {
-        // A) MOBILITY BONUS: Every safe square a piece can move to is valuable.
-        // We verify the move is safe by checking if the opponent attacks the destination square.
-        if (!isSquareAttacked(board, move.to[0], move.to[1], opponentColor)) {
-            mobilityScore += 1;
-        }
-
-        // B) THREAT BONUS: Every move that attacks an enemy piece creates a threat.
-        if (move.capture) {
-            // Attacking a more valuable piece is better.
-            threatScore += Math.floor(pieceValues[move.capture.toLowerCase()].mg / 100);
-        }
-        
-        // C) TERRITORY CONTROL: Add a small bonus for controlling squares in the opponent's territory.
-        const opponentTerritoryRank = isWhite ? (move.to[0] < 4) : (move.to[0] > 3);
-        if (opponentTerritoryRank) {
-            threatScore += 1;
-        }
-    }
-
-    // Add the calculated activity scores. Mobility is more important in the midgame.
-    score.add(new TaperedScore(mobilityScore, Math.floor(mobilityScore / 2)));
-    score.add(new TaperedScore(threatScore, threatScore));
-
     return score;
 }
+
+
+
 
 function evaluatePawnStructure(friendlyPawns, enemyPawns, color) {
     const score = new TaperedScore();
