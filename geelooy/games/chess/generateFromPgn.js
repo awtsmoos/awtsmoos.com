@@ -114,7 +114,7 @@ class PgnConverter {
     }
 
     applyMove(move) {
-        const { newState } = makeMove(this.currentState, move);
+        const { newState } = makeMoveImmutable(this.currentState, move);
         this.currentState = newState;
     }
 }
