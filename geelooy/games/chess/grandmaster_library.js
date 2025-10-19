@@ -50,8 +50,12 @@ const rawOpeningBook = [
   ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 1 5', "Ruy Lopez: Morphy Defense", { from:[7,7], to:[7,5], san:'O-O' }],
   ['r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 5', "Ruy Lopez: Closed Defenses", { from:[2,5], to:[4,4], san:'Be7' }],
   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 2 6', "Ruy Lopez: Closed Main Line", { from:[7,4], to:[6,4], san:'Re1' }],
-  ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,4], to:[3,4], san:'b5' }],
-  ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
+ 
+   ['r1bqk2r/1ppp1ppp/p1n2n2/4p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 b kq - 3 6', "Ruy Lopez: Closed Main Line", { from:[1,1], to:[3,1], san:'b5' }],
+   
+   
+  
+   ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/B3P3/4RN2/PPPP1PPP/RNBQ1RK1 w kq - 0 7', "Ruy Lopez: Closed Main Line", { from:[2,0], to:[1,1], san:'Bb3' }],
   ['r1bqk2r/2pp1ppp/p1n2n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 b kq - 5 7', "Ruy Lopez: Closed Main Line", { from:[0,3], to:[1,3], san:'d6' }],
   ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b2P3/1B3N2/PPPP1PPP/RNBQ1RK1 w kq - 7 8', "Ruy Lopez: Closed Main Line", { from:[6,2], to:[4,2], san:'c3' }],
   ['r1b1k2r/2pp1ppp/p1nq1n2/1p2p3/1b1PP3/1BP2N2/PP3PPP/RNBQ1RK1 b kq - 0 8', "Ruy Lopez: Closed Main Line", { from:[0,7], to:[0,5], san:'O-O' }],
@@ -80,17 +84,14 @@ const rawOpeningBook = [
     { from:[0,6], to:[2,5], san:'Nf6' }    // Correct move: 3...Nf6 (Two Knights Defense)
   ],
   
-  // Italian Game: Giuoco Piano
-  ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', "Italian Game: Giuoco Piano", { from:[6,2], to:[4,2], san:'c3' }],
-  ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4', "Italian Game: Giuoco Piano", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5', "Italian Game: Giuoco Piano", { from:[6,3], to:[4,3], san:'d4' }],
-  ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq d3 0 5', "Italian Game: Giuoco Piano", { from:[4,4], to:[3,3], san:'exd4' }],
-  ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[4,2], to:[3,3], san:'cxd4' }],
-  ['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,1], to:[4,3], san:'Bb4+' }],
-  ['r1bqk2r/pppp1p1p/2n2n2/2b1p3/2b1P1p1/2P2N2/PP1P1PPP/RNBQ1RK1 w kq - 0 7', "Italian Game: Giuoco Piano", { from:[7,1], to:[5,2], san:'Nc3' }],
-  ['r1b1k2r/pppp1p1p/2n2n2/2b1p3/2b1P1p1/2P1NN2/PP1P1PPP/R1BQ1RK1 b kq - 1 7', "Italian Game: Giuoco Piano", { from:[0,3], to:[1,3], san:'d6' }],
-  ['r1b1k2r/ppp2p1p/2np1n2/2b1p3/2b1P1p1/2P1NN2/PP1P1PPP/R1BQ1RK1 w kq - 3 8', "Italian Game: Giuoco Piano", { from:[7,3], to:[5,3], san:'d4' }],
-
+  // Italian Game: Giuoco Piano (Corrected Sequence)
+['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq d3 0 5', "Italian Game: Giuoco Piano", { from:[4,4], to:[3,3], san:'exd4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,2], to:[3,3], san:'cxd4' }],
+['r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq - 0 6', "Italian Game: Giuoco Piano", { from:[2,1], to:[4,3], san:'Bb4+' }], // Note: This is an alternative 6th move for black
+['r1bqk2r/pppp1ppp/2n2n2/1B2p3/3PP3/2b2N2/PP3PPP/RNBQK2R w KQkq - 0 7', "Italian Game: Giuoco Piano", { from:[7,1], to:[5,2], san:'Nc3' }],
+['r1bqk2r/pppp1ppp/2n2n2/1B2p3/3PP3/2N2N2/PPP2PPP/R1BQK2R b KQkq - 1 7', "Italian Game: Giuoco Piano", { from:[2,4], to:[4,4], san:'Nxe4' }],
+  
+  
   // --- Sicilian Defense ---
   ['rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', "Sicilian Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
   ['rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', "Sicilian Defense: Open", { from:[1,3], to:[2,3], san:'d6' }, { from:[0,1], to:[2,2], san:'Nc6' }, { from:[1,4], to:[2,4], san:'e6' }],
@@ -106,7 +107,11 @@ const rawOpeningBook = [
   ['rnbqk2r/1p2bppp/p2p1n2/4p1B1/3NP3/2N5/PPP2PPP/R2QKB1R w KQkq - 3 7', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[6,5], to:[4,5], san:'f4' }],
   ['rnbqk2r/1p2bppp/p2p1n2/4p1B1/3NPP2/2N5/PPP3PP/R2QKB1R b KQkq - 0 7', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[2,5], to:[4,4], san:'Be7' }],
   ['rnb1k2r/1p2bppp/p2p1n2/4p1B1/3NPP2/2N5/PPP3PP/R2QKB1R w KQkq - 1 8', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[7,3], to:[5,3], san:'Qf3' }],
-  ['rnb1k2r/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/R3KB1R b KQkq - 2 8', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[7,7], to:[7,5], san:'O-O' }],
+  
+  ['rnb1k2r/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/R3KB1R b KQkq - 2 8', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[0,4], to:[0,6], san:'O-O' }], // Corrected: e8 to g8 for Black's castling
+  
+  
+  
   ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/R3KB1R w KQ - 3 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[7,7], to:[7,5], san:'O-O-O' }],
   ['rnb2rk1/1p2bppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/2KR1B1R b - - 4 9', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[0,1], to:[2,2], san:'Nbd7' }],
   ['r1b2rk1/1p1nbppp/p2p1n2/4p1B1/3NPP2/2N2Q2/PPP3PP/2KR1B1R w - - 5 10', "Sicilian: Najdorf, Main Line (6.Bg5)", { from:[3,5], to:[5,5], san:'Nf3' }],
@@ -293,8 +298,12 @@ const rawOpeningBook = [
   ['rnbqk2r/pp2pp1p/3p1np1/8/3PPP2/2N2N2/PP4PP/R1BQKB1R b KQkq - 2 5', "Pirc Defense: Austrian Attack", { from:[7,7], to:[7,5], san:'O-O' }],
   ['rnbq1rk1/pp2pp1p/3p1np1/8/3PPP2/2N2N2/PP4PP/R1BQKB1R w KQ - 3 6', "Pirc Defense: Austrian Attack", { from:[7,5], to:[4,3], san:'Bd3' }],
   ['rnbq1rk1/pp2pp1p/3p1np1/8/3PPP2/2NB1N2/PP4PP/R1BQK2R b KQ - 4 6', "Pirc Defense: Austrian Attack", { from:[0,1], to:[2,2], san:'Nc6' }],
-  ['r1bq1rk1/pp2pp1p/2np1np1/8/3PPP2/2NB1N2/PP4PP/R1BQK2R w KQ - 5 7', "Pirc Defense: Austrian Attack", { from:[7,7], to:[7,5], san:'O-O' }],
-
+  
+  
+  ['r1bq1rk1/pp2pp1p/2np1np1/8/3PPP2/2NB1N2/PP4PP/R1BQK2R w KQ - 5 7', "Pirc Defense: Austrian Attack", { from:[7,4], to:[7,6], san:'O-O' }], // Corrected: e1 to g1 for White's castling
+  
+  
+  
   // #3: Alekhine's Defense: Four Pawns Attack
   ['rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 2', "Alekhine's Defense", { from:[4,4], to:[3,4], san:'e5' }],
   ['rnbqkb1r/pppppppp/5n2/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2', "Alekhine's Defense", { from:[2,5], to:[3,3], san:'Nd5' }],
@@ -840,19 +849,19 @@ const rawOpeningBook = [
   ['r2qkb1r/1b1p1ppp/p3pn2/1p4B1/2pP4/2P1PN2/PP1N1PPP/R2QKB1R b KQkq - 2 8', "Benko Gambit Accepted", { from:[2,5], to:[4,4], san:'Be7' }],
   ['r2qk2r/1b1pbppp/p3pn2/1p4B1/2pP4/2P1PN2/PP1N1PPP/R2QKB1R w KQkq - 3 9', "Benko Gambit Accepted", { from:[7,7], to:[7,5], san:'O-O' }],
 
-  // #50: Dutch Defense: Stonewall Variation
-  ['rnbqkbnr/pp1ppppp/8/8/3pP3/8/PPP2PPP/RNBQKBNR b KQkq - 0 2', "Dutch Defense", { from:[1,5], to:[3,5], san:'f5' }],
-  ['rnbqkbnr/pp1p1ppp/8/4p3/3pP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Dutch Defense: Stonewall", { from:[7,1], to:[5,2], san:'Nc3' }],
-  ['rnbqkbnr/pp1p1ppp/8/4p3/3pP3/2N5/PPP2PPP/R1BQKBNR b KQkq - 1 3', "Dutch Defense: Stonewall", { from:[0,6], to:[2,5], san:'Nf6' }],
-  ['rnbqkb1r/pp1p1ppp/5n2/4p3/3pP3/2N5/PPP2PPP/R1BQKBNR w KQkq - 3 4', "Dutch Defense: Stonewall", { from:[7,5], to:[6,6], san:'Bg5' }],
-  ['rnbqkb1r/pp1p1ppp/5n2/4p1B1/3pP3/2N5/PPP2PPP/R2QKBNR b KQkq - 4 4', "Dutch Defense: Stonewall", { from:[2,5], to:[4,4], san:'Be7' }],
-  ['rnbqk2r/pp1pbppp/5n2/4p1B1/3pP3/2N5/PPP2PPP/R2QKBNR w KQkq - 6 5', "Dutch Defense: Stonewall", { from:[6,6], to:[4,4], san:'Bxf6' }],
-  ['rnbqk2r/pp1pb1p1/5B2/4p3/3pP3/2N5/PPP2PPP/R2QKBNR b KQkq - 0 5', "Dutch Defense: Stonewall", { from:[6,5], to:[5,5], san:'gxf6' }],
-  ['rnbqk2r/pp1pb2p/5p2/4p3/3pP3/2N5/PPP2PPP/R2QKBNR w KQkq - 0 6', "Dutch Defense: Stonewall", { from:[7,3], to:[2,3], san:'Qh5+' }],
-  ['rnbqk2r/pp1pb2p/5p2/4p2Q/3pP3/2N5/PPP2PPP/R3KBNR b KQkq - 1 6', "Dutch Defense: Stonewall", { from:[7,4], to:[6,4], san:'Kf8' }],
-  ['rnbq1r2/pp1pb2p/5p2/4p2Q/3pP3/2N5/PPP2PPP/R3KBNR w KQ - 2 7', "Dutch Defense: Stonewall", { from:[7,5], to:[4,2], san:'Bc4+' }]
   
   
+  
+  // #50: Dutch Defense: Stonewall Variation (Corrected)
+['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 1 2', "Dutch Defense", { from:[1,5], to:[3,5], san:'f5' }],
+['rnbqkb1r/ppppp1pp/5n2/5p2/3P4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3', "Dutch Defense", { from:[4,4], to:[5,5], san:'e3' }],
+['rnbqkb1r/ppppp1pp/5n2/5p2/3P4/4P3/PPP2PPP/RNBQKBNR b KQkq - 0 3', "Dutch Defense", { from:[1,4], to:[2,4], san:'e6' }],
+['rnbqk2r/ppppb1pp/4pn2/5p2/3P4/4P3/PPP2PPP/RNBQKBNR w KQkq - 1 4', "Dutch Defense: Stonewall", { from:[7,5], to:[4,3], san:'Bd3' }],
+['rnbqk2r/ppppb1pp/4pn2/5p2/3P4/3B4/PPP2PPP/RNBQK1NR b KQkq - 3 4', "Dutch Defense: Stonewall", { from:[1,3], to:[3,3], san:'d5' }],
+['rnbqk2r/pp1pb1pp/4pn2/2p2p2/3P4/3B4/PPP2PPP/RNBQK1NR w KQkq - 0 5', "Dutch Defense: Stonewall", { from:[7,6], to:[5,5], san:'Nf3' }],
+['rnbqk2r/pp1pb1pp/4pn2/2p2p2/3P4/3BPN2/PPP2PPP/RNBQK2R b KQkq - 1 5', "Dutch Defense: Stonewall", { from:[0,1], to:[2,2], san:'Nc6' }],
+
+
   
   
   ,
