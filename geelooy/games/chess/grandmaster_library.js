@@ -73,7 +73,13 @@ const rawOpeningBook = [
 
   // --- Italian Game ---
   ['r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', "Italian Game", { from:[7,5], to:[4,2], san:'Bc4' }],
-  ['r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', "Italian Game: Main Defenses", { from:[7,5], to:[4,2], san:'Bc5' }, { from:[0,6], to:[2,5], san:'Nf6' }],
+  
+  
+  ['r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', "Italian Game: Main Defenses", 
+    { from:[0,5], to:[2,2], san:'Bc5' },   // Correct move: 3...Bc5 (Giuoco Piano)
+    { from:[0,6], to:[2,5], san:'Nf6' }    // Correct move: 3...Nf6 (Two Knights Defense)
+  ],
+  
   // Italian Game: Giuoco Piano
   ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', "Italian Game: Giuoco Piano", { from:[6,2], to:[4,2], san:'c3' }],
   ['r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4', "Italian Game: Giuoco Piano", { from:[0,6], to:[2,5], san:'Nf6' }],
