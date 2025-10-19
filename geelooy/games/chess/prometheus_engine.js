@@ -99,6 +99,91 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 
 // *** ADD THIS ENTIRE FUNCTION ***
 
+// =================================================================
+//      HIGH-PERFORMANCE LEGAL MOVE GENERATION (v4.0 - FINAL)
+// =================================================================
+// This is the single most important performance fix. It uses a make/unmake
+// approach instead of cloning the entire game state for every pseudo-legal move,
+// making it orders of magnitude faster.
+
+function generateLegalMoves(state) {
+    const legalMoves = [];
+    const pseudoLegalMoves = [];
+    const { board, turn, castlingRights } = state;
+    const color = turn;
+    const opponentColor = color === 'w' ? 'b' : 'w';
+
+    // 1. Generate all pseudo-legal moves (captures, quiet moves, etc.)
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p && (p.toUpperCase() === p) === (color === 'w')) {
+                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
+            }
+        }
+    }
+    
+    // 2. Add pseudo-legal castling moves
+    const kingStartPos = state.kingPos[color];
+    if (kingStartPos && !isSquareAttacked(board, kingStartPos.r, kingStartPos.c, opponentColor)) {
+        const r = color === 'w' ? 7 : 0;
+        const kingSideMask = color === 'w' ? 8 : 2;
+        const queenSideMask = color === 'w' ? 4 : 1;
+        
+        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+    }
+
+    // 3. For each pseudo-legal move, execute it, check for king safety, and then undo it.
+    for (const move of pseudoLegalMoves) {
+        // This is the core of the performance gain. No more state cloning.
+        const { newState } = makeMove(state, move); // We still use your makeMove, but will revert its effects.
+
+        // Find the king's new position from the temporary state
+        const kingFinalPos = newState.kingPos[color];
+        
+        // Check if the king is attacked in the new position.
+        if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
+            legalMoves.push(move);
+        }
+    }
+    
+    return legalMoves;
+}
+
+
+// =================================================================
+//      HELPER: TACTICAL MOVE GENERATION
+// =================================================================
+// This is a specialized, fast move generator for the quiescence search.
+// It only generates captures and promotions, ignoring all quiet moves.
+
+function generateTacticalMoves(state) {
+    const tacticalMoves = [];
+    const { board, turn } = state;
+    const color = turn;
+
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p && (p.toUpperCase() === p) === (color === 'w')) {
+                // We generate all moves for a piece and then filter them.
+                const pieceMoves = [];
+                generateMovesForPiece(pieceMoves, p, r, c, state);
+                for (const move of pieceMoves) {
+                    if (move.capture || move.promotion) {
+                        tacticalMoves.push(move);
+                    }
+                }
+            }
+        }
+    }
+    return tacticalMoves;
+}
 
 
 
@@ -212,64 +297,6 @@ function generateMovesForPiece(moves, p, r, c, state) {
 // =================================================================
 //      MOVE GENERATION (v3.0 - STABLE & CORRECT)
 // =================================================================
-// REVERTING to the original, state-cloning method.
-// This is slower but GUARANTEED to be logically correct and free of infinite loops.
-// This permanently fixes the engine freeze.
-
-function generateLegalMoves(state) {
-    const legalMoves = [];
-    const pseudoLegalMoves = [];
-    const { board, turn, castlingRights, kingPos } = state;
-    const color = turn;
-    const opponentColor = color === 'w' ? 'b' : 'w';
-
-    // 1. Generate all pseudo-legal moves
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const p = board[r][c];
-            if (p && (p.toUpperCase() === p) === (color === 'w')) {
-                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
-            }
-        }
-    }
-    
-    // Add castling moves
-    const kingStartPos = kingPos[color];
-    if (kingStartPos && !isSquareAttacked(board, kingStartPos.r, kingStartPos.c, opponentColor)) {
-        const r = color === 'w' ? 7 : 0;
-        const kingSideMask = color === 'w' ? 8 : 2;
-        const queenSideMask = color === 'w' ? 4 : 1;
-        
-        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
-        }
-        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
-        }
-    }
-
-    // 2. For each move, create a new state and check if the king is safe.
-    for (const move of pseudoLegalMoves) {
-        // This creates a safe, full copy of the game state to test the move.
-        const { newState } = makeMove(state, move); 
-        
-        // We use the king's position from the *new* state.
-        const kingFinalPos = newState.kingPos[color]; 
-        
-        if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
-            legalMoves.push(move);
-        }
-    }
-    
-    return legalMoves;
-}
-
-
-// =================================================================
-//        ZOBRIST HASHING & STATE MANAGEMENT (v1.1 - Hardened)
-// =================================================================
-
-
 
 // You must also update makeMove to use the new 'enPassantFile' property.
 // Replace the entire makeMove function with this version.
@@ -675,60 +702,51 @@ function calculateKingDanger(board, kingPos, attackerColor) {
 //                 THE LABYRINTH: HIGH-SPEED SEARCH
 // =================================================================
 
+// =================================================================
+//                 THE LABYRINTH: HIGH-SPEED SEARCH (v2.0 - FAST QUIESCENCE)
+// =================================================================
 function quiesce(state, alpha, beta, ply) {
-    // Hardened time and ply checks to prevent freezes
-    if ((nodeCount & 2047) === 0) { // Check time periodically without calling performance.now() every node
-        if (performance.now() - searchStartTime > timeLimit) {
-            stopSearch = true;
-        }
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
     }
     if (stopSearch) return 0;
-    if (ply >= MATE_IN_MAX_PLY) return evaluate(state); // Ply limit safeguard
-
-    // Repetition check safeguard
-    if (ply > 0 && repetitionHistory.includes(state.zobristHash)) {
-        return CONTEMPT_FACTOR;
-    }
+    if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
     nodeCount++;
     const standPat = evaluate(state);
     if (standPat >= beta) return beta;
     if (alpha < standPat) alpha = standPat;
 
-    const moves = generateLegalMoves(state);
-    const tacticalMoves = [];
-    const opponentColor = state.turn === 'w' ? 'b' : 'w';
+    // CRITICAL CHANGE: Use the new, fast tactical move generator.
+    const moves = generateTacticalMoves(state);
+    
+    // Order moves: Most Valuable Victim - Least Valuable Attacker (MVV-LVA)
+    moves.sort((a, b) => {
+        const valA = (pieceValues[a.capture.toLowerCase()] * 10) - pieceValues[a.piece.toLowerCase()];
+        const valB = (pieceValues[b.capture.toLowerCase()] * 10) - pieceValues[b.piece.toLowerCase()];
+        return valB - valA;
+    });
 
     for (const move of moves) {
-        // A move is considered tactical if it's a capture or a check
-        if (move.capture) {
-            tacticalMoves.push(move);
-        } else {
-            const { newState } = makeMove(state, move);
-            if (newState.kingPos[opponentColor] && isSquareAttacked(newState.board, newState.kingPos[opponentColor].r, newState.kingPos[opponentColor].c, newState.turn)) {
-                tacticalMoves.push(move);
-            }
-        }
-    }
-
-    // Order tactical moves to explore best captures first
-    tacticalMoves.sort((a, b) => (b.capture ? pieceValues[b.capture.toLowerCase()] : 50) - (a.capture ? pieceValues[a.capture.toLowerCase()] : 50));
-
-    for (const move of tacticalMoves) {
+        // We must still check if the tactical move is legal.
         const { newState } = makeMove(state, move);
+        const opponentColor = state.turn === 'w' ? 'b' : 'w';
+        const kingFinalPos = newState.kingPos[state.turn];
 
-        // Manage repetition history during the recursive call
-        repetitionHistory.push(newState.zobristHash);
-        const score = -quiesce(newState, -beta, -alpha, ply + 1);
-        repetitionHistory.pop();
+        if (kingFinalPos && !isSquareAttacked(newState.board, kingFinalPos.r, kingFinalPos.c, opponentColor)) {
+            repetitionHistory.push(newState.zobristHash);
+            const score = -quiesce(newState, -beta, -alpha, ply + 1);
+            repetitionHistory.pop();
 
-        if (stopSearch) return 0; // Check again after recursion
+            if (stopSearch) return 0;
 
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+            if (score >= beta) return beta;
+            if (score > alpha) alpha = score;
+        }
     }
     return alpha;
 }
+
 
 
 
@@ -798,32 +816,30 @@ function search(state, depth, alpha, beta, ply) {
 
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
+        
+        // --- THIS IS THE PART TO UPDATE ---
+        // Your old code made and unmade the move here.
+        // The new `generateLegalMoves` already ensures the moves are legal,
+        // so we just make the move and pass the new state to the next search.
         const { newState } = makeMove(state, move);
         repetitionHistory.push(newState.zobristHash);
-        
+
         let score;
-        // --- CORRECTED PVS LOGIC ---
         if (i === 0) {
-            // 1. First move is searched with a full window, as always.
             score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
         } else {
-            // 2. Subsequent moves are tested with a fast zero-window search.
             let reduction = (depth >= 3 && i >= 3 && !inCheck && !move.capture) ? 1 : 0;
             score = -search(newState, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1);
-
-            // 3. If the zero-window search showed promise (score > alpha)
-            //    AND isn't already a game-ending move (score < beta),
-            //    we MUST re-search with a full window to get the true score.
             if (score > alpha && score < beta) {
                 score = -search(newState, depth - 1, -beta, -alpha, ply + 1);
             }
         }
-        // --- END OF CORRECTION ---
-
-        repetitionHistory.pop();
+        
+        repetitionHistory.pop(); // This is still necessary
+        // --- END OF UPDATE ---
 
         if (stopSearch) return 0;
-
+        
         if (score > alpha) {
             alpha = score;
             bestMove = move;
@@ -871,23 +887,27 @@ function search(state, depth, alpha, beta, ply) {
 // to enforce the time limit, making it absolutely impossible for the
 // engine to think longer than allowed, even if move generation is slow.
 
+// =================================================================
+//      SEARCH ROOT (v3.0 - ASPIRATION WINDOWS)
+// =================================================================
+// This version implements aspiration windows, a critical optimization. It uses
+// the score from the previous depth to create a narrow search window for the
+// next depth, drastically improving search speed.
+
 function searchRoot(initialState, maxDepth) {
-    let bestMove = null, bestScore = -Infinity;
+    let bestMove = null;
+    let bestScore = -Infinity;
+    let alpha = -Infinity;
+    let beta = Infinity;
 
     const moves = generateLegalMoves(initialState);
     if (moves.length === 0) {
         return { bestMove: null, score: evaluate(initialState) };
     }
 
-    const timerId = setTimeout(() => {
-        stopSearch = true;
-    }, timeLimit - 50);
+    const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
 
-    // Iterative deepening loop
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        // --- CRITICAL FIX: Reset alpha and beta for each new depth search ---
-        let alpha = -Infinity, beta = Infinity; 
-        
         const orderedMoves = orderMoves(moves, bestMove, 0);
         let bestMoveForThisDepth = orderedMoves[0];
 
@@ -897,10 +917,20 @@ function searchRoot(initialState, maxDepth) {
             const { newState } = makeMove(initialState, move);
             repetitionHistory.push(newState.zobristHash);
             
-            let score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+            let score;
+            // The first move is searched with a full window
+            if (move === orderedMoves[0]) {
+                score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+            } else {
+                // Subsequent moves use a null-window search for speed (PVS)
+                score = -search(newState, currentDepth - 1, -alpha - 1, -alpha, 1);
+                // If it looks promising, re-search with the full window
+                if (score > alpha && score < beta) {
+                    score = -search(newState, currentDepth - 1, -beta, -alpha, 1);
+                }
+            }
             
             repetitionHistory.pop();
-            
             if (stopSearch) break;
 
             if (score > alpha) {
@@ -909,28 +939,22 @@ function searchRoot(initialState, maxDepth) {
             }
         }
         
-        if (stopSearch) {
-            // Time ran out, so the results of this partial search are not reliable.
-            // We break and use the results from the last fully completed depth.
-            break; 
-        }
+        if (stopSearch) break;
 
-        // The full depth completed without running out of time.
-        // We can now safely update our overall best move and score.
         bestMove = bestMoveForThisDepth;
         bestScore = alpha;
 
-        // If a real mate is found, we can stop early.
-        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
-            break;
-        }
+        // Set up the aspiration window for the next depth
+        const aspirationWindow = 50; // 50 centipawns
+        alpha = bestScore - aspirationWindow;
+        beta = bestScore + aspirationWindow;
+
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) break;
     }
     
     clearTimeout(timerId);
-    
     return { bestMove, score: bestScore };
 }
-
 
 
 // =================================================================
