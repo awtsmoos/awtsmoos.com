@@ -795,8 +795,27 @@ function searchRoot(initialState, maxDepth) {
         
         for (let i = 0; i < orderedMoves.length; i++) {
             const move = orderedMoves[i];
+            
+            
             if (stopSearch) break;
 
+            // === NEW: FUTILITY PRUNING LOGIC ===
+        // We only apply this heuristic if:
+        // - We are not in check.
+        // - We are in the late-middle to endgame (ply > 0).
+        // - The move is a quiet move (not a capture or promotion).
+        // - The search depth is low (we are near the horizon).
+        if (!inCheck && ply > 0 && !move.capture && !move.promotion && depth <= 3) {
+            const futilityMargin = [0, 150, 350, 550][depth]; // Margin increases as depth gets shallower
+            
+            // If the current evaluation plus the margin is still worse than alpha,
+            // this move is unlikely to be good enough, so we skip (prune) it.
+            if (staticEval + futilityMargin <= alpha) {
+                continue; // Prune this move
+            }
+            
+            
+            
             const unmakeInfo = makeMove(initialState, move);
             let score;
 
