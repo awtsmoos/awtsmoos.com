@@ -72,7 +72,6 @@ let killerMoves, historyTable, transpositionTable, repetitionHistory;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
 const pieceMap = 'PNBRQKpnbrqk';
-let zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
 
 const knightMoves = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]];
 const kingMoves = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
