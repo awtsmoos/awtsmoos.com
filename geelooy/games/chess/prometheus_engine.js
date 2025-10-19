@@ -357,6 +357,24 @@ function createGameState(fen) {
 
 // This is the new, correct makeMove function.
 function makeMove(state, move) {
+
+	if (move.isNullMove) {
+        let newHash = state.zobristHash ^ zobristTurnKey;
+        if (state.enPassantTarget) {
+            newHash ^= zobristEnPassantKeys['abcdefgh'.indexOf(state.enPassantTarget[0])];
+        }
+        return {
+            newState: {
+                ...state,
+                turn: state.turn === 'w' ? 'b' : 'w',
+                enPassantTarget: null,
+                zobristHash: newHash,
+                moveCount: state.moveCount + 1
+            }
+        };
+    }
+
+
     const { board, turn, castlingRights, enPassantTarget, zobristHash, kingPos } = state;
     const newBoard = board.map(row => row.slice());
     let newHash = zobristHash;
@@ -650,8 +668,21 @@ function calculateKingDanger(board, kingPos, attackerColor) {
 //                 THE LABYRINTH: HIGH-SPEED SEARCH
 // =================================================================
 
-function quiesce(state, alpha, beta) {
+function quiesce(state, alpha, beta, ply) {
+    // Hardened time and ply checks to prevent freezes
+    if ((nodeCount & 2047) === 0) { // Check time periodically without calling performance.now() every node
+        if (performance.now() - searchStartTime > timeLimit) {
+            stopSearch = true;
+        }
+    }
     if (stopSearch) return 0;
+    if (ply >= MATE_IN_MAX_PLY) return evaluate(state); // Ply limit safeguard
+
+    // Repetition check safeguard
+    if (ply > 0 && repetitionHistory.includes(state.zobristHash)) {
+        return CONTEMPT_FACTOR;
+    }
+
     nodeCount++;
     const standPat = evaluate(state);
     if (standPat >= beta) return beta;
@@ -660,7 +691,9 @@ function quiesce(state, alpha, beta) {
     const moves = generateLegalMoves(state);
     const tacticalMoves = [];
     const opponentColor = state.turn === 'w' ? 'b' : 'w';
+
     for (const move of moves) {
+        // A move is considered tactical if it's a capture or a check
         if (move.capture) {
             tacticalMoves.push(move);
         } else {
@@ -670,16 +703,28 @@ function quiesce(state, alpha, beta) {
             }
         }
     }
-    tacticalMoves.sort((a, b) => (b.capture ? pieceValues[b.capture.toLowerCase()] : 0) - (a.capture ? pieceValues[a.capture.toLowerCase()] : 0));
+
+    // Order tactical moves to explore best captures first
+    tacticalMoves.sort((a, b) => (b.capture ? pieceValues[b.capture.toLowerCase()] : 50) - (a.capture ? pieceValues[a.capture.toLowerCase()] : 50));
 
     for (const move of tacticalMoves) {
         const { newState } = makeMove(state, move);
-        const score = -quiesce(newState, -beta, -alpha);
+
+        // Manage repetition history during the recursive call
+        repetitionHistory.push(newState.zobristHash);
+        const score = -quiesce(newState, -beta, -alpha, ply + 1);
+        repetitionHistory.pop();
+
+        if (stopSearch) return 0; // Check again after recursion
+
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
     }
     return alpha;
 }
+
+
+
 
 function orderMoves(moves, pvMove, ply) {
     return moves.map(move => {
@@ -716,7 +761,7 @@ function search(state, depth, alpha, beta, ply) {
 
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return CONTEMPT_FACTOR;
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
-    if (depth <= 0) return quiesce(state, alpha, beta);
+    if (depth <= 0) return quiesce(state, alpha, beta,ply);
     nodeCount++;
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
