@@ -1,22 +1,195 @@
-//B"H
-let zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
+/* B"H */
 
+// =================================================================
+//                 PROMETHEUS - CORE HELPERS (FINAL & UNIFIED)
+// =================================================================
+// This file is the single source of truth for all game state,
+// move generation, and move execution logic. Both the main engine and
+// the PGN converter import this file to ensure 100% consistency.
+
+// --- ZOBRIST & HASHING GLOBALS ---
+let zobristKeys, zobristTurnKey, zobristCastlingKeys, zobristEnPassantKeys;
+const pieceMap = 'PNBRQKpnbrqk';
+
+// --- MOVE GENERATION CONSTANTS ---
+const knightMoves = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]];
+const kingMoves = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+const rookDirections = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+const bishopDirections = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+const queenDirections = [...rookDirections, ...bishopDirections];
+const castlingUpdateMask = [
+     7, 15, 15, 15,  3, 15, 15, 11, 15, 15, 15, 15, 15, 15, 15, 15,
+    15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+    15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
+    13, 15, 15, 15, 12, 15, 15, 14
+];
+
+// --- INITIALIZATION ---
 function initializeZobristKeys() {
     if (zobristKeys) return;
-    
-    const pseudoRandom = (() => {
-        let seed = 19880128;
-        return () => seed = (seed * 16807) % 2147483647;
-    })();
-
+    const pseudoRandom = (() => { let seed = 19880128; return () => seed = (seed * 16807) % 2147483647; })();
     const random64 = () => (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
-
     zobristKeys = Array(12).fill(null).map(() => Array(64).fill(0n).map(random64));
     zobristTurnKey = random64();
     zobristCastlingKeys = Array(16).fill(0n).map(random64);
     zobristEnPassantKeys = Array(8).fill(0n).map(random64);
 }
 
+// --- CORE LOGIC FUNCTIONS ---
+
+function findKing(board, color) {
+    const king = color === 'w' ? 'K' : 'k';
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (board[r][c] === king) return { r, c };
+    return null;
+}
+
+function isSquareAttacked(board, r, c, attackerColor) {
+    const isWhiteAttacker = attackerColor === 'w';
+    const pawn = isWhiteAttacker ? 'P' : 'p';
+    const pawnAttackDir = isWhiteAttacker ? 1 : -1;
+    if (board[r + pawnAttackDir]?.[c - 1] === pawn || board[r + pawnAttackDir]?.[c + 1] === pawn) return true;
+    for (const [dr, dc] of knightMoves) {
+        const piece = board[r + dr]?.[c + dc];
+        if (piece && piece.toLowerCase() === 'n' && (piece.toUpperCase() === piece) === isWhiteAttacker) return true;
+    }
+    for (const [dr, dc] of kingMoves) {
+        const piece = board[r + dr]?.[c + dc];
+        if (piece && piece.toLowerCase() === 'k' && (piece.toUpperCase() === piece) === isWhiteAttacker) return true;
+    }
+    for (const [dr, dc] of rookDirections) {
+        for (let i = 1; i < 8; i++) {
+            const piece = board[r + dr * i]?.[c + dc * i];
+            if (piece) {
+                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (piece.toLowerCase() === 'r' || piece.toLowerCase() === 'q')) return true;
+                break;
+            }
+        }
+    }
+    for (const [dr, dc] of bishopDirections) {
+        for (let i = 1; i < 8; i++) {
+            const piece = board[r + dr * i]?.[c + dc * i];
+            if (piece) {
+                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (piece.toLowerCase() === 'b' || piece.toLowerCase() === 'q')) return true;
+                break;
+            }
+        }
+    }
+    return false;
+}
+
+function generateMovesForPiece(moves, p, r, c, state) {
+    const { board, enPassantTarget } = state;
+    const pL = p.toLowerCase();
+    const isWhite = p === p.toUpperCase();
+    const addMove = (to, flags = {}) => moves.push({ from: [r, c], to, piece: p, ...flags });
+    if (pL === 'p') {
+        const dir = isWhite ? -1 : 1;
+        const startRank = isWhite ? 6 : 1;
+        const promoRank = isWhite ? 0 : 7;
+        const nextR = r + dir;
+        if (nextR >= 0 && nextR < 8) {
+            if (!board[nextR][c]) {
+                if (nextR === promoRank) { for (const promo of isWhite ? "QRBN" : "qrbn") addMove([nextR, c], { promotion: promo }); }
+                else { addMove([nextR, c]); }
+            }
+            for (let dc of [-1, 1]) {
+                const nC = c + dc;
+                if (nC >= 0 && nC < 8) {
+                    const target = board[nextR][nC];
+                    if (target && (target.toUpperCase() === target) !== isWhite) {
+                        if (nextR === promoRank) { for (const promo of isWhite ? "QRBN" : "qrbn") addMove([nextR, nC], { capture: target, promotion: promo }); }
+                        else { addMove([nextR, nC], { capture: target }); }
+                    }
+                    if (enPassantTarget && nextR === enPassantTarget[0] && nC === enPassantTarget[1]) {
+                        addMove([nextR, nC], { capture: isWhite ? 'p' : 'P', isEnPassant: true });
+                    }
+                }
+            }
+        }
+        if (r === startRank && !board[r + dir][c] && !board[r + 2 * dir][c]) {
+            addMove([r + 2 * dir, c], { isPawnDoubleMove: true });
+        }
+    } else {
+        const directions = { n: knightMoves, b: bishopDirections, r: rookDirections, q: queenDirections, k: kingMoves }[pL];
+        for (const [dr, dc] of directions) {
+            let nR = r + dr, nC = c + dc;
+            while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
+                const target = board[nR][nC];
+                if (target) {
+                    if ((target.toUpperCase() === target) !== isWhite) addMove([nR, nC], { capture: target });
+                    break;
+                }
+                addMove([nR, nC]);
+                if (pL === 'n' || pL === 'k') break;
+                nR += dr; nC += dc;
+            }
+        }
+    }
+}
+
+function generateLegalMoves(state) {
+    const legalMoves = [];
+    const pseudoLegalMoves = [];
+    const { board, turn, castlingRights, kingPos } = state;
+    const color = turn;
+    const opponentColor = color === 'w' ? 'b' : 'w';
+    const kingPosition = kingPos[color];
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p && (p.toUpperCase() === p) === (color === 'w')) {
+                generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
+            }
+        }
+    }
+    if (kingPosition && !isSquareAttacked(board, kingPosition.r, kingPosition.c, opponentColor)) {
+        const r = color === 'w' ? 7 : 0;
+        const kingSideMask = color === 'w' ? 8 : 2;
+        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+        const queenSideMask = color === 'w' ? 4 : 1;
+        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
+            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        }
+    }
+    for (const move of pseudoLegalMoves) {
+        const [fromR, fromC] = move.from;
+        const [toR, toC] = move.to;
+        const piece = board[fromR][fromC];
+        const tempBoard = board.map(row => row.slice());
+        tempBoard[toR][toC] = piece;
+        tempBoard[fromR][fromC] = '';
+        if (move.isCastle) {
+            const rookFromC = toC === 6 ? 7 : 0;
+            const rookToC = toC === 6 ? 5 : 3;
+            tempBoard[fromR][rookToC] = tempBoard[fromR][rookFromC];
+            tempBoard[fromR][rookFromC] = '';
+        }
+        if (move.isEnPassant) {
+            tempBoard[color === 'w' ? toR + 1 : toR - 1][toC] = '';
+        }
+        const currentKingPos = (piece.toLowerCase() === 'k') ? { r: toR, c: toC } : kingPosition;
+        if (currentKingPos && !isSquareAttacked(tempBoard, currentKingPos.r, currentKingPos.c, opponentColor)) {
+            legalMoves.push(move);
+        }
+    }
+    return legalMoves;
+}
+
+function calculateZobristHash(state) {
+    let hash = 0n;
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = state.board[r][c];
+            if (piece) hash ^= zobristKeys[pieceMap.indexOf(piece)][r * 8 + c];
+        }
+    }
+    if (state.enPassantTarget) hash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
+    hash ^= zobristCastlingKeys[state.castlingRights];
+    if (state.turn === 'b') hash ^= zobristTurnKey;
+    return hash;
+}
 
 function createGameState(fen) {
     initializeZobristKeys();
@@ -25,30 +198,18 @@ function createGameState(fen) {
     pieces.split('/').forEach((row, r) => {
         let c = 0;
         for (const char of row) {
-            if (isNaN(parseInt(char))) {
-                board[r][c] = char;
-                c++;
-            } else {
-                c += parseInt(char);
-            }
+            if (isNaN(parseInt(char))) { board[r][c++] = char; }
+            else { c += parseInt(char); }
         }
     });
-
     let castlingRights = 0;
     if (castling.includes('K')) castlingRights |= 8;
     if (castling.includes('Q')) castlingRights |= 4;
     if (castling.includes('k')) castlingRights |= 2;
     if (castling.includes('q')) castlingRights |= 1;
-    
-    const enPassantTarget = enPassant === '-' 
-        ? null 
-        : [8 - parseInt(enPassant[1]), 'abcdefgh'.indexOf(enPassant[0])];
-
+    const enPassantTarget = enPassant === '-' ? null : [8 - parseInt(enPassant[1]), 'abcdefgh'.indexOf(enPassant[0])];
     const state = {
-        board,
-        turn,
-        castlingRights,
-        enPassantTarget,
+        board, turn, castlingRights, enPassantTarget,
         kingPos: { w: findKing(board, 'w'), b: findKing(board, 'b') },
         moveCount: ((parseInt(full) || 1) - 1) * 2 + (turn === 'b' ? 1 : 0)
     };
@@ -56,78 +217,43 @@ function createGameState(fen) {
     return state;
 }
 
-// This is the new, correct makeMove function.
 function makeMove(state, move) {
-
-	if (move.isNullMove) {
+    if (move.isNullMove) {
         let newHash = state.zobristHash ^ zobristTurnKey;
-        if (state.enPassantTarget) {
-            newHash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
-        }
-        return {
-            newState: {
-                ...state,
-                turn: state.turn === 'w' ? 'b' : 'w',
-                enPassantTarget: null,
-                zobristHash: newHash,
-                moveCount: state.moveCount + 1
-            }
-        };
+        if (state.enPassantTarget) newHash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
+        return { newState: { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantTarget: null, zobristHash: newHash, moveCount: state.moveCount + 1 } };
     }
-
     const { board, turn, castlingRights, enPassantTarget, zobristHash, kingPos } = state;
     const newBoard = board.map(row => row.slice());
     let newHash = zobristHash;
     const [fromR, fromC] = move.from;
     const [toR, toC] = move.to;
-
     const piece = newBoard[fromR][fromC];
     const finalPiece = move.promotion ? move.promotion : piece;
-    
-    // 1. Update board and piece hashes
     newBoard[fromR][fromC] = '';
     newBoard[toR][toC] = finalPiece;
     newHash ^= zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC];
     newHash ^= zobristKeys[pieceMap.indexOf(finalPiece)][toR * 8 + toC];
-    
-    // 2. Update hashes for turn and previous en-passant state
     newHash ^= zobristTurnKey;
-    if (enPassantTarget) {
-        newHash ^= zobristEnPassantKeys[enPassantTarget[1]];
-     }
-    
-    // 3. Handle captures
+    if (enPassantTarget) newHash ^= zobristEnPassantKeys[enPassantTarget[1]];
     if (move.isEnPassant) {
-        const capturedPawnRow = turn === 'w' ? toR + 1 : toR - 1;
-        const capturedPiece = newBoard[capturedPawnRow][toC];
-        newBoard[capturedPawnRow][toC] = '';
-        newHash ^= zobristKeys[pieceMap.indexOf(capturedPiece)][capturedPawnRow * 8 + toC];
-    } else if (move.capture) {
-        // The captured piece is already on the 'to' square before our move
-        // Note: For promotions that capture, the piece hash is already handled.
-        // We only need to account for non-promoting captures here.
-        if (!move.promotion) {
-            newHash ^= zobristKeys[pieceMap.indexOf(move.capture)][toR * 8 + toC];
-        }
+        const capturedPawnPos = [turn === 'w' ? toR + 1 : toR - 1, toC];
+        const capturedPiece = newBoard[capturedPawnPos[0]][capturedPawnPos[1]];
+        newBoard[capturedPawnPos[0]][capturedPawnPos[1]] = '';
+        newHash ^= zobristKeys[pieceMap.indexOf(capturedPiece)][capturedPawnPos[0] * 8 + capturedPawnPos[1]];
     }
-
-    // 4. Set new en-passant target
     let newEnPassantTarget = null;
     if (move.isPawnDoubleMove) {
         newEnPassantTarget = [turn === 'w' ? fromR - 1 : fromR + 1, fromC];
-        newHash ^= zobristEnPassantKeys[fromC]; // Hash using the column index
+        newHash ^= zobristEnPassantKeys[fromC];
     }
-
-    // 5. Update castling rights
     let newCastlingRights = castlingRights;
     if (newCastlingRights !== 0) {
-        newHash ^= zobristCastlingKeys[newCastlingRights]; // XOR out the old castling key
+        newHash ^= zobristCastlingKeys[newCastlingRights];
         newCastlingRights &= castlingUpdateMask[fromR * 8 + fromC];
         newCastlingRights &= castlingUpdateMask[toR * 8 + toC];
-        newHash ^= zobristCastlingKeys[newCastlingRights]; // XOR in the new one
+        newHash ^= zobristCastlingKeys[newCastlingRights];
     }
-
-    // 6. Handle castling move itself
     if (move.isCastle) {
         const rookFromC = toC === 6 ? 7 : 0;
         const rookToC = toC === 6 ? 5 : 3;
@@ -137,21 +263,7 @@ function makeMove(state, move) {
         newHash ^= zobristKeys[pieceMap.indexOf(rook)][fromR * 8 + rookFromC];
         newHash ^= zobristKeys[pieceMap.indexOf(rook)][fromR * 8 + rookToC];
     }
-    
     const newKingPos = { ...kingPos };
-    if (piece.toLowerCase() === 'k') {
-        newKingPos[turn] = { r: toR, c: toC };
-    }
-    
-    return {
-        newState: {
-            board: newBoard,
-            turn: turn === 'w' ? 'b' : 'w',
-            castlingRights: newCastlingRights,
-            enPassantTarget: newEnPassantTarget,
-            kingPos: newKingPos,
-            zobristHash: newHash,
-            moveCount: state.moveCount + 1
-        }
-    };
+    if (piece.toLowerCase() === 'k') newKingPos[turn] = { r: toR, c: toC };
+    return { newState: { board: newBoard, turn: turn === 'w' ? 'b' : 'w', castlingRights: newCastlingRights, enPassantTarget: newEnPassantTarget, kingPos: newKingPos, zobristHash: newHash, moveCount: state.moveCount + 1 } };
 }
