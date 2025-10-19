@@ -358,6 +358,7 @@ function generateMovesForPiece(moves, p, r, c, state) {
 // This permanently solves the "CACHE MISS" bug.
 
 // REPLACEMENT 1: A completely type-safe initialization function.
+// REPLACEMENT 1: A completely type-safe initialization function.
 function initializeZobristKeys() {
     if (zobristKeys) return;
     
@@ -391,12 +392,10 @@ function calculateZobristHash(state) {
         }
     }
 
-    // This is line 383/384. It now correctly performs BigInt ^ BigInt.
     if (state.enPassantTarget) {
         hash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
     }
 
-    // This now correctly performs BigInt ^ BigInt.
     hash ^= zobristCastlingKeys[state.castlingRights];
     
     if (state.turn === 'b') {
@@ -404,7 +403,6 @@ function calculateZobristHash(state) {
     }
     return hash;
 }
-
 
 // REPLACEMENT 3: The createGameState, just to be 100% sure it's correct.
 function createGameState(fen) {
@@ -445,12 +443,6 @@ function createGameState(fen) {
     return state;
 }
 
-
-
-
-
-
-
 // This is the new, correct makeMove function.
 function makeMove(state, move) {
 
@@ -480,18 +472,21 @@ function makeMove(state, move) {
 
     const piece = newBoard[fromR][fromC];
     const finalPiece = move.promotion ? move.promotion : piece;
-
+    
+    
     // 1. Update board and piece hashes
     newBoard[fromR][fromC] = '';
     newBoard[toR][toC] = finalPiece;
     newHash ^= zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC];
     newHash ^= zobristKeys[pieceMap.indexOf(finalPiece)][toR * 8 + toC];
     
+    
+    
     // 2. Update hashes for turn and previous en-passant state
     newHash ^= zobristTurnKey;
     
     if (enPassantTarget) {
-        zobristEnPassantKeys[enPassantTarget[1]];
+        newHash ^= zobristEnPassantKeys[enPassantTarget[1]];
      }
     
     // 3. Handle captures
