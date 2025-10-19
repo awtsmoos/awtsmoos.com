@@ -48,7 +48,7 @@ class PgnConverter {
 
     // In your generateFromPgn.js file
 
-function parseSan(san) {
+parseSan(san) {
     const legalMoves = generateLegalMoves(this.currentState);
     const originalSan = san;
     san = san.replace(/[+#?!=]/g, ''); // Keep this line
