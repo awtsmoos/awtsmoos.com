@@ -73,10 +73,14 @@ class PgnConverter {
     /**
      * A completely new, simplified, and correct SAN parser.
      */
+    /**
+     * A completely new, simplified, and correct SAN parser.
+     */
     parseSan(san) {
         const originalSan = san;
-        san = san.replace(/[+#?!=]/g, '');
+        san = san.replace(/[+#?!=]/g, ''); // Clean up check/mate symbols
 
+        // Handle Castling
         if (san === 'O-O') {
             const r = this.turn === 'w' ? 7 : 0;
             return { san: originalSan, from: [r, 4], to: [r, 6], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
@@ -88,7 +92,7 @@ class PgnConverter {
 
         let promotion = null;
         if (san.includes('=')) {
-            promotion = san.slice(-1).toUpperCase(); // Use uppercase for consistency
+            promotion = san.slice(-1).toUpperCase();
             san = san.slice(0, -2);
         }
 
@@ -97,20 +101,25 @@ class PgnConverter {
         const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
 
         const toMatch = sanClean.match(/[a-h][1-8]$/);
-        if (!toMatch) return null;
+        if (!toMatch) return null; // Invalid format if no destination square
         const toSquare = toMatch[0];
         const toC = toSquare.charCodeAt(0) - 'a'.charCodeAt(0);
         const toR = 8 - parseInt(toSquare[1]);
 
+        // Disambiguation string (e.g., 'R' from 'Raxd1' or '1' from 'R1xd1')
         const ambiguity = sanClean.substring(piece === 'P' ? 0 : 1, sanClean.indexOf(toSquare));
 
+        // 1. Generate all legal moves for the piece type in question
         const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind)
             .filter(move => {
+                // 2. Filter down to moves that land on the correct destination square
                 if (move.to[0] !== toR || move.to[1] !== toC) return false;
 
+                // 3. If there's an ambiguity resolver, use it to filter further
                 if (ambiguity) {
                     const fromFile = 'abcdefgh'[move.from[1]];
                     const fromRank = (8 - move.from[0]).toString();
+                    // The move is only valid if its from-square matches the ambiguity info
                     if (!ambiguity.includes(fromFile) && !ambiguity.includes(fromRank)) {
                         return false;
                     }
@@ -118,22 +127,27 @@ class PgnConverter {
                 return true;
             });
 
+        // 4. After filtering, we should have exactly one legal move.
         if (candidateMoves.length === 1) {
             const finalMove = { ...candidateMoves[0], san: originalSan };
             if (promotion) finalMove.promotion = this.turn === 'w' ? promotion : promotion.toLowerCase();
             return finalMove;
         }
-
-        // If ambiguity still exists (e.g. two rooks on the 'a' file), the PGN is malformed, but we can try to find one.
-        // This is a rare case. If it still fails, the PGN line is simply bad.
+        
+        // If there are 0 or >1 candidates, the PGN is likely malformed or our state is wrong.
+        // Returning the first one can be a fallback, but null is safer.
         if (candidateMoves.length > 1) {
              const finalMove = { ...candidateMoves[0], san: originalSan };
              if (promotion) finalMove.promotion = this.turn === 'w' ? promotion : promotion.toLowerCase();
              return finalMove;
         }
 
-        return null;
+        return null; // Move could not be parsed
     }
+    
+    
+    
+    
 
     applyMove(move) {
         // ... (The applyMove method remains the same)
