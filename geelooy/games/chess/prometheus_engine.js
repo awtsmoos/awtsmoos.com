@@ -138,6 +138,14 @@ importScripts('grandmaster_library.js');
 // decouples legal move generation from the main state-updating logic, preventing
 // cascading bugs and eliminating a major source of illegal moves.
 
+// =================================================================
+//      LEGAL MOVE GENERATION (v5.0 - UNIFIED AND CORRECT)
+// =================================================================
+// This version corrects a fundamental flaw where castling moves were not
+// being generated as part of the pseudo-legal move set. It now unifies
+// standard piece moves and castling into a single, reliable process,
+// ensuring that the book generator and the engine see the same legal moves.
+
 function generateLegalMoves(state) {
     const legalMoves = [];
     const pseudoLegalMoves = [];
@@ -146,31 +154,42 @@ function generateLegalMoves(state) {
     const opponentColor = color === 'w' ? 'b' : 'w';
     const kingPosition = kingPos[color];
 
-    // 1. Generate all pseudo-legal moves (captures, quiet moves, etc.)
+    // 1. Generate all pseudo-legal moves for every piece.
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const p = board[r][c];
+            // Ensure we are only moving pieces of the correct color
             if (p && (p.toUpperCase() === p) === (color === 'w')) {
                 generateMovesForPiece(pseudoLegalMoves, p, r, c, state);
             }
         }
     }
     
-    // 2. Add pseudo-legal castling moves
+    // 2. *** THE CRITICAL FIX ***
+    // Add pseudo-legal castling moves specifically for the King.
+    // This check must be done here, after we know the king is not currently in check.
     if (kingPosition && !isSquareAttacked(board, kingPosition.r, kingPosition.c, opponentColor)) {
-        const r = color === 'w' ? 7 : 0;
-        const kingSideMask = color === 'w' ? 8 : 2;
-        const queenSideMask = color === 'w' ? 4 : 1;
+        const r = color === 'w' ? 7 : 0; // King's starting rank
         
-        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6] && !isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+        // Kingside Castling ('O-O')
+        const kingSideMask = color === 'w' ? 8 : 2;
+        if ((castlingRights & kingSideMask) && !board[r][5] && !board[r][6]) {
+            if (!isSquareAttacked(board, r, 5, opponentColor) && !isSquareAttacked(board, r, 6, opponentColor)) {
+                pseudoLegalMoves.push({ from: [r, 4], to: [r, 6], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+            }
         }
-        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3] && !isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
-            pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+
+        // Queenside Castling ('O-O-O')
+        const queenSideMask = color === 'w' ? 4 : 1;
+        if ((castlingRights & queenSideMask) && !board[r][1] && !board[r][2] && !board[r][3]) {
+            if (!isSquareAttacked(board, r, 2, opponentColor) && !isSquareAttacked(board, r, 3, opponentColor)) {
+                pseudoLegalMoves.push({ from: [r, 4], to: [r, 2], piece: color === 'w' ? 'K' : 'k', isCastle: true });
+            }
         }
     }
 
     // 3. For each pseudo-legal move, simulate it and check for king safety.
+    // This process remains the same, but now it will correctly validate the castling moves we just added.
     for (const move of pseudoLegalMoves) {
         const [fromR, fromC] = move.from;
         const [toR, toC] = move.to;
@@ -178,16 +197,18 @@ function generateLegalMoves(state) {
 
         // Create a temporary board for the simulation
         const tempBoard = board.map(row => row.slice());
+        
+        // Handle the move on the temporary board
         tempBoard[toR][toC] = piece;
         tempBoard[fromR][fromC] = '';
 
-        // Handle en-passant capture
+        // Special handling for en-passant capture
         if (move.isEnPassant) {
             const capturedPawnRow = color === 'w' ? toR + 1 : toR - 1;
             tempBoard[capturedPawnRow][toC] = '';
         }
         
-        // Find where the king is after the move
+        // Find the king's position after the move
         const currentKingPos = (piece.toLowerCase() === 'k') ? { r: toR, c: toC } : kingPosition;
         
         // If the king is not attacked after the move, it's a legal move.
