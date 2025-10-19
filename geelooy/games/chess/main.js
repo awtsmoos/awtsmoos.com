@@ -633,8 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		// All other pieces get a partial grayscale, retaining some color
 		if (isWhite) {
-			// 70% grayscale allows 30% of the color to show through
-			pieceFilter = 'grayscale(0.7) brightness(1.8)'; 
+			// 70% grayscale allows 50% of the color to show through
+			pieceFilter = 'grayscale(0.5) brightness(1.4)'; 
 		} else {
 			// A slightly different brightness for black pieces looks better with color
 			pieceFilter = 'grayscale(0.7) brightness(0.5)';
