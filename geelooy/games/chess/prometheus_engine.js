@@ -770,9 +770,8 @@ function searchRoot(initialState, maxDepth) {
             if (isStalemateBlunder(initialState, currentEval)) {
                 score = -MATE_SCORE;
             } else {
-                // **THE BUG WAS HERE.** The search function handles its own repetition history.
-                // The push/pop calls that were previously here in searchRoot were incorrect.
-
+                repetitionHistory.push(initialState.zobristHash);
+                
                 if (i === 0) {
                     score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                 } else {
@@ -781,6 +780,7 @@ function searchRoot(initialState, maxDepth) {
                         score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
                     }
                 }
+                repetitionHistory.pop();
             }
             unmakeMove(initialState, unmakeInfo);
 
@@ -807,7 +807,6 @@ function searchRoot(initialState, maxDepth) {
     clearTimeout(timerId);
     return { bestMove, score: bestScore };
 }
-
 
 
 
@@ -856,16 +855,14 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- **THE ONE AND ONLY CHANGE IS IN THIS BLOCK** ---
-    // The structure is from your original, working code.
-    // We just change the condition from >= 2 to >= 1 and use the simpler "return 0" logic.
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 1) {
-        const staticEval = evaluate(state);
-        const WINNING_THRESHOLD = 80; // A material advantage of roughly a pawn
-
-        if (staticEval > WINNING_THRESHOLD) return 0; // Winning, so a draw is a blunder.
-        if (staticEval < -WINNING_THRESHOLD) return 0; // Losing, so a draw is a win.
-        return CONTEMPT_FACTOR; // Equal, prefer to play on.
+    // --- THIS IS YOUR ORIGINAL, WORKING REPETITION LOGIC ---
+    // The only change is the return value, to make it avoid draws when winning.
+    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
+        // This is the standard 3-fold repetition rule. Your original condition was correct.
+        // Now, we tell the engine that this result is a DRAW (score 0).
+        // If the engine has a winning score (e.g., +200), it will see 0 as a bad result
+        // and will avoid this line of play, just as you wanted.
+        return 0;
     }
 
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
@@ -902,7 +899,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     
     for (let i = 0; i < orderedMoves.length; i++) {
         const move = orderedMoves[i];
-        const unmakeInfo = makeMove(state, move); // This is your working code.
+        const unmakeInfo = makeMove(state, move);
         
         const originalTurn = state.turn === 'w' ? 'b' : 'w';
         const kingPos = state.kingPos[originalTurn];
@@ -912,7 +909,6 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         }
         legalMovesFound++;
 
-        // This is your original, working history management.
         repetitionHistory.push(state.zobristHash);
         
         let score;
@@ -930,7 +926,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         }
         
         repetitionHistory.pop();
-        unmakeMove(state, unmakeInfo); // This is your working code.
+        unmakeMove(state, unmakeInfo);
 
         if (stopSearch) return 0;
         if (score > bestScore) {
