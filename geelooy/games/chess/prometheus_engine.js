@@ -22,18 +22,27 @@ const openingBook = new Map();
 //                 OPENING BOOK PROCESSING LOGIC (v2.0 - Corrected)
 // =================================================================
 
+// =================================================================
+//                 OPENING BOOK PROCESSING LOGIC (v2.1 - Robust)
+// =================================================================
+
 function buildOpeningBook() {
-    // This function now assumes keys have already been initialized.
-    // It has been simplified to prevent any startup errors.
+    // This function is now robust against empty entries in the opening book array.
     if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
 
     for (const entry of rawOpeningBook) {
+        // --- CRITICAL FIX START ---
+        // If the entry is empty or undefined (from an extra comma), skip it.
+        if (!entry) {
+            continue; 
+        }
+        // --- CRITICAL FIX END ---
+
         const fen = entry[0];
-        // The opening name at entry[1] is skipped, which is correct.
         const hash = calculateZobristHash(createGameState(fen));
         
         const moves = [];
-        // CHANGE THIS LINE: Start the loop from index 2 to skip the opening name.
+        // Loop starts at index 2 to skip the opening name string.
         for (let i = 2; i < entry.length; i++) {
             const moveData = entry[i];
             moves.push({
