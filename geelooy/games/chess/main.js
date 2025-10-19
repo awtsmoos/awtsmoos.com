@@ -626,9 +626,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (pieceType === 'p') {
 		// Pawns get the original, full grayscale effect
 		if (isWhite) {
-			pieceFilter = 'grayscale(1) brightness(2.2)';
+			pieceFilter = 'grayscale(1) brightness(2.8)';
 		} else {
-			pieceFilter = 'grayscale(1) brightness(0.35)';
+			pieceFilter = 'grayscale(1) brightness(0.55)';
 		}
 	} else {
 		// All other pieces get a partial grayscale, retaining some color
