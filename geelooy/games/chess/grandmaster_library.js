@@ -846,4 +846,149 @@ const rawOpeningBook = [
   ['rnbqk2r/pp1pb2p/5p2/4p2Q/3pP3/2N5/PPP2PPP/R3KBNR b KQkq - 1 6', "Dutch Defense: Stonewall", { from:[7,4], to:[6,4], san:'Kf8' }],
   ['rnbq1r2/pp1pb2p/5p2/4p2Q/3pP3/2N5/PPP2PPP/R3KBNR w KQ - 2 7', "Dutch Defense: Stonewall", { from:[7,5], to:[4,2], san:'Bc4+' }]
   
+  
+  
+  
+  ,
+  // [----------------------------------------------------------------]
+  // [           COMPREHENSIVE EXPANSION PACK (FINAL)                 ]
+  // [----------------------------------------------------------------]
+
+  // --- COVERING PREVIOUS MISSES & RELATED LINES ---
+
+  // #51: French Defense: Two Knights Variation (Covers 1. e4 e6 2. Nf3)
+  ['rnbqkbnr/pppp1ppp/4p3/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2', "French Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqkbnr/pppp1ppp/4p3/8/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', "French Defense: Two Knights", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/ppp2ppp/4p3/3p4/4P3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 3', "French Defense: Two Knights", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkbnr/ppp2ppp/4p3/3p4/4P3/2N2N2/PPP2PPP/R1BQKB1R b KQkq - 1 3', "French Defense: Two Knights", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/4P3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 2 4', "French Defense: Two Knights", { from:[4,4], to:[3,4], san:'e5' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/3pP3/8/2N2N2/PPP2PPP/R1BQKB1R b KQkq - 0 4', "French Defense: Two Knights", { from:[2,5], to:[3,3], san:'Nfd7' }],
+  ['rnbqkb1r/pppn1ppp/4p3/3pP3/8/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 1 5', "French Defense: Two Knights", { from:[7,5], to:[5,4], san:'Bf4' }],
+  ['rnbqkb1r/pppn1ppp/4p3/3pP3/5B2/2N2N2/PPP2PPP/R2QKB1R b KQkq - 3 5', "French Defense: Two Knights", { from:[1,2], to:[3,2], san:'c5' }],
+  ['rnbqkb1r/pp1n1ppp/4p3/2ppP3/5B2/2N2N2/PPP2PPP/R2QKB1R w KQkq - 0 6', "French Defense: Two Knights", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnbqkb1r/pp1n1ppp/4p3/2ppP3/3P1B2/2N2N2/PPP2PPP/R2QKB1R b KQkq - 0 6', "French Defense: Two Knights", { from:[0,1], to:[2,2], san:'Nc6' }],
+
+  // #52: English Opening: Anglo-Scandinavian (Covers 1. c4 d5)
+  ['rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq c3 0 1', "English Opening", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkbnr/ppp1pppp/8/3p4/2P5/8/PP1PPPPP/RNBQKBNR w KQkq d6 0 2', "English: Anglo-Scandinavian", { from:[2,3], to:[3,3], san:'cxd5' }],
+  ['rnbqkbnr/ppp1pppp/8/3P4/8/8/PP1PPPPP/RNBQKBNR b KQkq - 0 2', "English: Anglo-Scandinavian", { from:[7,3], to:[3,3], san:'Qxd5' }],
+  ['rnbqkb1r/ppp1pppp/8/3q4/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3', "English: Anglo-Scandinavian", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/ppp1pppp/8/3q4/8/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 3', "English: Anglo-Scandinavian", { from:[3,3], to:[4,0], san:'Qa5' }],
+  ['rnb1kb1r/ppp1pppp/8/q7/8/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 4', "English: Anglo-Scandinavian", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnb1kb1r/ppp1pppp/8/q7/3P4/2N5/PPP2PPP/R1BQKBNR b KQkq - 0 4', "English: Anglo-Scandinavian", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnb1kb1r/ppp1pppp/5n2/q7/3P4/2N5/PPP2PPP/R1BQKBNR w KQkq - 1 5', "English: Anglo-Scandinavian", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnb1kb1r/ppp1pppp/5n2/q7/3P4/2N2N2/PPP2PPP/R1BQKB1R b KQkq - 2 5', "English: Anglo-Scandinavian", { from:[7,5], to:[3,1], san:'Bf5' }],
+
+  // --- NEW SICILIAN DEFENSE SIDELINES ---
+
+  // #53: Sicilian Defense: Taimanov Variation
+  ['rnbqkb1r/pp2pppp/3p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R b KQkq - 2 5', "Sicilian Defense: Main Line", { from:[1,4], to:[2,4], san:'e6' }],
+  ['rnbqk2r/pp2bppp/3p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 1 6', "Sicilian: Taimanov Variation", { from:[7,4], to:[5,4], san:'Be3' }],
+  ['rnbqk2r/pp2bppp/3p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 2 6', "Sicilian: Taimanov Variation", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqk2r/pp2bppp/2np1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 3 7', "Sicilian: Taimanov Variation", { from:[6,5], to:[4,5], san:'f3' }],
+  ['r1bqk2r/pp2bppp/2np1n2/8/3NP3/2N1BP2/PPP3PP/R2QKB1R b KQkq - 0 7', "Sicilian: Taimanov Variation", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r1bq1rk1/pp2bppp/2np1n2/8/3NP3/2N1BP2/PPP3PP/R2QKB1R w KQ - 1 8', "Sicilian: Taimanov Variation", { from:[7,3], to:[3,3], san:'Qd2' }],
+  ['r1bq1rk1/pp2bppp/2np1n2/8/3NP3/2N1BP2/PPPQ2PP/R3KB1R b KQ - 2 8', "Sicilian: Taimanov Variation", { from:[1,3], to:[3,3], san:'d5' }],
+  ['r1bq1rk1/pp2bppp/2n2n2/3p4/3N4/2N1BP2/PPPQ2PP/R3KB1R w KQ - 3 9', "Sicilian: Taimanov Variation", { from:[4,4], to:[5,5], san:'exd5' }],
+  ['r1bq1rk1/pp2bppp/2n5/3p4/3N4/2N1BP2/PPPQ2PP/R3KB1R b KQ - 0 9', "Sicilian: Taimanov Variation", { from:[2,5], to:[3,3], san:'Nxd5' }],
+
+  // #54: Sicilian Defense: Accelerated Dragon
+  ['rnbqkb1r/pp2pppp/3p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 1 5', "Sicilian: Accelerated Dragon", { from:[1,6], to:[2,6], san:'g6' }],
+  ['rnbqkb1r/pp2pp1p/3p1np1/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6', "Sicilian: Accelerated Dragon", { from:[7,4], to:[5,4], san:'Be3' }],
+  ['rnbqkb1r/pp2pp1p/3p1np1/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6', "Sicilian: Accelerated Dragon", { from:[7,5], to:[6,5], san:'Bg7' }],
+  ['rnbqk2r/pp2pp1p/3p1np1/8/3NP3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 2 7', "Sicilian: Maroczy Bind", { from:[6,2], to:[4,2], san:'c4' }],
+  ['rnbqk2r/pp2pp1p/3p1np1/2P5/4P3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 0 7', "Sicilian: Maroczy Bind", { from:[3,3], to:[2,2], san:'dxc5' }],
+  ['rnbqk2r/pp2pp1p/6p1/2p5/4P3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 0 8', "Sicilian: Maroczy Bind", { from:[7,3], to:[3,3], san:'Qxd8+' }],
+  ['rnb1k2r/pp2pp1p/6p1/2p5/4P3/2N1B3/PPP2PPP/R3KB1R b KQkq - 1 8', "Sicilian: Maroczy Bind", { from:[7,4], to:[3,3], san:'Kxd8' }],
+  ['rnb2r2/pp2pp1p/6p1/2p5/4P3/2N1B3/PPP2PPP/R3KB1R w KQ - 2 9', "Sicilian: Maroczy Bind", { from:[7,7], to:[7,5], san:'O-O-O' }],
+
+  // #55: Sicilian Defense: Classical Variation
+  ['rnbqkb1r/pp1ppppp/5n2/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', "Sicilian: Open", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkb1r/pp1ppppp/2n2n2/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 3 4', "Sicilian: Classical Variation", { from:[6,3], to:[4,3], san:'d4' }],
+  ['r1bqkb1r/pp1ppppp/2n2n2/2p5/3PP3/5N2/PPP2PPP/RNBQKB1R b KQkq d3 0 4', "Sicilian: Classical Variation", { from:[2,5], to:[3,3], san:'cxd4' }],
+  ['r1bqkb1r/pp1ppppp/2n2n2/8/3pP3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 5', "Sicilian: Classical Variation", { from:[5,3], to:[3,3], san:'Nxd4' }],
+  ['r1bqkb1r/pp1ppppp/2n2n2/8/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 1 5', "Sicilian: Classical Variation", { from:[1,3], to:[2,3], san:'d6' }],
+  ['r1bqkb1r/pp2pppp/2np1n2/8/3NP3/8/PPP2PPP/RNBQKB1R w KQkq - 2 6', "Sicilian: Richter-Rauzer Attack", { from:[7,5], to:[6,6], san:'Bg5' }],
+  ['r1bqkb1r/pp2pppp/2np1n2/6B1/3NP3/8/PPP2PPP/RN1QKB1R b KQkq - 3 6', "Sicilian: Richter-Rauzer Attack", { from:[1,4], to:[2,4], san:'e6' }],
+  ['r1bqk2r/pp2bppp/2nppn2/6B1/3NP3/8/PPP2PPP/RN1QKB1R w KQkq - 5 7', "Sicilian: Richter-Rauzer Attack", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['r1bqk2r/pp2bppp/2nppn2/6B1/3NP3/2N5/PPP2PPP/R2QKB1R b KQkq - 6 7', "Sicilian: Richter-Rauzer Attack", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // --- NEW QUEEN'S GAMBIT & INDIAN DEFENSE SIDELINES ---
+
+  // #56: Queen's Gambit Declined: Ragozin Variation
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3', "QGD: Main Line", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR w KQkq - 2 4', "QGD: Ragozin Variation", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R b KQkq - 3 4', "QGD: Ragozin Variation", { from:[7,5], to:[3,1], san:'Bb4' }],
+  ['rnbqk2r/ppp2ppp/4pn2/3p4/1bPP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 4 5', "QGD: Ragozin Variation", { from:[7,3], to:[4,2], san:'Qc2' }],
+  ['rnbqk2r/ppp2ppp/4pn2/3p4/1bPP4/2N2N2/PPQ1PPPP/R1B1KB1R b KQkq - 5 5', "QGD: Ragozin Variation", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['rnbq1rk1/ppp2ppp/4pn2/3p4/1bPP4/2N2N2/PPQ1PPPP/R1B1KB1R w KQ - 6 6', "QGD: Ragozin Variation", { from:[6,0], to:[4,0], san:'a3' }],
+  ['rnbq1rk1/ppp2ppp/4pn2/3p4/1bPP4/P1N2N2/1PQ1PPPP/R1B1KB1R b KQ - 0 6', "QGD: Ragozin Variation", { from:[2,5], to:[4,4], san:'Be7' }],
+  ['rnbq1rk1/pp2bppp/4pn2/3p4/2PP4/P1N2N2/1PQ1PPPP/R1B1KB1R w KQ - 1 7', "QGD: Ragozin Variation", { from:[7,5], to:[6,6], san:'Bg5' }],
+
+  // #57: QGD: Cambridge Springs Defense
+  ['r1bq1rk1/pp1nbppp/2p1pn2/3p2B1/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQ - 3 7', "QGD: Orthodox", { from:[0,1], to:[2,2], san:'Nbd7' }],
+  ['r1bq1rk1/pp1nbppp/2p1pn2/3p2B1/2PP4/2N1PN2/PPQ2PPP/R3KB1R b KQ - 4 7', "QGD: Cambridge Springs", { from:[7,3], to:[4,0], san:'Qa5' }],
+  ['r1b2rk1/pp1nbppp/2p1pn2/q2p2B1/2PP4/2N1PN2/PPQ2PPP/R3KB1R w KQ - 5 8', "QGD: Cambridge Springs", { from:[3,3], to:[4,3], san:'Nd2' }],
+  ['r1b2rk1/pp1nbppp/2p1pn2/q2p2B1/2PP4/2N1PN2/PP1N1PPP/R2QKB1R b KQ - 6 8', "QGD: Cambridge Springs", { from:[1,3], to:[3,3], san:'dxc4' }],
+  ['r1b2rk1/pp1nbppp/2p1pn2/q5B1/2pP4/2N1PN2/PP1N1PPP/R2QKB1R w KQ - 0 9', "QGD: Cambridge Springs", { from:[6,6], to:[4,4], san:'Bxf6' }],
+  ['r1b2rk1/pp1nbppp/2p1pB2/q7/2pP4/2N1PN2/PP1N1PPP/R2QKB1R b KQ - 0 9', "QGD: Cambridge Springs", { from:[2,5], to:[5,5], san:'Nxf6' }],
+  ['r1b2rk1/pp1nb1pp/2p1pn2/q7/2pP4/2N1PN2/PP1N1PPP/R2QKB1R w KQ - 0 10', "QGD: Cambridge Springs", { from:[3,3], to:[2,2], san:'Nxc4' }],
+
+  // #58: Queen's Gambit Declined: Semi-Tarrasch Defense
+  ['rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R b KQkq - 3 4', "QGD: Semi-Tarrasch", { from:[1,2], to:[3,2], san:'c5' }],
+  ['rnbqkb1r/pp3ppp/4pn2/2pp4/2PP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 0 5', "QGD: Semi-Tarrasch", { from:[2,3], to:[3,3], san:'cxd5' }],
+  ['rnbqkb1r/pp3ppp/4pn2/3p4/3P4/2N2N2/PP2PPPP/R1BQKB1R b KQkq - 0 5', "QGD: Semi-Tarrasch", { from:[2,5], to:[3,3], san:'Nxd5' }],
+  ['rnbqkb1r/pp3ppp/4p3/3n4/8/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 0 6', "QGD: Semi-Tarrasch", { from:[4,4], to:[5,5], san:'e3' }],
+  ['rnbqkb1r/pp3ppp/4p3/3n4/8/2N1PN2/PP3PPP/R1BQKB1R b KQkq - 0 6', "QGD: Semi-Tarrasch", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkb1r/pp3ppp/2n1p3/3n4/8/2N1PN2/PP3PPP/R1BQKB1R w KQkq - 1 7', "QGD: Semi-Tarrasch", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['r1bqkb1r/pp3ppp/2n1p3/3n4/8/2NBPN2/PP3PPP/R1BQK2R b KQkq - 2 7', "QGD: Semi-Tarrasch", { from:[2,5], to:[4,4], san:'Be7' }],
+  ['r1bqk2r/pp2bppp/2n1p3/3n4/8/2NBPN2/PP3PPP/R1BQK2R w KQkq - 0 8', "QGD: Semi-Tarrasch", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['r1bqk2r/pp2bppp/2n1p3/3n4/8/2NBPN2/PP3PPP/R1BQ1RK1 b kq - 1 8', "QGD: Semi-Tarrasch", { from:[7,7], to:[7,5], san:'O-O' }],
+
+  // --- NEW STANDALONE OPENINGS & GAMBITS ---
+
+  // #59: Nimzowitsch Defense
+  ['rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1', "Nimzowitsch Defense", { from:[0,1], to:[2,2], san:'Nc6' }],
+  ['r1bqkbnr/pppppppp/2n5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 2', "Nimzowitsch Defense", { from:[6,3], to:[4,3], san:'d4' }],
+  ['r1bqkbnr/pppppppp/2n5/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2', "Nimzowitsch Defense", { from:[1,3], to:[3,3], san:'d5' }],
+  ['r1bqkbnr/ppp1pppp/2n5/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Nimzowitsch Defense", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['r1bqkbnr/ppp1pppp/2n5/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR b KQkq - 1 3', "Nimzowitsch Defense", { from:[3,3], to:[4,4], san:'dxe4' }],
+  ['r1bqkbnr/ppp1pppp/2n5/8/3Pp3/2N5/PPP2PPP/R1BQKBNR w KQkq - 2 4', "Nimzowitsch Defense", { from:[6,3], to:[4,3], san:'d5' }],
+  ['r1bqkbnr/ppp1pppp/2n5/3P4/8/2N5/PPP2PPP/R1BQKBNR b KQkq - 0 4', "Nimzowitsch Defense", { from:[2,2], to:[4,4], san:'Ne5' }],
+  ['r1bqk1nr/ppp1pppp/8/3pn3/8/2N5/PPPQPPPP/R1B1KBNR w KQkq - 2 5', "Nimzowitsch Defense", { from:[7,3], to:[5,3], san:'Qd4' }],
+  ['r1bqk1nr/ppp1pppp/8/3pn3/3Q4/2N5/PPP1PPPP/R1B1KBNR b KQkq - 3 5', "Nimzowitsch Defense", { from:[4,4], to:[2,2], san:'Nc6' }],
+
+  // #60: Blackmar-Diemer Gambit
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Blackmar-Diemer Gambit", { from:[4,4], to:[5,5], san:'e4' }],
+  ['rnbqkb1r/pppppppp/5n2/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq - 0 2', "Blackmar-Diemer Gambit", { from:[1,3], to:[3,3], san:'d5' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3', "Blackmar-Diemer Gambit", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/ppp1pppp/5n2/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR b KQkq - 1 3', "Blackmar-Diemer Gambit", { from:[3,3], to:[4,4], san:'dxe4' }],
+  ['rnbqkb1r/ppp1pppp/5n2/8/3Pp3/2N5/PPP2PPP/R1BQKBNR w KQkq - 2 4', "Blackmar-Diemer Gambit", { from:[6,5], to:[4,5], san:'f3' }],
+  ['rnbqkb1r/ppp1pppp/5n2/8/3Pp3/2N2P2/PPP3PP/R1BQKBNR b KQkq - 0 4', "Blackmar-Diemer Gambit Accepted", { from:[4,4], to:[5,5], san:'exf3' }],
+  ['rnbqkb1r/ppp1pppp/5n2/8/8/2N2p2/PPPP2PP/R1BQKBNR w KQkq - 0 5', "Blackmar-Diemer Gambit Accepted", { from:[5,3], to:[5,5], san:'Nxf3' }],
+  ['rnbqkb1r/ppp1pppp/8/8/8/2N2N2/PPPP2PP/R1BQKB1R b KQkq - 1 5', "Blackmar-Diemer Gambit Accepted", { from:[1,4], to:[2,4], san:'e6' }],
+  ['rnbqk2r/ppp1bppp/4pn2/8/8/2N2N2/PPPP2PP/R1BQKB1R w KQkq - 3 6', "Blackmar-Diemer Gambit Accepted", { from:[7,5], to:[4,3], san:'Bd3' }],
+
+  // #61: Torre Attack
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2', "Torre Attack", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqkb1r/pppppppp/5n2/8/3P4/5N2/PPP1PPPP/RNBQKB1R b KQkq - 2 2', "Torre Attack", { from:[1,6], to:[2,6], san:'g6' }],
+  ['rnbqkb1r/pppppp1p/5np1/8/3P4/5N2/PPP1PPPP/RNBQKB1R w KQkq - 0 3', "Torre Attack", { from:[7,5], to:[6,6], san:'Bg5' }],
+  ['rnbqkb1r/pppppp1p/5np1/6B1/3P4/5N2/PPP1PPPP/RN1QKB1R b KQkq - 1 3', "Torre Attack", { from:[7,5], to:[6,5], san:'Bg7' }],
+  ['rnbqk2r/pppppp1p/5np1/6B1/3P4/5N2/PPP1PPPP/RN1QKB1R w KQkq - 2 4', "Torre Attack", { from:[7,1], to:[4,3], san:'Nbd2' }],
+  ['rnbqk2r/pppppp1p/5np1/6B1/3P4/5N2/PPPNPPPP/R2QKB1R b KQkq - 3 4', "Torre Attack", { from:[7,7], to:[7,5], san:'O-O' }],
+  ['rnbq1rk1/pppppp1p/5np1/6B1/3P4/5N2/PPPNPPPP/R2QKB1R w KQ - 4 5', "Torre Attack", { from:[6,2], to:[4,2], san:'c3' }],
+  ['rnbq1rk1/pppppp1p/5np1/6B1/3P4/2P2N2/PP1NPPPP/R2QKB1R b KQ - 0 5', "Torre Attack", { from:[1,3], to:[3,3], san:'d6' }],
+  ['rnbq1rk1/ppp1pp1p/3p1np1/6B1/3P4/2P2N2/PP1NPPPP/R2QKB1R w KQ - 0 6', "Torre Attack", { from:[4,4], to:[5,5], san:'e4' }],
+
+  // #62: Owen's Defense
+  ['rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1', "Owen's Defense", { from:[1,4], to:[3,4], san:'b6' }],
+  ['rnbqkbnr/p1pppppp/1p6/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2', "Owen's Defense", { from:[6,3], to:[4,3], san:'d4' }],
+  ['rnbqkbnr/p1pppppp/1p6/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq - 0 2', "Owen's Defense", { from:[7,5], to:[2,0], san:'Bb7' }],
+  ['rnbqkbnr/p2ppppp/1p6/8/3PP3/8/PP3PPP/RNBQKBNR w KQkq - 1 3', "Owen's Defense", { from:[7,5], to:[4,3], san:'Bd3' }],
+  ['rnbqkbnr/p2ppppp/1p6/8/3PP3/3B4/PP3PPP/RNBQK1NR b KQkq - 2 3', "Owen's Defense", { from:[0,6], to:[2,5], san:'Nf6' }],
+  ['rnbqkb1r/p2ppppp/1p3n2/8/3PP3/3B4/PP3PPP/RNBQK1NR w KQkq - 3 4', "Owen's Defense", { from:[7,1], to:[5,2], san:'Nc3' }],
+  ['rnbqkb1r/p2ppppp/1p3n2/8/3PP3/3B4/PP3PPP/RNBQK1NR b KQkq - 4 4', "Owen's Defense", { from:[1,4], to:[2,4], san:'e6' }],
+  ['rnbqk2r/p2pbppp/1p2pn2/8/3PP3/3B4/PP3PPP/RNBQK1NR w KQkq - 0 5', "Owen's Defense", { from:[7,6], to:[5,5], san:'Nf3' }],
+  ['rnbqk2r/p2pbppp/1p2pn2/8/3PP3/3B1N2/PP3PPP/RNBQK2R b KQkq - 1 5', "Owen's Defense", { from:[7,7], to:[7,5], san:'O-O' }]
+  
 ];
