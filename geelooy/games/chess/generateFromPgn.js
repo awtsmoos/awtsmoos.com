@@ -67,67 +67,105 @@ class PgnConverter {
     /**
      * A completely rewritten, robust SAN parser.
      */
-    parseSan(san) {
-        const originalSan = san;
-        san = san.replace(/[+#?!=]/g, '');
+    // REPLACE your existing parseSan function with this corrected version.
+parseSan(san) {
+    const originalSan = san;
+    san = san.replace(/[+#?!=]/g, '');
 
-        if (san === 'O-O') {
-            const r = this.turn === 'w' ? 7 : 0;
-            return { san: originalSan, from: [r, 4], to: [r, 6], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
-        }
-        if (san === 'O-O-O') {
-            const r = this.turn === 'w' ? 7 : 0;
-            return { san: originalSan, from: [r, 4], to: [r, 2], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
-        }
+    if (san === 'O-O') {
+        const r = this.turn === 'w' ? 7 : 0;
+        return { san: originalSan, from: [r, 4], to: [r, 6], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
+    }
+    if (san === 'O-O-O') {
+        const r = this.turn === 'w' ? 7 : 0;
+        return { san: originalSan, from: [r, 4], to: [r, 2], piece: this.turn === 'w' ? 'K' : 'k', isCastle: true };
+    }
 
-        let promotion = null;
-        if (san.includes('=')) {
-            promotion = san.slice(-1);
-            san = san.slice(0, -2);
-        }
-        
-        const isCapture = san.includes('x');
-        const sanMove = san.replace('x', '');
+    let promotion = null;
+    if (san.includes('=')) {
+        promotion = san.slice(-1);
+        san = san.slice(0, -2);
+    }
 
-        const piece = (sanMove[0] >= 'A' && sanMove[0] <= 'Z') ? sanMove[0] : 'P';
-        const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
+    const isCapture = san.includes('x');
+    const sanMove = san.replace('x', '');
 
-        const toMatch = sanMove.match(/[a-h][1-8]$/);
-        if (!toMatch) return null;
-        const toSquare = toMatch[0];
-        const toC = toSquare.charCodeAt(0) - 'a'.charCodeAt(0);
-        const toR = 8 - parseInt(toSquare[1]);
-        
-        let fromFile = -1, fromRank = -1;
-        let ambiguity = piece === 'P' ? sanMove.slice(0, sanMove.indexOf(toSquare)) : sanMove.slice(1, sanMove.indexOf(toSquare));
+    const piece = (sanMove[0] >= 'A' && sanMove[0] <= 'Z') ? sanMove[0] : 'P';
+    const pieceToFind = this.turn === 'w' ? piece.toUpperCase() : piece.toLowerCase();
 
-        if (ambiguity) {
-            if (ambiguity.length === 2) {
-                fromFile = 'abcdefgh'.indexOf(ambiguity[0]);
-                fromRank = 8 - parseInt(ambiguity[1]);
-            } else if (/[a-h]/.test(ambiguity)) {
-                fromFile = 'abcdefgh'.indexOf(ambiguity);
-            } else if (/[1-8]/.test(ambiguity)) {
-                fromRank = 8 - parseInt(ambiguity);
+    const toMatch = sanMove.match(/[a-h][1-8]$/);
+    if (!toMatch) return null;
+    const toSquare = toMatch[0];
+    const toC = toSquare.charCodeAt(0) - 'a'.charCodeAt(0);
+    const toR = 8 - parseInt(toSquare[1]);
+
+    // This is the new, correct ambiguity parsing logic.
+    let ambiguitySpecifier = sanMove.slice(piece === 'P' ? 1 : 1, sanMove.indexOf(toSquare));
+    if (piece === 'P' && !isCapture) {
+         ambiguitySpecifier = ''; // e.g., for "e4", there's no ambiguity specifier
+    } else if (piece === 'P' && isCapture) {
+        ambiguitySpecifier = sanMove[0]; // e.g., for "exd5", the 'e' is the specifier
+    }
+
+    const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind);
+
+    const validMoves = candidateMoves.filter(move => {
+        if (move.to[0] !== toR || move.to[1] !== toC) return false;
+
+        if (ambiguitySpecifier) {
+            const fromFile = 'abcdefgh'[move.from[1]];
+            const fromRank = (8 - move.from[0]).toString();
+            if (!ambiguitySpecifier.includes(fromFile) && !ambiguitySpecifier.includes(fromRank)) {
+                return false;
             }
         }
-        
-        const candidateMoves = this._generateCandidateMovesForPieceType(pieceToFind)
-            .filter(move => {
-                if (move.to[0] !== toR || move.to[1] !== toC) return false;
-                if (fromFile !== -1 && move.from[1] !== fromFile) return false;
-                if (fromRank !== -1 && move.from[0] !== fromRank) return false;
-                return true;
-            });
+        return true;
+    });
 
-        if (candidateMoves.length === 1) {
-            const finalMove = { ...candidateMoves[0], san: originalSan };
-            if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
-            return finalMove;
-        }
-
-        return null; // Return null if no single unique move is found
+    if (validMoves.length === 1) {
+        const finalMove = { ...validMoves[0], san: originalSan };
+        if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
+        return finalMove;
     }
+    
+    // If multiple moves are still valid (e.g., Rae1 vs Rfe1), we need a more specific check.
+    if (validMoves.length > 1 && ambiguitySpecifier.length === 2) {
+        const fromFile = ambiguitySpecifier[0];
+        const fromRank = ambiguitySpecifier[1];
+        for(const move of validMoves) {
+            if('abcdefgh'[move.from[1]] === fromFile && (8 - move.from[0]).toString() === fromRank) {
+                 const finalMove = { ...move, san: originalSan };
+                 if (promotion) finalMove.promotion = this.turn === 'w' ? promotion.toUpperCase() : promotion.toLowerCase();
+                 return finalMove;
+            }
+        }
+    }
+
+
+    // Fallback for simple cases where filtering might leave more than one but only one is truly legal.
+    // This part should ideally not be needed if PGN is well-formed, but it adds robustness.
+    if (validMoves.length > 1) {
+        return { ...validMoves[0], san: originalSan };
+    }
+
+    return null; // Move could not be parsed.
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     applyMove(move) {
         const [fromR, fromC] = move.from;
