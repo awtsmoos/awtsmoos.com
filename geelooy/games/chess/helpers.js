@@ -363,15 +363,22 @@ function makeMove(state, move) {
     return unmakeInfo;
 }
 
+
+
+
+// ====================================================================================
+//                 FINAL, CORRECTED, AND ROBUST UNMAKE_MOVE FUNCTION
+// ====================================================================================
+
 function unmakeMove(state, unmakeInfo) {
-    // --- **NEW: HANDLE NULL MOVE CASE** ---
+    // --- HANDLE NULL MOVE CASE ---
     if (unmakeInfo.isNullMove) {
         state.turn = state.turn === 'w' ? 'b' : 'w';
         state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
-        state.zobristHash = unmakeInfo.zobristHash; // The simplest way is to restore the hash
+        state.zobristHash = unmakeInfo.zobristHash;
         return;
     }
-    // --- **END OF FIX** ---
+    // --- END OF NULL MOVE CASE ---
 
     const originalTurn = state.turn === 'w' ? 'b' : 'w';
     state.turn = originalTurn;
@@ -393,8 +400,9 @@ function unmakeMove(state, unmakeInfo) {
         const rookToC = toC === 6 ? 5 : 3;
         const rook = state.board[fromR][rookToC];
         state.board[fromR][rookToC] = null;
-        state.board[fromR][rookFromC] = rook.
+        state.board[fromR][rookFromC] = rook; // <<<<<<< SYNTAX ERROR FIXED HERE
     }
     if (piece.toLowerCase() === 'k') { state.kingPos[originalTurn] = { r: fromR, c: fromC }; }
     state.zobristHash = unmakeInfo.zobristHash;
 }
+
