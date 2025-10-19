@@ -326,8 +326,8 @@ function evaluate(state) {
     blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
     // 3. Threat Analysis
-    whiteScore.add(evaluateThreats(state, 'w', pieceData));
-    blackScore.add(evaluateThreats(state, 'b', pieceData));
+   // whiteScore.add(evaluateThreats(state, 'w', pieceData));
+   // blackScore.add(evaluateThreats(state, 'b', pieceData));
 
     // 4. Endgame-Specific Factors (Passed Pawns, King Activity)
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
@@ -549,43 +549,73 @@ function evaluateThreats(state, color, pieceData) {
 
 // --- COMPLETELY REWRITTEN: KING SAFETY ---
 // This new version evaluates threats to the "King Zone" for a much more accurate danger assessment.
+// ====================================================================================
+//            SMARTER & FASTER King Safety (Mk. XI)
+// ====================================================================================
+// This version is faster and better understands real threats vs. passive exposure.
+
 function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
     let dangerScore = 0;
     const isAttackerWhite = attackerColor === 'w';
-    const kingZone = getKingZone(kingPos);
-    const attackWeights = { q: 10, r: 5, b: 3, n: 3, p: 1 };
     
-    // 1. Pawn Shield Penalty
-    const kingFile = kingPos.c;
-    const shieldRank = isAttackerWhite ? kingPos.r - 1 : kingPos.r + 1;
-    if (kingFile > 0 && kingFile < 7) { // Avoid edges
-        for (let c = kingFile - 1; c <= kingFile + 1; c++) {
-            const friendlyPawn = isAttackerWhite ? 'p' : 'P';
-            if (state.board[shieldRank]?.[c] !== friendlyPawn) {
-                 dangerScore += 20; // Penalty for each missing or advanced pawn shield.
+    // 1. Attacker Count: The most important factor in king safety is the number of
+    //    enemy pieces that are participating in an attack.
+    let attackerCount = 0;
+    const kingHalf = kingPos.c < 4 ? 'queen' : 'king'; // Which side of the board is the king on?
+    const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
+
+    for (const pType of attackerPieceTypes) {
+        const attackers = pieceData[pType];
+        for (const attacker of attackers) {
+            const attackerHalf = attacker.c < 4 ? 'queen' : 'king';
+            // A piece is considered a potential attacker if it's on the same side of the board as the king.
+            if (attackerHalf === kingHalf) {
+                attackerCount++;
             }
         }
     }
 
     // 2. King Zone Attack Score
-    const attackerPieceTypes = isAttackerWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
-    for (const pType of attackerPieceTypes) {
-        const attackers = pieceData[pType];
-        for (const attacker of attackers) {
-            // Check if this piece attacks any of the 9 squares in the king's zone
-            for (const zoneSquare of kingZone) {
-                if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
-                    dangerScore += attackWeights[pType.toLowerCase()];
+    // Only calculate detailed attacks if there are enough pieces nearby to pose a real threat.
+    if (attackerCount > 1) {
+        const kingZone = getKingZone(kingPos);
+        const attackWeights = { q: 9, r: 5, b: 3, n: 3 }; // Pawns are less critical for zone control
+        
+        for (const pType of attackerPieceTypes) {
+            const attackers = pieceData[pType];
+            for (const attacker of attackers) {
+                // Check if this piece attacks any of the 9 squares in the king's zone
+                for (const zoneSquare of kingZone) {
+                    if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
+                        dangerScore += attackWeights[pType.toLowerCase()];
+                    }
                 }
             }
         }
     }
 
-    // Scale the danger score exponentially. A single attacker is a nuisance; multiple attackers are a crisis.
-    if (dangerScore > 20) {
-        return Math.round(dangerScore * dangerScore / 20);
+    // 3. Pawn Shield Penalty
+    // A broken pawn shield is only dangerous if there are attackers to exploit it.
+    if (attackerCount > 0) {
+        const kingFile = kingPos.c;
+        const shieldRank = isAttackerWhite ? kingPos.r - 1 : kingPos.r + 1;
+        if (kingFile > 0 && kingFile < 7) {
+            for (let c = kingFile - 1; c <= kingFile + 1; c++) {
+                const friendlyPawn = isAttackerWhite ? 'p' : 'P';
+                if (state.board[shieldRank]?.[c] !== friendlyPawn) {
+                     dangerScore += 10;
+                }
+            }
+        }
     }
-    return dangerScore;
+
+    // Scale the danger score based on the number of attackers. This is the key.
+    // A danger score of 20 with 4 attackers is a crisis. A score of 20 with 1 attacker is manageable.
+    if (attackerCount > 1) {
+        return dangerScore * (attackerCount - 1);
+    }
+
+    return 0; // If there are no coordinated attackers, the position is considered safe.
 }
 
 
