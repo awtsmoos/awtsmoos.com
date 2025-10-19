@@ -244,6 +244,7 @@ class PgnConverter {
 
     // Internal helper to generate moves from a specific square
     // REPLACE the old _generateMovesForPiece with this one:
+	// THIS IS THE FINAL, CORRECT VERSION of _generateMovesForPiece
 _generateMovesForPiece(r, c) {
     const moves = [];
     const p = this.board[r][c];
@@ -272,15 +273,16 @@ _generateMovesForPiece(r, c) {
             const targetPiece = this.board[nR][nC];
             // Regular capture
             if (targetPiece && (targetPiece.toUpperCase() === targetPiece) !== isWhite) {
-                addMove(nR, nC);
+                // *** ADD CAPTURE FLAG ***
+                addMove(nR, nC, { capture: true });
             }
             // En passant capture
             if (this.enPassantTarget && nR === this.enPassantTarget[0] && nC === this.enPassantTarget[1]) {
-                addMove(nR, nC, { isEnPassant: true });
+                addMove(nR, nC, { isEnPassant: true, capture: true });
             }
         }
     } else {
-        const directions = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1,1], [-1, 0], [1, 0], [0, -1], [0, 1]], k: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
+        const directions = { n: [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]], b: [[-1, -1], [-1, 1], [1, -1], [1, 1]], r: [[-1, 0], [1, 0], [0, -1], [0, 1]], q: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]], k: [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]] }[pL];
         for (const [dr, dc] of directions) {
             let nR = r + dr;
             let nC = c + dc;
@@ -288,22 +290,17 @@ _generateMovesForPiece(r, c) {
                 const targetPiece = this.board[nR][nC];
                 
                 if (targetPiece === '') {
-                    // --- Case 1: Empty Square ---
                     addMove(nR, nC);
                 } else {
-                    // --- Case 2: Occupied Square ---
                     const isTargetWhite = targetPiece.toUpperCase() === targetPiece;
                     if (isTargetWhite !== isWhite) {
-                        // It's an opponent's piece, add as a capture.
-                        addMove(nR, nC);
+                        // *** ADD CAPTURE FLAG ***
+                        addMove(nR, nC, { capture: true });
                     }
-                    // Stop sliding whether it was a friend or foe.
                     break;
                 }
                 
-                // Knights and Kings do not slide.
                 if (pL === 'n' || pL === 'k') break;
-
                 nR += dr;
                 nC += dc;
             }
