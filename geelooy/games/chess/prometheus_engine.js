@@ -37,6 +37,9 @@ const MATE_SCORE = 100000;
 const MATE_IN_MAX_PLY = 64;
 const NULL_MOVE_R = 3;
 
+const Q_MAX_DEPTH = 8; 
+const CONTEMPT_FACTOR = -36; // Re-defining the constant here for context
+
 // *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
 let nodeCount = 0;
 let searchStartTime, timeLimit;
@@ -410,13 +413,13 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
         if (myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2)) {
             hasCastled = true;
-            score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 80, 30));
+            score.add(new TaperedScore(myKingPos.c === 6 ? 150 : 80, 50));
         }
     }
 
     // --- MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
     if (!kingOnStartSquare && !hasCastled && canStillCastle) {
-        score.subtract(new TaperedScore(75, 20));
+        score.subtract(new TaperedScore(150, 40));
     }
 
     // --- 2. PAWN SHIELD EVALUATION ---
@@ -445,10 +448,10 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 
     // --- 3. DEVELOPMENT & PIECE ACTIVITY ---
     for (const knight of (isWhite ? pieceData.N : pieceData.n)) {
-        if (knight.r !== startRank) score.add(new TaperedScore(10, 5));
+        if (knight.r !== startRank) score.add(new TaperedScore(20, 10));
     }
     for (const bishop of (isWhite ? pieceData.B : pieceData.b)) {
-        if (bishop.r !== startRank) score.add(new TaperedScore(10, 5));
+        if (bishop.r !== startRank) score.add(new TaperedScore(20, 10));
     }
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
         score.add(new TaperedScore(75, 100));
@@ -468,7 +471,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
     for (const pawn of myPawns) {
         pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
         if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
-            score.subtract(new TaperedScore(20, 30));
+            score.subtract(new TaperedScore(40, 60));
         }
     }
     for (const count of pawnFileCounts.values()) {
@@ -606,7 +609,6 @@ function evaluateThreats(state, color, pieceData) {
 // This version adds a massive penalty for enemy queen proximity, fixing both
 // unsound sacrifices and the failure to escape perpetual check.
 
-const CONTEMPT_FACTOR = -36; // Re-defining the constant here for context
 
 function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase) {
     const danger = new TaperedScore();
@@ -1045,7 +1047,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
 
 
-const Q_MAX_DEPTH = 8; 
+
 
 function quiesce(state, alpha, beta, ply, qDepth = 0) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
