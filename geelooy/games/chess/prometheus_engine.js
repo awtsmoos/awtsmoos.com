@@ -483,6 +483,8 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 
 
 // *** MODIFIED: Added huge incentive for imminent pawn promotion. ***
+const PROMOTION_IMMINENT_BONUS = 4000; // Increased to ensure engine sees the guaranteed Queen
+
 function evaluateEndgameFactors(state, color, pieceData) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
@@ -491,47 +493,38 @@ function evaluateEndgameFactors(state, color, pieceData) {
     if (!myKingPos || !enemyKingPos) return score;
     
     
+    // King Activity: Increased weighting
     const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
-    score.eg += Math.round(kingCentrality * 10);
+    score.eg += Math.round(kingCentrality * 15); 
     const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
-    score.eg += kingProximity * 5;
+    score.eg += kingProximity * 8; 
     
     const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
     const enemyPawns = isWhite ? pieceData.p : pieceData.P;
     
     for (const p of friendlyPawns) {
         let isPassed = true;
-        let stoppers = 0; // --- NEW: Count potential blockers
         for (const ep of enemyPawns) {
             if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
                 isPassed = false;
-                stoppers++;
+                break;
             }
         }
         if (isPassed) {
             const rank = isWhite ? 7 - p.r : p.r;
             let bonus;
             
-            // If a pawn is on the 7th rank (rank index 6), give it the massive promotion bonus.
+            // --- CRITICAL FIX: Promotion Incentive ---
             if (rank === 6) {
-                bonus = PROMOTION_IMMINENT_BONUS;
+                bonus = PROMOTION_IMMINENT_BONUS; 
             } else {
-                // Otherwise, use the standard bonuses for other ranks.
                 bonus = [0, 20, 30, 50, 80, 150, 0, 0][rank]; 
             }
 
             score.mg += bonus;
-            score.eg += bonus * 2.5; // Make the endgame incentive even stronger
+            score.eg += bonus * 3; // Make the endgame incentive massive (e.g., 12000 for 7th rank)
             const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
             score.eg += (8 - kingPawnDist) * 10;
-        } else {
-            // --- NEW: Candidate Passed Pawn Bonus ---
-            // If a pawn isn't passed but has few or no stoppers, it's a future threat.
-            if (stoppers === 0) {
-                 score.add(new TaperedScore(20, 40)); // True candidate
-            } else if (stoppers === 1) {
-                 score.add(new TaperedScore(10, 20)); // Potential candidate
-            }
         }
     }
     return score;
@@ -610,22 +603,20 @@ function evaluateThreats(state, color, pieceData) {
 // This version adds a massive penalty for enemy queen proximity, fixing both
 // unsound sacrifices and the failure to escape perpetual check.
 
-function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
+const CONTEMPT_FACTOR = -50; // Re-defining the constant here for context
+
+function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase) {
     const danger = new TaperedScore();
     const isAttackerWhite = attackerColor === 'w';
     
-    // --- NEW: QUEEN PROXIMITY PENALTY ---
-    // This is the most important part of the fix. If the enemy queen is close,
-    // the position is inherently dangerous, even if there are no other attackers.
+    // --- CRITICAL FIX: MASSIVE QUEEN PROXIMITY PENALTY (Middlegame Only) ---
     const enemyQueen = isAttackerWhite ? pieceData.Q[0] : pieceData.q[0];
     if (enemyQueen) {
         const queenDist = Math.max(Math.abs(kingPos.r - enemyQueen.r), Math.abs(kingPos.c - enemyQueen.c));
-        if (queenDist <= 2) { // Queen is within a 2-square radius
-            danger.mg += 100; // Massive penalty
-            danger.eg += 50;
-        } else if (queenDist <= 3) {
-            danger.mg += 50;
-            danger.eg += 25;
+        // Only apply in the middlegame (phase > 0.5)
+        if (queenDist <= 3 && gamePhase > 0.5) { 
+            // Penalty scales by proximity: 300 for dist 1, 200 for dist 2, 100 for dist 3
+            danger.mg += (4 - queenDist) * 100; 
         }
     }
 
@@ -635,11 +626,11 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
         attackerCount += pieceData[pType].length;
     }
 
-    // Only proceed with detailed calculation if there are enough pieces for an attack.
-    if (attackerCount < 2) {
+    if (attackerCount < 2 && !enemyQueen) {
         return danger;
     }
 
+    // Secondary King Zone Danger
     let dangerScore = 0;
     const kingZone = getKingZone(kingPos);
     const attackWeights = { q: 9, r: 5, b: 3, n: 3 };
@@ -655,8 +646,6 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
         }
     }
     
-    // This scales the danger based on the number of attackers but does so in a much
-    // more controlled, linear way, preventing the score from exploding.
     const scaledDanger = dangerScore * (1 + (attackerCount / 4));
 
     danger.mg += Math.round(scaledDanger);
@@ -664,7 +653,6 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
 
     return danger;
 }
-
 
 
 // You will need this NEW HELPER function for evaluateKingSafety to work.
@@ -957,23 +945,14 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- YOUR ORIGINAL, WORKING REPETITION DETECTION LOGIC ---
-    // The condition ">= 2" is correct and is what allowed the search to work.
+    // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
-        
-        // --- THE NEW, RUTHLESS "ANTI-DRAW" CONSEQUENCE ---
-        // This is the only part that is different from your original code.
         const staticEval = evaluate(state);
-        const WINNING_THRESHOLD = 150; // A clear 1.5 pawn advantage.
-
-        if (staticEval > WINNING_THRESHOLD) {
-            return -MATE_SCORE / 2; // Treat draw as a catastrophic blunder when winning.
-        }
-        if (staticEval < -WINNING_THRESHOLD) {
-            return MATE_SCORE / 2; // Treat draw as a huge success when losing.
-        }
-        return 0; // Treat draw as a neutral outcome in an equal game.
+        // Ruthless Anti-Draw: Return 90% of the static score, ensuring the engine
+        // always seeks a non-drawing line if it has an advantage.
+        return Math.round(staticEval * 0.9);
     }
+    // --- END OF FIX ---
 
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
@@ -990,7 +969,8 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if (inCheck) depth++;
     const staticEval = evaluate(state);
 
-    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1 && state.moveCount > 5 && staticEval >= beta) {
+    // Null Move Pruning (Logic assumed correct with the make/unmake fix)
+    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1) {
         const unmakeInfo = makeMove(state, { isNullMove: true });
         repetitionHistory.push(state.zobristHash);
         const score = -search(state, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, true);
@@ -1011,6 +991,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         const move = orderedMoves[i];
         const unmakeInfo = makeMove(state, move);
         
+        // Legality check
         const originalTurn = state.turn === 'w' ? 'b' : 'w';
         const kingPos = state.kingPos[originalTurn];
         if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
@@ -1025,6 +1006,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         if (isStalemateBlunder(state, staticEval)) {
             score = -MATE_SCORE;
         } else {
+            // PVS/LMR
             if (i === 0) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
             } else {
@@ -1060,40 +1042,65 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
 
 
+const Q_MAX_DEPTH = 8; 
 
-// ====================================================================================
-//            REWRITTEN QUIESCENCE SEARCH (WITH STATIC EXCHANGE EVALUATION)
-// ====================================================================================
-function quiesce(state, alpha, beta, ply) {
+function quiesce(state, alpha, beta, ply, qDepth = 0) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
-    if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
+    if (ply >= MATE_IN_MAX_PLY || qDepth >= Q_MAX_DEPTH) return evaluate(state);
 
     nodeCount++;
     const standPat = evaluate(state);
-    if (standPat >= beta) return beta;
-    if (alpha < standPat) alpha = standPat;
+    
+    // --- CRITICAL FIX: STAND-PAT LOGIC ---
+    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    if (!inCheck) {
+        if (standPat >= beta) return beta;
+        if (alpha < standPat) alpha = standPat;
+    }
 
-    const moves = generateTacticalMoves(state);
-    moves.sort((a, b) => { // Simple MVV-LVA for initial ordering
-        let scoreA = a.capture ? (pieceValues[a.capture.toLowerCase()].mg * 10) - pieceValues[a.piece.toLowerCase()].mg : 0;
-        let scoreB = b.capture ? (pieceValues[b.capture.toLowerCase()].mg * 10) - pieceValues[b.piece.toLowerCase()].mg : 0;
+    const moves = generatePseudoLegalMoves(state);
+    
+    // Filter and order moves
+    const tacticalMoves = [];
+    for (const move of moves) {
+        // If in check, ALL legal moves are tactical. Otherwise, only captures/promotions.
+        if (move.capture || move.promotion || inCheck) {
+            tacticalMoves.push(move);
+        }
+    }
+    
+    // Order by SEE, then Promotions
+    tacticalMoves.sort((a, b) => {
+        let scoreA = a.capture ? see(state, a.from[0], a.from[1], a.to[0], a.to[1]) : 0;
+        let scoreB = b.capture ? see(state, b.from[0], b.from[1], b.to[0], b.to[1]) : 0;
+        if (a.promotion) scoreA += 10000;
+        if (b.promotion) scoreB += 10000;
         return scoreB - scoreA;
     });
 
-    for (const move of moves) {
-        // --- **THE SEE FILTER** ---
-        // If it's a capture, we first check if it's tactically sound using SEE.
-        // We only search captures that are winning or equal (SEE >= 0).
+    for (const move of tacticalMoves) {
+        
+        // --- CRITICAL FIX: AGGRESSIVE SEE FILTERING (Pruning bad captures) ---
         if (move.capture) {
             if (see(state, move.from[0], move.from[1], move.to[0], move.to[1]) < 0) {
-                continue; // This is a bad capture, so we prune it immediately.
+                continue; 
             }
         }
-
+        
         const unmakeInfo = makeMove(state, move);
+
+        // --- FULL LEGALITY CHECK ---
+        const originalTurn = state.turn === 'w' ? 'b' : 'w';
+        const kingPos = state.kingPos[originalTurn];
+        if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
+            unmakeMove(state, unmakeInfo);
+            continue;
+        }
+        
+        // Recurse
         repetitionHistory.push(state.zobristHash);
-        const score = -quiesce(state, -beta, -alpha, ply + 1);
+        const score = -quiesce(state, -beta, -alpha, ply + 1, qDepth + 1);
         repetitionHistory.pop();
         unmakeMove(state, unmakeInfo);
 
@@ -1106,42 +1113,43 @@ function quiesce(state, alpha, beta, ply) {
 
 
 
-
-
-
-
 function orderMoves(moves, state, pvMove, ply) {
-    // MVV-LVA (Most Valuable Victim - Least Valuable Aggressor) pre-calculation
-    const mvvLvaScores = [
-        [0, 0, 0, 0, 0, 0],       // victim K, not possible
-        [105, 104, 103, 102, 101, 100], // victim Q
-        [95, 94, 93, 92, 91, 90],   // victim R
-        [85, 84, 83, 82, 81, 80],   // victim B
-        [75, 74, 73, 72, 71, 70],   // victim N
-        [65, 64, 63, 62, 61, 60]    // victim P
-    ];
-    const pieceIndices = { p: 5, n: 4, b: 3, r: 2, q: 1, k: 0 };
+    const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }; 
 
     return moves.map(move => {
         let score = 0;
         if (pvMove && move.from[0] === pvMove.from[0] && move.from[1] === pvMove.from[1] && move.to[0] === pvMove.to[0] && move.to[1] === pvMove.to[1]) {
-            score = 200000; // PV move gets top priority
-        } else if (move.capture) {
-            // Static Exchange Evaluation (SEE) would be better, but MVV-LVA is a great heuristic
-            const attackerIndex = pieceIndices[move.piece.toLowerCase()];
-            const victimIndex = pieceIndices[move.capture.toLowerCase()];
-            score = 100000 + mvvLvaScores[victimIndex][attackerIndex];
-        } else {
-            // Killer moves for non-captures
-            if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
-                score = 90000;
-            } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
-                score = 80000;
-            } else if (move.piece) {
-                // History Heuristic for quiet moves
-                score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
-            }
+            score = 300000; 
+        } 
+        
+        // --- CRITICAL FIX: Prioritize captures by SEE Score ---
+        else if (move.capture) {
+            const seeScore = see(state, move.from[0], move.from[1], move.to[0], move.to[1]);
+            const attackerValue = pieceValues[move.piece.toLowerCase()];
+            const victimValue = pieceValues[move.capture.toLowerCase()];
+            const mvvLva = (victimValue * 10) - attackerValue;
+
+            // Highly prioritize moves with positive SEE
+            score = 200000 + (seeScore * 1000) + mvvLva;
+        } 
+        
+        // Promotions (High priority)
+        else if (move.promotion) {
+             score = 150000 + pieceValues[move.promotion.toLowerCase()];
         }
+        
+        // Killer Moves
+        else if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
+            score = 90000;
+        } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
+            score = 80000;
+        } 
+        
+        // History Heuristic
+        else if (move.piece) {
+            score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
+        }
+
         return { move, score };
     }).sort((a, b) => b.score - a.score).map(item => item.move);
 }
