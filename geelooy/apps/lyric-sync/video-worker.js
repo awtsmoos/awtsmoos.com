@@ -69,46 +69,103 @@ self.onmessage = async (e) => {
 function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }, framePayload) {
     const time = framePayload.time;
     const { width, height } = canvas;
-    
-    
+
     // 1. Draw Background
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
-    // 2. Update and Draw Particles
+    // 2. Update and Draw Particles & Connections
     particleSystem.updateAndDraw(ctx);
 
-    // 3. Draw Waveform
-    drawLightningWaveform(ctx, waveformData, time, width, height);
+    // 3. Draw Animated Waveform
+    drawLightningWaveform(ctx, waveformData, time, width, height, settings.waveformThickness);
     
-    // 4. Find and Draw the Active Text Cue
+    // 4. Find Active Cue
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
+    
+    // 5. Draw Text Box
+    if (activeCue) {
+        const boxColor = settings.font.boxColor;
+        const boxOpacity = settings.font.boxOpacity;
+        ctx.fillStyle = `rgba(${parseInt(boxColor.substr(1, 2), 16)}, ${parseInt(boxColor.substr(3, 2), 16)}, ${parseInt(boxColor.substr(5, 2), 16)}, ${boxOpacity})`;
+        // Simple centered box for now
+        const boxWidth = width * 0.9;
+        const boxHeight = height * 0.4;
+        ctx.fillRect((width - boxWidth) / 2, (height - boxHeight) / 2, boxWidth, boxHeight);
+    }
+    
+    // 6. Draw Text with Wrapping, Border, and Shadow
     if (activeCue) {
         ctx.font = `bold ${settings.font.size}px Heebo, Arial`;
         ctx.textAlign = settings.font.align;
         
-        const x = width / 2; // Always center horizontally for simplicity
+        const x = width / 2;
         const y = height / 2;
+        const maxWidth = width * 0.85; // Max width for text wrapping
+        const lineHeight = settings.font.size * 1.2;
 
-        // Draw border for readability
-        if (settings.font.borderWidth > 0) {
-            ctx.strokeStyle = settings.font.borderColor;
-            ctx.lineWidth = settings.font.borderWidth * 2; // Stroke is centered, so double it
-            ctx.strokeText(activeCue.text, x, y);
-        }
-        
-        // Draw main text
-        ctx.fillStyle = settings.font.color;
-        ctx.fillText(activeCue.text, x, y);
+        // Apply Shadow
+        ctx.shadowColor = settings.font.shadowColor;
+        ctx.shadowBlur = settings.font.shadowBlur;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        // The wrapText function handles drawing with border and fill
+        wrapText(ctx, activeCue.text, x, y, maxWidth, lineHeight, settings.font);
+
+        // Reset shadow for next frame's components
+        ctx.shadowBlur = 0;
     }
 }
 
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, fontSettings) {
+    const lines = text.split('\n');
+    let allWrappedLines = [];
+
+    lines.forEach(line => {
+        let words = line.split(' ');
+        let currentLine = words[0];
+        for (let i = 1; i < words.length; i++) {
+            let word = words[i];
+            let width = ctx.measureText(currentLine + " " + word).width;
+            if (width < maxWidth) {
+                currentLine += " " + word;
+            } else {
+                allWrappedLines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        allWrappedLines.push(currentLine);
+    });
+    
+    const startY = y - ((allWrappedLines.length - 1) * lineHeight) / 2;
+
+    allWrappedLines.forEach((line, i) => {
+        const currentY = startY + (i * lineHeight);
+        // Draw Border
+        if (fontSettings.borderWidth > 0) {
+            ctx.strokeStyle = fontSettings.borderColor;
+            ctx.lineWidth = fontSettings.borderWidth * 2;
+            ctx.strokeText(line, x, currentY);
+        }
+        // Draw Fill
+        ctx.fillStyle = fontSettings.color;
+        ctx.fillText(line, x, currentY);
+    });
+}
+
+
+
+
+
 // --- Helper Functions and Classes for Visual Effects ---
 
-function drawLightningWaveform(ctx, waveform, time, width, height) {
+function drawLightningWaveform(ctx, waveform, time, width, height, thickness) {
     const samplesPerPixel = Math.floor(waveform.length / width);
     const audioIndex = Math.floor(time * 44100 / (samplesPerPixel * 10)); // Approximate mapping
     
+    ctx.lineWidth = thickness;
     ctx.beginPath();
     ctx.moveTo(0, height / 2);
 
@@ -149,13 +206,13 @@ function analyzeAudio(audioBufferShim) {
 }
 
 class ParticleSystem {
-    constructor(chars, resolution) {
+    constructor(chars, resolution, density) {
         this.particles = [];
         this.chars = [...chars]; // Use spread to handle emojis correctly
         this.width = resolution.width;
         this.height = resolution.height;
-        this.count = 100;
-
+        this.count = density
+        
         for (let i = 0; i < this.count; i++) {
             this.particles.push(this.createParticle());
         }
@@ -189,5 +246,27 @@ class ParticleSystem {
             ctx.fillText(p.char, p.x, p.y);
         }
         ctx.globalAlpha = 1.0; // Reset global alpha
+        
+        this.drawConnections(ctx)
     }
+    drawConnections(ctx) {
+        const connectCount = Math.floor(this.count / 20); // Connect ~5% of particles
+        ctx.strokeStyle = 'rgba(200, 225, 255, 0.2)';
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < connectCount; i++) {
+            const p1 = this.particles[Math.floor(Math.random() * this.count)];
+            const p2 = this.particles[Math.floor(Math.random() * this.count)];
+            
+            const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+
+            if (distance < 200) { // Only connect if they are close
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            }
+        }
+    }
+
 }
