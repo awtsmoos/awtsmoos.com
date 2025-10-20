@@ -1,4 +1,5 @@
-// B"H - Definitive Worker: Explosions & Lightning Restored, All Fixes
+// B"H 
+//- Definitive Worker: 24 FPS, Upgraded FX, All Features, No Minification
 
 // --- FONT SETUP (ROBUST & INTERNAL) ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
@@ -6,8 +7,9 @@ const EMOJI_FALLBACK_FONT = 'sans-serif';
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
-let renderer;
+// --- WORKER GLOBAL STATE ---
 let lastActiveCue = null; // Stores the last active caption for persistence
+const frameRate = 24; // --- SET TO 24 FPS AS REQUESTED ---
 
 // --- ROBUST AUDIO ANALYSIS ---
 function preAnalyzeAudio(audioBufferShim, totalFrames) {
@@ -28,14 +30,13 @@ function preAnalyzeAudio(audioBufferShim, totalFrames) {
 // --- MAIN ENTRY POINT ---
 self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        const frameRate = settings.fps ||  24;
         const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
         const totalFrames = Math.floor(totalDuration * frameRate);
         const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
         const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
 
-        renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
+        const renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
             (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
             { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
         );
@@ -44,7 +45,7 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
         for (let i = 0; i <= totalFrames; i++) {
             const time = i / frameRate;
             await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
-            if (i > 0 && i % 30 === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
+            if (i > 0 && i % frameRate === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
         }
         
         const blob = await renderer.finalize(audioBufferShim);
@@ -70,7 +71,7 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     if (currentCue) lastActiveCue = currentCue;
     
     if (lastActiveCue) {
-        const boxSize = width * 0.8;
+        const boxSize = width * 0.78
         const { boxColor, boxOpacity } = settings.font;
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
@@ -79,69 +80,50 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     }
 }
 
-// --- FINAL HIGH-PERFORMANCE WAVEFORM ---
-// In video-worker.js, REPLACE the existing drawWaveform function with this version.
-
+// --- FINAL UPGRADED WAVEFORM ---
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
 
-    const baseY = height * 0.85;
     const maxAmplitude = height * (waveformHeight / 100);
-    // A power curve makes the wave "burst" out from the flat line more dramatically on loud sounds.
     const amplitude = maxAmplitude * (volume ** 1.5);
-
-    // --- NEW DYNAMIC & RESPONSIVE LOGIC ---
-    // The wave's animation speed and complexity are now tied directly to volume.
-    const animationSpeed = 6 + (volume * 15); // Faster animation with higher volume
-    const complexity = 0.02 + (volume * 0.03); // More complex shape with higher volume
-
-    // Calculate all points first
-    const points = [];
-    for (let x = 0; x <= width + 20; x += 20) { // We only need to calculate every 20 pixels
-        const mainWave = Math.sin(x * 0.015 + time * animationSpeed * 0.7) * 0.6;
-        const detailWave = Math.sin(x * complexity + time * animationSpeed) * 0.4;
-        const finalY = baseY + (mainWave + detailWave) * amplitude;
-        points.push({ x, y: finalY });
-    }
+    
+    // A slow, deep "breathing" motion for the entire wave
+    const undulation = Math.sin(time * 0.7) * (height * 0.015);
+    const baseY = height * 0.85 + undulation;
 
     const createPath = () => {
-        // --- NEW SMOOTHING LOGIC ---
-        // Instead of sharp lines, we draw a smooth curve through the points.
         ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 0; i < points.length - 1; i++) {
-            const xc = (points[i].x + points[i + 1].x) / 2;
-            const yc = (points[i].y + points[i + 1].y) / 2;
-            // This creates a continuous, flowing spline.
-            ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+        for (let x = 0; x <= width; x += 15) {
+            // Triple-layered sine waves for a rich, complex shape
+            const mainWave = Math.sin(x * 0.01 + time * 4) * 0.5;
+            const detailWave = Math.sin(x * 0.03 + time * 9) * 0.3;
+            const staticWave = Math.sin(x * 0.1 + time * 20) * 0.2; // High-frequency "electric" detail
+            const yOffset = (mainWave + detailWave + staticWave) * amplitude;
+            const finalY = baseY + yOffset;
+            x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
         }
     };
+    
+    // Dynamic color that shifts from blue to white with volume
+    const colorIntensity = 200 + Math.floor(volume * 55);
+    const glowColor = `rgba(${colorIntensity - 50}, ${colorIntensity - 20}, 255, ${0.3 * volume})`;
+    const mainColor = `rgba(${colorIntensity}, ${colorIntensity}, 255, ${0.6 * volume + 0.2})`;
 
-    // Layer 1: Thick, very transparent base for the "glow"
-    ctx.strokeStyle = `rgba(150, 200, 255, ${0.3 * volume})`;
+    // Layer 1: Thick, soft glow
+    ctx.strokeStyle = glowColor;
     ctx.lineWidth = waveformThickness * 3;
     createPath();
     ctx.stroke();
 
-    // Layer 2: Main wave body
-    ctx.strokeStyle = `rgba(200, 225, 255, ${0.6 * volume + 0.2})`;
+    // Layer 2: Main, bright body
+    ctx.strokeStyle = mainColor;
     ctx.lineWidth = waveformThickness;
-    createPath();
-    ctx.stroke();
-    
-    // Layer 3: Thin, bright highlight
-    ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * volume})`;
-    ctx.lineWidth = waveformThickness * 0.5;
     createPath();
     ctx.stroke();
 }
 
-
-
 // --- FINAL PARTICLE SYSTEM WITH ALL FEATURES ---
-// In video-worker.js, REPLACE the entire ParticleSystem class with this version.
-
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
@@ -178,7 +160,7 @@ class ParticleSystem {
     }
 
     updateAndDraw(ctx, volume) {
-        const earthquakeAmount = (volume ** 2) * 60;
+        const earthquakeAmount = (volume ** 2) * 70; // Increased intensity
         const explosionChance = 0.002 + (volume * 0.02);
 
         for (let i = this.particles.length - 1; i >= 0; i--) {
@@ -188,7 +170,9 @@ class ParticleSystem {
             if (p.life <= 0) { this.particles.splice(i, 1); continue; }
 
             if (p.life === Infinity && Math.random() < explosionChance) {
+                // Spawn sub-particles at the parent's location
                 for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, { isSubParticle: true, x: p.x, y: p.y }));
+                // Reset the parent that exploded to maintain density
                 this.createParticle(p);
                 continue;
             }
@@ -209,43 +193,26 @@ class ParticleSystem {
             ctx.fillText(p.char, 0, 0);
             ctx.restore();
         }
-
-        // The lightning is drawn after all particles.
         this.drawLightning(ctx);
     }
 
-    // --- REWRITTEN AND VISIBLE LIGHTNING EFFECT ---
     drawLightning(ctx) {
-        // Try to draw 3 bolts every single frame for a consistent effect.
         const checks = 3;
         for (let i = 0; i < checks; i++) {
             const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
             const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
-
-            // Ensure we have two different, valid particles that are reasonably close.
             if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.35) {
-                
                 const createPath = () => {
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
-                    // Create 3 intermediate jagged points for the bolt.
-                    for (let j = 1; j <= 3; j++) {
-                        ctx.lineTo(
-                            p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 25,
-                            p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 25
-                        );
-                    }
+                    for (let j = 1; j <= 3; j++) ctx.lineTo(p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 25, p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 25);
                     ctx.lineTo(p2.x, p2.y);
                 };
-
-                // 1. Draw the "glow" layer: thick and transparent.
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
                 ctx.lineWidth = 3;
                 createPath();
                 ctx.stroke();
-
-                // 2. Draw the "core" layer: thin and bright.
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
                 ctx.lineWidth = 1;
                 createPath();
                 ctx.stroke();
@@ -254,18 +221,21 @@ class ParticleSystem {
     }
 }
 
-
-
-// --- TEXT HELPERS ---
+// --- TEXT HELPERS (CLEAN, NON-MINIFIED) ---
 function getWrappedLines(ctx, text, maxWidth) {
-    const lines = text.split("\n"); let allLines = [];
+    const lines = text.split("\n");
+    let allLines = [];
     lines.forEach(line => {
-        let currentLine = ''; let words = line.split(' ');
+        let currentLine = '';
+        let words = line.split(' ');
         for (let i = 0; i < words.length; i++) {
             let testLine = currentLine + (currentLine ? ' ' : '') + words[i];
             if (i > 0 && ctx.measureText(testLine).width > maxWidth) {
-                allLines.push(currentLine); currentLine = words[i];
-            } else { currentLine = testLine; }
+                allLines.push(currentLine);
+                currentLine = words[i];
+            } else {
+                currentLine = testLine;
+            }
         }
         allLines.push(currentLine);
     });
