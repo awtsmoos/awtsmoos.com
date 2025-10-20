@@ -57,8 +57,8 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
-    particleSystem.updateAndDraw(ctx, time);
-    drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
+ //   particleSystem.updateAndDraw(ctx, time);
+  //  drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
     
     
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
