@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- ... (header and input sections are unchanged) ... -->
+        <!-- ... header and input sections are unchanged ... -->
         <header>
             <h1>Lyric Sync</h1>
             <p>Play audio with synchronized transcripts</p>
@@ -20,7 +20,7 @@
 
         <main>
             <div class="input-section">
-                <div class="file-input-wrapper">
+                 <div class="file-input-wrapper">
                     <label for="audio-input"><i class="fas fa-music"></i> Choose Audio File</label>
                     <input type="file" id="audio-input" accept="audio/*">
                     <span id="audio-file-name">No file chosen</span>
@@ -36,13 +36,17 @@
                 </div>
             </div>
 
+            <!-- This wrapper now contains the live preview canvas -->
             <div id="lyrics-display-wrapper" dir="rtl">
-                <div id="lyrics-display">
-                    <p>Load your files to begin.</p>
+                <canvas id="waveform-preview-canvas"></canvas>
+                <div id="lyrics-display-box">
+                    <div id="lyrics-display">
+                        <p>Load your files to begin.</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="controls-section">
+             <div class="controls-section">
                 <audio id="audio-player"></audio>
                 <div class="custom-controls">
                     <button id="play-pause-btn" class="control-btn" aria-label="Play">
@@ -56,23 +60,20 @@
                 </div>
             </div>
 
-            <details class="settings-panel">
+            <details class="settings-panel" open>
                 <summary>
                     <i class="fas fa-cog"></i> Customization Settings
                 </summary>
+
+                <h3 class="settings-title">Text & Font</h3>
                 <div class="settings-content">
-                    <!-- ... (Existing settings are unchanged) ... -->
                     <div class="setting">
                         <label for="font-size-slider">Font Size</label>
-                        <input type="range" id="font-size-slider" min="12" max="100" value="48">
+                        <input type="range" id="font-size-slider" min="12" max="150" value="48">
                     </div>
                     <div class="setting">
                         <label for="font-color-picker">Font Color</label>
                         <input type="color" id="font-color-picker" value="#FFFFFF">
-                    </div>
-                    <div class="setting">
-                        <label for="highlight-color-picker">Highlight Color (Unused)</label>
-                        <input type="color" id="highlight-color-picker" value="#FFFF00">
                     </div>
                     <div class="setting">
                         <label for="text-align-select">Text Align</label>
@@ -83,8 +84,53 @@
                         </select>
                     </div>
                 </div>
-                
-                <!-- NEW VIDEO EXPORT SECTION -->
+
+                <hr class="settings-divider">
+                <h3 class="settings-title">Text Box & Shadow</h3>
+                <div class="settings-content">
+                    <div class="setting">
+                        <label for="box-opacity-slider">Box Opacity</label>
+                        <input type="range" id="box-opacity-slider" min="0" max="1" value="0.2" step="0.05">
+                    </div>
+                    <div class="setting">
+                        <label for="box-color-picker">Box Color</label>
+                        <input type="color" id="box-color-picker" value="#000000">
+                    </div>
+                    <div class="setting">
+                        <label for="text-border-width">Border Width</label>
+                        <input type="range" id="text-border-width" min="0" max="20" value="4">
+                    </div>
+                     <div class="setting">
+                        <label for="text-border-color">Border Color</label>
+                        <input type="color" id="text-border-color" value="#000000">
+                    </div>
+                    <div class="setting">
+                        <label for="shadow-blur">Shadow Blur</label>
+                        <input type="range" id="shadow-blur" min="0" max="50" value="5">
+                    </div>
+                    <div class="setting">
+                        <label for="shadow-color">Shadow Color</label>
+                        <input type="color" id="shadow-color" value="#000000">
+                    </div>
+                </div>
+
+                <hr class="settings-divider">
+                <h3 class="settings-title">Effects & Animation</h3>
+                 <div class="settings-content">
+                    <div class="setting">
+                        <label for="particle-density">Particle Density</label>
+                        <input type="range" id="particle-density" min="0" max="300" value="100">
+                    </div>
+                    <div class="setting">
+                        <label for="waveform-thickness">Waveform Thickness</label>
+                        <input type="range" id="waveform-thickness" min="1" max="10" value="2">
+                    </div>
+                    <div class="setting full-width">
+                        <label for="custom-particles">Custom Particles (e.g., אבגדהוזחטי ✨✡️)</label>
+                        <textarea id="custom-particles" rows="2">אבגדהוזחטיכלמנסעפצקרשת✨✡️</textarea>
+                    </div>
+                </div>
+
                 <hr class="settings-divider">
                 <h3 class="settings-title">Video Export</h3>
                 <div class="settings-content">
@@ -100,25 +146,13 @@
                         <label for="max-duration">Max Duration (seconds, 0 for full)</label>
                         <input type="number" id="max-duration" value="0" min="0">
                     </div>
-                    <div class="setting">
-                        <label for="text-border-width">Text Border Width</label>
-                        <input type="range" id="text-border-width" min="0" max="20" value="4">
-                    </div>
-                    <div class="setting">
-                        <label for="text-border-color">Text Border Color</label>
-                        <input type="color" id="text-border-color" value="#000000">
-                    </div>
-                    <div class="setting full-width">
-                        <label for="custom-particles">Custom Particles (e.g., אבגדהוזחטי emojis ✨✡️)</label>
-                        <textarea id="custom-particles" rows="2">אבגדהוזחטיכלמנסעפצקרשת✨✡️</textarea>
-                    </div>
                 </div>
                 <button id="export-btn" class="export-button"><i class="fas fa-video"></i> Export Video</button>
             </details>
         </main>
     </div>
 
-    <!-- NEW EXPORT PROGRESS OVERLAY -->
+    <!-- Export progress overlay (unchanged) -->
     <div id="export-overlay" class="hidden">
         <div class="export-status-box">
             <h3><i class="fas fa-cogs"></i> Rendering Video...</h3>
