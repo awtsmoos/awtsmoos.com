@@ -1,62 +1,96 @@
-// B"H 
-//- Definitive Worker: 24 FPS, Upgraded FX, All Features, No Minification
+// B"H - Definitive Worker: Stable Architecture, No Crashes
 
-// --- FONT SETUP (ROBUST & INTERNAL) ---
+// --- FONT SETUP ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
 const EMOJI_FALLBACK_FONT = 'sans-serif';
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- WORKER GLOBAL STATE ---
-let lastActiveCue = null; // Stores the last active caption for persistence
-const frameRate = 24; // --- SET TO 24 FPS AS REQUESTED ---
+let ctx = null;
+let canvasWidth = 0, canvasHeight = 0;
+let cues = [];
+let settings = {};
+let particleSystem = null;
+let volumeDataForFrames = [];
+let lastActiveCue = null;
+let totalDuration = 0;
+const frameRate = 24;
 
-// --- ROBUST AUDIO ANALYSIS ---
-function preAnalyzeAudio(audioBufferShim, totalFrames) {
-    const channelData = audioBufferShim.channels[0];
-    if (!channelData || channelData.length === 0) return new Array(totalFrames).fill(0.01);
-    const volumeLevels = [];
-    const samplesPerFrame = Math.floor(channelData.length / totalFrames);
-    for (let i = 0; i < totalFrames; i++) {
-        let rms = 0;
-        const start = i * samplesPerFrame;
-        for (let j = 0; j < samplesPerFrame; j++) rms += (channelData[start + j] || 0) ** 2;
-        const volume = Math.sqrt(rms / samplesPerFrame);
-        volumeLevels.push(isNaN(volume) ? 0.01 : Math.max(0.01, volume));
-    }
-    return volumeLevels;
-}
-
-// --- MAIN ENTRY POINT ---
-self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
+// --- MAIN MESSAGE HANDLER ---
+self.onmessage = async ({ data }) => {
     try {
-        const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
-        const totalFrames = Math.floor(totalDuration * frameRate);
-        const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
-        const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
-        const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
-
-        const renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
-            (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
-            { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
-        );
-        await renderer.start();
-
-        for (let i = 0; i <= totalFrames; i++) {
-            const time = i / frameRate;
-            await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
-            if (i > 0 && i % frameRate === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
+        switch (data.type) {
+            case 'INIT':
+                initialize(data);
+                break;
+            case 'DRAW_PREVIEW':
+                drawFrameWrapper(data.time);
+                break;
+            case 'UPDATE_SETTINGS':
+                settings = data.settings;
+                if (particleSystem && settings.particles.density !== particleSystem.settings.density) {
+                    particleSystem = new ParticleSystem(settings.particles, { width: canvasWidth, height: canvasHeight });
+                }
+                break;
+            case 'EXPORT':
+                // The full audio buffer is received ONLY here.
+                await handleExport(data.audioBufferShim);
+                break;
         }
-        
-        const blob = await renderer.finalize(audioBufferShim);
-        self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName: `BH_video_${new Date().getTime()}.mp4` } });
     } catch (error) {
-        self.postMessage({ type: 'FATAL_ERROR', payload: { message: error.message, error: error.stack } });
+        self.postMessage({ type: 'FATAL_ERROR', payload: { message: error.message } });
     }
 };
 
-// --- CORE DRAWING ---
-function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForFrames }, framePayload) {
+// --- INITIALIZATION ---
+function initialize(data) {
+    ctx = data.canvas.getContext('2d');
+    canvasWidth = data.canvas.width;
+    canvasHeight = data.canvas.height;
+    cues = data.cues;
+    settings = data.settings;
+    volumeDataForFrames = data.volumeDataForFrames; // Receive the small analysis array
+    totalDuration = data.duration;
+    
+    particleSystem = new ParticleSystem(settings.particles, { width: canvasWidth, height: canvasHeight });
+    drawFrameWrapper(0); // Draw an initial "ready" frame
+}
+
+// --- EXPORT HANDLING ---
+async function handleExport(audioBufferShim) {
+    const exportWidth = settings.resolution.width;
+    const exportHeight = settings.resolution.height;
+    const exportParticleSystem = new ParticleSystem(settings.particles, { width: exportWidth, height: exportHeight });
+    
+    const renderer = new MediaBunnyBase({ resolution: { width: exportWidth, height: exportHeight } },
+        (base, frame) => {
+            drawFrame({ ...base, particleSystem: exportParticleSystem }, frame);
+        }, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
+    );
+    
+    await renderer.start();
+    const finalDuration = (settings.maxDuration > 0 && settings.maxDuration < totalDuration) ? settings.maxDuration : totalDuration;
+    const totalFrames = Math.floor(finalDuration * frameRate);
+
+    for (let i = 0; i <= totalFrames; i++) {
+        const time = i / frameRate;
+        await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
+        if (i > 0 && i % frameRate === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
+    }
+    
+    const blob = await renderer.finalize(audioBufferShim);
+    self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName: `BH_video_${new Date().getTime()}.mp4` } });
+}
+
+// --- DRAWING LOGIC ---
+function drawFrameWrapper(time) {
+    if (!ctx) return;
+    const frameNumber = Math.floor(time * frameRate);
+    drawFrame({ ctx, canvas: { width: canvasWidth, height: canvasHeight }, particleSystem }, { time, frameNumber });
+}
+
+function drawFrame({ ctx, canvas, particleSystem }, framePayload) {
     const { time, frameNumber } = framePayload;
     const { width, height } = canvas;
     const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
@@ -71,59 +105,52 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     if (currentCue) lastActiveCue = currentCue;
     
     if (lastActiveCue) {
-        const boxSize = width * 0.78
-        const { boxColor, boxOpacity } = settings.font;
+        const boxSize = width * 0.9;
+        const { boxColor, boxOpacity, font } = settings;
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
         ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
-        wrapText(ctx, lastActiveCue.text, width / 2, height / 2, boxSize, boxSize, settings.font, height / 720);
+        wrapText(ctx, lastActiveCue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
     }
 }
 
-// --- FINAL UPGRADED WAVEFORM ---
+// --- VISUAL EFFECTS & HELPERS (NON-MINIFIED) ---
+
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
-
     const maxAmplitude = height * (waveformHeight / 100);
     const amplitude = maxAmplitude * (volume ** 1.5);
-    
-    // A slow, deep "breathing" motion for the entire wave
     const undulation = Math.sin(time * 0.7) * (height * 0.015);
     const baseY = height * 0.85 + undulation;
 
     const createPath = () => {
         ctx.beginPath();
         for (let x = 0; x <= width; x += 15) {
-            // Triple-layered sine waves for a rich, complex shape
             const mainWave = Math.sin(x * 0.01 + time * 4) * 0.5;
             const detailWave = Math.sin(x * 0.03 + time * 9) * 0.3;
-            const staticWave = Math.sin(x * 0.1 + time * 20) * 0.2; // High-frequency "electric" detail
+            const staticWave = Math.sin(x * 0.1 + time * 20) * 0.2;
             const yOffset = (mainWave + detailWave + staticWave) * amplitude;
             const finalY = baseY + yOffset;
             x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
         }
     };
     
-    // Dynamic color that shifts from blue to white with volume
     const colorIntensity = 200 + Math.floor(volume * 55);
     const glowColor = `rgba(${colorIntensity - 50}, ${colorIntensity - 20}, 255, ${0.3 * volume})`;
     const mainColor = `rgba(${colorIntensity}, ${colorIntensity}, 255, ${0.6 * volume + 0.2})`;
 
-    // Layer 1: Thick, soft glow
     ctx.strokeStyle = glowColor;
     ctx.lineWidth = waveformThickness * 3;
     createPath();
     ctx.stroke();
 
-    // Layer 2: Main, bright body
     ctx.strokeStyle = mainColor;
     ctx.lineWidth = waveformThickness;
     createPath();
     ctx.stroke();
 }
 
-// --- FINAL PARTICLE SYSTEM WITH ALL FEATURES ---
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
@@ -132,12 +159,10 @@ class ParticleSystem {
         this.sizeScalar = Math.max(1.0, this.height / 720);
         this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}));
     }
-
     createParticle(p = {}, options = {}) {
         const { isSubParticle = false, x, y } = options;
         p.x = x !== undefined ? x : Math.random() * this.width;
         p.y = y !== undefined ? y : this.height + Math.random() * 20;
-
         if (isSubParticle) {
             const angle = Math.random() * Math.PI * 2;
             const speed = 2 + Math.random() * 4;
@@ -149,7 +174,6 @@ class ParticleSystem {
             p.vy = -(Math.random() * 2.0 + 1.5);
             p.life = Infinity;
         }
-
         const baseSize = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
         p.size = baseSize * this.sizeScalar;
         if (isSubParticle) p.size *= 0.6;
@@ -158,33 +182,27 @@ class ParticleSystem {
         p.opacity = 0.6 + Math.random() * 0.4;
         return p;
     }
-
     updateAndDraw(ctx, volume) {
-        const earthquakeAmount = (volume ** 2) * 70; // Increased intensity
+        const earthquakeAmount = (volume ** 2) * 70;
         const explosionChance = 0.002 + (volume * 0.02);
-
         for (let i = this.particles.length - 1; i >= 0; i--) {
             const p = this.particles[i];
             if (p.life !== Infinity) p.life--;
-
-            if (p.life <= 0) { this.particles.splice(i, 1); continue; }
-
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                continue;
+            }
             if (p.life === Infinity && Math.random() < explosionChance) {
-                // Spawn sub-particles at the parent's location
                 for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, { isSubParticle: true, x: p.x, y: p.y }));
-                // Reset the parent that exploded to maintain density
                 this.createParticle(p);
                 continue;
             }
-
             p.x += p.vx;
             p.y += p.vy;
             if (p.life === Infinity && p.y < -p.size) this.createParticle(p);
-
             const jiggleX = (Math.random() - 0.5) * earthquakeAmount;
             const jiggleY = (Math.random() - 0.5) * earthquakeAmount;
             const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity;
-
             ctx.save();
             ctx.translate(p.x + jiggleX, p.y + jiggleY);
             ctx.rotate((p.x + p.y) * 0.02);
@@ -195,7 +213,6 @@ class ParticleSystem {
         }
         this.drawLightning(ctx);
     }
-
     drawLightning(ctx) {
         const checks = 3;
         for (let i = 0; i < checks; i++) {
@@ -221,7 +238,6 @@ class ParticleSystem {
     }
 }
 
-// --- TEXT HELPERS (CLEAN, NON-MINIFIED) ---
 function getWrappedLines(ctx, text, maxWidth) {
     const lines = text.split("\n");
     let allLines = [];
