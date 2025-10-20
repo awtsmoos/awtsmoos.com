@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const textAlignSelect = document.getElementById('text-align-select');
 
     let cues = [];
-    let currentCueIndex = -1; // Used to track the currently displayed cue
+    let currentCueIndex = -1;
 
     // --- File and Text Input Handling (Unchanged) ---
     audioInput.addEventListener('change', (e) => {
@@ -49,26 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
         cues = parseVTT(vttTextInput.value);
         lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
         vttFileNameDisplay.textContent = 'Pasted content';
-        currentCueIndex = -1; // Reset tracker
+        currentCueIndex = -1;
     });
 
-    // --- VTT Parsing Logic (Unchanged) ---
+    // --- VTT Parsing Logic (THIS FUNCTION IS NOW FIXED) ---
     function parseVTT(vttContent) {
-        const lines = vttContent.trim().split('\n');
+        // Use a regex to split by newlines, handling both Windows (\r\n) and Unix (\n) line endings
+        const lines = vttContent.trim().split(/\r?\n/);
         const parsedCues = [];
         let i = 0;
-        if (!lines[0].startsWith('WEBVTT')) {
-             console.warn("VTT content might be missing the WEBVTT header.");
-        }
         
         while (i < lines.length) {
-            if (lines[i].includes('-->')) {
+            // Find the next line that contains a timestamp
+            if (lines[i] && lines[i].includes('-->')) {
                 const timeLine = lines[i];
                 const [start, end] = timeLine.split(' --> ').map(timeToSeconds);
                 
                 let text = '';
-                i++;
-                while (lines[i] && lines[i].trim() !== '') {
+                i++; // Move to the line after the timestamp
+
+                // --- THIS IS THE LINE THAT FIXES THE PARSING BUG ---
+                // Collect text lines until we hit a blank line OR the next timestamp
+                while (lines[i] && lines[i].trim() !== '' && !lines[i].includes('-->')) {
                     text += lines[i] + '\n';
                     i++;
                 }
@@ -76,9 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (start !== null && end !== null) {
                     parsedCues.push({ start, end, text: text.trim() });
                 }
+                // Don't increment i here, because the outer loop will handle it
+                continue; 
             }
             i++;
         }
+        console.log("Parsed Cues:", parsedCues); // For debugging
         return parsedCues;
     }
 
@@ -95,14 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 seconds += parseFloat(parts[0]) * 60;
                 seconds += parseFloat(parts[1]);
             }
-            return seconds;
+            return isNaN(seconds) ? null : seconds;
         } catch (error) {
             console.error("Error parsing time:", timeStr, error);
             return null;
         }
     }
 
-    // --- Audio Player Controls (Unchanged) ---
+    // --- Audio Player Controls & Synchronization (Unchanged from previous fix) ---
     playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
     audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
     audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
@@ -111,36 +116,27 @@ document.addEventListener('DOMContentLoaded', () => {
         durationDisplay.textContent = formatTime(audioPlayer.duration);
     });
     progressBar.addEventListener('input', () => audioPlayer.currentTime = progressBar.value);
-
-    // --- Time Update and Synchronization ---
     audioPlayer.addEventListener('timeupdate', () => {
         progressBar.value = audioPlayer.currentTime;
         currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
         updateLyrics(audioPlayer.currentTime);
     });
 
-    // --- THIS FUNCTION HAS BEEN COMPLETELY REWRITTEN FOR THE FIX ---
     function updateLyrics(currentTime) {
-        // Find the index of the cue that should be active at the current time
         const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
-
-        // Only update the display if the active cue has changed
         if (newCueIndex !== currentCueIndex) {
-            // If a new cue is active (index is not -1)
             if (newCueIndex !== -1) {
                 const activeCue = cues[newCueIndex];
-                // Display ONLY the text of the new active cue
                 lyricsDisplay.innerHTML = `<p>${activeCue.text.replace(/\n/g, '<br>')}</p>`;
             } else {
-                // If no cue is active (the time is between cues), clear the display
                 lyricsDisplay.innerHTML = "";
             }
-            // Update the tracker to the new index
             currentCueIndex = newCueIndex;
         }
     }
 
     function formatTime(time) {
+        if (isNaN(time)) return "0:00";
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -151,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const root = document.documentElement;
         root.style.setProperty('--lyrics-font-size', `${fontSizeSlider.value}px`);
         root.style.setProperty('--lyrics-font-color', fontColorPicker.value);
-        root.style.setProperty('--lyrics-highlight-color', highlightColorPicker.value); // Highlight color is now unused but kept for future features
+        root.style.setProperty('--lyrics-highlight-color', highlightColorPicker.value);
         root.style.setProperty('--lyrics-text-align', textAlignSelect.value);
     }
 
