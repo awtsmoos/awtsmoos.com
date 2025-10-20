@@ -1,4 +1,5 @@
-// B"H - script.js (Definitive Version with Correct Canvas Initialization)
+// B"H 
+//- script.js (Definitive Version with Memory-Safe Transfer)
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
@@ -157,26 +158,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         
-        // --- THE CRITICAL FIX IS HERE ---
-        // 1. Get the actual on-screen size of the canvas element.
         const rect = previewCanvas.getBoundingClientRect();
-
-        // 2. Set the canvas's drawing surface size to match its display size.
-        // We use devicePixelRatio for sharp rendering on high-DPI screens.
         const dpr = window.devicePixelRatio || 1;
         previewCanvas.width = rect.width * dpr;
         previewCanvas.height = rect.height * dpr;
-
-        // 3. Now that it's correctly sized, transfer control to the worker.
         const offscreenCanvas = previewCanvas.transferControlToOffscreen();
         
+        // --- THE CRITICAL MEMORY FIX IS HERE ---
+        // 1. Create a list of all objects that can be transferred instead of copied.
+        const transferList = [offscreenCanvas];
+        audioBufferShim.channels.forEach(channel => {
+            // We add the underlying ArrayBuffer of each audio channel to the list.
+            transferList.push(channel.buffer);
+        });
+        
+        // 2. Send the message with the complete transfer list.
+        // This moves the data with zero extra memory cost, preventing crashes.
         worker.postMessage({
             type: 'INIT',
             canvas: offscreenCanvas,
             cues,
             audioBufferShim,
             settings: collectSettings()
-        }, [offscreenCanvas]);
+        }, transferList); // Use the new, complete transfer list
 
         isWorkerReady = true;
     }
@@ -206,8 +210,50 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    function parseVTT(vtt){const lines=vtt.trim().split(/\r?\n/);const cues=[];for(let i=0;i<lines.length;i++){if(lines[i].includes("-->")){const[start,end]=lines[i].split(" --> ").map(timeToSeconds);let text="";for(let j=i+1;lines[j]&&lines[j].trim()!=="";j++)text+=lines[j]+"\n";if(start!=null&&end!=null)cues.push({start,end,text:text.trim()});i=lines.findIndex((l,idx)=>idx>i&&l.trim()==="")||lines.length}}return cues}
-    function timeToSeconds(t){try{const p=t.trim().split(":");return p.length===3?+p[0]*3600+ +p[1]*60+ +p[2]:+p[0]*60+ +p[1]}catch{return null}}
-    function formatTime(t){if(isNaN(t))return"0:00";const m=Math.floor(t/60);const s=Math.floor(t%60);return`${m}:${s.toString().padStart(2,"0")}`}
-    function downloadBlob(b,f){const u=URL.createObjectURL(b);const a=document.createElement("a");a.style.display="none";a.href=u;a.download=f;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
+    function parseVTT(vtt) {
+        const lines = vtt.trim().split(/\r?\n/);
+        const cues = [];
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].includes("-->")) {
+                const [start, end] = lines[i].split(" --> ").map(timeToSeconds);
+                let text = "";
+                for (let j = i + 1; lines[j] && lines[j].trim() !== ""; j++) {
+                    text += lines[j] + "\n";
+                }
+                if (start != null && end != null) {
+                    cues.push({ start, end, text: text.trim() });
+                }
+                i = lines.findIndex((l, idx) => idx > i && l.trim() === "") || lines.length;
+            }
+        }
+        return cues;
+    }
+
+    function timeToSeconds(t) {
+        try {
+            const p = t.trim().split(":");
+            return p.length === 3 ? (+p[0] * 3600 + +p[1] * 60 + +p[2]) : (+p[0] * 60 + +p[1]);
+        } catch {
+            return null;
+        }
+    }
+
+    function formatTime(t) {
+        if (isNaN(t)) return "0:00";
+        const m = Math.floor(t / 60);
+        const s = Math.floor(t % 60);
+        return `${m}:${s.toString().padStart(2, "0")}`;
+    }
+
+    function downloadBlob(b, f) {
+        const u = URL.createObjectURL(b);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = u;
+        a.download = f;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(u);
+    }
 });
