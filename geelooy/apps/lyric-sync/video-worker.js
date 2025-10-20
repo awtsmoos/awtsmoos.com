@@ -70,7 +70,7 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     if (currentCue) lastActiveCue = currentCue;
     
     if (lastActiveCue) {
-        const boxSize = width * 0.9;
+        const boxSize = width * 0.8;
         const { boxColor, boxOpacity } = settings.font;
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
@@ -80,31 +80,64 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
 }
 
 // --- FINAL HIGH-PERFORMANCE WAVEFORM ---
+// In video-worker.js, REPLACE the existing drawWaveform function with this version.
+
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
+
     const baseY = height * 0.85;
     const maxAmplitude = height * (waveformHeight / 100);
+    // A power curve makes the wave "burst" out from the flat line more dramatically on loud sounds.
     const amplitude = maxAmplitude * (volume ** 1.5);
+
+    // --- NEW DYNAMIC & RESPONSIVE LOGIC ---
+    // The wave's animation speed and complexity are now tied directly to volume.
+    const animationSpeed = 6 + (volume * 15); // Faster animation with higher volume
+    const complexity = 0.02 + (volume * 0.03); // More complex shape with higher volume
+
+    // Calculate all points first
+    const points = [];
+    for (let x = 0; x <= width + 20; x += 20) { // We only need to calculate every 20 pixels
+        const mainWave = Math.sin(x * 0.015 + time * animationSpeed * 0.7) * 0.6;
+        const detailWave = Math.sin(x * complexity + time * animationSpeed) * 0.4;
+        const finalY = baseY + (mainWave + detailWave) * amplitude;
+        points.push({ x, y: finalY });
+    }
+
     const createPath = () => {
+        // --- NEW SMOOTHING LOGIC ---
+        // Instead of sharp lines, we draw a smooth curve through the points.
         ctx.beginPath();
-        for (let x = 0; x <= width; x += 10) {
-            const mainWave = Math.sin(x * 0.015 + time * 6) * 0.6;
-            const detailWave = Math.sin(x * 0.04 + time * 10) * 0.4;
-            const finalY = baseY + (mainWave + detailWave) * amplitude;
-            x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 0; i < points.length - 1; i++) {
+            const xc = (points[i].x + points[i + 1].x) / 2;
+            const yc = (points[i].y + points[i + 1].y) / 2;
+            // This creates a continuous, flowing spline.
+            ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
         }
     };
+
+    // Layer 1: Thick, very transparent base for the "glow"
     ctx.strokeStyle = `rgba(150, 200, 255, ${0.3 * volume})`;
     ctx.lineWidth = waveformThickness * 3;
-    createPath(); ctx.stroke();
+    createPath();
+    ctx.stroke();
+
+    // Layer 2: Main wave body
     ctx.strokeStyle = `rgba(200, 225, 255, ${0.6 * volume + 0.2})`;
     ctx.lineWidth = waveformThickness;
-    createPath(); ctx.stroke();
+    createPath();
+    ctx.stroke();
+    
+    // Layer 3: Thin, bright highlight
     ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * volume})`;
     ctx.lineWidth = waveformThickness * 0.5;
-    createPath(); ctx.stroke();
+    createPath();
+    ctx.stroke();
 }
+
+
 
 // --- FINAL PARTICLE SYSTEM WITH ALL FEATURES ---
 // In video-worker.js, REPLACE the entire ParticleSystem class with this version.
