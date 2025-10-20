@@ -375,97 +375,101 @@ function evaluate(state) {
 // of the pawn shield in protecting the king, preventing it from making strategically
 // unsound trades that weaken its own defense.
 
+// ====================================================================================
+//            REWRITTEN: evaluateStrategicBonuses (with Castling Discipline)
+// ====================================================================================
+// This version introduces severe penalties for moving the king before castling and
+// provides a huge incentive to castle, fixing the suicidal king-walks.
+
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
     const startRank = isWhite ? 7 : 0;
     const pawnRank = isWhite ? 6 : 1;
     const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    const canCastleKingSide = isWhite ? state.castlingRights.w.k : state.castlingRights.b.k;
+    const canCastleQueenSide = isWhite ? state.castlingRights.w.q : state.castlingRights.b.q;
+    const canStillCastle = canCastleKingSide || canCastleQueenSide;
 
-    // --- 1. CASTLING & KING POSITION ---
-    // Strong incentive to castle and keep the king safe.
+    // --- 1. CASTLING & KING POSITION (THE CRITICAL FIX) ---
     let hasCastled = false;
-    if (myKingPos && myKingPos.r === startRank) {
-        if (myKingPos.c === 6 || myKingPos.c === 2) { // King on g or c file on its home rank
+    let kingOnStartSquare = false;
+
+    if (myKingPos) {
+        kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
+        // Check if the king is now on a successfully castled square.
+        if (myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2)) {
             hasCastled = true;
-            score.add(new TaperedScore(myKingPos.c === 6 ? 60 : 50, 15)); // Strong midgame safety bonus
+            // HUGE reward for being safely castled.
+            score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 80, 30));
         }
     }
 
-    // --- 2. PAWN SHIELD EVALUATION (THE CRITICAL FIX) ---
-    // If the king has castled, evaluate the pawn shield in front of it.
-    // This is the key to preventing bad trades that expose the king.
+    // --- NEW: MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
+    // If the king has moved from its starting square BUT hasn't castled, and castling
+    // was still a possibility, apply a severe penalty. This stops the king-walks.
+    if (!kingOnStartSquare && !hasCastled && canStillCastle) {
+        score.subtract(new TaperedScore(75, 20)); // Heavy penalty for breaking castling rights.
+    }
+
+    // --- 2. PAWN SHIELD EVALUATION (Still crucial after castling) ---
+    // This logic remains from the previous fix, as it's vital for a castled king.
     if (hasCastled && myKingPos) {
         const kingFile = myKingPos.c;
         const shieldFiles = [kingFile - 1, kingFile, kingFile + 1];
         
         for (const file of shieldFiles) {
             if (file < 0 || file > 7) continue;
-
             let shieldPawnFound = false;
-            // Search for a friendly pawn on this file.
             for (const pawn of (isWhite ? pieceData.P : pieceData.p)) {
                 if (pawn.c === file) {
                     shieldPawnFound = true;
-                    // Penalize if the shield pawn has been pushed too far forward.
                     const rankDist = Math.abs(pawn.r - pawnRank);
                     if (rankDist > 1) {
-                         score.subtract(new TaperedScore(15 * rankDist, 0)); // Pawn is too advanced.
+                         score.subtract(new TaperedScore(15 * rankDist, 0));
                     }
                     break;
                 }
             }
-            // Apply a large penalty if a pawn is missing entirely from a shield file.
             if (!shieldPawnFound) {
                 score.subtract(new TaperedScore(40, 10)); // Missing pawn shield!
             }
         }
     }
 
-    // --- 3. DEVELOPMENT & PIECE ACTIVITY ---
-    // Development & Tempo Bonus for minor pieces.
+    // --- 3. DEVELOPMENT & PIECE ACTIVITY (Unchanged) ---
     for (const knight of (isWhite ? pieceData.N : pieceData.n)) {
         if (knight.r !== startRank) score.add(new TaperedScore(10, 5));
     }
     for (const bishop of (isWhite ? pieceData.B : pieceData.b)) {
         if (bishop.r !== startRank) score.add(new TaperedScore(10, 5));
     }
-
-    // Bishop Pair Bonus (still valuable).
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
         score.add(new TaperedScore(50, 75));
     }
-
-    // Rook on Open/Semi-Open File Bonus.
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
-        if (!friendlyPawnFiles.has(rook.c)) { // Semi-open file
-             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 25 : 50, 20)); // Bonus is higher on a fully open file.
+        if (!friendlyPawnFiles.has(rook.c)) {
+             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 25 : 50, 20));
         }
-        if (rook.r === (isWhite ? 1 : 6)) { // Rook on 7th rank is powerful.
+        if (rook.r === (isWhite ? 1 : 6)) {
             score.add(new TaperedScore(50, 60));
         }
     }
 
-    // --- 4. PAWN STRUCTURE (ISOLATED/DOUBLED) ---
-    // This is kept from your original function, as it's still useful.
+    // --- 4. PAWN STRUCTURE (Unchanged) ---
     const myPawns = isWhite ? pieceData.P : pieceData.p;
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
         pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
-        // Isolated Pawn Penalty
         if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
             score.subtract(new TaperedScore(20, 30));
         }
     }
     for (const count of pawnFileCounts.values()) {
-        if (count > 1) { // Doubled Pawn Penalty
+        if (count > 1) {
             score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1)));
         }
     }
-    
-    // Note: Mobility calculation has been removed for clarity and speed.
-    // The piece-square tables and other bonuses (like rooks on open files)
-    // cover mobility implicitly and are much faster.
 
     return score;
 }
