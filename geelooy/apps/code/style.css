@@ -127,8 +127,8 @@
         border-bottom: 2px solid var(--color-border); 
         flex-shrink: 0;  font-size: 0.9em; letter-spacing: 2px; user-select: none; font-weight: 700;
         color: var(--neon-cyan);
-        /* --- BRIGHTER HEADER GLOW --- */
-        text-shadow: 0 0 12px var(--glow-cyan), 0 0 4px var(--neon-cyan);
+        
+    
     }
     .workspaces-container { 
         flex-grow: 1; overflow-y: auto; padding: 8px;
@@ -155,7 +155,7 @@
         background-color: var(--color-border); 
         color: var(--neon-cyan);
         border-color: var(--neon-cyan);
-        text-shadow: 0 0 8px var(--glow-cyan);
+        
     }
     
     .tree-item {
