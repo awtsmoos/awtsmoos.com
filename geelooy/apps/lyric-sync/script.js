@@ -1,5 +1,4 @@
-// B"H 
-//- script.js (Controller for the Rendering Worker)
+// B"H - script.js (Definitive Version with Correct Canvas Initialization)
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
@@ -14,11 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationDisplay = document.getElementById('duration-display');
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
-
-    // Live Preview Elements
-    const previewCanvas = document.getElementById('waveform-preview-canvas'); // The canvas on the page
-    
-    // All settings inputs grouped for easy access
+    const previewCanvas = document.getElementById('waveform-preview-canvas');
     const settingsInputs = {
         fontSize: document.getElementById('font-size-slider'),
         fontColor: document.getElementById('font-color-picker'),
@@ -27,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         boxColor: document.getElementById('box-color-picker'),
         borderWidth: document.getElementById('text-border-width'),
         borderColor: document.getElementById('text-border-color'),
-        shadowBlur: document.getElementById('shadow-blur'),
-        shadowColor: document.getElementById('shadow-color'),
         particleDensity: document.getElementById('particle-density'),
         particleSize: document.getElementById('particle-size'),
         particleVariation: document.getElementById('particle-variation'),
@@ -39,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resHeight: document.getElementById('resolution-height'),
         maxDuration: document.getElementById('max-duration')
     };
-
-    // Export UI
     const exportBtn = document.getElementById('export-btn');
     const exportOverlay = document.getElementById('export-overlay');
     const exportStatus = document.getElementById('export-status');
@@ -48,22 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- APPLICATION STATE ---
     let cues = [];
-    let currentCueIndex = -1;
     let audioFile = null;
+    let vttContent = '';
     let animationFrameId;
-    let worker; // The rendering worker
+    let worker;
     let isWorkerReady = false;
-    let audioBufferShim = null; // To store the decoded audio data
 
-    // --- EVENT LISTENERS & INITIALIZATION ---
-
-    audioInput.addEventListener('change', async (e) => {
+    // --- EVENT LISTENERS ---
+    audioInput.addEventListener('change', (e) => {
         audioFile = e.target.files[0];
         if (audioFile) {
             audioPlayer.src = URL.createObjectURL(audioFile);
             audioFileNameDisplay.textContent = audioFile.name;
             audioPlayer.load();
-            await decodeAudioAndSetupWorker();
+            attemptWorkerInitialization();
         }
     });
 
@@ -73,18 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (event) => {
                 vttTextInput.value = event.target.result;
-                processVTTContent(event.target.result);
+                vttContent = event.target.result;
                 vttFileNameDisplay.textContent = file.name;
-                checkAndSetupWorker();
+                attemptWorkerInitialization();
             };
             reader.readAsText(file);
         }
     });
 
-    vttTextInput.addEventListener('input', () => {
-        processVTTContent(vttTextInput.value);
+    vttTextInput.addEventListener('input', (e) => {
+        vttContent = e.target.value;
         vttFileNameDisplay.textContent = 'Pasted content';
-        checkAndSetupWorker();
+        attemptWorkerInitialization();
     });
 
     playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
@@ -96,167 +85,129 @@ document.addEventListener('DOMContentLoaded', () => {
     audioPlayer.addEventListener('timeupdate', () => {
         progressBar.value = audioPlayer.currentTime;
         currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-        
-      });
+    });
 
     Object.values(settingsInputs).forEach(el => {
         el.addEventListener('input', () => {
             if (isWorkerReady) {
-                // Send settings updates to the worker for the live preview
                 worker.postMessage({ type: 'UPDATE_SETTINGS', settings: collectSettings() });
             }
         });
     });
 
     exportBtn.addEventListener('click', () => {
-        if (!isWorkerReady || !audioBufferShim) {
-            alert('Please load an audio file and VTT content before exporting.');
+        if (!isWorkerReady) {
+            alert('Please load audio and VTT content first.');
             return;
         }
         exportOverlay.classList.remove('hidden');
-        exportStatus.textContent = 'Starting export process...';
-        exportProgressBar.style.width = '0%';
-        worker.postMessage({ type: 'EXPORT', audioBufferShim });
+        worker.postMessage({ type: 'EXPORT' });
     });
 
-    audioPlayer.addEventListener('play', () => {
-        playPauseIcon.className = 'fas fa-pause';
-        renderPreviewFrame(); // Start the animation loop
-    });
-    
-    audioPlayer.addEventListener('pause', () => {
-        playPauseIcon.className = 'fas fa-play';
-        cancelAnimationFrame(animationFrameId);
-    });
-    audioPlayer.addEventListener('ended', () => {
-        playPauseIcon.className = 'fas fa-play';
-        cancelAnimationFrame(animationFrameId);
-    });
+    audioPlayer.addEventListener('play', () => { playPauseIcon.className = 'fas fa-pause'; renderPreviewFrame(); });
+    audioPlayer.addEventListener('pause', () => { playPauseIcon.className = 'fas fa-play'; cancelAnimationFrame(animationFrameId); });
+    audioPlayer.addEventListener('ended', () => { playPauseIcon.className = 'fas fa-play'; cancelAnimationFrame(animationFrameId); });
 
-    // --- WORKER COMMUNICATION ---
+    // --- ROBUST INITIALIZATION LOGIC ---
+    async function attemptWorkerInitialization() {
+        if (!audioFile || !vttContent) return;
 
-    async function decodeAudioAndSetupWorker() {
-        if (!audioFile) return;
-        const arrayBuffer = await audioFile.arrayBuffer();
-        const audioContext = new AudioContext();
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        audioBufferShim = {
-            sampleRate: audioBuffer.sampleRate,
-            duration: audioBuffer.duration,
-            channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
-        };
-        checkAndSetupWorker();
-    }
+        if (worker) {
+            worker.terminate();
+            isWorkerReady = false;
+        }
 
-    function checkAndSetupWorker() {
-        if (cues.length > 0 && audioBufferShim) {
-            setupWorker();
+        try {
+            const arrayBuffer = await audioFile.arrayBuffer();
+            const audioContext = new AudioContext();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const audioBufferShim = {
+                sampleRate: audioBuffer.sampleRate,
+                duration: audioBuffer.duration,
+                channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
+            };
+
+            cues = parseVTT(vttContent);
+            if (cues.length === 0) return;
+
+            setupWorker(cues, audioBufferShim);
+        } catch (error) {
+            console.error("Error setting up worker:", error);
+            alert("Failed to process the audio file. It may be corrupt or an unsupported format.");
         }
     }
 
-    function setupWorker() {
-        if (worker) worker.terminate(); // Terminate any existing worker
-        isWorkerReady = false;
-        
+    function setupWorker(cues, audioBufferShim) {
         worker = new Worker('video-worker.js');
-        
+
         worker.onmessage = ({ data }) => {
-            // Listen for export-related messages from the worker
             switch (data.type) {
                 case 'STATUS_UPDATE':
                     exportStatus.textContent = data.payload.message;
                     exportProgressBar.style.width = `${data.payload.progress}%`;
                     break;
                 case 'VIDEO_COMPLETE':
-                    exportStatus.textContent = 'Download starting...';
                     downloadBlob(data.payload.blob, data.payload.fileName);
                     setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
-                    worker.terminate();
-                    worker = null;
-                    isWorkerReady = false;
                     break;
                 case 'FATAL_ERROR':
-                    exportStatus.innerHTML = `Error: ${data.payload.message}<br><button id="close-error-btn">Close</button>`;
-                    document.getElementById('close-error-btn').onclick = () => exportOverlay.classList.add('hidden');
+                    alert(`A critical error occurred in the rendering engine: ${data.payload.message}`);
+                    exportOverlay.classList.add('hidden');
                     break;
             }
         };
         
-        // Transfer the canvas control to the worker
+        // --- THE CRITICAL FIX IS HERE ---
+        // 1. Get the actual on-screen size of the canvas element.
+        const rect = previewCanvas.getBoundingClientRect();
+
+        // 2. Set the canvas's drawing surface size to match its display size.
+        // We use devicePixelRatio for sharp rendering on high-DPI screens.
+        const dpr = window.devicePixelRatio || 1;
+        previewCanvas.width = rect.width * dpr;
+        previewCanvas.height = rect.height * dpr;
+
+        // 3. Now that it's correctly sized, transfer control to the worker.
         const offscreenCanvas = previewCanvas.transferControlToOffscreen();
+        
         worker.postMessage({
             type: 'INIT',
             canvas: offscreenCanvas,
             cues,
             audioBufferShim,
             settings: collectSettings()
-        }, [offscreenCanvas]); // The second argument is a list of transferable objects
+        }, [offscreenCanvas]);
 
         isWorkerReady = true;
     }
 
+    // --- PREVIEW & UTILITIES ---
     function renderPreviewFrame() {
-        // This is the core animation loop. It just tells the worker to draw.
         if (isWorkerReady) {
             worker.postMessage({ type: 'DRAW_PREVIEW', time: audioPlayer.currentTime });
         }
         animationFrameId = requestAnimationFrame(renderPreviewFrame);
     }
-    
-    // --- UTILITY FUNCTIONS ---
-    
+
     function collectSettings() {
-        const settings = {};
+        const s = {};
         for (const key in settingsInputs) {
-            settings[key] = settingsInputs[key].type === 'number' || settingsInputs[key].type === 'range' 
-                ? parseFloat(settingsInputs[key].value) 
-                : settingsInputs[key].value;
+            s[key] = settingsInputs[key].type === 'range' ? parseFloat(settingsInputs[key].value) : settingsInputs[key].value;
         }
-        // Nest settings for the worker's convenience
         return {
-            resolution: { width: settings.resWidth, height: settings.resHeight },
-            maxDuration: settings.maxDuration,
-            waveformThickness: settings.waveformThickness,
-            waveformHeight: settings.waveformHeight,
-            font: {
-                size: settings.fontSize,
-                color: settings.fontColor,
-                align: settings.textAlign,
-                borderWidth: settings.borderWidth,
-                borderColor: settings.borderColor,
-            },
-            particles: {
-                density: settings.particleDensity,
-                baseSize: settings.particleSize,
-                variation: settings.particleVariation,
-                chars: settings.particles,
-            },
-            // The worker needs these for text box rendering
-            boxColor: settings.boxColor,
-            boxOpacity: settings.boxOpacity,
+            resolution: { width: parseInt(s.resWidth), height: parseInt(s.resHeight) },
+            maxDuration: s.maxDuration,
+            waveformThickness: s.waveformThickness,
+            waveformHeight: s.waveformHeight,
+            font: { size: s.fontSize, color: s.fontColor, align: s.textAlign, borderWidth: s.borderWidth, borderColor: s.borderColor },
+            particles: { density: parseInt(s.particleDensity), baseSize: s.particleSize, variation: s.particleVariation, chars: s.particles },
+            boxColor: s.boxColor,
+            boxOpacity: s.boxOpacity
         };
     }
-
-    function processVTTContent(vttText) {
-        cues = parseVTT(vttText);
-        
-        currentCueIndex = -1;
     
-    }
-
-    function updateLyrics(currentTime) {
-        // This function now ONLY updates the simple HTML text, not the canvas.
-        // It's kept for accessibility and as a simple fallback.
-        const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
-        if (newCueIndex !== currentCueIndex) {
-            lyricsDisplay.innerHTML = (newCueIndex !== -1) ? `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>` : "";
-            currentCueIndex = newCueIndex;
-        }
-    }
-
-    // VTT parsing, time formatting, and blob downloading functions remain the same
-    function parseVTT(vttContent){const lines=vttContent.trim().split(/\r?\n/);const parsedCues=[];for(let i=0;i<lines.length;i++){if(lines[i]&&lines[i].includes("-->")){const[start,end]=lines[i].split(" --> ").map(timeToSeconds);let text="";let j=i+1;while(lines[j]&&lines[j].trim()!==""){text+=lines[j]+"\n";j++}if(start!==null&&end!==null){parsedCues.push({start,end,text:text.trim()})}i=j-1}}return parsedCues}
-    function timeToSeconds(timeStr){try{const parts=timeStr.trim().split(":");const seconds=parts.length===3?parseFloat(parts[0])*3600+parseFloat(parts[1])*60+parseFloat(parts[2]):parseFloat(parts[0])*60+parseFloat(parts[1]);return isNaN(seconds)?null:seconds}catch{return null}}
-    function formatTime(time){if(isNaN(time))return"0:00";const minutes=Math.floor(time/60);const seconds=Math.floor(time%60);return`${minutes}:${seconds.toString().padStart(2,"0")}`}
-    function downloadBlob(blob,fileName){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.style.display="none";a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url)}
+    function parseVTT(vtt){const lines=vtt.trim().split(/\r?\n/);const cues=[];for(let i=0;i<lines.length;i++){if(lines[i].includes("-->")){const[start,end]=lines[i].split(" --> ").map(timeToSeconds);let text="";for(let j=i+1;lines[j]&&lines[j].trim()!=="";j++)text+=lines[j]+"\n";if(start!=null&&end!=null)cues.push({start,end,text:text.trim()});i=lines.findIndex((l,idx)=>idx>i&&l.trim()==="")||lines.length}}return cues}
+    function timeToSeconds(t){try{const p=t.trim().split(":");return p.length===3?+p[0]*3600+ +p[1]*60+ +p[2]:+p[0]*60+ +p[1]}catch{return null}}
+    function formatTime(t){if(isNaN(t))return"0:00";const m=Math.floor(t/60);const s=Math.floor(t%60);return`${m}:${s.toString().padStart(2,"0")}`}
+    function downloadBlob(b,f){const u=URL.createObjectURL(b);const a=document.createElement("a");a.style.display="none";a.href=u;a.download=f;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
 });
