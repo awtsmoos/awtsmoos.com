@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- SAFE, ON-DEMAND EXPORT FUNCTIONALITY ---
     // REPLACE THE ENTIRE LISTENER WITH THIS STABLE VERSION
-
+exportBtn.addEventListener('click', async () => {
 // This is the new, upgraded code for your exportBtn listener's try block
 try {
     const tempAudioContext = new AudioContext();
@@ -174,6 +174,8 @@ try {
     alert(`Failed to prepare data for export: ${error.message}`);
     exportOverlay.classList.add('hidden');
 }
+
+})
     // --- HELPER & UTILITY FUNCTIONS ---
 
     function collectSettings() {
