@@ -1,8 +1,6 @@
-//B"H
 // B"H
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
-    // Player & Input
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
@@ -16,12 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
 
-    // Settings
-    const fontSizeSlider = document.getElementById('font-size-slider');
-    const fontColorPicker = document.getElementById('font-color-picker');
-    const textAlignSelect = document.getElementById('text-align-select');
+    // All settings elements
+    const settingsInputs = {
+        fontSize: document.getElementById('font-size-slider'),
+        fontColor: document.getElementById('font-color-picker'),
+        textAlign: document.getElementById('text-align-select'),
+        resWidth: document.getElementById('resolution-width'),
+        resHeight: document.getElementById('resolution-height'),
+        maxDuration: document.getElementById('max-duration'),
+        borderWidth: document.getElementById('text-border-width'),
+        borderColor: document.getElementById('text-border-color'),
+        particles: document.getElementById('custom-particles')
+    };
 
-    // Export
     const exportBtn = document.getElementById('export-btn');
     const exportOverlay = document.getElementById('export-overlay');
     const exportStatus = document.getElementById('export-status');
@@ -30,11 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- APPLICATION STATE ---
     let cues = [];
     let currentCueIndex = -1;
-    let audioFile = null; // Store the actual File object for export
+    let audioFile = null;
+    const STORAGE_KEY = 'lyricSyncSettings';
 
-    // --- EVENT LISTENERS ---
+    // --- EVENT LISTENERS & INITIALIZATION ---
 
-    // Load Audio File
+    loadSettings(); // Load saved settings on startup
+
     audioInput.addEventListener('change', (e) => {
         audioFile = e.target.files[0];
         if (audioFile) {
@@ -44,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Load VTT from File
     vttFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -58,13 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Load VTT from Textarea
     vttTextInput.addEventListener('input', () => {
         processVTTContent(vttTextInput.value);
         vttFileNameDisplay.textContent = 'Pasted content';
     });
 
-    // Player Controls
     playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
     audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
     audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
@@ -79,12 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLyrics(audioPlayer.currentTime);
     });
     
-    // Settings Listeners
-    document.querySelectorAll('.settings-panel input, .settings-panel select').forEach(el => {
-        el.addEventListener('input', applyStyles);
+    // Add a single event listener for all settings changes
+    Object.values(settingsInputs).forEach(el => {
+        el.addEventListener('input', () => {
+            applyStyles();
+            saveSettings();
+        });
     });
 
-    // Export Button
     exportBtn.addEventListener('click', handleExport);
 
     // --- CORE FUNCTIONS ---
@@ -92,64 +98,42 @@ document.addEventListener('DOMContentLoaded', () => {
     function processVTTContent(vttText) {
         cues = parseVTT(vttText);
         lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
-        currentCueIndex = -1; // Reset tracker
+        currentCueIndex = -1;
     }
 
     function parseVTT(vttContent) {
         const lines = vttContent.trim().split(/\r?\n/);
         const parsedCues = [];
-        let i = 0;
-        
-        while (i < lines.length) {
-            if (lines[i] && lines[i].includes('-->')) {
-                const timeLine = lines[i];
-                const [start, end] = timeLine.split(' --> ').map(timeToSeconds);
-                
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].includes('-->')) {
+                const [start, end] = lines[i].split(' --> ').map(timeToSeconds);
                 let text = '';
-                i++;
-                while (lines[i] && lines[i].trim() !== '' && !lines[i].includes('-->')) {
-                    text += lines[i] + '\n';
-                    i++;
+                let j = i + 1;
+                while (lines[j] && lines[j].trim() !== '') {
+                    text += lines[j] + '\n';
+                    j++;
                 }
-
-                if (start !== null && end !== null) {
-                    parsedCues.push({ start, end, text: text.trim() });
-                }
-                continue;
+                if (start !== null && end !== null) parsedCues.push({ start, end, text: text.trim() });
+                i = j;
             }
-            i++;
         }
         return parsedCues;
     }
 
     function timeToSeconds(timeStr) {
-        if (!timeStr) return null;
-        const parts = timeStr.trim().split(':');
-        let seconds = 0;
         try {
-            if (parts.length === 3) {
-                seconds += parseFloat(parts[0]) * 3600;
-                seconds += parseFloat(parts[1]) * 60;
-                seconds += parseFloat(parts[2]);
-            } else {
-                seconds += parseFloat(parts[0]) * 60;
-                seconds += parseFloat(parts[1]);
-            }
+            const parts = timeStr.trim().split(':');
+            const seconds = parts.length === 3
+                ? parseFloat(parts[0]) * 3600 + parseFloat(parts[1]) * 60 + parseFloat(parts[2])
+                : parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
             return isNaN(seconds) ? null : seconds;
-        } catch (error) {
-            console.error("Error parsing time:", timeStr, error);
-            return null;
-        }
+        } catch { return null; }
     }
 
     function updateLyrics(currentTime) {
         const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
         if (newCueIndex !== currentCueIndex) {
-            if (newCueIndex !== -1) {
-                lyricsDisplay.innerHTML = `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>`;
-            } else {
-                lyricsDisplay.innerHTML = "";
-            }
+            lyricsDisplay.innerHTML = (newCueIndex !== -1) ? `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>` : "";
             currentCueIndex = newCueIndex;
         }
     }
@@ -163,9 +147,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function applyStyles() {
         const root = document.documentElement;
-        root.style.setProperty('--lyrics-font-size', `${fontSizeSlider.value}px`);
-        root.style.setProperty('--lyrics-font-color', fontColorPicker.value);
-        root.style.setProperty('--lyrics-text-align', textAlignSelect.value);
+        root.style.setProperty('--lyrics-font-size', `${settingsInputs.fontSize.value}px`);
+        root.style.setProperty('--lyrics-font-color', settingsInputs.fontColor.value);
+        root.style.setProperty('--lyrics-text-align', settingsInputs.textAlign.value);
+    }
+
+    // --- LOCALSTORAGE & SETTINGS MANAGEMENT ---
+    
+    function saveSettings() {
+        const settingsToSave = {};
+        for (const key in settingsInputs) {
+            settingsToSave[key] = settingsInputs[key].value;
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settingsToSave));
+    }
+
+    function loadSettings() {
+        const savedSettings = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (savedSettings) {
+            for (const key in savedSettings) {
+                if (settingsInputs[key]) {
+                    settingsInputs[key].value = savedSettings[key];
+                }
+            }
+        }
+        applyStyles(); // Apply loaded (or default) styles on startup
     }
 
     // --- VIDEO EXPORT ---
@@ -186,43 +192,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
             const settings = {
-                resolution: {
-                    width: parseInt(document.getElementById('resolution-width').value),
-                    height: parseInt(document.getElementById('resolution-height').value),
-                },
-                maxDuration: parseFloat(document.getElementById('max-duration').value),
-                particles: document.getElementById('custom-particles').value,
+                resolution: { width: parseInt(settingsInputs.resWidth.value), height: parseInt(settingsInputs.resHeight.value) },
+                maxDuration: parseFloat(settingsInputs.maxDuration.value),
+                particles: settingsInputs.particles.value,
                 font: {
-                    size: parseInt(document.getElementById('font-size-slider').value),
-                    color: document.getElementById('font-color-picker').value,
-                    align: document.getElementById('text-align-select').value,
-                    borderWidth: parseInt(document.getElementById('text-border-width').value),
-                    borderColor: document.getElementById('text-border-color').value,
+                    size: parseInt(settingsInputs.fontSize.value),
+                    color: settingsInputs.fontColor.value,
+                    align: settingsInputs.textAlign.value,
+                    borderWidth: parseInt(settingsInputs.borderWidth.value),
+                    borderColor: settingsInputs.borderColor.value,
                 },
                 originalFileName: audioFile.name
             };
 
-            // Create a "shim" of the AudioBuffer to send to the worker
             const audioBufferShim = {
                 sampleRate: audioBuffer.sampleRate,
                 length: audioBuffer.length,
                 duration: audioBuffer.duration,
                 numberOfChannels: audioBuffer.numberOfChannels,
-                channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) =>
-                    audioBuffer.getChannelData(i)
-                ),
+                channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
             };
 
             const worker = new Worker('video-worker.js');
 
-            worker.onmessage = (e) => {
-                const { type, payload } = e.data;
+            worker.onmessage = ({ data: { type, payload } }) => {
                 switch (type) {
                     case 'STATUS_UPDATE':
                         exportStatus.textContent = payload.message;
-                        if (payload.progress) {
-                            exportProgressBar.style.width = `${payload.progress}%`;
-                        }
+                        if (payload.progress) exportProgressBar.style.width = `${payload.progress}%`;
                         break;
                     case 'VIDEO_COMPLETE':
                         exportStatus.textContent = 'Download starting...';
@@ -239,11 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             
-            worker.postMessage({
-                cues,
-                audioBufferShim,
-                settings
-            });
+            worker.postMessage({ cues, audioBufferShim, settings });
 
         } catch (error) {
             exportStatus.innerHTML = `Error preparing data: ${error.message}<br><button id="close-error-btn">Close</button>`;
@@ -263,7 +256,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
-
-    // Initial style application on load
-    applyStyles();
 });
