@@ -111,7 +111,6 @@ function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness) {
     // Reset shadow for other drawing operations
     ctx.shadowBlur = 0;
 }
-
 // --- AUDIO ANALYSIS ---
 function analyzeAudio(audioBufferShim) {
     const data = audioBufferShim.channels[0];
