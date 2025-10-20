@@ -4,7 +4,7 @@
 
 // Import the MediaBunny helper library
 // IMPORTANT: The path must be correct relative to your index.html
-importScripts('./scripts/video/mediabunny-worker-base.js');
+importScripts('/scripts/video/mediabunny-worker-base.js');
 
 let renderer;
 let particleSystem;
@@ -26,7 +26,7 @@ self.onmessage = async (e) => {
         renderer = new MediaBunnyBase(
             { resolution: settings.resolution, outputFormat: { quality: 0.8 } },
             (basePayload, framePayload) => drawFrame({ ...basePayload, ...drawPayload }, framePayload),
-            { libraryPath: './scripts/video/mediabunny-library.js' }
+            { libraryPath: '/scripts/video/mediabunny-library.js' }
         );
         await renderer.start();
 
