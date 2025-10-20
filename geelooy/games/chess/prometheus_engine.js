@@ -479,6 +479,58 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
     return score;
 }
 
+
+
+
+
+
+
+
+function evaluateEndgameFactors(state, color, pieceData) {
+const score = new TaperedScore();
+const isWhite = color === 'w';
+const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
+if (!myKingPos || !enemyKingPos) return score;
+
+
+const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
+score.eg += Math.round(kingCentrality * 10);
+const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
+score.eg += kingProximity * 5;
+
+const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
+const enemyPawns = isWhite ? pieceData.p : pieceData.P;
+
+for (const p of friendlyPawns) {
+    let isPassed = true;
+    let stoppers = 0; // --- NEW: Count potential blockers
+    for (const ep of enemyPawns) {
+        if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
+            isPassed = false;
+            stoppers++;
+        }
+    }
+    if (isPassed) {
+        const rank = isWhite ? 7 - p.r : p.r;
+        const bonus = [0, 20, 30, 50, 80, 150, 300, 500][rank];
+        score.mg += bonus;
+        score.eg += bonus * 2.5;
+        const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
+        score.eg += (8 - kingPawnDist) * 10;
+    } else {
+        // --- NEW: Candidate Passed Pawn Bonus ---
+        // If a pawn isn't passed but has few or no stoppers, it's a future threat.
+        if (stoppers === 0) {
+             score.add(new TaperedScore(20, 40)); // True candidate
+        } else if (stoppers === 1) {
+             score.add(new TaperedScore(10, 20)); // Potential candidate
+        }
+    }
+}
+return score;
+}
+
 // ====================================================================================
 //            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
 // ====================================================================================
