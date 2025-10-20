@@ -1,11 +1,11 @@
 // B"H
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
+    // Player & Input
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
     const audioPlayer = document.getElementById('audio-player');
-    const lyricsDisplay = document.getElementById('lyrics-display');
     const playPauseBtn = document.getElementById('play-pause-btn');
     const playPauseIcon = playPauseBtn.querySelector('i');
     const progressBar = document.getElementById('progress-bar');
@@ -14,19 +14,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
 
-    // All settings elements
+    // Live Preview Elements
+    const lyricsDisplay = document.getElementById('lyrics-display');
+    const waveformCanvas = document.getElementById('waveform-preview-canvas');
+    const waveformCtx = waveformCanvas.getContext('2d');
+
+    // All settings inputs grouped for easy access
     const settingsInputs = {
         fontSize: document.getElementById('font-size-slider'),
         fontColor: document.getElementById('font-color-picker'),
         textAlign: document.getElementById('text-align-select'),
-        resWidth: document.getElementById('resolution-width'),
-        resHeight: document.getElementById('resolution-height'),
-        maxDuration: document.getElementById('max-duration'),
+        boxOpacity: document.getElementById('box-opacity-slider'),
+        boxColor: document.getElementById('box-color-picker'),
         borderWidth: document.getElementById('text-border-width'),
         borderColor: document.getElementById('text-border-color'),
-        particles: document.getElementById('custom-particles')
+        shadowBlur: document.getElementById('shadow-blur'),
+        shadowColor: document.getElementById('shadow-color'),
+        particleDensity: document.getElementById('particle-density'),
+        waveformThickness: document.getElementById('waveform-thickness'),
+        particles: document.getElementById('custom-particles'),
+        resWidth: document.getElementById('resolution-width'),
+        resHeight: document.getElementById('resolution-height'),
+        maxDuration: document.getElementById('max-duration')
     };
 
+    // Export UI
     const exportBtn = document.getElementById('export-btn');
     const exportOverlay = document.getElementById('export-overlay');
     const exportStatus = document.getElementById('export-status');
@@ -36,17 +48,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let cues = [];
     let currentCueIndex = -1;
     let audioFile = null;
+    let audioContext, analyser, sourceNode, dataArray; // For Web Audio API
+    let animationFrameId; // To control the animation loop
     const STORAGE_KEY = 'lyricSyncSettings';
 
     // --- EVENT LISTENERS & INITIALIZATION ---
-
     loadSettings(); // Load saved settings on startup
 
     audioInput.addEventListener('change', (e) => {
         audioFile = e.target.files[0];
         if (audioFile) {
-            audioPlayer.src = URL.createObjectURL(audioFile);
+            const url = URL.createObjectURL(audioFile);
+            audioPlayer.src = url;
             audioFileNameDisplay.textContent = audioFile.name;
+            setupAudioAnalysis(); // Initialize Web Audio API for the new file
             audioPlayer.load();
         }
     });
@@ -69,9 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
         vttFileNameDisplay.textContent = 'Pasted content';
     });
 
+    // Player controls
     playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
-    audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
-    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
     audioPlayer.addEventListener('loadedmetadata', () => {
         progressBar.max = audioPlayer.duration;
         durationDisplay.textContent = formatTime(audioPlayer.duration);
@@ -83,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLyrics(audioPlayer.currentTime);
     });
     
-    // Add a single event listener for all settings changes
+    // Add a single event listener for all settings changes to apply styles and save
     Object.values(settingsInputs).forEach(el => {
         el.addEventListener('input', () => {
             applyStyles();
@@ -93,8 +107,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exportBtn.addEventListener('click', handleExport);
 
-    // --- CORE FUNCTIONS ---
+    // --- WEB AUDIO API & LIVE PREVIEW ANIMATION ---
+    function setupAudioAnalysis() {
+        if (audioContext) {
+            audioContext.close(); // Close existing context before creating a new one
+        }
+        audioContext = new AudioContext();
+        analyser = audioContext.createAnalyser();
+        sourceNode = audioContext.createMediaElementSource(audioPlayer);
+        
+        sourceNode.connect(analyser);
+        analyser.connect(audioContext.destination);
+        
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+    }
 
+    function renderPreviewFrame() {
+        if (audioPlayer.paused || audioPlayer.ended) {
+            cancelAnimationFrame(animationFrameId);
+            return;
+        }
+        
+        animationFrameId = requestAnimationFrame(renderPreviewFrame);
+        
+        analyser.getByteTimeDomainData(dataArray);
+
+        const { width, height } = waveformCanvas.getBoundingClientRect();
+        waveformCanvas.width = width;
+        waveformCanvas.height = height;
+
+        waveformCtx.clearRect(0, 0, width, height);
+        waveformCtx.lineWidth = settingsInputs.waveformThickness.value;
+        waveformCtx.strokeStyle = 'rgba(200, 225, 255, 0.7)';
+        waveformCtx.beginPath();
+        
+        const sliceWidth = width * 1.0 / analyser.frequencyBinCount;
+        let x = 0;
+
+        for (let i = 0; i < analyser.frequencyBinCount; i++) {
+            const v = dataArray[i] / 128.0; // Normalize to 0-2 range
+            const y = v * height / 2;
+            i === 0 ? waveformCtx.moveTo(x, y) : waveformCtx.lineTo(x, y);
+            x += sliceWidth;
+        }
+
+        waveformCtx.lineTo(width, height / 2);
+        waveformCtx.stroke();
+    }
+    
+    audioPlayer.addEventListener('play', () => {
+        if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+        playPauseIcon.className = 'fas fa-pause';
+        if (analyser) renderPreviewFrame(); // Start animation loop
+    });
+    
+    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
+    audioPlayer.addEventListener('ended', () => playPauseIcon.className = 'fas fa-play');
+
+
+    // --- CORE VTT & DISPLAY FUNCTIONS ---
     function processVTTContent(vttText) {
         cues = parseVTT(vttText);
         lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
@@ -114,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     j++;
                 }
                 if (start !== null && end !== null) parsedCues.push({ start, end, text: text.trim() });
-                i = j;
+                i = j - 1;
             }
         }
         return parsedCues;
@@ -137,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentCueIndex = newCueIndex;
         }
     }
-
+    
     function formatTime(time) {
         if (isNaN(time)) return "0:00";
         const minutes = Math.floor(time / 60);
@@ -145,15 +218,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
 
+    // --- SETTINGS MANAGEMENT ---
     function applyStyles() {
         const root = document.documentElement;
+        
+        // Text & Font
         root.style.setProperty('--lyrics-font-size', `${settingsInputs.fontSize.value}px`);
         root.style.setProperty('--lyrics-font-color', settingsInputs.fontColor.value);
         root.style.setProperty('--lyrics-text-align', settingsInputs.textAlign.value);
+
+        // Box Color & Opacity
+        const boxColor = settingsInputs.boxColor.value;
+        const boxOpacity = settingsInputs.boxOpacity.value;
+        const r = parseInt(boxColor.substr(1, 2), 16);
+        const g = parseInt(boxColor.substr(3, 2), 16);
+        const b = parseInt(boxColor.substr(5, 2), 16);
+        root.style.setProperty('--lyrics-box-bg-color', `rgba(${r}, ${g}, ${b}, ${boxOpacity})`);
+
+        // Shadow
+        const shadowBlur = `${settingsInputs.shadowBlur.value}px`;
+        const shadowColor = settingsInputs.shadowColor.value;
+        root.style.setProperty('--lyrics-text-shadow', `0px 0px ${shadowBlur} ${shadowColor}`);
     }
 
-    // --- LOCALSTORAGE & SETTINGS MANAGEMENT ---
-    
     function saveSettings() {
         const settingsToSave = {};
         for (const key in settingsInputs) {
@@ -171,11 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        applyStyles(); // Apply loaded (or default) styles on startup
+        applyStyles();
     }
 
     // --- VIDEO EXPORT ---
-
     async function handleExport() {
         if (!audioFile || cues.length === 0) {
             alert('Please load an audio file and VTT content before exporting.');
@@ -187,22 +273,29 @@ document.addEventListener('DOMContentLoaded', () => {
         exportProgressBar.style.width = '0%';
 
         try {
-            const audioContext = new AudioContext();
+            // Re-use the existing audio context if available, otherwise create one
+            const exportAudioContext = new (window.AudioContext || window.webkitAudioContext)();
             const arrayBuffer = await audioFile.arrayBuffer();
-            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const audioBuffer = await exportAudioContext.decodeAudioData(arrayBuffer);
 
-            const settings = {
-                resolution: { width: parseInt(settingsInputs.resWidth.value), height: parseInt(settingsInputs.resHeight.value) },
-                maxDuration: parseFloat(settingsInputs.maxDuration.value),
-                particles: settingsInputs.particles.value,
-                font: {
-                    size: parseInt(settingsInputs.fontSize.value),
-                    color: settingsInputs.fontColor.value,
-                    align: settingsInputs.textAlign.value,
-                    borderWidth: parseInt(settingsInputs.borderWidth.value),
-                    borderColor: settingsInputs.borderColor.value,
-                },
-                originalFileName: audioFile.name
+            // Gather all current settings from the UI
+            const settings = {};
+            for (const key in settingsInputs) {
+                const input = settingsInputs[key];
+                settings[key] = (input.type === 'range' || input.type === 'number') ? parseFloat(input.value) : input.value;
+            }
+            settings.originalFileName = audioFile.name; // Add filename for worker
+            settings.resolution = { width: settings.resWidth, height: settings.resHeight };
+            settings.font = { // Group font settings for the worker
+                size: settings.fontSize,
+                color: settings.fontColor,
+                align: settings.textAlign,
+                borderWidth: settings.borderWidth,
+                borderColor: settings.borderColor,
+                shadowBlur: settings.shadowBlur,
+                shadowColor: settings.shadowColor,
+                boxColor: settings.boxColor,
+                boxOpacity: settings.boxOpacity,
             };
 
             const audioBufferShim = {
@@ -252,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a);
-        a.click();
+a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
