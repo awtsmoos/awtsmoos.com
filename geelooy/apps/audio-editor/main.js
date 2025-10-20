@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragStartX = 0;
 
     // Worker
-    const trimWorker = new Worker('trim-worker.js');
+    const trimWorker = new Worker('worker.js');
 
     // --- Event Listeners ---
     fileInput.addEventListener('change', handleFileSelect);
