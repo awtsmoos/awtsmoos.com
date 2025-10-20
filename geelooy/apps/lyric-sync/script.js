@@ -95,6 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SAFE, ON-DEMAND EXPORT FUNCTIONALITY ---
     // REPLACE THE ENTIRE LISTENER WITH THIS STABLE VERSION
 exportBtn.addEventListener('click', async () => {
+if (!audioFile || cues.length === 0) {
+        alert('Please load an audio file and VTT content before exporting.');
+        return;
+    }
+
+    // --- THE CRITICAL FIX IS HERE ---
+    // 1. Show the export overlay and status message IMMEDIATELY.
+    // This must happen before any 'await' calls.
+    exportOverlay.classList.remove('hidden');
+    exportStatus.textContent = 'Preparing export...';
+    exportProgressBar.style.width = '0%';
+
 // This is the new, upgraded code for your exportBtn listener's try block
 try {
     const tempAudioContext = new AudioContext();
