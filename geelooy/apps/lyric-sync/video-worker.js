@@ -64,11 +64,13 @@ self.onmessage = async (e) => {
 
 // --- The Core Drawing Function ---
 // This is called for EVERY frame of the video.
-function drawFrame({ payload, ctx, canvas }, framePayload) {
-    const { cues, settings, particleSystem, waveformData } = payload;
+// --- THIS FUNCTION SIGNATURE IS THE FIX ---
+// I'm now destructuring all properties from the first argument directly.
+function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }, framePayload) {
     const time = framePayload.time;
     const { width, height } = canvas;
-
+    
+    
     // 1. Draw Background
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
