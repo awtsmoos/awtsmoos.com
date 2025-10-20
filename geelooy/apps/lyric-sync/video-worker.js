@@ -1,8 +1,6 @@
-// B"H - video-worker.js (Simplified, No External Fonts, Bug Fixed)
+// B"H - video-worker.js (Complete Rewrite: Intense, High-Quality, All Features)
 
-// --- FONT SETUP (SIMPLIFIED) ---
-// No external font loading. We will rely on system fonts.
-// This is more robust and avoids all network errors.
+// --- FONT SETUP (ROBUST & INTERNAL) ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
 const EMOJI_FALLBACK_FONT = 'sans-serif';
 
@@ -10,8 +8,8 @@ importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 let renderer;
 
-// --- ROBUST AUDIO ANALYSIS ---
-// This runs once and creates a guaranteed-safe array of volume levels for each frame.
+// --- ROBUST AUDIO ANALYSIS (UNCHANGED) ---
+// This stable function runs once and creates a guaranteed-safe array of volume levels.
 function preAnalyzeAudio(audioBufferShim, totalFrames) {
     const channelData = audioBufferShim.channels[0];
     if (!channelData || channelData.length === 0) {
@@ -43,7 +41,7 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
         const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
 
-        renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 1 } },
+        renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
             (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
             { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
         );
@@ -89,43 +87,45 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     }
 }
 
-// In video-worker.js, REPLACE the existing drawWaveform function with this new one.
-
+// --- UPGRADED HIGH-QUALITY WAVEFORM ---
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
 
-    ctx.strokeStyle = `rgba(200, 225, 255, ${0.5 + volume * 0.5})`;
-    ctx.lineWidth = waveformThickness;
-    ctx.beginPath();
-
-    const baseY = height * 0.85; // The centerline of the waveform
+    const baseY = height * 0.85;
     const maxAmplitude = height * (waveformHeight / 100);
+    const amplitude = maxAmplitude * (volume ** 1.5); // Power curve for dramatic effect
 
-    // --- NEW REACTION LOGIC ---
-    // The amplitude is now based on the SQUARE of the volume. This creates a much
-    // more dramatic effect, where the wave truly "bursts" from a flat line on loud sounds.
-    const amplitude = maxAmplitude * (volume ** 2);
+    // Glow Effect: Draw a thick, blurry version first
+    ctx.strokeStyle = `rgba(150, 200, 255, ${0.2 + volume * 0.3})`;
+    ctx.lineWidth = waveformThickness * 3;
+  //  ctx.filter = 'blur(5px)';
+    
+    // Main Waveform Path (drawn for both glow and main line)
+    const drawPath = () => {
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += 10) {
+            // Two layered sine waves for a more complex, organic shape
+            const mainWave = Math.sin(x * 0.015 + time * 5) * 0.7;
+            const detailWave = Math.sin(x * 0.05 + time * 8) * 0.3;
+            const yOffset = (mainWave + detailWave) * amplitude;
+            const finalY = baseY + yOffset;
+            x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
+        }
+        ctx.stroke();
+    };
 
-    // --- LOW-RESOLUTION CUSTOM SHAPE ---
-    // We only calculate a few points and connect them to create a jagged, random look.
-    const points = 15;
-    const segmentWidth = width / points;
+    drawPath();
 
-    for (let i = 0; i <= points; i++) {
-        const x = i * segmentWidth;
-        // This math creates a pseudo-random but smoothly animating jagged pattern.
-        const randomFactor = Math.sin(i * 2.5 + time * 4) * 0.7 + Math.cos(i * 1.5 + time * 2) * 0.3;
-        const finalY = baseY + randomFactor * amplitude;
-        
-        i === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
-    }
-    ctx.stroke();
+    // Main Line: Draw a thin, bright version on top
+    ctx.strokeStyle = `rgba(220, 240, 255, ${0.5 + volume * 0.5})`;
+    ctx.lineWidth = waveformThickness;
+    //ctx.filter = 'none'; // Remove blur for the main line
+    drawPath();
 }
 
 
-// In video-worker.js, REPLACE the entire ParticleSystem class with this new one.
-
+// --- UPGRADED INTENSE PARTICLE SYSTEM ---
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
@@ -134,58 +134,136 @@ class ParticleSystem {
         this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}));
     }
 
-    createParticle(p = {}) {
-        p.x = Math.random() * this.width;
-        p.y = this.height + 20;
-        // Base movement is now a simple, steady upward float.
-        p.vx = (Math.random() - 0.5) * 1.5;
-        p.vy = -(Math.random() * 1.0 + 0.5); // Slower, more gentle base speed
+    createParticle(p = {}, options = {}) {
+        const { isSubParticle = false, x, y } = options;
+        p.x = x !== undefined ? x : Math.random() * this.width;
+        p.y = y !== undefined ? y : this.height + 20;
+
+        if (isSubParticle) { // Sub-particles explode outwards
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 3;
+            p.vx = Math.cos(angle) * speed;
+            p.vy = Math.sin(angle) * speed;
+            p.life = 60; // Live for 2 seconds
+        } else { // Primary particles drift upwards
+            p.vx = (Math.random() - 0.5) * 1.5;
+            p.vy = -(Math.random() * 1.0 + 0.5);
+            p.life = Infinity;
+        }
+
+        p.age = 0;
         p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
-        p.size = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
+        p.size = this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation;
+        if (isSubParticle) p.size *= 0.6; // Make sub-particles smaller
+        p.size = Math.max(4, p.size);
         p.hue = Math.random() * 360;
-        p.opacity = 0.5 + Math.random() * 0.5;
+        p.opacity = 0.6 + Math.random() * 0.4;
         return p;
     }
 
     updateAndDraw(ctx, volume) {
-        // --- NEW "EARTHQUAKE" EFFECT ---
-        // The strength of the jiggle is based on the square of the volume, for drastic reactions.
-        // The multiplier (e.g., 40) controls the maximum intensity of the earthquake.
-        const earthquakeAmount = (volume ** 2) * 40;
+        const earthquakeAmount = (volume ** 2) * 45; // Extreme jiggle
+        const explosionChance = 0.002 * (1 + volume * 10); // Explosions are much more likely with volume
 
-        this.particles.forEach(p => {
-            // 1. Update the particle's "true" position for its smooth base movement.
+        // Glow Effect for particles
+    //    ctx.globalCompositeOperation = 'lighter';
+
+        // Iterate backwards to safely remove dead sub-particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.age++;
+            p.life--;
+
+            if (p.life <= 0) { this.particles.splice(i, 1); continue; }
+
+            // Explosion Trigger
+            if (p.life === Infinity && Math.random() < explosionChance) {
+                for (let j = 0; j < 7; j++) {
+                    this.particles.push(this.createParticle({}, { isSubParticle: true, x: p.x, y: p.y }));
+                }
+                this.particles.splice(i, 1); // Remove parent particle
+                continue;
+            }
+
             p.x += p.vx;
             p.y += p.vy;
+            if (p.life === Infinity && p.y < -p.size) this.createParticle(p);
 
-            // 2. If it goes off-screen, reset it.
-            if (p.y < -p.size) this.createParticle(p);
-
-            // 3. Calculate a random jiggle offset based on the earthquake strength.
+            // Earthquake / Wobble
             const jiggleX = (Math.random() - 0.5) * earthquakeAmount;
             const jiggleY = (Math.random() - 0.5) * earthquakeAmount;
+            const drawX = p.x + jiggleX;
+            const drawY = p.y + jiggleY;
 
-            // 4. Draw the particle at its true position PLUS the temporary jiggle.
-            // This creates the wobble/earthquake effect without ruining the smooth upward drift.
+            // Fade out dying particles
+            const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity;
+
+            ctx.save();
+            ctx.translate(drawX, drawY);
+            ctx.rotate((p.x + p.age) * 0.01); // Smooth, chaotic rotation
             ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
-            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${p.opacity})`;
-            ctx.fillText(p.char, p.x + jiggleX, p.y + jiggleY);
-        });
+            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${opacity})`;
+            ctx.fillText(p.char, 0, 0);
+            ctx.restore();
+        }
+
+        this.drawLightning(ctx);
+     //   ctx.globalCompositeOperation = 'source-over'; // Reset blend mode
+    }
+
+    drawLightning(ctx) {
+        const checks = 3; // Check a few random pairs each frame
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < checks; i++) {
+            const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+
+            if (p1 && p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.3) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                // Draw a jagged line between the two points
+                for (let j = 0; j < 5; j++) {
+                    ctx.lineTo(
+                        p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 15,
+                        p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 15
+                    );
+                }
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            }
+        }
     }
 }
+
+// --- RESTORED TEXT HELPERS ---
+function getWrappedLines(ctx, text, maxWidth) {
+    const lines = text.split("\n"); let allLines = [];
+    lines.forEach(line => {
+        let currentLine = ''; let words = line.split(' ');
+        for (let i = 0; i < words.length; i++) {
+            let testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+            if (i > 0 && ctx.measureText(testLine).width > maxWidth) {
+                allLines.push(currentLine); currentLine = words[i];
+            } else { currentLine = testLine; }
+        }
+        allLines.push(currentLine);
+    });
+    return allLines;
+}
+
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
     let scaledFontSize = fontSettings.size * scaleFactor;
     while (scaledFontSize > 5) {
-        // Use a font stack. The browser will try preferred Hebrew fonts first, then fall back gracefully.
         ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-        ctx.direction = 'ltr'; 
         const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
         if ((lines.length * scaledFontSize * 1.4) < maxHeight * 0.95) break;
         scaledFontSize -= 1;
     }
+    ctx.direction = 'ltr';
     ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
     ctx.textAlign = fontSettings.align;
-    
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
