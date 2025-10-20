@@ -138,7 +138,7 @@ class TaperedScore {
 
 // --- PIECE VALUES (with tapered evaluation) ---
 const pieceValues = {
-    p: { mg: 100, eg: 120 }, // Pawns become more valuable in the endgame
+    p: { mg: 100, eg: 131 }, // Pawns become more valuable in the endgame
     n: { mg: 320, eg: 320 },
     b: { mg: 330, eg: 330 },
     r: { mg: 500, eg: 500 },
@@ -451,7 +451,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         if (bishop.r !== startRank) score.add(new TaperedScore(10, 5));
     }
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
-        score.add(new TaperedScore(50, 75));
+        score.add(new TaperedScore(75, 100));
     }
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
@@ -602,7 +602,7 @@ function evaluateThreats(state, color, pieceData) {
 // This version adds a massive penalty for enemy queen proximity, fixing both
 // unsound sacrifices and the failure to escape perpetual check.
 
-const CONTEMPT_FACTOR = -50; // Re-defining the constant here for context
+const CONTEMPT_FACTOR = -36; // Re-defining the constant here for context
 
 function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase) {
     const danger = new TaperedScore();
