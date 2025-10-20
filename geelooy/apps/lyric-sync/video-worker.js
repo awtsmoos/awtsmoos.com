@@ -1,50 +1,32 @@
-// B"H - video-worker.js (Complete, Robust Rewrite - Final Version)
+// B"H - video-worker.js (Simplified, No External Fonts, Bug Fixed)
 
-// --- FONT SETUP ---
-const HEBREW_FONT = 'NotoSansHebrew';
-const EMOJI_FONT = 'NotoColorEmoji';
-const FALLBACK_FONT = 'sans-serif';
-
-let isHebrewFontLoaded = false;
-let isEmojiFontLoaded = false;
-
-// Attempt to load fonts from a reliable CDN, but do not crash if it fails.
-const hebrewFontLoader = new FontFace(HEBREW_FONT, 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-hebrew@5.0.18/files/noto-sans-hebrew-hebrew-700-normal.woff2)');
-const emojiFontLoader = new FontFace(EMOJI_FONT, 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-color-emoji@5.0.3/files/noto-color-emoji-emoji-400-normal.woff2)');
-
-const fontsReady = Promise.allSettled([hebrewFontLoader.load(), emojiFontLoader.load()])
-    .then(results => {
-        if (results[0].status === 'fulfilled') { self.fonts.add(results[0].value); isHebrewFontLoaded = true; }
-        if (results[1].status === 'fulfilled') { self.fonts.add(results[1].value); isEmojiFontLoaded = true; }
-    });
+// --- FONT SETUP (SIMPLIFIED) ---
+// No external font loading. We will rely on system fonts.
+// This is more robust and avoids all network errors.
+const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
+const EMOJI_FALLBACK_FONT = 'sans-serif';
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 let renderer;
 
 // --- ROBUST AUDIO ANALYSIS ---
-// This function runs ONCE. It safely processes the audio shim and creates a simple
-// array of volume levels, one for each frame of the video. It is guaranteed to not produce NaN.
+// This runs once and creates a guaranteed-safe array of volume levels for each frame.
 function preAnalyzeAudio(audioBufferShim, totalFrames) {
     const channelData = audioBufferShim.channels[0];
-    // If audio data is missing, return an array of minimum volume to prevent crashes.
     if (!channelData || channelData.length === 0) {
         return new Array(totalFrames).fill(0.01);
     }
-
     const volumeLevels = [];
     const samplesPerFrame = Math.floor(channelData.length / totalFrames);
-
     for (let i = 0; i < totalFrames; i++) {
         let rms = 0;
         const start = i * samplesPerFrame;
         for (let j = 0; j < samplesPerFrame; j++) {
-            // GUARANTEE SAFE VALUE: Default to 0 if a sample is invalid.
             const sample = channelData[start + j] || 0;
             rms += sample * sample;
         }
         const volume = Math.sqrt(rms / samplesPerFrame);
-        // GUARANTEE SAFE VALUE: Ensure volume is never zero or NaN.
         volumeLevels.push(isNaN(volume) ? 0.01 : Math.max(0.01, volume));
     }
     return volumeLevels;
@@ -53,15 +35,11 @@ function preAnalyzeAudio(audioBufferShim, totalFrames) {
 // --- MAIN ENTRY POINT ---
 self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        await fontsReady;
-
         const frameRate = 30;
         const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
         const totalFrames = Math.floor(totalDuration * frameRate);
         
-        // Pre-calculate all audio volume data before rendering begins.
         const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
-
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
         const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
 
@@ -79,7 +57,6 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
             }
         }
         
-        // The exporter now receives the original, unmodified shim it requires.
         const blob = await renderer.finalize(audioBufferShim);
         const fileName = `BH_video_${new Date().getTime()}.mp4`;
         self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName } });
@@ -93,8 +70,6 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
 function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForFrames }, framePayload) {
     const { time, frameNumber } = framePayload;
     const { width, height } = canvas;
-    
-    // Get the pre-calculated, guaranteed-safe volume for the current frame.
     const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
 
     ctx.fillStyle = 'black';
@@ -118,15 +93,12 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
-
     ctx.strokeStyle = `rgba(200, 225, 255, ${0.4 + volume * 0.6})`;
     ctx.lineWidth = waveformThickness;
     ctx.beginPath();
-
     const baseY = height * 0.8;
     const maxAmplitude = height * (waveformHeight / 100) * 0.5;
-    const amplitude = maxAmplitude * (0.1 + volume * 0.9); // 10% base height + 90% driven by volume
-
+    const amplitude = maxAmplitude * (0.1 + volume * 0.9);
     for (let x = 0; x <= width; x += 10) {
         const yOffset = Math.sin((x * 0.02) + (time * 8));
         const finalY = baseY + yOffset * amplitude;
@@ -135,13 +107,15 @@ function drawWaveform(ctx, time, width, height, settings, volume) {
     ctx.stroke();
 }
 
-// --- ROBUST PARTICLE SYSTEM ---
+// --- ROBUST PARTICLE SYSTEM (BUG FIXED) ---
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
         this.width = resolution.width;
         this.height = resolution.height;
-        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle(null, 0.1));
+        // --- BUG FIX ---
+        // We now pass an empty object {} instead of null/undefined, preventing the crash.
+        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}, 0.1));
     }
 
     createParticle(p = {}, volume) {
@@ -158,13 +132,13 @@ class ParticleSystem {
     }
 
     updateAndDraw(ctx, volume) {
-        const fontFamily = isEmojiFontLoaded ? EMOJI_FONT : FALLBACK_FONT;
         this.particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
             if (p.y < -p.size) this.createParticle(p, volume);
             
-            ctx.font = `${p.size}px ${fontFamily}`;
+            // Use the generic fallback font. The browser will find a system font that can render the emoji.
+            ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
             ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${p.opacity})`;
             ctx.fillText(p.char, p.x, p.y);
         });
@@ -188,22 +162,19 @@ function getWrappedLines(ctx, text, maxWidth) {
 }
 
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
-    const fontFamily = isHebrewFontLoaded ? HEBREW_FONT : FALLBACK_FONT;
     let scaledFontSize = fontSettings.size * scaleFactor;
-
     while (scaledFontSize > 5) {
-        ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
+        // Use a font stack. The browser will try preferred Hebrew fonts first, then fall back gracefully.
+        ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
         const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
         if ((lines.length * scaledFontSize * 1.4) < maxHeight * 0.95) break;
         scaledFontSize -= 1;
     }
-
-    ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
+    ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
     ctx.textAlign = fontSettings.align;
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
-
     lines.forEach((line, i) => {
         const currentY = startY + (i * lineHeight);
         if (fontSettings.borderWidth > 0) {
