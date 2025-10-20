@@ -662,44 +662,59 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase)
 
 // You will need this NEW HELPER function for evaluateKingSafety to work.
 // It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
-function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
-    const p = board[pr][pc];
-    if (!p) return false;
-    const pType = p.toLowerCase();
-    const dr = tr - pr, dc = tc - pc;
+function isSquareAttacked(board, r, c, attackerColor) {
+    const isWhiteAttacker = attackerColor === 'w';
 
-    if (pType === 'p') {
-        const dir = (attackerColor === 'w') ? -1 : 1;
-        return dr === dir && Math.abs(dc) === 1;
+    // 1. PAWNS
+    const pawn = isWhiteAttacker ? 'P' : 'p';
+    const pawnAttackDir = isWhiteAttacker ? 1 : -1;
+    if (board[r + pawnAttackDir]?.[c - 1] === pawn) return true;
+    if (board[r + pawnAttackDir]?.[c + 1] === pawn) return true;
+
+    // 2. KNIGHTS
+    const knight = isWhiteAttacker ? 'N' : 'n';
+    for (const [dr, dc] of knightMoves) {
+        const piece = board[r + dr]?.[c + dc];
+        if (piece === knight) return true;
     }
-    if (pType === 'n') return (Math.abs(dr) === 2 && Math.abs(dc) === 1) || (Math.abs(dr) === 1 && Math.abs(dc) === 2);
-    if (pType === 'k') return Math.abs(dr) <= 1 && Math.abs(dc) <= 1;
 
-    let directions;
-    if (pType === 'b') directions = bishopDirections;
-    else if (pType === 'r') directions = rookDirections;
-    else if (pType === 'q') directions = queenDirections;
-    else return false;
+    // 3. KING
+    const king = isWhiteAttacker ? 'K' : 'k';
+    for (const [dr, dc] of kingMoves) {
+        const piece = board[r + dr]?.[c + dc];
+        if (piece === king) return true;
+    }
 
-    for (const [dirR, dirC] of directions) {
-        if (dr !== 0 && Math.sign(dr) !== dirR) continue;
-        if (dc !== 0 && Math.sign(dc) !== dirC) continue;
-        if (dr === 0 && dirR !== 0) continue;
-        if (dc === 0 && dirC !== 0) continue;
-
+    // 4. ROOKS & QUEENS (Straight-line sliders)
+    for (const [dr, dc] of rookDirections) {
         for (let i = 1; i < 8; i++) {
-            const nR = pr + i * dirR, nC = pc + i * dirC;
-            if (nR === tr && nC === tc) return true;
-            if (board[nR]?.[nC] !== undefined) {
-                if(board[nR][nC]) break; // Path is blocked
-            } else {
-                break; // Off board
+            const nR = r + dr * i, nC = c + dc * i;
+            if (nR < 0 || nR > 7 || nC < 0 || nC > 7) break;
+            const piece = board[nR][nC];
+            if (piece) {
+                const pL = piece.toLowerCase();
+                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (pL === 'r' || pL === 'q')) return true;
+                break; // Path blocked
             }
         }
     }
+
+    // 5. BISHOPS & QUEENS (Diagonal sliders)
+    for (const [dr, dc] of bishopDirections) {
+        for (let i = 1; i < 8; i++) {
+            const nR = r + dr * i, nC = c + dc * i;
+            if (nR < 0 || nR > 7 || nC < 0 || nC > 7) break;
+            const piece = board[nR][nC];
+            if (piece) {
+                const pL = piece.toLowerCase();
+                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (pL === 'b' || pL === 'q')) return true;
+                break; // Path blocked
+            }
+        }
+    }
+    
     return false;
 }
-
 
 
 /**
