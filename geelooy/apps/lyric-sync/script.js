@@ -136,14 +136,15 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             
             // Use a transfer list for the audio data to be memory-safe
-            const transferList = [];
-            audioBufferShim.channels.forEach(channel => transferList.push(channel.buffer));
             
-            worker.postMessage({
-                cues,
-                audioBufferShim,
-                settings: collectSettings()
-            }, transferList);
+            // By sending the message with only one argument, we are telling the browser
+// to safely COPY the audio data. This guarantees the worker receives a
+// perfect, uncorrupted copy with all its properties intact.
+worker.postMessage({
+    cues,
+    audioBufferShim,
+    settings: collectSettings()
+});
 
         } catch (error) {
             alert(`Failed to prepare data for export: ${error.message}`);
