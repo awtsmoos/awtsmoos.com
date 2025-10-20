@@ -364,38 +364,42 @@ function makeMoveImmutable(state, move) {
 // ====================================================================================
 //            FINAL, ROBUST, AND CORRECT MAKE/UNMAKE (WITH NULL MOVE FIX V2)
 // ====================================================================================
-
 function makeMove(state, move) {
-    // --- **ROBUST NULL MOVE HANDLER** ---
+    // --- **CRITICALLY FIXED NULL MOVE HANDLER** ---
     if (move.isNullMove) {
         const unmakeInfo = {
             isNullMove: true,
             oldEnPassantTarget: state.enPassantTarget,
-            oldMoveCount: state.moveCount, // Must save and update moveCount
-            zobristHash: state.zobristHash
+            oldMoveCount: state.moveCount,
+            zobristHash: state.zobristHash // SAVING THE ORIGINAL HASH
         };
         state.turn = state.turn === 'w' ? 'b' : 'w';
         state.enPassantTarget = null;
-        state.moveCount++; // This was a critical missing piece
-        state.zobristHash = calculateZobristHash(state); // Use full recalculation for 100% safety
+        state.moveCount++;
+        // Use full recalculation for 100% safety on null move
+        state.zobristHash = calculateZobristHash(state); 
         return unmakeInfo;
     }
-    // --- **END OF FIX** ---
+    // --- **END OF CRITICAL FIX** ---
 
     const unmakeInfo = {
         from: move.from, to: move.to, captured: state.board[move.to[0]][move.to[1]] || null, promotion: move.promotion || null,
         isEnPassant: move.isEnPassant || false, isCastle: move.isCastle || false,
         oldCastlingRights: state.castlingRights, oldEnPassantTarget: state.enPassantTarget, oldMoveCount: state.moveCount,
-        zobristHash: state.zobristHash
+        zobristHash: state.zobristHash // Saving hash for all moves
     };
     const [fromR, fromC] = move.from;
     const [toR, toC] = move.to;
     const piece = state.board[fromR][fromC];
+    
+    // Core move
     state.board[toR][toC] = piece;
     state.board[fromR][fromC] = null;
+    
+    // Special moves
     if (move.isEnPassant) {
         const capturedPawnR = state.turn === 'w' ? toR + 1 : toR - 1;
-        unmakeInfo.captured = state.board[capturedPawnR][toC];
+        unmakeInfo.captured = state.board[capturedPawnR][toC]; // Capture must be saved here
         state.board[capturedPawnR][toC] = null;
     } else if (move.isCastle) {
         const rookFromC = toC === 6 ? 7 : 0;
@@ -406,7 +410,11 @@ function makeMove(state, move) {
     } else if (move.promotion) {
         state.board[toR][toC] = move.promotion;
     }
+    
+    // King position update
     if (piece.toLowerCase() === 'k') { state.kingPos[state.turn] = { r: toR, c: toC }; }
+    
+    // State updates
     state.enPassantTarget = move.isPawnDoubleMove ? [(fromR + toR) / 2, fromC] : null;
     state.castlingRights &= castlingUpdateMask[fromR * 8 + fromC];
     state.castlingRights &= castlingUpdateMask[toR * 8 + toC];
@@ -416,32 +424,40 @@ function makeMove(state, move) {
     return unmakeInfo;
 }
 
+
 function unmakeMove(state, unmakeInfo) {
-    // --- **ROBUST NULL MOVE HANDLER** ---
+    // --- **CRITICALLY FIXED NULL MOVE HANDLER** ---
     if (unmakeInfo.isNullMove) {
         state.turn = state.turn === 'w' ? 'b' : 'w';
         state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
         state.moveCount = unmakeInfo.oldMoveCount;
-        state.zobristHash = unmakeInfo.zobristHash;
+        state.zobristHash = unmakeInfo.zobristHash; // RESTORE THE ORIGINAL HASH
         return;
     }
-    // --- **END OF FIX** ---
+    // --- **END OF CRITICAL FIX** ---
 
     const originalTurn = state.turn === 'w' ? 'b' : 'w';
     state.turn = originalTurn;
     state.moveCount = unmakeInfo.oldMoveCount;
     state.castlingRights = unmakeInfo.oldCastlingRights;
     state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
+    
     const [fromR, fromC] = unmakeInfo.from;
     const [toR, toC] = unmakeInfo.to;
+    
+    // Restore piece and handle promotion
     let piece = state.board[toR][toC];
     if (unmakeInfo.promotion) { piece = originalTurn === 'w' ? 'P' : 'p'; }
+    
+    // Core move reverse
     state.board[fromR][fromC] = piece;
     state.board[toR][toC] = unmakeInfo.captured;
+    
+    // Special moves reverse
     if (unmakeInfo.isEnPassant) {
         const capturedPawnR = originalTurn === 'w' ? toR + 1 : toR - 1;
         state.board[capturedPawnR][toC] = unmakeInfo.captured;
-        state.board[toR][toC] = null;
+        state.board[toR][toC] = null; // Target square must be empty
     } else if (unmakeInfo.isCastle) {
         const rookFromC = toC === 6 ? 7 : 0;
         const rookToC = toC === 6 ? 5 : 3;
@@ -449,6 +465,15 @@ function unmakeMove(state, unmakeInfo) {
         state.board[fromR][rookToC] = null;
         state.board[fromR][rookFromC] = rook;
     }
+    
+    // King position restore
     if (piece.toLowerCase() === 'k') { state.kingPos[originalTurn] = { r: fromR, c: fromC }; }
+    
     state.zobristHash = unmakeInfo.zobristHash;
 }
+
+
+
+
+
+
