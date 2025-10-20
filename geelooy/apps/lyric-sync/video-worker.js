@@ -43,7 +43,7 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
         const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
 
-        renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
+        renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 1 } },
             (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
             { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
         );
@@ -171,7 +171,7 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
         scaledFontSize -= 1;
     }
     ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-    ctx.textAlign = fontSettings.align;
+    ctx.textAlign = fontSe tottings.align;
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
