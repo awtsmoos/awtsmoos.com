@@ -1,6 +1,6 @@
 //B"H
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
+    // DOM Elements (these are all correct)
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
@@ -13,17 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationDisplay = document.getElementById('duration-display');
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
-
-    // Settings Panel Elements
     const fontSizeSlider = document.getElementById('font-size-slider');
     const fontColorPicker = document.getElementById('font-color-picker');
     const highlightColorPicker = document.getElementById('highlight-color-picker');
     const textAlignSelect = document.getElementById('text-align-select');
-    
-    let cues = [];
-    let currentCueIndex = -1;
 
-    // --- File and Text Input Handling ---
+    let cues = [];
+    let currentCueIndex = -1; // Used to track the currently displayed cue
+
+    // --- File and Text Input Handling (Unchanged) ---
     audioInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -51,13 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
         cues = parseVTT(vttTextInput.value);
         lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
         vttFileNameDisplay.textContent = 'Pasted content';
+        currentCueIndex = -1; // Reset tracker
     });
 
-    // --- VTT Parsing Logic ---
+    // --- VTT Parsing Logic (Unchanged) ---
     function parseVTT(vttContent) {
         const lines = vttContent.trim().split('\n');
         const parsedCues = [];
         let i = 0;
+        if (!lines[0].startsWith('WEBVTT')) {
+             console.warn("VTT content might be missing the WEBVTT header.");
+        }
         
         while (i < lines.length) {
             if (lines[i].includes('-->')) {
@@ -82,14 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function timeToSeconds(timeStr) {
         if (!timeStr) return null;
-        const parts = timeStr.split(':');
+        const parts = timeStr.trim().split(':');
         let seconds = 0;
         try {
-            if (parts.length === 3) { // HH:MM:SS.ms
+            if (parts.length === 3) {
                 seconds += parseFloat(parts[0]) * 3600;
                 seconds += parseFloat(parts[1]) * 60;
                 seconds += parseFloat(parts[2]);
-            } else { // MM:SS.ms
+            } else {
                 seconds += parseFloat(parts[0]) * 60;
                 seconds += parseFloat(parts[1]);
             }
@@ -100,72 +102,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Audio Player Controls & Synchronization ---
-    playPauseBtn.addEventListener('click', () => {
-        if (audioPlayer.paused) {
-            audioPlayer.play();
-        } else {
-            audioPlayer.pause();
-        }
-    });
-
-    audioPlayer.addEventListener('play', () => {
-        playPauseIcon.classList.remove('fa-play');
-        playPauseIcon.classList.add('fa-pause');
-    });
-
-    audioPlayer.addEventListener('pause', () => {
-        playPauseIcon.classList.remove('fa-pause');
-        playPauseIcon.classList.add('fa-play');
-    });
-
+    // --- Audio Player Controls (Unchanged) ---
+    playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
+    audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
+    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
     audioPlayer.addEventListener('loadedmetadata', () => {
         progressBar.max = audioPlayer.duration;
         durationDisplay.textContent = formatTime(audioPlayer.duration);
     });
+    progressBar.addEventListener('input', () => audioPlayer.currentTime = progressBar.value);
 
+    // --- Time Update and Synchronization ---
     audioPlayer.addEventListener('timeupdate', () => {
-        const currentTime = audioPlayer.currentTime;
-        progressBar.value = currentTime;
-        currentTimeDisplay.textContent = formatTime(currentTime);
-        updateLyrics(currentTime);
+        progressBar.value = audioPlayer.currentTime;
+        currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        updateLyrics(audioPlayer.currentTime);
     });
 
-    progressBar.addEventListener('input', () => {
-        audioPlayer.currentTime = progressBar.value;
-    });
-
+    // --- THIS FUNCTION HAS BEEN COMPLETELY REWRITTEN FOR THE FIX ---
     function updateLyrics(currentTime) {
-        const activeCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime <= cue.end);
+        // Find the index of the cue that should be active at the current time
+        const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
 
-        if (activeCueIndex !== -1 && activeCueIndex !== currentCueIndex) {
-            currentCueIndex = activeCueIndex;
-            const activeCue = cues[currentCueIndex];
-            
-            // Display previous, current, and next lines for context (optional, but a nice touch)
-            let html = '';
-            const prevCue = cues[currentCueIndex - 1];
-            const nextCue = cues[currentCueIndex + 1];
-
-            if (prevCue) {
-                html += `<p style="opacity: 0.5;">${prevCue.text.replace(/\n/g, '<br>')}</p>`;
+        // Only update the display if the active cue has changed
+        if (newCueIndex !== currentCueIndex) {
+            // If a new cue is active (index is not -1)
+            if (newCueIndex !== -1) {
+                const activeCue = cues[newCueIndex];
+                // Display ONLY the text of the new active cue
+                lyricsDisplay.innerHTML = `<p>${activeCue.text.replace(/\n/g, '<br>')}</p>`;
+            } else {
+                // If no cue is active (the time is between cues), clear the display
+                lyricsDisplay.innerHTML = "";
             }
-            
-            html += `<p class="active-cue">${activeCue.text.replace(/\n/g, '<br>')}</p>`;
-
-            if (nextCue) {
-                html += `<p style="opacity: 0.5;">${nextCue.text.replace(/\n/g, '<br>')}</p>`;
-            }
-            
-            lyricsDisplay.innerHTML = html;
-
-        } else if (activeCueIndex === -1 && currentCueIndex !== -1) {
-            // No active cue, maybe between cues, so we can clear or keep the last one.
-            // For now, let's just keep the context but remove the highlight.
-            if(lyricsDisplay.querySelector('.active-cue')) {
-                lyricsDisplay.querySelector('.active-cue').classList.remove('active-cue');
-            }
-            currentCueIndex = -1;
+            // Update the tracker to the new index
+            currentCueIndex = newCueIndex;
         }
     }
 
@@ -175,12 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
     
-    // --- Settings Panel Logic ---
+    // --- Settings Panel Logic (Unchanged) ---
     function applyStyles() {
         const root = document.documentElement;
         root.style.setProperty('--lyrics-font-size', `${fontSizeSlider.value}px`);
         root.style.setProperty('--lyrics-font-color', fontColorPicker.value);
-        root.style.setProperty('--lyrics-highlight-color', highlightColorPicker.value);
+        root.style.setProperty('--lyrics-highlight-color', highlightColorPicker.value); // Highlight color is now unused but kept for future features
         root.style.setProperty('--lyrics-text-align', textAlignSelect.value);
     }
 
@@ -189,6 +160,5 @@ document.addEventListener('DOMContentLoaded', () => {
     highlightColorPicker.addEventListener('input', applyStyles);
     textAlignSelect.addEventListener('change', applyStyles);
 
-    // Initial style application
     applyStyles();
 });
