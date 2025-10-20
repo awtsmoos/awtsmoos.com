@@ -113,6 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: audioBuffer.duration,
                 channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
             };
+            
+            // 1. Create a DEEP COPY of the audio data. .slice() creates a new Float32Array with a copy of the data.
+const audioDataCopy = {
+    sampleRate: audioBufferShim.sampleRate,
+    duration: audioBufferShim.duration,
+    channels: audioBufferShim.channels.map(channel => channel.slice(0))
+};
+
+// 2. Create a transfer list for the BUFFERS of the NEW COPY.
+const transferList = [];
+audioDataCopy.channels.forEach(channel => transferList.push(channel.buffer));
+
+            
 
             const worker = new Worker('video-worker.js');
 
@@ -142,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // perfect, uncorrupted copy with all its properties intact.
 worker.postMessage({
     cues,
-    audioBufferShim,
+    audioBufferShim: audioDataCopy, // Send the copy
     settings: collectSettings()
-});
+}, transferList); // Transfer the copy's memory
 
         } catch (error) {
             alert(`Failed to prepare data for export: ${error.message}`);
