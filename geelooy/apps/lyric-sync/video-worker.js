@@ -66,7 +66,8 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
         const boxHeight = textHeight + (height * 0.05 * 2);
         ctx.fillRect((width - boxWidth) / 2, (height - boxHeight) / 2, boxWidth, boxHeight);
 
-        wrapText(ctx, activeCue.text, width / 2, height / 2, width * 0.85, settings.font);
+        wrapText(ctx, activeCue.text, width / 2, height / 2, width * 0.85, settings.font, scaledFontSize);
+    
     }
 }
 
