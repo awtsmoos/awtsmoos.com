@@ -173,9 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const rect = previewCanvas.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
-        previewCanvas.width = rect.width * dpr;
-        previewCanvas.height = rect.height * dpr;
-        const offscreenCanvas = previewCanvas.transferControlToOffscreen();
+        previewCanvas.width = 1080
+        previewCanvas.height = 1920
+       // const offscreenCanvas = previewCanvas.transferControlToOffscreen();
         
         // 4. Send ONLY the necessary small data to the worker. NO MORE CRASHES.
         worker.postMessage({
