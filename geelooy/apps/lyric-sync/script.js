@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Live Preview Elements
     const previewCanvas = document.getElementById('waveform-preview-canvas'); // The canvas on the page
-    const lyricsDisplay = document.getElementById('lyrics-display'); // We still update this for accessibility
-
+    
     // All settings inputs grouped for easy access
     const settingsInputs = {
         fontSize: document.getElementById('font-size-slider'),
@@ -97,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
     audioPlayer.addEventListener('timeupdate', () => {
         progressBar.value = audioPlayer.currentTime;
         currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-        updateLyrics(audioPlayer.currentTime); // Still update the simple text
-    });
+        
+      });
 
     Object.values(settingsInputs).forEach(el => {
         el.addEventListener('input', () => {
