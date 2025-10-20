@@ -39,6 +39,8 @@ const NULL_MOVE_R = 3;
 
 const Q_MAX_DEPTH = 8; 
 const CONTEMPT_FACTOR = -72; // Re-defining the constant here for context
+// *** MODIFIED: Added huge incentive for imminent pawn promotion. ***
+const PROMOTION_IMMINENT_BONUS = 4000; // Increased to ensure engine sees the guaranteed Queen
 
 // *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
 let nodeCount = 0;
@@ -140,10 +142,14 @@ class TaperedScore {
 }
 
 // --- PIECE VALUES (with tapered evaluation) ---
+// Piece-Value Tables (Final Conservative Tuning)
 const pieceValues = {
-    p: { mg: 100, eg: 131 }, // Pawns become more valuable in the endgame
-    n: { mg: 340, eg: 340 },
-    b: { mg: 345, eg: 345 },
+    // Increased to ensure pawns are always fought for in the endgame
+    p: { mg: 100, eg: 130 }, 
+    // Final conservative increase (from 340) to curb "Gambititis"
+    n: { mg: 350, eg: 350 }, 
+    // Final conservative increase (from 345) to curb "Gambititis"
+    b: { mg: 355, eg: 355 }, 
     r: { mg: 500, eg: 500 },
     q: { mg: 900, eg: 900 },
     k: { mg: 20000, eg: 20000 }
@@ -484,8 +490,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 }
 
 
-// *** MODIFIED: Added huge incentive for imminent pawn promotion. ***
-const PROMOTION_IMMINENT_BONUS = 4000; // Increased to ensure engine sees the guaranteed Queen
+
 
 function evaluateEndgameFactors(state, color, pieceData) {
     const score = new TaperedScore();
