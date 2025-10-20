@@ -1,45 +1,69 @@
-// B"H - video-worker.js (Using JSDelivr CDN for Font Reliability)
+// B"H - video-worker.js (Complete, Robust Rewrite - Final Version)
 
-// --- FONT LOADING & RESILIENCY ---
-// These URLs point to JSDelivr, a reliable, open-source CDN that is not Google.
-// This should bypass any network issues you were having with fonts.gstatic.com.
-const hebrewFont = new FontFace('NotoSansHebrew', 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-hebrew@5.0.18/files/noto-sans-hebrew-hebrew-700-normal.woff2)', { style: 'normal', weight: '700' });
-const emojiFont = new FontFace('NotoColorEmoji', 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-color-emoji@5.0.3/files/noto-color-emoji-emoji-400-normal.woff2)', { style: 'normal', weight: '400' });
+// --- FONT SETUP ---
+const HEBREW_FONT = 'NotoSansHebrew';
+const EMOJI_FONT = 'NotoColorEmoji';
+const FALLBACK_FONT = 'sans-serif';
 
-// The resilient loading logic remains the same. It will try to load from JSDelivr
-// and fall back to system fonts only if this new URL also fails.
 let isHebrewFontLoaded = false;
 let isEmojiFontLoaded = false;
 
-const fontsLoaded = Promise.allSettled([hebrewFont.load(), emojiFont.load()])
+// Attempt to load fonts from a reliable CDN, but do not crash if it fails.
+const hebrewFontLoader = new FontFace(HEBREW_FONT, 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-hebrew@5.0.18/files/noto-sans-hebrew-hebrew-700-normal.woff2)');
+const emojiFontLoader = new FontFace(EMOJI_FONT, 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-color-emoji@5.0.3/files/noto-color-emoji-emoji-400-normal.woff2)');
+
+const fontsReady = Promise.allSettled([hebrewFontLoader.load(), emojiFontLoader.load()])
     .then(results => {
-        if (results[0].status === 'fulfilled') {
-            self.fonts.add(results[0].value);
-            isHebrewFontLoaded = true;
-            console.log('Worker Hebrew font loaded successfully from JSDelivr.');
-        } else {
-            console.warn('Worker Hebrew font failed to load. Falling back to system font.');
-        }
-        if (results[1].status === 'fulfilled') {
-            self.fonts.add(results[1].value);
-            isEmojiFontLoaded = true;
-            console.log('Worker Emoji font loaded successfully from JSDelivr.');
-        } else {
-            console.warn('Worker Emoji font failed to load. Falling back to system font.');
-        }
+        if (results[0].status === 'fulfilled') { self.fonts.add(results[0].value); isHebrewFontLoaded = true; }
+        if (results[1].status === 'fulfilled') { self.fonts.add(results[1].value); isEmojiFontLoaded = true; }
     });
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 let renderer;
 
+// --- ROBUST AUDIO ANALYSIS ---
+// This function runs ONCE. It safely processes the audio shim and creates a simple
+// array of volume levels, one for each frame of the video. It is guaranteed to not produce NaN.
+function preAnalyzeAudio(audioBufferShim, totalFrames) {
+    const channelData = audioBufferShim.channels[0];
+    // If audio data is missing, return an array of minimum volume to prevent crashes.
+    if (!channelData || channelData.length === 0) {
+        return new Array(totalFrames).fill(0.01);
+    }
+
+    const volumeLevels = [];
+    const samplesPerFrame = Math.floor(channelData.length / totalFrames);
+
+    for (let i = 0; i < totalFrames; i++) {
+        let rms = 0;
+        const start = i * samplesPerFrame;
+        for (let j = 0; j < samplesPerFrame; j++) {
+            // GUARANTEE SAFE VALUE: Default to 0 if a sample is invalid.
+            const sample = channelData[start + j] || 0;
+            rms += sample * sample;
+        }
+        const volume = Math.sqrt(rms / samplesPerFrame);
+        // GUARANTEE SAFE VALUE: Ensure volume is never zero or NaN.
+        volumeLevels.push(isNaN(volume) ? 0.01 : Math.max(0.01, volume));
+    }
+    return volumeLevels;
+}
+
+// --- MAIN ENTRY POINT ---
 self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        await fontsLoaded; // Wait for the font loading attempt to complete.
+        await fontsReady;
 
-        const audioAnalysis = analyzeAudio(audioBufferShim, settings.resolution.width);
+        const frameRate = 30;
+        const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
+        const totalFrames = Math.floor(totalDuration * frameRate);
+        
+        // Pre-calculate all audio volume data before rendering begins.
+        const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
+
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
-        const drawPayload = { cues, settings, particleSystem, audioAnalysis };
+        const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
 
         renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
             (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
@@ -47,21 +71,17 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
         );
         await renderer.start();
 
-        const frameRate = 30;
-        const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
-        const totalFrames = Math.floor(totalDuration * frameRate);
-
         for (let i = 0; i <= totalFrames; i++) {
             const time = i / frameRate;
-            await renderer.addFrame({ time, duration: 1 / frameRate });
-            if (i > 0 && i % Math.floor(totalFrames / 100) === 0) {
+            await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
+            if (i > 0 && i % 30 === 0) {
                 self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
             }
         }
         
+        // The exporter now receives the original, unmodified shim it requires.
         const blob = await renderer.finalize(audioBufferShim);
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const fileName = `BH_${timestamp}_${settings.originalFileName.split('.').slice(0, -1).join('.') || 'video'}.mp4`;
+        const fileName = `BH_video_${new Date().getTime()}.mp4`;
         self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName } });
 
     } catch (error) {
@@ -69,19 +89,19 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     }
 };
 
-// --- CORE DRAWING (Unchanged) ---
-function drawFrame({ ctx, canvas, cues, settings, particleSystem, audioAnalysis }, framePayload) {
-    const time = framePayload.time;
+// --- CORE DRAWING ---
+function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForFrames }, framePayload) {
+    const { time, frameNumber } = framePayload;
     const { width, height } = canvas;
-    const samplesPerSecond = audioAnalysis.volumeData.length / (audioAnalysis.duration || 1);
-    const currentIndex = Math.floor(time * samplesPerSecond);
-    const currentVolume = audioAnalysis.volumeData[currentIndex] || 0;
+    
+    // Get the pre-calculated, guaranteed-safe volume for the current frame.
+    const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
 
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
     particleSystem.updateAndDraw(ctx, currentVolume);
-    drawSimplifiedWaveform(ctx, audioAnalysis.wavePoints, time, width, height, settings.waveformThickness, settings.waveformHeight, currentVolume);
+    drawWaveform(ctx, time, width, height, settings, currentVolume);
     
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
     if (activeCue) {
@@ -90,147 +110,105 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, audioAnalysis 
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
         ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
-        const scaleFactor = height / 720;
-        wrapText(ctx, activeCue.text, width / 2, height / 2, boxSize, boxSize, settings.font, scaleFactor);
+        wrapText(ctx, activeCue.text, width / 2, height / 2, boxSize, boxSize, settings.font, height / 720);
     }
 }
 
-// --- WAVEFORM & AUDIO ANALYSIS (Unchanged) ---
-function drawSimplifiedWaveform(ctx, wavePoints, time, width, height, thickness, heightMultiplier, volume) {
-    if (heightMultiplier <= 0 || !wavePoints.length) return;
+// --- ROBUST WAVEFORM ---
+function drawWaveform(ctx, time, width, height, settings, volume) {
+    const { waveformHeight, waveformThickness } = settings;
+    if (waveformHeight <= 0) return;
+
     ctx.strokeStyle = `rgba(200, 225, 255, ${0.4 + volume * 0.6})`;
-    ctx.lineWidth = thickness;
+    ctx.lineWidth = waveformThickness;
     ctx.beginPath();
-    ctx.moveTo(wavePoints[0].x, wavePoints[0].y);
-    for(let i = 0; i < wavePoints.length - 1; i++){
-        const p1 = wavePoints[i], p2 = wavePoints[i+1];
-        ctx.quadraticCurveTo(p1.x, p1.y, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+
+    const baseY = height * 0.8;
+    const maxAmplitude = height * (waveformHeight / 100) * 0.5;
+    const amplitude = maxAmplitude * (0.1 + volume * 0.9); // 10% base height + 90% driven by volume
+
+    for (let x = 0; x <= width; x += 10) {
+        const yOffset = Math.sin((x * 0.02) + (time * 8));
+        const finalY = baseY + yOffset * amplitude;
+        x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
     }
-    const waveHeight = height * (heightMultiplier / 150) * (0.5 + volume);
-    const verticalShift = Math.sin(time * 5) * 20 * volume;
-    ctx.save();
-    ctx.translate(0, height / 1.5 + verticalShift);
-    ctx.scale(1, waveHeight);
     ctx.stroke();
-    ctx.restore();
-}
-function analyzeAudio(audioBufferShim, canvasWidth) {
-    const data = audioBufferShim.channels[0];
-    if (!data) return { volumeData: [], wavePoints: [], duration: 0 };
-    const volumeSampleSize = 441; const volumeData = [];
-    for (let i = 0; i < data.length; i += volumeSampleSize) {
-        let rms = 0;
-        for (let j = 0; j < volumeSampleSize; j++) rms += Math.pow(data[i + j] || 0, 2);
-        volumeData.push(Math.sqrt(rms / volumeSampleSize));
-    }
-    const totalPoints = Math.min(100, canvasWidth / 10); const wavePoints = [];
-    for (let i = 0; i < totalPoints; i++) {
-        const x = (i / (totalPoints - 1)) * canvasWidth;
-        const y = Math.sin(x / (canvasWidth / 20)) * Math.cos(x / (canvasWidth / 35));
-        wavePoints.push({ x, y });
-    }
-    return { volumeData, wavePoints, duration: audioBufferShim.duration };
 }
 
-// --- PARTICLE SYSTEM (Unchanged) ---
+// --- ROBUST PARTICLE SYSTEM ---
 class ParticleSystem {
-    constructor(particleSettings, resolution) {
-        this.settings = particleSettings;
+    constructor(settings, resolution) {
+        this.settings = settings;
         this.width = resolution.width;
         this.height = resolution.height;
-        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({ isPermanent: true }, 0.5));
-        this.fontFamily = isEmojiFontLoaded ? 'NotoColorEmoji' : 'sans-serif';
+        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle(null, 0.1));
     }
-    createParticle(p = {}, volume, options = {}) {
-        const { isPermanent = false, x, y } = options;
-        p.x = x !== undefined ? x : Math.random() * this.width;
-        if (isPermanent) { p.y = this.height + Math.random() * 50; } else { p.y = y; }
-        const burstStrength = 1 + (volume * 10);
-        if (isPermanent) {
-            p.vx = (Math.random() - 0.5) * 2;
-            p.vy = (-0.5 - Math.random()) * burstStrength;
-        } else {
-            const angle = Math.random() * Math.PI * 2; const speed = 2 + Math.random() * 3;
-            p.vx = Math.cos(angle) * speed; p.vy = Math.sin(angle) * speed;
-        }
-        p.age = 0; p.danceSpeed = 0.02 + Math.random() * 0.03; p.danceAmount = Math.random() * 2;
-        p.life = isPermanent ? Infinity : 45 + Math.random() * 30;
+
+    createParticle(p = {}, volume) {
+        p.x = Math.random() * this.width;
+        p.y = this.height + 20;
+        const speed = 1 + volume * 15;
+        p.vx = (Math.random() - 0.5) * 2;
+        p.vy = -(Math.random() * 1.5 + 0.5) * speed;
         p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
-        p.size = this.settings.baseSize - (this.settings.variation / 2) + Math.random() * this.settings.variation;
-        if (!isPermanent) p.size *= 0.7; p.size = Math.max(4, p.size);
-        p.hue = Math.random() * 360; p.opacity = 0.6 + Math.random() * 0.4;
+        p.size = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
+        p.hue = Math.random() * 360;
+        p.opacity = 0.5 + Math.random() * 0.5;
         return p;
     }
+
     updateAndDraw(ctx, volume) {
-        for (let i = this.particles.length - 1; i >= 0; i--) {
-            const p = this.particles[i];
-            p.age++; p.life--;
-            if (p.life <= 0) { this.particles.splice(i, 1); continue; }
-            const danceOffset = Math.sin(p.age * p.danceSpeed) * p.danceAmount;
-            p.x += p.vx + danceOffset; p.y += p.vy;
-            if (p.life === Infinity && Math.random() < 0.0015) {
-                const subParticleCount = 5 + Math.floor(Math.random() * 5);
-                for (let j = 0; j < subParticleCount; j++) {
-                    this.particles.push(this.createParticle({}, volume, { isPermanent: false, x: p.x, y: p.y }));
-                }
-                this.particles.splice(i, 1); continue;
-            }
-            if (p.life === Infinity && p.y < -p.size) { this.createParticle(p, volume, { isPermanent: true }); }
-            const finalOpacity = (p.life < 20) ? p.opacity * (p.life / 20) : p.opacity;
-            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${finalOpacity})`;
-            ctx.font = `${p.size}px ${this.fontFamily}`;
+        const fontFamily = isEmojiFontLoaded ? EMOJI_FONT : FALLBACK_FONT;
+        this.particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -p.size) this.createParticle(p, volume);
+            
+            ctx.font = `${p.size}px ${fontFamily}`;
+            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${p.opacity})`;
             ctx.fillText(p.char, p.x, p.y);
-        }
-        this.drawConnections(ctx);
-    }
-    drawConnections(ctx) {
-        const checksPerFrame = Math.min(15, Math.floor(this.particles.length / 20));
-        if (checksPerFrame < 1) return;
-        ctx.strokeStyle = 'rgba(200, 225, 255, 0.2)'; ctx.lineWidth = 1;
-        for (let i = 0; i < checksPerFrame; i++) {
-            const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
-            const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
-            if (p1 && p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < 250) {
-                ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-            }
-        }
+        });
     }
 }
 
-// --- TEXT HELPERS (Unchanged) ---
+// --- ROBUST TEXT HELPERS ---
 function getWrappedLines(ctx, text, maxWidth) {
-    const lines = text.split("\n"); let allWrappedLines = [];
+    const lines = text.split("\n"); let allLines = [];
     lines.forEach(line => {
-        let words = line.split(" "); if (words.length === 0) return; let currentLine = words[0];
-        for (let i = 1; i < words.length; i++) {
-            let word = words[i]; let testWidth = ctx.measureText(currentLine + " " + word).width;
-            if (testWidth < maxWidth) { currentLine += " " + word; } else { allWrappedLines.push(currentLine); currentLine = word; }
+        let currentLine = ''; let words = line.split(' ');
+        for (let i = 0; i < words.length; i++) {
+            let testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+            if (i > 0 && ctx.measureText(testLine).width > maxWidth) {
+                allLines.push(currentLine); currentLine = words[i];
+            } else { currentLine = testLine; }
         }
-        allWrappedLines.push(currentLine);
+        allLines.push(currentLine);
     });
-    return allWrappedLines;
+    return allLines;
 }
+
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
-    const fontFamily = isHebrewFontLoaded ? 'NotoSansHebrew' : 'sans-serif';
+    const fontFamily = isHebrewFontLoaded ? HEBREW_FONT : FALLBACK_FONT;
     let scaledFontSize = fontSettings.size * scaleFactor;
+
     while (scaledFontSize > 5) {
         ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
         const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
-        const totalHeight = lines.length * (scaledFontSize * 1.4);
-        if (totalHeight <= maxHeight * 0.95) { break; }
+        if ((lines.length * scaledFontSize * 1.4) < maxHeight * 0.95) break;
         scaledFontSize -= 1;
     }
-    const scaledBorderWidth = fontSettings.borderWidth * scaleFactor;
+
     ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
     ctx.textAlign = fontSettings.align;
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
+
     lines.forEach((line, i) => {
         const currentY = startY + (i * lineHeight);
-        if (scaledBorderWidth > 0) {
+        if (fontSettings.borderWidth > 0) {
             ctx.strokeStyle = fontSettings.borderColor;
-            ctx.lineWidth = scaledBorderWidth * 2;
+            ctx.lineWidth = fontSettings.borderWidth * scaleFactor * 2;
             ctx.strokeText(line, x, currentY);
         }
         ctx.fillStyle = fontSettings.color;
