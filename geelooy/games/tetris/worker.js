@@ -1,7 +1,20 @@
 // B"H
 
-// Worker scope does not have 'window', so we use 'self'
-self.importScripts('https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js');
+// --- Self-contained Seeded Random Number Generator ---
+class SeededRandom {
+    constructor(seedStr) {
+        let h = 1779033703;
+        for (let i = 0, l = seedStr.length; i < l; i++) {
+            h = Math.imul(3432918353, h ^ seedStr.charCodeAt(i));
+            h = (h << 13) | (h >>> 19);
+        }
+        this.seed = h;
+    }
+    random() {
+        this.seed = (this.seed * 1664525 + 1013904223) % 4294967296;
+        return this.seed / 4294967296;
+    }
+}
 
 // --- Game Constants ---
 const COLORS = { 1: '#F07', 2: '#0CF', 3: '#0F9', 4: '#F80', 5: '#FFD700', 6: '#93F', 7: '#FFF' };
@@ -25,14 +38,14 @@ class GameInstance {
         this.score = 0; this.lines = 0; this.level = 1; this.gameOver = false;
         this.dropCounter = 0; this.dropInterval = 1000; this.lastTime = 0; this.isSoftDropping = false;
         
-        this.pieceGenerator = new Math.seedrandom(Math.random().toString());
+        this.pieceGenerator = new SeededRandom(Math.random().toString());
         this.piece = null; this.nextPiece = this.createNewPiece();
         
         this.viewportY = LOGICAL_ROWS - VIEWPORT_ROWS;
         this.targetViewportY = this.viewportY;
         
         if (this.isAI) {
-            // AI logic would be instantiated here if needed
+            // Future AI logic goes here
         }
         
         this.resize();
@@ -40,7 +53,6 @@ class GameInstance {
     }
 
     resize() {
-        // The main thread handles the container size, we just match the canvas resolution
         const { width, height } = this.canvas;
         this.BLOCK_SIZE = width / COLS;
     }
@@ -85,7 +97,6 @@ class GameInstance {
 
         if (this.piece) {
             this.drawMatrix(this.piece, 1);
-            // Draw off-screen indicator
             if (this.piece.y + this.piece.matrix.length > this.viewportY + VIEWPORT_ROWS) {
                 this.drawIndicator();
             }
@@ -128,20 +139,21 @@ class GameInstance {
         this.piece = this.nextPiece;
         this.nextPiece = this.createNewPiece();
         this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-        this.piece.y = Math.floor(this.targetViewportY) - 3; // Spawn just above the viewport
-        if (this.collides(this.piece, { x: 0, y: 0 })) {
-            this.setGameOver();
+        this.piece.y = Math.floor(this.targetViewportY); // Spawn at the top of the viewport
+        if (this.collides(this.piece, { y: 1 })) { // Check collision one step down
+            this.piece.y--; // Nudge up if colliding
+             if (this.collides(this.piece, {y: 0})) this.setGameOver();
         }
     }
 
-    createNewPiece() { const t = Math.floor(this.pieceGenerator() * 7) + 1; return { x: 0, y: 0, matrix: SHAPES[t], typeId: t }; }
+    createNewPiece() { const t = Math.floor(this.pieceGenerator.random() * 7) + 1; return { x: 0, y: 0, matrix: SHAPES[t], typeId: t }; }
 
     collides(p, o) {
         for (let y = 0; y < p.matrix.length; y++) {
             for (let x = 0; x < p.matrix[y].length; x++) {
                 if (p.matrix[y][x] !== 0) {
-                    const nX = p.x + x + o.x;
-                    const nY = p.y + y + o.y;
+                    const nX = p.x + x + (o.x || 0);
+                    const nY = p.y + y + (o.y || 0);
                     if (nX < 0 || nX >= COLS || nY >= LOGICAL_ROWS || this.board[nY]?.[nX] !== 0) {
                         return true;
                     }
@@ -169,19 +181,43 @@ class GameInstance {
                 break;
             }
         }
-        // Only scroll up if the stack gets within the top 4 rows of the viewport
-        if (highestBlockY < this.targetViewportY + 4) {
+        
+        let currentTop = this.targetViewportY;
+        // Only scroll up if the stack gets within the top 4 rows of the current viewport
+        if (highestBlockY < currentTop + 4) {
              let target = highestBlockY - (VIEWPORT_ROWS * 0.75);
              this.targetViewportY = Math.max(0, Math.min(LOGICAL_ROWS - VIEWPORT_ROWS, target));
+        } else if (highestBlockY > currentTop + VIEWPORT_ROWS * 0.6) {
+             // Gently scroll down if there's a lot of empty space
+             let target = highestBlockY - (VIEWPORT_ROWS * 0.75);
+             this.targetViewportY = Math.min(LOGICAL_ROWS - VIEWPORT_ROWS, target);
         }
     }
     
-    sweepLines() { /* ... unchanged ... */ }
     setGameOver() { this.gameOver = true; postMessage({ type: 'game_over', payload: { id: this.id } }); }
-    move(d) { if (!this.gameOver && this.piece && !this.collides(this.piece, { x: d, y: 0 })) { this.piece.x += d; } }
-    rotate() { /* ... unchanged ... */ }
-    drop() { if (this.piece) { if (!this.collides(this.piece, { x: 0, y: 1 })) { this.piece.y++; } else { this.lockPiece(); } } this.dropCounter = 0; }
-    hardDrop() { if (this.piece) { while (!this.collides(this.piece, { x: 0, y: 1 })) { this.piece.y++; } this.lockPiece(); } }
+    move(d) { if (!this.gameOver && this.piece && !this.collides({ x: d, y: 0 })) { this.piece.x += d; } }
+    rotate() { if (this.gameOver || !this.piece) return; const r = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse()); const p = { ...this.piece, matrix: r }; let o = 0; if (this.collides(p, {})) { o = p.x < COLS / 2 ? 1 : -1; if (this.collides(p, {x:o})) { o *= -1; if (this.collides(p,{x:o})) o=0;}} if (o !== 0 || !this.collides(p, {})) { this.piece.x += o; this.piece.matrix = r; } }
+    drop() { if (this.piece) { if (!this.collides({ x: 0, y: 1 })) { this.piece.y++; } else { this.lockPiece(); } } this.dropCounter = 0; }
+    hardDrop() { if (this.piece) { while (!this.collides({ x: 0, y: 1 })) { this.piece.y++; } this.lockPiece(); } }
+    
+    sweepLines() {
+        let cleared = 0;
+        for (let y = LOGICAL_ROWS - 1; y >= 0; y--) {
+            if (this.board[y] && this.board[y].every(v => v !== 0)) {
+                cleared++;
+                this.board.splice(y, 1);
+                this.board.unshift(Array(COLS).fill(0));
+                y++; 
+            }
+        }
+        if (cleared > 0) {
+            this.lines += cleared;
+            this.score += (10 * cleared * cleared) * this.level;
+            this.level = Math.floor(this.lines / 10) + 1;
+            this.dropInterval = 1000 * Math.pow(0.85, this.level - 1);
+            postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } });
+        }
+    }
 }
 
 // --- Worker Main Logic ---
@@ -190,13 +226,30 @@ self.onmessage = ({ data }) => {
         case 'init':
             const { bgCanvas, p1Canvas, p2Canvas, mode } = data.payload;
             
-            // Background is handled here now
-            // ... (code for background animation)
+            // Background Animation Logic
+            let bgCtx = bgCanvas.getContext('2d');
+            let stars = [];
+            function resizeBg() {
+                bgCanvas.width = 1920; bgCanvas.height = 1080;
+                stars = [];
+                for (let i = 0; i < 200; i++) {
+                    stars.push({ x: Math.random() * bgCanvas.width, y: Math.random() * bgCanvas.height, radius: Math.random() * 1.5, vx: Math.floor(Math.random() * 50) - 25, vy: Math.floor(Math.random() * 50) - 25 });
+                }
+            }
+            function drawBg() {
+                if(!bgCtx) return;
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                bgCtx.globalCompositeOperation = "lighter";
+                for (let i = 0, x = stars.length; i < x; i++) { let s = stars[i]; bgCtx.fillStyle = "#111"; bgCtx.beginPath(); bgCtx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI); bgCtx.fill(); bgCtx.fillStyle = "#222"; bgCtx.beginPath(); bgCtx.arc(s.x, s.y, s.radius / 1.5, 0, 2 * Math.PI); bgCtx.fill(); s.x += s.vx / 500; s.y += s.vy / 500; if (s.x < 0 || s.x > bgCanvas.width) s.vx = -s.vx; if (s.y < 0 || s.y > bgCanvas.height) s.vy = -s.vy; }
+                requestAnimationFrame(drawBg);
+            }
+            resizeBg();
+            drawBg();
             
             const p1 = new GameInstance(1, mode === 'aivai', p1Canvas);
             gameInstances.push(p1);
 
-            if (mode !== 'single') {
+            if (mode !== 'single' && p2Canvas) {
                 const p2 = new GameInstance(2, true, p2Canvas);
                 gameInstances.push(p2);
             }
@@ -229,30 +282,6 @@ function gameLoop(timestamp) {
     animationFrameId = requestAnimationFrame(gameLoop);
 }
 
-// Stubs for functions moved to GameInstance or not needed in worker
-GameInstance.prototype.sweepLines = function() {
-    let cleared = 0;
-    for (let y = LOGICAL_ROWS - 1; y >= 0; y--) {
-        if (this.board[y] && this.board[y].every(v => v !== 0)) {
-            cleared++;
-            this.board.splice(y, 1);
-            this.board.unshift(Array(COLS).fill(0));
-            y++; 
-        }
-    }
-    if (cleared > 0) {
-        this.lines += cleared;
-        this.score += (10 * cleared * cleared) * this.level;
-        this.level = Math.floor(this.lines / 10) + 1;
-        this.dropInterval = 1000 * Math.pow(0.85, this.level - 1);
-        postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } });
-    }
-};
 
-GameInstance.prototype.rotate = function() {
-    if (this.gameOver || !this.piece) return;
-    const r = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse());
-    const p = { ...this.piece, matrix: r }; let o = 0;
-    if (this.collides(p, { x: 0, y: 0 })) { o = p.x < COLS / 2 ? 1 : -1; if (this.collides(p, {x:o,y:0})) { o *= -1; if (this.collides(p,{x:o,y:0})) o=0;}}
-    if (o !== 0 || !this.collides(p, {x:0, y:0})) { this.piece.x += o; this.piece.matrix = r; }
-};
+console.
+log('B"H')
