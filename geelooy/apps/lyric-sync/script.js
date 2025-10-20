@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupWorker(cues, volumeDataForFrames, duration) {
-        worker = new Worker('video-worker.js');
+      /*  worker = new Worker('video-worker.js');
 
         worker.onmessage = ({ data }) => {
             switch (data.type) {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     exportOverlay.classList.add('hidden');
                     break;
             }
-        };
+        };*/
         
         const rect = previewCanvas.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // [offscreenCanvas]
         );*/
 
-        isWorkerReady = true;
+        //isWorkerReady = true;
     }
 
     // --- AUDIO ANALYSIS (RUNS ON MAIN THREAD) ---
