@@ -1,7 +1,6 @@
 // B"H
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
-    // Player & Input
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lyricsDisplay = document.getElementById('lyrics-display');
     const waveformCanvas = document.getElementById('waveform-preview-canvas');
     const waveformCtx = waveformCanvas.getContext('2d');
-
+    
     // All settings inputs grouped for easy access
     const settingsInputs = {
         fontSize: document.getElementById('font-size-slider'),
@@ -31,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowBlur: document.getElementById('shadow-blur'),
         shadowColor: document.getElementById('shadow-color'),
         particleDensity: document.getElementById('particle-density'),
+        particleSize: document.getElementById('particle-size'),
+        particleVariation: document.getElementById('particle-variation'),
         waveformThickness: document.getElementById('waveform-thickness'),
         particles: document.getElementById('custom-particles'),
         resWidth: document.getElementById('resolution-width'),
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'lyricSyncSettings';
 
     // --- EVENT LISTENERS & INITIALIZATION ---
+    
     loadSettings(); // Load saved settings on startup
 
     audioInput.addEventListener('change', (e) => {
@@ -109,9 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- WEB AUDIO API & LIVE PREVIEW ANIMATION ---
     function setupAudioAnalysis() {
-        if (audioContext) {
-            audioContext.close(); // Close existing context before creating a new one
-        }
+        if (audioContext) audioContext.close(); // Close existing context before creating a new one
         audioContext = new AudioContext();
         analyser = audioContext.createAnalyser();
         sourceNode = audioContext.createMediaElementSource(audioPlayer);
@@ -125,13 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderPreviewFrame() {
-        if (audioPlayer.paused || audioPlayer.ended) {
-            cancelAnimationFrame(animationFrameId);
-            return;
-        }
-        
+        // This is the core animation loop
         animationFrameId = requestAnimationFrame(renderPreviewFrame);
         
+        if (!analyser) return;
         analyser.getByteTimeDomainData(dataArray);
 
         const { width, height } = waveformCanvas.getBoundingClientRect();
@@ -163,8 +160,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (analyser) renderPreviewFrame(); // Start animation loop
     });
     
-    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
-    audioPlayer.addEventListener('ended', () => playPauseIcon.className = 'fas fa-play');
+    // This is the function you couldn't find, now properly included
+    const stopAnimation = () => {
+        playPauseIcon.className = 'fas fa-play';
+        cancelAnimationFrame(animationFrameId);
+    };
+    audioPlayer.addEventListener('pause', stopAnimation);
+    audioPlayer.addEventListener('ended', stopAnimation);
 
 
     // --- CORE VTT & DISPLAY FUNCTIONS ---
@@ -178,16 +180,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const lines = vttContent.trim().split(/\r?\n/);
         const parsedCues = [];
         for (let i = 0; i < lines.length; i++) {
-            if (lines[i].includes('-->')) {
+            if (lines[i] && lines[i].includes('-->')) {
                 const [start, end] = lines[i].split(' --> ').map(timeToSeconds);
                 let text = '';
                 let j = i + 1;
+                // Collect text lines until a blank line is found
                 while (lines[j] && lines[j].trim() !== '') {
                     text += lines[j] + '\n';
                     j++;
                 }
-                if (start !== null && end !== null) parsedCues.push({ start, end, text: text.trim() });
-                i = j - 1;
+                if (start !== null && end !== null) {
+                    parsedCues.push({ start, end, text: text.trim() });
+                }
+                i = j - 1; // Move index past the lines we just processed
             }
         }
         return parsedCues;
@@ -218,16 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
 
-    // --- SETTINGS MANAGEMENT ---
+    // --- SETTINGS MANAGEMENT (LocalStorage & Styles) ---
     function applyStyles() {
         const root = document.documentElement;
         
-        // Text & Font
         root.style.setProperty('--lyrics-font-size', `${settingsInputs.fontSize.value}px`);
         root.style.setProperty('--lyrics-font-color', settingsInputs.fontColor.value);
         root.style.setProperty('--lyrics-text-align', settingsInputs.textAlign.value);
 
-        // Box Color & Opacity
         const boxColor = settingsInputs.boxColor.value;
         const boxOpacity = settingsInputs.boxOpacity.value;
         const r = parseInt(boxColor.substr(1, 2), 16);
@@ -235,10 +238,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const b = parseInt(boxColor.substr(5, 2), 16);
         root.style.setProperty('--lyrics-box-bg-color', `rgba(${r}, ${g}, ${b}, ${boxOpacity})`);
 
-        // Shadow
         const shadowBlur = `${settingsInputs.shadowBlur.value}px`;
         const shadowColor = settingsInputs.shadowColor.value;
-        root.style.setProperty('--lyrics-text-shadow', `0px 0px ${shadowBlur} ${shadowColor}`);
+        root.style.setProperty('--lyrics-text-shadow', `0px 2px ${shadowBlur} ${shadowColor}`);
     }
 
     function saveSettings() {
@@ -262,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- VIDEO EXPORT ---
+    // This is the fully rewritten and corrected 'try' block and export handler
     async function handleExport() {
         if (!audioFile || cues.length === 0) {
             alert('Please load an audio file and VTT content before exporting.');
@@ -273,29 +276,36 @@ document.addEventListener('DOMContentLoaded', () => {
         exportProgressBar.style.width = '0%';
 
         try {
-            // Re-use the existing audio context if available, otherwise create one
-            const exportAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const exportAudioContext = new AudioContext();
             const arrayBuffer = await audioFile.arrayBuffer();
             const audioBuffer = await exportAudioContext.decodeAudioData(arrayBuffer);
 
-            // Gather all current settings from the UI
-            const settings = {};
-            for (const key in settingsInputs) {
-                const input = settingsInputs[key];
-                settings[key] = (input.type === 'range' || input.type === 'number') ? parseFloat(input.value) : input.value;
-            }
-            settings.originalFileName = audioFile.name; // Add filename for worker
-            settings.resolution = { width: settings.resWidth, height: settings.resHeight };
-            settings.font = { // Group font settings for the worker
-                size: settings.fontSize,
-                color: settings.fontColor,
-                align: settings.textAlign,
-                borderWidth: settings.borderWidth,
-                borderColor: settings.borderColor,
-                shadowBlur: settings.shadowBlur,
-                shadowColor: settings.shadowColor,
-                boxColor: settings.boxColor,
-                boxOpacity: settings.boxOpacity,
+            // Create a single, structured settings object to send to the worker
+            const settings = {
+                originalFileName: audioFile.name,
+                resolution: { 
+                    width: parseInt(settingsInputs.resWidth.value), 
+                    height: parseInt(settingsInputs.resHeight.value) 
+                },
+                maxDuration: parseFloat(settingsInputs.maxDuration.value),
+                waveformThickness: parseFloat(settingsInputs.waveformThickness.value),
+                font: {
+                    size: parseFloat(settingsInputs.fontSize.value),
+                    color: settingsInputs.fontColor.value,
+                    align: settingsInputs.textAlign.value,
+                    borderWidth: parseFloat(settingsInputs.borderWidth.value),
+                    borderColor: settingsInputs.borderColor.value,
+                    shadowBlur: parseFloat(settingsInputs.shadowBlur.value),
+                    shadowColor: settingsInputs.shadowColor.value,
+                    boxColor: settingsInputs.boxColor.value,
+                    boxOpacity: parseFloat(settingsInputs.boxOpacity.value),
+                },
+                particles: {
+                    chars: settingsInputs.particles.value,
+                    density: parseInt(settingsInputs.particleDensity.value),
+                    baseSize: parseFloat(settingsInputs.particleSize.value),
+                    variation: parseFloat(settingsInputs.particleVariation.value),
+                }
             };
 
             const audioBufferShim = {
@@ -345,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a);
-a.click();
+        a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
