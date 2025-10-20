@@ -76,8 +76,8 @@
         grid-row: 1 / 2; grid-column: 1 / 3; display: flex; flex-direction: column; 
         background-color: var(--color-bg-secondary); 
         border-bottom: 2px solid var(--color-border);
-        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-        z-index: 100;
+        
+         z-index: 100;
     }
     .menu-bar { display: flex; align-items: center; height: 52px; padding: 0 12px; flex-shrink: 0; gap: 8px; }
     .tab-bar { display: flex; overflow-x: auto; align-items: flex-end; }
@@ -113,13 +113,16 @@
     .sidebar { 
     grid-row: 1 / 4; grid-column: 1 / 2;
     /* B"H - Replaced the flat dark color with a subtle vertical gradient for more depth! */
-    background: linear-gradient(to bottom, #191d30, #121522);
+    background:  #191d30;
+    
+    
     display: flex; flex-direction: column; 
     border-right: 2px solid var(--color-border);
     transition: transform var(--timing-med) ease, width var(--timing-med) ease; flex-shrink: 0;
     position: relative;
     z-index: 3200;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.4);
+    
+
 }
     .sidebar-header { 
         display: flex; justify-content: space-between; align-items: center; 
@@ -146,8 +149,8 @@
     background-color: #252a4a;
     /* B"H - Gave it a vivid cyan border and a subtle inner glow! */
     border: 1px solid rgba(0, 246, 255, 0.4);
-    box-shadow: inset 0 0 15px rgba(0, 246, 255, 0.2);
-    margin-bottom: 8px; /* Space between workspaces */
+    
+     margin-bottom: 8px; /* Space between workspaces */
     /* --- BRIGHTER WORKSPACE HEADER --- */
     color: var(--color-text-secondary);
 }
@@ -180,13 +183,15 @@
     }
     .tree-item > .tree-item-name-wrap:hover .tree-item-name {
         color: var(--neon-lime);
-        text-shadow: 0 0 10px var(--glow-lime);
-        transform: scale(1.02);
+        
+        
+            transform: scale(1.02);
     }
     .tree-item.context-active > .tree-item-name-wrap .tree-item-name {
         color: var(--neon-magenta);
-        text-shadow: 0 0 10px var(--glow-magenta);
-    }
+        
+    
+      }
 
     .tree-item-arrow { 
         width: 20px; text-align: center; display: inline-block; 
@@ -210,6 +215,8 @@
         padding-left: 15px; /* Add space from the guide line */
         border-left: 1px solid var(--color-border); /* The vertical guide line */
         list-style: none; /* remove default list styles */
+        overflow-x: scroll;
+    
     }
     .tree-item > ul:hover {
         border-left-color: var(--neon-cyan);
@@ -232,17 +239,19 @@
     .tab:hover { 
         background-color: var(--color-bg-primary); 
         color: var(--color-text-primary); 
-        text-shadow: 0 0 5px var(--glow-cyan);
-    }
+        
+    
+      }
     .tab.active { 
         background-color: var(--color-bg-primary); 
         border-top-color: var(--color-border-accent); 
         color: var(--color-text-primary); 
         font-weight: 700;
-        text-shadow: 0 0 12px var(--glow-cyan);
-        box-shadow: inset 0 10px 20px -10px var(--color-bg-deep);
-    }
-    .tab.dirty .tab-name::after { content: ' ●'; color: var(--neon-magenta); font-size: 0.9em; }
+        
+         
+     }
+   
+     .tab.dirty .tab-name::after { content: ' ●'; color: var(--neon-magenta); font-size: 0.9em; }
     .tab-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; padding-right: 24px; }
     .close-tab-btn { 
         position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
@@ -256,7 +265,8 @@
         font-family: var(--font-code); padding: 16px 8px; font-size: 1em; line-height: 1.7; 
         color: var(--color-text-tertiary); text-align: right; user-select: none; 
         background-color: transparent; border-right: 1px solid var(--color-border);
-        overflow-y: hidden; white-space: pre; 
+       
+         overflow-y: hidden; white-space: pre; 
     }
     #editor { 
         flex-grow: 1; height: 100%; border: none; background: transparent; color: var(--color-text-primary); 
@@ -285,6 +295,8 @@
         border-radius: var(--radius-md); padding: 30px; width: 90%; max-width: 500px; 
         display: flex; flex-direction: column; gap: 15px; 
         box-shadow: 0 0 40px var(--glow-cyan); 
+        
+        
         transform: scale(0.95); animation: scaleUp var(--timing-med) cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     }
     @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -332,9 +344,12 @@
         background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta));
         color: white; border:none; 
         padding: 12px 20px; border-radius: var(--radius-sm); font-weight: bold; min-height: 44px;
-        text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-    }
-    .primary-btn:hover:not(:disabled) { 
+        
+    
+      }
+   
+    
+      .primary-btn:hover:not(:disabled) { 
         filter: brightness(1.2); 
         box-shadow: 0 0 20px -2px var(--glow-magenta); 
         transform: translateY(-2px); 
@@ -436,7 +451,10 @@
         .app-container { grid-template-columns: 1fr; }
         .sidebar {
             grid-row: 1 / 4; position: fixed; top: 0; left: 0; height: 100%; width: 85%; max-width: 320px;
-            transform: translateX(-100%); z-index: 1100; box-shadow: 10px 0 40px var(--shadow-color);
+            transform: translateX(-100%); z-index: 1100; 
+            
+            
+        
         }
         .sidebar.is-open { transform: translateX(0); }
         .sidebar-overlay {
