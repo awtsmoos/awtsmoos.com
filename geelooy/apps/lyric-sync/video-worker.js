@@ -1,4 +1,4 @@
-// B"H - Definitive Worker: Persistent Captions, High-Performance Effects, All Fixes
+// B"H - Definitive Worker: Explosions & Lightning Restored, All Fixes
 
 // --- FONT SETUP (ROBUST & INTERNAL) ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
@@ -7,8 +7,7 @@ const EMOJI_FALLBACK_FONT = 'sans-serif';
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 let renderer;
-// --- FIX: Global variable to store the last active caption ---
-let lastActiveCue = null;
+let lastActiveCue = null; // Stores the last active caption for persistence
 
 // --- ROBUST AUDIO ANALYSIS ---
 function preAnalyzeAudio(audioBufferShim, totalFrames) {
@@ -67,13 +66,9 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     particleSystem.updateAndDraw(ctx, currentVolume);
     drawWaveform(ctx, time, width, height, settings, currentVolume);
     
-    // --- FIX: CAPTION PERSISTENCE LOGIC FOR EXPORT ---
     const currentCue = cues.find(cue => time >= cue.start && time < cue.end);
-    if (currentCue) {
-        lastActiveCue = currentCue; // A new cue is active, so we update our memory
-    }
+    if (currentCue) lastActiveCue = currentCue;
     
-    // We draw the 'lastActiveCue'. If there's a silent gap, this will still hold the previous caption.
     if (lastActiveCue) {
         const boxSize = width * 0.9;
         const { boxColor, boxOpacity } = settings.font;
@@ -88,11 +83,9 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
-
     const baseY = height * 0.85;
     const maxAmplitude = height * (waveformHeight / 100);
     const amplitude = maxAmplitude * (volume ** 1.5);
-
     const createPath = () => {
         ctx.beginPath();
         for (let x = 0; x <= width; x += 10) {
@@ -102,69 +95,114 @@ function drawWaveform(ctx, time, width, height, settings, volume) {
             x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
         }
     };
-
-    // PERFORMANCE FIX: Simulate glow with multiple fast layers, NO BLUR.
-    // Layer 1: Thick, very transparent base
     ctx.strokeStyle = `rgba(150, 200, 255, ${0.3 * volume})`;
     ctx.lineWidth = waveformThickness * 3;
-    createPath();
-    ctx.stroke();
-
-    // Layer 2: Main wave body
+    createPath(); ctx.stroke();
     ctx.strokeStyle = `rgba(200, 225, 255, ${0.6 * volume + 0.2})`;
     ctx.lineWidth = waveformThickness;
-    createPath();
-    ctx.stroke();
-    
-    // Layer 3: Thin, bright highlight
+    createPath(); ctx.stroke();
     ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * volume})`;
     ctx.lineWidth = waveformThickness * 0.5;
-    createPath();
-    ctx.stroke();
+    createPath(); ctx.stroke();
 }
 
-// --- FINAL INTENSE PARTICLE SYSTEM ---
+// --- FINAL PARTICLE SYSTEM WITH ALL FEATURES ---
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
         this.width = resolution.width;
         this.height = resolution.height;
-        this.sizeScalar = Math.max(1.0, this.height / 720); 
+        this.sizeScalar = Math.max(1.0, this.height / 720);
+        // The array now holds both primary and sub-particles together.
         this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}));
     }
 
-    createParticle(p = {}) {
-        p.x = Math.random() * this.width;
-        p.y = this.height + Math.random() * 20;
-        p.vx = (Math.random() - 0.5) * 2;
-        p.vy = -(Math.random() * 2.0 + 1.5); // Increased base upward speed
-        p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
+    createParticle(p = {}, options = {}) {
+        const { isSubParticle = false, x, y } = options;
+        p.x = x !== undefined ? x : Math.random() * this.width;
+        p.y = y !== undefined ? y : this.height + Math.random() * 20;
+
+        if (isSubParticle) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 4;
+            p.vx = Math.cos(angle) * speed;
+            p.vy = Math.sin(angle) * speed;
+            p.life = 60; // Live for ~2 seconds
+        } else {
+            p.vx = (Math.random() - 0.5) * 2;
+            p.vy = -(Math.random() * 2.0 + 1.5);
+            p.life = Infinity; // Primary particles live forever
+        }
+
         const baseSize = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
-        p.size = baseSize * this.sizeScalar; // Apply resolution scaling
+        p.size = baseSize * this.sizeScalar;
+        if (isSubParticle) p.size *= 0.6;
+        p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
         p.hue = Math.random() * 360;
         p.opacity = 0.6 + Math.random() * 0.4;
         return p;
     }
 
     updateAndDraw(ctx, volume) {
-        const earthquakeAmount = (volume ** 2) * 60; // Increased intensity
+        const earthquakeAmount = (volume ** 2) * 60;
+        const explosionChance = 0.002 + (volume * 0.02);
 
-        this.particles.forEach(p => {
+        // Iterate backwards to safely remove dead sub-particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            if (p.life !== Infinity) p.life--;
+
+            if (p.life <= 0) { this.particles.splice(i, 1); continue; }
+
+            // Explosion Trigger for primary particles
+            if (p.life === Infinity && Math.random() < explosionChance) {
+                for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, { isSubParticle: true, x: p.x, y: p.y }));
+                // Reset the parent particle that just exploded to maintain density
+                this.createParticle(p);
+                continue; // Skip the rest of the logic for the parent this frame
+            }
+
             p.x += p.vx;
             p.y += p.vy;
-            if (p.y < -p.size) this.createParticle(p);
+            if (p.life === Infinity && p.y < -p.size) this.createParticle(p);
 
             const jiggleX = (Math.random() - 0.5) * earthquakeAmount;
             const jiggleY = (Math.random() - 0.5) * earthquakeAmount;
+            const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity;
 
             ctx.save();
             ctx.translate(p.x + jiggleX, p.y + jiggleY);
-            ctx.rotate((p.x + p.y) * 0.02); // More chaotic rotation
+            ctx.rotate((p.x + p.y) * 0.02);
             ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
-            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${p.opacity})`;
+            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${opacity})`;
             ctx.fillText(p.char, 0, 0);
             ctx.restore();
-        });
+        }
+
+        this.drawLightning(ctx);
+    }
+
+    drawLightning(ctx) {
+        if (Math.random() > 0.1) return; // Only run 10% of the time for performance
+
+        const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
+        const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+
+        if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.4) {
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 + Math.random() * 0.4})`;
+            ctx.lineWidth = Math.random() * 1.5;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            // Draw a jagged line with 3 intermediate points
+            for (let i = 1; i <= 3; i++) {
+                ctx.lineTo(
+                    p1.x + (p2.x - p1.x) * (i / 4) + (Math.random() - 0.5) * 20,
+                    p1.y + (p2.y - p1.y) * (i / 4) + (Math.random() - 0.5) * 20
+                );
+            }
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+        }
     }
 }
 
