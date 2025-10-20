@@ -367,6 +367,13 @@ if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos
 // of the pawn shield in protecting the king, preventing it from making strategically
 // unsound trades that weaken its own defense.
 
+// ====================================================================================
+//            REWRITTEN: evaluateStrategicBonuses (with Pawn Shield Logic)
+// ====================================================================================
+// This version is smarter and more context-aware. It understands the vital role
+// of the pawn shield in protecting the king, preventing it from making strategically
+// unsound trades that weaken its own defense.
+
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
@@ -461,7 +468,6 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 
     return score;
 }
-
 
 
 // --- NEW FUNCTION: THREAT ANALYSIS ---
