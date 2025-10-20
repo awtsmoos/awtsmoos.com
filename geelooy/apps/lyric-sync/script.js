@@ -239,8 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function processVTTContent(vttText) {
         cues = parseVTT(vttText);
-        lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
+        
         currentCueIndex = -1;
+    
     }
 
     function updateLyrics(currentTime) {
