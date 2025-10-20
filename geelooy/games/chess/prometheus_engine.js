@@ -984,10 +984,9 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     
-    const repetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length;
-
+    const trueRepetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length - 1;
     // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
-    if (ply > 0 && repetitionCount >= 2) { 
+    if (ply > 0 && trueRepetitionCount >= 2) { 
         const staticEval = evaluate(state);
         
         // Anti-Draw: If anyone has an advantage, the draw is a loss of the game
@@ -1004,7 +1003,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     // 2. Imminent Repetition Penalty (2nd instance - The Final Gate)
     // When the engine plays a move that brings the repetition count to 1 (meaning the position
     // has already occurred once before), we apply a progressive penalty.
-    if (ply > 0 && repetitionCount === 1) { 
+    if (ply > 0 && trueRepetitionCount === 1) { 
         const staticEval = evaluate(state);
         
         // Penalize the draw heavily, but not as severely as the final draw.
