@@ -1,6 +1,8 @@
 //B"H
+// B"H
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements (these are all correct)
+    // --- DOM ELEMENT REFERENCES ---
+    // Player & Input
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
@@ -13,63 +15,98 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationDisplay = document.getElementById('duration-display');
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
+
+    // Settings
     const fontSizeSlider = document.getElementById('font-size-slider');
     const fontColorPicker = document.getElementById('font-color-picker');
-    const highlightColorPicker = document.getElementById('highlight-color-picker');
     const textAlignSelect = document.getElementById('text-align-select');
 
+    // Export
+    const exportBtn = document.getElementById('export-btn');
+    const exportOverlay = document.getElementById('export-overlay');
+    const exportStatus = document.getElementById('export-status');
+    const exportProgressBar = document.getElementById('export-progress-bar');
+
+    // --- APPLICATION STATE ---
     let cues = [];
     let currentCueIndex = -1;
+    let audioFile = null; // Store the actual File object for export
 
-    // --- File and Text Input Handling (Unchanged) ---
+    // --- EVENT LISTENERS ---
+
+    // Load Audio File
     audioInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            audioPlayer.src = URL.createObjectURL(file);
-            audioFileNameDisplay.textContent = file.name;
+        audioFile = e.target.files[0];
+        if (audioFile) {
+            audioPlayer.src = URL.createObjectURL(audioFile);
+            audioFileNameDisplay.textContent = audioFile.name;
             audioPlayer.load();
         }
     });
 
+    // Load VTT from File
     vttFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
                 vttTextInput.value = event.target.result;
-                cues = parseVTT(event.target.result);
+                processVTTContent(event.target.result);
                 vttFileNameDisplay.textContent = file.name;
-                lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
             };
             reader.readAsText(file);
         }
     });
 
+    // Load VTT from Textarea
     vttTextInput.addEventListener('input', () => {
-        cues = parseVTT(vttTextInput.value);
-        lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
+        processVTTContent(vttTextInput.value);
         vttFileNameDisplay.textContent = 'Pasted content';
-        currentCueIndex = -1;
     });
 
-    // --- VTT Parsing Logic (THIS FUNCTION IS NOW FIXED) ---
+    // Player Controls
+    playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
+    audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
+    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        progressBar.max = audioPlayer.duration;
+        durationDisplay.textContent = formatTime(audioPlayer.duration);
+    });
+    progressBar.addEventListener('input', () => audioPlayer.currentTime = progressBar.value);
+    audioPlayer.addEventListener('timeupdate', () => {
+        progressBar.value = audioPlayer.currentTime;
+        currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        updateLyrics(audioPlayer.currentTime);
+    });
+    
+    // Settings Listeners
+    document.querySelectorAll('.settings-panel input, .settings-panel select').forEach(el => {
+        el.addEventListener('input', applyStyles);
+    });
+
+    // Export Button
+    exportBtn.addEventListener('click', handleExport);
+
+    // --- CORE FUNCTIONS ---
+
+    function processVTTContent(vttText) {
+        cues = parseVTT(vttText);
+        lyricsDisplay.innerHTML = `<p>Ready to play.</p>`;
+        currentCueIndex = -1; // Reset tracker
+    }
+
     function parseVTT(vttContent) {
-        // Use a regex to split by newlines, handling both Windows (\r\n) and Unix (\n) line endings
         const lines = vttContent.trim().split(/\r?\n/);
         const parsedCues = [];
         let i = 0;
         
         while (i < lines.length) {
-            // Find the next line that contains a timestamp
             if (lines[i] && lines[i].includes('-->')) {
                 const timeLine = lines[i];
                 const [start, end] = timeLine.split(' --> ').map(timeToSeconds);
                 
                 let text = '';
-                i++; // Move to the line after the timestamp
-
-                // --- THIS IS THE LINE THAT FIXES THE PARSING BUG ---
-                // Collect text lines until we hit a blank line OR the next timestamp
+                i++;
                 while (lines[i] && lines[i].trim() !== '' && !lines[i].includes('-->')) {
                     text += lines[i] + '\n';
                     i++;
@@ -78,12 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (start !== null && end !== null) {
                     parsedCues.push({ start, end, text: text.trim() });
                 }
-                // Don't increment i here, because the outer loop will handle it
-                continue; 
+                continue;
             }
             i++;
         }
-        console.log("Parsed Cues:", parsedCues); // For debugging
         return parsedCues;
     }
 
@@ -107,27 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Audio Player Controls & Synchronization (Unchanged from previous fix) ---
-    playPauseBtn.addEventListener('click', () => audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause());
-    audioPlayer.addEventListener('play', () => playPauseIcon.className = 'fas fa-pause');
-    audioPlayer.addEventListener('pause', () => playPauseIcon.className = 'fas fa-play');
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        progressBar.max = audioPlayer.duration;
-        durationDisplay.textContent = formatTime(audioPlayer.duration);
-    });
-    progressBar.addEventListener('input', () => audioPlayer.currentTime = progressBar.value);
-    audioPlayer.addEventListener('timeupdate', () => {
-        progressBar.value = audioPlayer.currentTime;
-        currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-        updateLyrics(audioPlayer.currentTime);
-    });
-
     function updateLyrics(currentTime) {
         const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
         if (newCueIndex !== currentCueIndex) {
             if (newCueIndex !== -1) {
-                const activeCue = cues[newCueIndex];
-                lyricsDisplay.innerHTML = `<p>${activeCue.text.replace(/\n/g, '<br>')}</p>`;
+                lyricsDisplay.innerHTML = `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>`;
             } else {
                 lyricsDisplay.innerHTML = "";
             }
@@ -141,20 +160,110 @@ document.addEventListener('DOMContentLoaded', () => {
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     }
-    
-    // --- Settings Panel Logic (Unchanged) ---
+
     function applyStyles() {
         const root = document.documentElement;
         root.style.setProperty('--lyrics-font-size', `${fontSizeSlider.value}px`);
         root.style.setProperty('--lyrics-font-color', fontColorPicker.value);
-        root.style.setProperty('--lyrics-highlight-color', highlightColorPicker.value);
         root.style.setProperty('--lyrics-text-align', textAlignSelect.value);
     }
 
-    fontSizeSlider.addEventListener('input', applyStyles);
-    fontColorPicker.addEventListener('input', applyStyles);
-    highlightColorPicker.addEventListener('input', applyStyles);
-    textAlignSelect.addEventListener('change', applyStyles);
+    // --- VIDEO EXPORT ---
 
+    async function handleExport() {
+        if (!audioFile || cues.length === 0) {
+            alert('Please load an audio file and VTT content before exporting.');
+            return;
+        }
+
+        exportOverlay.classList.remove('hidden');
+        exportStatus.textContent = 'Preparing audio data...';
+        exportProgressBar.style.width = '0%';
+
+        try {
+            const audioContext = new AudioContext();
+            const arrayBuffer = await audioFile.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+            const settings = {
+                resolution: {
+                    width: parseInt(document.getElementById('resolution-width').value),
+                    height: parseInt(document.getElementById('resolution-height').value),
+                },
+                maxDuration: parseFloat(document.getElementById('max-duration').value),
+                particles: document.getElementById('custom-particles').value,
+                font: {
+                    size: parseInt(document.getElementById('font-size-slider').value),
+                    color: document.getElementById('font-color-picker').value,
+                    align: document.getElementById('text-align-select').value,
+                    borderWidth: parseInt(document.getElementById('text-border-width').value),
+                    borderColor: document.getElementById('text-border-color').value,
+                },
+                originalFileName: audioFile.name
+            };
+
+            // Create a "shim" of the AudioBuffer to send to the worker
+            const audioBufferShim = {
+                sampleRate: audioBuffer.sampleRate,
+                length: audioBuffer.length,
+                duration: audioBuffer.duration,
+                numberOfChannels: audioBuffer.numberOfChannels,
+                channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) =>
+                    audioBuffer.getChannelData(i)
+                ),
+            };
+
+            const worker = new Worker('video-worker.js');
+
+            worker.onmessage = (e) => {
+                const { type, payload } = e.data;
+                switch (type) {
+                    case 'STATUS_UPDATE':
+                        exportStatus.textContent = payload.message;
+                        if (payload.progress) {
+                            exportProgressBar.style.width = `${payload.progress}%`;
+                        }
+                        break;
+                    case 'VIDEO_COMPLETE':
+                        exportStatus.textContent = 'Download starting...';
+                        downloadBlob(payload.blob, payload.fileName);
+                        setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
+                        worker.terminate();
+                        break;
+                    case 'FATAL_ERROR':
+                        exportStatus.innerHTML = `Error: ${payload.message}<br><button id="close-error-btn">Close</button>`;
+                        document.getElementById('close-error-btn').onclick = () => exportOverlay.classList.add('hidden');
+                        console.error('Worker Error:', payload.error);
+                        worker.terminate();
+                        break;
+                }
+            };
+            
+            worker.postMessage({
+                cues,
+                audioBufferShim,
+                settings
+            });
+
+        } catch (error) {
+            exportStatus.innerHTML = `Error preparing data: ${error.message}<br><button id="close-error-btn">Close</button>`;
+            document.getElementById('close-error-btn').onclick = () => exportOverlay.classList.add('hidden');
+            console.error(error);
+        }
+    }
+
+    function downloadBlob(blob, fileName) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // Initial style application on load
     applyStyles();
 });
