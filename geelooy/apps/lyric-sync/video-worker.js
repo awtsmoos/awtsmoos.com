@@ -45,29 +45,38 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
 };
 
 // --- CORE DRAWING ---
+// REPLACE this entire function in video-worker.js
 function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }, framePayload) {
     const time = framePayload.time;
     const { width, height } = canvas;
+    
+    // --- THIS IS THE CRITICAL FIX ---
+    // Declare and calculate the scaling factor and scaled font size at the top of the function.
+    const scaleFactor = height / 720; // We assume the UI font size looks good on a 720p video height.
+    const scaledFontSize = settings.font.size * scaleFactor;
+
+    // --- The rest of the function now correctly uses the scaledFontSize variable ---
 
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
     particleSystem.updateAndDraw(ctx, time);
     drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness);
-    
+
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
     if (activeCue) {
         const { boxColor, boxOpacity } = settings.font;
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
-        
-        const textHeight = measureWrappedTextHeight(ctx, activeCue.text, settings.font.size, width * 0.85);
+
+        // CORRECTED: Use scaledFontSize to calculate the box height accurately
+        const textHeight = measureWrappedTextHeight(ctx, activeCue.text, scaledFontSize, width * 0.85);
         const boxWidth = width * 0.9;
-        const boxHeight = textHeight + (height * 0.05 * 2);
+        const boxHeight = textHeight + (height * 0.05 * 2); // Add padding relative to video height
         ctx.fillRect((width - boxWidth) / 2, (height - boxHeight) / 2, boxWidth, boxHeight);
 
+        // CORRECTED: Pass the now-defined scaledFontSize to the text drawing function
         wrapText(ctx, activeCue.text, width / 2, height / 2, width * 0.85, settings.font, scaledFontSize);
-    
     }
 }
 
