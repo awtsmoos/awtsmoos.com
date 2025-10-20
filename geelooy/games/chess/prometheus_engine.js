@@ -37,6 +37,8 @@ const MATE_SCORE = 100000;
 const MATE_IN_MAX_PLY = 64;
 const NULL_MOVE_R = 3;
 const CONTEMPT_FACTOR = -20;
+// *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
+const PROMOTION_IMMINENT_BONUS = 2000;
 let nodeCount = 0;
 let searchStartTime, timeLimit;
 let stopSearch = false;
@@ -330,9 +332,9 @@ function evaluate(state) {
     whiteScore.add(evaluateStrategicBonuses(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
     blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
-    // 3. Threat Analysis (NEW)
-    whiteScore.add(evaluateThreats(state, 'w', pieceData));
-    blackScore.add(evaluateThreats(state, 'b', pieceData));
+    // 3. Threat Analysis (REVISED to penalize bad trade potential)
+    whiteScore.subtract(evaluateThreats(state, 'w', pieceData));
+    blackScore.subtract(evaluateThreats(state, 'b', pieceData));
 
     // 4. Endgame-Specific Factors (Passed Pawns, King Activity)
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
@@ -480,95 +482,106 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
 }
 
 
-
-
-
-
-
-
+// *** MODIFIED: Added huge incentive for imminent pawn promotion. ***
 function evaluateEndgameFactors(state, color, pieceData) {
-const score = new TaperedScore();
-const isWhite = color === 'w';
-const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
-const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
-if (!myKingPos || !enemyKingPos) return score;
-
-
-const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
-score.eg += Math.round(kingCentrality * 10);
-const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
-score.eg += kingProximity * 5;
-
-const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
-const enemyPawns = isWhite ? pieceData.p : pieceData.P;
-
-for (const p of friendlyPawns) {
-    let isPassed = true;
-    let stoppers = 0; // --- NEW: Count potential blockers
-    for (const ep of enemyPawns) {
-        if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
-            isPassed = false;
-            stoppers++;
-        }
-    }
-    if (isPassed) {
-        const rank = isWhite ? 7 - p.r : p.r;
-        const bonus = [0, 20, 30, 50, 80, 150, 300, 500][rank];
-        score.mg += bonus;
-        score.eg += bonus * 2.5;
-        const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
-        score.eg += (8 - kingPawnDist) * 10;
-    } else {
-        // --- NEW: Candidate Passed Pawn Bonus ---
-        // If a pawn isn't passed but has few or no stoppers, it's a future threat.
-        if (stoppers === 0) {
-             score.add(new TaperedScore(20, 40)); // True candidate
-        } else if (stoppers === 1) {
-             score.add(new TaperedScore(10, 20)); // Potential candidate
-        }
-    }
-}
-return score;
-}
-
-// ====================================================================================
-//            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
-// ====================================================================================
-// This version is extremely fast as it avoids move generation entirely.
-// ====================================================================================
-//            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
-// ====================================================================================
-// This version is extremely fast as it avoids move generation entirely.
-function evaluateThreats(state, color, pieceData) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
-    const attackerPieceTypes = isWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
-    const victimPieceTypes = isWhite ? ['p', 'n', 'b', 'r', 'q'] : ['P', 'N', 'B', 'R', 'Q'];
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
+    if (!myKingPos || !enemyKingPos) return score;
+    
+    
+    const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
+    score.eg += Math.round(kingCentrality * 10);
+    const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
+    score.eg += kingProximity * 5;
+    
+    const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
+    const enemyPawns = isWhite ? pieceData.p : pieceData.P;
+    
+    for (const p of friendlyPawns) {
+        let isPassed = true;
+        let stoppers = 0; // --- NEW: Count potential blockers
+        for (const ep of enemyPawns) {
+            if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
+                isPassed = false;
+                stoppers++;
+            }
+        }
+        if (isPassed) {
+            const rank = isWhite ? 7 - p.r : p.r;
+            let bonus;
+            
+            // If a pawn is on the 7th rank (rank index 6), give it the massive promotion bonus.
+            if (rank === 6) {
+                bonus = PROMOTION_IMMINENT_BONUS;
+            } else {
+                // Otherwise, use the standard bonuses for other ranks.
+                bonus = [0, 20, 30, 50, 80, 150, 0, 0][rank]; 
+            }
 
-    for (const attackerPType of attackerPieceTypes) {
-        const attackers = pieceData[attackerPType];
-        if (attackers.length === 0) continue;
+            score.mg += bonus;
+            score.eg += bonus * 2.5; // Make the endgame incentive even stronger
+            const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
+            score.eg += (8 - kingPawnDist) * 10;
+        } else {
+            // --- NEW: Candidate Passed Pawn Bonus ---
+            // If a pawn isn't passed but has few or no stoppers, it's a future threat.
+            if (stoppers === 0) {
+                 score.add(new TaperedScore(20, 40)); // True candidate
+            } else if (stoppers === 1) {
+                 score.add(new TaperedScore(10, 20)); // Potential candidate
+            }
+        }
+    }
+    return score;
+}
 
-        for (const victimPType of victimPieceTypes) {
-            const victims = pieceData[victimPType];
-            if (victims.length === 0) continue;
+// ====================================================================================
+//            *** REWRITTEN: Threat Analysis now penalizes bad trade potential ***
+// ====================================================================================
+// This version applies a severe penalty when a valuable piece is attacked by a less
+// valuable one, strongly discouraging moves that lead to bad trades.
+function evaluateThreats(state, color, pieceData) {
+    const penalty = new TaperedScore();
+    const isWhite = color === 'w';
+    // Our pieces are the victims in this context
+    const ourPieceTypes = isWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
+    // Enemy pieces are the attackers
+    const enemyPieceTypes = isWhite ? ['p', 'n', 'b', 'r', 'q'] : ['P', 'N', 'B', 'R', 'Q'];
+    const enemyColor = isWhite ? 'b' : 'w';
 
-            for (const attacker of attackers) {
-                for (const victim of victims) {
-                    // Check if the attacker piece directly attacks the victim's square
-                    if (isSquareAttackedByPiece(state.board, victim.r, victim.c, attacker.r, attacker.c, color)) {
-                        const attackerValue = pieceValues[attackerPType.toLowerCase()].mg;
-                        const victimValue = pieceValues[victimPType.toLowerCase()].mg;
-                        // Add a small bonus for creating a threat, especially against a more valuable piece
-                        if (victimValue > attackerValue) {
-                            score.mg += Math.round(victimValue / 25);
-                        }
+    for (const ourPType of ourPieceTypes) {
+        const ourPieces = pieceData[ourPType];
+        if (ourPieces.length === 0) continue;
+
+        for (const enemyPType of enemyPieceTypes) {
+            const enemyPieces = pieceData[enemyPType];
+            if (enemyPieces.length === 0) continue;
+
+            const ourValue = pieceValues[ourPType.toLowerCase()].mg;
+            const enemyValue = pieceValues[enemyPType.toLowerCase()].mg;
+
+            // Only penalize threats from CHEAPER enemy pieces
+            if (enemyValue >= ourValue) {
+                continue;
+            }
+
+            // Check each of our pieces against each cheaper enemy piece
+            for (const ourPiece of ourPieces) {
+                for (const enemyPiece of enemyPieces) {
+                    if (isSquareAttackedByPiece(state.board, ourPiece.r, ourPiece.c, enemyPiece.r, enemyPiece.c, enemyColor)) {
+                        // The penalty is a large fraction of the material that would be lost.
+                        // This makes the engine very sensitive to these kinds of threats.
+                        const potentialLoss = ourValue - enemyValue;
+                        penalty.mg += potentialLoss * 0.75; // 75% of the potential loss as a direct penalty
+                        penalty.eg += potentialLoss * 0.75;
                     }
                 }
             }
         }
     }
-    return score;
+    return penalty;
 }
 
 
