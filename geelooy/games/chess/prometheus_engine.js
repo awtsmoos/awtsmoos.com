@@ -983,26 +983,35 @@ function searchRoot(initialState, maxDepth) {
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
+    
+    const repetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length;
 
     // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
-    if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
+    if (ply > 0 && repetitionCount >= 2) { 
         const staticEval = evaluate(state);
         
-        // Anti-Draw: If winning (White), return -MATE_SCORE (forced loss).
-        if (staticEval > 0) { 
-            // If White has any advantage, a draw is a LOSS OF THE GAME
-            // Set the score to be MATE_SCORE - 1000, forcing the engine to find the escape
-            return -MATE_SCORE + 1000; 
+        // Anti-Draw: If anyone has an advantage, the draw is a loss of the game
+        if (Math.abs(staticEval) > 0) {
+             return -MATE_SCORE + ply; 
         }
         
-        // Anti-Draw: If losing (Black), return +MATE_SCORE (forced win).
-        if (staticEval < 0) { 
-            // If White is losing, a draw is a WIN OF THE GAME
-            return MATE_SCORE - 1000; 
-        }
+        // If 0.00, it's still a catastrophic loss of the game to prevent future repetitions
+        return -MATE_SCORE + ply; 
+    }
+    
+    
+    
+    // 2. Imminent Repetition Penalty (2nd instance - The Final Gate)
+    // When the engine plays a move that brings the repetition count to 1 (meaning the position
+    // has already occurred once before), we apply a progressive penalty.
+    if (ply > 0 && repetitionCount === 1) { 
+        const staticEval = evaluate(state);
         
-        // If the position is truly 0.00, treat the draw as a catastrophic loss to play on.
-        return -MATE_SCORE + 1000; 
+        // Penalize the draw heavily, but not as severely as the final draw.
+        // This makes the engine prefer a unique move.
+        // Penalty: A full Rook of positional value.
+        if (staticEval > 0) return -500; // If winning, -500 penalty
+        if (staticEval < 0) return 500;  // If losing, +500 bonus
     }
     // --- END OF FIX ---
 
