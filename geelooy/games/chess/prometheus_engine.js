@@ -662,53 +662,67 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase)
 
 // You will need this NEW HELPER function for evaluateKingSafety to work.
 // It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
-function isSquareAttackedByPiece(board, r, c, attackerColor) {
-    const isWhiteAttacker = attackerColor === 'w';
+// --- CRITICAL REWRITE FOR SPEED AND INTEGRITY ---
+// This function checks if a SPECIFIC piece at (pr, pc) attacks a TARGET square (tr, tc).
 
-    // 1. PAWNS
-    const pawn = isWhiteAttacker ? 'P' : 'p';
-    const pawnAttackDir = isWhiteAttacker ? 1 : -1;
-    if (board[r + pawnAttackDir]?.[c - 1] === pawn) return true;
-    if (board[r + pawnAttackDir]?.[c + 1] === pawn) return true;
+function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
+    const p = board[pr][pc];
+    if (!p) return false;
+    const pType = p.toLowerCase();
+    const isWhiteAttacker = (p.toUpperCase() === p);
+    
+    // Safety check: ensure the piece being checked is of the correct color
+    if (isWhiteAttacker !== (attackerColor === 'w')) return false;
 
-    // 2. KNIGHTS
-    const knight = isWhiteAttacker ? 'N' : 'n';
-    for (const [dr, dc] of knightMoves) {
-        const piece = board[r + dr]?.[c + dc];
-        if (piece === knight) return true;
+    const dr = tr - pr;
+    const dc = tc - pc;
+
+    // 1. PAWN (The fastest check)
+    if (pType === 'p') {
+        const dir = isWhiteAttacker ? -1 : 1; // White moves -1 rank, Black moves +1 rank
+        return dr === dir && Math.abs(dc) === 1;
     }
 
-    // 3. KING
-    const king = isWhiteAttacker ? 'K' : 'k';
-    for (const [dr, dc] of kingMoves) {
-        const piece = board[r + dr]?.[c + dc];
-        if (piece === king) return true;
+    // 2. KNIGHT (The second fastest check)
+    if (pType === 'n') {
+        const absDr = Math.abs(dr);
+        const absDc = Math.abs(dc);
+        return (absDr === 2 && absDc === 1) || (absDr === 1 && absDc === 2);
+    }
+    
+    // 3. KING (The third fastest check)
+    if (pType === 'k') {
+        return Math.abs(dr) <= 1 && Math.abs(dc) <= 1;
     }
 
-    // 4. ROOKS & QUEENS (Straight-line sliders)
-    for (const [dr, dc] of rookDirections) {
-        for (let i = 1; i < 8; i++) {
-            const nR = r + dr * i, nC = c + dc * i;
-            if (nR < 0 || nR > 7 || nC < 0 || nC > 7) break;
-            const piece = board[nR][nC];
-            if (piece) {
-                const pL = piece.toLowerCase();
-                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (pL === 'r' || pL === 'q')) return true;
-                break; // Path blocked
+    // --- SLIDERS: Rook, Bishop, Queen ---
+    
+    // 4. ROOK/QUEEN (Vertical/Horizontal)
+    if (dr === 0 || dc === 0) { // On a straight line
+        if (pType === 'r' || pType === 'q') {
+            const stepR = dr === 0 ? 0 : (dr > 0 ? 1 : -1);
+            const stepC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
+            
+            for (let i = 1; i < 8; i++) {
+                const nR = pr + i * stepR;
+                const nC = pc + i * stepC;
+                if (nR === tr && nC === tc) return true;
+                if (board[nR]?.[nC]) break; // Path blocked by another piece
             }
         }
     }
 
-    // 5. BISHOPS & QUEENS (Diagonal sliders)
-    for (const [dr, dc] of bishopDirections) {
-        for (let i = 1; i < 8; i++) {
-            const nR = r + dr * i, nC = c + dc * i;
-            if (nR < 0 || nR > 7 || nC < 0 || nC > 7) break;
-            const piece = board[nR][nC];
-            if (piece) {
-                const pL = piece.toLowerCase();
-                if ((piece.toUpperCase() === piece) === isWhiteAttacker && (pL === 'b' || pL === 'q')) return true;
-                break; // Path blocked
+    // 5. BISHOP/QUEEN (Diagonal)
+    if (Math.abs(dr) === Math.abs(dc)) { // On a diagonal
+        if (pType === 'b' || pType === 'q') {
+            const stepR = dr > 0 ? 1 : -1;
+            const stepC = dc > 0 ? 1 : -1;
+
+            for (let i = 1; i < 8; i++) {
+                const nR = pr + i * stepR;
+                const nC = pc + i * stepC;
+                if (nR === tr && nC === tc) return true;
+                if (board[nR]?.[nC]) break; // Path blocked by another piece
             }
         }
     }
