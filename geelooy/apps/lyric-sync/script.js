@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
        // const offscreenCanvas = previewCanvas.transferControlToOffscreen();
         
         // 4. Send ONLY the necessary small data to the worker. NO MORE CRASHES.
-        worker.postMessage({
+     /*   worker.postMessage({
             type: 'INIT',
            // canvas: offscreenCanvas,
             cues,
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             settings: collectSettings()
         },
         // [offscreenCanvas]
-        );
+        );*/
 
         isWorkerReady = true;
     }
