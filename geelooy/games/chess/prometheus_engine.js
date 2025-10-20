@@ -381,39 +381,44 @@ function evaluate(state) {
 // This version introduces severe penalties for moving the king before castling and
 // provides a huge incentive to castle, fixing the suicidal king-walks.
 
+// ====================================================================================
+//            BUGFIXED: evaluateStrategicBonuses (with Castling Discipline)
+// ====================================================================================
+// This version fixes the crash that occurred when castling rights were completely
+// lost for a player. It now safely checks for the existence of castling rights.
+
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
     const startRank = isWhite ? 7 : 0;
     const pawnRank = isWhite ? 6 : 1;
     const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
-    const canCastleKingSide = isWhite ? state.castlingRights.w.k : state.castlingRights.b.k;
-    const canCastleQueenSide = isWhite ? state.castlingRights.w.q : state.castlingRights.b.q;
+    
+    // --- THE CRITICAL BUGFIX ---
+    // Use optional chaining (?.) to safely access castling rights. If state.castlingRights.w
+    // is undefined, this will now correctly result in 'undefined' instead of crashing.
+    const canCastleKingSide = isWhite ? state.castlingRights.w?.k : state.castlingRights.b?.k;
+    const canCastleQueenSide = isWhite ? state.castlingRights.w?.q : state.castlingRights.b?.q;
     const canStillCastle = canCastleKingSide || canCastleQueenSide;
 
-    // --- 1. CASTLING & KING POSITION (THE CRITICAL FIX) ---
+    // --- 1. CASTLING & KING POSITION (Logic remains the same) ---
     let hasCastled = false;
     let kingOnStartSquare = false;
 
     if (myKingPos) {
         kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
-        // Check if the king is now on a successfully castled square.
         if (myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2)) {
             hasCastled = true;
-            // HUGE reward for being safely castled.
             score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 80, 30));
         }
     }
 
-    // --- NEW: MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
-    // If the king has moved from its starting square BUT hasn't castled, and castling
-    // was still a possibility, apply a severe penalty. This stops the king-walks.
+    // --- MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
     if (!kingOnStartSquare && !hasCastled && canStillCastle) {
-        score.subtract(new TaperedScore(75, 20)); // Heavy penalty for breaking castling rights.
+        score.subtract(new TaperedScore(75, 20));
     }
 
-    // --- 2. PAWN SHIELD EVALUATION (Still crucial after castling) ---
-    // This logic remains from the previous fix, as it's vital for a castled king.
+    // --- 2. PAWN SHIELD EVALUATION ---
     if (hasCastled && myKingPos) {
         const kingFile = myKingPos.c;
         const shieldFiles = [kingFile - 1, kingFile, kingFile + 1];
@@ -432,12 +437,12 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
                 }
             }
             if (!shieldPawnFound) {
-                score.subtract(new TaperedScore(40, 10)); // Missing pawn shield!
+                score.subtract(new TaperedScore(40, 10));
             }
         }
     }
 
-    // --- 3. DEVELOPMENT & PIECE ACTIVITY (Unchanged) ---
+    // --- 3. DEVELOPMENT & PIECE ACTIVITY ---
     for (const knight of (isWhite ? pieceData.N : pieceData.n)) {
         if (knight.r !== startRank) score.add(new TaperedScore(10, 5));
     }
@@ -456,7 +461,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    // --- 4. PAWN STRUCTURE (Unchanged) ---
+    // --- 4. PAWN STRUCTURE ---
     const myPawns = isWhite ? pieceData.P : pieceData.p;
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
@@ -471,56 +476,6 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         }
     }
 
-    return score;
-}
-
-
-// --- NEW FUNCTION: THREAT ANALYSIS ---
-// Rewards the engine for creating threats against enemy pieces.
-
-// --- ENHANCED: ENDGAME FACTORS ---
-// Now includes logic for "candidate" passed pawns.
-function evaluateEndgameFactors(state, color, pieceData) {
-    const score = new TaperedScore();
-    const isWhite = color === 'w';
-    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
-    const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
-    if (!myKingPos || !enemyKingPos) return score;
-
-    const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
-    score.eg += Math.round(kingCentrality * 10);
-    const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
-    score.eg += kingProximity * 5;
-
-    const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
-    const enemyPawns = isWhite ? pieceData.p : pieceData.P;
-
-    for (const p of friendlyPawns) {
-        let isPassed = true;
-        let stoppers = 0; // --- NEW: Count potential blockers
-        for (const ep of enemyPawns) {
-            if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
-                isPassed = false;
-                stoppers++;
-            }
-        }
-        if (isPassed) {
-            const rank = isWhite ? 7 - p.r : p.r;
-            const bonus = [0, 20, 30, 50, 80, 150, 300, 500][rank];
-            score.mg += bonus;
-            score.eg += bonus * 2.5;
-            const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
-            score.eg += (8 - kingPawnDist) * 10;
-        } else {
-            // --- NEW: Candidate Passed Pawn Bonus ---
-            // If a pawn isn't passed but has few or no stoppers, it's a future threat.
-            if (stoppers === 0) {
-                 score.add(new TaperedScore(20, 40)); // True candidate
-            } else if (stoppers === 1) {
-                 score.add(new TaperedScore(10, 20)); // Potential candidate
-            }
-        }
-    }
     return score;
 }
 
