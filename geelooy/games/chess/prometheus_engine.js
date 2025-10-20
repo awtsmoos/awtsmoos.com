@@ -38,7 +38,7 @@ const MATE_IN_MAX_PLY = 64;
 const NULL_MOVE_R = 3;
 
 const Q_MAX_DEPTH = 8; 
-const CONTEMPT_FACTOR = -36; // Re-defining the constant here for context
+const CONTEMPT_FACTOR = -72; // Re-defining the constant here for context
 
 // *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
 let nodeCount = 0;
@@ -982,9 +982,15 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
         const staticEval = evaluate(state);
-        // Ruthless Anti-Draw: Return 90% of the static score, ensuring the engine
-        // always seeks a non-drawing line if it has an advantage.
-        return Math.round(staticEval * 0.9);
+        
+        // Anti-Draw: If winning/losing, return 90% of score (plays on).
+        if (Math.abs(staticEval) > 100) { // 1.0 pawn advantage
+            return Math.round(staticEval * 0.9);
+        }
+        
+        // If equal (score is between -100 and +100), treat the draw as a small loss
+        // to encourage further searching for a win.
+        return -5; 
     }
     // --- END OF FIX ---
 
