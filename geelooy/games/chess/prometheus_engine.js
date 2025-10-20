@@ -36,9 +36,8 @@ function buildOpeningBook() {
 const MATE_SCORE = 100000;
 const MATE_IN_MAX_PLY = 64;
 const NULL_MOVE_R = 3;
-const CONTEMPT_FACTOR = -20;
+
 // *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
-const PROMOTION_IMMINENT_BONUS = 2000;
 let nodeCount = 0;
 let searchStartTime, timeLimit;
 let stopSearch = false;
