@@ -58,8 +58,9 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
     ctx.fillRect(0, 0, width, height);
 
     particleSystem.updateAndDraw(ctx, time);
-    drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness);
-
+    drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
+    
+    
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
     if (activeCue) {
         const { boxColor, boxOpacity } = settings.font;
@@ -82,45 +83,33 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
 
 // --- DYNAMIC WAVEFORM ANIMATION ---
 // REPLACE this function in video-worker.js
-function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness) {
-    // Get the actual audio volume at this exact moment
+// REPLACE this function in video-worker.js
+function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness, heightMultiplier) {
+    // OPTIMIZATION: If height is zero, skip all calculations and drawing.
+    if (heightMultiplier <= 0) return;
+
     const samplesPerSecond = waveform.data.length / (waveform.duration || 1);
     const currentIndex = Math.floor(time * samplesPerSecond);
-    const currentAmp = waveform.data[currentIndex] || 0; // This is our "driver" from 0.0 to 1.0
+    const currentAmp = waveform.data[currentIndex] || 0;
 
     ctx.beginPath();
-    ctx.moveTo(0, height); // Start drawing from the bottom left
+    ctx.moveTo(0, height);
 
     for (let x = 0; x < width; x++) {
-        // 1. Create a complex, procedural base shape using multiple sine waves.
-        // The shape constantly morphs because of the 'time' variable.
-        const primaryWave = Math.sin((x / width) * 30 + time * 15); // Main fast wave
-        const secondaryWave = Math.sin((x / width) * 15 + time * 7); // Slower underlying wobble
-        const noise = (Math.sin(x * time * 0.1) * 0.5 + 0.5) * 0.2; // High-frequency noise for detail
+        const primaryWave = Math.sin((x / 50) + time * 15);
         
-        // Combine the waves to create an interesting, non-repeating pattern
-        const proceduralShape = (primaryWave + secondaryWave * 0.5 + noise);
-
-        // 2. Modulate the height of the procedural shape by the actual audio amplitude.
-        // When the audio is quiet (currentAmp is low), the wave will be nearly flat.
-        // When the audio is loud (currentAmp is high), the wave will be tall and dramatic.
-        const finalAmplitude = proceduralShape * currentAmp;
-
-        // 3. Calculate the final Y position. The wave is drawn in the bottom half of the screen.
-        const y = height - (finalAmplitude * height * 0.25);
+        // Use the heightMultiplier to scale the final wave height
+        const y = height - (primaryWave * height * (heightMultiplier / 100) * currentAmp);
         ctx.lineTo(x, y);
     }
     
-    // Make the wave glow and become more opaque when the audio is loud
     ctx.strokeStyle = `rgba(200, 225, 255, ${0.3 + currentAmp * 0.7})`;
     ctx.lineWidth = thickness;
-    ctx.shadowColor = 'rgba(150, 200, 255, 1)';
-    ctx.shadowBlur = 15 * currentAmp; // More glow when loud
     ctx.stroke();
-    
-    // Reset shadow for other drawing operations
-    ctx.shadowBlur = 0;
 }
+
+
+
 // --- AUDIO ANALYSIS ---
 function analyzeAudio(audioBufferShim) {
     const data = audioBufferShim.channels[0];
@@ -175,15 +164,18 @@ class ParticleSystem {
     }
 
     drawConnections(ctx, time) {
-        if (Math.sin(time * 5) < 0) return;
-        const connectCount = Math.floor(this.particles.length / 20);
-        ctx.strokeStyle = 'rgba(200, 225, 255, 0.2)';
+        // OPTIMIZATION: Only run this expensive logic ~2% of the time.
+        if (Math.random() > 0.02) return;
+
+        const connectCount = Math.floor(this.particles.length / 20); // Still only connect a few
+        ctx.strokeStyle = 'rgba(200, 225, 255, 0.3)'; // Slightly more visible
         ctx.lineWidth = 1;
-        ctx.shadowColor = 'white';
-        ctx.shadowBlur = 5;
+        //ctx.shadowColor = 'white';
+     //   ctx.shadowBlur = 10;
+
         for (let i = 0; i < connectCount; i++) {
-            const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
-            const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            const p1 = this.particles[Math.random() * this.particles.length | 0];
+            const p2 = this.particles[Math.random() * this.particles.length | 0];
             if (Math.hypot(p1.x - p2.x, p1.y - p2.y) < 250) {
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
@@ -191,7 +183,7 @@ class ParticleSystem {
                 ctx.stroke();
             }
         }
-        ctx.shadowBlur = 0;
+      //  ctx.shadowBlur = 0; // Reset shadow
     }
 }
 
