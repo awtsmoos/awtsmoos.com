@@ -89,41 +89,57 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForF
     }
 }
 
-// --- ROBUST WAVEFORM ---
+// In video-worker.js, REPLACE the existing drawWaveform function with this new one.
+
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
     if (waveformHeight <= 0) return;
-    ctx.strokeStyle = `rgba(200, 225, 255, ${0.4 + volume * 0.6})`;
+
+    ctx.strokeStyle = `rgba(200, 225, 255, ${0.5 + volume * 0.5})`;
     ctx.lineWidth = waveformThickness;
     ctx.beginPath();
-    const baseY = height * 0.8;
-    const maxAmplitude = height * (waveformHeight / 100) * 0.5;
-    const amplitude = maxAmplitude * (0.1 + volume * 0.9);
-    for (let x = 0; x <= width; x += 10) {
-        const yOffset = Math.sin((x * 0.02) + (time * 8));
-        const finalY = baseY + yOffset * amplitude;
-        x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
+
+    const baseY = height * 0.85; // The centerline of the waveform
+    const maxAmplitude = height * (waveformHeight / 100);
+
+    // --- NEW REACTION LOGIC ---
+    // The amplitude is now based on the SQUARE of the volume. This creates a much
+    // more dramatic effect, where the wave truly "bursts" from a flat line on loud sounds.
+    const amplitude = maxAmplitude * (volume ** 2);
+
+    // --- LOW-RESOLUTION CUSTOM SHAPE ---
+    // We only calculate a few points and connect them to create a jagged, random look.
+    const points = 15;
+    const segmentWidth = width / points;
+
+    for (let i = 0; i <= points; i++) {
+        const x = i * segmentWidth;
+        // This math creates a pseudo-random but smoothly animating jagged pattern.
+        const randomFactor = Math.sin(i * 2.5 + time * 4) * 0.7 + Math.cos(i * 1.5 + time * 2) * 0.3;
+        const finalY = baseY + randomFactor * amplitude;
+        
+        i === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
     }
     ctx.stroke();
 }
 
-// --- ROBUST PARTICLE SYSTEM (BUG FIXED) ---
+
+// In video-worker.js, REPLACE the entire ParticleSystem class with this new one.
+
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
         this.width = resolution.width;
         this.height = resolution.height;
-        // --- BUG FIX ---
-        // We now pass an empty object {} instead of null/undefined, preventing the crash.
-        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}, 0.1));
+        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}));
     }
 
-    createParticle(p = {}, volume) {
+    createParticle(p = {}) {
         p.x = Math.random() * this.width;
         p.y = this.height + 20;
-        const speed = 1 + volume * 15;
-        p.vx = (Math.random() - 0.5) * 2;
-        p.vy = -(Math.random() * 1.5 + 0.5) * speed;
+        // Base movement is now a simple, steady upward float.
+        p.vx = (Math.random() - 0.5) * 1.5;
+        p.vy = -(Math.random() * 1.0 + 0.5); // Slower, more gentle base speed
         p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
         p.size = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
         p.hue = Math.random() * 360;
@@ -132,35 +148,31 @@ class ParticleSystem {
     }
 
     updateAndDraw(ctx, volume) {
+        // --- NEW "EARTHQUAKE" EFFECT ---
+        // The strength of the jiggle is based on the square of the volume, for drastic reactions.
+        // The multiplier (e.g., 40) controls the maximum intensity of the earthquake.
+        const earthquakeAmount = (volume ** 2) * 40;
+
         this.particles.forEach(p => {
+            // 1. Update the particle's "true" position for its smooth base movement.
             p.x += p.vx;
             p.y += p.vy;
-            if (p.y < -p.size) this.createParticle(p, volume);
-            
-            // Use the generic fallback font. The browser will find a system font that can render the emoji.
+
+            // 2. If it goes off-screen, reset it.
+            if (p.y < -p.size) this.createParticle(p);
+
+            // 3. Calculate a random jiggle offset based on the earthquake strength.
+            const jiggleX = (Math.random() - 0.5) * earthquakeAmount;
+            const jiggleY = (Math.random() - 0.5) * earthquakeAmount;
+
+            // 4. Draw the particle at its true position PLUS the temporary jiggle.
+            // This creates the wobble/earthquake effect without ruining the smooth upward drift.
             ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
             ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${p.opacity})`;
-            ctx.fillText(p.char, p.x, p.y);
+            ctx.fillText(p.char, p.x + jiggleX, p.y + jiggleY);
         });
     }
 }
-
-// --- ROBUST TEXT HELPERS ---
-function getWrappedLines(ctx, text, maxWidth) {
-    const lines = text.split("\n"); let allLines = [];
-    lines.forEach(line => {
-        let currentLine = ''; let words = line.split(' ');
-        for (let i = 0; i < words.length; i++) {
-            let testLine = currentLine + (currentLine ? ' ' : '') + words[i];
-            if (i > 0 && ctx.measureText(testLine).width > maxWidth) {
-                allLines.push(currentLine); currentLine = words[i];
-            } else { currentLine = testLine; }
-        }
-        allLines.push(currentLine);
-    });
-    return allLines;
-}
-
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
     let scaledFontSize = fontSettings.size * scaleFactor;
     while (scaledFontSize > 5) {
