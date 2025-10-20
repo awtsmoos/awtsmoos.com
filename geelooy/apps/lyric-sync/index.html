@@ -6,11 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lyric Sync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
+        <!-- ... (header and input sections are unchanged) ... -->
         <header>
             <h1>Lyric Sync</h1>
             <p>Play audio with synchronized transcripts</p>
@@ -34,7 +36,7 @@
                 </div>
             </div>
 
-            <div id="lyrics-display-wrapper">
+            <div id="lyrics-display-wrapper" dir="rtl">
                 <div id="lyrics-display">
                     <p>Load your files to begin.</p>
                 </div>
@@ -59,16 +61,17 @@
                     <i class="fas fa-cog"></i> Customization Settings
                 </summary>
                 <div class="settings-content">
+                    <!-- ... (Existing settings are unchanged) ... -->
                     <div class="setting">
                         <label for="font-size-slider">Font Size</label>
-                        <input type="range" id="font-size-slider" min="12" max="100" value="28">
+                        <input type="range" id="font-size-slider" min="12" max="100" value="48">
                     </div>
                     <div class="setting">
                         <label for="font-color-picker">Font Color</label>
                         <input type="color" id="font-color-picker" value="#FFFFFF">
                     </div>
                     <div class="setting">
-                        <label for="highlight-color-picker">Highlight Color</label>
+                        <label for="highlight-color-picker">Highlight Color (Unused)</label>
                         <input type="color" id="highlight-color-picker" value="#FFFF00">
                     </div>
                     <div class="setting">
@@ -80,9 +83,52 @@
                         </select>
                     </div>
                 </div>
+                
+                <!-- NEW VIDEO EXPORT SECTION -->
+                <hr class="settings-divider">
+                <h3 class="settings-title">Video Export</h3>
+                <div class="settings-content">
+                    <div class="setting">
+                        <label for="resolution-width">Resolution Width</label>
+                        <input type="number" id="resolution-width" value="1920">
+                    </div>
+                    <div class="setting">
+                        <label for="resolution-height">Resolution Height</label>
+                        <input type="number" id="resolution-height" value="1080">
+                    </div>
+                    <div class="setting">
+                        <label for="max-duration">Max Duration (seconds, 0 for full)</label>
+                        <input type="number" id="max-duration" value="0" min="0">
+                    </div>
+                    <div class="setting">
+                        <label for="text-border-width">Text Border Width</label>
+                        <input type="range" id="text-border-width" min="0" max="20" value="4">
+                    </div>
+                    <div class="setting">
+                        <label for="text-border-color">Text Border Color</label>
+                        <input type="color" id="text-border-color" value="#000000">
+                    </div>
+                    <div class="setting full-width">
+                        <label for="custom-particles">Custom Particles (e.g., אבגדהוזחטי emojis ✨✡️)</label>
+                        <textarea id="custom-particles" rows="2">אבגדהוזחטיכלמנסעפצקרשת✨✡️</textarea>
+                    </div>
+                </div>
+                <button id="export-btn" class="export-button"><i class="fas fa-video"></i> Export Video</button>
             </details>
         </main>
     </div>
+
+    <!-- NEW EXPORT PROGRESS OVERLAY -->
+    <div id="export-overlay" class="hidden">
+        <div class="export-status-box">
+            <h3><i class="fas fa-cogs"></i> Rendering Video...</h3>
+            <p id="export-status">Initializing...</p>
+            <div class="progress-bar-container">
+                <div id="export-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
