@@ -1,15 +1,12 @@
-// B"H - video-worker.js (With Font, Box, and Waveform Fixes)
+// B"H - video-worker.js (Simplified Waveform & Reactive Particles)
 
 // --- FONT LOADING ---
-// Load multiple fonts: one for Hebrew text, one for Emoji particles.
 const hebrewFont = new FontFace('NotoSansHebrew', 'url(https://fonts.gstatic.com/s/notosanshebrew/v34/or3_--_K6NKsWAIzkPyjDaPkdxscGmY26oFY26o.woff2)', { style: 'normal', weight: '700' });
 const emojiFont = new FontFace('NotoColorEmoji', 'url(https://fonts.gstatic.com/s/notocoloremoji/v26/Yq6P-KqIXoFpbS3glT-xWHyD6vuzWFnP_g.woff2)', { style: 'normal', weight: '400' });
 
-// Wait for all fonts to be loaded before starting any work.
 const fontsLoaded = Promise.all([hebrewFont.load(), emojiFont.load()])
     .then(loadedFonts => {
         loadedFonts.forEach(f => self.fonts.add(f));
-        console.log('Worker fonts loaded successfully.');
     }).catch(e => console.error('Worker font loading failed:', e));
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
@@ -18,11 +15,14 @@ let renderer;
 
 self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        await fontsLoaded; // Ensure fonts are ready before rendering.
+        await fontsLoaded;
 
-        const waveformData = analyzeAudio(audioBufferShim);
+        // The audio analysis now returns a simpler data structure.
+        const audioAnalysis = analyzeAudio(audioBufferShim, settings.resolution.width);
         const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
-        const drawPayload = { cues, settings, particleSystem, waveformData };
+        
+        // We pass the full analysis to the draw function.
+        const drawPayload = { cues, settings, particleSystem, audioAnalysis };
 
         renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
             (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
@@ -53,24 +53,28 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
 };
 
 // --- CORE DRAWING ---
-function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }, framePayload) {
+function drawFrame({ ctx, canvas, cues, settings, particleSystem, audioAnalysis }, framePayload) {
     const time = framePayload.time;
     const { width, height } = canvas;
-    const scaleFactor = height / 720; // Baseline for scaling UI elements
+    
+    // Get the single volume level for the current time.
+    const samplesPerSecond = audioAnalysis.volumeData.length / (audioAnalysis.duration || 1);
+    const currentIndex = Math.floor(time * samplesPerSecond);
+    const currentVolume = audioAnalysis.volumeData[currentIndex] || 0;
 
     // Background
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
-    // Particles and Waveform
-    particleSystem.updateAndDraw(ctx);
-    drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
+    // Update particles with the current audio volume.
+    particleSystem.updateAndDraw(ctx, currentVolume);
+    
+    // Draw the simplified waveform.
+    drawSimplifiedWaveform(ctx, audioAnalysis.wavePoints, time, width, height, settings.waveformThickness, settings.waveformHeight, currentVolume);
     
     // Text and Box
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
     if (activeCue) {
-        // --- BOX LOGIC ---
-        // Define a fixed square box in the center. Size is 90% of the canvas width.
         const boxSize = width * 0.9;
         const boxX = (width - boxSize) / 2;
         const boxY = (height - boxSize) / 2;
@@ -80,103 +84,184 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
         ctx.fillRect(boxX, boxY, boxSize, boxSize);
 
-        // --- TEXT LOGIC ---
-        // The text will be drawn inside the box we just created.
-        // The wrapText function will automatically adjust font size to fit.
+        const scaleFactor = height / 720;
         wrapText(ctx, activeCue.text, width / 2, height / 2, boxSize, boxSize, settings.font, scaleFactor);
     }
 }
 
-// --- DYNAMIC WAVEFORM ANIMATION ---
-function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness, heightMultiplier) {
+// --- NEW SIMPLIFIED WAVEFORM ---
+function drawSimplifiedWaveform(ctx, wavePoints, time, width, height, thickness, heightMultiplier, volume) {
     if (heightMultiplier <= 0) return;
 
-    const samplesPerSecond = waveform.data.length / (waveform.duration || 1);
-    const currentIndex = Math.floor(time * samplesPerSecond);
-    const currentAmp = waveform.data[currentIndex] || 0;
-    
-    // --- WAVEFORM FIX ---
-    // Add a small base amplitude (0.05) to ensure the wave is always visible,
-    // even during silent parts of the audio.
-    const effectiveAmp = 0.05 + (currentAmp * 0.95);
-
-    ctx.beginPath();
-    const step = 5; // Performance optimization
-    for (let x = 0; x <= width + step; x += step) {
-        const primaryWave = Math.sin((x / 50) + time * 15);
-        const y = height - (primaryWave * height * (heightMultiplier / 100) * effectiveAmp);
-        ctx.lineTo(x, y);
-    }
-    
-    ctx.strokeStyle = `rgba(200, 225, 255, ${0.3 + currentAmp * 0.7})`;
+    ctx.strokeStyle = `rgba(200, 225, 255, ${0.4 + volume * 0.6})`;
     ctx.lineWidth = thickness;
-    ctx.stroke();
-}
-
-// --- AUDIO ANALYSIS ---
-function analyzeAudio(audioBufferShim) {
-    const data = audioBufferShim.channels[0];
-    if (!data) return { data: [], duration: 0 };
-    const sampleSize = 441;
-    const simplified = [];
-    for (let i = 0; i < data.length; i += sampleSize) {
-        let rms = 0;
-        for (let j = 0; j < sampleSize; j++) rms += Math.pow(data[i + j] || 0, 2);
-        simplified.push(Math.sqrt(rms / sampleSize));
+    ctx.beginPath();
+    
+    // This draws a curve through our pre-calculated points. It's extremely fast.
+    ctx.moveTo(wavePoints[0].x, wavePoints[0].y);
+    for(let i = 0; i < wavePoints.length - 1; i++){
+        const p1 = wavePoints[i];
+        const p2 = wavePoints[i+1];
+        const xc = (p1.x + p2.x) / 2;
+        const yc = (p1.y + p2.y) / 2;
+        ctx.quadraticCurveTo(p1.x, p1.y, xc, yc);
     }
-    return { data: simplified, duration: audioBufferShim.duration };
+    
+    // Animate the wave by slightly shifting its vertical position and height based on time and volume.
+    const waveHeight = height * (heightMultiplier / 150) * (0.5 + volume);
+    const verticalShift = Math.sin(time * 5) * 20 * volume;
+    
+    ctx.save();
+    ctx.translate(0, height / 1.5 + verticalShift); // Position the wave lower on the screen
+    ctx.scale(1, waveHeight); // Scale it vertically
+    ctx.stroke();
+    ctx.restore();
 }
 
-// --- PARTICLE SYSTEM ---
+// --- UPDATED AUDIO ANALYSIS ---
+function analyzeAudio(audioBufferShim, canvasWidth) {
+    const data = audioBufferShim.channels[0];
+    if (!data) return { volumeData: [], wavePoints: [], duration: 0 };
+    
+    // 1. Analyze for volume (used for particle reactivity)
+    const volumeSampleSize = 441; // ~100 samples per second
+    const volumeData = [];
+    for (let i = 0; i < data.length; i += volumeSampleSize) {
+        let rms = 0;
+        for (let j = 0; j < volumeSampleSize; j++) rms += Math.pow(data[i + j] || 0, 2);
+        volumeData.push(Math.sqrt(rms / volumeSampleSize));
+    }
+
+    // 2. Pre-calculate points for the simplified waveform
+    const totalPoints = Math.min(100, canvasWidth / 10); // Max 100 points
+    const wavePoints = [];
+    for (let i = 0; i < totalPoints; i++) {
+        const x = (i / (totalPoints - 1)) * canvasWidth;
+        const y = Math.sin(x / (canvasWidth / 20)) * Math.cos(x / (canvasWidth / 35)); // A pleasing, static wave shape
+        wavePoints.push({ x, y });
+    }
+
+    return { volumeData, wavePoints, duration: audioBufferShim.duration };
+}
+
+// --- UPDATED PARTICLE SYSTEM ---
+// REPLACE the entire ParticleSystem class in your video-worker.js
+
 class ParticleSystem {
     constructor(particleSettings, resolution) {
         this.settings = particleSettings;
         this.width = resolution.width;
         this.height = resolution.height;
-        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle());
+        // This array will now hold all particles, both permanent and temporary (from explosions).
+        this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({ isPermanent: true }, 0.5));
     }
 
-    createParticle(p = {}) {
-        const baseSize = this.settings.baseSize;
-        const variation = this.settings.variation;
-        p.x = Math.random() * this.width;
-        p.y = this.height + Math.random() * 50;
-        p.vx = (Math.random() - 0.5) * 1.5;
-        p.vy = (-1 - Math.random()) * 1.5;
+    // createParticle now handles both permanent particles and temporary "sub-particles".
+    createParticle(p = {}, volume, options = {}) {
+        const { isPermanent = false, x, y } = options;
+
+        p.x = x !== undefined ? x : Math.random() * this.width;
+        if (isPermanent) {
+            p.y = this.height + Math.random() * 50; // Start permanent particles at the bottom
+        } else {
+            p.y = y; // Start sub-particles at the explosion point
+        }
+
+        const burstStrength = 1 + (volume * 10);
+        
+        if (isPermanent) {
+            // Permanent particles primarily move upwards.
+            p.vx = (Math.random() - 0.5) * 2;
+            p.vy = (-0.5 - Math.random()) * burstStrength;
+        } else {
+            // Sub-particles explode outwards in a random direction.
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 3;
+            p.vx = Math.cos(angle) * speed;
+            p.vy = Math.sin(angle) * speed;
+        }
+
+        // --- DANCING LOGIC SETUP ---
+        // Each particle gets its own unique "dance" properties.
+        p.age = 0;
+        p.danceSpeed = 0.02 + Math.random() * 0.03;
+        p.danceAmount = Math.random() * 2;
+        
+        // --- LIFESPAN LOGIC ---
+        p.life = isPermanent ? Infinity : 45 + Math.random() * 30; // ~1-2 seconds for sub-particles
+
         p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
-        p.size = Math.max(5, baseSize - (variation / 2) + Math.random() * variation);
-        p.opacity = 0.2 + Math.random() * 0.5;
+        p.size = this.settings.baseSize - (this.settings.variation / 2) + Math.random() * this.settings.variation;
+        if (!isPermanent) p.size *= 0.7; // Make sub-particles slightly smaller
+        p.size = Math.max(4, p.size);
+
+        p.hue = Math.random() * 360;
+        p.opacity = 0.6 + Math.random() * 0.4;
+
         return p;
     }
 
-    updateAndDraw(ctx) {
-        ctx.fillStyle = 'white';
-        // --- FONT FIX ---
-        // Explicitly set the font to Noto Color Emoji for the particles.
-        ctx.font = `${this.settings.baseSize}px NotoColorEmoji`;
+    // The main update loop now handles dancing, explosions, and lifespan.
+    updateAndDraw(ctx, volume) {
+        // We iterate backwards so we can safely remove particles from the array as they expire.
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
 
-        for (const p of this.particles) {
-            p.x += p.vx;
+            p.age++;
+            p.life--;
+
+            // If a particle's life is over, remove it and continue to the next one.
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                continue;
+            }
+
+            // --- "DANCING" MOTION ---
+            // Apply a smooth, sideways oscillation based on the particle's age.
+            const danceOffset = Math.sin(p.age * p.danceSpeed) * p.danceAmount;
+            p.x += p.vx + danceOffset;
             p.y += p.vy;
-            if (p.y < -p.size || p.x < -p.size || p.x > this.width + p.size) this.createParticle(p);
+
+            // --- EXPLOSION TRIGGER ---
+            // Permanent particles have a tiny chance to explode. A low value like 0.0015 is good.
+            if (p.life === Infinity && Math.random() < 0.0015) {
+                const subParticleCount = 5 + Math.floor(Math.random() * 5);
+                for (let j = 0; j < subParticleCount; j++) {
+                    // Add new sub-particles to the main array.
+                    this.particles.push(this.createParticle({}, volume, { isPermanent: false, x: p.x, y: p.y }));
+                }
+                // The parent particle that exploded is removed.
+                this.particles.splice(i, 1);
+                continue; // Skip drawing the parent particle
+            }
             
-            ctx.globalAlpha = p.opacity;
-            ctx.font = `${p.size}px NotoColorEmoji`; // Set size per particle
+            // If a permanent particle goes off the top of the screen, reset it at the bottom.
+            if (p.life === Infinity && p.y < -p.size) {
+                this.createParticle(p, volume, { isPermanent: true });
+            }
+
+            // Fade out sub-particles as they die.
+            const finalOpacity = (p.life < 20) ? p.opacity * (p.life / 20) : p.opacity;
+
+            ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${finalOpacity})`;
+            ctx.font = `${p.size}px NotoColorEmoji`;
             ctx.fillText(p.char, p.x, p.y);
         }
+        // Connections are drawn last.
         this.drawConnections(ctx);
-        ctx.globalAlpha = 1.0;
     }
 
+    // The connections logic remains the same.
     drawConnections(ctx) {
-        const checksPerFrame = Math.min(15, Math.floor(this.particles.length / 10));
+        const checksPerFrame = Math.min(15, Math.floor(this.particles.length / 20));
         if (checksPerFrame < 1) return;
         ctx.strokeStyle = 'rgba(200, 225, 255, 0.2)';
         ctx.lineWidth = 1;
         for (let i = 0; i < checksPerFrame; i++) {
-            const p1 = this.particles[Math.random() * this.particles.length | 0];
-            const p2 = this.particles[Math.random() * this.particles.length | 0];
-            if (Math.hypot(p1.x - p2.x, p1.y - p2.y) < 250) {
+            // Grab two random particles that are currently alive.
+            const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            if (p1 && p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < 250) {
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -186,47 +271,31 @@ class ParticleSystem {
     }
 }
 
-// --- TEXT WRAPPING & FITTING HELPERS ---
+// --- TEXT WRAPPING HELPER (Unchanged) ---
 function getWrappedLines(ctx, text, maxWidth) {
-    const lines = text.split("\n");
-    let allWrappedLines = [];
+    const lines = text.split("\n"); let allWrappedLines = [];
     lines.forEach(line => {
-        let words = line.split(" ");
-        if (words.length === 0) return;
-        let currentLine = words[0];
+        let words = line.split(" "); if (words.length === 0) return; let currentLine = words[0];
         for (let i = 1; i < words.length; i++) {
-            let word = words[i];
-            let testWidth = ctx.measureText(currentLine + " " + word).width;
-            if (testWidth < maxWidth) {
-                currentLine += " " + word;
-            } else {
-                allWrappedLines.push(currentLine);
-                currentLine = word;
-            }
+            let word = words[i]; let testWidth = ctx.measureText(currentLine + " " + word).width;
+            if (testWidth < maxWidth) { currentLine += " " + word; } else { allWrappedLines.push(currentLine); currentLine = word; }
         }
         allWrappedLines.push(currentLine);
     });
     return allWrappedLines;
 }
 
+// --- TEXT FITTING HELPER (Unchanged) ---
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
     let scaledFontSize = fontSettings.size * scaleFactor;
-
-    // --- TEXT FITTING LOGIC ---
-    // This loop reduces the font size until the text block fits within the maxHeight.
-    while (scaledFontSize > 5) { // Don't allow font to become too small
-        ctx.font = `bold ${scaledFontSize}px NotoSansHebrew`; // Use Hebrew font
-        const lines = getWrappedLines(ctx, text, maxWidth * 0.95); // Use 95% of box width for padding
-        const lineHeight = scaledFontSize * 1.4;
-        const totalHeight = lines.length * lineHeight;
-
-        if (totalHeight <= maxHeight * 0.95) { // Check against 95% of box height
-            break; // Font size is good, exit loop
-        }
-        scaledFontSize -= 1; // Text is too tall, shrink font and try again
+    while (scaledFontSize > 5) {
+        ctx.font = `bold ${scaledFontSize}px NotoSansHebrew`;
+        const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
+        const totalHeight = lines.length * (scaledFontSize * 1.4);
+        if (totalHeight <= maxHeight * 0.95) { break; }
+        scaledFontSize -= 1;
     }
 
-    // --- DRAW THE FITTED TEXT ---
     const scaledBorderWidth = fontSettings.borderWidth * scaleFactor;
     ctx.font = `bold ${scaledFontSize}px NotoSansHebrew`;
     ctx.textAlign = fontSettings.align;
