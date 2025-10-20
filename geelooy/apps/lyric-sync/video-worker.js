@@ -46,16 +46,13 @@ self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
 
 // --- CORE DRAWING ---
 // REPLACE this entire function in video-worker.js
+// REPLACE this entire function in video-worker.js
 function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }, framePayload) {
     const time = framePayload.time;
     const { width, height } = canvas;
-    
-    // --- THIS IS THE CRITICAL FIX ---
-    // Declare and calculate the scaling factor and scaled font size at the top of the function.
-    const scaleFactor = height / 720; // We assume the UI font size looks good on a 720p video height.
-    const scaledFontSize = settings.font.size * scaleFactor;
 
-    // --- The rest of the function now correctly uses the scaledFontSize variable ---
+    // Calculate a scaling factor. This is the source of truth for all scaling.
+    const scaleFactor = height / 720; // Assumes 720p is our baseline height
 
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
@@ -69,16 +66,19 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
 
-        // CORRECTED: Use scaledFontSize to calculate the box height accurately
-        const textHeight = measureWrappedTextHeight(ctx, activeCue.text, scaledFontSize, width * 0.85);
+        const scaledFontSizeForBox = settings.font.size * scaleFactor;
+        const textHeight = measureWrappedTextHeight(ctx, activeCue.text, scaledFontSizeForBox, width * 0.85);
         const boxWidth = width * 0.9;
-        const boxHeight = textHeight + (height * 0.05 * 2); // Add padding relative to video height
+        const boxHeight = textHeight + (height * 0.05 * 2);
         ctx.fillRect((width - boxWidth) / 2, (height - boxHeight) / 2, boxWidth, boxHeight);
 
-        // CORRECTED: Pass the now-defined scaledFontSize to the text drawing function
-        wrapText(ctx, activeCue.text, width / 2, height / 2, width * 0.85, settings.font, scaledFontSize);
+        // Pass the raw scaleFactor to wrapText. It will handle all scaling internally.
+        wrapText(ctx, activeCue.text, width / 2, height / 2, width * 0.85, settings.font, scaleFactor);
     }
 }
+
+
+
 
 // --- DYNAMIC WAVEFORM ANIMATION ---
 // REPLACE this function in video-worker.js
@@ -202,4 +202,48 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings) { /* ... unchanged ..
 // (These functions are copied from the previous final answer)
 function getWrappedLines(ctx,text,maxWidth){const lines=text.split("\n");let allWrappedLines=[];lines.forEach(line=>{let words=line.split(" ");if(words.length===0)return;let currentLine=words[0];for(let i=1;i<words.length;i++){let word=words[i];let testWidth=ctx.measureText(currentLine+" "+word).width;if(testWidth<maxWidth){currentLine+=" "+word}else{allWrappedLines.push(currentLine);currentLine=word}}allWrappedLines.push(currentLine)});return allWrappedLines}
 function measureWrappedTextHeight(ctx,text,fontSize,maxWidth){const originalFont=ctx.font;ctx.font=`bold ${fontSize}px Heebo`;const lines=getWrappedLines(ctx,text,maxWidth);ctx.font=originalFont;return lines.length*(fontSize*1.4)}
-function wrapText(ctx,text,x,y,maxWidth,fontSettings){const lines=getWrappedLines(ctx,text,maxWidth);const lineHeight=fontSettings.size*1.4;const startY=y-((lines.length-1)*lineHeight)/2+(fontSettings.size*0.3);lines.forEach((line,i)=>{const currentY=startY+(i*lineHeight);ctx.shadowColor=fontSettings.shadowColor;ctx.shadowBlur=fontSettings.shadowBlur;ctx.shadowOffsetX=2;ctx.shadowOffsetY=2;if(fontSettings.borderWidth>0){ctx.strokeStyle=fontSettings.borderColor;ctx.lineWidth=fontSettings.borderWidth*2;ctx.strokeText(line,x,currentY)}ctx.fillStyle=fontSettings.color;ctx.fillText(line,x,currentY);ctx.shadowColor="transparent"})}
+
+
+
+// REPLACE this entire function in video-worker.js
+function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
+    // --- THIS IS THE CORE FIX ---
+    // All scaling is now done directly and simply inside this function.
+    const scaledFontSize = fontSettings.size * scaleFactor;
+    const scaledBorderWidth = fontSettings.borderWidth * scaleFactor;
+    const scaledShadowBlur = fontSettings.shadowBlur * scaleFactor;
+
+    ctx.font = `bold ${scaledFontSize}px Heebo`;
+    ctx.textAlign = fontSettings.align;
+    
+    const lines = getWrappedLines(ctx, text, maxWidth);
+    const lineHeight = scaledFontSize * 1.4;
+    const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3); // Vertical centering adjustment
+
+    lines.forEach((line, i) => {
+        const currentY = startY + (i * lineHeight);
+        
+        // Apply scaled shadow
+        ctx.shadowColor = fontSettings.shadowColor;
+        ctx.shadowBlur = scaledShadowBlur;
+        ctx.shadowOffsetX = 2 * scaleFactor;
+        ctx.shadowOffsetY = 2 * scaleFactor;
+
+        // Draw scaled border
+        if (scaledBorderWidth > 0) {
+            ctx.strokeStyle = fontSettings.borderColor;
+            ctx.lineWidth = scaledBorderWidth * 2; // Stroke is centered, so we double it
+            ctx.strokeText(line, x, currentY);
+        }
+
+        // Draw main text fill
+        ctx.fillStyle = fontSettings.color;
+        ctx.fillText(line, x, currentY);
+    });
+
+    // Reset shadow for the next frame
+    ctx.shadowBlur = 0;
+}
+
+
+
