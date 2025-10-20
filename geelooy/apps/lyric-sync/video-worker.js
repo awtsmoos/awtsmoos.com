@@ -72,7 +72,7 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
 
 // --- DYNAMIC WAVEFORM ANIMATION ---
 function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness) {
-    const samplesPerSecond = waveform.length / (waveformData.duration || 1);
+    const samplesPerSecond = waveform.length / (waveform.duration || 1);
     const currentIndex = Math.floor(time * samplesPerSecond);
     const currentAmp = waveform.data[currentIndex] || 0;
 
