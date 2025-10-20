@@ -60,7 +60,7 @@ async function handleExport({ cues, audioBufferShim, settings }) {
     // Create a particle system sized for the final export resolution
     const exportParticleSystem = new ParticleSystem(settings.particles, settings.resolution);
 
-    const renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
+    const renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 1 } },
         (base, frame) => {
             // The drawing callback uses the export-specific particle system
             drawFrame({ ...base, cues, settings, particleSystem: exportParticleSystem, volumeDataForFrames }, frame);
