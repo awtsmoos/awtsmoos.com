@@ -95,73 +95,85 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SAFE, ON-DEMAND EXPORT FUNCTIONALITY ---
     // REPLACE THE ENTIRE LISTENER WITH THIS STABLE VERSION
 
-exportBtn.addEventListener('click', async () => {
-    if (!audioFile || cues.length === 0) {
-        alert('Please load an audio file and VTT content before exporting.');
-        return;
+// This is the new, upgraded code for your exportBtn listener's try block
+try {
+    const tempAudioContext = new AudioContext();
+    const arrayBuffer = await audioFile.arrayBuffer();
+    const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
+
+    // --- AUDIO TRIMMING LOGIC ---
+    let finalAudioBuffer = audioBuffer; // Default to the full audio buffer
+    const settings = collectSettings();
+    const maxDuration = settings.maxDuration;
+
+    // Check if trimming is necessary
+    if (maxDuration > 0 && maxDuration < audioBuffer.duration) {
+        exportStatus.textContent = `Trimming audio to ${maxDuration} seconds...`;
+        
+        // Calculate the exact number of samples for the new duration
+        const newSampleLength = Math.floor(maxDuration * audioBuffer.sampleRate);
+
+        // Create a new, empty audio buffer with the desired shorter length
+        const trimmedBuffer = tempAudioContext.createBuffer(
+            audioBuffer.numberOfChannels,
+            newSampleLength,
+            audioBuffer.sampleRate
+        );
+
+        // Copy the audio data from the start of the original buffer to the new buffer
+        for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+            const originalChannelData = audioBuffer.getChannelData(i);
+            // .copyToChannel is an efficient way to transfer the samples
+            trimmedBuffer.copyToChannel(originalChannelData.slice(0, newSampleLength), i);
+        }
+        
+        // The trimmed buffer is now our final buffer for the export
+        finalAudioBuffer = trimmedBuffer;
     }
+    // --- END OF AUDIO TRIMMING LOGIC ---
 
-    exportOverlay.classList.remove('hidden');
-    exportStatus.textContent = 'Preparing export...';
-    exportProgressBar.style.width = '0%';
+    // Now, build the shim using the final (potentially trimmed) audio buffer
+    const audioBufferShim = {
+        sampleRate: finalAudioBuffer.sampleRate,
+        duration: finalAudioBuffer.duration,
+        length: finalAudioBuffer.length,
+        numberOfChannels: finalAudioBuffer.numberOfChannels,
+        channels: Array.from({ length: finalAudioBuffer.numberOfChannels }, (_, i) => finalAudioBuffer.getChannelData(i)),
+    };
 
-    try {
-        // --- THIS IS THE ORIGINAL, CORRECT LOGIC ---
+    const worker = new Worker('video-worker.js');
 
-        // 1. Create a NEW, temporary AudioContext, isolated from the main page.
-        const tempAudioContext = new AudioContext();
+    worker.onmessage = ({ data }) => {
+        // ... (your existing onmessage logic is correct) ...
+        switch (data.type) {
+            case 'STATUS_UPDATE':
+                exportStatus.textContent = data.payload.message;
+                exportProgressBar.style.width = `${data.payload.progress}%`;
+                break;
+            case 'VIDEO_COMPLETE':
+                downloadBlob(data.payload.blob, data.payload.fileName);
+                setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
+                worker.terminate();
+                break;
+            case 'FATAL_ERROR':
+                alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
+                exportOverlay.classList.add('hidden');
+                worker.terminate();
+                break;
+        }
+    };
 
-        // 2. Re-read the raw audio file from scratch to get a pristine ArrayBuffer.
-        const arrayBuffer = await audioFile.arrayBuffer();
-        
-        // 3. Decode the audio data freshly within this temporary context.
-        const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
-        
-        // 4. Meticulously build the complete audioBufferShim with all required properties.
-        const audioBufferShim = {
-            sampleRate: audioBuffer.sampleRate,
-            duration: audioBuffer.duration,
-            // These properties are essential for the MediaBunny finalizer
-            length: audioBuffer.length,
-            numberOfChannels: audioBuffer.numberOfChannels,
-            // Create fresh copies of the channel data
-            channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
-        };
+    // Send the final (potentially trimmed) audio data to the worker
+    worker.postMessage({
+        cues,
+        audioBufferShim,
+        settings // Pass the settings we collected earlier
+    });
 
-        const worker = new Worker('video-worker.js');
-
-        worker.onmessage = ({ data }) => {
-            switch (data.type) {
-                case 'STATUS_UPDATE':
-                    exportStatus.textContent = data.payload.message;
-                    exportProgressBar.style.width = `${data.payload.progress}%`;
-                    break;
-                case 'VIDEO_COMPLETE':
-                    downloadBlob(data.payload.blob, data.payload.fileName);
-                    setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
-                    worker.terminate();
-                    break;
-                case 'FATAL_ERROR':
-                    alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
-                    exportOverlay.classList.add('hidden');
-                    worker.terminate();
-                    break;
-            }
-        };
-        
-        // 5. Send the pristine, copied data to the worker with no transfer list.
-        // The browser's default copy algorithm is sufficient when the source data is perfect.
-        worker.postMessage({
-            cues,
-            audioBufferShim,
-            settings: collectSettings()
-        });
-
-    } catch (error) {
-        alert(`Failed to prepare data for export: ${error.message}`);
-        exportOverlay.classList.add('hidden');
-    }
-});
+} catch (error) {
+    alert(`Failed to prepare data for export: ${error.message}`);
+    exportOverlay.classList.add('hidden');
+}
     // --- HELPER & UTILITY FUNCTIONS ---
 
     function collectSettings() {
