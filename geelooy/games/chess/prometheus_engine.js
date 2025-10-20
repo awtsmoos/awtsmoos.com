@@ -988,17 +988,21 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if (ply > 0 && repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
         const staticEval = evaluate(state);
         
-        // Anti-Draw: If we have an advantage (over 0.25 pawns) treat the draw as a loss of the game.
-        if (staticEval > 25) { // If White is winning
-            // The score for a draw is MATE_SCORE - ply (a forced loss of the game)
-            return -MATE_SCORE + ply; 
-        }
-        if (staticEval < -25) { // If Black is winning (treat draw as a win)
-            return MATE_SCORE - ply;
+        // Anti-Draw: If winning (White), return -MATE_SCORE (forced loss).
+        if (staticEval > 0) { 
+            // If White has any advantage, a draw is a LOSS OF THE GAME
+            // Set the score to be MATE_SCORE - 1000, forcing the engine to find the escape
+            return -MATE_SCORE + 1000; 
         }
         
-        // If position is truly equal, accept a minor penalty to encourage playing on.
-        return -10; 
+        // Anti-Draw: If losing (Black), return +MATE_SCORE (forced win).
+        if (staticEval < 0) { 
+            // If White is losing, a draw is a WIN OF THE GAME
+            return MATE_SCORE - 1000; 
+        }
+        
+        // If the position is truly 0.00, treat the draw as a catastrophic loss to play on.
+        return -MATE_SCORE + 1000; 
     }
     // --- END OF FIX ---
 
