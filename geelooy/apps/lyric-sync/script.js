@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 maxDuration: parseFloat(settingsInputs.maxDuration.value),
                 waveformThickness: parseFloat(settingsInputs.waveformThickness.value),
+                waveformHeight: parseFloat(settingsInputs.waveformHeight.value),
                 font: {
                     size: parseFloat(settingsInputs.fontSize.value),
                     color: settingsInputs.fontColor.value,
