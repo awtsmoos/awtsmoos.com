@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragStartX = 0;
 
     // Worker
-    const trimWorker = new Worker('worker.js');
+    const trimWorker = new Worker('trim-worker.js');
 
     // --- Event Listeners ---
     fileInput.addEventListener('change', handleFileSelect);
@@ -40,18 +40,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateHandlesAndOverlay();
     });
 
-    // Dragging and Interaction Listeners
+    // Dragging and Interaction Listeners for Mouse
     canvas.parentElement.addEventListener('mousedown', handlePanStart);
     startHandle.addEventListener('mousedown', (e) => handleDragStart(e, 'start'));
     endHandle.addEventListener('mousedown', (e) => handleDragStart(e, 'end'));
     window.addEventListener('mousemove', handleDragMove);
     window.addEventListener('mouseup', handleDragEnd);
 
-    // Touch equivalents
-    canvas.parentElement.addEventListener('touchstart', (e) => handlePanStart(e.touches[0]));
-    startHandle.addEventListener('touchstart', (e) => handleDragStart(e.touches[0], 'start'));
-    endHandle.addEventListener('touchstart', (e) => handleDragStart(e.touches[0], 'end'));
-    window.addEventListener('touchmove', (e) => handleDragMove(e.touches[0]));
+    // Touch equivalents (FIXED)
+    // We now pass the full event `e` and use `{ passive: false }` to allow preventDefault.
+    canvas.parentElement.addEventListener('touchstart', handlePanStart, { passive: false });
+    startHandle.addEventListener('touchstart', (e) => handleDragStart(e, 'start'), { passive: false });
+    endHandle.addEventListener('touchstart', (e) => handleDragStart(e, 'end'), { passive: false });
+    window.addEventListener('touchmove', handleDragMove, { passive: false });
     window.addEventListener('touchend', handleDragEnd);
     
     // Worker message handling
@@ -146,45 +147,49 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Drag and Pan Logic ---
 
+    // (FIXED) Helper function to get the correct clientX from mouse or touch events
+    function getClientX(e) {
+        return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
     function handleDragStart(e, handle) {
-        e.preventDefault();
+        e.preventDefault(); // Now this will work for both touch and mouse events
         activeDrag = handle;
-        dragStartX = e.clientX;
+        dragStartX = getClientX(e); // Use helper function
     }
 
     function handlePanStart(e) {
         if (e.target.classList.contains('trim-handle')) return;
-        e.preventDefault();
+        e.preventDefault(); // Now this will work for both touch and mouse events
         activeDrag = 'pan';
-        dragStartX = e.clientX;
+        dragStartX = getClientX(e); // Use helper function
         canvas.parentElement.style.cursor = 'grabbing';
     }
 
     function handleDragMove(e) {
         if (!activeDrag) return;
-        e.preventDefault();
+        e.preventDefault(); // Now this will work for both touch and mouse events
 
-        const dx = e.clientX - dragStartX;
+        const currentX = getClientX(e); // Use helper function
+        const dx = currentX - dragStartX;
         const containerWidth = canvas.parentElement.offsetWidth;
         const deltaRatio = dx / (containerWidth * zoomLevel);
 
         if (activeDrag === 'start') {
             const newStartRatio = startRatio + deltaRatio;
-            if (newStartRatio >= 0 && newStartRatio < endRatio) {
-                startRatio = newStartRatio;
-            }
+            // Clamp the value between 0 and the end handle's position
+            startRatio = Math.max(0, Math.min(newStartRatio, endRatio - 0.0001));
         } else if (activeDrag === 'end') {
             const newEndRatio = endRatio + deltaRatio;
-            if (newEndRatio > startRatio && newEndRatio <= 1) {
-                endRatio = newEndRatio;
-            }
+             // Clamp the value between the start handle's position and 1
+            endRatio = Math.max(startRatio + 0.0001, Math.min(newEndRatio, 1));
         } else if (activeDrag === 'pan') {
             const maxPan = containerWidth * (zoomLevel - 1);
             panOffset = Math.max(0, Math.min(maxPan, panOffset - dx));
             drawWaveform();
         }
 
-        dragStartX = e.clientX;
+        dragStartX = currentX; // Update position for next movement delta
         updateHandlesAndOverlay();
         updateAudioPlayerTime();
     }
