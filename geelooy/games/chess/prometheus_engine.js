@@ -139,8 +139,8 @@ class TaperedScore {
 // --- PIECE VALUES (with tapered evaluation) ---
 const pieceValues = {
     p: { mg: 100, eg: 131 }, // Pawns become more valuable in the endgame
-    n: { mg: 320, eg: 320 },
-    b: { mg: 330, eg: 330 },
+    n: { mg: 340, eg: 340 },
+    b: { mg: 345, eg: 345 },
     r: { mg: 500, eg: 500 },
     q: { mg: 900, eg: 900 },
     k: { mg: 20000, eg: 20000 }
@@ -566,8 +566,12 @@ function evaluateThreats(state, color, pieceData) {
                         // The penalty is a large fraction of the material that would be lost.
                         // This makes the engine very sensitive to these kinds of threats.
                         const potentialLoss = ourValue - enemyValue;
-                        penalty.mg += potentialLoss * 0.75; // 75% of the potential loss as a direct penalty
-                        penalty.eg += potentialLoss * 0.75;
+                        const PENALTY_MULTIPLIER = 0.95; 
+                        penalty.mg += potentialLoss * PENALTY_MULTIPLIER; 
+                        penalty.eg += potentialLoss * PENALTY_MULTIPLIER;
+                        
+                        
+                    
                     }
                 }
             }
