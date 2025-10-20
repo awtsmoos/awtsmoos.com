@@ -990,7 +990,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         
         // If equal (score is between -100 and +100), treat the draw as a small loss
         // to encourage further searching for a win.
-        return -5; 
+        return -500; 
     }
     // --- END OF FIX ---
 
