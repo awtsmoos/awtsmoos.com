@@ -203,8 +203,7 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
     // All scaling is now done directly and simply inside this function.
     const scaledFontSize = fontSettings.size * scaleFactor;
     const scaledBorderWidth = fontSettings.borderWidth * scaleFactor;
-    const scaledShadowBlur = fontSettings.shadowBlur * scaleFactor;
-
+    
     ctx.font = `bold ${scaledFontSize}px Heebo`;
     ctx.textAlign = fontSettings.align;
     
@@ -216,11 +215,7 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
         const currentY = startY + (i * lineHeight);
         
         // Apply scaled shadow
-        ctx.shadowColor = fontSettings.shadowColor;
-        ctx.shadowBlur = scaledShadowBlur;
-        ctx.shadowOffsetX = 2 * scaleFactor;
-        ctx.shadowOffsetY = 2 * scaleFactor;
-
+        
         // Draw scaled border
         if (scaledBorderWidth > 0) {
             ctx.strokeStyle = fontSettings.borderColor;
@@ -234,7 +229,7 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
     });
 
     // Reset shadow for the next frame
-    ctx.shadowBlur = 0;
+   
 }
 
 
