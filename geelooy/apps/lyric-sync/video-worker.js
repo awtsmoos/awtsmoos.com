@@ -170,9 +170,7 @@ class ParticleSystem {
         const connectCount = Math.floor(this.particles.length / 20); // Still only connect a few
         ctx.strokeStyle = 'rgba(200, 225, 255, 0.3)'; // Slightly more visible
         ctx.lineWidth = 1;
-        //ctx.shadowColor = 'white';
-     //   ctx.shadowBlur = 10;
-
+        
         for (let i = 0; i < connectCount; i++) {
             const p1 = this.particles[Math.random() * this.particles.length | 0];
             const p2 = this.particles[Math.random() * this.particles.length | 0];
@@ -183,14 +181,12 @@ class ParticleSystem {
                 ctx.stroke();
             }
         }
-      //  ctx.shadowBlur = 0; // Reset shadow
+      
     }
 }
 
 // --- TEXT WRAPPING HELPERS ---
-function getWrappedLines(ctx, text, maxWidth) { /* ... unchanged ... */ return []; }
-function measureWrappedTextHeight(ctx, text, fontSize, maxWidth) { /* ... unchanged ... */ return 0; }
-function wrapText(ctx, text, x, y, maxWidth, fontSettings) { /* ... unchanged ... */ }
+
 // (These functions are copied from the previous final answer)
 function getWrappedLines(ctx,text,maxWidth){const lines=text.split("\n");let allWrappedLines=[];lines.forEach(line=>{let words=line.split(" ");if(words.length===0)return;let currentLine=words[0];for(let i=1;i<words.length;i++){let word=words[i];let testWidth=ctx.measureText(currentLine+" "+word).width;if(testWidth<maxWidth){currentLine+=" "+word}else{allWrappedLines.push(currentLine);currentLine=word}}allWrappedLines.push(currentLine)});return allWrappedLines}
 function measureWrappedTextHeight(ctx,text,fontSize,maxWidth){const originalFont=ctx.font;ctx.font=`bold ${fontSize}px Heebo`;const lines=getWrappedLines(ctx,text,maxWidth);ctx.font=originalFont;return lines.length*(fontSize*1.4)}
@@ -214,7 +210,6 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
     lines.forEach((line, i) => {
         const currentY = startY + (i * lineHeight);
         
-        // Apply scaled shadow
         
         // Draw scaled border
         if (scaledBorderWidth > 0) {
@@ -228,7 +223,6 @@ function wrapText(ctx, text, x, y, maxWidth, fontSettings, scaleFactor) {
         ctx.fillText(line, x, currentY);
     });
 
-    // Reset shadow for the next frame
    
 }
 
