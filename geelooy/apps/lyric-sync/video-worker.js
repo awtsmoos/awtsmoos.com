@@ -166,12 +166,14 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
     while (scaledFontSize > 5) {
         // Use a font stack. The browser will try preferred Hebrew fonts first, then fall back gracefully.
         ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+        ctx.direction = 'ltr'; 
         const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
         if ((lines.length * scaledFontSize * 1.4) < maxHeight * 0.95) break;
         scaledFontSize -= 1;
     }
     ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-    ctx.textAlign = fontSe tottings.align;
+    ctx.textAlign = fontSettings.align;
+    
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
