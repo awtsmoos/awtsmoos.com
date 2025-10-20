@@ -71,35 +71,46 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
 }
 
 // --- DYNAMIC WAVEFORM ANIMATION ---
+// REPLACE this function in video-worker.js
 function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness) {
-    const samplesPerSecond = waveform.length / (waveform.duration || 1);
+    // Get the actual audio volume at this exact moment
+    const samplesPerSecond = waveform.data.length / (waveform.duration || 1);
     const currentIndex = Math.floor(time * samplesPerSecond);
-    const currentAmp = waveform.data[currentIndex] || 0;
+    const currentAmp = waveform.data[currentIndex] || 0; // This is our "driver" from 0.0 to 1.0
 
     ctx.beginPath();
-    ctx.moveTo(0, height);
+    ctx.moveTo(0, height); // Start drawing from the bottom left
 
     for (let x = 0; x < width; x++) {
-        const primaryWave = Math.sin((x / width) * 20 + time * 20); // Fast moving base wave
-        const secondaryWobble = Math.sin((x / width) * 5 + time * 2); // Slow vertical wobble
-        const noise = (Math.random() - 0.5) * 0.2; // High frequency jitter
-
-        // Modulate the procedural wave's height by the actual audio amplitude
-        const modulatedAmplitude = (primaryWave + noise) * currentAmp;
+        // 1. Create a complex, procedural base shape using multiple sine waves.
+        // The shape constantly morphs because of the 'time' variable.
+        const primaryWave = Math.sin((x / width) * 30 + time * 15); // Main fast wave
+        const secondaryWave = Math.sin((x / width) * 15 + time * 7); // Slower underlying wobble
+        const noise = (Math.sin(x * time * 0.1) * 0.5 + 0.5) * 0.2; // High-frequency noise for detail
         
-        const y = height - (height * 0.2) - (modulatedAmplitude * height * 0.3) - (secondaryWobble * height * 0.05);
+        // Combine the waves to create an interesting, non-repeating pattern
+        const proceduralShape = (primaryWave + secondaryWave * 0.5 + noise);
+
+        // 2. Modulate the height of the procedural shape by the actual audio amplitude.
+        // When the audio is quiet (currentAmp is low), the wave will be nearly flat.
+        // When the audio is loud (currentAmp is high), the wave will be tall and dramatic.
+        const finalAmplitude = proceduralShape * currentAmp;
+
+        // 3. Calculate the final Y position. The wave is drawn in the bottom half of the screen.
+        const y = height - (finalAmplitude * height * 0.25);
         ctx.lineTo(x, y);
     }
     
-    ctx.strokeStyle = `rgba(200, 225, 255, ${0.3 + currentAmp * 0.7})`; // Brighter when loud
+    // Make the wave glow and become more opaque when the audio is loud
+    ctx.strokeStyle = `rgba(200, 225, 255, ${0.3 + currentAmp * 0.7})`;
     ctx.lineWidth = thickness;
     ctx.shadowColor = 'rgba(150, 200, 255, 1)';
-    ctx.shadowBlur = 10 * currentAmp; // Glow when loud
+    ctx.shadowBlur = 15 * currentAmp; // More glow when loud
     ctx.stroke();
     
+    // Reset shadow for other drawing operations
     ctx.shadowBlur = 0;
 }
-
 
 // --- AUDIO ANALYSIS ---
 function analyzeAudio(audioBufferShim) {
