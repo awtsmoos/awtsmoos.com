@@ -180,12 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. Send ONLY the necessary small data to the worker. NO MORE CRASHES.
         worker.postMessage({
             type: 'INIT',
-            canvas: offscreenCanvas,
+           // canvas: offscreenCanvas,
             cues,
             volumeDataForFrames,
             duration,
             settings: collectSettings()
-        }, [offscreenCanvas]);
+        },
+        // [offscreenCanvas]
+        );
 
         isWorkerReady = true;
     }
