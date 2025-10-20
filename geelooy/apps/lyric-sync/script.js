@@ -93,78 +93,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- SAFE, ON-DEMAND EXPORT FUNCTIONALITY ---
-    exportBtn.addEventListener('click', async () => {
-        if (!audioFile || cues.length === 0) {
-            alert('Please load an audio file and VTT content before exporting.');
-            return;
-        }
+    // REPLACE THE ENTIRE LISTENER WITH THIS STABLE VERSION
 
-        exportOverlay.classList.remove('hidden');
-        exportStatus.textContent = 'Preparing export...';
-        exportProgressBar.style.width = '0%';
+exportBtn.addEventListener('click', async () => {
+    if (!audioFile || cues.length === 0) {
+        alert('Please load an audio file and VTT content before exporting.');
+        return;
+    }
 
-        try {
-            // Safely decode the audio from scratch, only for the export process
-            const arrayBuffer = await audioFile.arrayBuffer();
-            const tempAudioContext = new AudioContext();
-            const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
-            const audioBufferShim = {
-                sampleRate: audioBuffer.sampleRate,
-                duration: audioBuffer.duration,
-                channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
-            };
-            
-            // 1. Create a DEEP COPY of the audio data. .slice() creates a new Float32Array with a copy of the data.
-const audioDataCopy = {
-    sampleRate: audioBufferShim.sampleRate,
-    duration: audioBufferShim.duration,
-    channels: audioBufferShim.channels.map(channel => channel.slice(0))
-};
+    exportOverlay.classList.remove('hidden');
+    exportStatus.textContent = 'Preparing export...';
+    exportProgressBar.style.width = '0%';
 
-// 2. Create a transfer list for the BUFFERS of the NEW COPY.
-const transferList = [];
-audioDataCopy.channels.forEach(channel => transferList.push(channel.buffer));
+    try {
+        // --- THIS IS THE ORIGINAL, CORRECT LOGIC ---
 
-            
+        // 1. Create a NEW, temporary AudioContext, isolated from the main page.
+        const tempAudioContext = new AudioContext();
 
-            const worker = new Worker('video-worker.js');
+        // 2. Re-read the raw audio file from scratch to get a pristine ArrayBuffer.
+        const arrayBuffer = await audioFile.arrayBuffer();
+        
+        // 3. Decode the audio data freshly within this temporary context.
+        const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
+        
+        // 4. Meticulously build the complete audioBufferShim with all required properties.
+        const audioBufferShim = {
+            sampleRate: audioBuffer.sampleRate,
+            duration: audioBuffer.duration,
+            // These properties are essential for the MediaBunny finalizer
+            length: audioBuffer.length,
+            numberOfChannels: audioBuffer.numberOfChannels,
+            // Create fresh copies of the channel data
+            channels: Array.from({ length: audioBuffer.numberOfChannels }, (_, i) => audioBuffer.getChannelData(i)),
+        };
 
-            worker.onmessage = ({ data }) => {
-                switch (data.type) {
-                    case 'STATUS_UPDATE':
-                        exportStatus.textContent = data.payload.message;
-                        exportProgressBar.style.width = `${data.payload.progress}%`;
-                        break;
-                    case 'VIDEO_COMPLETE':
-                        downloadBlob(data.payload.blob, data.payload.fileName);
-                        setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
-                        worker.terminate();
-                        break;
-                    case 'FATAL_ERROR':
-                        alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
-                        exportOverlay.classList.add('hidden');
-                        worker.terminate();
-                        break;
-                }
-            };
-            
-            // Use a transfer list for the audio data to be memory-safe
-            
-            // By sending the message with only one argument, we are telling the browser
-// to safely COPY the audio data. This guarantees the worker receives a
-// perfect, uncorrupted copy with all its properties intact.
-worker.postMessage({
-    cues,
-    audioBufferShim: audioDataCopy, // Send the copy
-    settings: collectSettings()
-}, transferList); // Transfer the copy's memory
+        const worker = new Worker('video-worker.js');
 
-        } catch (error) {
-            alert(`Failed to prepare data for export: ${error.message}`);
-            exportOverlay.classList.add('hidden');
-        }
-    });
-    
+        worker.onmessage = ({ data }) => {
+            switch (data.type) {
+                case 'STATUS_UPDATE':
+                    exportStatus.textContent = data.payload.message;
+                    exportProgressBar.style.width = `${data.payload.progress}%`;
+                    break;
+                case 'VIDEO_COMPLETE':
+                    downloadBlob(data.payload.blob, data.payload.fileName);
+                    setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
+                    worker.terminate();
+                    break;
+                case 'FATAL_ERROR':
+                    alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
+                    exportOverlay.classList.add('hidden');
+                    worker.terminate();
+                    break;
+            }
+        };
+        
+        // 5. Send the pristine, copied data to the worker with no transfer list.
+        // The browser's default copy algorithm is sufficient when the source data is perfect.
+        worker.postMessage({
+            cues,
+            audioBufferShim,
+            settings: collectSettings()
+        });
+
+    } catch (error) {
+        alert(`Failed to prepare data for export: ${error.message}`);
+        exportOverlay.classList.add('hidden');
+    }
+});
     // --- HELPER & UTILITY FUNCTIONS ---
 
     function collectSettings() {
