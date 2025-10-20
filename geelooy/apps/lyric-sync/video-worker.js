@@ -1,4 +1,4 @@
-// B"H - Definitive Worker: Stable Architecture, No Crashes
+// B"H - Definitive Worker for Export Only
 
 // --- FONT SETUP ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
@@ -7,90 +7,55 @@ const EMOJI_FALLBACK_FONT = 'sans-serif';
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- WORKER GLOBAL STATE ---
-let ctx = null;
-let canvasWidth = 0, canvasHeight = 0;
-let cues = [];
-let settings = {};
-let particleSystem = null;
-let volumeDataForFrames = [];
 let lastActiveCue = null;
-let totalDuration = 0;
 const frameRate = 24;
 
-// --- MAIN MESSAGE HANDLER ---
-self.onmessage = async ({ data }) => {
+// --- AUDIO ANALYSIS ---
+function preAnalyzeAudio(audioBufferShim, totalFrames) {
+    const channelData = audioBufferShim.channels[0];
+    if (!channelData || channelData.length === 0) return new Array(totalFrames).fill(0.01);
+    const volumeLevels = [];
+    const samplesPerFrame = Math.floor(channelData.length / totalFrames);
+    for (let i = 0; i < totalFrames; i++) {
+        let rms = 0;
+        const start = i * samplesPerFrame;
+        for (let j = 0; j < samplesPerFrame; j++) rms += (channelData[start + j] || 0) ** 2;
+        const volume = Math.sqrt(rms / samplesPerFrame);
+        volumeLevels.push(isNaN(volume) ? 0.01 : Math.max(0.01, volume));
+    }
+    return volumeLevels;
+}
+
+// --- MAIN ENTRY POINT ---
+self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        switch (data.type) {
-            case 'INIT':
-                initialize(data);
-                break;
-            case 'DRAW_PREVIEW':
-                drawFrameWrapper(data.time);
-                break;
-            case 'UPDATE_SETTINGS':
-                settings = data.settings;
-                if (particleSystem && settings.particles.density !== particleSystem.settings.density) {
-                    particleSystem = new ParticleSystem(settings.particles, { width: canvasWidth, height: canvasHeight });
-                }
-                break;
-            case 'EXPORT':
-                // The full audio buffer is received ONLY here.
-                await handleExport(data.audioBufferShim);
-                break;
+        const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
+        const totalFrames = Math.floor(totalDuration * frameRate);
+        const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
+        const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
+        const drawPayload = { cues, settings, particleSystem, volumeDataForFrames };
+
+        const renderer = new MediaBunnyBase({ resolution: settings.resolution, outputFormat: { quality: 0.8 } },
+            (base, frame) => drawFrame({ ...base, ...drawPayload }, frame),
+            { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
+        );
+        await renderer.start();
+
+        for (let i = 0; i <= totalFrames; i++) {
+            const time = i / frameRate;
+            await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
+            if (i > 0 && i % frameRate === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
         }
+        
+        const blob = await renderer.finalize(audioBufferShim);
+        self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName: `BH_video_${new Date().getTime()}.mp4` } });
     } catch (error) {
-        self.postMessage({ type: 'FATAL_ERROR', payload: { message: error.message } });
+        self.postMessage({ type: 'FATAL_ERROR', payload: { message: error.message, error: error.stack } });
     }
 };
 
-// --- INITIALIZATION ---
-function initialize(data) {
-    ctx = data.canvas.getContext('2d');
-    canvasWidth = data.canvas.width;
-    canvasHeight = data.canvas.height;
-    cues = data.cues;
-    settings = data.settings;
-    volumeDataForFrames = data.volumeDataForFrames; // Receive the small analysis array
-    totalDuration = data.duration;
-    
-    particleSystem = new ParticleSystem(settings.particles, { width: canvasWidth, height: canvasHeight });
-    drawFrameWrapper(0); // Draw an initial "ready" frame
-}
-
-// --- EXPORT HANDLING ---
-async function handleExport(audioBufferShim) {
-    const exportWidth = settings.resolution.width;
-    const exportHeight = settings.resolution.height;
-    const exportParticleSystem = new ParticleSystem(settings.particles, { width: exportWidth, height: exportHeight });
-    
-    const renderer = new MediaBunnyBase({ resolution: { width: exportWidth, height: exportHeight } },
-        (base, frame) => {
-            drawFrame({ ...base, particleSystem: exportParticleSystem }, frame);
-        }, { libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js' }
-    );
-    
-    await renderer.start();
-    const finalDuration = (settings.maxDuration > 0 && settings.maxDuration < totalDuration) ? settings.maxDuration : totalDuration;
-    const totalFrames = Math.floor(finalDuration * frameRate);
-
-    for (let i = 0; i <= totalFrames; i++) {
-        const time = i / frameRate;
-        await renderer.addFrame({ time, duration: 1 / frameRate, frameNumber: i });
-        if (i > 0 && i % frameRate === 0) self.postMessage({ type: 'STATUS_UPDATE', payload: { message: `Encoding frame ${i} of ${totalFrames}`, progress: (i / totalFrames) * 100 } });
-    }
-    
-    const blob = await renderer.finalize(audioBufferShim);
-    self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob, fileName: `BH_video_${new Date().getTime()}.mp4` } });
-}
-
-// --- DRAWING LOGIC ---
-function drawFrameWrapper(time) {
-    if (!ctx) return;
-    const frameNumber = Math.floor(time * frameRate);
-    drawFrame({ ctx, canvas: { width: canvasWidth, height: canvasHeight }, particleSystem }, { time, frameNumber });
-}
-
-function drawFrame({ ctx, canvas, particleSystem }, framePayload) {
+// --- CORE DRAWING LOGIC FOR EXPORT ---
+function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeDataForFrames }, framePayload) {
     const { time, frameNumber } = framePayload;
     const { width, height } = canvas;
     const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
@@ -114,7 +79,7 @@ function drawFrame({ ctx, canvas, particleSystem }, framePayload) {
     }
 }
 
-// --- VISUAL EFFECTS & HELPERS (NON-MINIFIED) ---
+// --- ALL VISUAL & HELPER FUNCTIONS (MUST MATCH MAIN SCRIPT EXACTLY) ---
 
 function drawWaveform(ctx, time, width, height, settings, volume) {
     const { waveformHeight, waveformThickness } = settings;
@@ -123,7 +88,6 @@ function drawWaveform(ctx, time, width, height, settings, volume) {
     const amplitude = maxAmplitude * (volume ** 1.5);
     const undulation = Math.sin(time * 0.7) * (height * 0.015);
     const baseY = height * 0.85 + undulation;
-
     const createPath = () => {
         ctx.beginPath();
         for (let x = 0; x <= width; x += 15) {
@@ -135,16 +99,13 @@ function drawWaveform(ctx, time, width, height, settings, volume) {
             x === 0 ? ctx.moveTo(x, finalY) : ctx.lineTo(x, finalY);
         }
     };
-    
     const colorIntensity = 200 + Math.floor(volume * 55);
     const glowColor = `rgba(${colorIntensity - 50}, ${colorIntensity - 20}, 255, ${0.3 * volume})`;
     const mainColor = `rgba(${colorIntensity}, ${colorIntensity}, 255, ${0.6 * volume + 0.2})`;
-
     ctx.strokeStyle = glowColor;
     ctx.lineWidth = waveformThickness * 3;
     createPath();
     ctx.stroke();
-
     ctx.strokeStyle = mainColor;
     ctx.lineWidth = waveformThickness;
     createPath();
