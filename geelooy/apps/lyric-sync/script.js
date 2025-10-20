@@ -166,11 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // --- THE CRITICAL MEMORY FIX IS HERE ---
         // 1. Create a list of all objects that can be transferred instead of copied.
-        const transferList = [offscreenCanvas];
-        audioBufferShim.channels.forEach(channel => {
-            // We add the underlying ArrayBuffer of each audio channel to the list.
-            transferList.push(channel.buffer);
-        });
+        
         
         // 2. Send the message with the complete transfer list.
         // This moves the data with zero extra memory cost, preventing crashes.
@@ -180,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cues,
             audioBufferShim,
             settings: collectSettings()
-        }, transferList); // Use the new, complete transfer list
+        }, [offscreenCanvas]); // Use the new, complete transfer list
 
         isWorkerReady = true;
     }
