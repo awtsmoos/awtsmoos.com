@@ -1,0 +1,88 @@
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyric Sync</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Lyric Sync</h1>
+            <p>Play audio with synchronized transcripts</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <div class="file-input-wrapper">
+                    <label for="audio-input"><i class="fas fa-music"></i> Choose Audio File</label>
+                    <input type="file" id="audio-input" accept="audio/*">
+                    <span id="audio-file-name">No file chosen</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <label for="vtt-file-input"><i class="fas fa-file-alt"></i> Choose VTT File</label>
+                    <input type="file" id="vtt-file-input" accept=".vtt,text/vtt">
+                    <span id="vtt-file-name">No file chosen</span>
+                </div>
+                <div class="textarea-wrapper">
+                    <label for="vtt-text-input">... or paste VTT content here</label>
+                    <textarea id="vtt-text-input" rows="5" placeholder="WEBVTT..."></textarea>
+                </div>
+            </div>
+
+            <div id="lyrics-display-wrapper">
+                <div id="lyrics-display">
+                    <p>Load your files to begin.</p>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <audio id="audio-player"></audio>
+                <div class="custom-controls">
+                    <button id="play-pause-btn" class="control-btn" aria-label="Play">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <span id="current-time-display">0:00</span>
+                        <input type="range" id="progress-bar" value="0" min="0" step="0.1">
+                        <span id="duration-display">0:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <details class="settings-panel">
+                <summary>
+                    <i class="fas fa-cog"></i> Customization Settings
+                </summary>
+                <div class="settings-content">
+                    <div class="setting">
+                        <label for="font-size-slider">Font Size</label>
+                        <input type="range" id="font-size-slider" min="12" max="100" value="28">
+                    </div>
+                    <div class="setting">
+                        <label for="font-color-picker">Font Color</label>
+                        <input type="color" id="font-color-picker" value="#FFFFFF">
+                    </div>
+                    <div class="setting">
+                        <label for="highlight-color-picker">Highlight Color</label>
+                        <input type="color" id="highlight-color-picker" value="#FFFF00">
+                    </div>
+                    <div class="setting">
+                        <label for="text-align-select">Text Align</label>
+                        <select id="text-align-select">
+                            <option value="center" selected>Center</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
