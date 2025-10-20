@@ -286,6 +286,8 @@ function getKingZone(kingPos) {
 
 // --- MASTER EVALUATION HUB ---
 // This function now coordinates all the new, smarter evaluation components.
+// --- MASTER EVALUATION HUB ---
+// This function now coordinates all the new, smarter evaluation components.
 function evaluate(state) {
     const { board } = state;
     const gamePhase = getGamePhase(board);
@@ -328,18 +330,17 @@ function evaluate(state) {
     whiteScore.add(evaluateStrategicBonuses(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
     blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
 
-    // 3. Threat Analysis
-   // whiteScore.add(evaluateThreats(state, 'w', pieceData));
-   // blackScore.add(evaluateThreats(state, 'b', pieceData));
+    // 3. Threat Analysis (NEW)
+    whiteScore.add(evaluateThreats(state, 'w', pieceData));
+    blackScore.add(evaluateThreats(state, 'b', pieceData));
 
     // 4. Endgame-Specific Factors (Passed Pawns, King Activity)
     whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
     blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
     
-    // 5. King Safety (Applied last as a penalty)
+    // 5. King Safety (Applied last as a penalty - NOW MUCH STRONGER)
     if (state.kingPos.w) whiteScore.subtract(evaluateKingSafety(state, state.kingPos.w, 'b', pieceData));
-if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos.b, 'w', pieceData));
-    
+    if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos.b, 'w', pieceData));
     
     // 6. Final Tapered Score
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
@@ -523,6 +524,10 @@ function evaluateEndgameFactors(state, color, pieceData) {
 //            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
 // ====================================================================================
 // This version is extremely fast as it avoids move generation entirely.
+// ====================================================================================
+//            NEW HIGH-PERFORMANCE THREAT ANALYSIS (Mk. VIII)
+// ====================================================================================
+// This version is extremely fast as it avoids move generation entirely.
 function evaluateThreats(state, color, pieceData) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
@@ -568,6 +573,12 @@ function evaluateThreats(state, color, pieceData) {
 // ====================================================================================
 // This version now returns a TaperedScore to apply penalties in the endgame,
 // preventing the king from making suicidal marches.
+
+// ====================================================================================
+//            King Safety with "Queen Danger" Sense (Mk. XIV - FINAL)
+// ====================================================================================
+// This version adds a massive penalty for enemy queen proximity, fixing both
+// unsound sacrifices and the failure to escape perpetual check.
 
 // ====================================================================================
 //            King Safety with "Queen Danger" Sense (Mk. XIV - FINAL)
@@ -628,14 +639,7 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
     danger.eg += Math.round(scaledDanger / 2);
 
     return danger;
-    
-      danger.mg += scaledDanger;
-    danger.eg += scaledDanger / 2;
-
-    return danger;
 }
-
-
 
 
 
