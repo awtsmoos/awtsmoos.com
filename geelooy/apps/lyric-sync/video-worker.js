@@ -57,8 +57,8 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, waveformData }
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, width, height);
 
- //   particleSystem.updateAndDraw(ctx, time);
-  //  drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
+    particleSystem.updateAndDraw(ctx, time);
+    drawAnimatedWaveform(ctx, waveformData, time, width, height, settings.waveformThickness, settings.waveformHeight);
     
     
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
@@ -95,7 +95,9 @@ function drawAnimatedWaveform(ctx, waveform, time, width, height, thickness, hei
     ctx.beginPath();
     ctx.moveTo(0, height);
 
-    for (let x = 0; x < width; x++) {
+    const step = 15; 
+
+    for (let x = 0; x < width + step; x += step) {
         const primaryWave = Math.sin((x / 50) + time * 15);
         
         // Use the heightMultiplier to scale the final wave height
@@ -125,6 +127,7 @@ function analyzeAudio(audioBufferShim) {
 }
 
 // --- PARTICLE SYSTEM ---
+// REPLACE the ParticleSystem class in your video-worker.js
 class ParticleSystem {
     constructor(particleSettings, resolution) {
         this.settings = particleSettings;
@@ -136,7 +139,7 @@ class ParticleSystem {
     createParticle(p = {}) {
         const baseSize = this.settings.baseSize;
         const variation = this.settings.variation;
-        const speedMultiplier = 2; // Increase speed
+        const speedMultiplier = 2;
 
         p.x = Math.random() * this.width;
         p.y = this.height + Math.random() * 50;
@@ -159,21 +162,27 @@ class ParticleSystem {
             ctx.font = `${p.size}px Heebo`;
             ctx.fillText(p.char, p.x, p.y);
         }
-        this.drawConnections(ctx, time);
+        this.drawConnections(ctx); // Pass context only
         ctx.globalAlpha = 1.0;
     }
 
-    drawConnections(ctx, time) {
-        // OPTIMIZATION: Only run this expensive logic ~2% of the time.
-        if (Math.random() > 0.02) return;
+    drawConnections(ctx) {
+        // --- PERFORMANCE FIX ---
+        // The old method was very expensive and ran randomly, causing performance spikes.
+        // This new method runs a smaller, fixed number of checks on every frame.
+        // This distributes the load evenly and results in smoother, more stable rendering.
+        const checksPerFrame = Math.min(15, Math.floor(this.particles.length / 10));
+        if (checksPerFrame < 1) return;
 
-        const connectCount = Math.floor(this.particles.length / 20); // Still only connect a few
-        ctx.strokeStyle = 'rgba(200, 225, 255, 0.3)'; // Slightly more visible
+        ctx.strokeStyle = 'rgba(200, 225, 255, 0.2)';
         ctx.lineWidth = 1;
         
-        for (let i = 0; i < connectCount; i++) {
+        for (let i = 0; i < checksPerFrame; i++) {
+            // Pick two random particles from the array
             const p1 = this.particles[Math.random() * this.particles.length | 0];
             const p2 = this.particles[Math.random() * this.particles.length | 0];
+            
+            // Check distance and draw line if they are close enough
             if (Math.hypot(p1.x - p2.x, p1.y - p2.y) < 250) {
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
@@ -181,10 +190,8 @@ class ParticleSystem {
                 ctx.stroke();
             }
         }
-      
     }
 }
-
 // --- TEXT WRAPPING HELPERS ---
 
 // (These functions are copied from the previous final answer)
