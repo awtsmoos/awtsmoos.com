@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         particleDensity: document.getElementById('particle-density'),
         particleSize: document.getElementById('particle-size'),
         particleVariation: document.getElementById('particle-variation'),
+        waveformHeight: document.getElementById('waveform-height'),
+        
         waveformThickness: document.getElementById('waveform-thickness'),
         particles: document.getElementById('custom-particles'),
         resWidth: document.getElementById('resolution-width'),
