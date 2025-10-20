@@ -28,7 +28,7 @@ function preAnalyzeAudio(audioBufferShim, totalFrames) {
 // --- MAIN ENTRY POINT ---
 self.onmessage = async ({ data: { cues, audioBufferShim, settings } }) => {
     try {
-        const frameRate = 30;
+        const frameRate = settings.fps ||  24;
         const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
         const totalFrames = Math.floor(totalDuration * frameRate);
         const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
@@ -107,13 +107,14 @@ function drawWaveform(ctx, time, width, height, settings, volume) {
 }
 
 // --- FINAL PARTICLE SYSTEM WITH ALL FEATURES ---
+// In video-worker.js, REPLACE the entire ParticleSystem class with this version.
+
 class ParticleSystem {
     constructor(settings, resolution) {
         this.settings = settings;
         this.width = resolution.width;
         this.height = resolution.height;
         this.sizeScalar = Math.max(1.0, this.height / 720);
-        // The array now holds both primary and sub-particles together.
         this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({}));
     }
 
@@ -127,11 +128,11 @@ class ParticleSystem {
             const speed = 2 + Math.random() * 4;
             p.vx = Math.cos(angle) * speed;
             p.vy = Math.sin(angle) * speed;
-            p.life = 60; // Live for ~2 seconds
+            p.life = 60;
         } else {
             p.vx = (Math.random() - 0.5) * 2;
             p.vy = -(Math.random() * 2.0 + 1.5);
-            p.life = Infinity; // Primary particles live forever
+            p.life = Infinity;
         }
 
         const baseSize = Math.max(5, this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation);
@@ -147,19 +148,16 @@ class ParticleSystem {
         const earthquakeAmount = (volume ** 2) * 60;
         const explosionChance = 0.002 + (volume * 0.02);
 
-        // Iterate backwards to safely remove dead sub-particles
         for (let i = this.particles.length - 1; i >= 0; i--) {
             const p = this.particles[i];
             if (p.life !== Infinity) p.life--;
 
             if (p.life <= 0) { this.particles.splice(i, 1); continue; }
 
-            // Explosion Trigger for primary particles
             if (p.life === Infinity && Math.random() < explosionChance) {
                 for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, { isSubParticle: true, x: p.x, y: p.y }));
-                // Reset the parent particle that just exploded to maintain density
                 this.createParticle(p);
-                continue; // Skip the rest of the logic for the parent this frame
+                continue;
             }
 
             p.x += p.vx;
@@ -179,32 +177,51 @@ class ParticleSystem {
             ctx.restore();
         }
 
+        // The lightning is drawn after all particles.
         this.drawLightning(ctx);
     }
 
+    // --- REWRITTEN AND VISIBLE LIGHTNING EFFECT ---
     drawLightning(ctx) {
-        if (Math.random() > 0.1) return; // Only run 10% of the time for performance
+        // Try to draw 3 bolts every single frame for a consistent effect.
+        const checks = 3;
+        for (let i = 0; i < checks; i++) {
+            const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
 
-        const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
-        const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+            // Ensure we have two different, valid particles that are reasonably close.
+            if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.35) {
+                
+                const createPath = () => {
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    // Create 3 intermediate jagged points for the bolt.
+                    for (let j = 1; j <= 3; j++) {
+                        ctx.lineTo(
+                            p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 25,
+                            p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 25
+                        );
+                    }
+                    ctx.lineTo(p2.x, p2.y);
+                };
 
-        if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.4) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 + Math.random() * 0.4})`;
-            ctx.lineWidth = Math.random() * 1.5;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            // Draw a jagged line with 3 intermediate points
-            for (let i = 1; i <= 3; i++) {
-                ctx.lineTo(
-                    p1.x + (p2.x - p1.x) * (i / 4) + (Math.random() - 0.5) * 20,
-                    p1.y + (p2.y - p1.y) * (i / 4) + (Math.random() - 0.5) * 20
-                );
+                // 1. Draw the "glow" layer: thick and transparent.
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 3;
+                createPath();
+                ctx.stroke();
+
+                // 2. Draw the "core" layer: thin and bright.
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.lineWidth = 1;
+                createPath();
+                ctx.stroke();
             }
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
         }
     }
 }
+
+
 
 // --- TEXT HELPERS ---
 function getWrappedLines(ctx, text, maxWidth) {
