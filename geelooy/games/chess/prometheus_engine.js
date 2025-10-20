@@ -662,7 +662,7 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase)
 
 // You will need this NEW HELPER function for evaluateKingSafety to work.
 // It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
-function isSquareAttacked(board, r, c, attackerColor) {
+function isSquareAttackedByPiece(board, r, c, attackerColor) {
     const isWhiteAttacker = attackerColor === 'w';
 
     // 1. PAWNS
