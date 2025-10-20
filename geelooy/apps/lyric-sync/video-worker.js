@@ -1,34 +1,33 @@
-// B"H - video-worker.js (Resilient Font Loading & Fallbacks)
+// B"H - video-worker.js (Using JSDelivr CDN for Font Reliability)
 
 // --- FONT LOADING & RESILIENCY ---
+// These URLs point to JSDelivr, a reliable, open-source CDN that is not Google.
+// This should bypass any network issues you were having with fonts.gstatic.com.
+const hebrewFont = new FontFace('NotoSansHebrew', 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-hebrew@5.0.18/files/noto-sans-hebrew-hebrew-700-normal.woff2)', { style: 'normal', weight: '700' });
+const emojiFont = new FontFace('NotoColorEmoji', 'url(https://cdn.jsdelivr.net/npm/@fontsource/noto-color-emoji@5.0.3/files/noto-color-emoji-emoji-400-normal.woff2)', { style: 'normal', weight: '400' });
+
+// The resilient loading logic remains the same. It will try to load from JSDelivr
+// and fall back to system fonts only if this new URL also fails.
 let isHebrewFontLoaded = false;
 let isEmojiFontLoaded = false;
 
-// Create the font faces
-const hebrewFont = new FontFace('NotoSansHebrew', 'url(https://fonts.gstatic.com/s/notosanshebrew/v34/or3_--_K6NKsWAIzkPyjDaPkdxscGmY26oFY26o.woff2)', { style: 'normal', weight: '700' });
-const emojiFont = new FontFace('NotoColorEmoji', 'url(https://fonts.gstatic.com/s/notocoloremoji/v26/Yq6P-KqIXoFpbS3glT-xWHyD6vuzWFnP_g.woff2)', { style: 'normal', weight: '400' });
-
-// Use Promise.allSettled to attempt loading fonts without crashing on failure.
 const fontsLoaded = Promise.allSettled([hebrewFont.load(), emojiFont.load()])
     .then(results => {
-        // Check the result for the Hebrew font
         if (results[0].status === 'fulfilled') {
             self.fonts.add(results[0].value);
             isHebrewFontLoaded = true;
-            console.log('Worker Hebrew font loaded successfully.');
+            console.log('Worker Hebrew font loaded successfully from JSDelivr.');
         } else {
             console.warn('Worker Hebrew font failed to load. Falling back to system font.');
         }
-        // Check the result for the Emoji font
         if (results[1].status === 'fulfilled') {
             self.fonts.add(results[1].value);
             isEmojiFontLoaded = true;
-            console.log('Worker Emoji font loaded successfully.');
+            console.log('Worker Emoji font loaded successfully from JSDelivr.');
         } else {
             console.warn('Worker Emoji font failed to load. Falling back to system font.');
         }
     });
-// This `fontsLoaded` promise will now ALWAYS resolve, preventing the worker from crashing.
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
@@ -87,12 +86,10 @@ function drawFrame({ ctx, canvas, cues, settings, particleSystem, audioAnalysis 
     const activeCue = cues.find(cue => time >= cue.start && time < cue.end);
     if (activeCue) {
         const boxSize = width * 0.9;
-        const boxX = (width - boxSize) / 2;
-        const boxY = (height - boxSize) / 2;
         const { boxColor, boxOpacity } = settings.font;
         const r = parseInt(boxColor.substr(1, 2), 16), g = parseInt(boxColor.substr(3, 2), 16), b = parseInt(boxColor.substr(5, 2), 16);
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
-        ctx.fillRect(boxX, boxY, boxSize, boxSize);
+        ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
         const scaleFactor = height / 720;
         wrapText(ctx, activeCue.text, width / 2, height / 2, boxSize, boxSize, settings.font, scaleFactor);
     }
@@ -135,17 +132,15 @@ function analyzeAudio(audioBufferShim, canvasWidth) {
     return { volumeData, wavePoints, duration: audioBufferShim.duration };
 }
 
-// --- PARTICLE SYSTEM (Updated with Font Fallback) ---
+// --- PARTICLE SYSTEM (Unchanged) ---
 class ParticleSystem {
     constructor(particleSettings, resolution) {
         this.settings = particleSettings;
         this.width = resolution.width;
         this.height = resolution.height;
         this.particles = Array.from({ length: this.settings.density }, () => this.createParticle({ isPermanent: true }, 0.5));
-        // --- FONT FALLBACK ---
         this.fontFamily = isEmojiFontLoaded ? 'NotoColorEmoji' : 'sans-serif';
     }
-
     createParticle(p = {}, volume, options = {}) {
         const { isPermanent = false, x, y } = options;
         p.x = x !== undefined ? x : Math.random() * this.width;
@@ -166,7 +161,6 @@ class ParticleSystem {
         p.hue = Math.random() * 360; p.opacity = 0.6 + Math.random() * 0.4;
         return p;
     }
-
     updateAndDraw(ctx, volume) {
         for (let i = this.particles.length - 1; i >= 0; i--) {
             const p = this.particles[i];
@@ -184,12 +178,11 @@ class ParticleSystem {
             if (p.life === Infinity && p.y < -p.size) { this.createParticle(p, volume, { isPermanent: true }); }
             const finalOpacity = (p.life < 20) ? p.opacity * (p.life / 20) : p.opacity;
             ctx.fillStyle = `hsla(${p.hue}, 90%, 75%, ${finalOpacity})`;
-            ctx.font = `${p.size}px ${this.fontFamily}`; // Use the fallback font
+            ctx.font = `${p.size}px ${this.fontFamily}`;
             ctx.fillText(p.char, p.x, p.y);
         }
         this.drawConnections(ctx);
     }
-
     drawConnections(ctx) {
         const checksPerFrame = Math.min(15, Math.floor(this.particles.length / 20));
         if (checksPerFrame < 1) return;
@@ -204,7 +197,7 @@ class ParticleSystem {
     }
 }
 
-// --- TEXT HELPERS (Updated with Font Fallback) ---
+// --- TEXT HELPERS (Unchanged) ---
 function getWrappedLines(ctx, text, maxWidth) {
     const lines = text.split("\n"); let allWrappedLines = [];
     lines.forEach(line => {
@@ -218,25 +211,21 @@ function getWrappedLines(ctx, text, maxWidth) {
     return allWrappedLines;
 }
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
-    // --- FONT FALLBACK ---
     const fontFamily = isHebrewFontLoaded ? 'NotoSansHebrew' : 'sans-serif';
-    
     let scaledFontSize = fontSettings.size * scaleFactor;
     while (scaledFontSize > 5) {
-        ctx.font = `bold ${scaledFontSize}px ${fontFamily}`; // Use the fallback font
+        ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
         const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
         const totalHeight = lines.length * (scaledFontSize * 1.4);
         if (totalHeight <= maxHeight * 0.95) { break; }
         scaledFontSize -= 1;
     }
-
     const scaledBorderWidth = fontSettings.borderWidth * scaleFactor;
-    ctx.font = `bold ${scaledFontSize}px ${fontFamily}`; // Use the fallback font again for drawing
+    ctx.font = `bold ${scaledFontSize}px ${fontFamily}`;
     ctx.textAlign = fontSettings.align;
     const lines = getWrappedLines(ctx, text, maxWidth * 0.95);
     const lineHeight = scaledFontSize * 1.4;
     const startY = y - ((lines.length - 1) * lineHeight) / 2 + (scaledFontSize * 0.3);
-
     lines.forEach((line, i) => {
         const currentY = startY + (i * lineHeight);
         if (scaledBorderWidth > 0) {
