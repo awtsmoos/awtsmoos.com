@@ -9,9 +9,8 @@ import { Workspaces } from './workspaces.js';
 import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
+import { Editor } from './editor.js'; // Import Editor to get current content
 
-// Helper function to get a consistent unique ID for any workspace item.
-// This MUST match the helper in workspaces.js
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
 /**
@@ -71,6 +70,16 @@ export const Menus = {
             { isSeparator: true },
             { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
             { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab },
+        ];
+
+        // --- B"H: NEW FEATURE LOGIC ---
+        // Check if the active tab is an HTML file. If so, add the "View" button.
+        if (activeTab && (activeTab.item.name.endsWith('.html') || activeTab.item.name.endsWith('.htm'))) {
+            menuItems.push({ label: 'View in New Tab', action: 'view-html', icon: 'eye' });
+        }
+        // --- END NEW FEATURE ---
+
+        menuItems.push(
             { isSeparator: true },
             { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
             { label: 'Select All', action: 'select-all', icon: 'select-all', disabled: !activeTab },
@@ -79,7 +88,7 @@ export const Menus = {
             { isSeparator: true },
             { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
             { label: 'Settings', action: 'settings', icon: 'settings' }
-        ];
+        );
 
         DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
             `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
@@ -118,6 +127,24 @@ export const Menus = {
                 case 'open-file': App.openLocalFile(); break;
                 case 'save': Tabs.saveActive(); break;
                 case 'download': Tabs.downloadActive(); break;
+
+                // --- B"H: NEW ACTION HANDLER ---
+                case 'view-html': {
+                    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+                    if (activeTab) {
+                        // Get the current, potentially unsaved content from the editor
+                        const content = Editor.getContent();
+                        // Create a Blob, which is a file-like object in memory
+                        const blob = new Blob([content], { type: 'text/html' });
+                        // Create a temporary URL for this blob
+                        const url = URL.createObjectURL(blob);
+                        // Open that URL in a new browser tab
+                        window.open(url, '_blank');
+                    }
+                    break;
+                }
+                // --- END NEW ACTION ---
+
                 case 'find-replace': FindReplace.show(); break;
                 case 'settings': App.showSettings(); break;
                 case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
@@ -148,36 +175,23 @@ export const Menus = {
                     const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
                     if (name) {
                         UI.showLoading(`Creating ${kind}...`);
-                        
-                        // --- B"H: STATE MANAGEMENT FIX ---
                         const parentUniquePath = getItemUniquePath(item);
-                        // As requested: ONLY expand the parent if we are creating a new FOLDER.
                         if (kind === 'folder') {
                             State.expandedFolders.add(parentUniquePath);
                         }
-                        // --- END FIX ---
-
                         await FileSystemProvider.create(item, name, kind);
                         UI.showToast(`${kind} '${name}' created.`, 'success');
                         
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
-                        if (!workspace) {
-                            throw new Error("Could not find the parent workspace.");
-                        }
+                        if (!workspace) throw new Error("Could not find parent workspace.");
                         
-                        // This refresh will now respect the state we just set.
                         await Workspaces.refreshNode(item);
                         
                         if (kind === 'file') {
                             const newPath = item.path === '/' ? name : `${item.path}/${name}`;
                             const newFileItem = {
-                                ...workspace,
-                                name: name,
-                                path: newPath,
-                                kind: 'file',
-                                workspaceId: workspace.id,
-                                content: ''
+                                ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: ''
                             };
                             Tabs.create(newFileItem, true);
                         }
