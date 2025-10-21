@@ -3,9 +3,11 @@
 
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
+// These imports are correct and don't need to change.
 import workerInterceptorScript from "./worker-intercept.js";
 import importScriptsPolyfill from "./importScriptsHack.js";
 
+// Helper function remains unchanged.
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
     const baseUrl = new URL(basePath, 'http://dummy.com/');
@@ -13,16 +15,15 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedUrl.pathname.substring(1);
 }
 
-// --- B"H: THE FLAWLESS, HEAVILY LOGGED MESSAGE HANDLER ---
-// This runs on the main editor window and ONLY uses the FileSystemProvider.
 async function handleWorkerRequest(event, baseItem) {
-    const { type, path: relativePath, id, sab, basePath } = event.data;
+    // We destructure the new 'signalSAB' which is our notification channel.
+    const { type, path: relativePath, id, signalSAB, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // Log every single request received from the iframe.
     console.log(`%c[EDITOR] Received request:`, 'color: #FFD700;', event.data);
 
+    // This part for fetching the initial worker script is fine and remains unchanged.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
@@ -35,7 +36,6 @@ async function handleWorkerRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
-            // B"H: THE ARCHITECTURAL FIX - We now combine the polyfill AND the async wrapper.
             const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
             const blob = new Blob([finalContent], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
@@ -44,9 +44,11 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
+    // --- B"H: REVISED LOGIC FOR SHARING SCRIPT CONTENT VIA SAB ---
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
-        const int32 = new Int32Array(sab);
+        // The signalSAB is what we use to notify. It's a small, 4-byte buffer.
+        const int32 = new Int32Array(signalSAB);
         try {
             const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
              if (workspace.type === 'github') {
@@ -57,19 +59,52 @@ async function handleWorkerRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
-            console. log("about to officially post some stuff back",scriptContent);
+            console.log(`[EDITOR] Fetched content for ${relativePath}, encoding to SAB...`);
 
-            event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: scriptContent }, '*');
+            // 1. Encode the string to UTF-8 bytes.
+            const encoder = new TextEncoder();
+            const encodedString = encoder.encode(scriptContent);
+
+            // 2. Create a new SharedArrayBuffer to hold the content.
+            const contentSAB = new SharedArrayBuffer(encodedString.length);
+            const sabView = new Uint8Array(contentSAB);
+
+            // 3. Copy the encoded string data into the SAB.
+            sabView.set(encodedString);
+            
+            // 4. Post the content SAB back. The worker will be waiting for this.
+            event.source.postMessage({ 
+                type: 'import-scripts-response', 
+                path: relativePath, 
+                contentSAB: contentSAB // Send the buffer with the data
+            }, '*');
+
         } catch (e) {
-            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
-            event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: null, error: e.message }, '*');
+            console.error(`[EDITOR] Failed to fetch script for importScripts '${relativePath}':`, e);
+            // In case of error, send an empty response so the worker doesn't wait forever.
+            event.source.postMessage({ 
+                type: 'import-scripts-response', 
+                path: relativePath, 
+                contentSAB: null, 
+                error: e.message 
+            }, '*');
         } finally {
-            console.log(`%c[EDITOR] Notifying worker on buffer to wake up for path: ${relativePath}.`, 'color: #ADD8E6;');
+            // 5. IMPORTANT: Now notify the worker on the original signal buffer.
+            // This tells the waiting worker that the contentSAB (or an error) has been sent.
+            console.log(`%c[EDITOR] Notifying worker on signal buffer for path: ${relativePath}.`, 'color: #ADD8E6;');
             Atomics.store(int32, 0, 1);
-            Atomics.notify(int32, 0);
+            Atomics.notify(int32, 0, 1); // Notify one waiting thread.
         }
     }
 }
+
+
+
+
+
+
+
+
 
 export function attachWorkerRequestHandler(baseItem) {
     if (window.currentWorkerRequestHandler) {
