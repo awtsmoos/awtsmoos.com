@@ -4,6 +4,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameScreen = document.getElementById('game-screen');
     let gameWorker;
 
+    // **FIX**: Moved the message handler to its own function for clarity.
+    function handleWorkerMessages({ data }) {
+        if (data.type === 'ui_update') {
+            const { id, score, level, lines } = data.payload;
+            document.getElementById(`p${id}-score`).innerText = score;
+            document.getElementById(`p${id}-level`).innerText = level;
+            document.getElementById(`p${id}-lines`).innerText = lines;
+        } else if (data.type === 'game_over') {
+            const overlay = document.createElement('div');
+            overlay.className = 'game-over-overlay';
+            overlay.innerText = 'Game Over';
+            const canvasContainer = document.getElementById(`p${data.payload.id}-canvas`).parentElement;
+            // Prevent adding multiple overlays
+            if (!canvasContainer.querySelector('.game-over-overlay')) {
+                 canvasContainer.appendChild(overlay);
+            }
+        }
+    }
+
     function startGame(mode) {
         mainMenu.classList.add('hidden');
         gameScreen.classList.remove('hidden');
@@ -13,16 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         gameWorker = new Worker('worker.js');
 
+        // **FIX**: Attach the listener to the NEW worker instance every time a game starts.
+        gameWorker.addEventListener('message', handleWorkerMessages);
+
         const p1c = document.getElementById('p1-container');
         const p2c = document.getElementById('p2-container');
         p1c.classList.remove('hidden');
         p2c.classList.remove('hidden');
         document.getElementById('p1-descend').classList.remove('hidden');
 
-        // Clear any previous overlays
         document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
 
-        // Setup Canvases
         const bgCanvas = document.getElementById('background-canvas');
         const p1Canvas = document.getElementById('p1-canvas');
         const p2Canvas = document.getElementById('p2-canvas');
@@ -55,13 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupEventListeners(canvas) {
-        // Keyboard Controls
+        document.removeEventListener('keydown', handleKey); // Remove old listeners
+        document.removeEventListener('keyup', handleKey);
         document.addEventListener('keydown', handleKey);
         document.addEventListener('keyup', handleKey);
 
-        // Touch Controls
         let startX = 0, startY = 0, startTime = 0;
-        const BLOCK_SIZE = canvas.clientWidth / 10; // Approximate for gesture sensitivity
+        const BLOCK_SIZE = canvas.clientWidth / 10;
 
         canvas.addEventListener('touchstart', e => {
             e.preventDefault();
@@ -89,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { passive: false });
 
-        // Descend Button
         const button = document.getElementById('p1-descend');
         const startDrop = (e) => { e.preventDefault(); gameWorker.postMessage({ type: 'input', payload: { action: 'soft_drop_start' } }); };
         const endDrop = (e) => { e.preventDefault(); gameWorker.postMessage({ type: 'input', payload: { action: 'soft_drop_end' } }); };
@@ -108,27 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         if (keyMap[e.code]) {
             e.preventDefault();
-            if(e.type === 'keydown' && e.repeat) return; // Prevent spamming
+            if (e.type === 'keydown' && e.repeat) return;
             gameWorker.postMessage({ type: 'input', payload: keyMap[e.code] });
         }
     }
 
-    // Listen for UI updates from worker
-    gameWorker?.addEventListener('message', ({ data }) => {
-        if (data.type === 'ui_update') {
-            const { id, score, level, lines } = data.payload;
-            document.getElementById(`p${id}-score`).innerText = score;
-            document.getElementById(`p${id}-level`).innerText = level;
-            document.getElementById(`p${id}-lines`).innerText = lines;
-        } else if (data.type === 'game_over') {
-             const overlay = document.createElement('div');
-             overlay.className = 'game-over-overlay';
-             overlay.innerText = 'Game Over';
-             document.getElementById(`p${data.payload.id}-canvas`).parentElement.appendChild(overlay);
-        }
-    });
-
-    // Menu Buttons
     document.getElementById('play-single').addEventListener('click', () => startGame('single'));
     document.getElementById('play-pvai').addEventListener('click', () => startGame('pvai'));
     document.getElementById('play-aivai').addEventListener('click', () => startGame('aivai'));
