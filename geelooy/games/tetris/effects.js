@@ -9,7 +9,6 @@ const HEBREW_CHARS = [
 const PARTICLE_GRAVITY = 0.35; // A satisfying, weighty gravity
 
 // --- Flexible Particle Class ---
-// Can be a character or a pixel. Designed for maximum speed.
 class Particle {
     constructor(config) {
         this.x = config.x; this.y = config.y; this.type = config.type;
@@ -33,7 +32,6 @@ class Particle {
 }
 
 // --- LightningBolt Class ---
-// A raw, solid line. No fading.
 class LightningBolt {
     constructor(x1, y1, x2, y2, width) {
         this.x1 = x1; this.y1 = y1; this.x2 = x2; this.y2 = y2;
@@ -46,7 +44,7 @@ class LightningBolt {
     }
 }
 
-// --- EffectsEngine ---
+// --- EffectsEngine Class ---
 class EffectsEngine {
     constructor(ctx, dpr) {
         this.ctx = ctx; this.dpr = dpr; this.effects = [];
@@ -54,16 +52,13 @@ class EffectsEngine {
     update() { for (let i = this.effects.length - 1; i >= 0; i--) { this.effects[i].update(); if (this.effects[i].life <= 0) { this.effects.splice(i, 1); } } }
     draw() { this.effects.forEach(effect => effect.draw(this.ctx, this.dpr)); }
 
-    /**
-     * GUARANTEED IMPACT: Triggers on piece lock. Unmissable.
-     */
     triggerImpact(piece, blockSize, viewportTopY) {
         piece.matrix.forEach((row, y) => {
             row.forEach((val, x) => {
                 if (val !== 0) {
                     const px = ((piece.x + x + 0.5) * blockSize) * this.dpr;
                     const py = ((piece.y + y - viewportTopY + 0.9) * blockSize) * this.dpr;
-                    for (let i = 0; i < 12; i++) { // A strong burst of 12 particles
+                    for (let i = 0; i < 12; i++) {
                         this.effects.push(new Particle({
                             type: 'pixel', x: px, y: py, color: COLORS[piece.typeId],
                             vx: (Math.random() - 0.5) * 11, vy: (Math.random() - 0.5) * 11,
@@ -75,19 +70,16 @@ class EffectsEngine {
         });
     }
 
-    /**
-     * NEW WALL SLIDE EFFECT: Triggers on failed horizontal movement.
-     */
     triggerWallSlide(piece, direction, blockSize, viewportTopY) {
-        const side = direction > 0 ? piece.matrix[0].length -1 : 0; // Right or left edge
+        const side = direction > 0 ? piece.matrix[0].length - 1 : 0;
         piece.matrix.forEach((row, y) => {
             if (row[side] !== 0) {
                 const px = ((piece.x + side + (direction > 0 ? 1 : 0)) * blockSize) * this.dpr;
                 const py = ((piece.y + y - viewportTopY + 0.5) * blockSize) * this.dpr;
-                for (let i = 0; i < 3; i++) { // A small jet of 3 sparks
+                for (let i = 0; i < 3; i++) {
                     this.effects.push(new Particle({
                         type: 'pixel', x: px, y: py, color: '#FFFFFF',
-                        vx: -direction * (Math.random() * 4 + 2), // Shoots away from the wall
+                        vx: -direction * (Math.random() * 4 + 2),
                         vy: (Math.random() - 0.5) * 4,
                         life: Math.random() * 15 + 5
                     }));
@@ -96,13 +88,9 @@ class EffectsEngine {
         });
     }
 
-    /**
-     * INSANE LINE CLEAR: A massive, satisfying, and performant explosion.
-     */
     triggerLineClear(clearedLines, blockSize, viewportTopY, canvasWidth) {
         clearedLines.forEach(y => {
             const lineY = ((y - viewportTopY + 0.5) * blockSize) * this.dpr;
-            // 1. Massive Hebrew Letter & Pixel Explosion
             for (let i = 0; i < 150; i++) {
                 const isChar = Math.random() > 0.6;
                 this.effects.push(new Particle({
@@ -115,12 +103,10 @@ class EffectsEngine {
                     fontSize: Math.random() * 16 + 10
                 }));
             }
-            // 2. Powerful Lightning Storm
-            this.createProceduralBolt(lineY, canvasWidth * this.dpr, 50 * this.dpr, 6);
+            this.createProceduralBolt(lineY, canvasWidth, 50 * this.dpr, 6);
         });
     }
 
-    // Generator for lightning
     createProceduralBolt(y, width, maxOffset, iterations) {
         let segments = [{ x: 0, y: y }, { x: width, y: y }];
         for (let i = 0; i < iterations; i++) {
