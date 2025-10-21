@@ -43,7 +43,7 @@ class GameInstance {
         this.effectsEngine = new EffectsEngine(this.ctx, this.dpr);
         
         if (isAI) {
-            this.ai = new AIEgine(this);
+            this.ai = new AIEngine(this);
         }
     }
 
