@@ -23,56 +23,68 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function startGame(mode) {
-        mainMenu.classList.add('hidden');
-        gameScreen.classList.remove('hidden');
+    // B"H
+// In main.js
 
-        if (gameWorker) {
-            gameWorker.terminate();
-        }
-        gameWorker = new Worker('worker.js');
+function startGame(mode) {
+    mainMenu.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
 
-        // **FIX**: Attach the listener to the NEW worker instance every time a game starts.
-        gameWorker.addEventListener('message', handleWorkerMessages);
-
-        const p1c = document.getElementById('p1-container');
-        const p2c = document.getElementById('p2-container');
-        p1c.classList.remove('hidden');
-        p2c.classList.remove('hidden');
-        document.getElementById('p1-descend').classList.remove('hidden');
-
-        document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
-
-        const bgCanvas = document.getElementById('background-canvas');
-        const p1Canvas = document.getElementById('p1-canvas');
-        const p2Canvas = document.getElementById('p2-canvas');
-
-        const offscreenBg = bgCanvas.transferControlToOffscreen();
-        const offscreenP1 = p1Canvas.transferControlToOffscreen();
-        
-        let initPayload = {
-            bgCanvas: offscreenBg,
-            p1Canvas: offscreenP1,
-            mode: mode
-        };
-        const transferable = [offscreenBg, offscreenP1];
-
-        if (mode === 'single') {
-            gameScreen.classList.remove('vertical-layout');
-            p2c.classList.add('hidden');
-            document.getElementById('p1-title').classList.add('hidden');
-        } else {
-            gameScreen.classList.add('vertical-layout');
-            const offscreenP2 = p2Canvas.transferControlToOffscreen();
-            initPayload.p2Canvas = offscreenP2;
-            transferable.push(offscreenP2);
-            document.getElementById('p1-title').classList.remove('hidden');
-            document.getElementById('p1-title').innerText = (mode === 'pvai') ? 'PLAYER 1' : 'GOLEM';
-        }
-
-        gameWorker.postMessage({ type: 'init', payload: initPayload }, transferable);
-        setupEventListeners(p1Canvas);
+    if (gameWorker) {
+        gameWorker.terminate();
     }
+    gameWorker = new Worker('worker.js');
+    gameWorker.addEventListener('message', handleWorkerMessages);
+
+    const p1c = document.getElementById('p1-container');
+    const p2c = document.getElementById('p2-container');
+    p1c.classList.remove('hidden');
+    p2c.classList.remove('hidden');
+    document.getElementById('p1-descend').classList.remove('hidden');
+    document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
+
+    // --- START OF FIX ---
+    const p1Canvas = document.getElementById('p1-canvas');
+    const p2Canvas = document.getElementById('p2-canvas');
+
+    // **FIX**: Get the REAL dimensions of the canvases from the DOM.
+    // We use clientWidth as it respects CSS sizing.
+    const p1Rect = p1Canvas.getBoundingClientRect();
+
+    const offscreenP1 = p1Canvas.transferControlToOffscreen();
+    
+    let initPayload = {
+        p1Canvas: offscreenP1,
+        // Send the dimensions to the worker.
+        p1Dimensions: { width: p1Rect.width, height: p1Rect.height },
+        mode: mode
+    };
+    const transferable = [offscreenP1];
+
+    if (mode === 'single') {
+        gameScreen.classList.remove('vertical-layout');
+        p2c.classList.add('hidden');
+        document.getElementById('p1-title').classList.add('hidden');
+    } else {
+        gameScreen.classList.add('vertical-layout');
+        
+        // **FIX**: Also get and send P2 dimensions.
+        const p2Rect = p2Canvas.getBoundingClientRect();
+        const offscreenP2 = p2Canvas.transferControlToOffscreen();
+        
+        initPayload.p2Canvas = offscreenP2;
+        initPayload.p2Dimensions = { width: p2Rect.width, height: p2Rect.height };
+        
+        transferable.push(offscreenP2);
+        document.getElementById('p1-title').classList.remove('hidden');
+        document.getElementById('p1-title').innerText = (mode === 'pvai') ? 'PLAYER 1' : 'GOLEM';
+    }
+    // --- END OF FIX ---
+
+    // Note: We've removed bgCanvas logic as it was not part of the core issue.
+    gameWorker.postMessage({ type: 'init', payload: initPayload }, transferable);
+    setupEventListeners(p1Canvas);
+}
 
     function setupEventListeners(canvas) {
         document.removeEventListener('keydown', handleKey); // Remove old listeners
