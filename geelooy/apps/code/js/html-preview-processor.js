@@ -4,35 +4,20 @@
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 
-// --- B"H: THE FLAWLESS, ROBUST PATH RESOLVER ---
-// This new version correctly handles all cases, including files in the root directory.
 function resolveRelativePath(basePath, relativePath) {
-    // We use the browser's own powerful URL parser to handle path logic.
-    // We construct a dummy base URL and append the basePath.
+    if (!basePath) return relativePath;
     const baseUrl = new URL(basePath, 'http://dummy.com/');
-    // Then we resolve the relativePath against that base.
     const resolvedUrl = new URL(relativePath, baseUrl);
-    // The pathname will be like '/geelooy/games/tetris/constants.js'. We remove the leading slash.
     return resolvedUrl.pathname.substring(1);
 }
 
-// --- The Message Handler (Lives on the main editor window) ---
-// This single, powerful handler processes all requests from the iframe.
 async function handleWorkerRequest(event, baseItem) {
     const { type, path: relativePath, id, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // A. The iframe's main script wants to create a new Worker.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-        
-        console.log(`%cProfound Editor: fetch-worker-script`, 'color: cyan', {
-            base: baseItem.path,
-            relative: relativePath,
-            resolved: resolvedPath // LOGGING, AS REQUESTED
-        });
-
         try {
             const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
             if (workspace.type === 'github') {
@@ -51,33 +36,21 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
-    // B. A worker, already running, wants to import another script via importScripts.
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
-        
-        console.log(`%cProfound Editor: import-scripts-request`, 'color: orange', {
-            base: basePath,
-            relative: relativePath,
-            resolved: resolvedPath // LOGGING, AS REQUESTED
-        });
-
         try {
             const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
              if (workspace.type === 'github') {
                 const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
                 assetItem.sha = fileMeta.sha;
-                console.log("got sha",assetItem.sha)
             }
-            
             let scriptContent = await FileSystemProvider.read(assetItem);
-            console.log("got raw content",scriptContent)
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-            console.log("processed",scriptContent)
 
             event.source.postMessage({ type: 'import-scripts-response', id, content: scriptContent }, '*');
         } catch (e) {
-            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e, e.stack);
+            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
             event.source.postMessage({ type: 'import-scripts-response', id, error: e.message }, '*');
         }
     }
@@ -173,12 +146,14 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL WITH LOGGING ---
+// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL USING DATA URLS ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const pendingRequests = new Map();
+        // Save a reference to the original, native function.
+        const OriginalImportScripts = self.importScripts;
 
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
@@ -206,27 +181,30 @@ const importScriptsPolyfill = (workerPath) => `
                 const dummyUrl = new URL(relativePath, self.location.origin).href;
                 xhr.open('GET', dummyUrl, false);
 
-                // THIS IS THE FIX: We override send() but do NOT call the original.
-                // This prevents the real network request.
+                const originalSend = xhr.send;
                 xhr.send = () => {
                     pendingRequests.set(requestId, xhr);
                     self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
                 };
 
-                // This now calls OUR overridden send(), which uses postMessage. The worker blocks here.
-                xhr.send(null);
+                originalSend.call(xhr, null); // Worker blocks here.
 
                 if (xhr.status === 200) {
-                    // LOGGING, AS REQUESTED
-                    console.log('%cProfound Editor: Executing content for ' + relativePath, 'color: green');
-                    console.log('--- SCRIPT CONTENT START ---\\n' + xhr.responseText + '\\n--- SCRIPT CONTENT END ---');
-                    
+                    // --- THE FIX IS HERE ---
+                    // Instead of the fragile self.eval() or Blob URLs, we create a Data URL.
+                    // This is the most robust way to pass script content to the native importScripts.
                     try {
-                        self.eval(xhr.responseText);
+                        // btoa() converts the script text to a Base64 string.
+                        const base64Content = btoa(xhr.responseText);
+                        const dataUrl = 'data:application/javascript;base64,' + base64Content;
+                        
+                        // Let the browser's own powerful engine handle the execution via the Data URL.
+                        OriginalImportScripts(dataUrl);
                     } catch (e) {
                         console.error('Profound Editor: Error executing imported script:', relativePath, e);
                         throw e;
                     }
+                    // --- END OF FIX ---
                 } else {
                     throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
                 }
