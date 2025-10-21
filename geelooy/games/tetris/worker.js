@@ -46,35 +46,50 @@ function gameLoop(timestamp) {
 self.onmessage = ({ data }) => {
     try {
         switch (data.type) {
-            case 'init':
-                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            // In worker.js, replace the 'init' case inside self.onmessage
 
-                const { p1Canvas, p1Dimensions, p1Dpr, p2Canvas, p2Dimensions, p2Dpr, mode } = data.payload;
+case 'init':
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-                gameInstances = [];
+    const { p1Canvas, p1Dimensions, p1Dpr, p2Canvas, p2Dimensions, p2Dpr, mode } = data.payload;
 
-                if (p1Canvas && p1Dimensions) {
-                    // Set the REAL canvas resolution using the pixel density
-                    p1Canvas.width = p1Dimensions.width * p1Dpr;
-                    p1Canvas.height = p1Dimensions.height * p1Dpr;
+    gameInstances = []; 
+    
+    if (p1Canvas && p1Dimensions) {
+        p1Canvas.width = p1Dimensions.width * p1Dpr;
+        p1Canvas.height = p1Dimensions.height * p1Dpr;
+        
+        const isP1AI = (mode === 'aivai');
+        const game1 = new GameInstance(1, isP1AI, p1Canvas, p1Dimensions, p1Dpr);
+        
+        // --- CHANGE: Assign AI difficulty ---
+        if (isP1AI) {
+            game1.ai = new AIEngine(game1, 'unbeatable');
+        }
+        gameInstances.push(game1);
+    }
 
-                    const isP1AI = (mode === 'aivai');
-                    // Pass the original CSS dimensions and the density to the game instance
-                    gameInstances.push(new GameInstance(1, isP1AI, p1Canvas, p1Dimensions, p1Dpr));
-                }
+    if (mode !== 'single' && p2Canvas && p2Dimensions) {
+        p2Canvas.width = p2Dimensions.width * p2Dpr;
+        p2Canvas.height = p2Dimensions.height * p2Dpr;
+        
+        const game2 = new GameInstance(2, true, p2Canvas, p2Dimensions, p2Dpr);
+        
+        // --- CHANGE: Assign AI difficulty based on opponent ---
+        // If mode is 'aivai', P1 is an AI, so P2 should be unbeatable.
+        // Otherwise, P1 is a player, so P2 should be adaptive.
+        const difficulty = (mode === 'aivai') ? 'unbeatable' : 'adaptive';
+        game2.ai = new AIEngine(game2, difficulty);
+        
+        gameInstances.push(game2);
+    }
 
-                if (mode !== 'single' && p2Canvas && p2Dimensions) {
-                    p2Canvas.width = p2Dimensions.width * p2Dpr;
-                    p2Canvas.height = p2Dimensions.height * p2Dpr;
-                    gameInstances.push(new GameInstance(2, true, p2Canvas, p2Dimensions, p2Dpr));
-                }
+    gameInstances.forEach(inst => inst.init());
 
-                gameInstances.forEach(inst => inst.init());
-
-                if (gameInstances.length > 0) {
-                    animationFrameId = requestAnimationFrame(gameLoop);
-                }
-                break;
+    if (gameInstances.length > 0) {
+        animationFrameId = requestAnimationFrame(gameLoop);
+    }
+    break;
 
             case 'input':
                 const player1 = gameInstances.find(i => i.id === 1 && !i.isAI);
