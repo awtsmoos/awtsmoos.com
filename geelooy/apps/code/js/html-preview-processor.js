@@ -4,7 +4,6 @@
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 
-// --- Helper Functions ---
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
     const baseDirectory = basePath.substring(0, basePath.lastIndexOf('/'));
@@ -21,14 +20,11 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedParts.join('/');
 }
 
-// --- The Message Handler (Lives on the main editor window) ---
-// This single, powerful handler processes all requests from the iframe.
 async function handleWorkerRequest(event, baseItem) {
     const { type, path: relativePath, id, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // A. The iframe's main script wants to create a new Worker.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
@@ -41,7 +37,6 @@ async function handleWorkerRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
-            // Prepend the importScripts polyfill to the worker's code.
             const finalContent = importScriptsPolyfill(resolvedPath) + '\n\n' + scriptContent;
             const blob = new Blob([finalContent], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
@@ -50,7 +45,6 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
-    // B. A worker, already running, wants to import another script via importScripts.
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
         try {
@@ -63,7 +57,6 @@ async function handleWorkerRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
 
-            // Send the content back to the waiting XHR in the worker.
             event.source.postMessage({ type: 'import-scripts-response', id, content: scriptContent }, '*');
         } catch (e) {
             console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
@@ -72,7 +65,6 @@ async function handleWorkerRequest(event, baseItem) {
     }
 }
 
-// These two functions manage the global listener to avoid conflicts.
 export function attachWorkerRequestHandler(baseItem) {
     if (window.currentWorkerRequestHandler) {
         window.removeEventListener('message', window.currentWorkerRequestHandler);
@@ -88,7 +80,6 @@ export function detachWorkerRequestHandler() {
     }
 }
 
-// --- The code to be injected into the iframe's <head> ---
 const workerInterceptorScript = `
     (function() {
         const OriginalWorker = window.Worker;
@@ -165,73 +156,63 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- The code to be injected into the worker itself (using Sync XHR) ---
+// --- The code to be injected into the worker itself (using a while loop) ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
-        const pendingRequests = new Map();
+        const scriptResponses = new Map();
 
-        // This listener receives the script content from the main thread.
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
-            if (type === 'import-scripts-response' && pendingRequests.has(id)) {
-                const request = pendingRequests.get(id);
-                pendingRequests.delete(id);
-                // We fake the XHR response properties.
-                if (error) {
-                    request.status = 500;
-                    request.responseText = error;
-                } else {
-                    request.status = 200;
-                    request.responseText = content;
-                }
-                // Setting readyState to 4 is the signal that unblocks the synchronous xhr.send() call.
-                request.readyState = 4; 
-                // We must manually trigger the event handler if it exists.
-                if (request.onreadystatechange) {
-                    request.onreadystatechange();
-                }
+            if (type === 'import-scripts-response') {
+                // Store the response, whether it's content or an error.
+                scriptResponses.set(id, { content, error });
             }
         });
 
         self.importScripts = (...paths) => {
             for (const relativePath of paths) {
                 const requestId = requestIdCounter++;
-                const xhr = new XMLHttpRequest();
                 
-                // The URL here is just a placeholder for the browser's internal state.
-                // It's not actually fetched over the network.
-                xhr.open('GET', relativePath, false); // false === synchronous
+                // Ask the main thread for the script.
+                self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
 
-                // We override the native 'send' method.
-                const originalSend = xhr.send;
-                xhr.send = () => {
-                    pendingRequests.set(requestId, xhr);
-                    // Instead of a network request, we post a message to the editor.
-                    self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
-                };
+                // --- B"H: THE WHILE LOOP BLOCKING MECHANISM ---
+                // This loop will spin, blocking execution, until the response is received.
+                let timeout = 5000; // 5 second timeout to prevent infinite loops
+                while (!scriptResponses.has(requestId) && timeout > 0) {
+                    // This is a simple form of busy-waiting.
+                    // A real implementation might use a short sleep/timeout, but for this
+                    // use case, a tight loop is acceptable as it's short-lived.
+                    timeout -= 10;
+                    // A small delay could be added here if needed:
+                    // for (let i = 0; i < 1000; i++) {} 
+                }
+                // --- END OF LOOP ---
 
-                // This call now triggers our custom send, and the worker will BLOCK here
-                // until the onmessage listener above sets readyState to 4.
-                originalSend.call(xhr, null);
+                if (!scriptResponses.has(requestId)) {
+                    throw new Error('Profound Editor: Timed out waiting for importScripts: ' + relativePath);
+                }
 
-                if (xhr.status === 200) {
-                    try { self.eval(xhr.responseText); } 
-                    catch (e) { 
-                        console.error('Profound Editor: Error executing imported script:', relativePath, e);
-                        // Re-throw the error to behave like the native importScripts.
-                        throw e;
-                    }
-                } else {
-                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
+                const response = scriptResponses.get(requestId);
+                scriptResponses.delete(requestId); // Clean up memory
+
+                if (response.error) {
+                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + (response.error || relativePath));
+                }
+
+                try {
+                    self.eval(response.content);
+                } catch (e) {
+                    console.error('Profound Editor: Error executing imported script:', relativePath, e);
+                    throw e;
                 }
             }
         };
     })();
 `;
 
-// --- The main export function ---
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
