@@ -3,23 +3,51 @@
 // Depends on: constants.js
 
 class AIEngine {
-    constructor(game) {
+    // --- CHANGE: Constructor now accepts a difficulty setting ---
+    constructor(game, difficulty = 'unbeatable') {
         this.game = game;
+        this.difficulty = difficulty;
         this.isThinking = false;
-        this.thinkDelay = 100;
+
+        // --- CHANGE: Set parameters based on difficulty ---
+        if (this.difficulty === 'adaptive') {
+            // Ramping difficulty for AI vs Player
+            this.maxThinkDelay = 1000; // Starts very slow (1 second)
+            this.minThinkDelay = 150;  // Fastest it can get (150ms)
+            this.thinkDelay = this.maxThinkDelay;
+            this.rampingFactor = 0.985; // How quickly it gets faster per line clear
+        } else {
+            // Unbeatable AI for AI vs AI
+            this.thinkDelay = 50; // Consistently very fast
+        }
         this.lastThinkTime = 0;
     }
 
     update(timestamp) {
         if (this.game.gameOver || !this.game.piece || this.isThinking) return;
-        if (timestamp - this.lastThinkTime > this.thinkDelay) {
+        
+        let currentThinkDelay = this.thinkDelay;
+
+        // --- CHANGE: Adaptive logic for player-facing AI ---
+        if (this.difficulty === 'adaptive') {
+            // Calculate speed based on player's line count. It gets faster as the player clears more lines.
+            const rampedDelay = this.maxThinkDelay * Math.pow(this.rampingFactor, this.game.lines);
+            currentThinkDelay = Math.max(this.minThinkDelay, rampedDelay);
+
+            // Add a random chance for a "speed burst" to make the AI less predictable
+            if (this.game.lines > 5 && Math.random() < 0.15) {
+                currentThinkDelay *= 0.5; // Think twice as fast for this move only
+            }
+        }
+
+        if (timestamp - this.lastThinkTime > currentThinkDelay) {
             this.isThinking = true;
             this.lastThinkTime = timestamp;
             const bestMove = this.findBestMove();
             if (bestMove) {
                 this.game.applyAIMove(bestMove);
             } else {
-                this.game.hardDrop();
+                this.game.hardDrop(); // Fallback if no move is found
             }
             this.isThinking = false;
         }
