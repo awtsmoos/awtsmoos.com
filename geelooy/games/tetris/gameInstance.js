@@ -1,5 +1,5 @@
 // B"H
-// gameInstance.js REVISED - FULL REPLACEMENT
+// gameInstance.js - FINAL VERSION
 
 class SeededRandom {
     constructor(seedStr) {
@@ -31,6 +31,7 @@ class GameInstance {
         this.score = 0; this.lines = 0; this.level = 1; this.gameOver = false;
         this.dropCounter = 0; this.dropInterval = 1000; this.lastTime = 0; this.isSoftDropping = false;
         this.piece = null;
+        
         this.nextPiece = this.createNewPiece();
         this.spawnNewPiece();
     }
@@ -50,75 +51,71 @@ class GameInstance {
         }
     }
 
-    // --- RENDERING LOGIC (THE PRIMARY FIX) ---
     draw() {
         if (!this.ctx) return;
 
-        // 1. BLOCK_SIZE is now determined ONLY by the width.
-        const BLOCK_SIZE = this.canvas.width / COLS;
-        if (!BLOCK_SIZE) return;
+        // --- START OF SCREEN FIT LOGIC ---
+        // 1. Block size is determined ONLY by the width to fill the container.
+        const blockSize = this.canvas.width / COLS;
+        if (!blockSize) return;
 
-        // 2. Calculate how many rows are visible based on the canvas's height.
-        const visibleRows = this.canvas.height / BLOCK_SIZE;
-        
-        // 3. Define the viewport's top row so the bottom of the board is visible.
+        // 2. Calculate how many rows are visible and where the viewport should start.
+        const visibleRows = this.canvas.height / blockSize;
         const viewportTopY = LOGICAL_ROWS - visibleRows;
+        // --- END OF SCREEN FIT LOGIC ---
 
-        // Clear canvas
+        // Clear the entire canvas.
         this.ctx.fillStyle = '#000';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw the locked pieces on the board
+        // Draw all the locked pieces on the board.
         for (let y = 0; y < LOGICAL_ROWS; y++) {
             for (let x = 0; x < COLS; x++) {
                 if (this.board[y][x] !== 0) {
-                    this.drawBrick(this.ctx, x, y, this.board[y][x], BLOCK_SIZE, viewportTopY);
+                    this.drawBrick(x, y, this.board[y][x], blockSize, viewportTopY);
                 }
             }
         }
 
-        // Draw the current falling piece
+        // Draw the current falling piece.
         if (this.piece) {
             this.piece.matrix.forEach((row, y) => {
                 row.forEach((val, x) => {
                     if (val !== 0) {
-                        this.drawBrick(this.ctx, this.piece.x + x, this.piece.y + y, this.piece.typeId, BLOCK_SIZE, viewportTopY);
+                        this.drawBrick(this.piece.x + x, this.piece.y + y, this.piece.typeId, blockSize, viewportTopY);
                     }
                 });
             });
         }
     }
 
-    drawBrick(ctx, logicalX, logicalY, typeId, blockSize, viewportTopY) {
-        // Translate logical board coordinates to screen coordinates
+    drawBrick(logicalX, logicalY, typeId, blockSize, viewportTopY) {
         const screenX = logicalX * blockSize;
         const screenY = (logicalY - viewportTopY) * blockSize;
 
-        // Don't draw bricks that are completely off-screen
         if (screenY < -blockSize || screenY > this.canvas.height) return;
 
         const c = COLORS[typeId];
         const p = blockSize * 0.1;
 
-        const grad = ctx.createLinearGradient(screenX, screenY, screenX + blockSize, screenY + blockSize);
+        const grad = this.ctx.createLinearGradient(screenX, screenY, screenX + blockSize, screenY + blockSize);
         grad.addColorStop(0, c);
         grad.addColorStop(1, 'black');
-        ctx.fillStyle = grad;
-        ctx.fillRect(screenX, screenY, blockSize, blockSize);
+        this.ctx.fillStyle = grad;
+        this.ctx.fillRect(screenX, screenY, blockSize, blockSize);
 
-        ctx.fillStyle = c;
-        ctx.fillRect(screenX + p, screenY + p, blockSize - p * 2, blockSize - p * 2);
+        this.ctx.fillStyle = c;
+        this.ctx.fillRect(screenX + p, screenY + p, blockSize - p * 2, blockSize - p * 2);
     }
-    
-    // --- PIECE MANAGEMENT ---
+
     spawnNewPiece() {
         if (this.gameOver) return;
         this.piece = this.nextPiece;
         this.nextPiece = this.createNewPiece();
 
         this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-        // Spawn piece at the very top of the logical board
-        this.piece.y = 0; 
+        // Spawn the piece at the top of the logical board, just out of sight.
+        this.piece.y = -this.piece.matrix.length; 
 
         if (this.collides(this.piece, {})) {
             this.setGameOver();
@@ -145,8 +142,8 @@ class GameInstance {
         return { x: 0, y: 0, matrix: SHAPES[typeId], typeId: typeId };
     }
 
-    // --- GAMEPLAY MECHANICS (Unchanged) ---
     move(dir) { if (this.piece && !this.collides(this.piece, { x: dir })) this.piece.x += dir; }
+    
     rotate() {
         if (!this.piece) return;
         const newMatrix = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse());
@@ -160,29 +157,36 @@ class GameInstance {
             this.piece.x += offset; this.piece.matrix = newMatrix;
         }
     }
+
     drop() {
         if (!this.piece) return;
-        if (!this.collides(this.piece, { y: 1 })) this.piece.y++;
-        else this.lockPiece();
+        if (!this.collides(this.piece, { y: 1 })) {
+            this.piece.y++;
+        } else {
+            this.lockPiece();
+        }
         this.dropCounter = 0;
     }
+
     hardDrop() {
         if (!this.piece) return;
         while (!this.collides(this.piece, { y: 1 })) this.piece.y++;
         this.lockPiece();
     }
+
     collides(piece, offset) {
         const pMatrix = piece.matrix, pX = piece.x + (offset.x || 0), pY = piece.y + (offset.y || 0);
         for (let y = 0; y < pMatrix.length; y++) {
             for (let x = 0; x < pMatrix[y].length; x++) {
                 if (pMatrix[y][x] !== 0) {
                     const bX = pX + x, bY = pY + y;
-                    if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (this.board[bY]?.[bX] !== 0)) return true;
+                    if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (bY >= 0 && this.board[bY]?.[bX] !== 0)) return true;
                 }
             }
         }
         return false;
     }
+
     sweepLines() {
         let cleared = 0;
         for (let y = LOGICAL_ROWS - 1; y >= 0; y--) {
@@ -198,12 +202,14 @@ class GameInstance {
             postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } });
         }
     }
+
     setGameOver() {
         if (!this.gameOver) {
             this.gameOver = true;
             postMessage({ type: 'game_over', payload: { id: this.id } });
         }
     }
+
     applyAIMove(move) {
         if (!this.piece || !move) return;
         this.piece.matrix = move.matrix; this.piece.x = move.x;
