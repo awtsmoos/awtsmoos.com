@@ -10,7 +10,6 @@ import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
-// B"H: Import the new processor and its handlers
 import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler } from './html-preview-processor.js';
 
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
@@ -110,22 +109,19 @@ export const Menus = {
                 case 'view-html': {
                     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
                     if (!activeTab) break;
-
                     UI.showLoading("Processing HTML for preview...");
                     const content = Editor.getContent();
                     
-                    // Detach any old listener and attach a new one for the current context.
                     detachWorkerRequestHandler();
                     attachWorkerRequestHandler(activeTab.item);
                     
                     try {
                         const processedContent = await processHtmlForPreview(content, activeTab.item);
-                        // The handler is no longer passed here, it's managed globally.
                         Tabs.createPreview(activeTab.item, processedContent);
                     } catch (e) {
                         UI.showToast("Failed to process HTML.", "error");
                         console.error(e);
-                        detachWorkerRequestHandler(); // Cleanup on failure
+                        detachWorkerRequestHandler();
                     } finally {
                         UI.hideLoading();
                     }
@@ -185,8 +181,11 @@ export const Menus = {
                         UI.showLoading('Removing workspace...');
                         const wsId = item.workspaceId ?? item.id;
                         const tabsToClose = State.tabs.filter(t => t.item.workspaceId === wsId);
-                        for(const tab of tabsToClose) await Tabs.close(tab.id, true);
+for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                         State.workspaces = State.workspaces.filter(ws => ws.id !== wsId);
+                        
+                        App.saveSession();
+
                         Workspaces.render();
                         UI.showToast(`Workspace removed.`, 'success');
                     }
