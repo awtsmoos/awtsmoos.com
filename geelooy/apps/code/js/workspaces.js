@@ -1,22 +1,30 @@
 // B"H
 // FILE: js/workspaces.js
 
-import { State, DOM } from './state.js';
+import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
+import { App } from './app.js';
 
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
 export const Workspaces = {
-    add(ws) {
+    add(ws, shouldSave = true) {
         const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
         if (emptyMessage) {
             DOM.workspacesContainer.innerHTML = '';
         }
-        const newWs = { id: State.nextWorkspaceId++, ...ws };
+        
+        const isNew = ws.id === undefined;
+        const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
+        
         State.workspaces.push(newWs);
-        this.renderWorkspace(newWs, DOM.workspacesContainer);
+        
+        if (shouldSave) {
+            this.renderWorkspace(newWs, DOM.workspacesContainer);
+            App.saveSession();
+        }
     },
 
     render() {
@@ -34,6 +42,7 @@ export const Workspaces = {
         wsRoot.className = 'workspace-root';
         const uniquePath = getItemUniquePath(ws);
         const isExpanded = State.expandedFolders.has(uniquePath);
+        if (isExpanded) wsRoot.classList.add('expanded');
 
         wsRoot.innerHTML = `
             <div class="workspace-header">
@@ -47,14 +56,17 @@ export const Workspaces = {
         header.onclick = () => {
             if (State.expandedFolders.has(uniquePath)) {
                 State.expandedFolders.delete(uniquePath);
+                wsRoot.classList.remove('expanded');
                 wsRoot.querySelector('ul')?.remove();
             } else {
                 State.expandedFolders.add(uniquePath);
+                wsRoot.classList.add('expanded');
                 const tree = document.createElement('ul');
                 tree.className = 'workspace-tree';
                 wsRoot.appendChild(tree);
                 this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
             }
+            App.saveSession();
         };
 
         header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
@@ -123,6 +135,7 @@ export const Workspaces = {
                             li.appendChild(newUl);
                             this.renderTree(newUl, fullChildItem, depth + 1);
                         }
+                        App.saveSession();
                     } else {
                         Tabs.create(fullChildItem);
                     }
@@ -143,34 +156,23 @@ export const Workspaces = {
         }
     },
     
-    // --- B"H: FINAL, DEFINITIVE REFRESH LOGIC ---
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         if (!entry) return;
 
         const directoryElement = entry.el;
-        let childrenContainer = directoryElement.querySelector('ul');
-
-        // This is the forceful part. If the state says this folder should be expanded,
-        // we will make the DOM match, no matter its current condition.
+        
         if (State.expandedFolders.has(uniquePath)) {
-            
-            // 1. Force the visual state for the arrow icon.
             directoryElement.classList.add('expanded');
-
-            // 2. If the <ul> container is missing (because it was collapsed), create it.
+            let childrenContainer = directoryElement.querySelector('ul');
             if (!childrenContainer) {
                 childrenContainer = document.createElement('ul');
                 const isRoot = directoryElement.classList.contains('workspace-root');
                 if (isRoot) childrenContainer.className = 'workspace-tree';
                 directoryElement.appendChild(childrenContainer);
             }
-        }
-
-        // 3. Now that we've guaranteed the DOM is correct, redraw the contents
-        //    only if the container exists (meaning the folder is expanded).
-        if (childrenContainer) {
+            
             const isRoot = directoryElement.classList.contains('workspace-root');
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
             await this.renderTree(childrenContainer, item, depth);
