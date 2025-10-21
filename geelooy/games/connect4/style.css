@@ -2,21 +2,30 @@
 
 
 /* Add this to your main CSS file */
+/* === START: Replace your old screen styles with this block === */
+
 .screen {
-    display: none; /* Screens are hidden by default */
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
+    /* Base layout for all screens */
     width: 100%;
     height: 100%;
+    display: flex; /* Use flex for centering content */
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    /* Animation properties */
+    opacity: 1; /* Start at full opacity */
+    visibility: visible; /* Start visible */
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
 }
 
-.screen.visible {
-    display: flex; /* Or whatever your default display is */
-    opacity: 1;
+.screen.hidden {
+    /* This is how we will now hide screens */
+    opacity: 0;
+    visibility: hidden;
 }
+
+/* === END: Replacement block === */
 
 html, body {
     margin: 0;
