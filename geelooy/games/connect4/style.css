@@ -1,7 +1,24 @@
 /*B"H*/
 
 
+/* Add this to your main CSS file */
+.screen {
+    display: none; /* Hide all screens by default */
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    width: 100%;
+    height: 100%;
+    /* Flex properties from your original code */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.screen.visible {
+    display: flex; /* Or whatever your default display is */
+    opacity: 1;
+}
 
 html, body {
     margin: 0;
