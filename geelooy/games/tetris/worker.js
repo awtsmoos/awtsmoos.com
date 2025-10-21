@@ -50,53 +50,38 @@ self.onmessage = ({ data }) => {
         // B"H
 // In worker.js, inside the self.onmessage function
 
+// B"H
+// In worker.js, replace the 'init' case inside self.onmessage with this.
+
 case 'init':
-    console.log("Worker received 'init' message. Setting up game instances.");
-    console.log("Received payload:", JSON.stringify(data.payload, null, 2)); // <-- LOG 1: See the data from main.js
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        console.log("Cancelled previous animation frame.");
-    }
+    // --- START OF FIX ---
+    const { p1Canvas, p1Dimensions, p1Dpr, p2Canvas, p2Dimensions, p2Dpr, mode } = data.payload;
 
-    const { p1Canvas, p1Dimensions, p2Canvas, p2Dimensions, mode } = data.payload;
-
-    gameInstances = []; // Reset instances
+    gameInstances = []; 
     
     if (p1Canvas && p1Dimensions) {
-        console.log(`P1 Dimensions received: width=${p1Dimensions.width}, height=${p1Dimensions.height}`); // <-- LOG 2: Check dimensions
-        p1Canvas.width = p1Dimensions.width;
-        p1Canvas.height = p1Dimensions.height;
+        // Set the REAL canvas resolution using the pixel density
+        p1Canvas.width = p1Dimensions.width * p1Dpr;
+        p1Canvas.height = p1Dimensions.height * p1Dpr;
         
         const isP1AI = (mode === 'aivai');
-        console.log("Creating Player 1 GameInstance..."); // <-- LOG 3
-        gameInstances.push(new GameInstance(1, isP1AI, p1Canvas));
-        console.log("Player 1 GameInstance created."); // <-- LOG 4
-    } else {
-        console.error("P1 Canvas or Dimensions were not provided in init payload!");
+        // Pass the original CSS dimensions and the density to the game instance
+        gameInstances.push(new GameInstance(1, isP1AI, p1Canvas, p1Dimensions, p1Dpr));
     }
 
     if (mode !== 'single' && p2Canvas && p2Dimensions) {
-        console.log(`P2 Dimensions received: width=${p2Dimensions.width}, height=${p2Dimensions.height}`);
-        p2Canvas.width = p2Dimensions.width;
-        p2Canvas.height = p2Dimensions.height;
-        
-        console.log("Creating Player 2 GameInstance...");
-        gameInstances.push(new GameInstance(2, true, p2Canvas));
-        console.log("Player 2 GameInstance created.");
+        p2Canvas.width = p2Dimensions.width * p2Dpr;
+        p2Canvas.height = p2Dimensions.height * p2Dpr;
+        gameInstances.push(new GameInstance(2, true, p2Canvas, p2Dimensions, p2Dpr));
     }
+    // --- END OF FIX ---
 
-    console.log(`Initializing ${gameInstances.length} game instances...`); // <-- LOG 5
     gameInstances.forEach(inst => inst.init());
-    console.log("All instances initialized."); // <-- LOG 6
 
-    // In worker.js, inside case 'init'
-if (gameInstances.length > 0) {
-    console.log("Starting game loop with requestAnimationFrame...");
-    // THE FIX: This ensures the loop STARTS with a valid timestamp.
-    animationFrameId = requestAnimationFrame(gameLoop); 
-} else {
-        console.warn("No game instances were created. Game loop will not start.");
+    if (gameInstances.length > 0) {
+        animationFrameId = requestAnimationFrame(gameLoop);
     }
     break;
 
