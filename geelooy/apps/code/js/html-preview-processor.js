@@ -232,7 +232,7 @@ const importScriptsPolyfill = (workerPath) => `
         };
         
         } catch(e) {
-        consple.log("LOL right get it",e)
+        console.log("LOL right get it",e)
         
         }
     })();
