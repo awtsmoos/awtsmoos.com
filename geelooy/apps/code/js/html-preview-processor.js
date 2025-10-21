@@ -3,6 +3,7 @@
 
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
+import workerInterceptorScript from "./worker-intercept.js";
 
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
