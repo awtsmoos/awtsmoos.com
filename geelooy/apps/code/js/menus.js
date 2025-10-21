@@ -10,6 +10,10 @@ import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
 
+// Helper function to get a consistent unique ID for any workspace item.
+// This MUST match the helper in workspaces.js
+const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
+
 /**
  * Menus Module: Handles context and main menus.
  */
@@ -28,7 +32,7 @@ export const Menus = {
 
         setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
 
-        const mapKey = `${item.workspaceId ?? item.id}::${item.path || '/'}`;
+        const mapKey = getItemUniquePath(item);
         const targetEl = State.domItemMap.get(mapKey)?.el;
         if(targetEl) targetEl.classList.add('context-active');
 
@@ -144,20 +148,25 @@ export const Menus = {
                     const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
                     if (name) {
                         UI.showLoading(`Creating ${kind}...`);
+                        
+                        // --- B"H: STATE MANAGEMENT FIX ---
+                        const parentUniquePath = getItemUniquePath(item);
+                        // As requested: ONLY expand the parent if we are creating a new FOLDER.
+                        if (kind === 'folder') {
+                            State.expandedFolders.add(parentUniquePath);
+                        }
+                        // --- END FIX ---
+
                         await FileSystemProvider.create(item, name, kind);
                         UI.showToast(`${kind} '${name}' created.`, 'success');
                         
-                        // --- B"H FIX STARTS HERE ---
-                        // The context item's workspace ID might be on the 'workspaceId' property (for child folders)
-                        // or on the 'id' property (for the workspace root itself). This handles both cases.
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
-
                         if (!workspace) {
-                            throw new Error("Could not find the parent workspace to create the new file.");
+                            throw new Error("Could not find the parent workspace.");
                         }
-                        // --- B"H FIX ENDS HERE ---
                         
+                        // This refresh will now respect the state we just set.
                         await Workspaces.refreshNode(item);
                         
                         if (kind === 'file') {
@@ -167,7 +176,7 @@ export const Menus = {
                                 name: name,
                                 path: newPath,
                                 kind: 'file',
-                                workspaceId: workspace.id, // This is now safe
+                                workspaceId: workspace.id,
                                 content: ''
                             };
                             Tabs.create(newFileItem, true);
