@@ -2,6 +2,9 @@
 // gameInstance.js
 // Depends on: constants.js, aiEngine.js
 
+// B"H
+// In gameInstance.js
+
 class SeededRandom {
     constructor(seedStr) {
         let h = 1779033703;
@@ -11,11 +14,22 @@ class SeededRandom {
         }
         this.seed = h;
     }
+    
+    // Replace this entire method
     random() {
-        this.seed = (this.seed * 1664525 + 1013904223) % 4294967296;
+        // **THE FIX**: The unsigned right shift `>>> 0` forces the result
+        // to be a positive 32-bit integer. This is the correct way
+        // to perform this operation in JavaScript and guarantees the seed
+        // is never negative.
+        this.seed = (this.seed * 1664525 + 1013904223) >>> 0;
+        
+        // This division will now always produce a number between 0 and 1.
         return this.seed / 4294967296;
     }
 }
+
+
+// ... the rest of the GameInstance class remains exactly the same ...
 
 class GameInstance {
     constructor(id, isAI, canvas) {
