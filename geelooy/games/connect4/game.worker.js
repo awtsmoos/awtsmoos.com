@@ -173,30 +173,34 @@ function dropPiece(col) {
     };
 }
 
+// In game.worker.js
+
 function update() {
     // Animate the piece if it exists
     if (animatedPiece) {
-        const gravity = 0.8;
+        const gravity = 1.45; // We will make this faster in the next step
         animatedPiece.speed += gravity;
         animatedPiece.y += animatedPiece.speed;
 
-        // Calculate the exact Y-coordinate of the destination.
         const targetY = animatedPiece.targetRow * (canvas.height / rows);
 
-        // Check if the piece has reached or passed its destination.
         if (animatedPiece.y >= targetY) {
-            animatedPiece.y = targetY; // Snap to the final position
+            animatedPiece.y = targetY; 
             handleMoveCompletion(animatedPiece.targetRow, animatedPiece.col);
         }
     }
 
-    // Always update particles
-    particles.forEach((p, index) => {
-        if (p.alpha <= 0) particles.splice(index, 1);
-        else p.update();
-    });
-}
+    // --- PARTICLE FIX STARTS HERE ---
 
+    // First, call the update method on ALL particles
+    particles.forEach(p => p.update());
+
+    // THEN, create a new array containing only the visible particles.
+    // This is much safer and prevents the flickering bug.
+    particles = particles.filter(p => p.alpha > 0);
+    
+    // --- PARTICLE FIX ENDS HERE ---
+}
 // --- (All other helper functions: draw, getTargetRow, etc. remain the same) ---
 function draw() {
     if (!ctx) return;
