@@ -70,7 +70,7 @@ async function handleWorkerRequest(event, baseItem) {
             }
             
             let scriptContent = await FileSystemProvider.read(assetItem);
-            console.lpg("got raw content",scriptContent)
+            console.log("got raw content",scriptContent)
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             console.log("processed",scriptContent)
