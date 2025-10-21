@@ -143,7 +143,7 @@ export const Workspaces = {
         }
     },
     
-    // --- B"H: DEFINITIVE REFRESH LOGIC ---
+    // --- B"H: FINAL, DEFINITIVE REFRESH LOGIC ---
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
@@ -152,14 +152,14 @@ export const Workspaces = {
         const directoryElement = entry.el;
         let childrenContainer = directoryElement.querySelector('ul');
 
-        // This is the "force open" logic. If our state says the folder should be open,
-        // we make sure the DOM matches that state before proceeding.
+        // This is the forceful part. If the state says this folder should be expanded,
+        // we will make the DOM match, no matter its current condition.
         if (State.expandedFolders.has(uniquePath)) {
-            // Forcefully add the 'expanded' class for visual correctness (e.g., the arrow icon).
+            
+            // 1. Force the visual state for the arrow icon.
             directoryElement.classList.add('expanded');
 
-            // If the <ul> container for children doesn't exist because the folder was
-            // visually collapsed, we create it now.
+            // 2. If the <ul> container is missing (because it was collapsed), create it.
             if (!childrenContainer) {
                 childrenContainer = document.createElement('ul');
                 const isRoot = directoryElement.classList.contains('workspace-root');
@@ -168,8 +168,8 @@ export const Workspaces = {
             }
         }
 
-        // Now, we only attempt to re-render the contents if the children container
-        // actually exists in the DOM (meaning the folder is expanded).
+        // 3. Now that we've guaranteed the DOM is correct, redraw the contents
+        //    only if the container exists (meaning the folder is expanded).
         if (childrenContainer) {
             const isRoot = directoryElement.classList.contains('workspace-root');
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
