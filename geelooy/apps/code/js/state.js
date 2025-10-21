@@ -47,4 +47,10 @@ export const DOM = {
     findInput: document.getElementById('find-input'),
     replaceInput: document.getElementById('replace-input'),
     keyboardHelper: document.getElementById('keyboard-helper'),
+
+
+previewer: document.getElementById('previewer'),
+
+
+    
 };
