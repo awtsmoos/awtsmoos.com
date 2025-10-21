@@ -1,5 +1,5 @@
 //B"H
-
+//importScriptsHack.js
 export default (workerPath, originalScriptContent) => /*js*/`
     (function() {
         console.log('%c[WORKER] Polyfill Loaded.', 'color: #4682B4');
