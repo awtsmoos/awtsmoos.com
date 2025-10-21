@@ -55,6 +55,7 @@ export const FileSystemProvider = {
     },
 
     Local: {
+        // ... (Local implementation remains unchanged)
         async getHandle(rootHandle, path, { kind, create = false } = {}) {
             let currentHandle = rootHandle;
             if (!path || path === '/') return currentHandle;
@@ -104,81 +105,99 @@ export const FileSystemProvider = {
         }
     },
     IndexedDB: {
-        DB_NAME: "VIVID_X_FS_PROFOUND", STORE_NAME: "files",
-        init: () => new Promise((resolve, reject) => {
-            if (State.db) return resolve(State.db);
-            const request = indexedDB.open(this.DB_NAME, 1);
-            request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-            request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-            request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
-        }),
-        list: ({ path }) => new Promise(async (resolve, reject) => {
-            if (!State.db) await this.init(); // **B"H FIX: Ensure DB is initialized before use**
-            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-            const request = store.getAll();
-            request.onerror = e => reject(e.target.error);
-            request.onsuccess = () => {
-                const children = new Map();
-                const dirPrefix = path === '/' ? '' : path + '/';
-                request.result.forEach(item => {
-                    if (item.path.startsWith(dirPrefix) && item.path !== path) {
-                        const relativePath = item.path.substring(dirPrefix.length);
-                        const segment = relativePath.split('/')[0];
-                        if (!segment) return;
-                        if (!children.has(segment)) {
-                            const isDir = relativePath.includes('/') || item.isDir;
-                            children.set(segment, { 
-                                name: segment, kind: isDir ? 'directory' : 'file', 
-                                path: dirPrefix + segment
-                            });
+        DB_NAME: "VIVID_X_FS_PROFOUND",
+        STORE_NAME: "files",
+        
+        // B"H --- FIX STARTS HERE ---
+        // Changed all arrow functions to regular 'function()' to correctly scope 'this'.
+        init: function() {
+            return new Promise((resolve, reject) => {
+                if (State.db) return resolve(State.db);
+                // 'this.DB_NAME' now correctly refers to "VIVID_X_FS_PROFOUND"
+                const request = indexedDB.open(this.DB_NAME, 1);
+                request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+                request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+                request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
+            });
+        },
+        list: async function({ path }) {
+            await this.init(); // Ensure DB is initialized
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+                const request = store.getAll();
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = () => {
+                    const children = new Map();
+                    const dirPrefix = path === '/' ? '' : path + '/';
+                    request.result.forEach(item => {
+                        if (item.path.startsWith(dirPrefix) && item.path !== path) {
+                             const relativePath = item.path.substring(dirPrefix.length);
+                            const segment = relativePath.split('/')[0];
+                            if (segment && !children.has(segment)) {
+                                const isDir = relativePath.includes('/') || item.isDir;
+                                children.set(segment, { 
+                                    name: segment, kind: isDir ? 'directory' : 'file', 
+                                    path: dirPrefix + segment
+                                });
+                            }
                         }
-                    }
-                });
-                resolve(Array.from(children.values()));
-            };
-        }),
-        read: ({ path }) => new Promise(async (resolve, reject) => {
-            if (!State.db) await this.init();
-            const req = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME).get(path);
-            req.onsuccess = e => resolve(e.target.result?.content ?? '');
-            req.onerror = e => reject(e.target.error);
-        }),
-        write: ({ path }, content) => new Promise(async (resolve, reject) => {
-            if (!State.db) await this.init();
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            const req = store.get(path);
-            req.onsuccess = () => {
-                const data = req.result || { path, isDir: false };
-                data.content = content;
-                store.put(data);
-            };
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        }),
-        create: ({ path }, name, kind) => new Promise(async (resolve, reject) => {
-            if (!State.db) await this.init();
+                    });
+                    resolve(Array.from(children.values()));
+                };
+            });
+        },
+        read: async function({ path }) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const req = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME).get(path);
+                req.onsuccess = e => resolve(e.target.result?.content ?? '');
+                req.onerror = e => reject(e.target.error);
+            });
+        },
+        write: async function({ path }, content) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+                const store = tx.objectStore(this.STORE_NAME);
+                const req = store.get(path);
+                req.onsuccess = () => {
+                    const data = req.result || { path, isDir: false };
+                    data.content = content;
+                    store.put(data);
+                };
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        },
+        create: async function({ path }, name, kind) {
+            await this.init();
             const newPath = path === '/' ? name : `${path}/${name}`;
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            tx.objectStore(this.STORE_NAME).put({ path: newPath, content: '', isDir: kind === 'directory' });
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        }),
-        delete: ({ path, kind }) => new Promise(async (resolve, reject) => {
-            if (!State.db) await this.init();
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            if (kind === 'directory') {
-                const range = IDBKeyRange.bound(path, path + '\uffff');
-                store.delete(range);
-            } else {
-                store.delete(path);
-            }
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        }),
+            return new Promise((resolve, reject) => {
+                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+                tx.objectStore(this.STORE_NAME).put({ path: newPath, content: '', isDir: kind === 'directory' });
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        },
+        delete: async function({ path, kind }) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+                const store = tx.objectStore(this.STORE_NAME);
+                if (kind === 'directory') {
+                    const range = IDBKeyRange.bound(path, path + '\uffff');
+                    store.delete(range);
+                } else {
+                    store.delete(path);
+                }
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        },
+        // --- FIX ENDS HERE ---
     },
     GitHub: {
+        // ... (GitHub implementation remains unchanged)
         api: async (endpoint, options = {}) => {
             if (!State.githubToken) throw new Error("GitHub token not set.");
             const headers = { 'Authorization': `Bearer ${State.githubToken}`, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...options.headers };
