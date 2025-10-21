@@ -80,29 +80,57 @@ export function detachWorkerRequestHandler() {
     }
 }
 
+// --- B"H: THE CORRECTED INTERCEPTOR AND POLYFILL ---
+
 const workerInterceptorScript = `
     (function() {
         const OriginalWorker = window.Worker;
         const pendingWorkers = new Map();
         let requestIdCounter = 0;
+        let activeWorkers = []; // Keep track of all active workers
 
+        // This is the master listener for the iframe. It handles all communication.
         window.addEventListener('message', (event) => {
-            const { type, id, blobUrl, error } = event.data;
+            const { type, id } = event.data;
+
+            // Message FROM the main editor TO the iframe (providing the main worker script)
             if (type === 'worker-script-response' && pendingWorkers.has(id)) {
                 const { proxy, options } = pendingWorkers.get(id);
                 pendingWorkers.delete(id);
-                if (error) {
-                    console.error('Editor failed to load worker script:', error);
-                    if (typeof proxy.onerror === 'function') {
-                        proxy.onerror(new ErrorEvent('error', { message: error }));
-                    }
+
+                if (event.data.error) {
+                    console.error('Editor failed to load worker script:', event.data.error);
+                    if (typeof proxy.onerror === 'function') proxy.onerror(new ErrorEvent('error', { message: event.data.error }));
                     return;
                 }
-                const realWorker = new OriginalWorker(blobUrl, options);
+
+                const realWorker = new OriginalWorker(event.data.blobUrl, options);
+                
+                // Add this new worker to our list for message relaying
+                activeWorkers.push(realWorker);
+                realWorker.addEventListener('terminate', () => {
+                    activeWorkers = activeWorkers.filter(w => w !== realWorker);
+                });
+
+                // RELAY 1: Listen for requests FROM this worker and send them UP to the editor.
+                realWorker.addEventListener('message', (workerEvent) => {
+                    if (workerEvent.data && workerEvent.data.type === 'import-scripts-request') {
+                        window.parent.postMessage(workerEvent.data, '*');
+                    }
+                });
+                
                 proxy._connect(realWorker);
+            }
+
+            // RELAY 2: Message FROM the main editor TO the iframe (providing the imported script content)
+            if (type === 'import-scripts-response') {
+                // Broadcast the response to ALL active workers.
+                // The polyfill inside each worker is smart enough to only accept the message with the correct ID.
+                activeWorkers.forEach(w => w.postMessage(event.data));
             }
         });
 
+        // Redefine the Worker constructor
         window.Worker = function(path, options) {
             if (/^(?:[a-z]+:|\\/|blob:)/.test(path)) {
                 return new OriginalWorker(path, options);
@@ -117,8 +145,10 @@ const workerInterceptorScript = `
                 _onerror: null,
                 _connect: function(real) {
                     this._realWorker = real;
+                    // Connect user's event handlers to the real worker
                     real.onmessage = this._onmessage;
                     real.onerror = this._onerror;
+                    // Forward any queued messages
                     this._messageQueue.forEach(msg => real.postMessage(...msg));
                     this._messageQueue = [];
                 },
@@ -156,17 +186,16 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- The code to be injected into the worker itself (using a while loop) ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const scriptResponses = new Map();
 
+        // This listener only cares about messages relayed from the iframe.
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
             if (type === 'import-scripts-response') {
-                // Store the response, whether it's content or an error.
                 scriptResponses.set(id, { content, error });
             }
         });
@@ -175,39 +204,31 @@ const importScriptsPolyfill = (workerPath) => `
             for (const relativePath of paths) {
                 const requestId = requestIdCounter++;
                 
-                // Ask the main thread for the script.
+                // Ask the iframe (which will ask the editor) for the script.
                 self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
 
-                // --- B"H: THE WHILE LOOP BLOCKING MECHANISM ---
-                // This loop will spin, blocking execution, until the response is received.
-                let timeout = 5000; // 5 second timeout to prevent infinite loops
+                // Synchronously wait for the response to be populated by the listener.
+                let timeout = 5000;
                 while (!scriptResponses.has(requestId) && timeout > 0) {
-                    // This is a simple form of busy-waiting.
-                    // A real implementation might use a short sleep/timeout, but for this
-                    // use case, a tight loop is acceptable as it's short-lived.
-                    timeout -= 10;
-                    // A small delay could be added here if needed:
-                    // for (let i = 0; i < 1000; i++) {} 
+                    // This is a simple form of busy-waiting that is acceptable inside a worker.
+                    // A more advanced implementation could use Atomics if SharedArrayBuffer was available.
+                    for (let i = 0; i < 1000; i++) {} // Small delay
+                    timeout--;
                 }
-                // --- END OF LOOP ---
 
                 if (!scriptResponses.has(requestId)) {
                     throw new Error('Profound Editor: Timed out waiting for importScripts: ' + relativePath);
                 }
 
                 const response = scriptResponses.get(requestId);
-                scriptResponses.delete(requestId); // Clean up memory
+                scriptResponses.delete(requestId);
 
                 if (response.error) {
                     throw new Error('Profound Editor: Failed to load script for importScripts: ' + (response.error || relativePath));
                 }
 
-                try {
-                    self.eval(response.content);
-                } catch (e) {
-                    console.error('Profound Editor: Error executing imported script:', relativePath, e);
-                    throw e;
-                }
+                try { self.eval(response.content); } 
+                catch (e) { console.error('Profound Editor: Error executing imported script:', relativePath, e); throw e; }
             }
         };
     })();
