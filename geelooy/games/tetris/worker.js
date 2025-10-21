@@ -26,6 +26,131 @@ const VIEWPORT_ROWS = 18;
 let gameInstances = [];
 let animationFrameId;
 
+// --- AI Engine Class ---
+class AIEngine {
+    constructor(game) {
+        this.game = game;
+        this.isThinking = false;
+    }
+
+    update() {
+        if (!this.isThinking && !this.game.gameOver && this.game.piece) {
+            this.isThinking = true;
+            // Use setTimeout to avoid blocking the game loop, even in a worker
+            setTimeout(() => this.think(), 50);
+        }
+    }
+
+    think() {
+        if (this.game.gameOver) {
+            this.isThinking = false;
+            return;
+        }
+        const bestMove = this.findBestMove();
+        if (bestMove) {
+            this.game.piece.matrix = bestMove.matrix;
+            this.game.piece.x = bestMove.x;
+            this.game.hardDrop(); // AI plays fast
+        } else if (!this.game.gameOver) {
+            this.game.hardDrop();
+        }
+        this.isThinking = false;
+    }
+
+    // This is a helper for the AI to simulate moves on a temporary board
+    _collides(piece, board, offset) {
+        for (let y = 0; y < piece.matrix.length; y++) {
+            for (let x = 0; x < piece.matrix[y].length; x++) {
+                if (piece.matrix[y][x] !== 0) {
+                    const nX = piece.x + x + (offset.x || 0);
+                    const nY = piece.y + y + (offset.y || 0);
+                    if (nX < 0 || nX >= COLS || nY >= LOGICAL_ROWS || board[nY]?.[nX] !== 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    findBestMove() {
+        let bestScore = -Infinity;
+        let bestMove = null;
+        const tempPiece = { ...this.game.piece };
+
+        for (let rot = 0; rot < 4; rot++) {
+            let currentMatrix = tempPiece.matrix;
+            for (let i = 0; i < rot; i++) {
+                currentMatrix = currentMatrix[0].map((_, c) => currentMatrix.map(row => row[c]).reverse());
+            }
+
+            for (let x = -2; x < COLS; x++) {
+                const moveCandidate = { x, y: 0, matrix: currentMatrix };
+                if (this._collides(moveCandidate, this.game.board, { y: 0 })) continue;
+
+                let tempBoard = this.game.board.map(r => [...r]);
+                
+                // Simulate drop
+                let finalY = 0;
+                while (!this._collides({ ...moveCandidate, y: finalY }, tempBoard, { y: 1 })) {
+                    finalY++;
+                }
+
+                // Lock piece on temp board
+                moveCandidate.matrix.forEach((r, my) => r.forEach((v, mx) => {
+                    if (v !== 0) {
+                        const bY = finalY + my;
+                        const bX = moveCandidate.x + mx;
+                        if (bY >= 0 && bX >= 0 && bY < LOGICAL_ROWS && bX < COLS) {
+                            tempBoard[bY][bX] = 1;
+                        }
+                    }
+                }));
+
+                const score = this.scoreBoard(tempBoard);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = { x: moveCandidate.x, matrix: moveCandidate.matrix };
+                }
+            }
+        }
+        return bestMove;
+    }
+    
+    scoreBoard(board) {
+        let aggregateHeight = 0, holes = 0, lines = 0, bumpiness = 0;
+        const columnHeights = Array(COLS).fill(0);
+
+        for (let x = 0; x < COLS; x++) {
+            for (let y = 0; y < LOGICAL_ROWS; y++) {
+                if (board[y][x] !== 0) {
+                    columnHeights[x] = LOGICAL_ROWS - y;
+                    break;
+                }
+            }
+        }
+        
+        aggregateHeight = columnHeights.reduce((a, b) => a + b, 0);
+
+        for (let x = 0; x < COLS; x++) {
+            for (let y = LOGICAL_ROWS - columnHeights[x]; y < LOGICAL_ROWS; y++) {
+                if (board[y][x] === 0) holes++;
+            }
+        }
+
+        for (let i = 0; i < COLS - 1; i++) {
+            bumpiness += Math.abs(columnHeights[i] - columnHeights[i + 1]);
+        }
+        
+        for (let y = 0; y < LOGICAL_ROWS; y++) {
+             if(board[y].every(cell => cell !== 0)) lines++;
+        }
+
+        return (lines * 0.76) - (aggregateHeight * 0.51) - (holes * 0.35) - (bumpiness * 0.18);
+    }
+}
+
+
 // --- Main Game Class (Worker Version) ---
 class GameInstance {
     constructor(id, isAI, canvas) {
@@ -45,7 +170,7 @@ class GameInstance {
         this.targetViewportY = this.viewportY;
         
         if (this.isAI) {
-            // Future AI logic goes here
+            this.ai = new AIEngine(this);
         }
         
         this.resize();
@@ -53,8 +178,7 @@ class GameInstance {
     }
 
     resize() {
-        const { width, height } = this.canvas;
-        this.BLOCK_SIZE = width / COLS;
+        this.BLOCK_SIZE = this.canvas.width / COLS;
     }
 
     update(timestamp) {
@@ -63,6 +187,10 @@ class GameInstance {
         
         const deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
+
+        if (this.isAI) {
+            this.ai.update();
+        }
 
         this.dropCounter += deltaTime;
         const interval = this.isSoftDropping ? 50 : this.dropInterval;
@@ -139,21 +267,26 @@ class GameInstance {
         this.piece = this.nextPiece;
         this.nextPiece = this.createNewPiece();
         this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-        this.piece.y = Math.floor(this.targetViewportY); // Spawn at the top of the viewport
-        if (this.collides(this.piece, { y: 1 })) { // Check collision one step down
-            this.piece.y--; // Nudge up if colliding
-             if (this.collides(this.piece, {y: 0})) this.setGameOver();
+        this.piece.y = Math.floor(this.targetViewportY);
+        
+        while(this.collides(this.piece, {})) {
+            this.piece.y--;
+            if (this.piece.y < 0) {
+                 this.setGameOver();
+                 return;
+            }
         }
     }
 
     createNewPiece() { const t = Math.floor(this.pieceGenerator.random() * 7) + 1; return { x: 0, y: 0, matrix: SHAPES[t], typeId: t }; }
 
-    collides(p, o) {
-        for (let y = 0; y < p.matrix.length; y++) {
-            for (let x = 0; x < p.matrix[y].length; x++) {
-                if (p.matrix[y][x] !== 0) {
-                    const nX = p.x + x + (o.x || 0);
-                    const nY = p.y + y + (o.y || 0);
+    // *** CRITICAL FIX: REWRITTEN COLLISION SYSTEM ***
+    collides(piece, offset) {
+        for (let y = 0; y < piece.matrix.length; y++) {
+            for (let x = 0; x < piece.matrix[y].length; x++) {
+                if (piece.matrix[y][x] !== 0) {
+                    const nX = piece.x + x + (offset.x || 0);
+                    const nY = piece.y + y + (offset.y || 0);
                     if (nX < 0 || nX >= COLS || nY >= LOGICAL_ROWS || this.board[nY]?.[nX] !== 0) {
                         return true;
                     }
@@ -183,22 +316,20 @@ class GameInstance {
         }
         
         let currentTop = this.targetViewportY;
-        // Only scroll up if the stack gets within the top 4 rows of the current viewport
         if (highestBlockY < currentTop + 4) {
              let target = highestBlockY - (VIEWPORT_ROWS * 0.75);
              this.targetViewportY = Math.max(0, Math.min(LOGICAL_ROWS - VIEWPORT_ROWS, target));
         } else if (highestBlockY > currentTop + VIEWPORT_ROWS * 0.6) {
-             // Gently scroll down if there's a lot of empty space
              let target = highestBlockY - (VIEWPORT_ROWS * 0.75);
              this.targetViewportY = Math.min(LOGICAL_ROWS - VIEWPORT_ROWS, target);
         }
     }
     
-    setGameOver() { this.gameOver = true; postMessage({ type: 'game_over', payload: { id: this.id } }); }
-    move(d) { if (!this.gameOver && this.piece && !this.collides({ x: d, y: 0 })) { this.piece.x += d; } }
+    setGameOver() { if(!this.gameOver) { this.gameOver = true; postMessage({ type: 'game_over', payload: { id: this.id } }); } }
+    move(d) { if (!this.gameOver && this.piece && !this.collides(this.piece, { x: d })) { this.piece.x += d; } }
     rotate() { if (this.gameOver || !this.piece) return; const r = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse()); const p = { ...this.piece, matrix: r }; let o = 0; if (this.collides(p, {})) { o = p.x < COLS / 2 ? 1 : -1; if (this.collides(p, {x:o})) { o *= -1; if (this.collides(p,{x:o})) o=0;}} if (o !== 0 || !this.collides(p, {})) { this.piece.x += o; this.piece.matrix = r; } }
-    drop() { if (this.piece) { if (!this.collides({ x: 0, y: 1 })) { this.piece.y++; } else { this.lockPiece(); } } this.dropCounter = 0; }
-    hardDrop() { if (this.piece) { while (!this.collides({ x: 0, y: 1 })) { this.piece.y++; } this.lockPiece(); } }
+    drop() { if (this.piece) { if (!this.collides(this.piece, { y: 1 })) { this.piece.y++; } else { this.lockPiece(); } } this.dropCounter = 0; }
+    hardDrop() { if (this.piece) { while (!this.collides(this.piece, { y: 1 })) { this.piece.y++; } this.lockPiece(); } }
     
     sweepLines() {
         let cleared = 0;
@@ -226,15 +357,11 @@ self.onmessage = ({ data }) => {
         case 'init':
             const { bgCanvas, p1Canvas, p2Canvas, mode } = data.payload;
             
-            // Background Animation Logic
             let bgCtx = bgCanvas.getContext('2d');
             let stars = [];
             function resizeBg() {
-                bgCanvas.width = 1920; bgCanvas.height = 1080;
-                stars = [];
-                for (let i = 0; i < 200; i++) {
-                    stars.push({ x: Math.random() * bgCanvas.width, y: Math.random() * bgCanvas.height, radius: Math.random() * 1.5, vx: Math.floor(Math.random() * 50) - 25, vy: Math.floor(Math.random() * 50) - 25 });
-                }
+                bgCanvas.width = 1920; bgCanvas.height = 1080; stars = [];
+                for (let i = 0; i < 200; i++) { stars.push({ x: Math.random() * bgCanvas.width, y: Math.random() * bgCanvas.height, radius: Math.random() * 1.5, vx: Math.floor(Math.random() * 50) - 25, vy: Math.floor(Math.random() * 50) - 25 }); }
             }
             function drawBg() {
                 if(!bgCtx) return;
@@ -246,6 +373,7 @@ self.onmessage = ({ data }) => {
             resizeBg();
             drawBg();
             
+            gameInstances = []; // Clear previous instances
             const p1 = new GameInstance(1, mode === 'aivai', p1Canvas);
             gameInstances.push(p1);
 
@@ -281,7 +409,3 @@ function gameLoop(timestamp) {
     });
     animationFrameId = requestAnimationFrame(gameLoop);
 }
-
-
-console.
-log('B"H')
