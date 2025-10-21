@@ -97,6 +97,7 @@ const workerInterceptorScript = `
 
         window.addEventListener('message', (event) => {
             const { type, id } = event.data;
+            console.log("LOL cool data X",event.data)
             if (type === 'worker-script-response' && pendingWorkers.has(id)) {
                 const { proxy, options } = pendingWorkers.get(id);
                 pendingWorkers.delete(id);
