@@ -32,58 +32,62 @@ document.addEventListener('DOMContentLoaded', () => {
 // B"H
 // In main.js, replace your ENTIRE startGame function with this one.
 
+// B"H
+// In main.js, replace the entire startGame function with this one.
+
 function startGame(mode) {
+    // 1. Apply all CSS and layout changes FIRST.
     mainMenu.classList.add('hidden');
     gameScreen.classList.remove('hidden');
+    document.getElementById('p1-container').classList.remove('hidden');
+    document.getElementById('p2-container').classList.remove('hidden');
+    document.getElementById('p1-descend').classList.remove('hidden');
+    document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
 
+    // Apply the specific layout class for the current mode.
+    if (mode === 'single') {
+        gameScreen.classList.remove('vertical-layout');
+        document.getElementById('p2-container').classList.add('hidden');
+        document.getElementById('p1-title').classList.add('hidden');
+    } else {
+        gameScreen.classList.add('vertical-layout');
+        document.getElementById('p1-title').classList.remove('hidden');
+        document.getElementById('p1-title').innerText = (mode === 'pvai') ? 'PLAYER 1' : 'GOLEM';
+    }
+
+    // 2. THE FIX: Wait for the browser to finish rendering the layout changes.
+    // By the time this code runs, the canvas dimensions will be 100% accurate.
     requestAnimationFrame(() => {
         if (gameWorker) {
             gameWorker.terminate();
         }
         gameWorker = new Worker('worker.js');
         gameWorker.addEventListener('message', handleWorkerMessages);
-
-        const p1c = document.getElementById('p1-container');
-        const p2c = document.getElementById('p2-container');
-        p1c.classList.remove('hidden');
-        p2c.classList.remove('hidden');
-        document.getElementById('p1-descend').classList.remove('hidden');
-        document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
         
         const p1Canvas = document.getElementById('p1-canvas');
         const p2Canvas = document.getElementById('p2-canvas');
+        const dpr = window.devicePixelRatio || 1;
 
-        // --- START OF FIX ---
+        // 3. Now, measure the canvases. The values will be correct.
         const p1Rect = p1Canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1; // Get the screen's pixel density
         const offscreenP1 = p1Canvas.transferControlToOffscreen();
         
         let initPayload = {
             p1Canvas: offscreenP1,
             p1Dimensions: { width: p1Rect.width, height: p1Rect.height },
-            p1Dpr: dpr, // Send the pixel density to the worker
+            p1Dpr: dpr,
             mode: mode
         };
         const transferable = [offscreenP1];
-        // --- END OF FIX ---
 
-        if (mode === 'single') {
-            gameScreen.classList.remove('vertical-layout');
-            p2c.classList.add('hidden');
-            document.getElementById('p1-title').classList.add('hidden');
-        } else {
-            gameScreen.classList.add('vertical-layout');
-            
+        if (mode !== 'single') {
             const p2Rect = p2Canvas.getBoundingClientRect();
             const offscreenP2 = p2Canvas.transferControlToOffscreen();
             
             initPayload.p2Canvas = offscreenP2;
             initPayload.p2Dimensions = { width: p2Rect.width, height: p2Rect.height };
-            initPayload.p2Dpr = dpr; // Also send for P2
-            
+            initPayload.p2Dpr = dpr;
             transferable.push(offscreenP2);
-            document.getElementById('p1-title').classList.remove('hidden');
-            document.getElementById('p1-title').innerText = (mode === 'pvai') ? 'PLAYER 1' : 'GOLEM';
         }
 
         gameWorker.postMessage({ type: 'init', payload: initPayload }, transferable);
