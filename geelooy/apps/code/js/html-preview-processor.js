@@ -49,6 +49,7 @@ async function handleWorkerRequest(event, baseItem) {
         } else if (scriptContent.isBinary) { // Handle GitHub's base64 response
             scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
         }
+        console.log("i think i got content maybe")
 
         // 5. Send the correct response back to the iframe.
         if (type === 'fetch-worker-script') {
@@ -171,7 +172,9 @@ const importScriptsPolyfill = (workerPath) => `
 
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
+            console.lpg("got weird message",event.data)
             if (type === 'import-scripts-response' && pendingRequests.has(id)) {
+                
                 const request = pendingRequests.get(id);
                 pendingRequests.delete(id);
                 if (error) {
@@ -206,6 +209,7 @@ const importScriptsPolyfill = (workerPath) => `
                     console.log('%cProfound Editor: Received content for ' + relativePath, 'color: green');
                     console.log('--- SCRIPT CONTENT START ---\\n' + xhr.responseText + '\\n--- SCRIPT CONTENT END ---');
                     try {
+                    
                         const base64Content = btoa(unescape(encodeURIComponent(xhr.responseText)));
                         const dataUrl = 'data:application/javascript;base64,' + base64Content;
                         OriginalImportScripts(dataUrl);
