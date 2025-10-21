@@ -1,5 +1,57 @@
 // B"H
-// gameInstance.js - The Complete and Final Game Logic Class
+// gameInstance.js - Now with a dynamic starfield background
+
+// --- NEW: Starfield Background Class ---
+class Starfield {
+    constructor(ctx, dpr, width, height, numStars) {
+        this.ctx = ctx;
+        this.dpr = dpr;
+        this.width = width;
+        this.height = height;
+        this.stars = [];
+        for (let i = 0; i < numStars; i++) {
+            this.stars.push(this.createStar(true));
+        }
+    }
+
+    createStar(isInitial = false) {
+        const isChar = Math.random() < 0.05; // 5% of stars are Hebrew letters
+        return {
+            x: Math.random() * this.width,
+            y: isInitial ? Math.random() * this.height : -10, // Start new stars at the top
+            z: Math.random() * 0.8 + 0.2, // Speed factor (0.2 to 1.0)
+            char: isChar ? HEBREW_CHARS[Math.floor(Math.random() * HEBREW_CHARS.length)] : null,
+            opacity: Math.random() * 0.5 + 0.3,
+        };
+    }
+
+    update(speedMultiplier) {
+        const baseSpeed = 0.5;
+        const speed = baseSpeed * speedMultiplier;
+
+        for (let i = this.stars.length - 1; i >= 0; i--) {
+            const star = this.stars[i];
+            star.y += speed * star.z;
+            if (star.y > this.height) {
+                this.stars[i] = this.createStar();
+            }
+        }
+    }
+
+    draw() {
+        this.stars.forEach(star => {
+            if (star.char) {
+                this.ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity * 0.5})`; // Letters are fainter
+                this.ctx.font = `${14 * star.z * this.dpr}px Arial`;
+                this.ctx.fillText(star.char, star.x, star.y);
+            } else {
+                this.ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                const size = 2 * star.z * this.dpr;
+                this.ctx.fillRect(star.x, star.y, size, size);
+            }
+        });
+    }
+}
 
 class SeededRandom {
     constructor(seedStr) {
@@ -30,6 +82,8 @@ class GameInstance {
         this.dpr = dpr;
         this.pieceGenerator = new SeededRandom(id.toString());
         this.effectsEngine = new EffectsEngine(this.ctx, this.dpr);
+        // --- CHANGE: Initialize starfield here ---
+        this.starfield = new Starfield(this.ctx, this.dpr, this.canvas.width, this.canvas.height, 200);
         if (isAI) this.ai = new AIEngine(this);
     }
 
@@ -61,12 +115,18 @@ class GameInstance {
             }
         }
         this.effectsEngine.update();
+        // --- CHANGE: Update starfield speed based on level ---
+        this.starfield.update(this.level);
     }
 
     draw() {
         if (!this.ctx) return;
         this.ctx.fillStyle = '#000';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // --- CHANGE: Draw the starfield first (background) ---
+        this.starfield.draw();
+
         for (let y = 0; y < LOGICAL_ROWS; y++) {
             for (let x = 0; x < COLS; x++) {
                 if (this.board[y][x] !== 0) {
@@ -86,21 +146,18 @@ class GameInstance {
         this.effectsEngine.draw();
     }
 
-    // --- CHANGE: Replaced gradient with a sharp, flat, two-tone style ---
     drawBrick(logicalX, logicalY, typeId) {
         const screenX = logicalX * this.blockSize;
         const screenY = (logicalY - this.viewportTopY) * this.blockSize;
         if (screenY < -this.blockSize || screenY > this.canvas.height) return;
         
         const c = COLORS[typeId];
-        const p = this.blockSize * 0.1; // Padding
+        const p = this.blockSize * 0.1;
         const bs = this.blockSize;
 
-        // Draw a black background for a distinct border
         this.ctx.fillStyle = 'black';
         this.ctx.fillRect(screenX, screenY, bs, bs);
         
-        // Draw the main, smaller, flat-color block on top
         this.ctx.fillStyle = c;
         this.ctx.fillRect(screenX + p, screenY + p, bs - p * 2, bs - p * 2);
     }
