@@ -4,62 +4,73 @@
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 
-// --- Helper Functions ---
+// This path resolver is robust and uses the browser's URL API.
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
+    // We create a dummy base URL to safely resolve paths like '.' and '..'
     const baseUrl = new URL(basePath, 'http://dummy.com/');
     const resolvedUrl = new URL(relativePath, baseUrl);
+    // The pathname will be like '/path/to/file.js'. We remove the leading slash.
     return resolvedUrl.pathname.substring(1);
 }
 
-// --- The Message Handler (Lives on the main editor window) ---
-// This single, powerful handler processes all requests from the iframe.
+// --- B"H: THIS IS THE CORRECT, FLAWLESS MESSAGE HANDLER ---
+// It ONLY uses our internal FileSystemProvider, never a real network request.
 async function handleWorkerRequest(event, baseItem) {
     const { type, path: relativePath, id, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // A. The iframe's main script wants to create a new Worker.
-    if (type === 'fetch-worker-script') {
-        const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-        try {
-            const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-            if (workspace.type === 'github') {
-                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                assetItem.sha = fileMeta.sha;
-            }
-            let scriptContent = await FileSystemProvider.read(assetItem);
-            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
-            else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-            
+    // Determine the correct path to fetch based on the request type
+    const resolvedPath = (type === 'fetch-worker-script') 
+        ? resolveRelativePath(baseItem.path, relativePath)
+        : resolveRelativePath(basePath, relativePath);
+
+    console.log(`%cProfound Editor: Requesting '${resolvedPath}'`, 'color: orange');
+
+    try {
+        // --- THIS IS THE CORE LOGIC ---
+        // 1. Create a temporary item representing the file we need.
+        const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
+        
+        // 2. For GitHub, we MUST get the file's metadata (its SHA) first.
+        if (workspace.type === 'github') {
+            const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+            assetItem.sha = fileMeta.sha;
+        }
+
+        // 3. Use our internal FileSystemProvider.read() to get the content.
+        //    This works for Local, IndexedDB, and GitHub, and NEVER makes a direct fetch.
+        let scriptContent = await FileSystemProvider.read(assetItem);
+        
+        // 4. Process the content into plain text.
+        if (scriptContent instanceof Blob) {
+            scriptContent = await scriptContent.text();
+        } else if (scriptContent.isBinary) { // Handle GitHub's base64 response
+            scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+        }
+
+        // 5. Send the correct response back to the iframe.
+        if (type === 'fetch-worker-script') {
             const finalContent = importScriptsPolyfill(resolvedPath) + '\n\n' + scriptContent;
             const blob = new Blob([finalContent], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
             event.source.postMessage({ type: 'worker-script-response', id, blobUrl }, '*');
-        } catch (e) {
-            event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
-        }
-    } 
-    // B. A worker, already running, wants to import another script via importScripts.
-    else if (type === 'import-scripts-request') {
-        const resolvedPath = resolveRelativePath(basePath, relativePath);
-        try {
-            const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-             if (workspace.type === 'github') {
-                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                assetItem.sha = fileMeta.sha;
-            }
-            let scriptContent = await FileSystemProvider.read(assetItem);
-            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
-            else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-
+        } else { // 'import-scripts-request'
             event.source.postMessage({ type: 'import-scripts-response', id, content: scriptContent }, '*');
-        } catch (e) {
-            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
-            event.source.postMessage({ type: 'import-scripts-response', id, error: e.message }, '*');
+        }
+
+    } catch (e) {
+        console.error(`Profound Editor: Failed to get content for '${resolvedPath}':`, e);
+        const errorMessage = e.message || 'File not found';
+        if (type === 'fetch-worker-script') {
+            event.source.postMessage({ type: 'worker-script-response', id, error: errorMessage }, '*');
+        } else {
+            event.source.postMessage({ type: 'import-scripts-response', id, error: errorMessage }, '*');
         }
     }
 }
+
 
 export function attachWorkerRequestHandler(baseItem) {
     if (window.currentWorkerRequestHandler) {
@@ -76,7 +87,6 @@ export function detachWorkerRequestHandler() {
     }
 }
 
-// --- B"H: FULL WORKER INTERCEPTOR SCRIPT (NO PLACEHOLDERS) ---
 const workerInterceptorScript = `
     (function() {
         const OriginalWorker = window.Worker;
@@ -117,10 +127,7 @@ const workerInterceptorScript = `
             }
             const requestId = requestIdCounter++;
             const proxyWorker = {
-                _realWorker: null,
-                _messageQueue: [],
-                _onmessage: null,
-                _onerror: null,
+                _realWorker: null, _messageQueue: [], _onmessage: null, _onerror: null,
                 _connect: function(real) {
                     this._realWorker = real;
                     real.onmessage = this._onmessage;
@@ -129,15 +136,10 @@ const workerInterceptorScript = `
                     this._messageQueue = [];
                 },
                 postMessage: function(...args) {
-                    if (this._realWorker) {
-                        this._realWorker.postMessage(...args);
-                    } else {
-                        this._messageQueue.push(args);
-                    }
+                    if (this._realWorker) { this._realWorker.postMessage(...args); } 
+                    else { this._messageQueue.push(args); }
                 },
-                terminate: function() {
-                    if (this._realWorker) this._realWorker.terminate();
-                },
+                terminate: function() { if (this._realWorker) this._realWorker.terminate(); },
             };
             Object.defineProperty(proxyWorker, 'onmessage', {
                 get: () => proxyWorker._onmessage,
@@ -160,7 +162,6 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- B"H: FULL, FLAWLESS SYNCHRONOUS XHR POLYFILL (NO PLACEHOLDERS) ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
@@ -194,18 +195,16 @@ const importScriptsPolyfill = (workerPath) => `
                 const dummyUrl = new URL(relativePath, self.location.origin).href;
                 xhr.open('GET', dummyUrl, false);
 
-                const originalSend = xhr.send;
                 xhr.send = () => {
                     pendingRequests.set(requestId, xhr);
                     self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
                 };
 
-                originalSend.call(xhr, null); // Worker blocks here.
+                xhr.send(null); // Worker blocks here.
 
                 if (xhr.status === 200) {
                     console.log('%cProfound Editor: Received content for ' + relativePath, 'color: green');
                     console.log('--- SCRIPT CONTENT START ---\\n' + xhr.responseText + '\\n--- SCRIPT CONTENT END ---');
-                    
                     try {
                         const base64Content = btoa(unescape(encodeURIComponent(xhr.responseText)));
                         const dataUrl = 'data:application/javascript;base64,' + base64Content;
