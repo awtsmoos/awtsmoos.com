@@ -37,9 +37,9 @@ function init(data) {
 
     // Initial AI move if necessary
     if (gameMode === 'pvc' && !isPlayerTurn) {
-        setTimeout(aiMove, 500);
+        setTimeout(aiMove, 1);
     } else if (gameMode === 'cvc') {
-        setTimeout(aiMove, 500);
+        setTimeout(aiMove, 1);
     }
     
     // Start the game loop if it's not already running
@@ -66,7 +66,11 @@ function resetGame(playerGoesFirst = true) {
 
 function aiMove() {
     if (gameOver) return;
-    const col = getGolemMove(board, columns);
+
+    // Pass the board and the AI's current piece number to the AI logic.
+    // The AI will identify itself with 'currentPlayer'.
+    const col = getGolemMove(board, currentPlayer);
+    
     if (col !== -1) {
         dropPiece(col);
     }
