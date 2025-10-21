@@ -79,14 +79,23 @@ export const App = {
             DOM.sidebarOverlay.classList.remove('is-visible');
             document.removeEventListener('click', handleOutsideClick);
         };
+
+        // --- B"H: THE DEFINITIVE FIX FOR THE VANISHING SIDEBAR ---
         const handleOutsideClick = (e) => {
-            if (!e.target.closest('#sidebar')) closeMobileSidebar();
+            // This now checks if the click is NOT in the sidebar AND NOT in a dialog.
+            // This prevents dialog clicks from closing the sidebar.
+            if (!e.target.closest('#sidebar') && !e.target.closest('#generic-dialog')) {
+                closeMobileSidebar();
+            }
         };
+        // --- END FIX ---
+
         DOM.mobileSidebarToggle.onclick = (e) => {
             e.stopPropagation(); 
             const isOpen = DOM.sidebar.classList.contains('is-open');
-            if (isOpen) closeMobileSidebar();
-            else {
+            if (isOpen) {
+                closeMobileSidebar();
+            } else {
                 DOM.sidebar.classList.add('is-open');
                 DOM.sidebarOverlay.classList.add('is-visible');
                 document.addEventListener('click', handleOutsideClick);
@@ -178,12 +187,7 @@ export const App = {
         if (!optionsContainer) return;
 
         optionsContainer.addEventListener('click', (e) => {
-            // --- B"H FIX: VANISHING SIDEBAR ---
-            // This stops the click inside the dialog from bubbling up to the document, which was
-            // incorrectly triggering the "click outside" listener for the mobile sidebar.
             e.stopPropagation();
-            // --- END FIX ---
-
             const button = e.target.closest('button');
             if (!button) return;
             const action = button.dataset.action;
@@ -273,7 +277,7 @@ export const App = {
         const contentHTML = `
             <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
             <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
-            <div style="display: flex; align-items-center; gap: 10px; margin-top: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
                 <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
                 <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
             </div>
