@@ -28,7 +28,7 @@ export const Menus = {
 
         setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
 
-        const mapKey = `${item.workspaceId}::${item.path || '/'}`;
+        const mapKey = `${item.workspaceId ?? item.id}::${item.path || '/'}`;
         const targetEl = State.domItemMap.get(mapKey)?.el;
         if(targetEl) targetEl.classList.add('context-active');
 
@@ -105,7 +105,7 @@ export const Menus = {
     },
 
     async handleAction(action) {
-        const item = State.contextTarget; // This is the parent directory
+        const item = State.contextTarget;
         this.hideAll();
 
         try {
@@ -137,45 +137,51 @@ export const Menus = {
                     break;
                 }
                 
-                // --- B"H --- MODIFIED BLOCK ---
                 case 'new-file':
                 case 'new-folder': {
                     if (!item) break;
-                    const kind = action.split('-')[1]; // 'file' or 'folder'
+                    const kind = action.split('-')[1];
                     const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
                     if (name) {
                         UI.showLoading(`Creating ${kind}...`);
                         await FileSystemProvider.create(item, name, kind);
                         UI.showToast(`${kind} '${name}' created.`, 'success');
                         
-                        // 1. Refresh the parent directory in the sidebar
+                        // --- B"H FIX STARTS HERE ---
+                        // The context item's workspace ID might be on the 'workspaceId' property (for child folders)
+                        // or on the 'id' property (for the workspace root itself). This handles both cases.
+                        const parentWorkspaceId = item.workspaceId ?? item.id;
+                        const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
+
+                        if (!workspace) {
+                            throw new Error("Could not find the parent workspace to create the new file.");
+                        }
+                        // --- B"H FIX ENDS HERE ---
+                        
                         await Workspaces.refreshNode(item);
                         
-                        // 2. If it was a file, create the item object and open it in a new tab
                         if (kind === 'file') {
-                            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
                             const newPath = item.path === '/' ? name : `${item.path}/${name}`;
                             const newFileItem = {
-                                ...workspace, // Inherits type, repoInfo, handle, etc.
+                                ...workspace,
                                 name: name,
                                 path: newPath,
                                 kind: 'file',
-                                workspaceId: workspace.id,
-                                content: '' // New files are empty
+                                workspaceId: workspace.id, // This is now safe
+                                content: ''
                             };
-                            Tabs.create(newFileItem, true); // Pass true to force content to be empty string
+                            Tabs.create(newFileItem, true);
                         }
                     }
                     break;
                 }
-                // --- END MODIFIED BLOCK ---
 
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
                     const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete files.`, okText: 'Remove', cancelText: 'Cancel' });
                     if(confirmed) {
                         UI.showLoading('Removing workspace...');
-                        const wsId = item.workspaceId;
+                        const wsId = item.workspaceId ?? item.id;
                         const tabsToClose = State.tabs.filter(t => t.item.workspaceId === wsId);
                         for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                         State.workspaces = State.workspaces.filter(ws => ws.id !== wsId);
