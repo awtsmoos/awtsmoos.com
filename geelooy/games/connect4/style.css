@@ -1,53 +1,82 @@
 /*B"H*/
-body {
+
+
+
+
+html, body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
+    height: 100%;
+    width: 100%;
     background-color: #1a1a1a;
     color: white;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#main-menu, #turn-choice-menu {
+.menu-container, #main-menu {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 100%;
     gap: 15px;
 }
 
 h1 {
-    font-size: 3em;
+    font-size: 4em;
     margin-bottom: 20px;
+    color: #4CAF50;
 }
 
 button {
     background-color: #4CAF50;
-    border: none;
+    border: 2px solid #45a049;
     color: white;
     padding: 15px 32px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 1.2em;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.1s;
+    min-width: 250px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #5dc460;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 canvas {
     display: block;
-    background-color: #000;
+    background-color: #121212;
 }
 
 #game-controls {
-    margin-top: 10px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
+#resign-btn {
+    background-color: #f44336;
+    border-color: #d32f2f;
+}
+#resign-btn:hover {
+    background-color: #e57373;
+}
+
+
