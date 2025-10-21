@@ -187,20 +187,32 @@ class GameInstance {
         this.lockPiece();
     }
 
-    collides(piece, offset) {
-        const pMatrix = piece.matrix, pX = piece.x + (offset.x || 0), pY = piece.y + (offset.y || 0);
-        for (let y = 0; y < pMatrix.length; y++) {
-            for (let x = 0; x < pMatrix[y].length; x++) {
-                if (pMatrix[y][x] !== 0) {
-                    const bX = pX + x, bY = pY + y;
-                    if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (bY >= 0 && this.board[bY]?.[bX] !== 0)) {
-                        return true;
-                    }
+    // B"H
+// In gameInstance.js, replace the entire collides function with this one.
+
+collides(piece, offset) {
+    const pMatrix = piece.matrix,
+          pX = piece.x + (offset.x || 0),
+          pY = piece.y + (offset.y || 0);
+          
+    for (let y = 0; y < pMatrix.length; y++) {
+        for (let x = 0; x < pMatrix[y].length; x++) {
+            if (pMatrix[y][x] !== 0) {
+                const bX = pX + x,
+                      bY = pY + y;
+
+                // --- START OF FIX ---
+                // First, check if the row exists before trying to access a cell within it.
+                const row = this.board[bY];
+                if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (row && row[bX] !== 0)) {
+                    return true;
                 }
+                // --- END OF FIX ---
             }
         }
-        return false;
     }
+    return false;
+}
 
     createNewPiece() {
         const typeId = Math.floor(this.pieceGenerator.random() * 7) + 1;
