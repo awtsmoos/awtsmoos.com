@@ -49,7 +49,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 }
                 console.log('%c[WORKER] ...Woke up!', 'color: #B0C4DE;');
                 Atomics.store(int32, 0, 0);
-                console.log("got result?",result)
+                console.log("got result?",result,scriptCache)
 
                 if (scriptCache.has('error:' + relativePath)) {
                      throw new Error(scriptCache.get('error:' + relativePath));
