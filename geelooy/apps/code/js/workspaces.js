@@ -10,11 +10,10 @@ import { Menus } from './menus.js';
  * Workspaces Module: Manages the file explorer tree view.
  */
 export const Workspaces = {
-    // --- B"H FIX 1 ---
-    // Instead of re-rendering everything, this function now appends a new workspace
-    // without disturbing the existing ones.
+    // --- B"H FIX 1: ADDING A NEW WORKSPACE ---
+    // This function no longer calls a full re-render. Instead, it surgically adds
+    // the new workspace to the DOM, preserving the state of all others.
     add(ws) {
-        // If the "Add a workspace" message is present, remove it first.
         const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
         if (emptyMessage) {
             DOM.workspacesContainer.innerHTML = '';
@@ -23,11 +22,11 @@ export const Workspaces = {
         const newWs = { id: State.nextWorkspaceId++, isCollapsed: false, ...ws };
         State.workspaces.push(newWs);
         
-        // Render just the new workspace and append it to the container.
+        // Render just the new workspace and append it directly.
         this.renderWorkspace(newWs, DOM.workspacesContainer);
     },
 
-    // This is the main render function, now refactored to use the helper below.
+    // Main render function for initial load
     render() {
         DOM.workspacesContainer.innerHTML = '';
         State.domItemMap.clear();
@@ -35,13 +34,10 @@ export const Workspaces = {
             DOM.workspacesContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Add a workspace to begin.</div>`;
             return;
         }
-
-        State.workspaces.forEach(ws => {
-            this.renderWorkspace(ws, DOM.workspacesContainer);
-        });
+        State.workspaces.forEach(ws => this.renderWorkspace(ws, DOM.workspacesContainer));
     },
 
-    // This is a new helper function that renders a single workspace.
+    // Helper to render a single workspace.
     renderWorkspace(ws, container) {
         const wsRoot = document.createElement('div');
         wsRoot.className = 'workspace-root';
@@ -129,19 +125,16 @@ export const Workspaces = {
         }
     },
     
-    // --- B"H FIX 2 ---
-    // This function is now smarter. If a folder is collapsed, it will programmatically
-    // expand it before refreshing, ensuring the new item is visible.
+    // --- B"H FIX 2: CREATING A NEW FOLDER/FILE ---
+    // This function now directly expands a collapsed folder before refreshing it,
+    // which is more reliable than simulating a click.
     async refreshNode(item) {
         const workspaceId = item.workspaceId ?? item.id;
         const path = item.path ?? '/';
         const mapKey = `${workspaceId}::${path}`;
 
         const entry = State.domItemMap.get(mapKey);
-        if (!entry) {
-            console.error("refreshNode could not find entry for key:", mapKey);
-            return;
-        }
+        if (!entry) { return; }
 
         const directoryElement = entry.el;
         const directoryItem = entry.item;
@@ -149,21 +142,32 @@ export const Workspaces = {
 
         let childrenContainer = directoryElement.querySelector('ul');
 
+        // If the folder is collapsed (no 'ul' element), we must create it and expand it.
         if (!childrenContainer) {
-            // If the container doesn't exist, the directory is collapsed.
-            // We need to expand it to show the new item by simulating a click.
+            // Find the clickable area to add the 'expanded' class to its parent.
+            const clickableElement = isRoot 
+                ? directoryElement.querySelector('.workspace-header') 
+                : directoryElement.querySelector('.tree-item-name-wrap');
+            
+            // This is the parent 'li' for sub-folders.
+            const parentLi = clickableElement.closest('.tree-item');
+
+            // Add the .expanded class to the correct element to show the arrow rotated.
+            if (parentLi) parentLi.classList.add('expanded');
+
+            // Create the list element that was missing.
+            childrenContainer = document.createElement('ul');
+
+            // For root workspaces, the <ul> is inside the main div. For others, it's inside the <li>.
             if (isRoot) {
-                const header = directoryElement.querySelector('.workspace-header');
-                if (header) header.click();
-            } else {
-                const nameWrap = directoryElement.querySelector('.tree-item-name-wrap');
-                if (nameWrap) nameWrap.click();
+                directoryElement.appendChild(childrenContainer);
+            } else if (parentLi) {
+                parentLi.appendChild(childrenContainer);
             }
-        } else {
-            // If the container *does* exist, the directory is already expanded.
-            // We just need to re-render its contents.
-            const childrenDepth = isRoot ? 1 : (directoryItem.path.match(/\//g) || []).length + 1;
-            await this.renderTree(childrenContainer, directoryItem, childrenDepth);
         }
+        
+        // Now that we are GUARANTEED that the childrenContainer exists, we can refresh it.
+        const childrenDepth = isRoot ? 1 : (directoryItem.path.match(/\//g) || []).length + 1;
+        await this.renderTree(childrenContainer, directoryItem, childrenDepth);
     }
 };
