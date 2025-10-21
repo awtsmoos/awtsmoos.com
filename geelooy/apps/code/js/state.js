@@ -55,3 +55,6 @@ export function initializeDOM() {
     DOM.keyboardHelper = document.getElementById('keyboard-helper');
     DOM.previewer = document.getElementById('previewer'); // This will now correctly find the element.
 }
+
+
+initializeDOM()
