@@ -12,7 +12,8 @@ try {
      'gameInstance.js'
      );
 } catch (e) {
-    console.error("CRITICAL: Failed to import one or more scripts.", e);
+    console.error("CRITICAL: Failed to import one or more scripts.", e
+    stack,e);
     // If scripts fail to load, we cannot proceed.
     // Close the worker to prevent further errors.
     self.close();
