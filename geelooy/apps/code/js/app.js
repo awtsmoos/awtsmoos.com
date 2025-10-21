@@ -77,7 +77,6 @@ export const App = {
         DOM.hamburgerMenuBtn.onclick = (e) => Menus.showMainMenu(e);
         DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
 
-        DOM.sidebar.addEventListener('click', (e) => e.stopPropagation());
         
         const closeMobileSidebar = () => {
             DOM.sidebar.classList.remove('is-open');
