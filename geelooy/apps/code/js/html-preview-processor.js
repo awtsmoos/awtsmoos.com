@@ -66,14 +66,18 @@ async function handleWorkerRequest(event, baseItem) {
              if (workspace.type === 'github') {
                 const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
                 assetItem.sha = fileMeta.sha;
+                console.log("got sha",assetItem.sha)
             }
+            
             let scriptContent = await FileSystemProvider.read(assetItem);
+            console.lpg("got raw content",scriptContent)
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+            console.log("processed",scriptContent)
 
             event.source.postMessage({ type: 'import-scripts-response', id, content: scriptContent }, '*');
         } catch (e) {
-            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
+            console.error(`Failed to fetch script for importScripts '${relativePath}':`, e, e.stack);
             event.source.postMessage({ type: 'import-scripts-response', id, error: e.message }, '*');
         }
     }
