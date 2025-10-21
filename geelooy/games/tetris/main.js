@@ -96,20 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.gameScreen.classList.remove('hidden');
         document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
 
-        // --- CHANGE: DYNAMICALLY RE-PARENT THE DESCEND BUTTON FOR PERFECT LAYOUT ---
         switch (mode) {
             case 'single':
                 elements.p1Container.classList.remove('hidden');
                 elements.p2Container.classList.add('hidden');
                 elements.sharedControls.classList.add('hidden');
-                // Move button to the player container for correct positioning
                 elements.p1Container.appendChild(elements.descendButton);
                 elements.descendButton.classList.remove('hidden');
                 break;
             case 'pvai':
                 elements.p1Container.classList.remove('hidden');
                 elements.p2Container.classList.remove('hidden');
-                // Move button back to the shared container
                 elements.sharedControls.appendChild(elements.descendButton);
                 elements.sharedControls.classList.remove('hidden');
                 break;
@@ -179,50 +176,42 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'ArrowLeft':  case 'a': sendInput('move', -1); break;
             case 'ArrowRight': case 'd': sendInput('move', 1); break;
             case 'ArrowUp':    case 'w': sendInput('rotate'); break;
-            case 'ArrowDown':  case 's': sendInput('drop'); break; 
+            // --- CHANGE: Down arrow is now SOFT drop, not single drop ---
+            case 'ArrowDown':  case 's': sendInput('soft_drop_start'); break; 
             case ' ': sendInput('hard_drop'); break;
         }
     });
+    window.addEventListener('keyup', (e) => {
+        // --- CHANGE: Keyup listener is back for soft drop ---
+        if (e.key === 'ArrowDown' || e.key === 's') {
+            sendInput('soft_drop_end');
+        }
+    });
     
-    // --- CORRECTED: Restored Touch Input Logic ---
-    elements.p1Container.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        game.touchStartX = touch.clientX;
-        game.touchStartY = touch.clientY;
-        game.touchMoved = false; // Reset move tracker
-    }, { passive: false });
+    // --- Touch Input for Player 1's board ---
+    elements.p1Container.addEventListener('touchstart', (e) => { e.preventDefault(); const touch = e.touches[0]; game.touchStartX = touch.clientX; game.touchStartY = touch.clientY; game.touchMoved = false; }, { passive: false });
+    elements.p1Container.addEventListener('touchmove', (e) => { e.preventDefault(); if (!e.touches.length) return; const touch = e.touches[0]; const deltaX = touch.clientX - game.touchStartX; const deltaY = touch.clientY - game.touchStartY; if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) { sendInput('move', deltaX > 0 ? 1 : -1); game.touchStartX = touch.clientX; } if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) { game.touchMoved = true; } }, { passive: false });
+    elements.p1Container.addEventListener('touchend', (e) => { e.preventDefault(); if (!game.touchMoved) { sendInput('rotate'); } }, { passive: false });
 
-    elements.p1Container.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        if (!e.touches.length) return;
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - game.touchStartX;
-        const deltaY = touch.clientY - game.touchStartY;
+    // --- FIX: Correct "Hold-to-Descend" Logic for the Button ---
+    const button = elements.descendButton;
+    // When the user presses the button (touch or mouse)
+    button.addEventListener('touchstart', (e) => {
+        e.stopPropagation(); // CRITICAL: Prevents the container from rotating the piece.
+        sendInput('soft_drop_start');
+    });
+    button.addEventListener('mousedown', () => sendInput('soft_drop_start'));
 
-        // Check if the movement is primarily horizontal (a side-swipe)
-        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
-            sendInput('move', deltaX > 0 ? 1 : -1);
-            game.touchStartX = touch.clientX; // Reset start X for continuous swiping
-        }
-
-        // Any significant movement flags it as a swipe, not a tap
-        if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
-            game.touchMoved = true;
-        }
-    }, { passive: false });
-    
-    elements.p1Container.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        // If the finger was not dragged, it's a tap for rotation.
-        if (!game.touchMoved) {
-            sendInput('rotate');
-        }
-    }, { passive: false });
+    // When the user releases the button (touch or mouse)
+    button.addEventListener('touchend', (e) => {
+        e.stopPropagation(); // CRITICAL: Also stop propagation on end.
+        sendInput('soft_drop_end');
+    });
+    button.addEventListener('mouseup', () => sendInput('soft_drop_end'));
+    button.addEventListener('mouseleave', () => sendInput('soft_drop_end')); // Also stop if mouse leaves button area
 
     // --- Universal Event Listeners ---
     window.addEventListener('resize', handleResize);
-    elements.descendButton.addEventListener('click', () => sendInput('hard_drop'));
 
     // Menu button listeners
     document.getElementById('play-single').addEventListener('click', () => startGame('single'));
