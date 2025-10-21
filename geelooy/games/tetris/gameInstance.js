@@ -74,9 +74,11 @@ class GameInstance {
 
     // --- CORE GAME LOOP ---
     update(timestamp) {
-        if (this.gameOver) return;
-        if (!this.lastTime) this.lastTime = timestamp;
-        
+    // THE FIX: If timestamp is invalid for any reason, skip this frame.
+    // This prevents NaN calculations and makes the game stable.
+    if (this.gameOver || !timestamp) return; 
+
+    if (!this.lastTime) this.lastTime = timestamp;
         const deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
 
