@@ -46,7 +46,7 @@ export const App = {
     loadSettings: () => {
          const settings = JSON.parse(localStorage.getItem('vividX_settings_profound') || '{}');
          State.githubToken = settings.githubToken || null;
-         State.useTabs = settings.useTabs ?? true; // Default to true for tabs
+         State.useTabs = settings.useTabs ?? true;
     },
 
     setupEventListeners() {
@@ -63,9 +63,6 @@ export const App = {
         DOM.editor.addEventListener('click', StatusBar.update);
         new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
         
-        
-        
-        
         DOM.contextMenu.addEventListener('click', (e) => {
             const button = e.target.closest('button');
             if (button) Menus.handleAction(button.dataset.action);
@@ -76,7 +73,6 @@ export const App = {
         });
         DOM.hamburgerMenuBtn.onclick = (e) => Menus.showMainMenu(e);
         DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
-
         
         const closeMobileSidebar = () => {
             DOM.sidebar.classList.remove('is-open');
@@ -139,13 +135,11 @@ export const App = {
         DOM.keyboardHelper.addEventListener('click', (e) => {
             const button = e.target.closest('button.kh-btn');
             if (!button) return;
-
             const editor = DOM.editor;
             const key = button.dataset.key;
             const pair = button.dataset.pair;
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
-
             if (pair) {
                 const [charStart, charEnd] = pair;
                 const selectedText = editor.value.substring(start, end);
@@ -154,13 +148,8 @@ export const App = {
                 if (start === end) {
                     editor.selectionStart = editor.selectionEnd = start + 1;
                 }
-            } else if (key) {
-                switch (key) {
-                    case 'tab':
-                        editor.setRangeText(App.getTabString(), start, end, 'end');
-                        break;
-                    // Other key handlers can be added here
-                }
+            } else if (key === 'tab') {
+                editor.setRangeText(App.getTabString(), start, end, 'end');
             }
             editor.focus();
             editor.dispatchEvent(new Event('input', { bubbles: true }));
@@ -182,22 +171,23 @@ export const App = {
             </div>`;
         
         UI.showDialog({ 
-            title: 'Add New Workspace', 
-            contentHTML, 
-            okText: '',
-            cancelText: 'Cancel'
+            title: 'Add New Workspace', contentHTML, okText: '', cancelText: 'Cancel'
         });
 
         const optionsContainer = document.getElementById('workspace-options');
         if (!optionsContainer) return;
 
         optionsContainer.addEventListener('click', (e) => {
+            // --- B"H FIX: VANISHING SIDEBAR ---
+            // This stops the click from bubbling up to the document, which was
+            // incorrectly triggering the "click outside" listener for the mobile sidebar.
+            e.stopPropagation();
+            // --- END FIX ---
+
             const button = e.target.closest('button');
             if (!button) return;
             const action = button.dataset.action;
-            
             DOM.genericDialog.classList.remove('visible');
-
             switch (action) {
                 case 'local': this.addLocalWorkspace(); break;
                 case 'github': this.addGithubWorkspace(); break;
@@ -237,7 +227,8 @@ export const App = {
             UI.showDialog({ title: 'Select a Repository', contentHTML: `<div style="max-height: 50vh; overflow-y: auto;">${repoListHTML}</div>`, okText: '', cancelText: 'Cancel'});
             
             document.getElementById('dialog-content').querySelectorAll('.menu-button').forEach(btn => {
-                btn.onclick = () => {
+                btn.onclick = (e) => {
+                    e.stopPropagation(); // Good practice to add this here too
                     const fullName = btn.dataset.repoFullName;
                     const [owner, repoName] = fullName.split('/');
                     const repoData = repos.find(r => r.full_name === fullName);
@@ -255,7 +246,6 @@ export const App = {
     async openLocalFile() {
         try {
             if (!window.showOpenFilePicker) {
-                // Fallback for browsers that don't support the API
                 const input = document.createElement('input');
                 input.type = 'file';
                 input.onchange = async (e) => {
@@ -268,7 +258,6 @@ export const App = {
                 input.click();
                 return;
             }
-
             const [fileHandle] = await window.showOpenFilePicker();
             const file = await fileHandle.getFile();
             const content = await file.text();
@@ -284,7 +273,7 @@ export const App = {
         const contentHTML = `
             <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
             <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+            <div style="display: flex; align-items-center; gap: 10px; margin-top: 15px;">
                 <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
                 <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
             </div>
