@@ -232,7 +232,7 @@ export const FileSystemProvider = {
             const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
                 method: 'PUT',
                 body: JSON.stringify({ 
-                    message: commitMessage || `B"H\n updated ${name}!`, 
+                    message: commitMessage || `B"H ${"\n"} updated ${name}!`, 
                     content: this.utf8_to_b64(content), sha: existingSha, branch 
                 })
             });
@@ -240,7 +240,7 @@ export const FileSystemProvider = {
         },
         async create({ repoInfo, branch, path }, name, kind) {
             const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
-            const message = `B"H: create ${kind} '${name}'`;
+            const message = `B"H${"\n"} create ${kind} '${name}'`;
             await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
                 method: 'PUT',
                 body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
@@ -248,7 +248,7 @@ export const FileSystemProvider = {
         },
         async delete({ repoInfo, branch, path, name, sha, kind }) {
             if (kind === 'directory') throw new Error("Deleting non-empty folders via API is complex and not supported in this version.");
-            const message = `B"H: delete ${name}`;
+            const message = `B"H${"\n"} delete ${name}`;
             await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
                 method: 'DELETE',
                 body: JSON.stringify({ message, sha, branch })
