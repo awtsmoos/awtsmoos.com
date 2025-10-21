@@ -37,9 +37,9 @@ function init(data) {
 
     // Initial AI move if necessary
     if (gameMode === 'pvc' && !isPlayerTurn) {
-        setTimeout(aiMove, 1);
+        setTimeout(aiMove, 200);
     } else if (gameMode === 'cvc') {
-        setTimeout(aiMove, 1);
+        setTimeout(aiMove, 200);
     }
     
     // Start the game loop if it's not already running
@@ -154,14 +154,28 @@ function update() {
         const gravity = 0.8;
         animatedPiece.speed += gravity;
         animatedPiece.y += animatedPiece.speed;
-        const targetRow = getTargetRow(animatedPiece.col);
-        if (targetRow !== -1 && animatedPiece.y >= targetRow * (canvas.height / rows)) {
-            animatedPiece.y = targetRow * (canvas.height / rows);
-            handleMoveCompletion(targetRow, animatedPiece.col);
+
+        const targetY = animatedPiece.targetRow * (canvas.height / rows);
+
+        // Check if the piece has reached or passed its target destination
+        if (animatedPiece.y >= targetY) {
+            animatedPiece.y = targetY; // Snap to the final position
+            handleMoveCompletion(animatedPiece.targetRow, animatedPiece.col);
         }
     }
-    particles.forEach((p, index) => { if (p.alpha <= 0) particles.splice(index, 1); else p.update(); });
+    
+    // Update particles and remove ones that are no longer visible
+    particles.forEach((p, index) => {
+        if (p.alpha <= 0) {
+            particles.splice(index, 1);
+        } else {
+            p.update();
+        }
+    });
 }
+
+
+
 function draw() {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -195,6 +209,20 @@ function draw() {
     }
 }
 function getTargetRow(col) { for (let r = rows - 1; r >= 0; r--) { if (board[r][col] === 0) return r; } return -1; }
-function dropPiece(col) { if (animatedPiece || col < 0 || col >= columns) return null; const targetRow = getTargetRow(col); if (targetRow === -1) return null; animatedPiece = { col, player: currentPlayer, y: -(canvas.height/rows), speed: 0 }; return { row: targetRow, col }; }
+function dropPiece(col) {
+    if (animatedPiece || col < 0 || col >= columns) return null;
+    const targetRow = getTargetRow(col);
+    if (targetRow === -1) return null;
+    animatedPiece = {
+        col: col,
+        player: currentPlayer,
+        y: -(canvas.height / rows),
+        speed: 0,
+        targetRow: targetRow // Store the target row here
+    };
+    return { row: targetRow, col };
+}
+
+
 function checkWin(player, r, c) { const dirs = [[0,1], [1,0], [1,1], [1,-1]]; for (const [dr, dc] of dirs) { let count = 1; for (let i = 1; i < 4; i++) { const nr = r + i * dr, nc = c + i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } for (let i = 1; i < 4; i++) { const nr = r - i * dr, nc = c - i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } if (count >= 4) return true; } return false; }
 function createExplosion(col, row) { const x = col * (canvas.width/columns) + (canvas.width/columns)/2; const y = row * (canvas.height/rows) + (canvas.height/rows)/2; for (let i = 0; i < 70; i++) { particles.push(new Particle(x, y, hebrewLetters[Math.floor(Math.random() * hebrewLetters.length)])); } }
