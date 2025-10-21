@@ -1,9 +1,11 @@
 <!--B"H-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Connect 4</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,15 +16,24 @@
         <button id="g-vs-g">Golem vs. Golem</button>
         <button id="p-vs-p">Player vs. Player</button>
     </div>
-    <div id="turn-choice-menu" style="display: none;">
+
+    <div id="turn-choice-menu" class="menu-container" style="display: none;">
         <h2>Do you want to go first?</h2>
         <button id="player-first">Yes</button>
         <button id="player-second">No</button>
     </div>
-    <canvas id="game-canvas"></canvas>
-    <div id="game-controls" style="display: none;">
-        <button id="resign-btn">Resign</button>
+
+    <div id="game-container" style="display: none;">
+        <canvas id="game-canvas"></canvas>
+        <div id="game-controls">
+            <button id="resign-btn">Resign</button>
+        </div>
     </div>
-    <script src="main.js" type="module"></script>
+
+    <script src="main.js"></script>
 </body>
 </html>
+
+
+
+
