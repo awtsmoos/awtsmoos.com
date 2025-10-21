@@ -227,7 +227,7 @@ const importScriptsPolyfill = (workerPath) => `
                         throw e;
                     }
                 } else {
-                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + xhr.responseText + ' and '+ relativePath +'" with "+xhr.status));
+                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + xhr.responseText + ' and '+ relativePath +" with "+xhr.status));
                 
                 }
             }
