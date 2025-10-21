@@ -74,11 +74,27 @@ class GameInstance {
         }
     }
 
-    draw() {
-    if (!this.ctx) return;
+    // B"H
+// In gameInstance.js
+
+// ... constructor, init, update ...
+
+draw() {
+    if (!this.ctx) {
+        console.error(`[P${this.id}] Draw failed: No context available.`);
+        return;
+    }
     
+    // THIS IS THE MOST IMPORTANT LOG FOR THE BLACK SCREEN ISSUE
     this.BLOCK_SIZE = this.canvas.width / COLS;
-    if (!this.BLOCK_SIZE || this.canvas.width === 0) return;
+    if (!this.BLOCK_SIZE || this.canvas.width === 0) {
+        // Log the reason for not drawing
+        console.warn(`[P${this.id}] DRAW SKIPPED. Canvas width is ${this.canvas.width}, calculated BLOCK_SIZE is ${this.BLOCK_SIZE}.`); // <-- LOG 9
+        return; // This is the likely cause of the black screen
+    }
+
+    // If the log above does NOT appear, these will tell us if drawing is happening.
+    console.log(`[P${this.id}] Drawing board. BLOCK_SIZE: ${this.BLOCK_SIZE}`); // <-- LOG 10
 
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -94,8 +110,6 @@ class GameInstance {
         }
     }
 
-    // **THE FIX**: Add a comprehensive check before attempting to draw the piece.
-    // This ensures `this.piece` and its `matrix` are valid objects.
     if (this.piece && this.piece.matrix && Array.isArray(this.piece.matrix)) {
         this.drawMatrix(this.piece);
         if (this.piece.y + this.piece.matrix.length > this.viewportY + VIEWPORT_ROWS) {
@@ -103,6 +117,33 @@ class GameInstance {
         }
     }
 }
+
+// ... other functions ...
+
+spawnNewPiece() {
+    if (this.gameOver) return;
+
+    this.piece = this.nextPiece;
+    this.nextPiece = this.createNewPiece();
+    
+    console.log(`[P${this.id}] Spawning new piece. TypeID: ${this.piece?.typeId}`); // <-- LOG 11
+
+    if (!this.piece || !this.piece.matrix || !Array.isArray(this.piece.matrix) || this.piece.matrix.length === 0 || !Array.isArray(this.piece.matrix[0])) {
+        console.error("GAME OVER: Attempted to spawn an invalid piece.", this.piece);
+        this.setGameOver();
+        return;
+    }
+
+    this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
+    this.piece.y = Math.floor(this.targetViewportY) - this.piece.matrix.length;
+
+    if (this.collides(this.piece, {})) {
+        this.setGameOver();
+    }
+}
+
+
+
 
     drawBrick(ctx, logicalX, logicalY, typeId) {
         const screenY = (logicalY - this.viewportY) * this.BLOCK_SIZE;
@@ -156,32 +197,7 @@ class GameInstance {
     }
 
     // B"H
-// In gameInstance.js
 
-spawnNewPiece() {
-    if (this.gameOver) return;
-
-    this.piece = this.nextPiece;
-    this.nextPiece = this.createNewPiece();
-
-    // **THE FIX**: Add a robust check RIGHT AFTER assigning this.piece.
-    // If the piece is invalid, we stop here to prevent a crash.
-    // This usually means the SHAPES constant failed to load correctly.
-    if (!this.piece || !this.piece.matrix || !Array.isArray(this.piece.matrix) || this.piece.matrix.length === 0 || !Array.isArray(this.piece.matrix[0])) {
-        console.error("GAME OVER: Attempted to spawn an invalid piece.", this.piece);
-        this.setGameOver();
-        return;
-    }
-
-    // Now it's safe to access this.piece.matrix[0]
-    this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-    this.piece.y = Math.floor(this.targetViewportY) - this.piece.matrix.length;
-
-    // If the piece collides immediately upon spawning (e.g., the board is full), it's game over.
-    if (this.collides(this.piece, {})) {
-        this.setGameOver();
-    }
-}
 
     createNewPiece() {
         const typeId = Math.floor(this.pieceGenerator.random() * 7) + 1;
