@@ -63,9 +63,9 @@ export const App = {
         DOM.editor.addEventListener('click', StatusBar.update);
         new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
         
-        document.addEventListener('click', (e) => {
-            if(!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) Menus.hideAll();
-        });
+        
+        
+        
         DOM.contextMenu.addEventListener('click', (e) => {
             const button = e.target.closest('button');
             if (button) Menus.handleAction(button.dataset.action);
