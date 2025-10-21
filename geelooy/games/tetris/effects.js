@@ -6,8 +6,9 @@ const HEBREW_CHARS = [
     'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 
     'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת', 'ך', 'ם', 'ן', 'ף', 'ץ'
 ];
-// --- CHANGE: Increased gravity for a snappier feel ---
-const PARTICLE_GRAVITY = 0.45;
+const PARTICLE_GRAVITY = 0.5; // Even faster gravity
+// --- CHANGE: Added a hard cap to prevent crashes ---
+const MAX_PARTICLES = 1200;
 
 // --- Flexible Particle Class ---
 class Particle {
@@ -36,7 +37,7 @@ class Particle {
 class LightningBolt {
     constructor(x1, y1, x2, y2, width) {
         this.x1 = x1; this.y1 = y1; this.x2 = x2; this.y2 = y2;
-        this.width = width; this.life = 8; // Faster fade
+        this.width = width; this.life = 6; // Even faster fade
     }
     update() { this.life--; }
     draw(ctx, dpr) {
@@ -51,31 +52,38 @@ class EffectsEngine {
     constructor(ctx, dpr) {
         this.ctx = ctx; this.dpr = dpr; this.effects = [];
     }
+
+    addEffect(effect) {
+        if (this.effects.length >= MAX_PARTICLES) {
+            this.effects.shift(); // Remove the oldest particle to make room
+        }
+        this.effects.push(effect);
+    }
+
     update() { for (let i = this.effects.length - 1; i >= 0; i--) { this.effects[i].update(); if (this.effects[i].life <= 0) { this.effects.splice(i, 1); } } }
     draw() { this.effects.forEach(effect => effect.draw(this.ctx, this.dpr)); }
 
-    // --- CHANGE: Complete overhaul for a high-energy impact with Hebrew letters ---
+    // --- CHANGE: Dramatically increased particle count to 50 ---
     triggerImpact(piece, blockSize, viewportTopY) {
         piece.matrix.forEach((row, y) => {
             row.forEach((val, x) => {
                 if (val !== 0) {
                     const px = (piece.x + x + 0.5) * blockSize;
                     const py = (piece.y + y - viewportTopY + 0.9) * blockSize;
-                    // Create a bigger, faster, mixed blast of particles
-                    for (let i = 0; i < 30; i++) {
-                        const isChar = Math.random() < 0.25; // 25% chance to be a Hebrew letter
+                    for (let i = 0; i < 50; i++) {
+                        const isChar = Math.random() < 0.3; // 30% chance for a letter
                         if (isChar) {
-                             this.effects.push(new Particle({
-                                type: 'char', x: px, y: py, color: '#FFFFFF', // Bright white letters
-                                vx: (Math.random() - 0.5) * 22, vy: (Math.random() - 0.5) * 22 - 5,
-                                life: Math.random() * 40 + 30,
-                                fontSize: Math.random() * 20 + 15
+                             this.addEffect(new Particle({
+                                type: 'char', x: px, y: py, color: '#FFFFFF',
+                                vx: (Math.random() - 0.5) * 30, vy: (Math.random() - 0.5) * 30 - 6,
+                                life: Math.random() * 35 + 25,
+                                fontSize: Math.random() * 22 + 18
                             }));
                         } else {
-                            this.effects.push(new Particle({
+                            this.addEffect(new Particle({
                                 type: 'pixel', x: px, y: py, color: COLORS[piece.typeId],
-                                vx: (Math.random() - 0.5) * 18, vy: (Math.random() - 0.5) * 18 - 4,
-                                life: Math.random() * 30 + 20
+                                vx: (Math.random() - 0.5) * 25, vy: (Math.random() - 0.5) * 25 - 5,
+                                life: Math.random() * 25 + 15
                             }));
                         }
                     }
@@ -84,19 +92,17 @@ class EffectsEngine {
         });
     }
 
-    // --- CHANGE: More numerous and faster wall slide particles ---
     triggerWallSlide(piece, direction, blockSize, viewportTopY) {
         const side = direction > 0 ? piece.matrix[0].length - 1 : 0;
         piece.matrix.forEach((row, y) => {
             if (row[side] !== 0) {
                 const px = (piece.x + side + (direction > 0 ? 1 : 0)) * blockSize;
                 const py = (piece.y + y - viewportTopY + 0.5) * blockSize;
-                // Increased particle count and velocity
-                for (let i = 0; i < 8; i++) {
-                    this.effects.push(new Particle({
+                for (let i = 0; i < 10; i++) {
+                    this.addEffect(new Particle({
                         type: 'pixel', x: px, y: py, color: '#FFFFFF',
-                        vx: -direction * (Math.random() * 6 + 4),
-                        vy: (Math.random() - 0.5) * 6,
+                        vx: -direction * (Math.random() * 8 + 5),
+                        vy: (Math.random() - 0.5) * 8,
                         life: Math.random() * 20 + 10
                     }));
                 }
@@ -104,25 +110,23 @@ class EffectsEngine {
         });
     }
 
-    // --- CHANGE: Overhauled to be a "supernova" with a fiery color palette ---
+    // --- CHANGE: Dramatically increased particle count to 400 ---
     triggerLineClear(clearedLines, blockSize, viewportTopY, canvasWidth) {
         clearedLines.forEach(y => {
             const lineY = (y - viewportTopY + 0.5) * blockSize;
-            // More particles, much higher velocity
-            for (let i = 0; i < 250; i++) {
-                const isChar = Math.random() > 0.6;
-                this.effects.push(new Particle({
+            for (let i = 0; i < 400; i++) {
+                const isChar = Math.random() > 0.8; // More pixels, fewer letters for raw energy
+                this.addEffect(new Particle({
                     type: isChar ? 'char' : 'pixel',
                     x: Math.random() * canvasWidth,
-                    y: lineY + (Math.random() - 0.5) * 30 * this.dpr,
-                    vx: (Math.random() - 0.5) * 30, vy: (Math.random() - 0.5) * 40,
-                    life: Math.random() * 50 + 30, // Shorter life for a faster "flash"
-                    // Fiery color palette (orange, yellow, white)
+                    y: lineY + (Math.random() - 0.5) * 40 * this.dpr,
+                    vx: (Math.random() - 0.5) * 45, vy: (Math.random() - 0.5) * 55, // EXTREME speed
+                    life: Math.random() * 40 + 20, // Short life
                     color: `hsl(${Math.random() * 60}, 100%, 85%)`,
                     fontSize: Math.random() * 20 + 12
                 }));
             }
-            this.createProceduralBolt(lineY, canvasWidth, 60 * this.dpr, 7);
+            this.createProceduralBolt(lineY, canvasWidth, 70 * this.dpr, 7);
         });
     }
 
@@ -139,8 +143,9 @@ class EffectsEngine {
             segments = newSegments;
         }
         for (let i = 0; i < segments.length - 1; i++) {
-            // Thicker lightning
-            this.effects.push(new LightningBolt(segments[i].x, segments[i].y, segments[i+1].x, segments[i+1].y, (Math.random() * 3 + 2)));
+            this.addEffect(new LightningBolt(segments[i].x, segments[i].y, segments[i+1].x, segments[i+1].y, (Math.random() * 3 + 2)));
         }
     }
 }
+
+
