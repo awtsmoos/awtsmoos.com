@@ -6,12 +6,8 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
 
-// Helper function to get a consistent unique ID for any workspace item
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
-/**
- * Workspaces Module: Manages the file explorer tree view.
- */
 export const Workspaces = {
     add(ws) {
         const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
@@ -93,7 +89,13 @@ export const Workspaces = {
                 li.className = 'tree-item';
                 li.style.setProperty('--depth', depth);
                 
-                const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
+                // --- B"H FIX: "Cannot read 'id'" ERROR ---
+                const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
+                const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
+                // --- END FIX ---
+
+                if (!workspace) { console.error("Could not find workspace for item:", parentItem); return; }
+
                 const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
                 const uniquePath = getItemUniquePath(fullChildItem);
                 
@@ -139,11 +141,12 @@ export const Workspaces = {
                 }
             });
         } catch (e) {
+            console.error("Error rendering tree:", e);
             parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
         }
     },
     
-    // --- B"H: FINAL, ROBUST REFRESH LOGIC ---
+    // --- B"H FIX: ROBUST REFRESH LOGIC ---
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
@@ -152,20 +155,22 @@ export const Workspaces = {
         const directoryElement = entry.el;
         const isRoot = directoryElement.classList.contains('workspace-root');
         
-        // Find the container for the children.
         let childrenContainer = directoryElement.querySelector('ul');
 
-        // This is the key: if the folder is supposed to be expanded but has no <ul>,
-        // it means the DOM is out of sync. We create it now.
-        if (State.expandedFolders.has(uniquePath) && !childrenContainer) {
-             childrenContainer = document.createElement('ul');
-             if (isRoot) childrenContainer.className = 'workspace-tree';
-             directoryElement.appendChild(childrenContainer);
-             directoryElement.classList.add('expanded'); // Ensure visual state is correct
+        // This is the key: if the state says the folder should be expanded,
+        // we forcefully create and show the children container if it's missing.
+        if (State.expandedFolders.has(uniquePath)) {
+            if (!childrenContainer) {
+                childrenContainer = document.createElement('ul');
+                if (isRoot) childrenContainer.className = 'workspace-tree';
+                directoryElement.appendChild(childrenContainer);
+            }
+            directoryElement.classList.add('expanded');
+            childrenContainer.classList.remove('hidden');
         }
 
-        // Only proceed to render if the container exists (i.e., the folder is expanded).
-        if (childrenContainer) {
+        // Only proceed to re-render the contents if the folder is actually expanded.
+        if (childrenContainer && !childrenContainer.classList.contains('hidden')) {
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
             await this.renderTree(childrenContainer, item, depth);
         }
