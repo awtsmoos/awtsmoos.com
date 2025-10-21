@@ -105,7 +105,7 @@ export const Menus = {
     },
 
     async handleAction(action) {
-        const item = State.contextTarget;
+        const item = State.contextTarget; // This is the parent directory
         this.hideAll();
 
         try {
@@ -136,19 +136,40 @@ export const Menus = {
                     }
                     break;
                 }
+                
+                // --- B"H --- MODIFIED BLOCK ---
                 case 'new-file':
                 case 'new-folder': {
                     if (!item) break;
-                    const kind = action.split('-')[1];
+                    const kind = action.split('-')[1]; // 'file' or 'folder'
                     const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
                     if (name) {
                         UI.showLoading(`Creating ${kind}...`);
                         await FileSystemProvider.create(item, name, kind);
                         UI.showToast(`${kind} '${name}' created.`, 'success');
+                        
+                        // 1. Refresh the parent directory in the sidebar
                         await Workspaces.refreshNode(item);
+                        
+                        // 2. If it was a file, create the item object and open it in a new tab
+                        if (kind === 'file') {
+                            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+                            const newPath = item.path === '/' ? name : `${item.path}/${name}`;
+                            const newFileItem = {
+                                ...workspace, // Inherits type, repoInfo, handle, etc.
+                                name: name,
+                                path: newPath,
+                                kind: 'file',
+                                workspaceId: workspace.id,
+                                content: '' // New files are empty
+                            };
+                            Tabs.create(newFileItem, true); // Pass true to force content to be empty string
+                        }
                     }
                     break;
                 }
+                // --- END MODIFIED BLOCK ---
+
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
                     const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete files.`, okText: 'Remove', cancelText: 'Cancel' });
