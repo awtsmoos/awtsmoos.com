@@ -83,7 +83,8 @@ export default (workerPath, originalScriptContent) => /*js*/`
                         throw e;
                     }
                 } else {
-                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + relativePath);
+                    //throw new Error('Profound Editor: Failed to load script for importScripts: ' + relativePath);
+                console. log("WE RAN OUT OF TIME TO IMPORT")
                 }
             }
         };
