@@ -222,11 +222,13 @@ const importScriptsPolyfill = (workerPath) => `
                         const dataUrl = 'data:application/javascript;base64,' + base64Content;
                         OriginalImportScripts(dataUrl);
                     } catch (e) {
+                    console.log("LOL what even happened",e,xhr.responseText)
                         console.error('Profound Editor: Error executing imported script:', relativePath, e);
                         throw e;
                     }
                 } else {
-                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
+                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + xhr.responseText + ' and '+ relativePath +'" with "+xhr.status));
+                
                 }
             }
         };
