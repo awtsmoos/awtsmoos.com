@@ -26,7 +26,7 @@ function gameLoop(timestamp) {
     
     // This log will be very noisy, but it confirms the loop is running.
     // You can comment it out later.
-    console.log(`Game loop running. Timestamp: ${timestamp}`); // <-- LOG 8
+    //console.log(`Game loop running. Timestamp: ${timestamp}`); // <-- LOG 8
 
     try {
         gameInstances.forEach(inst => {
