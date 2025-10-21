@@ -29,15 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // B"H
 // In main.js
 
+// B"H
+// In main.js, replace your ENTIRE startGame function with this one.
+
 function startGame(mode) {
-    // Make the game screen visible first
     mainMenu.classList.add('hidden');
     gameScreen.classList.remove('hidden');
 
-    // **THE FIX**: Wait for the next animation frame to let the browser
-    // calculate the layout and CSS of the newly visible canvas.
     requestAnimationFrame(() => {
-
         if (gameWorker) {
             gameWorker.terminate();
         }
@@ -50,20 +49,23 @@ function startGame(mode) {
         p2c.classList.remove('hidden');
         document.getElementById('p1-descend').classList.remove('hidden');
         document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
-
+        
         const p1Canvas = document.getElementById('p1-canvas');
         const p2Canvas = document.getElementById('p2-canvas');
 
-        // Now, this measurement will be accurate.
+        // --- START OF FIX ---
         const p1Rect = p1Canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1; // Get the screen's pixel density
         const offscreenP1 = p1Canvas.transferControlToOffscreen();
         
         let initPayload = {
             p1Canvas: offscreenP1,
             p1Dimensions: { width: p1Rect.width, height: p1Rect.height },
+            p1Dpr: dpr, // Send the pixel density to the worker
             mode: mode
         };
         const transferable = [offscreenP1];
+        // --- END OF FIX ---
 
         if (mode === 'single') {
             gameScreen.classList.remove('vertical-layout');
@@ -77,6 +79,7 @@ function startGame(mode) {
             
             initPayload.p2Canvas = offscreenP2;
             initPayload.p2Dimensions = { width: p2Rect.width, height: p2Rect.height };
+            initPayload.p2Dpr = dpr; // Also send for P2
             
             transferable.push(offscreenP2);
             document.getElementById('p1-title').classList.remove('hidden');
