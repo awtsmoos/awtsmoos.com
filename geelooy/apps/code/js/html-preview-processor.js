@@ -23,6 +23,7 @@ async function handleWorkerRequest(event, baseItem) {
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
+    // A. The iframe's main script wants to create a new Worker.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         
@@ -50,6 +51,7 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
+    // B. A worker, already running, wants to import another script via importScripts.
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
         
@@ -167,12 +169,12 @@ const workerInterceptorScript = `
     })();
 `;
 
+// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL WITH LOGGING ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const pendingRequests = new Map();
-        const OriginalImportScripts = self.importScripts;
 
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
@@ -200,20 +202,23 @@ const importScriptsPolyfill = (workerPath) => `
                 const dummyUrl = new URL(relativePath, self.location.origin).href;
                 xhr.open('GET', dummyUrl, false);
 
-                const originalSend = xhr.send;
+                // THIS IS THE FIX: We override send() but do NOT call the original.
+                // This prevents the real network request.
                 xhr.send = () => {
                     pendingRequests.set(requestId, xhr);
                     self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
                 };
 
-                originalSend.call(xhr, null);
+                // This now calls OUR overridden send(), which uses postMessage. The worker blocks here.
+                xhr.send(null);
 
                 if (xhr.status === 200) {
+                    // LOGGING, AS REQUESTED
+                    console.log('%cProfound Editor: Executing content for ' + relativePath, 'color: green');
+                    console.log('--- SCRIPT CONTENT START ---\\n' + xhr.responseText + '\\n--- SCRIPT CONTENT END ---');
+                    
                     try {
-                        const blob = new Blob([xhr.responseText], { type: 'application/javascript' });
-                        const blobUrl = URL.createObjectURL(blob);
-                        OriginalImportScripts(blobUrl);
-                        URL.revokeObjectURL(blobUrl);
+                        self.eval(xhr.responseText);
                     } catch (e) {
                         console.error('Profound Editor: Error executing imported script:', relativePath, e);
                         throw e;
