@@ -48,7 +48,71 @@ class GameInstance {
     this.isSoftDropping = false;
       if (this.gameOver) return; this.piece = this.nextPiece; this.nextPiece = this.createNewPiece(); this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2); this.piece.y = Math.floor(this.viewportTopY) - this.piece.matrix.length; while ((this.piece.y + this.piece.matrix.length) < Math.floor(this.viewportTopY)) { this.piece.y++; } if (this.collides(this.piece, {})) { this.setGameOver(); } }
     lockPiece() { if (!this.piece) return; this.effectsEngine.triggerImpact(this.piece, this.blockSize, this.viewportTopY); this.piece.matrix.forEach((row, y) => { row.forEach((val, x) => { if (val !== 0) { const bY = this.piece.y + y; if (bY >= 0) { this.board[bY][this.piece.x + x] = this.piece.typeId; } } }); }); this.piece = null; this.sweepLines(); if (!this.gameOver) { this.spawnNewPiece(); } }
-    sweepLines() { let clearedLines = []; for (let y = LOGICAL_ROWS - 1; y >= 0; y--) { if (this.board[y].every(v => v !== 0)) { clearedLines.push(y); this.board.splice(y, 1); this.board.unshift(Array(COLS).fill(0)); y++; } } if (clearedLines.length > 0) { this.effectsEngine.triggerLineClear(clearedLines, this.blockSize, this.viewportTopY, this.canvas.width); this.lines += clearedLines.length; this.score += (10 * clearedLines.length * clearedLines.length) * this.level; this.level = Math.floor(this.lines / 10) + 1; this.dropInterval = 1000 * Math.pow(0.85, this.level - 1); postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } }); } }
+    
+    /**
+     * MODIFIED FUNCTION
+     * This function now handles line clearing and block gravity.
+     * It will repeatedly clear lines and apply gravity until no new lines are formed.
+     */
+    sweepLines() {
+        let totalClearedLines = 0;
+        let completedLinesInPass;
+
+        // Loop to handle chain reactions (lines clear, blocks fall, new lines clear).
+        while (true) {
+            completedLinesInPass = [];
+            // Find all completed lines in the current board state.
+            for (let y = this.board.length - 1; y >= 0; y--) {
+                // A line is complete if no cell in the row is 0.
+                if (this.board[y].every(cell => cell !== 0)) {
+                    completedLinesInPass.push(y);
+                }
+            }
+
+            // If no lines were completed in this pass, the chain reaction is over.
+            if (completedLinesInPass.length === 0) {
+                break;
+            }
+
+            totalClearedLines += completedLinesInPass.length;
+
+            // Trigger the visual effect for the cleared lines.
+            this.effectsEngine.triggerLineClear(completedLinesInPass, this.blockSize, this.viewportTopY, this.canvas.width);
+
+            // Remove the completed lines by setting their cells to 0, creating empty space.
+            for (const y of completedLinesInPass) {
+                for (let x = 0; x < COLS; x++) {
+                    this.board[y][x] = 0;
+                }
+            }
+
+            // Apply gravity to each column individually to make blocks fall into the empty spaces.
+            for (let x = 0; x < COLS; x++) {
+                let emptyCellY = this.board.length - 1;
+                // Iterate from the bottom of the column upwards.
+                for (let y = this.board.length - 1; y >= 0; y--) {
+                    if (this.board[y][x] !== 0) {
+                        // If there is a block, move it to the lowest available empty cell in its column.
+                        if (y !== emptyCellY) {
+                            this.board[emptyCellY][x] = this.board[y][x];
+                            this.board[y][x] = 0;
+                        }
+                        emptyCellY--;
+                    }
+                }
+            }
+        }
+
+        // Update score and level based on the total lines cleared in the entire chain reaction.
+        if (totalClearedLines > 0) {
+            this.lines += totalClearedLines;
+            this.score += (10 * totalClearedLines * totalClearedLines) * this.level;
+            this.level = Math.floor(this.lines / 10) + 1;
+            this.dropInterval = 1000 * Math.pow(0.85, this.level - 1);
+            postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } });
+        }
+    }
+
     move(dir) { if (!this.piece) return; if (!this.collides(this.piece, { x: dir })) { this.piece.x += dir; } else { this.effectsEngine.triggerWallSlide(this.piece, dir, this.blockSize, this.viewportTopY); } }
     rotate() { if (!this.piece) return; const newMatrix = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse()); const tempPiece = { ...this.piece, matrix: newMatrix }; let offset = 0; if (this.collides(tempPiece, {})) { offset = tempPiece.x < COLS / 2 ? 1 : -1; if (this.collides(tempPiece, { x: offset })) offset = 0; } if (offset !== 0 || !this.collides(tempPiece, {})) { this.piece.x += offset; this.piece.matrix = newMatrix; } }
     drop() { if (!this.piece) return; if (!this.collides(this.piece, { y: 1 })) { this.piece.y++; } else { this.lockPiece(); } this.dropCounter = 0; }
