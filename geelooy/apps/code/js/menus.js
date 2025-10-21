@@ -134,12 +134,22 @@ export const Menus = {
                     if (activeTab) {
                         // Get the current, potentially unsaved content from the editor
                         const content = Editor.getContent();
+                       Tabs.createPreview(activeTab.item, content);
+                       
+                       
                         // Create a Blob, which is a file-like object in memory
-                        const blob = new Blob([content], { type: 'text/html' });
+                        
+                        
+                        /*const blob = new Blob([content], { type: 'text/html' });
                         // Create a temporary URL for this blob
                         const url = URL.createObjectURL(blob);
                         // Open that URL in a new browser tab
                         window.open(url, '_blank');
+                        
+                        */
+                    
+                    
+                    
                     }
                     break;
                 }
