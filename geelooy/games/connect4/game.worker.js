@@ -30,16 +30,16 @@ function resize(data) {
 
 function init(data) {
     canvas = data.canvas;
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('d2');
     gameMode = data.gameMode;
     resize({ width: data.width, height: data.height });
     resetGame(data.playerGoesFirst);
 
     // Initial AI move if necessary
     if (gameMode === 'pvc' && !isPlayerTurn) {
-        setTimeout(aiMove, 200);
+        setTimeout(aiMove, 20);
     } else if (gameMode === 'cvc') {
-        setTimeout(aiMove, 200);
+        setTimeout(aiMove, 20);
     }
     
     // Start the game loop if it's not already running
@@ -66,39 +66,42 @@ function resetGame(playerGoesFirst = true) {
 
 function aiMove() {
     if (gameOver) return;
-
-    // Pass the board and the AI's current piece number to the AI logic.
-    // The AI will identify itself with 'currentPlayer'.
+    isPlayerTurn = false; // AI is thinking
     const col = getGolemMove(board, currentPlayer);
-    
     if (col !== -1) {
         dropPiece(col);
     }
 }
 
 function handleMoveCompletion(row, col) {
-    board[row][col] = animatedPiece.player;
+    const winningPlayer = animatedPiece.player;
+    board[row][col] = winningPlayer;
     createExplosion(col, row);
-    animatedPiece = null;
+    animatedPiece = null; // CRITICAL: Allow the next move
     
-    if (checkWin(currentPlayer, row, col)) {
+    if (checkWin(winningPlayer, row, col)) {
+        currentPlayer = winningPlayer;
         gameOver = true;
-        return; // End turn sequence
+        return;
+    }
+    
+    if (board[0].every(cell => cell !== 0)) { // Check for Draw
+        gameOver = true;
+        return;
     }
     
     currentPlayer = (currentPlayer === 1) ? 2 : 1;
 
-    // --- CRITICAL FIX: Correctly manage turns for all modes ---
     if (gameMode === 'pvp') {
-        isPlayerTurn = true; // Give control to the next human player
+        isPlayerTurn = true;
     } else if (gameMode === 'pvc') {
-        isPlayerTurn = !isPlayerTurn; // Flip control between human and AI
+        isPlayerTurn = !isPlayerTurn;
         if (!isPlayerTurn) {
-            setTimeout(aiMove, 500); // Trigger AI if it's its turn now
+            setTimeout(aiMove, 500);
         }
     } else if (gameMode === 'cvc') {
-        isPlayerTurn = false; // Always AI's turn
-        setTimeout(aiMove, 500); // Trigger next AI move
+        isPlayerTurn = false;
+        setTimeout(aiMove, 500);
     }
 }
 
@@ -140,7 +143,9 @@ onmessage = function (e) {
             }
             break;
         case 'mousemove':
-            hoverColumn = Math.floor(data.x / (data.canvasWidth / columns));
+            if (isPlayerTurn) {
+                hoverColumn = Math.floor(data.x / (data.canvasWidth / columns));
+            }
             break;
         case 'mouseleave':
             hoverColumn = -1;
@@ -148,35 +153,53 @@ onmessage = function (e) {
     }
 };
 
-// --- (All other helper functions: dropPiece, checkWin, draw, update, etc. remain the same) ---
+// =======================================================================
+// ===== CORE FIX FOR ANIMATION ==========================================
+// =======================================================================
+
+function dropPiece(col) {
+    if (animatedPiece || col < 0 || col >= columns) return;
+    const targetRow = getTargetRow(col);
+    if (targetRow === -1) return; // Column is full
+
+    // Immediately block further player input
+    isPlayerTurn = false;
+    
+    // Create the piece object with its destination PRE-CALCULATED.
+    animatedPiece = {
+        col: col,
+        player: currentPlayer,
+        y: -(canvas.height / rows), // Start above the canvas
+        speed: 0,
+        targetRow: targetRow // Store the final destination row
+    };
+}
+
 function update() {
+    // Animate the piece if it exists
     if (animatedPiece) {
         const gravity = 0.8;
         animatedPiece.speed += gravity;
         animatedPiece.y += animatedPiece.speed;
 
-        // Calculate the final Y position using the stored targetRow
+        // Calculate the exact Y-coordinate of the destination.
         const targetY = animatedPiece.targetRow * (canvas.height / rows);
 
-        // Check if the piece has reached or passed its destination
+        // Check if the piece has reached or passed its destination.
         if (animatedPiece.y >= targetY) {
-            animatedPiece.y = targetY; // Snap to the exact final position
+            animatedPiece.y = targetY; // Snap to the final position
             handleMoveCompletion(animatedPiece.targetRow, animatedPiece.col);
         }
     }
-    
-    // Update and remove particles
+
+    // Always update particles
     particles.forEach((p, index) => {
-        if (p.alpha <= 0) {
-            particles.splice(index, 1);
-        } else {
-            p.update();
-        }
+        if (p.alpha <= 0) particles.splice(index, 1);
+        else p.update();
     });
 }
 
-
-
+// --- (All other helper functions: draw, getTargetRow, etc. remain the same) ---
 function draw() {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -199,7 +222,8 @@ function draw() {
     if (gameOver) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.75)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#ffffff'; ctx.font = `bold ${canvas.width / 12}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(`Player ${currentPlayer} Wins!`, canvas.width / 2, canvas.height / 2 - 80);
+        let winText = board[0].every(cell => cell !== 0) ? `It's a Draw!` : `Player ${currentPlayer} Wins!`;
+        ctx.fillText(winText, canvas.width / 2, canvas.height / 2 - 80);
         const btnWidth = canvas.width * 0.4; const btnHeight = canvas.height * 0.1; const btnY = canvas.height / 2 + 20; const btnFontSize = canvas.width / 25;
         winScreenButtons.playAgain = { x: canvas.width/2 - btnWidth/2, y: btnY, w: btnWidth, h: btnHeight };
         winScreenButtons.mainMenu = { x: canvas.width/2 - btnWidth/2, y: btnY + btnHeight + 20, w: btnWidth, h: btnHeight };
@@ -210,24 +234,5 @@ function draw() {
     }
 }
 function getTargetRow(col) { for (let r = rows - 1; r >= 0; r--) { if (board[r][col] === 0) return r; } return -1; }
-function dropPiece(col) {
-    if (animatedPiece || col < 0 || col >= columns) return null;
-    const targetRow = getTargetRow(col);
-    if (targetRow === -1) return null;
-    
-    // Store the targetRow when the piece is created
-    animatedPiece = {
-        col: col,
-        player: currentPlayer,
-        y: -(canvas.height / rows), // Start above the board
-        speed: 0,
-        targetRow: targetRow // <-- ADD THIS LINE
-    };
-    
-    return { row: targetRow, col };
-}
-
-
-
 function checkWin(player, r, c) { const dirs = [[0,1], [1,0], [1,1], [1,-1]]; for (const [dr, dc] of dirs) { let count = 1; for (let i = 1; i < 4; i++) { const nr = r + i * dr, nc = c + i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } for (let i = 1; i < 4; i++) { const nr = r - i * dr, nc = c - i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } if (count >= 4) return true; } return false; }
 function createExplosion(col, row) { const x = col * (canvas.width/columns) + (canvas.width/columns)/2; const y = row * (canvas.height/rows) + (canvas.height/rows)/2; for (let i = 0; i < 70; i++) { particles.push(new Particle(x, y, hebrewLetters[Math.floor(Math.random() * hebrewLetters.length)])); } }
