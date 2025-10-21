@@ -79,23 +79,35 @@ class GameInstance {
 
 // ... constructor, init, update ...
 
+// B"H
+// In gameInstance.js
+
+// ... keep constructor and other methods the same ...
+
 draw() {
-    if (!this.ctx) {
-        console.error(`[P${this.id}] Draw failed: No context available.`);
-        return;
-    }
-    
-    // THIS IS THE MOST IMPORTANT LOG FOR THE BLACK SCREEN ISSUE
-    this.BLOCK_SIZE = this.canvas.width / COLS;
-    if (!this.BLOCK_SIZE || this.canvas.width === 0) {
-        // Log the reason for not drawing
-        console.warn(`[P${this.id}] DRAW SKIPPED. Canvas width is ${this.canvas.width}, calculated BLOCK_SIZE is ${this.BLOCK_SIZE}.`); // <-- LOG 9
-        return; // This is the likely cause of the black screen
-    }
+    if (!this.ctx) return;
 
-    // If the log above does NOT appear, these will tell us if drawing is happening.
-    console.log(`[P${this.id}] Drawing board. BLOCK_SIZE: ${this.BLOCK_SIZE}`); // <-- LOG 10
+    // --- START OF LOGIC FIX ---
 
+    // 1. Calculate BLOCK_SIZE based on the MORE restrictive dimension (width or height).
+    // This ensures the 10x18 viewport always fits and blocks are square.
+    const blockSizeW = this.canvas.width / COLS;
+    const blockSizeH = this.canvas.height / VIEWPORT_ROWS;
+    this.BLOCK_SIZE = Math.min(blockSizeW, blockSizeH);
+
+    if (!this.BLOCK_SIZE || this.canvas.width === 0) return;
+
+    // 2. Calculate the dimensions of the actual play area.
+    const playfieldWidth = COLS * this.BLOCK_SIZE;
+    const playfieldHeight = VIEWPORT_ROWS * this.BLOCK_SIZE;
+
+    // 3. Calculate offsets to center the play area within the canvas.
+    this.renderOffsetX = (this.canvas.width - playfieldWidth) / 2;
+    this.renderOffsetY = (this.canvas.height - playfieldHeight) / 2;
+
+    // --- END OF LOGIC FIX ---
+
+    // Clear the entire canvas to black
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -105,6 +117,7 @@ draw() {
     for (let y = startRow; y < endRow && y < LOGICAL_ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
             if (this.board[y]?.[x] !== 0) {
+                // Pass the new offsets to the drawing function
                 this.drawBrick(this.ctx, x, y, this.board[y][x]);
             }
         }
@@ -118,52 +131,37 @@ draw() {
     }
 }
 
-// ... other functions ...
+drawBrick(ctx, logicalX, logicalY, typeId) {
+    // --- START OF LOGIC FIX ---
+    // Apply the centering offsets to all drawing calculations.
+    const screenX = logicalX * this.BLOCK_SIZE + this.renderOffsetX;
+    const screenY = (logicalY - this.viewportY) * this.BLOCK_SIZE + this.renderOffsetY;
+    // --- END OF LOGIC FIX ---
 
-spawnNewPiece() {
-    if (this.gameOver) return;
+    // This check is now less critical but still good practice.
+    if (screenY < -this.BLOCK_SIZE || screenY > this.canvas.height + this.BLOCK_SIZE) return;
 
-    this.piece = this.nextPiece;
-    this.nextPiece = this.createNewPiece();
-    
-    console.log(`[P${this.id}] Spawning new piece. TypeID: ${this.piece?.typeId}`); // <-- LOG 11
+    const c = COLORS[typeId];
+    const s = this.BLOCK_SIZE;
+    const p = s * 0.1;
 
-    if (!this.piece || !this.piece.matrix || !Array.isArray(this.piece.matrix) || this.piece.matrix.length === 0 || !Array.isArray(this.piece.matrix[0])) {
-        console.error("GAME OVER: Attempted to spawn an invalid piece.", this.piece);
-        this.setGameOver();
-        return;
-    }
+    const grad = ctx.createLinearGradient(screenX, screenY, screenX + s, screenY + s);
+    grad.addColorStop(0, c);
+    grad.addColorStop(1, 'black');
+    ctx.fillStyle = grad;
+    ctx.fillRect(screenX, screenY, s, s);
 
-    this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-    this.piece.y = Math.floor(this.targetViewportY) - this.piece.matrix.length;
-
-    if (this.collides(this.piece, {})) {
-        this.setGameOver();
-    }
+    ctx.fillStyle = c;
+    ctx.fillRect(screenX + p, screenY + p, s - p * 2, s - p * 2);
 }
 
+// ... the rest of the file (drawMatrix, etc.) remains the same.
+// The changes in drawBrick will automatically apply to drawMatrix.
 
 
 
-    drawBrick(ctx, logicalX, logicalY, typeId) {
-        const screenY = (logicalY - this.viewportY) * this.BLOCK_SIZE;
-        if (screenY < -this.BLOCK_SIZE || screenY > this.canvas.height) return;
 
-        const c = COLORS[typeId];
-        const s = this.BLOCK_SIZE;
-        const bX = logicalX * s;
-        const p = s * 0.1;
-
-        const grad = ctx.createLinearGradient(bX, screenY, bX + s, screenY + s);
-        grad.addColorStop(0, c);
-        grad.addColorStop(1, 'black');
-        ctx.fillStyle = grad;
-        ctx.fillRect(bX, screenY, s, s);
-
-        ctx.fillStyle = c;
-        ctx.fillRect(bX + p, screenY + p, s - p * 2, s - p * 2);
-    }
-
+    
     drawMatrix(p) {
     // **THE FIX**: This check is now the primary safeguard.
     // It prevents the 'forEach' error if the matrix is somehow invalid.
