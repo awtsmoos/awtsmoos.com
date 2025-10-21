@@ -216,7 +216,7 @@ const importScriptsPolyfill = (workerPath) => `
             for (const script of scriptsToExecute) {
                 try {
                     console.log('Profound Editor: Executing content for ' + script.path);
-                    // console.log(script.content); // Uncomment to see the full content
+                    console.log(script.content); // Uncomment to see the full content
                     
                     // Using eval is necessary here, as we are in a synchronous polyfill.
                     // The previous Blob URL approach fails with multiple arguments.
