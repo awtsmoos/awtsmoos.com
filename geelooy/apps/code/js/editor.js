@@ -4,7 +4,7 @@
 import { DOM } from './state.js';
 import { UI } from './ui.js';
 import { StatusBar } from './statusbar.js';
-import pnimi from './pnimi.js';
+import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
 
 export const Editor = {
     currentHighlighter: null,
