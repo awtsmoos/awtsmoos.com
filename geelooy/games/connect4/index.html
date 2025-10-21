@@ -10,20 +10,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="main-menu">
+    <div id="main-menu" class="screen">
         <h1>Connect 4</h1>
         <button id="p-vs-g">Player vs. Golem</button>
         <button id="g-vs-g">Golem vs. Golem</button>
         <button id="p-vs-p">Player vs. Player</button>
     </div>
 
-    <div id="turn-choice-menu" class="menu-container" style="display: none;">
+    <div id="turn-choice-menu" class="screen menu-container" style="display: none;">
         <h2>Do you want to go first?</h2>
         <button id="player-first">Yes</button>
         <button id="player-second">No</button>
     </div>
 
-    <div id="game-container" style="display: none;">
+    <div id="game-container" class="screen" style="display: none;">
         <canvas id="game-canvas"></canvas>
         <div id="game-controls">
             <button id="resign-btn">Resign</button>
