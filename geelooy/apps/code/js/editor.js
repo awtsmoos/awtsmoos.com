@@ -48,57 +48,62 @@ export const Editor = {
         }, 0);
     },
 
-    showPreviewer(data, fileInfo) {
-        if (this.currentHighlighter) {
-            this.currentHighlighter.destroy();
-            this.currentHighlighter = null;
-        }
-        DOM.editorWrapper.classList.add('hidden');
-        this._clearPreviewer();
-        DOM.previewer.classList.remove('hidden');
+    // --- B"H: FIND AND REPLACE THIS ENTIRE FUNCTION in js/editor.js ---
 
-        // --- B"H: NEW LOGIC FOR HTML PREVIEW ---
-        if (fileInfo.type === 'html-preview') {
-            // Using an iframe with srcdoc is the safest way to render user-provided HTML.
-            // It sandboxes the content, preventing it from running scripts that could affect the editor itself.
-            // We escape double quotes in the data to ensure the srcdoc attribute is valid.
-            const sanitizedData = data.replace(/"/g, '&quot;');
-            DOM.previewer.innerHTML = `<iframe srcdoc="${sanitizedData}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-            return;
-        }
-        // --- END NEW LOGIC ---
+showPreviewer(data, fileInfo) {
+    if (this.currentHighlighter) {
+        this.currentHighlighter.destroy();
+        this.currentHighlighter = null;
+    }
+    DOM.editorWrapper.classList.add('hidden');
+    this._clearPreviewer();
+    DOM.previewer.classList.remove('hidden');
 
-        let url;
-        if (data.isBinary) { // GitHub object
-            url = `data:${data.mime};base64,${data.base64Content}`;
-        } else { // Local FS Blob/File
-            url = URL.createObjectURL(data);
-            this.currentObjectURL = url;
-        }
+    // --- B"H: NEW LOGIC FOR HTML PREVIEW ---
+    if (fileInfo.type === 'html-preview') {
+        // This is the definitive fix. By creating a Blob URL for the HTML,
+        // the resulting iframe inherits the parent's security context,
+        // enabling SharedArrayBuffer and Atomics to work correctly.
+        const blob = new Blob([data], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        this.currentObjectURL = url; // Track this new URL for cleanup
 
-        switch(fileInfo.type) {
-            case 'image':
-                DOM.previewer.innerHTML = `<img src="${url}" alt="${fileInfo.name}">`;
-                break;
-            case 'video':
-                DOM.previewer.innerHTML = `<video src="${url}" controls></video>`;
-                break;
-            case 'audio':
-                DOM.previewer.innerHTML = `<audio src="${url}" controls></audio>`;
-                break;
-            case 'pdf':
-                DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`;
-                break;
-            default:
-                DOM.previewer.innerHTML = `
-                    <div class="unsupported-message">
-                        <svg class.svg-icon"><use href="#icon-file"></use></svg>
-                        <h3>Binary File</h3>
-                        <p>This file type cannot be previewed.</p>
-                    </div>`;
-                break;
-        }
-    },
+        DOM.previewer.innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>`;
+        return;
+    }
+    // --- END NEW LOGIC ---
+
+    let url;
+    if (data.isBinary) { // GitHub object
+        url = `data:${data.mime};base64,${data.base64Content}`;
+    } else { // Local FS Blob/File
+        url = URL.createObjectURL(data);
+        this.currentObjectURL = url;
+    }
+
+    switch(fileInfo.type) {
+        case 'image':
+            DOM.previewer.innerHTML = `<img src="${url}" alt="${fileInfo.name}">`;
+            break;
+        case 'video':
+            DOM.previewer.innerHTML = `<video src="${url}" controls></video>`;
+            break;
+        case 'audio':
+            DOM.previewer.innerHTML = `<audio src="${url}" controls></audio>`;
+            break;
+        case 'pdf':
+            DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`;
+            break;
+        default:
+            DOM.previewer.innerHTML = `
+                <div class="unsupported-message">
+                    <svg class="svg-icon"><use href="#icon-file"></use></svg>
+                    <h3>Binary File</h3>
+                    <p>This file type cannot be previewed.</p>
+                </div>`;
+            break;
+    }
+},
 
     getContent: () => DOM.editor.value,
 
