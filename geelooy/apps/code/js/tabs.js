@@ -112,19 +112,24 @@ export const Tabs = {
         // Decide whether to show the text editor or the previewer
         const fileInfo = MimeUtil.getInfo(tab.item.name);
 
-        if (fileInfo.type === 'text') {
-            // If the content is a Blob (from Local FS), we need its text content.
+        // Priority 1: Check if it's our special HTML preview tab
+        if (fileInfo.type === 'html-preview') {
+            Editor.showPreviewer(tab.content, fileInfo);
+        
+        // Priority 2: Check if it's a standard text file
+        } else if (fileInfo.type === 'text') {
             if (tab.content instanceof Blob) {
                  const text = await tab.content.text();
-                 tab.content = text; // Replace blob with text for future use
+                 tab.content = text;
                  Editor.showTextEditor(text, tab.item.name);
             } else {
                  Editor.showTextEditor(tab.content || '', tab.item.name);
             }
             DOM.editor.scrollTop = tab.scrollPos || 0;
             setTimeout(() => UI.syncScroll(), 0);
+        
+        // Priority 3: It must be a binary file (image, video, etc.)
         } else {
-            // For binary files, pass the raw content (Blob or GitHub object) to the previewer
             Editor.showPreviewer(tab.content, fileInfo);
         }
         // --- END CHANGE ---
