@@ -58,25 +58,7 @@ class SeededRandom {
 // B"H
 // gameInstance.js - FINAL VERSION (Replaces the entire class)
 
-class SeededRandom {
-    constructor(seedStr) {
-        let h = 1779033703;
-        for (let i = 0; i < seedStr.length; i++) {
-            h = Math.imul(h ^ seedStr.charCodeAt(i), 3432918353);
-            h = (h << 13) | (h >>> 19);
-        }
-        this.seed = h >>> 0;
-        if (this.seed === 0) this.seed = 1;
-    }
-    random() {
-        let t = this.seed += 0x6D2B79F5;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        t = ((t ^ (t >>> 14)) >>> 0);
-        this.seed = t;
-        return this.seed / 4294967296;
-    }
-}
+
 
 class GameInstance {
     constructor(id, isAI, canvas, dimensions, dpr) {
