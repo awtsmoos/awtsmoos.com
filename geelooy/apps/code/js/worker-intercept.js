@@ -9,6 +9,7 @@ export default /*js*/`
 
         window.addEventListener('message', (event) => {
             const { type, id } = event.data;
+            console. log("i got more important stuff", event. data)
             if (type === 'worker-script-response' && pendingWorkers.has(id)) {
                 const { proxy, options, sab } = pendingWorkers.get(id);
                 pendingWorkers.delete(id);
@@ -26,6 +27,7 @@ export default /*js*/`
                 
                 // This is the relay: messages from the worker go up to the editor
                 realWorker.addEventListener('message', (workerEvent) => {
+                   console. log("bruh what even are you",workerEvent)
                     if (workerEvent.data && workerEvent.data.type === 'import-scripts-request') {
                         // Attach the correct SAB to the outgoing message
                         workerEvent.data.sab = activeWorkers.get(realWorker);
@@ -40,6 +42,7 @@ export default /*js*/`
             if (type === 'import-scripts-response') {
                 // Broadcast to all workers; the correct one will pick it up based on its internal cache
                 for (const worker of activeWorkers.keys()) {
+                    console. log("poisting", event. data)
                     worker.postMessage(event.data);
                 }
             }
