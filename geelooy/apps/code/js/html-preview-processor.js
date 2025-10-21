@@ -49,7 +49,7 @@ async function handleWorkerRequest(event, baseItem) {
         } else if (scriptContent.isBinary) { // Handle GitHub's base64 response
             scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
         }
-        console.log("i think i got content maybe")
+        console.log("i think i got content maybe",scriptContent)
 
         // 5. Send the correct response back to the iframe.
         if (type === 'fetch-worker-script') {
