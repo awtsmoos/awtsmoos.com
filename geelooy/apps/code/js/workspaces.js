@@ -1,7 +1,7 @@
 // B"H
 // FILE: js/workspaces.js
 
-import { State } from './state.js';
+import { State , DOM} from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
