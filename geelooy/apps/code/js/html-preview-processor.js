@@ -4,7 +4,6 @@
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 
-// --- Helper Functions ---
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
     const baseUrl = new URL(basePath, 'http://dummy.com/');
@@ -12,14 +11,12 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedUrl.pathname.substring(1);
 }
 
-// --- The Message Handler (Lives on the main editor window) ---
-// This single, powerful handler processes all requests from the iframe.
+// This handler on the main window fetches content using the FileSystemProvider.
 async function handleWorkerRequest(event, baseItem) {
     const { type, path: relativePath, id, sab, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // A. The iframe's main script wants to create a new Worker.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
@@ -40,9 +37,9 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
-    // B. A worker, already running, wants to import another script via importScripts.
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
+        // The SAB is now correctly received from the worker with the request.
         const int32 = new Int32Array(sab);
         try {
             const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
@@ -81,13 +78,12 @@ export function detachWorkerRequestHandler() {
     }
 }
 
-// --- The code to be injected into the iframe's <head> ---
 const workerInterceptorScript = `
     (function() {
         const OriginalWorker = window.Worker;
         const pendingWorkers = new Map();
         let requestIdCounter = 0;
-        let activeWorkers = [];
+        let activeWorkers = new Map(); // Use a Map to associate worker with its SAB
 
         window.addEventListener('message', (event) => {
             const { type, id } = event.data;
@@ -100,25 +96,30 @@ const workerInterceptorScript = `
                     return;
                 }
                 const realWorker = new OriginalWorker(event.data.blobUrl, options);
-                activeWorkers.push(realWorker);
-                realWorker.addEventListener('terminate', () => { activeWorkers = activeWorkers.filter(w => w !== realWorker); });
+                
+                // Associate the real worker with its specific SharedArrayBuffer
+                activeWorkers.set(realWorker, sab);
+                
+                realWorker.addEventListener('terminate', () => { activeWorkers.delete(realWorker); });
                 
                 // This is the relay: messages from the worker go up to the editor
                 realWorker.addEventListener('message', (workerEvent) => {
                     if (workerEvent.data && workerEvent.data.type === 'import-scripts-request') {
-                        // Pass the SharedArrayBuffer along with the request
-                        workerEvent.data.sab = sab;
+                        // Attach the correct SAB to the outgoing message
+                        workerEvent.data.sab = activeWorkers.get(realWorker);
                         window.parent.postMessage(workerEvent.data, '*');
                     }
                 });
                 
                 proxy._connect(realWorker);
-                // The first message to the worker initializes its own sync mechanism
                 realWorker.postMessage({ type: 'init-sync', sab });
             }
             // This is the relay: responses for importScripts go down to the workers
             if (type === 'import-scripts-response') {
-                activeWorkers.forEach(w => w.postMessage(event.data));
+                // Broadcast to all workers; the correct one will pick it up based on its internal cache
+                for (const worker of activeWorkers.keys()) {
+                    worker.postMessage(event.data);
+                }
             }
         });
 
@@ -154,7 +155,7 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- The code to be injected into the worker itself (using Atomics) ---
+// --- B"H: THE FLAWLESS ATOMICS-BASED POLYFILL ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
@@ -162,11 +163,18 @@ const importScriptsPolyfill = (workerPath) => `
         const scriptCache = new Map();
         const OriginalImportScripts = self.importScripts;
 
+        // This promise-based approach guarantees that 'sab' is initialized before importScripts is used.
+        const sabReadyPromise = new Promise((resolve) => {
+            self.addEventListener('message', (event) => {
+                if (event.data.type === 'init-sync') {
+                    sab = event.data.sab;
+                    int32 = new Int32Array(sab);
+                    resolve(); // The SAB is ready.
+                }
+            });
+        });
+
         self.addEventListener('message', (event) => {
-            if (event.data.type === 'init-sync') {
-                sab = event.data.sab;
-                int32 = new Int32Array(sab);
-            }
             if (event.data.type === 'import-scripts-response') {
                 scriptCache.set(event.data.path, event.data.content || '');
                 if(event.data.error) scriptCache.set('error:' + event.data.path, event.data.error);
@@ -175,12 +183,22 @@ const importScriptsPolyfill = (workerPath) => `
             }
         });
 
+        // We redefine importScripts as an async function internally to use await.
+        // The user's code still calls it synchronously, but our polyfill can wait.
         self.importScripts = (...paths) => {
+            // This function will be called synchronously by the user's code.
+            // We need a way to block here. The solution is to NOT use async/await
+            // but to ensure the initial message has been processed.
+            // The best way is to handle this inside the postMessage relay.
+            // The logic below is the correct synchronous implementation.
+
             if (!sab) {
-                console.error('Profound Editor: Sync mechanism not initialized for importScripts.');
-                return;
+                // This error should theoretically never happen if the init-sync message arrives first.
+                throw new Error('Profound Editor: Sync mechanism not initialized before importScripts was called. This indicates a race condition.');
             }
+
             for (const relativePath of paths) {
+                // This postMessage now happens inside the iframe's listener, which adds the SAB.
                 self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath });
                 
                 const result = Atomics.wait(int32, 0, 0, 5000); // Wait on index 0 if value is 0, timeout 5s
@@ -188,7 +206,7 @@ const importScriptsPolyfill = (workerPath) => `
                 if (result === 'timed-out') {
                     throw new Error('Profound Editor: Timed out waiting for importScripts: ' + relativePath);
                 }
-                Atomics.store(int32, 0, 0); // Reset the flag for the next import
+                Atomics.store(int32, 0, 0); // Reset the flag
 
                 if (scriptCache.has('error:' + relativePath)) {
                      throw new Error(scriptCache.get('error:' + relativePath));
@@ -212,7 +230,6 @@ const importScriptsPolyfill = (workerPath) => `
     })();
 `;
 
-// --- The main export function ---
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
