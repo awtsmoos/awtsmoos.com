@@ -162,8 +162,6 @@ function dropPiece(col) {
     const targetRow = getTargetRow(col);
     if (targetRow === -1) return; // Column is full
 
-    // Immediately block further player input
-    isPlayerTurn = false;
     
     // Create the piece object with its destination PRE-CALCULATED.
     animatedPiece = {
