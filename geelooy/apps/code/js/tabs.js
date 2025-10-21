@@ -47,6 +47,35 @@ export const Tabs = {
         this.activate(newTab.id);
     },
     // --- END MODIFIED FUNCTION ---
+    createPreview(originalItem, content) {
+        // Create a unique path for the preview tab to distinguish it from the code tab
+        const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
+        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+        if (existingTab) {
+            this.activate(existingTab.id);
+            return;
+        }
+
+        // Create a new item object specifically for the preview tab
+        const previewItem = {
+            ...originalItem,
+            name: `Preview: ${originalItem.name}`,
+            type: 'preview', // A special type to identify it
+        };
+
+        const newTab = {
+            id: State.nextTabId++,
+            item: previewItem,
+            content: content, // The raw HTML content
+            isDirty: false, // Previews are not editable
+            uniquePath: uniquePath,
+            scrollPos: 0,
+            fileType: 'html-preview', // A special file type for our logic
+        };
+        State.tabs.push(newTab);
+        this.activate(newTab.id);
+    },
+    
 
     createTemporary(name = 'Untitled', content = '') {
         const untitledCount = State.tabs.filter(t => t.item.type === 'temp').length + 1;
