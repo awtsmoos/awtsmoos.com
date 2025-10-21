@@ -18,7 +18,7 @@ export const Workspaces = {
         if (emptyMessage) {
             DOM.workspacesContainer.innerHTML = '';
         }
-        const newWs = { id: State.nextWorkspaceId++, isCollapsed: false, ...ws };
+        const newWs = { id: State.nextWorkspaceId++, ...ws };
         State.workspaces.push(newWs);
         this.renderWorkspace(newWs, DOM.workspacesContainer);
     },
@@ -37,22 +37,19 @@ export const Workspaces = {
         const wsRoot = document.createElement('div');
         wsRoot.className = 'workspace-root';
         const uniquePath = getItemUniquePath(ws);
-
-        // Read from our new state system
         const isExpanded = State.expandedFolders.has(uniquePath);
 
         wsRoot.innerHTML = `
             <div class="workspace-header">
                 <strong><svg class="svg-icon"><use href="#icon-${ws.type === 'local' ? 'laptop' : ws.type === 'github' ? 'github' : 'brain'}"></use></svg>${ws.name}</strong>
             </div>
-            ${isExpanded ? '<ul class="workspace-tree"></ul>' : ''}
         `;
         
+        container.appendChild(wsRoot);
         const header = wsRoot.querySelector('.workspace-header');
         
         header.onclick = () => {
-            const currentlyExpanded = State.expandedFolders.has(uniquePath);
-            if (currentlyExpanded) {
+            if (State.expandedFolders.has(uniquePath)) {
                 State.expandedFolders.delete(uniquePath);
                 wsRoot.querySelector('ul')?.remove();
             } else {
@@ -65,13 +62,15 @@ export const Workspaces = {
         };
 
         header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
-        container.appendChild(wsRoot);
         
         const rootItem = { ...ws, path: '/', workspaceId: ws.id };
         State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
 
         if (isExpanded) {
-           this.renderTree(wsRoot.querySelector('ul'), rootItem, 1);
+           const tree = document.createElement('ul');
+           tree.className = 'workspace-tree';
+           wsRoot.appendChild(tree);
+           this.renderTree(tree, rootItem, 1);
         }
     },
 
@@ -88,7 +87,7 @@ export const Workspaces = {
             }
 
             children.forEach(child => {
-                if (child.name === '.gitkeep') return; // Don't show .gitkeep files
+                if (child.name === '.gitkeep') return;
 
                 const li = document.createElement('li');
                 li.className = 'tree-item';
@@ -106,15 +105,15 @@ export const Workspaces = {
                         <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
                         <svg class="svg-icon"><use href="#icon-${child.kind === 'directory' ? 'folder' : 'file'}"/></svg>
                         <span class="tree-item-name">${child.name}</span>
-                    </div>
-                    ${isExpanded ? '<ul></ul>' : ''}`;
+                    </div>`;
                 
+                parentElement.appendChild(li);
                 const nameWrap = li.querySelector('.tree-item-name-wrap');
+
                 nameWrap.onclick = (e) => {
                     e.stopPropagation();
                     if (child.kind === 'directory') {
-                        const currentlyExpanded = State.expandedFolders.has(uniquePath);
-                        if (currentlyExpanded) {
+                        if (State.expandedFolders.has(uniquePath)) {
                             State.expandedFolders.delete(uniquePath);
                             li.classList.remove('expanded');
                             li.querySelector('ul')?.remove();
@@ -131,11 +130,12 @@ export const Workspaces = {
                 };
 
                 nameWrap.oncontextmenu = (e) => Menus.show(e, fullChildItem);
-                parentElement.appendChild(li);
                 State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
 
                 if (isExpanded) {
-                    this.renderTree(li.querySelector('ul'), fullChildItem, depth + 1);
+                    const newUl = document.createElement('ul');
+                    li.appendChild(newUl);
+                    this.renderTree(newUl, fullChildItem, depth + 1);
                 }
             });
         } catch (e) {
@@ -143,21 +143,31 @@ export const Workspaces = {
         }
     },
     
-    // This function simply re-renders the parent node. The logic above handles the rest.
+    // --- B"H: FINAL, ROBUST REFRESH LOGIC ---
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         if (!entry) return;
 
-        const isRoot = entry.item.path === '/';
-        const parentElement = isRoot ? entry.el.querySelector('ul') : entry.el.parentElement;
-        const parentItem = isRoot ? entry.item : State.domItemMap.get(parentElement.closest('.tree-item')?.dataset.uniquePath ?? getItemUniquePath(State.workspaces.find(w => w.id === item.workspaceId)))?.item;
+        const directoryElement = entry.el;
+        const isRoot = directoryElement.classList.contains('workspace-root');
         
-        // This is simplified now. We just find the container and re-render it.
-        const container = entry.el.querySelector('ul');
-        if (container) {
+        // Find the container for the children.
+        let childrenContainer = directoryElement.querySelector('ul');
+
+        // This is the key: if the folder is supposed to be expanded but has no <ul>,
+        // it means the DOM is out of sync. We create it now.
+        if (State.expandedFolders.has(uniquePath) && !childrenContainer) {
+             childrenContainer = document.createElement('ul');
+             if (isRoot) childrenContainer.className = 'workspace-tree';
+             directoryElement.appendChild(childrenContainer);
+             directoryElement.classList.add('expanded'); // Ensure visual state is correct
+        }
+
+        // Only proceed to render if the container exists (i.e., the folder is expanded).
+        if (childrenContainer) {
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
-            await this.renderTree(container, item, depth);
+            await this.renderTree(childrenContainer, item, depth);
         }
     }
 };
