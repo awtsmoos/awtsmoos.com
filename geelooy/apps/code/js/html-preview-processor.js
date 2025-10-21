@@ -155,7 +155,7 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL USING NATIVE IMPORTSCRIPTS ---
+// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL WITH DEBUGGING AND NATIVE EXECUTION ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
@@ -184,11 +184,18 @@ const importScriptsPolyfill = (workerPath) => `
         });
 
         self.importScripts = (...paths) => {
+            // Native importScripts handles multiple arguments. Our polyfill must do the same.
+            // We create an array of content to execute all at once at the end.
+            const scriptsToExecute = [];
+
             for (const relativePath of paths) {
                 const requestId = requestIdCounter++;
                 const xhr = new XMLHttpRequest();
+                
+                // THIS IS THE FIX: Provide a valid, but dummy, absolute URL.
+                // This satisfies the browser's requirement for xhr.open().
                 const dummyUrl = new URL(relativePath, self.location.origin).href;
-                xhr.open('GET', dummyUrl, false);
+                xhr.open('GET', dummyUrl, false); // false === synchronous
 
                 const originalSend = xhr.send;
                 xhr.send = () => {
@@ -199,21 +206,24 @@ const importScriptsPolyfill = (workerPath) => `
                 originalSend.call(xhr, null); // Worker blocks here.
 
                 if (xhr.status === 200) {
-                    // --- THE FIX IS HERE ---
-                    // Instead of the fragile self.eval(), we create a Blob from the
-                    // response text and pass its URL to the original, robust importScripts.
-                    try {
-                        const blob = new Blob([xhr.responseText], { type: 'application/javascript' });
-                        const blobUrl = URL.createObjectURL(blob);
-                        OriginalImportScripts(blobUrl); // Let the browser's engine handle execution.
-                        URL.revokeObjectURL(blobUrl); // Clean up the URL object.
-                    } catch (e) {
-                        console.error('Profound Editor: Error executing imported script:', relativePath, e);
-                        throw e;
-                    }
-                    // --- END OF FIX ---
+                    scriptsToExecute.push({ path: relativePath, content: xhr.responseText });
                 } else {
                     throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
+                }
+            }
+
+            // Now, execute all fetched scripts in order.
+            for (const script of scriptsToExecute) {
+                try {
+                    console.log('Profound Editor: Executing content for ' + script.path);
+                    // console.log(script.content); // Uncomment to see the full content
+                    
+                    // Using eval is necessary here, as we are in a synchronous polyfill.
+                    // The previous Blob URL approach fails with multiple arguments.
+                    self.eval(script.content);
+                } catch (e) {
+                    console.error('Profound Editor: Error executing imported script:', script.path, e);
+                    throw e;
                 }
             }
         };
