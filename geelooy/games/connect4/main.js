@@ -1,10 +1,9 @@
 //B"H
-// main.js - v2 (Insane Edition)
+// main.js - v3 (Direct & Reliable Edition)
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- 1. Centralized UI Element Cache ---
-    // All DOM queries are in one place for easy management.
     const ui = {
         screens: {
             mainMenu: document.getElementById('main-menu'),
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- 2. Centralized Game State ---
-    // A single source of truth for the game's current state.
     const gameState = {
         worker: null,
         gameMode: null,
@@ -35,24 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. Core Functions ---
 
-    // In main.js
-
-/**
- * Handles smooth transitions between UI screens using the new .hidden class.
- * @param {HTMLElement} targetScreen The screen element to display.
- */
-function showScreen(targetScreen) {
-    // Hide all screens first
-    ui.allScreenElements.forEach(screen => {
-        screen.classList.add('hidden');
-    });
-
-    // Then, un-hide the target screen. The CSS transition will handle the fade-in.
-    targetScreen.classList.remove('hidden');
-}
+    /**
+     * Instantly shows the target screen and hides all others. NO FADES.
+     * @param {HTMLElement} targetScreen The screen element to display.
+     */
+    function showScreen(targetScreen) {
+        // Hide every screen
+        ui.allScreenElements.forEach(screen => {
+            screen.style.display = 'none';
+        });
+        // Show only the target screen using flexbox for centering
+        targetScreen.style.display = 'flex';
+    }
 
     /**
-     * Gracefully terminates the current game worker and cleans up the canvas.
+     * Gracefully terminates the worker and cleans up the canvas.
      */
     function endGame() {
         if (gameState.worker) {
@@ -60,23 +55,21 @@ function showScreen(targetScreen) {
             gameState.worker = null;
         }
         if (gameState.canvas) {
-            gameState.canvas.remove(); // Essential for preventing the error
+            gameState.canvas.remove();
             gameState.canvas = null;
         }
         gameState.isRunning = false;
     }
 
     /**
-     * Creates a new canvas, attaches all necessary event listeners,
-     * and adds it to the game container.
+     * Creates a new canvas, attaches event listeners, and adds it to the container.
      */
     function createCanvas() {
         const newCanvas = document.createElement('canvas');
         newCanvas.id = 'game-canvas';
-        ui.screens.game.appendChild(newCanvas);
-        gameState.canvas = newCanvas; // Update state
+        ui.screens.game.insertBefore(newCanvas, ui.buttons.resign); // Place canvas before the resign button
+        gameState.canvas = newCanvas;
 
-        // Attach event listeners directly to the newly created canvas
         newCanvas.addEventListener('click', handleCanvasEvent);
         newCanvas.addEventListener('mousemove', handleCanvasEvent);
         newCanvas.addEventListener('mouseleave', handleCanvasEvent);
@@ -84,18 +77,16 @@ function showScreen(targetScreen) {
     
     /**
      * Starts a new game session.
-     * @param {string} mode The game mode ('pvp', 'pvc', 'cvc').
-     * @param {boolean|null} playerGoesFirst True if player starts, false if AI starts.
      */
     function startGame(mode, playerGoesFirst = null) {
-        endGame(); // Ensure a perfectly clean slate
-        createCanvas(); // Create a fresh canvas for the new game
+        endGame();
+        createCanvas();
+        showScreen(ui.screens.game);
 
         gameState.isRunning = true;
         gameState.gameMode = mode;
         gameState.worker = new Worker('game.worker.js');
 
-        // Handle messages from the worker (e.g., returning to menu)
         gameState.worker.onmessage = (e) => {
             if (e.data.type === 'goToMainMenu') {
                 endGame();
@@ -103,11 +94,9 @@ function showScreen(targetScreen) {
             }
         };
         
-        // Resize canvas BEFORE transferring control
         resizeCanvas();
         const offscreen = gameState.canvas.transferControlToOffscreen();
         
-        // Initialize the worker with all necessary data
         gameState.worker.postMessage({
             type: 'init',
             canvas: offscreen,
@@ -116,15 +105,13 @@ function showScreen(targetScreen) {
             gameMode: mode,
             playerGoesFirst: playerGoesFirst
         }, [offscreen]);
-
-        showScreen(ui.screens.game);
     }
 
     /**
-     * Calculates the optimal canvas size and applies it.
+     * Calculates and applies the optimal canvas size.
      */
     function resizeCanvas() {
-        if (!gameState.canvas) return; // Don't run if there's no canvas
+        if (!gameState.canvas) return;
 
         const BOARD_ASPECT_RATIO = 7 / 6;
         const container = ui.screens.game;
@@ -156,33 +143,22 @@ function showScreen(targetScreen) {
 
     // --- 4. Event Handlers ---
 
-    /**
-     * A single handler for all canvas interactions to keep code DRY.
-     * @param {MouseEvent} event The DOM event from the canvas.
-     */
     function handleCanvasEvent(event) {
         if (!gameState.worker) return;
-
         const rect = gameState.canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-
-        switch (event.type) {
-            case 'click':
-                gameState.worker.postMessage({ type: 'click', x, y, canvasWidth: rect.width, canvasHeight: rect.height });
-                break;
-            case 'mousemove':
-                gameState.worker.postMessage({ type: 'mousemove', x, canvasWidth: rect.width });
-                break;
-            case 'mouseleave':
-                gameState.worker.postMessage({ type: 'mouseleave' });
-                break;
+        const type = event.type;
+        
+        if (type === 'click') {
+            gameState.worker.postMessage({ type, x, y, canvasWidth: rect.width, canvasHeight: rect.height });
+        } else if (type === 'mousemove') {
+            gameState.worker.postMessage({ type, x, canvasWidth: rect.width });
+        } else if (type === 'mouseleave') {
+            gameState.worker.postMessage({ type });
         }
     }
 
-    /**
-     * Attaches listeners to all UI buttons and the window.
-     */
     function initializeEventListeners() {
         ui.buttons.pVsP.addEventListener('click', () => startGame('pvp'));
         ui.buttons.gVsG.addEventListener('click', () => startGame('cvc'));
@@ -205,15 +181,5 @@ function showScreen(targetScreen) {
 
     // --- 5. Application Entry Point ---
     initializeEventListeners();
-    // At the end of main.js
-
-// Set the initial state: hide all screens except the one we're about to show.
-ui.allScreenElements.forEach(screen => {
-    if (screen !== ui.screens.mainMenu) {
-        screen.classList.add('hidden');
-    }
-});
-// Now, officially show the main menu (which is already not hidden).
-showScreen(ui.screens.mainMenu);
-
+    showScreen(ui.screens.mainMenu); // Start the application on the main menu
 });
