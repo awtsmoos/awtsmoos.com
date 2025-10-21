@@ -82,9 +82,15 @@ export const App = {
 
         // --- B"H: THE DEFINITIVE FIX FOR THE VANISHING SIDEBAR ---
         const handleOutsideClick = (e) => {
-            // This now checks if the click is NOT in the sidebar AND NOT in a dialog.
-            // This prevents dialog clicks from closing the sidebar.
-            if (!e.target.closest('#sidebar') && !e.target.closest('#generic-dialog')) {
+            // This listener now intelligently ignores clicks on any UI element that should
+            // NOT close the sidebar, such as our menus and dialogs. This is the root fix.
+            if (
+                !e.target.closest('#sidebar') &&
+                !e.target.closest('#mobileSidebarToggle') &&
+                !e.target.closest('#context-menu') &&
+                !e.target.closest('#main-menu') &&
+                !e.target.closest('#generic-dialog')
+            ) {
                 closeMobileSidebar();
             }
         };
@@ -98,6 +104,7 @@ export const App = {
             } else {
                 DOM.sidebar.classList.add('is-open');
                 DOM.sidebarOverlay.classList.add('is-visible');
+                // The smart listener is now added.
                 document.addEventListener('click', handleOutsideClick);
             }
         };
@@ -107,7 +114,11 @@ export const App = {
             if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
             if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
             if (e.key === 'Escape') {
-                if (DOM.genericDialog.classList.contains('visible')) return;
+                if (DOM.genericDialog.classList.contains('visible')) {
+                    const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
+                    if (cancelButton) cancelButton.click();
+                    return;
+                }
                 if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
                 else Menus.hideAll();
             }
@@ -187,7 +198,6 @@ export const App = {
         if (!optionsContainer) return;
 
         optionsContainer.addEventListener('click', (e) => {
-            e.stopPropagation();
             const button = e.target.closest('button');
             if (!button) return;
             const action = button.dataset.action;
@@ -232,7 +242,6 @@ export const App = {
             
             document.getElementById('dialog-content').querySelectorAll('.menu-button').forEach(btn => {
                 btn.onclick = (e) => {
-                    e.stopPropagation();
                     const fullName = btn.dataset.repoFullName;
                     const [owner, repoName] = fullName.split('/');
                     const repoData = repos.find(r => r.full_name === fullName);
