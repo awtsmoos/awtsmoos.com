@@ -8,18 +8,17 @@ class AIEngine {
         this.isThinking = false;
 
         if (this.difficulty === 'adaptive') {
-            // --- CHANGE: Slower start for a more human-like feel ---
-            this.maxThinkDelay = 1500; // Starts at a slow 1.5 seconds
+            this.maxThinkDelay = 1500;
             this.minThinkDelay = 200;
             this.rampingFactor = 0.98;
         } else {
-            this.thinkDelay = 50;
+            // Unbeatable AI for AI vs AI
+            this.thinkDelay = 50; // Still thinks instantly
         }
         this.lastThinkTime = 0;
     }
 
     update(timestamp) {
-        // AI only thinks when its own piece is active and not falling
         if (this.game.gameOver || !this.game.piece || this.isThinking) return;
 
         let currentThinkDelay = this.difficulty === 'adaptive' ?
@@ -36,13 +35,15 @@ class AIEngine {
 
             const bestMove = this.findBestMove();
 
-            // --- CHANGE: AI now sets the piece state instead of instantly dropping it ---
             if (bestMove) {
-                // This new function will orient the piece, then let it fall naturally.
                 this.game.setAIPieceState(bestMove);
-            }
-            // No hard drop! The piece will now animate downwards.
 
+                // --- CHANGE: Aggressive dropping for AI vs AI mode ---
+                // If this is an 'unbeatable' Golem, give it a high chance to immediately soft drop.
+                if (this.difficulty === 'unbeatable' && Math.random() < 0.75) { // 75% chance
+                    this.game.isSoftDropping = true;
+                }
+            }
             this.isThinking = false;
         }
     }
