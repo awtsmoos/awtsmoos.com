@@ -172,7 +172,13 @@ export const Tabs = {
             if (tab.item.type === 'github') {
                 commitMessage = await UI.showDialog({ 
                     title: 'Commit Changes', hasTextarea: true, 
-                    textareaContent: `B"H: update ${tab.item.name}`,
+                    textareaContent:
+                     `B"H
+Boruch Hashem!
+Biezras Hashem 
+Blessed is He
+update ${name}
+At ${new Date()}`, 
                     okText: 'Commit & Save',
                     message: `Enter commit message for "${tab.item.name}".`
                 });
