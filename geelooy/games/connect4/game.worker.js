@@ -30,7 +30,7 @@ function resize(data) {
 
 function init(data) {
     canvas = data.canvas;
-    ctx = canvas.getContext('d2');
+    ctx = canvas.getContext('2d');
     gameMode = data.gameMode;
     resize({ width: data.width, height: data.height });
     resetGame(data.playerGoesFirst);
