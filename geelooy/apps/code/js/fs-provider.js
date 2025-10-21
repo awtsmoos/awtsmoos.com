@@ -232,7 +232,7 @@ export const FileSystemProvider = {
             const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
                 method: 'PUT',
                 body: JSON.stringify({ 
-                    message: commitMessage || `B"H: update ${name}`, 
+                    message: commitMessage || `B"H\n updated ${name}!`, 
                     content: this.utf8_to_b64(content), sha: existingSha, branch 
                 })
             });
