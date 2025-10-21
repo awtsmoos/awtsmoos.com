@@ -4,7 +4,13 @@
 // Import scripts immediately. This is a synchronous operation within the worker's event loop,
 // meaning the script will pause here until they are fetched and executed.
 try {
-    importScripts('constants.js', 'effects.js', 'aiEngine.js', 'gameInstance.js');
+    importScripts(
+    'constants.js', 
+    
+    'aiEngine.js',
+    'effects.js', 
+     'gameInstance.js'
+     );
 } catch (e) {
     console.error("CRITICAL: Failed to import one or more scripts.", e);
     // If scripts fail to load, we cannot proceed.
