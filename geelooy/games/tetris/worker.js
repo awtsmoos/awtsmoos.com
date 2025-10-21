@@ -90,10 +90,12 @@ case 'init':
     gameInstances.forEach(inst => inst.init());
     console.log("All instances initialized."); // <-- LOG 6
 
-    if (gameInstances.length > 0) {
-        console.log("Starting game loop..."); // <-- LOG 7
-        gameLoop();
-    } else {
+    // In worker.js, inside case 'init'
+if (gameInstances.length > 0) {
+    console.log("Starting game loop with requestAnimationFrame...");
+    // THE FIX: This ensures the loop STARTS with a valid timestamp.
+    animationFrameId = requestAnimationFrame(gameLoop); 
+} else {
         console.warn("No game instances were created. Game loop will not start.");
     }
     break;
