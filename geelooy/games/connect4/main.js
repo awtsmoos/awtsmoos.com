@@ -23,16 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameMode;
     let isGameRunning = false;
 
+    // Listen for messages from the worker
+    worker.onmessage = (e) => {
+        if (e.data.type === 'goToMainMenu') {
+            isGameRunning = false;
+            showScreen(mainMenu);
+        }
+    };
+
     function resizeCanvas() {
-        const BOARD_ASPECT_RATIO = 7 / 6; // Columns / Rows
+        const BOARD_ASPECT_RATIO = 7 / 6;
         const container = document.getElementById('game-container');
         let availableWidth = container.clientWidth;
-        let availableHeight = container.clientHeight;
+        let availableHeight = container.clientHeight - 80; // Space for resign button
 
-        availableHeight -= 80; // Reserve 80px space for the resign button
-
-        let newWidth = availableWidth;
-        let newHeight = availableHeight;
+        let newWidth = Math.min(availableWidth, container.offsetWidth);
+        let newHeight = Math.min(availableHeight, container.offsetHeight);
 
         if (newWidth / newHeight > BOARD_ASPECT_RATIO) {
             newWidth = newHeight * BOARD_ASPECT_RATIO;
@@ -61,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGame(mode, playerGoesFirst = null) {
         showScreen(gameContainer);
         isGameRunning = true;
-        
         resizeCanvas();
 
         const offscreen = canvas.transferControlToOffscreen();
@@ -77,12 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pVsPButton.addEventListener('click', () => startGame('pvp'));
     gVsGButton.addEventListener('click', () => startGame('cvc'));
-
     pVsGButton.addEventListener('click', () => {
         gameMode = 'pvc';
         showScreen(turnChoiceMenu);
     });
-
     playerFirstButton.addEventListener('click', () => startGame(gameMode, true));
     playerSecondButton.addEventListener('click', () => startGame(gameMode, false));
 
@@ -95,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('click', (event) => {
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
-        worker.postMessage({ type: 'click', x: x, canvasWidth: rect.width });
+        const y = event.clientY - rect.top;
+        worker.postMessage({ type: 'click', x, y, canvasWidth: rect.width, canvasHeight: rect.height });
     });
 
     canvas.addEventListener('mousemove', (event) => {
@@ -110,6 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', resizeCanvas);
 });
+
+
+
 
 
 
