@@ -61,32 +61,34 @@ class GameInstance {
     }
 
     draw() {
-        if (!this.ctx) return;
-        
-        this.BLOCK_SIZE = this.canvas.width / COLS;
-        if (!this.BLOCK_SIZE || this.canvas.width === 0) return;
+    if (!this.ctx) return;
+    
+    this.BLOCK_SIZE = this.canvas.width / COLS;
+    if (!this.BLOCK_SIZE || this.canvas.width === 0) return;
 
-        this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#000';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        const startRow = Math.floor(this.viewportY);
-        const endRow = Math.ceil(this.viewportY + VIEWPORT_ROWS);
+    const startRow = Math.floor(this.viewportY);
+    const endRow = Math.ceil(this.viewportY + VIEWPORT_ROWS);
 
-        for (let y = startRow; y < endRow && y < LOGICAL_ROWS; y++) {
-            for (let x = 0; x < COLS; x++) {
-                if (this.board[y]?.[x] !== 0) {
-                    this.drawBrick(this.ctx, x, y, this.board[y][x]);
-                }
-            }
-        }
-
-        if (this.piece) {
-            this.drawMatrix(this.piece);
-            if (this.piece.y + this.piece.matrix.length > this.viewportY + VIEWPORT_ROWS) {
-                this.drawIndicator();
+    for (let y = startRow; y < endRow && y < LOGICAL_ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+            if (this.board[y]?.[x] !== 0) {
+                this.drawBrick(this.ctx, x, y, this.board[y][x]);
             }
         }
     }
+
+    // **THE FIX**: Add a comprehensive check before attempting to draw the piece.
+    // This ensures `this.piece` and its `matrix` are valid objects.
+    if (this.piece && this.piece.matrix && Array.isArray(this.piece.matrix)) {
+        this.drawMatrix(this.piece);
+        if (this.piece.y + this.piece.matrix.length > this.viewportY + VIEWPORT_ROWS) {
+            this.drawIndicator();
+        }
+    }
+}
 
     drawBrick(ctx, logicalX, logicalY, typeId) {
         const screenY = (logicalY - this.viewportY) * this.BLOCK_SIZE;
@@ -108,10 +110,20 @@ class GameInstance {
     }
 
     drawMatrix(p) {
-        p.matrix.forEach((row, y) => row.forEach((val, x) => {
-            if (val !== 0) this.drawBrick(this.ctx, p.x + x, p.y + y, p.typeId);
-        }));
+    // **THE FIX**: This check is now the primary safeguard.
+    // It prevents the 'forEach' error if the matrix is somehow invalid.
+    if (!p || !p.matrix || !Array.isArray(p.matrix)) {
+        return;
     }
+    p.matrix.forEach((row, y) => {
+        // Also check if each row is valid before iterating
+        if (Array.isArray(row)) {
+            row.forEach((val, x) => {
+                if (val !== 0) this.drawBrick(this.ctx, p.x + x, p.y + y, p.typeId);
+            });
+        }
+    });
+}
     
     drawIndicator() {
         const s = this.BLOCK_SIZE;
