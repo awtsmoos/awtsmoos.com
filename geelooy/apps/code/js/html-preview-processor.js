@@ -24,7 +24,7 @@ function resolveRelativePath(basePath, relativePath) {
 // --- The Message Handler (Lives on the main editor window) ---
 // This single, powerful handler processes all requests from the iframe.
 async function handleWorkerRequest(event, baseItem) {
-    const { type, path: relativePath, id, sab, basePath } = event.data;
+    const { type, path: relativePath, id, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
@@ -63,17 +63,11 @@ async function handleWorkerRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
 
-            // Send the content back and notify the worker to wake up.
-            event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: scriptContent }, '*');
-            const int32 = new Int32Array(sab);
-            Atomics.store(int32, 0, 1);
-            Atomics.notify(int32, 0);
+            // Send the content back to the waiting XHR in the worker.
+            event.source.postMessage({ type: 'import-scripts-response', id, content: scriptContent }, '*');
         } catch (e) {
             console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
-            event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: null, error: e.message }, '*');
-            const int32 = new Int32Array(sab);
-            Atomics.store(int32, 0, 1); // Still notify so the worker doesn't freeze forever.
-            Atomics.notify(int32, 0);
+            event.source.postMessage({ type: 'import-scripts-response', id, error: e.message }, '*');
         }
     }
 }
@@ -124,9 +118,7 @@ const workerInterceptorScript = `
             }
 
             const requestId = requestIdCounter++;
-            const sab = new SharedArrayBuffer(4);
             
-            // The Proxy Worker is created SYNCHRONOUSLY, as you correctly pointed out.
             const proxyWorker = {
                 _realWorker: null,
                 _messageQueue: [],
@@ -137,7 +129,7 @@ const workerInterceptorScript = `
                     real.onmessage = this._onmessage;
                     real.onerror = this._onerror;
                     this._messageQueue.forEach(msg => real.postMessage(...msg));
-                    this._messageQueue = []; // Clear queue
+                    this._messageQueue = [];
                 },
                 postMessage: function(...args) {
                     if (this._realWorker) {
@@ -150,7 +142,6 @@ const workerInterceptorScript = `
                     if (this._realWorker) this._realWorker.terminate();
                 },
             };
-            // Define getters/setters to correctly handle event handler assignments
             Object.defineProperty(proxyWorker, 'onmessage', {
                 get: () => proxyWorker._onmessage,
                 set: (handler) => {
@@ -167,59 +158,63 @@ const workerInterceptorScript = `
             });
 
             pendingWorkers.set(requestId, { proxy: proxyWorker, options });
-            window.parent.postMessage({ type: 'fetch-worker-script', path, id: requestId, sab }, '*');
+            window.parent.postMessage({ type: 'fetch-worker-script', path, id: requestId }, '*');
             
             return proxyWorker;
         };
     })();
 `;
 
-// --- The code to be injected into the worker itself ---
+// --- The code to be injected into the worker itself (using Sync XHR) ---
 const importScriptsPolyfill = (workerPath) => `
-    let sab, int32;
-    const scriptCache = new Map();
-    const workerBasePath = '${workerPath}';
+    (function() {
+        const workerBasePath = '${workerPath}';
+        let requestIdCounter = 0;
+        const pendingRequests = new Map();
 
-    self.addEventListener('message', (event) => {
-        if (event.data.type === 'init-sync') {
-            sab = event.data.sab;
-            int32 = new Int32Array(sab);
-        }
-        if (event.data.type === 'import-scripts-response') {
-            scriptCache.set(event.data.path, event.data.content || ''); // Store content or empty string on error
-            if(event.data.error) scriptCache.set('error:' + event.data.path, event.data.error);
-            Atomics.store(int32, 0, 1);
-            Atomics.notify(int32, 0);
-        }
-    });
+        self.addEventListener('message', (event) => {
+            const { type, id, content, error } = event.data;
+            if (type === 'import-scripts-response' && pendingRequests.has(id)) {
+                const request = pendingRequests.get(id);
+                pendingRequests.delete(id);
+                if (error) {
+                    request.status = 500;
+                    request.responseText = error;
+                } else {
+                    request.status = 200;
+                    request.responseText = content;
+                }
+                // Setting readyState to 4 triggers the 'load' or 'error' event on the XHR object
+                request.readyState = 4; 
+                if (request.onreadystatechange) request.onreadystatechange();
+            }
+        });
 
-    self.importScripts = (...paths) => {
-        if (!sab) {
-            console.error('Profound Editor: Sync mechanism not initialized for importScripts.');
-            return;
-        }
-        for (const relativePath of paths) {
-            self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, sab });
-            
-            const result = Atomics.wait(int32, 0, 0, 5000); // 5s timeout
-            if (result === 'timed-out') {
-                throw new Error('Profound Editor: Timed out waiting for importScripts: ' + relativePath);
-            }
-            Atomics.store(int32, 0, 0);
+        self.importScripts = (...paths) => {
+            for (const relativePath of paths) {
+                const requestId = requestIdCounter++;
+                const xhr = new XMLHttpRequest();
+                
+                // This is a "fake" open call. The third parameter 'false' makes it synchronous.
+                xhr.open('GET', relativePath, false);
 
-            if (scriptCache.has('error:' + relativePath)) {
-                 throw new Error(scriptCache.get('error:' + relativePath));
+                // We override the send method to use postMessage instead of a real network request.
+                xhr.send = () => {
+                    pendingRequests.set(requestId, xhr);
+                    self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
+                };
+
+                xhr.send(null); // The worker will block here until readyState is 4.
+
+                if (xhr.status === 200) {
+                    try { self.eval(xhr.responseText); } 
+                    catch (e) { console.error('Profound Editor: Error executing imported script:', relativePath, e); throw e; }
+                } else {
+                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
+                }
             }
-            if (scriptCache.has(relativePath)) {
-                const content = scriptCache.get(relativePath);
-                scriptCache.delete(relativePath);
-                try { self.eval(content); } 
-                catch (e) { console.error('Profound Editor: Error executing imported script:', relativePath, e); throw e; }
-            } else {
-                throw new Error('Profound Editor: Failed to load script for importScripts: ' + relativePath);
-            }
-        }
-    };
+        };
+    })();
 `;
 
 // --- The main export function ---
