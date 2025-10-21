@@ -139,7 +139,7 @@ export const Tabs = {
 
         // --- B"H: THE CORE LOGIC CHANGE ---
         // Decide whether to show the text editor or the previewer
-        const fileInfo = MimeUtil.getInfo(tab.item.name);
+        const fileInfo = { type: tab.fileType, name: tab.item.name };
 
         // Priority 1: Check if it's our special HTML preview tab
         if (fileInfo.type === 'html-preview') {
