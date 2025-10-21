@@ -86,15 +86,23 @@ class GameInstance {
         this.effectsEngine.draw();
     }
 
+    // --- CHANGE: Replaced gradient with a sharp, flat, two-tone style ---
     drawBrick(logicalX, logicalY, typeId) {
         const screenX = logicalX * this.blockSize;
         const screenY = (logicalY - this.viewportTopY) * this.blockSize;
         if (screenY < -this.blockSize || screenY > this.canvas.height) return;
-        const c = COLORS[typeId], p = this.blockSize * 0.1, bs = this.blockSize;
-        const grad = this.ctx.createLinearGradient(screenX, screenY, screenX + bs, screenY + bs);
-        grad.addColorStop(0, c); grad.addColorStop(1, 'black');
-        this.ctx.fillStyle = grad; this.ctx.fillRect(screenX, screenY, bs, bs);
-        this.ctx.fillStyle = c; this.ctx.fillRect(screenX + p, screenY + p, bs - p * 2, bs - p * 2);
+        
+        const c = COLORS[typeId];
+        const p = this.blockSize * 0.1; // Padding
+        const bs = this.blockSize;
+
+        // Draw a black background for a distinct border
+        this.ctx.fillStyle = 'black';
+        this.ctx.fillRect(screenX, screenY, bs, bs);
+        
+        // Draw the main, smaller, flat-color block on top
+        this.ctx.fillStyle = c;
+        this.ctx.fillRect(screenX + p, screenY + p, bs - p * 2, bs - p * 2);
     }
 
     spawnNewPiece() {
@@ -180,39 +188,32 @@ class GameInstance {
 
     hardDrop() {
         if (!this.piece) return;
-        // The hard drop trail effect was removed for simplicity and performance focus
         while (!this.collides(this.piece, { y: 1 })) {
             this.piece.y++;
         }
         this.lockPiece();
     }
 
-    // B"H
-// In gameInstance.js, replace the entire collides function with this one.
+    collides(piece, offset) {
+        const pMatrix = piece.matrix,
+              pX = piece.x + (offset.x || 0),
+              pY = piece.y + (offset.y || 0);
+              
+        for (let y = 0; y < pMatrix.length; y++) {
+            for (let x = 0; x < pMatrix[y].length; x++) {
+                if (pMatrix[y][x] !== 0) {
+                    const bX = pX + x,
+                          bY = pY + y;
 
-collides(piece, offset) {
-    const pMatrix = piece.matrix,
-          pX = piece.x + (offset.x || 0),
-          pY = piece.y + (offset.y || 0);
-          
-    for (let y = 0; y < pMatrix.length; y++) {
-        for (let x = 0; x < pMatrix[y].length; x++) {
-            if (pMatrix[y][x] !== 0) {
-                const bX = pX + x,
-                      bY = pY + y;
-
-                // --- START OF FIX ---
-                // First, check if the row exists before trying to access a cell within it.
-                const row = this.board[bY];
-                if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (row && row[bX] !== 0)) {
-                    return true;
+                    const row = this.board[bY];
+                    if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (row && row[bX] !== 0)) {
+                        return true;
+                    }
                 }
-                // --- END OF FIX ---
             }
         }
+        return false;
     }
-    return false;
-}
 
     createNewPiece() {
         const typeId = Math.floor(this.pieceGenerator.random() * 7) + 1;
