@@ -2,7 +2,7 @@
 // FILE: js/fs-provider.js
 
 import { State } from './state.js';
-
+import { MimeUtil } from './mime-util.js';
 /**
  * FileSystemProvider: An abstraction layer for different file systems.
  */
