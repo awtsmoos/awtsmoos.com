@@ -81,11 +81,13 @@ export const FileSystemProvider = {
             }
             return entries;
         },
-        async read({ handle, path }) { 
+        async read({ handle, path }) {
             const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-            const file = await fileHandle.getFile();
-            return file.text(); 
+            // Return the entire File object, which is a Blob. This is more versatile.
+            return await fileHandle.getFile(); 
         },
+        
+        
         async write({ handle, path }, content) {
             const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
             const writable = await fileHandle.createWritable();
@@ -150,7 +152,8 @@ export const FileSystemProvider = {
             await this.init();
             return new Promise((resolve, reject) => {
                 const req = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME).get(path);
-                req.onsuccess = e => resolve(e.target.result?.content ?? '');
+                // Return the content as is. It could be text or a Blob.
+                req.onsuccess = e => resolve(e.target.result?.content ?? ''); 
                 req.onerror = e => reject(e.target.error);
             });
         },
@@ -216,10 +219,22 @@ export const FileSystemProvider = {
                 name: c.name, kind: c.type === 'dir' ? 'directory' : 'file', path: c.path, sha: c.sha
             }));
         },
-        async read({ repoInfo, sha }) {
+        async read({ repoInfo, sha, name }) {
             const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
             if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
-            return this.b64_to_utf8(blob.content);
+
+            const fileInfo = MimeUtil.getInfo(name);
+            
+            if (fileInfo.type === 'text') {
+                return this.b64_to_utf8(blob.content);
+            } else {
+                // For binary files, return an object with the data needed to build a data URL.
+                return {
+                    isBinary: true,
+                    base64Content: blob.content,
+                    mime: fileInfo.mime
+                };
+            }
         },
         async write(item, content, commitMessage) {
             const { repoInfo, branch, path, name } = item;
