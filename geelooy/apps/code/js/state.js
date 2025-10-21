@@ -16,6 +16,7 @@ export const State = {
     db: null,
     domItemMap: new Map(), // Maps "workspaceId::path" to { el, item }
     useTabs: true,
+    expandedFolders: new Set(),
 };
 
 /**
