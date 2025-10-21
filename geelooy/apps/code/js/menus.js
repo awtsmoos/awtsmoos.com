@@ -1,7 +1,7 @@
 // B"H
 // FILE: js/menus.js
 
-import { State } from './state.js';
+import { State, DOM } from './state.js';
 import { UI } from './ui.js';
 import { App } from './app.js';
 import { Tabs } from './tabs.js';
