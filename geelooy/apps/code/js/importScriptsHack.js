@@ -1,6 +1,6 @@
 //B"H
 
-export default (workerPath, originalScriptContent) => `
+export default (workerPath, originalScriptContent) => /*js*/`
     (function() {
         console.log('%c[WORKER] Polyfill Loaded.', 'color: #4682B4');
         const workerBasePath = '${workerPath}';
@@ -88,4 +88,4 @@ export default (workerPath, originalScriptContent) => `
             }
         })();
     })();
-`;
+`
