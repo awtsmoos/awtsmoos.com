@@ -67,7 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function createCanvas() {
         const newCanvas = document.createElement('canvas');
         newCanvas.id = 'game-canvas';
-        ui.screens.game.insertBefore(newCanvas, ui.buttons.resign); // Place canvas before the resign button
+        // In main.js -> createCanvas function
+ui.screens.game.appendChild(newCanvas);
+        
         gameState.canvas = newCanvas;
 
         newCanvas.addEventListener('click', handleCanvasEvent);
