@@ -18,9 +18,11 @@
     </div>
 
     <div id="game-screen" class="hidden">
+        <!-- Player 1 Container -->
         <div class="player-container" id="p1-container">
-            <div class="player-title" id="p1-title">PLAYER 1</div>
             <div class="game-board-container">
+                <!-- CHANGE: Title is now INSIDE the board container -->
+                <div class="player-title" id="p1-title">PLAYER 1</div>
                 <canvas id="p1-canvas"></canvas>
                 <div class="hud">
                     <div class="hud-stats">
@@ -30,11 +32,18 @@
                     </div>
                 </div>
             </div>
-            <button class="action-button" id="p1-descend">Descend</button>
         </div>
+
+        <!-- CHANGE: New shared controls area for the Descend button -->
+        <div id="shared-controls" class="hidden">
+            <button class="action-button" id="descend-button">Descend</button>
+        </div>
+
+        <!-- Player 2 Container -->
         <div class="player-container" id="p2-container">
-            <div class="player-title" id="p2-title">GOLEM</div>
             <div class="game-board-container">
+                <!-- CHANGE: Title is now INSIDE the board container -->
+                <div class="player-title" id="p2-title">GOLEM</div>
                 <canvas id="p2-canvas"></canvas>
                 <div class="hud">
                     <div class="hud-stats">
