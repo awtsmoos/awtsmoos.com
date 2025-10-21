@@ -3,7 +3,7 @@
 
 // --- Constants ---
 const HEBREW_CHARS = [
-    'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 
+    'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ',
     'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת', 'ך', 'ם', 'ן', 'ף', 'ץ'
 ];
 const PARTICLE_GRAVITY = 0.35; // A satisfying, weighty gravity
@@ -23,9 +23,11 @@ class Particle {
     draw(ctx, dpr) {
         ctx.fillStyle = this.color;
         if (this.type === 'char') {
+            // Note: We still use dpr here to scale the font size, which is defined in logical units.
             ctx.font = `${this.fontSize * dpr}px Cinzel`;
             ctx.fillText(this.char, this.x, this.y);
         } else { // Pixel
+            // The particle size is now in device pixels.
             ctx.fillRect(this.x, this.y, 2 * dpr, 2 * dpr);
         }
     }
@@ -39,7 +41,9 @@ class LightningBolt {
     }
     update() { this.life--; }
     draw(ctx, dpr) {
-        ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = this.width;
+        ctx.strokeStyle = '#FFFFFF';
+        // Note: We still use dpr to scale the line width.
+        ctx.lineWidth = this.width * dpr;
         ctx.beginPath(); ctx.moveTo(this.x1, this.y1); ctx.lineTo(this.x2, this.y2); ctx.stroke();
     }
 }
@@ -53,11 +57,13 @@ class EffectsEngine {
     draw() { this.effects.forEach(effect => effect.draw(this.ctx, this.dpr)); }
 
     triggerImpact(piece, blockSize, viewportTopY) {
+        const scaledBlockSize = blockSize * this.dpr; // Pre-scale the block size once
         piece.matrix.forEach((row, y) => {
             row.forEach((val, x) => {
                 if (val !== 0) {
-                    const px = ((piece.x + x + 0.5) * blockSize) * this.dpr;
-                    const py = ((piece.y + y - viewportTopY + 0.9) * blockSize) * this.dpr;
+                    // FIX: Removed * this.dpr from coordinate calculations
+                    const px = (piece.x + x + 0.5) * scaledBlockSize;
+                    const py = (piece.y + y - viewportTopY + 0.9) * scaledBlockSize;
                     for (let i = 0; i < 12; i++) {
                         this.effects.push(new Particle({
                             type: 'pixel', x: px, y: py, color: COLORS[piece.typeId],
@@ -71,11 +77,13 @@ class EffectsEngine {
     }
 
     triggerWallSlide(piece, direction, blockSize, viewportTopY) {
+        const scaledBlockSize = blockSize * this.dpr; // Pre-scale the block size once
         const side = direction > 0 ? piece.matrix[0].length - 1 : 0;
         piece.matrix.forEach((row, y) => {
             if (row[side] !== 0) {
-                const px = ((piece.x + side + (direction > 0 ? 1 : 0)) * blockSize) * this.dpr;
-                const py = ((piece.y + y - viewportTopY + 0.5) * blockSize) * this.dpr;
+                // FIX: Removed * this.dpr from coordinate calculations
+                const px = (piece.x + side + (direction > 0 ? 1 : 0)) * scaledBlockSize;
+                const py = (piece.y + y - viewportTopY + 0.5) * scaledBlockSize;
                 for (let i = 0; i < 3; i++) {
                     this.effects.push(new Particle({
                         type: 'pixel', x: px, y: py, color: '#FFFFFF',
@@ -89,13 +97,19 @@ class EffectsEngine {
     }
 
     triggerLineClear(clearedLines, blockSize, viewportTopY, canvasWidth) {
+        const scaledBlockSize = blockSize * this.dpr; // Pre-scale block size
+        const scaledCanvasWidth = canvasWidth * this.dpr; // Pre-scale canvas width
+
         clearedLines.forEach(y => {
-            const lineY = ((y - viewportTopY + 0.5) * blockSize) * this.dpr;
+            // FIX: Removed * this.dpr from coordinate calculations
+            const lineY = (y - viewportTopY + 0.5) * scaledBlockSize;
             for (let i = 0; i < 150; i++) {
                 const isChar = Math.random() > 0.6;
                 this.effects.push(new Particle({
                     type: isChar ? 'char' : 'pixel',
-                    x: Math.random() * canvasWidth * this.dpr,
+                    // FIX: Use pre-scaled canvas width
+                    x: Math.random() * scaledCanvasWidth,
+                    // FIX: Use pre-scaled lineY and a scaled random offset
                     y: lineY + (Math.random() - 0.5) * 30 * this.dpr,
                     vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 20,
                     life: Math.random() * 70 + 40,
@@ -103,7 +117,8 @@ class EffectsEngine {
                     fontSize: Math.random() * 16 + 10
                 }));
             }
-            this.createProceduralBolt(lineY, canvasWidth, 50 * this.dpr, 6);
+            // FIX: Pass the scaled canvas width to the bolt function
+            this.createProceduralBolt(lineY, scaledCanvasWidth, 50 * this.dpr, 6);
         });
     }
 
@@ -120,7 +135,7 @@ class EffectsEngine {
             segments = newSegments;
         }
         for (let i = 0; i < segments.length - 1; i++) {
-            this.effects.push(new LightningBolt(segments[i].x, segments[i].y, segments[i+1].x, segments[i+1].y, (Math.random() * 2 + 1) * this.dpr));
+            this.effects.push(new LightningBolt(segments[i].x, segments[i].y, segments[i+1].x, segments[i+1].y, (Math.random() * 2 + 1)));
         }
     }
 }
