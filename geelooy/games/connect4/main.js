@@ -205,5 +205,15 @@ function showScreen(targetScreen) {
 
     // --- 5. Application Entry Point ---
     initializeEventListeners();
-    showScreen(ui.screens.mainMenu); // Start the application on the main menu
+    // At the end of main.js
+
+// Set the initial state: hide all screens except the one we're about to show.
+ui.allScreenElements.forEach(screen => {
+    if (screen !== ui.screens.mainMenu) {
+        screen.classList.add('hidden');
+    }
+});
+// Now, officially show the main menu (which is already not hidden).
+showScreen(ui.screens.mainMenu);
+
 });
