@@ -10,12 +10,24 @@ import { Menus } from './menus.js';
  * Workspaces Module: Manages the file explorer tree view.
  */
 export const Workspaces = {
+    // --- B"H FIX 1 ---
+    // Instead of re-rendering everything, this function now appends a new workspace
+    // without disturbing the existing ones.
     add(ws) {
+        // If the "Add a workspace" message is present, remove it first.
+        const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
+        if (emptyMessage) {
+            DOM.workspacesContainer.innerHTML = '';
+        }
+
         const newWs = { id: State.nextWorkspaceId++, isCollapsed: false, ...ws };
         State.workspaces.push(newWs);
-        this.render();
+        
+        // Render just the new workspace and append it to the container.
+        this.renderWorkspace(newWs, DOM.workspacesContainer);
     },
 
+    // This is the main render function, now refactored to use the helper below.
     render() {
         DOM.workspacesContainer.innerHTML = '';
         State.domItemMap.clear();
@@ -25,37 +37,40 @@ export const Workspaces = {
         }
 
         State.workspaces.forEach(ws => {
-            const wsRoot = document.createElement('div');
-            wsRoot.className = 'workspace-root';
-            
-            const iconMap = { local: 'laptop', github: 'github', indexeddb: 'brain' };
-            wsRoot.innerHTML = `
-                <div class="workspace-header">
-                    <strong><svg class="svg-icon" style="margin-right:8px;"><use href="#icon-${iconMap[ws.type]}"></use></svg>${ws.name}</strong>
-                </div>
-                <ul class="workspace-tree ${ws.isCollapsed ? 'hidden' : ''}"></ul>`;
-            
-            const header = wsRoot.querySelector('.workspace-header');
-            const tree = wsRoot.querySelector('.workspace-tree');
-            
-            header.onclick = () => {
-                ws.isCollapsed = !ws.isCollapsed;
-                tree.classList.toggle('hidden', ws.isCollapsed);
-                if (!ws.isCollapsed && !tree.hasChildNodes()) {
-                    this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
-                }
-            };
-            // Pass the workspace object itself as the context item
-            header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
-
-            DOM.workspacesContainer.appendChild(wsRoot);
-            const rootItem = { ...ws, path: '/', workspaceId: ws.id };
-            // The key for the root uses its own ID as the workspace ID
-            State.domItemMap.set(`${ws.id}::/`, { el: wsRoot, item: rootItem });
-            if (!ws.isCollapsed) {
-               this.renderTree(tree, { ...rootItem, kind: 'directory' }, 1);
-            }
+            this.renderWorkspace(ws, DOM.workspacesContainer);
         });
+    },
+
+    // This is a new helper function that renders a single workspace.
+    renderWorkspace(ws, container) {
+        const wsRoot = document.createElement('div');
+        wsRoot.className = 'workspace-root';
+        
+        const iconMap = { local: 'laptop', github: 'github', indexeddb: 'brain' };
+        wsRoot.innerHTML = `
+            <div class="workspace-header">
+                <strong><svg class="svg-icon" style="margin-right:8px;"><use href="#icon-${iconMap[ws.type]}"></use></svg>${ws.name}</strong>
+            </div>
+            <ul class="workspace-tree ${ws.isCollapsed ? 'hidden' : ''}"></ul>`;
+        
+        const header = wsRoot.querySelector('.workspace-header');
+        const tree = wsRoot.querySelector('.workspace-tree');
+        
+        header.onclick = () => {
+            ws.isCollapsed = !ws.isCollapsed;
+            tree.classList.toggle('hidden', ws.isCollapsed);
+            if (!ws.isCollapsed && !tree.hasChildNodes()) {
+                this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
+            }
+        };
+        header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
+
+        container.appendChild(wsRoot);
+        const rootItem = { ...ws, path: '/', workspaceId: ws.id };
+        State.domItemMap.set(`${ws.id}::/`, { el: wsRoot, item: rootItem });
+        if (!ws.isCollapsed) {
+           this.renderTree(tree, { ...rootItem, kind: 'directory' }, 1);
+        }
     },
 
     async renderTree(parentElement, parentItem, depth) {
@@ -113,11 +128,11 @@ export const Workspaces = {
             parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
         }
     },
-
-    // --- B"H --- CORRECTED FUNCTION ---
+    
+    // --- B"H FIX 2 ---
+    // This function is now smarter. If a folder is collapsed, it will programmatically
+    // expand it before refreshing, ensuring the new item is visible.
     async refreshNode(item) {
-        // Correctly determine the workspace ID, whether it's the root item (using .id) 
-        // or a child item (using .workspaceId).
         const workspaceId = item.workspaceId ?? item.id;
         const path = item.path ?? '/';
         const mapKey = `${workspaceId}::${path}`;
@@ -130,18 +145,24 @@ export const Workspaces = {
 
         const directoryElement = entry.el;
         const directoryItem = entry.item;
-        
-        // Find the <ul> element that holds the children. This works for both the
-        // root (.workspace-tree) and sub-folders (a direct child ul).
-        const childrenContainer = directoryElement.querySelector('ul');
+        const isRoot = directoryElement.classList.contains('workspace-root');
 
-        // Only refresh if the directory is expanded (i.e., its <ul> exists in the DOM).
-        // If it's collapsed, the content will be loaded fresh when it's next expanded anyway.
-        if (childrenContainer) {
-            const isRoot = directoryItem.path === '/';
-            // The depth of children in the root is 1. For sub-folders, it's their path depth + 1.
+        let childrenContainer = directoryElement.querySelector('ul');
+
+        if (!childrenContainer) {
+            // If the container doesn't exist, the directory is collapsed.
+            // We need to expand it to show the new item by simulating a click.
+            if (isRoot) {
+                const header = directoryElement.querySelector('.workspace-header');
+                if (header) header.click();
+            } else {
+                const nameWrap = directoryElement.querySelector('.tree-item-name-wrap');
+                if (nameWrap) nameWrap.click();
+            }
+        } else {
+            // If the container *does* exist, the directory is already expanded.
+            // We just need to re-render its contents.
             const childrenDepth = isRoot ? 1 : (directoryItem.path.match(/\//g) || []).length + 1;
-            
             await this.renderTree(childrenContainer, directoryItem, childrenDepth);
         }
     }
