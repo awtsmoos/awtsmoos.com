@@ -1,4 +1,5 @@
 //B"H
+//worker-intercept.js
 export default /*js*/`
     (function() {
         const OriginalWorker = window.Worker;
