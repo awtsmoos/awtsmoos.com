@@ -44,33 +44,43 @@ self.onmessage = ({ data }) => {
     // This guarantees that the `importScripts` command has completed before any of this code runs.
     try {
         switch (data.type) {
-            case 'init':
-                console.log("Worker received 'init' message. Setting up game instances.");
+            // B"H
+// In worker.js, inside the self.onmessage function
 
-                // If a game is already running, cancel it before starting a new one.
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                    animationFrameId = null;
-                }
-                
-                const { p1Canvas, p2Canvas, mode } = data.payload;
+case 'init':
+    console.log("Worker received 'init' message. Setting up game instances.");
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-                gameInstances = []; // Reset instances
-                if (p1Canvas) {
-                    const isP1AI = (mode === 'aivai');
-                    gameInstances.push(new GameInstance(1, isP1AI, p1Canvas));
-                }
-                if (mode !== 'single' && p2Canvas) {
-                    gameInstances.push(new GameInstance(2, true, p2Canvas));
-                }
+    // --- START OF FIX ---
+    // **FIX**: Destructure the dimensions from the payload.
+    const { p1Canvas, p1Dimensions, p2Canvas, p2Dimensions, mode } = data.payload;
 
-                gameInstances.forEach(inst => inst.init());
+    gameInstances = []; // Reset instances
+    
+    if (p1Canvas && p1Dimensions) {
+        // **FIX**: Apply the correct dimensions to the canvas.
+        p1Canvas.width = p1Dimensions.width;
+        p1Canvas.height = p1Dimensions.height;
+        
+        const isP1AI = (mode === 'aivai');
+        gameInstances.push(new GameInstance(1, isP1AI, p1Canvas));
+    }
 
-                // Start the game loop only after successful initialization.
-                if (!animationFrameId) {
-                    gameLoop();
-                }
-                break;
+    if (mode !== 'single' && p2Canvas && p2Dimensions) {
+        // **FIX**: Apply the correct dimensions to the second canvas.
+        p2Canvas.width = p2Dimensions.width;
+        p2Canvas.height = p2Dimensions.height;
+        
+        gameInstances.push(new GameInstance(2, true, p2Canvas));
+    }
+    // --- END OF FIX ---
+
+    gameInstances.forEach(inst => inst.init());
+
+    if (gameInstances.length > 0) {
+        gameLoop();
+    }
+    break;
 
             case 'input':
                 const player1 = gameInstances.find(i => i.id === 1 && !i.isAI);
