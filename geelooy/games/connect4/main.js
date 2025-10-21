@@ -1,83 +1,112 @@
 //B"H
 
-const canvas = document.getElementById('game-canvas');
-const mainMenu = document.getElementById('main-menu');
-const turnChoiceMenu = document.getElementById('turn-choice-menu');
-const gameControls = document.getElementById('game-controls');
-const pVsGButton = document.getElementById('p-vs-g');
-const gVsGButton = document.getElementById('g-vs-g');
-const pVsPButton = document.getElementById('p-vs-p');
-const playerFirstButton = document.getElementById('player-first');
-const playerSecondButton = document.getElementById('player-second');
-const resignButton = document.getElementById('resign-btn');
 
-if (!window.Worker) {
-    alert("Your browser does not support Web Workers.");
-}
 
-const worker = new Worker('game.worker.js');
-let offscreen;
-let gameMode;
+document.addEventListener('DOMContentLoaded', () => {
+    const mainMenu = document.getElementById('main-menu');
+    const turnChoiceMenu = document.getElementById('turn-choice-menu');
+    const gameContainer = document.getElementById('game-container');
+    const canvas = document.getElementById('game-canvas');
 
-function startGame(mode, playerGoesFirst = null) {
-    mainMenu.style.display = 'none';
-    turnChoiceMenu.style.display = 'none';
-    gameControls.style.display = 'block';
+    const pVsGButton = document.getElementById('p-vs-g');
+    const gVsGButton = document.getElementById('g-vs-g');
+    const pVsPButton = document.getElementById('p-vs-p');
+    const playerFirstButton = document.getElementById('player-first');
+    const playerSecondButton = document.getElementById('player-second');
+    const resignButton = document.getElementById('resign-btn');
 
-    const { width, height } = canvas.getBoundingClientRect();
-    canvas.width = width * devicePixelRatio;
-    canvas.height = height * devicePixelRatio;
-    offscreen = canvas.transferControlToOffscreen();
+    if (!window.Worker || !canvas.transferControlToOffscreen) {
+        alert("Your browser does not support the required features for this game (Web Workers or OffscreenCanvas).");
+        return;
+    }
 
-    worker.postMessage({
-        type: 'init',
-        canvas: offscreen,
-        width: canvas.width,
-        height: canvas.height,
-        gameMode: mode,
-        playerGoesFirst: playerGoesFirst
-    }, [offscreen]);
-}
+    const worker = new Worker('game.worker.js');
+    let gameMode;
 
-pVsPButton.addEventListener('click', () => {
-    gameMode = 'pvp';
-    startGame(gameMode);
+    function resizeCanvas() {
+        const BOARD_ASPECT_RATIO = 7 / 6; // Columns / Rows
+        const container = document.getElementById('game-container');
+        let newWidth = container.clientWidth;
+        let newHeight = container.clientHeight * 0.85; // Leave 15% space for controls/padding
+
+        if (newWidth / newHeight > BOARD_ASPECT_RATIO) {
+            newWidth = newHeight * BOARD_ASPECT_RATIO;
+        } else {
+            newHeight = newWidth / BOARD_ASPECT_RATIO;
+        }
+
+        canvas.style.width = `${newWidth}px`;
+        canvas.style.height = `${newHeight}px`;
+
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = newWidth * dpr;
+        canvas.height = newHeight * dpr;
+
+        worker.postMessage({ type: 'resize', width: canvas.width, height: canvas.height });
+    }
+
+    function showScreen(screen) {
+        mainMenu.style.display = 'none';
+        turnChoiceMenu.style.display = 'none';
+        gameContainer.style.display = 'none';
+        screen.style.display = 'flex';
+    }
+
+    function startGame(mode, playerGoesFirst = null) {
+        showScreen(gameContainer);
+        resizeCanvas();
+        const offscreen = canvas.transferControlToOffscreen();
+        worker.postMessage({
+            type: 'init',
+            canvas: offscreen,
+            width: canvas.width,
+            height: canvas.height,
+            gameMode: mode,
+            playerGoesFirst: playerGoesFirst
+        }, [offscreen]);
+    }
+
+    pVsPButton.addEventListener('click', () => {
+        gameMode = 'pvp';
+        startGame(gameMode);
+    });
+
+    pVsGButton.addEventListener('click', () => {
+        gameMode = 'pvc';
+        showScreen(turnChoiceMenu);
+    });
+
+    gVsGButton.addEventListener('click', () => {
+        gameMode = 'cvc';
+        startGame(gameMode);
+    });
+
+    playerFirstButton.addEventListener('click', () => startGame(gameMode, true));
+    playerSecondButton.addEventListener('click', () => startGame(gameMode, false));
+
+    resignButton.addEventListener('click', () => {
+        worker.postMessage({ type: 'resign' });
+        showScreen(mainMenu);
+    });
+
+    canvas.addEventListener('click', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        worker.postMessage({ type: 'click', x: x, canvasWidth: rect.width });
+    });
+
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        worker.postMessage({ type: 'mousemove', x: x, canvasWidth: rect.width });
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        worker.postMessage({ type: 'mouseleave' });
+    });
+
+    window.addEventListener('resize', resizeCanvas);
 });
 
-pVsGButton.addEventListener('click', () => {
-    gameMode = 'pvc';
-    mainMenu.style.display = 'none';
-    turnChoiceMenu.style.display = 'flex';
-});
 
-gVsGButton.addEventListener('click', () => {
-    gameMode = 'cvc';
-    startGame(gameMode);
-});
 
-playerFirstButton.addEventListener('click', () => {
-    startGame(gameMode, true);
-});
-
-playerSecondButton.addEventListener('click', () => {
-    startGame(gameMode, false);
-});
-
-resignButton.addEventListener('click', () => {
-    worker.postMessage({ type: 'resign' });
-    gameControls.style.display = 'none';
-    mainMenu.style.display = 'flex';
-});
-
-canvas.addEventListener('click', (event) => {
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    worker.postMessage({ type: 'click', x: x, canvasWidth: rect.width });
-});
-
-window.addEventListener('resize', () => {
-    const { width, height } = canvas.getBoundingClientRect();
-    canvas.width = width * devicePixelRatio;
-    canvas.height = height * devicePixelRatio;
-    worker.postMessage({ type: 'resize', width: canvas.width, height: canvas.height });
-});
