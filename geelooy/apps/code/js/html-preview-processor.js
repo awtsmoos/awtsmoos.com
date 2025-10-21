@@ -4,6 +4,7 @@
 import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 
+// --- Helper Functions ---
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
     const baseUrl = new URL(basePath, 'http://dummy.com/');
@@ -11,11 +12,14 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedUrl.pathname.substring(1);
 }
 
+// --- The Message Handler (Lives on the main editor window) ---
+// This single, powerful handler processes all requests from the iframe.
 async function handleWorkerRequest(event, baseItem) {
     const { type, path: relativePath, id, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
+    // A. The iframe's main script wants to create a new Worker.
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
@@ -36,6 +40,7 @@ async function handleWorkerRequest(event, baseItem) {
             event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
         }
     } 
+    // B. A worker, already running, wants to import another script via importScripts.
     else if (type === 'import-scripts-request') {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
         try {
@@ -71,6 +76,7 @@ export function detachWorkerRequestHandler() {
     }
 }
 
+// --- B"H: FULL WORKER INTERCEPTOR SCRIPT (NO PLACEHOLDERS) ---
 const workerInterceptorScript = `
     (function() {
         const OriginalWorker = window.Worker;
@@ -111,7 +117,10 @@ const workerInterceptorScript = `
             }
             const requestId = requestIdCounter++;
             const proxyWorker = {
-                _realWorker: null, _messageQueue: [], _onmessage: null, _onerror: null,
+                _realWorker: null,
+                _messageQueue: [],
+                _onmessage: null,
+                _onerror: null,
                 _connect: function(real) {
                     this._realWorker = real;
                     real.onmessage = this._onmessage;
@@ -120,10 +129,15 @@ const workerInterceptorScript = `
                     this._messageQueue = [];
                 },
                 postMessage: function(...args) {
-                    if (this._realWorker) { this._realWorker.postMessage(...args); } 
-                    else { this._messageQueue.push(args); }
+                    if (this._realWorker) {
+                        this._realWorker.postMessage(...args);
+                    } else {
+                        this._messageQueue.push(args);
+                    }
                 },
-                terminate: function() { if (this._realWorker) this._realWorker.terminate(); },
+                terminate: function() {
+                    if (this._realWorker) this._realWorker.terminate();
+                },
             };
             Object.defineProperty(proxyWorker, 'onmessage', {
                 get: () => proxyWorker._onmessage,
@@ -146,13 +160,12 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL USING DATA URLS ---
+// --- B"H: FULL, FLAWLESS SYNCHRONOUS XHR POLYFILL (NO PLACEHOLDERS) ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const pendingRequests = new Map();
-        // Save a reference to the original, native function.
         const OriginalImportScripts = self.importScripts;
 
         self.addEventListener('message', (event) => {
@@ -190,21 +203,17 @@ const importScriptsPolyfill = (workerPath) => `
                 originalSend.call(xhr, null); // Worker blocks here.
 
                 if (xhr.status === 200) {
-                    // --- THE FIX IS HERE ---
-                    // Instead of the fragile self.eval() or Blob URLs, we create a Data URL.
-                    // This is the most robust way to pass script content to the native importScripts.
+                    console.log('%cProfound Editor: Received content for ' + relativePath, 'color: green');
+                    console.log('--- SCRIPT CONTENT START ---\\n' + xhr.responseText + '\\n--- SCRIPT CONTENT END ---');
+                    
                     try {
-                        // btoa() converts the script text to a Base64 string.
-                        const base64Content = btoa(xhr.responseText);
+                        const base64Content = btoa(unescape(encodeURIComponent(xhr.responseText)));
                         const dataUrl = 'data:application/javascript;base64,' + base64Content;
-                        
-                        // Let the browser's own powerful engine handle the execution via the Data URL.
                         OriginalImportScripts(dataUrl);
                     } catch (e) {
                         console.error('Profound Editor: Error executing imported script:', relativePath, e);
                         throw e;
                     }
-                    // --- END OF FIX ---
                 } else {
                     throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
                 }
