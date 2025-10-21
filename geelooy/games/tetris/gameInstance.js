@@ -129,17 +129,33 @@ class GameInstance {
         this.ctx.globalAlpha = 1.0;
     }
 
-    spawnNewPiece() {
-        if (this.gameOver) return;
-        this.piece = this.nextPiece;
-        this.nextPiece = this.createNewPiece();
-        this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-        this.piece.y = Math.floor(this.targetViewportY) - this.piece.matrix.length;
+    // B"H
+// In gameInstance.js
 
-        if (this.collides(this.piece, {})) {
-            this.setGameOver();
-        }
+spawnNewPiece() {
+    if (this.gameOver) return;
+
+    this.piece = this.nextPiece;
+    this.nextPiece = this.createNewPiece();
+
+    // **THE FIX**: Add a robust check RIGHT AFTER assigning this.piece.
+    // If the piece is invalid, we stop here to prevent a crash.
+    // This usually means the SHAPES constant failed to load correctly.
+    if (!this.piece || !this.piece.matrix || !Array.isArray(this.piece.matrix) || this.piece.matrix.length === 0 || !Array.isArray(this.piece.matrix[0])) {
+        console.error("GAME OVER: Attempted to spawn an invalid piece.", this.piece);
+        this.setGameOver();
+        return;
     }
+
+    // Now it's safe to access this.piece.matrix[0]
+    this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
+    this.piece.y = Math.floor(this.targetViewportY) - this.piece.matrix.length;
+
+    // If the piece collides immediately upon spawning (e.g., the board is full), it's game over.
+    if (this.collides(this.piece, {})) {
+        this.setGameOver();
+    }
+}
 
     createNewPiece() {
         const typeId = Math.floor(this.pieceGenerator.random() * 7) + 1;
