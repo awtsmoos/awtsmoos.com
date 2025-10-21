@@ -112,6 +112,7 @@ const workerInterceptorScript = `
                     activeWorkers = activeWorkers.filter(w => w !== realWorker);
                 });
                 realWorker.addEventListener('message', (workerEvent) => {
+                    console .log("sending import request",workerEvent)
                     if (workerEvent.data && workerEvent.data.type === 'import-scripts-request') {
                         window.parent.postMessage(workerEvent.data, '*');
                     }
@@ -119,6 +120,7 @@ const workerInterceptorScript = `
                 proxy._connect(realWorker);
             }
             if (type === 'import-scripts-response') {
+                console.log("sending to post",activeWorkers,event.data)
                 activeWorkers.forEach(w => w.postMessage(event.data));
             }
         });
@@ -166,6 +168,7 @@ const workerInterceptorScript = `
 
 const importScriptsPolyfill = (workerPath) => `
     (function() {
+    try {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const pendingRequests = new Map();
@@ -203,9 +206,12 @@ const importScriptsPolyfill = (workerPath) => `
                 xhr.send = () => {
                     pendingRequests.set(requestId, xhr);
                     self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
+                    console.log("in xhr send")
+                
                 };
 
                 xhr.send(null); // Worker blocks here.
+                console log("past block",xhr)
 
                 if (xhr.status === 200) {
                     console.log('%cProfound Editor: Received content for ' + relativePath, 'color: green');
@@ -224,6 +230,11 @@ const importScriptsPolyfill = (workerPath) => `
                 }
             }
         };
+        
+        } catch(e) {
+        consple.log("LOL right get it",e)
+        
+        }
     })();
 `;
 
