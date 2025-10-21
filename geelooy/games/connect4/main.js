@@ -35,16 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. Core Functions ---
 
-    /**
-     * Handles smooth transitions between UI screens.
-     * @param {HTMLElement} targetScreen The screen element to display.
-     */
-    function showScreen(targetScreen) {
-        ui.allScreenElements.forEach(screen => {
-            screen.classList.remove('visible');
-        });
-        targetScreen.classList.add('visible');
-    }
+    // In main.js
+
+/**
+ * Handles smooth transitions between UI screens using the new .hidden class.
+ * @param {HTMLElement} targetScreen The screen element to display.
+ */
+function showScreen(targetScreen) {
+    // Hide all screens first
+    ui.allScreenElements.forEach(screen => {
+        screen.classList.add('hidden');
+    });
+
+    // Then, un-hide the target screen. The CSS transition will handle the fade-in.
+    targetScreen.classList.remove('hidden');
+}
 
     /**
      * Gracefully terminates the current game worker and cleans up the canvas.
