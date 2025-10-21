@@ -155,16 +155,17 @@ function update() {
         animatedPiece.speed += gravity;
         animatedPiece.y += animatedPiece.speed;
 
+        // Calculate the final Y position using the stored targetRow
         const targetY = animatedPiece.targetRow * (canvas.height / rows);
 
-        // Check if the piece has reached or passed its target destination
+        // Check if the piece has reached or passed its destination
         if (animatedPiece.y >= targetY) {
-            animatedPiece.y = targetY; // Snap to the final position
+            animatedPiece.y = targetY; // Snap to the exact final position
             handleMoveCompletion(animatedPiece.targetRow, animatedPiece.col);
         }
     }
     
-    // Update particles and remove ones that are no longer visible
+    // Update and remove particles
     particles.forEach((p, index) => {
         if (p.alpha <= 0) {
             particles.splice(index, 1);
@@ -213,15 +214,19 @@ function dropPiece(col) {
     if (animatedPiece || col < 0 || col >= columns) return null;
     const targetRow = getTargetRow(col);
     if (targetRow === -1) return null;
+    
+    // Store the targetRow when the piece is created
     animatedPiece = {
         col: col,
         player: currentPlayer,
-        y: -(canvas.height / rows),
+        y: -(canvas.height / rows), // Start above the board
         speed: 0,
-        targetRow: targetRow // Store the target row here
+        targetRow: targetRow // <-- ADD THIS LINE
     };
+    
     return { row: targetRow, col };
 }
+
 
 
 function checkWin(player, r, c) { const dirs = [[0,1], [1,0], [1,1], [1,-1]]; for (const [dr, dc] of dirs) { let count = 1; for (let i = 1; i < 4; i++) { const nr = r + i * dr, nc = c + i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } for (let i = 1; i < 4; i++) { const nr = r - i * dr, nc = c - i * dc; if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break; count++; } if (count >= 4) return true; } return false; }
