@@ -45,10 +45,12 @@ export const Workspaces = {
                     this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
                 }
             };
+            // Pass the workspace object itself as the context item
             header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
 
             DOM.workspacesContainer.appendChild(wsRoot);
             const rootItem = { ...ws, path: '/', workspaceId: ws.id };
+            // The key for the root uses its own ID as the workspace ID
             State.domItemMap.set(`${ws.id}::/`, { el: wsRoot, item: rootItem });
             if (!ws.isCollapsed) {
                this.renderTree(tree, { ...rootItem, kind: 'directory' }, 1);
@@ -112,24 +114,35 @@ export const Workspaces = {
         }
     },
 
+    // --- B"H --- CORRECTED FUNCTION ---
     async refreshNode(item) {
-        const mapKey = `${item.workspaceId}::${item.path}`;
-        const entry = State.domItemMap.get(mapKey);
-        if (!entry) return;
+        // Correctly determine the workspace ID, whether it's the root item (using .id) 
+        // or a child item (using .workspaceId).
+        const workspaceId = item.workspaceId ?? item.id;
+        const path = item.path ?? '/';
+        const mapKey = `${workspaceId}::${path}`;
 
-        const isDir = item.kind === 'directory';
-        const nodeToRefresh = isDir ? entry : State.domItemMap.get(`${item.workspaceId}::${item.path.substring(0, item.path.lastIndexOf('/')) || '/'}`);
+        const entry = State.domItemMap.get(mapKey);
+        if (!entry) {
+            console.error("refreshNode could not find entry for key:", mapKey);
+            return;
+        }
+
+        const directoryElement = entry.el;
+        const directoryItem = entry.item;
         
-        if (nodeToRefresh) {
-            const parentEl = nodeToRefresh.el;
-            const ul = parentEl.querySelector('ul');
-            if (ul) {
-                const depth = (nodeToRefresh.item.path.match(/\//g) || []).length;
-                this.renderTree(ul, nodeToRefresh.item, depth + 1);
-            } else if (nodeToRefresh.item.path === '/') { // It's a workspace root
-                const tree = parentEl.querySelector('.workspace-tree');
-                if(tree) this.renderTree(tree, nodeToRefresh.item, 1);
-            }
+        // Find the <ul> element that holds the children. This works for both the
+        // root (.workspace-tree) and sub-folders (a direct child ul).
+        const childrenContainer = directoryElement.querySelector('ul');
+
+        // Only refresh if the directory is expanded (i.e., its <ul> exists in the DOM).
+        // If it's collapsed, the content will be loaded fresh when it's next expanded anyway.
+        if (childrenContainer) {
+            const isRoot = directoryItem.path === '/';
+            // The depth of children in the root is 1. For sub-folders, it's their path depth + 1.
+            const childrenDepth = isRoot ? 1 : (directoryItem.path.match(/\//g) || []).length + 1;
+            
+            await this.renderTree(childrenContainer, directoryItem, childrenDepth);
         }
     }
 };
