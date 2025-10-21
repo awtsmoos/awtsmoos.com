@@ -24,7 +24,8 @@ function downloadFile(filename, content) {
 export const Tabs = {
     getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
     
-    create(item) {
+    // --- B"H --- MODIFIED FUNCTION ---
+    create(item, isNewFile = false) {
         const uniquePath = this.getUniquePath(item);
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
         if (existingTab) {
@@ -34,14 +35,16 @@ export const Tabs = {
         const newTab = {
             id: State.nextTabId++,
             item,
-            content: null,
-            isDirty: false,
+            // If it's a new file, content is an empty string, otherwise it's null to trigger a read.
+            content: isNewFile ? '' : null, 
+            isDirty: isNewFile, // A new file is considered "dirty" until its first save.
             uniquePath,
             scrollPos: 0
         };
         State.tabs.push(newTab);
         this.activate(newTab.id);
     },
+    // --- END MODIFIED FUNCTION ---
 
     createTemporary(name = 'Untitled', content = '') {
         const untitledCount = State.tabs.filter(t => t.item.type === 'temp').length + 1;
