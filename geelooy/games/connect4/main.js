@@ -15,7 +15,7 @@ if (!window.Worker) {
     alert("Your browser does not support Web Workers.");
 }
 
-const worker = new Worker('game.worker.js', { type: 'module' });
+const worker = new Worker('game.worker.js');
 let offscreen;
 let gameMode;
 
