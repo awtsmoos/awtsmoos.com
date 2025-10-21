@@ -6,6 +6,8 @@ import { UI } from './ui.js';
 import { Editor } from './editor.js';
 import { StatusBar } from './statusbar.js';
 import { FileSystemProvider } from './fs-provider.js';
+import { MimeUtil } from './mime-util.js';
+
 
 // Helper function to create a downloadable link
 function downloadFile(filename, content) {
@@ -35,11 +37,11 @@ export const Tabs = {
         const newTab = {
             id: State.nextTabId++,
             item,
-            // If it's a new file, content is an empty string, otherwise it's null to trigger a read.
-            content: isNewFile ? '' : null, 
-            isDirty: isNewFile, // A new file is considered "dirty" until its first save.
+            content: isNewFile ? '' : null,
+            isDirty: isNewFile,
             uniquePath,
-            scrollPos: 0
+            scrollPos: 0,
+            fileType: MimeUtil.getInfo(item.name).type, // Store the file type on creation
         };
         State.tabs.push(newTab);
         this.activate(newTab.id);
@@ -69,17 +71,20 @@ export const Tabs = {
     },
 
     async activate(tabId) {
-        // --- B"H: Save state of the outgoing tab ---
         const currentTab = State.tabs.find(t => t.id === State.activeTabId);
         if (currentTab) {
-            currentTab.content = Editor.getContent();
-            currentTab.scrollPos = DOM.editor.scrollTop;
+            // Save text content if it was a text file
+            if (currentTab.fileType === 'text') {
+                currentTab.content = Editor.getContent();
+                currentTab.scrollPos = DOM.editor.scrollTop;
+            }
         }
 
         State.activeTabId = tabId;
         const tab = State.tabs.find(t => t.id === tabId);
 
         if (!tab) {
+            Editor.showTextEditor('', ''); // Show empty text editor
             DOM.editorWrapper.classList.add('hidden');
             DOM.emptyEditorMessage.classList.remove('hidden');
             StatusBar.clear();
@@ -87,10 +92,10 @@ export const Tabs = {
             return;
         }
 
-        DOM.editorWrapper.classList.remove('hidden');
         DOM.emptyEditorMessage.classList.add('hidden');
 
-        if (tab.content === null && tab.item.type !== 'temp') {
+        // Load content from storage if it's not already loaded
+        if (tab.content === null) {
             UI.showLoading(`Opening ${tab.item.name}...`);
             try {
                 tab.content = await FileSystemProvider.read(tab.item);
@@ -102,10 +107,27 @@ export const Tabs = {
                 UI.hideLoading();
             }
         }
-        
-        Editor.setContent(tab.content || '', tab.item.name);
-        DOM.editor.scrollTop = tab.scrollPos || 0;
-        setTimeout(() => UI.syncScroll(), 0);
+
+        // --- B"H: THE CORE LOGIC CHANGE ---
+        // Decide whether to show the text editor or the previewer
+        const fileInfo = MimeUtil.getInfo(tab.item.name);
+
+        if (fileInfo.type === 'text') {
+            // If the content is a Blob (from Local FS), we need its text content.
+            if (tab.content instanceof Blob) {
+                 const text = await tab.content.text();
+                 tab.content = text; // Replace blob with text for future use
+                 Editor.showTextEditor(text, tab.item.name);
+            } else {
+                 Editor.showTextEditor(tab.content || '', tab.item.name);
+            }
+            DOM.editor.scrollTop = tab.scrollPos || 0;
+            setTimeout(() => UI.syncScroll(), 0);
+        } else {
+            // For binary files, pass the raw content (Blob or GitHub object) to the previewer
+            Editor.showPreviewer(tab.content, fileInfo);
+        }
+        // --- END CHANGE ---
 
         this.render();
     },
