@@ -1,33 +1,45 @@
 //B"H
 
-
 importScripts('particle.js');
 
-// Game State
+// Game State & Constants
 let canvas, ctx;
 let board;
 let currentPlayer;
 let gameMode;
 let gameOver = false;
-let columns = 7;
-let rows = 6;
+const columns = 7;
+const rows = 6;
 let winningPieces = [];
 let particles = [];
-let hebrewLetters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י'];
+const hebrewLetters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י'];
 
 // Animation & Interaction State
 let animatedPiece = null;
 let hoverColumn = -1;
 let isPlayerTurn = true;
 
+/**
+ * Correctly resizes the canvas properties. This is called from init and onmessage.
+ * This is defined before init to prevent the ReferenceError.
+ */
+function resize(data) {
+    if (!canvas) return; // Guard clause to prevent error if called before init
+    canvas.width = data.width;
+    canvas.height = data.height;
+}
 
+/**
+ * Initializes the game state, canvas, and starts the game loop.
+ */
 function init(data) {
     canvas = data.canvas;
     ctx = canvas.getContext('2d');
     gameMode = data.gameMode;
     isPlayerTurn = (gameMode === 'pvp' || (gameMode === 'pvc' && data.playerGoesFirst));
     
-    resize(data);
+    // The initial resize is now safely called after canvas is assigned.
+    resize({ width: data.width, height: data.height });
     resetGame();
 
     if (gameMode === 'pvc' && !data.playerGoesFirst) {
@@ -41,6 +53,9 @@ function init(data) {
     gameLoop();
 }
 
+/**
+ * Resets the game to its initial state.
+ */
 function resetGame() {
     board = Array(rows).fill(null).map(() => Array(columns).fill(0));
     currentPlayer = 1;
@@ -48,29 +63,25 @@ function resetGame() {
     particles = [];
     winningPieces = [];
     animatedPiece = null;
-    isPlayerTurn = (gameMode !== 'cvc');
+    isPlayerTurn = (gameMode !== 'cvc'); // Player's turn unless it's Golem vs Golem
 }
 
-// --- Game Logic & AI ---
+// --- Game Logic, Animation, and Drawing functions would go here ---
+// (The rest of the file is the same as the previous correct version)
 
+// --- The rest of the game.worker.js file ---
 function getTargetRow(col) {
     for (let r = rows - 1; r >= 0; r--) {
-        if (board[r][0] === 0) return r;
+        if (board[r][col] === 0) return r;
     }
     return -1;
 }
 
 function dropPiece(col) {
-    if (animatedPiece) return null; // Prevent moves during animation
+    if (animatedPiece || col < 0 || col >= columns) return null;
 
-    let targetRow = -1;
-    for (let r = rows - 1; r >= 0; r--) {
-        if (board[r][col] === 0) {
-            targetRow = r;
-            break;
-        }
-    }
-    if (targetRow === -1) return null; // Column is full
+    const targetRow = getTargetRow(col);
+    if (targetRow === -1) return null;
 
     const cellHeight = canvas.height / rows;
     animatedPiece = {
@@ -78,9 +89,9 @@ function dropPiece(col) {
         player: currentPlayer,
         y: -cellHeight,
         targetY: targetRow * cellHeight,
-        speed: 15
+        speed: 0,
+        bounce: 0
     };
-
     return { row: targetRow, col };
 }
 
@@ -109,31 +120,32 @@ function handleMoveCompletion(row, col) {
             if (!isPlayerTurn) setTimeout(aiMove, 500);
         } else if (gameMode === 'cvc') {
             setTimeout(aiMove, 500);
+        } else {
+             isPlayerTurn = true;
         }
     }
     animatedPiece = null;
 }
 
 function checkWin(player, r, c) {
-    // This is a simplified check. A full implementation would be more robust.
-    // Check horizontal
-    let count = 0;
-    for (let i = -3; i <= 3; i++) {
-        if (c + i >= 0 && c + i < columns && board[r][c + i] === player) count++; else count = 0;
+    // This is a more robust win check
+    const directions = [[0,1], [1,0], [1,1], [1,-1]]; // H, V, D-R, D-L
+    for (const [dr, dc] of directions) {
+        let count = 1;
+        for (let i = 1; i < 4; i++) {
+            const nr = r + i * dr, nc = c + i * dc;
+            if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break;
+            count++;
+        }
+        for (let i = 1; i < 4; i++) {
+            const nr = r - i * dr, nc = c - i * dc;
+            if (nr < 0 || nr >= rows || nc < 0 || nc >= columns || board[nr][nc] !== player) break;
+            count++;
+        }
         if (count >= 4) return true;
     }
-    // Check vertical
-    count = 0;
-    for (let i = -3; i <= 3; i++) {
-        if (r + i >= 0 && r + i < rows && board[r + i][c] === player) count++; else count = 0;
-        if (count >= 4) return true;
-    }
-    // Check diagonal (both ways)
-    // ... implementation for diagonal checks would go here ...
     return false;
 }
-
-// --- Animation & Drawing Loop ---
 
 function gameLoop() {
     update();
@@ -142,22 +154,16 @@ function gameLoop() {
 }
 
 function update() {
-    // Update falling piece animation
     if (animatedPiece) {
-        const cellHeight = canvas.height / rows;
-        const targetPixel = animatedPiece.targetY + cellHeight / 2;
-        const currentPixel = animatedPiece.y + cellHeight / 2;
-        
-        animatedPiece.speed += 2; // Gravity
+        const gravity = 0.8;
+        animatedPiece.speed += gravity;
         animatedPiece.y += animatedPiece.speed;
 
         if (animatedPiece.y >= animatedPiece.targetY) {
             animatedPiece.y = animatedPiece.targetY;
-            const { row } = getTargetRow(animatedPiece.col);
-            handleMoveCompletion(row, animatedPiece.col);
+            handleMoveCompletion(getTargetRow(animatedPiece.col), animatedPiece.col);
         }
     }
-    // Update particles
     particles.forEach((p, index) => {
         if (p.alpha <= 0) particles.splice(index, 1);
         else p.update();
@@ -165,11 +171,12 @@ function update() {
 }
 
 function draw() {
+    if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const cellWidth = canvas.width / columns;
     const cellHeight = canvas.height / rows;
+    const radius = Math.min(cellWidth, cellHeight) / 2.7;
 
-    // Draw grid and existing pieces
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
             ctx.fillStyle = '#0d47a1';
@@ -178,39 +185,32 @@ function draw() {
             ctx.beginPath();
             const centerX = c * cellWidth + cellWidth / 2;
             const centerY = r * cellHeight + cellHeight / 2;
-            const radius = Math.min(cellWidth, cellHeight) / 2.7;
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             
-            let pieceColor = '#1a1a1a'; // Empty
-            if (board[r][c] === 1) pieceColor = '#ff4d4d'; // Player 1
-            if (board[r][c] === 2) pieceColor = '#ffff4d'; // Player 2
+            let pieceColor = '#1a1a1a';
+            if (board[r][c] === 1) pieceColor = '#ff4d4d';
+            if (board[r][c] === 2) pieceColor = '#ffff4d';
             ctx.fillStyle = pieceColor;
             ctx.fill();
         }
     }
     
-    // Draw particles
     particles.forEach(p => p.draw(ctx));
 
-    // Draw hover preview piece
     if (hoverColumn !== -1 && !animatedPiece && isPlayerTurn && !gameOver) {
         ctx.beginPath();
-        const radius = Math.min(cellWidth, cellHeight) / 2.7;
         ctx.arc(hoverColumn * cellWidth + cellWidth / 2, cellHeight / 2, radius, 0, Math.PI * 2);
         ctx.fillStyle = currentPlayer === 1 ? 'rgba(255, 77, 77, 0.5)' : 'rgba(255, 255, 77, 0.5)';
         ctx.fill();
     }
     
-    // Draw animated piece
     if (animatedPiece) {
         ctx.beginPath();
-        const radius = Math.min(cellWidth, cellHeight) / 2.7;
         ctx.arc(animatedPiece.col * cellWidth + cellWidth/2, animatedPiece.y + cellHeight/2, radius, 0, Math.PI * 2);
         ctx.fillStyle = animatedPiece.player === 1 ? '#ff4d4d' : '#ffff4d';
         ctx.fill();
     }
 
-    // Draw game over screen
     if (gameOver) {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -231,8 +231,6 @@ function createExplosion(col, row) {
     }
 }
 
-// --- Event Handlers ---
-
 onmessage = function (e) {
     const { type, ...data } = e.data;
     switch (type) {
@@ -240,13 +238,15 @@ onmessage = function (e) {
             init(data);
             break;
         case 'resize':
-            canvas.width = data.width;
-            canvas.height = data.height;
+            // The resize function now has a guard clause making this safe
+            resize(data);
             break;
         case 'click':
             if (isPlayerTurn && !gameOver) {
                 const col = Math.floor(data.x / (data.canvasWidth / columns));
-                dropPiece(col);
+                if(dropPiece(col)) {
+                    isPlayerTurn = false; // Prevent spam clicking
+                }
             }
             break;
         case 'mousemove':
@@ -256,13 +256,10 @@ onmessage = function (e) {
             hoverColumn = -1;
             break;
         case 'resign':
-            resetGame(); // Or could just post a message back to main to close the worker
+            resetGame();
             break;
     }
 }
-
-
-
 
 
 
