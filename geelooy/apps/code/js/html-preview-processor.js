@@ -89,7 +89,6 @@ const workerInterceptorScript = `
 
         window.addEventListener('message', (event) => {
             const { type, id } = event.data;
-
             if (type === 'worker-script-response' && pendingWorkers.has(id)) {
                 const { proxy, options } = pendingWorkers.get(id);
                 pendingWorkers.delete(id);
@@ -110,7 +109,6 @@ const workerInterceptorScript = `
                 });
                 proxy._connect(realWorker);
             }
-
             if (type === 'import-scripts-response') {
                 activeWorkers.forEach(w => w.postMessage(event.data));
             }
@@ -122,10 +120,7 @@ const workerInterceptorScript = `
             }
             const requestId = requestIdCounter++;
             const proxyWorker = {
-                _realWorker: null,
-                _messageQueue: [],
-                _onmessage: null,
-                _onerror: null,
+                _realWorker: null, _messageQueue: [], _onmessage: null, _onerror: null,
                 _connect: function(real) {
                     this._realWorker = real;
                     real.onmessage = this._onmessage;
@@ -134,15 +129,10 @@ const workerInterceptorScript = `
                     this._messageQueue = [];
                 },
                 postMessage: function(...args) {
-                    if (this._realWorker) {
-                        this._realWorker.postMessage(...args);
-                    } else {
-                        this._messageQueue.push(args);
-                    }
+                    if (this._realWorker) { this._realWorker.postMessage(...args); } 
+                    else { this._messageQueue.push(args); }
                 },
-                terminate: function() {
-                    if (this._realWorker) this._realWorker.terminate();
-                },
+                terminate: function() { if (this._realWorker) this._realWorker.terminate(); },
             };
             Object.defineProperty(proxyWorker, 'onmessage', {
                 get: () => proxyWorker._onmessage,
@@ -165,12 +155,14 @@ const workerInterceptorScript = `
     })();
 `;
 
-// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL ---
+// --- B"H: THE FLAWLESS SYNCHRONOUS XHR POLYFILL USING NATIVE IMPORTSCRIPTS ---
 const importScriptsPolyfill = (workerPath) => `
     (function() {
         const workerBasePath = '${workerPath}';
         let requestIdCounter = 0;
         const pendingRequests = new Map();
+        // Save a reference to the original, native function.
+        const OriginalImportScripts = self.importScripts;
 
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
@@ -195,12 +187,8 @@ const importScriptsPolyfill = (workerPath) => `
             for (const relativePath of paths) {
                 const requestId = requestIdCounter++;
                 const xhr = new XMLHttpRequest();
-                
-                // THIS IS THE FIX: Provide a valid, but dummy, absolute URL.
-                // The browser requires this for xhr.open(), but our override of xhr.send()
-                // means this URL will never actually be fetched over the network.
                 const dummyUrl = new URL(relativePath, self.location.origin).href;
-                xhr.open('GET', dummyUrl, false); // false === synchronous
+                xhr.open('GET', dummyUrl, false);
 
                 const originalSend = xhr.send;
                 xhr.send = () => {
@@ -208,11 +196,22 @@ const importScriptsPolyfill = (workerPath) => `
                     self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath, id: requestId });
                 };
 
-                originalSend.call(xhr, null); // The worker blocks here.
+                originalSend.call(xhr, null); // Worker blocks here.
 
                 if (xhr.status === 200) {
-                    try { self.eval(xhr.responseText); } 
-                    catch (e) { console.error('Profound Editor: Error executing imported script:', relativePath, e); throw e; }
+                    // --- THE FIX IS HERE ---
+                    // Instead of the fragile self.eval(), we create a Blob from the
+                    // response text and pass its URL to the original, robust importScripts.
+                    try {
+                        const blob = new Blob([xhr.responseText], { type: 'application/javascript' });
+                        const blobUrl = URL.createObjectURL(blob);
+                        OriginalImportScripts(blobUrl); // Let the browser's engine handle execution.
+                        URL.revokeObjectURL(blobUrl); // Clean up the URL object.
+                    } catch (e) {
+                        console.error('Profound Editor: Error executing imported script:', relativePath, e);
+                        throw e;
+                    }
+                    // --- END OF FIX ---
                 } else {
                     throw new Error('Profound Editor: Failed to load script for importScripts: ' + (xhr.responseText || relativePath));
                 }
@@ -261,4 +260,4 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     await Promise.all(assetPromises);
 
     return doc.documentElement.outerHTML;
-}
+}```
