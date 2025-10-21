@@ -54,20 +54,40 @@ class SeededRandom {
 
 
 
+
+// B"H
+// gameInstance.js - FINAL VERSION (Replaces the entire class)
+
+class SeededRandom {
+    constructor(seedStr) {
+        let h = 1779033703;
+        for (let i = 0; i < seedStr.length; i++) {
+            h = Math.imul(h ^ seedStr.charCodeAt(i), 3432918353);
+            h = (h << 13) | (h >>> 19);
+        }
+        this.seed = h >>> 0;
+        if (this.seed === 0) this.seed = 1;
+    }
+    random() {
+        let t = this.seed += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        t = ((t ^ (t >>> 14)) >>> 0);
+        this.seed = t;
+        return this.seed / 4294967296;
+    }
+}
+
 class GameInstance {
     constructor(id, isAI, canvas, dimensions, dpr) {
         this.id = id;
         this.isAI = isAI;
-        this.canvas = canvas;
+        this.canvas = canvas; // This canvas is already high-resolution
         this.ctx = canvas.getContext('2d');
         this.pieceGenerator = new SeededRandom(id.toString() + Math.random().toString());
 
-        // Store CSS dimensions for layout logic
-        this.cssWidth = dimensions.width;
-        this.cssHeight = dimensions.height;
-
-        // Scale the canvas context to handle high-res screens automatically
-        this.ctx.scale(dpr, dpr);
+        // We store the devicePixelRatio to use in all our calculations.
+        this.dpr = dpr;
 
         if (isAI) this.ai = new AIEngine(this);
     }
@@ -77,13 +97,16 @@ class GameInstance {
         this.score = 0; this.lines = 0; this.level = 1; this.gameOver = false;
         this.dropCounter = 0; this.dropInterval = 1000; this.lastTime = 0; this.isSoftDropping = false;
         this.piece = null;
-
-        // --- START OF SPAWNING FIX ---
-        // Calculate the viewport metrics once, as they won't change.
-        this.blockSize = this.cssWidth / COLS;
-        const visibleRows = this.cssHeight / this.blockSize;
+        
+        // --- START OF ASPECT RATIO FIX ---
+        // All calculations are now done in PHYSICAL PIXELS.
+        // We use canvas.width (e.g., 189 * 2 = 378px) not cssWidth.
+        this.blockSize = this.canvas.width / COLS;
+        
+        // The number of visible rows is based on the physical height and square block size.
+        const visibleRows = this.canvas.height / this.blockSize;
         this.viewportTopY = LOGICAL_ROWS - visibleRows;
-        // --- END OF SPAWNING FIX ---
+        // --- END OF ASPECT RATIO FIX ---
 
         this.nextPiece = this.createNewPiece();
         this.spawnNewPiece();
@@ -107,10 +130,11 @@ class GameInstance {
     draw() {
         if (!this.ctx) return;
         
-        // Use the CSS dimensions for drawing, the context scaling handles the rest.
+        // Clear the entire high-resolution canvas.
         this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, this.cssWidth, this.cssHeight);
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Draw locked pieces
         for (let y = 0; y < LOGICAL_ROWS; y++) {
             for (let x = 0; x < COLS; x++) {
                 if (this.board[y][x] !== 0) {
@@ -119,6 +143,7 @@ class GameInstance {
             }
         }
 
+        // Draw current piece
         if (this.piece) {
             this.piece.matrix.forEach((row, y) => {
                 row.forEach((val, x) => {
@@ -131,10 +156,11 @@ class GameInstance {
     }
 
     drawBrick(logicalX, logicalY, typeId) {
+        // All drawing is now in the canvas's native physical pixel coordinates.
         const screenX = logicalX * this.blockSize;
         const screenY = (logicalY - this.viewportTopY) * this.blockSize;
 
-        if (screenY < -this.blockSize || screenY > this.cssHeight) return;
+        if (screenY < -this.blockSize || screenY > this.canvas.height) return;
 
         const c = COLORS[typeId];
         const p = this.blockSize * 0.1;
@@ -155,12 +181,11 @@ class GameInstance {
         this.nextPiece = this.createNewPiece();
 
         this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2);
-        // Spawn the piece relative to the top of the visible area.
         this.piece.y = Math.floor(this.viewportTopY) - this.piece.matrix.length;
-
-        // Immediately drop the piece until it's fully visible.
-        while (this.piece.y + this.piece.matrix.length <= this.viewportTopY) {
-            this.piece.y++;
+        
+        // This ensures the piece is fully on screen when it spawns
+        while ((this.piece.y + this.piece.matrix.length) < Math.floor(this.viewportTopY)) {
+             this.piece.y++;
         }
 
         if (this.collides(this.piece, {})) {
@@ -168,9 +193,8 @@ class GameInstance {
         }
     }
 
-    // [ The rest of the GameInstance class (lockPiece, rotate, drop, etc.) remains unchanged... ]
-    // [ You can copy it from your existing working file or a previous response. ]
-    // --- PASTE UNCHANGED FUNCTIONS BELOW ---
+    // --- PASTE THE REST OF YOUR UNCHANGED FUNCTIONS BELOW ---
+    // (lockPiece, createNewPiece, move, rotate, drop, etc.)
     lockPiece() {
         if (!this.piece) return;
         this.piece.matrix.forEach((row, y) => {
@@ -256,3 +280,11 @@ class GameInstance {
         this.hardDrop();
     }
 }
+
+
+
+
+
+
+
+
