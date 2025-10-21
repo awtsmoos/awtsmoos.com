@@ -80,9 +80,10 @@ export default (workerPath, originalScriptContent) => /*js*/`
             
             // Now that we've waited, execute the user's original script.
             try {
-                // We use eval here because the original script is now a string.
-                // It's safe within the sandboxed worker.
-                eval(originalScriptContent);
+                
+                ${
+                originalScriptContent
+                }
             } catch (e) {
                 console.error("CRITICAL: Error during initial execution of worker script.", e);
             }
