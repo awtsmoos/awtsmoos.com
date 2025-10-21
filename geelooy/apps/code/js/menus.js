@@ -13,14 +13,6 @@ import { Editor } from './editor.js';
 
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
-// --- B"H: NEW HELPER FUNCTION 1: PATH RESOLUTION ---
-/**
- * Resolves a relative path against a base file path.
- * e.g., resolveRelativePath('path/to/file.html', '../styles/main.css') returns 'path/styles/main.css'
- * @param {string} basePath - The path of the file containing the link.
- * @param {string} relativePath - The relative href or src value.
- * @returns {string} The resolved absolute path within the workspace.
- */
 function resolveRelativePath(basePath, relativePath) {
     const baseDirectory = basePath.substring(0, basePath.lastIndexOf('/'));
     const pathParts = (baseDirectory + '/' + relativePath).split('/');
@@ -36,95 +28,139 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedParts.join('/');
 }
 
-
-// --- B"H: NEW HELPER FUNCTION 2: HTML PRE-PROCESSOR ---
+// --- B"H: REWRITTEN HTML PRE-PROCESSOR ---
 /**
- * Parses an HTML string, finds relative stylesheets and scripts,
- * fetches their content, and inlines them.
+ * Inlines CSS/Scripts and injects a Worker interceptor script.
  * @param {string} htmlContent - The raw HTML from the editor.
- * @param {object} baseItem - The file item object for the HTML file.
  * @returns {Promise<string>} A promise that resolves to the processed HTML string.
  */
 async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
-    if (!workspace) return htmlContent; // Cannot proceed without workspace info
+    if (!workspace) return htmlContent;
 
-    // Find all stylesheet links and script sources that have a relative path
-    const linkPromises = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href]'))
-        .filter(link => !/^(?:[a-z]+:|\/)/.test(link.getAttribute('href'))) // Filter for relative paths
-        .map(async (link) => {
-            const relativePath = link.getAttribute('href');
-            const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-            try {
-                // Construct a temporary item to read the file
-                const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-                // B"H: THE FIX - We must get the SHA before we can read from GitHub
-    if (workspace.type === 'github') {
-        const fileMeta = await FileSystemProvider.GitHub.api(
-            `/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`
-        );
-        assetItem.sha = fileMeta.sha; // Add the missing SHA to our temporary item
-    }
-    
-    
-                
-                let content = await FileSystemProvider.read(assetItem);
-                // The content might be a Blob, so we must convert it to text
-                if (content instanceof Blob) {
-                    content = await content.text();
+    // --- Step 1: Create the powerful Worker Interceptor Script ---
+    const interceptorScriptContent = `
+        (function() {
+            const OriginalWorker = window.Worker;
+            const pendingWorkers = new Map();
+            let workerIdCounter = 0;
+
+            // This listener waits for the main editor to send back the Blob URL
+            window.addEventListener('message', (event) => {
+                const { type, id, blobUrl, error } = event.data;
+                if (type === 'worker-script-response' && pendingWorkers.has(id)) {
+                    const { proxy, options } = pendingWorkers.get(id);
+                    pendingWorkers.delete(id);
+                    if (error) {
+                        console.error('Failed to load worker script:', error);
+                        if (proxy._onerror) proxy._onerror(new ErrorEvent('error', { message: error }));
+                        return;
+                    }
+                    // Create the REAL worker and connect it to the proxy
+                    const realWorker = new OriginalWorker(blobUrl, options);
+                    proxy._realWorker = realWorker;
+                    realWorker.onmessage = (e) => proxy._onmessage ? proxy._onmessage(e) : null;
+                    realWorker.onerror = (e) => proxy._onerror ? proxy._onerror(e) : null;
+                    // Send any messages that were queued while we were waiting
+                    proxy._messageQueue.forEach(msg => realWorker.postMessage(...msg));
+                }
+            });
+
+            // Redefine the global Worker constructor
+            window.Worker = function(path, options) {
+                // If it's not a relative path, let the original constructor handle it
+                if (/^(?:[a-z]+:|\\/|blob:)/.test(path)) {
+                    return new OriginalWorker(path, options);
                 }
 
-                // Create a <style> element and replace the <link> element with it
-                const style = doc.createElement('style');
-                style.textContent = content;
-                link.parentNode.replaceChild(style, link);
-            } catch (e) {
-                console.error(`Could not inline stylesheet: ${resolvedPath}`, e);
-            }
-        });
+                const workerId = workerIdCounter++;
+                
+                // Create a "Proxy Worker" object that looks and feels like a real worker.
+                // It will queue messages until the real worker is ready.
+                const proxyWorker = {
+                    _realWorker: null,
+                    _messageQueue: [],
+                    _onmessage: null,
+                    _onerror: null,
+                    postMessage: function(...args) {
+                        if (this._realWorker) {
+                            this._realWorker.postMessage(...args);
+                        } else {
+                            this._messageQueue.push(args);
+                        }
+                    },
+                    terminate: function() {
+                        if (this._realWorker) this._realWorker.terminate();
+                    },
+                    get onmessage() { return this._onmessage; },
+                    set onmessage(handler) {
+                        this._onmessage = handler;
+                        if (this._realWorker) this._realWorker.onmessage = handler;
+                    },
+                    get onerror() { return this._onerror; },
+                    set onerror(handler) {
+                        this._onerror = handler;
+                        if (this._realWorker) this._realWorker.onerror = handler;
+                    }
+                };
 
-    const scriptPromises = Array.from(doc.querySelectorAll('script[src]'))
-        .filter(script => !/^(?:[a-z]+:|\/)/.test(script.getAttribute('src'))) // Filter for relative paths
-        .map(async (script) => {
-            const relativePath = script.getAttribute('src');
+                pendingWorkers.set(workerId, { proxy: proxyWorker, options });
+                
+                // Ask the parent (the editor) to fetch the script for us
+                window.parent.postMessage({ type: 'fetch-worker-script', path: path, id: workerId }, '*');
+
+                return proxyWorker;
+            };
+        })();
+    `;
+
+    // --- Step 2: Inject the interceptor at the top of the <head> ---
+    const interceptorElement = doc.createElement('script');
+    interceptorElement.textContent = interceptorScriptContent;
+    if (doc.head) {
+        doc.head.prepend(interceptorElement);
+    } else {
+        doc.documentElement.prepend(interceptorElement);
+    }
+
+    // --- Step 3: Continue with the original inlining logic for CSS and external Scripts ---
+    const assetPromises = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'))
+        .filter(el => !/^(?:[a-z]+:|\/)/.test(el.getAttribute('href') || el.getAttribute('src')))
+        .map(async (el) => {
+            const isLink = el.tagName === 'LINK';
+            const pathAttr = isLink ? 'href' : 'src';
+            const relativePath = el.getAttribute(pathAttr);
             const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
             try {
                 const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-                
-                // B"H: THE FIX - We must get the SHA before we can read from GitHub
-    if (workspace.type === 'github') {
-        const fileMeta = await FileSystemProvider.GitHub.api(
-            `/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`
-        );
-        assetItem.sha = fileMeta.sha; // Add the missing SHA to our temporary item
-    }
-                
-                let content = await FileSystemProvider.read(assetItem);
-                if (content instanceof Blob) {
-                    content = await content.text();
+                if (workspace.type === 'github') {
+                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                    assetItem.sha = fileMeta.sha;
                 }
+                let content = await FileSystemProvider.read(assetItem);
+                if (content instanceof Blob) content = await content.text();
+                else if (content.isBinary) content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
 
-                // Create a new <script> element without a src, fill its content, and replace the old one
-                const newScript = doc.createElement('script');
-                newScript.textContent = content;
-                script.parentNode.replaceChild(newScript, script);
-            } catch (e) {
-                console.error(`Could not inline script: ${resolvedPath}`, e);
-            }
+                if (isLink) {
+                    const style = doc.createElement('style');
+                    style.textContent = content;
+                    el.parentNode.replaceChild(style, el);
+                } else {
+                    el.removeAttribute('src');
+                    el.textContent = content;
+                }
+            } catch (e) { console.error(`Could not inline asset: ${resolvedPath}`, e); }
         });
 
-    // Wait for all files to be fetched and inlined
-    await Promise.all([...linkPromises, ...scriptPromises]);
+    await Promise.all(assetPromises);
 
-    // Return the modified HTML as a string
     return doc.documentElement.outerHTML;
 }
 
-
 export const Menus = {
-    // ... (handleDocumentClick, show, showMainMenu, hideAll, positionAndDisplay are unchanged)
+    // ... (other functions are unchanged)
     handleDocumentClick: (e) => {
         if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
             Menus.hideAll();
@@ -211,36 +247,69 @@ export const Menus = {
 
         try {
             switch(action) {
+                // ... (other cases are unchanged)
                 case 'new-temp-file': Tabs.createTemporary(); break;
                 case 'open-file': App.openLocalFile(); break;
                 case 'save': Tabs.saveActive(); break;
                 case 'download': Tabs.downloadActive(); break;
-
-                // --- B"H: UPDATED ACTION HANDLER ---
+                
+                // --- B"H: UPDATED ACTION HANDLER FOR 'view-html' ---
                 case 'view-html': {
                     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-                    if (activeTab) {
-                        UI.showLoading("Processing HTML for preview...");
-                        const content = Editor.getContent();
-                        try {
-                            // Call our new pre-processor before creating the preview tab
-                            const processedContent = await processHtmlForPreview(content, activeTab.item);
-                            Tabs.createPreview(activeTab.item, processedContent);
-                        } catch (e) {
-                            UI.showToast("Failed to process HTML.", "error");
-                            console.error(e);
-                        } finally {
-                            UI.hideLoading();
+                    if (!activeTab) break;
+
+                    UI.showLoading("Processing HTML for preview...");
+                    const content = Editor.getContent();
+                    const baseItem = activeTab.item;
+                    const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
+
+                    // This handler will listen for messages from the iframe
+                    const workerRequestHandler = async (event) => {
+                        // We only care about messages from our iframe and our specific request type
+                        if (event.source !== DOM.previewer.querySelector('iframe')?.contentWindow || event.data.type !== 'fetch-worker-script') {
+                            return;
                         }
+
+                        const { path: relativePath, id } = event.data;
+                        try {
+                            const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
+                            const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
+                            if (workspace.type === 'github') {
+                                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                                assetItem.sha = fileMeta.sha;
+                            }
+                            let scriptContent = await FileSystemProvider.read(assetItem);
+                            if (!(scriptContent instanceof Blob)) {
+                                if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+                                scriptContent = new Blob([scriptContent], { type: 'application/javascript' });
+                            }
+                            const blobUrl = URL.createObjectURL(scriptContent);
+                            // Send the successful response back to the iframe
+                            event.source.postMessage({ type: 'worker-script-response', id, blobUrl }, '*');
+                        } catch (e) {
+                            console.error(`Failed to fetch worker script '${relativePath}':`, e);
+                            event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
+                        }
+                    };
+
+                    try {
+                        window.addEventListener('message', workerRequestHandler);
+                        const processedContent = await processHtmlForPreview(content, baseItem);
+                        Tabs.createPreview(activeTab.item, processedContent, workerRequestHandler); // Pass the handler to the tab
+                    } catch (e) {
+                        UI.showToast("Failed to process HTML.", "error");
+                        console.error(e);
+                        window.removeEventListener('message', workerRequestHandler); // Cleanup on failure
+                    } finally {
+                        UI.hideLoading();
                     }
                     break;
                 }
-                // --- END UPDATED ACTION ---
-
+                
+                // ... (rest of the switch statement is unchanged)
                 case 'find-replace': FindReplace.show(); break;
                 case 'settings': App.showSettings(); break;
                 case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
-
                 case 'select-all': 
                     if (State.activeTabId !== null) { DOM.editor.focus(); DOM.editor.select(); }
                     break;
@@ -259,7 +328,6 @@ export const Menus = {
                     }
                     break;
                 }
-                
                 case 'new-file':
                 case 'new-folder': {
                     if (!item) break;
@@ -273,24 +341,18 @@ export const Menus = {
                         }
                         await FileSystemProvider.create(item, name, kind);
                         UI.showToast(`${kind} '${name}' created.`, 'success');
-                        
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
                         if (!workspace) throw new Error("Could not find parent workspace.");
-                        
                         await Workspaces.refreshNode(item);
-                        
                         if (kind === 'file') {
                             const newPath = item.path === '/' ? name : `${item.path}/${name}`;
-                            const newFileItem = {
-                                ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: ''
-                            };
+                            const newFileItem = { ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: '' };
                             Tabs.create(newFileItem, true);
                         }
                     }
                     break;
                 }
-
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
                     const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete files.`, okText: 'Remove', cancelText: 'Cancel' });
@@ -314,7 +376,6 @@ export const Menus = {
                         if (tab) await Tabs.close(tab.id, true);
                         await FileSystemProvider.delete(item);
                         UI.showToast(`'${item.name}' deleted.`, 'success');
-                        
                         const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
                         const parentItem = { ...item, path: parentPath, kind: 'directory' };
                         await Workspaces.refreshNode(parentItem);
