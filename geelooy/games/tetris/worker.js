@@ -4,6 +4,11 @@
 // Import the modularized scripts. The order is important.
 importScripts('constants.js', 'aiEngine.js', 'gameInstance.js');
 
+
+if (typeof SHAPES === 'undefined' || typeof COLORS === 'undefined') {
+    throw new Error("FATAL: constants.js did not load correctly. SHAPES or COLORS is undefined.");
+}
+
 let gameInstances = [];
 let animationFrameId;
 
