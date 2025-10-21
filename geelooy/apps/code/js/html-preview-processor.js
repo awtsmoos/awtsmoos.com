@@ -211,7 +211,7 @@ const importScriptsPolyfill = (workerPath) => `
                 };
 
                 xhr.send(null); // Worker blocks here.
-                console. log("past block",xhr)
+                console. log("past block",xhr.status,xhr.responseText)
 
                 if (xhr.status === 200) {
                     console.log('%cProfound Editor: Received content for ' + relativePath, 'color: green');
