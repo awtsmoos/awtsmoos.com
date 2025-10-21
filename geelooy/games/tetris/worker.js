@@ -18,13 +18,16 @@ let animationFrameId = null;
 
 // --- MAIN GAME LOOP ---
 function gameLoop(timestamp) {
-    // Stop the loop if there are no more instances or if an error occurred.
     if (gameInstances.length === 0) {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
         return;
     }
     
+    // This log will be very noisy, but it confirms the loop is running.
+    // You can comment it out later.
+    console.log(`Game loop running. Timestamp: ${timestamp}`); // <-- LOG 8
+
     try {
         gameInstances.forEach(inst => {
             inst.update(timestamp);
@@ -34,7 +37,7 @@ function gameLoop(timestamp) {
     } catch (e) {
         console.error("FATAL ERROR IN GAME LOOP:", e);
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        animationFrameId = null; // Stop the loop on fatal error
+        animationFrameId = null;
     }
 }
 
@@ -44,43 +47,64 @@ self.onmessage = ({ data }) => {
     // This guarantees that the `importScripts` command has completed before any of this code runs.
     try {
         switch (data.type) {
-            // B"H
+        // B"H
 // In worker.js, inside the self.onmessage function
 
 case 'init':
     console.log("Worker received 'init' message. Setting up game instances.");
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    console.log("Received payload:", JSON.stringify(data.payload, null, 2)); // <-- LOG 1: See the data from main.js
 
-    // --- START OF FIX ---
-    // **FIX**: Destructure the dimensions from the payload.
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        console.log("Cancelled previous animation frame.");
+    }
+
     const { p1Canvas, p1Dimensions, p2Canvas, p2Dimensions, mode } = data.payload;
 
     gameInstances = []; // Reset instances
     
     if (p1Canvas && p1Dimensions) {
-        // **FIX**: Apply the correct dimensions to the canvas.
+        console.log(`P1 Dimensions received: width=${p1Dimensions.width}, height=${p1Dimensions.height}`); // <-- LOG 2: Check dimensions
         p1Canvas.width = p1Dimensions.width;
         p1Canvas.height = p1Dimensions.height;
         
         const isP1AI = (mode === 'aivai');
+        console.log("Creating Player 1 GameInstance..."); // <-- LOG 3
         gameInstances.push(new GameInstance(1, isP1AI, p1Canvas));
+        console.log("Player 1 GameInstance created."); // <-- LOG 4
+    } else {
+        console.error("P1 Canvas or Dimensions were not provided in init payload!");
     }
 
     if (mode !== 'single' && p2Canvas && p2Dimensions) {
-        // **FIX**: Apply the correct dimensions to the second canvas.
+        console.log(`P2 Dimensions received: width=${p2Dimensions.width}, height=${p2Dimensions.height}`);
         p2Canvas.width = p2Dimensions.width;
         p2Canvas.height = p2Dimensions.height;
         
+        console.log("Creating Player 2 GameInstance...");
         gameInstances.push(new GameInstance(2, true, p2Canvas));
+        console.log("Player 2 GameInstance created.");
     }
-    // --- END OF FIX ---
 
+    console.log(`Initializing ${gameInstances.length} game instances...`); // <-- LOG 5
     gameInstances.forEach(inst => inst.init());
+    console.log("All instances initialized."); // <-- LOG 6
 
     if (gameInstances.length > 0) {
+        console.log("Starting game loop..."); // <-- LOG 7
         gameLoop();
+    } else {
+        console.warn("No game instances were created. Game loop will not start.");
     }
     break;
+
+// --- Add logging to the game loop ---
+
+        
+            // B"H
+// In worker.js, inside the self.onmessage function
+
+
 
             case 'input':
                 const player1 = gameInstances.find(i => i.id === 1 && !i.isAI);
