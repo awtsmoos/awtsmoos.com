@@ -10,217 +10,10 @@ import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
+// B"H: Import the new processor and its handlers
+import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler } from './html-preview-processor.js';
 
 const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
-
-function resolveRelativePath(basePath, relativePath) {
-    if (!basePath) return relativePath;
-    const baseDirectory = basePath.substring(0, basePath.lastIndexOf('/'));
-    const pathParts = (baseDirectory + '/' + relativePath).split('/');
-    const resolvedParts = [];
-    for (const part of pathParts) {
-        if (part === '.' || part === '') continue;
-        if (part === '..') {
-            resolvedParts.pop();
-        } else {
-            resolvedParts.push(part);
-        }
-    }
-    return resolvedParts.join('/');
-}
-
-// --- B"H: REWRITTEN HTML PRE-PROCESSOR WITH ADVANCED WORKER & IMPORTSCRIPTS INTERCEPTION ---
-async function processHtmlForPreview(htmlContent, baseItem) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
-    if (!workspace) return htmlContent;
-
-    // --- Part A: The Interceptor Script (injected into the iframe's <head>) ---
-    // This script redefines `window.Worker` before any other code runs.
-    const workerInterceptorScript = `
-        (function() {
-            const OriginalWorker = window.Worker;
-            window.pendingWorkers = new Map(); // Global map to track promises
-            let requestIdCounter = 0;
-
-            // Listens for responses FROM the main editor window
-            window.addEventListener('message', (event) => {
-                const { type, id, blobUrl, error } = event.data;
-                if (type === 'worker-script-response' && window.pendingWorkers.has(id)) {
-                    const { resolve, reject, sab } = window.pendingWorkers.get(id);
-                    window.pendingWorkers.delete(id);
-                    if (error) {
-                        console.error('Editor failed to load worker script:', error);
-                        reject(new Error(error));
-                        return;
-                    }
-                    // Create the REAL worker with the Blob URL and give it the SharedArrayBuffer
-                    const realWorker = new OriginalWorker(blobUrl, { type: 'module' });
-                    realWorker.postMessage({ type: 'init-sync', sab });
-                    resolve(realWorker);
-                }
-            });
-
-            // Redefine the Worker constructor
-            window.Worker = function(path, options) {
-                if (/^(?:[a-z]+:|\\/|blob:)/.test(path)) {
-                    return new OriginalWorker(path, options);
-                }
-                return new Promise((resolve, reject) => {
-                    const requestId = requestIdCounter++;
-                    const sab = new SharedArrayBuffer(4); // 4 bytes for one Int32
-                    window.pendingWorkers.set(requestId, { resolve, reject, sab });
-                    // Ask the editor to fetch the worker script for us
-                    window.parent.postMessage({ type: 'fetch-worker-script', path, id: requestId, sab }, '*');
-                });
-            };
-        })();
-    `;
-
-    // --- Part B: The Polyfill Script (injected into the actual worker code) ---
-    // This script redefines `self.importScripts` inside the worker.
-    const importScriptsPolyfill = (workerPath) => `
-        let sab, int32;
-        const scriptCache = new Map();
-        const workerBasePath = '${workerPath}'; // The worker's own path, for resolving its imports
-
-        self.addEventListener('message', (event) => {
-            if (event.data.type === 'init-sync') {
-                sab = event.data.sab;
-                int32 = new Int32Array(sab);
-            }
-            if (event.data.type === 'import-scripts-response') {
-                scriptCache.set(event.data.path, event.data.content);
-                Atomics.store(int32, 0, 1); // Signal that the script is ready
-                Atomics.notify(int32, 0);   // Wake up the worker
-            }
-        });
-
-        self.importScripts = (...paths) => {
-            if (!sab) {
-                console.error('Sync mechanism not initialized for importScripts.');
-                return;
-            }
-            for (const relativePath of paths) {
-                // Ask the editor for the script content
-                self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath });
-                // Synchronously block the worker until the editor responds
-                const result = Atomics.wait(int32, 0, 0, 5000); // Wait for flag at index 0 to be 0, with a 5s timeout
-                
-                if (result === 'timed-out') {
-                    console.error('Timed out waiting for importScripts:', relativePath);
-                    continue;
-                }
-
-                Atomics.store(int32, 0, 0); // Reset the flag
-
-                if (scriptCache.has(relativePath)) {
-                    const content = scriptCache.get(relativePath);
-                    scriptCache.delete(relativePath);
-                    // This is safer than eval(). It executes the script in the worker's global scope.
-                    try {
-                        self.eval(content);
-                    } catch (e) {
-                        console.error('Error executing imported script:', relativePath, e);
-                        throw e; // Re-throw to halt the worker as native importScripts would
-                    }
-                } else {
-                    throw new Error('Failed to load script for importScripts: ' + relativePath);
-                }
-            }
-        };
-    `;
-
-    // --- Part C: The Message Handler (lives on the main editor window) ---
-    // We create a single, unified handler for all requests from the iframe.
-    window.handleWorkerRequest = async (event, baseItem) => {
-        const { type, path: relativePath, id, sab, basePath } = event.data;
-        const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
-        if (!workspace) return;
-
-        // The iframe wants the main worker script
-        if (type === 'fetch-worker-script') {
-            const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-            try {
-                const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-                if (workspace.type === 'github') {
-                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                    assetItem.sha = fileMeta.sha;
-                }
-                let scriptContent = await FileSystemProvider.read(assetItem);
-                if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
-                else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-                
-                // Prepend the importScripts polyfill to the worker's code
-                const finalContent = importScriptsPolyfill(resolvedPath) + '\n\n' + scriptContent;
-                const blob = new Blob([finalContent], { type: 'application/javascript' });
-                const blobUrl = URL.createObjectURL(blob);
-                event.source.postMessage({ type: 'worker-script-response', id, blobUrl }, '*');
-            } catch (e) {
-                event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
-            }
-        } 
-        // A worker wants to import another script
-        else if (type === 'import-scripts-request') {
-            const resolvedPath = resolveRelativePath(basePath, relativePath);
-            try {
-                const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-                 if (workspace.type === 'github') {
-                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                    assetItem.sha = fileMeta.sha;
-                }
-                let scriptContent = await FileSystemProvider.read(assetItem);
-                if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
-                else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-                
-                // Send the content back and notify the worker to wake up
-                event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: scriptContent }, '*');
-            } catch (e) {
-                console.error(`Failed to fetch script for importScripts '${relativePath}':`, e);
-                event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: null }, '*');
-            }
-        }
-    };
-
-    // --- Part D: Inject the interceptor into the document head ---
-    const interceptorElement = doc.createElement('script');
-    interceptorElement.textContent = workerInterceptorScript;
-    if (doc.head) doc.head.prepend(interceptorElement);
-    else doc.documentElement.prepend(interceptorElement);
-
-    // --- Part E: Inline CSS and external non-worker scripts (unchanged) ---
-    const assetPromises = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'))
-        .filter(el => !/^(?:[a-z]+:|\/)/.test(el.getAttribute('href') || el.getAttribute('src')))
-        .map(async (el) => {
-            const isLink = el.tagName === 'LINK';
-            const pathAttr = isLink ? 'href' : 'src';
-            const relativePath = el.getAttribute(pathAttr);
-            const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-            try {
-                const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
-                 if (workspace.type === 'github') {
-                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                    assetItem.sha = fileMeta.sha;
-                }
-                let content = await FileSystemProvider.read(assetItem);
-                if (content instanceof Blob) content = await content.text();
-                else if (content.isBinary) content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
-                if (isLink) {
-                    const style = doc.createElement('style');
-                    style.textContent = content;
-                    el.parentNode.replaceChild(style, el);
-                } else {
-                    el.removeAttribute('src');
-                    el.textContent = content;
-                }
-            } catch (e) { console.error(`Could not inline asset: ${resolvedPath}`, e); }
-        });
-    await Promise.all(assetPromises);
-
-    return doc.documentElement.outerHTML;
-}
-
 
 export const Menus = {
     handleDocumentClick: (e) => {
@@ -321,19 +114,18 @@ export const Menus = {
                     UI.showLoading("Processing HTML for preview...");
                     const content = Editor.getContent();
                     
-                    if (window.currentWorkerRequestHandler) {
-                        window.removeEventListener('message', window.currentWorkerRequestHandler);
-                    }
-                    window.currentWorkerRequestHandler = (event) => window.handleWorkerRequest(event, activeTab.item);
+                    // Detach any old listener and attach a new one for the current context.
+                    detachWorkerRequestHandler();
+                    attachWorkerRequestHandler(activeTab.item);
                     
                     try {
-                        window.addEventListener('message', window.currentWorkerRequestHandler);
                         const processedContent = await processHtmlForPreview(content, activeTab.item);
-                        Tabs.createPreview(activeTab.item, processedContent, window.currentWorkerRequestHandler);
+                        // The handler is no longer passed here, it's managed globally.
+                        Tabs.createPreview(activeTab.item, processedContent);
                     } catch (e) {
                         UI.showToast("Failed to process HTML.", "error");
                         console.error(e);
-                        window.removeEventListener('message', window.currentWorkerRequestHandler);
+                        detachWorkerRequestHandler(); // Cleanup on failure
                     } finally {
                         UI.hideLoading();
                     }
