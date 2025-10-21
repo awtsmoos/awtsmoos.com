@@ -1,7 +1,6 @@
 //B"H
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const mainMenu = document.getElementById('main-menu');
     const turnChoiceMenu = document.getElementById('turn-choice-menu');
@@ -22,12 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const worker = new Worker('game.worker.js');
     let gameMode;
+    let isGameRunning = false;
 
     function resizeCanvas() {
         const BOARD_ASPECT_RATIO = 7 / 6; // Columns / Rows
         const container = document.getElementById('game-container');
-        let newWidth = container.clientWidth;
-        let newHeight = container.clientHeight * 0.85; // Leave 15% space for controls/padding
+        let availableWidth = container.clientWidth;
+        let availableHeight = container.clientHeight;
+
+        availableHeight -= 80; // Reserve 80px space for the resign button
+
+        let newWidth = availableWidth;
+        let newHeight = availableHeight;
 
         if (newWidth / newHeight > BOARD_ASPECT_RATIO) {
             newWidth = newHeight * BOARD_ASPECT_RATIO;
@@ -35,14 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
             newHeight = newWidth / BOARD_ASPECT_RATIO;
         }
 
+        const dpr = window.devicePixelRatio || 1;
         canvas.style.width = `${newWidth}px`;
         canvas.style.height = `${newHeight}px`;
-
-        const dpr = window.devicePixelRatio || 1;
         canvas.width = newWidth * dpr;
         canvas.height = newHeight * dpr;
 
-        worker.postMessage({ type: 'resize', width: canvas.width, height: canvas.height });
+        if (isGameRunning) {
+            worker.postMessage({ type: 'resize', width: canvas.width, height: canvas.height });
+        }
     }
 
     function showScreen(screen) {
@@ -54,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startGame(mode, playerGoesFirst = null) {
         showScreen(gameContainer);
+        isGameRunning = true;
+        
         resizeCanvas();
+
         const offscreen = canvas.transferControlToOffscreen();
         worker.postMessage({
             type: 'init',
@@ -66,19 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, [offscreen]);
     }
 
-    pVsPButton.addEventListener('click', () => {
-        gameMode = 'pvp';
-        startGame(gameMode);
-    });
+    pVsPButton.addEventListener('click', () => startGame('pvp'));
+    gVsGButton.addEventListener('click', () => startGame('cvc'));
 
     pVsGButton.addEventListener('click', () => {
         gameMode = 'pvc';
         showScreen(turnChoiceMenu);
-    });
-
-    gVsGButton.addEventListener('click', () => {
-        gameMode = 'cvc';
-        startGame(gameMode);
     });
 
     playerFirstButton.addEventListener('click', () => startGame(gameMode, true));
@@ -86,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resignButton.addEventListener('click', () => {
         worker.postMessage({ type: 'resign' });
+        isGameRunning = false;
         showScreen(mainMenu);
     });
 
