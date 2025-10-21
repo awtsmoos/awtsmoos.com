@@ -60,6 +60,16 @@ async function processHtmlForPreview(htmlContent, baseItem) {
             try {
                 // Construct a temporary item to read the file
                 const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
+                // B"H: THE FIX - We must get the SHA before we can read from GitHub
+    if (workspace.type === 'github') {
+        const fileMeta = await FileSystemProvider.GitHub.api(
+            `/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`
+        );
+        assetItem.sha = fileMeta.sha; // Add the missing SHA to our temporary item
+    }
+    
+    
+                
                 let content = await FileSystemProvider.read(assetItem);
                 // The content might be a Blob, so we must convert it to text
                 if (content instanceof Blob) {
