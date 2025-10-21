@@ -92,6 +92,15 @@ async function processHtmlForPreview(htmlContent, baseItem) {
             const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
             try {
                 const assetItem = { ...workspace, path: resolvedPath, name: resolvedPath.split('/').pop() };
+                
+                // B"H: THE FIX - We must get the SHA before we can read from GitHub
+    if (workspace.type === 'github') {
+        const fileMeta = await FileSystemProvider.GitHub.api(
+            `/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`
+        );
+        assetItem.sha = fileMeta.sha; // Add the missing SHA to our temporary item
+    }
+                
                 let content = await FileSystemProvider.read(assetItem);
                 if (content instanceof Blob) {
                     content = await content.text();
