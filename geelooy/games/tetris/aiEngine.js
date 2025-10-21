@@ -1,54 +1,48 @@
-// B"H
+// B'H
 // aiEngine.js
-// Depends on: constants.js
 
 class AIEngine {
-    // --- CHANGE: Constructor now accepts a difficulty setting ---
     constructor(game, difficulty = 'unbeatable') {
         this.game = game;
         this.difficulty = difficulty;
         this.isThinking = false;
 
-        // --- CHANGE: Set parameters based on difficulty ---
         if (this.difficulty === 'adaptive') {
-            // Ramping difficulty for AI vs Player
-            this.maxThinkDelay = 1000; // Starts very slow (1 second)
-            this.minThinkDelay = 150;  // Fastest it can get (150ms)
-            this.thinkDelay = this.maxThinkDelay;
-            this.rampingFactor = 0.985; // How quickly it gets faster per line clear
+            // --- CHANGE: Slower start for a more human-like feel ---
+            this.maxThinkDelay = 1500; // Starts at a slow 1.5 seconds
+            this.minThinkDelay = 200;
+            this.rampingFactor = 0.98;
         } else {
-            // Unbeatable AI for AI vs AI
-            this.thinkDelay = 50; // Consistently very fast
+            this.thinkDelay = 50;
         }
         this.lastThinkTime = 0;
     }
 
     update(timestamp) {
+        // AI only thinks when its own piece is active and not falling
         if (this.game.gameOver || !this.game.piece || this.isThinking) return;
-        
-        let currentThinkDelay = this.thinkDelay;
 
-        // --- CHANGE: Adaptive logic for player-facing AI ---
-        if (this.difficulty === 'adaptive') {
-            // Calculate speed based on player's line count. It gets faster as the player clears more lines.
-            const rampedDelay = this.maxThinkDelay * Math.pow(this.rampingFactor, this.game.lines);
-            currentThinkDelay = Math.max(this.minThinkDelay, rampedDelay);
+        let currentThinkDelay = this.difficulty === 'adaptive' ?
+            Math.max(this.minThinkDelay, this.maxThinkDelay * Math.pow(this.rampingFactor, this.game.lines)) :
+            this.thinkDelay;
 
-            // Add a random chance for a "speed burst" to make the AI less predictable
-            if (this.game.lines > 5 && Math.random() < 0.15) {
-                currentThinkDelay *= 0.5; // Think twice as fast for this move only
-            }
+        if (this.difficulty === 'adaptive' && this.game.lines > 5 && Math.random() < 0.15) {
+            currentThinkDelay *= 0.5;
         }
 
         if (timestamp - this.lastThinkTime > currentThinkDelay) {
             this.isThinking = true;
             this.lastThinkTime = timestamp;
+
             const bestMove = this.findBestMove();
+
+            // --- CHANGE: AI now sets the piece state instead of instantly dropping it ---
             if (bestMove) {
-                this.game.applyAIMove(bestMove);
-            } else {
-                this.game.hardDrop(); // Fallback if no move is found
+                // This new function will orient the piece, then let it fall naturally.
+                this.game.setAIPieceState(bestMove);
             }
+            // No hard drop! The piece will now animate downwards.
+
             this.isThinking = false;
         }
     }
@@ -75,12 +69,7 @@ class AIEngine {
                 }
 
                 moveCandidate.matrix.forEach((r, my) => r.forEach((v, mx) => {
-                    if (v !== 0) {
-                        const bY = finalY + my, bX = moveCandidate.x + mx;
-                        if (bY >= 0 && bX >= 0 && bY < LOGICAL_ROWS && bX < COLS) {
-                            tempBoard[bY][bX] = 1;
-                        }
-                    }
+                    if (v !== 0) { const bY = finalY + my, bX = moveCandidate.x + mx; if (bY >= 0 && bX >= 0 && bY < LOGICAL_ROWS && bX < COLS) { tempBoard[bY][bX] = 1; } }
                 }));
 
                 const score = this.scoreBoard(tempBoard);
@@ -93,54 +82,6 @@ class AIEngine {
         return bestMove;
     }
 
-    _collides(piece, board, offset) {
-        const pMatrix = piece.matrix;
-        const pX = piece.x + (offset.x || 0);
-        const pY = piece.y + (offset.y || 0);
-
-        for (let y = 0; y < pMatrix.length; y++) {
-            for (let x = 0; x < pMatrix[y].length; x++) {
-                if (pMatrix[y][x] !== 0) {
-                    const bX = pX + x;
-                    const bY = pY + y;
-                    if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (board[bY] && board[bY][bX] !== 0)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    scoreBoard(board) {
-        let holes = 0, aggregateHeight = 0, completedLines = 0, bumpiness = 0;
-        const colHeights = Array(COLS).fill(0);
-
-        for (let x = 0; x < COLS; x++) {
-            for (let y = 0; y < LOGICAL_ROWS; y++) {
-                if (board[y][x] !== 0) {
-                    colHeights[x] = LOGICAL_ROWS - y;
-                    break;
-                }
-            }
-        }
-
-        aggregateHeight = colHeights.reduce((sum, h) => sum + h, 0);
-
-        for (let x = 0; x < COLS; x++) {
-            for (let y = LOGICAL_ROWS - colHeights[x] + 1; y < LOGICAL_ROWS; y++) {
-                if (board[y][x] === 0) holes++;
-            }
-        }
-
-        for (let i = 0; i < COLS - 1; i++) {
-            bumpiness += Math.abs(colHeights[i] - colHeights[i + 1]);
-        }
-        
-        for (let y = 0; y < LOGICAL_ROWS; y++) {
-            if (board[y].every(c => c !== 0)) completedLines++;
-        }
-
-        return (completedLines * 0.76) - (aggregateHeight * 0.51) - (holes * 0.35) - (bumpiness * 0.18);
-    }
+    _collides(piece, board, offset) { const pM = piece.matrix, pX = piece.x + (offset.x || 0), pY = piece.y + (offset.y || 0); for (let y = 0; y < pM.length; y++) { for (let x = 0; x < pM[y].length; x++) { if (pM[y][x] !== 0) { const bX = pX + x, bY = pY + y; if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (board[bY] && board[bY][bX] !== 0)) return true; } } } return false; }
+    scoreBoard(board) { let h = 0, aH = 0, cL = 0, b = 0; const cH = Array(COLS).fill(0); for (let x = 0; x < COLS; x++) { for (let y = 0; y < LOGICAL_ROWS; y++) { if (board[y][x] !== 0) { cH[x] = LOGICAL_ROWS - y; break; } } } aH = cH.reduce((s, h) => s + h, 0); for (let x = 0; x < COLS; x++) { for (let y = LOGICAL_ROWS - cH[x] + 1; y < LOGICAL_ROWS; y++) { if (board[y][x] === 0) h++; } } for (let i = 0; i < COLS - 1; i++) { b += Math.abs(cH[i] - cH[i + 1]); } for (let y = 0; y < LOGICAL_ROWS; y++) { if (board[y].every(c => c !== 0)) cL++; } return (cL * 0.76) - (aH * 0.51) - (h * 0.35) - (b * 0.18); }
 }
