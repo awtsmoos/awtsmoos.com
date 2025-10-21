@@ -1,5 +1,58 @@
 // B"H
+
+
+
 // gameInstance.js - FINAL VERSION (Replaces the entire class)
+
+// B"H
+// In gameInstance.js
+
+class SeededRandom {
+    /**
+     * Creates a new pseudo-random number generator.
+     * @param {string} seedStr - A string to use as the initial seed.
+     */
+    constructor(seedStr) {
+        // This is a "hashing" function to convert an arbitrary string
+        // into a starting 32-bit integer number for the seed.
+        let h = 1779033703; // An arbitrary starting number
+        for (let i = 0; i < seedStr.length; i++) {
+            h = Math.imul(h ^ seedStr.charCodeAt(i), 3432918353);
+            h = (h << 13) | (h >>> 19);
+        }
+        
+        // The final seed must be a positive integer.
+        // We ensure this with an unsigned right shift by 0.
+        this.seed = h >>> 0;
+
+        // If the seed somehow ends up as 0, which can cause issues with some
+        // algorithms, we set it to a default non-zero value.
+        if (this.seed === 0) {
+            this.seed = 1;
+        }
+    }
+
+    /**
+     * Generates the next pseudo-random number in the sequence.
+     * @returns {number} A floating-point number between 0 (inclusive) and 1 (exclusive).
+     */
+    random() {
+        // This is the Mulberry32 algorithm. It's known for being fast and effective.
+        let t = this.seed += 0x6D2B79F5; // Add a large hexadecimal constant
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        t = ((t ^ (t >>> 14)) >>> 0);
+
+        // Update the seed for the next call
+        this.seed = t;
+
+        // Divide by the maximum possible 32-bit integer value to get a
+        // result between 0 and 1.
+        return this.seed / 4294967296;
+    }
+}
+
+
 
 class GameInstance {
     constructor(id, isAI, canvas, dimensions, dpr) {
