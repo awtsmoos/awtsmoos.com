@@ -1,5 +1,6 @@
-//B"H
-//importScriptsHack.js
+// B"H
+// FILE: js/importScriptsHack.js
+
 export default (workerPath, originalScriptContent) => /*js*/`
     (function() {
         console.log('%c[WORKER] Polyfill Loaded.', 'color: #4682B4');
@@ -7,6 +8,8 @@ export default (workerPath, originalScriptContent) => /*js*/`
         let sab, int32;
         const scriptCache = new Map();
         const OriginalImportScripts = self.importScripts;
+        let messageQueue = []; // Queue for messages that arrive before init
+        let isInitialized = false;
 
         // B"H: THE ASYNC WRAPPER SOLUTION
         // This promise is the key to solving the race condition.
@@ -16,13 +19,21 @@ export default (workerPath, originalScriptContent) => /*js*/`
                     sab = event.data.sab;
                     int32 = new Int32Array(sab);
                     console.log('%c[WORKER] Sync mechanism INITIALIZED.', 'color: #4682B4; font-weight: bold;');
+                    isInitialized = true;
+                    // Process any queued messages
+                    messageQueue.forEach(msg => self.dispatchEvent(new MessageEvent('message', { data: msg })));
+                    messageQueue = [];
                     resolve(); // The SAB is ready, release the await.
+                } else if (!isInitialized) {
+                    // If we get any other message before init, queue it.
+                    messageQueue.push(event.data);
                 }
             });
         });
 
         self.addEventListener('message', (event) => {
-            console. log("nice message", event. data,event. data. payload)
+            if (!isInitialized) return; // Don't process until SAB is ready
+            
             if (event.data.type === 'import-scripts-response') {
                 console.log('%c[WORKER] Received content for:', 'color: #4682B4;', event.data.path);
                 scriptCache.set(event.data.path, event.data.content || '');
@@ -34,7 +45,6 @@ export default (workerPath, originalScriptContent) => /*js*/`
 
         self.importScripts = (...paths) => {
             if (!sab) {
-                // This error should now be impossible due to the await, but it's good practice.
                 throw new Error('Profound Editor: Sync mechanism not initialized before importScripts was called. This indicates a race condition.');
             }
             
@@ -43,14 +53,20 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath });
                 
                 console.log('%c[WORKER] Now blocking with Atomics.wait()...', 'color: #B0C4DE;');
-                const result = Atomics.wait(int32, 0, 0, 5000);
+                // This is the correct way to wait while allowing the event loop to process messages.
+                // It will sleep for 100ms at a time, wake up to allow messages to be processed,
+                // and then go back to sleep if the response hasn't arrived yet.
+                let waitTimeout = 5000; // 5 seconds total timeout
+                while(Atomics.wait(int32, 0, 0, 100) === 'timed-out' && waitTimeout > 0) {
+                    waitTimeout -= 100;
+                }
                 
-                if (result === 'timed-out') {
+                if (waitTimeout <= 0) {
                     throw new Error('Profound Editor: Timed out waiting for importScripts: ' + relativePath);
                 }
+
                 console.log('%c[WORKER] ...Woke up!', 'color: #B0C4DE;');
-                Atomics.store(int32, 0, 0);
-                console.log("got result?",result,scriptCache)
+                Atomics.store(int32, 0, 0); // Reset the flag for the next import
 
                 if (scriptCache.has('error:' + relativePath)) {
                      throw new Error(scriptCache.get('error:' + relativePath));
@@ -58,8 +74,6 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 if (scriptCache.has(relativePath)) {
                     const content = scriptCache.get(relativePath);
                     scriptCache.delete(relativePath);
-                    console.log('%c[WORKER] Received content for ' + relativePath, 'color: green');
-                    console.log('--- SCRIPT CONTENT START ---\\n' + content + '\\n--- SCRIPT CONTENT END ---');
                     try {
                         const base64Content = btoa(unescape(encodeURIComponent(content)));
                         const dataUrl = 'data:application/javascript;base64,' + base64Content;
@@ -69,8 +83,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
                         throw e;
                     }
                 } else {
-                console.log("lol no script")
-                  //  throw new Error('Profound Editor: Failed to load script for importScripts: ' + relativePath);
+                    throw new Error('Profound Editor: Failed to load script for importScripts: ' + relativePath);
                 }
             }
         };
@@ -81,15 +94,11 @@ export default (workerPath, originalScriptContent) => /*js*/`
             await sabReadyPromise;
             console.log('%c[WORKER] SAB Initialized. Executing original script...', 'color: #90EE90; font-weight: bold;');
             
-            // Now that we've waited, execute the user's original script.
             try {
-                
-                ${
-                originalScriptContent
-                }
+                ${originalScriptContent}
             } catch (e) {
                 console.error("CRITICAL: Error during initial execution of worker script.", e);
             }
         })();
     })();
-`
+`;
