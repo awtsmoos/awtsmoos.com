@@ -22,7 +22,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
         });
 
         self.addEventListener('message', (event) => {
-            console. log("nice message", event. data)
+            console. log("nice message", event. data,event. data. payload)
             if (event.data.type === 'import-scripts-response') {
                 console.log('%c[WORKER] Received content for:', 'color: #4682B4;', event.data.path);
                 scriptCache.set(event.data.path, event.data.content || '');
