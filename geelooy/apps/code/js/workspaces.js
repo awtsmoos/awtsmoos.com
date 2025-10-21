@@ -89,12 +89,9 @@ export const Workspaces = {
                 li.className = 'tree-item';
                 li.style.setProperty('--depth', depth);
                 
-                // --- B"H FIX: "Cannot read 'id'" ERROR ---
                 const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
                 const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
-                // --- END FIX ---
-
-                if (!workspace) { console.error("Could not find workspace for item:", parentItem); return; }
+                if (!workspace) return;
 
                 const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
                 const uniquePath = getItemUniquePath(fullChildItem);
@@ -146,31 +143,35 @@ export const Workspaces = {
         }
     },
     
-    // --- B"H FIX: ROBUST REFRESH LOGIC ---
+    // --- B"H: DEFINITIVE REFRESH LOGIC ---
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         if (!entry) return;
 
         const directoryElement = entry.el;
-        const isRoot = directoryElement.classList.contains('workspace-root');
-        
         let childrenContainer = directoryElement.querySelector('ul');
 
-        // This is the key: if the state says the folder should be expanded,
-        // we forcefully create and show the children container if it's missing.
+        // This is the "force open" logic. If our state says the folder should be open,
+        // we make sure the DOM matches that state before proceeding.
         if (State.expandedFolders.has(uniquePath)) {
+            // Forcefully add the 'expanded' class for visual correctness (e.g., the arrow icon).
+            directoryElement.classList.add('expanded');
+
+            // If the <ul> container for children doesn't exist because the folder was
+            // visually collapsed, we create it now.
             if (!childrenContainer) {
                 childrenContainer = document.createElement('ul');
+                const isRoot = directoryElement.classList.contains('workspace-root');
                 if (isRoot) childrenContainer.className = 'workspace-tree';
                 directoryElement.appendChild(childrenContainer);
             }
-            directoryElement.classList.add('expanded');
-            childrenContainer.classList.remove('hidden');
         }
 
-        // Only proceed to re-render the contents if the folder is actually expanded.
-        if (childrenContainer && !childrenContainer.classList.contains('hidden')) {
+        // Now, we only attempt to re-render the contents if the children container
+        // actually exists in the DOM (meaning the folder is expanded).
+        if (childrenContainer) {
+            const isRoot = directoryElement.classList.contains('workspace-root');
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
             await this.renderTree(childrenContainer, item, depth);
         }
