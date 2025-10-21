@@ -60,7 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const game = {
         worker: null,
         mode: null,
-        touchMoved: false, // Simple flag to distinguish a tap from a drag
+        touchStartX: 0,
+        touchStartY: 0,
+        touchMoved: false,
     };
 
     const elements = {
@@ -94,9 +96,29 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.gameScreen.classList.remove('hidden');
         document.querySelectorAll('.game-over-overlay').forEach(el => el.remove());
 
-        elements.p1Container.classList.remove('hidden');
-        elements.p2Container.classList.toggle('hidden', mode === 'single');
-        elements.sharedControls.classList.toggle('hidden', mode !== 'pvai');
+        // --- CHANGE: DYNAMICALLY RE-PARENT THE DESCEND BUTTON FOR PERFECT LAYOUT ---
+        switch (mode) {
+            case 'single':
+                elements.p1Container.classList.remove('hidden');
+                elements.p2Container.classList.add('hidden');
+                elements.sharedControls.classList.add('hidden');
+                // Move button to the player container for correct positioning
+                elements.p1Container.appendChild(elements.descendButton);
+                elements.descendButton.classList.remove('hidden');
+                break;
+            case 'pvai':
+                elements.p1Container.classList.remove('hidden');
+                elements.p2Container.classList.remove('hidden');
+                // Move button back to the shared container
+                elements.sharedControls.appendChild(elements.descendButton);
+                elements.sharedControls.classList.remove('hidden');
+                break;
+            case 'aivai':
+                elements.p1Container.classList.remove('hidden');
+                elements.p2Container.classList.remove('hidden');
+                elements.sharedControls.classList.add('hidden');
+                break;
+        }
         
         elements.p1Title.textContent = (mode === 'aivai') ? 'GOLEM 1' : 'PLAYER 1';
         elements.p2Title.textContent = (mode === 'aivai') ? 'GOLEM 2' : 'GOLEM';
@@ -151,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleResize = debounce(() => { backgroundFX.init(); if (game.mode) { startGame(game.mode); } }, 250);
     function sendInput(action, value) { if (game.worker) { game.worker.postMessage({ type: 'input', payload: { action, value } }); } }
     
-    // --- Keyboard Input (Unchanged) ---
+    // --- Keyboard Input ---
     window.addEventListener('keydown', (e) => {
         switch (e.key) {
             case 'ArrowLeft':  case 'a': sendInput('move', -1); break;
@@ -162,25 +184,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // --- CORRECTED: Simplified Touch Input for Player 1's board ---
+    // --- CORRECTED: Restored Touch Input Logic ---
     elements.p1Container.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        // Reset the move tracker on a new touch.
-        game.touchMoved = false; 
+        const touch = e.touches[0];
+        game.touchStartX = touch.clientX;
+        game.touchStartY = touch.clientY;
+        game.touchMoved = false; // Reset move tracker
     }, { passive: false });
 
     elements.p1Container.addEventListener('touchmove', (e) => {
         e.preventDefault();
-        // If the finger moves at all, we consider it a drag/swipe, not a tap.
-        game.touchMoved = true;
+        if (!e.touches.length) return;
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - game.touchStartX;
+        const deltaY = touch.clientY - game.touchStartY;
+
+        // Check if the movement is primarily horizontal (a side-swipe)
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+            sendInput('move', deltaX > 0 ? 1 : -1);
+            game.touchStartX = touch.clientX; // Reset start X for continuous swiping
+        }
+
+        // Any significant movement flags it as a swipe, not a tap
+        if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+            game.touchMoved = true;
+        }
     }, { passive: false });
     
     elements.p1Container.addEventListener('touchend', (e) => {
         e.preventDefault();
-        // --- THIS IS THE FIX ---
-        // If the `touchMoved` flag is still false, it means the user's
-        // finger didn't drag, so we register it as a clean tap.
-        // ANY tap on the canvas will now ONLY trigger a rotation.
+        // If the finger was not dragged, it's a tap for rotation.
         if (!game.touchMoved) {
             sendInput('rotate');
         }
