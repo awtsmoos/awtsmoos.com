@@ -4,15 +4,15 @@
 import { DOM } from './state.js';
 import { UI } from './ui.js';
 import { StatusBar } from './statusbar.js';
-import pnimi from "/scripts/awtsmoos/coding/pnimi.js";
-
-
-
-
+import pnimi from './pnimi.js';
 
 export const Editor = {
     currentHighlighter: null,
-    currentObjectURL: null, // To track blob URLs for memory management
+    currentObjectURL: null,
+
+    init() {
+        // No DOM lookups needed here yet, but the pattern is good to have.
+    },
 
     _getExt: (name) => {
         const ld = name.lastIndexOf(".");
@@ -22,7 +22,6 @@ export const Editor = {
     _clearPreviewer() {
         DOM.previewer.innerHTML = '';
         DOM.previewer.classList.add('hidden');
-        // Revoke the old URL to prevent memory leaks
         if (this.currentObjectURL) {
             URL.revokeObjectURL(this.currentObjectURL);
             this.currentObjectURL = null;
@@ -58,13 +57,23 @@ export const Editor = {
         this._clearPreviewer();
         DOM.previewer.classList.remove('hidden');
 
+        // --- B"H: NEW LOGIC FOR HTML PREVIEW ---
+        if (fileInfo.type === 'html-preview') {
+            // Using an iframe with srcdoc is the safest way to render user-provided HTML.
+            // It sandboxes the content, preventing it from running scripts that could affect the editor itself.
+            // We escape double quotes in the data to ensure the srcdoc attribute is valid.
+            const sanitizedData = data.replace(/"/g, '&quot;');
+            DOM.previewer.innerHTML = `<iframe srcdoc="${sanitizedData}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+            return;
+        }
+        // --- END NEW LOGIC ---
+
         let url;
-        // Handle raw Blobs/Files from Local FS and data URL objects from GitHub
         if (data.isBinary) { // GitHub object
             url = `data:${data.mime};base64,${data.base64Content}`;
         } else { // Local FS Blob/File
             url = URL.createObjectURL(data);
-            this.currentObjectURL = url; // Track for cleanup
+            this.currentObjectURL = url;
         }
 
         switch(fileInfo.type) {
@@ -80,10 +89,10 @@ export const Editor = {
             case 'pdf':
                 DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`;
                 break;
-            default: // 'binary' or other unsupported types
+            default:
                 DOM.previewer.innerHTML = `
                     <div class="unsupported-message">
-                        <svg class="svg-icon"><use href="#icon-file"></use></svg>
+                        <svg class.svg-icon"><use href="#icon-file"></use></svg>
                         <h3>Binary File</h3>
                         <p>This file type cannot be previewed.</p>
                     </div>`;
@@ -102,4 +111,3 @@ export const Editor = {
 
     focus: () => DOM.editor.focus(),
 };
-
