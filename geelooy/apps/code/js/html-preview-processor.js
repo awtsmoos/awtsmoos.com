@@ -173,7 +173,7 @@ const importScriptsPolyfill = (workerPath) => `
 
         self.addEventListener('message', (event) => {
             const { type, id, content, error } = event.data;
-            console.lpg("got weird message",event.data)
+            console.log("got weird message",event.data)
             if (type === 'import-scripts-response' && pendingRequests.has(id)) {
                 
                 const request = pendingRequests.get(id);
@@ -193,6 +193,7 @@ const importScriptsPolyfill = (workerPath) => `
         });
 
         self.importScripts = (...paths) => {
+           console.log("CALLED import", paths)
             for (const relativePath of paths) {
                 const requestId = requestIdCounter++;
                 const xhr = new XMLHttpRequest();
