@@ -179,7 +179,7 @@ export const App = {
 
         optionsContainer.addEventListener('click', (e) => {
             // --- B"H FIX: VANISHING SIDEBAR ---
-            // This stops the click from bubbling up to the document, which was
+            // This stops the click inside the dialog from bubbling up to the document, which was
             // incorrectly triggering the "click outside" listener for the mobile sidebar.
             e.stopPropagation();
             // --- END FIX ---
@@ -204,14 +204,14 @@ export const App = {
                      throw new Error('Permission to write to directory was denied.');
                 }
             }
-            Workspaces.add({ name: `💻 ${handle.name}`, type: 'local', handle, kind: 'directory' });
+            Workspaces.add({ name: `💻 ${handle.name}`, type: 'local', handle });
         } catch (e) {
             if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
         }
     },
 
     async addIdbWorkspace() {
-        Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb', kind: 'directory' });
+        Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb' });
     },
 
     async addGithubWorkspace() {
@@ -228,11 +228,11 @@ export const App = {
             
             document.getElementById('dialog-content').querySelectorAll('.menu-button').forEach(btn => {
                 btn.onclick = (e) => {
-                    e.stopPropagation(); // Good practice to add this here too
+                    e.stopPropagation();
                     const fullName = btn.dataset.repoFullName;
                     const [owner, repoName] = fullName.split('/');
                     const repoData = repos.find(r => r.full_name === fullName);
-                    Workspaces.add({ name: `📦 ${fullName}`, type: 'github', repoInfo: { owner, repo: repoName }, kind: 'directory', branch: repoData.default_branch });
+                    Workspaces.add({ name: `📦 ${fullName}`, type: 'github', repoInfo: { owner, repo: repoName }, branch: repoData.default_branch });
                     DOM.genericDialog.classList.remove('visible');
                 };
             });
