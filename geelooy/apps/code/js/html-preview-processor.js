@@ -56,6 +56,8 @@ async function handleWorkerRequest(event, baseItem) {
             let scriptContent = await FileSystemProvider.read(assetItem);
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+            
+            console. log("about to officially post some stuff back",scriptContent);
 
             event.source.postMessage({ type: 'import-scripts-response', path: relativePath, content: scriptContent }, '*');
         } catch (e) {
