@@ -260,4 +260,4 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     await Promise.all(assetPromises);
 
     return doc.documentElement.outerHTML;
-}```
+}
