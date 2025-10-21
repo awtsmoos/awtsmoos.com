@@ -478,4 +478,50 @@
     @media (max-width: 768px) {
         #hamburger-sidebar-toggle { display: inline-flex; }
     }
+    
+    
+    /* --- B"H - NEW STYLES FOR BINARY FILE PREVIEWER --- */
+#previewer {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    overflow: auto;
+    background-color: var(--color-bg-deep); /* A slightly different background */
+}
+
+#previewer img,
+#previewer video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 40px var(--shadow-color);
+}
+
+#previewer embed {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#previewer .unsupported-message {
+    text-align: center;
+    color: var(--color-text-secondary);
+    border: 2px dashed var(--color-border);
+    padding: 40px;
+    border-radius: var(--radius-md);
+    user-select: none;
+}
+
+#previewer .unsupported-message .svg-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+    
+    
 
