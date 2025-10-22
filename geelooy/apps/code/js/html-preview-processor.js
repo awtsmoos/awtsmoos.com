@@ -215,8 +215,8 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             var attr = [...el.attributes];
             attr.forEach(a=>{
             	myEl.setAttribute(
-            		a,
-            		el.getAttribute(a)
+            		a.name,
+            		a.value
             	
             	)
             
