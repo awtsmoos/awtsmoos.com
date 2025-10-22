@@ -67,6 +67,7 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     DOM.replaceInput = document.getElementById('replace-input');
     DOM.keyboardHelper = document.getElementById('keyboard-helper');
     
+    DOM.viewConsoleBtn = document.getElementById('view-console-btn');
     
     DOM.selectionMenu = document.getElementById('selection-menu');
     
