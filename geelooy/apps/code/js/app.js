@@ -2,7 +2,7 @@
 // FILE: js/app.js
 // B"H - IN: js/app.js
 import { SelectionManager } from './selection-manager.js';
-
+import { Console } from './Console.js'; 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
 import { Editor } from './editor.js';
@@ -15,7 +15,7 @@ import { FindReplace } from './find-replace.js';
 
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
-
+activeConsole: null, // B"H 
     saveSession() {
         const persistableWorkspaces = State.workspaces
             .filter(ws => ws.type === 'github' || ws.type === 'indexeddb')
@@ -148,11 +148,36 @@ export const App = {
 // THIS IS THE FINAL AND CORRECT VERSION.
 setupEventListeners() {
     // --- Element References (Using YOUR DOM object variable names) ---
+    if (DOM.viewConsoleBtn) {
+        DOM.viewConsoleBtn.onclick = () => {
+            const iframe = DOM.previewer.querySelector('iframe');
+            if (!iframe) {
+                UI.showToast("No active preview found to attach console.", "error");
+                return;
+            }
+            if (!this.activeConsole || this.activeConsole.consoleWindow.closed) {
+                 this.activeConsole = new Console(iframe);
+            }
+            this.activeConsole.open();
+        };
+    }
+    
+    
+    
+    
     const appContainer = document.querySelector('.app-container');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
 
+    
+    
+    
+    
+    
     // --- 1. Main Menu Button (FIXED) ---
     // Now that DOM.hamburgerMenuBtn is correctly finding the element, this will work.
+    
+    
+    
     if (DOM.hamburgerMenuBtn) {
         DOM.hamburgerMenuBtn.onclick = (e) => {
             // Stop the click from being caught by any other listeners.
@@ -324,7 +349,12 @@ setupEventListeners() {
         editor.dispatchEvent(new Event('input', { bubbles: true }));
     });
 
-    window.addEventListener('beforeunload', () => this.saveSession());
+    window.addEventListener('beforeunload', () => {
+    if (this.activeConsole && this.activeConsole.consoleWindow && !this.activeConsole.consoleWindow.closed) {
+             this.activeConsole.consoleWindow.close();
+        }
+    this.saveSession());
+    }
 },
 
     
