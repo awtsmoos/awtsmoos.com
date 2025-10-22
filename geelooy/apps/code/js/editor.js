@@ -1,7 +1,7 @@
 // B"H
 // FILE: js/editor.js
 
-import { DOM } from './state.js';
+import { State, DOM } from './state.js';
 import { UI } from './ui.js';
 import { StatusBar } from './statusbar.js';
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
