@@ -19,6 +19,8 @@ export const SelectionManager = {
 
         // This listener will handle clicks on the menu's buttons
         DOM.selectionMenu.addEventListener('click', e => {
+            e.stopPropagation()
+            
             const button = e.target.closest('button');
             if (!button) return;
             const action = button.dataset.action;
