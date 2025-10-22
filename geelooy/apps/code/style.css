@@ -482,12 +482,7 @@
         
         
     }
-    #hamburger-sidebar-toggle { display: none; }
     
-    
-    @media (max-width: 768px) {
-        #hamburger-sidebar-toggle { display: inline-flex; }
-    }
     
     /* B"H - DESKTOP SIDEBAR COLLAPSE LOGIC */
 .app-container.sidebar-collapsed {
@@ -496,6 +491,14 @@
 
 .app-container.sidebar-collapsed .sidebar {
     overflow: hidden; /* Prevents content from showing during transition */
+}
+
+
+/* This forces the main content sections to fill the new available space */
+.app-container.sidebar-collapsed > .top-panel,
+.app-container.sidebar-collapsed > .main-content,
+.app-container.sidebar-collapsed > .status-bar {
+    grid-column: 1 / 3;
 }
 
 
