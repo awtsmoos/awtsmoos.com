@@ -75,7 +75,7 @@ export default /*js*/`
                 try {
                     props.push({ key, value: serialize(data[key], depth + 1, visited) });
                 } catch (e) {
-                     props.push({ key, value: { type: 'string', value: `[Can't access]` } });
+                     props.push({ key, value: { type: 'string', value: "[Can't access]" } });
                 }
             }
             
