@@ -401,6 +401,41 @@ setupEventListeners() {
             }
         }
     },
+    
+    
+    toggleFullscreen() {
+    const element = document.documentElement; // Target the entire <html> element
+
+    // Check if the document is currently in full screen mode
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        // --- EXIT FULL SCREEN ---
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari, Opera */
+            document.webkitExitFullscreen();
+        }
+        console.log("Exited full screen mode.");
+    } else {
+        // --- ENTER FULL SCREEN ---
+        if (element.requestFullscreen) {
+            element.requestFullscreen()
+                .then(() => console.log("Entered full screen mode."))
+                .catch(err => console.error(`Error entering full screen: ${err.message}`));
+        } else if (element.msRequestFullscreen) { /* IE/Edge */
+            element.msRequestFullscreen();
+        } else if (element.mozRequestFullScreen) { /* Firefox */
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) { /* Chrome, Safari, Opera */
+            element.webkitRequestFullscreen();
+        } else {
+            console.log("Fullscreen API not supported by this browser.");
+        }
+    }
+}
 
     async showSettings() {
         const contentHTML = `
