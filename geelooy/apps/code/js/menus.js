@@ -207,6 +207,18 @@ export const Menus = {
                     }
                     break;
                 }
+                
+                
+                case 'start-selection':
+        // We pass the event `e` to position the new menu correctly
+        SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
+        break;
+    
+    case 'paste':
+        FileOperations.paste(item); // This will call the advanced paste logic
+        break;
+                
+                
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
                     const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete files.`, okText: 'Remove', cancelText: 'Cancel' });
@@ -241,14 +253,7 @@ for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                     
                     
                     
-                    case 'start-selection':
-        // We pass the event `e` to position the new menu correctly
-        SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
-        break;
-    
-    case 'paste':
-        FileOperations.paste(item); // This will call the advanced paste logic
-        break;
+                    
                 }
             }
         } catch(e) { UI.showToast(`Error: ${e.message}`, 'error'); } 
