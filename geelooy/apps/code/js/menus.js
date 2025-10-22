@@ -71,7 +71,7 @@ export const Menus = {
             
             { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
             
-            { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'laptop' }, 
+            { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'icon-fullscreen' }, 
             
             { label: 'Settings', action: 'settings', icon: 'settings' }
         
