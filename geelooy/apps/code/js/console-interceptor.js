@@ -1,63 +1,66 @@
 // B"H
 // FILE: js/console-interceptor.js
 export default /*js*/`
-//B"H
-//Welcome! 
+// B"H
+// Welcome to the Awtsmoos Profound Console Interceptor!
 (function() {
     'use strict';
-    // Keep a reference to the original console methods
+    // --- 1. Store original console methods before we override them ---
     const originalConsole = {
         log: console.log.bind(console), error: console.error.bind(console),
         warn: console.warn.bind(console), info: console.info.bind(console),
         clear: console.clear.bind(console), table: console.table.bind(console)
     };
 
-    // --- Communication with the parent editor window ---
+    // --- 2. Centralized function for communicating with the editor UI ---
     function post(type, payload) {
         window.parent.postMessage({
-            source: 'html-preview-console', type: type, payload: payload
-        }, '*');
+            source: 'html-preview-console',
+            type: type,
+            payload: payload
+        }, '*'); // In a production environment, this should be the specific editor origin for security.
     }
 
-    // --- VIVID Data Serialization ---
-    // This is the new, more powerful serializer that enables the extreme console experience.
+    // --- 3. The VIVID Serializer: The core of the enhanced console experience ---
+    // This function intelligently converts any JavaScript value into a serializable object
+    // that our custom console UI can understand and render beautifully.
     function serialize(data, depth = 0, visited = new WeakMap()) {
+        // --- BASE CASES & PRIMITIVES ---
         if (depth > 12) return { type: 'string', value: '[Max depth reached]' };
-
-        const type = typeof data;
         if (data === null) return { type: 'null', value: 'null' };
-        if (type === 'undefined' || type === 'string' || type === 'number' || type === 'boolean' || type === 'symbol') {
+        
+        const type = typeof data;
+        if (type !== 'object' && type !== 'function') {
             return { type: type, value: String(data) };
         }
 
-        // Prevent infinite recursion with circular references
+        // --- CIRCULAR REFERENCE HANDLING ---
+        // Use a WeakMap to track visited objects to prevent infinite loops.
         if (visited.has(data)) {
             return { type: 'string', value: \`[Circular ~ \${visited.get(data)}]\` };
         }
 
+        // --- COMPLEX TYPES ---
         if (type === 'function') {
-            const signature = data.toString().match(/^(function\\*?|async function\\*?|\\(.*\)|[^\\s=]+)\\s*=>|function\\s*([^\\(]+)/);
-            visited.set(data, data.name || '(anonymous)');
+            // THIS IS THE CORRECTED REGULAR EXPRESSION: All backslashes are escaped (e.g., \\*).
+            const signature = data.toString().match(/^(function\\*?|async function\\*?|\\(.*\\)|[^\\s=]+)\\s*=>|function\\s*([^\\(]+)/);
+            visited.set(data, data.name || '(anonymous function)');
             return { type: 'function', name: data.name, signature: signature ? signature[0].replace('{', '').trim() : 'ƒ' };
         }
-
+        
         if (type === 'object') {
             const constructorName = data.constructor ? data.constructor.name : 'Object';
             visited.set(data, constructorName);
 
+            // Handle specific, known object types for a richer display
             if (data instanceof Error) {
                 return { type: 'error', constructorName: constructorName, message: data.message, stack: data.stack };
             }
-            if (data instanceof Date) {
-                return { type: 'date', value: data.toISOString() };
-            }
-            if (data instanceof RegExp) {
-                return { type: 'regexp', value: String(data) };
-            }
-            if (data instanceof Promise) {
-                return { type: 'promise', constructorName: 'Promise' };
-            }
-             if (data instanceof Element) {
+            if (data instanceof Date) return { type: 'date', value: data.toISOString() };
+            if (data instanceof RegExp) return { type: 'regexp', value: String(data) };
+            if (data instanceof Promise) return { type: 'promise', constructorName: 'Promise' };
+            
+            if (data instanceof Element) {
                  const tagName = data.tagName.toLowerCase();
                  let selector = tagName;
                  if(data.id) selector += \`#\${data.id}\`;
@@ -76,17 +79,24 @@ export default /*js*/`
                 return { type: 'array', constructorName: 'Array', length: data.length, value: data.map(item => serialize(item, depth + 1, visited)) };
             }
 
-            // Handle generic objects
+            // --- GENERIC OBJECT HANDLING ---
+            // This is the fallback for plain objects or custom classes.
             const props = [];
             const proto = Object.getPrototypeOf(data);
             for (const key of Object.getOwnPropertyNames(data)) {
-                const descriptor = Object.getOwnPropertyDescriptor(data, key);
-                if (descriptor) {
-                    if (descriptor.get || descriptor.set) {
-                         props.push({ key, value: {type: 'accessor'}, isAccessor: true });
-                    } else {
-                         props.push({ key, value: serialize(data[key], depth + 1, visited) });
+                try {
+                    const descriptor = Object.getOwnPropertyDescriptor(data, key);
+                    if (descriptor) {
+                        // Differentiate between regular properties and getters/setters
+                        if (descriptor.get || descriptor.set) {
+                             props.push({ key, value: {type: 'accessor'}, isAccessor: true });
+                        } else {
+                             props.push({ key, value: serialize(data[key], depth + 1, visited) });
+                        }
                     }
+                } catch (e) {
+                    // This gracefully handles properties that might throw an error when accessed.
+                    props.push({ key, value: {type: 'error', value: \`[Throws: \${e.message}]\`} });
                 }
             }
             return {
@@ -94,20 +104,22 @@ export default /*js*/`
                 prototype: proto ? serialize(proto, depth + 1, visited) : { type: 'null', value: 'null' }
             };
         }
+        
         return { type: 'string', value: '[Unsupported Type]' };
     }
 
-    // --- Override Console Methods ---
+    // --- 4. Override native console methods ---
     Object.keys(originalConsole).forEach(methodName => {
         console[methodName] = (...args) => {
-            // Call the original method so logs still appear in the browser's real devtools
+            // First, call the original method so logs still appear in the browser's real DevTools.
             originalConsole[methodName](...args);
             
             if (methodName === 'clear') {
-                 post('clear');
+                 post('clear'); // Send a dedicated 'clear' message
                  return;
             }
-
+            
+            // Serialize all arguments and post them to our custom console.
             const message = {
                 type: 'log',
                 level: methodName,
@@ -118,14 +130,14 @@ export default /*js*/`
         };
     });
     
-    // --- Listen for Code Execution Commands ---
+    // --- 5. Listen for code execution commands from the editor ---
     window.addEventListener('message', (event) => {
         if (!event.data || event.data.source !== 'awtsmoos-editor') return;
 
         const { command, executionId } = event.data;
         
         try {
-            // Using 'eval' allows for a proper REPL environment where variables can be set and then used.
+            // Use 'eval' to execute in the global scope of the iframe, creating a REPL-like experience.
             const result = eval(command);
             post('execution-result', {
                 executionId: executionId,
@@ -141,16 +153,17 @@ export default /*js*/`
         }
     });
 
-    // --- Capture Uncaught Errors ---
+    // --- 6. Global Error Catching ---
+    // Capture uncaught exceptions and unhandled promise rejections and log them to our console.
     window.addEventListener('error', (event) => {
-        console.error(event.error);
+        console.error(event.error || 'An unknown error occurred');
     });
-
     window.addEventListener('unhandledrejection', (event) => {
-        console.error('Unhandled Promise Rejection:', event.reason);
+        console.error('Unhandled Promise Rejection:', event.reason || 'No reason provided');
     });
     
+    // --- 7. Final step: Announce that the console is ready ---
     post('status', { status: 'ready' });
 
 })();
-`
+`;
