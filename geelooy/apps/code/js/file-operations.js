@@ -9,21 +9,33 @@ import { FileSystemProvider } from './fs-provider.js';
 
 // Recursive function to read an entire directory structure into memory.
 // This is necessary because we need the full structure to intelligently merge.
-async function _getDirectoryTree(sourceDir) {
+// B"H
+// FILE: js/file-operations.js
+
+// ACTION: Modify this function to accept 'workspace'.
+
+// The function now requires the 'workspace' object so it can build correct children.
+async function _getDirectoryTree(sourceDir, workspace) {
+    // The sourceDir is already correct, but its children will not be.
     const tree = { ...sourceDir, children: [] };
     const items = await FileSystemProvider.list(sourceDir);
 
     for (const item of items) {
-        const fullItem = { ...sourceDir, ...item };
+        // THIS IS THE CRITICAL FIX: Build the child item from the TRUE workspace context.
+        const fullItem = { ...workspace, ...item };
+
         if (item.kind === 'file') {
-            const content = await FileSystemProvider.read(fullItem);
+            const content = await FileSystemProvider.read(fullItem); // This will now succeed.
             tree.children.push({ ...fullItem, content });
         } else {
-            tree.children.push(await _getDirectoryTree(fullItem));
+            // Pass the workspace down to the next level of recursion.
+            tree.children.push(await _getDirectoryTree(fullItem, workspace));
         }
     }
     return tree;
 }
+
+// ... the other helper functions (_writeDirectoryTree, _writeFile) are OK.
 
 
 // Recursive function to write a directory tree to a destination.
@@ -184,20 +196,33 @@ async paste(destinationDir) {
         for (const sourceItem of itemsToPaste) {
             console.log(`- Processing paste for '${sourceItem.name}' (kind: ${sourceItem.kind}).`);
 
-            // Safety Check
-            if (sourceItem.workspaceId === destinationDir.workspaceId && sourceItem.kind === 'directory') {
-                if (destinationDir.path === sourceItem.path || destinationDir.path.startsWith(`${sourceItem.path}/`)) {
-                    throw new Error(`Cannot paste '${sourceItem.name}' into a subdirectory of itself.`);
-                }
-            }
-
-            if (sourceItem.kind === 'file') {
-                await _writeFile(sourceItem, destinationDir, conflictHandler);
-            } else if (sourceItem.kind === 'directory') {
-                await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
-            }
-            console.log(`- Successfully processed '${sourceItem.name}'.`);
+            const sourceWorkspace = State.workspaces.find(ws => ws.id === sourceItem.workspaceId);
+        if (!sourceWorkspace) {
+            throw new Error(`Could not find the source workspace for '${sourceItem.name}'.`);
         }
+
+        // Safety Check (remains the same)
+        if (sourceItem.workspaceId === destinationDir.workspaceId && sourceItem.kind === 'directory') {
+            if (destinationDir.path === sourceItem.path || destinationDir.path.startsWith(`${sourceItem.path}/`)) {
+                throw new Error(`Cannot paste '${sourceItem.name}' into a subdirectory of itself.`);
+            }
+        }
+        
+        if (sourceItem.kind === 'file') {
+            // Reading the file directly in the _writeFile helper doesn't happen,
+            // so we must read its content here first.
+            const fileContent = await FileSystemProvider.read(sourceItem);
+            const fileNode = { ...sourceItem, content: fileContent };
+            await _writeFile(fileNode, destinationDir, conflictHandler);
+        } else if (sourceItem.kind === 'directory') {
+            // Here is where we call our improved recursive function.
+            // We pass it the item AND the correct workspace context.
+            const tree = await _getDirectoryTree(sourceItem, sourceWorkspace);
+            await _writeDirectoryTree(tree, destinationDir, conflictHandler);
+        }
+
+        console.log(`- Successfully processed '${sourceItem.name}'.`);
+    }
 
         // 8. --- Final Success Message ---
         console.log(`PASTE SUCCEEDED. Pasted ${itemsToPaste.length} item(s).`);
