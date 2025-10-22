@@ -209,6 +209,22 @@ _renderLogMessage(log) {
     this.elements.logContainer.appendChild(row);
     row.scrollIntoView({ behavior: 'smooth', block: 'end' });
     
+    const textarea = document.createElement('textarea');
+           // textarea.setAttribute('readonly', true);
+            textarea.value = "hello would"//this._prettyPrint(arg);
+            
+            // STEP 2: Add the textarea directly to the page.
+            contentContainer.appendChild(textarea);
+            
+            // STEP 3: Call `new pnimi` on the textarea after it's on the page.
+            // We use a timeout to ensure the browser has rendered it first.
+            
+                const highlighter = new pnimi(textarea, 'js');
+                highlighter.update("what are you");
+                // Store the instance only for later cleanup. Do not touch it otherwise.
+         //       this.outputHighlighters.set(textarea, highlighter); 
+           
+    
 
     args.forEach(arg => {
         if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
@@ -217,7 +233,7 @@ _renderLogMessage(log) {
             // STEP 1: Create the textarea and set its value.
             const textarea = document.createElement('textarea');
            // textarea.setAttribute('readonly', true);
-            textarea.value = this._prettyPrint(arg);
+            textarea.value = "hello would"//this._prettyPrint(arg);
             
             // STEP 2: Add the textarea directly to the page.
             contentContainer.appendChild(textarea);
@@ -226,7 +242,7 @@ _renderLogMessage(log) {
             // We use a timeout to ensure the browser has rendered it first.
             
               //  const highlighter = new pnimi(textarea, 'js');
-              //  highlighter.update(arg);
+                highlighter.update(arg);
                 // Store the instance only for later cleanup. Do not touch it otherwise.
          //       this.outputHighlighters.set(textarea, highlighter); 
            
