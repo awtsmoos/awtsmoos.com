@@ -573,4 +573,32 @@
     background-color: #fff; /* This creates the white browser-like background */
 }
     
+    
+    
+/* B"H - SELECTION MODE MENU */
+.selection-menu-bar {
+    position: fixed; /* Stays in place */
+    z-index: 1001;  /* Above context menu, below dialogs */
+    background-color: var(--color-bg-deep);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 6px;
+    display: none; /* Hidden by default */
+    gap: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    align-items: center;
+}
+
+.selection-menu-bar.visible {
+    display: flex;
+}
+
+/* Style for the text part (e.g., "3 items selected") */
+.selection-menu-bar .selection-count {
+    padding: 0 8px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
 
