@@ -497,6 +497,20 @@
 
 
 
+/*
+    THIS IS THE CRITICAL FIX:
+    Instead of leaving the main elements in column 2, we are now explicitly
+    re-assigning them. This removes any ambiguity. When the sidebar is
+    collapsed, the main content is told "You now start at grid line 2 and
+    end at grid line 3", which perfectly aligns it in the visible 1fr column.
+*/
+.app-container.sidebar-collapsed > .top-panel,
+.app-container.sidebar-collapsed > .main-content,
+.app-container.sidebar-collapsed > .status-bar {
+    grid-column: 2 / 3; /* This may seem redundant, but it reinforces the correct position */
+}
+
+
 
 
 @media (max-width: 768px) {
