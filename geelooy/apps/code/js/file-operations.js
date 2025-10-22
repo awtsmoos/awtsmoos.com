@@ -121,46 +121,85 @@ copySelected() {
     },
 
     // The advanced paste logic
-    async paste(destinationDir) {
-        if (State.fileClipboard.length === 0) return;
+    // B"H
+// FILE: js/file-operations.js
+// ACTION: Replace the entire 'paste' function with this one.
 
-        UI.showLoading("Pasting items...");
+async paste(destinationDir) {
+    // 1. --- Guard Clause ---
+    // Make sure there's something to paste.
+    if (State.fileClipboard.length === 0) return;
+
+    // 2. --- UI Preparation ---
+    // Give the user instant feedback that the operation has started.
+    UI.showLoading("Pasting items...");
+    const destUniquePath = getItemUniquePath(destinationDir);
+    const destEntry = State.domItemMap.get(destUniquePath);
+    if (destEntry?.el) {
+        // This makes the UI feel much more responsive on large pastes.
+        const childrenContainer = destEntry.el.querySelector('ul');
+        if (childrenContainer) {
+            childrenContainer.innerHTML = `<li class="tree-item" style="--depth:${(destinationDir.path.match(/\//g) || []).length + 1}; color: var(--color-text-tertiary);">Pasting...</li>`;
+        }
+    }
+
+    try {
+        // 3. --- The Critical Fix: Get Fresh Data ---
+        // Instead of using potentially old item objects, we get the fresh ones
+        // directly from the master domItemMap using the IDs stored on the clipboard.
+        // This guarantees we have the correct `handle` for Local Folders.
+        const itemsToPaste = State.fileClipboard
+            .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
+            .filter(Boolean); // Filter out any that might be missing
+
+        if (itemsToPaste.length === 0) {
+            throw new Error("Source items could not be found in the application state.");
+        }
         
-        try {
-            // CRITICAL CHANGE: Get fresh item objects right now from the master map.
-            const itemsToPaste = State.fileClipboard
-                .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
-                .filter(Boolean); // Filter out any that might be undefined
+        // 4. --- Conflict Handling (Placeholder) ---
+        // This is where the "Overwrite/Skip/Rename" dialog would be triggered.
+        // For now, it defaults to overwriting.
+        const conflictHandler = async (item, destDir) => {
+            // TODO: Implement a real UI.showDialog here for user choice.
+            return { action: 'overwrite' };
+        };
 
-            // The conflict handler logic remains the same.
-            const conflictHandler = async (item) => {
-                 return { action: 'overwrite' }; // Simplified for now
-            };
-
-            for (const sourceItem of itemsToPaste) {
-                // ... [Safety check for pasting into itself] ...
-
-                if (sourceItem.kind === 'file') {
-                    // This function now uses the fresh, correct sourceItem
-                    await _writeFile(sourceItem, destinationDir, conflictHandler);
-                } else if (sourceItem.kind === 'directory') {
-                    // This function now uses the fresh, correct sourceItem
-                    await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
+        // 5. --- The Core Operation Loop ---
+        for (const sourceItem of itemsToPaste) {
+            // Safety Check: Prevent pasting a folder into itself.
+            if (sourceItem.workspaceId === destinationDir.workspaceId && sourceItem.kind === 'directory') {
+                if (destinationDir.path === sourceItem.path || destinationDir.path.startsWith(`${sourceItem.path}/`)) {
+                    throw new Error(`Cannot paste '${sourceItem.name}' into itself.`);
                 }
             }
 
-            UI.showToast("Paste complete!", "success");
-
-        } catch (e) {
-            console.error("PASTE OPERATION FAILED:", e); // Log the full error to the console
-            const errorMessage = `Paste failed: ${e.message}\n\nStack Trace:\n${e.stack}`;
-            UI.showToast(errorMessage, 'error', 10000); // Show for 10 seconds
-            // -------------------------
-        
-        
-        } finally {
-            await Workspaces.refreshNode(destinationDir);
-            UI.hideLoading();
+            if (sourceItem.kind === 'file') {
+                await _writeFile(sourceItem, destinationDir, conflictHandler);
+            } else if (sourceItem.kind === 'directory') {
+                await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
+            }
         }
+
+        UI.showToast("Paste complete!", "success");
+
+    } catch (e) {
+        // 6. --- Robust Error Reporting ---
+        console.error("PASTE OPERATION FAILED:", e); // Log the full error object for debugging.
+
+        // Build a helpful error message, safely checking if `e.stack` exists.
+        const message = e?.message || "An unknown error occurred.";
+        const stack = e?.stack ? `\n\nStack Trace:\n${e.stack}` : "\n\n(No stack trace available)";
+        UI.showToast(`Paste failed: ${message}${stack}`, 'error', 10000); // Show for 10 secs
+
+    } finally {
+        // 7. --- UI Cleanup and Refresh ---
+        // This block runs whether the paste succeeded or failed.
+        UI.hideLoading();
+        // This is crucial. It refreshes the destination folder's contents in the UI,
+        // which solves the lag issue you mentioned.
+        await Workspaces.refreshNode(destinationDir);
     }
+}
+
+
 };
