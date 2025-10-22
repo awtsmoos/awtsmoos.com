@@ -82,7 +82,7 @@ export default /*js*/`
             return new OriginalWorker(path, options);
         }
 
-        console.log(\`[INTERCEPTOR] Intercepting new Worker("${path}").\`);
+        console.log(\`[INTERCEPTOR] Intercepting new Worker(path).\`, path);
         const requestId = requestIdCounter++;
         // Create the persistent SIGNAL buffer. It's only 4 bytes and is used for notifications.
         const signalSAB = new SharedArrayBuffer(4); 
