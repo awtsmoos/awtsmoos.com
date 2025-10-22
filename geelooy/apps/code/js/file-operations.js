@@ -85,18 +85,38 @@ async function _writeFile(fileNode, destinationDir, onConflict) {
 
 export const FileOperations = {
     // Copies selected items to the internal clipboard
-    copySelected() {
-        if (State.selectedItems.size === 0) return;
-        
-        State.fileClipboard = [];
-        for (const uniquePath of State.selectedItems) {
-            const mapEntry = State.domItemMap.get(uniquePath);
-            if (mapEntry?.item) State.fileClipboard.push(mapEntry.item);
+    // B"H
+// FILE: js/file-operations.js
+// ACTION: Replace the ENTIRE copySelected function with this one.
+
+copySelected() {
+    if (State.selectedItems.size === 0) {
+        UI.showToast("No items selected to copy.", "info");
+        return;
+    }
+
+    const selectedPaths = Array.from(State.selectedItems);
+
+    // CRITICAL LOGIC: Filter out any item that is a child of another selected item.
+    // This ensures we only copy top-level selected folders and files.
+    const topLevelPaths = selectedPaths.filter(path => {
+        // Find the part of the path that represents its parent directory
+        const parentPath = path.substring(0, path.lastIndexOf('/'));
+        // If any *other* selected path is the parent of this one, then this is not a top-level selection.
+        return !selectedPaths.some(otherPath => parentPath.startsWith(otherPath) && otherPath !== path);
+    });
+
+    State.fileClipboard = []; // Reset the clipboard
+    for (const uniquePath of topLevelPaths) {
+        const mapEntry = State.domItemMap.get(uniquePath);
+        if (mapEntry?.item) {
+            State.fileClipboard.push(mapEntry.item);
         }
-        
-        UI.showToast(`${State.fileClipboard.length} item(s) copied.`, 'success');
-        SelectionManager.end();
-    },
+    }
+    
+    UI.showToast(`${State.fileClipboard.length} item(s) copied.`, 'success');
+    SelectionManager.end();
+},
 
     // The advanced paste logic
     async paste(destinationDir) {
