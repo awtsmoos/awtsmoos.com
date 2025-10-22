@@ -54,72 +54,112 @@ export const FileSystemProvider = {
         } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
     },
 
+    // B"H
+// FILE: js/fs-provider.js
+
+// ... (keep your existing top-level `FileSystemProvider` and imports) ...
+
     Local: {
-        // ... (Local implementation remains unchanged)
+        /**
+         * THIS IS THE NEW, ROBUST getHandle. This is the heart of the fix.
+         * It correctly decodes paths and navigates step-by-step. The previous
+         * versions likely had a subtle bug here causing the "not found" error.
+         */
         async getHandle(rootHandle, path, { kind, create = false } = {}) {
-    // --- THE ABSOLUTE FIX ---
-    // The File System Access API expects plain names, not URL-encoded strings.
-    // We must decode the path before trying to access handles.
-    const decodedPath = decodeURIComponent(path);
+            // Safety Check: If rootHandle is invalid, fail immediately.
+            if (!rootHandle || typeof rootHandle.getDirectoryHandle !== 'function') {
+                throw new Error("Invalid root directory handle provided to getHandle.");
+            }
 
-    let currentHandle = rootHandle;
-    if (!decodedPath || decodedPath === '/') return currentHandle;
-    
-    // Use the decoded path from now on.
-    const parts = decodedPath.split('/').filter(p => p);
-    for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
-        const isLast = i === parts.length - 1;
-        
-        // This is a guard against empty parts from paths like "//"
-        if (!part) continue;
+            let currentHandle = rootHandle;
+            // The API cannot handle encoded characters like '%20' for spaces.
+            // Decoding the path is absolutely essential for reliability.
+            const decodedPath = decodeURIComponent(path);
 
-        if (isLast && kind === 'file') {
-            return await currentHandle.getFileHandle(part, { create });
-        }
-        currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-    }
-    return currentHandle;
-},
+            if (!decodedPath || decodedPath === '/') {
+                return currentHandle;
+            }
+            
+            const parts = decodedPath.split('/').filter(p => p && p !== '.');
+            
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                const isLast = i === parts.length - 1;
+
+                if (isLast && kind === 'file') {
+                    // Get the handle for the final file in the path.
+                    currentHandle = await currentHandle.getFileHandle(part, { create });
+                } else {
+                    // Get the handle for the next directory in the path.
+                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                }
+            }
+            return currentHandle;
+        },
+
+        /**
+         * THIS IS THE NEW, ROBUST list.
+         * It guarantees that EVERY child object it returns contains the
+         * original root 'handle', which is the key to all future operations.
+         */
         async list({ handle, path }) {
-    const dirHandle = await this.getHandle(handle, path);
-    const entries = [];
-    for await (const entry of dirHandle.values()) {
-        
-        entries.push({ 
-                handle: handle, // The missing piece of the puzzle.
-                name: entry.name, 
-                kind: entry.kind, 
-                path: `${path === '/' ? '' : path}/${entry.name}`
-        });
-    }
-    return entries;
-},
+            const dirHandle = await this.getHandle(handle, path);
+            const entries = [];
+            for await (const entry of dirHandle.values()) {
+                entries.push({ 
+                    handle: handle, // The critical fix: Pass the master key to every child.
+                    name: entry.name, 
+                    kind: entry.kind, 
+                    path: `${path === '/' ? '' : path}/${entry.name}`
+                });
+            }
+            return entries;
+        },
+
+        /**
+         * The 'read' method. It will now work because getHandle is correct.
+         */
         async read({ handle, path }) {
-    const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-    // Return the entire File object, which is a Blob. This is more versatile.
-    return await fileHandle.getFile(); 
-},
+            const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
+            // Returning the full File object is more versatile.
+            return await fileHandle.getFile(); 
+        },
         
-        
+        /**
+         * The 'write' method. It will now work because getHandle is correct.
+         */
         async write({ handle, path }, content) {
-    const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-    const writable = await fileHandle.createWritable();
-    await writable.write(content);
-    await writable.close();
-},
+            // Get the file handle, creating the file if it doesn't exist.
+            const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
+            const writable = await fileHandle.createWritable();
+            await writable.write(content);
+            await writable.close();
+        },
+
+        /**
+         * The 'create' method. It will now work because getHandle is correct.
+         */
         async create({ handle, path }, name, kind) {
-    const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
-    if (kind === 'file') await parentHandle.getFileHandle(name, { create: true });
-    else await parentHandle.getDirectoryHandle(name, { create: true });
-},
+            const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
+            if (kind === 'file') {
+                await parentHandle.getFileHandle(name, { create: true });
+            } else { // 'directory'
+                await parentHandle.getDirectoryHandle(name, { create: true });
+            }
+        },
+        
+        /**
+         * The 'delete' method. It will now work because getHandle is correct.
+         */
         async delete({ handle, path }) {
-    const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
-    const name = path.substring(path.lastIndexOf('/') + 1);
-    const parentHandle = await this.getHandle(handle, parentPath);
-    await parentHandle.removeEntry(name, { recursive: true });
-}
+            const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
+            const name = path.substring(path.lastIndexOf('/') + 1);
+            const parentHandle = await this.getHandle(handle, parentPath);
+            await parentHandle.removeEntry(name, { recursive: true });
+        }
     },
+
+// ... (Your GitHub and IndexedDB objects remain here) ...
     IndexedDB: {
         DB_NAME: "VIVID_X_FS_PROFOUND",
         STORE_NAME: "files",
