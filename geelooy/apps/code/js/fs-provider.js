@@ -85,9 +85,12 @@ export const FileSystemProvider = {
     const dirHandle = await this.getHandle(handle, path);
     const entries = [];
     for await (const entry of dirHandle.values()) {
+        
         entries.push({ 
-            name: entry.name, kind: entry.kind, 
-            path: `${path === '/' ? '' : path}/${entry.name}`, 
+                handle: handle, // The missing piece of the puzzle.
+                name: entry.name, 
+                kind: entry.kind, 
+                path: `${path === '/' ? '' : path}/${entry.name}`
         });
     }
     return entries;
