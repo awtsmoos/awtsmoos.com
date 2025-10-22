@@ -25,6 +25,7 @@ export const Editor = {
             URL.revokeObjectURL(this.currentObjectURL);
             this.currentObjectURL = null;
         }
+    },
 
     showTextEditor(content = "", filename = "") {
         UI.switchView('editor')
