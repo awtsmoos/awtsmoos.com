@@ -113,15 +113,51 @@ export const Menus = {
         document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
         document.removeEventListener('click', this.handleDocumentClick);
     },
-    positionAndDisplay(menu, coords) {
-        const { clientX: x, clientY: y } = coords;
-        menu.style.display = 'block';
-        const menuRect = menu.getBoundingClientRect();
-        const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 5 : x;
-        const adjustedY = (y + menuRect.height > window.innerHeight) ? window.innerHeight - menuRect.height - 5 : y;
-        menu.style.left = `${adjustedX}px`;
-        menu.style.top = `${adjustedY}px`;
-    },
+    
+    // B"H
+// FILE: js/menus.js
+// ACTION: Replace the entire positionAndDisplay function with this one.
+
+positionAndDisplay(menu, coords) {
+    const { clientX: x, clientY: y } = coords;
+
+    // --- Step 1: Hide the menu and move it off-screen to measure it ---
+    // This prevents any flicker while the browser calculates its size.
+    menu.style.left = '-9999px';
+    menu.style.top = '-9999px';
+    menu.style.display = 'block'; 
+    const menuRect = menu.getBoundingClientRect(); // Get its true width and height
+
+    // --- Step 2: Calculate Horizontal Position ---
+    // This logic is already good and remains the same.
+    const adjustedX = (x + menuRect.width > window.innerWidth)
+        ? window.innerWidth - menuRect.width - 5 // If off-screen right, align to right edge
+        : x;                                       // Otherwise, align to cursor
+
+    // --- Step 3: THE NEW, SMARTER VERTICAL POSITIONING ---
+    let adjustedY;
+    if (y + menuRect.height > window.innerHeight) {
+        // CASE A: NOT enough space below the cursor.
+        // So, we FLIP the menu to appear ABOVE the cursor.
+        // The top of the menu will be the cursor's Y position MINUS the menu's height.
+        adjustedY = y - menuRect.height;
+        
+        // Add a safety check to prevent it from going off the TOP of the screen
+        // if the menu is very tall or the click is very high.
+        if (adjustedY < 0) {
+            adjustedY = 5; // Position it 5px from the top edge as a last resort.
+        }
+    } else {
+        // CASE B: PLENTY of space below the cursor.
+        // This is the default, normal behavior.
+        // The top of the menu aligns with the cursor's Y position.
+        adjustedY = y;
+    }
+
+    // --- Step 4: Apply the final, calculated positions ---
+    menu.style.left = `${adjustedX}px`;
+    menu.style.top = `${adjustedY}px`;
+},
 
     async handleAction(action) {
         const item = State.contextTarget;
