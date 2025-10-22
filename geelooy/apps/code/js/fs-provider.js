@@ -57,54 +57,65 @@ export const FileSystemProvider = {
     Local: {
         // ... (Local implementation remains unchanged)
         async getHandle(rootHandle, path, { kind, create = false } = {}) {
-            let currentHandle = rootHandle;
-            if (!path || path === '/') return currentHandle;
-            const parts = path.split('/').filter(p => p);
-            for (let i = 0; i < parts.length; i++) {
-                const part = parts[i];
-                const isLast = i === parts.length - 1;
-                if (isLast && kind === 'file') {
-                    return await currentHandle.getFileHandle(part, { create });
-                }
-                currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-            }
-            return currentHandle;
-        },
+    // --- THE ABSOLUTE FIX ---
+    // The File System Access API expects plain names, not URL-encoded strings.
+    // We must decode the path before trying to access handles.
+    const decodedPath = decodeURIComponent(path);
+
+    let currentHandle = rootHandle;
+    if (!decodedPath || decodedPath === '/') return currentHandle;
+    
+    // Use the decoded path from now on.
+    const parts = decodedPath.split('/').filter(p => p);
+    for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        const isLast = i === parts.length - 1;
+        
+        // This is a guard against empty parts from paths like "//"
+        if (!part) continue;
+
+        if (isLast && kind === 'file') {
+            return await currentHandle.getFileHandle(part, { create });
+        }
+        currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+    }
+    return currentHandle;
+},
         async list({ handle, path }) {
-            const dirHandle = await this.getHandle(handle, path);
-            const entries = [];
-            for await (const entry of dirHandle.values()) {
-                entries.push({ 
-                    name: entry.name, kind: entry.kind, 
-                    path: `${path === '/' ? '' : path}/${entry.name}`, 
-                });
-            }
-            return entries;
-        },
+    const dirHandle = await this.getHandle(handle, path);
+    const entries = [];
+    for await (const entry of dirHandle.values()) {
+        entries.push({ 
+            name: entry.name, kind: entry.kind, 
+            path: `${path === '/' ? '' : path}/${entry.name}`, 
+        });
+    }
+    return entries;
+},
         async read({ handle, path }) {
-            const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-            // Return the entire File object, which is a Blob. This is more versatile.
-            return await fileHandle.getFile(); 
-        },
+    const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
+    // Return the entire File object, which is a Blob. This is more versatile.
+    return await fileHandle.getFile(); 
+},
         
         
         async write({ handle, path }, content) {
-            const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-            const writable = await fileHandle.createWritable();
-            await writable.write(content);
-            await writable.close();
-        },
+    const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
+    const writable = await fileHandle.createWritable();
+    await writable.write(content);
+    await writable.close();
+},
         async create({ handle, path }, name, kind) {
-            const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
-            if (kind === 'file') await parentHandle.getFileHandle(name, { create: true });
-            else await parentHandle.getDirectoryHandle(name, { create: true });
-        },
+    const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
+    if (kind === 'file') await parentHandle.getFileHandle(name, { create: true });
+    else await parentHandle.getDirectoryHandle(name, { create: true });
+},
         async delete({ handle, path }) {
-            const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
-            const name = path.substring(path.lastIndexOf('/') + 1);
-            const parentHandle = await this.getHandle(handle, parentPath);
-            await parentHandle.removeEntry(name, { recursive: true });
-        }
+    const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
+    const name = path.substring(path.lastIndexOf('/') + 1);
+    const parentHandle = await this.getHandle(handle, parentPath);
+    await parentHandle.removeEntry(name, { recursive: true });
+}
     },
     IndexedDB: {
         DB_NAME: "VIVID_X_FS_PROFOUND",
