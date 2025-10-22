@@ -134,23 +134,13 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
         this._measureAndRender();
     }
 
-    /**
-     * @private
-     * @function _initializeVessels
-     * @description Gevurah (Severity/Strength) - The act of separation and definition.
-     * This function creates the necessary DOM elements (the overlay and viewport) and styles,
-     * separating the world of colored text from the underlying (and now transparent) textarea.
-     * It is Gevurah because it sets firm boundaries and structures.
-     */
-     
-     _initializeVessels() {
+    _initializeVessels() {
         const computed = window.getComputedStyle(this.textarea);
 
         // 1. Create and style the wrapper
         this.wrapper = document.createElement('div');
         this.wrapper.className = 'virtualized-editor-wrapper';
         
-        // Copy essential styles (size, padding, border) from textarea to wrapper
         ['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
             if (prop === 'position' && computed[prop] === 'static') {
                 this.wrapper.style.position = 'relative'; 
@@ -164,17 +154,17 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
         this.wrapper.appendChild(this.textarea);
 
         // 3. Style the textarea to cover the wrapper
-        this.textarea.style.position = 'absolute'; // Overlaid inside wrapper
+        this.textarea.style.position = 'absolute';
         this.textarea.style.top = '0';
         this.textarea.style.left = '0';
         this.textarea.style.width = '100%';
         this.textarea.style.height = '100%';
-        this.textarea.style.resize = 'none'; // Prevent resize handle visual issues
+        this.textarea.style.resize = 'none';
 
-        // Make the original text transparent
+        // Make the original text transparent AND HIDE THE REAL CARET
         this.textarea.style.color = 'transparent';
         this.textarea.style.background = 'transparent';
-        this.textarea.style.caretColor = computed.color;
+        this.textarea.style.caretColor = 'transparent'; // <-- IMPORTANT CHANGE
 
         // 4. Create and style the overlay
         this.styleId = `BH_EDITOR_${Date.now()}`;
@@ -182,38 +172,28 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
         this.viewport = document.createElement('div');
         this.overlay.appendChild(this.viewport);
         
-        // Positioning: Absolute to the wrapper, perfectly covering the textarea
         this.overlay.style.position = "absolute"; 
         this.overlay.style.zIndex = 1;
         this.overlay.style.top = '0';
         this.overlay.style.left = '0';
         this.overlay.style.width = '100%';
         this.overlay.style.height = '100%';
-        this.overlay.style.pointerEvents = 'none'; // Essential for user interaction
-        this.overlay.style.overflow = 'hidden'; // Now acts as the clipping boundary
+        this.overlay.style.pointerEvents = 'none';
+        this.overlay.style.overflow = 'hidden';
         this.overlay.style.font = computed.font;
-        this.overlay.style.padding = computed.padding; // Inherit padding for correct alignment
-        this.overlay.style.border = computed.border;   // Inherit border for correct alignment
+        this.overlay.style.padding = computed.padding;
+        this.overlay.style.border = computed.border;
         this.overlay.style.boxSizing = computed.boxSizing;
-
         this.viewport.style.whiteSpace = "pre";
 
-        
         // Create and append the caret element
         this.caret = document.createElement('div');
         this.caret.className = 'virtualized-editor-caret';
-        this.overlay.appendChild(this.caret); // Add it to the overlay
-
-        
+        this.overlay.appendChild(this.caret);
         
         // 5. Place the overlay into the wrapper
-        this.overlay.classList.add('bh-overlay-' + this.styleId);
-        // document.body.appendChild(this.overlay); // DELETE THIS LINE
         this.wrapper.appendChild(this.overlay); 
-        
         this._applyColors();
-    
-    
     }
         
     
@@ -228,7 +208,12 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
     _applyColors() {
         const styleEl = document.createElement("style");
         styleEl.id = this.styleId + "-style";
+        
+        // --- MORE ROBUST CARET COLOR ---
+        const caretColor = getComputedStyle(this.textarea).color || 'white';
+
         styleEl.innerHTML = `
+            
             .token-comment { color: ${this.colors.comment}; }
             .token-string { color: ${this.colors.string}; }
             .token-number { color: ${this.colors.number}; }
@@ -241,27 +226,21 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
             .token-attribute { color: ${this.colors.attribute}; }
             .token-selector { color: ${this.colors.selector}; }
             .token-property { color: ${this.colors.property}; }
-            
-            
+
             .virtualized-editor-caret {
                 position: absolute;
-                top: 0;
-                left: 0;
-                display: none; /* Hidden by default */
-                background-color: ${getComputedStyle(this.textarea).color || 'black'};
+                display: none; /* Controlled by JS */
+                background-color: ${caretColor};
                 width: 1px;
                 animation: blink 1s steps(1) infinite;
                 z-index: 10;
                 pointer-events: none;
+                /* No top/left here; we use transform for smoother animation */
             }
 
             @keyframes blink {
-                50% {
-                    background-color: transparent;
-                }
+                50% { background-color: transparent; }
             }
-        
-        
         `;
         const existingStyle = document.querySelector("#" + styleEl.id);
         if (!existingStyle) { document.head.appendChild(styleEl); }
@@ -781,7 +760,8 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
      * and moves our visible DOM element to match its position, making the intangible tangible.
      */
     _updateCaret() {
-        if (document.activeElement !== this.textarea) {
+        // Stop if the measurements aren't ready or the editor isn't focused
+        if (!this.lineHeight || !this.charWidth || document.activeElement !== this.textarea) {
             this.caret.style.display = 'none';
             return;
         }
@@ -801,6 +781,12 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
                 break;
             }
             count += lineLength;
+        }
+        
+        // Fallback for when the cursor is at the very end of the text
+        if (cursorIdx > 0 && lineIdx === 0 && colIdx === 0) {
+           lineIdx = this.lines.length - 1;
+           colIdx = this.lines[lineIdx].length;
         }
 
         const caretX = colIdx * this.charWidth;
