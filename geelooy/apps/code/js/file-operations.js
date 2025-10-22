@@ -143,7 +143,9 @@ async paste(destinationDir) {
 
     // 2. --- Immediate UI Feedback: Acknowledge the User's Action ---
     // Let the user know the app has received the command, even before processing begins.
-    UI.showLoading("Preparing paste operation...");
+    
+    UI.showToast("Preparing paste operation...");
+    
     const destUniquePath = getItemUniquePath(destinationDir);
     const destEntry = State.domItemMap.get(destUniquePath);
     if (destEntry?.el) {
@@ -214,7 +216,8 @@ async paste(destinationDir) {
         // 10. --- Guaranteed Cleanup & Refresh ---
         // This runs whether the paste succeeded or failed, ensuring the UI is never left in a broken state.
         console.log("Running final cleanup and UI refresh.");
-        UI.hideLoading();
+        UI.showToast("did  paste.", "warning");
+        
         await Workspaces.refreshNode(destinationDir);
     }
 }
