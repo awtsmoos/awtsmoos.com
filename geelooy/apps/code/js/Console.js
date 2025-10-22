@@ -3,7 +3,7 @@
 // FINAL "VIVID EXTREME" VERSION - NO PLACEHOLDERS
 
 import pnimi from '/scripts/awtsmoos/coding/pnimi.js';
-
+window.pnimi=pnimi
 export class Console {
 	constructor(previewIframe, containerElement, consoleTabId) {
 		this.previewIframe = previewIframe;
