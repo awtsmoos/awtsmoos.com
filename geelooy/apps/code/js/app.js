@@ -120,71 +120,73 @@ export const App = {
 
     // B"H - In js/app.js
 
-// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE
+
+    // B"H - In js/app.js
+
+// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
+// THIS IS THE ONLY CHANGE YOU NEED TO MAKE.
 setupEventListeners() {
-    // --- Element References ---
+    // --- Element References (Using your correct, current IDs) ---
     const appContainer = document.querySelector('.app-container');
-    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const mainMenuBtn = document.getElementById('main-menu-btn');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
 
-    // --- 1. Main Menu Button ---
-    // This button's ONLY job is to show the main menu. No more mixed logic.
+    // --- 1. Main Menu Button ('main-menu-btn') ---
+    // This button's ONLY job is to show the main application menu. This is the fix.
     if (mainMenuBtn) {
         mainMenuBtn.onclick = (e) => {
+            e.stopPropagation(); // Prevent other click listeners from firing
             Menus.showMainMenu(e);
         };
     }
 
-    // --- 2. Universal Sidebar Toggle Button (Top Bar) ---
-    // This button intelligently handles both mobile and desktop sidebar states.
+    // --- 2. Sidebar Toggle Button ('sidebar-toggle-btn') ---
+    // This is the primary button for all sidebar actions.
     if (sidebarToggleBtn) {
         sidebarToggleBtn.onclick = (e) => {
             e.stopPropagation();
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
             if (isMobile) {
-                // On mobile, it toggles the slide-out panel.
+                // On mobile, it correctly toggles the slide-out panel.
                 DOM.sidebar.classList.toggle('is-open');
                 DOM.sidebarOverlay.classList.toggle('is-visible');
             } else {
-                // On desktop, it toggles the collapsed state.
+                // On desktop, it correctly toggles the collapsed state.
                 appContainer.classList.toggle('sidebar-collapsed');
             }
         };
     }
 
     // --- 3. Internal Sidebar Collapse Button (In Header) ---
-    // This button provides a second way to collapse the sidebar on desktop.
+    // This button also correctly toggles the collapse state on desktop.
     if (sidebarCollapseBtn) {
         sidebarCollapseBtn.onclick = () => {
             appContainer.classList.toggle('sidebar-collapsed');
         };
     }
-    
+
     // --- 4. Mobile "Click Outside to Close" Logic ---
-    // This logic is preserved and correctly handles closing the mobile sidebar.
-    const closeMobileSidebar = () => {
-        DOM.sidebar.classList.remove('is-open');
-        DOM.sidebarOverlay.classList.remove('is-visible');
-    };
-    
+    // This robustly handles closing the mobile sidebar without interfering with buttons.
     document.addEventListener('click', (e) => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile || !DOM.sidebar.classList.contains('is-open')) {
-            return; // Only run this logic on mobile when the sidebar is open
+            return; // Exit if not on mobile or if sidebar is already closed.
         }
 
         const isClickInsideSidebar = DOM.sidebar.contains(e.target);
         const isClickOnToggleButton = sidebarToggleBtn && sidebarToggleBtn.contains(e.target);
 
+        // If the click was outside both the sidebar and its toggle button, close it.
         if (!isClickInsideSidebar && !isClickOnToggleButton) {
-            closeMobileSidebar();
+            DOM.sidebar.classList.remove('is-open');
+            DOM.sidebarOverlay.classList.remove('is-visible');
         }
     });
 
-    // --- ALL YOUR OTHER EVENT LISTENERS (UNCHANGED) ---
-    
+    // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PERFECTLY PRESERVED) ---
+
     DOM.editor.addEventListener('input', () => {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab && !activeTab.isDirty) {
@@ -277,6 +279,12 @@ setupEventListeners() {
 
     window.addEventListener('beforeunload', () => this.saveSession());
 },
+
+
+
+    
+    
+    
 
     async showAddWorkspaceDialog() {
         const contentHTML = `
