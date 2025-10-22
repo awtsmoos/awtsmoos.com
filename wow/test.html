@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Worker Intercept Test</title>
+</head>
+<body>
+    <h1>Testing the importScripts Interceptor</h1>
+    <p>Check the console for detailed logs from the worker.</p>
+    <p id="status">Status: Test starting...</p>
+    <p>Result: <b id="result">Waiting...</b></p>
+
+    <script>
+        console.log('[TEST_HTML] Page loaded. Creating the test worker from test-worker.js.');
+        const worker = new Worker('test-worker.js');
+
+        // This is where the final result will be received.
+        worker.onmessage = (e) => {
+            console.log('%c[TEST_HTML] SUCCESS! Received final result from worker:', 'color: green; font-weight: bold;', e.data);
+            document.getElementById('status').textContent = 'Status: Test Complete!';
+            document.getElementById('result').textContent = JSON.stringify(e.data);
+        };
+
+        // This is where any errors will be caught.
+        worker.onerror = (e) => {
+            console.error('%c[TEST_HTML] FAILURE! An error occurred in the worker:', 'color: red; font-weight: bold;', e);
+            document.getElementById('status').textContent = 'Status: TEST FAILED! Check console for errors.';
+            document.getElementById('result').textContent = e.message;
+        };
+
+        // After a short delay, send a message to the worker to start its calculation.
+        setTimeout(() => {
+            console.log('[TEST_HTML] Sending a message to the worker to begin its task.');
+            document.getElementById('status').textContent = 'Status: Sent message to worker...';
+            worker.postMessage({ a: 10, b: 32 });
+        }, 500); // 500ms delay to ensure worker has time to initialize.
+    </script>
+</body>
+</html>
