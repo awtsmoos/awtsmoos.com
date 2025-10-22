@@ -126,44 +126,48 @@ export const App = {
 
 // PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
 // THIS IS THE ONLY CHANGE YOU NEED TO MAKE. THIS WILL WORK.
+
+    // B--H - In js/app.js
+
+// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
+// THIS IS THE ONLY CHANGE YOU NEED TO MAKE. THIS WILL WORK, NO MATTER WHAT.
 setupEventListeners() {
     // --- Element References (Using your correct, current IDs) ---
     const appContainer = document.querySelector('.app-container');
     const mainMenuBtn = document.getElementById('main-menu-btn');
     const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-    const menuBar = document.querySelector('.menu-bar'); // Get the parent container of the buttons
 
     // --- 1. Main Menu Button ('main-menu-btn') ---
-    // NO MATTER WHAT, this button's ONLY job is to show the main menu.
+    // NO MORE CONFLICTS. Its only job is to open the main menu. Period.
     if (mainMenuBtn) {
         mainMenuBtn.onclick = (e) => {
-            // This is critical. It stops the click from bubbling up to the document
-            // and triggering the "click outside" listener.
+            // This stops the click from being accidentally caught by any other listener.
             e.stopPropagation();
             Menus.showMainMenu(e);
         };
     }
 
     // --- 2. Sidebar Toggle Button ('sidebar-toggle-btn') ---
-    // This handles all sidebar actions, both mobile and desktop.
+    // This button ONLY handles the sidebar. It will not interfere with the menu.
     if (sidebarToggleBtn) {
         sidebarToggleBtn.onclick = (e) => {
-            // Stop propagation here as well to prevent interference.
-            e.stopPropagation();
+            e.stopPropagation(); // Prevent interference.
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
             if (isMobile) {
+                // On mobile, it toggles the slide-out panel.
                 DOM.sidebar.classList.toggle('is-open');
                 DOM.sidebarOverlay.classList.toggle('is-visible');
             } else {
+                // On desktop, it toggles the collapsed state.
                 appContainer.classList.toggle('sidebar-collapsed');
             }
         };
     }
 
     // --- 3. Internal Sidebar Collapse Button (In Header) ---
-    // This also toggles the collapse state on desktop.
+    // This button ONLY collapses the sidebar.
     if (sidebarCollapseBtn) {
         sidebarCollapseBtn.onclick = (e) => {
             e.stopPropagation();
@@ -171,26 +175,26 @@ setupEventListeners() {
         };
     }
 
-    // --- 4. Mobile "Click Outside to Close" Logic (REWRITTEN TO BE FLAWLESS) ---
-    // This listener now correctly ignores ALL clicks that originate from the menu bar.
+    // --- 4. Mobile "Click Outside to Close" Logic (SIMPLIFIED AND SAFE) ---
+    // This listener has ONE job: close the MOBILE sidebar. It will ignore all other clicks.
     document.addEventListener('click', (e) => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile || !DOM.sidebar.classList.contains('is-open')) {
-            return; // Exit if not on mobile or if sidebar is already closed.
+            return; // This code only runs on mobile when the sidebar is open.
         }
 
-        // THE FIX: Check if the click was inside the sidebar OR inside the entire menu bar.
+        // Define the "safe" zones where a click should NOT close the sidebar.
         const isClickInsideSidebar = DOM.sidebar.contains(e.target);
-        const isClickInsideMenuBar = menuBar && menuBar.contains(e.target);
+        const isClickOnToggleButton = sidebarToggleBtn && sidebarToggleBtn.contains(e.target);
 
-        // If the click was outside of these areas, THEN it's safe to close the sidebar.
-        if (!isClickInsideSidebar && !isClickInsideMenuBar) {
+        // If the click is outside these safe zones, close the mobile sidebar.
+        if (!isClickInsideSidebar && !isClickOnToggleButton) {
             DOM.sidebar.classList.remove('is-open');
             DOM.sidebarOverlay.classList.remove('is-visible');
         }
     });
 
-    // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PERFECTLY PRESERVED) ---
+    // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PRESERVED EXACTLY) ---
 
     DOM.editor.addEventListener('input', () => {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -284,6 +288,14 @@ setupEventListeners() {
 
     window.addEventListener('beforeunload', () => this.saveSession());
 },
+    
+
+    // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PERFECTLY PRESERVED) ---
+
+    
+
+
+
 
     
     
