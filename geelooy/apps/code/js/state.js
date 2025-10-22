@@ -12,6 +12,8 @@ export const State = {
     workspaces: [],
     nextWorkspaceId: 0,
     contextTarget: null,
+    
+    contextEvent: null,
     githubToken: null,
     db: null,
     domItemMap: new Map(),
