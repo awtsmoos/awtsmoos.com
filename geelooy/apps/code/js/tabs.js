@@ -107,7 +107,7 @@ async activate(tabId) {
         }
         // When navigating away from a preview, move its persistent iframe to the hidden cache
         if (currentTab.fileType === 'html-preview') {
-             const iframe = App.previewIframes.get(currentTab.id);
+             const iframe = State.previewIframes.get(currentTab.id);
              if (iframe) DOM.iframeCache.appendChild(iframe);
         }
     }
@@ -149,7 +149,7 @@ async activate(tabId) {
             // Get or create the console instance for this tab
             let instance = App.consoleInstances.get(tab.id);
             if (!instance) {
-                const associatedIframe = App.previewIframes.get(tab.item.associatedTabId);
+                const associatedIframe = State.previewIframes.get(tab.item.associatedTabId);
                 if (associatedIframe) {
                     instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
                     instance.render();
@@ -207,7 +207,7 @@ async close(tabId, force = false) {
         }
         
         // Clean up the persistent iframe and its Blob URL
-        const iframe = App.previewIframes.get(tabId);
+        const iframe = State.previewIframes.get(tabId);
         if (iframe) {
             // Revoke the Object URL to free up memory
             if(iframe.src.startsWith('blob:')) {
@@ -215,7 +215,7 @@ async close(tabId, force = false) {
             }
             iframe.remove();
         }
-        App.previewIframes.delete(tabId);
+        State.previewIframes.delete(tabId);
 
     } else if (tabToClose.fileType === 'console') {
         // Destroy the console instance and remove it from the map
