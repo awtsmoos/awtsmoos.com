@@ -148,7 +148,11 @@ export const Workspaces = {
                     }
                 };
 
-                nameWrap.oncontextmenu = (e) => Menus.show(e, fullChildItem);
+                nameWrap.oncontextmenu = (e) => {
+    State.contextEvent = e; // Store the event for positioning
+    Menus.show(e, fullChildItem);
+};
+                
                 State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
 
                 if (isExpanded) {
