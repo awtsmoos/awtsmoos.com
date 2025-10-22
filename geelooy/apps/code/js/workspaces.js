@@ -102,18 +102,14 @@ export const Workspaces = {
                 li.className = 'tree-item';
                 li.style.setProperty('--depth', depth);
                 
-                const fullChildItem = {
-                    // Inherit the essential context directly from the parent item in the tree
-                    workspaceId: parentItem.workspaceId,
-                    type: parentItem.type,
-                    handle: parentItem.handle, // CRUCIAL: This passes down the local folder handle
-                    repoInfo: parentItem.repoInfo, // Passes down GitHub info
-                    branch: parentItem.branch,
-                    
-                    // Now, apply the specific properties of the child itself
-                    ...child 
-                    // (child.name, child.path, and child.kind will overwrite the parent's)
-                };
+                const parentWorkspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
+                if (!parentWorkspace) return; // Safety check
+
+                // 2. Build the child item by combining the TRUE workspace context with the child's info.
+                // This completely bypasses the fragile inheritance chain.
+                const fullChildItem = { ...parentWorkspace, ...child };
+                
+                
                 const uniquePath = getItemUniquePath(fullChildItem);
                 
                 const isExpanded = State.expandedFolders.has(uniquePath);
