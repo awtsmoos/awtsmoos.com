@@ -830,19 +830,16 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
      * It re-splits the text into lines (a potentially heavy task sent to Binah/Worker),
      * ensures the correct number of viewport divs exist, and triggers a re-render.
      */
-    async _update() {
+    async _update(forceRender = false) { // Add a flag
         const txt = this.textarea.value;
         try {
-            // Send the great task of splitting the text to another world.
             this.lines = await makeQuickWorker(val => val.split("\n"), txt);
         } catch (e) {
-            // If the worker fails, we must do the work in this world.
             this.lines = txt.split("\n");
         }
-        
-        // Ensure we have enough vessels (divs) for the visible lines.
-        const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2; 
-        
+
+        const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+
         if (this.viewportDivs.length !== neededDivs) {
             this.viewportDivs = [];
             this.viewport.innerHTML = '';
@@ -853,7 +850,25 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
                 this.viewportDivs.push(div);
             }
         }
-        this._render();
+        
+        // Only trigger a re-render if it's a manual update or a direct user input
+        if(forceRender) {
+             this._render();
+        }
+    }
+    
+    /**
+     * @public
+     * @function update
+     * @description B"H - A new, reliable method to programmatically update the editor's content.
+     * This sets the textarea's value and forces the highlighter to re-render.
+     * @param {string} newContent - The new text content for the editor.
+     */
+    update(newContent) {
+        if (typeof newContent !== 'string') return;
+        this.textarea.value = newContent;
+        // Call our internal update method directly, forcing a render. This is more reliable than dispatching events.
+        this._update(true); 
     }
 
     /**
