@@ -19,6 +19,31 @@ import { FileSystemProvider } from './fs-provider.js';
 
 // ... the other helper functions (_writeDirectoryTree, _writeFile) are OK.
 
+// ACTION 1: Replace the entire _getDirectoryTree helper function.
+// This new version passes the workspace context correctly during recursion.
+async function _getDirectoryTree(sourceDir, workspace) {
+    const tree = { ...sourceDir, children: [] };
+    const items = await FileSystemProvider.list(sourceDir);
+    UI.showToast(`Reading ${items.length} children of '${sourceDir.name}'`);
+
+    for (const item of items) {
+        // THIS IS THE CRITICAL FIX from the last step, now with logging.
+        const fullItem = { ...workspace, ...item };
+
+        if (item.kind === 'file') {
+            UI.showToast(`-- Reading file: ${fullItem.name}`, "info");
+            const content = await FileSystemProvider.read(fullItem);
+            tree.children.push({ ...fullItem, content });
+        } else {
+            UI.showToast(`-- Entering folder: ${fullItem.name}`, "info");
+            // Pass the workspace down to the next level of recursion.
+            tree.children.push(await _getDirectoryTree(fullItem, workspace));
+        }
+    }
+    return tree;
+}
+
+
 
 // Recursive function to write a directory tree to a destination.
 async function _writeDirectoryTree(treeNode, destinationDir, onConflict) {
@@ -123,29 +148,7 @@ copySelected() {
 // B"H
 // FILE: js/file-operations.js
 
-// ACTION 1: Replace the entire _getDirectoryTree helper function.
-// This new version passes the workspace context correctly during recursion.
-async function _getDirectoryTree(sourceDir, workspace) {
-    const tree = { ...sourceDir, children: [] };
-    const items = await FileSystemProvider.list(sourceDir);
-    UI.showToast(`Reading ${items.length} children of '${sourceDir.name}'`);
 
-    for (const item of items) {
-        // THIS IS THE CRITICAL FIX from the last step, now with logging.
-        const fullItem = { ...workspace, ...item };
-
-        if (item.kind === 'file') {
-            UI.showToast(`-- Reading file: ${fullItem.name}`, "info");
-            const content = await FileSystemProvider.read(fullItem);
-            tree.children.push({ ...fullItem, content });
-        } else {
-            UI.showToast(`-- Entering folder: ${fullItem.name}`, "info");
-            // Pass the workspace down to the next level of recursion.
-            tree.children.push(await _getDirectoryTree(fullItem, workspace));
-        }
-    }
-    return tree;
-}
 
 // ... _writeDirectoryTree and _writeFile do not need changes ...
 
