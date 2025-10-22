@@ -354,7 +354,7 @@ setupEventListeners() {
              this.activeConsole.consoleWindow.close();
         }
     this.saveSession());
-    }
+    })
 },
 
     
