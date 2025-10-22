@@ -320,6 +320,7 @@ _measureAndRender() {
         tempSpan.textContent = 'm';
         this.overlay.appendChild(tempSpan);
         this.charWidth = tempSpan.getBoundingClientRect().width;
+        console.log(this.overlay,this.charWidth)
         tempSpan.remove();
 
         return this.charWidth > 0;
