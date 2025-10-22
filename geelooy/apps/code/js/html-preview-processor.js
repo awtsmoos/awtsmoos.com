@@ -99,47 +99,84 @@ export function detachWorkerRequestHandler() {
     }
 }
 
+// B"H
+// FILE: html-preview-processor.js
+
+// ... All the imports and top-level functions (waitForAck, sendChunks, etc.) are correct. ...
+// ... The handleIncomingRequest and attach/detach functions are also correct. ...
+// The ONLY function that needs to be fixed is processHtmlForPreview.
+
+// --- THE FOOLPROOF AND CORRECTED VERSION ---
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return htmlContent;
 
+    // First, inject the worker interceptor script. This is correct.
     const interceptorElement = doc.createElement('script');
     interceptorElement.textContent = workerInterceptorScript;
     if (doc.head) doc.head.prepend(interceptorElement);
     else doc.documentElement.prepend(interceptorElement);
 
-    const assetPromises = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'))
-        .filter(el => !/^(?:[a-z]+:|\/)/.test(el.getAttribute('href') || el.getAttribute('src')))
-        .map(async (el) => {
-            const isLink = el.tagName === 'LINK';
-            const pathAttr = isLink ? 'href' : 'src';
-            const relativePath = el.getAttribute(pathAttr);
-            const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
-            try {
-                const assetItem = { ...workspace, path: resolvedPath };
-                if (workspace.type === 'github') {
-                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                    assetItem.sha = fileMeta.sha;
-                }
-                let content = await FileSystemProvider.read(assetItem);
-                if (content instanceof Blob) content = await content.text();
-                else if (content.isBinary) content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
-                
-                if (isLink) {
-                    const style = doc.createElement('style');
-                    style.textContent = content;
-                    el.parentNode.replaceChild(style, el);
-                } else {
-                    el.removeAttribute('src');
-                    el.textContent = content;
-                }
-            } catch (e) { 
-                console.error(`Could not inline asset: ${resolvedPath}`, e); 
+    // Now, find all relative CSS and JS assets to inline.
+    const assetElements = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'));
+    
+    // We will process them one by one to avoid any potential race conditions.
+    for (const el of assetElements) {
+        // Skip absolute URLs.
+        const pathAttr = el.getAttribute('href') || el.getAttribute('src');
+        if (/^(?:[a-z]+:|\/)/.test(pathAttr)) {
+            continue;
+        }
+
+        const isLink = el.tagName === 'LINK';
+        const resolvedPath = resolveRelativePath(baseItem.path, pathAttr);
+
+        try {
+            console.log(`[PROCESSOR] Inlining asset: ${resolvedPath}`);
+            
+            const assetItem = { ...workspace, path: resolvedPath };
+            if (workspace.type === 'github') {
+                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                assetItem.sha = fileMeta.sha;
             }
-        });
-    await Promise.all(assetPromises);
+            
+            let content = await FileSystemProvider.read(assetItem);
+            
+            // This is the crucial logic you had before, which I mistakenly removed.
+            if (content instanceof Blob) {
+                content = await content.text();
+            } else if (content.isBinary) {
+                content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
+            }
+
+            if (typeof content !== 'string') {
+                throw new Error("Failed to read asset content as a string.");
+            }
+
+            if (isLink) {
+                // This part works, so we keep it.
+                const style = doc.createElement('style');
+                style.textContent = content;
+                el.parentNode.replaceChild(style, el);
+                console.log(`[PROCESSOR] Successfully inlined CSS: ${resolvedPath}`);
+            } else {
+                // --- THIS IS THE FIX ---
+                // The previous logic was flawed. This is direct and simple.
+                const script = doc.createElement('script');
+                script.textContent = content;
+                // Replace the original <script src="..."> with the new <script>...</script>
+                el.parentNode.replaceChild(script, el);
+                console.log(`[PROCESSOR] Successfully inlined JS: ${resolvedPath}`);
+            }
+        } catch (e) { 
+            console.error(`[PROCESSOR] Could not inline asset: ${resolvedPath}`, e); 
+        }
+    }
 
     return doc.documentElement.outerHTML;
 }
+
+// All other functions in this file remain the same. I am omitting them for brevity
+// as they are part of the worker logic, which is not what's failing here.
