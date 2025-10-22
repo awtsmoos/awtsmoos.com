@@ -258,28 +258,116 @@ At ${new Date()}`,
         UI.showToast(`Downloaded "${tab.item.name}"`, 'success');
     },
 
-    render() {
-        DOM.tabBar.innerHTML = '';
-        State.tabs.forEach(tab => {
-            const tabEl = document.createElement('div');
-            tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''}`;
-            tabEl.dataset.tabId = tab.id;
-            tabEl.title = tab.item.path || tab.item.name;
-            tabEl.innerHTML = `
-                <span class="tab-name">${tab.item.name}</span>
-                <button class="icon-button close-tab-btn" title="Close"><svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg></button>`;
-            
-            tabEl.onclick = (e) => {
-                if (e.target.closest('.close-tab-btn')) {
-                    e.stopPropagation(); this.close(tab.id);
-                } else if (State.activeTabId !== tab.id) {
-                    this.activate(tab.id);
-                }
-            };
-            DOM.tabBar.appendChild(tabEl);
+    
+    // B"H
+// FILE: js/tabs.js
+// ACTION: Replace the entire 'render' function with this one.
+
+render() {
+    // --- B"H: DRAG & DROP LOGIC ---
+    let draggedTabId = null;
+
+    const getDragAfterElement = (container, x) => {
+        const draggableElements = [...container.querySelectorAll('.tab:not(.dragging)')];
+        
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    };
+    
+    // Clear the bar to prepare for re-rendering
+    DOM.tabBar.innerHTML = '';
+
+    State.tabs.forEach((tab, index) => {
+        const tabEl = document.createElement('div');
+        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''}`;
+        tabEl.dataset.tabId = String(tab.id);
+        tabEl.title = tab.item.path || tab.item.name;
+        tabEl.draggable = true; // IMPORTANT: Make the element draggable
+        
+        tabEl.innerHTML = `
+            <span class="tab-name">${tab.item.name}</span>
+            <button class="icon-button close-tab-btn" title="Close"><svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg></button>`;
+        
+        // --- REGULAR CLICK LOGIC (UNCHANGED) ---
+        tabEl.onclick = (e) => {
+            if (e.target.closest('.close-tab-btn')) {
+                e.stopPropagation(); this.close(tab.id);
+            } else if (State.activeTabId !== tab.id) {
+                this.activate(tab.id);
+            }
+        };
+
+        // --- NEW DRAG & DROP EVENT LISTENERS ---
+        tabEl.addEventListener('dragstart', (e) => {
+            draggedTabId = tab.id;
+            // A short delay allows the browser to render the drag image correctly
+            setTimeout(() => e.target.classList.add('dragging'), 0);
         });
-        const activeTabEl = DOM.tabBar.querySelector('.tab.active');
-        if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        StatusBar.update();
-    },
+        
+        tabEl.addEventListener('dragend', (e) => {
+            draggedTabId = null;
+            e.target.classList.remove('dragging');
+        });
+
+        DOM.tabBar.appendChild(tabEl);
+    });
+
+    // --- LISTENER ON THE TAB BAR CONTAINER ITSELF ---
+    DOM.tabBar.addEventListener('dragover', (e) => {
+        e.preventDefault(); // This is ESSENTIAL for 'drop' to work.
+        
+        // Remove old indicators
+        DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
+
+        const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
+        if (afterElement) {
+            afterElement.classList.add('drop-indicator');
+        }
+    });
+
+    DOM.tabBar.addEventListener('drop', (e) => {
+        e.preventDefault();
+        
+        DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
+
+        if (draggedTabId === null) return;
+
+        const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
+        const sourceTabId = draggedTabId;
+
+        const sourceIndex = State.tabs.findIndex(t => t.id === sourceTabId);
+        if (sourceIndex < 0) return;
+        
+        // Remove the dragged tab from the array
+        const [draggedTab] = State.tabs.splice(sourceIndex, 1);
+        
+        let targetIndex;
+        if (afterElement) {
+            const targetTabId = Number(afterElement.dataset.tabId);
+            targetIndex = State.tabs.findIndex(t => t.id === targetTabId);
+        } else {
+            // If there's no element after, it means we're dropping at the very end.
+            targetIndex = State.tabs.length;
+        }
+
+        // Insert the dragged tab at the new position
+        State.tabs.splice(targetIndex, 0, draggedTab);
+
+        // Re-render the UI from the new truth, save, and keep the dragged tab active
+        State.activeTabId = sourceTabId;
+        this.render(); 
+        App.saveSession();
+    });
+
+    const activeTabEl = DOM.tabBar.querySelector('.tab.active');
+    if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    StatusBar.update();
+},
 };
