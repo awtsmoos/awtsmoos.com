@@ -27,6 +27,8 @@
     --color-border: #626AAE;       /* Was #2a2f4a */
     --color-border-accent: var(--neon-cyan);
     
+    --color-bg-accent-translucent: rgba(0, 149, 255, 0.15); 
+    
     /* B"H - BRIGHTER TEXT & ICONS */
     --color-text-primary: #ffffff; 
     --color-text-secondary: #d1d9ff; /* Was #c0d0ff */
