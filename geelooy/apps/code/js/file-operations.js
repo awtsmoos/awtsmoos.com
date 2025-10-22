@@ -119,12 +119,27 @@ copySelected() {
         UI.showToast(`${State.fileClipboard.length} top-level item(s) copied.`, 'success');
         SelectionManager.end();
     },
-     
-async paste(destinationDir) {
-    if (State.fileClipboard.length === 0) return;
 
-    UI.showLoading("Pasting items...");
-    // ... (UI preparation code for 'Pasting...' message in the tree) ...
+    // The advanced paste logic
+    // B"H
+// B"H
+// FILE: js/file-operations.js
+// ACTION: Replace the entire 'paste' function with this one.
+
+async paste(destinationDir) {
+    // 1. --- The First Guard: Is there anything on the clipboard? ---
+    // This is the most likely cause of the previous silent failure.
+    if (!State.fileClipboard || State.fileClipboard.length === 0) {
+        console.warn("Paste cancelled: The file clipboard is empty.");
+        UI.showToast("Clipboard is empty. Nothing to paste.", "warning");
+        return; // EXIT POINT #1 (User feedback provided)
+    }
+
+    console.log(`PASTE INITIATED. Destination: '${destinationDir.path}'. Clipboard contains ${State.fileClipboard.length} uniquePath(s).`);
+
+    // 2. --- Immediate UI Feedback: Acknowledge the User's Action ---
+    // Let the user know the app has received the command, even before processing begins.
+    UI.showLoading("Preparing paste operation...");
     const destUniquePath = getItemUniquePath(destinationDir);
     const destEntry = State.domItemMap.get(destUniquePath);
     if (destEntry?.el) {
@@ -134,36 +149,71 @@ async paste(destinationDir) {
         }
     }
     
+    // 3. --- The Unbreakable Container: try / catch / finally ---
+    // The `finally` block GUARANTEES the UI will be cleaned up and refreshed, no matter what happens.
     try {
-        // --- THIS IS THE CRITICAL FIX FOR THE PASTE ERROR ---
+        // 4. --- Data Hydration: Get Fresh, Complete Item Objects ---
+        // This is the most critical logic block for fixing the underlying error.
+        console.log("Step 1: Hydrating item data from uniquePaths...", State.fileClipboard);
         const itemsToPaste = State.fileClipboard
-            .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
-            .filter(Boolean);
+            .map(uniquePath => {
+                const item = State.domItemMap.get(uniquePath)?.item;
+                if (!item) console.warn(`Could not find item in domItemMap for path: ${uniquePath}`);
+                return item;
+            })
+            .filter(Boolean); // Filter out any items that were not found
 
-        if (itemsToPaste.length === 0) throw new Error("Source items could not be found.");
+        // 5. --- The Second Guard: Did we successfully find the items to paste? ---
+        if (itemsToPaste.length === 0) {
+            // This throws an error that will be caught and displayed by our robust error handler.
+            throw new Error("Source items could not be found. The file view might be out of sync or items were deleted.");
+        }
         
-        const conflictHandler = async (item) => ({ action: 'overwrite' });
+        console.log(`Step 2: Successfully hydrated ${itemsToPaste.length} item(s). Beginning file operations.`);
 
+        // 6. --- Conflict Handling (Placeholder) ---
+        const conflictHandler = async (item) => ({ action: 'overwrite' }); // Simplified for now
+
+        // 7. --- The Core Operation Loop ---
         for (const sourceItem of itemsToPaste) {
-            // ... (safety checks and loop logic) ...
-             if (sourceItem.kind === 'file') {
+            console.log(`- Processing paste for '${sourceItem.name}' (kind: ${sourceItem.kind}).`);
+
+            // Safety Check
+            if (sourceItem.workspaceId === destinationDir.workspaceId && sourceItem.kind === 'directory') {
+                if (destinationDir.path === sourceItem.path || destinationDir.path.startsWith(`${sourceItem.path}/`)) {
+                    throw new Error(`Cannot paste '${sourceItem.name}' into a subdirectory of itself.`);
+                }
+            }
+
+            if (sourceItem.kind === 'file') {
                 await _writeFile(sourceItem, destinationDir, conflictHandler);
             } else if (sourceItem.kind === 'directory') {
                 await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
             }
+            console.log(`- Successfully processed '${sourceItem.name}'.`);
         }
-        UI.showToast("Paste complete!", "success");
+
+        // 8. --- Final Success Message ---
+        console.log(`PASTE SUCCEEDED. Pasted ${itemsToPaste.length} item(s).`);
+        UI.showToast(`Successfully pasted ${itemsToPaste.length} item(s)!`, "success");
 
     } catch (e) {
-        // ... (robust error handling) ...
-        console.error("PASTE FAILED:", e);
-        const message = e?.message || "An unknown error occurred.";
-        UI.showToast(`Paste failed: ${message}`, 'error');
+        // 9. --- EXTREME Error Reporting ---
+        // This will catch any error from anywhere inside the 'try' block and display it.
+        console.error("PASTE OPERATION FAILED. Full error object:", e);
+
+        const message = e?.message || "An unknown error occurred. Check the console for details.";
+        const stack = e?.stack ? `\n\nStack Trace:\n${e.stack}` : "\n\n(No stack trace available)";
+        UI.showToast(`Paste failed: ${message}${stack}`, 'error', 15000); // Show for 15 seconds
+
     } finally {
+        // 10. --- Guaranteed Cleanup & Refresh ---
+        // This runs whether the paste succeeded or failed, ensuring the UI is never left in a broken state.
+        console.log("Running final cleanup and UI refresh.");
         UI.hideLoading();
         await Workspaces.refreshNode(destinationDir);
     }
-}
+}```
 
 
 
