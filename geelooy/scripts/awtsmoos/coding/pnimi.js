@@ -830,32 +830,38 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
      * It re-splits the text into lines (a potentially heavy task sent to Binah/Worker),
      * ensures the correct number of viewport divs exist, and triggers a re-render.
      */
-    async _update(forceRender = false) { // Add a flag
-        const txt = this.textarea.value;
-        try {
-            this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-        } catch (e) {
-            this.lines = txt.split("\n");
-        }
+    // B"H
+// FILE: pnimi.js
+// ACTION: Replace this entire method to restore its original functionality.
 
-        const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+async _update() {
+    const txt = this.textarea.value;
+    try {
+        // Send the great task of splitting the text to another world.
+        this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+    } catch (e) {
+        // If the worker fails, we must do the work in this world.
+        this.lines = txt.split("\n");
+    }
 
-        if (this.viewportDivs.length !== neededDivs) {
-            this.viewportDivs = [];
-            this.viewport.innerHTML = '';
-            for (let i = 0; i < neededDivs; i++) {
-                const div = document.createElement('div');
-                div.style.height = `${this.lineHeight}px`;
-                this.viewport.appendChild(div);
-                this.viewportDivs.push(div);
-            }
-        }
-        
-        // Only trigger a re-render if it's a manual update or a direct user input
-        if(forceRender) {
-             this._render();
+    // Ensure we have enough vessels (divs) for the visible lines.
+    const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+
+    if (this.viewportDivs.length !== neededDivs) {
+        this.viewportDivs = [];
+        this.viewport.innerHTML = '';
+        for (let i = 0; i < neededDivs; i++) {
+            const div = document.createElement('div');
+            div.style.height = `${this.lineHeight}px`;
+            this.viewport.appendChild(div);
+            this.viewportDivs.push(div);
         }
     }
+    
+    // This is the critical part being restored. _render() is now always called,
+    // which makes user input and programmatic updates both work correctly.
+    this._render();
+}
     
     /**
      * @public
