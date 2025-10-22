@@ -12,7 +12,7 @@ import { FileSystemProvider } from './fs-provider.js';
 import { MimeUtil } from './mime-util.js';
 import { detachWorkerRequestHandler } from './html-preview-processor.js';
 import { App } from './app.js';
-
+import {Console} from "./Console.js";
 function downloadFile(filename, content) {
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
