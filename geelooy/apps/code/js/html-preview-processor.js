@@ -214,6 +214,11 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             
             var attr = [...el.attributes];
             attr.forEach(a=>{
+            	if(
+            		a.name=="src"||
+            		a.name=="href"
+            	) return; 
+            	
             	myEl.setAttribute(
             		a.name,
             		a.value
