@@ -751,18 +751,20 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
     }
     
     
-    // --- ADD THIS ENTIRE NEW FUNCTION ---
     /**
      * @private
      * @function _updateCaret
      * @description Yesod (Foundation) of Interaction - Positions the simulated caret.
-     * This function calculates the line and column of the real (invisible) caret
-     * and moves our visible DOM element to match its position, making the intangible tangible.
+     * This version includes guards to prevent running before the editor is initialized.
      */
     _updateCaret() {
-        // Stop if the measurements aren't ready or the editor isn't focused
-        if (!this.lineHeight || !this.charWidth || document.activeElement !== this.textarea) {
-            this.caret.style.display = 'none';
+        // --- NEW, STRONGER GUARD ---
+        // Do not run if the editor is not focused, if measurements are not ready,
+        // or if the lines of text have not been processed yet.
+        if (document.activeElement !== this.textarea || !this.lineHeight || !this.charWidth || !this.lines || this.lines.length === 0) {
+            if (this.caret) { // Ensure caret exists before trying to hide it
+                this.caret.style.display = 'none';
+            }
             return;
         }
 
@@ -773,20 +775,24 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
         let colIdx = 0;
         let count = 0;
 
+        // This loop correctly calculates the line and column from the cursor index.
         for (let i = 0; i < this.lines.length; i++) {
-            const lineLength = this.lines[i].length + 1; // +1 for the newline char
+            // The line itself could theoretically be null/undefined, so we default to an empty string.
+            const line = this.lines[i] || ''; 
+            const lineLength = line.length + 1; // +1 for the newline character
+
             if (count + lineLength > cursorIdx) {
                 lineIdx = i;
                 colIdx = cursorIdx - count;
                 break;
             }
             count += lineLength;
-        }
-        
-        // Fallback for when the cursor is at the very end of the text
-        if (cursorIdx > 0 && lineIdx === 0 && colIdx === 0) {
-           lineIdx = this.lines.length - 1;
-           colIdx = this.lines[lineIdx].length;
+            
+            // If we are on the last line and the cursor is at the very end
+            if (i === this.lines.length - 1 && cursorIdx >= count) {
+                lineIdx = i;
+                colIdx = cursorIdx - count;
+            }
         }
 
         const caretX = colIdx * this.charWidth;
@@ -794,7 +800,7 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
 
         // Position the caret, accounting for the textarea's scroll
         this.caret.style.transform = `translate(${caretX - this.textarea.scrollLeft}px, ${caretY - this.textarea.scrollTop}px)`;
-        this.caret.style.height = `${this.lineHeight}px`; // Ensure height is correct
+        this.caret.style.height = `${this.lineHeight}px`;
     }
     
     
