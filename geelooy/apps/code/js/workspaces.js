@@ -83,50 +83,7 @@ export const Workspaces = {
         }
     },
 
-    async renderTree(parentElement, parentItem, depth) {
-        parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
-        try {
-            const children = await FileSystemProvider.list(parentItem);
-            parentElement.innerHTML = '';
-            children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
-            
-            if (children.length === 0) {
-                parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
-                return;
-            }
-
-            children.forEach(child => {
-                if (child.name === '.gitkeep') return;
-
-                const li = document.createElement('li');
-                li.className = 'tree-item';
-                li.style.setProperty('--depth', depth);
-                
-                const parentWorkspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
-                if (!parentWorkspace) return; // Safety check
-
-                // 2. Build the child item by combining the TRUE workspace context with the child's info.
-                // This completely bypasses the fragile inheritance chain.
-                const fullChildItem = { ...parentWorkspace, ...child };
-                
-                
-                const uniquePath = getItemUniquePath(fullChildItem);
-                
-                const isExpanded = State.expandedFolders.has(uniquePath);
-                if (isExpanded) li.classList.add('expanded');
-
-                li.innerHTML = `
-                    <div class="tree-item-name-wrap">
-                        <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
-                        <svg class="svg-icon"><use href="#icon-${child.kind === 'directory' ? 'folder' : 'file'}"/></svg>
-                        <span class="tree-item-name">${child.name}</span>
-                    </div>`;
-                
-                parentElement.appendChild(li);
-// B"H
-// FILE: js/workspaces.js
-// ACTION: Replace the ENTIRE renderTree function with this definitive version.
-
+    
 async renderTree(parentElement, parentItem, depth) {
     parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
     try {
