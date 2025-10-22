@@ -845,6 +845,8 @@ async _update() {
 
     // Ensure we have enough vessels (divs) for the visible lines.
     const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+    
+    console.log(neededDivs,"needed")
 
     if (this.viewportDivs.length !== neededDivs) {
         this.viewportDivs = [];
