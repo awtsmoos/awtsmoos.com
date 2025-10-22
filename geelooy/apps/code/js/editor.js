@@ -67,7 +67,7 @@ showPreviewer(data, fileInfo, tabId) { // B"H - Accept tabId
                 iframe.style.height = '100%';
                 iframe.style.border = 'none';
                 iframe.style.background = '#fff';
-                App.previewIframes.set(tabId, iframe);
+                State.previewIframes.set(tabId, iframe);
                 
                 const blob = new Blob([data], { type: 'text/html' });
                 const url = URL.createObjectURL(blob);
