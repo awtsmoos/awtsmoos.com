@@ -2,7 +2,7 @@
 // FILE: js/importScriptsHack.js
 
 export default (workerPath, originalScriptContent) => /*js*/`
-(()=>{
+(function() {
     // A safeguard to ensure this script doesn't run twice.
     if (self.hasImportScriptsPolyfill) return;
     self.hasImportScriptsPolyfill = true;
@@ -86,13 +86,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
             // execute it in the worker's global scope is using eval().
             // This is a safe and correct use of eval because the source is trusted (from our own filesystem provider).
             try {
-                console.log(
-                \`[WORKER] Executing script '\${scriptName}' directly.\`
-                ,
-                "script content;",
-                scriptText.substring(0,30),"..."
-                
-                );
+                console.log(\`[WORKER] Executing script '\${scriptName}' directly.\`);
                 eval.call(self, scriptText);
             } catch(e) {
                 console.error(\`Error executing script received via chunks for \${scriptName}\`, e);
@@ -101,14 +95,16 @@ export default (workerPath, originalScriptContent) => /*js*/`
         }
     };
 
-   })()
-        
+    (async () => {
+        while (!controlView) {
+            await new Promise(r => setTimeout(r, 10));
+        }
         console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
-        
-            ${
-            originalScriptContent
-            }
-        
-   
-
+        try {
+            eval.call(self, originalScriptContent);
+        } catch (e) {
+            console.error("CRITICAL: Error during initial execution of worker script.", e);
+        }
+    })();
+})();
 `;
