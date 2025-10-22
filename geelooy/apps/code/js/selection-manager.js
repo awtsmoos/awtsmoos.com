@@ -3,7 +3,8 @@
 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
-import { Workspaces } from './workspaces.js';
+import { Workspaces, getItemUniquePath } from './workspaces.js'; 
+
 import { FileOperations } from './file-operations.js';
 
 // Get the menu element (we'll need to add it to DOM in state.js)
