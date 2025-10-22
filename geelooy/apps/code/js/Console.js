@@ -214,7 +214,7 @@ _renderLogMessage(log) {
             textarea.value = "hello would"//this._prettyPrint(arg);
             
             // STEP 2: Add the textarea directly to the page.
-            contentContainer.appendChild(textarea);
+            document.body.appendChild(textarea);
             
             // STEP 3: Call `new pnimi` on the textarea after it's on the page.
             // We use a timeout to ensure the browser has rendered it first.
