@@ -207,6 +207,8 @@ _renderLogMessage(log) {
     row.appendChild(timestampEl);
     
     this.elements.logContainer.appendChild(row);
+    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    
 
     args.forEach(arg => {
         if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
@@ -222,19 +224,19 @@ _renderLogMessage(log) {
             
             // STEP 3: Call `new pnimi` on the textarea after it's on the page.
             // We use a timeout to ensure the browser has rendered it first.
-            setTimeout(() => {
+            
                 const highlighter = new pnimi(textarea, 'js');
+                highlighter.update(arg);
                 // Store the instance only for later cleanup. Do not touch it otherwise.
-                this.outputHighlighters.set(textarea, highlighter); 
-            }, 0);
+         //       this.outputHighlighters.set(textarea, highlighter); 
+           
         }
     });
     
     
 
     
-    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
-
+    
 
 }
 
@@ -242,6 +244,7 @@ _renderLogMessage(log) {
 		const command = this.elements.input.value;
 		if (command.trim() === '') return;
 		this.inputHighlighter.update(''); // Use the new reliable update method
+		
 		this._updateLineNumbers();
 		const executionLog = {
 			level: 'input',
@@ -366,11 +369,7 @@ _renderLogMessage(log) {
             .vivid-inspector[open] > summary { color:var(--c-text-pri); }
             .property-list { padding-left:1em; border-left:1px solid var(--c-border); margin-left:.75em; display:grid; grid-template-columns:auto 1fr; align-items:start; gap:2px 8px; }
             .prototype-inspector { border-top:1px dashed var(--c-border); padding-top:4px; margin-top:4px; grid-column:1 / -1; }
-            .token-key { text-align:right; color:var(--c-key); opacity:.9; }
-            .token-string { color:var(--c-string); }
-            .token-number { color:var(--c-number); }
-            .token-error { color:var(--c-error-pri); }
-            .token-meta { color:var(--c-text-sec); font-style:italic; }
+            
         `;
 		document.head.appendChild(style);
 		this.elements = {
