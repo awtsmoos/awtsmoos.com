@@ -86,7 +86,13 @@ export default (workerPath, originalScriptContent) => /*js*/`
             // execute it in the worker's global scope is using eval().
             // This is a safe and correct use of eval because the source is trusted (from our own filesystem provider).
             try {
-                console.log(\`[WORKER] Executing script '\${scriptName}' directly.\`);
+                console.log(
+                \`[WORKER] Executing script '\${scriptName}' directly.\`
+                ,
+                "script content;",
+                scriptText
+                
+                );
                 eval.call(self, scriptText);
             } catch(e) {
                 console.error(\`Error executing script received via chunks for \${scriptName}\`, e);
