@@ -261,9 +261,7 @@ export const FileSystemProvider = {
              'Authorization': `Bearer ${State.githubToken}`, 
              'Accept': 'application/vnd.github+json', 
              'X-GitHub-Api-Version': '2022-11-28', 
-             'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0',
+             
              ...options.headers 
              };
             const response = await fetch(`https://api.github.com${endpoint}`, { ...options, headers });
