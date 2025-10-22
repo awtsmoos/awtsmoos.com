@@ -64,7 +64,13 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     DOM.findInput = document.getElementById('find-input');
     DOM.replaceInput = document.getElementById('replace-input');
     DOM.keyboardHelper = document.getElementById('keyboard-helper');
+    
+    
+    DOM.selectionMenu = document.getElementById('selection-menu');
+    
     DOM.previewer = document.getElementById('previewer'); // This will now correctly find the element.
+
+
 }
 
 
