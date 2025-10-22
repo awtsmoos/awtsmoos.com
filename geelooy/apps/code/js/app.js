@@ -154,7 +154,7 @@ if (sidebarCollapseBtn) {
             if (button && !button.disabled) Menus.handleAction(button.dataset.action);
         });
         DOM.hamburgerMenuBtn.onclick = (e) => {
-    if (window.innerWidth > 768 && appContainer.classList.contains('sidebar-collapsed')) {
+    if ( appContainer.classList.contains('sidebar-collapsed')) {
         appContainer.classList.remove('sidebar-collapsed');
     } else {
         Menus.showMainMenu(e);
