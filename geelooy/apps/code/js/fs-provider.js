@@ -257,7 +257,15 @@ export const FileSystemProvider = {
         // ... (GitHub implementation remains unchanged)
         api: async (endpoint, options = {}) => {
             if (!State.githubToken) throw new Error("GitHub token not set.");
-            const headers = { 'Authorization': `Bearer ${State.githubToken}`, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...options.headers };
+            const headers = {
+             'Authorization': `Bearer ${State.githubToken}`, 
+             'Accept': 'application/vnd.github+json', 
+             'X-GitHub-Api-Version': '2022-11-28', 
+             'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+             ...options.headers 
+             };
             const response = await fetch(`https://api.github.com${endpoint}`, { ...options, headers });
             if (!response.ok) {
                 const err = await response.json().catch(() => ({ message: response.statusText }));
