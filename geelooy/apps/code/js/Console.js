@@ -351,8 +351,8 @@ _renderLogMessage(log) {
             .console-content { word-break:break-all; min-width:0; }
             .console-timestamp { color:var(--c-text-sec); font-size:11px; margin-top:2px;}
             .highlighted-output { position:relative; width:100%; }
-            .highlighted-output .virtualized-editor-wrapper { width:100% !important; height:auto !important; padding:0 !important; margin:0 !important; border:none !important; position:relative !important; background:transparent !important;}
-            .highlighted-output textarea { color:var(--c-text-pri); background:transparent; border:none; overflow:hidden; resize:none; white-space:pre; padding:0; margin:0; width:100%; }
+            .highlighted-output .virtualized-editor-wrapper { width:100% !important; height:auto !important; padding:0 !important; margin:0 !important; border:none !important; position:relative !important; }
+            .highlighted-output textarea { color:var(--c-text-pri);  border:none; overflow:hidden; resize:none; white-space:pre; padding:0; margin:0; width:100%; }
             .vivid-inspector { display:block; }
             .vivid-inspector summary { cursor:pointer; user-select:none; list-style:none; display:flex; align-items:center; }
             .vivid-inspector summary::before { content:'▶'; color:var(--c-text-sec); display:inline-block; width:1.5em; flex-shrink:0; transition:transform .1s ease; }
