@@ -494,11 +494,10 @@
 }
 
 
-/* This forces the main content sections to fill the new available space */
-.app-container.sidebar-collapsed > .top-panel,
-.app-container.sidebar-collapsed > .main-content,
-.app-container.sidebar-collapsed > .status-bar {
-    grid-column: 1 / 3;
+.app-container.sidebar-collapsed .top-panel,
+.app-container.sidebar-collapsed .main-content,
+.app-container.sidebar-collapsed .status-bar {
+    grid-column: 1 / -1; /* This tells the elements to span ALL columns */
 }
 
 
