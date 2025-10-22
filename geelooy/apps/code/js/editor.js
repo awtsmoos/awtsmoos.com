@@ -20,18 +20,15 @@ export const Editor = {
     },
     
     _clearPreviewer() {
-        DOM.previewer.innerHTML = '';
-        DOM.previewer.classList.add('hidden');
+        // Now only revokes the URL, doesn't touch the DOM
         if (this.currentObjectURL) {
             URL.revokeObjectURL(this.currentObjectURL);
             this.currentObjectURL = null;
         }
-    },
 
     showTextEditor(content = "", filename = "") {
-        this._clearPreviewer();
-        DOM.editorWrapper.classList.remove('hidden');
-
+        UI.switchView('editor')
+        
         DOM.editor.value = content;
         UI.updateLineNumbers();
         StatusBar.updateLanguage(filename);
@@ -50,27 +47,36 @@ export const Editor = {
 
     // --- B"H: FIND AND REPLACE THIS ENTIRE FUNCTION in js/editor.js ---
 
-showPreviewer(data, fileInfo) {
-    if (this.currentHighlighter) {
-        this.currentHighlighter.destroy();
-        this.currentHighlighter = null;
-    }
-    DOM.editorWrapper.classList.add('hidden');
-    this._clearPreviewer();
-    DOM.previewer.classList.remove('hidden');
+showPreviewer(data, fileInfo, tabId) { // B"H - Accept tabId
+        if (this.currentHighlighter) {
+            this.currentHighlighter.destroy();
+            this.currentHighlighter = null;
+        }
 
-    // --- B"H: NEW LOGIC FOR HTML PREVIEW ---
-    if (fileInfo.type === 'html-preview') {
-        // This is the definitive fix. By creating a Blob URL for the HTML,
-        // the resulting iframe inherits the parent's security context,
-        // enabling SharedArrayBuffer and Atomics to work correctly.
-        const blob = new Blob([data], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        this.currentObjectURL = url; // Track this new URL for cleanup
+        UI.switchView('preview'); // B"H - Use view switcher
+        DOM.previewer.innerHTML = ''; // Clear previous preview content
 
-        DOM.previewer.innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>`;
-        return;
-    }
+        let iframe = App.previewIframes.get(tabId);
+        
+        if (fileInfo.type === 'html-preview') {
+             if (!iframe) {
+                // Create iframe if it doesn't exist for this tab
+                iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                iframe.style.background = '#fff';
+                App.previewIframes.set(tabId, iframe);
+                
+                const blob = new Blob([data], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                // We don't revoke this URL until the tab closes
+                iframe.src = url;
+             }
+             // Move the iframe from the cache to the visible area
+             DOM.previewer.appendChild(iframe);
+             return;
+        }
     // --- END NEW LOGIC ---
 
     let url;
