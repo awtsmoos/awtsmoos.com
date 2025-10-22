@@ -123,52 +123,103 @@ export const Workspaces = {
                     </div>`;
                 
                 parentElement.appendChild(li);
-                const nameWrap = li.querySelector('.tree-item-name-wrap');
+// B"H
+// FILE: js/workspaces.js
+// ACTION: Replace the ENTIRE renderTree function with this definitive version.
 
-                nameWrap.onclick = (e) => {
-                    e.stopPropagation();
-                    if (State.isSelectionModeActive) {
-        // In selection mode, a click simply toggles the item.
-        SelectionManager.toggle(fullChildItem);
-        return; // Prevents the normal open/toggle behavior.
-    }
-                    
-                    if (child.kind === 'directory') {
-                        if (State.expandedFolders.has(uniquePath)) {
-                            State.expandedFolders.delete(uniquePath);
-                            li.classList.remove('expanded');
-                            li.querySelector('ul')?.remove();
-                        } else {
-                            State.expandedFolders.add(uniquePath);
-                            li.classList.add('expanded');
-                            const newUl = document.createElement('ul');
-                            li.appendChild(newUl);
-                            this.renderTree(newUl, fullChildItem, depth + 1);
-                        }
-                        App.saveSession();
-                    } else {
-                        Tabs.create(fullChildItem);
-                    }
-                };
-
-                nameWrap.oncontextmenu = (e) => {
-    State.contextEvent = e; // Store the event for positioning
-    Menus.show(e, fullChildItem);
-};
-                
-                State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
-
-                if (isExpanded) {
-                    const newUl = document.createElement('ul');
-                    li.appendChild(newUl);
-                    this.renderTree(newUl, fullChildItem, depth + 1);
-                }
-            });
-        } catch (e) {
-            console.error("Error rendering tree:", e);
-            parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
+async renderTree(parentElement, parentItem, depth) {
+    parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
+    try {
+        // This call is correct.
+        const children = await FileSystemProvider.list(parentItem);
+        parentElement.innerHTML = '';
+        children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
+        
+        if (children.length === 0) {
+            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
+            return;
         }
-    },
+
+        children.forEach(child => {
+            if (child.name === '.gitkeep') return;
+
+            const li = document.createElement('li');
+            li.className = 'tree-item';
+            li.style.setProperty('--depth', depth);
+            
+            // --- THIS IS THE CORRECT, ORIGINAL LOGIC ---
+            // It correctly finds the workspace for the root and for every child.
+            const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
+            const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
+            if (!workspace) {
+                console.error("Could not find parent workspace for item:", child);
+                return;
+            }
+
+            // This ensures every item created has the full, correct context from the root workspace,
+            // combined with its own specific details.
+            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+            // --- END OF CORRECT LOGIC ---
+
+            const uniquePath = getItemUniquePath(fullChildItem);
+            
+            const isExpanded = State.expandedFolders.has(uniquePath);
+            if (isExpanded) li.classList.add('expanded');
+
+            li.innerHTML = `
+                <div class="tree-item-name-wrap">
+                    <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
+                    <svg class="svg-icon"><use href="#icon-${child.kind === 'directory' ? 'folder' : 'file'}"/></svg>
+                    <span class="tree-item-name">${child.name}</span>
+                </div>`;
+            
+            parentElement.appendChild(li);
+            const nameWrap = li.querySelector('.tree-item-name-wrap');
+
+            // All the event handlers you had before are correct.
+            nameWrap.onclick = (e) => {
+                e.stopPropagation();
+                if (State.isSelectionModeActive) {
+                    SelectionManager.toggle(fullChildItem);
+                    return;
+                }
+                
+                if (child.kind === 'directory') {
+                    if (State.expandedFolders.has(uniquePath)) {
+                        State.expandedFolders.delete(uniquePath);
+                        li.classList.remove('expanded');
+                        li.querySelector('ul')?.remove();
+                    } else {
+                        State.expandedFolders.add(uniquePath);
+                        li.classList.add('expanded');
+                        const newUl = document.createElement('ul');
+                        li.appendChild(newUl);
+                        this.renderTree(newUl, fullChildItem, depth + 1);
+                    }
+                    App.saveSession();
+                } else {
+                    Tabs.create(fullChildItem);
+                }
+            };
+
+            nameWrap.oncontextmenu = (e) => {
+                State.contextEvent = e;
+                Menus.show(e, fullChildItem);
+            };
+            
+            State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
+
+            if (isExpanded) {
+                const newUl = document.createElement('ul');
+                li.appendChild(newUl);
+                this.renderTree(newUl, fullChildItem, depth + 1);
+            }
+        });
+    } catch (e) {
+        console.error("Error rendering tree:", e);
+        parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
+    }
+},
     
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
