@@ -495,11 +495,7 @@
 }
 
 
-.app-container.sidebar-collapsed > .top-panel,
-.app-container.sidebar-collapsed > .main-content,
-.app-container.sidebar-collapsed > .status-bar {
-    grid-column: 1 / -1;
-}
+
 
 
 
