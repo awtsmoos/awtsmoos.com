@@ -17,6 +17,10 @@ export const State = {
     domItemMap: new Map(),
     useTabs: true,
     expandedFolders: new Set(),
+    
+    
+    fileClipboard: [], // Will store the full item objects to be copied
+    selectedItems: new Set(), // Will store unique paths of selected items in the UI
 };
 
 /**
