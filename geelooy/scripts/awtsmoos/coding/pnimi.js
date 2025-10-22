@@ -164,7 +164,7 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
         // Make the original text transparent AND HIDE THE REAL CARET
         this.textarea.style.color = 'transparent';
         this.textarea.style.background = 'transparent';
-        this.textarea.style.caretColor = 'transparent'; // <-- IMPORTANT CHANGE
+        this.textarea.style.caretColor = '#66ff67'; // <-- IMPORTANT CHANGE
 
         // 4. Create and style the overlay
         this.styleId = `BH_EDITOR_${Date.now()}`;
