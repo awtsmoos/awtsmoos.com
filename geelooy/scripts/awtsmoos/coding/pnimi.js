@@ -114,6 +114,11 @@ class VirtualizedEditor {
         // EDIT THIS LINE
 this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false };
         
+        /** @private The DOM element for our simulated caret. */
+        this.caret = null;
+        /** @private The measured width of a single character. */
+        this.charWidth = 0;
+        
         /** @private The default colors, the 10 Sefirot manifested as light. */
         const defaultColors = {
             comment: '#6a9955', string: '#ce9178', number: '#b5cea8',
@@ -193,11 +198,22 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
 
         this.viewport.style.whiteSpace = "pre";
 
+        
+        // Create and append the caret element
+        this.caret = document.createElement('div');
+        this.caret.className = 'virtualized-editor-caret';
+        this.overlay.appendChild(this.caret); // Add it to the overlay
+
+        
+        
         // 5. Place the overlay into the wrapper
         this.overlay.classList.add('bh-overlay-' + this.styleId);
         // document.body.appendChild(this.overlay); // DELETE THIS LINE
         this.wrapper.appendChild(this.overlay); 
+        
         this._applyColors();
+    
+    
     }
         
     
@@ -225,6 +241,27 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
             .token-attribute { color: ${this.colors.attribute}; }
             .token-selector { color: ${this.colors.selector}; }
             .token-property { color: ${this.colors.property}; }
+            
+            
+            .virtualized-editor-caret {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: none; /* Hidden by default */
+                background-color: ${getComputedStyle(this.textarea).color || 'black'};
+                width: 1px;
+                animation: blink 1s steps(1) infinite;
+                z-index: 10;
+                pointer-events: none;
+            }
+
+            @keyframes blink {
+                50% {
+                    background-color: transparent;
+                }
+            }
+        
+        
         `;
         const existingStyle = document.querySelector("#" + styleEl.id);
         if (!existingStyle) { document.head.appendChild(styleEl); }
@@ -244,14 +281,29 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
             clearTimeout(inputTimeout);
             inputTimeout = setTimeout(() => this._update(), 0);
         });
+        
+        
+        
+        const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
+        this.textarea.addEventListener('click', onCaretMove);
+        this.textarea.addEventListener('keyup', onCaretMove);
+        this.textarea.addEventListener('keydown', onCaretMove);
+        this.textarea.addEventListener('focus', onCaretMove);
+        this.textarea.addEventListener('blur', onCaretMove);
+        
 
         const onScroll = () => window.requestAnimationFrame(() => this._render());
+        
+        
         
         // Observe the wrapper, not the textarea, for visual size changes
         new ResizeObserver(onScroll).observe(this.wrapper); // <<< CHANGE: Observe wrapper
         
         this.textarea.addEventListener('scroll', onScroll); // Keep listening to textarea's scroll
 
+        
+        
+        
         
     }
     /**
@@ -261,17 +313,50 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
      * Calculates the line height, the fundamental constant of this created world. If it cannot be measured
      * immediately (due to the mysteries of CSS loading), it waits and tries again.
      */
+    /**
+     * @private
+     * @function _measureAndRender
+     * @description The initial act of measurement.
+     * Calculates the line height and character width, the fundamental constants of this created world.
+     * If it cannot be measured immediately (due to CSS loading), it waits and tries again.
+     */
     _measureAndRender() {
-        this.lineHeight = parseFloat(getComputedStyle(this.textarea).lineHeight);
-        if (this.lineHeight === 0) {
+        const performMeasurements = () => {
+            this.lineHeight = parseFloat(getComputedStyle(this.textarea).lineHeight);
+            if (!this.lineHeight || isNaN(this.lineHeight)) return false;
+
+            // Measure character width ONLY when we have a valid line height
+            const tempSpan = document.createElement('span');
+            tempSpan.style.font = getComputedStyle(this.textarea).font;
+            tempSpan.style.whiteSpace = 'pre';
+            tempSpan.style.visibility = 'hidden'; // Make it invisible during measurement
+            tempSpan.textContent = 'm'; // A standard character for width measurement
+            this.overlay.appendChild(tempSpan);
+            this.charWidth = tempSpan.getBoundingClientRect().width;
+            tempSpan.remove();
+
+            return this.charWidth > 0;
+        };
+
+        if (performMeasurements()) {
+            // Measurements were successful on the first try
+            this._update();
+            this._updateCaret(); // Initial caret position
+        } else {
+            // If it failed, wait for styles to load and try again
             setTimeout(() => {
-                this.lineHeight = parseFloat(getComputedStyle(this.textarea).lineHeight);
-                if (this.lineHeight > 0) this._update();
+                if (performMeasurements()) {
+                    this._update();
+                    this._updateCaret(); // Initial caret position
+                }
             }, 200);
-            return;
         }
-        this._update();
     }
+
+
+
+
+
 
     // --- START: PARSER LOGIC ---
     // This realm is Chokhmah (Wisdom), where the raw text is discerned and understood.
@@ -683,6 +768,48 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
         this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
         
     }
+    
+    
+    // --- ADD THIS ENTIRE NEW FUNCTION ---
+    /**
+     * @private
+     * @function _updateCaret
+     * @description Yesod (Foundation) of Interaction - Positions the simulated caret.
+     * This function calculates the line and column of the real (invisible) caret
+     * and moves our visible DOM element to match its position, making the intangible tangible.
+     */
+    _updateCaret() {
+        if (document.activeElement !== this.textarea) {
+            this.caret.style.display = 'none';
+            return;
+        }
+
+        this.caret.style.display = 'block';
+
+        const cursorIdx = this.textarea.selectionStart;
+        let lineIdx = 0;
+        let colIdx = 0;
+        let count = 0;
+
+        for (let i = 0; i < this.lines.length; i++) {
+            const lineLength = this.lines[i].length + 1; // +1 for the newline char
+            if (count + lineLength > cursorIdx) {
+                lineIdx = i;
+                colIdx = cursorIdx - count;
+                break;
+            }
+            count += lineLength;
+        }
+
+        const caretX = colIdx * this.charWidth;
+        const caretY = lineIdx * this.lineHeight;
+
+        // Position the caret, accounting for the textarea's scroll
+        this.caret.style.transform = `translate(${caretX - this.textarea.scrollLeft}px, ${caretY - this.textarea.scrollTop}px)`;
+        this.caret.style.height = `${this.lineHeight}px`; // Ensure height is correct
+    }
+    
+    
 
     /**
      * @private
@@ -756,6 +883,7 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
     destroy() {
         // Remove created vessels.
         if (this.overlay) this.overlay.remove();
+        if (this.caret) this.caret.remove();
         const styleEl = document.querySelector("#" + this.styleId + "-style");
         if (styleEl) styleEl.remove();
 
