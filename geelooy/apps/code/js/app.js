@@ -16,6 +16,8 @@ import { FindReplace } from './find-replace.js';
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
 activeConsole: null, // B"H 
+	consoleInstances: new Map(), // Maps a console tab ID to its Console instance
+    previewIframes: new Map(), // Maps an HTML preview tab ID to its iframe element
     saveSession() {
         const persistableWorkspaces = State.workspaces
             .filter(ws => ws.type === 'github' || ws.type === 'indexeddb')
