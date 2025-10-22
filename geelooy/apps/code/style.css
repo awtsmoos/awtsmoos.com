@@ -601,4 +601,17 @@
     color: var(--color-text-secondary);
     white-space: nowrap;
 }
+/* B"H - Style for a selected item in the tree */
+.tree-item.selected > .tree-item-name-wrap {
+    background-color: var(--color-bg-accent-translucent);
+    border-radius: 4px;
+}
+
+
+
+
+
+
+
+
 
