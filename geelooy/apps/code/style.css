@@ -610,6 +610,35 @@
 }
 
 
+/* B"H - DRAGGABLE TABS FEATURE STYLES */
+
+/* 1. Prevent text selection and declare the tab as a draggable item via cursor */
+.tab {
+    user-select: none; /* The most important rule to fix the user's issue */
+    cursor: move;      /* Indicates to the user that this item can be moved */
+}
+
+/* 2. Style the tab as it's being dragged */
+.tab.dragging {
+    opacity: 0.4;
+    background: var(--color-bg-tertiary); /* Give it a flat color while dragging */
+}
+
+/* 3. Style for the drop indicator (the vertical line) */
+.tab.drop-indicator::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -2px; /* Position it on the left edge of the tab */
+    width: 4px;
+    height: 80%;
+    background-color: var(--neon-lime); /* A very bright, visible color */
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--glow-lime);
+    z-index: 1;
+}
+
+
 
 
 
