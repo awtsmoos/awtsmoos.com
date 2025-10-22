@@ -197,6 +197,16 @@ _renderLogMessage(log) {
     
     const contentContainer = document.createElement('div');
     contentContainer.className = 'console-content';
+    
+    const timestampEl = document.createElement('span');
+    timestampEl.className = 'console-timestamp';
+    timestampEl.textContent = timestamp || '';
+
+    row.appendChild(iconEl);
+    row.appendChild(contentContainer);
+    row.appendChild(timestampEl);
+    
+    this.elements.logContainer.appendChild(row);
 
     args.forEach(arg => {
         if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
@@ -220,16 +230,12 @@ _renderLogMessage(log) {
         }
     });
     
-    const timestampEl = document.createElement('span');
-    timestampEl.className = 'console-timestamp';
-    timestampEl.textContent = timestamp || '';
+    
 
-    row.appendChild(iconEl);
-    row.appendChild(contentContainer);
-    row.appendChild(timestampEl);
-
-    this.elements.logContainer.appendChild(row);
+    
     row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+
 }
 
 	_executeCommand() {
