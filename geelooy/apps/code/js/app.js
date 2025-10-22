@@ -232,13 +232,11 @@ setupEventListeners() {
     DOM.contextMenu.addEventListener('click', (e) => {
         e.stopPropagation()
         
-        UI.showToast("Tracer 1: Menu Clicked!", "info"); 
         
         const button = e.target.closest('button');
         
         
         if (button)  {
-        UI.showToast(`Tracer 1A: Button '${button.dataset.action}'`, "info");
         
         
         Menus
