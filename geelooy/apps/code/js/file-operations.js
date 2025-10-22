@@ -213,7 +213,7 @@ async paste(destinationDir) {
         UI.hideLoading();
         await Workspaces.refreshNode(destinationDir);
     }
-}```
+}
 
 
 
