@@ -4,89 +4,96 @@ export default /*js*/`
 //B"H
 //Welcome! 
 (function() {
+    'use strict';
     // Keep a reference to the original console methods
     const originalConsole = {
-        log: console.log.bind(console),
-        error: console.error.bind(console),
-        warn: console.warn.bind(console),
-        info: console.info.bind(console),
-        clear: console.clear.bind(console),
-        table: console.table.bind(console)
+        log: console.log.bind(console), error: console.error.bind(console),
+        warn: console.warn.bind(console), info: console.info.bind(console),
+        clear: console.clear.bind(console), table: console.table.bind(console)
     };
 
     // --- Communication with the parent editor window ---
     function post(type, payload) {
-        // We post to the parent window (your editor)
         window.parent.postMessage({
-            source: 'html-preview-console',
-            type: type,
-            payload: payload
-        }, '*'); // Use a specific origin in production for security
+            source: 'html-preview-console', type: type, payload: payload
+        }, '*');
     }
-    
-    // --- Data Serialization ---
-    // This function recursively converts data into a serializable format
-    // that our custom console can understand and render.
-    function serialize(data, depth = 0, visited = new Set()) {
-        if (depth > 10) return { type: 'string', value: '[Max depth reached]' };
+
+    // --- VIVID Data Serialization ---
+    // This is the new, more powerful serializer that enables the extreme console experience.
+    function serialize(data, depth = 0, visited = new WeakMap()) {
+        if (depth > 12) return { type: 'string', value: '[Max depth reached]' };
 
         const type = typeof data;
-
         if (data === null) return { type: 'null', value: 'null' };
-        if (type === 'undefined') return { type: 'undefined', value: 'undefined' };
-        if (type === 'string') return { type: 'string', value: data };
-        if (type === 'number' || type === 'boolean' || type === 'symbol') {
+        if (type === 'undefined' || type === 'string' || type === 'number' || type === 'boolean' || type === 'symbol') {
             return { type: type, value: String(data) };
         }
-        
+
         // Prevent infinite recursion with circular references
         if (visited.has(data)) {
-            return { type: 'string', value: '[Circular]' };
-        }
-        visited.add(data);
-
-        if (Array.isArray(data)) {
-            return {
-                type: 'array',
-                constructorName: 'Array',
-                length: data.length,
-                value: data.map(item => serialize(item, depth + 1, visited))
-            };
+            return { type: 'string', value: \`[Circular ~ \${visited.get(data)}]\` };
         }
 
-        if (data instanceof Error) {
-            return {
-                type: 'error',
-                message: data.message,
-                stack: data.stack
-            }
-        }
-        
-        if (data instanceof Element) {
-             return { type: 'dom', value: data.outerHTML.split('>')[0] + '>' };
+        if (type === 'function') {
+            const signature = data.toString().match(/^(function\\*?|async function\\*?|\\(.*\)|[^\\s=]+)\\s*=>|function\\s*([^\\(]+)/);
+            visited.set(data, data.name || '(anonymous)');
+            return { type: 'function', name: data.name, signature: signature ? signature[0].replace('{', '').trim() : 'ƒ' };
         }
 
         if (type === 'object') {
+            const constructorName = data.constructor ? data.constructor.name : 'Object';
+            visited.set(data, constructorName);
+
+            if (data instanceof Error) {
+                return { type: 'error', constructorName: constructorName, message: data.message, stack: data.stack };
+            }
+            if (data instanceof Date) {
+                return { type: 'date', value: data.toISOString() };
+            }
+            if (data instanceof RegExp) {
+                return { type: 'regexp', value: String(data) };
+            }
+            if (data instanceof Promise) {
+                return { type: 'promise', constructorName: 'Promise' };
+            }
+             if (data instanceof Element) {
+                 const tagName = data.tagName.toLowerCase();
+                 let selector = tagName;
+                 if(data.id) selector += \`#\${data.id}\`;
+                 if(data.className && typeof data.className === 'string') selector += \`.\${data.className.split(' ').join('.')}\`;
+                 return { type: 'dom', constructorName: data.constructor.name, value: selector };
+            }
+            if (data instanceof Map) {
+                const entries = Array.from(data.entries()).map(([key, value]) => [serialize(key, depth + 1, visited), serialize(value, depth + 1, visited)]);
+                return { type: 'map', constructorName: 'Map', size: data.size, entries: entries };
+            }
+            if (data instanceof Set) {
+                const values = Array.from(data.values()).map(value => serialize(value, depth + 1, visited));
+                return { type: 'set', constructorName: 'Set', size: data.size, values: values };
+            }
+            if (Array.isArray(data)) {
+                return { type: 'array', constructorName: 'Array', length: data.length, value: data.map(item => serialize(item, depth + 1, visited)) };
+            }
+
+            // Handle generic objects
             const props = [];
             const proto = Object.getPrototypeOf(data);
-            
-            // Get own properties
             for (const key of Object.getOwnPropertyNames(data)) {
-                try {
-                    props.push({ key, value: serialize(data[key], depth + 1, visited) });
-                } catch (e) {
-                     props.push({ key, value: { type: 'string', value: "[Can't access]" } });
+                const descriptor = Object.getOwnPropertyDescriptor(data, key);
+                if (descriptor) {
+                    if (descriptor.get || descriptor.set) {
+                         props.push({ key, value: {type: 'accessor'}, isAccessor: true });
+                    } else {
+                         props.push({ key, value: serialize(data[key], depth + 1, visited) });
+                    }
                 }
             }
-            
             return {
-                type: 'object',
-                constructorName: data.constructor ? data.constructor.name : 'Object',
-                properties: props,
+                type: 'object', constructorName: constructorName, properties: props,
                 prototype: proto ? serialize(proto, depth + 1, visited) : { type: 'null', value: 'null' }
             };
         }
-
         return { type: 'string', value: '[Unsupported Type]' };
     }
 
@@ -96,13 +103,18 @@ export default /*js*/`
             // Call the original method so logs still appear in the browser's real devtools
             originalConsole[methodName](...args);
             
-            // Send the serialized data to our custom console
             if (methodName === 'clear') {
-                post('log', { type: 'clear' });
-            } else {
-                const serializedArgs = args.map(arg => serialize(arg));
-                post('log', { type: 'log', level: methodName, args: serializedArgs });
+                 post('clear');
+                 return;
             }
+
+            const message = {
+                type: 'log',
+                level: methodName,
+                args: args.map(arg => serialize(arg)),
+                timestamp: new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'})
+            };
+            post('log', message);
         };
     });
     
@@ -113,8 +125,8 @@ export default /*js*/`
         const { command, executionId } = event.data;
         
         try {
-            // We use new Function() to execute code in the global scope of the iframe
-            const result = eval(command)
+            // Using 'eval' allows for a proper REPL environment where variables can be set and then used.
+            const result = eval(command);
             post('execution-result', {
                 executionId: executionId,
                 result: serialize(result),
@@ -140,4 +152,5 @@ export default /*js*/`
     
     post('status', { status: 'ready' });
 
-})();`
+})();
+`
