@@ -242,7 +242,7 @@ _renderLogMessage(log) {
             // We use a timeout to ensure the browser has rendered it first.
             
               //  const highlighter = new pnimi(textarea, 'js');
-                highlighter.update(arg);
+                //highlighter.update(arg);
                 // Store the instance only for later cleanup. Do not touch it otherwise.
          //       this.outputHighlighters.set(textarea, highlighter); 
            
