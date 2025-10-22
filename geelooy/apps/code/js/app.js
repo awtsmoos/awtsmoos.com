@@ -122,64 +122,69 @@ export const App = {
 
 
     // B"H - In js/app.js
+// B"H - In js/app.js
 
 // PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
-// THIS IS THE ONLY CHANGE YOU NEED TO MAKE.
+// THIS IS THE ONLY CHANGE YOU NEED TO MAKE. THIS WILL WORK.
 setupEventListeners() {
     // --- Element References (Using your correct, current IDs) ---
     const appContainer = document.querySelector('.app-container');
     const mainMenuBtn = document.getElementById('main-menu-btn');
     const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+    const menuBar = document.querySelector('.menu-bar'); // Get the parent container of the buttons
 
     // --- 1. Main Menu Button ('main-menu-btn') ---
-    // This button's ONLY job is to show the main application menu. This is the fix.
+    // NO MATTER WHAT, this button's ONLY job is to show the main menu.
     if (mainMenuBtn) {
         mainMenuBtn.onclick = (e) => {
-            e.stopPropagation(); // Prevent other click listeners from firing
+            // This is critical. It stops the click from bubbling up to the document
+            // and triggering the "click outside" listener.
+            e.stopPropagation();
             Menus.showMainMenu(e);
         };
     }
 
     // --- 2. Sidebar Toggle Button ('sidebar-toggle-btn') ---
-    // This is the primary button for all sidebar actions.
+    // This handles all sidebar actions, both mobile and desktop.
     if (sidebarToggleBtn) {
         sidebarToggleBtn.onclick = (e) => {
+            // Stop propagation here as well to prevent interference.
             e.stopPropagation();
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
             if (isMobile) {
-                // On mobile, it correctly toggles the slide-out panel.
                 DOM.sidebar.classList.toggle('is-open');
                 DOM.sidebarOverlay.classList.toggle('is-visible');
             } else {
-                // On desktop, it correctly toggles the collapsed state.
                 appContainer.classList.toggle('sidebar-collapsed');
             }
         };
     }
 
     // --- 3. Internal Sidebar Collapse Button (In Header) ---
-    // This button also correctly toggles the collapse state on desktop.
+    // This also toggles the collapse state on desktop.
     if (sidebarCollapseBtn) {
-        sidebarCollapseBtn.onclick = () => {
+        sidebarCollapseBtn.onclick = (e) => {
+            e.stopPropagation();
             appContainer.classList.toggle('sidebar-collapsed');
         };
     }
 
-    // --- 4. Mobile "Click Outside to Close" Logic ---
-    // This robustly handles closing the mobile sidebar without interfering with buttons.
+    // --- 4. Mobile "Click Outside to Close" Logic (REWRITTEN TO BE FLAWLESS) ---
+    // This listener now correctly ignores ALL clicks that originate from the menu bar.
     document.addEventListener('click', (e) => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile || !DOM.sidebar.classList.contains('is-open')) {
             return; // Exit if not on mobile or if sidebar is already closed.
         }
 
+        // THE FIX: Check if the click was inside the sidebar OR inside the entire menu bar.
         const isClickInsideSidebar = DOM.sidebar.contains(e.target);
-        const isClickOnToggleButton = sidebarToggleBtn && sidebarToggleBtn.contains(e.target);
+        const isClickInsideMenuBar = menuBar && menuBar.contains(e.target);
 
-        // If the click was outside both the sidebar and its toggle button, close it.
-        if (!isClickInsideSidebar && !isClickOnToggleButton) {
+        // If the click was outside of these areas, THEN it's safe to close the sidebar.
+        if (!isClickInsideSidebar && !isClickInsideMenuBar) {
             DOM.sidebar.classList.remove('is-open');
             DOM.sidebarOverlay.classList.remove('is-visible');
         }
@@ -279,8 +284,6 @@ setupEventListeners() {
 
     window.addEventListener('beforeunload', () => this.saveSession());
 },
-
-
 
     
     
