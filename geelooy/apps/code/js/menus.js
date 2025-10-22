@@ -124,6 +124,8 @@ export const Menus = {
     async handleAction(action) {
         const item = State.contextTarget;
         this.hideAll();
+        UI.showToast(`Tracer 2: handleAction('${action}')`, "info");
+        
 
         try {
             switch(action) {
@@ -215,6 +217,19 @@ export const Menus = {
         break;
     
     case 'paste':
+    
+    UI.showToast("Tracer 3: Inside 'paste' case", "success");
+
+                // You have all this great safety logic already. Keep it.
+                if (!FileOperations) {
+                    UI.showToast("CRITICAL: FileOperations is not loaded.", 'error');
+                    return;
+                }
+                if (!item || item.kind !== 'directory') {
+                     UI.showToast("Target is not a directory.", "warning");
+                     return;
+                }
+    
         FileOperations.paste(item); // This will call the advanced paste logic
         break;
                 
