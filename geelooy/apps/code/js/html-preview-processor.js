@@ -58,12 +58,8 @@ async function handleIncomingRequest(event, baseItem) {
                 assetItem.sha = fileMeta.sha;
             }
             let scriptContent = await FileSystemProvider.read(assetItem);
-            // --- CRITICAL LOGIC RESTORED ---
-            if (scriptContent instanceof Blob) {
-                scriptContent = await scriptContent.text();
-            } else if (scriptContent.isBinary) {
-                scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-            }
+            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
+            else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
             const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
             const blob = new Blob([finalContent], { type: 'application/javascript' });
@@ -76,6 +72,7 @@ async function handleIncomingRequest(event, baseItem) {
     else if (type === 'import-scripts-request') {
         const controlView = new Int32Array(controlSAB);
         const dataBytes = new Uint8Array(dataSAB);
+        // This basePath is now guaranteed to be defined because of the fix below.
         const resolvedPath = resolveRelativePath(basePath, relativePath);
 
         try {
@@ -85,12 +82,8 @@ async function handleIncomingRequest(event, baseItem) {
                 assetItem.sha = fileMeta.sha;
             }
             let scriptContent = await FileSystemProvider.read(assetItem);
-            // --- CRITICAL LOGIC RESTORED ---
-            if (scriptContent instanceof Blob) {
-                scriptContent = await scriptContent.text();
-            } else if (scriptContent.isBinary) {
-                scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
-            }
+            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
+            else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
             const encoder = new TextEncoder();
             const nameBytes = encoder.encode(relativePath);
@@ -117,7 +110,11 @@ export function attachWorkerRequestHandler(baseItem) {
     const messageRouter = (event) => {
         if (event.data && event.data.type === 'ack') {
             if (_ackResolver) { _ackResolver(); _ackResolver = null; }
-        } else {
+        } 
+        // --- CRITICAL FIX ---
+        // The entire 'event' object must be passed, not just some of its properties.
+        // This ensures that 'event.data.basePath' is available in handleIncomingRequest.
+        else {
             handleIncomingRequest(event, baseItem);
         }
     };
@@ -158,12 +155,8 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
                     assetItem.sha = fileMeta.sha;
                 }
                 let content = await FileSystemProvider.read(assetItem);
-                // --- CRITICAL LOGIC RESTORED ---
-                if (content instanceof Blob) {
-                    content = await content.text();
-                } else if (content.isBinary) {
-                    content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
-                }
+                if (content instanceof Blob) content = await content.text();
+                else if (content.isBinary) content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
                 
                 if (isLink) {
                     const style = doc.createElement('style');
