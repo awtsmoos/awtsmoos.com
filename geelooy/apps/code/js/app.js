@@ -353,7 +353,7 @@ setupEventListeners() {
     if (this.activeConsole && this.activeConsole.consoleWindow && !this.activeConsole.consoleWindow.closed) {
              this.activeConsole.consoleWindow.close();
         }
-    this.saveSession());
+    this.saveSession()
     })
 },
 
