@@ -264,7 +264,24 @@ export const FileSystemProvider = {
              
              ...options.headers 
              };
-            const response = await fetch(`https://api.github.com${endpoint}`, { ...options, headers });
+             
+             let fetchEndpoint = endpoint;
+        const method = options.method || 'GET';
+
+        if (method === 'GET') {
+            // We create a unique parameter using the current timestamp.
+            const cacheBuster = `_cb=${Date.now()}`;
+            // We correctly append it to the URL, whether it already has parameters or not.
+            if (fetchEndpoint.includes('?')) {
+                fetchEndpoint += `&${cacheBuster}`;
+            } else {
+                fetchEndpoint += `?${cacheBuster}`;
+            }
+        }
+        
+        
+             
+            const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
             if (!response.ok) {
                 const err = await response.json().catch(() => ({ message: response.statusText }));
                 throw new Error(err.message || `GitHub API Error: ${response.status}`);
