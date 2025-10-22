@@ -90,79 +90,62 @@ export const FileOperations = {
 // ACTION: Replace the ENTIRE copySelected function with this one.
 
 copySelected() {
-    if (State.selectedItems.size === 0) {
-        UI.showToast("No items selected to copy.", "info");
-        return;
-    }
-
-    const selectedPaths = Array.from(State.selectedItems);
-
-    // CRITICAL LOGIC: Filter out any item that is a child of another selected item.
-    // This ensures we only copy top-level selected folders and files.
-    const topLevelPaths = selectedPaths.filter(path => {
-        // Find the part of the path that represents its parent directory
-        const parentPath = path.substring(0, path.lastIndexOf('/'));
-        // If any *other* selected path is the parent of this one, then this is not a top-level selection.
-        return !selectedPaths.some(otherPath => parentPath.startsWith(otherPath) && otherPath !== path);
-    });
-
-    State.fileClipboard = []; // Reset the clipboard
-    for (const uniquePath of topLevelPaths) {
-        const mapEntry = State.domItemMap.get(uniquePath);
-        if (mapEntry?.item) {
-            State.fileClipboard.push(mapEntry.item);
+        if (State.selectedItems.size === 0) {
+            UI.showToast("No items selected to copy.", "info");
+            return;
         }
-    }
-    
-    UI.showToast(`${State.fileClipboard.length} item(s) copied.`, 'success');
-    SelectionManager.end();
-},
+
+        const selectedPaths = Array.from(State.selectedItems);
+
+        // This is the intelligent filtering logic that we need.
+        const topLevelPaths = selectedPaths.filter(path => {
+            // A path's parent is everything before the last '/'
+            // For a root path like "Firework", lastIndexOf is -1, so parentPath is "". Correct.
+            const parentPath = path.substring(0, path.lastIndexOf('/'));
+
+            // An item is "top level" if its parent is NOT ALSO in the selection list.
+            return !selectedPaths.some(otherPath => {
+                 // For the special root case where parentPath is ""
+                if (parentPath === "") return false;
+                // Check if the exact parent path exists in the selection.
+                // We use endsWith to ensure we match full directory names.
+                return parentPath.endsWith(otherPath);
+            });
+        });
+
+        // The clipboard now only stores the unique IDs.
+        State.fileClipboard = topLevelPaths;
+
+        UI.showToast(`${State.fileClipboard.length} top-level item(s) copied.`, 'success');
+        SelectionManager.end();
+    },
 
     // The advanced paste logic
     async paste(destinationDir) {
         if (State.fileClipboard.length === 0) return;
 
-        UI.showLoading("Preparing paste operation...");
-
-        const conflictHandler = async (item, destDir) => {
-            const contentHTML = `
-                <p>An item named <strong>${item.name}</strong> already exists in this location.</p>
-                <div id="conflict-options" style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="menu-button" data-action="overwrite">Overwrite</button>
-                    <button class="menu-button" data-action="skip">Skip This Item</button>
-                    <button class="menu-button" data-action="rename">Rename (e.g., ${item.name}-copy)</button>
-                </div>
-            `;
-            const choice = await UI.showDialog({
-                title: 'Paste Conflict',
-                contentHTML,
-                okText: '', cancelText: 'Cancel Operation'
-            });
-
-            // This part requires wiring the buttons in the dialog to the promise resolution
-            // This is a simplification. Your UI.showDialog will need to be adapted for this.
-            // For now, let's assume 'overwrite' as the default for simplicity.
-            return { action: 'overwrite' };
-        };
-
+        UI.showLoading("Pasting items...");
+        
         try {
-            // Read all selected items into a structured tree first.
-            const treesToPaste = [];
-            for (const sourceItem of State.fileClipboard) {
+            // CRITICAL CHANGE: Get fresh item objects right now from the master map.
+            const itemsToPaste = State.fileClipboard
+                .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
+                .filter(Boolean); // Filter out any that might be undefined
+
+            // The conflict handler logic remains the same.
+            const conflictHandler = async (item) => {
+                 return { action: 'overwrite' }; // Simplified for now
+            };
+
+            for (const sourceItem of itemsToPaste) {
+                // ... [Safety check for pasting into itself] ...
+
                 if (sourceItem.kind === 'file') {
-                    const content = await FileSystemProvider.read(sourceItem);
-                    treesToPaste.push({ ...sourceItem, content });
-                } else {
-                    treesToPaste.push(await _getDirectoryTree(sourceItem));
-                }
-            }
-            
-            UI.showLoading("Pasting...");
-            for(const tree of treesToPaste) {
-                if(tree.kind === 'file') {
-                    await _writeFile(tree, destinationDir, conflictHandler);
-                } else {
-                    await _writeDirectoryTree(tree, destinationDir, conflictHandler);
+                    // This function now uses the fresh, correct sourceItem
+                    await _writeFile(sourceItem, destinationDir, conflictHandler);
+                } else if (sourceItem.kind === 'directory') {
+                    // This function now uses the fresh, correct sourceItem
+                    await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
                 }
             }
 
