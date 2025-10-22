@@ -2,7 +2,7 @@
 // FILE: js/importScriptsHack.js
 
 export default (workerPath, originalScriptContent) => /*js*/`
-(function() {
+(()=>{
     // A safeguard to ensure this script doesn't run twice.
     if (self.hasImportScriptsPolyfill) return;
     self.hasImportScriptsPolyfill = true;
@@ -90,7 +90,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 \`[WORKER] Executing script '\${scriptName}' directly.\`
                 ,
                 "script content;",
-                scriptText
+                scriptText.substring(0,30),"..."
                 
                 );
                 eval.call(self, scriptText);
@@ -101,18 +101,14 @@ export default (workerPath, originalScriptContent) => /*js*/`
         }
     };
 
-    (async () => {
-        while (!controlView) {
-            await new Promise(r => setTimeout(r, 10));
-        }
+   })()
+        
         console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
-        try {
+        
             ${
             originalScriptContent
             }
-        } catch (e) {
-            console.error("CRITICAL: Error during initial execution of worker script.", e);
-        }
-    })();
-})();
+        
+   
+
 `;
