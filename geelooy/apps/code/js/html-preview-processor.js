@@ -55,7 +55,7 @@ async function handleIncomingRequest(event, baseItem) {
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             else if (scriptContent.isBinary) scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             
-            console. log("got content for",resolvedPath,"which is",scriptContent)
+            console. log("got content for",resolvedPath,"which is",scriptContent.substring(0,20),"...")
 
             // Simply send the raw string content back to the iframe.
             event.source.postMessage({ type: 'script-content-response', id, content: scriptContent }, '*');
