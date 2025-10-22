@@ -198,17 +198,35 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             if (typeof content !== 'string') {
                 throw new Error(`Asset content for '${resolvedPath}' could not be read as a string.`);
             }
+            
+            var myEl;
+            
+            
 
             // Replace the element with its inlined content.
             if (isLink) {
-                const style = doc.createElement('style');
-                style.textContent = content;
-                el.parentNode.replaceChild(style, el);
+                myEl = doc.createElement('style');
+                
             } else { // It's a <script> tag
-                const script = doc.createElement('script');
-                script.textContent = content;
-                el.parentNode.replaceChild(script, el);
+                myEl = doc.createElement('script');
+                
             }
+            
+            var attr = [...myEl.attributes];
+            attr.forEach(a=>{
+            	myEl.setAttribute(
+            		a,
+            		el.getAttribute(a)
+            	
+            	)
+            
+            
+            })
+            
+            myEl.textContent = content;
+                
+            el.parentNode.replaceChild(myEl, el);
+            
         } catch (e) { 
             // Now, instead of silently failing, we render the error visibly on the page.
             renderErrorOnPage(`Could not inline asset: ${resolvedPath}\n\nREASON: ${e.message}`);
