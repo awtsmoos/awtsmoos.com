@@ -15,7 +15,6 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
 import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler } from './html-preview-processor.js';
 
-const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
 export const Menus = {
     handleDocumentClick: (e) => {
