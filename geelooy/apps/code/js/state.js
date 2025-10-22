@@ -21,6 +21,11 @@ export const State = {
     
     fileClipboard: [], // Will store the full item objects to be copied
     selectedItems: new Set(), // Will store unique paths of selected items in the UI
+    
+    isSelectionModeActive: false
+    
+
+
 };
 
 /**
