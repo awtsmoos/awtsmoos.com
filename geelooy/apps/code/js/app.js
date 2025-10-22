@@ -230,10 +230,14 @@ setupEventListeners() {
     new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
 
     DOM.contextMenu.addEventListener('click', (e) => {
+        e.stopPropagation()
+        
         const button = e.target.closest('button');
         if (button) Menus.handleAction(button.dataset.action);
     });
     DOM.mainMenu.addEventListener('click', (e) => {
+        e.stopPropagation()
+        
         const button = e.target.closest('button');
         if (button && !button.disabled) Menus.handleAction(button.dataset.action);
     });
@@ -452,7 +456,7 @@ setupEventListeners() {
             console.log("Fullscreen API not supported by this browser.");
         }
     }
-},
+}
 
     async showSettings() {
         const contentHTML = `
