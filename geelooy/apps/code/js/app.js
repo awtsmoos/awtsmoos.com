@@ -152,15 +152,12 @@ setupEventListeners() {
     // --- Element References (Using YOUR DOM object variable names) ---
     if (DOM.viewConsoleBtn) {
         DOM.viewConsoleBtn.onclick = () => {
-            const iframe = DOM.previewer.querySelector('iframe');
-            if (!iframe) {
-                UI.showToast("No active preview found to attach console.", "error");
-                return;
+            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+            if (activeTab && activeTab.fileType === 'html-preview') {
+                Tabs.createConsole(activeTab); // Use the new Tabs function
+            } else {
+                UI.showToast("No active preview to attach console.", "error");
             }
-            if (!this.activeConsole || this.activeConsole.consoleWindow.closed) {
-                 this.activeConsole = new Console(iframe);
-            }
-            this.activeConsole.open();
         };
     }
     
@@ -352,9 +349,9 @@ setupEventListeners() {
     });
 
     window.addEventListener('beforeunload', () => {
-    if (this.activeConsole && this.activeConsole.consoleWindow && !this.activeConsole.consoleWindow.closed) {
-             this.activeConsole.consoleWindow.close();
-        }
+    App.consoleInstances.forEach(instance => instance.destroy());
+        
+        
     this.saveSession()
     })
 },
