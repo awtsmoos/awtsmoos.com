@@ -71,7 +71,13 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     
     DOM.selectionMenu = document.getElementById('selection-menu');
     
-    DOM.previewer = document.getElementById('previewer'); // This will now correctly find the element.
+    DOM.previewer = document.getElementById('previewer');
+    
+     // This will now correctly find the element.
+     DOM.consoleHost = document.getElementById('console-host');
+    DOM.iframeCache = document.getElementById('iframe-cache');
+    
+    DOM.selectionMenu = document.getElementById('selection-menu');
 
 
 }
