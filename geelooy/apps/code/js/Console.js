@@ -204,7 +204,7 @@ _renderLogMessage(log) {
         } else {
             // STEP 1: Create the textarea and set its value.
             const textarea = document.createElement('textarea');
-            textarea.setAttribute('readonly', true);
+           // textarea.setAttribute('readonly', true);
             textarea.value = this._prettyPrint(arg);
             
             // STEP 2: Add the textarea directly to the page.
