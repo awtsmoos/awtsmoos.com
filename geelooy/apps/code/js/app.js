@@ -1,5 +1,7 @@
 // B"H
 // FILE: js/app.js
+// B"H - IN: js/app.js
+import { SelectionManager } from './selection-manager.js';
 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
@@ -87,6 +89,8 @@ export const App = {
         
         this.loadSettings();
         this.loadSession();
+        
+        SelectionManager.initialize(); 
 
         this.setupEventListeners();
         
@@ -435,7 +439,7 @@ setupEventListeners() {
             console.log("Fullscreen API not supported by this browser.");
         }
     }
-},
+}
 
     async showSettings() {
         const contentHTML = `
