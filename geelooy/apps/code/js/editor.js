@@ -57,7 +57,7 @@ showPreviewer(data, fileInfo, tabId) { // B"H - Accept tabId
         UI.switchView('preview'); // B"H - Use view switcher
         DOM.previewer.innerHTML = ''; // Clear previous preview content
 
-        let iframe = App.previewIframes.get(tabId);
+        let iframe = State.previewIframes.get(tabId);
         
         if (fileInfo.type === 'html-preview') {
              if (!iframe) {
