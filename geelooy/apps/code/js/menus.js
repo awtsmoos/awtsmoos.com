@@ -48,6 +48,8 @@ export const Menus = {
         
         const isWorkspaceRoot = item.path === '/';
         const menuItems = [
+        // Add the new "Copy Single" button, making the label dynamic
+        { label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' },
         { label: 'Select', action: 'start-selection', icon: 'select-all' },
         { isSeparator: true },
         isDir && clipboardHasItems ? { label: `Paste...`, action: 'paste', icon: 'clipboard' } : null,
