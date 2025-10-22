@@ -153,7 +153,7 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     
     const interceptorConsoleElement = doc.createElement('script');
         interceptorConsoleElement.textContent = interceptorScriptContent;
-        if (doc.head) doc.head.prepend(interceptorElement);
+        if (doc.head) doc.head.prepend(interceptorConsoleElement);
         else doc.documentElement.prepend(interceptorConsoleElement);
 
     // First, inject the worker interceptor script.
