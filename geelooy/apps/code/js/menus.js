@@ -136,6 +136,13 @@ export const Menus = {
                 case 'find-replace': FindReplace.show(); break;
                 case 'settings': App.showSettings(); break;
                 case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
+                
+                case 'toggle-fullscreen':
+                App.toggleFullscreen()
+                
+                
+                break;
+                
                 case 'select-all': 
                     if (State.activeTabId !== null) { DOM.editor.focus(); DOM.editor.select(); }
                     break;
@@ -214,5 +221,12 @@ for(const tab of tabsToClose) await Tabs.close(tab.id, true);
             }
         } catch(e) { UI.showToast(`Error: ${e.message}`, 'error'); } 
           finally { UI.hideLoading(); }
+          
+          
+          
+          
+
+// Example of how to use it (e.g., attach it to a button click):
+// document.getElementById('toggleButton').addEventListener('click', toggleFullscreen);
     }
 };
