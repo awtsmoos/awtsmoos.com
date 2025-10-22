@@ -333,154 +333,213 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
         }
         return { html: html || '&nbsp;', state };
     }
-    _highlightHTML(line, state) {
-        let html = '';
-        let i = 0;
-        while (i < line.length) {
-        	if (state.in_script) {
-                const endIdx = line.indexOf('</script>', i);
-                if (endIdx !== -1) {
-                    html += this._escape(line.substring(i, endIdx));
-                    html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
-                    i = endIdx + 9;
-                    state.in_script = false;
-                    continue; // Continue parsing rest of line
-                } else {
-                    html += this._escape(line.substring(i));
-                    break; // The whole line is script content
-                }
-            }
-            if (state.in_style) {
-                const endIdx = line.indexOf('</style>', i);
-                if (endIdx !== -1) {
-                    html += this._escape(line.substring(i, endIdx));
-                    html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
-                    i = endIdx + 8;
-                    state.in_style = false;
-                    continue; // Continue parsing rest of line
-                } else {
-                    html += this._escape(line.substring(i));
-                    break; // The whole line is style content
-                }
-            }
-        
-        
-            if (state.in_comment) {
-                const endIdx = line.indexOf('-->', i);
-                if (endIdx !== -1) {
-                    html += this._wrap(line.substring(i, endIdx + 3), 'comment');
-                    i = endIdx + 3;
-                    state.in_comment = false;
-                } else {
-                    html += this._wrap(line.substring(i), 'comment');
-                    break;
-                }
-                continue;
-            }
-            const tagStart = line.indexOf('<', i);
-            if (tagStart === -1) {
-                html += this._escape(line.substring(i));
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+ * @private
+ * @function _highlightHTML
+ * @description The HTML parser, which now acts as a controller.
+ * It parses HTML tags, but when it enters a <style> or <script> block,
+ * it delegates the highlighting of the content to the appropriate
+ * CSS or JS highlighter.
+ */
+_highlightHTML(line, state) {
+    let html = '';
+    let i = 0;
+
+    // --- NEW: Handle being inside a multi-line script block ---
+    if (state.in_script) {
+        const endTag = '</script>';
+        const endIdx = line.indexOf(endTag, i);
+        if (endIdx !== -1) {
+            const scriptContent = line.substring(i, endIdx);
+            html += this._highlightJS(scriptContent, state).html; // Use JS highlighter
+            html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
+            i = endIdx + endTag.length;
+            state.in_script = false; // We've exited the block
+        } else {
+            // The entire line is script content
+            html += this._highlightJS(line.substring(i), state).html;
+            return { html: html || '&nbsp;', state };
+        }
+    }
+
+    // --- NEW: Handle being inside a multi-line style block ---
+    if (state.in_style) {
+        const endTag = '</style>';
+        const endIdx = line.indexOf(endTag, i);
+        if (endIdx !== -1) {
+            const styleContent = line.substring(i, endIdx);
+            html += this._highlightCSS(styleContent, state).html; // Use CSS highlighter
+            html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
+            i = endIdx + endTag.length;
+            state.in_style = false; // We've exited the block
+        } else {
+            // The entire line is style content
+            html += this._highlightCSS(line.substring(i), state).html;
+            return { html: html || '&nbsp;', state };
+        }
+    }
+
+    // --- Main HTML parsing loop ---
+    while (i < line.length) {
+        if (state.in_comment) {
+            const endIdx = line.indexOf('-->', i);
+            if (endIdx !== -1) {
+                html += this._wrap(line.substring(i, endIdx + 3), 'comment');
+                i = endIdx + 3;
+                state.in_comment = false;
+            } else {
+                html += this._wrap(line.substring(i), 'comment');
                 break;
             }
-            html += this._escape(line.substring(i, tagStart));
-            i = tagStart;
-            if (line.substring(i, i + 4) === '<!--') {
-                const endIdx = line.indexOf('-->', i + 4);
-                if (endIdx !== -1) {
-                    html += this._wrap(line.substring(i, endIdx + 3), 'comment');
-                    i = endIdx + 3;
-                } else {
-                    html += this._wrap(line.substring(i), 'comment');
-                    state.in_comment = true;
-                    break;
-                }
-                continue;
-            }
-            const tagEnd = line.indexOf('>', i);
-            if (tagEnd === -1) {
-                html += this._escape(line.substring(i));
+            continue;
+        }
+
+        const tagStart = line.indexOf('<', i);
+        if (tagStart === -1) {
+            html += this._escape(line.substring(i));
+            break;
+        }
+
+        html += this._escape(line.substring(i, tagStart));
+        i = tagStart;
+
+        if (line.substring(i, i + 4) === '<!--') {
+            const endIdx = line.indexOf('-->', i + 4);
+            if (endIdx !== -1) {
+                html += this._wrap(line.substring(i, endIdx + 3), 'comment');
+                i = endIdx + 3;
+            } else {
+                html += this._wrap(line.substring(i), 'comment');
+                state.in_comment = true;
                 break;
             }
-            let currentPos = i + 1;
-            html += this._wrap('<', 'punctuation');
-            if (line[currentPos] === '/') {
-                html += this._wrap('/', 'punctuation');
-                currentPos++;
+            continue;
+        }
+
+        const tagEnd = line.indexOf('>', i);
+        if (tagEnd === -1) {
+            html += this._escape(line.substring(i));
+            break;
+        }
+
+        // --- Standard Tag and Attribute Parsing (mostly unchanged) ---
+        let currentPos = i + 1;
+        html += this._wrap('<', 'punctuation');
+        if (line[currentPos] === '/') {
+            html += this._wrap('/', 'punctuation');
+            currentPos++;
+        }
+        let tagName = '';
+        while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) {
+            tagName += line[currentPos++];
+        }
+        const isClosingTag = line[i+1] === '/';
+        const normalizedTagName = tagName.toLowerCase();
+        html += this._wrap(tagName, 'tag');
+
+        while (currentPos < tagEnd) {
+            let whitespace = '';
+            while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
+                whitespace += line[currentPos++];
             }
-            let tagName = '';
+            if (whitespace) html += this._escape(whitespace);
+            if (currentPos >= tagEnd) break;
+            let attrName = '';
             while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) {
-                tagName += line[currentPos++];
+                attrName += line[currentPos++];
             }
-            html += this._wrap(tagName, 'tag');
-            while (currentPos < tagEnd) {
-                let whitespace = '';
+            if (attrName) {
+                html += this._wrap(attrName, 'attribute');
+                let equalsPart = '';
                 while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
-                    whitespace += line[currentPos++];
+                    equalsPart += line[currentPos++];
                 }
-                if (whitespace) html += this._escape(whitespace);
-                if (currentPos >= tagEnd) break;
-                let attrName = '';
-                while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) {
-                    attrName += line[currentPos++];
-                }
-                if (attrName) {
-                    html += this._wrap(attrName, 'attribute');
-                    let equalsPart = '';
+                if (line[currentPos] === '=') {
+                    equalsPart += '=';
+                    currentPos++;
                     while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
                         equalsPart += line[currentPos++];
                     }
-                    if (line[currentPos] === '=') {
-                        equalsPart += '=';
+                    html += `${this._escape(equalsPart.replace('=', ''))}${this._wrap('=', 'operator')}${this._escape(equalsPart.replace('=', ''))}`;
+                    const quoteChar = line[currentPos];
+                    if (quoteChar === '"' || quoteChar === "'") {
+                        let attrValue = quoteChar;
                         currentPos++;
-                        while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
-                            equalsPart += line[currentPos++];
+                        while (currentPos < tagEnd && line[currentPos] !== quoteChar) {
+                            attrValue += line[currentPos++];
                         }
-                        html += `${this._escape(equalsPart.replace('=', ''))}${this._wrap('=', 'operator')}${this._escape(equalsPart.replace('=', ''))}`;
-                        const quoteChar = line[currentPos];
-                        if (quoteChar === '"' || quoteChar === "'") {
-                            let attrValue = quoteChar;
-                            currentPos++;
-                            while (currentPos < tagEnd && line[currentPos] !== quoteChar) {
-                                attrValue += line[currentPos++];
-                            }
-                            if (currentPos < tagEnd) attrValue += line[currentPos++];
-                            html += this._wrap(attrValue, 'string');
-                        }
+                        if (currentPos < tagEnd) attrValue += line[currentPos++];
+                        html += this._wrap(attrValue, 'string');
                     }
-                } else {
-                    html += this._escape(line.substring(currentPos, tagEnd));
-                    currentPos = tagEnd;
                 }
+            } else {
+                html += this._escape(line.substring(currentPos, tagEnd));
+                currentPos = tagEnd;
             }
-            html += this._wrap('>', 'punctuation');
-            i = tagEnd + 1;
-            
-            const normalizedTagName = tagName.toLowerCase();
-            if ((normalizedTagName === 'script' || normalizedTagName === 'style') && line[tagEnd - 1] !== '/') {
-                const endTag = `</${normalizedTagName}>`;
-                const endIdx = line.indexOf(endTag, i);
-
-                if (endIdx !== -1) {
-                    // The script/style block is on the same line
-                    const content = line.substring(i, endIdx);
-                    html += this._escape(content); // Treat content as plain text
-                    html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
-                    i = endIdx + endTag.length;
-                } else {
-                    // The block continues to the next line
-                    html += this._escape(line.substring(i));
-                    if (normalizedTagName === 'script') state.in_script = true;
-                    if (normalizedTagName === 'style') state.in_style = true;
-                    break; // Stop parsing this line
-                }
-                continue; // Continue the loop
-                
-            }
-            
-            
         }
-        return { html: html || '&nbsp;', state };
+        html += this._wrap('>', 'punctuation');
+        i = tagEnd + 1;
+
+        // --- NEW: Logic to enter script/style modes ---
+        if (!isClosingTag && (normalizedTagName === 'script' || normalizedTagName === 'style')) {
+            const endTag = `</${normalizedTagName}>`;
+            const endOfBlockIdx = line.indexOf(endTag, i);
+
+            if (endOfBlockIdx !== -1) {
+                // Block ends on the same line
+                const content = line.substring(i, endOfBlockIdx);
+                if (normalizedTagName === 'script') {
+                    html += this._highlightJS(content, state).html;
+                } else {
+                    html += this._highlightCSS(content, state).html;
+                }
+                html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
+                i = endOfBlockIdx + endTag.length;
+            } else {
+                // Block continues to the next line
+                const content = line.substring(i);
+                if (normalizedTagName === 'script') {
+                    html += this._highlightJS(content, state).html;
+                    state.in_script = true;
+                } else {
+                    html += this._highlightCSS(content, state).html;
+                    state.in_style = true;
+                }
+                break; // We're done with this line
+            }
+        }
     }
+    return { html: html || '&nbsp;', state };
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     _highlightCSS(line, state) {
         let html = '';
         let i = 0;
