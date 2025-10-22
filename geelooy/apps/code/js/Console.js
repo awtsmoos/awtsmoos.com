@@ -180,10 +180,16 @@ export class Console {
 // FILE: js/Console.js
 // ACTION: Replace this entire method.
 
+// B"H
+// FILE: js/Console.js
+// ACTION: Replace the _renderLogMessage method with this definitive version.
+
 _renderLogMessage(log) {
     const { level, args, timestamp, isInput = false, isError = false } = log;
     const row = document.createElement('div');
     row.className = `console-row level-${level} ${isInput ? 'input-row' : ''} ${isError ? 'level-error' : ''}`;
+    
+    // ... (your icon and timestamp code remains the same here) ...
     const iconDefs = {
         error: `<svg viewBox="0 0 16 16"><path d="M2.343 13.657A8 8 0 1113.657 2.343 8 8 0 012.343 13.657zM6.03 4.97a.75.75 0 00-1.06 1.06L6.94 8 4.97 9.97a.75.75 0 101.06 1.06L8 9.06l1.97 1.97a.75.75 0 101.06-1.06L9.06 8l1.97-1.97a.75.75 0 10-1.06-1.06L8 6.94 6.03 4.97z"></path></svg>`,
         warn: `<svg viewBox="0 0 16 16"><path d="M8.22 1.754a.75.75 0 00-1.44 0L1.698 13.132a.75.75 0 00.645 1.118h11.314a.75.75 0 00.644-1.118L8.22 1.754zM8 11.25a.75.75 0 110 1.5.75.75 0 010-1.5zM8.25 5a.25.25 0 00-.5 0v4.5a.25.25 0 00.5 0V5z"></path></svg>`,
@@ -194,10 +200,10 @@ _renderLogMessage(log) {
     const iconEl = document.createElement('div');
     iconEl.className = 'console-icon';
     iconEl.innerHTML = isInput ? iconDefs.input : isError ? iconDefs.output : iconDefs[level] || '';
-    
+
     const contentContainer = document.createElement('div');
     contentContainer.className = 'console-content';
-    
+
     const timestampEl = document.createElement('span');
     timestampEl.className = 'console-timestamp';
     timestampEl.textContent = timestamp || '';
@@ -206,60 +212,38 @@ _renderLogMessage(log) {
     row.appendChild(contentContainer);
     row.appendChild(timestampEl);
     
-    this.elements.logContainer.appendChild(row);
-    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    
-    const textarea = document.createElement('textarea');
-           // textarea.setAttribute('readonly', true);
-            textarea.value = "hello would"//this._prettyPrint(arg);
-            
-            // STEP 2: Add the textarea directly to the page.
-            row.appendChild(textarea);
-            textarea.style.width=300+"px"
-            textarea.style. height=300+"px"
-            
-            // STEP 3: Call `new pnimi` on the textarea after it's on the page.
-            // We use a timeout to ensure the browser has rendered it first.
-            setTimeout(()=>{
-                const highlighter = new pnimi(textarea, 'js');
-                highlighter.update("what are you");
-                
-                },768)
-                // Store the instance only for later cleanup. Do not touch it otherwise.
-         //       this.outputHighlighters.set(textarea, highlighter); 
-           
-    
-
     args.forEach(arg => {
         if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
             contentContainer.appendChild(this._createVividInspector(arg));
         } else {
-            // STEP 1: Create the textarea and set its value.
             const textarea = document.createElement('textarea');
-           // textarea.setAttribute('readonly', true);
-            textarea.value = "hello would"//this._prettyPrint(arg);
+            textarea.value = this._prettyPrint(arg);
+            textarea.setAttribute('readonly', true);
             
-            // STEP 2: Add the textarea directly to the page.
+            // STEP 1: Add the textarea to the page.
             contentContainer.appendChild(textarea);
             
-            // STEP 3: Call `new pnimi` on the textarea after it's on the page.
-            // We use a timeout to ensure the browser has rendered it first.
+            // STEP 2: **THE FIX** - Force the browser to calculate the layout NOW.
+            // We ask for a property that requires layout information.
+            // The `void` operator prevents any value from being returned.
+            void textarea.offsetHeight; 
             
-              //  const highlighter = new pnimi(textarea, 'js');
-                //highlighter.update(arg);
-                // Store the instance only for later cleanup. Do not touch it otherwise.
-         //       this.outputHighlighters.set(textarea, highlighter); 
-           
+            // STEP 3: Now that the browser state is synchronized, initialize pnimi.
+            // Using requestAnimationFrame is still good practice for smoothness.
+            requestAnimationFrame(() => {
+                try {
+                    const highlighter = new pnimi(textarea, 'js');
+                    this.outputHighlighters.set(textarea, highlighter); 
+                } catch (e) {
+                    console.error("pnimi initialization failed even after forced reflow:", e);
+                }
+            });
         }
     });
-    
-    
 
-    
-    
-
+    this.elements.logContainer.appendChild(row);
+    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
-
 	_executeCommand() {
 		const command = this.elements.input.value;
 		if (command.trim() === '') return;
