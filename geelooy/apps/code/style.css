@@ -475,7 +475,12 @@
         .sidebar-overlay.is-visible { opacity: 0; }
         .main-content { grid-column: 1 / 2; }
         .top-panel { grid-column: 1 / 2; }
-        .status-bar { font-size: 0.8em; }
+        .status-bar {
+    grid-column: 1 / 2; /* ADD THIS LINE */
+    font-size: 0.8em;
+}
+        
+        
     }
     #hamburger-sidebar-toggle { display: none; }
     
@@ -493,17 +498,7 @@
     overflow: hidden; /* Prevents content from showing during transition */
 }
 
-@media (min-width: 769px) {
-    /* On desktop, hide the main menu button when the sidebar is open */
-    .app-container:not(.sidebar-collapsed) #hamburger-menu-btn {
-        display: none;
-    }
 
-    /* Show the main menu button when the sidebar is collapsed to allow reopening */
-    .app-container.sidebar-collapsed #hamburger-menu-btn {
-        display: inline-flex;
-    }
-}
 
 @media (max-width: 768px) {
     /* Hide the new collapse button on mobile to preserve the original UI */
