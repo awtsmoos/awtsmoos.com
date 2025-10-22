@@ -85,6 +85,19 @@ export const Tabs = {
         }
         State.activeTabId = tabId;
         const tab = State.tabs.find(t => t.id === tabId);
+        // B"H - CONSOLE BUTTON VISIBILITY LOGIC
+        if (tab && tab.fileType === 'html-preview') {
+            DOM.viewConsoleBtn.classList.remove('hidden');
+        } else {
+            DOM.viewConsoleBtn.classList.add('hidden');
+            // Close the console if we navigate away from a preview
+            if (App.activeConsole && !App.activeConsole.consoleWindow.closed) {
+                 App.activeConsole.consoleWindow.close();
+                 App.activeConsole = null;
+            }
+        }
+        
+        
         if (!tab) {
             Editor.showTextEditor('', '');
             DOM.editorWrapper.classList.add('hidden');
@@ -131,8 +144,15 @@ export const Tabs = {
 
         const tabToClose = State.tabs[tabIndex];
         
+        
+        
+        // B"H - CONSOLE CLEANUP ON TAB CLOSE
         if (tabToClose.isPreview) {
             detachWorkerRequestHandler();
+            if (App.activeConsole && !App.activeConsole.consoleWindow.closed) {
+                 App.activeConsole.consoleWindow.close();
+                 App.activeConsole = null;
+            }
         }
 
         if (tabToClose.isDirty && !force) {
