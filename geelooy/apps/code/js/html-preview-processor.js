@@ -6,19 +6,16 @@ import { FileSystemProvider } from './fs-provider.js';
 import workerInterceptorScript from "./worker-intercept.js";
 import importScriptsPolyfill from "./importScriptsHack.js";
 
-const CHUNK_SIZE = 64 * 1024; // 64 KiB
+const CHUNK_SIZE = 64 * 1024;
 
-// This is a module-scoped variable to hold the promise resolver for the ACK.
 let _ackResolver = null;
 
-// This function pauses the main thread's logic until an 'ack' message is received.
 function waitForAck() {
     return new Promise((resolve) => {
         _ackResolver = resolve;
     });
 }
 
-// Utility to send data (name or content) in chunks.
 async function sendChunks(bytes, isNamePhase, controlView, dataBytes) {
     const total = bytes.length;
     let offset = 0;
@@ -40,7 +37,6 @@ async function sendChunks(bytes, isNamePhase, controlView, dataBytes) {
     }
 }
 
-// THIS FUNCTION WAS MISSING. IT IS NOW RESTORED.
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
     const baseUrl = new URL(basePath, 'http://dummy.com/');
@@ -48,14 +44,21 @@ function resolveRelativePath(basePath, relativePath) {
     return resolvedUrl.pathname.substring(1);
 }
 
-// This function handles requests that have been relayed from the iframe.
 async function handleIncomingRequest(event, baseItem) {
     const { type, path: relativePath, controlSAB, dataSAB, basePath } = event.data;
+    const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
+    if (!workspace) return;
 
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
-            let scriptContent = await FileSystemProvider.read({ ...baseItem, path: resolvedPath });
+            // --- GITHUB LOGIC RESTORED ---
+            const assetItem = { ...workspace, path: resolvedPath };
+            if (workspace.type === 'github') {
+                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                assetItem.sha = fileMeta.sha;
+            }
+            let scriptContent = await FileSystemProvider.read(assetItem);
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             
             const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
@@ -72,7 +75,13 @@ async function handleIncomingRequest(event, baseItem) {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
 
         try {
-            let scriptContent = await FileSystemProvider.read({ ...baseItem, path: resolvedPath });
+            // --- GITHUB LOGIC RESTORED ---
+            const assetItem = { ...workspace, path: resolvedPath };
+            if (workspace.type === 'github') {
+                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                assetItem.sha = fileMeta.sha;
+            }
+            let scriptContent = await FileSystemProvider.read(assetItem);
             if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
             
             const encoder = new TextEncoder();
@@ -99,10 +108,7 @@ export function attachWorkerRequestHandler(baseItem) {
     
     const messageRouter = (event) => {
         if (event.data && event.data.type === 'ack') {
-            if (_ackResolver) {
-                _ackResolver();
-                _ackResolver = null;
-            }
+            if (_ackResolver) { _ackResolver(); _ackResolver = null; }
         } else {
             handleIncomingRequest(event, baseItem);
         }
@@ -119,30 +125,31 @@ export function detachWorkerRequestHandler() {
     }
 }
 
-// THIS FUNCTION'S FULL IMPLEMENTATION IS NOW RESTORED.
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return htmlContent;
 
-    // Inject the worker interceptor script first.
     const interceptorElement = doc.createElement('script');
     interceptorElement.textContent = workerInterceptorScript;
     if (doc.head) doc.head.prepend(interceptorElement);
     else doc.documentElement.prepend(interceptorElement);
 
-    // Process and inline all relative CSS and JS assets.
     const assetPromises = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'))
         .filter(el => !/^(?:[a-z]+:|\/)/.test(el.getAttribute('href') || el.getAttribute('src')))
         .map(async (el) => {
             const isLink = el.tagName === 'LINK';
             const pathAttr = isLink ? 'href' : 'src';
             const relativePath = el.getAttribute(pathAttr);
-            // This is where the error occurred, because resolveRelativePath was missing.
             const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
             try {
+                // --- GITHUB LOGIC RESTORED ---
                 const assetItem = { ...workspace, path: resolvedPath };
+                if (workspace.type === 'github') {
+                    const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
+                    assetItem.sha = fileMeta.sha;
+                }
                 let content = await FileSystemProvider.read(assetItem);
                 if (content instanceof Blob) content = await content.text();
                 
