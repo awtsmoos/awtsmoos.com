@@ -68,8 +68,13 @@ export const Menus = {
             { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
             { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
             { isSeparator: true },
+            
             { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
+            
+            { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'laptop' }, 
+            
             { label: 'Settings', action: 'settings', icon: 'settings' }
+        
         );
         DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
             `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
