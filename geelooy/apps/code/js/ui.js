@@ -72,8 +72,16 @@ export const UI = {
                 if (e.target.id === 'generic-dialog' && cancelBtn) cancelBtn.click();
             };
 
-            if(okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
-            if(cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
+            if(okBtn) okBtn.onclick = (e) => {
+            e.stopPropagation()
+            cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
+            
+            }
+            if(cancelBtn)
+             cancelBtn.onclick = (e) => {
+             e.stopPropagation()
+             cleanupAndResolve(null);
+             }
             
             dialog.classList.add('visible');
             if (input) input.focus();
