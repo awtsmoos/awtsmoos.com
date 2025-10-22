@@ -191,6 +191,10 @@ export class Console {
 // FILE: js/Console.js
 // ACTION: Replace this entire method.
 
+// B"H
+// FILE: js/Console.js
+// ACTION: Replace this entire method.
+
 _renderLogMessage(log) {
     const { level, args, timestamp, isInput = false, isError = false } = log;
     const row = document.createElement('div');
@@ -207,7 +211,7 @@ _renderLogMessage(log) {
     const iconEl = document.createElement('div');
     iconEl.className = 'console-icon';
     iconEl.innerHTML = isInput ? iconDefs.input : isError ? iconDefs.output : iconDefs[level] || '';
-    
+
     const contentContainer = document.createElement('div');
     contentContainer.className = 'console-content';
     args.forEach(arg => {
@@ -217,21 +221,19 @@ _renderLogMessage(log) {
             const el = document.createElement('div');
             el.className = 'highlighted-output';
             const textarea = document.createElement('textarea');
-            
-            // REMOVED: textarea.setAttribute('readonly', true); // Now editable for testing
-            
-            // 1. Set the value.
             textarea.value = this._prettyPrint(arg);
-            
             el.appendChild(textarea);
             contentContainer.appendChild(el);
             
-            // 2. Create the pnimi instance.
             const highlighter = new pnimi(textarea, 'js');
             this.outputHighlighters.set(el, highlighter);
 
-            // 3. THE FIX: Dispatch the 'input' event to force pnimi to see the new value.
-            textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            // --- THE TIMING FIX ---
+            // Defer the event dispatch to the next tick of the event loop.
+            // This gives the browser time to render the pnimi wrapper so its dimensions are available for highlighting.
+            setTimeout(() => {
+                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            }, 0);
         }
     });
 
@@ -246,7 +248,6 @@ _renderLogMessage(log) {
     this.elements.logContainer.appendChild(row);
     row.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
-
 
 
 
