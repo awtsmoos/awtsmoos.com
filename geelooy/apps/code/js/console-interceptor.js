@@ -137,4 +137,4 @@ export default /*js*/`(function() {
     
     post('status', { status: 'ready' });
 
-})()`
+})();`
