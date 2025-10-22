@@ -62,7 +62,7 @@ export const SelectionManager = {
     toggle(item) {
         if (!item) return;
 
-        const uniquePath = Workspaces.getItemUniquePath(item);
+        const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         if (!entry?.el) return;
 
