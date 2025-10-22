@@ -229,7 +229,7 @@ export class Console {
         const command = this.elements.input.value;
         if (command.trim() === '') return;
         this.elements.input.value = '';
-        this.inputHighlighter.update(''); // Force highlighter to update
+        //this.inputHighlighter.update(''); // Force highlighter to update
         this._updateLineNumbers(); // Reset line numbers to 1
 
         const executionLog = {
