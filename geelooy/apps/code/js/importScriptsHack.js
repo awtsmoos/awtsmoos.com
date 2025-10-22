@@ -3,106 +3,97 @@
 
 export default (workerPath, originalScriptContent) => /*js*/`
 (function() {
-    // A safeguard to ensure this script doesn't run twice in the same worker.
     if (self.hasImportScriptsPolyfill) return;
     self.hasImportScriptsPolyfill = true;
 
-    console.log('%c[WORKER] Polyfill loaded.', 'color: #4682B4');
-    const workerBasePath = '${workerPath}';
-    const SCRIPT_FETCH_TIMEOUT = 10000; // 10 seconds timeout.
+    console.log('%c[WORKER] Chunked protocol polyfill loaded.', 'color: #4682B4');
 
-    let signalSAB, signalInt32;
-    const scriptCache = new Map();
-    const OriginalImportScripts = self.importScripts;
-    let isInitialized = false;
+    let controlView, dataBytes, dataSAB;
 
-    // This promise ensures the original user script does not execute
-    // until the sync mechanism has been initialized.
-    const sabReadyPromise = new Promise((resolve) => {
-        self.addEventListener('message', (event) => {
-            if (event.data.type === 'init-sync') {
-                console.log('%c[WORKER] Sync mechanism INITIALIZED.', 'color: #4682B4; font-weight: bold;');
-                signalSAB = event.data.signalSAB;
-                signalInt32 = new Int32Array(signalSAB);
-                isInitialized = true;
-                resolve();
-            }
-        });
-    });
-
-    // This handler runs whenever the main thread sends a response. Because importScripts
-    // is suspended with Atomics.wait(), this handler CAN run. It now controls the handshake.
-    self.addEventListener('message', (event) => {
-        if (event.data.type === 'import-scripts-response') {
-            const { path, contentSAB, error } = event.data;
-            console.log('%c[WORKER] Caching response for:', 'color: #4682B4;', path);
-            
-            if (error) {
-                scriptCache.set(path, { error });
-            } else if (contentSAB) {
-                const decoder = new TextDecoder();
-                const content = decoder.decode(new Uint8Array(contentSAB));
-                scriptCache.set(path, { content });
-            }
-
-            // --- THE GUARANTEED HANDSHAKE ---
-            // STEP 1: Set the signal to 1, confirming the data is cached and ready.
-            Atomics.store(signalInt32, 0, 1);
-            // STEP 2: Notify the waiting importScripts function that it can now safely proceed.
-            Atomics.notify(signalInt32, 0, 1);
+    self.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'init-chunked-sync') {
+            const { controlSAB, dataSAB: receivedDataSAB } = e.data;
+            controlView = new Int32Array(controlSAB);
+            dataBytes = new Uint8Array(receivedDataSAB);
+            dataSAB = receivedDataSAB;
+            console.log('[WORKER] Initialized with chunked SABs.');
         }
     });
+
+    function waitForChunk() {
+        Atomics.wait(controlView, 0, 0);
+        
+        const chunkLen = Atomics.load(controlView, 1);
+        const isNamePhase = Atomics.load(controlView, 2) === 1;
+        const isLastChunk = Atomics.load(controlView, 3) === 1;
+        const errorCode = Atomics.load(controlView, 4);
+
+        if (errorCode !== 0) {
+            Atomics.store(controlView, 0, 0);
+            self.postMessage({ type: 'ack' });
+            throw new Error('Main thread signaled an error during chunk transfer.');
+        }
+
+        const chunk = new Uint8Array(chunkLen);
+        chunk.set(new Uint8Array(dataSAB, 0, chunkLen));
+
+        Atomics.store(controlView, 0, 0);
+        self.postMessage({ type: 'ack' });
+
+        return { chunk, isNamePhase, isLastChunk };
+    }
+
+    function receiveVariableLengthField() {
+        const chunkParts = [];
+        let isNamePhase = null;
+
+        while (true) {
+            const { chunk, isNamePhase: chunkIsName, isLastChunk } = waitForChunk();
+            if (isNamePhase === null) isNamePhase = chunkIsName;
+            
+            if (chunkIsName !== isNamePhase) {
+                throw new Error('Protocol error: Phase mismatch during chunk transfer.');
+            }
+            chunkParts.push(chunk);
+            if (isLastChunk) break;
+        }
+
+        const totalLength = chunkParts.reduce((sum, part) => sum + part.length, 0);
+        const finalBytes = new Uint8Array(totalLength);
+        let offset = 0;
+        for (const part of chunkParts) {
+            finalBytes.set(part, offset);
+            offset += part.length;
+        }
+        return finalBytes;
+    }
 
     self.importScripts = (...paths) => {
-        if (!isInitialized) {
-            throw new Error('Profound Editor: importScripts called before sync mechanism was ready.');
-        }
-        
-        for (const relativePath of paths) {
-            // Set the signal to 0, meaning "I am now waiting for the onmessage handler".
-            Atomics.store(signalInt32, 0, 0);
+        for (const path of paths) {
+            self.postMessage({ type: 'import-scripts-request', path: path, basePath: workerPath });
 
-            console.log('%c[WORKER] Requesting script:', 'color: #4682B4;', relativePath);
-            // Post the request to the main thread.
-            self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath });
-            
-            console.log('%c[WORKER] Now freezing until onmessage completes...', 'color: #B0C4DE;');
-            // Freeze this execution context. It will ONLY wake up when the onmessage
-            // handler above calls notify(). This eliminates the race condition.
-            const result = Atomics.wait(signalInt32, 0, 0, SCRIPT_FETCH_TIMEOUT);
+            const nameBytes = receiveVariableLengthField();
+            const scriptName = new TextDecoder().decode(nameBytes);
 
-            if (result === 'timed-out') {
-                throw new Error(\`Profound Editor: Timed out waiting for importScripts response for '\${relativePath}'.\`);
-            }
-            console.log('%c[WORKER] ...Woke up! Cache is guaranteed to be ready.', 'color: #B0C4DE;');
-            
-            if (!scriptCache.has(relativePath)) {
-                // This should theoretically never happen with the handshake in place.
-                throw new Error(\`Profound Editor: Woke up but could not find cached script for '\${relativePath}'. This indicates a critical bug.\`);
-            }
-
-            const cachedResult = scriptCache.get(relativePath);
-            scriptCache.delete(relativePath); // Clean up after use.
-
-            if (cachedResult.error) {
-                throw new Error(cachedResult.error);
-            }
+            const scriptBytes = receiveVariableLengthField();
+            const scriptText = new TextDecoder().decode(scriptBytes);
 
             try {
-                const blob = new Blob([cachedResult.content], { type: 'application/javascript' });
-                const blobUrl = URL.createObjectURL(blob);
-                OriginalImportScripts(blobUrl);
-                URL.revokeObjectURL(blobUrl);
-            } catch (e) {
-                console.error(\`Profound Editor: Error executing imported script '\${relativePath}'\`, e);
-            //    throw e;
+                const blob = new Blob([scriptText], { type: 'application/javascript' });
+                const url = URL.createObjectURL(blob);
+                importScripts(url); // Native, synchronous call with a blob URL
+                URL.revokeObjectURL(url);
+            } catch(e) {
+                console.error(\`Error executing script received via chunks for \${scriptName}\`, e);
+                throw e;
             }
         }
     };
 
-    // This async IIFE wraps the original script to ensure it doesn't run before initialization.
     (async () => {
-        await sabReadyPromise;
+        while (!controlView) {
+            await new Promise(r => setTimeout(r, 10));
+        }
         console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
         try {
             ${originalScriptContent}
