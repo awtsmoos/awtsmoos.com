@@ -870,12 +870,30 @@ async _update() {
      * This sets the textarea's value and forces the highlighter to re-render.
      * @param {string} newContent - The new text content for the editor.
      */
-    update(newContent) {
-        if (typeof newContent !== 'string') return;
-        this.textarea.value = newContent;
-        // Call our internal update method directly, forcing a render. This is more reliable than dispatching events.
-        this._update(true); 
+    // B"H
+// FILE: pnimi.js
+// ACTION: Replace the public update method.
+
+update(newContent) {
+    if (typeof newContent !== 'string') return console. log("what",newContent);
+    
+    // --- THE SELF-HEALING FIX ---
+    // If our measurements failed in the constructor (lineHeight is 0 or NaN, charWidth is 0),
+    // it means the element was not ready. We force a re-measurement NOW, before proceeding.
+    if (!this.charWidth || this.charWidth <= 0) {
+        console.log('pnimi: Re-running measurements during update...');
+        this._measureAndRender();
+        // If it still fails, we cannot proceed.
+        if (!this.charWidth || this.charWidth <= 0) {
+            console.error('pnimi: Could not measure element dimensions. Aborting render.');
+            return;
+        }
     }
+    // --- END FIX ---
+    
+    this.textarea.value = newContent;
+    this._update(); // Now this is guaranteed to have valid measurements to work with.
+}
 
     /**
      * @public
