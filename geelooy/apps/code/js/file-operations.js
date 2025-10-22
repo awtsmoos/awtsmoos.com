@@ -189,17 +189,56 @@ async paste(destinationDir) {
         // Build a helpful error message, safely checking if `e.stack` exists.
         const message = e?.message || "An unknown error occurred.";
         const stack = e?.stack ? `\n\nStack Trace:\n${e.stack}` : "\n\n(No stack trace available)";
-        UI.showToast(`Paste failed: ${message}${stack}`, 'error', 10000); // Show for 10 secs
+// B"H
+// FILE: js/file-operations.js
+// ACTION: Make sure your 'paste' function looks exactly like this one.
 
+async paste(destinationDir) {
+    if (State.fileClipboard.length === 0) return;
+
+    UI.showLoading("Pasting items...");
+    // ... (UI preparation code for 'Pasting...' message in the tree) ...
+    const destUniquePath = getItemUniquePath(destinationDir);
+    const destEntry = State.domItemMap.get(destUniquePath);
+    if (destEntry?.el) {
+        const childrenContainer = destEntry.el.querySelector('ul');
+        if (childrenContainer) {
+            childrenContainer.innerHTML = `<li class="tree-item" style="--depth:${(destinationDir.path.match(/\//g) || []).length + 1};">Pasting...</li>`;
+        }
+    }
+    
+    try {
+        // --- THIS IS THE CRITICAL FIX FOR THE PASTE ERROR ---
+        const itemsToPaste = State.fileClipboard
+            .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
+            .filter(Boolean);
+
+        if (itemsToPaste.length === 0) throw new Error("Source items could not be found.");
+        
+        const conflictHandler = async (item) => ({ action: 'overwrite' });
+
+        for (const sourceItem of itemsToPaste) {
+            // ... (safety checks and loop logic) ...
+             if (sourceItem.kind === 'file') {
+                await _writeFile(sourceItem, destinationDir, conflictHandler);
+            } else if (sourceItem.kind === 'directory') {
+                await _writeDirectoryTree(sourceItem, destinationDir, conflictHandler);
+            }
+        }
+        UI.showToast("Paste complete!", "success");
+
+    } catch (e) {
+        // ... (robust error handling) ...
+        console.error("PASTE FAILED:", e);
+        const message = e?.message || "An unknown error occurred.";
+        UI.showToast(`Paste failed: ${message}`, 'error');
     } finally {
-        // 7. --- UI Cleanup and Refresh ---
-        // This block runs whether the paste succeeded or failed.
         UI.hideLoading();
-        // This is crucial. It refreshes the destination folder's contents in the UI,
-        // which solves the lag issue you mentioned.
         await Workspaces.refreshNode(destinationDir);
     }
 }
+
+
 
 
 };
