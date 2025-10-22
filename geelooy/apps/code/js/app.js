@@ -203,6 +203,15 @@ setupEventListeners() {
             DOM.sidebar.classList.remove('is-open');
             DOM.sidebarOverlay.classList.remove('is-visible');
         }
+        
+        if (State.isSelectionModeActive) {
+        
+        const isClickInsideSelectionMenu = DOM.selectionMenu.contains(e.target);
+        if (!isClickInsideSidebar && !isClickInsideSelectionMenu) {
+            SelectionManager.end();
+        }
+    }
+        
     });
 
     // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PRESERVED EXACTLY) ---
@@ -236,6 +245,10 @@ setupEventListeners() {
         if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
         if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
         if (e.key === 'Escape') {
+        if (State.isSelectionModeActive) {
+            e.preventDefault();
+            SelectionManager.end();
+        } else
             if (DOM.genericDialog.classList.contains('visible')) {
                 const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
                 if (cancelButton) cancelButton.click();
