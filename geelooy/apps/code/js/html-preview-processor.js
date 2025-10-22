@@ -5,7 +5,7 @@ import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import workerInterceptorScript from "./worker-intercept.js";
 import importScriptsPolyfill from "./importScriptsHack.js";
-
+import interceptorScriptContent from "./console-interceptor.js";
 // Helper function remains necessary for path resolution.
 function resolveRelativePath(basePath, relativePath) {
     if (!basePath) return relativePath;
@@ -150,6 +150,11 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
         renderErrorOnPage("Could not find the current workspace in the application's state.");
         return doc.documentElement.outerHTML;
     }
+    
+    const interceptorConsoleElement = doc.createElement('script');
+        interceptorConsoleElement.textContent = interceptorScriptContent;
+        if (doc.head) doc.head.prepend(interceptorElement);
+        else doc.documentElement.prepend(interceptorConsoleElement);
 
     // First, inject the worker interceptor script.
     const interceptorElement = doc.createElement('script');
