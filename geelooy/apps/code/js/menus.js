@@ -1,5 +1,8 @@
 // B"H
 // FILE: js/menus.js
+// B"H - IN: js/menus.js
+import { SelectionManager } from './selection-manager.js';
+import { getItemUniquePath } from './workspaces.js'; // Use the new export
 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
@@ -22,6 +25,16 @@ export const Menus = {
     },
     show(e, item) {
         e.preventDefault(); 
+        
+        // If we're already in selection mode, a right-click does nothing.
+    if (State.isSelectionModeActive) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+    
+    
+        
         e.stopPropagation();
         State.contextTarget = item;
         this.hideAll();
@@ -30,8 +43,16 @@ export const Menus = {
         const targetEl = State.domItemMap.get(mapKey)?.el;
         if(targetEl) targetEl.classList.add('context-active');
         const isDir = item.kind === 'directory';
+        const clipboardHasItems = State.fileClipboard.length > 0;
+        
+        
         const isWorkspaceRoot = item.path === '/';
         const menuItems = [
+        { label: 'Select', action: 'start-selection', icon: 'select-all' },
+        { isSeparator: true },
+        isDir && clipboardHasItems ? { label: `Paste...`, action: 'paste', icon: 'clipboard' } : null,
+        isDir && clipboardHasItems ? { isSeparator: true } : null,
+        
             isDir ? { label: 'New File', action: 'new-file', icon: 'file' } : null,
             isDir ? { label: 'New Folder', action: 'new-folder', icon: 'folder' } : null,
             isDir ? { isSeparator: true } : null,
@@ -217,6 +238,17 @@ for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                         await Workspaces.refreshNode(parentItem);
                     }
                     break;
+                    
+                    
+                    
+                    case 'start-selection':
+        // We pass the event `e` to position the new menu correctly
+        SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
+        break;
+    
+    case 'paste':
+        FileOperations.paste(item); // This will call the advanced paste logic
+        break;
                 }
             }
         } catch(e) { UI.showToast(`Error: ${e.message}`, 'error'); } 
