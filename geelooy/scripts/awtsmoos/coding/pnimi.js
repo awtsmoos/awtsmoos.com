@@ -8,7 +8,7 @@
  * In the beginning, there was the un-styled, un-highlighted TEXTAREA, a vessel holding the raw light of code (Ohr).
  * This module, the "VirtualizedEditor", is the divine emanation (Atziluth) that descends to give form, color, and structure to that raw light.
  * It does not seek to replace the vessel but to reveal the hidden luminescence within it, line by line, character by character.
- *
+ * 
  * This is not a mere highlighter; it is a chariot (Merkabah) for the code. It virtualizes the rendering, meaning it only
  * paints the lines of code that are visible to the user's eye (the "viewport"), allowing for the handling of immense texts
  * (the "Infinite Light" or Ein Sof) without overwhelming the browser's finite processing power (the "vessel" or Keli).
@@ -272,40 +272,42 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
      * @private
      * @function _attachEventListeners
      * @description Netzach (Endurance) and Hod (Splendor) - The channels of interaction.
-     * This function attaches the event listeners that will perpetually watch for changes (input, scroll, resize).
-     * Netzach is the endurance to always be listening, and Hod is the splendor of the responsive update.
+     * This function attaches the event listeners that will perpetually watch for changes.
      */
     _attachEventListeners() {
         let inputTimeout = null;
+
+        // --- CORRECTED INPUT LISTENER ---
+        // When text changes, we must update both the highlighting AND the caret position.
         this.textarea.addEventListener('input', () => {
             clearTimeout(inputTimeout);
-            inputTimeout = setTimeout(() => this._update(), 0);
+            inputTimeout = setTimeout(() => {
+                this._update();
+                this._updateCaret(); // This line was missing its call
+            }, 0);
         });
-        
-        
-        
+
+        // --- CORRECTED SCROLL/RESIZE HANDLER ---
+        // When scrolling or resizing, we must re-render the text AND move the caret.
+        const onScroll = () => window.requestAnimationFrame(() => {
+            this._render();
+            this._updateCaret(); // This line was missing its call
+        });
+
+        // --- Standard caret movement listeners (These were already correct) ---
         const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
         this.textarea.addEventListener('click', onCaretMove);
         this.textarea.addEventListener('keyup', onCaretMove);
         this.textarea.addEventListener('keydown', onCaretMove);
         this.textarea.addEventListener('focus', onCaretMove);
         this.textarea.addEventListener('blur', onCaretMove);
-        
 
-        const onScroll = () => window.requestAnimationFrame(() => this._render());
-        
-        
-        
-        // Observe the wrapper, not the textarea, for visual size changes
-        new ResizeObserver(onScroll).observe(this.wrapper); // <<< CHANGE: Observe wrapper
-        
-        this.textarea.addEventListener('scroll', onScroll); // Keep listening to textarea's scroll
-
-        
-        
-        
-        
+        // --- Attach handlers to the correct events ---
+        new ResizeObserver(onScroll).observe(this.wrapper);
+        this.textarea.addEventListener('scroll', onScroll);
     }
+    
+    
     /**
      * @private
      * @function _measureAndRender
