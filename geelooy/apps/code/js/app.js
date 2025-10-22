@@ -118,148 +118,165 @@ export const App = {
          State.useTabs = settings.useTabs ?? true;
     },
 
-    setupEventListeners() {
-    	// Inside the setupEventListeners() method
-const appContainer = document.querySelector('.app-container');
+    // B"H - In js/app.js
 
-const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-if (sidebarCollapseBtn) {
-    sidebarCollapseBtn.onclick = () => {
-        // This button is only visible on desktop per our CSS
-        appContainer.classList.add('sidebar-collapsed');
-    };
-}
-    
-    
-    
-        DOM.editor.addEventListener('input', () => {
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if (activeTab && !activeTab.isDirty) {
-                activeTab.isDirty = true;
-                Tabs.render();
-            }
-            UI.updateLineNumbers();
-        });
-        DOM.editor.addEventListener('scroll', UI.syncScroll);
-        DOM.editor.addEventListener('keyup', StatusBar.update);
-        DOM.editor.addEventListener('click', StatusBar.update);
-        new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
-        
-        DOM.contextMenu.addEventListener('click', (e) => {
-            const button = e.target.closest('button');
-            if (button) Menus.handleAction(button.dataset.action);
-        });
-        DOM.mainMenu.addEventListener('click', (e) => {
-            const button = e.target.closest('button');
-            if (button && !button.disabled) Menus.handleAction(button.dataset.action);
-        });
-        DOM.hamburgerMenuBtn.onclick = (e) => {
-    if ( appContainer.classList.contains('sidebar-collapsed')) {
-        appContainer.classList.remove('sidebar-collapsed');
-    } else {
-        Menus.showMainMenu(e);
+// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE
+setupEventListeners() {
+    // --- Element References ---
+    const appContainer = document.querySelector('.app-container');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+    const mainMenuBtn = document.getElementById('main-menu-btn');
+    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+
+    // --- 1. Main Menu Button ---
+    // This button's ONLY job is to show the main menu. No more mixed logic.
+    if (mainMenuBtn) {
+        mainMenuBtn.onclick = (e) => {
+            Menus.showMainMenu(e);
+        };
     }
-};
-        
-        
-        DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
-        
-        const closeMobileSidebar = () => {
-            DOM.sidebar.classList.remove('is-open');
-            DOM.sidebarOverlay.classList.remove('is-visible');
-            document.removeEventListener('click', handleOutsideClick);
-        };
-        const handleOutsideClick = (e) => {
-            if (
-                !e.target.closest('#sidebar') &&
-                !e.target.closest('#mobileSidebarToggle') &&
-                !e.target.closest('#context-menu') &&
-                !e.target.closest('#main-menu') &&
-                !e.target.closest('#generic-dialog')
-            ) {
-                closeMobileSidebar();
-            }
-        };
-        DOM.mobileSidebarToggle.onclick = (e) => {
-            e.stopPropagation(); 
-            const isOpen = DOM.sidebar.classList.contains('is-open');
-            if (isOpen) {
-                closeMobileSidebar();
+
+    // --- 2. Universal Sidebar Toggle Button (Top Bar) ---
+    // This button intelligently handles both mobile and desktop sidebar states.
+    if (sidebarToggleBtn) {
+        sidebarToggleBtn.onclick = (e) => {
+            e.stopPropagation();
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            if (isMobile) {
+                // On mobile, it toggles the slide-out panel.
+                DOM.sidebar.classList.toggle('is-open');
+                DOM.sidebarOverlay.classList.toggle('is-visible');
             } else {
-                DOM.sidebar.classList.add('is-open');
-                DOM.sidebarOverlay.classList.add('is-visible');
-                document.addEventListener('click', handleOutsideClick);
+                // On desktop, it toggles the collapsed state.
+                appContainer.classList.toggle('sidebar-collapsed');
             }
         };
+    }
 
-        window.addEventListener('keydown', (e) => {
-            const hasModifier = e.ctrlKey || e.metaKey;
-            if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
-            if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
-            if (e.key === 'Escape') {
-                if (DOM.genericDialog.classList.contains('visible')) {
-                    const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
-                    if (cancelButton) cancelButton.click();
-                    return;
-                }
-                if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
-                else Menus.hideAll();
-            }
-        });
-        
-        const handleTabInInputs = (e) => {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const input = e.target;
-                const start = input.selectionStart;
-                const end = input.selectionEnd;
-                input.setRangeText(App.getTabString(), start, end, 'end');
-            }
+    // --- 3. Internal Sidebar Collapse Button (In Header) ---
+    // This button provides a second way to collapse the sidebar on desktop.
+    if (sidebarCollapseBtn) {
+        sidebarCollapseBtn.onclick = () => {
+            appContainer.classList.toggle('sidebar-collapsed');
         };
-        DOM.findInput.addEventListener('keydown', handleTabInInputs);
-        DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
+    }
+    
+    // --- 4. Mobile "Click Outside to Close" Logic ---
+    // This logic is preserved and correctly handles closing the mobile sidebar.
+    const closeMobileSidebar = () => {
+        DOM.sidebar.classList.remove('is-open');
+        DOM.sidebarOverlay.classList.remove('is-visible');
+    };
+    
+    document.addEventListener('click', (e) => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile || !DOM.sidebar.classList.contains('is-open')) {
+            return; // Only run this logic on mobile when the sidebar is open
+        }
 
-        DOM.editor.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const editor = DOM.editor;
-                const fullText = editor.value;
-                const cursorPosition = editor.selectionStart;
-                const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
-                const currentLineText = fullText.substring(lineStartPos, cursorPosition);
-                const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
-                const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
-                const textToInsert = '\n' + indent;
-                editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
-                editor.dispatchEvent(new Event('input', { bubbles: true }));
+        const isClickInsideSidebar = DOM.sidebar.contains(e.target);
+        const isClickOnToggleButton = sidebarToggleBtn && sidebarToggleBtn.contains(e.target);
+
+        if (!isClickInsideSidebar && !isClickOnToggleButton) {
+            closeMobileSidebar();
+        }
+    });
+
+    // --- ALL YOUR OTHER EVENT LISTENERS (UNCHANGED) ---
+    
+    DOM.editor.addEventListener('input', () => {
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (activeTab && !activeTab.isDirty) {
+            activeTab.isDirty = true;
+            Tabs.render();
+        }
+        UI.updateLineNumbers();
+    });
+    DOM.editor.addEventListener('scroll', UI.syncScroll);
+    DOM.editor.addEventListener('keyup', StatusBar.update);
+    DOM.editor.addEventListener('click', StatusBar.update);
+    new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
+
+    DOM.contextMenu.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (button) Menus.handleAction(button.dataset.action);
+    });
+    DOM.mainMenu.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (button && !button.disabled) Menus.handleAction(button.dataset.action);
+    });
+
+    DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
+
+    window.addEventListener('keydown', (e) => {
+        const hasModifier = e.ctrlKey || e.metaKey;
+        if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
+        if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
+        if (e.key === 'Escape') {
+            if (DOM.genericDialog.classList.contains('visible')) {
+                const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
+                if (cancelButton) cancelButton.click();
+                return;
             }
-        });
-        
-        DOM.keyboardHelper.addEventListener('click', (e) => {
-            const button = e.target.closest('button.kh-btn');
-            if (!button) return;
+            if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
+            else Menus.hideAll();
+        }
+    });
+
+    const handleTabInInputs = (e) => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const input = e.target;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            input.setRangeText(App.getTabString(), start, end, 'end');
+        }
+    };
+    DOM.findInput.addEventListener('keydown', handleTabInInputs);
+    DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
+
+    DOM.editor.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
             const editor = DOM.editor;
-            const key = button.dataset.key;
-            const pair = button.dataset.pair;
-            const start = editor.selectionStart;
-            const end = editor.selectionEnd;
-            if (pair) {
-                const [charStart, charEnd] = pair;
-                const selectedText = editor.value.substring(start, end);
-                const textToInsert = charStart + selectedText + charEnd;
-                editor.setRangeText(textToInsert, start, end, 'select');
-                if (start === end) {
-                    editor.selectionStart = editor.selectionEnd = start + 1;
-                }
-            } else if (key === 'tab') {
-                editor.setRangeText(App.getTabString(), start, end, 'end');
-            }
-            editor.focus();
+            const fullText = editor.value;
+            const cursorPosition = editor.selectionStart;
+            const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
+            const currentLineText = fullText.substring(lineStartPos, cursorPosition);
+            const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
+            const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+            const textToInsert = '\n' + indent;
+            editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
             editor.dispatchEvent(new Event('input', { bubbles: true }));
-        });
+        }
+    });
 
-        window.addEventListener('beforeunload', () => this.saveSession());
-    },
+    DOM.keyboardHelper.addEventListener('click', (e) => {
+        const button = e.target.closest('button.kh-btn');
+        if (!button) return;
+        const editor = DOM.editor;
+        const key = button.dataset.key;
+        const pair = button.dataset.pair;
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        if (pair) {
+            const [charStart, charEnd] = pair;
+            const selectedText = editor.value.substring(start, end);
+            const textToInsert = charStart + selectedText + charEnd;
+            editor.setRangeText(textToInsert, start, end, 'select');
+            if (start === end) {
+                editor.selectionStart = editor.selectionEnd = start + 1;
+            }
+        } else if (key === 'tab') {
+            editor.setRangeText(App.getTabString(), start, end, 'end');
+        }
+        editor.focus();
+        editor.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    window.addEventListener('beforeunload', () => this.saveSession());
+},
 
     async showAddWorkspaceDialog() {
         const contentHTML = `
