@@ -152,8 +152,12 @@ copySelected() {
             UI.showToast("Paste complete!", "success");
 
         } catch (e) {
-            UI.showToast(`Paste failed: ${e.message}`, 'error');
-            console.error(e);
+            console.error("PASTE OPERATION FAILED:", e); // Log the full error to the console
+            const errorMessage = `Paste failed: ${e.message}\n\nStack Trace:\n${e.stack}`;
+            UI.showToast(errorMessage, 'error', 10000); // Show for 10 seconds
+            // -------------------------
+        
+        
         } finally {
             await Workspaces.refreshNode(destinationDir);
             UI.hideLoading();
