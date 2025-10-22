@@ -334,7 +334,7 @@ _renderLogMessage(log) {
             .line-numbered-input { position:relative; flex-grow:1; border:1px solid var(--c-border); border-radius:4px; background:var(--c-bg-med); overflow:hidden; display:flex; }
             .line-numbers-gutter { background:var(--c-bg-light); color:var(--c-text-sec); padding:8px 4px 8px 12px; font-size:12px; line-height:1.5; text-align:right; user-select:none; }
             .line-numbers-gutter div { min-width:2ch; }
-            .line-numbered-input textarea { flex-grow:1; background:transparent; border:none; outline:none; resize:none; color:transparent; caret-color:var(--c-accent-pri); line-height:1.5; padding:8px; margin:0; max-height:200px; width:100%; }
+            .line-numbered-input textarea { flex-grow:1;  border:none; outline:none;  caret-color:var(--c-accent-pri); line-height:1.5; padding:8px; margin:0; max-height:200px; width:100%; }
             .line-numbered-input > div:not(.line-numbers-gutter) { line-height:1.5 !important; padding:8px !important; margin:0 !important; width:100%; }
             .console-run-btn { background:var(--c-accent-pri); color:white; border:none; border-radius:4px; padding:6px; cursor:pointer; transition:background .2s ease; display:flex; align-items:center; justify-content:center; }
             .console-run-btn:hover { background:#33baff; }
