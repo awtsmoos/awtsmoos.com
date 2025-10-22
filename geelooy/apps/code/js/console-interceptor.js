@@ -1,6 +1,9 @@
 // B"H
 // FILE: js/console-interceptor.js
-export default /*js*/`(function() {
+export default /*js*/`
+//B"H
+//Welcome! 
+(function() {
     // Keep a reference to the original console methods
     const originalConsole = {
         log: console.log.bind(console),
