@@ -12,12 +12,11 @@ export default (workerPath, originalScriptContent) => /*js*/`
     const SCRIPT_FETCH_TIMEOUT = 10000; // 10 seconds timeout.
 
     let signalSAB, signalInt32;
-    // The script cache holds responses that arrive while the worker is waiting.
     const scriptCache = new Map();
     const OriginalImportScripts = self.importScripts;
     let isInitialized = false;
 
-    // This promise ensures that the original user script does not execute
+    // This promise ensures the original user script does not execute
     // until the sync mechanism has been initialized.
     const sabReadyPromise = new Promise((resolve) => {
         self.addEventListener('message', (event) => {
@@ -31,12 +30,13 @@ export default (workerPath, originalScriptContent) => /*js*/`
         });
     });
 
-    // This is the general message handler. Its ONLY job is to take incoming script data
-    // and put it in the cache. It can run successfully AFTER the worker is woken up.
+    // This handler runs whenever the main thread sends a response. Because importScripts
+    // is suspended with Atomics.wait(), this handler CAN run. It now controls the handshake.
     self.addEventListener('message', (event) => {
         if (event.data.type === 'import-scripts-response') {
             const { path, contentSAB, error } = event.data;
             console.log('%c[WORKER] Caching response for:', 'color: #4682B4;', path);
+            
             if (error) {
                 scriptCache.set(path, { error });
             } else if (contentSAB) {
@@ -44,6 +44,12 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 const content = decoder.decode(new Uint8Array(contentSAB));
                 scriptCache.set(path, { content });
             }
+
+            // --- THE GUARANTEED HANDSHAKE ---
+            // STEP 1: Set the signal to 1, confirming the data is cached and ready.
+            Atomics.store(signalInt32, 0, 1);
+            // STEP 2: Notify the waiting importScripts function that it can now safely proceed.
+            Atomics.notify(signalInt32, 0, 1);
         }
     });
 
@@ -53,39 +59,36 @@ export default (workerPath, originalScriptContent) => /*js*/`
         }
         
         for (const relativePath of paths) {
-            // STEP 1: Reset the signal to 0 (meaning "I am now waiting").
+            // Set the signal to 0, meaning "I am now waiting for the onmessage handler".
             Atomics.store(signalInt32, 0, 0);
 
-            console.log('%c[WORKER] Requesting script via postMessage:', 'color: #4682B4;', relativePath);
-            // STEP 2: Post the request to the main thread.
+            console.log('%c[WORKER] Requesting script:', 'color: #4682B4;', relativePath);
+            // Post the request to the main thread.
             self.postMessage({ type: 'import-scripts-request', path: relativePath, basePath: workerBasePath });
             
-            console.log('%c[WORKER] Now freezing with Atomics.wait()...', 'color: #B0C4DE;');
-            // STEP 3: Freeze this thread. Wait until the value at index 0 is no longer 0, or until timeout.
+            console.log('%c[WORKER] Now freezing until onmessage completes...', 'color: #B0C4DE;');
+            // Freeze this execution context. It will ONLY wake up when the onmessage
+            // handler above calls notify(). This eliminates the race condition.
             const result = Atomics.wait(signalInt32, 0, 0, SCRIPT_FETCH_TIMEOUT);
 
             if (result === 'timed-out') {
                 throw new Error(\`Profound Editor: Timed out waiting for importScripts response for '\${relativePath}'.\`);
             }
-            console.log('%c[WORKER] ...Woke up!', 'color: #B0C4DE;');
+            console.log('%c[WORKER] ...Woke up! Cache is guaranteed to be ready.', 'color: #B0C4DE;');
             
-            // STEP 4: We have woken up. The message with our data MUST have been processed by now.
-            // Check the cache to get the data.
             if (!scriptCache.has(relativePath)) {
-                // This can happen if the main thread notifies but fails to send a message, which would be a bug.
-                throw new Error(\`Profound Editor: Woke up but could not find cached script for '\${relativePath}'.\`);
+                // This should theoretically never happen with the handshake in place.
+                throw new Error(\`Profound Editor: Woke up but could not find cached script for '\${relativePath}'. This indicates a critical bug.\`);
             }
 
             const cachedResult = scriptCache.get(relativePath);
-            scriptCache.delete(relativePath); // Clean up cache after use.
+            scriptCache.delete(relativePath); // Clean up after use.
 
             if (cachedResult.error) {
-                console.error(\`[WORKER] Error importing script '\${relativePath}':\`, cachedResult.error);
                 throw new Error(cachedResult.error);
             }
 
             try {
-                // Use a Blob URL to execute the script in the worker's global scope.
                 const blob = new Blob([cachedResult.content], { type: 'application/javascript' });
                 const blobUrl = URL.createObjectURL(blob);
                 OriginalImportScripts(blobUrl);
@@ -97,7 +100,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
         }
     };
 
-    // This async IIFE wraps the original script and waits for the polyfill to be ready.
+    // This async IIFE wraps the original script to ensure it doesn't run before initialization.
     (async () => {
         await sabReadyPromise;
         console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
@@ -105,8 +108,6 @@ export default (workerPath, originalScriptContent) => /*js*/`
             ${originalScriptContent}
         } catch (e) {
             console.error("CRITICAL: Error during initial execution of worker script.", e);
-            // Optionally, post an error message back to the main thread.
-            // self.postMessage({ type: 'worker-error', error: e.message, stack: e.stack });
         }
     })();
 })();
