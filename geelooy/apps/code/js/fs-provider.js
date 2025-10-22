@@ -338,13 +338,65 @@ export const FileSystemProvider = {
                 body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
             });
         },
-        async delete({ repoInfo, branch, path, name, sha, kind }) {
-            if (kind === 'directory') throw new Error("Deleting non-empty folders via API is complex and not supported in this version.");
-            const message = `B"H${"\n"} delete ${name}`;
-            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                method: 'DELETE',
-                body: JSON.stringify({ message, sha, branch })
-            });
+        // B"H
+// FILE: js/fs-provider.js -> FileSystemProvider.GitHub
+
+// Find the 'delete' method within the GitHub object and replace it entirely with this:
+async delete(item) {
+    const { repoInfo, branch, path, name } = item;
+    const message = `B"H - Delete '${name}'`;
+
+    if (item.kind === 'file') {
+        // --- DELETING A SINGLE FILE (This part is simple and remains the same) ---
+        // We need the file's sha to delete it.
+        const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
+            method: 'DELETE',
+            body: JSON.stringify({ message, sha: fileData.sha, branch })
+        });
+    } else if (item.kind === 'directory') {
+        // --- NEW: RECURSIVELY DELETING A FOLDER (The advanced logic) ---
+
+        // 1. Get the latest commit SHA for the branch.
+        const refData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
+        const latestCommitSha = refData.object.sha;
+
+        // 2. Get the ENTIRE file tree for that commit, recursively.
+        const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSha}?recursive=1`);
+        
+        // 3. Create a NEW tree that EXCLUDES the folder we want to delete.
+        // We do this by keeping everything that is NOT inside the folder's path.
+        const newTree = treeData.tree
+            .filter(entry => !entry.path.startsWith(path))
+            .map(({ path, mode, type, sha }) => ({ path, mode, type, sha })); // Ensure only valid fields are sent
+
+        if (newTree.length === treeData.tree.length) {
+            // This is a safety check. If the new tree is the same size as the old one,
+            // it means the folder wasn't found, so we can stop to prevent an empty commit.
+            throw new Error(`Directory '${path}' not found in the repository tree.`);
         }
+
+        // 4. Create a new tree object on GitHub with our filtered list.
+        const newTreeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+            method: 'POST',
+            body: JSON.stringify({ base_tree: latestCommitSha, tree: newTree })
+        });
+
+        // 5. Create a new commit that points to our new tree.
+        const newCommitData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+            method: 'POST',
+            body: JSON.stringify({ message, tree: newTreeData.sha, parents: [latestCommitSha] })
+        });
+
+        // 6. FINALLY, update the branch to point to our new commit.
+        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+            method: 'PATCH', // Use PATCH for updates
+            body: JSON.stringify({ sha: newCommitData.sha })
+        });
+
+    } else {
+        throw new Error(`Unsupported item type for deletion: ${item.kind}`);
+    }
+},
     }
 };
