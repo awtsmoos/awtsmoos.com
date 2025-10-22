@@ -1,14 +1,15 @@
 // B"H
 // FILE: js/workspaces.js
-
+// B"H - IN: js/workspaces.js
+import { SelectionManager } from './selection-manager.js';
 import { State , DOM} from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
 import { App } from './app.js';
 
-const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 
+export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 export const Workspaces = {
     add(ws, shouldSave = true) {
         const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
@@ -123,6 +124,12 @@ export const Workspaces = {
 
                 nameWrap.onclick = (e) => {
                     e.stopPropagation();
+                    if (State.isSelectionModeActive) {
+        // In selection mode, a click simply toggles the item.
+        SelectionManager.toggle(fullChildItem);
+        return; // Prevents the normal open/toggle behavior.
+    }
+                    
                     if (child.kind === 'directory') {
                         if (State.expandedFolders.has(uniquePath)) {
                             State.expandedFolders.delete(uniquePath);
