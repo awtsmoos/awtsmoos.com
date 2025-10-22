@@ -101,7 +101,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
         }
         console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
         try {
-            eval.call(self, originalScriptContent);
+            eval.call(self, "${JSON.stringify(originalScriptContent)}");
         } catch (e) {
             console.error("CRITICAL: Error during initial execution of worker script.", e);
         }
