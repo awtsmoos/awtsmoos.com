@@ -456,7 +456,7 @@ setupEventListeners() {
             console.log("Fullscreen API not supported by this browser.");
         }
     }
-}
+},
 
     async showSettings() {
         const contentHTML = `
