@@ -95,7 +95,7 @@ export default (workerPath, originalScriptContent) => /*js*/`
                 URL.revokeObjectURL(blobUrl);
             } catch (e) {
                 console.error(\`Profound Editor: Error executing imported script '\${relativePath}'\`, e);
-                throw e;
+            //    throw e;
             }
         }
     };
