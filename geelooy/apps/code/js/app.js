@@ -119,6 +119,19 @@ export const App = {
     },
 
     setupEventListeners() {
+    	// Inside the setupEventListeners() method
+const appContainer = document.querySelector('.app-container');
+
+const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+if (sidebarCollapseBtn) {
+    sidebarCollapseBtn.onclick = () => {
+        // This button is only visible on desktop per our CSS
+        appContainer.classList.add('sidebar-collapsed');
+    };
+}
+    
+    
+    
         DOM.editor.addEventListener('input', () => {
             const activeTab = State.tabs.find(t => t.id === State.activeTabId);
             if (activeTab && !activeTab.isDirty) {
@@ -140,7 +153,15 @@ export const App = {
             const button = e.target.closest('button');
             if (button && !button.disabled) Menus.handleAction(button.dataset.action);
         });
-        DOM.hamburgerMenuBtn.onclick = (e) => Menus.showMainMenu(e);
+        DOM.hamburgerMenuBtn.onclick = (e) => {
+    if (window.innerWidth > 768 && appContainer.classList.contains('sidebar-collapsed')) {
+        appContainer.classList.remove('sidebar-collapsed');
+    } else {
+        Menus.showMainMenu(e);
+    }
+};
+        
+        
         DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
         
         const closeMobileSidebar = () => {
