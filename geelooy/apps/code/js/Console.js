@@ -225,8 +225,8 @@ _renderLogMessage(log) {
             // STEP 3: Call `new pnimi` on the textarea after it's on the page.
             // We use a timeout to ensure the browser has rendered it first.
             
-                const highlighter = new pnimi(textarea, 'js');
-                highlighter.update(arg);
+              //  const highlighter = new pnimi(textarea, 'js');
+              //  highlighter.update(arg);
                 // Store the instance only for later cleanup. Do not touch it otherwise.
          //       this.outputHighlighters.set(textarea, highlighter); 
            
