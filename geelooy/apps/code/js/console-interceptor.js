@@ -1,6 +1,6 @@
 // B"H
 // FILE: js/console-interceptor.js
-(function() {
+export default /*js*/`(function() {
     // Keep a reference to the original console methods
     const originalConsole = {
         log: console.log.bind(console),
@@ -137,4 +137,4 @@
     
     post('status', { status: 'ready' });
 
-})();
+})()`
