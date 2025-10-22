@@ -127,11 +127,15 @@ copySelected() {
 // ACTION: Replace the entire 'paste' function with this one.
 
 async paste(destinationDir) {
+    UI.showToast("starting to paste.", "warning");
+        
+    
     // 1. --- The First Guard: Is there anything on the clipboard? ---
     // This is the most likely cause of the previous silent failure.
     if (!State.fileClipboard || State.fileClipboard.length === 0) {
         console.warn("Paste cancelled: The file clipboard is empty.");
         UI.showToast("Clipboard is empty. Nothing to paste.", "warning");
+        
         return; // EXIT POINT #1 (User feedback provided)
     }
 
