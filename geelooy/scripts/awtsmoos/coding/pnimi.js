@@ -301,38 +301,37 @@ this.parserState = { in_comment: false, in_string: false, in_rules: false, in_sc
      * Calculates the line height and character width, the fundamental constants of this created world.
      * If it cannot be measured immediately (due to CSS loading), it waits and tries again.
      */
-    _measureAndRender() {
-        const performMeasurements = () => {
-            this.lineHeight = parseFloat(getComputedStyle(this.textarea).lineHeight);
-            if (!this.lineHeight || isNaN(this.lineHeight)) return false;
+    // B"H
+// FILE: pnimi.js
+// ACTION: Replace the _measureAndRender method.
 
-            // Measure character width ONLY when we have a valid line height
-            const tempSpan = document.createElement('span');
-            tempSpan.style.font = getComputedStyle(this.textarea).font;
-            tempSpan.style.whiteSpace = 'pre';
-            tempSpan.style.visibility = 'hidden'; // Make it invisible during measurement
-            tempSpan.textContent = 'm'; // A standard character for width measurement
-            this.overlay.appendChild(tempSpan);
-            this.charWidth = tempSpan.getBoundingClientRect().width;
-            tempSpan.remove();
+_measureAndRender() {
+    const performMeasurements = () => {
+        // Guard against a detached or hidden element.
+        if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
 
-            return this.charWidth > 0;
-        };
+        this.lineHeight = parseFloat(getComputedStyle(this.textarea).lineHeight);
+        if (!this.lineHeight || isNaN(this.lineHeight)) return false;
 
-        if (performMeasurements()) {
-            // Measurements were successful on the first try
-            this._update();
-            this._updateCaret(); // Initial caret position
-        } else {
-            // If it failed, wait for styles to load and try again
-            setTimeout(() => {
-                if (performMeasurements()) {
-                    this._update();
-                    this._updateCaret(); // Initial caret position
-                }
-            }, 200);
-        }
+        const tempSpan = document.createElement('span');
+        tempSpan.style.font = getComputedStyle(this.textarea).font;
+        tempSpan.style.whiteSpace = 'pre';
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.textContent = 'm';
+        this.overlay.appendChild(tempSpan);
+        this.charWidth = tempSpan.getBoundingClientRect().width;
+        tempSpan.remove();
+
+        return this.charWidth > 0;
+    };
+
+    // Try to measure. If it succeeds, do the initial render.
+    // If it fails, do nothing. The public update() method will handle it.
+    if (performMeasurements()) {
+        this._update();
+        this._updateCaret();
     }
+}
 
 
 
@@ -870,29 +869,30 @@ async _update() {
      * This sets the textarea's value and forces the highlighter to re-render.
      * @param {string} newContent - The new text content for the editor.
      */
-    // B"H
+// B"H
 // FILE: pnimi.js
 // ACTION: Replace the public update method.
 
 update(newContent) {
-    if (typeof newContent !== 'string') return console. log("what",newContent);
+    if (typeof newContent !== 'string') return;
     
     // --- THE SELF-HEALING FIX ---
-    // If our measurements failed in the constructor (lineHeight is 0 or NaN, charWidth is 0),
-    // it means the element was not ready. We force a re-measurement NOW, before proceeding.
+    // If our measurements failed in the constructor (charWidth is 0),
+    // it means the element was not ready. We force a re-measurement NOW.
     if (!this.charWidth || this.charWidth <= 0) {
-        console.log('pnimi: Re-running measurements during update...');
         this._measureAndRender();
         // If it still fails, we cannot proceed.
         if (!this.charWidth || this.charWidth <= 0) {
-            console.error('pnimi: Could not measure element dimensions. Aborting render.');
+            console.error('pnimi: Fatal error. Could not measure element dimensions. Aborting render.');
+            this.textarea.value = newContent; // At least show the raw text
             return;
         }
     }
     // --- END FIX ---
     
     this.textarea.value = newContent;
-    this._update(); // Now this is guaranteed to have valid measurements to work with.
+    // Now that we are guaranteed to have measurements, this will work.
+    this._update();
 }
 
     /**
