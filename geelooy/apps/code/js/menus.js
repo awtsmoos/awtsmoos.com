@@ -216,6 +216,16 @@ export const Menus = {
         // We pass the event `e` to position the new menu correctly
         SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
         break;
+        
+        
+        case 'copy-single': {
+        if (!item) break;
+        // The item is the one that was right-clicked (State.contextTarget)
+        const uniquePath = getItemUniquePath(item);
+        State.fileClipboard = [uniquePath]; // Clipboard now contains just this one item
+        UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+        break;
+    }
     
     case 'paste':
     
