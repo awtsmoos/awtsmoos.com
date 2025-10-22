@@ -111,8 +111,9 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = { in_comment: false, in_string: false, in_rules: false };
-
+        // EDIT THIS LINE
+this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false };
+        
         /** @private The default colors, the 10 Sefirot manifested as light. */
         const defaultColors = {
             comment: '#6a9955', string: '#ce9178', number: '#b5cea8',
@@ -336,6 +337,34 @@ class VirtualizedEditor {
         let html = '';
         let i = 0;
         while (i < line.length) {
+        	if (state.in_script) {
+                const endIdx = line.indexOf('</script>', i);
+                if (endIdx !== -1) {
+                    html += this._escape(line.substring(i, endIdx));
+                    html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
+                    i = endIdx + 9;
+                    state.in_script = false;
+                    continue; // Continue parsing rest of line
+                } else {
+                    html += this._escape(line.substring(i));
+                    break; // The whole line is script content
+                }
+            }
+            if (state.in_style) {
+                const endIdx = line.indexOf('</style>', i);
+                if (endIdx !== -1) {
+                    html += this._escape(line.substring(i, endIdx));
+                    html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
+                    i = endIdx + 8;
+                    state.in_style = false;
+                    continue; // Continue parsing rest of line
+                } else {
+                    html += this._escape(line.substring(i));
+                    break; // The whole line is style content
+                }
+            }
+        
+        
             if (state.in_comment) {
                 const endIdx = line.indexOf('-->', i);
                 if (endIdx !== -1) {
@@ -425,6 +454,30 @@ class VirtualizedEditor {
             }
             html += this._wrap('>', 'punctuation');
             i = tagEnd + 1;
+            
+            const normalizedTagName = tagName.toLowerCase();
+            if ((normalizedTagName === 'script' || normalizedTagName === 'style') && line[tagEnd - 1] !== '/') {
+                const endTag = `</${normalizedTagName}>`;
+                const endIdx = line.indexOf(endTag, i);
+
+                if (endIdx !== -1) {
+                    // The script/style block is on the same line
+                    const content = line.substring(i, endIdx);
+                    html += this._escape(content); // Treat content as plain text
+                    html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
+                    i = endIdx + endTag.length;
+                } else {
+                    // The block continues to the next line
+                    html += this._escape(line.substring(i));
+                    if (normalizedTagName === 'script') state.in_script = true;
+                    if (normalizedTagName === 'style') state.in_style = true;
+                    break; // Stop parsing this line
+                }
+                continue; // Continue the loop
+                
+            }
+            
+            
         }
         return { html: html || '&nbsp;', state };
     }
@@ -545,7 +598,9 @@ class VirtualizedEditor {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = { in_comment: false, in_string: false, in_rules: false };
+        // EDIT THIS LINE
+let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false };
+        
         for (let i = 0; i < firstLineToRender; i++) {
             this._getHighlightResult(this.lines[i], state);
         }
