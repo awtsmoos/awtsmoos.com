@@ -114,7 +114,7 @@ export default /*js*/`
         
         try {
             // We use new Function() to execute code in the global scope of the iframe
-            const result = new Function(`return ${command}`)();
+            const result = new Function(\`return ${command}\`)();
             post('execution-result', {
                 executionId: executionId,
                 result: serialize(result),
