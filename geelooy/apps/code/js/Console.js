@@ -183,47 +183,71 @@ export class Console {
         return details;
     }
 
-    _renderLogMessage(log) {
-        const { level, args, timestamp, isInput = false, isError = false } = log;
-        const row = document.createElement('div');
-        row.className = `console-row level-${level} ${isInput ? 'input-row' : ''} ${isError ? 'level-error' : ''}`;
-        
-        const iconDefs = {
-            error: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.03-3.03a.75.75 0 011.06 0L10 6.94l1.97-1.97a.75.75 0 111.06 1.06L11.06 8l1.97 1.97a.75.75 0 11-1.06 1.06L10 9.06l-1.97 1.97a.75.75 0 11-1.06-1.06L8.94 8 6.97 6.03a.75.75 0 010-1.06z"></path></svg>`,
-            warn: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.22 1.754a.75.75 0 00-1.44 0L1.698 13.132a.75.75 0 00.645 1.118h11.314a.75.75 0 00.644-1.118L8.22 1.754zM2.81 12.632L8 2.918l5.19 9.714H2.81zM7.5 5.5a.5.5 0 011 0v3a.5.5 0 01-1 0v-3zm0 5.5a.5.5 0 111 0 .5.5 0 01-1 0z"></path></svg>`,
-            info: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.47 7l.03.03.002.002.002.002.003.003.003.002.003.002.002.002h.003c.244.073.427.29.427.561v3.25a.75.75 0 11-1.5 0V9.664l-.004-.002-.002-.002-.003-.002-.003-.003h-.002L7.22 9.5H7.22A.75.75 0 016.5 8.75zM8 5a.75.75 0 110 1.5A.75.75 0 018 5z"></path></svg>`,
-            input: `<svg viewBox="0 0 16 16"><path d="M5.47 13.53a.75.75 0 001.06 0l5.25-5.25a.75.75 0 000-1.06L6.53 1.97a.75.75 0 10-1.06 1.06l4.72 4.72-4.72 4.72a.75.75 0 000 1.06z"></path></svg>`,
-            output: `<svg viewBox="0 0 16 16"><path d="M10.53 1.97a.75.75 0 010 1.06L6.06 7.5l4.47 4.47a.75.75 0 11-1.06 1.06L4.47 8.03a.75.75 0 010-1.06l5.03-5.03a.75.75 0 011.03 0z"></path></svg>`
-        };
-        
-        const iconHtml = `<div class="console-icon">${ isInput ? iconDefs.input : isError ? iconDefs.output : iconDefs[level] || '' }</div>`;
-        const timestampHtml = `<span class="console-timestamp">${timestamp || ''}</span>`;
-        
-        const contentContainer = document.createElement('div');
-        contentContainer.className = 'console-content';
+// B"H
+// FILE: js/Console.js
+// ACTION: Replace this entire method.
 
-        args.forEach(arg => {
-            if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
-                contentContainer.appendChild(this._createVividInspector(arg));
-            } else {
-                const el = document.createElement('div');
-                el.className = 'highlighted-output';
-                const textarea = document.createElement('textarea');
-                textarea.setAttribute('readonly', true);
-                textarea.value = this._prettyPrint(arg);
-                el.appendChild(textarea);
-                contentContainer.appendChild(el);
-                this.outputHighlighters.set(el, new pnimi(textarea, 'js'));
-            }
-        });
-        
-        row.innerHTML = iconHtml;
-        row.appendChild(contentContainer);
-        row.innerHTML += timestampHtml;
+_renderLogMessage(log) {
+    const { level, args, timestamp, isInput = false, isError = false } = log;
+    const row = document.createElement('div');
+    row.className = `console-row level-${level} ${isInput ? 'input-row' : ''} ${isError ? 'level-error' : ''}`;
+    
+    const iconDefs = {
+        error: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.03-3.03a.75.75 0 011.06 0L10 6.94l1.97-1.97a.75.75 0 111.06 1.06L11.06 8l1.97 1.97a.75.75 0 11-1.06 1.06L10 9.06l-1.97 1.97a.75.75 0 11-1.06-1.06L8.94 8 6.97 6.03a.75.75 0 010-1.06z"></path></svg>`,
+        warn: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.22 1.754a.75.75 0 00-1.44 0L1.698 13.132a.75.75 0 00.645 1.118h11.314a.75.75 0 00.644-1.118L8.22 1.754zM2.81 12.632L8 2.918l5.19 9.714H2.81zM7.5 5.5a.5.5 0 011 0v3a.5.5 0 01-1 0v-3zm0 5.5a.5.5 0 111 0 .5.5 0 01-1 0z"></path></svg>`,
+        info: `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.47 7l.03.03.002.002.002.002.003.003.003.002.003.002.002.002h.003c.244.073.427.29.427.561v3.25a.75.75 0 11-1.5 0V9.664l-.004-.002-.002-.002-.003-.002-.003-.003h-.002L7.22 9.5H7.22A.75.75 0 016.5 8.75zM8 5a.75.75 0 110 1.5A.75.75 0 018 5z"></path></svg>`,
+        input: `<svg viewBox="0 0 16 16"><path d="M5.47 13.53a.75.75 0 001.06 0l5.25-5.25a.75.75 0 000-1.06L6.53 1.97a.75.75 0 10-1.06 1.06l4.72 4.72-4.72 4.72a.75.75 0 000 1.06z"></path></svg>`,
+        output: `<svg viewBox="0 0 16 16"><path d="M10.53 1.97a.75.75 0 010 1.06L6.06 7.5l4.47 4.47a.75.75 0 11-1.06 1.06L4.47 8.03a.75.75 0 010-1.06l5.03-5.03a.75.75 0 011.03 0z"></path></svg>`
+    };
+    
+    // --- THIS IS THE FIX ---
+    // We now build the row using pure, reliable DOM methods.
 
-        this.elements.logContainer.appendChild(row);
-        row.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }
+    // 1. Create the icon element
+    const iconEl = document.createElement('div');
+    iconEl.className = 'console-icon';
+    iconEl.innerHTML = isInput ? iconDefs.input : isError ? iconDefs.output : iconDefs[level] || '';
+    
+    // 2. Create and populate the main content container
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'console-content';
+    args.forEach(arg => {
+        if (['array', 'object', 'map', 'set', 'error'].includes(arg.type)) {
+            contentContainer.appendChild(this._createVividInspector(arg));
+        } else {
+            const el = document.createElement('div');
+            el.className = 'highlighted-output';
+            const textarea = document.createElement('textarea');
+            textarea.setAttribute('readonly', true);
+            textarea.value = this._prettyPrint(arg);
+            el.appendChild(textarea);
+            contentContainer.appendChild(el);
+            
+            const highlighter = new pnimi(textarea, 'js');
+            this.outputHighlighters.set(el, highlighter);
+            textarea.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    });
+
+    // 3. Create the timestamp element
+    const timestampEl = document.createElement('span');
+    timestampEl.className = 'console-timestamp';
+    timestampEl.textContent = timestamp || '';
+
+    // 4. Append all three correctly-built elements to the row.
+    // This ensures the CSS Grid has the exact structure it needs.
+    row.appendChild(iconEl);
+    row.appendChild(contentContainer);
+    row.appendChild(timestampEl);
+
+    // Finally, add the complete row to the DOM.
+    this.elements.logContainer.appendChild(row);
+    row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+
+
+
 
     _executeCommand() {
         const command = this.elements.input.value;
