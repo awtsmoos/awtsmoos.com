@@ -147,13 +147,13 @@ async activate(tabId) {
             UI.switchView('console');
             
             // Get or create the console instance for this tab
-            let instance = App.consoleInstances.get(tab.id);
+            let instance = State.consoleInstances.get(tab.id);
             if (!instance) {
                 const associatedIframe = State.previewIframes.get(tab.item.associatedTabId);
                 if (associatedIframe) {
                     instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
                     instance.render();
-                    App.consoleInstances.set(tab.id, instance);
+                    State.consoleInstances.set(tab.id, instance);
                 } else {
                      DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--console-error-border);">Error: Could not find the associated HTML preview. It may have been closed. Please open the HTML file again.</div>`;
                 }
@@ -219,9 +219,9 @@ async close(tabId, force = false) {
 
     } else if (tabToClose.fileType === 'console') {
         // Destroy the console instance and remove it from the map
-        const instance = App.consoleInstances.get(tabId);
+        const instance = State.consoleInstances.get(tabId);
         if (instance) instance.destroy();
-        App.consoleInstances.delete(tabId);
+        State.consoleInstances.delete(tabId);
     }
     
     if (tabToClose.isDirty && !force) {
