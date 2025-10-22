@@ -33,8 +33,10 @@ export const DOM = {};
 export function initializeDOM() {
     DOM.sidebar = document.getElementById('sidebar');
     DOM.sidebarOverlay = document.getElementById('sidebar-overlay');
-    DOM.hamburgerMenuBtn = document.getElementById('hamburger-menu-btn');
-    DOM.mobileSidebarToggle = document.getElementById('hamburger-sidebar-toggle');
+    DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');      // <-- FIX
+DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- FIX
+    
+    
     DOM.mainMenu = document.getElementById('main-menu');
     DOM.workspacesContainer = document.getElementById('workspaces-container');
     DOM.editorWrapper = document.getElementById('editor-wrapper');
