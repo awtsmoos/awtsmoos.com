@@ -8,78 +8,83 @@ import importScriptsPolyfill from "./importScriptsHack.js";
 
 const CHUNK_SIZE = 64 * 1024; // 64 KiB
 
-// This will hold the promise resolver for the current chunk's ACK.
+// This is a module-scoped variable to hold the promise resolver for the ACK.
 let _ackResolver = null;
 
-// This function now waits for the iframe interceptor to receive an 'ack' and call the resolver.
-function waitForAckFromWorker() {
+// This function pauses the main thread's logic until an 'ack' message is received.
+function waitForAck() {
     return new Promise((resolve) => {
         _ackResolver = resolve;
     });
 }
 
-// Utility to send data (name or content) in chunks.
+// Utility to send data (name or content) in chunks. It is guaranteed to wait for an ACK after each chunk.
 async function sendChunks(bytes, isNamePhase, controlView, dataBytes) {
     const total = bytes.length;
     let offset = 0;
 
     while (offset < total) {
         const chunkLen = Math.min(total - offset, CHUNK_SIZE);
-        
-        // 1. Copy chunk data into the shared data buffer.
         dataBytes.set(bytes.subarray(offset, offset + chunkLen), 0);
 
-        // 2. Set control metadata for the worker to read.
-        Atomics.store(controlView, 1, chunkLen); // chunkLen
-        Atomics.store(controlView, 2, isNamePhase ? 1 : 0); // isNamePhase
-        Atomics.store(controlView, 3, ((offset + chunkLen) >= total) ? 1 : 0); // isLastChunk
-        Atomics.store(controlView, 4, 0); // errorCode
+        // Set control metadata
+        Atomics.store(controlView, 1, chunkLen);
+        Atomics.store(controlView, 2, isNamePhase ? 1 : 0);
+        Atomics.store(controlView, 3, ((offset + chunkLen) >= total) ? 1 : 0);
+        Atomics.store(controlView, 4, 0);
 
-        // 3. Signal to the worker that a chunk is ready.
-        Atomics.store(controlView, 0, 1); // state = ready
+        // Signal worker that a chunk is ready
+        Atomics.store(controlView, 0, 1);
         Atomics.notify(controlView, 0);
 
-        // 4. Wait for the worker to send back an 'ack' message confirming it has read the chunk.
-        await waitForAckFromWorker();
+        // Wait for the worker to acknowledge it has processed the chunk.
+        await waitForAck();
         
         offset += chunkLen;
     }
 }
 
-async function handleWorkerRequest(event, baseItem) {
-    const { type, path: relativePath, controlSAB, dataSAB } = event.data;
+// This function handles requests that have been relayed from the iframe.
+async function handleIncomingRequest(event, baseItem) {
+    const { type, path: relativePath, controlSAB, dataSAB, basePath } = event.data;
 
+    // This handles the initial fetch of the top-level worker script.
     if (type === 'fetch-worker-script') {
-        // ... This part is unchanged and works as before ...
+        const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
+        try {
+            let scriptContent = await FileSystemProvider.read({ ...baseItem, path: resolvedPath });
+            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
+            
+            // The polyfill is prepended to the user's worker code.
+            const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
+            const blob = new Blob([finalContent], { type: 'application/javascript' });
+            const blobUrl = URL.createObjectURL(blob);
+            event.source.postMessage({ type: 'worker-script-response', id: event.data.id, blobUrl }, '*');
+        } catch (e) {
+            event.source.postMessage({ type: 'worker-script-response', id: event.data.id, error: e.message }, '*');
+        }
     } 
+    // This handles an importScripts request using the chunking protocol.
     else if (type === 'import-scripts-request') {
         const controlView = new Int32Array(controlSAB);
         const dataBytes = new Uint8Array(dataSAB);
-        const resolvedPath = resolveRelativePath(event.data.basePath, relativePath);
+        const resolvedPath = resolveRelativePath(basePath, relativePath);
 
         try {
-            // 1. Fetch the script content from the file system.
-            const assetItem = { /* ... your file system logic ... */ path: resolvedPath };
-            let scriptContent = await FileSystemProvider.read(assetItem);
-            // ... (handle Blob or binary content as before) ...
-            if (typeof scriptContent !== 'string') {
-                 scriptContent = await (scriptContent.text ? scriptContent.text() : new TextDecoder().decode(scriptContent));
-            }
+            let scriptContent = await FileSystemProvider.read({ ...baseItem, path: resolvedPath });
+            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
 
-            // 2. Prepare the name and script content as bytes.
             const encoder = new TextEncoder();
             const nameBytes = encoder.encode(relativePath);
             const scriptBytes = encoder.encode(scriptContent);
-            
-            // 3. Send the name in chunks.
+
+            // Send name, then content, waiting for ACK between each chunk.
             await sendChunks(nameBytes, true, controlView, dataBytes);
-            
-            // 4. Send the script content in chunks.
             await sendChunks(scriptBytes, false, controlView, dataBytes);
 
         } catch (err) {
             console.error(`[EDITOR] Error during chunked send for '${relativePath}':`, err);
-            // Notify the worker of the error so it doesn't wait forever.
+            // Notify the worker of an error so it stops waiting.
             Atomics.store(controlView, 4, 1); // errorCode = 1
             Atomics.store(controlView, 3, 1); // isLastChunk = true
             Atomics.store(controlView, 0, 1); // state = ready
@@ -88,26 +93,29 @@ async function handleWorkerRequest(event, baseItem) {
     }
 }
 
-// This function now needs to handle the ACK resolver.
+// This function sets up the ONE message listener for the main editor window.
 export function attachWorkerRequestHandler(baseItem) {
     if (window.currentWorkerRequestHandler) {
         window.removeEventListener('message', window.currentWorkerRequestHandler);
     }
-    // This handler listens for messages from the iframe (which relays from the worker).
-    window.currentWorkerRequestHandler = (event) => {
-        // The ACK is resolved here, where we have scope to the resolver function.
-        if (event.data.type === 'ack-resolver') {
+    
+    const messageRouter = (event) => {
+        // If the message is an ACK from the iframe, resolve the pending promise.
+        if (event.data && event.data.type === 'ack') {
             if (_ackResolver) {
                 _ackResolver();
                 _ackResolver = null;
             }
-        } else {
-            handleWorkerRequest(event, baseItem);
+        } 
+        // Otherwise, treat it as a request to be handled.
+        else {
+            handleIncomingRequest(event, baseItem);
         }
     };
+    
+    window.currentWorkerRequestHandler = messageRouter;
     window.addEventListener('message', window.currentWorkerRequestHandler);
 }
-
 
 export function detachWorkerRequestHandler() {
     if (window.currentWorkerRequestHandler) {
