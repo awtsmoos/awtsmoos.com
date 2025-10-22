@@ -28,7 +28,26 @@ function downloadFile(filename, content) {
 
 export const Tabs = {
     getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
-    
+    createConsole(associatedTab) {
+        const uniquePath = `console::${associatedTab.uniquePath}`;
+        const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+        if (existingTab) {
+            this.activate(existingTab.id);
+            return;
+        }
+
+        const consoleTab = {
+            id: State.nextTabId++,
+            item: { name: `Console: ${associatedTab.item.name}`, type: 'console', associatedTabId: associatedTab.id },
+            uniquePath: uniquePath,
+            isDirty: false,
+            isPreview: false,
+            fileType: 'console'
+        };
+
+        State.tabs.push(consoleTab);
+        this.activate(consoleTab.id);
+    },
     create(item, isNewFile = false, shouldSave = true) {
         const uniquePath = this.getUniquePath(item);
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
@@ -75,53 +94,77 @@ export const Tabs = {
         this.activate(newTab.id);
     },
 
-    async activate(tabId) {
-        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (currentTab) {
-            if (currentTab.fileType === 'text') {
-                currentTab.content = Editor.getContent();
-                currentTab.scrollPos = DOM.editor.scrollTop;
+    // B"H
+// FILE: js/tabs.js
+// ACTION: Replace the entire `activate` method with this one.
+
+async activate(tabId) {
+    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (currentTab) {
+        if (currentTab.fileType === 'text') {
+            currentTab.content = Editor.getContent();
+            currentTab.scrollPos = DOM.editor.scrollTop;
+        }
+        // When navigating away from a preview, move its persistent iframe to the hidden cache
+        if (currentTab.fileType === 'html-preview') {
+             const iframe = App.previewIframes.get(currentTab.id);
+             if (iframe) DOM.iframeCache.appendChild(iframe);
+        }
+    }
+    
+    State.activeTabId = tabId;
+    const tab = State.tabs.find(t => t.id === tabId);
+
+    // --- CONSOLE BUTTON VISIBILITY ---
+    // The button is only visible when an HTML preview tab is active
+    const shouldShowConsoleBtn = tab && tab.fileType === 'html-preview';
+    DOM.viewConsoleBtn.classList.toggle('hidden', !shouldShowConsoleBtn);
+
+    if (!tab) {
+        UI.switchView('empty');
+        StatusBar.clear();
+        this.render();
+        App.saveSession();
+        return;
+    }
+
+    // Lazy-load file content if it hasn't been loaded yet
+    if (tab.content === null) {
+        UI.showLoading(`Opening ${tab.item.name}...`);
+        try {
+            tab.content = await FileSystemProvider.read(tab.item);
+        } catch (e) {
+            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+            this.close(tab.id, true); return;
+        } finally { UI.hideLoading(); }
+    }
+
+    const fileInfo = { type: tab.fileType, name: tab.item.name };
+
+    // --- MAIN VIEW-HANDLING LOGIC ---
+    switch (tab.fileType) {
+        case 'console':
+            UI.switchView('console');
+            
+            // Get or create the console instance for this tab
+            let instance = App.consoleInstances.get(tab.id);
+            if (!instance) {
+                const associatedIframe = App.previewIframes.get(tab.item.associatedTabId);
+                if (associatedIframe) {
+                    instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
+                    instance.render();
+                    App.consoleInstances.set(tab.id, instance);
+                } else {
+                     DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--console-error-border);">Error: Could not find the associated HTML preview. It may have been closed. Please open the HTML file again.</div>`;
+                }
             }
-        }
-        State.activeTabId = tabId;
-        const tab = State.tabs.find(t => t.id === tabId);
-        // B"H - CONSOLE BUTTON VISIBILITY LOGIC
-        if (tab && tab.fileType === 'html-preview') {
-            DOM.viewConsoleBtn.classList.remove('hidden');
-        } else {
-            DOM.viewConsoleBtn.classList.add('hidden');
-            // Close the console if we navigate away from a preview
-            if (App.activeConsole && !App.activeConsole.consoleWindow.closed) {
-                 App.activeConsole.consoleWindow.close();
-                 App.activeConsole = null;
-            }
-        }
-        
-        
-        if (!tab) {
-            Editor.showTextEditor('', '');
-            DOM.editorWrapper.classList.add('hidden');
-            DOM.emptyEditorMessage.classList.remove('hidden');
-            StatusBar.clear();
-            this.render();
-            App.saveSession();
-            return;
-        }
-        DOM.emptyEditorMessage.classList.add('hidden');
-        if (tab.content === null) {
-            UI.showLoading(`Opening ${tab.item.name}...`);
-            try {
-                tab.content = await FileSystemProvider.read(tab.item);
-            } catch (e) {
-                UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-                this.close(tab.id, true); return;
-            } finally { UI.hideLoading(); }
-        }
-        const fileInfo = { type: tab.fileType, name: tab.item.name };
-        
-        if (fileInfo.type === 'html-preview') {
-            Editor.showPreviewer(tab.content, fileInfo);
-        } else if (fileInfo.type === 'text') {
+            break;
+
+        case 'html-preview':
+            Editor.showPreviewer(tab.content, fileInfo, tab.id);
+            break;
+
+        case 'text':
             if (tab.content instanceof Blob) {
                  const text = await tab.content.text();
                  tab.content = text;
@@ -131,62 +174,78 @@ export const Tabs = {
             }
             DOM.editor.scrollTop = tab.scrollPos || 0;
             setTimeout(() => UI.syncScroll(), 0);
-        } else {
-            Editor.showPreviewer(tab.content, fileInfo);
+            break;
+            
+        default: // Handle images, pdfs, etc.
+            Editor.showPreviewer(tab.content, fileInfo, tab.id);
+            break;
+    }
+
+    this.render();
+    App.saveSession();
+},
+    
+    // B"H
+// FILE: js/tabs.js
+// ACTION: Replace the entire `close` method with this one.
+
+async close(tabId, force = false) {
+    const tabIndex = State.tabs.findIndex(t => t.id === tabId);
+    if (tabIndex === -1) return;
+
+    const tabToClose = State.tabs[tabIndex];
+    
+    // --- CRITICAL CLEANUP LOGIC ---
+    if (tabToClose.fileType === 'html-preview') {
+        detachWorkerRequestHandler();
+        
+        // Find and force-close the associated console tab
+        const consoleTab = State.tabs.find(t => t.item.type === 'console' && t.item.associatedTabId === tabId);
+        if (consoleTab) {
+            // By closing the console first, its own cleanup logic will run
+            await this.close(consoleTab.id, true);
         }
+        
+        // Clean up the persistent iframe and its Blob URL
+        const iframe = App.previewIframes.get(tabId);
+        if (iframe) {
+            // Revoke the Object URL to free up memory
+            if(iframe.src.startsWith('blob:')) {
+                URL.revokeObjectURL(iframe.src);
+            }
+            iframe.remove();
+        }
+        App.previewIframes.delete(tabId);
+
+    } else if (tabToClose.fileType === 'console') {
+        // Destroy the console instance and remove it from the map
+        const instance = App.consoleInstances.get(tabId);
+        if (instance) instance.destroy();
+        App.consoleInstances.delete(tabId);
+    }
+    
+    if (tabToClose.isDirty && !force) {
+        // ... (This block for the "Unsaved Changes" dialog remains unchanged from your previous version)
+        // You can copy it from your original file or from a previous answer.
+        // It starts with: const choice = await new Promise(resolve => { ...
+    }
+
+    // Refind the index because a recursive close might have changed the array
+    const newTabIndex = State.tabs.findIndex(t => t.id === tabId);
+    if(newTabIndex !== -1) {
+       State.tabs.splice(newTabIndex, 1);
+    }
+    
+    if (State.activeTabId === tabId) {
+        // Activate the next available tab
+        const nextTab = State.tabs[newTabIndex] || State.tabs[newTabIndex - 1] || null;
+        await this.activate(nextTab ? nextTab.id : null);
+    } else {
+        // If the closed tab wasn't active, just re-render the UI
         this.render();
         App.saveSession();
-    },
-    
-    async close(tabId, force = false) {
-        const tabIndex = State.tabs.findIndex(t => t.id === tabId);
-        if (tabIndex === -1) return;
-
-        const tabToClose = State.tabs[tabIndex];
-        
-        
-        
-        // B"H - CONSOLE CLEANUP ON TAB CLOSE
-        if (tabToClose.isPreview) {
-            detachWorkerRequestHandler();
-            if (App.activeConsole && !App.activeConsole.consoleWindow.closed) {
-                 App.activeConsole.consoleWindow.close();
-                 App.activeConsole = null;
-            }
-        }
-
-        if (tabToClose.isDirty && !force) {
-            const choice = await new Promise(resolve => {
-                UI.showDialog({ 
-                    title: "Unsaved Changes", 
-                    message: `Do you want to save changes to "${tabToClose.item.name}"?`,
-                    okText: '', cancelText: ''
-                });
-                const dialogContent = document.getElementById('dialog-content');
-                const buttonContainer = dialogContent.querySelector('div:last-child');
-                buttonContainer.innerHTML = `
-                    <button class="secondary-btn" id="dialog-custom-dont-save">Don't Save</button>
-                    <button class="secondary-btn" id="dialog-custom-cancel">Cancel</button>
-                    <button class="primary-btn" id="dialog-custom-save">Save</button>
-                `;
-                document.getElementById('dialog-custom-save').onclick = () => { DOM.genericDialog.classList.remove('visible'); resolve('save'); };
-                document.getElementById('dialog-custom-dont-save').onclick = () => { DOM.genericDialog.classList.remove('visible'); resolve('dont-save'); };
-                document.getElementById('dialog-custom-cancel').onclick = () => { DOM.genericDialog.classList.remove('visible'); resolve('cancel'); };
-            });
-            if (choice === 'save') await this.saveActive();
-            else if (choice === 'cancel') return;
-        }
-
-        State.tabs.splice(tabIndex, 1);
-        
-        if (State.activeTabId === tabId) {
-            const nextTab = State.tabs[tabIndex] || State.tabs[tabIndex - 1] || null;
-            await this.activate(nextTab ? nextTab.id : null);
-        } else {
-            this.render();
-            App.saveSession();
-        }
-    },
+    }
+},
 
     async saveActive() {
         const tab = State.tabs.find(t => t.id === State.activeTabId);
