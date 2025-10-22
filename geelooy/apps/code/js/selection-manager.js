@@ -59,44 +59,28 @@ export const SelectionManager = {
     },
 
     // The core logic for selecting/deselecting an item
-    toggle(item) {
-        if (!item) return;
+    // B"H
+// FILE: js/selection-manager.js
+// ACTION: Replace the ENTIRE toggle function with this one.
 
-        const uniquePath = getItemUniquePath(item);
-        const entry = State.domItemMap.get(uniquePath);
-        if (!entry?.el) return;
+toggle(item) {
+    if (!item) return;
 
-        const isCurrentlySelected = State.selectedItems.has(uniquePath);
+    const uniquePath = getItemUniquePath(item); // Note: getItemUniquePath, not from Workspaces
+    const entry = State.domItemMap.get(uniquePath);
+    if (!entry?.el) return;
 
-        // --- THE ADVANCED LOGIC YOU WANTED ---
-        // For folders, we need to find all children recursively.
-        const allPathsToToggle = new Set([uniquePath]);
-        if (item.kind === 'directory' && !isCurrentlySelected) {
-            // This is the magic: when selecting a folder, select all its descendants
-            for (const [path, mapEntry] of State.domItemMap.entries()) {
-                // Check if a path is a descendant of the selected folder
-                if (path.startsWith(`${uniquePath}/`)) {
-                    allPathsToToggle.add(path);
-                }
-            }
-        }
-        
-        // Now, perform the toggle for all collected paths
-        allPathsToToggle.forEach(path => {
-            const pathEntry = State.domItemMap.get(path);
-            if (!pathEntry?.el) return;
+    // This is much simpler. If selected, deselect. If not selected, select.
+    if (State.selectedItems.has(uniquePath)) {
+        State.selectedItems.delete(uniquePath);
+        entry.el.classList.remove('selected');
+    } else {
+        State.selectedItems.add(uniquePath);
+        entry.el.classList.add('selected');
+    }
 
-            if (isCurrentlySelected) { // Deselecting
-                State.selectedItems.delete(path);
-                pathEntry.el.classList.remove('selected');
-            } else { // Selecting
-                State.selectedItems.add(path);
-                pathEntry.el.classList.add('selected');
-            }
-        });
-        
-        this.updateMenu();
-    },
+    this.updateMenu();
+},
 
     // --- UI Functions for the Sticky Menu ---
     showMenu(event) {
