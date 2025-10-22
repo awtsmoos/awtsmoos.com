@@ -52,14 +52,18 @@ async function handleIncomingRequest(event, baseItem) {
     if (type === 'fetch-worker-script') {
         const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         try {
-            // --- GITHUB LOGIC RESTORED ---
             const assetItem = { ...workspace, path: resolvedPath };
             if (workspace.type === 'github') {
                 const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
                 assetItem.sha = fileMeta.sha;
             }
             let scriptContent = await FileSystemProvider.read(assetItem);
-            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
+            // --- CRITICAL LOGIC RESTORED ---
+            if (scriptContent instanceof Blob) {
+                scriptContent = await scriptContent.text();
+            } else if (scriptContent.isBinary) {
+                scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+            }
             
             const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
             const blob = new Blob([finalContent], { type: 'application/javascript' });
@@ -75,14 +79,18 @@ async function handleIncomingRequest(event, baseItem) {
         const resolvedPath = resolveRelativePath(basePath, relativePath);
 
         try {
-            // --- GITHUB LOGIC RESTORED ---
             const assetItem = { ...workspace, path: resolvedPath };
             if (workspace.type === 'github') {
                 const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
                 assetItem.sha = fileMeta.sha;
             }
             let scriptContent = await FileSystemProvider.read(assetItem);
-            if (scriptContent instanceof Blob) scriptContent = await scriptContent.text();
+            // --- CRITICAL LOGIC RESTORED ---
+            if (scriptContent instanceof Blob) {
+                scriptContent = await scriptContent.text();
+            } else if (scriptContent.isBinary) {
+                scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
+            }
             
             const encoder = new TextEncoder();
             const nameBytes = encoder.encode(relativePath);
@@ -144,14 +152,18 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             const relativePath = el.getAttribute(pathAttr);
             const resolvedPath = resolveRelativePath(baseItem.path, relativePath);
             try {
-                // --- GITHUB LOGIC RESTORED ---
                 const assetItem = { ...workspace, path: resolvedPath };
                 if (workspace.type === 'github') {
                     const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
                     assetItem.sha = fileMeta.sha;
                 }
                 let content = await FileSystemProvider.read(assetItem);
-                if (content instanceof Blob) content = await content.text();
+                // --- CRITICAL LOGIC RESTORED ---
+                if (content instanceof Blob) {
+                    content = await content.text();
+                } else if (content.isBinary) {
+                    content = FileSystemProvider.GitHub.b64_to_utf8(content.base64Content);
+                }
                 
                 if (isLink) {
                     const style = doc.createElement('style');
