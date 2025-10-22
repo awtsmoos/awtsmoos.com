@@ -1,62 +1,6 @@
-// B"H
-// FILE: js/html-preview-processor.js
 
-// ... keep all your imports and existing functions ...
 
-let interceptorScriptContent = null; // Cache the script content
 
-export async function processHtmlForPreview(htmlContent, baseItem) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
-    
-    const renderErrorOnPage = (message) => {
-        // ... (this helper function remains the same as in your provided code) ...
-    };
-
-    if (!workspace) {
-        // ... (this error handling remains the same) ...
-    }
-    
-    // B"H - NEW LOGIC TO FETCH and INJECT the interceptor
-    try {
-        if (!interceptorScriptContent) {
-            // Fetch the script only once and cache it.
-            const response = await fetch('/js/console-interceptor.js');
-            if (!response.ok) throw new Error(`Failed to fetch console interceptor: ${response.statusText}`);
-            interceptorScriptContent = await response.text();
-        }
-        const interceptorElement = doc.createElement('script');
-        interceptorElement.textContent = interceptorScriptContent;
-        if (doc.head) doc.head.prepend(interceptorElement);
-        else doc.documentElement.prepend(interceptorElement);
-    } catch (e) {
-         renderErrorOnPage(`FATAL: Could not load the console interceptor script. The console will not work.\nREASON: ${e.message}`);
-    }
-    // END NEW LOGIC
-
-    // This line that was here before should now be removed or commented out, as we're injecting a different script
-    // const interceptorElement = doc.createElement('script');
-    // interceptorElement.textContent = workerInterceptorScript;
-    // ...
-
-    const assetElements = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'));
-    
-    // ... the rest of the function remains exactly the same as your provided code ...
-    for (const el of assetElements) {
-        // ... your asset inlining logic is perfect, keep it ...
-    }
-
-    return doc.documentElement.outerHTML;
-}```
-
-### Step 5: The JavaScript Console Module
-
-This is the largest new piece. It's a class that manages the console's UI and logic. It opens the new window, builds the object inspector, and handles communication.
-
-Create a new file: `js/Console.js`
-
-```javascript
 // B"H
 // FILE: js/Console.js
 
