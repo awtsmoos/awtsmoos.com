@@ -97,5 +97,27 @@ export const UI = {
             DOM.lineNumbers.innerText = numbersText;
         }
     },
+    
+    switchView(viewName) { // Can be 'editor', 'preview', 'console', or 'empty'
+        DOM.editorWrapper.classList.add('hidden');
+        DOM.previewer.classList.add('hidden');
+        DOM.consoleHost.classList.add('hidden');
+        DOM.emptyEditorMessage.classList.add('hidden');
+
+        switch(viewName) {
+            case 'editor':
+                DOM.editorWrapper.classList.remove('hidden');
+                break;
+            case 'preview':
+                DOM.previewer.classList.remove('hidden');
+                break;
+            case 'console':
+                DOM.consoleHost.classList.remove('hidden');
+                break;
+            case 'empty':
+                DOM.emptyEditorMessage.classList.remove('hidden');
+                break;
+        }
+    },
     syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop
 };
