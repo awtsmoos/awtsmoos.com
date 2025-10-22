@@ -215,6 +215,8 @@ _renderLogMessage(log) {
             
             // STEP 2: Add the textarea directly to the page.
             row.appendChild(textarea);
+            textarea.style.width=300+"px"
+            textarea.style. height=300+"px"
             
             // STEP 3: Call `new pnimi` on the textarea after it's on the page.
             // We use a timeout to ensure the browser has rendered it first.
