@@ -384,9 +384,7 @@ _measureAndRender() {
     };
     
     
-    const lang = {
-        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
-    };
+    
     let html = '';
     let i = 0;
 
