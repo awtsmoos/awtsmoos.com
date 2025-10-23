@@ -8,6 +8,8 @@ import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
 import { App } from './app.js';
 import { GitManager } from './git-manager.js'; // Make sure this import exists
+import { GitMetaProvider } from './git-meta-provider.js'; // <-- Make sure this import exists at the top
+
 
 
 export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
@@ -110,12 +112,14 @@ export const Workspaces = {
 
 
     
+
+// REPLACE your existing renderTree function with this complete one.
 async renderTree(parentElement, parentItem, depth) {
+    // 1. Initial setup and fetch children
     parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
     try {
-        // This call is correct.
         const children = await FileSystemProvider.list(parentItem);
-        parentElement.innerHTML = '';
+        parentElement.innerHTML = ''; // Clear "Loading..." message
         children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
         
         if (children.length === 0) {
@@ -123,43 +127,61 @@ async renderTree(parentElement, parentItem, depth) {
             return;
         }
 
-        children.forEach(child => {
-            if (child.name === '.gitkeep') return;
+        // 2. Process all children asynchronously and wait for them to finish
+        await Promise.all(children.map(async (child) => {
+            // Skip special directories we don't want to display
+            if (child.name === '.gitkeep' || child.name === '.awtsmoos-repo') {
+                return;
+            }
 
-            const li = document.createElement('li');
-            li.className = 'tree-item';
-            li.style.setProperty('--depth', depth);
-            
-            // --- THIS IS THE CORRECT, ORIGINAL LOGIC ---
-            // It correctly finds the workspace for the root and for every child.
+            // 3. Prepare item data
             const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
             const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
             if (!workspace) {
                 console.error("Could not find parent workspace for item:", child);
                 return;
             }
-
-            // This ensures every item created has the full, correct context from the root workspace,
-            // combined with its own specific details.
             const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
-            // --- END OF CORRECT LOGIC ---
-
             const uniquePath = getItemUniquePath(fullChildItem);
             
-            const isExpanded = State.expandedFolders.has(uniquePath);
-            if (isExpanded) li.classList.add('expanded');
+            // 4. Asynchronously check if this folder is a Git clone by looking for ikar.js
+            const gitInfo = child.kind === 'directory' 
+                ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) 
+                : null;
+            const isGitClone = !!gitInfo;
 
+            // 5. Determine the correct icon
+            let icon = child.kind === 'directory' ? 'folder' : 'file';
+            if (isGitClone) {
+                icon = 'git-branch'; // Use a Git icon for the folder
+            }
+
+            // 6. Create the HTML for the list item
+            const li = document.createElement('li');
+            li.className = 'tree-item';
+            li.style.setProperty('--depth', depth);
             li.innerHTML = `
                 <div class="tree-item-name-wrap">
                     <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
-                    <svg class="svg-icon"><use href="#icon-${child.kind === 'directory' ? 'folder' : 'file'}"/></svg>
+                    <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
                     <span class="tree-item-name">${child.name}</span>
+                    <div class="tree-item-actions">
+                        ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-brain-circuit"></use></svg></button>` : ''}
+                    </div>
                 </div>`;
             
+            // 7. Append to the DOM and attach event listeners
             parentElement.appendChild(li);
             const nameWrap = li.querySelector('.tree-item-name-wrap');
 
-            // All the event handlers you had before are correct.
+            const gitBtn = li.querySelector('.git-actions-btn');
+            if (gitBtn) {
+                gitBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    GitManager.showGitUI(fullChildItem); // Pass the folder item
+                };
+            }
+            
             nameWrap.onclick = (e) => {
                 e.stopPropagation();
                 if (State.isSelectionModeActive) {
@@ -190,14 +212,19 @@ async renderTree(parentElement, parentItem, depth) {
                 Menus.show(e, fullChildItem);
             };
             
+            // 8. Update state and handle recursion for expanded folders
             State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
 
+            const isExpanded = State.expandedFolders.has(uniquePath);
             if (isExpanded) {
+                li.classList.add('expanded');
                 const newUl = document.createElement('ul');
                 li.appendChild(newUl);
+                // Recursion is safe here because we've already finished the async check for this level
                 this.renderTree(newUl, fullChildItem, depth + 1);
             }
-        });
+        })); // End of Promise.all
+
     } catch (e) {
         console.error("Error rendering tree:", e);
         parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
