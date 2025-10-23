@@ -537,41 +537,42 @@ _highlightHTML(line, state) {
     let html = '';
     let i = 0;
 
-    // --- NEW: Handle being inside a multi-line script block ---
+    // --- NEW: State Isolation for Multi-line Script/Style Blocks ---
     if (state.in_script) {
         const endTag = '</script>';
         const endIdx = line.indexOf(endTag, i);
-        if (endIdx !== -1) {
+        if (endIdx !==- 1) {
             const scriptContent = line.substring(i, endIdx);
-            html += this._highlightJS(scriptContent, state).html; // Use JS highlighter
+            // THE FIX: Give the JS parser its own, clean, temporary state ({})
+            html += this._highlightJS(scriptContent, {}).html;
             html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
-            state.in_script = false; // We've exited the block
+            state.in_script = false;
         } else {
-            // The entire line is script content
-            html += this._highlightJS(line.substring(i), state).html;
+            // THE FIX: Give the JS parser its own, clean, temporary state ({})
+            html += this._highlightJS(line.substring(i), {}).html;
             return { html: html || '&nbsp;', state };
         }
     }
 
-    // --- NEW: Handle being inside a multi-line style block ---
     if (state.in_style) {
         const endTag = '</style>';
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const styleContent = line.substring(i, endIdx);
-            html += this._highlightCSS(styleContent, state).html; // Use CSS highlighter
+            // THE FIX: Give the CSS parser its own, clean, temporary state ({})
+            html += this._highlightCSS(styleContent, {}).html;
             html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
-            state.in_style = false; // We've exited the block
+            state.in_style = false;
         } else {
-            // The entire line is style content
-            html += this._highlightCSS(line.substring(i), state).html;
+            // THE FIX: Give the CSS parser its own, clean, temporary state ({})
+            html += this._highlightCSS(line.substring(i), {}).html;
             return { html: html || '&nbsp;', state };
         }
     }
 
-    // --- Main HTML parsing loop ---
+    // --- Main HTML parsing loop (mostly unchanged) ---
     while (i < line.length) {
         if (state.in_comment) {
             const endIdx = line.indexOf('-->', i);
@@ -614,7 +615,6 @@ _highlightHTML(line, state) {
             break;
         }
 
-        // --- Standard Tag and Attribute Parsing (mostly unchanged) ---
         let currentPos = i + 1;
         html += this._wrap('<', 'punctuation');
         if (line[currentPos] === '/') {
@@ -629,8 +629,9 @@ _highlightHTML(line, state) {
         const normalizedTagName = tagName.toLowerCase();
         html += this._wrap(tagName, 'tag');
 
+        // Attribute parsing logic remains the same...
         while (currentPos < tagEnd) {
-            let whitespace = '';
+             let whitespace = '';
             while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
                 whitespace += line[currentPos++];
             }
@@ -671,33 +672,35 @@ _highlightHTML(line, state) {
         }
         html += this._wrap('>', 'punctuation');
         i = tagEnd + 1;
-
-        // --- NEW: Logic to enter script/style modes ---
+        
+        // --- NEW: State Isolation for Single-line Script/Style Blocks ---
         if (!isClosingTag && (normalizedTagName === 'script' || normalizedTagName === 'style')) {
             const endTag = `</${normalizedTagName}>`;
             const endOfBlockIdx = line.indexOf(endTag, i);
 
             if (endOfBlockIdx !== -1) {
-                // Block ends on the same line
                 const content = line.substring(i, endOfBlockIdx);
                 if (normalizedTagName === 'script') {
-                    html += this._highlightJS(content, state).html;
+                    // THE FIX: Give the JS parser its own, clean, temporary state ({})
+                    html += this._highlightJS(content, {}).html;
                 } else {
-                    html += this._highlightCSS(content, state).html;
+                    // THE FIX: Give the CSS parser its own, clean, temporary state ({})
+                    html += this._highlightCSS(content, {}).html;
                 }
                 html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
                 i = endOfBlockIdx + endTag.length;
             } else {
-                // Block continues to the next line
                 const content = line.substring(i);
                 if (normalizedTagName === 'script') {
-                    html += this._highlightJS(content, state).html;
+                    // THE FIX: Give the JS parser its own, clean, temporary state ({})
+                    html += this._highlightJS(content, {}).html;
                     state.in_script = true;
                 } else {
-                    html += this._highlightCSS(content, state).html;
+                    // THE FIX: Give the CSS parser its own, clean, temporary state ({})
+                    html += this._highlightCSS(content, {}).html;
                     state.in_style = true;
                 }
-                break; // We're done with this line
+                break;
             }
         }
     }
