@@ -363,60 +363,110 @@ _measureAndRender() {
           'var',
           'this',
            'function',
+           "continue",
+           "try","catch",
+           "finally",
             'return',
-             'if', 'else', 'for',
-              'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+             'if', 
+             'else', 
+             'for',
+              'class', 
+              'new', 
+              'await', 
+              'async', 
+              'import', 
+              'export', 
+              'from', 
+              'while', 'do', 'switch',
+               'case', 'break'
+              ],
     };
+    
+    
     
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
+
+        // --- THE NEW, PERFECTED LOGIC ---
+
+        // CONTEXT 1: We are inside a TAGGED TEMPLATE (`/*html*/...`).
+        // In this mode, this parser is ONLY a delegator. It does not parse JS.
+        if (currentState.in_tagged_template) {
+            const interpolationStart = remaining.indexOf('${');
+            const templateEnd = this._findUnescapedChar(remaining, '`');
+
+            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                const content = remaining.substring(0, interpolationStart);
+                const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
+                html += subResult.html;
+                currentState.sub_language_state = subResult.state;
+                
+                html += this._wrap('${', 'keyword');
+                currentState.string_type_before_interpolation = 'tagged';
+                i += interpolationStart + 2;
+                currentState.interpolation_depth = 1;
+                currentState.in_tagged_template = false; // Temporarily exit to parse JS
+            } else if (templateEnd !== -1) {
+                const content = remaining.substring(0, templateEnd);
+                const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
+                html += subResult.html;
+                html += this._wrap('`', 'string');
+                i += templateEnd + 1;
+                // The string has ended. Clear all temporary states.
+                currentState.in_tagged_template = false;
+                currentState.template_language = null;
+                currentState.sub_language_state = null;
+            } else {
+                // The entire rest of the line is sub-language content.
+                const subResult = this._getHighlightResult(remaining, currentState.sub_language_state, currentState.template_language);
+                html += subResult.html;
+                currentState.sub_language_state = subResult.state;
+                break; // We are done with this line.
+            }
+            continue; // CRITICAL: Skip the main JS tokenizer.
+        }
+
+        // CONTEXT 2: We are inside a PLAIN TEMPLATE (`...`).
+        if (currentState.in_string) {
+            const interpolationStart = remaining.indexOf('${');
+            const templateEnd = this._findUnescapedChar(remaining, '`');
+
+            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                html += this._wrap(remaining.substring(0, interpolationStart), 'string');
+                html += this._wrap('${', 'keyword');
+                currentState.string_type_before_interpolation = 'plain';
+                i += interpolationStart + 2;
+                currentState.interpolation_depth = 1;
+                currentState.in_string = false; // Temporarily exit to parse JS
+            } else if (templateEnd !== -1) {
+                html += this._wrap(remaining.substring(0, templateEnd), 'string');
+                html += this._wrap('`', 'string');
+                i += templateEnd + 1;
+                currentState.in_string = false;
+            } else {
+                html += this._wrap(remaining, 'string');
+                break;
+            }
+            continue; // CRITICAL: Skip the main JS tokenizer.
+        }
+        
+        // CONTEXT 3: We are in a multi-line block comment.
         if (currentState.in_comment) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
             else { html += this._wrap(remaining, 'comment'); break; }
             continue;
         }
-        if (currentState.in_string || currentState.in_tagged_template) {
-            const interpolationStart = remaining.indexOf('${');
-            const templateEnd = this._findUnescapedChar(remaining, '`');
-            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                const content = remaining.substring(0, interpolationStart);
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
-                } else { html += this._wrap(content, 'string'); }
-                html += this._wrap('${', 'keyword');
-                currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
-                i += interpolationStart + 2;
-                currentState.interpolation_depth = 1;
-                currentState.in_string = false;
-                currentState.in_tagged_template = false;
-            } else if (templateEnd !== -1) {
-                const content = remaining.substring(0, templateEnd);
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
-                    html += subResult.html;
-                } else { html += this._wrap(content, 'string'); }
-                html += this._wrap('`', 'string');
-                i += templateEnd + 1;
-                currentState.in_string = false;
-                currentState.in_tagged_template = false;
-                currentState.template_language = null;
-                currentState.sub_language_state = null;
-            } else {
-                const content = remaining;
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
-                } else { html += this._wrap(content, 'string'); }
-                break;
-            }
-            continue;
-        }
+
+        // --- END OF SPECIAL CONTEXTS ---
+        // If we have reached here, we are in the Top-Level JS Parser.
+
         const firstChar = remaining[0];
+        
+        // 1. Look for the START of special contexts.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         let directiveFound = false;
         for (const d of directives) {
@@ -431,6 +481,7 @@ _measureAndRender() {
             }
         }
         if (directiveFound) continue;
+        
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -445,6 +496,8 @@ _measureAndRender() {
             continue;
         }
         if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue; }
+        
+        // 2. Parse JS tokens.
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -453,6 +506,8 @@ _measureAndRender() {
             i += word.length;
             continue;
         }
+
+        // 3. Handle interpolation exit.
         if (currentState.interpolation_depth > 0) {
             if (firstChar === '{') {
                 currentState.interpolation_depth++;
@@ -468,6 +523,8 @@ _measureAndRender() {
                 }
             }
         }
+        
+        // 4. Default catch-all for single characters.
         html += this._escape(firstChar);
         i++;
     }
