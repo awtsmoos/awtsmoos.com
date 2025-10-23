@@ -738,4 +738,50 @@
 
 
 /* B"H - FINAL RESPONSIVE SELECTION MENU STYLES */
+/* B"H - VIVID EXTREME RESPONSIVE SELECTION MENU V3 (FINAL) */
 
+/* This is a simple, new class that your JS adds to the button text. */
+/* It has no effect on desktop and is used as a target for mobile. */
+.menu-button-label {
+    margin-left: 8px; /* Adds a bit of space between the icon and text */
+}
+
+/* --- THE INSANE VIVID EXTREME MOBILE TRANSFORMATION --- */
+/* This block ONLY activates on screens 768px or smaller */
+@media (max-width: 768px) {
+
+    /* 1. Transform the main bar into a vertical stack */
+    .selection-menu-bar {
+        flex-direction: column; /* Stack items vertically */
+        
+        /* 2. Rip it from the center and anchor it to the bottom-right */
+        left: auto; /* Annihilate the 'left: 50%' rule */
+        right: 15px; /* Lock to the right edge */
+        bottom: 70px; /* Float above the mobile nav bar */
+        transform: none; /* Destroy the horizontal centering transform */
+        
+        /* 3. Reforge its appearance for a compact, glowing, vertical presence */
+        padding: 10px 8px;
+        background-color: var(--color-backdrop); /* Use your existing glowing backdrop */
+        backdrop-filter: blur(10px);
+    }
+
+    /* 4. Erase all text to create a pure, icon-only interface */
+    /* This rule is now hyper-specific and CANNOT affect your context menu. */
+    .selection-menu-bar .menu-button-label {
+        display: none;
+    }
+    
+    /* 5. Obliterate unnecessary clutter */
+    .selection-menu-bar .menu-separator,
+    .selection-menu-bar .selection-count {
+        display: none;
+    }
+    
+    /* 6. Enlarge the buttons to be worthy of a thumb tap */
+    .selection-menu-bar .menu-button {
+        padding: 12px;
+        margin: 4px 0;
+        gap: 0;
+    }
+}
