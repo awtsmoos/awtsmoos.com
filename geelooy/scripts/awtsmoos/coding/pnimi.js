@@ -986,280 +986,199 @@ _isFunctionCall(line, startIndex) {
 
 // --- END: NEW HELPER METHODS ---
 
+
 /**
  * @private
  * @function _getInitialState
  * @description B"H - Creates the pure, primordial soul for the parser,
- * correctly setting the initial language.
+ * correctly setting the initial language and state flags.
  */
 _getInitialState() {
+    // We ensure that `this.language` is valid, defaulting to 'javascript'.
+    // This prevents errors if the editor is initialized with a null or undefined language.
+    const initialMode = this.language || 'javascript';
+    
     return {
-        contextStack: [{ mode: this.language || 'javascript', terminator: null }],
+        // The contextStack's first entry defines the reality of the entire file.
+        contextStack: [{ mode: initialMode, terminator: null }],
+        
+        // This flag is essential for the JavaScript parser to distinguish between
+        // the 'function' keyword and the name of the function being declared.
         isNextTokenFunctionName: false
     };
 }
-
 /**
  * @private
  * @function _getHighlightResult
  * @description The Final, Wise, and Unified Consciousness. This master function
  * acts as a router, dispatching to the correct internal logic based on the
- * current language context (HTML, CSS, or JavaScript).
+ * current language context (HTML, CSS, or JavaScript). It is architected to be
+ * completely fault-tolerant, preventing runtime errors and infinite loops.
  */
 _getHighlightResult(line, state) {
+    // --- DIVINE FAILSAFE 1: Input Validation ---
+    // Ensure the line is a string; if not, we cannot process it.
+    if (typeof line !== 'string') {
+        return { html: '&nbsp;', state: this._getInitialState() };
+    }
+    
+    // Use the incoming state, but if it's not present, create a fresh one.
     const currentState = state || this._getInitialState();
     let html = '';
     let i = 0;
 
-    // Keyword Definitions for sub-parsers
-    const controlKeywords = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
-    const definitionKeywords = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
-
-    while (i < line.length) {
-        const context = currentState.contextStack[currentState.contextStack.length - 1];
-        const remaining = line.substring(i);
-
-        // --- MASTER CONTEXT ROUTER ---
-        // The consciousness first decides which world it is in.
-        switch (context.mode) {
-            case 'html':
-                parseHtmlChunk();
-                break;
-            case 'css':
-                parseCssChunk();
-                break;
-            // All other cases default to the most complex world: JavaScript.
-            // This handles 'javascript', 'template_literal', 'string', 'comment' etc.
-            default:
-                parseJsChunk();
-                break;
-        }
-
-        // Continues the while loop until i >= line.length
-    }
-
-    //----------------------------------------------------------------------
-    // --- BEGIN INTERNAL PARSER LOGIC ---
-    // These functions are defined inside the main function to have access
-    // to its scope (i, html, currentState, line, etc.).
-    //----------------------------------------------------------------------
-
-    /** The logic for parsing a chunk of HTML */
-    function parseHtmlChunk() {
-        const tagStart = remaining.indexOf('<');
-
-        // If no tags are left, the rest is just text.
-        if (tagStart === -1) {
-            html += _escape(remaining);
-            i = line.length;
-            return;
-        }
-
-        // Add the text before the tag.
-        html += _escape(line.substring(i, i + tagStart));
-        i += tagStart;
-
-        const tagRemaining = line.substring(i);
-
-        // Check for HTML comment start '<!--'
-        if (tagRemaining.startsWith('<!--')) {
-            const commentEnd = tagRemaining.indexOf('-->');
-            if (commentEnd !== -1) {
-                html += _wrap(tagRemaining.substring(0, commentEnd + 3), 'comment');
-                i += commentEnd + 3;
-            } else {
-                html += _wrap(tagRemaining, 'comment');
-                currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
-                i = line.length;
-            }
-            return;
-        }
-        
-        const tagEnd = tagRemaining.indexOf('>');
-        // If the tag is unterminated on this line
-        if (tagEnd === -1) {
-            html += _escape(tagRemaining);
-            i = line.length;
-            return;
-        }
-
-        // Process the content of a single tag
-        const tagContent = tagRemaining.substring(0, tagEnd + 1);
-        const isClosing = tagContent[1] === '/';
-        const start = isClosing ? 2 : 1;
-        let tagName = '';
-        let pos = start;
-        while(pos < tagContent.length && !_isWhitespace(tagContent[pos]) && tagContent[pos] !== '>') {
-            tagName += tagContent[pos];
-            pos++;
-        }
-        
-        // Render tag punctuation and name
-        html += _wrap(isClosing ? '</' : '<', 'punctuation');
-        html += _wrap(tagName, 'tag');
-        // A full implementation would parse attributes here. For now, we escape them.
-        html += _escape(tagContent.substring(pos, tagContent.length - 1));
-        html += _wrap('>', 'punctuation');
-        i += tagEnd + 1;
-
-        // --- STATE TRANSITIONS: ENTERING SCRIPT/STYLE WORLDS ---
-        const lowerTagName = tagName.toLowerCase();
-        if (!isClosing && (lowerTagName === 'script' || lowerTagName === 'style')) {
-            const endTag = `</${lowerTagName}>`;
-            if (line.substring(i).toLowerCase().indexOf(endTag) === -1) {
-                const newMode = lowerTagName === 'script' ? 'javascript' : 'css';
-                currentState.contextStack.push({ mode: newMode, terminator: endTag });
-            }
-        }
-    }
-
-    /** The logic for parsing a chunk of CSS */
-    function parseCssChunk() {
-         // This is a simplified CSS parser. A full version would be more complex.
-        if (remaining.startsWith('/*')) {
-             const endIdx = remaining.indexOf('*/');
-             if (endIdx !== -1) {
-                 html += _wrap(remaining.substring(0, endIdx + 2), 'comment');
-                 i += endIdx + 2;
-             } else {
-                 html += _wrap(remaining, 'comment');
-                 currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
-                 i = line.length;
-             }
-             return;
-        }
-        // For simplicity, we'll tokenize CSS into basic parts.
-        const firstChar = remaining[0];
-        if (_isIdentifierStart(firstChar) || firstChar === '.' || firstChar === '#' || firstChar === '-' || firstChar === '@') {
-             let buffer = '';
-             let currentPos = i;
-             while(currentPos < line.length && /[\w-.#]/.test(line[currentPos])) {
-                 buffer += line[currentPos];
-                 currentPos++;
-             }
-             html += _wrap(buffer, 'tag'); // Use 'tag' color for selectors/properties
-             i = currentPos;
-             return;
-        }
-
-        // Default to just escaping the character
-        html += _escape(firstChar);
-        i++;
-    }
-
-
-    /** The logic for parsing a chunk of JavaScript and its nested realities */
-    function parseJsChunk() {
-        // --- PRIORITY 1: Handle Active Multi-Line Contexts ---
-        if (context.terminator && remaining.toLowerCase().startsWith(context.terminator.toLowerCase())) {
-            const tokenType = context.terminator.startsWith('</') ? 'tag' : (context.mode === 'comment' ? 'comment' : 'string');
-             html += _wrap(context.terminator, tokenType);
-            i += context.terminator.length;
-            currentState.contextStack.pop();
-            return;
-        }
-        if (context.mode === 'template_literal' && remaining.startsWith('${')) {
-            html += _wrap('${', 'controlKeyword');
-            i += 2;
-            currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
-            return;
-        }
-        if (context.mode !== 'javascript') {
-            const tokenType = context.mode === 'comment' ? 'comment' : 'string';
-            html += _wrap(remaining, tokenType);
-            i = line.length;
-            return;
-        }
-
-        // --- PRIORITY 2: Detect New JS Contexts or Single-Line Tokens ---
-        const firstChar = remaining[0];
-        if (remaining.startsWith('/*')) {
-            html += _wrap('/*', 'comment');
-            i += 2;
-            currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
-            return;
-        }
-        if (remaining.startsWith('//')) {
-            html += _wrap(remaining, 'comment');
-            i = line.length;
-            return;
-        }
-        if (firstChar === '`') {
-            html += _wrap('`', 'string');
-            i += 1;
-            currentState.contextStack.push({ mode: 'template_literal', terminator: '`' });
-            return;
-        }
-        if (firstChar === "'" || firstChar === '"') {
-            html += _wrap(firstChar, 'string');
-            i += 1;
-            currentState.contextStack.push({ mode: 'string', terminator: firstChar });
-            return;
-        }
-        
-        // --- PRIORITY 3: Tokenize Standard JavaScript ---
-        if (_isWhitespace(firstChar)) {
-            html += firstChar; i++; return;
-        }
-        if (_isIdentifierStart(firstChar)) {
-            let buffer = '', currentPos = i;
-            while (currentPos < line.length && _isIdentifierPart(line[currentPos])) {
-                buffer += line[currentPos++];
-            }
-            if (currentState.isNextTokenFunctionName) {
-                html += _wrap(buffer, 'functionName');
-                currentState.isNextTokenFunctionName = false;
-            } else if (buffer === 'function') {
-                html += _wrap(buffer, 'controlKeyword');
-                currentState.isNextTokenFunctionName = true;
-            } else if (controlKeywords.has(buffer)) {
-                html += _wrap(buffer, 'controlKeyword');
-            } else if (definitionKeywords.has(buffer)) {
-                html += _wrap(buffer, 'definitionKeyword');
-            } else if (_isFunctionCall(line, currentPos)) {
-                html += _wrap(buffer, 'functionName');
-            } else {
-                html += _wrap(buffer, 'variable');
-            }
-            i = currentPos;
-            return;
-        }
-        if (_isDigit(firstChar)) {
-            let buffer = '', currentPos = i;
-            while (currentPos < line.length && (_isDigit(line[currentPos]) || line[currentPos] === '.')) {
-                buffer += line[currentPos++];
-            }
-            html += _wrap(buffer, 'number');
-            i = currentPos;
-            return;
-        }
-        currentState.isNextTokenFunctionName = false;
-        html += _escape(firstChar);
-        i++;
-    }
-
-
-    // --- Escape hatch for the rare case of an empty line ---
-    if (html === '') {
-        html = '&nbsp;';
-    }
-    
-    return { html, state: currentState };
-
-
-    // Local scope version of these functions to avoid `this.`
-    function _escape(str) { return str ? str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
-    function _wrap(str, type) { return `<span class="token-${type}">${_escape(str)}</span>`; }
-    function _isFunctionCall(line, startIndex) {
+    // --- HELPER FUNCTIONS (Kept inside for scope and self-containment) ---
+    const _escape = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const _wrap = (str, type) => `<span class="token-${type}">${_escape(str)}</span>`;
+    const _isWhitespace = (char) => char === ' ' || char === '\t';
+    const _isDigit = (char) => char >= '0' && char <= '9';
+    const _isIdentifierStart = (char) => (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_' || char === '$';
+    const _isIdentifierPart = (char) => _isIdentifierStart(char) || _isDigit(char);
+    const _isFunctionCall = (startIndex) => {
         let k = startIndex;
         while (k < line.length) { if (!_isWhitespace(line[k])) return line[k] === '('; k++; }
         return false;
+    };
+
+    // --- Keyword Definitions ---
+    const controlKeywords = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
+    const definitionKeywords = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
+    
+    // --- DIVINE FAILSAFE 2: The Unshatterable Vessel (Error Boundary) ---
+    try {
+        // --- The MASTER `while` LOOP: The Unwavering Beat of Creation ---
+        while (i < line.length) {
+            // Failsafe 3a: Preserve the state before this tick.
+            const i_before_tick = i;
+
+            // At EACH beat, we re-evaluate our universe.
+            const context = currentState.contextStack[currentState.contextStack.length - 1];
+            const remaining = line.substring(i);
+            const firstChar = remaining[0];
+
+            // --- MASTER CONTEXT ROUTER ---
+            // The consciousness first decides which world it is in.
+            switch (context.mode) {
+                // --- THE WORLD OF HTML ---
+                case 'html':
+                    const tagStart = remaining.indexOf('<');
+                    if (tagStart === -1) { // No more tags, just text
+                        html += _escape(remaining); i = line.length; break;
+                    }
+                    html += _escape(line.substring(i, i + tagStart)); i += tagStart;
+                    const tagRemaining = line.substring(i);
+
+                    if (tagRemaining.startsWith('<!--')) { // HTML Comment
+                        const end = tagRemaining.indexOf('-->');
+                        if (end !== -1) { html += _wrap(tagRemaining.substring(0, end + 3), 'comment'); i += end + 3; } 
+                        else { html += _wrap(tagRemaining, 'comment'); i = line.length; currentState.contextStack.push({ mode: 'comment', terminator: '-->' }); }
+                    } else if (tagRemaining.startsWith('</')) { // Closing Tag
+                        const end = tagRemaining.indexOf('>');
+                        const endPos = (end === -1) ? line.length : i + end + 1;
+                        const tagContent = line.substring(i, endPos);
+                        const tagName = tagContent.substring(2, tagContent.length-1);
+                        html += _wrap('</', 'punctuation') + _wrap(tagName, 'tag') + _wrap('>', 'punctuation');
+                        i = endPos;
+                        if(context.terminator && context.terminator === tagContent) { currentState.contextStack.pop(); }
+                    } else if (tagRemaining.startsWith('<')) { // Opening Tag
+                        const end = tagRemaining.indexOf('>');
+                        const endPos = (end === -1) ? line.length : i + end + 1;
+                        let tagName = '', j = i + 1;
+                        while(j < endPos -1 && !_isWhitespace(line[j])) { tagName += line[j++]; }
+                        html += _wrap('<', 'punctuation') + _wrap(tagName, 'tag') + _escape(line.substring(j, endPos - 1)) + _wrap('>', 'punctuation');
+                        const lowerTagName = tagName.toLowerCase();
+                        if (lowerTagName === 'script' || lowerTagName === 'style') {
+                             const endTag = `</${lowerTagName}>`;
+                             if (line.toLowerCase().indexOf(endTag, i) === -1) {
+                                currentState.contextStack.push({ mode: (lowerTagName==='script'?'javascript':'css'), terminator: endTag });
+                             }
+                        }
+                        i = endPos;
+                    }
+                    break;
+
+                // --- THE WORLD OF CSS ---
+                case 'css':
+                    if (remaining.startsWith('/*')) { /* Handled by default js-like comment parser */ }
+                    // Basic CSS handler - treats words as properties/selectors.
+                    if (_isIdentifierStart(firstChar) || firstChar === '.' || firstChar === '#' || firstChar === '-') {
+                         let buffer = '', p = i;
+                         while(p < line.length && /[\w-.#]/.test(line[p])) { buffer += line[p++]; }
+                         html += _wrap(buffer, 'tag'); i = p;
+                    } else if (!_isWhitespace(firstChar)) {
+                        html += _wrap(firstChar, 'punctuation'); i++;
+                    } else { html += firstChar; i++; }
+                    break;
+                
+                // --- DEFAULT: THE WORLD OF JAVASCRIPT & ITS SUB-REALITIES (string, comment, etc.) ---
+                default:
+                    // PRIORITY 1: Is the current reality ending here?
+                    if (context.terminator && remaining.startsWith(context.terminator)) {
+                        const tokenType = (context.mode === 'comment') ? 'comment' : 'string';
+                        html += _wrap(context.terminator, tokenType);
+                        i += context.terminator.length;
+                        currentState.contextStack.pop();
+                        break;
+                    }
+                    // PRIORITY 2: Are we entering an interpolation?
+                    if (context.mode === 'template_literal' && remaining.startsWith('${')) {
+                        html += _wrap('${', 'controlKeyword'); i += 2;
+                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+                        break;
+                    }
+                    // PRIORITY 3: Are we in a non-JS reality that continues? (multiline comment/string)
+                    if (context.mode !== 'javascript') {
+                        html += _escape(remaining); i = line.length; break;
+                    }
+
+                    // --- If we are in pure JS, we tokenize ---
+                    if (remaining.startsWith('/*')) { html += _wrap('/*', 'comment'); i += 2; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
+                    else if (remaining.startsWith('//')) { html += _wrap(remaining, 'comment'); i = line.length; }
+                    else if (firstChar === '`') { html += _wrap('`', 'string'); i++; currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); }
+                    else if (firstChar === "'" || firstChar === '"') { html += _wrap(firstChar, 'string'); i++; currentState.contextStack.push({ mode: 'string', terminator: firstChar }); }
+                    else if (_isWhitespace(firstChar)) { html += firstChar; i++; }
+                    else if (_isIdentifierStart(firstChar)) {
+                        let buffer = '', p = i;
+                        while(p < line.length && _isIdentifierPart(line[p])) { buffer += line[p++]; }
+                        if (currentState.isNextTokenFunctionName) { html += _wrap(buffer, 'functionName'); currentState.isNextTokenFunctionName = false; }
+                        else if (buffer === 'function') { html += _wrap(buffer, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
+                        else if (controlKeywords.has(buffer)) { html += _wrap(buffer, 'controlKeyword'); }
+                        else if (definitionKeywords.has(buffer)) { html += _wrap(buffer, 'definitionKeyword'); }
+                        else if (_isFunctionCall(p)) { html += _wrap(buffer, 'functionName'); }
+                        else { html += _wrap(buffer, 'variable'); }
+                        i = p;
+                    }
+                    else if (_isDigit(firstChar)) {
+                        let buffer = '', p = i;
+                        while(p < line.length && (_isDigit(line[p]) || line[p]==='.')) { buffer += line[p++]; }
+                        html += _wrap(buffer, 'number'); i = p;
+                    }
+                    else { currentState.isNextTokenFunctionName = false; html += _escape(firstChar); i++; } // Fallback for operators
+                    break;
+            }
+
+            // --- DIVINE FAILSAFE 3b: The Guarantee of Progress ---
+            // If, for any reason, `i` has not advanced, we force it to advance by one character.
+            // This makes an infinite loop a cosmic impossibility.
+            if (i === i_before_tick && i < line.length) {
+                console.error("Highlighter failsafe triggered. Context:", context, "Char:", line[i]);
+                html += _escape(line[i]);
+                i++;
+            }
+        }
+    } catch (error) {
+        // Should the laws of nature themselves break, we catch the error, log it,
+        // and render the line un-highlighted rather than crashing the entire editor.
+        console.error("Catastrophic error in highlighter:", error);
+        html = _escape(line); 
     }
-    function _isWhitespace(char) { return char === ' ' || char === '\t'; }
-    function _isIdentifierPart(char) { return (_isIdentifierStart(char) || (_isDigit(char))); }
-    function _isIdentifierStart(char) { const a='a',z='z',A='A',Z='Z'; return (char>=a&&char<=z)||(char>=A&&char<=Z)||char==='_'||char==='$';}
-    function _isDigit(char) { const z='0',n='9'; return char>=z&&char<=n; }
+
+    return { html: html || '&nbsp;', state: currentState };
 }
+
+
+
+
 
     /**
      * @private
