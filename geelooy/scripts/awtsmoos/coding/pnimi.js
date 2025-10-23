@@ -356,7 +356,15 @@ _measureAndRender() {
     
     _highlightJS(line, state) {
     const lang = {
-        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+        keywords: [
+        'const',
+         'let',
+          'var',
+          'this',
+           'function',
+            'return',
+             'if', 'else', 'for',
+              'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
     };
     let html = '';
     let i = 0;
@@ -385,8 +393,13 @@ _measureAndRender() {
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 const content = remaining.substring(0, interpolationStart);
-                if (state.in_tagged_template) { html += this._getHighlightResult(content, {}, state.template_language).html; }
-                else { html += this._wrap(content, 'string'); }
+                if (state.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
+                    html += subResult.html;
+                    state.sub_language_state = subResult.state;
+                } else {
+                    html += this._wrap(content, 'string');
+                }
                 html += this._wrap('${', 'keyword');
                 state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
                 i += interpolationStart + 2;
@@ -395,27 +408,37 @@ _measureAndRender() {
                 state.in_tagged_template = false;
             } else if (templateEnd !== -1) {
                 const content = remaining.substring(0, templateEnd);
-                if (state.in_tagged_template) { html += this._getHighlightResult(content, {}, state.template_language).html; }
-                else { html += this._wrap(content, 'string'); }
+                if (state.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
+                    html += subResult.html;
+                } else {
+                    html += this._wrap(content, 'string');
+                }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
+                // Clear all temporary states on exit
                 state.in_string = false;
                 state.in_tagged_template = false;
                 state.template_language = null;
+                state.sub_language_state = null; // Clear the sub-language memory
             } else {
-                if (state.in_tagged_template) { html += this._getHighlightResult(remaining, {}, state.template_language).html; }
-                else { html += this._wrap(remaining, 'string'); }
+                const content = remaining;
+                if (state.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
+                    html += subResult.html;
+                    state.sub_language_state = subResult.state;
+                } else {
+                    html += this._wrap(content, 'string');
+                }
                 break;
             }
             continue;
         }
 
         // STATE 3: Top-level JS code OR code inside an interpolation.
-        
-        // --- CORRECTED TOKENIZER ---
         const firstChar = remaining[0];
 
-        // 1. Tagged template directives (most specific)
+        // 1. Tagged template directives
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         let directiveFound = false;
         for (const d of directives) {
@@ -424,6 +447,7 @@ _measureAndRender() {
                 i += d.tag.length + 1;
                 state.in_tagged_template = true;
                 state.template_language = d.lang;
+                state.sub_language_state = {}; // Initialize the vessel for sub-language state
                 directiveFound = true;
                 break;
             }
@@ -458,10 +482,10 @@ _measureAndRender() {
         // 5. Keywords and variables
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch[0]; // **FIXED**: Get string from match array
+            const word = wordMatch[0];
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
-            i += word.length; // **FIXED**: Use length of the string
+            i += word.length;
             continue;
         }
 
@@ -474,16 +498,19 @@ _measureAndRender() {
                 if (state.interpolation_depth === 0) {
                     html += this._wrap('}', 'keyword');
                     i++;
-                    if (state.string_type_before_interpolation === 'tagged') { state.in_tagged_template = true; }
-                    else { state.in_string = true; }
+                    if (state.string_type_before_interpolation === 'tagged') {
+                        state.in_tagged_template = true;
+                    } else {
+                        state.in_string = true;
+                    }
                     state.string_type_before_interpolation = null;
                     continue;
                 }
             }
         }
 
-        // 7. Default catch-all for single characters (operators, punctuation, whitespace)
-        html += this._escape(firstChar); // **FIXED**: Process only one character
+        // 7. Default catch-all
+        html += this._escape(firstChar);
         i++;
     }
     return { html: html || '&nbsp;', state };
