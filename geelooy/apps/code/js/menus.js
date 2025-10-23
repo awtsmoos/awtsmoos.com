@@ -243,25 +243,34 @@ positionAndDisplay(menu, coords) {
                     }
                     break;
                 }
+                // B"H
+// FILE: js/menus.js (inside handleAction)
+
                 case 'new-file':
                 case 'new-folder': {
                     if (!item) break;
-                    const kind = action.split('-')[1];
-                    const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
+                    
+                    // --- THE FIX IS HERE ---
+                    // We now correctly translate the action into the 'kind' that the FileSystemProvider expects.
+                    const kind = action === 'new-folder' ? 'directory' : 'file';
+                    const kindLabel = kind === 'directory' ? 'Folder' : 'File';
+                    // --- END FIX ---
+
+                    const name = await UI.showDialog({ title: `Create New ${kindLabel}`, hasInput: true, placeholder: `Enter ${kindLabel} name...` });
                     if (name) {
-                        UI.showLoading(`Creating ${kind}...`);
+                        UI.showLoading(`Creating ${kindLabel}...`);
                         const parentUniquePath = getItemUniquePath(item);
-                        if (kind === 'folder') {
+                        if (kind === 'directory') { // This check now works correctly
                             State.expandedFolders.add(parentUniquePath);
                         }
-                        await FileSystemProvider.create(item, name, kind);
-                        UI.showToast(`${kind} '${name}' created.`, 'success');
+                        await FileSystemProvider.create(item, name, kind); // This now passes the correct 'kind'
+                        UI.showToast(`${kindLabel} '${name}' created.`, 'success');
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
                         if (!workspace) throw new Error("Could not find parent workspace.");
                         await Workspaces.refreshNode(item);
                         if (kind === 'file') {
-                            const newPath = item.path === '/' ? name : `${item.path}/${name}`;
+                            const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
                             const newFileItem = { ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: '' };
                             Tabs.create(newFileItem, true);
                         }
