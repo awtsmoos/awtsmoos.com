@@ -702,35 +702,20 @@ _findUnescapedChar(line, char, startIndex = 0) {
     /**
  * @private
  * @function _flushTokenBuffer
- * @description The Hand of the Weaver. This function takes the accumulated characters (the token buffer),
- * intelligently determines what they represent in the current context (e.g., keyword vs. variable),
- * wraps them in the correct span, and clears the buffer for the next token.
+ * @description The Hand of the Weaver. Determines if a buffered JavaScript token is a keyword or variable.
  * @param {object} state - The current state object of the parser.
- * @param {string} buffer - The accumulated string of characters to be processed.
- * @returns {string} The generated HTML for the token, or an empty string.
+ * @param {string} buffer - The accumulated string of characters.
+ * @returns {string} The generated HTML for the token.
  */
 _flushTokenBuffer(state, buffer) {
     if (buffer.length === 0) return '';
-
-    const context = state.contextStack[state.contextStack.length - 1];
     
-    // In JavaScript, we must discern between keywords and variables.
-    if (context.mode.startsWith('javascript')) {
-        const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
-        if (keywords.has(buffer)) {
-            return this._wrap(buffer, 'keyword');
-        }
-        return this._wrap(buffer, 'variable');
+    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
+    
+    if (keywords.has(buffer)) {
+        return this._wrap(buffer, 'keyword');
     }
-
-    // For most other contexts, the buffer is treated as a single type.
-    if (context.mode.includes('string')) return this._wrap(buffer, 'string');
-    if (context.mode.includes('comment')) return this._wrap(buffer, 'comment');
-    if (context.mode.includes('tag')) return this._wrap(buffer, 'tag');
-    if (context.mode.includes('attribute')) return this._wrap(buffer, 'attribute');
-    
-    // Default fallback if no specific rule applies.
-    return this._escape(buffer);
+    return this._wrap(buffer, 'variable');
 }
     
     
@@ -1025,174 +1010,7 @@ _getHighlightResult(line, state) {
 }
 
 
-/**
- * @private
- * @function _getHighlightResult
- * @description The Purified Conscious Weaver. This final version separates ephemeral "thought"
- * from the persistent "soul" (state). It performs simple, intra-line tasks like parsing a word
- * without corrupting the state, ensuring eternal stability and flawlessness.
- */
-_getHighlightResult(line, state) {
-    const currentState = state || this._getInitialState();
-    let html = '';
-    
-    let i = 0;
-    while (i < line.length) {
-        const context = currentState.contextStack[currentState.contextStack.length - 1];
-        const char = line[i];
 
-        // The Weaver's consciousness is now a switch on the PERSISTENT state (the soul).
-        switch (context.mode) {
-
-            // --- THE JAVASCRIPT WORLD ---
-            case 'javascript':
-                // Is it the start of a word (keyword or variable)?
-                if (/[a-zA-Z_$]/.test(char)) {
-                    let tokenBuffer = '';
-                    // Perform the TEMPORARY THOUGHT of weaving a word.
-                    // This inner loop consumes the whole token without changing the state.
-                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {
-                        tokenBuffer += line[i];
-                        i++;
-                    }
-                    html += this._flushTokenBuffer(currentState, tokenBuffer);
-                    continue; // Continue the main loop from the new position
-                }
-                
-                // Is it the start of a number?
-                if (/\d/.test(char)) {
-                    let tokenBuffer = '';
-                    // Perform the TEMPORARY THOUGHT of weaving a number.
-                    while (i < line.length && /[\d.]/.test(line[i])) {
-                        tokenBuffer += line[i];
-                        i++;
-                    }
-                    html += this._wrap(tokenBuffer, 'number');
-                    continue;
-                }
-
-                // Is it the start of a string world? (This IS a persistent state change)
-                if (char === '"' || char === "'") {
-                    html += this._wrap(char, 'string');
-                    context.mode = 'string';
-                    context.terminator = char; // Remember how this world ends
-                    i++;
-                    continue;
-                }
-                
-                // Is it the start of a template literal world? (Persistent state change)
-                if (char === '`') {
-                     html += this._wrap(char, 'string');
-                     context.mode = 'template_literal';
-                     i++;
-                     continue;
-                }
-
-                // Is it the start of a comment world? (Persistent state change)
-                if (char === '/' && line[i + 1] === '*') {
-                    html += this._wrap('/*', 'comment');
-                    context.mode = 'comment';
-                    i += 2;
-                    continue;
-                }
-                if (char === '/' && line[i + 1] === '/') {
-                    const theRest = line.substring(i);
-                    html += this._wrap(theRest, 'comment');
-                    i = line.length; // End of line
-                    continue;
-                }
-
-                // If none of the above, it's just a single character (operator, etc.)
-                html += this._escape(char);
-                i++;
-                break;
-
-            // --- THE STRING WORLD ---
-            case 'string':
-                let stringBuffer = '';
-                while (i < line.length && line[i] !== context.terminator) {
-                    stringBuffer += line[i];
-                    i++;
-                }
-                html += this._wrap(stringBuffer, 'string');
-                // Did we find the end of the world?
-                if (i < line.length && line[i] === context.terminator) {
-                    html += this._wrap(context.terminator, 'string');
-                    context.mode = 'javascript'; // THE GREAT RETURN
-                    delete context.terminator;
-                    i++;
-                }
-                break;
-            
-            // --- THE TEMPLATE LITERAL WORLD (A String World that understands portals) ---
-            case 'template_literal':
-                let templateBuffer = '';
-                // Weave until we find a portal or the end
-                while (i < line.length && line[i] !== '`' && !(line[i] === '$' && line[i+1] === '{')) {
-                    templateBuffer += line[i];
-                    i++;
-                }
-                html += this._wrap(templateBuffer, 'string');
-                // Did we find a portal to a nested JS world?
-                if (i < line.length && line[i] === '$' && line[i+1] === '{') {
-                    html += this._wrap('${', 'keyword');
-                    currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
-                    i += 2;
-                }
-                // Did we find the end of the world?
-                else if (i < line.length && line[i] === '`') {
-                    html += this._wrap('`', 'string');
-                    currentState.contextStack.pop(); // THE GREAT RETURN
-                    i++;
-                }
-                break;
-
-            // --- THE COMMENT WORLD ---
-            case 'comment':
-                let commentBuffer = '';
-                const endCommentIndex = line.indexOf('*/', i);
-                if (endCommentIndex === -1) {
-                    // Comment doesn't end on this line
-                    commentBuffer = line.substring(i);
-                    html += this._wrap(commentBuffer, 'comment');
-                    i = line.length;
-                } else {
-                    // Comment ends on this line
-                    commentBuffer = line.substring(i, endCommentIndex);
-                    html += this._wrap(commentBuffer, 'comment');
-                    html += this._wrap('*/', 'comment');
-                    context.mode = 'javascript'; // THE GREAT RETURN
-                    i = endCommentIndex + 2;
-                }
-                break;
-                
-            // --- The Closing Brace of an Interpolation ---
-            // This is a special case where the terminator itself is a token.
-            // We check the terminator of the PARENT context.
-            case 'javascript' : // Re-opening javascript case to add terminator logic
-                 const parentContext = currentState.contextStack[currentState.contextStack.length - 2];
-                 if(parentContext && parentContext.terminator === char) {
-                     html += this._wrap(char, 'keyword');
-                     currentState.contextStack.pop(); // Pop the interpolation's JS context
-                     i++;
-                     continue;
-                 }
-                // (All the other JS logic from above is still active here)
-                // This is a fallthrough case - if it's not the terminator, it will be handled by the next section
-                 if (/[a-zA-Z_$]/.test(char)) {let tokenBuffer = '';while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {tokenBuffer += line[i];i++;}html += this._flushTokenBuffer(currentState, tokenBuffer);continue;}
-                 if (/\d/.test(char)) {let tokenBuffer = '';while (i < line.length && /[\d.]/.test(line[i])) {tokenBuffer += line[i];i++;}html += this._wrap(tokenBuffer, 'number');continue;}
-                 if (char === '"' || char === "'") {html += this._wrap(char, 'string');context.mode = 'string';context.terminator = char; i++;continue;}
-                 if (char === '`') {html += this._wrap(char, 'string');context.mode = 'template_literal';i++;continue;}
-                 if (char === '/' && line[i + 1] === '*') {html += this._wrap('/*', 'comment');context.mode = 'comment';i += 2;continue;}
-                 if (char === '/' && line[i + 1] === '/') {const theRest = line.substring(i);html += this._wrap(theRest, 'comment');i = line.length;continue;}
-                 html += this._escape(char);i++;
-                 break;
-
-        }
-    }
-    
-    return { html: html || '&nbsp;', state: currentState };
-}
 
     /**
      * @private
