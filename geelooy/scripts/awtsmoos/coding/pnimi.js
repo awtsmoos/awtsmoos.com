@@ -1014,52 +1014,6 @@ _getInitialState() {
 // FILE: VirtualizedEditor.js
 // ACTION: REPLACE your entire `_getHighlightResult` method with this definitive version.
 
-/**
- * @private
- * @function _getHighlightResult
- * @description The Master Dispatcher (The Chariot). It delegates to the appropriate soul-parser.
- */
-_getHighlightResult(line, state) {
-    if (typeof line !== 'string') return { html: '&nbsp;', state: this._getInitialState() };
-    const currentState = state;
-    let html = '';
-    let i = 0;
-    
-    try {
-        while (i < line.length) {
-            const i_before = i;
-            const context = currentState.contextStack[currentState.contextStack.length - 1];
-            let result;
-
-            // The dispatcher's only job: Choose the correct world-parser.
-            switch (context.mode) {
-                case 'javascript': result = this._parseJS(line, i, currentState); break;
-                case 'html': result = this._parseHTML(line, i, currentState); break;
-                case 'css': result = this._parseCSS(line, i, currentState); break;
-                case 'comment': result = this._parseGeneric(line, i, currentState, 'comment'); break;
-                case 'string': result = this._parseGeneric(line, i, currentState, 'string', true); break;
-                case 'template_literal': result = this._parseTemplateLiteral(line, i, currentState); break;
-                default: // Handles embedded languages like 'template_language_css'
-                    result = this._parseTemplateLanguage(line, i, currentState);
-                    break;
-            }
-            
-            html += result.html;
-            i = result.newIndex;
-
-            // The ultimate failsafe against unforeseen paradoxes.
-            if (i === i_before && i < line.length) {
-                console.error("Failsafe triggered:", context, `char: '${line[i]}'`);
-                html += this._escape(line[i]);
-                i++;
-            }
-        }
-    } catch (e) {
-        html = this._escape(line); // Will bend, but not break.
-        console.error("Highlighter catastrophe:", e);
-    }
-    return { html: html || '&nbsp;', state: currentState };
-}
 
 
 
@@ -1316,16 +1270,24 @@ _isFC(line, i) { while (i < line.length) { if (!this._isWS(line[i])) return line
      * process becomes a concrete, visible reality for the user. It is highly optimized to only
      * process and render the visible lines of code.
      */
-    async _update() {
-    this.lines = this.textarea.value.split('\n');
-    
-    // On a major text change, the soul of the parser must be returned to its primordial state.
-    this.parserState = this._getInitialState(); 
-    
+    // In _update, we restore the makeQuickWorker for performance.
+async _update() {
+    const txt = this.textarea.value;
+    try {
+        // The great task of splitting text is sent to another world.
+        this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+    } catch (e) {
+        // If the worker fails, we do the work in this world.
+        this.lines = txt.split("\n");
+    }
+
+    // Reset the parser's soul on every major update.
+    this.parserState = this._getInitialState();
+
     const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
     if (this.viewportDivs.length !== neededDivs && neededDivs > 0 && !isNaN(neededDivs)) {
         this.viewportDivs = [];
-        this.viewport.innerHTML = '';
+        this.viewport.innerHTML = ''; // Clear previous divs
         for (let i = 0; i < neededDivs; i++) {
             const div = document.createElement('div');
             div.style.height = `${this.lineHeight}px`;
@@ -1337,22 +1299,24 @@ _isFC(line, i) { while (i < line.length) { if (!this._isWS(line[i])) return line
     this._updateCaret();
 }
 
+// In _render, we restore the logic to only calculate from the visible area.
 _render() {
     if (!this.lines || !this.lineHeight) return;
+
     const scrollTop = this.textarea.scrollTop;
     const scrollLeft = this.textarea.scrollLeft;
-    const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-    
-    // Start rendering from the beginning of the scrollback buffer for accuracy.
-    const firstLineToRender = Math.max(0, firstVisibleLine - 2);
 
-    // Replay the journey of the parser's soul from the beginning to the first rendered line.
+    const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+    // Render a few lines above for smooth scrolling.
+    const firstLineToRender = Math.max(0, firstVisibleLine - 5);
+
+    // Replay the journey of the parser's soul to the point of rendering.
     let state = this._getInitialState();
     for (let i = 0; i < firstLineToRender; i++) {
         state = this._getHighlightResult(this.lines[i] || '', state).state;
     }
 
-    // Now, render the visible lines, carrying the state from one to the next.
+    // Now, render only the divs that will be in or near the viewport.
     for (let i = 0; i < this.viewportDivs.length; i++) {
         const lineIndex = firstLineToRender + i;
         const div = this.viewportDivs[i];
@@ -1365,10 +1329,319 @@ _render() {
             div.style.display = 'none';
         }
     }
-    
-    // Position the viewport to match the scroll of the textarea.
+
+    // The entire viewport is shifted, not individual divs.
     const yOffset = firstLineToRender * this.lineHeight;
     this.viewport.style.transform = `translate(${-scrollLeft}px, ${yOffset}px)`;
+}```
+
+### 2. The Non-Recursive Parsing Engine
+
+This is the core of the `Tikkun`. The recursive `_getHighlightResult` and its flawed helpers are gone. In their place is a new set of souls that work in perfect, linear harmony.
+
+**ACTION:** Replace `_getHighlightResult` and ALL of your other `_parse...` helper methods with this entire block. This is a complete replacement for the parsing engine.
+
+```javascript
+/**
+ * @private
+ * @function _getHighlightResult
+ * @description The ONE Master Loop. It is the only authority.
+ */
+_getHighlightResult(line, state) {
+    if (typeof line !== 'string') return { html: '&nbsp;', state: this._getInitialState() };
+    const currentState = state;
+    let html = '';
+    let i = 0;
+    
+    try {
+        while (i < line.length) {
+            const i_before = i;
+            const context = currentState.contextStack[currentState.contextStack.length - 1];
+            
+            // The master loop asks the current context's soul what to do.
+            const { html: tokenHtml, newIndex, stateMutation } = this._getToken(line, i, currentState);
+            
+            html += tokenHtml;
+            i = newIndex;
+
+            if (stateMutation) {
+                if (stateMutation.action === 'push') {
+                    currentState.contextStack.push(stateMutation.newState);
+                } else if (stateMutation.action === 'pop') {
+                    currentState.contextStack.pop();
+                }
+            }
+            
+            if (i === i_before) { // The ultimate failsafe, now more important than ever.
+                console.error("Failsafe triggered: No progress made.", { context, char: line[i] });
+                html += this._escape(line[i]);
+                i++;
+            }
+        }
+    } catch (e) {
+        html = this._escape(line);
+        console.error("Highlighter catastrophe:", e);
+    }
+    return { html: html || '&nbsp;', state: currentState };
+}
+
+/**
+ * @private
+ * @function _getToken
+ * @description The Universal Soul. It knows which specialized soul to consult.
+ * It does NOT call _getHighlightResult.
+ */
+_getToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    
+    // Check for universal terminators first. This allows returning from any world.
+    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
+        return {
+            html: this._wrap(context.terminator, context.mode === 'comment' ? 'comment' : 'string'),
+            newIndex: i + context.terminator.length,
+            stateMutation: { action: 'pop' }
+        };
+    }
+    
+    // Delegate to the specialized soul for the current world.
+    switch (context.mode) {
+        case 'javascript': return this._getJSToken(line, i, state);
+        case 'css': return this._getCssToken(line, i, state);
+        case 'html': return this._getHtmlToken(line, i, state);
+        case 'comment': return this._getCommentToken(line, i, state);
+        case 'string': return this._getStringToken(line, i, state, true);
+        case 'template_literal': return this._getTemplateLiteralToken(line, i, state);
+        default: // Handles 'template_language_css', etc.
+            if (context.mode.startsWith('template_language_')) {
+                return this._getTemplateLanguageToken(line, i, state);
+            }
+            // Fallback for unknown states.
+            return { html: this._escape(line[i]), newIndex: i + 1 };
+    }
+}
+
+// --- Specialized Soul-Parsers ---
+
+_getCommentToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    const endIdx = line.indexOf(context.terminator, i);
+    const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
+    return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
+}
+
+_getStringToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    let content = '';
+    let p = i;
+    while (p < line.length) {
+        if (line[p] === '\\') { // Handle escaped characters
+            content += line.substring(p, p + 2);
+            p += 2;
+        } else if (line[p] === context.terminator) {
+            break;
+        } else {
+            content += line[p];
+            p++;
+        }
+    }
+    return { html: this._wrap(content, 'string'), newIndex: p };
+}
+
+_getTemplateLiteralToken(line, i, state) {
+    if (line.substring(i).startsWith('${')) {
+        return {
+            html: this._wrap('${', 'controlKeyword'),
+            newIndex: i + 2,
+            stateMutation: { action: 'push', newState: { mode: 'javascript', terminator: '}' } }
+        };
+    }
+    return this._getStringToken(line, i, state); // Otherwise, it behaves like a string
+}
+
+_getTemplateLanguageToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    const lang = context.mode.substring(17);
+    
+    // Look for a boundary: either interpolation or the end of the template
+    const interpStart = line.indexOf('${', i);
+    const endIdx = line.indexOf(context.terminator, i);
+    let boundary = -1;
+    if (interpStart !== -1 && (endIdx === -1 || interpStart < endIdx)) {
+        boundary = interpStart;
+    } else {
+        boundary = endIdx;
+    }
+    
+    const content = line.substring(i, boundary !== -1 ? boundary : line.length);
+    
+    // Instead of recursing, we create a temporary mini-highlighter for just this chunk.
+    let tempHtml = '';
+    let tempState = this._getInitialState();
+    tempState.language = lang;
+    tempState.contextStack = [{ mode: lang }];
+    tempState.inCssRuleBlock = state.inCssRuleBlock;
+    
+    let k = 0;
+    while (k < content.length) {
+        const k_before = k;
+        const { html: tokenHtml, newIndex } = this._getToken(content, k, tempState);
+        tempHtml += tokenHtml;
+        k = newIndex;
+        if (k === k_before) k++; // Failsafe for the mini-parser
+    }
+    state.inCssRuleBlock = tempState.inCssRuleBlock; // Persist state changes
+
+    return { html: tempHtml, newIndex: i + content.length };
+}
+
+_getJSToken(line, i, state) {
+    const ctlK = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
+    const defK = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
+    const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
+
+    // Gates to other worlds
+    for (const d of directives) {
+        if (line.substring(i).startsWith(d.tag + '`')) {
+            return {
+                html: this._wrap(d.tag, 'comment') + this._wrap('`', 'string'),
+                newIndex: i + d.tag.length + 1,
+                stateMutation: { action: 'push', newState: { mode: `template_language_${d.lang}`, terminator: '`' } }
+            };
+        }
+    }
+    if (line.substring(i, i + 2) === '/*') {
+        return {
+            html: this._wrap('/*', 'comment'), newIndex: i + 2,
+            stateMutation: { action: 'push', newState: { mode: 'comment', terminator: '*/' } }
+        };
+    }
+    if (line.substring(i, i + 2) === '//') {
+        return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+    }
+    const char = line[i];
+    if (char === "'" || char === '"') {
+        return {
+            html: this._wrap(char, 'string'), newIndex: i + 1,
+            stateMutation: { action: 'push', newState: { mode: 'string', terminator: char } }
+        };
+    }
+    if (char === '`') {
+        return {
+            html: this._wrap('`', 'string'), newIndex: i + 1,
+            stateMutation: { action: 'push', newState: { mode: 'template_literal', terminator: '`' } }
+        };
+    }
+
+    // Tokenize this world
+    if (this._isIS(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && this._isIP(line[p])) buffer += line[p++];
+        let type = 'variable';
+        if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
+        else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
+        else if (ctlK.has(buffer)) type = 'controlKeyword';
+        else if (defK.has(buffer)) type = 'definitionKeyword';
+        else if (this._isFC(line, p)) type = 'functionName';
+        return { html: this._wrap(buffer, type), newIndex: p };
+    }
+    if (this._isD(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
+        return { html: this._wrap(buffer, 'number'), newIndex: p };
+    }
+    
+    state.isNextTokenFunctionName = false;
+    return { html: this._escape(char), newIndex: i + 1 };
+}
+
+_getCssToken(line, i, state) {
+    let p = i;
+    while(p < line.length && this._isWS(line[p])) p++;
+    let html = line.substring(i, p); // Preserve whitespace
+    if (p >= line.length) return { html, newIndex: line.length };
+
+    // Gate to comment world
+    if (line.substring(p).startsWith('/*')) {
+        return {
+            html: html + this._wrap('/*', 'comment'), newIndex: p + 2,
+            stateMutation: { action: 'push', newState: { mode: 'comment', terminator: '*/' } }
+        };
+    }
+
+    if (!state.inCssRuleBlock) {
+        const brace = line.indexOf('{', p);
+        if (brace !== -1) {
+            state.inCssRuleBlock = true;
+            return {
+                html: html + this._wrap(line.substring(p, brace), 'selector') + this._wrap('{', 'punctuation'),
+                newIndex: brace + 1
+            };
+        }
+        return { html: html + this._wrap(line.substring(p), 'selector'), newIndex: line.length };
+    } else {
+        const endBrace = line.indexOf('}', p);
+        const colon = line.indexOf(':', p);
+        const semicolon = line.indexOf(';', p);
+
+        if (endBrace !== -1 && (endBrace < colon || colon === -1) && (endBrace < semicolon || semicolon === -1)) {
+            state.inCssRuleBlock = false;
+            return { html: html + this._wrap('}', 'punctuation'), newIndex: endBrace + 1 };
+        }
+        if (colon !== -1 && (semicolon === -1 || colon < semicolon)) {
+            return {
+                html: html + this._wrap(line.substring(p, colon).trim(), 'property') + this._wrap(':', 'punctuation'),
+                newIndex: colon + 1
+            };
+        }
+        if (semicolon !== -1) {
+            return {
+                html: html + this._wrap(line.substring(p, semicolon).trim(), 'string') + this._wrap(';', 'punctuation'),
+                newIndex: semicolon + 1
+            };
+        }
+        return { html: html + this._wrap(line.substring(p).trim(), 'string'), newIndex: line.length };
+    }
+}
+
+_getHtmlToken(line, i, state) {
+    const tagStart = line.indexOf('<', i);
+    if (tagStart === -1) {
+        return { html: this._escape(line.substring(i)), newIndex: line.length };
+    }
+    
+    let html = this._escape(line.substring(i, tagStart));
+    
+    if (line.substring(tagStart).startsWith('<!--')) {
+        return {
+            html, newIndex: tagStart + 4,
+            stateMutation: { action: 'push', newState: { mode: 'comment', terminator: '-->' } }
+        };
+    }
+    
+    const tagEnd = line.indexOf('>', tagStart);
+    if (tagEnd === -1) {
+        return { html: html + this._escape(line.substring(tagStart)), newIndex: line.length };
+    }
+    
+    const isClosing = line[tagStart + 1] === '/';
+    const tagContent = line.substring(tagStart, tagEnd + 1);
+    
+    // This is a simplified tag parser for robustness. Can be expanded later.
+    html += this._wrap(tagContent, 'tag');
+    
+    const tagNameMatch = tagContent.match(/^<\/?\s*([a-zA-Z0-9-]+)/);
+    if (tagNameMatch) {
+        const tagName = tagNameMatch[1].toLowerCase();
+        if (!isClosing && (tagName === 'script' || tagName === 'style')) {
+            const lang = tagName === 'script' ? 'javascript' : 'css';
+            return {
+                html, newIndex: tagEnd + 1,
+                stateMutation: { action: 'push', newState: { mode: lang, terminator: `</${tagName}>` } }
+            };
+        }
+    }
+    
+    return { html, newIndex: tagEnd + 1 };
 }
     
     
