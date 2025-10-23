@@ -97,12 +97,17 @@ toggle(item) {
 
     updateMenu() {
         const count = State.selectedItems.size;
-        DOM.selectionMenu.innerHTML = `
+        DOM.selectionMenu.innerHTML = /*html*/`
             <span class="selection-count">${count} item${count === 1 ? '' : 's'} selected</span>
             <hr class="menu-separator">
             <button class="menu-button" data-action="copy-selection" title="Copy Selected Items" ${count === 0 ? 'disabled' : ''}>
                 <svg class="svg-icon"><use href="#icon-copy"></use></svg> Copy
             </button>
+            <button class="menu-button danger" data-action="delete-selection" title="Delete Selected Items" ${count === 0 ? 'disabled' : ''}>
+                <svg class="svg-icon"><use href="#icon-trash"></use></svg> Delete
+            </button>
+            
+            
             <button class="menu-button" data-action="cancel-selection" title="Cancel Selection">
                 <svg class="svg-icon"><use href="#icon-x"></use></svg> Cancel
             </button>
