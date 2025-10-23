@@ -8,6 +8,7 @@ import { Workspaces, getItemUniquePath } from './workspaces.js';
 import { GitMetaProvider } from './git-meta-provider.js';
 import { App } from './app.js';
 import { FileOperations } from './file-operations.js';
+import { calculateGitBlobSha } from './git-sha-calculator.js';
 
 export const GitManager = {
     /**
@@ -24,7 +25,6 @@ export const GitManager = {
         }
 
         UI.showLoading("Analyzing repository status...");
-
         try {
             const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
             const isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
@@ -45,50 +45,57 @@ export const GitManager = {
 
     /**
      * Displays the dialog with status and commit options.
-     * This version is updated to work with folders and gitInfo.
+     * This version gracefully handles the "No changes" state.
      */
-    // B"H
-// FILE: js/git-manager.js
-
-// ... inside the GitManager object ...
-
-    // REPLACE your existing showCommitDialog function with this one.
     async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet }) {
-        let statusHTML = `...`; // Your existing HTML generation is fine
+        let statusHTML = `
+            <div class="git-status-line">
+                <span>Remote Status:</span>
+                <span class="status ${isBehind ? 'behind' : 'synced'}">
+                    ${isBehind ? `Behind. Please pull.` : 'In Sync'}
+                </span>
+            </div>
+            <div class="git-status-line">
+                <span>Local Status:</span>
+                <span class="status ${isAhead ? 'ahead' : 'synced'}">
+                    ${isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote'}
+                </span>
+            </div>
+        `;
+
+        if (isAhead) {
+            statusHTML += `<div class="changes-list"><strong>Changes:</strong><ul>`;
+            changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
+            changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
+            changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
+            statusHTML += `</ul></div>`;
+        }
 
         const commitMessage = `B"H\nBoruch Hashem!\nBiezras Hashem\nBlessed is He\nAt ${new Date()}`;
         
-        // --- NEW LOGIC FOR DYNAMIC BUTTONS ---
         let okButtonText = '';
         let okButtonAction = null;
-        let isOkButtonDestructive = false;
-
         if (isBehind) {
             okButtonText = 'Pull & Overwrite Local Changes';
             okButtonAction = 'pull';
-            isOkButtonDestructive = true; // Make the button red
         } else if (isAhead) {
             okButtonText = 'Commit & Push Changes';
             okButtonAction = 'commit';
         }
-        // --- END NEW LOGIC ---
 
         const dialogResult = await UI.showDialog({
             title: `Git Actions for ${clonedFolderItem.name}`,
             contentHTML: statusHTML,
-            hasTextarea: isAhead && !isBehind, // Only show textarea if we can commit
+            hasTextarea: isAhead && !isBehind,
             textareaContent: commitMessage,
-            okText: okButtonText, // Use our dynamic text
+            okText: okButtonText,
             cancelText: 'Close'
         });
 
-        // The dialog promise resolves with the input text OR just 'true' if no input.
-        // It resolves with 'null' if canceled.
         if (dialogResult !== null) {
             if (okButtonAction === 'commit') {
                 await this.performCommit(clonedFolderItem, gitInfo, dialogResult, changeSet);
             } else if (okButtonAction === 'pull') {
-                // We now need to call a function to handle the pull.
                 FileOperations.pullAndOverwrite(clonedFolderItem, gitInfo);
             }
         }
@@ -96,7 +103,6 @@ export const GitManager = {
 
     /**
      * Performs the multi-file commit and updates the local metadata.
-     * This version is updated to work with folders and gitInfo.
      */
     async performCommit(clonedFolderItem, gitInfo, commitMessage, changeSet) {
         UI.showLoading("Committing & Pushing...");
@@ -108,7 +114,6 @@ export const GitManager = {
                 changeSet
             });
 
-            // CRITICAL: Update the ikar.js file with the new state
             UI.showLoading("Updating local repository state...");
             const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
             
@@ -133,16 +138,8 @@ export const GitManager = {
     },
 
     /**
-     * Calculates the difference between local files and remote state.
-     * This is the corrected version that uses relative paths.
+     * The new, intelligent diff function that compares content SHAs.
      */
-    // B"H
-// B"H
-// FILE: js/git-manager.js
-
-// ... inside the GitManager object ...
-
-    // REPLACE your existing calculateDiff function with this one.
     async calculateDiff(clonedFolderItem, gitInfo) {
         const localFiles = await FileSystemProvider.listAllFiles(clonedFolderItem);
         const remoteTree = gitInfo.remoteTree;
@@ -157,23 +154,19 @@ export const GitManager = {
             
             if (relativePath.startsWith('.awtsmoos-repo')) continue;
 
-            // --- THE DEFINITIVE FIX IS HERE ---
-            // 1. Read the content. This could be a string (from IndexedDB) or a File object (from Local).
-            const rawContent = await FileSystemProvider.read({ ...clonedFolderItem, path: localFile.path });
+            const fullFileItem = { ...clonedFolderItem, path: localFile.path };
+            const rawContent = await FileSystemProvider.read(fullFileItem);
+            const stringContent = (rawContent instanceof Blob) ? await rawContent.text() : (rawContent || '');
+            
+            const remoteFile = remoteFileMap.get(relativePath);
 
-            // 2. Ensure the content is always a string before adding it to the changeSet.
-            let stringContent = '';
-            if (typeof rawContent === 'string') {
-                stringContent = rawContent;
-            } else if (rawContent instanceof Blob) { // A File is a type of Blob
-                stringContent = await rawContent.text();
-            }
-            // --- END FIX ---
-
-            if (!remoteFileMap.has(relativePath)) {
+            if (!remoteFile) {
                 changeSet.creations.push({ path: relativePath, content: stringContent });
             } else {
-                changeSet.updates.push({ path: relativePath, content: stringContent });
+                const localSha = await calculateGitBlobSha(stringContent);
+                if (localSha !== remoteFile.sha) {
+                    changeSet.updates.push({ path: relativePath, content: stringContent });
+                }
             }
         }
         
@@ -186,12 +179,4 @@ export const GitManager = {
 
         return changeSet;
     }
-    
-
-    
-    
-    
-    
-    
-    
 };
