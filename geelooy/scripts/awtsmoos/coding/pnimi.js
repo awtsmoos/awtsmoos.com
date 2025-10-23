@@ -111,7 +111,7 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null };
+        this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null, interpolation_depth: 0 };
         
         /** @private The DOM element for our simulated caret. */
         this.caret = null;
@@ -346,148 +346,170 @@ _measureAndRender() {
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
 
     _highlightJS(line, state) {
-    // If we are continuing a tagged template from a previous line
-    if (state.in_tagged_template) {
-        let html = '';
-        let endIdx = -1;
-        let currentPos = 0;
-        // Find the closing backtick, respecting escaped ones
-        while((endIdx = line.indexOf('`', currentPos)) !== -1) {
-            if (line[endIdx - 1] !== '\\') break;
-            currentPos = endIdx + 1;
-        }
-
-        if (endIdx !== -1) { // The template ends on this line
-            const content = line.substring(0, endIdx);
-            // Highlight the content with the stored language, using a temporary state
-            const subResult = this._getHighlightResult(content, {}, state.template_language);
-            html += subResult.html;
-            html += this._wrap('`', 'string'); // Add the closing backtick
-
-            // Reset state and continue parsing the rest of the line as normal JS
-            const restOfLine = line.substring(endIdx + 1);
-            const finalState = { ...state, in_tagged_template: false, template_language: null };
-            const restResult = this._highlightJS(restOfLine, finalState);
-            html += restResult.html;
-            return { html: html || '&nbsp;', state: restResult.state };
-
-        } else { // The template continues
-            // Highlight the entire line with the stored language
-            const subResult = this._getHighlightResult(line, {}, state.template_language);
-            return { html: subResult.html || '&nbsp;', state };
-        }
-    }
-
-
     const lang = {
         keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
-        singleLineComment: '//', multiLineComment: { start: '/*', end: '*/' }, templateString: { start: '`', end: '`' }
     };
-    let html = ''; let i = 0;
+    let html = '';
+    let i = 0;
+
     while (i < line.length) {
-         if (state.in_comment) {
-            const endIdx = line.indexOf(lang.multiLineComment.end, i);
-            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.multiLineComment.end.length), 'comment'); i = endIdx + lang.multiLineComment.end.length; state.in_comment = false; }
-            else { html += this._wrap(line.substring(i), 'comment'); break; }
-            continue;
-        }
-        if (state.in_string) {
-            let endIdx = -1; let currentPos = i;
-            while((endIdx = line.indexOf(lang.templateString.end, currentPos)) !== -1) { if (line[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
-            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.templateString.end.length), 'string'); i = endIdx + lang.templateString.end.length; state.in_string = false; }
-            else { html += this._wrap(line.substring(i), 'string'); break; }
-            continue;
-        }
-        
         const remaining = line.substring(i);
-        
-        // --- NEW: Manual, Regex-Free Check for Tagged Templates ---
-        let directiveFound = false;
-        const directives = [
-            { tag: '/*js*/', lang: 'js' },
-            { tag: '/*css*/', lang: 'css' },
-            { tag: '/*html*/', lang: 'html' }
-        ];
 
-        for (const d of directives) {
-            if (remaining.startsWith(d.tag + '`')) {
-                const directive = d.tag;
-                const templateLang = d.lang;
-
-                html += this._wrap(directive, 'comment'); // Highlight the /*css*/ part
-                html += this._wrap('`', 'string');        // Highlight the opening `
-                i += directive.length + 1;
-
-                let endIdx = -1;
-                let currentPos = i;
-                while ((endIdx = line.indexOf('`', currentPos)) !== -1) {
-                    if (line[endIdx - 1] !== '\\') break; // Found non-escaped backtick
-                    currentPos = endIdx + 1;
-                }
-
-                if (endIdx !== -1) { // Template ends on the same line
-                    const content = line.substring(i, endIdx);
-                    const subResult = this._getHighlightResult(content, {}, templateLang);
-                    html += subResult.html;
-                    html += this._wrap('`', 'string'); // Highlight the closing `
-                    i = endIdx + 1;
-                } else { // Template continues to the next line
-                    const content = line.substring(i);
-                    state.in_tagged_template = true;
-                    state.template_language = templateLang;
-                    const subResult = this._getHighlightResult(content, {}, templateLang);
-                    html += subResult.html;
-                    i = line.length; // We're done with this line
-                }
-                
-                directiveFound = true;
-                break; // Exit the for-loop
+        // STATE 1: Inside a multi-line block comment. (No change)
+        if (state.in_comment) {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) {
+                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
+                i += endIdx + 2;
+                state.in_comment = false;
+            } else {
+                html += this._wrap(remaining, 'comment');
+                break;
             }
+            continue;
         }
 
-        if (directiveFound) {
-            continue; // Continue to the next token in the while-loop
+        // STATE 2: Inside a template string (regular or tagged).
+        // This is where we look for the exit (` ` `) or an entry into an interpolation (`${`).
+        if (state.in_string || state.in_tagged_template) {
+            const interpolationStart = remaining.indexOf('${');
+            const templateEnd = this._findUnescapedChar(remaining, '`');
+
+            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                // An interpolation begins. Highlight the string part before it.
+                const content = remaining.substring(0, interpolationStart);
+                if (state.in_tagged_template) {
+                    html += this._getHighlightResult(content, {}, state.template_language).html;
+                } else {
+                    html += this._wrap(content, 'string');
+                }
+                html += this._wrap('${', 'keyword');
+                i += interpolationStart + 2;
+                state.interpolation_depth = 1; // Enter the JS world.
+                state.in_string = false; // We are no longer in a string, we are in JS.
+                state.in_tagged_template = false;
+            } else if (templateEnd !== -1) {
+                // The string ends.
+                const content = remaining.substring(0, templateEnd);
+                if (state.in_tagged_template) { html += this._getHighlightResult(content, {}, state.template_language).html; }
+                else { html += this._wrap(content, 'string'); }
+                html += this._wrap('`', 'string');
+                i += templateEnd + 1;
+                state.in_string = false;
+                state.in_tagged_template = false;
+                state.template_language = null;
+            } else {
+                // The rest of the line is string content.
+                if (state.in_tagged_template) { html += this._getHighlightResult(remaining, {}, state.template_language).html; }
+                else { html += this._wrap(remaining, 'string'); }
+                break;
+            }
+            continue;
         }
-        // --- END NEW ---
-        
-        if (lang.singleLineComment && remaining.startsWith(lang.singleLineComment)) { html += this._wrap(remaining, 'comment'); break; }
-        if (lang.multiLineComment && remaining.startsWith(lang.multiLineComment.start)) {
-            const endIdx = remaining.indexOf(lang.multiLineComment.end);
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + lang.multiLineComment.end.length), 'comment'); i += endIdx + lang.multiLineComment.end.length; }
+
+        // STATE 3: Top-level JS code OR code inside an interpolation.
+        // The logic is the same for both, which is the beauty of this approach.
+        // We tokenize fully, and only check for `{` or `}` on characters that are not part of other tokens.
+
+        // Check for comments first
+        if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
+        if (remaining.startsWith('/*')) {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; }
             else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
             continue;
         }
-        if (remaining[0] === '"' || remaining[0] === "'") {
-            const char = remaining[0];
-            let endIdx = -1; let currentPos = 1;
-            while((endIdx = remaining.indexOf(char, currentPos)) !== -1) { if(remaining[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
-            if (endIdx !== -1) {
-                html += this._wrap(remaining.substring(0, endIdx + 1), 'string');
-                i += endIdx + 1;
-            } else {
-                 html += this._escape(char); i++;
-            }
-            continue;
-        }
-        if (lang.templateString && remaining[0] === lang.templateString.start) {
-            let endIdx = -1; let currentPos = 1;
-            while((endIdx = remaining.indexOf(lang.templateString.end, currentPos)) !== -1) { if (remaining[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
+
+        // Check for strings
+        const quoteChar = remaining[0];
+        if (quoteChar === '"' || quoteChar === "'") {
+            const endIdx = this._findUnescapedChar(remaining, quoteChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
-            else { html += this._wrap(remaining, 'string'); state.in_string = true; break; }
+            else { html += this._wrap(remaining, 'string'); break; } // Unterminated
             continue;
         }
-        const firstChar = remaining[0];
-        if ((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z') || firstChar === '_') {
-            let word = '';
-            while (i < line.length && /[a-zA-Z0-9_]/.test(line[i])) { word += line[i]; i++; }
+
+        // Check for the start of a new template string
+        if (quoteChar === '`') {
+            html += this._wrap('`', 'string');
+            i += 1;
+            state.in_string = true;
+            continue;
+        }
+
+        // Check for tagged template directives
+        const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
+        let directiveFound = false;
+        for (const d of directives) {
+            if (remaining.startsWith(d.tag + '`')) {
+                html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
+                i += d.tag.length + 1;
+                state.in_tagged_template = true;
+                state.template_language = d.lang;
+                directiveFound = true;
+                break;
+            }
+        }
+        if (directiveFound) continue;
+
+        // Check for keywords and variables
+        const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
+        if (wordMatch) {
+            const word = wordMatch[0];
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
+            i += word.length;
             continue;
         }
-        html += this._escape(firstChar); i++;
+
+        // NOW, we can safely check for `{` and `}` because we know they are not in comments or strings.
+        if (state.interpolation_depth > 0) {
+            if (quoteChar === '{') {
+                state.interpolation_depth++;
+            } else if (quoteChar === '}') {
+                state.interpolation_depth--;
+                if (state.interpolation_depth === 0) {
+                    // We found the final matching brace.
+                    // We are now back in a string context.
+                    html += this._wrap('}', 'keyword');
+                    i++;
+                    state.in_string = true; // Re-enter the string state
+                    continue;
+                }
+            }
+        }
+        
+        // Default: handle single characters like operators or punctuation
+        html += this._escape(remaining[0]);
+        i++;
     }
     return { html: html || '&nbsp;', state };
 }
+
+
+
+
+
+/**
+ * @private
+ * @function _findUnescapedChar
+ * @description Helper to find a character that is not preceded by a backslash.
+ */
+_findUnescapedChar(line, char, startIndex = 0) {
+    let currentPos = startIndex;
+    while (true) {
+        const index = line.indexOf(char, currentPos);
+        if (index === -1) return -1;
+        if (index > 0 && line[index - 1] === '\\') {
+            currentPos = index + 1;
+            continue;
+        }
+        return index;
+    }
+}
+    
+    
+    
     
     
     
@@ -809,7 +831,7 @@ _highlightHTML(line, state) {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null };
+        let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null, interpolation_depth: 0 };
 
         for (let i = 0; i < firstLineToRender; i++) {
             this._getHighlightResult(this.lines[i], state);
