@@ -363,6 +363,7 @@ _measureAndRender() {
           'var',
           'this',
            'function',
+           "typeof",
             'return',
              'if', 'else', 'for',
               'class', 'new', 
