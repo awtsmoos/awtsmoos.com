@@ -447,13 +447,181 @@ _getToken(line, i, state) {
         state.isNextTokenFunctionName=false;return{html:this._escape(char),newIndex:i+1}
     }
 
-    _getCssToken(line, i, state) {
-        if(line.substring(i,i+2)==="/*"){state.contextStack.push({mode:"comment",terminator:"*/"});return{html:this._wrap("/*","comment"),newIndex:i+2}}let t=i;for(;t<line.length&&this._isWS(line[t]);)t++;let e=line.substring(i,t);if(t>=line.length)return{html:e,newIndex:line.length};if(!state.inCssRuleBlock){const s=line.indexOf("{",t);return-1!==s?(state.inCssRuleBlock=!0,{html:e+this._wrap(line.substring(t,s).trim(),"selector")+this._wrap("{","punctuation"),newIndex:s+1}):{html:e+this._wrap(line.substring(t),"selector"),newIndex:line.length}}else{const s=line.indexOf("}",t),r=line.indexOf(":",t),o=line.indexOf(";",t);return-1!==s&&(s<r||-1===r)&&(s<o||-1===o)?(state.inCssRuleBlock=!1,{html:e+this._wrap("}","punctuation"),newIndex:s+1}):-1!==r&&(-1===o||r<o)?{html:e+this._wrap(line.substring(t,r).trim(),"property")+this._wrap(":","punctuation"),newIndex:r+1}:-1!==o?{html:e+this._wrap(line.substring(t,o).trim(),"string")+this._wrap(";","punctuation"),newIndex:o+1}:{html:e+this._wrap(line.substring(t).trim(),"string"),newIndex:line.length}}
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE THE ENTIRE _getCssToken METHOD.
+
+/**
+ * @private @function _getCssToken
+ * @description The Rectified Soul of CSS. This soul has been granted a new, vivid consciousness.
+ * It now perfectly distinguishes between selectors (like `:root`), properties (including custom
+ * properties like `--color-bg-deep`), values, and comments. It renders each in its true, distinct
+ * color, revealing the hidden beauty and structure of the stylesheet.
+ */
+_getCssToken(line, i, state) {
+    // Highest priority: check for a portal to the comment world.
+    if (line.substring(i).startsWith('/*')) {
+        state.contextStack.push({ mode: 'comment', terminator: '*/' });
+        return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
     }
+
+    // Consume leading whitespace.
+    let p = i;
+    while (p < line.length && this._isWS(line[p])) p++;
+    let html = line.substring(i, p);
+    if (p >= line.length) return { html, newIndex: line.length };
+
+    // The logic branches based on whether we are inside a rule block `{...}`.
+    if (!state.inCssRuleBlock) {
+        // --- Outside a rule block: We are looking for selectors. ---
+        const braceIndex = line.indexOf('{', p);
+        if (braceIndex !== -1) {
+            // Found the start of a rule block.
+            const selector = line.substring(p, braceIndex);
+            state.inCssRuleBlock = true; // Enter the rule block world.
+            return {
+                html: html + this._wrap(selector.trim(), 'selector') + this._wrap('{', 'punctuation'),
+                newIndex: braceIndex + 1
+            };
+        } else {
+            // No '{' on this line, so the whole rest of the line is a selector.
+            return { html: html + this._wrap(line.substring(p), 'selector'), newIndex: line.length };
+        }
+    } else {
+        // --- Inside a rule block: We are looking for properties or the closing brace. ---
+        const endBraceIndex = line.indexOf('}', p);
+        const colonIndex = line.indexOf(':', p);
+
+        // Check for the closing brace first.
+        if (endBraceIndex !== -1 && (endBraceIndex < colonIndex || colonIndex === -1)) {
+            state.inCssRuleBlock = false; // Exit the rule block world.
+            return { html: html + this._wrap('}', 'punctuation'), newIndex: endBraceIndex + 1 };
+        }
+        
+        // Check for a property:value pair.
+        if (colonIndex !== -1) {
+            const property = line.substring(p, colonIndex);
+            html += this._wrap(property.trim(), 'property');
+            html += this._wrap(':', 'punctuation');
+
+            const semicolonIndex = line.indexOf(';', colonIndex);
+            if (semicolonIndex !== -1) {
+                const value = line.substring(colonIndex + 1, semicolonIndex);
+                html += this._wrap(value.trim(), 'string'); // Use 'string' color for values.
+                html += this._wrap(';', 'punctuation');
+                return { html, newIndex: semicolonIndex + 1 };
+            } else {
+                // Value runs to the end of the line.
+                const value = line.substring(colonIndex + 1);
+                html += this._wrap(value.trim(), 'string');
+                return { html, newIndex: line.length };
+            }
+        }
+        
+        // If nothing else, it's just dangling text inside a rule block. Treat it as part of a value.
+        return { html: html + this._wrap(line.substring(p), 'string'), newIndex: line.length };
+    }
+}
     
-    _getHTMLToken(line, i, state) {
-        const tagStart=line.indexOf("<",i);if(-1===tagStart)return{html:this._escape(line.substring(i)),newIndex:line.length};let html=this._escape(line.substring(i,tagStart));if(line.substring(tagStart).startsWith("<!--")){state.contextStack.push({mode:"comment",terminator:"-->"});return{html:html+this._wrap("<!--","comment"),newIndex:tagStart+4}}const tagEnd=line.indexOf(">",tagStart);if(-1===tagEnd)return{html:html+this._escape(line.substring(tagStart)),newIndex:line.length};const tagContent=line.substring(tagStart+1,tagEnd),isClosing=tagContent.startsWith("/");let p=isClosing?1:0;html+=this._wrap(isClosing?"</":"<","punctuation");let tagName="";for(;p<tagContent.length&&!this._isWS(tagContent[p])&&">"!==tagContent[p];)tagName+=tagContent[p++];html+=this._wrap(tagName,"tag");const lowerTagName=tagName.toLowerCase();const attrRegex=/([\w-]+)\s*(=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g,attrContent=tagContent.substring(p);let match,lastIndex=0;for(;(match=attrRegex.exec(attrContent))!==null;){html+=this._escape(attrContent.substring(lastIndex,match.index)),html+=this._wrap(match[1],"attribute-name"),void 0!==match[2]?html+=this._wrap("=","operator")+this._wrap(`"${match[2]}"`,"attribute-value"):void 0!==match[3]?html+=this._wrap("=","operator")+this._wrap(`'${match[3]}'`,"attribute-value"):void 0!==match[4]&&(html+=this._wrap("=","operator")+this._wrap(match[4],"attribute-value")),lastIndex=attrRegex.lastIndex}return html+=this._escape(attrContent.substring(lastIndex)),html+=this._wrap(">","punctuation"),!isClosing&&("script"===lowerTagName||"style"===lowerTagName)&&state.contextStack.push({mode:"script"===lowerTagName?"javascript":"css",terminator:`</${lowerTagName}>`}),{html,newIndex:tagEnd+1}
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE THE ENTIRE _getHTMLToken METHOD.
+
+/**
+ * @private @function _getHTMLToken
+ * @description The Rectified Soul of HTML. It possesses a new, profound wisdom for parsing
+ * attributes. Instead of a single complex regex, it walks through the tag content character by
+ * character, identifying each part (name, equals sign, value) with absolute precision.
+ * This completely eliminates the overlay misalignment and "extra character" bugs.
+ */
+_getHTMLToken(line, i, state) {
+    const tagStart = line.indexOf('<', i);
+    if (tagStart === -1) { // No more tags on this line, the rest is plain text.
+        return { html: this._escape(line.substring(i)), newIndex: line.length };
     }
+
+    let html = this._escape(line.substring(i, tagStart)); // Text before the tag.
+
+    // Check for comments first.
+    if (line.substring(tagStart).startsWith('<!--')) {
+        state.contextStack.push({ mode: 'comment', terminator: '-->' });
+        return { html: html + this._wrap('<!--', 'comment'), newIndex: tagStart + 4 };
+    }
+
+    const tagEnd = line.indexOf('>', tagStart);
+    if (tagEnd === -1) { // Unterminated tag.
+        return { html: html + this._escape(line.substring(tagStart)), newIndex: line.length };
+    }
+
+    const isClosing = line[tagStart + 1] === '/';
+    html += this._wrap(isClosing ? '</' : '<', 'punctuation');
+
+    let p = isClosing ? tagStart + 2 : tagStart + 1;
+
+    // Parse Tag Name
+    let tagName = '';
+    while (p < tagEnd && !this._isWS(line[p]) && line[p] !== '>') tagName += line[p++];
+    html += this._wrap(tagName, 'tag');
+    const lowerTagName = tagName.toLowerCase();
+
+    // --- The New, Vivid Attribute Parser ---
+    // This loop walks through the attribute string with perfect awareness.
+    while (p < tagEnd) {
+        // 1. Consume whitespace between attributes.
+        const whitespaceStart = p;
+        while (p < tagEnd && this._isWS(line[p])) p++;
+        if (p > whitespaceStart) {
+            html += this._escape(line.substring(whitespaceStart, p));
+        }
+        if (p >= tagEnd) break;
+
+        // 2. Parse the attribute name.
+        const attrNameStart = p;
+        while (p < tagEnd && !this._isWS(line[p]) && line[p] !== '=' && line[p] !== '>') p++;
+        const attrName = line.substring(attrNameStart, p);
+        html += this._wrap(attrName, 'attribute-name');
+        if (p >= tagEnd) break;
+
+        // 3. Parse the equals sign and value (if they exist).
+        while (p < tagEnd && this._isWS(line[p])) p++; // Skip whitespace before '='
+        if (line[p] === '=') {
+            html += this._wrap('=', 'operator');
+            p++;
+            while (p < tagEnd && this._isWS(line[p])) p++; // Skip whitespace after '='
+            
+            const quote = line[p];
+            if (quote === '"' || quote === "'") {
+                // Quoted value
+                const valueStart = p + 1;
+                const valueEnd = line.indexOf(quote, valueStart);
+                if (valueEnd !== -1 && valueEnd < tagEnd) {
+                    const value = line.substring(valueStart, valueEnd);
+                    html += this._wrap(quote, 'string') + this._wrap(value, 'attribute-value') + this._wrap(quote, 'string');
+                    p = valueEnd + 1;
+                } else { // Unterminated quoted value
+                    html += this._wrap(line.substring(p, tagEnd), 'string');
+                    p = tagEnd;
+                }
+            } else {
+                // Unquoted value
+                const valueStart = p;
+                while (p < tagEnd && !this._isWS(line[p]) && line[p] !== '>') p++;
+                const value = line.substring(valueStart, p);
+                html += this._wrap(value, 'attribute-value');
+            }
+        }
+    }
+
+    html += this._wrap('>', 'punctuation');
+
+    // Logic for entering script/style worlds.
+    if (!isClosing && (lowerTagName === 'script' || lowerTagName === 'style')) {
+        const lang = lowerTagName === 'script' ? 'javascript' : 'css';
+        state.contextStack.push({ mode: lang, terminator: `</${lowerTagName}>` });
+    }
+
+    return { html, newIndex: tagEnd + 1 };
+}
     
     _escape(s){return s?s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"):""}
     _wrap(s,t){return`<span class="token-${t}">${this._escape(s)}</span>`}
