@@ -435,12 +435,7 @@ _findMatchingBrace(line, startIndex = 0) {
     
     
     
-    _highlightJS(line, state) {
-    // Divine Guard: A state must always exist.
-    const currentState = state || this._getInitialState();
-    const lang = {
-        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
-    };
+    
     let html = '';
     let i = 0;
 
