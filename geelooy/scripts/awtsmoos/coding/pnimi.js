@@ -120,11 +120,24 @@ class VirtualizedEditor {
         
         /** @private The default colors, the 10 Sefirot manifested as light. */
         const defaultColors = {
-            comment: '#6a9955', string: '#ce9178', number: '#b5cea8',
-            keyword: '#569cd6', 'function': '#dcdcaa', operator: '#d4d4d4',
-            punctuation: '#808080', variable: '#9cdcfe', tag: '#569cd6',
-            attribute: '#9cdcfe', selector: '#d7ba7d', property: '#9cdcfe',
-        };
+    // VS Code "Dark+" Theme Inspired Colors
+    comment: '#6A9955',          // Green
+    string: '#CE9178',           // Orange
+    number: '#B5CEA8',           // Light Green/Blue
+    
+    // -- NEW CATEGORIES --
+    controlKeyword: '#C586C0',   // Pink/Magenta (for import, async, if, etc.)
+    definitionKeyword: '#569CD6',// Blue (for const, var, class, etc.)
+    functionName: '#DCDCAA',     // Yellow (for function names and calls)
+    
+    // -- STANDARD TOKENS --
+    variable: '#9CDCFE',         // Light Blue (for variables, parameters)
+    operator: '#D4D4D4',         // Light Gray/White
+    punctuation: '#808080',      // Gray
+    tag: '#569CD6',              // Blue
+    attribute: '#9CDCFE',        // Light Blue
+    property: '#D4D4D4'          // Light Gray/White (e.g., object properties)
+};
         /** @private The final colors, merging the divine and the mundane. */
         this.colors = { ...defaultColors, ...customColors };
 
@@ -214,18 +227,18 @@ class VirtualizedEditor {
         styleEl.innerHTML = `
             
             .token-comment { color: ${this.colors.comment}; }
-            .token-string { color: ${this.colors.string}; }
-            .token-number { color: ${this.colors.number}; }
-            .token-keyword { color: ${this.colors.keyword}; }
-            .token-function { color: ${this.colors.function}; }
-            .token-operator { color: ${this.colors.operator}; }
-            .token-punctuation { color: ${this.colors.punctuation}; }
-            .token-variable { color: ${this.colors.variable}; }
-            .token-tag { color: ${this.colors.tag}; }
-            .token-attribute { color: ${this.colors.attribute}; }
-            .token-selector { color: ${this.colors.selector}; }
-            .token-property { color: ${this.colors.property}; }
-
+    .token-string { color: ${this.colors.string}; }
+    .token-number { color: ${this.colors.number}; }
+    .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
+    .token-definitionKeyword { color: ${this.colors.definitionKeyword}; }
+    .token-functionName { color: ${this.colors.functionName}; }
+    .token-variable { color: ${this.colors.variable}; }
+    .token-operator { color: ${this.colors.operator}; }
+    .token-punctuation { color: ${this.colors.punctuation}; }
+    .token-tag { color: ${this.colors.tag}; }
+    .token-attribute { color: ${this.colors.attribute}; }
+    .token-property { color: ${this.colors.property}; }
+    
             .virtualized-editor-caret {
                 position: absolute;
                 display: none; /* Controlled by JS */
@@ -936,108 +949,210 @@ _tokenizeJSChunk(chunk) {
     return html;
 }
 
+
+
+// --- START: NEW HELPER METHODS (Add these to your class) ---
+
+/** @private Checks if a character can start a JS identifier. */
+_isIdentifierStart(char) {
+    if (!char) return false;
+    const a = 'a', z = 'z', A = 'A', Z = 'Z';
+    return (char >= a && char <= z) || (char >= A && char <= Z) || char === '_' || char === '$';
+}
+
+/** @private Checks if a character can be part of a JS identifier. */
+_isIdentifierPart(char) {
+    if (!char) return false;
+    const zero = '0', nine = '9';
+    return this._isIdentifierStart(char) || (char >= zero && char <= nine);
+}
+
+/** @private Checks if a character is a numeric digit. */
+_isDigit(char) {
+    if (!char) return false;
+    const zero = '0', nine = '9';
+    return char >= zero && char <= nine;
+}
+
+/** @private Checks if a character is whitespace. */
+_isWhitespace(char) {
+    return char === ' ' || char === '\t' || char === '\n' || char === '\r';
+}
+
+/**
+ * @private Manually looks ahead to see if an identifier is being called as a function.
+ * @param {string} line - The full line of code.
+ * @param {number} startIndex - The position *after* the identifier to start looking from.
+ * @returns {boolean} - True if the next non-whitespace character is '('.
+ */
+_isFunctionCall(line, startIndex) {
+    let i = startIndex;
+    while (i < line.length) {
+        const char = line[i];
+        if (!this._isWhitespace(char)) {
+            return char === '(';
+        }
+        i++;
+    }
+    return false;
+}
+
+// --- END: NEW HELPER METHODS ---
+
+
 /**
  * @private
  * @function _getHighlightResult
  * @description The Final, Wise, and Unified Consciousness. Its logic is a single,
- * prioritized scan that cannot be fooled. It asks the complex questions first.
- * This is the eternal light.
+ * prioritized scan that cannot be fooled. It handles all contexts and tokens manually.
  */
 _getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
     let html = '';
     let i = 0;
-    
-    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
 
+    // Token Definitions - using Sets for high-performance lookups.
+    const controlKeywords = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
+    const definitionKeywords = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
+
+    // The main processing loop for the line.
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
 
-        // --- THE UNIFIED SCANNER: One mind, one set of prioritized questions ---
+        // --- PRIORITY 1: Handle Active Multi-Line Contexts ---
+        // This section handles content when we are already inside a comment, string, etc.
 
-        // 1. Is the current world ending? This is ALWAYS the highest priority.
-        if (context.terminator && remaining.toLowerCase().startsWith(context.terminator.toLowerCase())) {
-            const tokenType = (context.mode === 'javascript' && context.terminator === '}') ? 'keyword' : (context.terminator.startsWith('<') ? 'tag' : (context.mode === 'comment' ? 'comment' : 'string'));
+        // Is the current context ending right here?
+        if (context.terminator && remaining.startsWith(context.terminator)) {
+            const tokenType = context.mode === 'comment' ? 'comment' : 'string';
             html += this._wrap(context.terminator, tokenType);
-            currentState.contextStack.pop();
             i += context.terminator.length;
+            currentState.contextStack.pop();
+            continue;
+        }
+        
+        // Are we inside a template literal and about to enter an interpolation?
+        if (context.mode === 'template_literal' && remaining.startsWith('${')) {
+            html += this._wrap('${', 'controlKeyword'); // Color '${' like a keyword
+            i += 2;
+            currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
             continue;
         }
 
-        // 2. Are we entering a new world? (A Portal)
-        // This is a single, prioritized chain. Complex patterns MUST come before their simple parts.
-        const directiveMatch = remaining.match(/^\/\*(html|css|js)\*\/`/);
-        if ((context.mode === 'javascript' || context.mode === 'js') && directiveMatch) {
-            html += this._wrap(`/*${directiveMatch[1]}*/`, 'comment') + this._wrap('`', 'string');
-            currentState.contextStack.push({ mode: directiveMatch[1], terminator: '`' });
-            i += directiveMatch[0].length;
-        } else if (context.mode === 'template_literal' && remaining.startsWith('${')) {
-            html += this._wrap('${', 'keyword');
-            currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
-            i += 2;
-        } else if (context.mode === 'html' && remaining.toLowerCase().startsWith('<script')) {
-            const endTag = line.indexOf('>', i);
-            const tag = endTag === -1 ? remaining : line.substring(i, endTag + 1);
-            html += this._wrap(tag, 'tag');
-            currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
-            i += tag.length;
-        } else if (context.mode === 'html' && remaining.startsWith('<!--')) {
-            html += this._wrap('<!--', 'comment');
-            currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
-            i += 4;
-        } else if ((context.mode === 'javascript' || context.mode === 'js' || context.mode === 'css') && remaining.startsWith('/*')) {
+        // If the context doesn't end on this line, process the whole line as part of it.
+        if (context.mode !== 'javascript') {
+            const tokenType = context.mode === 'comment' ? 'comment' : 'string';
+            html += this._wrap(remaining, tokenType);
+            break; // End processing for this line
+        }
+
+
+        // --- PRIORITY 2: Detect New Contexts or Single-Line Tokens ---
+        // This section runs only when we are in the default 'javascript' context.
+        
+        // Check for multi-line comment start
+        if (remaining.startsWith('/*')) {
             html += this._wrap('/*', 'comment');
-            currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
             i += 2;
-        } else if ((context.mode === 'javascript' || context.mode === 'js') && remaining.startsWith('//')) {
+            currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
+            continue;
+        }
+
+        // Check for single-line comment start
+        if (remaining.startsWith('//')) {
             html += this._wrap(remaining, 'comment');
-            i = line.length;
-        } else if ((context.mode === 'javascript' || context.mode === 'js') && remaining.startsWith('`')) {
+            break; // The rest of the line is a comment.
+        }
+
+        // Check for template literal start
+        if (remaining.startsWith('`')) {
             html += this._wrap('`', 'string');
+            i += 1;
             currentState.contextStack.push({ mode: 'template_literal', terminator: '`' });
+            continue;
+        }
+
+        // Check for regular string start
+        const firstChar = remaining[0];
+        if (firstChar === "'" || firstChar === '"') {
+            html += this._wrap(firstChar, 'string');
             i += 1;
-        } else if ((context.mode === 'javascript' || context.mode === 'js') && (remaining.startsWith('"') || remaining.startsWith("'"))) {
-            const terminator = remaining[0];
-            html += this._wrap(terminator, 'string');
-            currentState.contextStack.push({ mode: 'string', terminator });
-            i += 1;
+            currentState.contextStack.push({ mode: 'string', terminator: firstChar });
+            continue;
         }
         
-        // 3. If it's not a terminator or portal, weave the mundane content.
-        else {
-            let buffer = '';
-            // For JS/CSS, tokenize word by word.
-            if (context.mode === 'javascript' || context.mode === 'js' || context.mode === 'css') {
-                 const char = remaining[0];
-                 if (/[a-zA-Z_$]/.test(char)) {
-                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) { buffer += line[i]; i++; }
-                    if (context.mode.startsWith('js')) {
-                        html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable');
-                    } else { // For CSS selectors, properties etc.
-                        html += this._wrap(buffer, 'selector');
-                    }
-                 } else if (/\d/.test(char)) {
-                    while (i < line.length && /[\d.]/.test(line[i])) { buffer += line[i]; i++; }
-                    html += this._wrap(buffer, 'number');
-                 } else { // Single characters (operators, punctuation)
-                    html += this._escape(char);
-                    i++;
-                 }
-            }
-            // For all other modes, the buffer is just text/content.
-            else {
-                 buffer = line.substring(i, i+1);
-                 const tokenType = context.mode === 'comment' ? 'comment' :
-                                   context.mode.includes('string') ? 'string' : 'variable'; // Default for HTML text
-                 html += this._wrap(buffer, tokenType);
-                 i++;
-            }
+
+        // --- PRIORITY 3: Tokenize Standard JavaScript ---
+        
+        // Handle whitespace
+        if (this._isWhitespace(firstChar)) {
+            html += firstChar;
+            i++;
+            continue;
         }
+        
+        // Handle identifiers (keywords, variables, function names)
+        if (this._isIdentifierStart(firstChar)) {
+            let buffer = '';
+            let currentPos = i;
+            while (currentPos < line.length && this._isIdentifierPart(line[currentPos])) {
+                buffer += line[currentPos];
+                currentPos++;
+            }
+            
+            if (currentState.isNextTokenFunctionName) {
+                html += this._wrap(buffer, 'functionName');
+                currentState.isNextTokenFunctionName = false; // Reset the flag
+            } else if (buffer === 'function') {
+                html += this._wrap(buffer, 'controlKeyword');
+                // The very next token MUST be the function's name. Set the state flag.
+                currentState.isNextTokenFunctionName = true;
+            } else if (controlKeywords.has(buffer)) {
+                html += this._wrap(buffer, 'controlKeyword');
+            } else if (definitionKeywords.has(buffer)) {
+                html += this._wrap(buffer, 'definitionKeyword');
+            } else if (this._isFunctionCall(line, currentPos)) {
+                html += this._wrap(buffer, 'functionName');
+            } else {
+                html += this._wrap(buffer, 'variable');
+            }
+            
+            i = currentPos;
+            continue;
+        }
+        
+        // Handle numbers
+        if (this._isDigit(firstChar)) {
+            let buffer = '';
+            let currentPos = i;
+            let hasDecimal = false;
+            while (currentPos < line.length) {
+                const char = line[currentPos];
+                if (this._isDigit(char)) {
+                    buffer += char;
+                } else if (char === '.' && !hasDecimal) {
+                    buffer += char;
+                    hasDecimal = true;
+                } else {
+                    break;
+                }
+                currentPos++;
+            }
+            html += this._wrap(buffer, 'number');
+            i = currentPos;
+            continue;
+        }
+        
+        // Handle everything else as punctuation/operators
+        // We also turn off the function name flag here in case of anonymous functions `function () {}`
+        currentState.isNextTokenFunctionName = false;
+        html += this._escape(firstChar);
+        i++;
     }
+
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
     /**
      * @private
