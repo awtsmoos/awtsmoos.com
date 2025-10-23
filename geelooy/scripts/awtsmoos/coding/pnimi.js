@@ -387,13 +387,12 @@ _measureAndRender() {
     
     
     
+    
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
-
-        // --- THE UNIFIED PARSER WITH PERFECT HIERARCHY ---
 
         // PRIORITY 1: Handle multi-line "modal" states first.
         if (currentState.in_comment) {
@@ -445,9 +444,8 @@ _measureAndRender() {
             continue;
         }
 
-        // PRIORITY 2: We are in the default JavaScript tokenizer (top-level or in ${...}).
-        // We now check for the START of modal states according to the unbreakable hierarchy.
-        const firstChar = remaining;
+        // PRIORITY 2: Default JavaScript tokenizer.
+        const firstChar = remaining[0];
         
         // HIERARCHY CHECK 1: Start of a tagged template?
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
@@ -480,7 +478,8 @@ _measureAndRender() {
         }
 
         // HIERARCHY CHECK 4: Is it a word?
-        const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-T9_]*/);
+        // --- THIS IS THE SINGLE, PERFECTED CORRECTION ---
+        const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
@@ -489,8 +488,7 @@ _measureAndRender() {
             continue;
         }
 
-        // HIERARCHY CHECK 5: Only now, after all else has failed, can this character be a brace.
-        // The Golem is replaced with a Sage.
+        // HIERARCHY CHECK 5: The brace counter with understanding.
         if (currentState.interpolation_depth > 0) {
             if (firstChar === '{') {
                 currentState.interpolation_depth++;
