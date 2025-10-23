@@ -17,6 +17,22 @@ export const FileSystemProvider = {
             }
         } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
     },
+    
+    // B"H
+// FILE: js/fs-provider.js
+
+// In the main FileSystemProvider object:
+    async listAllFiles(item) {
+        try {
+            switch (item.type) {
+                case 'local': return this.Local.listAllFiles(item);
+                case 'indexeddb': return this.IndexedDB.listAllFiles(item);
+                // GitHub doesn't need this as we use the recursive tree API directly.
+                default: throw new Error(`listAllFiles is not supported for type '${item.type}'`);
+            }
+        } catch (e) { console.error(`[FS LIST ALL FAILED]`, e); throw e; }
+    },
+    
     async read(item) {
         try {
             switch (item.type) {
@@ -115,6 +131,35 @@ export const FileSystemProvider = {
             }
             return entries;
         },
+        
+        
+        // B"H
+// FILE: js/fs-provider.js
+
+// In the FileSystemProvider.Local object:
+        async listAllFiles({ handle, path }) {
+            const allFiles = [];
+            // Recursive helper function to traverse directories
+            async function traverse(dirHandle, currentPath) {
+                for await (const entry of dirHandle.values()) {
+                    const newPath = `${currentPath}/${entry.name}`;
+                    if (entry.kind === 'file') {
+                        allFiles.push({
+                            name: entry.name,
+                            kind: 'file',
+                            path: newPath
+                        });
+                    } else if (entry.kind === 'directory') {
+                        await traverse(entry, newPath);
+                    }
+                }
+            }
+            const rootHandle = await this.getHandle(handle, path);
+            await traverse(rootHandle, path === '/' ? '' : path);
+            return allFiles;
+        },
+        
+        
 
         /**
          * The 'read' method. It will now work because getHandle is correct.
@@ -202,6 +247,29 @@ export const FileSystemProvider = {
                 };
             });
         },
+        
+        // B"H
+// FILE: js/fs-provider.js
+
+// In the FileSystemProvider.IndexedDB object:
+        listAllFiles: async function({ path }) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+                const request = store.getAll();
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = () => {
+                    // Filter for items within the specific workspace path that are files (not directories).
+                    const dirPrefix = path === '/' ? '' : path + '/';
+                    const files = request.result.filter(item => 
+                        item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir
+                    );
+                    resolve(files);
+                };
+            });
+        },
+        
+        
         read: async function({ path }) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -500,20 +568,7 @@ export const FileSystemProvider = {
     },
     
     
-    listAllFiles: async function({ path }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-                const request = store.getAll();
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = () => {
-                    // Filter for files within the specific workspace "directory" and that are not directories themselves.
-                    const dirPrefix = path === '/' ? '' : path + '/';
-                    const files = request.result.filter(item => item.path.startsWith(dirPrefix) && !item.isDir);
-                    resolve(files);
-                };
-            });
-        },
+    
     
 
 
