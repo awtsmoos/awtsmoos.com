@@ -14,32 +14,58 @@ export const GitManager = {
     /**
      * Entry point. Called when the Git Actions button on a folder is clicked.
      */
+    // B"H
     async showGitUI(clonedFolderItem) {
         UI.showLoading("Reading repository data...");
         const gitInfo = await GitMetaProvider.getGitInfoForFolder(clonedFolderItem);
 
         if (!gitInfo) {
-            UI.hideLoading();
-            UI.showToast("This is not a cloned repository folder.", "error");
-            return;
+            UI.hideLoading(); UI.showToast("This is not a cloned repository folder.", "error"); return;
         }
 
         UI.showLoading("Analyzing repository status...");
         try {
             const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
             const isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
+            
+            // --- NEW: Calculate Remote Changes if Behind ---
+            let remoteChanges = null;
+            if (isBehind) {
+                UI.showLoading("Fetching remote changes...");
+                const newTreeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+                const newRemoteTree = newTreeData.tree;
+                const oldRemoteTree = gitInfo.remoteTree;
+
+                const newFiles = new Map(newRemoteTree.map(f => [f.path, f]));
+                const oldFiles = new Map(oldRemoteTree.map(f => [f.path, f]));
+                
+                remoteChanges = { additions: [], modifications: [], deletions: [] };
+
+                newFiles.forEach((file, path) => {
+                    if (!oldFiles.has(path)) {
+                        remoteChanges.additions.push(path);
+                    } else if (oldFiles.get(path).sha !== file.sha) {
+                        remoteChanges.modifications.push(path);
+                    }
+                });
+                oldFiles.forEach((file, path) => {
+                    if (!newFiles.has(path)) {
+                        remoteChanges.deletions.push(path);
+                    }
+                });
+            }
+            // --- END NEW ---
 
             const changeSet = await this.calculateDiff(clonedFolderItem, gitInfo);
             const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
             const isAhead = localChangesCount > 0;
 
             UI.hideLoading();
-            this.showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet });
+            // Pass the new remoteChanges object to the dialog
+            this.showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet, remoteChanges });
 
         } catch (e) {
-            UI.hideLoading();
-            UI.showToast(`Error checking Git status: ${e.message}`, 'error');
-            console.error(e);
+            UI.hideLoading(); UI.showToast(`Error checking Git status: ${e.message}`, 'error'); console.error(e);
         }
     },
 
@@ -47,24 +73,41 @@ export const GitManager = {
      * Displays the dialog with status and commit options.
      * This version gracefully handles the "No changes" state.
      */
-    async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet }) {
+    // B"H
+    async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet, remoteChanges }) {
+        // --- NEW: More intelligent status messages ---
+        let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with local copy';
+        if (isBehind) {
+            localStatusMessage = "Out of date with remote";
+        }
+        // --- END NEW ---
+
         let statusHTML = `
             <div class="git-status-line">
                 <span>Remote Status:</span>
-                <span class="status ${isBehind ? 'behind' : 'synced'}">
-                    ${isBehind ? `Behind. Please pull.` : 'In Sync'}
-                </span>
+                <span class="status ${isBehind ? 'behind' : 'synced'}">${isBehind ? `Behind. Please pull.` : 'In Sync'}</span>
             </div>
             <div class="git-status-line">
                 <span>Local Status:</span>
-                <span class="status ${isAhead ? 'ahead' : 'synced'}">
-                    ${isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote'}
-                </span>
+                <span class="status ${isAhead ? 'ahead' : isBehind ? 'behind' : 'synced'}">${localStatusMessage}</span>
             </div>
         `;
+        
+        // --- NEW: Display the list of remote changes ---
+        if (isBehind && remoteChanges) {
+            const hasRemoteChanges = remoteChanges.additions.length > 0 || remoteChanges.modifications.length > 0 || remoteChanges.deletions.length > 0;
+            if (hasRemoteChanges) {
+                statusHTML += `<div class="changes-list"><strong>Remote Changes to Pull:</strong><ul>`;
+                remoteChanges.additions.forEach(path => statusHTML += `<li><span class="tag created">ADDED</span> ${path}</li>`);
+                remoteChanges.modifications.forEach(path => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${path}</li>`);
+                remoteChanges.deletions.forEach(path => statusHTML += `<li><span class="tag deleted">DELETED</span> ${path}</li>`);
+                statusHTML += `</ul></div>`;
+            }
+        }
+        // --- END NEW ---
 
         if (isAhead) {
-            statusHTML += `<div class="changes-list"><strong>Changes:</strong><ul>`;
+            statusHTML += `<div class="changes-list"><strong>Local Changes to Push:</strong><ul>`;
             changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
             changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
             changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
