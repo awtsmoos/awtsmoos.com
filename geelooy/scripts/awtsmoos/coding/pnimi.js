@@ -551,23 +551,30 @@ _findUnescapedChar(line, char, startIndex = 0) {
  * CSS or JS highlighter.
  */
 _highlightHTML(line, state) {
-    // Divine Guard: A state must always exist.
+    // Divine Guard: The state must always exist.
     const currentState = state || this._getInitialState();
-
     let html = '';
     let i = 0;
 
+    // --- THE PERFECTED NESTED PARSER LOGIC ---
     if (currentState.in_script) {
         const endTag = '</script>';
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const scriptContent = line.substring(i, endIdx);
-            html += this._highlightJS(scriptContent, this._getInitialState()).html;
+            // Use the specialist's persistent memory, then save its updated memory.
+            const scriptResult = this._highlightJS(scriptContent, currentState.script_state);
+            html += scriptResult.html;
             html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
+            // The job is done. Dismiss the specialist and clear its memory.
             currentState.in_script = false;
+            currentState.script_state = null;
         } else {
-            html += this._highlightJS(line.substring(i), this._getInitialState()).html;
+            // The job continues. Use the specialist's memory and save its updated memory for the next line.
+            const scriptResult = this._highlightJS(line.substring(i), currentState.script_state);
+            html += scriptResult.html;
+            currentState.script_state = scriptResult.state;
             return { html: html || '&nbsp;', state: currentState };
         }
     }
@@ -577,15 +584,20 @@ _highlightHTML(line, state) {
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const styleContent = line.substring(i, endIdx);
-            html += this._highlightCSS(styleContent, this._getInitialState()).html;
+            const styleResult = this._highlightCSS(styleContent, currentState.style_state);
+            html += styleResult.html;
             html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
             currentState.in_style = false;
+            currentState.style_state = null;
         } else {
-            html += this._highlightCSS(line.substring(i), this._getInitialState()).html;
+            const styleResult = this._highlightCSS(line.substring(i), currentState.style_state);
+            html += styleResult.html;
+            currentState.style_state = styleResult.state;
             return { html: html || '&nbsp;', state: currentState };
         }
     }
+    // --- END OF THE PERFECTED LOGIC ---
 
     while (i < line.length) {
         if (currentState.in_comment) {
@@ -641,6 +653,7 @@ _highlightHTML(line, state) {
         }
         html += this._wrap('>', 'punctuation');
         i = tagEnd + 1;
+        
         if (!isClosingTag && (normalizedTagName === 'script' || normalizedTagName === 'style')) {
             const endTag = `</${normalizedTagName}>`;
             const endOfBlockIdx = line.indexOf(endTag, i);
@@ -652,8 +665,20 @@ _highlightHTML(line, state) {
                 i = endOfBlockIdx + endTag.length;
             } else {
                 const content = line.substring(i);
-                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; currentState.in_script = true; }
-                else { html += this._highlightCSS(content, this._getInitialState()).html; currentState.in_style = true; }
+                if (normalizedTagName === 'script') {
+                    // A new job begins. Hire a specialist and create its memory.
+                    currentState.in_script = true;
+                    currentState.script_state = this._getInitialState();
+                    const scriptResult = this._highlightJS(content, currentState.script_state);
+                    html += scriptResult.html;
+                    currentState.script_state = scriptResult.state; // Save memory for the next line
+                } else {
+                    currentState.in_style = true;
+                    currentState.style_state = this._getInitialState();
+                    const styleResult = this._highlightCSS(content, currentState.style_state);
+html += styleResult.html;
+                    currentState.style_state = styleResult.state;
+                }
                 break;
             }
         }
@@ -793,7 +818,11 @@ _getInitialState() {
         template_language: null,
         interpolation_depth: 0,
         string_type_before_interpolation: null,
-        sub_language_state: null
+        sub_language_state: null,
+        
+        // The new vessels to hold the memory of nested parsers
+        script_state: null,
+        style_state: null
     };
 }
 
