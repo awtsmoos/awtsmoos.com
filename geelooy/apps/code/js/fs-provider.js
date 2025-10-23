@@ -221,25 +221,45 @@ export const FileSystemProvider = {
                 request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
             });
         },
+        // B"H
+// FILE: js/fs-provider.js
+
+// ... inside the FileSystemProvider.IndexedDB object ...
+
+        // REPLACE your existing 'list' function with this one.
         list: async function({ path }) {
-            await this.init(); // Ensure DB is initialized
+            await this.init();
             return new Promise((resolve, reject) => {
                 const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
                 const request = store.getAll();
                 request.onerror = e => reject(e.target.error);
                 request.onsuccess = () => {
                     const children = new Map();
-                    const dirPrefix = path === '/' ? '' : path + '/';
+
+                    // --- THE FIX IS HERE ---
+                    // Correctly define the prefix for root and subdirectories.
+                    const dirPrefix = path === '/' ? '/' : path + '/';
+                    const pathDepth = (path.match(/\//g) || []).length;
+                    // --- END FIX ---
+
                     request.result.forEach(item => {
+                        // Ensure we are looking in the correct directory
                         if (item.path.startsWith(dirPrefix) && item.path !== path) {
-                             const relativePath = item.path.substring(dirPrefix.length);
-                            const segment = relativePath.split('/')[0];
-                            if (segment && !children.has(segment)) {
-                                const isDir = relativePath.includes('/') || item.isDir;
-                                children.set(segment, { 
-                                    name: segment, kind: isDir ? 'directory' : 'file', 
-                                    path: dirPrefix + segment
-                                });
+                            
+                            // For root, a child is '/file.html'. For subdir, a child is '/subdir/file.html'.
+                            // We need to check if the item is a direct child, not a grand-child.
+                            const itemDepth = (item.path.match(/\//g) || []).length;
+                            const isDirectChild = (item.isDir && itemDepth === pathDepth + 1) || (!item.isDir && itemDepth === pathDepth);
+
+                            if (isDirectChild || (path === '/' && itemDepth === 1)) {
+                                const segment = item.path.substring(item.path.lastIndexOf('/') + 1);
+                                if (segment && !children.has(segment)) {
+                                    children.set(segment, { 
+                                        name: segment, 
+                                        kind: item.isDir ? 'directory' : 'file', 
+                                        path: item.path // Use the full path from the item itself
+                                    });
+                                }
                             }
                         }
                     });
@@ -247,9 +267,6 @@ export const FileSystemProvider = {
                 };
             });
         },
-        
-        // B"H
-// FILE: js/fs-provider.js
 
 // In the FileSystemProvider.IndexedDB object:
         listAllFiles: async function({ path }) {
