@@ -111,7 +111,11 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null, interpolation_depth: 0 };
+        this.parserState = { in_comment: false, in_string: false, 
+        in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null,
+         interpolation_depth: 0,
+         string_type_before_interpolation: null
+        };
         
         /** @private The DOM element for our simulated caret. */
         this.caret = null;
@@ -355,7 +359,7 @@ _measureAndRender() {
     while (i < line.length) {
         const remaining = line.substring(i);
 
-        // STATE 1: Inside a multi-line block comment. (No change)
+        // STATE 1: Inside a multi-line block comment.
         if (state.in_comment) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) {
@@ -370,13 +374,12 @@ _measureAndRender() {
         }
 
         // STATE 2: Inside a template string (regular or tagged).
-        // This is where we look for the exit (` ` `) or an entry into an interpolation (`${`).
         if (state.in_string || state.in_tagged_template) {
             const interpolationStart = remaining.indexOf('${');
             const templateEnd = this._findUnescapedChar(remaining, '`');
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                // An interpolation begins. Highlight the string part before it.
+                // An interpolation begins.
                 const content = remaining.substring(0, interpolationStart);
                 if (state.in_tagged_template) {
                     html += this._getHighlightResult(content, {}, state.template_language).html;
@@ -384,10 +387,14 @@ _measureAndRender() {
                     html += this._wrap(content, 'string');
                 }
                 html += this._wrap('${', 'keyword');
+
+                // **THE FIX, PART 1: REMEMBER THE CONTEXT**
+                state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
+                
                 i += interpolationStart + 2;
-                state.interpolation_depth = 1; // Enter the JS world.
-                state.in_string = false; // We are no longer in a string, we are in JS.
-                state.in_tagged_template = false;
+                state.interpolation_depth = 1;
+                state.in_string = false;
+                state.in_tagged_template = false; // Enter JS mode
             } else if (templateEnd !== -1) {
                 // The string ends.
                 const content = remaining.substring(0, templateEnd);
@@ -408,10 +415,8 @@ _measureAndRender() {
         }
 
         // STATE 3: Top-level JS code OR code inside an interpolation.
-        // The logic is the same for both, which is the beauty of this approach.
-        // We tokenize fully, and only check for `{` or `}` on characters that are not part of other tokens.
-
-        // Check for comments first
+        
+        // Tokenize comments, strings, etc., first to provide context for brace matching.
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -419,40 +424,33 @@ _measureAndRender() {
             else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
             continue;
         }
-
-        // Check for strings
+        
         const quoteChar = remaining[0];
         if (quoteChar === '"' || quoteChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, quoteChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
-            else { html += this._wrap(remaining, 'string'); break; } // Unterminated
+            else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
 
-        // Check for the start of a new template string
-        if (quoteChar === '`') {
-            html += this._wrap('`', 'string');
-            i += 1;
-            state.in_string = true;
-            continue;
-        }
-
-        // Check for tagged template directives
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
-        let directiveFound = false;
         for (const d of directives) {
             if (remaining.startsWith(d.tag + '`')) {
                 html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
                 i += d.tag.length + 1;
                 state.in_tagged_template = true;
                 state.template_language = d.lang;
-                directiveFound = true;
-                break;
+                continue; // Use continue to restart the loop in the new state
             }
         }
-        if (directiveFound) continue;
-
-        // Check for keywords and variables
+        
+        if (quoteChar === '`') {
+            html += this._wrap('`', 'string');
+            i += 1;
+            state.in_string = true;
+            continue;
+        }
+        
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -462,29 +460,37 @@ _measureAndRender() {
             continue;
         }
 
-        // NOW, we can safely check for `{` and `}` because we know they are not in comments or strings.
+        // Now, we can safely check for braces, knowing they aren't in strings or comments.
         if (state.interpolation_depth > 0) {
             if (quoteChar === '{') {
                 state.interpolation_depth++;
             } else if (quoteChar === '}') {
                 state.interpolation_depth--;
                 if (state.interpolation_depth === 0) {
-                    // We found the final matching brace.
-                    // We are now back in a string context.
                     html += this._wrap('}', 'keyword');
                     i++;
-                    state.in_string = true; // Re-enter the string state
+                    
+                    // **THE FIX, PART 2: RESTORE THE CORRECT CONTEXT**
+                    if (state.string_type_before_interpolation === 'tagged') {
+                        state.in_tagged_template = true;
+                    } else {
+                        state.in_string = true;
+                    }
+                    state.string_type_before_interpolation = null;
                     continue;
                 }
             }
         }
         
-        // Default: handle single characters like operators or punctuation
+        // Default catch-all for operators and punctuation
         html += this._escape(remaining[0]);
         i++;
     }
     return { html: html || '&nbsp;', state };
 }
+
+
+
 
 
 
@@ -831,7 +837,16 @@ _highlightHTML(line, state) {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null, interpolation_depth: 0 };
+        let state = { in_comment: false, 
+        in_string: false, 
+        in_rules: false, 
+        in_script: false, 
+        in_style: false, 
+        in_tagged_template: false, 
+        template_language: null, 
+        interpolation_depth: 0,
+        string_type_before_interpolation: null
+        };
 
         for (let i = 0; i < firstLineToRender; i++) {
             this._getHighlightResult(this.lines[i], state);
@@ -865,6 +880,8 @@ _highlightHTML(line, state) {
      * This version includes guards to prevent running before the editor is initialized.
      */
     _updateCaret() {
+    //better default caret for now
+    return;
         // --- NEW, STRONGER GUARD ---
         // Do not run if the editor is not focused, if measurements are not ready,
         // or if the lines of text have not been processed yet.
