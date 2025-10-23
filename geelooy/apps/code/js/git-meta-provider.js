@@ -9,8 +9,9 @@ export const GitMetaProvider = {
      * @param {object} folderItem - The item representing the folder to check.
      * @returns {Promise<object|null>} - The Git metadata object, or null if not found.
      */
+    
+    // REPLACE your existing getGitInfoForFolder function with this one.
     async getGitInfoForFolder(folderItem) {
-        // Construct the full path to our special metadata file.
         const ikarFilePath = folderItem.path === '/' 
             ? '/.awtsmoos-repo/ikar.js' 
             : `${folderItem.path}/.awtsmoos-repo/ikar.js`;
@@ -20,20 +21,33 @@ export const GitMetaProvider = {
         try {
             const content = await FileSystemProvider.read(ikarFileItem);
             
-            // This is the SAFE parsing method. It finds the JSON-like object within the text.
-            const jsonMatch = content.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) {
-                console.warn("Found ikar.js but it contained no valid metadata object.", folderItem);
+            // --- NEW, ROBUST PARSING LOGIC (NO REGEX) ---
+            // 1. Find the start of the object.
+            const objectStartIndex = content.indexOf('{');
+            if (objectStartIndex === -1) {
+                console.warn("Found ikar.js but it did not contain a valid metadata object.", folderItem);
                 return null;
             }
+
+            // 2. Isolate the object text from the rest of the file.
+            const jsonText = content.substring(objectStartIndex);
             
-            // Parse the extracted text safely.
-            const gitInfo = JSON.parse(jsonMatch[0]);
-            return gitInfo;
+            // 3. Let the native, secure JSON parser do the heavy lifting.
+            const gitInfo = JSON.parse(jsonText);
+            // --- END NEW LOGIC ---
+
+            // We still validate that the parsed object is one of ours.
+            if (gitInfo && gitInfo.isClone === true) {
+                return gitInfo;
+            } else {
+                console.warn("Found ikar.js but its content was not valid clone metadata.", folderItem);
+                return null;
+            }
 
         } catch (e) {
-            // This is the normal case for folders that are NOT clones.
-            // The FileSystemProvider will throw an error because the file doesn't exist.
+        
+            // This is the normal, expected case for any folder that is NOT a clone.
+            // We simply return null and do not log any warning.
             return null;
         }
     }
