@@ -49,12 +49,7 @@ class VirtualizedEditor {
      * @constructor
      * @description The moment of creation. The Public API begins here.
      */
-    
-    // B"H
-// FILE: VirtualizedEditor.js
-// ACTION: REPLACE ONLY THE CONSTRUCTOR. The rest of the file is correct.
-
-/**
+     /**
  * @constructor
  * @description The Rectified Moment of Creation. This version corrects the fatal flaw of the
  * previous attempt by properly initializing ALL necessary properties from the very beginning.
@@ -96,6 +91,8 @@ constructor(textarea, language = 'js', customColors = {}) {
     this._attachEventListeners();
     this._measureAndRender();
 }
+    
+    
 
     // --- 1. THE BODY (Guf/Keli): THE ORIGINAL, UNTOUCHED, HIGH-PERFORMANCE ARCHITECTURE ---
 
@@ -352,9 +349,6 @@ constructor(textarea, language = 'js', customColors = {}) {
     }
 
     // B"H
-// FILE: VirtualizedEditor.js
-// ACTION: REPLACE THE _getJSToken METHOD
-
 /**
  * @private @function _getJSToken
  * @description The Rectified Soul of JavaScript, Version 2.
@@ -442,12 +436,9 @@ _getJSToken(line, i, state) {
     state.isNextTokenFunctionName = false;
     return { html: this._escape(char), newIndex: i + 1 };
 }
-    
-    
-    
-    // B"H
-// FILE: VirtualizedEditor.js
-// ACTION: REPLACE THE _getCssToken METHOD
+
+
+
 
 /**
  * @private @function _getCssToken
@@ -518,7 +509,6 @@ _getCssToken(line, i, state) {
     // B"H
 // FILE: VirtualizedEditor.js
 // ACTION: REPLACE THE ENTIRE _getHTMLToken METHOD.
-
 /**
  * @private @function _getHTMLToken
  * @description The Rectified Soul of HTML. It possesses a new, profound wisdom for parsing
