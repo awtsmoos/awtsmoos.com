@@ -615,53 +615,79 @@ _getHTMLToken(line, i, state) {
     return { html, newIndex: tagEnd + 1 };
 }
 
+// B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE THE ENTIRE _getToken METHOD with this new, rectified version.
+
 /**
  * @private @function _getToken
- * @description Da'at (Knowledge). The Rectified Universal Soul, Version 2.
- * This soul has been given the wisdom to recognize gates of return (terminators) with
- * case-insensitivity, which is essential for the world of HTML. It also now correctly
- * identifies terminators like `</script>` as tags, not strings.
+ * @description Da'at (Knowledge). The Rectified Universal Soul, Version 3.
+ * This is the new, central intelligence of the highlighter. It replaces the previous delegation
+ * model which led to state-loss amnesia (the bug with nested script tags). This function
+ * now directly orchestrates all context switching.
+ *
+ * The new logic:
+ * 1. It ALWAYS checks for an exit ramp first (the context `terminator`).
+ * 2. For template strings, it then checks for the interpolation gate (`${`).
+ * 3. ONLY THEN does it delegate parsing of the line's content to a specialized soul
+ *    like `_getHTMLToken` or `_getJSToken`, based on the one true state.
+ *
+ * This centralization ensures that contexts (like entering a <script> tag from within an
+ * HTML template string) are pushed onto the one, persistent state stack and are never lost.
  */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // The highest law: can we return from the current reality? (Now case-insensitive)
-    if (context.terminator && line.substring(i).toLowerCase().startsWith(context.terminator)) {
+    // 1. The Highest Law: Can we return from the current reality? (Check for terminators)
+    if (context.terminator && line.substring(i).toLowerCase().startsWith(context.terminator.toLowerCase())) {
         const terminatorLength = context.terminator.length;
-        const actualTerminator = line.substring(i, i + terminatorLength); // Get original cased text
-        let type = 'string'; // Default
+        const actualTerminator = line.substring(i, i + terminatorLength);
+        let type = 'string'; // Default for quotes, backticks
         if (context.mode.includes('comment')) type = 'comment';
         if (context.mode.includes('interpolation')) type = 'controlKeyword';
-        // The new wisdom: A script or style terminator IS A TAG.
-        if (context.terminator.startsWith('</')) type = 'tag';
+        if (context.terminator.startsWith('</')) type = 'tag'; // e.g., </script> is a tag
 
         state.contextStack.pop();
         return { html: this._wrap(actualTerminator, type), newIndex: i + terminatorLength };
     }
 
-    // Delegate to the specialized soul for the current world.
-    const mode = context.mode.split('_')[0];
+    // 2. The Law of Template Worlds: Can we enter a nested JS reality? (Check for interpolation)
+    if (context.mode.startsWith('template_') && line.substring(i).startsWith('${')) {
+        state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+        return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
+    }
+
+    // 3. The Law of Delegation: Ask the specialized soul for the current world what it sees.
+    const mode = context.mode;
+
+    // Handle language-aware template strings by delegating directly
+    if (mode.startsWith('template_language_html')) return this._getHTMLToken(line, i, state);
+    if (mode.startsWith('template_language_css')) return this._getCssToken(line, i, state);
+
+    // Handle all other contexts
     switch (mode) {
         case 'javascript': return this._getJSToken(line, i, state);
         case 'html': return this._getHTMLToken(line, i, state);
         case 'css': return this._getCssToken(line, i, state);
-        case 'comment': { // This logic is now self-contained for clarity
+        case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
-            if (endIdx !== -1) {
-                const content = line.substring(i, endIdx);
-                return { html: this._wrap(content, 'comment'), newIndex: endIdx };
-            }
-            return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+            const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
+            return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
         }
         case 'string': return this._getStringToken(line, i, state);
-        case 'template':
-            return context.mode.startsWith('template_language_')
-                ? this._getTemplateLanguageToken(line, i, state)
-                : this._getTemplateLiteralToken(line, i, state);
+        case 'template_literal': {
+            // For a plain template literal, the content is a string until the next boundary
+            let content = '', p = i;
+            while (p < line.length) {
+                if (line[p] === '\\' && p + 1 < line.length) { content += line.substring(p, p + 2); p += 2; continue; }
+                if (line.substring(p).startsWith('`') || line.substring(p).startsWith('${')) break;
+                content += line[p++];
+            }
+            return { html: this._wrap(content, 'string'), newIndex: p };
+        }
         default: return { html: this._escape(line[i]), newIndex: i + 1 };
     }
 }
-
 
 
     
