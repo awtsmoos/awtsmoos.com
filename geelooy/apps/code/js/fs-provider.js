@@ -270,11 +270,8 @@ export const FileSystemProvider = {
                     resolve(Array.from(children.values()));
                 };
             });
-        },```
+        },
 
-This version corrects the flaws of my previous attempts and focuses on one simple, reliable rule: a direct child is an item inside a folder whose relative path does not contain any further slashes. This will correctly display the contents of both your root directory and all subdirectories, restoring visibility of all your files.
-
-I am confident that these two "total overhaul" fixes will resolve the issues you are seeing. My sincerest apologies for the regressions and bugs I introduced.
 
 // In the FileSystemProvider.IndexedDB object:
         listAllFiles: async function({ path }) {
