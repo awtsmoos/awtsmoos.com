@@ -52,130 +52,84 @@ export const FileOperations = {
 
 
 	
+    // B"H
+// FILE: js/file-operations.js
+
+    // REPLACE your existing deleteSelected function with this one.
     async deleteSelected() {
         const selectedPaths = Array.from(State.selectedItems);
-        if (selectedPaths.length === 0) {
-            UI.showToast("No items selected to delete.", "info");
-            return;
-        }
-
-        const itemsToDelete = selectedPaths
-            .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
-            .filter(Boolean);
-        
+        if (selectedPaths.length === 0) { UI.showToast("No items selected to delete.", "info"); return; }
+        const itemsToDelete = selectedPaths.map(p => State.domItemMap.get(p)?.item).filter(Boolean);
         if (itemsToDelete.length === 0) return;
 
-        const workspaceType = itemsToDelete[0].type;
+        const firstItem = itemsToDelete[0];
+        const isDirectGitHub = firstItem.type === 'github';
 
-        if (workspaceType === 'github') {
-            await this.deleteSelectedGitHub(itemsToDelete);
+        // --- NEW DISPATCHER LOGIC ---
+        // If we are interacting directly with a GitHub workspace, use the sequential method.
+        if (isDirectGitHub) {
+            await this.deleteSelectedSequentially(itemsToDelete, 'github');
         } else {
-            await this.deleteSelectedStandard(itemsToDelete);
+            // Check if the items are inside a cloned folder.
+            const parentFolder = { ...firstItem, path: firstItem.path.substring(0, firstItem.path.lastIndexOf('/')) || '/' };
+            const gitInfo = await GitMetaProvider.getGitInfoForFolder(parentFolder);
+
+            if (gitInfo) {
+                // If inside a clone, use the powerful atomic commit method.
+                await this.deleteSelectedGitHubAtomically(itemsToDelete, gitInfo);
+            } else {
+                // For regular local/indexeddb folders, use the standard concurrent method.
+                await this.deleteSelectedStandard(itemsToDelete);
+            }
         }
     },
-    
-    
-    async deleteSelectedGitHub(itemsToDelete) {
-        const confirmed = await UI.showDialog({
-            title: 'Confirm GitHub Deletion',
-            message: `Create a commit to permanently delete these ${itemsToDelete.length} item(s) from the repository?`,
-            okText: 'Commit & Delete',
-            cancelText: 'Cancel'
-        });
-        if (!confirmed) return;
 
-        UI.showLoading(`Preparing commit...`);
-        try {
-            const commitMessage = await UI.showDialog({
-                title: 'Commit Deletion',
-                hasTextarea: true,
-                textareaContent: `B"H\n\nDelete ${itemsToDelete.length} item(s)`,
-                okText: 'Commit',
-                cancelText: 'Cancel'
-            });
-            if (!commitMessage) return;
-
-            UI.showLoading(`Deleting ${itemsToDelete.length} item(s)...`);
-
-            for (const item of itemsToDelete) {
-                const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
-                if (tab) await Tabs.close(tab.id, true);
-            }
-
-            const changeSet = {
-                creations: [],
-                updates: [],
-                deletions: itemsToDelete.map(item => ({ path: item.path }))
-            };
-
-            const repoInfoItem = itemsToDelete[0];
-            await FileSystemProvider.GitHub.commitMultipleFiles({
-                repoInfo: repoInfoItem.repoInfo,
-                branch: repoInfoItem.branch,
-                commitMessage,
-                changeSet
-            });
-            
-            const parentPathsToRefresh = new Set();
-            itemsToDelete.forEach(item => {
-                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-                const parentItem = { ...item, path: parentPath, kind: 'directory' };
-                parentPathsToRefresh.add(getItemUniquePath(parentItem));
-            });
-
-            for (const uniqueParentPath of parentPathsToRefresh) {
-                const parentEntry = State.domItemMap.get(uniqueParentPath);
-                if (parentEntry) await Workspaces.refreshNode(parentEntry.item);
-            }
-
-            UI.showToast(`${itemsToDelete.length} item(s) deleted successfully.`, 'success');
-
-        } catch (e) {
-            UI.showToast(`GitHub deletion failed: ${e.message}`, 'error');
-            console.error("GITHUB BULK DELETE FAILED:", e);
-        } finally {
-            SelectionManager.end();
-            UI.hideLoading();
-        }
+    // RENAME your 'deleteSelectedGitHub' to 'deleteSelectedGitHubAtomically'
+    // The logic inside this function is already correct for its purpose.
+    async deleteSelectedGitHubAtomically(itemsToDelete, gitInfo) {
+        // ... your existing, correct 'deleteSelectedGitHub' function's code goes here ...
+        // The one that builds a changeSet and calls commitMultipleFiles.
     },
     
-    
-    async deleteSelectedStandard(itemsToDelete) {
+    // ADD THIS NEW, SEQUENTIAL DELETE FUNCTION
+    async deleteSelectedSequentially(itemsToDelete, typeLabel) {
         const confirmed = await UI.showDialog({
-            title: 'Confirm Deletion',
-            message: `Are you sure you want to permanently delete these ${itemsToDelete.length} item(s)?`,
+            title: `Confirm ${typeLabel} Deletion`,
+            message: `Are you sure you want to permanently delete these ${itemsToDelete.length} item(s)? This will be done one by one.`,
             okText: 'Delete',
             cancelText: 'Cancel'
         });
         if (!confirmed) return;
 
-        UI.showLoading(`Deleting ${itemsToDelete.length} item(s)...`);
+        UI.showLoading(`Starting deletion...`);
         try {
             for (const item of itemsToDelete) {
                 const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
                 if (tab) await Tabs.close(tab.id, true);
             }
             
-            const deletionPromises = itemsToDelete.map(item => FileSystemProvider.delete(item));
-            await Promise.all(deletionPromises);
+            // --- THE SEQUENTIAL LOGIC ---
+            let count = 0;
+            for (const item of itemsToDelete) {
+                count++;
+                UI.showLoading(`Deleting ${count} of ${itemsToDelete.length}: ${item.name}`);
+                try {
+                    await FileSystemProvider.delete(item);
+                } catch (e) {
+                    // Log the error for the specific file but continue with the rest.
+                    console.error(`Failed to delete ${item.name}:`, e);
+                    UI.showToast(`Failed to delete ${item.name}.`, 'error');
+                }
+            }
+            // --- END SEQUENTIAL LOGIC ---
 
             const parentPathsToRefresh = new Set();
-            itemsToDelete.forEach(item => {
-                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-                const parentItem = { ...item, path: parentPath, kind: 'directory' };
-                parentPathsToRefresh.add(getItemUniquePath(parentItem));
-            });
+            // ... your existing, correct refresh logic ...
 
-            for (const uniqueParentPath of parentPathsToRefresh) {
-                const parentEntry = State.domItemMap.get(uniqueParentPath);
-                if (parentEntry) await Workspaces.refreshNode(parentEntry.item);
-            }
-
-            UI.showToast(`${itemsToDelete.length} item(s) deleted successfully.`, 'success');
+            UI.showToast(`${itemsToDelete.length} item(s) processed for deletion.`, 'success');
 
         } catch (e) {
             UI.showToast(`Deletion failed: ${e.message}`, 'error');
-            console.error("BULK DELETE FAILED:", e);
         } finally {
             SelectionManager.end();
             UI.hideLoading();
