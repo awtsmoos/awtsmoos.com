@@ -482,7 +482,7 @@ It then simply checks if the calculated parent path matches the `path` we are tr
                 await this._deletePathRecursively(repoInfo, branch, item.path);
             }
         }
-    }
+    },
 
     async delete(item) {
         const { repoInfo, branch, path, name } = item;
