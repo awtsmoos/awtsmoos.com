@@ -754,11 +754,8 @@
     .selection-menu-bar {
         flex-direction: column; /* Stack items vertically */
         
-        /* 2. Rip it from the center and anchor it to the bottom-right */
-        left: auto; /* Annihilate the 'left: 50%' rule */
-        right: 15px; /* Lock to the right edge */
-        bottom: 70px; /* Float above the mobile nav bar */
-        transform: none; /* Destroy the horizontal centering transform */
+        
+        
         
         /* 3. Reforge its appearance for a compact, glowing, vertical presence */
         
