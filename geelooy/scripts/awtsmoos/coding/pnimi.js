@@ -1441,36 +1441,7 @@ _render() {
 // FILE: pnimi.js
 // ACTION: Replace this entire method to restore its original functionality.
 
-async _update() {
-    const txt = this.textarea.value;
-    try {
-        // Send the great task of splitting the text to another world.
-        this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-    } catch (e) {
-        // If the worker fails, we must do the work in this world.
-        this.lines = txt.split("\n");
-    }
 
-    // Ensure we have enough vessels (divs) for the visible lines.
-    const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
-    
-    console.log(neededDivs,"needed")
-
-    if (this.viewportDivs.length !== neededDivs) {
-        this.viewportDivs = [];
-        this.viewport.innerHTML = '';
-        for (let i = 0; i < neededDivs; i++) {
-            const div = document.createElement('div');
-            div.style.height = `${this.lineHeight}px`;
-            this.viewport.appendChild(div);
-            this.viewportDivs.push(div);
-        }
-    }
-    
-    // This is the critical part being restored. _render() is now always called,
-    // which makes user input and programmatic updates both work correctly.
-    this._render();
-}
     
     /**
      * @public
