@@ -1,20 +1,19 @@
 // B"H
 // FILE: js/git-manager.js
 
-import { State } from './state.js';
+import { State, DOM } from './state.js';
 import { UI } from './ui.js';
 import { FileSystemProvider } from './fs-provider.js';
-import { Workspaces } from './workspaces.js';
+import { Workspaces, getItemUniquePath } from './workspaces.js';
 import { GitMetaProvider } from './git-meta-provider.js';
-
+import { App } from './app.js';
 
 export const GitManager = {
     /**
-     * The main entry point to show the Git actions UI for a cloned workspace.
+     * Entry point. Called when the Git Actions button on a folder is clicked.
      */
     async showGitUI(clonedFolderItem) {
         UI.showLoading("Reading repository data...");
-        // Get the Git metadata fresh from the ikar.js file.
         const gitInfo = await GitMetaProvider.getGitInfoForFolder(clonedFolderItem);
 
         if (!gitInfo) {
@@ -26,17 +25,15 @@ export const GitManager = {
         UI.showLoading("Analyzing repository status...");
 
         try {
-            // 1. Check if we are behind the remote branch
-            const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(workspace);
-            const isBehind = remoteCommitSHA !== workspace.baseCommitSHA;
+            const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
+            const isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
 
-            // 2. Calculate local changes (diff)
-            const changeSet = await this.calculateDiff(workspace);
+            const changeSet = await this.calculateDiff(clonedFolderItem, gitInfo);
             const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
             const isAhead = localChangesCount > 0;
 
             UI.hideLoading();
-            this.showCommitDialog(workspace, { isBehind, isAhead, localChangesCount, changeSet, remoteCommitSHA });
+            this.showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet });
 
         } catch (e) {
             UI.hideLoading();
@@ -46,9 +43,10 @@ export const GitManager = {
     },
 
     /**
-     * Shows the final dialog for committing, pulling, or viewing changes.
+     * Displays the dialog with status and commit options.
+     * This version is updated to work with folders and gitInfo.
      */
-    async showCommitDialog(workspace, { isBehind, isAhead, localChangesCount, changeSet, remoteCommitSHA }) {
+    async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet }) {
         let statusHTML = `
             <div class="git-status-line">
                 <span>Remote Status:</span>
@@ -72,88 +70,51 @@ export const GitManager = {
             statusHTML += `</ul></div>`;
         }
 
-        const commitMessage = `B"H
-Boruch Hashem!
-Biezras Hashem 
-Blessed is He
-At ${new Date()}`;
+        const commitMessage = `B"H\nBoruch Hashem!\nBiezras Hashem\nBlessed is He\nAt ${new Date()}`;
         
         const commitResult = await UI.showDialog({
-            title: `Git Actions for ${workspace.name}`,
+            title: `Git Actions for ${clonedFolderItem.name}`,
             contentHTML: statusHTML,
-            hasTextarea: isAhead && !isBehind, // Only allow committing if ahead and not behind
+            hasTextarea: isAhead && !isBehind,
             textareaContent: commitMessage,
             okText: isAhead && !isBehind ? 'Commit & Push Changes' : '',
             cancelText: 'Close'
         });
 
         if (commitResult && isAhead && !isBehind) {
-            await this.performCommit(workspace, commitResult, changeSet);
+            // Call the corrected performCommit function
+            await this.performCommit(clonedFolderItem, gitInfo, commitResult, changeSet);
         }
     },
 
     /**
-     * Compares the IndexedDB state with the original cloned tree to find changes.
+     * Performs the multi-file commit and updates the local metadata.
+     * This version is updated to work with folders and gitInfo.
      */
-    // B"H
-// FILE: js/git-manager.js
-
-// REPLACE the existing calculateDiff method with this one.
-    async calculateDiff(workspace) {
-        // Now uses the abstract provider method, works for any workspace type.
-        const localFiles = await FileSystemProvider.listAllFiles(workspace);
-        const remoteTree = workspace.remoteTree; // Stored during clone
-
-        const localFileMap = new Map(localFiles.map(f => [f.path, f]));
-        const remoteFileMap = new Map(remoteTree.map(f => [f.path, f]));
-
-        const changeSet = { creations: [], updates: [], deletions: [] };
-
-        // Process creations and updates by reading from the local workspace
-        for (const localFilePath of localFileMap.keys()) {
-            // Reconstruct the full item to pass to the provider's read method
-            const itemToRead = { ...workspace, path: localFilePath };
-            const content = await FileSystemProvider.read(itemToRead);
-
-            if (!remoteFileMap.has(localFilePath)) {
-                changeSet.creations.push({ path: localFilePath, content });
-            } else {
-                // A more robust solution would compare content hashes (SHAs).
-                // For this implementation, we assume any file present locally that was
-                // also present remotely is a potential update. The Git Tree API
-                // will ultimately ignore files with identical content.
-                changeSet.updates.push({ path: localFilePath, content });
-            }
-        }
-        
-        // Process deletions
-        for (const remoteFilePath of remoteFileMap.keys()) {
-            if (!localFileMap.has(remoteFilePath)) {
-                changeSet.deletions.push({ path: remoteFilePath });
-            }
-        }
-
-        return changeSet;
-    },
-
-    /**
-     * Executes the multi-file commit using the FileSystemProvider.
-     */
-    async performCommit(workspace, commitMessage, changeSet) {
+    async performCommit(clonedFolderItem, gitInfo, commitMessage, changeSet) {
         UI.showLoading("Committing & Pushing...");
         try {
             const newCommitSHA = await FileSystemProvider.GitHub.commitMultipleFiles({
-                repoInfo: workspace.repoInfo,
-                branch: workspace.branch,
+                repoInfo: gitInfo.repoInfo,
+                branch: gitInfo.branch,
                 commitMessage,
                 changeSet
             });
 
-            // CRITICAL: Update the workspace state to reflect the push
-            const newTree = await FileSystemProvider.GitHub.getFullTree(workspace);
-            workspace.baseCommitSHA = newCommitSHA;
-            workspace.remoteTree = newTree.tree; // Note: getFullTree returns {tree, sha}
-            App.saveSession(); // Persist the new state
+            // CRITICAL: Update the ikar.js file with the new state
+            UI.showLoading("Updating local repository state...");
+            const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+            
+            const updatedGitInfo = {
+                ...gitInfo,
+                baseCommitSHA: newCommitSHA,
+                remoteTree: newTree.tree
+            };
+
+            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+            const metaDirItem = { ...clonedFolderItem, path: `${clonedFolderItem.path}/.awtsmoos-repo` };
+            const ikarFileItem = { ...metaDirItem, name: 'ikar.js', path: `${metaDirItem.path}/ikar.js` };
+            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
 
             UI.hideLoading();
             UI.showToast("Changes committed successfully!", "success");
@@ -162,6 +123,42 @@ At ${new Date()}`;
             UI.showToast(`Commit failed: ${e.message}`, 'error');
             console.error(e);
         }
+    },
+
+    /**
+     * Calculates the difference between local files and remote state.
+     * This is the corrected version that uses relative paths.
+     */
+    async calculateDiff(clonedFolderItem, gitInfo) {
+        const localFiles = await FileSystemProvider.listAllFiles(clonedFolderItem);
+        const remoteTree = gitInfo.remoteTree;
+        const remoteFileMap = new Map(remoteTree.map(f => [f.path, f]));
+        const changeSet = { creations: [], updates: [], deletions: [] };
+        const basePath = clonedFolderItem.path;
+
+        for (const localFile of localFiles) {
+            const relativePath = localFile.path.startsWith(basePath + '/') 
+                ? localFile.path.substring(basePath.length + 1) 
+                : localFile.path;
+
+            // Skip our internal metadata file from the diff
+            if (relativePath.startsWith('.awtsmoos-repo')) continue;
+
+            const content = await FileSystemProvider.read(localFile);
+            if (!remoteFileMap.has(relativePath)) {
+                changeSet.creations.push({ path: relativePath, content });
+            } else {
+                changeSet.updates.push({ path: relativePath, content });
+            }
+        }
+        
+        for (const remoteFilePath of remoteFileMap.keys()) {
+            const fullLocalPath = `${basePath}/${remoteFilePath}`;
+            if (!localFiles.some(f => f.path === fullLocalPath)) {
+                changeSet.deletions.push({ path: remoteFilePath });
+            }
+        }
+
+        return changeSet;
     }
 };
-
