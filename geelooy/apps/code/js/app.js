@@ -123,30 +123,7 @@ activeConsole: null, // B"H
          State.useTabs = settings.useTabs ?? true;
     },
 
-    // B"H - In js/app.js
 
-
-    // B"H - In js/app.js
-// B"H - In js/app.js
-
-// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
-// THIS IS THE ONLY CHANGE YOU NEED TO MAKE. THIS WILL WORK.
-
-    // B--H - In js/app.js
-
-// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
-// THIS IS THE ONLY CHANGE YOU NEED TO MAKE. THIS WILL WORK, NO MATTER WHAT.
-
-
-    // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PERFECTLY PRESERVED) ---
-
-    
-
-
-// B"H - In js/app.js
-
-// PASTE THIS ENTIRE FUNCTION TO REPLACE YOUR OLD ONE.
-// THIS IS THE FINAL AND CORRECT VERSION.
 setupEventListeners() {
     // --- Element References (Using YOUR DOM object variable names) ---
     if (DOM.viewConsoleBtn) {
