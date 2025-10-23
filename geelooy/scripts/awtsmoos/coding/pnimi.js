@@ -367,7 +367,20 @@ _measureAndRender() {
              'if', 'else', 'for',
               'class', 'new', 
               'await', 'async', 
-              'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+              'import', 'export',
+               'from', 'while', 
+               'do', 'switch',
+                'case', 
+                'break',
+                "true",
+                "false",
+                "null",
+                "undefined",
+                "try",
+                "catch",
+                "finally"
+                
+            ],
     };
     
     let html = '';
