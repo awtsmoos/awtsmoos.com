@@ -341,6 +341,7 @@
         text-shadow: 0 0 10px var(--glow-cyan);
         text-wrap:pre-wrap;
         letter-spacing: 2px;
+        word-break:break-word;
     }
     .toast-container { 
         position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 10001; 
