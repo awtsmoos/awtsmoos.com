@@ -435,113 +435,103 @@ _findMatchingBrace(line, startIndex = 0) {
     
     
     
+    _highlightJS(line, state) {
+    // Divine Guard: A state must always exist.
+    const currentState = state || this._getInitialState();
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+    };
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
+        const currentMode = currentState.mode;
 
-        // PRIORITY 1: Handle multi-line modal states.
-        if (currentState.in_comment || currentState.in_string || currentState.in_tagged_template) {
-            // If we are in a string, our only concerns are `${` and the closing '`'.
-            if (currentState.in_string || currentState.in_tagged_template) {
-                const interpolationStart = remaining.indexOf('${');
-                let templateEnd = -1;
-                const sub_state = currentState.sub_language_state;
-                const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
-                if (!isSubLanguageSovereign) {
-                    templateEnd = this._findUnescapedChar(remaining, '`');
-                }
+        // --- THE HIERARCHY OF WORLDS ---
 
-                if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                    // An interpolation begins.
-                    const contentBefore = remaining.substring(0, interpolationStart);
-                    if (currentState.in_tagged_template) {
-                        const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.template_language);
-                        html += subResult.html; currentState.sub_language_state = subResult.state;
-                    } else { html += this._wrap(contentBefore, 'string'); }
-                    html += this._wrap('${', 'keyword');
-                    i += interpolationStart + 2;
-
-                    // THE ACT OF CREATION: We now delegate to a new, sovereign world.
-                    const endBraceIndex = this._findMatchingBrace(line, i);
-
-                    if (endBraceIndex !== -1) {
-                        // The entire nested world exists on this line.
-                        const interpolationContent = line.substring(i, endBraceIndex);
-                        // Emanate a new soul and give it the sacred text.
-                        html += this._highlightJS(interpolationContent, this._getInitialState()).html;
-                        html += this._wrap('}', 'keyword');
-                        i = endBraceIndex + 1; // The Master Scribe continues from after the nested world.
-                    } else {
-                        // The nested world continues to the next line.
-                        const interpolationContent = line.substring(i);
-                        html += this._highlightJS(interpolationContent, this._getInitialState()).html;
-                        currentState.interpolation_depth = 1; // We mark that the outer world is now waiting.
-                        currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
-                        currentState.in_string = false;
-                        currentState.in_tagged_template = false;
-                        break; // The rest of the line is consumed by the new world.
-                    }
-                } else if (templateEnd !== -1) {
-                    // The string truly ends.
-                    const content = remaining.substring(0, templateEnd);
-                    if (currentState.in_tagged_template) {
-                        const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
-                        html += subResult.html;
-                    } else { html += this._wrap(content, 'string'); }
-                    html += this._wrap('`', 'string');
-                    i += templateEnd + 1;
-                    currentState.in_string = false;
-                    currentState.in_tagged_template = false;
-                    currentState.template_language = null;
-                    currentState.sub_language_state = null;
-                } else {
-                    // The line is sovereign content for the sub-language.
-                    const content = remaining;
-                    if (currentState.in_tagged_template) {
-                        const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
-                        html += subResult.html; currentState.sub_language_state = subResult.state;
-                    } else { html += this._wrap(content, 'string'); }
-                    break;
-                }
-            } else if (currentState.in_comment) {
-                const endIdx = remaining.indexOf('*/');
-                if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
-                else { html += this._wrap(remaining, 'comment'); break; }
+        // CONTEXT 1: We are inside a string reality (tagged or plain).
+        if (currentMode === 'tagged_template' || currentMode === 'plain_template') {
+            const interpolationStart = remaining.indexOf('${');
+            let templateEnd = -1;
+            const sub_state = currentState.sub_language_state;
+            const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
+            if (!isSubLanguageSovereign) {
+                templateEnd = this._findUnescapedChar(remaining, '`');
             }
-            continue;
-        }
 
-        // PRIORITY 2: We are in a multi-line interpolation from a previous line.
-        if (currentState.interpolation_depth > 0) {
-            const endBraceIndex = this._findMatchingBrace(line, i);
-            if (endBraceIndex !== -1) {
-                const content = line.substring(i, endBraceIndex);
-                html += this._highlightJS(content, this._getInitialState()).html;
-                html += this._wrap('}', 'keyword');
-                i = endBraceIndex + 1;
-                // The waiting is over. Restore the parent's string context.
-                if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
-                else { currentState.in_string = true; }
-                currentState.interpolation_depth = 0;
-                currentState.string_type_before_interpolation = null;
+            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                // An interpolation begins.
+                const contentBefore = remaining.substring(0, interpolationStart);
+                if (currentMode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.language);
+                    html += subResult.html; currentState.sub_language_state = subResult.state;
+                } else { html += this._wrap(contentBefore, 'string'); }
+                html += this._wrap('${', 'keyword');
+                i += interpolationStart + 2;
+
+                // THE ACT OF EMANATION: Push the current world onto the stack and create a new one.
+                currentState.contextStack.push({
+                    mode: currentState.mode,
+                    language: currentState.language,
+                    sub_language_state: currentState.sub_language_state
+                });
+                // The new world is born as pure JavaScript.
+                currentState.mode = 'js';
+                currentState.language = 'js';
+                currentState.sub_language_state = null;
+
+            } else if (templateEnd !== -1) {
+                // The string world ends.
+                const content = remaining.substring(0, templateEnd);
+                 if (currentMode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(content, sub_state, currentState.language);
+                    html += subResult.html;
+                } else { html += this._wrap(content, 'string'); }
+                html += this._wrap('`', 'string');
+                i += templateEnd + 1;
+                
+                // RETURN FROM EXILE: Pop the parent world from the stack, restoring its reality.
+                const parentState = currentState.contextStack.pop();
+                if (parentState) {
+                    currentState.mode = parentState.mode;
+                    currentState.language = parentState.language;
+                    currentState.sub_language_state = parentState.sub_language_state;
+                } else {
+                    currentState.mode = 'js'; // Should not happen if stack is managed well
+                }
+
             } else {
-                html += this._highlightJS(line.substring(i), this._getInitialState()).html;
+                // The line is content for the sovereign sub-language.
+                const content = remaining;
+                if (currentMode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(content, sub_state, currentState.language);
+                    html += subResult.html; currentState.sub_language_state = subResult.state;
+                } else { html += this._wrap(content, 'string'); }
                 break;
             }
             continue;
         }
 
-        // PRIORITY 3: We are in the default, top-level JavaScript tokenizer.
-        const firstChar = remaining[0];
+        // CONTEXT 2: We are in a comment reality.
+        if (currentMode === 'comment') {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.mode = 'js'; }
+            else { html += this._wrap(remaining, 'comment'); break; }
+            continue;
+        }
+
+        // CONTEXT 3: We are in the default JavaScript reality.
+        const firstChar = remaining;
+        
+        // HIERARCHY: Look for the START of a new reality.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         if (directives.some(d => remaining.startsWith(d.tag + '`'))) {
             const d = directives.find(d => remaining.startsWith(d.tag + '`'));
             html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
             i += d.tag.length + 1;
-            currentState.in_tagged_template = true;
-            currentState.template_language = d.lang;
+            currentState.mode = 'tagged_template';
+            currentState.language = d.lang;
             currentState.sub_language_state = this._getInitialState();
             continue;
         }
@@ -549,7 +539,7 @@ _findMatchingBrace(line, startIndex = 0) {
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; }
-            else { html += this._wrap(remaining, 'comment'); currentState.in_comment = true; break; }
+            else { html += this._wrap(remaining, 'comment'); currentState.mode = 'comment'; break; }
             continue;
         }
         if (firstChar === '"' || firstChar === "'") {
@@ -559,8 +549,10 @@ _findMatchingBrace(line, startIndex = 0) {
             continue;
         }
         if (firstChar === '`') {
-            html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue;
+            html += this._wrap('`', 'string'); i += 1; currentState.mode = 'plain_template'; continue;
         }
+        
+        // HIERARCHY: Parse standard JS tokens.
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -569,6 +561,20 @@ _findMatchingBrace(line, startIndex = 0) {
             i += word.length;
             continue;
         }
+
+        // HIERARCHY: The sacred duty of brace counting.
+        if (firstChar === '}') {
+            const parentState = currentState.contextStack.pop();
+            if (parentState) {
+                html += this._wrap('}', 'keyword');
+                i++;
+                currentState.mode = parentState.mode;
+                currentState.language = parentState.language;
+                currentState.sub_language_state = parentState.sub_language_state;
+                continue;
+            }
+        }
+        
         html += this._escape(firstChar);
         i++;
     }
@@ -627,27 +633,27 @@ _findUnescapedChar(line, char, startIndex = 0) {
  * CSS or JS highlighter.
  */
 _highlightHTML(line, state) {
-    // Divine Guard: The state must always exist.
-    const currentState = state || this._getInitialState();
+    // Divine Guard: Use its own archetypal soul.
+    const currentState = state || this._getInitialHTMLState();
     let html = '';
     let i = 0;
 
-    // --- THE PERFECTED NESTED PARSER LOGIC ---
+    // --- The Perfected Nested Parser Logic ---
     if (currentState.in_script) {
         const endTag = '</script>';
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const scriptContent = line.substring(i, endIdx);
-            // Use the specialist's persistent memory, then save its updated memory.
+            // Use the persistent memory of the JS specialist.
             const scriptResult = this._highlightJS(scriptContent, currentState.script_state);
             html += scriptResult.html;
             html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
-            // The job is done. Dismiss the specialist and clear its memory.
+            // The job is done. The specialist's soul is released.
             currentState.in_script = false;
             currentState.script_state = null;
         } else {
-            // The job continues. Use the specialist's memory and save its updated memory for the next line.
+            // The job continues. The specialist keeps its memory for the next line.
             const scriptResult = this._highlightJS(line.substring(i), currentState.script_state);
             html += scriptResult.html;
             currentState.script_state = scriptResult.state;
@@ -660,20 +666,23 @@ _highlightHTML(line, state) {
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const styleContent = line.substring(i, endIdx);
+            // Use the persistent memory of the CSS specialist.
             const styleResult = this._highlightCSS(styleContent, currentState.style_state);
             html += styleResult.html;
             html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
+            // The job is done. The specialist's soul is released.
             currentState.in_style = false;
             currentState.style_state = null;
         } else {
+            // The job continues. The specialist keeps its memory for the next line.
             const styleResult = this._highlightCSS(line.substring(i), currentState.style_state);
             html += styleResult.html;
             currentState.style_state = styleResult.state;
             return { html: html || '&nbsp;', state: currentState };
         }
     }
-    // --- END OF THE PERFECTED LOGIC ---
+    // --- End of Perfected Logic ---
 
     while (i < line.length) {
         if (currentState.in_comment) {
@@ -703,7 +712,7 @@ _highlightHTML(line, state) {
         const normalizedTagName = tagName.toLowerCase();
         html += this._wrap(tagName, 'tag');
         while (currentPos < tagEnd) {
-            let whitespace = '';
+             let whitespace = '';
             while (currentPos < tagEnd && /\s/.test(line[currentPos])) { whitespace += line[currentPos++]; }
             if (whitespace) html += this._escape(whitespace);
             if (currentPos >= tagEnd) break;
@@ -735,25 +744,29 @@ _highlightHTML(line, state) {
             const endOfBlockIdx = line.indexOf(endTag, i);
             if (endOfBlockIdx !== -1) {
                 const content = line.substring(i, endOfBlockIdx);
-                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; }
-                else { html += this._highlightCSS(content, this._getInitialState()).html; }
+                if (normalizedTagName === 'script') {
+                    html += this._highlightJS(content, this._getInitialState()).html;
+                } else {
+                    html += this._highlightCSS(content, {}).html; // CSS state is simple
+                }
                 html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
                 i = endOfBlockIdx + endTag.length;
             } else {
                 const content = line.substring(i);
                 if (normalizedTagName === 'script') {
-                    // A new job begins. Hire a specialist and create its memory.
+                    // A new multi-line script job begins.
                     currentState.in_script = true;
-                    currentState.script_state = this._getInitialState();
+                    currentState.script_state = this._getInitialState(); // Give the specialist a JS soul.
                     const scriptResult = this._highlightJS(content, currentState.script_state);
                     html += scriptResult.html;
-                    currentState.script_state = scriptResult.state; // Save memory for the next line
+                    currentState.script_state = scriptResult.state; // Save its memory for the next line.
                 } else {
+                    // A new multi-line style job begins.
                     currentState.in_style = true;
-                    currentState.style_state = this._getInitialState();
+                    currentState.style_state = {}; // Give the specialist a simple CSS soul.
                     const styleResult = this._highlightCSS(content, currentState.style_state);
-html += styleResult.html;
-                    currentState.style_state = styleResult.state;
+                    html += styleResult.html;
+                    currentState.style_state = styleResult.state; // Save its memory for the next line.
                 }
                 break;
             }
@@ -761,7 +774,6 @@ html += styleResult.html;
     }
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
     
     
@@ -885,23 +897,34 @@ html += styleResult.html;
  */
 _getInitialState() {
     return {
+        // This is now the state of a SINGLE world.
+        mode: 'js', // 'js', 'tagged_template', 'plain_template', 'comment'
+        language: 'js', // For tagged_templates: 'html', 'css', etc.
+        sub_language_state: null, // The persistent memory for the specialist (e.g., the HTML parser)
+        
+        // This is the infinite soul. The stack of parent worlds waiting for us to return.
+        contextStack: []
+    };
+}
+
+
+
+/**
+ * @private
+ * @function _getInitialHTMLState
+ * @description The archetypal soul for the HTML parser.
+ * It contains only the memories relevant to the reality of parsing HTML.
+ */
+_getInitialHTMLState() {
+    return {
         in_comment: false,
-        in_string: false,
-        in_rules: false,
         in_script: false,
         in_style: false,
-        in_tagged_template: false,
-        template_language: null,
-        interpolation_depth: 0,
-        string_type_before_interpolation: null,
-        sub_language_state: null,
-        
-        // The new vessels to hold the memory of nested parsers
+        // Vessels to hold the souls of its children
         script_state: null,
         style_state: null
     };
 }
-
     
 
     /**
@@ -1020,12 +1043,20 @@ _getInitialState() {
  * @returns {{html: string, state: object}} The highlighted HTML and the new state.
  */
 _getHighlightResult(line, state, languageOverride) {
-    const lang = languageOverride || this.language; // Use override if provided
+    const lang = languageOverride || this.language;
+    // The gatekeeper now chooses the correct soul for the chosen language.
     switch (lang) {
-        case 'js': return this._highlightJS(line, state);
-        case 'html': return this._highlightHTML(line, state);
-        case 'css': return this._highlightCSS(line, state);
-        default: return { html: this._escape(line || ''), state };
+        case 'js':
+            // The JS parser receives a JS soul.
+            return this._highlightJS(line, state || this._getInitialState());
+        case 'html':
+            // The HTML parser receives an HTML soul.
+            return this._highlightHTML(line, state || this._getInitialHTMLState());
+        case 'css':
+            // The CSS parser can use a simple state.
+            return this._highlightCSS(line, state || {});
+        default:
+            return { html: this._escape(line || ''), state };
     }
 }
 
