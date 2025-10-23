@@ -7,6 +7,7 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Workspaces, getItemUniquePath } from './workspaces.js';
 import { GitMetaProvider } from './git-meta-provider.js';
 import { App } from './app.js';
+import { FileOperations } from './file-operations.js';
 
 export const GitManager = {
     /**
