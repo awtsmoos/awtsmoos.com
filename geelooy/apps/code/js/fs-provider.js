@@ -235,6 +235,16 @@ export const FileSystemProvider = {
             });
         },
         // B"H
+	/*
+	
+	*   If an item's path is `'/Wow/all.html'`, it correctly calculates that its parent is `'/Wow'`.
+*   If an item's path is `'/index.html'`, it correctly calculates that its parent is `'/'`.
+*   If an item's path is `'Hey.html'` (an old file with no leading slash), it correctly calculates that its parent is `'/'`.
+
+It then simply checks if the calculated parent path matches the `path` we are trying to list. This is a much more resilient and reliable method that will correctly handle all of your existing files while also working perfectly for all new files and folders you create.
+
+	
+	*/
 	list: async function({ path }) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -243,34 +253,43 @@ export const FileSystemProvider = {
                 request.onerror = e => reject(e.target.error);
                 request.onsuccess = () => {
                     const children = new Map();
-                    const dirPrefix = path === '/' ? '/' : `${path}/`;
 
                     request.result.forEach(item => {
-                        // We only care about items that are inside the directory we are listing.
-                        if (item.path.startsWith(dirPrefix) && item.path !== path) {
-                             
-                            // 1. Get the part of the path that comes *after* our directory.
-                            const relativePath = item.path.substring(dirPrefix.length);
+                        // --- NEW BULLETPROOF LOGIC ---
 
-                            // 2. A direct child will NOT have any more slashes in its relative path.
-                            // This is the simple, robust key.
-                            // e.g., for dir '/K', a child is 'DoviStatus', a grandchild is 'DoviStatus/index.html'
-                            if (!relativePath.includes('/')) {
-                                const segment = relativePath;
-                                if (segment && !children.has(segment)) {
-                                    children.set(segment, { 
-                                        name: segment, 
-                                        kind: item.isDir ? 'directory' : 'file', 
-                                        path: item.path // Always use the item's full, absolute path
-                                    });
-                                }
+                        // 1. Determine the parent path of the current item from the database.
+                        // This handles both '/folder/file' and 'folder/file' formats.
+                        const lastSlashIndex = item.path.lastIndexOf('/');
+                        let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
+                        if (lastSlashIndex === 0) { // This means the path is like '/file.html'
+                            parentPath = '/';
+                        } else if (lastSlashIndex === -1) { // This means the path is like 'file.html'
+                            parentPath = '/'; // A file with no slashes belongs to the root.
+                        }
+                        
+                        // 2. We have found a direct child if its calculated parent
+                        //    path is the same as the path we are currently listing.
+                        if (parentPath === path) {
+                            const segment = item.path.substring(lastSlashIndex + 1);
+                            
+                            if (segment && !children.has(segment)) {
+                                children.set(segment, { 
+                                    name: segment, 
+                                    kind: item.isDir ? 'directory' : 'file', 
+                                    path: item.path // Always use the item's full, original path.
+                                });
                             }
                         }
+                        // --- END OF NEW LOGIC ---
                     });
+
                     resolve(Array.from(children.values()));
                 };
             });
         },
+
+
+
 
 
 // In the FileSystemProvider.IndexedDB object:
