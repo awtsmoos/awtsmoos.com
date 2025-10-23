@@ -49,26 +49,53 @@ class VirtualizedEditor {
      * @constructor
      * @description The moment of creation. The Public API begins here.
      */
-    constructor(textarea, language = 'js', customColors = {}) {
-        if (!textarea || textarea.tagName !== 'TEXTAREA') throw new Error('The vessel must be a TEXTAREA.');
-        
-        this.textarea = textarea;
-        this.language = language;
-        this.styleId = `BH_EDITOR_${Date.now()}`;
-        
-        const defaultColors = {
-            comment: '#6A9955', string: '#CE9178', number: '#B5CEA8',
-            controlKeyword: '#C586C0', definitionKeyword: '#569CD6', functionName: '#DCDCAA',
-            variable: '#9CDCFE', operator: '#D4D4D4', punctuation: '#808080',
-            tag: '#569CD6', 'attribute-name': '#9CDCFE', 'attribute-value': '#CE9178',
-            selector: '#D7BA7D', property: '#9CDCFE',
-        };
-        this.colors = { ...defaultColors, ...customColors };
+    
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE ONLY THE CONSTRUCTOR. The rest of the file is correct.
 
-        this._initializeVessels();
-        this._attachEventListeners();
-        this._measureAndRender();
+/**
+ * @constructor
+ * @description The Rectified Moment of Creation. This version corrects the fatal flaw of the
+ * previous attempt by properly initializing ALL necessary properties from the very beginning.
+ * The errors you saw were caused by the absence of `this.viewportDivs = []`, which is now restored.
+ */
+constructor(textarea, language = 'js', customColors = {}) {
+    if (!textarea || textarea.tagName !== 'TEXTAREA') {
+        throw new Error('The vessel of creation must be a TEXTAREA element.');
     }
+
+    // --- The Rectification: ALL properties are initialized at birth ---
+    // This ensures that methods like _update and _render have the vessels they need to function.
+    this.textarea = textarea;
+    this.language = language;
+    this.wrapper = null;
+    this.overlay = null;
+    this.viewport = null;
+    this.caret = null;
+    this.styleId = `BH_EDITOR_${Date.now()}`;
+
+    // The essential state vessels that were missing or incomplete before.
+    this.lines = [];
+    this.lineHeight = 0;
+    this.charWidth = 0;
+    this.viewportDivs = []; // THIS WAS THE CRITICAL MISSING LINE. ITS RESTORATION FIXES THE CRASH.
+
+    // Define the hues of the Sefirot (the colors for the highlighter).
+    const defaultColors = {
+        comment: '#6A9555', string: '#CE9178', number: '#B5CEA8',
+        controlKeyword: '#C586C0', definitionKeyword: '#569CD6', functionName: '#DCDCAA',
+        variable: '#9CDCFE', operator: '#D4D4D4', punctuation: '#808080',
+        tag: '#569CD6', 'attribute-name': '#9CDCFE', 'attribute-value': '#CE9178',
+        selector: '#D7BA7D', property: '#9CDCFE',
+    };
+    this.colors = { ...defaultColors, ...customColors };
+
+    // The original, sacred chain of creation proceeds.
+    this._initializeVessels();
+    this._attachEventListeners();
+    this._measureAndRender();
+}
 
     // --- 1. THE BODY (Guf/Keli): THE ORIGINAL, UNTOUCHED, HIGH-PERFORMANCE ARCHITECTURE ---
 
