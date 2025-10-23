@@ -385,7 +385,120 @@ export const FileSystemProvider = {
         } else {
             throw new Error(`Unsupported item type for deletion: ${item.kind}`);
         }
-    }
+    },
+    
+    
+    
+    /**
+     * Fetches the latest commit SHA for a given branch.
+     * Useful for checking if the local version is "behind" the remote.
+     */
+    async getLatestCommitSHA({ repoInfo, branch }) {
+        try {
+            const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
+            return ref.object.sha;
+        } catch (e) {
+            console.error("Failed to get latest commit SHA", e);
+            throw e;
+        }
+    },
+    
+    /**
+     * Fetches a flat list of all files in the repository for a given branch.
+     * This is your "git fetch/clone" operation.
+     */
+    async getFullTree({ repoInfo, branch }) {
+        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+        const tree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
+        
+        // The tree contains directories; we only care about files ("blobs").
+        return tree.tree.filter(node => node.type === 'blob');
+    },
+
+    /**
+     * Commits multiple file changes (creations, updates, deletions) in a single atomic commit.
+     * This is your "git add -> git commit -> git push" operation.
+     * 
+     * @param {object} changeSet - An object describing all the changes.
+     * @param {Array<object>} changeSet.creations - Files to add. e.g., [{ path: 'new/file.js', content: '...' }]
+     * @param {Array<object>} changeSet.updates - Files to modify. e.g., [{ path: 'path/to/file.js', content: '...' }]
+     * @param {Array<object>} changeSet.deletions - Files to remove. e.g., [{ path: 'path/to/delete.js' }]
+     */
+    async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
+        // 1. Get the current state: latest commit and its base tree
+        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+        const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
+        const baseTreeSHA = latestCommit.tree.sha;
+
+        // 2. Create blobs for all new and updated files
+        // We run these API calls in parallel for better performance.
+        const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
+        const blobCreationPromises = filesToUpload.map(file => 
+            this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    content: this.utf8_to_b64(file.content),
+                    encoding: 'base64'
+                })
+            }).then(blob => ({ path: file.path, sha: blob.sha }))
+        );
+        const createdBlobs = await Promise.all(blobCreationPromises);
+
+        // 3. Construct the new tree definition
+        const tree = [];
+
+        // Add created/updated files to the tree
+        createdBlobs.forEach(blob => {
+            tree.push({
+                path: blob.path,
+                mode: '100644', // file
+                type: 'blob',
+                sha: blob.sha
+            });
+        });
+
+        // Mark deleted files in the tree by setting their SHA to null
+        (changeSet.deletions || []).forEach(file => {
+            tree.push({
+                path: file.path,
+                mode: '100644', // file
+                type: 'blob',
+                sha: null // This special value tells Git to remove the file
+            });
+        });
+
+        // 4. Create the new tree object
+        const newTree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+            method: 'POST',
+            body: JSON.stringify({
+                base_tree: baseTreeSHA,
+                tree: tree
+            })
+        });
+
+        // 5. Create the new commit
+        const newCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+            method: 'POST',
+            body: JSON.stringify({
+                message: commitMessage,
+                tree: newTree.sha,
+                parents: [latestCommitSHA]
+            })
+        });
+
+        // 6. Update the branch reference to point to the new commit
+        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+            method: 'PATCH', // Use PATCH for updates
+            body: JSON.stringify({
+                sha: newCommit.sha
+                // 'force: false' is default and recommended
+            })
+        });
+
+        console.log("Successfully committed changes with SHA:", newCommit.sha);
+        return newCommit.sha;
+    },
+    
 
 
 
