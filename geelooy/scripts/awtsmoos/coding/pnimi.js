@@ -905,138 +905,152 @@ _findNextUnnestedToken(line, startIndex, targets) {
 }
 
 
+/**
+ * @private B"H - A pure function to tokenize a chunk of "safe" JavaScript.
+ */
+_tokenizeJSChunk(chunk) {
+    if (!chunk) return '';
+    let html = '';
+    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
+    
+    let i = 0;
+    while (i < chunk.length) {
+        const char = chunk[i];
+        if (/[a-zA-Z_$]/.test(char)) {
+            let buffer = '';
+            while (i < chunk.length && /[a-zA-Z0-9_$]/.test(chunk[i])) {
+                buffer += chunk[i]; i++;
+            }
+            html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable');
+            continue;
+        }
+        if (/\d/.test(char)) {
+            let buffer = '';
+            while (i < chunk.length && /[\d.]/.test(chunk[i])) {
+                buffer += chunk[i]; i++;
+            }
+            html += this._wrap(buffer, 'number');
+            continue;
+        }
+        html += this._escape(char);
+        i++;
+    }
+    return html;
+}
+
+
 
 /**
  * @private
  * @function _getHighlightResult
- * @description The Final, Perfected Weaver. It uses the "Wise Scribe" to see with
- * perfect clarity, ensuring its soul is never corrupted and its consciousness
- * never freezes. This is the eternal implementation.
+ * @description The Final, Unified Consciousness. One Weaver, one Law, universally
+ * applied. It cannot freeze. It cannot be fooled. It brings light.
  */
 _getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
     let html = '';
     let i = 0;
 
-    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
-
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
-        
-        // --- CONSCIOUSNESS FOR CONTENT WORLDS (HTML, STRINGS, COMMENTS) ---
-        const contentModes = ['html', 'template_literal', 'string', 'comment'];
-        if (contentModes.includes(context.mode)) {
-            const portals = (context.mode === 'template_literal') ? ['${'] : (context.mode === 'html') ? ['<'] : [];
-            const targets = context.terminator ? [...portals, context.terminator] : portals;
-            
-            const found = this._findNextUnnestedToken(line, i, targets);
-            
-            // If no special tokens are left, the rest is content.
-            if (!found) {
-                const buffer = line.substring(i);
-                const tokenType = context.mode === 'comment' ? 'comment' : (context.mode === 'html' ? 'variable' : 'string');
-                html += this._wrap(buffer, tokenType);
-                i = line.length;
-                continue;
-            }
-            
-            // If there's content before the next special token, process it.
-            if (found.index > i) {
-                 const buffer = line.substring(i, found.index);
-                 const tokenType = context.mode === 'comment' ? 'comment' : (context.mode === 'html' ? 'variable' : 'string');
-                 html += this._wrap(buffer, tokenType);
-            }
-            
-            // Set position to the found token and let the main switch handle it.
-            i = found.index;
-        }
 
-        // --- MAIN SWITCH FOR SPECIAL TOKENS & JAVASCRIPT LOGIC ---
-        const char = line[i];
-        
+        // 1. LOOK: Find the next meaningful token.
+        const terminators = context.terminator ? [context.terminator] : [];
+        let portals = [];
         switch (context.mode) {
-            case 'javascript':
-                // Highest priority: Is this nested world ending?
-                if (context.terminator && char === context.terminator) {
-                    html += this._wrap(char, 'keyword');
-                    currentState.contextStack.pop();
-                    i++; continue;
-                }
-                
-                // Portals to other worlds
-                const directive = line.substring(i).match(/^\/\*(html|js|css)\*\/`/);
-                if (directive) {
-                    html += this._wrap(`/*${directive[1]}*/`, 'comment') + this._wrap('`', 'string');
-                    currentState.contextStack.push({ mode: directive[1], terminator: '`'});
-                    i += directive[0].length; continue;
-                }
-                if (char === '/' && line[i + 1] === '*') { html += this._wrap('/*', 'comment'); currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); i += 2; continue; }
-                if (char === '/' && line[i + 1] === '/') { html += this._wrap(line.substring(i), 'comment'); i = line.length; continue; }
-                if (char === '"' || char === "'") { html += this._wrap(char, 'string'); currentState.contextStack.push({ mode: 'string', terminator: char }); i++; continue; }
-                if (char === '`') { html += this._wrap('`', 'string'); currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); i++; continue; }
+            case 'javascript': portals = ['/*', '//', '"', "'", '`']; break;
+            case 'template_literal': portals = ['${']; break;
+            case 'html': portals = ['<script', '<style', '<!--', '<', '</script>', '</style>']; break;
+        }
+        
+        const searchTokens = [...terminators, ...portals];
+        let nextToken = null;
 
-                // Mundane tokens (words, numbers)
-                if (/[a-zA-Z_$]/.test(char)) { let buffer = ''; while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) { buffer += line[i]; i++; } html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable'); continue; }
-                if (/\d/.test(char)) { let buffer = ''; while (i < line.length && /[\d.]/.test(line[i])) { buffer += line[i]; i++; } html += this._wrap(buffer, 'number'); continue; }
+        for (const token of searchTokens) {
+            const index = line.toLowerCase().indexOf(token.toLowerCase(), i);
+            if (index !== -1 && (nextToken === null || index < nextToken.index)) {
+                nextToken = { index, token };
+            }
+        }
+        
+        // 2. WEAVE CONTENT: Process everything before the next meaningful token.
+        const endIndex = nextToken ? nextToken.index : line.length;
+        const buffer = line.substring(i, endIndex);
 
-                // Unbreakable fallback
-                html += this._escape(char);
-                i++;
-                break;
-            
-            case 'template_literal':
-                if (line.substring(i).startsWith('${')) {
-                    html += this._wrap('${', 'keyword');
-                    currentState.contextStack.push({ mode: 'javascript', terminator: '}'});
-                    i += 2; continue;
-                }
-                // Must be the terminator
-                html += this._wrap(context.terminator, 'string');
-                currentState.contextStack.pop();
-                i += context.terminator.length;
-                break;
+        if (buffer) {
+            if (context.mode === 'javascript') {
+                html += this._tokenizeJSChunk(buffer);
+            } else if (context.mode === 'comment') {
+                html += this._wrap(buffer, 'comment');
+            } else if (context.mode === 'string' || context.mode === 'template_literal') {
+                html += this._wrap(buffer, 'string');
+            } else { // HTML content and others
+                html += this._escape(buffer);
+            }
+        }
+        i = endIndex;
+        if (!nextToken) break; // Line is done.
 
-            case 'string':
-            case 'comment':
-                html += this._wrap(context.terminator, context.mode);
-                currentState.contextStack.pop();
-                i += context.terminator.length;
-                break;
-            
-            case 'html':
-                if (context.terminator && line.substring(i).startsWith(context.terminator)) {
-                     html += this._wrap(context.terminator, 'tag');
-                     currentState.contextStack.pop();
-                     i += context.terminator.length; continue;
-                }
-                if (line.substring(i).startsWith('<!--')) {
-                    html += this._wrap('<!--', 'comment');
-                    currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
-                    i += 4; continue;
-                }
-                if (line.substring(i).toLowerCase().startsWith('<script')) {
-                    const endTag = line.indexOf('>', i);
-                    const tag = endTag === -1 ? line.substring(i) : line.substring(i, endTag + 1);
-                    html += this._wrap(tag, 'tag');
-                    currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
-                    i += tag.length; continue;
-                }
-                // Generic tag
-                const endGenericTag = line.indexOf('>', i);
-                const tagContent = endGenericTag === -1 ? line.substring(i) : line.substring(i, endGenericTag + 1);
-                html += this._wrap(tagContent, 'tag');
-                i += tagContent.length;
-                break;
+        // 3. ACT ON TOKEN: Process the meaningful token itself.
+        const token = nextToken.token;
+        if (terminators.includes(token)) {
+            const tokenType = (context.mode === 'javascript' && token === '}') ? 'keyword' : 'tag';
+            html += this._wrap(token, tokenType);
+            currentState.contextStack.pop();
+            i += token.length;
+        } else { // It's a portal
+             const directives = { '/*html*/`': 'html', '/*css*/`': 'css', '/*js*/`': 'javascript' };
+             let foundDirective = false;
+             for (const d in directives) {
+                 if (line.substring(i).startsWith(d)) {
+                     html += this._wrap(d.slice(0, -1), 'comment') + this._wrap('`', 'string');
+                     currentState.contextStack.push({ mode: directives[d], terminator: '`' });
+                     i += d.length;
+                     foundDirective = true;
+                     break;
+                 }
+             }
+            if(foundDirective) continue;
 
-            default: // Failsafe for css etc.
-                html += this._escape(char);
-                i++;
-                break;
+            if (token === '<script') {
+                 const endTag = line.indexOf('>', i);
+                 const fullTag = endTag === -1 ? line.substring(i) : line.substring(i, endTag + 1);
+                 html += this._wrap(fullTag, 'tag');
+                 currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
+                 i += fullTag.length;
+            } else if (token === '<!--') {
+                html += this._wrap(token, 'comment');
+                currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
+                i += token.length;
+            } else if (token === '<') { // Generic HTML tag
+                const endTag = line.indexOf('>', i);
+                const fullTag = endTag === -1 ? line.substring(i) : line.substring(i, endTag + 1);
+                html += this._wrap(fullTag, 'tag');
+                i += fullTag.length;
+            } else if (token === '/*') {
+                html += this._wrap(token, 'comment');
+                currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
+                i += token.length;
+            } else if (token === '//') {
+                html += this._wrap(line.substring(i), 'comment');
+                i = line.length;
+            } else if (token === '"' || token === "'") {
+                html += this._wrap(token, 'string');
+                currentState.contextStack.push({ mode: 'string', terminator: token });
+                i += token.length;
+            } else if (token === '`') {
+                html += this._wrap(token, 'string');
+                currentState.contextStack.push({ mode: 'template_literal', terminator: token });
+                i += token.length;
+            } else if (token === '${') {
+                html += this._wrap(token, 'keyword');
+                currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+                i += token.length;
+            }
         }
     }
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
 
 
