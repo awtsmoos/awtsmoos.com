@@ -49,98 +49,88 @@ async function _writeFile(fileNode, destinationDir) {
 
 // --- MAIN EXPORTED OBJECT (WITH MODIFICATIONS) ---
 export const FileOperations = {
+    // This function is no longer needed, its logic is now in the menus.
+    // copySelected() { ... } 
+
     /**
-     * NEW: This is the smart copy function that decides whether to copy or clone.
-     * It's not called directly by the menu; instead, the menu actions prepare the clipboard
-     * and this function could be a potential refactor target. For now, we will
-     * put the logic in a new `cloneOrCopy` function.
+     * THE NEW SMART PASTE FUNCTION
+     * It checks the clipboard and decides whether to clone or do a regular paste.
      */
-    cloneOrCopy(item) {
+    async paste(destinationDir) {
+        if (!State.fileClipboard || State.fileClipboard.length === 0) {
+            UI.showToast("Clipboard is empty.", "warning");
+            return;
+        }
+
         // --- SMART LOGIC ---
-        // Check if the item is the root of a GitHub repo.
-        if (item && item.type === 'github' && item.path === '/') {
-            this.clone(item); // Trigger the clone workflow.
+        // Check if the clipboard contains a single item that is a GitHub repo root.
+        const sourceItemUniquePath = State.fileClipboard[0];
+        const sourceItem = State.domItemMap.get(sourceItemUniquePath)?.item;
+
+        if (State.fileClipboard.length === 1 && sourceItem && sourceItem.type === 'github' && sourceItem.path === '/') {
+            // If it is, we trigger the clone workflow.
+            await this.clone(sourceItem, destinationDir);
         } else {
-            // --- REGULAR FILE COPY LOGIC ---
-            const uniquePath = getItemUniquePath(item);
-            State.fileClipboard = [uniquePath];
-            UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+            // Otherwise, we perform the original, standard file paste.
+            await this.standardPaste(destinationDir);
         }
     },
 
     /**
-     * NEW: The abstract clone method.
+     * THE NEW, CORRECTED CLONE FUNCTION
      */
-    // B"H
-// FILE: js/file-operations.js
-
-// ... inside the FileOperations object ...
-
-    // REPLACE your existing clone function with this one.
-    async clone(sourceRepoItem) {
-        // 1. Ask user to choose a destination workspace
-        const writableWorkspaces = State.workspaces.filter(ws => ws.type !== 'github');
-        if (writableWorkspaces.length === 0) {
-            UI.showToast("No writable destination workspace available (e.g., Local or Browser Storage).", "error");
-            return;
-        }
-        const workspaceListHTML = writableWorkspaces.map(ws => 
-            `<button class="menu-button" data-ws-id="${ws.id}">${ws.name}</button>`
-        ).join('');
-        const selectedWsId = await UI.showDialog({
-            title: 'Select Clone Destination',
-            contentHTML: `<p>Where do you want to clone "${sourceRepoItem.name}"?</p><div style="max-height: 50vh; overflow-y: auto;">${workspaceListHTML}</div>`,
-            okText: '', cancelText: 'Cancel'
-        });
-        if (selectedWsId === null) return;
-        
-        const destinationWs = State.workspaces.find(ws => ws.id === Number(selectedWsId));
-        if (!destinationWs) {
-            UI.showToast("Selected workspace not found.", "error"); return;
-        }
-
-        UI.showLoading(`Cloning ${sourceRepoItem.name}...`);
+    async clone(sourceRepoItem, destinationDir) {
+        UI.showLoading(`Preparing to clone ${sourceRepoItem.name}...`);
         try {
-            // 2. Fetch the full repository tree from GitHub
             const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
-
-            // THE FIX: We now correctly get the 'tree' array from the returned object.
             const filesToClone = fullTreeData.tree;
-            
-            // This check prevents the "not iterable" error if the API call fails unexpectedly.
             if (!filesToClone || typeof filesToClone[Symbol.iterator] !== 'function') {
                 throw new Error("Could not retrieve a valid file list from the repository.");
             }
 
-            // 3. Create a new directory within the destination to house the clone
+            // FIX: Create the new repo folder *inside* the destination directory.
             const cloneRootName = sourceRepoItem.repoInfo.repo;
-            await FileSystemProvider.create(destinationWs, cloneRootName, 'directory');
-            const cloneRootItem = { ...destinationWs, path: `/${cloneRootName}` };
+            await FileSystemProvider.create(destinationDir, cloneRootName, 'directory');
             
-            // 4. Write all files into the new directory
+            // FIX: Define the new root item with the correct path.
+            const cloneRootPath = destinationDir.path === '/' ? `/${cloneRootName}` : `${destinationDir.path}/${cloneRootName}`;
+            const cloneRootItem = { ...destinationDir, path: cloneRootPath, name: cloneRootName, kind: 'directory' };
+            
+            // Write all files into the new directory
             for (const fileNode of filesToClone) {
-                UI.showLoading(`Cloning: ${fileNode.path}`);
+                // ENHANCEMENT: Show detailed progress.
+                const fileSize = fileNode.size ? `(${(fileNode.size / 1024).toFixed(1)} KB)` : '';
+                UI.showLoading(`Cloning: ${fileNode.path} ${fileSize}`);
+
                 const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.path.split('/').pop() };
                 const content = await FileSystemProvider.GitHub.read(itemForReading);
+
+                // FIX: Ensure the destination path for the file is correct.
                 const destinationItem = { ...cloneRootItem, path: `${cloneRootItem.path}/${fileNode.path}` };
                 const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
+                
                 if (parentPath) {
+                    // FIX: Ensure subdirectories are created relative to the new clone root.
                     await this._ensurePathExists(cloneRootItem, parentPath);
                 }
+                
                 await FileSystemProvider.write(destinationItem, content);
             }
 
-            // 5. Augment the destination workspace with Git metadata
-            destinationWs.isClone = true;
-            destinationWs.repoInfo = sourceRepoItem.repoInfo;
-            destinationWs.branch = sourceRepoItem.branch;
-            destinationWs.baseCommitSHA = fullTreeData.sha; // Get the SHA from the object
-            destinationWs.remoteTree = filesToClone;
+            // Mark the PARENT WORKSPACE as a clone. This is a simplification for now.
+            const parentWorkspace = State.workspaces.find(ws => ws.id === destinationDir.workspaceId);
+            if (parentWorkspace) {
+                parentWorkspace.isClone = true;
+                parentWorkspace.repoInfo = sourceRepoItem.repoInfo;
+                parentWorkspace.branch = sourceRepoItem.branch;
+                parentWorkspace.baseCommitSHA = fullTreeData.sha;
+                parentWorkspace.remoteTree = filesToClone;
+            }
             
             App.saveSession();
-            await Workspaces.refreshNode(destinationWs);
+            await Workspaces.refreshNode(destinationDir); // Refresh the folder we pasted into
             UI.hideLoading();
-            UI.showToast(`Successfully cloned into "${destinationWs.name}"!`, "success");
+            UI.showToast(`Successfully cloned into "${destinationDir.name}"!`, "success");
 
         } catch (e) {
             UI.hideLoading();
@@ -150,15 +140,16 @@ export const FileOperations = {
     },
 
     /**
-     * NEW: Helper to recursively create directories.
+     * THE CORRECTED HELPER for recursively creating directories.
      */
-    async _ensurePathExists(workspace, path) {
-        const parts = path.split('/');
+    async _ensurePathExists(baseItem, relativePath) {
+        const parts = relativePath.split('/');
         let currentPath = '';
         for (const part of parts) {
             if (!part) continue;
-            const parentDirItem = { ...workspace, path: `${workspace.path}/${currentPath}` };
-            currentPath += (currentPath ? '/' : '') + part;
+            // FIX: Build paths relative to the baseItem's path.
+            const parentDirItem = { ...baseItem, path: `${baseItem.path}${currentPath}` };
+            currentPath += `/${part}`;
             try {
                 await FileSystemProvider.create(parentDirItem, part, 'directory');
             } catch (e) {
@@ -168,13 +159,9 @@ export const FileOperations = {
     },
 
     /**
-     * YOUR ORIGINAL PASTE FUNCTION (UNCHANGED)
+     * YOUR ORIGINAL PASTE LOGIC, now in its own function.
      */
-    async paste(destinationDir) {
-        if (!State.fileClipboard || State.fileClipboard.length === 0) {
-            UI.showToast("Clipboard is empty.", "warning");
-            return;
-        }
+    async standardPaste(destinationDir) {
         UI.showLoading("Pasting...");
         const destEntry = State.domItemMap.get(getItemUniquePath(destinationDir));
         if (destEntry?.el) {
