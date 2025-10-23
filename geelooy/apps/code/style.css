@@ -761,7 +761,8 @@
         transform: none; /* Destroy the horizontal centering transform */
         
         /* 3. Reforge its appearance for a compact, glowing, vertical presence */
-        padding: 10px 8px;
+        
+        
         background-color: var(--color-backdrop); /* Use your existing glowing backdrop */
         backdrop-filter: blur(10px);
     }
@@ -772,7 +773,7 @@
     
     /* 6. Enlarge the buttons to be worthy of a thumb tap */
     .selection-menu-bar .menu-button {
-        padding: 12px;
+        
         margin: 4px 0;
         gap: 0;
     }
