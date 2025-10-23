@@ -32,10 +32,10 @@ export const UI = {
         return new Promise(resolve => {
             const dialog = DOM.genericDialog;
             dialog.innerHTML = `
-                <div class="dialog-content" id="dialog-content">
+                <div class="dialog-content">
                     <h3>${title}</h3>
                     ${message ? `<p>${message}</p>` : ''}
-                    ${contentHTML}
+                    <div id="dialog-content-slot">${contentHTML}</div>
                     ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
                     ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
                     <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
@@ -48,6 +48,7 @@ export const UI = {
             const textarea = dialog.querySelector('#dialog-textarea');
             const okBtn = dialog.querySelector('#dialog-ok-btn');
             const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+            const contentSlot = dialog.querySelector('#dialog-content-slot');
 
             const cleanupAndResolve = (value) => {
                 dialog.classList.remove('visible');
@@ -56,32 +57,24 @@ export const UI = {
             };
 
             const keydownHandler = (e) => {
-                if (e.key === 'Enter' && hasInput && !hasTextarea) { e.preventDefault(); okBtn.click(); }
-                else if (e.key === 'Escape' && cancelBtn) { cancelBtn.click(); }
-                else if (e.key === 'Tab') {
-                    e.preventDefault(); 
-                    const editor = DOM.editor;
-                    const start = editor.selectionStart;
-                    const end = editor.selectionEnd;
-                    editor.setRangeText(App.getTabString(), start, end, 'end');
-                    editor.dispatchEvent(new Event('input', { bubbles: true }));
+                if (e.key === 'Enter' && hasInput && !hasTextarea) { e.preventDefault(); okBtn?.click(); }
+                else if (e.key === 'Escape') { cancelBtn?.click(); }
+            };
+            
+            // This handles clicks inside the main dialog area, like on the workspace list
+            contentSlot.onclick = (e) => {
+                const button = e.target.closest('button[data-ws-id]');
+                if (button) {
+                    cleanupAndResolve(button.dataset.wsId);
                 }
             };
             
             dialog.onclick = (e) => {
-                if (e.target.id === 'generic-dialog' && cancelBtn) cancelBtn.click();
+                if (e.target === dialog) cancelBtn?.click();
             };
 
-            if(okBtn) okBtn.onclick = (e) => {
-            e.stopPropagation()
-            cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
-            
-            }
-            if(cancelBtn)
-             cancelBtn.onclick = (e) => {
-             e.stopPropagation()
-             cleanupAndResolve(null);
-             }
+            if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
+            if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
             
             dialog.classList.add('visible');
             if (input) input.focus();
