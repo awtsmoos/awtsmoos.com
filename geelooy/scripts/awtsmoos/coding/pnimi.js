@@ -606,9 +606,6 @@ _getHTMLToken(line, i, state) {
 }
 
 // B"H
-// FILE: VirtualizedEditor.js
-// ACTION: REPLACE THE ENTIRE _getToken METHOD with this new, rectified version.
-
 /**
  * @private @function _getToken
  * @description Da'at (Knowledge). The Rectified Universal Soul, Version 3.
