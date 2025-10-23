@@ -111,8 +111,7 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        // EDIT THIS LINE
-this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false };
+        this.parserState = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null };
         
         /** @private The DOM element for our simulated caret. */
         this.caret = null;
@@ -347,61 +346,148 @@ _measureAndRender() {
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
 
     _highlightJS(line, state) {
-        const lang = {
-            keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
-            singleLineComment: '//', multiLineComment: { start: '/*', end: '*/' }, templateString: { start: '`', end: '`' }
-        };
-        let html = ''; let i = 0;
-        while (i < line.length) {
-             if (state.in_comment) {
-                const endIdx = line.indexOf(lang.multiLineComment.end, i);
-                if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.multiLineComment.end.length), 'comment'); i = endIdx + lang.multiLineComment.end.length; state.in_comment = false; }
-                else { html += this._wrap(line.substring(i), 'comment'); break; }
-                continue;
-            }
-            if (state.in_string) {
-                let endIdx = -1; let currentPos = i;
-                while((endIdx = line.indexOf(lang.templateString.end, currentPos)) !== -1) { if (line[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
-                if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.templateString.end.length), 'string'); i = endIdx + lang.templateString.end.length; state.in_string = false; }
-                else { html += this._wrap(line.substring(i), 'string'); break; }
-                continue;
-            }
-            const char = line[i]; const remaining = line.substring(i);
-            if (lang.singleLineComment && remaining.startsWith(lang.singleLineComment)) { html += this._wrap(remaining, 'comment'); break; }
-            if (lang.multiLineComment && remaining.startsWith(lang.multiLineComment.start)) {
-                const endIdx = remaining.indexOf(lang.multiLineComment.end);
-                if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + lang.multiLineComment.end.length), 'comment'); i += endIdx + lang.multiLineComment.end.length; }
-                else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
-                continue;
-            }
-            if (char === '"' || char === "'") {
-                let endIdx = -1; let currentPos = i + 1;
-                while((endIdx = line.indexOf(char, currentPos)) !== -1) { if(line[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
-                if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 1), 'string'); i = endIdx + 1; }
-                else { html += this._escape(char); i++; }
-                continue;
-            }
-            if (lang.templateString && char === lang.templateString.start) {
-                let endIdx = -1; let currentPos = i + 1;
-                while((endIdx = line.indexOf(lang.templateString.end, currentPos)) !== -1) { if (line[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
-                if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 1), 'string'); i = endIdx + 1; }
-                else { html += this._wrap(remaining, 'string'); state.in_string = true; break; }
-                continue;
-            }
-            if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_') {
-                let word = '';
-                while (i < line.length && /[a-zA-Z0-9_]/.test(line[i])) { word += line[i]; i++; }
-                if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
-                else { html += this._wrap(word, 'variable'); }
-                continue;
-            }
-            html += this._escape(char); i++;
+    // If we are continuing a tagged template from a previous line
+    if (state.in_tagged_template) {
+        let html = '';
+        let endIdx = -1;
+        let currentPos = 0;
+        // Find the closing backtick, respecting escaped ones
+        while((endIdx = line.indexOf('`', currentPos)) !== -1) {
+            if (line[endIdx - 1] !== '\\') break;
+            currentPos = endIdx + 1;
         }
-        return { html: html || '&nbsp;', state };
+
+        if (endIdx !== -1) { // The template ends on this line
+            const content = line.substring(0, endIdx);
+            // Highlight the content with the stored language, using a temporary state
+            const subResult = this._getHighlightResult(content, {}, state.template_language);
+            html += subResult.html;
+            html += this._wrap('`', 'string'); // Add the closing backtick
+
+            // Reset state and continue parsing the rest of the line as normal JS
+            const restOfLine = line.substring(endIdx + 1);
+            const finalState = { ...state, in_tagged_template: false, template_language: null };
+            const restResult = this._highlightJS(restOfLine, finalState);
+            html += restResult.html;
+            return { html: html || '&nbsp;', state: restResult.state };
+
+        } else { // The template continues
+            // Highlight the entire line with the stored language
+            const subResult = this._getHighlightResult(line, {}, state.template_language);
+            return { html: subResult.html || '&nbsp;', state };
+        }
     }
-    
-    
-    
+
+
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+        singleLineComment: '//', multiLineComment: { start: '/*', end: '*/' }, templateString: { start: '`', end: '`' }
+    };
+    let html = ''; let i = 0;
+    while (i < line.length) {
+         if (state.in_comment) {
+            const endIdx = line.indexOf(lang.multiLineComment.end, i);
+            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.multiLineComment.end.length), 'comment'); i = endIdx + lang.multiLineComment.end.length; state.in_comment = false; }
+            else { html += this._wrap(line.substring(i), 'comment'); break; }
+            continue;
+        }
+        if (state.in_string) {
+            let endIdx = -1; let currentPos = i;
+            while((endIdx = line.indexOf(lang.templateString.end, currentPos)) !== -1) { if (line[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
+            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + lang.templateString.end.length), 'string'); i = endIdx + lang.templateString.end.length; state.in_string = false; }
+            else { html += this._wrap(line.substring(i), 'string'); break; }
+            continue;
+        }
+        
+        const remaining = line.substring(i);
+        
+        // --- NEW: Manual, Regex-Free Check for Tagged Templates ---
+        let directiveFound = false;
+        const directives = [
+            { tag: '/*js*/', lang: 'js' },
+            { tag: '/*css*/', lang: 'css' },
+            { tag: '/*html*/', lang: 'html' }
+        ];
+
+        for (const d of directives) {
+            if (remaining.startsWith(d.tag + '`')) {
+                const directive = d.tag;
+                const templateLang = d.lang;
+
+                html += this._wrap(directive, 'comment'); // Highlight the /*css*/ part
+                html += this._wrap('`', 'string');        // Highlight the opening `
+                i += directive.length + 1;
+
+                let endIdx = -1;
+                let currentPos = i;
+                while ((endIdx = line.indexOf('`', currentPos)) !== -1) {
+                    if (line[endIdx - 1] !== '\\') break; // Found non-escaped backtick
+                    currentPos = endIdx + 1;
+                }
+
+                if (endIdx !== -1) { // Template ends on the same line
+                    const content = line.substring(i, endIdx);
+                    const subResult = this._getHighlightResult(content, {}, templateLang);
+                    html += subResult.html;
+                    html += this._wrap('`', 'string'); // Highlight the closing `
+                    i = endIdx + 1;
+                } else { // Template continues to the next line
+                    const content = line.substring(i);
+                    state.in_tagged_template = true;
+                    state.template_language = templateLang;
+                    const subResult = this._getHighlightResult(content, {}, templateLang);
+                    html += subResult.html;
+                    i = line.length; // We're done with this line
+                }
+                
+                directiveFound = true;
+                break; // Exit the for-loop
+            }
+        }
+
+        if (directiveFound) {
+            continue; // Continue to the next token in the while-loop
+        }
+        // --- END NEW ---
+        
+        if (lang.singleLineComment && remaining.startsWith(lang.singleLineComment)) { html += this._wrap(remaining, 'comment'); break; }
+        if (lang.multiLineComment && remaining.startsWith(lang.multiLineComment.start)) {
+            const endIdx = remaining.indexOf(lang.multiLineComment.end);
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + lang.multiLineComment.end.length), 'comment'); i += endIdx + lang.multiLineComment.end.length; }
+            else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
+            continue;
+        }
+        if (remaining[0] === '"' || remaining[0] === "'") {
+            const char = remaining[0];
+            let endIdx = -1; let currentPos = 1;
+            while((endIdx = remaining.indexOf(char, currentPos)) !== -1) { if(remaining[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
+            if (endIdx !== -1) {
+                html += this._wrap(remaining.substring(0, endIdx + 1), 'string');
+                i += endIdx + 1;
+            } else {
+                 html += this._escape(char); i++;
+            }
+            continue;
+        }
+        if (lang.templateString && remaining[0] === lang.templateString.start) {
+            let endIdx = -1; let currentPos = 1;
+            while((endIdx = remaining.indexOf(lang.templateString.end, currentPos)) !== -1) { if (remaining[endIdx - 1] !== '\\') break; currentPos = endIdx + 1; }
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
+            else { html += this._wrap(remaining, 'string'); state.in_string = true; break; }
+            continue;
+        }
+        const firstChar = remaining[0];
+        if ((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z') || firstChar === '_') {
+            let word = '';
+            while (i < line.length && /[a-zA-Z0-9_]/.test(line[i])) { word += line[i]; i++; }
+            if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
+            else { html += this._wrap(word, 'variable'); }
+            continue;
+        }
+        html += this._escape(firstChar); i++;
+    }
+    return { html: html || '&nbsp;', state };
+}
     
     
     
@@ -723,9 +809,8 @@ _highlightHTML(line, state) {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        // EDIT THIS LINE
-let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false };
-        
+        let state = { in_comment: false, in_string: false, in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null };
+
         for (let i = 0; i < firstLineToRender; i++) {
             this._getHighlightResult(this.lines[i], state);
         }
@@ -806,21 +891,23 @@ let state = { in_comment: false, in_string: false, in_rules: false, in_script: f
     
 
     /**
-     * @private
-     * @function _getHighlightResult
-     * @description A helper to select the correct "Gate of Wisdom" (parser) for the current language.
-     * @param {string} line - The line of text to highlight.
-     * @param {object} state - The current parser state.
-     * @returns {{html: string, state: object}} The highlighted HTML and the new state.
-     */
-    _getHighlightResult(line, state) {
-        switch (this.language) {
-            case 'js': return this._highlightJS(line, state);
-            case 'html': return this._highlightHTML(line, state);
-            case 'css': return this._highlightCSS(line, state);
-            default: return { html: this._escape(line || ''), state };
-        }
+ * @private
+ * @function _getHighlightResult
+ * @description A helper to select the correct "Gate of Wisdom" (parser) for the current language.
+ * @param {string} line - The line of text to highlight.
+ * @param {object} state - The current parser state.
+ * @param {string} [languageOverride] - An optional language to force-use for this line.
+ * @returns {{html: string, state: object}} The highlighted HTML and the new state.
+ */
+_getHighlightResult(line, state, languageOverride) {
+    const lang = languageOverride || this.language; // Use override if provided
+    switch (lang) {
+        case 'js': return this._highlightJS(line, state);
+        case 'html': return this._highlightHTML(line, state);
+        case 'css': return this._highlightCSS(line, state);
+        default: return { html: this._escape(line || ''), state };
     }
+}
 
     /**
      * @private
