@@ -499,6 +499,22 @@ export const FileSystemProvider = {
         return newCommit.sha;
     },
     
+    
+    listAllFiles: async function({ path }) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+                const request = store.getAll();
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = () => {
+                    // Filter for files within the specific workspace "directory" and that are not directories themselves.
+                    const dirPrefix = path === '/' ? '' : path + '/';
+                    const files = request.result.filter(item => item.path.startsWith(dirPrefix) && !item.isDir);
+                    resolve(files);
+                };
+            });
+        },
+    
 
 
 
