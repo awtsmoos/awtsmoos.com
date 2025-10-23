@@ -10,14 +10,8 @@ export const GitMetaProvider = {
      * @returns {Promise<object|null>} - The Git metadata object, or null if not found.
      */
     
-    // REPLACE your existing getGitInfoForFolder function with this one.
-    // B"H
-// FILE: js/git-meta-provider.js
-
-// ... inside the GitMetaProvider object ...
-
-    // REPLACE your existing getGitInfoForFolder function with this one.
-    async getGitInfoForFolder(folderItem) {
+    
+     async getGitInfoForFolder(folderItem) {
         const ikarFilePath = folderItem.path === '/' 
             ? '/.awtsmoos-repo/ikar.js' 
             : `${folderItem.path}/.awtsmoos-repo/ikar.js`;
@@ -25,41 +19,37 @@ export const GitMetaProvider = {
         const ikarFileItem = { ...folderItem, path: ikarFilePath, kind: 'file' };
 
         try {
-            // This 'content' could be a string OR a Blob/File object.
             const content = await FileSystemProvider.read(ikarFileItem);
-            
-            // --- NEW, ROBUST CONTENT HANDLING ---
-            let textContent = '';
-            if (typeof content === 'string') {
-                textContent = content;
-            } else if (content instanceof Blob) {
-                // If we get a Blob or File, we must read its text content asynchronously.
-                textContent = await content.text();
-            } else {
-                // If we get nothing, we can't proceed.
-                return null;
-            }
-            // --- END NEW LOGIC ---
+            let textContent = (content instanceof Blob) ? await content.text() : content;
+            if (!textContent) return null;
 
+            // --- THE DEFINITIVE PARSING FIX ---
+            // 1. Find the first '{'
             const objectStartIndex = textContent.indexOf('{');
-            if (objectStartIndex === -1) {
-                console.warn("Found ikar.js but it did not contain a valid metadata object.", folderItem);
+            // 2. Find the LAST '}'
+            const objectEndIndex = textContent.lastIndexOf('}');
+
+            // 3. If either is missing, or if the end comes before the start, the file is invalid.
+            if (objectStartIndex === -1 || objectEndIndex === -1 || objectEndIndex < objectStartIndex) {
+                console.warn("Found ikar.js but it was malformed.", { folderItem, content });
                 return null;
             }
 
-            const jsonText = textContent.substring(objectStartIndex);
+            // 4. Slice ONLY the text between the first '{' and the last '}'.
+            const jsonText = textContent.slice(objectStartIndex, objectEndIndex + 1);
+            // --- END FIX ---
+            
             const gitInfo = JSON.parse(jsonText);
 
             if (gitInfo && gitInfo.isClone === true) {
                 return gitInfo;
             } else {
-                console.warn("Found ikar.js but its content was not valid clone metadata.", folderItem);
+                console.warn("Found ikar.js but its content was not valid clone metadata.", { folderItem, content });
                 return null;
             }
 
         } catch (e) {
-            // This is the normal, expected case for any folder that is NOT a clone.
-            return null;
+            return null; // This is normal for non-clone folders.
         }
     }
 };
