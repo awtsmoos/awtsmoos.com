@@ -727,6 +727,16 @@
 .changes-list .tag.deleted { background-color: var(--color-accent-danger); }
 
 
+/* Add this style to your main CSS file for the red delete button */
+.menu-button.danger {
+    color: var(--color-accent-danger);
+}
+.menu-button.danger:hover:not(:disabled) {
+    background-color: var(--color-accent-danger-translucent);
+    color: var(--color-accent-danger-dark);
+}
+
+
 
 
 
