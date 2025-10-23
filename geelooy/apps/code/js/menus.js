@@ -23,45 +23,67 @@ export const Menus = {
             Menus.hideAll();
         }
     },
+    // B"H
+// FILE: js/menus.js
+
+// REPLACE your existing show function with this one.
     show(e, item) {
         e.preventDefault(); 
-        
-        // If we're already in selection mode, a right-click does nothing.
-    if (State.isSelectionModeActive) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-    }
-    
-    
-        
+        if (State.isSelectionModeActive) {
+            e.preventDefault(); e.stopPropagation(); return;
+        }
         e.stopPropagation();
         State.contextTarget = item;
         this.hideAll();
         setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
+        
         const mapKey = getItemUniquePath(item);
         const targetEl = State.domItemMap.get(mapKey)?.el;
         if(targetEl) targetEl.classList.add('context-active');
+
         const isDir = item.kind === 'directory';
-        const clipboardHasItems = State.fileClipboard.length > 0;
-        
-        
         const isWorkspaceRoot = item.path === '/';
-        const menuItems = [
-        // Add the new "Copy Single" button, making the label dynamic
-        { label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' },
-        { label: 'Select', action: 'start-selection', icon: 'select-all' },
-        { isSeparator: true },
-        isDir && clipboardHasItems ? { label: `Paste...`, action: 'paste', icon: 'clipboard' } : null,
-        isDir && clipboardHasItems ? { isSeparator: true } : null,
+        const isGithubRepoRoot = item.type === 'github' && isWorkspaceRoot;
+
+        // --- NEW: Smart Menu Logic ---
+        const menuItems = [];
+
+        // 1. Smart Copy Button
+        if (isGithubRepoRoot) {
+            menuItems.push({ label: `Copy / Clone "${item.repoInfo.repo}"`, action: 'copy-single', icon: 'copy' });
+        } else {
+            menuItems.push({ label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' });
+        }
         
-            isDir ? { label: 'New File', action: 'new-file', icon: 'file' } : null,
-            isDir ? { label: 'New Folder', action: 'new-folder', icon: 'folder' } : null,
-            isDir ? { isSeparator: true } : null,
-            !isWorkspaceRoot ? { label: 'Delete', action: 'delete', icon: 'x', danger: true } : null,
-            isWorkspaceRoot ? { label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true } : null
-        ].filter(Boolean);
-        DOM.contextMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
+        menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
+        menuItems.push({ isSeparator: true });
+
+        // 2. Smart Paste Button
+        const clipboardItemUniquePath = State.fileClipboard?.[0];
+        const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
+        if (isDir && clipboardItem) {
+            if (clipboardItem.type === 'github' && clipboardItem.path === '/') {
+                menuItems.push({ label: `Paste / Clone "${clipboardItem.repoInfo.repo}" here`, action: 'paste', icon: 'download' }); // Use a download/clone icon
+            } else {
+                menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
+            }
+            menuItems.push({ isSeparator: true });
+        }
+        
+        // 3. Standard Buttons (your existing logic)
+        if (isDir) {
+            menuItems.push({ label: 'New File', action: 'new-file', icon: 'file' });
+            menuItems.push({ label: 'New Folder', action: 'new-folder', icon: 'folder' });
+            menuItems.push({ isSeparator: true });
+        }
+
+        if (!isWorkspaceRoot) {
+            menuItems.push({ label: 'Delete', action: 'delete', icon: 'x', danger: true });
+        } else {
+            menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
+        }
+
+        DOM.contextMenu.innerHTML = menuItems.filter(Boolean).map(i => i.isSeparator ? `<hr class="menu-separator">` :
             `<button class="menu-button" data-action="${i.action}" ${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
                 <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
              </button>`
