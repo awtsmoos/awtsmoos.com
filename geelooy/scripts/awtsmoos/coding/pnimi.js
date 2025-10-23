@@ -1014,230 +1014,298 @@ _getInitialState() {
 // FILE: VirtualizedEditor.js
 // ACTION: REPLACE your entire `_getHighlightResult` method with this definitive version.
 
+/**
+ * @private
+ * @function _getHighlightResult
+ * @description The Master Dispatcher (The Chariot). It delegates to the appropriate soul-parser.
+ */
 _getHighlightResult(line, state) {
-    // Failsafe 1: Input Validation
     if (typeof line !== 'string') return { html: '&nbsp;', state: this._getInitialState() };
-    
-    const currentState = state || this._getInitialState();
+    const currentState = state;
     let html = '';
     let i = 0;
-
-    // --- Micro-Helpers for an Intense World ---
-    const _e = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const _w = (s, t) => `<span class="token-${t}">${_e(s)}</span>`;
-    const _isWS = (c) => c === ' ' || c === '\t';
-    const _isD = (c) => c >= '0' && c <= '9';
-    const _isIS = (c) => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$';
-    const _isIP = (c) => _isIS(c) || _isD(c);
-    const _isFC = (x) => { let k = x; while (k < line.length) { if (!_isWS(line[k])) return line[k] === '('; k++; } return false; };
-
-    // --- The Sacred Scrolls of Keywords ---
-    const ctlK = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
-    const defK = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
-    const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
-
+    
     try {
         while (i < line.length) {
-            const i_before = i; // For the master failsafe
+            const i_before = i;
             const context = currentState.contextStack[currentState.contextStack.length - 1];
-            let remaining = line.substring(i);
+            let result;
 
-            // --- Gatekeeper: The Universal Terminator ---
-            // Checks if the current context has a simple terminator that ends its world.
-            // This handles </script>, */, `, ', " etc. with perfect consistency.
-            if (context.terminator && context.terminator.startsWith('</')) {
-                 const tR = remaining.trim();
-                 if (tR.toLowerCase().startsWith(context.terminator)) {
-                     const offset = remaining.indexOf(tR);
-                     html += _e(remaining.substring(0, offset)); i += offset;
-                     const tagName = context.terminator.substring(2, context.terminator.length -1);
-                     html += _w('</', 'punctuation') + _w(tagName, 'tag') + _w('>', 'punctuation');
-                     i += context.terminator.length;
-                     currentState.contextStack.pop(); continue;
-                 }
+            // The dispatcher's only job: Choose the correct world-parser.
+            switch (context.mode) {
+                case 'javascript': result = this._parseJS(line, i, currentState); break;
+                case 'html': result = this._parseHTML(line, i, currentState); break;
+                case 'css': result = this._parseCSS(line, i, currentState); break;
+                case 'comment': result = this._parseGeneric(line, i, currentState, 'comment'); break;
+                case 'string': result = this._parseGeneric(line, i, currentState, 'string', true); break;
+                case 'template_literal': result = this._parseTemplateLiteral(line, i, currentState); break;
+                default: // Handles embedded languages like 'template_language_css'
+                    result = this._parseTemplateLanguage(line, i, currentState);
+                    break;
             }
             
-            // --- The Master Dispatcher: Chooses the correct world to parse ---
-            switch (context.mode) {
-                // --- WORLD OF HTML ---
-                case 'html':
-                    const tagStart = remaining.indexOf('<');
-                    if (tagStart === -1) { html += _e(remaining); i = line.length; break; }
-                    html += _e(line.substring(i, i + tagStart)); i += tagStart;
-                    const tagRemaining = line.substring(i);
+            html += result.html;
+            i = result.newIndex;
 
-                    if (tagRemaining.startsWith('<!--')) {
-                        const end = tagRemaining.indexOf('-->');
-                        if (end !== -1) { html += _w(tagRemaining.substring(0, end + 3), 'comment'); i += end + 3; } 
-                        else { html += _w(tagRemaining, 'comment'); i = line.length; currentState.contextStack.push({ mode: 'comment', terminator: '-->' }); }
-                    } else if (tagRemaining.startsWith('</')) {
-                        const end = tagRemaining.indexOf('>');
-                        const endPos = (end === -1) ? line.length : i + end + 1;
-                        const tagContent = line.substring(i, endPos);
-                        const tagName = tagContent.substring(2, tagContent.length - 1);
-                        html += _w('</', 'punctuation') + _w(tagName, 'tag') + _w('>', 'punctuation');
-                        i = endPos;
-                    } else if (tagRemaining.startsWith('<')) {
-                        const end = tagRemaining.indexOf('>');
-                        const endPos = (end === -1) ? line.length : i + end + 1;
-                        let tagName = '', j = i + 1;
-                        while (j < endPos - 1 && !_isWS(line[j]) && line[j] !== '>' && line[j] !== '/') { tagName += line[j++]; }
-                        html += _w('<', 'punctuation') + _w(tagName, 'tag');
-                        
-                        // Hand-parsing attributes, no regex
-                        while (j < endPos - 1 && line[j] !== '>') {
-                            while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
-                            let attrName = '', attrValue = '';
-                            while (j < endPos - 1 && !_isWS(line[j]) && line[j] !== '=' && line[j] !== '>') { attrName += line[j++]; }
-                            if (attrName) { html += _w(attrName, 'attribute-name'); }
-                            
-                            while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
-                            if (line[j] === '=') {
-                                html += _w('=', 'operator'); j++;
-                                while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
-                                const quote = line[j];
-                                if (quote === '"' || quote === "'") {
-                                    html += _w(quote, 'punctuation'); j++;
-                                    const valStart = j;
-                                    while (j < endPos - 1 && line[j] !== quote) { j++; }
-                                    attrValue = line.substring(valStart, j);
-                                    html += _w(attrValue, 'attribute-value') + _w(quote, 'punctuation'); j++;
-                                }
-                            } else { j++; }
-                        }
-                        html += _w(line.substring(j, endPos - 1), 'punctuation') + _w('>', 'punctuation');
-
-                        // --- The Perfect Gate: Entering a new world ---
-                        if (tagName.toLowerCase() === 'script' || tagName.toLowerCase() === 'style') {
-                            currentState.contextStack.push({ mode: (tagName.toLowerCase() === 'script' ? 'javascript' : 'css'), terminator: `</${tagName.toLowerCase()}>` });
-                        }
-                        i = endPos;
-                    }
-                    break;
-
-                // --- WORLD OF CSS ---
-                case 'css':
-                    const firstCharCSS = remaining[0];
-                    if (remaining.startsWith("/*")) {
-                        const end = remaining.indexOf("*/");
-                        if (end !== -1) { html += _w(remaining.substring(0, end + 2), 'comment'); i += end + 2; } 
-                        else { html += _w(remaining, 'comment'); i = line.length; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
-                    } else if (currentState.inCssRuleBlock) {
-                        if (firstCharCSS === '}') { html += _w('}', 'punctuation'); i++; currentState.inCssRuleBlock = false; }
-                        else if (_isIS(firstCharCSS) || firstCharCSS === '-') { // is property
-                           let prop = '', p = i;
-                           while(p < line.length && /[\w-]/.test(line[p])) { prop += line[p++]; }
-                           html += _w(prop, 'property'); i = p;
-                           while (i < line.length && _isWS(line[i])) { html += line[i++]; } // Skip whitespace
-                           if (line[i] === ':') { html += _w(':', "punctuation"); i++; }
-                        } else { // is value
-                           const end = remaining.indexOf(';'); const end2 = remaining.indexOf('}');
-                           let endPos = -1;
-                           if (end !== -1 && (end2 === -1 || end < end2)) endPos = end; else endPos = end2;
-                           if (endPos === -1) { html += _e(remaining); i = line.length; }
-                           else { html += _w(remaining.substring(0, endPos), 'string'); i += endPos; }
-                        }
-                    } else { // is selector
-                        const end = remaining.indexOf('{');
-                        if (end === -1) { html += _w(remaining, 'selector'); i = line.length; }
-                        else { html += _w(remaining.substring(0, end), 'selector'); html += _w('{', 'punctuation'); i += end + 1; currentState.inCssRuleBlock = true; }
-                    }
-                    break;
-                
-                // --- DEFAULT: WORLD OF JAVASCRIPT & ITS SUB-REALITIES ---
-                default: 
-                    // Universal handler for simple terminated contexts like strings and comments
-                    if (context.terminator && remaining.startsWith(context.terminator)) {
-                         const token = _w(context.terminator, context.mode.startsWith('template') ? 'string' : 'comment');
-                         html += token; i += context.terminator.length;
-                         currentState.contextStack.pop(); continue;
-                    }
-                    // Embedded languages in template literals
-                    if(context.mode.startsWith('template_literal_') && !remaining.startsWith('${')) {
-                        const langCtx = context.mode.substring(17);
-                        const newState = this._getInitialState(); newState.language = langCtx;
-                        const subHighlight = this._getHighlightResult(remaining, newState);
-                        html += subHighlight.html; i = line.length; continue;
-                    }
-                    // JS Interpolation `${...}`
-                    if (context.mode.startsWith('template_literal') && remaining.startsWith('${')) {
-                        html += _w('${', 'controlKeyword'); i += 2;
-                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' }); continue;
-                    }
-                    // Inside a string, comment, or simple template. Consume until terminator.
-                    if (context.mode !== 'javascript') {
-                        const endIdx = context.terminator ? remaining.indexOf(context.terminator) : -1;
-                        const content = (endIdx === -1) ? remaining : remaining.substring(0, endIdx);
-                        html += _w(content, 'string');
-                        i += content.length; continue;
-                    }
-
-                    // --- Main JavaScript Parsing by hand ---
-                    let directiveFound = false; // Tagged templates /*html*/`...`
-                    for (const d of directives) {
-                        if (remaining.startsWith(d.tag + '`')) {
-                            html += _w(d.tag, 'comment') + _w('`', 'string'); i += d.tag.length + 1;
-                            currentState.contextStack.push({ mode: `template_literal_${d.lang}`, terminator: '`' });
-                            directiveFound = true; break;
-                        }
-                    }
-                    if (directiveFound) continue;
-                    
-                    const firstCharJS = remaining[0];
-                    if (remaining.startsWith('/*')) { html += _w('/*', 'comment'); i += 2; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
-                    else if (remaining.startsWith('//')) { html += _w(remaining, 'comment'); i = line.length; }
-                    else if (firstCharJS === '`') { html += _w('`', 'string'); i++; currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); }
-                    else if (firstCharJS === "'" || firstCharJS === '"') { html += _w(firstCharJS, 'string'); i++; currentState.contextStack.push({ mode: 'string', terminator: firstCharJS }); }
-                    else if (_isWS(firstCharJS)) { html += firstCharJS; i++; }
-                    else if (_isIS(firstCharJS)) {
-                        let buffer = '', p = i;
-                        while (p < line.length && _isIP(line[p])) buffer += line[p++];
-                        if (currentState.isNextTokenFunctionName) { html += _w(buffer, 'functionName'); currentState.isNextTokenFunctionName = false; }
-                        else if (buffer === 'function') { html += _w(buffer, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
-                        else if (ctlK.has(buffer)) html += _w(buffer, 'controlKeyword');
-                        else if (defK.has(buffer)) html += _w(buffer, 'definitionKeyword');
-                        else if (_isFC(p)) html += _w(buffer, 'functionName');
-                        else html += _w(buffer, 'variable');
-                        i = p;
-                    } else if (_isD(firstCharJS)) {
-                        let buffer = '', p = i;
-                        while (p < line.length && (_isD(line[p]) || line[p] === '.')) buffer += line[p++];
-                        html += _w(buffer, 'number'); i = p;
-                    } else {
-                        currentState.isNextTokenFunctionName = false;
-                        html += _e(firstCharJS); i++;
-                    }
-                    break;
-            }
-
-            // --- The Ultimate Failsafe ---
-            // If after all that logic, we haven't advanced, we force it.
-            // This prevents an infinite loop and is the source of your "Failsafe triggered" error.
-            // A perfected parser should never need this, but it is the final guard against the abyss.
+            // The ultimate failsafe against unforeseen paradoxes.
             if (i === i_before && i < line.length) {
-                console.error("Failsafe triggered:", context, line[i]);
-                i++; 
+                console.error("Failsafe triggered:", context, `char: '${line[i]}'`);
+                html += this._escape(line[i]);
+                i++;
             }
         }
     } catch (e) {
-        // If any unforeseen catastrophe occurs, render the line raw and log the error.
-        // The vessel will bend, but it will not break.
-        html = _e(line);
-        console.error("Highlighter catastrophy:", e);
+        html = this._escape(line); // Will bend, but not break.
+        console.error("Highlighter catastrophe:", e);
     }
-
     return { html: html || '&nbsp;', state: currentState };
 }
 
 
 
 
+/** @private A soul for parsing simple, terminator-defined contexts like comments and strings. */
+_parseGeneric(line, i, state, type, useUnescaped) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    const endIdx = useUnescaped
+        ? this._findUnescapedChar(line, context.terminator, i)
+        : line.indexOf(context.terminator, i);
+
+    if (endIdx !== -1) { // Terminator found on this line
+        const content = line.substring(i, endIdx);
+        state.contextStack.pop(); // Exit this world
+        return {
+            html: this._wrap(content, type) + this._wrap(context.terminator, type),
+            newIndex: endIdx + context.terminator.length,
+        };
+    }
+    // Terminator not found, the entire rest of the line is this context
+    const content = line.substring(i);
+    return { html: this._wrap(content, type), newIndex: line.length };
+}
+
+/** @private A soul for parsing template literals and their interpolations (`${...}`). */
+_parseTemplateLiteral(line, i, state) {
+    const interpStart = line.indexOf('${', i);
+    if (interpStart !== -1) { // Found an interpolation
+        const content = line.substring(i, interpStart);
+        state.contextStack.push({ mode: 'javascript', terminator: '}' }); // Enter a JS world
+        return {
+            html: this._wrap(content, 'string') + this._wrap('${', 'controlKeyword'),
+            newIndex: interpStart + 2
+        };
+    }
+    // No interpolation, treat as a simple string with a ` terminator
+    return this._parseGeneric(line, i, state, 'string', true);
+}
+
+/** @private A soul for parsing language blocks inside template literals (e.g., /*css* /`...`). */
+_parseTemplateLanguage(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    const interpStart = line.indexOf('${', i);
+    const endIdx = this._findUnescapedChar(line, context.terminator, i);
+
+    let boundary = -1;
+    if (interpStart !== -1 && (endIdx === -1 || interpStart < endIdx)) {
+        boundary = interpStart;
+    } else if (endIdx !== -1) {
+        boundary = endIdx;
+    }
+    
+    const lang = context.mode.substring(17); // e.g., 'css' from 'template_language_css'
+    const content = (boundary === -1) ? line.substring(i) : line.substring(i, boundary);
+    
+    // Highlight the content using a temporary, clean state for that language
+    const subState = this._getInitialState();
+    subState.language = lang;
+    subState.contextStack = [{ mode: lang }];
+    subState.inCssRuleBlock = state.inCssRuleBlock; // IMPORTANT: Carry over CSS block state
+    const result = this._getHighlightResult(content, subState);
+    state.inCssRuleBlock = result.state.inCssRuleBlock; // Bring back the updated CSS state
+
+    if (boundary === interpStart) {
+        state.contextStack.push({ mode: 'javascript', terminator: '}' }); // Enter JS world
+        return {
+            html: result.html + this._wrap('${', 'controlKeyword'),
+            newIndex: boundary + 2
+        };
+    }
+    if (boundary === endIdx) {
+        state.contextStack.pop(); // Exit the template language world
+        return {
+            html: result.html + this._wrap(context.terminator, 'string'),
+            newIndex: boundary + context.terminator.length
+        };
+    }
+    return { html: result.html, newIndex: line.length }; // End of line
+}
+
+/** @private The flawless soul for JavaScript, with perfect memory. */
+_parseJS(line, i, state) {
+    const ctlK = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
+    const defK = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
+    const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
+
+    // 1. Check for gates to other worlds. This is the highest priority.
+    // THE RECTIFIED GATE: Checks for a directive AND the backtick ` together.
+    for (const d of directives) {
+        if (line.substring(i).startsWith(d.tag + '`')) {
+            state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
+            return { html: this._wrap(d.tag, 'comment') + this._wrap('`', 'string'), newIndex: i + d.tag.length + 1 };
+        }
+    }
+    if (line.substring(i, i + 2) === '/*') {
+        state.contextStack.push({ mode: 'comment', terminator: '*/' });
+        return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
+    }
+    if (line.substring(i, i + 2) === '//') {
+        return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+    }
+    const char = line[i];
+    if (char === "'" || char === '"') {
+        state.contextStack.push({ mode: 'string', terminator: char });
+        return { html: this._wrap(char, 'string'), newIndex: i + 1 };
+    }
+    if (char === '`') {
+        state.contextStack.push({ mode: 'template_literal', terminator: '`' });
+        return { html: this._wrap(char, 'string'), newIndex: i + 1 };
+    }
+
+    // 2. If not a gate, tokenize the characters of this world.
+    if (this._isIS(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && this._isIP(line[p])) buffer += line[p++];
+        let type = 'variable';
+        if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
+        else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
+        else if (ctlK.has(buffer)) type = 'controlKeyword';
+        else if (defK.has(buffer)) type = 'definitionKeyword';
+        else if (this._isFC(line, p)) type = 'functionName';
+        return { html: this._wrap(buffer, type), newIndex: p };
+    }
+    if (this._isD(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
+        return { html: this._wrap(buffer, 'number'), newIndex: p };
+    }
+    
+    state.isNextTokenFunctionName = false;
+    return { html: this._escape(char), newIndex: i + 1 };
+}
+
+/** @private The rectified soul for CSS, with a true understanding of blocks. */
+_parseCSS(line, i, state) {
+    if (line.substring(i, i + 2) === '/*') {
+        state.contextStack.push({ mode: 'comment', terminator: '*/' });
+        return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
+    }
+
+    let p = i;
+    while(p < line.length && this._isWS(line[p])) p++;
+    let html = line.substring(i, p);
+
+    if (p >= line.length) return { html, newIndex: line.length };
+
+    if (!state.inCssRuleBlock) { // We are outside a { ... } block, looking for a selector.
+        const brace = line.indexOf('{', p);
+        if (brace !== -1) {
+            state.inCssRuleBlock = true; // Enter the block world
+            return {
+                html: html + this._wrap(line.substring(p, brace), 'selector') + this._wrap('{', 'punctuation'),
+                newIndex: brace + 1
+            };
+        }
+        return { html: html + this._wrap(line.substring(p), 'selector'), newIndex: line.length };
+    } else { // We are inside a { ... } block.
+        const endBrace = line.indexOf('}', p);
+        const colon = line.indexOf(':', p);
+        const semicolon = line.indexOf(';', p);
+
+        // Check for closing brace first, as it takes precedence.
+        if (endBrace !== -1 && (endBrace < colon || colon === -1) && (endBrace < semicolon || semicolon === -1)) {
+            state.inCssRuleBlock = false; // Exit the block world
+            return { html: html + this._wrap('}', 'punctuation'), newIndex: endBrace + 1 };
+        }
+        // Check for a property:value pair.
+        if (colon !== -1 && (semicolon === -1 || colon < semicolon)) {
+            const prop = line.substring(p, colon);
+            return {
+                html: html + this._wrap(prop.trim(), 'property') + this._wrap(':', 'punctuation'),
+                newIndex: colon + 1
+            };
+        }
+        // Check for the end of a value.
+        if (semicolon !== -1) {
+            const val = line.substring(p, semicolon);
+            return {
+                html: html + this._wrap(val.trim(), 'string') + this._wrap(';', 'punctuation'),
+                newIndex: semicolon + 1
+            };
+        }
+        // If nothing else, the rest of the line is part of a value.
+        return { html: html + this._wrap(line.substring(p).trim(), 'string'), newIndex: line.length };
+    }
+}
+
+/** @private The soul for HTML, with clean logic for entering script/style worlds. */
+_parseHTML(line, i, state) {
+    const tagStart = line.indexOf('<', i);
+    if (tagStart === -1) {
+        return { html: this._escape(line.substring(i)), newIndex: line.length };
+    }
+    const text = this._escape(line.substring(i, tagStart));
+
+    if (line.substring(tagStart, tagStart + 4) === '<!--') {
+        state.contextStack.push({ mode: 'comment', terminator: '-->' });
+        return { html: text + this._wrap('<!--', 'comment'), newIndex: tagStart + 4 };
+    }
+    
+    const tagEnd = line.indexOf('>', tagStart);
+    if (tagEnd === -1) {
+        return { html: text + this._escape(line.substring(tagStart)), newIndex: line.length };
+    }
+
+    let html = text;
+    const newIndex = tagEnd + 1;
+    const isClosing = line[tagStart + 1] === '/';
+    let p = isClosing ? tagStart + 2 : tagStart + 1;
+    
+    // Parse Tag Name
+    let tagName = '';
+    while(p < tagEnd && !this._isWS(line[p]) && line[p] !== '>') tagName += line[p++];
+    html += this._wrap(isClosing ? '</' : '<', 'punctuation') + this._wrap(tagName, 'tag');
+
+    // Simple, robust attribute parsing: just escape everything else for now.
+    html += this._escape(line.substring(p, tagEnd));
+    
+    html += this._wrap('>', 'punctuation');
+    
+    const lowerTagName = tagName.toLowerCase();
+    if (!isClosing && (lowerTagName === 'script' || lowerTagName === 'style')) {
+        const lang = lowerTagName === 'script' ? 'javascript' : 'css';
+        // Enter the new world, with a clear terminator to find our way back.
+        state.contextStack.push({ mode: lang, terminator: `</${lowerTagName}>` });
+    }
+     else if (isClosing) {
+        const currentContext = state.contextStack[state.contextStack.length - 1];
+        if (currentContext.terminator === `</${lowerTagName}>`) {
+            state.contextStack.pop();
+        }
+    }
+    
+    return { html, newIndex };
+}
 
 
 
-
-
-
+// --- Helper Souls (Micro-Parsers) ---
+_escape(s) { return s ? s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
+_wrap(s, t) { return `<span class="token-${t}">${this._escape(s)}</span>`; }
+_isWS(c) { return c === ' ' || c === '\t'; }
+_isD(c) { return c >= '0' && c <= '9'; }
+_isIS(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
+_isIP(c) { return this._isIS(c) || this._isD(c); }
+_isFC(line, i) { while (i < line.length) { if (!this._isWS(line[i])) return line[i] === '('; i++; } return false; }
 
     /**
      * @private
@@ -1248,45 +1316,60 @@ _getHighlightResult(line, state) {
      * process becomes a concrete, visible reality for the user. It is highly optimized to only
      * process and render the visible lines of code.
      */
-    _render() {
-        if (!this.lines) return;
-
-        
-        
-        const scrollTop = this.textarea.scrollTop;
-        const scrollLeft = this.textarea.scrollLeft;
-        
-        // Calculate the first visible "verse" (line) from the scroll position.
-        const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-        const firstLineToRender = Math.max(0, firstVisibleLine - 1); // Render one above for smoothness.
-
-        // To correctly highlight, we must "replay" the journey of the parser's soul (state)
-        // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = this._getInitialState()
-
-        for (let i = 0; i < firstLineToRender; i++) {
-            this._getHighlightResult(this.lines[i], state);
+    async _update() {
+    this.lines = this.textarea.value.split('\n');
+    
+    // On a major text change, the soul of the parser must be returned to its primordial state.
+    this.parserState = this._getInitialState(); 
+    
+    const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+    if (this.viewportDivs.length !== neededDivs && neededDivs > 0 && !isNaN(neededDivs)) {
+        this.viewportDivs = [];
+        this.viewport.innerHTML = '';
+        for (let i = 0; i < neededDivs; i++) {
+            const div = document.createElement('div');
+            div.style.height = `${this.lineHeight}px`;
+            this.viewport.appendChild(div);
+            this.viewportDivs.push(div);
         }
-
-        // Now, emanate the light for the visible lines.
-        for (let i = 0; i < this.viewportDivs.length; i++) {
-            const lineIndex = firstLineToRender + i;
-            const div = this.viewportDivs[i];
-            if (lineIndex < this.lines.length) {
-                div.style.display = 'block';
-                const result = this._getHighlightResult(this.lines[lineIndex], state);
-                div.innerHTML = result.html;
-                state = result.state; // The soul continues its journey to the next line.
-            } else {
-                div.style.display = 'none'; // No more verses to display.
-            }
-        }
-
-        // Finally, position the viewport itself, accounting for both horizontal and vertical scroll.
-        const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-        this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
-        
     }
+    this._render();
+    this._updateCaret();
+}
+
+_render() {
+    if (!this.lines || !this.lineHeight) return;
+    const scrollTop = this.textarea.scrollTop;
+    const scrollLeft = this.textarea.scrollLeft;
+    const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+    
+    // Start rendering from the beginning of the scrollback buffer for accuracy.
+    const firstLineToRender = Math.max(0, firstVisibleLine - 2);
+
+    // Replay the journey of the parser's soul from the beginning to the first rendered line.
+    let state = this._getInitialState();
+    for (let i = 0; i < firstLineToRender; i++) {
+        state = this._getHighlightResult(this.lines[i] || '', state).state;
+    }
+
+    // Now, render the visible lines, carrying the state from one to the next.
+    for (let i = 0; i < this.viewportDivs.length; i++) {
+        const lineIndex = firstLineToRender + i;
+        const div = this.viewportDivs[i];
+        if (lineIndex < this.lines.length) {
+            div.style.display = 'block';
+            const result = this._getHighlightResult(this.lines[lineIndex] || '', state);
+            div.innerHTML = result.html;
+            state = result.state; // The soul's memory carries over perfectly.
+        } else {
+            div.style.display = 'none';
+        }
+    }
+    
+    // Position the viewport to match the scroll of the textarea.
+    const yOffset = firstLineToRender * this.lineHeight;
+    this.viewport.style.transform = `translate(${-scrollLeft}px, ${yOffset}px)`;
+}
     
     
     /**
