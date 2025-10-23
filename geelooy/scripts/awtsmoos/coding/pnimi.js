@@ -701,81 +701,36 @@ _findUnescapedChar(line, char, startIndex = 0) {
     
     /**
  * @private
- * @function _getSyntaxRules
- * @description The "Book of Laws." This is the central, all-knowing repository of syntax rules
- * for all languages. The master loop consults this book to understand the laws of the current reality.
+ * @function _flushTokenBuffer
+ * @description The Hand of the Weaver. This function takes the accumulated characters (the token buffer),
+ * intelligently determines what they represent in the current context (e.g., keyword vs. variable),
+ * wraps them in the correct span, and clears the buffer for the next token.
+ * @param {object} state - The current state object of the parser.
+ * @param {string} buffer - The accumulated string of characters to be processed.
+ * @returns {string} The generated HTML for the token, or an empty string.
  */
-_getSyntaxRules() {
-    return {
-        // --- THE LAWS OF THE JAVASCRIPT WORLD ---
-        'javascript': {
-            // Portals to other worlds, checked in order of priority.
-            portals: [
-                { pattern: /^\/\*html\*\s*`/, newMode: 'html', terminator: '`' },
-                { pattern: /^\/\*css\*\s*`/, newMode: 'css', terminator: '`' },
-                { pattern: /^\/\*js\*\s*`/, newMode: 'javascript', terminator: '`' },
-                { pattern: /^`/, newMode: 'template_string', terminator: '`' },
-                { pattern: /^\/\*/, newMode: 'comment', terminator: '*/' },
-                { pattern: /^\/\/.*/, newMode: 'line_comment' }, // Self-terminating
-            ],
-            // Mundane tokens within this world.
-            tokens: [
-                { pattern: /^(?:const|let|var|function|return|if|else|for|while|switch|case|break|continue|class|extends|super|new|import|export|from|async|await|try|catch|finally|this|true|false|null|undefined|typeof)\b/, type: 'keyword' },
-                { pattern: /^[a-zA-Z_$][a-zA-Z0-9_$]*/, type: 'variable' },
-                { pattern: /^-?\d+(\.\d+)?/, type: 'number' },
-                { pattern: /^'[^'\\]*(?:\\.[^'\\]*)*'/, type: 'string' },
-                { pattern: /^"[^"\\]*(?:\\.[^"\\]*)*"/, type: 'string' },
-            ]
-        },
+_flushTokenBuffer(state, buffer) {
+    if (buffer.length === 0) return '';
 
-        // --- THE LAWS OF A TEMPLATE STRING (A world inside JS) ---
-        'template_string': {
-            portals: [
-                // Portal to a nested JS world for interpolation.
-                { pattern: /^\$\{/, newMode: 'javascript', terminator: '}' },
-            ],
-            // Template strings have no other special tokens, they are just strings.
-            tokens: [] 
-        },
-
-        // --- THE LAWS OF THE HTML WORLD ---
-        'html': {
-            portals: [
-                { pattern: /^<!--/, newMode: 'comment', terminator: '-->' },
-                // The crucial portal: a script tag creates a new JS world within HTML.
-                { pattern: /^<script.*?>/i, newMode: 'javascript', terminator: '</script>' },
-                // The style tag creates a new CSS world.
-                { pattern: /^<style.*?>/i, newMode: 'css', terminator: '</style>' },
-            ],
-            tokens: [
-                { pattern: /^<\/?([a-zA-Z0-9-]+)/, type: 'tag' }, // Opening/closing tag name
-                { pattern: /^[a-zA-Z-]+(?==)/, type: 'attribute' }, // Attribute name
-                { pattern: /^"[^"]*"/, type: 'string' }, // Attribute value
-            ]
-        },
-        
-        // --- THE LAWS OF THE CSS WORLD ---
-        'css': {
-            portals: [
-                { pattern: /^\/\*/, newMode: 'comment', terminator: '*/' },
-            ],
-            tokens: [
-                { pattern: /^[^{]+(?=\s*\{)/, type: 'selector' }, // Selectors
-                { pattern: /^[a-zA-Z-]+(?=\s*:)/, type: 'property' }, // Property names
-                { pattern: /#[0-9a-fA-F]{3,6}/, type: 'number' }, // Hex colors
-            ]
-        },
-        
-        // --- THE LAWS OF A COMMENT WORLD (Universal) ---
-        'comment': {
-            portals: [], // Comments contain no portals
-            tokens: []   // The whole block is treated as one token type
-        },
-        'line_comment': {
-             portals: [],
-             tokens: []
+    const context = state.contextStack[state.contextStack.length - 1];
+    
+    // In JavaScript, we must discern between keywords and variables.
+    if (context.mode.startsWith('javascript')) {
+        const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
+        if (keywords.has(buffer)) {
+            return this._wrap(buffer, 'keyword');
         }
-    };
+        return this._wrap(buffer, 'variable');
+    }
+
+    // For most other contexts, the buffer is treated as a single type.
+    if (context.mode.includes('string')) return this._wrap(buffer, 'string');
+    if (context.mode.includes('comment')) return this._wrap(buffer, 'comment');
+    if (context.mode.includes('tag')) return this._wrap(buffer, 'tag');
+    if (context.mode.includes('attribute')) return this._wrap(buffer, 'attribute');
+    
+    // Default fallback if no specific rule applies.
+    return this._escape(buffer);
 }
     
     
@@ -912,86 +867,162 @@ _getInitialState() {
 /**
  * @private
  * @function _getHighlightResult
- * @description The Master Consciousness. This single, unified loop is the heart of the eternal plan.
- * It processes the code, guided by the Book of Laws and the Context Stack, ensuring it is
- * all-knowing and eternally present in every nested level.
+ * @description The Conscious Weaver. This is the new, flawless heart of the highlighter.
+ * It functions as a finite state machine, processing the code character by character without regex,
+ * navigating all nested contexts with perfect memory and wisdom.
  */
 _getHighlightResult(line, state) {
-    // Lazy-load the book of laws once.
-    if (!this.syntaxRules) {
-        this.syntaxRules = this._getSyntaxRules();
-    }
-    
     const currentState = state || this._getInitialState();
     let html = '';
+    let tokenBuffer = '';
+    
     let i = 0;
-
-    // The Master Loop begins. It processes the entire line.
     while (i < line.length) {
-        if (currentState.contextStack.length === 0) {
-            currentState.contextStack.push({ mode: this.language }); // Failsafe
-        }
-        
         const context = currentState.contextStack[currentState.contextStack.length - 1];
-        const rules = this.syntaxRules[context.mode] || { portals: [], tokens: [] };
-        const remaining = line.substring(i);
-        let matchFound = false;
+        const char = line[i];
+        let consumed = true; // Assume we process the character
 
-        // 1. HIGHEST PRIORITY: Seek the end of the current world.
-        if (context.terminator && remaining.startsWith(context.terminator)) {
-            const tokenType = (context.mode === 'javascript' || context.mode === 'template_string') ? 'keyword' : 'punctuation';
-            html += this._wrap(context.terminator, tokenType);
-            i += context.terminator.length;
-            currentState.contextStack.pop();
-            continue;
-        }
-
-        // 2. SECOND PRIORITY: Look for portals to new worlds.
-        for (const portal of rules.portals) {
-            const match = remaining.match(portal.pattern);
-            if (match && match[0]) {
-                const tokenType = (context.mode === 'javascript' || portal.newMode === 'comment') ? 'comment' : 'tag';
-                html += this._wrap(match[0], tokenType);
-                i += match[0].length;
-                // A line comment is self-terminating; it doesn't push a new world.
-                if (portal.newMode !== 'line_comment') {
-                    currentState.contextStack.push({ mode: portal.newMode, terminator: portal.terminator });
+        switch (context.mode) {
+            // --- The Default JavaScript Reality ---
+            case 'javascript':
+                if (/[a-zA-Z_]/.test(char)) {
+                    tokenBuffer += char;
+                    context.mode = 'javascript_word';
+                } else if (/\d/.test(char)) {
+                    tokenBuffer += char;
+                    context.mode = 'javascript_number';
+                } else if (char === '"' || char === "'") {
+                    html += this._wrap(char, 'string');
+                    context.mode = `javascript_string_${char === '"' ? 'double' : 'single'}`;
+                    context.terminator = char;
+                } else if (char === '`') {
+                     html += this._wrap(char, 'string');
+                     context.mode = 'javascript_template_literal';
+                } else if (char === '/') {
+                    context.mode = 'javascript_slash';
+                } else {
+                    html += this._escape(char); // Operators, punctuation, etc.
                 }
-                matchFound = true;
                 break;
-            }
-        }
-        if (matchFound) continue;
+            
+            // --- Weaving a JavaScript Word (keyword or variable) ---
+            case 'javascript_word':
+                if (/[a-zA-Z0-9_]/.test(char)) {
+                    tokenBuffer += char;
+                } else {
+                    html += this._flushTokenBuffer(currentState, tokenBuffer);
+                    tokenBuffer = '';
+                    context.mode = 'javascript';
+                    consumed = false; // Re-process this character in the default JS state
+                }
+                break;
+            
+            // --- Weaving a JavaScript Number ---
+            case 'javascript_number':
+                 if (/[\d.]/.test(char)) {
+                    tokenBuffer += char;
+                } else {
+                    html += this._wrap(tokenBuffer, 'number');
+                    tokenBuffer = '';
+                    context.mode = 'javascript';
+                    consumed = false;
+                }
+                break;
+                
+            // --- Weaving inside a String ---
+            case 'javascript_string_double':
+            case 'javascript_string_single':
+                if (char === context.terminator) {
+                    html += this._flushTokenBuffer(currentState, tokenBuffer);
+                    tokenBuffer = '';
+                    html += this._wrap(char, 'string');
+                    context.mode = 'javascript';
+                } else {
+                    tokenBuffer += char;
+                }
+                break;
 
-        // 3. THIRD PRIORITY: Parse the mundane tokens of the current world.
-        // If the entire context is one type (like a comment), colorize the whole remainder.
-        if (rules.tokens.length === 0 && context.mode !== 'javascript' && context.mode !== 'html' && context.mode !== 'css') {
-             const terminatorIndex = context.terminator ? remaining.indexOf(context.terminator) : -1;
-             const content = terminatorIndex === -1 ? remaining : remaining.substring(0, terminatorIndex);
-             html += this._wrap(content, context.mode);
-             i += content.length;
-             continue;
-        }
-        
-        for (const tokenRule of rules.tokens) {
-            const match = remaining.match(tokenRule.pattern);
-            if (match && match[0]) {
-                html += this._wrap(match[0], tokenRule.type);
-                i += match[0].length;
-                matchFound = true;
+            // --- Weaving inside a Template Literal (aware of interpolations) ---
+            case 'javascript_template_literal':
+                 if (char === '$' && line[i+1] === '{') {
+                     html += this._flushTokenBuffer(currentState, tokenBuffer);
+                     tokenBuffer = '';
+                     html += this._wrap('${', 'keyword');
+                     i++; // Consume the '{' as well
+                     currentState.contextStack.push({ mode: 'javascript', terminator: '}'});
+                 } else if (char === '`') {
+                     html += this._flushTokenBuffer(currentState, tokenBuffer);
+                     tokenBuffer = '';
+                     html += this._wrap('`', 'string');
+                     currentState.contextStack.pop();
+                 } else {
+                     tokenBuffer += char;
+                 }
+                 break;
+
+            // --- Deciding if a '/' starts a comment ---
+            case 'javascript_slash':
+                if (char === '*') {
+                    html += this._wrap('/*', 'comment');
+                    context.mode = 'comment_multiline';
+                } else if (char === '/') {
+                    tokenBuffer = '//';
+                    context.mode = 'comment_line';
+                } else {
+                    html += this._escape('/');
+                    context.mode = 'javascript';
+                    consumed = false;
+                }
                 break;
-            }
+
+            // --- Weaving a single-line comment ---
+            case 'comment_line':
+                tokenBuffer += char;
+                break;
+
+            // --- Weaving a multi-line comment ---
+            case 'comment_multiline':
+                if (char === '*') {
+                    context.mode = 'comment_multiline_saw_asterisk';
+                } else {
+                    tokenBuffer += char;
+                }
+                break;
+            
+            // --- Checking if a comment is ending ---
+            case 'comment_multiline_saw_asterisk':
+                if (char === '/') {
+                    html += this._flushTokenBuffer(currentState, tokenBuffer);
+                    tokenBuffer = '';
+                    html += this._wrap('*/', 'comment');
+                    currentState.contextStack.pop(); // THE GREAT RETURN
+                } else {
+                    tokenBuffer += '*' // The previous asterisk was just a character
+                    context.mode = 'comment_multiline';
+                    consumed = false; // Re-process current char in the main comment state
+                }
+                break;
+
+            // --- Default case to prevent infinite loops on unknown states ---
+            default:
+                html += this._escape(char);
+                break;
         }
-        if (matchFound) continue;
         
-        // 4. FALLBACK: If nothing matches, process one character as plain text.
-        html += this._escape(remaining[0]);
-        i++;
+        if (consumed) {
+            i++;
+        }
     }
 
+    // After the loop, flush any remaining buffer
+    if (tokenBuffer.length > 0) {
+        if(context.mode === 'comment_line') html += this._wrap(tokenBuffer, 'comment');
+        else if(context.mode === 'javascript_number') html += this._wrap(tokenBuffer, 'number');
+        else html += this._flushTokenBuffer(currentState, tokenBuffer);
+    }
+    
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
 
 /**
