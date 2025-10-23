@@ -27,6 +27,9 @@ export const SelectionManager = {
 
             if (action === 'copy-selection') {
                 FileOperations.copySelected();
+            } else if (action === 'delete-selection') { // <-- ADD THIS ELSE IF BLOCK
+                // Delegate the complex deletion logic to FileOperations
+                FileOperations.deleteSelected();
             } else if (action === 'cancel-selection') {
                 this.end();
             }
