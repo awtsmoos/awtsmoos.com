@@ -3,6 +3,8 @@
 
 import { State } from './state.js';
 import { MimeUtil } from './mime-util.js';
+import { UI } from './ui.js';
+
 /**
  * FileSystemProvider: An abstraction layer for different file systems.
  */
