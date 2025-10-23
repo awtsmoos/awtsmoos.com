@@ -111,10 +111,15 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = { in_comment: false, in_string: false, 
-        in_rules: false, in_script: false, in_style: false, in_tagged_template: false, template_language: null,
+        this.parserState = { in_comment: false,
+         in_string: false, 
+        in_rules: false, in_script: false,
+         in_style: false,
+          in_tagged_template: false,
+           template_language: null,
          interpolation_depth: 0,
-         string_type_before_interpolation: null
+         string_type_before_interpolation: null,
+         sub_language_state: null
         };
         
         /** @private The DOM element for our simulated caret. */
@@ -840,7 +845,8 @@ _highlightHTML(line, state) {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = { in_comment: false, 
+        let state = {
+        in_comment: false, 
         in_string: false, 
         in_rules: false, 
         in_script: false, 
@@ -848,7 +854,8 @@ _highlightHTML(line, state) {
         in_tagged_template: false, 
         template_language: null, 
         interpolation_depth: 0,
-        string_type_before_interpolation: null
+        string_type_before_interpolation: null,
+        sub_language_state: null
         };
 
         for (let i = 0; i < firstLineToRender; i++) {
