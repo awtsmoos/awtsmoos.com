@@ -348,7 +348,8 @@ _measureAndRender() {
 
     _escape(str) { return str ? str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
-
+    
+    
     _highlightJS(line, state) {
     const lang = {
         keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
@@ -387,14 +388,11 @@ _measureAndRender() {
                     html += this._wrap(content, 'string');
                 }
                 html += this._wrap('${', 'keyword');
-
-                // **THE FIX, PART 1: REMEMBER THE CONTEXT**
                 state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
-                
                 i += interpolationStart + 2;
                 state.interpolation_depth = 1;
                 state.in_string = false;
-                state.in_tagged_template = false; // Enter JS mode
+                state.in_tagged_template = false;
             } else if (templateEnd !== -1) {
                 // The string ends.
                 const content = remaining.substring(0, templateEnd);
@@ -415,8 +413,26 @@ _measureAndRender() {
         }
 
         // STATE 3: Top-level JS code OR code inside an interpolation.
-        
-        // Tokenize comments, strings, etc., first to provide context for brace matching.
+        // --- CORRECTED TOKENIZER ORDER ---
+
+        // 1. Check for tagged template directives FIRST. This is the most specific token.
+        const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
+        let directiveFound = false;
+        for (const d of directives) {
+            if (remaining.startsWith(d.tag + '`')) {
+                html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
+                i += d.tag.length + 1;
+                state.in_tagged_template = true;
+                state.template_language = d.lang;
+                directiveFound = true;
+                break;
+            }
+        }
+        if (directiveFound) {
+            continue; // Restart the loop in the new state
+        }
+
+        // 2. Now, check for general comments.
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -424,43 +440,35 @@ _measureAndRender() {
             else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
             continue;
         }
-        
-        const quoteChar = remaining[0];
+
+        // 3. Check for regular strings.
+        const quoteChar = remaining;
         if (quoteChar === '"' || quoteChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, quoteChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
             else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
-
-        const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
-        for (const d of directives) {
-            if (remaining.startsWith(d.tag + '`')) {
-                html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
-                i += d.tag.length + 1;
-                state.in_tagged_template = true;
-                state.template_language = d.lang;
-                continue; // Use continue to restart the loop in the new state
-            }
-        }
         
+        // 4. Check for the start of a new plain template string.
         if (quoteChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
             state.in_string = true;
             continue;
         }
-        
+
+        // 5. Check for keywords and variables.
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch[0];
+            const word = wordMatch;
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
             i += word.length;
             continue;
         }
 
-        // Now, we can safely check for braces, knowing they aren't in strings or comments.
+        // 6. Check for interpolation braces.
         if (state.interpolation_depth > 0) {
             if (quoteChar === '{') {
                 state.interpolation_depth++;
@@ -469,8 +477,6 @@ _measureAndRender() {
                 if (state.interpolation_depth === 0) {
                     html += this._wrap('}', 'keyword');
                     i++;
-                    
-                    // **THE FIX, PART 2: RESTORE THE CORRECT CONTEXT**
                     if (state.string_type_before_interpolation === 'tagged') {
                         state.in_tagged_template = true;
                     } else {
@@ -481,13 +487,20 @@ _measureAndRender() {
                 }
             }
         }
-        
-        // Default catch-all for operators and punctuation
-        html += this._escape(remaining[0]);
+
+        // 7. Default catch-all for operators and punctuation.
+        html += this._escape(remaining);
         i++;
     }
     return { html: html || '&nbsp;', state };
 }
+
+    
+    
+    
+    
+    
+    
 
 
 
