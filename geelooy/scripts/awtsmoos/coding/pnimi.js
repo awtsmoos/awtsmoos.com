@@ -436,20 +436,28 @@ _findMatchingBrace(line, startIndex = 0) {
     
     
     
+    _highlightJS(line, state) {
+    // Divine Guard: A state must always exist.
+    const currentState = state || this._getInitialState();
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+    };
     let html = '';
     let i = 0;
 
     while (i < line.length) {
+        // The current reality is always the world at the top of the stack.
+        const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
-        const currentMode = currentState.mode;
+        const firstChar = remaining;
 
-        // --- THE HIERARCHY OF WORLDS ---
+        // --- THE HIERARCHY OF SOVEREIGN WORLDS ---
 
-        // CONTEXT 1: We are inside a string reality (tagged or plain).
-        if (currentMode === 'tagged_template' || currentMode === 'plain_template') {
+        // REALITY 1: We are inside a string world (tagged or plain).
+        if (context.mode === 'tagged_template' || context.mode === 'plain_template') {
             const interpolationStart = remaining.indexOf('${');
             let templateEnd = -1;
-            const sub_state = currentState.sub_language_state;
+            const sub_state = context.sub_language_state;
             const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
             if (!isSubLanguageSovereign) {
                 templateEnd = this._findUnescapedChar(remaining, '`');
@@ -458,85 +466,65 @@ _findMatchingBrace(line, startIndex = 0) {
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 // An interpolation begins.
                 const contentBefore = remaining.substring(0, interpolationStart);
-                if (currentMode === 'tagged_template') {
-                    const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
+                if (context.mode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(contentBefore, sub_state, context.language);
+                    html += subResult.html; context.sub_language_state = subResult.state;
                 } else { html += this._wrap(contentBefore, 'string'); }
                 html += this._wrap('${', 'keyword');
                 i += interpolationStart + 2;
 
-                // THE ACT OF EMANATION: Push the current world onto the stack and create a new one.
-                currentState.contextStack.push({
-                    mode: currentState.mode,
-                    language: currentState.language,
-                    sub_language_state: currentState.sub_language_state
-                });
-                // The new world is born as pure JavaScript.
-                currentState.mode = 'js';
-                currentState.language = 'js';
-                currentState.sub_language_state = null;
+                // THE ACT OF EMANATION: A new JavaScript world is born and pushed onto the stack.
+                currentState.contextStack.push({ mode: 'js', language: 'js', sub_language_state: null });
 
             } else if (templateEnd !== -1) {
-                // The string world ends.
+                // This string world ends.
                 const content = remaining.substring(0, templateEnd);
-                 if (currentMode === 'tagged_template') {
-                    const subResult = this._getHighlightResult(content, sub_state, currentState.language);
+                if (context.mode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(content, sub_state, context.language);
                     html += subResult.html;
                 } else { html += this._wrap(content, 'string'); }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
                 
-                // RETURN FROM EXILE: Pop the parent world from the stack, restoring its reality.
-                const parentState = currentState.contextStack.pop();
-                if (parentState) {
-                    currentState.mode = parentState.mode;
-                    currentState.language = parentState.language;
-                    currentState.sub_language_state = parentState.sub_language_state;
-                } else {
-                    currentState.mode = 'js'; // Should not happen if stack is managed well
-                }
+                // RETURN FROM EXILE: This world ceases to exist. Pop it from the stack.
+                currentState.contextStack.pop();
 
             } else {
-                // The line is content for the sovereign sub-language.
+                // This entire line is content for the sovereign sub-language.
                 const content = remaining;
-                if (currentMode === 'tagged_template') {
-                    const subResult = this._getHighlightResult(content, sub_state, currentState.language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
+                if (context.mode === 'tagged_template') {
+                    const subResult = this._getHighlightResult(content, sub_state, context.language);
+                    html += subResult.html; context.sub_language_state = subResult.state;
                 } else { html += this._wrap(content, 'string'); }
-                break;
+                break; // We are done with this line.
             }
             continue;
         }
 
-        // CONTEXT 2: We are in a comment reality.
-        if (currentMode === 'comment') {
-            const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.mode = 'js'; }
-            else { html += this._wrap(remaining, 'comment'); break; }
-            continue;
-        }
-
-        // CONTEXT 3: We are in the default JavaScript reality.
-        const firstChar = remaining;
-        
-        // HIERARCHY: Look for the START of a new reality.
+        // REALITY 2: We are in the default JavaScript world.
+        // HIERARCHY: Look for the START of a new world.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         if (directives.some(d => remaining.startsWith(d.tag + '`'))) {
             const d = directives.find(d => remaining.startsWith(d.tag + '`'));
             html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
             i += d.tag.length + 1;
-            currentState.mode = 'tagged_template';
-            currentState.language = d.lang;
-            currentState.sub_language_state = this._getInitialState();
+            // Emanate a new tagged_template world.
+            currentState.contextStack.push({ mode: 'tagged_template', language: d.lang, sub_language_state: this._getInitialHTMLState() });
             continue;
+        }
+        if (remaining.startsWith('/*')) { // We check for multi-line comments here
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx === -1) {
+                html += this._wrap(remaining, 'comment'); // It's a comment for the whole line
+                currentState.contextStack.push({ mode: 'comment' });
+                break;
+            } else {
+                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
+                i += endIdx + 2;
+                continue;
+            }
         }
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
-        if (remaining.startsWith('/*')) {
-            const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; }
-            else { html += this._wrap(remaining, 'comment'); currentState.mode = 'comment'; break; }
-            continue;
-        }
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
@@ -544,7 +532,10 @@ _findMatchingBrace(line, startIndex = 0) {
             continue;
         }
         if (firstChar === '`') {
-            html += this._wrap('`', 'string'); i += 1; currentState.mode = 'plain_template'; continue;
+            html += this._wrap('`', 'string'); i += 1;
+            // Emanate a new plain_template world.
+            currentState.contextStack.push({ mode: 'plain_template' });
+            continue;
         }
         
         // HIERARCHY: Parse standard JS tokens.
@@ -557,19 +548,19 @@ _findMatchingBrace(line, startIndex = 0) {
             continue;
         }
 
-        // HIERARCHY: The sacred duty of brace counting.
+        // HIERARCHY: The sacred duty of the '}' to end a JS world.
         if (firstChar === '}') {
-            const parentState = currentState.contextStack.pop();
-            if (parentState) {
+            // This can only happen if this JS world was born from an interpolation.
+            if (currentState.contextStack.length > 1) { // Ensure we don't pop the primordial world
                 html += this._wrap('}', 'keyword');
                 i++;
-                currentState.mode = parentState.mode;
-                currentState.language = parentState.language;
-                currentState.sub_language_state = parentState.sub_language_state;
+                // This world's purpose is fulfilled. It ceases to exist.
+                currentState.contextStack.pop();
                 continue;
             }
         }
         
+        // HIERARCHY: Default catch-all.
         html += this._escape(firstChar);
         i++;
     }
@@ -882,26 +873,25 @@ _highlightHTML(line, state) {
     
     
     
-    /**
+/**
  * @private
  * @function _getInitialState
- * @description The "Adam Kadmon" (Primordial Man) of parser states.
- * This function is the single source of truth for creating a new, complete, and pristine state object.
- * It ensures every parser, whether top-level or nested, is born with a full set of default properties,
- * preventing the chaos of null or undefined references.
+ * @description The "Adam Kadmon" of parser states. Creates the infinite soul, the context stack,
+ * and emanates the first, primordial JavaScript world to place upon it.
  */
 _getInitialState() {
     return {
-        // This is now the state of a SINGLE world.
-        mode: 'js', // 'js', 'tagged_template', 'plain_template', 'comment'
-        language: 'js', // For tagged_templates: 'html', 'css', etc.
-        sub_language_state: null, // The persistent memory for the specialist (e.g., the HTML parser)
-        
-        // This is the infinite soul. The stack of parent worlds waiting for us to return.
-        contextStack: []
+        // The contextStack is the infinite soul.
+        contextStack: [
+            // The first world, the root of all reality.
+            {
+                mode: 'js', // 'js', 'tagged_template', 'plain_template'
+                language: 'js',
+                sub_language_state: null
+            }
+        ]
     };
 }
-
 
 
 /**
