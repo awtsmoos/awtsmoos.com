@@ -227,6 +227,12 @@ export const FileSystemProvider = {
 // ... inside the FileSystemProvider.IndexedDB object ...
 
         // REPLACE your existing 'list' function with this one.
+        // B"H
+// FILE: js/fs-provider.js
+
+// ... inside the FileSystemProvider.IndexedDB object ...
+
+        // REPLACE your existing 'list' function with this complete and correct one.
         list: async function({ path }) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -235,34 +241,36 @@ export const FileSystemProvider = {
                 request.onerror = e => reject(e.target.error);
                 request.onsuccess = () => {
                     const children = new Map();
-
+                    
                     // --- THE FIX IS HERE ---
-                    // Correctly define the prefix for root and subdirectories.
-                    const dirPrefix = path === '/' ? '/' : path + '/';
-                    const pathDepth = (path.match(/\//g) || []).length;
-                    // --- END FIX ---
+                    // This logic is much simpler and more robust.
+                    const dirPrefix = path === '/' ? '/' : `${path}/`;
 
                     request.result.forEach(item => {
-                        // Ensure we are looking in the correct directory
+                        // We only care about items that are inside the directory we are listing.
                         if (item.path.startsWith(dirPrefix) && item.path !== path) {
-                            
-                            // For root, a child is '/file.html'. For subdir, a child is '/subdir/file.html'.
-                            // We need to check if the item is a direct child, not a grand-child.
-                            const itemDepth = (item.path.match(/\//g) || []).length;
-                            const isDirectChild = (item.isDir && itemDepth === pathDepth + 1) || (!item.isDir && itemDepth === pathDepth);
+                             
+                            // 1. Get the part of the path that comes *after* the directory prefix.
+                            const relativePath = path === '/' 
+                                ? item.path.substring(1) // for root, relative path is everything after the first '/'
+                                : item.path.substring(dirPrefix.length);
 
-                            if (isDirectChild || (path === '/' && itemDepth === 1)) {
-                                const segment = item.path.substring(item.path.lastIndexOf('/') + 1);
+                            // 2. A direct child will not have any more slashes in its relative path.
+                            // e.g., for dir '/Wow', a child is 'all.html', a grandchild is 'sub/file.html'
+                            if (!relativePath.includes('/')) {
+                                const segment = relativePath;
                                 if (segment && !children.has(segment)) {
                                     children.set(segment, { 
                                         name: segment, 
                                         kind: item.isDir ? 'directory' : 'file', 
-                                        path: item.path // Use the full path from the item itself
+                                        path: item.path // Always use the item's full, absolute path
                                     });
                                 }
                             }
                         }
                     });
+                    // --- END FIX ---
+
                     resolve(Array.from(children.values()));
                 };
             });
