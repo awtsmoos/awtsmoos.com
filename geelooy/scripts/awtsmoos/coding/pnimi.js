@@ -1010,6 +1010,10 @@ _getInitialState() {
 // FILE: VirtualizedEditor.js
 // ACTION: REPLACE your entire `_getHighlightResult` method with this definitive version.
 
+// B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE your entire `_getHighlightResult` method with this definitive version.
+
 _getHighlightResult(line, state) {
     // Failsafe 1: Input Validation
     if (typeof line !== 'string') return { html: '&nbsp;', state: this._getInitialState() };
@@ -1018,68 +1022,211 @@ _getHighlightResult(line, state) {
     let html = '';
     let i = 0;
 
-    const _e = (s)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const _w = (s,t)=>`<span class="token-${t}">${_e(s)}</span>`;
-    const _isWS=(c)=>c===' '||c==='\t'; const _isD=(c)=>c>='0'&&c<='9'; const _isIS=(c)=>(c>='a'&&c<='z')||(c>='A'&&c<='Z')||c==='_'||c==='$';
-    const _isIP=(c)=>_isIS(c)||_isD(c); const _isFC=(x)=>{let k=x;while(k<line.length){if(!_isWS(line[k]))return line[k]==='(';k++;}return false;};
+    // --- Micro-Helpers for an Intense World ---
+    const _e = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const _w = (s, t) => `<span class="token-${t}">${_e(s)}</span>`;
+    const _isWS = (c) => c === ' ' || c === '\t';
+    const _isD = (c) => c >= '0' && c <= '9';
+    const _isIS = (c) => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$';
+    const _isIP = (c) => _isIS(c) || _isD(c);
+    const _isFC = (x) => { let k = x; while (k < line.length) { if (!_isWS(line[k])) return line[k] === '('; k++; } return false; };
 
-    const ctlK=new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
-    const defK=new Set(['const','let','var','true','false','null','undefined','this','new','super']);
+    // --- The Sacred Scrolls of Keywords ---
+    const ctlK = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
+    const defK = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
     const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
 
     try {
         while (i < line.length) {
-            const i_before = i;
+            const i_before = i; // For the master failsafe
             const context = currentState.contextStack[currentState.contextStack.length - 1];
             let remaining = line.substring(i);
 
-            if (context.terminator && context.terminator.startsWith('</')) { const tR=remaining.trim();if (tR.toLowerCase().startsWith(context.terminator)){const o=remaining.indexOf(tR);html+=_e(remaining.substring(0,o));i+=o;const tN=context.terminator.substring(2,context.terminator.length-1);html+=_w('</','punctuation')+_w(tN,'tag')+_w('>','punctuation');i+=context.terminator.length;currentState.contextStack.pop();continue;}}
-
+            // --- Gatekeeper: The Universal Terminator ---
+            // Checks if the current context has a simple terminator that ends its world.
+            // This handles </script>, */, `, ', " etc. with perfect consistency.
+            if (context.terminator && context.terminator.startsWith('</')) {
+                 const tR = remaining.trim();
+                 if (tR.toLowerCase().startsWith(context.terminator)) {
+                     const offset = remaining.indexOf(tR);
+                     html += _e(remaining.substring(0, offset)); i += offset;
+                     const tagName = context.terminator.substring(2, context.terminator.length -1);
+                     html += _w('</', 'punctuation') + _w(tagName, 'tag') + _w('>', 'punctuation');
+                     i += context.terminator.length;
+                     currentState.contextStack.pop(); continue;
+                 }
+            }
+            
+            // --- The Master Dispatcher: Chooses the correct world to parse ---
             switch (context.mode) {
-                case 'html': // --- THE ADORNED HTML VESSEL ---
-                    const tS=remaining.indexOf('<'); if(tS===-1){html+=_e(remaining);i=line.length;break;}
-                    html+=_e(line.substring(i,i+tS));i+=tS; const tR=line.substring(i);
-                    if(tR.startsWith('<!--')){const e=tR.indexOf('-->');if(e!==-1){html+=_w(tR.substring(0,e+3),'comment');i+=e+3;}else{html+=_w(tR,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'-->'});}}
-                    else if(tR.startsWith('</')){const e=tR.indexOf('>');const p=(e===-1)?line.length:i+e+1;const tC=line.substring(i,p);const tN=tC.substring(2,tC.length-1);html+=_w('</','punctuation')+_w(tN,'tag')+_w('>','punctuation');i=p;}
-                    else if(tR.startsWith('<')){const e=tR.indexOf('>');const p=(e===-1)?line.length:i+e+1;let tN='',j=i+1;while(j<p-1&&!_isWS(line[j])&&line[j]!=='>'&&line[j]!=='/'){tN+=line[j++];}html+=_w('<','punctuation')+_w(tN,'tag');
-                        while(j<p-1&&line[j]!=='>'){ while(j<p-1&&_isWS(line[j])){html+=line[j++];} let aN='',aV='';
-                            while(j<p-1&&!_isWS(line[j])&&line[j]!=='='&&line[j]!=='>'){aN+=line[j++];} if(aN){html+=_w(aN,'attribute-name');}
-                            while(j<p-1&&_isWS(line[j])){html+=line[j++];} if(line[j]==='='){html+=_w('=', 'operator');j++; while(j<p-1&&_isWS(line[j])){html+=line[j++];} const q=line[j];if(q==='"'||q==="'"){html+=_w(q,'punctuation');j++;const vS=j;while(j<p-1&&line[j]!==q){j++;}aV=line.substring(vS,j);html+=_w(aV,'attribute-value')+_w(q,'punctuation');j++;}}else{j++;}}
-                        html+=_w(line.substring(j,p-1),'punctuation')+_w('>','punctuation');
-                        if(tN.toLowerCase()==='script'||tN.toLowerCase()==='style'){currentState.contextStack.push({mode:(tN.toLowerCase()==='script'?'javascript':'css'),terminator:`</${tN.toLowerCase()}>`});}i=p;
+                // --- WORLD OF HTML ---
+                case 'html':
+                    const tagStart = remaining.indexOf('<');
+                    if (tagStart === -1) { html += _e(remaining); i = line.length; break; }
+                    html += _e(line.substring(i, i + tagStart)); i += tagStart;
+                    const tagRemaining = line.substring(i);
+
+                    if (tagRemaining.startsWith('<!--')) {
+                        const end = tagRemaining.indexOf('-->');
+                        if (end !== -1) { html += _w(tagRemaining.substring(0, end + 3), 'comment'); i += end + 3; } 
+                        else { html += _w(tagRemaining, 'comment'); i = line.length; currentState.contextStack.push({ mode: 'comment', terminator: '-->' }); }
+                    } else if (tagRemaining.startsWith('</')) {
+                        const end = tagRemaining.indexOf('>');
+                        const endPos = (end === -1) ? line.length : i + end + 1;
+                        const tagContent = line.substring(i, endPos);
+                        const tagName = tagContent.substring(2, tagContent.length - 1);
+                        html += _w('</', 'punctuation') + _w(tagName, 'tag') + _w('>', 'punctuation');
+                        i = endPos;
+                    } else if (tagRemaining.startsWith('<')) {
+                        const end = tagRemaining.indexOf('>');
+                        const endPos = (end === -1) ? line.length : i + end + 1;
+                        let tagName = '', j = i + 1;
+                        while (j < endPos - 1 && !_isWS(line[j]) && line[j] !== '>' && line[j] !== '/') { tagName += line[j++]; }
+                        html += _w('<', 'punctuation') + _w(tagName, 'tag');
+                        
+                        // Hand-parsing attributes, no regex
+                        while (j < endPos - 1 && line[j] !== '>') {
+                            while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
+                            let attrName = '', attrValue = '';
+                            while (j < endPos - 1 && !_isWS(line[j]) && line[j] !== '=' && line[j] !== '>') { attrName += line[j++]; }
+                            if (attrName) { html += _w(attrName, 'attribute-name'); }
+                            
+                            while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
+                            if (line[j] === '=') {
+                                html += _w('=', 'operator'); j++;
+                                while (j < endPos - 1 && _isWS(line[j])) { html += line[j++]; } // Whitespace
+                                const quote = line[j];
+                                if (quote === '"' || quote === "'") {
+                                    html += _w(quote, 'punctuation'); j++;
+                                    const valStart = j;
+                                    while (j < endPos - 1 && line[j] !== quote) { j++; }
+                                    attrValue = line.substring(valStart, j);
+                                    html += _w(attrValue, 'attribute-value') + _w(quote, 'punctuation'); j++;
+                                }
+                            } else { j++; }
+                        }
+                        html += _w(line.substring(j, endPos - 1), 'punctuation') + _w('>', 'punctuation');
+
+                        // --- The Perfect Gate: Entering a new world ---
+                        if (tagName.toLowerCase() === 'script' || tagName.toLowerCase() === 'style') {
+                            currentState.contextStack.push({ mode: (tagName.toLowerCase() === 'script' ? 'javascript' : 'css'), terminator: `</${tagName.toLowerCase()}>` });
+                        }
+                        i = endPos;
                     }
                     break;
-                case 'css': // --- THE SOULFUL CSS PARSER ---
-                    const firstCharCSS = remaining;
-                    if(remaining.startsWith("/*")){const e=remaining.indexOf("*/");if(e!==-1){html+=_w(remaining.substring(0,e+2),'comment');i+=e+2;}else{html+=_w(remaining,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'*/'});}}
-                    else if(currentState.inCssRuleBlock){if(firstCharCSS==='}'){html+=_w('}','punctuation');i++;currentState.inCssRuleBlock=false;}
-                        else if(_isIS(firstCharCSS)||firstCharCSS==='-'){let prop='',p=i;while(p<line.length&&/[\w-]/.test(line[p])){prop+=line[p++];}html+=_w(prop,'property');i=p; while(i<line.length&&_isWS(line[i])){html+=line[i++];} if(line[i]===':'){html+=_w(':',"punctuation");i++;}
-                        }else{const end=remaining.indexOf(';');const end2=remaining.indexOf('}');let endP=-1;if(end!==-1&&(end2===-1||end<end2))endP=end;else endP=end2;if(endP===-1){html+=_e(remaining);i=line.length;}else{html+=_w(remaining.substring(0,endP),'string');i+=endP;}}}
-                    else{const end=remaining.indexOf('{');if(end===-1){html+=_w(remaining,'selector');i=line.length;}else{html+=_w(remaining.substring(0,end),'selector');html+=_w('{','punctuation');i+=end+1;currentState.inCssRuleBlock=true;}}
-                    break;
-                default: // Javascript and Sub-Realities (String, Comment, Nested Languages)
-                    if (context.terminator&&remaining.startsWith(context.terminator)){const t=_w(context.terminator,context.mode.startsWith('template')?'string':'comment');html+=t;i+=context.terminator.length;currentState.contextStack.pop();continue;}
-                    if(context.mode.startsWith('template_literal_')&&!remaining.startsWith('${')){const langCtx=context.mode.substring(17);const nS=this._getInitialState();nS.language=langCtx;const subHighlight=this._getHighlightResult(remaining,nS);html+=subHighlight.html;i=line.length;continue;}
-                    if (context.mode.startsWith('template_literal')&&remaining.startsWith('${')){html+=_w('${','controlKeyword');i+=2;currentState.contextStack.push({mode:'javascript',terminator:'}'});continue;}
-                    if (context.mode!=='javascript'){const endIdx=context.terminator?remaining.indexOf(context.terminator):-1;const content=(endIdx===-1)?remaining:remaining.substring(0,endIdx);html+=_w(content,'string');i+=content.length;continue;}
 
-                    let dF=false; for(const d of directives){if(remaining.startsWith(d.tag+'`')){html+=_w(d.tag,'comment')+_w('`','string');i+=d.tag.length+1;currentState.contextStack.push({mode:`template_literal_${d.lang}`,terminator:'`'});dF=true;break;}} if(dF)continue;
+                // --- WORLD OF CSS ---
+                case 'css':
+                    const firstCharCSS = remaining[0];
+                    if (remaining.startsWith("/*")) {
+                        const end = remaining.indexOf("*/");
+                        if (end !== -1) { html += _w(remaining.substring(0, end + 2), 'comment'); i += end + 2; } 
+                        else { html += _w(remaining, 'comment'); i = line.length; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
+                    } else if (currentState.inCssRuleBlock) {
+                        if (firstCharCSS === '}') { html += _w('}', 'punctuation'); i++; currentState.inCssRuleBlock = false; }
+                        else if (_isIS(firstCharCSS) || firstCharCSS === '-') { // is property
+                           let prop = '', p = i;
+                           while(p < line.length && /[\w-]/.test(line[p])) { prop += line[p++]; }
+                           html += _w(prop, 'property'); i = p;
+                           while (i < line.length && _isWS(line[i])) { html += line[i++]; } // Skip whitespace
+                           if (line[i] === ':') { html += _w(':', "punctuation"); i++; }
+                        } else { // is value
+                           const end = remaining.indexOf(';'); const end2 = remaining.indexOf('}');
+                           let endPos = -1;
+                           if (end !== -1 && (end2 === -1 || end < end2)) endPos = end; else endPos = end2;
+                           if (endPos === -1) { html += _e(remaining); i = line.length; }
+                           else { html += _w(remaining.substring(0, endPos), 'string'); i += endPos; }
+                        }
+                    } else { // is selector
+                        const end = remaining.indexOf('{');
+                        if (end === -1) { html += _w(remaining, 'selector'); i = line.length; }
+                        else { html += _w(remaining.substring(0, end), 'selector'); html += _w('{', 'punctuation'); i += end + 1; currentState.inCssRuleBlock = true; }
+                    }
+                    break;
+                
+                // --- DEFAULT: WORLD OF JAVASCRIPT & ITS SUB-REALITIES ---
+                default: 
+                    // Universal handler for simple terminated contexts like strings and comments
+                    if (context.terminator && remaining.startsWith(context.terminator)) {
+                         const token = _w(context.terminator, context.mode.startsWith('template') ? 'string' : 'comment');
+                         html += token; i += context.terminator.length;
+                         currentState.contextStack.pop(); continue;
+                    }
+                    // Embedded languages in template literals
+                    if(context.mode.startsWith('template_literal_') && !remaining.startsWith('${')) {
+                        const langCtx = context.mode.substring(17);
+                        const newState = this._getInitialState(); newState.language = langCtx;
+                        const subHighlight = this._getHighlightResult(remaining, newState);
+                        html += subHighlight.html; i = line.length; continue;
+                    }
+                    // JS Interpolation `${...}`
+                    if (context.mode.startsWith('template_literal') && remaining.startsWith('${')) {
+                        html += _w('${', 'controlKeyword'); i += 2;
+                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' }); continue;
+                    }
+                    // Inside a string, comment, or simple template. Consume until terminator.
+                    if (context.mode !== 'javascript') {
+                        const endIdx = context.terminator ? remaining.indexOf(context.terminator) : -1;
+                        const content = (endIdx === -1) ? remaining : remaining.substring(0, endIdx);
+                        html += _w(content, 'string');
+                        i += content.length; continue;
+                    }
+
+                    // --- Main JavaScript Parsing by hand ---
+                    let directiveFound = false; // Tagged templates /*html*/`...`
+                    for (const d of directives) {
+                        if (remaining.startsWith(d.tag + '`')) {
+                            html += _w(d.tag, 'comment') + _w('`', 'string'); i += d.tag.length + 1;
+                            currentState.contextStack.push({ mode: `template_literal_${d.lang}`, terminator: '`' });
+                            directiveFound = true; break;
+                        }
+                    }
+                    if (directiveFound) continue;
                     
                     const firstCharJS = remaining[0];
-                    if(remaining.startsWith('/*')){html+=_w('/*','comment');i+=2;currentState.contextStack.push({mode:'comment',terminator:'*/'});}
-                    else if(remaining.startsWith('//')){html+=_w(remaining,'comment');i=line.length;}
-                    else if(firstCharJS==='`'){html+=_w('`','string');i++;currentState.contextStack.push({mode:'template_literal',terminator:'`'});}
-                    else if(firstCharJS==="'"||firstCharJS==='"'){html+=_w(firstCharJS,'string');i++;currentState.contextStack.push({mode:'string',terminator:firstCharJS});}
-                    else if(_isWS(firstCharJS)){html+=firstCharJS;i++;}
-                    else if(_isIS(firstCharJS)){let b='',p=i;while(p<line.length&&_isIP(line[p]))b+=line[p++];if(currentState.isNextTokenFunctionName){html+=_w(b,'functionName');currentState.isNextTokenFunctionName=false;}else if(b==='function'){html+=_w(b,'controlKeyword');currentState.isNextTokenFunctionName=true;}else if(ctlK.has(b))html+=_w(b,'controlKeyword');else if(defK.has(b))html+=_w(b,'definitionKeyword');else if(_isFC(p))html+=_w(b,'functionName');else html+=_w(b,'variable'); i=p;}
-                    else if(_isD(firstCharJS)){let b='',p=i;while(p<line.length&&(_isD(line[p])||line[p]==='.'))b+=line[p++];html+=_w(b,'number');i=p;}
-                    else {currentState.isNextTokenFunctionName=false;html+=_e(firstCharJS);i++;}
+                    if (remaining.startsWith('/*')) { html += _w('/*', 'comment'); i += 2; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
+                    else if (remaining.startsWith('//')) { html += _w(remaining, 'comment'); i = line.length; }
+                    else if (firstCharJS === '`') { html += _w('`', 'string'); i++; currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); }
+                    else if (firstCharJS === "'" || firstCharJS === '"') { html += _w(firstCharJS, 'string'); i++; currentState.contextStack.push({ mode: 'string', terminator: firstCharJS }); }
+                    else if (_isWS(firstCharJS)) { html += firstCharJS; i++; }
+                    else if (_isIS(firstCharJS)) {
+                        let buffer = '', p = i;
+                        while (p < line.length && _isIP(line[p])) buffer += line[p++];
+                        if (currentState.isNextTokenFunctionName) { html += _w(buffer, 'functionName'); currentState.isNextTokenFunctionName = false; }
+                        else if (buffer === 'function') { html += _w(buffer, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
+                        else if (ctlK.has(buffer)) html += _w(buffer, 'controlKeyword');
+                        else if (defK.has(buffer)) html += _w(buffer, 'definitionKeyword');
+                        else if (_isFC(p)) html += _w(buffer, 'functionName');
+                        else html += _w(buffer, 'variable');
+                        i = p;
+                    } else if (_isD(firstCharJS)) {
+                        let buffer = '', p = i;
+                        while (p < line.length && (_isD(line[p]) || line[p] === '.')) buffer += line[p++];
+                        html += _w(buffer, 'number'); i = p;
+                    } else {
+                        currentState.isNextTokenFunctionName = false;
+                        html += _e(firstCharJS); i++;
+                    }
                     break;
             }
-            if(i===i_before&&i<line.length){console.error("Failsafe triggered:",context,line[i]);i++;}
+
+            // --- The Ultimate Failsafe ---
+            // If after all that logic, we haven't advanced, we force it.
+            // This prevents an infinite loop and is the source of your "Failsafe triggered" error.
+            // A perfected parser should never need this, but it is the final guard against the abyss.
+            if (i === i_before && i < line.length) {
+                console.error("Failsafe triggered:", context, line[i]);
+                i++; 
+            }
         }
-    } catch(e){html=_e(line);console.error("Highlighter catastrophy:",e);}
-    return{html:html||'&nbsp;',state:currentState};
+    } catch (e) {
+        // If any unforeseen catastrophe occurs, render the line raw and log the error.
+        // The vessel will bend, but it will not break.
+        html = _e(line);
+        console.error("Highlighter catastrophy:", e);
+    }
+
+    return { html: html || '&nbsp;', state: currentState };
 }
 
 
