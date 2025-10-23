@@ -399,6 +399,12 @@ _findMatchingBrace(line, startIndex = 0) {
  * @description The master parser for the JavaScript world and its many nested realities.
  * It manages the context stack for comments, templates, and interpolations.
  */
+/**
+ * @private
+ * @function _highlightJS
+ * @description The master parser for the JavaScript world and its many nested realities.
+ * It manages the context stack for comments, templates, and interpolations.
+ */
 _highlightJS(line, state) {
     const currentState = state;
     let html = '';
@@ -415,7 +421,7 @@ _highlightJS(line, state) {
             if (endIdx !== -1) {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
                 i += endIdx + 2;
-                currentState.contextStack.pop(); // Exit comment world
+                currentState.contextStack.pop();
             } else {
                 html += this._wrap(remaining, 'comment');
                 break;
@@ -430,7 +436,7 @@ _highlightJS(line, state) {
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 const contentBefore = remaining.substring(0, interpolationStart);
-                if (context.mode === 'tagged_template') {
+                if (context.mode === 'tagged_template' && context.language) {
                     const subResult = this._getHighlightResult(contentBefore, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
@@ -438,10 +444,10 @@ _highlightJS(line, state) {
                 }
                 html += this._wrap('${', 'keyword');
                 i += interpolationStart + 2;
-                currentState.contextStack.push({ mode: 'js' }); // Enter the nested JS world
+                currentState.contextStack.push({ mode: 'js' });
             } else if (templateEnd !== -1) {
                 const content = remaining.substring(0, templateEnd);
-                if (context.mode === 'tagged_template') {
+                if (context.mode === 'tagged_template' && context.language) {
                      const subResult = this._getHighlightResult(content, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
@@ -449,9 +455,9 @@ _highlightJS(line, state) {
                 }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
-                currentState.contextStack.pop(); // Exit the template string world
+                currentState.contextStack.pop();
             } else {
-                if (context.mode === 'tagged_template') {
+                if (context.mode === 'tagged_template' && context.language) {
                     const subResult = this._getHighlightResult(remaining, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
@@ -476,7 +482,7 @@ _highlightJS(line, state) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx === -1) {
                 html += this._wrap(remaining, 'comment');
-                currentState.contextStack.push({ mode: 'js_comment' }); // Enter comment world
+                currentState.contextStack.push({ mode: 'js_comment' });
                 break;
             } else {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
@@ -490,7 +496,7 @@ _highlightJS(line, state) {
             break;
         }
 
-        const firstChar = remaining;
+        const firstChar = remaining[0];
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) {
@@ -506,22 +512,24 @@ _highlightJS(line, state) {
         if (firstChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
-            currentState.contextStack.push({ mode: 'plain_template' }); // Enter template world
+            currentState.contextStack.push({ mode: 'plain_template' });
             continue;
         }
         
         if (firstChar === '}') {
-            if (currentState.contextStack.length > 1) {
+            if (currentState.contextStack.length > 1) { // Only pop if we're in a nested context
                 html += this._wrap('}', 'keyword');
                 i++;
-                currentState.contextStack.pop(); // Exit nested JS world
+                currentState.contextStack.pop();
                 continue;
             }
         }
 
         const wordMatch = remaining.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/);
         if (wordMatch) {
-            const word = wordMatch;
+            // *** FIX #1 APPLIED HERE ***
+            // We must use wordMatch[0], which is the matched string, not the whole array.
+            const word = wordMatch[0];
             if (keywords.has(word)) {
                 html += this._wrap(word, 'keyword');
             } else {
@@ -533,11 +541,16 @@ _highlightJS(line, state) {
         
         const numMatch = remaining.match(/^-?\d+(\.\d+)?/);
         if (numMatch) {
-            html += this._wrap(numMatch, 'number');
-            i += numMatch.length;
+            // *** FIX #2 APPLIED HERE ***
+            // We must use numMatch[0] for the same reason.
+            const numStr = numMatch[0];
+            html += this._wrap(numStr, 'number');
+            i += numStr.length;
             continue;
         }
         
+        // *** FIX #3 APPLIED HERE ***
+        // Default fallback: process one character at a time to ensure progress.
         html += this._escape(firstChar);
         i++;
     }
