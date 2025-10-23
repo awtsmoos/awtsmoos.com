@@ -351,25 +351,21 @@ constructor(textarea, language = 'js', customColors = {}) {
     // B"H
 /**
  * @private @function _getJSToken
- * @description The Rectified Soul of JavaScript, Version 2.
- * This soul has been granted contextual awareness. When it exists within a bounded world
- * (like a <script> tag), it constantly seeks the boundary (`</script>`). If the boundary is
- * on the current line, it will only parse the code BEFORE that boundary, then gracefully yield.
- * This is the core fix for the unclosed script tag bug.
+ * @description The Rectified Soul of JavaScript, Version 3.
+ * This soul has been given the final piece of wisdom: awareness of its own reflection.
+ * It now recognizes the `/*js*/` directive, allowing it to parse JavaScript embedded
+ * within another JavaScript template string with perfect clarity. It also retains its
+ * contextual awareness of boundaries like `</script>`.
  */
 _getJSToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // --- The New Contextual Awareness ---
-    // If this JS world is bounded by a terminator, we must first look for that boundary.
+    // --- Contextual Awareness for Boundaries (`</script>`) ---
     if (context.terminator) {
         const boundaryIndex = line.toLowerCase().indexOf(context.terminator, i);
         if (boundaryIndex !== -1) {
-            // The boundary exists on this line. We must not parse past it.
-            // We create a temporary sub-parser to highlight just this final fragment.
             const fragment = line.substring(i, boundaryIndex);
             let tempHtml = '', k = 0;
-            // The sub-parser runs in a pure, unbounded JS world.
             let tempState = { ...this._getInitialState(), contextStack: [{ mode: 'javascript' }] };
             while (k < fragment.length) {
                 const k_before = k;
@@ -378,20 +374,25 @@ _getJSToken(line, i, state) {
                 k = res.newIndex;
                 if (k === k_before) { tempHtml += this._escape(fragment[k++]); }
             }
-            // We return the highlighted fragment and move the index TO the boundary.
-            // The main loop will then see `</script>` and exit the context correctly.
             return { html: tempHtml, newIndex: boundaryIndex };
         }
     }
 
-    // --- If no boundary is found on this line, proceed with normal JS parsing. ---
-    const directives = [{ tag: '/*html*/`', lang: 'html' }, { tag: '/*css*/`', lang: 'css' }];
+    // --- The Rectified Directive Logic ---
+    // The `/*js*/` directive is now understood, enabling perfect recursive highlighting.
+    const directives = [
+        { tag: '/*html*/`', lang: 'html' },
+        { tag: '/*css*/`', lang: 'css' },
+        { tag: '/*js*/`', lang: 'javascript' } // THIS LINE IS THE FIX
+    ];
     for (const d of directives) {
         if (line.substring(i).startsWith(d.tag)) {
             state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
             return { html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'), newIndex: i + d.tag.length };
         }
     }
+
+    // --- Standard JS Token Parsing (Unchanged) ---
     if (line.substring(i, i + 2) === '/*') {
         state.contextStack.push({ mode: 'comment', terminator: '*/' });
         return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
@@ -436,6 +437,9 @@ _getJSToken(line, i, state) {
     state.isNextTokenFunctionName = false;
     return { html: this._escape(char), newIndex: i + 1 };
 }
+
+
+
 
 
 
@@ -622,48 +626,62 @@ _getHTMLToken(line, i, state) {
  * This centralization ensures that contexts (like entering a <script> tag from within an
  * HTML template string) are pushed onto the one, persistent state stack and are never lost.
  */
+/**
+ * @private @function _getToken
+ * @description Da'at (Knowledge). The Rectified Universal Soul, Version 4.
+ * This final version perfects the logic of delegation. It now understands that when it enters
+ * a `javascript_interpolation` context (`${...}`), the soul responsible for parsing the content
+ * is the JavaScript soul itself. It also recognizes the new `template_language_javascript`
+ * state, completing the circle of recursive awareness. This is the final and definitive fix.
+ */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // 1. The Highest Law: Can we return from the current reality? (Check for terminators)
+    // 1. The Highest Law: Check for terminators to exit a context.
     if (context.terminator && line.substring(i).toLowerCase().startsWith(context.terminator.toLowerCase())) {
         const terminatorLength = context.terminator.length;
         const actualTerminator = line.substring(i, i + terminatorLength);
-        let type = 'string'; // Default for quotes, backticks
+        let type = 'string';
         if (context.mode.includes('comment')) type = 'comment';
         if (context.mode.includes('interpolation')) type = 'controlKeyword';
-        if (context.terminator.startsWith('</')) type = 'tag'; // e.g., </script> is a tag
+        if (context.terminator.startsWith('</')) type = 'tag';
 
         state.contextStack.pop();
         return { html: this._wrap(actualTerminator, type), newIndex: i + terminatorLength };
     }
 
-    // 2. The Law of Template Worlds: Can we enter a nested JS reality? (Check for interpolation)
+    // 2. The Law of Template Worlds: Check for interpolation to enter a nested JS context.
     if (context.mode.startsWith('template_') && line.substring(i).startsWith('${')) {
         state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
         return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
     }
 
-    // 3. The Law of Delegation: Ask the specialized soul for the current world what it sees.
+    // 3. The Law of Delegation: Ask the correct specialized soul what it sees.
     const mode = context.mode;
 
-    // Handle language-aware template strings by delegating directly
+    // --- The Rectified Delegation Logic ---
     if (mode.startsWith('template_language_html')) return this._getHTMLToken(line, i, state);
     if (mode.startsWith('template_language_css')) return this._getCssToken(line, i, state);
+    // This new line teaches it to handle /*js*/`...` templates:
+    if (mode.startsWith('template_language_javascript')) return this._getJSToken(line, i, state);
 
-    // Handle all other contexts
     switch (mode) {
-        case 'javascript': return this._getJSToken(line, i, state);
-        case 'html': return this._getHTMLToken(line, i, state);
-        case 'css': return this._getCssToken(line, i, state);
+        // This is the CRITICAL FIX: It now knows that code inside ${...} IS JavaScript.
+        case 'javascript':
+        case 'javascript_interpolation':
+            return this._getJSToken(line, i, state);
+        case 'html':
+            return this._getHTMLToken(line, i, state);
+        case 'css':
+            return this._getCssToken(line, i, state);
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
             return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
         }
-        case 'string': return this._getStringToken(line, i, state);
+        case 'string':
+            return this._getStringToken(line, i, state);
         case 'template_literal': {
-            // For a plain template literal, the content is a string until the next boundary
             let content = '', p = i;
             while (p < line.length) {
                 if (line[p] === '\\' && p + 1 < line.length) { content += line.substring(p, p + 2); p += 2; continue; }
@@ -672,9 +690,14 @@ _getToken(line, i, state) {
             }
             return { html: this._wrap(content, 'string'), newIndex: p };
         }
-        default: return { html: this._escape(line[i]), newIndex: i + 1 };
+        default:
+            return { html: this._escape(line[i]), newIndex: i + 1 };
     }
 }
+
+
+
+
 
 
     
