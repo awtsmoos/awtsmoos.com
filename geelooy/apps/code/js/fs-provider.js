@@ -488,8 +488,7 @@ It then simply checks if the calculated parent path matches the `path` we are tr
 
     async delete(item) {
         const { repoInfo, branch, path, name } = item;
-        UI.showLoading(`Deleting '${name}' from GitHub...`);
-
+        
         if (item.kind === 'file') {
             const message = `B"H - Delete '${name}'`;
             const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
