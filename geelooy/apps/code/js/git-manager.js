@@ -88,10 +88,13 @@ At ${new Date()}`;
     /**
      * Compares the IndexedDB state with the original cloned tree to find changes.
      */
+    // B"H
+// FILE: js/git-manager.js
+
+// REPLACE the existing calculateDiff method with this one.
     async calculateDiff(workspace) {
-        // We need to list all files in the IndexedDB workspace to compare.
-        // This requires a new, recursive list method in the IndexedDB provider.
-        const localFiles = await FileSystemProvider.IndexedDB.listAllFiles(workspace);
+        // Now uses the abstract provider method, works for any workspace type.
+        const localFiles = await FileSystemProvider.listAllFiles(workspace);
         const remoteTree = workspace.remoteTree; // Stored during clone
 
         const localFileMap = new Map(localFiles.map(f => [f.path, f]));
@@ -99,26 +102,27 @@ At ${new Date()}`;
 
         const changeSet = { creations: [], updates: [], deletions: [] };
 
-        // Check for creations and updates
-        for (const [path, localFile] of localFileMap.entries()) {
-            const remoteFile = remoteFileMap.get(path);
-            const content = await FileSystemProvider.IndexedDB.read(localFile);
-            
-            if (!remoteFile) {
-                changeSet.creations.push({ path, content });
+        // Process creations and updates by reading from the local workspace
+        for (const localFilePath of localFileMap.keys()) {
+            // Reconstruct the full item to pass to the provider's read method
+            const itemToRead = { ...workspace, path: localFilePath };
+            const content = await FileSystemProvider.read(itemToRead);
+
+            if (!remoteFileMap.has(localFilePath)) {
+                changeSet.creations.push({ path: localFilePath, content });
             } else {
-                // This is a simplified check. A true Git diff would compare hashes.
-                // For our purpose, we'll need to read remote content and compare.
-                // For now, we'll assume any existing file in local that isn't identical is an update.
-                // A full implementation would be much more complex. We'll commit all local files for simplicity.
-                changeSet.updates.push({ path, content });
+                // A more robust solution would compare content hashes (SHAs).
+                // For this implementation, we assume any file present locally that was
+                // also present remotely is a potential update. The Git Tree API
+                // will ultimately ignore files with identical content.
+                changeSet.updates.push({ path: localFilePath, content });
             }
         }
         
-        // Check for deletions
-        for (const [path, remoteFile] of remoteFileMap.entries()) {
-            if (!localFileMap.has(path)) {
-                changeSet.deletions.push({ path });
+        // Process deletions
+        for (const remoteFilePath of remoteFileMap.keys()) {
+            if (!localFileMap.has(remoteFilePath)) {
+                changeSet.deletions.push({ path: remoteFilePath });
             }
         }
 
