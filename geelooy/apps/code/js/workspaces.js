@@ -50,7 +50,7 @@ export const Workspaces = {
         const isExpanded = State.expandedFolders.has(uniquePath);
         if (isExpanded) wsRoot.classList.add('expanded');
 
-        const icon = ws.isClone ? 'brain-circuit' : 
+        const icon = ws.isClone ? 'git-folder' : 
                      ws.type === 'local' ? 'laptop' : 
                      ws.type === 'github' ? 'github' : 'brain';
 
