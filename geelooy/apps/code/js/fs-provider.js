@@ -459,6 +459,34 @@ It then simply checks if the calculated parent path matches the `path` we are tr
             });
         },
         
+        async _deletePathRecursively(repoInfo, branch, path) {
+            // 1. Get the list of items inside the folder. This call is correct.
+            const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+    
+            // 2. Process all deletions SEQUENTIALLY to avoid race conditions.
+            for (const item of contents) {
+                UI.showLoading(`Deleting: ${item.path}`);
+                if (item.type === 'file') {
+                    // --- THE CRITICAL FIX ---
+                    // The 'item' from the 'contents' API call already contains the 'sha' needed for deletion.
+                    // We do NOT need to make another API call to get the blob content.
+                    await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
+                        method: 'DELETE',
+                        body: JSON.stringify({ 
+                            message: `B"H - Delete '${item.name}'`, 
+                            sha: item.sha, // Use the SHA directly from the item
+                            branch 
+                        })
+                    });
+                    // --- END FIX ---
+                } else if (item.type === 'dir') {
+                    // Recurse into the subdirectory.
+                    await this._deletePathRecursively(repoInfo, branch, item.path);
+                }
+            }
+        },
+    
+        
 
     async delete(item) {
             const { repoInfo, branch, path, name } = item;
