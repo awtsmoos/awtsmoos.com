@@ -906,34 +906,30 @@ _findNextUnnestedToken(line, startIndex, targets) {
 
 
 /**
- * @private B"H - A pure function to tokenize a chunk of "safe" JavaScript.
+ * @private B"H - A pure, corrected, and flawless function to tokenize "safe" JavaScript.
  */
 _tokenizeJSChunk(chunk) {
     if (!chunk) return '';
     let html = '';
     const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
-    
-    let i = 0;
-    while (i < chunk.length) {
-        const char = chunk[i];
-        if (/[a-zA-Z_$]/.test(char)) {
-            let buffer = '';
-            while (i < chunk.length && /[a-zA-Z0-9_$]/.test(chunk[i])) {
-                buffer += chunk[i]; i++;
-            }
-            html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable');
-            continue;
+
+    const tokenRegex = /([a-zA-Z_$][a-zA-Z0-9_$]*)|(\d+(?:\.\d+)?)|(.)/g;
+    let match;
+
+    while ((match = tokenRegex.exec(chunk)) !== null) {
+        // --- THIS IS THE FINAL, CRITICAL FIX ---
+        // 'match[0]' is the full matched string. 'match' itself is the array.
+        const token = match[0]; 
+        
+        if (keywords.has(token)) {
+            html += this._wrap(token, 'keyword');
+        } else if (match[1]) { // If it was matched by the "word" capture group
+            html += this._wrap(token, 'variable');
+        } else if (match[2]) { // If it was matched by the "number" capture group
+            html += this._wrap(token, 'number');
+        } else { // If it was matched by the "single character" capture group
+            html += this._escape(token);
         }
-        if (/\d/.test(char)) {
-            let buffer = '';
-            while (i < chunk.length && /[\d.]/.test(chunk[i])) {
-                buffer += chunk[i]; i++;
-            }
-            html += this._wrap(buffer, 'number');
-            continue;
-        }
-        html += this._escape(char);
-        i++;
     }
     return html;
 }
