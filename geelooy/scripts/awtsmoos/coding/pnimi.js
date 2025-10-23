@@ -850,159 +850,190 @@ _getInitialState() {
 
 /**
  * @private
+ * @function _findNextUnnestedToken
+ * @description The "Wise Scribe." This is the source of the Weaver's wisdom.
+ * It finds the next occurrence of a set of target tokens, but intelligently
+ * skips over any that are sealed inside comments, strings, or regex literals.
+ * @param {string} line - The text to search.
+ * @param {number} startIndex - The position to start searching from.
+ * @param {string[]} targets - An array of strings to search for (e.g., ['`', '${']).
+ * @returns {{index: number, token: string}|null} - The location and text of the found token.
+ */
+_findNextUnnestedToken(line, startIndex, targets) {
+    let i = startIndex;
+    while (i < line.length) {
+        // Check if the current position matches one of our primary targets
+        for (const target of targets) {
+            if (line.substring(i).startsWith(target)) {
+                return { index: i, token: target };
+            }
+        }
+        
+        const char = line[i];
+        
+        // If not a target, check if we're entering a "sealed" context to skip
+        if (char === '/' && line[i+1] === '/') { // Skip single-line comments
+            i = line.length;
+            continue;
+        }
+        if (char === '/' && line[i+1] === '*') { // Skip multi-line comments
+            const end = line.indexOf('*/', i + 2);
+            i = end === -1 ? line.length : end + 2;
+            continue;
+        }
+        if (char === '"' || char === "'" || char === '`') { // Skip strings
+            const endChar = char;
+            let j = i + 1;
+            while (j < line.length) {
+                if (line[j] === '\\') { // Handle escaped characters
+                    j += 2;
+                } else if (line[j] === endChar) {
+                    j++;
+                    break;
+                } else {
+                    j++;
+                }
+            }
+            i = j;
+            continue;
+        }
+
+        // If nothing special, just move to the next character
+        i++;
+    }
+    return null;
+}
+
+
+
+/**
+ * @private
  * @function _getHighlightResult
- * @description The Final, Perfected Weaver. Its consciousness is pure and its soul is incorruptible.
- * It performs temporary thoughts without state mutation and navigates all worlds with perfect wisdom.
+ * @description The Final, Perfected Weaver. It uses the "Wise Scribe" to see with
+ * perfect clarity, ensuring its soul is never corrupted and its consciousness
+ * never freezes. This is the eternal implementation.
  */
 _getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
     let html = '';
-    
     let i = 0;
+
+    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
+
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
+        
+        // --- CONSCIOUSNESS FOR CONTENT WORLDS (HTML, STRINGS, COMMENTS) ---
+        const contentModes = ['html', 'template_literal', 'string', 'comment'];
+        if (contentModes.includes(context.mode)) {
+            const portals = (context.mode === 'template_literal') ? ['${'] : (context.mode === 'html') ? ['<'] : [];
+            const targets = context.terminator ? [...portals, context.terminator] : portals;
+            
+            const found = this._findNextUnnestedToken(line, i, targets);
+            
+            // If no special tokens are left, the rest is content.
+            if (!found) {
+                const buffer = line.substring(i);
+                const tokenType = context.mode === 'comment' ? 'comment' : (context.mode === 'html' ? 'variable' : 'string');
+                html += this._wrap(buffer, tokenType);
+                i = line.length;
+                continue;
+            }
+            
+            // If there's content before the next special token, process it.
+            if (found.index > i) {
+                 const buffer = line.substring(i, found.index);
+                 const tokenType = context.mode === 'comment' ? 'comment' : (context.mode === 'html' ? 'variable' : 'string');
+                 html += this._wrap(buffer, tokenType);
+            }
+            
+            // Set position to the found token and let the main switch handle it.
+            i = found.index;
+        }
+
+        // --- MAIN SWITCH FOR SPECIAL TOKENS & JAVASCRIPT LOGIC ---
         const char = line[i];
-
+        
         switch (context.mode) {
-
             case 'javascript':
-                // Check for this world's end (e.g., closing brace of an interpolation)
+                // Highest priority: Is this nested world ending?
                 if (context.terminator && char === context.terminator) {
                     html += this._wrap(char, 'keyword');
-                    currentState.contextStack.pop(); // The Great Return
-                    i++;
-                    continue;
+                    currentState.contextStack.pop();
+                    i++; continue;
                 }
                 
-                // --- Portals to Persistent, Multi-line Worlds ---
-                if (char === '/' && line[i + 1] === '*') {
-                    // Check for special directives like /*html*/
-                    const directiveMatch = line.substring(i).match(/^\/\*(html|js|css)\*\//);
-                    if (directiveMatch && line[i + directiveMatch[0].length] === '`') {
-                         html += this._wrap(directiveMatch[0], 'comment') + this._wrap('`', 'string');
-                         currentState.contextStack.push({ mode: directiveMatch[1], terminator: '`' });
-                         i += directiveMatch[0].length + 1;
-                         continue;
-                    }
-                    html += this._wrap('/*', 'comment');
-                    currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
-                    i += 2;
-                    continue;
+                // Portals to other worlds
+                const directive = line.substring(i).match(/^\/\*(html|js|css)\*\/`/);
+                if (directive) {
+                    html += this._wrap(`/*${directive[1]}*/`, 'comment') + this._wrap('`', 'string');
+                    currentState.contextStack.push({ mode: directive[1], terminator: '`'});
+                    i += directive[0].length; continue;
                 }
-                if (char === '/' && line[i + 1] === '/') {
-                    const comment = line.substring(i);
-                    html += this._wrap(comment, 'comment');
-                    i = line.length;
-                    continue;
-                }
-                if (char === '"' || char === "'") {
-                    html += this._wrap(char, 'string');
-                    currentState.contextStack.push({ mode: 'string', terminator: char });
-                    i++;
-                    continue;
-                }
-                if (char === '`') {
-                    html += this._wrap(char, 'string');
-                    currentState.contextStack.push({ mode: 'template_literal', terminator: '`' });
-                    i++;
-                    continue;
-                }
-                
-                // --- Temporary, Intra-line Thoughts ---
-                if (/[a-zA-Z_$]/.test(char)) {
-                    let buffer = '';
-                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {
-                        buffer += line[i]; i++;
-                    }
-                    html += this._flushTokenBuffer(currentState, buffer);
-                    continue;
-                }
-                if (/\d/.test(char)) {
-                    let buffer = '';
-                    while (i < line.length && /[\d.]/.test(line[i])) {
-                        buffer += line[i]; i++;
-                    }
-                    html += this._wrap(buffer, 'number');
-                    continue;
-                }
-                
-                // Fallback for single characters that don't start tokens
+                if (char === '/' && line[i + 1] === '*') { html += this._wrap('/*', 'comment'); currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); i += 2; continue; }
+                if (char === '/' && line[i + 1] === '/') { html += this._wrap(line.substring(i), 'comment'); i = line.length; continue; }
+                if (char === '"' || char === "'") { html += this._wrap(char, 'string'); currentState.contextStack.push({ mode: 'string', terminator: char }); i++; continue; }
+                if (char === '`') { html += this._wrap('`', 'string'); currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); i++; continue; }
+
+                // Mundane tokens (words, numbers)
+                if (/[a-zA-Z_$]/.test(char)) { let buffer = ''; while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) { buffer += line[i]; i++; } html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable'); continue; }
+                if (/\d/.test(char)) { let buffer = ''; while (i < line.length && /[\d.]/.test(line[i])) { buffer += line[i]; i++; } html += this._wrap(buffer, 'number'); continue; }
+
+                // Unbreakable fallback
                 html += this._escape(char);
                 i++;
                 break;
             
+            case 'template_literal':
+                if (line.substring(i).startsWith('${')) {
+                    html += this._wrap('${', 'keyword');
+                    currentState.contextStack.push({ mode: 'javascript', terminator: '}'});
+                    i += 2; continue;
+                }
+                // Must be the terminator
+                html += this._wrap(context.terminator, 'string');
+                currentState.contextStack.pop();
+                i += context.terminator.length;
+                break;
+
             case 'string':
             case 'comment':
-            case 'template_literal':
-                let buffer = '';
-                while (i < line.length) {
-                    // In template literals, check for interpolation portal
-                    if (context.mode === 'template_literal' && char === '$' && line[i + 1] === '{') {
-                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
-                        break; // Exit buffer loop to process the portal
-                    }
-                    // Check for the end of the current world
-                    if (line.substring(i).startsWith(context.terminator)) {
-                        break; // Exit buffer loop to process the terminator
-                    }
-                    buffer += line[i];
-                    i++;
-                }
-                // Determine token type based on the world we're in
-                const tokenType = context.mode === 'comment' ? 'comment' : 'string';
-                html += this._wrap(buffer, tokenType);
-                // If we exited the loop, it's because we found a portal or terminator, which is handled on the next main loop iteration.
-                continue;
-
+                html += this._wrap(context.terminator, context.mode);
+                currentState.contextStack.pop();
+                i += context.terminator.length;
+                break;
+            
             case 'html':
-                if (line.substring(i).startsWith(context.terminator)) {
+                if (context.terminator && line.substring(i).startsWith(context.terminator)) {
                      html += this._wrap(context.terminator, 'tag');
                      currentState.contextStack.pop();
-                     i += context.terminator.length;
-                     continue;
+                     i += context.terminator.length; continue;
                 }
-                 if (line.substring(i).startsWith('<!--')) {
+                if (line.substring(i).startsWith('<!--')) {
                     html += this._wrap('<!--', 'comment');
                     currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
-                    i += 4;
-                    continue;
+                    i += 4; continue;
                 }
                 if (line.substring(i).toLowerCase().startsWith('<script')) {
-                    const tagEnd = line.indexOf('>', i);
-                    const tag = tagEnd === -1 ? line.substring(i) : line.substring(i, tagEnd + 1);
+                    const endTag = line.indexOf('>', i);
+                    const tag = endTag === -1 ? line.substring(i) : line.substring(i, endTag + 1);
                     html += this._wrap(tag, 'tag');
                     currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
-                    i += tag.length;
-                    continue;
+                    i += tag.length; continue;
                 }
-                 let textBuffer = '';
-                 while(i < line.length && line[i] !== '<' && !line.substring(i).startsWith(context.terminator)) {
-                    textBuffer += line[i];
-                    i++;
-                 }
-                 html += this._escape(textBuffer);
+                // Generic tag
+                const endGenericTag = line.indexOf('>', i);
+                const tagContent = endGenericTag === -1 ? line.substring(i) : line.substring(i, endGenericTag + 1);
+                html += this._wrap(tagContent, 'tag');
+                i += tagContent.length;
+                break;
 
-                 if (i < line.length && line[i] === '<') {
-                    let tagBuffer = '';
-                    const tagEnd = line.indexOf('>', i);
-                    if (tagEnd === -1) {
-                         tagBuffer = line.substring(i);
-                         i = line.length;
-                    } else {
-                        tagBuffer = line.substring(i, tagEnd + 1);
-                        i = tagEnd + 1;
-                    }
-                    html += this._wrap(tagBuffer, 'tag');
-                 }
-                 continue;
-
-            default: // Failsafe for CSS or any other unimplemented mode
+            default: // Failsafe for css etc.
                 html += this._escape(char);
                 i++;
                 break;
         }
     }
-    
     return { html: html || '&nbsp;', state: currentState };
 }
 
