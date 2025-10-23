@@ -352,6 +352,9 @@ _measureAndRender() {
     _highlightJS(line, state) {
     // Divine Guard: Do not process chaos.
     if (typeof line !== 'string') return { html: '&nbsp;', state };
+    
+    // Divine Guard: Do not process chaos. A state must always exist.
+    const currentState = state || this._getInitialState();
 
     const lang = {
         keywords: [
