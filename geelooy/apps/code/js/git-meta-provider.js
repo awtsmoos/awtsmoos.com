@@ -11,6 +11,12 @@ export const GitMetaProvider = {
      */
     
     // REPLACE your existing getGitInfoForFolder function with this one.
+    // B"H
+// FILE: js/git-meta-provider.js
+
+// ... inside the GitMetaProvider object ...
+
+    // REPLACE your existing getGitInfoForFolder function with this one.
     async getGitInfoForFolder(folderItem) {
         const ikarFilePath = folderItem.path === '/' 
             ? '/.awtsmoos-repo/ikar.js' 
@@ -19,25 +25,31 @@ export const GitMetaProvider = {
         const ikarFileItem = { ...folderItem, path: ikarFilePath, kind: 'file' };
 
         try {
+            // This 'content' could be a string OR a Blob/File object.
             const content = await FileSystemProvider.read(ikarFileItem);
             
-            // --- NEW, ROBUST PARSING LOGIC (NO REGEX) ---
-            // 1. Find the start of the object.
-            const objectStartIndex = content.indexOf('{');
+            // --- NEW, ROBUST CONTENT HANDLING ---
+            let textContent = '';
+            if (typeof content === 'string') {
+                textContent = content;
+            } else if (content instanceof Blob) {
+                // If we get a Blob or File, we must read its text content asynchronously.
+                textContent = await content.text();
+            } else {
+                // If we get nothing, we can't proceed.
+                return null;
+            }
+            // --- END NEW LOGIC ---
+
+            const objectStartIndex = textContent.indexOf('{');
             if (objectStartIndex === -1) {
                 console.warn("Found ikar.js but it did not contain a valid metadata object.", folderItem);
-                console. log("content:",content,"END");
                 return null;
             }
 
-            // 2. Isolate the object text from the rest of the file.
-            const jsonText = content.substring(objectStartIndex);
-            
-            // 3. Let the native, secure JSON parser do the heavy lifting.
+            const jsonText = textContent.substring(objectStartIndex);
             const gitInfo = JSON.parse(jsonText);
-            // --- END NEW LOGIC ---
 
-            // We still validate that the parsed object is one of ours.
             if (gitInfo && gitInfo.isClone === true) {
                 return gitInfo;
             } else {
@@ -46,9 +58,7 @@ export const GitMetaProvider = {
             }
 
         } catch (e) {
-        
             // This is the normal, expected case for any folder that is NOT a clone.
-            // We simply return null and do not log any warning.
             return null;
         }
     }
