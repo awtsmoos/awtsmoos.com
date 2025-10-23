@@ -994,19 +994,22 @@ _isFunctionCall(line, startIndex) {
  * correctly setting the initial language and state flags.
  */
 _getInitialState() {
-    // We ensure that `this.language` is valid, defaulting to 'javascript'.
-    // This prevents errors if the editor is initialized with a null or undefined language.
-    const initialMode = this.language || 'javascript';
+    let initialMode = this.language || 'javascript';
     
+    // --- The Tikkun of Identity ---
+    // We normalize the name to prevent the fatal 'js' vs 'javascript' error.
+    // The parser's soul now knows its true name, always.
+    if (initialMode === 'js') {
+        initialMode = 'javascript';
+    }
+
     return {
-        // The contextStack's first entry defines the reality of the entire file.
         contextStack: [{ mode: initialMode, terminator: null }],
-        
-        // This flag is essential for the JavaScript parser to distinguish between
-        // the 'function' keyword and the name of the function being declared.
         isNextTokenFunctionName: false
     };
-}/**
+}
+
+/**
  * @private
  * @function _getHighlightResult
  * @description The Final, Wise, and Rectified Consciousness. This master function
@@ -1014,7 +1017,7 @@ _getInitialState() {
  * and nested realities. It is architected for maximum fault-tolerance.
  */
 _getHighlightResult(line, state) {
-    // --- DIVINE FAILSAFE 1: Input Validation ---
+    // Failsafe 1: Input Validation
     if (typeof line !== 'string') {
         return { html: '&nbsp;', state: this._getInitialState() };
     }
@@ -1023,103 +1026,89 @@ _getHighlightResult(line, state) {
     let html = '';
     let i = 0;
 
-    // --- HELPER FUNCTIONS ---
+    // Helper functions remain self-contained
     const _escape = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const _wrap = (str, type) => `<span class="token-${type}">${_escape(str)}</span>`;
     const _isWhitespace = (char) => char === ' ' || char === '\t';
     const _isDigit = (char) => char >= '0' && char <= '9';
     const _isIdentifierStart = (char) => (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_' || char === '$';
     const _isIdentifierPart = (char) => _isIdentifierStart(char) || _isDigit(char);
-    const _isFunctionCall = (startIndex) => {
-        let k = startIndex;
-        while (k < line.length) { if (!_isWhitespace(line[k])) return line[k] === '('; k++; }
-        return false;
-    };
+    const _isFunctionCall = (startIndex) => { let k=startIndex; while(k<line.length){if(!_isWhitespace(line[k]))return line[k]==='(';k++;} return false; };
 
-    // --- Keyword Definitions ---
+    // Definitions
     const controlKeywords = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
     const definitionKeywords = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
-    
-    // --- Tikkun #2: The Scribe Remembers (Language Directives) ---
-    const directives = [
-        { tag: '/*html*/', lang: 'html' },
-        { tag: '/*css*/', lang: 'css' },
-        { tag: '/*js*/', lang: 'javascript' },
-    ];
+    const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
 
+    // Failsafe 2: The Unshatterable Vessel (Error Boundary)
     try {
         while (i < line.length) {
             const i_before_tick = i;
             const context = currentState.contextStack[currentState.contextStack.length - 1];
-            let remaining = line.substring(i);
+            const remaining = line.substring(i);
             const firstChar = remaining[0];
 
-            // --- Tikkun #1: The Master Key for Exiting Worlds (HTML Terminators) ---
-            // This logic is now PRIMARY. Before doing anything else, we check if we
-            // are in a sub-world (like JS inside HTML) that needs to terminate.
+            // --- PRIMARY LOGIC: The Master Key for Exiting Worlds ---
+            // This is now consulted first, ensuring we can always leave a sub-reality.
             if (context.terminator && context.terminator.startsWith('</')) {
-                // We must look for the terminator tag using HTML-aware logic.
-                // A simple `startsWith` is not enough, as it fails on whitespace.
                 const trimmedRemaining = remaining.trim();
                 if (trimmedRemaining.toLowerCase().startsWith(context.terminator)) {
                     const offset = remaining.indexOf(trimmedRemaining[0]);
-                    html += _escape(remaining.substring(0, offset)); // Add whitespace
-                    i += offset;
-                    
-                    const tagName = context.terminator.substring(2, context.terminator.length-1);
+                    html += _escape(remaining.substring(0, offset)); i += offset;
+                    const tagName = context.terminator.substring(2, context.terminator.length - 1);
                     html += _wrap('</', 'punctuation') + _wrap(tagName, 'tag') + _wrap('>', 'punctuation');
                     i += context.terminator.length;
                     currentState.contextStack.pop();
                     continue;
                 }
             }
-            
+
             // --- MASTER CONTEXT ROUTER ---
             switch (context.mode) {
-                case 'html':
+                case 'html': // --- The World of HTML ---
                     const tagStart = remaining.indexOf('<');
-                    if (tagStart === -1) { html += _escape(remaining); i = line.length; break; }
-                    html += _escape(line.substring(i, i + tagStart)); i += tagStart;
-                    const tagRemaining = line.substring(i);
-                    if (tagRemaining.startsWith('<!--')) { /* ...HTML comment logic as before... */ }
-                    else if (tagRemaining.startsWith('</')) { /* ...Closing tag logic as before... */ }
-                    else if (tagRemaining.startsWith('<')) {
-                        const end = tagRemaining.indexOf('>');
-                        const endPos = (end === -1) ? line.length : i + end + 1;
-                        let tagName = '', j = i + 1;
-                        while(j < endPos -1 && !_isWhitespace(line[j]) && line[j] !== '>') { tagName += line[j++]; }
-                        html += _wrap('<', 'punctuation') + _wrap(tagName, 'tag') + _escape(line.substring(j, endPos - 1)) + _wrap('>', 'punctuation');
-                        const lowerTagName = tagName.toLowerCase();
-                        
-                        // --- Tikkun #1 Continued: The Repaired Gateway ---
-                        // The flawed `indexOf` check is REMOVED. We ALWAYS enter the new
-                        // world when we see the opening tag. The Master Key logic above
-                        // is now responsible for getting us out.
-                        if (lowerTagName === 'script' || lowerTagName === 'style') {
-                             const endTag = `</${lowerTagName}>`;
-                             const newMode = (lowerTagName==='script') ? 'javascript' : 'css';
-                             currentState.contextStack.push({ mode: newMode, terminator: endTag });
-                        }
-                        i = endPos;
-                    }
+                    if(tagStart===-1){html+=_escape(remaining);i=line.length;break;}
+                    html+=_escape(line.substring(i,i+tagStart));i+=tagStart;
+                    const tagRem=line.substring(i);
+                    if(tagRem.startsWith('<!--')){const e=tagRem.indexOf('-->');if(e!==-1){html+=_wrap(tagRem.substring(0,e+3),'comment');i+=e+3;}else{html+=_wrap(tagRem,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'-->'});}}
+                    else if(tagRem.startsWith('</')){const e=tagRem.indexOf('>');const p=(e===-1)?line.length:i+e+1;const c=line.substring(i,p);const tN=c.substring(2,c.length-1);html+=_wrap('</','punctuation')+_wrap(tN,'tag')+_wrap('>','punctuation');i=p;}
+                    else if(tagRem.startsWith('<')){const e=tagRem.indexOf('>');const p=(e===-1)?line.length:i+e+1;let tN='',j=i+1;while(j<p-1&&!_isWhitespace(line[j])&&line[j]!=='>'){tN+=line[j++];}html+=_wrap('<','punctuation')+_wrap(tN,'tag')+_escape(line.substring(j,p-1))+_wrap('>','punctuation');const ltn=tN.toLowerCase();if(ltn==='script'||ltn==='style'){currentState.contextStack.push({mode:(ltn==='script'?'javascript':'css'),terminator:`</${ltn}>`});}i=p;}
                     break;
-                case 'css': /* ...CSS Logic as before... */ break;
-                default: // Javascript and its sub-realities
-                    if (context.terminator && remaining.startsWith(context.terminator)) { /* ...handles string/comment terminators... */ }
-                    if (context.mode === 'template_literal' && remaining.startsWith('${')) { /* ...handles interpolation... */ }
-                    if (context.mode !== 'javascript') { html += _escape(remaining); i = line.length; break; }
-                    
-                    // --- Tikkun #2 Continued: The Restored Memory ---
-                    let directiveFound = false;
-                    for (const directive of directives) {
-                        if (remaining.startsWith(directive.tag + '`')) {
-                            html += _wrap(directive.tag, 'comment') + _wrap('`', 'string');
-                            i += directive.tag.length + 1;
-                            currentState.contextStack.push({ mode: directive.lang, terminator: '`' });
-                            directiveFound = true;
-                            break;
-                        }
+                case 'css': // --- The World of CSS ---
+                    // Simple CSS handler. A full implementation would be a state machine itself.
+                    if(remaining.startsWith("/*")){const e=remaining.indexOf("*/");if(e!==-1){html+=_wrap(remaining.substring(0,e+2),'comment');i+=e+2;}else{html+=_wrap(remaining,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'*/'});}}
+                    else if(_isIdentifierStart(firstChar)||firstChar==='.'||firstChar==='#'||firstChar==='-'){let b='',p=i;while(p<line.length&&/[\w-.#]/.test(line[p])){b+=line[p++];}html+=_wrap(b,'tag');i=p;}
+                    else if(!_isWhitespace(firstChar)){html+=_wrap(firstChar,'punctuation');i++;}
+                    else{html+=firstChar;i++;}
+                    break;
+                default: // --- Javascript and its Sub-Realities ---
+                    // --- SLAYING THE TYRANT ---
+                    // The old tyrannical `if` is gone. We now process sub-realities intelligently.
+                    // HIGHEST PRIORITY: Look for the exit.
+                    if (context.terminator && remaining.startsWith(context.terminator)) {
+                        const tokenType = context.mode === 'comment' ? 'comment' : 'string';
+                        html += _wrap(context.terminator, tokenType); i += context.terminator.length;
+                        currentState.contextStack.pop();
+                        continue;
                     }
+                    if (context.mode.startsWith('template_literal') && remaining.startsWith('${')) {
+                        html += _wrap('${', 'controlKeyword'); i += 2;
+                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+                        continue;
+                    }
+                    // If in a sub-reality, consume text precisely until the terminator.
+                    if (context.mode !== 'javascript' && context.mode !== 'js') {
+                        const endIdx = context.terminator ? remaining.indexOf(context.terminator) : -1;
+                        const content = (endIdx === -1) ? remaining : remaining.substring(0, endIdx);
+                        const tokenType = context.mode.startsWith('template_literal') ? 'string' : context.mode;
+                        html += _wrap(content, tokenType);
+                        i += content.length;
+                        continue;
+                    }
+
+                    // --- If we are in PURE JS, look for entries into sub-realities. ---
+                    let directiveFound = false;
+                    for (const d of directives) { if (remaining.startsWith(d.tag + '`')) { html += _wrap(d.tag, 'comment') + _wrap('`', 'string'); i += d.tag.length + 1; currentState.contextStack.push({ mode: `template_literal_${d.lang}`, terminator: '`' }); directiveFound = true; break; } }
                     if (directiveFound) continue;
 
                     if (remaining.startsWith('/*')) { html += _wrap('/*', 'comment'); i += 2; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
@@ -1128,30 +1117,27 @@ _getHighlightResult(line, state) {
                     else if (firstChar === "'" || firstChar === '"') { html += _wrap(firstChar, 'string'); i++; currentState.contextStack.push({ mode: 'string', terminator: firstChar }); }
                     else if (_isWhitespace(firstChar)) { html += firstChar; i++; }
                     else if (_isIdentifierStart(firstChar)) {
-                        let buffer = '', p = i;
-                        while(p < line.length && _isIdentifierPart(line[p])) { buffer += line[p++]; }
-                        if (currentState.isNextTokenFunctionName) { html += _wrap(buffer, 'functionName'); currentState.isNextTokenFunctionName = false; }
-                        else if (buffer === 'function') { html += _wrap(buffer, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
-                        else if (controlKeywords.has(buffer)) { html += _wrap(buffer, 'controlKeyword'); }
-                        else if (definitionKeywords.has(buffer)) { html += _wrap(buffer, 'definitionKeyword'); }
-                        else if (_isFunctionCall(p)) { html += _wrap(buffer, 'functionName'); }
-                        else { html += _wrap(buffer, 'variable'); }
+                        let b = '', p = i; while (p < line.length && _isIdentifierPart(line[p])) b += line[p++];
+                        if (currentState.isNextTokenFunctionName) { html += _wrap(b, 'functionName'); currentState.isNextTokenFunctionName = false; }
+                        else if (b === 'function') { html += _wrap(b, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
+                        else if (controlKeywords.has(b)) html += _wrap(b, 'controlKeyword');
+                        else if (definitionKeywords.has(b)) html += _wrap(b, 'definitionKeyword');
+                        else if (_isFunctionCall(p)) html += _wrap(b, 'functionName');
+                        else html += _wrap(b, 'variable');
                         i = p;
                     }
-                    else if (_isDigit(firstChar)) {
-                        let buffer = '', p = i;
-                        while(p < line.length && (_isDigit(line[p]) || line[p]==='.')) { buffer += line[p++]; }
-                        html += _wrap(buffer, 'number'); i = p;
-                    }
+                    else if (_isDigit(firstChar)) { let b='',p=i;while(p<line.length&&(_isDigit(line[p])||line[p]==='.'))b+=line[p++];html+=_wrap(b,'number');i=p; }
                     else { currentState.isNextTokenFunctionName = false; html += _escape(firstChar); i++; }
                     break;
             }
-            if (i === i_before_tick && i < line.length) { /* Failsafe logic as before */ }
+
+            // Failsafe 3: The Guarantee of Progress
+            if (i === i_before_tick && i < line.length) { i++; }
         }
-    } catch (error) { /* Error boundary logic as before */ }
+    } catch (error) { html = _escape(line); }
+
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
 
 
