@@ -46,44 +46,50 @@ export const GitManager = {
      * Displays the dialog with status and commit options.
      * This version is updated to work with folders and gitInfo.
      */
-    async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet }) {
-        let statusHTML = `
-            <div class="git-status-line">
-                <span>Remote Status:</span>
-                <span class="status ${isBehind ? 'behind' : 'synced'}">
-                    ${isBehind ? `Behind. Please pull.` : 'In Sync'}
-                </span>
-            </div>
-            <div class="git-status-line">
-                <span>Local Status:</span>
-                <span class="status ${isAhead ? 'ahead' : 'synced'}">
-                    ${isAhead ? `${localChangesCount} change(s) detected` : 'No local changes'}
-                </span>
-            </div>
-        `;
+    // B"H
+// FILE: js/git-manager.js
 
-        if (isAhead) {
-            statusHTML += `<div class="changes-list"><strong>Changes:</strong><ul>`;
-            changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
-            changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
-            changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
-            statusHTML += `</ul></div>`;
-        }
+// ... inside the GitManager object ...
+
+    // REPLACE your existing showCommitDialog function with this one.
+    async showCommitDialog(clonedFolderItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet }) {
+        let statusHTML = `...`; // Your existing HTML generation is fine
 
         const commitMessage = `B"H\nBoruch Hashem!\nBiezras Hashem\nBlessed is He\nAt ${new Date()}`;
         
-        const commitResult = await UI.showDialog({
+        // --- NEW LOGIC FOR DYNAMIC BUTTONS ---
+        let okButtonText = '';
+        let okButtonAction = null;
+        let isOkButtonDestructive = false;
+
+        if (isBehind) {
+            okButtonText = 'Pull & Overwrite Local Changes';
+            okButtonAction = 'pull';
+            isOkButtonDestructive = true; // Make the button red
+        } else if (isAhead) {
+            okButtonText = 'Commit & Push Changes';
+            okButtonAction = 'commit';
+        }
+        // --- END NEW LOGIC ---
+
+        const dialogResult = await UI.showDialog({
             title: `Git Actions for ${clonedFolderItem.name}`,
             contentHTML: statusHTML,
-            hasTextarea: isAhead && !isBehind,
+            hasTextarea: isAhead && !isBehind, // Only show textarea if we can commit
             textareaContent: commitMessage,
-            okText: isAhead && !isBehind ? 'Commit & Push Changes' : '',
+            okText: okButtonText, // Use our dynamic text
             cancelText: 'Close'
         });
 
-        if (commitResult && isAhead && !isBehind) {
-            // Call the corrected performCommit function
-            await this.performCommit(clonedFolderItem, gitInfo, commitResult, changeSet);
+        // The dialog promise resolves with the input text OR just 'true' if no input.
+        // It resolves with 'null' if canceled.
+        if (dialogResult !== null) {
+            if (okButtonAction === 'commit') {
+                await this.performCommit(clonedFolderItem, gitInfo, dialogResult, changeSet);
+            } else if (okButtonAction === 'pull') {
+                // We now need to call a function to handle the pull.
+                FileOperations.pullAndOverwrite(clonedFolderItem, gitInfo);
+            }
         }
     },
 
