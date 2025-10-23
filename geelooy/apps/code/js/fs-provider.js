@@ -321,34 +321,27 @@ export const FileSystemProvider = {
         },
         // --- FIX ENDS HERE ---
     },
+    // B"H
+// FILE: js/fs-provider.js
+
+// ... inside the top-level FileSystemProvider object ...
+
     GitHub: {
-        // ... (GitHub implementation remains unchanged)
+        // --- YOUR ORIGINAL, WORKING METHODS (RESTORED) ---
         api: async (endpoint, options = {}) => {
             if (!State.githubToken) throw new Error("GitHub token not set.");
             const headers = {
              'Authorization': `Bearer ${State.githubToken}`, 
              'Accept': 'application/vnd.github+json', 
              'X-GitHub-Api-Version': '2022-11-28', 
-             
              ...options.headers 
              };
-             
              let fetchEndpoint = endpoint;
-        const method = options.method || 'GET';
-
-        if (method === 'GET') {
-            // We create a unique parameter using the current timestamp.
-            const cacheBuster = `_cb=${Date.now()}`;
-            // We correctly append it to the URL, whether it already has parameters or not.
-            if (fetchEndpoint.includes('?')) {
-                fetchEndpoint += `&${cacheBuster}`;
-            } else {
-                fetchEndpoint += `?${cacheBuster}`;
+            const method = options.method || 'GET';
+            if (method === 'GET') {
+                const cacheBuster = `_cb=${Date.now()}`;
+                fetchEndpoint += (fetchEndpoint.includes('?') ? '&' : '?') + cacheBuster;
             }
-        }
-        
-        
-             
             const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
             if (!response.ok) {
                 const err = await response.json().catch(() => ({ message: response.statusText }));
@@ -367,18 +360,11 @@ export const FileSystemProvider = {
         async read({ repoInfo, sha, name }) {
             const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
             if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
-
             const fileInfo = MimeUtil.getInfo(name);
-            
             if (fileInfo.type === 'text') {
                 return this.b64_to_utf8(blob.content);
             } else {
-                // For binary files, return an object with the data needed to build a data URL.
-                return {
-                    isBinary: true,
-                    base64Content: blob.content,
-                    mime: fileInfo.mime
-                };
+                return { isBinary: true, base64Content: blob.content, mime: fileInfo.mime };
             }
         },
         async write(item, content, commitMessage) {
@@ -392,7 +378,7 @@ export const FileSystemProvider = {
             const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
                 method: 'PUT',
                 body: JSON.stringify({ 
-                    message: commitMessage || `B"H ${"\n"} updated ${name}!`, 
+                    message: commitMessage || `B"H\nupdated ${name}!`, 
                     content: this.utf8_to_b64(content), sha: existingSha, branch 
                 })
             });
@@ -400,172 +386,83 @@ export const FileSystemProvider = {
         },
         async create({ repoInfo, branch, path }, name, kind) {
             const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
-            const message = `B"H${"\n"} create ${kind} '${name}'`;
+            const message = `B"H\ncreate ${kind} '${name}'`;
             await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
                 method: 'PUT',
                 body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
             });
         },
-        // B"H
-/**
-     * THIS IS THE NEW RECURSIVE DELETE HELPER.
-     * It lists the contents of a path and deletes them one-by-one.
-     */
-    async _deletePathRecursively(repoInfo, branch, path) {
-        // 1. Get the list of items inside the folder we want to delete.
-        const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-
-        // 2. Process all deletions concurrently for maximum speed.
-        await Promise.all(contents.map(async (item) => {
-            const message = `B"H - Delete '${item.name}'`;
-            if (item.type === 'file') {
-                // If it's a file, delete it directly.
-                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
-                    method: 'DELETE',
-                    body: JSON.stringify({ message, sha: item.sha, branch })
+        async _deletePathRecursively(repoInfo, branch, path) {
+            const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+            await Promise.all(contents.map(async (item) => {
+                const message = `B"H - Delete '${item.name}'`;
+                if (item.type === 'file') {
+                    await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
+                        method: 'DELETE', body: JSON.stringify({ message, sha: item.sha, branch })
+                    });
+                } else if (item.type === 'dir') {
+                    await this._deletePathRecursively(repoInfo, branch, item.path);
+                }
+            }));
+        },
+        async delete(item) {
+            const { repoInfo, branch, path, name } = item;
+            if (item.kind === 'file') {
+                const message = `B"H - Delete '${name}'`;
+                const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
+                    method: 'DELETE', body: JSON.stringify({ message, sha: fileData.sha, branch })
                 });
-            } else if (item.type === 'dir') {
-                // If it's another directory, recurse.
-                await this._deletePathRecursively(repoInfo, branch, item.path);
+            } else if (item.kind === 'directory') {
+                await this._deletePathRecursively(repoInfo, branch, path);
+            } else {
+                throw new Error(`Unsupported item type for deletion: ${item.kind}`);
             }
-        }));
-    },
+        },
 
-    /**
-     * THIS IS THE NEW, SIMPLIFIED 'delete' METHOD.
-     */
-    async delete(item) {
-        const { repoInfo, branch, path, name } = item;
-
-        if (item.kind === 'file') {
-            // Deleting a single file is the same as before.
-            const message = `B"H - Delete '${name}'`;
-            // The file's sha is not always on the 'item', so we get it fresh.
-            const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                method: 'DELETE',
-                body: JSON.stringify({ message, sha: fileData.sha, branch })
-            });
-        } else if (item.kind === 'directory') {
-            // For a directory, we simply call our new recursive helper.
-            // It will delete all contents, and the empty folder will vanish from Git.
-            await this._deletePathRecursively(repoInfo, branch, path);
-        } else {
-            throw new Error(`Unsupported item type for deletion: ${item.kind}`);
-        }
-    },
-    
-    
-    
-    /**
-     * Fetches the latest commit SHA for a given branch.
-     * Useful for checking if the local version is "behind" the remote.
-     */
-    async getLatestCommitSHA({ repoInfo, branch }) {
-        try {
+        // --- NEW AND CORRECTED METHODS FOR CLONING AND COMMITTING ---
+        async getLatestCommitSHA({ repoInfo, branch }) {
             const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
             return ref.object.sha;
-        } catch (e) {
-            console.error("Failed to get latest commit SHA", e);
-            throw e;
+        },
+        async getFullTree({ repoInfo, branch }) {
+            const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+            const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
+            
+            // THE FIX: Return an object with both the tree and the SHA
+            return {
+                sha: latestCommitSHA,
+                tree: treeData.tree.filter(node => node.type === 'blob')
+            };
+        },
+        async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
+            const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+            const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
+            const baseTreeSHA = latestCommit.tree.sha;
+            const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
+            const blobCreationPromises = filesToUpload.map(file => 
+                this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+                    method: 'POST', body: JSON.stringify({ content: this.utf8_to_b64(file.content), encoding: 'base64' })
+                }).then(blob => ({ path: file.path, sha: blob.sha }))
+            );
+            const createdBlobs = await Promise.all(blobCreationPromises);
+            const tree = [];
+            createdBlobs.forEach(blob => tree.push({ path: blob.path, mode: '100644', type: 'blob', sha: blob.sha }));
+            (changeSet.deletions || []).forEach(file => tree.push({ path: file.path, mode: '100644', type: 'blob', sha: null }));
+            const newTree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+                method: 'POST', body: JSON.stringify({ base_tree: baseTreeSHA, tree: tree })
+            });
+            const newCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+                method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
+            });
+            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+                method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
+            });
+            return newCommit.sha;
         }
     },
-    
-    /**
-     * Fetches a flat list of all files in the repository for a given branch.
-     * This is your "git fetch/clone" operation.
-     */
-    async getFullTree({ repoInfo, branch }) {
-        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
-        const tree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
-        
-        // The tree contains directories; we only care about files ("blobs").
-        return tree.tree.filter(node => node.type === 'blob');
-    },
 
-    /**
-     * Commits multiple file changes (creations, updates, deletions) in a single atomic commit.
-     * This is your "git add -> git commit -> git push" operation.
-     * 
-     * @param {object} changeSet - An object describing all the changes.
-     * @param {Array<object>} changeSet.creations - Files to add. e.g., [{ path: 'new/file.js', content: '...' }]
-     * @param {Array<object>} changeSet.updates - Files to modify. e.g., [{ path: 'path/to/file.js', content: '...' }]
-     * @param {Array<object>} changeSet.deletions - Files to remove. e.g., [{ path: 'path/to/delete.js' }]
-     */
-    async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
-        // 1. Get the current state: latest commit and its base tree
-        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
-        const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
-        const baseTreeSHA = latestCommit.tree.sha;
-
-        // 2. Create blobs for all new and updated files
-        // We run these API calls in parallel for better performance.
-        const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
-        const blobCreationPromises = filesToUpload.map(file => 
-            this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    content: this.utf8_to_b64(file.content),
-                    encoding: 'base64'
-                })
-            }).then(blob => ({ path: file.path, sha: blob.sha }))
-        );
-        const createdBlobs = await Promise.all(blobCreationPromises);
-
-        // 3. Construct the new tree definition
-        const tree = [];
-
-        // Add created/updated files to the tree
-        createdBlobs.forEach(blob => {
-            tree.push({
-                path: blob.path,
-                mode: '100644', // file
-                type: 'blob',
-                sha: blob.sha
-            });
-        });
-
-        // Mark deleted files in the tree by setting their SHA to null
-        (changeSet.deletions || []).forEach(file => {
-            tree.push({
-                path: file.path,
-                mode: '100644', // file
-                type: 'blob',
-                sha: null // This special value tells Git to remove the file
-            });
-        });
-
-        // 4. Create the new tree object
-        const newTree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST',
-            body: JSON.stringify({
-                base_tree: baseTreeSHA,
-                tree: tree
-            })
-        });
-
-        // 5. Create the new commit
-        const newCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST',
-            body: JSON.stringify({
-                message: commitMessage,
-                tree: newTree.sha,
-                parents: [latestCommitSHA]
-            })
-        });
-
-        // 6. Update the branch reference to point to the new commit
-        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-            method: 'PATCH', // Use PATCH for updates
-            body: JSON.stringify({
-                sha: newCommit.sha
-                // 'force: false' is default and recommended
-            })
-        });
-
-        console.log("Successfully committed changes with SHA:", newCommit.sha);
-        return newCommit.sha;
-    },
+// ... continue with your Local and IndexedDB providers ...
     
     
     
@@ -574,5 +471,5 @@ export const FileSystemProvider = {
 
 
 
-    }
+    
 };
