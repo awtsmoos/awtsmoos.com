@@ -28,14 +28,19 @@ export const UI = {
             }, duration);
         }, 10);
     },
+    // B"H
+// FILE: js/ui.js
+
+// REPLACE your existing showDialog method with this one.
     showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '' }) => {
         return new Promise(resolve => {
             const dialog = DOM.genericDialog;
+            // THE FIX: The outer div now has both a class and an ID of "dialog-content"
             dialog.innerHTML = `
-                <div class="dialog-content">
+                <div class="dialog-content" id="dialog-content">
                     <h3>${title}</h3>
                     ${message ? `<p>${message}</p>` : ''}
-                    <div id="dialog-content-slot">${contentHTML}</div>
+                    ${contentHTML}
                     ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
                     ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
                     <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
@@ -48,7 +53,6 @@ export const UI = {
             const textarea = dialog.querySelector('#dialog-textarea');
             const okBtn = dialog.querySelector('#dialog-ok-btn');
             const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
-            const contentSlot = dialog.querySelector('#dialog-content-slot');
 
             const cleanupAndResolve = (value) => {
                 dialog.classList.remove('visible');
@@ -61,11 +65,20 @@ export const UI = {
                 else if (e.key === 'Escape') { cancelBtn?.click(); }
             };
             
-            // This handles clicks inside the main dialog area, like on the workspace list
+            // This handles special clicks for things like the clone destination list
+            const contentSlot = dialog.querySelector('#dialog-content');
             contentSlot.onclick = (e) => {
-                const button = e.target.closest('button[data-ws-id]');
-                if (button) {
-                    cleanupAndResolve(button.dataset.wsId);
+                 // Check for clone destination buttons
+                const cloneButton = e.target.closest('button[data-ws-id]');
+                if (cloneButton) {
+                    cleanupAndResolve(cloneButton.dataset.wsId);
+                    return;
+                }
+                // Check for GitHub repo list buttons
+                const repoButton = e.target.closest('button[data-repo-full-name]');
+                if (repoButton) {
+                    // We don't resolve the promise here, we let the original handler in app.js do its job
+                    // This click will bubble up to the listeners you define in addGithubWorkspace
                 }
             };
             
