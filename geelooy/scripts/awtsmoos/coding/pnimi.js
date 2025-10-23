@@ -450,20 +450,45 @@ _findMatchingBrace(line, startIndex = 0) {
         const firstChar = remaining[0];
 
         // REALITY 1: Are we in a block reality?
+        // B"H
+// FILE: pnimi.js
+// ACTION: Replace the 'script_block' handler inside the _highlightJS method.
+
+        // REALITY 1: Are we in a block reality?
         if (context.mode === 'script_block') {
             const endTag = '</script>';
             const endIdx = remaining.toLowerCase().indexOf(endTag);
+            
+            // The Correction: Create a fresh, pure "soul" (state) for the sub-parser.
+            // This new state knows only of the JS world, preventing it from
+            // re-entering this same 'script_block' logic and causing an infinite recursion.
+            const subState = { contextStack: [{ mode: 'js' }] };
+
             if (endIdx !== -1) {
+                // The block ends on this line.
                 const content = remaining.substring(0, endIdx);
-                const result = this._highlightJS(content, currentState); // JS parser continues
-                html += result.html;
+
+                // 1. Highlight the JS content using the pure subState.
+                html += this._highlightJS(content, subState).html;
+
+                // 2. Manually highlight the closing tag.
                 html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
+                
+                // 3. Advance the main parser's position past the entire block.
                 i += endIdx + endTag.length;
-                currentState.contextStack.pop(); // The script_block world ends.
+                
+                // 4. The script_block world ends. Return to the previous reality.
+                currentState.contextStack.pop();
             } else {
-                html += this._highlightJS(remaining, currentState).html;
+                // The block does NOT end on this line.
+                // 1. Highlight the entire rest of the line as pure JavaScript.
+                html += this._highlightJS(remaining, subState).html;
+
+                // 2. Since we've processed the whole line, break the loop for this line.
+                // The 'script_block' state is preserved for the next line.
                 break;
             }
+            // We've handled this segment; continue the main while loop.
             continue;
         }
 
