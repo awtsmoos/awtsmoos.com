@@ -469,23 +469,39 @@ It then simply checks if the calculated parent path matches the `path` we are tr
                 }
             }));
         },
-        async delete(item) {
-            const { repoInfo, branch, path, name } = item;
-            if (item.kind === 'file') {
-                const message = `B"H - Delete '${name}'`;
-                const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                    method: 'DELETE', body: JSON.stringify({ message, sha: fileData.sha, branch })
+        
+        async _deletePathRecursively(repoInfo, branch, path) {
+        const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+        for (const item of contents) {
+            if (item.type === 'file') {
+                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ message: `B"H - Delete '${item.name}'`, sha: item.sha, branch })
                 });
-            } else if (item.kind === 'directory') {
-                await this._deletePathRecursively(repoInfo, branch, path);
-            } else {
-                throw new Error(`Unsupported item type for deletion: ${item.kind}`);
+            } else if (item.type === 'dir') {
+                await this._deletePathRecursively(repoInfo, branch, item.path);
             }
-        },
+        }
+    }
 
-        // --- NEW AND CORRECTED METHODS FOR CLONING AND COMMITTING ---
-        async getLatestCommitSHA({ repoInfo, branch }) {
+    async delete(item) {
+        const { repoInfo, branch, path, name } = item;
+        UI.showLoading(`Deleting '${name}' from GitHub...`);
+
+        if (item.kind === 'file') {
+            const message = `B"H - Delete '${name}'`;
+            const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
+                method: 'DELETE',
+                body: JSON.stringify({ message, sha: fileData.sha, branch })
+            });
+        } else if (item.kind === 'directory') {
+            await this._deletePathRecursively(repoInfo, branch, path);
+        } else {
+            throw new Error(`Unsupported item type for deletion: ${item.kind}`);
+        }
+    },
+    async getLatestCommitSHA({ repoInfo, branch }) {
             const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
             return ref.object.sha;
         },
