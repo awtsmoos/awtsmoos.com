@@ -326,11 +326,20 @@
         transform-origin: top left; animation: scaleUp var(--timing-fast) ease forwards;
     }
     #loading-overlay { 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); 
-        z-index: 9999; display: none; justify-content: center; align-items: center; 
-        color: var(--neon-cyan); font-size: 1.5em; backdrop-filter: blur(5px); 
+        position: fixed; 
+        top: 0; left: 0;
+         width: 100%; 
+         height: 100%; 
+         background: rgba(0,0,0,0.7); 
+        z-index: 9999; 
+        display: none; 
+        justify-content: center; 
+        align-items: center; 
+        color: var(--neon-cyan); 
+        font-size: 1.5em;
+         backdrop-filter: blur(5px); 
         text-shadow: 0 0 10px var(--glow-cyan);
-        
+        text-wrap:pre-wrap;
         letter-spacing: 2px;
     }
     .toast-container { 
