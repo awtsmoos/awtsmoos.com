@@ -50,38 +50,22 @@ async function _writeFile(fileNode, destinationDir) {
 // --- MAIN EXPORTED OBJECT (WITH MODIFICATIONS) ---
 export const FileOperations = {
     /**
-     * MODIFIED: Now checks for the special clone case first.
+     * NEW: This is the smart copy function that decides whether to copy or clone.
+     * It's not called directly by the menu; instead, the menu actions prepare the clipboard
+     * and this function could be a potential refactor target. For now, we will
+     * put the logic in a new `cloneOrCopy` function.
      */
-    copySelected() {
-        // --- NEW: SPECIAL CLONE LOGIC ---
-        // Check if exactly one item is selected, and if it's the root of a GitHub repo.
-        if (State.selectedItems.size === 1) {
-            const uniquePath = Array.from(State.selectedItems)[0];
-            const entry = State.domItemMap.get(uniquePath);
-            const item = entry?.item;
-            
-            if (item && item.type === 'github' && item.path === '/') {
-                // If the condition is met, trigger the clone workflow instead of the normal copy.
-                this.clone(item); 
-                SelectionManager.end(); // End selection mode after initiating clone.
-                return; // Stop the function here.
-            }
+    cloneOrCopy(item) {
+        // --- SMART LOGIC ---
+        // Check if the item is the root of a GitHub repo.
+        if (item && item.type === 'github' && item.path === '/') {
+            this.clone(item); // Trigger the clone workflow.
+        } else {
+            // --- REGULAR FILE COPY LOGIC ---
+            const uniquePath = getItemUniquePath(item);
+            State.fileClipboard = [uniquePath];
+            UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
         }
-
-        // --- ORIGINAL: REGULAR FILE COPY LOGIC (UNCHANGED) ---
-        // This code will only run if the special clone condition is not met.
-        if (State.selectedItems.size === 0) {
-            UI.showToast("No items to copy.", "info");
-            return;
-        }
-        const selectedPaths = Array.from(State.selectedItems);
-        const topLevelPaths = selectedPaths.filter(path => {
-            const parentPath = path.substring(0, path.lastIndexOf('/'));
-            return !selectedPaths.some(otherPath => parentPath.startsWith(otherPath) && otherPath !== path);
-        });
-        State.fileClipboard = topLevelPaths;
-        UI.showToast(`${topLevelPaths.length} top-level item(s) copied.`, 'success');
-        SelectionManager.end();
     },
 
     /**
@@ -133,10 +117,7 @@ export const FileOperations = {
                 await FileSystemProvider.write(destinationItem, content);
             }
 
-            // 5. Augment the *original destination workspace* with Git metadata
-            // In a more advanced app, this metadata would be tied to the new sub-folder.
-            // For now, we'll mark the whole workspace. A better approach is to modify the folder item itself.
-            // This part is complex. We will add the flag to the main workspace for now.
+            // 5. Augment the destination workspace with Git metadata
             destinationWs.isClone = true;
             destinationWs.repoInfo = sourceRepoItem.repoInfo;
             destinationWs.branch = sourceRepoItem.branch;
@@ -205,7 +186,7 @@ export const FileOperations = {
                     await _writeDirectoryTree(tree, destinationDir);
                 }
             }
-            UI.showToast(`Successfully pasted ${itemsTo paste.length} item(s)!`, "success");
+            UI.showToast(`Successfully pasted ${itemsToPaste.length} item(s)!`, "success");
         } catch (e) {
             const message = e?.message || "An unknown error occurred.";
             UI.showToast(`PASTE FAILED: ${message}`, 'error', 15000);
