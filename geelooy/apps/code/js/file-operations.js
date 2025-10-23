@@ -1,7 +1,7 @@
 // B"H
 // FILE: js/file-operations.js
 // This version intelligently combines the new clone functionality with your existing copy/paste.
-
+import { Tabs } from './tabs.js';
 import { State } from './state.js';
 import { UI } from './ui.js';
 import { Workspaces, getItemUniquePath } from './workspaces.js';
