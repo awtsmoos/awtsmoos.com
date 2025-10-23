@@ -164,9 +164,22 @@ export const FileSystemProvider = {
         /**
          * The 'read' method. It will now work because getHandle is correct.
          */
+        // B"H
+// FILE: js/fs-provider.js
+
+// ... inside the FileSystemProvider.Local object ...
+
+        // REPLACE your existing 'read' function with this one.
         async read({ handle, path }) {
-            const fileHandle = await this.getHandle(handle, path, { kind: 'file' });
-            // Returning the full File object is more versatile.
+            // --- THE FIX IS HERE ---
+            // The Local File System API expects paths relative to the root handle.
+            // Our app uses absolute paths like '/folder/file.js'.
+            // This line safely removes the leading '/' if it exists, making both formats work.
+            const relativePath = path.startsWith('/') ? path.substring(1) : path;
+            // --- END FIX ---
+            
+            // The rest of the function now uses the corrected relativePath.
+            const fileHandle = await this.getHandle(handle, relativePath, { kind: 'file' });
             return await fileHandle.getFile(); 
         },
         
