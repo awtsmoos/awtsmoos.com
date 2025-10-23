@@ -91,60 +91,92 @@ class VirtualizedEditor {
      * @param {string} [language='js'] - The initial language, defining the "laws of nature" for parsing.
      * @param {Object} [customColors={}] - Custom colors to override the default "hues of the Sefirot".
      */
-    constructor(textarea, language = 'js', customColors = {}) {
-        if (!textarea || textarea.tagName !== 'TEXTAREA') {
-            console.error('The vessel must be a TEXTAREA element.');
-            return;
-        }
-        
-               /** @private The new wrapper element that contains both the textarea and the overlay. */
-        this.wrapper = null; 
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE your `constructor` with this one.
 
-        /** @private The textarea element, the foundation (Yesod) of our world. */
-        this.textarea = textarea;
-        /** @private The current language, the "Torah" by which the text is judged. */
-        this.language = language;
-        /** @private An array of strings, the text broken into lines, like verses. */
-        this.lines = [];
-        /** @private The height of a single line, the fundamental measure of our vertical world. */
-        this.lineHeight = 0;
-        /** @private The DOM elements used as a canvas for our highlighted lines. */
-        this.viewportDivs = [];
-        /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = this._getInitialState()
-        
-        /** @private The DOM element for our simulated caret. */
-        this.caret = null;
-        /** @private The measured width of a single character. */
-        this.charWidth = 0;
-        
-        /** @private The default colors, the 10 Sefirot manifested as light. */
-        const defaultColors = {
-    // VS Code "Dark+" Theme Inspired Colors
-    comment: '#6A9955',          // Green
-    string: '#CE9178',           // Orange
-    number: '#B5CEA8',           // Light Green/Blue
-    
-    // -- NEW CATEGORIES --
-    controlKeyword: '#C586C0',   // Pink/Magenta (for import, async, if, etc.)
-    definitionKeyword: '#569CD6',// Blue (for const, var, class, etc.)
-    functionName: '#DCDCAA',     // Yellow (for function names and calls)
-    
-    // -- STANDARD TOKENS --
-    variable: '#9CDCFE',         // Light Blue (for variables, parameters)
-    operator: '#D4D4D4',         // Light Gray/White
-    punctuation: '#808080',      // Gray
-    tag: '#569CD6',              // Blue
-    attribute: '#9CDCFE',        // Light Blue
-    property: '#D4D4D4'          // Light Gray/White (e.g., object properties)
-};
-        /** @private The final colors, merging the divine and the mundane. */
-        this.colors = { ...defaultColors, ...customColors };
-
-        this._initializeVessels();
-        this._attachEventListeners();
-        this._measureAndRender();
+constructor(textarea, language = 'js', customColors = {}) {
+    if (!textarea || textarea.tagName !== 'TEXTAREA') {
+        console.error('The vessel must be a TEXTAREA element.');
+        return;
     }
+    
+    this.wrapper = null;
+    this.textarea = textarea;
+    this.language = language;
+    this.lines = [];
+    this.lineHeight = 0;
+    this.viewportDivs = [];
+    this.parserState = this._getInitialState()
+    this.caret = null;
+    this.charWidth = 0;
+    
+    // --- The Tikkun of Adornment ---
+    // New colors for a more sophisticated understanding of HTML and CSS.
+    const defaultColors = {
+        comment: '#6A9955',
+        string: '#CE9178',
+        number: '#B5CEA8',
+        controlKeyword: '#C586C0',
+        definitionKeyword: '#569CD6',
+        functionName: '#DCDCAA',
+        variable: '#9CDCFE',
+        operator: '#D4D4D4',
+        punctuation: '#808080',
+        tag: '#569CD6',
+        
+        // -- NEW TOKENS for HTML and CSS --
+        'attribute-name': '#9CDCFE',  // Light Blue (like variables)
+        'attribute-value': '#CE9178', // Orange (like strings)
+        selector: '#D7BA7D',           // Gold
+        property: '#9CDCFE',          // Light Blue
+    };
+
+    this.colors = { ...defaultColors, ...customColors };
+    this._initializeVessels();
+    this._attachEventListeners();
+    this._measureAndRender();
+}
+
+// B"H
+/**
+     * @private
+     * @function _applyColors
+     * @description Tiferet (Beauty) - The harmonization of colors.
+     * This function injects the CSS styles into the document's head, translating the abstract color
+     * values into beautiful, visible rules that the browser can understand and render.
+     */
+_applyColors() {
+    const styleEl = document.createElement("style");
+    styleEl.id = this.styleId + "-style";
+    const caretColor = getComputedStyle(this.textarea).color || 'white';
+
+    // CSS rules are expanded to render our new, sophisticated tokens.
+    styleEl.innerHTML = `
+        .token-comment { color: ${this.colors.comment}; }
+        .token-string { color: ${this.colors.string}; }
+        .token-number { color: ${this.colors.number}; }
+        .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
+        .token-definitionKeyword { color: ${this.colors.definitionKeyword}; }
+        .token-functionName { color: ${this.colors.functionName}; }
+        .token-variable { color: ${this.colors.variable}; }
+        .token-operator { color: ${this.colors.operator}; }
+        .token-punctuation { color: ${this.colors.punctuation}; }
+        .token-tag { color: ${this.colors.tag}; }
+
+        /* --- Styles for our new soulful parsers --- */
+        .token-attribute-name { color: ${this.colors['attribute-name']}; }
+        .token-attribute-value { color: ${this.colors['attribute-value']}; }
+        .token-selector { color: ${this.colors.selector}; }
+        .token-property { color: ${this.colors.property}; }
+
+        .virtualized-editor-caret { position: absolute; display: none; background-color: ${caretColor}; width: 1px; animation: blink 1s steps(1) infinite; z-index: 10; pointer-events: none; }
+        @keyframes blink { 50% { background-color: transparent; } }
+    `;
+    const existingStyle = document.querySelector("#" + styleEl.id);
+    if (!existingStyle) { document.head.appendChild(styleEl); }
+    else { existingStyle.innerHTML = styleEl.innerHTML; }
+}
 
     _initializeVessels() {
         const computed = window.getComputedStyle(this.textarea);
@@ -210,54 +242,9 @@ class VirtualizedEditor {
         
     
 
-    /**
-     * @private
-     * @function _applyColors
-     * @description Tiferet (Beauty) - The harmonization of colors.
-     * This function injects the CSS styles into the document's head, translating the abstract color
-     * values into beautiful, visible rules that the browser can understand and render.
-     */
-    _applyColors() {
-        const styleEl = document.createElement("style");
-        styleEl.id = this.styleId + "-style";
-        
-        // --- MORE ROBUST CARET COLOR ---
-        const caretColor = getComputedStyle(this.textarea).color || 'white';
-
-        styleEl.innerHTML = `
-            
-            .token-comment { color: ${this.colors.comment}; }
-    .token-string { color: ${this.colors.string}; }
-    .token-number { color: ${this.colors.number}; }
-    .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
-    .token-definitionKeyword { color: ${this.colors.definitionKeyword}; }
-    .token-functionName { color: ${this.colors.functionName}; }
-    .token-variable { color: ${this.colors.variable}; }
-    .token-operator { color: ${this.colors.operator}; }
-    .token-punctuation { color: ${this.colors.punctuation}; }
-    .token-tag { color: ${this.colors.tag}; }
-    .token-attribute { color: ${this.colors.attribute}; }
-    .token-property { color: ${this.colors.property}; }
     
-            .virtualized-editor-caret {
-                position: absolute;
-                display: none; /* Controlled by JS */
-                background-color: ${caretColor};
-                width: 1px;
-                animation: blink 1s steps(1) infinite;
-                z-index: 10;
-                pointer-events: none;
-                /* No top/left here; we use transform for smoother animation */
-            }
-
-            @keyframes blink {
-                50% { background-color: transparent; }
-            }
-        `;
-        const existingStyle = document.querySelector("#" + styleEl.id);
-        if (!existingStyle) { document.head.appendChild(styleEl); }
-        else { existingStyle.innerHTML = styleEl.innerHTML; }
-    }
+    
+    
 
     /**
      * @private
@@ -1005,7 +992,10 @@ _getInitialState() {
 
     return {
         contextStack: [{ mode: initialMode, terminator: null }],
-        isNextTokenFunctionName: false
+        isNextTokenFunctionName: false,
+        // --- A Soul for CSS ---
+        // This new flag gives the CSS parser a memory of its context.
+        inCssRuleBlock: false 
     };
 }
 
@@ -1016,127 +1006,80 @@ _getInitialState() {
  * handles all language contexts with a corrected understanding of state transitions
  * and nested realities. It is architected for maximum fault-tolerance.
  */
+// B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE your entire `_getHighlightResult` method with this definitive version.
+
 _getHighlightResult(line, state) {
     // Failsafe 1: Input Validation
-    if (typeof line !== 'string') {
-        return { html: '&nbsp;', state: this._getInitialState() };
-    }
+    if (typeof line !== 'string') return { html: '&nbsp;', state: this._getInitialState() };
     
     const currentState = state || this._getInitialState();
     let html = '';
     let i = 0;
 
-    // Helper functions remain self-contained
-    const _escape = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const _wrap = (str, type) => `<span class="token-${type}">${_escape(str)}</span>`;
-    const _isWhitespace = (char) => char === ' ' || char === '\t';
-    const _isDigit = (char) => char >= '0' && char <= '9';
-    const _isIdentifierStart = (char) => (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || char === '_' || char === '$';
-    const _isIdentifierPart = (char) => _isIdentifierStart(char) || _isDigit(char);
-    const _isFunctionCall = (startIndex) => { let k=startIndex; while(k<line.length){if(!_isWhitespace(line[k]))return line[k]==='(';k++;} return false; };
+    const _e = (s)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const _w = (s,t)=>`<span class="token-${t}">${_e(s)}</span>`;
+    const _isWS=(c)=>c===' '||c==='\t'; const _isD=(c)=>c>='0'&&c<='9'; const _isIS=(c)=>(c>='a'&&c<='z')||(c>='A'&&c<='Z')||c==='_'||c==='$';
+    const _isIP=(c)=>_isIS(c)||_isD(c); const _isFC=(x)=>{let k=x;while(k<line.length){if(!_isWS(line[k]))return line[k]==='(';k++;}return false;};
 
-    // Definitions
-    const controlKeywords = new Set(['import', 'as', 'from', 'export', 'async', 'function', 'await', 'if', 'else', 'return', 'for', 'while', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'class', 'extends', 'get', 'set']);
-    const definitionKeywords = new Set(['const', 'let', 'var', 'true', 'false', 'null', 'undefined', 'this', 'new', 'super']);
+    const ctlK=new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
+    const defK=new Set(['const','let','var','true','false','null','undefined','this','new','super']);
     const directives = [{ tag: '/*html*/', lang: 'html' }, { tag: '/*css*/', lang: 'css' }];
 
-    // Failsafe 2: The Unshatterable Vessel (Error Boundary)
     try {
         while (i < line.length) {
-            const i_before_tick = i;
+            const i_before = i;
             const context = currentState.contextStack[currentState.contextStack.length - 1];
-            const remaining = line.substring(i);
-            const firstChar = remaining[0];
+            let remaining = line.substring(i);
 
-            // --- PRIMARY LOGIC: The Master Key for Exiting Worlds ---
-            // This is now consulted first, ensuring we can always leave a sub-reality.
-            if (context.terminator && context.terminator.startsWith('</')) {
-                const trimmedRemaining = remaining.trim();
-                if (trimmedRemaining.toLowerCase().startsWith(context.terminator)) {
-                    const offset = remaining.indexOf(trimmedRemaining[0]);
-                    html += _escape(remaining.substring(0, offset)); i += offset;
-                    const tagName = context.terminator.substring(2, context.terminator.length - 1);
-                    html += _wrap('</', 'punctuation') + _wrap(tagName, 'tag') + _wrap('>', 'punctuation');
-                    i += context.terminator.length;
-                    currentState.contextStack.pop();
-                    continue;
-                }
-            }
+            if (context.terminator && context.terminator.startsWith('</')) { const tR=remaining.trim();if (tR.toLowerCase().startsWith(context.terminator)){const o=remaining.indexOf(tR);html+=_e(remaining.substring(0,o));i+=o;const tN=context.terminator.substring(2,context.terminator.length-1);html+=_w('</','punctuation')+_w(tN,'tag')+_w('>','punctuation');i+=context.terminator.length;currentState.contextStack.pop();continue;}}
 
-            // --- MASTER CONTEXT ROUTER ---
             switch (context.mode) {
-                case 'html': // --- The World of HTML ---
-                    const tagStart = remaining.indexOf('<');
-                    if(tagStart===-1){html+=_escape(remaining);i=line.length;break;}
-                    html+=_escape(line.substring(i,i+tagStart));i+=tagStart;
-                    const tagRem=line.substring(i);
-                    if(tagRem.startsWith('<!--')){const e=tagRem.indexOf('-->');if(e!==-1){html+=_wrap(tagRem.substring(0,e+3),'comment');i+=e+3;}else{html+=_wrap(tagRem,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'-->'});}}
-                    else if(tagRem.startsWith('</')){const e=tagRem.indexOf('>');const p=(e===-1)?line.length:i+e+1;const c=line.substring(i,p);const tN=c.substring(2,c.length-1);html+=_wrap('</','punctuation')+_wrap(tN,'tag')+_wrap('>','punctuation');i=p;}
-                    else if(tagRem.startsWith('<')){const e=tagRem.indexOf('>');const p=(e===-1)?line.length:i+e+1;let tN='',j=i+1;while(j<p-1&&!_isWhitespace(line[j])&&line[j]!=='>'){tN+=line[j++];}html+=_wrap('<','punctuation')+_wrap(tN,'tag')+_escape(line.substring(j,p-1))+_wrap('>','punctuation');const ltn=tN.toLowerCase();if(ltn==='script'||ltn==='style'){currentState.contextStack.push({mode:(ltn==='script'?'javascript':'css'),terminator:`</${ltn}>`});}i=p;}
+                case 'html': // --- THE ADORNED HTML VESSEL ---
+                    const tS=remaining.indexOf('<'); if(tS===-1){html+=_e(remaining);i=line.length;break;}
+                    html+=_e(line.substring(i,i+tS));i+=tS; const tR=line.substring(i);
+                    if(tR.startsWith('<!--')){const e=tR.indexOf('-->');if(e!==-1){html+=_w(tR.substring(0,e+3),'comment');i+=e+3;}else{html+=_w(tR,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'-->'});}}
+                    else if(tR.startsWith('</')){const e=tR.indexOf('>');const p=(e===-1)?line.length:i+e+1;const tC=line.substring(i,p);const tN=tC.substring(2,tC.length-1);html+=_w('</','punctuation')+_w(tN,'tag')+_w('>','punctuation');i=p;}
+                    else if(tR.startsWith('<')){const e=tR.indexOf('>');const p=(e===-1)?line.length:i+e+1;let tN='',j=i+1;while(j<p-1&&!_isWS(line[j])&&line[j]!=='>'&&line[j]!=='/'){tN+=line[j++];}html+=_w('<','punctuation')+_w(tN,'tag');
+                        while(j<p-1&&line[j]!=='>'){ while(j<p-1&&_isWS(line[j])){html+=line[j++];} let aN='',aV='';
+                            while(j<p-1&&!_isWS(line[j])&&line[j]!=='='&&line[j]!=='>'){aN+=line[j++];} if(aN){html+=_w(aN,'attribute-name');}
+                            while(j<p-1&&_isWS(line[j])){html+=line[j++];} if(line[j]==='='){html+=_w('=', 'operator');j++; while(j<p-1&&_isWS(line[j])){html+=line[j++];} const q=line[j];if(q==='"'||q==="'"){html+=_w(q,'punctuation');j++;const vS=j;while(j<p-1&&line[j]!==q){j++;}aV=line.substring(vS,j);html+=_w(aV,'attribute-value')+_w(q,'punctuation');j++;}}else{j++;}}
+                        html+=_w(line.substring(j,p-1),'punctuation')+_w('>','punctuation');
+                        if(tN.toLowerCase()==='script'||tN.toLowerCase()==='style'){currentState.contextStack.push({mode:(tN.toLowerCase()==='script'?'javascript':'css'),terminator:`</${tN.toLowerCase()}>`});}i=p;
+                    }
                     break;
-                case 'css': // --- The World of CSS ---
-                    // Simple CSS handler. A full implementation would be a state machine itself.
-                    if(remaining.startsWith("/*")){const e=remaining.indexOf("*/");if(e!==-1){html+=_wrap(remaining.substring(0,e+2),'comment');i+=e+2;}else{html+=_wrap(remaining,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'*/'});}}
-                    else if(_isIdentifierStart(firstChar)||firstChar==='.'||firstChar==='#'||firstChar==='-'){let b='',p=i;while(p<line.length&&/[\w-.#]/.test(line[p])){b+=line[p++];}html+=_wrap(b,'tag');i=p;}
-                    else if(!_isWhitespace(firstChar)){html+=_wrap(firstChar,'punctuation');i++;}
-                    else{html+=firstChar;i++;}
+                case 'css': // --- THE SOULFUL CSS PARSER ---
+                    const firstCharCSS = remaining;
+                    if(remaining.startsWith("/*")){const e=remaining.indexOf("*/");if(e!==-1){html+=_w(remaining.substring(0,e+2),'comment');i+=e+2;}else{html+=_w(remaining,'comment');i=line.length;currentState.contextStack.push({mode:'comment',terminator:'*/'});}}
+                    else if(currentState.inCssRuleBlock){if(firstCharCSS==='}'){html+=_w('}','punctuation');i++;currentState.inCssRuleBlock=false;}
+                        else if(_isIS(firstCharCSS)||firstCharCSS==='-'){let prop='',p=i;while(p<line.length&&/[\w-]/.test(line[p])){prop+=line[p++];}html+=_w(prop,'property');i=p; while(i<line.length&&_isWS(line[i])){html+=line[i++];} if(line[i]===':'){html+=_w(':',"punctuation");i++;}
+                        }else{const end=remaining.indexOf(';');const end2=remaining.indexOf('}');let endP=-1;if(end!==-1&&(end2===-1||end<end2))endP=end;else endP=end2;if(endP===-1){html+=_e(remaining);i=line.length;}else{html+=_w(remaining.substring(0,endP),'string');i+=endP;}}}
+                    else{const end=remaining.indexOf('{');if(end===-1){html+=_w(remaining,'selector');i=line.length;}else{html+=_w(remaining.substring(0,end),'selector');html+=_w('{','punctuation');i+=end+1;currentState.inCssRuleBlock=true;}}
                     break;
-                default: // --- Javascript and its Sub-Realities ---
-                    // --- SLAYING THE TYRANT ---
-                    // The old tyrannical `if` is gone. We now process sub-realities intelligently.
-                    // HIGHEST PRIORITY: Look for the exit.
-                    if (context.terminator && remaining.startsWith(context.terminator)) {
-                        const tokenType = context.mode === 'comment' ? 'comment' : 'string';
-                        html += _wrap(context.terminator, tokenType); i += context.terminator.length;
-                        currentState.contextStack.pop();
-                        continue;
-                    }
-                    if (context.mode.startsWith('template_literal') && remaining.startsWith('${')) {
-                        html += _wrap('${', 'controlKeyword'); i += 2;
-                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
-                        continue;
-                    }
-                    // If in a sub-reality, consume text precisely until the terminator.
-                    if (context.mode !== 'javascript' && context.mode !== 'js') {
-                        const endIdx = context.terminator ? remaining.indexOf(context.terminator) : -1;
-                        const content = (endIdx === -1) ? remaining : remaining.substring(0, endIdx);
-                        const tokenType = context.mode.startsWith('template_literal') ? 'string' : context.mode;
-                        html += _wrap(content, tokenType);
-                        i += content.length;
-                        continue;
-                    }
+                default: // Javascript and Sub-Realities (String, Comment, Nested Languages)
+                    if (context.terminator&&remaining.startsWith(context.terminator)){const t=_w(context.terminator,context.mode.startsWith('template')?'string':'comment');html+=t;i+=context.terminator.length;currentState.contextStack.pop();continue;}
+                    if(context.mode.startsWith('template_literal_')&&!remaining.startsWith('${')){const langCtx=context.mode.substring(17);const nS=this._getInitialState();nS.language=langCtx;const subHighlight=this._getHighlightResult(remaining,nS);html+=subHighlight.html;i=line.length;continue;}
+                    if (context.mode.startsWith('template_literal')&&remaining.startsWith('${')){html+=_w('${','controlKeyword');i+=2;currentState.contextStack.push({mode:'javascript',terminator:'}'});continue;}
+                    if (context.mode!=='javascript'){const endIdx=context.terminator?remaining.indexOf(context.terminator):-1;const content=(endIdx===-1)?remaining:remaining.substring(0,endIdx);html+=_w(content,'string');i+=content.length;continue;}
 
-                    // --- If we are in PURE JS, look for entries into sub-realities. ---
-                    let directiveFound = false;
-                    for (const d of directives) { if (remaining.startsWith(d.tag + '`')) { html += _wrap(d.tag, 'comment') + _wrap('`', 'string'); i += d.tag.length + 1; currentState.contextStack.push({ mode: `template_literal_${d.lang}`, terminator: '`' }); directiveFound = true; break; } }
-                    if (directiveFound) continue;
-
-                    if (remaining.startsWith('/*')) { html += _wrap('/*', 'comment'); i += 2; currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); }
-                    else if (remaining.startsWith('//')) { html += _wrap(remaining, 'comment'); i = line.length; }
-                    else if (firstChar === '`') { html += _wrap('`', 'string'); i++; currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); }
-                    else if (firstChar === "'" || firstChar === '"') { html += _wrap(firstChar, 'string'); i++; currentState.contextStack.push({ mode: 'string', terminator: firstChar }); }
-                    else if (_isWhitespace(firstChar)) { html += firstChar; i++; }
-                    else if (_isIdentifierStart(firstChar)) {
-                        let b = '', p = i; while (p < line.length && _isIdentifierPart(line[p])) b += line[p++];
-                        if (currentState.isNextTokenFunctionName) { html += _wrap(b, 'functionName'); currentState.isNextTokenFunctionName = false; }
-                        else if (b === 'function') { html += _wrap(b, 'controlKeyword'); currentState.isNextTokenFunctionName = true; }
-                        else if (controlKeywords.has(b)) html += _wrap(b, 'controlKeyword');
-                        else if (definitionKeywords.has(b)) html += _wrap(b, 'definitionKeyword');
-                        else if (_isFunctionCall(p)) html += _wrap(b, 'functionName');
-                        else html += _wrap(b, 'variable');
-                        i = p;
-                    }
-                    else if (_isDigit(firstChar)) { let b='',p=i;while(p<line.length&&(_isDigit(line[p])||line[p]==='.'))b+=line[p++];html+=_wrap(b,'number');i=p; }
-                    else { currentState.isNextTokenFunctionName = false; html += _escape(firstChar); i++; }
+                    let dF=false; for(const d of directives){if(remaining.startsWith(d.tag+'`')){html+=_w(d.tag,'comment')+_w('`','string');i+=d.tag.length+1;currentState.contextStack.push({mode:`template_literal_${d.lang}`,terminator:'`'});dF=true;break;}} if(dF)continue;
+                    
+                    const firstCharJS = remaining[0];
+                    if(remaining.startsWith('/*')){html+=_w('/*','comment');i+=2;currentState.contextStack.push({mode:'comment',terminator:'*/'});}
+                    else if(remaining.startsWith('//')){html+=_w(remaining,'comment');i=line.length;}
+                    else if(firstCharJS==='`'){html+=_w('`','string');i++;currentState.contextStack.push({mode:'template_literal',terminator:'`'});}
+                    else if(firstCharJS==="'"||firstCharJS==='"'){html+=_w(firstCharJS,'string');i++;currentState.contextStack.push({mode:'string',terminator:firstCharJS});}
+                    else if(_isWS(firstCharJS)){html+=firstCharJS;i++;}
+                    else if(_isIS(firstCharJS)){let b='',p=i;while(p<line.length&&_isIP(line[p]))b+=line[p++];if(currentState.isNextTokenFunctionName){html+=_w(b,'functionName');currentState.isNextTokenFunctionName=false;}else if(b==='function'){html+=_w(b,'controlKeyword');currentState.isNextTokenFunctionName=true;}else if(ctlK.has(b))html+=_w(b,'controlKeyword');else if(defK.has(b))html+=_w(b,'definitionKeyword');else if(_isFC(p))html+=_w(b,'functionName');else html+=_w(b,'variable'); i=p;}
+                    else if(_isD(firstCharJS)){let b='',p=i;while(p<line.length&&(_isD(line[p])||line[p]==='.'))b+=line[p++];html+=_w(b,'number');i=p;}
+                    else {currentState.isNextTokenFunctionName=false;html+=_e(firstCharJS);i++;}
                     break;
             }
-
-            // Failsafe 3: The Guarantee of Progress
-            if (i === i_before_tick && i < line.length) { i++; }
+            if(i===i_before&&i<line.length){console.error("Failsafe triggered:",context,line[i]);i++;}
         }
-    } catch (error) { html = _escape(line); }
-
-    return { html: html || '&nbsp;', state: currentState };
+    } catch(e){html=_e(line);console.error("Highlighter catastrophy:",e);}
+    return{html:html||'&nbsp;',state:currentState};
 }
 
 
