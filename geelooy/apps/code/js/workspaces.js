@@ -7,6 +7,7 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
 import { App } from './app.js';
+import { GitManager } from './git-manager.js'; // Make sure this import exists
 
 
 export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
@@ -38,6 +39,8 @@ export const Workspaces = {
         State.workspaces.forEach(ws => this.renderWorkspace(ws, DOM.workspacesContainer));
     },
 
+    
+// REPLACE your existing renderWorkspace method with this one.
     renderWorkspace(ws, container) {
         const wsRoot = document.createElement('div');
         wsRoot.className = 'workspace-root';
@@ -45,16 +48,29 @@ export const Workspaces = {
         const isExpanded = State.expandedFolders.has(uniquePath);
         if (isExpanded) wsRoot.classList.add('expanded');
 
+        const icon = ws.isClone ? 'brain-circuit' : 
+                     ws.type === 'local' ? 'laptop' : 
+                     ws.type === 'github' ? 'github' : 'brain';
+
         wsRoot.innerHTML = `
             <div class="workspace-header">
-                <strong><svg class="svg-icon"><use href="#icon-${ws.type === 'local' ? 'laptop' : ws.type === 'github' ? 'github' : 'brain'}"></use></svg>${ws.name}</strong>
+                <div class="workspace-header-title">
+                    <strong>
+                        <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
+                        ${ws.name}
+                    </strong>
+                </div>
+                <div class="workspace-header-actions">
+                    ${ws.isClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
+                </div>
             </div>
         `;
         
         container.appendChild(wsRoot);
         const header = wsRoot.querySelector('.workspace-header');
-        
-        header.onclick = () => {
+        const headerTitle = header.querySelector('.workspace-header-title');
+
+        headerTitle.onclick = () => {
             if (State.expandedFolders.has(uniquePath)) {
                 State.expandedFolders.delete(uniquePath);
                 wsRoot.classList.remove('expanded');
@@ -72,6 +88,14 @@ export const Workspaces = {
 
         header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
         
+        const gitBtn = header.querySelector('.git-actions-btn');
+        if (gitBtn) {
+            gitBtn.onclick = (e) => {
+                e.stopPropagation();
+                GitManager.showGitUI(ws);
+            };
+        }
+        
         const rootItem = { ...ws, path: '/', workspaceId: ws.id };
         State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
 
@@ -82,6 +106,8 @@ export const Workspaces = {
            this.renderTree(tree, rootItem, 1);
         }
     },
+    
+
 
     
 async renderTree(parentElement, parentItem, depth) {
