@@ -168,7 +168,7 @@ async renderTree(parentElement, parentItem, depth) {
                     <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
                     <span class="tree-item-name">${child.name}</span>
                     <div class="tree-item-actions">
-                        ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-brain-circuit"></use></svg></button>` : ''}
+                        ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-folder"></use></svg></button>` : ''}
                     </div>
                 </div>`;
             
