@@ -363,27 +363,12 @@ _measureAndRender() {
           'var',
           'this',
            'function',
-           "continue",
-           "try","catch",
-           "finally",
             'return',
-             'if', 
-             'else', 
-             'for',
-              'class', 
-              'new', 
-              'await', 
-              'async', 
-              'import', 
-              'export', 
-              'from', 
-              'while', 'do', 'switch',
-               'case', 'break'
-              ],
+             'if', 'else', 'for',
+              'class', 'new', 
+              'await', 'async', 
+              'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
     };
-    
-    
-    
     
     let html = '';
     let i = 0;
@@ -391,7 +376,7 @@ _measureAndRender() {
     while (i < line.length) {
         const remaining = line.substring(i);
 
-        // CONTEXT 1: We are inside a multi-line comment.
+        // CONTEXT 1: Inside a multi-line comment. This is correct.
         if (currentState.in_comment) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
@@ -399,26 +384,18 @@ _measureAndRender() {
             continue;
         }
 
-        // CONTEXT 2: We are inside any kind of template string (`...` or `/*lang*/...`).
+        // CONTEXT 2: Inside any kind of template string. This logic is correct.
         if (currentState.in_string || currentState.in_tagged_template) {
             const interpolationStart = remaining.indexOf('${');
-            
-            // --- THE GENIUS FIX IS HERE ---
-            // We must ask for permission before seeking the end of the string.
             let templateEnd = -1;
             const sub_state = currentState.sub_language_state;
-
-            // Can the sub-language (HTML/CSS) contain its own strings or scripts? If so, we must trust it completely
-            // and NOT look for our own closing backtick. The sub-language is sovereign.
             const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
             
             if (!isSubLanguageSovereign) {
                 templateEnd = this._findUnescapedChar(remaining, '`');
             }
-            // --- END OF THE GENIUS FIX ---
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                // An interpolation begins. This logic is universal and correct.
                 const content = remaining.substring(0, interpolationStart);
                 if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
@@ -430,9 +407,7 @@ _measureAndRender() {
                 currentState.interpolation_depth = 1;
                 currentState.in_string = false;
                 currentState.in_tagged_template = false;
-
             } else if (templateEnd !== -1) {
-                // The string has truly ended.
                 const content = remaining.substring(0, templateEnd);
                  if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
@@ -444,9 +419,7 @@ _measureAndRender() {
                 currentState.in_tagged_template = false;
                 currentState.template_language = null;
                 currentState.sub_language_state = null;
-
             } else {
-                // The entire rest of the line is content for the sovereign sub-language.
                 const content = remaining;
                 if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
@@ -457,8 +430,9 @@ _measureAndRender() {
             continue;
         }
 
-        // CONTEXT 3: We are in top-level JS (or an interpolation). This logic remains correct.
-        const firstChar = remaining;
+        // CONTEXT 3: Top-level JS. This is where the fixes are.
+        const firstChar = remaining[0]; // **FIX #1: This MUST be the first character.**
+
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         let directiveFound = false;
         for (const d of directives) {
@@ -487,14 +461,16 @@ _measureAndRender() {
             continue;
         }
         if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue; }
+        
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch;
+            const word = wordMatch[0]; // **FIX #2: This MUST be the string from the match array.**
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
             i += word.length;
             continue;
         }
+
         if (currentState.interpolation_depth > 0) {
             if (firstChar === '{') {
                 currentState.interpolation_depth++;
@@ -510,11 +486,21 @@ _measureAndRender() {
                 }
             }
         }
-        html += this._escape(firstChar);
+        
+        html += this._escape(firstChar); // **FIX #3: This now correctly escapes ONE character.**
         i++;
     }
     return { html: html || '&nbsp;', state: currentState };
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
