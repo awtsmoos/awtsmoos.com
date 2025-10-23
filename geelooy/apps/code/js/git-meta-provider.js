@@ -25,7 +25,7 @@ export const GitMetaProvider = {
             // 1. Find the start of the object.
             const objectStartIndex = content.indexOf('{');
             if (objectStartIndex === -1) {
-                console.warn("Found ikar.js but it did not contain a valid metadata object.", folderItem);
+                console.warn("Found ikar.js but it did not contain a valid metadata object.", folderItem, content);
                 return null;
             }
 
