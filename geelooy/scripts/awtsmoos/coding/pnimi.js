@@ -348,7 +348,50 @@ _measureAndRender() {
     
     
     
-    
+    /**
+ * @private
+ * @function _findMatchingBrace
+ * @description The "Intelligent Scribe." A divine tool that can find the matching '}' for an interpolation,
+ * possessing the wisdom to ignore braces that are hidden within nested strings or comments.
+ * @param {string} line - The line of text to search within.
+ * @param {number} startIndex - The position to start searching from (immediately after the opening '{').
+ * @returns {number} The index of the matching '}', or -1 if it's not on this line.
+ */
+_findMatchingBrace(line, startIndex = 0) {
+    let depth = 1;
+    for (let i = startIndex; i < line.length; i++) {
+        const remaining = line.substring(i);
+        const char = remaining;
+
+        // Use the same unbreakable hierarchy to skip over modal states.
+        if (remaining.startsWith('/*')) {
+            const endIdx = remaining.indexOf('*/', 2);
+            if (endIdx === -1) break; // Unterminated comment on this line
+            i += endIdx + 1;
+            continue;
+        }
+        if (remaining.startsWith('//')) break; // Rest of the line is a comment
+        if (char === '`' || char === '"' || char === "'") {
+            const endIdx = this._findUnescapedChar(remaining, char, 1);
+            if (endIdx === -1) break; // Unterminated string on this line
+            i += endIdx;
+            continue;
+        }
+
+        // Only now, with perfect context, can we count braces.
+        if (char === '{') {
+            depth++;
+        } else if (char === '}') {
+            depth--;
+            if (depth === 0) {
+                return i; // This is the one true matching brace.
+            }
+        }
+    }
+    return -1; // No matching brace found on this line.
+}
+
+
     _highlightJS(line, state) {
     // Divine Guard: Do not process chaos.
     if (typeof line !== 'string') return { html: '&nbsp;', state };
@@ -391,85 +434,112 @@ _measureAndRender() {
     
     
     
+    _highlightJS(line, state) {
+    // Divine Guard: The state must always exist.
+    const currentState = state || this._getInitialState();
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+    };
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
 
-        // --- THE UNIFIED, HIERARCHICAL PARSER ---
+        // PRIORITY 1: Handle multi-line modal states.
+        if (currentState.in_comment || currentState.in_string || currentState.in_tagged_template) {
+            // If we are in a string, our only concerns are `${` and the closing '`'.
+            if (currentState.in_string || currentState.in_tagged_template) {
+                const interpolationStart = remaining.indexOf('${');
+                let templateEnd = -1;
+                const sub_state = currentState.sub_language_state;
+                const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
+                if (!isSubLanguageSovereign) {
+                    templateEnd = this._findUnescapedChar(remaining, '`');
+                }
 
-        // PRIORITY 1: Handle "modal" states that consume all input until a terminator.
-        if (currentState.in_comment) {
-            const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
-            else { html += this._wrap(remaining, 'comment'); break; }
+                if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                    // An interpolation begins.
+                    const contentBefore = remaining.substring(0, interpolationStart);
+                    if (currentState.in_tagged_template) {
+                        const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.template_language);
+                        html += subResult.html; currentState.sub_language_state = subResult.state;
+                    } else { html += this._wrap(contentBefore, 'string'); }
+                    html += this._wrap('${', 'keyword');
+                    i += interpolationStart + 2;
+
+                    // THE ACT OF CREATION: We now delegate to a new, sovereign world.
+                    const endBraceIndex = this._findMatchingBrace(line, i);
+
+                    if (endBraceIndex !== -1) {
+                        // The entire nested world exists on this line.
+                        const interpolationContent = line.substring(i, endBraceIndex);
+                        // Emanate a new soul and give it the sacred text.
+                        html += this._highlightJS(interpolationContent, this._getInitialState()).html;
+                        html += this._wrap('}', 'keyword');
+                        i = endBraceIndex + 1; // The Master Scribe continues from after the nested world.
+                    } else {
+                        // The nested world continues to the next line.
+                        const interpolationContent = line.substring(i);
+                        html += this._highlightJS(interpolationContent, this._getInitialState()).html;
+                        currentState.interpolation_depth = 1; // We mark that the outer world is now waiting.
+                        currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
+                        currentState.in_string = false;
+                        currentState.in_tagged_template = false;
+                        break; // The rest of the line is consumed by the new world.
+                    }
+                } else if (templateEnd !== -1) {
+                    // The string truly ends.
+                    const content = remaining.substring(0, templateEnd);
+                    if (currentState.in_tagged_template) {
+                        const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
+                        html += subResult.html;
+                    } else { html += this._wrap(content, 'string'); }
+                    html += this._wrap('`', 'string');
+                    i += templateEnd + 1;
+                    currentState.in_string = false;
+                    currentState.in_tagged_template = false;
+                    currentState.template_language = null;
+                    currentState.sub_language_state = null;
+                } else {
+                    // The line is sovereign content for the sub-language.
+                    const content = remaining;
+                    if (currentState.in_tagged_template) {
+                        const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
+                        html += subResult.html; currentState.sub_language_state = subResult.state;
+                    } else { html += this._wrap(content, 'string'); }
+                    break;
+                }
+            } else if (currentState.in_comment) {
+                const endIdx = remaining.indexOf('*/');
+                if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
+                else { html += this._wrap(remaining, 'comment'); break; }
+            }
             continue;
         }
-        if (currentState.in_string || currentState.in_tagged_template) {
-            const interpolationStart = remaining.indexOf('${');
-            let templateEnd = -1;
-            const sub_state = currentState.sub_language_state;
-            const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
-            if (!isSubLanguageSovereign) {
-                templateEnd = this._findUnescapedChar(remaining, '`');
-            }
 
-            if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                // --- THE RECURSIVE BIRTH ---
-                // An interpolation begins. We must parse it with a NEW, sovereign parser.
-                const contentBefore = remaining.substring(0, interpolationStart);
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.template_language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
-                } else { html += this._wrap(contentBefore, 'string'); }
-                html += this._wrap('${', 'keyword');
-                
-                // Create the new world. Its only mission is to find its closing brace.
-                const interpolationContent = remaining.substring(interpolationStart + 2);
-                const nestedParserState = this._getInitialState();
-                nestedParserState.interpolation_depth = 1; // It is born inside an interpolation.
-                nestedParserState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
-
-                const nestedResult = this._highlightJS(interpolationContent, nestedParserState);
-                html += nestedResult.html;
-
-                // The new world has completed its task and returned. We adopt its final state.
-                const finalStateOfNested = nestedResult.state;
-                currentState.in_string = finalStateOfNested.in_string;
-                currentState.in_tagged_template = finalStateOfNested.in_tagged_template;
-                // And we know the entire line has been consumed by this process.
-                i = line.length;
-
-            } else if (templateEnd !== -1) {
-                // The string truly ends.
-                const content = remaining.substring(0, templateEnd);
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
-                    html += subResult.html;
-                } else { html += this._wrap(content, 'string'); }
-                html += this._wrap('`', 'string');
-                i += templateEnd + 1;
-                currentState.in_string = false;
-                currentState.in_tagged_template = false;
-                currentState.template_language = null;
-                currentState.sub_language_state = null;
+        // PRIORITY 2: We are in a multi-line interpolation from a previous line.
+        if (currentState.interpolation_depth > 0) {
+            const endBraceIndex = this._findMatchingBrace(line, i);
+            if (endBraceIndex !== -1) {
+                const content = line.substring(i, endBraceIndex);
+                html += this._highlightJS(content, this._getInitialState()).html;
+                html += this._wrap('}', 'keyword');
+                i = endBraceIndex + 1;
+                // The waiting is over. Restore the parent's string context.
+                if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
+                else { currentState.in_string = true; }
+                currentState.interpolation_depth = 0;
+                currentState.string_type_before_interpolation = null;
             } else {
-                // The entire line is sovereign content for the sub-language (or a plain string).
-                const content = remaining;
-                if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
-                    html += subResult.html; currentState.sub_language_state = subResult.state;
-                } else { html += this._wrap(content, 'string'); }
+                html += this._highlightJS(line.substring(i), this._getInitialState()).html;
                 break;
             }
             continue;
         }
 
-        // PRIORITY 2: If not in a modal state, we are in the default JavaScript tokenizer.
+        // PRIORITY 3: We are in the default, top-level JavaScript tokenizer.
         const firstChar = remaining[0];
-        
-        // HIERARCHY 2.1: Look for the START of any modal state.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         if (directives.some(d => remaining.startsWith(d.tag + '`'))) {
             const d = directives.find(d => remaining.startsWith(d.tag + '`'));
@@ -494,13 +564,8 @@ _measureAndRender() {
             continue;
         }
         if (firstChar === '`') {
-            html += this._wrap('`', 'string');
-            i += 1;
-            currentState.in_string = true;
-            continue;
+            html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue;
         }
-
-        // HIERARCHY 2.2: Parse standard JS tokens (like words).
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -509,27 +574,6 @@ _measureAndRender() {
             i += word.length;
             continue;
         }
-
-        // HIERARCHY 2.3: The sacred duty of brace counting. This ONLY happens if we are a nested parser.
-        if (currentState.interpolation_depth > 0) {
-            if (firstChar === '{') {
-                currentState.interpolation_depth++;
-            } else if (firstChar === '}') {
-                currentState.interpolation_depth--;
-                if (currentState.interpolation_depth === 0) {
-                    // This world's purpose is fulfilled.
-                    html += this._wrap('}', 'keyword');
-                    i++;
-                    // Return control to the parent world.
-                    if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
-                    else { currentState.in_string = true; }
-                    // We must stop processing this line, as our reality is over.
-                    break;
-                }
-            }
-        }
-        
-        // HIERARCHY 2.4: Default catch-all for operators, punctuation, etc.
         html += this._escape(firstChar);
         i++;
     }
