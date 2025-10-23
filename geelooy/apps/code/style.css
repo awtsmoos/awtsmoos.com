@@ -774,6 +774,9 @@
 }
 
 /* --- Mobile Responsive Styles --- */
+/* B"H - FINAL AND CORRECT RESPONSIVE SELECTION MENU STYLES */
+
+/* --- Mobile Responsive Styles (The Magic) --- */
 /* This applies to screens 768px wide or smaller */
 @media (max-width: 768px) {
     .selection-menu-bar {
@@ -792,28 +795,22 @@
         backdrop-filter: blur(10px);
     }
 
-    /* Hide the text labels on the buttons */
-    .menu-button-label {
+    /* --- THE CRITICAL FIX IS HERE --- */
+    /* This rule now ONLY targets labels INSIDE the selection menu bar. */
+    .selection-menu-bar .menu-button-label {
         display: none;
     }
+    /* --- END FIX --- */
     
-    /* Hide the separator and file count for a clean, icon-only look */
-    
+    /* These rules were already correct and remain */
     .selection-menu-bar .menu-separator,
     .selection-menu-bar .selection-count {
         display: none;
     }
     
-    /* Make buttons a bit bigger for easier tapping */
     .selection-menu-bar .menu-button {
         padding: 12px; /* Increase tap area */
         margin: 4px 0;
         gap: 0; /* No gap needed if text is hidden */
     }
 }
-
-
-
-
-
-
