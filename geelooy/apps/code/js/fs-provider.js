@@ -294,16 +294,39 @@ export const FileSystemProvider = {
                 tx.onerror = () => reject(tx.error);
             });
         },
+        // B"H
+// FILE: js/fs-provider.js
+
+// ... inside the FileSystemProvider.IndexedDB object ...
+
+        // REPLACE your existing 'create' function with this one.
         create: async function({ path }, name, kind) {
             await this.init();
-            const newPath = path === '/' ? name : `${path}/${name}`;
+            
+            // THE FIX: Ensure the new path is always correctly formed with a leading slash.
+            const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
+            
             return new Promise((resolve, reject) => {
                 const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                tx.objectStore(this.STORE_NAME).put({ path: newPath, content: '', isDir: kind === 'directory' });
+                const store = tx.objectStore(this.STORE_NAME);
+                
+                // When creating a file, its content should be an empty string, not undefined.
+                const content = kind === 'directory' ? '' : ''; // Folders also get empty content for consistency
+                
+                store.put({ 
+                    path: newPath, 
+                    content: content, 
+                    isDir: kind === 'directory' 
+                });
+
                 tx.oncomplete = resolve;
                 tx.onerror = () => reject(tx.error);
             });
         },
+        
+
+ 
+        
         delete: async function({ path, kind }) {
             await this.init();
             return new Promise((resolve, reject) => {
