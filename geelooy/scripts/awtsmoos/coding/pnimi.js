@@ -310,30 +310,64 @@ constructor(textarea, language = 'js', customColors = {}) {
     }
     
     /** @private @function _getToken - Da'at (Knowledge). The central dispatcher of consciousness. */
-    _getToken(line, i, state) {
-        const context = state.contextStack[state.contextStack.length - 1];
-        // The highest law: can we return from the current reality?
-        if (context.terminator && line.substring(i).startsWith(context.terminator)) {
-            let type = 'string';
-            if (context.mode.includes('comment')) type = 'comment';
-            if (context.mode.includes('interpolation')) type = 'controlKeyword';
-            state.contextStack.pop();
-            return { html: this._wrap(context.terminator, type), newIndex: i + context.terminator.length };
-        }
-        const mode = context.mode.split('_')[0];
-        switch (mode) {
-            case 'javascript': return this._getJSToken(line, i, state);
-            case 'html': return this._getHTMLToken(line, i, state);
-            case 'css': return this._getCssToken(line, i, state);
-            case 'comment': return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
-            case 'string': return this._getStringToken(line, i, state);
-            case 'template':
-                return context.mode.startsWith('template_language_')
-                    ? this._getTemplateLanguageToken(line, i, state)
-                    : this._getTemplateLiteralToken(line, i, state);
-            default: return { html: this._escape(line[i]), newIndex: i + 1 };
-        }
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE THE ENTIRE _getToken METHOD WITH THIS RECTIFIED VERSION.
+
+/**
+ * @private @function _getToken
+ * @description Da'at (Knowledge). The Rectified Universal Soul.
+ * This new version has been given the wisdom to actively seek the "gate of return" 
+ * for comments *within* the current line, instead of blindly treating the entire rest of the
+ * line as a comment. This is the fix for the primary highlighting bug.
+ */
+_getToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // The highest law remains: if we are AT a gate of return, we use it immediately.
+    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
+        let type = 'string';
+        if (context.mode.includes('comment')) type = 'comment';
+        if (context.mode.includes('interpolation')) type = 'controlKeyword';
+        state.contextStack.pop();
+        return { html: this._wrap(context.terminator, type), newIndex: i + context.terminator.length };
     }
+
+    // Now, we consult the specialized soul for the current world.
+    const mode = context.mode.split('_')[0];
+    switch (mode) {
+        case 'javascript': return this._getJSToken(line, i, state);
+        case 'html': return this._getHTMLToken(line, i, state);
+        case 'css': return this._getCssToken(line, i, state);
+
+        // --- THE TIKKUN (THE FIX) IS HERE ---
+        // The soul for comments now has a new, higher consciousness.
+        case 'comment': {
+            const terminator = context.terminator; // e.g., '*/'
+            const endIdx = line.indexOf(terminator, i);
+
+            if (endIdx !== -1) {
+                // The gate of return ('*/') EXISTS on this line.
+                // We highlight only the text *before* the gate as a comment.
+                const content = line.substring(i, endIdx);
+                // We advance our position to the beginning of the gate. The main loop will
+                // then see the terminator on the next iteration and exit the comment world correctly.
+                return { html: this._wrap(content, 'comment'), newIndex: endIdx };
+            } else {
+                // The gate is not on this line. The entire rest of the line is a comment.
+                // This is the correct behavior for a multi-line comment block.
+                return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+            }
+        }
+        
+        case 'string': return this._getStringToken(line, i, state);
+        case 'template':
+            return context.mode.startsWith('template_language_')
+                ? this._getTemplateLanguageToken(line, i, state)
+                : this._getTemplateLiteralToken(line, i, state);
+        default: return { html: this._escape(line[i]), newIndex: i + 1 };
+    }
+}
 
     _getStringToken(line, i, state) {
         const terminator = state.contextStack[state.contextStack.length - 1].terminator;
