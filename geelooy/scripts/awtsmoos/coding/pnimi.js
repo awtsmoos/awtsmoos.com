@@ -111,16 +111,7 @@ class VirtualizedEditor {
         /** @private The DOM elements used as a canvas for our highlighted lines. */
         this.viewportDivs = [];
         /** @private The parsing state, carrying context between lines like a soul's journey. */
-        this.parserState = { in_comment: false,
-         in_string: false, 
-        in_rules: false, in_script: false,
-         in_style: false,
-          in_tagged_template: false,
-           template_language: null,
-         interpolation_depth: 0,
-         string_type_before_interpolation: null,
-         sub_language_state: null
-        };
+        this.parserState = this._getInitialState()
         
         /** @private The DOM element for our simulated caret. */
         this.caret = null;
@@ -353,6 +344,15 @@ _measureAndRender() {
 
     _escape(str) { return str ? str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
+    
+    
+    
+    
+    
+    _highlightJS(line, state) {
+    // Divine Guard: Do not process chaos.
+    if (typeof line !== 'string') return { html: '&nbsp;', state };
+
     const lang = {
         keywords: [
         'const',
@@ -363,17 +363,6 @@ _measureAndRender() {
             'return',
              'if', 'else', 'for',
               'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
-    };
-    
-    
-    
-    
-    _highlightJS(line, state) {
-    // Divine Guard: Do not process chaos.
-    if (typeof line !== 'string') return { html: '&nbsp;', state };
-
-    const lang = {
-        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
     };
     let html = '';
     let i = 0;
@@ -803,18 +792,7 @@ _getInitialState() {
 
         // To correctly highlight, we must "replay" the journey of the parser's soul (state)
         // from the very beginning (Bereshit) up to the first line we want to render.
-        let state = {
-        in_comment: false, 
-        in_string: false, 
-        in_rules: false, 
-        in_script: false, 
-        in_style: false, 
-        in_tagged_template: false, 
-        template_language: null, 
-        interpolation_depth: 0,
-        string_type_before_interpolation: null,
-        sub_language_state: null
-        };
+        let state = this._getInitialState()
 
         for (let i = 0; i < firstLineToRender; i++) {
             this._getHighlightResult(this.lines[i], state);
