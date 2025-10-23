@@ -766,17 +766,9 @@
         backdrop-filter: blur(10px);
     }
 
-    /* 4. Erase all text to create a pure, icon-only interface */
-    /* This rule is now hyper-specific and CANNOT affect your context menu. */
-    .selection-menu-bar .menu-button-label {
-        display: none;
-    }
     
-    /* 5. Obliterate unnecessary clutter */
-    .selection-menu-bar .menu-separator,
-    .selection-menu-bar .selection-count {
-        display: none;
-    }
+    
+    
     
     /* 6. Enlarge the buttons to be worthy of a thumb tap */
     .selection-menu-bar .menu-button {
