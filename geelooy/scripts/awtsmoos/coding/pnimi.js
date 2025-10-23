@@ -364,49 +364,50 @@ _measureAndRender() {
              'if', 'else', 'for',
               'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
     };
+    
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
-        if (state.in_comment) {
+        if (currentState.in_comment) {
             const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; state.in_comment = false; }
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
             else { html += this._wrap(remaining, 'comment'); break; }
             continue;
         }
-        if (state.in_string || state.in_tagged_template) {
+        if (currentState.in_string || currentState.in_tagged_template) {
             const interpolationStart = remaining.indexOf('${');
             const templateEnd = this._findUnescapedChar(remaining, '`');
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 const content = remaining.substring(0, interpolationStart);
-                if (state.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
-                    html += subResult.html; state.sub_language_state = subResult.state;
+                if (currentState.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
+                    html += subResult.html; currentState.sub_language_state = subResult.state;
                 } else { html += this._wrap(content, 'string'); }
                 html += this._wrap('${', 'keyword');
-                state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
+                currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
                 i += interpolationStart + 2;
-                state.interpolation_depth = 1;
-                state.in_string = false;
-                state.in_tagged_template = false;
+                currentState.interpolation_depth = 1;
+                currentState.in_string = false;
+                currentState.in_tagged_template = false;
             } else if (templateEnd !== -1) {
                 const content = remaining.substring(0, templateEnd);
-                if (state.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
+                if (currentState.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
                     html += subResult.html;
                 } else { html += this._wrap(content, 'string'); }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
-                state.in_string = false;
-                state.in_tagged_template = false;
-                state.template_language = null;
-                state.sub_language_state = null;
+                currentState.in_string = false;
+                currentState.in_tagged_template = false;
+                currentState.template_language = null;
+                currentState.sub_language_state = null;
             } else {
                 const content = remaining;
-                if (state.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
-                    html += subResult.html; state.sub_language_state = subResult.state;
+                if (currentState.in_tagged_template) {
+                    const subResult = this._getHighlightResult(content, currentState.sub_language_state, currentState.template_language);
+                    html += subResult.html; currentState.sub_language_state = subResult.state;
                 } else { html += this._wrap(content, 'string'); }
                 break;
             }
@@ -419,9 +420,9 @@ _measureAndRender() {
             if (remaining.startsWith(d.tag + '`')) {
                 html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
                 i += d.tag.length + 1;
-                state.in_tagged_template = true;
-                state.template_language = d.lang;
-                state.sub_language_state = this._getInitialState(); // Use the perfect archetype
+                currentState.in_tagged_template = true;
+                currentState.template_language = d.lang;
+                currentState.sub_language_state = this._getInitialState();
                 directiveFound = true;
                 break;
             }
@@ -431,7 +432,7 @@ _measureAndRender() {
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; }
-            else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
+            else { html += this._wrap(remaining, 'comment'); currentState.in_comment = true; break; }
             continue;
         }
         if (firstChar === '"' || firstChar === "'") {
@@ -440,7 +441,7 @@ _measureAndRender() {
             else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
-        if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; state.in_string = true; continue; }
+        if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue; }
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -449,17 +450,17 @@ _measureAndRender() {
             i += word.length;
             continue;
         }
-        if (state.interpolation_depth > 0) {
+        if (currentState.interpolation_depth > 0) {
             if (firstChar === '{') {
-                state.interpolation_depth++;
+                currentState.interpolation_depth++;
             } else if (firstChar === '}') {
-                state.interpolation_depth--;
-                if (state.interpolation_depth === 0) {
+                currentState.interpolation_depth--;
+                if (currentState.interpolation_depth === 0) {
                     html += this._wrap('}', 'keyword');
                     i++;
-                    if (state.string_type_before_interpolation === 'tagged') { state.in_tagged_template = true; }
-                    else { state.in_string = true; }
-                    state.string_type_before_interpolation = null;
+                    if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
+                    else { currentState.in_string = true; }
+                    currentState.string_type_before_interpolation = null;
                     continue;
                 }
             }
@@ -467,9 +468,8 @@ _measureAndRender() {
         html += this._escape(firstChar);
         i++;
     }
-    return { html: html || '&nbsp;', state };
+    return { html: html || '&nbsp;', state: currentState };
 }
-    
     
     
     
@@ -520,29 +520,28 @@ _findUnescapedChar(line, char, startIndex = 0) {
  * CSS or JS highlighter.
  */
 _highlightHTML(line, state) {
-    // Divine Guard: Do not process chaos.
-    if (typeof line !== 'string') return { html: '&nbsp;', state };
+    // Divine Guard: A state must always exist.
+    const currentState = state || this._getInitialState();
 
     let html = '';
     let i = 0;
 
-    if (state.in_script) {
+    if (currentState.in_script) {
         const endTag = '</script>';
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const scriptContent = line.substring(i, endIdx);
-            // Give the nested world a perfect, complete soul.
             html += this._highlightJS(scriptContent, this._getInitialState()).html;
             html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
-            state.in_script = false;
+            currentState.in_script = false;
         } else {
             html += this._highlightJS(line.substring(i), this._getInitialState()).html;
-            return { html: html || '&nbsp;', state };
+            return { html: html || '&nbsp;', state: currentState };
         }
     }
 
-    if (state.in_style) {
+    if (currentState.in_style) {
         const endTag = '</style>';
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
@@ -550,18 +549,17 @@ _highlightHTML(line, state) {
             html += this._highlightCSS(styleContent, this._getInitialState()).html;
             html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
-            state.in_style = false;
+            currentState.in_style = false;
         } else {
             html += this._highlightCSS(line.substring(i), this._getInitialState()).html;
-            return { html: html || '&nbsp;', state };
+            return { html: html || '&nbsp;', state: currentState };
         }
     }
 
-    // Main HTML parsing loop remains the same, as it was already correct.
     while (i < line.length) {
-        if (state.in_comment) {
+        if (currentState.in_comment) {
             const endIdx = line.indexOf('-->', i);
-            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 3), 'comment'); i = endIdx + 3; state.in_comment = false; }
+            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 3), 'comment'); i = endIdx + 3; currentState.in_comment = false; }
             else { html += this._wrap(line.substring(i), 'comment'); break; }
             continue;
         }
@@ -572,7 +570,7 @@ _highlightHTML(line, state) {
         if (line.substring(i, i + 4) === '<!--') {
             const endIdx = line.indexOf('-->', i + 4);
             if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 3), 'comment'); i = endIdx + 3; }
-            else { html += this._wrap(line.substring(i), 'comment'); state.in_comment = true; break; }
+            else { html += this._wrap(line.substring(i), 'comment'); currentState.in_comment = true; break; }
             continue;
         }
         const tagEnd = line.indexOf('>', i);
@@ -623,15 +621,16 @@ _highlightHTML(line, state) {
                 i = endOfBlockIdx + endTag.length;
             } else {
                 const content = line.substring(i);
-                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; state.in_script = true; }
-                else { html += this._highlightCSS(content, this._getInitialState()).html; state.in_style = true; }
+                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; currentState.in_script = true; }
+                else { html += this._highlightCSS(content, this._getInitialState()).html; currentState.in_style = true; }
                 break;
             }
         }
     }
-    return { html: html || '&nbsp;', state };
+    return { html: html || '&nbsp;', state: currentState };
 }
-    
+
+
     
     
     
