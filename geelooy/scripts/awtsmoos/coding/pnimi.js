@@ -353,8 +353,6 @@ _measureAndRender() {
 
     _escape(str) { return str ? str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
-    
-    _highlightJS(line, state) {
     const lang = {
         keywords: [
         'const',
@@ -366,40 +364,37 @@ _measureAndRender() {
              'if', 'else', 'for',
               'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
     };
+    
+    
+    
+    
+    _highlightJS(line, state) {
+    // Divine Guard: Do not process chaos.
+    if (typeof line !== 'string') return { html: '&nbsp;', state };
+
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+    };
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
-
-        // STATE 1: Inside a multi-line block comment.
         if (state.in_comment) {
             const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) {
-                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
-                i += endIdx + 2;
-                state.in_comment = false;
-            } else {
-                html += this._wrap(remaining, 'comment');
-                break;
-            }
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; state.in_comment = false; }
+            else { html += this._wrap(remaining, 'comment'); break; }
             continue;
         }
-
-        // STATE 2: Inside a template string (regular or tagged).
         if (state.in_string || state.in_tagged_template) {
             const interpolationStart = remaining.indexOf('${');
             const templateEnd = this._findUnescapedChar(remaining, '`');
-
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 const content = remaining.substring(0, interpolationStart);
                 if (state.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
-                    html += subResult.html;
-                    state.sub_language_state = subResult.state;
-                } else {
-                    html += this._wrap(content, 'string');
-                }
+                    html += subResult.html; state.sub_language_state = subResult.state;
+                } else { html += this._wrap(content, 'string'); }
                 html += this._wrap('${', 'keyword');
                 state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
                 i += interpolationStart + 2;
@@ -411,34 +406,24 @@ _measureAndRender() {
                 if (state.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
                     html += subResult.html;
-                } else {
-                    html += this._wrap(content, 'string');
-                }
+                } else { html += this._wrap(content, 'string'); }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
-                // Clear all temporary states on exit
                 state.in_string = false;
                 state.in_tagged_template = false;
                 state.template_language = null;
-                state.sub_language_state = null; // Clear the sub-language memory
+                state.sub_language_state = null;
             } else {
                 const content = remaining;
                 if (state.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, state.sub_language_state, state.template_language);
-                    html += subResult.html;
-                    state.sub_language_state = subResult.state;
-                } else {
-                    html += this._wrap(content, 'string');
-                }
+                    html += subResult.html; state.sub_language_state = subResult.state;
+                } else { html += this._wrap(content, 'string'); }
                 break;
             }
             continue;
         }
-
-        // STATE 3: Top-level JS code OR code inside an interpolation.
         const firstChar = remaining[0];
-
-        // 1. Tagged template directives
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         let directiveFound = false;
         for (const d of directives) {
@@ -447,14 +432,12 @@ _measureAndRender() {
                 i += d.tag.length + 1;
                 state.in_tagged_template = true;
                 state.template_language = d.lang;
-                state.sub_language_state = {}; // Initialize the vessel for sub-language state
+                state.sub_language_state = this._getInitialState(); // Use the perfect archetype
                 directiveFound = true;
                 break;
             }
         }
         if (directiveFound) continue;
-
-        // 2. Comments
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -462,24 +445,13 @@ _measureAndRender() {
             else { html += this._wrap(remaining, 'comment'); state.in_comment = true; break; }
             continue;
         }
-
-        // 3. Regular strings
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
             else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
-        
-        // 4. Plain template strings
-        if (firstChar === '`') {
-            html += this._wrap('`', 'string');
-            i += 1;
-            state.in_string = true;
-            continue;
-        }
-
-        // 5. Keywords and variables
+        if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; state.in_string = true; continue; }
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
             const word = wordMatch[0];
@@ -488,8 +460,6 @@ _measureAndRender() {
             i += word.length;
             continue;
         }
-
-        // 6. Interpolation braces
         if (state.interpolation_depth > 0) {
             if (firstChar === '{') {
                 state.interpolation_depth++;
@@ -498,18 +468,13 @@ _measureAndRender() {
                 if (state.interpolation_depth === 0) {
                     html += this._wrap('}', 'keyword');
                     i++;
-                    if (state.string_type_before_interpolation === 'tagged') {
-                        state.in_tagged_template = true;
-                    } else {
-                        state.in_string = true;
-                    }
+                    if (state.string_type_before_interpolation === 'tagged') { state.in_tagged_template = true; }
+                    else { state.in_string = true; }
                     state.string_type_before_interpolation = null;
                     continue;
                 }
             }
         }
-
-        // 7. Default catch-all
         html += this._escape(firstChar);
         i++;
     }
@@ -566,23 +531,24 @@ _findUnescapedChar(line, char, startIndex = 0) {
  * CSS or JS highlighter.
  */
 _highlightHTML(line, state) {
+    // Divine Guard: Do not process chaos.
+    if (typeof line !== 'string') return { html: '&nbsp;', state };
+
     let html = '';
     let i = 0;
 
-    // --- NEW: State Isolation for Multi-line Script/Style Blocks ---
     if (state.in_script) {
         const endTag = '</script>';
         const endIdx = line.indexOf(endTag, i);
-        if (endIdx !==- 1) {
+        if (endIdx !== -1) {
             const scriptContent = line.substring(i, endIdx);
-            // THE FIX: Give the JS parser its own, clean, temporary state ({})
-            html += this._highlightJS(scriptContent, {}).html;
+            // Give the nested world a perfect, complete soul.
+            html += this._highlightJS(scriptContent, this._getInitialState()).html;
             html += this._wrap('</', 'punctuation') + this._wrap('script', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
             state.in_script = false;
         } else {
-            // THE FIX: Give the JS parser its own, clean, temporary state ({})
-            html += this._highlightJS(line.substring(i), {}).html;
+            html += this._highlightJS(line.substring(i), this._getInitialState()).html;
             return { html: html || '&nbsp;', state };
         }
     }
@@ -592,146 +558,84 @@ _highlightHTML(line, state) {
         const endIdx = line.indexOf(endTag, i);
         if (endIdx !== -1) {
             const styleContent = line.substring(i, endIdx);
-            // THE FIX: Give the CSS parser its own, clean, temporary state ({})
-            html += this._highlightCSS(styleContent, {}).html;
+            html += this._highlightCSS(styleContent, this._getInitialState()).html;
             html += this._wrap('</', 'punctuation') + this._wrap('style', 'tag') + this._wrap('>', 'punctuation');
             i = endIdx + endTag.length;
             state.in_style = false;
         } else {
-            // THE FIX: Give the CSS parser its own, clean, temporary state ({})
-            html += this._highlightCSS(line.substring(i), {}).html;
+            html += this._highlightCSS(line.substring(i), this._getInitialState()).html;
             return { html: html || '&nbsp;', state };
         }
     }
 
-    // --- Main HTML parsing loop (mostly unchanged) ---
+    // Main HTML parsing loop remains the same, as it was already correct.
     while (i < line.length) {
         if (state.in_comment) {
             const endIdx = line.indexOf('-->', i);
-            if (endIdx !== -1) {
-                html += this._wrap(line.substring(i, endIdx + 3), 'comment');
-                i = endIdx + 3;
-                state.in_comment = false;
-            } else {
-                html += this._wrap(line.substring(i), 'comment');
-                break;
-            }
+            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 3), 'comment'); i = endIdx + 3; state.in_comment = false; }
+            else { html += this._wrap(line.substring(i), 'comment'); break; }
             continue;
         }
-
         const tagStart = line.indexOf('<', i);
-        if (tagStart === -1) {
-            html += this._escape(line.substring(i));
-            break;
-        }
-
+        if (tagStart === -1) { html += this._escape(line.substring(i)); break; }
         html += this._escape(line.substring(i, tagStart));
         i = tagStart;
-
         if (line.substring(i, i + 4) === '<!--') {
             const endIdx = line.indexOf('-->', i + 4);
-            if (endIdx !== -1) {
-                html += this._wrap(line.substring(i, endIdx + 3), 'comment');
-                i = endIdx + 3;
-            } else {
-                html += this._wrap(line.substring(i), 'comment');
-                state.in_comment = true;
-                break;
-            }
+            if (endIdx !== -1) { html += this._wrap(line.substring(i, endIdx + 3), 'comment'); i = endIdx + 3; }
+            else { html += this._wrap(line.substring(i), 'comment'); state.in_comment = true; break; }
             continue;
         }
-
         const tagEnd = line.indexOf('>', i);
-        if (tagEnd === -1) {
-            html += this._escape(line.substring(i));
-            break;
-        }
-
+        if (tagEnd === -1) { html += this._escape(line.substring(i)); break; }
         let currentPos = i + 1;
         html += this._wrap('<', 'punctuation');
-        if (line[currentPos] === '/') {
-            html += this._wrap('/', 'punctuation');
-            currentPos++;
-        }
+        if (line[currentPos] === '/') { html += this._wrap('/', 'punctuation'); currentPos++; }
         let tagName = '';
-        while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) {
-            tagName += line[currentPos++];
-        }
-        const isClosingTag = line[i+1] === '/';
+        while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) { tagName += line[currentPos++]; }
+        const isClosingTag = line[i + 1] === '/';
         const normalizedTagName = tagName.toLowerCase();
         html += this._wrap(tagName, 'tag');
-
-        // Attribute parsing logic remains the same...
         while (currentPos < tagEnd) {
-             let whitespace = '';
-            while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
-                whitespace += line[currentPos++];
-            }
+            let whitespace = '';
+            while (currentPos < tagEnd && /\s/.test(line[currentPos])) { whitespace += line[currentPos++]; }
             if (whitespace) html += this._escape(whitespace);
             if (currentPos >= tagEnd) break;
             let attrName = '';
-            while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) {
-                attrName += line[currentPos++];
-            }
+            while (currentPos < tagEnd && /[\w-]/.test(line[currentPos])) { attrName += line[currentPos++]; }
             if (attrName) {
                 html += this._wrap(attrName, 'attribute');
                 let equalsPart = '';
-                while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
-                    equalsPart += line[currentPos++];
-                }
+                while (currentPos < tagEnd && /\s/.test(line[currentPos])) { equalsPart += line[currentPos++]; }
                 if (line[currentPos] === '=') {
-                    equalsPart += '=';
-                    currentPos++;
-                    while (currentPos < tagEnd && /\s/.test(line[currentPos])) {
-                        equalsPart += line[currentPos++];
-                    }
+                    equalsPart += '='; currentPos++;
+                    while (currentPos < tagEnd && /\s/.test(line[currentPos])) { equalsPart += line[currentPos++]; }
                     html += `${this._escape(equalsPart.replace('=', ''))}${this._wrap('=', 'operator')}${this._escape(equalsPart.replace('=', ''))}`;
                     const quoteChar = line[currentPos];
                     if (quoteChar === '"' || quoteChar === "'") {
-                        let attrValue = quoteChar;
-                        currentPos++;
-                        while (currentPos < tagEnd && line[currentPos] !== quoteChar) {
-                            attrValue += line[currentPos++];
-                        }
+                        let attrValue = quoteChar; currentPos++;
+                        while (currentPos < tagEnd && line[currentPos] !== quoteChar) { attrValue += line[currentPos++]; }
                         if (currentPos < tagEnd) attrValue += line[currentPos++];
                         html += this._wrap(attrValue, 'string');
                     }
                 }
-            } else {
-                html += this._escape(line.substring(currentPos, tagEnd));
-                currentPos = tagEnd;
-            }
+            } else { html += this._escape(line.substring(currentPos, tagEnd)); currentPos = tagEnd; }
         }
         html += this._wrap('>', 'punctuation');
         i = tagEnd + 1;
-        
-        // --- NEW: State Isolation for Single-line Script/Style Blocks ---
         if (!isClosingTag && (normalizedTagName === 'script' || normalizedTagName === 'style')) {
             const endTag = `</${normalizedTagName}>`;
             const endOfBlockIdx = line.indexOf(endTag, i);
-
             if (endOfBlockIdx !== -1) {
                 const content = line.substring(i, endOfBlockIdx);
-                if (normalizedTagName === 'script') {
-                    // THE FIX: Give the JS parser its own, clean, temporary state ({})
-                    html += this._highlightJS(content, {}).html;
-                } else {
-                    // THE FIX: Give the CSS parser its own, clean, temporary state ({})
-                    html += this._highlightCSS(content, {}).html;
-                }
+                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; }
+                else { html += this._highlightCSS(content, this._getInitialState()).html; }
                 html += this._wrap('</', 'punctuation') + this._wrap(normalizedTagName, 'tag') + this._wrap('>', 'punctuation');
                 i = endOfBlockIdx + endTag.length;
             } else {
                 const content = line.substring(i);
-                if (normalizedTagName === 'script') {
-                    // THE FIX: Give the JS parser its own, clean, temporary state ({})
-                    html += this._highlightJS(content, {}).html;
-                    state.in_script = true;
-                } else {
-                    // THE FIX: Give the CSS parser its own, clean, temporary state ({})
-                    html += this._highlightCSS(content, {}).html;
-                    state.in_style = true;
-                }
+                if (normalizedTagName === 'script') { html += this._highlightJS(content, this._getInitialState()).html; state.in_script = true; }
+                else { html += this._highlightCSS(content, this._getInitialState()).html; state.in_style = true; }
                 break;
             }
         }
@@ -846,6 +750,33 @@ _highlightHTML(line, state) {
         return { html: html || '&nbsp;', state };
     }
     // --- END: PARSER LOGIC ---
+    
+    
+    
+    
+    
+    /**
+ * @private
+ * @function _getInitialState
+ * @description The "Adam Kadmon" (Primordial Man) of parser states.
+ * This function is the single source of truth for creating a new, complete, and pristine state object.
+ * It ensures every parser, whether top-level or nested, is born with a full set of default properties,
+ * preventing the chaos of null or undefined references.
+ */
+_getInitialState() {
+    return {
+        in_comment: false,
+        in_string: false,
+        in_rules: false,
+        in_script: false,
+        in_style: false,
+        in_tagged_template: false,
+        template_language: null,
+        interpolation_depth: 0,
+        string_type_before_interpolation: null,
+        sub_language_state: null
+    };
+}
 
     
 
