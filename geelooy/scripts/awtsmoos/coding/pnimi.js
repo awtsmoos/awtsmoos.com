@@ -567,44 +567,49 @@ _getHTMLToken(line, i, state) {
  * It reads the current context and delegates to the appropriate specialized parser.
  * This centralized logic is the key to preventing state loss and enabling flawless recursion.
  */
+/**
+ * @private @function _getToken
+ * @description The Universal Soul, with complete knowledge of all contexts. It is the
+ * central dispatcher that orchestrates all parsing. Its laws are absolute.
+ */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
     // LAW 1: The highest priority is always to check for an exit terminator.
     if (context.terminator && line.substring(i).startsWith(context.terminator)) {
         const terminatorLength = context.terminator.length;
-        // Determine the token type based on the context we are leaving.
         let type = 'string';
         if (context.mode.includes('comment')) type = 'comment';
         if (context.mode.includes('interpolation')) type = 'controlKeyword';
         if (context.terminator.startsWith('</')) type = 'tag';
 
-        // CRITICAL: We pop the context off the stack, returning to the previous state.
-        state.contextStack.pop();
+        state.contextStack.pop(); // Return to the previous reality.
         return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
     }
 
     // LAW 2: Check for entering a nested context (template interpolation).
     if (context.mode === 'template_literal' && line.substring(i).startsWith('${')) {
-        // CRITICAL: Push the new JavaScript interpolation context onto the stack.
-        // The 'depth' property will be used by _getJSToken to track nested {} braces.
         state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
         return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
     }
 
-    // LAW 3: Delegate to the correct soul based on the current mode.
+    // LAW 3: Delegate to the correct specialized soul based on the current mode.
     switch (context.mode) {
-        // Both standard JS and the code inside ${...} are handled by the JS soul.
         case 'javascript':
         case 'javascript_interpolation':
             return this._getJSToken(line, i, state);
 
         case 'html':
-            return this._getHTMLToken(line, i, state); // Assumes you have this method.
+            return this._getHTMLToken(line, i, state);
         case 'css':
-            return this._getCssToken(line, i, state); // Assumes you have this method.
+            return this._getCssToken(line, i, state);
 
-        // Handle simple contexts directly.
+        // These new modes are now fully understood and delegated correctly.
+        case 'template_language_html':
+            return this._getHTMLToken(line, i, state);
+        case 'template_language_css':
+            return this._getCssToken(line, i, state);
+
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
@@ -612,20 +617,16 @@ _getToken(line, i, state) {
         }
         case 'string':
         case 'template_literal': {
-             // Find the next boundary (`\`, terminator, or `${`).
             let content = '', p = i;
             const terminator = context.mode === 'string' ? context.terminator : '`';
             while (p < line.length) {
-                if (line[p] === '\\') { // Handle escaped characters
-                    content += line.substring(p, p + 2); p += 2; continue;
-                }
-                // Stop if we hit a terminator or an interpolation start.
+                if (line[p] === '\\') { content += line.substring(p, p + 2); p += 2; continue; }
                 if (line[p] === terminator || (context.mode === 'template_literal' && line.substring(p).startsWith('${'))) break;
                 content += line[p++];
             }
             return { html: this._wrap(content, 'string'), newIndex: p };
         }
-        // Failsafe for unknown states.
+        // Failsafe for any unknown state.
         default:
             return { html: this._escape(line[i]), newIndex: i + 1 };
     }
@@ -649,53 +650,73 @@ _getToken(line, i, state) {
  * identifying unambiguous tokens (comments, strings) BEFORE counting curly braces.
  * This contextual awareness is its ultimate strength.
  */
+/**
+ * @private @function _getJSToken
+ * @description The Final, Unified Soul of JavaScript. It has achieved its ultimate form.
+ * It first seeks special directives HTML to transcend into other languages.
+ * If its path remains within JavaScript, it uses flawless context-aware logic to
+ * parse deeply nested structures, identifying comments and strings before ever
+* counting braces. This order of operations makes it infallible.
+ */
 _getJSToken(line, i, state) {
+    // --- WISDOM 1: Check for embedded language directives FIRST ---
+    const directives = [
+        { tag: '/*html*/`', lang: 'html' },
+        { tag: '/*css*/`', lang: 'css' }
+    ];
+    for (const d of directives) {
+        if (line.substring(i).startsWith(d.tag)) {
+            // A directive was found! Switch the context to the embedded language.
+            state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
+            // Highlight the directive comment and the opening backtick, then return.
+            return {
+                html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'),
+                newIndex: i + d.tag.length
+            };
+        }
+    }
+
+    // --- WISDOM 2: Flawless, context-aware JS parsing ---
     const context = state.contextStack[state.contextStack.length - 1];
     const char = line[i];
 
-    // --- The Wisdom: Check for unambiguous tokens FIRST ---
-
-    // 1. Is it a multi-line comment?
+    // The order is critical: check for unambiguous tokens before anything else.
     if (line.substring(i, i + 2) === '/*') {
         state.contextStack.push({ mode: 'comment', terminator: '*/' });
         return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
     }
-    // 2. Is it a single-line comment?
     if (line.substring(i, i + 2) === '//') {
         return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
     }
-    // 3. Is it a regular string?
     if (char === "'" || char === '"') {
         state.contextStack.push({ mode: 'string', terminator: char });
         return { html: this._wrap(char, 'string'), newIndex: i + 1 };
     }
-    // 4. Is it a template literal string?
     if (char === '`') {
         state.contextStack.push({ mode: 'template_literal', terminator: '`' });
         return { html: this._wrap('`', 'string'), newIndex: i + 1 };
     }
 
-    // --- The Intelligent Brace Counter ---
-    // This logic only runs if the character is NOT inside a comment or string,
-    // because the checks above would have already returned.
+    // The Intelligent Brace Counter: This only runs if we are inside `${...}`
+    // and the character is not part of a comment or string.
     if (context.mode === 'javascript_interpolation') {
         if (char === '{') {
-            context.depth++; // Enter a deeper level of nesting.
+            context.depth = (context.depth || 0) + 1; // Enter a deeper level
         } else if (char === '}') {
-            if (context.depth > 0) {
-                context.depth--; // Exit a level of nesting.
+            if (context.depth && context.depth > 0) {
+                context.depth--; // Exit a level
             } else {
-                // Depth is zero, so this is the final closing brace.
-                // We return an empty string and let _getToken handle the exit.
+                // Depth is zero. This is the true exit brace.
+                // We signal _getToken to pop the context by returning an empty html string.
                 return { html: '', newIndex: i };
             }
         }
     }
 
-    // --- Standard Token Parsing (keywords, variables, numbers, etc.) ---
-    // This logic is safe now because the ambiguous cases have been handled.
+    // Standard Token Parsing for keywords, variables, numbers, etc.
     const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
     const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
+
     if (this._isIS(char)) { // isIdentifierStart
         let buffer = '', p = i;
         while (p < line.length && this._isIP(line[p])) buffer += line[p++]; // isIdentifierPart
@@ -714,7 +735,7 @@ _getJSToken(line, i, state) {
         return { html: this._wrap(buffer, 'number'), newIndex: p };
     }
 
-    // Default case for operators and punctuation
+    // Default case for all other characters (operators, punctuation).
     state.isNextTokenFunctionName = false;
     const isPunctuation = '{}[]().,;'.includes(char);
     const type = isPunctuation ? 'punctuation' : 'operator';
