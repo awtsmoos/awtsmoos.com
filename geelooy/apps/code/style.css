@@ -650,6 +650,84 @@
 
 
 
+/* B"H - Add these styles for the Git integration UI */
+
+/* Positions the Git Actions button in the workspace header */
+.workspace-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workspace-header-title {
+    flex-grow: 1;
+    cursor: pointer;
+    /* Add padding for an easier click target */
+    padding: 5px; 
+    border-radius: 4px;
+}
+.workspace-header-title:hover {
+    background-color: var(--color-bg-hover);
+}
+
+/* Styles for the Git Status Dialog */
+.git-status-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 2px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9em;
+}
+.git-status-line:last-of-type {
+    border-bottom: none;
+}
+
+.git-status-line .status {
+    font-weight: 600;
+}
+
+.git-status-line .status.synced { color: var(--color-accent-success); }
+.git-status-line .status.behind { color: var(--color-accent-warning); }
+.git-status-line .status.ahead { color: var(--color-accent-info); }
+
+.changes-list {
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    border-radius: 4px;
+    background: var(--color-bg-secondary);
+    font-size: 0.85em;
+}
+.changes-list ul {
+    list-style-type: none;
+    padding-left: 5px;
+    margin: 5px 0 0 0;
+}
+.changes-list li {
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.changes-list .tag {
+    display: inline-block;
+    width: 65px;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: var(--color-text-inverted, #fff);
+    margin-right: 8px;
+}
+.changes-list .tag.created { background-color: var(--color-accent-success); }
+.changes-list .tag.modified { background-color: var(--color-accent-info); }
+.changes-list .tag.deleted { background-color: var(--color-accent-danger); }
+
+
+
 
 
 
