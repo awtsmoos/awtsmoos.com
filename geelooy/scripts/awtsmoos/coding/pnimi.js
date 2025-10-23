@@ -393,35 +393,29 @@ _findMatchingBrace(line, startIndex = 0) {
 
 
    // B"H
-// ACTION: Replace the ENTIRE _highlightJS method with this corrected version.
-
-// B"H
-// ACTION: Replace the ENTIRE _highlightJS method with this corrected version.
-
-// B"H
-// ACTION: Replace the ENTIRE _highlightJS method with this TRULY corrected version.
-
+/**
+ * @private
+ * @function _highlightJS
+ * @description The master parser for the JavaScript world and its many nested realities.
+ * It manages the context stack for comments, templates, and interpolations.
+ */
 _highlightJS(line, state) {
-    if (typeof line !== 'string') return { html: '&nbsp;', state };
     const currentState = state;
-    const lang = {
-        keywords: [ 'const', 'let', 'var', 'this', 'function', "typeof", 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break', "true", "false", "null", "undefined", "try", "catch", "finally" ],
-    };
-
     let html = '';
     let i = 0;
+    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
 
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
 
-        // --- REALITY 1: We are inside a MULTILINE JS COMMENT ---
+        // --- REALITY 1: Inside a MULTILINE JS COMMENT ---
         if (context.mode === 'js_comment') {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
                 i += endIdx + 2;
-                currentState.contextStack.pop();
+                currentState.contextStack.pop(); // Exit comment world
             } else {
                 html += this._wrap(remaining, 'comment');
                 break;
@@ -429,8 +423,8 @@ _highlightJS(line, state) {
             continue;
         }
 
-        // --- REALITY 2: We are inside ANY kind of TEMPLATE STRING (`...` or /*lang*/`...`) ---
-        if (context.mode === 'plain_template' || context.mode === 'tagged_template') {
+        // --- REALITY 2: Inside a TEMPLATE STRING (tagged or plain) ---
+        if (context.mode === 'tagged_template' || context.mode === 'plain_template') {
             const interpolationStart = remaining.indexOf('${');
             const templateEnd = this._findUnescapedChar(remaining, '`');
 
@@ -444,21 +438,21 @@ _highlightJS(line, state) {
                 }
                 html += this._wrap('${', 'keyword');
                 i += interpolationStart + 2;
-                currentState.contextStack.push({ mode: 'js' });
+                currentState.contextStack.push({ mode: 'js' }); // Enter the nested JS world
             } else if (templateEnd !== -1) {
                 const content = remaining.substring(0, templateEnd);
                 if (context.mode === 'tagged_template') {
-                    const subResult = this._getHighlightResult(content, { contextStack: [{ mode: context.language }] });
+                     const subResult = this._getHighlightResult(content, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
                     html += this._wrap(content, 'string');
                 }
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
-                currentState.contextStack.pop();
+                currentState.contextStack.pop(); // Exit the template string world
             } else {
                 if (context.mode === 'tagged_template') {
-                     const subResult = this._getHighlightResult(remaining, { contextStack: [{ mode: context.language }] });
+                    const subResult = this._getHighlightResult(remaining, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
                     html += this._wrap(remaining, 'string');
@@ -468,10 +462,9 @@ _highlightJS(line, state) {
             continue;
         }
 
-        // --- REALITY 3: We are in the default JAVASCRIPT world ---
+        // --- REALITY 3: In the default JAVASCRIPT world ---
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         const foundDirective = directives.find(d => remaining.startsWith(d.tag + '`'));
-
         if (foundDirective) {
             html += this._wrap(foundDirective.tag, 'comment') + this._wrap('`', 'string');
             i += foundDirective.tag.length + 1;
@@ -483,21 +476,21 @@ _highlightJS(line, state) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx === -1) {
                 html += this._wrap(remaining, 'comment');
-                currentState.contextStack.push({ mode: 'js_comment' });
+                currentState.contextStack.push({ mode: 'js_comment' }); // Enter comment world
                 break;
             } else {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
                 i += endIdx + 2;
-                continue;
             }
+            continue;
         }
+        
         if (remaining.startsWith('//')) {
             html += this._wrap(remaining, 'comment');
             break;
         }
 
-        // ***FIX #2 APPLIED HERE***
-        const firstChar = remaining[0]; 
+        const firstChar = remaining;
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) {
@@ -513,30 +506,38 @@ _highlightJS(line, state) {
         if (firstChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
-            currentState.contextStack.push({ mode: 'plain_template' });
+            currentState.contextStack.push({ mode: 'plain_template' }); // Enter template world
             continue;
         }
-
-        // ***FIX #1 APPLIED HERE***
-        const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
-        if (wordMatch && wordMatch[0]) {
-            const word = wordMatch[0]; // Get the string from the match array
-            if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
-            else { html += this._wrap(word, 'variable'); }
-            i += word.length;
-            continue;
-        }
-
+        
         if (firstChar === '}') {
             if (currentState.contextStack.length > 1) {
                 html += this._wrap('}', 'keyword');
                 i++;
-                currentState.contextStack.pop();
+                currentState.contextStack.pop(); // Exit nested JS world
                 continue;
             }
         }
+
+        const wordMatch = remaining.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*/);
+        if (wordMatch) {
+            const word = wordMatch;
+            if (keywords.has(word)) {
+                html += this._wrap(word, 'keyword');
+            } else {
+                html += this._wrap(word, 'variable');
+            }
+            i += word.length;
+            continue;
+        }
         
-        // Default: If none of the above, process one character at a time.
+        const numMatch = remaining.match(/^-?\d+(\.\d+)?/);
+        if (numMatch) {
+            html += this._wrap(numMatch, 'number');
+            i += numMatch.length;
+            continue;
+        }
+        
         html += this._escape(firstChar);
         i++;
     }
@@ -550,10 +551,12 @@ _highlightJS(line, state) {
 
 
 
-// The NEW, PERFECTED, FLAWLESS _highlightHTML
-// B"H
-// ACTION: Replace the entire _highlightHTML method.
-
+/**
+ * @private
+ * @function _highlightHTML
+ * @description The parser for the HTML world. It understands how to enter and exit
+ * the nested worlds of script tags, style tags, and comments.
+ */
 _highlightHTML(line, state) {
     const currentState = state;
     let html = '';
@@ -563,34 +566,33 @@ _highlightHTML(line, state) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
 
-        // World 1: Inside an HTML Comment
+        // --- REALITY 1: We are inside an HTML COMMENT ---
         if (context.mode === 'html_comment') {
             const endIdx = remaining.indexOf('-->');
             if (endIdx !== -1) {
                 html += this._wrap(remaining.substring(0, endIdx + 3), 'comment');
                 i += endIdx + 3;
-                currentState.contextStack.pop(); // Return from comment world
+                currentState.contextStack.pop(); // Exit the comment world
             } else {
-                html += this._wrap(remaining, 'comment');
+                html += this._wrap(remaining, 'comment'); // The whole line is a comment
                 break; // Continue in comment world on next line
             }
             continue;
         }
-
+        
+        // --- REALITY 2: We are in the default HTML world ---
         const tagStart = remaining.indexOf('<');
 
-        // No more tags on this line, escape the rest
         if (tagStart === -1) {
             html += this._escape(remaining);
             break;
         }
 
-        // Add text before the tag
         html += this._escape(remaining.substring(0, tagStart));
         i += tagStart;
         const tagRemaining = line.substring(i);
 
-        // Handle Comment Tag Creation
+        // Check for the start of an HTML comment.
         if (tagRemaining.startsWith('<!--')) {
             const endIdx = tagRemaining.indexOf('-->');
             if (endIdx !== -1) {
@@ -603,10 +605,8 @@ _highlightHTML(line, state) {
             }
             continue;
         }
-
+        
         const tagEnd = tagRemaining.indexOf('>');
-
-        // Unterminated tag on this line
         if (tagEnd === -1) {
             html += this._escape(tagRemaining);
             break;
@@ -614,41 +614,37 @@ _highlightHTML(line, state) {
 
         const tagContent = tagRemaining.substring(0, tagEnd + 1);
         const isClosingTag = tagContent.startsWith('</');
-        const tagNameMatch = tagContent.match(/^<\/?([\w-]+)/);
+        const tagNameMatch = tagContent.match(/^<\/?\s*([a-zA-Z0-9-]+)/);
         const tagName = tagNameMatch ? tagNameMatch[1].toLowerCase() : '';
-
-        // Highlight the inside of the tag (attributes, etc.)
-        // This is a simplified version; a full attribute parser would go here.
-        // For now, we tokenize the main parts.
-        html += this._wrap('<' + (isClosingTag ? '/' : ''), 'punctuation');
+        
+        html += this._wrap(isClosingTag ? '</' : '<', 'punctuation');
         html += this._wrap(tagName, 'tag');
-        // A real implementation would parse attributes here. We'll just escape the middle for now.
-        const tagMiddle = tagContent.substring(tagNameMatch[0].length, tagContent.length - 1);
-        html += this._escape(tagMiddle);
+        if (tagNameMatch) {
+             const afterTagName = tagContent.substring(tagNameMatch[0].length, tagContent.length - 1);
+             html += this._escape(afterTagName); // A real parser would tokenize attributes here.
+        }
         html += this._wrap('>', 'punctuation');
-
         i += tagEnd + 1;
 
-        // State Transitions: Entering a new world
+        // --- STATE TRANSITIONS: Pushing and Popping Worlds ---
         if (!isClosingTag && (tagName === 'script' || tagName === 'style')) {
             const endTag = `</${tagName}>`;
-            // If the closing tag is NOT on the same line, we enter the new world.
+            // If the closing tag is NOT on this same line, we must push a new state.
             if (line.substring(i).toLowerCase().indexOf(endTag) === -1) {
-                currentState.contextStack.push({ mode: tagName + '_block' });
+                const newMode = tagName === 'script' ? 'script_block' : 'style_block';
+                currentState.contextStack.push({ mode: newMode });
             }
         }
-        // State Transitions: Leaving a world
         else if (isClosingTag && (tagName === 'script' || tagName === 'style')) {
-            // If we are in the correct block, we can leave it.
-            if (context.mode === tagName + '_block') {
+            const expectedMode = tagName === 'script' ? 'script_block' : 'style_block';
+            // Only pop if we are actually in that world. This prevents bugs from mismatched tags.
+            if (context.mode === expectedMode) {
                 currentState.contextStack.pop();
             }
         }
     }
-
     return { html: html || '&nbsp;', state: currentState };
 }
-
     
     
     
@@ -707,96 +703,93 @@ _findUnescapedChar(line, char, startIndex = 0) {
     
     
     
-    _highlightCSS(line, state) {
-        let html = '';
-        let i = 0;
-        state.in_rules = state.in_rules || false;
+    /**
+ * @private
+ * @function _highlightCSS
+ * @description The parser for the CSS world, with a perfect memory for its comments.
+ */
+_highlightCSS(line, state) {
+    const currentState = state;
+    let html = '';
+    let i = 0;
+    state.in_css_rules = state.in_css_rules || false;
 
-        while(i < line.length) {
-            if (state.in_comment) {
-                const endIdx = line.indexOf('*/', i);
-                if (endIdx !== -1) {
-                    html += this._wrap(line.substring(i, endIdx + 2), 'comment');
-                    i = endIdx + 2;
-                    state.in_comment = false;
-                } else {
-                    html += this._wrap(line.substring(i), 'comment');
-                    break;
-                }
-                continue;
-            }
-            
-            let preContent = '';
-            while(i < line.length && /\s/.test(line[i])) {
-                 preContent += line[i++];
-            }
+    while (i < line.length) {
+        const context = currentState.contextStack[currentState.contextStack.length - 1];
+        const remaining = line.substring(i);
 
-            if (line.substring(i).startsWith('/*')) {
-                html += this._escape(preContent);
-                const endIdx = line.indexOf('*/', i + 2);
-                if (endIdx !== -1) {
-                    html += this._wrap(line.substring(i, endIdx + 2), 'comment');
-                    i = endIdx + 2;
-                } else {
-                    html += this._wrap(line.substring(i), 'comment');
-                    state.in_comment = true;
-                    break;
-                }
-                continue;
-            }
-
-            html += this._escape(preContent);
-            if (i >= line.length) break;
-
-            if (state.in_rules) {
-                if (line[i] === '}') {
-                    html += this._wrap('}', 'punctuation');
-                    state.in_rules = false;
-                    i++;
-                    continue;
-                }
-                const colonIdx = line.indexOf(':', i);
-                const semiIdx = line.indexOf(';', i);
-                const braceIdx = line.indexOf('}', i);
-                
-                if (colonIdx !== -1 && (semiIdx === -1 || colonIdx < semiIdx) && (braceIdx === -1 || colonIdx < braceIdx)) {
-                    const prop = line.substring(i, colonIdx).trim();
-                    html += this._wrap(prop, 'property');
-                    html += this._escape(line.substring(i + prop.length, colonIdx));
-                    html += this._wrap(':', 'punctuation');
-                    i = colonIdx + 1;
-                    let endValueIdx = (semiIdx !== -1 && (braceIdx === -1 || semiIdx < braceIdx)) ? semiIdx : (braceIdx !== -1 ? braceIdx : line.length);
-                    const val = line.substring(i, endValueIdx).trim();
-                    html += this._escape(line.substring(i, line.indexOf(val, i)));
-                    html += this._wrap(val, 'string');
-                    html += this._escape(line.substring(line.indexOf(val, i) + val.length, endValueIdx));
-                    i = endValueIdx;
-                    if (i < line.length && line[i] === ';') {
-                        html += this._wrap(';', 'punctuation');
-                        i++;
-                    }
-                } else {
-                    let endIdx = braceIdx !== -1 ? braceIdx : line.length;
-                    html += this._escape(line.substring(i, endIdx));
-                    i = endIdx;
-                }
+        // --- REALITY 1: Inside a MULTILINE CSS COMMENT ---
+        if (context.mode === 'css_comment') {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) {
+                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
+                i += endIdx + 2;
+                currentState.contextStack.pop(); // Exit comment world
             } else {
-                const braceIdx = line.indexOf('{', i);
-                if (braceIdx !== -1) {
-                    const selector = line.substring(i, braceIdx).trim();
-                    html += this._wrap(selector, 'selector');
-                    html += this._escape(line.substring(i + selector.length, braceIdx));
-                    html += this._wrap('{', 'punctuation');
-                    state.in_rules = true;
-                    i = braceIdx + 1;
-                } else {
-                    html += this._escape(line.substring(i));
-                    break;
-                }
+                html += this._wrap(remaining, 'comment');
+                break;
             }
+            continue;
         }
-        return { html: html || '&nbsp;', state };
+
+        // --- REALITY 2: In the default CSS world ---
+        if (remaining.startsWith('/*')) {
+            const endIdx = remaining.indexOf('*/', 2);
+            if (endIdx !== -1) {
+                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
+                i += endIdx + 2;
+            } else {
+                html += this._wrap(remaining, 'comment');
+                currentState.contextStack.push({ mode: 'css_comment' }); // Enter comment world
+                break;
+            }
+            continue;
+        }
+        
+        const selectorMatch = remaining.match(/^([^{/]*?)\s*\{/);
+        if (!state.in_css_rules && selectorMatch) {
+            html += this._wrap(selectorMatch, 'selector');
+            html += this._wrap('{', 'punctuation');
+            i += selectorMatch.length;
+            state.in_css_rules = true;
+            continue;
+        }
+
+        const closingBraceMatch = remaining.match(/^\s*\}/);
+        if (closingBraceMatch) {
+            html += this._wrap('}', 'punctuation');
+            i += closingBraceMatch.length;
+            state.in_css_rules = false;
+            continue;
+        }
+
+        if (state.in_css_rules) {
+             const propertyMatch = remaining.match(/^([^:]+?)\s*:/);
+             if (propertyMatch) {
+                 html += this._wrap(propertyMatch.trim(), 'property');
+                 html += this._wrap(':', 'punctuation');
+                 i += propertyMatch.length;
+                 continue;
+             }
+             const valueMatch = remaining.match(/^([^;}]+?)\s*(;|\})/);
+             if (valueMatch) {
+                 html += this._wrap(valueMatch.trim(), 'string');
+                 if (valueMatch === ';') {
+                     html += this._wrap(';', 'punctuation');
+                 }
+                 i += valueMatch.length;
+                 if (valueMatch === '}') {
+                     state.in_css_rules = false;
+                 }
+                 continue;
+             }
+        }
+        
+        html += this._escape(remaining || '');
+        i++;
     }
+    return { html: html || '&nbsp;', state: currentState };
+}
     // --- END: PARSER LOGIC ---
     
     
