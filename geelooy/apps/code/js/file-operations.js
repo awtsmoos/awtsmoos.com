@@ -52,10 +52,16 @@ export const FileOperations = {
 
 
     
+    // B"H
+// FILE: js/file-operations.js
+
+// ... inside the FileOperations object ...
+
+    // REPLACE your existing pullAndOverwrite function with this one.
     async pullAndOverwrite(folderToUpdate, gitInfo) {
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
-            message: `Are you sure? This will delete all local changes in the '${folderToUpdate.name}' folder and replace them with the latest version from GitHub. This cannot be undone.`,
+            message: `Are you sure? This will delete all local changes in '${folderToUpdate.name}' and replace them with the latest version from GitHub. This cannot be undone.`,
             okText: 'Yes, Overwrite My Changes',
             cancelText: 'Cancel'
         });
@@ -64,26 +70,30 @@ export const FileOperations = {
 
         UI.showLoading(`Pulling latest changes for ${folderToUpdate.name}...`);
         try {
-            // 1. Delete all existing content in the folder.
-            // We get the list of items inside the folder and delete them one by one.
+            const sourceRepoItem = { type: 'github', ...gitInfo };
+            const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
+            const filesToPull = fullTreeData.tree;
+            
+            // --- NEW: Give better feedback on what's missing ---
+            const localFiles = await FileSystemProvider.listAllFiles(folderToUpdate);
+            const localFilePaths = new Set(localFiles.map(f => f.path));
+            const missingFiles = filesToPull.filter(remoteFile => 
+                !localFilePaths.has(`${folderToUpdate.path}/${remoteFile.path}`)
+            );
+            UI.showLoading(`Pulling ${filesToPull.length} total files. Found ${missingFiles.length} missing files...`);
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Give user time to read
+            // --- END NEW ---
+
             const itemsToDelete = await FileSystemProvider.list(folderToUpdate);
             for (const item of itemsToDelete) {
-                // Don't delete our own metadata folder during the process
                 if (item.name === '.awtsmoos-repo') continue;
                 await FileSystemProvider.delete(item);
             }
 
-            // 2. Re-run the clone logic, but into the now-empty existing folder.
-            // This is very similar to the clone function.
-            const sourceRepoItem = { type: 'github', ...gitInfo };
-            const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
-            const filesToClone = fullTreeData.tree;
-
-            for (const fileNode of filesToClone) {
+            for (const fileNode of filesToPull) {
                 const fileSize = fileNode.size ? `(${(fileNode.size / 1024).toFixed(1)} KB)` : '';
                 UI.showLoading(`Pulling: ${fileNode.path} ${fileSize}`);
-
-                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha };
+                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.path.split('/').pop() };
                 const content = await FileSystemProvider.GitHub.read(itemForReading);
                 const destinationItem = { ...folderToUpdate, path: `${folderToUpdate.path}/${fileNode.path}` };
                 const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
@@ -93,8 +103,7 @@ export const FileOperations = {
                 await FileSystemProvider.write(destinationItem, content);
             }
 
-            // 3. Update the ikar.js file with the new commit SHA and tree.
-            const updatedGitInfo = { ...gitInfo, baseCommitSHA: fullTreeData.sha, remoteTree: filesToClone };
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: fullTreeData.sha, remoteTree: filesToPull };
             const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
             const ikarFileItem = { ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` };
             await FileSystemProvider.write(ikarFileItem, ikarFileContent);
