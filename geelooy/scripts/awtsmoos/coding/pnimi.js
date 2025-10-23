@@ -398,6 +398,9 @@ _findMatchingBrace(line, startIndex = 0) {
 // B"H
 // ACTION: Replace the ENTIRE _highlightJS method with this corrected version.
 
+// B"H
+// ACTION: Replace the ENTIRE _highlightJS method with this TRULY corrected version.
+
 _highlightJS(line, state) {
     if (typeof line !== 'string') return { html: '&nbsp;', state };
     const currentState = state;
@@ -409,7 +412,6 @@ _highlightJS(line, state) {
     let i = 0;
 
     while (i < line.length) {
-        // The current reality is always the top of the stack.
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
 
@@ -419,86 +421,69 @@ _highlightJS(line, state) {
             if (endIdx !== -1) {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
                 i += endIdx + 2;
-                currentState.contextStack.pop(); // End of this reality.
+                currentState.contextStack.pop();
             } else {
                 html += this._wrap(remaining, 'comment');
-                break; // Continue this reality on the next line.
+                break;
             }
             continue;
         }
 
         // --- REALITY 2: We are inside ANY kind of TEMPLATE STRING (`...` or /*lang*/`...`) ---
-        // This is the ALOOF OVERSEER logic.
         if (context.mode === 'plain_template' || context.mode === 'tagged_template') {
             const interpolationStart = remaining.indexOf('${');
             const templateEnd = this._findUnescapedChar(remaining, '`');
 
-            // CASE A: An interpolation `${` appears before the end of the template.
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
                 const contentBefore = remaining.substring(0, interpolationStart);
-
-                // If it's a tagged template, we delegate the highlighting. This is the "aloof" part.
                 if (context.mode === 'tagged_template') {
                     const subResult = this._getHighlightResult(contentBefore, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
-                } else { // Otherwise, it's just a plain string.
+                } else {
                     html += this._wrap(contentBefore, 'string');
                 }
-                
-                // Now we mark the portal back to the JS world.
                 html += this._wrap('${', 'keyword');
                 i += interpolationStart + 2;
-                currentState.contextStack.push({ mode: 'js' }); // Descend back into a pure JS reality.
-            
-            // CASE B: The template string ends on this line.
+                currentState.contextStack.push({ mode: 'js' });
             } else if (templateEnd !== -1) {
                 const content = remaining.substring(0, templateEnd);
-                
-                // Delegate highlighting if tagged.
                 if (context.mode === 'tagged_template') {
                     const subResult = this._getHighlightResult(content, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
-                } else { // Otherwise, it's a plain string.
+                } else {
                     html += this._wrap(content, 'string');
                 }
-                
                 html += this._wrap('`', 'string');
                 i += templateEnd + 1;
-                currentState.contextStack.pop(); // This template reality is over. Ascend.
-            
-            // CASE C: The template does not end on this line.
+                currentState.contextStack.pop();
             } else {
-                // Highlight the entire rest of the line according to the template's rules.
                 if (context.mode === 'tagged_template') {
                      const subResult = this._getHighlightResult(remaining, { contextStack: [{ mode: context.language }] });
                     html += subResult.html;
                 } else {
                     html += this._wrap(remaining, 'string');
                 }
-                break; // End processing for this line; state is preserved for the next.
+                break;
             }
-            continue; // We have handled this segment. Continue the main loop.
+            continue;
         }
 
         // --- REALITY 3: We are in the default JAVASCRIPT world ---
-        // This is where we look for the BEGINNINGS of other realities.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         const foundDirective = directives.find(d => remaining.startsWith(d.tag + '`'));
 
         if (foundDirective) {
             html += this._wrap(foundDirective.tag, 'comment') + this._wrap('`', 'string');
             i += foundDirective.tag.length + 1;
-            // Emanate the new "tagged template" world.
             currentState.contextStack.push({ mode: 'tagged_template', language: foundDirective.lang });
             continue;
         }
 
-        // Check for comments
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx === -1) {
                 html += this._wrap(remaining, 'comment');
-                currentState.contextStack.push({ mode: 'js_comment' }); // Enter multiline comment reality
+                currentState.contextStack.push({ mode: 'js_comment' });
                 break;
             } else {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
@@ -508,24 +493,23 @@ _highlightJS(line, state) {
         }
         if (remaining.startsWith('//')) {
             html += this._wrap(remaining, 'comment');
-            break; // Single line comment ends the reality for this line.
+            break;
         }
 
-        // Check for regular strings
-        const firstChar = remaining; // CORRECTED: Check only the first character
+        // ***FIX #2 APPLIED HERE***
+        const firstChar = remaining[0]; 
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) {
                 html += this._wrap(remaining.substring(0, endIdx + 1), 'string');
                 i += endIdx + 1;
             } else {
-                html += this._wrap(remaining, 'string'); // Unterminated string
+                html += this._wrap(remaining, 'string');
                 break;
             }
             continue;
         }
 
-        // Check for the beginning of a plain template string reality
         if (firstChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
@@ -533,35 +517,32 @@ _highlightJS(line, state) {
             continue;
         }
 
-        // Check for keywords, variables, etc.
+        // ***FIX #1 APPLIED HERE***
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
-        if (wordMatch) {
-            const word = wordMatch; // CORRECTED: Get the string from the match array
+        if (wordMatch && wordMatch[0]) {
+            const word = wordMatch[0]; // Get the string from the match array
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
             i += word.length;
             continue;
         }
 
-        // Handle the closing brace of an interpolation `}`
         if (firstChar === '}') {
-            // Only pop if we are actually in a nested reality. Protect the primordial world.
             if (currentState.contextStack.length > 1) {
                 html += this._wrap('}', 'keyword');
                 i++;
-                currentState.contextStack.pop(); // Ascend from an interpolation.
+                currentState.contextStack.pop();
                 continue;
             }
         }
         
-        // Default: If none of the above, process one character.
-        if (i < line.length) { // Guard against empty remaining string
-             html += this._escape(line[i]);
-        }
+        // Default: If none of the above, process one character at a time.
+        html += this._escape(firstChar);
         i++;
     }
     return { html: html || '&nbsp;', state: currentState };
 }
+
 
 
 
