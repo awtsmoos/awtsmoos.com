@@ -309,65 +309,7 @@ constructor(textarea, language = 'js', customColors = {}) {
         return { html: html || '&nbsp;', state };
     }
     
-    /** @private @function _getToken - Da'at (Knowledge). The central dispatcher of consciousness. */
-    // B"H
-// FILE: VirtualizedEditor.js
-// ACTION: REPLACE THE ENTIRE _getToken METHOD WITH THIS RECTIFIED VERSION.
-
-/**
- * @private @function _getToken
- * @description Da'at (Knowledge). The Rectified Universal Soul.
- * This new version has been given the wisdom to actively seek the "gate of return" 
- * for comments *within* the current line, instead of blindly treating the entire rest of the
- * line as a comment. This is the fix for the primary highlighting bug.
- */
-_getToken(line, i, state) {
-    const context = state.contextStack[state.contextStack.length - 1];
-
-    // The highest law remains: if we are AT a gate of return, we use it immediately.
-    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
-        let type = 'string';
-        if (context.mode.includes('comment')) type = 'comment';
-        if (context.mode.includes('interpolation')) type = 'controlKeyword';
-        state.contextStack.pop();
-        return { html: this._wrap(context.terminator, type), newIndex: i + context.terminator.length };
-    }
-
-    // Now, we consult the specialized soul for the current world.
-    const mode = context.mode.split('_')[0];
-    switch (mode) {
-        case 'javascript': return this._getJSToken(line, i, state);
-        case 'html': return this._getHTMLToken(line, i, state);
-        case 'css': return this._getCssToken(line, i, state);
-
-        // --- THE TIKKUN (THE FIX) IS HERE ---
-        // The soul for comments now has a new, higher consciousness.
-        case 'comment': {
-            const terminator = context.terminator; // e.g., '*/'
-            const endIdx = line.indexOf(terminator, i);
-
-            if (endIdx !== -1) {
-                // The gate of return ('*/') EXISTS on this line.
-                // We highlight only the text *before* the gate as a comment.
-                const content = line.substring(i, endIdx);
-                // We advance our position to the beginning of the gate. The main loop will
-                // then see the terminator on the next iteration and exit the comment world correctly.
-                return { html: this._wrap(content, 'comment'), newIndex: endIdx };
-            } else {
-                // The gate is not on this line. The entire rest of the line is a comment.
-                // This is the correct behavior for a multi-line comment block.
-                return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
-            }
-        }
-        
-        case 'string': return this._getStringToken(line, i, state);
-        case 'template':
-            return context.mode.startsWith('template_language_')
-                ? this._getTemplateLanguageToken(line, i, state)
-                : this._getTemplateLiteralToken(line, i, state);
-        default: return { html: this._escape(line[i]), newIndex: i + 1 };
-    }
-}
+  
 
     _getStringToken(line, i, state) {
         const terminator = state.contextStack[state.contextStack.length - 1].terminator;
@@ -409,120 +351,170 @@ _getToken(line, i, state) {
         return { html: tempHtml, newIndex: i + content.length };
     }
 
-    _getJSToken(line, i, state) {
-        const directives = [{ tag: '/*html*/`', lang: 'html' }, { tag: '/*css*/`', lang: 'css' }];
-        for (const d of directives) {
-            if (line.substring(i).startsWith(d.tag)) {
-                state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
-                return { html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'), newIndex: i + d.tag.length };
-            }
-        }
-        if (line.substring(i, i + 2) === '/*') {
-            state.contextStack.push({ mode: 'comment', terminator: '*/' });
-            return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
-        }
-        if (line.substring(i, i + 2) === '//') return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
-        const char = line[i];
-        if (char === "'" || char === '"') {
-            state.contextStack.push({ mode: 'string', terminator: char });
-            return { html: this._wrap(char, 'string'), newIndex: i + 1 };
-        }
-        if (char === '`') {
-            state.contextStack.push({ mode: 'template_literal', terminator: '`' });
-            return { html: this._wrap('`', 'string'), newIndex: i + 1 };
-        }
-        
-        const context = state.contextStack[state.contextStack.length - 1];
-        if (context.mode === 'javascript_interpolation') {
-            if(char === '{') context.depth++;
-            if(char === '}') {
-                if (context.depth > 0) context.depth--;
-                else return { html: '', newIndex: i };
-            }
-        }
-        
-        const ctlK=new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']),defK=new Set(['const','let','var','true','false','null','undefined','this','new','super']);
-        if(this._isIS(char)){let t="",e=i;for(;e<line.length&&this._isIP(line[e]);)t+=line[e++];let s="variable";return state.isNextTokenFunctionName?(s="functionName",state.isNextTokenFunctionName=!1):"function"===t?(s="controlKeyword",state.isNextTokenFunctionName=!0):ctlK.has(t)?s="controlKeyword":defK.has(t)?s="definitionKeyword":this._isFC(line,e)&&(s="functionName"),{html:this._wrap(t,s),newIndex:e}}
-        if(this._isD(char)){let t="",e=i;for(;e<line.length&&(this._isD(line[e])||"."===line[e]);)t+=line[e++];return{html:this._wrap(t,"number"),newIndex:e}}
-        state.isNextTokenFunctionName=false;return{html:this._escape(char),newIndex:i+1}
-    }
-
     // B"H
 // FILE: VirtualizedEditor.js
-// ACTION: REPLACE THE ENTIRE _getCssToken METHOD.
+// ACTION: REPLACE THE _getJSToken METHOD
+
+/**
+ * @private @function _getJSToken
+ * @description The Rectified Soul of JavaScript, Version 2.
+ * This soul has been granted contextual awareness. When it exists within a bounded world
+ * (like a <script> tag), it constantly seeks the boundary (`</script>`). If the boundary is
+ * on the current line, it will only parse the code BEFORE that boundary, then gracefully yield.
+ * This is the core fix for the unclosed script tag bug.
+ */
+_getJSToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // --- The New Contextual Awareness ---
+    // If this JS world is bounded by a terminator, we must first look for that boundary.
+    if (context.terminator) {
+        const boundaryIndex = line.toLowerCase().indexOf(context.terminator, i);
+        if (boundaryIndex !== -1) {
+            // The boundary exists on this line. We must not parse past it.
+            // We create a temporary sub-parser to highlight just this final fragment.
+            const fragment = line.substring(i, boundaryIndex);
+            let tempHtml = '', k = 0;
+            // The sub-parser runs in a pure, unbounded JS world.
+            let tempState = { ...this._getInitialState(), contextStack: [{ mode: 'javascript' }] };
+            while (k < fragment.length) {
+                const k_before = k;
+                const res = this._getToken(fragment, k, tempState);
+                tempHtml += res.html;
+                k = res.newIndex;
+                if (k === k_before) { tempHtml += this._escape(fragment[k++]); }
+            }
+            // We return the highlighted fragment and move the index TO the boundary.
+            // The main loop will then see `</script>` and exit the context correctly.
+            return { html: tempHtml, newIndex: boundaryIndex };
+        }
+    }
+
+    // --- If no boundary is found on this line, proceed with normal JS parsing. ---
+    const directives = [{ tag: '/*html*/`', lang: 'html' }, { tag: '/*css*/`', lang: 'css' }];
+    for (const d of directives) {
+        if (line.substring(i).startsWith(d.tag)) {
+            state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
+            return { html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'), newIndex: i + d.tag.length };
+        }
+    }
+    if (line.substring(i, i + 2) === '/*') {
+        state.contextStack.push({ mode: 'comment', terminator: '*/' });
+        return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
+    }
+    if (line.substring(i, i + 2) === '//') {
+        return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+    }
+    const char = line[i];
+    if (char === "'" || char === '"') {
+        state.contextStack.push({ mode: 'string', terminator: char });
+        return { html: this._wrap(char, 'string'), newIndex: i + 1 };
+    }
+    if (char === '`') {
+        state.contextStack.push({ mode: 'template_literal', terminator: '`' });
+        return { html: this._wrap('`', 'string'), newIndex: i + 1 };
+    }
+    if (context.mode === 'javascript_interpolation') {
+        if(char === '{') context.depth = (context.depth || 0) + 1;
+        if(char === '}') {
+            if (context.depth > 0) context.depth--;
+            else return { html: '', newIndex: i };
+        }
+    }
+    const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
+    const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
+    if (this._isIS(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && this._isIP(line[p])) buffer += line[p++];
+        let type = 'variable';
+        if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
+        else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
+        else if (ctlK.has(buffer)) type = 'controlKeyword';
+        else if (defK.has(buffer)) type = 'definitionKeyword';
+        else if (this._isFC(line, p)) type = 'functionName';
+        return { html: this._wrap(buffer, type), newIndex: p };
+    }
+    if (this._isD(char)) {
+        let buffer = '', p = i;
+        while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
+        return { html: this._wrap(buffer, 'number'), newIndex: p };
+    }
+    state.isNextTokenFunctionName = false;
+    return { html: this._escape(char), newIndex: i + 1 };
+}
+    
+    
+    
+    // B"H
+// FILE: VirtualizedEditor.js
+// ACTION: REPLACE THE _getCssToken METHOD
 
 /**
  * @private @function _getCssToken
- * @description The Rectified Soul of CSS. This soul has been granted a new, vivid consciousness.
- * It now perfectly distinguishes between selectors (like `:root`), properties (including custom
- * properties like `--color-bg-deep`), values, and comments. It renders each in its true, distinct
- * color, revealing the hidden beauty and structure of the stylesheet.
+ * @description The Rectified Soul of CSS, Version 2.
+ * This soul has also been granted contextual awareness for when it exists inside a
+ * `<style>` tag, preventing it from parsing past the closing `</style>` boundary.
  */
 _getCssToken(line, i, state) {
-    // Highest priority: check for a portal to the comment world.
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // --- The New Contextual Awareness ---
+    if (context.terminator) {
+        const boundaryIndex = line.toLowerCase().indexOf(context.terminator, i);
+        if (boundaryIndex !== -1) {
+            // Boundary found! Highlight only the part before it.
+            const fragment = line.substring(i, boundaryIndex);
+            let tempHtml = '', k = 0;
+            let tempState = { ...this._getInitialState(), contextStack: [{ mode: 'css' }], inCssRuleBlock: state.inCssRuleBlock };
+            while (k < fragment.length) {
+                const k_before = k;
+                const res = this._getToken(fragment, k, tempState);
+                tempHtml += res.html;
+                k = res.newIndex;
+                if (k === k_before) { tempHtml += this._escape(fragment[k++]); }
+            }
+            state.inCssRuleBlock = tempState.inCssRuleBlock; // Persist state
+            return { html: tempHtml, newIndex: boundaryIndex };
+        }
+    }
+    
+    // --- If no boundary is found, proceed with normal CSS parsing ---
     if (line.substring(i).startsWith('/*')) {
         state.contextStack.push({ mode: 'comment', terminator: '*/' });
         return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
     }
-
-    // Consume leading whitespace.
-    let p = i;
-    while (p < line.length && this._isWS(line[p])) p++;
+    let p = i; while (p < line.length && this._isWS(line[p])) p++;
     let html = line.substring(i, p);
     if (p >= line.length) return { html, newIndex: line.length };
 
-    // The logic branches based on whether we are inside a rule block `{...}`.
     if (!state.inCssRuleBlock) {
-        // --- Outside a rule block: We are looking for selectors. ---
         const braceIndex = line.indexOf('{', p);
         if (braceIndex !== -1) {
-            // Found the start of a rule block.
-            const selector = line.substring(p, braceIndex);
-            state.inCssRuleBlock = true; // Enter the rule block world.
-            return {
-                html: html + this._wrap(selector.trim(), 'selector') + this._wrap('{', 'punctuation'),
-                newIndex: braceIndex + 1
-            };
-        } else {
-            // No '{' on this line, so the whole rest of the line is a selector.
-            return { html: html + this._wrap(line.substring(p), 'selector'), newIndex: line.length };
+            state.inCssRuleBlock = true;
+            return { html: html + this._wrap(line.substring(p, braceIndex).trim(), 'selector') + this._wrap('{', 'punctuation'), newIndex: braceIndex + 1 };
         }
+        return { html: html + this._wrap(line.substring(p), 'selector'), newIndex: line.length };
     } else {
-        // --- Inside a rule block: We are looking for properties or the closing brace. ---
         const endBraceIndex = line.indexOf('}', p);
         const colonIndex = line.indexOf(':', p);
-
-        // Check for the closing brace first.
         if (endBraceIndex !== -1 && (endBraceIndex < colonIndex || colonIndex === -1)) {
-            state.inCssRuleBlock = false; // Exit the rule block world.
+            state.inCssRuleBlock = false;
             return { html: html + this._wrap('}', 'punctuation'), newIndex: endBraceIndex + 1 };
         }
-        
-        // Check for a property:value pair.
         if (colonIndex !== -1) {
-            const property = line.substring(p, colonIndex);
-            html += this._wrap(property.trim(), 'property');
-            html += this._wrap(':', 'punctuation');
-
+            html += this._wrap(line.substring(p, colonIndex).trim(), 'property') + this._wrap(':', 'punctuation');
             const semicolonIndex = line.indexOf(';', colonIndex);
             if (semicolonIndex !== -1) {
-                const value = line.substring(colonIndex + 1, semicolonIndex);
-                html += this._wrap(value.trim(), 'string'); // Use 'string' color for values.
-                html += this._wrap(';', 'punctuation');
+                html += this._wrap(line.substring(colonIndex + 1, semicolonIndex).trim(), 'string') + this._wrap(';', 'punctuation');
                 return { html, newIndex: semicolonIndex + 1 };
-            } else {
-                // Value runs to the end of the line.
-                const value = line.substring(colonIndex + 1);
-                html += this._wrap(value.trim(), 'string');
-                return { html, newIndex: line.length };
             }
+            html += this._wrap(line.substring(colonIndex + 1).trim(), 'string');
+            return { html, newIndex: line.length };
         }
-        
-        // If nothing else, it's just dangling text inside a rule block. Treat it as part of a value.
         return { html: html + this._wrap(line.substring(p), 'string'), newIndex: line.length };
     }
 }
-    
+
     // B"H
 // FILE: VirtualizedEditor.js
 // ACTION: REPLACE THE ENTIRE _getHTMLToken METHOD.
@@ -622,6 +614,56 @@ _getHTMLToken(line, i, state) {
 
     return { html, newIndex: tagEnd + 1 };
 }
+
+/**
+ * @private @function _getToken
+ * @description Da'at (Knowledge). The Rectified Universal Soul, Version 2.
+ * This soul has been given the wisdom to recognize gates of return (terminators) with
+ * case-insensitivity, which is essential for the world of HTML. It also now correctly
+ * identifies terminators like `</script>` as tags, not strings.
+ */
+_getToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // The highest law: can we return from the current reality? (Now case-insensitive)
+    if (context.terminator && line.substring(i).toLowerCase().startsWith(context.terminator)) {
+        const terminatorLength = context.terminator.length;
+        const actualTerminator = line.substring(i, i + terminatorLength); // Get original cased text
+        let type = 'string'; // Default
+        if (context.mode.includes('comment')) type = 'comment';
+        if (context.mode.includes('interpolation')) type = 'controlKeyword';
+        // The new wisdom: A script or style terminator IS A TAG.
+        if (context.terminator.startsWith('</')) type = 'tag';
+
+        state.contextStack.pop();
+        return { html: this._wrap(actualTerminator, type), newIndex: i + terminatorLength };
+    }
+
+    // Delegate to the specialized soul for the current world.
+    const mode = context.mode.split('_')[0];
+    switch (mode) {
+        case 'javascript': return this._getJSToken(line, i, state);
+        case 'html': return this._getHTMLToken(line, i, state);
+        case 'css': return this._getCssToken(line, i, state);
+        case 'comment': { // This logic is now self-contained for clarity
+            const endIdx = line.indexOf(context.terminator, i);
+            if (endIdx !== -1) {
+                const content = line.substring(i, endIdx);
+                return { html: this._wrap(content, 'comment'), newIndex: endIdx };
+            }
+            return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
+        }
+        case 'string': return this._getStringToken(line, i, state);
+        case 'template':
+            return context.mode.startsWith('template_language_')
+                ? this._getTemplateLanguageToken(line, i, state)
+                : this._getTemplateLiteralToken(line, i, state);
+        default: return { html: this._escape(line[i]), newIndex: i + 1 };
+    }
+}
+
+
+
     
     _escape(s){return s?s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"):""}
     _wrap(s,t){return`<span class="token-${t}">${this._escape(s)}</span>`}
