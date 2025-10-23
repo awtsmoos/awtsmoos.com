@@ -848,162 +848,159 @@ _getInitialState() {
 }
 
 
-
 /**
  * @private
  * @function _getHighlightResult
- * @description The Conscious Weaver. This is the new, flawless heart of the highlighter.
- * It functions as a finite state machine, processing the code character by character without regex,
- * navigating all nested contexts with perfect memory and wisdom.
+ * @description The Final, Perfected Weaver. Its consciousness is pure and its soul is incorruptible.
+ * It performs temporary thoughts without state mutation and navigates all worlds with perfect wisdom.
  */
 _getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
     let html = '';
-    let tokenBuffer = '';
     
     let i = 0;
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const char = line[i];
-        let consumed = true; // Assume we process the character
 
         switch (context.mode) {
-            // --- The Default JavaScript Reality ---
+
             case 'javascript':
-                if (/[a-zA-Z_]/.test(char)) {
-                    tokenBuffer += char;
-                    context.mode = 'javascript_word';
-                } else if (/\d/.test(char)) {
-                    tokenBuffer += char;
-                    context.mode = 'javascript_number';
-                } else if (char === '"' || char === "'") {
-                    html += this._wrap(char, 'string');
-                    context.mode = `javascript_string_${char === '"' ? 'double' : 'single'}`;
-                    context.terminator = char;
-                } else if (char === '`') {
-                     html += this._wrap(char, 'string');
-                     context.mode = 'javascript_template_literal';
-                } else if (char === '/') {
-                    context.mode = 'javascript_slash';
-                } else {
-                    html += this._escape(char); // Operators, punctuation, etc.
+                // Check for this world's end (e.g., closing brace of an interpolation)
+                if (context.terminator && char === context.terminator) {
+                    html += this._wrap(char, 'keyword');
+                    currentState.contextStack.pop(); // The Great Return
+                    i++;
+                    continue;
                 }
-                break;
-            
-            // --- Weaving a JavaScript Word (keyword or variable) ---
-            case 'javascript_word':
-                if (/[a-zA-Z0-9_]/.test(char)) {
-                    tokenBuffer += char;
-                } else {
-                    html += this._flushTokenBuffer(currentState, tokenBuffer);
-                    tokenBuffer = '';
-                    context.mode = 'javascript';
-                    consumed = false; // Re-process this character in the default JS state
-                }
-                break;
-            
-            // --- Weaving a JavaScript Number ---
-            case 'javascript_number':
-                 if (/[\d.]/.test(char)) {
-                    tokenBuffer += char;
-                } else {
-                    html += this._wrap(tokenBuffer, 'number');
-                    tokenBuffer = '';
-                    context.mode = 'javascript';
-                    consumed = false;
-                }
-                break;
                 
-            // --- Weaving inside a String ---
-            case 'javascript_string_double':
-            case 'javascript_string_single':
-                if (char === context.terminator) {
-                    html += this._flushTokenBuffer(currentState, tokenBuffer);
-                    tokenBuffer = '';
-                    html += this._wrap(char, 'string');
-                    context.mode = 'javascript';
-                } else {
-                    tokenBuffer += char;
-                }
-                break;
-
-            // --- Weaving inside a Template Literal (aware of interpolations) ---
-            case 'javascript_template_literal':
-                 if (char === '$' && line[i+1] === '{') {
-                     html += this._flushTokenBuffer(currentState, tokenBuffer);
-                     tokenBuffer = '';
-                     html += this._wrap('${', 'keyword');
-                     i++; // Consume the '{' as well
-                     currentState.contextStack.push({ mode: 'javascript', terminator: '}'});
-                 } else if (char === '`') {
-                     html += this._flushTokenBuffer(currentState, tokenBuffer);
-                     tokenBuffer = '';
-                     html += this._wrap('`', 'string');
-                     currentState.contextStack.pop();
-                 } else {
-                     tokenBuffer += char;
-                 }
-                 break;
-
-            // --- Deciding if a '/' starts a comment ---
-            case 'javascript_slash':
-                if (char === '*') {
+                // --- Portals to Persistent, Multi-line Worlds ---
+                if (char === '/' && line[i + 1] === '*') {
+                    // Check for special directives like /*html*/
+                    const directiveMatch = line.substring(i).match(/^\/\*(html|js|css)\*\//);
+                    if (directiveMatch && line[i + directiveMatch[0].length] === '`') {
+                         html += this._wrap(directiveMatch[0], 'comment') + this._wrap('`', 'string');
+                         currentState.contextStack.push({ mode: directiveMatch[1], terminator: '`' });
+                         i += directiveMatch[0].length + 1;
+                         continue;
+                    }
                     html += this._wrap('/*', 'comment');
-                    context.mode = 'comment_multiline';
-                } else if (char === '/') {
-                    tokenBuffer = '//';
-                    context.mode = 'comment_line';
-                } else {
-                    html += this._escape('/');
-                    context.mode = 'javascript';
-                    consumed = false;
+                    currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
+                    i += 2;
+                    continue;
                 }
-                break;
-
-            // --- Weaving a single-line comment ---
-            case 'comment_line':
-                tokenBuffer += char;
-                break;
-
-            // --- Weaving a multi-line comment ---
-            case 'comment_multiline':
-                if (char === '*') {
-                    context.mode = 'comment_multiline_saw_asterisk';
-                } else {
-                    tokenBuffer += char;
+                if (char === '/' && line[i + 1] === '/') {
+                    const comment = line.substring(i);
+                    html += this._wrap(comment, 'comment');
+                    i = line.length;
+                    continue;
                 }
+                if (char === '"' || char === "'") {
+                    html += this._wrap(char, 'string');
+                    currentState.contextStack.push({ mode: 'string', terminator: char });
+                    i++;
+                    continue;
+                }
+                if (char === '`') {
+                    html += this._wrap(char, 'string');
+                    currentState.contextStack.push({ mode: 'template_literal', terminator: '`' });
+                    i++;
+                    continue;
+                }
+                
+                // --- Temporary, Intra-line Thoughts ---
+                if (/[a-zA-Z_$]/.test(char)) {
+                    let buffer = '';
+                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {
+                        buffer += line[i]; i++;
+                    }
+                    html += this._flushTokenBuffer(currentState, buffer);
+                    continue;
+                }
+                if (/\d/.test(char)) {
+                    let buffer = '';
+                    while (i < line.length && /[\d.]/.test(line[i])) {
+                        buffer += line[i]; i++;
+                    }
+                    html += this._wrap(buffer, 'number');
+                    continue;
+                }
+                
+                // Fallback for single characters that don't start tokens
+                html += this._escape(char);
+                i++;
                 break;
             
-            // --- Checking if a comment is ending ---
-            case 'comment_multiline_saw_asterisk':
-                if (char === '/') {
-                    html += this._flushTokenBuffer(currentState, tokenBuffer);
-                    tokenBuffer = '';
-                    html += this._wrap('*/', 'comment');
-                    currentState.contextStack.pop(); // THE GREAT RETURN
-                } else {
-                    tokenBuffer += '*' // The previous asterisk was just a character
-                    context.mode = 'comment_multiline';
-                    consumed = false; // Re-process current char in the main comment state
+            case 'string':
+            case 'comment':
+            case 'template_literal':
+                let buffer = '';
+                while (i < line.length) {
+                    // In template literals, check for interpolation portal
+                    if (context.mode === 'template_literal' && char === '$' && line[i + 1] === '{') {
+                        currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+                        break; // Exit buffer loop to process the portal
+                    }
+                    // Check for the end of the current world
+                    if (line.substring(i).startsWith(context.terminator)) {
+                        break; // Exit buffer loop to process the terminator
+                    }
+                    buffer += line[i];
+                    i++;
                 }
-                break;
+                // Determine token type based on the world we're in
+                const tokenType = context.mode === 'comment' ? 'comment' : 'string';
+                html += this._wrap(buffer, tokenType);
+                // If we exited the loop, it's because we found a portal or terminator, which is handled on the next main loop iteration.
+                continue;
 
-            // --- Default case to prevent infinite loops on unknown states ---
-            default:
+            case 'html':
+                if (line.substring(i).startsWith(context.terminator)) {
+                     html += this._wrap(context.terminator, 'tag');
+                     currentState.contextStack.pop();
+                     i += context.terminator.length;
+                     continue;
+                }
+                 if (line.substring(i).startsWith('<!--')) {
+                    html += this._wrap('<!--', 'comment');
+                    currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
+                    i += 4;
+                    continue;
+                }
+                if (line.substring(i).toLowerCase().startsWith('<script')) {
+                    const tagEnd = line.indexOf('>', i);
+                    const tag = tagEnd === -1 ? line.substring(i) : line.substring(i, tagEnd + 1);
+                    html += this._wrap(tag, 'tag');
+                    currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
+                    i += tag.length;
+                    continue;
+                }
+                 let textBuffer = '';
+                 while(i < line.length && line[i] !== '<' && !line.substring(i).startsWith(context.terminator)) {
+                    textBuffer += line[i];
+                    i++;
+                 }
+                 html += this._escape(textBuffer);
+
+                 if (i < line.length && line[i] === '<') {
+                    let tagBuffer = '';
+                    const tagEnd = line.indexOf('>', i);
+                    if (tagEnd === -1) {
+                         tagBuffer = line.substring(i);
+                         i = line.length;
+                    } else {
+                        tagBuffer = line.substring(i, tagEnd + 1);
+                        i = tagEnd + 1;
+                    }
+                    html += this._wrap(tagBuffer, 'tag');
+                 }
+                 continue;
+
+            default: // Failsafe for CSS or any other unimplemented mode
                 html += this._escape(char);
+                i++;
                 break;
         }
-        
-        if (consumed) {
-            i++;
-        }
-    }
-
-    // After the loop, flush any remaining buffer
-    if (tokenBuffer.length > 0) {
-        if(context.mode === 'comment_line') html += this._wrap(tokenBuffer, 'comment');
-        else if(context.mode === 'javascript_number') html += this._wrap(tokenBuffer, 'number');
-        else html += this._flushTokenBuffer(currentState, tokenBuffer);
     }
     
     return { html: html || '&nbsp;', state: currentState };
