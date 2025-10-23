@@ -353,7 +353,7 @@ constructor(textarea, language = 'js', customColors = {}) {
  * @private @function _getJSToken
  * @description The Rectified Soul of JavaScript, Version 3.
  * This soul has been given the final piece of wisdom: awareness of its own reflection.
- * It now recognizes the `/*js*/` directive, allowing it to parse JavaScript embedded
+ * It now recognizes the js directive, allowing it to parse JavaScript embedded
  * within another JavaScript template string with perfect clarity. It also retains its
  * contextual awareness of boundaries like `</script>`.
  */
