@@ -137,11 +137,12 @@ export const GitManager = {
      * This is the corrected version that uses relative paths.
      */
     // B"H
+// B"H
 // FILE: js/git-manager.js
 
 // ... inside the GitManager object ...
 
-// REPLACE your existing calculateDiff function with this one.
+    // REPLACE your existing calculateDiff function with this one.
     async calculateDiff(clonedFolderItem, gitInfo) {
         const localFiles = await FileSystemProvider.listAllFiles(clonedFolderItem);
         const remoteTree = gitInfo.remoteTree;
@@ -156,17 +157,23 @@ export const GitManager = {
             
             if (relativePath.startsWith('.awtsmoos-repo')) continue;
 
-            // --- THE CRITICAL FIX IS HERE ---
-            // We construct a full, valid item object for the read function,
-            // combining the workspace context from `clonedFolderItem` with the specific file's path.
-            const fullFileItem = { ...clonedFolderItem, path: localFile.path };
-            const content = await FileSystemProvider.read(fullFileItem);
+            // --- THE DEFINITIVE FIX IS HERE ---
+            // 1. Read the content. This could be a string (from IndexedDB) or a File object (from Local).
+            const rawContent = await FileSystemProvider.read({ ...clonedFolderItem, path: localFile.path });
+
+            // 2. Ensure the content is always a string before adding it to the changeSet.
+            let stringContent = '';
+            if (typeof rawContent === 'string') {
+                stringContent = rawContent;
+            } else if (rawContent instanceof Blob) { // A File is a type of Blob
+                stringContent = await rawContent.text();
+            }
             // --- END FIX ---
 
             if (!remoteFileMap.has(relativePath)) {
-                changeSet.creations.push({ path: relativePath, content });
+                changeSet.creations.push({ path: relativePath, content: stringContent });
             } else {
-                changeSet.updates.push({ path: relativePath, content });
+                changeSet.updates.push({ path: relativePath, content: stringContent });
             }
         }
         
