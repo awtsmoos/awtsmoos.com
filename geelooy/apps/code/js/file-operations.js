@@ -71,6 +71,12 @@ export const FileOperations = {
     /**
      * NEW: The abstract clone method.
      */
+    // B"H
+// FILE: js/file-operations.js
+
+// ... inside the FileOperations object ...
+
+    // REPLACE your existing clone function with this one.
     async clone(sourceRepoItem) {
         // 1. Ask user to choose a destination workspace
         const writableWorkspaces = State.workspaces.filter(ws => ws.type !== 'github');
@@ -97,7 +103,14 @@ export const FileOperations = {
         try {
             // 2. Fetch the full repository tree from GitHub
             const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
+
+            // THE FIX: We now correctly get the 'tree' array from the returned object.
             const filesToClone = fullTreeData.tree;
+            
+            // This check prevents the "not iterable" error if the API call fails unexpectedly.
+            if (!filesToClone || typeof filesToClone[Symbol.iterator] !== 'function') {
+                throw new Error("Could not retrieve a valid file list from the repository.");
+            }
 
             // 3. Create a new directory within the destination to house the clone
             const cloneRootName = sourceRepoItem.repoInfo.repo;
@@ -121,7 +134,7 @@ export const FileOperations = {
             destinationWs.isClone = true;
             destinationWs.repoInfo = sourceRepoItem.repoInfo;
             destinationWs.branch = sourceRepoItem.branch;
-            destinationWs.baseCommitSHA = fullTreeData.sha;
+            destinationWs.baseCommitSHA = fullTreeData.sha; // Get the SHA from the object
             destinationWs.remoteTree = filesToClone;
             
             App.saveSession();
