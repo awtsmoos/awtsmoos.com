@@ -939,102 +939,104 @@ _tokenizeJSChunk(chunk) {
 /**
  * @private
  * @function _getHighlightResult
- * @description The Final, Seeing, and Unified Consciousness. Its logic is singular,
- * its sight is perfect, and its forward progress is unbreakable. This is the eternal light.
+ * @description The Final, Wise, and Unified Consciousness. Its logic is a single,
+ * prioritized scan that cannot be fooled. It asks the complex questions first.
+ * This is the eternal light.
  */
 _getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
     let html = '';
     let i = 0;
+    
+    const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
 
     while (i < line.length) {
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
 
-        // --- THE UNIFIED SCANNER: One mind to see all worlds ---
-        let nextToken = null;
+        // --- THE UNIFIED SCANNER: One mind, one set of prioritized questions ---
 
-        // 1. ALWAYS check for the end of the current world first.
-        if (context.terminator) {
-            const index = remaining.toLowerCase().indexOf(context.terminator.toLowerCase());
-            if (index !== -1) {
-                nextToken = { index: i + index, token: context.terminator, type: 'terminator' };
-            }
-        }
-        
-        // 2. Based on the current world, find the SOONEST portal.
-        // The order of checks here is the key to its wisdom: complex patterns first.
-        const findSoonest = (portals) => {
-            for (const portal of portals) {
-                const index = remaining.toLowerCase().indexOf(portal.toLowerCase());
-                if (index !== -1 && (nextToken === null || (i + index) < nextToken.index)) {
-                    nextToken = { index: i + index, token: portal, type: 'portal' };
-                }
-            }
-        };
-
-        if (context.mode === 'javascript') {
-            findSoonest(['/*html*/`', '/*css*/`', '/*js*/`', '/*', '//', '`', '"', "'"]);
-        } else if (context.mode === 'template_literal') {
-            findSoonest(['${']);
-        } else if (context.mode === 'html') {
-            findSoonest(['<script', '</script>', '<!--', '<']);
-        }
-        
-        // --- WEAVE AND ACT ---
-        const endIndex = nextToken ? nextToken.index : line.length;
-        const buffer = line.substring(i, endIndex);
-
-        // A. Weave the mundane content before the token.
-        if (buffer) {
-             if (context.mode === 'javascript') html += this._tokenizeJSChunk(buffer);
-             else if (context.mode === 'comment') html += this._wrap(buffer, 'comment');
-             else if (context.mode === 'string' || context.mode === 'template_literal') html += this._wrap(buffer, 'string');
-             else html += this._escape(buffer);
-        }
-        
-        i = endIndex;
-        if (!nextToken) break; // Line is done.
-
-        // B. Act upon the meaningful token.
-        const { token, type } = nextToken;
-        const directiveMatch = token.match(/\/\*(html|css|js)\*\//);
-
-        if (type === 'terminator') {
-            const tokenType = (context.mode === 'javascript' && token === '}') ? 'keyword' :
-                              (token.startsWith('<') ? 'tag' : (context.mode === 'comment' ? 'comment' : 'string'));
-            html += this._wrap(token, tokenType);
+        // 1. Is the current world ending? This is ALWAYS the highest priority.
+        if (context.terminator && remaining.toLowerCase().startsWith(context.terminator.toLowerCase())) {
+            const tokenType = (context.mode === 'javascript' && context.terminator === '}') ? 'keyword' : (context.terminator.startsWith('<') ? 'tag' : (context.mode === 'comment' ? 'comment' : 'string'));
+            html += this._wrap(context.terminator, tokenType);
             currentState.contextStack.pop();
-            i += token.length;
-        } 
-        else if (directiveMatch && line[i + token.length] === '`') {
-             html += this._wrap(token, 'comment') + this._wrap('`', 'string');
-             currentState.contextStack.push({ mode: directiveMatch[1], terminator: '`' });
-             i += token.length + 1;
+            i += context.terminator.length;
+            continue;
         }
-        else if (token === '/*') { html += this._wrap('/*', 'comment'); currentState.contextStack.push({ mode: 'comment', terminator: '*/' }); i += 2; }
-        else if (token === '//') { html += this._wrap(remaining, 'comment'); i = line.length; }
-        else if (token === '`') { html += this._wrap('`', 'string'); currentState.contextStack.push({ mode: 'template_literal', terminator: '`' }); i += 1; }
-        else if (token === '"' || token === "'") { html += this._wrap(token, 'string'); currentState.contextStack.push({ mode: 'string', terminator: token }); i += 1; }
-        else if (token === '${') { html += this._wrap('${', 'keyword'); currentState.contextStack.push({ mode: 'javascript', terminator: '}' }); i += 2; }
-        else if (token === '<script') {
+
+        // 2. Are we entering a new world? (A Portal)
+        // This is a single, prioritized chain. Complex patterns MUST come before their simple parts.
+        const directiveMatch = remaining.match(/^\/\*(html|css|js)\*\/`/);
+        if ((context.mode === 'javascript' || context.mode === 'js') && directiveMatch) {
+            html += this._wrap(`/*${directiveMatch[1]}*/`, 'comment') + this._wrap('`', 'string');
+            currentState.contextStack.push({ mode: directiveMatch[1], terminator: '`' });
+            i += directiveMatch[0].length;
+        } else if (context.mode === 'template_literal' && remaining.startsWith('${')) {
+            html += this._wrap('${', 'keyword');
+            currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+            i += 2;
+        } else if (context.mode === 'html' && remaining.toLowerCase().startsWith('<script')) {
             const endTag = line.indexOf('>', i);
-            const fullTag = endTag === -1 ? remaining : line.substring(i, endTag + 1);
-            html += this._wrap(fullTag, 'tag');
+            const tag = endTag === -1 ? remaining : line.substring(i, endTag + 1);
+            html += this._wrap(tag, 'tag');
             currentState.contextStack.push({ mode: 'javascript', terminator: '</script>' });
-            i += fullTag.length;
+            i += tag.length;
+        } else if (context.mode === 'html' && remaining.startsWith('<!--')) {
+            html += this._wrap('<!--', 'comment');
+            currentState.contextStack.push({ mode: 'comment', terminator: '-->' });
+            i += 4;
+        } else if ((context.mode === 'javascript' || context.mode === 'js' || context.mode === 'css') && remaining.startsWith('/*')) {
+            html += this._wrap('/*', 'comment');
+            currentState.contextStack.push({ mode: 'comment', terminator: '*/' });
+            i += 2;
+        } else if ((context.mode === 'javascript' || context.mode === 'js') && remaining.startsWith('//')) {
+            html += this._wrap(remaining, 'comment');
+            i = line.length;
+        } else if ((context.mode === 'javascript' || context.mode === 'js') && remaining.startsWith('`')) {
+            html += this._wrap('`', 'string');
+            currentState.contextStack.push({ mode: 'template_literal', terminator: '`' });
+            i += 1;
+        } else if ((context.mode === 'javascript' || context.mode === 'js') && (remaining.startsWith('"') || remaining.startsWith("'"))) {
+            const terminator = remaining[0];
+            html += this._wrap(terminator, 'string');
+            currentState.contextStack.push({ mode: 'string', terminator });
+            i += 1;
         }
-        else if (token === '<!--') { html += this._wrap('<!--', 'comment'); currentState.contextStack.push({ mode: 'comment', terminator: '-->' }); i += 4; }
-        else if (token === '<') {
-             const endTag = line.indexOf('>', i);
-             const fullTag = endTag === -1 ? remaining : line.substring(i, endTag + 1);
-             html += this._wrap(fullTag, 'tag');
-             i += fullTag.length;
+        
+        // 3. If it's not a terminator or portal, weave the mundane content.
+        else {
+            let buffer = '';
+            // For JS/CSS, tokenize word by word.
+            if (context.mode === 'javascript' || context.mode === 'js' || context.mode === 'css') {
+                 const char = remaining[0];
+                 if (/[a-zA-Z_$]/.test(char)) {
+                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) { buffer += line[i]; i++; }
+                    if (context.mode.startsWith('js')) {
+                        html += keywords.has(buffer) ? this._wrap(buffer, 'keyword') : this._wrap(buffer, 'variable');
+                    } else { // For CSS selectors, properties etc.
+                        html += this._wrap(buffer, 'selector');
+                    }
+                 } else if (/\d/.test(char)) {
+                    while (i < line.length && /[\d.]/.test(line[i])) { buffer += line[i]; i++; }
+                    html += this._wrap(buffer, 'number');
+                 } else { // Single characters (operators, punctuation)
+                    html += this._escape(char);
+                    i++;
+                 }
+            }
+            // For all other modes, the buffer is just text/content.
+            else {
+                 buffer = line.substring(i, i+1);
+                 const tokenType = context.mode === 'comment' ? 'comment' :
+                                   context.mode.includes('string') ? 'string' : 'variable'; // Default for HTML text
+                 html += this._wrap(buffer, tokenType);
+                 i++;
+            }
         }
     }
     return { html: html || '&nbsp;', state: currentState };
 }
-
 
 
     /**
