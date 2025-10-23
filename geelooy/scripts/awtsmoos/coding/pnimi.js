@@ -1274,20 +1274,19 @@ _isFC(line, i) { while (i < line.length) { if (!this._isWS(line[i])) return line
 async _update() {
     const txt = this.textarea.value;
     try {
-        // The great task of splitting text is sent to another world.
+        // Send the great task of splitting the text to another world.
         this.lines = await makeQuickWorker(val => val.split("\n"), txt);
     } catch (e) {
-        // If the worker fails, we do the work in this world.
+        // If the worker fails, we must do the work in this world.
         this.lines = txt.split("\n");
     }
 
-    // Reset the parser's soul on every major update.
-    this.parserState = this._getInitialState();
-
+    // Ensure we have enough vessels (divs) for the visible lines.
     const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
-    if (this.viewportDivs.length !== neededDivs && neededDivs > 0 && !isNaN(neededDivs)) {
+    
+    if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
         this.viewportDivs = [];
-        this.viewport.innerHTML = ''; // Clear previous divs
+        this.viewport.innerHTML = '';
         for (let i = 0; i < neededDivs; i++) {
             const div = document.createElement('div');
             div.style.height = `${this.lineHeight}px`;
@@ -1295,28 +1294,32 @@ async _update() {
             this.viewportDivs.push(div);
         }
     }
+    
+    // This is the critical part being restored. _render() is now always called,
+    // which makes user input and programmatic updates both work correctly.
     this._render();
-    this._updateCaret();
+    this._updateCaret(); // Keep this call
 }
-
 // In _render, we restore the logic to only calculate from the visible area.
 _render() {
     if (!this.lines || !this.lineHeight) return;
-
+    
     const scrollTop = this.textarea.scrollTop;
     const scrollLeft = this.textarea.scrollLeft;
-
+    
+    // Calculate the first visible "verse" (line) from the scroll position.
     const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-    // Render a few lines above for smooth scrolling.
-    const firstLineToRender = Math.max(0, firstVisibleLine - 5);
+    const firstLineToRender = Math.max(0, firstVisibleLine - 1); // Render one above for smoothness.
 
-    // Replay the journey of the parser's soul to the point of rendering.
+    // To correctly highlight, we must "replay" the journey of the parser's soul (state)
+    // from the very beginning (Bereshit) up to the first line we want to render.
     let state = this._getInitialState();
+
     for (let i = 0; i < firstLineToRender; i++) {
         state = this._getHighlightResult(this.lines[i] || '', state).state;
     }
 
-    // Now, render only the divs that will be in or near the viewport.
+    // Now, emanate the light for the visible lines.
     for (let i = 0; i < this.viewportDivs.length; i++) {
         const lineIndex = firstLineToRender + i;
         const div = this.viewportDivs[i];
@@ -1324,17 +1327,17 @@ _render() {
             div.style.display = 'block';
             const result = this._getHighlightResult(this.lines[lineIndex] || '', state);
             div.innerHTML = result.html;
-            state = result.state; // The soul's memory carries over perfectly.
+            state = result.state; // The soul continues its journey to the next line.
         } else {
-            div.style.display = 'none';
+            div.style.display = 'none'; // No more verses to display.
         }
     }
 
-    // The entire viewport is shifted, not individual divs.
-    const yOffset = firstLineToRender * this.lineHeight;
-    this.viewport.style.transform = `translate(${-scrollLeft}px, ${yOffset}px)`;
+    // Finally, position the viewport itself, accounting for both horizontal and vertical scroll.
+    // THIS IS THE CRITICAL LOGIC THAT WAS MISSING.
+    const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
+    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
 }
-
 
 /**
  * @private
