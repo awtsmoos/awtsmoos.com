@@ -839,11 +839,13 @@ _highlightCSS(line, state) {
  * @function _getInitialState
  * @description Creates the primordial soul, the context stack, and emanates the first world.
  */
+/**
+ * @private B"H - Creates the pure, primordial soul.
+ */
 _getInitialState() {
+    // The base context has no terminator. The mode is the language name.
     return {
-        contextStack: [
-            { mode: this.language, terminator: null } // The base world has no terminator.
-        ]
+        contextStack: [{ mode: this.language }]
     };
 }
 
@@ -905,35 +907,34 @@ _findNextUnnestedToken(line, startIndex, targets) {
 }
 
 
+
+
 /**
- * @private B"H - A pure, corrected, and flawless function to tokenize "safe" JavaScript.
+ * @private B"H - A pure and flawless function to tokenize a "safe" chunk of JS.
  */
 _tokenizeJSChunk(chunk) {
     if (!chunk) return '';
     let html = '';
     const keywords = new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'switch', 'case', 'break', 'continue', 'class', 'extends', 'super', 'new', 'import', 'export', 'from', 'async', 'await', 'try', 'catch', 'finally', 'this', 'true', 'false', 'null', 'undefined', 'typeof']);
-
+    
+    // This regex is safe because it only ever runs on chunks of code
+    // that have already been cleared of any portals or terminators.
     const tokenRegex = /([a-zA-Z_$][a-zA-Z0-9_$]*)|(\d+(?:\.\d+)?)|(.)/g;
     let match;
-
     while ((match = tokenRegex.exec(chunk)) !== null) {
-        // --- THIS IS THE FINAL, CRITICAL FIX ---
-        // 'match[0]' is the full matched string. 'match' itself is the array.
-        const token = match[0]; 
-        
+        const token = match[0]; // match[0] is the full matched string.
         if (keywords.has(token)) {
             html += this._wrap(token, 'keyword');
-        } else if (match[1]) { // If it was matched by the "word" capture group
+        } else if (match[1]) { // If it was matched by the "word" group
             html += this._wrap(token, 'variable');
-        } else if (match[2]) { // If it was matched by the "number" capture group
+        } else if (match[2]) { // If it was matched by the "number" group
             html += this._wrap(token, 'number');
-        } else { // If it was matched by the "single character" capture group
+        } else { // It must be a single punctuation/operator character
             html += this._escape(token);
         }
     }
     return html;
 }
-
 
 /**
  * @private
