@@ -130,7 +130,9 @@ async renderTree(parentElement, parentItem, depth) {
         // 2. Process all children asynchronously and wait for them to finish
         await Promise.all(children.map(async (child) => {
             // Skip special directories we don't want to display
-            if (child.name === '.gitkeep' || child.name === '.awtsmoos-repo') {
+            if (child.name === '.gitkeep'
+            // || child.name === '.awtsmoos-repo'
+             ) {
                 return;
             }
 
