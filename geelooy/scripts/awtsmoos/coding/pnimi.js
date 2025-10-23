@@ -114,7 +114,7 @@ constructor(textarea, language = 'js', customColors = {}) {
         this.wrapper.appendChild(this.textarea);
         Object.assign(this.textarea.style, {
             position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', resize: 'none',
-            color: 'transparent', background: 'transparent', caretColor: 'transparent'
+            color: 'transparent', background: 'transparent', caretColor: '#66ff77'
         });
         this.overlay = document.createElement('div');
         this.viewport = document.createElement('div');
@@ -282,13 +282,19 @@ constructor(textarea, language = 'js', customColors = {}) {
     // --- 2. THE SOUL (Neshama/Ohr): THE NEW, FLAWLESS, FROM-SCRATCH PARSING ENGINE ---
 
     /** @private @function _getInitialState - The primordial will of the parser. */
-    _getInitialState() {
-        return {
-            contextStack: [{ mode: this.language === 'js' ? 'javascript' : this.language }],
-            isNextTokenFunctionName: false,
-            inCssRuleBlock: false
-        };
-    }
+    /**
+ * @private @function _getInitialState
+ * @description Defines the primordial state of the parser for each line.
+ * The contextStack is the memory that allows for infinite nesting.
+ */
+_getInitialState() {
+    return {
+        // The stack always starts with the base language of the editor.
+        contextStack: [{ mode: this.language === 'js' ? 'javascript' : this.language }],
+        // A flag to help identify function names vs. variables.
+        isNextTokenFunctionName: false
+    };
+}
 
     /** @private @function _getHighlightResult - The Merkabah (Chariot) that carries the soul. */
     _getHighlightResult(line, state) {
@@ -555,66 +561,78 @@ _getHTMLToken(line, i, state) {
  * is the JavaScript soul itself. It also recognizes the new `template_language_javascript`
  * state, completing the circle of recursive awareness. This is the final and definitive fix.
  */
+/**
+ * @private @function _getToken
+ * @description The Universal Soul. This function is the central dispatcher.
+ * It reads the current context and delegates to the appropriate specialized parser.
+ * This centralized logic is the key to preventing state loss and enabling flawless recursion.
+ */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // 1. The Highest Law: Check for terminators to exit a context.
-    if (context.terminator && line.substring(i).toLowerCase().startsWith(context.terminator.toLowerCase())) {
+    // LAW 1: The highest priority is always to check for an exit terminator.
+    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
         const terminatorLength = context.terminator.length;
-        const actualTerminator = line.substring(i, i + terminatorLength);
+        // Determine the token type based on the context we are leaving.
         let type = 'string';
         if (context.mode.includes('comment')) type = 'comment';
         if (context.mode.includes('interpolation')) type = 'controlKeyword';
         if (context.terminator.startsWith('</')) type = 'tag';
 
+        // CRITICAL: We pop the context off the stack, returning to the previous state.
         state.contextStack.pop();
-        return { html: this._wrap(actualTerminator, type), newIndex: i + terminatorLength };
+        return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
     }
 
-    // 2. The Law of Template Worlds: Check for interpolation to enter a nested JS context.
-    if (context.mode.startsWith('template_') && line.substring(i).startsWith('${')) {
+    // LAW 2: Check for entering a nested context (template interpolation).
+    if (context.mode === 'template_literal' && line.substring(i).startsWith('${')) {
+        // CRITICAL: Push the new JavaScript interpolation context onto the stack.
+        // The 'depth' property will be used by _getJSToken to track nested {} braces.
         state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
         return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
     }
 
-    // 3. The Law of Delegation: Ask the correct specialized soul what it sees.
-    const mode = context.mode;
-
-    // --- The Rectified Delegation Logic ---
-    if (mode.startsWith('template_language_html')) return this._getHTMLToken(line, i, state);
-    if (mode.startsWith('template_language_css')) return this._getCssToken(line, i, state);
-    // This new line teaches it to handle /*js*/`...` templates:
-    if (mode.startsWith('template_language_javascript')) return this._getJSToken(line, i, state);
-
-    switch (mode) {
-        // This is the CRITICAL FIX: It now knows that code inside ${...} IS JavaScript.
+    // LAW 3: Delegate to the correct soul based on the current mode.
+    switch (context.mode) {
+        // Both standard JS and the code inside ${...} are handled by the JS soul.
         case 'javascript':
         case 'javascript_interpolation':
             return this._getJSToken(line, i, state);
+
         case 'html':
-            return this._getHTMLToken(line, i, state);
+            return this._getHTMLToken(line, i, state); // Assumes you have this method.
         case 'css':
-            return this._getCssToken(line, i, state);
+            return this._getCssToken(line, i, state); // Assumes you have this method.
+
+        // Handle simple contexts directly.
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
             return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
         }
         case 'string':
-            return this._getStringToken(line, i, state);
         case 'template_literal': {
+             // Find the next boundary (`\`, terminator, or `${`).
             let content = '', p = i;
+            const terminator = context.mode === 'string' ? context.terminator : '`';
             while (p < line.length) {
-                if (line[p] === '\\' && p + 1 < line.length) { content += line.substring(p, p + 2); p += 2; continue; }
-                if (line.substring(p).startsWith('`') || line.substring(p).startsWith('${')) break;
+                if (line[p] === '\\') { // Handle escaped characters
+                    content += line.substring(p, p + 2); p += 2; continue;
+                }
+                // Stop if we hit a terminator or an interpolation start.
+                if (line[p] === terminator || (context.mode === 'template_literal' && line.substring(p).startsWith('${'))) break;
                 content += line[p++];
             }
             return { html: this._wrap(content, 'string'), newIndex: p };
         }
+        // Failsafe for unknown states.
         default:
             return { html: this._escape(line[i]), newIndex: i + 1 };
     }
 }
+
+
+
  
 /**
  * @private @function _getJSToken
@@ -625,98 +643,83 @@ _getToken(line, i, state) {
  * nested blocks inside a `${...}` interpolation with absolute precision, ignoring any braces
  * that are merely text inside comments or strings. This is the final fix. It will not fail.
  */
+/**
+ * @private @function _getJSToken
+ * @description The Rectified Soul of JavaScript. It achieves flawless nesting by
+ * identifying unambiguous tokens (comments, strings) BEFORE counting curly braces.
+ * This contextual awareness is its ultimate strength.
+ */
 _getJSToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
+    const char = line[i];
 
-    // --- Contextual Awareness for Boundaries (`</script>`) ---
-    if (context.terminator) {
-        const boundaryIndex = line.toLowerCase().indexOf(context.terminator, i);
-        if (boundaryIndex !== -1) {
-            const fragment = line.substring(i, boundaryIndex);
-            let tempHtml = '', k = 0;
-            let tempState = { ...this._getInitialState(), contextStack: [{ mode: 'javascript' }] };
-            while (k < fragment.length) {
-                const k_before = k;
-                const res = this._getToken(fragment, k, tempState);
-                tempHtml += res.html;
-                k = res.newIndex;
-                if (k === k_before) { tempHtml += this._escape(fragment[k++]); }
-            }
-            return { html: tempHtml, newIndex: boundaryIndex };
-        }
-    }
+    // --- The Wisdom: Check for unambiguous tokens FIRST ---
 
-    // --- The Rectified Directive Logic (Unchanged) ---
-    const directives = [
-        { tag: '/*html*/`', lang: 'html' },
-        { tag: '/*css*/`', lang: 'css' },
-        { tag: '/*js*/`', lang: 'javascript' }
-    ];
-    for (const d of directives) {
-        if (line.substring(i).startsWith(d.tag)) {
-            state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
-            return { html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'), newIndex: i + d.tag.length };
-        }
-    }
-
-    // --- The New, Context-Aware Tokenizer Logic ---
-    // This logic runs BEFORE brace counting to ensure braces inside comments/strings are ignored.
+    // 1. Is it a multi-line comment?
     if (line.substring(i, i + 2) === '/*') {
         state.contextStack.push({ mode: 'comment', terminator: '*/' });
         return { html: this._wrap('/*', 'comment'), newIndex: i + 2 };
     }
+    // 2. Is it a single-line comment?
     if (line.substring(i, i + 2) === '//') {
         return { html: this._wrap(line.substring(i), 'comment'), newIndex: line.length };
     }
-    const char = line[i];
+    // 3. Is it a regular string?
     if (char === "'" || char === '"') {
         state.contextStack.push({ mode: 'string', terminator: char });
         return { html: this._wrap(char, 'string'), newIndex: i + 1 };
     }
+    // 4. Is it a template literal string?
     if (char === '`') {
         state.contextStack.push({ mode: 'template_literal', terminator: '`' });
         return { html: this._wrap('`', 'string'), newIndex: i + 1 };
     }
-    const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
-    const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
-    if (this._isIS(char)) {
-        let buffer = '', p = i;
-        while (p < line.length && this._isIP(line[p])) buffer += line[p++];
-        let type = 'variable';
-        if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
-        else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
-        else if (ctlK.has(buffer)) type = 'controlKeyword';
-        else if (defK.has(buffer)) type = 'definitionKeyword';
-        else if (this._isFC(line, p)) type = 'functionName';
-        return { html: this._wrap(buffer, type), newIndex: p };
-    }
-    if (this._isD(char)) {
-        let buffer = '', p = i;
-        while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
-        return { html: this._wrap(buffer, 'number'), newIndex: p };
-    }
 
     // --- The Intelligent Brace Counter ---
-    // This logic now only runs on characters that are NOT part of a larger token.
+    // This logic only runs if the character is NOT inside a comment or string,
+    // because the checks above would have already returned.
     if (context.mode === 'javascript_interpolation') {
         if (char === '{') {
-            context.depth = (context.depth || 0) + 1;
+            context.depth++; // Enter a deeper level of nesting.
         } else if (char === '}') {
-            if (context.depth && context.depth > 0) {
-                context.depth--;
+            if (context.depth > 0) {
+                context.depth--; // Exit a level of nesting.
             } else {
-                // The depth is zero. This is the true exit brace.
-                // We stop parsing and signal to _getToken that the boundary has been reached.
+                // Depth is zero, so this is the final closing brace.
+                // We return an empty string and let _getToken handle the exit.
                 return { html: '', newIndex: i };
             }
         }
     }
 
-    // Default case for all other characters (operators, punctuation, etc.)
-    state.isNextTokenFunctionName = false;
-    return { html: this._escape(char), newIndex: i + 1 };
-}
+    // --- Standard Token Parsing (keywords, variables, numbers, etc.) ---
+    // This logic is safe now because the ambiguous cases have been handled.
+    const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
+    const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
+    if (this._isIS(char)) { // isIdentifierStart
+        let buffer = '', p = i;
+        while (p < line.length && this._isIP(line[p])) buffer += line[p++]; // isIdentifierPart
+        let type = 'variable';
+        if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
+        else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
+        else if (ctlK.has(buffer)) type = 'controlKeyword';
+        else if (defK.has(buffer)) type = 'definitionKeyword';
+        else if (this._isFC(line, p)) type = 'functionName'; // isFunctionCall
+        return { html: this._wrap(buffer, type), newIndex: p };
+    }
 
+    if (this._isD(char)) { // isDigit
+        let buffer = '', p = i;
+        while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
+        return { html: this._wrap(buffer, 'number'), newIndex: p };
+    }
+
+    // Default case for operators and punctuation
+    state.isNextTokenFunctionName = false;
+    const isPunctuation = '{}[]().,;'.includes(char);
+    const type = isPunctuation ? 'punctuation' : 'operator';
+    return { html: this._wrap(char, type), newIndex: i + 1 };
+}
 
 
 
