@@ -253,7 +253,7 @@ positionAndDisplay(menu, coords) {
         SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
         break;
         
-        
+        /*
         case 'copy-single': {
         if (!item) break;
         // The item is the one that was right-clicked (State.contextTarget)
@@ -261,8 +261,16 @@ positionAndDisplay(menu, coords) {
         State.fileClipboard = [uniquePath]; // Clipboard now contains just this one item
         UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
         break;
-    }
+    }*/
     
+    
+    case 'copy-single': {
+                    if (!item) break;
+                    // Instead of just copying to clipboard, we call our new smart function.
+                    FileOperations.cloneOrCopy(item);
+                    break;
+                }
+                
     case 'paste':
     
     
