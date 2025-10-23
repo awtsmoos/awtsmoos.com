@@ -383,32 +383,71 @@ _measureAndRender() {
             ],
     };
     
+    
+    const lang = {
+        keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
+    };
     let html = '';
     let i = 0;
 
     while (i < line.length) {
         const remaining = line.substring(i);
 
-        // CONTEXT 1: Inside a multi-line comment. This is correct.
-        if (currentState.in_comment) {
-            const endIdx = remaining.indexOf('*/');
-            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
-            else { html += this._wrap(remaining, 'comment'); break; }
-            continue;
+        // --- THE NEW, PERFECTED HIERARCHY ---
+
+        // CONTEXT 1: The HIGHEST AUTHORITY. Are we inside an interpolation?
+        // If so, we are in a pure JavaScript context until the depth returns to 0.
+        if (currentState.interpolation_depth > 0) {
+            // In this context, we first look for the start of sub-tokens (strings, comments)
+            // to avoid incorrectly counting braces inside them.
+            const firstChar = remaining[0];
+            if (firstChar === '`') {
+                html += this._wrap('`', 'string'); i++; currentState.in_string = true; continue;
+            }
+            if (firstChar === '"' || firstChar === "'") {
+                const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
+                if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
+                else { html += this._wrap(remaining, 'string'); break; }
+                continue;
+            }
+            if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
+            if (remaining.startsWith('/*')) {
+                const endIdx = remaining.indexOf('*/', i + 2);
+                if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; }
+                else { html += this._wrap(remaining, 'comment'); currentState.in_comment = true; break; }
+                continue;
+            }
+
+            // If not in a sub-token, we are free to count braces.
+            if (firstChar === '{') {
+                currentState.interpolation_depth++;
+            } else if (firstChar === '}') {
+                currentState.interpolation_depth--;
+                if (currentState.interpolation_depth === 0) {
+                    // We have found the exit. Return to the string world that spawned us.
+                    html += this._wrap('}', 'keyword');
+                    i++;
+                    if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
+                    else { currentState.in_string = true; }
+                    currentState.string_type_before_interpolation = null;
+                    continue; // Restart the loop in the correct string context.
+                }
+            }
+            // If none of the above, it's just regular JS. Let the main tokenizer handle it.
         }
 
-        // CONTEXT 2: Inside any kind of template string. This logic is correct.
-        if (currentState.in_string || currentState.in_tagged_template) {
+        // CONTEXT 2: We are inside a string or multi-line comment.
+        else if (currentState.in_string || currentState.in_tagged_template) {
             const interpolationStart = remaining.indexOf('${');
             let templateEnd = -1;
             const sub_state = currentState.sub_language_state;
             const isSubLanguageSovereign = sub_state && (sub_state.in_script || sub_state.in_style || sub_state.in_string || sub_state.in_comment);
-            
             if (!isSubLanguageSovereign) {
                 templateEnd = this._findUnescapedChar(remaining, '`');
             }
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
+                // An interpolation begins.
                 const content = remaining.substring(0, interpolationStart);
                 if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
@@ -417,12 +456,13 @@ _measureAndRender() {
                 html += this._wrap('${', 'keyword');
                 currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
                 i += interpolationStart + 2;
-                currentState.interpolation_depth = 1;
+                currentState.interpolation_depth = 1; // Enter the highest authority context.
                 currentState.in_string = false;
                 currentState.in_tagged_template = false;
             } else if (templateEnd !== -1) {
+                // The string ends.
                 const content = remaining.substring(0, templateEnd);
-                 if (currentState.in_tagged_template) {
+                if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
                     html += subResult.html;
                 } else { html += this._wrap(content, 'string'); }
@@ -433,6 +473,7 @@ _measureAndRender() {
                 currentState.template_language = null;
                 currentState.sub_language_state = null;
             } else {
+                // The line is content for the sovereign sub-language.
                 const content = remaining;
                 if (currentState.in_tagged_template) {
                     const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
@@ -442,24 +483,25 @@ _measureAndRender() {
             }
             continue;
         }
-
-        // CONTEXT 3: Top-level JS. This is where the fixes are.
-        const firstChar = remaining[0]; // **FIX #1: This MUST be the first character.**
-
-        const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
-        let directiveFound = false;
-        for (const d of directives) {
-            if (remaining.startsWith(d.tag + '`')) {
-                html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
-                i += d.tag.length + 1;
-                currentState.in_tagged_template = true;
-                currentState.template_language = d.lang;
-                currentState.sub_language_state = this._getInitialState();
-                directiveFound = true;
-                break;
-            }
+        else if (currentState.in_comment) {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
+            else { html += this._wrap(remaining, 'comment'); break; }
+            continue;
         }
-        if (directiveFound) continue;
+
+        // CONTEXT 3: We are in top-level JS. This is the default tokenizer.
+        const firstChar = remaining[0];
+        const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
+        if (directives.some(d => remaining.startsWith(d.tag + '`'))) {
+            const d = directives.find(d => remaining.startsWith(d.tag + '`'));
+            html += this._wrap(d.tag, 'comment') + this._wrap('`', 'string');
+            i += d.tag.length + 1;
+            currentState.in_tagged_template = true;
+            currentState.template_language = d.lang;
+            currentState.sub_language_state = this._getInitialState();
+            continue;
+        }
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -474,33 +516,17 @@ _measureAndRender() {
             continue;
         }
         if (firstChar === '`') { html += this._wrap('`', 'string'); i += 1; currentState.in_string = true; continue; }
-        
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch[0]; // **FIX #2: This MUST be the string from the match array.**
+            const word = wordMatch[0];
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
             i += word.length;
             continue;
         }
-
-        if (currentState.interpolation_depth > 0) {
-            if (firstChar === '{') {
-                currentState.interpolation_depth++;
-            } else if (firstChar === '}') {
-                currentState.interpolation_depth--;
-                if (currentState.interpolation_depth === 0) {
-                    html += this._wrap('}', 'keyword');
-                    i++;
-                    if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
-                    else { currentState.in_string = true; }
-                    currentState.string_type_before_interpolation = null;
-                    continue;
-                }
-            }
-        }
         
-        html += this._escape(firstChar); // **FIX #3: This now correctly escapes ONE character.**
+        // Default catch-all for operators and punctuation.
+        html += this._escape(firstChar);
         i++;
     }
     return { html: html || '&nbsp;', state: currentState };
