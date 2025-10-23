@@ -141,42 +141,65 @@ export const FileOperations = {
 
     
     
+    // B"H
     async pullAndOverwrite(folderToUpdate, gitInfo) {
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
-            message: `Are you sure? This will delete all local changes in '${folderToUpdate.name}' and replace them with the latest version from GitHub. This cannot be undone.`,
-            okText: 'Yes, Overwrite My Changes',
+            message: `This will update your local folder '${folderToUpdate.name}' to match the latest version on GitHub. Local changes will be overwritten. Proceed?`,
+            okText: 'Yes, Pull Changes',
             cancelText: 'Cancel'
         });
-
         if (!confirmed) return;
 
-        UI.showLoading(`Pulling latest changes for ${folderToUpdate.name}...`);
+        UI.showLoading(`Checking for remote changes...`);
         try {
+            // 1. Get the latest state of the remote repository.
             const sourceRepoItem = { type: 'github', ...gitInfo };
-            const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
-            const filesToPull = fullTreeData.tree;
-            
-            // --- NEW: Give better feedback on what's missing ---
-            const localFiles = await FileSystemProvider.listAllFiles(folderToUpdate);
-            const localFilePaths = new Set(localFiles.map(f => f.path));
-            const missingFiles = filesToPull.filter(remoteFile => 
-                !localFilePaths.has(`${folderToUpdate.path}/${remoteFile.path}`)
-            );
-            UI.showLoading(`Pulling ${filesToPull.length} total files. Found ${missingFiles.length} missing files...`);
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Give user time to read
-            // --- END NEW ---
+            const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
+            const newFilesMap = new Map(newTreeData.tree.map(f => [f.path, f]));
+            const oldFilesMap = new Map(gitInfo.remoteTree.map(f => [f.path, f]));
 
-            const itemsToDelete = await FileSystemProvider.list(folderToUpdate);
-            for (const item of itemsToDelete) {
-                if (item.name === '.awtsmoos-repo') continue;
-                await FileSystemProvider.delete(item);
+            // 2. Intelligently calculate what needs to be changed.
+            const filesToDownload = [];
+            const filesToDelete = [];
+
+            // Find files to add or update
+            newFilesMap.forEach((newFile, path) => {
+                if (!oldFilesMap.has(path) || oldFilesMap.get(path).sha !== newFile.sha) {
+                    filesToDownload.push(newFile);
+                }
+            });
+
+            // Find files to delete
+            oldFilesMap.forEach((oldFile, path) => {
+                if (!newFilesMap.has(path)) {
+                    filesToDelete.push(oldFile);
+                }
+            });
+
+            const totalChanges = filesToDownload.length + filesToDelete.length;
+            if (totalChanges === 0) {
+                UI.showToast("Already up-to-date.", 'success');
+                UI.hideLoading();
+                return;
             }
 
-            for (const fileNode of filesToPull) {
-                const fileSize = fileNode.size ? `(${(fileNode.size / 1024).toFixed(1)} KB)` : '';
-                UI.showLoading(`Pulling: ${fileNode.path} ${fileSize}`);
-                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.path.split('/').pop() };
+            UI.showLoading(`Found ${totalChanges} change(s). Preparing to pull...`);
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // 3. Execute Deletions (if any)
+            if (filesToDelete.length > 0) {
+                const deletionPromises = filesToDelete.map(file => {
+                    const itemToDelete = { ...folderToUpdate, path: `${folderToUpdate.path}/${file.path}` };
+                    return FileSystemProvider.delete(itemToDelete);
+                });
+                await Promise.all(deletionPromises);
+            }
+
+            // 4. Execute Downloads (if any)
+            for (const fileNode of filesToDownload) {
+                UI.showLoading(`Pulling: ${fileNode.path}`);
+                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.name };
                 const content = await FileSystemProvider.GitHub.read(itemForReading);
                 const destinationItem = { ...folderToUpdate, path: `${folderToUpdate.path}/${fileNode.path}` };
                 const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
@@ -186,7 +209,8 @@ export const FileOperations = {
                 await FileSystemProvider.write(destinationItem, content);
             }
 
-            const updatedGitInfo = { ...gitInfo, baseCommitSHA: fullTreeData.sha, remoteTree: filesToPull };
+            // 5. Update the local metadata in ikar.js to the new state.
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newTreeData.sha, remoteTree: newTreeData.tree };
             const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
             const ikarFileItem = { ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` };
             await FileSystemProvider.write(ikarFileItem, ikarFileContent);
