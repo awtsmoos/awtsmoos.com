@@ -51,13 +51,79 @@ async function _writeFile(fileNode, destinationDir) {
 export const FileOperations = {
 
 
+	
+    async deleteSelected() {
+        const selectedPaths = Array.from(State.selectedItems);
+        if (selectedPaths.length === 0) {
+            UI.showToast("No items selected to delete.", "info");
+            return;
+        }
+
+        // 1. Ask for Confirmation - This is a critical safety step.
+        const confirmed = await UI.showDialog({
+            title: 'Confirm Deletion',
+            message: `Are you sure you want to permanently delete these ${selectedPaths.length} item(s)? This action cannot be undone.`,
+            okText: 'Delete',
+            cancelText: 'Cancel'
+        });
+
+        if (!confirmed) {
+            return; // User canceled the operation.
+        }
+
+        // The entire operation is wrapped in try/finally to guarantee cleanup.
+        UI.showLoading(`Deleting ${selectedPaths.length} item(s)...`);
+        try {
+            const itemsToDelete = selectedPaths
+                .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
+                .filter(Boolean); // Filter out any items that might not be in the map.
+
+            // 2. Close any open tabs corresponding to the files being deleted.
+            for (const item of itemsToDelete) {
+                if (item.kind === 'file') {
+                    const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
+                    if (tab) {
+                        // Force close the tab without saving.
+                        await Tabs.close(tab.id, true);
+                    }
+                }
+            }
+            
+            // 3. Perform all deletion operations concurrently for maximum speed.
+            const deletionPromises = itemsToDelete.map(item => FileSystemProvider.delete(item));
+            await Promise.all(deletionPromises);
+
+            // 4. Efficiently refresh only the necessary parent folders in the UI.
+            const parentPathsToRefresh = new Set();
+            itemsToDelete.forEach(item => {
+                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+                // We need to reconstruct the parent item to refresh it.
+                const parentItem = { ...item, path: parentPath, kind: 'directory' };
+                parentPathsToRefresh.add(getItemUniquePath(parentItem));
+            });
+
+            for (const uniqueParentPath of parentPathsToRefresh) {
+                const parentEntry = State.domItemMap.get(uniqueParentPath);
+                if (parentEntry) {
+                    await Workspaces.refreshNode(parentEntry.item);
+                }
+            }
+
+            UI.showToast(`${itemsToDelete.length} item(s) deleted successfully.`, 'success');
+
+        } catch (e) {
+            UI.showToast(`Deletion failed: ${e.message}`, 'error');
+            console.error("BULK DELETE FAILED:", e);
+        } finally {
+            // 5. Guarantee cleanup: End selection mode and hide loading overlay.
+            SelectionManager.end();
+            UI.hideLoading();
+        }
+    },
+
+
     
-    // B"H
-// FILE: js/file-operations.js
-
-// ... inside the FileOperations object ...
-
-    // REPLACE your existing pullAndOverwrite function with this one.
+    
     async pullAndOverwrite(folderToUpdate, gitInfo) {
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
