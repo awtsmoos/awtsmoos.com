@@ -53,9 +53,6 @@ export const FileOperations = {
 
 	
     // B"H
-// FILE: js/file-operations.js
-
-    // REPLACE your existing deleteSelected function with this one.
     async deleteSelected() {
         const selectedPaths = Array.from(State.selectedItems);
         if (selectedPaths.length === 0) { UI.showToast("No items selected to delete.", "info"); return; }
@@ -84,12 +81,6 @@ export const FileOperations = {
         }
     },
 
-    // RENAME your 'deleteSelectedGitHub' to 'deleteSelectedGitHubAtomically'
-    // The logic inside this function is already correct for its purpose.
-    async deleteSelectedGitHubAtomically(itemsToDelete, gitInfo) {
-        // ... your existing, correct 'deleteSelectedGitHub' function's code goes here ...
-        // The one that builds a changeSet and calls commitMultipleFiles.
-    },
     
     // ADD THIS NEW, SEQUENTIAL DELETE FUNCTION
     async deleteSelectedSequentially(itemsToDelete, typeLabel) {
@@ -123,8 +114,20 @@ export const FileOperations = {
             }
             // --- END SEQUENTIAL LOGIC ---
 
+            
+            
             const parentPathsToRefresh = new Set();
-            // ... your existing, correct refresh logic ...
+            itemsToDelete.forEach(item => {
+                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+                const parentItem = { ...item, path: parentPath, kind: 'directory' };
+                parentPathsToRefresh.add(getItemUniquePath(parentItem));
+            });
+
+            for (const uniqueParentPath of parentPathsToRefresh) {
+                const parentEntry = State.domItemMap.get(uniqueParentPath);
+                if (parentEntry) await Workspaces.refreshNode(parentEntry.item);
+            }
+            
 
             UI.showToast(`${itemsToDelete.length} item(s) processed for deletion.`, 'success');
 
