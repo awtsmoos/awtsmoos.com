@@ -129,6 +129,12 @@ export const GitManager = {
      * Calculates the difference between local files and remote state.
      * This is the corrected version that uses relative paths.
      */
+    // B"H
+// FILE: js/git-manager.js
+
+// ... inside the GitManager object ...
+
+// REPLACE your existing calculateDiff function with this one.
     async calculateDiff(clonedFolderItem, gitInfo) {
         const localFiles = await FileSystemProvider.listAllFiles(clonedFolderItem);
         const remoteTree = gitInfo.remoteTree;
@@ -140,11 +146,16 @@ export const GitManager = {
             const relativePath = localFile.path.startsWith(basePath + '/') 
                 ? localFile.path.substring(basePath.length + 1) 
                 : localFile.path;
-
-            // Skip our internal metadata file from the diff
+            
             if (relativePath.startsWith('.awtsmoos-repo')) continue;
 
-            const content = await FileSystemProvider.read(localFile);
+            // --- THE CRITICAL FIX IS HERE ---
+            // We construct a full, valid item object for the read function,
+            // combining the workspace context from `clonedFolderItem` with the specific file's path.
+            const fullFileItem = { ...clonedFolderItem, path: localFile.path };
+            const content = await FileSystemProvider.read(fullFileItem);
+            // --- END FIX ---
+
             if (!remoteFileMap.has(relativePath)) {
                 changeSet.creations.push({ path: relativePath, content });
             } else {
@@ -161,4 +172,12 @@ export const GitManager = {
 
         return changeSet;
     }
+    
+
+    
+    
+    
+    
+    
+    
 };
