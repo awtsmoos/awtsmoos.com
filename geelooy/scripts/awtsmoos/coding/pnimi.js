@@ -819,35 +819,22 @@ _getInitialState() {
     };
 }
 
-/**
- * @private
- * @function _getHighlightResult
- * @description The one, true Gatekeeper. It does not create souls, it only reads the current reality
- * from the top of the unified stack and directs the line of text to the correct specialist.
- */
-/**
- * @private
- * @function _getHighlightResult
- * @description The one, true Gatekeeper. It does not create souls, it only reads the current reality
- * from the top of the unified stack and directs the line of text to the correct specialist.
- */
-// B"H
-// ACTION: Replace the switch statement inside _getHighlightResult.
 
-    /**
+
+
+
+/**
  * @private
  * @function _getHighlightResult
  * @description The one, true Gatekeeper. It does not create souls; it only reads the current reality
  * from the top of the unified stack and directs the line of text to the correct specialist highlighter.
- * This function is the central routing hub for all parsing.
  */
 _getHighlightResult(line, state) {
     // Divine Guard: If a soul (state) does not exist, create the primordial one.
-    // This happens for the very first line of a render pass.
     const currentState = state || this._getInitialState();
 
-    // Failsafe: The stack of worlds should never be empty. If chaos (a bug) empties it,
-    // we restore the primordial world to prevent the universe from collapsing (crashing).
+    // Failsafe: The stack of worlds should never be empty. If chaos empties it,
+    // we restore the primordial world to prevent the universe from collapsing.
     if (currentState.contextStack.length === 0) {
         currentState.contextStack.push({ mode: this.language });
     }
@@ -859,9 +846,9 @@ _getHighlightResult(line, state) {
     switch (context.mode) {
         // These are all facets of the JavaScript world.
         case 'js':
+        case 'js_comment':
         case 'plain_template':
         case 'tagged_template':
-        case 'js_comment':
             return this._highlightJS(line, currentState);
 
         // These are facets of the HTML world.
@@ -869,23 +856,20 @@ _getHighlightResult(line, state) {
         case 'html_comment':
             return this._highlightHTML(line, currentState);
 
-        // This is the world of a <script> tag's content.
-        // It is a world *within* HTML, but its laws are those of JavaScript.
+        // This is the world of a <script> tag's content, ruled by JavaScript laws.
         case 'script_block':
             return this._highlightJS(line, currentState);
 
-        // This is the world of a <style> tag's content.
-        // It is a world *within* HTML, but its laws are those of CSS.
+        // This is the world of a <style> tag's content, ruled by CSS laws.
         case 'style_block':
             return this._highlightCSS(line, currentState);
         
         // This is the standalone CSS world.
         case 'css':
+        case 'css_comment':
              return this._highlightCSS(line, currentState);
 
-        // The world of the unknown.
-        // If we encounter a mode we don't understand, we must not attempt to interpret it.
-        // We simply present its raw form, shielded from causing harm (by escaping it).
+        // The world of the unknown. We present its raw form, safely.
         default:
             return { html: this._escape(line || ''), state: currentState };
     }
