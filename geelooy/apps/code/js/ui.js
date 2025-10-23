@@ -68,6 +68,8 @@ export const UI = {
             // This handles special clicks for things like the clone destination list
             const contentSlot = dialog.querySelector('#dialog-content');
             contentSlot.onclick = (e) => {
+                 e.stopPropagation()
+                 
                  // Check for clone destination buttons
                 const cloneButton = e.target.closest('button[data-ws-id]');
                 if (cloneButton) {
@@ -83,11 +85,20 @@ export const UI = {
             };
             
             dialog.onclick = (e) => {
+            	e.stopPropagation()
                 if (e.target === dialog) cancelBtn?.click();
             };
 
-            if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
-            if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
+            if (okBtn) okBtn.onclick = (e) => {
+            	e.stopPropagation()
+            
+            	cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
+            }
+            if (cancelBtn) 
+            	cancelBtn.onclick = (e) => {
+            		e.stopPropagation()
+            		cleanupAndResolve(null);
+            	}
             
             dialog.classList.add('visible');
             if (input) input.focus();
