@@ -79,56 +79,66 @@ export const FileOperations = {
     /**
      * THE NEW, CORRECTED CLONE FUNCTION
      */
+    // B"H
+// FILE: js/file-operations.js
+
+// ... (keep all your other functions like paste, _ensurePathExists, etc.) ...
+// ... inside the FileOperations object ...
+
+    // REPLACE your existing clone function with this complete one.
     async clone(sourceRepoItem, destinationDir) {
         UI.showLoading(`Preparing to clone ${sourceRepoItem.name}...`);
         try {
+            // 1. Fetch the full repository tree and metadata from GitHub
             const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
             const filesToClone = fullTreeData.tree;
             if (!filesToClone || typeof filesToClone[Symbol.iterator] !== 'function') {
                 throw new Error("Could not retrieve a valid file list from the repository.");
             }
 
-            // FIX: Create the new repo folder *inside* the destination directory.
+            // 2. Create the main folder for the clone inside the destination directory
             const cloneRootName = sourceRepoItem.repoInfo.repo;
             await FileSystemProvider.create(destinationDir, cloneRootName, 'directory');
+            const cloneRootItem = { ...destinationDir, path: destinationDir.path === '/' ? `/${cloneRootName}` : `${destinationDir.path}/${cloneRootName}` };
             
-            // FIX: Define the new root item with the correct path.
-            const cloneRootPath = destinationDir.path === '/' ? `/${cloneRootName}` : `${destinationDir.path}/${cloneRootName}`;
-            const cloneRootItem = { ...destinationDir, path: cloneRootPath, name: cloneRootName, kind: 'directory' };
-            
-            // Write all files into the new directory
+            // 3. Loop through every file from the GitHub repo and write it locally
             for (const fileNode of filesToClone) {
-                // ENHANCEMENT: Show detailed progress.
                 const fileSize = fileNode.size ? `(${(fileNode.size / 1024).toFixed(1)} KB)` : '';
                 UI.showLoading(`Cloning: ${fileNode.path} ${fileSize}`);
 
+                // Read the file's content from GitHub
                 const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.path.split('/').pop() };
                 const content = await FileSystemProvider.GitHub.read(itemForReading);
 
-                // FIX: Ensure the destination path for the file is correct.
+                // Define where the file will be written in the destination
                 const destinationItem = { ...cloneRootItem, path: `${cloneRootItem.path}/${fileNode.path}` };
                 const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
-                
+
+                // If the file is in a subdirectory, make sure that directory exists first
                 if (parentPath) {
-                    // FIX: Ensure subdirectories are created relative to the new clone root.
                     await this._ensurePathExists(cloneRootItem, parentPath);
                 }
                 
+                // Write the file's content to the destination
                 await FileSystemProvider.write(destinationItem, content);
             }
 
-            // Mark the PARENT WORKSPACE as a clone. This is a simplification for now.
-            const parentWorkspace = State.workspaces.find(ws => ws.id === destinationDir.workspaceId);
-            if (parentWorkspace) {
-                parentWorkspace.isClone = true;
-                parentWorkspace.repoInfo = sourceRepoItem.repoInfo;
-                parentWorkspace.branch = sourceRepoItem.branch;
-                parentWorkspace.baseCommitSHA = fullTreeData.sha;
-                parentWorkspace.remoteTree = filesToClone;
-            }
+            // 4. Create the special .awtsmoos-repo/ikar.js metadata file
+            const gitInfo = {
+                isClone: true,
+                repoInfo: sourceRepoItem.repoInfo,
+                branch: sourceRepoItem.branch,
+                baseCommitSHA: fullTreeData.sha,
+                remoteTree: filesToClone
+            };
+            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
+            await FileSystemProvider.create(cloneRootItem, '.awtsmoos-repo', 'directory');
+            const metaDirItem = { ...cloneRootItem, path: `${cloneRootItem.path}/.awtsmoos-repo` };
+            const ikarFileItem = { ...metaDirItem, name: 'ikar.js', path: `${metaDirItem.path}/ikar.js` };
+            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
             
-            App.saveSession();
-            await Workspaces.refreshNode(destinationDir); // Refresh the folder we pasted into
+            // 5. Finalize the process
+            await Workspaces.refreshNode(destinationDir);
             UI.hideLoading();
             UI.showToast(`Successfully cloned into "${destinationDir.name}"!`, "success");
 
