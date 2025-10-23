@@ -390,6 +390,7 @@ _measureAndRender() {
     
     
     
+    
     let html = '';
     let i = 0;
 
@@ -399,7 +400,6 @@ _measureAndRender() {
         // --- THE UNIFIED, HIERARCHICAL PARSER ---
 
         // PRIORITY 1: Handle "modal" states that consume all input until a terminator.
-        // These states (comments, strings) have absolute authority over the text within them.
         if (currentState.in_comment) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 2), 'comment'); i += endIdx + 2; currentState.in_comment = false; }
@@ -407,9 +407,6 @@ _measureAndRender() {
             continue;
         }
         if (currentState.in_string || currentState.in_tagged_template) {
-            // While inside any string, the parser has only two concerns:
-            // 1. Finding the start of an interpolation: `${`
-            // 2. Finding the end of the string: ` ` `
             const interpolationStart = remaining.indexOf('${');
             let templateEnd = -1;
             const sub_state = currentState.sub_language_state;
@@ -419,18 +416,31 @@ _measureAndRender() {
             }
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                // An interpolation begins. The string surrenders its authority to the JS parser.
-                const content = remaining.substring(0, interpolationStart);
+                // --- THE RECURSIVE BIRTH ---
+                // An interpolation begins. We must parse it with a NEW, sovereign parser.
+                const contentBefore = remaining.substring(0, interpolationStart);
                 if (currentState.in_tagged_template) {
-                    const subResult = this._getHighlightResult(content, sub_state, currentState.template_language);
+                    const subResult = this._getHighlightResult(contentBefore, sub_state, currentState.template_language);
                     html += subResult.html; currentState.sub_language_state = subResult.state;
-                } else { html += this._wrap(content, 'string'); }
+                } else { html += this._wrap(contentBefore, 'string'); }
                 html += this._wrap('${', 'keyword');
-                currentState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
-                i += interpolationStart + 2;
-                currentState.interpolation_depth = 1;
-                currentState.in_string = false;
-                currentState.in_tagged_template = false; // We are now in a pure JS context.
+                
+                // Create the new world. Its only mission is to find its closing brace.
+                const interpolationContent = remaining.substring(interpolationStart + 2);
+                const nestedParserState = this._getInitialState();
+                nestedParserState.interpolation_depth = 1; // It is born inside an interpolation.
+                nestedParserState.string_type_before_interpolation = currentState.in_tagged_template ? 'tagged' : 'plain';
+
+                const nestedResult = this._highlightJS(interpolationContent, nestedParserState);
+                html += nestedResult.html;
+
+                // The new world has completed its task and returned. We adopt its final state.
+                const finalStateOfNested = nestedResult.state;
+                currentState.in_string = finalStateOfNested.in_string;
+                currentState.in_tagged_template = finalStateOfNested.in_tagged_template;
+                // And we know the entire line has been consumed by this process.
+                i = line.length;
+
             } else if (templateEnd !== -1) {
                 // The string truly ends.
                 const content = remaining.substring(0, templateEnd);
@@ -457,7 +467,6 @@ _measureAndRender() {
         }
 
         // PRIORITY 2: If not in a modal state, we are in the default JavaScript tokenizer.
-        // This is true for top-level code AND for code inside `${...}`.
         const firstChar = remaining[0];
         
         // HIERARCHY 2.1: Look for the START of any modal state.
@@ -484,7 +493,7 @@ _measureAndRender() {
             else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
-        if (firstChar === '`') { // This handles nested template strings flawlessly.
+        if (firstChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
             currentState.in_string = true;
@@ -501,20 +510,21 @@ _measureAndRender() {
             continue;
         }
 
-        // HIERARCHY 2.3: The sacred duty of brace counting. This ONLY happens in JS context.
+        // HIERARCHY 2.3: The sacred duty of brace counting. This ONLY happens if we are a nested parser.
         if (currentState.interpolation_depth > 0) {
             if (firstChar === '{') {
                 currentState.interpolation_depth++;
             } else if (firstChar === '}') {
                 currentState.interpolation_depth--;
                 if (currentState.interpolation_depth === 0) {
-                    // The journey into the nested world is over. Return to the string.
+                    // This world's purpose is fulfilled.
                     html += this._wrap('}', 'keyword');
                     i++;
+                    // Return control to the parent world.
                     if (currentState.string_type_before_interpolation === 'tagged') { currentState.in_tagged_template = true; }
                     else { currentState.in_string = true; }
-                    currentState.string_type_before_interpolation = null;
-                    continue;
+                    // We must stop processing this line, as our reality is over.
+                    break;
                 }
             }
         }
@@ -525,8 +535,6 @@ _measureAndRender() {
     }
     return { html: html || '&nbsp;', state: currentState };
 }
-    
-    
     
     
     
