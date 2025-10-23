@@ -437,6 +437,7 @@ _findMatchingBrace(line, startIndex = 0) {
     
     
     
+    
     let html = '';
     let i = 0;
 
@@ -444,7 +445,7 @@ _findMatchingBrace(line, startIndex = 0) {
         // The current reality is always the world at the top of the stack.
         const context = currentState.contextStack[currentState.contextStack.length - 1];
         const remaining = line.substring(i);
-        const firstChar = remaining;
+        const firstChar = remaining[0];
 
         // --- THE HIERARCHY OF SOVEREIGN WORLDS ---
 
@@ -496,7 +497,22 @@ _findMatchingBrace(line, startIndex = 0) {
             continue;
         }
 
-        // REALITY 2: We are in the default JavaScript world.
+        // REALITY 2: We are in a comment reality.
+        if (context.mode === 'comment') {
+            const endIdx = remaining.indexOf('*/');
+            if (endIdx !== -1) {
+                html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
+                i += endIdx + 2;
+                // This world ceases to exist. Pop it from the stack.
+                currentState.contextStack.pop();
+            } else {
+                html += this._wrap(remaining, 'comment');
+                break;
+            }
+            continue;
+        }
+
+        // REALITY 3: We are in the default JavaScript world.
         // HIERARCHY: Look for the START of a new world.
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         if (directives.some(d => remaining.startsWith(d.tag + '`'))) {
@@ -507,17 +523,18 @@ _findMatchingBrace(line, startIndex = 0) {
             currentState.contextStack.push({ mode: 'tagged_template', language: d.lang, sub_language_state: this._getInitialHTMLState() });
             continue;
         }
-        if (remaining.startsWith('/*')) { // We check for multi-line comments here
+        if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
             if (endIdx === -1) {
-                html += this._wrap(remaining, 'comment'); // It's a comment for the whole line
+                html += this._wrap(remaining, 'comment');
+                // Emanate a new multi-line comment world.
                 currentState.contextStack.push({ mode: 'comment' });
                 break;
             } else {
                 html += this._wrap(remaining.substring(0, endIdx + 2), 'comment');
                 i += endIdx + 2;
-                continue;
             }
+            continue;
         }
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (firstChar === '"' || firstChar === "'") {
@@ -544,9 +561,10 @@ _findMatchingBrace(line, startIndex = 0) {
         }
 
         // HIERARCHY: The sacred duty of the '}' to end a JS world.
+        // --- THIS IS THE FINAL, PERFECTED GUARD ---
         if (firstChar === '}') {
-            // This can only happen if this JS world was born from an interpolation.
-            if (currentState.contextStack.length > 1) { // Ensure we don't pop the primordial world
+            // Can this world end? ONLY if it is not the Primordial World.
+            if (currentState.contextStack.length > 1) {
                 html += this._wrap('}', 'keyword');
                 i++;
                 // This world's purpose is fulfilled. It ceases to exist.
@@ -555,13 +573,12 @@ _findMatchingBrace(line, startIndex = 0) {
             }
         }
         
-        // HIERARCHY: Default catch-all.
+        // HIERARCHY: Default catch-all for any other character.
         html += this._escape(firstChar);
         i++;
     }
     return { html: html || '&nbsp;', state: currentState };
 }
-    
     
     
     
