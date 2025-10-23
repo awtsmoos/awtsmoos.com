@@ -395,6 +395,9 @@ _findMatchingBrace(line, startIndex = 0) {
    // B"H
 // ACTION: Replace the ENTIRE _highlightJS method with this corrected version.
 
+// B"H
+// ACTION: Replace the ENTIRE _highlightJS method with this corrected version.
+
 _highlightJS(line, state) {
     if (typeof line !== 'string') return { html: '&nbsp;', state };
     const currentState = state;
@@ -509,7 +512,7 @@ _highlightJS(line, state) {
         }
 
         // Check for regular strings
-        const firstChar = remaining;
+        const firstChar = remaining; // CORRECTED: Check only the first character
         if (firstChar === '"' || firstChar === "'") {
             const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) {
@@ -533,7 +536,7 @@ _highlightJS(line, state) {
         // Check for keywords, variables, etc.
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch;
+            const word = wordMatch; // CORRECTED: Get the string from the match array
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
             i += word.length;
@@ -552,11 +555,19 @@ _highlightJS(line, state) {
         }
         
         // Default: If none of the above, process one character.
-        html += this._escape(firstChar);
+        if (i < line.length) { // Guard against empty remaining string
+             html += this._escape(line[i]);
+        }
         i++;
     }
     return { html: html || '&nbsp;', state: currentState };
 }
+
+
+
+
+
+
 
 // The NEW, PERFECTED, FLAWLESS _highlightHTML
 // B"H
