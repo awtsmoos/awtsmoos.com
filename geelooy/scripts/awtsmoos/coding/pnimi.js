@@ -349,7 +349,6 @@ _measureAndRender() {
     _escape(str) { return str ? str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''; }
     _wrap(str, type) { return `<span class="token-${type}">${this._escape(str)}</span>`; }
     
-    
     _highlightJS(line, state) {
     const lang = {
         keywords: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'class', 'new', 'await', 'async', 'import', 'export', 'from', 'while', 'do', 'switch', 'case', 'break'],
@@ -380,13 +379,9 @@ _measureAndRender() {
             const templateEnd = this._findUnescapedChar(remaining, '`');
 
             if (interpolationStart !== -1 && (templateEnd === -1 || interpolationStart < templateEnd)) {
-                // An interpolation begins.
                 const content = remaining.substring(0, interpolationStart);
-                if (state.in_tagged_template) {
-                    html += this._getHighlightResult(content, {}, state.template_language).html;
-                } else {
-                    html += this._wrap(content, 'string');
-                }
+                if (state.in_tagged_template) { html += this._getHighlightResult(content, {}, state.template_language).html; }
+                else { html += this._wrap(content, 'string'); }
                 html += this._wrap('${', 'keyword');
                 state.string_type_before_interpolation = state.in_tagged_template ? 'tagged' : 'plain';
                 i += interpolationStart + 2;
@@ -394,7 +389,6 @@ _measureAndRender() {
                 state.in_string = false;
                 state.in_tagged_template = false;
             } else if (templateEnd !== -1) {
-                // The string ends.
                 const content = remaining.substring(0, templateEnd);
                 if (state.in_tagged_template) { html += this._getHighlightResult(content, {}, state.template_language).html; }
                 else { html += this._wrap(content, 'string'); }
@@ -404,7 +398,6 @@ _measureAndRender() {
                 state.in_tagged_template = false;
                 state.template_language = null;
             } else {
-                // The rest of the line is string content.
                 if (state.in_tagged_template) { html += this._getHighlightResult(remaining, {}, state.template_language).html; }
                 else { html += this._wrap(remaining, 'string'); }
                 break;
@@ -413,9 +406,11 @@ _measureAndRender() {
         }
 
         // STATE 3: Top-level JS code OR code inside an interpolation.
-        // --- CORRECTED TOKENIZER ORDER ---
+        
+        // --- CORRECTED TOKENIZER ---
+        const firstChar = remaining[0];
 
-        // 1. Check for tagged template directives FIRST. This is the most specific token.
+        // 1. Tagged template directives (most specific)
         const directives = [{ tag: '/*js*/', lang: 'js' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*html*/', lang: 'html' }];
         let directiveFound = false;
         for (const d of directives) {
@@ -428,11 +423,9 @@ _measureAndRender() {
                 break;
             }
         }
-        if (directiveFound) {
-            continue; // Restart the loop in the new state
-        }
+        if (directiveFound) continue;
 
-        // 2. Now, check for general comments.
+        // 2. Comments
         if (remaining.startsWith('//')) { html += this._wrap(remaining, 'comment'); break; }
         if (remaining.startsWith('/*')) {
             const endIdx = remaining.indexOf('*/');
@@ -441,61 +434,55 @@ _measureAndRender() {
             continue;
         }
 
-        // 3. Check for regular strings.
-        const quoteChar = remaining;
-        if (quoteChar === '"' || quoteChar === "'") {
-            const endIdx = this._findUnescapedChar(remaining, quoteChar, 1);
+        // 3. Regular strings
+        if (firstChar === '"' || firstChar === "'") {
+            const endIdx = this._findUnescapedChar(remaining, firstChar, 1);
             if (endIdx !== -1) { html += this._wrap(remaining.substring(0, endIdx + 1), 'string'); i += endIdx + 1; }
             else { html += this._wrap(remaining, 'string'); break; }
             continue;
         }
         
-        // 4. Check for the start of a new plain template string.
-        if (quoteChar === '`') {
+        // 4. Plain template strings
+        if (firstChar === '`') {
             html += this._wrap('`', 'string');
             i += 1;
             state.in_string = true;
             continue;
         }
 
-        // 5. Check for keywords and variables.
+        // 5. Keywords and variables
         const wordMatch = remaining.match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
         if (wordMatch) {
-            const word = wordMatch;
+            const word = wordMatch[0]; // **FIXED**: Get string from match array
             if (lang.keywords.includes(word)) { html += this._wrap(word, 'keyword'); }
             else { html += this._wrap(word, 'variable'); }
-            i += word.length;
+            i += word.length; // **FIXED**: Use length of the string
             continue;
         }
 
-        // 6. Check for interpolation braces.
+        // 6. Interpolation braces
         if (state.interpolation_depth > 0) {
-            if (quoteChar === '{') {
+            if (firstChar === '{') {
                 state.interpolation_depth++;
-            } else if (quoteChar === '}') {
+            } else if (firstChar === '}') {
                 state.interpolation_depth--;
                 if (state.interpolation_depth === 0) {
                     html += this._wrap('}', 'keyword');
                     i++;
-                    if (state.string_type_before_interpolation === 'tagged') {
-                        state.in_tagged_template = true;
-                    } else {
-                        state.in_string = true;
-                    }
+                    if (state.string_type_before_interpolation === 'tagged') { state.in_tagged_template = true; }
+                    else { state.in_string = true; }
                     state.string_type_before_interpolation = null;
                     continue;
                 }
             }
         }
 
-        // 7. Default catch-all for operators and punctuation.
-        html += this._escape(remaining);
+        // 7. Default catch-all for single characters (operators, punctuation, whitespace)
+        html += this._escape(firstChar); // **FIXED**: Process only one character
         i++;
     }
     return { html: html || '&nbsp;', state };
 }
-
-    
     
     
     
