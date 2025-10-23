@@ -816,6 +816,12 @@ _getInitialState() {
  * @description The one, true Gatekeeper. It does not create souls, it only reads the current reality
  * from the top of the unified stack and directs the line of text to the correct specialist.
  */
+/**
+ * @private
+ * @function _getHighlightResult
+ * @description The one, true Gatekeeper. It does not create souls, it only reads the current reality
+ * from the top of the unified stack and directs the line of text to the correct specialist.
+ */
 _getHighlightResult(line, state) {
     // Divine Guard: If a soul does not exist, create the primordial one.
     const currentState = state || this._getInitialState();
@@ -844,10 +850,9 @@ _getHighlightResult(line, state) {
         case 'css':
              return this._highlightCSS(line, currentState, false);
         default:
-             // If the mode is a language (e.g., from a tagged template), route it.
-            if (['html', 'css', 'js'].includes(context.mode)) {
-                return this._getHighlightResult(line, { contextStack: [context] });
-            }
+            // CORRECTED: The previous logic here caused an infinite recursion for 'js', 'html', and 'css' modes.
+            // Those are already handled by their 'case' statements above. This 'default'
+            // should only ever catch unknown modes, for which escaping is the correct behavior.
             return { html: this._escape(line || ''), state: currentState };
     }
 }
