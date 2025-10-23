@@ -5,14 +5,21 @@ import { State } from './state.js';
 import { UI } from './ui.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Workspaces } from './workspaces.js';
+import { GitMetaProvider } from './git-meta-provider.js';
+
 
 export const GitManager = {
     /**
      * The main entry point to show the Git actions UI for a cloned workspace.
      */
-    async showGitUI(workspace) {
-        if (!workspace.isClone) {
-            UI.showToast("This is not a cloned workspace.", "error");
+    async showGitUI(clonedFolderItem) {
+        UI.showLoading("Reading repository data...");
+        // Get the Git metadata fresh from the ikar.js file.
+        const gitInfo = await GitMetaProvider.getGitInfoForFolder(clonedFolderItem);
+
+        if (!gitInfo) {
+            UI.hideLoading();
+            UI.showToast("This is not a cloned repository folder.", "error");
             return;
         }
 
