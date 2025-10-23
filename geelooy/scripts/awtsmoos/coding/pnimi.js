@@ -1333,15 +1333,9 @@ _render() {
     // The entire viewport is shifted, not individual divs.
     const yOffset = firstLineToRender * this.lineHeight;
     this.viewport.style.transform = `translate(${-scrollLeft}px, ${yOffset}px)`;
-}```
+}
 
-### 2. The Non-Recursive Parsing Engine
 
-This is the core of the `Tikkun`. The recursive `_getHighlightResult` and its flawed helpers are gone. In their place is a new set of souls that work in perfect, linear harmony.
-
-**ACTION:** Replace `_getHighlightResult` and ALL of your other `_parse...` helper methods with this entire block. This is a complete replacement for the parsing engine.
-
-```javascript
 /**
  * @private
  * @function _getHighlightResult
