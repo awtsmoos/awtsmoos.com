@@ -288,8 +288,17 @@ positionAndDisplay(menu, coords) {
     
     case 'copy-single': {
                     if (!item) break;
-                    // Instead of just copying to clipboard, we call our new smart function.
-                    FileOperations.cloneOrCopy(item);
+                    // It simply puts the right-clicked item's reference onto the clipboard.
+                    const uniquePath = getItemUniquePath(item);
+                    State.fileClipboard = [uniquePath]; 
+                    
+                    // The menu already displays the correct "Copy / Clone" label.
+                    // This toast confirms the action.
+                    if (item.type === 'github' && item.path === '/') {
+                        UI.showToast(`Ready to clone "${item.repoInfo.repo}". Paste in a new location.`, 'success');
+                    } else {
+                        UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+                    }
                     break;
                 }
                 
