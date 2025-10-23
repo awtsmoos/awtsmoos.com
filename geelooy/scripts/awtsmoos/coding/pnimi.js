@@ -699,6 +699,91 @@ _findUnescapedChar(line, char, startIndex = 0) {
     
     
     
+    /**
+ * @private
+ * @function _getSyntaxRules
+ * @description The "Book of Laws." This is the central, all-knowing repository of syntax rules
+ * for all languages. The master loop consults this book to understand the laws of the current reality.
+ */
+_getSyntaxRules() {
+    return {
+        // --- THE LAWS OF THE JAVASCRIPT WORLD ---
+        'javascript': {
+            // Portals to other worlds, checked in order of priority.
+            portals: [
+                { pattern: /^\/\*html\*\s*`/, newMode: 'html', terminator: '`' },
+                { pattern: /^\/\*css\*\s*`/, newMode: 'css', terminator: '`' },
+                { pattern: /^\/\*js\*\s*`/, newMode: 'javascript', terminator: '`' },
+                { pattern: /^`/, newMode: 'template_string', terminator: '`' },
+                { pattern: /^\/\*/, newMode: 'comment', terminator: '*/' },
+                { pattern: /^\/\/.*/, newMode: 'line_comment' }, // Self-terminating
+            ],
+            // Mundane tokens within this world.
+            tokens: [
+                { pattern: /^(?:const|let|var|function|return|if|else|for|while|switch|case|break|continue|class|extends|super|new|import|export|from|async|await|try|catch|finally|this|true|false|null|undefined|typeof)\b/, type: 'keyword' },
+                { pattern: /^[a-zA-Z_$][a-zA-Z0-9_$]*/, type: 'variable' },
+                { pattern: /^-?\d+(\.\d+)?/, type: 'number' },
+                { pattern: /^'[^'\\]*(?:\\.[^'\\]*)*'/, type: 'string' },
+                { pattern: /^"[^"\\]*(?:\\.[^"\\]*)*"/, type: 'string' },
+            ]
+        },
+
+        // --- THE LAWS OF A TEMPLATE STRING (A world inside JS) ---
+        'template_string': {
+            portals: [
+                // Portal to a nested JS world for interpolation.
+                { pattern: /^\$\{/, newMode: 'javascript', terminator: '}' },
+            ],
+            // Template strings have no other special tokens, they are just strings.
+            tokens: [] 
+        },
+
+        // --- THE LAWS OF THE HTML WORLD ---
+        'html': {
+            portals: [
+                { pattern: /^<!--/, newMode: 'comment', terminator: '-->' },
+                // The crucial portal: a script tag creates a new JS world within HTML.
+                { pattern: /^<script.*?>/i, newMode: 'javascript', terminator: '</script>' },
+                // The style tag creates a new CSS world.
+                { pattern: /^<style.*?>/i, newMode: 'css', terminator: '</style>' },
+            ],
+            tokens: [
+                { pattern: /^<\/?([a-zA-Z0-9-]+)/, type: 'tag' }, // Opening/closing tag name
+                { pattern: /^[a-zA-Z-]+(?==)/, type: 'attribute' }, // Attribute name
+                { pattern: /^"[^"]*"/, type: 'string' }, // Attribute value
+            ]
+        },
+        
+        // --- THE LAWS OF THE CSS WORLD ---
+        'css': {
+            portals: [
+                { pattern: /^\/\*/, newMode: 'comment', terminator: '*/' },
+            ],
+            tokens: [
+                { pattern: /^[^{]+(?=\s*\{)/, type: 'selector' }, // Selectors
+                { pattern: /^[a-zA-Z-]+(?=\s*:)/, type: 'property' }, // Property names
+                { pattern: /#[0-9a-fA-F]{3,6}/, type: 'number' }, // Hex colors
+            ]
+        },
+        
+        // --- THE LAWS OF A COMMENT WORLD (Universal) ---
+        'comment': {
+            portals: [], // Comments contain no portals
+            tokens: []   // The whole block is treated as one token type
+        },
+        'line_comment': {
+             portals: [],
+             tokens: []
+        }
+    };
+}
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -812,20 +897,100 @@ _highlightCSS(line, state) {
 /**
  * @private
  * @function _getInitialState
- * @description The "Adam Kadmon" of parser states. Creates the unified, infinite soul (the context stack)
- * and emanates the first, primordial world based on the editor's current language.
+ * @description Creates the primordial soul, the context stack, and emanates the first world.
  */
 _getInitialState() {
     return {
-        // The contextStack is the one, true, infinite soul for the entire system.
         contextStack: [
-            // The first world, the root of all reality. Its mode is determined by the editor's language.
-            { mode: this.language }
+            { mode: this.language, terminator: null } // The base world has no terminator.
         ]
     };
 }
 
 
+
+/**
+ * @private
+ * @function _getHighlightResult
+ * @description The Master Consciousness. This single, unified loop is the heart of the eternal plan.
+ * It processes the code, guided by the Book of Laws and the Context Stack, ensuring it is
+ * all-knowing and eternally present in every nested level.
+ */
+_getHighlightResult(line, state) {
+    // Lazy-load the book of laws once.
+    if (!this.syntaxRules) {
+        this.syntaxRules = this._getSyntaxRules();
+    }
+    
+    const currentState = state || this._getInitialState();
+    let html = '';
+    let i = 0;
+
+    // The Master Loop begins. It processes the entire line.
+    while (i < line.length) {
+        if (currentState.contextStack.length === 0) {
+            currentState.contextStack.push({ mode: this.language }); // Failsafe
+        }
+        
+        const context = currentState.contextStack[currentState.contextStack.length - 1];
+        const rules = this.syntaxRules[context.mode] || { portals: [], tokens: [] };
+        const remaining = line.substring(i);
+        let matchFound = false;
+
+        // 1. HIGHEST PRIORITY: Seek the end of the current world.
+        if (context.terminator && remaining.startsWith(context.terminator)) {
+            const tokenType = (context.mode === 'javascript' || context.mode === 'template_string') ? 'keyword' : 'punctuation';
+            html += this._wrap(context.terminator, tokenType);
+            i += context.terminator.length;
+            currentState.contextStack.pop();
+            continue;
+        }
+
+        // 2. SECOND PRIORITY: Look for portals to new worlds.
+        for (const portal of rules.portals) {
+            const match = remaining.match(portal.pattern);
+            if (match && match[0]) {
+                const tokenType = (context.mode === 'javascript' || portal.newMode === 'comment') ? 'comment' : 'tag';
+                html += this._wrap(match[0], tokenType);
+                i += match[0].length;
+                // A line comment is self-terminating; it doesn't push a new world.
+                if (portal.newMode !== 'line_comment') {
+                    currentState.contextStack.push({ mode: portal.newMode, terminator: portal.terminator });
+                }
+                matchFound = true;
+                break;
+            }
+        }
+        if (matchFound) continue;
+
+        // 3. THIRD PRIORITY: Parse the mundane tokens of the current world.
+        // If the entire context is one type (like a comment), colorize the whole remainder.
+        if (rules.tokens.length === 0 && context.mode !== 'javascript' && context.mode !== 'html' && context.mode !== 'css') {
+             const terminatorIndex = context.terminator ? remaining.indexOf(context.terminator) : -1;
+             const content = terminatorIndex === -1 ? remaining : remaining.substring(0, terminatorIndex);
+             html += this._wrap(content, context.mode);
+             i += content.length;
+             continue;
+        }
+        
+        for (const tokenRule of rules.tokens) {
+            const match = remaining.match(tokenRule.pattern);
+            if (match && match[0]) {
+                html += this._wrap(match[0], tokenRule.type);
+                i += match[0].length;
+                matchFound = true;
+                break;
+            }
+        }
+        if (matchFound) continue;
+        
+        // 4. FALLBACK: If nothing matches, process one character as plain text.
+        html += this._escape(remaining[0]);
+        i++;
+    }
+
+    return { html: html || '&nbsp;', state: currentState };
+}
 
 
 
@@ -835,7 +1000,7 @@ _getInitialState() {
  * @description The one, true Gatekeeper. It does not create souls; it only reads the current reality
  * from the top of the unified stack and directs the line of text to the correct specialist highlighter.
  */
-_getHighlightResult(line, state) {
+_getHighlightResult_old(line, state) {
     // Divine Guard: If a soul (state) does not exist, create the primordial one.
     const currentState = state || this._getInitialState();
 
