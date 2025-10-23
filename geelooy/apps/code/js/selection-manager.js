@@ -98,21 +98,26 @@ toggle(item) {
         DOM.selectionMenu.classList.remove('visible');
     },
 
+    // B"H
+// FILE: js/selection-manager.js
+
+// ... inside the SelectionManager object ...
+
+    // REPLACE your existing updateMenu function with this one.
     updateMenu() {
         const count = State.selectedItems.size;
+        // The button text is now wrapped in a <span class="menu-button-label">
         DOM.selectionMenu.innerHTML = /*html*/`
             <span class="selection-count">${count} item${count === 1 ? '' : 's'} selected</span>
             <hr class="menu-separator">
             <button class="menu-button" data-action="copy-selection" title="Copy Selected Items" ${count === 0 ? 'disabled' : ''}>
-                <svg class="svg-icon"><use href="#icon-copy"></use></svg> Copy
+                <svg class="svg-icon"><use href="#icon-copy"></use></svg><span class="menu-button-label"> Copy</span>
             </button>
             <button class="menu-button danger" data-action="delete-selection" title="Delete Selected Items" ${count === 0 ? 'disabled' : ''}>
-                <svg class="svg-icon"><use href="#icon-trash"></use></svg> Delete
+                <svg class="svg-icon"><use href="#icon-trash"></use></svg><span class="menu-button-label"> Delete</span>
             </button>
-            
-            
             <button class="menu-button" data-action="cancel-selection" title="Cancel Selection">
-                <svg class="svg-icon"><use href="#icon-x"></use></svg> Cancel
+                <svg class="svg-icon"><use href="#icon-x"></use></svg><span class="menu-button-label"> Cancel</span>
             </button>
         `;
     },
