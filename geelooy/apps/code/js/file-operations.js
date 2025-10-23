@@ -49,8 +49,66 @@ async function _writeFile(fileNode, destinationDir) {
 
 // --- MAIN EXPORTED OBJECT (WITH MODIFICATIONS) ---
 export const FileOperations = {
-    // This function is no longer needed, its logic is now in the menus.
-    // copySelected() { ... } 
+
+
+    
+    async pullAndOverwrite(folderToUpdate, gitInfo) {
+        const confirmed = await UI.showDialog({
+            title: 'Confirm Overwrite',
+            message: `Are you sure? This will delete all local changes in the '${folderToUpdate.name}' folder and replace them with the latest version from GitHub. This cannot be undone.`,
+            okText: 'Yes, Overwrite My Changes',
+            cancelText: 'Cancel'
+        });
+
+        if (!confirmed) return;
+
+        UI.showLoading(`Pulling latest changes for ${folderToUpdate.name}...`);
+        try {
+            // 1. Delete all existing content in the folder.
+            // We get the list of items inside the folder and delete them one by one.
+            const itemsToDelete = await FileSystemProvider.list(folderToUpdate);
+            for (const item of itemsToDelete) {
+                // Don't delete our own metadata folder during the process
+                if (item.name === '.awtsmoos-repo') continue;
+                await FileSystemProvider.delete(item);
+            }
+
+            // 2. Re-run the clone logic, but into the now-empty existing folder.
+            // This is very similar to the clone function.
+            const sourceRepoItem = { type: 'github', ...gitInfo };
+            const fullTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
+            const filesToClone = fullTreeData.tree;
+
+            for (const fileNode of filesToClone) {
+                const fileSize = fileNode.size ? `(${(fileNode.size / 1024).toFixed(1)} KB)` : '';
+                UI.showLoading(`Pulling: ${fileNode.path} ${fileSize}`);
+
+                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha };
+                const content = await FileSystemProvider.GitHub.read(itemForReading);
+                const destinationItem = { ...folderToUpdate, path: `${folderToUpdate.path}/${fileNode.path}` };
+                const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
+                if (parentPath) {
+                    await this._ensurePathExists(folderToUpdate, parentPath);
+                }
+                await FileSystemProvider.write(destinationItem, content);
+            }
+
+            // 3. Update the ikar.js file with the new commit SHA and tree.
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: fullTreeData.sha, remoteTree: filesToClone };
+            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+            const ikarFileItem = { ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` };
+            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+
+            await Workspaces.refreshNode(folderToUpdate);
+            UI.hideLoading();
+            UI.showToast('Pull successful. Local folder is now in sync.', 'success');
+
+        } catch (e) {
+            UI.hideLoading();
+            UI.showToast(`Pull Failed: ${e.message}`, 'error', 15000);
+            console.error("PULL ERROR:", e);
+        }
+    },
 
     /**
      * THE NEW SMART PASTE FUNCTION
