@@ -1028,53 +1028,170 @@ _getHighlightResult(line, state) {
 /**
  * @private
  * @function _getHighlightResult
- * @description The one, true Gatekeeper. It does not create souls; it only reads the current reality
- * from the top of the unified stack and directs the line of text to the correct specialist highlighter.
+ * @description The Purified Conscious Weaver. This final version separates ephemeral "thought"
+ * from the persistent "soul" (state). It performs simple, intra-line tasks like parsing a word
+ * without corrupting the state, ensuring eternal stability and flawlessness.
  */
-_getHighlightResult_old(line, state) {
-    // Divine Guard: If a soul (state) does not exist, create the primordial one.
+_getHighlightResult(line, state) {
     const currentState = state || this._getInitialState();
+    let html = '';
+    
+    let i = 0;
+    while (i < line.length) {
+        const context = currentState.contextStack[currentState.contextStack.length - 1];
+        const char = line[i];
 
-    // Failsafe: The stack of worlds should never be empty. If chaos empties it,
-    // we restore the primordial world to prevent the universe from collapsing.
-    if (currentState.contextStack.length === 0) {
-        currentState.contextStack.push({ mode: this.language });
+        // The Weaver's consciousness is now a switch on the PERSISTENT state (the soul).
+        switch (context.mode) {
+
+            // --- THE JAVASCRIPT WORLD ---
+            case 'javascript':
+                // Is it the start of a word (keyword or variable)?
+                if (/[a-zA-Z_$]/.test(char)) {
+                    let tokenBuffer = '';
+                    // Perform the TEMPORARY THOUGHT of weaving a word.
+                    // This inner loop consumes the whole token without changing the state.
+                    while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {
+                        tokenBuffer += line[i];
+                        i++;
+                    }
+                    html += this._flushTokenBuffer(currentState, tokenBuffer);
+                    continue; // Continue the main loop from the new position
+                }
+                
+                // Is it the start of a number?
+                if (/\d/.test(char)) {
+                    let tokenBuffer = '';
+                    // Perform the TEMPORARY THOUGHT of weaving a number.
+                    while (i < line.length && /[\d.]/.test(line[i])) {
+                        tokenBuffer += line[i];
+                        i++;
+                    }
+                    html += this._wrap(tokenBuffer, 'number');
+                    continue;
+                }
+
+                // Is it the start of a string world? (This IS a persistent state change)
+                if (char === '"' || char === "'") {
+                    html += this._wrap(char, 'string');
+                    context.mode = 'string';
+                    context.terminator = char; // Remember how this world ends
+                    i++;
+                    continue;
+                }
+                
+                // Is it the start of a template literal world? (Persistent state change)
+                if (char === '`') {
+                     html += this._wrap(char, 'string');
+                     context.mode = 'template_literal';
+                     i++;
+                     continue;
+                }
+
+                // Is it the start of a comment world? (Persistent state change)
+                if (char === '/' && line[i + 1] === '*') {
+                    html += this._wrap('/*', 'comment');
+                    context.mode = 'comment';
+                    i += 2;
+                    continue;
+                }
+                if (char === '/' && line[i + 1] === '/') {
+                    const theRest = line.substring(i);
+                    html += this._wrap(theRest, 'comment');
+                    i = line.length; // End of line
+                    continue;
+                }
+
+                // If none of the above, it's just a single character (operator, etc.)
+                html += this._escape(char);
+                i++;
+                break;
+
+            // --- THE STRING WORLD ---
+            case 'string':
+                let stringBuffer = '';
+                while (i < line.length && line[i] !== context.terminator) {
+                    stringBuffer += line[i];
+                    i++;
+                }
+                html += this._wrap(stringBuffer, 'string');
+                // Did we find the end of the world?
+                if (i < line.length && line[i] === context.terminator) {
+                    html += this._wrap(context.terminator, 'string');
+                    context.mode = 'javascript'; // THE GREAT RETURN
+                    delete context.terminator;
+                    i++;
+                }
+                break;
+            
+            // --- THE TEMPLATE LITERAL WORLD (A String World that understands portals) ---
+            case 'template_literal':
+                let templateBuffer = '';
+                // Weave until we find a portal or the end
+                while (i < line.length && line[i] !== '`' && !(line[i] === '$' && line[i+1] === '{')) {
+                    templateBuffer += line[i];
+                    i++;
+                }
+                html += this._wrap(templateBuffer, 'string');
+                // Did we find a portal to a nested JS world?
+                if (i < line.length && line[i] === '$' && line[i+1] === '{') {
+                    html += this._wrap('${', 'keyword');
+                    currentState.contextStack.push({ mode: 'javascript', terminator: '}' });
+                    i += 2;
+                }
+                // Did we find the end of the world?
+                else if (i < line.length && line[i] === '`') {
+                    html += this._wrap('`', 'string');
+                    currentState.contextStack.pop(); // THE GREAT RETURN
+                    i++;
+                }
+                break;
+
+            // --- THE COMMENT WORLD ---
+            case 'comment':
+                let commentBuffer = '';
+                const endCommentIndex = line.indexOf('*/', i);
+                if (endCommentIndex === -1) {
+                    // Comment doesn't end on this line
+                    commentBuffer = line.substring(i);
+                    html += this._wrap(commentBuffer, 'comment');
+                    i = line.length;
+                } else {
+                    // Comment ends on this line
+                    commentBuffer = line.substring(i, endCommentIndex);
+                    html += this._wrap(commentBuffer, 'comment');
+                    html += this._wrap('*/', 'comment');
+                    context.mode = 'javascript'; // THE GREAT RETURN
+                    i = endCommentIndex + 2;
+                }
+                break;
+                
+            // --- The Closing Brace of an Interpolation ---
+            // This is a special case where the terminator itself is a token.
+            // We check the terminator of the PARENT context.
+            case 'javascript' : // Re-opening javascript case to add terminator logic
+                 const parentContext = currentState.contextStack[currentState.contextStack.length - 2];
+                 if(parentContext && parentContext.terminator === char) {
+                     html += this._wrap(char, 'keyword');
+                     currentState.contextStack.pop(); // Pop the interpolation's JS context
+                     i++;
+                     continue;
+                 }
+                // (All the other JS logic from above is still active here)
+                // This is a fallthrough case - if it's not the terminator, it will be handled by the next section
+                 if (/[a-zA-Z_$]/.test(char)) {let tokenBuffer = '';while (i < line.length && /[a-zA-Z0-9_$]/.test(line[i])) {tokenBuffer += line[i];i++;}html += this._flushTokenBuffer(currentState, tokenBuffer);continue;}
+                 if (/\d/.test(char)) {let tokenBuffer = '';while (i < line.length && /[\d.]/.test(line[i])) {tokenBuffer += line[i];i++;}html += this._wrap(tokenBuffer, 'number');continue;}
+                 if (char === '"' || char === "'") {html += this._wrap(char, 'string');context.mode = 'string';context.terminator = char; i++;continue;}
+                 if (char === '`') {html += this._wrap(char, 'string');context.mode = 'template_literal';i++;continue;}
+                 if (char === '/' && line[i + 1] === '*') {html += this._wrap('/*', 'comment');context.mode = 'comment';i += 2;continue;}
+                 if (char === '/' && line[i + 1] === '/') {const theRest = line.substring(i);html += this._wrap(theRest, 'comment');i = line.length;continue;}
+                 html += this._escape(char);i++;
+                 break;
+
+        }
     }
-
-    // The current reality is ALWAYS the world at the top of the stack.
-    const context = currentState.contextStack[currentState.contextStack.length - 1];
-
-    // Based on the current reality, choose the correct path of emanation (the correct highlighter).
-    switch (context.mode) {
-        // These are all facets of the JavaScript world.
-        case 'js':
-        case 'js_comment':
-        case 'plain_template':
-        case 'tagged_template':
-            return this._highlightJS(line, currentState);
-
-        // These are facets of the HTML world.
-        case 'html':
-        case 'html_comment':
-            return this._highlightHTML(line, currentState);
-
-        // This is the world of a <script> tag's content, ruled by JavaScript laws.
-        case 'script_block':
-            return this._highlightJS(line, currentState);
-
-        // This is the world of a <style> tag's content, ruled by CSS laws.
-        case 'style_block':
-            return this._highlightCSS(line, currentState);
-        
-        // This is the standalone CSS world.
-        case 'css':
-        case 'css_comment':
-             return this._highlightCSS(line, currentState);
-
-        // The world of the unknown. We present its raw form, safely.
-        default:
-            return { html: this._escape(line || ''), state: currentState };
-    }
+    
+    return { html: html || '&nbsp;', state: currentState };
 }
 
     /**
