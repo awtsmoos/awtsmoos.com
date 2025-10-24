@@ -333,26 +333,73 @@ _getInitialState() {
         return this._getStringToken(line, i, state);
     }
     
-    _getTemplateLanguageToken(line, i, state) {
-        const context = state.contextStack[state.contextStack.length - 1];
-        const lang = context.mode.substring(18); // from 'template_language_...'
-        const boundary = line.indexOf('${', i);
-        const content = line.substring(i, boundary !== -1 ? boundary : line.length);
-        
-        let tempHtml = '', k = 0;
-        let tempState = this._getInitialState();
-        tempState.contextStack = [{ mode: lang }];
-        tempState.inCssRuleBlock = state.inCssRuleBlock;
-        while(k < content.length) {
-            const k_before = k;
-            const res = this._getToken(content, k, tempState);
-            tempHtml += res.html;
-            k = res.newIndex;
-            if(k === k_before) k++;
-        }
-        state.inCssRuleBlock = tempState.inCssRuleBlock;
-        return { html: tempHtml, newIndex: i + content.length };
+    /**
+ * @private @function _getTemplateLanguageToken
+ * @description The Rectified Soul of Tagged Templates. This version has been granted
+ * the ultimate wisdom it was missing. Previously, it was blind to its own terminator (` `)
+ * and only searched for interpolations (`${`), causing the highlighter to get stuck.
+ *
+ * THE RECTIFICATION: This soul now searches for BOTH the next interpolation AND the
+ * terminator on every line. It defines its boundary as whichever comes first. It then
+* parses the content only up to that boundary, leaving the `${` or ` ` for the main
+ * `_getToken` function to see on the next cycle. This allows the state machine to
+ * correctly exit the template context, perfectly fixing the bug.
+ */
+_getTemplateLanguageToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+    const lang = context.mode.substring(18); // e.g., 'html' from 'template_language_html'
+
+    // --- The New, Perfected Boundary Logic ---
+    const nextInterpolationIndex = line.indexOf('${', i);
+    const terminatorIndex = line.indexOf(context.terminator, i);
+
+    let boundary = line.length; // By default, the boundary is the end of the line.
+
+    // If a terminator exists, it becomes our potential boundary.
+    if (terminatorIndex !== -1) {
+        boundary = terminatorIndex;
     }
+
+    // If an interpolation exists AND it comes before our current boundary, it becomes the new boundary.
+    if (nextInterpolationIndex !== -1 && nextInterpolationIndex < boundary) {
+        boundary = nextInterpolationIndex;
+    }
+
+    // If we are already at a boundary, return nothing and let the main dispatcher handle it.
+    // This prevents an infinite loop.
+    if (i >= boundary) {
+        return { html: '', newIndex: i };
+    }
+
+    // We now have a precise chunk of content to parse, guaranteed not to contain a terminator or interpolation.
+    const content = line.substring(i, boundary);
+
+    // The original parsing logic is now applied ONLY to this safe, well-defined chunk.
+    let tempHtml = '';
+    let k = 0;
+    // Create a temporary, clean state for this language-in-a-string.
+    let tempState = this._getInitialState();
+    tempState.contextStack = [{ mode: lang }];
+    tempState.inCssRuleBlock = state.inCssRuleBlock; // Preserve CSS block state across lines
+
+    while (k < content.length) {
+        const k_before = k;
+        // Use the main dispatcher recursively on our content chunk.
+        const res = this._getToken(content, k, tempState);
+        tempHtml += res.html;
+        k = res.newIndex;
+        if (k === k_before) { // Failsafe
+             tempHtml += this._escape(content[k++]);
+        }
+    }
+
+    // Carry over the CSS block state to the parent state.
+    state.inCssRuleBlock = tempState.inCssRuleBlock;
+
+    // Return the parsed html and advance the main index to the boundary we found.
+    // This leaves the terminator or interpolation ready for the next parsing tick.
+    return { html: tempHtml, newIndex: boundary };
+}
 
     // B"H
 
