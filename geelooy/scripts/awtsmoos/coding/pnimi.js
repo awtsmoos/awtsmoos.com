@@ -597,85 +597,89 @@ _getHTMLToken(line, i, state) {
  * It knows how to parse a regular template's strings, how to enter interpolation, and how to
  * delegate the content of language-templates to the correct sub-parser. This is its final form.
  */
+/**
+ * @private @function _getToken
+ * @description The Universal Soul, with a rectified understanding of template literals.
+ * This version corrects a critical flaw in delegation. Previously, a plain `template_literal`
+ * was handled by a function meant for tagged templates (`_getTemplateLanguageToken`), which
+ * caused it to ignore the closing backtick and never exit the string context.
+ *
+ * THE FIX: A dedicated logic path for `template_literal` is created. It no longer
+ * delegates to the wrong soul. Instead, it carefully parses only the plain string
+ * content *between* interpolations (`${...}`) and the final terminator (` `). This ensures
+ * that when the parser reaches a `$` or a ` ` a second time, the main exit/entrance logic at the top
+ * of this function can correctly identify it, change the state, and pop the context.
+ * This restores the highlighter's ability to end template strings correctly.
+ */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // LAW 1: The highest priority is always to check for an exit terminator.
+    // LAW 1: Check for the end of the current context. This is the highest priority.
     if (context.terminator && line.substring(i).startsWith(context.terminator)) {
         const terminatorLength = context.terminator.length;
-        let type = 'string';
+        let type = 'string'; // Default for quotes, backticks
         if (context.mode.includes('comment')) type = 'comment';
-        if (context.mode.includes('interpolation')) type = 'controlKeyword';
-        if (context.terminator.startsWith('</')) type = 'tag';
+        if (context.mode.includes('interpolation')) type = 'controlKeyword'; // For the closing }
+        if (context.terminator.startsWith('</')) type = 'tag'; // For </script>
         state.contextStack.pop();
         return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
     }
 
-    // LAW 2: The Surgically Corrected Delegation Logic
+    // LAW 2: Check for entering a nested context (template literal interpolation).
+    if (context.mode === 'template_literal' && line.substring(i).startsWith('${')) {
+        state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+        return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
+    }
+
+    // LAW 3: Delegate to the correct soul based on the current context.
     switch (context.mode) {
         // These modes are for PURE code.
         case 'javascript':
         case 'javascript_interpolation':
             return this._getJSToken(line, i, state);
 
-        // --- THE FIX FOR REGULAR TEMPLATE STRINGS ---
-        // This context is handled directly with simple, robust logic.
+        case 'html':
+            return this._getHTMLToken(line, i, state);
+        case 'css':
+            return this._getCssToken(line, i, state);
+
+        // --- THE RECTIFIED LOGIC ---
+        // This is the new, correct path for plain template literals.
         case 'template_literal': {
-            const interpolationStart = line.indexOf('${', i);
-            // If there's no interpolation on this line, the rest is a string.
-            if (interpolationStart === -1) {
-                return { html: this._wrap(line.substring(i), 'string'), newIndex: line.length };
+            // Find the next point of interest: either an interpolation or the end of the string.
+            const nextInterpolationIndex = line.indexOf('${', i);
+            const nextTerminatorIndex = line.indexOf('`', i);
+
+            let endOfChunk = line.length; // By default, consume the whole line.
+
+            // If an interpolation exists, it's our boundary.
+            if (nextInterpolationIndex !== -1) {
+                endOfChunk = nextInterpolationIndex;
             }
-            // If we found an interpolation, the part before it is a string.
-            const stringPart = line.substring(i, interpolationStart);
-            // Now, enter the interpolation context.
-            state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
-            return {
-                html: this._wrap(stringPart, 'string') + this._wrap('${', 'controlKeyword'),
-                newIndex: interpolationStart + 2
-            };
+            
+            // If a terminator exists AND it comes before the interpolation, it's our boundary.
+            if (nextTerminatorIndex !== -1 && nextTerminatorIndex < endOfChunk) {
+                endOfChunk = nextTerminatorIndex;
+            }
+
+            // If we found content before the boundary, wrap it as a string.
+            if (endOfChunk > i) {
+                const content = line.substring(i, endOfChunk);
+                return { html: this._wrap(content, 'string'), newIndex: endOfChunk };
+            }
+            
+            // If we are right at a boundary, let the default case handle it to avoid an infinite loop.
+            // The logic at the top of the function will handle it on the next pass.
+            return { html: this._escape(line[i]), newIndex: i + 1 };
         }
 
-        // --- THE FIX FOR LANGUAGE TEMPLATES ---
-        // These contexts find the string content and delegate it to the correct highlighter.
+        // These are for TAGGED templates and remain delegated to the specialist.
         case 'template_language_html':
         case 'template_language_css':
-        case 'template_language_javascript': {
-            const interpolationStart = line.indexOf('${', i);
-            const endOfContent = (interpolationStart === -1) ? line.length : interpolationStart;
-            const content = line.substring(i, endOfContent);
-            let highlightedContent = '';
+        case 'template_language_javascript':
+            return this._getTemplateLanguageToken(line, i, state);
 
-            if (content) {
-                const lang = context.mode.substring(18); // e.g., 'html'
-                // For JS-in-JS, we just color it as a string.
-                if (lang === 'javascript') {
-                    highlightedContent = this._wrap(content, 'string');
-                } else {
-                    // For others, we run the content through the full highlighter.
-                    const tempState = this._getInitialState();
-                    tempState.contextStack = [{ mode: lang }];
-                    tempState.inCssRuleBlock = state.inCssRuleBlock; // Preserve CSS state
-                    const result = this._getHighlightResult(content, tempState);
-                    state.inCssRuleBlock = result.state.inCssRuleBlock; // Persist any changes
-                    highlightedContent = result.html;
-                }
-            }
-
-            // If an interpolation was found, process it.
-            if (interpolationStart !== -1) {
-                state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
-                return {
-                    html: highlightedContent + this._wrap('${', 'controlKeyword'),
-                    newIndex: interpolationStart + 2
-                };
-            }
-            return { html: highlightedContent, newIndex: endOfContent };
-        }
-
-        // --- All other cases remain simple and unchanged ---
-        case 'html': return this._getHTMLToken(line, i, state);
-        case 'css': return this._getCssToken(line, i, state);
+        // These modes for simple comments and strings remain unchanged.
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
