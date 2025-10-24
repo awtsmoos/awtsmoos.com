@@ -1,17 +1,16 @@
 // B"H
-// - Definitive Worker: Image Backgrounds + High-Performance Ein Sof Effects
+// - Definitive Worker v3: Restored Exploding Particles, Shape-Based Effects, Lightning Fast
 
 // --- FONT SETUP ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
-// Using a generic fallback is the key to universal emoji support without loading font files.
-const EMOJI_FALLBACK_FONT = 'sans-serif';
+const EMOJI_FALLBACK_FONT = 'sans-serif'; // The key to universal, font-free emoji support
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- WORKER GLOBAL STATE ---
 let lastActiveCue = null;
 const frameRate = 24;
-let backgroundImages = []; // Will hold pre-processed image data
+let backgroundImages = [];
 
 // --- MAIN MESSAGE HANDLER ---
 self.onmessage = async ({
@@ -23,7 +22,6 @@ self.onmessage = async ({
 	}
 }) => {
 	try {
-		// B"H - Pre-process images as soon as they arrive
 		if (imageBitmaps && imageBitmaps.length > 0) {
 			backgroundImages = imageBitmaps.map(bitmap =>
 				calculateImageFit(bitmap, settings.resolution.width, settings.resolution.height)
@@ -31,7 +29,6 @@ self.onmessage = async ({
 		} else {
 			backgroundImages = [];
 		}
-
 		await handleExport({
 			cues,
 			audioBufferShim,
@@ -58,8 +55,6 @@ async function handleExport({
 	const totalFrames = Math.floor(totalDuration * frameRate);
 	const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
 	const exportParticleSystem = new ParticleSystem(settings.particles, settings.resolution);
-
-	// B"H - Create offscreen canvases for effects. This is more efficient than creating them per frame.
 	const glowLayer = new OffscreenCanvas(settings.resolution.width, settings.resolution.height);
 	const glowCtx = glowLayer.getContext('2d', {
 		alpha: true
@@ -72,7 +67,6 @@ async function handleExport({
 			}
 		},
 		(base, frame) => {
-			// Pass all necessary components to the draw function
 			drawFrame({
 				...base,
 				cues,
@@ -86,9 +80,7 @@ async function handleExport({
 			libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js'
 		}
 	);
-
 	await renderer.start();
-
 	for (let i = 0; i <= totalFrames; i++) {
 		const time = i / frameRate;
 		await renderer.addFrame({
@@ -106,13 +98,12 @@ async function handleExport({
 			});
 		}
 	}
-
 	const blob = await renderer.finalize(audioBufferShim);
 	self.postMessage({
 		type: 'VIDEO_COMPLETE',
 		payload: {
 			blob,
-			fileName: `BH_video_EinSof_${new Date().getTime()}.mp4`
+			fileName: `BH_video_final_${new Date().getTime()}.mp4`
 		}
 	});
 }
@@ -138,38 +129,27 @@ function drawFrame({
 	} = canvas;
 	const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
 
-	// --- 1. Draw Background ---
+	// 1. Draw Background
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0, 0, width, height);
 	if (backgroundImages.length > 0) {
-		// Cycle through images every 5 seconds, for example
 		const imageIndex = Math.floor(time / 5) % backgroundImages.length;
 		const img = backgroundImages[imageIndex];
-
-		// Audio-reactive scaling
-		const scale = 1 + currentVolume * 0.05; // Subtle "breathing" effect
+		const scale = 1 + currentVolume * 0.05;
 		const scaledWidth = img.drawWidth * scale;
 		const scaledHeight = img.drawHeight * scale;
-
-		ctx.drawImage(
-			img.bitmap,
-			img.sx, img.sy, img.sWidth, img.sHeight, // source rect
-			(width - scaledWidth) / 2, (height - scaledHeight) / 2, // destination pos (centered)
-			scaledWidth, scaledHeight // destination size
-		);
+		ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - scaledWidth) / 2, (height - scaledHeight) / 2, scaledWidth, scaledHeight);
 	}
 
-	// --- 2. Draw Particles & Waveform ---
-	// Clear the glow layer for this frame
+	// 2. Draw Particles & Waveform
 	glowCtx.clearRect(0, 0, width, height);
-
 	particleSystem.updateAndDraw(ctx, glowCtx, currentVolume);
 	drawWaveform(ctx, glowCtx, time, width, height, settings, currentVolume);
 
-	// --- 3. Apply High-Performance Bloom ---
-	applyBloom(ctx, glowLayer, settings.effects.bloom);
+	// 3. Apply SHAPE-BASED Bloom (FAST)
+	applyShapeBloom(ctx, glowLayer, settings.effects.bloom);
 
-	// --- 4. Draw Text Box and Lyrics ---
+	// 4. Draw Text
 	const currentCue = cues.find(cue => time >= cue.start && time < cue.end);
 	if (currentCue) lastActiveCue = currentCue;
 	if (lastActiveCue) {
@@ -187,23 +167,145 @@ function drawFrame({
 		wrapText(ctx, lastActiveCue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
 	}
 
-	// --- 5. Apply Fast Post-Processing Effects ---
+	// 5. Apply Post-Processing (FAST)
 	applyPostProcessing(ctx, canvas, settings.effects);
 }
 
+// --- RESTORED & UPGRADED PARTICLE SYSTEM ---
+class ParticleSystem {
+	constructor(settings, resolution) {
+		this.settings = settings;
+		this.width = resolution.width;
+		this.height = resolution.height;
+		this.sizeScalar = Math.max(1.0, this.height / 720) * 1.5;
+		this.particles = (settings.density > 0 && settings.chars.length > 0) ?
+			Array.from({
+				length: settings.density
+			}, () => this.createParticle({})) :
+			[];
+	}
 
-// --- EIN SOF & VISUAL FUNCTIONS ---
+	createParticle(p = {}, options = {}) {
+		const {
+			isSubParticle = false, x, y
+		} = options;
+		p.x = x !== undefined ? x : Math.random() * this.width;
+		p.y = y !== undefined ? y : this.height + Math.random() * 20;
+		p.avx = 0;
+		p.avy = 0; // Audio-driven velocity
 
-function applyBloom(ctx, glowLayer, intensity) {
+		if (isSubParticle) {
+			const angle = Math.random() * Math.PI * 2;
+			const speed = 3 + Math.random() * 4;
+			p.vx = Math.cos(angle) * speed;
+			p.vy = Math.sin(angle) * speed;
+			p.life = 60;
+		} else {
+			p.vx = (Math.random() - 0.5) * 2;
+			p.vy = -(Math.random() * 2.5 + 2.0); // Faster upward speed
+			p.life = Infinity;
+		}
+
+		const baseSize = Math.max(5, (this.settings.baseSize || 20) + (Math.random() - 0.5) * (this.settings.variation || 15));
+		p.size = baseSize * this.sizeScalar * (isSubParticle ? 0.6 : 1);
+		p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
+		p.hue = Math.random() * 360;
+		p.opacity = 0.6 + Math.random() * 0.4;
+		return p;
+	}
+
+	updateAndDraw(ctx, glowCtx, volume) {
+		if (this.particles.length === 0) return;
+		const forceAmount = (volume ** 2) * 2.5;
+		const damping = 0.92;
+		const explosionChance = 0.001 + (volume * 0.015);
+
+		for (let i = this.particles.length - 1; i >= 0; i--) {
+			const p = this.particles[i];
+			if (p.life !== Infinity) p.life--;
+			if (p.life <= 0) {
+				this.particles.splice(i, 1);
+				continue;
+			}
+
+			if (p.life === Infinity && Math.random() < explosionChance) {
+				for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, {
+					isSubParticle: true,
+					x: p.x,
+					y: p.y
+				}));
+				this.createParticle(p); // Replace the exploded particle
+				continue;
+			}
+
+			if (forceAmount > 0.1) {
+				p.avx += (Math.random() - 0.5) * forceAmount;
+				p.avy += (Math.random() - 0.5) * forceAmount;
+			}
+			p.avx *= damping;
+			p.avy *= damping;
+			p.x += p.vx + p.avx;
+			p.y += p.vy + p.avy;
+
+			if (p.life === Infinity && p.y < -p.size) this.createParticle(p);
+
+			const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity;
+			const font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
+			const color = `hsla(${p.hue}, 90%, 75%, ${opacity})`;
+
+			// Draw to both canvases for bloom effect
+			ctx.font = font;
+			ctx.fillStyle = color;
+			ctx.fillText(p.char, p.x, p.y);
+
+			glowCtx.font = font;
+			glowCtx.fillStyle = color;
+			glowCtx.fillText(p.char, p.x, p.y);
+		}
+		this.drawLightning(ctx); // Restore lightning effect
+	}
+
+	drawLightning(ctx) {
+		if (this.particles.length < 2) return;
+		const checks = 3;
+		for (let i = 0; i < checks; i++) {
+			const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
+			const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
+			if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.35) {
+				const createPath = () => {
+					ctx.beginPath();
+					ctx.moveTo(p1.x, p1.y);
+					for (let j = 1; j <= 3; j++) ctx.lineTo(p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 25, p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 25);
+					ctx.lineTo(p2.x, p2.y);
+				};
+				// Draw with strokes instead of gradients
+				ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+				ctx.lineWidth = 3;
+				createPath();
+				ctx.stroke();
+				ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+				ctx.lineWidth = 1;
+				createPath();
+				ctx.stroke();
+			}
+		}
+	}
+}
+
+
+// --- HIGH-PERFORMANCE, SHAPE-BASED VISUAL EFFECTS ---
+
+function applyShapeBloom(ctx, glowLayer, intensity) {
 	if (intensity <= 0) return;
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
-	ctx.globalAlpha = 0.7;
-	ctx.filter = `blur(${intensity * 1.5}px)`;
-	ctx.drawImage(glowLayer, 0, 0);
-	ctx.globalAlpha = 1.0;
-	ctx.filter = `blur(${intensity * 0.5}px)`;
-	ctx.drawImage(glowLayer, 0, 0);
+	// Draw the glow layer multiple times with increasing size and decreasing opacity
+	ctx.globalAlpha = 0.4;
+	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 2, ctx.canvas.height + intensity * 2);
+	ctx.globalAlpha = 0.25;
+	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 4, ctx.canvas.height + intensity * 4);
+	ctx.globalAlpha = 0.15;
+	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 6, ctx.canvas.height + intensity * 6);
 	ctx.restore();
 }
 
@@ -218,17 +320,12 @@ function applyPostProcessing(ctx, canvas, effects) {
 	const centerX = width / 2;
 	const centerY = height / 2;
 	const maxDist = Math.hypot(centerX, centerY);
-
 	for (let i = 0; i < pixels.length; i += 4) {
-		// Vignette calculation
 		const x = (i / 4) % width;
 		const y = Math.floor((i / 4) / width);
 		const dist = Math.hypot(x - centerX, y - centerY);
-		const vignette = 1 - Math.pow(dist / maxDist, 2.5) * (effects.vignette / 100);
-
-		// Film grain calculation
+		const vignette = 1 - Math.pow(dist / maxDist, 2.0) * (effects.vignette / 100);
 		const grain = (Math.random() - 0.5) * effects.grain;
-
 		pixels[i] = pixels[i] * vignette + grain;
 		pixels[i + 1] = pixels[i + 1] * vignette + grain;
 		pixels[i + 2] = pixels[i + 2] * vignette + grain;
@@ -237,81 +334,22 @@ function applyPostProcessing(ctx, canvas, effects) {
 }
 
 
-// --- PARTICLE SYSTEM (Updated to draw to glow layer) ---
-class ParticleSystem {
-	constructor(settings, resolution) {
-		this.settings = settings;
-		this.width = resolution.width;
-		this.height = resolution.height;
-		this.sizeScalar = Math.max(1.0, this.height / 720);
-		// Only create particles if density is greater than 0
-		this.particles = (settings.density > 0 && settings.chars.length > 0) ?
-			Array.from({
-				length: settings.density
-			}, () => this.createParticle({})) :
-			[];
-	}
-
-	createParticle(p = {}) {
-		p.x = Math.random() * this.width;
-		p.y = Math.random() * this.height;
-		p.vx = (Math.random() - 0.5) * 0.5;
-		p.vy = (Math.random() - 0.5) * 0.5;
-		p.size = (this.settings.baseSize + (Math.random() - 0.5) * this.settings.variation) * this.sizeScalar;
-		p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
-		p.hue = Math.random() * 360;
-		p.opacity = 0.4 + Math.random() * 0.5;
-		return p;
-	}
-
-	updateAndDraw(ctx, glowCtx, volume) {
-		if (this.particles.length === 0) return;
-		this.particles.forEach(p => {
-			p.x += p.vx + (Math.random() - 0.5) * volume * 2;
-			p.y += p.vy + (Math.random() - 0.5) * volume * 2;
-			if (p.x > this.width + p.size) p.x = -p.size;
-			if (p.x < -p.size) p.x = this.width + p.size;
-			if (p.y > this.height + p.size) p.y = -p.size;
-			if (p.y < -p.size) p.y = this.height + p.size;
-
-			const finalOpacity = p.opacity * (0.5 + volume * 2);
-			const color = `hsla(${p.hue}, 90%, 75%, ${finalOpacity})`;
-			// Use the universal emoji font stack
-			const font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
-
-			// Draw to main canvas
-			ctx.font = font;
-			ctx.fillStyle = color;
-			ctx.fillText(p.char, p.x, p.y);
-
-			// Draw a brighter version to the glow canvas for the bloom effect
-			glowCtx.font = font;
-			glowCtx.fillStyle = `hsla(${p.hue}, 95%, 85%, ${finalOpacity * 0.8})`;
-			glowCtx.fillText(p.char, p.x, p.y);
-		});
-	}
-}
-
-// --- HELPER FUNCTIONS ---
-
+// --- HELPER & UTILITY FUNCTIONS (Unchanged) ---
 function calculateImageFit(img, targetWidth, targetHeight) {
 	const imgRatio = img.width / img.height;
 	const targetRatio = targetWidth / targetHeight;
-	let sWidth, sHeight, sx, sy, drawWidth, drawHeight;
-
-	// This logic ensures the image "covers" the canvas without stretching
-	if (imgRatio > targetRatio) { // Image is wider than target
+	let sWidth, sHeight, sx, sy;
+	if (imgRatio > targetRatio) {
 		sHeight = img.height;
 		sWidth = sHeight * targetRatio;
 		sx = (img.width - sWidth) / 2;
 		sy = 0;
-	} else { // Image is taller or same ratio
+	} else {
 		sWidth = img.width;
 		sHeight = sWidth / targetRatio;
 		sx = 0;
 		sy = (img.height - sHeight) / 2;
 	}
-
 	return {
 		bitmap: img,
 		sx,
@@ -323,7 +361,6 @@ function calculateImageFit(img, targetWidth, targetHeight) {
 	};
 }
 
-// --- Unchanged Functions: wrapText, getWrappedLines, preAnalyzeAudio, drawWaveform ---
 function getWrappedLines(ctx, text, maxWidth) {
 	const lines = text.split("\n");
 	let allLines = [];
@@ -332,11 +369,16 @@ function getWrappedLines(ctx, text, maxWidth) {
 			words = line.split(" ");
 		for (let i = 0; i < words.length; i++) {
 			let testLine = currentLine + (currentLine ? " " : "") + words[i];
-			i > 0 && ctx.measureText(testLine).width > maxWidth ? (allLines.push(currentLine), currentLine = words[i]) : currentLine = testLine
+			if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+				allLines.push(currentLine);
+				currentLine = words[i];
+			} else {
+				currentLine = testLine;
+			}
 		}
-		allLines.push(currentLine)
+		allLines.push(currentLine);
 	});
-	return allLines
+	return allLines;
 }
 
 function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
@@ -347,7 +389,8 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 		if (lines.length * scaledFontSize * 1.4 < maxHeight * .95) break;
 		scaledFontSize -= 1
 	}
-	ctx.direction = "ltr", ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`, ctx.textAlign = fontSettings.align;
+	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+	ctx.textAlign = fontSettings.align;
 	const lines = getWrappedLines(ctx, text, maxWidth * .95),
 		lineHeight = 1.4 * scaledFontSize,
 		startY = y - (lines.length - 1) * lineHeight / 2 + .3 * scaledFontSize;
@@ -388,12 +431,8 @@ function drawWaveform(ctx, glowCtx, time, width, height, settings, volume) {
 	const createPath = (targetCtx) => {
 		targetCtx.beginPath();
 		for (let x = 0; x <= width; x += 15) {
-			const mainWave = Math.sin(x * .01 + time * 4) * .5,
-				detailWave = Math.sin(x * .03 + time * 9) * .3,
-				staticWave = Math.sin(x * .1 + time * 20) * .2,
-				yOffset = (mainWave + detailWave + staticWave) * amplitude,
-				finalY = baseY + yOffset;
-			x === 0 ? targetCtx.moveTo(x, finalY) : targetCtx.lineTo(x, finalY)
+			const yOffset = (Math.sin(x * .01 + time * 4) * .5 + Math.sin(x * .03 + time * 9) * .3 + Math.sin(x * .1 + time * 20) * .2) * amplitude;
+			x === 0 ? targetCtx.moveTo(x, baseY + yOffset) : targetCtx.lineTo(x, baseY + yOffset)
 		}
 	};
 	const colorIntensity = 200 + Math.floor(volume * 55),
