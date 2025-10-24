@@ -1,4 +1,5 @@
-// B"H - Definitive Main Script: Stable Playback Foundation + Safe Export
+// B"H
+// - Definitive Main Script: Stable Playback Foundation + Safe Export
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
