@@ -590,14 +590,17 @@ _getHTMLToken(line, i, state) {
  * `template_language_javascript` context, it understands that this new reality must be
  * governed by the JavaScript Soul itself. This creates the flawless recursive loop.
  */
+/**
+ * @private @function _getToken
+ * @description The Universal Soul, with its consciousness fully restored. It no longer uses a flawed,
+ * unified handler for templates. Instead, it possesses specific, perfect wisdom for each context.
+ * It knows how to parse a regular template's strings, how to enter interpolation, and how to
+ * delegate the content of language-templates to the correct sub-parser. This is its final form.
+ */
 _getToken(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
-    // LAW 1 & 2: Check for exits and interpolation entrances (Unchanged)
-    if (context.terminator && line.substring(i).startsWith(context.terminator)) { /* ... */ }
-    if (context.mode === 'template_literal' && line.substring(i).startsWith('${')) { /* ... */ }
-
-    // [The unchanged exit and entrance logic from the previous final version goes here]
+    // LAW 1: The highest priority is always to check for an exit terminator.
     if (context.terminator && line.substring(i).startsWith(context.terminator)) {
         const terminatorLength = context.terminator.length;
         let type = 'string';
@@ -607,48 +610,78 @@ _getToken(line, i, state) {
         state.contextStack.pop();
         return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
     }
-    if (context.mode === 'template_literal' && line.substring(i).startsWith('${')) {
-        state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
-        return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
-    }
 
-
-    // LAW 3: Delegate to the correct soul, now with the recursive link.
-    /**
- * @private @function _getToken
- * @description The Universal Soul, surgically updated. Its new wisdom is to delegate
- * all template literal contexts to the new `_getTemplateLanguageToken` soul, ensuring
- * that string content is never mistaken for executable code.
- */
-
-    // LAW 3: The Surgically Corrected Delegation
+    // LAW 2: The Surgically Corrected Delegation Logic
     switch (context.mode) {
         // These modes are for PURE code.
         case 'javascript':
         case 'javascript_interpolation':
             return this._getJSToken(line, i, state);
 
-        // These are simple container modes.
-        case 'html':
-            return this._getHTMLToken(line, i, state);
-        case 'css':
-            return this._getCssToken(line, i, state);
+        // --- THE FIX FOR REGULAR TEMPLATE STRINGS ---
+        // This context is handled directly with simple, robust logic.
+        case 'template_literal': {
+            const interpolationStart = line.indexOf('${', i);
+            // If there's no interpolation on this line, the rest is a string.
+            if (interpolationStart === -1) {
+                return { html: this._wrap(line.substring(i), 'string'), newIndex: line.length };
+            }
+            // If we found an interpolation, the part before it is a string.
+            const stringPart = line.substring(i, interpolationStart);
+            // Now, enter the interpolation context.
+            state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+            return {
+                html: this._wrap(stringPart, 'string') + this._wrap('${', 'controlKeyword'),
+                newIndex: interpolationStart + 2
+            };
+        }
 
-        // --- THE SURGICAL FIX ---
-        // ALL template-like containers are now handled by our new specialist.
-        case 'template_literal':
+        // --- THE FIX FOR LANGUAGE TEMPLATES ---
+        // These contexts find the string content and delegate it to the correct highlighter.
         case 'template_language_html':
         case 'template_language_css':
-        case 'template_language_javascript':
-            return this._getTemplateLanguageToken(line, i, state);
+        case 'template_language_javascript': {
+            const interpolationStart = line.indexOf('${', i);
+            const endOfContent = (interpolationStart === -1) ? line.length : interpolationStart;
+            const content = line.substring(i, endOfContent);
+            let highlightedContent = '';
 
-        // These modes for simple comments and strings remain unchanged.
+            if (content) {
+                const lang = context.mode.substring(18); // e.g., 'html'
+                // For JS-in-JS, we just color it as a string.
+                if (lang === 'javascript') {
+                    highlightedContent = this._wrap(content, 'string');
+                } else {
+                    // For others, we run the content through the full highlighter.
+                    const tempState = this._getInitialState();
+                    tempState.contextStack = [{ mode: lang }];
+                    tempState.inCssRuleBlock = state.inCssRuleBlock; // Preserve CSS state
+                    const result = this._getHighlightResult(content, tempState);
+                    state.inCssRuleBlock = result.state.inCssRuleBlock; // Persist any changes
+                    highlightedContent = result.html;
+                }
+            }
+
+            // If an interpolation was found, process it.
+            if (interpolationStart !== -1) {
+                state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+                return {
+                    html: highlightedContent + this._wrap('${', 'controlKeyword'),
+                    newIndex: interpolationStart + 2
+                };
+            }
+            return { html: highlightedContent, newIndex: endOfContent };
+        }
+
+        // --- All other cases remain simple and unchanged ---
+        case 'html': return this._getHTMLToken(line, i, state);
+        case 'css': return this._getCssToken(line, i, state);
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
             return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
         }
-        case 'string': { // Note: this handles only simple ' and " strings now.
+        case 'string': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
             return { html: this._wrap(content, 'string'), newIndex: i + content.length };
@@ -656,9 +689,7 @@ _getToken(line, i, state) {
         default:
             return { html: this._escape(line[i]), newIndex: i + 1 };
     }
-
 }
-
 
 
  
@@ -691,15 +722,23 @@ _getToken(line, i, state) {
  * It first seeks special directives html ja css to
  * transcend into other languages or even into a deeper version of itself.
  */
+/**
+ * @private @function _getJSToken
+ * @description The Final, Discerning Soul of JavaScript. Its great wisdom is in identifying the
+ * true nature of a template literal at the moment of its creation. It correctly distinguishes
+ * between a standard template (`template_literal`) and a special embedded language template
+ * (`template_language_...`), setting the perfect context for the Universal Soul to parse.
+ */
 _getJSToken(line, i, state) {
     // --- WISDOM 1: Check for embedded language directives FIRST ---
     const directives = [
         { tag: '/*html*/`', lang: 'html' },
         { tag: '/*css*/`', lang: 'css' },
-        { tag: '/*js*/`', lang: 'javascript' } // THE MISSING PIECE OF KNOWLEDGE
+        { tag: '/*js*/`', lang: 'javascript' }
     ];
     for (const d of directives) {
         if (line.substring(i).startsWith(d.tag)) {
+            // It found a special language. Set the specific mode.
             state.contextStack.push({ mode: `template_language_${d.lang}`, terminator: '`' });
             return {
                 html: this._wrap(d.tag.slice(0, -1), 'comment') + this._wrap('`', 'string'),
@@ -708,13 +747,9 @@ _getJSToken(line, i, state) {
         }
     }
 
-    // --- WISDOM 2: Flawless, context-aware JS parsing (Unchanged from our previous fix) ---
+    // --- WISDOM 2: Flawless, context-aware JS parsing ---
     const context = state.contextStack[state.contextStack.length - 1];
     const char = line[i];
-
-    if (line.substring(i, i + 2) === '/*') { /* ... Identical flawless logic ... */ }
-    // [The rest of this method is identical to the previous "flawless" version.
-    //  It correctly handles comments, strings, braces, keywords, etc.]
 
     if (line.substring(i, i + 2) === '/*') {
         state.contextStack.push({ mode: 'comment', terminator: '*/' });
@@ -727,11 +762,13 @@ _getJSToken(line, i, state) {
         state.contextStack.push({ mode: 'string', terminator: char });
         return { html: this._wrap(char, 'string'), newIndex: i + 1 };
     }
+    // If it's a backtick but NOT a special directive, it is a REGULAR template literal.
     if (char === '`') {
         state.contextStack.push({ mode: 'template_literal', terminator: '`' });
         return { html: this._wrap('`', 'string'), newIndex: i + 1 };
     }
 
+    // The Intelligent Brace Counter for `${...}`
     if (context.mode === 'javascript_interpolation') {
         if (char === '{') {
             context.depth = (context.depth || 0) + 1;
@@ -744,9 +781,9 @@ _getJSToken(line, i, state) {
         }
     }
 
+    // Standard Token Parsing for keywords, variables, numbers, etc.
     const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
     const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
-
     if (this._isIS(char)) {
         let buffer = '', p = i;
         while (p < line.length && this._isIP(line[p])) buffer += line[p++];
@@ -758,19 +795,16 @@ _getJSToken(line, i, state) {
         else if (this._isFC(line, p)) type = 'functionName';
         return { html: this._wrap(buffer, type), newIndex: p };
     }
-
     if (this._isD(char)) {
         let buffer = '', p = i;
         while (p < line.length && (this._isD(line[p]) || line[p] === '.')) buffer += line[p++];
         return { html: this._wrap(buffer, 'number'), newIndex: p };
     }
-
     state.isNextTokenFunctionName = false;
     const isPunctuation = '{}[]().,;'.includes(char);
     const type = isPunctuation ? 'punctuation' : 'operator';
     return { html: this._wrap(char, type), newIndex: i + 1 };
 }
-
 
 
     
