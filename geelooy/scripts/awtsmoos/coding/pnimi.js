@@ -137,7 +137,7 @@ constructor(textarea, language = 'js', customColors = {}) {
         const styleEl = document.createElement("style");
         styleEl.id = this.styleId + "-style";
         const caretColor = getComputedStyle(this.textarea).color || 'white';
-        styleEl.innerHTML = `
+        styleEl.innerHTML = /*css*/`
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
             .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
             .token-definitionKeyword { color: ${this.colors.definitionKeyword}; } .token-functionName { color: ${this.colors.functionName}; }

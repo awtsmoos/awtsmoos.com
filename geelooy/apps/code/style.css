@@ -41,9 +41,7 @@
 }
 
 
-    .theme-vivid-dark { /* Keep class for compatibility */
-        /* All variables are now defined in :root */
-    }
+    
     
     /* --- BASE & LAYOUT --- */
     *, *::before, *::after { box-sizing: border-box; }
