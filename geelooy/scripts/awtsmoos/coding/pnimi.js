@@ -620,22 +620,6 @@ _getToken(line, i, state) {
  * all template literal contexts to the new `_getTemplateLanguageToken` soul, ensuring
  * that string content is never mistaken for executable code.
  */
-_getToken(line, i, state) {
-    const context = state.contextStack[state.contextStack.length - 1];
-
-    // LAWS 1 & 2 (Checking for terminators and interpolation) remain unchanged and are not shown for brevity.
-    // ... (Your existing code for handling terminators goes here) ...
-    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
-        const terminatorLength = context.terminator.length;
-        let type = 'string';
-        if (context.mode.includes('comment')) type = 'comment';
-        if (context.mode.includes('interpolation')) type = 'controlKeyword';
-        if (context.terminator.startsWith('</')) type = 'tag';
-        state.contextStack.pop();
-        return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
-    }
-    // Note: The specific '${' check that was here is now handled by the new method,
-    // so it can be removed from here if you had one.
 
     // LAW 3: The Surgically Corrected Delegation
     switch (context.mode) {
