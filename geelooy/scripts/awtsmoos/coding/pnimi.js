@@ -614,45 +614,65 @@ _getToken(line, i, state) {
 
 
     // LAW 3: Delegate to the correct soul, now with the recursive link.
+    /**
+ * @private @function _getToken
+ * @description The Universal Soul, surgically updated. Its new wisdom is to delegate
+ * all template literal contexts to the new `_getTemplateLanguageToken` soul, ensuring
+ * that string content is never mistaken for executable code.
+ */
+_getToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // LAWS 1 & 2 (Checking for terminators and interpolation) remain unchanged and are not shown for brevity.
+    // ... (Your existing code for handling terminators goes here) ...
+    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
+        const terminatorLength = context.terminator.length;
+        let type = 'string';
+        if (context.mode.includes('comment')) type = 'comment';
+        if (context.mode.includes('interpolation')) type = 'controlKeyword';
+        if (context.terminator.startsWith('</')) type = 'tag';
+        state.contextStack.pop();
+        return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
+    }
+    // Note: The specific '${' check that was here is now handled by the new method,
+    // so it can be removed from here if you had one.
+
+    // LAW 3: The Surgically Corrected Delegation
     switch (context.mode) {
+        // These modes are for PURE code.
         case 'javascript':
         case 'javascript_interpolation':
-        case 'template_language_javascript': // THE RECURSIVE ENLIGHTENMENT
             return this._getJSToken(line, i, state);
 
+        // These are simple container modes.
         case 'html':
-        case 'template_language_html':
             return this._getHTMLToken(line, i, state);
-
         case 'css':
-        case 'template_language_css':
             return this._getCssToken(line, i, state);
 
-        // All other cases remain the same.
-        case 'comment': { /* ... */ }
-        case 'string':
-        case 'template_literal': { /* ... */ }
-        
-        // [The full, unchanged logic for comment, string, and default cases goes here]
+        // --- THE SURGICAL FIX ---
+        // ALL template-like containers are now handled by our new specialist.
+        case 'template_literal':
+        case 'template_language_html':
+        case 'template_language_css':
+        case 'template_language_javascript':
+            return this._getTemplateLanguageToken(line, i, state);
+
+        // These modes for simple comments and strings remain unchanged.
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
             const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
             return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
         }
-        case 'string':
-        case 'template_literal': {
-            let content = '', p = i;
-            const terminator = context.mode === 'string' ? context.terminator : '`';
-            while (p < line.length) {
-                if (line[p] === '\\') { content += line.substring(p, p + 2); p += 2; continue; }
-                if (line[p] === terminator || (context.mode === 'template_literal' && line.substring(p).startsWith('${'))) break;
-                content += line[p++];
-            }
-            return { html: this._wrap(content, 'string'), newIndex: p };
+        case 'string': { // Note: this handles only simple ' and " strings now.
+            const endIdx = line.indexOf(context.terminator, i);
+            const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
+            return { html: this._wrap(content, 'string'), newIndex: i + content.length };
         }
         default:
             return { html: this._escape(line[i]), newIndex: i + 1 };
     }
+
 }
 
 
