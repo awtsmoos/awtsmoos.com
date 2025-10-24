@@ -1,9 +1,8 @@
 // B"H
-// - Definitive Main Script v3: Full localStorage Persistence + Image Backgrounds
+// - Definitive Main Script v4: Karaoke VTT Parser + Full localStorage Persistence
 
 document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM ELEMENT REFERENCES ---
-	// Group all references for clarity and easy access.
 	const imageInput = document.getElementById('image-input');
 	const audioInput = document.getElementById('audio-input');
 	const vttFileInput = document.getElementById('vtt-file-input');
@@ -24,8 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const exportProgressBar = document.getElementById('export-progress-bar');
 	const settingsPanel = document.querySelector('.settings-panel');
 
-	// Central object for all UI controls that need to be saved/loaded.
-	// The key MUST match the element's ID.
 	const settingsInputs = {
 		fontSize: document.getElementById('font-size-slider'),
 		fontColor: document.getElementById('font-color-picker'),
@@ -37,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		particleDensity: document.getElementById('particle-density'),
 		particleSize: document.getElementById('particle-size'),
 		particleVariation: document.getElementById('particle-variation'),
+		particleSpeed: document.getElementById('particle-speed'),
+		particleSpeedVariation: document.getElementById('particle-speed-variation'),
 		waveformHeight: document.getElementById('waveform-height'),
 		waveformThickness: document.getElementById('waveform-thickness'),
 		particles: document.getElementById('custom-particles'),
@@ -45,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		maxDuration: document.getElementById('max-duration'),
 		bloomIntensity: document.getElementById('bloom-intensity'),
 		filmGrain: document.getElementById('film-grain'),
-		vignetteIntensity: document.getElementById('vignette-intensity')
 	};
 
 	// --- APPLICATION STATE ---
@@ -54,59 +52,43 @@ document.addEventListener('DOMContentLoaded', () => {
 	let audioFile = null;
 	let imageFiles = [];
 
-	// --- B"H - SETTINGS PERSISTENCE FUNCTIONS ---
-
-	/**
-	 * Saves the current state of all UI controls to the browser's local storage.
-	 * This is triggered automatically on any input change within the settings panel.
-	 */
+	// --- B"H - SETTINGS PERSISTENCE ---
 	function saveSettings() {
 		try {
-			const settingsToSave = {};
-			for (const key in settingsInputs) {
-				const el = settingsInputs[key];
-				settingsToSave[key] = el.type === 'checkbox' ? el.checked : el.value;
+			const s = {};
+			for (const k in settingsInputs) {
+				s[k] = settingsInputs[k].value;
 			}
-			localStorage.setItem('lyricSyncEngineSettings', JSON.stringify(settingsToSave));
+			localStorage.setItem('lyricSyncEngineSettings', JSON.stringify(s));
 		} catch (e) {
-			console.warn("Could not save settings to localStorage. It might be full or disabled.", e);
+			console.warn("Could not save settings.", e);
 		}
 	}
 
-	/**
-	 * Loads settings from local storage and applies them to the UI controls.
-	 * This runs once when the application starts.
-	 */
 	function loadSettings() {
-		const savedSettings = localStorage.getItem('lyricSyncEngineSettings');
-		if (!savedSettings) return;
-
+		const s = localStorage.getItem('lyricSyncEngineSettings');
+		if (!s) return;
 		try {
-			const settings = JSON.parse(savedSettings);
-			for (const key in settings) {
-				if (settingsInputs[key]) {
-					const el = settingsInputs[key];
-					el.value = settings[key];
-					// IMPORTANT: Dispatch an event to ensure UI updates, like range slider value displays.
-					el.dispatchEvent(new Event('input', {
+			const settings = JSON.parse(s);
+			for (const k in settings) {
+				if (settingsInputs[k]) {
+					settingsInputs[k].value = settings[k];
+					settingsInputs[k].dispatchEvent(new Event('input', {
 						bubbles: true
 					}));
 				}
 			}
-			console.log('B"H', "- Successfully loaded settings from browser storage.");
+			console.log("B\"H - Settings loaded.");
 		} catch (e) {
-			console.error("Failed to load or parse settings from localStorage.", e);
+			console.error("Failed to load settings.", e);
 		}
 	}
 
-
 	// --- EVENT LISTENERS ---
-
 	imageInput.addEventListener('change', (e) => {
 		imageFiles = Array.from(e.target.files);
-		imageFileNameDisplay.textContent = imageFiles.length > 0 ? `${imageFiles.length} image(s) selected` : 'No images chosen';
+		imageFileNameDisplay.textContent = imageFiles.length > 0 ? `${imageFiles.length} image(s)` : 'No images';
 	});
-
 	audioInput.addEventListener('change', (e) => {
 		audioFile = e.target.files[0];
 		if (audioFile) {
@@ -115,25 +97,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			audioPlayer.load();
 		}
 	});
-
 	vttFileInput.addEventListener('change', (e) => {
-		const file = e.target.files[0];
-		if (file) {
-			vttFileNameDisplay.textContent = file.name;
-			const reader = new FileReader();
-			reader.onload = (event) => {
-				vttTextInput.value = event.target.result;
-				cues = parseVTT(event.target.result);
+		const f = e.target.files[0];
+		if (f) {
+			vttFileNameDisplay.textContent = f.name;
+			const r = new FileReader();
+			r.onload = (ev) => {
+				vttTextInput.value = ev.target.result;
+				cues = parseVTT(ev.target.result);
 			};
-			reader.readAsText(file);
+			r.readAsText(f);
 		}
 	});
-
 	vttTextInput.addEventListener('input', (e) => {
 		vttFileNameDisplay.textContent = 'Pasted content';
 		cues = parseVTT(e.target.value);
 	});
-
 	playPauseBtn.addEventListener('click', () => {
 		audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause();
 	});
@@ -158,47 +137,36 @@ document.addEventListener('DOMContentLoaded', () => {
 		currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
 		updateLyrics(audioPlayer.currentTime);
 	});
-
-	// Attach a single listener to the settings panel to save on any change.
 	settingsPanel.addEventListener('input', saveSettings);
 
 	// --- EXPORT FUNCTIONALITY ---
 	exportBtn.addEventListener('click', async () => {
 		if (!audioFile || cues.length === 0) {
-			alert('Please load an audio file and VTT content before exporting.');
+			alert('Please load an audio file and VTT content.');
 			return;
 		}
-
 		exportOverlay.classList.remove('hidden');
-		exportStatus.textContent = 'Preparing export...';
+		exportStatus.textContent = 'Preparing...';
 		exportProgressBar.style.width = '0%';
-
 		try {
 			exportStatus.textContent = 'Processing images...';
-			const imageBitmaps = await Promise.all(
-				imageFiles.map(file => createImageBitmap(file))
-			);
-
+			const imageBitmaps = await Promise.all(imageFiles.map(f => createImageBitmap(f)));
 			exportStatus.textContent = 'Analyzing audio...';
-			const tempAudioContext = new AudioContext();
+			const audioCtx = new AudioContext();
 			const arrayBuffer = await audioFile.arrayBuffer();
-			const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
-
+			const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 			const settings = collectSettings();
 			let finalAudioBuffer = audioBuffer;
-			const maxDuration = settings.maxDuration;
-
-			if (maxDuration > 0 && maxDuration < audioBuffer.duration) {
-				exportStatus.textContent = `Trimming audio to ${maxDuration} seconds...`;
-				const newSampleLength = Math.floor(maxDuration * audioBuffer.sampleRate);
-				const trimmedBuffer = tempAudioContext.createBuffer(audioBuffer.numberOfChannels, newSampleLength, audioBuffer.sampleRate);
+			if (settings.maxDuration > 0 && settings.maxDuration < audioBuffer.duration) {
+				exportStatus.textContent = `Trimming audio...`;
+				const newLen = Math.floor(settings.maxDuration * audioBuffer.sampleRate);
+				const tB = audioCtx.createBuffer(audioBuffer.numberOfChannels, newLen, audioBuffer.sampleRate);
 				for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
-					trimmedBuffer.copyToChannel(audioBuffer.getChannelData(i).slice(0, newSampleLength), i);
+					tB.copyToChannel(audioBuffer.getChannelData(i).slice(0, newLen), i);
 				}
-				finalAudioBuffer = trimmedBuffer;
+				finalAudioBuffer = tB;
 			}
-
-			const audioBufferShim = {
+			const audioShim = {
 				sampleRate: finalAudioBuffer.sampleRate,
 				duration: finalAudioBuffer.duration,
 				length: finalAudioBuffer.length,
@@ -207,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
 					length: finalAudioBuffer.numberOfChannels
 				}, (_, i) => finalAudioBuffer.getChannelData(i)),
 			};
-
 			const worker = new Worker('video-worker.js');
 			worker.onmessage = ({
 				data
@@ -223,33 +190,92 @@ document.addEventListener('DOMContentLoaded', () => {
 						worker.terminate();
 						break;
 					case 'FATAL_ERROR':
-						alert(`A critical error occurred: ${data.payload.message}`);
+						alert(`Error: ${data.payload.message}`);
 						exportOverlay.classList.add('hidden');
 						worker.terminate();
 						break;
 				}
 			};
-
 			worker.postMessage({
 				cues,
-				audioBufferShim,
+				audioBufferShim: audioShim,
 				settings,
 				imageBitmaps
 			}, imageBitmaps);
-
-		} catch (error) {
-			console.error("Export preparation failed:", error);
-			alert(`Failed to prepare data for export: ${error.message}`);
+		} catch (e) {
+			console.error("Export failed:", e);
+			alert(`Export failed: ${e.message}`);
 			exportOverlay.classList.add('hidden');
 		}
 	});
 
-	// --- HELPER & UTILITY FUNCTIONS ---
+	// --- B"H - ADVANCED KARAOKE-AWARE VTT PARSER ---
+	function parseVTT(vttContent) {
+		if (!vttContent || typeof vttContent !== 'string') return [];
+		const lines = vttContent.trim().replace(/\r/g, '').split('\n');
+		const parsedCues = [];
+		let i = 0;
+		while (i < lines.length) {
+			if (!lines[i].includes('-->')) {
+				i++;
+				continue;
+			}
+			const timeLine = lines[i];
+			const [start, end] = timeLine.split(' --> ').map(timeToSeconds);
+			let textLines = [];
+			let j = i + 1;
+			while (j < lines.length && lines[j] && lines[j].trim() !== '') {
+				textLines.push(lines[j]);
+				j++;
+			}
+			const fullText = textLines.join('\n');
+			const cue = {
+				start,
+				end,
+				text: fullText.replace(/<.*?>/g, ''),
+				words: []
+			};
 
+			// Karaoke parsing logic
+			const karaokeTagRegex = /<c(?:\.time=([\d.]+))?>(.*?)<\/c>/g;
+			if (fullText.includes('<c')) {
+				let match;
+				let lastWordEndTime = start;
+				const tempWords = [];
+
+				while ((match = karaokeTagRegex.exec(fullText)) !== null) {
+					const wordStartTime = match[1] ? timeToSeconds(match[1]) : lastWordEndTime;
+					const wordText = match[2];
+					tempWords.push({
+						text: wordText,
+						start: wordStartTime
+					});
+				}
+
+				if (tempWords.length > 0) {
+					for (let k = 0; k < tempWords.length; k++) {
+						const currentWord = tempWords[k];
+						const nextWord = tempWords[k + 1];
+						currentWord.end = nextWord ? nextWord.start : end;
+						cue.words.push(currentWord);
+						lastWordEndTime = currentWord.end;
+					}
+				}
+			}
+
+			if (start != null && end != null) {
+				parsedCues.push(cue);
+			}
+			i = j;
+		}
+		return parsedCues;
+	}
+
+	// --- HELPER & UTILITY FUNCTIONS ---
 	function collectSettings() {
 		const s = {};
-		for (const key in settingsInputs) {
-			s[key] = settingsInputs[key].type === 'range' ? parseFloat(settingsInputs[key].value) : settingsInputs[key].value;
+		for (const k in settingsInputs) {
+			s[k] = settingsInputs[k].type === 'range' ? parseFloat(settingsInputs[k].value) : settingsInputs[k].value;
 		}
 		return {
 			resolution: {
@@ -270,60 +296,32 @@ document.addEventListener('DOMContentLoaded', () => {
 				density: parseInt(s.particleDensity),
 				baseSize: s.particleSize,
 				variation: s.particleVariation,
-				chars: Array.from(s.particles) // Emoji-safe character splitting
+				speed: s.particleSpeed,
+				speedVariation: s.particleSpeedVariation,
+				chars: Array.from(s.particles)
 			},
 			boxColor: s.boxColor,
 			boxOpacity: s.boxOpacity,
 			effects: {
 				bloom: s.bloomIntensity,
-				grain: s.filmGrain,
-				vignette: s.vignetteIntensity
+				grain: s.filmGrain
 			}
 		};
 	}
 
 	function updateLyrics(currentTime) {
-		const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
-		if (newCueIndex !== currentCueIndex) {
-			lyricsDisplay.innerHTML = (newCueIndex !== -1) ?
-				`<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>` :
-				'<p>...</p>';
-			currentCueIndex = newCueIndex;
+		const newCueIdx = cues.findIndex(c => currentTime >= c.start && currentTime < c.end);
+		if (newCueIdx !== currentCueIndex) {
+			lyricsDisplay.innerHTML = (newCueIdx !== -1) ? `<p>${cues[newCueIdx].text.replace(/\n/g, '<br>')}</p>` : '<p>...</p>';
+			currentCueIndex = newCueIdx;
 		}
-	}
-
-	function parseVTT(vttContent) {
-		if (!vttContent || typeof vttContent !== 'string') return [];
-		const lines = vttContent.trim().replace(/\r/g, '').split('\n');
-		const cues = [];
-		let i = 0;
-		while (i < lines.length) {
-			const timeLineIndex = lines.findIndex((line, index) => index >= i && line.includes('-->'));
-			if (timeLineIndex === -1) break;
-			const [start, end] = lines[timeLineIndex].split(' --> ').map(timeToSeconds);
-			let text = '';
-			let j = timeLineIndex + 1;
-			while (j < lines.length && lines[j].trim() !== '') {
-				text += lines[j] + '\n';
-				j++;
-			}
-			if (start != null && end != null) {
-				cues.push({
-					start,
-					end,
-					text: text.trim()
-				});
-			}
-			i = j;
-		}
-		return cues;
 	}
 
 	function timeToSeconds(t) {
 		if (!t) return null;
 		try {
-			const p = t.trim().split(":");
-			return p.length === 3 ? (+p[0] * 3600 + +p[1] * 60 + +p[2]) : (+p[0] * 60 + +p[1]);
+			const p = String(t).trim().split(":");
+			return p.length === 3 ? (+p[0] * 3600 + +p[1] * 60 + +p[2]) : p.length === 2 ? (+p[0] * 60 + +p[1]) : +p[0];
 		} catch {
 			return null;
 		}
@@ -347,7 +345,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.body.removeChild(a);
 		URL.revokeObjectURL(u);
 	}
-
-	// --- INITIALIZATION ---
-	loadSettings(); // Load all user settings from their last session on startup.
+	loadSettings();
 });
