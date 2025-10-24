@@ -1,7 +1,7 @@
 // B"H
-// - Definitive Worker v10: FINAL BUGFIX. Background box restored. Thick border.
-// - Background box logic moved to main draw loop to ensure it always appears.
-// - Text border thickness calculation corrected for a bold, readable outline.
+// - Definitive Worker v11: FINAL LAYOUT. Text is now correctly contained in the box.
+// - Text rendering engine rebuilt to be explicitly aware of the box and padding.
+// - All performance and aesthetic improvements from previous versions are maintained.
 
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
 const EMOJI_FALLBACK_FONT = 'sans-serif';
@@ -89,7 +89,7 @@ async function handleExport({
 		type: 'VIDEO_COMPLETE',
 		payload: {
 			blob,
-			fileName: `BH_video_DEFINITIVE_${new Date().getTime()}.mp4`
+			fileName: `BH_video_CONTAINED_${new Date().getTime()}.mp4`
 		}
 	});
 }
@@ -133,7 +133,7 @@ function drawFrame({
 	}
 
 	if (lastActiveCue) {
-		// B"H - BUGFIX: Draw the background box here so it applies to BOTH simple and karaoke text.
+		// Draw the background box for all text.
 		const {
 			boxColor,
 			boxOpacity
@@ -143,7 +143,7 @@ function drawFrame({
 		ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
 		ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
 
-		// Now draw the text itself on top of the box
+		// Draw the text itself, now constrained within the box.
 		if (lastActiveCue.words && lastActiveCue.words.length > 0) {
 			const currentTime = activeCueIndex !== -1 ? time : -1;
 			drawKaraokeText(ctx, canvas, lastActiveCue, currentTime, settings, particleSystem, activeCueIndex);
@@ -280,7 +280,6 @@ class ParticleSystem {
 
 // --- TEXT RENDERING LOGIC ---
 function drawSimpleText(ctx, canvas, cue, settings) {
-	// This function no longer needs to draw the box. It just draws the text.
 	const {
 		width,
 		height
@@ -297,11 +296,13 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 	const {
 		font
 	} = settings;
+	const boxSize = width * 0.9;
 	const scaleFactor = height / 720;
 	const scaledFontSize = font.size * scaleFactor;
 	const lineHeight = 1.4 * scaledFontSize;
 
-	const layout = wrapText(ctx, cue.text, width / 2, height / 2, width * 0.9, height, font, scaleFactor, true);
+	// B"H - BUGFIX: Pass the correct boxSize for height as well
+	const layout = wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, font, scaleFactor, true);
 	const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
 
 	if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
@@ -315,7 +316,6 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 	lastActiveWordIndex = activeWordIndex;
 	lastActiveCueIndex = activeCueIndex;
 
-	// 1. Draw the highlight shape FIRST
 	if (activeWordIndex !== -1) {
 		const wordInfo = layout.wordLayout[activeWordIndex];
 		if (wordInfo) {
@@ -323,11 +323,9 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 			ctx.fillRect(wordInfo.x - 5, wordInfo.y - lineHeight / 2, wordInfo.width + 10, lineHeight);
 		}
 	}
-	// 2. Draw ALL the text on top
 	layout.lines.forEach(line => {
 		if (font.borderWidth > 0) {
 			ctx.strokeStyle = font.borderColor;
-			// B"H - BUGFIX: Increased multiplier for a thicker, more visible border
 			ctx.lineWidth = font.borderWidth * scaleFactor * 2;
 			ctx.strokeText(line.text, line.x, line.y);
 		}
@@ -336,12 +334,21 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 	});
 }
 
-function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor, getLayout = false) {
+function wrapText(ctx, text, x, y, boxWidth, boxHeight, fontSettings, scaleFactor, getLayout = false) {
 	let scaledFontSize = fontSettings.size * scaleFactor;
+	// B"H - Define padding based on font size
+	let padding = scaledFontSize * 0.5;
+	let effectiveMaxWidth = boxWidth - (padding * 2);
+	let effectiveMaxHeight = boxHeight - (padding * 2);
+
 	while (scaledFontSize > 5) {
 		ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-		const tempLines = getWrappedLines(ctx, text, maxWidth * 0.95);
-		if (tempLines.length * scaledFontSize * 1.4 < maxHeight * 0.95) break;
+		// Update padding and effective width as font size changes
+		padding = scaledFontSize * 0.5;
+		effectiveMaxWidth = boxWidth - (padding * 2);
+		effectiveMaxHeight = boxHeight - (padding * 2);
+		const tempLines = getWrappedLines(ctx, text, effectiveMaxWidth);
+		if (tempLines.length * scaledFontSize * 1.4 < effectiveMaxHeight) break;
 		scaledFontSize -= 2;
 	}
 
@@ -355,7 +362,7 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 	let currentLine = '';
 	for (let i = 0; i < words.length; i++) {
 		const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
-		if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+		if (ctx.measureText(testLine).width > effectiveMaxWidth && i > 0) {
 			lines.push({
 				text: currentLine,
 				x: 0,
@@ -380,16 +387,9 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 	lines.forEach((line, i) => {
 		const lineY = startY + i * lineHeight;
 		let lineX;
-		switch (fontSettings.align) {
-			case 'right':
-				lineX = x + (maxWidth / 2) - ctx.measureText(line.text).width;
-				break;
-			case 'left':
-				lineX = x - (maxWidth / 2);
-				break;
-			default:
-				lineX = x - ctx.measureText(line.text).width / 2;
-		}
+		// Center the line of text relative to the canvas center `x`
+		lineX = x - ctx.measureText(line.text).width / 2;
+
 		line.x = lineX;
 		line.y = lineY;
 		const lineWords = line.text.split(' ');
@@ -416,7 +416,6 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 		lines.forEach(line => {
 			if (fontSettings.borderWidth > 0) {
 				ctx.strokeStyle = fontSettings.borderColor;
-				// B"H - BUGFIX: Increased multiplier for a thicker, more visible border
 				ctx.lineWidth = fontSettings.borderWidth * scaleFactor * 2;
 				ctx.strokeText(line.text, line.x, line.y);
 			}
