@@ -1,8 +1,9 @@
 // B"H
-// - Definitive Main Script: Stable Playback Foundation + Safe Export
+// - Main Script: Image Backgrounds + Ein Sof Effects Integration
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENT REFERENCES ---
+    const imageInput = document.getElementById('image-input');
     const audioInput = document.getElementById('audio-input');
     const vttFileInput = document.getElementById('vtt-file-input');
     const vttTextInput = document.getElementById('vtt-text-input');
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.getElementById('progress-bar');
     const currentTimeDisplay = document.getElementById('current-time-display');
     const durationDisplay = document.getElementById('duration-display');
+    const imageFileNameDisplay = document.getElementById('image-file-name');
     const audioFileNameDisplay = document.getElementById('audio-file-name');
     const vttFileNameDisplay = document.getElementById('vtt-file-name');
     const lyricsDisplay = document.getElementById('lyrics-display');
@@ -31,7 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
         particles: document.getElementById('custom-particles'),
         resWidth: document.getElementById('resolution-width'),
         resHeight: document.getElementById('resolution-height'),
-        maxDuration: document.getElementById('max-duration')
+        maxDuration: document.getElementById('max-duration'),
+        // B"H - NEW EIN SOF SETTINGS
+        bloomIntensity: document.getElementById('bloom-intensity'),
+        filmGrain: document.getElementById('film-grain'),
+        vignetteIntensity: document.getElementById('vignette-intensity')
     };
     const exportBtn = document.getElementById('export-btn');
     const exportOverlay = document.getElementById('export-overlay');
@@ -42,8 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let cues = [];
     let currentCueIndex = -1;
     let audioFile = null;
+    let imageFiles = []; // B"H - Store multiple image files
 
     // --- FILE INPUT LISTENERS ---
+    imageInput.addEventListener('change', (e) => {
+        imageFiles = Array.from(e.target.files);
+        if (imageFiles.length > 0) {
+            imageFileNameDisplay.textContent = `${imageFiles.length} image(s) selected`;
+        } else {
+            imageFileNameDisplay.textContent = 'No images chosen';
+        }
+    });
+
     audioInput.addEventListener('change', (e) => {
         audioFile = e.target.files[0];
         if (audioFile) {
@@ -70,127 +86,111 @@ document.addEventListener('DOMContentLoaded', () => {
         vttFileNameDisplay.textContent = 'Pasted content';
         cues = parseVTT(e.target.value);
     });
-    
-    // --- STABLE PLAYER CONTROLS (NO WEB AUDIO API) ---
-    playPauseBtn.addEventListener('click', () => {
-        audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause();
-    });
-    
+
+    // --- PLAYER CONTROLS ---
+    playPauseBtn.addEventListener('click', () => { audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause(); });
     audioPlayer.addEventListener('play', () => { playPauseIcon.className = 'fas fa-pause'; });
     audioPlayer.addEventListener('pause', () => { playPauseIcon.className = 'fas fa-play'; });
     audioPlayer.addEventListener('ended', () => { playPauseIcon.className = 'fas fa-play'; });
-    
     audioPlayer.addEventListener('loadedmetadata', () => {
         progressBar.max = audioPlayer.duration;
         durationDisplay.textContent = formatTime(audioPlayer.duration);
     });
-    
     progressBar.addEventListener('input', () => { audioPlayer.currentTime = progressBar.value; });
-    
     audioPlayer.addEventListener('timeupdate', () => {
         progressBar.value = audioPlayer.currentTime;
         currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
         updateLyrics(audioPlayer.currentTime);
     });
 
-    // --- SAFE, ON-DEMAND EXPORT FUNCTIONALITY ---
-    // REPLACE THE ENTIRE LISTENER WITH THIS STABLE VERSION
-exportBtn.addEventListener('click', async () => {
-if (!audioFile || cues.length === 0) {
-        alert('Please load an audio file and VTT content before exporting.');
-        return;
-    }
-
-    // --- THE CRITICAL FIX IS HERE ---
-    // 1. Show the export overlay and status message IMMEDIATELY.
-    // This must happen before any 'await' calls.
-    exportOverlay.classList.remove('hidden');
-    exportStatus.textContent = 'Preparing export...';
-    exportProgressBar.style.width = '0%';
-
-// This is the new, upgraded code for your exportBtn listener's try block
-try {
-    const tempAudioContext = new AudioContext();
-    const arrayBuffer = await audioFile.arrayBuffer();
-    const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
-
-    // --- AUDIO TRIMMING LOGIC ---
-    let finalAudioBuffer = audioBuffer; // Default to the full audio buffer
-    const settings = collectSettings();
-    const maxDuration = settings.maxDuration;
-
-    // Check if trimming is necessary
-    if (maxDuration > 0 && maxDuration < audioBuffer.duration) {
-        exportStatus.textContent = `Trimming audio to ${maxDuration} seconds...`;
-        
-        // Calculate the exact number of samples for the new duration
-        const newSampleLength = Math.floor(maxDuration * audioBuffer.sampleRate);
-
-        // Create a new, empty audio buffer with the desired shorter length
-        const trimmedBuffer = tempAudioContext.createBuffer(
-            audioBuffer.numberOfChannels,
-            newSampleLength,
-            audioBuffer.sampleRate
-        );
-
-        // Copy the audio data from the start of the original buffer to the new buffer
-        for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
-            const originalChannelData = audioBuffer.getChannelData(i);
-            // .copyToChannel is an efficient way to transfer the samples
-            trimmedBuffer.copyToChannel(originalChannelData.slice(0, newSampleLength), i);
+    // --- EXPORT FUNCTIONALITY ---
+    exportBtn.addEventListener('click', async () => {
+        if (!audioFile || cues.length === 0) {
+            alert('Please load an audio file and VTT content before exporting.');
+            return;
         }
-        
-        // The trimmed buffer is now our final buffer for the export
-        finalAudioBuffer = trimmedBuffer;
-    }
-    // --- END OF AUDIO TRIMMING LOGIC ---
 
-    // Now, build the shim using the final (potentially trimmed) audio buffer
-    const audioBufferShim = {
-        sampleRate: finalAudioBuffer.sampleRate,
-        duration: finalAudioBuffer.duration,
-        length: finalAudioBuffer.length,
-        numberOfChannels: finalAudioBuffer.numberOfChannels,
-        channels: Array.from({ length: finalAudioBuffer.numberOfChannels }, (_, i) => finalAudioBuffer.getChannelData(i)),
-    };
+        exportOverlay.classList.remove('hidden');
+        exportStatus.textContent = 'Preparing export...';
+        exportProgressBar.style.width = '0%';
 
-    const worker = new Worker('video-worker.js');
+        try {
+            // --- B"H - IMAGE BITMAP PREPARATION ---
+            exportStatus.textContent = 'Processing images...';
+            // Create ImageBitmaps from the selected image files for efficient transfer
+            const imageBitmaps = await Promise.all(
+                imageFiles.map(file => createImageBitmap(file))
+            );
 
-    worker.onmessage = ({ data }) => {
-        // ... (your existing onmessage logic is correct) ...
-        switch (data.type) {
-            case 'STATUS_UPDATE':
-                exportStatus.textContent = data.payload.message;
-                exportProgressBar.style.width = `${data.payload.progress}%`;
-                break;
-            case 'VIDEO_COMPLETE':
-                downloadBlob(data.payload.blob, data.payload.fileName);
-                setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
-                worker.terminate();
-                break;
-            case 'FATAL_ERROR':
-                alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
-                exportOverlay.classList.add('hidden');
-                worker.terminate();
-                break;
+            exportStatus.textContent = 'Analyzing audio...';
+            const tempAudioContext = new AudioContext();
+            const arrayBuffer = await audioFile.arrayBuffer();
+            const audioBuffer = await tempAudioContext.decodeAudioData(arrayBuffer);
+
+            // Audio trimming logic remains the same
+            let finalAudioBuffer = audioBuffer;
+            const settings = collectSettings();
+            const maxDuration = settings.maxDuration;
+
+            if (maxDuration > 0 && maxDuration < audioBuffer.duration) {
+                exportStatus.textContent = `Trimming audio to ${maxDuration} seconds...`;
+                const newSampleLength = Math.floor(maxDuration * audioBuffer.sampleRate);
+                const trimmedBuffer = tempAudioContext.createBuffer(
+                    audioBuffer.numberOfChannels,
+                    newSampleLength,
+                    audioBuffer.sampleRate
+                );
+                for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                    trimmedBuffer.copyToChannel(audioBuffer.getChannelData(i).slice(0, newSampleLength), i);
+                }
+                finalAudioBuffer = trimmedBuffer;
+            }
+
+            const audioBufferShim = {
+                sampleRate: finalAudioBuffer.sampleRate,
+                duration: finalAudioBuffer.duration,
+                length: finalAudioBuffer.length,
+                numberOfChannels: finalAudioBuffer.numberOfChannels,
+                channels: Array.from({ length: finalAudioBuffer.numberOfChannels }, (_, i) => finalAudioBuffer.getChannelData(i)),
+            };
+
+            const worker = new Worker('video-worker.js');
+
+            worker.onmessage = ({ data }) => {
+                switch (data.type) {
+                    case 'STATUS_UPDATE':
+                        exportStatus.textContent = data.payload.message;
+                        exportProgressBar.style.width = `${data.payload.progress}%`;
+                        break;
+                    case 'VIDEO_COMPLETE':
+                        downloadBlob(data.payload.blob, data.payload.fileName);
+                        setTimeout(() => exportOverlay.classList.add('hidden'), 2000);
+                        worker.terminate();
+                        break;
+                    case 'FATAL_ERROR':
+                        alert(`A critical error occurred in the rendering worker: ${data.payload.message}`);
+                        exportOverlay.classList.add('hidden');
+                        worker.terminate();
+                        break;
+                }
+            };
+
+            // Post all data to the worker. ImageBitmaps are transferred, not copied.
+            worker.postMessage({
+                cues,
+                audioBufferShim,
+                settings,
+                imageBitmaps // B"H - Send the bitmaps
+            }, imageBitmaps); // B"H - Add bitmaps to the transferable objects list
+
+        } catch (error) {
+            console.error(error);
+            alert(`Failed to prepare data for export: ${error.message}`);
+            exportOverlay.classList.add('hidden');
         }
-    };
-
-    // Send the final (potentially trimmed) audio data to the worker
-    worker.postMessage({
-        cues,
-        audioBufferShim,
-        settings // Pass the settings we collected earlier
     });
 
-} catch (error) {
-    alert(`Failed to prepare data for export: ${error.message}`);
-    exportOverlay.classList.add('hidden');
-}
-
-})
     // --- HELPER & UTILITY FUNCTIONS ---
-
     function collectSettings() {
         const s = {};
         for (const key in settingsInputs) {
@@ -202,71 +202,37 @@ try {
             waveformThickness: s.waveformThickness,
             waveformHeight: s.waveformHeight,
             font: { size: s.fontSize, color: s.fontColor, align: s.textAlign, borderWidth: s.borderWidth, borderColor: s.borderColor },
-            particles: { density: parseInt(s.particleDensity), baseSize: s.particleSize, variation: s.particleVariation, chars: s.particles },
+            particles: {
+                density: parseInt(s.particleDensity),
+                baseSize: s.particleSize,
+                variation: s.particleVariation,
+                // B"H - EMOJI SAFE: Use Array.from to correctly handle complex characters
+                chars: Array.from(s.particles)
+            },
             boxColor: s.boxColor,
-            boxOpacity: s.boxOpacity
+            boxOpacity: s.boxOpacity,
+            // B"H - NEW EIN SOF SETTINGS
+            effects: {
+                bloom: s.bloomIntensity,
+                grain: s.filmGrain,
+                vignette: s.vignetteIntensity
+            }
         };
     }
 
     function updateLyrics(currentTime) {
         const newCueIndex = cues.findIndex(cue => currentTime >= cue.start && currentTime < cue.end);
         if (newCueIndex !== currentCueIndex) {
-            if (newCueIndex !== -1) {
-                lyricsDisplay.innerHTML = `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>`;
-            }
+            lyricsDisplay.innerHTML = (newCueIndex !== -1) ?
+                `<p>${cues[newCueIndex].text.replace(/\n/g, '<br>')}</p>` :
+                '<p>...</p>';
             currentCueIndex = newCueIndex;
         }
     }
 
-    function parseVTT(vttContent) {
-        if (!vttContent || typeof vttContent !== 'string') return [];
-        const lines = vttContent.trim().replace(/\r/g, '').split('\n');
-        const cues = [];
-        let i = 0;
-        while (i < lines.length) {
-            const timeLineIndex = lines.findIndex((line, index) => index >= i && line.includes('-->'));
-            if (timeLineIndex === -1) break;
-            const [start, end] = lines[timeLineIndex].split(' --> ').map(timeToSeconds);
-            let text = '';
-            let j = timeLineIndex + 1;
-            while (j < lines.length && lines[j].trim() !== '') {
-                text += lines[j] + '\n';
-                j++;
-            }
-            if (start != null && end != null) {
-                cues.push({ start, end, text: text.trim() });
-            }
-            i = j;
-        }
-        return cues;
-    }
-
-    function timeToSeconds(t) {
-        if (!t) return null;
-        try {
-            const p = t.trim().split(":");
-            return p.length === 3 ? (+p[0] * 3600 + +p[1] * 60 + +p[2]) : (+p[0] * 60 + +p[1]);
-        } catch {
-            return null;
-        }
-    }
-
-    function formatTime(t) {
-        if (isNaN(t)) return "0:00";
-        const m = Math.floor(t / 60);
-        const s = Math.floor(t % 60);
-        return `${m}:${s.toString().padStart(2, "0")}`;
-    }
-
-    function downloadBlob(b, f) {
-        const u = URL.createObjectURL(b);
-        const a = document.createElement("a");
-        a.style.display = "none";
-        a.href = u;
-        a.download = f;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(u);
-    }
+    // --- Unchanged utility functions: parseVTT, timeToSeconds, formatTime, downloadBlob ---
+    function parseVTT(vttContent) { if (!vttContent || typeof vttContent !== 'string') return []; const lines = vttContent.trim().replace(/\r/g, '').split('\n'); const cues = []; let i = 0; while (i < lines.length) { const timeLineIndex = lines.findIndex((line, index) => index >= i && line.includes('-->')); if (timeLineIndex === -1) break; const [start, end] = lines[timeLineIndex].split(' --> ').map(timeToSeconds); let text = ''; let j = timeLineIndex + 1; while (j < lines.length && lines[j].trim() !== '') { text += lines[j] + '\n'; j++; } if (start != null && end != null) { cues.push({ start, end, text: text.trim() }); } i = j; } return cues; }
+    function timeToSeconds(t) { if (!t) return null; try { const p = t.trim().split(":"); return p.length === 3 ? (+p[0] * 3600 + +p[1] * 60 + +p[2]) : (+p[0] * 60 + +p[1]); } catch { return null; } }
+    function formatTime(t) { if (isNaN(t)) return "0:00"; const m = Math.floor(t / 60); const s = Math.floor(t % 60); return `${m}:${s.toString().padStart(2, "0")}`; }
+    function downloadBlob(b, f) { const u = URL.createObjectURL(b); const a = document.createElement("a"); a.style.display = "none"; a.href = u; a.download = f; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u); }
 });
