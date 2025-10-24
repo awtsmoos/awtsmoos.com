@@ -632,8 +632,7 @@ _getToken(line, i, state) {
         case 'comment': { /* ... */ }
         case 'string':
         case 'template_literal': { /* ... */ }
-        default: { /* ... */ }
-
+        
         // [The full, unchanged logic for comment, string, and default cases goes here]
         case 'comment': {
             const endIdx = line.indexOf(context.terminator, i);
