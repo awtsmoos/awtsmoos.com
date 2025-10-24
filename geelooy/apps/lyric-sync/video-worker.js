@@ -1,18 +1,21 @@
 // B"H
-// - Definitive Worker v3: Restored Exploding Particles, Shape-Based Effects, Lightning Fast
+// - Definitive Worker v6: KARAOKE SUPPORT + ULTRA FAST.
+// - Word-by-word highlighting and particle bursts. Backwards compatible.
+// - Absolutely no gradients, filters, or slow operations.
 
-// --- FONT SETUP ---
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
-const EMOJI_FALLBACK_FONT = 'sans-serif'; // The key to universal, font-free emoji support
+const EMOJI_FALLBACK_FONT = 'sans-serif';
+const DEBRIS_CHARS = ['.', '*', '•', '+'];
 
 importScripts('/scripts/awtsmoos/video/mediabunny-worker-base.js');
 
 // --- WORKER GLOBAL STATE ---
 let lastActiveCue = null;
-const frameRate = 24;
+let lastActiveCueIndex = -1;
+let lastActiveWordIndex = -1;
 let backgroundImages = [];
+const frameRate = 24;
 
-// --- MAIN MESSAGE HANDLER ---
 self.onmessage = async ({
 	data: {
 		cues,
@@ -22,30 +25,23 @@ self.onmessage = async ({
 	}
 }) => {
 	try {
-		if (imageBitmaps && imageBitmaps.length > 0) {
-			backgroundImages = imageBitmaps.map(bitmap =>
-				calculateImageFit(bitmap, settings.resolution.width, settings.resolution.height)
-			);
-		} else {
-			backgroundImages = [];
-		}
+		backgroundImages = imageBitmaps && imageBitmaps.length > 0 ? imageBitmaps.map(b => calculateImageFit(b, settings.resolution.width, settings.resolution.height)) : [];
 		await handleExport({
 			cues,
 			audioBufferShim,
 			settings
 		});
-	} catch (error) {
+	} catch (e) {
 		self.postMessage({
 			type: 'FATAL_ERROR',
 			payload: {
-				message: error.message,
-				error: error.stack
+				message: e.message,
+				error: e.stack
 			}
 		});
 	}
 };
 
-// --- EXPORT HANDLING ---
 async function handleExport({
 	cues,
 	audioBufferShim,
@@ -53,12 +49,8 @@ async function handleExport({
 }) {
 	const totalDuration = (settings.maxDuration > 0 && settings.maxDuration < audioBufferShim.duration) ? settings.maxDuration : audioBufferShim.duration;
 	const totalFrames = Math.floor(totalDuration * frameRate);
-	const volumeDataForFrames = preAnalyzeAudio(audioBufferShim, totalFrames);
-	const exportParticleSystem = new ParticleSystem(settings.particles, settings.resolution);
-	const glowLayer = new OffscreenCanvas(settings.resolution.width, settings.resolution.height);
-	const glowCtx = glowLayer.getContext('2d', {
-		alpha: true
-	});
+	const volumeData = preAnalyzeAudio(audioBufferShim, totalFrames);
+	const particleSystem = new ParticleSystem(settings.particles, settings.resolution);
 
 	const renderer = new MediaBunnyBase({
 			resolution: settings.resolution,
@@ -66,17 +58,13 @@ async function handleExport({
 				quality: 1
 			}
 		},
-		(base, frame) => {
-			drawFrame({
-				...base,
-				cues,
-				settings,
-				particleSystem: exportParticleSystem,
-				volumeDataForFrames,
-				glowLayer,
-				glowCtx
-			}, frame);
-		}, {
+		(base, frame) => drawFrame({
+			...base,
+			cues,
+			settings,
+			particleSystem,
+			volumeData
+		}, frame), {
 			libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js'
 		}
 	);
@@ -88,124 +76,116 @@ async function handleExport({
 			duration: 1 / frameRate,
 			frameNumber: i
 		});
-		if (i > 0 && i % frameRate === 0) {
-			self.postMessage({
-				type: 'STATUS_UPDATE',
-				payload: {
-					message: `Encoding frame ${i} of ${totalFrames}`,
-					progress: (i / totalFrames) * 100
-				}
-			});
-		}
+		if (i > 0 && i % frameRate === 0) self.postMessage({
+			type: 'STATUS_UPDATE',
+			payload: {
+				message: `Encoding frame ${i}/${totalFrames}`,
+				progress: (i / totalFrames) * 100
+			}
+		});
 	}
 	const blob = await renderer.finalize(audioBufferShim);
 	self.postMessage({
 		type: 'VIDEO_COMPLETE',
 		payload: {
 			blob,
-			fileName: `BH_video_final_${new Date().getTime()}.mp4`
+			fileName: `BH_video_KARAOKE_${new Date().getTime()}.mp4`
 		}
 	});
 }
 
-// --- CORE DRAWING LOGIC ---
 function drawFrame({
 	ctx,
 	canvas,
 	cues,
 	settings,
 	particleSystem,
-	volumeDataForFrames,
-	glowLayer,
-	glowCtx
-}, framePayload) {
-	const {
-		time,
-		frameNumber
-	} = framePayload;
+	volumeData
+}, {
+	time,
+	frameNumber
+}) {
 	const {
 		width,
 		height
 	} = canvas;
-	const currentVolume = volumeDataForFrames[frameNumber] || 0.01;
+	const currentVolume = volumeData[frameNumber] || 0.01;
 
-	// 1. Draw Background
 	ctx.fillStyle = 'black';
 	ctx.fillRect(0, 0, width, height);
 	if (backgroundImages.length > 0) {
-		const imageIndex = Math.floor(time / 5) % backgroundImages.length;
-		const img = backgroundImages[imageIndex];
+		const img = backgroundImages[Math.floor(time / 5) % backgroundImages.length];
 		const scale = 1 + currentVolume * 0.05;
-		const scaledWidth = img.drawWidth * scale;
-		const scaledHeight = img.drawHeight * scale;
-		ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - scaledWidth) / 2, (height - scaledHeight) / 2, scaledWidth, scaledHeight);
+		const sW = img.drawWidth * scale,
+			sH = img.drawHeight * scale;
+		ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - sW) / 2, (height - sH) / 2, sW, sH);
 	}
+	particleSystem.updateAndDraw(ctx, currentVolume, settings.effects.bloom);
+	drawFastWaveform(ctx, time, width, height, settings, currentVolume);
 
-	// 2. Draw Particles & Waveform
-	glowCtx.clearRect(0, 0, width, height);
-	particleSystem.updateAndDraw(ctx, glowCtx, currentVolume);
-	drawWaveform(ctx, glowCtx, time, width, height, settings, currentVolume);
-
-	// 3. Apply SHAPE-BASED Bloom (FAST)
-	applyShapeBloom(ctx, glowLayer, settings.effects.bloom);
-
-	// 4. Draw Text
-	const currentCue = cues.find(cue => time >= cue.start && time < cue.end);
-	if (currentCue) lastActiveCue = currentCue;
-	if (lastActiveCue) {
-		const boxSize = width * 0.9;
-		const {
-			boxColor,
-			boxOpacity,
-			font
-		} = settings;
-		const r = parseInt(boxColor.substr(1, 2), 16),
-			g = parseInt(boxColor.substr(3, 2), 16),
-			b = parseInt(boxColor.substr(5, 2), 16);
-		ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
-		ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
-		wrapText(ctx, lastActiveCue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
+	const activeCueIndex = cues.findIndex(c => time >= c.start && time < c.end);
+	if (activeCueIndex !== -1) {
+		const cue = cues[activeCueIndex];
+		// Check if it's a karaoke cue or a simple one
+		if (cue.words && cue.words.length > 0) {
+			drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex);
+		} else {
+			drawSimpleText(ctx, canvas, cue, settings);
+		}
 	}
-
-	// 5. Apply Post-Processing (FAST)
-	applyPostProcessing(ctx, canvas, settings.effects);
 }
 
-// --- RESTORED & UPGRADED PARTICLE SYSTEM ---
+// --- PARTICLE SYSTEM with BURST CAPABILITY ---
 class ParticleSystem {
 	constructor(settings, resolution) {
 		this.settings = settings;
 		this.width = resolution.width;
 		this.height = resolution.height;
 		this.sizeScalar = Math.max(1.0, this.height / 720) * 1.5;
-		this.particles = (settings.density > 0 && settings.chars.length > 0) ?
-			Array.from({
-				length: settings.density
-			}, () => this.createParticle({})) :
-			[];
+		this.particles = settings.density > 0 && settings.chars.length > 0 ? Array.from({
+			length: settings.density
+		}, () => this.createParticle({})) : [];
+		this.burstParticles = [];
+		this.debrisChars = [...DEBRIS_CHARS, ...settings.chars];
 	}
-
+	triggerBurst(x, y) {
+		for (let i = 0; i < 20; i++) this.burstParticles.push(this.createBurstParticle({}, x, y));
+	}
+	createBurstParticle(p, x, y) {
+		p.x = x;
+		p.y = y;
+		const angle = Math.random() * Math.PI * 2,
+			speed = 2 + Math.random() * 5;
+		p.vx = Math.cos(angle) * speed;
+		p.vy = Math.sin(angle) * speed;
+		p.life = 20 + Math.random() * 15;
+		p.size = (this.settings.baseSize * 0.5) + Math.random() * 5;
+		p.char = this.debrisChars[Math.floor(Math.random() * this.debrisChars.length)];
+		p.hue = Math.random() * 360;
+		return p;
+	}
 	createParticle(p = {}, options = {}) {
 		const {
 			isSubParticle = false, x, y
 		} = options;
+		const baseSpeed = this.settings.speed || 3,
+			speedVar = this.settings.speedVariation || 2;
 		p.x = x !== undefined ? x : Math.random() * this.width;
 		p.y = y !== undefined ? y : this.height + Math.random() * 20;
 		p.avx = 0;
-		p.avy = 0; // Audio-driven velocity
-
+		p.avy = 0;
 		if (isSubParticle) {
-			const angle = Math.random() * Math.PI * 2;
-			const speed = 3 + Math.random() * 4;
+			const angle = Math.random() * Math.PI * 2,
+				speed = (baseSpeed * 0.8) + Math.random() * (speedVar * 1.2);
 			p.vx = Math.cos(angle) * speed;
 			p.vy = Math.sin(angle) * speed;
 			p.life = 60;
 		} else {
-			p.vx = (Math.random() - 0.5) * 2;
-			p.vy = -(Math.random() * 2.5 + 2.0); // Faster upward speed
+			const randSpeed = baseSpeed + (Math.random() - 0.5) * speedVar;
+			p.vx = (Math.random() - 0.5) * randSpeed * 0.5;
+			p.vy = -(randSpeed * (Math.random() * 0.5 + 0.75));
 			p.life = Infinity;
 		}
-
 		const baseSize = Math.max(5, (this.settings.baseSize || 20) + (Math.random() - 0.5) * (this.settings.variation || 15));
 		p.size = baseSize * this.sizeScalar * (isSubParticle ? 0.6 : 1);
 		p.char = this.settings.chars[Math.floor(Math.random() * this.settings.chars.length)];
@@ -213,13 +193,11 @@ class ParticleSystem {
 		p.opacity = 0.6 + Math.random() * 0.4;
 		return p;
 	}
-
-	updateAndDraw(ctx, glowCtx, volume) {
-		if (this.particles.length === 0) return;
-		const forceAmount = (volume ** 2) * 2.5;
-		const damping = 0.92;
-		const explosionChance = 0.001 + (volume * 0.015);
-
+	updateAndDraw(ctx, volume, bloom) {
+		// Main particle system
+		const force = (volume ** 2) * 2.5,
+			damp = 0.92,
+			boomChance = 0.001 + (volume * 0.015);
 		for (let i = this.particles.length - 1; i >= 0; i--) {
 			const p = this.particles[i];
 			if (p.life !== Infinity) p.life--;
@@ -227,227 +205,285 @@ class ParticleSystem {
 				this.particles.splice(i, 1);
 				continue;
 			}
-
-			if (p.life === Infinity && Math.random() < explosionChance) {
+			if (p.life === Infinity && Math.random() < boomChance) {
 				for (let j = 0; j < 7; j++) this.particles.push(this.createParticle({}, {
 					isSubParticle: true,
 					x: p.x,
 					y: p.y
 				}));
-				this.createParticle(p); // Replace the exploded particle
+				this.createParticle(p);
 				continue;
 			}
-
-			if (forceAmount > 0.1) {
-				p.avx += (Math.random() - 0.5) * forceAmount;
-				p.avy += (Math.random() - 0.5) * forceAmount;
+			if (force > 0.1) {
+				p.avx += (Math.random() - 0.5) * force;
+				p.avy += (Math.random() - 0.5) * force;
 			}
-			p.avx *= damping;
-			p.avy *= damping;
+			p.avx *= damp;
+			p.avy *= damp;
 			p.x += p.vx + p.avx;
 			p.y += p.vy + p.avy;
-
 			if (p.life === Infinity && p.y < -p.size) this.createParticle(p);
-
-			const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity;
-			const font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
-			const color = `hsla(${p.hue}, 90%, 75%, ${opacity})`;
-
-			// Draw to both canvases for bloom effect
+			const opacity = (p.life < 30) ? p.opacity * (p.life / 30) : p.opacity,
+				font = `${p.size}px ${EMOJI_FALLBACK_FONT}`,
+				color = `hsla(${p.hue}, 90%, 75%, ${opacity})`;
+			if (bloom > 0) {
+				ctx.font = `${p.size * (1 + bloom * 0.1)}px ${EMOJI_FALLBACK_FONT}`;
+				ctx.fillStyle = `hsla(${p.hue}, 95%, 85%, ${opacity * 0.2})`;
+				ctx.fillText(p.char, p.x, p.y);
+			}
 			ctx.font = font;
 			ctx.fillStyle = color;
 			ctx.fillText(p.char, p.x, p.y);
-
-			glowCtx.font = font;
-			glowCtx.fillStyle = color;
-			glowCtx.fillText(p.char, p.x, p.y);
 		}
-		this.drawLightning(ctx); // Restore lightning effect
-	}
-
-	drawLightning(ctx) {
-		if (this.particles.length < 2) return;
-		const checks = 3;
-		for (let i = 0; i < checks; i++) {
-			const p1 = this.particles[Math.floor(Math.random() * this.particles.length)];
-			const p2 = this.particles[Math.floor(Math.random() * this.particles.length)];
-			if (p1 && p2 && p1 !== p2 && Math.hypot(p1.x - p2.x, p1.y - p2.y) < this.width * 0.35) {
-				const createPath = () => {
-					ctx.beginPath();
-					ctx.moveTo(p1.x, p1.y);
-					for (let j = 1; j <= 3; j++) ctx.lineTo(p1.x + (p2.x - p1.x) * (j / 4) + (Math.random() - 0.5) * 25, p1.y + (p2.y - p1.y) * (j / 4) + (Math.random() - 0.5) * 25);
-					ctx.lineTo(p2.x, p2.y);
-				};
-				// Draw with strokes instead of gradients
-				ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
-				ctx.lineWidth = 3;
-				createPath();
-				ctx.stroke();
-				ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-				ctx.lineWidth = 1;
-				createPath();
-				ctx.stroke();
+		// Burst particle system
+		for (let i = this.burstParticles.length - 1; i >= 0; i--) {
+			const p = this.burstParticles[i];
+			p.life--;
+			if (p.life <= 0) {
+				this.burstParticles.splice(i, 1);
+				continue;
 			}
+			p.x += p.vx;
+			p.y += p.vy;
+			p.vy += 0.1; // gravity
+			const opacity = (p.life / 35);
+			ctx.fillStyle = `hsla(${p.hue}, 90%, 80%, ${opacity})`;
+			ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
+			ctx.fillText(p.char, p.x, p.y);
 		}
 	}
 }
 
-
-// --- HIGH-PERFORMANCE, SHAPE-BASED VISUAL EFFECTS ---
-
-function applyShapeBloom(ctx, glowLayer, intensity) {
-	if (intensity <= 0) return;
-	ctx.save();
-	ctx.globalCompositeOperation = 'lighter';
-	// Draw the glow layer multiple times with increasing size and decreasing opacity
-	ctx.globalAlpha = 0.4;
-	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 2, ctx.canvas.height + intensity * 2);
-	ctx.globalAlpha = 0.25;
-	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 4, ctx.canvas.height + intensity * 4);
-	ctx.globalAlpha = 0.15;
-	ctx.drawImage(glowLayer, 0, 0, ctx.canvas.width + intensity * 6, ctx.canvas.height + intensity * 6);
-	ctx.restore();
-}
-
-function applyPostProcessing(ctx, canvas, effects) {
-	if (effects.grain <= 0 && effects.vignette <= 0) return;
+// --- TEXT RENDERING LOGIC ---
+function drawSimpleText(ctx, canvas, cue, settings) {
 	const {
 		width,
 		height
 	} = canvas;
-	const imageData = ctx.getImageData(0, 0, width, height);
-	const pixels = imageData.data;
-	const centerX = width / 2;
-	const centerY = height / 2;
-	const maxDist = Math.hypot(centerX, centerY);
-	for (let i = 0; i < pixels.length; i += 4) {
-		const x = (i / 4) % width;
-		const y = Math.floor((i / 4) / width);
-		const dist = Math.hypot(x - centerX, y - centerY);
-		const vignette = 1 - Math.pow(dist / maxDist, 2.0) * (effects.vignette / 100);
-		const grain = (Math.random() - 0.5) * effects.grain;
-		pixels[i] = pixels[i] * vignette + grain;
-		pixels[i + 1] = pixels[i + 1] * vignette + grain;
-		pixels[i + 2] = pixels[i + 2] * vignette + grain;
-	}
-	ctx.putImageData(imageData, 0, 0);
+	const boxSize = width * 0.9;
+	const {
+		boxColor,
+		boxOpacity,
+		font
+	} = settings;
+	const [r, g, b] = [parseInt(boxColor.substr(1, 2), 16), parseInt(boxColor.substr(3, 2), 16), parseInt(boxColor.substr(5, 2), 16)];
+	ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
+	ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
+	wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
 }
 
+function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex) {
+	const {
+		width,
+		height
+	} = canvas;
+	const {
+		font
+	} = settings;
+	const scaleFactor = height / 720;
+	let scaledFontSize = font.size * scaleFactor;
+	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+	ctx.textAlign = 'left';
+	ctx.textBaseline = 'top';
 
-// --- HELPER & UTILITY FUNCTIONS (Unchanged) ---
-function calculateImageFit(img, targetWidth, targetHeight) {
-	const imgRatio = img.width / img.height;
-	const targetRatio = targetWidth / targetHeight;
-	let sWidth, sHeight, sx, sy;
-	if (imgRatio > targetRatio) {
-		sHeight = img.height;
-		sWidth = sHeight * targetRatio;
-		sx = (img.width - sWidth) / 2;
+	const maxWidth = width * 0.9;
+	const lines = layoutWords(ctx, cue.words, maxWidth);
+	const lineHeight = 1.4 * scaledFontSize;
+	const totalHeight = lines.length * lineHeight;
+	let startY = (height - totalHeight) / 2;
+
+	const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
+
+	// Trigger burst on NEW word
+	if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
+		for (const line of lines) {
+			for (const word of line.words) {
+				if (word.originalIndex === activeWordIndex) {
+					const wordCenterX = line.startX + word.x + word.width / 2;
+					const wordCenterY = startY + line.y + lineHeight / 2;
+					particleSystem.triggerBurst(wordCenterX, wordCenterY);
+					break;
+				}
+			}
+		}
+	}
+	lastActiveWordIndex = activeWordIndex;
+	lastActiveCueIndex = activeCueIndex;
+
+	// Draw words
+	for (const line of lines) {
+		for (const word of line.words) {
+			const isWordActive = word.originalIndex === activeWordIndex;
+			const currentX = line.startX + word.x;
+			const currentY = startY + line.y;
+
+			if (isWordActive) {
+				// Highlight with a simple, fast shape
+				ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+				ctx.fillRect(currentX, currentY, word.width, lineHeight);
+			}
+
+			ctx.fillStyle = font.color;
+			ctx.fillText(word.text, currentX, currentY);
+		}
+	}
+}
+
+function layoutWords(ctx, words, maxWidth) {
+	const lines = [];
+	let currentLine = {
+		words: [],
+		width: 0,
+		y: 0,
+		startX: 0
+	};
+	const spaceWidth = ctx.measureText(' ').width;
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i];
+		const wordWidth = ctx.measureText(word.text).width;
+		if (currentLine.width + (currentLine.words.length > 0 ? spaceWidth : 0) + wordWidth > maxWidth) {
+			lines.push(currentLine);
+			currentLine = {
+				words: [],
+				width: 0,
+				y: lines.length * 1.4 * parseFloat(ctx.font),
+				startX: 0
+			};
+		}
+		currentLine.words.push({
+			text: word.text,
+			width: wordWidth,
+			x: currentLine.width + (currentLine.words.length > 0 ? spaceWidth : 0),
+			originalIndex: i
+		});
+		currentLine.width += (currentLine.words.length > 1 ? spaceWidth : 0) + wordWidth;
+	}
+	lines.push(currentLine);
+	for (const line of lines) {
+		line.startX = (maxWidth - line.width) / 2 + (ctx.canvas.width * 0.05);
+	} // Center each line
+	return lines;
+}
+
+// --- UTILITIES & HELPERS ---
+function calculateImageFit(img, tW, tH) {
+	const iR = img.width / img.height,
+		tR = tW / tH;
+	let sW, sH, sx, sy;
+	if (iR > tR) {
+		sH = img.height;
+		sW = sH * tR;
+		sx = (img.width - sW) / 2;
 		sy = 0;
 	} else {
-		sWidth = img.width;
-		sHeight = sWidth / targetRatio;
+		sW = img.width;
+		sH = sW / tR;
 		sx = 0;
-		sy = (img.height - sHeight) / 2;
+		sy = (img.height - sH) / 2;
 	}
 	return {
 		bitmap: img,
 		sx,
 		sy,
-		sWidth,
-		sHeight,
-		drawWidth: targetWidth,
-		drawHeight: targetHeight
+		sWidth: sW,
+		sHeight: sH,
+		drawWidth: tW,
+		drawHeight: tH
 	};
 }
 
 function getWrappedLines(ctx, text, maxWidth) {
 	const lines = text.split("\n");
-	let allLines = [];
+	let all = [];
 	lines.forEach(line => {
-		let currentLine = "",
-			words = line.split(" ");
-		for (let i = 0; i < words.length; i++) {
-			let testLine = currentLine + (currentLine ? " " : "") + words[i];
-			if (ctx.measureText(testLine).width > maxWidth && i > 0) {
-				allLines.push(currentLine);
-				currentLine = words[i];
+		let cL = "",
+			w = line.split(" ");
+		for (let i = 0; i < w.length; i++) {
+			let tL = cL + (cL ? " " : "") + w[i];
+			if (ctx.measureText(tL).width > maxWidth && i > 0) {
+				all.push(cL);
+				cL = w[i];
 			} else {
-				currentLine = testLine;
+				cL = tL;
 			}
 		}
-		allLines.push(currentLine);
+		all.push(cL);
 	});
-	return allLines;
+	return all;
 }
 
-function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor) {
-	let scaledFontSize = fontSettings.size * scaleFactor;
-	while (scaledFontSize > 5) {
-		ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-		const lines = getWrappedLines(ctx, text, maxWidth * .95);
-		if (lines.length * scaledFontSize * 1.4 < maxHeight * .95) break;
-		scaledFontSize -= 1
+function wrapText(ctx, text, x, y, mW, mH, font, sF) {
+	let sFS = font.size * sF;
+	while (sFS > 5) {
+		ctx.font = `bold ${sFS}px ${HEBREW_FONT_STACK}`;
+		const l = getWrappedLines(ctx, text, mW * .95);
+		if (l.length * sFS * 1.4 < mH * .95) break;
+		sFS -= 1
 	}
-	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-	ctx.textAlign = fontSettings.align;
-	const lines = getWrappedLines(ctx, text, maxWidth * .95),
-		lineHeight = 1.4 * scaledFontSize,
-		startY = y - (lines.length - 1) * lineHeight / 2 + .3 * scaledFontSize;
-	lines.forEach((line, i) => {
-		const currentY = startY + i * lineHeight;
-		if (fontSettings.borderWidth > 0) {
-			ctx.strokeStyle = fontSettings.borderColor, ctx.lineWidth = fontSettings.borderWidth * scaleFactor * 2, ctx.strokeText(line, x, currentY)
+	ctx.font = `bold ${sFS}px ${HEBREW_FONT_STACK}`;
+	ctx.textAlign = font.align;
+	const l = getWrappedLines(ctx, text, mW * .95),
+		lH = 1.4 * sFS,
+		sY = y - (l.length - 1) * lH / 2 + .3 * sFS;
+	l.forEach((line, i) => {
+		const cY = sY + i * lH;
+		if (font.borderWidth > 0) {
+			ctx.strokeStyle = font.borderColor;
+			ctx.lineWidth = font.borderWidth * sF * 2;
+			ctx.strokeText(line, x, cY)
 		}
-		ctx.fillStyle = fontSettings.color, ctx.fillText(line, x, currentY)
+		ctx.fillStyle = font.color;
+		ctx.fillText(line, x, cY)
 	})
 }
 
-function preAnalyzeAudio(audioBufferShim, totalFrames) {
-	const channelData = audioBufferShim.channels[0];
-	if (!channelData || channelData.length === 0) return new Array(totalFrames).fill(.01);
-	const volumeLevels = [];
-	const samplesPerFrame = Math.floor(channelData.length / totalFrames);
+function preAnalyzeAudio(shim, totalFrames) {
+	const data = shim.channels[0];
+	if (!data || data.length === 0) return new Array(totalFrames).fill(.01);
+	const levels = [];
+	const spf = Math.floor(data.length / totalFrames);
 	for (let i = 0; i < totalFrames; i++) {
 		let rms = 0;
-		const start = i * samplesPerFrame;
-		for (let j = 0; j < samplesPerFrame; j++) rms += (channelData[start + j] || 0) ** 2;
-		const volume = Math.sqrt(rms / samplesPerFrame);
-		volumeLevels.push(isNaN(volume) ? .01 : Math.max(.01, volume))
+		const start = i * spf;
+		for (let j = 0; j < spf; j++) rms += (data[start + j] || 0) ** 2;
+		const vol = Math.sqrt(rms / spf);
+		levels.push(isNaN(vol) ? .01 : Math.max(.01, vol))
 	}
-	return volumeLevels
+	return levels
 }
 
-function drawWaveform(ctx, glowCtx, time, width, height, settings, volume) {
+function drawFastWaveform(ctx, time, w, h, settings, vol) {
 	const {
 		waveformHeight,
 		waveformThickness
 	} = settings;
 	if (waveformHeight <= 0) return;
-	const maxAmplitude = height * (waveformHeight / 100),
-		amplitude = maxAmplitude * volume ** 1.5,
-		undulation = Math.sin(time * .7) * (height * .015),
-		baseY = height * .85 + undulation;
-	const createPath = (targetCtx) => {
-		targetCtx.beginPath();
-		for (let x = 0; x <= width; x += 15) {
-			const yOffset = (Math.sin(x * .01 + time * 4) * .5 + Math.sin(x * .03 + time * 9) * .3 + Math.sin(x * .1 + time * 20) * .2) * amplitude;
-			x === 0 ? targetCtx.moveTo(x, baseY + yOffset) : targetCtx.lineTo(x, baseY + yOffset)
-		}
-	};
-	const colorIntensity = 200 + Math.floor(volume * 55),
-		glowColor = `rgba(${colorIntensity - 50}, ${colorIntensity - 20}, 255, ${.3 * volume})`,
-		mainColor = `rgba(${colorIntensity}, ${colorIntensity}, 255, ${.6 * volume + .2})`;
-	const drawOnContext = (targetCtx) => {
-		targetCtx.strokeStyle = glowColor;
-		targetCtx.lineWidth = waveformThickness * 3;
-		createPath(targetCtx);
-		targetCtx.stroke();
-		targetCtx.strokeStyle = mainColor;
-		targetCtx.lineWidth = waveformThickness;
-		createPath(targetCtx);
-		targetCtx.stroke();
-	};
-	drawOnContext(ctx);
-	drawOnContext(glowCtx);
+	const maxAmp = h * (waveformHeight / 100),
+		amp = maxAmp * vol ** 1.5,
+		baseY = h * .85 + Math.sin(time * .7) * (h * .015);
+	const p = new Path2D();
+	for (let x = 0; x <= w; x += 15) {
+		const yOff = (Math.sin(x * .01 + time * 4) * .5 + Math.sin(x * .03 + time * 9) * .3) * amp;
+		x === 0 ? p.moveTo(x, baseY + yOff) : p.lineTo(x, baseY + yOff);
+	}
+	const cI = 200 + Math.floor(vol * 55),
+		gC = `rgba(${cI - 50}, ${cI - 20}, 255, ${.3 * vol})`,
+		mC = `rgba(${cI}, ${cI}, 255, ${.6 * vol + .2})`;
+	ctx.strokeStyle = gC;
+	ctx.lineWidth = waveformThickness * 5;
+	ctx.stroke(p);
+	ctx.lineWidth = waveformThickness * 2;
+	ctx.stroke(p);
+	ctx.strokeStyle = mC;
+	ctx.lineWidth = waveformThickness;
+	ctx.stroke(p);
+}
+
+function drawFastGrain(ctx, w, h, intensity) {
+	if (intensity <= 0) return;
+	const num = (w * h / 1000) * (intensity / 50);
+	ctx.fillStyle = 'rgba(128, 128, 128, 0.2)';
+	for (let i = 0; i < num; i++) {
+		ctx.fillRect(Math.random() * w, Math.random() * h, 1, 1);
+	}
 }
