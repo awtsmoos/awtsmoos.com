@@ -1,7 +1,7 @@
 // B"H
-// - Definitive Worker v6: KARAOKE SUPPORT + ULTRA FAST.
-// - Word-by-word highlighting and particle bursts. Backwards compatible.
-// - Absolutely no gradients, filters, or slow operations.
+// - Definitive Worker v7: ROBUST KARAOKE FIX. ULTRA FAST.
+// - Re-engineered text layout engine to guarantee all words appear correctly.
+// - No gradients, filters, or slow operations.
 
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
 const EMOJI_FALLBACK_FONT = 'sans-serif';
@@ -89,56 +89,61 @@ async function handleExport({
 		type: 'VIDEO_COMPLETE',
 		payload: {
 			blob,
-			fileName: `BH_video_KARAOKE_${new Date().getTime()}.mp4`
+			fileName: `BH_video_KARAOKE_FIXED_${new Date().getTime()}.mp4`
 		}
 	});
 }
 
-// REPLACE THIS FUNCTION
-function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeData }, { time, frameNumber }) {
-    const { width, height } = canvas;
-    const currentVolume = volumeData[frameNumber] || 0.01;
+function drawFrame({
+	ctx,
+	canvas,
+	cues,
+	settings,
+	particleSystem,
+	volumeData
+}, {
+	time,
+	frameNumber
+}) {
+	const {
+		width,
+		height
+	} = canvas;
+	const currentVolume = volumeData[frameNumber] || 0.01;
 
-    // 1. Clear & Draw Background
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, width, height);
-    if (backgroundImages.length > 0) {
-        const img = backgroundImages[Math.floor(time / 5) % backgroundImages.length];
-        const scale = 1 + currentVolume * 0.05;
-        const sW = img.drawWidth * scale, sH = img.drawHeight * scale;
-        ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - sW) / 2, (height - sH) / 2, sW, sH);
-    }
-    
-    // 2. Draw Effects & Particles
-    particleSystem.updateAndDraw(ctx, currentVolume, settings.effects.bloom);
-    drawFastWaveform(ctx, time, width, height, settings, currentVolume);
+	// 1. Clear & Draw Background
+	ctx.fillStyle = 'black';
+	ctx.fillRect(0, 0, width, height);
+	if (backgroundImages.length > 0) {
+		const img = backgroundImages[Math.floor(time / 5) % backgroundImages.length];
+		const scale = 1 + currentVolume * 0.05;
+		const sW = img.drawWidth * scale,
+			sH = img.drawHeight * scale;
+		ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - sW) / 2, (height - sH) / 2, sW, sH);
+	}
 
-    // 3. Draw Text (Main Logic Update)
-    const activeCueIndex = cues.findIndex(c => time >= c.start && time < c.end);
-    
-    if (activeCueIndex !== -1) {
-        lastActiveCue = cues[activeCueIndex]; // Update the active cue
-        if (lastActiveCue.words && lastActiveCue.words.length > 0) {
-            // It's a karaoke cue
-            drawKaraokeText(ctx, canvas, lastActiveCue, time, settings, particleSystem, activeCueIndex);
-        } else {
-            // It's a simple cue, draw it the old way
-            drawSimpleText(ctx, canvas, lastActiveCue, settings);
-        }
-    } else {
-        // If no cue is active, we can optionally keep the last one on screen
-        if (lastActiveCue) {
-            if (lastActiveCue.words && lastActiveCue.words.length > 0) {
-                // Draw the last karaoke cue, but with no active word
-                drawKaraokeText(ctx, canvas, lastActiveCue, -1, settings, particleSystem, -1);
-            } else {
-                drawSimpleText(ctx, canvas, lastActiveCue, settings);
-            }
-        }
-    }
-    
-    // 4. Post-Processing
-    drawFastGrain(ctx, width, height, settings.effects.grain);
+	// 2. Draw Effects & Particles
+	particleSystem.updateAndDraw(ctx, currentVolume, settings.effects.bloom);
+	drawFastWaveform(ctx, time, width, height, settings, currentVolume);
+
+	// 3. Draw Text (Main Logic Update)
+	const activeCueIndex = cues.findIndex(c => time >= c.start && time < c.end);
+
+	if (activeCueIndex !== -1) {
+		lastActiveCue = cues[activeCueIndex];
+	}
+
+	if (lastActiveCue) {
+		if (lastActiveCue.words && lastActiveCue.words.length > 0) {
+			const currentTime = activeCueIndex !== -1 ? time : -1; // Pass -1 if cue is no longer active
+			drawKaraokeText(ctx, canvas, lastActiveCue, currentTime, settings, particleSystem, activeCueIndex);
+		} else {
+			drawSimpleText(ctx, canvas, lastActiveCue, settings);
+		}
+	}
+
+	// 4. Post-Processing
+	drawFastGrain(ctx, width, height, settings.effects.grain);
 }
 
 // --- PARTICLE SYSTEM with BURST CAPABILITY ---
@@ -200,7 +205,6 @@ class ParticleSystem {
 		return p;
 	}
 	updateAndDraw(ctx, volume, bloom) {
-		// Main particle system
 		const force = (volume ** 2) * 2.5,
 			damp = 0.92,
 			boomChance = 0.001 + (volume * 0.015);
@@ -241,7 +245,6 @@ class ParticleSystem {
 			ctx.fillStyle = color;
 			ctx.fillText(p.char, p.x, p.y);
 		}
-		// Burst particle system
 		for (let i = this.burstParticles.length - 1; i >= 0; i--) {
 			const p = this.burstParticles[i];
 			p.life--;
@@ -251,7 +254,7 @@ class ParticleSystem {
 			}
 			p.x += p.vx;
 			p.y += p.vy;
-			p.vy += 0.1; // gravity
+			p.vy += 0.1;
 			const opacity = (p.life / 35);
 			ctx.fillStyle = `hsla(${p.hue}, 90%, 80%, ${opacity})`;
 			ctx.font = `${p.size}px ${EMOJI_FALLBACK_FONT}`;
@@ -278,103 +281,166 @@ function drawSimpleText(ctx, canvas, cue, settings) {
 	wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
 }
 
-// REPLACE THIS FUNCTION
 function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex) {
-    const { width, height } = canvas;
-    const { font } = settings;
-    const scaleFactor = height / 720;
-    let scaledFontSize = font.size * scaleFactor;
+	const {
+		width,
+		height
+	} = canvas;
+	const {
+		font
+	} = settings;
+	const scaleFactor = height / 720;
+	const scaledFontSize = font.size * scaleFactor;
+	const lineHeight = 1.4 * scaledFontSize;
 
-    // --- Font setup ---
-    ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle'; // Use middle for better vertical alignment
+	const layout = wrapText(ctx, cue.text, width / 2, height / 2, width * 0.9, height, font, scaleFactor, true);
 
-    // --- 1. Robustly calculate the layout for all words ---
-    const lines = layoutKaraokeLines(ctx, cue.words, width * 0.9);
-    const lineHeight = 1.4 * scaledFontSize;
-    const totalHeight = lines.length * lineHeight;
-    let startY = (height - totalHeight) / 2;
+	const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
 
-    // --- 2. Find the active word and trigger bursts if it's new ---
-    const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
+	if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
+		const wordInfo = layout.wordLayout[activeWordIndex];
+		if (wordInfo) {
+			const wordCenterX = wordInfo.x + wordInfo.width / 2;
+			const wordCenterY = wordInfo.y + lineHeight / 2;
+			particleSystem.triggerBurst(wordCenterX, wordCenterY);
+		}
+	}
+	lastActiveWordIndex = activeWordIndex;
+	lastActiveCueIndex = activeCueIndex;
 
-    if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
-        // A new word has become active, find its final position and trigger a burst
-        for (const line of lines) {
-            const wordInfo = line.words.find(w => w.originalIndex === activeWordIndex);
-            if (wordInfo) {
-                const wordCenterX = line.startX + wordInfo.x + wordInfo.width / 2;
-                const wordCenterY = startY + line.y + lineHeight / 2;
-                particleSystem.triggerBurst(wordCenterX, wordCenterY);
-                break; // Found it, no need to keep searching
-            }
-        }
-    }
-    lastActiveWordIndex = activeWordIndex;
-    lastActiveCueIndex = activeCueIndex;
+	ctx.fillStyle = font.color;
+	layout.lines.forEach(line => {
+		ctx.fillText(line.text, line.x, line.y);
+	});
 
-    // --- 3. Draw every word ---
-    for (const line of lines) {
-        for (const word of line.words) {
-            const isWordActive = word.originalIndex === activeWordIndex;
-            const currentX = line.startX + word.x;
-            const currentY = startY + line.y + lineHeight / 2;
+	if (activeWordIndex !== -1) {
+		const wordInfo = layout.wordLayout[activeWordIndex];
+		if (wordInfo) {
+			ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+			ctx.fillRect(wordInfo.x - 5, wordInfo.y, wordInfo.width + 10, lineHeight);
 
-            if (isWordActive) {
-                // Highlight with a simple, fast shape
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-                // Draw highlight slightly larger than the word for better visuals
-                ctx.fillRect(currentX - 5, currentY - lineHeight / 2, word.width + 10, lineHeight);
-            }
-
-            // Draw the word text itself
-            ctx.fillStyle = font.color;
-            ctx.fillText(word.text, currentX, currentY);
-        }
-    }
+			ctx.fillStyle = font.color;
+			ctx.fillText(cue.words[activeWordIndex].text, wordInfo.x, wordInfo.y);
+		}
+	}
 }
 
-// REPLACE THIS FUNCTION (the old layoutWords)
-function layoutKaraokeLines(ctx, words, maxWidth) {
-    const lines = [];
-    if (!words || words.length === 0) return lines;
+function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFactor, getLayout = false) {
+	let scaledFontSize = fontSettings.size * scaleFactor;
+	while (scaledFontSize > 5) {
+		ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+		const tempLines = getWrappedLines(ctx, text, maxWidth * 0.95);
+		if (tempLines.length * scaledFontSize * 1.4 < maxHeight * 0.95) break;
+		scaledFontSize -= 2;
+	}
 
-    let currentLine = { words: [], width: 0, y: 0, startX: 0 };
-    const spaceWidth = ctx.measureText(' ').width;
+	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+	ctx.textAlign = 'left';
+	ctx.textBaseline = 'top';
 
-    words.forEach((word, index) => {
-        const wordWidth = ctx.measureText(word.text).width;
-        const widthWithSpace = currentLine.words.length > 0 ? currentLine.width + spaceWidth + wordWidth : wordWidth;
+	const words = text.split(/\s+/);
+	const lines = [];
+	const wordLayout = [];
+	let currentLine = '';
+	let lineWordIndex = 0;
 
-        if (widthWithSpace > maxWidth && currentLine.words.length > 0) {
-            // Finish the current line and start a new one
-            lines.push(currentLine);
-            currentLine = { words: [], width: 0, y: lines.length * parseFloat(ctx.font) * 1.4, startX: 0 };
-        }
+	for (let i = 0; i < words.length; i++) {
+		const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+		if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+			lines.push({
+				text: currentLine,
+				x: 0,
+				y: 0,
+				words: lineWordIndex
+			});
+			currentLine = words[i];
+			lineWordIndex = 1;
+		} else {
+			currentLine = testLine;
+			lineWordIndex++;
+		}
+	}
+	lines.push({
+		text: currentLine,
+		x: 0,
+		y: 0,
+		words: lineWordIndex
+	});
 
-        // Add the word to the current line
-        currentLine.words.push({
-            text: word.text,
-            width: wordWidth,
-            x: currentLine.width > 0 ? currentLine.width + spaceWidth : 0,
-            originalIndex: index
-        });
-        currentLine.width = currentLine.width > 0 ? currentLine.width + spaceWidth + wordWidth : wordWidth;
-    });
+	const lineHeight = 1.4 * scaledFontSize;
+	const totalHeight = lines.length * lineHeight;
+	const startY = y - totalHeight / 2;
+	let wordCounter = 0;
 
-    // Add the last line
-    lines.push(currentLine);
+	lines.forEach((line, i) => {
+		const lineY = startY + i * lineHeight;
+		let lineX;
+		switch (fontSettings.align) {
+			case 'right':
+				lineX = x + (maxWidth / 2) - ctx.measureText(line.text).width;
+				break;
+			case 'left':
+				lineX = x - (maxWidth / 2);
+				break;
+			default:
+				lineX = x - ctx.measureText(line.text).width / 2;
+		}
+		line.x = lineX;
+		line.y = lineY;
+		const lineWords = line.text.split(' ');
+		let currentWordX = lineX;
+		for (let j = 0; j < lineWords.length; j++) {
+			const word = lineWords[j];
+			const wordWidth = ctx.measureText(word).width;
+			wordLayout[wordCounter] = {
+				x: currentWordX,
+				y: lineY,
+				width: wordWidth
+			};
+			currentWordX += wordWidth + ctx.measureText(' ').width;
+			wordCounter++;
+		}
+	});
 
-    // Center each line horizontally
-    const canvasMargin = (ctx.canvas.width - maxWidth) / 2;
-    for (const line of lines) {
-        line.startX = canvasMargin + (maxWidth - line.width) / 2;
-    }
-    return lines;
+	if (getLayout) {
+		return {
+			lines,
+			wordLayout
+		};
+	} else {
+		lines.forEach(line => {
+			if (fontSettings.borderWidth > 0) {
+				ctx.strokeStyle = fontSettings.borderColor;
+				ctx.lineWidth = fontSettings.borderWidth * scaleFactor * 2;
+				ctx.strokeText(line.text, line.x, line.y);
+			}
+			ctx.fillStyle = fontSettings.color;
+			ctx.fillText(line.text, line.x, line.y);
+		});
+	}
 }
 
 // --- UTILITIES & HELPERS ---
+function getWrappedLines(ctx, text, maxWidth) {
+	const lines = text.split("\n");
+	let all = [];
+	lines.forEach(line => {
+		let cL = "",
+			w = line.split(" ");
+		for (let i = 0; i < w.length; i++) {
+			let tL = cL + (cL ? " " : "") + w[i];
+			if (ctx.measureText(tL).width > maxWidth && i > 0) {
+				all.push(cL);
+				cL = w[i];
+			} else {
+				cL = tL;
+			}
+		}
+		all.push(cL);
+	});
+	return all;
+}
+
 function calculateImageFit(img, tW, tH) {
 	const iR = img.width / img.height,
 		tR = tW / tH;
@@ -399,51 +465,6 @@ function calculateImageFit(img, tW, tH) {
 		drawWidth: tW,
 		drawHeight: tH
 	};
-}
-
-function getWrappedLines(ctx, text, maxWidth) {
-	const lines = text.split("\n");
-	let all = [];
-	lines.forEach(line => {
-		let cL = "",
-			w = line.split(" ");
-		for (let i = 0; i < w.length; i++) {
-			let tL = cL + (cL ? " " : "") + w[i];
-			if (ctx.measureText(tL).width > maxWidth && i > 0) {
-				all.push(cL);
-				cL = w[i];
-			} else {
-				cL = tL;
-			}
-		}
-		all.push(cL);
-	});
-	return all;
-}
-
-function wrapText(ctx, text, x, y, mW, mH, font, sF) {
-	let sFS = font.size * sF;
-	while (sFS > 5) {
-		ctx.font = `bold ${sFS}px ${HEBREW_FONT_STACK}`;
-		const l = getWrappedLines(ctx, text, mW * .95);
-		if (l.length * sFS * 1.4 < mH * .95) break;
-		sFS -= 1
-	}
-	ctx.font = `bold ${sFS}px ${HEBREW_FONT_STACK}`;
-	ctx.textAlign = font.align;
-	const l = getWrappedLines(ctx, text, mW * .95),
-		lH = 1.4 * sFS,
-		sY = y - (l.length - 1) * lH / 2 + .3 * sFS;
-	l.forEach((line, i) => {
-		const cY = sY + i * lH;
-		if (font.borderWidth > 0) {
-			ctx.strokeStyle = font.borderColor;
-			ctx.lineWidth = font.borderWidth * sF * 2;
-			ctx.strokeText(line, x, cY)
-		}
-		ctx.fillStyle = font.color;
-		ctx.fillText(line, x, cY)
-	})
 }
 
 function preAnalyzeAudio(shim, totalFrames) {
