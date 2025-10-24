@@ -94,45 +94,51 @@ async function handleExport({
 	});
 }
 
-function drawFrame({
-	ctx,
-	canvas,
-	cues,
-	settings,
-	particleSystem,
-	volumeData
-}, {
-	time,
-	frameNumber
-}) {
-	const {
-		width,
-		height
-	} = canvas;
-	const currentVolume = volumeData[frameNumber] || 0.01;
+// REPLACE THIS FUNCTION
+function drawFrame({ ctx, canvas, cues, settings, particleSystem, volumeData }, { time, frameNumber }) {
+    const { width, height } = canvas;
+    const currentVolume = volumeData[frameNumber] || 0.01;
 
-	ctx.fillStyle = 'black';
-	ctx.fillRect(0, 0, width, height);
-	if (backgroundImages.length > 0) {
-		const img = backgroundImages[Math.floor(time / 5) % backgroundImages.length];
-		const scale = 1 + currentVolume * 0.05;
-		const sW = img.drawWidth * scale,
-			sH = img.drawHeight * scale;
-		ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - sW) / 2, (height - sH) / 2, sW, sH);
-	}
-	particleSystem.updateAndDraw(ctx, currentVolume, settings.effects.bloom);
-	drawFastWaveform(ctx, time, width, height, settings, currentVolume);
+    // 1. Clear & Draw Background
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, width, height);
+    if (backgroundImages.length > 0) {
+        const img = backgroundImages[Math.floor(time / 5) % backgroundImages.length];
+        const scale = 1 + currentVolume * 0.05;
+        const sW = img.drawWidth * scale, sH = img.drawHeight * scale;
+        ctx.drawImage(img.bitmap, img.sx, img.sy, img.sWidth, img.sHeight, (width - sW) / 2, (height - sH) / 2, sW, sH);
+    }
+    
+    // 2. Draw Effects & Particles
+    particleSystem.updateAndDraw(ctx, currentVolume, settings.effects.bloom);
+    drawFastWaveform(ctx, time, width, height, settings, currentVolume);
 
-	const activeCueIndex = cues.findIndex(c => time >= c.start && time < c.end);
-	if (activeCueIndex !== -1) {
-		const cue = cues[activeCueIndex];
-		// Check if it's a karaoke cue or a simple one
-		if (cue.words && cue.words.length > 0) {
-			drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex);
-		} else {
-			drawSimpleText(ctx, canvas, cue, settings);
-		}
-	}
+    // 3. Draw Text (Main Logic Update)
+    const activeCueIndex = cues.findIndex(c => time >= c.start && time < c.end);
+    
+    if (activeCueIndex !== -1) {
+        lastActiveCue = cues[activeCueIndex]; // Update the active cue
+        if (lastActiveCue.words && lastActiveCue.words.length > 0) {
+            // It's a karaoke cue
+            drawKaraokeText(ctx, canvas, lastActiveCue, time, settings, particleSystem, activeCueIndex);
+        } else {
+            // It's a simple cue, draw it the old way
+            drawSimpleText(ctx, canvas, lastActiveCue, settings);
+        }
+    } else {
+        // If no cue is active, we can optionally keep the last one on screen
+        if (lastActiveCue) {
+            if (lastActiveCue.words && lastActiveCue.words.length > 0) {
+                // Draw the last karaoke cue, but with no active word
+                drawKaraokeText(ctx, canvas, lastActiveCue, -1, settings, particleSystem, -1);
+            } else {
+                drawSimpleText(ctx, canvas, lastActiveCue, settings);
+            }
+        }
+    }
+    
+    // 4. Post-Processing
+    drawFastGrain(ctx, width, height, settings.effects.grain);
 }
 
 // --- PARTICLE SYSTEM with BURST CAPABILITY ---
@@ -272,97 +278,100 @@ function drawSimpleText(ctx, canvas, cue, settings) {
 	wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
 }
 
+// REPLACE THIS FUNCTION
 function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex) {
-	const {
-		width,
-		height
-	} = canvas;
-	const {
-		font
-	} = settings;
-	const scaleFactor = height / 720;
-	let scaledFontSize = font.size * scaleFactor;
-	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-	ctx.textAlign = 'left';
-	ctx.textBaseline = 'top';
+    const { width, height } = canvas;
+    const { font } = settings;
+    const scaleFactor = height / 720;
+    let scaledFontSize = font.size * scaleFactor;
 
-	const maxWidth = width * 0.9;
-	const lines = layoutWords(ctx, cue.words, maxWidth);
-	const lineHeight = 1.4 * scaledFontSize;
-	const totalHeight = lines.length * lineHeight;
-	let startY = (height - totalHeight) / 2;
+    // --- Font setup ---
+    ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle'; // Use middle for better vertical alignment
 
-	const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
+    // --- 1. Robustly calculate the layout for all words ---
+    const lines = layoutKaraokeLines(ctx, cue.words, width * 0.9);
+    const lineHeight = 1.4 * scaledFontSize;
+    const totalHeight = lines.length * lineHeight;
+    let startY = (height - totalHeight) / 2;
 
-	// Trigger burst on NEW word
-	if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
-		for (const line of lines) {
-			for (const word of line.words) {
-				if (word.originalIndex === activeWordIndex) {
-					const wordCenterX = line.startX + word.x + word.width / 2;
-					const wordCenterY = startY + line.y + lineHeight / 2;
-					particleSystem.triggerBurst(wordCenterX, wordCenterY);
-					break;
-				}
-			}
-		}
-	}
-	lastActiveWordIndex = activeWordIndex;
-	lastActiveCueIndex = activeCueIndex;
+    // --- 2. Find the active word and trigger bursts if it's new ---
+    const activeWordIndex = cue.words.findIndex(w => time >= w.start && time < w.end);
 
-	// Draw words
-	for (const line of lines) {
-		for (const word of line.words) {
-			const isWordActive = word.originalIndex === activeWordIndex;
-			const currentX = line.startX + word.x;
-			const currentY = startY + line.y;
+    if ((activeWordIndex !== lastActiveWordIndex || activeCueIndex !== lastActiveCueIndex) && activeWordIndex !== -1) {
+        // A new word has become active, find its final position and trigger a burst
+        for (const line of lines) {
+            const wordInfo = line.words.find(w => w.originalIndex === activeWordIndex);
+            if (wordInfo) {
+                const wordCenterX = line.startX + wordInfo.x + wordInfo.width / 2;
+                const wordCenterY = startY + line.y + lineHeight / 2;
+                particleSystem.triggerBurst(wordCenterX, wordCenterY);
+                break; // Found it, no need to keep searching
+            }
+        }
+    }
+    lastActiveWordIndex = activeWordIndex;
+    lastActiveCueIndex = activeCueIndex;
 
-			if (isWordActive) {
-				// Highlight with a simple, fast shape
-				ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-				ctx.fillRect(currentX, currentY, word.width, lineHeight);
-			}
+    // --- 3. Draw every word ---
+    for (const line of lines) {
+        for (const word of line.words) {
+            const isWordActive = word.originalIndex === activeWordIndex;
+            const currentX = line.startX + word.x;
+            const currentY = startY + line.y + lineHeight / 2;
 
-			ctx.fillStyle = font.color;
-			ctx.fillText(word.text, currentX, currentY);
-		}
-	}
+            if (isWordActive) {
+                // Highlight with a simple, fast shape
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+                // Draw highlight slightly larger than the word for better visuals
+                ctx.fillRect(currentX - 5, currentY - lineHeight / 2, word.width + 10, lineHeight);
+            }
+
+            // Draw the word text itself
+            ctx.fillStyle = font.color;
+            ctx.fillText(word.text, currentX, currentY);
+        }
+    }
 }
 
-function layoutWords(ctx, words, maxWidth) {
-	const lines = [];
-	let currentLine = {
-		words: [],
-		width: 0,
-		y: 0,
-		startX: 0
-	};
-	const spaceWidth = ctx.measureText(' ').width;
-	for (let i = 0; i < words.length; i++) {
-		const word = words[i];
-		const wordWidth = ctx.measureText(word.text).width;
-		if (currentLine.width + (currentLine.words.length > 0 ? spaceWidth : 0) + wordWidth > maxWidth) {
-			lines.push(currentLine);
-			currentLine = {
-				words: [],
-				width: 0,
-				y: lines.length * 1.4 * parseFloat(ctx.font),
-				startX: 0
-			};
-		}
-		currentLine.words.push({
-			text: word.text,
-			width: wordWidth,
-			x: currentLine.width + (currentLine.words.length > 0 ? spaceWidth : 0),
-			originalIndex: i
-		});
-		currentLine.width += (currentLine.words.length > 1 ? spaceWidth : 0) + wordWidth;
-	}
-	lines.push(currentLine);
-	for (const line of lines) {
-		line.startX = (maxWidth - line.width) / 2 + (ctx.canvas.width * 0.05);
-	} // Center each line
-	return lines;
+// REPLACE THIS FUNCTION (the old layoutWords)
+function layoutKaraokeLines(ctx, words, maxWidth) {
+    const lines = [];
+    if (!words || words.length === 0) return lines;
+
+    let currentLine = { words: [], width: 0, y: 0, startX: 0 };
+    const spaceWidth = ctx.measureText(' ').width;
+
+    words.forEach((word, index) => {
+        const wordWidth = ctx.measureText(word.text).width;
+        const widthWithSpace = currentLine.words.length > 0 ? currentLine.width + spaceWidth + wordWidth : wordWidth;
+
+        if (widthWithSpace > maxWidth && currentLine.words.length > 0) {
+            // Finish the current line and start a new one
+            lines.push(currentLine);
+            currentLine = { words: [], width: 0, y: lines.length * parseFloat(ctx.font) * 1.4, startX: 0 };
+        }
+
+        // Add the word to the current line
+        currentLine.words.push({
+            text: word.text,
+            width: wordWidth,
+            x: currentLine.width > 0 ? currentLine.width + spaceWidth : 0,
+            originalIndex: index
+        });
+        currentLine.width = currentLine.width > 0 ? currentLine.width + spaceWidth + wordWidth : wordWidth;
+    });
+
+    // Add the last line
+    lines.push(currentLine);
+
+    // Center each line horizontally
+    const canvasMargin = (ctx.canvas.width - maxWidth) / 2;
+    for (const line of lines) {
+        line.startX = canvasMargin + (maxWidth - line.width) / 2;
+    }
+    return lines;
 }
 
 // --- UTILITIES & HELPERS ---
