@@ -1,7 +1,7 @@
 // B"H
-// - Definitive Worker v9: FINAL PERFORMANCE. Highlight bug fixed.
-// - Text rendering engine rebuilt for perfect vertical highlight centering.
-// - Particle explosions are now fewer, faster, and have a shorter lifespan for maximum visual impact and speed.
+// - Definitive Worker v10: FINAL BUGFIX. Background box restored. Thick border.
+// - Background box logic moved to main draw loop to ensure it always appears.
+// - Text border thickness calculation corrected for a bold, readable outline.
 
 const HEBREW_FONT_STACK = "'Noto Sans Hebrew', 'Heebo', sans-serif";
 const EMOJI_FALLBACK_FONT = 'sans-serif';
@@ -89,7 +89,7 @@ async function handleExport({
 		type: 'VIDEO_COMPLETE',
 		payload: {
 			blob,
-			fileName: `BH_video_INFINITE_${new Date().getTime()}.mp4`
+			fileName: `BH_video_DEFINITIVE_${new Date().getTime()}.mp4`
 		}
 	});
 }
@@ -131,7 +131,19 @@ function drawFrame({
 	if (activeCueIndex !== -1) {
 		lastActiveCue = cues[activeCueIndex];
 	}
+
 	if (lastActiveCue) {
+		// B"H - BUGFIX: Draw the background box here so it applies to BOTH simple and karaoke text.
+		const {
+			boxColor,
+			boxOpacity
+		} = settings;
+		const boxSize = width * 0.9;
+		const [r, g, b] = [parseInt(boxColor.substr(1, 2), 16), parseInt(boxColor.substr(3, 2), 16), parseInt(boxColor.substr(5, 2), 16)];
+		ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
+		ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
+
+		// Now draw the text itself on top of the box
 		if (lastActiveCue.words && lastActiveCue.words.length > 0) {
 			const currentTime = activeCueIndex !== -1 ? time : -1;
 			drawKaraokeText(ctx, canvas, lastActiveCue, currentTime, settings, particleSystem, activeCueIndex);
@@ -144,8 +156,9 @@ function drawFrame({
 	drawFastGrain(ctx, width, height, settings.effects.grain);
 }
 
-// --- PARTICLE SYSTEM with OPTIMIZED INTENSE BURSTS ---
+// --- PARTICLE SYSTEM ---
 class ParticleSystem {
+	/* This class is correct and unchanged from the previous "Final Performance" version */
 	constructor(settings, resolution) {
 		this.settings = settings;
 		this.width = resolution.width;
@@ -158,7 +171,6 @@ class ParticleSystem {
 		this.debrisChars = [...DEBRIS_CHARS, ...settings.chars];
 	}
 	triggerBurst(x, y) {
-		// B"H - Fewer particles, higher impact for performance
 		for (let i = 0; i < 25; i++) {
 			this.burstParticles.push(this.createBurstParticle({}, x, y));
 		}
@@ -167,11 +179,9 @@ class ParticleSystem {
 		p.x = x;
 		p.y = y;
 		const angle = Math.random() * Math.PI * 2;
-		// B"H - Much higher velocity for a bigger "pop"
 		const speed = 5 + Math.random() * 10;
 		p.vx = Math.cos(angle) * speed;
 		p.vy = Math.sin(angle) * speed;
-		// B"H - Shorter lifespan for faster clearing
 		p.life = 15 + Math.random() * 10;
 		p.size = (this.settings.baseSize * 0.6) + Math.random() * 6;
 		p.char = this.debrisChars[Math.floor(Math.random() * this.debrisChars.length)];
@@ -255,7 +265,6 @@ class ParticleSystem {
 				this.burstParticles.splice(i, 1);
 				continue;
 			}
-			// B"H - Add drag for more natural explosion physics
 			p.vx *= 0.97;
 			p.vy *= 0.97;
 			p.x += p.vx;
@@ -271,20 +280,13 @@ class ParticleSystem {
 
 // --- TEXT RENDERING LOGIC ---
 function drawSimpleText(ctx, canvas, cue, settings) {
+	// This function no longer needs to draw the box. It just draws the text.
 	const {
 		width,
 		height
 	} = canvas;
 	const boxSize = width * 0.9;
-	const {
-		boxColor,
-		boxOpacity,
-		font
-	} = settings;
-	const [r, g, b] = [parseInt(boxColor.substr(1, 2), 16), parseInt(boxColor.substr(3, 2), 16), parseInt(boxColor.substr(5, 2), 16)];
-	ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${boxOpacity})`;
-	ctx.fillRect((width - boxSize) / 2, (height - boxSize) / 2, boxSize, boxSize);
-	wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, font, height / 720);
+	wrapText(ctx, cue.text, width / 2, height / 2, boxSize, boxSize, settings.font, height / 720);
 }
 
 function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activeCueIndex) {
@@ -306,20 +308,18 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 		const wordInfo = layout.wordLayout[activeWordIndex];
 		if (wordInfo) {
 			const wordCenterX = wordInfo.x + wordInfo.width / 2;
-			const wordCenterY = wordInfo.y; // Already vertically centered
+			const wordCenterY = wordInfo.y;
 			particleSystem.triggerBurst(wordCenterX, wordCenterY);
 		}
 	}
 	lastActiveWordIndex = activeWordIndex;
 	lastActiveCueIndex = activeCueIndex;
 
-	// B"H - THE FIX FOR THE "DOUBLED WORD" and CENTERING BUG
 	// 1. Draw the highlight shape FIRST
 	if (activeWordIndex !== -1) {
 		const wordInfo = layout.wordLayout[activeWordIndex];
 		if (wordInfo) {
 			ctx.fillStyle = 'rgba(255, 165, 0, 0.3)';
-			// Draw the highlight perfectly centered around the word's y-position
 			ctx.fillRect(wordInfo.x - 5, wordInfo.y - lineHeight / 2, wordInfo.width + 10, lineHeight);
 		}
 	}
@@ -327,7 +327,8 @@ function drawKaraokeText(ctx, canvas, cue, time, settings, particleSystem, activ
 	layout.lines.forEach(line => {
 		if (font.borderWidth > 0) {
 			ctx.strokeStyle = font.borderColor;
-			ctx.lineWidth = font.borderWidth * scaleFactor;
+			// B"H - BUGFIX: Increased multiplier for a thicker, more visible border
+			ctx.lineWidth = font.borderWidth * scaleFactor * 2;
 			ctx.strokeText(line.text, line.x, line.y);
 		}
 		ctx.fillStyle = font.color;
@@ -345,7 +346,6 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 	}
 
 	ctx.font = `bold ${scaledFontSize}px ${HEBREW_FONT_STACK}`;
-	// B"H - CRITICAL FIX for highlight centering
 	ctx.textAlign = 'left';
 	ctx.textBaseline = 'middle';
 
@@ -374,7 +374,6 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 
 	const lineHeight = 1.4 * scaledFontSize;
 	const totalHeight = lines.length * lineHeight;
-	// B"H - Adjust startY for 'middle' baseline
 	const startY = y - totalHeight / 2 + lineHeight / 2;
 	let wordCounter = 0;
 
@@ -417,7 +416,8 @@ function wrapText(ctx, text, x, y, maxWidth, maxHeight, fontSettings, scaleFacto
 		lines.forEach(line => {
 			if (fontSettings.borderWidth > 0) {
 				ctx.strokeStyle = fontSettings.borderColor;
-				ctx.lineWidth = fontSettings.borderWidth * scaleFactor;
+				// B"H - BUGFIX: Increased multiplier for a thicker, more visible border
+				ctx.lineWidth = fontSettings.borderWidth * scaleFactor * 2;
 				ctx.strokeText(line.text, line.x, line.y);
 			}
 			ctx.fillStyle = fontSettings.color;
