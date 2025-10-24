@@ -690,7 +690,89 @@ _getHTMLToken(line, i, state) {
  * `template_literal`, `template_language_css`, `template_language_html`, and any
  * other template reality. This completes the chain of nested highlighting.
  */
+ 
+ /**
+ * @private @function _getToken
+ * @description The Universal Soul, with the wisdom of infinite recursion.
+ * This final version achieves flawless, infinitely-deep nested highlighting by
+ * unifying its logic. The flawed `_getTemplateLanguageToken` soul has been
+ * absorbed, and its amnesia-inducing temporary state has been eliminated.
+ *
+ * THE RECTIFICATION: The central dispatcher now understands that a context like
+ * `template_language_html` simply means "act as the HTML soul until you are told
+ * otherwise." It now directly calls the appropriate soul (`_getHTMLToken`, etc.)
+ * for these contexts, passing the one, true, persistent state object. When the
+ * HTML soul encounters a `<script>` tag, it pushes the new JavaScript context
+ * onto the main stack. The state is never lost. This allows the highlighter to
+ * descend into and ascend out of any number of nested realities with perfect memory.
+ */
 _getToken(line, i, state) {
+    const context = state.contextStack[state.contextStack.length - 1];
+
+    // LAW 1: Check for exits from the current context. This is the highest priority.
+    if (context.terminator && line.substring(i).startsWith(context.terminator)) {
+        const terminatorLength = context.terminator.length;
+        let type = 'string';
+        if (context.mode.includes('comment')) type = 'comment';
+        if (context.mode.includes('interpolation')) type = 'controlKeyword';
+        if (context.terminator.startsWith('</')) type = 'tag';
+        state.contextStack.pop();
+        return { html: this._wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
+    }
+
+    // LAW 2: Check for entering a nested JS context from ANY template reality.
+    if (context.mode.startsWith('template_') && line.substring(i).startsWith('${')) {
+        state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+        return { html: this._wrap('${', 'controlKeyword'), newIndex: i + 2 };
+    }
+
+    // --- LAW 3 (UNIFIED FOR INFINITE RECURSION) ---
+    // The Universal Soul now knows which specialized soul to inhabit based on the context.
+    let currentMode = context.mode;
+
+    // Treat 'template_language_xyz' as if it were just 'xyz' for parsing purposes.
+    if (currentMode.startsWith('template_language_')) {
+        currentMode = currentMode.substring(18);
+    }
+
+    switch (currentMode) {
+        case 'javascript':
+        case 'javascript_interpolation':
+            return this._getJSToken(line, i, state);
+        case 'html':
+            return this._getHTMLToken(line, i, state);
+        case 'css':
+            return this._getCssToken(line, i, state);
+
+        // Plain template literals are just string content until an interpolation or terminator.
+        case 'template_literal': {
+            const nextInterpolationIndex = line.indexOf('${', i);
+            const nextTerminatorIndex = line.indexOf('`', i);
+            let endOfChunk = line.length;
+            if (nextInterpolationIndex !== -1) { endOfChunk = nextInterpolationIndex; }
+            if (nextTerminatorIndex !== -1 && nextTerminatorIndex < endOfChunk) { endOfChunk = nextTerminatorIndex; }
+            if (endOfChunk > i) {
+                return { html: this._wrap(line.substring(i, endOfChunk), 'string'), newIndex: endOfChunk };
+            }
+            return { html: this._escape(line[i]), newIndex: i + 1 }; // Failsafe
+        }
+
+        // Handle simple comments and quoted strings.
+        case 'comment': {
+            const endIdx = line.indexOf(context.terminator, i);
+            const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
+            return { html: this._wrap(content, 'comment'), newIndex: i + content.length };
+        }
+        case 'string': {
+            const endIdx = line.indexOf(context.terminator, i);
+            const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
+            return { html: this._wrap(content, 'string'), newIndex: i + content.length };
+        }
+        default:
+            return { html: this._escape(line[i]), newIndex: i + 1 };
+    }
+}
+_getToken_old(line, i, state) {
     const context = state.contextStack[state.contextStack.length - 1];
 
     // LAW 1: Check for exits from the current context. (Unchanged)
