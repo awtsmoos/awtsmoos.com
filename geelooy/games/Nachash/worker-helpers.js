@@ -85,7 +85,7 @@ const KABBALA_NAMES = [
 ];
 
 const COLLECTIBLE_EMOJIS = Array.from(
-'🌼🌻💐🌹🌺🌸🏵️🪻🍎🍇🍉🍊🍋🍓🍒🍑🥝'.split('')
+'🌼🌻💐🌹🌺🌸🏵️🪻🍎🍇🍉🍊🍋🍓🍒🍑🥝'
 );
 const HEBREW_LETTERS = Array.from('אבגדהוזחטיכלמנסעפצקרשת');
 
@@ -253,7 +253,7 @@ class Player {
         this.body.forEach((seg, i) => { 
             const ratio = 1 - (i / this.body.length); 
             ctx.fillStyle = `hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`; 
-            ctx.beginPath(); ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); ctx.fill(); 
+            ctx.beginPath(); ctx.arc(seg.x, seg.y, this.size, 0, Math.PI * 2); ctx.fill(); 
         }); 
         ctx.fillStyle = `hsl(${color}, 100%, 70%)`; 
         ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
