@@ -78,27 +78,7 @@ class ManagerOfAllWorlds {
 
 
 
-       // alert("Staretd world manager, about to try service worker")
-        if ('serviceWorker' in navigator) {
-           // alert("Yes service")
-            // First, try to unregister any existing service worker
-            navigator.serviceWorker.getRegistrations()
-            .then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister().then(function(boolean) {
-                        console.log('Service Worker Unregistered', boolean);
-                    });
-                }
-
-                // Then, register the new service worker
-            //    self.registerServiceWorker(workerPath);
-            }).catch(function(error) {
-                console.log('Service Worker Unregistration Failed', error);
-            });
-        } else {
-        //    alert(" No service worker")
-            console.log('Service Workers not supported');
-        }
+       
             
             
 
