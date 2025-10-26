@@ -175,9 +175,11 @@ class VirtualizedEditor {
 		styleEl.innerHTML = /*css*/`
 		virtualized-editor-wrapper textarea::selection {
             background-color: transparent;
+            color: transparent
         }
         .virtualized-editor-wrapper textarea::-moz-selection { /* For Firefox */
             background-color: transparent;
+            color: this.lineHeight
         }
 		
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
@@ -210,33 +212,48 @@ class VirtualizedEditor {
 	}
 
 	/** @private @function _measureAndRender - Performs initial measurements. */
-	_measureAndRender() {
-		const performMeasurements = () => {
-			if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
-			if (!this.lineHeight) {
-				const lh = parseFloat(getComputedStyle(this.textarea).lineHeight);
-				if (lh && !isNaN(lh)) this.lineHeight = lh;
-				else return false;
-			}
-			if (!this.charWidth) {
-				const tempSpan = document.createElement('span');
-				tempSpan.style.font = getComputedStyle(this.textarea).font;
-				tempSpan.textContent = 'm';
-				this.overlay.appendChild(tempSpan);
-				this.charWidth = tempSpan.getBoundingClientRect().width;
-				tempSpan.remove();
-			}
-			return this.charWidth > 0 && this.lineHeight > 0;
-		};
-		const attemptMeasure = () => {
-			if (performMeasurements()) {
-				this._update();
-			} else {
-				setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
-			}
-		}
-		attemptMeasure();
-	}
+	/** @private @function _measureAndRender - Performs measurements and enforces an integer grid. */
+_measureAndRender() {
+    const performMeasurements = () => {
+        if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
+        
+        if (!this.lineHeight) {
+            const computed = getComputedStyle(this.textarea);
+            const lh = parseFloat(computed.lineHeight);
+            if (!lh || isNaN(lh)) return false;
+
+            // --- THE DEFINITIVE FIX IS HERE ---
+            // 1. Sanitize the measured line-height to a stable integer.
+            //    Using Math.round() is generally safest as it picks the nearest whole pixel.
+            this.lineHeight = Math.round(lh);
+
+            // 2. Enforce this integer value back onto the DOM.
+            //    This forces the browser's layout engine and our JS calculations
+            //    to use the EXACT same, unambiguous value, eliminating all drift.
+            this.textarea.style.lineHeight = `${this.lineHeight}px`;
+            this.overlay.style.lineHeight = `${this.lineHeight}px`;
+        }
+
+        if (!this.charWidth) {
+            const tempSpan = document.createElement('span');
+            tempSpan.style.font = getComputedStyle(this.textarea).font;
+            tempSpan.textContent = 'm';
+            this.overlay.appendChild(tempSpan);
+            this.charWidth = tempSpan.getBoundingClientRect().width;
+            tempSpan.remove();
+        }
+        return this.charWidth > 0 && this.lineHeight > 0;
+    };
+
+    const attemptMeasure = () => {
+        if (performMeasurements()) {
+            this._update();
+        } else {
+            setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
+        }
+    }
+    attemptMeasure();
+}
 
 	/** @private @async @function _update - Prepares state and triggers a render. */
 	/** @private @async @function _update - Prepares state and triggers a render. */
