@@ -53,8 +53,12 @@ self.onmessage = function(e) {
             resize(data);
             break;
         case 'inputRot':
-            if (state.player) state.player.turn(data.rotation * state.skillValues.turnRate);
-            break;
+    // --- CHANGE THIS LINE ---
+    // Use the rotation value directly. Do not multiply it.
+    if (state.player) state.player.turn(data.rotation); 
+    break;
+            
+            
         case 'inputUp':
              if (state.player) state.player.turning = 0;
             break;
@@ -84,8 +88,8 @@ function resize({ width, height, pixelRatio }) {
     state.ctx.scale(pixelRatio, pixelRatio);
 }
 
-function start({ skillValues }) {
-    state.skillValues = skillValues;
+function start() {
+    
     state.score = 0;
     state.sparks = [];
     state.particles = [];
