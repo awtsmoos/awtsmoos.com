@@ -1,4 +1,5 @@
-/* B"H */
+/* B"H 
+- Bulletproof CSS */
 html, body {
     margin: 0;
     padding: 0;
@@ -8,15 +9,18 @@ html, body {
     background-color: #02021a;
     color: #e0e0e0;
     overflow: hidden;
-
-    /* --- KEY CHANGE FOR CENTERING --- */
-    /* This turns the body into a flex container that centers its children. */
-    display: flex;
-    justify-content: center; /* Horizontally center */
-    align-items: center;     /* Vertically center */
 }
 
-/* This is the menu container. No position, top, left, or transform needed. */
+/* This is a container for the menu, ensuring flexbox works correctly */
+#menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* This is the actual menu content */
 #main-menu {
     background-color: #0a0a22;
     border: 2px solid #00ffff;
@@ -26,30 +30,7 @@ html, body {
     max-width: 550px;
     box-sizing: border-box;
     text-align: center;
-    
-    /* --- KEY CHANGE FOR SELECTION --- */
-    /* This explicitly tells the browser that text inside this element is selectable. */
-    user-select: text;
-}
-
-/* --- Standard Menu Text and Button Styles --- */
-h1, h2 {
-    color: #00ffff;
-    text-shadow: 0 0 15px #00ffff;
-    font-size: 3em;
-    user-select: text; /* Be extra sure headers are selectable */
-}
-
-p {
-    font-size: 1.3em;
-    user-select: text; /* Be extra sure paragraphs are selectable */
-}
-
-div[id$=Display] {
-    font-size: 1.3em;
-    color: #ffd700;
-    margin: 15px 0;
-    user-select: text; /* Be extra sure displays are selectable */
+    user-select: text; /* Ensures text is selectable */
 }
 
 .menu-button {
@@ -62,11 +43,29 @@ div[id$=Display] {
     margin-top: 10px;
     background-color: #00ffff;
     color: #111;
-    transition: transform .2s ease;
 }
 
-.menu-button:hover {
-    transform: scale(1.05);
+/* Styling for the game over screen, if it's created */
+.game-over-menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0a0a22;
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    padding: 30px;
+    width: 90%;
+    max-width: 550px;
+    text-align: center;
+    z-index: 100; /* Make sure it's on top */
 }
 
-/* We will add other menu styles back later, once this works */
+canvas {
+    /* This ensures the canvas is a distinct layer */
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
