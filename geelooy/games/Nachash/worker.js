@@ -255,7 +255,7 @@ function checkCollisionsWithGrid() {
                         smallerSnake.die();
                         biggerSnake.score += smallerSnake.score / 2;
                         state.lightningEffects.push(new Lightning(snake.x, snake.y, target.x, target.y));
-                        state.screenFlash.alpha = 0.5;
+                       // state.screenFlash.alpha = 0.5;
                     }
                 } 
                 // Head-to-body collision
