@@ -57,6 +57,19 @@ class Player {
         this.isInvincible = false;
         this.invincibleTimer = 0;
         this.cometBoost = false;
+        
+        this.isTurning = false;
+        this.targetAngle = this.angle;
+        this.turnSpeed = 0.2; 
+    }
+    
+    setTargetAngle(angle) {
+        this.isTurning = true;
+        this.targetAngle = angle;
+    }
+
+    stopTurning() {
+        this.isTurning = false;
     }
 
     turn(amount) {
@@ -66,21 +79,16 @@ class Player {
     // In worker-helpers.js -> class Player -> update()
 
 update() {
-    // --- COMMENT OUT THIS ENTIRE BLOCK TO FIX THE CONTROLS ---
-    /*
-    // Galactic Core Gravity
-    const dx = state.width/2 - this.x;
-    const dy = state.height/2 - this.y;
-    const distSq = dx*dx + dy*dy;
-    if (distSq > 2500) { // Gravity only affects outside a certain radius
-        const angleToCenter = Math.atan2(dy, dx);
-        // This logic can be complex; a simple pull towards the center:
-        this.x += dx / distSq * 50; // The '50' is a gravity strength constant
-        this.y += dy / distSq * 50;
-    }
-    */
-    // -----------------------------------------------------------
+        // --- ADD THIS SMOOTH TURNING LOGIC AT THE TOP ---
+        if (this.isTurning) {
+            let angleDifference = this.targetAngle - this.angle;
 
+            // This ensures the player takes the shortest path to the target angle
+            while (angleDifference < -Math.PI) angleDifference += 2 * Math.PI;
+            while (angleDifference > Math.PI) angleDifference -= 2 * Math.PI;
+
+            this.angle += angleDifference * this.turnSpeed;
+        }
 
     this.body.unshift({ x: this.x, y: this.y });
     if (this.body.length > this.maxLength) {

@@ -52,6 +52,14 @@ self.onmessage = function(e) {
         case 'resize':
             resize(data);
             break;
+            
+         case 'setInputAngle':
+            if (state.player) state.player.setTargetAngle(data.angle);
+            break;
+
+        case 'inputUp':
+             if (state.player) state.player.stopTurning(); // We'll add this method
+            break;
         case 'inputRot':
     // --- CHANGE THIS LINE ---
     // Use the rotation value directly. Do not multiply it.
