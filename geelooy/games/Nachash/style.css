@@ -4,6 +4,7 @@ html, body {
     font-family: 'Cormorant Garamond', serif;
     background-color: #02021a; color: #e0e0e0;
     overflow: hidden; /* Important */
+    pointer-events: none; /* Add this: Clicks will pass through the body */
 }
 .menu {
     display: none; /* Hidden by default */
@@ -20,6 +21,7 @@ html, body {
     box-sizing: border-box;
     text-align: center;
     z-index: 10; /* Ensures menus are always on top */
+    pointer-events: auto; /* Add this: Re-enables clicks for all menu elements */
 }
 .menu.visible {
     display: block; /* Makes the active menu appear */
