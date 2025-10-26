@@ -341,13 +341,15 @@ if (!window.Worker || !window.OffscreenCanvas) {
     }
 
     function showMenu(menuId) {
+        // Hide all menus
         document.querySelectorAll('.menu').forEach(m => m.classList.remove('visible'));
+        
+        // Show the specific menu if one is requested
         if (menuId) {
             document.getElementById(menuId).classList.add('visible');
-            ui.canvas.style.display = 'none';
-        } else {
-            ui.canvas.style.display = 'block';
         }
+        
+        // Always update the fragment display
         updateFragmentDisplays();
     }
     

@@ -1,4 +1,4 @@
-/*B"H*/
+/* B"H */
 
 :root {
     --bg-color: #02021a;
@@ -19,26 +19,33 @@ html, body {
     font-family: 'Cormorant Garamond', serif;
 }
 
-/* --- LAYER DEFINITIONS --- */
-#game-canvas-container, #ui-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+/* --- NEW LAYER DEFINITIONS (SIMPLIFIED) --- */
+
+/* The canvas is the permanent background */
+#gameCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Bottom layer */
 }
 
-#game-canvas-container {
-    z-index: 1; /* Game is on the bottom layer */
+/* A single overlay contains ALL UI elements */
+#ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Top layer */
+    /* This container itself is not clickable */
+    pointer-events: none;
 }
 
-#ui-container {
-    z-index: 2; /* All UI is on the top layer */
-    /* By default, the entire UI layer is CLICK-THROUGH */
-    pointer-events: none; 
-}
-
-canvas {
-    display: block; /* Canvas is always technically 'block' now */
-    width: 100%; height: 100%;
+/* All interactive UI elements must re-enable clicks */
+#ui-overlay > * {
+    pointer-events: auto;
 }
 
 /* --- MENU STYLING --- */
@@ -57,22 +64,23 @@ canvas {
     text-align: center;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     
-    /* A visible menu becomes CLICKABLE, overriding the container */
-    
-    
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.3s ease;
+    /* *** KEY CHANGE: HIDDEN BY DEFAULT *** */
+    display: none; 
 }
 
+/* *** KEY CHANGE: VISIBLE MENUS USE FLEXBOX *** */
 .menu.visible {
-    opacity: 1;
-    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* --- TYPOGRAPHY --- */
 h1 { font-size: 3.5em; color: var(--primary-cyan); text-shadow: 0 0 15px var(--primary-cyan); }
 p { font-size: 1.3em; line-height: 1.6; }
 #highScoreDisplay, #fragmentDisplay { font-size: 1.3em; color: var(--accent-gold); margin-top: 15px; }
+h2 { font-size: 3em; }
 
 /* --- BUTTONS --- */
 .menu-button, .settings-toggle, .skill-button {
@@ -85,24 +93,28 @@ p { font-size: 1.3em; line-height: 1.6; }
     margin: 10px 5px 0;
     color: var(--text-dark);
     background-color: var(--primary-cyan);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
-.menu-button:hover, .settings-toggle:hover, .skill-button:hover { transform: scale(1.05); }
-
-/* In-game UI elements that need to be clickable */
-#game-ui-controls, #pause-overlay.visible {
-    
+.menu-button:hover, .settings-toggle:hover, .skill-button:hover { 
+    transform: scale(1.05); 
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
 }
-
-/* Add any other specific styles you need below */
-#gameOverScreen h2 { font-size: 3em; color: #ff4444; }
+.button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+    margin-top: 20px;
+}
 #restartButton { background-color: #ff8800; }
-.settings-toggle { background-color: #888; color: white; }
+.settings-toggle { background-color: #888; color: white; box-shadow: none; }
 
-/* In-Game HUD Elements */
+
+/* --- In-Game HUD Elements --- */
 #top-left-ui, #lore-container, #chain-display, #game-ui-controls, #pause-overlay {
     position: absolute;
-    display: none; /* Let JS handle visibility */
+    display: none; /* JS will handle visibility */
+    opacity: 1; /* Ensure they are not transparent */
 }
 #top-left-ui { top: 20px; left: 20px; font-size: 24px; }
 #game-ui-controls { top: 20px; right: 20px; }
@@ -112,15 +124,29 @@ p { font-size: 1.3em; line-height: 1.6; }
     background: rgba(0,0,0,0.7);
     color: white; font-size: 5em;
     display: flex; justify-content: center; align-items: center;
-    opacity: 0; transition: opacity 0.3s ease;
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+    /* This element is special, it should not be clickable when invisible */
+    pointer-events: none;
 }
-#pause-overlay.visible { opacity: 1; }
+#pause-overlay.visible { 
+    opacity: 1; 
+    pointer-events: auto;
+}
 
-/* --- Dummy styles for other elements to prevent errors --- */
-.switch, .slider { display: inline-block; }
-.skill-row, .setting-row { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; }
+/* --- Other UI Elements --- */
+textarea#captionTextarea {
+    width: 100%; 
+    height: 200px;
+    background: #111; 
+    color: #fff; 
+    border: 1px solid var(--primary-cyan);
+    border-radius: 5px;
+    margin: 15px 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.skill-row, .setting-row { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; width: 100%; }
+.switch, .slider { display: inline-block; } /* Dummy styles */
 #lore-unlock-progress-bar { height: 3px; background-color: var(--primary-cyan); }
 #chain-timer-bar { height: 5px; background-color: var(--accent-gold); }
-#captionTextarea { width: 100%; height: 150px; background: #111; color: #fff; border: 1px solid #555; }
-
-
