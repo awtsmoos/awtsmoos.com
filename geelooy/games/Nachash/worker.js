@@ -8,19 +8,18 @@ const state = {
     isPaused: false,
     score: 0,
     level: 1,
-    // World and Camera
+    // --- PERFORMANCE: Smaller world reduces objects to track ---
     world: {
-        width: 4000,
-        height: 4000,
-        backgroundStripes: [],
-        backgroundEmojis: []
+        width: 2500,
+        height: 2500,
+        backgroundPatches: [] // Faster than drawing emojis
     },
     camera: {
         x: 0,
         y: 0,
         width: 0,
         height: 0,
-        zoom: 2 // Start zoomed in
+        zoom: 1.5
     },
     // Canvas and rendering
     canvas: null,
@@ -28,16 +27,18 @@ const state = {
     pixelRatio: 1,
     // Game objects
     player: null,
-    sparks: [],
+    flowers: [], // Renamed from sparks for clarity
     particles: [],
-    aiSnakes: [], // Replaces drones
+    aiSnakes: [],
+    lightningEffects: [], // For the new lightning effect
     // Timers and counters
-    sparkTimer: 0,
+    flowerTimer: 0,
     aiSnakeTimer: 0,
 };
 
-// Emojis for the background
-const BACKGROUND_EMOJIS = ['🌿', '🌼', '🌻', '💐', '🌹', '🥀', '🌺', '🌸', '💮', '🏵️', '🪻', '🍃', '🪵', '🪹'];
+// --- VISUALS: Only flower emojis are collectibles ---
+const FLOWER_EMOJIS = Array.from('🌼🌻💐🌹🌺🌸🏵️🪻');
+const HEBREW_LETTERS = Array.from('אבגדהוזחטיכלמנסעפצקרשת');
 
 self.onmessage = function(e) {
     const { type, ...data } = e.data;
@@ -60,10 +61,9 @@ self.onmessage = function(e) {
     }
 };
 
-function init({ canvas, width, height, pixelRatio, initialSettings }) {
+function init({ canvas, width, height, pixelRatio }) {
     state.canvas = canvas;
     state.ctx = canvas.getContext('2d');
-    state.skillValues = initialSettings.skillValues;
     resize(width, height, pixelRatio);
     generateBackground();
 }
@@ -77,252 +77,235 @@ function resize(width, height, pixelRatio) {
     state.ctx.scale(pixelRatio, pixelRatio);
 }
 
+// --- PERFORMANCE & VISUALS: New, faster background generation ---
 function generateBackground() {
-    // Generate grass stripes
-    for (let i = 0; i < 100; i++) {
-        state.world.backgroundStripes.push({
-            y: Math.random() * state.world.height,
-            height: Math.random() * 50 + 20,
-            color: `hsl(120, 60%, ${Math.random() * 15 + 25}%)` // Shades of dark green
-        });
-    }
-    // Generate random emojis
-    const emojiArray = Array.from(BACKGROUND_EMOJIS);
-    for (let i = 0; i < 500; i++) {
-        state.world.backgroundEmojis.push({
-            char: emojiArray[Math.floor(Math.random() * emojiArray.length)],
-            x: Math.random() * state.world.width,
-            y: Math.random() * state.world.height,
-            size: Math.random() * 20 + 20
-        });
+    state.world.backgroundPatches = [];
+    const patchSize = 50;
+    for (let x = 0; x < state.world.width; x += patchSize) {
+        for (let y = 0; y < state.world.height; y += patchSize) {
+            // Creates a textured look with shades of green and brown
+            const colorType = Math.random();
+            let color;
+            if (colorType < 0.8) { // 80% chance of grass
+                color = `hsl(120, 30%, ${20 + Math.random() * 15}%)`;
+            } else { // 20% chance of dirt
+                color = `hsl(30, 30%, ${15 + Math.random() * 10}%)`;
+            }
+            state.world.backgroundPatches.push({ x, y, size: patchSize, color });
+        }
     }
 }
 
 function start() {
     state.score = 0;
     state.level = 1;
-    state.sparks = [];
+    state.flowers = [];
     state.particles = [];
     state.aiSnakes = [];
+    state.lightningEffects = [];
 
-    const startX = state.world.width / 2;
-    const startY = state.world.height / 2;
+    state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
 
-    state.player = new Player(startX, startY, 20); // Player starts with length 20
-
-    for (let i = 0; i < 200; i++) { // More sparks for a big world
-        spawnSpark();
+    for (let i = 0; i < 150; i++) {
+        spawnFlower();
     }
-
-    const initialSnakeCount = 5 + Math.floor(state.level / 2);
-    for (let i = 0; i < initialSnakeCount; i++) { 
+    // --- AI: More snakes from the start ---
+    for (let i = 0; i < 10; i++) {
         spawnAiSnake();
     }
 
     state.isRunning = true;
-    state.isPaused = false;
     gameLoop();
 }
 
 function updateCamera() {
-    const { camera, player, canvas } = state;
-    const targetZoom = 1.5; // Example target zoom level
+    const { camera, player } = state;
+    const targetZoom = 1.5;
+    const targetX = player.x - (camera.width / 2 / camera.zoom);
+    const targetY = player.y - (camera.height / 2 / camera.zoom);
     
-    // Smoothly follow the player
-    const targetX = player.x - (camera.width / 2 / targetZoom);
-    const targetY = player.y - (camera.height / 2 / targetZoom);
-    
-    camera.x += (targetX - camera.x) * 0.08;
-    camera.y += (targetY - camera.y) * 0.08;
+    camera.x += (targetX - camera.x) * 0.1;
+    camera.y += (targetY - camera.y) * 0.1;
     camera.zoom += (targetZoom - camera.zoom) * 0.02;
 
-    // Clamp camera to world boundaries
     camera.x = Math.max(0, Math.min(camera.x, state.world.width - (camera.width / camera.zoom)));
     camera.y = Math.max(0, Math.min(camera.y, state.world.height - (camera.height / camera.zoom)));
 }
 
 function gameLoop() {
-    if (!state.isRunning || state.isPaused) return;
-
+    if (!state.isRunning) return;
     update();
     draw();
-
     requestAnimationFrame(gameLoop);
 }
 
 function update() {
-    const { player, sparks, particles, aiSnakes } = state;
+    state.player.update();
+    state.aiSnakes.forEach(s => s.update());
+    state.particles.forEach(p => p.update());
+    state.lightningEffects.forEach(l => l.update());
 
-    player.update();
-
-    // Update game objects
-    particles.forEach(p => p.update());
-    aiSnakes.forEach(s => s.update());
-
-    // Collision detection
     checkCollisions();
-
-    // Timers and spawning
     updateTimers();
 
-    // Clean up dead particles and snakes
-    state.particles = particles.filter(p => p.life > 0);
+    // Cleanup dead objects
+    state.particles = state.particles.filter(p => p.life > 0);
     state.aiSnakes = state.aiSnakes.filter(s => s.isAlive);
+    state.lightningEffects = state.lightningEffects.filter(l => l.life > 0);
     
-    // Update camera position
     updateCamera();
 }
 
 function draw() {
-    const { ctx, camera, player, sparks, particles, aiSnakes } = state;
+    const { ctx, camera, player, flowers, aiSnakes, particles, lightningEffects } = state;
 
     ctx.save();
-    ctx.clearRect(0, 0, camera.width, camera.height);
+    ctx.fillStyle = '#1a2d1a'; // Dark green base
+    ctx.fillRect(0, 0, camera.width, camera.height);
 
-    // Apply camera zoom and translation
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // Draw Background
     drawBackground(ctx);
 
-    // Draw Game Objects
-    sparks.forEach(s => s.draw(ctx));
+    flowers.forEach(s => s.draw(ctx));
     aiSnakes.forEach(s => s.draw(ctx));
     player.draw(ctx);
     particles.forEach(p => p.draw(ctx));
+    lightningEffects.forEach(l => l.draw(ctx));
 
     ctx.restore();
 
-    // Draw UI (Score, etc.) - This is drawn without camera transforms
+    // UI - No shadow for performance
     ctx.fillStyle = 'white';
     ctx.font = '24px "Cormorant Garamond"';
-    ctx.shadowColor = 'black';
-    ctx.shadowBlur = 5;
     ctx.fillText(`Score: ${state.score}`, 20, 40);
-    ctx.shadowBlur = 0;
 }
-
-
-
 
 function drawBackground(ctx) {
-    // Base color
-    ctx.fillStyle = '#2a5c2a'; // A dark grass green
-    ctx.fillRect(0, 0, state.world.width, state.world.height);
-
-    // Stripes
-    state.world.backgroundStripes.forEach(stripe => {
-        ctx.fillStyle = stripe.color;
-        ctx.fillRect(0, stripe.y, state.world.width, stripe.height);
-    });
-
-    // Emojis - Using Array.from to ensure they render correctly
-    ctx.font = '30px sans-serif'; 
-    state.world.backgroundEmojis.forEach(emoji => {
-        ctx.fillText(emoji.char, emoji.x, emoji.y);
-    });
+    const { camera } = state;
+    // --- PERFORMANCE: Only draw patches visible to the camera ---
+    const view = {
+        x: camera.x,
+        y: camera.y,
+        right: camera.x + (camera.width / camera.zoom),
+        bottom: camera.y + (camera.height / camera.zoom)
+    };
     
+    state.world.backgroundPatches.forEach(patch => {
+        if (patch.x < view.right && patch.x + patch.size > view.x &&
+            patch.y < view.bottom && patch.y + patch.size > view.y) {
+            ctx.fillStyle = patch.color;
+            ctx.fillRect(patch.x, patch.y, patch.size, patch.size);
+        }
+    });
+
     // Border
-    ctx.strokeStyle = 'rgba(139, 69, 19, 0.5)'; // Brown, semi-transparent
-    ctx.lineWidth = 40; // A thick border
+    ctx.strokeStyle = '#5a3a22';
+    ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, state.world.width - 40, state.world.height - 40);
-
 }
-
-
-
-
-
 
 function gameOver() {
     state.isRunning = false;
     self.postMessage({ type: 'gameover', finalScore: state.score });
 }
 
-function spawnSpark() {
-    const spark = new Spark(
+function spawnFlower() {
+    const flower = new Flower(
         Math.random() * (state.world.width - 100) + 50,
-        Math.random() * (state.world.height - 100) + 50
+        Math.random() * (state.world.height - 100) + 50,
+        FLOWER_EMOJIS[Math.floor(Math.random() * FLOWER_EMOJIS.length)]
     );
-    state.sparks.push(spark);
+    state.flowers.push(flower);
 }
 
 function spawnAiSnake() {
     const snake = new AiSnake(
         Math.random() * state.world.width,
         Math.random() * state.world.height,
-        Math.floor(Math.random() * 15) + (5 * state.level), // Gets longer at higher levels
-        `hsl(${Math.random() * 360}, 70%, 50%)` // Random color
+        Math.floor(Math.random() * 10) + 5 + state.level,
+        `hsl(${Math.random() * 360}, 90%, 60%)`
     );
     state.aiSnakes.push(snake);
 }
 
-
 function updateTimers() {
-    // Spawn more sparks if needed
-    state.sparkTimer++;
-    if (state.sparkTimer > 50 && state.sparks.length < 400) {
-        state.sparkTimer = 0;
-        spawnSpark();
+    state.flowerTimer++;
+    if (state.flowerTimer > 20 && state.flowers.length < 250) {
+        state.flowerTimer = 0;
+        spawnFlower();
     }
 
-    // Spawn more AI snakes as the game progresses
     state.aiSnakeTimer++;
-    const requiredSnakes = 5 + state.level * 2;
-    if (state.aiSnakeTimer > 400 && state.aiSnakes.length < requiredSnakes) {
+    const maxSnakes = 10 + state.level * 3; // --- AI: More aggressive scaling ---
+    if (state.aiSnakeTimer > 300 && state.aiSnakes.length < maxSnakes) {
         state.aiSnakeTimer = 0;
         spawnAiSnake();
-        state.level++; // Increase level when a new snake spawns
+        state.level++;
     }
 }
 
+// --- GAMEPLAY: Rewritten collision logic ---
 function checkCollisions() {
-    const { player, sparks, aiSnakes } = state;
+    const { player, flowers, aiSnakes } = state;
     const playerHead = { x: player.x, y: player.y, size: player.size };
 
-    // Player head with sparks
-    for (let i = sparks.length - 1; i >= 0; i--) {
-        const spark = sparks[i];
-        if (getDistance(playerHead.x, playerHead.y, spark.x, spark.y) < playerHead.size + spark.size) {
-            sparks.splice(i, 1);
+    // Player collects flowers
+    for (let i = flowers.length - 1; i >= 0; i--) {
+        const flower = flowers[i];
+        if (getDistance(playerHead.x, playerHead.y, flower.x, flower.y) < playerHead.size + flower.size) {
+            const collectedFlower = flowers.splice(i, 1)[0];
             state.score += 10;
             player.grow(1);
             self.postMessage({ type: 'playSound', name: 'collect' });
             
-            for (let p = 0; p < 5; p++) {
-                state.particles.push(new Particle(spark.x, spark.y, 'gold'));
+            // --- VISUALS: Spawn Hebrew Letter Particles ---
+            for (let p = 0; p < 10; p++) {
+                const letter = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)];
+                state.particles.push(new Particle(collectedFlower.x, collectedFlower.y, `hsl(${Math.random() * 360}, 100%, 80%)`, letter));
             }
         }
     }
 
-    // Player interactions with AI snakes
-    for (const enemy of aiSnakes) {
+    // Interactions between player and AI snakes
+    for (let i = aiSnakes.length - 1; i >= 0; i--) {
+        const enemy = aiSnakes[i];
         if (!enemy.isAlive) continue;
 
-        // Player hits enemy head -> enemy dies
+        // Rule: Player head hits AI head -> AI dies
         if (getDistance(playerHead.x, playerHead.y, enemy.x, enemy.y) < playerHead.size + enemy.size) {
-            enemy.die(); 
-            state.score += 100;
-            self.postMessage({ type: 'playSound', name: 'hit' });
-        } else {
-            // Player hits enemy body -> game over
-            for (let i = 1; i < enemy.body.length; i++) {
-                const seg = enemy.body[i];
-                 if (getDistance(playerHead.x, playerHead.y, seg.x, seg.y) < playerHead.size) {
-                    gameOver();
-                    return;
-                }
+            enemy.die();
+            state.score += 50;
+            state.lightningEffects.push(new Lightning(playerHead.x, playerHead.y, enemy.x, enemy.y));
+            continue; // Skip other checks for this snake
+        }
+
+        // Rule: Player head hits AI body -> Player dies
+        for (const seg of enemy.body) {
+            if (getDistance(playerHead.x, playerHead.y, seg.x, seg.y) < player.size) {
+                gameOver();
+                return;
+            }
+        }
+
+        // Rule: AI head hits player body -> AI dies
+        for (const seg of player.body) {
+            if (getDistance(enemy.x, enemy.y, seg.x, seg.y) < enemy.size) {
+                enemy.die();
+                state.score += 25;
+                state.lightningEffects.push(new Lightning(enemy.x, enemy.y, seg.x, seg.y));
+                break; // Stop checking this AI's head against the player's body
             }
         }
     }
     
-    // AI snake head with sparks
+    // AI snakes collect flowers
     for (const snake of aiSnakes) {
-        for (let i = sparks.length - 1; i >= 0; i--) {
-            const spark = sparks[i];
-            if (getDistance(snake.x, snake.y, spark.x, spark.y) < snake.size + spark.size) {
-                sparks.splice(i, 1);
+        for (let i = flowers.length - 1; i >= 0; i--) {
+            const flower = flowers[i];
+            if (getDistance(snake.x, snake.y, flower.x, flower.y) < snake.size + flower.size) {
+                flowers.splice(i, 1);
                 snake.grow(1);
             }
         }
