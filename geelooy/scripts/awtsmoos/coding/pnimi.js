@@ -262,8 +262,6 @@ class VirtualizedEditor {
 	}
 
 	/** @private @async @function _update - Prepares state and triggers a render. */
-	/** @private @async @function _update - Prepares state and triggers a render. */
-	/** @private @async @function _update - Prepares state and triggers a render. */
 	async _update() {
 		const txt = this.textarea.value;
 		try {

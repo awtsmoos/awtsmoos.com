@@ -66,21 +66,21 @@ self.addEventListener('fetch', (event) => {
     // --- 1. Skip caching for specific request types ---
     // Don't cache POST requests
     if (request.method === 'POST') {
-        console.log('Service Worker: Skipping caching for POST request:', request.url);
+       
         return event.respondWith(fetch(request));
     }
 
     // Don't cache OPTIONS (preflight) requests
     if (request.method === 'OPTIONS') {
-        console.log('Service Worker: Skipping caching for OPTIONS request:', request.url);
-        return event.respondWith(fetch(request));
+       
+       return event.respondWith(fetch(request));
     }
 
     // Don't cache requests for specific file extensions
     const fileExtension = requestUrl.pathname.substring(requestUrl.pathname.lastIndexOf('.')).toLowerCase();
     if (NO_CACHE_EXTENSIONS.includes(fileExtension)) {
-        console.log(`Service Worker: Skipping caching for extension "${fileExtension}":`, request.url);
-        return event.respondWith(fetch(request));
+       
+       return event.respondWith(fetch(request));
     }
 
     // --- 2. Network-first strategy with cache fallback and offline support ---
@@ -127,10 +127,7 @@ self.addEventListener('fetch', (event) => {
             console.error('Service Worker: Error opening cache, falling back to network-only:', cacheOpenError);
             return fetch(request).catch((finalNetworkError) => {
                 console.error('Service Worker: Network failed and cache failed for:', request.url, finalNetworkError);
-                // If all else fails, serve the offline page if it's a navigation request
-                if (request.mode === 'navigate') {
-                    return caches.match(OFFLINE_URL);
-                }
+             
                 // For other requests (e.g., images, scripts) if truly nothing works,
                 // the browser will typically show its own network error.
                 throw finalNetworkError; // Re-throw to indicate a complete failure
