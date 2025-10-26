@@ -1,5 +1,6 @@
 //B"H
   if ('serviceWorker' in navigator) {
+  	console. log("getting worker ");
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js')
         .then((registration) => {
@@ -9,4 +10,8 @@
           console.error('Service Worker registration failed:', error);
         });
     });
+    
+  } else {
+  	console.log("no service worker")
+  
   }
