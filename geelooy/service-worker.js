@@ -2,7 +2,7 @@
  * B"H
  */
 
-const CACHE_NAME = 'my-site-cache-v1';
+const CACHE_NAME = 'awtsmoos';
 
 console.log("Service Worker loading!");
 
