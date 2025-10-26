@@ -1,6 +1,8 @@
 //B"H
 import awtsmoosStyle from "./style.js";
-import codeify from "/scripts/awtsmoos/coding/make.js"; 
+import codeify from 
+//"/scripts/awtsmoos/coding/make.js"; 
+"/scripts/awtsmoos/coding/pnimi.js"
 export default ({
     fileName, 
     content,
@@ -132,10 +134,10 @@ export default ({
     fileNameHeader.textContent = fileName;
 
 
-  const contentDiv = document.createElement('div');
+  const contentDiv = document.createElement('textarea');
   // Create the content editable div
-  contentDiv.classList.add('content-editable');
-  contentDiv.setAttribute('contenteditable', 'true');
+ // contentDiv.classList.add('content-editable');
+ // contentDiv.setAttribute('contenteditable', 'true');
   contentDiv.innerText = content;
 
   const contentHolder = document.createElement('div');
