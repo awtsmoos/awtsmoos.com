@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (bestMove) {
             // Display whether it was a book move or a calculated one
 			const moveSource = score === "Book Move" ? "Book Move" : `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
-			messageDiv.textContent = `AI moved. (${moveSource})`;
+			messageDiv.textContent += `AI moved. (${moveSource})`;
 			
             // =================================================================
 			//                          *** THE FIX ***
@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isItAIsTurn) {
 				startAIMove();
 			} else {
-				messageDiv.textContent = `${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
+				messageDiv.textContent += `${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
 			}
 		}
 	}
@@ -571,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const fenForHistory = fen.split(' ').slice(0, 4).join(' ');
 		gameState.fenHistory.push(fenForHistory);
 
-		messageDiv.textContent = `${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
+		messageDiv.textContent += `${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
 		setTimeout(() => {
 			aiWorker.postMessage({
 				command: 'calculate_move',
@@ -866,14 +866,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		drawCapturedPieces();
 		switch (mode) {
 			case 'pva':
-				messageDiv.textContent = `You are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
+				messageDiv.textContent += `You are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
 				if (playerColor === 'b') startAIMove();
 				break;
 			case 'pvp':
-				messageDiv.textContent = "White's turn to move.";
+				messageDiv.textContent += "White's turn to move.";
 				break;
 			case 'ava':
-				messageDiv.textContent = "AI vs AI. White to move.";
+				messageDiv.textContent += "AI vs AI. White to move.";
 				startAIMove();
 				break;
 		}
@@ -886,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		gameOverOverlay.style.display = 'none';
 		chessContainer.style.display = 'none';
 		mainMenu.style.display = 'flex';
-		messageDiv.textContent = '';
+		messageDiv.textContent += '';
 		gameContainer.classList.add("hidden")
 	});
 	downloadButton.addEventListener('click', () => {
