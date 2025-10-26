@@ -59,8 +59,34 @@ function getDistance(x1, y1, x2, y2) { const dx = x1 - x2; const dy = y1 - y2; r
 class ObjectPool { /* ... (Same as previous version, no changes needed) ... */ constructor(createFn, initialSize) { this._createFn = createFn; this._pool = []; this.last = null; for (let i = 0; i < initialSize; i++) { this._pool.push(this._createFn()); } } get() { if (this._pool.length > 0) { this.last = this._pool.pop(); } else { this.last = this._createFn(); } return this.last; } release(obj) { obj.reset(); this._pool.push(obj); } reset() { this._pool.forEach(obj => obj.reset()); } }
 
 // --- GAME OBJECTS ---
-const KABBALA_NAMES = ['Samael', 'Lilith', 'Tannin', 'Leviathan', 'Rahab', 'Behemoth', 'Ophion', 'Metatron'];
-const COLLECTIBLE_EMOJIS = '🌼🌻💐🌹🌺🌸🏵️🪻🍎🍇🍉🍊🍋🍓🍒🍑🥝'.split('');
+const KABBALA_NAMES = [
+    // Angels & Archangels
+    'Metatron', 'Sandalphon', 'Raziel', 'Tzaphqiel', 'Tzadkiel', 'Camael', 
+    'Raphael', 'Haniel', 'Michael', 'Gabriel', 'Uriel', 'Azrael', 'Jophiel',
+    'Zadkiel', 'Nuriel', 'Pravuil', 'Zagzagel', 'Hadraniel', 'Galgaliel',
+    'Kokabiel', 'Suriel', 'Cassiel', 'Sachiel', 'Anael', 'Orifiel',
+    
+    // Demonic & Adversarial Figures
+    'Samael', 'Lilith', 'Asmodeus', 'Agrat', 'Mahalat', 'Naamah', 'Eisheth',
+    'Belial', 'Mastema', 'Azazel', 'Beelzebub', 'Abaddon', 'Dumah',
+    'Rahab', 'Shemyaza', 'Sariel', 'Ananel', 'Tamiel', 'Ramiel',
+
+    // mystical Creatures & Concepts
+    'Leviathan', 'Behemoth', 'Ziz', 'Tannin', 'Ophion', 'Golem', 'Dybbuk',
+    'Nephilim', 'Seraphim', 'Cherubim', 'Ophanim', 'Chayot', 'Arelim',
+
+    // Sephirot (Divine Emanations)
+    'Keter', 'Chokmah', 'Binah', 'Chesed', 'Geburah', 'Tiferet', 'Netzach', 
+    'Hod', 'Yesod', 'Malkuth', 'Daat',
+
+    // Other Mystical Terms
+    'EinSof', 'Tohu', 'Bohu', 'Chashmal', 'Merkabah', 'Yetzirah', 'Beriah',
+    'Atziluth', 'Assiah', 'Qliphoth', 'Shekhinah'
+];
+
+const COLLECTIBLE_EMOJIS = Array.from(
+'🌼🌻💐🌹🌺🌸🏵️🪻🍎🍇🍉🍊🍋🍓🍒🍑🥝'.split('')
+);
 const HEBREW_LETTERS = Array.from('אבגדהוזחטיכלמנסעפצקרשת');
 
 function generateAiName() {
@@ -243,6 +269,7 @@ class Player {
 
 
 // --- FIX: New, robust, and performant background drawing function ---
+// --- NEW: Advanced, Multi-Layered Background Drawing Function ---
 function drawBackground(ctx) {
     const { camera, world } = state;
     const view = {
@@ -252,35 +279,63 @@ function drawBackground(ctx) {
         bottom: camera.y + (camera.height / camera.zoom)
     };
     
-    const patchSize = 250; // Larger patches for better performance
+    const patchSize = 200; // The size of our main terrain blocks
 
-    // Calculate which patches are visible to the camera
+    // Calculate the range of blocks visible to the camera
     const startCol = Math.floor(view.x / patchSize);
     const endCol = Math.ceil(view.right / patchSize);
     const startRow = Math.floor(view.y / patchSize);
     const endRow = Math.ceil(view.bottom / patchSize);
 
-    // Loop only through the visible patches to ensure maximum performance
+    // Loop only through the visible blocks for maximum performance
     for (let row = startRow; row < endRow; row++) {
         for (let col = startCol; col < endCol; col++) {
-            // Use a deterministic "random" number so patches always keep their same color
-            const rand = Math.sin(col * 10.2 + row * 5.4) * 10000;
-            const colorType = rand - Math.floor(rand); // A consistent value between 0 and 1
+            // Use a deterministic "random" seed for each block so it's always the same
+            const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
+            const rand = () => {
+                const x = Math.sin(seed * (col + row + 1)) * 10000;
+                return x - Math.floor(x);
+            };
 
-            let color;
-            if (colorType < 0.85) { // 85% chance for grass
-                 color = `hsl(110, 25%, ${20 + (colorType * 15)}%)`; // Shades of green
-            } else { // 15% chance for dirt
-                 color = `hsl(30, 20%, ${18 + (colorType * 10)}%)`; // Shades of brown
+            // --- Layer 1: Base Terrain Color ---
+            const terrainType = rand();
+            let baseColor;
+            if (terrainType < 0.8) { // 80% Grass
+                baseColor = `hsl(105, 28%, ${22 + rand() * 10}%)`;
+            } else if (terrainType < 0.95) { // 15% Dirt
+                baseColor = `hsl(30, 30%, ${18 + rand() * 8}%)`;
+            } else { // 5% Rocky Ground
+                baseColor = `hsl(25, 10%, ${25 + rand() * 10}%)`;
             }
-            
-            ctx.fillStyle = color;
+            ctx.fillStyle = baseColor;
             ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
+
+            // --- Layer 2: Texture & Detail ---
+            // Add smaller patches on top to create a textured look
+            for (let i = 0; i < 15; i++) { // Add 15 texture patches per block
+                const textureX = col * patchSize + rand() * patchSize;
+                const textureY = row * patchSize + rand() * patchSize;
+                const textureSize = rand() * 20 + 10;
+                
+                // Use a slightly lighter or darker shade of the base color
+                const colorVariation = (rand() - 0.5) * 10;
+                ctx.fillStyle = `hsl(${parseInt(baseColor.substring(4,7))}, ${parseInt(baseColor.substring(9,11))}%, ${parseInt(baseColor.substring(13,15)) + colorVariation}%)`;
+                ctx.fillRect(textureX, textureY, textureSize, textureSize);
+            }
+             // --- Layer 3: Highlights (Simulates pebbles or grass blades) ---
+             if(rand() > 0.6) { // Only on some patches
+                for (let i = 0; i < 5; i++) {
+                     const pebbleX = col * patchSize + rand() * patchSize;
+                     const pebbleY = row * patchSize + rand() * patchSize;
+                     ctx.fillStyle = `rgba(255, 255, 255, ${0.05 + rand() * 0.05})`;
+                     ctx.fillRect(pebbleX, pebbleY, 2, 2);
+                }
+             }
         }
     }
     
-    // Draw the outer world border
-    ctx.strokeStyle = '#3a2a12';
+    // Draw the outer world border (drawn last, on top of everything)
+    ctx.strokeStyle = '#241a0c'; // Darker, richer brown
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
