@@ -81,6 +81,18 @@ class Player {
         this.isAlive = true;
         this.score = 0;
     }
+
+    // --- FIX: ADD THIS METHOD BACK ---
+    setTargetAngle(angle) {
+        this.isTurning = true;
+        this.targetAngle = angle;
+    }
+
+    // --- FIX: AND ADD THIS METHOD BACK ---
+    stopTurning() {
+        this.isTurning = false;
+    }
+
     update() {
         if (!this.isAlive) return;
         if (this.isTurning) {
@@ -96,11 +108,52 @@ class Player {
         this.handleBorders();
         state.score = this.score; // Update global score
     }
-    handleBorders() { /* ... (Same border logic) ... */ const { width, height } = state.world; const pad = this.borderPadding; if ((this.x < pad && Math.cos(this.angle) < 0) || (this.x > width - pad && Math.cos(this.angle) > 0)) { this.angle = Math.PI - this.angle; } if ((this.y < pad && Math.sin(this.angle) < 0) || (this.y > height - pad && Math.sin(this.angle) > 0)) { this.angle = -this.angle; } this.x = Math.max(pad, Math.min(width - pad, this.x)); this.y = Math.max(pad, Math.min(height - pad, this.y));}
-    draw(ctx) { /* ... (Same drawing logic) ... */ const color = 120; this.body.forEach((seg, i) => { const ratio = 1 - (i / this.body.length); ctx.fillStyle = `hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`; ctx.beginPath(); ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); ctx.fill(); }); ctx.fillStyle = `hsl(${color}, 100%, 70%)`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-    grow(amount) { this.maxLength += amount; }
-    die() { if (this.type === 'player') gameOver(); this.isAlive = false; }
+    
+    handleBorders() { 
+        const { width, height } = state.world; 
+        const pad = this.borderPadding; 
+        if ((this.x < pad && Math.cos(this.angle) < 0) || (this.x > width - pad && Math.cos(this.angle) > 0)) { 
+            this.angle = Math.PI - this.angle; 
+        } 
+        if ((this.y < pad && Math.sin(this.angle) < 0) || (this.y > height - pad && Math.sin(this.angle) > 0)) { 
+            this.angle = -this.angle; 
+        } 
+        this.x = Math.max(pad, Math.min(width - pad, this.x)); 
+        this.y = Math.max(pad, Math.min(height - pad, this.y));
+    }
+    
+    draw(ctx) { 
+        const color = 120; 
+        this.body.forEach((seg, i) => { 
+            const ratio = 1 - (i / this.body.length); 
+            ctx.fillStyle = `hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`; 
+            ctx.beginPath(); 
+            ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); 
+            ctx.fill(); 
+        }); 
+        ctx.fillStyle = `hsl(${color}, 100%, 70%)`; 
+        ctx.beginPath(); 
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
+        ctx.fill(); 
+    }
+    
+    grow(amount) { 
+        this.maxLength += amount; 
+    }
+    
+    die() { 
+        if (this.type === 'player') gameOver(); 
+        this.isAlive = false; 
+    }
 }
+
+
+
+
+
+
+
+
 
 class AiSnake extends Player {
     constructor(x, y, length) {
