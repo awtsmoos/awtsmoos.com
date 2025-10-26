@@ -19,10 +19,12 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
+        	
           if (cache !== CACHE_NAME) {
             console.log('Service Worker: Deleting old cache:', cache);
             return caches.delete(cache);
           }
+          
         })
       );
     })
@@ -32,6 +34,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.open(CACHE_NAME).then((cache) => {
+      try {
       return cache.match(event.request).then((cachedResponse) => {
         const fetchPromise = fetch(event.request).then((networkResponse) => {
           // If we get a valid response, we clone it and store it in the cache.
@@ -44,6 +47,9 @@ self.addEventListener('fetch', (event) => {
         // Return the cached response if it exists, otherwise wait for the network response.
         return cachedResponse || fetchPromise;
       });
+      } catch(e) {
+      
+      }
     })
   );
 });
