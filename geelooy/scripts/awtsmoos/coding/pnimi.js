@@ -179,7 +179,13 @@ class VirtualizedEditor {
         }
         .virtualized-editor-wrapper textarea::-moz-selection { /* For Firefox */
             background-color: transparent;
-            color: this.lineHeight
+            color: transparent;
+        }
+        
+        
+        .virtualized-editor-wrapper textarea::-webkit-selection { /* For Firefox */
+            background-color: transparent;
+            color: transparent;
         }
 		
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
