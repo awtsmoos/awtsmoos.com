@@ -159,10 +159,7 @@ export const FileSystemProvider = {
         /**
          * The 'read' method. It will now work because getHandle is correct.
          */
-        // B"H
-// FILE: js/fs-provider.js
-
-// ... inside the FileSystemProvider.Local object ...
+      
 
         // REPLACE your existing 'read' function with this one.
         async read({ handle, path }) {
@@ -185,7 +182,7 @@ export const FileSystemProvider = {
             // Get the file handle, creating the file if it doesn't exist.
             const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
             const writable = await fileHandle.createWritable();
-            await writable.write(content);
+            await writable.write({data: content});
             await writable.close();
         },
 
