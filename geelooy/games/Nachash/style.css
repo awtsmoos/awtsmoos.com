@@ -33,7 +33,7 @@ html, body {
 #ui-container {
     z-index: 2; /* All UI is on the top layer */
     /* By default, the entire UI layer is CLICK-THROUGH */
-    
+    pointer-events: none; 
 }
 
 canvas {
@@ -66,6 +66,7 @@ canvas {
 
 .menu.visible {
     opacity: 1;
+    pointer-events: auto;
 }
 
 /* --- TYPOGRAPHY --- */
