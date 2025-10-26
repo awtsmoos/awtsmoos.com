@@ -206,6 +206,9 @@ class VirtualizedEditor {
 	_attachEventListeners() {
 		this.textarea.addEventListener('input', () => this._update());
 
+		// Add the keydown listener here
+		this.textarea.addEventListener('keydown', (e) => this._handleKeyDown(e));
+
 		const onScroll = () => window.requestAnimationFrame(() => {
 			this._render();
 			this._updateCaret();
@@ -214,7 +217,7 @@ class VirtualizedEditor {
 
 		new ResizeObserver(onScroll).observe(this.wrapper);
 		this.textarea.addEventListener('scroll', onScroll);
-		['click', 'keyup', 'keydown', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
+		['click', 'keyup', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
 	}
 
 	/** @private @function _measureAndRender - Performs initial measurements. */
@@ -327,6 +330,72 @@ class VirtualizedEditor {
 			scrollTopAtRequest: scrollTop,
 			scrollLeftAtRequest: scrollLeft
 		});
+	}
+	
+	/** @private @function _handleKeyDown - Handles special key presses like Tab. */
+	_handleKeyDown(e) {
+		if (e.key === 'Tab') {
+			e.preventDefault(); // Prevent default focus change
+
+			const start = this.textarea.selectionStart;
+			const end = this.textarea.selectionEnd;
+			const value = this.textarea.value;
+
+			// Find the start and end lines of the selection
+			let startLine = (value.substring(0, start).match(/\n/g) || []).length;
+			let endLine = (value.substring(0, end).match(/\n/g) || []).length;
+
+			const lines = value.split('\n');
+
+			if (startLine !== endLine || (end - start) > 0) { // Multi-line selection
+				for (let i = startLine; i <= endLine; i++) {
+					if (e.shiftKey) { // Un-indent
+						if (lines[i].startsWith('\t')) {
+							lines[i] = lines[i].substring(1);
+						} else if (lines[i].startsWith('    ')) { // Or handle spaces
+							lines[i] = lines[i].substring(4);
+						}
+					} else { // Indent
+						lines[i] = '\t' + lines[i];
+					}
+				}
+
+				const newValue = lines.join('\n');
+				this.textarea.value = newValue;
+
+				// Recalculate selection
+				let newStart = 0;
+				for (let i = 0; i < startLine; i++) {
+					newStart += lines[i].length + 1;
+				}
+
+				let newEnd = newStart;
+				for (let i = startLine; i <= endLine; i++) {
+					newEnd += lines[i].length + (i < endLine ? 1 : 0);
+				}
+
+				if (e.shiftKey) {
+					newStart = Math.max(newStart, start - 1);
+					newEnd = Math.max(newEnd, end - (endLine - startLine + 1));
+				} else {
+					newEnd = end + (endLine - startLine + 1);
+				}
+
+
+				this.textarea.selectionStart = start + (e.shiftKey ? -1 : 1);
+				this.textarea.selectionEnd = newEnd;
+
+
+			} else { // Single line or no selection
+				if (e.shiftKey) {
+					// Potentially un-indent the current line here if desired
+				} else {
+					this.textarea.setRangeText('\t', start, end, 'end');
+				}
+			}
+
+			this._update(); // Re-render after changing the value
+		}
 	}
 
 
