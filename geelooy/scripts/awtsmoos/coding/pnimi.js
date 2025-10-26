@@ -67,14 +67,14 @@ class VirtualizedEditor {
 
 		this.textarea = textarea;
 		this.language = language;
-		
+
 		// The Body is now aware of its current rendered state.
-    this.currentFirstLine = 0;
-    
-		
+		this.currentFirstLine = 0;
+
+
 		this.latestRequestId = 0;
-        this.lastRenderedId = -1;
-        
+		this.lastRenderedId = -1;
+
 		this.wrapper = null;
 		this.overlay = null;
 		this.viewport = null;
@@ -213,121 +213,122 @@ class VirtualizedEditor {
 
 	/** @private @function _measureAndRender - Performs initial measurements. */
 	/** @private @function _measureAndRender - Performs measurements and enforces an integer grid. */
-_measureAndRender() {
-    const performMeasurements = () => {
-        if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
-        
-        if (!this.lineHeight) {
-            const computed = getComputedStyle(this.textarea);
-            const lh = parseFloat(computed.lineHeight);
-            if (!lh || isNaN(lh)) return false;
+	_measureAndRender() {
+		const performMeasurements = () => {
+			if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
 
-            // --- THE DEFINITIVE FIX IS HERE ---
-            // 1. Sanitize the measured line-height to a stable integer.
-            //    Using Math.round() is generally safest as it picks the nearest whole pixel.
-            this.lineHeight = Math.round(lh);
+			if (!this.lineHeight) {
+				const computed = getComputedStyle(this.textarea);
+				const lh = parseFloat(computed.lineHeight);
+				if (!lh || isNaN(lh)) return false;
 
-            // 2. Enforce this integer value back onto the DOM.
-            //    This forces the browser's layout engine and our JS calculations
-            //    to use the EXACT same, unambiguous value, eliminating all drift.
-            this.textarea.style.lineHeight = `${this.lineHeight}px`;
-            this.overlay.style.lineHeight = `${this.lineHeight}px`;
-        }
+				// --- THE DEFINITIVE FIX IS HERE ---
+				// 1. Sanitize the measured line-height to a stable integer.
+				//    Using Math.round() is generally safest as it picks the nearest whole pixel.
+				this.lineHeight = Math.round(lh);
 
-        if (!this.charWidth) {
-            const tempSpan = document.createElement('span');
-            tempSpan.style.font = getComputedStyle(this.textarea).font;
-            tempSpan.textContent = 'm';
-            this.overlay.appendChild(tempSpan);
-            this.charWidth = tempSpan.getBoundingClientRect().width;
-            tempSpan.remove();
-        }
-        return this.charWidth > 0 && this.lineHeight > 0;
-    };
+				// 2. Enforce this integer value back onto the DOM.
+				//    This forces the browser's layout engine and our JS calculations
+				//    to use the EXACT same, unambiguous value, eliminating all drift.
+				this.textarea.style.lineHeight = `${this.lineHeight}px`;
+				this.overlay.style.lineHeight = `${this.lineHeight}px`;
+			}
 
-    const attemptMeasure = () => {
-        if (performMeasurements()) {
-            this._update();
-        } else {
-            setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
-        }
-    }
-    attemptMeasure();
-}
+			if (!this.charWidth) {
+				const tempSpan = document.createElement('span');
+				tempSpan.style.font = getComputedStyle(this.textarea).font;
+				tempSpan.textContent = 'm';
+				this.overlay.appendChild(tempSpan);
+				this.charWidth = tempSpan.getBoundingClientRect().width;
+				tempSpan.remove();
+			}
+			return this.charWidth > 0 && this.lineHeight > 0;
+		};
+
+		const attemptMeasure = () => {
+			if (performMeasurements()) {
+				this._update();
+			} else {
+				setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
+			}
+		}
+		attemptMeasure();
+	}
 
 	/** @private @async @function _update - Prepares state and triggers a render. */
 	/** @private @async @function _update - Prepares state and triggers a render. */
-/** @private @async @function _update - Prepares state and triggers a render. */
-async _update() {
-    const txt = this.textarea.value;
-    try {
-        this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-    } catch (e) {
-        console.error("Quick worker failed for line splitting, falling back.", e);
-        this.lines = txt.split("\n");
-    }
+	/** @private @async @function _update - Prepares state and triggers a render. */
+	async _update() {
+		const txt = this.textarea.value;
+		try {
+			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+		} catch (e) {
+			console.error("Quick worker failed for line splitting, falling back.", e);
+			this.lines = txt.split("\n");
+		}
 
-    // --- CHANGE IS HERE ---
-    // Define how many extra lines to render above and below the viewport.
-    const BUFFER_LINES = 10; 
-    
-    // Calculate the total number of divs needed: visible lines + top buffer + bottom buffer.
-    const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + (BUFFER_LINES * 2);
+		// --- CHANGE IS HERE ---
+		// Define how many extra lines to render above and below the viewport.
+		const BUFFER_LINES = 10;
 
-    if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
-        this.viewportDivs = [];
-        this.viewport.innerHTML = '';
-        for (let i = 0; i < neededDivs; i++) {
-            const div = document.createElement('div');
-            div.style.height = `${this.lineHeight}px`;
-            this.viewport.appendChild(div);
-            this.viewportDivs.push(div);
-        }
-    }
+		// Calculate the total number of divs needed: visible lines + top buffer + bottom buffer.
+		const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + (BUFFER_LINES * 2);
 
-    this._render();
-    this._updateCaret();
-}
+		if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
+			this.viewportDivs = [];
+			this.viewport.innerHTML = '';
+			for (let i = 0; i < neededDivs; i++) {
+				const div = document.createElement('div');
+				div.style.height = `${this.lineHeight}px`;
+				this.viewport.appendChild(div);
+				this.viewportDivs.push(div);
+			}
+		}
+
+		this._render();
+		this._updateCaret();
+	}
 
 
-/**
- * @private @function _render
- * @description Gathers scroll state and dispatches a request to the worker.
- * It NO LONGER manipulates the DOM to prevent race conditions.
- */
-_render() {
-    if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
+	/**
+	 * @private @function _render
+	 * @description Gathers scroll state and dispatches a request to the worker.
+	 * It NO LONGER manipulates the DOM to prevent race conditions.
+	 */
+	_render() {
+		if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
-    const scrollTop = this.textarea.scrollTop;
-    const scrollLeft = this.textarea.scrollLeft;
+		const scrollTop = this.textarea.scrollTop;
+		const scrollLeft = this.textarea.scrollLeft;
 
-    const BUFFER_LINES = 10;
-    const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-    const firstLineToRender = Math.max(0, firstVisibleLine - BUFFER_LINES);
+		const BUFFER_LINES = 10;
+		const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+		const firstLineToRender = Math.max(0, firstVisibleLine - BUFFER_LINES);
 
-    // This is still important for discarding wildly out-of-date responses.
-    this.currentFirstLine = firstLineToRender;
-    
-    const requestId = ++this.latestRequestId;
+		// This is still important for discarding wildly out-of-date responses.
+		this.currentFirstLine = firstLineToRender;
 
-    // --- CRITICAL CHANGE ---
-    // We now send the EXACT scrollTop and scrollLeft at the moment of the request.
-    this.highlighterWorker.postMessage({
-        type: 'highlight',
-        text: this.textarea.value,
-        language: this.language,
-        firstLineToRender: firstLineToRender,
-        numLinesToRender: this.viewportDivs.length,
-        requestId: requestId,
-        // Send the exact scroll coordinates with the request.
-        scrollTopAtRequest: scrollTop,
-        scrollLeftAtRequest: scrollLeft
-    });
-}
+		const requestId = ++this.latestRequestId;
+
+		// --- CRITICAL CHANGE ---
+		// We now send the EXACT scrollTop and scrollLeft at the moment of the request.
+		this.highlighterWorker.postMessage({
+			type: 'highlight',
+			text: this.textarea.value,
+			language: this.language,
+			firstLineToRender: firstLineToRender,
+			numLinesToRender: this.viewportDivs.length,
+			requestId: requestId,
+			// Send the exact scroll coordinates with the request.
+			scrollTopAtRequest: scrollTop,
+			scrollLeftAtRequest: scrollLeft
+		});
+	}
 
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
 	_updateCaret() {
+		return;//disable custom caret for now 
 		if (document.activeElement !== this.textarea || !this.lineHeight || !this.charWidth) {
 			if (this.caret) this.caret.style.display = 'none';
 			return;
@@ -371,61 +372,61 @@ _render() {
 		}
 	}
 
-/**
- * @private @function _onWorkerMessage
- * @description The final arbiter of reality. It receives content AND the exact
- * scroll coordinates from the time of request. It performs the painting and
- * positioning in a single, atomic operation, eliminating all jitter.
- */
-_onWorkerMessage(e) {
-    const { 
-        type, 
-        htmlLines, 
-        requestId, 
-        responseFirstLine,
-        // --- RECEIVE THE ORIGINAL SCROLL COORDINATES ---
-        scrollTopAtRequest,
-        scrollLeftAtRequest
-    } = e.data;
+	/**
+	 * @private @function _onWorkerMessage
+	 * @description The final arbiter of reality. It receives content AND the exact
+	 * scroll coordinates from the time of request. It performs the painting and
+	 * positioning in a single, atomic operation, eliminating all jitter.
+	 */
+	_onWorkerMessage(e) {
+		const {
+			type,
+			htmlLines,
+			requestId,
+			responseFirstLine,
+			// --- RECEIVE THE ORIGINAL SCROLL COORDINATES ---
+			scrollTopAtRequest,
+			scrollLeftAtRequest
+		} = e.data;
 
-    if (type === 'highlightResult') {
-        if (requestId < this.lastRenderedId) {
-            return; 
-        }
+		if (type === 'highlightResult') {
+			if (requestId < this.lastRenderedId) {
+				return;
+			}
 
-        // The check for relevance is still useful for very large, fast scrolls.
-        const distance = Math.abs(responseFirstLine - this.currentFirstLine);
-        if (distance > this.viewportDivs.length) {
-             return; // Discard if the user has scrolled far, far away.
-        }
+			// The check for relevance is still useful for very large, fast scrolls.
+			const distance = Math.abs(responseFirstLine - this.currentFirstLine);
+			if (distance > this.viewportDivs.length) {
+				return; // Discard if the user has scrolled far, far away.
+			}
 
-        this.lastRenderedId = requestId;
+			this.lastRenderedId = requestId;
 
-        requestAnimationFrame(() => {
-            // 1. Paint the content.
-            htmlLines.forEach((html, i) => {
-                const div = this.viewportDivs[i];
-                if (div) {
-                    if (html === null) {
-                        div.style.display = 'none';
-                    } else {
-                        div.style.display = 'block';
-                        if (div.innerHTML !== html) {
-                           div.innerHTML = html;
-                        }
-                    }
-                }
-            });
+			requestAnimationFrame(() => {
+				// 1. Paint the content.
+				htmlLines.forEach((html, i) => {
+					const div = this.viewportDivs[i];
+					if (div) {
+						if (html === null) {
+							div.style.display = 'none';
+						} else {
+							div.style.display = 'block';
+							if (div.innerHTML !== html) {
+								div.innerHTML = html;
+							}
+						}
+					}
+				});
 
-            // 2. Position the content.
-            // Calculate the remainder using the scrollTop from the moment of the request.
-            const scrollRemainder = scrollTopAtRequest - (responseFirstLine * this.lineHeight);
-            
-            // Set the transform AT THE SAME TIME as the content is updated.
-            this.viewport.style.transform = `translate(${-scrollLeftAtRequest}px, ${-scrollRemainder}px)`;
-        });
-    }
-}
+				// 2. Position the content.
+				// Calculate the remainder using the scrollTop from the moment of the request.
+				const scrollRemainder = scrollTopAtRequest - (responseFirstLine * this.lineHeight);
+
+				// Set the transform AT THE SAME TIME as the content is updated.
+				this.viewport.style.transform = `translate(${-scrollLeftAtRequest}px, ${-scrollRemainder}px)`;
+			});
+		}
+	}
 
 	// --- 3. PUBLIC API ---
 
