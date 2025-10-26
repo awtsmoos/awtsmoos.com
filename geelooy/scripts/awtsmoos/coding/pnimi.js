@@ -922,7 +922,13 @@ _getJSToken(line, i, state) {
     }
 
     // Standard Token Parsing for keywords, variables, numbers, etc.
-    const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set']);
+    const ctlK = new Set(['import',
+    
+    'as','from','export','async',
+    'function','await','if','else','return',
+    'for','while','switch','case','break',
+    'continue','try','catch','finally',
+    'class','extends','get','set', 'typeof', 'of']);
     const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
     if (this._isIS(char)) {
         let buffer = '', p = i;
