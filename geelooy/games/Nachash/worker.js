@@ -72,23 +72,41 @@ function start() {
 
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
 
+    // --- FIX: Immediately center the camera on the player at game start ---
+    // This ensures the player is visible from the very first frame.
+    const { camera, player } = state;
+    camera.x = player.x - (camera.width / 2 / camera.zoom);
+    camera.y = player.y - (camera.height / 2 / camera.zoom);
+
     for (let i = 0; i < 1000; i++) spawnCollectible();
-    for (let i = 0; i < 100; i++) spawnAiSnake(); // Start with a huge amount of AI
+    for (let i = 0; i < 100; i++) spawnAiSnake();
     
     gameLoop();
 }
 
 function updateCamera() {
     const { camera, player } = state;
+    
+    // Calculate the desired zoom level based on snake length
     const lengthBonus = Math.max(1, player.maxLength / 150);
     const targetZoom = 0.8 / lengthBonus;
-
+    
+    // Smoothly interpolate the zoom for a nice effect
     camera.zoom += (targetZoom - camera.zoom) * 0.02;
+
+    // --- FIX: Robust camera follow logic ---
+    // Calculate the camera's target position to keep the player centered
     const targetX = player.x - (camera.width / 2 / camera.zoom);
     const targetY = player.y - (camera.height / 2 / camera.zoom);
-    camera.x += (targetX - camera.x) * 0.1;
+
+    // Smoothly move the camera towards the target position every frame
+    camera.x += (targetX - camera.x) * 0.1; // The interpolation factor (0.1) controls follow speed
     camera.y += (targetY - camera.y) * 0.1;
 }
+
+
+
+
 
 function gameLoop() {
     if (!state.isRunning) return;

@@ -270,7 +270,7 @@ class Player {
 }
 
 
-// --- FIX: New, robust background drawing function ---
+// --- FIX: New, robust, and performant background drawing function ---
 function drawBackground(ctx) {
     const { camera, world } = state;
     const view = {
@@ -280,31 +280,35 @@ function drawBackground(ctx) {
         bottom: camera.y + (camera.height / camera.zoom)
     };
     
-    // A simple, fast grid pattern
-    const gridSize = 150;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-    ctx.lineWidth = 1;
-    
-    // Draw vertical lines
-    const startX = Math.floor(view.x / gridSize) * gridSize;
-    for (let x = startX; x < view.right; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, view.y);
-        ctx.lineTo(x, view.bottom);
-        ctx.stroke();
-    }
-    
-    // Draw horizontal lines
-    const startY = Math.floor(view.y / gridSize) * gridSize;
-    for (let y = startY; y < view.bottom; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(view.x, y);
-        ctx.lineTo(view.right, y);
-        ctx.stroke();
-    }
+    const patchSize = 250; // Larger patches for better performance
 
-    // World border
-    ctx.strokeStyle = '#5a3a22';
+    // Calculate which patches are visible to the camera
+    const startCol = Math.floor(view.x / patchSize);
+    const endCol = Math.ceil(view.right / patchSize);
+    const startRow = Math.floor(view.y / patchSize);
+    const endRow = Math.ceil(view.bottom / patchSize);
+
+    // Loop only through the visible patches to ensure maximum performance
+    for (let row = startRow; row < endRow; row++) {
+        for (let col = startCol; col < endCol; col++) {
+            // Use a deterministic "random" number so patches always keep their same color
+            const rand = Math.sin(col * 10.2 + row * 5.4) * 10000;
+            const colorType = rand - Math.floor(rand); // A consistent value between 0 and 1
+
+            let color;
+            if (colorType < 0.85) { // 85% chance for grass
+                 color = `hsl(110, 25%, ${20 + (colorType * 15)}%)`; // Shades of green
+            } else { // 15% chance for dirt
+                 color = `hsl(30, 20%, ${18 + (colorType * 10)}%)`; // Shades of brown
+            }
+            
+            ctx.fillStyle = color;
+            ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
+        }
+    }
+    
+    // Draw the outer world border
+    ctx.strokeStyle = '#3a2a12';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
