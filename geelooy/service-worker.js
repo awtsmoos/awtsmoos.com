@@ -1,16 +1,49 @@
 /**
  * B"H
  */
-console.log("Service!")
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-      caches.match(event.request)
-        .then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
+
+const CACHE_NAME = 'my-site-cache-v1';
+
+console.log("Service Worker loading!");
+
+self.addEventListener('install', (event) => {
+  console.log('Service Worker: I am being installed!');
+  // You can pre-cache essential assets here if needed,
+  // but the fetch event will cache everything dynamically.
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('Service Worker: I am now active!');
+  // This is a good place to clean up old caches.
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            console.log('Service Worker: Deleting old cache:', cache);
+            return caches.delete(cache);
           }
-          return fetch(event.request);
         })
-    );
-  });
-  
+      );
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          // If we get a valid response, we clone it and store it in the cache.
+          if (networkResponse && networkResponse.status === 200) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        });
+
+        // Return the cached response if it exists, otherwise wait for the network response.
+        return cachedResponse || fetchPromise;
+      });
+    })
+  );
+});
