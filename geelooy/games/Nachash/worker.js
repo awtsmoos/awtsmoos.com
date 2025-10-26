@@ -123,23 +123,26 @@ function update() {
 function draw() {
     const { ctx, camera } = state;
     ctx.save();
+    
+    // This is the base color of the canvas, which is cleared each frame.
     ctx.fillStyle = '#050a05';
     ctx.fillRect(0, 0, camera.width, camera.height);
     
-    // Apply camera
+    // --- FIX: Apply camera transform BEFORE drawing the world ---
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // Draw game world (objects are drawn in helper)
+    // --- FIX: Explicitly draw the background first, then the objects ---
+    drawBackground(ctx);
     drawWorld(ctx);
 
-    // Restore context for UI rendering
+    // Restore the context to screen-space for drawing the UI
     ctx.restore();
 
-    // --- NEW: UI Layer ---
+    // The UI is drawn last, on top of everything.
     drawUI(ctx);
     
-    // --- NEW: Screen flash for lightning ---
+    // Screen flash effect for lightning
     if (state.screenFlash.alpha > 0) {
         ctx.fillStyle = `rgba(255, 255, 220, ${state.screenFlash.alpha})`;
         ctx.fillRect(0, 0, camera.width, camera.height);

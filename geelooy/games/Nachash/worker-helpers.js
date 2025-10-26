@@ -270,3 +270,45 @@ function drawMinimap(ctx) {
     ctx.arc(playerX, playerY, 3, 0, Math.PI * 2);
     ctx.fill();
 }
+
+
+
+// --- NEW & VITAL: The missing background drawing function ---
+function drawBackground(ctx) {
+    const { camera, world } = state;
+    
+    // Define the visible area of the world
+    const view = {
+        x: camera.x,
+        y: camera.y,
+        right: camera.x + (camera.width / camera.zoom),
+        bottom: camera.y + (camera.height / camera.zoom)
+    };
+    
+    // Create a simple, tiled grass/dirt pattern for performance
+    const patchSize = 200;
+    const startCol = Math.floor(view.x / patchSize);
+    const endCol = Math.ceil(view.right / patchSize);
+    const startRow = Math.floor(view.y / patchSize);
+    const endRow = Math.ceil(view.bottom / patchSize);
+
+    for (let row = startRow; row < endRow; row++) {
+        for (let col = startCol; col < endCol; col++) {
+            // Use a deterministic "random" number so patches keep their color
+            const rand = Math.sin(col * 1.2 + row * 3.4) * 10000;
+            const colorType = rand - Math.floor(rand); // number between 0 and 1
+
+            if (colorType < 0.9) { // 90% grass
+                 ctx.fillStyle = `hsl(120, 30%, ${20 + (colorType * 10)}%)`;
+            } else { // 10% dirt
+                 ctx.fillStyle = `hsl(30, 30%, ${15 + (colorType * 10)}%)`;
+            }
+            ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
+        }
+    }
+    
+    // Draw the outer border
+    ctx.strokeStyle = '#3a2a12';
+    ctx.lineWidth = 40;
+    ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
+}
