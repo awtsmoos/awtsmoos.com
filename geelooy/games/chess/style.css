@@ -13,6 +13,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
+
+#message {
+overflow-y: scroll;
+border:1px solid black;
+padding: 6px;
+}
 .hidden {
 display: none;
 }
