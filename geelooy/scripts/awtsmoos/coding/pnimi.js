@@ -1,126 +1,170 @@
 /**
  * @ B"H 
  * @file VirtualizedEditor.js
- * @author Your Name
- * @version 5.0.0 - Olam HaAsiyah (The World of Action)
+ * @version 6.0.0 - Olam HaBeriah (The World of Creation)
  *
  * @description
- * This evolution perfects the separation of Guf (Body) and Neshama (Soul) by placing the
- * entire Neshama (the highlighting engine) into a dedicated Web Worker.
+ * This is the final, perfected architecture. The Guf (Body) and Neshama (Soul) are now
+ * created in their own separate, well-defined realms (files). The Body on the main
+ * thread is clean and focused. The Soul in the worker file is pure logic. This
+ * sacred separation is achieved through a modern module-aware worker loader,
+ * eliminating all brittleness and syntax conflicts of the past.
  *
- * THE BODY (Guf/Keli):
- * The main thread is now purely for action. It handles user input, scrolling, and DOM updates
- * with zero blocking from the highlighter. Its original high-performance architecture is
- * preserved and now unburdened, guaranteeing a perfectly fluid user experience.
- *
- * THE SOUL (Neshama/Ohr):
- * The complete, unbreakable state machine now lives and breathes in a separate world (a Web Worker).
- * On every keystroke, the Body sends the current text to the Soul. The Soul performs its sacred
- * task of parsing and highlighting, then sends the pure, ready-to-render HTML back to the Body.
- * This sacred division of labor ensures the world of action never freezes.
+ * This file represents the Guf (Body). Its sole responsibilities are:
+ * 1. Managing the DOM and user events.
+ * 2. Communicating with the Neshama (the highlighting worker).
+ * 3. Ensuring a perfectly fluid and responsive user experience in the world of action.
  */
 
 /**
  * @function makeQuickWorker
- * @description The Sefirah of Binah (Understanding). Offloads heavy processing to prevent freezing the world of action.
- * (Preserved from original for potential other uses)
+ * @description The Sefirah of Binah (Understanding). Offloads quick, ephemeral tasks.
+ * This is preserved for its utility in handling discrete, non-stateful computations.
  */
 function makeQuickWorker(fnc, ...args) {
-    return new Promise((resolve, reject) => {
-        if (typeof fnc !== 'function') return reject(new Error("The spark must be a function."));
-        let stringed;
-        try { stringed = JSON.stringify(args); } catch (e) { return reject(e); }
-        const txt = `var task=${fnc};var args=${stringed};self.onmessage=async e=>{if(e.data.go)try{postMessage({got:await task(...args)})}catch(t){postMessage({error:t.message})}};postMessage({started:!0});`;
-        const wk = new Worker(URL.createObjectURL(new Blob([txt], { type: "application/javascript" })));
-        wk.onmessage = e => {
-            if (e.data.started) wk.postMessage({ go: !0 });
-            if (e.data.got) { resolve(e.data.got); wk.terminate(); }
-            if (e.data.error) { reject(new Error(e.data.error)); wk.terminate(); }
-        };
-        wk.onerror = e => { reject(new Error(e.message)); wk.terminate(); }
-    });
+	return new Promise((resolve, reject) => {
+		if (typeof fnc !== 'function') return reject(new Error("The spark must be a function."));
+		let stringed;
+		try {
+			stringed = JSON.stringify(args);
+		} catch (e) {
+			return reject(e);
+		}
+		const txt = `var task=${fnc};var args=${stringed};self.onmessage=async e=>{if(e.data.go)try{postMessage({got:await task(...args)})}catch(t){postMessage({error:t.message})}};postMessage({started:!0});`;
+		const wk = new Worker(URL.createObjectURL(new Blob([txt], {
+			type: "application/javascript"
+		})));
+		wk.onmessage = e => {
+			if (e.data.started) wk.postMessage({
+				go: !0
+			});
+			if (e.data.got) {
+				resolve(e.data.got);
+				wk.terminate();
+			}
+			if (e.data.error) {
+				reject(new Error(e.data.error));
+				wk.terminate();
+			}
+		};
+		wk.onerror = e => {
+			reject(new Error(e.message));
+			wk.terminate();
+		}
+	});
 }
 
+
 class VirtualizedEditor {
-    /**
-     * @constructor
-     * @description The moment of creation, now with a dedicated soul in a separate realm.
-     */
-    constructor(textarea, language = 'js', customColors = {}) {
-        if (!textarea || textarea.tagName !== 'TEXTAREA') {
-            throw new Error('The vessel of creation must be a TEXTAREA element.');
-        }
+	/**
+	 * @constructor
+	 * @description The moment of creation. A body is formed and its soul is summoned from a separate realm.
+	 */
+	constructor(textarea, language = 'js', customColors = {}) {
+		if (!textarea || textarea.tagName !== 'TEXTAREA') {
+			throw new Error('The vessel of creation must be a TEXTAREA element.');
+		}
 
-        this.textarea = textarea;
-        this.language = language;
-        this.wrapper = null;
-        this.overlay = null;
-        this.viewport = null;
-        this.caret = null;
-        this.styleId = `BH_EDITOR_${Date.now()}`;
-        this.lines = [];
-        this.lineHeight = 0;
-        this.charWidth = 0;
-        this.viewportDivs = [];
-        this.highlighterWorker = null; // Vessel for the soul
+		this.textarea = textarea;
+		this.language = language;
+		this.wrapper = null;
+		this.overlay = null;
+		this.viewport = null;
+		this.caret = null;
+		this.styleId = `BH_EDITOR_${Date.now()}`;
 
-        const defaultColors = {
-            comment: '#6A9555', string: '#CE9178', number: '#B5CEA8',
-            controlKeyword: '#C586C0', definitionKeyword: '#569CD6', functionName: '#DCDCAA',
-            variable: '#9CDCFE', operator: '#D4D4D4', punctuation: '#808080',
-            tag: '#569CD6', 'attribute-name': '#9CDCFE', 'attribute-value': '#CE9178',
-            selector: '#D7BA7D', property: '#9CDCFE',
-        };
-        this.colors = { ...defaultColors, ...customColors };
+		// State vessels
+		this.lines = [];
+		this.lineHeight = 0;
+		this.charWidth = 0;
+		this.viewportDivs = [];
+		this.highlighterWorker = null; // The vessel for the persistent soul (main worker)
 
-        this._initializeVessels();
-        this._initializeHighlightingWorker(); // Give birth to the soul
-        this._attachEventListeners();
-        this._measureAndRender();
-    }
+		// Color definitions
+		const defaultColors = {
+			comment: '#6A9555',
+			string: '#CE9178',
+			number: '#B5CEA8',
+			controlKeyword: '#C586C0',
+			definitionKeyword: '#569CD6',
+			functionName: '#DCDCAA',
+			variable: '#9CDCFE',
+			operator: '#D4D4D4',
+			punctuation: '#808080',
+			tag: '#569CD6',
+			'attribute-name': '#9CDCFE',
+			'attribute-value': '#CE9178',
+			selector: '#D7BA7D',
+			property: '#9CDCFE',
+		};
+		this.colors = {
+			...defaultColors,
+			...customColors
+		};
 
-    // --- 1. THE BODY (Guf/Keli): HIGH-PERFORMANCE MAIN THREAD ARCHITECTURE ---
+		// The sacred chain of creation
+		this._initializeVessels();
+		this._initializeHighlightingWorker(); // Give birth to the soul from its own realm
+		this._attachEventListeners();
+		this._measureAndRender();
+	}
 
-    /**
-     * @private @function _initializeVessels
-     * @description Gevurah (Strength). Structures the DOM for virtual scrolling.
-     */
-    _initializeVessels() {
-        const computed = window.getComputedStyle(this.textarea);
-        this.wrapper = document.createElement('div');
-        this.wrapper.className = 'virtualized-editor-wrapper';
-        ['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
-            if (prop === 'position' && computed[prop] === 'static') this.wrapper.style.position = 'relative';
-            else this.wrapper.style[prop] = computed[prop];
-        });
-        this.textarea.parentNode.insertBefore(this.wrapper, this.textarea);
-        this.wrapper.appendChild(this.textarea);
-        Object.assign(this.textarea.style, {
-            position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', resize: 'none',
-            color: 'transparent', background: 'transparent', caretColor: '#66ff77'
-        });
-        this.overlay = document.createElement('div');
-        this.viewport = document.createElement('div');
-        this.overlay.appendChild(this.viewport);
-        Object.assign(this.overlay.style, {
-            position: "absolute", zIndex: 1, top: '0', left: '0', width: '100%', height: '100%',
-            pointerEvents: 'none', overflow: 'hidden', font: computed.font,
-            padding: computed.padding, border: computed.border, boxSizing: computed.boxSizing
-        });
-        this.viewport.style.whiteSpace = "pre";
-        this.caret = document.createElement('div');
-        this.caret.className = 'virtualized-editor-caret';
-        this.overlay.appendChild(this.caret);
-        this.wrapper.appendChild(this.overlay);
-        this._applyColors();
-    }
+	// --- 1. THE BODY (Guf/Keli): HIGH-PERFORMANCE MAIN THREAD ARCHITECTURE ---
 
-    /** @private @function _applyColors */
-    _applyColors() {
-        const styleEl = document.createElement("style");
-        styleEl.id = this.styleId + "-style";
-        const caretColor = getComputedStyle(this.textarea).color || 'white';
-        styleEl.innerHTML = /*css*/`
+	/** @private @function _initializeVessels - Structures the DOM. */
+	_initializeVessels() {
+		const computed = window.getComputedStyle(this.textarea);
+		this.wrapper = document.createElement('div');
+		this.wrapper.className = 'virtualized-editor-wrapper';
+		['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
+			if (prop === 'position' && computed[prop] === 'static') this.wrapper.style.position = 'relative';
+			else this.wrapper.style[prop] = computed[prop];
+		});
+		this.textarea.parentNode.insertBefore(this.wrapper, this.textarea);
+		this.wrapper.appendChild(this.textarea);
+		Object.assign(this.textarea.style, {
+			position: 'absolute',
+			top: '0',
+			left: '0',
+			width: '100%',
+			height: '100%',
+			resize: 'none',
+			color: 'transparent',
+			background: 'transparent',
+			caretColor: '#66ff77',
+			WebkitTextFillColor: 'transparent'
+		});
+		this.overlay = document.createElement('div');
+		this.viewport = document.createElement('div');
+		this.overlay.appendChild(this.viewport);
+		Object.assign(this.overlay.style, {
+			position: "absolute",
+			zIndex: -1,
+			top: '0',
+			left: '0',
+			width: '100%',
+			height: '100%',
+			pointerEvents: 'none',
+			overflow: 'hidden',
+			font: computed.font,
+			padding: computed.padding,
+			border: computed.border,
+			boxSizing: computed.boxSizing
+		});
+		this.viewport.style.whiteSpace = "pre";
+		this.caret = document.createElement('div');
+		this.caret.className = 'virtualized-editor-caret';
+		this.overlay.appendChild(this.caret);
+		this.wrapper.insertBefore(this.overlay, this.textarea);
+		this._applyColors();
+	}
+
+	/** @private @function _applyColors - Injects the dynamic CSS styles. */
+	_applyColors() {
+		const styleEl = document.createElement("style");
+		styleEl.id = this.styleId + "-style";
+		const caretColor = getComputedStyle(this.textarea).caretColor || 'white';
+		styleEl.innerHTML = /*css*/ `
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
             .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
             .token-definitionKeyword { color: ${this.colors.definitionKeyword}; } .token-functionName { color: ${this.colors.functionName}; }
@@ -131,425 +175,207 @@ class VirtualizedEditor {
             .virtualized-editor-caret { position: absolute; display: none; background-color: ${caretColor}; width: 1px; animation: blink 1s steps(1) infinite; z-index: 10; pointer-events: none; }
             @keyframes blink { 50% { background-color: transparent; } }
         `;
-        document.head.querySelector("#" + styleEl.id)?.remove();
-        document.head.appendChild(styleEl);
-    }
+		document.head.querySelector("#" + styleEl.id)?.remove();
+		document.head.appendChild(styleEl);
+	}
 
-    /**
-     * @private @function _attachEventListeners
-     * @description Netzach & Hod (Endurance & Splendor). Listens for user actions.
-     */
-    _attachEventListeners() {
-        this.textarea.addEventListener('input', () => this._update());
-        
-        const onScroll = () => window.requestAnimationFrame(() => { this._render(); this._updateCaret(); });
-        const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
+	/** @private @function _attachEventListeners - Listens for user actions. */
+	_attachEventListeners() {
+		this.textarea.addEventListener('input', () => this._update());
 
-        new ResizeObserver(onScroll).observe(this.wrapper);
-        this.textarea.addEventListener('scroll', onScroll);
-        ['click', 'keyup', 'keydown', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
-    }
+		const onScroll = () => window.requestAnimationFrame(() => {
+			this._render();
+			this._updateCaret();
+		});
+		const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
 
-    /**
-     * @private @function _measureAndRender
-     * @description The first act of measurement and rendering.
-     */
-    _measureAndRender() {
-        const performMeasurements = () => {
-            if (!this.textarea.parentNode || !this.textarea.clientWidth || !this.lineHeight) {
-                const lh = parseFloat(getComputedStyle(this.textarea).lineHeight);
-                if (lh && !isNaN(lh)) this.lineHeight = lh;
-                else return false;
-            }
-            if (!this.charWidth) {
-                const tempSpan = document.createElement('span');
-                tempSpan.style.font = getComputedStyle(this.textarea).font;
-                tempSpan.textContent = 'm';
-                this.overlay.appendChild(tempSpan);
-                this.charWidth = tempSpan.getBoundingClientRect().width;
-                tempSpan.remove();
-            }
-            return this.charWidth > 0 && this.lineHeight > 0;
-        };
-        const attemptMeasure = () => {
-            if (performMeasurements()) {
-                this._update();
-                this._updateCaret();
-            } else {
-                setTimeout(attemptMeasure, 50);
-            }
-        }
-        attemptMeasure();
-    }
+		new ResizeObserver(onScroll).observe(this.wrapper);
+		this.textarea.addEventListener('scroll', onScroll);
+		['click', 'keyup', 'keydown', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
+	}
 
-    /**
-     * @private @function _update
-     * @description The Will to refresh. Sends the new text to the worker soul.
-     */
-    _update() {
-        this.lines = this.textarea.value.split("\n");
+	/** @private @function _measureAndRender - Performs initial measurements. */
+	_measureAndRender() {
+		const performMeasurements = () => {
+			if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
+			if (!this.lineHeight) {
+				const lh = parseFloat(getComputedStyle(this.textarea).lineHeight);
+				if (lh && !isNaN(lh)) this.lineHeight = lh;
+				else return false;
+			}
+			if (!this.charWidth) {
+				const tempSpan = document.createElement('span');
+				tempSpan.style.font = getComputedStyle(this.textarea).font;
+				tempSpan.textContent = 'm';
+				this.overlay.appendChild(tempSpan);
+				this.charWidth = tempSpan.getBoundingClientRect().width;
+				tempSpan.remove();
+			}
+			return this.charWidth > 0 && this.lineHeight > 0;
+		};
+		const attemptMeasure = () => {
+			if (performMeasurements()) {
+				this._update();
+			} else {
+				setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
+			}
+		}
+		attemptMeasure();
+	}
 
-        const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
-        if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
-            this.viewportDivs = [];
-            this.viewport.innerHTML = '';
-            for (let i = 0; i < neededDivs; i++) {
-                const div = document.createElement('div');
-                div.style.height = `${this.lineHeight}px`;
-                this.viewport.appendChild(div);
-                this.viewportDivs.push(div);
-            }
-        }
-        
-        // This now simply messages the worker and does not render directly.
-        this._render();
-    }
+	/** @private @async @function _update - Prepares state and triggers a render. */
+	async _update() {
+		const txt = this.textarea.value;
+		try {
+			// Use makeQuickWorker for the ephemeral task of splitting lines, as requested.
+			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+		} catch (e) {
+			console.error("Quick worker failed for line splitting, falling back.", e);
+			this.lines = txt.split("\n");
+		}
 
-    /**
-     * @private @function _render
-     * @description Malkuth (Kingdom). Asks the worker for highlighted HTML and updates the DOM.
-     */
-    _render() {
-        if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
-        const scrollTop = this.textarea.scrollTop;
-        const scrollLeft = this.textarea.scrollLeft;
-        const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-        const firstLineToRender = Math.max(0, firstVisibleLine - 1);
+		const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
+		if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
+			this.viewportDivs = [];
+			this.viewport.innerHTML = '';
+			for (let i = 0; i < neededDivs; i++) {
+				const div = document.createElement('div');
+				div.style.height = `${this.lineHeight}px`;
+				this.viewport.appendChild(div);
+				this.viewportDivs.push(div);
+			}
+		}
 
-        this.highlighterWorker.postMessage({
-            type: 'highlight',
-            text: this.textarea.value,
-            language: this.language,
-            firstLineToRender: firstLineToRender,
-            numLinesToRender: this.viewportDivs.length
-        });
+		this._render();
+		this._updateCaret();
+	}
 
-        const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-        this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
-    }
+	/** @private @function _render - Sends data to the Soul and positions the viewport. */
+	_render() {
+		if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
-    /**
-     * @private @function _updateCaret
-     * @description Yesod (Foundation). Positions the simulated caret.
-     */
-    _updateCaret() {
-        if (document.activeElement !== this.textarea || !this.lineHeight || !this.charWidth || !this.lines) {
-            if (this.caret) this.caret.style.display = 'none';
-            return;
-        }
-        this.caret.style.display = 'block';
-        const cursorIdx = this.textarea.selectionStart;
-        let lineIdx = 0, colIdx = 0, count = 0;
-        for (let i = 0; i < this.lines.length; i++) {
-            const lineLength = (this.lines[i] || '').length + 1;
-            if (count + lineLength > cursorIdx) {
-                lineIdx = i; colIdx = cursorIdx - count; break;
-            }
-            count += lineLength;
-            if (i === this.lines.length - 1 && cursorIdx >= count) {
-                lineIdx = i; colIdx = cursorIdx - count;
-            }
-        }
-        const caretX = colIdx * this.charWidth;
-        const caretY = lineIdx * this.lineHeight;
-        this.caret.style.transform = `translate(${caretX - this.textarea.scrollLeft}px, ${caretY - this.textarea.scrollTop}px)`;
-        this.caret.style.height = `${this.lineHeight}px`;
-    }
+		const scrollTop = this.textarea.scrollTop;
+		const scrollLeft = this.textarea.scrollLeft;
+		const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+		const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-    // --- 2. THE SOUL (Neshama/Ohr): THE WORKER INITIALIZATION ---
+		// This is the core communication: send the current reality to the Soul worker.
+		this.highlighterWorker.postMessage({
+			type: 'highlight',
+			text: this.textarea.value,
+			language: this.language,
+			firstLineToRender: firstLineToRender,
+			numLinesToRender: this.viewportDivs.length
+		});
 
-    /**
-     * @private @function _initializeHighlightingWorker
-     * @description Creates the worker and provides it with the entire highlighting engine (the soul).
-     */
-    _initializeHighlightingWorker() {
-        const workerScript = /*js*/`
-            // --- Worker State ---
-            let lines = [];
-            let language = 'js';
+		const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
+		this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
+	}
 
-            // --- Worker Message Handler ---
-            self.onmessage = (e) => {
-                const { type, text, firstLineToRender, numLinesToRender, language: newLanguage } = e.data;
+	/** @private @function _updateCaret - Positions the simulated caret. */
+	_updateCaret() {
+		if (document.activeElement !== this.textarea || !this.lineHeight || !this.charWidth) {
+			if (this.caret) this.caret.style.display = 'none';
+			return;
+		}
+		this.caret.style.display = 'block';
+		const cursorIdx = this.textarea.selectionStart;
+		let lineIdx = 0,
+			colIdx = 0,
+			count = 0;
+		for (let i = 0; i < this.lines.length; i++) {
+			const lineLength = this.lines[i].length + 1;
+			if (count + lineLength > cursorIdx) {
+				lineIdx = i;
+				colIdx = cursorIdx - count;
+				break;
+			}
+			count += lineLength;
+		}
+		const caretX = colIdx * this.charWidth;
+		const caretY = lineIdx * this.lineHeight;
+		this.caret.style.transform = `translate(${caretX - this.textarea.scrollLeft}px, ${caretY - this.textarea.scrollTop}px)`;
+		this.caret.style.height = `${this.lineHeight}px`;
+	}
 
-                if (type === 'highlight') {
-                    lines = text.split('\\n');
-                    language = newLanguage;
+	// --- 2. THE SOUL (Neshama/Ohr): WORKER CREATION AND COMMUNICATION ---
 
-                    let state = _getInitialState();
+	/**
+	 * @private @function _initializeHighlightingWorker
+	 * @description Summons the soul from its separate realm (`highlighter.worker.js`).
+	 */
+	_initializeHighlightingWorker() {
+		try {
+			// The modern, bundler-friendly way to load a worker from an external file.
+			this.highlighterWorker = new Worker(new URL('./highlighter.worker.js', import.meta.url), {
+				type: 'module'
+			});
+			this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
+			this.highlighterWorker.onerror = (e) => console.error("Error from highlighting worker:", e);
+		} catch (e) {
+			console.error("Failed to initialize the highlighting worker. Highlighting will be disabled.", e);
+		}
+	}
 
-                    // Fast-forward state to the first visible line
-                    for (let i = 0; i < firstLineToRender; i++) {
-                        state = _getHighlightResult(lines[i] || '', state).state;
-                    }
+	/**
+	 * @private @function _onWorkerMessage
+	 * @description Receives the light (highlighted HTML) from the Soul and manifests it in the Body.
+	 */
+	_onWorkerMessage(e) {
+		const {
+			type,
+			htmlLines
+		} = e.data;
+		if (type === 'highlightResult') {
+			requestAnimationFrame(() => {
+				htmlLines.forEach((html, i) => {
+					const div = this.viewportDivs[i];
+					if (div) {
+						if (html === null) {
+							div.style.display = 'none';
+						} else {
+							div.style.display = 'block';
+							if (div.innerHTML !== html) {
+								div.innerHTML = html;
+							}
+						}
+					}
+				});
+			});
+		}
+	}
 
-                    // Highlight only the visible lines
-                    const highlightedLines = [];
-                    for (let i = 0; i < numLinesToRender; i++) {
-                        const lineIndex = firstLineToRender + i;
-                        if (lineIndex < lines.length) {
-                            const result = _getHighlightResult(lines[lineIndex] || '', state);
-                            highlightedLines.push(result.html);
-                            state = result.state;
-                        } else {
-                            highlightedLines.push(null); // Signal end of content
-                        }
-                    }
+	// --- 3. PUBLIC API ---
 
-                    // Send the result back to the main thread
-                    self.postMessage({
-                        type: 'highlightResult',
-                        htmlLines: highlightedLines
-                    });
-                }
-            };
+	/** Updates the editor's content programmatically. */
+	update(newContent) {
+		if (typeof newContent !== 'string' || newContent === this.textarea.value) return;
+		this.textarea.value = newContent;
+		this._update();
+	}
 
-            // --- ALL HIGHLIGHTING LOGIC IS NOW SELF-CONTAINED IN THE WORKER ---
+	/** Changes the language for syntax highlighting. */
+	setLanguage(newLanguage) {
+		if (typeof newLanguage !== 'string') return;
+		this.language = newLanguage;
+		this._update();
+	}
 
-            function _getInitialState() {
-                return {
-                    contextStack: [{ mode: language === 'js' ? 'javascript' : language }],
-                    isNextTokenFunctionName: false
-                };
-            }
-
-            function _getHighlightResult(line, state) {
-                if (!line) return { html: '&nbsp;', state };
-                let html = '';
-                let i = 0;
-                while (i < line.length) {
-                    const i_before = i;
-                    const res = _getToken(line, i, state);
-                    html += res.html;
-                    i = res.newIndex;
-                    if (i === i_before) { html += _escape(line[i++]); }
-                }
-                return { html: html || '&nbsp;', state };
-            }
-            
-            function _getToken(line, i, state) {
-                const context = state.contextStack[state.contextStack.length - 1];
-                if (context.terminator && line.substring(i).startsWith(context.terminator)) {
-                    const terminatorLength = context.terminator.length;
-                    let type = 'string';
-                    if (context.mode.includes('comment')) type = 'comment';
-                    if (context.mode.includes('interpolation')) type = 'controlKeyword';
-                    if (context.terminator.startsWith('</')) type = 'tag';
-                    state.contextStack.pop();
-                    return { html: _wrap(line.substring(i, i + terminatorLength), type), newIndex: i + terminatorLength };
-                }
-                if (context.mode.startsWith('template_') && line.substring(i).startsWith('\${')) {
-                    state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
-                    return { html: _wrap('\${', 'controlKeyword'), newIndex: i + 2 };
-                }
-                let currentMode = context.mode;
-                if (currentMode.startsWith('template_language_')) {
-                    currentMode = currentMode.substring(18);
-                }
-                switch (currentMode) {
-                    case 'javascript':
-                    case 'javascript_interpolation':
-                        return _getJSToken(line, i, state);
-                    case 'html':
-                        return _getHTMLToken(line, i, state);
-                    case 'css':
-                        return _getCssToken(line, i, state);
-                    case 'template_literal': {
-                        const nextInterpolationIndex = line.indexOf('\${', i);
-                        const nextTerminatorIndex = line.indexOf('`', i);
-                        let endOfChunk = line.length;
-                        if (nextInterpolationIndex !== -1) { endOfChunk = nextInterpolationIndex; }
-                        if (nextTerminatorIndex !== -1 && nextTerminatorIndex < endOfChunk) { endOfChunk = nextTerminatorIndex; }
-                        if (endOfChunk > i) {
-                            return { html: _wrap(line.substring(i, endOfChunk), 'string'), newIndex: endOfChunk };
-                        }
-                        return { html: _escape(line[i]), newIndex: i + 1 };
-                    }
-                    case 'comment': {
-                        const endIdx = line.indexOf(context.terminator, i);
-                        const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
-                        return { html: _wrap(content, 'comment'), newIndex: i + content.length };
-                    }
-                    case 'string': {
-                        const endIdx = line.indexOf(context.terminator, i);
-                        const content = line.substring(i, endIdx !== -1 ? endIdx : line.length);
-                        return { html: _wrap(content, 'string'), newIndex: i + content.length };
-                    }
-                    default:
-                        return { html: _escape(line[i]), newIndex: i + 1 };
-                }
-            }
-
-            function _getJSToken(line, i, state) {
-                const directives = [ { tag: '/*html*/`', lang: 'html' }, { tag: '/*css*/', lang: 'css' }, { tag: '/*js*/`', lang: 'javascript' }];
-                for (const d of directives) {
-                    if (line.substring(i).startsWith(d.tag)) {
-                        state.contextStack.push({ mode: \`template_language_\${d.lang}\`, terminator: '\`' });
-                        return { html: _wrap(d.tag.slice(0, -1), 'comment') + _wrap('\`', 'string'), newIndex: i + d.tag.length };
-                    }
-                }
-                const context = state.contextStack[state.contextStack.length - 1];
-                const char = line[i];
-                if (line.substring(i, i + 2) === '/*') { state.contextStack.push({ mode: 'comment', terminator: '*/' }); return { html: _wrap('/*', 'comment'), newIndex: i + 2 }; }
-                if (line.substring(i, i + 2) === '//') { return { html: _wrap(line.substring(i), 'comment'), newIndex: line.length }; }
-                if (char === "'" || char === '"') { state.contextStack.push({ mode: 'string', terminator: char }); return { html: _wrap(char, 'string'), newIndex: i + 1 };}
-                if (char === '\`') { state.contextStack.push({ mode: 'template_literal', terminator: '\`' }); return { html: _wrap('\`', 'string'), newIndex: i + 1 }; }
-                if (context.mode === 'javascript_interpolation') {
-                    if (char === '{') { context.depth = (context.depth || 0) + 1; } 
-                    else if (char === '}') { if (context.depth && context.depth > 0) { context.depth--; } else { return { html: '', newIndex: i }; } }
-                }
-                const ctlK = new Set(['import','as','from','export','async','function','await','if','else','return','for','while','switch','case','break','continue','try','catch','finally','class','extends','get','set', 'typeof', 'of']);
-                const defK = new Set(['const','let','var','true','false','null','undefined','this','new','super']);
-                if (_isIS(char)) {
-                    let buffer = '', p = i;
-                    while (p < line.length && _isIP(line[p])) buffer += line[p++];
-                    let type = 'variable';
-                    if (state.isNextTokenFunctionName) { type = 'functionName'; state.isNextTokenFunctionName = false; }
-                    else if (buffer === 'function') { type = 'controlKeyword'; state.isNextTokenFunctionName = true; }
-                    else if (ctlK.has(buffer)) type = 'controlKeyword';
-                    else if (defK.has(buffer)) type = 'definitionKeyword';
-                    else if (_isFC(line, p)) type = 'functionName';
-                    return { html: _wrap(buffer, type), newIndex: p };
-                }
-                if (_isD(char)) { let buffer = '', p = i; while (p < line.length && (_isD(line[p]) || line[p] === '.')) buffer += line[p++]; return { html: _wrap(buffer, 'number'), newIndex: p }; }
-                state.isNextTokenFunctionName = false;
-                const isPunctuation = '{}[]().,;'.includes(char);
-                const type = isPunctuation ? 'punctuation' : 'operator';
-                return { html: _wrap(char, type), newIndex: i + 1 };
-            }
-
-            function _getHTMLToken(line, i, state) {
-                const tagStart = line.indexOf('<', i);
-                if (tagStart === -1) { return { html: _escape(line.substring(i)), newIndex: line.length }; }
-                let html = _escape(line.substring(i, tagStart));
-                if (line.substring(tagStart).startsWith('<!--')) { state.contextStack.push({ mode: 'comment', terminator: '-->' }); return { html: html + _wrap('<!--', 'comment'), newIndex: tagStart + 4 }; }
-                const tagEnd = line.indexOf('>', tagStart);
-                if (tagEnd === -1) { return { html: html + _escape(line.substring(tagStart)), newIndex: line.length }; }
-                const isClosing = line[tagStart + 1] === '/';
-                html += _wrap(isClosing ? '</' : '<', 'punctuation');
-                let p = isClosing ? tagStart + 2 : tagStart + 1;
-                let tagName = '';
-                while (p < tagEnd && !_isWS(line[p]) && line[p] !== '>') tagName += line[p++];
-                html += _wrap(tagName, 'tag');
-                const lowerTagName = tagName.toLowerCase();
-                while (p < tagEnd) {
-                    const whitespaceStart = p;
-                    while (p < tagEnd && _isWS(line[p])) p++;
-                    if (p > whitespaceStart) { html += _escape(line.substring(whitespaceStart, p)); }
-                    if (p >= tagEnd) break;
-                    const attrNameStart = p;
-                    while (p < tagEnd && !_isWS(line[p]) && line[p] !== '=' && line[p] !== '>') p++;
-                    html += _wrap(line.substring(attrNameStart, p), 'attribute-name');
-                    if (p >= tagEnd) break;
-                    while (p < tagEnd && _isWS(line[p])) p++;
-                    if (line[p] === '=') {
-                        html += _wrap('=', 'operator'); p++;
-                        while (p < tagEnd && _isWS(line[p])) p++;
-                        const quote = line[p];
-                        if (quote === '"' || quote === "'") {
-                            const valueStart = p + 1; const valueEnd = line.indexOf(quote, valueStart);
-                            if (valueEnd !== -1 && valueEnd < tagEnd) { html += _wrap(quote, 'string') + _wrap(line.substring(valueStart, valueEnd), 'attribute-value') + _wrap(quote, 'string'); p = valueEnd + 1; } 
-                            else { html += _wrap(line.substring(p, tagEnd), 'string'); p = tagEnd; }
-                        } else {
-                            const valueStart = p; while (p < tagEnd && !_isWS(line[p]) && line[p] !== '>') p++;
-                            html += _wrap(line.substring(valueStart, p), 'attribute-value');
-                        }
-                    }
-                }
-                html += _wrap('>', 'punctuation');
-                if (!isClosing && (lowerTagName === 'script' || lowerTagName === 'style')) {
-                    const lang = lowerTagName === 'script' ? 'javascript' : 'css';
-                    state.contextStack.push({ mode: lang, terminator: \`</\${lowerTagName}>\` });
-                }
-                return { html, newIndex: tagEnd + 1 };
-            }
-
-            function _getCssToken(line, i, state) {
-                if (line.substring(i, i + 2) === '/*') { state.contextStack.push({ mode: 'comment', terminator: '*/' }); return { html: _wrap('/*', 'comment'), newIndex: i + 2 }; }
-                const char = line[i];
-                if (_isWS(char)) { let p = i; while (p < line.length && _isWS(line[p])) { p++; } return { html: line.substring(i, p), newIndex: p }; }
-                if (state.inCssRuleBlock) {
-                    if (char === '}') { state.inCssRuleBlock = false; return { html: _wrap('}', 'punctuation'), newIndex: i + 1 }; }
-                    let p = i; while (p < line.length && !':;{}'.includes(line[p]) && !_isWS(line[p])) { p++; }
-                    const buffer = line.substring(i, p);
-                    let nextChar = ''; let next_p = p;
-                    while (next_p < line.length && _isWS(line[next_p])) { next_p++; }
-                    if (next_p < line.length) { nextChar = line[next_p]; }
-                    if (nextChar === ':') { return { html: _wrap(buffer, 'property'), newIndex: p }; }
-                    return { html: _wrap(buffer, 'attribute-value'), newIndex: p };
-                } else {
-                    if (char === '{') { state.inCssRuleBlock = true; return { html: _wrap('{', 'punctuation'), newIndex: i + 1 }; }
-                    const braceIndex = line.indexOf('{', i); const commentIndex = line.indexOf('/*', i);
-                    let end = braceIndex !== -1 ? braceIndex : line.length;
-                    if(commentIndex !== -1 && commentIndex < end) { end = commentIndex; }
-                    return { html: _wrap(line.substring(i, end), 'selector'), newIndex: end };
-                }
-            }
-            
-            // --- Helper Functions ---
-            function _escape(s){return s?s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"):""}
-            function _wrap(s,t){return \`<span class="token-\${t}">\${_escape(s)}</span>\`}
-            function _isWS(c){return" "===c||"\\t"===c||"\\n"===c||"\\r"===c}
-            function _isD(c){return c>="0"&&c<="9"}
-            function _isIS(c){return c>="a"&&c<="z"||c>="A"&&c<="Z"||"_"===c||"$"===c}
-            function _isIP(c){return _isIS(c)||_isD(c)}
-            function _isFC(line,i){for(;i<line.length;){if(!_isWS(line[i]))return"("===line[i];i++}return!1}
-        `;
-        const blob = new Blob([workerScript.trim()], { type: 'application/javascript' });
-        this.highlighterWorker = new Worker(URL.createObjectURL(blob));
-        this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
-    }
-    
-    /**
-     * @private @function _onWorkerMessage
-     * @description Receives the highlighted HTML from the worker and applies it to the DOM.
-     */
-    _onWorkerMessage(e) {
-        const { type, htmlLines } = e.data;
-        if (type === 'highlightResult') {
-            htmlLines.forEach((html, i) => {
-                const div = this.viewportDivs[i];
-                if (div) {
-                    if (html === null) {
-                        div.style.display = 'none';
-                    } else {
-                        div.style.display = 'block';
-                        // Avoids unnecessary DOM writes if content is identical
-                        if (div.innerHTML !== html) {
-                           div.innerHTML = html;
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-
-    // --- 3. PUBLIC API (UNCHANGED) ---
-
-    update(newContent) {
-        if (typeof newContent !== 'string') return;
-        if (!this.charWidth || this.charWidth <= 0) this._measureAndRender();
-        this.textarea.value = newContent;
-        this._update();
-    }
-    
-    setLanguage(newLanguage) { 
-        this.language = newLanguage; 
-        this._update(); // This will trigger a re-render with the new language
-    }
-
-    destroy() {
-        if (this.highlighterWorker) {
-            this.highlighterWorker.terminate();
-        }
-        if (this.wrapper) {
-            this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
-            this.wrapper.remove();
-        }
-        this.textarea.style.cssText = "";
-        document.head.querySelector("#" + this.styleId + "-style")?.remove();
-    }
+	/** Cleans up the editor and restores the original textarea. */
+	destroy() {
+		if (this.highlighterWorker) {
+			this.highlighterWorker.terminate();
+		}
+		if (this.wrapper && this.wrapper.parentNode) {
+			this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
+			this.wrapper.remove();
+		}
+		this.textarea.style.cssText = "";
+		const style = document.head.querySelector("#" + this.styleId + "-style");
+		if (style) {
+			style.remove();
+		}
+	}
 }
 
 export default VirtualizedEditor;
