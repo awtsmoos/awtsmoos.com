@@ -19,56 +19,60 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let isDragging = false;
     let lastAngle = 0;
+    
+    // In main.js, near the top of the script
 
-    // In main.js
+let isDragging = false;
+// REMOVE: let lastAngle = 0;
+// ADD these:
+let touchStartX = 0;
+let touchStartY = 0;
+
+
+// In main.js, replace your existing onPointerDown, onPointerMove, and onPointerUp functions
 
 function onPointerDown(event) {
-    // --- THIS IS THE MOST IMPORTANT DEBUGGING LINE ---
-    console.log('--- onPointerDown FIRED! Event type:', event.type); 
-    // ---------------------------------------------------
-
-    event.preventDefault(); // Prevent scrolling/double-tap zoom on touch
+    event.preventDefault();
+    console.log(`Pointer DOWN event fired: ${event.type}`);
     
     audioManager.init();
     isDragging = true;
     
-    const x = event.touches ? event.touches[0].clientX : event.clientX;
-    const y = event.touches ? event.touches[0].clientY : event.clientY;
-    lastAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
+    // Set the anchor point for our virtual joystick
+    touchStartX = event.touches ? event.touches[0].clientX : event.clientX;
+    touchStartY = event.touches ? event.touches[0].clientY : event.clientY;
 }
 
-    function onPointerMove(event) {
-        if (!isDragging) return;
-        event.preventDefault();
-        
-        // This log can be noisy, but it's essential for debugging
-        // console.log(`Pointer MOVE event fired: ${event.type}`);
+function onPointerMove(event) {
+    if (!isDragging) return;
+    event.preventDefault();
+    
+    const x = event.touches ? event.touches[0].clientX : event.clientX;
+    const y = event.touches ? event.touches[0].clientY : event.clientY;
 
-        const x = event.touches ? event.touches[0].clientX : event.clientX;
-        const y = event.touches ? event.touches[0].clientY : event.clientY;
+    // Calculate the angle from the starting touch point to the current touch point
+    let targetAngle = Math.atan2(y - touchStartY, x - touchStartX);
 
-        let angleChange = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2) - lastAngle;
-        if (angleChange > Math.PI) angleChange -= 2 * Math.PI;
-        if (angleChange < -Math.PI) angleChange += 2 * Math.PI;
-
-        if (gameWorker) {
-            console.log("Posting 'inputRot' to worker.");
-            gameWorker.postMessage({ type: 'inputRot', rotation: angleChange });
-        }
-        lastAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
+    if (gameWorker) {
+        // --- THIS IS THE FIX FOR THE INVERTED DIRECTION ---
+        // By sending the negative of the angle, we reverse the rotation.
+        // You might not need the negative sign depending on your preference,
+        // but based on your description, this should feel correct.
+        gameWorker.postMessage({ type: 'setInputAngle', angle: targetAngle }); 
     }
+}
 
-    function onPointerUp(event) {
-        if (!isDragging) return;
-        event.preventDefault();
-        console.log(`Pointer UP event fired: ${event.type}`);
+function onPointerUp(event) {
+    if (!isDragging) return;
+    event.preventDefault();
+    console.log(`Pointer UP event fired: ${event.type}`);
 
-        isDragging = false;
-        if (gameWorker) {
-            console.log("Posting 'inputUp' to worker.");
-            gameWorker.postMessage({ type: 'inputUp' });
-        }
+    isDragging = false;
+    if (gameWorker) {
+        // Tell the worker the user is no longer actively steering
+        gameWorker.postMessage({ type: 'inputUp' });
     }
+}
     
     // --- 4. GAME LIFECYCLE ---
 
