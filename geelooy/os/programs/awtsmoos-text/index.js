@@ -138,7 +138,7 @@ export default ({
   // Create the content editable div
  // contentDiv.classList.add('content-editable');
  // contentDiv.setAttribute('contenteditable', 'true');
-  contentDiv.innerText = content;
+  contentDiv. value = content;
 
   const contentHolder = document.createElement('div');
   // Create the content editable div
@@ -152,7 +152,7 @@ export default ({
 
     
     if(type) {
-      coded =codeify(contentDiv, type)
+      coded =new codeify(contentDiv, type)
      // console.log(coded,"Coded",contentDiv);
       window.coded=coded;
       coded?.parent?.focus()
