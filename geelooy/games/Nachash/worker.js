@@ -1,5 +1,5 @@
 //B"H
-
+//file worker.js
 importScripts('worker-helpers.js');
 
 const state = {
@@ -7,40 +7,39 @@ const state = {
     isRunning: false,
     isPaused: false,
     score: 0,
+    level: 1,
+    // World and Camera
+    world: {
+        width: 4000,
+        height: 4000,
+        backgroundStripes: [],
+        backgroundEmojis: []
+    },
+    camera: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        zoom: 2 // Start zoomed in
+    },
     // Canvas and rendering
     canvas: null,
     ctx: null,
-    width: 0,
-    height: 0,
     pixelRatio: 1,
     // Game objects
     player: null,
     sparks: [],
     particles: [],
-    drones: [],
-    debris: [],
-    wormholes: [],
-    comet: null,
+    aiSnakes: [], // Replaces drones
     // Timers and counters
     sparkTimer: 0,
-    droneTimer: 0,
-    debrisTimer: 0,
-    wormholeTimer: 15000,
-    cometTimer: 20000,
-    // Settings
-    skillValues: {},
-    cosmicBg: '#02021a',
-    chain: {
-        count: 0,
-        timer: 0,
-        maxTime: 240
-    }
+    aiSnakeTimer: 0,
 };
 
-const HEBREW_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
+// Emojis for the background
+const BACKGROUND_EMOJIS = ['🌿', '🌼', '🌻', '💐', '🌹', '🥀', '🌺', '🌸', '💮', '🏵️', '🪻', '🍃', '🪵', '🪹'];
 
 self.onmessage = function(e) {
-   // console.log('[Worker] Message received:', e.data);
     const { type, ...data } = e.data;
     switch (type) {
         case 'init':
@@ -50,31 +49,13 @@ self.onmessage = function(e) {
             start(data);
             break;
         case 'resize':
-            resize(data);
+            resize(data.width, data.height, data.pixelRatio);
             break;
-            
-         case 'setInputAngle':
+        case 'setInputAngle':
             if (state.player) state.player.setTargetAngle(data.angle);
             break;
-
         case 'inputUp':
-             if (state.player) state.player.stopTurning(); // We'll add this method
-            break;
-        case 'inputRot':
-    // --- CHANGE THIS LINE ---
-    // Use the rotation value directly. Do not multiply it.
-    if (state.player) state.player.turn(data.rotation); 
-    break;
-            
-            
-        case 'inputUp':
-             if (state.player) state.player.turning = 0;
-            break;
-        case 'togglePause':
-            state.isPaused = !state.isPaused;
-            if (state.isPaused === false) {
-                gameLoop();
-            }
+            if (state.player) state.player.stopTurning();
             break;
     }
 };
@@ -82,43 +63,82 @@ self.onmessage = function(e) {
 function init({ canvas, width, height, pixelRatio, initialSettings }) {
     state.canvas = canvas;
     state.ctx = canvas.getContext('2d');
-    state.cosmicBg = initialSettings.cosmicBg;
     state.skillValues = initialSettings.skillValues;
-    resize({ width, height, pixelRatio });
+    resize(width, height, pixelRatio);
+    generateBackground();
 }
 
-function resize({ width, height, pixelRatio }) {
-    state.width = width;
-    state.height = height;
+function resize(width, height, pixelRatio) {
+    state.camera.width = width;
+    state.camera.height = height;
     state.pixelRatio = pixelRatio;
     state.canvas.width = width * pixelRatio;
     state.canvas.height = height * pixelRatio;
     state.ctx.scale(pixelRatio, pixelRatio);
 }
 
+function generateBackground() {
+    // Generate grass stripes
+    for (let i = 0; i < 100; i++) {
+        state.world.backgroundStripes.push({
+            y: Math.random() * state.world.height,
+            height: Math.random() * 50 + 20,
+            color: `hsl(120, 60%, ${Math.random() * 15 + 25}%)` // Shades of dark green
+        });
+    }
+    // Generate random emojis
+    const emojiArray = Array.from(BACKGROUND_EMOJIS);
+    for (let i = 0; i < 500; i++) {
+        state.world.backgroundEmojis.push({
+            char: emojiArray[Math.floor(Math.random() * emojiArray.length)],
+            x: Math.random() * state.world.width,
+            y: Math.random() * state.world.height,
+            size: Math.random() * 20 + 20
+        });
+    }
+}
+
 function start() {
-    
     state.score = 0;
+    state.level = 1;
     state.sparks = [];
     state.particles = [];
-    state.drones = [];
-    state.debris = [];
-    state.wormholes = [];
-    state.comet = null;
+    state.aiSnakes = [];
 
-    state.player = new Player(state.width / 2, state.height / 2, state.skillValues.startLength);
-    state.chain.maxTime = state.skillValues.chainTime;
+    const startX = state.world.width / 2;
+    const startY = state.world.height / 2;
 
-    for(let i = 0; i < 15; i++) {
+    state.player = new Player(startX, startY, 20); // Player starts with length 20
+
+    for (let i = 0; i < 200; i++) { // More sparks for a big world
         spawnSpark();
     }
-    for(let i = 0; i < 5; i++) {
-        spawnDebris();
+
+    const initialSnakeCount = 5 + Math.floor(state.level / 2);
+    for (let i = 0; i < initialSnakeCount; i++) { 
+        spawnAiSnake();
     }
-    
+
     state.isRunning = true;
     state.isPaused = false;
     gameLoop();
+}
+
+function updateCamera() {
+    const { camera, player, canvas } = state;
+    const targetZoom = 1.5; // Example target zoom level
+    
+    // Smoothly follow the player
+    const targetX = player.x - (camera.width / 2 / targetZoom);
+    const targetY = player.y - (camera.height / 2 / targetZoom);
+    
+    camera.x += (targetX - camera.x) * 0.08;
+    camera.y += (targetY - camera.y) * 0.08;
+    camera.zoom += (targetZoom - camera.zoom) * 0.02;
+
+    // Clamp camera to world boundaries
+    camera.x = Math.max(0, Math.min(camera.x, state.world.width - (camera.width / camera.zoom)));
+    camera.y = Math.max(0, Math.min(camera.y, state.world.height - (camera.height / camera.zoom)));
 }
 
 function gameLoop() {
@@ -131,17 +151,13 @@ function gameLoop() {
 }
 
 function update() {
-    const { player, sparks, particles, drones, debris, wormholes, comet, width, height } = state;
+    const { player, sparks, particles, aiSnakes } = state;
 
     player.update();
-    wrapPosition(player);
 
     // Update game objects
     particles.forEach(p => p.update());
-    drones.forEach(d => { d.update(); wrapPosition(d); });
-    debris.forEach(d => { d.update(); wrapPosition(d); });
-    wormholes.forEach(w => w.update());
-    if (comet) comet.update();
+    aiSnakes.forEach(s => s.update());
 
     // Collision detection
     checkCollisions();
@@ -149,32 +165,69 @@ function update() {
     // Timers and spawning
     updateTimers();
 
-    // Clean up dead particles
+    // Clean up dead particles and snakes
     state.particles = particles.filter(p => p.life > 0);
+    state.aiSnakes = state.aiSnakes.filter(s => s.isAlive);
+    
+    // Update camera position
+    updateCamera();
 }
 
 function draw() {
-    const { ctx, width, height, player, sparks, particles, drones, debris, wormholes, comet } = state;
+    const { ctx, camera } = state;
 
-    // Dynamic Nebula Background
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = state.cosmicBg;
-    ctx.fillRect(0, 0, width, height);
+    ctx.save();
+    ctx.clearRect(0, 0, camera.width, camera.height);
 
-    drawNebula(ctx, width, height);
+    // Apply camera zoom and translation
+    ctx.scale(camera.zoom, camera.zoom);
+    ctx.translate(-camera.x, -camera.y);
 
-    // Galactic Core
-    drawGalacticCore(ctx, width / 2, height / 2);
-    
-    // Draw game objects
-    wormholes.forEach(w => w.draw(ctx));
-    debris.forEach(d => d.draw(ctx));
+    // Draw Background
+    drawBackground(ctx);
+
+    // Draw Game Objects
     sparks.forEach(s => s.draw(ctx));
-    drones.forEach(d => d.draw(ctx));
-    if (comet) comet.draw(ctx);
+    aiSnakes.forEach(s => s.draw(ctx));
     player.draw(ctx);
     particles.forEach(p => p.draw(ctx));
+
+    ctx.restore();
+
+    // Draw UI (Score, etc.) - This is drawn without camera transforms
+    ctx.fillStyle = 'white';
+    ctx.font = '24px "Cormorant Garamond"';
+    ctx.shadowColor = 'black';
+    ctx.shadowBlur = 5;
+    ctx.fillText(`Score: ${state.score}`, 20, 40);
+    ctx.shadowBlur = 0;
 }
+
+
+function drawBackground(ctx) {
+    // Base color
+    ctx.fillStyle = '#2a5c2a'; // A dark grass green
+    ctx.fillRect(0, 0, state.world.width, state.world.height);
+
+    // Stripes
+    state.world.backgroundStripes.forEach(stripe => {
+        ctx.fillStyle = stripe.color;
+        ctx.fillRect(0, stripe.y, state.world.width, stripe.height);
+    });
+
+    // Emojis - Using Array.from to ensure they render correctly
+    ctx.font = '30px sans-serif'; 
+    state.world.backgroundEmojis.forEach(emoji => {
+        ctx.fillText(emoji.char, emoji.x, emoji.y);
+    });
+    
+    // Border
+    ctx.strokeStyle = 'rgba(139, 69, 19, 0.5)'; // Brown, semi-transparent
+    ctx.lineWidth = 40; // A thick border
+    ctx.strokeRect(20, 20, state.world.width - 40, state.world.height - 40);
+
+}
+
 
 function gameOver() {
     state.isRunning = false;
@@ -183,151 +236,89 @@ function gameOver() {
 
 function spawnSpark() {
     const spark = new Spark(
-        Math.random() * state.width,
-        Math.random() * state.height
+        Math.random() * (state.world.width - 100) + 50,
+        Math.random() * (state.world.height - 100) + 50
     );
     state.sparks.push(spark);
 }
 
-function spawnDrone() {
-    const edge = Math.floor(Math.random() * 4);
-    let x, y, angle;
-    switch(edge) {
-        case 0: x = 0; y = Math.random() * state.height; angle = 0; break;
-        case 1: x = state.width; y = Math.random() * state.height; angle = Math.PI; break;
-        case 2: x = Math.random() * state.width; y = 0; angle = Math.PI / 2; break;
-        case 3: x = Math.random() * state.width; y = state.height; angle = -Math.PI / 2; break;
-    }
-    state.drones.push(new Drone(x, y, angle));
+function spawnAiSnake() {
+    const snake = new AiSnake(
+        Math.random() * state.world.width,
+        Math.random() * state.world.height,
+        Math.floor(Math.random() * 15) + (5 * state.level), // Gets longer at higher levels
+        `hsl(${Math.random() * 360}, 70%, 50%)` // Random color
+    );
+    state.aiSnakes.push(snake);
 }
 
-function spawnDebris() {
-    state.debris.push(new Debris(
-        Math.random() * state.width,
-        Math.random() * state.height
-    ));
-}
-
-function spawnWormholes() {
-    const { width, height } = state;
-    const w1 = new Wormhole(Math.random() * width * 0.8 + width * 0.1, Math.random() * height * 0.8 + height * 0.1);
-    const w2 = new Wormhole(Math.random() * width * 0.8 + width * 0.1, Math.random() * height * 0.8 + height * 0.1);
-    w1.link(w2);
-    w2.link(w1);
-    state.wormholes = [w1, w2];
-}
-
-function spawnComet() {
-    const { width, height } = state;
-    const edge = Math.floor(Math.random() * 4);
-    let x, y, angle;
-    switch(edge) {
-        case 0: x = -50; y = Math.random() * height; angle = Math.random() * Math.PI - Math.PI/2; break;
-        case 1: x = width + 50; y = Math.random() * height; angle = Math.random() * Math.PI + Math.PI/2; break;
-        case 2: x = Math.random() * width; y = -50; angle = Math.random() * Math.PI; break;
-        case 3: x = Math.random() * width; y = height + 50; angle = -Math.random() * Math.PI; break;
-    }
-    state.comet = new Comet(x, y, angle);
-    self.postMessage({ type: 'playSound', name: 'comet' });
-}
 
 function updateTimers() {
+    // Spawn more sparks if needed
     state.sparkTimer++;
-    if (state.sparkTimer > 100) {
+    if (state.sparkTimer > 50 && state.sparks.length < 400) {
         state.sparkTimer = 0;
-        if (state.sparks.length < 30) spawnSpark();
+        spawnSpark();
     }
 
-    state.droneTimer++;
-    if(state.droneTimer > 500 && state.drones.length < 5) {
-        state.droneTimer = 0;
-        spawnDrone();
+    // Spawn more AI snakes as the game progresses
+    state.aiSnakeTimer++;
+    const requiredSnakes = 5 + state.level * 2;
+    if (state.aiSnakeTimer > 400 && state.aiSnakes.length < requiredSnakes) {
+        state.aiSnakeTimer = 0;
+        spawnAiSnake();
+        state.level++; // Increase level when a new snake spawns
     }
-    
-    state.debrisTimer++;
-    if(state.debrisTimer > 800 && state.debris.length < 10) {
-        state.debrisTimer = 0;
-        spawnDebris();
-    }
-    
-    state.wormholeTimer -= 16;
-    if(state.wormholeTimer <= 0) {
-        spawnWormholes();
-        state.wormholeTimer = 30000; // 30 seconds
-    }
-    if(state.wormholes.length > 0 && state.wormholes[0].life <= 0) {
-        state.wormholes = [];
-    }
-    
-    state.cometTimer -= 16;
-    if(state.cometTimer <= 0) {
-        spawnComet();
-        state.cometTimer = 45000; // 45 seconds
-    }
-    if (state.comet && (state.comet.x < -100 || state.comet.x > state.width + 100 || state.comet.y < -100 || state.comet.y > state.height + 100)) {
-        state.comet = null;
-    }
-
-    if (state.chain.timer > 0) {
-        state.chain.timer--;
-        if (state.chain.timer <= 0) {
-            if (state.chain.count > 5) {
-                 self.postMessage({ type: 'playSound', name: 'chainBreak' });
-            }
-            state.chain.count = 0;
-        }
-    }
-    self.postMessage({ type: 'updateChain', chain: state.chain });
 }
 
 function checkCollisions() {
-    const { player, sparks, drones, debris, wormholes, comet } = state;
-    
+    const { player, sparks, aiSnakes } = state;
+    const playerHead = { x: player.x, y: player.y, size: player.size };
+
     // Player head with sparks
-    sparks.forEach((spark, index) => {
-        if (getDistance(player.x, player.y, spark.x, spark.y) < player.size + spark.size) {
-            state.sparks.splice(index, 1);
-            const multiplier = 1 + Math.floor(state.chain.count / 5);
-            state.score += 10 * multiplier;
-            self.postMessage({ type: 'updateScore', score: state.score });
-            self.postMessage({ type: 'playSound', name: 'collect', opts: { pitch: 880 + state.chain.count * 20 } });
+    for (let i = sparks.length - 1; i >= 0; i--) {
+        const spark = sparks[i];
+        if (getDistance(playerHead.x, playerHead.y, spark.x, spark.y) < playerHead.size + spark.size) {
+            sparks.splice(i, 1);
+            state.score += 10;
             player.grow(1);
-            state.chain.count++;
-            state.chain.timer = state.chain.maxTime;
+            self.postMessage({ type: 'playSound', name: 'collect' });
             
-            // Hebrew letter particles
-            for(let i = 0; i < 10; i++) {
-                const letter = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)];
-                state.particles.push(new Particle(spark.x, spark.y, `hsl(${Math.random() * 360}, 100%, 75%)`, letter));
+            for (let p = 0; p < 5; p++) {
+                state.particles.push(new Particle(spark.x, spark.y, 'gold'));
             }
         }
-    });
+    }
 
-    // Player head with drones and debris
-    const obstacles = [...drones, ...debris.filter(d => d.size > 10)];
-    obstacles.forEach(obs => {
-        if (!player.isInvincible && getDistance(player.x, player.y, obs.x, obs.y) < player.size + obs.size) {
-            gameOver();
+    // Player interactions with AI snakes
+    for (const enemy of aiSnakes) {
+        if (!enemy.isAlive) continue;
+
+        // Player hits enemy head -> enemy dies
+        if (getDistance(playerHead.x, playerHead.y, enemy.x, enemy.y) < playerHead.size + enemy.size) {
+            enemy.die(); 
+            state.score += 100;
+            self.postMessage({ type: 'playSound', name: 'hit' });
+        } else {
+            // Player hits enemy body -> game over
+            for (let i = 1; i < enemy.body.length; i++) {
+                const seg = enemy.body[i];
+                 if (getDistance(playerHead.x, playerHead.y, seg.x, seg.y) < playerHead.size) {
+                    gameOver();
+                    return;
+                }
+            }
         }
-    });
-
-    // Player body with itself
-    if (!player.isInvincible && player.checkSelfCollision()) {
-        gameOver();
     }
     
-    // Player with wormholes
-    wormholes.forEach(w => {
-        if (getDistance(player.x, player.y, w.x, w.y) < w.radius && w.canTeleport) {
-            w.teleport(player);
-            self.postMessage({type: 'playSound', name: 'wormhole'});
+    // AI snake head with sparks
+    for (const snake of aiSnakes) {
+        for (let i = sparks.length - 1; i >= 0; i--) {
+            const spark = sparks[i];
+            if (getDistance(snake.x, snake.y, spark.x, spark.y) < snake.size + spark.size) {
+                sparks.splice(i, 1);
+                snake.grow(1);
+            }
         }
-    });
-    
-    // Player with comet
-    if (comet && getDistance(player.x, player.y, comet.x, comet.y) < player.size + 30) {
-        player.activateCometBoost(state.skillValues.powerupDuration);
-        state.comet = null;
-        self.postMessage({type: 'playSound', name: 'powerup'});
     }
 }
