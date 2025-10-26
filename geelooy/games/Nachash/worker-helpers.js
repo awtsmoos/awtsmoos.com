@@ -69,83 +69,7 @@ function generateAiName() {
     return name.split('').map((c, i) => i % 2 === 0 ? c.toLowerCase() : c.toUpperCase()).join('');
 }
 
-class Player {
-    constructor(x, y, length) {
-        this.type = 'player';
-        this.x = x; this.y = y; this.size = 14;
-        this.angle = 0; this.speed = 4.5;
-        this.body = []; this.maxLength = length;
-        this.isTurning = false; this.targetAngle = 0;
-        this.turnSpeed = 0.1; this.borderPadding = 30;
-        this.isInvincible = false;
-        this.isAlive = true;
-        this.score = 0;
-    }
 
-    // --- FIX: ADD THIS METHOD BACK ---
-    setTargetAngle(angle) {
-        this.isTurning = true;
-        this.targetAngle = angle;
-    }
-
-    // --- FIX: AND ADD THIS METHOD BACK ---
-    stopTurning() {
-        this.isTurning = false;
-    }
-
-    update() {
-        if (!this.isAlive) return;
-        if (this.isTurning) {
-            let angleDiff = this.targetAngle - this.angle;
-            while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-            while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-            this.angle += angleDiff * this.turnSpeed;
-        }
-        this.body.unshift({ x: this.x, y: this.y });
-        if (this.body.length > this.maxLength) this.body.pop();
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-        this.handleBorders();
-        state.score = this.score; // Update global score
-    }
-    
-    handleBorders() { 
-        const { width, height } = state.world; 
-        const pad = this.borderPadding; 
-        if ((this.x < pad && Math.cos(this.angle) < 0) || (this.x > width - pad && Math.cos(this.angle) > 0)) { 
-            this.angle = Math.PI - this.angle; 
-        } 
-        if ((this.y < pad && Math.sin(this.angle) < 0) || (this.y > height - pad && Math.sin(this.angle) > 0)) { 
-            this.angle = -this.angle; 
-        } 
-        this.x = Math.max(pad, Math.min(width - pad, this.x)); 
-        this.y = Math.max(pad, Math.min(height - pad, this.y));
-    }
-    
-    draw(ctx) { 
-        const color = 120; 
-        this.body.forEach((seg, i) => { 
-            const ratio = 1 - (i / this.body.length); 
-            ctx.fillStyle = `hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`; 
-            ctx.beginPath(); 
-            ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); 
-            ctx.fill(); 
-        }); 
-        ctx.fillStyle = `hsl(${color}, 100%, 70%)`; 
-        ctx.beginPath(); 
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
-        ctx.fill(); 
-    }
-    
-    grow(amount) { 
-        this.maxLength += amount; 
-    }
-    
-    die() { 
-        if (this.type === 'player') gameOver(); 
-        this.isAlive = false; 
-    }
-}
 
 
 
@@ -273,11 +197,82 @@ function drawMinimap(ctx) {
 
 
 
-// --- NEW & VITAL: The missing background drawing function ---
+// --- FIX: Corrected Player Class ---
+class Player {
+    constructor(x, y, length) {
+        this.type = 'player';
+        this.x = x; this.y = y; this.size = 14;
+        this.angle = 0; this.speed = 4.5;
+        this.body = []; this.maxLength = length;
+        this.isTurning = false; this.targetAngle = 0;
+        this.turnSpeed = 0.1; this.borderPadding = 30;
+        this.isInvincible = false;
+        this.isAlive = true;
+        this.score = 0;
+    }
+
+    setTargetAngle(angle) {
+        this.isTurning = true;
+        this.targetAngle = angle;
+    }
+
+    stopTurning() {
+        this.isTurning = false;
+    }
+
+    update() {
+        if (!this.isAlive) return;
+        
+        // This is the core movement logic that was failing
+        if (this.isTurning) {
+            let angleDiff = this.targetAngle - this.angle;
+            while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+            while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+            this.angle += angleDiff * this.turnSpeed;
+        }
+        
+        // Update body and position
+        this.body.unshift({ x: this.x, y: this.y });
+        if (this.body.length > this.maxLength) this.body.pop();
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        
+        this.handleBorders();
+        state.score = this.score;
+    }
+    
+    handleBorders() { 
+        const { width, height } = state.world; 
+        const pad = this.borderPadding; 
+        if ((this.x < pad && Math.cos(this.angle) < 0) || (this.x > width - pad && Math.cos(this.angle) > 0)) { this.angle = Math.PI - this.angle; } 
+        if ((this.y < pad && Math.sin(this.angle) < 0) || (this.y > height - pad && Math.sin(this.angle) > 0)) { this.angle = -this.angle; } 
+        this.x = Math.max(pad, Math.min(width - pad, this.x)); 
+        this.y = Math.max(pad, Math.min(height - pad, this.y));
+    }
+    
+    draw(ctx) { 
+        const color = 120; 
+        this.body.forEach((seg, i) => { 
+            const ratio = 1 - (i / this.body.length); 
+            ctx.fillStyle = `hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`; 
+            ctx.beginPath(); ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); ctx.fill(); 
+        }); 
+        ctx.fillStyle = `hsl(${color}, 100%, 70%)`; 
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
+    }
+    
+    grow(amount) { this.maxLength += amount; }
+    
+    die() { 
+        if (this.type === 'player') gameOver(); 
+        this.isAlive = false; 
+    }
+}
+
+
+// --- FIX: New, robust background drawing function ---
 function drawBackground(ctx) {
     const { camera, world } = state;
-    
-    // Define the visible area of the world
     const view = {
         x: camera.x,
         y: camera.y,
@@ -285,30 +280,31 @@ function drawBackground(ctx) {
         bottom: camera.y + (camera.height / camera.zoom)
     };
     
-    // Create a simple, tiled grass/dirt pattern for performance
-    const patchSize = 200;
-    const startCol = Math.floor(view.x / patchSize);
-    const endCol = Math.ceil(view.right / patchSize);
-    const startRow = Math.floor(view.y / patchSize);
-    const endRow = Math.ceil(view.bottom / patchSize);
-
-    for (let row = startRow; row < endRow; row++) {
-        for (let col = startCol; col < endCol; col++) {
-            // Use a deterministic "random" number so patches keep their color
-            const rand = Math.sin(col * 1.2 + row * 3.4) * 10000;
-            const colorType = rand - Math.floor(rand); // number between 0 and 1
-
-            if (colorType < 0.9) { // 90% grass
-                 ctx.fillStyle = `hsl(120, 30%, ${20 + (colorType * 10)}%)`;
-            } else { // 10% dirt
-                 ctx.fillStyle = `hsl(30, 30%, ${15 + (colorType * 10)}%)`;
-            }
-            ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
-        }
+    // A simple, fast grid pattern
+    const gridSize = 150;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    
+    // Draw vertical lines
+    const startX = Math.floor(view.x / gridSize) * gridSize;
+    for (let x = startX; x < view.right; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, view.y);
+        ctx.lineTo(x, view.bottom);
+        ctx.stroke();
     }
     
-    // Draw the outer border
-    ctx.strokeStyle = '#3a2a12';
+    // Draw horizontal lines
+    const startY = Math.floor(view.y / gridSize) * gridSize;
+    for (let y = startY; y < view.bottom; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(view.x, y);
+        ctx.lineTo(view.right, y);
+        ctx.stroke();
+    }
+
+    // World border
+    ctx.strokeStyle = '#5a3a22';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }

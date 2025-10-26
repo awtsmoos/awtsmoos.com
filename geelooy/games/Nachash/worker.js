@@ -97,17 +97,22 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+
+
 function update() {
     // --- PERFORMANCE: Update grid with dynamic objects ---
     state.grid.clear();
     state.grid.insert(state.player);
     state.aiSnakes.forEach(s => state.grid.insert(s));
-    // Collectibles are static, could be inserted once if they don't move. For simplicity, re-inserting.
     state.collectibles.forEach(c => state.grid.insert(c));
 
-    // Update all game objects
+    // --- FIX: Ensure player update is always called ---
     state.player.update();
-    state.aiSnakes.forEach(s => s.update());
+    state.aiSnakes.forEach(s => {
+        if (s.isAlive) s.update();
+    });
+    
+    // Update effects
     state.particles.forEach(p => p.update());
     state.lightningEffects.forEach(l => l.update());
 
@@ -118,37 +123,41 @@ function update() {
     state.particles = state.particles.filter(p => p.isActive);
     state.aiSnakes = state.aiSnakes.filter(s => s.isAlive);
     state.lightningEffects = state.lightningEffects.filter(l => l.life > 0);
+    
+    // Update camera AFTER player has moved
+    updateCamera();
 }
 
 function draw() {
     const { ctx, camera } = state;
     ctx.save();
     
-    // This is the base color of the canvas, which is cleared each frame.
-    ctx.fillStyle = '#050a05';
+    // Base color for the canvas, cleared each frame
+    ctx.fillStyle = '#101410'; // A slightly different dark base color
     ctx.fillRect(0, 0, camera.width, camera.height);
     
-    // --- FIX: Apply camera transform BEFORE drawing the world ---
+    // Apply camera transform
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // --- FIX: Explicitly draw the background first, then the objects ---
+    // --- FIX: Corrected and simplified drawing order ---
     drawBackground(ctx);
     drawWorld(ctx);
 
-    // Restore the context to screen-space for drawing the UI
+    // Restore context for UI
     ctx.restore();
 
-    // The UI is drawn last, on top of everything.
+    // Draw UI and effects last
     drawUI(ctx);
-    
-    // Screen flash effect for lightning
     if (state.screenFlash.alpha > 0) {
         ctx.fillStyle = `rgba(255, 255, 220, ${state.screenFlash.alpha})`;
         ctx.fillRect(0, 0, camera.width, camera.height);
         state.screenFlash.alpha -= 0.05;
     }
 }
+
+
+
 
 function gameOver() {
     state.isRunning = false;
