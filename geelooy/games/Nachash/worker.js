@@ -23,7 +23,7 @@ const state = {
         y: 0,
         width: 0,
         height: 0,
-        zoom: 2.0 // Start more zoomed in
+        zoom: 6.0 // Start more zoomed in
     },
     // Canvas
     canvas: null,
