@@ -341,16 +341,18 @@ if (!window.Worker || !window.OffscreenCanvas) {
     }
 
     function showMenu(menuId) {
-        // Hide all menus
-        document.querySelectorAll('.menu').forEach(m => m.classList.remove('visible'));
-        
-        // Show the specific menu if one is requested
+        // First, hide every single element that has the "menu" class.
+        document.querySelectorAll('.menu').forEach(m => {
+            m.classList.remove('visible');
+        });
+
+        // Then, if a menuId was provided, find that ONE menu and make it visible.
         if (menuId) {
             document.getElementById(menuId).classList.add('visible');
         }
         
-        // Always update the fragment display
-        updateFragmentDisplays();
+        // This function can be simplified or removed for now if not needed
+        // updateFragmentDisplays(); 
     }
     
     function updateFragmentDisplays() {

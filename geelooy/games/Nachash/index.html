@@ -1,91 +1,57 @@
 <!-- B"H -->
+<!-- B"H -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Tikkun HaNachash - Rectification of the Serpent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tikkun HaNachash - Simplified</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-<style>
-        #didomi-host, .didomi-popup-open, .qc-cmp-ui-container {
-            display: none !important;
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Layer 1: The Game Canvas is now the permanent background. -->
-    <canvas id="gameCanvas"></canvas>
+    <!--
+      NO WRAPPERS. NO OVERLAYS.
+      The menus live directly in the body. The "visible" class controls which one is shown.
+      All others are set to "display: none;" by the CSS, making them non-existent.
+    -->
 
-    <!-- Layer 2: A single overlay for ALL UI elements. -->
-    <div id="ui-overlay">
-
-        <!-- Main Menu -->
-        <div id="mainMenu" class="menu">
-            <h1>Tikkun HaNachash</h1>
-            <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification. Gather scattered sparks (Nitzotzot) and reclaim its holy form. Click/touch and drag in a circular motion anywhere on the screen to steer.</p>
-            <div id="highScoreDisplay">Highest Rectification: 0</div>
-            <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
-            <div class="button-group">
-                <button id="playButton" class="menu-button">Begin Rectification</button>
-                <button id="abilitiesButton" class="settings-toggle">Abilities</button>
-                <button id="settingsButton" class="settings-toggle">⚙️</button>
-            </div>
-        </div>
-
-        <!-- Settings Menu -->
-        <div id="settingsMenu" class="menu">
-            <h2>Settings</h2>
-            <div class="setting-row"><span>Show Story Lore</span><label class="switch"><input type="checkbox" id="captionToggle" checked><span class="slider"></span></label></div>
-            <button id="editCaptionsButton" class="settings-toggle">Edit Lore</button>
-            <button id="closeSettingsButton" class="settings-toggle">Close</button>
-        </div>
-
-        <!-- Abilities Menu -->
-        <div id="abilitiesMenu" class="menu">
-            <h2>Abilities</h2>
-            <div id="abilitiesFragmentDisplay">Ein Sof Fragments: 0</div>
-            <div id="skill-tree"></div>
-            <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
-        </div>
-
-        <!-- Caption Editor Menu -->
-        <div id="captionEditor" class="menu">
-            <h2>Edit Lore</h2>
-            <p>Enter each lore entry on a new line. Unlocked at scores 0, 50, 150, 300...</p>
-            <textarea id="captionTextarea"></textarea>
-            <button id="saveCaptionsButton" class="settings-toggle">Save & Close</button>
-        </div>
-
-        <!-- Game Over Menu -->
-        <div id="gameOverScreen" class="menu">
-            <h2>The Spark Ascends</h2>
-            <div id="scoreDisplay">Final Rectification: 0</div>
-            <div id="fragmentsEarnedDisplay"></div>
-            <div id="gameOverHighScore"></div>
-            <button id="restartButton" class="menu-button">Renew the Cycle</button>
-        </div>
-
-        <!-- In-Game HUD elements are also in the overlay -->
-        <div id="chain-display">
-            <div id="chain-text"></div>
-            <div id="chain-timer-bar"></div>
-        </div>
-        <div id="lore-container">
-            <div id="lore-text"></div>
-            <div id="lore-unlock-progress"><div id="lore-unlock-progress-bar"></div></div>
-        </div>
-        <div id="game-ui-controls">
-            <button id="mute-button">🔊</button>
-            <button id="pause-button">||</button>
-        </div>
-        <div id="pause-overlay">PAUSED</div>
-        <div id="top-left-ui">
-            <div id="score-readout">Rectification: 0</div>
-        </div>
-
+    <!-- Main Menu (Starts Visible) -->
+    <div id="mainMenu" class="menu visible">
+        <h1>Tikkun HaNachash</h1>
+        <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification.</p>
+        <div id="highScoreDisplay">Highest Rectification: 0</div>
+        <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
+        <button id="playButton" class="menu-button">Begin Rectification</button>
+        <button id="abilitiesButton" class="settings-toggle">Abilities</button>
+        <button id="settingsButton" class="settings-toggle">⚙️</button>
     </div>
+
+    <!-- Settings Menu (Starts Hidden) -->
+    <div id="settingsMenu" class="menu">
+        <h2>Settings</h2>
+        <button id="closeSettingsButton" class="settings-toggle">Close</button>
+    </div>
+
+    <!-- Abilities Menu (Starts Hidden) -->
+    <div id="abilitiesMenu" class="menu">
+        <h2>Abilities</h2>
+        <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
+    </div>
+    
+    <!-- Game Over Menu (Starts Hidden) -->
+    <div id="gameOverScreen" class="menu">
+        <h2>The Spark Ascends</h2>
+        <div id="scoreDisplay">Final Rectification: 0</div>
+        <button id="restartButton" class="menu-button">Renew the Cycle</button>
+    </div>
+
+
+    <!-- The canvas can be added back here later once the menu is confirmed to be working -->
+    <!-- <canvas id="gameCanvas"></canvas> -->
+
+
 
     <script src="main.js"></script>
     <script src="/register.js"></script>
