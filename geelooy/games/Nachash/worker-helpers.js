@@ -63,37 +63,45 @@ class Player {
         this.angle += amount;
     }
 
-    update() {
-        // Galactic Core Gravity
-        const dx = state.width/2 - this.x;
-        const dy = state.height/2 - this.y;
-        const distSq = dx*dx + dy*dy;
-        if (distSq > 2500) { // Gravity only affects outside a certain radius
-            const angleToCenter = Math.atan2(dy, dx);
-            // This logic can be complex; a simple pull towards the center:
-            this.x += dx / distSq * 50; // The '50' is a gravity strength constant
-            this.y += dy / distSq * 50;
-        }
+    // In worker-helpers.js -> class Player -> update()
+
+update() {
+    // --- COMMENT OUT THIS ENTIRE BLOCK TO FIX THE CONTROLS ---
+    /*
+    // Galactic Core Gravity
+    const dx = state.width/2 - this.x;
+    const dy = state.height/2 - this.y;
+    const distSq = dx*dx + dy*dy;
+    if (distSq > 2500) { // Gravity only affects outside a certain radius
+        const angleToCenter = Math.atan2(dy, dx);
+        // This logic can be complex; a simple pull towards the center:
+        this.x += dx / distSq * 50; // The '50' is a gravity strength constant
+        this.y += dy / distSq * 50;
+    }
+    */
+    // -----------------------------------------------------------
 
 
-        this.body.unshift({ x: this.x, y: this.y });
-        if (this.body.length > this.maxLength) {
-            this.body.pop();
-        }
+    this.body.unshift({ x: this.x, y: this.y });
+    if (this.body.length > this.maxLength) {
+        this.body.pop();
+    }
 
-        const currentSpeed = this.cometBoost ? this.speed * 2.5 : this.speed;
+    const currentSpeed = this.cometBoost ? this.speed * 2.5 : this.speed;
 
-        this.x += Math.cos(this.angle) * currentSpeed;
-        this.y += Math.sin(this.angle) * currentSpeed;
+    this.x += Math.cos(this.angle) * currentSpeed;
+    this.y += Math.sin(this.angle) * currentSpeed;
 
-        if (this.invincibleTimer > 0) {
-            this.invincibleTimer -= 16;
-            if (this.invincibleTimer <= 0) {
-                this.isInvincible = false;
-                this.cometBoost = false;
-            }
+    if (this.invincibleTimer > 0) {
+        this.invincibleTimer -= 16;
+        if (this.invincibleTimer <= 0) {
+            this.isInvincible = false;
+            this.cometBoost = false;
         }
     }
+}
+
+
 
     draw(ctx) {
         // Comet boost effect
