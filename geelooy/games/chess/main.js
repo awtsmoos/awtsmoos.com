@@ -581,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		gameState.fenHistory.push(fenForHistory);
 
 		messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
+		scrollMsg()
 		setTimeout(() => {
 			aiWorker.postMessage({
 				command: 'calculate_move',
@@ -877,13 +878,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			case 'pva':
 				messageDiv.textContent += `\n\nYou are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
 				if (playerColor === 'b') startAIMove();
+				scrollMsg()
 				break;
 			case 'pvp':
 				messageDiv.textContent += "\n\nWhite's turn to move.";
+				scrollMsg()
 				break;
 			case 'ava':
 				messageDiv.textContent += "AI vs AI. White to move.";
 				startAIMove();
+				scrollMsg()
 				break;
 		}
 		
