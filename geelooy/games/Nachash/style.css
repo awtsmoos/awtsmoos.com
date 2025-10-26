@@ -33,7 +33,7 @@ html, body {
 #ui-container {
     z-index: 2; /* All UI is on the top layer */
     /* By default, the entire UI layer is CLICK-THROUGH */
-    pointer-events: none;
+    
 }
 
 canvas {
@@ -58,7 +58,7 @@ canvas {
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     
     /* A visible menu becomes CLICKABLE, overriding the container */
-    pointer-events: auto;
+    
     
     opacity: 0; /* Hidden by default */
     transition: opacity 0.3s ease;
@@ -90,7 +90,7 @@ p { font-size: 1.3em; line-height: 1.6; }
 
 /* In-game UI elements that need to be clickable */
 #game-ui-controls, #pause-overlay.visible {
-    pointer-events: auto;
+    
 }
 
 /* Add any other specific styles you need below */
