@@ -241,7 +241,7 @@ if (!window.Worker || !window.OffscreenCanvas) {
     }
     
     function startGame() {
-    	console.lpg("starting game!")
+    	console.log("starting game!")
         showMenu(null);
         ui.gameUiControls.style.display = 'flex';
         ui.topLeftUi.style.display = 'block';
