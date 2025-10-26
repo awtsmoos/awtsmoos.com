@@ -6,22 +6,43 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
+    overflow: hidden; /* Prevent scrollbars */
     font-family: 'Cormorant Garamond', serif;
-    background-color: #02021a; /* Dark background */
+    background-color: #02021a;
     color: #e0e0e0;
-    /* This ensures the menu centers correctly */
+}
+
+/* --- 2. CANVAS & MENU CONTAINER --- */
+
+/* Canvas is fixed to the background and hidden by default */
+#gameCanvas {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* This container holds and centers all menus */
+#menu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* --- 2. THE MENU SYSTEM (THE CORE LOGIC) --- */
+/* --- 3. THE MENU SYSTEM --- */
 
-/* By default, ALL menus are hidden and DO NOT EXIST on the page. */
+/* By default, ALL menus are hidden */
 .menu {
-    display: none; /* This is the most important rule. */
-
-    /* Basic styling for when it becomes visible */
+    display: none;
     background-color: #0a0a22;
     border: 2px solid #00ffff;
     border-radius: 15px;
@@ -32,29 +53,21 @@ html, body {
     box-sizing: border-box;
 }
 
-/* The ONLY rule to make a menu appear. It becomes a block element. */
+/* The ONLY rule to make a menu appear */
 .menu.visible {
     display: block;
 }
 
 
-/* --- 3. SIMPLE STYLING FOR CONTENT --- */
+/* --- 4. STYLING FOR CONTENT --- */
 h1, h2 {
     color: #00ffff;
     text-shadow: 0 0 15px #00ffff;
     font-size: 3em;
+    margin-top: 0;
 }
-
-p {
-    font-size: 1.3em;
-    line-height: 1.6;
-}
-
-#highScoreDisplay, #fragmentDisplay {
-    font-size: 1.3em;
-    color: #ffd700;
-    margin-top: 15px;
-}
+p { font-size: 1.3em; line-height: 1.6; }
+#highScoreDisplay, #fragmentDisplay { font-size: 1.3em; color: #ffd700; margin-top: 15px; }
 
 button {
     padding: 15px 30px;
@@ -68,12 +81,5 @@ button {
     background-color: #00ffff;
     color: #111111;
 }
-
-button:hover {
-    transform: scale(1.05);
-}
-
-.settings-toggle {
-    background-color: #888;
-    color: white;
-}
+button:hover { transform: scale(1.05); }
+.settings-toggle { background-color: #888; color: white; }

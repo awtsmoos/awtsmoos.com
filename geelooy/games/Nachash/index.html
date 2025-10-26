@@ -1,55 +1,50 @@
 <!-- B"H -->
-<!-- B"H -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tikkun HaNachash - Simplified</title>
+    <title>Tikkun HaNachash</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!--
-      NO WRAPPERS. NO OVERLAYS.
-      The menus live directly in the body. The "visible" class controls which one is shown.
-      All others are set to "display: none;" by the CSS, making them non-existent.
-    -->
+    <!-- The game canvas is now the background. It will be shown/hidden by the JS. -->
+    <canvas id="gameCanvas"></canvas>
 
-    <!-- Main Menu (Starts Visible) -->
-    <div id="mainMenu" class="menu visible">
-        <h1>Tikkun HaNachash</h1>
-        <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification.</p>
-        <div id="highScoreDisplay">Highest Rectification: 0</div>
-        <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
-        <button id="playButton" class="menu-button">Begin Rectification</button>
-        <button id="abilitiesButton" class="settings-toggle">Abilities</button>
-        <button id="settingsButton" class="settings-toggle">⚙️</button>
+    <!-- A container for all menus. -->
+    <div id="menu-container">
+        <!-- Main Menu (Starts Visible) -->
+        <div id="mainMenu" class="menu visible">
+            <h1>Tikkun HaNachash</h1>
+            <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification.</p>
+            <div id="highScoreDisplay">Highest Rectification: 0</div>
+            <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
+            <button id="playButton" class="menu-button">Begin Rectification</button>
+            <button id="abilitiesButton" class="settings-toggle">Abilities</button>
+            <button id="settingsButton" class="settings-toggle">⚙️</button>
+        </div>
+
+        <!-- Settings Menu (Starts Hidden) -->
+        <div id="settingsMenu" class="menu">
+            <h2>Settings</h2>
+            <button id="closeSettingsButton" class="settings-toggle">Close</button>
+        </div>
+
+        <!-- Abilities Menu (Starts Hidden) -->
+        <div id="abilitiesMenu" class="menu">
+            <h2>Abilities</h2>
+            <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
+        </div>
+        
+        <!-- Game Over Menu (Starts Hidden) -->
+        <div id="gameOverScreen" class="menu">
+            <h2>The Spark Ascends</h2>
+            <div id="scoreDisplay">Final Rectification: 0</div>
+            <button id="restartButton" class="menu-button">Renew the Cycle</button>
+        </div>
     </div>
-
-    <!-- Settings Menu (Starts Hidden) -->
-    <div id="settingsMenu" class="menu">
-        <h2>Settings</h2>
-        <button id="closeSettingsButton" class="settings-toggle">Close</button>
-    </div>
-
-    <!-- Abilities Menu (Starts Hidden) -->
-    <div id="abilitiesMenu" class="menu">
-        <h2>Abilities</h2>
-        <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
-    </div>
-    
-    <!-- Game Over Menu (Starts Hidden) -->
-    <div id="gameOverScreen" class="menu">
-        <h2>The Spark Ascends</h2>
-        <div id="scoreDisplay">Final Rectification: 0</div>
-        <button id="restartButton" class="menu-button">Renew the Cycle</button>
-    </div>
-
-
-    <!-- The canvas can be added back here later once the menu is confirmed to be working -->
-    <!-- <canvas id="gameCanvas"></canvas> -->
 
 
 

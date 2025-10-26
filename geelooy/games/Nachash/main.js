@@ -243,18 +243,20 @@ if (!window.Worker || !window.OffscreenCanvas) {
     
     function startGame() {
     	console.log("starting game!")
-        showMenu(null);
-        ui.gameUiControls.style.display = 'flex';
-        ui.topLeftUi.style.display = 'block';
+        showMenu(null); // Hide all menus
+        ui.canvas.style.display = 'block'; // SHOW the canvas
+        // ui.gameUiControls.style.display = 'flex'; // Uncomment these if you add them back to HTML
+        // ui.topLeftUi.style.display = 'block'; // Uncomment these if you add them back to HTML
         audioManager.init();
-        loreManager.reset();
+        // loreManager.reset(); // Uncomment this if you add the lore elements back
         gameWorker.postMessage({ type: 'start', skillValues: skillManager.getValues() });
     }
     
     function endGame(finalScore) {
-        ui.gameUiControls.style.display = 'none';
-        ui.topLeftUi.style.display = 'none';
-        updateChainUI({ count: 0 }); // Hide chain meter
+        ui.canvas.style.display = 'none'; // HIDE the canvas
+        // ui.gameUiControls.style.display = 'none'; // Uncomment these if needed
+        // ui.topLeftUi.style.display = 'none'; // Uncomment these if needed
+        // updateChainUI({ count: 0 }); // Uncomment this if you add chain UI back
 
         const highScore = checkAndSaveHighScore(finalScore);
         const fragmentsEarned = Math.floor(finalScore / 100);
@@ -262,9 +264,10 @@ if (!window.Worker || !window.OffscreenCanvas) {
         skillManager.save();
 
         showMenu('gameOverScreen');
+        // Make sure these elements exist in your simplified gameOverScreen HTML
         ui.scoreDisplay.textContent = `Final Rectification: ${finalScore}`;
-        ui.fragmentsEarnedDisplay.textContent = `Fragments Earned: ${fragmentsEarned}💎`;
-        ui.gameOverHighScore.textContent = `Highest: ${highScore}`;
+        // ui.fragmentsEarnedDisplay.textContent = `Fragments Earned: ${fragmentsEarned}💎`;
+        // ui.gameOverHighScore.textContent = `Highest: ${highScore}`;
     }
 
     function updateChainUI(chain) {
