@@ -232,31 +232,38 @@ class VirtualizedEditor {
 	}
 
 	/** @private @async @function _update - Prepares state and triggers a render. */
-	async _update() {
-		const txt = this.textarea.value;
-		try {
-			// Use makeQuickWorker for the ephemeral task of splitting lines, as requested.
-			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-		} catch (e) {
-			console.error("Quick worker failed for line splitting, falling back.", e);
-			this.lines = txt.split("\n");
-		}
+	/** @private @async @function _update - Prepares state and triggers a render. */
+/** @private @async @function _update - Prepares state and triggers a render. */
+async _update() {
+    const txt = this.textarea.value;
+    try {
+        this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+    } catch (e) {
+        console.error("Quick worker failed for line splitting, falling back.", e);
+        this.lines = txt.split("\n");
+    }
 
-		const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + 2;
-		if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
-			this.viewportDivs = [];
-			this.viewport.innerHTML = '';
-			for (let i = 0; i < neededDivs; i++) {
-				const div = document.createElement('div');
-				div.style.height = `${this.lineHeight}px`;
-				this.viewport.appendChild(div);
-				this.viewportDivs.push(div);
-			}
-		}
+    // --- CHANGE IS HERE ---
+    // Define how many extra lines to render above and below the viewport.
+    const BUFFER_LINES = 10; 
+    
+    // Calculate the total number of divs needed: visible lines + top buffer + bottom buffer.
+    const neededDivs = Math.ceil(this.wrapper.clientHeight / this.lineHeight) + (BUFFER_LINES * 2);
 
-		this._render();
-		this._updateCaret();
-	}
+    if (this.viewportDivs.length !== neededDivs && !isNaN(neededDivs) && neededDivs > 0) {
+        this.viewportDivs = [];
+        this.viewport.innerHTML = '';
+        for (let i = 0; i < neededDivs; i++) {
+            const div = document.createElement('div');
+            div.style.height = `${this.lineHeight}px`;
+            this.viewport.appendChild(div);
+            this.viewportDivs.push(div);
+        }
+    }
+
+    this._render();
+    this._updateCaret();
+}
 
 	/**
      * @private @function _render
@@ -266,35 +273,52 @@ class VirtualizedEditor {
     
 /**
  * @private @function _render
- * @description This function remains the same. Its primary job is to update the
+ * @description This function's primary job is to update the
  * "live" scroll position for immediate feedback and send a request.
+ */
+/**
+ * @private @function _render
+ * @description This function uses the buffer to pre-render content outside the
+ * visible viewport, ensuring smooth scrolling.
+ */
+/**
+ * @private @function _render
+ * @description This function uses the buffer to pre-render content outside the
+ * visible viewport, ensuring smooth scrolling.
  */
 _render() {
     if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
+    // --- ENTIRE LOGIC IS ADJUSTED FOR THE BUFFER ---
+    const BUFFER_LINES = 10; // Must be the same value as in _update()
+
     const scrollTop = this.textarea.scrollTop;
     const scrollLeft = this.textarea.scrollLeft;
+
+    // 1. Determine the first line visible to the user.
     const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-    const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-    // This part is crucial and remains: The Body declares its current position.
+    // 2. Determine the first line we should actually render in our buffered viewport.
+    // We go back by BUFFER_LINES to render the area above what's visible.
+    const firstLineToRender = Math.max(0, firstVisibleLine - BUFFER_LINES);
+
+    // This state variable is still critical for the jitter-prevention logic.
     this.currentFirstLine = firstLineToRender;
-
+    
     const requestId = ++this.latestRequestId;
 
-    // The request to the worker is correct.
+    // 3. Post the request to the worker for the entire buffered block.
     this.highlighterWorker.postMessage({
         type: 'highlight',
         text: this.textarea.value,
         language: this.language,
         firstLineToRender: firstLineToRender,
-        numLinesToRender: this.viewportDivs.length,
+        numLinesToRender: this.viewportDivs.length, // Render into all available divs
         requestId: requestId
     });
 
-    // THIS IS THE CORRECTED PART: Reverting to the original, correct transform logic.
-    // It calculates how much the viewport (which starts rendering from firstLineToRender)
-    // needs to be shifted up to match the textarea's exact scrollTop.
+    // 4. Critically, adjust the vertical transform. We need to shift our
+    // entire viewport block upwards to align with the textarea's scroll position.
     const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
     this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
 }
