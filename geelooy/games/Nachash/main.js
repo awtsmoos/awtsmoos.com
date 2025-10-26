@@ -22,9 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // In main.js, near the top of the script
 
-let isDragging = false;
-// REMOVE: let lastAngle = 0;
-// ADD these:
+
 let touchStartX = 0;
 let touchStartY = 0;
 
