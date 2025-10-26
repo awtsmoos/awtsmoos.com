@@ -1,7 +1,6 @@
 <!-- 
 ב"ה
 B"H -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +9,23 @@ B"H -->
     <title>Tikkun HaNachash - Rectification of the Serpent</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic diagnostic style */
+        #loading-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+            font-family: 'Cormorant Garamond', serif;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
+    <div id="loading-message">Loading...</div>
+
     <div id="game-container">
         <div id="mainMenu" class="menu">
             <h1>Tikkun HaNachash</h1>
@@ -76,7 +90,7 @@ B"H -->
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 
 <script src="/register.js"></script>
       

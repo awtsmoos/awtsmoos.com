@@ -189,6 +189,9 @@ if (!window.Worker || !window.OffscreenCanvas) {
     };
 
     function main() {
+    	console.log("Nachashing")
+    	document.getElementById('loading-message')
+    	.style.display = 'none';
         setupWorker();
         setupEventListeners();
         skillManager.load();
