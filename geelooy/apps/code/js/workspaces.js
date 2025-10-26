@@ -54,7 +54,7 @@ export const Workspaces = {
                      ws.type === 'local' ? 'laptop' : 
                      ws.type === 'github' ? 'github' : 'brain';
 
-        wsRoot.innerHTML = /*html*/`
+        wsRoot.innerHTML = /*html*/ `
             <div class="workspace-header">
                 <div class="workspace-header-title">
                     <strong>

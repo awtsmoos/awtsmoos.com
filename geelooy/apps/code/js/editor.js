@@ -67,6 +67,7 @@ showPreviewer(data, fileInfo, tabId) { // B"H - Accept tabId
                 iframe.style.height = '100%';
                 iframe.style.border = 'none';
                 iframe.style.background = '#fff';
+                iframe.sandbox ="allow-scripts allow-same-origin"
                 State.previewIframes.set(tabId, iframe);
                 
                 const blob = new Blob([data], { type: 'text/html' });
@@ -102,7 +103,7 @@ showPreviewer(data, fileInfo, tabId) { // B"H - Accept tabId
             DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`;
             break;
         default:
-            DOM.previewer.innerHTML = `
+            DOM.previewer.innerHTML = /*html*/`
                 <div class="unsupported-message">
                     <svg class="svg-icon"><use href="#icon-file"></use></svg>
                     <h3>Binary File</h3>
