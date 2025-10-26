@@ -173,6 +173,13 @@ class VirtualizedEditor {
 		styleEl.id = this.styleId + "-style";
 		const caretColor = getComputedStyle(this.textarea).caretColor || 'white';
 		styleEl.innerHTML = /*css*/`
+		virtualized-editor-wrapper textarea::selection {
+            background-color: transparent;
+        }
+        .virtualized-editor-wrapper textarea::-moz-selection { /* For Firefox */
+            background-color: transparent;
+        }
+		
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
             .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
             .token-definitionKeyword { color: ${this.colors.definitionKeyword}; } .token-functionName { color: ${this.colors.functionName}; }
