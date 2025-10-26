@@ -266,7 +266,7 @@ class VirtualizedEditor {
     
 /**
  * @private @function _render
- * @description This function's primary job is to update the
+ * @description This function remains the same. Its primary job is to update the
  * "live" scroll position for immediate feedback and send a request.
  */
 _render() {
@@ -277,12 +277,12 @@ _render() {
     const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
     const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-    // The Body declares its current rendering position. This is crucial.
+    // This part is crucial and remains: The Body declares its current position.
     this.currentFirstLine = firstLineToRender;
 
     const requestId = ++this.latestRequestId;
 
-    // Send the request to the Soul (worker) with the current context.
+    // The request to the worker is correct.
     this.highlighterWorker.postMessage({
         type: 'highlight',
         text: this.textarea.value,
@@ -292,10 +292,11 @@ _render() {
         requestId: requestId
     });
 
-    // _render is the ONLY authority that sets the transform.
-    // This provides the immediate, fluid scrolling feedback.
-    const scrollRemainder = scrollTop % this.lineHeight;
-    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-firstVisibleLine * this.lineHeight}px)`;
+    // THIS IS THE CORRECTED PART: Reverting to the original, correct transform logic.
+    // It calculates how much the viewport (which starts rendering from firstLineToRender)
+    // needs to be shifted up to match the textarea's exact scrollTop.
+    const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
+    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
 }
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
