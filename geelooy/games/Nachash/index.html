@@ -10,40 +10,21 @@
 </head>
 <body>
 
-    <!-- NO CANVAS. NO WRAPPERS. JUST THE MENUS. -->
-
-    <div id="mainMenu" class="menu visible">
+    <!-- 
+        This is the ONLY element in the body initially.
+        It is not positioned absolutely. Its layout is controlled by the body.
+    -->
+    <div id="main-menu">
         <h1>Tikkun HaNachash</h1>
         <p>Gather scattered sparks and reclaim the serpent's holy form.</p>
         <div id="highScoreDisplay">Highest Rectification: 0</div>
-        <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
         <button id="playButton" class="menu-button">Begin Rectification</button>
-        <button id="abilitiesButton" class="settings-toggle">Abilities</button>
-        <button id="settingsButton" class="settings-toggle">⚙️</button>
     </div>
 
-    <div id="settingsMenu" class="menu">
-        <h2>Settings</h2>
-        <button id="closeSettingsButton" class="settings-toggle">Close</button>
-    </div>
-
-    <div id="abilitiesMenu" class="menu">
-        <h2>Abilities</h2>
-        <div id="abilitiesFragmentDisplay">Ein Sof Fragments: 0</div>
-        <div id="skill-tree"></div>
-        <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
-    </div>
-    
-    <div id="gameOverScreen" class="menu">
-        <h2>The Spark Ascends</h2>
-        <div id="scoreDisplay">Final Rectification: 0</div>
-        <div id="fragmentsEarnedDisplay"></div>
-        <div id="gameOverHighScore"></div>
-        <button id="restartButton" class="menu-button">Renew the Cycle</button>
-    </div>
+    <!-- The Game Canvas and other menus will be created by JavaScript when needed -->
 
     <script src="main.js"></script>
-    <script src="/register.js"></script>
+    <!-- Your other scripts can be included here as well -->
 
 </body>
 </html>

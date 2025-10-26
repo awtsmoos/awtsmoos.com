@@ -1,17 +1,23 @@
 /* B"H */
 html, body {
-    margin: 0; padding: 0; height: 100%; width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
     font-family: 'Cormorant Garamond', serif;
-    background-color: #02021a; color: #e0e0e0;
-    overflow: hidden; /* Important */
-    pointer-events: none;
+    background-color: #02021a;
+    color: #e0e0e0;
+    overflow: hidden;
+
+    /* --- KEY CHANGE FOR CENTERING --- */
+    /* This turns the body into a flex container that centers its children. */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center;     /* Vertically center */
 }
-.menu {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* This centers the menu */
+
+/* This is the menu container. No position, top, left, or transform needed. */
+#main-menu {
     background-color: #0a0a22;
     border: 2px solid #00ffff;
     border-radius: 15px;
@@ -20,12 +26,47 @@ html, body {
     max-width: 550px;
     box-sizing: border-box;
     text-align: center;
-    z-index: 10; /* Ensures menus are always on top */
-    pointer-events: auto;
-    user-select: text; /* ADD THIS LINE: It allows text to be selected */
+    
+    /* --- KEY CHANGE FOR SELECTION --- */
+    /* This explicitly tells the browser that text inside this element is selectable. */
+    user-select: text;
 }
-.menu.visible {
-    display: block; /* Makes the active menu appear */
+
+/* --- Standard Menu Text and Button Styles --- */
+h1, h2 {
+    color: #00ffff;
+    text-shadow: 0 0 15px #00ffff;
+    font-size: 3em;
+    user-select: text; /* Be extra sure headers are selectable */
 }
-/* All other styles for buttons, text, etc. */
-h1,h2{color:#00ffff;text-shadow:0 0 15px #00ffff;font-size:3em}p{font-size:1.3em}div[id$=Display]{font-size:1.3em;color:#ffd700;margin:15px 0}button,.skill-button{padding:15px 30px;font-size:1.5em;border:none;border-radius:8px;cursor:pointer;font-family:'Cormorant Garamond',serif;margin:10px 5px 0;background-color:#00ffff;color:#111;transition:transform .2s ease}:hover{transform:scale(1.05)}.settings-toggle{background-color:#888;color:#fff}.skill-row{display:flex;justify-content:space-between;align-items:center;margin:20px 0;width:100%;text-align:left}
+
+p {
+    font-size: 1.3em;
+    user-select: text; /* Be extra sure paragraphs are selectable */
+}
+
+div[id$=Display] {
+    font-size: 1.3em;
+    color: #ffd700;
+    margin: 15px 0;
+    user-select: text; /* Be extra sure displays are selectable */
+}
+
+.menu-button {
+    padding: 15px 30px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    margin-top: 10px;
+    background-color: #00ffff;
+    color: #111;
+    transition: transform .2s ease;
+}
+
+.menu-button:hover {
+    transform: scale(1.05);
+}
+
+/* We will add other menu styles back later, once this works */
