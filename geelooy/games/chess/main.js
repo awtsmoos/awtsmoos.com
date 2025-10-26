@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isItAIsTurn) {
 				startAIMove();
 			} else {
-				messageDiv.textContent += `${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
+				messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
 			}
 		}
 	}
@@ -571,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const fenForHistory = fen.split(' ').slice(0, 4).join(' ');
 		gameState.fenHistory.push(fenForHistory);
 
-		messageDiv.textContent += `${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
+		messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
 		setTimeout(() => {
 			aiWorker.postMessage({
 				command: 'calculate_move',
@@ -866,11 +866,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		drawCapturedPieces();
 		switch (mode) {
 			case 'pva':
-				messageDiv.textContent += `You are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
+				messageDiv.textContent += `\n\nYou are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
 				if (playerColor === 'b') startAIMove();
 				break;
 			case 'pvp':
-				messageDiv.textContent += "White's turn to move.";
+				messageDiv.textContent += "\n\nWhite's turn to move.";
 				break;
 			case 'ava':
 				messageDiv.textContent += "AI vs AI. White to move.";
