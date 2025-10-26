@@ -21,9 +21,7 @@ export const FileSystemProvider = {
     },
     
     // B"H
-// FILE: js/fs-provider.js
 
-// In the main FileSystemProvider object:
     async listAllFiles(item) {
         try {
             switch (item.type) {
@@ -73,9 +71,6 @@ export const FileSystemProvider = {
     },
 
     // B"H
-// FILE: js/fs-provider.js
-
-// ... (keep your existing top-level `FileSystemProvider` and imports) ...
 
     Local: {
         /**
@@ -136,9 +131,7 @@ export const FileSystemProvider = {
         
         
         // B"H
-// FILE: js/fs-provider.js
 
-// In the FileSystemProvider.Local object:
         async listAllFiles({ handle, path }) {
             const allFiles = [];
             // Recursive helper function to traverse directories
@@ -219,7 +212,7 @@ export const FileSystemProvider = {
         }
     },
 
-// ... (Your GitHub and IndexedDB objects remain here) ...
+
     IndexedDB: {
         DB_NAME: "VIVID_X_FS_PROFOUND",
         STORE_NAME: "files",
