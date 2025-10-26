@@ -1,4 +1,6 @@
 //B"H
+console.log('B"H');
+
 if (!window.Worker || !window.OffscreenCanvas) {
     alert("Your browser does not support features critical for this game (Web Workers or OffscreenCanvas). Please use a modern browser like Chrome or Firefox.");
 } else {
@@ -239,6 +241,7 @@ if (!window.Worker || !window.OffscreenCanvas) {
     }
     
     function startGame() {
+    	console.lpg("starting game!")
         showMenu(null);
         ui.gameUiControls.style.display = 'flex';
         ui.topLeftUi.style.display = 'block';
