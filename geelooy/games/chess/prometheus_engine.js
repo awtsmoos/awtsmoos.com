@@ -1318,7 +1318,7 @@ self.onmessage = function(e) {
             if (verifiedBookMoves.length > 0) {
                 if (DEBUG_MODE) console.log(`**CACHE HIT**: Hash found in book and move verified as legal.`);
                 const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
-                postMessage({ bestMove: randomVerifiedMove, score: "Book Move", timeTaken: 0, nodesSearched: 0 });
+                postMessage({ bestMove: randomVerifiedMove, score: "Book Move: "+randomVerifiedMove.name, timeTaken: 0, nodesSearched: 0 });
                 return;
             } else {
                 if (DEBUG_MODE) console.error(`**BOOK FAILURE**: Hash found, but all book moves were ILLEGAL. Treating as a cache miss.`);
