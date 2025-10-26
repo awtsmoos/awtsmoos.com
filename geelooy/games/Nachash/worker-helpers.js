@@ -726,7 +726,7 @@ class AiSnake extends Player {
 			ctx.beginPath();
 			ctx.arc(seg.x,
 				seg.y,
-				ratio *
+				
 				this
 				.size,
 				0, Math
