@@ -61,13 +61,13 @@ html, body {
     z-index: 100; /* Make sure it's on top */
 }
 
-/* style.css */
+/* In style.css */
 canvas {
-    /* These are all great! */
     display: block;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
-    /* But it has no width or height! */
+    width: 100%;  /* Ensure it has a size */
+    height: 100%; /* Ensure it has a size */
+    z-index: 100; /* Force it to be on top of everything */
 }

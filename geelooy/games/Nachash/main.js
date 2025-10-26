@@ -20,17 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let lastAngle = 0;
 
-    function onPointerDown(event) {
-        event.preventDefault(); // Prevent scrolling/double-tap zoom on touch
-        console.log(`Pointer DOWN event fired: ${event.type}`);
-        
-        audioManager.init();
-        isDragging = true;
-        
-        const x = event.touches ? event.touches[0].clientX : event.clientX;
-        const y = event.touches ? event.touches[0].clientY : event.clientY;
-        lastAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
-    }
+    // In main.js
+
+function onPointerDown(event) {
+    // --- THIS IS THE MOST IMPORTANT DEBUGGING LINE ---
+    console.log('--- onPointerDown FIRED! Event type:', event.type); 
+    // ---------------------------------------------------
+
+    event.preventDefault(); // Prevent scrolling/double-tap zoom on touch
+    
+    audioManager.init();
+    isDragging = true;
+    
+    const x = event.touches ? event.touches[0].clientX : event.clientX;
+    const y = event.touches ? event.touches[0].clientY : event.clientY;
+    lastAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
+}
 
     function onPointerMove(event) {
         if (!isDragging) return;
@@ -71,9 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function startGame() {
     console.log("startGame called.");
-    // Hide the menu container entirely
-    if (menuContainer) menuContainer.style.display = 'none';
-
+    
     // If a game over screen exists, remove it
     const oldGameOverScreen = document.querySelector('.game-over-menu');
     if (oldGameOverScreen) oldGameOverScreen.remove();
@@ -124,6 +127,10 @@ function startGame() {
     }, [offscreen]);
 
     gameWorker.postMessage({ type: 'start', skillValues: skillManager.getValues() });
+    
+    if (menuContainer) menuContainer.remove(); 
+
+
 }
 
     function endGame(finalScore) {
