@@ -68,6 +68,10 @@ class VirtualizedEditor {
 		this.textarea = textarea;
 		this.language = language;
 		
+		// The Body is now aware of its current rendered state.
+    this.currentFirstLine = 0;
+    
+		
 		this.latestRequestId = 0;
         this.lastRenderedId = -1;
         
@@ -259,31 +263,35 @@ class VirtualizedEditor {
      * @description This function remains the same. Its primary job is to update the
      * "live" scroll position for immediate feedback and send a request.
      */
-    _render() {
-        if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
+    
+_render() {
+    if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
-        const scrollTop = this.textarea.scrollTop;
-        const scrollLeft = this.textarea.scrollLeft;
-        const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-        const firstLineToRender = Math.max(0, firstVisibleLine - 1);
+    const scrollTop = this.textarea.scrollTop;
+    const scrollLeft = this.textarea.scrollLeft;
+    const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+    const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-        const requestId = ++this.latestRequestId;
+    // THE RECTIFICATION: The Body declares its current position.
+    this.currentFirstLine = firstLineToRender;
 
-        this.highlighterWorker.postMessage({
-            type: 'highlight',
-            text: this.textarea.value,
-            language: this.language,
-            firstLineToRender: firstLineToRender,
-            numLinesToRender: this.viewportDivs.length,
-            requestId: requestId
-        });
+    const requestId = ++this.latestRequestId;
 
-        // This transform provides the immediate, fluid scrolling feedback.
-        // It may be temporarily out of sync with the content, but the _onWorkerMessage
-        // will correct it when the new content arrives.
-        const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-        this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
-    }
+    // Send the request to the Soul as before.
+    this.highlighterWorker.postMessage({
+        type: 'highlight',
+        text: this.textarea.value,
+        language: this.language,
+        firstLineToRender: firstLineToRender,
+        numLinesToRender: this.viewportDivs.length,
+        requestId: requestId
+    });
+
+    // ABSOLUTE LAW: _render is the ONLY authority that sets the transform.
+    // This provides the immediate, fluid scrolling feedback.
+    const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
+    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
+}
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
 	_updateCaret() {
@@ -337,44 +345,42 @@ class VirtualizedEditor {
      * synchronized reality, binding position and content together.
      */
     _onWorkerMessage(e) {
-        // The message now includes the original coordinate: `responseFirstLine`.
-        const { type, htmlLines, requestId, responseFirstLine } = e.data;
+    const { type, htmlLines, requestId, responseFirstLine } = e.data;
 
-        if (type === 'highlightResult') {
-            // The Seal of Truth check remains: discard out-of-order thoughts.
-            if (requestId < this.lastRenderedId) {
-                return;
-            }
-            this.lastRenderedId = requestId;
+    if (type === 'highlightResult') {
+        // The temporal check remains, preventing old requests from overwriting newer ones.
+        if (requestId < this.lastRenderedId) {
+            return; 
+        }
 
-            // This is the moment of final, synchronized manifestation.
-            requestAnimationFrame(() => {
-                // 1. Manifest the light (the HTML content).
-                htmlLines.forEach((html, i) => {
-                    const div = this.viewportDivs[i];
-                    if (div) {
-                        if (html === null) {
-                            div.style.display = 'none';
-                        } else {
-                            div.style.display = 'block';
-                            // This check is still useful to prevent needless DOM manipulation
-                            if (div.innerHTML !== html) {
-                               div.innerHTML = html;
-                            }
+        // THE FINAL, ABSOLUTE RECTIFICATION: THE SEAL OF PLACE
+        // The Body checks if the Soul's thought is relevant to its CURRENT position.
+        // If the thought is about a different place, it is wisely discarded.
+        if (responseFirstLine !== this.currentFirstLine) {
+            return; // Jitter is eliminated here.
+        }
+
+        // If the thought is valid and relevant, it can be manifested.
+        this.lastRenderedId = requestId;
+
+        requestAnimationFrame(() => {
+            htmlLines.forEach((html, i) => {
+                const div = this.viewportDivs[i];
+                if (div) {
+                    if (html === null) {
+                        div.style.display = 'none';
+                    } else {
+                        div.style.display = 'block';
+                        if (div.innerHTML !== html) {
+                           div.innerHTML = html;
                         }
                     }
-                });
-
-                // 2. In the SAME FRAME, manifest the vessel (the position).
-                // Re-calculate the transform based on the Soul's reality, not the Body's potentially newer one.
-                // This guarantees the content that was just rendered is in the correct place.
-                const currentScrollTop = this.textarea.scrollTop;
-                const currentScrollLeft = this.textarea.scrollLeft;
-                const scrollRemainder = currentScrollTop - (responseFirstLine * this.lineHeight);
-                this.viewport.style.transform = `translate(${-currentScrollLeft}px, ${-scrollRemainder}px)`;
+                }
             });
-        }
+            // CRITICAL: This method NO LONGER sets the transform. The war is over.
+        });
     }
+}
 
 	// --- 3. PUBLIC API ---
 
