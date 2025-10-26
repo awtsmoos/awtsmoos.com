@@ -49,7 +49,10 @@ self.onmessage = (e) => {
         self.postMessage({
             type: 'highlightResult',
             htmlLines: highlightedLines,
-            requestId: requestId // Return the Seal of Truth
+            requestId: requestId, // Return the Seal of Truth
+            // Return the original coordinate. The Soul now provides the Body with spatial awareness.
+            responseFirstLine: firstLineToRender 
+        
         });
 
 		

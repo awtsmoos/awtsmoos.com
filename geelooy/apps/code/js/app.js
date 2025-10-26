@@ -337,7 +337,7 @@ setupEventListeners() {
     
 
     async showAddWorkspaceDialog() {
-        const contentHTML = `
+        const contentHTML = /*html*/`
             <div id="workspace-options">
                 <button class="menu-button" data-action="local"><svg class="svg-icon"><use href="#icon-laptop"></use></svg> Local Folder</button>
                 <button class="menu-button" data-action="github"><svg class="svg-icon"><use href="#icon-github"></use></svg> GitHub Repository</button>
@@ -474,14 +474,14 @@ setupEventListeners() {
 },
 
     async showSettings() {
-        const contentHTML = `
+        const contentHTML =`
             <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
             <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
             <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
                 <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
                 <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
             </div>
-        `;
+        `; 
         const result = await UI.showDialog({ title: 'Settings', contentHTML, okText: 'Save', cancelText: 'Cancel' });
 
         if (result) {

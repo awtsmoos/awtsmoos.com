@@ -67,6 +67,10 @@ class VirtualizedEditor {
 
 		this.textarea = textarea;
 		this.language = language;
+		
+		this.latestRequestId = 0;
+        this.lastRenderedId = -1;
+        
 		this.wrapper = null;
 		this.overlay = null;
 		this.viewport = null;
@@ -252,7 +256,8 @@ class VirtualizedEditor {
 
 	/**
      * @private @function _render
-     * @description Now sends the "Seal of Truth" with each request.
+     * @description This function remains the same. Its primary job is to update the
+     * "live" scroll position for immediate feedback and send a request.
      */
     _render() {
         if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
@@ -262,20 +267,20 @@ class VirtualizedEditor {
         const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
         const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-        // --- THE RECTIFICATION ---
-        // 1. A new, unique will (request ID) is created for this exact moment.
         const requestId = ++this.latestRequestId;
 
-        // 2. The will is sealed and sent with the message to the soul.
         this.highlighterWorker.postMessage({
             type: 'highlight',
             text: this.textarea.value,
             language: this.language,
             firstLineToRender: firstLineToRender,
             numLinesToRender: this.viewportDivs.length,
-            requestId: requestId // The Seal of Truth
+            requestId: requestId
         });
 
+        // This transform provides the immediate, fluid scrolling feedback.
+        // It may be temporarily out of sync with the content, but the _onWorkerMessage
+        // will correct it when the new content arrives.
         const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
         this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
     }
@@ -327,21 +332,24 @@ class VirtualizedEditor {
 
 	/**
      * @private @function _onWorkerMessage
-     * @description The Gate of Binah. It now inspects the Seal before manifesting reality.
+     * @description Gmar Tikkun. The final arbiter of reality. It now receives the
+     * content's original spatial coordinate and uses it to manifest a perfectly
+     * synchronized reality, binding position and content together.
      */
     _onWorkerMessage(e) {
-        const { type, htmlLines, requestId } = e.data;
+        // The message now includes the original coordinate: `responseFirstLine`.
+        const { type, htmlLines, requestId, responseFirstLine } = e.data;
 
         if (type === 'highlightResult') {
-            // --- THE RECTIFICATION ---
-            // 3. The Gatekeeper inspects the seal. If it's from the past, the thought is discarded.
+            // The Seal of Truth check remains: discard out-of-order thoughts.
             if (requestId < this.lastRenderedId) {
-                return; // This is an old reality. Do not manifest it.
+                return;
             }
-            // This is a valid, current reality. Update the record of what has been manifested.
             this.lastRenderedId = requestId;
 
+            // This is the moment of final, synchronized manifestation.
             requestAnimationFrame(() => {
+                // 1. Manifest the light (the HTML content).
                 htmlLines.forEach((html, i) => {
                     const div = this.viewportDivs[i];
                     if (div) {
@@ -349,12 +357,21 @@ class VirtualizedEditor {
                             div.style.display = 'none';
                         } else {
                             div.style.display = 'block';
+                            // This check is still useful to prevent needless DOM manipulation
                             if (div.innerHTML !== html) {
                                div.innerHTML = html;
                             }
                         }
                     }
                 });
+
+                // 2. In the SAME FRAME, manifest the vessel (the position).
+                // Re-calculate the transform based on the Soul's reality, not the Body's potentially newer one.
+                // This guarantees the content that was just rendered is in the correct place.
+                const currentScrollTop = this.textarea.scrollTop;
+                const currentScrollLeft = this.textarea.scrollLeft;
+                const scrollRemainder = currentScrollTop - (responseFirstLine * this.lineHeight);
+                this.viewport.style.transform = `translate(${-currentScrollLeft}px, ${-scrollRemainder}px)`;
             });
         }
     }
