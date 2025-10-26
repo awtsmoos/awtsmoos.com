@@ -9,24 +9,16 @@ B"H -->
     <title>Tikkun HaNachash - Rectification of the Serpent</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Basic diagnostic style */
-        #loading-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2em;
-            font-family: 'Cormorant Garamond', serif;
-            z-index: 1000;
-        }
-    </style>
 </head>
 <body>
-    <div id="loading-message">Loading...</div>
 
-    <div id="game-container">
+    <!-- Layer 1: The Game Canvas lives here and only here. -->
+    <div id="game-canvas-container">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <!-- Layer 2: All UI lives here, completely separate from the canvas. -->
+    <div id="ui-container">
         <div id="mainMenu" class="menu">
             <h1>Tikkun HaNachash</h1>
             <p>The Primordial Serpent, a being of luminous potential, was diminished. Your journey is its rectification. Gather scattered sparks (Nitzotzot) and reclaim its holy form. Click/touch and drag in a circular motion anywhere on the screen to steer.</p>
@@ -60,8 +52,6 @@ B"H -->
             <button id="saveCaptionsButton" class="settings-toggle">Save & Close</button>
         </div>
 
-        <canvas id="gameCanvas"></canvas>
-
         <div id="chain-display">
             <div id="chain-text"></div>
             <div id="chain-timer-bar"></div>
@@ -90,7 +80,9 @@ B"H -->
         </div>
     </div>
 
-    <script src="main.js" defer></script>
+    <script src="main.js"></script>
+
+
 
 <script src="/register.js"></script>
       
