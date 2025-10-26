@@ -2,7 +2,7 @@
 // This script aggressively unregisters existing service workers and then registers a new one.
 // Use with caution, as this bypasses the standard service worker update flow
 // and is generally NOT recommended for production environments.
-
+ 
 const SERVICE_WORKER_PATH = '/service-worker.js'; // Ensure this path is correct
 
 async function registerServiceWorker() {
