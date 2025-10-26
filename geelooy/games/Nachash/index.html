@@ -1,22 +1,12 @@
 <!-- B"H -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tikkun HaNachash - Final Fix</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <!-- The canvas is the background, controlled by JS. -->
+</head><body>
     <canvas id="gameCanvas"></canvas>
-
-    <!-- A single container for all menus. -->
     <div id="menu-container">
-
-        <!-- Main Menu -->
         <div id="mainMenu" class="menu visible">
             <h1>Tikkun HaNachash</h1>
             <p>Gather scattered sparks (Nitzotzot) and reclaim the serpent's holy form. Click/touch and drag in a circular motion to steer.</p>
@@ -26,23 +16,15 @@
             <button id="abilitiesButton" class="settings-toggle">Abilities</button>
             <button id="settingsButton" class="settings-toggle">⚙️</button>
         </div>
-
-        <!-- Settings Menu -->
         <div id="settingsMenu" class="menu">
-            <h2>Settings</h2>
-            <button id="closeSettingsButton" class="settings-toggle">Close</button>
+            <h2>Settings</h2><button id="closeSettingsButton" class="settings-toggle">Close</button>
         </div>
-
-        <!-- Abilities Menu -->
         <div id="abilitiesMenu" class="menu">
             <h2>Abilities</h2>
             <div id="abilitiesFragmentDisplay">Ein Sof Fragments: 0</div>
-            <!-- The skill manager needs this div to work -->
             <div id="skill-tree"></div>
             <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
         </div>
-        
-        <!-- Game Over Menu -->
         <div id="gameOverScreen" class="menu">
             <h2>The Spark Ascends</h2>
             <div id="scoreDisplay">Final Rectification: 0</div>
@@ -51,10 +33,5 @@
             <button id="restartButton" class="menu-button">Renew the Cycle</button>
         </div>
     </div>
-
-    <!-- Your JS files -->
-    <script src="main.js"></script>
-    <script src="/register.js"></script>
-
-</body>
-</html>
+    <script src="main.js"></script><script src="/register.js"></script>
+</body></html>
