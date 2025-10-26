@@ -174,7 +174,7 @@ function update() {
 }
 
 function draw() {
-    const { ctx, camera } = state;
+    const { ctx, camera, player, sparks, particles, aiSnakes } = state;
 
     ctx.save();
     ctx.clearRect(0, 0, camera.width, camera.height);
@@ -204,6 +204,8 @@ function draw() {
 }
 
 
+
+
 function drawBackground(ctx) {
     // Base color
     ctx.fillStyle = '#2a5c2a'; // A dark grass green
@@ -227,6 +229,10 @@ function drawBackground(ctx) {
     ctx.strokeRect(20, 20, state.world.width - 40, state.world.height - 40);
 
 }
+
+
+
+
 
 
 function gameOver() {
