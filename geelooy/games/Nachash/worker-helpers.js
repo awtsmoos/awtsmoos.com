@@ -79,34 +79,6 @@ function generateAiName() {
 
 
 
-class AiSnake extends Player {
-    constructor(x, y, length) {
-        super(x, y, length);
-        this.type = 'ai_snake';
-        this.name = generateAiName();
-        this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
-        this.speed = 3 + Math.random() * 1.5;
-        this.size = 12;
-    }
-    update() {
-        if (!this.isAlive) return;
-        this.findTarget();
-        super.update();
-    }
-    findTarget() {
-        const nearby = state.grid.getNearbyObjects(this);
-        const food = nearby.filter(o => o.type === 'collectible' && o.isAlive);
-        if (food.length > 0) {
-            this.targetAngle = Math.atan2(food[0].y - this.y, food[0].x - this.x);
-        } else { // Wander
-            if (Math.random() < 0.05) this.targetAngle += Math.random() * 2 - 1;
-        }
-        this.isTurning = true;
-    }
-    draw(ctx) {
-         this.body.forEach((seg, i) => { const ratio = 1 - (i / this.body.length); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); ctx.fill(); }); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-    }
-}
 
 class Collectible {
     constructor(x, y) {
@@ -312,3 +284,38 @@ function drawBackground(ctx) {
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
+
+
+
+class AiSnake extends Player {
+    constructor(x, y, length) {
+        super(x, y, length);
+        this.type = 'ai_snake';
+        this.name = generateAiName();
+        this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
+        this.speed = 3 + Math.random() * 1.5;
+        this.size = 12;
+    }
+    update() {
+        if (!this.isAlive) return;
+        this.findTarget();
+        super.update();
+    }
+    findTarget() {
+        const nearby = state.grid.getNearbyObjects(this);
+        const food = nearby.filter(o => o.type === 'collectible' && o.isAlive);
+        if (food.length > 0) {
+            this.targetAngle = Math.atan2(food[0].y - this.y, food[0].x - this.x);
+        } else { // Wander
+            if (Math.random() < 0.05) this.targetAngle += Math.random() * 2 - 1;
+        }
+        this.isTurning = true;
+    }
+    draw(ctx) {
+         this.body.forEach((seg, i) => { const ratio = 1 - (i / this.body.length); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(seg.x, seg.y, ratio * this.size, 0, Math.PI * 2); ctx.fill(); }); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+    }
+}
+
+
+
+
