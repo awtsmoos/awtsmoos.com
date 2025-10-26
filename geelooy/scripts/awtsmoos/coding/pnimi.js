@@ -393,7 +393,7 @@ _onWorkerMessage(e) {
         // If the thought is valid and relevant, it can be manifested.
         this.lastRenderedId = requestId;
 
-        requestAnimationFrame(() => {
+        //requestAnimationFrame(() => {
             htmlLines.forEach((html, i) => {
                 const div = this.viewportDivs[i];
                 if (div) {
@@ -408,7 +408,7 @@ _onWorkerMessage(e) {
                 }
             });
             // This method NO LONGER sets the transform. That is handled by _render.
-        });
+      //  });
     }
 }
 
