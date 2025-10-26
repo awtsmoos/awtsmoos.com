@@ -370,7 +370,9 @@ class VirtualizedEditor {
 				type: 'module'
 			});
 			this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
-			this.highlighterWorker.onerror = (e) => console.error("Error from highlighting worker:", e);
+			this.highlighterWorker.onerror = (e) => {
+			 console.error("Error from highlighting worker:", e);
+			 }
 		} catch (e) {
 			console.error("Failed to initialize the highlighting worker. Highlighting will be disabled.", e);
 		}
