@@ -178,13 +178,19 @@ function startGame() {
         console.log("Game over screen created.");
     }
     
-    function handleWorkerMessage({ type, ...data }) {
-        if (type === 'gameover') {
-            endGame(data.finalScore);
-        } else if (type === 'playSound') {
-            audioManager.play(data.name, data.opts);
-        }
+    // In main.js
+
+function handleWorkerMessage(event) { // Correctly accept the whole event object
+    // Then, get the data from the event.data property
+    const { type, ...data } = event.data; 
+
+    if (type === 'gameover') {
+        // This code will now run correctly
+        endGame(data.finalScore); 
+    } else if (type === 'playSound') {
+        audioManager.play(data.name, data.opts);
     }
+}
 
     // --- 5. INITIALIZATION ---
     function init() {
