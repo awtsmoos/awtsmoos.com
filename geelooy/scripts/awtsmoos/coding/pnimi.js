@@ -172,7 +172,7 @@ class VirtualizedEditor {
 		const styleEl = document.createElement("style");
 		styleEl.id = this.styleId + "-style";
 		const caretColor = getComputedStyle(this.textarea).caretColor || 'white';
-		styleEl.innerHTML = /*css*/ `
+		styleEl.innerHTML = /*css*/`
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
             .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
             .token-definitionKeyword { color: ${this.colors.definitionKeyword}; } .token-functionName { color: ${this.colors.functionName}; }
@@ -264,6 +264,11 @@ class VirtualizedEditor {
      * "live" scroll position for immediate feedback and send a request.
      */
     
+/**
+ * @private @function _render
+ * @description This function's primary job is to update the
+ * "live" scroll position for immediate feedback and send a request.
+ */
 _render() {
     if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
@@ -272,12 +277,12 @@ _render() {
     const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
     const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-    // THE RECTIFICATION: The Body declares its current position.
+    // The Body declares its current rendering position. This is crucial.
     this.currentFirstLine = firstLineToRender;
 
     const requestId = ++this.latestRequestId;
 
-    // Send the request to the Soul as before.
+    // Send the request to the Soul (worker) with the current context.
     this.highlighterWorker.postMessage({
         type: 'highlight',
         text: this.textarea.value,
@@ -287,10 +292,10 @@ _render() {
         requestId: requestId
     });
 
-    // ABSOLUTE LAW: _render is the ONLY authority that sets the transform.
+    // _render is the ONLY authority that sets the transform.
     // This provides the immediate, fluid scrolling feedback.
-    const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
+    const scrollRemainder = scrollTop % this.lineHeight;
+    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-firstVisibleLine * this.lineHeight}px)`;
 }
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
@@ -339,21 +344,21 @@ _render() {
 	}
 
 	/**
-     * @private @function _onWorkerMessage
-     * @description Gmar Tikkun. The final arbiter of reality. It now receives the
-     * content's original spatial coordinate and uses it to manifest a perfectly
-     * synchronized reality, binding position and content together.
-     */
-    _onWorkerMessage(e) {
+ * @private @function _onWorkerMessage
+ * @description The final arbiter of reality. It receives the content's 
+ * original spatial coordinate and uses it to manifest a perfectly
+ * synchronized reality, binding position and content together.
+ */
+_onWorkerMessage(e) {
     const { type, htmlLines, requestId, responseFirstLine } = e.data;
 
     if (type === 'highlightResult') {
-        // The temporal check remains, preventing old requests from overwriting newer ones.
+        // The temporal check prevents old requests from overwriting newer ones.
         if (requestId < this.lastRenderedId) {
             return; 
         }
 
-        // THE FINAL, ABSOLUTE RECTIFICATION: THE SEAL OF PLACE
+        // THE FINAL RECTIFICATION: THE SEAL OF PLACE
         // The Body checks if the Soul's thought is relevant to its CURRENT position.
         // If the thought is about a different place, it is wisely discarded.
         if (responseFirstLine !== this.currentFirstLine) {
@@ -377,7 +382,7 @@ _render() {
                     }
                 }
             });
-            // CRITICAL: This method NO LONGER sets the transform. The war is over.
+            // This method NO LONGER sets the transform. That is handled by _render.
         });
     }
 }

@@ -10,6 +10,10 @@
 let language = 'js';
 
 // --- Worker Message Handler ---
+/**
+ * @file highlighter.worker.js
+ * @description The Neshama (Soul). This is the pure, unbreakable state machine.
+ */
 self.onmessage = (e) => {
 	const {
 		type,
@@ -44,18 +48,14 @@ self.onmessage = (e) => {
 			}
 		}
 		
-		// --- THE RECTIFICATION ---
-        // 2. The soul returns the original, unmodified Seal with the result.
+        // The soul returns the original coordinate with the result.
         self.postMessage({
             type: 'highlightResult',
             htmlLines: highlightedLines,
-            requestId: requestId, // Return the Seal of Truth
-            // Return the original coordinate. The Soul now provides the Body with spatial awareness.
+            requestId: requestId,
+            // Return the original coordinate. The Soul provides the Body with spatial awareness.
             responseFirstLine: firstLineToRender 
-        
         });
-
-		
 	}
 };
 
