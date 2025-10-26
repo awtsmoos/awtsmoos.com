@@ -39,7 +39,10 @@ self.addEventListener('fetch', (event) => {
         const fetchPromise = fetch(event.request).then((networkResponse) => {
           // If we get a valid response, we clone it and store it in the cache.
           if (networkResponse && networkResponse.status === 200) {
+            try {
             cache.put(event.request, networkResponse.clone());
+            } catch(e){}
+          
           }
           return networkResponse;
         });
