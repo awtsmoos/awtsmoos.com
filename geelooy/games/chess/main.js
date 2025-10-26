@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		'N': 4,
 		'P': 5
 	};
+	
+	function scrollMsg(){
+		messageDiv.scrollTop=
+		messageDiv.scrollHeight
+	
+	}
 
 	function resetGameState() {
 		gameState = {
@@ -99,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display whether it was a book move or a calculated one
 			const moveSource = score === "Book Move" ? "Book Move" : `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
 			messageDiv.textContent += `AI moved. (${moveSource})`;
-			
+			scrollMsg()
             // =================================================================
 			//                          *** THE FIX ***
 			// =================================================================
@@ -402,6 +408,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				startAIMove();
 			} else {
 				messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
+				
+				scrollMsg()
+			
 			}
 		}
 	}
@@ -877,6 +886,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				startAIMove();
 				break;
 		}
+		
+		scrollMsg()
 	}
 
 	// --- Event Listeners ---
@@ -886,7 +897,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		gameOverOverlay.style.display = 'none';
 		chessContainer.style.display = 'none';
 		mainMenu.style.display = 'flex';
-		messageDiv.textContent += '';
+		messageDiv.textContent = '';
 		gameContainer.classList.add("hidden")
 	});
 	downloadButton.addEventListener('click', () => {
