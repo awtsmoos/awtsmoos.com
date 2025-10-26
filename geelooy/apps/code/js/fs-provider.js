@@ -180,10 +180,14 @@ export const FileSystemProvider = {
          */
         async write({ handle, path }, content) {
             // Get the file handle, creating the file if it doesn't exist.
+            try {
             const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
             const writable = await fileHandle.createWritable();
-            await writable.write({data: content});
+            await writable.write({ type: 'write', data: content});
             await writable.close();
+            } catch(e) {
+            console.log(e);
+            }
         },
 
         /**
