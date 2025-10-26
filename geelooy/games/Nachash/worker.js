@@ -1,6 +1,6 @@
 //B"H
 
-importScripts('worker_helpers.js');
+importScripts('worker-helpers.js');
 
 const state = {
     // Game state
