@@ -67,43 +67,64 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- 4. GAME LIFECYCLE ---
 
-    function startGame() {
-        console.log("startGame called.");
-        // Hide the menu container entirely
-        if (menuContainer) menuContainer.style.display = 'none';
+    // In main.js
 
-        // If a game over screen exists, remove it
-        const oldGameOverScreen = document.querySelector('.game-over-menu');
-        if (oldGameOverScreen) oldGameOverScreen.remove();
+function startGame() {
+    console.log("startGame called.");
+    // Hide the menu container entirely
+    if (menuContainer) menuContainer.style.display = 'none';
 
-        // Create canvas
-        gameCanvas = document.createElement('canvas');
-        gameCanvas.id = 'gameCanvas';
-        console.log("Canvas element created.");
-        
-        document.body.appendChild(gameCanvas);
-        console.log("Canvas appended to body.");
+    // If a game over screen exists, remove it
+    const oldGameOverScreen = document.querySelector('.game-over-menu');
+    if (oldGameOverScreen) oldGameOverScreen.remove();
 
-        // *** THE MOST IMPORTANT CHANGE IS HERE ***
-        // Add listeners DIRECTLY to the canvas element.
-        gameCanvas.addEventListener('mousedown', onPointerDown);
-        gameCanvas.addEventListener('touchstart', onPointerDown, { passive: false });
-        
-        // Move and Up listeners are on the window, so you don't lose control if the cursor leaves the canvas
-        window.addEventListener('mousemove', onPointerMove);
-        window.addEventListener('touchmove', onPointerMove, { passive: false });
-        window.addEventListener('mouseup', onPointerUp);
-        window.addEventListener('touchend', onPointerUp);
-        console.log("All game event listeners have been ADDED.");
+    // Create canvas
+    gameCanvas = document.createElement('canvas');
+    gameCanvas.id = 'gameCanvas';
+    console.log("Canvas element created.");
 
-        // Initialize and start the worker
-        gameWorker = new Worker('worker.js');
-        console.log("Game worker created.");
-        const offscreen = gameCanvas.transferControlToOffscreen();
-        gameWorker.onmessage = handleWorkerMessage;
-        gameWorker.postMessage({ type: 'init', canvas: offscreen, width: window.innerWidth, height: window.innerHeight, pixelRatio: window.devicePixelRatio, initialSettings: { skillValues: skillManager.getValues() } }, [offscreen]);
-        gameWorker.postMessage({ type: 'start', skillValues: skillManager.getValues() });
-    }
+    // --- THE CRITICAL FIX IS HERE ---
+    // Set the CSS size of the canvas element to make it fill the viewport.
+    // This is what allows it to receive touch events everywhere on the screen.
+    gameCanvas.style.width = '100%';
+    gameCanvas.style.height = '100%';
+    // --------------------------------
+
+    document.body.appendChild(gameCanvas);
+    console.log("Canvas appended to body.");
+
+    // Add listeners DIRECTLY to the canvas element.
+    gameCanvas.addEventListener('mousedown', onPointerDown);
+    gameCanvas.addEventListener('touchstart', onPointerDown, { passive: false });
+    
+    // Move and Up listeners are on the window, so you don't lose control if the cursor leaves the canvas
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('touchmove', onPointerMove, { passive: false });
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchend', onPointerUp);
+    console.log("All game event listeners have been ADDED.");
+
+    // Initialize and start the worker
+    gameWorker = new Worker('worker.js');
+    console.log("Game worker created.");
+    
+    const offscreen = gameCanvas.transferControlToOffscreen();
+    
+    gameWorker.onmessage = handleWorkerMessage;
+    
+    // Post the message to the worker AFTER the canvas is in the DOM and sized
+    gameWorker.postMessage({ 
+        type: 'init', 
+        canvas: offscreen, 
+        // Use the actual window dimensions for the drawing buffer
+        width: window.innerWidth, 
+        height: window.innerHeight, 
+        pixelRatio: window.devicePixelRatio, 
+        initialSettings: { skillValues: skillManager.getValues() } 
+    }, [offscreen]);
+
+    gameWorker.postMessage({ type: 'start', skillValues: skillManager.getValues() });
+}
 
     function endGame(finalScore) {
         console.log("endGame called.");

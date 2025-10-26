@@ -61,11 +61,13 @@ html, body {
     z-index: 100; /* Make sure it's on top */
 }
 
+/* style.css */
 canvas {
-    /* This ensures the canvas is a distinct layer */
+    /* These are all great! */
     display: block;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 10;
+    /* But it has no width or height! */
 }
