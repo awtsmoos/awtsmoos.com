@@ -250,27 +250,35 @@ class VirtualizedEditor {
 		this._updateCaret();
 	}
 
-	/** @private @function _render - Sends data to the Soul and positions the viewport. */
-	_render() {
-		if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
+	/**
+     * @private @function _render
+     * @description Now sends the "Seal of Truth" with each request.
+     */
+    _render() {
+        if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
-		const scrollTop = this.textarea.scrollTop;
-		const scrollLeft = this.textarea.scrollLeft;
-		const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-		const firstLineToRender = Math.max(0, firstVisibleLine - 1);
+        const scrollTop = this.textarea.scrollTop;
+        const scrollLeft = this.textarea.scrollLeft;
+        const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
+        const firstLineToRender = Math.max(0, firstVisibleLine - 1);
 
-		// This is the core communication: send the current reality to the Soul worker.
-		this.highlighterWorker.postMessage({
-			type: 'highlight',
-			text: this.textarea.value,
-			language: this.language,
-			firstLineToRender: firstLineToRender,
-			numLinesToRender: this.viewportDivs.length
-		});
+        // --- THE RECTIFICATION ---
+        // 1. A new, unique will (request ID) is created for this exact moment.
+        const requestId = ++this.latestRequestId;
 
-		const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-		this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
-	}
+        // 2. The will is sealed and sent with the message to the soul.
+        this.highlighterWorker.postMessage({
+            type: 'highlight',
+            text: this.textarea.value,
+            language: this.language,
+            firstLineToRender: firstLineToRender,
+            numLinesToRender: this.viewportDivs.length,
+            requestId: requestId // The Seal of Truth
+        });
+
+        const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
+        this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
+    }
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
 	_updateCaret() {
@@ -318,32 +326,38 @@ class VirtualizedEditor {
 	}
 
 	/**
-	 * @private @function _onWorkerMessage
-	 * @description Receives the light (highlighted HTML) from the Soul and manifests it in the Body.
-	 */
-	_onWorkerMessage(e) {
-		const {
-			type,
-			htmlLines
-		} = e.data;
-		if (type === 'highlightResult') {
-			requestAnimationFrame(() => {
-				htmlLines.forEach((html, i) => {
-					const div = this.viewportDivs[i];
-					if (div) {
-						if (html === null) {
-							div.style.display = 'none';
-						} else {
-							div.style.display = 'block';
-							if (div.innerHTML !== html) {
-								div.innerHTML = html;
-							}
-						}
-					}
-				});
-			});
-		}
-	}
+     * @private @function _onWorkerMessage
+     * @description The Gate of Binah. It now inspects the Seal before manifesting reality.
+     */
+    _onWorkerMessage(e) {
+        const { type, htmlLines, requestId } = e.data;
+
+        if (type === 'highlightResult') {
+            // --- THE RECTIFICATION ---
+            // 3. The Gatekeeper inspects the seal. If it's from the past, the thought is discarded.
+            if (requestId < this.lastRenderedId) {
+                return; // This is an old reality. Do not manifest it.
+            }
+            // This is a valid, current reality. Update the record of what has been manifested.
+            this.lastRenderedId = requestId;
+
+            requestAnimationFrame(() => {
+                htmlLines.forEach((html, i) => {
+                    const div = this.viewportDivs[i];
+                    if (div) {
+                        if (html === null) {
+                            div.style.display = 'none';
+                        } else {
+                            div.style.display = 'block';
+                            if (div.innerHTML !== html) {
+                               div.innerHTML = html;
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    }
 
 	// --- 3. PUBLIC API ---
 

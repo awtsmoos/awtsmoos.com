@@ -16,7 +16,8 @@ self.onmessage = (e) => {
 		text,
 		firstLineToRender,
 		numLinesToRender,
-		language: newLanguage
+		language: newLanguage,
+		requestId
 	} = e.data;
 
 	if (type === 'highlight') {
@@ -42,12 +43,16 @@ self.onmessage = (e) => {
 				highlightedLines.push(null); // Signal end of content
 			}
 		}
+		
+		// --- THE RECTIFICATION ---
+        // 2. The soul returns the original, unmodified Seal with the result.
+        self.postMessage({
+            type: 'highlightResult',
+            htmlLines: highlightedLines,
+            requestId: requestId // Return the Seal of Truth
+        });
 
-		// Send the result back to the main thread
-		self.postMessage({
-			type: 'highlightResult',
-			htmlLines: highlightedLines
-		});
+		
 	}
 };
 
