@@ -1,85 +1,28 @@
 /* B"H */
-
-/* --- 1. BASIC PAGE SETUP --- */
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden; /* Prevent scrollbars */
+    margin: 0; padding: 0; height: 100%; width: 100%;
     font-family: 'Cormorant Garamond', serif;
-    background-color: #02021a;
-    color: #e0e0e0;
+    background-color: #02021a; color: #e0e0e0;
+    overflow: hidden; /* Important */
 }
-
-/* --- 2. CANVAS & MENU CONTAINER --- */
-
-/* Canvas is fixed to the background and hidden by default */
-#gameCanvas {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* This container holds and centers all menus */
-#menu-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* --- 3. THE MENU SYSTEM --- */
-
-/* By default, ALL menus are hidden */
 .menu {
-    display: none;
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This centers the menu */
     background-color: #0a0a22;
     border: 2px solid #00ffff;
     border-radius: 15px;
-    text-align: center;
     padding: 30px;
     width: 90%;
     max-width: 550px;
     box-sizing: border-box;
+    text-align: center;
+    z-index: 10; /* Ensures menus are always on top */
 }
-
-/* The ONLY rule to make a menu appear */
 .menu.visible {
-    display: block;
+    display: block; /* Makes the active menu appear */
 }
-
-
-/* --- 4. STYLING FOR CONTENT --- */
-h1, h2 {
-    color: #00ffff;
-    text-shadow: 0 0 15px #00ffff;
-    font-size: 3em;
-    margin-top: 0;
-}
-p { font-size: 1.3em; line-height: 1.6; }
-#highScoreDisplay, #fragmentDisplay { font-size: 1.3em; color: #ffd700; margin-top: 15px; }
-
-button {
-    padding: 15px 30px;
-    font-size: 1.5em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Cormorant Garamond', serif;
-    margin: 10px 5px 0;
-    transition: transform 0.2s ease;
-    background-color: #00ffff;
-    color: #111111;
-}
-button:hover { transform: scale(1.05); }
-.settings-toggle { background-color: #888; color: white; }
+/* All other styles for buttons, text, etc. */
+h1,h2{color:#00ffff;text-shadow:0 0 15px #00ffff;font-size:3em}p{font-size:1.3em}div[id$=Display]{font-size:1.3em;color:#ffd700;margin:15px 0}button,.skill-button{padding:15px 30px;font-size:1.5em;border:none;border-radius:8px;cursor:pointer;font-family:'Cormorant Garamond',serif;margin:10px 5px 0;background-color:#00ffff;color:#111;transition:transform .2s ease}:hover{transform:scale(1.05)}.settings-toggle{background-color:#888;color:#fff}.skill-row{display:flex;justify-content:space-between;align-items:center;margin:20px 0;width:100%;text-align:left}
