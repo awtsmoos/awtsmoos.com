@@ -1,37 +1,56 @@
 <!-- B"H -->
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tikkun HaNachash - Final Fix</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tikkun HaNachash - Dynamic Canvas</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-</head><body>
-    <canvas id="gameCanvas"></canvas>
-    <div id="menu-container">
-        <div id="mainMenu" class="menu visible">
-            <h1>Tikkun HaNachash</h1>
-            <p>Gather scattered sparks (Nitzotzot) and reclaim the serpent's holy form. Click/touch and drag in a circular motion to steer.</p>
-            <div id="highScoreDisplay">Highest Rectification: 0</div>
-            <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
-            <button id="playButton" class="menu-button">Begin Rectification</button>
-            <button id="abilitiesButton" class="settings-toggle">Abilities</button>
-            <button id="settingsButton" class="settings-toggle">⚙️</button>
-        </div>
-        <div id="settingsMenu" class="menu">
-            <h2>Settings</h2><button id="closeSettingsButton" class="settings-toggle">Close</button>
-        </div>
-        <div id="abilitiesMenu" class="menu">
-            <h2>Abilities</h2>
-            <div id="abilitiesFragmentDisplay">Ein Sof Fragments: 0</div>
-            <div id="skill-tree"></div>
-            <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
-        </div>
-        <div id="gameOverScreen" class="menu">
-            <h2>The Spark Ascends</h2>
-            <div id="scoreDisplay">Final Rectification: 0</div>
-            <div id="fragmentsEarnedDisplay"></div>
-            <div id="gameOverHighScore"></div>
-            <button id="restartButton" class="menu-button">Renew the Cycle</button>
-        </div>
+</head>
+<body>
+
+    <!--
+      NO CANVAS here at the start. NO containers.
+      Only the menus exist on the page, ensuring they are clickable.
+    -->
+
+    <!-- Main Menu (Starts Visible) -->
+    <div id="mainMenu" class="menu visible">
+        <h1>Tikkun HaNachash</h1>
+        <p>Gather scattered sparks and reclaim the serpent's holy form.</p>
+        <div id="highScoreDisplay">Highest Rectification: 0</div>
+        <div id="fragmentDisplay">Ein Sof Fragments: 0</div>
+        <button id="playButton" class="menu-button">Begin Rectification</button>
+        <button id="abilitiesButton" class="settings-toggle">Abilities</button>
+        <button id="settingsButton" class="settings-toggle">⚙️</button>
     </div>
-    <script src="main.js"></script><script src="/register.js"></script>
-</body></html>
+
+    <!-- Settings Menu (Starts Hidden) -->
+    <div id="settingsMenu" class="menu">
+        <h2>Settings</h2>
+        <button id="closeSettingsButton" class="settings-toggle">Close</button>
+    </div>
+
+    <!-- Abilities Menu (Starts Hidden) -->
+    <div id="abilitiesMenu" class="menu">
+        <h2>Abilities</h2>
+        <div id="abilitiesFragmentDisplay">Ein Sof Fragments: 0</div>
+        <div id="skill-tree"></div> <!-- For the skill manager -->
+        <button id="closeAbilitiesButton" class="settings-toggle">Close</button>
+    </div>
+    
+    <!-- Game Over Menu (Starts Hidden) -->
+    <div id="gameOverScreen" class="menu">
+        <h2>The Spark Ascends</h2>
+        <div id="scoreDisplay">Final Rectification: 0</div>
+        <div id="fragmentsEarnedDisplay"></div>
+        <div id="gameOverHighScore"></div>
+        <button id="restartButton" class="menu-button">Renew the Cycle</button>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="/register.js"></script>
+
+</body>
+</html>
