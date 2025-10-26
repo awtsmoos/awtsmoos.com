@@ -111,7 +111,7 @@ function updateCamera() {
     // --- DYNAMIC ZOOM: Zooms out as player gets longer/faster ---
     const lengthBonus = Math.max(1, player.maxLength / 100);
     const speedBonus = player.speed / player.baseSpeed;
-    const targetZoom = 2.0 / (lengthBonus * speedBonus);
+    const targetZoom = 0.8 / (lengthBonus * speedBonus);
 
     camera.zoom += (targetZoom - camera.zoom) * 0.02;
 
