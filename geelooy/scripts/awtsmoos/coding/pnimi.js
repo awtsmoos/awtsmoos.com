@@ -265,63 +265,42 @@ async _update() {
     this._updateCaret();
 }
 
-	/**
-     * @private @function _render
-     * @description This function remains the same. Its primary job is to update the
-     * "live" scroll position for immediate feedback and send a request.
-     */
-    
+
 /**
  * @private @function _render
- * @description This function's primary job is to update the
- * "live" scroll position for immediate feedback and send a request.
- */
-/**
- * @private @function _render
- * @description This function uses the buffer to pre-render content outside the
- * visible viewport, ensuring smooth scrolling.
- */
-/**
- * @private @function _render
- * @description This function uses the buffer to pre-render content outside the
- * visible viewport, ensuring smooth scrolling.
+ * @description Gathers scroll state and dispatches a request to the worker.
+ * It NO LONGER manipulates the DOM to prevent race conditions.
  */
 _render() {
     if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
 
-    // --- ENTIRE LOGIC IS ADJUSTED FOR THE BUFFER ---
-    const BUFFER_LINES = 10; // Must be the same value as in _update()
-
     const scrollTop = this.textarea.scrollTop;
     const scrollLeft = this.textarea.scrollLeft;
 
-    // 1. Determine the first line visible to the user.
+    const BUFFER_LINES = 10;
     const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
-
-    // 2. Determine the first line we should actually render in our buffered viewport.
-    // We go back by BUFFER_LINES to render the area above what's visible.
     const firstLineToRender = Math.max(0, firstVisibleLine - BUFFER_LINES);
 
-    // This state variable is still critical for the jitter-prevention logic.
+    // This is still important for discarding wildly out-of-date responses.
     this.currentFirstLine = firstLineToRender;
     
     const requestId = ++this.latestRequestId;
 
-    // 3. Post the request to the worker for the entire buffered block.
+    // --- CRITICAL CHANGE ---
+    // We now send the EXACT scrollTop and scrollLeft at the moment of the request.
     this.highlighterWorker.postMessage({
         type: 'highlight',
         text: this.textarea.value,
         language: this.language,
         firstLineToRender: firstLineToRender,
-        numLinesToRender: this.viewportDivs.length, // Render into all available divs
-        requestId: requestId
+        numLinesToRender: this.viewportDivs.length,
+        requestId: requestId,
+        // Send the exact scroll coordinates with the request.
+        scrollTopAtRequest: scrollTop,
+        scrollLeftAtRequest: scrollLeft
     });
-
-    // 4. Critically, adjust the vertical transform. We need to shift our
-    // entire viewport block upwards to align with the textarea's scroll position.
-    const scrollRemainder = scrollTop - (firstLineToRender * this.lineHeight);
-    this.viewport.style.transform = `translate(${-scrollLeft}px, ${-scrollRemainder}px)`;
 }
+
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
 	_updateCaret() {
@@ -368,32 +347,38 @@ _render() {
 		}
 	}
 
-	/**
+/**
  * @private @function _onWorkerMessage
- * @description The final arbiter of reality. It receives the content's 
- * original spatial coordinate and uses it to manifest a perfectly
- * synchronized reality, binding position and content together.
+ * @description The final arbiter of reality. It receives content AND the exact
+ * scroll coordinates from the time of request. It performs the painting and
+ * positioning in a single, atomic operation, eliminating all jitter.
  */
 _onWorkerMessage(e) {
-    const { type, htmlLines, requestId, responseFirstLine } = e.data;
+    const { 
+        type, 
+        htmlLines, 
+        requestId, 
+        responseFirstLine,
+        // --- RECEIVE THE ORIGINAL SCROLL COORDINATES ---
+        scrollTopAtRequest,
+        scrollLeftAtRequest
+    } = e.data;
 
     if (type === 'highlightResult') {
-        // The temporal check prevents old requests from overwriting newer ones.
         if (requestId < this.lastRenderedId) {
             return; 
         }
 
-        // THE FINAL RECTIFICATION: THE SEAL OF PLACE
-        // The Body checks if the Soul's thought is relevant to its CURRENT position.
-        // If the thought is about a different place, it is wisely discarded.
-        if (responseFirstLine !== this.currentFirstLine) {
-            return; // Jitter is eliminated here.
+        // The check for relevance is still useful for very large, fast scrolls.
+        const distance = Math.abs(responseFirstLine - this.currentFirstLine);
+        if (distance > this.viewportDivs.length) {
+             return; // Discard if the user has scrolled far, far away.
         }
 
-        // If the thought is valid and relevant, it can be manifested.
         this.lastRenderedId = requestId;
 
-        //requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // 1. Paint the content.
             htmlLines.forEach((html, i) => {
                 const div = this.viewportDivs[i];
                 if (div) {
@@ -407,8 +392,14 @@ _onWorkerMessage(e) {
                     }
                 }
             });
-            // This method NO LONGER sets the transform. That is handled by _render.
-      //  });
+
+            // 2. Position the content.
+            // Calculate the remainder using the scrollTop from the moment of the request.
+            const scrollRemainder = scrollTopAtRequest - (responseFirstLine * this.lineHeight);
+            
+            // Set the transform AT THE SAME TIME as the content is updated.
+            this.viewport.style.transform = `translate(${-scrollLeftAtRequest}px, ${-scrollRemainder}px)`;
+        });
     }
 }
 

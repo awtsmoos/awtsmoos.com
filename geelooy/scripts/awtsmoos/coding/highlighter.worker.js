@@ -21,7 +21,9 @@ self.onmessage = (e) => {
 		firstLineToRender,
 		numLinesToRender,
 		language: newLanguage,
-		requestId
+		requestId,
+		scrollTopAtRequest, 
+        scrollLeftAtRequest
 	} = e.data;
 
 	if (type === 'highlight') {
@@ -54,7 +56,11 @@ self.onmessage = (e) => {
             htmlLines: highlightedLines,
             requestId: requestId,
             // Return the original coordinate. The Soul provides the Body with spatial awareness.
-            responseFirstLine: firstLineToRender 
+            responseFirstLine: firstLineToRender,
+            // Pass the original scroll coordinates back, untouched.
+            scrollTopAtRequest: scrollTopAtRequest,
+            scrollLeftAtRequest: scrollLeftAtRequest
+        
         });
 	}
 };
