@@ -203,19 +203,21 @@ async function getAllEventsFromYear(year, {
             });
          
         }
-        var audio = await fetchEntireEvent(data, async (aud, i) => {
-            var nm = sname(aud.entry.name) + "." + aud.format
-            if(i) {
-                nm = "BH_" + i.toString().padStart(3, "0")+"_"+nm;
-            }
-            console.log("WRITING",nm,aud);
-            var audF = await eventFolder.getFileHandle(
-                nm, {create: true}
-            )
-            var wri = await audF.createWritable()
-            await wri.write({data: aud.success, type: "write"})
-            await wri.close();
-        });
+        if(withAudio) {
+            var audio = await fetchEntireEvent(data, async (aud, i) => {
+                var nm = sname(aud.entry.name) + "." + aud.format
+                if(i) {
+                    nm = "BH_" + i.toString().padStart(3, "0")+"_"+nm;
+                }
+                console.log("WRITING",nm,aud);
+                var audF = await eventFolder.getFileHandle(
+                    nm, {create: true}
+                )
+                var wri = await audF.createWritable()
+                await wri.write({data: aud.success, type: "write"})
+                await wri.close();
+            });
+        }
 
         var audF = await eventFolder.getFileHandle(
             "awtsmoosMetadata.json", {create: true}
@@ -283,11 +285,12 @@ function sname(nm) {
     a certain hebrew month 
     (1 = Tishrei, 2 = Cheshvan) etc.
 */
-await getAllEventsFromYear(5747, {
-  // withPictures: false,
-    withAudio: true,
+await getAllEventsFromYear(5746, {
+   // withPictures: false,
+    //withAudio: false,
     afterMonth: 1
 })
+
 
 
 </textarea>
