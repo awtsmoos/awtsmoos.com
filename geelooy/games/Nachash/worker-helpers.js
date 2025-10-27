@@ -304,6 +304,7 @@ class Collectible {
 				.size, this.y +
 				this.size / 2);
 		}
+	}
 }
 const GRAVITY = 60; // Gravity in pixels/sec^2
 
