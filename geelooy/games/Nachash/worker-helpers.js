@@ -204,7 +204,7 @@ const HEBREW_LETTERS = Array.from(
 	'אבגדהוזחטיכלמנסעפצקרשת');
 
 // --- NEW HELPER FOR NAME GENERATION ---
-const SYMBOLS = Areay.from("$@🦢🐍🐍⚕️🦢🐓🐾🏵️🐒🌼🐇🌻"
+const SYMBOLS = Array.from("$@🦢🐍🐍⚕️🦢🐓🐾🏵️🐒🌼🐇🌻"
 +"😀😃😄😁😆😅🤣😭😭🥰😘😙😗"
 +"🫠🙃🥲🥹☺️😌🙂‍↕️🤠😇😎🤓👊👍🦓"
 +"🐊🐢🦎🦕🐉🐍🦎🦎🦎🐇🐁🐲🐇"
