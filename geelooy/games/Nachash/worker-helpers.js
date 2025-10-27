@@ -679,44 +679,40 @@ class Player {
 
 
 //B"H
+// In worker-helpers.js - Add this new function and delete the old background one.
 
-//B"H
-// In worker-helpers.js - ADD THIS NEW FUNCTION
-// This single function replaces the old `drawVisibleBackground` and any separate border functions.
-
-function drawWorldBackgroundAndGrid(ctx) {
+/**
+ * Draws the grid and the border within the game world.
+ * It does NOT draw the solid background color, as that is now handled
+ * by the main draw() loop for better performance and reliability.
+ */
+function drawWorldGridAndBorder(ctx) {
     const { world } = state;
 
-    // 1. Draw the solid background color across the ENTIRE world map.
-    // This acts as the "floor" of the game world that the camera moves over.
-    ctx.fillStyle = '#101015';
-    ctx.fillRect(0, 0, world.width, world.height);
-
-    // 2. Draw the grid lines on top of the world background.
+    // 1. Draw the grid lines across the entire world map.
     const gridSize = 150;
-    // Made the grid slightly brighter (0.06 opacity) so it's clearly visible.
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
+    // I've made the grid lines slightly brighter to match your image more closely.
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.09)";
     ctx.lineWidth = 1;
 
     ctx.beginPath();
-    // Draw all vertical lines from the top to the bottom of the world.
+    // Vertical lines
     for (let x = 0; x <= world.width; x += gridSize) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, world.height);
     }
-    // Draw all horizontal lines from the left to the right of the world.
+    // Horizontal lines
     for (let y = 0; y <= world.height; y += gridSize) {
         ctx.moveTo(0, y);
         ctx.lineTo(world.width, y);
     }
     ctx.stroke();
 
-    // 3. Draw the world border on top of the grid.
+    // 2. Draw the world border on top of the grid.
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
-
 
 // --- START OF AI REPLACEMENT ---
 class AiSnake extends Player {

@@ -92,50 +92,35 @@ function start() {
     gameLoop();
 }
 
-
-// Replace your entire draw function with this:
-// In Worker.js
 //B"H
-//file worker.js
-
-// ... (keep all the code before the draw function)
-
-// In Worker.js
-//B"H
-// In worker.js - REVISED DRAW FUNCTION
+// In worker.js - The definitive DRAW function
 
 function draw() {
     const { ctx, camera } = state;
 
-    // Clear the entire canvas to prevent artifacts from previous frames.
-    // This is just a safety measure.
-    ctx.clearRect(0, 0, camera.width, camera.height);
+    // Step 1: Fill the entire VISIBLE canvas with the base background color.
+    // This is done in "screen space" BEFORE any camera transforms.
+    // This guarantees the background is never black.
+    ctx.fillStyle = '#101015'; // Dark grey, as intended
+    ctx.fillRect(0, 0, camera.width, camera.height);
 
-    // --- Start Drawing the World ---
-    // Apply camera transformations (zoom and pan) for everything in the world.
+    // Step 2: Apply camera transformations (pan and zoom) to draw the "world".
     ctx.save();
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // 1. Draw the world's background, grid, and border first.
-    // This function will draw them as giant objects in the world space.
-    drawWorldBackgroundAndGrid(ctx);
+    // Step 3: Draw ONLY the world's grid and border. These will move with the camera.
+    drawWorldGridAndBorder(ctx);
 
-    // 2. Draw all the dynamic game objects (snakes, food, etc.) on top.
+    // Step 4: Draw all the game objects (snakes, food) on top of the grid.
     drawWorld(ctx);
 
-    // We are done drawing the world, so restore the context.
-    // This removes the camera's transformations.
+    // Step 5: Restore the context, removing the camera's transformations.
     ctx.restore();
-    // --- End Drawing the World ---
 
-
-    // --- Draw the UI ---
-    // The UI is drawn last, in "screen space," so it doesn't move with the camera.
+    // Step 6: Draw the UI (scoreboard, etc.) on top of everything in "screen space".
     drawUI(ctx);
 }
-
-
 
 
 function updateCamera() {
