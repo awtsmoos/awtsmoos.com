@@ -259,6 +259,7 @@ class Collectible {
 		}
 	}
 }
+const GRAVITY = 60; // Gravity in pixels/sec^2
 
 class Particle {
 	init(x, y) {
@@ -269,7 +270,6 @@ class Particle {
 		this.vx = Math.random() * 360 - 180; // Velocity in pixels/sec
 		this.life = 1.5; // Lifetime in seconds
 		this.initialLife = 1.5; // Store max life for alpha calculation
-		const GRAVITY = 60; // Gravity in pixels/sec^2
 		
 		this.size = 20;
 		this.text = HEBREW_LETTERS[
