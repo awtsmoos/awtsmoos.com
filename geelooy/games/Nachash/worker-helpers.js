@@ -679,10 +679,11 @@ class Player {
 
 
 // --- NEW: High-performance, procedural background that only draws the visible area ---
+// --- NEW: High-performance Grid & Stars Background ---
 function drawVisibleBackground(ctx) {
     const { camera, world } = state;
 
-    // Calculate the camera's visible area (the "viewport")
+    // 1. Calculate the camera's visible area (the "viewport")
     const view = {
         left: camera.x,
         top: camera.y,
@@ -690,38 +691,58 @@ function drawVisibleBackground(ctx) {
         bottom: camera.y + camera.height / camera.zoom,
     };
 
-    // Use a large grid size for the background details
-    const gridSize = 250;
+    // --- Draw the Grid ---
+    const gridSize = 150;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+    ctx.lineWidth = 1;
 
-    // Figure out which grid cells are visible
-    const startCol = Math.floor(view.left / gridSize);
-    const endCol = Math.ceil(view.right / gridSize);
-    const startRow = Math.floor(view.top / gridSize);
-    const endRow = Math.ceil(view.bottom / gridSize);
+    // Find the starting and ending grid lines that are visible
+    const startX = Math.floor(view.left / gridSize) * gridSize;
+    const endX = Math.ceil(view.right / gridSize) * gridSize;
+    const startY = Math.floor(view.top / gridSize) * gridSize;
+    const endY = Math.ceil(view.bottom / gridSize) * gridSize;
 
-    // Only loop through the VISIBLE cells
-    // CHANGE: Increased opacity from 0.05 to 0.2 to make stars visible.
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; 
+    // Draw all visible vertical lines in a single batch for performance
+    ctx.beginPath();
+    for (let x = startX; x < endX; x += gridSize) {
+        ctx.moveTo(x, startY);
+        ctx.lineTo(x, endY);
+    }
+    // Draw all visible horizontal lines in a single batch
+    for (let y = startY; y < endY; y += gridSize) {
+        ctx.moveTo(startX, y);
+        ctx.lineTo(endX, y);
+    }
+    ctx.stroke();
+
+    // --- Draw the Stars ---
+    // This uses the same culling logic as before but is simplified.
+    const starGridSize = 350;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    const startCol = Math.floor(view.left / starGridSize);
+    const endCol = Math.ceil(view.right / starGridSize);
+    const startRow = Math.floor(view.top / starGridSize);
+    const endRow = Math.ceil(view.bottom / starGridSize);
+
     for (let row = startRow; row < endRow; row++) {
         for (let col = startCol; col < endCol; col++) {
-            // Use a deterministic seed to make the background static
-            const seed = Math.sin(col * 10.37 + row * 50.81) * 10000;
-            if (seed % 10 < 1) { // Only draw a detail in ~10% of cells
+            // Use a deterministic seed so stars don't move
+            const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
+            if (seed % 10 < 1.5) { // ~15% chance for a star in a cell
                 ctx.beginPath();
                 ctx.arc(
-                    col * gridSize + (Math.abs(seed) % gridSize), 
-                    row * gridSize + (Math.abs(seed / 10) % gridSize), 
-                    1 + (Math.abs(seed) % 2),
+                    col * starGridSize + (Math.abs(seed) % starGridSize),
+                    row * starGridSize + (Math.abs(seed * 1.5) % starGridSize),
+                    0.5 + (Math.abs(seed) % 1.5), // variable star size
                     0, Math.PI * 2
                 );
                 ctx.fill();
             }
         }
     }
-    
-    // Always draw the world border
-    // CHANGE: Made the border a more visible dark grey.
-    ctx.strokeStyle = '#444444'; 
+
+    // Always draw the world border on top
+    ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
@@ -740,8 +761,14 @@ class AiSnake extends Player {
 			generateAiName();
 		this.color =
 			`hsl(${Math.random() * 360}, 90%, 60%)`;
-		this.speed = 210 + Math.random() * 90; // Pixels per second (approx 3.5 - 5 speed)
+		
 		this.size = 12;
+		
+		this.normalSpeed = 200 + Math.random() * 80; // Their casual speed
+        this.boostSpeed = this.normalSpeed * 1.8;   // Their hunting speed
+        this.speed = this.normalSpeed;               // Set initial speed
+        
+        this.isBoosting = false; // State for boosting
 		
 		// How often the AI re-evaluates its surroundings (in frames).
         // Randomness prevents all AIs from thinking on the same frame, smoothing performance.
@@ -752,79 +779,101 @@ class AiSnake extends Player {
 	update(deltaTime) {
 	    if (!this.isAlive) return;
 	    
-	    // Decision timer is now based on seconds
 	    this.decisionTimer -= deltaTime;
 	    if (this.decisionTimer <= 0) {
-	        this.findTarget();
-	        this.decisionTimer = (Math.random() * 0.2) + 0.25; // Re-think every 0.25-0.45 seconds
+	        this.findTarget(); // The new "brain" we will write next
+	        this.decisionTimer = (Math.random() * 0.15) + 0.2; // Re-think every 0.2-0.35 seconds
 	    }
-	
-	    // Call the parent Player's update method, which already handles deltaTime movement
-	    super.update(deltaTime);
-	}
-	findTarget() {
-		const nearby = state.grid.getNearbyObjects(this);
-		let closestFood = null;
-		let closestPrey = null;
-        let closestPredator = null;
-        
-        let minFoodDist = Infinity;
-        let minPreyDist = Infinity;
-        let minPredatorDist = Infinity;
 
-        // --- 1. Categorize all nearby objects ---
+        // --- NEW BOOSTING LOGIC ---
+        if (this.isBoosting) {
+            this.speed = this.boostSpeed;
+            // Shrink while boosting, but don't get smaller than a minimum length
+            if (this.maxLength > 20) {
+                this.maxLength -= 0.1; 
+            }
+        } else {
+            this.speed = this.normalSpeed;
+        }
+	
+	    super.update(deltaTime); // Call the main movement logic
+	}
+	
+
+        
+        findTarget() {
+		const nearby = state.grid.getNearbyObjects(this);
+		let potentialPrey = [];
+        let potentialPredators = [];
+        let closestFood = null;
+        let minFoodDist = Infinity;
+
+        // --- 1. Scan and categorize all nearby objects ---
         for (const obj of nearby) {
             if (!obj.isAlive || obj === this) continue;
-
             const dist = getDistance(this.x, this.y, obj.x, obj.y);
 
             if (obj.type === 'collectible' && dist < minFoodDist) {
                 minFoodDist = dist;
                 closestFood = obj;
             } else if (obj.type === 'player' || obj.type === 'ai_snake') {
-                // If the other snake is smaller, it's prey.
-                if (this.score > obj.score + 50 && dist < minPreyDist) { // Must be significantly smaller
-                    minPreyDist = dist;
-                    closestPrey = obj;
-                } 
-                // If the other snake is bigger, it's a predator.
-                else if (obj.score > this.score + 50 && dist < minPredatorDist) {
-                     minPredatorDist = dist;
-                     closestPredator = obj;
+                // Predator: another snake is significantly larger.
+                if (obj.score > this.score * 1.5 && dist < 400) {
+                     potentialPredators.push({ obj, dist });
+                }
+                // Prey: another snake is significantly smaller.
+                else if (this.score > obj.score * 1.2 + 100 && dist < 800) {
+                    potentialPrey.push({ obj, dist });
                 }
             }
         }
 
-        // --- 2. Make a decision based on priorities ---
+        // --- 2. Make decisions based on a clear priority list ---
 
-        // Priority 1: SURVIVAL. If a predator is too close, flee!
-        if (closestPredator && minPredatorDist < 300) {
-            // Calculate the angle directly away from the predator
+        // PRIORITY 1: SURVIVAL. Flee from the nearest predator.
+        if (potentialPredators.length > 0) {
+            potentialPredators.sort((a, b) => a.dist - b.dist);
+            const closestPredator = potentialPredators[0].obj;
+            // Flee directly away from the predator's head.
             this.targetAngle = Math.atan2(this.y - closestPredator.y, this.x - closestPredator.x);
             this.isTurning = true;
+            this.isBoosting = true; // Boost to escape!
             return;
         }
 
-        // Priority 2: AGGRESSION. If there is prey nearby, hunt it.
-        if (closestPrey) {
-            this.targetAngle = Math.atan2(closestPrey.y - this.y, closestPrey.x - this.x);
+        // PRIORITY 2: AGGRESSION. Hunt the nearest prey.
+        if (potentialPrey.length > 0) {
+            potentialPrey.sort((a, b) => a.dist - b.dist);
+            const targetPrey = potentialPrey[0].obj;
+            
+            // --- Interception Logic ---
+            // Predict where the prey will be in a few moments and aim there.
+            const predictionTime = 0.3; // Look 0.3 seconds into the future
+            const predictedX = targetPrey.x + Math.cos(targetPrey.angle) * targetPrey.speed * predictionTime;
+            const predictedY = targetPrey.y + Math.sin(targetPrey.angle) * targetPrey.speed * predictionTime;
+
+            this.targetAngle = Math.atan2(predictedY - this.y, predictedX - this.x);
             this.isTurning = true;
+            this.isBoosting = true; // Boost to hunt!
             return;
         }
-
-        // Priority 3: EATING. If no threats or prey, find the nearest food.
+        
+        // PRIORITY 3: EATING. If no threats or prey, go for food.
+        this.isBoosting = false; // No need to boost for food
         if (closestFood) {
 			this.targetAngle = Math.atan2(closestFood.y - this.y, closestFood.x - this.x);
             this.isTurning = true;
             return;
 		}
         
-        // Priority 4: WANDERING. If nothing is nearby, just wander around.
-        if (Math.random() < 0.1) { // Wander less frequently
+        // PRIORITY 4: WANDERING. If nothing is happening, just explore.
+        if (Math.random() < 0.1) { 
             this.targetAngle += Math.random() * 2 - 1;
         }
 		this.isTurning = true;
 	}
+	
+	
 	draw(ctx) {
 		this.body.forEach((seg,
 			i) => {
