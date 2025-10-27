@@ -563,8 +563,33 @@ class Player {
 	}
 
 	die() {
-		if (this.type === 'player')
+		// If the dying snake is an AI...
+		if (this.type === 'ai_snake') {
+            
+            // This line is the key: It loops through every single body segment of the dead snake.
+            // 'this.body' is the array that stores the coordinates of its entire path.
+            this.body.forEach((seg, i) => {
+
+                // This condition creates food for every 4th segment.
+                // This preserves the path shape while preventing a 1000-segment snake
+                // from lagging the game by spawning 1000 new objects instantly.
+                // The amount of food is still directly proportional to its length.
+                if (i % 4 === 0) {
+                    
+                    // A new collectible is created at the EXACT x and y coordinate
+                    // of the current body segment ('seg'). This is what creates the perfect path.
+                    const newCollectible = new Collectible(seg.x, seg.y);
+                    state.collectibles.push(newCollectible);
+                    
+                    // Add it to the grid so other AI can see it.
+                    state.grid.insert(newCollectible); 
+                }
+            });
+        } 
+        else if (this.type === 'player') {
 			gameOver();
+        }
+
 		this.isAlive = false;
 	}
 }
