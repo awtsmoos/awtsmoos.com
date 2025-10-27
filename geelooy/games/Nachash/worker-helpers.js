@@ -661,9 +661,10 @@ function drawVisibleBackground(ctx) {
             if (seed % 10 < 1) { // Only draw a detail in ~10% of cells
                 ctx.beginPath();
                 ctx.arc(
-                    col * gridSize + (seed % gridSize), 
-                    row * gridSize + ((seed / 10) % gridSize), 
-                    1 + (seed % 2), 
+                    col * gridSize + (Math.abs(seed) % gridSize), 
+                    row * gridSize + (Math.abs(seed / 10) % gridSize), 
+                    // --- THE FIX IS HERE: Use Math.abs() ---
+                    1 + (Math.abs(seed) % 2), // Ensures the radius is always positive
                     0, Math.PI * 2
                 );
                 ctx.fill();
