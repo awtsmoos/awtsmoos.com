@@ -158,24 +158,27 @@ function draw() {
     const { ctx, camera } = state;
     ctx.save();
     
-    // Base color for the canvas, cleared each frame
-    ctx.fillStyle = '#101410'; // A slightly different dark base color
-    ctx.fillRect(0, 0, camera.width, camera.height);
+    // --- FIX: THE CORRECT DRAWING ORDER ---
+
+    // 1. Draw the pre-rendered background FIRST. 
+    // This happens BEFORE any camera scaling or translating, so it fills the screen perfectly.
+    // We are passing the main context (ctx) to the function.
+    drawBackground(ctx); 
     
-    // Apply camera transform
+    // 2. Now, apply the camera transform to draw the game world on top of the background.
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // --- FIX: Corrected and simplified drawing order ---
-    drawBackground(ctx);
+    // 3. Draw all the game objects (snakes, food, etc.) which are now correctly positioned by the camera.
     drawWorld(ctx);
 
-    // Restore context for UI
+    // --- END FIX ---
+
+    // Restore context to screen space for drawing the UI.
     ctx.restore();
 
-    // Draw UI and effects last
+    // Draw UI (scoreboard, minimap) last, so it's on top of everything.
     drawUI(ctx);
-    
 }
 
 
