@@ -202,23 +202,99 @@ class VirtualizedEditor {
 		document.head.appendChild(styleEl);
 	}
 
-	/** @private @function _attachEventListeners - Listens for user actions. */
-	_attachEventListeners() {
-		this.textarea.addEventListener('input', () => this._update());
+	// In VirtualizedEditor.js, add this new method
+/** @private @function _handleKeyDown - Handles special key presses like Tab. */
+_handleKeyDown(e) {
+	if (e.key === 'Tab') {
+		e.preventDefault(); // This is crucial
 
-		// Add the keydown listener here
-		this.textarea.addEventListener('keydown', (e) => this._handleKeyDown(e));
-
-		const onScroll = () => window.requestAnimationFrame(() => {
-			this._render();
-			this._updateCaret();
-		});
-		const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
-
-		new ResizeObserver(onScroll).observe(this.wrapper);
-		this.textarea.addEventListener('scroll', onScroll);
-		['click', 'keyup', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
+		if (e.shiftKey) {
+			this.unindentSelection();
+		} else {
+			this.indentSelection();
+		}
 	}
+}
+
+// In VirtualizedEditor.js, find and modify this method
+_attachEventListeners() {
+	this.textarea.addEventListener('input', () => this._update());
+	
+    // Add this line to handle Tab keydown
+	this.textarea.addEventListener('keydown', (e) => this._handleKeyDown(e));
+
+	const onScroll = () => window.requestAnimationFrame(() => {
+		this._render();
+		this._updateCaret();
+	});
+	const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
+
+	new ResizeObserver(onScroll).observe(this.wrapper);
+	this.textarea.addEventListener('scroll', onScroll);
+    // Make sure 'keydown' is NOT in the array below
+	['click', 'keyup', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
+}
+	
+	// In VirtualizedEditor.js, inside the VirtualizedEditor class
+						
+/**
+ * @public @function indentSelection
+ * @description Indents the currently selected lines of text or the current line.
+ */
+indentSelection() {
+	const { selectionStart, selectionEnd, value } = this.textarea;
+	const lines = value.split('\n');
+	const startLine = (value.substring(0, selectionStart).match(/\n/g) || []).length;
+	const endLine = (value.substring(0, selectionEnd).match(/\n/g) || []).length;
+	const tabChar = '\t'; // You can later connect this to App.getTabString() if needed
+
+	for (let i = startLine; i <= endLine; i++) {
+		lines[i] = tabChar + lines[i];
+	}
+
+	const newValue = lines.join('\n');
+	const newEnd = selectionEnd + (endLine - startLine + 1);
+
+	this.textarea.value = newValue;
+	this.textarea.selectionStart = selectionStart + 1;
+	this.textarea.selectionEnd = newEnd;
+	
+	this._update();
+}
+
+/**
+ * @public @function unindentSelection
+ * @description Un-indents the currently selected lines of text.
+ */
+unindentSelection() {
+	const { selectionStart, selectionEnd, value } = this.textarea;
+	const lines = value.split('\n');
+	const startLine = (value.substring(0, selectionStart).match(/\n/g) || []).length;
+	const endLine = (value.substring(0, selectionEnd).match(/\n/g) || []).length;
+	
+	let charsRemovedInFirstLine = 0;
+	let totalCharsRemoved = 0;
+
+	for (let i = startLine; i <= endLine; i++) {
+		if (lines[i].startsWith('\t')) {
+			lines[i] = lines[i].substring(1);
+			if (i === startLine) charsRemovedInFirstLine = 1;
+			totalCharsRemoved++;
+		} else if (lines[i].startsWith('    ')) { // Also handle spaces
+			const spacesToRemove = lines[i].match(/^(\s{1,4})/)[0].length;
+			lines[i] = lines[i].substring(spacesToRemove);
+			if (i === startLine) charsRemovedInFirstLine = spacesToRemove;
+			totalCharsRemoved += spacesToRemove;
+		}
+	}
+
+	const newValue = lines.join('\n');
+	this.textarea.value = newValue;
+	this.textarea.selectionStart = Math.max(0, selectionStart - charsRemovedInFirstLine);
+	this.textarea.selectionEnd = Math.max(0, selectionEnd - totalCharsRemoved);
+
+	this._update();
+}
 
 	/** @private @function _measureAndRender - Performs initial measurements. */
 	/** @private @function _measureAndRender - Performs measurements and enforces an integer grid. */
@@ -332,71 +408,7 @@ class VirtualizedEditor {
 		});
 	}
 	
-	/** @private @function _handleKeyDown - Handles special key presses like Tab. */
-	_handleKeyDown(e) {
-		if (e.key === 'Tab') {
-			e.preventDefault(); // Prevent default focus change
-
-			const start = this.textarea.selectionStart;
-			const end = this.textarea.selectionEnd;
-			const value = this.textarea.value;
-
-			// Find the start and end lines of the selection
-			let startLine = (value.substring(0, start).match(/\n/g) || []).length;
-			let endLine = (value.substring(0, end).match(/\n/g) || []).length;
-
-			const lines = value.split('\n');
-
-			if (startLine !== endLine || (end - start) > 0) { // Multi-line selection
-				for (let i = startLine; i <= endLine; i++) {
-					if (e.shiftKey) { // Un-indent
-						if (lines[i].startsWith('\t')) {
-							lines[i] = lines[i].substring(1);
-						} else if (lines[i].startsWith('    ')) { // Or handle spaces
-							lines[i] = lines[i].substring(4);
-						}
-					} else { // Indent
-						lines[i] = '\t' + lines[i];
-					}
-				}
-
-				const newValue = lines.join('\n');
-				this.textarea.value = newValue;
-
-				// Recalculate selection
-				let newStart = 0;
-				for (let i = 0; i < startLine; i++) {
-					newStart += lines[i].length + 1;
-				}
-
-				let newEnd = newStart;
-				for (let i = startLine; i <= endLine; i++) {
-					newEnd += lines[i].length + (i < endLine ? 1 : 0);
-				}
-
-				if (e.shiftKey) {
-					newStart = Math.max(newStart, start - 1);
-					newEnd = Math.max(newEnd, end - (endLine - startLine + 1));
-				} else {
-					newEnd = end + (endLine - startLine + 1);
-				}
-
-
-				this.textarea.selectionStart = start + (e.shiftKey ? -1 : 1);
-				this.textarea.selectionEnd = newEnd;
-
-
-			} else { // Single line or no selection
-				if (e.shiftKey) {
-					// Potentially un-indent the current line here if desired
-				} else {
-					this.textarea.setRangeText('\t', start, end, 'end');
-				}
-			}
-
-			this._update(); // Re-render after changing the value
-		}
-	}
+	
 
 
 	/** @private @function _updateCaret - Positions the simulated caret. */
