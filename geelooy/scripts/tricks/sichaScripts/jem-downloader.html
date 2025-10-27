@@ -131,18 +131,26 @@ async function fj(url) {
     } catch(e) {return null}
 }
 
-async function getFilteredYearData(year, afterMonth=0, afterDay=0) {
+async function getFilteredYearData(year, afterMonth=0, afterDay=0, iev) {
     var allYearData = await getYearEvents(year);
+    var extra = 0;
     if(afterMonth) {
-        allYearData = allYearData.filter(r => 
-            (
-                m => !isNaN(m) ? m >= afterMonth : true
+        allYearData = allYearData.filter(r => {
+        
+            
+            return (
+                m => {
+                    var isAfter = m >= afterMonth;
+                    if(!isAfter) extra++;
+                    return !isNaN(m) ?  isAfter : true
+                }
             )(r?.dates?.[0]?.hebrew_month) &&
             (
                 d => !isNaN(d) ? d >= afterDay : true
             )(r?.dates?.[0]?.hebrew_day)
-        )
+        })
     }
+    allYearData.awtsExtra = extra;
     return allYearData;
 }
 
@@ -158,9 +166,11 @@ async function getAllEventsFromYear(year, {
         return alert("use a better browser")
     }
     
-
-    var yearData = await getFilteredYearData(year, afterMonth, afterDay);
+    var iev = 0;
+    var yearData = await getFilteredYearData(year, afterMonth, afterDay, iev);
    // return yearData;
+    iev += yearData.awtsExtra;
+    console.log("GOT",yearData,iev)
     if(!dirHandle) {
         dirHandle = await showDirectoryPicker();
     }
@@ -168,7 +178,7 @@ async function getAllEventsFromYear(year, {
         create: true
     });
     
-    var iev = 0;
+   
     for(var event of yearData) {
         var data = await getEventData(event.id);
         if(!data) {
@@ -276,8 +286,9 @@ function sname(nm) {
 await getAllEventsFromYear(5747, {
   // withPictures: false,
     withAudio: true,
-    afterMonth: 1
+    afterMonth: 5
 })
+
 
 </textarea>
 </body>
