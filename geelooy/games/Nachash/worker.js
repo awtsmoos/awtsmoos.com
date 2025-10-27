@@ -74,8 +74,8 @@ function start() {
     particlePool.reset();
 
     if (!state.backgroundCanvas) {
-        state.backgroundCanvas = new OffscreenCanvas(state.world.width, state.world.height);
-        preRenderBackground(state.backgroundCanvas.getContext('2d'));
+       // state.backgroundCanvas = new OffscreenCanvas(state.world.width, state.world.height);
+     //   preRenderBackground(state.backgroundCanvas.getContext('2d'));
     }
     
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
