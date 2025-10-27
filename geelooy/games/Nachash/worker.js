@@ -64,6 +64,8 @@ function resize(width, height, pixelRatio) {
     state.ctx.scale(pixelRatio, pixelRatio);
 }
 
+// In Worker.js
+
 function start() {
     Object.assign(state, {
         score: 0, level: 1, collectibles: [], particles: [], aiSnakes: [],
@@ -71,16 +73,15 @@ function start() {
     });
     particlePool.reset();
 
-    // --- NEW: Create and pre-render the background canvas ONCE ---
-    // This check ensures it only ever runs a single time.
     if (!state.backgroundCanvas) {
         state.backgroundCanvas = new OffscreenCanvas(state.world.width, state.world.height);
-        // We will create this 'preRenderBackground' function in the next step.
         preRenderBackground(state.backgroundCanvas.getContext('2d'));
     }
-    // --- END NEW ---
-
+    
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
+
+    // --- ADD THIS LINE TO FIX THE SCOREBOARD ---
+    state.scoreboard = [{ name: state.playerName, score: state.player.score }];
     
     const { camera, player } = state;
     camera.x = player.x - (camera.width / 2 / camera.zoom);
@@ -154,30 +155,40 @@ function update() {
     updateCamera();
 }
 
-function draw() {
-    const { ctx, camera } = state;
-    ctx.save();
-    
-    // --- FIX: THE CORRECT DRAWING ORDER ---
+// In Worker.js
 
-    // 1. Draw the pre-rendered background FIRST. 
-    // This happens BEFORE any camera scaling or translating, so it fills the screen perfectly.
-    // We are passing the main context (ctx) to the function.
-    drawBackground(ctx); 
-    
-    // 2. Now, apply the camera transform to draw the game world on top of the background.
+function draw() {
+    const { ctx, camera, backgroundCanvas } = state;
+
+    // 1. Manually clear the canvas to our base color. This fixes the "black screen" issue.
+    ctx.fillStyle = '#050805';
+    ctx.fillRect(0, 0, camera.width, camera.height);
+
+    // 2. Draw the visible portion of the pre-rendered background directly onto the canvas.
+    //    We do this here to guarantee it works and happens at the right time.
+    if (backgroundCanvas) {
+        const viewWidth = camera.width / camera.zoom;
+        const viewHeight = camera.height / camera.zoom;
+        ctx.drawImage(
+            backgroundCanvas,
+            camera.x, camera.y, viewWidth, viewHeight, // Source rectangle from our big texture
+            0, 0, camera.width, camera.height         // Destination rectangle (the whole screen)
+        );
+    }
+
+    // 3. Save the current state, and then apply the camera zoom and pan
+    //    to prepare for drawing the game world objects.
+    ctx.save();
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // 3. Draw all the game objects (snakes, food, etc.) which are now correctly positioned by the camera.
+    // 4. Draw all the snakes, food, particles, etc.
     drawWorld(ctx);
 
-    // --- END FIX ---
-
-    // Restore context to screen space for drawing the UI.
+    // 5. Restore the context, removing the camera pan/zoom.
     ctx.restore();
 
-    // Draw UI (scoreboard, minimap) last, so it's on top of everything.
+    // 6. Draw the UI (scoreboard, minimap) on top of everything else.
     drawUI(ctx);
 }
 
