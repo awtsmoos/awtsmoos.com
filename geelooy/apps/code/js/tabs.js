@@ -260,7 +260,7 @@ async close(tabId, force = false) {
     },
 
     async save(tab) {
-        UI.showLoading(`Saving ${tab.item.name}...`);
+        UI.showToast(`Saving ${tab.item.name}...`);
         try {
             if (tab.id === State.activeTabId) {
                 tab.content = Editor.getContent();
