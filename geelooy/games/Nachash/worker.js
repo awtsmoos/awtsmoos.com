@@ -11,6 +11,7 @@ const state = {
     scoreboard: [],
     // --- CORE PERFORMANCE: The Spatial Grid ---
     grid: null,
+    backgroundCanvas: null,
     // World & Camera
     world: {
         width: 8000,
@@ -70,10 +71,17 @@ function start() {
     });
     particlePool.reset();
 
-    state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
+    // --- NEW: Create and pre-render the background canvas ONCE ---
+    // This check ensures it only ever runs a single time.
+    if (!state.backgroundCanvas) {
+        state.backgroundCanvas = new OffscreenCanvas(state.world.width, state.world.height);
+        // We will create this 'preRenderBackground' function in the next step.
+        preRenderBackground(state.backgroundCanvas.getContext('2d'));
+    }
+    // --- END NEW ---
 
-    // --- FIX: Immediately center the camera on the player at game start ---
-    // This ensures the player is visible from the very first frame.
+    state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
+    
     const { camera, player } = state;
     camera.x = player.x - (camera.width / 2 / camera.zoom);
     camera.y = player.y - (camera.height / 2 / camera.zoom);

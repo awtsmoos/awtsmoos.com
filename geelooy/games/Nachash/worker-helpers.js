@@ -597,6 +597,34 @@ class Player {
 
 // --- NEW: High-performance, pattern-based background drawing ---
 
+// --- NEW: Function to pre-render the entire background texture at once ---
+function preRenderBackground(bCtx) {
+    console.log("B'H - Pre-rendering background texture...");
+    const { world } = state;
+
+    // 1. Fill the entire offscreen canvas with a base color
+    bCtx.fillStyle = '#050805'; // A very dark, almost black, green
+    bCtx.fillRect(0, 0, world.width, world.height);
+
+    // 2. Draw a simple, fast grid of subtle dots for texture
+    const gridSize = 80;
+    bCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+    for (let x = 0; x < world.width; x += gridSize) {
+        for (let y = 0; y < world.height; y += gridSize) {
+            bCtx.beginPath();
+            bCtx.arc(x + gridSize / 2, y + gridSize / 2, 0.75, 0, Math.PI * 2);
+            bCtx.fill();
+        }
+    }
+    
+    // 3. Draw the world border directly onto this canvas so it's also pre-rendered
+    bCtx.strokeStyle = '#241a0c';
+    bCtx.lineWidth = 40;
+    bCtx.strokeRect(20, 20, world.width - 40, world.height - 40);
+    console.log("B'H - Background pre-rendering complete.");
+}
+
+
 // Store the pattern so we only create it once.
 let backgroundPattern = null; 
 
@@ -628,23 +656,33 @@ function createBackgroundPattern() {
     return pctx.createPattern(patternCanvas, 'repeat');
 }
 
+// --- NEW: High-performance background drawing via offscreen canvas copy ---
 function drawBackground(ctx) {
-  const { world } = state;
+    const { camera, backgroundCanvas } = state;
+    
+    // Safety check in case it's not ready
+    if (!backgroundCanvas) return; 
 
-  // Create the pattern only on the first run.
-  if (!backgroundPattern) {
-      backgroundPattern = createBackgroundPattern();
-  }
-
-  // Fill the entire world with the repeating pattern. This is extremely fast.
-  ctx.fillStyle = backgroundPattern;
-  ctx.fillRect(0, 0, world.width, world.height);
-
-  // Keep the border drawing
-  ctx.strokeStyle = '#241a0c';
-  ctx.lineWidth = 40;
-  ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
+    // Calculate the rectangular section of the world that the camera can see
+    const viewWidth = camera.width / camera.zoom;
+    const viewHeight = camera.height / camera.zoom;
+    
+    // This single command is the core of the optimization.
+    // It clips out the visible rectangle from our giant pre-rendered background
+    // and draws it scaled to fit the player's screen. It's extremely fast.
+    ctx.drawImage(
+        backgroundCanvas,
+        camera.x,     // Source X (from the giant background image)
+        camera.y,     // Source Y
+        viewWidth,    // Source Width 
+        viewHeight,   // Source Height
+        0,            // Destination X (on the screen, always 0)
+        0,            // Destination Y (on the screen, always 0)
+        camera.width, // Destination Width (fill the screen)
+        camera.height // Destination Height (fill the screen)
+    );
 }
+
 
 
 
