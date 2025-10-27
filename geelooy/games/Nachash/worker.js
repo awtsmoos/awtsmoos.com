@@ -167,11 +167,7 @@ function draw() {
 
     // Draw UI and effects last
     drawUI(ctx);
-    if (state.screenFlash.alpha > 0) {
-        ctx.fillStyle = `rgba(255, 255, 220, ${state.screenFlash.alpha})`;
-        ctx.fillRect(0, 0, camera.width, camera.height);
-        state.screenFlash.alpha -= 0.05;
-    }
+    
 }
 
 
@@ -255,7 +251,7 @@ function checkCollisionsWithGrid() {
                         smallerSnake.die();
                         biggerSnake.score += smallerSnake.score / 2;
                         state.lightningEffects.push(new Lightning(snake.x, snake.y, target.x, target.y));
-                       // state.screenFlash.alpha = 0.5;
+                       
                     }
                 } 
                 // Head-to-body collision
