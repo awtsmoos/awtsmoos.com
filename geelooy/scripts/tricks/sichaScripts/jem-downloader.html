@@ -256,7 +256,9 @@ async function fetchEntireEvent(eventData, cb) {
 }
 
 function sname(nm) {
-    return nm.split(",").join("-").split("/").join("_")
+    return nm.split(",").join("-")
+        .split("/").join("_")
+        .split("?").join("")
 }
 
 /*
@@ -276,5 +278,6 @@ await getAllEventsFromYear(5747, {
     withAudio: true,
     afterMonth: 1
 })
+
 </textarea>
 </body>
