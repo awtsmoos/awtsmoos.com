@@ -116,7 +116,7 @@ self.addEventListener('fetch', (event) => {
         fetch(request)
             .then((networkResponse) => {
                 // If the network request is successful, cache it and return it.
-                console.log(`Service Worker: Fetched from network: ${request.url}`);
+               // console.log(`Service Worker: Fetched from network: ${request.url}`);
 
                 // Check for a valid response to cache.
                 // Some responses (e.g., from third-party extensions) are "opaque" and can't be cached.
@@ -134,7 +134,7 @@ self.addEventListener('fetch', (event) => {
                 console.warn(`Service Worker: Network request failed for ${request.url}. Trying cache...`, error.message);
                 return caches.match(request).then((cachedResponse) => {
                     if (cachedResponse) {
-                        console.log(`Service Worker: Serving from cache: ${request.url}`);
+                    //    console.log(`Service Worker: Serving from cache: ${request.url}`);
                         return cachedResponse;
                     }
 
