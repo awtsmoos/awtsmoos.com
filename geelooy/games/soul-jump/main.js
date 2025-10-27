@@ -48,6 +48,13 @@ let player, platforms = [],
 let score = 0,
     highScore = 0,
     cameraY = 0;
+    
+// main.js: add after line 49
+let isDragging = false;
+let touchStartX = 0;
+let playerStartX = 0;
+
+
 let gameState = 'start',
     worldLevel = 0,
     frameCount = 0;
@@ -59,21 +66,62 @@ const WORLD_THRESHOLDS = [75, 200, 400];
 const WORLD_COLORS = ['#1a0d00', '#001a1a', '#1a001a', '#333333'];
 
 // --- CONTROLS ---
-function handleMove(e) {
-    if (gameState !== 'playing') return;
-    let currentX = e.touches ? e.touches[0].clientX : e.clientX;
-    player.targetCx = currentX - (window.innerWidth - canvas.width) / 2;
+// --- CONTROLS ---
+function getEventX(e) {
+    // Helper to get the X coordinate from either a mouse or touch event,
+    // adjusted for the canvas's position on the page.
+    const canvasXOffset = (window.innerWidth - canvas.width) / 2;
+    return (e.touches ? e.touches[0].clientX : e.clientX) - canvasXOffset;
 }
-canvas.addEventListener('touchmove', handleMove);
-canvas.addEventListener('mousemove', handleMove);
-canvas.addEventListener('mousedown', (e) => {
-    if (gameState !== 'playing') startGame();
-    else handleMove(e);
-});
+
+function startDrag(e) {
+    if (gameState !== 'playing') {
+        startGame();
+        return; // Don't start a drag, just start the game
+    }
+    // When a drag starts, record the initial state.
+    isDragging = true;
+    touchStartX = getEventX(e);
+    playerStartX = player.cx;
+}
+
+function onDrag(e) {
+    // Only move the player if we are actively dragging.
+    if (!isDragging || gameState !== 'playing') return;
+
+    // Calculate the distance moved from the starting point.
+    const currentX = getEventX(e);
+    const deltaX = currentX - touchStartX;
+
+    // Apply that distance to the player's original position.
+    player.targetCx = playerStartX + deltaX;
+}
+
+function endDrag() {
+    // Stop dragging when the mouse/finger is lifted.
+    isDragging = false;
+}
+
+// Add all the necessary event listeners
+canvas.addEventListener('mousedown', startDrag);
 canvas.addEventListener('touchstart', (e) => {
-    if (gameState !== 'playing') startGame();
-    else handleMove(e);
+    e.preventDefault(); // Prevents screen from scrolling on mobile
+    startDrag(e);
 });
+
+canvas.addEventListener('mousemove', onDrag);
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Prevents screen from scrolling on mobile
+    onDrag(e);
+});
+
+// We need to know when the drag ends
+canvas.addEventListener('mouseup', endDrag);
+canvas.addEventListener('touchend', endDrag);
+canvas.addEventListener('mouseleave', endDrag); // Also stop if the cursor leaves the canvas
+
+
+
 
 // --- GAME OBJECTS ---
 class Player {
