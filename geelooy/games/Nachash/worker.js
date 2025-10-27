@@ -201,8 +201,8 @@ function updateTimers() {
     }
 
     state.aiSnakeTimer++;
-    const maxSnakes = 100 + state.level * 10;
-    if (state.aiSnakeTimer > 2000 && state.aiSnakes.length < maxSnakes) {
+    const maxSnakes = 145 + state.level * 13;
+    if (state.aiSnakeTimer > 1500 && state.aiSnakes.length < maxSnakes) {
         spawnAiSnake();
         state.aiSnakeTimer = 0;
         state.level++;
@@ -277,27 +277,39 @@ function updateScoreboard() {
     state.scoreboard = allSnakes.sort((a, b) => b.score - a.score).slice(0, 5); // Top 5
 }
 
-let scrollOffset = 0;
 function drawUI(ctx) {
     // --- Scoreboard ---
-    scrollOffset = (scrollOffset + 0.5) % 40; // Slow scroll effect
     ctx.font = '20px "Cormorant Garamond"';
+    
+    // Draw a semi-transparent background for better readability
+    const scoreboardHeight = 30 * state.scoreboard.length + 15;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    ctx.fillRect(10, 5, state.camera.width - 20, scoreboardHeight);
+
     state.scoreboard.forEach((entry, i) => {
-        const yPos = -scrollOffset + (i + 1) * 30;
-        if (yPos < 0) return; // Clip off-screen entries
+        // Use a fixed Y position for each entry
+        const yPos = 30 + (i * 30); 
+        
+        // Highlight the player's name
         ctx.fillStyle = entry.name === state.playerName ? 'yellow' : 'white';
+        
+        // Draw Rank and Name (aligned left)
         ctx.textAlign = 'left';
         ctx.fillText(`${i + 1}. ${entry.name}`, 20, yPos);
+        
+        // Draw Score (aligned right)
         ctx.textAlign = 'right';
         ctx.fillText(Math.floor(entry.score), state.camera.width - 20, yPos);
     });
-    ctx.textAlign = 'left';
+    
+    // Reset alignment for other UI elements
+    ctx.textAlign = 'left'; 
 
-    // --- Player Name ---
+    // --- Player Name (bottom left) ---
     ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
     ctx.font = '18px "Cormorant Garamond"';
     ctx.fillText(state.playerName, 10, state.camera.height - 10);
     
-    // --- Minimap ---
+    // --- Minimap (bottom right) ---
     drawMinimap(ctx);
 }

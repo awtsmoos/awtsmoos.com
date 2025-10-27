@@ -188,22 +188,49 @@ const KABBALA_NAMES = [
 ];
 
 const COLLECTIBLE_EMOJIS = Array.from(
-	'🌼🌻💐🌹🌺🌸🏵️🪻🍎🍇🍉🍊🍋🍓🍒🍑🥝'
+	'🌼🌻💐🌹🌺🌸🏵️🪻'+
+	'🍎🍇🍉🍊🍋🍓🍒🍑🥝'+
+	'🥩🦃🦆💧🪐🌍🌓🐃🦬🐂'
+	+'🐄🦌🐐🐣🐤🐥🐔🐓🥝🫑🥬🍇🍆'
+	+'🫘🌰🍠🥜🍞🧄🥔🍄‍🟫🥦🍈🍉'
+	+'🌶️🍅🍎🍒🍓🥕🫛🥭🍐🍊🧅'
+	+'🧅🫚🥯🍗🍗🌮🌯🥙🌮🫔🍕🍟🥨'
+	+'🍝🌭🧆🍛🍛🦪🍚🍱🥠🍨🍫🍩'
+	+'🍪🍯🧂🍿🍿🧊🍵🍼🍾🥂🍻🥤'
+	+'🧋🧃🍺🍴🍶🍹🍹🧉🫖🫗🥃🧉'
+	+'🫙🍬🍧🥚🥚'
 );
 const HEBREW_LETTERS = Array.from(
 	'אבגדהוזחטיכלמנסעפצקרשת');
 
+// --- NEW HELPER FOR NAME GENERATION ---
+const SYMBOLS = Areay.from("$@🦢🐍🐍⚕️🦢🐓🐾🏵️🐒🌼🐇🌻"
++"😀😃😄😁😆😅🤣😭😭🥰😘😙😗"
++"🫠🙃🥲🥹☺️😌🙂‍↕️🤠😇😎🤓👊👍🦓"
++"🐊🐢🦎🦕🐉🐍🦎🦎🦎🐇🐁🐲🐇"
++"🐸🦮🐫🦨🐘🦘🦢🦧🐥🐓🦚🐳🐆"
++"🦜🦃🦆🐠🐞🦠🪱🐛🐝🐛🐛🐛🐛🐾"
++"🦠🦠🥩&#£¢¢%€§∆π¥€™®%√קראטטוןםפףךלחיעעגדשזסבהנ"
++"מתץ")
+
 function generateAiName() {
-	let name = KABBALA_NAMES[Math.floor(
-		Math.random() *
-		KABBALA_NAMES.length)];
-	name += Math.floor(Math.random() *
-		90) + 10;
-	return name.split('')
-		.map((c, i) => i % 2 === 0 ? c
-			.toLowerCase() : c
-			.toUpperCase())
-		.join('');
+    // 1. Pick two or three names from the list
+    const nameCount = Math.random() > 0.7 ? 3 : 2; // 30% chance for a 3-part name
+    let baseName = '';
+
+    for (let i = 0; i < nameCount; i++) {
+        const randomName = KABBALA_NAMES[Math.floor(Math.random() * KABBALA_NAMES.length)];
+        // 2. Apply camel casing (e.g., "metatron" becomes "Metatron")
+        baseName += randomName.charAt(0).toUpperCase() + randomName.slice(1).toLowerCase();
+    }
+
+    // 3. Add a random number (e.g., 100-999)
+    const randomNumber = Math.floor(Math.random() * 900) + 100;
+
+    // 4. Add a random symbol from our list
+    const randomSymbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+
+    return `${baseName}${randomSymbol}${randomNumber}`;
 }
 
 
@@ -543,95 +570,58 @@ class Player {
 }
 
 
-// --- FIX: New, robust, and performant background drawing function ---
-// --- NEW: Advanced, Multi-Layered Background Drawing Function ---
-// Call this once when initializing the game
-function drawBackground(ctx) {
-  const { camera, world } = state;
+// --- NEW: High-performance, pattern-based background drawing ---
 
-  const view = {
-    x: camera.x,
-    y: camera.y,
-    right: camera.x + camera.width / camera.zoom,
-    bottom: camera.y + camera.height / camera.zoom,
-  };
+// Store the pattern so we only create it once.
+let backgroundPattern = null; 
 
-  const patchSize = 200;
-  const startCol = Math.floor(view.x / patchSize);
-  const endCol = Math.ceil(view.right / patchSize);
-  const startRow = Math.floor(view.y / patchSize);
-  const endRow = Math.ceil(view.bottom / patchSize);
+function createBackgroundPattern() {
+    // Create a small, off-screen canvas to draw our texture on.
+    const patternCanvas = new OffscreenCanvas(200, 200);
+    const pctx = patternCanvas.getContext('2d');
 
-  for (let row = startRow; row < endRow; row++) {
-    for (let col = startCol; col < endCol; col++) {
-      // Fast deterministic random
-      const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
-      const rand = (() => {
-        let s = seed;
-        return () => {
-          s = (s * 9301 + 49297) % 233280;
-          return s / 233280;
-        };
-      })();
+    // Base color
+    pctx.fillStyle = '#101410'; // Dark base
+    pctx.fillRect(0, 0, 200, 200);
 
-      // Base solid color (no gradient)
-      const t = rand();
-      let hue, sat, light;
-      if (t < 0.75) {
-        hue = 100 + rand() * 10;
-        sat = 25 + rand() * 10;
-        light = 18 + rand() * 10;
-      } else if (t < 0.95) {
-        hue = 35 + rand() * 5;
-        sat = 25 + rand() * 10;
-        light = 15 + rand() * 8;
-      } else {
-        hue = 25 + rand() * 5;
-        sat = 15 + rand() * 5;
-        light = 20 + rand() * 10;
-      }
-      ctx.fillStyle = `hsl(${hue}, ${sat}%, ${light}%)`;
-      ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
-
-      // Fast "hash" texture — little line clusters rendered as single paths
-      const lines = 10; // drastically fewer operations
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = `hsl(${hue}, ${sat}%, ${light + 10}%)`;
-      ctx.beginPath();
-      for (let i = 0; i < lines; i++) {
-        const baseX = col * patchSize + rand() * patchSize;
-        const baseY = row * patchSize + rand() * patchSize;
-        const len = 6 + rand() * 8;
-        const ang = rand() * Math.PI * 2;
-        const dx = Math.cos(ang) * len;
-        const dy = Math.sin(ang) * len;
-        ctx.moveTo(baseX, baseY);
-        ctx.lineTo(baseX + dx, baseY + dy);
-      }
-      ctx.stroke();
-
-      // Occasional cross-hatch cluster for variation
-      if (rand() > 0.9) {
-        ctx.strokeStyle = `hsl(${hue}, ${sat + 10}%, ${light - 5}%)`;
-        ctx.beginPath();
-        for (let i = 0; i < 4; i++) {
-          const cx = col * patchSize + rand() * patchSize;
-          const cy = row * patchSize + rand() * patchSize;
-          ctx.moveTo(cx - 3, cy - 3);
-          ctx.lineTo(cx + 3, cy + 3);
-          ctx.moveTo(cx - 3, cy + 3);
-          ctx.lineTo(cx + 3, cy - 3);
-        }
-        ctx.stroke();
-      }
+    // Add some subtle details to the texture
+    pctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+    for (let i = 0; i < 80; i++) {
+        pctx.fillRect(Math.random() * 200, Math.random() * 200, 2, 2);
     }
+    pctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    pctx.lineWidth = 0.5;
+    pctx.beginPath();
+    pctx.moveTo(0, Math.random() * 200);
+    pctx.lineTo(200, Math.random() * 200);
+    pctx.stroke();
+    pctx.moveTo(Math.random() * 200, 0);
+    pctx.lineTo(Math.random() * 200, 200);
+    pctx.stroke();
+    
+    // 'Bake' the texture into a repeatable pattern.
+    return pctx.createPattern(patternCanvas, 'repeat');
+}
+
+function drawBackground(ctx) {
+  const { world } = state;
+
+  // Create the pattern only on the first run.
+  if (!backgroundPattern) {
+      backgroundPattern = createBackgroundPattern();
   }
 
-  // Border
+  // Fill the entire world with the repeating pattern. This is extremely fast.
+  ctx.fillStyle = backgroundPattern;
+  ctx.fillRect(0, 0, world.width, world.height);
+
+  // Keep the border drawing
   ctx.strokeStyle = '#241a0c';
   ctx.lineWidth = 40;
   ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
+
+
 
 
 class AiSnake extends Player {
@@ -642,33 +632,90 @@ class AiSnake extends Player {
 			generateAiName();
 		this.color =
 			`hsl(${Math.random() * 360}, 90%, 60%)`;
-		this.speed = 3 + Math
+		this.speed = 5 + Math
 			.random() * 1.5;
 		this.size = 12;
+		
+		// How often the AI re-evaluates its surroundings (in frames).
+        // Randomness prevents all AIs from thinking on the same frame, smoothing performance.
+        this.decisionCooldown = Math.floor(Math.random() * 10) + 15; // Thinks every 15-25 frames
+        this.decisionTimer = this.decisionCooldown;
+		
 	}
 	update() {
 		if (!this.isAlive) return;
-		this.findTarget();
-		super.update();
+        
+        // --- PERFORMANCE OPTIMIZATION ---
+        // Only run the expensive "findTarget" logic periodically, not every frame.
+        this.decisionTimer--;
+        if (this.decisionTimer <= 0) {
+		    this.findTarget();
+            this.decisionTimer = this.decisionCooldown; // Reset the timer
+        }
+
+		super.update(); // This handles the actual movement
 	}
 	findTarget() {
-		const nearby = state.grid
-			.getNearbyObjects(this);
-		const food = nearby.filter(
-			o => o.type ===
-			'collectible' && o
-			.isAlive);
-		if (food.length > 0) {
-			this.targetAngle = Math
-				.atan2(food[0].y -
-					this.y, food[0]
-					.x - this.x);
-		} else { // Wander
-			if (Math.random() <
-				0.05) this
-				.targetAngle += Math
-				.random() * 2 - 1;
+		const nearby = state.grid.getNearbyObjects(this);
+		let closestFood = null;
+		let closestPrey = null;
+        let closestPredator = null;
+        
+        let minFoodDist = Infinity;
+        let minPreyDist = Infinity;
+        let minPredatorDist = Infinity;
+
+        // --- 1. Categorize all nearby objects ---
+        for (const obj of nearby) {
+            if (!obj.isAlive || obj === this) continue;
+
+            const dist = getDistance(this.x, this.y, obj.x, obj.y);
+
+            if (obj.type === 'collectible' && dist < minFoodDist) {
+                minFoodDist = dist;
+                closestFood = obj;
+            } else if (obj.type === 'player' || obj.type === 'ai_snake') {
+                // If the other snake is smaller, it's prey.
+                if (this.score > obj.score + 50 && dist < minPreyDist) { // Must be significantly smaller
+                    minPreyDist = dist;
+                    closestPrey = obj;
+                } 
+                // If the other snake is bigger, it's a predator.
+                else if (obj.score > this.score + 50 && dist < minPredatorDist) {
+                     minPredatorDist = dist;
+                     closestPredator = obj;
+                }
+            }
+        }
+
+        // --- 2. Make a decision based on priorities ---
+
+        // Priority 1: SURVIVAL. If a predator is too close, flee!
+        if (closestPredator && minPredatorDist < 300) {
+            // Calculate the angle directly away from the predator
+            this.targetAngle = Math.atan2(this.y - closestPredator.y, this.x - closestPredator.x);
+            this.isTurning = true;
+            return;
+        }
+
+        // Priority 2: AGGRESSION. If there is prey nearby, hunt it.
+        if (closestPrey) {
+            this.targetAngle = Math.atan2(closestPrey.y - this.y, closestPrey.x - this.x);
+            this.isTurning = true;
+            return;
+        }
+
+        // Priority 3: EATING. If no threats or prey, find the nearest food.
+        if (closestFood) {
+			this.targetAngle = Math.atan2(closestFood.y - this.y, closestFood.x - this.x);
+            this.isTurning = true;
+            return;
 		}
+        
+        // Priority 4: WANDERING. If nothing is nearby, just wander around.
+        if (Math.random() < 0.1) { // Wander less frequently
+            this.targetAngle += Math.random() * 2 - 1;
+        }
 		this.isTurning = true;
 	}
 	draw(ctx) {
