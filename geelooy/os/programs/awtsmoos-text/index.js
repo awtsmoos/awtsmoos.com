@@ -152,7 +152,7 @@ export default ({
 
     
     if(type) {
-      coded =new codeify(contentDiv, type)
+      coded =null;//new codeify(contentDiv, type)
      // console.log(coded,"Coded",contentDiv);
       window.coded=coded;
       coded?.parent?.focus()
