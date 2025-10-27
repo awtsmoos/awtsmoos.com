@@ -546,83 +546,103 @@ class Player {
 // --- FIX: New, robust, and performant background drawing function ---
 // --- NEW: Advanced, Multi-Layered Background Drawing Function ---
 // Call this once when initializing the game
-let grassTile, dirtTile, rockTile;
-
-function makeTile(colorBase, hueRange, lightRange, speckColor) {
-	const size = 64; // smaller texture tile, repeated
-	const tile = document.createElement('canvas');
-	tile.width = tile.height = size;
-	const c = tile.getContext('2d');
-
-	// Base fill
-	c.fillStyle = colorBase;
-	c.fillRect(0, 0, size, size);
-
-	// Add quick random streaks and dots
-	for (let i = 0; i < 80; i++) {
-		const x = Math.random() * size;
-		const y = Math.random() * size;
-		if (Math.random() < 0.7) {
-			// short line stroke
-			c.strokeStyle = `hsl(${hueRange[0] + Math.random() * (hueRange[1] - hueRange[0])}, 25%, ${lightRange[0] + Math.random() * (lightRange[1] - lightRange[0])}%)`;
-			c.lineWidth = 0.5;
-			c.beginPath();
-			c.moveTo(x, y);
-			c.lineTo(x + Math.random() * 3 - 1.5, y + Math.random() * 3 - 1.5);
-			c.stroke();
-		} else {
-			// dirt speck
-			c.fillStyle = speckColor;
-			c.fillRect(x, y, 1, 1);
-		}
-	}
-	return tile;
-}
-
-function initBackgroundTiles() {
-	grassTile = makeTile('hsl(105, 30%, 22%)', [95, 115], [20, 35], 'hsl(30, 20%, 15%)');
-	dirtTile = makeTile('hsl(30, 25%, 20%)', [25, 35], [15, 25], 'hsl(20, 10%, 12%)');
-	rockTile = makeTile('hsl(25, 15%, 25%)', [20, 30], [20, 30], 'hsl(0, 0%, 10%)');
-}
-
-// Draw visible patches lightning fast
 function drawBackground(ctx) {
-	const { camera, world } = state;
-	if (!grassTile) initBackgroundTiles();
+  const { camera, world } = state;
 
-	const patchSize = 200;
-	const view = {
-		x: camera.x,
-		y: camera.y,
-		right: camera.x + camera.width / camera.zoom,
-		bottom: camera.y + camera.height / camera.zoom
-	};
+  const view = {
+    x: camera.x,
+    y: camera.y,
+    right: camera.x + camera.width / camera.zoom,
+    bottom: camera.y + camera.height / camera.zoom,
+  };
 
-	const startCol = Math.floor(view.x / patchSize);
-	const endCol = Math.ceil(view.right / patchSize);
-	const startRow = Math.floor(view.y / patchSize);
-	const endRow = Math.ceil(view.bottom / patchSize);
+  const patchSize = 200;
 
-	for (let row = startRow; row < endRow; row++) {
-		for (let col = startCol; col < endCol; col++) {
-			const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
-			const r = Math.abs(Math.sin(seed)) % 1;
-			let tile;
-			if (r < 0.75) tile = grassTile;
-			else if (r < 0.95) tile = dirtTile;
-			else tile = rockTile;
+  const startCol = Math.floor(view.x / patchSize);
+  const endCol = Math.ceil(view.right / patchSize);
+  const startRow = Math.floor(view.y / patchSize);
+  const endRow = Math.ceil(view.bottom / patchSize);
 
-			ctx.drawImage(tile, col * patchSize, row * patchSize, patchSize, patchSize);
-		}
-	}
+  for (let row = startRow; row < endRow; row++) {
+    for (let col = startCol; col < endCol; col++) {
+      const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
+      const rand = (() => {
+        let localSeed = seed;
+        return () => {
+          localSeed = Math.sin(localSeed * 12.9898 + 78.233) * 43758.5453;
+          return localSeed - Math.floor(localSeed);
+        };
+      })();
 
-	// Frame border
-	ctx.strokeStyle = '#1c1206';
-	ctx.lineWidth = 40;
-	ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
+      // Base hue per patch for earthy range (grass/dirt mix)
+      const terrainType = rand();
+      let hue, sat, light;
+      if (terrainType < 0.75) {
+        hue = 100 + rand() * 10; // greenish
+        sat = 25 + rand() * 10;
+        light = 18 + rand() * 10;
+      } else if (terrainType < 0.95) {
+        hue = 35 + rand() * 5; // brownish
+        sat = 25 + rand() * 10;
+        light = 15 + rand() * 8;
+      } else {
+        hue = 25 + rand() * 5; // rocky
+        sat = 15 + rand() * 5;
+        light = 20 + rand() * 10;
+      }
+
+      ctx.fillStyle = `hsl(${hue}, ${sat}%, ${light}%)`;
+      ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
+
+      // --- Fine line texture: simulate grass blades & dirt scratches ---
+      const linesCount = 60 + Math.floor(rand() * 60);
+      ctx.lineWidth = 1;
+
+      for (let i = 0; i < linesCount; i++) {
+        const x = col * patchSize + rand() * patchSize;
+        const y = row * patchSize + rand() * patchSize;
+        const len = 3 + rand() * 6;
+        const angle = rand() * Math.PI * 2;
+        const dx = Math.cos(angle) * len;
+        const dy = Math.sin(angle) * len;
+
+        // vary color slightly for texture richness
+        const shade = light + (rand() - 0.5) * 12;
+        ctx.strokeStyle = `hsl(${hue}, ${sat}%, ${shade}%)`;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + dx, y + dy);
+        ctx.stroke();
+      }
+
+      // --- Occasional clusters to simulate tufts or cracks ---
+      if (rand() > 0.7) {
+        const clusterCount = 3 + Math.floor(rand() * 5);
+        for (let i = 0; i < clusterCount; i++) {
+          const cx = col * patchSize + rand() * patchSize;
+          const cy = row * patchSize + rand() * patchSize;
+          const clusterLines = 5 + Math.floor(rand() * 10);
+          for (let j = 0; j < clusterLines; j++) {
+            const len = 2 + rand() * 8;
+            const ang = rand() * Math.PI * 2;
+            const dx = Math.cos(ang) * len;
+            const dy = Math.sin(ang) * len;
+            ctx.strokeStyle = `hsl(${hue}, ${sat + 5}%, ${light + (rand() - 0.5) * 10}%)`;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + dx, cy + dy);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+  }
+
+  // --- Outer border for the whole world ---
+  ctx.strokeStyle = '#241a0c';
+  ctx.lineWidth = 40;
+  ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
-
-
 
 
 class AiSnake extends Player {
