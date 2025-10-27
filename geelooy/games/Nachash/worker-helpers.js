@@ -267,11 +267,12 @@ class Particle {
 		this.isActive = true;
 		this.x = x;
 		this.y = y;
-		this.vx = Math.random() *
-			6 - 3;
-		this.vy = Math.random() * -
-			6 - 2;
-		this.life = 100;
+		this.vy = Math.random() * -360 - 120; // Velocity in pixels/sec
+		this.vx = Math.random() * 360 - 180; // Velocity in pixels/sec
+		this.life = 1.5; // Lifetime in seconds
+		this.initialLife = 1.5; // Store max life for alpha calculation
+		const GRAVITY = 60; // Gravity in pixels/sec^2
+		
 		this.size = 20;
 		this.text = HEBREW_LETTERS[
 			Math.floor(Math
@@ -284,26 +285,23 @@ class Particle {
 	reset() {
 		this.isActive = false;
 	}
-	update() {
-		if (!this.isActive) return;
-		this.x += this.vx;
-		this.y += this.vy;
-		this.vy += 0.1;
-		this.life--;
-		if (this.life <= 0) this
-			.reset();
+	update(deltaTime) {
+	    if (!this.isActive) return;
+	    this.x += this.vx * deltaTime;
+	    this.y += this.vy * deltaTime;
+	    this.vy += GRAVITY * deltaTime; // Apply gravity
+	    this.life -= deltaTime;
+	    if (this.life <= 0) this.reset();
 	}
 	draw(ctx) {
-		if (!this.isActive) return;
-		ctx.globalAlpha = this
-			.life / 100;
-		ctx.fillStyle = this.color;
-		ctx.font =
-			`bold ${this.size * (this.life / 100)}px 'Cormorant Garamond'`;
-		ctx.textAlign = 'center';
-		ctx.fillText(this.text, this
-			.x, this.y);
-		ctx.globalAlpha = 1.0;
+	    if (!this.isActive) return;
+	    // Alpha is now based on the percentage of life remaining
+	    ctx.globalAlpha = this.life / this.initialLife;
+	    ctx.fillStyle = this.color;
+	    ctx.font = `bold ${this.size * (this.life / this.initialLife)}px 'Cormorant Garamond'`;
+	    ctx.textAlign = 'center';
+	    ctx.fillText(this.text, this.x, this.y);
+	    ctx.globalAlpha = 1.0;
 	}
 }
 
@@ -435,6 +433,8 @@ function drawWorld(ctx) {
     state.lightningEffects.forEach(l => l.draw(ctx)); // Lightning is big, better to just draw it
 }
 
+
+
 function drawMinimap(ctx) {
 	const mapW = 100;
 	const mapH = 100;
@@ -474,7 +474,8 @@ class Player {
 		this.y = y;
 		this.size = 14;
 		this.angle = 0;
-		this.speed = 4.5;
+		this.speed = 280; // NOTE: Speed is now in "pixels per second". 280 is ~4.6 pixels at 60fps.
+		this.turnSpeed = 6.0; // In "radians per second"
 		this.body = [];
 		this.maxLength = length;
 		this.isTurning = false;
@@ -495,40 +496,26 @@ class Player {
 		this.isTurning = false;
 	}
 
-	update() {
-		if (!this.isAlive) return;
-
-		// This is the core movement logic that was failing
-		if (this.isTurning) {
-			let angleDiff = this
-				.targetAngle - this
-				.angle;
-			while (angleDiff < -Math
-				.PI) angleDiff +=
-				2 * Math.PI;
-			while (angleDiff > Math
-				.PI) angleDiff -=
-				2 * Math.PI;
-			this.angle +=
-				angleDiff * this
-				.turnSpeed;
-		}
-
-		// Update body and position
-		this.body.unshift({
-			x: this.x,
-			y: this.y
-		});
-		if (this.body.length > this
-			.maxLength) this.body
-			.pop();
-		this.x += Math.cos(this
-			.angle) * this.speed;
-		this.y += Math.sin(this
-			.angle) * this.speed;
-
-		this.handleBorders();
-		state.score = this.score;
+	update(deltaTime) {
+	    if (!this.isAlive) return;
+	
+	    if (this.isTurning) {
+	        let angleDiff = this.targetAngle - this.angle;
+	        while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+	        while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+	        // Turn speed is now framerate-independent
+	        this.angle += angleDiff * this.turnSpeed * deltaTime;
+	    }
+	
+	    this.body.unshift({ x: this.x, y: this.y });
+	    if (this.body.length > this.maxLength) this.body.pop();
+	    
+	    // Movement is now framerate-independent
+	    this.x += Math.cos(this.angle) * this.speed * deltaTime;
+	    this.y += Math.sin(this.angle) * this.speed * deltaTime;
+	
+	    this.handleBorders();
+	    state.score = this.score;
 	}
 
 	handleBorders() {
@@ -631,57 +618,53 @@ class Player {
 }
 
 
-// --- NEW: High-performance, pattern-based background drawing ---
 
-// --- NEW: High-performance background pattern generator ---
-function createBackgroundPattern() {
-    console.log("B'H - Creating background pattern...");
-    // Create a small canvas to design our repeating texture
-    const patternCanvas = new OffscreenCanvas(256, 256);
-    const pctx = patternCanvas.getContext('2d');
 
-    // Base color for the texture
-    pctx.fillStyle = '#050805';
-    pctx.fillRect(0, 0, 256, 256);
 
-    // Add some subtle details
-    pctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-    for (let i = 0; i < 20; i++) {
-        pctx.beginPath();
-        pctx.arc(Math.random() * 256, Math.random() * 256, Math.random() * 1.5, 0, Math.PI * 2);
-        pctx.fill();
+// --- NEW: High-performance, procedural background that only draws the visible area ---
+function drawVisibleBackground(ctx) {
+    const { camera, world } = state;
+
+    // Calculate the camera's visible area (the "viewport")
+    const view = {
+        left: camera.x,
+        top: camera.y,
+        right: camera.x + camera.width / camera.zoom,
+        bottom: camera.y + camera.height / camera.zoom,
+    };
+
+    // Use a large grid size for the background details
+    const gridSize = 250;
+
+    // Figure out which grid cells are visible
+    const startCol = Math.floor(view.left / gridSize);
+    const endCol = Math.ceil(view.right / gridSize);
+    const startRow = Math.floor(view.top / gridSize);
+    const endRow = Math.ceil(view.bottom / gridSize);
+
+    // Only loop through the VISIBLE cells
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let row = startRow; row < endRow; row++) {
+        for (let col = startCol; col < endCol; col++) {
+            // Use a deterministic seed to make the background static
+            const seed = Math.sin(col * 10.37 + row * 50.81) * 10000;
+            if (seed % 10 < 1) { // Only draw a detail in ~10% of cells
+                ctx.beginPath();
+                ctx.arc(
+                    col * gridSize + (seed % gridSize), 
+                    row * gridSize + ((seed / 10) % gridSize), 
+                    1 + (seed % 2), 
+                    0, Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
     }
-
-    // Return the texture as a repeatable pattern. This is the key object.
-    return pctx.createPattern(patternCanvas, 'repeat');
-}
-
-// --- NEW: High-performance background drawing via offscreen canvas copy ---
-function drawBackground(ctx) {
-return
-    const { camera, backgroundCanvas } = state;
     
-    // Safety check in case it's not ready
-    if (!backgroundCanvas) return; 
-
-    // Calculate the rectangular section of the world that the camera can see
-    const viewWidth = camera.width / camera.zoom;
-    const viewHeight = camera.height / camera.zoom;
-    
-    // This single command is the core of the optimization.
-    // It clips out the visible rectangle from our giant pre-rendered background
-    // and draws it scaled to fit the player's screen. It's extremely fast.
-    ctx.drawImage(
-        backgroundCanvas,
-        camera.x,     // Source X (from the giant background image)
-        camera.y,     // Source Y
-        viewWidth,    // Source Width 
-        viewHeight,   // Source Height
-        0,            // Destination X (on the screen, always 0)
-        0,            // Destination Y (on the screen, always 0)
-        camera.width, // Destination Width (fill the screen)
-        camera.height // Destination Height (fill the screen)
-    );
+    // Always draw the world border
+    ctx.strokeStyle = '#241a0c';
+    ctx.lineWidth = 40;
+    ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
 
 
@@ -696,8 +679,7 @@ class AiSnake extends Player {
 			generateAiName();
 		this.color =
 			`hsl(${Math.random() * 360}, 90%, 60%)`;
-		this.speed = 5 + Math
-			.random() * 1.5;
+		this.speed = 210 + Math.random() * 90; // Pixels per second (approx 3.5 - 5 speed)
 		this.size = 12;
 		
 		// How often the AI re-evaluates its surroundings (in frames).
@@ -706,18 +688,18 @@ class AiSnake extends Player {
         this.decisionTimer = this.decisionCooldown;
 		
 	}
-	update() {
-		if (!this.isAlive) return;
-        
-        // --- PERFORMANCE OPTIMIZATION ---
-        // Only run the expensive "findTarget" logic periodically, not every frame.
-        this.decisionTimer--;
-        if (this.decisionTimer <= 0) {
-		    this.findTarget();
-            this.decisionTimer = this.decisionCooldown; // Reset the timer
-        }
-
-		super.update(); // This handles the actual movement
+	update(deltaTime) {
+	    if (!this.isAlive) return;
+	    
+	    // Decision timer is now based on seconds
+	    this.decisionTimer -= deltaTime;
+	    if (this.decisionTimer <= 0) {
+	        this.findTarget();
+	        this.decisionTimer = (Math.random() * 0.2) + 0.25; // Re-think every 0.25-0.45 seconds
+	    }
+	
+	    // Call the parent Player's update method, which already handles deltaTime movement
+	    super.update(deltaTime);
 	}
 	findTarget() {
 		const nearby = state.grid.getNearbyObjects(this);

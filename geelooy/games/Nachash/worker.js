@@ -97,34 +97,23 @@ function start() {
 
 
 // Replace your entire draw function with this:
+// In Worker.js
 function draw() {
-    const { ctx, camera, backgroundPattern } = state;
-    
-    // Clear the screen with a fallback color
+    const { ctx, camera } = state;
+
     ctx.fillStyle = '#050805';
     ctx.fillRect(0, 0, camera.width, camera.height);
 
-    // --- This is the core drawing logic ---
     ctx.save();
-    
-    // 1. Apply camera pan and zoom
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // 2. Draw the background pattern across the visible world area. This is very fast.
-    if (backgroundPattern) {
-        ctx.fillStyle = backgroundPattern;
-        // Calculate the visible rectangle and fill it with the pattern
-        ctx.fillRect(camera.x, camera.y, camera.width / camera.zoom, camera.height / camera.zoom);
-    }
+    // --- NEW BACKGROUND AND WORLD DRAWING ---
+    drawVisibleBackground(ctx); // Draw the fast, procedural background
+    drawWorld(ctx);             // Draw the culled game objects
     
-    // 3. Draw the game objects (we will optimize this in the next step)
-    drawWorld(ctx);
-    
-    // Restore for UI drawing
     ctx.restore();
-    
-    // Draw UI on top
+
     drawUI(ctx);
 }
 
@@ -154,16 +143,29 @@ function updateCamera() {
 
 
 
-function gameLoop() {
+// In Worker.js
+let lastTime = 0; // Add this line right before gameLoop
+
+function gameLoop(currentTime) {
     if (!state.isRunning) return;
-    update();
+
+    // If lastTime is 0, this is the first frame.
+    if (!lastTime) {
+        lastTime = currentTime;
+    }
+
+    // Calculate delta time in seconds (e.g., 0.016 for 60fps)
+    const deltaTime = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
+
+    update(deltaTime); // Pass deltaTime to the update function
     draw();
     requestAnimationFrame(gameLoop);
 }
 
 
 
-function update() {
+function update(deltaTime) {
     // --- PERFORMANCE: Update grid with dynamic objects ---
     state.grid.clear();
     state.grid.insert(state.player);
@@ -171,17 +173,17 @@ function update() {
     state.collectibles.forEach(c => state.grid.insert(c));
 
     // --- FIX: Ensure player update is always called ---
-    state.player.update();
+    // --- Pass deltaTime down to all game objects ---
+    state.player.update(deltaTime);
     state.aiSnakes.forEach(s => {
-        if (s.isAlive) s.update();
+        if (s.isAlive) s.update(deltaTime);
     });
     
-    // Update effects
-    state.particles.forEach(p => p.update());
-    state.lightningEffects.forEach(l => l.update());
+    state.particles.forEach(p => p.update(deltaTime));
+    state.lightningEffects.forEach(l => l.update(deltaTime));
 
     checkCollisionsWithGrid();
-    updateTimers();
+    updateTimers(deltaTime); // Also pass to timers
 
     // Cleanup dead objects
     state.particles = state.particles.filter(p => p.isActive);
@@ -219,23 +221,25 @@ function spawnAiSnake() {
     ));
 }
 
-function updateTimers() {
-    state.collectibleTimer++;
-    if (state.collectibleTimer > 10 && state.collectibles.length < 2000) {
+// In Worker.js
+function updateTimers(deltaTime) { // Add deltaTime
+    // Note: Timers are now floats, not integers.
+    state.collectibleTimer += deltaTime;
+    if (state.collectibleTimer > 0.1 && state.collectibles.length < 2000) { // 0.1 seconds
         spawnCollectible();
         state.collectibleTimer = 0;
     }
 
-    state.aiSnakeTimer++;
+    state.aiSnakeTimer += deltaTime;
     const maxSnakes = 145 + state.level * 13;
-    if (state.aiSnakeTimer > 1500 && state.aiSnakes.length < maxSnakes) {
+    if (state.aiSnakeTimer > 2.5 && state.aiSnakes.length < maxSnakes) { // 2.5 seconds
         spawnAiSnake();
         state.aiSnakeTimer = 0;
         state.level++;
     }
 
-    state.scoreboardUpdateTimer++;
-    if (state.scoreboardUpdateTimer > 60) { // Update scoreboard every second
+    state.scoreboardUpdateTimer += deltaTime;
+    if (state.scoreboardUpdateTimer > 1) { // 1 second
         updateScoreboard();
         state.scoreboardUpdateTimer = 0;
     }
