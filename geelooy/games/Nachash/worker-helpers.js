@@ -61,33 +61,30 @@ class SpatialGrid {
 			}
 		});
 	}
+	// In worker-helpers.js, inside the SpatialGrid class
+
 	getNearbyObjects(obj) {
 		const nearby = new Set();
-		const checkCell = (x,
-		y) => {
-			const col = Math
-				.floor(x / this
-					.cellSize);
-			const row = Math
-				.floor(y / this
-					.cellSize);
-			if (col < 0 ||
-				col >= this
-				.cols || row <
-				0 || row >= this
-				.rows) return;
-			const index = row *
-				this.cols + col;
-			this.cells[index]
-				.forEach(item =>
-					nearby.add(
-						item));
+		const checkCell = (x, y) => {
+			const col = Math.floor(x / this.cellSize);
+			const row = Math.floor(y / this.cellSize);
+			
+			if (col < 0 || col >= this.cols || row < 0 || row >= this.rows) return;
+			
+			const index = row * this.cols + col;
+
+			// --- THE FIX IS HERE ---
+			// Before trying to loop through the cell, make sure it actually exists.
+			// This prevents the crash.
+			const cell = this.cells[index];
+			if (cell) {
+				cell.forEach(item => nearby.add(item));
+			}
+			// --- END FIX ---
 		};
+
 		// Check a 3x3 grid of cells around the object's head
-		const {
-			x,
-			y
-		} = obj;
+		const { x, y } = obj;
 		const cs = this.cellSize;
 		checkCell(x - cs, y - cs);
 		checkCell(x, y - cs);
@@ -98,6 +95,7 @@ class SpatialGrid {
 		checkCell(x - cs, y + cs);
 		checkCell(x, y + cs);
 		checkCell(x + cs, y + cs);
+		
 		return Array.from(nearby);
 	}
 }
@@ -496,26 +494,38 @@ class Player {
 		this.isTurning = false;
 	}
 
+	// In worker-helpers.js, inside the Player class
+
 	update(deltaTime) {
-	    if (!this.isAlive) return;
-	
-	    if (this.isTurning) {
-	        let angleDiff = this.targetAngle - this.angle;
-	        while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-	        while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-	        // Turn speed is now framerate-independent
-	        this.angle += angleDiff * this.turnSpeed * deltaTime;
-	    }
-	
-	    this.body.unshift({ x: this.x, y: this.y });
-	    if (this.body.length > this.maxLength) this.body.pop();
-	    
-	    // Movement is now framerate-independent
-	    this.x += Math.cos(this.angle) * this.speed * deltaTime;
-	    this.y += Math.sin(this.angle) * this.speed * deltaTime;
-	
-	    this.handleBorders();
-	    state.score = this.score;
+        if (!this.isAlive) return;
+
+        // --- All your existing deltaTime movement logic here... ---
+		if (this.isTurning) {
+			let angleDiff = this.targetAngle - this.angle;
+			while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+			while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+			this.angle += angleDiff * this.turnSpeed * deltaTime;
+		}
+
+		this.body.unshift({ x: this.x, y: this.y });
+		if (this.body.length > this.maxLength) this.body.pop();
+		
+		this.x += Math.cos(this.angle) * this.speed * deltaTime;
+		this.y += Math.sin(this.angle) * this.speed * deltaTime;
+
+		this.handleBorders();
+		state.score = this.score;
+        // --- End of existing logic ---
+
+
+        // --- NEW: Sanity check to fix the root cause of the crash ---
+        if (isNaN(this.x) || isNaN(this.y) || deltaTime > 0.5) {
+            // Also check for huge deltaTime spikes that can cause tunneling
+            console.error("B'H - Player position became NaN or deltaTime spiked! Resetting position.", { x: this.x, y: this.y, dt: deltaTime });
+            this.x = state.world.width / 2;
+            this.y = state.world.height / 2;
+            this.body = []; // Clear the body to prevent drawing errors
+        }
 	}
 
 	handleBorders() {
