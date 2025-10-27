@@ -164,17 +164,6 @@ function draw() {
     ctx.fillStyle = '#050805';
     ctx.fillRect(0, 0, camera.width, camera.height);
 
-    // 2. Draw the visible portion of the pre-rendered background directly onto the canvas.
-    //    We do this here to guarantee it works and happens at the right time.
-    if (backgroundCanvas) {
-        const viewWidth = camera.width / camera.zoom;
-        const viewHeight = camera.height / camera.zoom;
-        ctx.drawImage(
-            backgroundCanvas,
-            camera.x, camera.y, viewWidth, viewHeight, // Source rectangle from our big texture
-            0, 0, camera.width, camera.height         // Destination rectangle (the whole screen)
-        );
-    }
 
     // 3. Save the current state, and then apply the camera zoom and pan
     //    to prepare for drawing the game world objects.
