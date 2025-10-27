@@ -20,6 +20,8 @@ const state = {
     camera: {
         x: 0, y: 0, width: 0, height: 0, zoom: 0.8
     },
+    
+    backgroundPattern: null,
     // Canvas & Rendering
     canvas: null, ctx: null, pixelRatio: 1,
     screenFlash: { alpha: 0, duration: 0 },
@@ -64,8 +66,10 @@ function resize(width, height, pixelRatio) {
     state.ctx.scale(pixelRatio, pixelRatio);
 }
 
-// In Worker.js
 
+
+
+// Replace your entire start function with this:
 function start() {
     Object.assign(state, {
         score: 0, level: 1, collectibles: [], particles: [], aiSnakes: [],
@@ -73,14 +77,12 @@ function start() {
     });
     particlePool.reset();
 
-    if (!state.backgroundCanvas) {
-       // state.backgroundCanvas = new OffscreenCanvas(state.world.width, state.world.height);
-     //   preRenderBackground(state.backgroundCanvas.getContext('2d'));
+    // --- Create the background pattern ONCE ---
+    if (!state.backgroundPattern) {
+       state.backgroundPattern = createBackgroundPattern();
     }
     
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
-
-    // --- ADD THIS LINE TO FIX THE SCOREBOARD ---
     state.scoreboard = [{ name: state.playerName, score: state.player.score }];
     
     const { camera, player } = state;
@@ -88,10 +90,45 @@ function start() {
     camera.y = player.y - (camera.height / 2 / camera.zoom);
 
     for (let i = 0; i < 1000; i++) spawnCollectible();
-    for (let i = 0; i < 100; i++) spawnAiSnake();
+    for (let i = 0; i < 150; i++) spawnAiSnake(); // Increased initial snakes
     
     gameLoop();
 }
+
+
+// Replace your entire draw function with this:
+function draw() {
+    const { ctx, camera, backgroundPattern } = state;
+    
+    // Clear the screen with a fallback color
+    ctx.fillStyle = '#050805';
+    ctx.fillRect(0, 0, camera.width, camera.height);
+
+    // --- This is the core drawing logic ---
+    ctx.save();
+    
+    // 1. Apply camera pan and zoom
+    ctx.scale(camera.zoom, camera.zoom);
+    ctx.translate(-camera.x, -camera.y);
+
+    // 2. Draw the background pattern across the visible world area. This is very fast.
+    if (backgroundPattern) {
+        ctx.fillStyle = backgroundPattern;
+        // Calculate the visible rectangle and fill it with the pattern
+        ctx.fillRect(camera.x, camera.y, camera.width / camera.zoom, camera.height / camera.zoom);
+    }
+    
+    // 3. Draw the game objects (we will optimize this in the next step)
+    drawWorld(ctx);
+    
+    // Restore for UI drawing
+    ctx.restore();
+    
+    // Draw UI on top
+    drawUI(ctx);
+}
+
+
 
 function updateCamera() {
     const { camera, player } = state;
@@ -157,29 +194,7 @@ function update() {
 
 // In Worker.js
 
-function draw() {
-    const { ctx, camera, backgroundCanvas } = state;
 
-    // 1. Manually clear the canvas to our base color. This fixes the "black screen" issue.
-    ctx.fillStyle = '#050805';
-    ctx.fillRect(0, 0, camera.width, camera.height);
-
-
-    // 3. Save the current state, and then apply the camera zoom and pan
-    //    to prepare for drawing the game world objects.
-    ctx.save();
-    ctx.scale(camera.zoom, camera.zoom);
-    ctx.translate(-camera.x, -camera.y);
-
-    // 4. Draw all the snakes, food, particles, etc.
-    drawWorld(ctx);
-
-    // 5. Restore the context, removing the camera pan/zoom.
-    ctx.restore();
-
-    // 6. Draw the UI (scoreboard, minimap) on top of everything else.
-    drawUI(ctx);
-}
 
 
 

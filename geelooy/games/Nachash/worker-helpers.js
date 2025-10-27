@@ -386,17 +386,53 @@ class Lightning {
 }
 
 // --- NEW HELPER FUNCTIONS ---
+// --- NEW: High-performance drawWorld with View Culling ---
 function drawWorld(ctx) {
-	// This function can be expanded with background details, but for now objects are drawn here
-	state.collectibles.forEach(c => c
-		.draw(ctx));
-	state.aiSnakes.forEach(s => s.draw(
-		ctx));
-	state.player.draw(ctx);
-	state.particles.forEach(p => p.draw(
-		ctx));
-	state.lightningEffects.forEach(l =>
-		l.draw(ctx));
+    const { camera } = state;
+
+    // 1. Calculate the camera's visible area (the "viewport") in world coordinates.
+    // We add a 'buffer' so objects don't suddenly pop into view at the very edge of the screen.
+    const buffer = 200; 
+    const view = {
+        left: camera.x - buffer,
+        top: camera.y - buffer,
+        right: camera.x + (camera.width / camera.zoom) + buffer,
+        bottom: camera.y + (camera.height / camera.zoom) + buffer
+    };
+
+    // 2. A helper function to quickly check if an object is inside the viewport.
+    const isVisible = (obj) => 
+        obj.x > view.left && obj.x < view.right && 
+        obj.y > view.top && obj.y < view.bottom;
+
+    // 3. Loop through all objects, but ONLY call .draw() on the visible ones.
+    
+    // Draw collectibles
+    state.collectibles.forEach(c => {
+        if (isVisible(c)) {
+            c.draw(ctx);
+        }
+    });
+
+    // Draw AI snakes (checking the head is a massive performance gain)
+    state.aiSnakes.forEach(s => {
+        if (isVisible(s)) {
+            s.draw(ctx);
+        }
+    });
+
+    // Player is always "visible" to the camera logic, so always draw it.
+    state.player.draw(ctx);
+
+    // Draw particles
+    state.particles.forEach(p => {
+        if (isVisible(p)) {
+            p.draw(ctx);
+        }
+    });
+
+    // Draw lightning effects
+    state.lightningEffects.forEach(l => l.draw(ctx)); // Lightning is big, better to just draw it
 }
 
 function drawMinimap(ctx) {
@@ -597,62 +633,26 @@ class Player {
 
 // --- NEW: High-performance, pattern-based background drawing ---
 
-// --- NEW: Function to pre-render the entire background texture at once ---
-function preRenderBackground(bCtx) {
-    console.log("B'H - Pre-rendering background texture...");
-    const { world } = state;
-
-    // 1. Fill the entire offscreen canvas with a base color
-    bCtx.fillStyle = '#050805'; // A very dark, almost black, green
-    bCtx.fillRect(0, 0, world.width, world.height);
-
-    // 2. Draw a simple, fast grid of subtle dots for texture
-    const gridSize = 80;
-    bCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-    for (let x = 0; x < world.width; x += gridSize) {
-        for (let y = 0; y < world.height; y += gridSize) {
-            bCtx.beginPath();
-            bCtx.arc(x + gridSize / 2, y + gridSize / 2, 0.75, 0, Math.PI * 2);
-            bCtx.fill();
-        }
-    }
-    
-    // 3. Draw the world border directly onto this canvas so it's also pre-rendered
-    bCtx.strokeStyle = '#241a0c';
-    bCtx.lineWidth = 40;
-    bCtx.strokeRect(20, 20, world.width - 40, world.height - 40);
-    console.log("B'H - Background pre-rendering complete.");
-}
-
-
-// Store the pattern so we only create it once.
-let backgroundPattern = null; 
-
+// --- NEW: High-performance background pattern generator ---
 function createBackgroundPattern() {
-    // Create a small, off-screen canvas to draw our texture on.
-    const patternCanvas = new OffscreenCanvas(200, 200);
+    console.log("B'H - Creating background pattern...");
+    // Create a small canvas to design our repeating texture
+    const patternCanvas = new OffscreenCanvas(256, 256);
     const pctx = patternCanvas.getContext('2d');
 
-    // Base color
-    pctx.fillStyle = '#101410'; // Dark base
-    pctx.fillRect(0, 0, 200, 200);
+    // Base color for the texture
+    pctx.fillStyle = '#050805';
+    pctx.fillRect(0, 0, 256, 256);
 
-    // Add some subtle details to the texture
-    pctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
-    for (let i = 0; i < 80; i++) {
-        pctx.fillRect(Math.random() * 200, Math.random() * 200, 2, 2);
+    // Add some subtle details
+    pctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+    for (let i = 0; i < 20; i++) {
+        pctx.beginPath();
+        pctx.arc(Math.random() * 256, Math.random() * 256, Math.random() * 1.5, 0, Math.PI * 2);
+        pctx.fill();
     }
-    pctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
-    pctx.lineWidth = 0.5;
-    pctx.beginPath();
-    pctx.moveTo(0, Math.random() * 200);
-    pctx.lineTo(200, Math.random() * 200);
-    pctx.stroke();
-    pctx.moveTo(Math.random() * 200, 0);
-    pctx.lineTo(Math.random() * 200, 200);
-    pctx.stroke();
-    
-    // 'Bake' the texture into a repeatable pattern.
+
+    // Return the texture as a repeatable pattern. This is the key object.
     return pctx.createPattern(patternCanvas, 'repeat');
 }
 
