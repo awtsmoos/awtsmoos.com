@@ -101,23 +101,37 @@ function start() {
 // ... (keep all the code before the draw function)
 
 // In Worker.js
+//B"H
+// In worker.js - REVISED DRAW FUNCTION
+
 function draw() {
     const { ctx, camera } = state;
 
-    // CHANGE: Changed the background to a slightly lighter dark grey for better contrast.
-    ctx.fillStyle = '#101015'; 
-    ctx.fillRect(0, 0, camera.width, camera.height);
+    // Clear the entire canvas to prevent artifacts from previous frames.
+    // This is just a safety measure.
+    ctx.clearRect(0, 0, camera.width, camera.height);
 
+    // --- Start Drawing the World ---
+    // Apply camera transformations (zoom and pan) for everything in the world.
     ctx.save();
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // --- NEW BACKGROUND AND WORLD DRAWING ---
-    drawVisibleBackground(ctx); // Draw the fast, procedural background
-    drawWorld(ctx);             // Draw the culled game objects
-    
-    ctx.restore();
+    // 1. Draw the world's background, grid, and border first.
+    // This function will draw them as giant objects in the world space.
+    drawWorldBackgroundAndGrid(ctx);
 
+    // 2. Draw all the dynamic game objects (snakes, food, etc.) on top.
+    drawWorld(ctx);
+
+    // We are done drawing the world, so restore the context.
+    // This removes the camera's transformations.
+    ctx.restore();
+    // --- End Drawing the World ---
+
+
+    // --- Draw the UI ---
+    // The UI is drawn last, in "screen space," so it doesn't move with the camera.
     drawUI(ctx);
 }
 

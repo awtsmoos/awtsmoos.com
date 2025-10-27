@@ -680,33 +680,38 @@ class Player {
 
 //B"H
 
-// --- REVISED BACKGROUND FUNCTION ---
-// Replaces the previous version to draw a simple grid over the entire world.
-function drawVisibleBackground(ctx) {
+//B"H
+// In worker-helpers.js - ADD THIS NEW FUNCTION
+// This single function replaces the old `drawVisibleBackground` and any separate border functions.
+
+function drawWorldBackgroundAndGrid(ctx) {
     const { world } = state;
 
-    // --- Draw the Grid ---
+    // 1. Draw the solid background color across the ENTIRE world map.
+    // This acts as the "floor" of the game world that the camera moves over.
+    ctx.fillStyle = '#101015';
+    ctx.fillRect(0, 0, world.width, world.height);
+
+    // 2. Draw the grid lines on top of the world background.
     const gridSize = 150;
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+    // Made the grid slightly brighter (0.06 opacity) so it's clearly visible.
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.06)";
     ctx.lineWidth = 1;
 
-    // Draw all vertical and horizontal lines across the entire world
     ctx.beginPath();
-    // Vertical lines
+    // Draw all vertical lines from the top to the bottom of the world.
     for (let x = 0; x <= world.width; x += gridSize) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, world.height);
     }
-    // Horizontal lines
+    // Draw all horizontal lines from the left to the right of the world.
     for (let y = 0; y <= world.height; y += gridSize) {
         ctx.moveTo(0, y);
         ctx.lineTo(world.width, y);
     }
     ctx.stroke();
 
-
-    // --- Draw the World Border ---
-    // This remains the same, providing a clear edge to the play area.
+    // 3. Draw the world border on top of the grid.
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
