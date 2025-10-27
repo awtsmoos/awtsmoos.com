@@ -678,75 +678,39 @@ class Player {
 
 
 
-// --- NEW: High-performance, procedural background that only draws the visible area ---
-// --- NEW: High-performance Grid & Stars Background ---
-function drawVisibleBackground(ctx) {
-    const { camera, world } = state;
+//B"H
 
-    // 1. Calculate the camera's visible area (the "viewport")
-    const view = {
-        left: camera.x,
-        top: camera.y,
-        right: camera.x + camera.width / camera.zoom,
-        bottom: camera.y + camera.height / camera.zoom,
-    };
+// --- REVISED BACKGROUND FUNCTION ---
+// Replaces the previous version to draw a simple grid over the entire world.
+function drawVisibleBackground(ctx) {
+    const { world } = state;
 
     // --- Draw the Grid ---
     const gridSize = 150;
     ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
     ctx.lineWidth = 1;
 
-    // Find the starting and ending grid lines that are visible
-    const startX = Math.floor(view.left / gridSize) * gridSize;
-    const endX = Math.ceil(view.right / gridSize) * gridSize;
-    const startY = Math.floor(view.top / gridSize) * gridSize;
-    const endY = Math.ceil(view.bottom / gridSize) * gridSize;
-
-    // Draw all visible vertical lines in a single batch for performance
+    // Draw all vertical and horizontal lines across the entire world
     ctx.beginPath();
-    for (let x = startX; x < endX; x += gridSize) {
-        ctx.moveTo(x, startY);
-        ctx.lineTo(x, endY);
+    // Vertical lines
+    for (let x = 0; x <= world.width; x += gridSize) {
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, world.height);
     }
-    // Draw all visible horizontal lines in a single batch
-    for (let y = startY; y < endY; y += gridSize) {
-        ctx.moveTo(startX, y);
-        ctx.lineTo(endX, y);
+    // Horizontal lines
+    for (let y = 0; y <= world.height; y += gridSize) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(world.width, y);
     }
     ctx.stroke();
 
-    // --- Draw the Stars ---
-    // This uses the same culling logic as before but is simplified.
-    const starGridSize = 350;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    const startCol = Math.floor(view.left / starGridSize);
-    const endCol = Math.ceil(view.right / starGridSize);
-    const startRow = Math.floor(view.top / starGridSize);
-    const endRow = Math.ceil(view.bottom / starGridSize);
 
-    for (let row = startRow; row < endRow; row++) {
-        for (let col = startCol; col < endCol; col++) {
-            // Use a deterministic seed so stars don't move
-            const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
-            if (seed % 10 < 1.5) { // ~15% chance for a star in a cell
-                ctx.beginPath();
-                ctx.arc(
-                    col * starGridSize + (Math.abs(seed) % starGridSize),
-                    row * starGridSize + (Math.abs(seed * 1.5) % starGridSize),
-                    0.5 + (Math.abs(seed) % 1.5), // variable star size
-                    0, Math.PI * 2
-                );
-                ctx.fill();
-            }
-        }
-    }
-
-    // Always draw the world border on top
+    // --- Draw the World Border ---
+    // This remains the same, providing a clear edge to the play area.
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
-
 
 
 // --- START OF AI REPLACEMENT ---
