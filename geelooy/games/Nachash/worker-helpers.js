@@ -182,7 +182,48 @@ const KABBALA_NAMES = [
 	'Chashmal', 'Merkabah',
 	'Yetzirah', 'Beriah',
 	'Atziluth', 'Assiah',
-	'Qliphoth', 'Shekhinah'
+	'Qliphoth', 'Shekhinah',
+	
+	
+    // --- Qliphothic Archdemons & Orders ---
+    'Thaumiel', 'Ghagiel', 'Satariel', 'Ghaagsheblah', 'Golachab',
+    'Thagirion', 'AarabZaraq', 'Gamaliel', 'Nehemoth', 'Bael', 'Agares',
+    'Vassago', 'Gamigin', 'Marbas', 'Valefor', 'Amon', 'Barbatos',
+    'Paimon', 'Buer', 'Gusion', 'Sitri', 'Beleth', 'Leraje', 'Eligos',
+    'Zepar', 'Botis', 'Bathin', 'Sallos', 'Purson', 'Marax', 'Ipos',
+    'Aim', 'Naberius', 'GlasyaLabolas', 'Bune', 'Ronove', 'Berith',
+    'Astaroth', 'Forneus', 'Foras', 'Furfur', 'Marchosias', 'Stolas',
+    'Phenex', 'Halphas', 'Malphas', 'Raum', 'Focalor', 'Vepar', 'Sabnock',
+    'Shax', 'Vine', 'Bifrons', 'Vual', 'Haagenti', 'Crocell', 'Furcas',
+    'Balam', 'Alloces', 'Caim', 'Murmur', 'Orobas', 'Gremory', 'Ose',
+    'Amy', 'Orias', 'Vapula', 'Zagan', 'Valac', 'Andras', 'Flauros',
+    'Andrealphus', 'Kimaris', 'Amdusias', 'Belial', 'Decarabia', 'Seere',
+    'Dantalion', 'Andromalius',
+
+    // --- More Angels, Choirs & Celestial Beings ---
+    'Barachiel', 'Jehudiel', 'Selaphiel', 'Israfel', 'Lailah', 'Remiel',
+    'Sariel', 'Shamsiel', 'Armaros', 'Ezeqeel', 'Araqiel', 'Batarel',
+    'Chazaqiel', 'Ananiel', 'Hashmalim', 'Ishim', 'Adnachiel', 'Ambriel',
+    'Muriel', 'Verchiel', 'Hamaliel', 'Zuriel', 'Barchiel', 'Hanael',
+    'Kushiel', 'Leliel', 'Peniel', 'Shemhamphorash', 'Sopheriel', 'Yehudiam',
+
+    // --- More Mystical Concepts & Terms ---
+    'Tzimtzum', 'Shevirah', 'Kelim', 'Tikkun', 'Gevurah', 'Ratzon',
+    'AdamKadmon', 'Partzufim', 'Gematria', 'Notarikon', 'Temurah',
+    'Zohar', 'Bahir', 'SeferYetzirah', 'Gilgul', 'Kav', 'Reshimu',
+    'Ayin', 'Yesh', 'Debekuth', 'Hitbodedut', 'Kavanah', 'Ruach',
+    'Nefesh', 'Neshamah', 'Chiah', 'Yechidah',
+
+    // --- Mythological Creatures & Spirits ---
+    'Shedim', 'Mazzikin', 'Ruchin', 'Lilin', 'Grigori', 'Irin',
+    'Seraph', 'Putto', 'Onocentaur', 'Chalkydri', 'Phoenix', 'Oni',
+
+    
+
+    // --- Planetary & Elemental Intelligences ---
+    'Hagiel', 'Graphiel', 'Hismael', 'Zazel', 'Tiriel', 'Ophiel',
+    'Phul', 'Bethor', 'Phaleg', 'Och', 'Aratron'
+
 ];
 
 const COLLECTIBLE_EMOJIS = Array.from(
@@ -250,14 +291,19 @@ class Collectible {
 	}
 	draw(ctx) {
 		if (this.isAlive) {
-			ctx.font =
-				'28px sans-serif';
+            // --- THE FIX IS HERE ---
+            // Explicitly set an opaque fill style. This forces the canvas to
+            // render the emoji glyph with its default, full-color appearance.
+            ctx.fillStyle = 'white'; 
+            // Also, set text alignment to prevent it from being changed by other draw calls (like particles).
+            ctx.textAlign = 'start';
+
+			ctx.font = '28px sans-serif';
 			ctx.fillText(this.char,
 				this.x - this
 				.size, this.y +
 				this.size / 2);
 		}
-	}
 }
 const GRAVITY = 60; // Gravity in pixels/sec^2
 
@@ -653,7 +699,8 @@ function drawVisibleBackground(ctx) {
     const endRow = Math.ceil(view.bottom / gridSize);
 
     // Only loop through the VISIBLE cells
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    // CHANGE: Increased opacity from 0.05 to 0.2 to make stars visible.
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; 
     for (let row = startRow; row < endRow; row++) {
         for (let col = startCol; col < endCol; col++) {
             // Use a deterministic seed to make the background static
@@ -663,8 +710,7 @@ function drawVisibleBackground(ctx) {
                 ctx.arc(
                     col * gridSize + (Math.abs(seed) % gridSize), 
                     row * gridSize + (Math.abs(seed / 10) % gridSize), 
-                    // --- THE FIX IS HERE: Use Math.abs() ---
-                    1 + (Math.abs(seed) % 2), // Ensures the radius is always positive
+                    1 + (Math.abs(seed) % 2),
                     0, Math.PI * 2
                 );
                 ctx.fill();
@@ -673,10 +719,13 @@ function drawVisibleBackground(ctx) {
     }
     
     // Always draw the world border
-    ctx.strokeStyle = '#241a0c';
+    // CHANGE: Made the border a more visible dark grey.
+    ctx.strokeStyle = '#444444'; 
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
+
+
 
 
 

@@ -95,10 +95,17 @@ function start() {
 
 // Replace your entire draw function with this:
 // In Worker.js
+//B"H
+//file worker.js
+
+// ... (keep all the code before the draw function)
+
+// In Worker.js
 function draw() {
     const { ctx, camera } = state;
 
-    ctx.fillStyle = '#050805';
+    // CHANGE: Changed the background to a slightly lighter dark grey for better contrast.
+    ctx.fillStyle = '#101015'; 
     ctx.fillRect(0, 0, camera.width, camera.height);
 
     ctx.save();
@@ -113,6 +120,7 @@ function draw() {
 
     drawUI(ctx);
 }
+
 
 
 
