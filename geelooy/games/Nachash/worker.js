@@ -143,19 +143,34 @@ function updateCamera() {
 // In Worker.js
 let lastTime = 0; // Add this line right before gameLoop
 
+ 
+
 function gameLoop(currentTime) {
+    // --- THE CRITICAL FIX IS HERE ---
+    // If the browser hasn't provided a valid timestamp, simply skip this frame.
+    // This prevents the entire simulation from being corrupted by a NaN value.
+    if (typeof currentTime !== 'number' || currentTime <= 0) {
+        requestAnimationFrame(gameLoop);
+        return; 
+    }
+    // --- END FIX ---
+
     if (!state.isRunning) return;
 
-    // If lastTime is 0, this is the first frame.
     if (!lastTime) {
         lastTime = currentTime;
     }
 
-    // Calculate delta time in seconds (e.g., 0.016 for 60fps)
-    const deltaTime = (currentTime - lastTime) / 1000;
+    // Now, deltaTime calculation is guaranteed to be safe.
+    let deltaTime = (currentTime - lastTime) / 1000;
     lastTime = currentTime;
 
-    update(deltaTime); // Pass deltaTime to the update function
+    // Additional safety: cap deltaTime to prevent physics explosions if the tab is inactive for a long time.
+    if (deltaTime > 0.1) {
+        deltaTime = 0.1; 
+    }
+
+    update(deltaTime);
     draw();
     requestAnimationFrame(gameLoop);
 }

@@ -478,7 +478,7 @@ class Player {
 		this.maxLength = length;
 		this.isTurning = false;
 		this.targetAngle = 0;
-		this.turnSpeed = 0.1;
+		
 		this.borderPadding = 30;
 		this.isInvincible = false;
 		this.isAlive = true;
