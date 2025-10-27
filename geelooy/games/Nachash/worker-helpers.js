@@ -658,6 +658,7 @@ function createBackgroundPattern() {
 
 // --- NEW: High-performance background drawing via offscreen canvas copy ---
 function drawBackground(ctx) {
+return
     const { camera, backgroundCanvas } = state;
     
     // Safety check in case it's not ready
