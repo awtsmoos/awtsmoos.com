@@ -77,10 +77,7 @@ function start() {
     });
     particlePool.reset();
 
-    // --- Create the background pattern ONCE ---
-    if (!state.backgroundPattern) {
-       state.backgroundPattern = createBackgroundPattern();
-    }
+    
     
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
     state.scoreboard = [{ name: state.playerName, score: state.player.score }];
