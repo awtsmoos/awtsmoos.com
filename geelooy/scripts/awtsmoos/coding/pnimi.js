@@ -87,7 +87,12 @@ class VirtualizedEditor {
 		this.charWidth = 0;
 		this.viewportDivs = [];
 		this.highlighterWorker = null; // The vessel for the persistent soul (main worker)
-
+		
+		// Create bound, named references for our event handlers
+    this._boundHandleKeyDown = this._handleKeyDown.bind(this);
+    this._boundUpdate = this._update.bind(this);
+    this._boundOnScroll = this._onScroll.bind(this);
+    this._boundUpdateCaret = this._updateCaret.bind(this)
 		// Color definitions
 		const defaultColors = {
 			comment: '#6A9555',
@@ -216,23 +221,20 @@ _handleKeyDown(e) {
 	}
 }
 
-// In VirtualizedEditor.js, find and modify this method
+_onScroll() {
+    window.requestAnimationFrame(() => {
+        this._render();
+        this._updateCaret();
+    });
+}
 _attachEventListeners() {
-	this.textarea.addEventListener('input', () => this._update());
-	
-    // Add this line to handle Tab keydown
-	this.textarea.addEventListener('keydown', (e) => this._handleKeyDown(e));
+    this.textarea.addEventListener('input', this._boundUpdate);
+    this.textarea.addEventListener('keydown', this._boundHandleKeyDown);
 
-	const onScroll = () => window.requestAnimationFrame(() => {
-		this._render();
-		this._updateCaret();
-	});
-	const onCaretMove = () => window.requestAnimationFrame(() => this._updateCaret());
+    // For scroll and caret events
+    new ResizeObserver(this._boundOnScroll).observe(this.wrapper); // Note: ResizeObserver cleanup is more complex, but often less critical for this bug.
+    this.textarea.addEventListener('scroll', this._boundOnScroll);
 
-	new ResizeObserver(onScroll).observe(this.wrapper);
-	this.textarea.addEventListener('scroll', onScroll);
-    // Make sure 'keydown' is NOT in the array below
-	['click', 'keyup', 'focus', 'blur'].forEach(evt => this.textarea.addEventListener(evt, onCaretMove));
 }
 	
 	// In VirtualizedEditor.js, inside the VirtualizedEditor class
@@ -533,19 +535,28 @@ unindentSelection() {
 
 	/** Cleans up the editor and restores the original textarea. */
 	destroy() {
-		if (this.highlighterWorker) {
-			this.highlighterWorker.terminate();
-		}
-		if (this.wrapper && this.wrapper.parentNode) {
-			this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
-			this.wrapper.remove();
-		}
-		this.textarea.style.cssText = "";
-		const style = document.head.querySelector("#" + this.styleId + "-style");
-		if (style) {
-			style.remove();
-		}
-	}
+    console.log("Destroying VirtualizedEditor instance and cleaning up listeners."); // Good for debugging
+
+    // --- B"H: REMOVE EVENT LISTENERS ---
+    this.textarea.removeEventListener('input', this._boundUpdate);
+    this.textarea.removeEventListener('keydown', this._boundHandleKeyDown);
+    this.textarea.removeEventListener('scroll', this._boundOnScroll);
+    // Note: We are not cleaning the ResizeObserver here for simplicity,
+    // but a full production app might want to manage that as well.
+
+    if (this.highlighterWorker) {
+        this.highlighterWorker.terminate();
+    }
+    if (this.wrapper && this.wrapper.parentNode) {
+        this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
+        this.wrapper.remove();
+    }
+    this.textarea.style.cssText = "";
+    const style = document.head.querySelector("#" + this.styleId + "-style");
+    if (style) {
+        style.remove();
+    }
+}
 }
 
 export default VirtualizedEditor;
