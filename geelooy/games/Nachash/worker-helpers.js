@@ -749,131 +749,150 @@ function drawVisibleBackground(ctx) {
 
 
 
-
-
-
-
+// --- START OF AI REPLACEMENT ---
 class AiSnake extends Player {
 	constructor(x, y, length) {
 		super(x, y, length);
 		this.type = 'ai_snake';
-		this.name =
-			generateAiName();
-		this.color =
-			`hsl(${Math.random() * 360}, 90%, 60%)`;
-		
+		this.name = generateAiName();
+		this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
 		this.size = 12;
-		
-		this.normalSpeed = 200 + Math.random() * 80; // Their casual speed
-        this.boostSpeed = this.normalSpeed * 1.8;   // Their hunting speed
-        this.speed = this.normalSpeed;               // Set initial speed
-        
-        this.isBoosting = false; // State for boosting
-		
-		// How often the AI re-evaluates its surroundings (in frames).
-        // Randomness prevents all AIs from thinking on the same frame, smoothing performance.
-        this.decisionCooldown = Math.floor(Math.random() * 10) + 15; // Thinks every 15-25 frames
-        this.decisionTimer = this.decisionCooldown;
-		
+
+		this.normalSpeed = 200 + Math.random() * 80;
+		this.boostSpeed = this.normalSpeed * 1.8;
+		this.speed = this.normalSpeed;
+		this.isBoosting = false;
+
+		// AI State
+		this.decisionTimer = Math.random() * 0.5; // Stagger initial decisions
+		this.behavior = 'wandering'; // Initial state
 	}
+
 	update(deltaTime) {
-	    if (!this.isAlive) return;
-	    
-	    this.decisionTimer -= deltaTime;
-	    if (this.decisionTimer <= 0) {
-	        this.findTarget(); // The new "brain" we will write next
-	        this.decisionTimer = (Math.random() * 0.15) + 0.2; // Re-think every 0.2-0.35 seconds
-	    }
+		if (!this.isAlive) return;
 
-        // --- NEW BOOSTING LOGIC ---
-        if (this.isBoosting) {
-            this.speed = this.boostSpeed;
-            // Shrink while boosting, but don't get smaller than a minimum length
-            if (this.maxLength > 20) {
-                this.maxLength -= 0.1; 
-            }
-        } else {
-            this.speed = this.normalSpeed;
-        }
-	
-	    super.update(deltaTime); // Call the main movement logic
+		this.decisionTimer -= deltaTime;
+		if (this.decisionTimer <= 0) {
+			this.findTarget(); // The new, smarter "brain"
+			// Reset timer for the next decision, making AI more responsive
+			this.decisionTimer = (Math.random() * 0.1) + 0.1; // Re-think every 0.1-0.2 seconds
+		}
+
+		if (this.isBoosting) {
+			this.speed = this.boostSpeed;
+			// Shrink while boosting, but don't get smaller than a minimum length
+			if (this.maxLength > 20) {
+				this.maxLength -= 0.1;
+			}
+		} else {
+			this.speed = this.normalSpeed;
+		}
+
+		super.update(deltaTime); // Call the parent Player's movement logic
 	}
-	
 
-        
-        findTarget() {
+	// The new, much more advanced AI decision-making logic
+	findTarget() {
+		const visionRange = 800; // How far the snake can "see"
 		const nearby = state.grid.getNearbyObjects(this);
 		let potentialPrey = [];
-        let potentialPredators = [];
-        let closestFood = null;
-        let minFoodDist = Infinity;
+		let potentialPredators = [];
+		let closestFood = null;
+		let minFoodDist = 450; // Only consider food within this range
 
-        // --- 1. Scan and categorize all nearby objects ---
-        for (const obj of nearby) {
-            if (!obj.isAlive || obj === this) continue;
-            const dist = getDistance(this.x, this.y, obj.x, obj.y);
+		// --- 1. Scan and categorize all nearby objects ---
+		for (const obj of nearby) {
+			if (!obj.isAlive || obj === this) continue;
 
-            if (obj.type === 'collectible' && dist < minFoodDist) {
-                minFoodDist = dist;
-                closestFood = obj;
-            } else if (obj.type === 'player' || obj.type === 'ai_snake') {
-                // Predator: another snake is significantly larger.
-                if (obj.score > this.score * 1.5 && dist < 400) {
-                     potentialPredators.push({ obj, dist });
-                }
-                // Prey: another snake is significantly smaller.
-                else if (this.score > obj.score * 1.2 + 100 && dist < 800) {
-                    potentialPrey.push({ obj, dist });
-                }
-            }
-        }
+			const dist = getDistance(this.x, this.y, obj.x, obj.y);
+			if (dist > visionRange) continue; // Object is too far to see
 
-        // --- 2. Make decisions based on a clear priority list ---
-
-        // PRIORITY 1: SURVIVAL. Flee from the nearest predator.
-        if (potentialPredators.length > 0) {
-            potentialPredators.sort((a, b) => a.dist - b.dist);
-            const closestPredator = potentialPredators[0].obj;
-            // Flee directly away from the predator's head.
-            this.targetAngle = Math.atan2(this.y - closestPredator.y, this.x - closestPredator.x);
-            this.isTurning = true;
-            this.isBoosting = true; // Boost to escape!
-            return;
-        }
-
-        // PRIORITY 2: AGGRESSION. Hunt the nearest prey.
-        if (potentialPrey.length > 0) {
-            potentialPrey.sort((a, b) => a.dist - b.dist);
-            const targetPrey = potentialPrey[0].obj;
-            
-            // --- Interception Logic ---
-            // Predict where the prey will be in a few moments and aim there.
-            const predictionTime = 0.3; // Look 0.3 seconds into the future
-            const predictedX = targetPrey.x + Math.cos(targetPrey.angle) * targetPrey.speed * predictionTime;
-            const predictedY = targetPrey.y + Math.sin(targetPrey.angle) * targetPrey.speed * predictionTime;
-
-            this.targetAngle = Math.atan2(predictedY - this.y, predictedX - this.x);
-            this.isTurning = true;
-            this.isBoosting = true; // Boost to hunt!
-            return;
-        }
-        
-        // PRIORITY 3: EATING. If no threats or prey, go for food.
-        this.isBoosting = false; // No need to boost for food
-        if (closestFood) {
-			this.targetAngle = Math.atan2(closestFood.y - this.y, closestFood.x - this.x);
-            this.isTurning = true;
-            return;
+			if (obj.type === 'collectible' && dist < minFoodDist) {
+				minFoodDist = dist;
+				closestFood = obj;
+			} else if (obj.type === 'player' || obj.type === 'ai_snake') {
+				// Predator check: Another snake is a threat if it's 20% larger.
+				if (obj.score > this.score * 1.2) {
+					potentialPredators.push({
+						obj,
+						dist
+					});
+				}
+				// Prey check: Attack any snake that is smaller.
+				else if (this.score > obj.score) {
+					potentialPrey.push({
+						obj,
+						dist
+					});
+				}
+			}
 		}
-        
-        // PRIORITY 4: WANDERING. If nothing is happening, just explore.
-        if (Math.random() < 0.1) { 
-            this.targetAngle += Math.random() * 2 - 1;
-        }
-		this.isTurning = true;
+
+		// --- 2. Make decisions based on a clear priority hierarchy ---
+
+		// PRIORITY 1: SURVIVAL. Flee from the most immediate threat.
+		if (potentialPredators.length > 0) {
+			// Find the most dangerous predator (closest and biggest)
+			potentialPredators.forEach(p => p.threat = p.obj.score / p.dist);
+			potentialPredators.sort((a, b) => b.threat - a.threat);
+			const mostDangerousPredator = potentialPredators[0].obj;
+
+			this.behavior = 'fleeing';
+			// Flee directly away from the predator's head
+			this.targetAngle = Math.atan2(this.y - mostDangerousPredator.y, this.x - mostDangerousPredator.x);
+			this.isTurning = true;
+			this.isBoosting = true; // Boost to escape!
+			return;
+		}
+
+		// PRIORITY 2: AGGRESSION. Hunt the closest prey.
+		if (potentialPrey.length > 0) {
+			potentialPrey.sort((a, b) => a.dist - b.dist);
+			const targetPrey = potentialPrey[0].obj;
+			const preyDist = potentialPrey[0].dist;
+
+			// Behavior: TRAPPING. If we are much larger, try to circle them.
+			if (this.score > targetPrey.score * 2.5 && preyDist < 400) {
+				this.behavior = 'trapping';
+				const angleToPrey = Math.atan2(targetPrey.y - this.y, targetPrey.x - this.x);
+				// Aim for a point perpendicular to the prey to initiate a circle
+				const circleOffset = Math.PI / 2.5;
+				this.targetAngle = angleToPrey + circleOffset;
+			}
+			// Behavior: HUNTING. Use interception logic to catch the prey.
+			else {
+				this.behavior = 'hunting';
+				// Predict where the prey will be based on its velocity and our distance
+				const predictionTime = preyDist / this.boostSpeed;
+				const predictedX = targetPrey.x + Math.cos(targetPrey.angle) * targetPrey.speed * predictionTime;
+				const predictedY = targetPrey.y + Math.sin(targetPrey.angle) * targetPrey.speed * predictionTime;
+				this.targetAngle = Math.atan2(predictedY - this.y, predictedX - this.x);
+			}
+
+			this.isTurning = true;
+			this.isBoosting = true; // Boost to hunt!
+			return;
+		}
+
+		// PRIORITY 3: EATING. If no threats or prey, go for nearby food.
+		this.isBoosting = false; // No need to boost for food
+		if (closestFood) {
+			this.behavior = 'eating';
+			this.targetAngle = Math.atan2(closestFood.y - this.y, closestFood.x - this.x);
+			this.isTurning = true;
+			return;
+		}
+
+		// PRIORITY 4: WANDERING. If nothing else to do, explore the area.
+		this.behavior = 'wandering';
+		// Only change direction occasionally for a more natural movement
+		if (Math.random() < 0.05) {
+			this.targetAngle += (Math.random() - 0.5) * 1.5;
+		}
+		this.isTurning = true; // Always move forward
 	}
-	
-	
+
+
 	draw(ctx) {
 		this.body.forEach((seg,
 			i) => {
@@ -888,7 +907,7 @@ class AiSnake extends Player {
 			ctx.beginPath();
 			ctx.arc(seg.x,
 				seg.y,
-				
+
 				this
 				.size,
 				0, Math
@@ -903,3 +922,4 @@ class AiSnake extends Player {
 		ctx.fill();
 	}
 }
+// --- END OF AI REPLACEMENT ---
