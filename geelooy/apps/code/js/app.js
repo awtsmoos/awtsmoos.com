@@ -286,6 +286,9 @@ setupEventListeners() {
     DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
 
     DOM.editor.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        return; 
+    }
         if (e.key === 'Enter') {
             e.preventDefault();
             const editor = DOM.editor;
@@ -301,29 +304,41 @@ setupEventListeners() {
         }
     });
 
-    DOM.keyboardHelper.addEventListener('click', (e) => {
-        const button = e.target.closest('button.kh-btn');
-        if (!button) return;
-        const editor = DOM.editor;
-        const key = button.dataset.key;
-        const pair = button.dataset.pair;
-        const start = editor.selectionStart;
-        const end = editor.selectionEnd;
-        if (pair) {
-            const [charStart, charEnd] = pair;
-            const selectedText = editor.value.substring(start, end);
-            const textToInsert = charStart + selectedText + charEnd;
-            editor.setRangeText(textToInsert, start, end, 'select');
-            if (start === end) {
-                editor.selectionStart = editor.selectionEnd = start + 1;
-            }
-        } else if (key === 'tab') {
-            editor.setRangeText(App.getTabString(), start, end, 'end');
-        }
-        editor.focus();
-        editor.dispatchEvent(new Event('input', { bubbles: true }));
-    });
+   // IN: js/app.js -> App.setupEventListeners()
+// REPLACE the existing keyboardHelper listener with this one.
 
+DOM.keyboardHelper.addEventListener('click', (e) => {
+    const button = e.target.closest('button.kh-btn');
+    if (!button) return;
+
+    // Get the active pnimi instance from the Editor module
+    const activeEditorInstance = Editor.currentHighlighter;
+    if (!activeEditorInstance) return; // Safety check
+
+    const editor = DOM.editor; // The textarea element
+    const key = button.dataset.key;
+    const pair = button.dataset.pair;
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+
+    if (pair) {
+        const [charStart, charEnd] = pair;
+        const selectedText = editor.value.substring(start, end);
+        const textToInsert = charStart + selectedText + charEnd;
+        editor.setRangeText(textToInsert, start, end, 'select');
+        if (start === end) {
+            editor.selectionStart = editor.selectionEnd = start + 1;
+        }
+    } else if (key === 'tab') {
+        // --- THIS IS THE KEY CHANGE ---
+        // Instead of just inserting a character, we call the powerful method
+        activeEditorInstance.indentSelection();
+    }
+    // NOTE: The simple event dispatch is no longer needed because our new
+    // methods already call _update() internally.
+
+    editor.focus();
+});
     window.addEventListener('beforeunload', () => {
     State.consoleInstances.forEach(instance => instance.destroy());
         
