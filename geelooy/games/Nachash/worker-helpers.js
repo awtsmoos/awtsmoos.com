@@ -557,7 +557,6 @@ function drawBackground(ctx) {
   };
 
   const patchSize = 200;
-
   const startCol = Math.floor(view.x / patchSize);
   const endCol = Math.ceil(view.right / patchSize);
   const startRow = Math.floor(view.y / patchSize);
@@ -565,80 +564,70 @@ function drawBackground(ctx) {
 
   for (let row = startRow; row < endRow; row++) {
     for (let col = startCol; col < endCol; col++) {
+      // Fast deterministic random
       const seed = Math.sin(col * 1.37 + row * 5.81) * 10000;
       const rand = (() => {
-        let localSeed = seed;
+        let s = seed;
         return () => {
-          localSeed = Math.sin(localSeed * 12.9898 + 78.233) * 43758.5453;
-          return localSeed - Math.floor(localSeed);
+          s = (s * 9301 + 49297) % 233280;
+          return s / 233280;
         };
       })();
 
-      // Base hue per patch for earthy range (grass/dirt mix)
-      const terrainType = rand();
+      // Base solid color (no gradient)
+      const t = rand();
       let hue, sat, light;
-      if (terrainType < 0.75) {
-        hue = 100 + rand() * 10; // greenish
+      if (t < 0.75) {
+        hue = 100 + rand() * 10;
         sat = 25 + rand() * 10;
         light = 18 + rand() * 10;
-      } else if (terrainType < 0.95) {
-        hue = 35 + rand() * 5; // brownish
+      } else if (t < 0.95) {
+        hue = 35 + rand() * 5;
         sat = 25 + rand() * 10;
         light = 15 + rand() * 8;
       } else {
-        hue = 25 + rand() * 5; // rocky
+        hue = 25 + rand() * 5;
         sat = 15 + rand() * 5;
         light = 20 + rand() * 10;
       }
-
       ctx.fillStyle = `hsl(${hue}, ${sat}%, ${light}%)`;
       ctx.fillRect(col * patchSize, row * patchSize, patchSize, patchSize);
 
-      // --- Fine line texture: simulate grass blades & dirt scratches ---
-      const linesCount = 60 + Math.floor(rand() * 60);
+      // Fast "hash" texture — little line clusters rendered as single paths
+      const lines = 10; // drastically fewer operations
       ctx.lineWidth = 1;
-
-      for (let i = 0; i < linesCount; i++) {
-        const x = col * patchSize + rand() * patchSize;
-        const y = row * patchSize + rand() * patchSize;
-        const len = 3 + rand() * 6;
-        const angle = rand() * Math.PI * 2;
-        const dx = Math.cos(angle) * len;
-        const dy = Math.sin(angle) * len;
-
-        // vary color slightly for texture richness
-        const shade = light + (rand() - 0.5) * 12;
-        ctx.strokeStyle = `hsl(${hue}, ${sat}%, ${shade}%)`;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + dx, y + dy);
-        ctx.stroke();
+      ctx.strokeStyle = `hsl(${hue}, ${sat}%, ${light + 10}%)`;
+      ctx.beginPath();
+      for (let i = 0; i < lines; i++) {
+        const baseX = col * patchSize + rand() * patchSize;
+        const baseY = row * patchSize + rand() * patchSize;
+        const len = 6 + rand() * 8;
+        const ang = rand() * Math.PI * 2;
+        const dx = Math.cos(ang) * len;
+        const dy = Math.sin(ang) * len;
+        ctx.moveTo(baseX, baseY);
+        ctx.lineTo(baseX + dx, baseY + dy);
       }
+      ctx.stroke();
 
-      // --- Occasional clusters to simulate tufts or cracks ---
-      if (rand() > 0.7) {
-        const clusterCount = 3 + Math.floor(rand() * 5);
-        for (let i = 0; i < clusterCount; i++) {
+      // Occasional cross-hatch cluster for variation
+      if (rand() > 0.9) {
+        ctx.strokeStyle = `hsl(${hue}, ${sat + 10}%, ${light - 5}%)`;
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
           const cx = col * patchSize + rand() * patchSize;
           const cy = row * patchSize + rand() * patchSize;
-          const clusterLines = 5 + Math.floor(rand() * 10);
-          for (let j = 0; j < clusterLines; j++) {
-            const len = 2 + rand() * 8;
-            const ang = rand() * Math.PI * 2;
-            const dx = Math.cos(ang) * len;
-            const dy = Math.sin(ang) * len;
-            ctx.strokeStyle = `hsl(${hue}, ${sat + 5}%, ${light + (rand() - 0.5) * 10}%)`;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy);
-            ctx.lineTo(cx + dx, cy + dy);
-            ctx.stroke();
-          }
+          ctx.moveTo(cx - 3, cy - 3);
+          ctx.lineTo(cx + 3, cy + 3);
+          ctx.moveTo(cx - 3, cy + 3);
+          ctx.lineTo(cx + 3, cy - 3);
         }
+        ctx.stroke();
       }
     }
   }
 
-  // --- Outer border for the whole world ---
+  // Border
   ctx.strokeStyle = '#241a0c';
   ctx.lineWidth = 40;
   ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
