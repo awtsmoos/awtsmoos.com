@@ -60,7 +60,7 @@ const WORLD_COLORS = ['#1a0d00', '#001a1a', '#1a001a', '#333333'];
 
 // --- CONTROLS ---
 function handleMove(e) {
-    if (gameState !== 'playing' || einSofActive) return;
+    if (gameState !== 'playing') return;
     let currentX = e.touches ? e.touches[0].clientX : e.clientX;
     player.targetCx = currentX - (window.innerWidth - canvas.width) / 2;
 }
@@ -96,8 +96,10 @@ class Player {
         this.prevCy = this.cy;
         if (!einSofActive) {
             this.vy += GRAVITY;
-            this.cx += (this.targetCx - this.cx) * 0.5;
+            
         }
+        this.cx += (this.targetCx - this.cx) * 0.5;
+        
         this.cy += this.vy;
         if (this.cx > canvas.width + PLAYER_HALF_WIDTH) this.cx = 0 - PLAYER_HALF_WIDTH;
         else if (this.cx < 0 - PLAYER_HALF_WIDTH) this.cx = canvas.width + PLAYER_HALF_WIDTH;
@@ -286,7 +288,7 @@ function generatePlatforms() {
 
         // 1. Calculate the physics-based reachable zone
         const maxJumpHeight = (JUMP_FORCE ** 2) / (2 * GRAVITY);
-        const maxVerticalGap = maxJumpHeight * 0.85; // Can't be the absolute apex
+        const maxVerticalGap = maxJumpHeight * 0.78; // Can't be the absolute apex
         const minVerticalGap = 40;
         let y = highestPlatformY - (minVerticalGap + Math.random() * (maxVerticalGap - minVerticalGap));
 
