@@ -1,47 +1,77 @@
 // B"H
 // js/data/map_parser.js
 
-function parseMap(mapData, mapId) {
-    if (!mapData || typeof mapData.baseLayerString !== 'string') {
-        console.error(`Map Parse Error: Map data for '${mapId}' is invalid or missing 'baseLayerString'.`);
-        return { width: 1, height: 1, baseLayer: [['❓']], overlayLayer: [['']], interactables: {} };
-    }
+/**
+ * This function processes all raw map data. It converts the map layout from a single
+ * string into a 2D array. Most importantly, it repositions 'interactables'
+ * from being name-keyed to coordinate-keyed by finding their emoji's position
+ * in the baseLayerString. It also cleans the emoji from the map layer to prevent
+ * it from being drawn twice.
+ */
+export function parseAllMaps(rawMaps) {
+    const parsedMaps = {};
 
-    const rows = mapData.baseLayerString.trim().split('\n').map(row => row.trim());
-    const baseLayer = rows.map(row => Array.from(row));
-    const height = baseLayer.length;
-    const width = mapData.width || (baseLayer[0] ? baseLayer[0].length : 0);
-    
-    const processedInteractables = {};
-    const interactableKeys = Object.keys(mapData.interactables || {});
+    for (const mapId in rawMaps) {
+        const rawMap = rawMaps[mapId];
+        const newMap = { ...rawMap };
 
-    // First, handle interactables that are defined by a specific coordinate key
-    interactableKeys.forEach(key => {
-        if (key.includes(',')) {
-            const [x, y] = key.split(',').map(Number);
-            const entity = mapData.interactables[key];
-            entity.x = x;
-            entity.y = y;
-            processedInteractables[key] = entity;
+        // 1. Parse the baseLayerString into a 2D array of characters.
+        const baseLayer = rawMap.baseLayerString
+            .trim()
+            .split('\n')
+            .map(row => Array.from(row.trim())); // Use Array.from for emoji support
+        
+        newMap.baseLayer = baseLayer;
+        // Prepare an empty layer for dynamic effects if needed later.
+        newMap.overlayLayer = new Array(baseLayer.length).fill(0).map(() => new Array(baseLayer[0].length).fill(null));
+
+        // 2. Create a lookup table to map emojis back to their original name keys.
+        // e.g., { '📜': 'elder_scribe', '👨': 'reuven' }
+        const emojiToKeyMap = {};
+        if (rawMap.interactables) {
+            for (const key in rawMap.interactables) {
+                const entity = rawMap.interactables[key];
+                if (entity.emoji) {
+                    emojiToKeyMap[entity.emoji] = key;
+                }
+            }
         }
-    });
 
-    // Then, handle non-positioned interactables (like 'start_sequence')
-    interactableKeys.forEach(key => {
-        if (!key.includes(',')) {
-            processedInteractables[key] = mapData.interactables[key];
+        // 3. Create the new, coordinate-keyed interactables object.
+        const newInteractables = {};
+        
+        // 4. Scan the entire map grid to find the location of each interactable emoji.
+        for (let y = 0; y < newMap.baseLayer.length; y++) {
+            for (let x = 0; x < newMap.baseLayer[y].length; x++) {
+                const tileEmoji = newMap.baseLayer[y][x];
+                const entityKey = emojiToKeyMap[tileEmoji]; // Look up the emoji in our map
+
+                // If we found a matching emoji (like '📜')...
+                if (entityKey) {
+                    const coordKey = `${x},${y}`; // Create the coordinate key: "10,1"
+                    
+                    // Copy the original data to the new coordinate key.
+                    newInteractables[coordKey] = { ...rawMap.interactables[entityKey] };
+                    
+                    // 5. IMPORTANT: Clear the emoji from the map's base layer.
+                    // This prevents the character from being drawn twice (once by the map renderer,
+                    // and again by the entity renderer). We replace it with a floor tile.
+                    newMap.baseLayer[y][x] = '⬜'; 
+                }
+            }
         }
-    });
-    
-    const overlayLayer = Array(height).fill(0).map(() => Array(width).fill(''));
+        
+        // Keep any interactables that don't have an emoji (like a trigger region).
+        if(rawMap.interactables) {
+            for(const key in rawMap.interactables) {
+                if(!rawMap.interactables[key].emoji) {
+                     newInteractables[key] = { ...rawMap.interactables[key] };
+                }
+            }
+        }
 
-    return { ...mapData, baseLayer, overlayLayer, interactables: processedInteractables };
-}
-
-export function parseAllMaps(mapCollection) {
-    const parsedCollection = {};
-    for (const mapId in mapCollection) {
-        parsedCollection[mapId] = parseMap(mapCollection[mapId], mapId);
+        newMap.interactables = newInteractables;
+        parsedMaps[mapId] = newMap;
     }
-    return parsedCollection;
+    return parsedMaps;
 }
