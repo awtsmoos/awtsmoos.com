@@ -47,8 +47,7 @@ export const FindReplace = {
         }
     },
 	 find(reverse = false) {
-        this.updateHighlights();
-
+	 
         if (this.matches.length === 0) {
             UI.showToast('No occurrences found.', 'info');
             return;

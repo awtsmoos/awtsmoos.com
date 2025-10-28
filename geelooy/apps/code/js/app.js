@@ -209,8 +209,8 @@ setupEventListeners() {
 	// First, check if the resizer element exists and if we are on a desktop screen
 	if (resizer && !window.matchMedia('(max-width: 768px)').matches) {
 	    
-	    const minWidth = 200; // Minimum sidebar width in pixels
-	    const maxWidth = 600; // Maximum sidebar width in pixels
+	    const minWidth = 2; // Minimum sidebar width in pixels
+	    const maxWidth = 800; // Maximum sidebar width in pixels
 		
 		var sidebarW = localStorage.awtsmoosSidebarWidth;
 		if(!isNaN(sidebarW)) {
