@@ -3,22 +3,26 @@
 
 import { createDefaultGameState } from '../data/database.js';
 import * as World from './world.js';
-// FIX: Import the specific function we need, in addition to the module
 import * as Combat from './combat.js';
 import { getMusagInstance } from './combat.js';
 import * as Quests from './quests.js';
 
 let GAME_STATE = {};
 const GAME_LOOP_INTERVAL = 1000 / 60;
+let lastTimestamp = 0; // For calculating delta time
 
 const sendToMain = (action, payload) => self.postMessage({ action, payload });
 const sendUIUpdate = (payload) => sendToMain('uiUpdate', payload);
 const sendToast = (message, type) => sendToMain('toast', { message, type });
 
-function gameLoop() {
-    const now = performance.now();
+function gameLoop(now) {
+    if (!lastTimestamp) lastTimestamp = now;
+    const deltaTime = now - lastTimestamp;
+    lastTimestamp = now;
+
     if (GAME_STATE.mode === 'game') {
-        World.update(GAME_STATE, now, trigger);
+        // Pass deltaTime to the world update function
+        World.update(GAME_STATE, now, deltaTime, trigger);
     }
     sendToMain('gameStateUpdate', { state: GAME_STATE });
 }
@@ -45,7 +49,8 @@ self.onmessage = (e) => {
             GAME_STATE = createDefaultGameState();
             GAME_STATE.mode = 'main-menu';
             sendUIUpdate({ screen: 'main-menu' });
-            setInterval(gameLoop, GAME_LOOP_INTERVAL);
+            // Use a self-calling requestAnimationFrame loop in the worker for precision
+            self.requestAnimationFrame(gameLoop);
             break;
         case 'input':
             if (payload.type === 'keyState') {
@@ -62,20 +67,33 @@ self.onmessage = (e) => {
     }
 };
 
+// Use self.requestAnimationFrame for the game loop
+function gameLoop(now) {
+    if (!lastTimestamp) lastTimestamp = now;
+    const deltaTime = now - lastTimestamp;
+    lastTimestamp = now;
+
+    if (GAME_STATE.mode === 'game') {
+        World.update(GAME_STATE, now, deltaTime, trigger);
+    }
+    sendToMain('gameStateUpdate', { state: GAME_STATE });
+
+    self.requestAnimationFrame(gameLoop); // Keep the loop going
+}
+
+// (The rest of gameWorker.js, including getShemPayload and handleUIAction, is unchanged from the previous version)
 function getShemPayload(state) {
     return {
         team: state.player.team.map(member => {
-            // FIX: Now correctly calls the imported function
             const instance = getMusagInstance(state, member);
+            if (!instance) return null; // Handle case where musag might not exist
             return {
                 ...instance,
-                // Note: The original getMusagInstance was corrected to use the *actual* current HP/Kavanah
                 moves: instance.moves.map(id => state.db.moves[id])
             };
-        })
+        }).filter(Boolean) // Filter out any null instances
     };
 }
-
 function handleUIAction({ action }) {
     switch (action) {
         case 'newGame':
@@ -88,7 +106,7 @@ function handleUIAction({ action }) {
             }, 500);
             break;
         case 'resume':
-        case 'close-shem':
+        case 'close-shem': 
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
             break;
