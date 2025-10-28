@@ -91,14 +91,14 @@ export const FileOperations = {
 
                     // Now, build the final string with the correctly processed content.
                     combinedContent += '________\n';
-                    combinedContent += '**B"H**\n';
+                    combinedContent += '****B"H****\n';
                     combinedContent += `--start file ${item.path || item.name}.--\n`;
                     combinedContent += '________\n';
                     combinedContent += textContent + '\n';
                     combinedContent += '________\n\n';
 
                 } else if (item.kind === 'directory') {
-                    combinedContent += `\n// B"H - Directory: ${item.path || item.name}\n\n`;
+                    combinedContent += `**** B"H\n - Directory: ${item.path || item.name}\n\n****`;
                     
                     const children = await FileSystemProvider.list(item);
                     children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
