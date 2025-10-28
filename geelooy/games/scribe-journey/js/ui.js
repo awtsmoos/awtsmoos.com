@@ -141,68 +141,7 @@ export function initUI(sendToWorker) {
     }
 
     return { update, showToast };
-}```
-
----
-
-### 7. `js/input.js`
-
-The input handler remains focused and clean.
-
-```javascript
-// js/input.js
-
-export function initInput(sendToWorker) {
-    const keyState = {};
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key.startsWith('Arrow')) e.preventDefault();
-        
-        // Single press actions for menus or interaction
-        if (['Enter', ' '].includes(e.key)) {
-            sendToWorker('input', { action: 'confirm' });
-            return;
-        }
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-            sendToWorker('input', { action: 'navigate', key: e.key });
-            return;
-        }
-
-        // For continuous movement, track state
-        if (!keyState[e.key]) {
-            keyState[e.key] = true;
-            sendToWorker('input', { keys: keyState });
-        }
-    });
-
-    document.addEventListener('keyup', (e) => {
-        if (keyState[e.key]) {
-            delete keyState[e.key];
-            sendToWorker('input', { keys: keyState });
-        }
-    });
-
-    // Mobile Controls
-    const setupMobileButton = (id, key) => {
-        const btn = document.getElementById(id);
-        if (!btn) return;
-
-        btn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            keyState[key] = true;
-            sendToWorker('input', { keys: keyState, action: key === 'confirm' ? 'confirm' : 'navigate' });
-        }, { passive: false });
-
-        btn.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            delete keyState[key];
-            sendToWorker('input', { keys: keyState });
-        }, { passive: false });
-    };
-
-    setupMobileButton('control-up', 'ArrowUp');
-    setupMobileButton('control-down', 'ArrowDown');
-    setupMobileButton('control-left', 'ArrowLeft');
-    setupMobileButton('control-right', 'ArrowRight');
-    setupMobileButton('action-button', 'confirm');
 }
+
+
+
