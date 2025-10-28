@@ -1,7 +1,7 @@
 // B"H
 // js/workers/world.js
 
-import { TILE_SIZE, PLAYER_SPEED } from '../data/database.js'; // <-- CORRECTED IMPORT
+import { TILE_SIZE, PLAYER_SPEED } from '../data/database.js';
 import * as Quests from './quests.js';
 
 let keyState = {};
@@ -10,37 +10,39 @@ export function handleKeyState(state, keys) {
     keyState = keys;
 }
 
-// Main update loop for the world, called 60 times per second
 export function update(state, now, trigger) {
     const p = state.player;
 
+    // --- NEW SMOOTH MOVEMENT LOGIC ---
     if (p.isMoving) {
         const elapsed = now - p.moveStartTime;
-        if (elapsed >= PLAYER_SPEED) {
+        const progress = Math.min(elapsed / PLAYER_SPEED, 1); // Clamp progress between 0 and 1
+
+        // Interpolate pixel position for smooth animation
+        p.pixelX = p.startX * TILE_SIZE + (p.targetX - p.startX) * TILE_SIZE * progress;
+        p.pixelY = p.startY * TILE_SIZE + (p.targetY - p.startY) * TILE_SIZE * progress;
+
+        if (progress >= 1) {
+            // Movement finished, snap to grid
             p.isMoving = false;
             p.x = p.targetX;
             p.y = p.targetY;
-            p.pixelX = p.x * TILE_SIZE;
-            p.pixelY = p.y * TILE_SIZE;
             checkTileLandedOn(state, trigger);
-        } else {
-            const progress = elapsed / PLAYER_SPEED;
-            p.pixelX = p.startX * TILE_SIZE + (p.targetX - p.startX) * TILE_SIZE * progress;
-            p.pixelY = p.startY * TILE_SIZE + (p.targetY - p.startY) * TILE_SIZE * progress;
         }
-        return;
+        return; // Don't process new movement while animating
     }
 
-    if (!p.isMoving && !state.dialogue.active && state.mode === 'game') {
-        let direction = null;
-        if (keyState['ArrowUp'] || keyState['w']) { direction = 'up'; }
-        else if (keyState['ArrowDown'] || keyState['s']) { direction = 'down'; }
-        else if (keyState['ArrowLeft'] || keyState['a']) { direction = 'left'; }
-        else if (keyState['ArrowRight'] || keyState['d']) { direction = 'right'; }
-        
-        if (direction) {
-            initiatePlayerMove(state, direction, now);
-        }
+    if (state.dialogue.active || state.mode !== 'game') return;
+
+    // Check for new input to start a move
+    let direction = null;
+    if (keyState['ArrowUp'] || keyState['w']) { direction = 'up'; }
+    else if (keyState['ArrowDown'] || keyState['s']) { direction = 'down'; }
+    else if (keyState['ArrowLeft'] || keyState['a']) { direction = 'left'; }
+    else if (keyState['ArrowRight'] || keyState['d']) { direction = 'right'; }
+    
+    if (direction) {
+        initiatePlayerMove(state, direction, now);
     }
 }
 
@@ -97,12 +99,16 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     
     if (entity) {
         if (entity.type === 'door') {
+            if (entity.flagRequired && !state.player.flags[entity.flagRequired]) {
+                startDialogue(state, { dialogue: { start: ["The way is sealed by an unseen force.", "end"] } }, 'start', sendUIUpdate);
+                return;
+            }
             state.currentMapId = entity.targetMap;
-            state.player.x = state.player.startX = state.player.targetX = entity.targetX;
-            state.player.y = state.player.startY = state.player.targetY = entity.targetY;
-            state.player.pixelX = entity.targetX * TILE_SIZE;
-            state.player.pixelY = entity.targetY * TILE_SIZE;
-            state.player.isMoving = false;
+            p.x = p.startX = p.targetX = entity.targetX;
+            p.y = p.startY = p.targetY = entity.targetY;
+            p.pixelX = entity.targetX * TILE_SIZE;
+            p.pixelY = entity.targetY * TILE_SIZE;
+            p.isMoving = false;
         } else if (entity.dialogue) {
             startDialogue(state, entity, 'start', sendUIUpdate);
         }
@@ -112,16 +118,10 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     }
 }
 
-// ... the rest of the file (startDialogue, advanceDialogue, etc.) is unchanged ...
-// (You can keep the rest of your world.js file as it was from the previous response)
-
 export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
     state.mode = 'dialogue';
     state.dialogue = {
-        active: true,
-        entity: entity,
-        branch: startingBranch,
-        index: 0,
+        active: true, entity: entity, branch: startingBranch, index: 0,
     };
 
     if (entity.questGiver) {
@@ -140,7 +140,16 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
     if (!state.dialogue.active) return;
     
     const dialogue = state.dialogue;
-    const branch = dialogue.entity.dialogue[dialogue.branch];
+    let branch = dialogue.entity.dialogue[dialogue.branch];
+    
+    // Check for special quest-based branches
+    if (dialogue.entity.questGiver) {
+        const questStatus = Quests.getStatus(state, dialogue.entity.questGiver);
+        if (questStatus === 'learned_law' && dialogue.entity.dialogue.learned_law) {
+            branch = dialogue.entity.dialogue.learned_law;
+            dialogue.index = 0; // Start at beginning of this special branch
+        }
+    }
 
     if (!branch || dialogue.index >= branch.length) {
         endDialogue(state, sendUIUpdate);
@@ -150,26 +159,19 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
     const message = branch[dialogue.index];
 
     if (typeof message === 'string') {
-        if (message === 'end') {
-            endDialogue(state, sendUIUpdate);
-            return;
-        }
+        if (message === 'end') { endDialogue(state, sendUIUpdate); return; }
         dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
     } else if (typeof message === 'object') {
         if (message.choices) {
-            sendUIUpdate({
-                dialogue: {
-                    active: true,
-                    text: message.text,
-                    choices: message.choices
-                }
-            });
+            sendUIUpdate({ dialogue: { active: true, text: message.text, choices: message.choices } });
         } else {
             if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle); return; }
             if (message.giveItem) Quests.giveItem(state, message.giveItem);
             if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver);
             if (message.finalizeQuest) trigger.finalizeQuest(dialogue.entity.questGiver);
+            if (message.updateQuest) Quests.updateObjective(state, { type: 'dialogue', flag: message.objectiveId });
+            if (message.setFlag) state.player.flags[message.setFlag] = true;
             
             dialogue.index++;
             advanceDialogue(state, sendUIUpdate, trigger);
@@ -184,11 +186,7 @@ export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
     const choice = message.choices[index];
 
     dialogue.index++; 
-
-    if (choice.action) {
-        // Handle special actions
-    }
-
+    
     if (choice.next) {
         dialogue.branch = choice.next;
         dialogue.index = 0;
