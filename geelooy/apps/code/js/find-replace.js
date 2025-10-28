@@ -120,23 +120,8 @@ export const FindReplace = {
         }
     },
 
-    init() {
-        // --- B"H: THE FIX IS HERE ---
-        // We now look up the DOM elements inside init(), guaranteeing that
-        // initializeDOM() has already run and DOM.findReplacePanel is a valid element.
-        this.panel = DOM.findReplacePanel;
-        this.findInput = this.panel.querySelector('#find-input');
-        this.replaceInput = this.panel.querySelector('#replace-input');
-        // --- END FIX ---
-
-        this.panel.querySelector('#find-next-btn').onclick = () => this.find();
-        this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-        this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
-        this.panel.querySelector('#replace-btn').onclick = () => this.replace();
-        this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
+   
         
-        // B"H - IN: js/find-replace.js
-// REPLACE your entire init() function with this one:
 init() {
     this.panel = DOM.findReplacePanel;
     this.findInput = this.panel.querySelector('#find-input');
