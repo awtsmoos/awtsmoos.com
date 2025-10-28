@@ -86,9 +86,14 @@ function handleUIAction({ action }) {
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
             setTimeout(() => {
-                const startEntity = GAME_STATE.maps.malkuth_village.interactables['start_sequence'];
-                trigger.startDialogue(startEntity);
-            }, 500);
+        const startEntity = GAME_STATE.maps.malkuth_village.interactables['start_sequence'];
+        // FIX: The entity is the object that CONTAINS the dialogue property.
+        // We create a temporary entity object for the intro sequence.
+        trigger.startDialogue({
+            id: 'start_sequence',
+            dialogue: startEntity.dialogue 
+        });
+    }, 500);
             break;
         case 'resume':
         case 'close-shem': 
