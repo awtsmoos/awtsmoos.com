@@ -1,3 +1,4 @@
+// B"H
 // js/workers/gameWorker.js
 
 import { createDefaultGameState } from '../data/database.js';
@@ -19,25 +20,28 @@ function gameLoop() {
     if (GAME_STATE.mode === 'game') {
         World.update(GAME_STATE, now);
     }
+    // Always send the state so rendering doesn't stop during menus
     sendToMain('gameStateUpdate', { state: GAME_STATE });
 }
 
+// --- Trigger System (allows modules to call each other) ---
 const trigger = {
-    startBattle: (opponentData, context) => {
+    startBattle: (opponentData, context = {}) => {
         GAME_STATE.mode = 'battle';
         Combat.initiate(GAME_STATE, opponentData, context, sendUIUpdate);
     },
     endBattle: (isWin) => {
         Combat.end(GAME_STATE, isWin, sendUIUpdate, trigger);
-        GAME_STATE.mode = 'game'; // Return to game mode
+        // If the dialogue that triggered the battle needs to continue, it will be handled by the combat end logic
     },
-    startDialogue: (entity) => {
-        World.startDialogue(GAME_STATE, entity, sendUIUpdate);
+    startDialogue: (entity, startingBranch = 'start') => {
+        World.startDialogue(GAME_STATE, entity, startingBranch, sendUIUpdate);
     },
     acceptQuest: (questId) => Quests.accept(GAME_STATE, questId, sendToast),
     finalizeQuest: (questId) => Quests.finalize(GAME_STATE, questId, sendToast),
 };
 
+// --- Main Message Handler from UI Thread ---
 self.onmessage = (e) => {
     const { action, payload } = e.data;
 
@@ -48,19 +52,34 @@ self.onmessage = (e) => {
             sendUIUpdate({ screen: 'main-menu' });
             setInterval(gameLoop, GAME_LOOP_INTERVAL);
             break;
+
         case 'input':
-            if (GAME_STATE.dialogue.active) {
-                if(payload.action === 'confirm') World.advanceDialogue(GAME_STATE, sendUIUpdate, trigger);
-            } else if (GAME_STATE.mode === 'game') {
-                World.handleInput(GAME_STATE, payload, trigger);
+            // This is the main input router
+            if (payload.type === 'keyState') {
+                // Continuous input for movement
+                if (GAME_STATE.mode === 'game') {
+                    World.handleKeyState(GAME_STATE, payload.keys);
+                }
+            } else if (payload.type === 'press' && payload.key === 'Confirm') {
+                // Discrete press for interaction/confirmation
+                if (GAME_STATE.dialogue.active) {
+                    World.advanceDialogue(GAME_STATE, sendUIUpdate, trigger);
+                } else if (GAME_STATE.mode === 'game') {
+                    World.checkInteraction(GAME_STATE, trigger);
+                } else if (GAME_STATE.mode === 'battle' && GAME_STATE.battle.awaitingConfirm) {
+                    Combat.handleAction(GAME_STATE, { action: 'confirm' }, sendUIUpdate, trigger);
+                }
             }
             break;
+
         case 'dialogueChoice':
              World.handleDialogueChoice(GAME_STATE, payload.index, sendUIUpdate, trigger);
              break;
+
         case 'battleAction':
              Combat.handleAction(GAME_STATE, payload, sendUIUpdate, trigger);
              break;
+             
         case 'uiAction':
              handleUIAction(payload);
              break;
@@ -73,10 +92,11 @@ function handleUIAction({ action }) {
             GAME_STATE = createDefaultGameState();
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
-            // Start the opening dialogue
-            trigger.startDialogue({
-                dialogue: GAME_STATE.maps.malkuth_village.interactables['start_sequence'].dialogue
-            });
+            // Automatically trigger the opening dialogue sequence after a short delay
+            setTimeout(() => {
+                const startEntity = GAME_STATE.maps.malkuth_village.interactables['start_sequence'];
+                trigger.startDialogue(startEntity);
+            }, 500);
             break;
         case 'resume':
             GAME_STATE.mode = 'game';
