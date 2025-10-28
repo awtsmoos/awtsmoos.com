@@ -1,3 +1,4 @@
+//B"H
 // js/ui.js
 
 export function initUI(sendToWorker) {
