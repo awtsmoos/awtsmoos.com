@@ -314,7 +314,7 @@ function updateTimers(deltaTime) { // Add deltaTime
     }
 
     state.aiSnakeTimer += deltaTime;
-    const maxSnakes = 1t5 + state.level * 13;
+    const maxSnakes = 165 + state.level * 13;
     if (state.aiSnakeTimer > 2.3 && state.aiSnakes.length < maxSnakes) { // 2.5 seconds
         spawnAiSnake();
         state.aiSnakeTimer = 0;
