@@ -3,7 +3,7 @@
 
 import { TILE_SIZE, PLAYER_SPEED } from '../data/database.js';
 import * as Quests from './quests.js';
-import * as Shop from './shop.js'; // Import the new shop module
+import * as Shop from './shop.js';
 
 let keyState = {};
 
@@ -58,7 +58,7 @@ function initiatePlayerMove(state, direction) {
     if (targetX < 0 || targetY < 0 || targetY >= map.baseLayer.length || targetX >= map.baseLayer[0].length) return;
     const baseTile = map.baseLayer[targetY]?.[targetX];
     const interactable = map.interactables[`${targetX},${targetY}`];
-    const solidTiles = ['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜', '📚', '🕳️', '👨‍🏫', '👨', '👨‍🌾', '🐂', '🛒'];
+    const solidTiles = ['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜', '📚', '🕳️', '👨‍🏫', '👨', '👨‍🌾', '🐂', '🛒', '🚪'];
     if (solidTiles.includes(baseTile)) return;
     if (interactable && ['npc', 'door'].includes(interactable.type)) return;
     p.isMoving = true; p.startX = p.x; p.startY = p.y; p.targetX = targetX; p.targetY = targetY;
@@ -82,10 +82,24 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     
     if (entity) {
         if (entity.type === 'door') {
-            if (entity.flagRequired && (!state.player.flags || !state.player.flags[entity.flagRequired])) {
-                startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
-                return;
+            // --- FIX FOR LOCKED DOORS ---
+            // Check for the more complex 'condition' object first.
+            if (entity.condition) {
+                let canPass = true;
+                if (entity.condition.type === 'hasItem') {
+                    // Check if the player has the required item in their inventory.
+                    const hasItem = state.player.inventory.some(item => item.id === entity.condition.itemId);
+                    if (!hasItem) {
+                        canPass = false;
+                    }
+                }
+                // If the condition is not met, show the message and stop.
+                if (!canPass) {
+                    startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
+                    return;
+                }
             }
+            // If there's no condition or the condition was met, move the player.
             state.currentMapId = entity.targetMap;
             p.x = p.startX = p.targetX = entity.targetX;
             p.y = p.startY = p.targetY = entity.targetY;
@@ -118,7 +132,13 @@ export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
 
 export function advanceDialogue(state, sendUIUpdate, trigger) {
     if (!state.dialogue.active) return;
-    if (state.dialogue.entity.shop) { Shop.advanceShop(state, sendUIUpdate); return; }
+    // --- FIX FOR SHOP CRASH ---
+    // We remove the incorrect call to Shop.advanceShop. The shop is only advanced
+    // by player choices, not by the generic 'confirm' action.
+    if (state.dialogue.entity.shop) { 
+        // Do nothing here for the shop on a generic advance.
+        return; 
+    }
     const dialogue = state.dialogue;
     const branch = dialogue.entity.dialogue[dialogue.branch];
     if (!branch || dialogue.index >= branch.length) { endDialogue(state, sendUIUpdate); return; }
@@ -144,9 +164,10 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
 
 export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
     const dialogue = state.dialogue;
+    // The shop logic correctly uses handleShopChoice. This was already correct.
     if (dialogue.entity.shop) {
         const branch = dialogue.entity.dialogue[dialogue.branch];
-        const choice = branch.choices[index];
+        const choice = branch[dialogue.index].choices[index];
         Shop.handleShopChoice(state, choice, sendUIUpdate);
         return;
     }
