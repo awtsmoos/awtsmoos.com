@@ -127,14 +127,7 @@ activeConsole: null, // B"H
 setupEventListeners() {
 
 	let resizeDebounceTimer;
-	window.addEventListener('resize', () => {
-	    clearTimeout(resizeDebounceTimer);
-	    resizeDebounceTimer = setTimeout(() => {
-	        if (Editor.currentHighlighter) {
-	            Editor.currentHighlighter.refresh();
-	        }
-	    }, 150);
-	});
+	
     // --- Element References (Using YOUR DOM object variable names) ---
     if (DOM.viewConsoleBtn) {
         DOM.viewConsoleBtn.onclick = () => {
@@ -194,8 +187,7 @@ setupEventListeners() {
 			        `${sidebarW}px 1fr`;
 			}
 		} else {
-			if (Editor.currentHighlighter)
-				Editor.currentHighlighter.refresh();
+		
 			appContainer.style.gridTemplateColumns = '';
 		}
         }
@@ -208,8 +200,7 @@ setupEventListeners() {
     sidebarCollapseBtn.onclick = (e) => {
         e.stopPropagation();
         appContainer.classList.toggle('sidebar-collapsed');
-        if (Editor.currentHighlighter)
-		Editor.currentHighlighter.refresh();
+        
     };
 }
     
@@ -247,8 +238,7 @@ setupEventListeners() {
 	        document.removeEventListener('mousemove', handleMouseMove);
 	        document.removeEventListener('mouseup', handleMouseUp);
 	         // This tells the editor to fill the new available space.
-		if (Editor.currentHighlighter)
-			Editor.currentHighlighter.refresh();
+		
 	    };
 	
 	    // This is where it all starts: when the user presses the mouse down on the resizer
