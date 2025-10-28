@@ -715,6 +715,10 @@ function drawWorldGridAndBorder(ctx) {
 }
 
 // --- START OF AI REPLACEMENT ---
+
+//B"H
+// In worker-helpers.js - Replace the ENTIRE AiSnake class with this one.
+
 class AiSnake extends Player {
 	constructor(x, y, length) {
 		super(x, y, length);
@@ -723,14 +727,13 @@ class AiSnake extends Player {
 		this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
 		this.size = 12;
 
-		this.normalSpeed = 200 + Math.random() * 80;
-		this.boostSpeed = this.normalSpeed * 1.8;
+		this.normalSpeed = 210 + Math.random() * 90; // Slightly faster and more varied
+		this.boostSpeed = this.normalSpeed * 1.9;
 		this.speed = this.normalSpeed;
 		this.isBoosting = false;
 
-		// AI State
-		this.decisionTimer = Math.random() * 0.5; // Stagger initial decisions
-		this.behavior = 'wandering'; // Initial state
+		// AI thinks faster for better reactions
+		this.decisionTimer = Math.random() * 0.2;
 	}
 
 	update(deltaTime) {
@@ -738,153 +741,149 @@ class AiSnake extends Player {
 
 		this.decisionTimer -= deltaTime;
 		if (this.decisionTimer <= 0) {
-			this.findTarget(); // The new, smarter "brain"
-			// Reset timer for the next decision, making AI more responsive
-			this.decisionTimer = (Math.random() * 0.1) + 0.1; // Re-think every 0.1-0.2 seconds
+			this.makeDecision(); // The new, smarter "brain"
+			this.decisionTimer = (Math.random() * 0.05) + 0.1; // Re-think every 0.1-0.15 seconds
 		}
 
-		if (this.isBoosting) {
+		if (this.isBoosting && this.maxLength > 20) {
 			this.speed = this.boostSpeed;
-			// Shrink while boosting, but don't get smaller than a minimum length
-			if (this.maxLength > 20) {
-				this.maxLength -= 0.1;
-			}
+			this.maxLength -= 0.15; // Boosting is more costly
 		} else {
 			this.speed = this.normalSpeed;
 		}
 
-		super.update(deltaTime); // Call the parent Player's movement logic
+		super.update(deltaTime);
 	}
 
-	// The new, much more advanced AI decision-making logic
-	findTarget() {
-		const visionRange = 800; // How far the snake can "see"
+	// This is the core of the new AI logic
+	makeDecision() {
+		const visionRange = 900;
 		const nearby = state.grid.getNearbyObjects(this);
-		let potentialPrey = [];
-		let potentialPredators = [];
-		let closestFood = null;
-		let minFoodDist = 450; // Only consider food within this range
+		let threats = [];
+		let prey = [];
+		let food = [];
+		let obstacles = [];
 
-		// --- 1. Scan and categorize all nearby objects ---
+		// --- 1. SCAN & CATEGORIZE everything in the environment ---
 		for (const obj of nearby) {
 			if (!obj.isAlive || obj === this) continue;
-
 			const dist = getDistance(this.x, this.y, obj.x, obj.y);
-			if (dist > visionRange) continue; // Object is too far to see
+			if (dist > visionRange) continue;
 
-			if (obj.type === 'collectible' && dist < minFoodDist) {
-				minFoodDist = dist;
-				closestFood = obj;
+			if (obj.type === 'collectible') {
+				food.push({ obj, dist });
 			} else if (obj.type === 'player' || obj.type === 'ai_snake') {
-				// Predator check: Another snake is a threat if it's 20% larger.
+				obstacles.push(obj); // Every snake is a potential obstacle
 				if (obj.score > this.score * 1.2) {
-					potentialPredators.push({
-						obj,
-						dist
-					});
-				}
-				// Prey check: Attack any snake that is smaller.
-				else if (this.score > obj.score) {
-					potentialPrey.push({
-						obj,
-						dist
-					});
+					threats.push({ obj, dist });
+				} else if (this.score > obj.score * 1.1) {
+					prey.push({ obj, dist });
 				}
 			}
 		}
 
-		// --- 2. Make decisions based on a clear priority hierarchy ---
-
-		// PRIORITY 1: SURVIVAL. Flee from the most immediate threat.
-		if (potentialPredators.length > 0) {
-			// Find the most dangerous predator (closest and biggest)
-			potentialPredators.forEach(p => p.threat = p.obj.score / p.dist);
-			potentialPredators.sort((a, b) => b.threat - a.threat);
-			const mostDangerousPredator = potentialPredators[0].obj;
-
-			this.behavior = 'fleeing';
-			// Flee directly away from the predator's head
-			this.targetAngle = Math.atan2(this.y - mostDangerousPredator.y, this.x - mostDangerousPredator.x);
+		// --- 2. SURVIVAL: Flee from the most immediate threat ---
+		if (threats.length > 0) {
+			threats.sort((a, b) => a.dist - b.dist);
+			const closestThreat = threats[0].obj;
+			this.targetAngle = Math.atan2(this.y - closestThreat.y, this.x - closestThreat.x);
+			this.isBoosting = true;
 			this.isTurning = true;
-			this.isBoosting = true; // Boost to escape!
 			return;
 		}
 
-		// PRIORITY 2: AGGRESSION. Hunt the closest prey.
-		if (potentialPrey.length > 0) {
-			potentialPrey.sort((a, b) => a.dist - b.dist);
-			const targetPrey = potentialPrey[0].obj;
-			const preyDist = potentialPrey[0].dist;
+		// --- 3. AGGRESSION: Hunt the closest prey ---
+		if (prey.length > 0) {
+			prey.sort((a, b) => a.dist - b.dist);
+			const target = prey[0].obj;
+			this.targetAngle = this.getSafeAngle(target.x, target.y, obstacles);
+			this.isBoosting = true;
+			this.isTurning = true;
+			return;
+		}
 
-			// Behavior: TRAPPING. If we are much larger, try to circle them.
-			if (this.score > targetPrey.score * 2.5 && preyDist < 400) {
-				this.behavior = 'trapping';
-				const angleToPrey = Math.atan2(targetPrey.y - this.y, targetPrey.x - this.x);
-				// Aim for a point perpendicular to the prey to initiate a circle
-				const circleOffset = Math.PI / 2.5;
-				this.targetAngle = angleToPrey + circleOffset;
+		// --- 4. EATING: Go for the closest, safest food ---
+		this.isBoosting = false;
+		if (food.length > 0) {
+			food.sort((a, b) => a.dist - b.dist);
+			// Find a piece of food that isn't dangerously close to another snake
+			for (const f of food) {
+				const foodTarget = f.obj;
+				// Check if the path to the food is safe
+				let isPathSafe = true;
+				for (const snake of obstacles) {
+					if (getDistance(foodTarget.x, foodTarget.y, snake.x, snake.y) < 200) {
+						isPathSafe = false;
+						break;
+					}
+				}
+				if (isPathSafe) {
+					this.targetAngle = this.getSafeAngle(foodTarget.x, foodTarget.y, obstacles);
+					this.isTurning = true;
+					return;
+				}
 			}
-			// Behavior: HUNTING. Use interception logic to catch the prey.
-			else {
-				this.behavior = 'hunting';
-				// Predict where the prey will be based on its velocity and our distance
-				const predictionTime = preyDist / this.boostSpeed;
-				const predictedX = targetPrey.x + Math.cos(targetPrey.angle) * targetPrey.speed * predictionTime;
-				const predictedY = targetPrey.y + Math.sin(targetPrey.angle) * targetPrey.speed * predictionTime;
-				this.targetAngle = Math.atan2(predictedY - this.y, predictedX - this.x);
-			}
-
-			this.isTurning = true;
-			this.isBoosting = true; // Boost to hunt!
-			return;
 		}
 
-		// PRIORITY 3: EATING. If no threats or prey, go for nearby food.
-		this.isBoosting = false; // No need to boost for food
-		if (closestFood) {
-			this.behavior = 'eating';
-			this.targetAngle = Math.atan2(closestFood.y - this.y, closestFood.x - this.x);
-			this.isTurning = true;
-			return;
+		// --- 5. WANDERING: If nothing else, explore safely ---
+		if (Math.random() < 0.1) {
+			this.targetAngle += (Math.random() - 0.5) * 2.0;
 		}
-
-		// PRIORITY 4: WANDERING. If nothing else to do, explore the area.
-		this.behavior = 'wandering';
-		// Only change direction occasionally for a more natural movement
-		if (Math.random() < 0.05) {
-			this.targetAngle += (Math.random() - 0.5) * 1.5;
-		}
-		this.isTurning = true; // Always move forward
+		this.targetAngle = this.getSafeAngle(
+			this.x + Math.cos(this.targetAngle) * 500,
+			this.y + Math.sin(this.targetAngle) * 500,
+			obstacles
+		);
+		this.isTurning = true;
 	}
 
+	/**
+	 * THE CRITICAL NEW FUNCTION: Calculates an angle towards a target
+	 * while trying to steer away from the bodies of other snakes.
+	 */
+	getSafeAngle(targetX, targetY, obstacles) {
+		let desiredAngle = Math.atan2(targetY - this.y, targetX - this.x);
+
+		const checkDistance = 250; // How far ahead to check for collisions
+
+		for (const snake of obstacles) {
+			if (snake === this) continue;
+			// Check against the head and all body segments
+			const bodyParts = [snake, ...snake.body];
+			for (const segment of bodyParts) {
+				const distToSegment = getDistance(this.x, this.y, segment.x, segment.y);
+
+				if (distToSegment < 150) { // If a snake is very close
+					// Project a point in our current direction
+					const projectedX = this.x + Math.cos(desiredAngle) * checkDistance;
+					const projectedY = this.y + Math.sin(desiredAngle) * checkDistance;
+
+					// If the projected point is close to a snake segment, we need to turn
+					if (getDistance(projectedX, projectedY, segment.x, segment.y) < this.size + snake.size + 100) {
+						// Turn away from the segment
+						const angleToSegment = Math.atan2(segment.y - this.y, segment.x - this.x);
+						// Steer away by adding or subtracting from the desired angle
+						desiredAngle += (desiredAngle - angleToSegment) > 0 ? 0.5 : -0.5; // Swerve
+						// Break from inner loop and check the new angle against other snakes
+						break;
+					}
+				}
+			}
+		}
+		return desiredAngle;
+	}
 
 	draw(ctx) {
-		this.body.forEach((seg,
-			i) => {
-			const ratio =
-				1 - (i /
-					this
-					.body
-					.length
-				);
-			ctx.fillStyle =
-				this.color;
+		// No changes needed to the draw function, it can stay as it is
+		this.body.forEach((seg, i) => {
+			ctx.fillStyle = this.color;
 			ctx.beginPath();
-			ctx.arc(seg.x,
-				seg.y,
-
-				this
-				.size,
-				0, Math
-				.PI * 2);
+			ctx.arc(seg.x, seg.y, this.size, 0, Math.PI * 2);
 			ctx.fill();
 		});
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(this.x, this.y, this
-			.size, 0, Math.PI *
-			2);
+		ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
 		ctx.fill();
 	}
 }
-// --- END OF AI REPLACEMENT ---
