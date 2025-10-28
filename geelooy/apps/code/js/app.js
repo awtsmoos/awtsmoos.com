@@ -184,6 +184,7 @@ setupEventListeners() {
 			        `${sidebarW}px 1fr`;
 			}
 		} else {
+			UI.updateLineNumbers(); 
 			appContainer.style.gridTemplateColumns = '';
 		}
         }
@@ -232,6 +233,8 @@ setupEventListeners() {
 	        document.body.classList.remove('is-resizing');
 	        document.removeEventListener('mousemove', handleMouseMove);
 	        document.removeEventListener('mouseup', handleMouseUp);
+	         // This tells the editor to fill the new available space.
+		    UI.updateLineNumbers();
 	    };
 	
 	    // This is where it all starts: when the user presses the mouse down on the resizer
