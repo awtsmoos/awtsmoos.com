@@ -6,7 +6,7 @@ const paddleWidth = 10;
 const paddleHeight = 100;
 const maxScore = 10;
 
-// --- New Timer and Speed Logic Variables ---
+// Timer and Speed Logic Variables
 let gameStartTime = Date.now();
 let lastSpeedIncreaseTime = 0; // Tracks the last time speed was increased
 
@@ -30,7 +30,7 @@ function checkCollision(ball, paddle) {
 }
 
 function update() {
-    // --- Speed Increase Logic ---
+    // Speed Increase Logic
     const elapsedTime = Math.floor((Date.now() - gameStartTime) / 1000);
 
     // Increase ball speed every 10 seconds
@@ -75,7 +75,7 @@ function draw() {
     drawScore(context, canvas.width / 4, canvas.height / 5, player.score);
     drawScore(context, 3 * canvas.width / 4, canvas.height / 5, ai.score);
 
-    // --- Draw the Timer ---
+    // Draw the Timer
     const elapsedTimeInSeconds = Math.floor((Date.now() - gameStartTime) / 1000);
     const minutes = Math.floor(elapsedTimeInSeconds / 60).toString().padStart(2, '0');
     const seconds = (elapsedTimeInSeconds % 60).toString().padStart(2, '0');
@@ -106,11 +106,13 @@ document.addEventListener("keyup", e => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown") player.dy = 0;
 });
 
-// Mobile touch controls
+// --- Window-wide Mobile touch controls ---
 let touchStartY = 0;
 let playerStartDragY = 0;
 
-canvas.addEventListener("touchstart", e => {
+// Listen on the entire document for touch start
+document.addEventListener("touchstart", e => {
+    // Prevent default browser actions like scrolling or zooming
     e.preventDefault();
     if (e.touches.length > 0) {
         const touch = e.touches[0];
@@ -119,14 +121,25 @@ canvas.addEventListener("touchstart", e => {
     }
 }, { passive: false });
 
-canvas.addEventListener("touchmove", e => {
+// Listen on the entire document for touch move
+document.addEventListener("touchmove", e => {
     e.preventDefault();
     if (e.touches.length > 0) {
         const touch = e.touches[0];
         const deltaY = touch.clientY - touchStartY;
-        player.y = playerStartDragY + deltaY;
+        let newY = playerStartDragY + deltaY;
+
+        // Immediately clamp the paddle's position within the canvas boundaries
+        if (newY < 0) {
+            newY = 0;
+        }
+        if (newY + player.height > canvas.height) {
+            newY = canvas.height - player.height;
+        }
+        player.y = newY;
     }
 }, { passive: false });
+
 
 // Start the game
 gameLoop();
