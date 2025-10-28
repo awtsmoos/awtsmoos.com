@@ -16,7 +16,7 @@ function createBall(canvas, initialEmoji) {
         reset(newEmoji) {
             this.x = canvas.width / 2;
             this.y = canvas.height / 2;
-            this.speed = 5;
+            
             this.dx = this.dx > 0 ? -this.speed : this.speed; // Keep direction
             this.dy = this.speed * (Math.random() > 0.5 ? 1 : -1);
             this.currentEmoji = newEmoji;
