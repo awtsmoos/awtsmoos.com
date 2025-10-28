@@ -101,7 +101,7 @@ function draw() {
 
     // --- SCREEN FILL ---
     // Fill the screen with the base color first. This prevents any flickering or black voids.
-    ctx.fillStyle = '#1dcc1d';
+    ctx.fillStyle = '#1d221d';
     ctx.fillRect(0, 0, camera.width, camera.height);
 
     // Save the canvas state before applying camera transformations.
