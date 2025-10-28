@@ -1,4 +1,6 @@
 //B"H
+// js/main.js
+
 const canvas = document.getElementById("pongCanvas");
 const context = canvas.getContext("2d");
 
@@ -6,9 +8,14 @@ const paddleWidth = 10;
 const paddleHeight = 100;
 const maxScore = 10;
 
-// Timer and Speed Logic Variables
+
+
+function getRandomEmoji() {
+    return ballEmojis[Math.floor(Math.random() * ballEmojis.length)];
+}
+
 let gameStartTime = Date.now();
-let lastSpeedIncreaseTime = 0; // Tracks the last time speed was increased
+let lastSpeedIncreaseTime = 0;
 
 function resizeCanvas() {
     canvas.width = window.innerWidth > 800 ? 800 : window.innerWidth * 0.95;
@@ -20,49 +27,57 @@ resizeCanvas();
 
 const player = createPaddle(0, (canvas.height - paddleHeight) / 2, paddleWidth, paddleHeight, '#fff');
 const ai = createPaddle(canvas.width - paddleWidth, (canvas.height - paddleHeight) / 2, paddleWidth, paddleHeight, '#fff', true);
-const ball = createBall(canvas);
+const ball = createBall(canvas, getRandomEmoji());
 
-function checkCollision(ball, paddle) {
-    return ball.x < paddle.x + paddle.width &&
-           ball.x + ball.size > paddle.x &&
-           ball.y < paddle.y + paddle.height &&
-           ball.y + ball.size > paddle.y;
+function handlePaddleCollision(ball, paddle) {
+    // 1. Create a high-performance particle explosion
+    createParticleExplosion(ball.x, ball.y);
+
+    // 2. Calculate collision physics
+    const collidePoint = (ball.y - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
+    const angleRad = (Math.PI / 4) * collidePoint;
+    const direction = (paddle.x < canvas.width / 2) ? 1 : -1;
+
+    // 3. Update ball velocity
+    ball.dx = direction * ball.speed * Math.cos(angleRad);
+    ball.dy = ball.speed * Math.sin(angleRad);
+    
+    // 4. Add realistic spin based on where it hit the paddle
+    ball.rotationSpeed = (collidePoint * 0.15) * direction;
+
+    // 5. Increase ball speed slightly on every hit to make it more intense
+    ball.speed += 0.1;
 }
 
 function update() {
-    // Speed Increase Logic
+    // Timer-based speed increase
     const elapsedTime = Math.floor((Date.now() - gameStartTime) / 1000);
-
-    // Increase ball speed every 10 seconds
     if (elapsedTime > 0 && elapsedTime % 10 === 0 && elapsedTime !== lastSpeedIncreaseTime) {
-        ball.speed += 0.3;
-        lastSpeedIncreaseTime = elapsedTime; // Ensure it only happens once per 10-sec interval
+        ball.speed += 0.5; // More significant speed boost
+        lastSpeedIncreaseTime = elapsedTime;
     }
 
     player.update(canvas);
     ai.update(canvas, ball);
     ball.update(canvas);
 
-    // Collision with paddles
-    if (checkCollision(ball, player)) {
-        let collidePoint = (ball.y - (player.y + player.height / 2)) / (player.height / 2);
-        let angleRad = (Math.PI / 4) * collidePoint;
-        ball.dx = ball.speed * Math.cos(angleRad);
-        ball.dy = ball.speed * Math.sin(angleRad);
-    } else if (checkCollision(ball, ai)) {
-        let collidePoint = (ball.y - (ai.y + ai.height / 2)) / (ai.height / 2);
-        let angleRad = (Math.PI / 4) * collidePoint;
-        ball.dx = -ball.speed * Math.cos(angleRad);
-        ball.dy = ball.speed * Math.sin(angleRad);
+    // Collision Detection (adjusted for emoji size)
+    const currentPaddle = ball.dx < 0 ? player : ai;
+    if (ball.x - ball.size / 2 < currentPaddle.x + currentPaddle.width &&
+        ball.x + ball.size / 2 > currentPaddle.x &&
+        ball.y - ball.size / 2 < currentPaddle.y + currentPaddle.height &&
+        ball.y + ball.size / 2 > currentPaddle.y) {
+        
+        handlePaddleCollision(ball, currentPaddle);
     }
-
+    
     // Scoring
-    if (ball.x < 0) {
+    if (ball.x + ball.size < 0) { // Off the left side
         ai.score++;
-        ball.reset();
-    } else if (ball.x + ball.size > canvas.width) {
+        ball.reset(getRandomEmoji());
+    } else if (ball.x - ball.size > canvas.width) { // Off the right side
         player.score++;
-        ball.reset();
+        ball.reset(getRandomEmoji());
     }
 }
 
@@ -72,23 +87,24 @@ function draw() {
     player.draw(context);
     ai.draw(context);
     ball.draw(context);
+    
+    // Draw particles on top of everything
+    updateAndDrawParticles(context);
+
+    // Draw UI
     drawScore(context, canvas.width / 4, canvas.height / 5, player.score);
     drawScore(context, 3 * canvas.width / 4, canvas.height / 5, ai.score);
-
-    // Draw the Timer
     const elapsedTimeInSeconds = Math.floor((Date.now() - gameStartTime) / 1000);
     const minutes = Math.floor(elapsedTimeInSeconds / 60).toString().padStart(2, '0');
     const seconds = (elapsedTimeInSeconds % 60).toString().padStart(2, '0');
-    const formattedTime = `${minutes}:${seconds}`;
-    drawTimer(context, canvas, formattedTime);
+    drawTimer(context, canvas, `${minutes}:${seconds}`);
 }
 
 function gameLoop() {
     if (player.score >= maxScore || ai.score >= maxScore) {
-        draw(); // Draw final state
-        const winner = player.score >= maxScore ? "Player" : "AI";
-        displayWinner(context, canvas, winner);
-        return; // Stop the loop
+        draw();
+        displayWinner(context, canvas, player.score >= maxScore ? "Player" : "AI");
+        return;
     }
 
     update();
@@ -96,52 +112,35 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+// --- Window-wide Mobile touch controls ---
+let touchStartY = 0;
+let playerStartDragY = 0;
+document.addEventListener("touchstart", e => {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+        playerStartDragY = player.y;
+    }
+}, { passive: false });
+document.addEventListener("touchmove", e => {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        const deltaY = e.touches[0].clientY - touchStartY;
+        let newY = playerStartDragY + deltaY;
+        if (newY < 0) newY = 0;
+        if (newY + player.height > canvas.height) newY = canvas.height - player.height;
+        player.y = newY;
+    }
+}, { passive: false });
+
 // Keyboard controls
 document.addEventListener("keydown", e => {
     if (e.key === "ArrowUp") player.dy = -player.speed;
     else if (e.key === "ArrowDown") player.dy = player.speed;
 });
-
 document.addEventListener("keyup", e => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown") player.dy = 0;
 });
 
-// --- Window-wide Mobile touch controls ---
-let touchStartY = 0;
-let playerStartDragY = 0;
-
-// Listen on the entire document for touch start
-document.addEventListener("touchstart", e => {
-    // Prevent default browser actions like scrolling or zooming
-    e.preventDefault();
-    if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        touchStartY = touch.clientY;
-        playerStartDragY = player.y;
-    }
-}, { passive: false });
-
-// Listen on the entire document for touch move
-document.addEventListener("touchmove", e => {
-    e.preventDefault();
-    if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        const deltaY = touch.clientY - touchStartY;
-        let newY = playerStartDragY + deltaY;
-
-        // Immediately clamp the paddle's position within the canvas boundaries
-        if (newY < 0) {
-            newY = 0;
-        }
-        if (newY + player.height > canvas.height) {
-            newY = canvas.height - player.height;
-        }
-        player.y = newY;
-    }
-}, { passive: false });
-
-
 // Start the game
 gameLoop();
-
-
