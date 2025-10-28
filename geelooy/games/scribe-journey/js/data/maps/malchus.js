@@ -3,18 +3,18 @@
 
 export const malkuthMaps = {
     'malkuth_village': {
-        // Map is now much larger and more organic
+        // Redesigned for clarity and access. Note the open plaza in the center.
         width: 20,
         baseLayerString: `
 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
-🌳⬜⬜⬜⬜⬜⬜⬜⬜🌳📜🌳⬜⬜⬜⬜⬜⬜⬜⬜🌳
-🌳⬜🏠🏠⬜⬜⬜⬜⬜🌳⬜🌳⬜⬜⬜⬜⬜🌳🌳🌳
-🌳⬜⬜⬜⬜🌳🌳🌳🌳🌳⬜🌳🌳🌳👨⬜⬜⬜⬜🌳
+🌳⬜⬜⬜⬜⬜⬜⬜⬜⬜📜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
+🌳⬜🏠⬜🏠⬜⬜⬜⬜🌳⬜🌳⬜⬜⬜⬜⬜🌳🌳🌳
+🌳⬜⬜⬜⬜⬜🌳🌳🌳🌳⬜🌳🌳🌳👨⬜⬜⬜⬜🌳
 🌳🌳🌳⬜🌳🌳⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
 🌳⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
 🌳⬜⬜⬜🔥⬜⬜⬜⬜⬜⬜⬜🌳🌳🌳⬜🚪⬜🌳
 🌳👨‍🌾⬜💧⬜⬜🌿⬜⬜⬜⬜⬜🌳⬜⬜⬜⬜⬜🌳
-🌳⬜⬜⬜⬜⬜🌿⬜⬜⬜⬜⬜🐂⬜⬜⬜⬜⬜🌳
+🌳⬜⬜⬜⬜⬜🌿⬜⬜⬜👨🐂⬜⬜⬜⬜⬜🌳
 🌳🌳🌳🌳🌳🌳🌳🌳🌳⬜⬜⬜⬜⬜⬜⬜🌳
 🌳⬜⬜⬜🌾🌾⬜⬜⬜⬜⬜🛒⬜⬜⬜⬜🌳
 🌳⬜⬜⬜🌾🌾⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
@@ -22,12 +22,13 @@ export const malkuthMaps = {
         `,
         interactables: {
             'start_sequence': { dialogue: { start: ["The world feels... fractured, Scribe.", "The Great Sefer is shattered. Its concepts now roam wild as Musagim.", "You must journey through the Sefirot. Find the fragments. Rectify Creation.", "Take this satchel. May your ink flow true.", "end"] } },
+            
+            // NOTE: The coordinates are now just for my reference. The parser will set them automatically.
             '1,2': { type: 'door', emoji: '🏠', targetMap: 'scholar_house', targetX: 4, targetY: 6 },
-            '2,2': { type: 'door', emoji: '🏠', targetMap: 'merchant_house', targetX: 3, targetY: 4 },
+            '3,2': { type: 'door', emoji: '🏠', targetMap: 'merchant_house', targetX: 3, targetY: 4 },
             '9,1': { type: 'npc', emoji: '📜', id: 'elder_scribe', questGiver: 'main_quest_1', dialogue: { start: ["The path to the upper realms lies through the shimmering door to the east. Be wary, for Yesod's nature is illusion."], completed: ["You have the first fragment! The path forward will be harder, but you have proven your worth."] } },
             '17,6': { type: 'door', emoji: '🚪', targetMap: 'yesod_shore', targetX: 1, targetY: 4 },
             
-            // --- Nizkei Mamon (Damages) Quest NPCs ---
             '14,4': { type: 'npc', emoji: '👨', id: 'reuven', questGiver: 'nizkei_mamon_1_goring_ox', dialogue: { 
                 start: ["Scribe, thank heavens! My prize ox... gored by Shimon's beast! Shimon claims it was an accident, but I am ruined! Please, find the just path. The sage in the scholar's house might know the ancient laws."], 
                 in_progress: ["Please, speak to the Echo of Rambam. I must know what is just."], 
@@ -38,13 +39,13 @@ export const malkuthMaps = {
                 mediate_correct: ["Half the value... from the ox itself. It is a hard ruling, but it is just. Thank you for bringing clarity.", {finalizeQuest: 'nizkei_mamon_1_goring_ox'}], 
                 mediate_incorrect: ["Full damages? Shimon says that is not what the sage taught... I am confused."]
             }},
-            // FIX: Shimon is now correctly assigned to the Ox emoji at this location
-            '11,8': { type: 'npc', emoji: '🐂', id: 'shimon', dialogue: {
+            
+            // FIX: Shimon is now the person emoji at this location. The ox is scenery.
+            '11,8': { type: 'npc', emoji: '👨', id: 'shimon', dialogue: {
                 start: ["Shimon stands beside his ox, looking worried.", {choices:[{text: "(Speak to Shimon)", next: "talk"}]}], 
                 talk: ["My ox... it has never gored before. It is a Tam, an innocent one! I cannot afford to pay for Reuven's entire animal. It would ruin me. If only someone knew the true law..."]
             }},
             
-            // --- Flavor NPCs ---
             '1,7': { type: 'npc', emoji: '👨‍🌾', id: 'farmer_dan', dialogue: { start: ["Shalom. The world groans, but the earth still gives. Remember your foundation."] } },
             '11,10': { type: 'npc', emoji: '🛒', id: 'trader_levi', dialogue: { start: ["Goods from across the realms! Care for a look?", {choices: [{text: "Buy"}, {text: "Sell"}, {text: "Leave"}]}] } },
         }
@@ -61,7 +62,7 @@ export const malkuthMaps = {
 🪨🪨🪨⬜🚪⬜🪨🪨
         `,
         interactables: {
-            '4,6': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 1, targetY: 3 }, // Corrected exit coordinates
+            '4,6': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 1, 'y': 3 },
             '2,3': { type: 'npc', emoji: '👨‍🏫', id: 'rambam_spirit', questGiver: 'rambam_quest_1', dialogue: { 
                 start: ["I am but an echo of Moshe ben Maimon... My Mishneh Torah has been shattered. Its pages are lost in the depths below.", "These are not mere words, but the structure of a just reality. If you seek understanding, descend and restore my work.", {giveItem: "cavern_key"}, "Do you have a specific query?", {choices: [{text:"Ask about the Goring Ox.", next: "nizkei_mamon"}, {text: "Ask about Purity.", next: "mikvaot"}, {text: "I must go.", next:"end"}]}], 
                 in_progress: ["The foundations of Torah are the foundations of the world. Please, find my pages."], 
@@ -82,7 +83,7 @@ export const malkuthMaps = {
 🪨🪨🪨⬜🚪⬜🪨
         `,
         interactables: {
-            '4,4': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 2, targetY: 2 },
+            '4,4': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 3, targetY: 3 },
             '3,3': { type: 'npc', emoji: '🛒', id: 'merchant_shlomo', dialogue: { start: ["Ah, a Scribe! My wares are concepts made manifest. Perhaps you will find something to aid your journey?", {choices: [
                 {text: "Buy Items"}, {text: "Sell Fragments"}, {text: "Inquire about... special stock.", next: "special_stock"}, {text:"Leave"}
             ]}], special_stock: ["Hah! A discerning eye. I sometimes come across... unique concepts. For a price, of course.", {choices: [{text: "Show me."}, {text: "Perhaps later."}]}]}}
