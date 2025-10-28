@@ -18,7 +18,7 @@ const sendToast = (message, type) => sendToMain('toast', { message, type });
 function gameLoop() {
     const now = performance.now();
     if (GAME_STATE.mode === 'game') {
-        World.update(GAME_STATE, now, trigger); // Pass trigger to update for encounters
+        World.update(GAME_STATE, now, trigger);
     }
     sendToMain('gameStateUpdate', { state: GAME_STATE });
 }
@@ -29,8 +29,9 @@ const trigger = {
         GAME_STATE.mode = 'battle';
         Combat.initiate(GAME_STATE, opponentData, context, sendUIUpdate);
     },
+    // FIX: Pass sendToast to the Combat.end function
     endBattle: (isWin) => {
-        Combat.end(GAME_STATE, isWin, sendUIUpdate, trigger);
+        Combat.end(GAME_STATE, isWin, sendUIUpdate, sendToast, trigger);
     },
     startDialogue: (entity, startingBranch = 'start') => {
         World.startDialogue(GAME_STATE, entity, startingBranch, sendUIUpdate);
@@ -60,7 +61,6 @@ self.onmessage = (e) => {
                 if (GAME_STATE.dialogue.active) {
                     World.advanceDialogue(GAME_STATE, sendUIUpdate, trigger);
                 } else if (GAME_STATE.mode === 'game') {
-                    // FIX: Pass sendUIUpdate to checkInteraction
                     World.checkInteraction(GAME_STATE, trigger, sendUIUpdate);
                 } else if (GAME_STATE.mode === 'battle' && GAME_STATE.battle.awaitingConfirm) {
                     Combat.handleAction(GAME_STATE, { action: 'confirm' }, sendUIUpdate, trigger);
@@ -93,7 +93,6 @@ function handleUIAction({ action }) {
                 trigger.startDialogue(startEntity);
             }, 500);
             break;
-        // ... (rest of the function is identical)
         case 'resume':
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });

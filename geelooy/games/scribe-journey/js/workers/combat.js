@@ -2,15 +2,13 @@
 // js/workers/combat.js
 import * as Quests from './quests.js';
 
-// Use a local variable for the battle state within this module
 let BATTLE_STATE = {};
 
-// Helper to create a fresh instance of a Musag for battle
 function getMusagInstance(state, source) {
     const base = state.db.musagim[source.id];
     if (!base) {
         console.error(`Musag ID not found in database: ${source.id}`);
-        return null; // Handle error gracefully
+        return null;
     }
     const level = source.level;
     const stats = {
@@ -31,14 +29,12 @@ function getMusagInstance(state, source) {
     };
 }
 
-// Initiates the battle
 export function initiate(state, opponentData, context, sendUIUpdate) {
     const playerInstance = getMusagInstance(state, state.player.team[0]);
     const opponentInstance = getMusagInstance(state, opponentData[0]);
 
     if (!playerInstance || !opponentInstance) {
         console.error("Failed to create battle participants.");
-        // We should probably end the battle here, but for now, we'll log and stop
         return;
     }
 
@@ -47,41 +43,32 @@ export function initiate(state, opponentData, context, sendUIUpdate) {
         opponent: opponentInstance,
         turn: 'player',
         log: `${opponentInstance.name} appears!`,
-        awaitingConfirm: true, // IMPORTANT: Start by waiting for confirmation
+        awaitingConfirm: true,
         context,
     };
     
-    // Send the initial UI state for the battle
     sendUIUpdate({ screen: 'battle', battle: getBattleUIPayload() });
 }
 
-// Handles ALL actions coming from the UI during battle
 export function handleAction(state, data, sendUIUpdate, trigger) {
-    // --- THIS IS THE KEY FIX ---
-    // If we are waiting for confirmation (like after "appears!" or an attack)...
     if (BATTLE_STATE.awaitingConfirm && data.action === 'confirm') {
-        BATTLE_STATE.awaitingConfirm = false; // Stop waiting
+        BATTLE_STATE.awaitingConfirm = false;
         
-        // If the battle just ended, trigger the end
         if (BATTLE_STATE.winner) {
             trigger.endBattle(BATTLE_STATE.winner === 'player');
             return;
         }
 
-        // If it's the player's turn, show them their options.
         if (BATTLE_STATE.turn === 'player') {
             showActionMenu(sendUIUpdate);
         } else {
-            // Otherwise, it's the opponent's turn to act.
             runOpponentTurn(state, sendUIUpdate, trigger);
         }
-        return; // Action handled
+        return;
     }
 
-    // Ignore other actions if we're waiting for a confirm
     if (BATTLE_STATE.awaitingConfirm || BATTLE_STATE.turn !== 'player') return;
 
-    // Handle the player's choice from the menu
     switch(data.action) {
         case 'fight':
             showMovesMenu(state, sendUIUpdate);
@@ -92,11 +79,9 @@ export function handleAction(state, data, sendUIUpdate, trigger) {
         case 'move':
             executeTurn(state, data.value, false, sendUIUpdate, trigger);
             break;
-        // Add cases for 'item', 'flee', etc. here
     }
 }
 
-// Executes a single turn of combat
 function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
     const attacker = isOpponent ? BATTLE_STATE.opponent : BATTLE_STATE.player;
     const defender = isOpponent ? BATTLE_STATE.player : BATTLE_STATE.opponent;
@@ -105,7 +90,6 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
     if (attacker.currentKavanah < move.cost) {
         BATTLE_STATE.log = `${attacker.name} doesn't have enough Kavanah!`;
         BATTLE_STATE.awaitingConfirm = true;
-        // On failure, it becomes the other's turn after confirmation
         BATTLE_STATE.turn = isOpponent ? 'player' : 'opponent';
         sendUIUpdate({ battle: getBattleUIPayload() });
         return;
@@ -118,7 +102,6 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
     BATTLE_STATE.log = `${attacker.name} used ${move.name}! It dealt ${damage} damage.`;
     BATTLE_STATE.awaitingConfirm = true;
 
-    // Check for fainted
     if (defender.currentHp <= 0) {
         BATTLE_STATE.log += `\n${defender.name} has been refuted!`;
         BATTLE_STATE.winner = isOpponent ? 'opponent' : 'player';
@@ -133,26 +116,28 @@ function runOpponentTurn(state, sendUIUpdate, trigger) {
     const opponent = BATTLE_STATE.opponent;
     const validMoves = opponent.moves.filter(id => state.db.moves[id].cost <= opponent.currentKavanah);
     
-    // Simple AI: pick a random valid move
     const moveId = validMoves.length > 0
         ? validMoves[Math.floor(Math.random() * validMoves.length)]
-        : opponent.moves[0]; // Failsafe if no kavanah, will be caught by executeTurn
+        : opponent.moves[0];
 
-    setTimeout(() => executeTurn(state, moveId, true, sendUIUpdate, trigger), 500); // Small delay for effect
+    setTimeout(() => executeTurn(state, moveId, true, sendUIUpdate, trigger), 500);
 }
 
 // Cleans up and ends the battle
-export function end(state, isWin, sendUIUpdate, trigger) {
+// FIX: Receive sendToast as a direct argument
+export function end(state, isWin, sendUIUpdate, sendToast, trigger) {
     if (isWin) {
         const xpGain = BATTLE_STATE.opponent.xpYield;
-        // TODO: Add XP and money to state.player
-        trigger.sendToast(`You won! Gained ${xpGain} XP.`, 'success');
+        // TODO: Add XP and money logic to state.player
+        
+        // FIX: Call sendToast directly
+        sendToast(`You won! Gained ${xpGain} XP.`, 'success');
         Quests.updateObjective(state, { type: 'defeat', musagId: BATTLE_STATE.opponent.id, count: 1 });
     } else {
-        trigger.sendToast(`You were defeated...`, 'error');
+        // FIX: Call sendToast directly
+        sendToast(`You were defeated...`, 'error');
     }
     
-    // Update player's permanent stats from the battle instance
     const playerInBattle = BATTLE_STATE.player;
     const playerInTeam = state.player.team.find(m => m.id === playerInBattle.id);
     if (playerInTeam) {
@@ -161,7 +146,7 @@ export function end(state, isWin, sendUIUpdate, trigger) {
     }
     
     state.battle = { active: false };
-    state.mode = 'game'; // Return to game mode
+    state.mode = 'game';
     sendUIUpdate({ screen: 'game' });
 }
 
@@ -188,7 +173,7 @@ function showMovesMenu(state, sendUIUpdate) {
     sendUIUpdate({ battle: getBattleUIPayload(true, buttons) });
 }
 
-// Creates the data payload for the UI
+
 function getBattleUIPayload(withMenu = false, buttons = []) {
     const payload = {
         log: BATTLE_STATE.log,
@@ -205,7 +190,7 @@ function getBattleUIPayload(withMenu = false, buttons = []) {
     };
     if (withMenu) {
         payload.menu = { buttons };
-        payload.log = null; // Can't show log and menu at the same time
+        payload.log = null;
     }
     return payload;
 }
