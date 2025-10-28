@@ -121,29 +121,29 @@ export const FindReplace = {
     },
 
    
-        
-init() {
-    this.panel = DOM.findReplacePanel;
-    this.findInput = this.panel.querySelector('#find-input');
-    this.replaceInput = this.panel.querySelector('#replace-input');
-
-    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
-    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
-    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
-    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
-
-    // B"H - ADD THIS EVENT LISTENER FOR THE 'ENTER' KEY
-    this.findInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault(); // Stop the default 'Enter' behavior
-            // Find previous on Shift+Enter, otherwise find next
-            this.find(e.shiftKey); 
-        }
-    });
-}
+		        
+		init() {
+		    this.panel = DOM.findReplacePanel;
+		    this.findInput = this.panel.querySelector('#find-input');
+		    this.replaceInput = this.panel.querySelector('#replace-input');
+		
+		    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
+		    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
+		    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
+		    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
+		    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
+		
+		    // B"H - ADD THIS EVENT LISTENER FOR THE 'ENTER' KEY
+		    this.findInput.addEventListener('keydown', (e) => {
+		        if (e.key === 'Enter') {
+		            e.preventDefault(); // Stop the default 'Enter' behavior
+		            // Find previous on Shift+Enter, otherwise find next
+		            this.find(e.shiftKey); 
+		        }
+		    });
+		}
     }
-};
+
 
 
 
