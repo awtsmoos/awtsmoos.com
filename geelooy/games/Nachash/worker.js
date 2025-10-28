@@ -95,68 +95,59 @@ function start() {
 //B"H
 // In worker.js - The final, high-performance DRAW function
 
+//B"H
+// In worker.js - Replace your entire `draw` function with this one.
+
 function draw() {
     const { ctx, camera, world } = state;
 
-    // --- SCREEN & BACKGROUND FILL ---
-    // This is the most reliable way to ensure a solid background.
-    // It's drawn in "screen space" before any camera movement.
-    ctx.fillStyle = '#1d1d1d'; // The dark charcoal background color
-    ctx.fillRect(0, 0, camera.width, camera.height);
-
-    // Save the canvas state before applying camera transformations
+    // Save the canvas's initial state
     ctx.save();
 
-    // --- WORLD RENDERING (MOVING WITH CAMERA) ---
+    // --- WORLD RENDERING ---
+    // Apply the camera's zoom and pan to everything drawn inside this block
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // 1. DRAW THE OPTIMIZED GRID
-    const gridSize = 150; // You can change this back to 50 if you prefer
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)"; // Your visible white lines, but subtle
+    // 1. DRAW THE SOLID BACKGROUND (Reliable Method)
+    // This draws a single, giant rectangle for the entire world. It's simple and it works.
+    ctx.fillStyle = '#1d1d1d';
+    ctx.fillRect(0, 0, world.width, world.height);
+
+    // 2. DRAW THE FULL GRID (Reliable Method)
+    // We draw every single line of the grid. This eliminates the failing "optimization" logic.
+    const gridSize = 150;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)"; // Your subtle white lines
     ctx.lineWidth = 1;
 
-    // --- Culling Logic Starts Here ---
-    // Calculate the visible area of the world through the camera's "lens"
-    const buffer = gridSize; // Draw one extra grid line off-screen to prevent pop-in
-    const viewLeft = camera.x - buffer;
-    const viewTop = camera.y - buffer;
-    const viewRight = camera.x + (camera.width / camera.zoom) + buffer;
-    const viewBottom = camera.y + (camera.height / camera.zoom) + buffer;
-
-    // Calculate the first and last grid lines that need to be drawn
-    const startX = Math.floor(viewLeft / gridSize) * gridSize;
-    const endX = Math.ceil(viewRight / gridSize) * gridSize;
-    const startY = Math.floor(viewTop / gridSize) * gridSize;
-    const endY = Math.ceil(viewBottom / gridSize) * gridSize;
-
     ctx.beginPath();
-    // Only draw the vertical lines that are visible
-    for (let x = startX; x < endX; x += gridSize) {
-        ctx.moveTo(x, viewTop);
-        ctx.lineTo(x, viewBottom);
+    // Draw all vertical lines from top to bottom
+    for (let x = 0; x <= world.width; x += gridSize) {
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, world.height);
     }
-    // Only draw the horizontal lines that are visible
-    for (let y = startY; y < endY; y += gridSize) {
-        ctx.moveTo(viewLeft, y);
-        ctx.lineTo(viewRight, y);
+    // Draw all horizontal lines from left to right
+    for (let y = 0; y <= world.height; y += gridSize) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(world.width, y);
     }
     ctx.stroke();
-    // --- Culling Logic Ends Here ---
 
 
-    // 2. DRAW ALL THE GAME OBJECTS (Snakes, Food, etc.)
+    // 3. DRAW THE GAME OBJECTS (Snakes, Food, etc.) ON TOP OF THE GRID
     drawWorld(ctx);
 
-    // 3. DRAW THE WORLD BORDER
+    // 4. DRAW THE WORLD BORDER
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 
-    // Restore the canvas state, removing camera transforms
+
+    // --- UI RENDERING ---
+    // Restore the canvas to its original state (no zoom, no pan)
     ctx.restore();
 
-    // --- UI RENDERING (Scoreboard, etc.) ---
+    // Draw the UI elements (scoreboard, minimap) last
     drawUI(ctx);
 }
 
