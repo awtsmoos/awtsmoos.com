@@ -93,32 +93,65 @@ function start() {
 }
 
 //B"H
-// In worker.js - The definitive DRAW function
+// In worker.js - The definitive, all-in-one DRAW function
 
 function draw() {
-    const { ctx, camera } = state;
+    const { ctx, camera, world } = state;
 
-    // Step 1: Fill the entire VISIBLE canvas with the base background color.
-    // This is done in "screen space" BEFORE any camera transforms.
-    // This guarantees the background is never black.
-    ctx.fillStyle = '#101015'; // Dark grey, as intended
-    ctx.fillRect(0, 0, camera.width, camera.height);
-
-    // Step 2: Apply camera transformations (pan and zoom) to draw the "world".
+    // We start by saving the default, untransformed state of the canvas.
     ctx.save();
+
+    // --- WORLD RENDERING ---
+    // All code between save() and restore() happens in "world space".
+
+    // Apply the camera's zoom and position.
+    // This moves the "view" over the world.
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // Step 3: Draw ONLY the world's grid and border. These will move with the camera.
-    drawWorldGridAndBorder(ctx);
+    // 1. DRAW THE SOLID BACKGROUND
+    // We draw a giant rectangle covering the entire world map.
+    // This is the "floor" of your game. It will now be visible.
+    // I've used the exact color from your screenshot.
+    ctx.fillStyle = '#1d1d1d'; // This is the dark charcoal color from the image.
+    ctx.fillRect(0, 0, world.width, world.height);
 
-    // Step 4: Draw all the game objects (snakes, food) on top of the grid.
+    // 2. DRAW THE GRID
+    // We draw the grid lines on top of the background fill.
+    const gridSize = 50;
+    ctx.strokeStyle = "rgba(255, 255, 255, 255)"; // Subtle white lines
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    // Vertical lines
+    for (let x = 0; x <= world.width; x += gridSize) {
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, world.height);
+    }
+    // Horizontal lines
+    for (let y = 0; y <= world.height; y += gridSize) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(world.width, y);
+    }
+    ctx.stroke();
+
+    // 3. DRAW ALL THE GAME OBJECTS
+    // This existing function draws the snakes, food, particles, etc.
     drawWorld(ctx);
 
-    // Step 5: Restore the context, removing the camera's transformations.
+    // 4. DRAW THE WORLD BORDER
+    // This is drawn on top of the grid.
+    ctx.strokeStyle = '#241a0c';
+    ctx.lineWidth = 40;
+    ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
+
+
+    // --- UI RENDERING ---
+    // We restore the canvas to its original state (before the camera transforms).
+    // Now, anything we draw will be fixed to the screen (like a heads-up display).
     ctx.restore();
 
-    // Step 6: Draw the UI (scoreboard, etc.) on top of everything in "screen space".
+    // This existing function draws the scoreboard and minimap.
     drawUI(ctx);
 }
 
