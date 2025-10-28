@@ -160,24 +160,51 @@ function draw() {
     drawUI(ctx);
 }
 
+//B"H
+// In worker.js - Replace the existing updateCamera function with this one.
+
 function updateCamera() {
     const { camera, player } = state;
-    
-    // Calculate the desired zoom level based on snake length
+
+    // --- Camera Logic with Sanity Checks ---
+    // If the player object is invalid for any reason, stop to prevent errors.
+    if (!player || isNaN(player.x) || isNaN(player.y)) {
+        return;
+    }
+
     const lengthBonus = Math.max(1, player.maxLength / 150);
-    const targetZoom = 0.8 / lengthBonus;
-    
-    // Smoothly interpolate the zoom for a nice effect
+    let targetZoom = 0.8 / lengthBonus;
+
+    // --- Sanity Check 1: Prevent zoom from ever becoming NaN, zero, or negative ---
+    if (isNaN(targetZoom) || targetZoom <= 0.01) {
+        targetZoom = 0.01;
+    }
     camera.zoom += (targetZoom - camera.zoom) * 0.02;
+    if (isNaN(camera.zoom) || camera.zoom <= 0.01) {
+        camera.zoom = 0.01;
+    }
 
-    // --- FIX: Robust camera follow logic ---
-    // Calculate the camera's target position to keep the player centered
-    const targetX = player.x - (camera.width / 2 / camera.zoom);
-    const targetY = player.y - (camera.height / 2 / camera.zoom);
 
-    // Smoothly move the camera towards the target position every frame
-    camera.x += (targetX - camera.x) * 0.1; // The interpolation factor (0.1) controls follow speed
+    // --- Sanity Check 2: Calculate target position and ensure it's valid ---
+    const zoom = camera.zoom;
+    const targetX = player.x - (camera.width / 2 / zoom);
+    const targetY = player.y - (camera.height / 2 / zoom);
+
+    // If the calculation results in an invalid number, do not update the camera's position this frame.
+    if (isNaN(targetX) || isNaN(targetY)) {
+        console.error("B'H - Camera target became NaN. Skipping camera position update for this frame.");
+        return;
+    }
+
+    camera.x += (targetX - camera.x) * 0.1;
     camera.y += (targetY - camera.y) * 0.1;
+
+    // --- Final Sanity Check: If the position still becomes invalid, force a reset.
+    if (isNaN(camera.x) || isNaN(camera.y)) {
+       console.error("B'H - Camera position became NaN. Forcing a reset.");
+       camera.x = targetX;
+       camera.y = targetY;
+    }
 }
 
 
@@ -287,8 +314,8 @@ function updateTimers(deltaTime) { // Add deltaTime
     }
 
     state.aiSnakeTimer += deltaTime;
-    const maxSnakes = 245 + state.level * 13;
-    if (state.aiSnakeTimer > 1.5 && state.aiSnakes.length < maxSnakes) { // 2.5 seconds
+    const maxSnakes = 1t5 + state.level * 13;
+    if (state.aiSnakeTimer > 2.3 && state.aiSnakes.length < maxSnakes) { // 2.5 seconds
         spawnAiSnake();
         state.aiSnakeTimer = 0;
         state.level++;
