@@ -506,7 +506,7 @@
     
     /* B"H - DESKTOP SIDEBAR COLLAPSE LOGIC */
 .app-container.sidebar-collapsed {
-    grid-template-columns: 0 1fr;
+    grid-template-columns: 0 1fr !important;
 }
 
 .app-container.sidebar-collapsed .sidebar {

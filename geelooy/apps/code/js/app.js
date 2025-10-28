@@ -163,30 +163,31 @@ setupEventListeners() {
 
     // --- 2. Sidebar Toggle Button (FIXED) ---
     // Now that DOM.mobileSidebarToggle is correctly finding the element, this will work.
-    if (DOM.mobileSidebarToggle) {
-        DOM.mobileSidebarToggle.onclick = (e) => {
-            e.stopPropagation(); // Prevent interference.
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+   if (DOM.mobileSidebarToggle) {
+    DOM.mobileSidebarToggle.onclick = (e) => {
+        e.stopPropagation(); // Prevent interference.
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-            if (isMobile) {
-                // On mobile, toggle the slide-out panel.
-                DOM.sidebar.classList.toggle('is-open');
-                DOM.sidebarOverlay.classList.toggle('is-visible');
-            } else {
-                // On desktop, toggle the collapsed state.
-                appContainer.classList.toggle('sidebar-collapsed');
-            }
-        };
-    }
+        if (isMobile) {
+            // On mobile, toggle the slide-out panel.
+            DOM.sidebar.classList.toggle('is-open');
+            DOM.sidebarOverlay.classList.toggle('is-visible');
+        } else {
+            // On desktop, toggle the collapsed state.
+            appContainer.style.gridTemplateColumns = ''; // B"H - ADD THIS LINE
+            appContainer.classList.toggle('sidebar-collapsed');
+        }
+    };
+}
 
     // --- 3. Internal Sidebar Collapse Button ---
     // This button provides a second way to collapse the sidebar on desktop.
     if (sidebarCollapseBtn) {
-        sidebarCollapseBtn.onclick = (e) => {
-            e.stopPropagation();
-            appContainer.classList.toggle('sidebar-collapsed');
-        };
-    }
+    sidebarCollapseBtn.onclick = (e) => {
+        e.stopPropagation();
+        appContainer.classList.toggle('sidebar-collapsed');
+    };
+}
     
     // PASTE THIS SNIPPET inside the App.setupEventListeners() function
 
