@@ -8,7 +8,7 @@
 .gamer {
     display: flex;
     flex-direction: column; /* Stacks logo and list vertically */
-    height: 100vh; /* Full viewport height */
+    max-height: 100vh; /* Full viewport height */
     width: 100%;
     margin: 0;
     box-sizing: border-box; /* Ensures padding and border are inside the 100vh */
@@ -64,7 +64,7 @@
 .game.list {
     flex: 1; /* Takes up all remaining space */
     min-height: 0; /* Critical for flexbox scrolling */
-    
+    max-height:50vh;
     display: flex;
     flex-direction: column;
     gap: 18px; /* Spacing between links */
