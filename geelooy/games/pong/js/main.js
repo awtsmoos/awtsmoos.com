@@ -1,5 +1,4 @@
 //B"H
-
 const canvas = document.getElementById("pongCanvas");
 const context = canvas.getContext("2d");
 
@@ -27,6 +26,8 @@ function checkCollision(ball, paddle) {
 }
 
 function update() {
+    // The player's y position is now updated by touch events,
+    // but the update method still clamps it within the screen bounds.
     player.update(canvas);
     ai.update(canvas, ball);
     ball.update(canvas);
@@ -89,13 +90,35 @@ document.addEventListener("keyup", e => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown") player.dy = 0;
 });
 
-// Mobile touch controls
+// --- IMPROVED Mobile touch controls ---
+let touchStartY = 0;
+let playerStartDragY = 0;
+
+canvas.addEventListener("touchstart", e => {
+    // Stop the browser from doing things like scrolling
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        // Record the starting Y position of the touch
+        touchStartY = touch.clientY;
+        // Record the starting Y position of the paddle
+        playerStartDragY = player.y;
+    }
+}, { passive: false });
+
 canvas.addEventListener("touchmove", e => {
-    e.preventDefault(); // Prevent screen from moving
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    player.y = touch.clientY - rect.top - player.height / 2;
-});
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        // Calculate the distance the finger has moved
+        const deltaY = touch.clientY - touchStartY;
+        // Set the paddle's new position based on its starting position plus the distance moved
+        player.y = playerStartDragY + deltaY;
+    }
+}, { passive: false });
+
 
 // Start the game
 gameLoop();
+
+

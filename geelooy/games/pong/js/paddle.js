@@ -9,9 +9,7 @@ function createPaddle(x, y, width, height, color, isAI = false) {
         color,
         dy: 0,
         score: 0,
-        speed: isAI ? 4 : 8,
-        reactionTime: 0.1, // AI reaction time delay
-        lastAiUpdateTime: 0,
+        speed: isAI ? 5 : 8, // AI speed is now its tracking speed
 
         update(canvas, ball) {
             if (isAI) {
@@ -22,40 +20,29 @@ function createPaddle(x, y, width, height, color, isAI = false) {
         },
 
         playerMove(canvas) {
+            // This logic remains for keyboard controls
             this.y += this.dy;
 
+            // Clamp paddle position to stay within the canvas
             if (this.y < 0) this.y = 0;
             if (this.y + this.height > canvas.height) this.y = canvas.height - this.height;
         },
 
         aiMove(canvas, ball) {
-            const now = Date.now();
-            if (now - this.lastAiUpdateTime > this.reactionTime * 1000) {
-                this.lastAiUpdateTime = now;
+            const paddleCenter = this.y + this.height / 2;
+            const ballCenter = ball.y + ball.size / 2;
 
-                // AI Difficulty Levels
-                const difficulty = 'hard'; // Options: 'easy', 'medium', 'hard'
-                let targetY = ball.y - this.height / 2;
+            // A "dead zone" to prevent the paddle from jittering when it's aligned with the ball
+            const deadZone = 5;
 
-                switch (difficulty) {
-                    case 'easy':
-                        // Slower and less precise
-                        this.speed = 3;
-                        this.y += (targetY - this.y) * 0.05;
-                        break;
-                    case 'medium':
-                        // Faster and more responsive
-                        this.speed = 4.5;
-                        this.y += (targetY - this.y) * 0.08;
-                        break;
-                    case 'hard':
-                        // Tracks the ball almost perfectly
-                        this.speed = 5;
-                        this.y += (targetY - this.y) * 0.1;
-                        break;
-                }
+            // Move the paddle towards the ball's vertical position
+            if (paddleCenter < ballCenter - deadZone) {
+                this.y += this.speed;
+            } else if (paddleCenter > ballCenter + deadZone) {
+                this.y -= this.speed;
             }
 
+            // Clamp paddle position to stay within the canvas
             if (this.y < 0) this.y = 0;
             if (this.y + this.height > canvas.height) this.y = canvas.height - this.height;
         },
