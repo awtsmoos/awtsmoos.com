@@ -6,6 +6,10 @@ const paddleWidth = 10;
 const paddleHeight = 100;
 const maxScore = 10;
 
+// --- New Timer and Speed Logic Variables ---
+let gameStartTime = Date.now();
+let lastSpeedIncreaseTime = 0; // Tracks the last time speed was increased
+
 function resizeCanvas() {
     canvas.width = window.innerWidth > 800 ? 800 : window.innerWidth * 0.95;
     canvas.height = window.innerHeight > 400 ? 400 : window.innerHeight * 0.9;
@@ -26,8 +30,15 @@ function checkCollision(ball, paddle) {
 }
 
 function update() {
-    // The player's y position is now updated by touch events,
-    // but the update method still clamps it within the screen bounds.
+    // --- Speed Increase Logic ---
+    const elapsedTime = Math.floor((Date.now() - gameStartTime) / 1000);
+
+    // Increase ball speed every 10 seconds
+    if (elapsedTime > 0 && elapsedTime % 10 === 0 && elapsedTime !== lastSpeedIncreaseTime) {
+        ball.speed += 0.3;
+        lastSpeedIncreaseTime = elapsedTime; // Ensure it only happens once per 10-sec interval
+    }
+
     player.update(canvas);
     ai.update(canvas, ball);
     ball.update(canvas);
@@ -38,13 +49,11 @@ function update() {
         let angleRad = (Math.PI / 4) * collidePoint;
         ball.dx = ball.speed * Math.cos(angleRad);
         ball.dy = ball.speed * Math.sin(angleRad);
-        ball.speed += ball.acceleration;
     } else if (checkCollision(ball, ai)) {
         let collidePoint = (ball.y - (ai.y + ai.height / 2)) / (ai.height / 2);
         let angleRad = (Math.PI / 4) * collidePoint;
         ball.dx = -ball.speed * Math.cos(angleRad);
         ball.dy = ball.speed * Math.sin(angleRad);
-        ball.speed += ball.acceleration;
     }
 
     // Scoring
@@ -65,6 +74,13 @@ function draw() {
     ball.draw(context);
     drawScore(context, canvas.width / 4, canvas.height / 5, player.score);
     drawScore(context, 3 * canvas.width / 4, canvas.height / 5, ai.score);
+
+    // --- Draw the Timer ---
+    const elapsedTimeInSeconds = Math.floor((Date.now() - gameStartTime) / 1000);
+    const minutes = Math.floor(elapsedTimeInSeconds / 60).toString().padStart(2, '0');
+    const seconds = (elapsedTimeInSeconds % 60).toString().padStart(2, '0');
+    const formattedTime = `${minutes}:${seconds}`;
+    drawTimer(context, canvas, formattedTime);
 }
 
 function gameLoop() {
@@ -90,18 +106,15 @@ document.addEventListener("keyup", e => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown") player.dy = 0;
 });
 
-// --- IMPROVED Mobile touch controls ---
+// Mobile touch controls
 let touchStartY = 0;
 let playerStartDragY = 0;
 
 canvas.addEventListener("touchstart", e => {
-    // Stop the browser from doing things like scrolling
     e.preventDefault();
     if (e.touches.length > 0) {
         const touch = e.touches[0];
-        // Record the starting Y position of the touch
         touchStartY = touch.clientY;
-        // Record the starting Y position of the paddle
         playerStartDragY = player.y;
     }
 }, { passive: false });
@@ -110,13 +123,10 @@ canvas.addEventListener("touchmove", e => {
     e.preventDefault();
     if (e.touches.length > 0) {
         const touch = e.touches[0];
-        // Calculate the distance the finger has moved
         const deltaY = touch.clientY - touchStartY;
-        // Set the paddle's new position based on its starting position plus the distance moved
         player.y = playerStartDragY + deltaY;
     }
 }, { passive: false });
-
 
 // Start the game
 gameLoop();

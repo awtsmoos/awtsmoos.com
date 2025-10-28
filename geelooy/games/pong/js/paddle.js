@@ -9,7 +9,7 @@ function createPaddle(x, y, width, height, color, isAI = false) {
         color,
         dy: 0,
         score: 0,
-        speed: isAI ? 5 : 8, // AI speed is now its tracking speed
+        speed: isAI ? 3 : 8, // AI speed is now its tracking speed
 
         update(canvas, ball) {
             if (isAI) {

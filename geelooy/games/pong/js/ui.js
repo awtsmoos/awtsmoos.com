@@ -21,3 +21,13 @@ function displayWinner(context, canvas, winner) {
     context.textAlign = 'center';
     context.fillText(winner + " Wins!", canvas.width / 2, canvas.height / 2);
 }
+
+// New function to draw the game timer
+function drawTimer(context, canvas, time) {
+    context.fillStyle = '#fff';
+    context.font = '24px Arial';
+    context.textAlign = 'center';
+    context.fillText(time, canvas.width / 2, 30);
+}
+
+
