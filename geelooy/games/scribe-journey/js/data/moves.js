@@ -28,36 +28,6 @@ export const moves = {
     // --- QLIPHOTH & SPECIAL ---
     'Whisper_Negation': { name: 'Whisper of Negation', power: 45, cost: 10, type: 'Qliphoth', desc: 'An unnerving whisper that drains conviction.' },
     'Propel_Stones': { name: 'Propel Stones', power: 25, cost: 4, type: 'Physical', desc: 'Indirect damage (Toldah), less potent but harder to avoid.' },
-};```
-
----
-
-### 3. `js/data/items.js`
-
-The item database, now including new Tomes and Halachic quest items.
-
-```javascript
-// B"H
-// js/data/items.js
-
-export const items = {
-    // --- CONSUMABLES ---
-    'manna_dew': { id: 'manna_dew', name: 'Manna Dew', desc: 'A single drop of heavenly dew. Restores 30 HP.', type: 'consumable', effect: { stat: 'hp', amount: 30 }, sellValue: 15 },
-    'ink_of_potential': { id: 'ink_of_potential', name: 'Ink of Potential', desc: 'Potent ink that restores 20 Kavanah.', type: 'consumable', effect: { stat: 'kavanah', amount: 20 }, sellValue: 25 },
-    'elixir_of_clarity': { id: 'elixir_of_clarity', name: 'Elixir of Clarity', desc: 'A sharp, cleansing fluid that restores 50 HP.', type: 'consumable', effect: { stat: 'hp', amount: 50 }, sellValue: 40 },
-
-    // --- CAPTURE VESSELS (KLIPOT) ---
-    'kli_of_malkuth': { id: 'kli_of_malkuth', name: 'Kli of Malkuth', desc: 'A clay vessel to capture physical concepts.', type: 'kli', captureRate: 0.5, sellValue: 50 },
-    'kli_of_yesod': { id: 'kli_of_yesod', name: 'Kli of Yesod', desc: 'A shimmering, ethereal vessel for mystical concepts.', type: 'kli', captureRate: 0.6, sellValue: 150 },
-
-    // --- TOMES (LEARN MOVES) ---
-    'tome_of_pummel': { id: 'tome_of_pummel', name: 'Tome of Pummel', desc: 'A heavy scroll detailing basic physical assertion. Teaches "Pummel".', type: 'tome', moveId: 'Pummel' },
-    'tome_of_harden': { id: 'tome_of_harden', name: 'Tome of Harden', desc: 'A rigid tablet describing defensive posture. Teaches "Harden".', type: 'tome', moveId: 'Harden' },
-    
-    // --- KEY & QUEST ITEMS ---
-    'rambam_page_foundations': { id: 'rambam_page_foundations', name: 'Page of Mishneh Torah (Foundations)', desc: 'A lost page discussing the Foundation of all Foundations. It radiates a profound stability.', type: 'key_item', isQuestItem: true },
-    'rambam_page_damages': { id: 'rambam_page_damages', name: 'Page of Mishneh Torah (Damages)', desc: 'Details liability for a Tam Ox, a Pit, and Fire. The ink seems to shift as you read.', type: 'key_item', isQuestItem: true },
-    'rambam_page_mikvaot': { id: 'rambam_page_mikvaot', name: 'Page of Mishneh Torah (Mikvaot)', desc: 'Describes the laws of a ritual bath, detailing the required measure and what invalidates it.', type: 'key_item', isQuestItem: true },
-    'cavern_key': { id: 'cavern_key', name: 'Cracked Stone Key', desc: 'Found in the scholars house. It seems to fit a lock of ancient stone.', type: 'key_item', isQuestItem: true },
-    'measuring_vessel': { id: 'measuring_vessel', name: '40 Seah Vessel', desc: 'A vessel of immense size, said to hold the exact amount of water for a kosher mikveh.', type: 'key_item', isQuestItem: true },
 };
+
+
