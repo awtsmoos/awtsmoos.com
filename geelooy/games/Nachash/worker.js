@@ -55,6 +55,7 @@ function init({ canvas, width, height, pixelRatio }) {
     state.ctx = canvas.getContext('2d');
     state.grid = new SpatialGrid(state.world.width, state.world.height, 250); // Cell size of 250
     resize(width, height, pixelRatio);
+    self.postMessage({ type: 'initialized' });
 }
 
 function resize(width, height, pixelRatio) {
@@ -100,7 +101,7 @@ function draw() {
 
     // --- SCREEN FILL ---
     // Fill the screen with the base color first. This prevents any flickering or black voids.
-    ctx.fillStyle = '#1d1d1d';
+    ctx.fillStyle = '#1dcc1d';
     ctx.fillRect(0, 0, camera.width, camera.height);
 
     // Save the canvas state before applying camera transformations.

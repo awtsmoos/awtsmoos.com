@@ -128,7 +128,6 @@ function startGame() {
         initialSettings: { skillValues: skillManager.getValues() } 
     }, [offscreen]);
 
-    gameWorker.postMessage({ type: 'start' });
     
     
     if (menuContainer) menuContainer.remove(); 
@@ -180,15 +179,23 @@ function startGame() {
     
     // In main.js
 
-function handleWorkerMessage(event) { // Correctly accept the whole event object
-    // Then, get the data from the event.data property
+// In main.js - Replace your handleWorkerMessage function with this one
+
+function handleWorkerMessage(event) {
     const { type, ...data } = event.data; 
 
-    if (type === 'gameover') {
-        // This code will now run correctly
-        endGame(data.finalScore); 
-    } else if (type === 'playSound') {
-        audioManager.play(data.name, data.opts);
+    switch (type) {
+        case 'initialized':
+            // The worker has confirmed it's ready. NOW we can start the game.
+            console.log("B'H - Worker is initialized. Sending start command.");
+            gameWorker.postMessage({ type: 'start' });
+            break;
+        case 'gameover':
+            endGame(data.finalScore); 
+            break;
+        case 'playSound':
+            audioManager.play(data.name, data.opts);
+            break;
     }
 }
 
