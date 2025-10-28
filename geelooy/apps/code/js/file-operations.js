@@ -67,19 +67,36 @@ export const FileOperations = {
 
         try {
             const processItem = async (item) => {
-                // Ensure we have a valid item object
                 if (!item || !item.kind) return;
 
                 if (item.kind === 'file') {
                     const content = await FileSystemProvider.read(item);
-                    const textContent = (content instanceof Blob) ? await content.text() : String(content || '');
+                    let textContent = ''; // Default to an empty string
 
+                    // THE SMARTER LOGIC IS HERE: We check the TYPE of the content we received.
+                    if (typeof content === 'string') {
+                        // Case 1: It's already a string (e.g., text file from GitHub).
+                        textContent = content;
+                    } else if (content instanceof Blob) {
+                        // Case 2: It's a Blob or File object (e.g., from Local File System).
+                        textContent = await content.text();
+                    } else if (typeof content === 'object' && content !== null && content.isBinary) {
+                        // Case 3: It's our special binary object (e.g., image from GitHub).
+                        textContent = `[Binary file content not displayed: ${item.name}]`;
+                    } else if (content) {
+                        // Fallback for any other unexpected type. This prevents [object Object].
+                        console.warn(`Unexpected content type for ${item.name}:`, content);
+                        textContent = `[Unsupported content type for ${item.name}]`;
+                    }
+
+                    // Now, build the final string with the correctly processed content.
                     combinedContent += '________\n';
-                    combinedContent += '**B"H**\n';
-                    combinedContent += `--start of file ${item.path || item.name}.--\n`;
+                    combinedContent += '**b"H**\n';
+                    combinedContent += `--start file ${item.path || item.name}.--\n`;
                     combinedContent += '________\n';
                     combinedContent += textContent + '\n';
                     combinedContent += '________\n\n';
+
                 } else if (item.kind === 'directory') {
                     combinedContent += `\n// B"H - Directory: ${item.path || item.name}\n\n`;
                     
