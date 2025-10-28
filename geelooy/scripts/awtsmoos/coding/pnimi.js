@@ -136,6 +136,8 @@ class VirtualizedEditor {
 			if (prop === 'position' && computed[prop] === 'static') this.wrapper.style.position = 'relative';
 			else this.wrapper.style[prop] = computed[prop];
 		});
+		this.wrapper.style.width = "100%";
+		this.wrapper.style.height = "100%";
 		
 		if(isNaN(computed.lineHeight)) {
 			this.textarea.style.lineHeight = "25px"
