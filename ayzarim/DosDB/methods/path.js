@@ -18,19 +18,20 @@ module.exports = {
      * @returns {Promise<string>} - The sanctified path, ready to receive the light of Ohr Ein Sof.
      */
     async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
-        if(alsoActuallyMakeParentDirectory) {
+        if (alsoActuallyMakeParentDirectory) {
             var pathic = await this.getAwtsmoosFilePath(rPath, false, true);
             const par = await this.getAwtsmoosParentPath(pathic);
-            await this.ensureDir(par);
+            if (par) {
+                await this.ensureDir(par);
+            }
         }
         let ext = path.extname(rPath);
-        if(ext !== ".awtsmoosJSON") {
+        if (ext !== ".awtsmoosJSON") {
             rPath += ".awtsmoosJSON";
         }
-       // console.log("f",rPath)
         return await this.getAwtsmoosFilePath(rPath, false, true);;
     },
-    
+
 
     //2a01:4ff:f0:b153::/64
     /**
@@ -43,17 +44,16 @@ module.exports = {
         try {
             const normalizedPath = path.normalize(currentPath);
             const parentPath = path.dirname(normalizedPath);
-            if(parentPath === normalizedPath || parentPath === ".") {
+            if (parentPath === normalizedPath || parentPath === ".") {
                 return null; // The Awtsmoos alone remains at the root.
             }
-        //    await fs.access(parentPath);
             return parentPath;
         } catch (err) {
             console.error("Error accessing path:", err);
             return null; // Even in absence, the Awtsmoos sustains all.
         }
     },
-    
+
     /**
      * @method getAwtsmoosFilePath
      * @description Unveils a path’s true form, guided by the Awtsmoos, determining its existence or potential.
@@ -63,18 +63,18 @@ module.exports = {
      * @returns {Promise<string>} - The resolved path, a vessel for the Awtsmoos’ light.
      */
     async getAwtsmoosFilePath(id, isDir = false, overrideSanity = false) {
-        if(typeof id !== "string") return id;
+        if (typeof id !== "string") return id;
         const sanctifiedId = this.sanitizeAwtsmoosPath(id, overrideSanity);
-        const unifiedId = sanctifiedId.replaceAll("\\", "/");
-        const mainDir = this.directory || "";
-        const relativeId = unifiedId.startsWith(mainDir) ? path.relative(mainDir, unifiedId) : unifiedId;
-        const basePath = path.join(mainDir, relativeId);
-        
-        if(path.extname(unifiedId) || isDir) return basePath;
-   
+        const mainDir = this.directory || process.cwd();
+
+        // Resolve the path. If sanctifiedId is absolute, it will be used as the root.
+        const basePath = path.resolve(mainDir, sanctifiedId);
+
+        if (path.extname(basePath) || isDir) return basePath;
+
         const jsonPath = `${basePath}.json`;
         const awtsmoosJsonPath = `${basePath}.awtsmoosJSON`;
-      //  console.log(21221,id,basePath,mainDir,unifiedId,awtsmoosJsonPath)
+
         try {
             await fs.access(basePath);
             return basePath;
@@ -92,7 +92,7 @@ module.exports = {
             }
         }
     },
-    
+
     /**
      * @method sanitizeAwtsmoosPath
      * @description Purifies a path, removing traversal attempts, aligning it with the Awtsmoos’ unity.
@@ -101,29 +101,44 @@ module.exports = {
      * @returns {string} - A cleansed path, reflecting the oneness of Atzilus.
      */
     sanitizeAwtsmoosPath(rawPath, overrideSanity = false) {
-        const isAbsolute = rawPath.startsWith("/");
-        let cleansedPath = overrideSanity ? rawPath : rawPath.replace(/\.\./g, "");
-        cleansedPath = cleansedPath.split("/").filter(Boolean).join("/");
-        return cleansedPath ? (isAbsolute ? `/${cleansedPath}` : cleansedPath) : "/";
+        if (overrideSanity) {
+            return rawPath;
+        }
+        
+        // Normalize to handle mixed separators and then remove parent directory traversal
+        let cleansedPath = path.normalize(rawPath).replace(/\.\./g, "");
+
+        // On Windows, after normalization, paths might still contain `\`
+        // which we'll handle by splitting by the OS-specific separator.
+        const parts = cleansedPath.split(path.sep);
+        
+        // Filter out any empty parts that might result from splitting.
+        const filteredParts = parts.filter(Boolean);
+        
+        // For absolute paths on Windows, the first part might be `C:`, which we want to keep.
+        if (path.isAbsolute(cleansedPath) && filteredParts.length > 0) {
+             // Re-join and re-normalize to ensure a correct path format.
+             return path.normalize(filteredParts.join(path.sep));
+        }
+        
+        return filteredParts.join(path.sep);
     },
-    
-    
-    
+
+
+
     /**
      * @method access
      * @description Checks a path’s existence, a whisper of the Awtsmoos’ presence in form.
      * @param {string} filePath - The path to verify.
      * @returns {Promise<object|null>} - Stat object if it exists, null if it’s returned to the void.
      */
-    async access(filePath, isDir=false) {
+    async access(filePath, isDir = false) {
         const myPath = await this.getAwtsmoosFilePath(filePath, isDir);
         try {
-            var stat =  await fs.stat(myPath);
+            var stat = await fs.stat(myPath);
             stat.awtsmoosPath = myPath;
             return stat;
         } catch (e) {
-            //if(e.code != "ENONENT")
-          //  console.log(e);
             return null;
         }
     },
@@ -131,9 +146,9 @@ module.exports = {
     async stat(filePath, isDir) {
         return this.access(filePath, isDir)
     },
-    
-    
-    
+
+
+
     /**
      * @method removeJSONExtension
      * @description Strips .json from a path, revealing its essence as the Awtsmoos strips form from being.
@@ -146,16 +161,16 @@ module.exports = {
             ".json",
             ".awtsmoosJSON"
         ];
-        for(var ext of exts) {
-            if(extension === ext) {
+        for (var ext of exts) {
+            if (extension === ext) {
                 const ind = filePath.indexOf(ext);
                 return filePath.substring(0, ind);
             }
         }
-        
+
         return filePath;
     },
-    
+
     /**
      * @method ensureDir
      * @description Creates a directory if it doesn’t exist, a tzimtzum for the Awtsmoos’ light to dwell.
@@ -164,8 +179,8 @@ module.exports = {
      * @returns {Promise<string>} - The directory path, a space carved from the void.
      */
     async ensureDir(filePath, isDir = false) {
-        if(typeof(filePath) != "string") {
-            return console.log("NO path",filePath)
+        if (typeof (filePath) != "string") {
+            return console.log("NO path", filePath)
         }
         const dirPath = !isDir ? path.dirname(filePath) : filePath;
         await fs.mkdir(dirPath, {
@@ -174,15 +189,15 @@ module.exports = {
         return dirPath;
     },
 
-	/**
-	 * @method getDeleteFilePath
-	 * @description Determines the path to delete, a return to the Awtsmoos’ formless embrace.
-	 * @param {string} id - The identifier to resolve.
-	 * @param {boolean} isRegularDir - Whether it’s a directory.
-	 * @returns {Promise<string|null>} - The path to delete, or null if absent.
-	 */
-	async getDeleteFilePath(id, isRegularDir) {
-		const completePath = await this.getAwtsmoosFilePath(id, isRegularDir);
-		return completePath;
-	}
+    /**
+     * @method getDeleteFilePath
+     * @description Determines the path to delete, a return to the Awtsmoos’ formless embrace.
+     * @param {string} id - The identifier to resolve.
+     * @param {boolean} isRegularDir - Whether it’s a directory.
+     * @returns {Promise<string|null>} - The path to delete, or null if absent.
+     */
+    async getDeleteFilePath(id, isRegularDir) {
+        const completePath = await this.getAwtsmoosFilePath(id, isRegularDir);
+        return completePath;
+    }
 }

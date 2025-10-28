@@ -11,6 +11,10 @@ export default /*css*/`
     overflow: hidden;
     }
     
+    .content-holder textarea{
+	    width:100%;
+	    height:100%;
+    }
     .menu-bar {
     background-color: #333;
     color: white;

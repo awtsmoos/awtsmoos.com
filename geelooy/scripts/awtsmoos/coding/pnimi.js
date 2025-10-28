@@ -88,11 +88,11 @@ class VirtualizedEditor {
 		this.viewportDivs = [];
 		this.highlighterWorker = null; // The vessel for the persistent soul (main worker)
 		
-		// Create bound, named references for our event handlers
-    this._boundHandleKeyDown = this._handleKeyDown.bind(this);
-    this._boundUpdate = this._update.bind(this);
-    this._boundOnScroll = this._onScroll.bind(this);
-    this._boundUpdateCaret = this._updateCaret.bind(this)
+			// Create bound, named references for our event handlers
+	    this._boundHandleKeyDown = this._handleKeyDown.bind(this);
+	    this._boundUpdate = this._update.bind(this);
+	    this._boundOnScroll = this._onScroll.bind(this);
+	    this._boundUpdateCaret = this._updateCaret.bind(this)
 		// Color definitions
 		const defaultColors = {
 			comment: '#6A9555',
@@ -302,12 +302,19 @@ unindentSelection() {
 	/** @private @function _measureAndRender - Performs measurements and enforces an integer grid. */
 	_measureAndRender() {
 		const performMeasurements = () => {
-			if (!this.textarea.parentNode || !this.textarea.clientWidth) return false;
+			if (!this.textarea.parentNode || !this.textarea.clientWidth) {
+				console.log(this.textarea,"what")
+				return false;
+			}
 
 			if (!this.lineHeight) {
 				const computed = getComputedStyle(this.textarea);
 				const lh = parseFloat(computed.lineHeight);
-				if (!lh || isNaN(lh)) return false;
+				if (!lh || isNaN(lh)) {
+					console.log("line height",lh);
+					 return false;
+					 
+				}
 
 				// --- THE DEFINITIVE FIX IS HERE ---
 				// 1. Sanitize the measured line-height to a stable integer.
@@ -331,13 +338,18 @@ unindentSelection() {
 			}
 			return this.charWidth > 0 && this.lineHeight > 0;
 		};
-
+		var tried = 0;
 		const attemptMeasure = () => {
-			if (performMeasurements()) {
-				this._update();
-			} else {
-				setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
+			if(tried++ > 4) {
+				return console.log("Not measuring");
 			}
+			try {
+				if (performMeasurements()) {
+					this._update();
+				} else {
+					setTimeout(attemptMeasure, 50); // Retry if not yet in DOM
+				}
+			} catch(e){}
 		}
 		attemptMeasure();
 	}
@@ -347,6 +359,7 @@ unindentSelection() {
 		const txt = this.textarea.value;
 		try {
 			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
+			console.log("Got lines?:",lines)
 		} catch (e) {
 			console.error("Quick worker failed for line splitting, falling back.", e);
 			this.lines = txt.split("\n");

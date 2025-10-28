@@ -135,6 +135,7 @@ export default ({
 
 
   const contentDiv = document.createElement('textarea');
+  contentDiv.setAttribute("id", "dw")
   // Create the content editable div
  // contentDiv.classList.add('content-editable');
  // contentDiv.setAttribute('contenteditable', 'true');
