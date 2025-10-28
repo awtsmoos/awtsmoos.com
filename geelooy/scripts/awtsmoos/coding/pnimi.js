@@ -127,12 +127,21 @@ class VirtualizedEditor {
 	/** @private @function _initializeVessels - Structures the DOM. */
 	_initializeVessels() {
 		const computed = window.getComputedStyle(this.textarea);
+		
+		var w = this.textarea.style.width
+		//console.log(window.comp = computed, comp.width, w);
 		this.wrapper = document.createElement('div');
 		this.wrapper.className = 'virtualized-editor-wrapper';
 		['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
 			if (prop === 'position' && computed[prop] === 'static') this.wrapper.style.position = 'relative';
 			else this.wrapper.style[prop] = computed[prop];
 		});
+		
+		if(isNaN(computed.lineHeight)) {
+			this.textarea.style.lineHeight = "25px"
+			
+			this.wrapper .style.lineHeight = "25px"
+		}
 		this.textarea.parentNode.insertBefore(this.wrapper, this.textarea);
 		this.wrapper.appendChild(this.textarea);
 		Object.assign(this.textarea.style, {
@@ -152,7 +161,7 @@ class VirtualizedEditor {
 		this.overlay.appendChild(this.viewport);
 		Object.assign(this.overlay.style, {
 			position: "absolute",
-			zIndex: -1,
+		
 			top: '0',
 			left: '0',
 			width: '100%',
@@ -178,23 +187,13 @@ class VirtualizedEditor {
 		styleEl.id = this.styleId + "-style";
 		const caretColor = getComputedStyle(this.textarea).caretColor || 'white';
 		styleEl.innerHTML = /*css*/`
-		virtualized-editor-wrapper textarea::selection {
-            background-color: transparent;
-            color: transparent
-        }
-        .virtualized-editor-wrapper textarea::-moz-selection { /* For Firefox */
-            background-color: transparent;
-            color: transparent;
-        }
-        
-        
-        .virtualized-editor-wrapper textarea::-webkit-selection { /* For Firefox */
-            background-color: transparent;
-            color: transparent;
-        }
+		
+		
+		
+		
 		
             .token-comment { color: ${this.colors.comment}; } .token-string { color: ${this.colors.string}; }
-            .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; font-style: italic; }
+            .token-number { color: ${this.colors.number}; } .token-controlKeyword { color: ${this.colors.controlKeyword}; }
             .token-definitionKeyword { color: ${this.colors.definitionKeyword}; } .token-functionName { color: ${this.colors.functionName}; }
             .token-variable { color: ${this.colors.variable}; } .token-operator { color: ${this.colors.operator}; }
             .token-punctuation { color: ${this.colors.punctuation}; } .token-tag { color: ${this.colors.tag}; }
@@ -359,10 +358,12 @@ unindentSelection() {
 		const txt = this.textarea.value;
 		try {
 			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-			console.log("Got lines?:",lines)
+			
+			
 		} catch (e) {
-			console.error("Quick worker failed for line splitting, falling back.", e);
 			this.lines = txt.split("\n");
+			
+			console.error("Quick worker failed for line splitting, falling back.", e, this.lines);
 		}
 
 		// --- CHANGE IS HERE ---

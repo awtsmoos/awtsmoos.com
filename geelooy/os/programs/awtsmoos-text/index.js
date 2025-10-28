@@ -152,13 +152,7 @@ export default ({
     editorContainer.appendChild(contentHolder);
 
     
-    if(type) {
-      coded =null;//new codeify(contentDiv, type)
-     // console.log(coded,"Coded",contentDiv);
-      window.coded=coded;
-      coded?.parent?.focus?.()
-      contentDiv?.focus()
-    }
+    
     
     // Add CSS styles dynamically
     const style = document.createElement('style');
@@ -181,6 +175,17 @@ export default ({
           }px);`
       contentHolder.style.cssText = "height:"+heightStr;
     }
+    
+    if(type) {
+    setTimeout(() => {
+      coded = new codeify(contentDiv, type)
+     // console.log(coded,"Coded",contentDiv);
+      window.coded=coded;
+      coded?.parent?.focus?.()
+      contentDiv?.focus()
+      }, 300)
+    }
+    
     calculateContentHeight()
     // Utility function to create a menu dynamically
     function createMenu(menuName, actionsMap) {

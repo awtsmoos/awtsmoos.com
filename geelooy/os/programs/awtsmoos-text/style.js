@@ -11,6 +11,14 @@ export default /*css*/`
     overflow: hidden;
     }
     
+    .awtsmoos-editor-container .virtualized-editor-wrapper {
+	    width:100% !important;
+	    height: 100% !important;
+    }
+    .awtsmoos-editor-container .content-holder {
+	    background: black;
+    }
+    
     .content-holder textarea{
 	    width:100%;
 	    height:100%;
