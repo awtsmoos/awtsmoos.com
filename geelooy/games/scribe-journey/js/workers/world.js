@@ -5,15 +5,100 @@ import { TILE_SIZE, PLAYER_SPEED } from '../data/database.js';
 import * as Quests from './quests.js';
 
 let keyState = {};
+let moveQueue = null; // Stores the next intended direction
 
-// Renamed from handleInput to handleKeyState for clarity
+// Stores the state of the current dialogue session
+let dialogueState = {
+    active: false,
+    entity: null,
+    branch: 'start',
+    index: 0,
+};
+
 export function handleKeyState(state, keys) {
     keyState = keys;
 }
 
-// This function now specifically handles interaction checks
+// Main update loop for the world, called 60 times per second
+export function update(state, now, trigger) {
+    const p = state.player;
+
+    // If a move is in progress, update its animation
+    if (p.isMoving) {
+        const elapsed = now - p.moveStartTime;
+        if (elapsed >= PLAYER_SPEED) {
+            // Movement finished, snap to grid
+            p.isMoving = false;
+            p.x = p.targetX;
+            p.y = p.targetY;
+            p.pixelX = p.x * TILE_SIZE;
+            p.pixelY = p.y * TILE_SIZE;
+            checkTileLandedOn(state, trigger); // Check for encounters
+        } else {
+            // Still moving, interpolate position
+            const progress = elapsed / PLAYER_SPEED;
+            p.pixelX = p.startX * TILE_SIZE + (p.targetX - p.startX) * TILE_SIZE * progress;
+            p.pixelY = p.startY * TILE_SIZE + (p.targetY - p.startY) * TILE_SIZE * progress;
+        }
+    }
+
+    // If not moving and not in dialogue, check for new input
+    if (!p.isMoving && !state.dialogue.active && state.mode === 'game') {
+        let direction = null;
+        if (keyState['ArrowUp'] || keyState['w']) { direction = 'up'; }
+        else if (keyState['ArrowDown'] || keyState['s']) { direction = 'down'; }
+        else if (keyState['ArrowLeft'] || keyState['a']) { direction = 'left'; }
+        else if (keyState['ArrowRight'] || keyState['d']) { direction = 'right'; }
+        
+        if (direction) {
+            initiatePlayerMove(state, direction, now);
+        }
+    }
+}
+
+function initiatePlayerMove(state, direction, now) {
+    const p = state.player;
+    p.direction = direction; // Face the direction immediately
+
+    let dx = 0, dy = 0;
+    if (direction === 'up') dy = -1;
+    if (direction === 'down') dy = 1;
+    if (direction === 'left') dx = -1;
+    if (direction === 'right') dx = 1;
+
+    const targetX = p.x + dx;
+    const targetY = p.y + dy;
+    const map = state.maps[state.currentMapId];
+
+    // Collision Detection
+    if (targetX < 0 || targetY < 0 || targetY >= map.baseLayer.length || targetX >= map.baseLayer[0].length) return;
+    const baseTile = map.baseLayer[targetY]?.[targetX];
+    const interactable = map.interactables[`${targetX},${targetY}`];
+    
+    // Check for solid objects
+    const solidTiles = ['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜'];
+    if (solidTiles.includes(baseTile)) return;
+    if (interactable && ['npc', 'door'].includes(interactable.type)) return;
+
+    // If clear, start moving
+    p.isMoving = true;
+    p.moveStartTime = now;
+    p.startX = p.x;
+    p.startY = p.y;
+    p.targetX = targetX;
+    p.targetY = targetY;
+}
+
+function checkTileLandedOn(state, trigger) {
+    const p = state.player;
+    const tileChar = state.maps[state.currentMapId].baseLayer[p.y][p.x];
+    if (tileChar === '🌾' && Math.random() < 0.2) {
+        trigger.startBattle([{ id: 'whispering_grass', level: Math.floor(2 + Math.random() * 2) }]);
+    }
+}
+
 export function checkInteraction(state, trigger, sendUIUpdate) {
-    if (state.dialogue.active) return; // Don't interact if dialogue is open
+    if (state.player.isMoving || state.dialogue.active) return;
 
     const p = state.player;
     let targetX = p.x, targetY = p.y;
@@ -27,96 +112,32 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     
     if (entity) {
         if (entity.type === 'door') {
-            // Door logic is simple state change, no UI update needed from here
             state.currentMapId = entity.targetMap;
             state.player.x = entity.targetX;
             state.player.y = entity.targetY;
             state.player.pixelX = entity.targetX * TILE_SIZE;
             state.player.pixelY = entity.targetY * TILE_SIZE;
+            state.player.isMoving = false; // Ensure not stuck in moving state
         } else if (entity.dialogue) {
-            // Pass sendUIUpdate to startDialogue
             startDialogue(state, entity, 'start', sendUIUpdate);
         }
     } else {
-        // Open the game menu if no interaction target
         state.mode = 'gameMenu';
         sendUIUpdate({ screen: 'gameMenu' });
     }
 }
 
-
-export function update(state, now, trigger) {
-    const p = state.player;
-    // Handle movement interpolation
-    if (p.isMoving) {
-        const elapsed = now - p.moveStartTime;
-        if (elapsed >= PLAYER_SPEED) {
-            p.isMoving = false;
-            p.x = p.targetX;
-            p.y = p.targetY;
-            p.pixelX = p.x * TILE_SIZE;
-            p.pixelY = p.y * TILE_SIZE;
-            // Check for wild encounter upon landing on the tile
-            const tileChar = state.maps[state.currentMapId].baseLayer[p.y][p.x];
-            if (tileChar === '🌾' && Math.random() < 0.2) {
-                trigger.startBattle([{ id: 'whispering_grass', level: 3 }]);
-            }
-        } else {
-            const progress = elapsed / PLAYER_SPEED;
-            p.pixelX = p.startX * TILE_SIZE + (p.targetX - p.startX) * TILE_SIZE * progress;
-            p.pixelY = p.startY * TILE_SIZE + (p.targetY - p.startY) * TILE_SIZE * progress;
-        }
-        return;
-    }
-
-    if (state.dialogue.active || state.mode !== 'game') return;
-
-    let dx = 0, dy = 0;
-    let newDir = p.direction;
-
-    if (keyState['ArrowUp'] || keyState['w']) { dy = -1; newDir = 'up'; }
-    else if (keyState['ArrowDown'] || keyState['s']) { dy = 1; newDir = 'down'; }
-    else if (keyState['ArrowLeft'] || keyState['a']) { dx = -1; newDir = 'left'; }
-    else if (keyState['ArrowRight'] || keyState['d']) { dx = 1; newDir = 'right'; }
-
-    if (dx !== 0 || dy !== 0) {
-        initiatePlayerMove(state, dx, dy, newDir, now);
-    }
-}
-
-function initiatePlayerMove(state, dx, dy, newDir, now) {
-    const p = state.player;
-    p.direction = newDir;
-    
-    const targetX = p.x + dx;
-    const targetY = p.y + dy;
-    const map = state.maps[state.currentMapId];
-    
-    if (targetX < 0 || targetY < 0 || targetY >= map.baseLayer.length || targetX >= map.baseLayer[0].length) return;
-    const baseTile = map.baseLayer[targetY][targetX];
-    if (['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜'].includes(baseTile)) return;
-    if (map.interactables[`${targetX},${targetY}`]?.type === 'npc') return;
-
-    p.isMoving = true;
-    p.moveStartTime = now;
-    p.startX = p.x;
-    p.startY = p.y;
-    p.targetX = targetX;
-    p.targetY = targetY;
-}
-
-export function startDialogue(state, entity, startingBranch = 'start', sendUIUpdate) {
+export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
     state.mode = 'dialogue';
     state.dialogue = {
         active: true,
-        entityId: entity.id || null, // Use entity id if available
-        entity: entity, // Keep a direct reference for non-id'd entities
+        entity: entity,
         branch: startingBranch,
         index: 0,
     };
 
     if (entity.questGiver) {
-        const questStatus = Quests.getQuestStatus(state, entity.questGiver);
+        const questStatus = Quests.getStatus(state, entity.questGiver);
         if (questStatus === 'completed' && entity.dialogue.completed) {
             state.dialogue.branch = 'completed';
         } else if (questStatus === 'in_progress' && entity.dialogue.in_progress) {
@@ -128,6 +149,8 @@ export function startDialogue(state, entity, startingBranch = 'start', sendUIUpd
 }
 
 export function advanceDialogue(state, sendUIUpdate, trigger) {
+    // This function's logic remains largely the same as the previous corrected version.
+    // It handles the flow control of displaying text, choices, and auto-executing actions.
     if (!state.dialogue.active) return;
     
     const dialogue = state.dialogue;
@@ -148,21 +171,12 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
         dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
     } else if (typeof message === 'object') {
-        if (message.choices) {
+        if(message.choices) {
             sendUIUpdate({
-                dialogue: {
-                    active: true,
-                    text: message.text,
-                    choices: message.choices.map(c => ({ text: c.text, disabled: false }))
-                }
+                dialogue: { active: true, text: message.text, choices: message.choices }
             });
         } else {
-            // Auto-executing actions
-            if (message.startBattle) {
-                endDialogue(state, sendUIUpdate); // End dialogue before battle
-                trigger.startBattle(message.startBattle);
-                return;
-            }
+            if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle); return; }
             if (message.giveItem) Quests.giveItem(state, message.giveItem);
             if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver);
             if (message.finalizeQuest) trigger.finalizeQuest(dialogue.entity.questGiver);
@@ -179,7 +193,13 @@ export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
     const message = branch[dialogue.index];
     const choice = message.choices[index];
 
-    dialogue.index++; // Move past the choice object
+    dialogue.index++; 
+
+    if (choice.action) {
+        if(choice.action.openShop) {
+             // Future shop logic
+        }
+    }
 
     if (choice.next) {
         dialogue.branch = choice.next;

@@ -1,7 +1,7 @@
 //B"H
 // js/render.js
 
-const TILE_SIZE = 40;
+
 
 export function renderGameState(ctx, state) {
     if (!ctx || !state || !state.player || state.mode === 'battle') return;
@@ -10,6 +10,7 @@ export function renderGameState(ctx, state) {
     const map = state.maps[state.currentMapId];
     if (!map) return;
     
+    // **NEW**: The pixel position is now the source of truth for the camera.
     const cameraOffsetX = (ctx.canvas.width / 2) - (p.pixelX + TILE_SIZE / 2);
     const cameraOffsetY = (ctx.canvas.height / 2) - (p.pixelY + TILE_SIZE / 2);
 
@@ -43,11 +44,12 @@ export function renderGameState(ctx, state) {
             ctx.fillText(indicator, entity.x * TILE_SIZE + TILE_SIZE / 2 + cameraOffsetX, entity.y * TILE_SIZE - TILE_SIZE / 3 + cameraOffsetY);
         }
     }
-    ctx.fillStyle = '#eee'; // Reset color
+    ctx.fillStyle = '#eee';
     ctx.font = `${TILE_SIZE * 0.8}px 'Segoe UI Emoji'`;
 
     // Render Player
     ctx.save();
+    // **NEW**: The player is always rendered at the center of the screen.
     ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
     if (p.direction === 'right') ctx.scale(-1, 1);
     else if (p.direction === 'up') ctx.rotate(Math.PI / 2);
