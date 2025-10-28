@@ -187,6 +187,45 @@ setupEventListeners() {
             appContainer.classList.toggle('sidebar-collapsed');
         };
     }
+    
+    // PASTE THIS SNIPPET inside the App.setupEventListeners() function
+
+	// --- B"H - SIDEBAR DRAG-TO-RESIZE LOGIC (for desktop) ---
+	const resizer = document.getElementById('sidebar-resizer');
+	const appContainer = document.querySelector('.app-container');
+	
+	// First, check if the resizer element exists and if we are on a desktop screen
+	if (resizer && !window.matchMedia('(max-width: 768px)').matches) {
+	    
+	    const minWidth = 200; // Minimum sidebar width in pixels
+	    const maxWidth = 600; // Maximum sidebar width in pixels
+	
+	    // This function is called whenever the mouse moves during a drag
+	    const handleMouseMove = (e) => {
+	        // Calculate the new width, but keep it within our min/max bounds
+	        let newWidth = Math.max(minWidth, Math.min(e.clientX, maxWidth));
+	        // Directly update the CSS grid layout of the app container
+	        appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
+	    };
+	
+	    // This function is called when the user lets go of the mouse button
+	    const handleMouseUp = () => {
+	        // Stop resizing by removing the global listeners and the body class
+	        document.body.classList.remove('is-resizing');
+	        document.removeEventListener('mousemove', handleMouseMove);
+	        document.removeEventListener('mouseup', handleMouseUp);
+	    };
+	
+	    // This is where it all starts: when the user presses the mouse down on the resizer
+	    resizer.addEventListener('mousedown', (e) => {
+	        e.preventDefault(); // Prevent browser's default drag behavior
+	        document.body.classList.add('is-resizing');
+	        
+	        // Add listeners to the *entire document* to track mouse movement everywhere
+	        document.addEventListener('mousemove', handleMouseMove);
+	        document.addEventListener('mouseup', handleMouseUp);
+	    });
+}
 
     // --- 4. Mobile "Click Outside to Close" Logic ---
     // This logic is safe and will not interfere with the buttons.

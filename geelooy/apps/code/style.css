@@ -783,3 +783,38 @@
         gap: 0;
     }
 }
+
+
+
+/* B"H - ADD THESE STYLES FOR THE DRAGGABLE SIDEBAR RESIZER */
+
+.sidebar-resizer {
+    /* Positioning */
+    grid-row: 1 / 4; /* Span all three rows (header, content, footer) */
+    grid-column: 1 / 2; /* Occupy the same column as the sidebar */
+    justify-self: end; /* Stick to the right edge of that column */
+    z-index: 3201; /* Ensure it's on top */
+    position: relative;
+
+    /* Appearance & Interaction */
+    width: 6px; /* The clickable/draggable area */
+    cursor: col-resize; /* The horizontal resize cursor */
+    background-color: var(--color-border);
+    transition: background-color var(--timing-fast);
+}
+
+.sidebar-resizer:hover {
+    background-color: var(--neon-cyan); /* Highlight on hover */
+}
+
+/* This class will be added by JavaScript during the drag to prevent text selection */
+body.is-resizing {
+    user-select: none;
+}
+
+/* Hide the resizer on mobile, as this is a desktop-only feature */
+@media (max-width: 768px) {
+    .sidebar-resizer {
+        display: none;
+    }
+}
