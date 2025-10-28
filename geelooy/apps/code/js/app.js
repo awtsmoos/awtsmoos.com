@@ -192,7 +192,8 @@ setupEventListeners() {
 
 	// --- B"H - SIDEBAR DRAG-TO-RESIZE LOGIC (for desktop) ---
 	const resizer = document.getElementById('sidebar-resizer');
-	const appContainer = document.querySelector('.app-container');
+	
+	
 	
 	// First, check if the resizer element exists and if we are on a desktop screen
 	if (resizer && !window.matchMedia('(max-width: 768px)').matches) {
