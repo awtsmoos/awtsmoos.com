@@ -92,61 +92,58 @@ function start() {
     gameLoop();
 }
 //B"H
-// In worker.js - Replace your entire 'draw' function with this definitive version.
+//B"H
+// In worker.js - Replace your entire `draw` function with this definitive version.
 
 function draw() {
     const { ctx, camera, world } = state;
 
-    // We start fresh by saving the canvas's default state.
+    // --- SCREEN FILL ---
+    // Fill the screen with the base color first. This prevents any flickering or black voids.
+    ctx.fillStyle = '#1d1d1d';
+    ctx.fillRect(0, 0, camera.width, camera.height);
+
+    // Save the canvas state before applying camera transformations.
     ctx.save();
 
-    // --- WORLD RENDERING ---
-    // Apply the camera's zoom and pan. All drawing from here until 'ctx.restore()'
-    // happens in the game's world space and will move with the camera.
+    // --- WORLD RENDERING (Everything that moves) ---
+    // Apply the camera's zoom and pan.
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // --- THE CORRECT, OPTIMIZED BACKGROUND & GRID ---
+    // --- THE LIGHTNING-FAST, CORRECTLY CALCULATED GRID ---
 
-    // 1. Calculate the precise visible area in world coordinates.
-    // A small buffer is added to prevent lines from "popping" in at the edges.
-    const buffer = 150;
-    const viewLeft = camera.x - buffer;
-    const viewTop = camera.y - buffer;
-    const viewWidth = (camera.width / camera.zoom) + (buffer * 2);
-    const viewHeight = (camera.height / camera.zoom) + (buffer * 2);
+    // 1. Define the exact boundaries of the visible world area.
+    const viewLeft = camera.x;
+    const viewTop = camera.y;
+    const viewRight = camera.x + (camera.width / camera.zoom);
+    const viewBottom = camera.y + (camera.height / camera.zoom);
 
-    // 2. Draw the background color, but ONLY for the visible area.
-    // This is both fast and guarantees a background.
-    ctx.fillStyle = '#1d1d1d';
-    ctx.fillRect(viewLeft, viewTop, viewWidth, viewHeight);
-
-    // 3. Draw the grid lines, but ONLY for the visible area.
-    const gridSize = 150;
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)";
+    const gridSize = 50;
+    ctx.strokeStyle = "rgba(255, 255, 255, 255)";
     ctx.lineWidth = 1;
 
-    // Calculate the first and last grid lines that appear in the view.
+    // 2. Calculate the start and end grid lines based on the view boundaries.
+    // This math is simple and direct, avoiding all previous errors.
     const startX = Math.floor(viewLeft / gridSize) * gridSize;
-    const endX = Math.ceil((viewLeft + viewWidth) / gridSize) * gridSize;
+    const endX = Math.ceil(viewRight / gridSize) * gridSize;
     const startY = Math.floor(viewTop / gridSize) * gridSize;
-    const endY = Math.ceil((viewTop + viewHeight) / gridSize) * gridSize;
+    const endY = Math.ceil(viewBottom / gridSize) * gridSize;
 
     ctx.beginPath();
-    // Draw only the visible vertical lines.
+    // 3. Draw only the handful of lines that are actually inside the view.
+    // This is what makes it lightning-fast.
     for (let x = startX; x < endX; x += gridSize) {
-        ctx.moveTo(x, startY);
-        ctx.lineTo(x, endY);
+        ctx.moveTo(x, viewTop);
+        ctx.lineTo(x, viewBottom);
     }
-    // Draw only the visible horizontal lines.
     for (let y = startY; y < endY; y += gridSize) {
-        ctx.moveTo(startX, y);
-        ctx.lineTo(endX, y);
+        ctx.moveTo(viewLeft, y);
+        ctx.lineTo(viewRight, y);
     }
     ctx.stroke();
 
-
-    // 4. Draw all the game objects (snakes, food) on top of the grid.
+    // 4. Draw all game objects (snakes, food) on top of the grid.
     drawWorld(ctx);
 
     // 5. Draw the world border.
@@ -154,15 +151,13 @@ function draw() {
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 
-
-    // --- UI RENDERING ---
-    // Restore the canvas to its original state (screen space).
+    // --- UI RENDERING (Fixed on screen) ---
+    // Restore the canvas to its original state (no camera transformations).
     ctx.restore();
 
-    // Draw the UI (scoreboard, etc.), which stays fixed on the screen.
+    // Draw the UI on top of everything.
     drawUI(ctx);
 }
-
 //B"H
 // In worker.js - Replace the existing updateCamera function with this one.
 
