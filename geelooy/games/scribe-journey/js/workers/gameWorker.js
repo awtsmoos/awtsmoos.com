@@ -4,7 +4,7 @@
 import { createDefaultGameState } from '../data/database.js';
 import * as World from './world.js';
 import * as Combat from './combat.js';
-import { getMusagInstance } from './combat.js'; // Ensure this is imported for the Shem screen
+import { getMusagInstance } from './combat.js';
 import * as Quests from './quests.js';
 
 let GAME_STATE = {};
@@ -14,16 +14,17 @@ const sendToMain = (action, payload) => self.postMessage({ action, payload });
 const sendUIUpdate = (payload) => sendToMain('uiUpdate', payload);
 const sendToast = (message, type) => sendToMain('toast', { message, type });
 
-// --- CORRECT, RELIABLE GAME LOOP using setInterval ---
-function gameLoop() {
-    const now = performance.now();
-    const deltaTime = now - (lastTimestamp || now);
+function gameLoop(now) {
+    if (!lastTimestamp) lastTimestamp = now;
+    const deltaTime = now - lastTimestamp;
     lastTimestamp = now;
 
     if (GAME_STATE.mode === 'game') {
         World.update(GAME_STATE, now, deltaTime, trigger);
     }
     sendToMain('gameStateUpdate', { state: GAME_STATE });
+
+    self.requestAnimationFrame(gameLoop);
 }
 
 const trigger = {
@@ -48,8 +49,7 @@ self.onmessage = (e) => {
             GAME_STATE = createDefaultGameState();
             GAME_STATE.mode = 'main-menu';
             sendUIUpdate({ screen: 'main-menu' });
-            // Use the reliable setInterval for the worker's game loop
-            setInterval(gameLoop, 1000 / 60);
+            self.requestAnimationFrame(gameLoop);
             break;
         case 'input':
             if (payload.type === 'keyState') {
@@ -85,16 +85,27 @@ function handleUIAction({ action }) {
             GAME_STATE = createDefaultGameState();
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
+            
+            // --- THIS IS THE FIX ---
+            // Define the intro dialogue here as a self-contained, temporary entity.
             setTimeout(() => {
-        const startEntity = GAME_STATE.maps.malkuth_village.interactables['start_sequence'];
-        // FIX: The entity is the object that CONTAINS the dialogue property.
-        // We create a temporary entity object for the intro sequence.
-        trigger.startDialogue({
-            id: 'start_sequence',
-            dialogue: startEntity.dialogue 
-        });
-    }, 500);
+                const introEntity = {
+                    id: 'start_sequence',
+                    dialogue: {
+                        start: [
+                            "The world feels... fractured, Scribe.",
+                            "The Great Sefer is shattered. Its concepts now roam wild as Musagim.",
+                            "You must journey through the Sefirot. Find the fragments. Rectify Creation.",
+                            "Take this satchel. May your ink flow true.",
+                            "end"
+                        ]
+                    }
+                };
+                trigger.startDialogue(introEntity);
+            }, 500);
             break;
+
+        // ... the rest of the function is unchanged
         case 'resume':
         case 'close-shem': 
             GAME_STATE.mode = 'game';

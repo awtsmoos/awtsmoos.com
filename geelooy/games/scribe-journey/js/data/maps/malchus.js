@@ -3,7 +3,6 @@
 
 export const malkuthMaps = {
     'malkuth_village': {
-        // Redesigned for clarity and access. Note the open plaza in the center.
         width: 20,
         baseLayerString: `
 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
@@ -21,9 +20,8 @@ export const malkuthMaps = {
 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
         `,
         interactables: {
-            'start_sequence': { dialogue: { start: ["The world feels... fractured, Scribe.", "The Great Sefer is shattered. Its concepts now roam wild as Musagim.", "You must journey through the Sefirot. Find the fragments. Rectify Creation.", "Take this satchel. May your ink flow true.", "end"] } },
+            // 'start_sequence' has been REMOVED from here
             
-            // NOTE: The coordinates are now just for my reference. The parser will set them automatically.
             '1,2': { type: 'door', emoji: '🏠', targetMap: 'scholar_house', targetX: 4, targetY: 6 },
             '3,2': { type: 'door', emoji: '🏠', targetMap: 'merchant_house', targetX: 3, targetY: 4 },
             '9,1': { type: 'npc', emoji: '📜', id: 'elder_scribe', questGiver: 'main_quest_1', dialogue: { start: ["The path to the upper realms lies through the shimmering door to the east. Be wary, for Yesod's nature is illusion."], completed: ["You have the first fragment! The path forward will be harder, but you have proven your worth."] } },
@@ -40,7 +38,6 @@ export const malkuthMaps = {
                 mediate_incorrect: ["Full damages? Shimon says that is not what the sage taught... I am confused."]
             }},
             
-            // FIX: Shimon is now the person emoji at this location. The ox is scenery.
             '11,8': { type: 'npc', emoji: '👨', id: 'shimon', dialogue: {
                 start: ["Shimon stands beside his ox, looking worried.", {choices:[{text: "(Speak to Shimon)", next: "talk"}]}], 
                 talk: ["My ox... it has never gored before. It is a Tam, an innocent one! I cannot afford to pay for Reuven's entire animal. It would ruin me. If only someone knew the true law..."]
@@ -50,6 +47,7 @@ export const malkuthMaps = {
             '11,10': { type: 'npc', emoji: '🛒', id: 'trader_levi', dialogue: { start: ["Goods from across the realms! Care for a look?", {choices: [{text: "Buy"}, {text: "Sell"}, {text: "Leave"}]}] } },
         }
     },
+    // ... rest of your malkuth.js file (scholar_house, merchant_house) remains unchanged
     'scholar_house': {
         width: 8,
         baseLayerString: `
@@ -64,7 +62,7 @@ export const malkuthMaps = {
         interactables: {
             '4,6': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 1, 'y': 3 },
             '2,3': { type: 'npc', emoji: '👨‍🏫', id: 'rambam_spirit', questGiver: 'rambam_quest_1', dialogue: { 
-                start: ["I am but an echo of Moshe ben Maimon... My Mishneh Torah has been shattered. Its pages are lost in the depths below.", "These are not mere words, but the structure of a just reality. If you seek understanding, descend and restore my work.", {giveItem: "cavern_key"}, "Do you have a specific query?", {choices: [{text:"Ask about the Goring Ox.", next: "nizkei_mamon"}, {text: "Ask about Purity.", next: "mikvaot"}, {text: "I must go.", next:"end"}]}], 
+                start: ["I am but an echo of Moshe ben Maimon. My Mishneh Torah, my 'Code of Law,' has been shattered like the world itself. Its pages are lost in the depths below.", "These are not mere words, but the very structure of a just and holy reality. If you seek understanding, descend and restore my work.", {giveItem: "cavern_key"}, "Do you have a specific query?", {choices: [{text:"Ask about the Goring Ox.", next: "nizkei_mamon"}, {text: "Ask about Purity.", next: "mikvaot"}, {text: "I must go.", next:"end"}]}], 
                 in_progress: ["The foundations of Torah are the foundations of the world. Please, find my pages."], 
                 completed: ["You have restored the foundation. Knowledge is the truest Tikkun."],
                 nizkei_mamon: ["You ask of damages? The Torah states if an animal is a 'Tam' - not known to be dangerous - the owner pays only half the damages, from the value of the animal itself. This is a fine, a warning.", "Go, and apply this wisdom.", {updateQuest: "nizkei_mamon_1_goring_ox", objectiveId: "learn_law"}, "end"],
@@ -83,7 +81,7 @@ export const malkuthMaps = {
 🪨🪨🪨⬜🚪⬜🪨
         `,
         interactables: {
-            '4,4': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 3, targetY: 3 },
+            '4,4': { type: 'door', emoji: '🚪', targetMap: 'malkuth_village', targetX: 2, targetY: 2 },
             '3,3': { type: 'npc', emoji: '🛒', id: 'merchant_shlomo', dialogue: { start: ["Ah, a Scribe! My wares are concepts made manifest. Perhaps you will find something to aid your journey?", {choices: [
                 {text: "Buy Items"}, {text: "Sell Fragments"}, {text: "Inquire about... special stock.", next: "special_stock"}, {text:"Leave"}
             ]}], special_stock: ["Hah! A discerning eye. I sometimes come across... unique concepts. For a price, of course.", {choices: [{text: "Show me."}, {text: "Perhaps later."}]}]}}
