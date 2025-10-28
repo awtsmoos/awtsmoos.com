@@ -91,63 +91,75 @@ function start() {
     
     gameLoop();
 }
-
 //B"H
-// In worker.js - The final, high-performance DRAW function
-
-//B"H
-// In worker.js - Replace your entire `draw` function with this one.
+// In worker.js - Replace your entire 'draw' function with this definitive version.
 
 function draw() {
     const { ctx, camera, world } = state;
 
-    // Save the canvas's initial state
+    // We start fresh by saving the canvas's default state.
     ctx.save();
 
     // --- WORLD RENDERING ---
-    // Apply the camera's zoom and pan to everything drawn inside this block
+    // Apply the camera's zoom and pan. All drawing from here until 'ctx.restore()'
+    // happens in the game's world space and will move with the camera.
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
-    // 1. DRAW THE SOLID BACKGROUND (Reliable Method)
-    // This draws a single, giant rectangle for the entire world. It's simple and it works.
-    ctx.fillStyle = '#1d1d1d';
-    ctx.fillRect(0, 0, world.width, world.height);
+    // --- THE CORRECT, OPTIMIZED BACKGROUND & GRID ---
 
-    // 2. DRAW THE FULL GRID (Reliable Method)
-    // We draw every single line of the grid. This eliminates the failing "optimization" logic.
+    // 1. Calculate the precise visible area in world coordinates.
+    // A small buffer is added to prevent lines from "popping" in at the edges.
+    const buffer = 150;
+    const viewLeft = camera.x - buffer;
+    const viewTop = camera.y - buffer;
+    const viewWidth = (camera.width / camera.zoom) + (buffer * 2);
+    const viewHeight = (camera.height / camera.zoom) + (buffer * 2);
+
+    // 2. Draw the background color, but ONLY for the visible area.
+    // This is both fast and guarantees a background.
+    ctx.fillStyle = '#1d1d1d';
+    ctx.fillRect(viewLeft, viewTop, viewWidth, viewHeight);
+
+    // 3. Draw the grid lines, but ONLY for the visible area.
     const gridSize = 150;
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)"; // Your subtle white lines
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.07)";
     ctx.lineWidth = 1;
 
+    // Calculate the first and last grid lines that appear in the view.
+    const startX = Math.floor(viewLeft / gridSize) * gridSize;
+    const endX = Math.ceil((viewLeft + viewWidth) / gridSize) * gridSize;
+    const startY = Math.floor(viewTop / gridSize) * gridSize;
+    const endY = Math.ceil((viewTop + viewHeight) / gridSize) * gridSize;
+
     ctx.beginPath();
-    // Draw all vertical lines from top to bottom
-    for (let x = 0; x <= world.width; x += gridSize) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, world.height);
+    // Draw only the visible vertical lines.
+    for (let x = startX; x < endX; x += gridSize) {
+        ctx.moveTo(x, startY);
+        ctx.lineTo(x, endY);
     }
-    // Draw all horizontal lines from left to right
-    for (let y = 0; y <= world.height; y += gridSize) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(world.width, y);
+    // Draw only the visible horizontal lines.
+    for (let y = startY; y < endY; y += gridSize) {
+        ctx.moveTo(startX, y);
+        ctx.lineTo(endX, y);
     }
     ctx.stroke();
 
 
-    // 3. DRAW THE GAME OBJECTS (Snakes, Food, etc.) ON TOP OF THE GRID
+    // 4. Draw all the game objects (snakes, food) on top of the grid.
     drawWorld(ctx);
 
-    // 4. DRAW THE WORLD BORDER
+    // 5. Draw the world border.
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 
 
     // --- UI RENDERING ---
-    // Restore the canvas to its original state (no zoom, no pan)
+    // Restore the canvas to its original state (screen space).
     ctx.restore();
 
-    // Draw the UI elements (scoreboard, minimap) last
+    // Draw the UI (scoreboard, etc.), which stays fixed on the screen.
     drawUI(ctx);
 }
 
