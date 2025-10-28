@@ -3,7 +3,9 @@
 
 import { createDefaultGameState } from '../data/database.js';
 import * as World from './world.js';
+// FIX: Import the specific function we need, in addition to the module
 import * as Combat from './combat.js';
+import { getMusagInstance } from './combat.js';
 import * as Quests from './quests.js';
 
 let GAME_STATE = {};
@@ -63,17 +65,16 @@ self.onmessage = (e) => {
 function getShemPayload(state) {
     return {
         team: state.player.team.map(member => {
-            const instance = Combat.getMusagInstance(state, member);
+            // FIX: Now correctly calls the imported function
+            const instance = getMusagInstance(state, member);
             return {
                 ...instance,
-                currentHp: member.currentHp,
-                currentKavanah: member.currentKavanah,
+                // Note: The original getMusagInstance was corrected to use the *actual* current HP/Kavanah
                 moves: instance.moves.map(id => state.db.moves[id])
             };
         })
     };
 }
-
 
 function handleUIAction({ action }) {
     switch (action) {
@@ -87,7 +88,7 @@ function handleUIAction({ action }) {
             }, 500);
             break;
         case 'resume':
-        case 'close-shem': // New action to close the Shem screen
+        case 'close-shem':
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
             break;
@@ -99,7 +100,7 @@ function handleUIAction({ action }) {
             GAME_STATE.mode = 'questlog';
             sendUIUpdate({ screen: 'quest-log-screen', questLog: Quests.getQuestLogPayload(GAME_STATE) });
             break;
-        case 'shem-screen': // New action to open the Shem screen
+        case 'shem-screen':
             GAME_STATE.mode = 'shem';
             sendUIUpdate({ screen: 'shem-screen', shem: getShemPayload(GAME_STATE) });
             break;

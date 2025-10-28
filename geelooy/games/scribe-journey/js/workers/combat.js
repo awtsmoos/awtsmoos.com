@@ -1,13 +1,17 @@
 // B"H
 // js/workers/combat.js
 import * as Quests from './quests.js';
+import { TILE_SIZE } from '../data/database.js';
 
 let BATTLE_STATE = {};
 
-// (getMusagInstance function remains the same)
-function getMusagInstance(state, source) {
+// FIX: Add 'export' to make this function available to other modules
+export function getMusagInstance(state, source) {
     const base = state.db.musagim[source.id];
-    if (!base) { console.error(`Musag ID not found: ${source.id}`); return null; }
+    if (!base) {
+        console.error(`Musag ID not found in database: ${source.id}`);
+        return null; // Handle error gracefully
+    }
     const level = source.level;
     const stats = {
         hp: Math.floor(base.baseStats.hp * (1 + level / 20)),
@@ -15,37 +19,68 @@ function getMusagInstance(state, source) {
         defense: Math.floor(base.baseStats.defense * (1 + level / 20)),
         diligence: Math.floor(base.baseStats.diligence * (1 + level / 20)),
     };
-    return { ...base, level, id: source.id, maxHp: stats.hp, currentHp: source.currentHp || stats.hp, maxKavanah: 20 + Math.floor(level / 2), currentKavanah: source.currentKavanah || (20 + Math.floor(level / 2)), stats };
+    return {
+        ...base,
+        level,
+        id: source.id,
+        maxHp: stats.hp,
+        currentHp: source.currentHp, // Use the actual current HP from the team member
+        maxKavanah: 20 + Math.floor(level / 2),
+        currentKavanah: source.currentKavanah, // Use the actual current Kavanah
+        stats,
+    };
 }
-
 
 export function initiate(state, opponentData, context, sendUIUpdate) {
     const playerInstance = getMusagInstance(state, state.player.team[0]);
     const opponentInstance = getMusagInstance(state, opponentData[0]);
-    if (!playerInstance || !opponentInstance) { console.error("Failed to create battle participants."); return; }
+
+    if (!playerInstance || !opponentInstance) {
+        console.error("Failed to create battle participants.");
+        return;
+    }
 
     state.battle = BATTLE_STATE = {
-        player: playerInstance, opponent: opponentInstance, turn: 'player',
-        log: `${opponentInstance.name} appears!`, awaitingConfirm: true, context,
+        player: playerInstance,
+        opponent: opponentInstance,
+        turn: 'player',
+        log: `${opponentInstance.name} appears!`,
+        awaitingConfirm: true,
+        context,
     };
+    
     sendUIUpdate({ screen: 'battle', battle: getBattleUIPayload() });
 }
 
 export function handleAction(state, data, sendUIUpdate, trigger) {
     if (BATTLE_STATE.awaitingConfirm && data.action === 'confirm') {
         BATTLE_STATE.awaitingConfirm = false;
-        if (BATTLE_STATE.winner) { trigger.endBattle(BATTLE_STATE.winner === 'player'); return; }
-        if (BATTLE_STATE.turn === 'player') { showActionMenu(sendUIUpdate); } 
-        else { runOpponentTurn(state, sendUIUpdate, trigger); }
+        
+        if (BATTLE_STATE.winner) {
+            trigger.endBattle(BATTLE_STATE.winner === 'player');
+            return;
+        }
+
+        if (BATTLE_STATE.turn === 'player') {
+            showActionMenu(sendUIUpdate);
+        } else {
+            runOpponentTurn(state, sendUIUpdate, trigger);
+        }
         return;
     }
 
     if (BATTLE_STATE.awaitingConfirm || BATTLE_STATE.turn !== 'player') return;
 
     switch(data.action) {
-        case 'fight': showMovesMenu(state, sendUIUpdate); break;
-        case 'back': showActionMenu(sendUIUpdate); break;
-        case 'move': executeTurn(state, data.value, false, sendUIUpdate, trigger); break;
+        case 'fight':
+            showMovesMenu(state, sendUIUpdate);
+            break;
+        case 'back':
+            showActionMenu(sendUIUpdate);
+            break;
+        case 'move':
+            executeTurn(state, data.value, false, sendUIUpdate, trigger);
+            break;
     }
 }
 
@@ -72,7 +107,6 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
     if (defender.currentHp <= 0) {
         BATTLE_STATE.log += `\n${defender.name} has been refuted!`;
         BATTLE_STATE.winner = isOpponent ? 'opponent' : 'player';
-        // After winning a specific battle, set a flag
         if (BATTLE_STATE.context?.flagOnWin && BATTLE_STATE.winner === 'player') {
             state.player.flags[BATTLE_STATE.context.flagOnWin] = true;
         }
@@ -83,25 +117,26 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
 }
 
 function runOpponentTurn(state, sendUIUpdate, trigger) {
-    // (This function remains the same as before)
     const opponent = BATTLE_STATE.opponent;
     const validMoves = opponent.moves.filter(id => state.db.moves[id].cost <= opponent.currentKavanah);
-    const moveId = validMoves.length > 0 ? validMoves[Math.floor(Math.random() * validMoves.length)] : opponent.moves[0];
+    
+    const moveId = validMoves.length > 0
+        ? validMoves[Math.floor(Math.random() * validMoves.length)]
+        : opponent.moves[0];
+
     setTimeout(() => executeTurn(state, moveId, true, sendUIUpdate, trigger), 500);
 }
 
-// --- NEW DEFEAT MECHANIC ---
 export function end(state, isWin, sendUIUpdate, sendToast) {
     if (isWin) {
         const xpGain = BATTLE_STATE.opponent.xpYield;
         sendToast(`You won! Gained ${xpGain} XP.`, 'success');
         Quests.updateObjective(state, { type: 'defeat', musagId: BATTLE_STATE.opponent.id, count: 1 });
     } else {
-        sendToast(`Your concepts were refuted... You awaken back at the village entrance.`, 'error');
-        // Revive mechanic: Heal all Musagim to 1 HP and return to the starting map.
+        sendToast(`Your concepts were refuted... You awaken at the village entrance.`, 'error');
         state.player.team.forEach(musag => {
             const instance = getMusagInstance(state, musag);
-            musag.currentHp = 1; // Revive with 1 HP
+            musag.currentHp = 1;
             musag.currentKavanah = instance.maxKavanah;
         });
         state.currentMapId = 'malkuth_village';
@@ -111,7 +146,6 @@ export function end(state, isWin, sendUIUpdate, sendToast) {
         state.player.pixelY = state.player.y * TILE_SIZE;
     }
     
-    // Update player's team stats from battle
     const playerInBattle = BATTLE_STATE.player;
     const playerInTeam = state.player.team.find(m => m.id === playerInBattle.id);
     if (playerInTeam) {
@@ -124,11 +158,10 @@ export function end(state, isWin, sendUIUpdate, sendToast) {
     sendUIUpdate({ screen: 'game' });
 }
 
-
-// (UI Menu Generation and getBattleUIPayload functions remain the same as before)
 function showActionMenu(sendUIUpdate) {
     sendUIUpdate({ battle: getBattleUIPayload(true, [ { action: 'fight', text: 'Debate' }, { action: 'item', text: 'Items', disabled: true }, { action: 'team', text: 'Shem', disabled: true }, { action: 'flee', text: 'Concede' }, ])});
 }
+
 function showMovesMenu(state, sendUIUpdate) {
     const player = BATTLE_STATE.player;
     const buttons = player.moves.map(id => {
@@ -138,6 +171,7 @@ function showMovesMenu(state, sendUIUpdate) {
     buttons.push({ action: 'back', text: 'Back' });
     sendUIUpdate({ battle: getBattleUIPayload(true, buttons) });
 }
+
 function getBattleUIPayload(withMenu = false, buttons = []) {
     const payload = {
         log: BATTLE_STATE.log, awaitingConfirm: BATTLE_STATE.awaitingConfirm,
