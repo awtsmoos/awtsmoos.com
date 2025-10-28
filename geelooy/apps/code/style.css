@@ -818,3 +818,45 @@ body.is-resizing {
         display: none;
     }
 }
+
+
+
+
+.find-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between input and the 'Aa' button */
+    flex-grow: 1; /* Allow the container to fill the space */
+}
+.find-input-container #find-input {
+    flex-grow: 1; /* Make the text input itself fill the container's space */
+}
+
+.fr-option {
+    display: flex;
+    align-items: center;
+}
+/* We hide the actual checkbox and style the label to look like a button */
+.fr-option input[type="checkbox"] {
+    display: none;
+}
+.fr-option label {
+    padding: 6px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: var(--font-code);
+    font-weight: 700;
+    user-select: none;
+    transition: all var(--timing-fast);
+}
+.fr-option label:hover {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+/* This style applies when the hidden checkbox is checked, making the label look "active" */
+.fr-option input[type="checkbox"]:checked + label {
+    background-color: var(--color-border-accent);
+    color: var(--color-bg-deep);
+    border-color: var(--color-border-accent);
+}

@@ -151,13 +151,19 @@
                 </div>
                 <div id="find-replace-panel">
                     <div class="fr-row">
-                        <input type="text" id="find-input" placeholder="Find">
-                        <div class="button-group">
-                            <button id="find-prev-btn" class="secondary-btn" title="Previous">&lt;</button>
-                            <button id="find-next-btn" class="secondary-btn" title="Next">&gt;</button>
-                            <button id="find-close-btn" class="icon-button" title="Close"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
-                        </div>
-                    </div>
+		    <div class="find-input-container">
+		        <input type="text" id="find-input" placeholder="Find">
+		        <div class="fr-option" title="Case Sensitive">
+		            <input type="checkbox" id="fr-case-sensitive">
+		            <label for="fr-case-sensitive">Aa</label>
+		        </div>
+		    </div>
+		    <div class="button-group">
+		        <button id="find-prev-btn" class="secondary-btn" title="Previous">&lt;</button>
+		        <button id="find-next-btn" class="secondary-btn" title="Next">&gt;</button>
+		        <button id="find-close-btn" class="icon-button" title="Close"><svg class="svg-icon"><use href="#icon-x"/></svg></button>
+		    </div>
+		</div>
                      <div class="fr-row">
                         <input type="text" id="replace-input" placeholder="Replace">
                         <div class="button-group">
