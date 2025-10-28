@@ -3,16 +3,23 @@
 
 import { musagim } from './musagim.js';
 import { moves } from './moves.js';
-import { items } from './items.js';
+import { items } from './items.js'; // <-- ADD THIS IMPORT
 import { quests } from './quests.js';
 import { maps } from './maps.js';
 
 // Re-export constants for easy access from other modules
-export { TILE_SIZE, PLAYER_SPEED, formatMoney } from './maps.js'; // Assuming constants are defined in maps.js or a new constants.js file
+export const TILE_SIZE = 40;
+export const PLAYER_SPEED = 180;
 
+// Helper function for formatting money display
+export function formatMoney(moneyObj) {
+    // This can be expanded with different currency types later
+    return `${moneyObj.perutah || 0} Perutahs`;
+}
+
+// --- CORE GAME DATA ---
 export function createDefaultGameState() {
     
-    // The player's starting state
     const player = {
         x: 5, y: 8, 
         pixelX: 5 * TILE_SIZE, 
@@ -31,7 +38,6 @@ export function createDefaultGameState() {
         activeQuests: [],
     };
 
-    // Assemble the complete initial state
     return {
         mode: 'main-menu',
         player: player,
@@ -40,7 +46,7 @@ export function createDefaultGameState() {
         db: {
             musagim,
             moves,
-            items,
+            items, // <-- ADD THE IMPORTED ITEMS OBJECT HERE
             quests
         },
         dialogue: { active: false },
