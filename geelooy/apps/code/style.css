@@ -421,7 +421,7 @@
         width: calc(100% - 24px); max-width: 380px; display: none; 
         grid-template-columns: 1fr; gap: 8px; animation: fadeIn var(--timing-fast); 
         backdrop-filter: blur(10px);
-        opacity:0.7;
+        opacity:0.86;
     }
     .fr-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
     #find-replace-panel .button-group { display: flex; gap: 4px; }

@@ -312,23 +312,34 @@ setupEventListeners() {
     DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
 
     window.addEventListener('keydown', (e) => {
-        const hasModifier = e.ctrlKey || e.metaKey;
-        if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
-        if (hasModifier && e.key.toLowerCase() === 'f') { e.preventDefault(); FindReplace.show(); }
-        if (e.key === 'Escape') {
+    const hasModifier = e.ctrlKey || e.metaKey;
+    if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
+
+    // B"H - UPDATED FIND SHORTCUT LOGIC
+    if (hasModifier && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        
+        // 1. Get currently selected text from the editor.
+        const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
+        
+        // 2. Pass the selected text to the show function.
+        // If no text is selected, it will pass an empty string, which is handled gracefully.
+        FindReplace.show(selectedText); 
+    }
+
+    if (e.key === 'Escape') {
         if (State.isSelectionModeActive) {
             e.preventDefault();
             SelectionManager.end();
-        } else
-            if (DOM.genericDialog.classList.contains('visible')) {
-                const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
-                if (cancelButton) cancelButton.click();
-                return;
-            }
-            if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
-            else Menus.hideAll();
+        } else if (DOM.genericDialog.classList.contains('visible')) {
+            const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
+            if (cancelButton) cancelButton.click();
+            return;
         }
-    });
+        if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
+        else Menus.hideAll();
+    }
+});
 
     const handleTabInInputs = (e) => {
         if (e.key === 'Tab') {

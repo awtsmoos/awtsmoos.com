@@ -12,12 +12,20 @@ export const FindReplace = {
     replaceInput: null,
     caseSensitiveCheckbox: null,
 	isFindSelectionActive: false, 
-    show() {
-        if (!this.panel) return;
-        this.panel.style.display = 'grid';
-        this.findInput.focus();
-        this.findInput.select();
-    },
+    // B"H - IN: js/find-replace.js
+
+	show(prefillText = '') {
+	    if (!this.panel) return; // Safety check
+	
+	    // B"H - If text was passed in, populate the input field with it.
+	    if (prefillText) {
+	        this.findInput.value = prefillText;
+	    }
+	
+	    this.panel.style.display = 'grid';
+	    this.findInput.focus();
+	    this.findInput.select(); // This will now select the pre-filled text for easy editing.
+	},
 
     hide() {
 	    if (!this.panel) return;
