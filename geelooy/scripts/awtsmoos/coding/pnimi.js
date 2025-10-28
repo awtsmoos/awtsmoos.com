@@ -132,7 +132,7 @@ class VirtualizedEditor {
 		//console.log(window.comp = computed, comp.width, w);
 		this.wrapper = document.createElement('div');
 		this.wrapper.className = 'virtualized-editor-wrapper';
-		['width', 'height', 'margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
+		['margin', 'padding', 'border', 'boxSizing', 'position'].forEach(prop => {
 			if (prop === 'position' && computed[prop] === 'static') this.wrapper.style.position = 'relative';
 			else this.wrapper.style[prop] = computed[prop];
 		});
