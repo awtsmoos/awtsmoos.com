@@ -9,7 +9,6 @@ const paddleHeight = 100;
 const maxScore = 10;
 
 
-
 function getRandomEmoji() {
     return ballEmojis[Math.floor(Math.random() * ballEmojis.length)];
 }
@@ -30,52 +29,48 @@ const ai = createPaddle(canvas.width - paddleWidth, (canvas.height - paddleHeigh
 const ball = createBall(canvas, getRandomEmoji());
 
 function handlePaddleCollision(ball, paddle) {
-    // 1. Create a high-performance particle explosion
     createParticleExplosion(ball.x, ball.y);
 
-    // 2. Calculate collision physics
     const collidePoint = (ball.y - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
     const angleRad = (Math.PI / 4) * collidePoint;
     const direction = (paddle.x < canvas.width / 2) ? 1 : -1;
 
-    // 3. Update ball velocity
     ball.dx = direction * ball.speed * Math.cos(angleRad);
     ball.dy = ball.speed * Math.sin(angleRad);
-    
-    // 4. Add realistic spin based on where it hit the paddle
     ball.rotationSpeed = (collidePoint * 0.15) * direction;
-
-    // 5. Increase ball speed slightly on every hit to make it more intense
     ball.speed += 0.1;
+
+    // --- ADAPTIVE AI SPEED on HIT ---
+    // The AI's speed is a percentage of the ball's speed, making it challenging but fair.
+    ai.speed = ball.speed * 0.85;
 }
 
 function update() {
-    // Timer-based speed increase
     const elapsedTime = Math.floor((Date.now() - gameStartTime) / 1000);
     if (elapsedTime > 0 && elapsedTime % 10 === 0 && elapsedTime !== lastSpeedIncreaseTime) {
-        ball.speed += 0.5; // More significant speed boost
+        ball.speed += 0.5;
         lastSpeedIncreaseTime = elapsedTime;
+
+        // --- ADAPTIVE AI SPEED on TIME ---
+        ai.speed = ball.speed * 0.85;
     }
 
     player.update(canvas);
     ai.update(canvas, ball);
     ball.update(canvas);
 
-    // Collision Detection (adjusted for emoji size)
     const currentPaddle = ball.dx < 0 ? player : ai;
     if (ball.x - ball.size / 2 < currentPaddle.x + currentPaddle.width &&
         ball.x + ball.size / 2 > currentPaddle.x &&
         ball.y - ball.size / 2 < currentPaddle.y + currentPaddle.height &&
         ball.y + ball.size / 2 > currentPaddle.y) {
-        
         handlePaddleCollision(ball, currentPaddle);
     }
     
-    // Scoring
-    if (ball.x + ball.size < 0) { // Off the left side
+    if (ball.x + ball.size < 0) {
         ai.score++;
         ball.reset(getRandomEmoji());
-    } else if (ball.x - ball.size > canvas.width) { // Off the right side
+    } else if (ball.x - ball.size > canvas.width) {
         player.score++;
         ball.reset(getRandomEmoji());
     }
@@ -88,10 +83,8 @@ function draw() {
     ai.draw(context);
     ball.draw(context);
     
-    // Draw particles on top of everything
     updateAndDrawParticles(context);
 
-    // Draw UI
     drawScore(context, canvas.width / 4, canvas.height / 5, player.score);
     drawScore(context, 3 * canvas.width / 4, canvas.height / 5, ai.score);
     const elapsedTimeInSeconds = Math.floor((Date.now() - gameStartTime) / 1000);
@@ -106,13 +99,12 @@ function gameLoop() {
         displayWinner(context, canvas, player.score >= maxScore ? "Player" : "AI");
         return;
     }
-
     update();
     draw();
     requestAnimationFrame(gameLoop);
 }
 
-// --- Window-wide Mobile touch controls ---
+// Window-wide Mobile touch controls
 let touchStartY = 0;
 let playerStartDragY = 0;
 document.addEventListener("touchstart", e => {
