@@ -11,7 +11,7 @@ export const FindReplace = {
     findInput: null,
     replaceInput: null,
     caseSensitiveCheckbox: null,
-
+	isFindSelectionActive: false, 
     show() {
         if (!this.panel) return;
         this.panel.style.display = 'grid';
@@ -20,10 +20,11 @@ export const FindReplace = {
     },
 
     hide() {
-        if (!this.panel) return;
-        this.panel.style.display = 'none';
-        Editor.focus();
-    },
+	    if (!this.panel) return;
+	    this.panel.style.display = 'none';
+	    this.isFindSelectionActive = false; // B"H - Reset state on hide
+	    Editor.focus();
+	},
 
     /**
      * B"H - NEW, ROBUST FIND FUNCTION
@@ -31,62 +32,59 @@ export const FindReplace = {
      * It does NOT depend on a highlight layer or a pre-populated 'matches' array.
      */
     find(reverse = false) {
-        const originalQuery = this.findInput.value;
-        if (!originalQuery) return;
-
-        const caseSensitive = this.caseSensitiveCheckbox.checked;
-        const editor = DOM.editor;
-        
-        // Use temporary, lowercased strings for searching if not case sensitive
-        const body = caseSensitive ? editor.value : editor.value.toLowerCase();
-        const query = caseSensitive ? originalQuery : originalQuery.toLowerCase();
-        
-        let index = -1;
-
-        if (reverse) {
-            // --- REVERSE SEARCH ---
-            let from = editor.selectionStart - 1;
-            index = body.lastIndexOf(query, from);
-            
-            // If not found, wrap around and search from the very end of the file
-            if (index === -1) {
-                UI.showToast("Searching from bottom...", "info");
-                index = body.lastIndexOf(query);
-            }
-        } else {
-            // --- FORWARD SEARCH ---
-            let from = editor.selectionEnd;
-            index = body.indexOf(query, from);
-            
-            // If not found, wrap around and search from the very beginning
-            if (index === -1) {
-                UI.showToast("Searching from top...", "info");
-                index = body.indexOf(query, 0);
-            }
-        }
-
-        // If a match was found (either normally or after wrapping around)
-        if (index !== -1) {
-            editor.setSelectionRange(index, index + originalQuery.length);
-
-            // Keep focus on the find input so the user can keep pressing Enter
-            this.findInput.focus();
-            this.findInput.select();
-
-            // --- Scroll into view logic (remains the same) ---
-            const textBefore = editor.value.substring(0, index);
-            const lineNumber = (textBefore.match(/\n/g) || []).length;
-            const style = window.getComputedStyle(editor);
-            const lineHeight = parseFloat(style.lineHeight) || 24; // Use a fallback
-            const editorRect = editor.getBoundingClientRect();
-            const scrollY = (lineNumber * lineHeight) - (editorRect.height / 2);
-            
-            editor.scrollTo({ top: scrollY, left: editor.scrollLeft, behavior: 'smooth' });
-
-        } else {
-            UI.showToast('No occurrences found.', 'info');
-        }
-    },
+	    const originalQuery = this.findInput.value;
+	    if (!originalQuery) return;
+	
+	    const caseSensitive = this.caseSensitiveCheckbox.checked;
+	    const editor = DOM.editor;
+	    const body = caseSensitive ? editor.value : editor.value.toLowerCase();
+	    const query = caseSensitive ? originalQuery : originalQuery.toLowerCase();
+	    
+	    let index = -1;
+	
+	    if (reverse) {
+	        let from = editor.selectionStart - 1;
+	        index = body.lastIndexOf(query, from);
+	        if (index === -1) {
+	            UI.showToast("Searching from bottom...", "info");
+	            index = body.lastIndexOf(query);
+	        }
+	    } else {
+	        let from = editor.selectionEnd;
+	        index = body.indexOf(query, from);
+	        if (index === -1) {
+	            UI.showToast("Searching from top...", "info");
+	            index = body.indexOf(query, 0);
+	        }
+	    }
+	
+	    if (index !== -1) {
+	        // --- B"H - THE KEY CHANGE IS HERE ---
+	        // 1. Select the text AND focus the editor to make the highlight active (e.g., blue)
+	        editor.setSelectionRange(index, index + originalQuery.length);
+	        editor.focus();
+	
+	        // 2. Activate our special "find mode"
+	        this.isFindSelectionActive = true;
+	
+	        // --- Scroll logic remains the same ---
+	        const textBefore = editor.value.substring(0, index);
+	        const lineNumber = (textBefore.match(/\n/g) || []).length;
+	        const style = window.getComputedStyle(editor);
+	        const lineHeight = parseFloat(style.lineHeight) || 24;
+	        const editorRect = editor.getBoundingClientRect();
+	        const scrollY = (lineNumber * lineHeight) - (editorRect.height / 2);
+	        
+	        editor.scrollTo({ top: scrollY, left: editor.scrollLeft, behavior: 'smooth' });
+	
+	    } else {
+	        // If no matches are found, make sure to reset the state and focus the input
+	        this.isFindSelectionActive = false;
+	        this.findInput.focus();
+	        this.findInput.select();
+	        UI.showToast('No occurrences found.', 'info');
+	    }
+	},
 
     replace() {
         const query = this.findInput.value;
@@ -135,26 +133,47 @@ export const FindReplace = {
         }
     },
     
-    init() {
-        this.panel = DOM.findReplacePanel;
-        this.findInput = this.panel.querySelector('#find-input');
-        this.replaceInput = this.panel.querySelector('#replace-input');
-        this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
-        
-        // Ensure panel exists before adding listeners
-        if (!this.panel) return;
+    
+init() {
+    this.panel = DOM.findReplacePanel;
+    this.findInput = this.panel.querySelector('#find-input');
+    this.replaceInput = this.panel.querySelector('#replace-input');
+    this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
+    
+    if (!this.panel) return;
 
-        this.panel.querySelector('#find-next-btn').onclick = () => this.find();
-        this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-        this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
-        this.panel.querySelector('#replace-btn').onclick = () => this.replace();
-        this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
-        
-        this.findInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                this.find(e.shiftKey); 
-            }
-        });
-    }
+    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
+    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
+    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
+    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
+    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
+    
+    // This listener on the FIND INPUT still works the same
+    this.findInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.find(e.shiftKey);
+        }
+    });
+
+    // --- B"H - ADD NEW LISTENERS TO THE EDITOR ---
+
+    // 1. The main logic: Intercept 'Enter' on the editor ONLY when in our special mode
+    DOM.editor.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && this.isFindSelectionActive) {
+            // Prevent the default action (which would delete the selected text)
+            e.preventDefault();
+            // Trigger the next search and keep the special mode active
+            this.find(e.shiftKey);
+        } else {
+            // If any OTHER key is pressed, deactivate the special mode
+            this.isFindSelectionActive = false;
+        }
+    });
+
+    // 2. If the user clicks in the editor, deactivate the special mode
+    DOM.editor.addEventListener('mousedown', () => {
+        this.isFindSelectionActive = false;
+    });
+}
 };
