@@ -18,9 +18,8 @@ const sendToast = (message, type) => sendToMain('toast', { message, type });
 function gameLoop() {
     const now = performance.now();
     if (GAME_STATE.mode === 'game') {
-        World.update(GAME_STATE, now);
+        World.update(GAME_STATE, now, trigger); // Pass trigger to update for encounters
     }
-    // Always send the state so rendering doesn't stop during menus
     sendToMain('gameStateUpdate', { state: GAME_STATE });
 }
 
@@ -32,7 +31,6 @@ const trigger = {
     },
     endBattle: (isWin) => {
         Combat.end(GAME_STATE, isWin, sendUIUpdate, trigger);
-        // If the dialogue that triggered the battle needs to continue, it will be handled by the combat end logic
     },
     startDialogue: (entity, startingBranch = 'start') => {
         World.startDialogue(GAME_STATE, entity, startingBranch, sendUIUpdate);
@@ -54,18 +52,16 @@ self.onmessage = (e) => {
             break;
 
         case 'input':
-            // This is the main input router
             if (payload.type === 'keyState') {
-                // Continuous input for movement
                 if (GAME_STATE.mode === 'game') {
                     World.handleKeyState(GAME_STATE, payload.keys);
                 }
             } else if (payload.type === 'press' && payload.key === 'Confirm') {
-                // Discrete press for interaction/confirmation
                 if (GAME_STATE.dialogue.active) {
                     World.advanceDialogue(GAME_STATE, sendUIUpdate, trigger);
                 } else if (GAME_STATE.mode === 'game') {
-                    World.checkInteraction(GAME_STATE, trigger);
+                    // FIX: Pass sendUIUpdate to checkInteraction
+                    World.checkInteraction(GAME_STATE, trigger, sendUIUpdate);
                 } else if (GAME_STATE.mode === 'battle' && GAME_STATE.battle.awaitingConfirm) {
                     Combat.handleAction(GAME_STATE, { action: 'confirm' }, sendUIUpdate, trigger);
                 }
@@ -92,12 +88,12 @@ function handleUIAction({ action }) {
             GAME_STATE = createDefaultGameState();
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });
-            // Automatically trigger the opening dialogue sequence after a short delay
             setTimeout(() => {
                 const startEntity = GAME_STATE.maps.malkuth_village.interactables['start_sequence'];
                 trigger.startDialogue(startEntity);
             }, 500);
             break;
+        // ... (rest of the function is identical)
         case 'resume':
             GAME_STATE.mode = 'game';
             sendUIUpdate({ screen: 'game' });

@@ -5,21 +5,49 @@ import { TILE_SIZE, PLAYER_SPEED } from '../data/database.js';
 import * as Quests from './quests.js';
 
 let keyState = {};
-let dialogueState = { active: false };
 
-export function handleInput(state, payload, trigger) {
-    if (payload.keys) keyState = payload.keys;
-    if (payload.action === 'confirm') {
-        if (dialogueState.active) {
-            advanceDialogue(state, trigger);
-        } else {
-            checkInteraction(state, trigger);
+// Renamed from handleInput to handleKeyState for clarity
+export function handleKeyState(state, keys) {
+    keyState = keys;
+}
+
+// This function now specifically handles interaction checks
+export function checkInteraction(state, trigger, sendUIUpdate) {
+    if (state.dialogue.active) return; // Don't interact if dialogue is open
+
+    const p = state.player;
+    let targetX = p.x, targetY = p.y;
+
+    if (p.direction === 'up') targetY--;
+    else if (p.direction === 'down') targetY++;
+    else if (p.direction === 'left') targetX--;
+    else if (p.direction === 'right') targetX++;
+
+    const entity = state.maps[state.currentMapId].interactables[`${targetX},${targetY}`];
+    
+    if (entity) {
+        if (entity.type === 'door') {
+            // Door logic is simple state change, no UI update needed from here
+            state.currentMapId = entity.targetMap;
+            state.player.x = entity.targetX;
+            state.player.y = entity.targetY;
+            state.player.pixelX = entity.targetX * TILE_SIZE;
+            state.player.pixelY = entity.targetY * TILE_SIZE;
+        } else if (entity.dialogue) {
+            // Pass sendUIUpdate to startDialogue
+            startDialogue(state, entity, 'start', sendUIUpdate);
         }
+    } else {
+        // Open the game menu if no interaction target
+        state.mode = 'gameMenu';
+        sendUIUpdate({ screen: 'gameMenu' });
     }
 }
 
-export function update(state, now) {
+
+export function update(state, now, trigger) {
     const p = state.player;
+    // Handle movement interpolation
     if (p.isMoving) {
         const elapsed = now - p.moveStartTime;
         if (elapsed >= PLAYER_SPEED) {
@@ -28,7 +56,11 @@ export function update(state, now) {
             p.y = p.targetY;
             p.pixelX = p.x * TILE_SIZE;
             p.pixelY = p.y * TILE_SIZE;
-            // Check for encounter on arrival
+            // Check for wild encounter upon landing on the tile
+            const tileChar = state.maps[state.currentMapId].baseLayer[p.y][p.x];
+            if (tileChar === '🌾' && Math.random() < 0.2) {
+                trigger.startBattle([{ id: 'whispering_grass', level: 3 }]);
+            }
         } else {
             const progress = elapsed / PLAYER_SPEED;
             p.pixelX = p.startX * TILE_SIZE + (p.targetX - p.startX) * TILE_SIZE * progress;
@@ -37,7 +69,7 @@ export function update(state, now) {
         return;
     }
 
-    if (dialogueState.active) return;
+    if (state.dialogue.active || state.mode !== 'game') return;
 
     let dx = 0, dy = 0;
     let newDir = p.direction;
@@ -60,11 +92,10 @@ function initiatePlayerMove(state, dx, dy, newDir, now) {
     const targetY = p.y + dy;
     const map = state.maps[state.currentMapId];
     
-    // Collision Detection
     if (targetX < 0 || targetY < 0 || targetY >= map.baseLayer.length || targetX >= map.baseLayer[0].length) return;
     const baseTile = map.baseLayer[targetY][targetX];
-    if (['🌳', '🏠', '🪨', '🔥', '🌊', '💎'].includes(baseTile)) return; // Simple collision
-    if (map.interactables[`${targetX},${targetY}`]?.type === 'npc') return; // Cannot walk on NPCs
+    if (['🌳', '🏠', '🪨', '🔥', '🌊', '💎', '📜'].includes(baseTile)) return;
+    if (map.interactables[`${targetX},${targetY}`]?.type === 'npc') return;
 
     p.isMoving = true;
     p.moveStartTime = now;
@@ -74,47 +105,22 @@ function initiatePlayerMove(state, dx, dy, newDir, now) {
     p.targetY = targetY;
 }
 
-function checkInteraction(state, trigger) {
-    const p = state.player;
-    let targetX = p.x, targetY = p.y;
-
-    if (p.direction === 'up') targetY--;
-    else if (p.direction === 'down') targetY++;
-    else if (p.direction === 'left') targetX--;
-    else if (p.direction === 'right') targetX++;
-
-    const entity = state.maps[state.currentMapId].interactables[`${targetX},${targetY}`];
-    if (entity) {
-        if (entity.type === 'door') {
-            state.currentMapId = entity.targetMap;
-            state.player.x = entity.targetX;
-            state.player.y = entity.targetY;
-            state.player.pixelX = entity.targetX * TILE_SIZE;
-            state.player.pixelY = entity.targetY * TILE_SIZE;
-        } else if (entity.dialogue) {
-            startDialogue(state, entity);
-        }
-    } else {
-        state.mode = 'gameMenu';
-        trigger.sendUIUpdate({ screen: 'gameMenu' });
-    }
-}
-
-export function startDialogue(state, entity, sendUIUpdate) {
+export function startDialogue(state, entity, startingBranch = 'start', sendUIUpdate) {
     state.mode = 'dialogue';
-    dialogueState = {
+    state.dialogue = {
         active: true,
-        entityId: entity.id,
-        branch: 'start',
+        entityId: entity.id || null, // Use entity id if available
+        entity: entity, // Keep a direct reference for non-id'd entities
+        branch: startingBranch,
         index: 0,
     };
-    // Handle quest-based dialogue branches
+
     if (entity.questGiver) {
         const questStatus = Quests.getQuestStatus(state, entity.questGiver);
         if (questStatus === 'completed' && entity.dialogue.completed) {
-            dialogueState.branch = 'completed';
+            state.dialogue.branch = 'completed';
         } else if (questStatus === 'in_progress' && entity.dialogue.in_progress) {
-            dialogueState.branch = 'in_progress';
+            state.dialogue.branch = 'in_progress';
         }
     }
     
@@ -122,57 +128,62 @@ export function startDialogue(state, entity, sendUIUpdate) {
 }
 
 export function advanceDialogue(state, sendUIUpdate, trigger) {
-    if (!dialogueState.active) return;
+    if (!state.dialogue.active) return;
+    
+    const dialogue = state.dialogue;
+    const branch = dialogue.entity.dialogue[dialogue.branch];
 
-    const entity = findEntity(state, dialogueState.entityId);
-    const branch = entity.dialogue[dialogueState.branch];
-
-    if (!branch || dialogueState.index >= branch.length) {
+    if (!branch || dialogue.index >= branch.length) {
         endDialogue(state, sendUIUpdate);
         return;
     }
 
-    const message = branch[dialogueState.index];
+    const message = branch[dialogue.index];
 
     if (typeof message === 'string') {
         if (message === 'end') {
             endDialogue(state, sendUIUpdate);
             return;
         }
+        dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
-        dialogueState.index++;
     } else if (typeof message === 'object') {
-        // Handle actions
-        if(message.startBattle) trigger.startBattle(message.startBattle);
-        if(message.giveItem) Quests.giveItem(state, message.giveItem);
-        if(message.acceptQuest) trigger.acceptQuest(entity.questGiver);
-        if(message.finalizeQuest) trigger.finalizeQuest(entity.questGiver);
-
-        // Handle choices
-        if(message.choices) {
+        if (message.choices) {
             sendUIUpdate({
                 dialogue: {
                     active: true,
                     text: message.text,
-                    choices: message.choices.map(c => ({ text: c.text, disabled: false })) // Add condition logic here
+                    choices: message.choices.map(c => ({ text: c.text, disabled: false }))
                 }
             });
         } else {
-            dialogueState.index++;
+            // Auto-executing actions
+            if (message.startBattle) {
+                endDialogue(state, sendUIUpdate); // End dialogue before battle
+                trigger.startBattle(message.startBattle);
+                return;
+            }
+            if (message.giveItem) Quests.giveItem(state, message.giveItem);
+            if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver);
+            if (message.finalizeQuest) trigger.finalizeQuest(dialogue.entity.questGiver);
+            
+            dialogue.index++;
             advanceDialogue(state, sendUIUpdate, trigger);
         }
     }
 }
 
 export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
-    const entity = findEntity(state, dialogueState.entityId);
-    const branch = entity.dialogue[dialogueState.branch];
-    const message = branch[dialogueState.index];
+    const dialogue = state.dialogue;
+    const branch = dialogue.entity.dialogue[dialogue.branch];
+    const message = branch[dialogue.index];
     const choice = message.choices[index];
 
+    dialogue.index++; // Move past the choice object
+
     if (choice.next) {
-        dialogueState.branch = choice.next;
-        dialogueState.index = 0;
+        dialogue.branch = choice.next;
+        dialogue.index = 0;
         advanceDialogue(state, sendUIUpdate, trigger);
     } else {
         endDialogue(state, sendUIUpdate);
@@ -180,16 +191,7 @@ export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
 }
 
 function endDialogue(state, sendUIUpdate) {
-    dialogueState = { active: false };
+    state.dialogue.active = false;
     state.mode = 'game';
     sendUIUpdate({ dialogue: { active: false } });
-}
-
-function findEntity(state, entityId) {
-    for (const map of Object.values(state.maps)) {
-        for (const entity of Object.values(map.interactables)) {
-            if (entity.id === entityId) return entity;
-        }
-    }
-    return null;
 }
