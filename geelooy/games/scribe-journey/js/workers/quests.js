@@ -21,8 +21,22 @@ export function updateObjective(state, event) {
     state.player.activeQuests.forEach(quest => {
         quest.objectives.forEach(obj => {
             if (obj.completed) return;
-            if (obj.target.type === event.type && obj.target.musagId === event.musagId) {
-                obj.current = (obj.current || 0) + event.count;
+
+            let objectiveMatched = false;
+            if (obj.target.type === event.type) {
+                if(event.type === 'defeat' && obj.target.musagId === event.musagId) {
+                    objectiveMatched = true;
+                } else if(event.type === 'acquire' && obj.target.itemId === event.itemId) {
+                    objectiveMatched = true;
+                } else if(event.type === 'dialogue' && obj.target.flag === event.flag) {
+                    obj.completed = true; // Dialogue flags are binary
+                    checkCompletion(state, quest);
+                    return;
+                }
+            }
+            
+            if (objectiveMatched) {
+                obj.current = (obj.current || 0) + (event.count || 1);
                 if (obj.current >= obj.target.count) {
                     obj.completed = true;
                     checkCompletion(state, quest);
@@ -31,6 +45,7 @@ export function updateObjective(state, event) {
         });
     });
 }
+
 
 function checkCompletion(state, quest) {
     if (quest.objectives.every(obj => obj.completed)) {
@@ -47,7 +62,6 @@ export function finalize(state, questId, sendToast) {
     const quest = state.player.activeQuests[questIndex];
     if (quest.status !== 'completed') return;
 
-    // Give rewards
     if (quest.rewards.money) {
         for (const unit in quest.rewards.money) {
             state.player.money[unit] = (state.player.money[unit] || 0) + quest.rewards.money[unit];
@@ -61,7 +75,7 @@ export function finalize(state, questId, sendToast) {
     state.player.activeQuests.splice(questIndex, 1);
     
     const giver = findEntity(state, quest.questGiverId);
-    if(giver) giver.questState = 'none'; // Or reset if repeatable
+    if(giver) giver.questState = 'none';
 }
 
 export function giveItem(state, itemId) {
@@ -70,10 +84,20 @@ export function giveItem(state, itemId) {
     state.player.inventory.push({ ...itemDef });
 }
 
-export function getQuestStatus(state, questId) {
+// FIX: Add 'export' to make this function visible to other modules
+export function getStatus(state, questId) {
     const quest = state.player.activeQuests.find(q => q.id === questId);
-    return quest ? quest.status : 'available';
+    if (quest) return quest.status;
+    
+    // Check if the quest is even available for the player from any known giver
+    for (const map of Object.values(state.maps)) {
+        for (const entity of Object.values(map.interactables)) {
+            if (entity.questGiver === questId) return 'available';
+        }
+    }
+    return 'locked';
 }
+
 
 function findEntity(state, entityId) {
     for (const map of Object.values(state.maps)) {
@@ -96,7 +120,7 @@ export function getQuestLogPayload(state) {
         quests: state.player.activeQuests.map(q => ({
             ...q,
             objectives: q.objectives.map(obj => ({
-                text: `${obj.text} (${obj.current || 0}/${obj.target.count})`,
+                text: `${obj.text} (${obj.current || 0}/${obj.target.count || 1})`,
                 completed: obj.completed
             }))
         }))
