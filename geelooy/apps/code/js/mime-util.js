@@ -19,6 +19,9 @@ const MimeMap = {
     '.h':    { type: 'text', mime: 'text/x-h' },
     '.java': { type: 'text', mime: 'text/x-java-source' },
     '.log':  { type: 'text', mime: 'text/plain' },
+    '.properties':  { type: 'text', mime: 'text/plain' },
+    '.gradle':  { type: 'text', mime: 'text/plain' },
+    
 
     // Image files (will be previewed)
     '.png':  { type: 'image', mime: 'image/png' },
