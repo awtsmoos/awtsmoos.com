@@ -5,13 +5,9 @@ import { TILE_SIZE } from '../data/database.js';
 
 let BATTLE_STATE = {};
 
-// FIX: Add 'export' to make this function available to other modules
 export function getMusagInstance(state, source) {
     const base = state.db.musagim[source.id];
-    if (!base) {
-        console.error(`Musag ID not found in database: ${source.id}`);
-        return null; // Handle error gracefully
-    }
+    if (!base) { console.error(`Musag ID not found in database: ${source.id}`); return null; }
     const level = source.level;
     const stats = {
         hp: Math.floor(base.baseStats.hp * (1 + level / 20)),
@@ -20,13 +16,11 @@ export function getMusagInstance(state, source) {
         diligence: Math.floor(base.baseStats.diligence * (1 + level / 20)),
     };
     return {
-        ...base,
-        level,
-        id: source.id,
+        ...base, level, id: source.id,
         maxHp: stats.hp,
-        currentHp: source.currentHp, // Use the actual current HP from the team member
+        currentHp: source.currentHp !== undefined ? source.currentHp : stats.hp,
         maxKavanah: 20 + Math.floor(level / 2),
-        currentKavanah: source.currentKavanah, // Use the actual current Kavanah
+        currentKavanah: source.currentKavanah !== undefined ? source.currentKavanah : (20 + Math.floor(level / 2)),
         stats,
     };
 }
@@ -34,53 +28,27 @@ export function getMusagInstance(state, source) {
 export function initiate(state, opponentData, context, sendUIUpdate) {
     const playerInstance = getMusagInstance(state, state.player.team[0]);
     const opponentInstance = getMusagInstance(state, opponentData[0]);
-
-    if (!playerInstance || !opponentInstance) {
-        console.error("Failed to create battle participants.");
-        return;
-    }
-
+    if (!playerInstance || !opponentInstance) { console.error("Failed to create battle participants."); return; }
     state.battle = BATTLE_STATE = {
-        player: playerInstance,
-        opponent: opponentInstance,
-        turn: 'player',
-        log: `${opponentInstance.name} appears!`,
-        awaitingConfirm: true,
-        context,
+        player: playerInstance, opponent: opponentInstance, turn: 'player',
+        log: `${opponentInstance.name} appears!`, awaitingConfirm: true, context,
     };
-    
     sendUIUpdate({ screen: 'battle', battle: getBattleUIPayload() });
 }
 
 export function handleAction(state, data, sendUIUpdate, trigger) {
     if (BATTLE_STATE.awaitingConfirm && data.action === 'confirm') {
         BATTLE_STATE.awaitingConfirm = false;
-        
-        if (BATTLE_STATE.winner) {
-            trigger.endBattle(BATTLE_STATE.winner === 'player');
-            return;
-        }
-
-        if (BATTLE_STATE.turn === 'player') {
-            showActionMenu(sendUIUpdate);
-        } else {
-            runOpponentTurn(state, sendUIUpdate, trigger);
-        }
+        if (BATTLE_STATE.winner) { trigger.endBattle(BATTLE_STATE.winner === 'player'); return; }
+        if (BATTLE_STATE.turn === 'player') { showActionMenu(sendUIUpdate); } 
+        else { runOpponentTurn(state, sendUIUpdate, trigger); }
         return;
     }
-
     if (BATTLE_STATE.awaitingConfirm || BATTLE_STATE.turn !== 'player') return;
-
     switch(data.action) {
-        case 'fight':
-            showMovesMenu(state, sendUIUpdate);
-            break;
-        case 'back':
-            showActionMenu(sendUIUpdate);
-            break;
-        case 'move':
-            executeTurn(state, data.value, false, sendUIUpdate, trigger);
-            break;
+        case 'fight': showMovesMenu(state, sendUIUpdate); break;
+        case 'back': showActionMenu(sendUIUpdate); break;
+        case 'move': executeTurn(state, data.value, false, sendUIUpdate, trigger); break;
     }
 }
 
@@ -98,10 +66,23 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
     }
     
     attacker.currentKavanah -= move.cost;
-    let damage = Math.max(1, Math.floor(move.power + attacker.stats.attack - (defender.stats.defense / 2)));
-    defender.currentHp = Math.max(0, defender.currentHp - damage);
+    
+    // --- CORRECTED DAMAGE FORMULA ---
+    // A more standard RPG formula that prevents defense from negating all damage.
+    const power = move.power || 0;
+    const attack = attacker.stats.attack || 1;
+    const defense = defender.stats.defense || 1;
+    let damage = 0;
+    if (power > 0) {
+        damage = Math.floor((( (2 * attacker.level) / 5 + 2) * power * (attack / defense)) / 50 + 2);
+        damage = Math.max(1, damage); // Ensure at least 1 damage is dealt
+        defender.currentHp = Math.max(0, defender.currentHp - damage);
+    }
 
-    BATTLE_STATE.log = `${attacker.name} used ${move.name}! It dealt ${damage} damage.`;
+    BATTLE_STATE.log = `${attacker.name} used ${move.name}!`;
+    if (damage > 0) {
+        BATTLE_STATE.log += ` It dealt ${damage} damage.`;
+    }
     BATTLE_STATE.awaitingConfirm = true;
 
     if (defender.currentHp <= 0) {
@@ -119,12 +100,8 @@ function executeTurn(state, moveId, isOpponent, sendUIUpdate, trigger) {
 function runOpponentTurn(state, sendUIUpdate, trigger) {
     const opponent = BATTLE_STATE.opponent;
     const validMoves = opponent.moves.filter(id => state.db.moves[id].cost <= opponent.currentKavanah);
-    
-    const moveId = validMoves.length > 0
-        ? validMoves[Math.floor(Math.random() * validMoves.length)]
-        : opponent.moves[0];
-
-    setTimeout(() => executeTurn(state, moveId, true, sendUIUpdate, trigger), 500);
+    const moveId = validMoves.length > 0 ? validMoves[Math.floor(Math.random() * validMoves.length)] : opponent.moves[0];
+    setTimeout(() => executeTurn(state, moveId, true, sendUIUpdate, trigger), 700); // Slightly longer delay for opponent
 }
 
 export function end(state, isWin, sendUIUpdate, sendToast) {
@@ -158,26 +135,6 @@ export function end(state, isWin, sendUIUpdate, sendToast) {
     sendUIUpdate({ screen: 'game' });
 }
 
-function showActionMenu(sendUIUpdate) {
-    sendUIUpdate({ battle: getBattleUIPayload(true, [ { action: 'fight', text: 'Debate' }, { action: 'item', text: 'Items', disabled: true }, { action: 'team', text: 'Shem', disabled: true }, { action: 'flee', text: 'Concede' }, ])});
-}
-
-function showMovesMenu(state, sendUIUpdate) {
-    const player = BATTLE_STATE.player;
-    const buttons = player.moves.map(id => {
-        const move = state.db.moves[id];
-        return { action: 'move', value: id, text: `${move.name} (${move.cost} Kav)`, disabled: player.currentKavanah < move.cost };
-    });
-    buttons.push({ action: 'back', text: 'Back' });
-    sendUIUpdate({ battle: getBattleUIPayload(true, buttons) });
-}
-
-function getBattleUIPayload(withMenu = false, buttons = []) {
-    const payload = {
-        log: BATTLE_STATE.log, awaitingConfirm: BATTLE_STATE.awaitingConfirm,
-        player: { name: BATTLE_STATE.player.name, level: BATTLE_STATE.player.level, emoji: BATTLE_STATE.player.emoji, hpPercent: (BATTLE_STATE.player.currentHp / BATTLE_STATE.player.maxHp) * 100, kavanahPercent: (BATTLE_STATE.player.currentKavanah / BATTLE_STATE.player.maxKavanah) * 100 },
-        opponent: { name: BATTLE_STATE.opponent.name, level: BATTLE_STATE.opponent.level, emoji: BATTLE_STATE.opponent.emoji, hpPercent: (BATTLE_STATE.opponent.currentHp / BATTLE_STATE.opponent.maxHp) * 100 }
-    };
-    if (withMenu) { payload.menu = { buttons }; payload.log = null; }
-    return payload;
-}
+function showActionMenu(sendUIUpdate) { sendUIUpdate({ battle: getBattleUIPayload(true, [ { action: 'fight', text: 'Debate' }, { action: 'item', text: 'Items', disabled: true }, { action: 'team', text: 'Shem', disabled: true }, { action: 'flee', text: 'Concede' }, ])}); }
+function showMovesMenu(state, sendUIUpdate) { const player = BATTLE_STATE.player; const buttons = player.moves.map(id => { const move = state.db.moves[id]; return { action: 'move', value: id, text: `${move.name} (${move.cost} Kav)`, disabled: player.currentKavanah < move.cost }; }); buttons.push({ action: 'back', text: 'Back' }); sendUIUpdate({ battle: getBattleUIPayload(true, buttons) }); }
+function getBattleUIPayload(withMenu = false, buttons = []) { const payload = { log: BATTLE_STATE.log, awaitingConfirm: BATTLE_STATE.awaitingConfirm, player: { name: BATTLE_STATE.player.name, level: BATTLE_STATE.player.level, emoji: BATTLE_STATE.player.emoji, hpPercent: (BATTLE_STATE.player.currentHp / BATTLE_STATE.player.maxHp) * 100, kavanahPercent: (BATTLE_STATE.player.currentKavanah / BATTLE_STATE.player.maxKavanah) * 100 }, opponent: { name: BATTLE_STATE.opponent.name, level: BATTLE_STATE.opponent.level, emoji: BATTLE_STATE.opponent.emoji, hpPercent: (BATTLE_STATE.opponent.currentHp / BATTLE_STATE.opponent.maxHp) * 100 } }; if (withMenu) { payload.menu = { buttons }; payload.log = null; } return payload; }

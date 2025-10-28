@@ -7,10 +7,9 @@ export function accept(state, questId, sendToast) {
     const questDef = state.db.quests[questId];
     if (!questDef) return;
 
-    const newQuest = JSON.parse(JSON.stringify(questDef)); // Deep copy
+    const newQuest = JSON.parse(JSON.stringify(questDef));
     state.player.activeQuests.push(newQuest);
     
-    // Update NPC state
     const giver = findEntity(state, newQuest.questGiverId);
     if(giver) giver.questState = 'in_progress';
 
@@ -21,20 +20,16 @@ export function updateObjective(state, event) {
     state.player.activeQuests.forEach(quest => {
         quest.objectives.forEach(obj => {
             if (obj.completed) return;
-
             let objectiveMatched = false;
             if (obj.target.type === event.type) {
-                if(event.type === 'defeat' && obj.target.musagId === event.musagId) {
-                    objectiveMatched = true;
-                } else if(event.type === 'acquire' && obj.target.itemId === event.itemId) {
-                    objectiveMatched = true;
-                } else if(event.type === 'dialogue' && obj.target.flag === event.flag) {
-                    obj.completed = true; // Dialogue flags are binary
+                if(event.type === 'defeat' && obj.target.musagId === event.musagId) objectiveMatched = true;
+                else if(event.type === 'acquire' && obj.target.itemId === event.itemId) objectiveMatched = true;
+                else if(event.type === 'dialogue' && obj.id === event.flag) {
+                    obj.completed = true;
                     checkCompletion(state, quest);
                     return;
                 }
             }
-            
             if (objectiveMatched) {
                 obj.current = (obj.current || 0) + (event.count || 1);
                 if (obj.current >= obj.target.count) {
@@ -45,7 +40,6 @@ export function updateObjective(state, event) {
         });
     });
 }
-
 
 function checkCompletion(state, quest) {
     if (quest.objectives.every(obj => obj.completed)) {
@@ -58,7 +52,6 @@ function checkCompletion(state, quest) {
 export function finalize(state, questId, sendToast) {
     const questIndex = state.player.activeQuests.findIndex(q => q.id === questId);
     if (questIndex === -1) return;
-
     const quest = state.player.activeQuests[questIndex];
     if (quest.status !== 'completed') return;
 
@@ -70,7 +63,6 @@ export function finalize(state, questId, sendToast) {
     if (quest.rewards.items) {
         quest.rewards.items.forEach(itemId => giveItem(state, itemId));
     }
-
     sendToast(`Task Complete: ${quest.name}!`, 'success');
     state.player.activeQuests.splice(questIndex, 1);
     
@@ -84,20 +76,17 @@ export function giveItem(state, itemId) {
     state.player.inventory.push({ ...itemDef });
 }
 
-// FIX: Add 'export' to make this function visible to other modules
 export function getStatus(state, questId) {
     const quest = state.player.activeQuests.find(q => q.id === questId);
-    if (quest) return quest.status;
-    
-    // Check if the quest is even available for the player from any known giver
-    for (const map of Object.values(state.maps)) {
-        for (const entity of Object.values(map.interactables)) {
-            if (entity.questGiver === questId) return 'available';
-        }
-    }
-    return 'locked';
+    return quest ? quest.status : 'available';
 }
 
+export function getObjectiveStatus(state, questId, objectiveId) {
+    const quest = state.player.activeQuests.find(q => q.id === questId);
+    if (!quest) return false;
+    const objective = quest.objectives.find(obj => obj.id === objectiveId);
+    return objective ? objective.completed : false;
+}
 
 function findEntity(state, entityId) {
     for (const map of Object.values(state.maps)) {
