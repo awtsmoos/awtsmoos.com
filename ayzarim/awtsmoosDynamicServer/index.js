@@ -16,7 +16,9 @@
  */
 // The Garden of Servers - AwtsmoosStaticServer
 // A symphony of code, a dance of bytes, a living testament to the Creator's design, guided by the essence of the Awtsmoos.
-var MultipartParser  = require("./multipartParser.js")
+var {
+	parseMultipartFormData
+} = require("./multipartParser.js")
 var url = require('url');
 var fs = require('fs')
 	.promises; // Use promises version of fs, the "Yesod" foundation of our file operations.

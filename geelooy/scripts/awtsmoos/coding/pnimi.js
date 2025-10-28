@@ -301,41 +301,30 @@ unindentSelection() {
 	/** @private @function _measureAndRender - Performs measurements and enforces an integer grid. */
 	_measureAndRender() {
 		const performMeasurements = () => {
-			if (!this.textarea.parentNode || !this.textarea.clientWidth) {
-				console.log(this.textarea,"what")
-				return false;
-			}
-
-			if (!this.lineHeight) {
-				const computed = getComputedStyle(this.textarea);
-				const lh = parseFloat(computed.lineHeight);
-				if (!lh || isNaN(lh)) {
-					console.log("line height",lh);
-					 return false;
-					 
-				}
-
-				// --- THE DEFINITIVE FIX IS HERE ---
-				// 1. Sanitize the measured line-height to a stable integer.
-				//    Using Math.round() is generally safest as it picks the nearest whole pixel.
-				this.lineHeight = Math.round(lh);
-
-				// 2. Enforce this integer value back onto the DOM.
-				//    This forces the browser's layout engine and our JS calculations
-				//    to use the EXACT same, unambiguous value, eliminating all drift.
-				this.textarea.style.lineHeight = `${this.lineHeight}px`;
-				this.overlay.style.lineHeight = `${this.lineHeight}px`;
-			}
-
-			if (!this.charWidth) {
-				const tempSpan = document.createElement('span');
-				tempSpan.style.font = getComputedStyle(this.textarea).font;
-				tempSpan.textContent = 'm';
-				this.overlay.appendChild(tempSpan);
-				this.charWidth = tempSpan.getBoundingClientRect().width;
-				tempSpan.remove();
-			}
-			return this.charWidth > 0 && this.lineHeight > 0;
+		    if (!this.textarea.parentNode || !this.textarea.clientWidth) {
+		        return false;
+		    }
+		
+		    // --- B"H - THE FIX IS HERE ---
+		    // We REMOVE the "if (!this.lineHeight)" check to ensure it ALWAYS re-measures.
+		    const computed = getComputedStyle(this.textarea);
+		    const lh = parseFloat(computed.lineHeight);
+		    if (!lh || isNaN(lh)) {
+		        return false;
+		    }
+		    this.lineHeight = Math.round(lh);
+		    this.textarea.style.lineHeight = `${this.lineHeight}px`;
+		    this.overlay.style.lineHeight = `${this.lineHeight}px`;
+		
+		    // We also REMOVE the "if (!this.charWidth)" check.
+		    const tempSpan = document.createElement('span');
+		    tempSpan.style.font = computed.font;
+		    tempSpan.textContent = 'm'; // A common character for width measurement
+		    this.overlay.appendChild(tempSpan);
+		    this.charWidth = tempSpan.getBoundingClientRect().width;
+		    tempSpan.remove();
+		    
+		    return this.charWidth > 0 && this.lineHeight > 0;
 		};
 		var tried = 0;
 		const attemptMeasure = () => {
@@ -452,6 +441,17 @@ unindentSelection() {
 		const caretY = lineIdx * this.lineHeight;
 		this.caret.style.transform = `translate(${caretX - this.textarea.scrollLeft}px, ${caretY - this.textarea.scrollTop}px)`;
 		this.caret.style.height = `${this.lineHeight}px`;
+	}
+	
+	/**
+	 * @public @function refresh
+	 * @description Forces the editor to re-measure its dimensions and redraw.
+	 * This is the definitive fix for layout issues after container resizing.
+	 */
+	refresh() {
+	    console.log("Refreshing editor layout..."); // Good for debugging
+	    // This will now re-run the full measurement and update/render process.
+	    this._measureAndRender();
 	}
 
 	// --- 2. THE SOUL (Neshama/Ohr): WORKER CREATION AND COMMUNICATION ---

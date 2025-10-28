@@ -3,7 +3,7 @@
 // START: Intensely Robust Multipart Parser
 // This replaces the previous parseMultipartFormData function entirely.
 // ========================================================================
-module.exports = 
+
 class MultipartParser {
     constructor(bodyBuffer, boundary) {
         this.body = bodyBuffer;
@@ -150,7 +150,10 @@ function parseMultipartFormData(bodyBuffer, boundary) {
         return {}; // Return empty object on catastrophic failure.
     }
 }
-
+module.exports = {
+	parseMultipartFormData,
+	MultipartParser 
+}
 // ========================================================================
 // END: Intensely Robust Multipart Parser
 // ========================================================================

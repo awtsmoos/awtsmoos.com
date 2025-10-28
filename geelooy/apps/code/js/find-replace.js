@@ -140,48 +140,44 @@ export const FindReplace = {
             UI.showToast(`No occurrences of "${query}" found.`, 'info');
         }
     },
-    
-    
-init() {
-    this.panel = DOM.findReplacePanel;
-    this.findInput = this.panel.querySelector('#find-input');
-    this.replaceInput = this.panel.querySelector('#replace-input');
-    this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
-    
-    if (!this.panel) return;
-
-    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
-    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
-    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
-    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
-    
-    // This listener on the FIND INPUT still works the same
-    this.findInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            this.find(e.shiftKey);
-        }
-    });
-
-    // --- B"H - ADD NEW LISTENERS TO THE EDITOR ---
-
-    // 1. The main logic: Intercept 'Enter' on the editor ONLY when in our special mode
-    DOM.editor.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && this.isFindSelectionActive) {
-            // Prevent the default action (which would delete the selected text)
-            e.preventDefault();
-            // Trigger the next search and keep the special mode active
-            this.find(e.shiftKey);
-        } else {
-            // If any OTHER key is pressed, deactivate the special mode
-            this.isFindSelectionActive = false;
-        }
-    });
-
-    // 2. If the user clicks in the editor, deactivate the special mode
-    DOM.editor.addEventListener('mousedown', () => {
-        this.isFindSelectionActive = false;
-    });
-}
+    init() {
+	    this.panel = DOM.findReplacePanel;
+	    this.findInput = this.panel.querySelector('#find-input');
+	    this.replaceInput = this.panel.querySelector('#replace-input');
+	    this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
+	    
+	    if (!this.panel) return;
+	
+	    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
+	    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
+	    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
+	    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
+	    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
+	    
+	    // This listener now checks for the Shift key
+	    this.findInput.addEventListener('keydown', (e) => {
+	        if (e.key === 'Enter') {
+	            e.preventDefault();
+	            // B"H - THE FIX: Pass e.shiftKey (true/false) to the find function
+	            this.find(e.shiftKey); 
+	        }
+	    });
+	
+	    // This listener on the editor also now checks for the Shift key
+	    DOM.editor.addEventListener('keydown', (e) => {
+	        if (e.key === 'Enter' && this.isFindSelectionActive) {
+	            e.preventDefault();
+	            // B"H - THE FIX: Pass e.shiftKey here as well
+	            this.find(e.shiftKey);
+	        } else {
+	            // If any OTHER key is pressed, deactivate the special mode
+	            this.isFindSelectionActive = false;
+	        }
+	    });
+	
+	    // If the user clicks in the editor, deactivate the special mode
+	    DOM.editor.addEventListener('mousedown', () => {
+	        this.isFindSelectionActive = false;
+	    });
+	}
 };
