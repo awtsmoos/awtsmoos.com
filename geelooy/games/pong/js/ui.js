@@ -35,7 +35,7 @@ function toGematria(num) {
     if (num < 0 || num >= 60) return ''; // Handles timer values only
 
     // User-specified special cases
-    if (num === 15) return 'א"ו'; // As requested: Aleph + Vav
+    if (num === 15) return 'ט"ו'; // As requested: Aleph + Vav
     if (num === 16) return 'ט"ז'; // As requested: Tet + Zayin
 
     const ones = ['', 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
