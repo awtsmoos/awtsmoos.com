@@ -64,7 +64,7 @@
 .game.list {
     flex: 1; /* Takes up all remaining space */
     min-height: 0; /* Critical for flexbox scrolling */
-    max-height:50vh;
+    max-height:70vh;
     display: flex;
     flex-direction: column;
     gap: 18px; /* Spacing between links */
