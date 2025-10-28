@@ -5,18 +5,15 @@ import { musagim } from './musagim.js';
 import { moves } from './moves.js';
 import { items } from './items.js';
 import { quests } from './quests.js';
-import { maps } from './maps.js'; // This now imports the fully parsed maps
+import { maps } from './maps.js';
 
-// --- CORE CONSTANTS - DEFINED AND EXPORTED HERE ---
 export const TILE_SIZE = 40;
 export const PLAYER_SPEED = 180;
 
-// Helper function for formatting money display
 export function formatMoney(moneyObj) {
     return `${moneyObj.perutah || 0} Perutahs`;
 }
 
-// --- GAME STATE ASSEMBLY ---
 export function createDefaultGameState() {
     
     const player = {
@@ -35,6 +32,8 @@ export function createDefaultGameState() {
         inventory: [], 
         team: [{ id: 'clay_golem', level: 5 }],
         activeQuests: [],
+        // FIX: Initialize the flags object to store world state progress.
+        flags: {}, 
     };
 
     return {
@@ -42,7 +41,12 @@ export function createDefaultGameState() {
         player: player,
         currentMapId: 'malkuth_village',
         maps: maps,
-        db: { musagim, moves, items, quests },
+        db: {
+            musagim,
+            moves,
+            items,
+            quests
+        },
         dialogue: { active: false },
         battle: { active: false },
     };

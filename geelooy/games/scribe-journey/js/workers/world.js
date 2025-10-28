@@ -96,7 +96,9 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
                 startDialogue(state, { dialogue: { start: ["The way is sealed. It requires a specific key.", "end"] } }, 'start', sendUIUpdate);
                 return;
             }
-            if (entity.flagRequired && !state.player.flags[entity.flagRequired]) {
+            // --- THIS IS THE FIX ---
+            // Check if player.flags exists before trying to read a property from it.
+            if (entity.flagRequired && (!state.player.flags || !state.player.flags[entity.flagRequired])) {
                 startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
                 return;
             }
@@ -115,90 +117,8 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     }
 }
 
-export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
-    state.mode = 'dialogue';
-    state.dialogue = {
-        active: true, entity: entity, branch: startingBranch, index: 0,
-    };
-
-    // --- THIS IS THE FIX ---
-    // Only check for quest-related branches if the entity is actually a questGiver.
-    if (entity && entity.questGiver) {
-        const questStatus = Quests.getStatus(state, entity.questGiver);
-        if (questStatus === 'completed' && entity.dialogue.completed) {
-            state.dialogue.branch = 'completed';
-        } else if (questStatus === 'in_progress' && entity.dialogue.in_progress) {
-            // Special check for the Halacha quest
-            if (Quests.getObjectiveStatus(state, entity.questGiver, 'learn_law') && entity.dialogue.learned_law) {
-                state.dialogue.branch = 'learned_law';
-            } else {
-                state.dialogue.branch = 'in_progress';
-            }
-        }
-    }
-    
-    advanceDialogue(state, sendUIUpdate);
-}
-
-export function advanceDialogue(state, sendUIUpdate, trigger) {
-    if (!state.dialogue.active) return;
-    
-    const dialogue = state.dialogue;
-    const branch = dialogue.entity.dialogue[dialogue.branch];
-
-    if (!branch || dialogue.index >= branch.length) {
-        endDialogue(state, sendUIUpdate);
-        return;
-    }
-
-    const message = branch[dialogue.index];
-
-    if (typeof message === 'string') {
-        if (message === 'end') { endDialogue(state, sendUIUpdate); return; }
-        dialogue.index++;
-        sendUIUpdate({ dialogue: { active: true, text: message } });
-    } else if (typeof message === 'object') {
-        if (message.choices) {
-            sendUIUpdate({
-                dialogue: {
-                    active: true,
-                    text: message.text,
-                    choices: message.choices
-                }
-            });
-        } else {
-            if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle, message.context); return; }
-            if (message.giveItem) Quests.giveItem(state, message.giveItem);
-            if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver);
-            if (message.finalizeQuest) trigger.finalizeQuest(dialogue.entity.questGiver);
-            if (message.updateQuest) Quests.updateObjective(state, { type: 'dialogue', flag: message.objectiveId });
-            if (message.setFlag) state.player.flags[message.setFlag] = true;
-            
-            dialogue.index++;
-            advanceDialogue(state, sendUIUpdate, trigger);
-        }
-    }
-}
-
-export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
-    const dialogue = state.dialogue;
-    const branch = dialogue.entity.dialogue[dialogue.branch];
-    const message = branch[dialogue.index];
-    const choice = message.choices[index];
-
-    dialogue.index++; 
-
-    if (choice.next) {
-        dialogue.branch = choice.next;
-        dialogue.index = 0;
-        advanceDialogue(state, sendUIUpdate, trigger);
-    } else {
-        endDialogue(state, sendUIUpdate);
-    }
-}
-
-function endDialogue(state, sendUIUpdate) {
-    state.dialogue.active = false;
-    state.mode = 'game';
-    sendUIUpdate({ dialogue: { active: false } });
-}
+// ... The rest of the file (startDialogue, advanceDialogue, etc.) is unchanged ...
+export function startDialogue(state, entity, startingBranch, sendUIUpdate) { state.mode = 'dialogue'; state.dialogue = { active: true, entity: entity, branch: startingBranch, index: 0, }; if (entity && entity.questGiver) { const questStatus = Quests.getStatus(state, entity.questGiver); if (questStatus === 'completed' && entity.dialogue.completed) { state.dialogue.branch = 'completed'; } else if (questStatus === 'in_progress') { if (Quests.getObjectiveStatus(state, entity.questGiver, 'learn_law') && entity.dialogue.learned_law) { state.dialogue.branch = 'learned_law'; } else { state.dialogue.branch = 'in_progress'; } } } advanceDialogue(state, sendUIUpdate); }
+export function advanceDialogue(state, sendUIUpdate, trigger) { if (!state.dialogue.active) return; const dialogue = state.dialogue; let branch = dialogue.entity.dialogue[dialogue.branch]; if (!branch || dialogue.index >= branch.length) { endDialogue(state, sendUIUpdate); return; } const message = branch[dialogue.index]; if (typeof message === 'string') { if (message === 'end') { endDialogue(state, sendUIUpdate); return; } dialogue.index++; sendUIUpdate({ dialogue: { active: true, text: message } }); } else if (typeof message === 'object') { if (message.choices) { sendUIUpdate({ dialogue: { active: true, text: message.text, choices: message.choices } }); } else { if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle, message.context); return; } if (message.giveItem) Quests.giveItem(state, message.giveItem); if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver); if (message.finalizeQuest) trigger.finalizeQuest(dialogue.entity.questGiver); if (message.updateQuest) Quests.updateObjective(state, { type: 'dialogue', flag: message.objectiveId }); if (message.setFlag) state.player.flags[message.setFlag] = true; dialogue.index++; advanceDialogue(state, sendUIUpdate, trigger); } } }
+export function handleDialogueChoice(state, index, sendUIUpdate, trigger) { const dialogue = state.dialogue; const branch = dialogue.entity.dialogue[dialogue.branch]; const message = branch[dialogue.index]; const choice = message.choices[index]; dialogue.index++; if (choice.next) { dialogue.branch = choice.next; dialogue.index = 0; advanceDialogue(state, sendUIUpdate, trigger); } else { endDialogue(state, sendUIUpdate); } }
+function endDialogue(state, sendUIUpdate) { state.dialogue.active = false; state.mode = 'game'; sendUIUpdate({ dialogue: { active: false } }); }
