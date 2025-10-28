@@ -16,8 +16,8 @@ const emojiString = "🥎⚽⚾🏀🎱🏉🏐😀😃😄"+
 "🐮🦎🐉🦖🐢🐊🐸🐖🐕‍🦺🐩🐈‍⬛🐈🐶"+
 "🐺🐶🦣🐘🦘🦙🦌🦣🦛🦒🐿️🐿️🐪🦧🐒"+
 "🐅🐆🐓🐣🐥🦜🐧🦃🐦‍🔥🪿🦤🦭🦈"+
-🐠🐡🪸🦟🐌🐚🍎🍅🍓🍑🍊🍈🍐"+
-🥝🍏🥭🥯🍔🥞🍪🥮🧭🛞🛟⚓🚘🧶";
+"🐠🐡🪸🦟🐌🐚🍎🍅🍓🍑🍊🍈🍐"+
+"🥝🍏🥭🥯🍔🥞🍪🥮🧭🛞🛟⚓🚘🧶";
 const ballEmojis = Array.from(emojiString);
 
 const MAX_PARTICLES = 300; // The maximum number of particles on screen at once
