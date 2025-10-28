@@ -16,6 +16,7 @@
  */
 // The Garden of Servers - AwtsmoosStaticServer
 // A symphony of code, a dance of bytes, a living testament to the Creator's design, guided by the essence of the Awtsmoos.
+var MultipartParser  = require("./multipartParser.js")
 var url = require('url');
 var fs = require('fs')
 	.promises; // Use promises version of fs, the "Yesod" foundation of our file operations.
@@ -123,7 +124,7 @@ class AwtsmoosStaticServer {
 					sec = require(this.directory + config.secret)
 				} catch (e) {}
 				if (!sec) sec = {
-					BH: "B\"H",
+					BH: 'B"H',
 					noKey: "There is no security here at all!"
 				}
 				if (sec) {
@@ -434,42 +435,53 @@ class AwtsmoosStaticServer {
 		}
 		
 		function getData(method = "POST") {
-			return new Promise((r, j) => {
-				let paramData = '';
-				request.on('data', chunk => {
-					if (request.method.toUpperCase() !== method)
-						return r(null);
-					
-					paramData += chunk;
-					
-					// Check for flood attack or faulty client, "Yetzer Hara" of the digital realm.
-					if (paramData.length > 15e6) {
-						paramData = "";
-						// FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
-						// We show "Din", judgement, by cutting off the request.
-						request.socket.destroy();
-						return r(null);
-					}
-				});
-				
-				request.on('end', async () => {
-					
-					if (request.method === method) {
-						paramKinds = parseData(
-							paramKinds,
-							method,
-							paramData
-						)
-						
-						// Perform your validation here
-						r(paramKinds[method]);
-						return;
-					} else {
-						r(null)
-					}
-				});
-			})
-			
+		    return new Promise((resolve, reject) => {
+		        const contentType = request.headers['content-type'] || '';
+		        const chunks = [];
+		
+		        request.on('data', chunk => {
+		            chunks.push(chunk);
+		            // You can add a size limit check here if you want
+		        });
+		
+		        request.on('error', err => reject(err));
+		
+		        request.on('end', async () => {
+		            if (request.method.toUpperCase() !== method) {
+		                return resolve(null);
+		            }
+		
+		            const bodyBuffer = Buffer.concat(chunks);
+		
+		            // --- DELEGATE PARSING BASED ON CONTENT-TYPE ---
+		
+		            if (contentType.startsWith('multipart/form-data')) {
+		                // Delegate to our new, robust multipart parser
+		                const boundary = contentType.match(/boundary=(.+)/)[1];
+		                paramKinds[method] = parseMultipartFormData(bodyBuffer, boundary);
+		
+		            } else if (contentType.startsWith('application/x-www-form-urlencoded')) {
+		                // Use the original logic for standard form data
+		                const paramData = bodyBuffer.toString();
+		                paramKinds[method] = querystring.parse(paramData);
+		                
+		                // Attempt to parse JSON from values, as before
+		                Object.keys(paramKinds[method]).forEach(key => {
+		                    try {
+		                        paramKinds[method][key] = JSON.parse(paramKinds[method][key]);
+		                    } catch (e) { /* Keep as string if not valid JSON */ }
+		                });
+		            } else if (bodyBuffer.length > 0) {
+		                 // For other types like application/json or octet-stream, 
+		                 // we can store the raw buffer. You can expand this logic.
+		                 // For now, this makes it available if needed.
+		                 paramKinds[method] = { __raw_body__: bodyBuffer };
+		            }
+		
+		
+		            resolve(paramKinds[method]);
+		        });
+		    });
 		}
 
 		function parseData(paramKinds, method, paramData) {
