@@ -42,7 +42,7 @@ function handlePaddleCollision(ball, paddle) {
 
     // --- ADAPTIVE AI SPEED on HIT ---
     // The AI's speed is a percentage of the ball's speed, making it challenging but fair.
-    ai.speed = ball.speed * 0.85;
+    ai.speed = ball.speed * 0.68;;
 }
 
 function update() {
