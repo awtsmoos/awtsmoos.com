@@ -8,6 +8,7 @@ import { Workspaces, getItemUniquePath } from './workspaces.js';
 import { SelectionManager } from './selection-manager.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { App } from './app.js';
+import { Clipboard } from './clipboard.js';
 
 // --- YOUR ORIGINAL HELPER FUNCTIONS (UNCHANGED) ---
 async function _getDirectoryTree(sourceDir) {
