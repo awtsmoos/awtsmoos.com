@@ -91,7 +91,7 @@ export const FileOperations = {
 
                     // Now, build the final string with the correctly processed content.
                     combinedContent += '________\n';
-                    combinedContent += '**b"H**\n';
+                    combinedContent += '**B"H**\n';
                     combinedContent += `--start file ${item.path || item.name}.--\n`;
                     combinedContent += '________\n';
                     combinedContent += textContent + '\n';
