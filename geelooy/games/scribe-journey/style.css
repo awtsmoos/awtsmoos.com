@@ -1,74 +1,69 @@
-/* B"H */
+/* B"H - The Scribe's Journey - Fully Responsive Styles */
 
-/* Root CSS Variables for easy theming */
+/* --- 1. Root Variables and Body Reset --- */
 :root {
-    --hp-high: #28a745;       /* Green for high HP */
-    --hp-mid: #ffc107;        /* Yellow for mid HP */
-    --hp-low: #dc3545;         /* Red for low HP */
-    --kavanah: #007bff;       /* Blue for Kavanah (mana/energy) */
-    --bg-main: #1a1a1a;       /* Dark background for body */
-    --bg-panel: #333;         /* Slightly lighter dark for panels */
-    --border-light: #555;     /* Light grey border */
-    --border-bright: #888;    /* Brighter grey border */
-    --text-main: #eee;        /* Light text color */
-    --accent-green: #4CAF50;  /* Standard green accent */
-    --accent-green-dark: #45a049; /* Darker green accent */
-    --accent-red: #dc3545;    /* Standard red accent */
-    --accent-blue: #007bff;   /* Standard blue accent */
-    --text-error: #ffdd00;    /* Yellow for error messages */
-    --disabled-color: #777;   /* Color for disabled elements */
-    --selection-highlight: rgba(0, 123, 255, 0.3); /* Transparent blue for selection */
-    --damage-color: #dc3545;
-    --heal-color: #28a745;
-    --xp-color: #17a2b8; /* Cyan for XP gain */
-    --capture-color: #9c27b0; /* Purple for capture */
-    --quest-available: #ffdd00; /* Yellow for available quest */
-    --quest-in-progress: #a0a0a0; /* Silver for in progress quest */
-    --quest-completed: #ffd700; /* Gold for completed quest */
+    --hp-high: #28a745; --hp-mid: #ffc107; --hp-low: #dc3545;
+    --kavanah: #007bff; --bg-main: #000; --bg-panel: #222;
+    --border-light: #555; --border-bright: #888; --text-main: #eee;
+    --accent-green: #4CAF50; --accent-green-dark: #45a049; --accent-red: #dc3545;
+    --accent-blue: #007bff; --text-error: #ffdd00; --disabled-color: #777;
+    --damage-color: #dc3545; --heal-color: #28a745; --xp-color: #17a2b8;
+    --capture-color: #9c27b0; --quest-available: #ffdd00; --quest-in-progress: #a0a0a0;
+    --quest-completed: #ffd700;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Critical for full-screen experience */
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Segoe UI Emoji', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: 'Segoe UI Emoji', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden; /* Prevents scrollbars from appearing */
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased; /* Smoother fonts */
-    -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- 2. Main Layout Containers --- */
 #gameContainer {
-    position: relative;
-    border: 2px solid var(--border-light);
-    background-color: var(--bg-panel);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-    border-radius: 10px; /* Slightly rounded corners */
-    overflow: hidden; /* Ensures contents don't spill */
+    position: relative; /* Anchor for all absolute UI elements */
+    width: 100%;
+    flex-grow: 1; /* This makes the container fill all available vertical space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 canvas {
     display: block;
-    background-color: #000; /* A black background is better for space/abstract themes */
+    background-color: #000;
+    /* This ensures the canvas scales while maintaining aspect ratio */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
-/* Mobile Controls Styling */
 #mobile-controls {
-    display: none; /* Hidden by default, shown in media query */
+    display: flex; /* ALWAYS visible now */
     flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+    padding: 10px 0;
     gap: 5px;
+    flex-shrink: 0; /* Prevents controls from being squished */
+    background-color: #111;
 }
 
+/* --- 3. Mobile Controls Styling --- */
 .dpad-row {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     align-items: center;
 }
 
@@ -78,16 +73,16 @@ canvas {
     background-color: #444;
     border: 1px solid var(--border-bright);
     color: white;
-    font-size: 1.5em;
+    font-size: 1.8em;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    user-select: none; /* Prevent text selection on tap/click */
+    user-select: none;
     border-radius: 50%;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    transition: background-color 0.1s;
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    transition: background-color 0.1s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .control-button:active, .control-button.active {
@@ -97,403 +92,149 @@ canvas {
 
 #action-button {
     background-color: var(--accent-blue);
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: bold;
+    color: #fff;
     width: 70px;
     height: 70px;
 }
 
-/* General Menu & Modal Styles */
+
+/* --- 4. Overlaid UI (Menus, Dialogue, Battle) --- */
 .menu-screen, .modal {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.97);
-    display: none; /* Hidden by default */
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 20px;
     z-index: 200;
     color: var(--text-main);
-    backdrop-filter: blur(5px); /* Subtle blur for modals */
+    backdrop-filter: blur(5px);
 }
-
-.menu-screen h2, .modal-content h3 {
-    margin-top: 0;
-    font-size: 2.5em;
-    color: var(--text-main);
-    text-shadow: 2px 2px 4px #000;
-}
-.menu-screen h3 {
-    font-size: 1.2em;
-    color: #ccc;
-    margin-top: -15px;
-    font-style: italic;
-}
-
 .modal { z-index: 300; }
 
+.menu-screen h2, .modal-content h3 {
+    font-size: 2.5em; color: var(--text-main); text-shadow: 2px 2px 4px #000;
+}
+.menu-screen h3 { font-size: 1.2em; color: #ccc; margin-top: -15px; font-style: italic; }
+
 .modal-content {
-    background-color: var(--bg-panel);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    text-align: center;
-    width: 80%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-height: 90vh;
-    overflow-y: auto; /* Allows scrolling for long content */
-    border: 1px solid var(--border-light);
+    background-color: var(--bg-panel); padding: 20px; border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8); text-align: center; width: 90%;
+    max-width: 500px; display: flex; flex-direction: column; gap: 15px;
+    max-height: 85vh; overflow-y: auto; border: 1px solid var(--border-light);
 }
 
 .menu-button {
-    background-color: var(--accent-green);
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    font-size: 1.2em;
-    cursor: pointer;
-    border-radius: 12px;
-    box-shadow: 0 4px #387d3b; /* 3D effect */
-    width: 280px;
-    transition: all 0.1s ease;
+    background-color: var(--accent-green); border: none; color: white; padding: 15px 32px;
+    text-align: center; font-size: 1.2em; cursor: pointer; border-radius: 12px;
+    box-shadow: 0 4px #387d3b; width: 280px; transition: all 0.1s ease;
 }
+.menu-button:hover, .menu-button.selected { background-color: var(--accent-green-dark); }
+.menu-button:active { transform: translateY(2px); box-shadow: 0 2px #666; }
+.menu-button[disabled] { background-color: #555; cursor: not-allowed; color: var(--disabled-color); }
 
-.menu-button:hover, .menu-button.selected {
-    background-color: var(--accent-green-dark);
-}
-
-.menu-button:active {
-    background-color: #3e8e41;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px); /* Click feedback */
-}
-
-.menu-button[disabled] {
-    background-color: #555;
-    cursor: not-allowed;
-    box-shadow: 0 4px #444;
-    color: var(--disabled-color);
-}
-
-.modal-action-button, .modal-close-button, .add-button {
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    margin-right: 10px;
-    transition: background-color 0.1s ease;
-}
-
-.modal-action-button { background-color: var(--accent-blue); }
-.modal-action-button:hover { background-color: #0056b3; }
-.modal-close-button { background-color: var(--accent-red); }
-.modal-close-button:hover { background-color: #bd2130; }
-.error-message {
-    color: var(--text-error);
-    font-size: 0.9em;
-    min-height: 1.2em;
-    margin-top: -10px; /* Adjust spacing */
-}
-
-/* Quest Log & Inventory Specific */
-#quest-log-list, #inventory-list {
-    text-align: left;
-    width: 100%;
-}
-.quest-log-item, .inventory-item {
-    background-color: #444;
-    border: 1px solid #666;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-.quest-log-item h4 { margin-top: 0; margin-bottom: 5px; color: var(--quest-in-progress); }
-.quest-log-item h4.completed { color: var(--quest-completed); }
-.quest-log-item p, .inventory-item p { font-size: 0.9em; margin-bottom: 5px; color: #ccc; }
-.quest-log-objective { font-size: 0.8em; color: #ccc; margin-left: 10px; list-style-type: '» '; }
-.inventory-item strong { margin-bottom: 5px; }
-.inventory-item.quest-item {
-    border: 1px solid var(--accent-blue);
-    background-color: rgba(0, 123, 255, 0.1);
-}
-.inventory-item.quest-item strong { color: var(--accent-blue); }
-
-/* Dialogue Box */
+/* --- Dialogue Box --- */
 #dialogue-box {
     display: none;
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    background-color: rgba(0,0,0,0.9);
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    border: 2px solid var(--accent-blue);
-    z-index: 100;
-    min-height: 80px;
-    flex-direction: column;
+    bottom: 10px; left: 10px; right: 10px;
+    background-color: rgba(0,0,0,0.9); color: white; padding: 15px; border-radius: 8px;
+    border: 2px solid var(--accent-blue); z-index: 100; flex-direction: column;
     box-shadow: 0 0 15px rgba(0,123,255,0.5);
+    max-height: 40%;
+    overflow-y: auto;
 }
+#dialogue-text { font-size: 1.1em; line-height: 1.4; margin-bottom: 10px; }
+#dialogue-choices { display: flex; flex-direction: column; gap: 8px; }
+.dialogue-choice { padding: 10px; background-color: #444; border-radius: 5px; cursor: pointer; border: 1px solid #666; transition: background-color 0.2s; }
+.dialogue-choice:hover, .dialogue-choice.selected { background-color: var(--accent-blue); }
+.disabled-choice { color: var(--disabled-color); font-style: italic; cursor: not-allowed; }
+#dialogue-continue-indicator { position: absolute; bottom: 5px; right: 10px; font-size: 1.5em; animation: blink 1s infinite step-start; display: none; color: #ccc; }
 
-#dialogue-text {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    line-height: 1.4;
-}
-
-#dialogue-choices {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.dialogue-choice {
-    padding: 10px;
-    background-color: #444;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid #666;
-    transition: background-color 0.2s, border-color 0.2s;
-    text-align: left;
-}
-
-.dialogue-choice:hover, .dialogue-choice.selected {
-    background-color: var(--accent-blue);
-    border-color: #fff;
-}
-
-.dialogue-choice.disabled-choice {
-    color: var(--disabled-color);
-    font-style: italic;
-    cursor: not-allowed;
-    background-color: #3a3a3a;
-}
-.dialogue-choice.disabled-choice:hover {
-    background-color: #3a3a3a;
-    border-color: #666;
-}
-
-#dialogue-continue-indicator {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 1.5em;
-    animation: blink 1s infinite step-start;
-    display: none;
-    color: #ccc;
-}
-
-/* Battle Screen */
-#battle-screen {
-    background: linear-gradient(145deg, #1d2b45, #3c2a4d); /* Gradient battle background */
-}
-.battle-area {
-    flex-grow: 1;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-.battle-musag-display {
-    position: absolute;
-    width: 45%;
-    background-color: rgba(0, 0, 0, 0.4);
-    border: 2px solid var(--border-bright);
-    border-radius: 8px;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-.musag-stats h4 {
-    margin: 0;
-    font-size: 1.2em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.musag-stats .musag-level {
-    font-size: 0.9em;
-    color: #ccc;
-}
-.health-bar, .kavanah-bar {
-    width: 100%;
-    height: 12px;
-    background-color: #555;
-    border: 1px solid #222;
-    border-radius: 6px;
-    overflow: hidden;
-}
-.health-bar-inner, .kavanah-bar-inner {
-    height: 100%;
-    transition: width 0.4s ease-out, background-color 0.4s;
-}
+/* --- Battle Screen --- */
+#battle-screen { background: linear-gradient(145deg, #1d2b45, #3c2a4d); }
+.battle-area { flex-grow: 1; position: relative; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.battle-musag-display { position: absolute; width: 45%; background-color: rgba(0,0,0,0.4); border: 2px solid var(--border-bright); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.musag-stats h4 { margin: 0; font-size: 1.1em; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.musag-stats .musag-level { font-size: 0.8em; color: #ccc; }
+.health-bar, .kavanah-bar { width: 100%; height: 10px; background-color: #555; border: 1px solid #222; border-radius: 5px; overflow: hidden; }
+.health-bar-inner, .kavanah-bar-inner { height: 100%; transition: width 0.4s ease-out, background-color 0.4s; }
 .health-bar-inner { background-color: var(--hp-high); }
 .kavanah-bar-inner { background-color: var(--kavanah); }
-.musag-emoji {
-    font-size: 3.5em;
-    text-align: center;
-    padding: 10px 0;
-    animation: float 2s ease-in-out infinite alternate;
-    position: relative; /* For damage numbers */
-}
-#opponent-display { top: 10%; right: 5%; }
-#player-display { bottom: 10%; left: 5%; }
+.musag-emoji { font-size: 3em; text-align: center; position: relative; animation: float 2s ease-in-out infinite alternate; }
+#opponent-display { top: 5%; right: 5%; }
+#player-display { bottom: 5%; left: 5%; }
+.battle-ui-box { height: 120px; width: calc(100% - 20px); background-color: rgba(0,0,0,0.6); border: 2px solid #aaa; border-radius: 8px; display: flex; align-items: center; box-shadow: 0 -2px 15px rgba(0,0,0,0.6); position: relative; flex-shrink: 0; }
+#battle-log { width: 100%; padding: 15px; font-size: 1.1em; text-align: center; }
+#battle-menu-container { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px; }
+.battle-button { background-color: #444; border: 2px solid var(--border-bright); color: white; font-size: 1em; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 8px 12px; min-height: 45px; }
+.battle-button:hover, .battle-button.selected { background-color: #666; border-color: #fff; }
+.battle-button[disabled] { background-color: #222; color: var(--disabled-color); cursor: not-allowed; }
+#battle-log-continue-indicator { position: absolute; bottom: 5px; right: 10px; font-size: 1.5em; animation: blink 1s infinite step-start; display: none; color: #ccc; }
 
-.battle-ui-box {
-    height: 120px;
-    width: calc(100% - 20px);
-    background-color: rgba(0, 0, 0, 0.6);
-    border: 2px solid #aaa;
-    border-radius: 8px;
-    display: flex;
-    align-items: center; /* Vertically center log text */
-    box-shadow: 0 -2px 15px rgba(0,0,0,0.6);
-    position: relative; /* For continue indicator */
-}
-#battle-log {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2em;
-    text-align: center;
-}
-#battle-menu-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    padding: 5px;
-}
-.battle-button {
-    background-color: #444;
-    border: 2px solid var(--border-bright);
-    color: white;
-    font-size: 1.1em;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background-color 0.2s, border-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    min-height: 45px; /* Ensure buttons are large enough */
-}
-.battle-button:hover, .battle-button.selected {
-    background-color: #666;
-    border-color: #fff;
-}
-.battle-button[disabled] {
-    background-color: #222;
-    color: var(--disabled-color);
-    cursor: not-allowed;
-    border-color: #444;
-}
-
-#battle-log-continue-indicator {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 1.5em;
-    animation: blink 1s infinite step-start;
-    display: none;
-    color: #ccc;
-}
-
-/* Animations */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 50%, 90% { transform: translateX(-5px); }
-    30%, 70% { transform: translateX(5px); }
-}
-.shake-animation { animation: shake 0.5s; }
-@keyframes float {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-5px); }
-}
-@keyframes blink {
-    0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
-}
-.blink-animation { animation: blink 0.7s steps(1) infinite; }
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-.pulse-animation { animation: pulse 0.3s ease-out; }
-@keyframes moveUpFade {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-30px); opacity: 0; }
-}
+/* --- Animations & Effects --- */
+@keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-5px); } }
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes moveUpFade { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
 .damage-number, .heal-number, .xp-number, .capture-number {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.8em;
-    font-weight: bold;
-    color: var(--damage-color);
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    font-size: 1.5em; font-weight: bold; color: var(--damage-color);
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    animation: moveUpFade 1s forwards;
-    pointer-events: none; /* Allow clicks to pass through */
-    white-space: nowrap; /* Prevent numbers from wrapping */
+    animation: moveUpFade 1s forwards; pointer-events: none; white-space: nowrap;
 }
 .heal-number { color: var(--heal-color); }
 .xp-number { color: var(--xp-color); }
 .capture-number { color: var(--capture-color); }
 
 /* Toast Notifications */
-#toast-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    pointer-events: none;
-}
+#toast-container { position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 1000; pointer-events: none; display: flex; flex-direction: column; align-items: center;}
 .toast {
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    color: white;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-    opacity: 0;
-    transform: translateX(100%);
-    animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+    padding: 10px 15px; margin-bottom: 10px; color: white; border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5); opacity: 0; transform: translateY(100%);
+    animation: slideUp 0.5s forwards, fadeOutToast 0.5s 2.5s forwards;
+    max-width: 80%;
 }
 .toast-info { background-color: #007bff; }
 .toast-success { background-color: #28a745; }
 .toast-warning { background-color: #ffc107; color: #333; }
 .toast-error { background-color: #dc3545; }
-@keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
-@keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+@keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOutToast { to { opacity: 0; } }
 
-/* Responsive Design */
-@media (max-width: 767px), (max-height: 500px) {
-    body { font-size: 14px; }
-    #gameContainer {
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        border: none;
+
+/* --- 5. Desktop and Larger Screen Adjustments --- */
+@media (min-width: 768px) and (min-height: 600px) {
+    body {
+        justify-content: center; /* Center the game container vertically */
     }
-    #mobile-controls { display: flex; }
-    .control-button { width: 50px; height: 50px; }
-    #action-button { width: 60px; height: 60px; }
-    .menu-screen h2, .modal-content h3 { font-size: 2em; }
-    .menu-button { width: 220px; padding: 12px 25px; font-size: 1.1em; }
-    .modal-content { width: 90%; padding: 20px; }
-    #dialogue-box { bottom: 5px; left: 5px; right: 5px; }
-    #dialogue-text { font-size: 1em; }
-    .dialogue-choice { padding: 8px; }
+
+    #gameContainer {
+        width: 800px; /* Fixed width */
+        height: 600px; /* Fixed height */
+        flex-grow: 0; /* Don't grow to fill space */
+        border: 2px solid var(--border-light);
+        border-radius: 10px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    }
+
+    #mobile-controls {
+        display: none; /* Hide mobile controls on desktop */
+    }
+
+    .modal-content {
+        max-width: 600px;
+    }
+
+    #dialogue-box {
+        max-width: 760px; /* Match container width minus padding */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .musag-emoji { font-size: 4em; }
+    .battle-musag-display { width: 40%; }
 }
