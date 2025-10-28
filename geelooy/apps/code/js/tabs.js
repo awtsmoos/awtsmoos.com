@@ -94,10 +94,6 @@ export const Tabs = {
         this.activate(newTab.id);
     },
 
-    // B"H
-// FILE: js/tabs.js
-// ACTION: Replace the entire `activate` method with this one.
-
 async activate(tabId) {
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {

@@ -342,24 +342,34 @@ setupEventListeners() {
     DOM.findInput.addEventListener('keydown', handleTabInInputs);
     DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
 
-    DOM.editor.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        return; 
-    }
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            const editor = DOM.editor;
-            const fullText = editor.value;
-            const cursorPosition = editor.selectionStart;
-            const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
-            const currentLineText = fullText.substring(lineStartPos, cursorPosition);
-            const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
-            const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
-            const textToInsert = '\n' + indent;
-            editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
-            editor.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-    });
+   DOM.editor.addEventListener('keydown', (e) => {
+	    // If the special find-selection mode is active, stop this listener immediately
+	    // and let the listener in find-replace.js handle the event.
+	    if (FindReplace.isFindSelectionActive) {
+	        return;
+	    }
+	
+	    if (e.key === 'Tab') {
+	        // This is not the right place for this, it will be handled by the highlighter.
+	        // We leave the return here to avoid conflicts for now.
+	        return; 
+	    }
+	
+	    // This auto-indent logic will now ONLY run if we are NOT in the find-selection mode.
+	    if (e.key === 'Enter') {
+	        e.preventDefault();
+	        const editor = DOM.editor;
+	        const fullText = editor.value;
+	        const cursorPosition = editor.selectionStart;
+	        const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
+	        const currentLineText = fullText.substring(lineStartPos, cursorPosition);
+	        const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
+	        const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+	        const textToInsert = '\n' + indent;
+	        editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
+	        editor.dispatchEvent(new Event('input', { bubbles: true }));
+	    }
+	});
 
    // IN: js/app.js -> App.setupEventListeners()
 // REPLACE the existing keyboardHelper listener with this one.
