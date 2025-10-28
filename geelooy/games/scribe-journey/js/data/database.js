@@ -3,21 +3,29 @@
 
 import { musagim } from './musagim.js';
 import { moves } from './moves.js';
-import { items } from './items.js'; // <-- ADD THIS IMPORT
+import { items } from './items.js';
 import { quests } from './quests.js';
 import { maps } from './maps.js';
 
-// Re-export constants for easy access from other modules
+// --- CORE CONSTANTS - DEFINED AND EXPORTED HERE ---
 export const TILE_SIZE = 40;
-export const PLAYER_SPEED = 180;
+export const PLAYER_SPEED = 180; // Milliseconds per tile
 
-// Helper function for formatting money display
+// --- HELPER FUNCTIONS ---
+const COINAGE = {
+    perutah: { value: 1, plural: 'Perutahs' },
+    // Add other currency types here if needed
+};
+const COINAGE_ORDER = ['perutah'];
+
 export function formatMoney(moneyObj) {
-    // This can be expanded with different currency types later
-    return `${moneyObj.perutah || 0} Perutahs`;
+    if (!moneyObj || Object.keys(moneyObj).length === 0) return '0 Perutahs';
+    return COINAGE_ORDER
+        .map(unit => moneyObj[unit] ? `${moneyObj[unit]} ${moneyObj[unit] > 1 ? COINAGE[unit].plural : unit}` : null)
+        .filter(Boolean).join(', ');
 }
 
-// --- CORE GAME DATA ---
+// --- GAME STATE ASSEMBLY ---
 export function createDefaultGameState() {
     
     const player = {
@@ -38,6 +46,7 @@ export function createDefaultGameState() {
         activeQuests: [],
     };
 
+    // Assemble the complete initial state from all imported modules
     return {
         mode: 'main-menu',
         player: player,
@@ -46,7 +55,7 @@ export function createDefaultGameState() {
         db: {
             musagim,
             moves,
-            items, // <-- ADD THE IMPORTED ITEMS OBJECT HERE
+            items,
             quests
         },
         dialogue: { active: false },

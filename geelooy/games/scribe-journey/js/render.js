@@ -1,16 +1,23 @@
-//B"H
+// B"H
 // js/render.js
 
-
+import { TILE_SIZE } from './data/database.js'; // <-- CORRECTED IMPORT
 
 export function renderGameState(ctx, state) {
     if (!ctx || !state || !state.player || state.mode === 'battle') return;
 
     const p = state.player;
     const map = state.maps[state.currentMapId];
-    if (!map) return;
+    if (!map) {
+        // If map is missing, draw an error instead of a black screen
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.fillStyle = 'red';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Error: Map "${state.currentMapId}" not found!`, ctx.canvas.width / 2, ctx.canvas.height / 2);
+        return;
+    }
     
-    // **NEW**: The pixel position is now the source of truth for the camera.
     const cameraOffsetX = (ctx.canvas.width / 2) - (p.pixelX + TILE_SIZE / 2);
     const cameraOffsetY = (ctx.canvas.height / 2) - (p.pixelY + TILE_SIZE / 2);
 
@@ -47,9 +54,7 @@ export function renderGameState(ctx, state) {
     ctx.fillStyle = '#eee';
     ctx.font = `${TILE_SIZE * 0.8}px 'Segoe UI Emoji'`;
 
-    // Render Player
     ctx.save();
-    // **NEW**: The player is always rendered at the center of the screen.
     ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
     if (p.direction === 'right') ctx.scale(-1, 1);
     else if (p.direction === 'up') ctx.rotate(Math.PI / 2);
