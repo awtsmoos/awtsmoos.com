@@ -46,55 +46,47 @@ export const FindReplace = {
             this.find();
         }
     },
-    
-    // B"H - IN: js/find-replace.js
+	 find(reverse = false) {
+        this.updateHighlights();
 
-	// Keep the `show()` and `hide()` functions as they are.
-	// Replace the `find()` function:
-	
-	find(reverse = false) {
-	    const originalQuery = this.findInput.value;
-	    if (!originalQuery) return;
-	
-	    const editor = DOM.editor;
-	    const caseSensitive = this.caseSensitiveCheckbox.checked;
-	
-	    // Use temporary, lowercased strings for searching if not case sensitive
-	    const body = caseSensitive ? editor.value : editor.value.toLowerCase();
-	    const query = caseSensitive ? originalQuery : originalQuery.toLowerCase();
-	    
-	    let index = -1;
-	
-	    // Determine the starting point for the search
-	    const selectionStart = editor.selectionStart;
-	    const from = reverse ? selectionStart - 1 : selectionStart + 1;
-	
-	    // Perform the search
-	    index = reverse ? body.lastIndexOf(query, from) : body.indexOf(query, from);
-	
-	    if (index !== -1) {
-	        // We found a match. Select it in the editor.
-	        editor.setSelectionRange(index, index + originalQuery.length);
-	
-	        // --- B"H: FOCUS & SCROLL FIXES ---
-	        // 1. Re-focus and select the text in the FIND input, not the editor
-	        this.findInput.focus();
-	        this.findInput.select();
-	
-	        // 2. Scroll the editor smoothly to the selection
-	        const textBefore = editor.value.substring(0, index);
-	        const lineNumber = (textBefore.match(/\n/g) || []).length;
-	        const style = window.getComputedStyle(editor);
-	        const lineHeight = parseFloat(style.lineHeight);
-	        const editorRect = editor.getBoundingClientRect();
-	        const scrollY = (lineNumber * lineHeight) - (editorRect.height / 2);
-	        
-	        editor.scrollTo({ top: scrollY, behavior: 'smooth' });
-	
-	    } else {
-	        UI.showToast('No more occurrences found.', 'info');
-	    }
-	},
+        if (this.matches.length === 0) {
+            UI.showToast('No occurrences found.', 'info');
+            return;
+        }
+
+        if (reverse) {
+            this.currentMatchIndex--;
+            if (this.currentMatchIndex < 0) {
+                this.currentMatchIndex = this.matches.length - 1; // Wrap around to the end
+            }
+        } else {
+            this.currentMatchIndex++;
+            if (this.currentMatchIndex >= this.matches.length) {
+                this.currentMatchIndex = 0; // Wrap around to the start
+            }
+        }
+
+        const currentMatch = this.matches[this.currentMatchIndex];
+        const editor = DOM.editor;
+        
+        editor.setSelectionRange(currentMatch.index, currentMatch.index + currentMatch[0].length);
+
+        this.findInput.focus();
+        this.findInput.select();
+
+
+
+        // Scroll into view
+        const textBefore = editor.value.substring(0, currentMatch.index);
+        const lineNumber = (textBefore.match(/\n/g) || []).length;
+        const style = window.getComputedStyle(editor);
+        const lineHeight = parseFloat(style.lineHeight);
+        const editorRect = editor.getBoundingClientRect();
+        const scrollY = (lineNumber * lineHeight) - (editorRect.height / 2);
+        
+        editor.scrollTo({ top: scrollY, left: editor.scrollLeft, behavior: 'smooth' });
+    },
+    
 	
 	// Keep the `replace()` function as it is.
 	// Replace the `replaceAll()` function:
@@ -130,25 +122,32 @@ export const FindReplace = {
 	
 	// And finally, replace the `init()` function:
 	
-	init() {
-	    this.panel = DOM.findReplacePanel;
-	    this.findInput = this.panel.querySelector('#find-input');
-	    this.replaceInput = this.panel.querySelector('#replace-input');
-	    this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive'); // Get the new checkbox
-	
-	    this.panel.querySelector('#find-next-btn').onclick = () => this.find();
-	    this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
-	    this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
-	    this.panel.querySelector('#replace-btn').onclick = () => this.replace();
-	    this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
-	
-	    // The 'Enter' key listener remains the same and now works perfectly with the new logic
-	    this.findInput.addEventListener('keydown', (e) => {
-	        if (e.key === 'Enter') {
-	            e.preventDefault();
-	            this.find(e.shiftKey); 
-	        }
-	    });
+	 init() {
+		this.panel = DOM.findReplacePanel;
+		this.findInput = this.panel.querySelector('#find-input');
+		this.replaceInput = this.panel.querySelector('#replace-input');
+		this.caseSensitiveCheckbox = this.panel.querySelector('#fr-case-sensitive');
+		this.highlightLayer = document.getElementById('editor-highlight-layer');
+		
+		this.panel.querySelector('#find-next-btn').onclick = () => this.find();
+		this.panel.querySelector('#find-prev-btn').onclick = () => this.find(true);
+		this.panel.querySelector('#find-close-btn').onclick = () => this.hide();
+		this.panel.querySelector('#replace-btn').onclick = () => this.replace();
+		this.panel.querySelector('#replace-all-btn').onclick = () => this.replaceAll();
+		
+		this.findInput.addEventListener('keydown', (e) => {
+		    if (e.key === 'Enter') {
+		        e.preventDefault();
+		        this.find(e.shiftKey); 
+		    }
+		});
+		
+		// B"H - Synchronize scrolling between textarea and highlight layer
+		DOM.editor.addEventListener('scroll', () => {
+		    this.highlightLayer.scrollTop = DOM.editor.scrollTop;
+		    this.highlightLayer.scrollLeft = DOM.editor.scrollLeft;
+		});
+		
 	}
 
    

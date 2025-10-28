@@ -173,9 +173,19 @@ setupEventListeners() {
             DOM.sidebar.classList.toggle('is-open');
             DOM.sidebarOverlay.classList.toggle('is-visible');
         } else {
+	        
             // On desktop, toggle the collapsed state.
-            appContainer.style.gridTemplateColumns = ''; // B"H - ADD THIS LINE
             appContainer.classList.toggle('sidebar-collapsed');
+		if(!appContainer.classList.contains("sidebar-collapsed")) {
+			var sidebarW = localStorage.awtsmoosSidebarWidth;
+			if(!isNaN(sidebarW)) {
+				
+			        appContainer.style.gridTemplateColumns = 
+			        `${sidebarW}px 1fr`;
+			}
+		} else {
+			appContainer.style.gridTemplateColumns = '';
+		}
         }
     };
 }
@@ -201,13 +211,19 @@ setupEventListeners() {
 	    
 	    const minWidth = 200; // Minimum sidebar width in pixels
 	    const maxWidth = 600; // Maximum sidebar width in pixels
-	
+		
+		var sidebarW = localStorage.awtsmoosSidebarWidth;
+		if(!isNaN(sidebarW)) {
+			
+		        appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
+		}
 	    // This function is called whenever the mouse moves during a drag
 	    const handleMouseMove = (e) => {
 	        // Calculate the new width, but keep it within our min/max bounds
 	        let newWidth = Math.max(minWidth, Math.min(e.clientX, maxWidth));
 	        // Directly update the CSS grid layout of the app container
 	        appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
+	        localStorage.awtsmoosSidebarWidth = newWidth;
 	    };
 	
 	    // This function is called when the user lets go of the mouse button
