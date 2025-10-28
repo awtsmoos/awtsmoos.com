@@ -27,6 +27,18 @@ export const SelectionManager = {
 
             if (action === 'copy-selection') {
                 FileOperations.copySelected();
+            } else if (action === 'copy-contents-selection') {
+                const itemsToCopy = Array.from(State.selectedItems)
+                    .map(path => State.domItemMap.get(path)?.item)
+                    .filter(Boolean); // Filters out any undefined items
+
+                if (itemsToCopy.length > 0) {
+                    FileOperations.copyAllContents(itemsToCopy);
+                }
+                this.end(); 
+                // End selection mode after copying
+            
+
             } else if (action === 'delete-selection') { // <-- ADD THIS ELSE IF BLOCK
                 // Delegate the complex deletion logic to FileOperations
                 FileOperations.deleteSelected();
@@ -98,21 +110,22 @@ toggle(item) {
         DOM.selectionMenu.classList.remove('visible');
     },
 
-    // B"H
-// FILE: js/selection-manager.js
-
-// ... inside the SelectionManager object ...
-
-    // REPLACE your existing updateMenu function with this one.
+    
     updateMenu() {
         const count = State.selectedItems.size;
-        // The button text is now wrapped in a <span class="menu-button-label">
-        DOM.selectionMenu.innerHTML = /*html*/`
+        DOM.selectionMenu.innerHTML = /*html*/ `
             <span class="selection-count">${count} item${count === 1 ? '' : 's'} selected</span>
             <hr class="menu-separator">
             <button class="menu-button" data-action="copy-selection" title="Copy Selected Items" ${count === 0 ? 'disabled' : ''}>
                 <svg class="svg-icon"><use href="#icon-copy"></use></svg><span class="menu-button-label"> Copy</span>
             </button>
+            
+            <!-- V-- ADD THIS BUTTON --V -->
+            <button class="menu-button" data-action="copy-contents-selection" title="Copy Contents of Selected Items" ${count === 0 ? 'disabled' : ''}>
+                <svg class="svg-icon"><use href="#icon-clipboard"></use></svg><span class="menu-button-label"> Copy Contents</span>
+            </button>
+            <!-- ^-- END OF ADDITION --^ -->
+
             <button class="menu-button danger" data-action="delete-selection" title="Delete Selected Items" ${count === 0 ? 'disabled' : ''}>
                 <svg class="svg-icon"><use href="#icon-trash"></use></svg><span class="menu-button-label"> Delete</span>
             </button>

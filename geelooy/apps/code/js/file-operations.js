@@ -51,6 +51,70 @@ async function _writeFile(fileNode, destinationDir) {
 export const FileOperations = {
 
 
+
+
+
+    
+    async copyAllContents(items) {
+        if (!items || items.length === 0) {
+            UI.showToast("Nothing selected to copy.", "info");
+            return;
+        }
+
+        UI.showLoading("Reading file contents...");
+        let combinedContent = '';
+
+        try {
+            const processItem = async (item) => {
+                // Ensure we have a valid item object
+                if (!item || !item.kind) return;
+
+                if (item.kind === 'file') {
+                    const content = await FileSystemProvider.read(item);
+                    const textContent = (content instanceof Blob) ? await content.text() : String(content || '');
+
+                    combinedContent += '________\n';
+                    combinedContent += '**B"H**\n';
+                    combinedContent += `--start of file ${item.path || item.name}.--\n`;
+                    combinedContent += '________\n';
+                    combinedContent += textContent + '\n';
+                    combinedContent += '________\n\n';
+                } else if (item.kind === 'directory') {
+                    combinedContent += `\n// B"H - Directory: ${item.path || item.name}\n\n`;
+                    
+                    const children = await FileSystemProvider.list(item);
+                    children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
+
+                    for (const child of children) {
+                        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
+                        if (workspace) {
+                            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+                            await processItem(fullChildItem);
+                        }
+                    }
+                }
+            };
+
+            for (const item of items) {
+                await processItem(item);
+            }
+
+            if (combinedContent) {
+                const success = await Clipboard.write(combinedContent);
+                UI.showToast(success ? 'All contents copied to clipboard!' : 'Failed to copy contents.', success ? 'success' : 'error');
+            } else {
+                UI.showToast('No text content found to copy.', 'info');
+            }
+
+        } catch (error) {
+            console.error("Error copying all contents:", error);
+            UI.showToast(`Error: ${error.message}`, 'error');
+        } finally {
+            UI.hideLoading();
+        }
+    },
+    
+
 	
     // B"H
     async deleteSelected() {

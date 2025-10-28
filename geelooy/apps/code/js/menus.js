@@ -56,8 +56,10 @@ export const Menus = {
         }
         
         menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
+        menuItems.push({ label: 'Copy All Contents', action: 'copy-all-contents', icon: 'clipboard' });
         menuItems.push({ isSeparator: true });
-
+        
+        
         // 2. Smart Paste Button
         const clipboardItemUniquePath = State.fileClipboard?.[0];
         const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
@@ -219,6 +221,13 @@ positionAndDisplay(menu, coords) {
                         const success = await Clipboard.write(DOM.editor.value);
                         UI.showToast(success ? 'All content copied!' : 'Copy failed!', success ? 'success' : 'error');
                     }
+                    break;
+                }
+                
+                case 'copy-all-contents': {
+                    if (!item) break;
+                    // Pass the right-clicked item in an array to our new function
+                    FileOperations.copyAllContents([item]);
                     break;
                 }
                 // B"H
