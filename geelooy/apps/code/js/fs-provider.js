@@ -190,46 +190,83 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
 // In: FileSystemProvider.Local
 // ACTION: Replace your ENTIRE existing "write" method with this one.
 
+// In: js/fs-provider.js
+// In: FileSystemProvider.Local
+// ACTION: Replace your ENTIRE existing "write" method with this one.
+
 async write(item, content) {
-    try {
-        // --- THE DEFINITIVE FIX: HANDLE VERIFICATION ---
+    // Find the workspace this item belongs to. This is crucial for the recovery process.
+    const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+    if (!workspace) {
+        throw new Error(`Critical error: Could not find the parent workspace for this file.`);
+    }
 
-        // 1. Find the full workspace object this item belongs to.
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-        if (!workspace) {
-            throw new Error(`Could not find the parent workspace (ID: ${item.workspaceId}) for this item.`);
-        }
-
-        // 2. Proactively verify the master handle for the entire workspace.
-        const currentPermission = await workspace.handle.queryPermission({ mode: 'readwrite' });
-
-        // 3. If permission was lost or needs to be re-prompted, we handle it now.
-        if (currentPermission !== 'granted') {
-            UI.showToast("Local folder permission needed...", "info", 4000);
-            
-            // Request permission again. This is the step that gets a fresh, valid handle.
-            if (await workspace.handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
-                throw new Error('Permission to write to the folder was denied.');
-            }
-            UI.showToast("Permission granted.", "success");
-        }
-
-        // --- END OF FIX ---
-
-
-        // 4. With a verified handle, proceed with the original, clean save logic.
-        // We use 'workspace.handle' as it's now guaranteed to be the most up-to-date handle.
-        const fileHandle = await this.getHandle(workspace.handle, item.path, { kind: 'file', create: true });
-        
+    // This is a small, reusable function that performs the actual saving.
+    // It is designed to be called for the initial attempt and the retry attempt.
+    const performSaveOperation = async () => {
+        // IMPORTANT: It ALWAYS uses the handle currently stored in the main workspace state.
+        const currentHandle = workspace.handle;
+        const fileHandle = await this.getHandle(currentHandle, item.path, { kind: 'file', create: true });
         const writable = await fileHandle.createWritable();
         await writable.write({ type: 'write', data: content });
         await writable.close();
+    };
+
+    try {
+        // --- ATTEMPT 1: The Optimistic Path ---
+        // We try to save using the handle we currently have.
+        await performSaveOperation();
 
     } catch (e) {
-        // If any step fails (including the user denying permission), report the error.
-        console.error(`Local write failed for path: "${item.path}"`, e);
-        // We re-throw the error so the UI can display the "Save failed" message.
-        throw e; 
+        // --- FAILURE DETECTED: Initiate Recovery Protocol ---
+        
+        // We only trigger this intense recovery if it's the specific error we're looking for.
+        if (e.message.includes('state had changed')) {
+            
+            console.warn(`STALE HANDLE DETECTED for workspace "${workspace.name}". Initiating recovery.`);
+            UI.showToast("Workspace connection stale. Please re-select the folder to save.", "info", 6000);
+
+            try {
+                // 1. GET A BRAND NEW HANDLE: This is the most critical step. We are not
+                // trying to "fix" the old handle. We are throwing it away and getting a
+                // completely new one from the operating system via the user.
+                const newHandle = await window.showDirectoryPicker();
+
+                // 2. VERIFY THE NEW HANDLE: Ensure the user selected the same folder.
+                if (newHandle.name !== workspace.handle.name) {
+                    throw new Error(`The selected folder "${newHandle.name}" does not match the original workspace folder "${workspace.handle.name}".`);
+                }
+
+                // 3. UPDATE THE CENTRAL STATE: This is the second most critical step.
+                // We permanently replace the old, poisoned handle in our application's
+                // state with the new, guaranteed-valid one.
+                workspace.handle = newHandle;
+                
+                UI.showToast("Folder re-connected. Retrying save...", "success");
+
+                // 4. --- ATTEMPT 2: The Recovery Path ---
+                // We now call the exact same save function again. This time, it will
+                // pull the brand-new handle from the state and will succeed.
+                await performSaveOperation();
+
+            } catch (recoveryError) {
+                // This catch block handles failures during the recovery itself,
+                // such as the user canceling the folder picker.
+                if (recoveryError.name === 'AbortError') {
+                    UI.showToast("Save cancelled.", "warning");
+                } else {
+                    console.error("CRITICAL: Failed to recover from stale handle.", recoveryError);
+                    UI.showToast(`Recovery Failed: ${recoveryError.message}`, "error", 8000);
+                }
+                // Re-throw the error to ensure the UI knows the save ultimately failed.
+                throw recoveryError;
+            }
+        } else {
+            // If the initial error was something else (e.g., "Permission Denied"),
+            // we do not attempt recovery and just report the original error.
+            console.error(`Local write failed with a non-recoverable error for path: "${item.path}"`, e);
+            throw e;
+        }
     }
 },
 
