@@ -182,24 +182,42 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
         // In: js/fs-provider.js
 // In: FileSystemProvider.Local
 
+// In: js/fs-provider.js
+// In: FileSystemProvider.Local
+// ACTION: Replace your ENTIRE existing "write" method with this one.
+
 async write({ handle, path }, content) {
-    try {
-        // This call now uses the improved getHandle, which creates necessary parent folders.
+    // This is a helper function containing the core save logic.
+    const performWrite = async () => {
+        // This will always get the latest handle, creating parent folders if needed.
         const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
-        
-        // Create a writable stream to the file.
         const writable = await fileHandle.createWritable();
-        
-        // Write the new content.
         await writable.write({ type: 'write', data: content });
-        
-        // Close the stream and finalize the write to disk.
         await writable.close();
+    };
+
+    try {
+        // First attempt to save.
+        await performWrite();
     } catch (e) {
-        // If any step fails, log the specific error for debugging and,
-        // most importantly, re-throw the error so the UI knows the save failed.
-        console.error(`Local write failed for path: "${path}"`, e);
-        throw new Error(`Could not save file. The system reported: ${e.message}`);
+        // If the first attempt fails, check for our specific error message.
+        if (e.message.includes('state had changed')) {
+            // Log a warning for debugging, then retry automatically.
+            console.warn(`Stale file handle detected for "${path}". Retrying the write operation once.`);
+            
+            try {
+                // This is the second and final attempt.
+                await performWrite();
+            } catch (retryError) {
+                // If the retry also fails, it's a more serious issue. Report it.
+                console.error(`Local write FAILED ON RETRY for path: "${path}"`, retryError);
+                throw new Error(`Could not save file after retry. The system reported: ${retryError.message}`);
+            }
+        } else {
+            // If it was a different kind of error, report it immediately without retrying.
+            console.error(`Local write failed for path: "${path}"`, e);
+            throw new Error(`Could not save file. The system reported: ${e.message}`);
+        }
     }
 },
 
