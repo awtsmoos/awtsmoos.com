@@ -179,92 +179,70 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
         /**
          * The 'write' method. It will now work because getHandle is correct.
          */
-        // In: js/fs-provider.js
-// In: FileSystemProvider.Local
-
-// In: js/fs-provider.js
-// In: FileSystemProvider.Local
-// ACTION: Replace your ENTIRE existing "write" method with this one.
-
-// In: js/fs-provider.js
-// In: FileSystemProvider.Local
-// ACTION: Replace your ENTIRE existing "write" method with this one.
-
-// In: js/fs-provider.js
-// In: FileSystemProvider.Local
-// ACTION: Replace your ENTIRE existing "write" method with this one.
 
 async write(item, content) {
-    // Find the workspace this item belongs to. This is crucial for the recovery process.
     const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
     if (!workspace) {
         throw new Error(`Critical error: Could not find the parent workspace for this file.`);
     }
 
-    // This is a small, reusable function that performs the actual saving.
-    // It is designed to be called for the initial attempt and the retry attempt.
-    const performSaveOperation = async () => {
-        // IMPORTANT: It ALWAYS uses the handle currently stored in the main workspace state.
-        const currentHandle = workspace.handle;
-        const fileHandle = await this.getHandle(currentHandle, item.path, { kind: 'file', create: true });
+    // A small, self-contained function to perform the save.
+    const performSaveOperation = async (handleToUse) => {
+        const fileHandle = await this.getHandle(handleToUse, item.path, { kind: 'file', create: true });
         const writable = await fileHandle.createWritable();
         await writable.write({ type: 'write', data: content });
         await writable.close();
     };
 
     try {
-        // --- ATTEMPT 1: The Optimistic Path ---
-        // We try to save using the handle we currently have.
-        await performSaveOperation();
+        // --- ATTEMPT 1: Try to save with the current handle. ---
+        await performSaveOperation(workspace.handle);
 
     } catch (e) {
-        // --- FAILURE DETECTED: Initiate Recovery Protocol ---
-        
-        // We only trigger this intense recovery if it's the specific error we're looking for.
+        // --- FAILURE DETECTED: Check if it's our specific recoverable error. ---
         if (e.message.includes('state had changed')) {
-            
             console.warn(`STALE HANDLE DETECTED for workspace "${workspace.name}". Initiating recovery.`);
             UI.showToast("Workspace connection stale. Please re-select the folder to save.", "info", 6000);
 
             try {
-                // 1. GET A BRAND NEW HANDLE: This is the most critical step. We are not
-                // trying to "fix" the old handle. We are throwing it away and getting a
-                // completely new one from the operating system via the user.
+                // 1. Get a BRAND NEW handle from the user.
                 const newHandle = await window.showDirectoryPicker();
 
-                // 2. VERIFY THE NEW HANDLE: Ensure the user selected the same folder.
+                // 2. Verify the user selected the correct folder.
                 if (newHandle.name !== workspace.handle.name) {
-                    throw new Error(`The selected folder "${newHandle.name}" does not match the original workspace folder "${workspace.handle.name}".`);
+                    throw new Error(`The selected folder "${newHandle.name}" does not match the workspace "${workspace.handle.name}".`);
                 }
 
-                // 3. UPDATE THE CENTRAL STATE: This is the second most critical step.
-                // We permanently replace the old, poisoned handle in our application's
-                // state with the new, guaranteed-valid one.
+                // 3. Update the central state with the new, valid handle.
                 workspace.handle = newHandle;
                 
+                // 4. THE DEFINITIVE FIX: Yield to the browser's event loop.
+                // We wait for an imperceptible 50 milliseconds. This gives the browser's
+                // internal file system state manager enough time to fully process the
+                // new handle we just received, preventing the race condition.
+                await new Promise(resolve => setTimeout(resolve, 50));
+
                 UI.showToast("Folder re-connected. Retrying save...", "success");
 
-                // 4. --- ATTEMPT 2: The Recovery Path ---
-                // We now call the exact same save function again. This time, it will
-                // pull the brand-new handle from the state and will succeed.
-                await performSaveOperation();
+                // 5. --- ATTEMPT 2: Retry the save. It will now use the settled, new handle. ---
+                await performSaveOperation(workspace.handle);
 
             } catch (recoveryError) {
-                // This catch block handles failures during the recovery itself,
-                // such as the user canceling the folder picker.
+                // This block catches failures during the recovery process itself.
+                let finalMessage;
                 if (recoveryError.name === 'AbortError') {
-                    UI.showToast("Save cancelled.", "warning");
+                    finalMessage = "Save was cancelled during folder re-selection.";
+                    UI.showToast(finalMessage, "warning");
                 } else {
-                    console.error("CRITICAL: Failed to recover from stale handle.", recoveryError);
-                    UI.showToast(`Recovery Failed: ${recoveryError.message}`, "error", 8000);
+                    finalMessage = `The save failed even after recovery. Please try the save operation again.`;
+                    console.error("CRITICAL: The recovery attempt failed.", recoveryError);
+                    UI.showToast(finalMessage, "error", 10000);
                 }
-                // Re-throw the error to ensure the UI knows the save ultimately failed.
-                throw recoveryError;
+                // Throw a new, clear error to the main UI.
+                throw new Error(finalMessage);
             }
         } else {
-            // If the initial error was something else (e.g., "Permission Denied"),
-            // we do not attempt recovery and just report the original error.
-            console.error(`Local write failed with a non-recoverable error for path: "${item.path}"`, e);
+            // If the initial error was something else, throw it immediately.
             throw e;
         }
     }
