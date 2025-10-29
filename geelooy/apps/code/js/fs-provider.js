@@ -78,37 +78,38 @@ export const FileSystemProvider = {
          * It correctly decodes paths and navigates step-by-step. The previous
          * versions likely had a subtle bug here causing the "not found" error.
          */
-        async getHandle(rootHandle, path, { kind, create = false } = {}) {
-            // Safety Check: If rootHandle is invalid, fail immediately.
-            if (!rootHandle || typeof rootHandle.getDirectoryHandle !== 'function') {
-                throw new Error("Invalid root directory handle provided to getHandle.");
-            }
+        
 
-            let currentHandle = rootHandle;
-            // The API cannot handle encoded characters like '%20' for spaces.
-            // Decoding the path is absolutely essential for reliability.
-            const decodedPath = decodeURIComponent(path);
+async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
+    let currentHandle = rootHandle;
+    // The API works with paths relative to the root, so we decode and remove any leading slash.
+    const decodedPath = decodeURIComponent(path).replace(/^\//, '');
 
-            if (!decodedPath || decodedPath === '/') {
-                return currentHandle;
-            }
-            
-            const parts = decodedPath.split('/').filter(p => p && p !== '.');
-            
-            for (let i = 0; i < parts.length; i++) {
-                const part = parts[i];
-                const isLast = i === parts.length - 1;
+    if (!decodedPath) {
+        return rootHandle; // Return the root if the path is empty.
+    }
 
-                if (isLast && kind === 'file') {
-                    // Get the handle for the final file in the path.
-                    currentHandle = await currentHandle.getFileHandle(part, { create });
-                } else {
-                    // Get the handle for the next directory in the path.
-                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-                }
-            }
-            return currentHandle;
-        },
+    const parts = decodedPath.split('/');
+    
+    // Loop through each part of the path.
+    for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (!part) continue; // Skip empty parts from accidental double slashes.
+
+        const isLastPart = i === parts.length - 1;
+
+        if (isLastPart && kind === 'file') {
+            // For the final part, if it's a file, get the file handle.
+            // The 'create' flag here will create the file if it doesn't exist.
+            currentHandle = await currentHandle.getFileHandle(part, { create });
+        } else {
+            // For any directory part, get the directory handle.
+            // The 'create' flag here ensures intermediate directories are created on demand.
+            currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+        }
+    }
+    return currentHandle;
+},
 
         /**
          * THIS IS THE NEW, ROBUST list.
@@ -178,17 +179,29 @@ export const FileSystemProvider = {
         /**
          * The 'write' method. It will now work because getHandle is correct.
          */
-        async write({ handle, path }, content) {
-            // Get the file handle, creating the file if it doesn't exist.
-            try {
-            const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
-            const writable = await fileHandle.createWritable();
-            await writable.write({ type: 'write', data: content});
-            await writable.close();
-            } catch(e) {
-            console.log(e);
-            }
-        },
+        // In: js/fs-provider.js
+// In: FileSystemProvider.Local
+
+async write({ handle, path }, content) {
+    try {
+        // This call now uses the improved getHandle, which creates necessary parent folders.
+        const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
+        
+        // Create a writable stream to the file.
+        const writable = await fileHandle.createWritable();
+        
+        // Write the new content.
+        await writable.write({ type: 'write', data: content });
+        
+        // Close the stream and finalize the write to disk.
+        await writable.close();
+    } catch (e) {
+        // If any step fails, log the specific error for debugging and,
+        // most importantly, re-throw the error so the UI knows the save failed.
+        console.error(`Local write failed for path: "${path}"`, e);
+        throw new Error(`Could not save file. The system reported: ${e.message}`);
+    }
+},
 
         /**
          * The 'create' method. It will now work because getHandle is correct.
