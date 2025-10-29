@@ -118,36 +118,45 @@ async function handleIncomingRequest(event, baseItem) {
 // B"H
 // FILE: html-preview-processor.js
 
-// ... All imports and top-level functions (waitForAck, sendChunks, etc.) remain the same. ...
-// ... The worker-related functions (handleIncomingRequest, etc.) are correct for now. ...
-// The entire problem lies in the asset inlining logic.
+// In: js/html-preview-processor.js
 
-// --- THE DEFINITIVE, FOOLPROOF AND DEFENSIVE VERSION ---
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     
-    // This is a new helper function to display errors directly on the page.
-    const renderErrorOnPage = (message) => {
+    // This helper function is now enhanced to display full stack traces.
+    const renderErrorOnPage = (message, error) => {
         const errorDiv = doc.createElement('div');
-        errorDiv.style.background = '#ffdddd';
-        errorDiv.style.border = '2px solid red';
-        errorDiv.style.color = 'red';
-        errorDiv.style.padding = '15px';
-        errorDiv.style.margin = '10px';
+        errorDiv.style.background = '#280000';
+        errorDiv.style.border = '2px solid #ff5555';
+        errorDiv.style.color = '#ffc8c8';
+        errorDiv.style.padding = '20px';
+        errorDiv.style.margin = '15px';
         errorDiv.style.fontFamily = 'monospace';
-        errorDiv.style.whiteSpace = 'pre-wrap';
-        errorDiv.textContent = `FATAL PREVIEW ERROR:\n\n${message}`;
+        errorDiv.style.whiteSpace = 'pre-wrap'; // Preserves formatting of the stack trace
+        errorDiv.style.fontSize = '14px';
+        errorDiv.style.lineHeight = '1.6';
+        errorDiv.style.zIndex = '999999';
+        errorDiv.style.position = 'relative';
+
+        let errorText = `B"H - FATAL PREVIEW ERROR:\n\n${message}`;
+        if (error && error.stack) {
+            // Append the full stack trace for complete debugging information.
+            errorText += `\n\n--- STACK TRACE ---\n${error.stack}`;
+        }
+        errorDiv.textContent = errorText;
+
         if (doc.body) {
             doc.body.prepend(errorDiv);
         } else {
+            // Fallback for documents without a body tag yet
             doc.documentElement.prepend(errorDiv);
         }
     };
 
     if (!workspace) {
-        renderErrorOnPage("Could not find the current workspace in the application's state.");
+        renderErrorOnPage("Could not find the current workspace in the application's state.", new Error("Workspace is null or undefined."));
         return doc.documentElement.outerHTML;
     }
     
@@ -156,7 +165,6 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
         if (doc.head) doc.head.prepend(interceptorConsoleElement);
         else doc.documentElement.prepend(interceptorConsoleElement);
 
-    // First, inject the worker interceptor script.
     const interceptorElement = doc.createElement('script');
     interceptorElement.textContent = workerInterceptorScript;
     if (doc.head) doc.head.prepend(interceptorElement);
@@ -174,18 +182,6 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
         try {
             const assetItem = { ...workspace, path: resolvedPath };
             
-            // --- EXTREME DEFENSIVE VALIDATION ---
-            // This is the core of the fix. We now validate the object BEFORE calling read().
-            if (assetItem.type === 'local' && (!assetItem.handle || typeof assetItem.handle.kind === 'undefined')) {
-                // If this error shows up, it means the workspace object for your local
-                // project in your main application state is missing the DirectoryHandle.
-                throw new Error(`The local workspace object is missing its 'handle'. Cannot read files.`);
-            }
-            if (assetItem.type === 'github' && (!assetItem.repoInfo || !assetItem.branch)) {
-                throw new Error(`The GitHub workspace object is missing 'repoInfo' or 'branch'.`);
-            }
-
-            // Fetch metadata for GitHub files. This is required by your GitHub.read function.
             if (assetItem.type === 'github') {
                 const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${assetItem.repoInfo.owner}/${assetItem.repoInfo.repo}/contents/${resolvedPath}?ref=${assetItem.branch}`);
                 assetItem.sha = fileMeta.sha;
@@ -193,7 +189,6 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             
             let content = await FileSystemProvider.read(assetItem);
             
-            // This logic correctly handles all possible return types from your provider.
             if (content instanceof Blob) {
                 content = await content.text();
             } else if (content && content.isBinary) {
@@ -201,45 +196,25 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             }
 
             if (typeof content !== 'string') {
-                throw new Error(`Asset content for '${resolvedPath}' could not be read as a string.`);
+                throw new Error(`Asset content for '${resolvedPath}' could not be read as a string. Received type: ${typeof content}`);
             }
             
-            var myEl;
+            const newEl = isLink ? doc.createElement('style') : doc.createElement('script');
             
-            
-
-            // Replace the element with its inlined content.
-            if (isLink) {
-                myEl = doc.createElement('style');
-                
-            } else { // It's a <script> tag
-                myEl = doc.createElement('script');
-                
+            // Preserve all original attributes (like type="module", async, etc.) except for src/href
+            for (const attr of el.attributes) {
+            	if (attr.name !== "src" && attr.name !== "href") {
+            		newEl.setAttribute(attr.name, attr.value);
+            	}
             }
             
-            var attr = [...el.attributes];
-            attr.forEach(a=>{
-            	if(
-            		a.name=="src"||
-            		a.name=="href"
-            	) return; 
-            	
-            	myEl.setAttribute(
-            		a.name,
-            		a.value
-            	
-            	)
-            
-            
-            })
-            
-            myEl.textContent = content;
-                
-            el.parentNode.replaceChild(myEl, el);
+            newEl.textContent = content;
+            el.parentNode.replaceChild(newEl, el);
             
         } catch (e) { 
-            // Now, instead of silently failing, we render the error visibly on the page.
-            renderErrorOnPage(`Could not inline asset: ${resolvedPath}\n\nREASON: ${e.message}`);
+            // THE FIX: Pass the entire error object 'e' to the renderer.
+            // This will now display the full stack trace on the preview page.
+            renderErrorOnPage(`Could not inline asset: ${resolvedPath}`, e);
         }
     }
 
