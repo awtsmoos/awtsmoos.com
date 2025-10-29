@@ -186,38 +186,50 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
 // In: FileSystemProvider.Local
 // ACTION: Replace your ENTIRE existing "write" method with this one.
 
-async write({ handle, path }, content) {
-    // This is a helper function containing the core save logic.
-    const performWrite = async () => {
-        // This will always get the latest handle, creating parent folders if needed.
-        const fileHandle = await this.getHandle(handle, path, { kind: 'file', create: true });
+// In: js/fs-provider.js
+// In: FileSystemProvider.Local
+// ACTION: Replace your ENTIRE existing "write" method with this one.
+
+async write(item, content) {
+    try {
+        // --- THE DEFINITIVE FIX: HANDLE VERIFICATION ---
+
+        // 1. Find the full workspace object this item belongs to.
+        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+        if (!workspace) {
+            throw new Error(`Could not find the parent workspace (ID: ${item.workspaceId}) for this item.`);
+        }
+
+        // 2. Proactively verify the master handle for the entire workspace.
+        const currentPermission = await workspace.handle.queryPermission({ mode: 'readwrite' });
+
+        // 3. If permission was lost or needs to be re-prompted, we handle it now.
+        if (currentPermission !== 'granted') {
+            UI.showToast("Local folder permission needed...", "info", 4000);
+            
+            // Request permission again. This is the step that gets a fresh, valid handle.
+            if (await workspace.handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
+                throw new Error('Permission to write to the folder was denied.');
+            }
+            UI.showToast("Permission granted.", "success");
+        }
+
+        // --- END OF FIX ---
+
+
+        // 4. With a verified handle, proceed with the original, clean save logic.
+        // We use 'workspace.handle' as it's now guaranteed to be the most up-to-date handle.
+        const fileHandle = await this.getHandle(workspace.handle, item.path, { kind: 'file', create: true });
+        
         const writable = await fileHandle.createWritable();
         await writable.write({ type: 'write', data: content });
         await writable.close();
-    };
 
-    try {
-        // First attempt to save.
-        await performWrite();
     } catch (e) {
-        // If the first attempt fails, check for our specific error message.
-        if (e.message.includes('state had changed')) {
-            // Log a warning for debugging, then retry automatically.
-            console.warn(`Stale file handle detected for "${path}". Retrying the write operation once.`);
-            
-            try {
-                // This is the second and final attempt.
-                await performWrite();
-            } catch (retryError) {
-                // If the retry also fails, it's a more serious issue. Report it.
-                console.error(`Local write FAILED ON RETRY for path: "${path}"`, retryError);
-                throw new Error(`Could not save file after retry. The system reported: ${retryError.message}`);
-            }
-        } else {
-            // If it was a different kind of error, report it immediately without retrying.
-            console.error(`Local write failed for path: "${path}"`, e);
-            throw new Error(`Could not save file. The system reported: ${e.message}`);
-        }
+        // If any step fails (including the user denying permission), report the error.
+        console.error(`Local write failed for path: "${item.path}"`, e);
+        // We re-throw the error so the UI can display the "Save failed" message.
+        throw e; 
     }
 },
 
