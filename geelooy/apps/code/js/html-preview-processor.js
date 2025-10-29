@@ -7,12 +7,9 @@ import workerInterceptorScript from "./worker-intercept.js";
 import importScriptsPolyfill from "./importScriptsHack.js";
 import interceptorScriptContent from "./console-interceptor.js";
 // Helper function remains necessary for path resolution.
-function resolveRelativePath(basePath, relativePath) {
-    if (!basePath) return relativePath;
-    const baseUrl = new URL(basePath, 'http://dummy.com/');
-    const resolvedUrl = new URL(relativePath, baseUrl);
-    return resolvedUrl.pathname.substring(1);
-}
+// In: js/html-preview-processor.js
+
+
 
 
 
@@ -219,6 +216,23 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     }
 
     return doc.documentElement.outerHTML;
+}
+
+
+function resolveRelativePath(basePath, relativePath) {
+    // If the base path is the root, the absolute path is simply the relative path with a leading slash.
+    // This also handles cases where the base path might not be provided.
+    if (!basePath || basePath === '/') {
+        return `/${relativePath.replace(/^\//, '')}`;
+    }
+
+    // The core logic for resolving paths within subdirectories using the URL constructor.
+    const baseUrl = new URL(basePath, 'http://dummy.com/');
+    const resolvedUrl = new URL(relativePath, baseUrl);
+    
+    // THE FIX: Return the full pathname directly. It correctly includes the leading slash.
+    // The previous version had a .substring(1) here, which was the source of the bug.
+    return resolvedUrl.pathname;
 }
 
 // All other functions in this file (attach/detach, handleIncomingRequest, etc.) are for the worker
