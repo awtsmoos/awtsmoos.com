@@ -364,16 +364,29 @@ It then simply checks if the calculated parent path matches the `path` we are tr
             });
         },
         
+        // In: js/fs-provider.js -> FileSystemProvider.IndexedDB
+
+read: async function({ path }) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+        const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+        const request = store.get(path);
+
+        request.onerror = e => reject(e.target.error);
         
-        read: async function({ path }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const req = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME).get(path);
-                // Return the content as is. It could be text or a Blob.
-                req.onsuccess = e => resolve(e.target.result?.content ?? ''); 
-                req.onerror = e => reject(e.target.error);
-            });
-        },
+        request.onsuccess = e => {
+            const result = e.target.result;
+            if (result !== undefined) {
+                // Success: The file was found. Resolve with its content.
+                resolve(result.content);
+            } else {
+                // Failure: The file was not in the database. Reject with a clear error.
+                reject(new Error(`File not found in Browser Storage at path: "${path}"`));
+            }
+        };
+    });
+},
+        
         write: async function({ path }, content) {
             await this.init();
             return new Promise((resolve, reject) => {
