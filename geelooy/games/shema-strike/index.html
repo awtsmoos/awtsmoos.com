@@ -1,0 +1,41 @@
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Shema's Edge</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="mobile-controls">
+            <div id="joystick-area">
+                <div id="joystick-thumb"></div>
+            </div>
+            <div id="action-button-area">
+                <div id="action-button">⚔️</div>
+            </div>
+        </div>
+        <div id="start-screen">
+            <h1>Shema's Edge</h1>
+            <p>The forces of chaos gather. Wield the blade of Unity.</p>
+            <p><b>Desktop:</b> Arrow Keys/WASD to Move & Jump. SPACE to Strike.</p>
+            <p><b>Mobile:</b> Use Joystick and Strike Button.</p>
+            <button id="start-button">BEGIN THE FIGHT</button>
+        </div>
+    </div>
+
+    <!-- Game Scripts (Load order is crucial) -->
+    <script src="js/utils.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/particle.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
