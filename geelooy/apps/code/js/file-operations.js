@@ -52,6 +52,32 @@ async function _writeFile(fileNode, destinationDir) {
 export const FileOperations = {
 
 
+// B"H
+    /**
+     * Copies the references of the currently selected items to the internal clipboard.
+     * This prepares them for a subsequent 'paste' operation.
+     */
+    async copySelected() {
+        // Get the unique paths from the selection state.
+        const selectedPaths = Array.from(State.selectedItems);
+
+        // Check if there's anything to copy.
+        if (selectedPaths.length === 0) {
+            UI.showToast("No items selected to copy.", "info");
+            return;
+        }
+
+        // Store the array of unique paths in the file clipboard.
+        State.fileClipboard = selectedPaths;
+
+        // Let the user know the action was successful.
+        UI.showToast(`${selectedPaths.length} item(s) copied to clipboard.`, 'success');
+
+        // End the selection mode to provide a clean user experience.
+        SelectionManager.end();
+    },
+
+
 
 
 
