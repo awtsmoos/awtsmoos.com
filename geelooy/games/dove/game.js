@@ -90,6 +90,7 @@ function gameLoop() {
 
     // Draw everything
     ctx.clearRect(0, 0, C.CANVAS_WIDTH, C.CANVAS_HEIGHT);
+    Background.draw(ctx);
     Obstacle.draw(ctx);
     Dove.draw(ctx);
 
