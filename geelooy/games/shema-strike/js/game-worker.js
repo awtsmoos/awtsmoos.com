@@ -21,6 +21,73 @@ importScripts(
     'player.js'       // Player class and logic
 );
 
+
+
+// B"H
+
+// --- OPTIMIZATION 2: PARTICLE OBJECT POOL ---
+class ParticleSystem {
+    constructor(maxParticles = 500) {
+        this.pool = [];
+        for (let i = 0; i < maxParticles; i++) {
+            this.pool.push(new Particle(0,0,'',0,0)); // Create generic particles
+        }
+        this.activeIndex = 0;
+    }
+
+    spawn(type, x, y, options = {}) {
+        // Find the next available particle in the pool
+        const p = this.pool[this.activeIndex];
+        
+        // Re-initialize it based on the desired type
+        p.life = p.initialLife = 60; // Default life
+        p.x = x;
+        p.y = y;
+
+        if (type === 'hebrewLetter') {
+            p.text = getRandomFrom(HEBREW_LETTERS);
+            p.size = Math.random() * 20 + 15;
+            p.life = p.initialLife = 80;
+            p.vx = (Math.random() - 0.5) * 6;
+            p.vy = -Math.random() * 8 - 4;
+            p.gravity = 0.3;
+            p.updateFn = p.updateMovement;
+            p.drawFn = p.drawText;
+        } else if (type === 'damageText') {
+            p.damage = options.damage;
+            p.gematria = toGematria(p.damage);
+            p.vy = -2;
+            p.updateFn = p.updateDamageText;
+            p.drawFn = p.drawDamageText;
+        } else if (type === 'hitSpark') {
+            p.size = 60;
+            p.life = p.initialLife = 10;
+            p.updateFn = p.updateHitSpark;
+            p.drawFn = p.drawHitSpark;
+        }
+        
+        // Move to the next particle in the pool, wrapping around if necessary
+        this.activeIndex = (this.activeIndex + 1) % this.pool.length;
+    }
+
+    update() {
+        for (const p of this.pool) {
+            if (p.life > 0) {
+                p.updateFn();
+            }
+        }
+    }
+
+    draw(ctx) {
+        ctx.save();
+        for (const p of this.pool) {
+            if (p.life > 0) {
+                p.drawFn(ctx);
+            }
+        }
+        ctx.restore();
+    }
+}
 // ==================================
 // 2. WORKER-SCOPE GLOBAL VARIABLES
 // ==================================
@@ -45,7 +112,7 @@ let controlsState = {
 
 // --- Game State & Objects ---
 // These are declared here and will be properly initialized in the `initializeGame` function.
-let world, player, ui;
+let world, player, ui, particleSystem;
 let enemies, particles, healthPackets;
 let wave, waveCooldown, cameraX;
 const zoomLevel = 0.8; // Defines the default camera zoom.
@@ -70,6 +137,8 @@ function initializeGame(offscreenCanvas) {
     wave = 0;
     waveCooldown = 180; // Cooldown frames before the next wave spawns.
     cameraX = 0;
+    
+    particleSystem = new ParticleSystem();
 
     // Instantiate all the major game components.
     world = new World(canvas);
@@ -121,129 +190,180 @@ function spawnWave() {
     }
 }
 
-// B"H
-// IN FILE: /Remember/awtsmoos.com/geelooy/games/shema-strike/js/game-worker.js
 
 /**
  * The main game loop, powered by requestAnimationFrame.
  * This function is the engine of the game, responsible for updating state and
  * rendering the scene on every frame.
  */
+// B"H
+
 function gameLoop() {
+    // Frame exit condition: If game isn't running, just queue the next frame and do nothing.
     if (!gameRunning) {
         requestAnimationFrame(gameLoop);
         return;
     }
 
+    // Game over condition: Stop all logic and rendering, notify the main thread.
     if (player.health <= 0) {
         gameRunning = false;
         self.postMessage({ type: 'gameOver' });
-        return;
+        return; // Halt execution for this frame.
     }
 
-    // --- (A) UPDATE LOGIC ---
+    // =================================================================
+    //  STAGE 1: STATE UPDATES & PRE-CALCULATIONS
+    // =================================================================
+    // All state changes happen here before any processing or drawing.
 
-    // Smoothly update camera position
-    const targetCameraX = player.x - (canvas.width / 2) / zoomLevel;
-    cameraX += (targetCameraX - cameraX) * 0.1;
-    const visibleWidth = canvas.width / zoomLevel;
+    // Update core objects that always need updating.
+    world.update();
+    player.update(particleSystem);
+    particleSystem.update(); // Update all active particles in the pool.
+
+    // Calculate camera and view boundaries once for the entire frame.
+    // This is much faster than recalculating it inside different loops.
+    const zoomInv = 1.0 / zoomLevel; // Use multiplication instead of division in loops.
+    const targetCameraX = player.x - (canvas.width / 2) * zoomInv;
+    cameraX += (targetCameraX - cameraX) * 0.1; // Smooth camera lerp
+
+    const visibleWidth = canvas.width * zoomInv;
     cameraX = Math.max(0, Math.min(world.width - visibleWidth, cameraX));
 
-    // Update core game objects
-    world.update();
-    player.update(particles);
+    // Define the "active zone" for culling. Objects outside this zone won't be updated or drawn.
+    // The buffer prevents objects from suddenly popping in/out at the screen edge.
+    const cullBuffer = 200;
+    const viewLeft = cameraX - cullBuffer;
+    const viewRight = cameraX + visibleWidth + cullBuffer;
 
+    // Get the player's hitboxes once. If attackHitbox is null, no attack is happening.
     const attackHitbox = player.getAttackHitbox();
-    
-    // --- OPTIMIZATION 1: VIEW CULLING & EFFICIENT REMOVAL ---
-    // Define the visible area plus a buffer to avoid pop-in
-    const viewLeft = cameraX - 200;
-    const viewRight = cameraX + visibleWidth + 200;
+    const playerHitbox = player.getBoundingBox();
+
+
+    // =================================================================
+    //  STAGE 2: GAME LOGIC & COLLISION (THE HEAVY LIFTING)
+    // =================================================================
+    // Use highly efficient loops and filtering. We build new arrays of
+    // "living" objects instead of using slow `splice()` calls.
 
     // --- Process Enemies ---
     const livingEnemies = [];
     for (const enemy of enemies) {
-        // CULLING: Only run expensive updates for enemies on or near the screen
+        let isAlive = true;
+
+        // CULLING: Only process logic for enemies within the active zone.
         if (enemy.x + enemy.size > viewLeft && enemy.x - enemy.size < viewRight) {
             enemy.update();
 
-            // Check for collision with player's attack
+            // Check for collision with player's attack.
             if (attackHitbox && isColliding(attackHitbox, enemy.getBoundingBox())) {
-                enemy.takeDamage(player.attackDamage, particles);
+                enemy.takeDamage(player.attackDamage, particleSystem);
             }
         }
 
-        // DEATH CHECK: This runs for all enemies, on or off-screen
+        // Death check is cheap and runs for all enemies, on or off-screen.
         if (enemy.health <= 0) {
-            // If enemy died, create effects but do not add to the 'living' array
-            for (let i = 0; i < 10; i++) particles.push(new Particle(enemy.x, enemy.y, getRandomFrom(HEBREW_LETTERS), Math.random() * 20 + 15, 80));
+            isAlive = false;
+            // Spawn death effects using the object pool.
+            for (let i = 0; i < 10; i++) {
+                particleSystem.spawn('hebrewLetter', enemy.x, enemy.y);
+            }
             triggerScreenShake(15, 10);
             ui.updateScore(enemy.perutas);
-            if (Math.random() < 0.35) healthPackets.push(new HealthPacket(enemy.x, enemy.y, world));
-        } else {
-            // If the enemy is alive, keep it for the next frame
+            // 35% chance to drop a health packet.
+            if (Math.random() < 0.35) {
+                healthPackets.push(new HealthPacket(enemy.x, enemy.y, world));
+            }
+        }
+
+        if (isAlive) {
             livingEnemies.push(enemy);
         }
     }
-    enemies = livingEnemies; // Replace old array with the efficiently filtered one
+    enemies = livingEnemies; // The old 'enemies' array is garbage collected.
 
-    // --- Process health packets ---
+    // --- Process Health Packets ---
     const activeHealthPackets = [];
     for (const packet of healthPackets) {
-        packet.update();
-        if (isColliding(player.getBoundingBox(), packet.getBoundingBox())) {
-            player.heal(packet.healAmount);
-            // Don't push packet, effectively removing it
-        } else if (packet.life > 0) {
+        packet.update(); // Update is cheap (bobbing effect).
+        
+        let collected = false;
+        // Only check collision for visible packets to save processing.
+        if (packet.x > viewLeft && packet.x < viewRight) {
+            if (isColliding(playerHitbox, packet.getBoundingBox())) {
+                player.heal(packet.healAmount);
+                collected = true;
+            }
+        }
+        
+        // Keep the packet if it hasn't expired and wasn't collected.
+        if (packet.life > 0 && !collected) {
             activeHealthPackets.push(packet);
         }
     }
     healthPackets = activeHealthPackets;
 
-    // --- Update and clean up particles ---
-    const activeParticles = [];
-    for (const p of particles) {
-        p.update();
-        if (p.life > 0) {
-            activeParticles.push(p);
-        }
-    }
-    particles = activeParticles;
 
-    // Check for wave completion
+    // =================================================================
+    //  STAGE 3: WAVE MANAGEMENT
+    // =================================================================
+
     if (enemies.length === 0) {
         waveCooldown--;
         if (waveCooldown <= 0) {
             spawnWave();
-            waveCooldown = 180;
+            waveCooldown = 180; // Reset cooldown for next wave.
         }
     }
 
-    // --- (B) DRAWING LOGIC ---
+
+    // =================================================================
+    //  STAGE 4: RENDERING
+    // =================================================================
+    // Draw everything to the offscreen canvas.
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
 
+    // Apply global camera transformations (zoom, pan, screenshake).
     ctx.scale(zoomLevel, zoomLevel);
     ctx.translate(-cameraX, 0);
+    updateScreenShake(ctx); // Apply screen shake translation if active.
 
-    updateScreenShake(ctx);
-
+    // --- Draw Game Layers in Order (Back to Front) ---
     world.draw(ctx);
-    healthPackets.forEach(p => p.draw(ctx));
-    // CULLING FOR DRAWING: Also only draw enemies that are visible
-    for (const e of enemies) {
-        if (e.x + e.size > cameraX && e.x - e.size < cameraX + visibleWidth) {
-            e.draw(ctx);
+
+    for (const packet of healthPackets) { packet.draw(ctx); }
+
+    // RENDER CULLING: Only draw enemies actually inside the camera's final view.
+    const drawViewLeft = cameraX;
+    const drawViewRight = cameraX + visibleWidth;
+    for (const enemy of enemies) {
+        if (enemy.x + enemy.size > drawViewLeft && enemy.x - enemy.size < drawViewRight) {
+            enemy.draw(ctx);
         }
     }
-    player.draw(ctx);
-    particles.forEach(p => p.draw(ctx));
+    
+    player.draw(ctx); // Player is always drawn.
+    particleSystem.draw(ctx); // The particle system handles its own efficient drawing.
 
+    // Restore context to pre-camera state to draw the UI.
     ctx.restore();
 
+    // Draw UI on top of everything, with no camera transformations.
     ui.draw(ctx, player);
 
+
+    // =================================================================
+    //  STAGE 5: FRAME CLEANUP
+    // =================================================================
+
+    // Reset one-time press flags.
     controlsState.strikePressed = false;
+    
+    // Request the next animation frame to continue the loop.
     requestAnimationFrame(gameLoop);
 }
 
