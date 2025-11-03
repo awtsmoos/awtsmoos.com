@@ -92,9 +92,32 @@ export function draw(ctx) {
     ctx.fillRect(0, 0, C.CANVAS_WIDTH, C.CANVAS_HEIGHT);
     // 2. Draw clouds
     clouds.forEach(c => ctx.drawImage(cloudImage, c.x, c.y, c.width, c.height));
-    // 3. Draw the SOLID dark blue ocean base
+    //B"H
+    // 3. Draw the dark blue ocean base as a sine wave
+    ctx.beginPath();
+    
+    const oceanWaveAmplitude = 20; // How high the main ocean swell is
+    const oceanWaveFrequency = 0.01; // How wide the swell is
+    const oceanWaveSpeed = 0.005; // How fast the swell moves
+
+    // Start drawing from the average water level on the left
+    ctx.moveTo(0, OCEAN_TOP);
+
+    // Create the top edge of the ocean as a sine wave
+    for (let x = 0; x <= C.CANVAS_WIDTH; x++) {
+        const yOffset = Math.sin(x * oceanWaveFrequency + frame * oceanWaveSpeed) * oceanWaveAmplitude;
+        ctx.lineTo(x, OCEAN_TOP + yOffset);
+    }
+
+    // Draw lines down to the bottom corners to complete the shape
+    ctx.lineTo(C.CANVAS_WIDTH, C.CANVAS_HEIGHT);
+    ctx.lineTo(0, C.CANVAS_HEIGHT);
+    ctx.closePath();
+
+    // Fill the entire shape with the solid ocean color
     ctx.fillStyle = OCEAN_BASE_COLOR;
-    ctx.fillRect(0, OCEAN_TOP, C.CANVAS_WIDTH, C.CANVAS_HEIGHT - OCEAN_TOP);
+    ctx.fill();
+    
     // 4. Draw things INSIDE the ocean (creatures, letters)
     ctx.fillStyle = LETTER_COLOR;
     ctx.font = `20px Arial`;
@@ -106,4 +129,6 @@ export function draw(ctx) {
     });
     // 5. Draw the wave LINES on top. This is the fix.
     WAVES.forEach(wave => drawWaveLine(ctx, wave));
+    ctx.fillStyle = "rgba(255,255,255,1)";
+
 }
