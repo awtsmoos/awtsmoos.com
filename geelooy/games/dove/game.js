@@ -5,10 +5,9 @@ import * as Obstacle from './obstacle.js';
 import * as Controls from './controls.js';
 import * as Background from './background.js';
 
-//B"H
-// (Keep all your import statements above this)
 
-// --- NEW HELPER FUNCTION: Convert Number to Gematria ---
+// ---  HELPER FUNCTION: Convert Number to Gematria ---
+
 function toGematria(num) {
     if (num <= 0) return ' '; // Return a space or empty string for zero
     
