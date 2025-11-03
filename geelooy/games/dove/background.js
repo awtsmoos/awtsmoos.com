@@ -1,130 +1,109 @@
 //B"H
 import * as C from './constants.js';
 
-// --- Image Assets ---
+// --- Assets ---
 const cloudImage = new Image();
 cloudImage.src = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 80%22><text y=%22.9em%22 font-size=%2270%22>☁️</text></svg>';
 
 // --- Settings ---
 const CLOUD_SPEED = 0.5;
 const NUM_CLOUDS = 5;
+const OCEAN_BASE_COLOR = '#003366';
+const OCEAN_TOP = C.CANVAS_HEIGHT - 100;
 
-// New Ocean Settings
-const OCEAN_BASE_COLOR = '#003366'; // A darker, deeper blue
-const OCEAN_TOP = C.CANVAS_HEIGHT - 100; // Where the ocean starts from the top
-
-// New Wave Settings - Each object is a layer of waves
+// Waves: Now defined with lineWidth for drawing crisp lines
 const WAVES = [
-    { color: 'rgba(255, 255, 255, 0.6)', speed: 1.0, amplitude: 15, frequency: 0.02 },
-    { color: 'rgba(255, 255, 255, 0.4)', speed: 0.8, amplitude: 20, frequency: 0.015 },
-    { color: 'rgba(255, 255, 255, 0.2)', speed: 0.6, amplitude: 25, frequency: 0.01 }
+    { color: 'rgba(255, 255, 255, 0.9)', speed: 1.0, amplitude: 15, frequency: 0.02, lineWidth: 3 },
+    { color: 'rgba(255, 255, 255, 0.7)', speed: 0.8, amplitude: 20, frequency: 0.015, lineWidth: 2 },
 ];
 
-// New Hebrew Letter Settings
 const HEBREW_LETTERS = Array.from("אבגדהוזחטיכךלמםנןסעפףצץקרשת");
 const NUM_LETTERS = 20;
-const LETTER_FONT_SIZE = 20;
 const LETTER_COLOR = 'rgba(255, 255, 255, 0.15)';
 
+// Sea Creatures
+const SEA_CREATURE_EMOJIS = Array.from("🐠🐟🦦🦈🐡🐳🐋🐬🦭🪼🐙🐚🐧");
+const NUM_CREATURES = 10;
+const JUMP_PROBABILITY = 0.001;
+const JUMP_FORCE = -8;
+const GRAVITY = 0.25;
+
 // --- State Variables ---
-let clouds = [];
-let hebrewLetters = [];
-let frame = 0; // A counter for continuous animation
+let clouds = [], hebrewLetters = [], seaCreatures = [], frame = 0;
 
 // --- Logic ---
 
 export function init() {
-    // Initialize clouds
-    clouds = [];
-    for (let i = 0; i < NUM_CLOUDS; i++) {
-        clouds.push({
-            x: Math.random() * C.CANVAS_WIDTH,
-            y: Math.random() * (C.CANVAS_HEIGHT / 3),
-            width: 80 + Math.random() * 40,
-            height: 60 + Math.random() * 20,
-        });
-    }
-
-    // Initialize Hebrew letters
-    hebrewLetters = [];
-    for (let i = 0; i < NUM_LETTERS; i++) {
-        hebrewLetters.push({
-            char: HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)],
-            x: Math.random() * C.CANVAS_WIDTH,
-            y: OCEAN_TOP + Math.random() * (C.CANVAS_HEIGHT - OCEAN_TOP), // Only inside the ocean
-            speed: 0.2 + Math.random() * 0.5 // Give each a slightly different speed
-        });
-    }
-    
     frame = 0;
+    // Init Clouds
+    clouds = [];
+    for (let i = 0; i < NUM_CLOUDS; i++) clouds.push({ x: Math.random() * C.CANVAS_WIDTH, y: Math.random() * (C.CANVAS_HEIGHT / 3), width: 80 + Math.random() * 40, height: 60 + Math.random() * 20 });
+    // Init Hebrew Letters
+    hebrewLetters = [];
+    for (let i = 0; i < NUM_LETTERS; i++) hebrewLetters.push({ char: HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)], x: Math.random() * C.CANVAS_WIDTH, y: OCEAN_TOP + Math.random() * (C.CANVAS_HEIGHT - OCEAN_TOP), speed: 0.2 + Math.random() * 0.5 });
+    // Init Sea Creatures
+    seaCreatures = [];
+    for (let i = 0; i < NUM_CREATURES; i++) {
+        seaCreatures.push({
+            emoji: SEA_CREATURE_EMOJIS[Math.floor(Math.random() * SEA_CREATURE_EMOJIS.length)],
+            x: Math.random() * C.CANVAS_WIDTH,
+            y: OCEAN_TOP + 10 + Math.random() * (C.CANVAS_HEIGHT - OCEAN_TOP - 20),
+            baseY: OCEAN_TOP + 10 + Math.random() * (C.CANVAS_HEIGHT - OCEAN_TOP - 20),
+            speedX: 0.5 + Math.random() * 1, velocityY: 0, isJumping: false, size: 25 + Math.random() * 15,
+        });
+    }
 }
 
 export function update() {
-    // Animate frame counter for wave motion
     frame++;
-
-    // Move clouds
-    clouds.forEach(cloud => {
-        cloud.x += CLOUD_SPEED;
-        if (cloud.x > C.CANVAS_WIDTH) {
-            cloud.x = -cloud.width;
-            cloud.y = Math.random() * (C.CANVAS_HEIGHT / 3);
-        }
-    });
-
+    // Move Clouds
+    clouds.forEach(c => { c.x += CLOUD_SPEED; if (c.x > C.CANVAS_WIDTH) c.x = -c.width; });
     // Move Hebrew letters
-    hebrewLetters.forEach(letter => {
-        letter.x += letter.speed;
-        if (letter.x > C.CANVAS_WIDTH) {
-            letter.x = -LETTER_FONT_SIZE; // Wrap around to the left
+    hebrewLetters.forEach(l => { l.x += l.speed; if (l.x > C.CANVAS_WIDTH) l.x = -20; });
+    // Move Sea Creatures
+    seaCreatures.forEach(c => {
+        c.x += c.speedX;
+        if (c.x > C.CANVAS_WIDTH + c.size) c.x = -c.size; // Wrap around
+        if (c.isJumping) {
+            c.velocityY += GRAVITY;
+            c.y += c.velocityY;
+            if (c.y > c.baseY) { c.y = c.baseY; c.isJumping = false; }
+        } else if (Math.random() < JUMP_PROBABILITY) {
+            c.isJumping = true; c.velocityY = JUMP_FORCE;
         }
     });
 }
 
-// Helper function to draw a single wave layer
-function drawWave(ctx, wave) {
+// Helper function to draw a wave with a line
+function drawWaveLine(ctx, wave) {
     ctx.beginPath();
-    ctx.moveTo(0, OCEAN_TOP);
-    
     for (let x = 0; x < C.CANVAS_WIDTH; x++) {
         const yOffset = Math.sin(x * wave.frequency + frame * 0.01 * wave.speed) * wave.amplitude;
         ctx.lineTo(x, OCEAN_TOP + yOffset);
     }
-
-    ctx.lineTo(C.CANVAS_WIDTH, C.CANVAS_HEIGHT);
-    ctx.lineTo(0, C.CANVAS_HEIGHT);
-    ctx.closePath();
-
-    ctx.fillStyle = wave.color;
-    ctx.fill();
+    ctx.strokeStyle = wave.color;
+    ctx.lineWidth = wave.lineWidth;
+    ctx.stroke();
 }
-
 
 export function draw(ctx) {
     // 1. Draw solid sky blue background
     ctx.fillStyle = '#87CEEB';
     ctx.fillRect(0, 0, C.CANVAS_WIDTH, C.CANVAS_HEIGHT);
-
     // 2. Draw clouds
-    clouds.forEach(cloud => {
-        ctx.drawImage(cloudImage, cloud.x, cloud.y, cloud.width, cloud.height);
-    });
-    
-    // 3. Draw the solid dark blue ocean base
+    clouds.forEach(c => ctx.drawImage(cloudImage, c.x, c.y, c.width, c.height));
+    // 3. Draw the SOLID dark blue ocean base
     ctx.fillStyle = OCEAN_BASE_COLOR;
     ctx.fillRect(0, OCEAN_TOP, C.CANVAS_WIDTH, C.CANVAS_HEIGHT - OCEAN_TOP);
-
-    // 4. Draw the flowing Hebrew letters within the ocean
-    ctx.font = `${LETTER_FONT_SIZE}px Arial`;
+    // 4. Draw things INSIDE the ocean (creatures, letters)
     ctx.fillStyle = LETTER_COLOR;
+    ctx.font = `20px Arial`;
     ctx.textAlign = 'center';
-    hebrewLetters.forEach(letter => {
-        // Add a slight bobbing motion to the letters
-        const yBob = Math.sin(frame * 0.05 + letter.x * 0.02) * 5;
-        ctx.fillText(letter.char, letter.x, letter.y + yBob);
+    hebrewLetters.forEach(l => ctx.fillText(l.char, l.x, l.y));
+    seaCreatures.forEach(c => {
+        ctx.font = `${c.size}px Arial`;
+        ctx.fillText(c.emoji, c.x, c.y);
     });
-
-    // 5. Draw the translucent wave layers on top of everything else
-    // We draw them as filled shapes down to the bottom of the canvas
-    WAVES.forEach(wave => drawWave(ctx, wave));
+    // 5. Draw the wave LINES on top. This is the fix.
+    WAVES.forEach(wave => drawWaveLine(ctx, wave));
 }
