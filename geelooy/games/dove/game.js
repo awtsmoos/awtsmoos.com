@@ -139,11 +139,11 @@ function gameLoop() {
     Dove.draw(ctx);
 
     //B"H
-    //B"H
+    
     // --- Draw Score and its Gematria ---
     ctx.textAlign = 'center';
 
-    const scoreX = C.CANAS_WIDTH / 2;
+    const scoreX = C.CANVAS_WIDTH / 2;
     const scoreY = 50;
     
     // -- Score Number --
