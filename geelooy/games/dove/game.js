@@ -61,7 +61,14 @@ let gameState = 'menu'; // 'menu', 'playing', 'over'
 let frameCount = 0;
 let score = 0;
 
+//B"H
 function initializeGame() {
+    // Set the canvas to the current window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    C.updateDimensions(canvas.width, canvas.height);
+
+    // Initialize game state
     gameState = 'playing';
     score = 0;
     frameCount = 0;
@@ -70,7 +77,11 @@ function initializeGame() {
     Obstacle.reset();
     startMenu.style.display = 'none';
     gameOverMenu.style.display = 'none';
-    gameLoop();
+
+    // Start the loop if it's not already running
+    if (gameState === 'playing') {
+       requestAnimationFrame(gameLoop);
+    }
 }
 
 function endGame() {
@@ -78,24 +89,38 @@ function endGame() {
     gameOverMenu.style.display = 'flex';
 }
 
+//B"H
 function checkCollisions() {
-    // Ground collision
-    if (Dove.y > C.CANVAS_HEIGHT - C.DOVE_HEIGHT / 2) {
+    // Ground collision (using the dove's radius)
+    if (Dove.y + C.DOVE_RADIUS > C.CANVAS_HEIGHT) {
         return true;
     }
 
-    // Obstacle collision
+    // Circle-to-Rectangle collision logic
     for (const obs of Obstacle.obstacles) {
-        if (
-            C.DOVE_START_X + C.DOVE_WIDTH / 2 > obs.x &&
-            C.DOVE_START_X - C.DOVE_WIDTH / 2 < obs.x + C.OBSTACLE_WIDTH
-        ) {
-            if (
-                Dove.y - C.DOVE_HEIGHT / 2 < obs.topHeight ||
-                Dove.y + C.DOVE_HEIGHT / 2 > obs.bottomY
-            ) {
-                return true;
-            }
+        const circle = { x: C.DOVE_START_X, y: Dove.y, r: C.DOVE_RADIUS };
+
+        // Define the top and bottom rectangles
+        const topRect = { x: obs.x, y: 0, w: C.OBSTACLE_WIDTH, h: obs.topHeight };
+        const bottomRect = { x: obs.x, y: obs.bottomY, w: C.OBSTACLE_WIDTH, h: C.CANVAS_HEIGHT - obs.bottomY };
+        
+        // Helper function for the check
+        const isColliding = (rect) => {
+            // Find the closest point on the rectangle to the circle's center
+            const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
+            const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
+            
+            // Calculate the distance between the closest point and the circle's center
+            const distanceX = circle.x - closestX;
+            const distanceY = circle.y - closestY;
+            const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+            
+            // If the distance is less than the circle's radius, they are colliding
+            return distanceSquared < (circle.r * circle.r);
+        };
+
+        if (isColliding(topRect) || isColliding(bottomRect)) {
+            return true;
         }
     }
     return false;
@@ -177,3 +202,14 @@ Controls.init(() => {
         Dove.flap();
     }
 }); 
+
+
+
+//B"H
+// Add a listener to resize the canvas and restart the game
+window.addEventListener('resize', initializeGame, false);
+
+// Initial setup
+initializeGame(); // Call it once to set up the initial size
+startMenu.style.display = 'flex'; // Show the start menu initially
+gameState = 'menu'; // Set initial state to menu

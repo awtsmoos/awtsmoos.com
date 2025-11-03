@@ -1,13 +1,20 @@
 //B"H
-// Game Canvas
-export const CANVAS_WIDTH = 400;
-export const CANVAS_HEIGHT = 600;
+// Note: CANVAS_WIDTH and CANVAS_HEIGHT are now set dynamically in game.js.
+// These are default values.
+export let CANVAS_WIDTH = window.innerWidth;
+export let CANVAS_HEIGHT = window.innerHeight;
+
+export function updateDimensions(width, height) {
+    CANVAS_WIDTH = width;
+    CANVAS_HEIGHT = height;
+}
 
 // Dove Physics
-export const DOVE_START_X = CANVAS_WIDTH - 100;
-export const DOVE_START_Y = CANVAS_HEIGHT / 2;
+export let DOVE_START_X = 100; // Keep the dove at a fixed x position from the left
+export const DOVE_START_Y = () => CANVAS_HEIGHT / 2; // Y position is relative to height
 export const DOVE_WIDTH = 50;
 export const DOVE_HEIGHT = 50;
+export const DOVE_RADIUS = 20; // For circular collision
 export const GRAVITY = 0.25;
 export const LIFT = -6;
 
@@ -15,9 +22,9 @@ export const LIFT = -6;
 export const OBSTACLE_WIDTH = 60;
 export const OBSTACLE_GAP = 200;
 export const OBSTACLE_SPEED = 2;
-export const OBSTACLE_SPAWN_RATE = 200; // Frames between spawns (higher is more space)
+export const OBSTACLE_SPAWN_RATE = 200;
 export const OBSTACLE_EMOJIS = Array.from("🪟🧱🎇🟥🟧🟨🟩🟦🟪🟫")
 
 // Power-up Settings
-export const POWERUP_SPAWN_RATE = 350; // Frames between spawns
-export const POWERUP_DURATION = 300; // Frames (5 seconds at 60fps)
+export const POWERUP_SPAWN_RATE = 350;
+export const POWERUP_DURATION = 300;

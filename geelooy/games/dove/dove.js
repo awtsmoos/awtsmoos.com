@@ -8,22 +8,25 @@ export let velocity = 0;
 const doveImage = new Image();
 doveImage.src = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>';
 
-export function reset() {
-    y = C.DOVE_START_Y;
-    velocity = 0;
-}
+
 
 export function flap() {
     velocity = C.LIFT;
+}
+
+//B"H
+export function reset() {
+    y = C.DOVE_START_Y(); // This is now a function
+    velocity = 0;
 }
 
 export function update() {
     velocity += C.GRAVITY;
     y += velocity;
 
-    // Prevent going above the screen
-    if (y < C.DOVE_HEIGHT / 2) {
-        y = C.DOVE_HEIGHT / 2;
+    // Prevent going above the screen using the new radius
+    if (y < C.DOVE_RADIUS) {
+        y = C.DOVE_RADIUS;
         velocity = 0;
     }
 }
