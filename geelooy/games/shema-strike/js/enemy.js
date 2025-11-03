@@ -1,9 +1,7 @@
 //B"H
 
 class Enemy {
-    // In js/enemy.js
-
-    // In js/enemy.js
+    
 
     constructor(canvas, player, world, spawnX) { // <-- Add world object
         this.canvas = canvas;
@@ -82,6 +80,9 @@ class Enemy {
         ctx.beginPath();
         ctx.ellipse(this.x, this.canvas.height - 100 + 15, this.size * 0.4, this.size * 0.1, 0, 0, Math.PI * 2);
         ctx.fill();
+        
+        ctx.fillStyle = 'rgba(0,0,0,1)';
+        
 
         // Draw enemy emoji
         ctx.fillText(this.emoji, this.x, this.y);

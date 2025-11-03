@@ -39,28 +39,15 @@ class Player {
             height: this.height
         };
     }
-
-    getAttackHitbox() {
-        if (!this.isAttacking) return null;
-
-        const swordLength = 100;
-        const hitboxSize = 40;
-        const angle = this.getSwordAngle();
-        const direction = (this.facing === 'right' ? 1 : -1);
-
-        const handX = (this.x + this.width / 2) + (20 * direction);
-        const handY = (this.y + this.height / 2) + 10;
-        
-        const tipX = handX + Math.cos(angle) * swordLength * direction;
-        const tipY = handY + Math.sin(angle) * swordLength;
-
-        return {
-            x: tipX - hitboxSize / 2,
-            y: tipY - hitboxSize / 2,
-            width: hitboxSize,
-            height: hitboxSize
-        };
+    
+    // B"H - New Method
+    heal(amount) {
+        this.health += amount;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
     }
+
 
     getSwordAngle() {
         const progress = this.attackFrame / this.attackDuration;
@@ -131,6 +118,31 @@ class Player {
         if (this.x > this.world.width - this.width) this.x = this.world.width - this.width;
     }
 
+    getAttackHitbox() {
+        if (!this.isAttacking) return null;
+
+        const swordLength = 100;
+        const hitboxSize = 40;
+        const angle = this.getSwordAngle();
+        const direction = (this.facing === 'right' ? 1 : -1);
+
+        const handX = (this.x + this.width / 2) + (20 * direction);
+        const handY = (this.y + this.height / 2) + 10;
+        
+        const effectiveAngle = this.facing === 'right' ? angle : Math.PI - angle;
+        
+        const tipX = handX + Math.cos(effectiveAngle) * swordLength;
+        const tipY = handY + Math.sin(effectiveAngle) * swordLength;
+
+        return {
+            x: tipX - hitboxSize / 2,
+            y: tipY - hitboxSize / 2,
+            width: hitboxSize,
+            height: hitboxSize
+        };
+    }
+
+
     draw(ctx) {
         ctx.save();
         
@@ -140,6 +152,7 @@ class Player {
         
         const bodyX = this.x + this.width / 2;
         const bodyY = this.y + this.height / 2;
+        const direction = this.facing === 'right' ? 1 : -1;
         
         // --- Draw Player Body ---
         // Head
@@ -148,10 +161,32 @@ class Player {
         ctx.arc(bodyX, bodyY - 15, 30, 0, Math.PI * 2);
         ctx.fill();
 
+        // Face Details
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+
+        // Eye
+        ctx.beginPath();
+        ctx.arc(bodyX + (12 * direction), bodyY - 20, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Eyebrow
+        ctx.beginPath();
+        ctx.moveTo(bodyX + (5 * direction), bodyY - 30);
+        ctx.lineTo(bodyX + (18 * direction), bodyY - 28);
+        ctx.stroke();
+
+        // Mouth
+        ctx.beginPath();
+        ctx.moveTo(bodyX + (8 * direction), bodyY - 8);
+        ctx.lineTo(bodyX + (16 * direction), bodyY - 7);
+        ctx.stroke();
+
         // Yarmulke
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.arc(bodyX, bodyY - 40, 15, 0, Math.PI * 2);
+        ctx.arc(bodyX, bodyY - 42, 18, Math.PI, 0); 
         ctx.fill();
 
         // Robe
@@ -175,39 +210,46 @@ class Player {
         ctx.moveTo(bodyX + 18, bodyY + 45);
         ctx.lineTo(bodyX + 18, bodyY + 60);
         ctx.stroke();
+        
+        ctx.restore(); // Restore from player opacity change
 
-
-        // --- Draw Sword with correct pivot ---
+        // --- Draw Sword ---
         ctx.save();
         
-        const direction = this.facing === 'right' ? 1 : -1;
-        const angle = this.isAttacking ? this.getSwordAngle() : -Math.PI / 6;
-
-        // 1. Move the canvas origin to the player's hand
+        const swingAngle = this.isAttacking ? this.getSwordAngle() : -Math.PI / 6;
         const handX = bodyX + (20 * direction);
         const handY = bodyY + 10;
+        
         ctx.translate(handX, handY);
 
-        // 2. Rotate the canvas around the hand
-        ctx.rotate(angle);
+        if (this.facing === 'left') {
+            ctx.scale(-1, 1);
+        }
         
-        // 3. Draw the sword with its handle at the new origin (0,0)
+        const totalRotation = Math.PI + swingAngle;
+        ctx.rotate(totalRotation);
+        
+        const handleOffsetX = -40;
         ctx.font = `120px Arial`;
-        ctx.fillText("🗡️", -30, -50); // Offset to position the handle correctly
-
-        // 4. Draw the text, correcting for the rotation and direction
-        ctx.rotate(-angle); // un-rotate to draw text horizontally
-        ctx.font = "bold 24px 'Arial Black'";
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#FFF';
+        ctx.fillText("🗡️", handleOffsetX, 0); 
         
-        if (direction === -1) { // When facing left...
-             ctx.scale(-1, 1); // un-flip for the text
+        ctx.rotate(-totalRotation);
+        
+        ctx.font = "bold 24px 'Arial Black'";
+        ctx.fillStyle = '#FFF';
+        ctx.textAlign = 'center';
+        
+        const textX = handleOffsetX + 25;
+        
+        if (this.facing === 'left') {
+            ctx.scale(-1, 1);
+            ctx.fillText("שמע", -textX, 0);
+        } else {
+            ctx.fillText("שמע", textX, 0);
         }
-        ctx.fillText("שמע", 50 * direction, 0);
-
-        ctx.restore(); // Restore from sword transformations
-        ctx.restore(); // Restore from player transformations
+        
+        ctx.restore(); 
     }
 }

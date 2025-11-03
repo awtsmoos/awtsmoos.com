@@ -15,8 +15,6 @@ class UI {
         this.wave = wave;
     }
 
-    // In js/ui.js
-
     draw(ctx, player) {
         ctx.save();
         // Reset transform from camera/shake for UI
@@ -26,13 +24,14 @@ class UI {
         ctx.shadowColor = "black";
         ctx.shadowBlur = 5;
 
-        // Score
+        // --- TOP LEFT UI ---
         ctx.font = "bold 32px 'Arial Black'";
         ctx.textAlign = "left";
+
+        // Score
         ctx.fillText(`Perutas: ${this.perutas}`, 20, 40);
 
         // Player Health Bar ("Koach")
-        ctx.textAlign = "left";
         ctx.fillText("Koach", 20, 80);
         const barWidth = 250;
         ctx.fillStyle = '#555';
@@ -42,12 +41,16 @@ class UI {
         ctx.strokeStyle = 'white';
         ctx.strokeRect(120, 60, barWidth, 25);
 
-        // Wave
-        ctx.fillStyle = "white"; // <-- ADD THIS LINE to reset color
-        ctx.font = "bold 40px 'Arial Black'";
-        ctx.textAlign = "center";
-        ctx.fillText(`Wave ${this.wave}`, this.canvas.width / 2, 50);
+        // --- B"H - THE FIX IS HERE ---
+        // --- TOP RIGHT UI ---
+        // By moving the Wave counter to the top-right corner, it will never overlap with the score.
+        ctx.font = "bold 32px 'Arial Black'"; // Matched font size for consistency
+        ctx.textAlign = "right";
+        ctx.fillText(`Wave ${this.wave}`, this.canvas.width - 20, 40);
 
         ctx.restore();
     }
 }
+
+
+

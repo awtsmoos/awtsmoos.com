@@ -24,8 +24,6 @@ class Particle {
         ctx.save();
         ctx.globalAlpha = Math.max(0, this.life / this.initialLife);
         ctx.fillStyle = "#FFFFFF";
-        ctx.shadowColor = "gold";
-        ctx.shadowBlur = 5;
         ctx.font = `${this.size}px Arial`;
         ctx.fillText(this.text, this.x, this.y);
         ctx.restore();

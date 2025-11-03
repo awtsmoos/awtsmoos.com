@@ -1,18 +1,16 @@
 // B"H
 
 class World {
-    // In js/world.js
-
     constructor(canvas) {
         this.canvas = canvas;
-        this.width = canvas.width * 3;
+        this.width = canvas.width * 6; 
         this.height = canvas.height;
-        this.groundHeight = 350; // <-- Increased from 100 to raise the ground
+        // B"H - Restored ground height to give it more presence on screen
+        this.groundHeight = 175; 
         this.groundPattern = this.createGroundPattern();
 
-        // Parallax background elements
-        this.farClouds = this.createClouds(15, 0.2, 80, 120);
-        this.nearClouds = this.createClouds(9, 0.5, 150, 200);
+        this.farClouds = this.createClouds(25, 0.2, 80, 120);
+        this.nearClouds = this.createClouds(15, 0.5, 150, 200);
         this.mountains = this.createMountains();
     }
 
@@ -21,9 +19,9 @@ class World {
         const pctx = patternCanvas.getContext('2d');
         patternCanvas.width = 64;
         patternCanvas.height = 64;
-        pctx.fillStyle = "#1e4620"; // Dark Green
+        pctx.fillStyle = "#1e4620";
         pctx.fillRect(0, 0, 64, 64);
-        pctx.fillStyle = "#3a5f0b"; // Lighter Green
+        pctx.fillStyle = "#3a5f0b";
         for (let i = 0; i < 100; i++) {
             pctx.fillRect(Math.random() * 64, Math.random() * 64, 2, 2);
         }
@@ -34,7 +32,7 @@ class World {
         let clouds = [];
         for (let i = 0; i < count; i++) {
             clouds.push({
-                x: Math.random() * this.width, // Spawn clouds across the whole world
+                x: Math.random() * this.width,
                 y: Math.random() * (this.canvas.height / 3),
                 size: Math.random() * (maxSize - minSize) + minSize,
                 speed: speed
@@ -45,11 +43,11 @@ class World {
 
     createMountains() {
         let mountains = [];
-        // Distribute mountains across the new world width
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 15; i++) { 
             mountains.push({
-                x: i * this.width / 6 + Math.random() * 100,
-                y: this.canvas.height - this.groundHeight - 100,
+                x: i * this.width / 14 + Math.random() * 100,
+                // B"H - This correctly sets the desired bottom line for the mountains
+                y: this.canvas.height - this.groundHeight, 
                 size: 400 + Math.random() * 150
             });
         }
@@ -61,7 +59,7 @@ class World {
             for (let item of layer) {
                 item.x -= item.speed;
                 if (item.x + item.size < 0) {
-                    item.x = this.width; // Wrap around to the end of the world
+                    item.x = this.width;
                 }
             }
         };
@@ -70,16 +68,20 @@ class World {
     }
     
     draw(ctx) {
-        // Sky
-        ctx.fillStyle = '#181d3f'; // Corrected hex code
-        ctx.fillRect(0, 0, this.width, this.height); // Draw sky across the whole world width
+        ctx.fillStyle = '#181d3f';
+        ctx.fillRect(0, 0, this.width, this.height);
         
-        // Mountains (far back)
-        ctx.fillStyle = "#333";
+        // --- B"H - THE FIX IS HERE ---
+        ctx.save();
         ctx.font = "400px Arial";
+        // 1. We align the drawing from the bottom of the emoji
+        ctx.textBaseline = 'bottom'; 
+        
         for (const mountain of this.mountains) {
-             ctx.fillText("⛰️", mountain.x, mountain.y + mountain.size*0.7);
+             // 2. We draw the mountain exactly at its 'y' position, which is the ground line.
+             ctx.fillText("⛰️", mountain.x, mountain.y);
         }
+        ctx.restore(); // Restore text baseline to default
 
         const drawCloudLayer = (layer) => {
             for (const cloud of layer) {
@@ -91,7 +93,7 @@ class World {
         drawCloudLayer(this.farClouds);
         drawCloudLayer(this.nearClouds);
 
-        // Ground
+        // Ground is drawn last to appear in front
         ctx.fillStyle = this.groundPattern;
         ctx.fillRect(0, this.canvas.height - this.groundHeight, this.width, this.groundHeight);
     }
