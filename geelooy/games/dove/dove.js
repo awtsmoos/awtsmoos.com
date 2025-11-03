@@ -39,7 +39,8 @@ export function draw(ctx) {
     ctx.save();
     ctx.translate(C.DOVE_START_X, y);
     ctx.rotate(rotation);
-    ctx.scale(-1, 1); // Flip the dove to face left
+    
+    
     ctx.drawImage(doveImage, -C.DOVE_WIDTH / 2, -C.DOVE_HEIGHT / 2, C.DOVE_WIDTH, C.DOVE_HEIGHT);
     ctx.restore();
 }
