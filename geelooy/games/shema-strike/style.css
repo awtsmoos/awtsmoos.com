@@ -1,24 +1,31 @@
-/*B"H*/
-body {
+/*BH*/
+html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     font-family: 'Arial Black', Gadget, sans-serif;
 }
 
+/*
+  THE FIX: We are changing how the game container is positioned.
+  Instead of being a flex item, it will be absolutely positioned
+  relative to the body, forcing it into the center of the viewport.
+*/
 #game-container {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This is the standard way to center an absolute element */
+
     width: 100%;
     max-width: 1200px;
     aspect-ratio: 16 / 9;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     border: 3px solid #FFF;
-    background: #111; /* Fallback background */
+    background: #111;
 }
 
 canvas {
@@ -29,14 +36,18 @@ canvas {
 
 #mobile-controls {
     position: absolute;
-    bottom: 0;
+    /* These values ensure it perfectly covers its parent, the #game-container */
+    top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
     width: 100%;
     height: 100%;
+
     display: none; /* Hidden by default, enabled by JS */
     pointer-events: none;
     -webkit-tap-highlight-color: transparent;
-    z-index: 10; /* THE FIX: Ensures controls are rendered on top of the canvas */
+    z-index: 10; /* Keep this to ensure it's on top */
 }
 
 /* Default (Desktop / Landscape) - Less intrusive controls */
@@ -80,41 +91,43 @@ canvas {
     border: 3px solid rgba(255, 255, 255, 0.7);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align: center;
     font-size: 50px;
     color: white;
     user-select: none;
 }
 
-/* Media Query for Portrait (Vertical) Mobile Screens */
-/* In style.css, inside the media query */
 
 @media (orientation: portrait) {
+    /*
+      THE FIX: For portrait, we need to handle sizing differently
+      to avoid breaking the aspect ratio and overflowing.
+    */
     #game-container {
-        height: 100%; /* Fill the vertical space */
-        width: 100%; /* Fill the horizontal space */
-        max-width: none; /* Override the desktop max-width */
-        aspect-ratio: unset; /* IMPORTANT: Remove the fixed aspect ratio */
+        width: 100vw; /* Use 100% of the viewport width */
+        height: 56.25vw; /* 9/16 of the width to maintain aspect ratio */
+        max-width: none;
+        aspect-ratio: 16 / 9; /* Re-enforce aspect ratio */
     }
 
     #joystick-area {
-        width: 45%;
-        height: 150px;
-        left: 2.5%;
-        bottom: 10px;
-        border-radius: 80px;
+        width: 40%; /* Adjusted for better spacing */
+        height: 120px;
+        left: 5%;
+        bottom: 20px;
+        border-radius: 60px;
     }
 
     #action-button-area {
-        width: 45%;
-        height: 150px;
-        right: 2.5%;
-        bottom: 10px;
+        width: 40%;
+        height: 120px;
+        right: 5%;
+        bottom: 20px;
     }
-
+    
     #action-button {
-        font-size: 60px;
-        border-radius: 80px;
+        font-size: 50px;
+        border-radius: 60px;
     }
 }
 
@@ -124,7 +137,6 @@ canvas {
     transform: scale(0.95);
 }
 
-/* In style.css, CHANGE the #start-screen selector to include the new screen */
 #start-screen, #game-over-screen {
     position: absolute;
     top: 0; left: 0;
@@ -139,25 +151,21 @@ canvas {
     z-index: 100;
 }
 
-/* ADD this new rule to hide the game-over screen by default */
 #game-over-screen {
     display: none;
 }
 
-/* CHANGE the h1 selector to apply to both screens */
 #start-screen h1, #game-over-screen h1 {
     font-size: clamp(3rem, 10vw, 6rem);
     text-shadow: 3px 3px #c00;
     margin-bottom: 20px;
 }
 
-/* CHANGE the p selector to apply to both screens */
 #start-screen p, #game-over-screen p {
     font-size: clamp(1rem, 3vw, 1.4rem);
     margin: 10px 20px;
 }
 
-/* CHANGE the button selector to apply to both buttons */
 #start-button, #restart-button {
     padding: 20px 40px;
     font-size: clamp(1.2rem, 4vw, 1.8rem);
@@ -171,7 +179,6 @@ canvas {
     transition: transform 0.2s ease;
 }
 
-/* CHANGE the button hover selector */
 #start-button:hover, #restart-button:hover {
     transform: scale(1.05);
     background: #ff0000;
