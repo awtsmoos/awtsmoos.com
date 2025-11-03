@@ -10,7 +10,8 @@ export function updateDimensions(width, height) {
 }
 
 // Dove Physics
-export let DOVE_START_X = 100; // Keep the dove at a fixed x position from the left
+export let DOVE_START_X = () => CANVAS_WIDTH / 3; // Position the dove 1/3 of the way across the screen
+
 export const DOVE_START_Y = () => CANVAS_HEIGHT / 2; // Y position is relative to height
 export const DOVE_WIDTH = 50;
 export const DOVE_HEIGHT = 50;

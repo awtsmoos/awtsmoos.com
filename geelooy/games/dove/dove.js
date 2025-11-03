@@ -40,7 +40,7 @@ export function draw(ctx) {
     if (rotation < minRotation) rotation = minRotation;
 
     ctx.save();
-    ctx.translate(C.DOVE_START_X, y);
+    ctx.translate(C.DOVE_START_X(), y);
     ctx.rotate(rotation);
     
     
