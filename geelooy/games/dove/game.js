@@ -5,6 +5,50 @@ import * as Obstacle from './obstacle.js';
 import * as Controls from './controls.js';
 import * as Background from './background.js';
 
+//B"H
+// (Keep all your import statements above this)
+
+// --- NEW HELPER FUNCTION: Convert Number to Gematria ---
+function toGematria(num) {
+    if (num <= 0) return ' '; // Return a space or empty string for zero
+    
+    // Handle special cases to avoid sacred names
+    if (num === 15) return 'ט"ו';
+    if (num === 16) return 'ט"ז';
+
+    const letters = [
+        { val: 400, char: 'ת' }, { val: 300, char: 'ש' }, { val: 200, char: 'ר' },
+        { val: 100, char: 'ק' }, { val: 90, char: 'צ' }, { val: 80, char: 'פ' },
+        { val: 70, char: 'ע' }, { val: 60, char: 'ס' }, { val: 50, char: 'נ' },
+        { val: 40, char: 'מ' }, { val: 30, char: 'ל' }, { val: 20, char: 'כ' },
+        { val: 10, char: 'י' }, { val: 9, char: 'ט' }, { val: 8, char: 'ח' },
+        { val: 7, char: 'ז' }, { val: 6, char: 'ו' }, { val: 5, char: 'ה' },
+        { val: 4, char: 'ד' }, { val: 3, char: 'ג' }, { val: 2, char: 'ב' },
+        { val: 1, char: 'א' }
+    ];
+
+    let result = '';
+    let n = num;
+
+    for (const letter of letters) {
+        while (n >= letter.val) {
+            result += letter.char;
+            n -= letter.val;
+        }
+    }
+
+    // Add Geresh (') for single letters or Gershayim (") for multiple
+    if (result.length > 1) {
+        result = result.slice(0, -1) + '"' + result.slice(-1);
+    } else if (result.length === 1) {
+        result += "'";
+    }
+
+    return result;
+}
+
+
+
 // Get DOM elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -94,10 +138,33 @@ function gameLoop() {
     Obstacle.draw(ctx);
     Dove.draw(ctx);
 
-    // Draw score
+    //B"H
+    //B"H
+    // --- Draw Score and its Gematria ---
+    ctx.textAlign = 'center';
+
+    const scoreX = C.CANAS_WIDTH / 2;
+    const scoreY = 50;
+    
+    // -- Score Number --
+    ctx.font = 'bold 40px Arial';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 4;
+    
+    ctx.strokeText(score, scoreX, scoreY); // Black outline
     ctx.fillStyle = '#fff';
-    ctx.font = '40px Arial';
-    ctx.fillText(score, C.CANVAS_WIDTH / 2, 50);
+    ctx.fillText(score, scoreX, scoreY);   // White fill
+
+    // -- Calculated Gematria Subtitle --
+    const gematriaText = toGematria(score); // Calculate the Gematria!
+    const gematriaY = scoreY + 30;
+    ctx.font = 'bold 20px Arial';
+
+    ctx.strokeText(gematriaText, scoreX, gematriaY); // Black outline
+    ctx.fillStyle = '#fff';
+    ctx.fillText(gematriaText, scoreX, gematriaY);   // White fill
+    
+    // --- End of Score Drawing ---
 
     frameCount++;
     requestAnimationFrame(gameLoop);
