@@ -9,10 +9,9 @@ const powerupExplanation = document.getElementById('powerupExplanation');
 
 // Game variables
 let doveY, velocity, score, pipes, powerups, gameOver, gameStarted;
-const gravity = 0.5;
-const lift = -10;
+const gravity = 0.25; // Reduced gravity for a gentler fall
+const lift = -6;    // Adjusted lift to match the new gravity
 const doveX = 100;
-let doveWingState = 0;
 let frameCount = 0;
 
 // Pipe variables
@@ -39,7 +38,8 @@ function initializeGame() {
     gameStarted = false;
     activePowerup = null;
     powerupTimer = 0;
-    spawnPipe();
+    frameCount = 0;
+    pipes.push({ x: canvas.width + 50, y: Math.random() * (canvas.height - pipeGap - 100) + 50 });
 }
 
 function spawnPipe() {
@@ -62,19 +62,31 @@ function spawnPowerup() {
 }
 
 function drawDove() {
+    // --- NEW: Dove Rotation Logic ---
+    // Calculate rotation based on velocity for a dynamic feel
+    const maxRotation = Math.PI / 4; // Max downward tilt (45 degrees)
+    const minRotation = -Math.PI / 6; // Max upward tilt (30 degrees)
+    let rotation = velocity * 0.05; // Scale velocity to a reasonable rotation value
+
+    // Clamp the rotation so the dove doesn't spin wildly
+    if (rotation > maxRotation) {
+        rotation = maxRotation;
+    }
+    if (rotation < minRotation) {
+        rotation = minRotation;
+    }
+
     ctx.save();
     ctx.translate(doveX, doveY);
-    if (doveWingState < 5) {
-        ctx.scale(1, -1);
-    } else {
-        ctx.scale(1, 1);
-    }
+    ctx.rotate(rotation); // Apply the calculated rotation
+    // Draw the image centered on the new rotated origin
     ctx.drawImage(dove, -25, -25, 50, 50);
     ctx.restore();
 }
 
+
 function drawPipes() {
-    ctx.fillStyle = '#333';
+    ctx.fillStyle = '#333'; // Represents Tohu and Vohu (chaos)
     pipes.forEach(pipe => {
         ctx.fillRect(pipe.x, 0, pipeWidth, pipe.y);
         ctx.fillRect(pipe.x, pipe.y + pipeGap, pipeWidth, canvas.height - pipe.y - pipeGap);
@@ -96,8 +108,14 @@ function update() {
     velocity += gravity;
     doveY += velocity;
 
-    // Collision with top and bottom
-    if (doveY > canvas.height - 25 || doveY < 25) {
+    // Prevent dove from going off-screen at the top
+    if (doveY < 25) {
+        doveY = 25;
+        velocity = 0;
+    }
+
+    // Collision with bottom
+    if (doveY > canvas.height - 25) {
         endGame();
     }
 
@@ -106,7 +124,7 @@ function update() {
         pipe.x -= pipeSpeed;
     });
 
-    if (pipes[0] && pipes[0].x < -pipeWidth) {
+    if (pipes[0] && pipes[0].x < doveX - pipeWidth - 25) {
         pipes.shift();
         score++;
     }
@@ -145,9 +163,7 @@ function update() {
         }
     });
 
-    // Update wing animation
     frameCount++;
-    doveWingState = frameCount % 10;
 
     // Handle active powerup
     if (activePowerup) {
@@ -169,7 +185,9 @@ function activatePowerup(powerup) {
             pipeSpeed = 4;
             break;
         case 'ת':
-            pipes.splice(0, 1);
+            if (pipes.length > 0) {
+                pipes.shift();
+            }
             break;
     }
     powerupTimer = 300; // Powerup lasts for 5 seconds (60fps * 5)
@@ -184,9 +202,9 @@ function deactivatePowerup() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawDove();
     drawPipes();
     drawPowerups();
+    drawDove(); // Draw dove last so it's on top
 
     // Draw score
     ctx.fillStyle = '#fff';
@@ -218,6 +236,7 @@ function startGame() {
     gameOverMenu.style.display = 'none';
     initializeGame();
     gameStarted = true;
+    gameLoop();
 }
 
 function endGame() {
@@ -226,25 +245,27 @@ function endGame() {
     gameOverMenu.style.display = 'flex';
 }
 
-playButton.addEventListener('click', () => {
-    startGame();
-    gameLoop();
-});
-replayButton.addEventListener('click', () => {
-    startGame();
-    gameLoop();
-});
+playButton.addEventListener('click', startGame);
+replayButton.addEventListener('click', startGame);
+
+// --- CONTROLS ---
+function flap() {
+    if (gameStarted && !gameOver) {
+        velocity = lift;
+    }
+}
 
 document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && gameStarted) {
-        velocity = lift;
+    if (e.code === 'Space') {
+        flap();
     }
 });
-
-canvas.addEventListener('click', () => {
-    if (gameStarted) {
-        velocity = lift;
-    }
+canvas.addEventListener('click', flap);
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevents screen from scrolling and double-taps zooming
+    flap();
 });
 
+// Initialize on first load
 initializeGame();
+draw(); // Draw initial state before game starts
