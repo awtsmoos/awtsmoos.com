@@ -166,6 +166,7 @@ canvas {
     margin: 10px 20px;
 }
 
+
 #start-button, #restart-button {
     padding: 20px 40px;
     font-size: clamp(1.2rem, 4vw, 1.8rem);
