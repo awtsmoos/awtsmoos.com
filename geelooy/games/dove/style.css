@@ -16,7 +16,7 @@ body {
 
 canvas {
     display: block;
-    background-image: url('https://www.transparentpng.com/thumb/water/Y5w3ga-water-free-download-png.png'); /* Placeholder for a watery background */
+    
     background-size: cover;
     background-position: center;
 }

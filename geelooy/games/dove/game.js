@@ -3,6 +3,7 @@ import * as C from './constants.js';
 import * as Dove from './dove.js';
 import * as Obstacle from './obstacle.js';
 import * as Controls from './controls.js';
+import * as Background from './background.js';
 
 // Get DOM elements
 const canvas = document.getElementById('gameCanvas');
@@ -22,6 +23,7 @@ function initializeGame() {
     score = 0;
     frameCount = 0;
     Dove.reset();
+    Background.init();
     Obstacle.reset();
     startMenu.style.display = 'none';
     gameOverMenu.style.display = 'none';
@@ -69,6 +71,7 @@ function gameLoop() {
     if (gameState !== 'playing') return;
 
     // Update game objects
+    Background.update();
     Dove.update();
     Obstacle.update();
     
