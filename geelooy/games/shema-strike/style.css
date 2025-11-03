@@ -36,6 +36,7 @@ canvas {
     display: none; /* Hidden by default, enabled by JS */
     pointer-events: none;
     -webkit-tap-highlight-color: transparent;
+    z-index: 10; /* THE FIX: Ensures controls are rendered on top of the canvas */
 }
 
 /* Default (Desktop / Landscape) - Less intrusive controls */
@@ -97,7 +98,7 @@ canvas {
     }
 
     #joystick-area {
-        width: 45%; 
+        width: 45%;
         height: 150px;
         left: 2.5%;
         bottom: 10px;
@@ -110,7 +111,7 @@ canvas {
         right: 2.5%;
         bottom: 10px;
     }
-    
+
     #action-button {
         font-size: 60px;
         border-radius: 80px;
@@ -121,48 +122,6 @@ canvas {
 #action-button:active {
     background-color: rgba(255, 0, 0, 0.7);
     transform: scale(0.95);
-}
-
-#start-screen {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    z-index: 100;
-}
-
-#start-screen h1 {
-    font-size: clamp(3rem, 10vw, 6rem);
-    text-shadow: 3px 3px #c00;
-    margin-bottom: 20px;
-}
-
-#start-screen p {
-    font-size: clamp(1rem, 3vw, 1.4rem);
-    margin: 10px 20px;
-}
-
-#start-button {
-    padding: 20px 40px;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    font-weight: bold;
-    background: #c00;
-    color: white;
-    border: 2px solid white;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: transform 0.2s ease;
-}
-#start-button:hover {
-    transform: scale(1.05);
-    background: #ff0000;
 }
 
 /* In style.css, CHANGE the #start-screen selector to include the new screen */
@@ -182,7 +141,7 @@ canvas {
 
 /* ADD this new rule to hide the game-over screen by default */
 #game-over-screen {
-    display: none; 
+    display: none;
 }
 
 /* CHANGE the h1 selector to apply to both screens */
