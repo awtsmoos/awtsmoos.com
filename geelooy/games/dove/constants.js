@@ -16,7 +16,7 @@ export const OBSTACLE_WIDTH = 60;
 export const OBSTACLE_GAP = 200;
 export const OBSTACLE_SPEED = 2;
 export const OBSTACLE_SPAWN_RATE = 200; // Frames between spawns (higher is more space)
-export const OBSTACLE_EMOJIS = Array.from("🌫️🪟🧱🎇🟥🟧🟨🟩🟦🟪🟫")
+export const OBSTACLE_EMOJIS = Array.from("🪟🧱🎇🟥🟧🟨🟩🟦🟪🟫")
 
 // Power-up Settings
 export const POWERUP_SPAWN_RATE = 350; // Frames between spawns

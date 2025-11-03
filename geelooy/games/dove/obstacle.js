@@ -31,19 +31,27 @@ export function update() {
     }
 }
 
+//B"H
 export function draw(ctx) {
     ctx.font = '40px sans-serif';
     ctx.textAlign = 'center';
     
     obstacles.forEach(obs => {
         const emojiSize = 40;
-        // Draw top obstacle
-        for (let y = 0; y < obs.topHeight; y += emojiSize) {
-            ctx.fillText(obs.emoji, obs.x + C.OBSTACLE_WIDTH / 2, y + emojiSize);
+
+        // Draw top obstacle, aligning the bottom of the emojis
+        ctx.textBaseline = 'bottom';
+        for (let y = obs.topHeight; y > 0; y -= emojiSize) {
+            ctx.fillText(obs.emoji, obs.x + C.OBSTACLE_WIDTH / 2, y);
         }
-        // Draw bottom obstacle
+
+        // Draw bottom obstacle, aligning the top of the emojis
+        ctx.textBaseline = 'top';
         for (let y = obs.bottomY; y < C.CANVAS_HEIGHT; y += emojiSize) {
-            ctx.fillText(obs.emoji, obs.x + C.OBSTACLE_WIDTH / 2, y + emojiSize);
+            ctx.fillText(obs.emoji, obs.x + C.OBSTACLE_WIDTH / 2, y);
         }
     });
+
+    // Reset textBaseline so it doesn't affect other text like the score
+    ctx.textBaseline = 'alphabetic';
 }
