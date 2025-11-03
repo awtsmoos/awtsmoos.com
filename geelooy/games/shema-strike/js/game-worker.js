@@ -121,122 +121,129 @@ function spawnWave() {
     }
 }
 
+// B"H
+// IN FILE: /Remember/awtsmoos.com/geelooy/games/shema-strike/js/game-worker.js
+
 /**
  * The main game loop, powered by requestAnimationFrame.
  * This function is the engine of the game, responsible for updating state and
  * rendering the scene on every frame.
  */
 function gameLoop() {
-    // If the game isn't running, we still keep the loop alive with requestAnimationFrame,
-    // but we skip all the logic and rendering. This is more efficient than
-    // starting/stopping the loop completely.
     if (!gameRunning) {
         requestAnimationFrame(gameLoop);
         return;
     }
 
-    // --- Game Over Condition ---
     if (player.health <= 0) {
         gameRunning = false;
-        // Send a message back to the main thread to inform it that the game is over,
-        // so it can display the game over screen.
         self.postMessage({ type: 'gameOver' });
-        return; // Stop the loop's execution for this frame.
+        return;
     }
 
     // --- (A) UPDATE LOGIC ---
-    // All game state calculations happen here, before any drawing.
 
-    // Smoothly update camera position to follow the player.
+    // Smoothly update camera position
     const targetCameraX = player.x - (canvas.width / 2) / zoomLevel;
-    cameraX += (targetCameraX - cameraX) * 0.1; // "Lerping" for smooth camera motion.
+    cameraX += (targetCameraX - cameraX) * 0.1;
     const visibleWidth = canvas.width / zoomLevel;
-    // Clamp camera position to the world boundaries.
     cameraX = Math.max(0, Math.min(world.width - visibleWidth, cameraX));
 
-    // Update all game objects.
+    // Update core game objects
     world.update();
     player.update(particles);
 
-    // Process enemy logic and interactions.
     const attackHitbox = player.getAttackHitbox();
-    enemies.forEach((enemy, enemyIndex) => {
-        enemy.update();
+    
+    // --- OPTIMIZATION 1: VIEW CULLING & EFFICIENT REMOVAL ---
+    // Define the visible area plus a buffer to avoid pop-in
+    const viewLeft = cameraX - 200;
+    const viewRight = cameraX + visibleWidth + 200;
 
-        // Check for collision between player's attack and the enemy.
-        if (attackHitbox && isColliding(attackHitbox, enemy.getBoundingBox())) {
-            enemy.takeDamage(player.attackDamage, particles);
+    // --- Process Enemies ---
+    const livingEnemies = [];
+    for (const enemy of enemies) {
+        // CULLING: Only run expensive updates for enemies on or near the screen
+        if (enemy.x + enemy.size > viewLeft && enemy.x - enemy.size < viewRight) {
+            enemy.update();
+
+            // Check for collision with player's attack
+            if (attackHitbox && isColliding(attackHitbox, enemy.getBoundingBox())) {
+                enemy.takeDamage(player.attackDamage, particles);
+            }
         }
 
-        // Handle enemy death.
+        // DEATH CHECK: This runs for all enemies, on or off-screen
         if (enemy.health <= 0) {
+            // If enemy died, create effects but do not add to the 'living' array
             for (let i = 0; i < 10; i++) particles.push(new Particle(enemy.x, enemy.y, getRandomFrom(HEBREW_LETTERS), Math.random() * 20 + 15, 80));
             triggerScreenShake(15, 10);
             ui.updateScore(enemy.perutas);
             if (Math.random() < 0.35) healthPackets.push(new HealthPacket(enemy.x, enemy.y, world));
-            enemies.splice(enemyIndex, 1); // Remove dead enemy from the array.
+        } else {
+            // If the enemy is alive, keep it for the next frame
+            livingEnemies.push(enemy);
         }
-    });
+    }
+    enemies = livingEnemies; // Replace old array with the efficiently filtered one
 
-    // Process health packets.
-    healthPackets.forEach((packet, index) => {
+    // --- Process health packets ---
+    const activeHealthPackets = [];
+    for (const packet of healthPackets) {
         packet.update();
         if (isColliding(player.getBoundingBox(), packet.getBoundingBox())) {
             player.heal(packet.healAmount);
-            healthPackets.splice(index, 1);
-        } else if (packet.life <= 0) {
-            healthPackets.splice(index, 1); // Remove expired packets.
+            // Don't push packet, effectively removing it
+        } else if (packet.life > 0) {
+            activeHealthPackets.push(packet);
         }
-    });
+    }
+    healthPackets = activeHealthPackets;
 
-    // Update and clean up particles.
-    particles.forEach((p, index) => {
+    // --- Update and clean up particles ---
+    const activeParticles = [];
+    for (const p of particles) {
         p.update();
-        if (p.life <= 0) {
-            particles.splice(index, 1);
+        if (p.life > 0) {
+            activeParticles.push(p);
         }
-    });
+    }
+    particles = activeParticles;
 
-    // Check for wave completion and start the cooldown for the next wave.
+    // Check for wave completion
     if (enemies.length === 0) {
         waveCooldown--;
         if (waveCooldown <= 0) {
             spawnWave();
-            waveCooldown = 180; // Reset cooldown.
+            waveCooldown = 180;
         }
     }
 
     // --- (B) DRAWING LOGIC ---
-    // After all states are updated, draw everything to the canvas.
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for the new frame.
-    ctx.save(); // Save the default context state.
-
-    // Apply camera transformations (zoom and translation).
-    // All subsequent drawing calls will be affected by this, creating the camera effect.
     ctx.scale(zoomLevel, zoomLevel);
     ctx.translate(-cameraX, 0);
 
-    // Apply screen shake effect if active.
     updateScreenShake(ctx);
 
-    // --- Draw Game Layers (Order is important for correct layering) ---
-    world.draw(ctx);          // 1. Background and ground
-    healthPackets.forEach(p => p.draw(ctx)); // 2. Pickups
-    enemies.forEach(e => e.draw(ctx));       // 3. Enemies
-    player.draw(ctx);         // 4. Player
-    particles.forEach(p => p.draw(ctx));   // 5. Effects (on top of everything)
+    world.draw(ctx);
+    healthPackets.forEach(p => p.draw(ctx));
+    // CULLING FOR DRAWING: Also only draw enemies that are visible
+    for (const e of enemies) {
+        if (e.x + e.size > cameraX && e.x - e.size < cameraX + visibleWidth) {
+            e.draw(ctx);
+        }
+    }
+    player.draw(ctx);
+    particles.forEach(p => p.draw(ctx));
 
-    ctx.restore(); // Restore the context to its state before camera transforms.
+    ctx.restore();
 
-    // --- Draw UI ---
-    // The UI is drawn last and without camera transformations so it stays fixed on the screen.
     ui.draw(ctx, player);
 
-    // --- Finalization ---
-    // After processing this frame's input, reset the "pressed" state for the next frame.
     controlsState.strikePressed = false;
-    // Queue the next frame.
     requestAnimationFrame(gameLoop);
 }
 
