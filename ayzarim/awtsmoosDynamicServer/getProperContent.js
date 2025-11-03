@@ -5,7 +5,7 @@ module.exports = function getProperContent
     contentType=null,
     isBinary=false
 ) {
-    
+    if(Buffer.isBuffer(content)) return content;
 
     if (!isBinary) {
         if (typeof(content) == "boolean") {

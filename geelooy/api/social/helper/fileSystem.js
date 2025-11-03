@@ -26,10 +26,20 @@ module .exports ={
 
 async function makeFile({$i}) {
     try {
-        var { aliasId, path, content } = $i.$_POST;
+        var {
+	        aliasId, 
+	        path, 
+	        content,
+	        binaryData
+        } = $i.$_POST;
         if(!content) {
             content = $i.$_POST.value;
         }
+        if(binaryData) {
+	        content = binaryData.data;
+        }
+      
+      
         if (!content)
             return er({ message: "Content/value parameter missing", code: "CONTENT_MISSING" });
         // Ensure the 'path' exists in POST or GET
@@ -47,14 +57,18 @@ async function makeFile({$i}) {
 
         // Check if the alias exceeds 10MB limit
         var currentSize = await checkAliasSize({$i, aliasId});
+        
+        var newFileSize
         var strContent = content;
-        if(typeof(content) == "object") {
+        if(Buffer.isBuffer(content)) {
+	        newFileSize == content.length;
+        } else if(typeof(content) == "object") {
             try {
                 strContent = JSON.stringify(content);
             } catch(e){}
         }
         try {
-            var newFileSize = Buffer.byteLength(strContent, 'utf8');
+            newFileSize = Buffer.byteLength(strContent, 'utf8');
             if (currentSize + newFileSize > 10 * 1024 * 1024) {
                 return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
             }
@@ -179,11 +193,10 @@ async function readFile({$i}) {
 */
 
     path = addFolderName(path);
-    // Read the file from the alias's file system
+   
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var file = await $i.db.read(filePath);
-   /* if (!file) return er({ message: "File not found", code: "FILE_NOT_FOUND" });
-*/
+
     var extInd = filePath.lastIndexOf(".");
     var ext = ".js";
     if(extInd > -1) {
@@ -202,7 +215,8 @@ async function readFile({$i}) {
             )
         }
     }
-    return  (file+"") || "";
+ //   console.log("returning",mime,file)
+    return  (file) || "";
 }
 
 async function makeFolder({$i}) {

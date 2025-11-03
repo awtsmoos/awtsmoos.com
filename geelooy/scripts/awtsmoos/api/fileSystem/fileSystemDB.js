@@ -54,19 +54,36 @@ class APIHandler {
 		const url = new URL(
 			`${this.baseUrl}aliases/${aliasId}/fileSystem/makeFile`
 			);
+		var isBuffer = 
+		console.log("ABOUT TO WRITE",value,value instanceof ArrayBuffer);
+		var body;
+		
+		if(value instanceof ArrayBuffer) {
 			
-		console.log("ABOUT TO WRITE",value);
-		const params =
-			new URLSearchParams({
+			const blob = new Blob([value ], { type: 'application/octet-stream' }); 
+			
+			// 3. Create FormData object
+			const formData = new FormData();
+			
+			// 4. Append the Blob to FormData
+			// The third argument is the filename, which is useful for the server
+			formData.append('binaryData', blob, key); 
+			formData.append('path', `${storeName}/${key}`); 
+			body = formData;
+			//console.log("Got it",body);
+		} else {
+			body = new URLSearchParams({
 				path: `${storeName}/${key}`,
 				value: value // Pass the value as a query string
 			});
+		}
+			
 
 		try {
 			const response =
 				await fetch(url, {
 					method: 'POST', // POST for creating or updating the file
-					body: params
+					body
 				});
 
 			await this
