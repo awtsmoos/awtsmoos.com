@@ -98,7 +98,7 @@ function checkCollisions() {
 
     // Circle-to-Rectangle collision logic
     for (const obs of Obstacle.obstacles) {
-        const circle = { x: C.DOVE_START_X, y: Dove.y, r: C.DOVE_RADIUS };
+        const circle = { x: C.DOVE_START_X(), y: Dove.y, r: C.DOVE_RADIUS };
 
         // Define the top and bottom rectangles
         const topRect = { x: obs.x, y: 0, w: C.OBSTACLE_WIDTH, h: obs.topHeight };
@@ -128,7 +128,7 @@ function checkCollisions() {
 
 function updateScore() {
     Obstacle.obstacles.forEach(obs => {
-        if (!obs.passed && obs.x + C.OBSTACLE_WIDTH > C.DOVE_START_X) {
+        if (!obs.passed && obs.x + C.OBSTACLE_WIDTH > C.DOVE_START_X()) {
             obs.passed = true;
             score++;
         }
