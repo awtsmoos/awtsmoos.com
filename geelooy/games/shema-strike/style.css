@@ -1,28 +1,25 @@
-/*BH*/
+/*B"H*/
 html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #000;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     font-family: 'Arial Black', Gadget, sans-serif;
 }
 
-/*
-  THE FIX: We are changing how the game container is positioned.
-  Instead of being a flex item, it will be absolutely positioned
-  relative to the body, forcing it into the center of the viewport.
-*/
 #game-container {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* This is the standard way to center an absolute element */
+    transform: translate(-50%, -50%);
 
+    /* Default to landscape aspect ratio for desktop */
     width: 100%;
     max-width: 1200px;
     aspect-ratio: 16 / 9;
+
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     border: 3px solid #FFF;
     background: #111;
@@ -36,21 +33,16 @@ canvas {
 
 #mobile-controls {
     position: absolute;
-    /* These values ensure it perfectly covers its parent, the #game-container */
     top: 0;
     left: 0;
-    bottom: 0;
-    right: 0;
     width: 100%;
     height: 100%;
-
-    display: none; /* Hidden by default, enabled by JS */
+    display: none;
     pointer-events: none;
     -webkit-tap-highlight-color: transparent;
-    z-index: 10; /* Keep this to ensure it's on top */
+    z-index: 10;
 }
 
-/* Default (Desktop / Landscape) - Less intrusive controls */
 #joystick-area {
     position: absolute;
     bottom: 15px;
@@ -91,43 +83,39 @@ canvas {
     border: 3px solid rgba(255, 255, 255, 0.7);
     display: flex;
     justify-content: center;
-    align: center;
+    align-items: center;
     font-size: 50px;
     color: white;
     user-select: none;
 }
 
-
 @media (orientation: portrait) {
-    /*
-      THE FIX: For portrait, we need to handle sizing differently
-      to avoid breaking the aspect ratio and overflowing.
-    */
     #game-container {
-        width: 100vw; /* Use 100% of the viewport width */
-        height: 56.25vw; /* 9/16 of the width to maintain aspect ratio */
+        width: 100%;
+        height: 100%;
         max-width: none;
-        aspect-ratio: 16 / 9; /* Re-enforce aspect ratio */
+        /* THE DEFINITIVE FIX: Use 'auto' to force the override. */
+        aspect-ratio: auto;
     }
 
     #joystick-area {
-        width: 40%; /* Adjusted for better spacing */
-        height: 120px;
-        left: 5%;
+        width: 45%;
+        height: 150px;
+        left: 2.5%;
         bottom: 20px;
-        border-radius: 60px;
+        border-radius: 80px;
     }
 
     #action-button-area {
-        width: 40%;
-        height: 120px;
-        right: 5%;
+        width: 45%;
+        height: 150px;
+        right: 2.5%;
         bottom: 20px;
     }
-    
+
     #action-button {
-        font-size: 50px;
-        border-radius: 60px;
+        font-size: 60px;
+        border-radius: 80px;
     }
 }
 
@@ -165,7 +153,6 @@ canvas {
     font-size: clamp(1rem, 3vw, 1.4rem);
     margin: 10px 20px;
 }
-
 
 #start-button, #restart-button {
     padding: 20px 40px;
