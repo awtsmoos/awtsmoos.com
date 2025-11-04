@@ -63,13 +63,12 @@ async function handleIncomingRequest(event, baseItem) {
 
         try {
             const assetItem = { ...workspace, path: resolvedPath };
-            if (workspace.type === 'github') {
-                const fileMeta = await FileSystemProvider.GitHub.api(`/repos/${workspace.repoInfo.owner}/${workspace.repoInfo.repo}/contents/${resolvedPath}?ref=${workspace.branch}`);
-                assetItem.sha = fileMeta.sha;
-            }
+            // We no longer need to fetch GitHub metadata here just to read.
+            // FileSystemProvider.read will handle it.
             
             let scriptContent = await FileSystemProvider.read(assetItem);
             
+            // This logic correctly handles all data types from your FS Provider.
             if (scriptContent instanceof Blob) {
                 scriptContent = await scriptContent.text();
             } else if (scriptContent && scriptContent.isBinary) {
@@ -77,23 +76,20 @@ async function handleIncomingRequest(event, baseItem) {
             }
 
             if (type === 'fetch-worker-script') {
-                // --- THIS IS THE CORRECTED LOGIC ---
-                // 1. Inject the worker's own path into the polyfill template.
                 const polyfillWithContext = importScriptsPolyfill.replace('%%WORKER_BASE_PATH%%', resolvedPath);
-                
-                // 2. Concatenate the polyfill and the user's script into one. NO eval here.
                 const finalContent = polyfillWithContext + '\n' + scriptContent;
-
                 const blob = new Blob([finalContent], { type: 'application/javascript' });
                 const blobUrl = URL.createObjectURL(blob);
                 event.source.postMessage({ type: 'worker-script-response', id, blobUrl }, '*');
 
-            } else { // 'fetch-script-content' for sub-imports
-                event.source.postMessage({ type: 'script-content-response', id, content: scriptContent }, '*');
+            } else { // 'fetch-script-content'
+                event.source.postMessage({ type: 'script-content-response', id, content: scriptContent, path: resolvedPath }, '*');
             }
         } catch (e) {
-            const errorMessage = `Failed to fetch script for preview: ${resolvedPath}. Error: ${e.message}`;
-            console.error(errorMessage, e);
+            // --- THIS IS THE ROBUST ERROR HANDLING ---
+            const errorMessage = `File not found or could not be read: ${resolvedPath}. Error: ${e.message}`;
+            console.error(`[FS_PROVIDER_ERROR] ${errorMessage}`);
+            
             if (type === 'fetch-worker-script') {
                 event.source.postMessage({ type: 'worker-script-response', id, error: errorMessage }, '*');
             } else {
@@ -102,7 +98,6 @@ async function handleIncomingRequest(event, baseItem) {
         }
     }
 }
-
 
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
