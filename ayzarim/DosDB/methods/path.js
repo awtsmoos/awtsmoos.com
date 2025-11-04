@@ -49,7 +49,7 @@ module.exports = {
         }
 
         // --- The path is now safe and absolute. Proceed with finding logic. ---
-
+	console.log("TRYING TO GET",resolvedPath)
         if (isDir) {
             return resolvedPath;
         }
