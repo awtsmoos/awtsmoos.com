@@ -3,77 +3,59 @@
  *
  * Robust Service Worker for Awtsmoos
  *
- * Strategy: Network-First, Falling Back to Cache
- * - This service worker prioritizes getting the latest content from the server when online.
- * - It uses IndexedDB to store metadata (last modified timestamps) about cached resources.
- * - On a request, it first performs a GET request to the server to check for updates.
- *   THIS "STATUS CHECK" REQUEST IS NEVER CACHED.
- * - It reads the timestamp metadata from the JSON BODY of that response.
- * - If the server's version is newer (stale), it fetches the full resource, updates the cache and metadata, and serves the new content.
- * - If the local version is fresh, it serves the content directly from the cache.
- * - If the user is offline, it immediately serves the previously visited content from the cache.
+ * Strategy: Unified Network-First with Graceful Fallback
+ * - This service worker handles all requests with the same intelligent logic.
+ * - The server is expected to return a JSON metadata response if the 'Awtsmoos-File-Status' header is present.
+ *
+ * Process for every request:
+ * 1. A special, NON-CACHED request is sent to the network with the 'Awtsmoos-File-Status' header.
+ * 2. It safely attempts to parse the response as JSON.
+ * 3. If JSON metadata is received, timestamps are compared to determine if the local cache is stale.
+ *    - STALE: The actual resource (without the header) is fetched from the network, cached, and served.
+ *    - FRESH: The resource is served directly from the cache.
+ * 4. If the server fails to return JSON, the worker gracefully falls back to fetching the resource directly
+ *    from the network and caching it, preventing errors.
+ * 5. If the user is offline, any available cached version is served.
  */
 
-const CACHE_NAME = 'awtsmoos-cache-v4'; // Incremented version to ensure update
-const DB_NAME = 'awtsmoos-metadata-v4';
+const CACHE_NAME = 'awtsmoos-cache-v6';
+const DB_NAME = 'awtsmoos-metadata-v6';
+const STATUS_HEADER = 'Awtsmoos-File-Status';
 
-/**
- * --- IndexedDB Metadata Helper ---
- * A self-contained wrapper for getting/setting resource metadata.
- */
+// --- IndexedDB Helper (Unchanged) ---
 const MetadataDB = {
     _db: null,
     async _getDB() {
         if (this._db) return this._db;
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, 1);
-            request.onupgradeneeded = () => {
-                if (!request.result.objectStoreNames.contains('metadata')) {
-                    request.result.createObjectStore('metadata', { keyPath: 'url' });
-                }
-            };
-            request.onsuccess = () => {
-                this._db = request.result;
-                resolve(this._db);
-            };
-            request.onerror = (e) => {
-                console.error('IndexedDB error:', e);
-                reject('IndexedDB error');
-            };
+            request.onupgradeneeded = () => request.result.createObjectStore('metadata', { keyPath: 'url' });
+            request.onsuccess = () => { this._db = request.result; resolve(this._db); };
+            request.onerror = (e) => { console.error('IndexedDB error:', e); reject('IndexedDB error'); };
         });
     },
     async get(url) {
-        try {
-            const db = await this._getDB();
-            return new Promise(resolve => {
-                const tx = db.transaction('metadata', 'readonly');
-                const store = tx.objectStore('metadata');
-                const req = store.get(url);
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => resolve(null);
-            });
-        } catch (error) {
-            console.error('Failed to get metadata from DB:', error);
-            return null;
-        }
+        const db = await this._getDB();
+        return new Promise(resolve => {
+            const tx = db.transaction('metadata', 'readonly').objectStore('metadata');
+            const req = tx.get(url);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => resolve(null);
+        });
     },
     async set(metadata) {
-        try {
-            const db = await this._getDB();
-            const tx = db.transaction('metadata', 'readwrite');
-            tx.objectStore('metadata').put(metadata);
-            return tx.done;
-        } catch (error) {
-            console.error('Failed to set metadata in DB:', error);
-        }
+        const db = await this._getDB();
+        const tx = db.transaction('metadata', 'readwrite').objectStore('metadata');
+        tx.put(metadata);
+        return tx.done;
     }
 };
+
 
 // --- Service Worker Lifecycle ---
 
 self.addEventListener('install', (event) => {
     console.log('[SW] Install Event.');
-    // Force the waiting service worker to become the active one.
     event.waitUntil(self.skipWaiting());
 });
 
@@ -82,28 +64,19 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                // Delete old caches that don't match the current CACHE_NAME.
                 cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
             );
-        }).then(() => {
-            // Take immediate control of all open pages.
-            return self.clients.claim();
-        })
+        }).then(() => self.clients.claim())
     );
 });
+
 
 // --- Fetch Interception ---
 
 self.addEventListener('fetch', (event) => {
     const { request } = event;
 
-    // Ignore non-GET requests and requests from other origins
     if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) {
-        return;
-    }
-    
-    // Do not let the service worker cache itself
-    if (new URL(request.url).pathname === '/service-worker.js') {
         return;
     }
 
@@ -112,75 +85,98 @@ self.addEventListener('fetch', (event) => {
 
 
 /**
- * The core fetch handling logic. Checks the network first, then falls back to cache.
- * @param {Request} request The incoming request.
+ * The core fetch handling logic for ALL requests.
  */
 async function handleFetch(request) {
     try {
-        // 1. **CRITICAL FIX**: Check server for status with a GET request.
-        // This request is configured to *never* be served from the cache.
-        const statusResponse = await fetch(request, {
-            cache: 'no-store' // This is the key: forces a network request, solving the original problem.
+        // 1. Create a new request with the special status header.
+        const newHeaders = new Headers(request.headers);
+        newHeaders.append(STATUS_HEADER, 'true');
+        
+        const statusRequest = new Request(request.url, {
+            method: request.method,
+            headers: newHeaders,
+            mode: 'same-origin',
+            credentials: request.credentials,
+            redirect: 'manual' // Prevent following redirects on the status check
         });
 
+        // 2. Fetch the status, ALWAYS from the network.
+        const statusResponse = await fetch(statusRequest, { cache: 'no-store' });
+
         if (!statusResponse.ok) {
-            // If the server check fails (e.g., 404), try the cache as a final resort.
-            return await getFromCache(request);
+            console.warn(`[SW] Status check failed for ${request.url}. Serving from cache.`);
+            return getFromCache(request);
         }
 
-        // 2. Read the metadata from the JSON body of the response.
-        const serverMeta = await statusResponse.json();
-        const localMeta = await MetadataDB.get(request.url);
+        let serverMeta;
+        try {
+            // 3. **CRITICAL FIX**: Safely attempt to parse the response as JSON.
+            serverMeta = await statusResponse.json();
+        } catch (e) {
+            // This block executes if the server didn't return valid JSON.
+            console.warn(`[SW] Server did not return JSON for status check on ${request.url}. Fetching resource directly.`);
+            // Fallback: fetch the original request and cache it without metadata.
+            return fetchAndCache(request);
+        }
 
-        // 3. Compare server timestamps with local timestamps from IndexedDB.
+        // 4. We have valid metadata, proceed with the normal logic.
+        const localMeta = await MetadataDB.get(request.url);
         const isStale = (serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
                         (serverMeta.dataModified > (localMeta?.dataModified || 0));
 
         if (isStale) {
-            // 4. If stale, fetch the full resource again to cache it, update DB, and return the fresh response.
             console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
-            // The statusResponse from the check is a valid response, so we can use it directly
-            // to update the cache, avoiding a second network request.
-            return await updateCacheAndDB(request, statusResponse, serverMeta);
+            // Fetch the ACTUAL resource (using original request) and update everything.
+            return fetchAndUpdate(request, serverMeta);
         } else {
-            // 5. If fresh, serve from cache. This is fast and what users expect.
             console.log(`%c[SW] Fresh: ${request.url}`, 'color: green');
-            return await getFromCache(request);
+            return getFromCache(request);
         }
 
     } catch (error) {
-        // 6. OFFLINE: If the network fails entirely, serve from the cache.
+        // 5. OFFLINE: This catches any network failure.
         console.warn(`%c[SW] Offline: Serving from cache for ${request.url}`, 'color: grey');
-        return await getFromCache(request);
+        return getFromCache(request);
     }
 }
 
+
 /**
- * Updates the cache and IndexedDB with a new response and its metadata.
+ * Fallback function: Fetches a request and caches it, but does NOT handle metadata.
+ * Used when the server gives an unexpected (non-JSON) response.
  */
-async function updateCacheAndDB(request, response, metadata) {
-    const cache = await caches.open(CACHE_NAME);
-    // Store a clone of the response in the cache, because the body can only be read once.
-    await cache.put(request, response.clone());
-    // Update the metadata for this URL in IndexedDB.
-    await MetadataDB.set({ url: request.url, ...metadata });
-    // Return the original response to the browser.
-    return response;
+async function fetchAndCache(request) {
+    const networkResponse = await fetch(request);
+    if (networkResponse && networkResponse.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
 }
 
+/**
+ * Main update function: Fetches the resource (using the original request) and updates
+ * both the Cache and the IndexedDB with new metadata.
+ */
+async function fetchAndUpdate(request, metadata) {
+    const networkResponse = await fetch(request); // Fetch the original resource without the header
+    if (networkResponse && networkResponse.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, networkResponse.clone());
+        await MetadataDB.set({ url: request.url, ...metadata });
+    }
+    return networkResponse;
+}
 
 /**
- * Tries to get a response from the cache. If not found, it fails,
- * letting the browser show its default network error.
+ * Gets a resource from the cache. If not found, returns a network error.
  */
 async function getFromCache(request) {
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
         return cachedResponse;
     }
-
-    // If not in cache, let the request fail. This will trigger the browser's
-    // default "no internet" page if offline, which is the correct behavior.
     return new Response('Resource not found in cache and network is unavailable.', {
         status: 404,
         statusText: 'Not Found'
