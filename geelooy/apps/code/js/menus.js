@@ -1,78 +1,85 @@
 // B"H
 // FILE: js/menus.js
-// B"H - IN: js/menus.js
-import { SelectionManager } from './selection-manager.js';
-import { getItemUniquePath } from './workspaces.js'; // Use the new export
 
 import { State, DOM } from './state.js';
 import { UI } from './ui.js';
 import { App } from './app.js';
 import { Tabs } from './tabs.js';
-import { Workspaces } from './workspaces.js';
+import { Workspaces, getItemUniquePath } from './workspaces.js';
 import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
 import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler, attachDynamicAssetHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
-
 import { FileOperations } from './file-operations.js';
+import { SelectionManager } from './selection-manager.js';
 
 export const Menus = {
+    /**
+     * Handles clicks on the document to hide any open menus.
+     */
     handleDocumentClick: (e) => {
         if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
             Menus.hideAll();
         }
     },
-    // B"H
-// FILE: js/menus.js
 
-// REPLACE your existing show function with this one.
+    /**
+     * Displays the context-sensitive menu for a file or folder item.
+     * @param {Event} e - The contextmenu event.
+     * @param {object} item - The file or folder item that was right-clicked.
+     */
     show(e, item) {
-        e.preventDefault(); 
-        if (State.isSelectionModeActive) {
-            e.preventDefault(); e.stopPropagation(); return;
-        }
+        e.preventDefault();
         e.stopPropagation();
-        State.contextTarget = item;
-        this.hideAll();
+
+        if (State.isSelectionModeActive) {
+            return; // Don't show the standard context menu during selection mode.
+        }
+        
+        State.contextTarget = item; // Store the item that was right-clicked.
+        this.hideAll(); // Close any other open menus first.
+        
+        // Add a one-time click listener to the document to close the menu.
         setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
         
+        // Highlight the item in the file tree.
         const mapKey = getItemUniquePath(item);
         const targetEl = State.domItemMap.get(mapKey)?.el;
-        if(targetEl) targetEl.classList.add('context-active');
+        if (targetEl) {
+            targetEl.classList.add('context-active');
+        }
 
         const isDir = item.kind === 'directory';
         const isWorkspaceRoot = item.path === '/';
         const isGithubRepoRoot = item.type === 'github' && isWorkspaceRoot;
 
-        // --- NEW: Smart Menu Logic ---
         const menuItems = [];
 
-        // 1. Smart Copy Button
+        // --- Smart "Copy" / "Clone" button ---
         if (isGithubRepoRoot) {
-            menuItems.push({ label: \`Copy / Clone "\${item.repoInfo.repo}"\`, action: 'copy-single', icon: 'copy' });
+            menuItems.push({ label: `Copy / Clone "${item.repoInfo.repo}"`, action: 'copy-single', icon: 'copy' });
         } else {
-            menuItems.push({ label: \`Copy "\${item.name}"\`, action: 'copy-single', icon: 'copy' });
+            menuItems.push({ label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' });
         }
         
         menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
         menuItems.push({ label: 'Copy All Contents', action: 'copy-all-contents', icon: 'clipboard' });
         menuItems.push({ isSeparator: true });
         
-        
-        // 2. Smart Paste Button
+        // --- Smart "Paste" button ---
         const clipboardItemUniquePath = State.fileClipboard?.[0];
         const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
         if (isDir && clipboardItem) {
             if (clipboardItem.type === 'github' && clipboardItem.path === '/') {
-                menuItems.push({ label: \`Paste / Clone "\${clipboardItem.repoInfo.repo}" here\`, action: 'paste', icon: 'download' }); // Use a download/clone icon
+                menuItems.push({ label: `Paste / Clone "${clipboardItem.repoInfo.repo}" here`, action: 'paste', icon: 'download' });
             } else {
-                menuItems.push({ label: \`Paste item(s) here\`, action: 'paste', icon: 'clipboard' });
+                menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
             }
             menuItems.push({ isSeparator: true });
         }
         
-        // 3. Standard Buttons (your existing logic)
+        // --- Standard action buttons ---
         if (isDir) {
             menuItems.push({ label: 'New File', action: 'new-file', icon: 'file' });
             menuItems.push({ label: 'New Folder', action: 'new-folder', icon: 'folder' });
@@ -80,24 +87,39 @@ export const Menus = {
         }
 
         if (!isWorkspaceRoot) {
-            menuItems.push({ label: 'Delete', action: 'delete', icon: 'x', danger: true });
+            menuItems.push({ label: 'Delete', action: 'delete', icon: 'trash', danger: true });
         } else {
             menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
         }
+        
+        // --- Build and render the menu's HTML ---
+        DOM.contextMenu.innerHTML = menuItems.map(i => {
+            if (i.isSeparator) {
+                return `<hr class="menu-separator">`;
+            }
+            const dangerStyle = i.danger ? 'style="color: var(--color-accent-danger);"' : '';
+            return `
+                <button class="menu-button" data-action="${i.action}" ${dangerStyle}>
+                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
+                </button>
+            `;
+        }).join('');
 
-        DOM.contextMenu.innerHTML = menuItems.filter(Boolean).map(i => i.isSeparator ? \`<hr class="menu-separator">\` :
-            \`<button class="menu-button" data-action="\${i.action}" \${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
-                <svg class="svg-icon"><use href="#icon-\${i.icon}"/></svg> \${i.label}
-             </button>\`
-        ).join('');
         this.positionAndDisplay(DOM.contextMenu, e);
     },
+
+    /**
+     * Displays the main application menu (hamburger menu).
+     * @param {Event} e - The click event.
+     */
     showMainMenu(e) {
         e.stopPropagation();
         this.hideAll();
         setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
+
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
+        
         const menuItems = [
             { label: 'New File', action: 'new-temp-file', icon: 'file' },
             { label: 'Open File...', action: 'open-file', icon: 'folder' },
@@ -105,9 +127,11 @@ export const Menus = {
             { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
             { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab },
         ];
+        
         if (activeTab && (activeTab.item.name.endsWith('.html') || activeTab.item.name.endsWith('.htm'))) {
             menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
         }
+        
         menuItems.push(
             { isSeparator: true },
             { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
@@ -115,22 +139,29 @@ export const Menus = {
             { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
             { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
             { isSeparator: true },
-            
             { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
-            
             { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'fullscreen' }, 
-            
             { label: 'Settings', action: 'settings', icon: 'settings' }
-        
         );
-        DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? \`<hr class="menu-separator">\` :
-            \`<button class="menu-button" data-action="\${i.action}" \${i.disabled ? 'disabled' : ''}>
-                <svg class="svg-icon"><use href="#icon-\${i.icon}"/></svg> \${i.label}
-             </button>\`
-        ).join('');
+
+        DOM.mainMenu.innerHTML = menuItems.map(i => {
+            if (i.isSeparator) {
+                return `<hr class="menu-separator">`;
+            }
+            return `
+                <button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
+                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
+                </button>
+            `;
+        }).join('');
+
         const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
         this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
     },
+
+    /**
+     * Hides all menus and cleans up associated state and listeners.
+     */
     hideAll() {
         DOM.contextMenu.style.display = 'none';
         DOM.mainMenu.style.display = 'none';
@@ -138,36 +169,40 @@ export const Menus = {
         document.removeEventListener('click', this.handleDocumentClick);
     },
     
-    // B"H
-positionAndDisplay(menu, coords) {
-        // --- THE FIX ---
-        // We use setTimeout with a delay of 0 (or a tiny number) to push the showing of the
-        // menu to the next tick of the browser's event loop. This gives the browser
-        // time to finish processing the original click/mouseup events before the menu is
-        // there to intercept them.
+    /**
+     * Positions a menu element on the screen, ensuring it doesn't render outside the viewport.
+     * @param {HTMLElement} menu - The menu element to position.
+     * @param {object} coords - An object with `clientX` and `clientY`.
+     */
+    positionAndDisplay(menu, coords) {
         setTimeout(() => {
             const { clientX: x, clientY: y } = coords;
             menu.style.display = 'block'; 
             const menuRect = menu.getBoundingClientRect();
+            
             const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 5 : x;
-            let adjustedY;
+            let adjustedY = y;
             if (y + menuRect.height > window.innerHeight) {
                 adjustedY = y - menuRect.height;
                 if (adjustedY < 0) adjustedY = 5;
-            } else {
-                adjustedY = y;
             }
-            menu.style.left = \`\${adjustedX}px\`;
-            menu.style.top = \`\${adjustedY}px\`;
-        }, 10); // A 10ms delay is imperceptible to the user but fixes the bug.
+            
+            menu.style.left = `${adjustedX}px`;
+            menu.style.top = `${adjustedY}px`;
+        }, 10);
     },
+
+    /**
+     * Central action handler that dispatches all menu button clicks to the appropriate modules.
+     * @param {string} action - The `data-action` attribute from the clicked button.
+     */
     async handleAction(action) {
         const item = State.contextTarget;
         this.hideAll();
         
-
         try {
             switch(action) {
+                // --- Main Menu Actions ---
                 case 'new-temp-file': Tabs.createTemporary(); break;
                 case 'open-file': App.openLocalFile(); break;
                 case 'save': Tabs.saveActive(); break;
@@ -201,13 +236,9 @@ positionAndDisplay(menu, coords) {
                 case 'find-replace': FindReplace.show(); break;
                 case 'settings': App.showSettings(); break;
                 case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
+                case 'toggle-fullscreen': App.toggleFullscreen(); break;
                 
-                case 'toggle-fullscreen':
-                App.toggleFullscreen()
-                
-                
-                break;
-                
+                // --- Editor Actions ---
                 case 'select-all': 
                     if (State.activeTabId !== null) { DOM.editor.focus(); DOM.editor.select(); }
                     break;
@@ -226,41 +257,35 @@ positionAndDisplay(menu, coords) {
                     }
                     break;
                 }
-                
-                case 'copy-all-contents': {
-                    if (!item) break;
-                    // Pass the right-clicked item in an array to our new function
-                    FileOperations.copyAllContents([item]);
+
+                // --- Context Menu / File Actions ---
+                case 'copy-all-contents':
+                    if (item) FileOperations.copyAllContents([item]);
                     break;
-                }
-                // B"H
-// FILE: js/menus.js (inside handleAction)
 
                 case 'new-file':
                 case 'new-folder': {
                     if (!item) break;
-                    
-                    // --- THE FIX IS HERE ---
-                    // We now correctly translate the action into the 'kind' that the FileSystemProvider expects.
                     const kind = action === 'new-folder' ? 'directory' : 'file';
-                    const kindLabel = kind === 'directory' ? 'Folder' : 'File';
-                    // --- END FIX ---
+                    const kindLabel = kind.charAt(0).toUpperCase() + kind.slice(1);
+                    const name = await UI.showDialog({ title: `Create New ${kindLabel}`, hasInput: true, placeholder: `Enter ${kindLabel} name...` });
 
-                    const name = await UI.showDialog({ title: \`Create New \${kindLabel}\`, hasInput: true, placeholder: \`Enter \${kindLabel} name...\` });
                     if (name) {
-                        UI.showLoading(\`Creating \${kindLabel}...\`);
+                        UI.showLoading(`Creating ${kindLabel}...`);
                         const parentUniquePath = getItemUniquePath(item);
-                        if (kind === 'directory') { // This check now works correctly
-                            State.expandedFolders.add(parentUniquePath);
-                        }
-                        await FileSystemProvider.create(item, name, kind); // This now passes the correct 'kind'
-                        UI.showToast(\`\${kindLabel} '\${name}' created.\`, 'success');
+                        if (kind === 'directory') State.expandedFolders.add(parentUniquePath);
+                        
+                        await FileSystemProvider.create(item, name, kind);
+                        UI.showToast(`${kindLabel} '${name}' created.`, 'success');
+                        
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
                         if (!workspace) throw new Error("Could not find parent workspace.");
+                        
                         await Workspaces.refreshNode(item);
+                        
                         if (kind === 'file') {
-                            const newPath = item.path === '/' ? \`/\${name}\` : \`\${item.path}/\${name}\`;
+                            const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
                             const newFileItem = { ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: '' };
                             Tabs.create(newFileItem, true);
                         }
@@ -268,101 +293,72 @@ positionAndDisplay(menu, coords) {
                     break;
                 }
                 
-                
                 case 'start-selection':
-        // We pass the event \`e\` to position the new menu correctly
-        SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
-        break;
+                    State.contextEvent = event; // Store the event for positioning the selection menu.
+                    SelectionManager.start(item, State.contextEvent);
+                    break;
         
-        /*
-        case 'copy-single': {
-        if (!item) break;
-        // The item is the one that was right-clicked (State.contextTarget)
-        const uniquePath = getItemUniquePath(item);
-        State.fileClipboard = [uniquePath]; // Clipboard now contains just this one item
-        UI.showToast(\`Copied "\${item.name}" to clipboard.\`, 'success');
-        break;
-    }*/
-    
-    
-    case 'copy-single': {
+                case 'copy-single': {
                     if (!item) break;
-                    // It simply puts the right-clicked item's reference onto the clipboard.
                     const uniquePath = getItemUniquePath(item);
-                    State.fileClipboard = [uniquePath]; 
+                    State.fileClipboard = [uniquePath];
                     
-                    // The menu already displays the correct "Copy / Clone" label.
-                    // This toast confirms the action.
-                    if (item.type === 'github' && item.path === '/') {
-                        UI.showToast(\`Ready to clone "\${item.repoInfo.repo}". Paste in a new location.\`, 'success');
-                    } else {
-                        UI.showToast(\`Copied "\${item.name}" to clipboard.\`, 'success');
-                    }
+                    const isCloneable = item.type === 'github' && item.path === '/';
+                    const message = isCloneable
+                        ? `Ready to clone "${item.repoInfo.repo}". Paste in a new location.`
+                        : `Copied "${item.name}" to clipboard.`;
+                    UI.showToast(message, 'success');
                     break;
                 }
-                
-    case 'paste':
     
-    
-                // You have all this great safety logic already. Keep it.
-                if (!FileOperations) {
-                    UI.showToast("CRITICAL: FileOperations is not loaded.", 'error');
-                    return;
-                }
-                if (!item || item.kind !== 'directory') {
-                     UI.showToast("Target is not a directory.", "warning");
-                     return;
-                }
-    
-        FileOperations.paste(item); // This will call the advanced paste logic
-        break;
-                
+                case 'paste':
+                    if (!item || item.kind !== 'directory') {
+                         UI.showToast("Paste target must be a directory.", "warning");
+                         return;
+                    }
+                    FileOperations.paste(item);
+                    break;
                 
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
-                    const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: \`Remove '\${item.name}'? This does not delete files.\`, okText: 'Remove', cancelText: 'Cancel' });
-                    if(confirmed) {
+                    const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete any files.`, okText: 'Remove', cancelText: 'Cancel' });
+                    if (confirmed) {
                         UI.showLoading('Removing workspace...');
                         const wsId = item.workspaceId ?? item.id;
                         const tabsToClose = State.tabs.filter(t => t.item.workspaceId === wsId);
-for(const tab of tabsToClose) await Tabs.close(tab.id, true);
+                        for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                         State.workspaces = State.workspaces.filter(ws => ws.id !== wsId);
                         
                         App.saveSession();
-
                         Workspaces.render();
-                        UI.showToast(\`Workspace removed.\`, 'success');
+                        UI.showToast(`Workspace removed.`, 'success');
                     }
                     break;
                 }
+
                 case 'delete': {
                     if (!item) break;
-                    const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: \`Permanently delete '\${item.name}'?\`, okText: 'Delete', cancelText: 'Cancel' });
+                    const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: `Are you sure you want to permanently delete '${item.name}'?`, okText: 'Delete', cancelText: 'Cancel' });
                     if (confirmed) {
                         UI.showLoading('Deleting...');
                         const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
                         if (tab) await Tabs.close(tab.id, true);
+                        
                         await FileSystemProvider.delete(item);
-                        UI.showToast(\`'\${item.name}' deleted.\`, 'success');
+                        UI.showToast(`'${item.name}' deleted.`, 'success');
+                        
                         const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
                         const parentItem = { ...item, path: parentPath, kind: 'directory' };
                         await Workspaces.refreshNode(parentItem);
                     }
                     break;
-                    
-                    
-                    
-                    
                 }
             }
-        } catch(e) { UI.showToast(\`Error: \${e.message}\`, 'error'); } 
-          finally { UI.hideLoading(); }
-          
-          
-          
-          
-
-// Example of how to use it (e.g., attach it to a button click):
-// document.getElementById('toggleButton').addEventListener('click', toggleFullscreen);
+        } catch(e) { 
+            UI.showToast(`Error: ${e.message}`, 'error'); 
+            console.error("Action failed:", action, e);
+        } finally { 
+            UI.hideLoading(); 
+        }
     }
 };
