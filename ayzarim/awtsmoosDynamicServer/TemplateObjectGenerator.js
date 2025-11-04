@@ -136,6 +136,36 @@ async function fetchAwtsmoos (path, opts) {
 
 async function _getTemplateObject(ob) {
 
+
+	// Create a copy of the original db object
+    const instrumentedDb = { ...self.db };
+
+    // Keep a reference to the original read function
+    const originalDbRead = self.db.read;
+
+    // Override the 'read' method with our wrapper function
+    instrumentedDb.read = async function(key, ...args) {
+        // Only run our logic if the special header was sent
+        if (request.isAwtsmoosFileStatusRequest) {
+            try {
+                // Ask DosDB for the real file path corresponding to this key
+                const realDataPath = await self.db.getAwtsmoosFilePath(key);
+                const stats = await fs.stat(realDataPath);
+                
+                // Attach the result to the request object so doAwtsmoosResponse can see it later
+                request.awtsmoosDataSourceStat = stats;
+
+            } catch (error) {
+                // It's okay if this fails (e.g., file doesn't exist).
+                // We simply won't have data stats.
+            }
+        }
+        
+        // IMPORTANT: Now call the original db.read function with the original arguments
+        // and return its result, so the route logic works exactly as before.
+        return originalDbRead.call(self.db, key, ...args);
+    };
+
     
     var getT /*get template content*/
     
@@ -278,7 +308,7 @@ async function _getTemplateObject(ob) {
         console: {
             log: (...args) => console.log(args)
         },
-        db: self.db,
+        db: instrumentedDb,
         parsedUrl,
         location,
         getT,

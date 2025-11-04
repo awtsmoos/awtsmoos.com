@@ -24,6 +24,50 @@ module .exports ={
     renameFolder
 };
 
+
+async function readFile({$i}) {
+    let { aliasId, path } = $i.$_POST;
+    if (!path) path = $i.$_GET.path;
+
+    // Ensure the 'path' exists in POST or GET
+    if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
+
+    // Ensure the user is logged in and has permission for alias
+    /*var userid = $i?.request?.user?.info?.userId;
+    if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+
+    var isAuthorized = await verifyAlias({$i, aliasId, userid });
+    if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+*/
+
+    path = addFolderName(path);
+   
+    var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    var file = await $i.db.read(filePath);
+   
+
+    var extInd = filePath.lastIndexOf(".");
+    var ext = ".js";
+    if(extInd > -1) {
+        ext = filePath.substring(extInd);
+    }
+    if(ext) {
+        var mime = $i?.mimeTypes?.[ext];
+        if(!mime) {
+            mime = $i?.binaryMimeTypes?.[ext];
+        }
+        if(mime) {
+            $i?.setHeader(
+                "content-type",
+                mime
+                
+            )
+        }
+    }
+ //   console.log("returning",mime,ext, file, filePath)
+    return  (file) || "";
+}
+
 async function makeFile({$i}) {
     try {
         var {
@@ -180,48 +224,6 @@ async function deleteEntry({$i}) {
     }
 }
 
-async function readFile({$i}) {
-    let { aliasId, path } = $i.$_POST;
-    if (!path) path = $i.$_GET.path;
-
-    // Ensure the 'path' exists in POST or GET
-    if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
-
-    // Ensure the user is logged in and has permission for alias
-    /*var userid = $i?.request?.user?.info?.userId;
-    if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
-
-    var isAuthorized = await verifyAlias({$i, aliasId, userid });
-    if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
-*/
-
-    path = addFolderName(path);
-   
-    var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-    var file = await $i.db.read(filePath);
-   
-
-    var extInd = filePath.lastIndexOf(".");
-    var ext = ".js";
-    if(extInd > -1) {
-        ext = filePath.substring(extInd);
-    }
-    if(ext) {
-        var mime = $i?.mimeTypes?.[ext];
-        if(!mime) {
-            mime = $i?.binaryMimeTypes?.[ext];
-        }
-        if(mime) {
-            $i?.setHeader(
-                "content-type",
-                mime
-                
-            )
-        }
-    }
- //   console.log("returning",mime,ext, file, filePath)
-    return  (file) || "";
-}
 
 async function makeFolder({$i}) {
     var { aliasId, path } = $i.$_POST;

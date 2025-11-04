@@ -8,6 +8,18 @@ var {
 } = require("./helper/fileSystem.js");
 
 module.exports = ({$i}) => ({
+
+
+    "/aliases/:alias/fileSystem/readFile": async vars => {
+        const { alias } = vars;
+        $i.$_POST["aliasId"] = alias;
+
+    
+
+        return await readFile({
+            $i
+        });
+    },
     "/aliases/:alias/fileSystem/makeFile": async vars => {
         try {
             const { alias } = vars;
@@ -22,16 +34,6 @@ module.exports = ({$i}) => ({
         }
     },
 
-    "/aliases/:alias/fileSystem/readFile": async vars => {
-        const { alias } = vars;
-        $i.$_POST["aliasId"] = alias;
-
-    
-
-        return await readFile({
-            $i
-        });
-    },
 
     "/aliases/:alias/fileSystem/delete": async vars => {
         const { alias } = vars;

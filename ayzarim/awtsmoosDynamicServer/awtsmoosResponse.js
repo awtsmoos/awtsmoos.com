@@ -303,31 +303,39 @@ class AwtsmoosResponse {
 	 */
 	async doAwtsmoosResponse(dyn, path) {
 		// The templateObjectGenerator holds our dependencies, including the original request
-	        const { request } = templateObjectGenerator.dependencies;
-	
-	        // Get the actual response content, which might be nested
-	        let potentialFilePath = dyn.response || dyn;
-	
-	        // Check for our flag and if the route returned a string
-	        if (request.isAwtsmoosFileStatusRequest && typeof(potentialFilePath) === 'string' && potentialFilePath.length > 0) {
-	            try {
-	                // Assume the string is a file path and try to stat it
-	                const stats = await fs.stat(potentialFilePath);
-	                
-	                // If stat succeeds, we have a file! Override the response.
-	                this.ended = true;
-	                return {
-	                    responseType: 'text/plain',
-	                    actualResponse: {
-	                        content: stats.mtime.getTime().toString()
-	                    }
-	                };
-	            } catch (error) {
-	                // If fs.stat fails (e.g., file not found), it's not a critical error.
-	                // It just means the string returned by the route was not a valid file path.
-	                // We do nothing and let the original logic proceed below.
-	            }
-	        }
+		const { request } = templateObjectGenerator.dependencies;
+
+		// =====================================================================
+		// START: Enhanced logic for handling file status requests
+		// =====================================================================
+		if (request.isAwtsmoosFileStatusRequest) {
+		    const results = {
+		        logicModified: null,
+		        dataModified: null
+		    };
+		
+		    // 1. Get the status of the LOGIC file (_awtsmoos.derech.js)
+		    try {
+		        const logicStats = await fs.stat(path);
+		        results.logicModified = logicStats.mtime.getTime();
+		    } catch (e) {
+		        // Ignore error if logic file can't be stat'd
+		    }
+		
+		    // 2. Get the status of the DATA file (from our instrumented db.read)
+		    if (request.awtsmoosDataSourceStat) {
+		        results.dataModified = request.awtsmoosDataSourceStat.mtime.getTime();
+		    }
+		
+		    // 3. Return the combined JSON result
+		    this.ended = true;
+		    return {
+		        responseType: 'application/json',
+		        actualResponse: {
+		            content: JSON.stringify(results)
+		        }
+		    };
+		}
 		var responseType = "";
 		var actualResponse = null;
 

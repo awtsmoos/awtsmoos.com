@@ -464,6 +464,30 @@ async function doFileResponse() {
 	} = this.dependencies;
 	
 	try {
+		if (request.isAwtsmoosFileStatusRequest) {
+		        try {
+		            // The path to the static file is already in this.filePath
+		            const stats = await fs.stat(this.filePath);
+		            
+		            // A static file has no separate "logic", so we only return dataModified
+		            const result = {
+		                dataModified: stats.mtime.getTime()
+		            };
+		
+		            response.setHeader('Content-Type', 'application/json; charset=utf-8');
+		            response.end(JSON.stringify(result));
+		            
+		            // IMPORTANT: Stop execution here to prevent reading the actual file
+		            return; 
+		        } catch (error) {
+		            // This is unlikely to happen, but it's good practice
+		            console.error("Error getting file stats for static file:", error);
+		            return errorMessage.bind(this)({
+		                message: "Could not get file status for static resource.",
+		                code: "STATIC_STAT_ERROR"
+		            });
+		        }
+		    }
 		let content;
 
 		if (binaryMimeTypes.includes(this.contentType)) {

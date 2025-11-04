@@ -248,6 +248,7 @@ class AwtsmoosStaticServer {
 		
 		if (request.headers['awtsmoos-file-status']) {
 		    request.isAwtsmoosFileStatusRequest = true;
+		    
 		}
         
         
