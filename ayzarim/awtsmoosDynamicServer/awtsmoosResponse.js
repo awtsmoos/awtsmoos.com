@@ -62,6 +62,8 @@ class AwtsmoosResponse {
 		},
 
 	} = {}) {
+	
+		
 
 		this.ended = false;
 
@@ -300,6 +302,32 @@ class AwtsmoosResponse {
 	 * @returns {boolean} - Indicates success or failure.
 	 */
 	async doAwtsmoosResponse(dyn, path) {
+		// The templateObjectGenerator holds our dependencies, including the original request
+	        const { request } = templateObjectGenerator.dependencies;
+	
+	        // Get the actual response content, which might be nested
+	        let potentialFilePath = dyn.response || dyn;
+	
+	        // Check for our flag and if the route returned a string
+	        if (request.isAwtsmoosFileStatusRequest && typeof(potentialFilePath) === 'string' && potentialFilePath.length > 0) {
+	            try {
+	                // Assume the string is a file path and try to stat it
+	                const stats = await fs.stat(potentialFilePath);
+	                
+	                // If stat succeeds, we have a file! Override the response.
+	                this.ended = true;
+	                return {
+	                    responseType: 'text/plain',
+	                    actualResponse: {
+	                        content: stats.mtime.getTime().toString()
+	                    }
+	                };
+	            } catch (error) {
+	                // If fs.stat fails (e.g., file not found), it's not a critical error.
+	                // It just means the string returned by the route was not a valid file path.
+	                // We do nothing and let the original logic proceed below.
+	            }
+	        }
 		var responseType = "";
 		var actualResponse = null;
 

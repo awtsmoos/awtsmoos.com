@@ -245,35 +245,12 @@ class AwtsmoosStaticServer {
 		var filePath = path.join(
 			serverPath, originalPath
 		);
-        
-        // =================================================================
-        // START: logic to handle the Awtsmoos-File-Status header
-        // =================================================================
-        if (request.headers['awtsmoos-file-status']) {
-            try {
-                const stats = await fs.stat(filePath);
-                response.statusCode = 200;
-                response.setHeader('Content-Type', 'text/plain');
-                // Return the last modified time as a Unix timestamp in milliseconds
-                response.end(stats.mtime.getTime().toString()); 
-                return; // Stop further processing
-            } catch (error) {
-                // If the file does not exist, fs.stat throws an error
-                if (error.code === 'ENOENT') {
-                    response.statusCode = 404;
-                    response.end('File not found');
-                } else {
-                    // For other errors (e.g., permissions), send a generic server error
-                    response.statusCode = 500;
-                    response.end('Error checking file status');
-                }
-                return; // Stop further processing
-            }
-        }
-        // =================================================================
-        // END: file status logic
-        // =================================================================
 		
+		if (request.headers['awtsmoos-file-status']) {
+		    request.isAwtsmoosFileStatusRequest = true;
+		}
+        
+        
 		var currentPath = filePath;
 		var parentPath = serverPath//path.dirname(currentPath);
 		var foundAwtsmooses = [];
