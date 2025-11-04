@@ -710,7 +710,8 @@ export default class Domem extends Nivra {
         childNameToSetItTo = null,
         textureScale = 0.05,
         pathChildName = null, 
-        feather = 5.0,        
+        feather = 5.0,
+        intensity = 1.0,      
         lowHeight = 0.0,      
         highHeight = 10.0     
     } = {}) {
@@ -794,6 +795,7 @@ export default class Domem extends Nivra {
 			shader.uniforms.textureScale = { value: textureScale };
             shader.uniforms.usePathMixing = { value: usePathMixing };
             shader.uniforms.feather = { value: feather };
+            shader.uniforms.intensity = { value: intensity };
             shader.uniforms.lowHeight = { value: lowHeight };
             shader.uniforms.highHeight = { value: highHeight };
             shader.uniforms.pathSegments = { value: pathSegments }; // Pass the padded array
@@ -803,7 +805,12 @@ export default class Domem extends Nivra {
             shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\nvWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;`);
 
             shader.fragmentShader = `
-                uniform sampler2D baseTexture, overlayTexture; uniform vec2 repeatVector; uniform float textureScale, feather, lowHeight, highHeight; uniform bool usePathMixing; uniform vec3 pathSegments[${MAX_SEGMENTS_FOR_SHADER * 2}]; uniform int numPathSegments; varying vec3 vWorldPosition;
+                uniform sampler2D baseTexture, overlayTexture; uniform vec2 repeatVector; uniform float textureScale, feather, lowHeight, highHeight;
+                uniform float intensity;
+                uniform bool usePathMixing;
+                uniform vec3 pathSegments[${MAX_SEGMENTS_FOR_SHADER * 2}]; 
+                uniform int numPathSegments; 
+                varying vec3 vWorldPosition;
                 float distanceToLineSegment(vec3 p, vec3 a, vec3 b) {
 		    vec2 p2 = p.xz;
 		    vec2 a2 = a.xz;
@@ -824,7 +831,11 @@ export default class Domem extends Nivra {
                     for (int i = 0; i < numPathSegments; ++i) {
                         minDistance = min(minDistance, distanceToLineSegment(vWorldPosition, pathSegments[i * 2], pathSegments[i * 2 + 1]));
                     }
-                    mixFactor = 1.0 - smoothstep(0.0, feather, minDistance);
+                    // First, calculate the smooth blend factor as before
+                    float smoothFactor = 1.0 - smoothstep(0.0, feather, minDistance);
+                    // Then, apply the power function to control the curve.
+                    // We use 1.0 / intensity to make the control intuitive (higher intensity = stronger effect).
+                    mixFactor = pow(smoothFactor, 1.0 / intensity);
                 } else {
                     mixFactor = smoothstep(lowHeight, highHeight, vWorldPosition.y);
                 }
