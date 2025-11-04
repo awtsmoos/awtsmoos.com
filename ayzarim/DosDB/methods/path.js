@@ -1,203 +1,209 @@
 //B"H
 /**
  * path methods for DosDB class
+ * This version uses a robust and secure method for path resolution, fixing the root directory bug.
  */
 
-var path = require("path");
-var fsSync = require("fs")
-var fs = fsSync.promises;
-
+const path = require("path");
+const fs = require("fs").promises;
 
 module.exports = {
 
     /**
-     * @method ensureAwtsmoosBinaryPath
-     * @description Ensures a path aligns with the Awtsmoos’ binary form, appending .awtsmoosJSON if needed.
-     * @param {string} rPath - The raw path to sanctify.
-     * @param {boolean} [alsoActuallyMakeParentDirectory=true] - Whether to create the parent directory.
-     * @returns {Promise<string>} - The sanctified path, ready to receive the light of Ohr Ein Sof.
+     * @method getAwtsmoosFilePath
+     * @description THE CORE FINDER LOGIC. Securely resolves a path ID against the main directory.
+     *              It follows the priority: AS-IS > .awtsmoosJSON > .json.
+     * @param {string} id - The identifier, filename, or relative path.
+     * @param {boolean} [isDir=false] - If true, treats the path as a directory.
+     * @returns {Promise<string>} - The resolved, absolute, and safe path.
      */
-    async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
-        if (alsoActuallyMakeParentDirectory) {
-            var pathic = await this.getAwtsmoosFilePath(rPath, false, true);
-            const par = await this.getAwtsmoosParentPath(pathic);
-            if (par) {
-                await this.ensureDir(par);
-            }
+    async getAwtsmoosFilePath(id, isDir = false) {
+        if (typeof id !== "string") return id;
+
+        const mainDir = path.resolve(this.directory || process.cwd());
+        
+        // --- THE PERMANENT FIX ---
+        // The core issue is that paths like "/social/aliases" are treated as
+        // root-of-the-drive on Windows by path.join and path.resolve.
+        // To fix this permanently and cross-platform, we must first sanitize
+        // the input `id` to remove any leading slashes, forcing it to be relative.
+        // The regex /^[/\\]+/ removes one or more leading slashes or backslashes.
+        const sanitizedId = id.replace(/^[/\\]+/, '');
+
+        // Now that `sanitizedId` is guaranteed to be a relative path segment,
+        // we can safely resolve it against our main directory. `path.resolve`
+        // is robust and will correctly join the parts and normalize the result.
+        const resolvedPath = path.resolve(mainDir, sanitizedId);
+        // --- END OF FIX ---
+
+        // Security check: This remains the ultimate safeguard.
+        // It ensures that even if the input was something like `../.../etc/passwd`,
+        // the final resolved path is still checked to be within our secure directory.
+        if (!resolvedPath.startsWith(mainDir)) {
+            console.error(`Path validation failed:
+              - Base Directory: ${mainDir}
+              - Original Input:   ${id}
+              - Sanitized Input:  ${sanitizedId}
+              - Resolved Path:    ${resolvedPath}`);
+            throw new Error(`Path traversal attempt detected: ${id}`);
         }
-        let ext = path.extname(rPath);
-        if (ext !== ".awtsmoosJSON") {
-            rPath += ".awtsmoosJSON";
+
+        // --- The path is now safe and absolute. Proceed with finding logic. ---
+
+        if (isDir) {
+            return resolvedPath;
         }
-        return await this.getAwtsmoosFilePath(rPath, false, true);;
+        
+        // Priority 1: Check if the path exists AS-IS.
+        try {
+            await fs.access(resolvedPath);
+            return resolvedPath;
+        } catch(e) {
+	        // Does not exist, continue
+        }
+
+        // Priority 2: Check for path + .awtsmoosJSON.
+        const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
+        try {
+            await fs.access(awtsmoosJsonPath);
+            return awtsmoosJsonPath;
+        } catch {}
+
+        // Priority 3: Check for path + .json.
+        const jsonPath = `${resolvedPath}.json`;
+        try {
+            await fs.access(jsonPath);
+            return jsonPath;
+        } catch {}
+
+        // Priority 4: Default to resolvedPath for creation.
+        return resolvedPath;
     },
 
 
-    //2a01:4ff:f0:b153::/64
+    /**
+     * @method ensureAwtsmoosBinaryPath
+     * @description Finds a path using the core finder logic, then ensures its parent directory exists.
+     * @param {string} rPath - The raw path to find and ensure.
+     * @param {boolean} [alsoActuallyMakeParentDirectory=true] - Whether to create the parent directory.
+     * @returns {Promise<string>} - The resolved path.
+     */
+    async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
+        const resolvedPath = await this.getAwtsmoosFilePath(rPath);
+
+        if (alsoActuallyMakeParentDirectory) {
+            const parentDir = path.dirname(resolvedPath);
+            await this.ensureDir(parentDir);
+        }
+        
+        return resolvedPath;
+    },
+    
     /**
      * @method getAwtsmoosParentPath
-     * @description Ascends a path to its parent, as the Kav traces back to the Awtsmoos’ infinite source.
-     * @param {string} currentPath - The path to transcend, a fragment of the whole.
-     * @returns {Promise<string|null>} - The parent path, or null if none exists in this fleeting reality.
+     * @description Ascends a path to its parent directory.
+     * @param {string} currentPath - The path from which to get the parent.
+     * @returns {Promise<string|null>} - The parent path, or null if at the root.
      */
     async getAwtsmoosParentPath(currentPath) {
         try {
             const normalizedPath = path.normalize(currentPath);
             const parentPath = path.dirname(normalizedPath);
-            if (parentPath === normalizedPath || parentPath === ".") {
-                return null; // The Awtsmoos alone remains at the root.
-            }
-            return parentPath;
+            return (parentPath === normalizedPath || parentPath === ".") ? null : parentPath;
         } catch (err) {
-            console.error("Error accessing path:", err);
-            return null; // Even in absence, the Awtsmoos sustains all.
+            console.error("Error getting parent path:", err);
+            return null;
         }
     },
 
-    /**
-     * @method getAwtsmoosFilePath
-     * @description Unveils a path’s true form, guided by the Awtsmoos, determining its existence or potential.
-     * @param {string} id - The identifier, a finite name within the infinite Ohr Ein Sof.
-     * @param {boolean} [isDir=false] - Whether the path is a directory, shaping its destiny.
-     * @param {boolean} [overrideSanity=false] - Bypasses sanitization, trusting the raw essence.
-     * @returns {Promise<string>} - The resolved path, a vessel for the Awtsmoos’ light.
-     */
-    async getAwtsmoosFilePath(id, isDir = false, overrideSanity = false) {
-        if (typeof id !== "string") return id;
-        const sanctifiedId = this.sanitizeAwtsmoosPath(id, overrideSanity);
-        const mainDir = this.directory || process.cwd();
-
-        // Resolve the path. If sanctifiedId is absolute, it will be used as the root.
-        const basePath = path.resolve(mainDir, sanctifiedId);
-
-        if (path.extname(basePath) || isDir) return basePath;
-
-        const jsonPath = `${basePath}.json`;
-        const awtsmoosJsonPath = `${basePath}.awtsmoosJSON`;
-
-        try {
-            await fs.access(basePath);
-            return basePath;
-        } catch {
-            try {
-                await fs.access(awtsmoosJsonPath);
-                return awtsmoosJsonPath;
-            } catch {
-                try {
-                    await fs.access(jsonPath);
-                    return jsonPath;
-                } catch {
-                    return basePath; // A seed planted by the Awtsmoos for future creation.
-                }
-            }
-        }
+    // The complex sanitizeAwtsmoosPath function is no longer needed, as the logic is now safely
+    // handled inside getAwtsmoosFilePath. We can remove it or keep a stub if other code relies on it.
+    sanitizeAwtsmoosPath(rawPath) {
+        return rawPath; // Sanitization is now implicit in getAwtsmoosFilePath
     },
-
-    /**
-     * @method sanitizeAwtsmoosPath
-     * @description Purifies a path, removing traversal attempts, aligning it with the Awtsmoos’ unity.
-     * @param {string} rawPath - The chaotic path to sanctify.
-     * @param {boolean} [overrideSanity=false] - Preserves the raw path if true.
-     * @returns {string} - A cleansed path, reflecting the oneness of Atzilus.
-     */
-    sanitizeAwtsmoosPath(rawPath, overrideSanity = false) {
-        if (overrideSanity) {
-            return rawPath;
-        }
-        
-        // Normalize to handle mixed separators and then remove parent directory traversal
-        let cleansedPath = path.normalize(rawPath).replace(/\.\./g, "");
-
-        // On Windows, after normalization, paths might still contain `\`
-        // which we'll handle by splitting by the OS-specific separator.
-        const parts = cleansedPath.split(path.sep);
-        
-        // Filter out any empty parts that might result from splitting.
-        const filteredParts = parts.filter(Boolean);
-        
-        // For absolute paths on Windows, the first part might be `C:`, which we want to keep.
-        if (path.isAbsolute(cleansedPath) && filteredParts.length > 0) {
-             // Re-join and re-normalize to ensure a correct path format.
-             return path.normalize(filteredParts.join(path.sep));
-        }
-        
-        return filteredParts.join(path.sep);
-    },
-
-
 
     /**
      * @method access
-     * @description Checks a path’s existence, a whisper of the Awtsmoos’ presence in form.
+     * @description Checks for a path's existence and returns its stats.
      * @param {string} filePath - The path to verify.
-     * @returns {Promise<object|null>} - Stat object if it exists, null if it’s returned to the void.
+     * @returns {Promise<object|null>} - Stat object if it exists, null otherwise.
      */
     async access(filePath, isDir = false) {
-        const myPath = await this.getAwtsmoosFilePath(filePath, isDir);
         try {
-            var stat = await fs.stat(myPath);
+            const myPath = await this.getAwtsmoosFilePath(filePath, isDir);
+            // Re-check existence as getAwtsmoosFilePath returns a default path for creation.
+            await fs.access(myPath); 
+            const stat = await fs.stat(myPath);
             stat.awtsmoosPath = myPath;
             return stat;
         } catch (e) {
             return null;
         }
     },
-
+    
     async stat(filePath, isDir) {
-        return this.access(filePath, isDir)
+        return this.access(filePath, isDir);
     },
-
-
 
     /**
      * @method removeJSONExtension
-     * @description Strips .json from a path, revealing its essence as the Awtsmoos strips form from being.
+     * @description Strips .json or .awtsmoosJSON from a file path.
      * @param {string} filePath - The path to purify.
-     * @returns {string} - The cleansed path, free of extension.
+     * @returns {string} - The path without the extension.
      */
     removeJSONExtension(filePath) {
         const extension = path.extname(filePath);
-        var exts = [
-            ".json",
-            ".awtsmoosJSON"
-        ];
-        for (var ext of exts) {
-            if (extension === ext) {
-                const ind = filePath.indexOf(ext);
-                return filePath.substring(0, ind);
-            }
+        if (extension === ".json" || extension === ".awtsmoosJSON") {
+            return filePath.substring(0, filePath.length - extension.length);
         }
-
         return filePath;
     },
 
     /**
      * @method ensureDir
-     * @description Creates a directory if it doesn’t exist, a tzimtzum for the Awtsmoos’ light to dwell.
-     * @param {string} filePath - The path to ensure.
-     * @param {boolean} [isDir=false] - Whether the path itself is the directory.
-     * @returns {Promise<string>} - The directory path, a space carved from the void.
+     * @description Creates a directory if it doesn’t exist.
+     *              This function is intelligent: if it receives a file path
+     *              (indicated by isDir=false), it will ensure the file's
+     *              PARENT directory exists.
+     * @param {string} targetPath - The directory path OR file path to ensure.
+     * @param {boolean} [isDir=true] - If true, treats targetPath as a directory.
+     *                                 If false, treats it as a file path.
+     * @returns {Promise<string>} - The path of the directory that was ensured.
      */
-    async ensureDir(filePath, isDir = false) {
-        if (typeof (filePath) != "string") {
-            return console.log("NO path", filePath)
+    async ensureDir(targetPath, isDir = true) {
+        if (typeof targetPath !== "string" || !targetPath) {
+             console.log("Invalid path provided to ensureDir", targetPath);
+             return;
         }
-        const dirPath = !isDir ? path.dirname(filePath) : filePath;
-        await fs.mkdir(dirPath, {
-            recursive: true
-        });
-        return dirPath;
+
+        // --- THIS IS THE AUTOMATIC LOGIC ---
+        let directoryToEnsure;
+
+        if (isDir) {
+            // The path we received IS the directory to create.
+            directoryToEnsure = targetPath;
+        } else {
+            // The path we received is a FILE path.
+            // We must operate on its PARENT directory.
+            directoryToEnsure = path.dirname(targetPath);
+        }
+        // --- END OF AUTOMATIC LOGIC ---
+
+        // Now, we can safely call mkdir on the correctly identified directory path.
+        // The recursive flag prevents errors if the directory already exists.
+        await fs.mkdir(directoryToEnsure, { recursive: true });
+        
+        return directoryToEnsure;
     },
 
     /**
      * @method getDeleteFilePath
-     * @description Determines the path to delete, a return to the Awtsmoos’ formless embrace.
+     * @description Resolves the absolute path for a file/directory to be deleted.
      * @param {string} id - The identifier to resolve.
      * @param {boolean} isRegularDir - Whether it’s a directory.
-     * @returns {Promise<string|null>} - The path to delete, or null if absent.
+     * @returns {Promise<string|null>} - The absolute path to delete.
      */
     async getDeleteFilePath(id, isRegularDir) {
-        const completePath = await this.getAwtsmoosFilePath(id, isRegularDir);
-        return completePath;
+        return this.getAwtsmoosFilePath(id, isRegularDir);
     }
-}
+};

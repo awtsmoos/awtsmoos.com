@@ -95,6 +95,7 @@ async function fetchAwtsmoos (path, opts) {
     var mockResponse = {
         _data: '',
         setHeader: (name, value) => {
+	        console.log("SETTING HEADER!",name,value)
             if(typeof(name) == "string") {
                 name = name.toLowerCase();
             } else return;
@@ -189,7 +190,7 @@ async function _getTemplateObject(ob) {
                 fl = await fs.readFile(pth);
                 
             } catch (e) {
-               // console.log("Error: ", e)
+            
                 return null;
             }
             if (fl) {
@@ -263,7 +264,7 @@ async function _getTemplateObject(ob) {
         request,
         setHeader: (nm, vl) => {
             response.setHeader(nm, vl);
-            //console.log("Header",nm,vl)
+        //    console.log("Header",nm,vl)
         },
         base64ify: str => {
             try {

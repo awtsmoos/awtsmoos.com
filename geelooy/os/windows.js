@@ -147,7 +147,16 @@ export default class ResizableWindow {
             body.innerHTML = this.content;
         else if (this.content instanceof HTMLElement) {
             body.appendChild(this.content);
+        } else if(this.content instanceof Blob) {
+	        var ty = this.content.type;
+	        if(ty.includes("image")) {
+		        var url = URL.createObjectURL(this.content);
+		        var im = document.createElement("img")
+		        im.src = url;
+		        body.appendChild(im);
+	        }
         }
+        
         this.win.appendChild(body);
         this.win.style.height = "500px";
         this.winBody.style.minWidth = `${this.minWidth}px`; // Set minimum width

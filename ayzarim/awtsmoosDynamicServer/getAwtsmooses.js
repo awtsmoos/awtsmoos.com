@@ -376,7 +376,15 @@ async function doEverything() {
 					details: didThisPathAlready
 				})
 			}
-			if (res.actualResponse
+			var ar = res.actualResponse;
+			var bin = null;
+			if(Buffer.isBuffer(ar)) {
+				/*response.setHeader(
+					"content-type",
+					"application/octet-stream"
+				);*/
+				bin = ar;
+			} else if (res.actualResponse
 				.contentType) {
 				response.setHeader(
 					"content-type",
@@ -384,30 +392,33 @@ async function doEverything() {
 					.contentType+"; charset=utf-8"
 				);
 			} else {
-				response.setHeader(
+				/*response.setHeader(
 					"content-type",
 					"text/html; charset=utf-8"
-				);
+				);*/
 			}
 
 			
-			var con = res.actualResponse.content;
+			var con = bin || res.actualResponse.content;
 			if (con || con === "undefined" || con === "null") {
-				if(typeof(con) == "object") {
+				if(Buffer.isBuffer(con)) {
+					//do nothing
+				} else if(typeof(con) == "object") {
 					con = JSON.stringify(con)
 				} else if (typeof(con) != "string") {
 					con += ""
 				}
-			//	console.log("HI",con)
-		//	console.log("Doing resp awts",response.getHeaders())
+		
+		
 				response.end(
 					con
 				)
 			} else {
-
+				console.log("GOING to DO",con, res)
 				return errorMessage.bind(this)({
 					message: "No Awtsmoos Response",
-					code: "NO_AWTS_RESP"
+					code: "NO_AWTS_RESP",
+					con: typeof(con)
 				});
 			}
 		} catch (e) {
@@ -496,7 +507,7 @@ async function doFileResponse() {
 			this.contentType,
 			this.isBinary
 		);
-	//	console.log("Doing resp",response.getHeaders())
+		
 		response.end(content);
 
 		return;

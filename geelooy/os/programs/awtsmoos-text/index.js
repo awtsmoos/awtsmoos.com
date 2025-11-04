@@ -15,7 +15,7 @@ export default ({
     var coded = null
     var self = {
       id,
-      content: () => contentDiv.innerText,
+      content: () => contentDiv.value,
       fileName: () => fileName,
       init: () => {
         coded?.init?.();
@@ -24,7 +24,7 @@ export default ({
         coded?.init()
       }
     }
-    console.log(fileName,self.fileName())
+    
     
     var map = {
       ".js": "javascript",
@@ -136,9 +136,7 @@ export default ({
 
   const contentDiv = document.createElement('textarea');
   contentDiv.setAttribute("id", "dw")
-  // Create the content editable div
- // contentDiv.classList.add('content-editable');
- // contentDiv.setAttribute('contenteditable', 'true');
+
   contentDiv. value = content;
 
   const contentHolder = document.createElement('div');
@@ -218,16 +216,14 @@ export default ({
       // Show menu when hovering
       menu.addEventListener('mouseover', function () {
         if (!isMenuVisible) {
-      //    menuOptions.style.display = 'block'; // Show it again when hovering over
-       //   isMenuVisible = true;
+
         }
       });
     
       // Hide menu when mouse leaves
       menu.addEventListener('mouseleave', function () {
         if (isMenuVisible) {
-    //      menuOptions.style.display = 'none'; // Hide the menu if it's still visible
-     //     isMenuVisible = false;
+  
         }
       });
     

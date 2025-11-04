@@ -2,9 +2,11 @@
 
 import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
 import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
+import awtsmoosBinaryViewer from "./programs/awtsmoos-binary-viewer/index.js";
 var programs = {
   awtsmoosTextEdit,
-  awtsmoosFileExplorer
+  awtsmoosFileExplorer,
+  awtsmoosBinaryViewer 
 }
 
 var programsByExtensionDefaults = {
@@ -16,7 +18,14 @@ var programsByExtensionDefaults = {
   ".folder":"awtsmoosFileExplorer"
 }
 
+function getDefaultProgram(ext) {
+	var progName = programsByExtensionDefaults [ext] || 
+		"awtsmoosBinaryViewer";
+	return programs[progName];	
+}
+
 export {
   programsByExtensionDefaults,
-  programs
+  programs,
+  getDefaultProgram
 }

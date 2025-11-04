@@ -3,7 +3,8 @@ import System from "./system.js"
 import ResizableWindow from "./windows.js"
 import {
     programs,
-    programsByExtensionDefaults
+    programsByExtensionDefaults,
+    getDefaultProgram
 } from "./basicPrograms.js"
 
 export default class WindowHandler {
@@ -21,23 +22,22 @@ export default class WindowHandler {
     addWindow({title, content, path, os}) {
         var ext = this.getExtension(title);
         var prog = programsByExtensionDefaults[ext];
-        var program;
-        if(prog) {
-            var program = programs[prog];
-            if(program) {
-                var system = new System({path, os})
-                program = program({
-                    os:system.os,
-                    path,
-                    title,
-                    fileName: title, 
-                    content, 
-                    system,
-                    extension:ext
-                })
-                content = program?.div;
-            }
+    
+        var program = getDefaultProgram(ext)
+        if(program) {
+            var system = new System({path, os})
+            program = program({
+                os:system.os,
+                path,
+                title,
+                fileName: title, 
+                content, 
+                system,
+                extension:ext
+            })
+            content = program?.div;
         }
+        
         var wind = new ResizableWindow({
             title, content,
             handler: this
@@ -45,7 +45,7 @@ export default class WindowHandler {
         wind.onresize = e => {
             program?.onresize?.(e)
         }
-        console.log(window.pr=program);
+        
         program?.init?.();
         this.windows.push(wind);
     }

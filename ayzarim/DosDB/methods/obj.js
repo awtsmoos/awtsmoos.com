@@ -35,7 +35,8 @@ module.exports = {
 
 		// d. Write the updated array back to the key
 		var writeResult = await this.setObjectKey(pathic, key, ar);
-		console.log("Wroyt",writeResult,pathic)
+		
+		
 		return writeResult
 		
 		
@@ -86,7 +87,7 @@ module.exports = {
 				null
 			);
 			
-		//	console.log(222,pth,key,map,val, props)
+			
 			val = mpt[key];
 		} else {
 			
@@ -94,7 +95,8 @@ module.exports = {
 			
 			if(!val) {
 				d = await this.get(pathic, {propertyMap: map})
-				//console.log("GOT?",d)
+			
+			
 			}
 		}
 		
@@ -108,7 +110,7 @@ module.exports = {
 		var pathic =  await this.ensureAwtsmoosBinaryPath(pth);
 		var meta = await this.getMetadaOfEntry(pathic, key);
 		if(meta?.key) {
-			//console.log(meta, pathic,pth,key)
+		
 			return {
 				exists: meta,
 				path:pathic,

@@ -70,7 +70,7 @@ class APIHandler {
 			formData.append('binaryData', blob, key); 
 			formData.append('path', `${storeName}/${key}`); 
 			body = formData;
-			//console.log("Got it",body);
+			
 		} else {
 			body = new URLSearchParams({
 				path: `${storeName}/${key}`,
@@ -118,6 +118,11 @@ class APIHandler {
 				await fetch(url, {
 					method: 'GET', // GET for reading the file
 				});
+			var ct  =response.headers.get("content-type")
+			console.log("H",ct)
+			if(ct.includes("image")) {
+				return response.blob()
+			}
 			return response.text();
 		} catch (error) {
 			console.error(

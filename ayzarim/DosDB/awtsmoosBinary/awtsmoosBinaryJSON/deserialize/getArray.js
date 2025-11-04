@@ -84,8 +84,8 @@ function getMetadata(arrayBuffer) {
     var offsetSize = unpackLength(
         0b00000011 & arrayLengthSizeANDOffsetSizeInOneByte
     );
-    //console.log("sized",arrayLengthSize)
-
+   
+   
     
     offset++;
 

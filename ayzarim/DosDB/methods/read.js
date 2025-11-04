@@ -7,7 +7,7 @@ var path = require("path");
 
 
 const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
-//require("../awtsmoosBinary/awtsmoosBinaryJSON-old.js");
+
 
 module.exports = {
     /**
@@ -116,7 +116,7 @@ module.exports = {
 
 
                     if(checkIfItsSingleEntry?.error) {
-                     //   console.log("NO not found)")
+                    
                         checkIfItsSingleEntry = null;
                     }
 
@@ -296,13 +296,13 @@ module.exports = {
 						null,
 						arrayFilter
 					);
-					//console.log("LOL",path,properties, mpt)
-                 //   console.log(mpt,props,path)
+					
                     return {
                         success: mpt
                     }
                 } else {
-					console.log("WHAT",path)
+					
+					
 				}
                 return null;
 			}
@@ -342,7 +342,7 @@ module.exports = {
                     return p;
                 }
                 if(p.error) {
-                    console.log("parse issue",p);
+                  //  console.log("parse issue",p);
                     return {
                         error: {
                             message: "Coudn't parse binary data",

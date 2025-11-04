@@ -17,6 +17,7 @@ export default /*css*/`
     }
     .awtsmoos-editor-container .content-holder {
 	    background: black;
+	    color:white;
     }
     
     .content-holder textarea{

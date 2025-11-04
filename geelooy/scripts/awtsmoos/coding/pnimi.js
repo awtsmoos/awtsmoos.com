@@ -158,6 +158,9 @@ class VirtualizedEditor {
 			caretColor: '#66ff77',
 			WebkitTextFillColor: 'transparent'
 		});
+		this.textarea.spellcheck = "false";
+		this.textarea.autocorrect="false";
+		
 		this.overlay = document.createElement('div');
 		this.viewport = document.createElement('div');
 		this.overlay.appendChild(this.viewport);

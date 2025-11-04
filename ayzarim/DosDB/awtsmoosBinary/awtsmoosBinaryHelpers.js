@@ -441,8 +441,7 @@ function readFileBytesAtOffset({
             return null;
         }
         
-
-    // console.log(buffer,totalLength)
+        
 
 
         handle.read

@@ -53,6 +53,8 @@ async function makeFile({$i}) {
         if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
     
         var isAuthorized = await verifyAlias({$i, aliasId, userid });
+       
+       
         if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 
         // Check if the alias exceeds 10MB limit
@@ -82,6 +84,7 @@ async function makeFile({$i}) {
         // Write the file to the alias's file system
         try {
             var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+            console.log("ABOUt to write",filePath);
             var wr = await $i.db.write(filePath, content);
 
         } catch(e) {
@@ -196,6 +199,7 @@ async function readFile({$i}) {
    
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     var file = await $i.db.read(filePath);
+   
 
     var extInd = filePath.lastIndexOf(".");
     var ext = ".js";
@@ -215,7 +219,7 @@ async function readFile({$i}) {
             )
         }
     }
- //   console.log("returning",mime,file)
+ //   console.log("returning",mime,ext, file, filePath)
     return  (file) || "";
 }
 

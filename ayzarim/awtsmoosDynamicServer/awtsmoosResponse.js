@@ -335,7 +335,7 @@ class AwtsmoosResponse {
 
 		// Process and send the response if it hasn't been ended yet
 		try {
-			console.log("d",r,m)
+		
 			r = getProperContent(r, m);
 			this.ended = true;
 			actualResponse = r;
