@@ -703,82 +703,31 @@ export default class Domem extends Nivra {
    
 	async mixTextures({
        
-        baseTexture/*
-            represented by 
-            the black color
-
-        */,
-        overlayTexture/*
-            represented by
-            the white color
-            of the maskTexture
-
-        */,
-        repeatX=1/*
-            assuming
-            both input
-            textures are small
-            and seamless
-            this is the amount to repeat 
-            it by
-        */,
-        repeatY=1/*ibit*/,
-		fragmentShaderSnippet=null,
-		
-		fragmentDeclarations,
-		extraUniforms=null,
-        childNameToSetItTo=null,
-		useCurveMixer = false,
-		
-	    textureScale = 0.1, // Controls texture size for procedural UVs
-	    featherRadius = 10, // world units to feather edge
+        baseTexture,      // Dirt
+        overlayTexture,   // Grass
+        repeatX = 1,
+        repeatY = 1,
+        childNameToSetItTo = null,
+        textureScale = 0.05,
+        pathChildName = null, 
+        feather = 5.0,        
+        lowHeight = 0.0,      
+        highHeight = 10.0     
     } = {}) {
         var self = this;
         try {
-            baseTexture = self.olam.$gc(
-                baseTexture
-            );
-            overlayTexture = self.olam.$gc(
-                overlayTexture
-            )
-           
-			
-        } catch(e){
-            console.log("Couldnt get it",e)
-        }
+            baseTexture = self.olam.$gc(baseTexture);
+            overlayTexture = self.olam.$gc(overlayTexture);
+        } catch(e){ console.log("Couldnt get it",e); }
        
-		
-        var base;
-        var overlay;
+        var base, overlay;
         try {
-        // Load textures asynchronously
-           
-			
-            base = await self.olam.loadTexture({
-                url: baseTexture,
-                shouldRepeat: true,
-                repeatX, repeatY,
-                nivra: self
-            });
-            overlay =  await self.olam.loadTexture({
-                url: overlayTexture,
-                shouldRepeat: true,
-                repeatX, repeatY,
-                nivra: self
-            });
-
-            // THIS IS IMPORTANT for texture repeating to work
+            base = await self.olam.loadTexture({ url: baseTexture, shouldRepeat: true, repeatX, repeatY, nivra: self });
+            overlay =  await self.olam.loadTexture({ url: overlayTexture, shouldRepeat: true, repeatX, repeatY, nivra: self });
             base.wrapS = base.wrapT = THREE.RepeatWrapping;
             overlay.wrapS = overlay.wrapT = THREE.RepeatWrapping;
-
-        } catch(e) {
-            console.log("Issue loading!",e);
-            return;
-        }
+        } catch(e) { console.log("Issue loading!",e); return; }
        
-		
-        var fogColor = new THREE.Color(0x88ccee);
-		// Find the target child mesh to check its geometry
 	    var targetChild = null;
 	    if (childNameToSetItTo && this.mesh) {
 	        this.mesh.traverse((child) => {
@@ -787,122 +736,107 @@ export default class Domem extends Nivra {
 	            }
 	        });
 	    }
-	
-	    if (!targetChild) {
-	        console.error("Could not find the child mesh:", childNameToSetItTo);
-	        return;
-	    }
+	    if (!targetChild) { console.error("Could not find the child mesh:", childNameToSetItTo); return; }
 
-		 // --- The Fallback Logic Check ---
-	    const hasUVs = targetChild.geometry.attributes.uv ? true : false;
+        // --- B"H JAVASCRIPT LOGIC with PATH SIMPLIFICATION & PADDING ---
+        const MAX_SEGMENTS_FOR_SHADER = 200; // Define this once, use it for JS and GLSL
+        let pathObject = null;
+        if (pathChildName) {
+            this.mesh.traverse(child => {
+                if (child.name === pathChildName && child.geometry) {
+                    pathObject = child;
+                }
+            });
+        }
 
+        const pathSegments = [];
+        let usePathMixing = false;
+        let numActualSegments = 0;
 
+        if (pathObject) {
+            console.log("Found path object:", pathObject);
+            pathObject.visible = false
+            usePathMixing = true;
+            pathObject.updateMatrixWorld(true); 
+             
+            const positions = pathObject.geometry.attributes.position;
+            const worldVertices = [];
+            for (let i = 0; i < positions.count; i++) {
+                const localPoint = new THREE.Vector3().fromBufferAttribute(positions, i);
+                const worldPoint = localPoint.applyMatrix4(pathObject.matrixWorld);
+                worldVertices.push(worldPoint);
+            }
 
+            // 1. Simplify path to not exceed our shader's max limit
+            const step = Math.max(1, Math.ceil(worldVertices.length / MAX_SEGMENTS_FOR_SHADER));
+            for (let i = 0; i < worldVertices.length - 1; i += step) {
+                if(pathSegments.length >= MAX_SEGMENTS_FOR_SHADER * 2) break; // Safety break
+                pathSegments.push(worldVertices[i], worldVertices[i+1]);
+            }
+            numActualSegments = pathSegments.length / 2;
+            console.log(`Simplified path to ${numActualSegments} segments.`);
 
-        
+        } else {
+            console.log("No path object found. Falling back to height-based mixing.");
+        }
+
+        // 2. THIS IS THE FIX: Pad the array to match the shader's fixed size
+        while (pathSegments.length < MAX_SEGMENTS_FOR_SHADER * 2) {
+            pathSegments.push(new THREE.Vector3()); // Add empty vectors as padding
+        }
+
+        // --- B"H FINAL SHADER LOGIC ---
         var customLambertMaterial = new THREE.MeshLambertMaterial();
-		
-		
         customLambertMaterial.onBeforeCompile = function (shader) {
-            // Add custom uniforms
-			
             shader.uniforms.baseTexture = { value: base };
             shader.uniforms.overlayTexture = { value: overlay };
             shader.uniforms.repeatVector = { value: new THREE.Vector2(repeatX, repeatY) };
-			shader.uniforms.generateUvs = { value: !hasUVs }; // Tell shader if it needs to generate UVs
 			shader.uniforms.textureScale = { value: textureScale };
-			if(typeof(extraUniforms) == "function") {
-				extraUniforms = extraUniforms(self)
-			}
-			if(
-				extraUniforms &&
-				typeof(extraUniforms) == "object"
-			) {
-				var keys = Object.keys(extraUniforms);
-				for(var key of keys) {
-					var extraUn = extraUniforms[key];
-					shader.uniforms[key] = extraUn;
-				}
-			}
-            // Vertex shader: ensure vUv is declared and assigned
-           
+            shader.uniforms.usePathMixing = { value: usePathMixing };
+            shader.uniforms.feather = { value: feather };
+            shader.uniforms.lowHeight = { value: lowHeight };
+            shader.uniforms.highHeight = { value: highHeight };
+            shader.uniforms.pathSegments = { value: pathSegments }; // Pass the padded array
+            shader.uniforms.numPathSegments = { value: numActualSegments }; // Pass the REAL count
 
-			shader.vertexShader = `
-			uniform bool generateUvs;
-            uniform float textureScale;
-			varying vec2 vUv;
-			varying vec3 vPos;
-			` + shader.vertexShader;
+            shader.vertexShader = `varying vec3 vWorldPosition;\n` + shader.vertexShader;
+            shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\nvWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;`);
 
-
-			
-			shader.vertexShader = shader.vertexShader.replace(
-			  '#include <uv_vertex>',
-			  `
-				#ifdef USE_UV
-	                if (generateUvs) {
-	                    // Generate UVs from a top-down projection of the vertex position
-	                    vUv = position.xz * textureScale;
-	                } else {
-	                    // Use the model's built-in UVs
-	                    vUv = uv;
-	                }
-	            #endif
-				vPos = position;
-				
-				
-				#include <uv_vertex>
-			  `
-			);
-
-			
-
-			// 1. Define your declarations and logic separately.
-            var fragmentDeclarationsStart = `
-                uniform sampler2D baseTexture;
-                uniform sampler2D overlayTexture;
-                uniform vec2 repeatVector;
-                varying vec2 vUv;
-				
-            `;
-
-			if(
-				fragmentDeclarations && 
-				fragmentDeclarations != "undefined" &&
-				typeof(fragmentDeclarations) == "string"
-			) {
-				fragmentDeclarationsStart += fragmentDeclarations
-			}
-
+            shader.fragmentShader = `
+                uniform sampler2D baseTexture, overlayTexture; uniform vec2 repeatVector; uniform float textureScale, feather, lowHeight, highHeight; uniform bool usePathMixing; uniform vec3 pathSegments[${MAX_SEGMENTS_FOR_SHADER * 2}]; uniform int numPathSegments; varying vec3 vWorldPosition;
+                float distanceToLineSegment(vec3 p, vec3 a, vec3 b) {
+		    vec2 p2 = p.xz;
+		    vec2 a2 = a.xz;
+		    vec2 b2 = b.xz;
+		    vec2 pa = p2 - a2, ba = b2 - a2;
+		    float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+		    return length(pa - ba * h);
+		}
+            ` + shader.fragmentShader;
+            
+            // This is the final, working logic.
             var fragmentLogic = `
-                // Correctly apply texture repeating by multiplying vUv with repeatVector
-                vec4 baseColor = texture2D(baseTexture, vUv * repeatVector);
-                diffuseColor *= baseColor;
+                vec4 dirtColor = texture2D(baseTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+                vec4 grassColor = texture2D(overlayTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+                float mixFactor = 0.0;
+                if (usePathMixing && numPathSegments > 0) {
+                    float minDistance = 1e38;
+                    for (int i = 0; i < numPathSegments; ++i) {
+                        minDistance = min(minDistance, distanceToLineSegment(vWorldPosition, pathSegments[i * 2], pathSegments[i * 2 + 1]));
+                    }
+                    mixFactor = 1.0 - smoothstep(0.0, feather, minDistance);
+                } else {
+                    mixFactor = smoothstep(lowHeight, highHeight, vWorldPosition.y);
+                }
+                vec4 mixedColor = mix(dirtColor, grassColor, mixFactor);
+                diffuseColor *= mixedColor;
             `;
 
-			// Use the custom snippet if provided
-			if(typeof(fragmentShaderSnippet) == "string") {
-				fragmentLogic = fragmentShaderSnippet;
-			}
-        
-            // 2. Inject the declarations at the top of the shader, before main().
-            shader.fragmentShader = fragmentDeclarationsStart + shader.fragmentShader;
-
-            // 3. Inject the logic inside main(), after the color is sampled from the map.
-            shader.fragmentShader = shader.fragmentShader.replace(
-                '#include <map_fragment>',
-                '#include <map_fragment>\n' + fragmentLogic 
-            );
-        
+            shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n' + fragmentLogic);
         };
 
-        
-		var material = customLambertMaterial;
-		material.side = THREE.DoubleSide;
-		
-		targetChild.material = material;
+		targetChild.material = customLambertMaterial;
 	    targetChild.material.needsUpdate = true;
-        
     }
     
     async madeAll(olam) {
