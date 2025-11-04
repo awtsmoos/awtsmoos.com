@@ -1,25 +1,29 @@
 /**
  * B"H
  *
- * Robust Service Worker for Awtsmoos
+ * Resilient Service Worker for Awtsmoos
  *
- * Strategy: Unified Network-First with Graceful Fallback
- * - This service worker handles all requests with the same intelligent logic.
- * - The server is expected to return a JSON metadata response if the 'Awtsmoos-File-Status' header is present.
+ * Strategy: Intelligent Network-First with a Robust Network Fallback
  *
- * Process for every request:
- * 1. A special, NON-CACHED request is sent to the network with the 'Awtsmoos-File-Status' header.
- * 2. It safely attempts to parse the response as JSON.
- * 3. If JSON metadata is received, timestamps are compared to determine if the local cache is stale.
- *    - STALE: The actual resource (without the header) is fetched from the network, cached, and served.
- *    - FRESH: The resource is served directly from the cache.
- * 4. If the server fails to return JSON, the worker gracefully falls back to fetching the resource directly
- *    from the network and caching it, preventing errors.
- * 5. If the user is offline, any available cached version is served.
+ * This service worker is designed to be highly resilient and to NEVER show a "not in cache"
+ * error to an online user.
+ *
+ * --- LOGIC HIERARCHY ---
+ * 1. ATTEMPT INTELLIGENT CHECK: It first tries to fetch metadata from the server using the
+ *    'Awtsmoos-File-Status' header. If this works perfectly, it compares timestamps to
+ *    decide whether to serve a fresh copy or a fast cached copy.
+ *
+ * 2. ROBUST NETWORK FALLBACK: If the intelligent check fails for ANY online reason (e.g., the
+ *    server returns a 404, a 500 error, or unexpected non-JSON data), the service worker
+ *    ABANDONS the intelligent check for that request and immediately falls back to fetching
+ *    the resource directly from the network. This guarantees online users always get content.
+ *
+ * 3. CACHE AS LAST RESORT: Only if the network fallback itself fails (meaning the user is
+ *    truly offline) will the service worker attempt to serve the resource from the cache.
  */
 
-const CACHE_NAME = 'awtsmoos-cache-v6';
-const DB_NAME = 'awtsmoos-metadata-v6';
+const CACHE_NAME = 'awtsmoos-cache-v7';
+const DB_NAME = 'awtsmoos-metadata-v7';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
 // --- IndexedDB Helper (Unchanged) ---
@@ -51,9 +55,7 @@ const MetadataDB = {
     }
 };
 
-
 // --- Service Worker Lifecycle ---
-
 self.addEventListener('install', (event) => {
     console.log('[SW] Install Event.');
     event.waitUntil(self.skipWaiting());
@@ -70,81 +72,96 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-
 // --- Fetch Interception ---
-
 self.addEventListener('fetch', (event) => {
     const { request } = event;
-
     if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) {
         return;
     }
-
     event.respondWith(handleFetch(request));
 });
 
 
 /**
- * The core fetch handling logic for ALL requests.
+ * The main fetch handler with the new resilient logic.
  */
 async function handleFetch(request) {
+    // We wrap the entire logic in a try/catch. The catch block will only execute
+    // for network failures, meaning the user is truly offline.
     try {
-        // 1. Create a new request with the special status header.
-        const newHeaders = new Headers(request.headers);
-        newHeaders.append(STATUS_HEADER, 'true');
-        
-        const statusRequest = new Request(request.url, {
-            method: request.method,
-            headers: newHeaders,
-            mode: 'same-origin',
-            credentials: request.credentials,
-            redirect: 'manual' // Prevent following redirects on the status check
-        });
-
-        // 2. Fetch the status, ALWAYS from the network.
+        // --- 1. ATTEMPT INTELLIGENT CHECK ---
+        const statusRequest = createStatusRequest(request);
         const statusResponse = await fetch(statusRequest, { cache: 'no-store' });
 
+        // If the server gives an error on the status check, abandon this method and
+        // fall back to a direct network fetch.
         if (!statusResponse.ok) {
-            console.warn(`[SW] Status check failed for ${request.url}. Serving from cache.`);
-            return getFromCache(request);
+            console.warn(`[SW] Status check failed for ${request.url}. Falling back to network.`);
+            return fetchAndCache(request);
         }
 
         let serverMeta;
         try {
-            // 3. **CRITICAL FIX**: Safely attempt to parse the response as JSON.
             serverMeta = await statusResponse.json();
         } catch (e) {
-            // This block executes if the server didn't return valid JSON.
-            console.warn(`[SW] Server did not return JSON for status check on ${request.url}. Fetching resource directly.`);
-            // Fallback: fetch the original request and cache it without metadata.
+            // If the server gives a non-JSON response, abandon this method and
+            // fall back to a direct network fetch.
+            console.warn(`[SW] Server sent non-JSON status for ${request.url}. Falling back to network.`);
             return fetchAndCache(request);
         }
 
-        // 4. We have valid metadata, proceed with the normal logic.
+        // --- At this point, the intelligent check was successful. We have metadata. ---
         const localMeta = await MetadataDB.get(request.url);
         const isStale = (serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
                         (serverMeta.dataModified > (localMeta?.dataModified || 0));
 
         if (isStale) {
             console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
-            // Fetch the ACTUAL resource (using original request) and update everything.
+            // Fetch the actual resource and update cache and metadata.
             return fetchAndUpdate(request, serverMeta);
         } else {
             console.log(`%c[SW] Fresh: ${request.url}`, 'color: green');
-            return getFromCache(request);
+            // The metadata says we are fresh. Try the cache first.
+            const cachedResponse = await caches.match(request);
+            // If for some reason it's not in the cache, fetch it anyway to self-heal.
+            return cachedResponse || fetchAndUpdate(request, serverMeta);
         }
 
     } catch (error) {
-        // 5. OFFLINE: This catches any network failure.
-        console.warn(`%c[SW] Offline: Serving from cache for ${request.url}`, 'color: grey');
-        return getFromCache(request);
+        // --- 3. CACHE AS LAST RESORT ---
+        // This block only runs if ANY of the above network fetches failed.
+        // This is the true "offline" path.
+        console.warn(`%c[SW] Network failed. Serving from cache for ${request.url}`, 'color: grey');
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        // Only return this message if we are offline AND the item is not in the cache.
+        return new Response('Resource not found in cache and network is unavailable.', {
+            status: 404,
+            statusText: 'Not Found'
+        });
     }
 }
 
+/**
+ * Creates the special request used to check for metadata.
+ */
+function createStatusRequest(request) {
+    const newHeaders = new Headers(request.headers);
+    newHeaders.append(STATUS_HEADER, 'true');
+    return new Request(request.url, {
+        method: request.method,
+        headers: newHeaders,
+        mode: 'same-origin',
+        credentials: request.credentials,
+        redirect: 'manual'
+    });
+}
 
 /**
- * Fallback function: Fetches a request and caches it, but does NOT handle metadata.
- * Used when the server gives an unexpected (non-JSON) response.
+ * The standard network fallback. Fetches the original request, caches it,
+ * but does NOT handle metadata.
  */
 async function fetchAndCache(request) {
     const networkResponse = await fetch(request);
@@ -156,29 +173,15 @@ async function fetchAndCache(request) {
 }
 
 /**
- * Main update function: Fetches the resource (using the original request) and updates
+ * The full update process. Fetches the original request and updates
  * both the Cache and the IndexedDB with new metadata.
  */
 async function fetchAndUpdate(request, metadata) {
-    const networkResponse = await fetch(request); // Fetch the original resource without the header
+    const networkResponse = await fetch(request);
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
         await cache.put(request, networkResponse.clone());
         await MetadataDB.set({ url: request.url, ...metadata });
     }
     return networkResponse;
-}
-
-/**
- * Gets a resource from the cache. If not found, returns a network error.
- */
-async function getFromCache(request) {
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-        return cachedResponse;
-    }
-    return new Response('Resource not found in cache and network is unavailable.', {
-        status: 404,
-        statusText: 'Not Found'
-    });
 }
