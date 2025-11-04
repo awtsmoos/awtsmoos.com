@@ -33,11 +33,11 @@ export default /*css*/`
     .menu-bar {
         background-color: #333;
         color: white;
-        padding: 15px;
+        padding: 5px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        font-size: 18px;
+        font-size: 15px;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
         transition: all 0.4s ease-in-out;

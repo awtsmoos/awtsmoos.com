@@ -84,7 +84,7 @@ async function makeFile({$i}) {
         // Write the file to the alias's file system
         try {
             var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
-            console.log("ABOUt to write",filePath);
+            //console.log("ABOUt to write",filePath);
             var wr = await $i.db.write(filePath, content);
 
         } catch(e) {

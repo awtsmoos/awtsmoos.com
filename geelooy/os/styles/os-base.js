@@ -16,10 +16,12 @@ export default (id) => /*css*/`
     }
     
     .${id} .fileHolder {
-        overflow-y: scroll;
-        padding: 10px;
-        height:100%;
-        box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.1);
+	overflow-y: scroll;
+	padding: 10px;
+	
+	padding-bottom: 75px;
+	height:100%;
+	box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.1);
     }
     
     

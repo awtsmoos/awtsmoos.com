@@ -63,8 +63,29 @@ export default ({
     ]);
 
       
-
+	var publicUrl = () => (
+		location.origin + 
+	          `/api/social/aliases/${
+	            curAlias
+	          }/fileSystem/readFile?${
+	            new URLSearchParams({
+	              path: path + "/" + fileName
+	            })
+	          }`
+	)
     var awtsmoosFuncs = new Map([
+    ['Open in New Tab', async () => {
+        if(!window.curAlias) {
+          await system.makeToast("Not logged in with alias!");
+          return;
+        }
+
+
+        var base = publicUrl()
+        window.open(base);
+
+        await system.makeToast("opened public URL in new tab!")
+      }],
       ['Get Public URL', async () => {
         if(!window.curAlias) {
           await system.makeToast("Not logged in with alias!");
@@ -72,14 +93,7 @@ export default ({
         }
 
 
-        var base = location.origin + 
-          `/api/social/aliases/${
-            curAlias
-          }/fileSystem/readFile?${
-            new URLSearchParams({
-              path: path + "/" + fileName
-            })
-          }`;
+        var base = publicUrl()
         await navigator.clipboard.writeText(base);
 
         await system.makeToast("Copied public URL to clipboard!")
@@ -130,12 +144,23 @@ export default ({
   
     // Create the filename header
     const fileNameHeader = document.createElement('div');
-    fileNameHeader.classList.add('file-name-header');
-    fileNameHeader.textContent = fileName;
+    //fileNameHeader.classList.add('file-name-header');
+   // fileNameHeader.textContent = fileName;
 
 
   const contentDiv = document.createElement('textarea');
-  contentDiv.setAttribute("id", "dw")
+  function overwriteKeydown(e) {
+	  
+	 
+	  if(e.target == contentDiv) {
+		  if(e.ctrlKey && e.code == "KeyS") {
+			  e.preventDefault();
+			  window?.customSaveFunction()
+			//  console.log("hov",e)
+		  }
+	  }
+  }
+  addEventListener("keydown", overwriteKeydown)
 
   contentDiv. value = content;
 
@@ -146,7 +171,7 @@ export default ({
     
     // Append elements to the editor container
     editorContainer.appendChild(menuBar);
-    editorContainer.appendChild(fileNameHeader);
+   // editorContainer.appendChild(fileNameHeader);
     editorContainer.appendChild(contentHolder);
 
     

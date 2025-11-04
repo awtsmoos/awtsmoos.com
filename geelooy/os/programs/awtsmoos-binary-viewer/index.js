@@ -25,27 +25,42 @@ export default ({
 	// Create the menu bar
 	const menuBar = document.createElement('div');
 	menuBar.classList.add('menu-bar');
-	
+	var publicUrl = () => (
+		location.origin + 
+	          `/api/social/aliases/${
+	            curAlias
+	          }/fileSystem/readFile?${
+	            new URLSearchParams({
+	              path: path + "/" + fileName
+	            })
+	          }`
+	)
 	// Define Awtsmoos menu functions
 	var awtsmoosFuncs = new Map([
-	    ['Get Public URL', async () => {
-	        if (!window.curAlias) {
-	            await system.makeToast("Not logged in with alias!");
-	            return;
-	        }
-	
-	        var base = location.origin +
-	            `/api/social/aliases/${
-	          curAlias
-	        }/fileSystem/readFile?${
-	          new URLSearchParams({
-	            path: path + "/" + fileName
-	          })
-	        }`;
-	        await navigator.clipboard.writeText(base);
-	
-	        await system.makeToast("Copied public URL to clipboard!");
-	    }],
+		['Open in New Tab', async () => {
+		        if(!window.curAlias) {
+		          await system.makeToast("Not logged in with alias!");
+		          return;
+		        }
+		
+		
+		        var base = publicUrl()
+		        window.open(base);
+		
+		        await system.makeToast("opened public URL in new tab!")
+		      }],
+		      ['Get Public URL', async () => {
+		        if(!window.curAlias) {
+		          await system.makeToast("Not logged in with alias!");
+		          return;
+		        }
+		
+		
+		        var base = publicUrl()
+		        await navigator.clipboard.writeText(base);
+		
+		        await system.makeToast("Copied public URL to clipboard!")
+		      }],
 	    ['Download', () => {
 	        const blob = (content instanceof Blob) ? content : new Blob([content]);
 	        var u = URL.createObjectURL(blob);
@@ -62,9 +77,9 @@ export default ({
 	menuBar.appendChild(awtsmoosMenu);
 	
 	// Create the filename header
-	const fileNameHeader = document.createElement('div');
+	/*const fileNameHeader = document.createElement('div');
 	fileNameHeader.classList.add('file-name-header');
-	fileNameHeader.textContent = fileName;
+	fileNameHeader.textContent = fileName;*/
 	
 	// Create the content holder
 	const contentHolder = document.createElement('div');
@@ -119,7 +134,7 @@ export default ({
 	
 	// Append elements to the viewer container
 	viewerContainer.appendChild(menuBar);
-	viewerContainer.appendChild(fileNameHeader);
+	//viewerContainer.appendChild(fileNameHeader);
 	viewerContainer.appendChild(contentHolder);
 	
 	// Add CSS styles dynamically
@@ -131,7 +146,7 @@ export default ({
 	    document.head.appendChild(style);
 	
 	// Calculate content height
-	var fileHeaderHeight = fileNameHeader.offsetHeight;
+	var fileHeaderHeight =0// fileNameHeader.offsetHeight;
 	var menuBarHeight = menuBar.offsetHeight;
 	
 	function calculateContentHeight() {
