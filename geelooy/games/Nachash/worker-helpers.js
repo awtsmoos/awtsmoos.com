@@ -428,8 +428,6 @@ class Lightning {
 	}
 }
 
-// --- NEW HELPER FUNCTIONS ---
-// --- NEW: High-performance drawWorld with View Culling ---
 function drawWorld(ctx) {
     const { camera } = state;
 
@@ -479,7 +477,6 @@ function drawWorld(ctx) {
 }
 
 
-
 function drawMinimap(ctx) {
 	const mapW = 100;
 	const mapH = 100;
@@ -511,21 +508,22 @@ function drawMinimap(ctx) {
 
 
 
-// --- FIX: Corrected Player Class ---
+// B"H in worker-helpers.js
+// --- Replace the entire existing Player class with this one ---
 class Player {
 	constructor(x, y, length) {
 		this.type = 'player';
 		this.x = x;
 		this.y = y;
-		this.size = 14;
+		this.baseSize = 14; // Renamed from 'size'
+	        this.currentSize = this.baseSize; // Add this
 		this.angle = 0;
-		this.speed = 280; // NOTE: Speed is now in "pixels per second". 280 is ~4.6 pixels at 60fps.
-		this.turnSpeed = 6.0; // In "radians per second"
+		this.speed = 280; 
+		this.turnSpeed = 6.0; 
 		this.body = [];
 		this.maxLength = length;
 		this.isTurning = false;
 		this.targetAngle = 0;
-		
 		this.borderPadding = 30;
 		this.isInvincible = false;
 		this.isAlive = true;
@@ -541,38 +539,37 @@ class Player {
 		this.isTurning = false;
 	}
 
-	// In worker-helpers.js, inside the Player class
-
+	// B"H 
 	update(deltaTime) {
-        if (!this.isAlive) return;
-
-        // --- All your existing deltaTime movement logic here... ---
-		if (this.isTurning) {
-			let angleDiff = this.targetAngle - this.angle;
-			while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-			while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-			this.angle += angleDiff * this.turnSpeed * deltaTime;
-		}
-
-		this.body.unshift({ x: this.x, y: this.y });
-		if (this.body.length > this.maxLength) this.body.pop();
-		
-		this.x += Math.cos(this.angle) * this.speed * deltaTime;
-		this.y += Math.sin(this.angle) * this.speed * deltaTime;
-
-		this.handleBorders();
-		state.score = this.score;
-        // --- End of existing logic ---
-
-
-        // --- NEW: Sanity check to fix the root cause of the crash ---
-        if (isNaN(this.x) || isNaN(this.y) || deltaTime > 0.5) {
-            // Also check for huge deltaTime spikes that can cause tunneling
-            console.error("B'H - Player position became NaN or deltaTime spiked! Resetting position.", { x: this.x, y: this.y, dt: deltaTime });
-            this.x = state.world.width / 2;
-            this.y = state.world.height / 2;
-            this.body = []; // Clear the body to prevent drawing errors
-        }
+	        if (!this.isAlive) return;
+	
+	        // --- NEW: Dynamic Size Calculation ---
+	        // The snake gets wider as it gets longer, with a maximum size cap.
+	        this.currentSize = Math.min(35, this.baseSize + Math.floor(this.maxLength / 40));
+	        // ---------------------------------
+	
+			if (this.isTurning) {
+				let angleDiff = this.targetAngle - this.angle;
+				while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+				while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+				this.angle += angleDiff * this.turnSpeed * deltaTime;
+			}
+	
+			this.body.unshift({ x: this.x, y: this.y });
+			if (this.body.length > this.maxLength) this.body.pop();
+			
+			this.x += Math.cos(this.angle) * this.speed * deltaTime;
+			this.y += Math.sin(this.angle) * this.speed * deltaTime;
+	
+			this.handleBorders();
+			state.score = this.score;
+	
+	        if (isNaN(this.x) || isNaN(this.y) || deltaTime > 0.5) {
+	            console.error("B'H - Player position became NaN or deltaTime spiked! Resetting position.", { x: this.x, y: this.y, dt: deltaTime });
+	            this.x = state.world.width / 2;
+	            this.y = state.world.height / 2;
+	            this.body = []; 
+	        }
 	}
 
 	handleBorders() {
@@ -608,6 +605,7 @@ class Player {
 				this.y));
 	}
 
+	// B"H
 	draw(ctx) {
 		const color = 120;
 		this.body.forEach((seg,
@@ -624,7 +622,7 @@ class Player {
 			ctx.arc(seg.x,
 				seg.y,
 				this
-				.size,
+				.currentSize, // Use currentSize
 				0, Math
 				.PI * 2);
 			ctx.fill();
@@ -633,7 +631,7 @@ class Player {
 			`hsl(${color}, 100%, 70%)`;
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this
-			.size, 0, Math.PI *
+			.currentSize, 0, Math.PI * // Use currentSize
 			2);
 		ctx.fill();
 	}
@@ -652,7 +650,7 @@ class Player {
 
                 // This condition creates food for every 4th segment.
                 // This preserves the path shape while preventing a 1000-segment snake
-                // from lagging the game by spawning 1000 new objects instantly.
+                // from lagging the game by lagging the game by spawning 1000 new objects instantly.
                 // The amount of food is still directly proportional to its length.
                 if (i % 4 === 0) {
                     
@@ -714,25 +712,22 @@ function drawWorldGridAndBorder(ctx) {
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
 
-// --- START OF AI REPLACEMENT ---
-
-//B"H
-// In worker-helpers.js - Replace the ENTIRE AiSnake class with this one.
-
+// B"H in worker-helpers.js
+// --- Replace the entire AiSnake class with this new, smarter version ---
 class AiSnake extends Player {
 	constructor(x, y, length) {
 		super(x, y, length);
 		this.type = 'ai_snake';
 		this.name = generateAiName();
 		this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
-		this.size = 12;
+		this.baseSize = 12; // Renamed from 'size'
+	        this.currentSize = this.baseSize; // Add this
 
-		this.normalSpeed = 210 + Math.random() * 90; // Slightly faster and more varied
+		this.normalSpeed = 210 + Math.random() * 90; 
 		this.boostSpeed = this.normalSpeed * 1.9;
 		this.speed = this.normalSpeed;
 		this.isBoosting = false;
 
-		// AI thinks faster for better reactions
 		this.decisionTimer = Math.random() * 0.2;
 	}
 
@@ -874,16 +869,15 @@ class AiSnake extends Player {
 	}
 
 	draw(ctx) {
-		// No changes needed to the draw function, it can stay as it is
 		this.body.forEach((seg, i) => {
 			ctx.fillStyle = this.color;
 			ctx.beginPath();
-			ctx.arc(seg.x, seg.y, this.size, 0, Math.PI * 2);
+			ctx.arc(seg.x, seg.y, this.currentSize, 0, Math.PI * 2); // Use currentSize
 			ctx.fill();
 		});
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+		ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2); // Use currentSize
 		ctx.fill();
 	}
 }

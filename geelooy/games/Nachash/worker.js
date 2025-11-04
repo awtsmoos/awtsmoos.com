@@ -69,16 +69,13 @@ function resize(width, height, pixelRatio) {
 
 
 
-
-// Replace your entire start function with this:
+// B"H
 function start() {
     Object.assign(state, {
         score: 0, level: 1, collectibles: [], particles: [], aiSnakes: [],
         lightningEffects: [], isRunning: true, scoreboard: []
     });
     particlePool.reset();
-
-    
     
     state.player = new Player(state.world.width / 2, state.world.height / 2, 20);
     state.scoreboard = [{ name: state.playerName, score: state.player.score }];
@@ -92,15 +89,13 @@ function start() {
     
     gameLoop();
 }
-//B"H
-//B"H
-// In worker.js - Replace your entire `draw` function with this definitive version.
+
+// B"H 
 
 function draw() {
     const { ctx, camera, world } = state;
 
     // --- SCREEN FILL ---
-    // Fill the screen with the base color first. This prevents any flickering or black voids.
     ctx.fillStyle = '#1d221d';
     ctx.fillRect(0, 0, camera.width, camera.height);
 
@@ -108,32 +103,25 @@ function draw() {
     ctx.save();
 
     // --- WORLD RENDERING (Everything that moves) ---
-    // Apply the camera's zoom and pan.
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-camera.x, -camera.y);
 
     // --- THE LIGHTNING-FAST, CORRECTLY CALCULATED GRID ---
-
-    // 1. Define the exact boundaries of the visible world area.
     const viewLeft = camera.x;
     const viewTop = camera.y;
     const viewRight = camera.x + (camera.width / camera.zoom);
     const viewBottom = camera.y + (camera.height / camera.zoom);
 
     const gridSize = 50;
-    ctx.strokeStyle = "rgba(255, 255, 255, 255)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.09)";
     ctx.lineWidth = 1;
 
-    // 2. Calculate the start and end grid lines based on the view boundaries.
-    // This math is simple and direct, avoiding all previous errors.
     const startX = Math.floor(viewLeft / gridSize) * gridSize;
     const endX = Math.ceil(viewRight / gridSize) * gridSize;
     const startY = Math.floor(viewTop / gridSize) * gridSize;
     const endY = Math.ceil(viewBottom / gridSize) * gridSize;
 
     ctx.beginPath();
-    // 3. Draw only the handful of lines that are actually inside the view.
-    // This is what makes it lightning-fast.
     for (let x = startX; x < endX; x += gridSize) {
         ctx.moveTo(x, viewTop);
         ctx.lineTo(x, viewBottom);
@@ -144,29 +132,26 @@ function draw() {
     }
     ctx.stroke();
 
-    // 4. Draw all game objects (snakes, food) on top of the grid.
+    // Draw all game objects (snakes, food) on top of the grid.
     drawWorld(ctx);
 
-    // 5. Draw the world border.
+    // Draw the world border.
     ctx.strokeStyle = '#241a0c';
     ctx.lineWidth = 40;
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 
     // --- UI RENDERING (Fixed on screen) ---
-    // Restore the canvas to its original state (no camera transformations).
     ctx.restore();
 
     // Draw the UI on top of everything.
     drawUI(ctx);
 }
-//B"H
-// In worker.js - Replace the existing updateCamera function with this one.
+
+// B"H
 
 function updateCamera() {
     const { camera, player } = state;
 
-    // --- Camera Logic with Sanity Checks ---
-    // If the player object is invalid for any reason, stop to prevent errors.
     if (!player || isNaN(player.x) || isNaN(player.y)) {
         return;
     }
@@ -174,7 +159,6 @@ function updateCamera() {
     const lengthBonus = Math.max(1, player.maxLength / 150);
     let targetZoom = 0.8 / lengthBonus;
 
-    // --- Sanity Check 1: Prevent zoom from ever becoming NaN, zero, or negative ---
     if (isNaN(targetZoom) || targetZoom <= 0.01) {
         targetZoom = 0.01;
     }
@@ -183,13 +167,10 @@ function updateCamera() {
         camera.zoom = 0.01;
     }
 
-
-    // --- Sanity Check 2: Calculate target position and ensure it's valid ---
     const zoom = camera.zoom;
     const targetX = player.x - (camera.width / 2 / zoom);
     const targetY = player.y - (camera.height / 2 / zoom);
 
-    // If the calculation results in an invalid number, do not update the camera's position this frame.
     if (isNaN(targetX) || isNaN(targetY)) {
         console.error("B'H - Camera target became NaN. Skipping camera position update for this frame.");
         return;
@@ -198,7 +179,6 @@ function updateCamera() {
     camera.x += (targetX - camera.x) * 0.1;
     camera.y += (targetY - camera.y) * 0.1;
 
-    // --- Final Sanity Check: If the position still becomes invalid, force a reset.
     if (isNaN(camera.x) || isNaN(camera.y)) {
        console.error("B'H - Camera position became NaN. Forcing a reset.");
        camera.x = targetX;
@@ -208,22 +188,16 @@ function updateCamera() {
 
 
 
+// B"H 
 
+let lastTime = 0; 
 
-// In Worker.js
-let lastTime = 0; // Add this line right before gameLoop
-
- 
 
 function gameLoop(currentTime) {
-    // --- THE CRITICAL FIX IS HERE ---
-    // If the browser hasn't provided a valid timestamp, simply skip this frame.
-    // This prevents the entire simulation from being corrupted by a NaN value.
     if (typeof currentTime !== 'number' || currentTime <= 0) {
         requestAnimationFrame(gameLoop);
         return; 
     }
-    // --- END FIX ---
 
     if (!state.isRunning) return;
 
@@ -231,11 +205,9 @@ function gameLoop(currentTime) {
         lastTime = currentTime;
     }
 
-    // Now, deltaTime calculation is guaranteed to be safe.
     let deltaTime = (currentTime - lastTime) / 1000;
     lastTime = currentTime;
 
-    // Additional safety: cap deltaTime to prevent physics explosions if the tab is inactive for a long time.
     if (deltaTime > 0.1) {
         deltaTime = 0.1; 
     }
@@ -246,6 +218,7 @@ function gameLoop(currentTime) {
 }
 
 
+// B"H 
 
 function update(deltaTime) {
     // --- PERFORMANCE: Update grid with dynamic objects ---
@@ -275,7 +248,6 @@ function update(deltaTime) {
     // Update camera AFTER player has moved
     updateCamera();
 }
-
 // In Worker.js
 
 
@@ -326,7 +298,7 @@ function updateTimers(deltaTime) { // Add deltaTime
         state.scoreboardUpdateTimer = 0;
     }
 }
-
+// B"H
 function checkCollisionsWithGrid() {
     const playerAndSnakes = [state.player, ...state.aiSnakes];
 
@@ -337,11 +309,10 @@ function checkCollisionsWithGrid() {
 
         for (const target of nearbyObjects) {
             // Snake collecting food
-            if (target.type === 'collectible' && getDistance(snake.x, snake.y, target.x, target.y) < snake.size + target.size) {
-                target.isAlive = false; // Mark for removal
+            if (target.type === 'collectible' && getDistance(snake.x, snake.y, target.x, target.y) < snake.currentSize + target.size) { // Use currentSize
+                target.isAlive = false; 
                 snake.grow(1);
                 snake.score += 10;
-                // Player-specific effects
                 if (snake.type === 'player') {
                      for (let p = 0; p < 8; p++) {
                         particlePool.get().init(target.x, target.y);
@@ -352,10 +323,10 @@ function checkCollisionsWithGrid() {
             
             // Snake vs Snake collision
             if (target.type === 'player' || target.type === 'ai_snake') {
-                if (snake === target) continue; // Don't check against self
+                if (snake === target) continue;
 
                 // Head-on-head collision
-                if (getDistance(snake.x, snake.y, target.x, target.y) < snake.size + target.size) {
+                if (getDistance(snake.x, snake.y, target.x, target.y) < snake.currentSize + target.currentSize) { // Use currentSize for both
                     const biggerSnake = snake.score >= target.score ? snake : target;
                     const smallerSnake = snake.score < target.score ? snake : target;
                     
@@ -369,49 +340,53 @@ function checkCollisionsWithGrid() {
                 // Head-to-body collision
                 else if (!target.isInvincible) {
                      for (const seg of target.body) {
-                        if (getDistance(snake.x, snake.y, seg.x, seg.y) < snake.size) {
+                        if (getDistance(snake.x, snake.y, seg.x, seg.y) < snake.currentSize) { // Use currentSize
                             snake.die();
                             target.score += snake.score / 2;
-                            break; // Stop checking this snake's body
+                            break;
                         }
                     }
                 }
             }
         }
     }
-    // Efficiently remove dead collectibles
     state.collectibles = state.collectibles.filter(c => c.isAlive);
 }
+
+
+
 
 // --- UI Management ---
 function updateScoreboard() {
     const allSnakes = [{ name: state.playerName, score: state.player.score }, ...state.aiSnakes];
     state.scoreboard = allSnakes.sort((a, b) => b.score - a.score).slice(0, 5); // Top 5
 }
-
 function drawUI(ctx) {
     // --- Scoreboard ---
     ctx.font = '20px "Cormorant Garamond"';
     
-    // Draw a semi-transparent background for better readability
+    // --- NEW: Max Width Logic ---
+    const maxScoreboardWidth = 450;
+    const scoreboardWidth = Math.min(state.camera.width - 20, maxScoreboardWidth);
     const scoreboardHeight = 30 * state.scoreboard.length + 15;
+    const scoreboardX = 10; // Keep it aligned to the left
+    
+    // Draw a semi-transparent background for better readability
     ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-    ctx.fillRect(10, 5, state.camera.width - 20, scoreboardHeight);
+    ctx.fillRect(scoreboardX, 5, scoreboardWidth, scoreboardHeight);
 
     state.scoreboard.forEach((entry, i) => {
-        // Use a fixed Y position for each entry
         const yPos = 30 + (i * 30); 
         
-        // Highlight the player's name
         ctx.fillStyle = entry.name === state.playerName ? 'yellow' : 'white';
         
-        // Draw Rank and Name (aligned left)
+        // Draw Rank and Name (aligned left, with padding)
         ctx.textAlign = 'left';
-        ctx.fillText(`${i + 1}. ${entry.name}`, 20, yPos);
+        ctx.fillText(`${i + 1}. ${entry.name}`, scoreboardX + 10, yPos);
         
-        // Draw Score (aligned right)
+        // Draw Score (aligned right, relative to the new constrained width)
         ctx.textAlign = 'right';
-        ctx.fillText(Math.floor(entry.score), state.camera.width - 20, yPos);
+        ctx.fillText(Math.floor(entry.score), scoreboardX + scoreboardWidth - 10, yPos);
     });
     
     // Reset alignment for other UI elements

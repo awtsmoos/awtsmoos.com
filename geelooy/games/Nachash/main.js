@@ -71,38 +71,140 @@ function onPointerUp(event) {
         gameWorker.postMessage({ type: 'inputUp' });
     }
 }
+
+
+
+const keys = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
+
+function updateKeyboardDirection() {
+    if (!gameWorker) return;
+
+    let dx = 0;
+    let dy = 0;
+
+    if (keys.up) dy -= 1;
+    if (keys.down) dy += 1;
+    if (keys.left) dx -= 1;
+    if (keys.right) dx += 1;
+
+    if (dx !== 0 || dy !== 0) {
+        // A key is being pressed, calculate the angle and send it
+        const targetAngle = Math.atan2(dy, dx);
+        gameWorker.postMessage({ type: 'setInputAngle', angle: targetAngle });
+    } else {
+        // No keys are pressed, tell the worker to stop turning
+        gameWorker.postMessage({ type: 'inputUp' });
+    }
+}
+
+
+function handleKeyDown(event) {
+    let changed = false;
+    switch (event.key) {
+        case 'w':
+        case 'ArrowUp':
+            if (!keys.up) { keys.up = true; changed = true; }
+            break;
+        case 's':
+        case 'ArrowDown':
+            if (!keys.down) { keys.down = true; changed = true; }
+            break;
+        case 'a':
+        case 'ArrowLeft':
+            if (!keys.left) { keys.left = true; changed = true; }
+            break;
+        case 'd':
+        case 'ArrowRight':
+            if (!keys.right) { keys.right = true; changed = true; }
+            break;
+    }
+    if (changed) {
+        event.preventDefault(); // Prevent scrolling with arrow keys
+        updateKeyboardDirection();
+    }
+}
+
+function handleKeyUp(event) {
+    let changed = false;
+    switch (event.key) {
+        case 'w':
+        case 'ArrowUp':
+            if (keys.up) { keys.up = false; changed = true; }
+            break;
+        case 's':
+        case 'ArrowDown':
+            if (keys.down) { keys.down = false; changed = true; }
+            break;
+        case 'a':
+        case 'ArrowLeft':
+            if (keys.left) { keys.left = false; changed = true; }
+            break;
+        case 'd':
+        case 'ArrowRight':
+            if (keys.right) { keys.right = false; changed = true; }
+            break;
+    }
+    if (changed) {
+        event.preventDefault();
+        updateKeyboardDirection();
+    }
+}
+
+
+let resizeTimeout;
+
+function handleResize() {
+    // Clear the timeout if it's already been set.
+    // This ensures the logic only runs after the user has stopped resizing.
+    clearTimeout(resizeTimeout);
+    
+    // Set a new timeout
+    resizeTimeout = setTimeout(() => {
+        console.log("B'H - Window resized. Sending new dimensions to worker.");
+        
+        // We only send the message if the game is actually running
+        if (gameWorker && gameCanvas) {
+            // Re-assert the CSS size of the canvas element.
+            gameCanvas.style.width = '100%';
+            gameCanvas.style.height = '100%';
+
+            // Tell the worker about the new dimensions so it can update its own canvas
+            gameWorker.postMessage({
+                type: 'resize',
+                width: window.innerWidth,
+                height: window.innerHeight,
+                pixelRatio: window.devicePixelRatio
+            });
+        }
+    }, 250); // Wait for 250ms of inactivity before firing.
+}
     
     // --- 4. GAME LIFECYCLE ---
 
-    // In main.js
-
+// B"H 
 function startGame() {
     console.log("startGame called.");
     
-    // If a game over screen exists, remove it
     const oldGameOverScreen = document.querySelector('.game-over-menu');
     if (oldGameOverScreen) oldGameOverScreen.remove();
 
-    // Create canvas
     gameCanvas = document.createElement('canvas');
     gameCanvas.id = 'gameCanvas';
-    console.log("Canvas element created.");
-
-    // --- THE CRITICAL FIX IS HERE ---
-    // Set the CSS size of the canvas element to make it fill the viewport.
-    // This is what allows it to receive touch events everywhere on the screen.
     gameCanvas.style.width = '100%';
     gameCanvas.style.height = '100%';
-    // --------------------------------
-
     document.body.appendChild(gameCanvas);
-    console.log("Canvas appended to body.");
 
-    // Add listeners DIRECTLY to the canvas element.
+    // --- ADD ALL EVENT LISTENERS ---
+    window.addEventListener('resize', handleResize); // For robust resizing
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     gameCanvas.addEventListener('mousedown', onPointerDown);
     gameCanvas.addEventListener('touchstart', onPointerDown, { passive: false });
-    
-    // Move and Up listeners are on the window, so you don't lose control if the cursor leaves the canvas
     window.addEventListener('mousemove', onPointerMove);
     window.addEventListener('touchmove', onPointerMove, { passive: false });
     window.addEventListener('mouseup', onPointerUp);
@@ -111,56 +213,53 @@ function startGame() {
 
     // Initialize and start the worker
     gameWorker = new Worker('worker.js');
-    console.log("Game worker created.");
-    
     const offscreen = gameCanvas.transferControlToOffscreen();
-    
     gameWorker.onmessage = handleWorkerMessage;
     
-    // Post the message to the worker AFTER the canvas is in the DOM and sized
     gameWorker.postMessage({ 
         type: 'init', 
         canvas: offscreen, 
-        // Use the actual window dimensions for the drawing buffer
         width: window.innerWidth, 
         height: window.innerHeight, 
         pixelRatio: window.devicePixelRatio, 
         initialSettings: { skillValues: skillManager.getValues() } 
     }, [offscreen]);
-
-    
     
     if (menuContainer) menuContainer.remove(); 
-
-
 }
 
-    function endGame(finalScore) {
-        console.log("endGame called.");
-        // *** REMOVE ALL LISTENERS ***
-        if (gameCanvas) {
-            gameCanvas.removeEventListener('mousedown', onPointerDown);
-            gameCanvas.removeEventListener('touchstart', onPointerDown);
-        }
-        window.removeEventListener('mousemove', onPointerMove);
-        window.removeEventListener('touchmove', onPointerMove);
-        window.removeEventListener('mouseup', onPointerUp);
-        window.removeEventListener('touchend', onPointerUp);
-        console.log("All game event listeners have been REMOVED.");
 
-        // Cleanup
-        if (gameWorker) { gameWorker.terminate(); gameWorker = null; }
-        if (gameCanvas) { gameCanvas.remove(); gameCanvas = null; }
-        
-        // Show game over screen
-        const highScore = Math.max(parseInt(localStorage.getItem('tikkunHighScore') || '0'), finalScore);
-        localStorage.setItem('tikkunHighScore', highScore);
-        const fragmentsEarned = Math.floor(finalScore / 100);
-        skillManager.fragments += fragmentsEarned;
-        skillManager.save();
-        
-        createAndShowGameOverScreen(finalScore, fragmentsEarned, highScore);
+// B"H
+function endGame(finalScore) {
+    console.log("endGame called.");
+    
+    // *** REMOVE ALL LISTENERS ***
+    if (gameCanvas) {
+        gameCanvas.removeEventListener('mousedown', onPointerDown);
+        gameCanvas.removeEventListener('touchstart', onPointerDown);
     }
+    window.removeEventListener('mousemove', onPointerMove);
+    window.removeEventListener('touchmove', onPointerMove);
+    window.removeEventListener('mouseup', onPointerUp);
+    window.removeEventListener('touchend', onPointerUp);
+    window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('keyup', handleKeyUp);
+    window.removeEventListener('resize', handleResize); // Remove resize listener
+    console.log("All game event listeners have been REMOVED.");
+
+    // Cleanup
+    if (gameWorker) { gameWorker.terminate(); gameWorker = null; }
+    if (gameCanvas) { gameCanvas.remove(); gameCanvas = null; }
+    
+    // Show game over screen
+    const highScore = Math.max(parseInt(localStorage.getItem('tikkunHighScore') || '0'), finalScore);
+    localStorage.setItem('tikkunHighScore', highScore);
+    const fragmentsEarned = Math.floor(finalScore / 100);
+    skillManager.fragments += fragmentsEarned;
+    skillManager.save();
+    
+    createAndShowGameOverScreen(finalScore, fragmentsEarned, highScore);
+}
     
     function createAndShowGameOverScreen(finalScore, fragmentsEarned, highScore) {
         const gameOverScreen = document.createElement('div');
