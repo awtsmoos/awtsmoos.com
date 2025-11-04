@@ -5,7 +5,7 @@ export default {
 		{
 			name: "Inventory",
 			description: "The place to store all of ur chawfawtseem (stuff)!",
-			icon: "https://firebasestorage.googleapis.com/v0/b/ckids-games.appspot.com/o/chawfawtseem%2Ficons%2Fteffilin%2Fteffilin%20micro%20icon.png?alt=media",
+			icon: "https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Flogos.folder%2Fteffilin+micro+icon.png",
 			show: "inventoryScreen"
 		
 		}
