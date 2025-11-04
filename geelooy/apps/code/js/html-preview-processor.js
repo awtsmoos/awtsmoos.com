@@ -244,7 +244,7 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
         (doc.head || doc.documentElement).prepend(el);
     };
     
-    const basePath = baseItem.path.substring(0, baseItem.path.lastIndexOf('/')) || '/';
+    const basePath = baseItem.path;
     prependScript(dynamicAssetInterceptorScript.replace('%%BASE_PATH%%', basePath));
     prependScript(interceptorScriptContent);
     prependScript(workerInterceptorScript);
@@ -298,12 +298,16 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     return doc.documentElement.outerHTML;
 }
 
+// At the very bottom of html-preview-processor.js
+
 function resolveRelativePath(basePath, relativePath) {
     if (relativePath.startsWith('/')) {
-        return relativePath;
+        return relativePath; // Already root-relative
     }
+    // Get the directory of the base file path.
     const baseDir = basePath.substring(0, basePath.lastIndexOf('/'));
     try {
+        // Use the URL constructor for reliable path joining.
         const baseUrl = new URL(baseDir + '/', 'http://dummy.com/');
         const resolvedUrl = new URL(relativePath, baseUrl);
         return resolvedUrl.pathname;
