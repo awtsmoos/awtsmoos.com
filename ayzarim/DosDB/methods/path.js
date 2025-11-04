@@ -7,6 +7,8 @@
 const path = require("path");
 const fs = require("fs").promises;
 
+const logs = true; // Flag to control debug logging
+
 module.exports = {
 
     /**
@@ -19,48 +21,59 @@ module.exports = {
      */
     async getAwtsmoosFilePath(id, isDir = false) {
         if (typeof id !== "string" || !id) {
-             // Return as-is or throw, depending on desired strictness for non-string/empty input.
-             // Returning it as-is will likely cause later fs/stat calls to fail, which might be intended.
+             if (logs) console.log(`[PATH_WARN] Received non-string or empty ID: ${id}. Returning as-is.`);
              return id; 
         }
 
-        // Determine the base directory. `this.directory` should be set by the class instance.
+        // Determine the base directory.
         const mainDir = path.resolve(this.directory || process.cwd());
         
         // --- ROBUST PATH SANITIZATION AND RESOLUTION ---
         
-        // 1. Sanitize the input: Remove any leading slashes or backslashes to force it to be treated as a relative segment.
-        // This is critical for preventing path.resolve from treating the input as an absolute path that overrides mainDir.
+        // 1. Sanitize the input: Remove any leading slashes or backslashes.
         const sanitizedId = id.replace(/^[/\\]+/, '');
         
-        // 2. Resolve against the main directory. 
-        // path.resolve joins segments, normalizing separators (e.g., converting C:\foo\..\bar to C:\bar on Windows).
-        let resolvedPath = path.resolve(mainDir, sanitizedId);
+        // --- DEBUG LOGGING FOR INPUT TRANSFORMATION ---
+        if (logs) {
+            console.log(`\n[PATH_TRACE] Input ID: ${id}`);
+            console.log(`[PATH_TRACE] Main Directory (Base): ${mainDir}`);
+            console.log(`[PATH_TRACE] Sanitized ID (Post-Slash Removal): ${sanitizedId}`);
+        }
+        // --- END DEBUG LOGGING ---
 
+        // 2. Resolve against the main directory.
+        let resolvedPath = path.resolve(mainDir, sanitizedId);
+        
         // 3. **THE ULTIMATE SECURITY GUARANTEE (Path Containment Check)**
-        // This check ensures that no matter what path manipulation occurred (e.g., ../../..), 
-        // the final, resolved, absolute path is still a child of the main directory.
-        // We normalize both paths to ensure a clean comparison, especially important on Windows.
-        const normalizedMainDir = path.normalize(mainDir) + path.sep; // Add path separator for accurate containment check
+        // We normalize both paths to ensure a clean, platform-agnostic comparison of containment.
+        const normalizedMainDir = path.normalize(mainDir) + path.sep; 
         const normalizedResolvedPath = path.normalize(resolvedPath);
 
         if (!normalizedResolvedPath.startsWith(normalizedMainDir)) {
-            // This block executes if the path traversal worked (e.g., input was '../../etc/passwd')
-            console.error(`[SECURITY_FAIL] Path traversal attempt detected and blocked:
-              - Base Directory: ${mainDir}
-              - Original Input:   ${id}
-              - Sanitized Input:  ${sanitizedId}
-              - Resolved Path:    ${resolvedPath}`);
+            // This should catch traversal attempts like ../../etc/passwd
+            if (logs) {
+                console.error(`[SECURITY_FAIL] Path traversal attempt detected and BLOCKED:
+                  - Base Directory: ${mainDir}
+                  - Original Input:   ${id}
+                  - Sanitized Input:  ${sanitizedId}
+                  - Resolved Path:    ${resolvedPath}`);
+            }
             throw new Error(`Path traversal attempt detected: ${id}`);
         }
-        // --- END OF FIX ---
+        
+        // **CRITICAL CHECK FOR DUPLICATION:**
+        // If the duplication seen in logs occurs, it means sanitizedId started with something that
+        // *looks* like mainDir but isn't properly relative to it, causing concatenation.
+        // If the resolved path still starts with mainDir, we proceed, but we log the potential issue.
+        if (logs && normalizedResolvedPath.includes(path.join(mainDir, mainDir))) {
+             console.warn(`[PATH_WARN] Resolved path appears to contain a duplicated base directory structure. Proceeding as the path is contained: ${resolvedPath}`);
+        }
+
 
         // --- The path is now safe, absolute, and guaranteed to be inside mainDir. Proceed with finding logic. ---
-	    // Use console.log sparingly in production, but keeping it here for your direct debugging visibility.
-	    console.log("TRYING TO GET", resolvedPath) 
-        
+        if (logs) console.log(`[PATH_FINAL] Absolute/Safe Path: ${resolvedPath}`);
+	    
         if (isDir) {
-            // If the caller explicitly wants a directory, we return the resolved path as-is.
             return resolvedPath;
         }
         
@@ -69,15 +82,17 @@ module.exports = {
         // Priority 1: Check if the path exists AS-IS.
         try {
             await fs.access(resolvedPath);
+            if (logs) console.log("[PATH_FIND] Found path AS-IS.");
             return resolvedPath;
         } catch(e) {
-	        // Does not exist, continue to extension checks
+	        if (logs) console.log("[PATH_FIND] AS-IS not found. Checking extensions...");
         }
 
         // Priority 2: Check for path + .awtsmoosJSON.
         const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
         try {
             await fs.access(awtsmoosJsonPath);
+            if (logs) console.log(`[PATH_FIND] Found extension: .awtsmoosJSON at ${awtsmoosJsonPath}`);
             return awtsmoosJsonPath;
         } catch {}
 
@@ -85,11 +100,12 @@ module.exports = {
         const jsonPath = `${resolvedPath}.json`;
         try {
             await fs.access(jsonPath);
+            if (logs) console.log(`[PATH_FIND] Found extension: .json at ${jsonPath}`);
             return jsonPath;
         } catch {}
 
         // Priority 4: Default to resolvedPath for creation.
-        // This path is safe and is where the file will be written if it doesn't exist.
+        if (logs) console.log("[PATH_FINAL] Path not found. Returning resolved path for CREATE operation.");
         return resolvedPath;
     },
 
@@ -102,15 +118,19 @@ module.exports = {
      * @returns {Promise<string>} - The resolved path.
      */
     async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
-        // getAwtsmoosFilePath will throw an error if a path traversal is detected.
+        if (logs) console.log(`\n[ENSURE_START] Ensuring path for: ${rPath}`);
+        
+        // This call will throw if security check fails.
         const resolvedPath = await this.getAwtsmoosFilePath(rPath);
 
         if (alsoActuallyMakeParentDirectory) {
-            // Use the fully resolved path to determine the parent directory.
             const parentDir = path.dirname(resolvedPath);
-            await this.ensureDir(parentDir); // Ensure the parent directory structure exists
+            if (logs) console.log(`[ENSURE_PARENT] Directory to create: ${parentDir}`);
+            await this.ensureDir(parentDir);
+            if (logs) console.log(`[ENSURE_SUCCESS] Parent directory ensured.`);
         }
         
+        if (logs) console.log(`[ENSURE_END] Final resolved path: ${resolvedPath}`);
         return resolvedPath;
     },
     
@@ -121,17 +141,22 @@ module.exports = {
      * @returns {Promise<string|null>} - The parent path, or null if at the root.
      */
     async getAwtsmoosParentPath(currentPath) {
-        if (typeof currentPath !== 'string' || !currentPath) return null;
+        if (typeof currentPath !== 'string' || !currentPath) {
+            if (logs) console.log("[PARENT_WARN] Invalid path provided for parent lookup.");
+            return null;
+        }
         try {
             const normalizedPath = path.normalize(currentPath);
             const parentPath = path.dirname(normalizedPath);
-            // Check if dirname returned the same path (root) or just '.' (relative root)
+            
             if (parentPath === normalizedPath || parentPath === ".") {
+                if (logs) console.log(`[PARENT_TRACE] Path ${currentPath} is at the root, returning null.`);
                 return null;
             }
+            if (logs) console.log(`[PARENT_TRACE] Parent of ${currentPath} is ${parentPath}`);
             return parentPath;
         } catch (err) {
-            console.error("Error getting parent path:", err);
+            if (logs) console.error("Error getting parent path:", err);
             return null;
         }
     },
@@ -150,19 +175,16 @@ module.exports = {
      */
     async access(filePath, isDir = false) {
         try {
-            // Use getAwtsmoosFilePath to resolve the absolute, safe path first.
             const myPath = await this.getAwtsmoosFilePath(filePath, isDir);
+            if (typeof myPath !== 'string' || !myPath) return null; // Handle early exit from getAwtsmoosFilePath
             
-            // After resolution, we must check if the resolved path actually exists on disk.
-            // Note: If isDir is false, getAwtsmoosFilePath might return a non-existent path
-            // intended for *creation*, so fs.access will correctly fail here if it doesn't exist.
             await fs.access(myPath); 
-            
             const stat = await fs.stat(myPath);
             stat.awtsmoosPath = myPath;
+            if (logs) console.log(`[ACCESS_SUCCESS] File/Directory exists at: ${myPath}`);
             return stat;
         } catch (e) {
-            // If fs.access fails (ENOENT, EACCES) or getAwtsmoosFilePath throws security error.
+            if (logs && e.code !== 'ENOENT') console.error(`[ACCESS_FAIL] Error accessing ${filePath}:`, e.message);
             return null;
         }
     },
@@ -181,6 +203,7 @@ module.exports = {
         if (typeof filePath !== 'string') return filePath;
         const extension = path.extname(filePath);
         if (extension === ".json" || extension === ".awtsmoosJSON") {
+            if (logs) console.log(`[EXT_STRIP] Stripping ${extension} from ${filePath}`);
             return filePath.substring(0, filePath.length - extension.length);
         }
         return filePath;
@@ -196,25 +219,28 @@ module.exports = {
      */
     async ensureDir(targetPath, isDir = true) {
         if (typeof targetPath !== "string" || !targetPath) {
-             console.log(`[ENSURE_DIR_WARN] Invalid path provided to ensureDir: ${targetPath}`);
+             if (logs) console.log(`[ENSURE_WARN] Invalid path provided to ensureDir: ${targetPath}`);
              return;
         }
 
         let directoryToEnsure;
 
         if (isDir) {
-            // The path we received IS the directory to create.
             directoryToEnsure = targetPath;
         } else {
-            // The path we received is a FILE path (often the result of getAwtsmoosFilePath).
-            // We must operate on its PARENT directory.
             directoryToEnsure = path.dirname(targetPath);
         }
         
-        // fs.mkdir with { recursive: true } is idempotent and safe; it creates all necessary parents.
-        await fs.mkdir(directoryToEnsure, { recursive: true });
+        if (logs) console.log(`[ENSURE_EXEC] Attempting to create directory recursively: ${directoryToEnsure}`);
         
-        return directoryToEnsure;
+        try {
+            await fs.mkdir(directoryToEnsure, { recursive: true });
+            if (logs) console.log(`[ENSURE_OK] Directory structure created/verified: ${directoryToEnsure}`);
+            return directoryToEnsure;
+        } catch (err) {
+             if (logs) console.error(`[ENSURE_FAIL] Failed to create directory ${directoryToEnsure}:`, err.stack);
+             throw err; // Re-throw to signal failure to the caller (like write/ensureAwtsmoosBinaryPath)
+        }
     },
 
     /**
@@ -226,11 +252,16 @@ module.exports = {
      */
     async getDeleteFilePath(id, isRegularDir) {
         try {
-            // This will throw if security check fails, or return the safe, absolute path.
-            return await this.getAwtsmoosFilePath(id, isRegularDir);
+            const resolved = await this.getAwtsmoosFilePath(id, isRegularDir);
+            if (typeof resolved !== 'string' || !resolved) {
+                if (logs) console.log(`[DELETE_TRACE] Resolved path for delete is invalid/empty: ${resolved}`);
+                return null;
+            }
+            if (logs) console.log(`[DELETE_TRACE] Resolved safe path for deletion: ${resolved}`);
+            return resolved;
         } catch (e) {
-            console.error("Failed to resolve path for deletion due to security or invalid input:", e.message);
-            return null; // Return null to prevent calling fs.stat/fs.unlink on an unsafe path.
+            if (logs) console.error(`[DELETE_WARN] Failed to resolve path for deletion (likely security block):`, e.message);
+            return null; // Return null if getAwtsmoosFilePath throws (e.g., security violation)
         }
     }
 };
