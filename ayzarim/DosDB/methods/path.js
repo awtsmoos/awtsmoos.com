@@ -25,52 +25,51 @@ module.exports = {
              return id; 
         }
 
-        // Determine the base directory.
         const mainDir = path.resolve(this.directory || process.cwd());
-        
-        // --- ROBUST PATH SANITIZATION AND RESOLUTION ---
-        
-        // 1. Sanitize the input: Remove any leading slashes or backslashes.
-        const sanitizedId = id.replace(/^[/\\]+/, '');
-        
-        // --- DEBUG LOGGING FOR INPUT TRANSFORMATION ---
+        let workingId;
+
+        // --- INFINITELY ROBUST PATH DETERMINATION ---
+        // This new logic handles the two ambiguous ways an ID can be provided.
         if (logs) {
             console.log(`\n[PATH_TRACE] Input ID: ${id}`);
             console.log(`[PATH_TRACE] Main Directory (Base): ${mainDir}`);
-            console.log(`[PATH_TRACE] Sanitized ID (Post-Slash Removal): ${sanitizedId}`);
         }
-        // --- END DEBUG LOGGING ---
 
-        // 2. Resolve against the main directory.
-        let resolvedPath = path.resolve(mainDir, sanitizedId);
+        // To resolve the ambiguity, we create a candidate absolute path from the ID.
+        // path.resolve is perfect for this: if 'id' is absolute (e.g., /mnt/...), it's used as-is.
+        // If 'id' is relative (e.g., 'users/x'), it's resolved from the root, which is safe for comparison.
+        const candidateAbsolutePath = path.resolve('/', id);
         
-        // 3. **THE ULTIMATE SECURITY GUARANTEE (Path Containment Check)**
-        // We normalize both paths to ensure a clean, platform-agnostic comparison of containment.
-        const normalizedMainDir = path.normalize(mainDir) + path.sep; 
-        const normalizedResolvedPath = path.normalize(resolvedPath);
+        // Now, we use path.relative to find the relationship between mainDir and the candidate path.
+        const relativeFromMainDir = path.relative(mainDir, candidateAbsolutePath);
 
-        if (!normalizedResolvedPath.startsWith(normalizedMainDir)) {
-            // This should catch traversal attempts like ../../etc/passwd
-            if (logs) {
-                console.error(`[SECURITY_FAIL] Path traversal attempt detected and BLOCKED:
-                  - Base Directory: ${mainDir}
-                  - Original Input:   ${id}
-                  - Sanitized Input:  ${sanitizedId}
-                  - Resolved Path:    ${resolvedPath}`);
-            }
+        // SCENARIO 1: The ID resolves to a path OUTSIDE mainDir (e.g., id was '/etc/passwd').
+        // path.relative will produce '../...' or another absolute path on Windows.
+        if (relativeFromMainDir.startsWith('..') || path.isAbsolute(relativeFromMainDir)) {
+            // This is the "normal" case where the ID is a simple relative path like '/social/...'
+            // We strip the leading slash and use it relative to mainDir.
+            workingId = id.replace(/^[/\\]+/, '');
+            if (logs) console.log(`[PATH_LOGIC] ID is not a child of mainDir. Treating as a simple relative path: '${workingId}'`);
+        } 
+        // SCENARIO 2: The ID resolves to a path INSIDE mainDir (e.g., id was the full /mnt/.../users/...).
+        // path.relative will produce a clean subpath like 'users/asdf'.
+        else {
+            // This is the fix for the duplication bug. We use the clean subpath.
+            workingId = relativeFromMainDir;
+            if (logs) console.warn(`[PATH_FIX_APPLIED] ID appears to be an absolute path inside mainDir. Using clean relative path: '${workingId}'`);
+        }
+        // --- END OF ROBUST LOGIC ---
+
+        // Now, resolve the definitively relative workingId against our main directory.
+        const resolvedPath = path.resolve(mainDir, workingId);
+
+        // The final security check remains as the ultimate safeguard.
+        const finalRelativeCheck = path.relative(mainDir, resolvedPath);
+        if (finalRelativeCheck.startsWith('..') || path.isAbsolute(finalRelativeCheck)) {
+            if (logs) console.error(`[SECURITY_FAIL] Final resolved path escaped the main directory. BLOCKED.`);
             throw new Error(`Path traversal attempt detected: ${id}`);
         }
-        
-        // **CRITICAL CHECK FOR DUPLICATION:**
-        // If the duplication seen in logs occurs, it means sanitizedId started with something that
-        // *looks* like mainDir but isn't properly relative to it, causing concatenation.
-        // If the resolved path still starts with mainDir, we proceed, but we log the potential issue.
-        if (logs && normalizedResolvedPath.includes(path.join(mainDir, mainDir))) {
-             console.warn(`[PATH_WARN] Resolved path appears to contain a duplicated base directory structure. Proceeding as the path is contained: ${resolvedPath}`);
-        }
 
-
-        // --- The path is now safe, absolute, and guaranteed to be inside mainDir. Proceed with finding logic. ---
         if (logs) console.log(`[PATH_FINAL] Absolute/Safe Path: ${resolvedPath}`);
 	    
         if (isDir) {
@@ -79,7 +78,6 @@ module.exports = {
         
         // --- File Existence Priority Checks (Only for non-directories) ---
         
-        // Priority 1: Check if the path exists AS-IS.
         try {
             await fs.access(resolvedPath);
             if (logs) console.log("[PATH_FIND] Found path AS-IS.");
@@ -88,7 +86,6 @@ module.exports = {
 	        if (logs) console.log("[PATH_FIND] AS-IS not found. Checking extensions...");
         }
 
-        // Priority 2: Check for path + .awtsmoosJSON.
         const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
         try {
             await fs.access(awtsmoosJsonPath);
@@ -96,7 +93,6 @@ module.exports = {
             return awtsmoosJsonPath;
         } catch {}
 
-        // Priority 3: Check for path + .json.
         const jsonPath = `${resolvedPath}.json`;
         try {
             await fs.access(jsonPath);
@@ -104,7 +100,6 @@ module.exports = {
             return jsonPath;
         } catch {}
 
-        // Priority 4: Default to resolvedPath for creation.
         if (logs) console.log("[PATH_FINAL] Path not found. Returning resolved path for CREATE operation.");
         return resolvedPath;
     },
@@ -120,8 +115,11 @@ module.exports = {
     async ensureAwtsmoosBinaryPath(rPath, alsoActuallyMakeParentDirectory = true) {
         if (logs) console.log(`\n[ENSURE_START] Ensuring path for: ${rPath}`);
         
-        // This call will throw if security check fails.
         const resolvedPath = await this.getAwtsmoosFilePath(rPath);
+        if (typeof resolvedPath !== 'string') {
+             if (logs) console.error(`[ENSURE_FAIL] Path resolution returned non-string value for: ${rPath}`);
+             throw new Error("Invalid path resolution.");
+        }
 
         if (alsoActuallyMakeParentDirectory) {
             const parentDir = path.dirname(resolvedPath);
@@ -161,7 +159,6 @@ module.exports = {
         }
     },
 
-    // Sanitization is now implicitly handled within getAwtsmoosFilePath.
     sanitizeAwtsmoosPath(rawPath) {
         return rawPath; 
     },
@@ -176,7 +173,7 @@ module.exports = {
     async access(filePath, isDir = false) {
         try {
             const myPath = await this.getAwtsmoosFilePath(filePath, isDir);
-            if (typeof myPath !== 'string' || !myPath) return null; // Handle early exit from getAwtsmoosFilePath
+            if (typeof myPath !== 'string' || !myPath) return null; 
             
             await fs.access(myPath); 
             const stat = await fs.stat(myPath);
@@ -239,7 +236,7 @@ module.exports = {
             return directoryToEnsure;
         } catch (err) {
              if (logs) console.error(`[ENSURE_FAIL] Failed to create directory ${directoryToEnsure}:`, err.stack);
-             throw err; // Re-throw to signal failure to the caller (like write/ensureAwtsmoosBinaryPath)
+             throw err; 
         }
     },
 
@@ -261,7 +258,7 @@ module.exports = {
             return resolved;
         } catch (e) {
             if (logs) console.error(`[DELETE_WARN] Failed to resolve path for deletion (likely security block):`, e.message);
-            return null; // Return null if getAwtsmoosFilePath throws (e.g., security violation)
+            return null; 
         }
     }
 };
