@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			nodesSearched,
             score // Capture the score as well for display
 		} = e.data;
+		console.log("move")
 
 		if (bestMove) {
             // Display whether it was a book move or a calculated one

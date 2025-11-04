@@ -47,28 +47,17 @@ export function detachWorkerRequestHandler() {
 }
 
 
-
-// B"H
-// FILE: html-preview-processor.js
-
-// ... All imports and top-level functions (waitForAck, sendChunks, etc.) remain the same. ...
-
-
-
 async function handleIncomingRequest(event, baseItem) {
     const { type, path: relativePath, basePath } = event.data;
     const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
     if (!workspace) return;
 
-    // --- THIS IS THE CRITICAL FIX FOR WORKERS ---
-    // This logic must be able to handle the Blob from the Local provider.
     if (type === 'fetch-worker-script' || type === 'fetch-script-content') {
-        const id = event.data.id; // Get the request ID
+        const id = event.data.id;
         let resolvedPath;
-        // The base path for worker sub-imports comes from the worker itself.
         if (type === 'fetch-script-content') {
             resolvedPath = resolveRelativePath(basePath, relativePath);
-        } else { // The base path for the top-level worker comes from the HTML file.
+        } else {
             resolvedPath = resolveRelativePath(baseItem.path, relativePath);
         }
 
@@ -81,41 +70,39 @@ async function handleIncomingRequest(event, baseItem) {
             
             let scriptContent = await FileSystemProvider.read(assetItem);
             
-            // --- FOOLPROOF CONTENT HANDLING ---
-            // This now correctly handles all return types from your FS provider.
-            if (scriptContent instanceof Blob) { // This handles the Local FS case
+            if (scriptContent instanceof Blob) {
                 scriptContent = await scriptContent.text();
-            } else if (scriptContent && scriptContent.isBinary) { // This handles the GitHub binary case
+            } else if (scriptContent && scriptContent.isBinary) {
                 scriptContent = FileSystemProvider.GitHub.b64_to_utf8(scriptContent.base64Content);
             }
-            // If it's already a string (from GitHub text file), we do nothing.
 
             if (type === 'fetch-worker-script') {
-                const finalContent = importScriptsPolyfill(resolvedPath, scriptContent);
+                // --- THIS IS THE CORRECTED LOGIC ---
+                // 1. Inject the worker's own path into the polyfill template.
+                const polyfillWithContext = importScriptsPolyfill.replace('%%WORKER_BASE_PATH%%', resolvedPath);
+                
+                // 2. Concatenate the polyfill and the user's script into one. NO eval here.
+                const finalContent = polyfillWithContext + '\n' + scriptContent;
+
                 const blob = new Blob([finalContent], { type: 'application/javascript' });
                 const blobUrl = URL.createObjectURL(blob);
                 event.source.postMessage({ type: 'worker-script-response', id, blobUrl }, '*');
-            } else { // 'fetch-script-content'
-                // For the chunking protocol, we respond to the iframe coordinator.
+
+            } else { // 'fetch-script-content' for sub-imports
                 event.source.postMessage({ type: 'script-content-response', id, content: scriptContent }, '*');
             }
         } catch (e) {
-            // Error propagation for both request types
+            const errorMessage = `Failed to fetch script for preview: ${resolvedPath}. Error: ${e.message}`;
+            console.error(errorMessage, e);
             if (type === 'fetch-worker-script') {
-                event.source.postMessage({ type: 'worker-script-response', id, error: e.message }, '*');
+                event.source.postMessage({ type: 'worker-script-response', id, error: errorMessage }, '*');
             } else {
-                event.source.postMessage({ type: 'script-content-response', id, error: e.message }, '*');
+                event.source.postMessage({ type: 'script-content-response', id, error: errorMessage }, '*');
             }
         }
     }
 }
 
-
-// --- THE OTHER CRITICAL FIX IS HERE ---
-// B"H
-// FILE: html-preview-processor.js
-
-// In: js/html-preview-processor.js
 
 export async function processHtmlForPreview(htmlContent, baseItem) {
     const parser = new DOMParser();
@@ -171,7 +158,11 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     
     for (const el of assetElements) {
         const pathAttr = el.getAttribute('href') || el.getAttribute('src');
-        if (/^(?:[a-z]+:|\/)/.test(pathAttr)) continue;
+        
+        // --- THE CORRECTED LOGIC ---
+        // This condition now correctly processes root-relative paths (e.g., "/style.css")
+        // and only skips fully qualified URLs (e.g., "https://...").
+        if (/^(?:[a-z]+:)/.test(pathAttr)) continue;
 
         const isLink = el.tagName === 'LINK';
         const resolvedPath = resolveRelativePath(baseItem.path, pathAttr);
@@ -209,8 +200,6 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             el.parentNode.replaceChild(newEl, el);
             
         } catch (e) { 
-            // THE FIX: Pass the entire error object 'e' to the renderer.
-            // This will now display the full stack trace on the preview page.
             renderErrorOnPage(`Could not inline asset: ${resolvedPath}`, e);
         }
     }

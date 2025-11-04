@@ -1,15 +1,16 @@
 // B"H
 // FILE: js/importScriptsHack.js
 
-export default (workerPath, originalScriptContent) => /*js*/`
+// This is now a static script string. The original worker code will be appended to this.
+export default /*js*/`
 (function() {
     // A safeguard to ensure this script doesn't run twice.
     if (self.hasImportScriptsPolyfill) return;
     self.hasImportScriptsPolyfill = true;
 
-    console.log('%c[WORKER] Final, Direct-Execution Polyfill Loaded.', 'color: #4682B4; font-weight: bold;');
-
-    const workerBasePath = '${workerPath}';
+    // This path variable will be set by the main thread before this script is created.
+    // We will use a placeholder that gets replaced.
+    const workerBasePath = '%%WORKER_BASE_PATH%%';
     let controlView, dataSAB;
 
     self.addEventListener('message', (e) => {
@@ -17,11 +18,11 @@ export default (workerPath, originalScriptContent) => /*js*/`
             const { controlSAB, dataSAB: receivedDataSAB } = e.data;
             controlView = new Int32Array(controlSAB);
             dataSAB = receivedDataSAB;
-            console.log('[WORKER] Initialized with chunked SABs.');
         }
     });
 
     function waitForChunk() {
+        // Wait until the main thread signals that a chunk is ready (controlView[0] becomes 1).
         Atomics.wait(controlView, 0, 0);
         
         const chunkLen = Atomics.load(controlView, 1);
@@ -30,14 +31,15 @@ export default (workerPath, originalScriptContent) => /*js*/`
         const errorCode = Atomics.load(controlView, 4);
 
         if (errorCode !== 0) {
-            Atomics.store(controlView, 0, 0);
-            self.postMessage({ type: 'ack' });
+            Atomics.store(controlView, 0, 0); // Reset state
+            self.postMessage({ type: 'ack' }); // Acknowledge receipt
             throw new Error('Main thread signaled an error during chunk transfer.');
         }
 
         const chunk = new Uint8Array(chunkLen);
         chunk.set(new Uint8Array(dataSAB, 0, chunkLen));
 
+        // Signal back to the main thread that we've processed this chunk.
         Atomics.store(controlView, 0, 0);
         self.postMessage({ type: 'ack' });
 
@@ -73,38 +75,21 @@ export default (workerPath, originalScriptContent) => /*js*/`
         for (const path of paths) {
             self.postMessage({ type: 'import-scripts-request', path: path, basePath: workerBasePath });
 
-            // The protocol sends name first, then content.
             const nameBytes = receiveVariableLengthField();
             const scriptName = new TextDecoder().decode(nameBytes);
 
             const scriptBytes = receiveVariableLengthField();
             const scriptText = new TextDecoder().decode(scriptBytes);
 
-            // --- THE ABSOLUTE FIX ---
-            // Instead of creating a blob and re-triggering an interception,
-            // we have the script content as a string. The most direct way to
-            // execute it in the worker's global scope is using eval().
-            // This is a safe and correct use of eval because the source is trusted (from our own filesystem provider).
             try {
-                console.log(\`[WORKER] Executing script '\${scriptName}' directly.\`);
                 eval.call(self, scriptText);
             } catch(e) {
-                console.error(\`Error executing script received via chunks for \${scriptName}\`, e);
+                console.error("Error executing script received via chunks for",scriptName, e);
                 throw e;
             }
         }
     };
-
-    (async () => {
-        while (!controlView) {
-            await new Promise(r => setTimeout(r, 10));
-        }
-        console.log('%c[WORKER] Executing original script...', 'color: #90EE90; font-weight: bold;');
-        try {
-            eval.call(self, ${JSON.stringify(originalScriptContent)});
-        } catch (e) {
-            console.error("CRITICAL: Error during initial execution of worker script.", e);
-        }
-    })();
 })();
+
+// The original worker code will be appended here by the html-preview-processor.
 `;

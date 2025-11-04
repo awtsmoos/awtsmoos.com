@@ -75,7 +75,7 @@ export default /*js*/`
                         await sendChunks(nameBytes, true, controlView, dataBytes, workerContext);
                         await sendChunks(scriptBytes, false, controlView, dataBytes, workerContext);
                     } catch (err) {
-                        console.error(\`[INTERCEPTOR] Error during coordination for \${msg.path}:\`, err);
+                        console.error("[INTERCEPTOR] Error during coordination for: ",msg.path, err);
                         const controlView = new Int32Array(workerContext.controlSAB);
                         Atomics.store(controlView, 4, 1);
                         Atomics.store(controlView, 3, 1);
@@ -101,41 +101,40 @@ export default /*js*/`
     });
 
     window.Worker = function(path, options) {
-        // --- THE ABSOLUTE FIX ---
-        // If the path is already a blob URL or any other absolute URL, DO NOT INTERCEPT IT.
-        // Let the browser's native Worker constructor handle it directly. This prevents
-        // the "404 Not Found" error for blobs created by other scripts.
-        if (/^(?:[a-z]+:|\\/|blob:)/.test(path)) {
-            console.log(\`[INTERCEPTOR] Passing through non-relative path: \${path}\`);
-            return new OriginalWorker(path, options);
-        }
+    // --- THE CORRECTED LOGIC ---
+    // This now ONLY bypasses fully qualified URLs (like http:, https:, blob:).
+    // It will correctly INTERCEPT relative paths like "worker.js" AND "/worker.js".
+    if (/^(?:[a-z]+:|blob:)/.test(path)) {
+        console.log("[INTERCEPTOR] Passing through non-relative path: ", path);
+        return new OriginalWorker(path, options);
+    }
 
-        const requestId = parentRequestIdCounter++;
-        const controlSAB = new SharedArrayBuffer(CONTROL_INT32_COUNT * 4);
-        const dataSAB = new SharedArrayBuffer(CHUNK_SIZE);
-        
-        const proxyWorker = {
-            _realWorker: null, _messageQueue: [], _onmessage: null, _onerror: null,
-            _connect: function(real) {
-                this._realWorker = real;
-                if (this._onerror) real.onerror = this._onerror;
-                this._messageQueue.forEach(msg => real.postMessage(...msg));
-                this._messageQueue = [];
-            },
-            postMessage: function(...args) {
-                if (this._realWorker) this._realWorker.postMessage(...args);
-                else this._messageQueue.push(args);
-            },
-            terminate: function() { if (this._realWorker) this._realWorker.terminate(); },
-            get onmessage() { return this._onmessage; },
-            set onmessage(handler) { this._onmessage = handler; },
-            get onerror() { return this._onerror; },
-            set onerror(handler) { this._onerror = handler; if(this._realWorker) this._realWorker.onerror = handler; }
-        };
-
-        pendingWorkers.set(requestId, { proxy: proxyWorker, options, controlSAB, dataSAB });
-        window.parent.postMessage({ type: 'fetch-worker-script', path, id: requestId }, '*');
-        return proxyWorker;
+    const requestId = parentRequestIdCounter++;
+    const controlSAB = new SharedArrayBuffer(CONTROL_INT32_COUNT * 4);
+    const dataSAB = new SharedArrayBuffer(CHUNK_SIZE);
+    
+    const proxyWorker = {
+        _realWorker: null, _messageQueue: [], _onmessage: null, _onerror: null,
+        _connect: function(real) {
+            this._realWorker = real;
+            if (this._onerror) real.onerror = this._onerror;
+            this._messageQueue.forEach(msg => real.postMessage(...msg));
+            this._messageQueue = [];
+        },
+        postMessage: function(...args) {
+            if (this._realWorker) this._realWorker.postMessage(...args);
+            else this._messageQueue.push(args);
+        },
+        terminate: function() { if (this._realWorker) this._realWorker.terminate(); },
+        get onmessage() { return this._onmessage; },
+        set onmessage(handler) { this._onmessage = handler; },
+        get onerror() { return this._onerror; },
+        set onerror(handler) { this._onerror = handler; if(this._realWorker) this._realWorker.onerror = handler; }
     };
+
+    pendingWorkers.set(requestId, { proxy: proxyWorker, options, controlSAB, dataSAB });
+    window.parent.postMessage({ type: 'fetch-worker-script', path, id: requestId }, '*');
+    return proxyWorker;
+};
 })();
 `;
