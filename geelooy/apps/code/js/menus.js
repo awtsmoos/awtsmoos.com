@@ -13,7 +13,7 @@ import { FindReplace } from './find-replace.js';
 import { Clipboard } from './clipboard.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
-import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler } from './html-preview-processor.js';
+import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler, attachDynamicAssetHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
 
 import { FileOperations } from './file-operations.js';
 
@@ -50,9 +50,9 @@ export const Menus = {
 
         // 1. Smart Copy Button
         if (isGithubRepoRoot) {
-            menuItems.push({ label: `Copy / Clone "${item.repoInfo.repo}"`, action: 'copy-single', icon: 'copy' });
+            menuItems.push({ label: \`Copy / Clone "\${item.repoInfo.repo}"\`, action: 'copy-single', icon: 'copy' });
         } else {
-            menuItems.push({ label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' });
+            menuItems.push({ label: \`Copy "\${item.name}"\`, action: 'copy-single', icon: 'copy' });
         }
         
         menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
@@ -65,9 +65,9 @@ export const Menus = {
         const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
         if (isDir && clipboardItem) {
             if (clipboardItem.type === 'github' && clipboardItem.path === '/') {
-                menuItems.push({ label: `Paste / Clone "${clipboardItem.repoInfo.repo}" here`, action: 'paste', icon: 'download' }); // Use a download/clone icon
+                menuItems.push({ label: \`Paste / Clone "\${clipboardItem.repoInfo.repo}" here\`, action: 'paste', icon: 'download' }); // Use a download/clone icon
             } else {
-                menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
+                menuItems.push({ label: \`Paste item(s) here\`, action: 'paste', icon: 'clipboard' });
             }
             menuItems.push({ isSeparator: true });
         }
@@ -85,10 +85,10 @@ export const Menus = {
             menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
         }
 
-        DOM.contextMenu.innerHTML = menuItems.filter(Boolean).map(i => i.isSeparator ? `<hr class="menu-separator">` :
-            `<button class="menu-button" data-action="${i.action}" ${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
-                <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-             </button>`
+        DOM.contextMenu.innerHTML = menuItems.filter(Boolean).map(i => i.isSeparator ? \`<hr class="menu-separator">\` :
+            \`<button class="menu-button" data-action="\${i.action}" \${i.danger ? 'style="color: var(--color-accent-danger);"' : ''}>
+                <svg class="svg-icon"><use href="#icon-\${i.icon}"/></svg> \${i.label}
+             </button>\`
         ).join('');
         this.positionAndDisplay(DOM.contextMenu, e);
     },
@@ -123,10 +123,10 @@ export const Menus = {
             { label: 'Settings', action: 'settings', icon: 'settings' }
         
         );
-        DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? `<hr class="menu-separator">` :
-            `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
-                <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-             </button>`
+        DOM.mainMenu.innerHTML = menuItems.map(i => i.isSeparator ? \`<hr class="menu-separator">\` :
+            \`<button class="menu-button" data-action="\${i.action}" \${i.disabled ? 'disabled' : ''}>
+                <svg class="svg-icon"><use href="#icon-\${i.icon}"/></svg> \${i.label}
+             </button>\`
         ).join('');
         const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
         this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
@@ -157,8 +157,8 @@ positionAndDisplay(menu, coords) {
             } else {
                 adjustedY = y;
             }
-            menu.style.left = `${adjustedX}px`;
-            menu.style.top = `${adjustedY}px`;
+            menu.style.left = \`\${adjustedX}px\`;
+            menu.style.top = \`\${adjustedY}px\`;
         }, 10); // A 10ms delay is imperceptible to the user but fixes the bug.
     },
     async handleAction(action) {
@@ -180,7 +180,9 @@ positionAndDisplay(menu, coords) {
                     const content = Editor.getContent();
                     
                     detachWorkerRequestHandler();
+                    detachDynamicAssetHandler();
                     attachWorkerRequestHandler(activeTab.item);
+                    attachDynamicAssetHandler(activeTab.item);
                     
                     try {
                         const processedContent = await processHtmlForPreview(content, activeTab.item);
@@ -189,6 +191,7 @@ positionAndDisplay(menu, coords) {
                         UI.showToast("Failed to process HTML.", "error");
                         console.error(e);
                         detachWorkerRequestHandler();
+                        detachDynamicAssetHandler();
                     } finally {
                         UI.hideLoading();
                     }
@@ -243,21 +246,21 @@ positionAndDisplay(menu, coords) {
                     const kindLabel = kind === 'directory' ? 'Folder' : 'File';
                     // --- END FIX ---
 
-                    const name = await UI.showDialog({ title: `Create New ${kindLabel}`, hasInput: true, placeholder: `Enter ${kindLabel} name...` });
+                    const name = await UI.showDialog({ title: \`Create New \${kindLabel}\`, hasInput: true, placeholder: \`Enter \${kindLabel} name...\` });
                     if (name) {
-                        UI.showLoading(`Creating ${kindLabel}...`);
+                        UI.showLoading(\`Creating \${kindLabel}...\`);
                         const parentUniquePath = getItemUniquePath(item);
                         if (kind === 'directory') { // This check now works correctly
                             State.expandedFolders.add(parentUniquePath);
                         }
                         await FileSystemProvider.create(item, name, kind); // This now passes the correct 'kind'
-                        UI.showToast(`${kindLabel} '${name}' created.`, 'success');
+                        UI.showToast(\`\${kindLabel} '\${name}' created.\`, 'success');
                         const parentWorkspaceId = item.workspaceId ?? item.id;
                         const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
                         if (!workspace) throw new Error("Could not find parent workspace.");
                         await Workspaces.refreshNode(item);
                         if (kind === 'file') {
-                            const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
+                            const newPath = item.path === '/' ? \`/\${name}\` : \`\${item.path}/\${name}\`;
                             const newFileItem = { ...workspace, name, path: newPath, kind: 'file', workspaceId: workspace.id, content: '' };
                             Tabs.create(newFileItem, true);
                         }
@@ -267,7 +270,7 @@ positionAndDisplay(menu, coords) {
                 
                 
                 case 'start-selection':
-        // We pass the event `e` to position the new menu correctly
+        // We pass the event \`e\` to position the new menu correctly
         SelectionManager.start(item, State.contextEvent); // We need to store 'e' in state.
         break;
         
@@ -277,7 +280,7 @@ positionAndDisplay(menu, coords) {
         // The item is the one that was right-clicked (State.contextTarget)
         const uniquePath = getItemUniquePath(item);
         State.fileClipboard = [uniquePath]; // Clipboard now contains just this one item
-        UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+        UI.showToast(\`Copied "\${item.name}" to clipboard.\`, 'success');
         break;
     }*/
     
@@ -291,9 +294,9 @@ positionAndDisplay(menu, coords) {
                     // The menu already displays the correct "Copy / Clone" label.
                     // This toast confirms the action.
                     if (item.type === 'github' && item.path === '/') {
-                        UI.showToast(`Ready to clone "${item.repoInfo.repo}". Paste in a new location.`, 'success');
+                        UI.showToast(\`Ready to clone "\${item.repoInfo.repo}". Paste in a new location.\`, 'success');
                     } else {
-                        UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+                        UI.showToast(\`Copied "\${item.name}" to clipboard.\`, 'success');
                     }
                     break;
                 }
@@ -317,7 +320,7 @@ positionAndDisplay(menu, coords) {
                 
                 case 'delete-workspace': {
                     if (!item || item.path !== '/') break;
-                    const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'? This does not delete files.`, okText: 'Remove', cancelText: 'Cancel' });
+                    const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: \`Remove '\${item.name}'? This does not delete files.\`, okText: 'Remove', cancelText: 'Cancel' });
                     if(confirmed) {
                         UI.showLoading('Removing workspace...');
                         const wsId = item.workspaceId ?? item.id;
@@ -328,19 +331,19 @@ for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                         App.saveSession();
 
                         Workspaces.render();
-                        UI.showToast(`Workspace removed.`, 'success');
+                        UI.showToast(\`Workspace removed.\`, 'success');
                     }
                     break;
                 }
                 case 'delete': {
                     if (!item) break;
-                    const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: `Permanently delete '${item.name}'?`, okText: 'Delete', cancelText: 'Cancel' });
+                    const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: \`Permanently delete '\${item.name}'?\`, okText: 'Delete', cancelText: 'Cancel' });
                     if (confirmed) {
                         UI.showLoading('Deleting...');
                         const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
                         if (tab) await Tabs.close(tab.id, true);
                         await FileSystemProvider.delete(item);
-                        UI.showToast(`'${item.name}' deleted.`, 'success');
+                        UI.showToast(\`'\${item.name}' deleted.\`, 'success');
                         const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
                         const parentItem = { ...item, path: parentPath, kind: 'directory' };
                         await Workspaces.refreshNode(parentItem);
@@ -352,7 +355,7 @@ for(const tab of tabsToClose) await Tabs.close(tab.id, true);
                     
                 }
             }
-        } catch(e) { UI.showToast(`Error: ${e.message}`, 'error'); } 
+        } catch(e) { UI.showToast(\`Error: \${e.message}\`, 'error'); } 
           finally { UI.hideLoading(); }
           
           

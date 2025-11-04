@@ -1,6 +1,3 @@
-
-
-
 // B"H
 // FILE: js/tabs.js
 
@@ -10,7 +7,7 @@ import { Editor } from './editor.js';
 import { StatusBar } from './statusbar.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { MimeUtil } from './mime-util.js';
-import { detachWorkerRequestHandler } from './html-preview-processor.js';
+import { detachWorkerRequestHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
 import { App } from './app.js';
 import {Console} from "./Console.js";
 function downloadFile(filename, content) {
@@ -27,9 +24,9 @@ function downloadFile(filename, content) {
 }
 
 export const Tabs = {
-    getUniquePath: (item) => `${item.workspaceId ?? 'temp'}::${item.path ?? item.name}`,
+    getUniquePath: (item) => \`\${item.workspaceId ?? 'temp'}::\${item.path ?? item.name}\`,
     createConsole(associatedTab) {
-        const uniquePath = `console::${associatedTab.uniquePath}`;
+        const uniquePath = \`console::\${associatedTab.uniquePath}\`;
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
         if (existingTab) {
             this.activate(existingTab.id);
@@ -38,7 +35,7 @@ export const Tabs = {
 
         const consoleTab = {
             id: State.nextTabId++,
-            item: { name: `Console: ${associatedTab.item.name}`, type: 'console', associatedTabId: associatedTab.id },
+            item: { name: \`Console: \${associatedTab.item.name}\`, type: 'console', associatedTabId: associatedTab.id },
             uniquePath: uniquePath,
             isDirty: false,
             isPreview: false,
@@ -65,13 +62,13 @@ export const Tabs = {
     },
 
     createPreview(originalItem, content) {
-        const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
+        const uniquePath = \`preview::\${this.getUniquePath(originalItem)}\`;
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
         if (existingTab) {
             this.activate(existingTab.id);
             return;
         }
-        const previewItem = { ...originalItem, name: `Preview: ${originalItem.name}`, type: 'preview' };
+        const previewItem = { ...originalItem, name: \`Preview: \${originalItem.name}\`, type: 'preview' };
         const newTab = {
             id: State.nextTabId++, item: previewItem, content: content,
             isDirty: false, uniquePath: uniquePath, scrollPos: 0,
@@ -83,7 +80,7 @@ export const Tabs = {
     
     createTemporary(name = 'Untitled', content = '') {
         const untitledCount = State.tabs.filter(t => t.item.type === 'temp').length + 1;
-        const newName = `${name}-${untitledCount}`;
+        const newName = \`\${name}-\${untitledCount}\`;
         const tempItem = { type: 'temp', name: newName, path: null, kind: 'file' };
         const uniquePath = this.getUniquePath(tempItem);
         const newTab = {
@@ -126,11 +123,11 @@ async activate(tabId) {
 
     // Lazy-load file content if it hasn't been loaded yet
     if (tab.content === null) {
-        UI.showLoading(`Opening ${tab.item.name}...`);
+        UI.showLoading(\`Opening \${tab.item.name}...\`);
         try {
             tab.content = await FileSystemProvider.read(tab.item);
         } catch (e) {
-            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+            UI.showToast(\`Error opening \${tab.item.name}: \${e.message}\`, 'error');
             this.close(tab.id, true); return;
         } finally { UI.hideLoading(); }
     }
@@ -151,7 +148,7 @@ async activate(tabId) {
                     instance.render();
                     State.consoleInstances.set(tab.id, instance);
                 } else {
-                     DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--console-error-border);">Error: Could not find the associated HTML preview. It may have been closed. Please open the HTML file again.</div>`;
+                     DOM.consoleHost.innerHTML = \`<div style="padding: 20px; color: var(--console-error-border);">Error: Could not find the associated HTML preview. It may have been closed. Please open the HTML file again.</div>\`;
                 }
             }
             break;
@@ -183,7 +180,7 @@ async activate(tabId) {
     
     // B"H
 // FILE: js/tabs.js
-// ACTION: Replace the entire `close` method with this one.
+// ACTION: Replace the entire \`close\` method with this one.
 
 async close(tabId, force = false) {
     const tabIndex = State.tabs.findIndex(t => t.id === tabId);
@@ -194,6 +191,7 @@ async close(tabId, force = false) {
     // --- CRITICAL CLEANUP LOGIC ---
     if (tabToClose.fileType === 'html-preview') {
         detachWorkerRequestHandler();
+        detachDynamicAssetHandler();
         
         // Find and force-close the associated console tab
         const consoleTab = State.tabs.find(t => t.item.type === 'console' && t.item.associatedTabId === tabId);
@@ -221,9 +219,19 @@ async close(tabId, force = false) {
     }
     
     if (tabToClose.isDirty && !force) {
-        // ... (This block for the "Unsaved Changes" dialog remains unchanged from your previous version)
-        // You can copy it from your original file or from a previous answer.
-        // It starts with: const choice = await new Promise(resolve => { ...
+        const choice = await UI.showDialog({
+             title: 'Unsaved Changes',
+             message: `You have unsaved changes in "\${tabToClose.item.name}".`,
+             okText: 'Save and Close',
+             cancelText: 'Discard'
+        });
+        if (choice) {
+             await this.save(tabToClose);
+        } else if (choice === null) {
+            // User chose 'Discard'
+        } else {
+            return; // Dialog was cancelled
+        }
     }
 
     // Refind the index because a recursive close might have changed the array
@@ -256,7 +264,7 @@ async close(tabId, force = false) {
     },
 
     async save(tab) {
-        UI.showToast(`Saving ${tab.item.name}...`);
+        UI.showToast(\`Saving \${tab.item.name}...\`);
         try {
             if (tab.id === State.activeTabId) {
                 tab.content = Editor.getContent();
@@ -266,23 +274,23 @@ async close(tabId, force = false) {
                 commitMessage = await UI.showDialog({ 
                     title: 'Commit Changes', hasTextarea: true, 
                     textareaContent:
-                     `B"H
+                     \`B"H
 Boruch Hashem!
 Biezras Hashem 
 Blessed is He
-update ${name}
-At ${new Date()}`, 
+update \${name}
+At \${new Date()}\`, 
                     okText: 'Commit & Save',
-                    message: `Enter commit message for "${tab.item.name}".`
+                    message: \`Enter commit message for "\${tab.item.name}".\`
                 });
                 if (!commitMessage) throw new Error("Save cancelled.");
             }
             await FileSystemProvider.write(tab.item, tab.content, commitMessage);
             tab.isDirty = false;
-            UI.showToast(`Saved "${tab.item.name}"`, 'success');
+            UI.showToast(\`Saved "\${tab.item.name}"\`, 'success');
             this.render();
         } catch (e) {
-            UI.showToast(`Save failed: ${e.message}`, 'error');
+            UI.showToast(\`Save failed: \${e.message}\`, 'error');
         } finally { UI.hideLoading(); }
     },
 
@@ -304,14 +312,14 @@ At ${new Date()}`,
                 tab.item.type = 'local-saved';
                 tab.item.path = handle.name;
                 tab.uniquePath = this.getUniquePath(tab.item);
-                UI.showToast(`Saved "${handle.name}"`, 'success');
+                UI.showToast(\`Saved "\${handle.name}"\`, 'success');
                 this.render();
             } else {
                 this.downloadActive();
             }
         } catch (err) {
             if (err.name !== 'AbortError') {
-                UI.showToast(`Could not save file: ${err.message}`, 'error');
+                UI.showToast(\`Could not save file: \${err.message}\`, 'error');
             }
         }
     },
@@ -330,7 +338,7 @@ At ${new Date()}`,
         } else {
             downloadFile(tab.item.name, content);
         }
-        UI.showToast(`Downloaded "${tab.item.name}"`, 'success');
+        UI.showToast(\`Downloaded "\${tab.item.name}"\`, 'success');
     },
 
     
@@ -361,14 +369,14 @@ render() {
 
     State.tabs.forEach((tab, index) => {
         const tabEl = document.createElement('div');
-        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''}`;
+        tabEl.className = \`tab \${tab.id === State.activeTabId ? 'active' : ''} \${tab.isDirty ? 'dirty' : ''}\`;
         tabEl.dataset.tabId = String(tab.id);
         tabEl.title = tab.item.path || tab.item.name;
         tabEl.draggable = true; // IMPORTANT: Make the element draggable
         
-        tabEl.innerHTML = `
-            <span class="tab-name">${tab.item.name}</span>
-            <button class="icon-button close-tab-btn" title="Close"><svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg></button>`;
+        tabEl.innerHTML = \`
+            <span class="tab-name">\${tab.item.name}</span>
+            <button class="icon-button close-tab-btn" title="Close"><svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg></button>\`;
         
         // --- REGULAR CLICK LOGIC (UNCHANGED) ---
         tabEl.onclick = (e) => {
