@@ -27,8 +27,13 @@ let touchStartX = 0;
 let touchStartY = 0;
 
 
-// In main.js, replace your existing onPointerDown, onPointerMove, and onPointerUp functions
 
+// B"H
+
+let tapCount = 0;
+let tapTimer = null;
+
+// 
 function onPointerDown(event) {
     event.preventDefault();
     console.log(`Pointer DOWN event fired: ${event.type}`);
@@ -36,6 +41,17 @@ function onPointerDown(event) {
     audioManager.init();
     isDragging = true;
     
+    // --- BOOST LOGIC ---
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 300); // Reset taps if it's too slow
+
+    if (tapCount >= 2) {
+        if (gameWorker) gameWorker.postMessage({ type: 'boostStart' });
+        tapCount = 0; // Reset after successful double tap
+    }
+    // --- END BOOST LOGIC ---
+
     // Set the anchor point for our virtual joystick
     touchStartX = event.touches ? event.touches[0].clientX : event.clientX;
     touchStartY = event.touches ? event.touches[0].clientY : event.clientY;
@@ -52,10 +68,6 @@ function onPointerMove(event) {
     let targetAngle = Math.atan2(y - touchStartY, x - touchStartX);
 
     if (gameWorker) {
-        // --- THIS IS THE FIX FOR THE INVERTED DIRECTION ---
-        // By sending the negative of the angle, we reverse the rotation.
-        // You might not need the negative sign depending on your preference,
-        // but based on your description, this should feel correct.
         gameWorker.postMessage({ type: 'setInputAngle', angle: targetAngle }); 
     }
 }
@@ -67,11 +79,11 @@ function onPointerUp(event) {
 
     isDragging = false;
     if (gameWorker) {
-        // Tell the worker the user is no longer actively steering
+        // Tell the worker the user is no longer actively steering OR boosting
         gameWorker.postMessage({ type: 'inputUp' });
+        gameWorker.postMessage({ type: 'boostEnd' }); // Stop boosting on release
     }
 }
-
 
 
 const keys = {

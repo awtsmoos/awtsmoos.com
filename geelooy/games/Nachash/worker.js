@@ -39,6 +39,9 @@ const state = {
 
 const particlePool = new ObjectPool(() => new Particle(), 1000);
 
+// B"H
+// Replace the entire self.onmessage function with this updated version
+
 self.onmessage = (e) => {
     const { type, ...data } = e.data;
     switch (type) {
@@ -47,6 +50,8 @@ self.onmessage = (e) => {
         case 'resize': resize(data.width, data.height, data.pixelRatio); break;
         case 'setInputAngle': if (state.player) state.player.setTargetAngle(data.angle); break;
         case 'inputUp': if (state.player) state.player.stopTurning(); break;
+        case 'boostStart': if (state.player) state.player.startBoosting(); break;
+        case 'boostEnd': if (state.player) state.player.stopBoosting(); break;
     }
 };
 

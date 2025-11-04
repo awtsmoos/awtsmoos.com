@@ -508,173 +508,6 @@ function drawMinimap(ctx) {
 
 
 
-// B"H in worker-helpers.js
-// --- Replace the entire existing Player class with this one ---
-class Player {
-	constructor(x, y, length) {
-		this.type = 'player';
-		this.x = x;
-		this.y = y;
-		this.baseSize = 14; // Renamed from 'size'
-	        this.currentSize = this.baseSize; // Add this
-		this.angle = 0;
-		this.speed = 280; 
-		this.turnSpeed = 6.0; 
-		this.body = [];
-		this.maxLength = length;
-		this.isTurning = false;
-		this.targetAngle = 0;
-		this.borderPadding = 30;
-		this.isInvincible = false;
-		this.isAlive = true;
-		this.score = 0;
-	}
-
-	setTargetAngle(angle) {
-		this.isTurning = true;
-		this.targetAngle = angle;
-	}
-
-	stopTurning() {
-		this.isTurning = false;
-	}
-
-	// B"H 
-	update(deltaTime) {
-	        if (!this.isAlive) return;
-	
-	        // --- NEW: Dynamic Size Calculation ---
-	        // The snake gets wider as it gets longer, with a maximum size cap.
-	        this.currentSize = Math.min(35, this.baseSize + Math.floor(this.maxLength / 40));
-	        // ---------------------------------
-	
-			if (this.isTurning) {
-				let angleDiff = this.targetAngle - this.angle;
-				while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-				while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-				this.angle += angleDiff * this.turnSpeed * deltaTime;
-			}
-	
-			this.body.unshift({ x: this.x, y: this.y });
-			if (this.body.length > this.maxLength) this.body.pop();
-			
-			this.x += Math.cos(this.angle) * this.speed * deltaTime;
-			this.y += Math.sin(this.angle) * this.speed * deltaTime;
-	
-			this.handleBorders();
-			state.score = this.score;
-	
-	        if (isNaN(this.x) || isNaN(this.y) || deltaTime > 0.5) {
-	            console.error("B'H - Player position became NaN or deltaTime spiked! Resetting position.", { x: this.x, y: this.y, dt: deltaTime });
-	            this.x = state.world.width / 2;
-	            this.y = state.world.height / 2;
-	            this.body = []; 
-	        }
-	}
-
-	handleBorders() {
-		const {
-			width,
-			height
-		} = state.world;
-		const pad = this
-			.borderPadding;
-		if ((this.x < pad && Math
-				.cos(this.angle) < 0
-			) || (this.x >
-				width - pad && Math
-				.cos(this.angle) > 0
-			)) {
-			this.angle = Math.PI -
-				this.angle;
-		}
-		if ((this.y < pad && Math
-				.sin(this.angle) < 0
-			) || (this.y >
-				height - pad && Math
-				.sin(this.angle) > 0
-			)) {
-			this.angle = -this
-				.angle;
-		}
-		this.x = Math.max(pad, Math
-			.min(width - pad,
-				this.x));
-		this.y = Math.max(pad, Math
-			.min(height - pad,
-				this.y));
-	}
-
-	// B"H
-	draw(ctx) {
-		const color = 120;
-		this.body.forEach((seg,
-			i) => {
-			const ratio =
-				1 - (i /
-					this
-					.body
-					.length
-				);
-			ctx.fillStyle =
-				`hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`;
-			ctx.beginPath();
-			ctx.arc(seg.x,
-				seg.y,
-				this
-				.currentSize, // Use currentSize
-				0, Math
-				.PI * 2);
-			ctx.fill();
-		});
-		ctx.fillStyle =
-			`hsl(${color}, 100%, 70%)`;
-		ctx.beginPath();
-		ctx.arc(this.x, this.y, this
-			.currentSize, 0, Math.PI * // Use currentSize
-			2);
-		ctx.fill();
-	}
-
-	grow(amount) {
-		this.maxLength += amount;
-	}
-
-	die() {
-		// If the dying snake is an AI...
-		if (this.type === 'ai_snake') {
-            
-            // This line is the key: It loops through every single body segment of the dead snake.
-            // 'this.body' is the array that stores the coordinates of its entire path.
-            this.body.forEach((seg, i) => {
-
-                // This condition creates food for every 4th segment.
-                // This preserves the path shape while preventing a 1000-segment snake
-                // from lagging the game by lagging the game by spawning 1000 new objects instantly.
-                // The amount of food is still directly proportional to its length.
-                if (i % 4 === 0) {
-                    
-                    // A new collectible is created at the EXACT x and y coordinate
-                    // of the current body segment ('seg'). This is what creates the perfect path.
-                    const newCollectible = new Collectible(seg.x, seg.y);
-                    state.collectibles.push(newCollectible);
-                    
-                    // Add it to the grid so other AI can see it.
-                    state.grid.insert(newCollectible); 
-                }
-            });
-        } 
-        else if (this.type === 'player') {
-			gameOver();
-        }
-
-		this.isAlive = false;
-	}
-}
-
-
-
-
 
 //B"H
 // In worker-helpers.js - Add this new function and delete the old background one.
@@ -712,16 +545,211 @@ function drawWorldGridAndBorder(ctx) {
     ctx.strokeRect(20, 20, world.width - 40, world.height - 40);
 }
 
-// B"H in worker-helpers.js
-// --- Replace the entire AiSnake class with this new, smarter version ---
+
+// B"H
+// 
+class Player {
+	constructor(x, y, length) {
+		this.type = 'player';
+		this.x = x;
+		this.y = y;
+		this.baseSize = 14; 
+	    this.currentSize = this.baseSize; 
+		this.angle = 0;
+		
+		this.normalSpeed = 280;
+		this.boostSpeed = this.normalSpeed * 1.8;
+		this.speed = this.normalSpeed;
+		
+		this.turnSpeed = 6.0; 
+		this.body = [];
+		this.maxLength = length;
+		this.baseLength = length; // The minimum length it can shrink to
+		
+		this.isTurning = false;
+		this.targetAngle = 0;
+		this.borderPadding = 30;
+		this.isInvincible = false;
+		this.isAlive = true;
+		this.score = 0;
+		
+		// Boosting state
+		this.isBoosting = false;
+		this.boostDropTimer = 0;
+	}
+
+	setTargetAngle(angle) {
+		this.isTurning = true;
+		this.targetAngle = angle;
+	}
+
+	stopTurning() {
+		this.isTurning = false;
+	}
+
+	startBoosting() {
+		this.isBoosting = true;
+	}
+
+	stopBoosting() {
+		this.isBoosting = false;
+	}
+
+	dropFood() {
+		if (this.body.length < 2) return; // Need at least some body to drop from
+		const tail = this.body[this.body.length - 1];
+		if (!tail) return;
+		
+		const newCollectible = new Collectible(tail.x, tail.y);
+		state.collectibles.push(newCollectible);
+		state.grid.insert(newCollectible);
+	}
+
+	update(deltaTime) {
+	    if (!this.isAlive) return;
+
+		// --- BOOST LOGIC ---
+		if (this.isBoosting && this.maxLength > this.baseLength) {
+			this.speed = this.boostSpeed;
+			// Shrink while boosting, but not below the base length
+			this.maxLength -= 15 * deltaTime; // Shrink 15 length units per second
+			if(this.maxLength < this.baseLength) this.maxLength = this.baseLength;
+
+			// Drop food items behind
+			this.boostDropTimer += deltaTime;
+			if (this.boostDropTimer > 0.05) { // Drop food every 0.05s
+				this.dropFood();
+				this.boostDropTimer = 0;
+			}
+		} else {
+			this.speed = this.normalSpeed;
+		}
+		// --- END BOOST LOGIC ---
+	
+	    this.currentSize = Math.min(35, this.baseSize + Math.floor(this.maxLength / 40));
+	
+		if (this.isTurning) {
+			let angleDiff = this.targetAngle - this.angle;
+			while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+			while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+			this.angle += angleDiff * this.turnSpeed * deltaTime;
+		}
+	
+		this.body.unshift({ x: this.x, y: this.y });
+		if (this.body.length > Math.ceil(this.maxLength)) this.body.pop(); 
+		
+		this.x += Math.cos(this.angle) * this.speed * deltaTime;
+		this.y += Math.sin(this.angle) * this.speed * deltaTime;
+	
+		this.handleBorders();
+		state.score = this.score;
+	
+	    if (isNaN(this.x) || isNaN(this.y) || deltaTime > 0.5) {
+	        console.error("B'H - Player position became NaN or deltaTime spiked! Resetting position.", { x: this.x, y: this.y, dt: deltaTime });
+	        this.x = state.world.width / 2;
+	        this.y = state.world.height / 2;
+	        this.body = []; 
+	    }
+	}
+
+	handleBorders() {
+		const {
+			width,
+			height
+		} = state.world;
+		const pad = this
+			.borderPadding;
+		if ((this.x < pad && Math
+				.cos(this.angle) < 0
+			) || (this.x >
+				width - pad && Math
+				.cos(this.angle) > 0
+			)) {
+			this.angle = Math.PI -
+				this.angle;
+		}
+		if ((this.y < pad && Math
+				.sin(this.angle) < 0
+			) || (this.y >
+				height - pad && Math
+				.sin(this.angle) > 0
+			)) {
+			this.angle = -this
+				.angle;
+		}
+		this.x = Math.max(pad, Math
+			.min(width - pad,
+				this.x));
+		this.y = Math.max(pad, Math
+			.min(height - pad,
+				this.y));
+	}
+
+	draw(ctx) {
+		const color = 120;
+		this.body.forEach((seg,
+			i) => {
+			const ratio =
+				1 - (i /
+					this
+					.body
+					.length
+				);
+			ctx.fillStyle =
+				`hsl(${color + i*0.5}, 100%, ${30 + ratio * 25}%)`;
+			ctx.beginPath();
+			ctx.arc(seg.x,
+				seg.y,
+				this
+				.currentSize, 
+				0, Math
+				.PI * 2);
+			ctx.fill();
+		});
+		ctx.fillStyle =
+			`hsl(${color}, 100%, 70%)`;
+		ctx.beginPath();
+		ctx.arc(this.x, this.y, this
+			.currentSize, 0, Math.PI * 
+			2);
+		ctx.fill();
+	}
+
+	grow(amount) {
+		this.maxLength += amount;
+	}
+
+	die() {
+		if (this.type === 'ai_snake') {
+            
+            this.body.forEach((seg, i) => {
+
+                if (i % 4 === 0) {
+                    
+                    const newCollectible = new Collectible(seg.x, seg.y);
+                    state.collectibles.push(newCollectible);
+                    
+                    state.grid.insert(newCollectible); 
+                }
+            });
+        } 
+        else if (this.type === 'player') {
+			gameOver();
+        }
+
+		this.isAlive = false;
+	}
+}
+
+// 
 class AiSnake extends Player {
 	constructor(x, y, length) {
 		super(x, y, length);
 		this.type = 'ai_snake';
 		this.name = generateAiName();
 		this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
-		this.baseSize = 12; // Renamed from 'size'
-	        this.currentSize = this.baseSize; // Add this
+		this.baseSize = 12; 
+	    this.currentSize = this.baseSize;
 
 		this.normalSpeed = 210 + Math.random() * 90; 
 		this.boostSpeed = this.normalSpeed * 1.9;
@@ -729,6 +757,7 @@ class AiSnake extends Player {
 		this.isBoosting = false;
 
 		this.decisionTimer = Math.random() * 0.2;
+		this.boostDropTimer = 0;
 	}
 
 	update(deltaTime) {
@@ -736,21 +765,28 @@ class AiSnake extends Player {
 
 		this.decisionTimer -= deltaTime;
 		if (this.decisionTimer <= 0) {
-			this.makeDecision(); // The new, smarter "brain"
-			this.decisionTimer = (Math.random() * 0.05) + 0.1; // Re-think every 0.1-0.15 seconds
+			this.makeDecision();
+			this.decisionTimer = (Math.random() * 0.05) + 0.1;
 		}
 
-		if (this.isBoosting && this.maxLength > 20) {
+		if (this.isBoosting && this.maxLength > this.baseLength) {
 			this.speed = this.boostSpeed;
-			this.maxLength -= 0.15; // Boosting is more costly
+			this.maxLength -= 10 * deltaTime; 
+			if (this.maxLength < this.baseLength) this.maxLength = this.baseLength;
+			
+			this.boostDropTimer += deltaTime;
+			if (this.boostDropTimer > 0.1) {
+				this.dropFood();
+				this.boostDropTimer = 0;
+			}
 		} else {
 			this.speed = this.normalSpeed;
+			this.isBoosting = false; 
 		}
 
 		super.update(deltaTime);
 	}
 
-	// This is the core of the new AI logic
 	makeDecision() {
 		const visionRange = 900;
 		const nearby = state.grid.getNearbyObjects(this);
@@ -759,7 +795,6 @@ class AiSnake extends Player {
 		let food = [];
 		let obstacles = [];
 
-		// --- 1. SCAN & CATEGORIZE everything in the environment ---
 		for (const obj of nearby) {
 			if (!obj.isAlive || obj === this) continue;
 			const dist = getDistance(this.x, this.y, obj.x, obj.y);
@@ -768,7 +803,7 @@ class AiSnake extends Player {
 			if (obj.type === 'collectible') {
 				food.push({ obj, dist });
 			} else if (obj.type === 'player' || obj.type === 'ai_snake') {
-				obstacles.push(obj); // Every snake is a potential obstacle
+				obstacles.push(obj);
 				if (obj.score > this.score * 1.2) {
 					threats.push({ obj, dist });
 				} else if (this.score > obj.score * 1.1) {
@@ -777,7 +812,6 @@ class AiSnake extends Player {
 			}
 		}
 
-		// --- 2. SURVIVAL: Flee from the most immediate threat ---
 		if (threats.length > 0) {
 			threats.sort((a, b) => a.dist - b.dist);
 			const closestThreat = threats[0].obj;
@@ -787,7 +821,6 @@ class AiSnake extends Player {
 			return;
 		}
 
-		// --- 3. AGGRESSION: Hunt the closest prey ---
 		if (prey.length > 0) {
 			prey.sort((a, b) => a.dist - b.dist);
 			const target = prey[0].obj;
@@ -797,14 +830,11 @@ class AiSnake extends Player {
 			return;
 		}
 
-		// --- 4. EATING: Go for the closest, safest food ---
 		this.isBoosting = false;
 		if (food.length > 0) {
 			food.sort((a, b) => a.dist - b.dist);
-			// Find a piece of food that isn't dangerously close to another snake
 			for (const f of food) {
 				const foodTarget = f.obj;
-				// Check if the path to the food is safe
 				let isPathSafe = true;
 				for (const snake of obstacles) {
 					if (getDistance(foodTarget.x, foodTarget.y, snake.x, snake.y) < 200) {
@@ -820,7 +850,6 @@ class AiSnake extends Player {
 			}
 		}
 
-		// --- 5. WANDERING: If nothing else, explore safely ---
 		if (Math.random() < 0.1) {
 			this.targetAngle += (Math.random() - 0.5) * 2.0;
 		}
@@ -832,34 +861,24 @@ class AiSnake extends Player {
 		this.isTurning = true;
 	}
 
-	/**
-	 * THE CRITICAL NEW FUNCTION: Calculates an angle towards a target
-	 * while trying to steer away from the bodies of other snakes.
-	 */
 	getSafeAngle(targetX, targetY, obstacles) {
 		let desiredAngle = Math.atan2(targetY - this.y, targetX - this.x);
 
-		const checkDistance = 250; // How far ahead to check for collisions
+		const checkDistance = 250;
 
 		for (const snake of obstacles) {
 			if (snake === this) continue;
-			// Check against the head and all body segments
 			const bodyParts = [snake, ...snake.body];
 			for (const segment of bodyParts) {
 				const distToSegment = getDistance(this.x, this.y, segment.x, segment.y);
 
-				if (distToSegment < 150) { // If a snake is very close
-					// Project a point in our current direction
+				if (distToSegment < 150) { 
 					const projectedX = this.x + Math.cos(desiredAngle) * checkDistance;
 					const projectedY = this.y + Math.sin(desiredAngle) * checkDistance;
 
-					// If the projected point is close to a snake segment, we need to turn
 					if (getDistance(projectedX, projectedY, segment.x, segment.y) < this.size + snake.size + 100) {
-						// Turn away from the segment
 						const angleToSegment = Math.atan2(segment.y - this.y, segment.x - this.x);
-						// Steer away by adding or subtracting from the desired angle
-						desiredAngle += (desiredAngle - angleToSegment) > 0 ? 0.5 : -0.5; // Swerve
-						// Break from inner loop and check the new angle against other snakes
+						desiredAngle += (desiredAngle - angleToSegment) > 0 ? 0.5 : -0.5;
 						break;
 					}
 				}
@@ -872,12 +891,12 @@ class AiSnake extends Player {
 		this.body.forEach((seg, i) => {
 			ctx.fillStyle = this.color;
 			ctx.beginPath();
-			ctx.arc(seg.x, seg.y, this.currentSize, 0, Math.PI * 2); // Use currentSize
+			ctx.arc(seg.x, seg.y, this.currentSize, 0, Math.PI * 2);
 			ctx.fill();
 		});
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
-		ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2); // Use currentSize
+		ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2);
 		ctx.fill();
 	}
 }
