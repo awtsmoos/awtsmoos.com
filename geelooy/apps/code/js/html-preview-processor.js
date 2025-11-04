@@ -1,5 +1,4 @@
-
-    // B"H
+// B"H
 // FILE: js/html-preview-processor.js
 
 import { State } from './state.js';
@@ -15,29 +14,26 @@ const dynamicAssetInterceptorScript = `
     if (window.hasDynamicAssetInterceptor) return;
     window.hasDynamicAssetInterceptor = true;
 
-    // This is the path of the HTML file itself, used as the base for resolving relative paths.
     const basePath = '%%BASE_PATH%%';
     let assetRequestCounter = 0;
     const pendingAssets = new Map();
 
-    // A robust, URL-based path resolver.
     function resolveRelativePath(base, relative) {
-        // Handles root-relative paths gracefully.
         if (relative.startsWith('/')) {
             return relative;
         }
-        // Uses the URL constructor for reliable path resolution.
         try {
+            // Use URL constructor for robust path resolution.
             const baseUrl = new URL(base, 'http://dummy.com/');
             const resolvedUrl = new URL(relative, baseUrl);
             return resolvedUrl.pathname;
         } catch (e) {
             console.error("[Dynamic Asset Interceptor] Path resolution error:", e);
-            return relative; // Fallback
+            return relative;
         }
     }
 
-    // Listens for responses from the main application.
+    // Listens for asset content responses from the main app.
     window.addEventListener('message', (event) => {
         if (event.source !== window.parent || !event.data || event.data.source !== 'vivid-x-dynamic-asset-loader') return;
 
@@ -47,18 +43,16 @@ const dynamicAssetInterceptorScript = `
             pendingAssets.delete(requestId);
 
             if (error) {
-                console.error('[Dynamic Asset Interceptor] Failed to load asset:', error);
+                console.error('[Dynamic Asset Interceptor] Main app failed to load asset:', error);
                 element.dataset.loadError = error;
                 reject(new Error(error));
                 return;
             }
 
-            // Inline the fetched content.
             if (element.tagName === 'SCRIPT') {
                 element.textContent = content;
             } else if (element.tagName === 'LINK' && element.rel === 'stylesheet') {
                 const style = document.createElement('style');
-                // Copy all original attributes (like 'id', 'media') except 'href' and 'rel'.
                 for (const attr of element.attributes) {
                     if (attr.name !== 'href' && attr.name !== 'rel') {
                         style.setAttribute(attr.name, attr.value);
@@ -71,25 +65,27 @@ const dynamicAssetInterceptorScript = `
         }
     });
 
-    // Intercepts an element, requests its content from the parent, and inlines it.
+    // Intercepts an element, requests its content, and inlines it.
     function fetchAndInline(element, attribute) {
         return new Promise((resolve, reject) => {
             const originalPath = element.getAttribute(attribute);
-            // Skip data URIs or blobs that are already self-contained.
             if (!originalPath || originalPath.startsWith('data:') || originalPath.startsWith('blob:')) {
                 return resolve();
             }
             
-            // Immediately remove the attribute to prevent the browser from trying to fetch it.
             element.removeAttribute(attribute);
-            element.dataset.originalSrc = originalPath; // Keep for debugging.
+            element.dataset.originalSrc = originalPath;
 
             const resolvedPath = resolveRelativePath(basePath, originalPath);
-            const requestId = assetRequest-+-counter;
+            
+            // --- THIS IS THE FIX ---
+            // Correctly use and increment the assetRequestCounter variable.
+            const requestId = assetRequestCounter++;
+            // --- END FIX ---
             
             pendingAssets.set(requestId, { element, resolve, reject });
 
-            // Ask the main application to fetch the asset.
+            // Ask the main application to fetch the asset for us.
             window.parent.postMessage({
                 source: 'html-preview-dynamic-asset-request',
                 type: 'fetch-asset',
@@ -105,18 +101,18 @@ const dynamicAssetInterceptorScript = `
         for (const node of nodeList) {
             if (node.nodeType !== Node.ELEMENT_NODE) continue;
             
-            // Check if the node itself is a target element.
             if (node.matches('script[src]')) promises.push(fetchAndInline(node, 'src'));
             if (node.matches('link[rel="stylesheet"][href]')) promises.push(fetchAndInline(node, 'href'));
             
-            // Also check for target elements within the added node.
             node.querySelectorAll('script[src]').forEach(el => promises.push(fetchAndInline(el, 'src')));
             node.querySelectorAll('link[rel="stylesheet"][href]').forEach(el => promises.push(fetchAndInline(el, 'href')));
         }
-        await Promise.all(promises).catch(err => console.error("[Dynamic Asset Interceptor] Error processing nodes:", err));
+        await Promise.all(promises).catch(err => {
+            // This will now properly catch the error and log it.
+             console.error("[Dynamic Asset Interceptor] Error processing nodes:", err);
+        });
     }
 
-    // The MutationObserver watches the entire document for changes.
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -125,7 +121,6 @@ const dynamicAssetInterceptorScript = `
         }
     });
 
-    // Start observing as soon as the script runs.
     observer.observe(document.documentElement, { childList: true, subtree: true });
 })();
 `;
@@ -144,7 +139,8 @@ export function attachDynamicAssetHandler(baseItem) {
         if (type === 'fetch-asset') {
             const workspace = State.workspaces.find(ws => ws.id === baseItem.workspaceId);
             if (!workspace) {
-                 event.source.postMessage({ source: 'vivid-x-dynamic-asset-loader', type: 'asset-response', requestId, error: `Workspace (ID: ${baseItem.workspaceId}) not found.` }, event.origin);
+                const errorMsg = `Workspace (ID: ${baseItem.workspaceId}) not found for dynamic asset request.`;
+                event.source.postMessage({ source: 'vivid-x-dynamic-asset-loader', type: 'asset-response', requestId, error: errorMsg }, event.origin);
                 return;
             }
 
@@ -234,7 +230,7 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
         const errorDiv = doc.createElement('div');
         errorDiv.style.cssText = 'background:#280000;border:2px solid #ff5555;color:#ffc8c8;padding:20px;margin:15px;font-family:monospace;white-space:pre-wrap;font-size:14px;line-height:1.6;z-index:999999;position:relative;';
         errorDiv.textContent = `B"H - FATAL PREVIEW ERROR:\n\n${message}\n\n--- STACK TRACE ---\n${error?.stack || 'Not available'}`;
-        doc.body ? doc.body.prepend(errorDiv) : doc.documentElement.prepend(errorDiv);
+        (doc.body || doc.documentElement).prepend(errorDiv);
     };
 
     if (!workspace) {
@@ -245,35 +241,37 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     const prependScript = (scriptContent) => {
         const el = doc.createElement('script');
         el.textContent = scriptContent;
-        doc.head ? doc.head.prepend(el) : doc.documentElement.prepend(el);
+        (doc.head || doc.documentElement).prepend(el);
     };
     
-    // Inject all interceptors, including the new dynamic asset handler.
     const basePath = baseItem.path.substring(0, baseItem.path.lastIndexOf('/')) || '/';
     prependScript(dynamicAssetInterceptorScript.replace('%%BASE_PATH%%', basePath));
     prependScript(interceptorScriptContent);
     prependScript(workerInterceptorScript);
     
-    // Process only the assets present in the initial HTML.
     const assetElements = Array.from(doc.querySelectorAll('link[rel="stylesheet"][href], script[src]'));
     
     for (const el of assetElements) {
         const pathAttr = el.getAttribute('href') || el.getAttribute('src');
         
-        // Robust check for absolute URLs (http, https, //, data:, blob:)
+        // A more robust check for absolute URLs.
+        let isAbsolute = false;
         try {
             new URL(pathAttr);
-            continue; // It's an absolute URL, so we skip it.
+            isAbsolute = true;
         } catch (e) {
-            // It's a relative path, so we process it.
+            // Not a full URL, might be protocol-relative like //example.com/script.js
+            if (pathAttr.startsWith('//')) {
+                isAbsolute = true;
+            }
         }
+        if(isAbsolute) continue;
 
         const isLink = el.tagName === 'LINK';
         const resolvedPath = resolveRelativePath(baseItem.path, pathAttr);
 
         try {
             const assetItem = { ...workspace, path: resolvedPath };
-            
             let content = await FileSystemProvider.read(assetItem);
             
             if (content instanceof Blob) content = await content.text();
@@ -283,7 +281,6 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
             
             const newEl = isLink ? doc.createElement('style') : doc.createElement('script');
             
-            // CRITICAL: Preserve all original attributes (like type="module", async, id).
             for (const { name, value } of el.attributes) {
             	if (name !== "src" && name !== "href") {
             		newEl.setAttribute(name, value);
@@ -301,15 +298,12 @@ export async function processHtmlForPreview(htmlContent, baseItem) {
     return doc.documentElement.outerHTML;
 }
 
-// A more robust path resolver for the main thread.
 function resolveRelativePath(basePath, relativePath) {
     if (relativePath.startsWith('/')) {
-        return relativePath; // Already root-relative
+        return relativePath;
     }
-    // Get the directory of the base file path.
     const baseDir = basePath.substring(0, basePath.lastIndexOf('/'));
     try {
-        // Use the URL constructor for reliable path joining.
         const baseUrl = new URL(baseDir + '/', 'http://dummy.com/');
         const resolvedUrl = new URL(relativePath, baseUrl);
         return resolvedUrl.pathname;
