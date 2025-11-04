@@ -7,7 +7,7 @@ const ikar = {
         "repo": "MerkavaASTParser"
     },
     "branch": "main",
-    "baseCommitSHA": "7934618eef275801f1c7dc695fc742327232e2ad",
+    "baseCommitSHA": "a3ee1ae6fc151594f8da0c2756a4f126baabadfa",
     "remoteTree": [
         {
             "path": "Lexer.js",
@@ -45,9 +45,9 @@ const ikar = {
             "path": "parser-core.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "5197f553cc365a5909f6d2ec7bef1b909f3cff3a",
-            "size": 8713,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/5197f553cc365a5909f6d2ec7bef1b909f3cff3a"
+            "sha": "fefc0fb89ce63e7b229bc41f583ec48645da340a",
+            "size": 8176,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/fefc0fb89ce63e7b229bc41f583ec48645da340a"
         },
         {
             "path": "parser-declarations.js",
