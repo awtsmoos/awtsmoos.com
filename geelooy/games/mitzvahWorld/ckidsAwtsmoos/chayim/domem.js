@@ -748,10 +748,6 @@ export default class Domem extends Nivra {
         }
        
 		
-
-
-
-		
         var base;
         var overlay;
         try {
@@ -770,6 +766,11 @@ export default class Domem extends Nivra {
                 repeatX, repeatY,
                 nivra: self
             });
+
+            // THIS IS IMPORTANT for texture repeating to work
+            base.wrapS = base.wrapT = THREE.RepeatWrapping;
+            overlay.wrapS = overlay.wrapT = THREE.RepeatWrapping;
+
         } catch(e) {
             console.log("Issue loading!",e);
             return;
@@ -828,6 +829,7 @@ export default class Domem extends Nivra {
 
 			shader.vertexShader = `
 			uniform bool generateUvs;
+            uniform float textureScale;
 			varying vec2 vUv;
 			varying vec3 vPos;
 			` + shader.vertexShader;
@@ -873,7 +875,8 @@ export default class Domem extends Nivra {
 			}
 
             var fragmentLogic = `
-                vec4 baseColor = texture2D(baseTexture, vUv);
+                // Correctly apply texture repeating by multiplying vUv with repeatVector
+                vec4 baseColor = texture2D(baseTexture, vUv * repeatVector);
                 diffuseColor *= baseColor;
             `;
 
@@ -883,7 +886,6 @@ export default class Domem extends Nivra {
 			}
         
             // 2. Inject the declarations at the top of the shader, before main().
-            // A reliable way is to prepend them to the shader string.
             shader.fragmentShader = fragmentDeclarationsStart + shader.fragmentShader;
 
             // 3. Inject the logic inside main(), after the color is sampled from the map.
@@ -896,7 +898,7 @@ export default class Domem extends Nivra {
 
         
 		var material = customLambertMaterial;
-		material.side = THREE.DoubleSide; // <-- ADD THIS LINE
+		material.side = THREE.DoubleSide;
 		
 		targetChild.material = material;
 	    targetChild.material.needsUpdate = true;
