@@ -7,7 +7,7 @@
 const path = require("path");
 const fs = require("fs").promises;
 
-const logs = true; // Flag to control debug logging
+const logs = false; // Flag to control debug logging
 
 module.exports = {
 
