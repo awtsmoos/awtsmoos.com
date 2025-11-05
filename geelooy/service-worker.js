@@ -186,6 +186,7 @@ async function fetchAndCache(request) {
  * both the Cache and the IndexedDB with new metadata.
  */
 async function fetchAndUpdate(request, metadata) {
+try {
     const networkResponse = await fetch(request);
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
@@ -193,4 +194,5 @@ async function fetchAndUpdate(request, metadata) {
         await MetadataDB.set({ url: request.url, ...metadata });
     }
     return networkResponse;
+    } catch(e){}
 }
