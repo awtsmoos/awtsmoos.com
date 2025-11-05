@@ -215,13 +215,14 @@ class AwtsmoosStaticServer {
 	 */
 	
 	async onRequest(request, response) {
-		response.setHeader("Access-Control-Allow-Origin", "*")
 		 const requestOrigin = request.headers.origin;
 
 		// 2. Set the 'Access-Control-Allow-Origin' to the *specific* requesting origin.
 		//    We use a fallback to '*' just in case the Origin header is missing (e.g., non-browser requests), 
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", requestOrigin || '*')
+		
+		response.setHeader("Access-Control-Allow-Origin", requestOrigin || '*')
 		
 		var self = this;
 		response.statusCode = 200;
