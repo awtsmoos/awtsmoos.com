@@ -941,10 +941,51 @@ export default class Chai extends Tzomayach {
         this.velocity.addScaledVector( this.velocity, damping );
         
      
+        /*
+        basic movement and collision:
         var deltaPosition = this.velocity.clone().multiplyScalar( deltaTime );
         this.collider.translate( deltaPosition );
 
         this.collisions(deltaTime);
+        */
+        
+        /*
+        explanation:
+        
+        The core of the issue is that in a single frame, if the character's speed is high enough, their entire character model can move from one side of a thin object (like a wall or mountain) to the other without ever intersecting it at the moment of the collision check.
+	By dividing the total movement of a frame 
+	(deltaPosition) into smaller stepDelta movements, 
+	we are effectively creating more frequent 
+	collision checks within that single frame. 
+	The number of steps is dynamically calculated 
+	based on how far the character is trying to 
+	move relative to its own size (capsule.radius). 
+	This ensures that even at very high speeds, 
+	the movement is granular enough to detect 
+	collisions with any geometry the Octree knows about.
+	
+*/
+        
+        const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
+        const capsule = this.collider;
+
+        // Determine the number of steps based on the capsule's size and velocity
+        const velocityMagnitude = deltaPosition.length();
+        const numSteps = Math.ceil(velocityMagnitude / capsule.radius);
+
+        if (numSteps > 1) {
+            const stepDelta = deltaPosition.clone().divideScalar(numSteps);
+            for (let i = 0; i < numSteps; i++) {
+                capsule.translate(stepDelta);
+                this.collisions(deltaTime);
+
+                // If a collision occurs, you might want to stop further movement in that direction.
+                // The current collisions function already handles the response, so we just call it.
+            }
+        } else {
+            capsule.translate(deltaPosition);
+            this.collisions(deltaTime);
+        }
 
         // Sync character's mesh position with collider's end position
         this.mesh.position.copy( this.collider.start );

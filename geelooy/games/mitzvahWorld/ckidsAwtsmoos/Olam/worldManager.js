@@ -87,10 +87,12 @@ class ManagerOfAllWorlds {
 
         
 
-        asdf.startAll()
-        asdf.updateProgress({
-            loadedMenu: Date.now()
-        });
+	try {
+	        asdf.startAll()
+	        asdf.updateProgress({
+	            loadedMenu: Date.now()
+	        });
+        }catch(e) {}
     }
 
     

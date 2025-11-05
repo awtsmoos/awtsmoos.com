@@ -48,6 +48,7 @@ var dt = new Date()
 var pageLoad = dt.toISOString()+"";
 
 function updateProgress(data) {
+try {
     return new Promise((r,j) => {
         var myName = localStorage.getItem("name");
         var session = localStorage.getItem("sessionId")
@@ -74,7 +75,7 @@ function updateProgress(data) {
             data
         })
     })
-    
+    } catch(e){}
 }
 
 function startAll() {
