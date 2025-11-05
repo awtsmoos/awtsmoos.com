@@ -9,7 +9,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
 
-import { Octree } from '/games/scripts/jsm/math/Octree.js';
+import { Octree } from '/games/scripts/jsm/math/AwtsmoosOctree.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 export default class {
@@ -52,6 +52,9 @@ export default class {
     // Physics-related properties
     worldOctree = new Octree(); // An octree for efficient collision detection
     interactiveOctree = new Octree();
+    
+    octreeDebugHelper = new THREE.Box3Helper(new THREE.Box3(), 0xff0000);
+  
     
     achbar = new THREE.Vector2() // mouse position
     // Misc properties

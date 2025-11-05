@@ -75,7 +75,17 @@ self.addEventListener('activate', (event) => {
 // --- Fetch Interception ---
 self.addEventListener('fetch', (event) => {
     const { request } = event;
-    if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) {
+    
+    if (
+	    request.method !== 'GET' || 
+	    ![
+		    self.location.origin,
+		    "https://awtsmoos.com",
+		    "https://www.awtsmoos.com",
+	    ].includes(
+		    new URL(request.url).origin,
+		)
+    ) {
         return;
     }
     event.respondWith(handleFetch(request));
@@ -153,7 +163,6 @@ function createStatusRequest(request) {
     return new Request(request.url, {
         method: request.method,
         headers: newHeaders,
-        mode: 'same-origin',
         credentials: request.credentials,
         redirect: 'manual'
     });

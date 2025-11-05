@@ -74,6 +74,8 @@ export default class {
                     self.ayshPeula("rendered first time")
                     self.ayshPeula("alert", "First time rendering " + self.renderer)
                 }
+                
+               // self.octreeDebugHelper.box.copy(self.worldOctree.getDebugBoundingBox());
                 if(self.renderer) {
                     
                     if(!envRendered) {
