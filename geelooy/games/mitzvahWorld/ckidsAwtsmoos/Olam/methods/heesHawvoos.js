@@ -32,6 +32,18 @@ export default class {
                     w.material.uniforms[ 'time' ].value += 1.0 / 60.0;
                 })
             }
+            
+            if (self.worldOctree) {
+		    if (self.frameCount === undefined) self.frameCount = 0;
+		    self.frameCount++;
+		    if (self.frameCount % 100 === 0) {
+		        console.log(
+		            "Active Chunks:", self.worldOctree.getActiveChunkCount(), // You'll need to add this helper function
+		            "| Build Queue:", self.worldOctree.getBuildQueueSize()    // And this one
+		        );
+		    }
+	        self.worldOctree?.processBuildQueue?.();
+	    }
                 
 
                 
@@ -43,6 +55,8 @@ export default class {
                         n.heesHawvoos(self.deltaTime) : 0)
                     );
                 }
+                
+                
 
             
 

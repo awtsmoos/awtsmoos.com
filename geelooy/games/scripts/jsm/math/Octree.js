@@ -30,6 +30,11 @@ class Octree {
 		this.subTrees = [];
 
 	}
+	_addTriangles(triangles) {
+	    this.#allTriangles.push(...triangles);
+	    this.#isBuilt = false;
+	}
+
 
 	addTriangle( triangle ) {
 
@@ -48,6 +53,8 @@ class Octree {
 
 	}
 
+
+	
 	calcBox() {
 
 		this.box = this.bounds.clone();

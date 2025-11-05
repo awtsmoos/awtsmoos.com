@@ -321,7 +321,7 @@ var ui = [
                     initTooltip()  
                 }
                 empty.onmousemove = (e) => {
-                    console.log(e);
+                   
                     moveTooltipToMe({
                         x: e.pageX,
                         y: e.pageY

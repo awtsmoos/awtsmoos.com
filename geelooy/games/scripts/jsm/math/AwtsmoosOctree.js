@@ -15,62 +15,59 @@ const _v2 = new Vector3();
 const _plane = new Plane();
 const _line1 = new Line3();
 const _line2 = new Line3();
-const _sphere = new Sphere();
-const _capsule = new Capsule();
 const _temp_triangle = new Triangle();
 
 const MAX_DEPTH = 55;
 
 export class Octree {
+	// Holds Triangle objects until the build is triggered.
+	// Kept permanently to allow for reliable removals and rebuilds.
+	#allTriangles;
+	
+	// The memory-optimized flat array, derived from #allTriangles.
 	#worldTrianglesData;
+
+	// Flag to control the "Just-in-Time" build.
 	#isBuilt;
 
-	// The new, lightweight metadata structure.
-	// We map a Mesh to the location of its data in the Float32Array.
-	#meshMetadata = new Map();
-
 	constructor(box) {
-		this.triangles = [];
+		this.triangles = []; // This will store triangle INDICES
 		this.box = box || new Box3();
 		this.subTrees = [];
-		this.#worldTrianglesData = new Float32Array(0);
+		this.#allTriangles = [];
 		this.#isBuilt = false;
+	}
+	
+	_addTriangles = (triangles) => {
+	    this.#allTriangles.push(...triangles);
+	    this.#isBuilt = false;
 	}
 
 	fromGraphNode(group) {
-		const newTriangles = [];
 		group.updateWorldMatrix(true, true);
 
 		group.traverse((obj) => {
 			if (obj.isMesh === true) {
-				let geometry, isTemp = false;
-				if (obj.geometry.index !== null) {
-					isTemp = true;
-					geometry = obj.geometry.toNonIndexed();
-				} else {
-					geometry = obj.geometry;
+				if (this.#allTriangles.some(tri => tri.sourceMesh === obj)) {
+					this.removeMesh(obj);
 				}
+				
+				let geometry, isTemp = false;
+				if (obj.geometry.index !== null) { isTemp = true; geometry = obj.geometry.toNonIndexed(); } 
+				else { geometry = obj.geometry; }
 
 				const positionAttribute = geometry.getAttribute('position');
-				for (let i = 0; i < positionAttribute.count; i += 3) {
-					// Triangles are created temporarily and then discarded
-					const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(obj.matrixWorld);
-					const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
-					const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
-					newTriangles.push(new Triangle(v1, v2, v3));
+				if (positionAttribute) {
+					for (let i = 0; i < positionAttribute.count; i += 3) {
+						const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(obj.matrixWorld);
+						const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
+						const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
+						const tri = new Triangle(v1, v2, v3);
+						tri.sourceMesh = obj;
+						this.#allTriangles.push(tri);
+					}
 				}
 				if (isTemp) geometry.dispose();
-
-				// Append the new triangle data to the master Float32Array
-				const startIndex = this.#getTriangleCount();
-				this.#appendTriangleData(newTriangles);
-
-				// Store the metadata for this mesh
-				this.#meshMetadata.set(obj, {
-					startIndex: startIndex,
-					count: newTriangles.length
-				});
-				newTriangles.length = 0; // Clear for next mesh
 			}
 		});
 
@@ -79,89 +76,44 @@ export class Octree {
 	}
 
 	removeMesh(mesh) {
-		if (!this.#meshMetadata.has(mesh)) return this;
-
-		// When a mesh is removed, the data array becomes fragmented.
-		// The only clean solution is to compact the array and rebuild.
-		this.#meshMetadata.delete(mesh);
-		this.#compact(); // This will rebuild the Float32Array from remaining metadata
-		this.#isBuilt = false;
-
+		const originalTriangleCount = this.#allTriangles.length;
+		this.#allTriangles = this.#allTriangles.filter(tri => tri.sourceMesh !== mesh);
+		if (this.#allTriangles.length < originalTriangleCount) {
+			this.#isBuilt = false;
+		}
 		return this;
 	}
 
-	#appendTriangleData(triangleArray) {
-		if (triangleArray.length === 0) return;
-		const originalLength = this.#worldTrianglesData.length;
-		const newLength = originalLength + triangleArray.length * 9;
-		const newArray = new Float32Array(newLength);
-		
-		newArray.set(this.#worldTrianglesData, 0);
-
-		for (let i = 0; i < triangleArray.length; i++) {
-			const tri = triangleArray[i];
-			const baseIndex = originalLength + i * 9;
-			newArray[baseIndex] = tri.a.x;
-			newArray[baseIndex + 1] = tri.a.y;
-			newArray[baseIndex + 2] = tri.a.z;
-			newArray[baseIndex + 3] = tri.b.x;
-			newArray[baseIndex + 4] = tri.b.y;
-			newArray[baseIndex + 5] = tri.b.z;
-			newArray[baseIndex + 6] = tri.c.x;
-			newArray[baseIndex + 7] = tri.c.y;
-			newArray[baseIndex + 8] = tri.c.z;
-		}
-		this.#worldTrianglesData = newArray;
-	}
-
-	#compact() {
-		let totalTriangles = 0;
-		for (const meta of this.#meshMetadata.values()) {
-			totalTriangles += meta.count;
-		}
-
-		const newArray = new Float32Array(totalTriangles * 9);
-		let currentIndex = 0;
-
-		for (const [mesh, meta] of this.#meshMetadata.entries()) {
-			const { startIndex, count } = meta;
-			const subArray = this.#worldTrianglesData.subarray(startIndex * 9, (startIndex + count) * 9);
-			newArray.set(subArray, currentIndex * 9);
-			
-			// IMPORTANT: Update the metadata with the new location
-			meta.startIndex = currentIndex;
-			currentIndex += count;
-		}
-		
-		this.#worldTrianglesData = newArray;
-	}
-
-
 	build() {
-		this.calcBox();
+		this.subTrees = [];
+		this.box.makeEmpty();
+		
+		this.#worldTrianglesData = new Float32Array(this.#allTriangles.length * 9);
+		for (let i = 0; i < this.#allTriangles.length; i++) {
+			const tri = this.#allTriangles[i];
+			const baseIndex = i * 9;
+			this.#worldTrianglesData[baseIndex] = tri.a.x; this.#worldTrianglesData[baseIndex+1] = tri.a.y; this.#worldTrianglesData[baseIndex+2] = tri.a.z;
+			this.#worldTrianglesData[baseIndex+3] = tri.b.x; this.#worldTrianglesData[baseIndex+4] = tri.b.y; this.#worldTrianglesData[baseIndex+5] = tri.b.z;
+			this.#worldTrianglesData[baseIndex+6] = tri.c.x; this.#worldTrianglesData[baseIndex+7] = tri.c.y; this.#worldTrianglesData[baseIndex+8] = tri.c.z;
+			this.box.expandByPoint(tri.a).expandByPoint(tri.b).expandByPoint(tri.c);
+		}
+		
+		if(this.#allTriangles.length > 0){
+			this.box.min.x -= 0.01; this.box.min.y -= 0.01; this.box.min.z -= 0.01;
+		}
+
+		this.triangles = Array.from(Array(this.#allTriangles.length).keys());
 		this.split(0);
+		
 		this.#isBuilt = true;
 		return this;
 	}
-	
-	calcBox() {
-		const triangleCount = this.#getTriangleCount();
-		this.triangles = Array.from(Array(triangleCount).keys());
-		this.box.makeEmpty();
-		if (triangleCount > 0) {
-			for (let i = 0; i < triangleCount; i++) {
-				const tri = this.#_getTriangle(i, _temp_triangle);
-				this.box.expandByPoint(tri.a).expandByPoint(tri.b).expandByPoint(tri.c);
-			}
-			this.box.min.x -= 0.01; this.box.min.y -= 0.01; this.box.min.z -= 0.01;
-		}
-	}
 
 	split(level) {
-		this.subTrees = [];
-		const subTrees = [];
-		const halfsize = _v2.copy(this.box.max).sub(this.box.min).multiplyScalar(0.5);
+		if(this.triangles.length === 0) return;
 
+		const halfsize = _v2.copy(this.box.max).sub(this.box.min).multiplyScalar(0.5);
+		const newSubTrees = [];
 		for (let x = 0; x < 2; x++) { for (let y = 0; y < 2; y++) { for (let z = 0; z < 2; z++) {
 			const box = new Box3();
 			_v1.set(x, y, z);
@@ -169,21 +121,19 @@ export class Octree {
 			box.max.copy(box.min).add(halfsize);
 			const subTree = new Octree(box);
 			subTree.#worldTrianglesData = this.#worldTrianglesData;
-			subTree.#isBuilt = true;
-			subTrees.push(subTree);
+			newSubTrees.push(subTree);
 		}}}
-
-		let triangleIndex;
-		while ((triangleIndex = this.triangles.pop()) !== undefined) {
-			const tri = this.#_getTriangle(triangleIndex, _temp_triangle);
-			for (const subTree of subTrees) {
+		
+		for (const index of this.triangles) {
+			const tri = this.#_getTriangle(index, _temp_triangle);
+			for (const subTree of newSubTrees) {
 				if (subTree.box.intersectsTriangle(tri)) {
-					subTree.triangles.push(triangleIndex);
+					subTree.triangles.push(index);
 				}
 			}
 		}
 
-		for (const subTree of subTrees) {
+		for (const subTree of newSubTrees) {
 			const len = subTree.triangles.length;
 			if (len > 8 && level < MAX_DEPTH) {
 				subTree.split(level + 1);
@@ -192,28 +142,67 @@ export class Octree {
 				this.subTrees.push(subTree);
 			}
 		}
+		
+		// ------------------------- THE FIX IS HERE ------------------------------
+		// After distributing triangles to children, clear this node's list.
+		// Only leaf nodes (nodes with no subTrees) should hold triangle references.
+		if (this.subTrees.length > 0) {
+			this.triangles.length = 0;
+		}
+		// ------------------------------------------------------------------------
+	}
+
+	getCapsuleTriangles(capsule, triangles) {
+		for (const subTree of this.subTrees) {
+			if (capsule.intersectsBox(subTree.box)) {
+				subTree.getCapsuleTriangles(capsule, triangles);
+			}
+		}
+		
+		// This part is now safe, because it will only run on leaf nodes
+		// that actually contain the triangles for that specific area.
+		for (const index of this.triangles) {
+			if (triangles.indexOf(index) === -1) {
+				triangles.push(index);
+			}
+		}
+	}
+	
+	getRayTriangles(ray, triangles) {
+		for (const subTree of this.subTrees) {
+			if (ray.intersectsBox(subTree.box)) {
+				subTree.getRayTriangles(ray, triangles);
+			}
+		}
+
+		for (const index of this.triangles) {
+			if (triangles.indexOf(index) === -1) {
+				triangles.push(index);
+			}
+		}
 	}
 
 	capsuleIntersect(capsule) {
 		if (!this.#isBuilt) this.build();
 		if (this.box.isEmpty() || !capsule.intersectsBox(this.box)) return false;
 
-		const tempCapsule = capsule.clone();
-		const triangles = [];
-		let result, hit = false;
+		const resultCapsule = capsule.clone();
+		let hit = false;
 		
-		this.getCapsuleTriangles(tempCapsule, triangles);
-
-		for (const index of triangles) {
+		const trianglesToCheck = [];
+		this.getCapsuleTriangles(capsule, trianglesToCheck);
+		
+		for (const index of trianglesToCheck) {
 			const tri = this.#_getTriangle(index, _temp_triangle);
-			if (result = this._triangleCapsuleIntersect(tempCapsule, tri)) {
+			const result = this._triangleCapsuleIntersect(resultCapsule, tri);
+			if (result) {
 				hit = true;
-				tempCapsule.translate(result.normal.multiplyScalar(result.depth));
+				resultCapsule.translate(result.normal.multiplyScalar(result.depth));
 			}
 		}
-
+		
 		if (hit) {
-			const collisionVector = tempCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
+			const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
 			if (collisionVector.lengthSq() > 1e-10) {
 				const depth = collisionVector.length();
 				return { normal: collisionVector.normalize(), depth: depth };
@@ -223,52 +212,37 @@ export class Octree {
 	}
 
 	rayIntersect(ray) {
-		if (!this.#isBuilt) this.build();
-		if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
-		
-		const triangles = [];
-		let closestResult = false;
-		this.getRayTriangles(ray, triangles);
-
-		for (const index of triangles) {
-			const tri = this.#_getTriangle(index, _temp_triangle);
-			const result = ray.intersectTriangle(tri.a, tri.b, tri.c, false, _v1);
-			if (result) {
-				const distSq = ray.origin.distanceToSquared(result);
-				if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
-					closestResult = {
-						distance: Math.sqrt(distSq),
-						triangle: tri.clone(),
-						position: result.clone()
-					};
-				}
-			}
-		}
-		return closestResult;
+	    if (!this.#isBuilt) this.build();
+	    if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
+	
+	    let closestResult = false;
+	    const trianglesToCheck = [];
+	    this.getRayTriangles(ray, trianglesToCheck);
+	
+	    for (const index of trianglesToCheck) {
+	        const tri = this.#_getTriangle(index, _temp_triangle);
+	        const result = ray.intersectTriangle(tri.a, tri.b, tri.c, false, _v1);
+	        
+	        if (result) {
+	            const distSq = ray.origin.distanceToSquared(result);
+	            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
+	                
+	                const hitNormal = new Vector3();
+	                tri.getNormal(hitNormal);
+	
+	                closestResult = {
+	                    distance: Math.sqrt(distSq),
+	                    triangle: tri.clone(),
+	                    position: result.clone(),
+	                    normal: hitNormal
+	                };
+	            }
+	        }
+	    }
+	
+	    return closestResult;
 	}
-
-	getCapsuleTriangles(capsule, triangles) {
-		for (const subTree of this.subTrees) {
-			if (capsule.intersectsBox(subTree.box)) {
-				subTree.getCapsuleTriangles(capsule, triangles);
-			}
-		}
-		for (const index of this.triangles) {
-			if (triangles.indexOf(index) === -1) triangles.push(index);
-		}
-	}
-
-	getRayTriangles(ray, triangles) {
-		for (const subTree of this.subTrees) {
-			if (ray.intersectsBox(subTree.box)) {
-				subTree.getRayTriangles(ray, triangles);
-			}
-		}
-		for (const index of this.triangles) {
-			if (triangles.indexOf(index) === -1) triangles.push(index);
-		}
-	}
-
+	
 	_triangleCapsuleIntersect(capsule, triangle) {
 		triangle.getPlane(_plane);
 		const d1 = _plane.distanceToPoint(capsule.start) - capsule.radius;
@@ -291,7 +265,7 @@ export class Octree {
 		}
 		return false;
 	}
-
+	
 	#getTriangleCount() { return this.#worldTrianglesData ? this.#worldTrianglesData.length / 9 : 0; }
 	#_getTriangle(index, target) {
 		const base = index * 9;

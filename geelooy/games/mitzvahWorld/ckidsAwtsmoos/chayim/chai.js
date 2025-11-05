@@ -13,7 +13,8 @@ import Utils from "../utils.js";
 const SPHERE_RADIUS = 0.2;
 const sphereGeometry = new THREE.IcosahedronGeometry( SPHERE_RADIUS, 5 );
 const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xdede8d } );
-
+const _predictedPosition = new THREE.Vector3();
+const _ground_check_ray = new THREE.Raycaster();
 export default class Chai extends Tzomayach {
     type = "chai";
     rotationSpeed;
@@ -237,37 +238,41 @@ export default class Chai extends Tzomayach {
      * @param {number} deltaTime Time since the last frame
      */
 
-    collisions(deltaTime) {
-        var result = this.olam.worldOctree.capsuleIntersect( this.collider );
-        this.onFloor = false;
-      
-        if ( result ) {
-              // Calculate the angle between the collision normal and the up vector
-            var upVector = new THREE.Vector3(0, 1, 0);
-            var angle = result.normal.angleTo(upVector) * (180 / Math.PI);
+  
+	// In Chai.js, replace the entire collisions method
 
-            if(angle < 40)
-                this.onFloor = result.normal.y > 0;
-            else this.onFloor = false;
-            if (this.onFloor) {
-                
-                if(!this.gotOffset) {
-                // We're touching the ground, so calculate the offset
-                    this.calculateOffset();
-                    this.gotOffset = true;
-                }
-            } 
-    
-            if ( ! this.onFloor ) {
-                
-                this.velocity.addScaledVector( result.normal, - result.normal.dot( this.velocity ) );
-            }
+collisions(deltaTime) {
+    // 1. Perform a short raycast straight down to confirm if we are on the ground.
+	    // Create a temporary, slightly shorter capsule for the ground check
+	const groundCheckCapsule = this.collider.clone();
+	
+	// Move it down just a tiny bit. 0.05 is a good starting value.
+	groundCheckCapsule.end.y -= 0.05; 
+	
+	// Perform a capsule intersection check with this temporary capsule.
+	const groundCheckResult = this.olam.worldOctree.capsuleIntersect(groundCheckCapsule);
+	
+	// We are on the floor if this check found a collision AND the collision normal is mostly pointing upwards.
+	this.onFloor = groundCheckResult && groundCheckResult.normal.y > 0.7;
+	// --- END: NEW ROBUST GROUND CHECK ---
+	
 
-           // console.log("Colliding",result.normal)
-    
-            this.collider.translate( result.normal.multiplyScalar( result.depth ) );
+    // 2. Now, perform the main capsule collision for movement.
+    const result = this.olam.worldOctree.capsuleIntersect(this.collider);
+  
+    if (result) {
+        // If we are on the floor, we reset the vertical velocity.
+        if (this.onFloor) {
+            this.velocity.y = 0;
+        } else {
+            // Otherwise, we bounce off walls/ceilings.
+            this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
         }
+
+        // Apply the positional correction from the capsule.
+        this.collider.translate(result.normal.multiplyScalar(result.depth));
     }
+}
 
     async calculateOffset() {
         if (!this.onFloor) {
@@ -663,7 +668,13 @@ export default class Chai extends Tzomayach {
     jumped = false;
 
     fallingFrames = 0
-    heesHawvoos(deltaTime) {
+    heesHawvoos(dt) {
+	     // Clamp deltaTime to prevent physics explosions after a freeze.
+    // A value of 0.1 means the game will never simulate more than 1/10th of a second
+    // in a single frame, no matter how long the freeze was.
+    const deltaTime = Math.min(dt, 0.1);
+    // Now, use `deltaTime ` for all calculations in this function instead of `dt`.
+    // ------------------------------------------------------------------------
         super.heesHawvoos(deltaTime);
         if(this.isTeleporting) {
             this.isTeleporting = false;
@@ -970,6 +981,15 @@ export default class Chai extends Tzomayach {
 */
         
         const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
+        // STEP 1: PREDICT
+    // Calculate where the player will likely be at the end of this frame's movement.
+    _predictedPosition.copy(this.collider.end).add(deltaPosition);
+
+    // STEP 2: PREPARE
+    // Call updateFocus ONCE at the beginning, using the predicted destination.
+    // This loads all necessary chunks BEFORE the player moves.
+	this.olam.worldOctree?.updateFocus?.(this.collider.end, _predictedPosition, 1, 2);
+    
         const capsule = this.collider;
 
         // Determine the number of steps based on the capsule's size and velocity
@@ -1063,6 +1083,16 @@ export default class Chai extends Tzomayach {
 
         this.emptyCopy.rotation.copy(this.modelMesh.rotation);
         this.updateSpheres(deltaTime)
+        
+        if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
+	        console.error("!!! FATAL: Player position became NaN. Physics explosion detected!", {
+	             pos: this.mesh.position,
+	             vel: this.velocity
+	        });
+	        // You might want to halt the game or reset the player here to prevent further issues.
+	        // For example, by throwing an error:
+	        throw new Error("Player position is NaN!");
+	    }
        // this.updateRay(deltaTime);
     }
 }
