@@ -216,11 +216,18 @@ class AwtsmoosStaticServer {
 	
 	async onRequest(request, response) {
 		 const requestOrigin = request.headers.origin;
+		 response.setHeader('Access-Control-Allow-Credentials', 'true');
+		 response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+		 if (request.method === 'OPTIONS') {
+		    response.writeHead(204); // 204 No Content response for successful preflight
+		    response.end();
+		    return; // End the request handling here for OPTIONS
+		  }
 
 		// 2. Set the 'Access-Control-Allow-Origin' to the *specific* requesting origin.
 		//    We use a fallback to '*' just in case the Origin header is missing (e.g., non-browser requests), 
 		//    but the core logic here addresses your specific error.
-		response.setHeader("Access-Control-Allow-Headers", requestOrigin || '*')
+		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
 		
 		response.setHeader("Access-Control-Allow-Origin", requestOrigin || '*')
 		
