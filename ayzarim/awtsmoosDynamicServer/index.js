@@ -225,7 +225,7 @@ class AwtsmoosStaticServer {
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
 		
-		response.setHeader("Access-Control-Allow-Origin", '*')
+		response.setHeader("Access-Control-Allow-Origin", requestOrigin  || '*')
 		
 		if (request.method === 'OPTIONS') {
 		    response.writeHead(204); // 204 No Content response for successful preflight
