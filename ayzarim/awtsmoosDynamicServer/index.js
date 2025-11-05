@@ -216,7 +216,7 @@ class AwtsmoosStaticServer {
 	
 	async onRequest(request, response) {
 		 const requestOrigin = request.headers.origin;
-		 response.setHeader('Access-Control-Allow-Credentials', 'true');
+		// response.setHeader('Access-Control-Allow-Credentials', 'true');
 		 response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
 		 
 
@@ -224,16 +224,8 @@ class AwtsmoosStaticServer {
 		//    We use a fallback to '*' just in case the Origin header is missing (e.g., non-browser requests), 
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
+		response.setHeader('Access-Control-Allow-Origin', requestOrigin);
 		
-		if (requestOrigin && requestOrigin !== 'null') {
-		        // Echo the specific origin back to the client
-		        response.setHeader('Access-Control-Allow-Origin', requestOrigin);
-		    } else if (requestOrigin === 'null') {
-		        // Handle the 'null' origin case. This is risky, but necessary if your 
-		        // service worker genuinely produces this and you trust it. 
-		        // You MUST trust that the client logic (your service worker) is not malicious.
-		        response.setHeader('Access-Control-Allow-Origin', 'null');
-		    }
 		
 		if (request.method === 'OPTIONS') {
 		    response.writeHead(204); // 204 No Content response for successful preflight
