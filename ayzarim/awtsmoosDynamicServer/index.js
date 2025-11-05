@@ -225,7 +225,9 @@ class AwtsmoosStaticServer {
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
 		response.setHeader('Access-Control-Allow-Origin', requestOrigin||"*");
-		//response.setHeader('cross-origin-resource-policy', "cross-origin");
+		response.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+		response.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+		response.setHeader('cross-origin-resource-policy', "cross-origin");
 		
 		
 		if (request.method === 'OPTIONS') {
@@ -287,6 +289,7 @@ class AwtsmoosStaticServer {
 		this.doMiddleware(request, response);
 		response.setHeader("BH", "Boruch Hashem");
 		response.setHeader("Awtsmoos", "Is found in all things");
+		
 		//response.setHeader('Transfer-Encoding', 'chunked') // Enables chunked transfer
 	        
 	      //  response.setHeader('Cross-Origin-Opener-Policy','same-origin')
