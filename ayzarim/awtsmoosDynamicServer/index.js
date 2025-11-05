@@ -224,8 +224,8 @@ class AwtsmoosStaticServer {
 		//    We use a fallback to '*' just in case the Origin header is missing (e.g., non-browser requests), 
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
-		response.setHeader('Access-Control-Allow-Origin', requestOrigin);
-		response.setHeader('cross-origin-resource-policy', "cross-origin");
+		response.setHeader('Access-Control-Allow-Origin', requestOrigin||"*");
+		//response.setHeader('cross-origin-resource-policy', "cross-origin");
 		
 		
 		if (request.method === 'OPTIONS') {
