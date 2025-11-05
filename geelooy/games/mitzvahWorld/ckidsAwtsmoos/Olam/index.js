@@ -105,13 +105,13 @@ export default class Olam extends AWTSMOOS.Nivra {
             eventListeners.bind(this)();
 
             this.ayin = new Ayin(this);
-            this.ayin.camera.far = 150;
+            this.ayin.camera.far = 250;
             this.scene.background = new THREE.Color(0x88ccee);
             this.nivrayimGroup.name = "nivrayimGroup"
 
             this.scene.add(this.nivrayimGroup)
             this.scene.fog = new THREE.Fog(0x88ccee,
-            this.ayin.camera.near, this.ayin.camera.far);
+            this.ayin.camera.near, this.ayin.camera.far * 2);
             this.startShlichusHandler(this);
          
             

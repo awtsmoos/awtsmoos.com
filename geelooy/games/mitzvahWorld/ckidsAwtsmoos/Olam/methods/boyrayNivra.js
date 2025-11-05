@@ -33,7 +33,7 @@ import Utils from '../../utils.js'
 
 import * as THREE from '/games/scripts/build/three.module.js';
 
-import { Octree } from '/games/scripts/jsm/math/Octree.js';
+import { Octree } from '/games/scripts/jsm/math/AwtsmoosOctree.js';
 
 export default class {
    

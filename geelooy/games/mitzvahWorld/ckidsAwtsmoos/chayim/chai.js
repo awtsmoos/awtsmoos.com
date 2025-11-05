@@ -933,12 +933,15 @@ export default class Chai extends Tzomayach {
             // Apply gravity if the character is not on the floor
             this.velocity.y -= this.olam.GRAVITY * deltaTime;
 
-            // small air resistance
-            damping *= 0.1;
+            // Apply damping to horizontal movement only (air resistance)
+            // This leaves vertical velocity alone to accelerate indefinitely
+            const airDamping = damping * 0.1;
+            this.velocity.x += this.velocity.x * airDamping;
+            this.velocity.z += this.velocity.z * airDamping;
+        } else {
+            // When on the floor, apply damping to all axes to slow down and stop
+            this.velocity.addScaledVector( this.velocity, damping );
         }
-        
-        
-        this.velocity.addScaledVector( this.velocity, damping );
         
      
         /*
