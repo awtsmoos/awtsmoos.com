@@ -16,7 +16,6 @@ const _plane = new Plane();
 const _line1 = new Line3();
 const _line2 = new Line3();
 const _sphere = new Sphere();
-const _capsule = new Capsule();
 const _temp_triangle = new Triangle();
 const _temp_box = new Box3();
 
@@ -76,10 +75,10 @@ class InternalOctree {
 			_v1.set(x, y, z);
 			box.min.copy(this.box.min).add(_v1.multiply(halfsize));
 			box.max.copy(box.min).add(halfsize);
-			// Create a dummy InternalOctree to hold data. It won't be built.
-			const subTree = new InternalOctree([]); 
-			subTree.box = box;
-			subTree.#worldTrianglesData = this.#worldTrianglesData;
+			const subTree = Object.assign(new InternalOctree([]), {
+				box: box,
+				"#worldTrianglesData": this.#worldTrianglesData
+			});
 			subTrees.push(subTree);
 		}}}
 
@@ -295,7 +294,14 @@ export class Octree {
 
 		let hit = false;
 		const tempCapsule = capsule.clone();
-		capsule.getBoundingBox(_temp_box);
+		
+		// THIS IS THE FIX. No "getBoundingBox" method.
+		// We manually create the bounding box from the capsule's properties.
+		_temp_box.makeEmpty()
+			.expandByPoint(capsule.start)
+			.expandByPoint(capsule.end)
+			.expandByScalar(capsule.radius);
+		
 		const minChunk = this.#getChunkCoords(_temp_box.min);
 		const maxChunk = this.#getChunkCoords(_temp_box.max);
 
@@ -330,28 +336,11 @@ export class Octree {
 
 		let closestResult = false;
 		const { chunkSize } = this;
-		const invDir = new Vector3(1 / ray.direction.x, 1 / ray.direction.y, 1 / ray.direction.z);
 		
-		let tmin = -Infinity, tmax = Infinity;
-
-		for(const axis of ['x', 'y', 'z']) {
-			if (ray.direction[axis] === 0) {
-				if (ray.origin[axis] < this.box.min[axis] || ray.origin[axis] > this.box.max[axis]) return false;
-			} else {
-				const t1 = (this.box.min[axis] - ray.origin[axis]) * invDir[axis];
-				const t2 = (this.box.max[axis] - ray.origin[axis]) * invDir[axis];
-				tmin = Math.max(tmin, Math.min(t1, t2));
-				tmax = Math.min(tmax, Math.max(t1, t2));
-			}
-		}
-
-		if(tmax < 0 || tmin > tmax) return false;
-
-		const startPoint = ray.at(Math.max(0, tmin), _v1);
-		
-		let currentChunkX = Math.floor(startPoint.x / chunkSize);
-		let currentChunkY = Math.floor(startPoint.y / chunkSize);
-		let currentChunkZ = Math.floor(startPoint.z / chunkSize);
+		// Use a fast voxel traversal algorithm (Amanatides-Woo) to check only the chunks the ray passes through.
+		let currentChunkX = Math.floor(ray.origin.x / chunkSize);
+		let currentChunkY = Math.floor(ray.origin.y / chunkSize);
+		let currentChunkZ = Math.floor(ray.origin.z / chunkSize);
 
 		const stepX = Math.sign(ray.direction.x);
 		const stepY = Math.sign(ray.direction.y);
@@ -361,18 +350,28 @@ export class Octree {
 		const nextBoundY = (currentChunkY + (stepY > 0 ? 1 : 0)) * chunkSize;
 		const nextBoundZ = (currentChunkZ + (stepZ > 0 ? 1 : 0)) * chunkSize;
 
-		let tMaxX = ray.direction.x !== 0 ? (nextBoundX - ray.origin.x) * invDir.x : Infinity;
-		let tMaxY = ray.direction.y !== 0 ? (nextBoundY - ray.origin.y) * invDir.y : Infinity;
-		let tMaxZ = ray.direction.z !== 0 ? (nextBoundZ - ray.origin.z) * invDir.z : Infinity;
-		
-		const tDeltaX = ray.direction.x !== 0 ? Math.abs(chunkSize * invDir.x) : Infinity;
-		const tDeltaY = ray.direction.y !== 0 ? Math.abs(chunkSize * invDir.y) : Infinity;
-		const tDeltaZ = ray.direction.z !== 0 ? Math.abs(chunkSize * invDir.z) : Infinity;
+		const invDir = _v1.set(
+			ray.direction.x === 0 ? Infinity : 1 / ray.direction.x,
+			ray.direction.y === 0 ? Infinity : 1 / ray.direction.y,
+			ray.direction.z === 0 ? Infinity : 1 / ray.direction.z
+		);
 
-		// Limit to a reasonable number of chunks to prevent infinite loops from floating point errors
-		for (let i = 0; i < 200; i++) {
+		let tMaxX = (nextBoundX - ray.origin.x) * invDir.x;
+		let tMaxY = (nextBoundY - ray.origin.y) * invDir.y;
+		let tMaxZ = (nextBoundZ - ray.origin.z) * invDir.z;
+		
+		const tDeltaX = Math.abs(chunkSize * invDir.x);
+		const tDeltaY = Math.abs(chunkSize * invDir.y);
+		const tDeltaZ = Math.abs(chunkSize * invDir.z);
+
+		const endX = Math.floor((ray.origin.x + ray.direction.x * 2000) / chunkSize); // Use a reasonable max distance
+		const endY = Math.floor((ray.origin.y + ray.direction.y * 2000) / chunkSize);
+		const endZ = Math.floor((ray.origin.z + ray.direction.z * 2000) / chunkSize);
+
+
+		while (true) {
 			const key = `${currentChunkX},${currentChunkY},${currentChunkZ}`;
-			const chunk = this.#getOrBuildChunk(key); // Lazy builds here
+			const chunk = this.#getOrBuildChunk(key);
 			if (chunk) {
 				const result = chunk.rayIntersect(ray);
 				if (result) {
@@ -382,24 +381,28 @@ export class Octree {
 				}
 			}
 
+			if (closestResult && closestResult.distance < Math.min(tMaxX, tMaxY, tMaxZ) * ray.direction.length()) {
+				break;
+			}
+
 			if (tMaxX < tMaxY) {
 				if (tMaxX < tMaxZ) {
-					if (closestResult && tMaxX > closestResult.distance) break;
 					currentChunkX += stepX;
+					if (currentChunkX === endX) break;
 					tMaxX += tDeltaX;
 				} else {
-					if (closestResult && tMaxZ > closestResult.distance) break;
 					currentChunkZ += stepZ;
+					if (currentChunkZ === endZ) break;
 					tMaxZ += tDeltaZ;
 				}
 			} else {
 				if (tMaxY < tMaxZ) {
-					if (closestResult && tMaxY > closestResult.distance) break;
 					currentChunkY += stepY;
+					if (currentChunkY === endY) break;
 					tMaxY += tDeltaY;
 				} else {
-					if (closestResult && tMaxZ > closestResult.distance) break;
 					currentChunkZ += stepZ;
+					if (currentChunkZ === endZ) break;
 					tMaxZ += tDeltaZ;
 				}
 			}

@@ -163,7 +163,7 @@ function createStatusRequest(request) {
     return new Request(request.url, {
         method: request.method,
         headers: newHeaders,
-        credentials: request.credentials,
+        //credentials: request.credentials,
         redirect: 'manual'
     });
 }
