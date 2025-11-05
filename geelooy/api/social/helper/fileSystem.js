@@ -43,6 +43,10 @@ async function readFile({$i}) {
     path = addFolderName(path);
    
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+    if ($i.request.isAwtsmoosFileStatusRequest)) {
+	    var stats = await $i.db.read(filePath, {access: true});
+	    return {dataModified: stats?.mtime?.getTime?.()};
+    }
     var file = await $i.db.read(filePath);
    
 

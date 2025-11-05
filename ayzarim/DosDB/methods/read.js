@@ -71,6 +71,7 @@ module.exports = {
         maxOrech: null,
         max: false,
         meta: false,
+        lastModified:false,
         keepJSON: false,
         extra: false
     }) {
