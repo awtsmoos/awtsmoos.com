@@ -225,6 +225,7 @@ class AwtsmoosStaticServer {
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
 		response.setHeader('Access-Control-Allow-Origin', requestOrigin);
+		response.setHeader('cross-origin-resource-policy', "cross-origin");
 		
 		
 		if (request.method === 'OPTIONS') {
