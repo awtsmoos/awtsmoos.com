@@ -229,7 +229,7 @@ class AwtsmoosStaticServer {
 		//    but the core logic here addresses your specific error.
 		response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status")
 		
-		response.setHeader("Access-Control-Allow-Origin", requestOrigin || '*')
+		response.setHeader("Access-Control-Allow-Origin", '*')
 		
 		var self = this;
 		response.statusCode = 200;
