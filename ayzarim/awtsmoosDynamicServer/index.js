@@ -289,8 +289,8 @@ class AwtsmoosStaticServer {
 		response.setHeader("Awtsmoos", "Is found in all things");
 		//response.setHeader('Transfer-Encoding', 'chunked') // Enables chunked transfer
 	        
-	        response.setHeader('Cross-Origin-Opener-Policy','same-origin')
-	        response.setHeader('Cross-Origin-Embedder-Policy','require-corp')
+	      //  response.setHeader('Cross-Origin-Opener-Policy','same-origin')
+	     //   response.setHeader('Cross-Origin-Embedder-Policy','require-corp')
 	        
 	        
 	        response.setHeader('Connection', 'keep-alive')
