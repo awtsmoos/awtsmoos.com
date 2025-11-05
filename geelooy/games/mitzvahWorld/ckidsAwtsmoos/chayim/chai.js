@@ -948,7 +948,8 @@ export default class Chai extends Tzomayach {
 
         // Sync character's mesh position with collider's end position
         this.mesh.position.copy( this.collider.start );
-        this.mesh.position.y -= this.offset;
+        //this.mesh.position.y -= this.offset;
+        this.mesh.position.y -= this.radius;
         
         
         this.mesh.rotation.y = this.rotation.y;
@@ -957,7 +958,7 @@ export default class Chai extends Tzomayach {
         if(this?.nonRotatingEmptyForMovement?.rotation)
             this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);//.y = this.rotation.y;
         
-        this.modelMesh.rotation.copy(this.mesh.rotation);
+        //this.modelMesh.rotation.copy(this.mesh.rotation);
         //lerp logic for smooth rotating
 
         // Calculate the angular distance to the target from the current position
@@ -990,15 +991,23 @@ export default class Chai extends Tzomayach {
         
      //   this.rotateOffset = Math.floor(this.rotateOffset * 1e6) / 1e6
         
-        if(
+        /*if(
             this.lastRotateOffset
             != 
             this.rotateOffset
         ) {
-            this.modelMesh.rotation.y += this.rotateOffset;
+           // this.modelMesh.rotation.y += this.rotateOffset;
+           this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
             this.ayshPeula("rotate", this.modelMesh.rotation.y)
             this.lastRotateOffset = this.rotateOffset;
     
+        }*/
+        this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
+        
+        // Only fire the "rotate" event and update the tracker if the rotation has changed.
+        if (this.lastRotateOffset !== this.rotateOffset) {
+            this.ayshPeula("rotate", this.modelMesh.rotation.y);
+            this.lastRotateOffset = this.rotateOffset;
         }
         
            

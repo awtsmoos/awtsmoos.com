@@ -21,8 +21,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
         this.targetHeight = 1.5;
 
-        this.amountToStartHidingTarget = 1.8784726090363273
-        this.amountToHideTargetCompletely = 1.7821312470527046
+        this.amountToStartHidingTarget = 1.52
+        this.amountToHideTargetCompletely = 1.508
         
 
         this.distance = 5.0;
@@ -395,6 +395,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
             
             //pp.setFocalDepth(fd);
             //this.amountToHideTargetCompletely = 1.7821312470527046
+           // console.log("Dist",dist);
             if(dist <= this.amountToStartHidingTarget) {
                 var amount = Math.max(
                     (dist - this.amountToHideTargetCompletely),

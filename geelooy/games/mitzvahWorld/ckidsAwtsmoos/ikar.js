@@ -12,7 +12,7 @@
 //import starting level
 
 console.log("B\"H",
-"\n","Starting the Ikar JS!")
+"\n","Starting the Ikar JS!\"")
 
 import ManagerOfAllWorlds from "./Olam/worldManager.js";
 

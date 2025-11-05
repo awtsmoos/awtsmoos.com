@@ -1091,9 +1091,8 @@ export default class Domem extends Nivra {
         var duration = options.duration || .5;
         var loop = options.loop;
 		
-        var clip = THREE.AnimationClip.findByName(this.animations, shaym);
-        if (!clip) return;
-		
+         var clip = this.animations.find(anim => anim.name.includes(shaym));
+	if(!clip) return;
         let newAction = this.clipActions[shaym];
         if (!newAction) {
             newAction = this.animationMixer.clipAction(clip);
