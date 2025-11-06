@@ -1,0 +1,36 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Tower Defense</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-panel">
+            <div id="stats">
+                <h3>Wave: <span id="wave">1</span></h3>
+                <h3>💰 Perutas: <span id="perutas">200</span></h3>
+                <h3>❤️ Health: <span id="health">20</span></h3>
+            </div>
+            <div id="tower-selection">
+                <h4>Buy Towers</h4>
+                <!-- Tower options will be dynamically added here by JS -->
+            </div>
+            <div id="tower-upgrades" class="hidden">
+                <h4>Upgrade Tower</h4>
+                <p>Type: <span id="upgrade-type"></span></p>
+                <button id="upgrade-damage">Upgrade Damage (Cost: <span id="upgrade-damage-cost"></span>)</button>
+                <button id="upgrade-speed">Upgrade Speed (Cost: <span id="upgrade-speed-cost"></span>)</button>
+                <button id="upgrade-range">Upgrade Range (Cost: <span id="upgrade-range-cost"></span>)</button>
+                <button id="sell-tower">Sell Tower (+<span id="sell-value"></span> 💰)</button>
+            </div>
+            <button id="start-wave">Start Next Wave</button>
+        </div>
+    </div>
+    <script type="module" src="js/script.js"></script>
+</body>
+</html>
