@@ -6,28 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Emoji Tower Defense</title>
     <link rel="stylesheet" href="style.css">
-</head><body>
+</head>
+<body>
     <div id="game-wrapper">
         <div id="game-container">
             <canvas id="gameCanvas"></canvas>
-            
-            <!-- In-Game Modal for confirmation and upgrades -->
             <div id="in-game-modal" class="hidden">
-                 <div id="modal-content">
-                    <!-- Content will be injected by JS -->
-                 </div>
+                 <div id="modal-content"></div>
             </div>
-
         </div>
         <div id="ui-panel">
-            <div id="stats">
-                <h3>Wave: <span id="wave">1</span></h3>
-                <h3>💰 Perutas: <span id="perutas">200</span></h3>
-                <h3>❤️ Health: <span id="health">20</span></h3>
+            <div id="stats" class="collapsible">
+                <div class="collapsible-header">
+                    <h3>Stats</h3>
+                    <span class="collapse-icon">▾</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Wave: <span id="wave">1</span></p>
+                    <p>💰 Perutas: <span id="perutas">200</span></p>
+                    <p>❤️ Health: <span id="health">20</span></p>
+                </div>
             </div>
-            <div id="tower-selection">
-                <h4>Buy Towers</h4>
-                <!-- Tower options will be dynamically added here by JS -->
+            <div id="tower-selection" class="collapsible">
+                <div class="collapsible-header">
+                    <h4>Buy Towers</h4>
+                    <span class="collapse-icon">▾</span>
+                </div>
+                <div id="tower-options-content" class="collapsible-content">
+                    <!-- Tower options will be dynamically added here by JS -->
+                </div>
             </div>
             <button id="start-wave">Start Next Wave</button>
         </div>

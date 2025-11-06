@@ -15,31 +15,31 @@
 body {
     background-color: var(--primary-bg);
     font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
     color: var(--text-color);
-    overflow: hidden; /* Prevent scrolling on mobile */
+    /* REMOVED: display:flex, justify/align-items, height:100vh, overflow:hidden */
 }
 
 #game-wrapper {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    padding: 10px;
-    align-items: flex-start;
+    padding: 20px;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    max-width: 1200px; /* Optional: Constrain width on very large screens */
+    margin: 0 auto;
 }
 
 #game-container {
-    position: relative; /* Needed for positioning the modal */
+    position: relative;
     border: 3px solid var(--text-color);
     border-radius: 10px;
+    flex-shrink: 0; /* Prevent canvas from shrinking */
 }
 
 #gameCanvas {
-    display: block; /* Removes bottom space under canvas */
+    display: block;
     background-color: var(--grass);
     max-width: 100%;
     height: auto;
@@ -51,7 +51,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    flex-shrink: 0; /* Prevents the panel from shrinking */
+    flex-shrink: 0;
 }
 
 #stats, #tower-selection {
@@ -61,104 +61,89 @@ body {
     border: 1px solid var(--border-color);
 }
 
-h3, h4 {
-    margin-top: 0;
-    text-align: center;
+/* --- NEW: Collapsible Menu Styles --- */
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
-.tower-option {
+.collapsible-header h3, .collapsible-header h4 {
+    margin: 0;
+}
+
+.collapse-icon {
+    font-size: 1.5em;
+    transition: transform 0.3s ease;
+}
+
+.collapsible.collapsed .collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.collapsible-content {
+    max-height: 500px; /* Set a large max-height for open state */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
+    padding-top: 15px; /* Space between header and content */
+}
+
+.collapsible.collapsed .collapsible-content {
+    max-height: 0;
+    padding-top: 0;
+    /* The content will be hidden */
+}
+
+#stats .collapsible-content p {
+    margin: 8px 0;
+    font-size: 1.1em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-}
-
-.tower-option:hover {
-    background-color: #4a6279;
-}
-
-.tower-option.selected {
-    border-color: var(--blue);
-    background-color: #4a6279;
-}
-
-.tower-option .emoji { font-size: 2em; }
-.tower-option .cost { font-weight: bold; }
-
-button {
-    background-color: var(--blue);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    width: 100%;
-    transition: background-color 0.2s;
-}
-button:hover { background-color: #2980b9; }
-
-#start-wave { background-color: var(--green); }
-#start-wave:hover { background-color: #27ae60; }
-
-/* In-Game Modal */
-#in-game-modal {
-    position: absolute;
-    background-color: rgba(44, 62, 80, 0.9);
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px;
-    transform: translate(-50%, -50%); /* Center on the click point */
-    color: var(--text-color);
-    min-width: 200px;
-}
-
-#modal-content h5 {
-    margin: 0 0 10px 0;
-    text-align: center;
-    font-size: 1.2em;
-}
-#modal-content .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px 10px;
-    margin-bottom: 15px;
-}
-#modal-content .stats-grid span:nth-child(odd) {
-    font-weight: bold;
-}
-#modal-content .button-group {
-    display: flex;
     gap: 10px;
 }
-#modal-content .button-group button {
-    flex-grow: 1;
-}
+/* --- End of New Styles --- */
+
+/* (Keep all other styles like .tower-option, button, #in-game-modal, etc. the same) */
+.tower-option { display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 2px solid transparent; border-radius: 5px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
+.tower-option:hover { background-color: #4a6279; }
+.tower-option.selected { border-color: var(--blue); background-color: #4a6279; }
+.tower-option .emoji { font-size: 2em; }
+.tower-option .cost { font-weight: bold; }
+button { background-color: var(--blue); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; transition: background-color 0.2s; }
+button:hover { background-color: #2980b9; }
+#start-wave { background-color: var(--green); }
+#start-wave:hover { background-color: #27ae60; }
+#in-game-modal { position: absolute; background-color: rgba(44, 62, 80, 0.9); border: 2px solid var(--border-color); border-radius: 10px; padding: 15px; transform: translate(-50%, -50%); color: var(--text-color); min-width: 200px; }
+#modal-content h5 { margin: 0 0 10px 0; text-align: center; font-size: 1.2em; }
+#modal-content .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px; margin-bottom: 15px; }
+#modal-content .stats-grid span:nth-child(odd) { font-weight: bold; }
+#modal-content .button-group { display: flex; gap: 10px; }
+#modal-content .button-group button { flex-grow: 1; }
+#modal-content .button-group-vertical { display: flex; flex-direction: column; gap: 8px; }
 .modal-btn-confirm { background-color: var(--green); }
 .modal-btn-confirm:hover { background-color: #27ae60; }
 .modal-btn-sell, .modal-btn-cancel { background-color: var(--red); }
 .modal-btn-sell:hover, .modal-btn-cancel:hover { background-color: #c0392b; }
+.hidden { display: none !important; }
 
-.hidden {
-    display: none !important;
-}
 
-/* Mobile Responsiveness */
+/* --- UPDATED: Mobile Responsiveness --- */
 @media (max-width: 1100px) {
     #game-wrapper {
         flex-direction: column;
         align-items: center;
+        padding: 10px;
     }
     #ui-panel {
-        width: 100%;
-        max-width: 400px; /* Limit UI panel width on mobile */
+        width: 90vw; /* Match canvas width for a unified look */
+        max-width: 500px; /* Prevent it from being too wide on tablets */
     }
     #gameCanvas {
         width: 90vw;
         height: 67.5vw; /* Maintain 4:3 aspect ratio */
     }
 }
+
+
