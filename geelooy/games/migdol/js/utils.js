@@ -1,5 +1,8 @@
 //B"H
-
+import {
+	TILE_SIZE,
+	TOWER_TYPES
+} from './config.js';
 export function isLocationValid(gridX,
 	gridY, game) {
 	if (gridX < 0 || gridX >= (game
