@@ -41,7 +41,13 @@ export const Editor = {
                 this.currentHighlighter.destroy();
             }
             const ext = this._getExt(filename);
-            const langMap = { ".js": "js", ".css": "css", ".html": "html" };
+            const langMap = {
+	            ".js": "js", 
+	            ".css": "css", 
+	            ".html": "html",
+	            ".svg": "html",
+	            ".xml": "html"
+            };
             this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
         }, 0);
     },
