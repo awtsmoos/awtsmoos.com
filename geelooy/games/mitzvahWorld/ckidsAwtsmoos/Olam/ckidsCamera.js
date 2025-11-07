@@ -19,7 +19,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
         this.mouseY = 0;
         this.deltaY =0;
 
-        this.targetHeight = 1.5;
+        this.targetHeight = 1;
 
         this.amountToStartHidingTarget = 1.52
         this.amountToHideTargetCompletely = 1.508
@@ -64,7 +64,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
         this.mouseRaycaster = new THREE.Raycaster();
         
-         this.playerCollisionBuffer = 0.7;
+         this.playerCollisionBuffer = 0.85;
 
 
         this.objectsInScene = [];
@@ -86,8 +86,13 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
     set target(v) {
         this._target = v;
+        if(v?.collider) {
+	        this.targetHeight = 
+	        (v.collider.end.y - 
+	        v.collider.start.y)
+        }
         if(v && typeof(v.height) == "number") {
-            this.targetHeight = v.height;
+             //= v.height;
         }
     }
 
@@ -316,46 +321,66 @@ import * as THREE from '/games/scripts/build/three.module.js';
         
        
     
-        // For smoothing, lerp distance only if either distance wasn't corrected, or correctedDistance is more than currentDistance
-        this.currentDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ? 
-            this.lerp(this.currentDistance, this.correctedDistance, 0.02 * this.zoomDampening) : 
-            this.correctedDistance;
-    
-        // Keep within legal limits
-        this.currentDistance = Math.max(Math.min(this.currentDistance, this.maxDistance), this.minDistance);
-    
+        // 1. Calculate the ideal distance based on user input and wall collision smoothing.
+	let smoothedDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ?
+	    this.lerp(this.currentDistance, this.correctedDistance, 0.02 * this.zoomDampening) :
+	    this.correctedDistance;
+	
+	// 2. Calculate the absolute minimum allowed distance based on player collision geometry.
+	let minimumAllowedDistance = this.minDistance;
+	
+	if (!this.isFPS && this.target.collider) {
+	    const collider = this.target.collider;
+	    const pivotPoint = this.target.mesh.position.clone().sub(vTargetOffset);
+	    const sphereCenter = new THREE.Vector3().addVectors(collider.start, collider.end).multiplyScalar(0.5);
+	    const safetyRadius = collider.radius + this.playerCollisionBuffer;
+	
+	    // We solve a quadratic equation to find the intersection of the camera's view ray
+	    // with the player's safety sphere. This correctly handles all camera angles.
+	    const pivotToCameraDir = new THREE.Vector3(0, 0, 1).applyQuaternion(rotation);
+	    const pivotToSphereCenterVec = sphereCenter.clone().sub(pivotPoint);
+	
+	    const a = 1; // pivotToCameraDir.lengthSq(), which is 1
+	    const b = -2 * pivotToCameraDir.dot(pivotToSphereCenterVec);
+	    const c = pivotToSphereCenterVec.lengthSq() - safetyRadius * safetyRadius;
+	
+	    const discriminant = b * b - 4 * a * c;
+	
+	    if (discriminant >= 0) {
+	        // If the discriminant is non-negative, the line intersects the sphere.
+	        const sqrtDiscriminant = Math.sqrt(discriminant);
+	        const dist1 = (-b - sqrtDiscriminant) / (2 * a);
+	        const dist2 = (-b + sqrtDiscriminant) / (2 * a);
+	
+	        // We want the closest positive intersection point.
+	        if (dist1 > 0 && dist1 < dist2) {
+	             minimumAllowedDistance = Math.max(this.minDistance, dist1);
+	        } else if (dist2 > 0) {
+	             minimumAllowedDistance = Math.max(this.minDistance, dist2);
+	        }
+	    }
+	    // If discriminant is negative, the ray doesn't intersect, so no player collision is possible.
+	}
+	
+	// 3. The final distance is the LARGER of the smoothed distance and the calculated minimum.
+	let finalDistance = Math.max(minimumAllowedDistance, smoothedDistance);
+	finalDistance = Math.min(this.maxDistance, finalDistance); // And then clamp by the max distance.
+	
+	// 4. If we were clamped by the player, sync the desiredDistance to prevent zoom-out lag.
+	if (finalDistance === minimumAllowedDistance && smoothedDistance < minimumAllowedDistance) {
+	    this.desiredDistance = minimumAllowedDistance;
+	}
+	
+	// 5. Apply the final, guaranteed-safe distance.
+	this.currentDistance = finalDistance;
+	
         // Recalculate position based on the new currentDistance
         position = new THREE.Vector3().copy(this.target.mesh.position);
         position.sub(vTargetOffset);
         position.sub(new THREE.Vector3(0, 0, this.currentDistance).applyQuaternion(rotation)); 
         
         
-       // --- B"H Final Anti-Player Collision Pass (Geometrically Correct) ---
-	if (!this.isFPS && this.target.collider) {
-	    const collider = this.target.collider;
-	    const playerCenter = new THREE.Vector3().addVectors(collider.start, collider.end).multiplyScalar(0.5);
-	    const minimumSafeDistance = collider.radius + this.playerCollisionBuffer;
-	
-	    const distanceToPlayerCenter = position.distanceTo(playerCenter);
-	
-	    if (distanceToPlayerCenter < minimumSafeDistance) {
-	        // 1. Calculate how much we need to push the camera back.
-	        const penetrationDepth = minimumSafeDistance - distanceToPlayerCenter;
-	
-	        // 2. Get the direction to push in (from player center to camera).
-	        const pushDirection = position.clone().sub(playerCenter).normalize();
-	
-	        // 3. Directly move the camera's position to the edge of the safe bubble.
-	        position.addScaledVector(pushDirection, penetrationDepth);
-	
-	        // 4. Update currentDistance to match this new physical position.
-	        const pivotPoint = this.target.mesh.position.clone().sub(vTargetOffset);
-	        this.currentDistance = position.distanceTo(pivotPoint);
-	
-	        // 5. CRITICAL: Sync desiredDistance to prevent "zoom-out lag".
-	        this.desiredDistance = this.currentDistance; // 
-	    }
-	}
+       
 
         
         var did = false;

@@ -165,7 +165,7 @@ export default class Chai extends Tzomayach {
         this.radius = options.radius || this.radius;
         // Create a new collider for the character
         this.collider = new Capsule(
-            new THREE.Vector3(0, this.height / 2, 0), 
+            new THREE.Vector3(0, this.height, 0), 
             new THREE.Vector3(0, this.height, 0), 
             this.radius
         );
