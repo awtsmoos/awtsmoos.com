@@ -62,6 +62,19 @@ export default class Medabeir extends Chai {
 		
 
 	}
+	
+    wear(garmentName) {
+	    if(!this.garments) return;
+	    var gar = this?.garments?.[garentName];
+	    if(gar) gar.visible = true;
+    }
+    
+    takeoff(garmentName) {
+	    if(!this.garments) return;
+	    var gar = this?.garments?.[garentName];
+	    if(gar) gar.visible = false;
+
+    }
     /**
      * @property mood represents the "mood"
      * the character is in, currently
