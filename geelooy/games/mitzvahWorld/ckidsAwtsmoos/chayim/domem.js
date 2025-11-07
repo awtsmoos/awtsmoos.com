@@ -1076,112 +1076,64 @@ export default class Domem extends Nivra {
     nextAction = null;
     /**
      * @function playChaweeyoos
-     * play chaweeeyoos - lifeforce,
-     * animation, of current model,
-     * if it exists.
-     * @param {String} shaym the "name"
-     * of the animation to player.
-     * 
-     * Must be present in the model,
-     * for example as a track in the GLB
-     * with the given name.
+     * Plays an animation for the model, ensuring smooth transitions from any previous animation.
+     * @param {String} shaym - The name of the animation clip to play.
+     * @param {Object} [options] - Optional settings.
+     * @param {number} [options.duration=0.36] - The fade duration for transitions.
+     * @param {boolean} [options.loop=true] - Whether the animation should loop.
+     * @param {function} [options.done] - A callback for when a non-looping animation finishes.
      */
-    playChaweeyoos(shaym, options={duration: 0.36, loop:true, simplified:false}) {
-        if (!this.animations) return;
-        var duration = options.duration || .5;
-        var loop = options.loop;
-		
-         var clip = this.animations.find(anim => anim.name.includes(shaym));
-	if(!clip) return;
-        let newAction = this.clipActions[shaym];
-        if (!newAction) {
-            newAction = this.animationMixer.clipAction(clip);
-            this.clipActions[shaym] = newAction;
-            if(!loop) {
-                this.clipActions[shaym]
-                .setLoop(THREE.LoopOnce);
-                newAction.clampWhenFinished = true;
-            }
-          //  console.log("Trying new ", loop, duration, newAction, clip, options)
+    playChaweeyoos(shaym, options = {}) {
+        if (!this.animationMixer || !this.animations || this.animations.length === 0) return;
+
+        const {
+            duration = 0.36,
+            loop = true,
+            done
+        } = options;
+
+        const clip = this.animations.find(anim => anim.name.includes(shaym));
+        if (!clip) return;
+
+        const newAction = this.animationMixer.clipAction(clip);
+
+        if (this.currentAction === newAction) {
+            return; // Don't interrupt the same animation
         }
-    
-	
-		if (this.currentAction === newAction) {
-			return;
-		}
-		
-		
-		var clipKeys = Object.keys(this.clipActions);
-	
-		// Fade out all other actions
-		clipKeys.forEach(q => {
-			if (q !== shaym && this.clipActions[q].isRunning()) {
-				newAction.enabled = true;
-				newAction.setEffectiveTimeScale(1)
-					.setEffectiveWeight(1);
-				this.clipActions[q].enabled = true;
-				this.clipActions[q].setEffectiveTimeScale(1)
-					.setEffectiveWeight(1)
 
-				//console.log("fading", newAction,this.clipActions[q])
-				this.clipActions[q].crossFadeTo(newAction, duration, false);
-			}
-		});
-	
-    
-        newAction
-            .reset()
-            .setEffectiveTimeScale(this.animationSpeedScale)
-            .setEffectiveWeight(1)
-            .fadeIn(duration)
-            .play();
+        const oldAction = this.currentAction;
         this.currentAction = newAction;
-        this.currentAnimationPlaying = true;
-		
-		//console.log("Played", shaym)
-        var finished = (e) => {
-            
-            if (e.action === newAction) {
-                if(!loop) {
-                    newAction.stop();
-                    return;
-                }
-                clipKeys.forEach(key => {
-                    var otherAction = this.clipActions[key];
-                    if (
-                        otherAction && 
-                        otherAction !== newAction && 
-                        otherAction !== this.currentAction && 
-                        otherAction.isRunning()
-                    ) {
-                        otherAction.stop();
-                      //  console.log("stopped",otherAction)
-                    }
-                });
-                if (this.currentAction !== newAction) {
-                    this.animationMixer.removeEventListener('loop', finished);
-                } 
-            }
-			
-			
-			
-			//console.log("Played at least once",dn,options)
-            
-        };
-    
-		function finishedPlaying() {
-			var dn = options.done;
-			if(typeof(dn) == "function") {
-				dn();
-			}
-			//console.log("Finished playing animation",shaym,dn,options);
-		}
-        this.animationMixer.addEventListener('loop', finished);
-		if(!loop)
-			this.animationMixer.addEventListener("finished", finishedPlaying);
-      //  console.log(`Trying to play: ${shaym}`);
-    }
 
+        // Prepare the new action before transitioning
+        newAction.reset();
+        newAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce);
+        newAction.clampWhenFinished = !loop;
+        newAction.enabled = true;
+        newAction.setEffectiveWeight(1);
+
+        // If a previous action was playing, fade from it to the new one
+        if (oldAction) {
+            oldAction.crossFadeTo(newAction, duration, true);
+        } else {
+            newAction.fadeIn(duration); // Otherwise, just fade in the new one
+        }
+
+        newAction.play();
+        this.currentAnimationPlaying = true;
+
+        // Set up a listener for when a non-looping animation finishes
+        if (!loop) {
+            const onFinished = (e) => {
+                if (e.action === newAction) {
+                    this.animationMixer.removeEventListener('finished', onFinished);
+                    if (typeof done === 'function') {
+                        done();
+                    }
+                }
+            };
+            this.animationMixer.addEventListener('finished', onFinished);
+        }
+    }
 	simplePlayOnceAnimation(shaym) {
 		
 	}

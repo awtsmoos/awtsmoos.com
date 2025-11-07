@@ -154,6 +154,20 @@ export default class Chai extends Tzomayach {
             return found;
         }
     }
+    
+    updateDimensionsFromModel(model) {
+        if (model || !this.modelMesh) return;
+
+        // Calculate the bounding box of the visual model
+        const box = new THREE.Box3().setFromObject(model || this.modelMesh);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+
+        // Update the height and radius based on the model's dimensions
+        // Add a small vertical buffer to the height for the camera target
+        this.height = size.y * 0.95; 
+        this.radius = Math.max(size.x, size.z) / 2 * 0.8;
+    }
 
     constructor(options) {
         super(options);

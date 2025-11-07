@@ -64,7 +64,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
         this.mouseRaycaster = new THREE.Raycaster();
         
-         this.playerCollisionBuffer = 0.85;
+         this.playerCollisionBuffer = 0.770;
 
 
         this.objectsInScene = [];
@@ -87,12 +87,12 @@ import * as THREE from '/games/scripts/build/three.module.js';
     set target(v) {
         this._target = v;
         if(v?.collider) {
-	        this.targetHeight = 
+	       /* this.targetHeight = 
 	        (v.collider.end.y - 
-	        v.collider.start.y)
+	        v.collider.start.y)*/
         }
         if(v && typeof(v.height) == "number") {
-             //= v.height;
+             this.targetHeight = v.height;
         }
     }
 
