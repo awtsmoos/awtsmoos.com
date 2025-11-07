@@ -55,7 +55,13 @@ export default class Medabeir extends Chai {
     _messageTree = [];
     _messageTreeFunction = null;
     state = "idle";
+	garmentsDefault = {
+		glasses: true,
+		jacket: true,
+		"top-hat": false,
+		
 
+	}
     /**
      * @property mood represents the "mood"
      * the character is in, currently
@@ -476,6 +482,14 @@ export default class Medabeir extends Chai {
 
     async heescheel(olam) {
         await super.heescheel(olam);
+        if(this.garments) {
+	        var keys = Object.keys(this.garments);
+	        keys.forEach(k => {
+		        if(!this.garmentsDefault[k]) {
+			        this.garments[k].visible = false;
+		        }
+	        })
+        }
         return;
         if(!this.goofOptions) return;
         if(

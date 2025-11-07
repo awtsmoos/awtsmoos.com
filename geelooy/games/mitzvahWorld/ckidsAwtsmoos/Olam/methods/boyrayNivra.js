@@ -275,6 +275,8 @@ export default class {
                     totalChildren++
                 });
                 var boneChildren = {};
+                var garments= {};
+                var bodyParts = {};
                 nivra.boneChildren = boneChildren;
                 var lastParent = null;
                 var currentChild = 0;
@@ -283,6 +285,15 @@ export default class {
                         lastParent = child;
                         boneChildren[child.name] = 
                             child;
+                       
+                    }
+                    var gar = child?.userData?.garment;
+                    if(gar) {
+	                    garments[gar] = child;
+                    }
+                    var bodyPart = child?.userData?.["body-part"];
+                    if(bodyPart) {
+	                    bodyParts[bodyPart] = child;
                     }
                     currentChild++;
                     var loadingPercentage = currentChild / totalChildren;
@@ -442,6 +453,14 @@ export default class {
     
                     
                 });
+                
+                if(Object.keys(bodyParts).length) {
+	                nivra.bodyParts = bodyParts
+                }
+                
+                if(Object.keys(garments).length) {
+	                nivra.garments = garments;
+                }
                 
                 if(nivra.entities) {
                     
