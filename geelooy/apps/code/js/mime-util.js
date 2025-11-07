@@ -10,6 +10,8 @@ const MimeMap = {
     '.html': { type: 'text', mime: 'text/html' },
     '.htm':  { type: 'text', mime: 'text/html' },
     '.xml':  { type: 'text', mime: 'text/xml' },
+    
+    '.svg':  { type: 'text', mime: 'text/xml' },
     '.md':   { type: 'text', mime: 'text/markdown' },
     '.txt':  { type: 'text', mime: 'text/plain' },
     '.py':   { type: 'text', mime: 'text/x-python' },

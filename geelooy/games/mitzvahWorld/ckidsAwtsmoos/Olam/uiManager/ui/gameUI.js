@@ -378,75 +378,124 @@ var ui = [
         }
     },
     {
-        shaym: "inventoryScreen",
-        awtsmoosClick: true,
-        className: "awtsmoosInventoryViewer hidden",
-        children: [
-            {
-                className: "header",
-                children: [
-                    {
-                        className: "text",
-                        
-                        innerText: "Awtsmoos Inventory"
-                    },
-                    {
-                        className: "close",
-                        innerHTML: "X",
-                        onclick(e, $f) {
-                            var par = $f(
-                                "inventoryScreen"
-                            );
-                            if(!par) return;
-                            par.classList.add("hidden")
-                        }
-                    }
-                ]
-            },
-            {
-                className: "slots",
-                ready(el, $f, ui) {
-                    var actionb = $f(
-                         "action bar"
-                    );
-                    if(!actionb) return;
+	    shaym: "inventoryScreen",
+	    awtsmoosClick: true,
+	    className: "awtsmoosInventoryViewer hidden",
+	    ready(el, $, ui) {
+	        // When the inventory UI element is first created,
+	        // it sends a message to the worker asking for the initial data.
+	         setTimeout(() => {
+	            ui.peula("ikar", {
+	                olamPeula: {
+	                    requestInventoryUpdate: true
+	                }
+	            });
+	        }, 0);
+	    },
+	    // In gameUI.js, inside the inventoryScreen object
 
-                    var slotConfig = actionb
-                        .startSlotsConfig;
-                    if(!slotConfig) return;
-
-                    var defaultEmptySlots = slotConfig
-                        .defaultEmptySlots;
-                    if(
-                        !defaultEmptySlots ||
-                        isNaN(defaultEmptySlots) ||
-                        typeof(defaultEmptySlots) != 
-                        "number"
-                    ) {
-                        return;
-                    }
-
-                    var i;
-                    for(
-                        i = 0;
-                        i < defaultEmptySlots;
-                        i++
-                    ) {
-                        ui.html({
-                            parent: el,
-                            className: "actionSlot empty",
-                            children: [
-                                {
-                                    className: "innerSlot"
-                                }
-                            ]
-                        })
-                    }
-                    
-                }
-            }
-        ]
-    },
+on: {
+    updateSlots(e, $, ui) {
+        const slotsData = e.detail;
+        console.log('B\"H: GOT SLOTS DATA!', slotsData); // This log is now working, which is great.
+	
+	        // --- THIS IS THE FIX ---
+	        // First, get the main inventory element by its shaym.
+	        const inventoryElement = $("inventoryScreen"); 
+	        if (!inventoryElement) return;
+	
+	        // Then, use standard querySelector to find the .slots div inside it.
+	        const slotsContainer = inventoryElement.querySelector(".slots");
+	        if (!slotsContainer) {
+	            console.error("Could not find .slots container inside inventoryScreen!");
+	            return;
+	        }
+	        
+	        // The rest of the function remains exactly the same
+	        slotsContainer.innerHTML = ''; // Clear existing slots
+	
+	        slotsData.forEach((slotData, index) => {
+	            ui.html({
+	                parent: slotsContainer,
+	                className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+	                children: [{
+	                    className: "innerSlot",
+	                    onclick: (event) => {
+	                        ui.peula("ikar", {
+	                            olamPeula: {
+	                                selectInventorySlot: { index }
+	                            }
+	                        });
+	                        document.querySelectorAll('.innerSlot.selected').forEach(el => el.classList.remove('selected'));
+	                        event.currentTarget.classList.add('selected');
+	                    },
+	                    on: {
+	                        mouseenter: (event) => {
+	                            if (!slotData) return;
+	                            const tooltip = $("icon tooltip");
+	                            if (tooltip) {
+	                                tooltip.innerHTML = `
+	                                    <div class="header">${slotData.name || 'Item'}</div>
+	                                    <div class="description">${slotData.description || ''}</div>
+	                                `;
+	                                tooltip.classList.remove('hidden');
+	                            }
+	                        },
+	                        mousemove: (event) => {
+	                            const tooltip = $("icon tooltip");
+	                            if (tooltip) {
+	                                tooltip.style.left = (event.pageX + 15) + 'px';
+	                                tooltip.style.top = (event.pageY + 15) + 'px';
+	                            }
+	                        },
+	                        mouseleave: (event) => {
+	                            const tooltip = $("icon tooltip");
+	                            if (tooltip) {
+	                                tooltip.classList.add('hidden');
+	                            }
+	                        }
+	                    },
+	                    children: slotData ? [
+	                        {
+	                            tag: 'div',
+	                            className: 'slotBtn',
+	                            style: {
+	                                backgroundImage: `url(${slotData.icon})`
+	                            }
+	                        },
+	                        {
+	                            tag: 'div',
+	                            className: 'slotQuantity',
+	                            textContent: slotData.quantity > 1 ? slotData.quantity : ''
+	                        }
+	                    ] : []
+	                }]
+	            });
+	        });
+	    }
+	},
+	    children: [
+	        {
+	            className: "header",
+	            children: [
+	                {
+	                    className: "text",
+	                    textContent: "Inventory"
+	                },
+	                {
+	                    className: "close",
+	                    innerHTML: "X",
+	                    onclick(e, $f) {
+	                        $f("inventoryScreen")?.classList.add("hidden");
+	                    }
+	                }
+	            ]
+	        },
+	        {
+	            className: "slots" // This will be populated by the updateSlots event
+	        }
+	    ]
+	},
     {
         shaym: "icon tooltip",
         className: "awtsmoos tooltip hidden"

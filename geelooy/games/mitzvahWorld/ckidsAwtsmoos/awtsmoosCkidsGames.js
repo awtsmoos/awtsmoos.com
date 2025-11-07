@@ -6,7 +6,6 @@
  * 
  * 
  */
-
 export {default as Nivra} from "./chayim/nivra.js";
 export {default as Domem} from "./chayim/domem.js";
 export {default as Tzomayach} from "./chayim/tzomayach.js";
@@ -21,6 +20,9 @@ export {default as Portal} from "./dvarim/portal.js";
 export {default as CollectableItem} from "./dvarim/collectableItem.js"
 export {default as Heeooleey} from "./chayim/heeooleey.js";
 
+export {default as InventoryManager} from "./systems/InventoryManager.js";
+
+export {default as Brick} from "./dvarim/brick.js";
 export {default as Interaction} from 
     "../tochen/helpers/tzomayachInteraction.js";
 

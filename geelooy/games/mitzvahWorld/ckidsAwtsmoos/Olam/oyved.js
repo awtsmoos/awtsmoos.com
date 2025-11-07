@@ -48,6 +48,19 @@ async function go() {
     }
 
     var tawfkeedeem/*tasks to do*/ = {
+     async selectInventorySlot({ index }) {
+        if (me.olam && me.olam.player) {
+            me.olam.player.selectedInventorySlot = index;
+            console.log("Selected inventory slot:", index);
+            // You can add UI feedback here later, like highlighting the selected slot
+        }
+    },
+    async requestInventoryUpdate() {
+        if (me.olam && me.olam.player && me.olam.player.inventory) {
+            // Now we can safely call updateUI because we know the UI is ready and waiting.
+            me.olam.player.inventory.updateUI();
+        }
+    },
         async activeObjectAction(a) {
             await me.olam.ayshPeula("activeObjectAction", a)
         },

@@ -112,33 +112,40 @@ export default class UI extends Heeoolee {
 		value to call on the
 		callback
 	**/
-	peula(el, obj={}) {
-		if(
-			!obj ||
-			typeof(obj) != "object"
-		) {
-			return;
-		}
-		
-		console.log("OB",obj)
-		for(
-			var k 
-			in obj
-		) {
-			el.dispatchEvent(
-				new CustomEvent(k, {
-					detail: obj[k]
-				})
-			);
-			
-			if(typeof(this.ayshPeula) == "function") {
-				this.ayshPeula("custom peula", {
-					element: el,
-					key:k,
-					value: obj[k]
-				})
-			}
-		}
+	peula(elementOrShaym, obj = {}) {
+	    if (!obj || typeof(obj) !== "object") {
+	        return;
+	    }
+	
+	    // Determine if we were given a string (shaym) or an actual element
+	    const el = (typeof elementOrShaym === 'string')
+	        ? this.getHtml(elementOrShaym)
+	        : elementOrShaym;
+	
+	    // If the element doesn't exist, we can't do anything.
+	    if (!el) {
+	        console.error(`UI.peula: Element with shaym "${elementOrShaym}" not found.`);
+	        return;
+	    }
+	
+	    console.log("Dispatching event on:", el, "with data:", obj);
+	    for (var k in obj) {
+	        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+	            el.dispatchEvent(
+	                new CustomEvent(k, {
+	                    detail: obj[k]
+	                })
+	            );
+	            
+	            if (typeof(this.ayshPeula) === "function") {
+	                this.ayshPeula("custom peula", {
+	                    element: el,
+	                    key: k,
+	                    value: obj[k]
+	                });
+	            }
+	        }
+	    }
 	}
 	
     deleteHtml(shaym) {

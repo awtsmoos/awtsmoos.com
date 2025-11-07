@@ -435,38 +435,57 @@ export default class Chai extends Tzomayach {
     }
     
     placeObject() {
-        const worldRotation = new THREE.Quaternion();
-        this.activeObject.mesh.getWorldQuaternion(worldRotation);
-        this.removeObject();
-        
-        this.activeObject.mesh.position.applyMatrix4(this.activeRay.mesh.matrixWorld);
-        this.olam.scene.add(this.activeObject.mesh);
-        this.activeObject.mesh.setRotationFromQuaternion(worldRotation);
-        
-        var golem = this.activeObject.mesh.awtsmoosGolem;
-        var position = this.activeObject.mesh.position;
-        var {x,y,z} = this.activeObject.mesh.rotation;
-        var rotation = {x,y,z};
-        var scale = this.activeObject.mesh.scale;
-        this.olam.scene.remove(this.activeObject.mesh);
-        
-        this.olam.loadNivrayim({
-            Domem: {
-                ["BH_"+Date.now()+"_block"]: {
-                    position,
-                    scale,
-                    rotation,
-                    isSolid:true,
-                    interactable: true,
-                    ...(golem ? {
-                        golem
-                    } : {})
-                }
-            }
-        })
-       // this.olam.worldOctree.fromGraphNode(this.activeObject.mesh);
-        this.activeObject = null;
-    }
+	    const worldRotation = new THREE.Quaternion();
+	    this.activeObject.mesh.getWorldQuaternion(worldRotation);
+	    
+	    var golem = this.activeObject.mesh.awtsmoosGolem;
+	    var position = new THREE.Vector3();
+	    this.activeObject.mesh.getWorldPosition(position); // Use world position
+	
+	    var {x,y,z} = this.activeObject.mesh.rotation;
+	    var rotation = {x,y,z};
+	    var scale = this.activeObject.mesh.scale;
+	    
+	    // Check if the currently held object came from the inventory
+	    let itemUsedInfo = null;
+	    if (this.inventory && this.selectedInventorySlot !== null) {
+	        const slot = this.inventory.slots[this.selectedInventorySlot];
+	        if (slot && slot.item === 'Brick') {
+	             itemUsedInfo = {
+	                slotIndex: this.selectedInventorySlot
+	            };
+	        }
+	    }
+	    
+	    // If an item was used to create this block, remove one from the inventory
+	    if (itemUsedInfo) {
+	        this.inventory.removeItem(itemUsedInfo.slotIndex, 1);
+	        
+	        // If the stack is now empty, deselect the slot
+	        if (!this.inventory.slots[itemUsedInfo.slotIndex]) {
+	            this.selectedInventorySlot = null;
+	        }
+	    }
+	
+	    // Now, create the permanent object in the world
+	    this.olam.loadNivrayim({
+	        Domem: {
+	            ["BH_"+Date.now()+"_block"]: {
+	                position,
+	                scale,
+	                rotation,
+	                isSolid:true,
+	                interactable: true,
+	                ...(golem ? {
+	                    golem
+	                } : {})
+	            }
+	        }
+	    });
+	
+	    this.removeObject(); // This will clear activeObject from the ray
+	    this.activeObject = null;
+	}
     removeRay() {
         // Remove existing ray and associated object
         if (this.activeObject) {
@@ -596,46 +615,69 @@ export default class Chai extends Tzomayach {
         }
     }
     async placeBlockOnRay() {
-        if(!this.activeRay) return;
-        var rayStart = this.getRayStart()
-        var rayDirection = this.getRayDirection()
-        const distance = this.distanceFromRay
-    
-        // Calculate initial world position along the ray
-        const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(-distance));
-    
-        // Create the block
-        const def = this?.olam?.vars?.defaultBlock || {
-            toyr: {
-                MeshLambertMaterial: {
-                    color: "blue"
-                }
-            }
-        };
-    
-        const mesh = await this.olam.generateThreeJsMesh(def);
-        if (!mesh) return;
-    
-        const block = {
-            mesh,
-        };
-    
-        // Set the block's scale
-        block.mesh.scale.set(3, 3, 2);
-    
-        // Convert the world position to the ray's local space
-        const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
-    
-        // Set the block's position in local space
-        block.mesh.position.copy(localPosition);
-    
-        // Parent the block to the ray's mesh
-        this.activeRay.mesh.add(block.mesh);
-    
-        // Store a reference to the active object
-        this.activeObject = block;
-        this.alignObject()
-    }
+	    if (!this.activeRay) return;
+	
+	    let blockDefinition;
+	    let itemUsedInfo = null;
+	
+	    // Check if the player has an item selected from the inventory
+	    if (this.inventory && this.selectedInventorySlot !== null) {
+	        const slot = this.inventory.slots[this.selectedInventorySlot];
+	        // For now, we only check for "Brick", but this can be expanded
+	        if (slot && slot.item === 'Brick') {
+	            try {
+	                // Dynamically import the Brick class to access its properties
+	                const brickModule = await import('../dvarim/brick.js');
+	                const brickClass = brickModule.default;
+	                
+	                // Create a temporary instance to get its default golem
+	                const tempBrick = new brickClass({});
+	                blockDefinition = tempBrick.originalOptions.golem;
+	                
+	                itemUsedInfo = {
+	                    slotIndex: this.selectedInventorySlot,
+	                    className: slot.item
+	                };
+	
+	            } catch (e) {
+	                console.error("Could not load brick module for building", e);
+	            }
+	        }
+	    }
+	
+	    // If no inventory item is used, fall back to the default block
+	    if (!blockDefinition) {
+	        blockDefinition = this?.olam?.vars?.defaultBlock || {
+	            toyr: { MeshLambertMaterial: { color: "blue" } }
+	        };
+	    }
+	    
+	    const rayStart = this.getRayStart();
+	    const rayDirection = this.getRayDirection();
+	    const distance = this.distanceFromRay;
+	
+	    const worldPosition = rayStart.clone().add(rayDirection.clone().multiplyScalar(-distance));
+	    const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
+	    if (!mesh) return;
+	
+	    const block = { mesh };
+	
+	    // Set scale to 1x1x1 for bricks, otherwise use the old default
+	    if (itemUsedInfo) {
+	        block.mesh.scale.set(1, 1, 1);
+	    } else {
+	        block.mesh.scale.set(3, 3, 2);
+	    }
+	
+	    const localPosition = this.activeRay.mesh.worldToLocal(worldPosition.clone());
+	    block.mesh.position.copy(localPosition);
+	    this.activeRay.mesh.add(block.mesh);
+	    this.activeObject = block;
+	    this.alignObject();
+	    
+	    // NOTE: The item is removed from inventory when it's permanently placed,
+	    // which happens in the placeObject() method. Let's modify that next.
+	}
 
     async setDistanceFromRay(distance) {
         if (!this.activeObject || !this.activeRay) return;

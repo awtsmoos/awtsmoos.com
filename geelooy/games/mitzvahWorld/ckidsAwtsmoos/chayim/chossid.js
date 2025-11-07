@@ -4,7 +4,7 @@
  */
 
 import * as THREE from '/games/scripts/build/three.module.js';
-
+import InventoryManager from '../systems/InventoryManager.js';
 
 /**
  * Chossid is a subclass of Medabeir representing the player's character.
@@ -64,7 +64,8 @@ export default class Chossid extends Medabeir {
     approachedEntities = [];
     constructor(options) {
         super(options);
-        
+        this.inventory = new InventoryManager(this);
+        this.selectedInventorySlot = 0;
         
         this.rotateOffset = 0;
         this.optionsSpeed = options.speed;
@@ -459,85 +460,86 @@ export default class Chossid extends Medabeir {
     }
 	async afterBriyah() {
 		await super.afterBriyah(this);
-
-        this.olam.ayshPeula("save player position")
-        this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
-        this.on("activeObjectAction", async a => {
-            console.log("action",a,this.selected)
-            if(this.selected) {
-                var act = this.actionList[a];
-                if(act) {
-                    act?.(this)
-                }
-                var dist = this?.intersected?.hit?.distance;
-                if(dist) {
-                    this.distanceFromRay = dist;
-                }
-                
-            }
-        })
-        this.olam.on("mousemove", e => {
-           /* if(!this.olam.mouseDown) {
-                if(this.olam.isLookingForSomething) {
-                    this.olam.isLookingForSomething = false
-                }
-                return;
-            }   
-            if(!this.olam.ayin.isFPS) {
-                if(this.olam.isLookingForSomething) {
-                    this.olam.isLookingForSomething = false
-                }
-                return;
-            }*/
-
-            if(!this.activeRay) {
-                if(this.olam.isLookingForSomething) {
-                    this.olam.isLookingForSomething = false
-                }
-                return;
-            }
-
-
-            this.alignObject();
-            if(this.activeObject) {
-                if(this.olam.isLookingForSomething) {
-                    this.olam.isLookingForSomething = false
-                }
-                return;
-            }
-            if(!this.olam.isLookingForSomething) {
-                this.olam.isLookingForSomething = true
-            }
-
-            
-
-            hoverHitCheck({
-                chossid: this,
-                olam: this.olam
-            })
-        })
-        this.olam.on("wheel", ({deltaY}) => {
-            if(this.activeObject) {
-                var baseFactor = 0.003;
-        
-        // Dynamically adjust factor based on the current distance
-                var factor = baseFactor * Math.max(0.5, Math.min(2, this.distanceFromRay / 10));
-        
-                // Adjust the distance based on the wheel input
-                // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
-                this.distanceFromRay += deltaY * factor; // Adjust the multiplier to control the speed of the change
-
-                // You can limit the distance to prevent it from becoming too small or too large
-                this.distanceFromRay = Math
-                    .max(1, Math.min(this.rayLength, this.distanceFromRay)); // Example limits
-                this.setDistanceFromRay(this.distanceFromRay);
-            } else {
-
-                this.olam.ayin.deltaY = deltaY;
-                
-                this.olam.ayin.zoom(deltaY)
-            }
-        })
+		
+		
+	        this.olam.ayshPeula("save player position")
+	        this.distanceFromRay = 5;  // Initial distance value (can be adjusted)
+	        this.on("activeObjectAction", async a => {
+	            console.log("action",a,this.selected)
+	            if(this.selected) {
+	                var act = this.actionList[a];
+	                if(act) {
+	                    act?.(this)
+	                }
+	                var dist = this?.intersected?.hit?.distance;
+	                if(dist) {
+	                    this.distanceFromRay = dist;
+	                }
+	                
+	            }
+	        })
+	        this.olam.on("mousemove", e => {
+	           /* if(!this.olam.mouseDown) {
+	                if(this.olam.isLookingForSomething) {
+	                    this.olam.isLookingForSomething = false
+	                }
+	                return;
+	            }   
+	            if(!this.olam.ayin.isFPS) {
+	                if(this.olam.isLookingForSomething) {
+	                    this.olam.isLookingForSomething = false
+	                }
+	                return;
+	            }*/
+	
+	            if(!this.activeRay) {
+	                if(this.olam.isLookingForSomething) {
+	                    this.olam.isLookingForSomething = false
+	                }
+	                return;
+	            }
+	
+	
+	            this.alignObject();
+	            if(this.activeObject) {
+	                if(this.olam.isLookingForSomething) {
+	                    this.olam.isLookingForSomething = false
+	                }
+	                return;
+	            }
+	            if(!this.olam.isLookingForSomething) {
+	                this.olam.isLookingForSomething = true
+	            }
+	
+	            
+	
+	            hoverHitCheck({
+	                chossid: this,
+	                olam: this.olam
+	            })
+	        })
+	        this.olam.on("wheel", ({deltaY}) => {
+	            if(this.activeObject) {
+	                var baseFactor = 0.003;
+	        
+	        // Dynamically adjust factor based on the current distance
+	                var factor = baseFactor * Math.max(0.5, Math.min(2, this.distanceFromRay / 10));
+	        
+	                // Adjust the distance based on the wheel input
+	                // Invert the direction of the scroll (positive scroll moves closer, negative scroll moves further away)
+	                this.distanceFromRay += deltaY * factor; // Adjust the multiplier to control the speed of the change
+	
+	                // You can limit the distance to prevent it from becoming too small or too large
+	                this.distanceFromRay = Math
+	                    .max(1, Math.min(this.rayLength, this.distanceFromRay)); // Example limits
+	                this.setDistanceFromRay(this.distanceFromRay);
+	            } else {
+	
+	                this.olam.ayin.deltaY = deltaY;
+	                
+	                this.olam.ayin.zoom(deltaY)
+	            }
+	        })
         
 	}
     async started() {
@@ -546,6 +548,9 @@ export default class Chossid extends Medabeir {
         
         await this
         .olam?.minimap?.setMinimapItems?.([this], "chossid");
+       
+	        this.inventory.addItem("Brick", 64);
+        
     }
 
     /**
