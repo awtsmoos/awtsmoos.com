@@ -30,7 +30,7 @@ const MimeMap = {
     '.jpg':  { type: 'image', mime: 'image/jpeg' },
     '.jpeg': { type: 'image', mime: 'image/jpeg' },
     '.gif':  { type: 'image', mime: 'image/gif' },
-    '.svg':  { type: 'image', mime: 'image/svg+xml' },
+   // '.svg':  { type: 'image', mime: 'image/svg+xml' },
     '.webp': { type: 'image', mime: 'image/webp' },
     '.ico':  { type: 'image', mime: 'image/x-icon' },
     '.bmp':  { type: 'image', mime: 'image/bmp' },
