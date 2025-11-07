@@ -7,7 +7,7 @@ import {
 	Triangle,
 	Vector3
 } from '/games/scripts/build/three.module.js';
-import { Capsule } from '../math/Capsule.js';
+import { Capsule } from './Capsule.js';
 
 // --- Reusable private variables ---
 const _v1 = new Vector3();
@@ -38,41 +38,78 @@ export class Octree {
 		this.#isBuilt = false;
 	}
 	
+	/**
+	 * B"H
+	 *  Resets the octree to a clean state without needing to create a new instance.
+	 * This is critical for the performance of the dynamic OctreeWorld, which rebuilds
+	 * chunk physics frequently.
+	 */
+	clear() {
+	    this.#allTriangles.length = 0;
+	    this.#worldTrianglesData = null; // Let garbage collector handle the old Float32Array
+	    this.triangles.length = 0;
+	    this.subTrees.length = 0;
+	    this.box.makeEmpty();
+	    this.#isBuilt = false;
+	    this._isManaged = false; // When cleared, it reverts to a normal, unmanaged octree.
+
+	    return this; // Allow chaining
+	}
+	
+	/**
+	 * B"H
+	 * Diagnostic helper to count all triangles this octree and its subtrees are managing.
+	 * @returns {number}
+	 */
+	getTotalTriangleCount() {
+	    let count = this.triangles.length;
+	    for (const subTree of this.subTrees) {
+	        count += subTree.getTotalTriangleCount();
+	    }
+	    return count;
+	}
+	
 	_addTriangles = (triangles) => {
 	    this.#allTriangles.push(...triangles);
 	    this.#isBuilt = false;
 	}
 
 	fromGraphNode(group) {
-		group.updateWorldMatrix(true, true);
-
-		group.traverse((obj) => {
-			if (obj.isMesh === true) {
-				if (this.#allTriangles.some(tri => tri.sourceMesh === obj)) {
-					this.removeMesh(obj);
-				}
-				
-				let geometry, isTemp = false;
-				if (obj.geometry.index !== null) { isTemp = true; geometry = obj.geometry.toNonIndexed(); } 
-				else { geometry = obj.geometry; }
-
-				const positionAttribute = geometry.getAttribute('position');
-				if (positionAttribute) {
-					for (let i = 0; i < positionAttribute.count; i += 3) {
-						const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(obj.matrixWorld);
-						const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
-						const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
-						const tri = new Triangle(v1, v2, v3);
-						tri.sourceMesh = obj;
-						this.#allTriangles.push(tri);
-					}
-				}
-				if (isTemp) geometry.dispose();
-			}
-		});
-
-		this.#isBuilt = false;
-		return this;
+	    // For normal scene objects, we MUST update the world matrix.
+	    // But for pre-transformed physics clones from OctreeWorld, this would
+	    // incorrectly move them to the origin. We check for a flag to prevent this.
+	    if (!group.userData.isPreTransformed) {
+	        group.updateWorldMatrix(true, true);
+	    }
+	   
+	
+	    group.traverse((obj) => {
+	        if (obj.isMesh === true) {
+	            if (this.#allTriangles.some(tri => tri.sourceMesh === obj)) {
+	                this.removeMesh(obj);
+	            }
+	            
+	            let geometry, isTemp = false;
+	            if (obj.geometry.index !== null) { isTemp = true; geometry = obj.geometry.toNonIndexed(); } 
+	            else { geometry = obj.geometry; }
+	
+	            const positionAttribute = geometry.getAttribute('position');
+	            if (positionAttribute) {
+	                for (let i = 0; i < positionAttribute.count; i += 3) {
+	                    const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(obj.matrixWorld);
+	                    const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
+	                    const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
+	                    const tri = new Triangle(v1, v2, v3);
+	                    tri.sourceMesh = obj;
+	                    this.#allTriangles.push(tri);
+	                }
+	            }
+	            if (isTemp) geometry.dispose();
+	        }
+	    });
+	
+	    this.#isBuilt = false;
+	    return this;
 	}
 
 	removeMesh(mesh) {
@@ -85,8 +122,17 @@ export class Octree {
 	}
 
 	build() {
-		this.subTrees = [];
-		this.box.makeEmpty();
+	//console.error(`[DIAGNOSTIC] build() called. Master list #allTriangles has ${this.#allTriangles.length} triangles BEFORE build.`);
+		// --- BACKWARDS COMPATIBILITY LOGIC ---
+		if (!this._isManaged) {
+			// If not managed, behave exactly as before: clear everything and calculate a new box.
+			this.subTrees = []; 
+			this.box.makeEmpty();
+		} else {
+			// If managed by OctreeWorld, ONLY clear the subTrees.
+			// CRUCIALLY, we MUST NOT clear the box, as it has been precisely set by OctreeWorld.
+			this.subTrees = [];
+		}
 		
 		this.#worldTrianglesData = new Float32Array(this.#allTriangles.length * 9);
 		for (let i = 0; i < this.#allTriangles.length; i++) {
@@ -95,7 +141,12 @@ export class Octree {
 			this.#worldTrianglesData[baseIndex] = tri.a.x; this.#worldTrianglesData[baseIndex+1] = tri.a.y; this.#worldTrianglesData[baseIndex+2] = tri.a.z;
 			this.#worldTrianglesData[baseIndex+3] = tri.b.x; this.#worldTrianglesData[baseIndex+4] = tri.b.y; this.#worldTrianglesData[baseIndex+5] = tri.b.z;
 			this.#worldTrianglesData[baseIndex+6] = tri.c.x; this.#worldTrianglesData[baseIndex+7] = tri.c.y; this.#worldTrianglesData[baseIndex+8] = tri.c.z;
-			this.box.expandByPoint(tri.a).expandByPoint(tri.b).expandByPoint(tri.c);
+
+			// --- BACKWARDS COMPATIBILITY LOGIC ---
+			if (!this._isManaged) {
+				// Only expand the box if we are a standalone octree.
+		        this.box.expandByPoint(tri.a).expandByPoint(tri.b).expandByPoint(tri.c);
+		    }
 		}
 		
 		if(this.#allTriangles.length > 0){
@@ -103,6 +154,7 @@ export class Octree {
 		}
 
 		this.triangles = Array.from(Array(this.#allTriangles.length).keys());
+		
 		this.split(0);
 		
 		this.#isBuilt = true;
@@ -143,9 +195,10 @@ export class Octree {
 			}
 		}
 		
-		// ------------------------- THE FIX IS HERE ------------------------------
-		// After distributing triangles to children, clear this node's list.
-		// Only leaf nodes (nodes with no subTrees) should hold triangle references.
+		// After distributing triangles to children, clear this node's triangle list.
+		// A parent with children should only be a structural container.
+		// Only leaf nodes should hold triangle references. This stops the reference explosion.
+		// This is a universal architectural improvement and is 100% backwards compatible.
 		if (this.subTrees.length > 0) {
 			this.triangles.length = 0;
 		}

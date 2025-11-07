@@ -232,6 +232,38 @@ export default class Chai extends Tzomayach {
     }
 
     
+   
+	collisions(deltaTime) {
+	    // 1. Perform a short raycast straight down to confirm if we are on the ground.
+	    const groundCheckCapsule = this.collider.clone();
+	    groundCheckCapsule.end.y -= 0.05; 
+	
+	    // The new OctreeWorld capsuleIntersect is efficient enough for this check.
+	    const groundCheckResult = this.olam.worldOctree.capsuleIntersect(groundCheckCapsule);
+	    this.onFloor = groundCheckResult && groundCheckResult.normal.y > 0.7;
+	
+	    // 2. Now, perform the main capsule collision for movement.
+	    // We clone the collider to get the result without modifying the original yet.
+	    const collisionTestCapsule = this.collider.clone();
+	    const result = this.olam.worldOctree.capsuleIntersect(collisionTestCapsule);
+	  
+	    if (result) {
+	        // The new system returns a result object. We MUST apply the translation ourselves.
+	        this.collider.translate(result.normal.multiplyScalar(result.depth));
+	
+	        // Now, we update velocity based on the outcome.
+	        if (this.onFloor) {
+	            // If on the floor, ensure vertical velocity doesn't accumulate downwards.
+	            this.velocity.y = Math.max(0, this.velocity.y);
+	        } else {
+	            // If we hit a wall or ceiling, project velocity to slide along it.
+	            this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
+	        }
+	    }
+	}
+    
+    
+    
     /**
      * Checks and handles collisions for the character
      * 
@@ -239,41 +271,9 @@ export default class Chai extends Tzomayach {
      */
 
   
-	// In Chai.js, replace the entire collisions method
-
-collisions(deltaTime) {
-    // 1. Perform a short raycast straight down to confirm if we are on the ground.
-	    // Create a temporary, slightly shorter capsule for the ground check
-	const groundCheckCapsule = this.collider.clone();
-	
-	// Move it down just a tiny bit. 0.05 is a good starting value.
-	groundCheckCapsule.end.y -= 0.05; 
-	
-	// Perform a capsule intersection check with this temporary capsule.
-	const groundCheckResult = this.olam.worldOctree.capsuleIntersect(groundCheckCapsule);
-	
-	// We are on the floor if this check found a collision AND the collision normal is mostly pointing upwards.
-	this.onFloor = groundCheckResult && groundCheckResult.normal.y > 0.7;
-	// --- END: NEW ROBUST GROUND CHECK ---
-	
-
-    // 2. Now, perform the main capsule collision for movement.
-    const result = this.olam.worldOctree.capsuleIntersect(this.collider);
-  
-    if (result) {
-        // If we are on the floor, we reset the vertical velocity.
-        if (this.onFloor) {
-            this.velocity.y = 0;
-        } else {
-            // Otherwise, we bounce off walls/ceilings.
-            this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
-        }
-
-        // Apply the positional correction from the capsule.
-        this.collider.translate(result.normal.multiplyScalar(result.depth));
-    }
-}
-
+    
+    
+    
     async calculateOffset() {
         if (!this.onFloor) {
             return;
@@ -988,7 +988,7 @@ collisions(deltaTime) {
     // STEP 2: PREPARE
     // Call updateFocus ONCE at the beginning, using the predicted destination.
     // This loads all necessary chunks BEFORE the player moves.
-	this.olam.worldOctree?.updateFocus?.(this.collider.end, _predictedPosition, 1, 2);
+	this.olam.worldOctree?.update?.(this.collider.end, this.velocity);
     
         const capsule = this.collider;
 

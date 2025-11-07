@@ -37,12 +37,10 @@ export default class {
 		    if (self.frameCount === undefined) self.frameCount = 0;
 		    self.frameCount++;
 		    if (self.frameCount % 100 === 0) {
-		        console.log(
-		            "Active Chunks:", self.worldOctree.getActiveChunkCount(), // You'll need to add this helper function
-		            "| Build Queue:", self.worldOctree.getBuildQueueSize()    // And this one
-		        );
+		       
 		    }
-	        self.worldOctree?.processBuildQueue?.();
+	       
+	       
 	    }
                 
 
