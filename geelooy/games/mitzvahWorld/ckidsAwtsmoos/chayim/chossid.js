@@ -416,12 +416,35 @@ export default class Chossid extends Medabeir {
 
     async ready(m) {
         await super.ready();
-    
+	    
         this.olam.chossid = this;
         this.olam.player = this;
         this.olam.ayin.target = this;
+        
         if(this.optionsSpeed) {
             this.speed = this.optionsSpeed;
+        }
+        var self = this
+        if (this.modelMesh) {
+            this.modelMesh.traverse(function(child) {
+                if (child.isMesh) {
+                    child.frustumCulled = false;
+                   
+                }
+                 if(child?.name == ("body")) {
+                    
+	                    var ch = child?.children?.[0];
+	                    if(ch?.isMesh) {
+	                       console.log("WHAT",ch)
+		               self 
+		               .olam
+		               .ayin
+		               .modelMesh 
+		               = ch
+		          }
+	          }
+                
+            });
         }
         
         

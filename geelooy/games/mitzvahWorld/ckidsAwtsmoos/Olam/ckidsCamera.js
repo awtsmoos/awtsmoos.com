@@ -63,6 +63,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
         this.raycaster = new THREE.Raycaster();
 
         this.mouseRaycaster = new THREE.Raycaster();
+        
+         this.playerCollisionBuffer = 0.7;
 
 
         this.objectsInScene = [];
@@ -75,6 +77,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
         this.lastDistance = null;
 
         this.panAmount = 0.5;
+        this.modelMesh = null;
     }
 
     get target() {
@@ -296,8 +299,22 @@ import * as THREE from '/games/scripts/build/three.module.js';
                     isCorrected = true;
                 }
             }
+            
+             const playerRaycaster = new THREE.Raycaster(
+                position, // from the camera's potential new position
+                trueTargetPosition.clone().sub(position).normalize() // toward the player
+            );
+            
+		
+            
+            
+           
+
+            
 
         }
+        
+       
     
         // For smoothing, lerp distance only if either distance wasn't corrected, or correctedDistance is more than currentDistance
         this.currentDistance = (!isCorrected || this.correctedDistance > this.currentDistance) ? 
@@ -313,7 +330,33 @@ import * as THREE from '/games/scripts/build/three.module.js';
         position.sub(new THREE.Vector3(0, 0, this.currentDistance).applyQuaternion(rotation)); 
         
         
-       
+       // --- B"H Final Anti-Player Collision Pass (Geometrically Correct) ---
+	if (!this.isFPS && this.target.collider) {
+	    const collider = this.target.collider;
+	    const playerCenter = new THREE.Vector3().addVectors(collider.start, collider.end).multiplyScalar(0.5);
+	    const minimumSafeDistance = collider.radius + this.playerCollisionBuffer;
+	
+	    const distanceToPlayerCenter = position.distanceTo(playerCenter);
+	
+	    if (distanceToPlayerCenter < minimumSafeDistance) {
+	        // 1. Calculate how much we need to push the camera back.
+	        const penetrationDepth = minimumSafeDistance - distanceToPlayerCenter;
+	
+	        // 2. Get the direction to push in (from player center to camera).
+	        const pushDirection = position.clone().sub(playerCenter).normalize();
+	
+	        // 3. Directly move the camera's position to the edge of the safe bubble.
+	        position.addScaledVector(pushDirection, penetrationDepth);
+	
+	        // 4. Update currentDistance to match this new physical position.
+	        const pivotPoint = this.target.mesh.position.clone().sub(vTargetOffset);
+	        this.currentDistance = position.distanceTo(pivotPoint);
+	
+	        // 5. CRITICAL: Sync desiredDistance to prevent "zoom-out lag".
+	        this.desiredDistance = this.currentDistance; // 
+	    }
+	}
+
         
         var did = false;
         if(this.isFPS) {
@@ -341,12 +384,15 @@ import * as THREE from '/games/scripts/build/three.module.js';
         } else if(this.rightMouseIsDown) {
             this.target.rotation.y = this.euler.y;
         }
+        
+        
 
         this.camera.rotation.copy(this.euler);
         if(position) {
             this.camera.position.copy(position);
             this.cameraFollower.position.copy(position);
         }
+        
 
         var pos = this.target.mesh.position.clone();
         pos.y += this.targetHeight
@@ -355,63 +401,10 @@ import * as THREE from '/games/scripts/build/three.module.js';
         if(did) {
           //  this.userInputTheta = this.euler.y
         }
-
-        this.adjustBlur();
-        
+   
     }
     _lastFocalDepth;
-    adjustBlur() {
-        if(
-            !this.olam || 
-     
-            !this.target ||
-            !this.currentDistance ||
-            this.dontCopyDepth
-        ) {
-            return console.log("Skipped")
-        };
-
-        var dist = null
-        
-        // Assuming 'this.target' is the object you want to focus on
-        var targetPosition = new THREE.Vector3();
-        this.target.mesh.getWorldPosition(targetPosition);
-        var roundAmount = 0.0001
-        var myPos = new THREE.Vector3();
-        this.camera.getWorldPosition(myPos)
-        // Calculate the distance from the camera to the target object
-        var distanceToTarget = Math.floor(myPos.distanceTo(
-            targetPosition
-        ) * 100000) / 100000;
-        
-        // Now, use this distance as your focalDepth
-        dist = distanceToTarget;
-       
-        
-        var fd = dist
-
-        
-        if(this._lastDistance != dist) {
-            
-            //pp.setFocalDepth(fd);
-            //this.amountToHideTargetCompletely = 1.7821312470527046
-           // console.log("Dist",dist);
-            if(dist <= this.amountToStartHidingTarget) {
-                var amount = Math.max(
-                    (dist - this.amountToHideTargetCompletely),
-                    0
-                );
-                this.target.ayshPeula("opacity", amount)
-            } else {
-                this.target.ayshPeula("opacity", 1)
-            }
-            
-        }
-        this._lastDistance = fd;
-        
-
-        
-    }
+    
 
     newMovement=false
     
