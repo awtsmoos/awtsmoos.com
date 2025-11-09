@@ -1,940 +1,1358 @@
-/*B"H*/
+/* B"H */
 
 // =================================================================
-//         MAIN THREAD (UI/CANVAS/EVENTS - STABLE REWRITE)
+//                 THE PROMETHEUS CHESS ENGINE (Mk. III - UNIFIED)
 // =================================================================
+// This version is structurally refactored to use a single, shared
+// helpers file for all core logic, ensuring 100% consistency between
+// the book generator and the search engine.
 
-document.addEventListener('DOMContentLoaded', () => {
-	// --- DOM Element References ---
-	const canvas = document.getElementById('chessCanvas');
-	const canvasContext = canvas.getContext('2d');
-	
-	const declareDrawButton = document.getElementById('declareDrawButton');
-	
-	
-	const capturedByBlackCanvas = document.getElementById('capturedByBlackCanvas');
-	const capturedByWhiteCanvas = document.getElementById('capturedByWhiteCanvas');
-	const capturedBlackCtx = capturedByBlackCanvas.getContext('2d');
-	const capturedWhiteCtx = capturedByWhiteCanvas.getContext('2d');
-	
-	const messageDiv = document.getElementById('message');
-	const mainMenu = document.getElementById('mainMenu');
-	const gameContainer = document.getElementById('gameContainer');
-	const chessContainer = document.getElementById('chessContainer');
-	const gameOverOverlay = document.getElementById('gameOverOverlay');
-	const gameOverText = document.getElementById('gameOverText');
-	const replayButton = document.getElementById('replayButton');
-	const downloadButton = document.getElementById('downloadButton');
-	const colorSelectionMenu = document.getElementById('colorSelectionMenu');
-	const capturedByBlackDiv = document.getElementById('capturedByBlack');
-	const capturedByWhiteDiv = document.getElementById('capturedByWhite');
-	const playVsAiButton = document.getElementById('playVsAiButton');
-	const playVsPlayerButton = document.getElementById('playVsPlayerButton');
-	const aiVsAiButton = document.getElementById('aiVsAiButton');
-	const playAsWhiteButton = document.getElementById('playAsWhiteButton');
-	const playAsBlackButton = document.getElementById('playAsBlackButton');
+// --- CORE LOGIC AND DATABASE IMPORT ---
+importScripts('helpers.js');
+importScripts('grandmaster_library.js');
 
-	// --- Constants and State ---
-	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 300, 500);
-	const SQUARE_SIZE = SIZE / 8;
-	let board = [];
-	let gameState = {};
-	const PIECE_EMOJIS = {
-		'K': '👑',
-		'Q': '👸',
-		'R': '🏰',
-		'B': '🧔',
-		'N': '🐴',
-		'P': '♟️'
-	};
-	const pieceOrder = {
-		'Q': 1,
-		'R': 2,
-		'B': 3,
-		'N': 4,
-		'P': 5
-	};
-	
-	function scrollMsg(){
-		messageDiv.scrollTop=
-		messageDiv.scrollHeight
-	
-	}
+// =================================================================
+//                 OPENING BOOK PROCESSING LOGIC
+// =================================================================
+const openingBook = new Map();
+function buildOpeningBook() {
+    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
+    for (const entry of rawOpeningBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1]; // Extract the opening name
+        const hash = calculateZobristHash(createGameState(fen)).toString();
 
-	function resetGameState() {
-		gameState = {
-			gameMode: null,
-			turn: 'w',
-			playerColor: 'w',
-			selectedSquare: null,
-			legalMoves: [],
-			isAnimating: false,
-			isAIMoving: false,
-			gameOver: false,
-			moveHistory: [],
-			fenHistory: [],
-			pgnResult: '*',
-			fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-			castlingRights: {
-				K: true,
-				Q: true,
-				k: true,
-				q: true
-			},
-			enPassantTarget: null,
-			halfmoveClock: 0,
-			fullmoveNumber: 1,
-			capturedByWhite: [],
-			capturedByBlack: [],
-		};
-	}
+        // The value in our map will be an object: { name: string, moves: Move[] }
+        // If the hash already exists, we'll add to its moves but keep the original name.
+        const bookEntry = openingBook.has(hash) ? openingBook.get(hash) : { name: name, moves: [] };
 
-	// --- AI Worker ---
-	const aiWorker = new Worker('prometheus_engine.js');
-	// --- AI Worker ---
-	aiWorker.onmessage = function(e) {
-		gameState.isAIMoving = false;
-		const {
-			bestMove,
-			timeTaken,
-			nodesSearched,
-            score // Capture the score as well for display
-		} = e.data;
-		console.log("move")
-
-		if (bestMove) {
-            // Display whether it was a book move or a calculated one
-			const moveSource = score === "Book Move" ? "Book Move" : `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
-			messageDiv.textContent += `AI moved. (${moveSource})`;
-			scrollMsg()
-            // =================================================================
-			//                          *** THE FIX ***
-			// =================================================================
-			// Instead of solely relying on finding the move in the UI's legal move list
-			// (which is causing the crash), we'll robustly construct the full move object.
-			// This makes the UI resilient to minor sync issues with the worker.
-
-			let fullMove = gameState.legalMoves.find(m =>
-				m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
-				m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
-			);
-
-			// If the move wasn't found (the source of the error), we build it ourselves.
-			// This is a crucial fallback, especially for simple book moves.
-			if (!fullMove) {
-				const piece = board[bestMove.from[0]][bestMove.from[1]];
-				fullMove = {
-					from: bestMove.from,
-					to: bestMove.to,
-					piece: piece
-				};
-				// Manually add properties that the rest of the code expects
-				if (piece.toLowerCase() === 'p' && Math.abs(fullMove.from[0] - fullMove.to[0]) === 2) {
-					fullMove.isPawnDoubleMove = true;
-				}
-				if (piece.toLowerCase() === 'k' && Math.abs(fullMove.from[1] - fullMove.to[1]) === 2) {
-					fullMove.isCastle = true;
-				}
-			}
-
-			animateMove(fullMove, () => {
-				if (gameState.gameMode === 'ava') {
-					startAIMove(); // AI vs AI loop
-				}
-			});
-            // =================================================================
-			//                        *** END OF FIX ***
-			// =================================================================
-
-		} else {
-			updateGameStatus(); // No moves found, game is over.
-		}
-	};
-
-	// --- Full Chess Rules Logic (for UI) ---
-	const chessLogic = {};
-	(function(logic) {
-		/* This block is self-contained and correct, no changes needed */
-		logic.findKing = (b, color) => {
-			const k = color === 'w' ? 'K' : 'k';
-			for (let r = 0; r < 8; r++)
-				for (let c = 0; c < 8; c++)
-					if (b[r][c] === k) return {
-						r,
-						c
-					};
-			return null;
-		};
-		logic.getPseudoLegalMovesForPiece = (p, r, c, b, epTarget) => {
-			const m = [];
-			const pL = p.toLowerCase();
-			const iW = p === p.toUpperCase();
-			if (pL === 'p') {
-				const d = iW ? -1 : 1;
-				const sR = iW ? 6 : 1;
-				if (r + d >= 0 && r + d < 8) {
-					if (b[r + d][c] === '') {
-						m.push({
-							from: [r, c],
-							to: [r + d, c]
-						});
-						if (r === sR && b[r + 2 * d][c] === '') m.push({
-							from: [r, c],
-							to: [r + 2 * d, c],
-							isPawnDoubleMove: true
-						});
-					}
-					for (let dc = -1; dc <= 1; dc += 2) {
-						const nC = c + dc;
-						if (nC >= 0 && nC < 8) {
-							const t = b[r + d][nC];
-							if (t && iW !== (t === t.toUpperCase())) m.push({
-								from: [r, c],
-								to: [r + d, nC]
-							});
-							if (epTarget && r + d === epTarget[0] && nC === epTarget[1]) m.push({
-								from: [r, c],
-								to: [r + d, nC],
-								isEnPassant: true
-							});
-						}
-					}
-				}
-				return m;
-			}
-			if (pL === 'k') {
-				const o = [
-					[-1, -1],
-					[-1, 0],
-					[-1, 1],
-					[0, -1],
-					[0, 1],
-					[1, -1],
-					[1, 0],
-					[1, 1]
-				];
-				for (const [dr, dc] of o) {
-					const nR = r + dr,
-						nC = c + dc;
-					if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-						const t = b[nR][nC];
-						if (t === '' || iW !== (t === t.toUpperCase())) m.push({
-							from: [r, c],
-							to: [nR, nC]
-						})
-					}
-				}
-				return m;
-			}
-			const o = {
-				n: [
-					[-2, -1],
-					[-2, 1],
-					[-1, -2],
-					[-1, 2],
-					[1, -2],
-					[1, 2],
-					[2, -1],
-					[2, 1]
-				]
-			} [pL];
-			if (o) {
-				for (const [dr, dc] of o) {
-					const nR = r + dr,
-						nC = c + dc;
-					if (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-						const t = b[nR][nC];
-						if (t === '' || iW !== (t === t.toUpperCase())) m.push({
-							from: [r, c],
-							to: [nR, nC]
-						})
-					}
-				}
-				return m;
-			}
-			const d = {
-				b: [
-					[-1, -1],
-					[-1, 1],
-					[1, -1],
-					[1, 1]
-				],
-				r: [
-					[-1, 0],
-					[1, 0],
-					[0, -1],
-					[0, 1]
-				],
-				q: [
-					[-1, -1],
-					[-1, 1],
-					[1, -1],
-					[1, 1],
-					[-1, 0],
-					[1, 0],
-					[0, -1],
-					[0, 1]
-				]
-			} [pL];
-			if (d) {
-				for (const [dr, dc] of d) {
-					let nR = r + dr,
-						nC = c + dc;
-					while (nR >= 0 && nR < 8 && nC >= 0 && nC < 8) {
-						const t = b[nR][nC];
-						if (t === '') m.push({
-							from: [r, c],
-							to: [nR, nC]
-						});
-						else {
-							if (iW !== (t === t.toUpperCase())) m.push({
-								from: [r, c],
-								to: [nR, nC]
-							});
-							break;
-						}
-						nR += dr;
-						nC += dc;
-					}
-				}
-			}
-			return m;
-		};
-		logic.isSquareAttacked = (b, r, c, aC) => {
-			for (let rA = 0; rA < 8; rA++)
-				for (let cA = 0; cA < 8; cA++) {
-					const p = b[rA][cA];
-					if (p === '') continue;
-					const iW = p === p.toUpperCase();
-					if ((aC === 'w' && !iW) || (aC === 'b' && iW)) continue;
-					const m = logic.getPseudoLegalMovesForPiece(p, rA, cA, b, null);
-					for (const move of m)
-						if (move.to[0] === r && move.to[1] === c) {
-							if (p.toLowerCase() === 'p') {
-								if (move.from[1] !== c) return true
-							} else {
-								return true
-							}
-						}
-				}
-			return false;
-		};
-		logic.generateAllLegalMoves = (b, color, cr, epTarget) => {
-			const lM = [];
-			const oC = color === 'w' ? 'b' : 'w';
-			const kingPos = logic.findKing(b, color);
-			for (let r = 0; r < 8; r++)
-				for (let c = 0; c < 8; c++) {
-					const p = b[r][c];
-					if (p === '') continue;
-					const iW = p === p.toUpperCase();
-					if ((color === 'w' && !iW) || (color === 'b' && iW)) continue;
-					const pM = logic.getPseudoLegalMovesForPiece(p, r, c, b, epTarget);
-					for (const m of pM) {
-						const nB = makeMove(b, m);
-						const nKingPos = (p.toLowerCase() === 'k') ? {
-							r: m.to[0],
-							c: m.to[1]
-						} : kingPos;
-						if (nKingPos && !logic.isSquareAttacked(nB, nKingPos.r, nKingPos.c, oC)) {
-							m.piece = p;
-							lM.push(m);
-						}
-					}
-				}
-			if (kingPos && !logic.isSquareAttacked(b, kingPos.r, kingPos.c, oC)) {
-				const r = color === 'w' ? 7 : 0;
-				if (cr[color === 'w' ? 'K' : 'k'] && !b[r][5] && !b[r][6] && !logic.isSquareAttacked(b, r, 5, oC) && !logic.isSquareAttacked(b, r, 6, oC)) lM.push({
-					from: [r, 4],
-					to: [r, 6],
-					piece: color === 'w' ? 'K' : 'k',
-					isCastle: true
-				});
-				if (cr[color === 'w' ? 'Q' : 'q'] && !b[r][1] && !b[r][2] && !b[r][3] && !logic.isSquareAttacked(b, r, 2, oC) && !logic.isSquareAttacked(b, r, 3, oC)) lM.push({
-					from: [r, 4],
-					to: [r, 2],
-					piece: color === 'w' ? 'K' : 'k',
-					isCastle: true
-				});
-			}
-			return lM;
-		};
-	})(chessLogic);
-
-	// --- Game Flow & State Management ---
-	function performMove(move) {
-		// Determine captured piece and augment the move object for the SAN generator
-		const capturedPiece = move.isEnPassant ? (gameState.turn === 'w' ? 'p' : 'P') : board[move.to[0]][move.to[1]];
-		move.capturedPiece = capturedPiece;
-
-		// Generate the base SAN notation *before* the board state changes
-		let san = getSanForMove(move, gameState.legalMoves);
-
-		// --- Execute the move and update the board state ---
-		if (capturedPiece) {
-			(gameState.turn === 'w' ? gameState.capturedByWhite : gameState.capturedByBlack).push(capturedPiece);
-		}
-		board = makeMove(board, move);
-		updateStateAfterMove(move); // This flips the turn, updates clocks etc.
-
-		// --- Check for check/checkmate to append symbol ---
-		const opponentColor = gameState.turn;
-		const opponentKingPos = chessLogic.findKing(board, opponentColor);
-		if (opponentKingPos && chessLogic.isSquareAttacked(board, opponentKingPos.r, opponentKingPos.c, opponentColor === 'w' ? 'b' : 'w')) {
-			// The opponent is in check. Check for checkmate.
-			const opponentLegalMoves = chessLogic.generateAllLegalMoves(board, opponentColor, gameState.castlingRights, gameState.enPassantTarget);
-			if (opponentLegalMoves.length === 0) {
-				san += '#';
-			} else {
-				san += '+';
-			}
-		}
-
-		// --- Store the complete record in history ---
-		gameState.moveHistory.push({
-			move,
-			piece: move.piece,
-			capturedPiece,
-			san // The complete and unambiguous SAN string
-		});
-
-		// --- Update UI and continue game flow ---
-		drawBoard();
-		drawCapturedPieces();
-
-		const isGameOver = updateGameStatus();
-		if (!isGameOver) {
-			const isItAIsTurn = (gameState.gameMode === 'pva' && gameState.turn !== gameState.playerColor) || gameState.gameMode === 'ava';
-			if (isItAIsTurn) {
-				startAIMove();
-			} else {
-				messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'}'s turn.`;
-				
-				scrollMsg()
-			
-			}
-		}
-	}
-	
-	/**
-	 * Generates the Standard Algebraic Notation (SAN) for a move, resolving ambiguity.
-	 * @param {object} move - The move object.
-	 * @param {Array} allLegalMoves - All legal moves available in the current position.
-	 * @returns {string} The SAN string for the move.
-	 */
-	function getSanForMove(move, allLegalMoves) {
-		const files = 'abcdefgh';
-		const piece = move.piece;
-		const to = move.to;
-		const from = move.from;
-
-		// 1. Castling
-		if (move.isCastle) {
-			return to[1] > 4 ? 'O-O' : 'O-O-O';
-		}
-
-		const pieceLetter = piece.toUpperCase() === 'P' ? '' : piece.toUpperCase();
-		const destSquare = files[to[1]] + (8 - to[0]);
-
-		// 2. Pawn moves
-		if (piece.toUpperCase() === 'P') {
-			let notation = move.capturedPiece ? files[from[1]] + 'x' + destSquare : destSquare;
-			if (to[0] === 0 || to[0] === 7) {
-				notation += '=Q'; // Assumes auto-queen for simplicity
-			}
-			return notation;
-		}
-
-		// 3. Other pieces (with ambiguity check)
-		let notation = pieceLetter;
-
-		// Find other pieces of the same type that could also move to the destination
-		const ambiguousMoves = allLegalMoves.filter(m =>
-			m.piece === piece &&
-			(m.to[0] === to[0] && m.to[1] === to[1]) &&
-			!(m.from[0] === from[0] && m.from[1] === from[1])
-		);
-
-		if (ambiguousMoves.length > 0) {
-			// Disambiguation is required. Add the minimum information to make it unique.
-			const canUseFile = !ambiguousMoves.some(m => m.from[1] === from[1]);
-			if (canUseFile) {
-				notation += files[from[1]];
-			} else {
-				const canUseRank = !ambiguousMoves.some(m => m.from[0] === from[0]);
-				if (canUseRank) {
-					notation += (8 - from[0]);
-				} else {
-					// Need both file and rank
-					notation += files[from[1]] + (8 - from[0]);
-				}
-			}
-		}
-
-		if (move.capturedPiece) {
-			notation += 'x';
-		}
-
-		notation += destSquare;
-		return notation;
-	}
-
-	function makeMove(b, move) {
-		const nB = b.map(r => r.slice());
-		const p = nB[move.from[0]][move.from[1]];
-		nB[move.to[0]][move.to[1]] = p;
-		nB[move.from[0]][move.from[1]] = '';
-		if (move.isCastle) {
-			const r = move.from[0];
-			const rFrom = move.to[1] > 3 ? 7 : 0;
-			const rTo = move.to[1] > 3 ? 5 : 3;
-			nB[r][rTo] = nB[r][rFrom];
-			nB[r][rFrom] = '';
-		}
-		if (move.isEnPassant) {
-			nB[move.from[0]][move.to[1]] = '';
-		}
-		if (p.toLowerCase() === 'p' && (move.to[0] === 0 || move.to[0] === 7)) {
-			nB[move.to[0]][move.to[1]] = p === 'P' ? 'Q' : 'q';
-		}
-		return nB;
-	}
-
-	function updateStateAfterMove(move) {
-		const piece = move.piece;
-		const from = move.from;
-		if (piece === 'K') {
-			gameState.castlingRights.K = false;
-			gameState.castlingRights.Q = false;
-		}
-		if (piece === 'k') {
-			gameState.castlingRights.k = false;
-			gameState.castlingRights.q = false;
-		}
-		if (piece === 'R') {
-			if (from[0] === 7 && from[1] === 7) gameState.castlingRights.K = false;
-			if (from[0] === 7 && from[1] === 0) gameState.castlingRights.Q = false;
-		}
-		if (piece === 'r') {
-			if (from[0] === 0 && from[1] === 7) gameState.castlingRights.k = false;
-			if (from[0] === 0 && from[1] === 0) gameState.castlingRights.q = false;
-		}
-		gameState.enPassantTarget = move.isPawnDoubleMove ? [(move.from[0] + move.to[0]) / 2, move.from[1]] : null;
-		gameState.turn = gameState.turn === 'w' ? 'b' : 'w';
-		if (gameState.turn === 'w') gameState.fullmoveNumber++;
-		gameState.halfmoveClock = (piece.toLowerCase() === 'p' || move.capturedPiece) ? 0 : gameState.halfmoveClock + 1;
-		gameState.selectedSquare = null;
-	}
-
-	function updateGameStatus() {
-		gameState.legalMoves = chessLogic.generateAllLegalMoves(board, gameState.turn, gameState.castlingRights, gameState.enPassantTarget);
-		if (gameState.legalMoves.length === 0) {
-			const kingPos = chessLogic.findKing(board, gameState.turn);
-			const inCheck = kingPos && chessLogic.isSquareAttacked(board, kingPos.r, kingPos.c, gameState.turn === 'w' ? 'b' : 'w');
-			if (inCheck) {
-				const winner = gameState.turn === 'w' ? 'Black' : 'White';
-				showGameOver(`Checkmate! ${winner} wins.`, winner === 'White' ? '1-0' : '0-1');
-			} else {
-				showGameOver("Stalemate! It's a draw.", "1/2-1/2");
-			}
-			return true;
-		}
-		return false;
-	}
-
-	function showGameOver(message, result) {
-		gameState.gameOver = true;
-		gameState.pgnResult = result;
-		gameOverText.textContent = message;
-		gameOverOverlay.style.display = 'flex';
-	}
-
-	function generateFEN() {
-		const boardPart = board.map(r => {
-			let e = 0,
-				fR = '';
-			for (const c of r) {
-				if (c === '') {
-					e++
-				} else {
-					if (e > 0) {
-						fR += e;
-						e = 0
-					}
-					fR += c
-				}
-			}
-			if (e > 0) fR += e;
-			return fR
-		}).join('/');
-		const castlingString = (gameState.castlingRights.K ? 'K' : '') + (gameState.castlingRights.Q ? 'Q' : '') + (gameState.castlingRights.k ? 'k' : '') + (gameState.castlingRights.q ? 'q' : '') || '-';
-		const enPassantString = gameState.enPassantTarget ? 'abcdefgh' [gameState.enPassantTarget[1]] + (8 - gameState.enPassantTarget[0]) : '-';
-		return `${boardPart} ${gameState.turn} ${castlingString} ${enPassantString} ${gameState.halfmoveClock} ${gameState.fullmoveNumber}`;
-	}
-
-	function startAIMove() {
-		if (gameState.gameOver || gameState.isAIMoving) return;
-		gameState.isAIMoving = true;
-		const fen = generateFEN();
-		
-		// Note: We now use the FEN from before the move, which is correct
-		const fenForHistory = fen.split(' ').slice(0, 4).join(' ');
-		gameState.fenHistory.push(fenForHistory);
-
-		messageDiv.textContent += `\n\n${gameState.turn === 'w' ? 'White' : 'Black'} AI is thinking...`;
-		scrollMsg()
-		setTimeout(() => {
-			aiWorker.postMessage({
-				command: 'calculate_move',
-				fen,
-				maxDepth: 4,
-				color: gameState.turn,
-				fenHistory: gameState.fenHistory // Send the history to the worker
-			});
-		}, 100);
-	}
-
-	// --- Drawing and Rendering ---
-	function drawBoard(isAnimating = false) {
-		canvas.width = SIZE;
-		canvas.height = SIZE;
-		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
-		for (let r_idx = 0; r_idx < 8; r_idx++)
-			for (let c_idx = 0; c_idx < 8; c_idx++) {
-				const r = isWhiteView ? r_idx : 7 - r_idx;
-				const c = isWhiteView ? c_idx : 7 - c_idx;
-				canvasContext.fillStyle = (r_idx + c_idx) % 2 === 0 ? '#f0d9b5' : '#b58863';
-				canvasContext.fillRect(c_idx * SQUARE_SIZE, r_idx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-				if (!isAnimating && gameState.selectedSquare && gameState.selectedSquare[0] === r && gameState.selectedSquare[1] === c) {
-					canvasContext.fillStyle = 'rgba(255, 255, 0, 0.4)';
-					canvasContext.fillRect(c_idx * SQUARE_SIZE, r_idx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-				}
-				if (!isAnimating && gameState.selectedSquare) {
-					const legalMovesForPiece = gameState.legalMoves.filter(m => m.from[0] === gameState.selectedSquare[0] && m.from[1] === gameState.selectedSquare[1]);
-					if (legalMovesForPiece.some(m => m.to[0] === r && m.to[1] === c)) {
-						canvasContext.fillStyle = 'rgba(0, 150, 0, 0.5)';
-						canvasContext.beginPath();
-						canvasContext.arc(c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE / 5, 0, 2 * Math.PI);
-						canvasContext.fill();
-					}
-				}
-				const piece = board[r][c];
-				if (piece && !(isAnimating && animationState.pieceToAnimate[0] === r && animationState.pieceToAnimate[1] === c)) 
-				renderPiece(canvasContext, piece, c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE);
-			}
-	}
-
-	function renderPiece(ctx, piece, x, y, size) {
-	const isWhite = piece === piece.toUpperCase();
-	const emoji = PIECE_EMOJIS[piece.toUpperCase()];
-	const pieceType = piece.toLowerCase();
-
-	ctx.save();
-
-	let pieceFilter;
-
-	// Check if the piece is a pawn
-	if (pieceType === 'p') {
-		// Pawns get the original, full grayscale effect
-		if (isWhite) {
-			pieceFilter = 'grayscale(1) brightness(2.8)';
-		} else {
-			pieceFilter = 'grayscale(1) brightness(0.55)';
-		}
-	} else {
-		// All other pieces get a partial grayscale, retaining some color
-		if (isWhite) {
-			// 70% grayscale allows 50% of the color to show through
-			pieceFilter = 'grayscale(0.5) brightness(1.5)'; 
-		} else {
-			// A slightly different brightness for black pieces looks better with color
-			pieceFilter = 'grayscale(0.5) brightness(0.5)';
-		}
-	}
-	
-	ctx.filter = pieceFilter;
-
-	ctx.font = `${size * 0.8}px serif`;
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-	
-	ctx.fillText(emoji, x, y);
-    
-    // The outline helps with clarity, especially with the subtle color
-	ctx.strokeStyle = isWhite ? 'black' : 'white';
-	ctx.lineWidth = 4;
-	ctx.strokeText(emoji, x, y);
-
-	ctx.restore();
-
-    // This code for the bishop's yamulka remains the same and will work as before
-	if (piece.toLowerCase() === 'b') {
-		const yamulkaRadius = size * 0.16;
-		const yamulkaY = y - size * 0.28;
-		ctx.save();
-		ctx.translate(x, yamulkaY);
-		ctx.scale(1.5, 1);
-		ctx.fillStyle = isWhite ? '#87CEEB' : '#00008B';
-		ctx.beginPath();
-		ctx.arc(0, 0, yamulkaRadius, Math.PI, 0);
-		ctx.fill();
-		ctx.restore();
-	}
+        // Add the new moves from this PGN line to the entry
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            // Prevent adding duplicate moves if different lines converge on the same position
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        openingBook.set(hash, bookEntry);
+    }
 }
 
-	function drawCapturedPieces() {
-		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
-		const capturedPieceSize = 45; // A good size for the captured area
-		const padding = 5;
 
-		// Clear the canvases before redrawing
-		capturedWhiteCtx.clearRect(0, 0, capturedByWhiteCanvas.width, capturedByWhiteCanvas.height);
-		capturedBlackCtx.clearRect(0, 0, capturedByBlackCanvas.width, capturedByBlackCanvas.height);
+// =================================================================
+//                       CONSTANTS & CONFIGURATION
+// =================================================================
 
-		// Draw pieces captured by White (these are black pieces)
-		gameState.capturedByWhite.sort(sortPieces).forEach((p, i) => {
-			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
-			const y = capturedByWhiteCanvas.height / 2; // Center vertically
-			renderPiece(capturedWhiteCtx, p, x, y, capturedPieceSize);
-		});
+const MATE_SCORE = 100000;
+const MATE_IN_MAX_PLY = 64;
+const NULL_MOVE_R = 3;
 
-		// Draw pieces captured by Black (these are white pieces)
-		gameState.capturedByBlack.sort(sortPieces).forEach((p, i) => {
-			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
-			const y = capturedByBlackCanvas.height / 2; // Center vertically
-			renderPiece(capturedBlackCtx, p, x, y, capturedPieceSize);
-		});
-	}
+const Q_MAX_DEPTH = 8; 
+const CONTEMPT_FACTOR = -72; // Re-defining the constant here for context
+// *** MODIFIED: Added huge incentive for imminent pawn promotion. ***
+const PROMOTION_IMMINENT_BONUS = 4000; // Increased to ensure engine sees the guaranteed Queen
 
-	// --- Player Interaction ---
-	function handleSquareClick(r, c) {
-		if (gameState.gameOver || gameState.isAnimating || gameState.isAIMoving) return;
-		const isPlayerTurn = (gameState.turn === gameState.playerColor) || gameState.gameMode === 'pvp';
-		if (!isPlayerTurn) return;
+// *** NEW: Added a massive bonus for a pawn that is one square away from promoting. ***
+let nodeCount = 0;
+let searchStartTime, timeLimit;
+let stopSearch = false;
+let killerMoves, historyTable, transpositionTable, repetitionHistory;
+const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
-		if (gameState.selectedSquare) {
-			const move = gameState.legalMoves.find(m => m.from[0] === gameState.selectedSquare[0] && m.from[1] === gameState.selectedSquare[1] && m.to[0] === r && m.to[1] === c);
-			if (move) {
-				animateMove(move);
-				return;
-			}
-		}
+// Piece-Square Tables
+// prettier-ignore
+const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]];
+// prettier-ignore
+const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,0,0,0,-20,-40],[-30,0,10,15,15,10,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,10,15,15,10,5,-30],[-40,-20,0,5,5,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
+// prettier-ignore
+const bishopPST = [[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,10,10,5,0,-10],[-10,5,5,10,10,5,5,-10],[-10,0,10,10,10,10,0,-10],[-10,10,10,10,10,10,10,-10],[-10,5,0,0,0,0,5,-10],[-20,-10,-10,-10,-10,-10,-10,-20]];
+// prettier-ignore
+const rookPST = [[0,0,0,0,0,0,0,0],[5,10,10,10,10,10,10,5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[0,0,0,5,5,0,0,0]];
+// prettier-ignore
+const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]];
+// prettier-ignore
+const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
+// prettier-ignore
+const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
-		const piece = board[r][c];
-		if (piece && ((gameState.turn === 'w' && piece === piece.toUpperCase()) || (gameState.turn === 'b' && piece === piece.toLowerCase()))) {
-			gameState.selectedSquare = [r, c];
-		} else {
-			gameState.selectedSquare = null;
-		}
-		drawBoard();
-	}
+// =================================================================
+//                 EVALUATION & SEARCH (UNCHANGED)
+// =================================================================
 
-	// --- Animation, PGN, and Setup ---
-	let animationState = {};
+// **NEW: TACTICAL MOVE GENERATOR (INCLUDES CHECKS)**
+// **CORRECTED AND OPTIMIZED TACTICAL MOVE GENERATOR**
+// ====================================================================================
+//            Smarter Tactical Move Generation for Quiescence Search
+// ====================================================================================
+// Now includes checks and direct attacks on valuable pieces to improve tactical vision.
 
-	function animateMove(move, onComplete = () => {}) {
-		gameState.isAnimating = true;
-		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
-		const startRow = isWhiteView ? move.from[0] : 7 - move.from[0],
-			startCol = isWhiteView ? move.from[1] : 7 - move.from[1];
-		const endRow = isWhiteView ? move.to[0] : 7 - move.to[0],
-			endCol = isWhiteView ? move.to[1] : 7 - move.to[1];
-		animationState = {
-			piece: move.piece,
-			pieceToAnimate: [move.from[0], move.from[1]],
-			startX: startCol * SQUARE_SIZE + SQUARE_SIZE / 2,
-			startY: startRow * SQUARE_SIZE + SQUARE_SIZE / 2,
-			endX: endCol * SQUARE_SIZE + SQUARE_SIZE / 2,
-			endY: endRow * SQUARE_SIZE + SQUARE_SIZE / 2,
-			startTime: performance.now(),
-			duration: 250,
-			onComplete,
-			finalMove: move
-		};
-		requestAnimationFrame(animationLoop);
-	}
+function generateTacticalMoves(state) {
+    const tacticalMoves = [];
+    const pseudoLegalMoves = generatePseudoLegalMoves(state); // Use the faster generator
+    const opponentColor = state.turn === 'w' ? 'b' : 'w';
+    const highValueVictims = ['q', 'r']; // We are interested in threats to queens and rooks
 
-	function animationLoop(timestamp) {
-		const elapsed = timestamp - animationState.startTime;
-		const progress = Math.min(elapsed / animationState.duration, 1);
-		drawBoard(true);
-		const currentX = animationState.startX + (animationState.endX - animationState.startX) * progress;
-		const currentY = animationState.startY + (animationState.endY - animationState.startY) * progress;
-		
-		renderPiece(canvasContext, animationState.piece, currentX, currentY, SQUARE_SIZE);
-		
-		if (progress < 1) {
-			requestAnimationFrame(animationLoop);
-		} else {
-			gameState.isAnimating = false;
-			performMove(animationState.finalMove);
-			animationState.onComplete();
-		}
-	}
+    for (const move of pseudoLegalMoves) {
+        // --- High-Performance Pattern: Make, Check, Unmake ---
+        const unmakeInfo = makeMove(state, move);
+        
+        const ownKingPos = state.kingPos[opponentColor];
+        const isIllegal = ownKingPos && isSquareAttacked(state.board, ownKingPos.r, ownKingPos.c, state.turn);
+        
+        if (!isIllegal) {
+            // A move is tactical if it's a capture, a promotion, a check,
+            // or if it attacks an enemy queen or rook.
+            const enemyKingPos = state.kingPos[state.turn];
+            const isCheck = enemyKingPos && isSquareAttacked(state.board, enemyKingPos.r, enemyKingPos.c, opponentColor);
+            
+            let isHighValueThreat = false;
+            if (!move.capture) { // Only check for threats on non-capture moves
+                const victim = state.board[move.to[0]][move.to[1]];
+                if (victim && highValueVictims.includes(victim.toLowerCase())) {
+                     // Check if our moving piece is now attacking this high-value piece
+                     if(isSquareAttackedByPiece(state.board, move.to[0], move.to[1], move.to[0], move.to[1], opponentColor)) {
+                         isHighValueThreat = true;
+                     }
+                }
+            }
 
-	function generatePGN() {
-		const date = new Date();
-		const pgnDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-		
-		const pgnHeader = `[Event "Ultimate AI Chess Game"]
-[Site "Browser"]
-[Date "${pgnDate}"]
-[White "${gameState.gameMode==='pva'&&gameState.playerColor==='w'?'Player':(gameState.gameMode==='pvp'?'Player 1':'AI White')}"]
-[Black "${gameState.gameMode==='pva'&&gameState.playerColor==='b'?'Player':(gameState.gameMode==='pvp'?'Player 2':'AI Black')}"]
-[Result "${gameState.pgnResult}"]
-
-`;
-
-		let moveText = '';
-		gameState.moveHistory.forEach((record, index) => {
-			if (index % 2 === 0) {
-				moveText += `${Math.floor(index / 2) + 1}. `;
-			}
-			moveText += record.san + ' ';
-		});
-
-		return pgnHeader + moveText.trim() + ' ' + gameState.pgnResult;
-	}
-
-	function getSquareFromCoordinates(x, y) {
-		const rect = canvas.getBoundingClientRect();
-		let c = Math.floor((x - rect.left) / SQUARE_SIZE),
-			r = Math.floor((y - rect.top) / SQUARE_SIZE);
-		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
-		if (!isWhiteView) {
-			r = 7 - r;
-			c = 7 - c;
-		}
-		return {
-			r,
-			c
-		};
-	}
-
-	function handleCanvasEvent(event) {
-		try {
-		
-		event.preventDefault();
-		} catch(e){console. log(e)}
-		
-		let clientX, clientY;
-		if (event.changedTouches && event.changedTouches.length > 0) {
-			clientX = event.changedTouches[0].clientX;
-			clientY = event.changedTouches[0].clientY;
-		} else {
-			clientX = event.clientX;
-			clientY = event.clientY;
-		}
-		if (clientX === undefined) return;
-		const {
-			r,
-			c
-		} = getSquareFromCoordinates(clientX, clientY);
-		if (r >= 0 && r < 8 && c >= 0 && c < 8) handleSquareClick(r, c);
-	}
-	
-	function canClaimThreefoldRepetition() {
-		const currentFen = generateFEN().split(' ').slice(0, 4).join(' '); // Ignore clocks
-		const count = gameState.fenHistory.reduce((acc, fen) => {
-			return fen === currentFen ? acc + 1 : acc;
-		}, 0);
-		return count >= 2; // The current position plus 2 previous makes 3
-	}
-	
-	function canClaim50MoveRule() {
-		// The halfmoveClock is reset after a capture or pawn move.
-		// 50 moves by each player is 100 half-moves.
-		return gameState.halfmoveClock >= 100;
-	}
+            if (move.capture || move.promotion || isCheck || isHighValueThreat) {
+                tacticalMoves.push(move);
+            }
+        }
+        
+        unmakeMove(state, unmakeInfo);
+    }
+    
+    return tacticalMoves;
+}
 
 
-	function startGame(mode, playerColor = 'w') {
-		mainMenu.style.display = 'none';
-		colorSelectionMenu.style.display = 'none';
-		chessContainer.style.display = 'block';
-		
-		
-		gameContainer.classList.remove("hidden")
-		
-		
-		
-		resetGameState();
-		gameState.gameMode = mode;
-		gameState.playerColor = playerColor;
-		const fenData = gameState.fen.split(' ');
-		board = fenData[0].split('/').map(r => {
-			let nR = [];
-			for (const c of r)
-				if (isNaN(parseInt(c))) nR.push(c);
-				else
-					for (let i = 0; i < parseInt(c); i++) nR.push('');
-			return nR
-		});
-		gameState.fenHistory.push(fenData.slice(0, 4).join(' '));
-		
-		updateGameStatus();
-		drawBoard();
-		drawCapturedPieces();
-		switch (mode) {
-			case 'pva':
-				messageDiv.textContent += `\n\nYou are ${playerColor === 'w' ? 'White' : 'Black'}. White to move.`;
-				if (playerColor === 'b') startAIMove();
-				scrollMsg()
-				break;
-			case 'pvp':
-				messageDiv.textContent += "\n\nWhite's turn to move.";
-				scrollMsg()
-				break;
-			case 'ava':
-				messageDiv.textContent += "AI vs AI. White to move.";
-				startAIMove();
-				scrollMsg()
-				break;
-		}
-		
-		scrollMsg()
-	}
 
-	// --- Event Listeners ---
-	canvas.addEventListener('mouseup', handleCanvasEvent);
-	canvas.addEventListener('touchend', handleCanvasEvent);
-	replayButton.addEventListener('click', () => {
-		gameOverOverlay.style.display = 'none';
-		chessContainer.style.display = 'none';
-		mainMenu.style.display = 'flex';
-		messageDiv.textContent = '';
-		gameContainer.classList.add("hidden")
-	});
-	downloadButton.addEventListener('click', () => {
-		const pgn = generatePGN();
-		const blob = new Blob([pgn], {
-			type: 'text/plain'
-		});
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'BH-' + Date.now() + 'chess-game.pgn.txt';
-		a.click();
-		URL.revokeObjectURL(url);
-	});
-	// Put this with your other event listeners at the bottom of the file
-	drawButton.addEventListener('click', () => {
-		// If the game isn't over, this button will immediately end it in a draw.
-		if (!gameState.gameOver) {
-			showGameOver("Game Drawn by Agreement", "1/2-1/2");
-		}
-	});
-	
-	
-	playVsAiButton.onclick = () => {
-		mainMenu.style.display = 'none';
-		colorSelectionMenu.style.display = 'flex';
-	};
-	playAsWhiteButton.onclick = () => startGame('pva', 'w');
-	playAsBlackButton.onclick = () => startGame('pva', 'b');
-	playVsPlayerButton.onclick = () => startGame('pvp');
-	aiVsAiButton.onclick = () => startGame('ava');
+// =================================================================
+//                 REVISED EVALUATION & SEARCH (Mk. IV)
+// =================================================================
 
-	mainMenu.style.display = 'flex';
-	resetGameState();
-});
+// A simple structure to hold separate midgame and endgame scores for tapered evaluation.
+class TaperedScore {
+    constructor(mg = 0, eg = 0) {
+        this.mg = mg;
+        this.eg = eg;
+    }
+    add(other) {
+        this.mg += other.mg;
+        this.eg += other.eg;
+        return this;
+    }
+    subtract(other) {
+        this.mg -= other.mg;
+        this.eg -= other.eg;
+        return this;
+    }
+}
+
+// --- PIECE VALUES (with tapered evaluation) ---
+// Piece-Value Tables (Final Conservative Tuning)
+const pieceValues = {
+    // Increased to ensure pawns are always fought for in the endgame
+    p: { mg: 100, eg: 130 }, 
+    // Final conservative increase (from 340) to curb "Gambititis"
+    n: { mg: 350, eg: 350 }, 
+    // Final conservative increase (from 345) to curb "Gambititis"
+    b: { mg: 355, eg: 355 }, 
+    r: { mg: 500, eg: 500 },
+    q: { mg: 900, eg: 900 },
+    k: { mg: 20000, eg: 20000 }
+};
+
+function getGamePhase(board) {
+    const MAX_PHASE = 24; // Standard total phase value
+    let currentPhase = 0;
+    const phaseValues = { n: 1, b: 1, r: 2, q: 4 };
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (p && phaseValues[p.toLowerCase()]) {
+                currentPhase += phaseValues[p.toLowerCase()];
+            }
+        }
+    }
+    // Ensure phase doesn't exceed max, then normalize to a 0-1 float
+    return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
+}
+
+// MAIN EVALUATION HUB
+
+
+
+// ====================================================================================
+//            NEW HELPER #1: getAttackers - Essential for SEE
+// ====================================================================================
+// Finds all pieces of a given color that are attacking a specific square.
+function getAttackers(state, r, c, attackerColor) {
+    const attackers = [];
+    const board = state.board;
+    // Loop through all pieces of the attacker's color
+    for (let pr = 0; pr < 8; pr++) {
+        for (let pc = 0; pc < 8; pc++) {
+            const piece = board[pr][pc];
+            if (piece && (piece.toUpperCase() === piece) === (attackerColor === 'w')) {
+                if (isSquareAttackedByPiece(board, r, c, pr, pc, attackerColor)) {
+                    attackers.push({ piece, r: pr, c: pc });
+                }
+            }
+        }
+    }
+    // Sort attackers by their value, least valuable first (pawn, knight, etc.)
+    attackers.sort((a, b) => pieceValues[a.piece.toLowerCase()].mg - pieceValues[b.piece.toLowerCase()].mg);
+    return attackers;
+}
+
+// ====================================================================================
+//            NEW HELPER #2: Static Exchange Evaluation (SEE)
+// ====================================================================================
+// Determines the material gain/loss from a series of captures on a target square.
+// A positive score means the exchange is favorable.
+function see(state, fromR, fromC, toR, toC) {
+    const board = state.board;
+    const initialAttacker = board[fromR][fromC];
+    const initialVictim = board[toR][toC];
+    if (!initialAttacker || !initialVictim) return 0;
+
+    let gain = [pieceValues[initialVictim.toLowerCase()].mg];
+    let currentBoard = board.map(row => row.slice());
+    let currentAttacker = { piece: initialAttacker, r: fromR, c: fromC };
+    let turn = state.turn;
+
+    // Simulate the capture
+    currentBoard[toR][toC] = currentAttacker.piece;
+    currentBoard[fromR][fromC] = null;
+
+    while (true) {
+        turn = (turn === 'w') ? 'b' : 'w'; // Switch sides for the recapture
+        let attackers = getAttackers({ board: currentBoard }, toR, toC, turn);
+        
+        // If the other side has no attackers for the square, the exchange is over.
+        if (attackers.length === 0) break;
+
+        // The next attacker is the least valuable one.
+        currentAttacker = attackers[0];
+        
+        // Add the value of the piece we just captured to our gain list.
+        gain.push(pieceValues[currentBoard[toR][toC].toLowerCase()].mg);
+
+        // Simulate the recapture
+        currentBoard[toR][toC] = currentAttacker.piece;
+        currentBoard[currentAttacker.r][currentAttacker.c] = null;
+    }
+
+    // Negamax the gain list to find the final result.
+    let score = 0;
+    for (let i = gain.length - 1; i >= 0; i--) {
+        score = gain[i] - score;
+    }
+    
+    return score;
+}
+
+
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version removes the disastrous move generation from the evaluation,
+// restoring the engine's speed and playing strength.
+
+// ====================================================================================
+//            FINAL, CORRECTED, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version correctly passes variables between functions, fixing the 'undefined' crash.
+
+
+
+
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
+// ====================================================================================
+// This version removes the disastrous mobility loop from the evaluation,
+// relying on fast Piece-Square Tables to restore the engine's speed and strength.
+
+
+
+
+
+// ====================================================================================
+//                        NEW HELPER: KING SAFETY ZONE
+// ====================================================================================
+// This helper function gets the 9 squares in the king's immediate vicinity.
+function getKingZone(kingPos) {
+    if (!kingPos) return [];
+    const zone = [];
+    for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+            const r = kingPos.r + dr;
+            const c = kingPos.c + dc;
+            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+                zone.push({ r, c });
+            }
+        }
+    }
+    return zone;
+}
+
+
+// ====================================================================================
+//         MASTER EVALUATION HUB & ALL NEW STRATEGIC/TACTICAL FUNCTIONS (Mk. VII)
+// ====================================================================================
+
+// --- MASTER EVALUATION HUB ---
+// This function now coordinates all the new, smarter evaluation components.
+// --- MASTER EVALUATION HUB ---
+// This function now coordinates all the new, smarter evaluation components.
+function evaluate(state) {
+    const { board } = state;
+    const gamePhase = getGamePhase(board);
+
+    let whiteScore = new TaperedScore();
+    let blackScore = new TaperedScore();
+
+    // Pre-calculate piece locations and pawn files once to pass to helper functions.
+    const pieceData = { P: [], p: [], N: [], n: [], B: [], b: [], R: [], r: [], Q: [], q: [], K: [], k: [] };
+    for (let r = 0; r < 8; r++) { for (let c = 0; c < 8; c++) { if (board[r][c]) pieceData[board[r][c]].push({ r, c }); } }
+    
+    const whitePawnFiles = new Set(pieceData.P.map(p => p.c));
+    const blackPawnFiles = new Set(pieceData.p.map(p => p.c));
+
+    // 1. Base Material and Positional Score
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const p = board[r][c];
+            if (!p) continue;
+            const isWhite = p.toUpperCase() === p;
+            const pType = p.toLowerCase();
+            const scoreTarget = isWhite ? whiteScore : blackScore;
+            
+            scoreTarget.mg += pieceValues[pType].mg;
+            scoreTarget.eg += pieceValues[pType].eg;
+
+            const pstRow = isWhite ? 7 - r : r;
+            if (pType === 'k') {
+                scoreTarget.mg += kingPSTMidGame[pstRow][c];
+                scoreTarget.eg += kingPSTEndGame[pstRow][c];
+            } else {
+                const pstValue = ({ p: pawnPST, n: knightPST, b: bishopPST, r: rookPST, q: queenPST }[pType])[pstRow][c];
+                scoreTarget.mg += pstValue;
+                scoreTarget.eg += pstValue;
+            }
+        }
+    }
+
+    // 2. Advanced Strategic Bonuses (Pawn Structure, Mobility, etc.)
+    whiteScore.add(evaluateStrategicBonuses(state, 'w', pieceData, whitePawnFiles, blackPawnFiles));
+    blackScore.add(evaluateStrategicBonuses(state, 'b', pieceData, blackPawnFiles, whitePawnFiles));
+
+    // 3. Threat Analysis (REVISED to penalize bad trade potential)
+    whiteScore.subtract(evaluateThreats(state, 'w', pieceData));
+    blackScore.subtract(evaluateThreats(state, 'b', pieceData));
+
+    // 4. Endgame-Specific Factors (Passed Pawns, King Activity)
+    whiteScore.add(evaluateEndgameFactors(state, 'w', pieceData));
+    blackScore.add(evaluateEndgameFactors(state, 'b', pieceData));
+    
+    // 5. King Safety (Applied last as a penalty - NOW MUCH STRONGER)
+    if (state.kingPos.w) whiteScore.subtract(evaluateKingSafety(state, state.kingPos.w, 'b', pieceData));
+    if (state.kingPos.b) blackScore.subtract(evaluateKingSafety(state, state.kingPos.b, 'w', pieceData));
+    
+    // 6. Final Tapered Score
+    const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
+    const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
+    const evaluation = Math.round(finalWhite - finalBlack);
+    return (state.turn === 'w' ? 1 : -1) * evaluation;
+}
+
+
+// --- REWRITTEN & ENHANCED: STRATEGIC BONUSES ---
+// Now includes Pawn Structure, Mobility, and Good vs. Bad Bishops.
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. IX - WITH CASTLING & KING MOVEMENT)
+// ====================================================================================
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. X - BUGFIX, TEMPO & ENHANCED MOBILITY)
+// ====================================================================================
+// ====================================================================================
+//            EVALUATE STRATEGIC BONUSES (Mk. XIII - WITH CASTLING INCENTIVE)
+// ====================================================================================
+// ====================================================================================
+//            REWRITTEN: evaluateStrategicBonuses (with Pawn Shield Logic)
+// ====================================================================================
+// This version is smarter and more context-aware. It understands the vital role
+// of the pawn shield in protecting the king, preventing it from making strategically
+// unsound trades that weaken its own defense.
+
+// ====================================================================================
+//            REWRITTEN: evaluateStrategicBonuses (with Pawn Shield Logic)
+// ====================================================================================
+// This version is smarter and more context-aware. It understands the vital role
+// of the pawn shield in protecting the king, preventing it from making strategically
+// unsound trades that weaken its own defense.
+
+// ====================================================================================
+//            REWRITTEN: evaluateStrategicBonuses (with Castling Discipline)
+// ====================================================================================
+// This version introduces severe penalties for moving the king before castling and
+// provides a huge incentive to castle, fixing the suicidal king-walks.
+
+// ====================================================================================
+//            BUGFIXED: evaluateStrategicBonuses (with Castling Discipline)
+// ====================================================================================
+// This version fixes the crash that occurred when castling rights were completely
+// lost for a player. It now safely checks for the existence of castling rights.
+
+function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
+    const score = new TaperedScore();
+    const isWhite = color === 'w';
+    const startRank = isWhite ? 7 : 0;
+    const pawnRank = isWhite ? 6 : 1;
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    
+    // --- THE CRITICAL BUGFIX ---
+    // Use optional chaining (?.) to safely access castling rights. If state.castlingRights.w
+    // is undefined, this will now correctly result in 'undefined' instead of crashing.
+    const canCastleKingSide = isWhite ? state.castlingRights.w?.k : state.castlingRights.b?.k;
+    const canCastleQueenSide = isWhite ? state.castlingRights.w?.q : state.castlingRights.b?.q;
+    const canStillCastle = canCastleKingSide || canCastleQueenSide;
+
+    // --- 1. CASTLING & KING POSITION (Logic remains the same) ---
+    let hasCastled = false;
+    let kingOnStartSquare = false;
+
+    if (myKingPos) {
+        kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
+        if (myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2)) {
+            hasCastled = true;
+            score.add(new TaperedScore(myKingPos.c === 6 ? 150 : 80, 50));
+        }
+    }
+
+    // --- MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
+    if (!kingOnStartSquare && !hasCastled && canStillCastle) {
+        score.subtract(new TaperedScore(150, 40));
+    }
+
+    // --- 2. PAWN SHIELD EVALUATION ---
+    if (hasCastled && myKingPos) {
+        const kingFile = myKingPos.c;
+        const shieldFiles = [kingFile - 1, kingFile, kingFile + 1];
+        
+        for (const file of shieldFiles) {
+            if (file < 0 || file > 7) continue;
+            let shieldPawnFound = false;
+            for (const pawn of (isWhite ? pieceData.P : pieceData.p)) {
+                if (pawn.c === file) {
+                    shieldPawnFound = true;
+                    const rankDist = Math.abs(pawn.r - pawnRank);
+                    if (rankDist > 1) {
+                         score.subtract(new TaperedScore(15 * rankDist, 0));
+                    }
+                    break;
+                }
+            }
+            if (!shieldPawnFound) {
+                score.subtract(new TaperedScore(40, 10));
+            }
+        }
+    }
+
+    // --- 3. DEVELOPMENT & PIECE ACTIVITY ---
+    for (const knight of (isWhite ? pieceData.N : pieceData.n)) {
+        if (knight.r !== startRank) score.add(new TaperedScore(20, 10));
+    }
+    for (const bishop of (isWhite ? pieceData.B : pieceData.b)) {
+        if (bishop.r !== startRank) score.add(new TaperedScore(20, 10));
+    }
+    if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
+        score.add(new TaperedScore(75, 100));
+    }
+    for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
+        if (!friendlyPawnFiles.has(rook.c)) {
+             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 25 : 50, 20));
+        }
+        if (rook.r === (isWhite ? 1 : 6)) {
+            score.add(new TaperedScore(50, 60));
+        }
+    }
+
+    // --- 4. PAWN STRUCTURE ---
+    const myPawns = isWhite ? pieceData.P : pieceData.p;
+    const pawnFileCounts = new Map();
+    for (const pawn of myPawns) {
+        pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
+        if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
+            score.subtract(new TaperedScore(40, 60));
+        }
+    }
+    for (const count of pawnFileCounts.values()) {
+        if (count > 1) {
+            score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1)));
+        }
+    }
+
+    return score;
+}
+
+
+
+
+function evaluateEndgameFactors(state, color, pieceData) {
+    const score = new TaperedScore();
+    const isWhite = color === 'w';
+    const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
+    const enemyKingPos = isWhite ? state.kingPos.b : state.kingPos.w;
+    if (!myKingPos || !enemyKingPos) return score;
+    
+    
+    // King Activity: Increased weighting
+    const kingCentrality = - (Math.abs(myKingPos.r - 3.5) + Math.abs(myKingPos.c - 3.5));
+    score.eg += Math.round(kingCentrality * 15); 
+    const kingProximity = 7 - (Math.abs(myKingPos.r - enemyKingPos.r) + Math.abs(myKingPos.c - enemyKingPos.c));
+    score.eg += kingProximity * 8; 
+    
+    const friendlyPawns = isWhite ? pieceData.P : pieceData.p;
+    const enemyPawns = isWhite ? pieceData.p : pieceData.P;
+    
+    for (const p of friendlyPawns) {
+        let isPassed = true;
+        for (const ep of enemyPawns) {
+            if (Math.abs(ep.c - p.c) <= 1 && (isWhite ? ep.r < p.r : ep.r > p.r)) {
+                isPassed = false;
+                break;
+            }
+        }
+        if (isPassed) {
+            const rank = isWhite ? 7 - p.r : p.r;
+            let bonus;
+            
+            // --- CRITICAL FIX: Promotion Incentive ---
+            if (rank === 6) {
+                bonus = PROMOTION_IMMINENT_BONUS; 
+            } else {
+                bonus = [0, 20, 30, 50, 80, 150, 0, 0][rank]; 
+            }
+
+            score.mg += bonus;
+            score.eg += bonus * 3; // Make the endgame incentive massive (e.g., 12000 for 7th rank)
+            const kingPawnDist = Math.max(Math.abs(myKingPos.r - p.r), Math.abs(myKingPos.c - p.c));
+            score.eg += (8 - kingPawnDist) * 10;
+        }
+    }
+    return score;
+}
+
+// ====================================================================================
+//            *** REWRITTEN: Threat Analysis now penalizes bad trade potential ***
+// ====================================================================================
+// This version applies a severe penalty when a valuable piece is attacked by a less
+// valuable one, strongly discouraging moves that lead to bad trades.
+function evaluateThreats(state, color, pieceData) {
+    const penalty = new TaperedScore();
+    const isWhite = color === 'w';
+    // Our pieces are the victims in this context
+    const ourPieceTypes = isWhite ? ['P', 'N', 'B', 'R', 'Q'] : ['p', 'n', 'b', 'r', 'q'];
+    // Enemy pieces are the attackers
+    const enemyPieceTypes = isWhite ? ['p', 'n', 'b', 'r', 'q'] : ['P', 'N', 'B', 'R', 'Q'];
+    const enemyColor = isWhite ? 'b' : 'w';
+
+    for (const ourPType of ourPieceTypes) {
+        const ourPieces = pieceData[ourPType];
+        if (ourPieces.length === 0) continue;
+
+        for (const enemyPType of enemyPieceTypes) {
+            const enemyPieces = pieceData[enemyPType];
+            if (enemyPieces.length === 0) continue;
+
+            const ourValue = pieceValues[ourPType.toLowerCase()].mg;
+            const enemyValue = pieceValues[enemyPType.toLowerCase()].mg;
+
+            // Only penalize threats from CHEAPER enemy pieces
+            if (enemyValue >= ourValue) {
+                continue;
+            }
+
+            // Check each of our pieces against each cheaper enemy piece
+            for (const ourPiece of ourPieces) {
+                for (const enemyPiece of enemyPieces) {
+                    if (isSquareAttackedByPiece(state.board, ourPiece.r, ourPiece.c, enemyPiece.r, enemyPiece.c, enemyColor)) {
+                        // The penalty is a large fraction of the material that would be lost.
+                        // This makes the engine very sensitive to these kinds of threats.
+                        const potentialLoss = ourValue - enemyValue;
+                        const PENALTY_MULTIPLIER = 0.95; 
+                        penalty.mg += potentialLoss * PENALTY_MULTIPLIER; 
+                        penalty.eg += potentialLoss * PENALTY_MULTIPLIER;
+                        
+                        
+                    
+                    }
+                }
+            }
+        }
+    }
+    return penalty;
+}
+
+
+// --- COMPLETELY REWRITTEN: KING SAFETY ---
+// This new version evaluates threats to the "King Zone" for a much more accurate danger assessment.
+// ====================================================================================
+//            SMARTER & FASTER King Safety (Mk. XI)
+// ====================================================================================
+// This version is faster and better understands real threats vs. passive exposure.
+
+// ====================================================================================
+//            King Safety with Endgame Awareness (Mk. XII)
+// ====================================================================================
+// This version now returns a TaperedScore to apply penalties in the endgame,
+// preventing the king from making suicidal marches.
+
+// ====================================================================================
+//            King Safety with "Queen Danger" Sense (Mk. XIV - FINAL)
+// ====================================================================================
+// This version adds a massive penalty for enemy queen proximity, fixing both
+// unsound sacrifices and the failure to escape perpetual check.
+
+// ====================================================================================
+//            King Safety with "Queen Danger" Sense (Mk. XIV - FINAL)
+// ====================================================================================
+// This version adds a massive penalty for enemy queen proximity, fixing both
+// unsound sacrifices and the failure to escape perpetual check.
+
+
+function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase) {
+    const danger = new TaperedScore();
+    const isAttackerWhite = attackerColor === 'w';
+    
+    // --- CRITICAL FIX: MASSIVE QUEEN PROXIMITY PENALTY (Middlegame Only) ---
+    const enemyQueen = isAttackerWhite ? pieceData.Q[0] : pieceData.q[0];
+    if (enemyQueen) {
+        const queenDist = Math.max(Math.abs(kingPos.r - enemyQueen.r), Math.abs(kingPos.c - enemyQueen.c));
+        // Only apply in the middlegame (phase > 0.5)
+        if (queenDist <= 3 && gamePhase > 0.5) { 
+            // Penalty scales by proximity: 300 for dist 1, 200 for dist 2, 100 for dist 3
+            danger.mg += (4 - queenDist) * 100; 
+        }
+    }
+
+    let attackerCount = 0;
+    const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
+    for (const pType of attackerPieceTypes) {
+        attackerCount += pieceData[pType].length;
+    }
+
+    if (attackerCount < 2 && !enemyQueen) {
+        return danger;
+    }
+
+    // Secondary King Zone Danger
+    let dangerScore = 0;
+    const kingZone = getKingZone(kingPos);
+    const attackWeights = { q: 9, r: 5, b: 3, n: 3 };
+    
+    for (const pType of attackerPieceTypes) {
+        const attackers = pieceData[pType];
+        for (const attacker of attackers) {
+            for (const zoneSquare of kingZone) {
+                if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
+                    dangerScore += attackWeights[pType.toLowerCase()];
+                }
+            }
+        }
+    }
+    
+    const scaledDanger = dangerScore * (1 + (attackerCount / 4));
+
+    danger.mg += Math.round(scaledDanger);
+    danger.eg += Math.round(scaledDanger / 2);
+
+    return danger;
+}
+
+
+// You will need this NEW HELPER function for evaluateKingSafety to work.
+// It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
+// --- CRITICAL REWRITE FOR SPEED AND INTEGRITY ---
+// This function checks if a SPECIFIC piece at (pr, pc) attacks a TARGET square (tr, tc).
+
+function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
+    const p = board[pr][pc];
+    if (!p) return false;
+    const pType = p.toLowerCase();
+    const isWhiteAttacker = (p.toUpperCase() === p);
+    
+    // Safety check: ensure the piece being checked is of the correct color
+    if (isWhiteAttacker !== (attackerColor === 'w')) return false;
+
+    const dr = tr - pr;
+    const dc = tc - pc;
+
+    // 1. PAWN (The fastest check)
+    if (pType === 'p') {
+        const dir = isWhiteAttacker ? -1 : 1; // White moves -1 rank, Black moves +1 rank
+        return dr === dir && Math.abs(dc) === 1;
+    }
+
+    // 2. KNIGHT (The second fastest check)
+    if (pType === 'n') {
+        const absDr = Math.abs(dr);
+        const absDc = Math.abs(dc);
+        return (absDr === 2 && absDc === 1) || (absDr === 1 && absDc === 2);
+    }
+    
+    // 3. KING (The third fastest check)
+    if (pType === 'k') {
+        return Math.abs(dr) <= 1 && Math.abs(dc) <= 1;
+    }
+
+    // --- SLIDERS: Rook, Bishop, Queen ---
+    
+    // 4. ROOK/QUEEN (Vertical/Horizontal)
+    if (dr === 0 || dc === 0) { // On a straight line
+        if (pType === 'r' || pType === 'q') {
+            const stepR = dr === 0 ? 0 : (dr > 0 ? 1 : -1);
+            const stepC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
+            
+            for (let i = 1; i < 8; i++) {
+                const nR = pr + i * stepR;
+                const nC = pc + i * stepC;
+                if (nR === tr && nC === tc) return true;
+                if (board[nR]?.[nC]) break; // Path blocked by another piece
+            }
+        }
+    }
+
+    // 5. BISHOP/QUEEN (Diagonal)
+    if (Math.abs(dr) === Math.abs(dc)) { // On a diagonal
+        if (pType === 'b' || pType === 'q') {
+            const stepR = dr > 0 ? 1 : -1;
+            const stepC = dc > 0 ? 1 : -1;
+
+            for (let i = 1; i < 8; i++) {
+                const nR = pr + i * stepR;
+                const nC = pc + i * stepC;
+                if (nR === tr && nC === tc) return true;
+                if (board[nR]?.[nC]) break; // Path blocked by another piece
+            }
+        }
+    }
+    
+    return false;
+}
+
+
+/**
+ * Checks if a move is a blunder that leads to a stalemate in a clearly winning position.
+ * @param {object} resultingState The state of the board AFTER the move is made.
+ * @param {number} currentEval The evaluation of the position BEFORE the move was made.
+ * @returns {boolean} True if the move is a stalemate blunder, otherwise false.
+ */
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE isStalemateBlunder
+// ====================================================================================
+// This version has a fast "early exit" to prevent the performance cascade.
+
+function isStalemateBlunder(state, currentEval) {
+    // --- Step 1: Fast Exit Checks ---
+    
+    // Check 1: Only worry about stalemate blunders if we are in a completely winning position.
+    const WINNING_THRESHOLD = 2000; // A rook advantage.
+    if (currentEval < WINNING_THRESHOLD) {
+        return false;
+    }
+
+    // Check 2 (THE CRITICAL PERFORMANCE FIX): Count the opponent's pieces. If they have more than
+    // a certain number of pieces (e.g., 3), it's highly unlikely to be a simple endgame
+    // where a stalemate is the primary risk. This prevents us from calling the slow
+    // generateLegalMoves function in the complex middlegame.
+    let opponentPieceCount = 0;
+    const opponentColor = state.turn; // After makeMove, the turn has flipped.
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const piece = state.board[r][c];
+            if (piece) {
+                const isOpponentPiece = (piece.toUpperCase() === piece) === (opponentColor === 'w');
+                if (isOpponentPiece) {
+                    opponentPieceCount++;
+                }
+            }
+        }
+    }
+    
+    // If the opponent has more than 3 pieces (e.g., King + Rook + Pawn), this check is too expensive.
+    if (opponentPieceCount > 3) {
+        return false;
+    }
+
+    // --- Step 2: Slow, Full Legality Check (only for simple endgames) ---
+    // This code will now only run in rare, specific endgame scenarios.
+    const opponentHasMoves = generateLegalMoves(state).length > 0;
+    if (opponentHasMoves) {
+        return false;
+    }
+
+    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    
+    // It's a stalemate blunder if the opponent has no moves AND is NOT in check.
+    return !inCheck;
+}
+
+
+
+
+
+
+// =================================================================
+//                 ADVANCED SEARCH & MOVE ORDERING (Mk. V)
+// =================================================================
+// ====================================================================================
+//    FINAL, COMPLETE, AND OPTIMIZED SEARCH FUNCTIONS (MAKE/UNMAKE ARCHITECTURE)
+// ====================================================================================
+// This block contains the three core functions for the high-performance search.
+// Replace your old searchRoot, search, and quiesce functions with these.
+
+/**
+ * The root of the search. It manages the iterative deepening loop and calls the main search function.
+ * This is the only function that should be called from the main worker thread.
+ * @param {object} initialState - The starting game state for the search.
+ * @param {number} maxDepth - The maximum depth for iterative deepening.
+ * @returns {object} The best move found and the final evaluation.
+ */
+// ====================================================================================
+//                 FINAL SEARCH WITH NULL MOVE RECURSION GUARD
+// ====================================================================================
+
+// ====================================================================================
+//            FINAL, ROBUST, AND STABLE searchRoot (ASPIRATION WINDOWS REMOVED)
+// ====================================================================================
+
+// ====================================================================================
+//            FINAL, ROBUST searchRoot WITH CORRECT ASPIRATION WINDOWS
+// ====================================================================================
+// This version correctly implements aspiration windows, restoring search speed
+// and depth without causing an infinite loop.
+
+// ====================================================================================
+//            FINAL, ROBUST, AND CORRECT searchRoot (STABLE AND FAST)
+// ====================================================================================
+// This version uses a simple, standard, and bug-free iterative deepening loop.
+// It will restore the engine's performance and playing strength.
+
+// ====================================================================================
+//            BUGFIXED & CORRECT searchRoot (STABLE AND FAST)
+// ====================================================================================
+// This version removes the incorrect repetition history management that was causing
+// the "0 nodes searched" bug.
+function searchRoot(initialState, maxDepth) {
+    let bestMove = null;
+    let bestScore = -Infinity;
+    const moves = generateLegalMoves(initialState);
+
+    if (moves.length === 0) {
+        return { bestMove: null, score: evaluate(initialState) };
+    }
+
+    const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
+
+    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
+        let bestMoveForThisDepth = orderedMoves[0];
+        const currentEval = evaluate(initialState);
+
+        let alpha = -Infinity;
+        let beta = Infinity;
+        
+        for (let i = 0; i < orderedMoves.length; i++) {
+            const move = orderedMoves[i];
+            
+            
+            if (stopSearch) break;
+
+            // === NEW: FUTILITY PRUNING LOGIC ===
+        // We only apply this heuristic if:
+        // - We are not in check.
+        // - We are in the late-middle to endgame (ply > 0).
+        // - The move is a quiet move (not a capture or promotion).
+        // - The search depth is low (we are near the horizon).
+       /* if (!inCheck && ply > 0 && !move.capture && !move.promotion && depth <= 3) {
+            const futilityMargin = [0, 150, 350, 550][depth]; // Margin increases as depth gets shallower
+            
+            // If the current evaluation plus the margin is still worse than alpha,
+            // this move is unlikely to be good enough, so we skip (prune) it.
+            if (staticEval + futilityMargin <= alpha) {
+                continue; // Prune this move
+            }
+            }
+            */
+            
+            
+            const unmakeInfo = makeMove(initialState, move);
+            let score;
+
+            if (isStalemateBlunder(initialState, currentEval)) {
+                score = -MATE_SCORE;
+            } else {
+                repetitionHistory.push(initialState.zobristHash);
+                
+                if (i === 0) {
+                    score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
+                } else {
+                    score = -search(initialState, currentDepth - 1, -alpha - 1, -alpha, 1, false);
+                    if (score > alpha && score < beta) {
+                        score = -search(initialState, currentDepth - 1, -beta, -alpha, 1, false);
+                    }
+                }
+                repetitionHistory.pop();
+            }
+            unmakeMove(initialState, unmakeInfo);
+
+            if (stopSearch) break;
+
+            if (score > alpha) {
+                alpha = score;
+                bestMoveForThisDepth = move;
+            }
+        }
+
+        if (stopSearch) {
+            break;
+        }
+
+        bestMove = bestMoveForThisDepth;
+        bestScore = alpha;
+
+        if (Math.abs(bestScore) >= MATE_SCORE - MATE_IN_MAX_PLY) {
+            break;
+        }
+    }
+
+    clearTimeout(timerId);
+    return { bestMove, score: bestScore };
+}
+
+
+
+/**
+ * The main recursive search function (negamax with alpha-beta pruning).
+ * It uses the high-performance make/unmake pattern for maximum speed.
+ * @param {object} state - The global game state object (which will be modified and reverted).
+ */
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH INTERNAL LEGALITY CHECK)
+// ====================================================================================
+
+// ====================================================================================
+//            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH AGGRESSIVE REPETITION HANDLING)
+// ====================================================================================
+
+// ====================================================================================
+//            CORRECTED SEARCH (WITH ROBUST REPETITION HANDLING)
+// ====================================================================================
+
+
+
+// ====================================================================================
+//            SEARCH WITH MORE AGGRESSIVE REPETITION HANDLING
+// ====================================================================================
+// ====================================================================================
+//            THE CORRECT AND WORKING search FUNCTION (FINAL VERSION)
+// ====================================================================================
+// This version fixes the "low node count" bug permanently by correctly managing
+// the repetition history within the recursive search.
+// It also includes the aggressive "never draw a won game" logic.
+
+// ====================================================================================
+//            THE DEFINITIVE, CORRECT search FUNCTION (FINAL)
+// ====================================================================================
+// This version permanently fixes the "low node count" bug by correctly managing the
+// repetition history. It only requires changing this one function.
+
+// ====================================================================================
+//            THE ORIGINAL, WORKING search FUNCTION (WITH ONE TARGETED FIX)
+// ====================================================================================
+// This restores the original, correct search structure that searched thousands of nodes.
+// The ONLY change is to the inside of the repetition check to make it more aggressive.
+
+// ====================================================================================
+//            SEARCH WITH RUTHLESS "ANTI-DRAW" LOGIC (FINAL VERSION)
+// ====================================================================================
+// This version fixes the bug where the engine forces a draw in a winning position.
+
+// ====================================================================================
+//            THE CORRECT search FUNCTION (Based on Your Working Original)
+// ====================================================================================
+// This restores the original, working search logic that searched thousands of nodes.
+// The ONLY change is to the return value inside the repetition block to make the
+// engine avoid draws when it is winning.
+
+function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
+    if (stopSearch) return 0;
+    
+    const trueRepetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length - 1;
+    // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
+    if (ply > 0 && trueRepetitionCount >= 2) { 
+        const staticEval = evaluate(state);
+        
+        // Anti-Draw: If anyone has an advantage, the draw is a loss of the game
+        if (Math.abs(staticEval) > 0) {
+             return -MATE_SCORE + ply; 
+        }
+        
+        // If 0.00, it's still a catastrophic loss of the game to prevent future repetitions
+        return -MATE_SCORE + ply; 
+    }
+    
+    
+    
+    // 2. Imminent Repetition Penalty (2nd instance - The Final Gate)
+    // When the engine plays a move that brings the repetition count to 1 (meaning the position
+    // has already occurred once before), we apply a progressive penalty.
+    if (ply > 0 && trueRepetitionCount === 1) { 
+        const staticEval = evaluate(state);
+        
+        // Penalize the draw heavily, but not as severely as the final draw.
+        // This makes the engine prefer a unique move.
+        // Penalty: A full Rook of positional value.
+        if (staticEval > 0) return -500; // If winning, -500 penalty
+        if (staticEval < 0) return 500;  // If losing, +500 bonus
+    }
+    // --- END OF FIX ---
+
+    if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
+
+    const ttEntry = transpositionTable.get(state.zobristHash.toString());
+    if (ttEntry && ttEntry.depth >= depth) {
+        if (ttEntry.flag === TT_EXACT) return ttEntry.score;
+        if (ttEntry.flag === TT_LOWERBOUND && ttEntry.score >= beta) return beta;
+        if (ttEntry.flag === TT_UPPERBOUND && ttEntry.score <= alpha) return alpha;
+    }
+
+    nodeCount++;
+    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    if (depth <= 0) return quiesce(state, alpha, beta, ply);
+    if (inCheck) depth++;
+    const staticEval = evaluate(state);
+
+    // Null Move Pruning (Logic assumed correct with the make/unmake fix)
+    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1) {
+        const unmakeInfo = makeMove(state, { isNullMove: true });
+        repetitionHistory.push(state.zobristHash);
+        const score = -search(state, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, true);
+        repetitionHistory.pop();
+        unmakeMove(state, unmakeInfo);
+        if (score >= beta) return beta;
+    }
+
+    const moves = generatePseudoLegalMoves(state);
+    const orderedMoves = orderMoves(moves, state, ttEntry ? ttEntry.bestMove : null, ply);
+    
+    let originalAlpha = alpha;
+    let bestMove = null;
+    let bestScore = -Infinity;
+    let legalMovesFound = 0;
+    
+    for (let i = 0; i < orderedMoves.length; i++) {
+        const move = orderedMoves[i];
+        const unmakeInfo = makeMove(state, move);
+        
+        // Legality check
+        const originalTurn = state.turn === 'w' ? 'b' : 'w';
+        const kingPos = state.kingPos[originalTurn];
+        if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
+            unmakeMove(state, unmakeInfo);
+            continue;
+        }
+        legalMovesFound++;
+
+        repetitionHistory.push(state.zobristHash);
+        
+        let score;
+        if (isStalemateBlunder(state, staticEval)) {
+            score = -MATE_SCORE;
+        } else {
+            // PVS/LMR
+            if (i === 0) {
+                score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
+            } else {
+                score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1, false);
+                if (score > alpha && score < beta) {
+                    score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
+                }
+            }
+        }
+        
+        repetitionHistory.pop();
+        unmakeMove(state, unmakeInfo);
+
+        if (stopSearch) return 0;
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
+        }
+        if (bestScore > alpha) alpha = bestScore;
+        if (alpha >= beta) {
+            return beta;
+        }
+    }
+
+    if (legalMovesFound === 0) {
+        return inCheck ? -MATE_SCORE + ply : 0;
+    }
+
+    const flag = (bestScore > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
+    transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
+    return bestScore;
+}
+
+
+
+
+
+function quiesce(state, alpha, beta, ply, qDepth = 0) {
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
+    if (stopSearch) return 0;
+    if (ply >= MATE_IN_MAX_PLY || qDepth >= Q_MAX_DEPTH) return evaluate(state);
+
+    nodeCount++;
+    const standPat = evaluate(state);
+    
+    // --- CRITICAL FIX: STAND-PAT LOGIC ---
+    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    if (!inCheck) {
+        if (standPat >= beta) return beta;
+        if (alpha < standPat) alpha = standPat;
+    }
+
+    const moves = generatePseudoLegalMoves(state);
+    
+    // Filter and order moves
+    const tacticalMoves = [];
+    for (const move of moves) {
+        // If in check, ALL legal moves are tactical. Otherwise, only captures/promotions.
+        if (move.capture || move.promotion || inCheck) {
+            tacticalMoves.push(move);
+        }
+    }
+    
+    // Order by SEE, then Promotions
+    tacticalMoves.sort((a, b) => {
+        let scoreA = a.capture ? see(state, a.from[0], a.from[1], a.to[0], a.to[1]) : 0;
+        let scoreB = b.capture ? see(state, b.from[0], b.from[1], b.to[0], b.to[1]) : 0;
+        if (a.promotion) scoreA += 10000;
+        if (b.promotion) scoreB += 10000;
+        return scoreB - scoreA;
+    });
+
+    for (const move of tacticalMoves) {
+        
+        // --- CRITICAL FIX: AGGRESSIVE SEE FILTERING (Pruning bad captures) ---
+        if (move.capture) {
+            if (see(state, move.from[0], move.from[1], move.to[0], move.to[1]) < 0) {
+                continue; 
+            }
+        }
+        
+        const unmakeInfo = makeMove(state, move);
+
+        // --- FULL LEGALITY CHECK ---
+        const originalTurn = state.turn === 'w' ? 'b' : 'w';
+        const kingPos = state.kingPos[originalTurn];
+        if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
+            unmakeMove(state, unmakeInfo);
+            continue;
+        }
+        
+        // Recurse
+        repetitionHistory.push(state.zobristHash);
+        const score = -quiesce(state, -beta, -alpha, ply + 1, qDepth + 1);
+        repetitionHistory.pop();
+        unmakeMove(state, unmakeInfo);
+
+        if (stopSearch) return 0;
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
+    }
+    return alpha;
+}
+
+
+
+function orderMoves(moves, state, pvMove, ply) {
+    const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }; 
+
+    return moves.map(move => {
+        let score = 0;
+        if (pvMove && move.from[0] === pvMove.from[0] && move.from[1] === pvMove.from[1] && move.to[0] === pvMove.to[0] && move.to[1] === pvMove.to[1]) {
+            score = 300000; 
+        } 
+        
+        // --- CRITICAL FIX: Prioritize captures by SEE Score ---
+        else if (move.capture) {
+            const seeScore = see(state, move.from[0], move.from[1], move.to[0], move.to[1]);
+            const attackerValue = pieceValues[move.piece.toLowerCase()];
+            const victimValue = pieceValues[move.capture.toLowerCase()];
+            const mvvLva = (victimValue * 10) - attackerValue;
+
+            // Highly prioritize moves with positive SEE
+            score = 200000 + (seeScore * 1000) + mvvLva;
+        } 
+        
+        // Promotions (High priority)
+        else if (move.promotion) {
+             score = 150000 + pieceValues[move.promotion.toLowerCase()];
+        }
+        
+        // Killer Moves
+        else if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
+            score = 90000;
+        } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
+            score = 80000;
+        } 
+        
+        // History Heuristic
+        else if (move.piece) {
+            score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
+        }
+
+        return { move, score };
+    }).sort((a, b) => b.score - a.score).map(item => item.move);
+}
+
+
+// ADVANCED SEARCH WITH DYNAMIC CONTEMPT
+// ====================================================================================
+//                 FINAL, COMPLETE, AND OPTIMIZED SEARCH FUNCTION (Mk. VI)
+// ====================================================================================
+
+
+// ====================================================================================
+//                 PERFT - THE ULTIMATE MAKE/UNMAKE DEBUGGING TOOL
+// ====================================================================================
+let perftNodeCount = 0;
+
+function perft(state, depth) {
+    if (depth === 0) {
+        perftNodeCount++;
+        return;
+    }
+
+    const moves = generateLegalMoves(state);
+    for (const move of moves) {
+        const unmakeInfo = makeMove(state, move);
+        perft(state, depth - 1);
+        unmakeMove(state, unmakeInfo);
+    }
+}
+
+// A helper to run the test and log the results.
+function runPerftTest(fen, depth) {
+    console.log(`Starting Perft Test for FEN: "${fen}" at depth ${depth}`);
+    const state = createGameState(fen);
+    perftNodeCount = 0;
+    const startTime = performance.now();
+    perft(state, depth);
+    const endTime = performance.now();
+    const duration = (endTime - startTime).toFixed(2);
+    const nps = (perftNodeCount / (duration / 1000)).toFixed(0);
+    console.log(`Perft Test Complete.`);
+    console.log(`Result: ${perftNodeCount} nodes found.`);
+    console.log(`Time: ${duration}ms`);
+    console.log(`Speed: ${nps} nodes/sec`);
+    return perftNodeCount;
+}
+var tested=1
+// =================================================================
+//              MAIN WORKER DRIVER (UNCHANGED)
+// =================================================================
+let DEBUG_MODE = true;
+let isInitialized = false;
+
+function initializeEngine() {
+    if (isInitialized) return;
+    initializeZobristKeys();
+    buildOpeningBook();
+    isInitialized = true;
+    console.log("Prometheus Engine Initialized Successfully.");
+}
+
+self.onmessage = function(e) {
+    const { command, fen, maxDepth, maxTime } = e.data;
+    initializeEngine();
+
+    if (command === 'set_debug') {
+        DEBUG_MODE = e.data.debug;
+        return;
+    }
+    
+    if(tested < 1){
+    tested++
+    runPerftTest(fen, maxDepth);
+    
+    }
+
+    if (command === 'calculate_move') {
+        searchStartTime = performance.now();
+        timeLimit = maxTime || 4000;
+        stopSearch = false;
+        nodeCount = 0;
+        transpositionTable = new Map();
+        killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
+        historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+
+        const initialState = createGameState(fen);
+        repetitionHistory = [initialState.zobristHash];
+        
+        const currentHash = initialState.zobristHash.toString();
+        if (DEBUG_MODE) {
+            console.log(`---------------------------------`);
+            console.log(`Calculating move for FEN: ${fen}`);
+            console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
+        }
+
+        if (openingBook.has(currentHash)) {
+            const bookEntry = openingBook.get(currentHash); // Get the full object
+            const bookMoves = bookEntry.moves;
+            const openingName = bookEntry.name; // Get the stored name
+            const legalMoves = generateLegalMoves(initialState);
+            const verifiedBookMoves = bookMoves.filter(bookMove => 
+                legalMoves.some(legalMove => 
+                    legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
+                    legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
+                )
+            );
+
+            if (verifiedBookMoves.length > 0) {
+                if (DEBUG_MODE) console.log(`**CACHE HIT**: Hash found in book and move verified as legal.`);
+                const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
+                // Use the 'openingName' in the message, not a property of the move
+                postMessage({ bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
+                return;
+            } else {
+                if (DEBUG_MODE) console.error(`**BOOK FAILURE**: Hash found, but all book moves were ILLEGAL. Treating as a cache miss.`);
+            }
+        }
+        
+        if (DEBUG_MODE) {
+            console.warn("Engine is now THINKING because of a book miss or failure.");
+        }
+
+        const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
+        postMessage({
+            bestMove: bestMove, score: score,
+            timeTaken: (performance.now() - searchStartTime).toFixed(2),
+            nodesSearched: nodeCount
+        });
+    }
+};

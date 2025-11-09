@@ -20,14 +20,30 @@ function buildOpeningBook() {
     for (const entry of rawOpeningBook) {
         if (!entry) continue;
         const fen = entry[0];
+        const name = entry[1]; // Extract the opening name
         const hash = calculateZobristHash(createGameState(fen)).toString();
-        const existingMoves = openingBook.has(hash) ? openingBook.get(hash) : [];
+
+        // The value in our map will be an object: { name: string, moves: Move[] }
+        // If the hash already exists, we'll add to its moves but keep the original name.
+        const bookEntry = openingBook.has(hash) ? openingBook.get(hash) : { name: name, moves: [] };
+
+        // Add the new moves from this PGN line to the entry
         for (let i = 2; i < entry.length; i++) {
-            existingMoves.push(entry[i]);
+            const newMove = entry[i];
+            // Prevent adding duplicate moves if different lines converge on the same position
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
         }
-        openingBook.set(hash, existingMoves);
+        openingBook.set(hash, bookEntry);
     }
 }
+
 
 // =================================================================
 //                       CONSTANTS & CONFIGURATION
@@ -1306,7 +1322,9 @@ self.onmessage = function(e) {
         }
 
         if (openingBook.has(currentHash)) {
-            const bookMoves = openingBook.get(currentHash);
+            const bookEntry = openingBook.get(currentHash); // Get the full object
+            const bookMoves = bookEntry.moves;
+            const openingName = bookEntry.name; // Get the stored name
             const legalMoves = generateLegalMoves(initialState);
             const verifiedBookMoves = bookMoves.filter(bookMove => 
                 legalMoves.some(legalMove => 
@@ -1318,7 +1336,8 @@ self.onmessage = function(e) {
             if (verifiedBookMoves.length > 0) {
                 if (DEBUG_MODE) console.log(`**CACHE HIT**: Hash found in book and move verified as legal.`);
                 const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
-                postMessage({ bestMove: randomVerifiedMove, score: "Book Move: "+randomVerifiedMove.name, timeTaken: 0, nodesSearched: 0 });
+                // Use the 'openingName' in the message, not a property of the move
+                postMessage({ bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
                 return;
             } else {
                 if (DEBUG_MODE) console.error(`**BOOK FAILURE**: Hash found, but all book moves were ILLEGAL. Treating as a cache miss.`);
