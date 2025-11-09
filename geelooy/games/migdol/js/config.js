@@ -126,8 +126,8 @@ export const ENEMY_TYPES = {
     },
     'tiger': {
         emoji: '🐅',
-        baseHealth: 65,
-        speed: 1.3,
+        baseHealth: 55,
+        speed: 1.2,
         perutaValue: 10,
         children: { type: 'cat', count: 2 },
     },
@@ -156,7 +156,7 @@ export const ENEMY_TYPES = {
         damageReduction: 0.8, // Takes only 20% of damage below threshold
     },
     'healer': {
-        emoji: '✚',
+        emoji: '🥬',
         baseHealth: 80,
         speed: 1.0,
         perutaValue: 40,
