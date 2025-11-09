@@ -441,10 +441,12 @@ class Game {
     
             // Then, check if the living enemy has reached the end.
             if (enemy.pathIndex >= this.path.length - 1) {
-                this.enemies.splice(i, 1);
                 this.takeDamage();
+                enemy.health = 0; // This line invalidates the enemy as a target
+                this.enemies.splice(i, 1);
             }
         }
+    
     }
 
     drawTowerRange(tower) {
