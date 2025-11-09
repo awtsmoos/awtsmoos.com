@@ -103,20 +103,17 @@ async updateDefaultProgram(extension, programName) {
         return desk;
     }
 
-    // In awtsmoosOs.js, replace the entire onFileClick method
+
+
 async onFileClick({ path, title, event, isFolder }) {
     event.preventDefault();
 
-    // --- DOUBLE-CLICK LOGIC ---
-    // The 'detail' property of a click event is 2 for a double-click.
     if (event.detail === 2) {
         const content = await this.db.Laynin(path, title);
         this.addWindow({ title, content, path, os: this });
-        return; // Stop execution to prevent context menu from opening
+        return;
     }
 
-    // --- SINGLE-CLICK (CONTEXT MENU) LOGIC ---
-    // Remove any existing menus immediately on a new click
     const existingMenu = document.querySelector(".contextMenu");
     if (existingMenu) existingMenu.remove();
 
@@ -125,31 +122,47 @@ async onFileClick({ path, title, event, isFolder }) {
             const content = await this.db.Laynin(path, title);
             this.addWindow({ title, content, path, os: this });
         },
-        'Open with...': () => {
+    };
+
+    // --- Add folder-specific or file-specific actions ---
+    if (isFolder) {
+        actions['Open folder in Advanced Editor'] = () => {
+            // We pass an object to signify this is a folder-open action
+            const folderInfo = { osPath: `${path}/${title}`, osFolderName: title };
+            this.addWindow({
+                title: title, // Window title will be the folder name
+                content: folderInfo,
+                os: this,
+                programName: 'advancedCodeEditor'
+            });
+        };
+    } else {
+        // "Open with..." only makes sense for files
+        actions['Open with...'] = () => {
              this.addWindow({
                 title: `Open ${title} with...`,
                 content: { filePath: path, fileTitle: title },
                 os: this,
                 programName: 'openWithSelector'
             });
-        },
-        Rename: async () => { /* ... existing code ... */ },
-        Copy: async () => { /* ... existing code ... */ },
-        Delete: async () => { /* ... existing code ... */ }
-    };
+        };
+    }
+    // --- END NEW LOGIC ---
+
+    // Add universal actions
+    actions.Rename = async () => { /* ... existing rename logic ... */ };
+    actions.Copy = async () => { /* ... existing copy logic ... */ };
+    actions.Delete = async () => { /* ... existing delete logic ... */ };
 
     const menu = document.createElement("div");
     menu.className = "contextMenu";
-
-    Object.keys(actions).forEach(action => {
-        if (action === 'Open with...' && isFolder) return;
-        
+    Object.keys(actions).forEach(actionName => {
         const menuItem = document.createElement("div");
         menuItem.className = "menuItem";
-        menuItem.textContent = action;
+        menuItem.textContent = actionName;
         menuItem.onclick = async () => {
             menu.remove();
-            await actions[action]();
+            await actions[actionName]();
         };
         menu.appendChild(menuItem);
     });

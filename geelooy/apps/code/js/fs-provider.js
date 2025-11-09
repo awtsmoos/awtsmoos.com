@@ -5,6 +5,10 @@ import { State } from './state.js';
 import { MimeUtil } from './mime-util.js';
 import { UI } from './ui.js';
 
+
+
+let requestIdCounter = 0;
+const pendingRequests = new Map();
 /**
  * FileSystemProvider: An abstraction layer for different file systems.
  */
@@ -15,6 +19,7 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.list(item);
                 case 'indexeddb': return this.IndexedDB.list(item);
                 case 'github': return this.GitHub.list(item);
+                case 'osfolder': return this.OSFolder.list(item);
                 default: throw new Error('Unsupported workspace type');
             }
         } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
@@ -39,7 +44,8 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.read(item);
                 case 'indexeddb': return this.IndexedDB.read(item);
                 case 'github': return this.GitHub.read(item);
-                case 'postmessage': return this.PostMessage.read(item); 
+                case 'postmessage': return this.PostMessage.read(item);
+                case 'osfolder': return this.OSFolder.read(item);
             }
         } catch (e) { console.error(`[FS READ FAILED]`, e); throw e; }
     },
@@ -50,6 +56,8 @@ export const FileSystemProvider = {
                 case 'indexeddb': return this.IndexedDB.write(item, content);
                 case 'github': return this.GitHub.write(item, content, commitMessage);
                 case 'postmessage': return this.PostMessage.write(item, content);
+                case 'osfolder': return this.OSFolder. write(item, content);
+            
             }
         } catch (e) { console.error(`[FS WRITE FAILED]`, e); throw e; }
     },
@@ -59,6 +67,7 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.create(parentDir, name, kind);
                 case 'indexeddb': return this.IndexedDB.create(parentDir, name, kind);
                 case 'github': return this.GitHub.create(parentDir, name, kind);
+                case 'osfolder': return this.OSFolder. create(parentDir, name, kind);
             }
         } catch (e) { console.error(`[FS CREATE FAILED]`, e); throw e; }
     },
@@ -68,6 +77,8 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.delete(item);
                 case 'indexeddb': return this.IndexedDB.delete(item);
                 case 'github': return this.GitHub.delete(item);
+                case 'osfolder': return this.OSFolder. write(item, content);
+            
             }
         } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
     },
@@ -659,7 +670,70 @@ PostMessage: {
 },
 
 
+
+
+
     
+
+OSFolder: {
+    // Helper function to send a request and wait for a response
+    _requestFromOS(type, payload) {
+        return new Promise((resolve, reject) => {
+            const requestId = requestIdCounter++;
+            pendingRequests.set(requestId, { resolve, reject });
+            window.parent.postMessage({ type, payload, requestId }, '*');
+            // Timeout to prevent requests from hanging forever
+            setTimeout(() => {
+                if (pendingRequests.has(requestId)) {
+                    pendingRequests.delete(requestId);
+                    reject(new Error(`Request timed out: ${type}`));
+                }
+            }, 10000); // 10 second timeout
+        });
+    },
+    
+    async list(item) {
+        const response = await this._requestFromOS('requestFolderList', { path: item.path });
+        // The OS just sends back names, we need to format them for the editor's tree view
+        return response.items.map(name => ({
+            name,
+            kind: name.endsWith('.folder') ? 'directory' : 'file',
+            path: `${item.path}/${name}`
+        }));
+    },
+
+    async read(item) {
+        const parentPath = item.path.substring(0, item.path.lastIndexOf('/'));
+        const response = await this._requestFromOS('requestFileContent', { path: parentPath, fileName: item.name });
+        return response.content;
+    },
+    
+    
+    
+    async write(item, content) {
+        // We no longer need to separate path and name here; the OS will do it.
+        await this._requestFromOS('requestFileWrite', {
+            fullPath: item.path,
+            content: content
+        });
+    },
+
+    async create(parentDir, name, kind) {
+        await this._requestFromOS('requestItemCreate', {
+            parentPath: parentDir.path,
+            name: name,
+            kind: kind
+        });
+    },
+    
+    
+    async delete(item) {
+        await this._requestFromOS('requestItemDelete', {
+            fullPath: item.path,
+            kind: item.kind
+        });
+    }
+},
     
 
 

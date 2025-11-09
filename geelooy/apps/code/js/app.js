@@ -138,38 +138,45 @@ setupEventListeners() {
 
 
 
+
+
 window.addEventListener('message', (event) => {
-    // We only care about 'loadFile' messages
-    if (event.data?.type !== 'loadFile') {
+    const { type, payload, requestId, error } = event.data;
+
+    // --- Handle responses for our provider requests ---
+    if (pendingRequests.has(requestId)) {
+        const { resolve, reject } = pendingRequests.get(requestId);
+        pendingRequests.delete(requestId);
+        
+        if (error) {
+            // If the OS sends back an error, reject the promise
+            reject(new Error(error));
+        } else {
+            // Otherwise, resolve with the payload
+            resolve(payload);
+        }
+        return; // Stop further processing
+    }
+
+    // --- Handle initial load commands from OS ---
+    if (type === 'loadFile') {
+        const { fileName, content, saveContext } = payload;
+        const externalWorkspace = { name: `OS File`, type: 'postmessage' };
+        Workspaces.add(externalWorkspace, false);
+        const wsId = State.workspaces[State.workspaces.length - 1].id;
+        const fileItem = { name: fileName, path: fileName, kind: 'file', type: 'postmessage', workspaceId: wsId, saveContext, content };
+        Tabs.create(fileItem, false, false);
         return;
     }
 
-    console.log("Advanced Editor received 'loadFile' command from OS:", event.data);
-
-    const { fileName, content, saveContext } = event.data.payload;
-
-    // Create a special, virtual workspace for this externally-loaded file
-    const externalWorkspace = {
-        name: `OS: ${saveContext.osPath.split('/').pop() || 'root'}`,
-        type: 'postmessage',
-        // We embed the save context here so it's available to our provider
-        saveContext: saveContext
-    };
-    Workspaces.add(externalWorkspace, false); // `false` prevents saving to session
-
-    // Create the file item object that the Tabs module expects
-    const fileItem = {
-        name: fileName,
-        path: fileName, // Use a simple path within this virtual workspace
-        kind: 'file',
-        type: 'postmessage',
-        workspaceId: State.workspaces[State.workspaces.length - 1].id, // Get the ID of the workspace we just added
-        saveContext: saveContext,
-        content: content // Pass the pre-loaded content
-    };
-
-    // Create and activate the tab
-    Tabs.create(fileItem, false, false);
+    if (type === 'loadFolderAsWorkspace') {
+        const { folderName, folderPath } = payload;
+        // Use the 'osfolder' type for our new provider
+        const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
+        Workspaces.add(osWorkspace, false);
+        Workspaces.render();
+        return;
+    }
 });
 // 
 	let resizeDebounceTimer;
