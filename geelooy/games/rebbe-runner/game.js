@@ -207,5 +207,20 @@ window.addEventListener('keydown', (e) => {
 });
 window.addEventListener('touchstart', handleStart);
 
-// Initial call to set up the screen
-setCanvasSize();
+// This is the new, correct way to initialize the game
+window.addEventListener('DOMContentLoaded', () => {
+    // Set the initial canvas size based on the *actual* visible window
+    setCanvasSize();
+    
+    // Now that sizing is correct, explicitly show the initial UI
+    // (This prevents them from flashing on screen with the wrong size)
+    startScreen.style.display = 'flex';
+    instructions.style.display = 'block';
+    gameOverScreen.style.display = 'none';
+});
+
+
+
+
+
+
