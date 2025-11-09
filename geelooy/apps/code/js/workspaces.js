@@ -42,72 +42,79 @@ export const Workspaces = {
     },
 
     
-// REPLACE your existing renderWorkspace method with this one.
-    renderWorkspace(ws, container) {
-        const wsRoot = document.createElement('div');
-        wsRoot.className = 'workspace-root';
-        const uniquePath = getItemUniquePath(ws);
-        const isExpanded = State.expandedFolders.has(uniquePath);
-        if (isExpanded) wsRoot.classList.add('expanded');
 
-        const icon = ws.isClone ? 'git-folder' : 
-                     ws.type === 'local' ? 'laptop' : 
-                     ws.type === 'github' ? 'github' : 'brain';
+async renderWorkspace(ws, container) {
+    const wsRoot = document.createElement('div');
+    wsRoot.className = 'workspace-root';
+    const uniquePath = getItemUniquePath(ws);
 
-        wsRoot.innerHTML = /*html*/ `
-            <div class="workspace-header">
-                <div class="workspace-header-title">
-                    <strong>
-                        <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
-                        ${ws.name}
-                    </strong>
-                </div>
-                <div class="workspace-header-actions">
-                    ${ws.isClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
-                </div>
+    // Asynchronously check if the folder is a git clone for the icon
+    const gitInfo = await GitMetaProvider.getGitInfoForFolder({ ...ws, kind: 'directory' });
+    const isGitClone = !!gitInfo;
+
+    const icon = isGitClone ? 'git-folder' :
+                 ws.type === 'local' ? 'laptop' :
+                 ws.type === 'github' ? 'github' :
+                 ws.type === 'osfolder' ? 'folder' : // Use a standard folder icon
+                 'brain';
+
+    wsRoot.innerHTML = /*html*/ `
+        <div class="workspace-header">
+            <div class="workspace-header-title">
+                <strong>
+                    <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
+                    ${ws.name}
+                </strong>
             </div>
-        `;
-        
-        container.appendChild(wsRoot);
-        const header = wsRoot.querySelector('.workspace-header');
-        const headerTitle = header.querySelector('.workspace-header-title');
+            <div class="workspace-header-actions">
+                ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
+            </div>
+        </div>
+    `;
+    
+    container.appendChild(wsRoot);
+    const header = wsRoot.querySelector('.workspace-header');
+    const headerTitle = header.querySelector('.workspace-header-title');
 
-        headerTitle.onclick = () => {
-            if (State.expandedFolders.has(uniquePath)) {
-                State.expandedFolders.delete(uniquePath);
-                wsRoot.classList.remove('expanded');
-                wsRoot.querySelector('ul')?.remove();
-            } else {
-                State.expandedFolders.add(uniquePath);
-                wsRoot.classList.add('expanded');
-                const tree = document.createElement('ul');
-                tree.className = 'workspace-tree';
-                wsRoot.appendChild(tree);
-                this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
-            }
-            App.saveSession();
-        };
+    // This is the item that represents the root of the workspace tree
+    const rootItemForTree = { ...ws, workspaceId: ws.id, kind: 'directory' };
 
-        header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
-        
-        const gitBtn = header.querySelector('.git-actions-btn');
-        if (gitBtn) {
-            gitBtn.onclick = (e) => {
-                e.stopPropagation();
-                GitManager.showGitUI(ws);
-            };
+    headerTitle.onclick = () => {
+        if (State.expandedFolders.has(uniquePath)) {
+            State.expandedFolders.delete(uniquePath);
+            wsRoot.classList.remove('expanded');
+            wsRoot.querySelector('ul')?.remove();
+        } else {
+            State.expandedFolders.add(uniquePath);
+            wsRoot.classList.add('expanded');
+            const tree = document.createElement('ul');
+            tree.className = 'workspace-tree';
+            wsRoot.appendChild(tree);
+            // THE FIX: Use the correctly defined rootItemForTree which has the full path
+            this.renderTree(tree, rootItemForTree, 1);
         }
-        
-        const rootItem = { ...ws, path: '/', workspaceId: ws.id };
-        State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
+        App.saveSession();
+    };
 
-        if (isExpanded) {
-           const tree = document.createElement('ul');
-           tree.className = 'workspace-tree';
-           wsRoot.appendChild(tree);
-           this.renderTree(tree, rootItem, 1);
-        }
-    },
+    header.oncontextmenu = (e) => Menus.show(e, rootItemForTree);
+    
+    const gitBtn = header.querySelector('.git-actions-btn');
+    if (gitBtn) {
+        gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItemForTree); };
+    }
+    
+    State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItemForTree });
+
+    const isExpanded = State.expandedFolders.has(uniquePath);
+    if (isExpanded) {
+       wsRoot.classList.add('expanded');
+       const tree = document.createElement('ul');
+       tree.className = 'workspace-tree';
+       wsRoot.appendChild(tree);
+       // THE FIX (APPLIED HERE TOO): Use the rootItemForTree for initial render
+       this.renderTree(tree, rootItemForTree, 1);
+    }
+},
     
 
 
