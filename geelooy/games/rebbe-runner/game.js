@@ -77,7 +77,7 @@ function createBackground() {
 
 function init() {
     isGameOver = false;
-    setCanvasSize();
+    ;
     createBackground();
     
     roadLines = [];
