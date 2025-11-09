@@ -86,7 +86,7 @@ export const ENEMY_TYPES = {
     },
     'gorilla': {
         emoji: '🦍',
-        baseHealth: 200,
+        baseHealth: 85,
         speed: 0.8,
         perutaValue: 25,
         children: { type: 'tiger', count: 2 },
@@ -94,18 +94,19 @@ export const ENEMY_TYPES = {
     },
     'tiger': {
         emoji: '🐅',
-        baseHealth: 75,
-        speed: 1.5,
+        baseHealth: 65,
+        speed: 1.3,
         perutaValue: 10,
         children: { type: 'cat', count: 2 },
     
     },
     'golem': { // New Enemy
         emoji: '🗿',
-        baseHealth: 500,
+        baseHealth: 100,
         speed: 0.6,
-        perutaValue: 25,
-        children: null,
+        perutaValue: 75,
+        children: { type: 'tiger', count: 3 },
+    
         slowResistance: 0.5, // Slows are 50% less effective
     }
 };
