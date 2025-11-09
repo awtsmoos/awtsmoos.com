@@ -52,9 +52,12 @@ export default ({ os, system, fileName, content, path }) => {
         if (event.source !== iframe.contentWindow) return;
         
         const { type, payload, requestId } = event.data;
+        
+        console.log("OS sending response to editor:", { requestId, payload: responsePayload });
     
         // Helper to send responses back to the iframe
         const respond = (responsePayload) => {
+        console.log("OS sending response to editor:", { requestId, payload: responsePayload });
             iframe.contentWindow.postMessage({ type: 'osResponse', requestId, payload: responsePayload }, '*');
         };
         

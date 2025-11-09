@@ -146,66 +146,76 @@ setupEventListeners() {
 
 
 
-window.addEventListener('message', (event) => {
-    const { type, payload, requestId, error } = event.data;
+// B"H
+// FILE: js/app.js
+// ... (keep the beginning of the file the same) ...
 
-    // --- Handle responses for our provider requests ---
-    //  Check the shared State.postMessagePendingRequests map
-    if (State.postMessagePendingRequests.has(requestId)) {
-        const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
-        State.postMessagePendingRequests.delete(requestId);
+setupEventListeners() {
+
+    // --- NEW CONSOLE.LOG FOR DEBUGGING ---
+    // Add this right at the top of the message listener
+    window.addEventListener('message', (event) => {
+        console.log("EDITOR received message:", event.data); // <-- ADD THIS LINE
         
-        if (error) {
-            reject(new Error(error));
-        } else {
-            resolve(payload);
+        const { type, payload, requestId, error } = event.data;
+
+        // --- Handle responses for our provider requests ---
+        //  Check the shared State.postMessagePendingRequests map
+        if (State.postMessagePendingRequests.has(requestId)) {
+            const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
+            State.postMessagePendingRequests.delete(requestId);
+            
+            if (error) {
+                reject(new Error(error));
+            } else {
+                resolve(payload);
+            }
+            return; // Stop further processing
         }
-        return; // Stop further processing
-    }
 
-    // --- Handle initial load commands from OS ---
-    if (type === 'loadFile') {
-        const { fileName, content, saveContext } = payload;
-        const externalWorkspace = { name: `OS File`, type: 'postmessage' };
-        Workspaces.add(externalWorkspace, false);
-        const wsId = State.workspaces[State.workspaces.length - 1].id;
-        const fileItem = { name: fileName, path: fileName, kind: 'file', type: 'postmessage', workspaceId: wsId, saveContext, content };
-        Tabs.create(fileItem, false, false);
-        return;
-    }
+        // --- Handle initial load commands from OS ---
+        if (type === 'loadFile') {
+            const { fileName, content, saveContext } = payload;
+            const externalWorkspace = { name: `OS File`, type: 'postmessage' };
+            Workspaces.add(externalWorkspace, false);
+            const wsId = State.workspaces[State.workspaces.length - 1].id;
+            const fileItem = { name: fileName, path: fileName, kind: 'file', type: 'postmessage', workspaceId: wsId, saveContext, content };
+            Tabs.create(fileItem, false, false);
+            return;
+        }
 
-    // In app.js, inside the message listener for 'loadFolderAsWorkspace'
+        if (type === 'loadFolderAsWorkspace') {
+            const { folderName, folderPath } = payload;
+        
+            State.workspaces = [];
+            DOM.workspacesContainer.innerHTML = '';
+            State.domItemMap.clear();
 
-if (type === 'loadFolderAsWorkspace') {
-    const { folderName, folderPath } = payload;
+            const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
+            Workspaces.add(osWorkspace, false);
+            return;
+        }
 
-    
-    // 1. Clear all existing workspaces from the state and the UI.
-    State.workspaces = [];
-    DOM.workspacesContainer.innerHTML = '';
-    State.domItemMap.clear();
+        
+      
+        //  'if' block to handle the menu registration
+        if (type === 'registerMenus') {
+            Menus.registerCustomMenus(payload); // We will add this function to menus.js
+            return;
+        }
+        
+        if (type === 'requestContent') {
+            // The parent OS is asking for the current editor content.
+            const content = Editor.getContent();
+            // Send it back in a response message.
+            window.parent.postMessage({
+                type: 'responseContent',
+                payload: { content: content }
+            }, '*');
+            return;
+        }
+    });
 
-    // 2. Now, create the new, single workspace for the OS folder.
-    const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
-    Workspaces.add(osWorkspace, false); // This will render the single workspace.
-    // 
-    
-    return;
-}
-    
-    
-    if (type === 'requestContent') {
-        // The parent OS is asking for the current editor content.
-        const content = Editor.getContent();
-        // Send it back in a response message.
-        window.parent.postMessage({
-            type: 'responseContent',
-            payload: { content: content }
-        }, '*');
-        return;
-    }
-});
-// 
 	let resizeDebounceTimer;
 	
     // --- Element References (Using YOUR DOM object variable names) ---

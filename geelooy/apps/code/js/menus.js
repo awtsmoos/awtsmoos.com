@@ -15,6 +15,14 @@ import { FileOperations } from './file-operations.js';
 import { SelectionManager } from './selection-manager.js';
 
 export const Menus = {
+
+
+registerCustomMenus(menuConfigs) {
+        if (!Array.isArray(menuConfigs)) return;
+        State.customMenus = menuConfigs;
+        
+    
+    },
     /**
      * Handles clicks on the document to hide any open menus.
      */
