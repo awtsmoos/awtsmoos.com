@@ -49,6 +49,7 @@ export const TOWER_TYPES = {
         maxRange: TILE_SIZE * 3,
         splashRadius: TILE_SIZE * 1.5,
     },
+    
     'slicer': {
         emoji: '🗡️',
         projectileEmoji: '→',
