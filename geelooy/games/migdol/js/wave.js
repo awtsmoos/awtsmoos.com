@@ -6,13 +6,14 @@ import { ENEMY_TYPES } from './config.js';
 export default class WaveManager {
     constructor(game) {
         this.game = game;
+        console. log("game", game)
         this.waveNumber = 0;
         this.enemiesToSpawn = [];
         this.spawnInterval = 60; // Frames between spawns
         this.spawnTimer = 0;
         this.isWaveActive = false;
     }
-
+ 
     startNextWave() {
         this.waveNumber++;
         this.isWaveActive = true;

@@ -7,7 +7,8 @@ export default class Enemy {
         this.path = path;
         this.pathIndex = 0;
         
-        this.x = this.path[0].x * TILE_SIZE - TILE_SIZE;
+        // Corrected the initial position of the enemy to be directly on the path's starting point.
+        this.x = this.path[0].x * TILE_SIZE;
         this.y = this.path[0].y * TILE_SIZE;
         
         this.typeInfo = type;
