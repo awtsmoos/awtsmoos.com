@@ -185,8 +185,8 @@ export default /*css*/`
 
 .css-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231572b6"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438zM8.5 6.5l.25 2.5h6.5l-.25 2.5h-6.5l.25 2.5h6.5l-.25 2.5-2.5 1-2.5-1-.125-1.5h-2.25l.25 3 4.5 1.5 4.5-1.5.5-5.5.5-5.5.5-5.5h-13z"/></svg>'); }
 .html-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e34f26"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.234-2.719 8.375.002.234-2.717H4.937l.938 10.594h9.875l.938-10.875H8.531z"/></svg>'); }
-`;
-/* --- New Custom Input Dialog Styles --- */
+
+/* --- Custom Input Dialog Styles --- */
 
 .input-dialog-overlay {
     position: fixed;
@@ -243,7 +243,7 @@ export default /*css*/`
     background-color: var(--accent-blue);
     color: white;
     border-color: var(--accent-blue);
-}
+}`;
 
 
 
