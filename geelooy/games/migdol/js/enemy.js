@@ -21,6 +21,12 @@ export default class Enemy {
 
         this.slowTimer = 0;
         this.isSlowed = false;
+
+        // For healer
+        this.healCooldown = 0;
+        // For armored
+        this.damageThreshold = type.damageThreshold;
+        this.damageReduction = type.damageReduction;
     }
 
     applySlow(factor, duration) {
@@ -32,12 +38,32 @@ export default class Enemy {
         this.isSlowed = true;
     }
 
-    update() {
+    update(allEnemies) {
         if (this.isSlowed) {
             this.slowTimer--;
             if (this.slowTimer <= 0) {
                 this.isSlowed = false;
                 this.speed = this.baseSpeed;
+            }
+        }
+
+        // Healer logic
+        if (this.typeInfo.healRadius) {
+            if (this.healCooldown > 0) {
+                this.healCooldown--;
+            } else {
+                allEnemies.forEach(enemy => {
+                    if (enemy !== this && enemy.health < enemy.maxHealth) {
+                        const dist = Math.hypot(this.x - enemy.x, this.y - enemy.y);
+                        if (dist < this.typeInfo.healRadius) {
+                            enemy.health += this.typeInfo.healAmount;
+                            if (enemy.health > enemy.maxHealth) {
+                                enemy.health = enemy.maxHealth;
+                            }
+                        }
+                    }
+                });
+                this.healCooldown = this.typeInfo.healRate;
             }
         }
 
@@ -58,10 +84,15 @@ export default class Enemy {
     }
     
     takeDamage(amount) {
-        // This check prevents health from becoming NaN if damage is undefined
-        if (!isNaN(amount)) {
-            this.health -= amount;
+        if (isNaN(amount)) return;
+
+        let finalDamage = amount;
+        // Armored logic
+        if (this.damageThreshold && amount < this.damageThreshold) {
+            finalDamage = amount * (1 - this.damageReduction);
         }
+
+        this.health -= finalDamage;
     }
 
     draw(ctx) {
@@ -74,6 +105,14 @@ export default class Enemy {
         if (currentHealthWidth > 0) {
             ctx.fillStyle = '#2ecc71';
             ctx.fillRect(this.x - healthBarWidth / 2, this.y - TILE_SIZE / 2, currentHealthWidth, healthBarHeight);
+        }
+
+        // Visual indicator for healer's pulse
+        if (this.typeInfo.healRadius && this.healCooldown <= 5 && this.healCooldown > 0) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.typeInfo.healRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 255, 100, 0.15)';
+            ctx.fill();
         }
 
         ctx.font = `${TILE_SIZE * 0.7}px Arial`;

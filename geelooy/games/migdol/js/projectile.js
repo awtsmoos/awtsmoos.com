@@ -12,17 +12,46 @@ export default class Projectile {
         this.speed = 8;
         
         // Carry special properties from the tower's config
+        this.type = config.projectileType || 'homing';
         this.splashRadius = config.splashRadius;
         this.slowFactor = config.slowFactor;
         this.slowDuration = config.slowDuration;
+
+        // For piercing projectiles
+        this.pierceLimit = config.pierceLimit || 1;
+        this.hitEnemies = []; // Keep track of enemies already hit
+
+        // For chaining projectiles
+        this.chainCount = config.chainCount || 1;
+        this.chainRange = config.chainRange;
+        
+        // For ground AoE projectiles
+        this.aoeRadius = config.aoeRadius;
+        this.aoeDuration = config.aoeDuration;
+
+        // Angle for non-homing projectiles
+        if (target) {
+            this.angle = Math.atan2(target.y - y, target.x - x);
+        }
     }
 
     update() {
-        if (!this.target || this.target.health <= 0) return;
-
-        const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
-        this.x += Math.cos(angle) * this.speed;
-        this.y += Math.sin(angle) * this.speed;
+        if (!this.target || this.target.health <= 0) {
+            // For piercing, it can continue in a straight line without a target
+            if (this.type !== 'piercing') {
+                return;
+            }
+        }
+        
+        // Homing logic for most projectiles
+        if (this.type === 'homing' || this.type === 'chaining' || this.type === 'ground_aoe') {
+            if (this.target) {
+                this.angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
+            }
+        }
+        
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
     }
 
     draw(ctx) {
@@ -31,13 +60,15 @@ export default class Projectile {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(angle);
+        ctx.rotate(this.angle); // Use the stored angle
         
         if (this.emoji === '🚀') {
             ctx.rotate(Math.PI / 4);
+        } else if (this.type === 'piercing') {
+            // Stretch the laser emoji to look like a beam
+            ctx.scale(3, 1);
         }
 
         ctx.fillText(this.emoji, 0, 0);

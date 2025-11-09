@@ -5,6 +5,7 @@ import Tower from './tower.js';
 import Enemy from './enemy.js';
 import WaveManager from './wave.js';
 import { setupUI } from './ui.js';
+import { GroundEffect } from './effects.js';
 
 // --- Global State ---
 let game = null;
@@ -18,13 +19,13 @@ class Game {
         this.ctx = canvas.getContext('2d');
         this.map = mapConfig;
         
-        // Dynamic canvas sizing
         this.canvas.width = mapConfig.gridWidth * TILE_SIZE;
         this.canvas.height = mapConfig.gridHeight * TILE_SIZE;
 
         this.towers = [];
         this.enemies = [];
         this.projectiles = [];
+        this.groundEffects = [];
         this.eventMessages = [];
         this.path = this.map.path;
         
@@ -60,6 +61,7 @@ class Game {
         this.towers = [];
         this.enemies = [];
         this.projectiles = [];
+        this.groundEffects = [];
         this.perutas = 200;
         this.health = 20;
         this.waveManager = new WaveManager(this);
@@ -88,6 +90,7 @@ class Game {
         this.updateAndDrawTowers();
         this.updateAndDrawEnemies();
         this.updateAndDrawProjectiles();
+        this.updateAndDrawGroundEffects();
         this.drawGhostTower();
         this.updateAndDrawEventMessages();
 
@@ -163,7 +166,7 @@ class Game {
             this.selectedTower.upgrade(stat);
             this.perutas -= cost;
             this.updateUI();
-            this.showUpgradeModal(this.selectedTower); // Refresh modal
+            this.showUpgradeModal(this.selectedTower);
         }
     }
     
@@ -183,49 +186,70 @@ class Game {
         this.hideModal();
     }
 
-    handleProjectileHit(p) {
-        if (!p.target || p.target.health <= 0) return;
-
-        // Deal damage from the projectile
-        p.target.takeDamage(p.damage);
-
-        // Apply slow effect if the projectile has it
-        if (p.slowFactor) {
-            p.target.applySlow(p.slowFactor, p.slowDuration);
-        }
-        
-        // Apply splash damage if the projectile has it
+    handleProjectileHit(p, enemy, projectileIndex) {
+        if (enemy.health <= 0) return;
+    
+        enemy.takeDamage(p.damage);
+        if (p.slowFactor) enemy.applySlow(p.slowFactor, p.slowDuration);
+    
         if (p.splashRadius) {
-            this.enemies.forEach(enemy => {
-                if (enemy !== p.target) {
-                    const dist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+            this.enemies.forEach(otherEnemy => {
+                if (otherEnemy !== enemy && otherEnemy.health > 0) {
+                    const dist = Math.hypot(p.x - otherEnemy.x, p.y - otherEnemy.y);
                     if (dist < p.splashRadius) {
                         const splashDamage = p.damage * (1 - dist / p.splashRadius);
-                        enemy.takeDamage(splashDamage);
+                        otherEnemy.takeDamage(splashDamage);
                     }
                 }
             });
         }
         
-        // Handle enemy death
-        if (p.target.health <= 0) {
-            this.perutas += p.target.perutaValue;
-            this.showEventMessage(`+${p.target.perutaValue}💰`, p.target);
+        if (p.type === 'ground_aoe') {
+            const newEffect = new GroundEffect(p.x, p.y, p.aoeRadius, p.aoeDuration, p.damage, 60);
+            this.groundEffects.push(newEffect);
+            this.projectiles.splice(projectileIndex, 1);
+        } else if (p.type === 'chaining' && p.chainCount > 1) {
+            p.chainCount--;
+            p.damage *= 0.7; // Damage fall-off
+            p.hitEnemies.push(enemy);
+            let nextTarget = null;
+            let closestDist = Infinity;
+    
+            this.enemies.forEach(potentialTarget => {
+                if (potentialTarget.health > 0 && !p.hitEnemies.includes(potentialTarget)) {
+                    const dist = Math.hypot(enemy.x - potentialTarget.x, enemy.y - potentialTarget.y);
+                    if (dist < p.chainRange && dist < closestDist) {
+                        closestDist = dist;
+                        nextTarget = potentialTarget;
+                    }
+                }
+            });
+    
+            if (nextTarget) p.target = nextTarget;
+            else this.projectiles.splice(projectileIndex, 1);
+        } else if (p.type === 'piercing') {
+            p.pierceLimit--;
+            p.hitEnemies.push(enemy);
+            if (p.pierceLimit <= 0) this.projectiles.splice(projectileIndex, 1);
+        } else {
+            this.projectiles.splice(projectileIndex, 1);
+        }
+    
+        if (enemy.health <= 0) {
+            this.perutas += enemy.perutaValue;
+            this.showEventMessage(`+${enemy.perutaValue}💰`, enemy);
             
-            // Spawn children if any
-            if (p.target.children) {
-                const enemyConfig = ENEMY_TYPES[p.target.children.type];
-                for (let j = 0; j < p.target.children.count; j++) {
+            if (enemy.children) {
+                const enemyConfig = ENEMY_TYPES[enemy.children.type];
+                for (let j = 0; j < enemy.children.count; j++) {
                     const child = new Enemy(enemyConfig, 1, this.path);
-                    child.x = p.target.x + (Math.random() - 0.5) * 20;
-                    child.y = p.target.y + (Math.random() - 0.5) * 20;
-                    child.pathIndex = p.target.pathIndex;
+                    child.x = enemy.x + (Math.random() - 0.5) * 20;
+                    child.y = enemy.y + (Math.random() - 0.5) * 20;
+                    child.pathIndex = enemy.pathIndex;
                     this.enemies.push(child);
                 }
             }
-
-            // Remove the defeated enemy
-            this.enemies = this.enemies.filter(e => e !== p.target);
+            this.enemies = this.enemies.filter(e => e !== enemy);
             this.updateUI();
         }
     }
@@ -233,19 +257,34 @@ class Game {
     updateAndDrawProjectiles() {
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
             const p = this.projectiles[i];
+            if (!p) continue;
+
             p.update();
             p.draw(this.ctx);
 
-            const targetIsAlive = this.enemies.includes(p.target);
-
-            if (targetIsAlive) {
-                const dist = Math.hypot(p.x - p.target.x, p.y - p.target.y);
-                if (dist < 10) {
-                    this.handleProjectileHit(p);
-                    this.projectiles.splice(i, 1);
+            for (const enemy of this.enemies) {
+                if (enemy.health > 0 && !p.hitEnemies.includes(enemy)) {
+                    const dist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+                    if (dist < TILE_SIZE / 2) {
+                        this.handleProjectileHit(p, enemy, i);
+                        if (p.type !== 'piercing' && p.type !== 'chaining') break;
+                    }
                 }
-            } else if (!targetIsAlive || p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height) {
+            }
+            
+            if (p && (p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height)) {
                 this.projectiles.splice(i, 1);
+            }
+        }
+    }
+
+    updateAndDrawGroundEffects() {
+        for (let i = this.groundEffects.length - 1; i >= 0; i--) {
+            const effect = this.groundEffects[i];
+            effect.update(this.enemies);
+            effect.draw(this.ctx);
+            if (effect.duration <= 0) {
+                this.groundEffects.splice(i, 1);
             }
         }
     }
@@ -366,7 +405,7 @@ class Game {
     updateAndDrawEnemies() {
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             const enemy = this.enemies[i];
-            enemy.update();
+            enemy.update(this.enemies);
             enemy.draw(this.ctx);
 
             if (enemy.pathIndex >= this.path.length - 1) {
@@ -438,14 +477,12 @@ function returnToMainMenu() {
 }
 
 window.onload = () => {
-    // --- Assign DOM Elements ---
     mainMenu = document.getElementById('main-menu');
     mapSelectionContainer = document.getElementById('map-selection-container');
     gameWrapper = document.getElementById('game-wrapper');
     gameOverScreen = document.getElementById('game-over-screen');
     canvas = document.getElementById('gameCanvas');
 
-    // --- Initialize UI and Buttons ---
     initializeMainMenu();
     
     document.getElementById('restart-button').onclick = () => {
