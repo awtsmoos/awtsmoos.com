@@ -77,7 +77,7 @@ export const TOWER_TYPES = {
 export const ENEMY_TYPES = {
     'cat': {
         emoji: '🐈‍⬛',
-        baseHealth: 80,
+        baseHealth: 50, // Reverted to 50 to make them easier
         speed: 1.2,
         perutaValue: 5,
         children: null,
