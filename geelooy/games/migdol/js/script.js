@@ -64,7 +64,7 @@ class Game {
         this.projectiles = [];
         this.groundEffects = [];
         this.particles = [];
-        this.perutas = 200;
+        this.perutas = 500;
         this.health = 50; // Increased for better playability
         this.waveManager = new WaveManager(this);
         this.selectedTower = null;

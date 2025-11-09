@@ -32,10 +32,10 @@ export const TOWER_TYPES = {
         emoji: '🚀',
         projectileEmoji: 'hebrew',
         projectileType: 'homing',
-        cost: 100,
+        cost: 75,
         baseDamage: 20,
         baseRange: TILE_SIZE * 2.5,
-        baseFireRate: 80, // 1 shot per 80 frames
+        baseFireRate: 70, // 1 shot per 80 frames
         upgradeCost: { damage: 50, speed: 60, range: 40 },
         maxRange: TILE_SIZE * 4,
     },
@@ -119,7 +119,7 @@ export const TOWER_TYPES = {
 export const ENEMY_TYPES = {
     'cat': {
         emoji: '🐈‍⬛',
-        baseHealth: 50,
+        baseHealth: 40,
         speed: 1.2,
         perutaValue: 5,
         children: null,
