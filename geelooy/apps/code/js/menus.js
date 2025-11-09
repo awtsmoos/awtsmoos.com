@@ -115,6 +115,7 @@ registerCustomMenus(menuConfigs) {
 
         this.positionAndDisplay(DOM.contextMenu, e);
     },
+    // B"H
 
     /**
      * Displays the main application menu (hamburger menu).
@@ -152,6 +153,25 @@ registerCustomMenus(menuConfigs) {
             { label: 'Settings', action: 'settings', icon: 'settings' }
         );
 
+        // --- THIS IS THE FIX FOR THE MENU ---
+        // Check for and add custom menus from the OS state
+        if (State.customMenus && State.customMenus.length > 0) {
+            menuItems.push({ isSeparator: true });
+
+            State.customMenus.forEach(customMenu => {
+                if (customMenu.items && Array.isArray(customMenu.items)) {
+                    customMenu.items.forEach(item => {
+                        menuItems.push({
+                            label: item.label,
+                            action: item.action, // Custom actions will be handled by the dispatcher
+                            icon: item.icon
+                        });
+                    });
+                }
+            });
+        }
+        // --- END FIX ---
+
         DOM.mainMenu.innerHTML = menuItems.map(i => {
             if (i.isSeparator) {
                 return `<hr class="menu-separator">`;
@@ -166,6 +186,8 @@ registerCustomMenus(menuConfigs) {
         const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
         this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
     },
+
+    
 
     /**
      * Hides all menus and cleans up associated state and listeners.

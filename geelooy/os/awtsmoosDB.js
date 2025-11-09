@@ -1,177 +1,134 @@
 //B"H
 /**
- * Awtsmoos - A wrapper class for IndexedDB operations
- * and more
- *
- * @example
- * // To write data
- * Awtsmoos.write('testStore', 'testKey', 'testValue')
- *   .then(() => console.log('Data written successfully'))
- *   .catch((error) => console.error('Error writing data: ', error));
- *
- * // To read data
- * Awtsmoos.read('testStore', 'testKey')
- *   .then((value) => console.log('Read value: ', value))
- *   .catch((error) => console.error('Error reading data: ', error));
- *
- * // Hebrew counterparts for write and read
- * Awtsmoos.Koysayv('testStore', 'testKey', 'testValue')
- *   .then(() => console.log('Data written successfully'))
- *   .catch((error) => console.error('Error writing data: ', error));
- *
- * Awtsmoos.Laynin('testStore', 'testKey')
- *   .then((value) => console.log('Read value: ', value))
- *   .catch((error) => console.error('Error reading data: ', error));
+ * AwtsmoosDB - A robust wrapper class for IndexedDB operations
+ * 
  */
-
 class AwtsmoosDB {
+    static db = null;
+    static dbName = 'myDatabase';
+    static dbVersion = 1;
+
     /**
-     * Opens the IndexedDB and gets the object store
-     *
-     * @param {string} storeName - The name of the object store
-     * @returns {Promise} - A promise that resolves with the object store
+     * Initializes the database connection.
      */
-    static getObjectStore(storeName) {
-        if(!storeName) return;
-      return new Promise((resolve, reject) => {
-        // Open (or create) the database
-        let openRequest = indexedDB.open('myDatabase', 1);
-  
-        openRequest.onupgradeneeded = function(event) {
-          // The database did not previously exist, so create object stores and indexes
-          let db = event.target.result;
-            
-          db.createObjectStore(storeName);
-        };
-  
-        openRequest.onsuccess = function(event) {
-          // The database was successfully opened (or created)
-          let db = event.target.result;
-            console.log("db",db,"made",storeName)
-          // Start a new transaction with the object store
-          let transaction = db.transaction([storeName], 'readwrite');
-  
-          // Get the object store
-          let objectStore = transaction.objectStore(storeName);
-  
-          resolve(objectStore);
-        };
-  
-        openRequest.onerror = function(event) {
-          // There was an error opening (or creating) the database
-          reject(event.target.error);
-        };
-      });
-    }
-  
-    /**
-     * Writes data to the IndexedDB
-     *
-     * @param {string} storeName - The name of the object store
-     * @param {string} key - The key for the data
-     * @param {any} value - The data to write
-     * @returns {Promise} - A promise that resolves when the data is written
-     */
-    static write(storeName, key, value) {
-      return this.getObjectStore(storeName).then((objectStore) => {
-        // Write the data to the object store
-        let request = objectStore.put(value, key);
-  
+    static async init() {
+        if (this.db) return;
+
+        // Check the current version of the database if it exists
+        try {
+            const databases = await indexedDB.databases();
+            const existingDb = databases.find(db => db.name === this.dbName);
+            if (existingDb && existingDb.version) {
+                this.dbVersion = existingDb.version;
+            }
+        } catch(e) {
+            console.warn("Could not read database list, may be unsupported by browser.");
+        }
+
+
         return new Promise((resolve, reject) => {
-          request.onsuccess = resolve;
-          request.onerror = () => reject(request.error);
+            const request = indexedDB.open(this.dbName, this.dbVersion);
+            request.onerror = (event) => reject("IndexedDB error: " + event.target.errorCode);
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve();
+            };
+            // This will only run if the version we open with is higher than the existing one
+            request.onupgradeneeded = (event) => {
+                this.db = event.target.result;
+            };
         });
-      });
     }
 
     /**
-     * Deletes data from the IndexedDB
-     *
-     * @param {string} storeName - The name of the object store
-     * @param {string} key - The key for the data to delete
-     * @returns {Promise} - A promise that resolves when the data is deleted
+     * Ensures an object store exists, upgrading the DB version if needed.
+     * @param {string} storeName - The name of the store to ensure exists.
      */
-    static delete(storeName, key) {
-      return new Promise((resolve, reject) => {
-          this.getObjectStore(storeName).then((objectStore) => {
-              // Delete the data from the object store
-              let request = objectStore.delete(key);
+    static async ensureStore(storeName) {
+        await this.init();
+        if (this.db.objectStoreNames.contains(storeName)) {
+            return; // Already exists
+        }
 
-              request.onsuccess = () => {
-                  resolve();
-              };
+        // If the store does not exist, we must close, upgrade version, and re-open
+        this.db.close();
+        this.db = null;
+        this.dbVersion++;
 
-              request.onerror = () => {
-                  reject(request.error);
-              };
-          }).catch(reject);
-      });
-  }
-  
-    /**
-     * Reads data from the IndexedDB
-     *
-     *```javascript
-    * @param {string} storeName - The name of the object store
-     * @param {string} key - The key for the data to read
-     * @returns {Promise} - A promise that resolves with the read data
-     */
-    static read(storeName, key) {
-      return this.getObjectStore(storeName).then((objectStore) => {
-        // Read the data from the object store
-        let request = objectStore.get(key);
-  
         return new Promise((resolve, reject) => {
-          request.onsuccess = () => resolve(request.result);
-          request.onerror = () => reject(request.error);
+            const request = indexedDB.open(this.dbName, this.dbVersion);
+            request.onerror = (event) => reject("IndexedDB upgrade error: " + event.target.errorCode);
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve();
+            };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(storeName)) {
+                    db.createObjectStore(storeName);
+                }
+            };
         });
-      });
     }
 
-
     /**
-     * Retrieves all keys from the specified object store in IndexedDB.
-     *
-     * @param {string} storeName - The name of the object store
-     * @returns {Promise<string[]>} - A promise that resolves with an array of keys
+     * Gets a transaction-ready object store.
+     * @param {string} storeName - The name of the object store.
+     * @param {string} mode - 'readwrite' or 'readonly'.
      */
-    static getAllKeys(storeName) {
-      return new Promise((resolve, reject) => {
-          this.getObjectStore(storeName).then(objectStore => {
-              let request = objectStore.getAllKeys();
+    static async getObjectStore(storeName, mode = 'readwrite') {
+        if (!storeName) return Promise.reject("Store name cannot be empty.");
+        await this.ensureStore(storeName);
+        const transaction = this.db.transaction(storeName, mode);
+        return transaction.objectStore(storeName);
+    }
+    
+    static async write(storeName, key, value) {
+        const objectStore = await this.getObjectStore(storeName, 'readwrite');
+        return new Promise((resolve, reject) => {
+            const request = objectStore.put(value, key);
+            request.onsuccess = resolve;
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-              request.onsuccess = () => {
-                  resolve(request.result);
-              };
+    static async read(storeName, key) {
+        // If a store doesn't exist, we can't read from it. It's an empty read.
+        await this.init();
+        if (!this.db.objectStoreNames.contains(storeName)) {
+            return undefined;
+        }
+        const objectStore = await this.getObjectStore(storeName, 'readonly');
+        return new Promise((resolve, reject) => {
+            const request = objectStore.get(key);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-              request.onerror = () => {
-                  reject(request.error);
-              };
-          }).catch(reject);
-      });
-  }
-
+    static async delete(storeName, key) {
+        const objectStore = await this.getObjectStore(storeName, 'readwrite');
+        return new Promise((resolve, reject) => {
+            const request = objectStore.delete(key);
+            request.onsuccess = resolve;
+            request.onerror = () => reject(request.error);
+        });
+    }
+    
+    static async getAllKeys(storeName) {
+        // If a store doesn't exist, it has no keys. Return an empty array.
+        await this.init();
+        if (!this.db.objectStoreNames.contains(storeName)) {
+            return [];
+        }
+        const objectStore = await this.getObjectStore(storeName, 'readonly');
+        return new Promise((resolve, reject) => {
+            const request = objectStore.getAllKeys();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
   
-    /**
-     * Writes data to the IndexedDB (Hebrew counterpart of write)
-     *
-     * @param {string} storeName - The name of the object store
-     * @param {string} key - The key for the data
-     * @param {any} value - The data to write
-     * @returns {Promise} - A promise that resolves when the data is written
-     */
-    static Koysayv(storeName, key, value) {
-      return this.write(storeName, key, value);
-    }
-  
-    /**
-     * Reads data from the IndexedDB (Hebrew counterpart of read)
-     *
-     * @param {string} storeName - The name of the object store
-     * @param {string} key - The key for the data to read
-     * @returns {Promise} - A promise that resolves with the read data
-     */
-    static Laynin(storeName, key) {
-      return this.read(storeName, key);
-    }
-  }
+    static Koysayv(storeName, key, value) { return this.write(storeName, key, value); }
+    static Laynin(storeName, key) { return this.read(storeName, key); }
+}

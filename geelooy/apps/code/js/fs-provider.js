@@ -674,24 +674,17 @@ PostMessage: {
 
     
 
-// B"H 
-// FILE: js/fs-provider.js
-
-// ... (rest of the file is unchanged) ...
 
 OSFolder: {
     // Helper function to send a request and wait for a response
-    
     _requestFromOS(type, payload) {
         return new Promise((resolve, reject) => {
-            //  Use the shared state variables
             const requestId = State.postMessageRequestId++;
             State.postMessagePendingRequests.set(requestId, { resolve, reject });
             
             window.parent.postMessage({ type, payload, requestId }, '*');
             
             setTimeout(() => {
-                // Use the shared state map
                 if (State.postMessagePendingRequests.has(requestId)) {
                     State.postMessagePendingRequests.delete(requestId);
                     reject(new Error(`Request timed out: ${type}`));
@@ -701,14 +694,31 @@ OSFolder: {
     },
     
     async list(item) {
-        const response = await this._requestFromOS('requestFolderList', { path: item.path });
-        // The OS just sends back names, we need to format them for the editor's tree view
+        // --- THIS IS THE FIX ---
+        // 1. Determine the REAL path to request from the OS.
+        let pathForOSRequest = item.path;
+        
+        // 2. If the editor is asking for the root ('/'), it's a special case.
+        //    We need to find the actual workspace path from our state.
+        if (item.path === '/' && item.workspaceId) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            if (workspace && workspace.type === 'osfolder') {
+                // We found the workspace! Use its full path instead of '/'.
+                pathForOSRequest = workspace.path;
+            }
+        }
+        
+        // 3. Make the request to the OS using the corrected path.
+        const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
+
+        // 4. Map the response, building the full, correct path for each child item.
         return response.items.map(name => ({
             name,
             kind: name.endsWith('.folder') ? 'directory' : 'file',
-            // **THE FIX IS HERE:** We construct the full, correct path for each child item.
-            path: item.path === '/' ? `/${name}` : `${item.path}/${name}`
+            // Use the corrected path as the base for the children's paths.
+            path: `${pathForOSRequest}/${name}`
         }));
+        // --- END FIX ---
     },
 
     async read(item) {
@@ -717,10 +727,7 @@ OSFolder: {
         return response.content;
     },
     
-    
-    
     async write(item, content) {
-        // We no longer need to separate path and name here; the OS will do it.
         await this._requestFromOS('requestFileWrite', {
             fullPath: item.path,
             content: content
@@ -735,7 +742,6 @@ OSFolder: {
         });
     },
     
-    
     async delete(item) {
         await this._requestFromOS('requestItemDelete', {
             fullPath: item.path,
@@ -743,6 +749,7 @@ OSFolder: {
         });
     }
 },
+
 
 
 
