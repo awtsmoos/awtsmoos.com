@@ -158,10 +158,10 @@ export default ({
         pathBarDisplay = createElement({ tag: 'div', attributes: { class: 'path-bar-display' }});
         pathInput = createElement({ tag: 'input', attributes: { type: 'text', class: 'path-input' } });
         
+        // Create the parent element first
         const pathBar = createElement({
             tag: 'div',
             attributes: { class: 'path-bar' },
-            children: [ pathBarDisplay, pathInput ],
             on: {
                 click: (e) => {
                     if (e.target.classList.contains('path-bar') || e.target.classList.contains('path-bar-display')) {
@@ -173,6 +173,10 @@ export default ({
                 }
             }
         });
+
+        // Manually append the already-created child elements
+        pathBar.appendChild(pathBarDisplay);
+        pathBar.appendChild(pathInput);
 
         pathInput.addEventListener('blur', () => {
             pathBarDisplay.style.display = 'flex';
@@ -208,6 +212,7 @@ export default ({
                     const toggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
                     const nameSpan = createElement({
                         tag: 'span',
+                        attributes: { class: 'node-name' },
                         html: item.replace('.folder', ''),
                         on: { click: () => navigateTo(folderPath) }
                     });
