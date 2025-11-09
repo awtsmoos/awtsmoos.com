@@ -360,6 +360,7 @@ function _getJSToken(line, i, state) {
 	}
 	const ctlK = new Set(['import',
 		'as', 'from', 'export',
+		'default',
 		'async', 'function',
 		'await', 'if', 'else',
 		'return', 'for',

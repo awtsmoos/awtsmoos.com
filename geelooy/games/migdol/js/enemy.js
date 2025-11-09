@@ -1,7 +1,7 @@
 //B"H
 
 import { TILE_SIZE } from './config.js';
-
+ 
 export default class Enemy {
     constructor(type, healthMultiplier, path) {
         this.path = path;
