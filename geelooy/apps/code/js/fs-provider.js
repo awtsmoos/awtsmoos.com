@@ -675,6 +675,7 @@ PostMessage: {
     
 
 
+
 OSFolder: {
     // Helper function to send a request and wait for a response
     _requestFromOS(type, payload) {
@@ -693,32 +694,37 @@ OSFolder: {
         });
     },
     
+    // --- THIS IS THE CORRECTED FUNCTION ---
     async list(item) {
-        // --- THIS IS THE FIX ---
-        // 1. Determine the REAL path to request from the OS.
-        let pathForOSRequest = item.path;
-        
-        // 2. If the editor is asking for the root ('/'), it's a special case.
-        //    We need to find the actual workspace path from our state.
-        if (item.path === '/' && item.workspaceId) {
-            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-            if (workspace && workspace.type === 'osfolder') {
-                // We found the workspace! Use its full path instead of '/'.
-                pathForOSRequest = workspace.path;
-            }
+        // Step 1: Find the corresponding workspace in the state using the workspaceId.
+        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+
+        // Safety check: If we can't find the workspace, we can't proceed.
+        if (!workspace || workspace.type !== 'osfolder') {
+            console.error("OSFolder provider could not find a valid workspace for item:", item);
+            throw new Error("Could not find OS folder workspace.");
         }
-        
-        // 3. Make the request to the OS using the corrected path.
+
+        // Step 2: Get the REAL base path from the workspace object.
+        // This is the crucial link, e.g., "desktop.folder/add from new chabad library.folder"
+        const basePath = workspace.path;
+
+        // Step 3: Translate the editor's path into the OS's absolute path.
+        // If the editor asks for the root ('/'), we use the basePath.
+        // If it asks for a sub-path like '/folderA', we append it to the basePath.
+        const pathForOSRequest = basePath + (item.path === '/' ? '' : item.path);
+
+        // Step 4: Make the request to the OS using the true, fully-qualified path.
         const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
 
-        // 4. Map the response, building the full, correct path for each child item.
+        // Step 5: Map the response. For each child item the OS returns,
+        // we construct its full path so the editor can work with it for subsequent actions.
         return response.items.map(name => ({
             name,
             kind: name.endsWith('.folder') ? 'directory' : 'file',
-            // Use the corrected path as the base for the children's paths.
+            // The path for the child is its parent's full path plus its own name.
             path: `${pathForOSRequest}/${name}`
         }));
-        // --- END FIX ---
     },
 
     async read(item) {
