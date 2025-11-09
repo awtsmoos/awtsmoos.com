@@ -28,159 +28,175 @@ export const Workspaces = {
         State.workspaces.forEach(ws => this.renderWorkspace(ws, DOM.workspacesContainer));
     },
 
-    
+    add(ws, shouldSave = true) {
+        const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
+        if (emptyMessage) {
+            DOM.workspacesContainer.innerHTML = '';
+        }
+        
+        const isNew = ws.id === undefined;
+        const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
+        
+        State.workspaces.push(newWs);
+        
+        if (shouldSave) {
+            this.renderWorkspace(newWs, DOM.workspacesContainer);
+            App.saveSession();
+        }
+    },
 
-
-    
-// In workspaces.js, replace the 'add' method
-
-add(ws, shouldSave = true) {
-    const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
-    if (emptyMessage) {
+    render() {
         DOM.workspacesContainer.innerHTML = '';
-    }
-    
-    const isNew = ws.id === undefined;
-    const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
-    State.workspaces.push(newWs);
-    
-    // We will let the main render() call handle the drawing.
-    
-    if (shouldSave) {
-        App.saveSession();
-    }
-},
+        State.domItemMap.clear();
+        if (State.workspaces.length === 0) {
+            DOM.workspacesContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Add a workspace to begin.</div>`;
+            return;
+        }
+        State.workspaces.forEach(ws => this.renderWorkspace(ws, DOM.workspacesContainer));
+    },
 
-// In workspaces.js, replace the 'renderWorkspace' method
+    
 
 renderWorkspace(ws, container) {
-    const wsRoot = document.createElement('div');
-    wsRoot.className = 'workspace-root';
-    const uniquePath = getItemUniquePath(ws);
+        const wsRoot = document.createElement('div');
+        wsRoot.className = 'workspace-root';
+        const uniquePath = getItemUniquePath(ws);
+        const isExpanded = State.expandedFolders.has(uniquePath);
+        if (isExpanded) wsRoot.classList.add('expanded');
 
-    // This is now synchronous, but that's okay. The icon will appear after the async check completes.
-    const icon = ws.type === 'local' ? 'laptop' : 
-                 ws.type === 'github' ? 'github' : 
-                 ws.type === 'osfolder' ? 'folder' :
-                 'brain';
+        const icon = ws.isClone ? 'git-folder' : 
+                     ws.type === 'local' ? 'laptop' : 
+                     ws.type === 'github' ? 'github' : 'brain';
 
-    wsRoot.innerHTML = /*html*/ `
-        <div class="workspace-header">
-            <div class="workspace-header-title">
-                <strong>
-                    <svg class="svg-icon" id="ws-icon-${ws.id}"><use href="#icon-${icon}"></use></svg>
-                    ${ws.name}
-                </strong>
+        wsRoot.innerHTML = /*html*/ `
+            <div class="workspace-header">
+                <div class="workspace-header-title">
+                    <strong>
+                        <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
+                        ${ws.name}
+                    </strong>
+                </div>
+                <div class="workspace-header-actions">
+                    ${ws.isClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
+                </div>
             </div>
-            <div class="workspace-header-actions" id="ws-actions-${ws.id}"></div>
-        </div>
-    `;
-    
-    container.appendChild(wsRoot);
-    const header = wsRoot.querySelector('.workspace-header');
-    const rootItemForTree = { ...ws, workspaceId: ws.id, kind: 'directory' };
+        `;
+        
+        container.appendChild(wsRoot);
+        const header = wsRoot.querySelector('.workspace-header');
+        const headerTitle = header.querySelector('.workspace-header-title');
 
-    // Asynchronously check for Git status and update the UI after the fact
-    GitMetaProvider.getGitInfoForFolder(rootItemForTree).then(gitInfo => {
-        if (gitInfo) {
-            const iconEl = wsRoot.querySelector(`#ws-icon-${ws.id} use`);
-            if (iconEl) iconEl.setAttribute('href', '#icon-git-folder');
-            
-            const actionsContainer = wsRoot.querySelector(`#ws-actions-${ws.id}`);
-            if (actionsContainer) {
-                const gitBtn = document.createElement('button');
-                gitBtn.className = 'icon-button git-actions-btn';
-                gitBtn.title = 'Git Actions';
-                gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
-                gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItemForTree); };
-                actionsContainer.appendChild(gitBtn);
+        headerTitle.onclick = () => {
+            if (State.expandedFolders.has(uniquePath)) {
+                State.expandedFolders.delete(uniquePath);
+                wsRoot.classList.remove('expanded');
+                wsRoot.querySelector('ul')?.remove();
+            } else {
+                State.expandedFolders.add(uniquePath);
+                wsRoot.classList.add('expanded');
+                const tree = document.createElement('ul');
+                tree.className = 'workspace-tree';
+                wsRoot.appendChild(tree);
+                this.renderTree(tree, { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' }, 1);
             }
+            App.saveSession();
+        };
+
+        header.oncontextmenu = (e) => Menus.show(e, { ...ws, path: '/', kind: 'directory' });
+        
+        const gitBtn = header.querySelector('.git-actions-btn');
+        if (gitBtn) {
+            gitBtn.onclick = (e) => {
+                e.stopPropagation();
+                GitManager.showGitUI(ws);
+            };
         }
-    });
+        
+        const rootItem = { ...ws, path: '/', workspaceId: ws.id };
+        State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
 
-    header.onclick = (e) => {
-        if (e.target.closest('.git-actions-btn')) return;
-
-        const tree = wsRoot.querySelector('ul.workspace-tree');
-        if (tree) {
-            tree.remove();
-            wsRoot.classList.remove('expanded');
-            State.expandedFolders.delete(uniquePath);
-        } else {
-            const newTree = document.createElement('ul');
-            newTree.className = 'workspace-tree';
-            wsRoot.appendChild(newTree);
-            wsRoot.classList.add('expanded');
-            State.expandedFolders.add(uniquePath);
-            this.renderTree(newTree, rootItemForTree, 1);
+        if (isExpanded) {
+           const tree = document.createElement('ul');
+           tree.className = 'workspace-tree';
+           wsRoot.appendChild(tree);
+           this.renderTree(tree, rootItem, 1);
         }
-        App.saveSession();
-    };
-
-    header.oncontextmenu = (e) => Menus.show(e, rootItemForTree);
-    
-    State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItemForTree });
-
-    if (State.expandedFolders.has(uniquePath)) {
-       wsRoot.classList.add('expanded');
-       const tree = document.createElement('ul');
-       tree.className = 'workspace-tree';
-       wsRoot.appendChild(tree);
-       this.renderTree(tree, rootItemForTree, 1);
-    }
-},
-
+    },
     
 
 
-// In workspaces.js, replace the entire renderTree method
+    
 
+// REPLACE your existing renderTree function with this complete one.
 async renderTree(parentElement, parentItem, depth) {
+    // 1. Initial setup and fetch children
     parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
     try {
         const children = await FileSystemProvider.list(parentItem);
-        parentElement.innerHTML = ''; // Clear "Loading..."
-
+        parentElement.innerHTML = ''; // Clear "Loading..." message
         children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
         
         if (children.length === 0) {
-            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">(empty)</li>`;
+            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
             return;
         }
 
-        for (const child of children) {
-            if (child.name === '.gitkeep' || child.name === '.awtsmoos-repo') continue;
+        // 2. Process all children asynchronously and wait for them to finish
+        await Promise.all(children.map(async (child) => {
+            // Skip special directories we don't want to display
+            if (child.name === '.gitkeep'
+            // || child.name === '.awtsmoos-repo'
+             ) {
+                return;
+            }
 
-            // --- THE CRITICAL FIX IS HERE ---
-            // Find the original root workspace to get the correct 'type' (e.g., 'indexeddb', 'osfolder').
-            const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
-            if (!workspace) continue; // Safety check
-
-            // Construct the child item using the workspace as the base, NOT the parentItem.
+            // 3. Prepare item data
+            const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
+            const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
+            if (!workspace) {
+                console.error("Could not find parent workspace for item:", child);
+                return;
+            }
             const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
-            // --- END OF FIX ---
-
             const uniquePath = getItemUniquePath(fullChildItem);
             
-            const gitInfo = child.kind === 'directory' ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) : null;
+            // 4. Asynchronously check if this folder is a Git clone by looking for ikar.js
+            const gitInfo = child.kind === 'directory' 
+                ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) 
+                : null;
             const isGitClone = !!gitInfo;
-            const icon = isGitClone ? 'git-folder' : (child.kind === 'directory' ? 'folder' : 'file');
 
+            // 5. Determine the correct icon
+            let icon = child.kind === 'directory' ? 'folder' : 'file';
+            if (isGitClone) {
+                icon = 'git-branch'; // Use a Git icon for the folder
+            }
+
+            // 6. Create the HTML for the list item
             const li = document.createElement('li');
             li.className = 'tree-item';
             li.style.setProperty('--depth', depth);
             li.innerHTML = `
                 <div class="tree-item-name-wrap">
-                    <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : ''}</span>
+                    <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
                     <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
-                    <span class="tree-item-name">${child.name.replace('.folder','')}</span>
-                    ${isGitClone ? `<div class="tree-item-actions"><button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button></div>` : ''}
+                    <span class="tree-item-name">${child.name}</span>
+                    <div class="tree-item-actions">
+                        ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-folder"></use></svg></button>` : ''}
+                    </div>
                 </div>`;
             
+            // 7. Append to the DOM and attach event listeners
             parentElement.appendChild(li);
             const nameWrap = li.querySelector('.tree-item-name-wrap');
+
             const gitBtn = li.querySelector('.git-actions-btn');
-            if (gitBtn) gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(fullChildItem); };
+            if (gitBtn) {
+                gitBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    GitManager.showGitUI(fullChildItem); // Pass the folder item
+                };
+            }
             
             nameWrap.onclick = (e) => {
                 e.stopPropagation();
@@ -207,22 +223,35 @@ async renderTree(parentElement, parentItem, depth) {
                 }
             };
 
-            nameWrap.oncontextmenu = (e) => Menus.show(e, fullChildItem);
+            nameWrap.oncontextmenu = (e) => {
+                State.contextEvent = e;
+                Menus.show(e, fullChildItem);
+            };
             
+            // 8. Update state and handle recursion for expanded folders
             State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
 
-            if (State.expandedFolders.has(uniquePath)) {
+            const isExpanded = State.expandedFolders.has(uniquePath);
+            if (isExpanded) {
                 li.classList.add('expanded');
                 const newUl = document.createElement('ul');
                 li.appendChild(newUl);
+                // Recursion is safe here because we've already finished the async check for this level
                 this.renderTree(newUl, fullChildItem, depth + 1);
             }
-        }
+        })); // End of Promise.all
+
     } catch (e) {
         console.error("Error rendering tree:", e);
-        parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error rendering: ${e.message}</li>`;
+        parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
     }
 },
+    
+
+
+    
+
+
     
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
