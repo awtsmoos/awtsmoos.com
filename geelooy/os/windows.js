@@ -216,51 +216,39 @@ export default class ResizableWindow {
             startLeft = this.win.offsetLeft;
             startTop = this.win.offsetTop;
 
-            const getNewWidth = (x, dir = 1) => startWidth + dir * (x - startX);
-            const getNewHeight = (y, dir = 1) => startHeight + dir * (y - startY);
-
-            const resizeHorizontal = (x, dir = 1) => {
-                const newWidth = getNewWidth(x, dir);
-                if (newWidth <= this.minWidth) return null;
-                this.win.style.width = `${newWidth}px`;
-                return newWidth;
-            };
-
-            const resizeVertical = (y, dir = 1) => {
-                const newHeight = getNewHeight(y, dir);
-                if (newHeight <= this.minHeight) return null;
-                this.win.style.height = `${newHeight}px`;
-                return newHeight;
-            };
-
-            const moveLeft = (x, dir = 1, nw) => {
-                if (nw !== null && nw > this.minWidth) {
-                    this.win.style.left = `${startLeft - dir * (x - startX)}px`;
-                }
-            };
-
-            const moveTop = (y, dir = 1, nh) => {
-                if (nh !== null && nh > this.minHeight) {
-                    this.win.style.top = `${startTop - dir * (y - startY)}px`;
-                }
-            };
-
-            const resizeOperations = {
-                'e': (x, y) => resizeHorizontal(x),
-                'w': (x, y) => moveLeft(x, -1, resizeHorizontal(x, -1)),
-                's': (x, y) => resizeVertical(y),
-                'n': (x, y) => moveTop(y, -1, resizeVertical(y, -1)),
-                'ne': (x, y) => { resizeOperations.n(x, y); resizeOperations.e(x, y); },
-                'se': (x, y) => { resizeOperations.s(x, y); resizeOperations.e(x, y); },
-                'sw': (x, y) => { resizeOperations.s(x, y); resizeOperations.w(x, y); },
-                'nw': (x, y) => { resizeOperations.n(x, y); resizeOperations.w(x, y); }
-            };
-
             const resize = (e) => {
                 const event = e.touches ? e.touches[0] : e;
-                if (resizeOperations[resizeDirection]) {
-                    resizeOperations[resizeDirection](event.clientX, event.clientY);
+                const currentX = event.clientX;
+                const currentY = event.clientY;
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
+
+                // Horizontal Resizing (East/West)
+                if (resizeDirection.includes('e')) {
+                    const newWidth = startWidth + deltaX;
+                    if (newWidth > this.minWidth) this.win.style.width = `${newWidth}px`;
                 }
+                if (resizeDirection.includes('w')) {
+                    const newWidth = startWidth - deltaX;
+                    if (newWidth > this.minWidth) {
+                        this.win.style.width = `${newWidth}px`;
+                        this.win.style.left = `${startLeft + deltaX}px`;
+                    }
+                }
+
+                // Vertical Resizing (North/South)
+                if (resizeDirection.includes('s')) {
+                    const newHeight = startHeight + deltaY;
+                    if (newHeight > this.minHeight) this.win.style.height = `${newHeight}px`;
+                }
+                if (resizeDirection.includes('n')) {
+                    const newHeight = startHeight - deltaY;
+                    if (newHeight > this.minHeight) {
+                        this.win.style.height = `${newHeight}px`;
+                        this.win.style.top = `${startTop + deltaY}px`;
+                    }
+                }
+
                 self?.onresize?.(e);
             };
 

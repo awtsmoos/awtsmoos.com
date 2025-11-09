@@ -120,7 +120,8 @@ export default /*css*/`
 .file-explorer.sidebar-collapsed .file-explorer-sidebar {
     width: 0;
     min-width: 0;
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
     overflow: hidden;
     border-right-width: 0;
 }
