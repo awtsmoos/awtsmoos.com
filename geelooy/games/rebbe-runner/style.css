@@ -1,69 +1,83 @@
 /*B"H*/
-body {
+/* Force full-screen with no scrolling */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f8ff; /* Fallback background */
+}
+
+/* Make the game container a simple overlay anchor */
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f8ff;
     font-family: 'Helvetica', 'Arial', sans-serif;
-    color: #333;
-    overflow: hidden; /* Prevents scrollbars */
 }
 
-#gameContainer {
+/* The canvas will be the absolute bottom layer */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* No border needed, it will be the full background */
+}
+
+/* Style the overlays to appear on top of the canvas */
+#startScreen, #gameOverScreen, #instructions, h1 {
+    position: relative; /* Takes it out of the canvas layer */
+    z-index: 10;
     text-align: center;
-    position: relative;
-    max-width: 90%;
-    max-height: 90%;
-}
-
-h1 {
     color: #003366;
 }
 
-canvas {
-    background-color: #ffffff;
-    border: 2px solid #003366;
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.7); /* Add this for readability */
+    padding: 5px 15px; /* Add some padding */
+    border-radius: 10px; /* Add rounded corners */
 }
 
 #instructions {
-    margin-top: 10px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     font-style: italic;
     color: #555;
+    
+    user-select: none; /* Add this line to prevent text selection */
+    -webkit-user-select: none; /* For older Safari browsers */
+    -moz-user-select: none; /* For older Firefox browsers */
 }
 
 #startScreen, #gameOverScreen {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 25px;
     border-radius: 10px;
-    font-size: 1.2em;
+    
+    user-select: none; /* Add this line to prevent text selection */
+    -webkit-user-select: none; /* For older Safari browsers */
+    -moz-user-select: none; /* For older Firefox browsers */
+    
+    font-size: 1.5em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Responsive Design */
-.mobile-only {
-    display: none;
-}
-
+/* Responsive Font Sizes and Instructions */
+.mobile-only { display: none; }
 @media (max-width: 768px) {
-    .desktop-only {
-        display: none;
-    }
-    .mobile-only {
-        display: block;
-    }
-    h1 {
-        font-size: 1.5em;
-    }
-    #instructions {
-        font-size: 0.9em;
-    }
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+    h1 { font-size: 1.5em; }
 }

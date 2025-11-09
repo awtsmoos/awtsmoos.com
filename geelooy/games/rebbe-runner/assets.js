@@ -19,17 +19,25 @@ class Player {
     }
 
     draw() {
-        // Draw the yamulka (a half-circle)
-        ctx.beginPath();
-        ctx.arc(this.x, this.y - this.radius, this.radius / 1.5, Math.PI, 2 * Math.PI);
-        ctx.fillStyle = 'black';
-        ctx.fill();
+        ctx.save(); // Save the current state of the canvas
 
-        // Draw the Chossid emoji
+        // --- FIX: Flip the canvas context horizontally ---
+        ctx.scale(-1, 1);
+
+        // --- FIX: Draw the emoji at a negative X position to appear correctly ---
         ctx.font = `${this.radius * 2}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(this.emoji, this.x, this.y);
+        ctx.fillText(this.emoji, -this.x, this.y);
+
+        // --- FIX: Draw a smaller, better-positioned yarmulka ---
+        ctx.beginPath();
+        // The radius is smaller (this.radius / 2.2) and it's drawn at the flipped coordinate
+        ctx.arc(-this.x, this.y - this.radius, this.radius / 4, Math.PI, 2 * Math.PI);
+        
+        ctx.fill();
+
+        ctx.restore(); // Restore the canvas to its original state for other drawings
     }
 
     jump() {
