@@ -136,14 +136,15 @@ export const ENEMY_TYPES = {
         baseHealth: 85,
         speed: 0.8,
         perutaValue: 25,
-        children: { type: 'tiger', count: 2 },
+        children: { type: 'tiger', count: 3 },
     },
     'golem': { 
         emoji: '🗿',
         baseHealth: 100,
         speed: 0.6,
         perutaValue: 75,
-        children: { type: 'tiger', count: 3 },
+        children: { type: 'gorilla', count: 7 },
+        
         slowResistance: 0.5,
     },
     'armored': {
@@ -177,27 +178,31 @@ export const ENEMY_TYPES = {
         baseHealth: 40,
         speed: 1.9, // fast
         perutaValue: 6,
-        children: null,
+        children: { type: 'flyer', count: 7 },
+        
     },
     'fox': {
         emoji: '🦊',
         baseHealth: 65,
         speed: 1.5,
         perutaValue: 12,
-        children: null,
+        children: { type: 'snake', count: 3 },
+        
     },
     'crocodile': {
         emoji: '🐊',
         baseHealth: 130,
         speed: 0.9,
         perutaValue: 22,
-        children: null,
+        children: { type:'fox', count: 5 },
+        
     },
     'elephant': {
         emoji: '🐘',
         baseHealth: 300,
-        speed: 0.5, // very slow
+        speed: 0.4, // very slow
         perutaValue: 60,
-        children: null,
+        children: { type: 'golem', count: 6},
+        
     }
 };
