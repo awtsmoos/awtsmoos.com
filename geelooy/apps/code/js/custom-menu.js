@@ -1,93 +1,104 @@
 // B"H
+// FILE: js/custom-menu.js
 
+import { State, DOM } from './state.js';
 import { Menus } from './menus.js';
 
-export const CustomMenu = {
-    container: null,
+let activeCustomDropdown = null;
 
+// This function will now be responsible for closing the custom menu
+const hideCustomMenu = () => {
+    if (activeCustomDropdown) {
+        activeCustomDropdown.style.display = 'none';
+        activeCustomDropdown = null;
+        // Clean up the event listener
+        document.removeEventListener('click', hideCustomMenu);
+    }
+};
+
+export const CustomMenu = {
     init() {
-        this.container = document.getElementById('custom-menu-container');
-        if (!this.container) {
-            console.error("Custom menu container not found!");
-        }
-        // Listen for registration messages from the parent (the OS)
-        window.addEventListener('message', (event) => {
-            if (event.data?.type === 'registerMenus') {
-                this.buildFromConfig(event.data.payload);
+        // We listen for clicks on the container to handle any custom menu button
+        DOM.customMenuContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.menu-bar-button');
+            if (!button) return;
+
+            // Stop this click from immediately closing the menu via the document listener
+            e.stopPropagation();
+            
+            // Hide any other standard menus that might be open
+            Menus.hideAll(); 
+
+            const menu = button.closest('.custom-menu');
+            const dropdown = menu.querySelector('.custom-menu-dropdown');
+
+            // If a different custom menu is already open, hide it first
+            if (activeCustomDropdown && activeCustomDropdown !== dropdown) {
+                hideCustomMenu();
+            }
+
+            // --- THIS IS THE CORE FIX ---
+            
+            // 1. Move the dropdown to be a direct child of the body.
+            //    This breaks it out of all clipping and stacking contexts.
+            document.body.appendChild(dropdown);
+
+            // 2. Calculate the exact position of the button that was clicked.
+            const rect = button.getBoundingClientRect();
+
+            // 3. Position the dropdown using 'fixed' (relative to the viewport)
+            //    right underneath the button.
+            dropdown.style.position = 'fixed';
+            dropdown.style.top = `${rect.bottom + 4}px`; // 4px gap
+            dropdown.style.left = `${rect.left}px`;
+
+            // 4. Toggle the display.
+            const isVisible = dropdown.style.display === 'block';
+            if (isVisible) {
+                hideCustomMenu();
+            } else {
+                dropdown.style.display = 'block';
+                activeCustomDropdown = dropdown;
+                // Add a one-time listener to the whole document to close the menu
+                // if the user clicks anywhere else.
+                setTimeout(() => document.addEventListener('click', hideCustomMenu), 0);
             }
         });
     },
 
-    /**
-     * Builds all custom menus from a configuration object.
-     * @param {Array<object>} menuConfigs - An array of menu configuration objects.
-     * Example: [{ title: 'Awtsmoos', items: [{ label: 'Run', action: 'run-js' }] }]
-     */
-    buildFromConfig(menuConfigs) {
-        if (!this.container || !Array.isArray(menuConfigs)) return;
+    create(menuConfig) {
+        if (!menuConfig || !menuConfig.items) return;
 
-        // Clear any existing custom menus
-        this.container.innerHTML = '';
+        const menuDiv = document.createElement('div');
+        menuDiv.className = 'custom-menu';
 
-        menuConfigs.forEach(config => {
-            const menuEl = this.createMenu(config);
-            this.container.appendChild(menuEl);
-        });
-    },
-
-    /**
-     * Creates a single menu element from a config object.
-     * @param {object} config - A configuration for one menu.
-     */
-    createMenu(config) {
-        const menuContainer = document.createElement('div');
-        menuContainer.className = 'custom-menu';
-
-        const button = document.createElement('button');
-        button.className = 'menu-bar-button';
-        button.innerHTML = config.title; // The title can be HTML
-
+        const menuBarButton = document.createElement('button');
+        menuBarButton.className = 'menu-bar-button';
+        menuBarButton.textContent = menuConfig.title || 'Menu';
+        
         const dropdown = document.createElement('div');
         dropdown.className = 'custom-menu-dropdown';
 
-        // Populate dropdown with items
-        config.items.forEach(item => {
-            const itemButton = document.createElement('button');
-            itemButton.className = 'menu-button';
-            itemButton.dataset.action = item.action;
-            
-            let iconHTML = '';
-            if (item.icon) {
-                // Allows for SVG icon names or full <svg> tags
-                const isIconName = !item.icon.trim().startsWith('<');
-                iconHTML = isIconName 
-                    ? `<svg class="svg-icon"><use href="#icon-${item.icon}"/></svg>`
-                    : item.icon;
-            }
-            
-            itemButton.innerHTML = `${iconHTML} ${item.label}`;
-            dropdown.appendChild(itemButton);
+        menuConfig.items.forEach(item => {
+            const button = document.createElement('button');
+            button.className = 'menu-button';
+            button.dataset.action = item.action;
+            button.innerHTML = `
+                <svg class="svg-icon"><use href="#icon-${item.icon || 'file'}"></use></svg>
+                <span>${item.label}</span>
+            `;
+            // This click will be handled by the main menu handler
+            button.addEventListener('click', (e) => {
+                Menus.handleAction(item.action);
+                hideCustomMenu(); // Close menu after action
+            });
+            dropdown.appendChild(button);
         });
 
-        menuContainer.append(button, dropdown);
+        menuDiv.appendChild(menuBarButton);
+        // IMPORTANT: We append the dropdown here initially, but our 'show' logic will move it.
+        menuDiv.appendChild(dropdown); 
 
-        // --- Attach Event Listeners ---
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isVisible = dropdown.style.display === 'block';
-            Menus.hideAll(); // Hide other menus
-            // Hide all other custom dropdowns before showing this one
-            document.querySelectorAll('.custom-menu-dropdown').forEach(d => d.style.display = 'none');
-            dropdown.style.display = isVisible ? 'none' : 'block';
-        });
-
-        dropdown.addEventListener('click', (e) => {
-            const actionButton = e.target.closest('button[data-action]');
-            if (actionButton) {
-                Menus.handleAction(actionButton.dataset.action);
-            }
-        });
-
-        return menuContainer;
+        DOM.customMenuContainer.appendChild(menuDiv);
     }
 };
