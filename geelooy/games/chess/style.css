@@ -80,18 +80,21 @@ display: none;
     text-shadow: 2px 2px 4px #000;
 }
 
-/* NEW: Styles for the captured pieces display */
 .captured-pieces-container {
-    height: 40px;
-    width: calc(100vw-200px);
+    height: 90px; /* Increased height for two rows */
+    width: 100%; /* Use full width up to max-width */
     max-width: 500px;
-    
-    
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 28px;
     color: #ccc;
-    overflow-x:scroll;
+    /* overflow-x: scroll; <-- REMOVED */
     margin: 5px 0;
-    
+    display: flex; /* Helps center the canvas */
+    justify-content: center;
 }
+
+
+
+
+

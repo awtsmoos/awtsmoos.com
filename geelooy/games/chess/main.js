@@ -690,28 +690,50 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 	function drawCapturedPieces() {
-		const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
-		const capturedPieceSize = 45; // A good size for the captured area
-		const padding = 5;
+	const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
+	const capturedPieceSize = 40; // Slightly smaller to fit better
+	const padding = 5;
+    const rowHeight = 45; // The vertical space for each row
 
-		// Clear the canvases before redrawing
-		capturedWhiteCtx.clearRect(0, 0, capturedByWhiteCanvas.width, capturedByWhiteCanvas.height);
-		capturedBlackCtx.clearRect(0, 0, capturedByBlackCanvas.width, capturedByBlackCanvas.height);
+	// Clear the canvases before redrawing
+	capturedWhiteCtx.clearRect(0, 0, capturedByWhiteCanvas.width, capturedByWhiteCanvas.height);
+	capturedBlackCtx.clearRect(0, 0, capturedByBlackCanvas.width, capturedByBlackCanvas.height);
 
-		// Draw pieces captured by White (these are black pieces)
-		gameState.capturedByWhite.sort(sortPieces).forEach((p, i) => {
-			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
-			const y = capturedByWhiteCanvas.height / 2; // Center vertically
-			renderPiece(capturedWhiteCtx, p, x, y, capturedPieceSize);
-		});
+    // --- Logic for drawing pieces captured by White (black pieces) ---
+    let currentXWhite = padding;
+    let currentYWhite = rowHeight / 2;
+	gameState.capturedByWhite.sort(sortPieces).forEach((p, i) => {
+        // Check if adding the next piece would overflow the canvas width
+        if (currentXWhite + capturedPieceSize > capturedByWhiteCanvas.width) {
+            // Move to the next row
+            currentXWhite = padding;
+            currentYWhite += rowHeight;
+        }
+		// Center the piece in its "slot"
+		const x = currentXWhite + (capturedPieceSize / 2);
+		renderPiece(capturedWhiteCtx, p, x, currentYWhite, capturedPieceSize);
+        // Advance the x-coordinate for the next piece
+        currentXWhite += capturedPieceSize;
+	});
 
-		// Draw pieces captured by Black (these are white pieces)
-		gameState.capturedByBlack.sort(sortPieces).forEach((p, i) => {
-			const x = padding + (i * capturedPieceSize) + (capturedPieceSize / 2);
-			const y = capturedByBlackCanvas.height / 2; // Center vertically
-			renderPiece(capturedBlackCtx, p, x, y, capturedPieceSize);
-		});
-	}
+
+    // --- Logic for drawing pieces captured by Black (white pieces) ---
+    let currentXBlack = padding;
+    let currentYBlack = rowHeight / 2;
+	gameState.capturedByBlack.sort(sortPieces).forEach((p, i) => {
+        // Check if adding the next piece would overflow the canvas width
+		if (currentXBlack + capturedPieceSize > capturedByBlackCanvas.width) {
+            // Move to the next row
+            currentXBlack = padding;
+            currentYBlack += rowHeight;
+        }
+		// Center the piece in its "slot"
+        const x = currentXBlack + (capturedPieceSize / 2);
+		renderPiece(capturedBlackCtx, p, x, currentYBlack, capturedPieceSize);
+        // Advance the x-coordinate for the next piece
+        currentXBlack += capturedPieceSize;
+	});
+}
 
 	// --- Player Interaction ---
 	function handleSquareClick(r, c) {
