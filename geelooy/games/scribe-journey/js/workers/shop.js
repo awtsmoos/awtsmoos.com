@@ -10,8 +10,14 @@ const merchantStock = [
     { itemId: 'tome_of_pummel', price: 500 },
 ];
 
+
 export function startShop(state, sendUIUpdate) {
+    //  Properly initialize the dialogue state for the shop interaction.
+    state.mode = 'dialogue';
+    state.dialogue.active = true;
     state.dialogue.branch = 'shop_main';
+    state.dialogue.index = 0;
+    
     advanceShop(state, sendUIUpdate);
 }
 

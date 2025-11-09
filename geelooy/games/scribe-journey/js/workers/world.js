@@ -72,6 +72,8 @@ function checkTileLandedOn(state, trigger) {
     }
 }
 
+// In js/workers/world.js
+
 export function checkInteraction(state, trigger, sendUIUpdate) {
     if (state.player.isMoving || state.dialogue.active) return;
     const p = state.player;
@@ -82,35 +84,30 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
     
     if (entity) {
         if (entity.type === 'door') {
-            // --- FIX FOR LOCKED DOORS ---
-            // Check for the more complex 'condition' object first.
             if (entity.condition) {
                 let canPass = true;
                 if (entity.condition.type === 'hasItem') {
-                    // Check if the player has the required item in their inventory.
                     const hasItem = state.player.inventory.some(item => item.id === entity.condition.itemId);
                     if (!hasItem) {
                         canPass = false;
+                        startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
+                        return;
                     }
                 }
-                // If the condition is not met, show the message and stop.
-                if (!canPass) {
-                    startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
-                    return;
-                }
             }
-            // If there's no condition or the condition was met, move the player.
             state.currentMapId = entity.targetMap;
             p.x = p.startX = p.targetX = entity.targetX;
             p.y = p.startY = p.targetY = entity.targetY;
             p.pixelX = entity.targetX * TILE_SIZE; p.pixelY = entity.targetY * TILE_SIZE;
             p.isMoving = false;
-        } else if (entity.dialogue) {
-            startDialogue(state, entity, 'start', sendUIUpdate);
-        } else if (entity.shop) {
-            // FIX: Set the dialogue entity so the system knows it's a shop interaction.
+        } 
+        // FIX: Check for the specific 'shop' property BEFORE the general 'dialogue' property.
+        else if (entity.shop) {
             state.dialogue.entity = entity;
             Shop.startShop(state, sendUIUpdate);
+        }
+        else if (entity.dialogue) {
+            startDialogue(state, entity, 'start', sendUIUpdate);
         }
     } else {
         state.mode = 'gameMenu';
@@ -132,28 +129,30 @@ export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
     advanceDialogue(state, sendUIUpdate);
 }
 
+
 export function advanceDialogue(state, sendUIUpdate, trigger) {
     if (!state.dialogue.active) return;
-    // --- FIX FOR SHOP CRASH ---
-    // We remove the incorrect call to Shop.advanceShop. The shop is only advanced
-    // by player choices, not by the generic 'confirm' action.
+
     if (state.dialogue.entity.shop) { 
-        // Do nothing here for the shop on a generic advance.
         return; 
     }
     const dialogue = state.dialogue;
     const branch = dialogue.entity.dialogue[dialogue.branch];
     if (!branch || dialogue.index >= branch.length) { endDialogue(state, sendUIUpdate); return; }
     const message = branch[dialogue.index];
+
     if (typeof message === 'string') {
         if (message === 'end') { endDialogue(state, sendUIUpdate); return; }
+        //  Store the current text in the state so it can be remembered.
+        dialogue.currentText = message;
         dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
     } else if (typeof message === 'object') {
         if (message.choices) {
-            // FIX: Store choices in the state so handleDialogueChoice can find them.
             dialogue.choices = message.choices;
-            sendUIUpdate({ dialogue: { active: true, text: message.text, choices: message.choices } });
+            // FIX: If a choice object has no text, use the last text that was shown.
+            const displayText = message.text || dialogue.currentText;
+            sendUIUpdate({ dialogue: { active: true, text: displayText, choices: message.choices } });
         }
         else {
             if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle, message.context); return; }
