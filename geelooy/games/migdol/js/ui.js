@@ -9,10 +9,17 @@ function getCanvasCoordinates(event, game) {
     const scaleY = game.canvas.height / rect.height;
 
     let clientX, clientY;
+
+    // Use touches for active touch events (like touchmove)
     if (event.touches && event.touches.length > 0) {
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
+    // Use changedTouches for ended touch events (like touchend)
+    } else if (event.changedTouches && event.changedTouches.length > 0) {
+        clientX = event.changedTouches[0].clientX;
+        clientY = event.changedTouches[0].clientY;
     } else {
+        // Fallback for mouse events
         clientX = event.clientX;
         clientY = event.clientY;
     }

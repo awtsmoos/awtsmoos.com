@@ -1,5 +1,7 @@
 //B"H
 
+import { TILE_SIZE } from './config.js';
+
 export default class Projectile {
     constructor(x, y, target, tower) {
         this.x = x;
@@ -20,7 +22,8 @@ export default class Projectile {
     }
 
     draw(ctx) {
-        ctx.font = '20px Arial';
+        ctx.fillStyle = 'white';
+        ctx.font = `${TILE_SIZE * 0.4}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
