@@ -16,27 +16,7 @@ export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${it
 export const Workspaces = {
     // In workspaces.js, replace the entire add method
 
-add(ws, shouldSave = true) {
-    // Clear the "Add a workspace to begin" message if it exists
-    const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
-    if (emptyMessage) {
-        DOM.workspacesContainer.innerHTML = '';
-    }
-    
-    // Add the new workspace to our state
-    const isNew = ws.id === undefined;
-    const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
-    State.workspaces.push(newWs);
-    
-    // --- THE FIX IS HERE ---
-    // Explicitly render the single new workspace we just added.
-    this.renderWorkspace(newWs, DOM.workspacesContainer);
-    
-    // Save the session if this workspace is meant to be persistent
-    if (shouldSave) {
-        App.saveSession();
-    }
-},
+
 
     render() {
         DOM.workspacesContainer.innerHTML = '';
@@ -50,19 +30,37 @@ add(ws, shouldSave = true) {
 
     
 
-// In workspaces.js, replace the entire renderWorkspace method
 
-async renderWorkspace(ws, container) {
+    
+// In workspaces.js, replace the 'add' method
+
+add(ws, shouldSave = true) {
+    const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
+    if (emptyMessage) {
+        DOM.workspacesContainer.innerHTML = '';
+    }
+    
+    const isNew = ws.id === undefined;
+    const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
+    State.workspaces.push(newWs);
+    
+    // We will let the main render() call handle the drawing.
+    
+    if (shouldSave) {
+        App.saveSession();
+    }
+},
+
+// In workspaces.js, replace the 'renderWorkspace' method
+
+renderWorkspace(ws, container) {
     const wsRoot = document.createElement('div');
     wsRoot.className = 'workspace-root';
     const uniquePath = getItemUniquePath(ws);
 
-    const gitInfo = await GitMetaProvider.getGitInfoForFolder({ ...ws, kind: 'directory' });
-    const isGitClone = !!gitInfo;
-
-    const icon = isGitClone ? 'git-folder' :
-                 ws.type === 'local' ? 'laptop' :
-                 ws.type === 'github' ? 'github' :
+    // This is now synchronous, but that's okay. The icon will appear after the async check completes.
+    const icon = ws.type === 'local' ? 'laptop' : 
+                 ws.type === 'github' ? 'github' : 
                  ws.type === 'osfolder' ? 'folder' :
                  'brain';
 
@@ -70,13 +68,11 @@ async renderWorkspace(ws, container) {
         <div class="workspace-header">
             <div class="workspace-header-title">
                 <strong>
-                    <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
+                    <svg class="svg-icon" id="ws-icon-${ws.id}"><use href="#icon-${icon}"></use></svg>
                     ${ws.name}
                 </strong>
             </div>
-            <div class="workspace-header-actions">
-                ${isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
-            </div>
+            <div class="workspace-header-actions" id="ws-actions-${ws.id}"></div>
         </div>
     `;
     
@@ -84,19 +80,33 @@ async renderWorkspace(ws, container) {
     const header = wsRoot.querySelector('.workspace-header');
     const rootItemForTree = { ...ws, workspaceId: ws.id, kind: 'directory' };
 
-    // --- SIMPLIFIED AND CORRECTED ONCLICK LOGIC ---
+    // Asynchronously check for Git status and update the UI after the fact
+    GitMetaProvider.getGitInfoForFolder(rootItemForTree).then(gitInfo => {
+        if (gitInfo) {
+            const iconEl = wsRoot.querySelector(`#ws-icon-${ws.id} use`);
+            if (iconEl) iconEl.setAttribute('href', '#icon-git-folder');
+            
+            const actionsContainer = wsRoot.querySelector(`#ws-actions-${ws.id}`);
+            if (actionsContainer) {
+                const gitBtn = document.createElement('button');
+                gitBtn.className = 'icon-button git-actions-btn';
+                gitBtn.title = 'Git Actions';
+                gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
+                gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItemForTree); };
+                actionsContainer.appendChild(gitBtn);
+            }
+        }
+    });
+
     header.onclick = (e) => {
-        // Prevent event bubbling issues
         if (e.target.closest('.git-actions-btn')) return;
 
         const tree = wsRoot.querySelector('ul.workspace-tree');
         if (tree) {
-            // If the tree exists, remove it and collapse
             tree.remove();
             wsRoot.classList.remove('expanded');
             State.expandedFolders.delete(uniquePath);
         } else {
-            // If it doesn't exist, create it and expand
             const newTree = document.createElement('ul');
             newTree.className = 'workspace-tree';
             wsRoot.appendChild(newTree);
@@ -106,18 +116,11 @@ async renderWorkspace(ws, container) {
         }
         App.saveSession();
     };
-    // --- END OF FIX ---
 
     header.oncontextmenu = (e) => Menus.show(e, rootItemForTree);
     
-    const gitBtn = header.querySelector('.git-actions-btn');
-    if (gitBtn) {
-        gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(rootItemForTree); };
-    }
-    
     State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItemForTree });
 
-    // This part now correctly handles the initial render on load
     if (State.expandedFolders.has(uniquePath)) {
        wsRoot.classList.add('expanded');
        const tree = document.createElement('ul');
@@ -126,8 +129,6 @@ async renderWorkspace(ws, container) {
        this.renderTree(tree, rootItemForTree, 1);
     }
 },
-    
-
 
     
 
