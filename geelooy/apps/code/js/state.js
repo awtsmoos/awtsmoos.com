@@ -81,6 +81,8 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     
     DOM.previewer = document.getElementById('previewer');
     
+    DOM.customMenuContainer = document.getElementById("custom-menu-container")
+    
      // This will now correctly find the element.
      DOM.consoleHost = document.getElementById('console-host');
     DOM.iframeCache = document.getElementById('iframe-cache');
