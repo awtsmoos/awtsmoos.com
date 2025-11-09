@@ -115,7 +115,7 @@ activeConsole: null, // B"H
             UI.showToast("Browser Storage (IndexedDB) failed to initialize.", 'error');
         }
         
-     //   Workspaces.render();
+        Workspaces.render();
         Tabs.activate(State.activeTabId || null);
         FindReplace.init();
         Editor.init();
