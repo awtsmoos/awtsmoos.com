@@ -14,22 +14,29 @@ import { GitMetaProvider } from './git-meta-provider.js'; // <-- Make sure this 
 
 export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
 export const Workspaces = {
-    add(ws, shouldSave = true) {
-        const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
-        if (emptyMessage) {
-            DOM.workspacesContainer.innerHTML = '';
-        }
-        
-        const isNew = ws.id === undefined;
-        const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
-        
-        State.workspaces.push(newWs);
-        
-        if (shouldSave) {
-            this.renderWorkspace(newWs, DOM.workspacesContainer);
-            App.saveSession();
-        }
-    },
+    // In workspaces.js, replace the entire add method
+
+add(ws, shouldSave = true) {
+    // Clear the "Add a workspace to begin" message if it exists
+    const emptyMessage = DOM.workspacesContainer.querySelector('div[style*="padding: 20px"]');
+    if (emptyMessage) {
+        DOM.workspacesContainer.innerHTML = '';
+    }
+    
+    // Add the new workspace to our state
+    const isNew = ws.id === undefined;
+    const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
+    State.workspaces.push(newWs);
+    
+    // --- THE FIX IS HERE ---
+    // Explicitly render the single new workspace we just added.
+    this.renderWorkspace(newWs, DOM.workspacesContainer);
+    
+    // Save the session if this workspace is meant to be persistent
+    if (shouldSave) {
+        App.saveSession();
+    }
+},
 
     render() {
         DOM.workspacesContainer.innerHTML = '';
