@@ -30,7 +30,7 @@ export const MAPS = {
 export const TOWER_TYPES = {
     'shooter': {
         emoji: '🚀',
-        projectileEmoji: '•',
+        projectileEmoji: 'hebrew',
         projectileType: 'homing',
         cost: 100,
         baseDamage: 20,
@@ -170,6 +170,34 @@ export const ENEMY_TYPES = {
         baseHealth: 30,
         speed: 1.8, // Very fast
         perutaValue: 8,
+        children: null,
+    },
+    'snake': {
+        emoji: '🐍',
+        baseHealth: 40,
+        speed: 1.9, // fast
+        perutaValue: 6,
+        children: null,
+    },
+    'fox': {
+        emoji: '🦊',
+        baseHealth: 65,
+        speed: 1.5,
+        perutaValue: 12,
+        children: null,
+    },
+    'crocodile': {
+        emoji: '🐊',
+        baseHealth: 130,
+        speed: 0.9,
+        perutaValue: 22,
+        children: null,
+    },
+    'elephant': {
+        emoji: '🐘',
+        baseHealth: 300,
+        speed: 0.5, // very slow
+        perutaValue: 60,
         children: null,
     }
 };

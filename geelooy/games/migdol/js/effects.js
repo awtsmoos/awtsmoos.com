@@ -36,3 +36,38 @@ export class GroundEffect {
         ctx.fill();
     }
 }
+
+export class LetterParticle {
+    constructor(x, y, letter) {
+        this.x = x;
+        this.y = y;
+        this.letter = letter;
+        this.life = 60; // 1 second duration
+        this.vx = (Math.random() - 0.5) * 4; // Horizontal velocity
+        this.vy = (Math.random() * -3) - 2;   // Initial upward velocity
+        this.gravity = 0.15;
+        this.opacity = 1;
+        this.size = TILE_SIZE * 0.5;
+    }
+
+    update() {
+        this.life--;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.life < 30) {
+            this.opacity = this.life / 30;
+        }
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = 'white';
+        ctx.font = `bold ${this.size}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.letter, this.x, this.y);
+        ctx.restore();
+    }
+}

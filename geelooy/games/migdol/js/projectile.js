@@ -36,22 +36,18 @@ export default class Projectile {
     }
 
     update() {
-        if (!this.target || this.target.health <= 0) {
-            // For piercing, it can continue in a straight line without a target
-            if (this.type !== 'piercing') {
-                return;
-            }
-        }
-        
-        // Homing logic for most projectiles
+        // Homing logic: only update angle if target is valid.
         if (this.type === 'homing' || this.type === 'chaining' || this.type === 'ground_aoe') {
-            if (this.target) {
+            if (this.target && this.target.health > 0) {
                 this.angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
             }
         }
         
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
+        // If the target is lost, the projectile continues on its last angle.
+        if(this.angle !== undefined) {
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed;
+        }
     }
 
     draw(ctx) {

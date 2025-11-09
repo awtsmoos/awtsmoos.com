@@ -5,7 +5,7 @@ import Tower from './tower.js';
 import Enemy from './enemy.js';
 import WaveManager from './wave.js';
 import { setupUI } from './ui.js';
-import { GroundEffect } from './effects.js';
+import { GroundEffect, LetterParticle } from './effects.js';
 
 // --- Global State ---
 let game = null;
@@ -26,11 +26,12 @@ class Game {
         this.enemies = [];
         this.projectiles = [];
         this.groundEffects = [];
+        this.particles = [];
         this.eventMessages = [];
         this.path = this.map.path;
         
         this.perutas = 200;
-        this.health = 100;
+        this.health = 50; // Increased for better playability
         
         this.selectedTowerType = null;
         this.selectedTower = null;
@@ -62,8 +63,9 @@ class Game {
         this.enemies = [];
         this.projectiles = [];
         this.groundEffects = [];
+        this.particles = [];
         this.perutas = 200;
-        this.health = 20;
+        this.health = 50; // Increased for better playability
         this.waveManager = new WaveManager(this);
         this.selectedTower = null;
         this.selectedTowerType = null;
@@ -91,6 +93,7 @@ class Game {
         this.updateAndDrawEnemies();
         this.updateAndDrawProjectiles();
         this.updateAndDrawGroundEffects();
+        this.updateAndDrawParticles();
         this.drawGhostTower();
         this.updateAndDrawEventMessages();
 
@@ -238,6 +241,7 @@ class Game {
         if (enemy.health <= 0) {
             this.perutas += enemy.perutaValue;
             this.showEventMessage(`+${enemy.perutaValue}💰`, enemy);
+            this.createLetterExplosion(enemy.x, enemy.y);
             
             if (enemy.children) {
                 const enemyConfig = ENEMY_TYPES[enemy.children.type];
@@ -274,6 +278,26 @@ class Game {
             
             if (p && (p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height)) {
                 this.projectiles.splice(i, 1);
+            }
+        }
+    }
+
+    createLetterExplosion(x, y) {
+        const letters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
+        const particleCount = 7 + Math.floor(Math.random() * 5); // 7 to 11 particles
+        for (let i = 0; i < particleCount; i++) {
+            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+            this.particles.push(new LetterParticle(x, y, randomLetter));
+        }
+    }
+
+    updateAndDrawParticles() {
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const particle = this.particles[i];
+            particle.update();
+            particle.draw(this.ctx);
+            if (particle.life <= 0) {
+                this.particles.splice(i, 1);
             }
         }
     }
