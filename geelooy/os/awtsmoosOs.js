@@ -5,6 +5,9 @@ import osStyles from "./styles/os-base.js";
 import { SettingsManager } from "./settingsManager.js";
 import { defaultPrograms, initialDefaultPrograms } from "./basicPrograms.js";
 
+
+import { showContextMenu } from './contextMenuManager.js';
+
 console.log(`B"H
 
 
@@ -16,6 +19,8 @@ export default class AwtsmoosOS {
         
         this.db = new AwtsmoosDB();
         window.os = this;
+        
+        this.currentPathForRefresh = 'desktop.folder';
     }
 
     async start() {
@@ -105,71 +110,29 @@ async updateDefaultProgram(extension, programName) {
 
 
 
+// In awtsmoosOs.js, replace the entire onFileClick method
 async onFileClick({ path, title, event, isFolder }) {
-    event.preventDefault();
+    event.stopPropagation(); // Prevent clicks from bubbling up
 
+    // --- DEFINITIVE DOUBLE-CLICK HANDLER ---
+    // The 'detail' property is the most reliable way to detect double-clicks.
     if (event.detail === 2) {
+        event.preventDefault(); // Stop the browser from selecting text
         const content = await this.db.Laynin(path, title);
         this.addWindow({ title, content, path, os: this });
-        return;
+        return; // IMPORTANT: Stop execution here
     }
 
-    const existingMenu = document.querySelector(".contextMenu");
-    if (existingMenu) existingMenu.remove();
-
-    const actions = {
-        Open: async () => {
-            const content = await this.db.Laynin(path, title);
-            this.addWindow({ title, content, path, os: this });
-        },
-    };
-
-    // --- Add folder-specific or file-specific actions ---
-    if (isFolder) {
-        actions['Open folder in Advanced Editor'] = () => {
-            // We pass an object to signify this is a folder-open action
-            const folderInfo = { osPath: `${path}/${title}`, osFolderName: title };
-            this.addWindow({
-                title: title, // Window title will be the folder name
-                content: folderInfo,
-                os: this,
-                programName: 'advancedCodeEditor'
-            });
-        };
-    } else {
-        // "Open with..." only makes sense for files
-        actions['Open with...'] = () => {
-             this.addWindow({
-                title: `Open ${title} with...`,
-                content: { filePath: path, fileTitle: title },
-                os: this,
-                programName: 'openWithSelector'
-            });
-        };
-    }
-    // --- END NEW LOGIC ---
-
-    // Add universal actions
-    actions.Rename = async () => { /* ... existing rename logic ... */ };
-    actions.Copy = async () => { /* ... existing copy logic ... */ };
-    actions.Delete = async () => { /* ... existing delete logic ... */ };
-
-    const menu = document.createElement("div");
-    menu.className = "contextMenu";
-    Object.keys(actions).forEach(actionName => {
-        const menuItem = document.createElement("div");
-        menuItem.className = "menuItem";
-        menuItem.textContent = actionName;
-        menuItem.onclick = async () => {
-            menu.remove();
-            await actions[actionName]();
-        };
-        menu.appendChild(menuItem);
-    });
-
-    menu.style.left = `${event.pageX}px`;
-    menu.style.top = `${event.pageY}px`;
-    document.body.appendChild(menu);
+    // --- SINGLE-CLICK (CONTEXT MENU) HANDLER ---
+    // On a single click, we delegate everything to our new manager.
+    // We use a short timeout to allow the double-click to happen first.
+    setTimeout(() => {
+        // Check if a double-click has occurred in the meantime.
+        // If event.detail is still 1, it was a single click.
+        if (event.detail === 1) {
+            showContextMenu({ os: this, event, path, title, isFolder });
+        }
+    }, 200); // A 200ms window is standard for double-click detection.
 }
  
     async renderFile({
@@ -222,6 +185,7 @@ async onFileClick({ path, title, event, isFolder }) {
         path,
         holder
     }) {
+    this.currentPathForRefresh = path;
         if(path == "desktop.folder") {
             holder = this.getDesktop();
         }

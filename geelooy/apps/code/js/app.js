@@ -12,7 +12,7 @@ import { Tabs } from './tabs.js';
 import { Workspaces } from './workspaces.js';
 import { Menus } from './menus.js';
 import { FindReplace } from './find-replace.js';
-
+import { CustomMenu } from './custom-menu.js';
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
 activeConsole: null, // B"H 
@@ -90,6 +90,9 @@ activeConsole: null, // B"H
         
         
         
+        
+        
+        
         const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
     
     this.loadSettings();
@@ -101,6 +104,8 @@ activeConsole: null, // B"H
         
         
         SelectionManager.initialize(); 
+        
+        CustomMenu.init();
 
         this.setupEventListeners();
         
@@ -174,6 +179,18 @@ window.addEventListener('message', (event) => {
         const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
         Workspaces.add(osWorkspace, false);
         ;
+        return;
+    }
+    
+    
+    if (type === 'requestContent') {
+        // The parent OS is asking for the current editor content.
+        const content = Editor.getContent();
+        // Send it back in a response message.
+        window.parent.postMessage({
+            type: 'responseContent',
+            payload: { content: content }
+        }, '*');
         return;
     }
 });

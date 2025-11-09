@@ -7,6 +7,10 @@ import {
     importFiles
 } from  "/os/helpers/scripts.js"
 
+
+import { showContextMenu } from '../../contextMenuManager.js';
+
+
 export default ({
     os,
     path,
@@ -25,21 +29,28 @@ export default ({
 
     // --- Core UI and Event Handling ---
 
-    function handleItemClick(event, { targetPath, item, isFolder, actions = {} }) {
-        event.stopPropagation();
-        clickCount++;
+    
 
-        if (clickCount === 1) {
-            clickTimeout = setTimeout(() => {
-                showContextMenu(event, { targetPath, item, isFolder, actions });
-                clickCount = 0;
-            }, 300);
-        } else if (clickCount === 2) {
-            clearTimeout(clickTimeout);
-            clickCount = 0;
-            performOpenAction(targetPath, item, isFolder);
-        }
+function handleItemClick(event, { targetPath, item, isFolder, actions = {} }) {
+    event.stopPropagation();
+
+    // --- DEFINITIVE DOUBLE-CLICK HANDLER ---
+    if (event.detail === 2) {
+        event.preventDefault();
+        // Clear any pending single-click action
+        if(clickTimeout) clearTimeout(clickTimeout); 
+        clickCount = 0;
+        
+        performOpenAction(targetPath, item, isFolder);
+        return;
     }
+
+    // --- SINGLE-CLICK (CONTEXT MENU) HANDLER ---
+    if (event.detail === 1) {
+        // THE FIX: Call the central context menu manager instead of the local one.
+        showContextMenu({ os, event, path: targetPath, title: item, isFolder });
+    }
+}
     
     
     // 
@@ -86,74 +97,6 @@ export default ({
 	    }
 	}
 
-    // Replace this entire method
-function showContextMenu(event, { targetPath, item, isFolder, actions }) {
-    const existingMenu = document.querySelector(".contextMenu");
-    if (existingMenu) existingMenu.remove();
-
-    const fullPath = `${targetPath}/${item}`;
-
-    // Base actions for all items
-    const menuActions = {
-        Open: () => performOpenAction(targetPath, item, isFolder),
-        ...actions,
-    };
-
-    // Add folder-specific actions
-    if (isFolder) {
-        menuActions['Open in New Window'] = () => os.addWindow({ title: item, path: targetPath, os });
-        menuActions['New File'] = () => {
-            showInputDialog({
-                title: `Create New File in ${item.replace('.folder','')}`,
-                callback: async (newName) => {
-                    await os.createFile({ path: fullPath, title: newName, content: `// B"H` });
-                    await renderFiles(state.currentPath, body); // Refresh view
-                }
-            });
-        };
-        menuActions['New Folder'] = () => {
-            showInputDialog({
-                title: `Create New Folder in ${item.replace('.folder','')}`,
-                callback: async (newName) => {
-                    await os.createFolder({ path: fullPath, title: newName });
-                    await renderFiles(state.currentPath, body); // Refresh view
-                    await buildFileTree('desktop.folder', sidebar); // Refresh tree
-                }
-            });
-        };
-    }
-
-    // Add Rename and Delete for all items
-    menuActions.Rename = async () => { /* ... rename logic ... */ };
-    menuActions.Delete = async () => { /* ... delete logic ... */ };
-    
-    const menu = createElement({ tag: 'div', attributes: { class: 'contextMenu' } });
-    
-    Object.keys(menuActions).forEach(actionName => {
-        menu.appendChild(createElement({
-            tag: 'div',
-            attributes: { class: 'menuItem' },
-            html: actionName,
-            on: { click: (e) => {
-                e.stopPropagation();
-                menu.remove();
-                menuActions[actionName]();
-            }}
-        }));
-    });
-
-    menu.style.left = `${event.pageX}px`;
-    menu.style.top = `${event.pageY}px`;
-    document.body.appendChild(menu);
-
-    const clickOutsideHandler = (e) => {
-        if (!menu.contains(e.target)) {
-            menu.remove();
-            document.removeEventListener('click', clickOutsideHandler);
-        }
-    };
-    setTimeout(() => document.addEventListener('click', clickOutsideHandler), 0);
-}
 
     // --- Navigation and Rendering ---
 

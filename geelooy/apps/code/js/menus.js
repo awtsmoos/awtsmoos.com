@@ -200,6 +200,30 @@ export const Menus = {
         const item = State.contextTarget;
         this.hideAll();
         
+        
+        // Check if the action is one of our custom, parent-defined actions.
+    // We can identify them because they are not part of the editor's built-in set.
+    const builtInActions = [
+        'new-temp-file', 'open-file', 'save', 'download', 'view-html', 'find-replace', 'settings',
+        'toggle-keyboard-helper', 'toggle-fullscreen', 'select-all', 'copy', 'copy-all', 'copy-all-contents',
+        'new-file', 'new-folder', 'start-selection', 'copy-single', 'paste', 'delete-workspace', 'delete'
+    ];
+    
+    if (!builtInActions.includes(action)) {
+        // If it's not a built-in action, it must be a custom one from the parent.
+        // Send a message to the OS to handle it.
+        console.log(`Dispatching custom action '${action}' to parent OS.`);
+        window.parent.postMessage({
+            type: 'customAction',
+            payload: {
+                action: action,
+                // Provide the context of the active file for the OS to work with
+                context: activeTab?.item.saveContext || activeTab?.item.path || null
+            }
+        }, '*');
+        return; // Stop processing here.
+    }
+        
         try {
             switch(action) {
                 // --- Main Menu Actions ---
