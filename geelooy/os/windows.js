@@ -36,11 +36,13 @@ export default class ResizableWindow {
         this.active = true;
         this?.handler?.onactive?.(this);
         this.win.classList.add("active");
+        this.win.classList.remove("inactive");
     }
 
     makeInactive() {
         this.active = false;
         this.win.classList.remove("active");
+        this.win.classList.add("inactive");
     }
     
     toggleFullscreen() {
@@ -110,16 +112,16 @@ export default class ResizableWindow {
         header.appendChild(ctrls)
         var btns = {
             
-            "-": (w,b) => {
-                b.classList.add("awtsBtn")
+            "_": (w,b) => {
+                b.classList.add("awtsBtn", "minimize");
             },
-            O(win, btn) {
+            "O": (win, btn) => {
                 btn.onclick = () => self.toggleFullscreen();
                 self.fullScreenBtn = btn;
-                btn.classList.add("awtsBtn")
+                btn.classList.add("awtsBtn", "maximize");
             },
-            X(win, btn) {
-                btn.classList.add("x", "awtsBtn");
+            "X": (win, btn) => {
+                btn.classList.add("x", "awtsBtn", "close");
                 btn.onclick = () => self.close();
             },
         }
@@ -397,146 +399,126 @@ export default class ResizableWindow {
     addStyles() {
         var sty = document.createElement("style")
         sty.innerHTML = `/*css*/
-        /*B"H*/
+        /* B"H - Windows XP Style Theme */
 
-            .${this.ID}-window .windows-body {
-                height:400px;
-            }
-            .fileHolder {
-                overflow:scroll;
-            }
-            .${this.ID}-window .window-header {
-                background: #000080;
-                color: white;
-                padding: 5px;
-                user-select: none;
-                display:flex;
-                
-                flex-direction: row;
-                gap: ${this.GAP}px;
-                align-items: center;
-                
-                cursor: move;
-                
-            }
-
-            .${this.ID}-window.active {
-                box-shadow: 7px 6px 16px 0px black;
-                
-                z-index:4;
-            } 
-
-            .${this.ID}-window .header-title {
-                flex: 2;
-                
-            }
-
-            .${this.ID}-window .header-text {
-                display: inline-block;
-            }
-
-            .${this.ID}-window .header-ctrls {
-                display: flex;
-                gap: 1px;
-            }
-
-            .${this.ID}-window .header-btn {
-                padding:${this.PADD}px;
-                color:black;
-                border-radius:50%;
-                background:white;  
-                min-width:15px;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            .${this.ID}-window .header-btn.x {
-                background: #ff4545;
-                
-            }
-
-            .${this.ID}-window .header-btn:hover {
-                cursor:pointer !important;
-                background:#d0d0d0;   
-            }
-
-            
-            .${this.ID}-window .header-btn:active {
-                
-                background:black;
-                color:white;
-            }
-            
-            .${this.ID}-window .window-content {
+        .${this.ID}-window {
+            position: absolute;
+            background: #ece9d8;
+            border: 1px solid #082b6b;
+            border-radius: 6px 6px 0 0;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            box-sizing: border-box;
+            max-height: 100vh;
+            max-width: 100vw;
+            font-family: 'Tahoma', sans-serif;
+        }
         
-                height: calc(100% - 40px);
-                overflow-y: auto;
-            }
-            
-            .draggable {
-                cursor: move;
-            }
-            /* Example CSS for window */
-            .${this.ID}-window {
-                position: absolute;
-                background: #fff;
-                z-index:1;
-                box-sizing: border-box;
-                max-height:100vh;
-                max-width:100vw;
-            }
-            
-            /* CSS for resize handles */
-            .${this.ID}-window .window-resizer {
-                position: absolute;
-                background: rgba(0, 0, 0, 0);
-                z-index: 10;
-            }
-            
-            .resize-n, 
-            .resize-s, 
-            .resize-e, 
-            .resize-w, 
-            .resize-ne, .resize-se, .resize-sw, .resize-nw {
-                width: 10px;
-                height: 10px;
-                cursor: pointer;
-            }
-            
-            .${this.ID}-window .resize-n {
-                top: -10px; 
-                left: 50%; 
-                transform: translateX(-50%); cursor: ns-resize;
-                width:100%;
-            }
-            
-            .${this.ID}-window .resize-s { 
-                bottom: -10px; left: 50%; transform: translateX(-50%); cursor: ns-resize; 
-               
-                width:100%
-            }
-            .${this.ID}-window .resize-e { 
-                right: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize;
+        .${this.ID}-window.active {
+            z-index: 4;
+            border-color: #082b6b;
+        }
+        
+        .${this.ID}-window .window-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 5px;
+            border-radius: 5px 5px 0 0;
+            cursor: move;
+            user-select: none;
+            height: 30px;
+        }
 
-                height:100%;
-            }
-            .${this.ID}-window .resize-w { 
-                left: -10px; top: 50%; transform: translateY(-50%); cursor: ew-resize; 
-                height:100%;
-            }
-            .${this.ID}-window .resize-ne { 
-                top: -10px; right: -10px; cursor: ne-resize; 
-              
-            }
-            .${this.ID}-window .resize-se {
-                bottom: -10px; right: -10px; cursor: se-resize; 
-            }
-            .${this.ID}-window .resize-sw {
-                bottom: -10px; left: -10px; cursor: sw-resize; 
-            }
-            .${this.ID}-window .resize-nw { 
-                top: -10px; left: -10px; cursor: nw-resize;
-            }
+        /* Active vs Inactive Header Styles */
+        .${this.ID}-window.active .window-header {
+            background: linear-gradient(to bottom, #0058ee, #0035d0);
+        }
+        .${this.ID}-window.inactive .window-header {
+            background: linear-gradient(to bottom, #bfbfbf, #8e8e8e);
+        }
+
+        .${this.ID}-window .header-title {
+            flex-grow: 1;
+            padding-left: 4px;
+        }
+        
+        .${this.ID}-window .header-text {
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .${this.ID}-window .header-ctrls {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        
+        .${this.ID}-window .header-btn {
+            width: 21px;
+            height: 21px;
+            border: 1px solid #0035d0;
+            border-radius: 3px;
+            color: white;
+            font-family: 'Marlett', 'Arial', sans-serif; /* Using Marlett for classic symbols if available */
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer !important;
+            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
+            line-height: 1;
+        }
+        
+        /* Specific Button Styles */
+        .${this.ID}-window .header-btn.minimize,
+        .${this.ID}-window .header-btn.maximize {
+            background: #0058ee;
+        }
+        .${this.ID}-window .header-btn.close {
+            background: #d84a38;
+            border-color: #d14130;
+        }
+
+        .${this.ID}-window .header-btn:hover {
+            filter: brightness(1.2);
+        }
+        .${this.ID}-window .header-btn:active {
+            filter: brightness(0.9);
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .${this.ID}-window .window-content {
+            height: calc(100% - 31px); /* Adjusted for new header height */
+            overflow-y: auto;
+            background: #f0f0f0;
+            padding: 2px;
+        }
+            
+        /* Resize Handles - Keep them functional but invisible */
+        .${this.ID}-window .window-resizer {
+            position: absolute;
+            background: transparent;
+            z-index: 10;
+        }
+        .resize-n, .resize-s { width: 100%; height: 8px; }
+        .resize-e, .resize-w { width: 8px; height: 100%; }
+        .resize-ne, .resize-se, .resize-sw, .resize-nw { width: 12px; height: 12px; }
+
+        .${this.ID}-window .resize-n { top: -4px; left: 0; }
+        .${this.ID}-window .resize-s { bottom: -4px; left: 0; }
+        .${this.ID}-window .resize-e { right: -4px; top: 0; }
+        .${this.ID}-window .resize-w { left: -4px; top: 0; }
+        .${this.ID}-window .resize-ne { top: -4px; right: -4px; }
+        .${this.ID}-window .resize-se { bottom: -4px; right: -4px; }
+        .${this.ID}-window .resize-sw { bottom: -4px; left: -4px; }
+        .${this.ID}-window .resize-nw { top: -4px; left: -4px; }
         `
         document.head.appendChild(sty);
     }
