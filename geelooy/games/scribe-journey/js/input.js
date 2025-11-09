@@ -4,16 +4,17 @@
 export function initInput(sendToWorker) {
     const keyState = {};
 
-    // --- Keyboard Input ---
-
     document.addEventListener('keydown', (e) => {
-        // Prevent default browser actions for game keys (scrolling, etc.)
         if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key)) {
             e.preventDefault();
         }
 
-        // For continuous actions (movement), we track the state of the key being held down.
-        // We only send an update if the state changes to avoid spamming the worker.
+        // Add Spacebar functionality for confirmation actions.
+        if (e.key === ' ') {
+            sendToWorker('input', { type: 'press', key: 'Confirm' });
+            return; // Prevent spacebar from being treated as a movement key
+        }
+
         if (!keyState[e.key]) {
             keyState[e.key] = true;
             sendToWorker('input', { type: 'keyState', keys: keyState });
@@ -28,12 +29,6 @@ export function initInput(sendToWorker) {
     });
     
     // --- Mobile Touch Input ---
-
-    /**
-     * A helper function to set up event listeners for a mobile control button.
-     * @param {string} elementId - The ID of the button element.
-     * @param {string} key - The keyboard key this button should emulate (e.g., 'ArrowUp').
-     */
     const setupMobileButton = (elementId, key) => {
         const button = document.getElementById(elementId);
         if (!button) {
@@ -61,25 +56,21 @@ export function initInput(sendToWorker) {
 
         button.addEventListener('touchstart', handlePress, { passive: false });
         button.addEventListener('touchend', handleRelease, { passive: false });
-        // Add mouse events for easier desktop testing of mobile controls
         button.addEventListener('mousedown', handlePress);
         button.addEventListener('mouseup', handleRelease);
         button.addEventListener('mouseleave', handleRelease);
     };
 
-    // Map mobile D-Pad buttons to keyboard arrow keys
     setupMobileButton('control-up', 'ArrowUp');
     setupMobileButton('control-down', 'ArrowDown');
     setupMobileButton('control-left', 'ArrowLeft');
     setupMobileButton('control-right', 'ArrowRight');
 
-    // The Action button is a special case. It's not a continuous press, it's a single event.
     const actionButton = document.getElementById('action-button');
     if (actionButton) {
         const handleActionPress = (e) => {
             e.preventDefault();
             actionButton.classList.add('active');
-            // Send a discrete 'press' event for interaction/confirmation
             sendToWorker('input', { type: 'press', key: 'Confirm' }); 
         };
         const handleActionRelease = (e) => {

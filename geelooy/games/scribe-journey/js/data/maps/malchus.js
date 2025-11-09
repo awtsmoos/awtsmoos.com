@@ -1,5 +1,5 @@
 // B"H
-// js/data/maps/malkuth.js
+// js/data/maps/malchus.js
 
 export const malkuthMaps = {
     'malkuth_village': {
@@ -19,8 +19,14 @@ export const malkuthMaps = {
 🌳⬜⬜⬜🌾🌾⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
         `,
+        // ADDED: The new, expandable encounter system!
+        encounters: {
+            '🌾': [ // The tile that triggers encounters
+                { id: 'whispering_grass', levelRange: [2, 4], chance: 0.8 },
+                { id: 'kicking_rooster', levelRange: [3, 5], chance: 0.2 } // A new creature to find!
+            ]
+        },
         interactables: {
-            // By giving interactables an emoji property, the new parser will auto-place them.
             'elder_scribe': { type: 'npc', emoji: '📜', questGiver: 'main_quest_1', dialogue: { start: ["The path to the upper realms lies through the shimmering door to the east. Be wary, for Yesod's nature is illusion."], completed: ["You have the first fragment! The path forward will be harder, but you have proven your worth."] } },
             'house_1': { type: 'door', emoji: '🏠', targetMap: 'scribe_atheneum_main', targetX: 5, targetY: 6 },
             'house_2': { type: 'door', emoji: '🏠', targetMap: 'merchant_house', targetX: 3, targetY: 3 },
@@ -38,7 +44,11 @@ export const malkuthMaps = {
             }},
             
             'shimon': { type: 'npc', emoji: '👨', dialogue: {
-                start: ["Shimon stands beside his ox, looking worried.", {choices:[{text: "(Speak to Shimon)", next: "talk"}]}], 
+                // FIX: Consolidated Shimon's dialogue into a single, more robust object that works.
+                start: [{
+                    text: "Shimon stands beside his ox, looking worried.",
+                    choices: [{ text: "(Speak to Shimon)", next: "talk" }]
+                }],
                 talk: ["My ox... it has never gored before. It is a Tam, an innocent one! I cannot afford to pay for Reuven's entire animal. It would ruin me. If only someone knew the true law..."]
             }},
             
@@ -78,13 +88,15 @@ export const malkuthMaps = {
         baseLayerString: `
 🪨🪨🪨🪨🪨🪨🪨
 🪨⬜⬜🪟⬜⬜🪨
-🪨⬜⬜⬜⬜⬜🪨
+🪨⬜⬜⬜⬜⬜🚪
 🪨⬜📜⬜⬜⬜🪨
 🪨🚪⬜⬜⬜⬜🪨
 🪨🪨🪨🪨🪨🪨🪨
         `,
         interactables: {
             'downstairs_door': {type: 'door', emoji: '🚪', targetMap: 'scribe_atheneum_main', targetX: 5, targetY: 1},
+            // ADDED: A door to the new Sefirah of Hod!
+            'hod_door': {type: 'door', emoji: '🚪', targetMap: 'hod_library', targetX: 1, targetY: 2 },
             'private_desk': {type: 'npc', emoji: '📜', dialogue: {start: ["(Your private desk. A quiet place to study the pages you've collected)."]}}
         }
     },
@@ -103,3 +115,4 @@ export const malkuthMaps = {
         }
     },
 };
+

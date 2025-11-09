@@ -24,10 +24,10 @@ export const moves = {
     'Soothing_Mist': { name: 'Soothing Mist', power: 0, cost: 12, type: 'Chesed', effect: { target: 'self', stat: 'heal', amount: 40 }, desc: 'A gentle mist that restores conceptual integrity.' },
     'Flow': { name: 'Flow', power: 50, cost: 10, type: 'Chesed', desc: 'A yielding but powerful strike.' },
     'Invalidate': { name: 'Invalidate', power: 50, cost: 15, type: 'Chesed', desc: 'A strike using disconnected ("drawn") force, powerful but spiritually flawed.' },
+    // ADDED: The ultimate move for the Syllogism!
+    'Gematria': { name: 'Gematria', power: 90, cost: 25, type: 'Mystical', desc: 'Unleash the numerical truth of a name. Overwhelming power.'},
 
     // --- QLIPHOTH & SPECIAL ---
     'Whisper_Negation': { name: 'Whisper of Negation', power: 45, cost: 10, type: 'Qliphoth', desc: 'An unnerving whisper that drains conviction.' },
     'Propel_Stones': { name: 'Propel Stones', power: 25, cost: 4, type: 'Physical', desc: 'Indirect damage (Toldah), less potent but harder to avoid.' },
 };
-
-

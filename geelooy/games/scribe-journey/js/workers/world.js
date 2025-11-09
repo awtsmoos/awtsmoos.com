@@ -64,15 +64,28 @@ function initiatePlayerMove(state, direction) {
     p.isMoving = true; p.startX = p.x; p.startY = p.y; p.targetX = targetX; p.targetY = targetY;
 }
 
+// REVOLUTION: The new dynamic encounter system.
 function checkTileLandedOn(state, trigger) {
     const p = state.player;
-    const tileChar = state.maps[state.currentMapId].baseLayer[p.y]?.[p.x];
-    if (tileChar === '🌾' && Math.random() < 0.25) {
-        trigger.startBattle([{ id: 'whispering_grass', level: Math.floor(2 + Math.random() * 2) }]);
+    const map = state.maps[state.currentMapId];
+    const tileChar = map.baseLayer[p.y]?.[p.x];
+
+    if (map.encounters && map.encounters[tileChar] && Math.random() < 0.25) {
+        const possibleEncounters = map.encounters[tileChar];
+        const rand = Math.random();
+        let cumulativeChance = 0;
+
+        for (const encounter of possibleEncounters) {
+            cumulativeChance += encounter.chance;
+            if (rand < cumulativeChance) {
+                const [minLevel, maxLevel] = encounter.levelRange;
+                const level = Math.floor(Math.random() * (maxLevel - minLevel + 1)) + minLevel;
+                trigger.startBattle([{ id: encounter.id, level }]);
+                return; // Found an encounter, stop checking
+            }
+        }
     }
 }
-
-// In js/workers/world.js
 
 export function checkInteraction(state, trigger, sendUIUpdate) {
     if (state.player.isMoving || state.dialogue.active) return;
@@ -86,13 +99,12 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
         if (entity.type === 'door') {
             if (entity.condition) {
                 let canPass = true;
-                if (entity.condition.type === 'hasItem') {
-                    const hasItem = state.player.inventory.some(item => item.id === entity.condition.itemId);
-                    if (!hasItem) {
-                        canPass = false;
-                        startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
-                        return;
-                    }
+                if (entity.condition.type === 'hasItem' && !state.player.inventory.some(item => item.id === entity.condition.itemId)) {
+                    canPass = false;
+                }
+                if (!canPass) {
+                    startDialogue(state, { dialogue: { start: ["A powerful concept blocks this path. You must prove your understanding first.", "end"] } }, 'start', sendUIUpdate);
+                    return;
                 }
             }
             state.currentMapId = entity.targetMap;
@@ -100,13 +112,10 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
             p.y = p.startY = p.targetY = entity.targetY;
             p.pixelX = entity.targetX * TILE_SIZE; p.pixelY = entity.targetY * TILE_SIZE;
             p.isMoving = false;
-        } 
-        // FIX: Check for the specific 'shop' property BEFORE the general 'dialogue' property.
-        else if (entity.shop) {
+        } else if (entity.shop) {
             state.dialogue.entity = entity;
             Shop.startShop(state, sendUIUpdate);
-        }
-        else if (entity.dialogue) {
+        } else if (entity.dialogue) {
             startDialogue(state, entity, 'start', sendUIUpdate);
         }
     } else {
@@ -117,7 +126,7 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
 
 export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
     state.mode = 'dialogue';
-    state.dialogue = { active: true, entity: entity, branch: startingBranch, index: 0 };
+    state.dialogue = { active: true, entity: entity, branch: startingBranch, index: 0, choices: [] };
     if (entity && entity.questGiver) {
         const questStatus = Quests.getStatus(state, entity.questGiver);
         if (questStatus === 'completed' && entity.dialogue.completed) state.dialogue.branch = 'completed';
@@ -129,32 +138,26 @@ export function startDialogue(state, entity, startingBranch, sendUIUpdate) {
     advanceDialogue(state, sendUIUpdate);
 }
 
-
 export function advanceDialogue(state, sendUIUpdate, trigger) {
     if (!state.dialogue.active) return;
-
-    if (state.dialogue.entity.shop) { 
-        return; 
-    }
+    if (state.dialogue.entity.shop) return;
+    
     const dialogue = state.dialogue;
     const branch = dialogue.entity.dialogue[dialogue.branch];
     if (!branch || dialogue.index >= branch.length) { endDialogue(state, sendUIUpdate); return; }
     const message = branch[dialogue.index];
-
+    
     if (typeof message === 'string') {
         if (message === 'end') { endDialogue(state, sendUIUpdate); return; }
-        //  Store the current text in the state so it can be remembered.
         dialogue.currentText = message;
         dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
     } else if (typeof message === 'object') {
         if (message.choices) {
             dialogue.choices = message.choices;
-            // FIX: If a choice object has no text, use the last text that was shown.
             const displayText = message.text || dialogue.currentText;
             sendUIUpdate({ dialogue: { active: true, text: displayText, choices: message.choices } });
-        }
-        else {
+        } else {
             if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle, message.context); return; }
             if (message.giveItem) Quests.giveItem(state, message.giveItem);
             if (message.acceptQuest) trigger.acceptQuest(dialogue.entity.questGiver);
@@ -169,22 +172,13 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
 
 export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
     const dialogue = state.dialogue;
-
-    // FIX: Retrieve the choice object from the stored choices array, not from static map data.
     const choice = dialogue.choices ? dialogue.choices[index] : null;
+    if (!choice) return;
 
-    if (!choice) {
-        console.error(`Invalid choice index ${index} or choices not found.`);
-        return; // Fail gracefully
-    }
-
-    // Now, route the choice to the correct handler.
     if (dialogue.entity && dialogue.entity.shop) {
-        // This is a shop interaction.
         Shop.handleShopChoice(state, choice, sendUIUpdate);
     } else {
-        // This is a regular dialogue interaction.
-        dialogue.index++; // Move past the choice object in the dialogue script
+        dialogue.index++;
         if (choice.next) {
             dialogue.branch = choice.next;
             dialogue.index = 0;
