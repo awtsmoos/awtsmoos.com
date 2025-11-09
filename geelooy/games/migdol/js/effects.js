@@ -48,6 +48,9 @@ export class LetterParticle {
         this.gravity = 0.15;
         this.opacity = 1;
         this.size = TILE_SIZE * 0.5;
+        
+        const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#1abc9c', '#ecf0f1'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
     }
 
     update() {
@@ -63,7 +66,7 @@ export class LetterParticle {
     draw(ctx) {
         ctx.save();
         ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = this.color;
         ctx.font = `bold ${this.size}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';

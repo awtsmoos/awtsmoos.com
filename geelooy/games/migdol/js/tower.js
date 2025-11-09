@@ -10,7 +10,13 @@ export default class Tower {
         this.type = type;
         const config = TOWER_TYPES[type];
         this.emoji = config.emoji;
+        
         this.projectileEmoji = config.projectileEmoji;
+        if (this.projectileEmoji === 'hebrew') {
+            const letters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
+            this.projectileEmoji = letters[Math.floor(Math.random() * letters.length)];
+        }
+        
         this.cost = config.cost;
         
         this.damage = config.baseDamage;
@@ -47,7 +53,7 @@ export default class Tower {
             this.findTarget(enemies);
         }
 
-        if (this.target && this.fireCooldown === 0) {
+        if (this.target && this.fireCooldown <= 0) { // Check for <= 0 instead of === 0
             this.shoot(projectiles);
             this.fireCooldown = this.fireRate;
         }
@@ -55,7 +61,14 @@ export default class Tower {
 
     shoot(projectiles) {
         const config = TOWER_TYPES[this.type];
-        const newProjectile = new Projectile(this.x, this.y, this.target, this.damage, this.projectileEmoji, config);
+        
+        let emoji = this.projectileEmoji;
+        if (config.projectileEmoji === 'hebrew') {
+             const letters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
+             emoji = letters[Math.floor(Math.random() * letters.length)];
+        }
+
+        const newProjectile = new Projectile(this.x, this.y, this.target, this.damage, emoji, config);
         projectiles.push(newProjectile);
     }
     
@@ -65,7 +78,7 @@ export default class Tower {
             this.damageLevel++;
         }
         if (stat === 'speed') {
-            this.fireRate *= 0.85;
+            this.fireRate *= 0.85; // This can result in a float, hence the need for <= 0 check
             this.speedLevel++;
         }
         if (stat === 'range' && this.range < this.maxRange) {
