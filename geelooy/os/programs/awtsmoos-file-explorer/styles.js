@@ -118,11 +118,11 @@ export default /*css*/`
     border-right: 1px solid var(--border-color);
 }
 .file-explorer.sidebar-collapsed .file-explorer-sidebar {
-    width: 0;
+    width: 0px ! important;
     min-width: 0;
     padding-left: 0;
     padding-right: 0;
-    overflow: hidden;
+    overflow: hidden !important;
     border-right-width: 0;
 }
 .sidebar-resizer {
