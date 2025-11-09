@@ -41,29 +41,33 @@ export default class WaveManager {
 
     getWaveConfig(wave) {
         // Easier beginning
-        if (wave === 1) return [{ type: 'cat', count: 8 }];
+        if (wave === 1) return [{ type: 'imp', count: 10 }];
         if (wave === 2) return [{ type: 'cat', count: 15 }];
         if (wave === 3) return [{ type: 'flyer', count: 15 }];
         if (wave === 4) return [{ type: 'tiger', count: 10 }, { type: 'cat', count: 10 }];
         if (wave === 5) return [{ type: 'armored', count: 8 }];
         
         // Harder mid-game with more children
-        if (wave === 6) return [{ type: 'tiger', count: 15 }, { type: 'armored', count: 5 }];
+        if (wave === 6) return [{ type: 'snake', count: 12 }, { type: 'armored', count: 5 }];
         if (wave === 7) return [{ type: 'gorilla', count: 7 }];
         if (wave === 8) return [{ type: 'healer', count: 4 }, { type: 'gorilla', count: 8 }];
-        if (wave === 9) return [{ type: 'flyer', count: 30 }, { type: 'armored', count: 10 }];
+        if (wave === 9) return [{ type: 'flyer', count: 30 }, { type: 'wraith', count: 8 }];
         if (wave === 10) return [{ type: 'golem', count: 5 }, { type: 'healer', count: 5 }];
         
         // Procedural generation for later waves - WAY harder
         const totalValue = wave * 35;
         let currentValue = 0;
         const config = [];
-        const availableEnemies = ['cat', 'tiger', 'flyer', 'snake', 'fox'];
-        if (wave > 5) availableEnemies.push('armored', 'crocodile');
-        if (wave > 7) availableEnemies.push('gorilla', 'healer');
-        if (wave > 9) availableEnemies.push('golem');
+        // Add all enemies to the procedural generator pool, unlocking them as waves progress
+        const availableEnemies = ['cat', 'flyer', 'imp'];
+        if (wave > 3) availableEnemies.push('tiger', 'snake');
+        if (wave > 5) availableEnemies.push('armored', 'gorilla', 'healer', 'fox');
+        if (wave > 7) availableEnemies.push('wraith', 'crocodile');
+        if (wave > 9) availableEnemies.push('golem', 'cloner');
         if (wave > 12) availableEnemies.push('elephant');
-        
+        if (wave > 15) availableEnemies.push('brute');
+        if (wave > 20) availableEnemies.push('leviathan');
+
         while (currentValue < totalValue) {
             const randomType = availableEnemies[Math.floor(Math.random() * availableEnemies.length)];
             const enemyValue = ENEMY_TYPES[randomType].perutaValue || 5;
