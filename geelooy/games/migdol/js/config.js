@@ -29,6 +29,7 @@ export const MAPS = {
 // Tower configurations
 export const TOWER_TYPES = {
     'shooter': {
+    
         emoji: '🚀',
         projectileEmoji: '•',
         cost: 100,
