@@ -79,7 +79,7 @@
     flex-direction: column;
     background-color: var(--color-bg-secondary);
     border-bottom: 2px solid var(--color-border);
-    z-index: 3300;
+    z-index: 300;
     overflow-y: visible; 
     overflow-x: hidden;
 }
@@ -913,9 +913,7 @@ body.is-resizing {
 
 .custom-menu-dropdown {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed; /* B"H - This is the key change */
     z-index: 10000;
     background-color: var(--color-backdrop);
     border: 1px solid var(--color-border);
@@ -924,4 +922,6 @@ body.is-resizing {
     padding: 8px;
     min-width: 220px;
     box-shadow: 0 10px 40px var(--shadow-color);
+    transform-origin: top left;
+    animation: scaleUp var(--timing-fast) ease forwards;
 }

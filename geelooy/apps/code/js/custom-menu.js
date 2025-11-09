@@ -6,13 +6,17 @@ import { Menus } from './menus.js';
 
 export const CustomMenu = {
     // Stores references to the created menu elements
-    activeMenus: new Map(),
+    activeMenus: new Map(), // key: menuId, value: { button, dropdown }
 
     init() {
-        // Add a global click listener to close any open custom menus
+        // Global listener to close any open custom menus when clicking outside
         document.addEventListener('click', (e) => {
-            // If the click is not inside a custom menu, hide all dropdowns
-            if (!e.target.closest('.custom-menu')) {
+            // Check if the click was on one of our toggle buttons. If so, do nothing here.
+            if (e.target.closest('.menu-bar-button[data-menu-id]')) {
+                return;
+            }
+            // If the click is not inside a custom dropdown, hide all dropdowns.
+            if (!e.target.closest('.custom-menu-dropdown')) {
                 this.hideAllDropdowns();
             }
         });
@@ -21,75 +25,97 @@ export const CustomMenu = {
     createFromConfig(menuConfigs) {
         if (!Array.isArray(menuConfigs)) return;
 
-        // Clear any existing custom menus
-        DOM.customMenuContainer.innerHTML = '';
-        this.activeMenus.clear();
+        this.clearAll(); // Clear any existing menus first
 
         menuConfigs.forEach(config => {
             if (!config.title || !config.items) return;
+            const menuId = `custom-menu-${config.title.replace(/\s+/g, '-')}`;
 
-            // --- Create the HTML elements ---
-
-            // 1. The main container for one menu (e.g., "Awtsmoos")
-            const menuContainer = document.createElement('div');
-            menuContainer.className = 'custom-menu';
-
-            // 2. The button that is visible in the menu bar
+            // --- Create the button and add it to the menu bar ---
             const menuButton = document.createElement('button');
             menuButton.className = 'menu-bar-button';
             menuButton.textContent = config.title;
+            menuButton.dataset.menuId = menuId; // Link button to its dropdown
 
-            // 3. The dropdown panel, hidden by default
+            // --- Create the dropdown but append it to the BODY ---
             const dropdown = document.createElement('div');
             dropdown.className = 'custom-menu-dropdown';
+            dropdown.id = menuId; // Give it a unique ID
 
-            // 4. Populate the dropdown with items from the config
             config.items.forEach(item => {
                 const menuItem = document.createElement('button');
-                menuItem.className = 'menu-button'; // Use the same style as other menu items
+                menuItem.className = 'menu-button';
                 menuItem.dataset.action = item.action;
-                
-                // Use innerHTML to create the icon and label
                 menuItem.innerHTML = `
                     <svg class="svg-icon"><use href="#icon-${item.icon || 'brain'}"></use></svg>
                     <span>${item.label}</span>
                 `;
                 dropdown.appendChild(menuItem);
             });
+            
+            document.body.appendChild(dropdown); // Append to body for correct positioning context
 
             // --- Add event listeners ---
-
-            // Click the main button to toggle its dropdown
             menuButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Hide other dropdowns before showing this one
-                this.hideAllDropdowns(dropdown);
-                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                const currentlyVisible = dropdown.style.display === 'block';
+                this.hideAllDropdowns(); // Hide all other menus
+                if (!currentlyVisible) {
+                    this.positionAndDisplay(dropdown, menuButton); // Show and position this one
+                }
             });
 
-            // Clicks inside the dropdown should be handled by the main menu action handler
             dropdown.addEventListener('click', (e) => {
                 const button = e.target.closest('button');
                 if (button && button.dataset.action) {
                     Menus.handleAction(button.dataset.action);
-                    this.hideAllDropdowns(); // Hide after an action is clicked
+                    this.hideAllDropdowns();
                 }
             });
 
-            // --- Assemble and append to the DOM ---
-            menuContainer.append(menuButton, dropdown);
+            // --- Assemble and append button to the DOM ---
+            const menuContainer = document.createElement('div');
+            menuContainer.className = 'custom-menu';
+            menuContainer.appendChild(menuButton);
             DOM.customMenuContainer.appendChild(menuContainer);
 
-            // Store a reference for later
-            this.activeMenus.set(config.title, { container: menuContainer, dropdown });
+            this.activeMenus.set(menuId, { button: menuButton, dropdown });
         });
     },
 
-    hideAllDropdowns(exceptThisOne = null) {
+    positionAndDisplay(menu, button) {
+        const btnRect = button.getBoundingClientRect();
+        const coords = {
+            clientX: btnRect.left,
+            clientY: btnRect.bottom + 5 // Position below the button
+        };
+        
+        const { clientX: x, clientY: y } = coords;
+        menu.style.display = 'block';
+        const menuRect = menu.getBoundingClientRect();
+
+        const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 5 : x;
+        let adjustedY = y;
+        if (y + menuRect.height > window.innerHeight) {
+            adjustedY = btnRect.top - menuRect.height - 5; // Reposition above button if no space
+        }
+
+        menu.style.left = `${adjustedX}px`;
+        menu.style.top = `${adjustedY}px`;
+    },
+
+    hideAllDropdowns() {
         this.activeMenus.forEach(menu => {
-            if (menu.dropdown !== exceptThisOne) {
-                menu.dropdown.style.display = 'none';
-            }
+            menu.dropdown.style.display = 'none';
         });
+    },
+    
+    clearAll() {
+        this.activeMenus.forEach(menu => {
+            menu.button.parentElement.remove();
+            menu.dropdown.remove();
+        });
+        this.activeMenus.clear();
+        DOM.customMenuContainer.innerHTML = '';
     }
 };
