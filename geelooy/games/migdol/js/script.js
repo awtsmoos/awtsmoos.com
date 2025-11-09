@@ -30,8 +30,8 @@ class Game {
         this.eventMessages = [];
         this.path = this.map.path;
          
-        this.perutas = 200;
-        this.health = 500; // Increased for better playability
+        this.perutas = 250;
+        this.health = 100; // Increased for better playability
         
         this.selectedTowerType = null;
         this.selectedTower = null;
@@ -64,8 +64,8 @@ class Game {
         this.projectiles = [];
         this.groundEffects = [];
         this.particles = [];
-        this.perutas = 500;
-        this.health = 500; // Increased for better playability
+        this.perutas = 250;
+        this.health = 100; // Increased for better playability
         this.waveManager = new WaveManager(this);
         this.selectedTower = null;
         this.selectedTowerType = null;
@@ -190,6 +190,8 @@ class Game {
     }
 
     handleProjectileHit(p, enemy, projectileIndex) {
+        // This function's only job is to deal damage and apply effects.
+        // It no longer handles enemy death.
         if (enemy.health <= 0) return;
     
         enemy.takeDamage(p.damage);
@@ -207,6 +209,7 @@ class Game {
             });
         }
         
+        // Handle removal/behavior of the projectile itself
         if (p.type === 'ground_aoe') {
             const newEffect = new GroundEffect(p.x, p.y, p.aoeRadius, p.aoeDuration, p.damage, 60);
             this.groundEffects.push(newEffect);
@@ -236,25 +239,6 @@ class Game {
             if (p.pierceLimit <= 0) this.projectiles.splice(projectileIndex, 1);
         } else {
             this.projectiles.splice(projectileIndex, 1);
-        }
-    
-        if (enemy.health <= 0) {
-            this.perutas += enemy.perutaValue;
-            this.showEventMessage(`+${enemy.perutaValue}💰`, enemy);
-            this.createLetterExplosion(enemy.x, enemy.y);
-            
-            if (enemy.children) {
-                const enemyConfig = ENEMY_TYPES[enemy.children.type];
-                for (let j = 0; j < enemy.children.count; j++) {
-                    const child = new Enemy(enemyConfig, 1, this.path);
-                    child.x = enemy.x + (Math.random() - 0.5) * 20;
-                    child.y = enemy.y + (Math.random() - 0.5) * 20;
-                    child.pathIndex = enemy.pathIndex;
-                    this.enemies.push(child);
-                }
-            }
-            this.enemies = this.enemies.filter(e => e !== enemy);
-            this.updateUI();
         }
     }
     
@@ -429,11 +413,34 @@ class Game {
     updateAndDrawEnemies() {
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             const enemy = this.enemies[i];
+    
+            // First, check if the enemy is dead and should be removed.
+            if (enemy.health <= 0) {
+                this.perutas += enemy.perutaValue;
+                this.showEventMessage(`+${enemy.perutaValue}💰`, enemy);
+                this.createLetterExplosion(enemy.x, enemy.y);
+                
+                if (enemy.children) {
+                    const enemyConfig = ENEMY_TYPES[enemy.children.type];
+                    for (let j = 0; j < enemy.children.count; j++) {
+                        const child = new Enemy(enemyConfig, 1, this.path);
+                        child.x = enemy.x + (Math.random() - 0.5) * 20;
+                        child.y = enemy.y + (Math.random() - 0.5) * 20;
+                        child.pathIndex = enemy.pathIndex;
+                        this.enemies.push(child);
+                    }
+                }
+                this.enemies.splice(i, 1);
+                this.updateUI();
+                continue; // Skip the rest of the logic for this dead enemy
+            }
+    
+            // If the enemy is alive, update and draw it.
             enemy.update(this.enemies);
             enemy.draw(this.ctx);
-
+    
+            // Then, check if the living enemy has reached the end.
             if (enemy.pathIndex >= this.path.length - 1) {
-                enemy.health = 0; // Invalidate the enemy as a target
                 this.enemies.splice(i, 1);
                 this.takeDamage();
             }
