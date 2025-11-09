@@ -80,9 +80,25 @@
     background-color: var(--color-bg-secondary);
     border-bottom: 2px solid var(--color-border);
     z-index: 3300;
+    overflow-y: visible; 
     overflow-x: hidden;
 }
-    .menu-bar { display: flex; align-items: center; height: 52px; padding: 0 12px; flex-shrink: 0; gap: 8px; }
+    
+
+
+.menu-bar { 
+    display: flex; 
+    align-items: center; 
+    height: 52px; 
+    padding: 0 12px; 
+    flex-shrink: 0; 
+    gap: 8px;
+    
+    /* --- ADD THESE TWO LINES --- */
+    position: relative; /* Makes this the positioning anchor for the dropdown */
+    z-index: 1;         /* Establishes a stacking context above the tab bar */
+}
+    
     .tab-bar { display: flex; overflow-x: auto; align-items: flex-end; }
     
     .main-content { 
