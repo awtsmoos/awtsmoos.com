@@ -108,6 +108,8 @@ export function checkInteraction(state, trigger, sendUIUpdate) {
         } else if (entity.dialogue) {
             startDialogue(state, entity, 'start', sendUIUpdate);
         } else if (entity.shop) {
+            // FIX: Set the dialogue entity so the system knows it's a shop interaction.
+            state.dialogue.entity = entity;
             Shop.startShop(state, sendUIUpdate);
         }
     } else {
@@ -148,7 +150,11 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
         dialogue.index++;
         sendUIUpdate({ dialogue: { active: true, text: message } });
     } else if (typeof message === 'object') {
-        if (message.choices) { sendUIUpdate({ dialogue: { active: true, text: message.text, choices: message.choices } }); }
+        if (message.choices) {
+            // FIX: Store choices in the state so handleDialogueChoice can find them.
+            dialogue.choices = message.choices;
+            sendUIUpdate({ dialogue: { active: true, text: message.text, choices: message.choices } });
+        }
         else {
             if (message.startBattle) { endDialogue(state, sendUIUpdate); trigger.startBattle(message.startBattle, message.context); return; }
             if (message.giveItem) Quests.giveItem(state, message.giveItem);
@@ -164,23 +170,29 @@ export function advanceDialogue(state, sendUIUpdate, trigger) {
 
 export function handleDialogueChoice(state, index, sendUIUpdate, trigger) {
     const dialogue = state.dialogue;
-    // The shop logic correctly uses handleShopChoice. This was already correct.
-    if (dialogue.entity.shop) {
-        const branch = dialogue.entity.dialogue[dialogue.branch];
-        const choice = branch[dialogue.index].choices[index];
-        Shop.handleShopChoice(state, choice, sendUIUpdate);
-        return;
+
+    // FIX: Retrieve the choice object from the stored choices array, not from static map data.
+    const choice = dialogue.choices ? dialogue.choices[index] : null;
+
+    if (!choice) {
+        console.error(`Invalid choice index ${index} or choices not found.`);
+        return; // Fail gracefully
     }
-    const branch = dialogue.entity.dialogue[dialogue.branch];
-    const message = branch[dialogue.index];
-    const choice = message.choices[index];
-    dialogue.index++;
-    if (choice.next) {
-        dialogue.branch = choice.next;
-        dialogue.index = 0;
-        advanceDialogue(state, sendUIUpdate, trigger);
+
+    // Now, route the choice to the correct handler.
+    if (dialogue.entity && dialogue.entity.shop) {
+        // This is a shop interaction.
+        Shop.handleShopChoice(state, choice, sendUIUpdate);
     } else {
-        endDialogue(state, sendUIUpdate);
+        // This is a regular dialogue interaction.
+        dialogue.index++; // Move past the choice object in the dialogue script
+        if (choice.next) {
+            dialogue.branch = choice.next;
+            dialogue.index = 0;
+            advanceDialogue(state, sendUIUpdate, trigger);
+        } else {
+            endDialogue(state, sendUIUpdate);
+        }
     }
 }
 

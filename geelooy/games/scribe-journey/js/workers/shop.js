@@ -74,6 +74,8 @@ function advanceShop(state, sendUIUpdate, action = {}) {
             break;
     }
 
+    // Store the dynamically generated choices in the game state.
+    state.dialogue.choices = choices;
     sendUIUpdate({ dialogue: { active: true, text, choices } });
 }
 
