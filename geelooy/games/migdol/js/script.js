@@ -9,12 +9,8 @@ import { setupUI } from './ui.js';
 // --- Global State ---
 let game = null;
 
-// --- DOM Elements ---
-const mainMenu = document.getElementById('main-menu');
-const mapSelectionContainer = document.getElementById('map-selection-container');
-const gameWrapper = document.getElementById('game-wrapper');
-const gameOverScreen = document.getElementById('game-over-screen');
-const canvas = document.getElementById('gameCanvas');
+// --- DOM Elements (will be assigned on page load) ---
+let mainMenu, mapSelectionContainer, gameWrapper, gameOverScreen, canvas;
 
 class Game {
     constructor(canvas, mapConfig) {
@@ -436,8 +432,15 @@ function returnToMainMenu() {
     mainMenu.classList.remove('hidden');
 }
 
-
 window.onload = () => {
+    // --- Assign DOM Elements ---
+    mainMenu = document.getElementById('main-menu');
+    mapSelectionContainer = document.getElementById('map-selection-container');
+    gameWrapper = document.getElementById('game-wrapper');
+    gameOverScreen = document.getElementById('game-over-screen');
+    canvas = document.getElementById('gameCanvas');
+
+    // --- Initialize UI and Buttons ---
     initializeMainMenu();
     
     document.getElementById('restart-button').onclick = () => {
