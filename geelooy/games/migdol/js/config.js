@@ -93,8 +93,8 @@ export const ENEMY_TYPES = {
     },
     'tiger': {
         emoji: '🐅',
-        baseHealth: 150,
-        speed: 2.0,
+        baseHealth: 75,
+        speed: 1.5,
         perutaValue: 10,
         children: null,
     },
