@@ -30,7 +30,7 @@ class Game {
         this.eventMessages = [];
         this.path = this.map.path;
          
-        this.perutas = 500 
+        this.perutas = 500  
         this.health = 500; // Increased for better playability
         
         this.selectedTowerType = null;
