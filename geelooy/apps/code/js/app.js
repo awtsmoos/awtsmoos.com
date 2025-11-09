@@ -147,7 +147,7 @@ setupEventListeners() {
 
 
 window.addEventListener('message', (event) => {
-        console.log("EDITOR received message:", event.data); 
+      //  console.log("EDITOR received message:", event.data); 
         
         const { type, payload, requestId, error } = event.data;
 
@@ -192,7 +192,8 @@ window.addEventListener('message', (event) => {
       
         //  'if' block to handle the menu registration
         if (type === 'registerMenus') {
-            Menus.registerCustomMenus(payload); // We will add this function to menus.js
+            CustomMenu.createFromConfig(payload)
+            
             return;
         }
         
