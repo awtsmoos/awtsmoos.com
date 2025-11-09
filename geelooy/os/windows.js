@@ -201,23 +201,17 @@ export default class ResizableWindow {
         var self = this;
 
         const onResizeStart = (e) => {
-            if(e. target. classList.contains("awtsBtn")) {
-                return;
-
-
-            }
+            if (e.target.classList.contains("awtsBtn")) return;
             e.preventDefault();
 
-            // Determine if it's a touch event
             const event = e.touches ? e.touches[0] : e;
 
-            this.minWidth = this.winCtrls.scrollWidth +
-                this.headerTxt.scrollWidth + this.GAP + this.PADD * 2;
+            this.minWidth = this.winCtrls.scrollWidth + this.headerTxt.scrollWidth + this.GAP + this.PADD * 2;
             this.minHeight = this.winHeader.scrollHeight;
             startX = event.clientX;
             startY = event.clientY;
 
-            startWidth = this.winBody.offsetWidth;
+            startWidth = this.win.offsetWidth;
             startHeight = this.win.offsetHeight;
             startLeft = this.win.offsetLeft;
             startTop = this.win.offsetTop;
@@ -226,82 +220,51 @@ export default class ResizableWindow {
             const getNewHeight = (y, dir = 1) => startHeight + dir * (y - startY);
 
             const resizeHorizontal = (x, dir = 1) => {
-                if (first) return;
                 const newWidth = getNewWidth(x, dir);
                 if (newWidth <= this.minWidth) return null;
-                this.win.style.width = `${newWidth}px`; // Ensure minimum width
+                this.win.style.width = `${newWidth}px`;
                 return newWidth;
             };
 
             const resizeVertical = (y, dir = 1) => {
-                if (first) return;
                 const newHeight = getNewHeight(y, dir);
                 if (newHeight <= this.minHeight) return null;
-                this.win.style.height = `${newHeight}px`; // Ensure minimum height
+                this.win.style.height = `${newHeight}px`;
                 return newHeight;
             };
 
             const moveLeft = (x, dir = 1, nw) => {
-                if (nw === null) return;
-                if (nw <= this.minWidth) return;
-                this.win.style.left = `${startLeft - dir * (x - startX)}px`; // Move the window left
+                if (nw !== null && nw > this.minWidth) {
+                    this.win.style.left = `${startLeft - dir * (x - startX)}px`;
+                }
             };
 
             const moveTop = (y, dir = 1, nh) => {
-                if (nh === null) return;
-                if (nh <= this.minHeight) return;
-                this.win.style.top = `${startTop - dir * (y - startY)}px`; // Move the window up
+                if (nh !== null && nh > this.minHeight) {
+                    this.win.style.top = `${startTop - dir * (y - startY)}px`;
+                }
             };
 
             const resizeOperations = {
                 'e': (x, y) => resizeHorizontal(x),
-                'w': (x, y) => {
-                    const nw = resizeHorizontal(x, -1);
-                    moveLeft(x, -1, nw);
-                },
+                'w': (x, y) => moveLeft(x, -1, resizeHorizontal(x, -1)),
                 's': (x, y) => resizeVertical(y),
-                'n': (x, y) => {
-                    const nh = resizeVertical(y, -1);
-                    moveTop(y, -1, nh);
-                },
-                'ne': (x, y) => {
-                    resizeOperations["n"](x, y);
-                    resizeOperations["e"](x, y);
-                },
-                'se': (x, y) => {
-                    resizeOperations["s"](x, y);
-                    resizeOperations["e"](x, y);
-                },
-                'sw': (x, y) => {
-                    resizeOperations["s"](x, y);
-                    resizeOperations["w"](x, y);
-                },
-                'nw': (x, y) => {
-                    resizeOperations["n"](x, y);
-                    resizeOperations["w"](x, y);
-                }
+                'n': (x, y) => moveTop(y, -1, resizeVertical(y, -1)),
+                'ne': (x, y) => { resizeOperations.n(x, y); resizeOperations.e(x, y); },
+                'se': (x, y) => { resizeOperations.s(x, y); resizeOperations.e(x, y); },
+                'sw': (x, y) => { resizeOperations.s(x, y); resizeOperations.w(x, y); },
+                'nw': (x, y) => { resizeOperations.n(x, y); resizeOperations.w(x, y); }
             };
 
-            let first = true;
             const resize = (e) => {
-                if(e. target. classList.contains("awtsBtn")) {
-                return;
-
-
-                }
                 const event = e.touches ? e.touches[0] : e;
-                const x = event.clientX;
-                const y = event.clientY;
-
                 if (resizeOperations[resizeDirection]) {
-                    resizeOperations[resizeDirection](x, y);
+                    resizeOperations[resizeDirection](event.clientX, event.clientY);
                 }
-                first = false;
-                self?.onresize(e);
+                self?.onresize?.(e);
             };
 
             const endResize = () => {
-                
                 document.removeEventListener('mousemove', resize);
                 document.removeEventListener('touchmove', resize);
                 document.removeEventListener('mouseup', endResize);
@@ -309,13 +272,13 @@ export default class ResizableWindow {
             };
 
             document.addEventListener('mousemove', resize);
-            document.addEventListener('touchmove', resize);
+            document.addEventListener('touchmove', resize, { passive: false });
             document.addEventListener('mouseup', endResize);
             document.addEventListener('touchend', endResize);
         };
 
         handleElement.addEventListener('mousedown', onResizeStart);
-        handleElement.addEventListener('touchstart', onResizeStart);
+        handleElement.addEventListener('touchstart', onResizeStart, { passive: false });
     }
 
 
@@ -399,7 +362,7 @@ export default class ResizableWindow {
     addStyles() {
         var sty = document.createElement("style")
         sty.innerHTML = `/*css*/
-        /* B"H - Windows XP Style Theme */
+        /* B"H - Windows XP Style Theme with Mobile-Friendly Resizing */
 
         .${this.ID}-window {
             position: absolute;
@@ -414,10 +377,7 @@ export default class ResizableWindow {
             font-family: 'Tahoma', sans-serif;
         }
         
-        .${this.ID}-window.active {
-            z-index: 4;
-            border-color: #082b6b;
-        }
+        .${this.ID}-window.active { z-index: 4; border-color: #082b6b; }
         
         .${this.ID}-window .window-header {
             display: flex;
@@ -430,95 +390,45 @@ export default class ResizableWindow {
             height: 30px;
         }
 
-        /* Active vs Inactive Header Styles */
-        .${this.ID}-window.active .window-header {
-            background: linear-gradient(to bottom, #0058ee, #0035d0);
-        }
-        .${this.ID}-window.inactive .window-header {
-            background: linear-gradient(to bottom, #bfbfbf, #8e8e8e);
-        }
+        .${this.ID}-window.active .window-header { background: linear-gradient(to bottom, #0058ee, #0035d0); }
+        .${this.ID}-window.inactive .window-header { background: linear-gradient(to bottom, #bfbfbf, #8e8e8e); }
 
-        .${this.ID}-window .header-title {
-            flex-grow: 1;
-            padding-left: 4px;
-        }
-        
-        .${this.ID}-window .header-text {
-            color: white;
-            font-size: 13px;
-            font-weight: bold;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .${this.ID}-window .header-ctrls {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
+        .${this.ID}-window .header-title { flex-grow: 1; padding-left: 4px; }
+        .${this.ID}-window .header-text { color: white; font-size: 13px; font-weight: bold; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .${this.ID}-window .header-ctrls { display: flex; gap: 4px; flex-shrink: 0; }
         
         .${this.ID}-window .header-btn {
-            width: 21px;
-            height: 21px;
-            border: 1px solid #0035d0;
-            border-radius: 3px;
-            color: white;
-            font-family: 'Marlett', 'Arial', sans-serif; /* Using Marlett for classic symbols if available */
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer !important;
-            box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
-            line-height: 1;
+            width: 21px; height: 21px; border: 1px solid #0035d0; border-radius: 3px;
+            color: white; font-family: 'Marlett', sans-serif; font-size: 14px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer !important; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
         }
         
-        /* Specific Button Styles */
-        .${this.ID}-window .header-btn.minimize,
-        .${this.ID}-window .header-btn.maximize {
-            background: #0058ee;
-        }
-        .${this.ID}-window .header-btn.close {
-            background: #d84a38;
-            border-color: #d14130;
-        }
+        .${this.ID}-window .header-btn.minimize, .${this.ID}-window .header-btn.maximize { background: #0058ee; }
+        .${this.ID}-window .header-btn.close { background: #d84a38; border-color: #d14130; }
+        .${this.ID}-window .header-btn:hover { filter: brightness(1.2); }
+        .${this.ID}-window .header-btn:active { filter: brightness(0.9); box-shadow: inset 1px 1px 1px rgba(0,0,0,0.3); }
 
-        .${this.ID}-window .header-btn:hover {
-            filter: brightness(1.2);
-        }
-        .${this.ID}-window .header-btn:active {
-            filter: brightness(0.9);
-            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.3);
-        }
-
-        .${this.ID}-window .window-content {
-            height: calc(100% - 31px); /* Adjusted for new header height */
-            overflow-y: auto;
-            background: #f0f0f0;
-            padding: 2px;
-        }
+        .${this.ID}-window .window-content { height: calc(100% - 31px); overflow-y: auto; background: #f0f0f0; padding: 2px; }
             
-        /* Resize Handles - Keep them functional but invisible */
+        /* Enhanced Resize Handles for Mobile */
         .${this.ID}-window .window-resizer {
             position: absolute;
-            background: transparent;
+            background: transparent; /* Keep them invisible */
             z-index: 10;
         }
-        .resize-n, .resize-s { width: 100%; height: 8px; }
-        .resize-e, .resize-w { width: 8px; height: 100%; }
-        .resize-ne, .resize-se, .resize-sw, .resize-nw { width: 12px; height: 12px; }
+        
+        /* Larger touch targets for sides */
+        .${this.ID}-window .resize-n { top: -10px; left: 0; width: 100%; height: 20px; cursor: ns-resize; }
+        .${this.ID}-window .resize-s { bottom: -10px; left: 0; width: 100%; height: 20px; cursor: ns-resize; }
+        .${this.ID}-window .resize-e { right: -10px; top: 0; width: 20px; height: 100%; cursor: ew-resize; }
+        .${this.ID}-window .resize-w { left: -10px; top: 0; width: 20px; height: 100%; cursor: ew-resize; }
 
-        .${this.ID}-window .resize-n { top: -4px; left: 0; }
-        .${this.ID}-window .resize-s { bottom: -4px; left: 0; }
-        .${this.ID}-window .resize-e { right: -4px; top: 0; }
-        .${this.ID}-window .resize-w { left: -4px; top: 0; }
-        .${this.ID}-window .resize-ne { top: -4px; right: -4px; }
-        .${this.ID}-window .resize-se { bottom: -4px; right: -4px; }
-        .${this.ID}-window .resize-sw { bottom: -4px; left: -4px; }
-        .${this.ID}-window .resize-nw { top: -4px; left: -4px; }
+        /* Larger touch targets for corners */
+        .${this.ID}-window .resize-ne { top: -10px; right: -10px; width: 20px; height: 20px; cursor: ne-resize; }
+        .${this.ID}-window .resize-se { bottom: -10px; right: -10px; width: 20px; height: 20px; cursor: se-resize; }
+        .${this.ID}-window .resize-sw { bottom: -10px; left: -10px; width: 20px; height: 20px; cursor: sw-resize; }
+        .${this.ID}-window .resize-nw { top: -10px; left: -10px; width: 20px; height: 20px; cursor: nw-resize; }
         `
         document.head.appendChild(sty);
     }

@@ -96,6 +96,16 @@ export default ({
         updatePathBar(newPath);
         await renderFiles(newPath, body);
     }
+    
+    function setSort(by) {
+        if (state.sort.by === by) {
+            state.sort.order = state.sort.order === 'asc' ? 'desc' : 'asc';
+        } else {
+            state.sort.by = by;
+            state.sort.order = 'asc';
+        }
+        renderFiles(state.currentPath, body);
+    }
 
     async function renderFiles(targetPath, holder) {
         holder.innerHTML = '';
@@ -140,7 +150,32 @@ export default ({
     }
 
     function renderDetailsView(items, targetPath, holder) {
-        /* Details view rendering logic */
+        const header = createElement({
+            tag: 'div', attributes: { class: 'details-header' },
+            children: [
+                { tag: 'div', html: 'Name ▼', on: { click: () => setSort('name') } },
+                { tag: 'div', html: 'Date Modified' },
+                { tag: 'div', html: 'Type' }
+            ]
+        });
+        holder.appendChild(header);
+
+        items.forEach(item => {
+            const isFolder = item.endsWith('.folder');
+            const displayName = item.replace('.folder', '');
+            const type = isFolder ? 'Folder' : (item.split('.').pop() || 'File');
+
+            const row = createElement({
+                tag: 'div', attributes: { class: 'details-row' },
+                children: [
+                    { tag: 'div', html: displayName },
+                    { tag: 'div', html: '11/8/2025' }, // Placeholder for date modified
+                    { tag: 'div', html: type }
+                ],
+                on: { click: (e) => handleItemClick(e, { targetPath, item, isFolder }) }
+            });
+            holder.appendChild(row);
+        });
     }
 
     // --- UI Component Creation ---
@@ -149,11 +184,12 @@ export default ({
         pathBreadcrumbs.innerHTML = '';
         const parts = currentPath.split('/').filter(p => p);
         parts.forEach((part, index) => {
+            const partPath = parts.slice(0, index + 1).join('/');
             pathBreadcrumbs.appendChild(createElement({
                 tag: 'span',
                 attributes: { class: 'path-segment' },
                 html: part.replace('.folder', ''),
-                on: { click: () => navigateTo(parts.slice(0, index + 1).join('/')) }
+                on: { click: (e) => { e.stopPropagation(); navigateTo(partPath); } }
             }));
             if (index < parts.length - 1) {
                 pathBreadcrumbs.appendChild(createElement({ tag: 'span', attributes: { class: 'path-separator' }, html: '›' }));
@@ -194,7 +230,7 @@ export default ({
                 onEditEnd();
             }
         });
-
+        
         const container = createElement({
             tag: 'div',
             attributes: { class: 'path-bar-container' },
@@ -210,7 +246,88 @@ export default ({
     }
 
     async function buildFileTree(rootPath, parentElement) {
-        /* File tree building logic remains the same */
+        parentElement.innerHTML = '';
+        const rootUl = createElement({ tag: 'ul' });
+        parentElement.appendChild(rootUl);
+
+        const buildNode = async (currentPath, parentUl) => {
+            let items = [];
+            try {
+                items = await os.db.getAllKeys(currentPath);
+            } catch (e) { return; }
+
+            // Sort with folders first, then alphabetically
+            items.sort((a, b) => {
+                const isAFolder = a.endsWith('.folder');
+                const isBFolder = b.endsWith('.folder');
+                if (isAFolder && !isBFolder) return -1;
+                if (!isAFolder && isBFolder) return 1;
+                return a.localeCompare(b);
+            });
+
+            for (const item of items) {
+                const isFolder = item.endsWith('.folder');
+                const fullPath = `${currentPath}/${item}`;
+                const displayName = item.replace('.folder', '');
+
+                const li = createElement({ tag: 'li', attributes: { class: 'tree-node' } });
+                const contentWrapper = createElement({ tag: 'div', attributes: { class: 'tree-node-content' }});
+                
+                const nameSpan = createElement({ tag: 'span', attributes: { class: 'node-name' }, html: displayName });
+                
+                let toggle; // Will hold the arrow element if it's a folder
+
+                if (isFolder) {
+                    toggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
+                    contentWrapper.append(toggle, nameSpan);
+                    
+                    const childrenUl = createElement({ tag: 'ul', attributes: { class: 'tree-children collapsed' } });
+
+                    const toggleExpansion = (e) => {
+                        e?.stopPropagation(); // Prevent this click from triggering the context menu
+                        const isCollapsed = childrenUl.classList.contains('collapsed');
+                        if (isCollapsed) {
+                            childrenUl.classList.remove('collapsed');
+                            toggle.innerHTML = '▼';
+                            if (!childrenUl.hasChildNodes()) { // Lazy load children
+                                buildNode(fullPath, childrenUl);
+                            }
+                        } else {
+                            childrenUl.classList.add('collapsed');
+                            toggle.innerHTML = '►';
+                        }
+                    };
+
+                    // Click on the arrow toggles expansion
+                    toggle.onclick = toggleExpansion;
+
+                    // Click on the text/wrapper brings up the menu or opens on double-click
+                    contentWrapper.onclick = (e) => handleItemClick(e, {
+                        targetPath: currentPath,
+                        item,
+                        isFolder,
+                        actions: { 'Expand/Collapse': toggleExpansion }
+                    });
+                    
+                    li.append(contentWrapper, childrenUl);
+
+                } else {
+                    // It's a file
+                    const fileIconPlaceholder = createElement({ tag: 'span', attributes: { class: 'toggle' } }); // for alignment
+                    contentWrapper.append(fileIconPlaceholder, nameSpan);
+
+                    // Files just have the standard open/context menu behavior
+                    contentWrapper.onclick = (e) => handleItemClick(e, {
+                        targetPath: currentPath,
+                        item,
+                        isFolder,
+                    });
+                    li.appendChild(contentWrapper);
+                }
+                parentUl.appendChild(li);
+            }
+        };
+        await buildNode(rootPath, rootUl);
     }
     
     function createFileExplorer() {
@@ -223,8 +340,21 @@ export default ({
         const menuButtons = createElement({
             tag: 'div', attributes: { class: 'menu-buttons' },
             children: [
-                { tag: "button", html: "New File", on: { click: async () => { /* ... */ } }},
-                { tag: "button", html: "New Folder", on: { click: async () => { /* ... */ } }},
+                { tag: "button", html: "New File", on: { click: async () => {
+                    const name = prompt("Enter file name:");
+                    if (name) {
+                        await os.createFile({ path: state.currentPath, title: name, content:`//B"H\n`});
+                        await renderFiles(state.currentPath, body);
+                    }
+                }}},
+                { tag: "button", html: "New Folder", on: { click: async () => {
+                    const name = prompt("Enter folder name:");
+                    if (name) {
+                        await os.createFolder({ path: state.currentPath, title: name });
+                        await renderFiles(state.currentPath, body);
+                        await buildFileTree('desktop.folder', sidebar);
+                    }
+                }}},
                 { tag: "button", html: "Import", on: { click: () => importFiles({ os, path: state.currentPath }) }},
             ]
         });
@@ -237,7 +367,9 @@ export default ({
             ]
         });
 
-        buttonBar.append(sidebarToggleBtn, menuButtons, createElement({tag: 'div', attributes: { style: 'flex-grow: 1' } }), viewControls);
+        // Use a spacer to push view controls to the right
+        const spacer = createElement({tag: 'div', attributes: { style: 'flex-grow: 1' } });
+        buttonBar.append(sidebarToggleBtn, menuButtons, spacer, viewControls);
 
         const header = createElement({ tag: "div", attributes: { class: "file-explorer-header" } });
         header.append(buttonBar, createPathBar());
@@ -257,7 +389,9 @@ export default ({
             const doDrag = (moveEvent) => {
                 const currentX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
                 const newWidth = startWidth + currentX - startX;
-                if (newWidth > 50) sidebar.style.width = newWidth + 'px';
+                if (newWidth > 100) { // Set a reasonable minimum width
+                    sidebar.style.width = newWidth + 'px';
+                }
             };
             const stopDrag = () => {
                 document.body.style.cursor = 'default';
