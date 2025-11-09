@@ -27,30 +27,37 @@ export const Editor = {
         }
     },
 
-    showTextEditor(content = "", filename = "") {
-        UI.switchView('editor')
-        
-        DOM.editor.value = content;
-        UI.updateLineNumbers();
-        StatusBar.updateLanguage(filename);
-        setTimeout(() => { 
-            UI.syncScroll(); 
-            this.focus();
+    // B"H 
 
-            if (this.currentHighlighter) {
-                this.currentHighlighter.destroy();
-            }
-            const ext = this._getExt(filename);
-            const langMap = {
-	            ".js": "js", 
-	            ".css": "css", 
-	            ".html": "html",
-	            ".svg": "html",
-	            ".xml": "html"
-            };
-            this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
-        }, 0);
-    },
+showTextEditor(content = "", filename = "", scrollPos = 0) { 
+    UI.switchView('editor');
+    
+    DOM.editor.value = content;
+    UI.updateLineNumbers();
+    StatusBar.updateLanguage(filename);
+    setTimeout(() => { 
+        UI.syncScroll(); 
+        this.focus();
+
+        if (this.currentHighlighter) {
+            this.currentHighlighter.destroy();
+        }
+        const ext = this._getExt(filename);
+        const langMap = {
+            ".js": "js", 
+            ".css": "css", 
+            ".html": "html",
+            ".svg": "html",
+            ".xml": "html"
+        };
+        this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
+        
+        //  Restore scroll position AFTER the highlighter is initialized.
+        DOM.editor.scrollTop = scrollPos;
+        // Also re-sync line numbers after restoring scroll.
+        UI.syncScroll(); 
+    }, 0);
+},
 
     // --- B"H: FIND AND REPLACE THIS ENTIRE FUNCTION in js/editor.js ---
 

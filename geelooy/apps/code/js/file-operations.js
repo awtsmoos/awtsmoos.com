@@ -82,81 +82,88 @@ export const FileOperations = {
 
 
     
-    async copyAllContents(items) {
-        if (!items || items.length === 0) {
-            UI.showToast("Nothing selected to copy.", "info");
-            return;
-        }
+    // B"H - IN: js/file-operations.js
+// ACTION: Replace the entire function with this one.
 
-        UI.showLoading("Reading file contents...");
-        let combinedContent = '';
+async copyAllContents(items) {
+    if (!items || items.length === 0) {
+        UI.showToast("Nothing selected to copy.", "info");
+        return;
+    }
 
-        try {
-            const processItem = async (item) => {
-                if (!item || !item.kind) return;
+    UI.showLoading("Formatting as Markdown...");
+    let combinedContent = 'B"H\n\n'; // Start with a single header for the whole document
 
-                if (item.kind === 'file') {
-                    const content = await FileSystemProvider.read(item);
-                    let textContent = ''; // Default to an empty string
+    try {
+        const processItem = async (item) => {
+            if (!item || !item.kind) return;
 
-                    // THE SMARTER LOGIC IS HERE: We check the TYPE of the content we received.
-                    if (typeof content === 'string') {
-                        // Case 1: It's already a string (e.g., text file from GitHub).
-                        textContent = content;
-                    } else if (content instanceof Blob) {
-                        // Case 2: It's a Blob or File object (e.g., from Local File System).
-                        textContent = await content.text();
-                    } else if (typeof content === 'object' && content !== null && content.isBinary) {
-                        // Case 3: It's our special binary object (e.g., image from GitHub).
-                        textContent = `[Binary file content not displayed: ${item.name}]`;
-                    } else if (content) {
-                        // Fallback for any other unexpected type. This prevents [object Object].
-                        console.warn(`Unexpected content type for ${item.name}:`, content);
-                        textContent = `[Unsupported content type for ${item.name}]`;
-                    }
+            if (item.kind === 'file') {
+                const content = await FileSystemProvider.read(item);
+                let textContent = '';
 
-                    // Now, build the final string with the correctly processed content.
-                    combinedContent += '________\n';
-                    combinedContent += '## B"H\n';
-                    combinedContent += `# start file ${item.path || item.name}.---\n`;
-                    combinedContent += '________\n```';
-                    combinedContent += textContent + '```\n---';
-                    combinedContent += '________\n\n';
+                if (typeof content === 'string') {
+                    textContent = content;
+                } else if (content instanceof Blob) {
+                    textContent = await content.text();
+                } else if (typeof content === 'object' && content !== null && content.isBinary) {
+                    textContent = `[Binary file content not displayed: ${item.name}]`;
+                } else if (content) {
+                    textContent = `[Unsupported content type for ${item.name}]`;
+                }
 
-                } else if (item.kind === 'directory') {
-                    combinedContent += `\n\n## B"H\n - Directory: ${item.path || item.name}\n__________\n\n`;
-                    
-                    const children = await FileSystemProvider.list(item);
-                    children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
+                // --- NEW: Standard Markdown Formatting ---
+                const langMap = {
+                    '.js': 'javascript', '.mjs': 'javascript', '.css': 'css',
+                    '.html': 'html', '.htm': 'html', '.xml': 'xml', '.svg': 'xml',
+                    '.json': 'json', '.md': 'markdown', '.py': 'python',
+                    '.sh': 'shell', '.java': 'java', '.c': 'c', '.cpp': 'cpp'
+                };
+                const extension = '.' + (item.name || '').split('.').pop().toLowerCase();
+                const langIdentifier = langMap[extension] || ''; // Gets 'javascript', 'css', etc.
 
-                    for (const child of children) {
-                        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
-                        if (workspace) {
-                            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
-                            await processItem(fullChildItem);
-                        }
+                // Build the clean Markdown output for a file
+                combinedContent += `### \`${item.path || item.name}\`\n\n`;
+                combinedContent += '```' + langIdentifier + '\n';
+                combinedContent += textContent.trim() + '\n'; // Trim to remove extra whitespace
+                combinedContent += '```\n\n';
+                combinedContent += '---\n\n'; // A standard horizontal rule separator
+
+            } else if (item.kind === 'directory') {
+                // Use a clean Markdown header for the directory path
+                combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
+                
+                const children = await FileSystemProvider.list(item);
+                children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
+
+                for (const child of children) {
+                    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
+                    if (workspace) {
+                        const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+                        await processItem(fullChildItem);
                     }
                 }
-            };
-
-            for (const item of items) {
-                await processItem(item);
             }
+        };
 
-            if (combinedContent) {
-                const success = await Clipboard.write(combinedContent);
-                UI.showToast(success ? 'All contents copied to clipboard!' : 'Failed to copy contents.', success ? 'success' : 'error');
-            } else {
-                UI.showToast('No text content found to copy.', 'info');
-            }
-
-        } catch (error) {
-            console.error("Error copying all contents:", error);
-            UI.showToast(`Error: ${error.message}`, 'error');
-        } finally {
-            UI.hideLoading();
+        for (const item of items) {
+            await processItem(item);
         }
-    },
+
+        if (combinedContent) {
+            const success = await Clipboard.write(combinedContent);
+            UI.showToast(success ? 'Contents copied as Markdown!' : 'Failed to copy contents.', success ? 'success' : 'error');
+        } else {
+            UI.showToast('No text content found to copy.', 'info');
+        }
+
+    } catch (error) {
+        console.error("Error copying all contents:", error);
+        UI.showToast(`Error: ${error.message}`, 'error');
+    } finally {
+        UI.hideLoading();
+    }
+},
     
 
 	

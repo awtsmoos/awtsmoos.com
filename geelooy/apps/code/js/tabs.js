@@ -171,16 +171,17 @@ export const Tabs = {
                 break;
 
             case 'text':
-                if (tab.content instanceof Blob) {
-                    const text = await tab.content.text();
-                    tab.content = text;
-                    Editor.showTextEditor(text, tab.item.name);
-                } else {
-                    Editor.showTextEditor(tab.content || '', tab.item.name);
-                }
-                DOM.editor.scrollTop = tab.scrollPos || 0;
-                setTimeout(() => UI.syncScroll(), 0);
-                break;
+    if (tab.content instanceof Blob) {
+        const text = await tab.content.text();
+        tab.content = text;
+        // THE FIX: Pass the saved scroll position to the editor function.
+        Editor.showTextEditor(text, tab.item.name, tab.scrollPos || 0);
+    } else {
+        // THE FIX: Pass the saved scroll position to the editor function.
+        Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+    }
+    
+    break;
                 
             default: // images, pdfs, etc.
                 Editor.showPreviewer(tab.content, fileInfo, tab.id);
