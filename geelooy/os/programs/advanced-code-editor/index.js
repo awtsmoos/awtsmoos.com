@@ -53,7 +53,7 @@ export default ({ os, system, fileName, content, path }) => {
         
         const { type, payload, requestId } = event.data;
         
-        console.log("OS sending response to editor:", { requestId, payload: responsePayload });
+        console.log("OS got request from:", { requestId, payload, type });
     
         // Helper to send responses back to the iframe
         const respond = (responsePayload) => {
