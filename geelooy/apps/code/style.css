@@ -79,7 +79,7 @@
     flex-direction: column;
     background-color: var(--color-bg-secondary);
     border-bottom: 2px solid var(--color-border);
-    z-index: 100;
+    z-index: 3300;
     overflow-x: hidden;
 }
     .menu-bar { display: flex; align-items: center; height: 52px; padding: 0 12px; flex-shrink: 0; gap: 8px; }

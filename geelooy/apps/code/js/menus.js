@@ -231,6 +231,10 @@ registerCustomMenus(menuConfigs) {
         this.hideAll();
         
         
+        const activeTab = State?.tabs?.find?.(t => t?.id === State?.activeTabId);
+                    
+        
+        
         // Check if the action is one of our custom, parent-defined actions.
     // We can identify them because they are not part of the editor's built-in set.
     const builtInActions = [
@@ -248,7 +252,7 @@ registerCustomMenus(menuConfigs) {
             payload: {
                 action: action,
                 // Provide the context of the active file for the OS to work with
-                context: activeTab?.item.saveContext || activeTab?.item.path || null
+                context: activeTab?.item?.saveContext || activeTab?.item?.path || null
             }
         }, '*');
         return; // Stop processing here.
@@ -263,7 +267,7 @@ registerCustomMenus(menuConfigs) {
                 case 'download': Tabs.downloadActive(); break;
                 
                 case 'view-html': {
-                    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+                    
                     if (!activeTab) break;
                     UI.showLoading("Processing HTML for preview...");
                     const content = Editor.getContent();
