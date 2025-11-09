@@ -80,39 +80,47 @@ onrestore(window) {
 
 
     
-    addWindow({title, content, path, os}) {
-        var ext = this.getExtension(title);
-        var prog = programsByExtensionDefaults[ext];
+    // In windowHandler.js, replace the entire addWindow method
+addWindow({title, content, path, os, programName = null}) {
+    var ext = this.getExtension(title);
     
-        var program = getDefaultProgram(ext)
-        if(program) {
-            var system = new System({path, os})
-            program = program({
-                os:system.os,
-                path,
-                title,
-                fileName: title, 
-                content, 
-                system,
-                extension:ext
-            })
-            content = program?.div;
-        }
-        
-        var wind = new ResizableWindow({
-            title, content,
-            handler: this,
-            programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer'
-        });
-        
-        wind.programInstance = programInstance
-        wind.onresize = e => {
-            program?.onresize?.(e)
-        }
-        
-        program?.init?.();
-        this.windows.push(wind);
+    var program;
+    if (programName && programs[programName]) {
+        program = programs[programName];
+    } else {
+        program = getDefaultProgram(ext);
     }
+    
+    if(program) {
+        var system = new System({path, os})
+        var programInstance = program({
+            os:system.os,
+            path,
+            title,
+            fileName: title, 
+            content, 
+            system,
+            extension:ext
+        })
+        content = programInstance?.div;
+    }
+    
+    var wind = new ResizableWindow({
+        title, content,
+        handler: this,
+        // THE FIX IS HERE: Use the correct 'defaultPrograms' variable
+        programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer'
+    });
+    
+    wind.programInstance = programInstance;
+    
+    wind.onresize = e => {
+        programInstance?.onresize?.(e)
+    }
+    
+    programInstance?.init?.();
+    this.windows.push(wind);
+}
 
     onactive(w)  {
         console.log("ACTIVATING",w)

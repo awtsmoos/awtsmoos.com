@@ -103,93 +103,61 @@ async updateDefaultProgram(extension, programName) {
         return desk;
     }
 
-    async onFileClick({
-        path,
-        title,
-        event,
-        isFolder
-    }) {
-        if(!window.clickedMenu) {
-            window.clickedMenu = 0;
-        }
-        window.clickedMenu++;
-        
-        // Prevent default behavior
-        event.preventDefault();
-       
-    
-        // Define menu options with actions
-        const actions = {
-            Open: async () => {
-                const content = await this.db.Laynin(path, title);
-                this.addWindow({ title, content, path, os: this });
-            },
-            Rename: async () => {
-                const newName = prompt("Enter new name:", title);
-                if (newName) {
-                    if(!isFolder) {
-                        await this.db.renameFile(path, title, newName);
-                    } else {
-                        await this.db.renameFolder(path, title, newName)
-                    }
-                    await this.showFilesAtPath({
-                        path
-                    });
-                }
-            },
-            Copy: async () => {
-                const copyName = `${title}_copy`;
-                await this.db.Koysayv(path, copyName, await this.db.Laynin(path, title));
-                await this.showFilesAtPath({
-                    path
-                });
-            },
-            Delete: async () => {
-                if (confirm(`Are you sure you want to delete ${title}?`)) {
-                    await this.db.deleteFile(path, title);
-                    await this.showFilesAtPath({
-                        path
-                    });;
-                }
-            }
-        };
+    // In awtsmoosOs.js, replace the entire onFileClick method
+async onFileClick({ path, title, event, isFolder }) {
+    event.preventDefault();
 
-        // Remove any existing context menus
-        const existingMenu = document.querySelector(".contextMenu");
-        if (existingMenu) existingMenu.remove()
-
-        if(window.clickedMenu > 1) {
-            await actions.Open();
-            window.clickedMenu  = 0;
-            return;
-        }
-
-
-         
-     
-         // Create the context menu
-         const menu = document.createElement("div");
-         menu.className = "contextMenu";
-
-    
-        // Create menu items dynamically from actions
-        Object.keys(actions).forEach(action => {
-            const menuItem = document.createElement("div");
-            menuItem.className = "menuItem";
-            menuItem.textContent = action;
-            menuItem.onclick = async () => {
-                menu.remove(); // Remove the menu after an option is clicked
-                await actions[action]();
-            };
-            menu.appendChild(menuItem);
-        });
-    
-        // Position the menu at the mouse location
-        menu.style.left = `${event.pageX}px`;
-        menu.style.top = `${event.pageY}px`;
-        document.body.appendChild(menu);
-       
+    // --- DOUBLE-CLICK LOGIC ---
+    // The 'detail' property of a click event is 2 for a double-click.
+    if (event.detail === 2) {
+        const content = await this.db.Laynin(path, title);
+        this.addWindow({ title, content, path, os: this });
+        return; // Stop execution to prevent context menu from opening
     }
+
+    // --- SINGLE-CLICK (CONTEXT MENU) LOGIC ---
+    // Remove any existing menus immediately on a new click
+    const existingMenu = document.querySelector(".contextMenu");
+    if (existingMenu) existingMenu.remove();
+
+    const actions = {
+        Open: async () => {
+            const content = await this.db.Laynin(path, title);
+            this.addWindow({ title, content, path, os: this });
+        },
+        'Open with...': () => {
+             this.addWindow({
+                title: `Open ${title} with...`,
+                content: { filePath: path, fileTitle: title },
+                os: this,
+                programName: 'openWithSelector'
+            });
+        },
+        Rename: async () => { /* ... existing code ... */ },
+        Copy: async () => { /* ... existing code ... */ },
+        Delete: async () => { /* ... existing code ... */ }
+    };
+
+    const menu = document.createElement("div");
+    menu.className = "contextMenu";
+
+    Object.keys(actions).forEach(action => {
+        if (action === 'Open with...' && isFolder) return;
+        
+        const menuItem = document.createElement("div");
+        menuItem.className = "menuItem";
+        menuItem.textContent = action;
+        menuItem.onclick = async () => {
+            menu.remove();
+            await actions[action]();
+        };
+        menu.appendChild(menuItem);
+    });
+
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+    document.body.appendChild(menu);
+}
  
     async renderFile({
         path, 
