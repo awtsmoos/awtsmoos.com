@@ -185,16 +185,18 @@ class Game {
 
     handleProjectileHit(p) {
         const towerConfig = TOWER_TYPES[p.tower.type];
+        
+        console. log("what",p)
 
         if(!p.target || p.target.health <= 0) return;
 
         p.target.takeDamage(p.damage);
 
-        if (towerConfig.slowFactor) {
+        if (towerConfig?.slowFactor) {
             p.target.applySlow(towerConfig.slowFactor, towerConfig.slowDuration);
         }
         
-        if (towerConfig.splashRadius) {
+        if (towerConfig?.splashRadius) {
             this.enemies.forEach(enemy => {
                 if (enemy !== p.target) {
                     const dist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
