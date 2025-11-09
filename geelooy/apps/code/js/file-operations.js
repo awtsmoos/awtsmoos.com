@@ -124,7 +124,7 @@ export const FileOperations = {
                     combinedContent += '________\n\n';
 
                 } else if (item.kind === 'directory') {
-                    combinedContent += `\n\n**** B"H\n - Directory: ${item.path || item.name}\n****\n\n`;
+                    combinedContent += `\n\n## B"H\n - Directory: ${item.path || item.name}\n__________\n\n`;
                     
                     const children = await FileSystemProvider.list(item);
                     children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
