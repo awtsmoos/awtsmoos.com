@@ -10,15 +10,27 @@ let clouds = [], buildings = []; // Arrays for our background elements
 let roadLines = [];
 
 // --- Game Setup ---
-function setCanvasSize() {
-    // --- THIS IS THE FIX ---
-    // Directly set the canvas dimensions to the true visible area of the window.
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    // Adjust the ground position to be near the bottom of this new, correct height.
-    // Let's give it 40 pixels of space for the ground and road lines.
-    groundPosition = canvas.height - 40; 
+// 
+
+function resizeCanvas() {
+    // Use the visualViewport for the true visible area.
+    const vv = window.visualViewport;
+    canvas.width = vv.width;
+    canvas.height = vv.height;
+
+    // Recalculate all vertical positions based on the new height.
+    groundPosition = vv.height - 40;
+
+    // Safely reposition existing game elements if the game is running
+    if (player) {
+        player.groundY = groundPosition;
+        if (!player.isJumping) {
+            player.y = groundPosition;
+        }
+    }
+    if (roadLines.length > 0) {
+        roadLines.forEach(line => line.y = groundPosition + 25);
+    }
 }
 
 function drawRoadLines() {
@@ -194,30 +206,34 @@ function endGame() {
 }
 
 // --- Event Listeners ---
+
+// This function handles starting the game
 function handleStart() {
-    if (isGameOver || !player) init();
-    player.jump();
+    if (isGameOver || !player) {
+        init();
+    } else {
+        player.jump();
+    }
 }
 
-window.addEventListener('resize', init); // Re-initialize the game on resize
-
-// Controls
-window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') handleStart();
-});
-window.addEventListener('touchstart', handleStart);
-
-// This is the new, correct way to initialize the game
+// This is the new, reliable startup sequence.
 window.addEventListener('DOMContentLoaded', () => {
-    // Set the initial canvas size based on the *actual* visible window
-    setCanvasSize();
+    // 1. Perform the first resize to fit the screen.
+    resizeCanvas();
     
-    // Now that sizing is correct, explicitly show the initial UI
-    // (This prevents them from flashing on screen with the wrong size)
+    // 2. Show the initial UI.
     startScreen.style.display = 'flex';
     instructions.style.display = 'block';
-    gameOverScreen.style.display = 'none';
+
+    // 3. Set up the reliable resize listener for the visual viewport.
+    // This is the key to fixing the mobile UI bug.
+    window.visualViewport.addEventListener('resize', resizeCanvas);
 });
+
+// Add listeners for user input.
+window.addEventListener('keydown', (e) => { if (e.code === 'Space') handleStart(); });
+window.addEventListener('touchstart', handleStart);
+
 
 
 
