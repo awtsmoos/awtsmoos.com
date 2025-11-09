@@ -17,6 +17,12 @@ export default class ResizableWindow {
         if(!window.awtsmoosWindowID) {
             window.awtsmoosWindowID = "BH-"+Date.now();
         }
+        
+        
+        this.programId = title.endsWith('.folder')
+	        ? 'awtsmoosFileExplorer' : title; 
+	        
+	this.lastDimensions = {}; // To store state before minimizing
         this.mainDiv = window.desktop;
         this.ID = window.awtsmoosWindowID;
         this.createWindow();
@@ -31,6 +37,43 @@ export default class ResizableWindow {
         this?.handler?.onclose?.(this);
         delete this;
     }
+    
+    // Add these two new methods inside the ResizableWindow class
+minimize() {
+    // Save current state
+    this.lastDimensions = {
+        left: this.win.style.left,
+        top: this.win.style.top,
+        width: this.win.style.width,
+        height: this.win.style.height,
+        isFullscreened: this.isFullscreened
+    };
+
+    // Hide the window
+    this.win.style.display = 'none';
+
+    // Tell the handler to add this to the start bar
+    this.handler?.onminimize?.(this);
+}
+
+restore() {
+    // Restore the last known state
+    this.win.style.display = 'block';
+    if (this.lastDimensions.isFullscreened) {
+        this.toggleFullscreen();
+    } else {
+        this.win.style.left = this.lastDimensions.left;
+        this.win.style.top = this.lastDimensions.top;
+        this.win.style.width = this.lastDimensions.width;
+        this.win.style.height = this.lastDimensions.height;
+    }
+
+    // Make this window active
+    this.makeActive();
+
+    // Tell the handler this window has been restored
+    this.handler?.onrestore?.(this);
+}
 
     makeActive() {
         this.active = true;
@@ -114,6 +157,7 @@ export default class ResizableWindow {
             
             "_": (w,b) => {
                 b.classList.add("awtsBtn", "minimize");
+                b.onclick = () => self.minimize();
             },
             "O": (win, btn) => {
                 btn.onclick = () => self.toggleFullscreen();

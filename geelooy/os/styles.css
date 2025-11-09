@@ -16,16 +16,16 @@ body {
     width: 100%;
     background: #333399;
     color: white;
-    display: flex;
+    display: flex; /* This is the key part */
     align-items: center;
-    justify-content: center;
     height: 50px;
     z-index: 1000;
     box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.8), 0px 5px 10px rgba(0, 0, 0, 0.5);
-  
     border-top: 2px solid #fff;
     border-bottom: 3px solid #ccc;
     border-radius: 20px 20px 0 0;
+    padding: 0 5px; /* Add some padding */
+    gap: 5px;
 }
 
 #start-button {
@@ -179,5 +179,90 @@ body {
 .desktop {
     height:100%;
 }
+
+
+/* --- Taskbar Styles --- */
+
+/* This rule tells the task area to be first visually and grow */
+.task-area {
+    order: 1; /* Places it before the button */
+    flex-grow: 1; /* Takes up all available space */
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* This rule forces the Start button to the far right */
+#start-button {
+    order: 2; /* Places it after the task area */
+}
+
+/* Hide scrollbar for a cleaner look */
+.task-area::-webkit-scrollbar {
+    height: 3px;
+}
+.task-area::-webkit-scrollbar-thumb {
+    background: #6666cc;
+}
+
+.task-item {
+    background: linear-gradient(to bottom, #0058ee, #0035d0);
+    color: white;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #082b6b;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.task-item:hover {
+    filter: brightness(1.2);
+}
+
+.task-item.stacked::after {
+    content: attr(data-count);
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+.task-group-popup {
+    position: absolute;
+    bottom: 55px;
+    background: #f0f0f0;
+    border: 1px solid #707070;
+    box-shadow: 2px -2px 5px rgba(0,0,0,0.3);
+    z-index: 1001;
+    min-width: 180px;
+}
+
+.task-group-popup-item {
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.task-group-popup-item:hover {
+    background: #0078d7;
+    color: white;
+}
+
+
+
 
 

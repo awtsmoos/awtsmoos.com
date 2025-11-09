@@ -160,7 +160,7 @@ export default /*css*/`
 
 /* Icon View */
 .icon-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; align-content: flex-start; }
-.file-item.icon { display: flex; flex-direction: column; align-items: center; padding: 8px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; text-align: center; }
+.file-item.icon { display: inline-flex; flex-direction: column; align-items: center; padding: 8px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; text-align: center; }
 .file-item.icon:hover { background-color: var(--accent-blue-light); border-color: var(--accent-blue-border); }
 .file-item.icon span { font-size: 13px; line-height: 1.4; word-break: break-word; margin-top: 6px; }
 .file-icon, .folder-icon, .js-icon, .css-icon, .html-icon { width: 56px; height: 56px; background-size: contain; background-repeat: no-repeat; background-position: center; }
