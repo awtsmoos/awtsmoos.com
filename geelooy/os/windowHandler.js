@@ -101,8 +101,11 @@ onrestore(window) {
         
         var wind = new ResizableWindow({
             title, content,
-            handler: this
+            handler: this,
+            programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer'
         });
+        
+        wind.programInstance = programInstance
         wind.onresize = e => {
             program?.onresize?.(e)
         }

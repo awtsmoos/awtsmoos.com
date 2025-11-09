@@ -88,8 +88,17 @@ activeConsole: null, // B"H
     async initialize() {
         UI.showLoading("VIVID X Initializing...");
         
-        this.loadSettings();
+        
+        
+        const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
+    
+    this.loadSettings();
+    // Only load a previous session if NOT in embedded mode
+    if (!isEmbedded) {
         this.loadSession();
+    }
+        
+        
         
         SelectionManager.initialize(); 
 
@@ -126,6 +135,43 @@ activeConsole: null, // B"H
 
 setupEventListeners() {
 
+
+
+
+window.addEventListener('message', (event) => {
+    // We only care about 'loadFile' messages
+    if (event.data?.type !== 'loadFile') {
+        return;
+    }
+
+    console.log("Advanced Editor received 'loadFile' command from OS:", event.data);
+
+    const { fileName, content, saveContext } = event.data.payload;
+
+    // Create a special, virtual workspace for this externally-loaded file
+    const externalWorkspace = {
+        name: `OS: ${saveContext.osPath.split('/').pop() || 'root'}`,
+        type: 'postmessage',
+        // We embed the save context here so it's available to our provider
+        saveContext: saveContext
+    };
+    Workspaces.add(externalWorkspace, false); // `false` prevents saving to session
+
+    // Create the file item object that the Tabs module expects
+    const fileItem = {
+        name: fileName,
+        path: fileName, // Use a simple path within this virtual workspace
+        kind: 'file',
+        type: 'postmessage',
+        workspaceId: State.workspaces[State.workspaces.length - 1].id, // Get the ID of the workspace we just added
+        saveContext: saveContext,
+        content: content // Pass the pre-loaded content
+    };
+
+    // Create and activate the tab
+    Tabs.create(fileItem, false, false);
+});
+// 
 	let resizeDebounceTimer;
 	
     // --- Element References (Using YOUR DOM object variable names) ---

@@ -31,12 +31,15 @@ export default class ResizableWindow {
         this.makeActive();
     }
 
-    close() {
-        
-        this.win.parentNode.removeChild(this.win);
-        this?.handler?.onclose?.(this);
-        delete this;
-    }
+    // 
+close() {
+    //  Call the program's onclose method if it exists
+    this.programInstance?.onclose?.();
+
+    this.win.parentNode.removeChild(this.win);
+    this?.handler?.onclose?.(this);
+    delete this;
+}
     
     // Add these two new methods inside the ResizableWindow class
 minimize() {

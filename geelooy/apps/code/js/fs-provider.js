@@ -39,6 +39,7 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.read(item);
                 case 'indexeddb': return this.IndexedDB.read(item);
                 case 'github': return this.GitHub.read(item);
+                case 'postmessage': return this.PostMessage.read(item); 
             }
         } catch (e) { console.error(`[FS READ FAILED]`, e); throw e; }
     },
@@ -48,6 +49,7 @@ export const FileSystemProvider = {
                 case 'local': return this.Local.write(item, content);
                 case 'indexeddb': return this.IndexedDB.write(item, content);
                 case 'github': return this.GitHub.write(item, content, commitMessage);
+                case 'postmessage': return this.PostMessage.write(item, content);
             }
         } catch (e) { console.error(`[FS WRITE FAILED]`, e); throw e; }
     },
@@ -611,10 +613,52 @@ read: async function({ path }) {
             return newCommit.sha;
         }
     },
+    
+    
+    
+    // In fs-provider.js, add this new provider object
+PostMessage: {
+    // We don't need to read, as the content is provided on load.
+    async read(item) {
+        console.log("PostMessage Provider: Read called, but content is pre-loaded.");
+        return item.content || ''; 
+    },
 
-// ... continue with your Local and IndexedDB providers ...
-    
-    
+    // This is the crucial part: it sends the save command to the OS.
+    async write(item, content) {
+        return new Promise((resolve, reject) => {
+            console.log("PostMessage Provider: Sending save request to OS.", { item, content });
+            
+            // The OS will listen for this specific message type
+            window.parent.postMessage({
+                type: 'saveFile',
+                payload: {
+                    content: content,
+                    saveContext: item.saveContext // The OS-specific path info
+                }
+            }, '*'); // Use a specific origin in production
+
+            // Listen for a success/error response from the OS
+            const responseListener = (event) => {
+                if (event.data.type === 'saveSuccess') {
+                    window.removeEventListener('message', responseListener);
+                    resolve();
+                } else if (event.data.type === 'saveError') {
+                    window.removeEventListener('message', responseListener);
+                    reject(new Error(event.data.error));
+                }
+            };
+            window.addEventListener('message', responseListener);
+        });
+    },
+
+    // These operations are not supported in this mode, as the OS handles them.
+    async list(item) { throw new Error('File listing is not supported in embedded mode.'); },
+    async create(parentDir, name, kind) { throw new Error('File creation is not supported in embedded mode.'); },
+    async delete(item) { throw new Error('File deletion is not supported in embedded mode.'); }
+},
+
+
     
     
 

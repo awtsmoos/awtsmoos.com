@@ -2,6 +2,8 @@
 import AwtsmoosDB from "/scripts/awtsmoos/api/fileSystem/fileSystemDB.js";
 import WindowHandler from "./windowHandler.js";
 import osStyles from "./styles/os-base.js";
+import { SettingsManager } from "./settingsManager.js";
+import { defaultPrograms, initialDefaultPrograms } from "./basicPrograms.js";
 
 console.log(`B"H
 
@@ -23,6 +25,12 @@ export default class AwtsmoosOS {
             window[q] = utils[q]
         })
         await this.db.init("awtsmoos-os");
+        
+        // Pass our single source of truth to the settings manager.
+    const loadedDefaults = await SettingsManager.load(this.db, initialDefaultPrograms);
+    
+    // This dynamically populates the 'defaultPrograms' object for the whole OS to use.
+    Object.assign(defaultPrograms, loadedDefaults);
         this.makeDesktop();
         await this.showFilesAtPath({
             path: "desktop.folder"
@@ -55,6 +63,20 @@ export default class AwtsmoosOS {
             path
         });
     }
+    
+    
+    // 
+async updateDefaultProgram(extension, programName) {
+    if (!extension || !programName) return;
+
+    console.log(`Setting default for ${extension} to ${programName}`);
+    
+    // 1. Update the live settings object
+    defaultPrograms[extension] = programName;
+
+    // 2. Save the entire updated object back to the file
+    await SettingsManager.save(this.db, defaultPrograms);
+}
 
     async createFolder({path, title}) {
         await this.db.Koysayv(path, title+".folder", "");
