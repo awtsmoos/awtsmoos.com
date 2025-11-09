@@ -18,17 +18,27 @@ export const SettingsManager = {
      * @param {AwtsmoosDB} db - The OS database instance.
      * @returns {Promise<object>} The settings object for default programs.
      */
-    async load(db, initialSettings) {
+    // 
+
+async load(db, initialSettings) {
     try {
         const settingsJson = await db.Laynin(SYSTEM_FOLDER_PATH, SETTINGS_FILE_NAME);
         if (!settingsJson) {
              throw new Error("Settings file is empty or corrupt.");
         }
-        console.log("OS Settings loaded from file.");
-        return JSON.parse(settingsJson);
+        const savedSettings = JSON.parse(settingsJson);
+        
+        // --- THE FIX IS HERE ---
+        // Merge saved settings on top of the initial defaults.
+        // This ensures new defaults are added without overwriting user preferences.
+        const mergedSettings = { ...initialSettings, ...savedSettings };
+        
+        console.log("OS Settings loaded and merged from file.");
+        return mergedSettings;
+
     } catch (error) {
-        // If loading fails, save and return the initial settings we were given.
-        console.log("No settings file found. Creating with initial defaults provided by the OS.");
+        // If loading fails for any reason, create a fresh settings file with the initial defaults.
+        console.log("No settings file found or file was corrupt. Creating with initial defaults.");
         await this.save(db, initialSettings);
         return initialSettings;
     }

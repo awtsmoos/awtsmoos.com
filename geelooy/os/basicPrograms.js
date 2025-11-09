@@ -33,7 +33,7 @@ export const programsByExtension = {
 // This is the factory default setting used ONLY on the very first boot.
 export const initialDefaultPrograms = {
   ".js": "advancedCodeEditor",
-  ".html": "advancedCode-editor",
+  ".html": "advancedCodeEditor",
   ".css": "advancedCodeEditor",
   ".json": "advancedCodeEditor",
   ".txt": "awtsmoosTextEdit",
