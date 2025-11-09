@@ -10,11 +10,43 @@
 // --- CORE LOGIC AND DATABASE IMPORT ---
 importScripts('helpers.js');
 importScripts('grandmaster_library.js');
+importScripts('punishment_library.js');
 
 // =================================================================
 //                 OPENING BOOK PROCESSING LOGIC
 // =================================================================
 const openingBook = new Map();
+const punishmentBook = new Map();
+
+
+function buildBook(sourceArray, targetMap) {
+    if (targetMap.size > 0 || typeof sourceArray === 'undefined') return;
+
+    // The raw book is generated on the fly from the source PGNs
+    const rawBook = generateRawBook(sourceArray);
+
+    for (const entry of rawBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1];
+        const hash = calculateZobristHash(createGameState(fen)).toString();
+        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
+        
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        targetMap.set(hash, bookEntry);
+    }
+}
+
 function buildOpeningBook() {
     if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
     for (const entry of rawOpeningBook) {
@@ -1282,9 +1314,13 @@ let isInitialized = false;
 function initializeEngine() {
     if (isInitialized) return;
     initializeZobristKeys();
-    buildOpeningBook();
+    // Build both books using our refactored function
+    buildBook(sourceBook, openingBook);
+    buildBook(punishmentBookSource, punishmentBook); // <--  
     isInitialized = true;
     console.log("Prometheus Engine Initialized Successfully.");
+    console.log(`Mainline Openings Loaded: ${openingBook.size}`);
+    console.log(`Punishment Lines Loaded: ${punishmentBook.size}`);
 }
 
 self.onmessage = function(e) {
@@ -1297,12 +1333,12 @@ self.onmessage = function(e) {
     }
     
     if(tested < 1){
-    tested++
-    runPerftTest(fen, maxDepth);
-    
+        tested++;
+        runPerftTest(fen, maxDepth);
     }
 
     if (command === 'calculate_move') {
+        // --- Search Initialization ---
         searchStartTime = performance.now();
         timeLimit = maxTime || 4000;
         stopSearch = false;
@@ -1321,11 +1357,13 @@ self.onmessage = function(e) {
             console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
         }
 
+        // --- HIERARCHY 1: Check the main 'grandmaster' opening book first. ---
         if (openingBook.has(currentHash)) {
-            const bookEntry = openingBook.get(currentHash); // Get the full object
+            const bookEntry = openingBook.get(currentHash);
             const bookMoves = bookEntry.moves;
-            const openingName = bookEntry.name; // Get the stored name
+            const openingName = bookEntry.name;
             const legalMoves = generateLegalMoves(initialState);
+
             const verifiedBookMoves = bookMoves.filter(bookMove => 
                 legalMoves.some(legalMove => 
                     legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
@@ -1334,18 +1372,38 @@ self.onmessage = function(e) {
             );
 
             if (verifiedBookMoves.length > 0) {
-                if (DEBUG_MODE) console.log(`**CACHE HIT**: Hash found in book and move verified as legal.`);
+                if (DEBUG_MODE) console.log(`**MAIN BOOK HIT**: Playing standard opening.`);
                 const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
-                // Use the 'openingName' in the message, not a property of the move
                 postMessage({ bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
-                return;
-            } else {
-                if (DEBUG_MODE) console.error(`**BOOK FAILURE**: Hash found, but all book moves were ILLEGAL. Treating as a cache miss.`);
+                return; // Exit after finding a move
+            }
+        } 
+        
+        // --- HIERARCHY 2: If no main book move, check the 'punishment' book. ---
+        else if (punishmentBook.has(currentHash)) {
+            const bookEntry = punishmentBook.get(currentHash);
+            const bookMoves = bookEntry.moves;
+            const trapName = bookEntry.name;
+            const legalMoves = generateLegalMoves(initialState);
+
+            const verifiedBookMoves = bookMoves.filter(bookMove => 
+                legalMoves.some(legalMove => 
+                    legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
+                    legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
+                )
+            );
+
+            if (verifiedBookMoves.length > 0) {
+                if (DEBUG_MODE) console.log(`**PUNISHMENT BOOK HIT**: Responding to opponent's mistake.`);
+                const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
+                postMessage({ bestMove: randomVerifiedMove, score: `Punish Move: ${trapName}`, timeTaken: 0, nodesSearched: 0 });
+                return; // Exit after finding a move
             }
         }
         
+        // --- HIERARCHY 3: If neither book has a valid move, then think. ---
         if (DEBUG_MODE) {
-            console.warn("Engine is now THINKING because of a book miss or failure.");
+            console.warn("Engine is now THINKING because of a book miss.");
         }
 
         const { bestMove, score } = searchRoot(initialState, maxDepth || 99);

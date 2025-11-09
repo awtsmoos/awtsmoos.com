@@ -499,6 +499,46 @@ const sourceBook = [
     { name: "King's Indian Attack vs. Caro-Kann", pgn: "1. e4 c6 2. d3 d5 3. Nd2 g6 4. Ngf3 Bg7 5. g3 Nf6 6. Bg2 O-O 7. O-O dxe4 8. dxe4 Na6 9. Qe2" },
     { name: "Modern Defense: Austrian Attack, Gurgenidze System", pgn: "1. e4 g6 2. d4 Bg7 3. Nc3 c6 4. f4 d5 5. e5 h5 6. Nf3 Bg4 7. Be2 Nh6 8. O-O e6" },
     { name: "Torre Attack: Main Line with ...h6", pgn: "1. d4 Nf6 2. Nf3 e6 3. Bg5 h6 4. Bh4 c5 5. e3 b6 6. Nbd2 Bb7 7. c3 Be7 8. Bd3 O-O 9. O-O d6" },
+    
+    
+    // =================================================================
+    //         ELITE GRANDMASTER REPERTOIRE EXPANSION (v3.0)
+    // =================================================================
+    // This pack adds the remaining critical, theoretically-heavy opening
+    // systems required for a complete, modern, top-tier repertoire.
+
+    // --- Premier Anti-Sicilian Systems: The Rossolimo ---
+    { name: "Sicilian: Rossolimo Variation, Main Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 g6 4. Bxc6 bxc6 5. O-O Bg7 6. Re1 e5 7. b4 cxb4 8. a3 c5 9. axb4 cxb4 10. d4" },
+    { name: "Sicilian: Rossolimo Variation, ...d6 Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 d6 4. O-O Bd7 5. Re1 Nf6 6. c3 a6 7. Ba4 b5 8. Bc2 e5 9. h3" },
+    { name: "Sicilian: Rossolimo Variation, ...e6 Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 e6 4. O-O Nge7 5. Re1 a6 6. Bf1 d5 7. exd5 Nxd5 8. d4" },
+
+    // --- Deeper Italian Theory: The Giuoco Pianissimo ---
+    { name: "Italian: Giuoco Pianissimo, Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d3 Nf6 5. O-O d6 6. c3 a6 7. a4 Ba7 8. Re1 O-O 9. h3 Ne7 10. d4" },
+    { name: "Italian: Giuoco Pianissimo, d4-d5 ideas", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d3 Nf6 5. O-O d6 6. c3 O-O 7. Nbd2 a5 8. Re1 Be6 9. Bb5" },
+    { name: "Italian: Two Knights, Modern Bishop Check", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d3 d5 5. exd5 Nxd5 6. O-O Be7 7. Re1 Bf6" },
+
+    // --- Deeper Catalan Theory: The Open Catalan Main Lines ---
+    { name: "Catalan: Open, Main Line (8...Bd7)", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 Be7 6. O-O O-O 7. Qc2 a6 8. a4 Bd7 9. Qxc4 Bc6 10. Bf4 a5 11. Nc3" },
+    { name: "Catalan: Open, Classical Variation", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 c5 6. O-O Nc6 7. Qa4 Bd7 8. Qxc4 b5 9. Qd3 Rc8 10. dxc5" },
+    { name: "Catalan: Open, Bogo-Indian Setup", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 Bb4+ 5. Bd2 Be7 6. Nf3 O-O 7. O-O c6 8. Qc2" },
+
+    // --- Deeper Slav & Semi-Slav Theory ---
+    { name: "Semi-Slav: Moscow Variation (6.Bxf6)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bxf6 Qxf6 7. e3 Nd7 8. Bd3 dxc4 9. Bxc4" },
+    { name: "Semi-Slav: Anti-Moscow Variation (6.Bh4)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bh4 dxc4 7. e4 g5 8. Bg3 b5 9. Be2 Bb7 10. O-O" },
+    { name: "Slav: Chebanenko Variation, Main Line (5.c5)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. c5 Nbd7 6. Bf4 Nh5 7. Bd2 Nhf6 8. Qc2 g6 9. e4" },
+    { name: "Slav: Chebanenko Variation, Quiet Line (5.e3)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. e3 b5 6. c5 g6 7. Bd3 Bg7 8. O-O" },
+
+    // --- Deeper Nimzo-Indian & Queen's Indian Theory ---
+    { name: "Nimzo-Indian: Fianchetto Variation Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. g3 O-O 5. Bg2 d5 6. Nf3 dxc4 7. O-O Nc6 8. a3 Be7 9. e4" },
+    { name: "Nimzo-Indian: Sämisch, Panno Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 Nc6 7. e4 d6" },
+    { name: "Queen's Indian Defense: Bogo-Indian Hybrid", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 4. Bd2 a5 5. g3 b6 6. Bg2 Bb7 7. O-O O-O" },
+
+    // --- Other Important Grandmaster Systems ---
+    { name: "English Opening: Symmetrical, Anti-Benoni", pgn: "1. c4 c5 2. Nf3 Nf6 3. d4 cxd4 4. Nxd4 e6 5. Nc3 Bb4" },
+    { name: "Reti Opening: Modern Main Line", pgn: "1. Nf3 d5 2. c4 c6 3. g3 Nf6 4. Bg2 Bf5 5. cxd5 cxd5 6. Qb3 Qc8 7. Nc3 e6 8. d3" },
+    { name: "Petroff Defense: Modern Attack", pgn: "1. e4 e5 2. Nf3 Nf6 3. d4 Nxe4 4. Bd3 d5 5. Nxe5 Nd7 6. Nxd7 Bxd7 7. O-O Bd6 8. c4" },
+    { name: "Scotch Game: Mieses Variation, Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nxc6 bxc6 6. e5 Qe7 7. Qe2 Nd5 8. c4 Bb7 9. Nd2" }
+    
 
 
 

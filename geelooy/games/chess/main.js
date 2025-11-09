@@ -105,14 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (bestMove) {
             // Display whether it was a book move or a calculated one
 			let moveSource;
-			if (typeof score === 'string' && score.startsWith('Book Move')) {
-			    // If it's a book move, the score itself is the message (e.g., "Book Move: Ruy Lopez")
-			    moveSource = score;
-			} else {
-			    // Otherwise, format the search statistics
-			    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
-			}
-			messageDiv.textContent += `AI moved. (${moveSource})`;
+		if (typeof score === 'string' && (score.startsWith('Book Move') || score.startsWith('Punish Move'))) {
+		    // If it's a book or punish move, the score itself is the message
+		    moveSource = score;
+		} else {
+		    // Otherwise, format the search statistics
+		    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
+		}
+			
 			scrollMsg()
             // =================================================================
 			//                          *** THE FIX ***
