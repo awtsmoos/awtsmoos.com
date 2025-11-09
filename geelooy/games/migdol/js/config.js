@@ -183,7 +183,7 @@ export const ENEMY_TYPES = {
     },
     'fox': {
         emoji: '🦊',
-        baseHealth: 65,
+        baseHealth: 45,
         speed: 1.5,
         perutaValue: 12,
         children: { type: 'snake', count: 3 },
