@@ -35,7 +35,7 @@ export const TOWER_TYPES = {
         cost: 75,
         baseDamage: 20,
         baseRange: TILE_SIZE * 2.5,
-        baseFireRate: 70, // 1 shot per 80 frames
+        baseFireRate: 100, // 1 shot per 80 frames
         upgradeCost: { damage: 50, speed: 60, range: 40 },
         maxRange: TILE_SIZE * 4,
     },
@@ -133,17 +133,17 @@ export const ENEMY_TYPES = {
     },
     'gorilla': {
         emoji: '🦍',
-        baseHealth: 85,
+        baseHealth: 65,
         speed: 0.8,
         perutaValue: 25,
-        children: { type: 'tiger', count: 3 },
+        children: { type: 'tiger', count: 2 },
     },
     'golem': { 
         emoji: '🗿',
         baseHealth: 100,
         speed: 0.6,
         perutaValue: 75,
-        children: { type: 'gorilla', count: 7 },
+        children: { type: 'gorilla', count: 4 },
         
         slowResistance: 0.5,
     },
@@ -158,7 +158,7 @@ export const ENEMY_TYPES = {
     },
     'healer': {
         emoji: '🥬',
-        baseHealth: 80,
+        baseHealth: 50,
         speed: 1.0,
         perutaValue: 40,
         children: null,
@@ -168,17 +168,17 @@ export const ENEMY_TYPES = {
     },
     'flyer': {
         emoji: '🦇',
-        baseHealth: 30,
+        baseHealth: 20,
         speed: 1.8, // Very fast
         perutaValue: 8,
         children: null,
     },
     'snake': {
         emoji: '🐍',
-        baseHealth: 40,
-        speed: 1.9, // fast
+        baseHealth: 35,
+        speed: 1.4, // fast
         perutaValue: 6,
-        children: { type: 'flyer', count: 7 },
+        children: { type: 'flyer', count: 3 },
         
     },
     'fox': {
@@ -194,7 +194,7 @@ export const ENEMY_TYPES = {
         baseHealth: 130,
         speed: 0.9,
         perutaValue: 22,
-        children: { type:'fox', count: 5 },
+        children: { type:'fox', count: 2 },
         
     },
     'elephant': {
@@ -202,7 +202,7 @@ export const ENEMY_TYPES = {
         baseHealth: 300,
         speed: 0.4, // very slow
         perutaValue: 60,
-        children: { type: 'golem', count: 6},
+        children: { type: 'golem', count: 5},
         
     }
 };
