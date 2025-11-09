@@ -436,11 +436,12 @@ function returnToMainMenu() {
     mainMenu.classList.remove('hidden');
 }
 
-document.getElementById('restart-button').onclick = () => {
-    if (game) startGame(game.map);
-};
-document.getElementById('main-menu-button').onclick = returnToMainMenu;
 
 window.onload = () => {
     initializeMainMenu();
+    
+    document.getElementById('restart-button').onclick = () => {
+        if (game) startGame(game.map);
+    };
+    document.getElementById('main-menu-button').onclick = returnToMainMenu;
 };
