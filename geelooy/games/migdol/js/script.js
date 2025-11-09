@@ -29,7 +29,7 @@ class Game {
         this.particles = [];
         this.eventMessages = [];
         this.path = this.map.path;
-        
+         
         this.perutas = 200;
         this.health = 500; // Increased for better playability
         
