@@ -11,10 +11,14 @@ let roadLines = [];
 
 // --- Game Setup ---
 function setCanvasSize() {
-    // This is now simple: the canvas IS the window.
+    // --- THIS IS THE FIX ---
+    // Directly set the canvas dimensions to the true visible area of the window.
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    groundPosition = canvas.height - 60; // Set ground level
+    
+    // Adjust the ground position to be near the bottom of this new, correct height.
+    // Let's give it 40 pixels of space for the ground and road lines.
+    groundPosition = canvas.height - 40; 
 }
 
 function drawRoadLines() {
