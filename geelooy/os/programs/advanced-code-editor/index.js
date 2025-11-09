@@ -68,6 +68,7 @@ export default ({ os, system, fileName, content, path }) => {
                 // --- FILE SYSTEM PROVIDER REQUESTS ---
     
                 case 'requestFolderList':
+                    // **THE FIX IS HERE:** We now use the full path from the payload to get the keys.
                     const items = await os.db.getAllKeys(payload.path);
                     respond({ items });
                     break;
