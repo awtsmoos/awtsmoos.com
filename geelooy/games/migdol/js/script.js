@@ -31,7 +31,7 @@ class Game {
         this.path = this.map.path;
          
         this.perutas = 500  
-        this.health = 500; // Increased for better playability
+        this.health = 500; // 
         
         this.selectedTowerType = null;
         this.selectedTower = null;
