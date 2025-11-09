@@ -146,16 +146,8 @@ setupEventListeners() {
 
 
 
-// B"H
-// FILE: js/app.js
-// ... (keep the beginning of the file the same) ...
-
-setupEventListeners() {
-
-    // --- NEW CONSOLE.LOG FOR DEBUGGING ---
-    // Add this right at the top of the message listener
-    window.addEventListener('message', (event) => {
-        console.log("EDITOR received message:", event.data); // <-- ADD THIS LINE
+window.addEventListener('message', (event) => {
+        console.log("EDITOR received message:", event.data); 
         
         const { type, payload, requestId, error } = event.data;
 
