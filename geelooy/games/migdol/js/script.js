@@ -184,37 +184,38 @@ class Game {
     }
 
     handleProjectileHit(p) {
-        const towerConfig = TOWER_TYPES[p.tower.type];
-        
-        console. log("what",p)
+        if (!p.target || p.target.health <= 0) return;
 
-        if(!p.target || p.target.health <= 0) return;
-
+        // Deal damage from the projectile
         p.target.takeDamage(p.damage);
 
-        if (towerConfig?.slowFactor) {
-            p.target.applySlow(towerConfig.slowFactor, towerConfig.slowDuration);
+        // Apply slow effect if the projectile has it
+        if (p.slowFactor) {
+            p.target.applySlow(p.slowFactor, p.slowDuration);
         }
         
-        if (towerConfig?.splashRadius) {
+        // Apply splash damage if the projectile has it
+        if (p.splashRadius) {
             this.enemies.forEach(enemy => {
                 if (enemy !== p.target) {
                     const dist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
-                    if (dist < towerConfig.splashRadius) {
-                        const splashDamage = p.damage * (1 - dist / towerConfig.splashRadius);
+                    if (dist < p.splashRadius) {
+                        const splashDamage = p.damage * (1 - dist / p.splashRadius);
                         enemy.takeDamage(splashDamage);
                     }
                 }
             });
         }
         
+        // Handle enemy death
         if (p.target.health <= 0) {
             this.perutas += p.target.perutaValue;
             this.showEventMessage(`+${p.target.perutaValue}💰`, p.target);
             
-            if(p.target.children) {
+            // Spawn children if any
+            if (p.target.children) {
                 const enemyConfig = ENEMY_TYPES[p.target.children.type];
-                for(let j=0; j < p.target.children.count; j++) {
+                for (let j = 0; j < p.target.children.count; j++) {
                     const child = new Enemy(enemyConfig, 1, this.path);
                     child.x = p.target.x + (Math.random() - 0.5) * 20;
                     child.y = p.target.y + (Math.random() - 0.5) * 20;
@@ -222,6 +223,8 @@ class Game {
                     this.enemies.push(child);
                 }
             }
+
+            // Remove the defeated enemy
             this.enemies = this.enemies.filter(e => e !== p.target);
             this.updateUI();
         }

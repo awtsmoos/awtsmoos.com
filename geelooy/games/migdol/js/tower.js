@@ -54,7 +54,8 @@ export default class Tower {
     }
 
     shoot(projectiles) {
-        const newProjectile = new Projectile(this.x, this.y, this.target, this);
+        const config = TOWER_TYPES[this.type];
+        const newProjectile = new Projectile(this.x, this.y, this.target, this.damage, this.projectileEmoji, config);
         projectiles.push(newProjectile);
     }
     

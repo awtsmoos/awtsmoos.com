@@ -7,7 +7,6 @@ export default class Enemy {
         this.path = path;
         this.pathIndex = 0;
         
-        // Corrected the initial position of the enemy to be directly on the path's starting point.
         this.x = this.path[0].x * TILE_SIZE;
         this.y = this.path[0].y * TILE_SIZE;
         
@@ -59,7 +58,10 @@ export default class Enemy {
     }
     
     takeDamage(amount) {
-        this.health -= amount;
+        // This check prevents health from becoming NaN if damage is undefined
+        if (!isNaN(amount)) {
+            this.health -= amount;
+        }
     }
 
     draw(ctx) {

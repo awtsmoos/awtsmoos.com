@@ -3,14 +3,18 @@
 import { TILE_SIZE } from './config.js';
 
 export default class Projectile {
-    constructor(x, y, target, tower) {
+    constructor(x, y, target, damage, emoji, config = {}) {
         this.x = x;
         this.y = y;
         this.target = target;
-        this.tower = tower;
-        this.damage = tower.damage;
-        this.emoji = tower.projectileEmoji;
+        this.damage = damage;
+        this.emoji = emoji;
         this.speed = 8;
+        
+        // Carry special properties from the tower's config
+        this.splashRadius = config.splashRadius;
+        this.slowFactor = config.slowFactor;
+        this.slowDuration = config.slowDuration;
     }
 
     update() {
