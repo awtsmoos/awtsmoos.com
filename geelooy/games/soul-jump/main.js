@@ -85,6 +85,7 @@ function startDrag(e) {
     playerStartX = player.cx;
 }
 
+
 function onDrag(e) {
     // Only move the player if we are actively dragging.
     if (!isDragging || gameState !== 'playing') return;
@@ -94,8 +95,11 @@ function onDrag(e) {
     const deltaX = currentX - touchStartX;
 
     // Apply that distance to the player's original position.
-    player.targetCx = playerStartX + deltaX;
+    // Clamp the target position to be within the canvas boundaries.
+    const newTargetCx = playerStartX + deltaX;
+    player.targetCx = Math.max(PLAYER_HALF_WIDTH, Math.min(newTargetCx, canvas.width - PLAYER_HALF_WIDTH));
 }
+
 
 function endDrag() {
     // Stop dragging when the mouse/finger is lifted.
@@ -148,8 +152,8 @@ class Player {
         this.cx += (this.targetCx - this.cx) * 0.5;
         
         this.cy += this.vy;
-        if (this.cx > canvas.width + PLAYER_HALF_WIDTH) this.cx = 0 - PLAYER_HALF_WIDTH;
-        else if (this.cx < 0 - PLAYER_HALF_WIDTH) this.cx = canvas.width + PLAYER_HALF_WIDTH;
+        this.cx = Math.max(PLAYER_HALF_WIDTH, Math.min(this.cx, canvas.width - PLAYER_HALF_WIDTH));
+
         this.squash = Math.min(1, this.squash + 0.05);
         this.visualWidth = PLAYER_WIDTH * (2 - this.squash);
         this.visualHeight = PLAYER_HEIGHT * this.squash;
