@@ -132,6 +132,8 @@ async renderWorkspace(ws, container) {
     
 
 
+// In workspaces.js, replace the entire renderTree method
+
 async renderTree(parentElement, parentItem, depth) {
     parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
     try {
@@ -148,7 +150,15 @@ async renderTree(parentElement, parentItem, depth) {
         for (const child of children) {
             if (child.name === '.gitkeep' || child.name === '.awtsmoos-repo') continue;
 
-            const fullChildItem = { ...parentItem, ...child, workspaceId: parentItem.workspaceId };
+            // --- THE CRITICAL FIX IS HERE ---
+            // Find the original root workspace to get the correct 'type' (e.g., 'indexeddb', 'osfolder').
+            const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
+            if (!workspace) continue; // Safety check
+
+            // Construct the child item using the workspace as the base, NOT the parentItem.
+            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+            // --- END OF FIX ---
+
             const uniquePath = getItemUniquePath(fullChildItem);
             
             const gitInfo = child.kind === 'directory' ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) : null;
@@ -209,7 +219,7 @@ async renderTree(parentElement, parentItem, depth) {
         }
     } catch (e) {
         console.error("Error rendering tree:", e);
-        parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
+        parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error rendering: ${e.message}</li>`;
     }
 },
     

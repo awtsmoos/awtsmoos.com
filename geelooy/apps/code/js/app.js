@@ -174,13 +174,24 @@ window.addEventListener('message', (event) => {
         return;
     }
 
-    if (type === 'loadFolderAsWorkspace') {
-        const { folderName, folderPath } = payload;
-        const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
-        Workspaces.add(osWorkspace, false);
-        ;
-        return;
-    }
+    // In app.js, inside the message listener for 'loadFolderAsWorkspace'
+
+if (type === 'loadFolderAsWorkspace') {
+    const { folderName, folderPath } = payload;
+
+    
+    // 1. Clear all existing workspaces from the state and the UI.
+    State.workspaces = [];
+    DOM.workspacesContainer.innerHTML = '';
+    State.domItemMap.clear();
+
+    // 2. Now, create the new, single workspace for the OS folder.
+    const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
+    Workspaces.add(osWorkspace, false); // This will render the single workspace.
+    // 
+    
+    return;
+}
     
     
     if (type === 'requestContent') {
