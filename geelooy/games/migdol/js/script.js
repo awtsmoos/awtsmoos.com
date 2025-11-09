@@ -433,6 +433,7 @@ class Game {
             enemy.draw(this.ctx);
 
             if (enemy.pathIndex >= this.path.length - 1) {
+                enemy.health = 0; // Invalidate the enemy as a target
                 this.enemies.splice(i, 1);
                 this.takeDamage();
             }

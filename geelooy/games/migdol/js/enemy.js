@@ -39,6 +39,8 @@ export default class Enemy {
     }
 
     update(allEnemies) {
+        if (this.health <= 0) return;
+
         if (this.isSlowed) {
             this.slowTimer--;
             if (this.slowTimer <= 0) {
