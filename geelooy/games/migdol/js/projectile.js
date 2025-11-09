@@ -1,17 +1,18 @@
 //B"H
 
 export default class Projectile {
-    constructor(x, y, target, damage, emoji) {
+    constructor(x, y, target, tower) {
         this.x = x;
         this.y = y;
         this.target = target;
-        this.damage = damage;
-        this.emoji = emoji;
+        this.tower = tower;
+        this.damage = tower.damage;
+        this.emoji = tower.projectileEmoji;
         this.speed = 8;
     }
 
     update() {
-        if (!this.target || this.target.health <= 0) return; // Stop if target is gone
+        if (!this.target || this.target.health <= 0) return;
 
         const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
         this.x += Math.cos(angle) * this.speed;
@@ -23,13 +24,11 @@ export default class Projectile {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        // Rotate projectile to face the target
         const angle = Math.atan2(this.target.y - this.y, this.target.x - this.x);
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(angle);
         
-        // 🚀 needs to be rotated an extra 45 degrees (PI/4 radians) to point correctly
         if (this.emoji === '🚀') {
             ctx.rotate(Math.PI / 4);
         }

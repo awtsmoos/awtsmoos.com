@@ -26,15 +26,20 @@ export default class WaveManager {
         const enemyCount = 5 + this.waveNumber * 2;
         
         for (let i = 0; i < enemyCount; i++) {
-            let enemyType;
-            if (this.waveNumber > 5 && Math.random() < 0.3) {
-                enemyType = ENEMY_TYPES.gorilla;
-            } else if (this.waveNumber > 2 && Math.random() < 0.4) {
-                 enemyType = ENEMY_TYPES.tiger;
+            let enemyTypeKey;
+            const rand = Math.random();
+
+            if (this.waveNumber > 7 && rand < 0.25) {
+                enemyTypeKey = 'golem';
+            } else if (this.waveNumber > 5 && rand < 0.5) {
+                enemyTypeKey = 'gorilla';
+            } else if (this.waveNumber > 2 && rand < 0.6) {
+                 enemyTypeKey = 'tiger';
             } else {
-                 enemyType = ENEMY_TYPES.cat;
+                 enemyTypeKey = 'cat';
             }
-            this.enemiesToSpawn.push(new Enemy(enemyType, healthMultiplier));
+            const enemyType = ENEMY_TYPES[enemyTypeKey];
+            this.enemiesToSpawn.push(new Enemy(enemyType, healthMultiplier, this.game.path));
         }
     }
 
@@ -48,7 +53,6 @@ export default class WaveManager {
             this.game.enemies.push(enemy);
         }
         
-        // Check if wave is over
         if (this.enemiesToSpawn.length === 0 && this.game.enemies.length === 0) {
             this.isWaveActive = false;
             this.game.waveComplete();

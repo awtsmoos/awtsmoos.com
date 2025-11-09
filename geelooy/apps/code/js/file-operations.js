@@ -117,10 +117,10 @@ export const FileOperations = {
 
                     // Now, build the final string with the correctly processed content.
                     combinedContent += '________\n';
-                    combinedContent += '****B"H****\n';
-                    combinedContent += `--start file ${item.path || item.name}.--\n`;
-                    combinedContent += '________\n';
-                    combinedContent += textContent + '\n';
+                    combinedContent += '## B"H\n';
+                    combinedContent += `# start file ${item.path || item.name}.---\n`;
+                    combinedContent += '________\n```';
+                    combinedContent += textContent + '```\n---';
                     combinedContent += '________\n\n';
 
                 } else if (item.kind === 'directory') {

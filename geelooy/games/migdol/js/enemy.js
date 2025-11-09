@@ -1,27 +1,47 @@
 //B"H
 
-import { TILE_SIZE, ENEMY_PATH } from './config.js';
+import { TILE_SIZE } from './config.js';
 
 export default class Enemy {
-    constructor(type, healthMultiplier) {
-        this.path = ENEMY_PATH;
+    constructor(type, healthMultiplier, path) {
+        this.path = path;
         this.pathIndex = 0;
         
-        // Start just off-screen
         this.x = this.path[0].x * TILE_SIZE - TILE_SIZE;
         this.y = this.path[0].y * TILE_SIZE;
         
-        this.type = type.type; // e.g. 'cat'
+        this.typeInfo = type;
         this.emoji = type.emoji;
         this.health = type.baseHealth * healthMultiplier;
         this.maxHealth = this.health;
+        this.baseSpeed = type.speed;
         this.speed = type.speed;
         this.perutaValue = type.perutaValue;
         this.children = type.children;
+
+        this.slowTimer = 0;
+        this.isSlowed = false;
+    }
+
+    applySlow(factor, duration) {
+        const resistance = this.typeInfo.slowResistance || 0;
+        const effectiveFactor = 1 - ((1 - factor) * (1 - resistance));
+        
+        this.speed = this.baseSpeed * effectiveFactor;
+        this.slowTimer = duration;
+        this.isSlowed = true;
     }
 
     update() {
-        if (this.pathIndex >= this.path.length - 1) return; // Reached end
+        if (this.isSlowed) {
+            this.slowTimer--;
+            if (this.slowTimer <= 0) {
+                this.isSlowed = false;
+                this.speed = this.baseSpeed;
+            }
+        }
+
+        if (this.pathIndex >= this.path.length - 1) return;
 
         const targetPoint = this.path[this.pathIndex + 1];
         const targetX = targetPoint.x * TILE_SIZE;
@@ -42,7 +62,6 @@ export default class Enemy {
     }
 
     draw(ctx) {
-        // Draw health bar
         const healthBarWidth = TILE_SIZE * 0.8;
         const healthBarHeight = 5;
         ctx.fillStyle = '#c0392b';
@@ -54,10 +73,13 @@ export default class Enemy {
             ctx.fillRect(this.x - healthBarWidth / 2, this.y - TILE_SIZE / 2, currentHealthWidth, healthBarHeight);
         }
 
-        // Draw enemy
         ctx.font = `${TILE_SIZE * 0.7}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+
+        if (this.isSlowed) ctx.filter = 'saturate(2) hue-rotate(180deg)';
+        
         ctx.fillText(this.emoji, this.x, this.y);
+        ctx.filter = 'none';
     }
 }

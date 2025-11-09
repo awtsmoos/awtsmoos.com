@@ -1,32 +1,47 @@
 //B"H
 
-import { TILE_SIZE, CANVAS_WIDTH, CANVAS_HEIGHT, ENEMY_PATH, TOWER_TYPES, ENEMY_TYPES } from './config.js';
+import { TILE_SIZE, TOWER_TYPES, ENEMY_TYPES, MAPS } from './config.js';
 import Tower from './tower.js';
 import Enemy from './enemy.js';
 import WaveManager from './wave.js';
 import { setupUI } from './ui.js';
 
+// --- Global State ---
+let game = null;
+
+// --- DOM Elements ---
+const mainMenu = document.getElementById('main-menu');
+const mapSelectionContainer = document.getElementById('map-selection-container');
+const gameWrapper = document.getElementById('game-wrapper');
+const gameOverScreen = document.getElementById('game-over-screen');
+const canvas = document.getElementById('gameCanvas');
+
 class Game {
-    constructor(canvas) {
+    constructor(canvas, mapConfig) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        this.canvas.width = CANVAS_WIDTH;
-        this.canvas.height = CANVAS_HEIGHT;
+        this.map = mapConfig;
+        
+        // Dynamic canvas sizing
+        this.canvas.width = mapConfig.gridWidth * TILE_SIZE;
+        this.canvas.height = mapConfig.gridHeight * TILE_SIZE;
 
         this.towers = [];
         this.enemies = [];
         this.projectiles = [];
-        this.path = ENEMY_PATH;
+        this.eventMessages = [];
+        this.path = this.map.path;
         
         this.perutas = 200;
         this.health = 20;
         
         this.selectedTowerType = null;
         this.selectedTower = null;
-        this.ghostTower = null; // For placement preview
+        this.ghostTower = null;
         
         this.waveManager = new WaveManager(this);
         this.isGameOver = false;
+        this.animationFrameId = null;
 
         // UI elements
         this.perutasDisplay = document.getElementById('perutas');
@@ -34,18 +49,40 @@ class Game {
         this.waveDisplay = document.getElementById('wave');
         this.modal = document.getElementById('in-game-modal');
         this.modalContent = document.getElementById('modal-content');
+        this.finalWaveDisplay = document.getElementById('final-wave');
     }
 
-    // --- Game State Management ---
     start() {
+        this.reset();
         setupUI(this);
         this.updateUI();
         this.gameLoop();
     }
     
+    reset() {
+        this.isGameOver = false;
+        this.towers = [];
+        this.enemies = [];
+        this.projectiles = [];
+        this.perutas = 200;
+        this.health = 20;
+        this.waveManager = new WaveManager(this);
+        this.selectedTower = null;
+        this.selectedTowerType = null;
+        this.ghostTower = null;
+
+        gameOverScreen.classList.add('hidden');
+        this.hideModal();
+        document.getElementById('start-wave').style.display = 'block';
+
+        this.updateUI();
+        this.updateWaveDisplay(0);
+    }
+    
     gameLoop() {
         if (this.isGameOver) {
-            this.drawGameOver();
+            cancelAnimationFrame(this.animationFrameId);
+            this.showGameOver();
             return;
         }
         
@@ -56,12 +93,12 @@ class Game {
         this.updateAndDrawEnemies();
         this.updateAndDrawProjectiles();
         this.drawGhostTower();
+        this.updateAndDrawEventMessages();
 
-        // Show selected tower range permanently
         if(this.selectedTower) this.drawTowerRange(this.selectedTower);
 
         this.waveManager.update();
-        requestAnimationFrame(() => this.gameLoop());
+        this.animationFrameId = requestAnimationFrame(() => this.gameLoop());
     }
     
     startNextWave() {
@@ -71,7 +108,6 @@ class Game {
         this.hideModal();
     }
     
-    // (waveComplete, takeDamage, etc. methods remain the same)
     waveComplete() {
         this.perutas += 100 + this.waveManager.waveNumber * 10;
         this.updateUI();
@@ -87,8 +123,11 @@ class Game {
         }
     }
 
+    showGameOver() {
+        this.finalWaveDisplay.textContent = this.waveManager.waveNumber;
+        gameOverScreen.classList.remove('hidden');
+    }
 
-    // --- Tower Management ---
     addTower(gridX, gridY, type) {
         const cost = TOWER_TYPES[type].cost;
         if (this.perutas >= cost) {
@@ -97,7 +136,6 @@ class Game {
             this.towers.push(new Tower(x, y, type));
             this.perutas -= cost;
             
-            // Deselect tower type after purchase
             this.selectedTowerType = null;
             this.ghostTower = null;
             document.querySelectorAll('.tower-option').forEach(el => el.classList.remove('selected'));
@@ -126,12 +164,10 @@ class Game {
         if (stat === 'range') cost = config.upgradeCost.range * (this.selectedTower.rangeLevel);
 
         if (this.perutas >= cost) {
-            const upgradeSuccess = this.selectedTower.upgrade(stat);
-            if (upgradeSuccess) {
-                 this.perutas -= cost;
-                 this.updateUI();
-                 this.showUpgradeModal(this.selectedTower); // Refresh modal content
-            }
+            this.selectedTower.upgrade(stat);
+            this.perutas -= cost;
+            this.updateUI();
+            this.showUpgradeModal(this.selectedTower); // Refresh modal
         }
     }
     
@@ -151,42 +187,117 @@ class Game {
         this.hideModal();
     }
 
+    handleProjectileHit(p) {
+        const towerConfig = TOWER_TYPES[p.tower.type];
 
-    // --- Modal Management ---
+        if(!p.target || p.target.health <= 0) return;
+
+        p.target.takeDamage(p.damage);
+
+        if (towerConfig.slowFactor) {
+            p.target.applySlow(towerConfig.slowFactor, towerConfig.slowDuration);
+        }
+        
+        if (towerConfig.splashRadius) {
+            this.enemies.forEach(enemy => {
+                if (enemy !== p.target) {
+                    const dist = Math.hypot(p.x - enemy.x, p.y - enemy.y);
+                    if (dist < towerConfig.splashRadius) {
+                        const splashDamage = p.damage * (1 - dist / towerConfig.splashRadius);
+                        enemy.takeDamage(splashDamage);
+                    }
+                }
+            });
+        }
+        
+        if (p.target.health <= 0) {
+            this.perutas += p.target.perutaValue;
+            this.showEventMessage(`+${p.target.perutaValue}💰`, p.target);
+            
+            if(p.target.children) {
+                const enemyConfig = ENEMY_TYPES[p.target.children.type];
+                for(let j=0; j < p.target.children.count; j++) {
+                    const child = new Enemy(enemyConfig, 1, this.path);
+                    child.x = p.target.x + (Math.random() - 0.5) * 20;
+                    child.y = p.target.y + (Math.random() - 0.5) * 20;
+                    child.pathIndex = p.target.pathIndex;
+                    this.enemies.push(child);
+                }
+            }
+            this.enemies = this.enemies.filter(e => e !== p.target);
+            this.updateUI();
+        }
+    }
+    
+    updateAndDrawProjectiles() {
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+            const p = this.projectiles[i];
+            p.update();
+            p.draw(this.ctx);
+
+            const targetIsAlive = this.enemies.includes(p.target);
+
+            if (targetIsAlive) {
+                const dist = Math.hypot(p.x - p.target.x, p.y - p.target.y);
+                if (dist < 10) {
+                    this.handleProjectileHit(p);
+                    this.projectiles.splice(i, 1);
+                }
+            } else if (!targetIsAlive || p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height) {
+                this.projectiles.splice(i, 1);
+            }
+        }
+    }
+
+    showModalAt(canvasX, canvasY, htmlContent) {
+        const rect = this.canvas.getBoundingClientRect();
+        const scale = rect.width / this.canvas.width;
+        
+        const modalX = rect.left + (canvasX * scale) + (TILE_SIZE * scale / 2);
+        const modalY = rect.top + (canvasY * scale);
+
+        this.modal.style.left = `${modalX}px`;
+        this.modal.style.top = `${modalY}px`;
+        this.modal.style.transform = `translate(-50%, 0)`;
+
+        this.modalContent.innerHTML = htmlContent;
+        this.modal.classList.remove('hidden');
+    }
+
     showConfirmationModal(gridX, gridY, type) {
         const x = gridX * TILE_SIZE + TILE_SIZE / 2;
         const y = gridY * TILE_SIZE + TILE_SIZE / 2;
-        this.modal.style.left = `${x}px`;
-        this.modal.style.top = `${y}px`;
-
-        this.modalContent.innerHTML = `
-            <h5>Confirm Placement</h5>
+        const html = `
+            <h5>Confirm ${type}?</h5>
             <div class="button-group">
-                <button id="confirm-place-btn" class="modal-btn-confirm">Confirm</button>
+                <button id="confirm-place-btn" class="modal-btn-confirm">Place</button>
                 <button id="cancel-place-btn" class="modal-btn-cancel">Cancel</button>
             </div>
         `;
-        this.modal.classList.remove('hidden');
+        this.showModalAt(x, y - TILE_SIZE, html);
         
         document.getElementById('confirm-place-btn').onclick = () => this.addTower(gridX, gridY, type);
         document.getElementById('cancel-place-btn').onclick = () => this.hideModal();
     }
 
     showUpgradeModal(tower) {
-        this.modal.style.left = `${tower.x}px`;
-        this.modal.style.top = `${tower.y}px`;
-
+        this.selectedTower = tower;
         const config = TOWER_TYPES[tower.type];
-        const sellValue = Math.floor(tower.cost / 2) /* + half of upgrade costs */; // simplified for brevity
+        
+        let sellValue = Math.floor(tower.cost / 2);
+        for(let i=1; i < tower.damageLevel; i++) sellValue += Math.floor((config.upgradeCost.damage * i) / 2);
+        for(let i=1; i < tower.speedLevel; i++) sellValue += Math.floor((config.upgradeCost.speed * i) / 2);
+        for(let i=1; i < tower.rangeLevel; i++) sellValue += Math.floor((config.upgradeCost.range * i) / 2);
+
         const dmgCost = config.upgradeCost.damage * tower.damageLevel;
         const spdCost = config.upgradeCost.speed * tower.speedLevel;
         const rngCost = config.upgradeCost.range * tower.rangeLevel;
 
-        this.modalContent.innerHTML = `
-            <h5>${tower.type.toUpperCase()} Tower</h5>
+        const html = `
+            <h5>${tower.type.toUpperCase()} Tower ${config.emoji}</h5>
             <div class="stats-grid">
                 <span>Damage:</span><span>${tower.damage.toFixed(0)}</span>
-                <span>Speed:</span><span>${(1000 / (tower.fireRate * (1000/60))).toFixed(2)}/s</span>
+                <span>Speed:</span><span>${(60 / tower.fireRate).toFixed(2)}/s</span>
                 <span>Range:</span><span>${(tower.range / TILE_SIZE).toFixed(1)}</span>
             </div>
             <div class="button-group-vertical">
@@ -196,7 +307,8 @@ class Game {
                 <button id="modal-sell" class="modal-btn-sell">Sell (+${sellValue}💰)</button>
             </div>
         `;
-        this.modal.classList.remove('hidden');
+        
+        this.showModalAt(tower.x, tower.y, html);
 
         document.getElementById('modal-upgrade-damage').onclick = () => this.upgradeSelectedTower('damage');
         document.getElementById('modal-upgrade-speed').onclick = () => this.upgradeSelectedTower('speed');
@@ -208,36 +320,30 @@ class Game {
         this.modal.classList.add('hidden');
     }
 
-    // --- Drawing Methods ---
-    drawTowerRange(tower) {
-        this.ctx.beginPath();
-        this.ctx.arc(tower.x, tower.y, tower.range, 0, Math.PI * 2);
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-        this.ctx.fill();
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-        this.ctx.stroke();
-    }
-
-    drawGhostTower() {
-        if (!this.ghostTower) return;
-        
-        // Draw range first
-        this.ctx.beginPath();
-        this.ctx.arc(this.ghostTower.x, this.ghostTower.y, this.ghostTower.range, 0, Math.PI * 2);
-        this.ctx.fillStyle = this.ghostTower.isValid ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 0, 0, 0.2)';
-        this.ctx.fill();
-
-        // Draw tower
-        this.ctx.globalAlpha = 0.6;
-        this.ctx.font = `${TILE_SIZE * 0.8}px Arial`;
-        this.ctx.textAlign = 'center';
-        this.ctx.textBaseline = 'middle';
-        this.ctx.fillText(this.ghostTower.emoji, this.ghostTower.x, this.ghostTower.y);
-        this.ctx.globalAlpha = 1.0;
+    showEventMessage(text, position) {
+        this.eventMessages.push({ text, x: position.x, y: position.y, life: 60 });
     }
     
-    // (Other drawing and update methods like drawPath, updateAndDrawTowers, etc. remain mostly the same)
-     drawPath() {
+    updateAndDrawEventMessages() {
+        for (let i = this.eventMessages.length - 1; i >= 0; i--) {
+            const msg = this.eventMessages[i];
+            msg.life--;
+            msg.y -= 0.5;
+
+            if (msg.life <= 0) {
+                this.eventMessages.splice(i, 1);
+            } else {
+                this.ctx.globalAlpha = msg.life / 60;
+                this.ctx.fillStyle = 'white';
+                this.ctx.font = 'bold 20px Arial';
+                this.ctx.textAlign = 'center';
+                this.ctx.fillText(msg.text, msg.x, msg.y);
+                this.ctx.globalAlpha = 1.0;
+            }
+        }
+    }
+    
+    drawPath() {
         this.ctx.strokeStyle = '#6c8a5d';
         this.ctx.lineWidth = TILE_SIZE;
         this.ctx.beginPath();
@@ -267,51 +373,28 @@ class Game {
             }
         }
     }
-    
-    updateAndDrawProjectiles() {
-        for (let i = this.projectiles.length - 1; i >= 0; i--) {
-            const p = this.projectiles[i];
-            p.update();
-            p.draw(this.ctx);
 
-            if (p.target) {
-                const dist = Math.hypot(p.x - p.target.x, p.y - p.target.y);
-                if (dist < 10) {
-                    p.target.takeDamage(p.damage);
-                    if (p.target.health <= 0) {
-                        this.perutas += p.target.perutaValue;
-                        if(p.target.children) {
-                            const enemyConfig = ENEMY_TYPES[p.target.children.type];
-                            for(let j=0; j < p.target.children.count; j++) {
-                                const child = new Enemy(enemyConfig, 1);
-                                child.x = p.target.x + (Math.random() - 0.5) * 20;
-                                child.y = p.target.y + (Math.random() - 0.5) * 20;
-                                child.pathIndex = p.target.pathIndex;
-                                this.enemies.push(child);
-                            }
-                        }
-                        this.enemies = this.enemies.filter(e => e !== p.target);
-                        this.updateUI();
-                    }
-                    this.projectiles.splice(i, 1);
-                }
-            } else if (!p.target || p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height) {
-                this.projectiles.splice(i, 1);
-            }
-        }
+    drawTowerRange(tower) {
+        this.ctx.beginPath();
+        this.ctx.arc(tower.x, tower.y, tower.range, 0, Math.PI * 2);
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        this.ctx.fill();
     }
-    
-    drawGameOver() {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = '60px Arial';
+
+    drawGhostTower() {
+        if (!this.ghostTower) return;
+        this.ctx.beginPath();
+        this.ctx.arc(this.ghostTower.x, this.ghostTower.y, this.ghostTower.range, 0, Math.PI * 2);
+        this.ctx.fillStyle = this.ghostTower.isValid ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 0, 0, 0.2)';
+        this.ctx.fill();
+        this.ctx.globalAlpha = 0.6;
+        this.ctx.font = `${TILE_SIZE * 0.8}px Arial`;
         this.ctx.textAlign = 'center';
-        this.ctx.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2);
-        this.ctx.font = '30px Arial';
-        this.ctx.fillText(`You reached wave ${this.waveManager.waveNumber}`, this.canvas.width / 2, this.canvas.height / 2 + 50);
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText(this.ghostTower.emoji, this.ghostTower.x, this.ghostTower.y);
+        this.ctx.globalAlpha = 1.0;
     }
-    
+
     updateUI() {
         this.perutasDisplay.textContent = this.perutas;
         this.healthDisplay.textContent = this.health;
@@ -322,7 +405,41 @@ class Game {
     }
 }
 
-// Initialize the game
-const canvas = document.getElementById('gameCanvas');
-const game = new Game(canvas);
-game.start();
+function initializeMainMenu() {
+    mapSelectionContainer.innerHTML = '';
+    for (const mapKey in MAPS) {
+        const map = MAPS[mapKey];
+        const button = document.createElement('button');
+        button.classList.add('map-button');
+        button.textContent = map.name;
+        button.onclick = () => startGame(map);
+        mapSelectionContainer.appendChild(button);
+    }
+}
+
+function startGame(mapConfig) {
+    mainMenu.classList.add('hidden');
+    gameWrapper.classList.remove('hidden');
+    if (game) cancelAnimationFrame(game.animationFrameId);
+    game = new Game(canvas, mapConfig);
+    game.start();
+}
+
+function returnToMainMenu() {
+    if (game) {
+        cancelAnimationFrame(game.animationFrameId);
+        game = null;
+    }
+    gameWrapper.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
+}
+
+document.getElementById('restart-button').onclick = () => {
+    if (game) startGame(game.map);
+};
+document.getElementById('main-menu-button').onclick = returnToMainMenu;
+
+window.onload = () => {
+    initializeMainMenu();
+};
