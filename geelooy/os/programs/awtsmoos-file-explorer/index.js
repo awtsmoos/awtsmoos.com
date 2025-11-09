@@ -41,53 +41,119 @@ export default ({
         }
     }
     
-    async function performOpenAction(targetPath, item, isFolder) {
-        if (isFolder) {
-            await navigateTo(`${targetPath}/${item}`);
-        } else {
-            const content = await os.db.Laynin(targetPath, item);
-            os.addWindow({ title: item, content, path: targetPath, os });
-        }
-    }
+    
+    // 
+    function showInputDialog({ title, callback }) {
+        // Create dialog elements
+        const overlay = createElement({ tag: 'div', attributes: { class: 'input-dialog-overlay' } });
+        const dialog = createElement({ tag: 'div', attributes: { class: 'input-dialog' } });
+        const dialogTitle = createElement({ tag: 'div', attributes: { class: 'dialog-title' }, html: title });
+        const input = createElement({ tag: 'input', attributes: { type: 'text' } });
+        const buttonContainer = createElement({ tag: 'div', attributes: { class: 'dialog-buttons' } });
+        const okButton = createElement({ tag: 'button', html: 'OK' });
+        const cancelButton = createElement({ tag: 'button', html: 'Cancel' });
 
-    function showContextMenu(event, { targetPath, item, isFolder, actions }) {
-        const existingMenu = document.querySelector(".contextMenu");
-        if (existingMenu) existingMenu.remove();
+        // Assemble the dialog
+        buttonContainer.append(okButton, cancelButton);
+        dialog.append(dialogTitle, input, buttonContainer);
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+        input.focus();
 
-        const menuActions = {
-            Open: () => performOpenAction(targetPath, item, isFolder),
-            ...actions,
-            Rename: async () => { /* ... rename logic ... */ },
-            Delete: async () => { /* ... delete logic ... */ },
-        };
-        
-        const menu = createElement({ tag: 'div', attributes: { class: 'contextMenu' }});
-        
-        Object.keys(menuActions).forEach(actionName => {
-            menu.appendChild(createElement({
-                tag: 'div',
-                attributes: { class: 'menuItem' },
-                html: actionName,
-                on: { click: (e) => {
-                    e.stopPropagation();
-                    menu.remove();
-                    menuActions[actionName]();
-                }}
-            }));
-        });
+        // Event handling
+        const closeDialog = () => overlay.remove();
 
-        menu.style.left = `${event.pageX}px`;
-        menu.style.top = `${event.pageY}px`;
-        document.body.appendChild(menu);
-
-        const clickOutsideHandler = (e) => {
-            if (!menu.contains(e.target)) {
-                menu.remove();
-                document.removeEventListener('click', clickOutsideHandler);
+        const submit = () => {
+            if (input.value) {
+                callback(input.value);
             }
+            closeDialog();
         };
-        setTimeout(() => document.addEventListener('click', clickOutsideHandler), 0);
+
+        okButton.onclick = submit;
+        cancelButton.onclick = closeDialog;
+        input.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
     }
+    
+    // Replace this entire method
+	async function performOpenAction(targetPath, item, isFolder) {
+	    if (isFolder) {
+	        await navigateTo(`${targetPath}/${item}`);
+	    } else {
+	        // 
+	        const content = await os.db.Laynin(targetPath, item);
+	        os.addWindow({ title: item, content, path: targetPath, os });
+	    }
+	}
+
+    // Replace this entire method
+function showContextMenu(event, { targetPath, item, isFolder, actions }) {
+    const existingMenu = document.querySelector(".contextMenu");
+    if (existingMenu) existingMenu.remove();
+
+    const fullPath = `${targetPath}/${item}`;
+
+    // Base actions for all items
+    const menuActions = {
+        Open: () => performOpenAction(targetPath, item, isFolder),
+        ...actions,
+    };
+
+    // Add folder-specific actions
+    if (isFolder) {
+        menuActions['Open in New Window'] = () => os.addWindow({ title: item, path: targetPath, os });
+        menuActions['New File'] = () => {
+            showInputDialog({
+                title: `Create New File in ${item.replace('.folder','')}`,
+                callback: async (newName) => {
+                    await os.createFile({ path: fullPath, title: newName, content: `// B"H` });
+                    await renderFiles(state.currentPath, body); // Refresh view
+                }
+            });
+        };
+        menuActions['New Folder'] = () => {
+            showInputDialog({
+                title: `Create New Folder in ${item.replace('.folder','')}`,
+                callback: async (newName) => {
+                    await os.createFolder({ path: fullPath, title: newName });
+                    await renderFiles(state.currentPath, body); // Refresh view
+                    await buildFileTree('desktop.folder', sidebar); // Refresh tree
+                }
+            });
+        };
+    }
+
+    // Add Rename and Delete for all items
+    menuActions.Rename = async () => { /* ... rename logic ... */ };
+    menuActions.Delete = async () => { /* ... delete logic ... */ };
+    
+    const menu = createElement({ tag: 'div', attributes: { class: 'contextMenu' } });
+    
+    Object.keys(menuActions).forEach(actionName => {
+        menu.appendChild(createElement({
+            tag: 'div',
+            attributes: { class: 'menuItem' },
+            html: actionName,
+            on: { click: (e) => {
+                e.stopPropagation();
+                menu.remove();
+                menuActions[actionName]();
+            }}
+        }));
+    });
+
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+    document.body.appendChild(menu);
+
+    const clickOutsideHandler = (e) => {
+        if (!menu.contains(e.target)) {
+            menu.remove();
+            document.removeEventListener('click', clickOutsideHandler);
+        }
+    };
+    setTimeout(() => document.addEventListener('click', clickOutsideHandler), 0);
+}
 
     // --- Navigation and Rendering ---
 
@@ -180,23 +246,26 @@ export default ({
 
     // --- UI Component Creation ---
 
-    function updatePathBar(currentPath) {
-        pathBreadcrumbs.innerHTML = '';
-        const parts = currentPath.split('/').filter(p => p);
-        parts.forEach((part, index) => {
-            const partPath = parts.slice(0, index + 1).join('/');
-            pathBreadcrumbs.appendChild(createElement({
-                tag: 'span',
-                attributes: { class: 'path-segment' },
-                html: part.replace('.folder', ''),
-                on: { click: (e) => { e.stopPropagation(); navigateTo(partPath); } }
-            }));
-            if (index < parts.length - 1) {
-                pathBreadcrumbs.appendChild(createElement({ tag: 'span', attributes: { class: 'path-separator' }, html: '›' }));
-            }
-        });
-        pathInputContainer.querySelector('input').value = currentPath;
-    }
+    // 
+function updatePathBar(currentPath) {
+    pathBreadcrumbs.innerHTML = '';
+    const parts = currentPath.split('/').filter(p => p);
+    parts.forEach((part, index) => {
+        const cleanPart = part.replace('.folder', '');
+        const partPath = parts.slice(0, index + 1).join('/');
+        pathBreadcrumbs.appendChild(createElement({
+            tag: 'span',
+            attributes: { class: 'path-segment' },
+            html: cleanPart,
+            on: { click: (e) => { e.stopPropagation(); navigateTo(partPath); } }
+        }));
+        if (index < parts.length - 1) {
+            pathBreadcrumbs.appendChild(createElement({ tag: 'span', attributes: { class: 'path-separator' }, html: '›' }));
+        }
+    });
+    // Set the input value to the cleaned path
+    pathInputContainer.querySelector('input').value = currentPath.replace(/\.folder/g, '');
+}
 
     function createPathBar() {
         pathBreadcrumbs = createElement({ tag: 'div', attributes: { class: 'path-breadcrumbs' }});
@@ -330,93 +399,91 @@ export default ({
         await buildNode(rootPath, rootUl);
     }
     
-    function createFileExplorer() {
-        const container = createElement({ tag: "div", attributes: { class: "file-explorer" } });
-        
-        // --- Header Construction ---
-        const buttonBar = createElement({ tag: 'div', attributes: { class: 'button-bar' }});
-        const sidebarToggleBtn = createElement({ tag: 'button', attributes: { class: 'sidebar-toggle-btn' }, html: '<span>&#9776;</span>', on: { click: () => container.classList.toggle('sidebar-collapsed') } });
-        
-        const menuButtons = createElement({
-            tag: 'div', attributes: { class: 'menu-buttons' },
-            children: [
-                { tag: "button", html: "New File", on: { click: async () => {
-                    const name = prompt("Enter file name:");
-                    if (name) {
+    // Replace this entire method
+function createFileExplorer() {
+    const container = createElement({ tag: "div", attributes: { class: "file-explorer" } });
+    
+    const buttonBar = createElement({ tag: 'div', attributes: { class: 'button-bar' }});
+    const sidebarToggleBtn = createElement({ tag: 'button', attributes: { class: 'sidebar-toggle-btn' }, html: '<span>&#9776;</span>', on: { click: () => container.classList.toggle('sidebar-collapsed') } });
+    
+    const menuButtons = createElement({
+        tag: 'div', attributes: { class: 'menu-buttons' },
+        children: [
+            { tag: "button", html: "New File", on: { click: () => {
+                showInputDialog({
+                    title: 'Enter New File Name',
+                    callback: async (name) => {
                         await os.createFile({ path: state.currentPath, title: name, content:`//B"H\n`});
                         await renderFiles(state.currentPath, body);
                     }
-                }}},
-                { tag: "button", html: "New Folder", on: { click: async () => {
-                    const name = prompt("Enter folder name:");
-                    if (name) {
+                });
+            }}},
+            { tag: "button", html: "New Folder", on: { click: () => {
+                showInputDialog({
+                    title: 'Enter New Folder Name',
+                    callback: async (name) => {
                         await os.createFolder({ path: state.currentPath, title: name });
                         await renderFiles(state.currentPath, body);
                         await buildFileTree('desktop.folder', sidebar);
                     }
-                }}},
-                { tag: "button", html: "Import", on: { click: () => importFiles({ os, path: state.currentPath }) }},
-            ]
-        });
+                });
+            }}},
+            { tag: "button", html: "Import", on: { click: () => importFiles({ os, path: state.currentPath }) }},
+        ]
+    });
 
-        const viewControls = createElement({
-            tag: 'div', attributes: { class: 'view-controls' },
-            children: [
-                { tag: 'button', html: 'Icons', on: { click: () => { state.viewMode = 'icons'; renderFiles(state.currentPath, body); } }},
-                { tag: 'button', html: 'Details', on: { click: () => { state.viewMode = 'details'; renderFiles(state.currentPath, body); } }}
-            ]
-        });
+    const viewControls = createElement({
+        tag: 'div', attributes: { class: 'view-controls' },
+        children: [
+            { tag: 'button', html: 'Icons', on: { click: () => { state.viewMode = 'icons'; renderFiles(state.currentPath, body); } }},
+            { tag: 'button', html: 'Details', on: { click: () => { state.viewMode = 'details'; renderFiles(state.currentPath, body); } }}
+        ]
+    });
 
-        // Use a spacer to push view controls to the right
-        const spacer = createElement({tag: 'div', attributes: { style: 'flex-grow: 1' } });
-        buttonBar.append(sidebarToggleBtn, menuButtons, spacer, viewControls);
+    const spacer = createElement({tag: 'div', attributes: { style: 'flex-grow: 1' } });
+    buttonBar.append(sidebarToggleBtn, menuButtons, spacer, viewControls);
 
-        const header = createElement({ tag: "div", attributes: { class: "file-explorer-header" } });
-        header.append(buttonBar, createPathBar());
+    const header = createElement({ tag: "div", attributes: { class: "file-explorer-header" } });
+    header.append(buttonBar, createPathBar());
 
-        // --- Content Area Construction ---
-        const contentArea = createElement({ tag: 'div', attributes: { class: 'file-explorer-content' }});
-        sidebar = createElement({ tag: "div", attributes: { class: "file-explorer-sidebar" } });
-        body = createElement({ tag: "div", attributes: { class: "file-explorer-body" } });
-        const resizer = createElement({ tag: 'div', attributes: { class: 'sidebar-resizer' } });
-        
-        const startResize = (startEvent) => {
-            startEvent.preventDefault();
-            document.body.style.cursor = 'col-resize';
-            const startX = startEvent.touches ? startEvent.touches[0].clientX : startEvent.clientX;
-            const startWidth = sidebar.offsetWidth;
-
-            const doDrag = (moveEvent) => {
-                const currentX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
-                const newWidth = startWidth + currentX - startX;
-                if (newWidth > 100) { // Set a reasonable minimum width
-                    sidebar.style.width = newWidth + 'px';
-                }
-            };
-            const stopDrag = () => {
-                document.body.style.cursor = 'default';
-                document.removeEventListener('mousemove', doDrag);
-                document.removeEventListener('touchmove', doDrag);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchend', stopDrag);
-            };
-
-            document.addEventListener('mousemove', doDrag);
-            document.addEventListener('touchmove', doDrag, { passive: false });
-            document.addEventListener('mouseup', stopDrag);
-            document.addEventListener('touchend', stopDrag);
+    const contentArea = createElement({ tag: 'div', attributes: { class: 'file-explorer-content' }});
+    sidebar = createElement({ tag: "div", attributes: { class: "file-explorer-sidebar" } });
+    body = createElement({ tag: "div", attributes: { class: "file-explorer-body" } });
+    const resizer = createElement({ tag: 'div', attributes: { class: 'sidebar-resizer' } });
+    
+    const startResize = (startEvent) => {
+        startEvent.preventDefault();
+        document.body.style.cursor = 'col-resize';
+        const startX = startEvent.touches ? startEvent.touches[0].clientX : startEvent.clientX;
+        const startWidth = sidebar.offsetWidth;
+        const doDrag = (moveEvent) => {
+            const currentX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+            const newWidth = startWidth + currentX - startX;
+            if (newWidth > 100) sidebar.style.width = newWidth + 'px';
         };
-        resizer.addEventListener('mousedown', startResize);
-        resizer.addEventListener('touchstart', startResize, { passive: false });
+        const stopDrag = () => {
+            document.body.style.cursor = 'default';
+            document.removeEventListener('mousemove', doDrag);
+            document.removeEventListener('touchmove', doDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+        };
+        document.addEventListener('mousemove', doDrag);
+        document.addEventListener('touchmove', doDrag, { passive: false });
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+    };
+    resizer.addEventListener('mousedown', startResize);
+    resizer.addEventListener('touchstart', startResize, { passive: false });
 
-        contentArea.append(sidebar, resizer, body);
-        container.append(header, contentArea);
+    contentArea.append(sidebar, resizer, body);
+    container.append(header, contentArea);
 
-        buildFileTree('desktop.folder', sidebar);
-        navigateTo(state.currentPath);
-        
-        return container;
-    }
+    buildFileTree('desktop.folder', sidebar);
+    navigateTo(state.currentPath);
+    
+    return container;
+}
 
     var self = { div: createFileExplorer() };
     const style = document.createElement("style");

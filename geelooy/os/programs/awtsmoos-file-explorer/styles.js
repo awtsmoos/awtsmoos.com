@@ -177,7 +177,75 @@ export default /*css*/`
 /* SVG Icons */
 .folder-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23007bff"><path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>'); }
 .file-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236c757d"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>'); }
-.js-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" fill="%23f7df1e"/><path d="M60.3 90.3h-9.4v-31h10.3c3.4 0 5.8 1.4 5.8 4.4 0 2-1.3 3.3-3.3 3.9l4.5 7.4-4.2 2.5-3.8-6.3h-2.9v8.1zm.9-22.9v-2.8c0-1.2-.7-1.7-2.4-1.7h-5v4.5h5c1.8 0 2.4-.6 2.4-1.7zm19.9 23.9c-5.1 0-8.5-3.1-8.5-7.4 0-4.4 3.4-7.5 8.5-7.5 3.3 0 5.6 1.4 6.9 3.3l-3.3 1.9c-.8-1.2-1.9-1.8-3.6-1.8-2.5 0-4.1 1.7-4.1 4.1s1.6 4.1 4.1 4.1c2.4 0 3.5-1 4-2.2l3.2 1.7c-1.4 2.8-4.3 4.6-7.8 4.6z"/></svg>'); }
+
+.js-icon { 
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" fill="%23f7df1e"/><path d="M60.3 90.3h-9.4v-31h10.3c3.4 0 5.8 1.4 5.8 4.4 0 2-1.3 3.3-3.3 3.9l4.5 7.4-4.2 2.5-3.8-6.3h-2.9v8.1zm.9-22.9v-2.8c0-1.2-.7-1.7-2.4-1.7h-5v4.5h5c1.8 0 2.4-.6 2.4-1.7zm19.9 23.9c-5.1 0-8.5-3.1-8.5-7.4 0-4.4 3.4-7.5 8.5-7.5 3.3 0 5.6 1.4 6.9 3.3l-3.3 1.9c-.8-1.2-1.9-1.8-3.6-1.8-2.5 0-4.1 1.7-4.1 4.1s1.6 4.1 4.1 4.1c2.4 0 3.5-1 4-2.2l3.2 1.7c-1.4 2.8-4.3 4.6-7.8 4.6z" fill="%23000"/></svg>');
+}
+
+
 .css-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231572b6"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438zM8.5 6.5l.25 2.5h6.5l-.25 2.5h-6.5l.25 2.5h6.5l-.25 2.5-2.5 1-2.5-1-.125-1.5h-2.25l.25 3 4.5 1.5 4.5-1.5.5-5.5.5-5.5.5-5.5h-13z"/></svg>'); }
 .html-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e34f26"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.234-2.719 8.375.002.234-2.717H4.937l.938 10.594h9.875l.938-10.875H8.531z"/></svg>'); }
 `;
+/* --- New Custom Input Dialog Styles --- */
+
+.input-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000; /* Ensure it's on top */
+}
+
+.input-dialog {
+    background: #f0f2f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+}
+
+.dialog-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.input-dialog input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.dialog-buttons button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.dialog-buttons button:first-child { /* OK Button */
+    background-color: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+
+
+
+
