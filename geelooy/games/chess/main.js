@@ -113,6 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
 		}
 			
+        // --- THIS IS THE FIX ---
+        // This line was missing. It adds the result to the message box.
+        messageDiv.textContent += `\nAI moved. (${moveSource})`;
+        // ---------------------
+
 			scrollMsg()
             // =================================================================
 			//                          *** THE FIX ***
