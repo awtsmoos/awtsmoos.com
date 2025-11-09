@@ -19,7 +19,8 @@ function resizeCanvas() {
     canvas.height = vv.height;
 
     // Recalculate all vertical positions based on the new height.
-    groundPosition = vv.height - 40;
+    // --- CHANGE: Raise the ground to be 1/3 of the way up the screen ---
+    groundPosition = vv.height * 2 / 3;
 
     // Safely reposition existing game elements if the game is running
     if (player) {
@@ -162,6 +163,10 @@ function animate() {
     scoreText.draw();
 
     frameCount++;
+
+    // --- CHANGE: Gradually increase game speed over time ---
+    gameSpeed += 0.002;
+
     // Add new obstacles and collectibles periodically
     if (frameCount % 150 === 0) { // Increased spacing
         const itemType = Math.random();
@@ -178,15 +183,20 @@ function animate() {
     
     // Update Obstacles & Collectibles (logic is the same)
     obstacles.forEach((obstacle, index) => {
+        // --- CHANGE: Ensure all objects on screen accelerate with the game ---
+        obstacle.speed = gameSpeed;
         obstacle.update();
         if (detectCollision(player, obstacle)) endGame();
         if (obstacle.x < -obstacle.size) obstacles.splice(index, 1);
     });
     collectibles.forEach((collectible, index) => {
+        // --- CHANGE: Ensure all objects on screen accelerate with the game ---
+        collectible.speed = gameSpeed;
         collectible.update();
         if (detectCollision(player, collectible)) {
             score++;
-            gameSpeed += 0.1;
+            // --- CHANGE: Make the speed boost from collecting a Mitzvah more significant ---
+            gameSpeed += 0.25;
             collectibles.splice(index, 1);
         }
         if (collectible.x < -collectible.size) collectibles.splice(index, 1);
@@ -233,10 +243,3 @@ window.addEventListener('DOMContentLoaded', () => {
 // Add listeners for user input.
 window.addEventListener('keydown', (e) => { if (e.code === 'Space') handleStart(); });
 window.addEventListener('touchstart', handleStart);
-
-
-
-
-
-
-
