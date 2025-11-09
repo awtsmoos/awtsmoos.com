@@ -86,17 +86,19 @@ export const ENEMY_TYPES = {
     },
     'gorilla': {
         emoji: '🦍',
-        baseHealth: 300,
+        baseHealth: 200,
         speed: 0.8,
-        perutaValue: 15,
-        children: { type: 'cat', count: 2 },
+        perutaValue: 25,
+        children: { type: 'tiger', count: 2 },
+    
     },
     'tiger': {
         emoji: '🐅',
         baseHealth: 75,
         speed: 1.5,
         perutaValue: 10,
-        children: null,
+        children: { type: 'cat', count: 2 },
+    
     },
     'golem': { // New Enemy
         emoji: '🗿',
