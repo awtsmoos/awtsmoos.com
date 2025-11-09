@@ -3,7 +3,7 @@ import System from "./system.js"
 import ResizableWindow from "./windows.js"
 import {
     programs,
-    programsByExtensionDefaults,
+    defaultPrograms,
     getDefaultProgram
 } from "./basicPrograms.js"
 
