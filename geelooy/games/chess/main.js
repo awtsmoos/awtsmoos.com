@@ -55,11 +55,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		'P': 5
 	};
 	
-	function scrollMsg(){
-		messageDiv.scrollTop=
-		messageDiv.scrollHeight
-	
-	}
+	function scrollMsg() {
+    // A threshold in pixels. If the user is within this distance from the
+    // bottom, we'll auto-scroll. This prevents scrolling if they have
+    // intentionally scrolled up to read previous messages. A value of 50
+    // is a safe buffer for a couple of lines of text.
+    const scrollThreshold = 50;
+
+    // Check if the user is already close to the bottom.
+    // (Total Height - Current Scroll Position - Visible Height) < Threshold
+    const isNearBottom = messageDiv.scrollHeight - messageDiv.scrollTop - messageDiv.clientHeight < scrollThreshold;
+
+    if (isNearBottom) {
+        // If they are, then auto-scroll to the very bottom to show the new message.
+        messageDiv.scrollTop = messageDiv.scrollHeight;
+    }
+    // If they are not near the bottom, we do nothing and respect their scroll position.
+}
 
 	function resetGameState() {
 		gameState = {

@@ -125,7 +125,6 @@ canvas.addEventListener('mouseleave', endDrag); // Also stop if the cursor leave
 
 // --- GAME OBJECTS ---
 class Player {
-    /* ... Unchanged ... */
     constructor() {
         this.cx = canvas.width / 2;
         this.cy = canvas.height - 100;
@@ -162,11 +161,14 @@ class Player {
         if (einSofActive) {
             ctx.shadowColor = 'white';
             ctx.shadowBlur = 30;
+            ctx.font = `${this.visualHeight}px Arial`;
         } else {
             ctx.shadowColor = 'rgba(255, 180, 0, 0.7)';
-            ctx.shadowBlur = 10 + (Math.sin(frameCount * 0.1) * 5);
+            ctx.shadowBlur = 10; // Steady glow, no more pulsing.
+            // Flicker the flame's size for a more natural effect
+            const sizeFlicker = Math.sin(frameCount * 0.3) * 1.5;
+            ctx.font = `${this.visualHeight + sizeFlicker}px Arial`;
         }
-        ctx.font = `${this.visualHeight}px Arial`;
         ctx.fillText(this.emoji, this.cx, this.cy);
         ctx.restore();
         if (this.shielded) {
@@ -178,7 +180,7 @@ class Player {
     }
 }
 class BackgroundParticle {
-    /* ... Unchanged ... */
+    
     constructor() {
         this.respawn(true);
     }
@@ -198,15 +200,13 @@ class BackgroundParticle {
         if (this.y > canvas.height + 20) this.respawn(false);
     }
     draw() {
-        const baseOpacity = this.parallaxFactor * 0.6;
-        const twinkle = Math.sin(this.opacityPhase) * 0.3;
-        ctx.globalAlpha = Math.max(0, baseOpacity + twinkle);
+        
+        ctx.globalAlpha = this.parallaxFactor * 0.6;
         ctx.font = `${this.size}px Arial`;
         ctx.fillText(this.char, this.x, this.y);
     }
 }
 class Platform {
-    /* ... Unchanged ... */
     constructor(x, y, type) {
         this.x = x;
         this.y = y;
@@ -270,7 +270,7 @@ class Powerup {
     }
 }
 class Particle {
-    /* ... Unchanged ... */
+    
     constructor(x, y, emoji, life = 60, vx = 0, vy = 0, gravity = 0) {
         this.x = x;
         this.y = y;
@@ -289,11 +289,13 @@ class Particle {
         this.y += this.vy;
     }
     draw() {
+        ctx.save(); // Save the current canvas state
         ctx.globalAlpha = (this.life / this.initialLife) ** 2;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = `20px Arial`;
         ctx.fillText(this.emoji, this.x, this.y);
+        ctx.restore(); // Restore the state, resetting globalAlpha
     }
 }
 
