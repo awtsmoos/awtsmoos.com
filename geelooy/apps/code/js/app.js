@@ -173,7 +173,7 @@ window.addEventListener('message', (event) => {
         const { folderName, folderPath } = payload;
         const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
         Workspaces.add(osWorkspace, false);
-        Workspaces.render();
+        ;
         return;
     }
 });

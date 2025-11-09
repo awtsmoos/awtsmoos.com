@@ -43,19 +43,20 @@ export const Workspaces = {
 
     
 
+// In workspaces.js, replace the entire renderWorkspace method
+
 async renderWorkspace(ws, container) {
     const wsRoot = document.createElement('div');
     wsRoot.className = 'workspace-root';
     const uniquePath = getItemUniquePath(ws);
 
-    // Asynchronously check if the folder is a git clone for the icon
     const gitInfo = await GitMetaProvider.getGitInfoForFolder({ ...ws, kind: 'directory' });
     const isGitClone = !!gitInfo;
 
     const icon = isGitClone ? 'git-folder' :
                  ws.type === 'local' ? 'laptop' :
                  ws.type === 'github' ? 'github' :
-                 ws.type === 'osfolder' ? 'folder' : // Use a standard folder icon
+                 ws.type === 'osfolder' ? 'folder' :
                  'brain';
 
     wsRoot.innerHTML = /*html*/ `
@@ -74,27 +75,31 @@ async renderWorkspace(ws, container) {
     
     container.appendChild(wsRoot);
     const header = wsRoot.querySelector('.workspace-header');
-    const headerTitle = header.querySelector('.workspace-header-title');
-
-    // This is the item that represents the root of the workspace tree
     const rootItemForTree = { ...ws, workspaceId: ws.id, kind: 'directory' };
 
-    headerTitle.onclick = () => {
-        if (State.expandedFolders.has(uniquePath)) {
-            State.expandedFolders.delete(uniquePath);
+    // --- SIMPLIFIED AND CORRECTED ONCLICK LOGIC ---
+    header.onclick = (e) => {
+        // Prevent event bubbling issues
+        if (e.target.closest('.git-actions-btn')) return;
+
+        const tree = wsRoot.querySelector('ul.workspace-tree');
+        if (tree) {
+            // If the tree exists, remove it and collapse
+            tree.remove();
             wsRoot.classList.remove('expanded');
-            wsRoot.querySelector('ul')?.remove();
+            State.expandedFolders.delete(uniquePath);
         } else {
-            State.expandedFolders.add(uniquePath);
+            // If it doesn't exist, create it and expand
+            const newTree = document.createElement('ul');
+            newTree.className = 'workspace-tree';
+            wsRoot.appendChild(newTree);
             wsRoot.classList.add('expanded');
-            const tree = document.createElement('ul');
-            tree.className = 'workspace-tree';
-            wsRoot.appendChild(tree);
-            // THE FIX: Use the correctly defined rootItemForTree which has the full path
-            this.renderTree(tree, rootItemForTree, 1);
+            State.expandedFolders.add(uniquePath);
+            this.renderTree(newTree, rootItemForTree, 1);
         }
         App.saveSession();
     };
+    // --- END OF FIX ---
 
     header.oncontextmenu = (e) => Menus.show(e, rootItemForTree);
     
@@ -105,13 +110,12 @@ async renderWorkspace(ws, container) {
     
     State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItemForTree });
 
-    const isExpanded = State.expandedFolders.has(uniquePath);
-    if (isExpanded) {
+    // This part now correctly handles the initial render on load
+    if (State.expandedFolders.has(uniquePath)) {
        wsRoot.classList.add('expanded');
        const tree = document.createElement('ul');
        tree.className = 'workspace-tree';
        wsRoot.appendChild(tree);
-       // THE FIX (APPLIED HERE TOO): Use the rootItemForTree for initial render
        this.renderTree(tree, rootItemForTree, 1);
     }
 },
