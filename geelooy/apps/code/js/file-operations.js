@@ -123,7 +123,7 @@ async copyAllContents(items) {
                 const langIdentifier = langMap[extension] || ''; // Gets 'javascript', 'css', etc.
 
                 // Build the clean Markdown output for a file
-                combinedContent += `### \`${item.path || item.name}\`\n\n`;
+                combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
                 combinedContent += '```' + langIdentifier + '\n';
                 combinedContent += textContent.trim() + '\n'; // Trim to remove extra whitespace
                 combinedContent += '```\n\n';

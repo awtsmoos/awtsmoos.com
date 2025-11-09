@@ -10,18 +10,22 @@ function getCanvasCoordinates(event, game) {
 
     let clientX, clientY;
 
-    // Use touches for active touch events (like touchmove)
-    if (event.touches && event.touches.length > 0) {
-        clientX = event.touches[0].clientX;
-        clientY = event.touches[0].clientY;
-    // Use changedTouches for ended touch events (like touchend)
-    } else if (event.changedTouches && event.changedTouches.length > 0) {
-        clientX = event.changedTouches[0].clientX;
-        clientY = event.changedTouches[0].clientY;
+    // Unified touch handling for touchstart, touchmove, and touchend
+    if (event.touches || event.changedTouches) {
+        const touch = (event.touches && event.touches[0]) || (event.changedTouches && event.changedTouches[0]);
+        if (touch) {
+            clientX = touch.clientX;
+            clientY = touch.clientY;
+        }
     } else {
-        // Fallback for mouse events
+        // Fallback for mouse events like click and mousemove
         clientX = event.clientX;
         clientY = event.clientY;
+    }
+
+    // If we couldn't determine coordinates for any reason, exit gracefully.
+    if (typeof clientX === 'undefined') {
+        return { x: -1, y: -1 };
     }
 
     const x = (clientX - rect.left) * scaleX;
@@ -29,6 +33,7 @@ function getCanvasCoordinates(event, game) {
     
     return { x, y };
 }
+
 
 export function setupUI(game) {
 	document.querySelectorAll('.collapsible-header').forEach(header => {
@@ -57,14 +62,20 @@ export function setupUI(game) {
 	game.canvas.addEventListener('click', (e) => handleCanvasClick(e, game));
 	game.canvas.addEventListener('mouseleave', () => { game.ghostTower = null; });
     
+    // --- Mobile Touch Event Handling ---
+    game.canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleMouseMove(e, game); // Show ghost tower on initial press
+    }, { passive: false });
+
     game.canvas.addEventListener('touchmove', (e) => {
         e.preventDefault();
-        handleMouseMove(e, game);
+        handleMouseMove(e, game); // Move ghost tower with finger
     }, { passive: false });
 
     game.canvas.addEventListener('touchend', (e) => {
         e.preventDefault();
-        handleCanvasClick(e, game);
+        handleCanvasClick(e, game); // Place tower on release
     });
 
 	document.getElementById('start-wave').onclick = () => game.startNextWave();
@@ -88,6 +99,8 @@ function handleMouseMove(event, game) {
 	if (!game.selectedTowerType) return;
 	
     const { x, y } = getCanvasCoordinates(event, game);
+    if (x < 0) return; // Exit if coordinates are invalid
+
 	const gridX = Math.floor(x / TILE_SIZE);
 	const gridY = Math.floor(y / TILE_SIZE);
 
@@ -103,9 +116,12 @@ function handleMouseMove(event, game) {
 
 function handleCanvasClick(event, game) {
     const { x, y } = getCanvasCoordinates(event, game);
+    if (x < 0) return; // Exit if coordinates are invalid
+
 	const gridX = Math.floor(x / TILE_SIZE);
 	const gridY = Math.floor(y / TILE_SIZE);
 
+	// If a tower type is selected for placement
 	if (game.selectedTowerType) {
 		if (isLocationValid(gridX, gridY, game)) {
 			const cost = TOWER_TYPES[game.selectedTowerType].cost;
@@ -116,10 +132,12 @@ function handleCanvasClick(event, game) {
             }
 		}
 	} else {
+		// If no tower is selected, check if we clicked on an existing tower
 		const clickedTower = game.getTowerAt(x, y);
 		if (clickedTower) {
 			game.showUpgradeModal(clickedTower);
 		} else {
+			// If we clicked on empty space, deselect everything
 			game.selectedTower = null;
 			game.hideModal();
 		}

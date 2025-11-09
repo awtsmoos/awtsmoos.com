@@ -282,6 +282,7 @@ class Game {
 
     showUpgradeModal(tower) {
         this.selectedTower = tower;
+        this.selectedTowerType = null;
         const config = TOWER_TYPES[tower.type];
         
         let sellValue = Math.floor(tower.cost / 2);
