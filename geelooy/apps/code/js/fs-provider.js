@@ -7,8 +7,7 @@ import { UI } from './ui.js';
 
 
 
-let requestIdCounter = 0;
-const pendingRequests = new Map();
+
 /**
  * FileSystemProvider: An abstraction layer for different file systems.
  */
@@ -677,20 +676,24 @@ PostMessage: {
 
 OSFolder: {
     // Helper function to send a request and wait for a response
-    _requestFromOS(type, payload) {
-        return new Promise((resolve, reject) => {
-            const requestId = requestIdCounter++;
-            pendingRequests.set(requestId, { resolve, reject });
-            window.parent.postMessage({ type, payload, requestId }, '*');
-            // Timeout to prevent requests from hanging forever
-            setTimeout(() => {
-                if (pendingRequests.has(requestId)) {
-                    pendingRequests.delete(requestId);
-                    reject(new Error(`Request timed out: ${type}`));
-                }
-            }, 10000); // 10 second timeout
-        });
-    },
+    
+_requestFromOS(type, payload) {
+    return new Promise((resolve, reject) => {
+        //  Use the shared state variables
+        const requestId = State.postMessageRequestId++;
+        State.postMessagePendingRequests.set(requestId, { resolve, reject });
+        
+        window.parent.postMessage({ type, payload, requestId }, '*');
+        
+        setTimeout(() => {
+            // Use the shared state map
+            if (State.postMessagePendingRequests.has(requestId)) {
+                State.postMessagePendingRequests.delete(requestId);
+                reject(new Error(`Request timed out: ${type}`));
+            }
+        }, 10000);
+    });
+},
     
     async list(item) {
         const response = await this._requestFromOS('requestFolderList', { path: item.path });

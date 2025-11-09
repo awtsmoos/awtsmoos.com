@@ -140,19 +140,19 @@ setupEventListeners() {
 
 
 
+
 window.addEventListener('message', (event) => {
     const { type, payload, requestId, error } = event.data;
 
     // --- Handle responses for our provider requests ---
-    if (pendingRequests.has(requestId)) {
-        const { resolve, reject } = pendingRequests.get(requestId);
-        pendingRequests.delete(requestId);
+    //  Check the shared State.postMessagePendingRequests map
+    if (State.postMessagePendingRequests.has(requestId)) {
+        const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
+        State.postMessagePendingRequests.delete(requestId);
         
         if (error) {
-            // If the OS sends back an error, reject the promise
             reject(new Error(error));
         } else {
-            // Otherwise, resolve with the payload
             resolve(payload);
         }
         return; // Stop further processing
@@ -171,7 +171,6 @@ window.addEventListener('message', (event) => {
 
     if (type === 'loadFolderAsWorkspace') {
         const { folderName, folderPath } = payload;
-        // Use the 'osfolder' type for our new provider
         const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
         Workspaces.add(osWorkspace, false);
         Workspaces.render();
