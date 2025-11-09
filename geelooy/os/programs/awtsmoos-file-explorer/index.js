@@ -158,7 +158,6 @@ export default ({
         pathBarDisplay = createElement({ tag: 'div', attributes: { class: 'path-bar-display' }});
         pathInput = createElement({ tag: 'input', attributes: { type: 'text', class: 'path-input' } });
         
-        // Create the parent element first
         const pathBar = createElement({
             tag: 'div',
             attributes: { class: 'path-bar' },
@@ -174,7 +173,6 @@ export default ({
             }
         });
 
-        // Manually append the already-created child elements
         pathBar.appendChild(pathBarDisplay);
         pathBar.appendChild(pathInput);
 
@@ -204,40 +202,59 @@ export default ({
                 items = await os.db.getAllKeys(currentPath);
             } catch (e) { return; }
 
-            for (const item of items) {
-                if (item.endsWith('.folder')) {
-                    const folderPath = `${currentPath}/${item}`;
-                    const li = createElement({ tag: 'li', attributes: { class: 'tree-node' } });
-                    
-                    const toggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
-                    const nameSpan = createElement({
-                        tag: 'span',
-                        attributes: { class: 'node-name' },
-                        html: item.replace('.folder', ''),
-                        on: { click: () => navigateTo(folderPath) }
-                    });
+            // Sort with folders first, then alphabetically
+            items.sort((a, b) => {
+                const isAFolder = a.endsWith('.folder');
+                const isBFolder = b.endsWith('.folder');
+                if (isAFolder && !isBFolder) return -1;
+                if (!isAFolder && isBFolder) return 1;
+                return a.localeCompare(b);
+            });
 
-                    li.append(toggle, nameSpan);
-                    parentUl.appendChild(li);
+            for (const item of items) {
+                const isFolder = item.endsWith('.folder');
+                const fullPath = `${currentPath}/${item}`;
+                const displayName = item.replace('.folder', '');
+
+                const li = createElement({ tag: 'li', attributes: { class: 'tree-node' } });
+                const contentWrapper = createElement({ tag: 'div', attributes: { class: 'tree-node-content' }});
+                
+                const nameSpan = createElement({ tag: 'span', attributes: { class: 'node-name' }, html: displayName });
+
+                if (isFolder) {
+                    const toggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
+                    contentWrapper.append(toggle, nameSpan);
+                    
+                    contentWrapper.onclick = () => navigateTo(fullPath);
 
                     const childrenUl = createElement({ tag: 'ul', attributes: { class: 'tree-children collapsed' } });
-                    li.appendChild(childrenUl);
+                    li.append(contentWrapper, childrenUl);
 
                     toggle.onclick = (e) => {
-                        e.stopPropagation();
+                        e.stopPropagation(); // Prevent navigation
                         const isCollapsed = childrenUl.classList.contains('collapsed');
                         if (isCollapsed) {
                             childrenUl.classList.remove('collapsed');
                             toggle.innerHTML = '▼';
-                            if (!childrenUl.hasChildNodes()) { // Lazy load children
-                                buildNode(folderPath, childrenUl);
+                            if (!childrenUl.hasChildNodes()) {
+                                buildNode(fullPath, childrenUl); // Lazy load
                             }
                         } else {
                             childrenUl.classList.add('collapsed');
                             toggle.innerHTML = '►';
                         }
                     };
+                } else {
+                    // It's a file
+                    const fileIconPlaceholder = createElement({ tag: 'span', attributes: { class: 'toggle' } }); // for alignment
+                    contentWrapper.append(fileIconPlaceholder, nameSpan);
+                    contentWrapper.onclick = async () => {
+                        const content = await os.db.Laynin(currentPath, item);
+                        os.addWindow({ title: item, content, path: currentPath, os });
+                    };
+                    li.appendChild(contentWrapper);
                 }
+                parentUl.appendChild(li);
             }
         };
         await buildNode(rootPath, rootUl);
@@ -256,8 +273,18 @@ export default ({
     
     function createFileExplorer() {
         const container = createElement({ tag: "div", attributes: { class: "file-explorer" } });
-        const header = createElement({ tag: "div", attributes: { class: "file-explorer-header" } });
         
+        // --- Sidebar Collapse Button ---
+        const sidebarToggleBtn = createElement({
+            tag: 'button',
+            attributes: { class: 'sidebar-toggle-btn' },
+            html: '<span>&#9776;</span>', // Hamburger icon
+            on: { click: () => container.classList.toggle('sidebar-collapsed') }
+        });
+
+        const header = createElement({ tag: "div", attributes: { class: "file-explorer-header" } });
+        header.appendChild(sidebarToggleBtn);
+
         const menuButtons = createElement({
             tag: 'div', attributes: { class: 'menu-buttons' },
             children: [
@@ -294,7 +321,31 @@ export default ({
         sidebar = createElement({ tag: "div", attributes: { class: "file-explorer-sidebar" } });
         body = createElement({ tag: "div", attributes: { class: "file-explorer-body" } });
         
-        contentArea.append(sidebar, body);
+        // --- Sidebar Resizer ---
+        const resizer = createElement({ tag: 'div', attributes: { class: 'sidebar-resizer' } });
+        resizer.onmousedown = (e) => {
+            e.preventDefault();
+            document.body.style.cursor = 'col-resize';
+            const startX = e.clientX;
+            const startWidth = sidebar.offsetWidth;
+
+            const doDrag = (e) => {
+                const newWidth = startWidth + e.clientX - startX;
+                if (newWidth > 50) { // minimum width
+                    sidebar.style.width = newWidth + 'px';
+                }
+            };
+            const stopDrag = () => {
+                document.body.style.cursor = 'default';
+                document.removeEventListener('mousemove', doDrag);
+                document.removeEventListener('mouseup', stopDrag);
+            };
+
+            document.addEventListener('mousemove', doDrag);
+            document.addEventListener('mouseup', stopDrag);
+        };
+
+        contentArea.append(sidebar, resizer, body);
         container.append(header, contentArea);
 
         navigateTo(state.currentPath);

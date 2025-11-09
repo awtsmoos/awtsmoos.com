@@ -22,9 +22,18 @@ export default /*css*/`
     flex-shrink: 0;
 }
 
-.menu-buttons, .view-controls {
-    display: flex;
-    gap: 6px;
+.sidebar-toggle-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+.sidebar-toggle-btn:hover {
+    background: #e9f5ff;
+    border-color: #a0c7e4;
 }
 
 .menu-buttons button, .view-controls button {
@@ -38,17 +47,14 @@ export default /*css*/`
     line-height: 1;
     transition: background-color 0.15s ease, border-color 0.15s ease;
 }
-
 .menu-buttons button:hover, .view-controls button:hover {
     background: #e9f5ff;
     border-color: #a0c7e4;
 }
-
 .menu-buttons button:active, .view-controls button:active {
     background: #d1e9ff;
     border-color: #7ab5e0;
 }
-
 
 /* Path Bar */
 .path-bar {
@@ -111,32 +117,59 @@ export default /*css*/`
 /* Sidebar File Tree */
 .file-explorer-sidebar {
     width: 240px;
+    min-width: 150px;
     padding: 8px;
     background: #fcfcfc;
-    border-right: 1px solid #e1e1e1;
     overflow-y: auto;
     flex-shrink: 0;
+    transition: width 0.2s ease, padding 0.2s ease;
+    border-right: 1px solid #e1e1e1;
 }
+.file-explorer.sidebar-collapsed .file-explorer-sidebar {
+    width: 0;
+    min-width: 0;
+    padding: 8px 0;
+    overflow: hidden;
+    border-right: none;
+}
+
+/* Sidebar Resizer */
+.sidebar-resizer {
+    width: 5px;
+    background: #f3f3f3;
+    cursor: col-resize;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+.sidebar-resizer:hover {
+    background: #0078d7;
+}
+.file-explorer.sidebar-collapsed .sidebar-resizer {
+    display: none;
+}
+
+
+/* Tree View Styles */
 .file-explorer-sidebar ul {
     list-style: none;
-    padding-left: 18px;
+    padding-left: 16px;
     margin: 0;
 }
-.tree-node {
+.tree-node-content {
     display: flex;
     align-items: center;
-    padding: 4px 0;
+    padding: 3px;
+    border-radius: 4px;
     cursor: pointer;
 }
-.tree-node > span.node-name {
-    padding: 3px 6px;
-    border-radius: 4px;
+.tree-node-content:hover {
+    background-color: #f0f0f0;
+}
+.node-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.tree-node > span.node-name:hover {
-    background-color: #f0f0f0;
+    font-size: 14px;
 }
 .toggle {
     width: 20px;
@@ -195,9 +228,8 @@ export default /*css*/`
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234285F4"><path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>');
 }
 .file-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%235f6368"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24" fill="%235f6368"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>');
 }
-
 
 /* Details View */
 .file-explorer-body.details-view {
