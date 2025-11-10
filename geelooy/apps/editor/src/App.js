@@ -13,7 +13,7 @@ import { OrbitControlsGizmo } from 'three/addons/controls/OrbitControlsGizmo.js'
 // --- 1. IMPORT THE EXPORTER ---
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
-
+import { EditModeManager } from './Interaction/EditModeManager.js'; 
 import { AnimationClip } from 'three';
 import { VectorKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack } from 'three';
 
@@ -32,77 +32,89 @@ class App {
         this.eventEmitter = new EventEmitter();
         this.setupDOM();
 
+        // Core Managers
         this.historyManager = new HistoryManager(this.eventEmitter);
         this.sceneManager = new SceneManager(HTML.id('canvas'), this.eventEmitter);
         this.objectManager = new ObjectManager(this.sceneManager.scene, this.eventEmitter, this.historyManager);
-        // *** PASS ORBIT CONTROLS TO TRANSFORM MANAGER ***
-        this.transformManager = new TransformManager(
-            this.sceneManager.camera,
-            this.sceneManager.renderer.domElement,
-            this.sceneManager.scene,
-            this.eventEmitter,
-            this.historyManager,
-            this.sceneManager.controls // <-- Add this argument
-        );
-        
         this.timelineManager = new TimelineManager(this.eventEmitter, this.objectManager, this.historyManager);
-        this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager); // Pass necessary modules
-        this.inputManager = new InputManager(this.sceneManager.renderer.domElement, this.eventEmitter, this.objectManager, this.transformManager, this.sceneManager.camera); // Handles inputs
-
-        this.setupOrbitGizmo(); // Optional Gizmo
-        this.outlineMeshes = new Map();
-	this.eventEmitter.on('exportGLBRequest', this.exportSelectedGLB.bind(this));
-
-        this.eventEmitter.on('selectionChanged', (selectedIds, activeId) => {
-            const objects = this.objectManager.getObjectsByIds(selectedIds);
-            const activeObj = activeId ? this.objectManager.getObjectByUUID(activeId) : null;
-
-            // Update TransformManager (keep this)
-            this.transformManager.updateSelection(objects, activeObj);
-
-            // Update Simple Outlines ---
-            this.updateSimpleOutlines(selectedIds, activeId);
-
-        });
-
         
+        // Interaction Managers
+        this.transformManager = new TransformManager(this.sceneManager.camera, this.sceneManager.renderer.domElement, this.sceneManager.scene, this.eventEmitter, this.historyManager, this.sceneManager.controls);
+        this.inputManager = new InputManager(this.sceneManager.renderer.domElement, this.eventEmitter, this.objectManager, this.transformManager, this.sceneManager.camera);
+        this.editModeManager = new EditModeManager(this.sceneManager.scene, this.eventEmitter, this.historyManager, this.objectManager, this.transformManager.transformControls, this.sceneManager.controls);
+
+        // UI Manager (must be after others)
+        this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager);
+
+        // App State
+        this.appMode = 'OBJECT'; // 'OBJECT' or 'EDIT'
+        this.outlineMeshes = new Map();
+        
+        this.setupOrbitGizmo();
+        this.connectEventListeners();
+        
+        this.animate = this.animate.bind(this);
+        requestAnimationFrame(this.animate);
+        console.log('B\"H\n - Application Initialized');
+    }
     
-        // Link modules that need references to each other (minimize direct dependencies)
-        // Example: Timeline needs to know when selection changes to potentially show relevant tracks
-         // --- MODIFIED SELECTION LISTENER (Option B - Mediation) ---
-         // --- NEW: Method to manage simple outlines ---
-    
-        // --- END MODIFIED LISTENER -
-
-        this.eventEmitter.on('objectAdded', (object) => {
-             this.timelineManager.createLayerForObject(object);
-        });
-
-        this.eventEmitter.on('objectRemoved', (object) => {
-             this.timelineManager.removeLayerForObject(object);
-        });
-
-        // More event connections as needed...
-
-        this.eventEmitter.on('orbitControlsEnable', (enabled) => {
-            if (this.sceneManager && this.sceneManager.controls) {
-                 // Directly enable or disable the OrbitControls instance
-                 this.sceneManager.controls.enabled = enabled;
-                 // Optional logging for debugging:
-                 // console.log(`OrbitControls set to: ${enabled}`);
-            } else {
-                 console.warn("SceneManager or OrbitControls not available to toggle state.");
+    connectEventListeners() {
+        this.eventEmitter.on('selectionChanged', (selectedIds, activeId) => {
+            // ** FIX: Only update object-level gizmo and outlines if NOT in edit mode **
+            if (this.appMode === 'OBJECT') {
+                const objects = this.objectManager.getObjectsByIds(selectedIds);
+                const activeObj = activeId ? this.objectManager.getObjectByUUID(activeId) : null;
+                this.transformManager.updateSelection(objects, activeObj);
+                this.updateSimpleOutlines(selectedIds, activeId);
             }
         });
-        // ***** END OF ADDED LISTENER *****
-    
-        // Start the animation loop
-        this.animate = this.animate.bind(this); // Bind context
-        requestAnimationFrame(this.animate);
 
-        console.log('B\"H\n - Application Initialized');
-        // Add initial object for testing
-        // this.objectManager.createPrimitive('Box'); // Example
+        this.eventEmitter.on('exportGLBRequest', this.exportSelectedGLB.bind(this));
+        this.eventEmitter.on('toggleEditModeRequest', this.toggleEditMode.bind(this));
+        
+        this.sceneManager.renderer.domElement.addEventListener('pointerdown', (event) => {
+            if (this.appMode === 'EDIT' && event.target === this.sceneManager.renderer.domElement && !this.transformManager.isDragging) {
+                const mouse = new THREE.Vector2();
+                const rect = this.sceneManager.renderer.domElement.getBoundingClientRect();
+                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+                this.editModeManager.handlePointerDown(mouse, this.sceneManager.camera);
+            }
+        });
+        
+        this.eventEmitter.on('geometryChanged', ({ uuid }) => {
+            if (this.appMode === 'EDIT' && this.editModeManager.targetObject?.uuid === uuid) {
+                this.editModeManager._attachTransformToSelection();
+            }
+        });
+    }
+
+    toggleEditMode() {
+        if (this.appMode === 'OBJECT') {
+            const selected = this.objectManager.getSelectedObjects();
+            if (selected.length === 1 && selected[0].isMesh) {
+                this.appMode = 'EDIT';
+                
+                // Clear object-level visuals BEFORE entering edit mode
+                this.updateSimpleOutlines([], null); 
+                this.transformManager.updateSelection([], null);
+                this.objectManager.clearSelection(false); // Clear selection state without firing another event
+                
+                this.editModeManager.enter(selected[0]);
+             //   this.sceneManager.controls.enabled = false;
+            }
+        } else {
+            this.appMode = 'OBJECT';
+            const editedObject = this.editModeManager.targetObject;
+            this.editModeManager.exit();
+            
+            this.sceneManager.controls.enabled = true;
+            
+            // After exiting, re-select the object to restore its outline and transform gizmo
+            if (editedObject) {
+                this.objectManager.selectObject(editedObject.uuid, true);
+            }
+        }
     }
 
 

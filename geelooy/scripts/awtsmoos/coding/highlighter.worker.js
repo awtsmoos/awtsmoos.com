@@ -197,9 +197,9 @@ function _getToken(line, i, state) {
 		case 'template_literal': {
 			const
 				nextInterpolationIndex =
-				line.indexOf('${', i);
+				_findUnescaped(line, '${', i);
 			const nextTerminatorIndex =
-				line.indexOf('`', i);
+				_findUnescaped(line, '`', i);
 			let endOfChunk = line
 			.length;
 			if (nextInterpolationIndex !==
@@ -246,7 +246,8 @@ function _getToken(line, i, state) {
 			};
 		}
 		case 'string': {
-			const endIdx = line.indexOf(
+			const endIdx = _findUnescaped(
+		                line,
 				context.terminator,
 				i);
 			const content = line
@@ -663,6 +664,37 @@ function _getCssToken(line, i, state) {
 }
 
 // --- Helper Functions ---
+/**
+ * @B"H
+ * Finds the next unescaped occurrence of a substring.
+ * @param {string} line The string to search in.
+ * @param {string} searchString The substring to search for.
+ * @param {number} startIndex The index to start the search from.
+ * @returns {number} The index of the found substring, or -1 if not found.
+ */
+function _findUnescaped(line, searchString, startIndex) {
+    for (let i = startIndex; i < line.length; i++) {
+        if (line.substring(i).startsWith(searchString)) {
+            // Check if the character is escaped.
+            if (i > 0 && line[i - 1] === '\\') {
+                // Count preceding backslashes to see if the escape is itself escaped (e.g., "\\").
+                let backslashCount = 0;
+                let p = i - 1;
+                while (p >= 0 && line[p] === '\\') {
+                    backslashCount++;
+                    p--;
+                }
+                // If the number of backslashes is odd, the character is escaped.
+                if (backslashCount % 2 !== 0) {
+                    continue; // Skip this one, it's escaped.
+                }
+            }
+            return i; // Found an unescaped occurrence.
+        }
+    }
+    return -1; // Not found.
+}
+
 function _escape(s) {
 	return s ? s.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")

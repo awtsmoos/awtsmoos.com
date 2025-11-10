@@ -1,6 +1,5 @@
 // B"H
 import { HTML } from '../Core/HTML.js';
-import { BasePanel } from './BasePanel.js'; // Use BasePanel structure if desired
 
 export class Toolbar {
     constructor(eventEmitter, historyManager, objectManager) {
@@ -10,136 +9,155 @@ export class Toolbar {
 
         this.element = null;
         this.buttons = {};
-        this.isMultiSelectActive = false;
+        this.objectModeToolbar = null;
+        this.editModeToolbar = null;
+        this.isInEditMode = false; // ** FIX: Add state tracking for the current mode
 
         this._createElement();
         this._setupEventListeners();
     }
 
     _createElement() {
-        this.buttons.undo = HTML.create({ tag: 'button', id: 'btn-undo', text: 'Undo', attrs: { disabled: true } });
-        this.buttons.redo = HTML.create({ tag: 'button', id: 'btn-redo', text: 'Redo', attrs: { disabled: true } });
-        this.buttons.createPrimitive = HTML.create({ tag: 'button', id: 'btn-create', text: 'Add' });
+        // --- Object Mode Buttons ---
+        const objectModeButtons = [
+            HTML.create({ tag: 'button', id: 'btn-undo', text: 'Undo', attrs: { disabled: true, title: 'Ctrl+Z' } }),
+            HTML.create({ tag: 'button', id: 'btn-redo', text: 'Redo', attrs: { disabled: true, title: 'Ctrl+Y' } }),
+            HTML.create({ tag: 'span', class:'separator'}),
+            HTML.create({ tag: 'button', id: 'btn-create', text: 'Add', attrs: { title: 'Shift+A' } }),
+            HTML.create({ tag: 'select', id: 'select-primitive', children: ['Box', 'Sphere', 'Plane', 'Cylinder', 'Cone', 'Torus'].map(type => ({ tag: 'option', attrs: { value: type }, text: type }))}),
+            HTML.create({ tag: 'button', id: 'btn-load-glb', text: 'Load GLB' }),
+            HTML.create({ tag: 'button', id: 'btn-export-glb', text: 'Export GLB', attrs: { disabled: true } }),
+            HTML.create({ tag: 'span', class:'separator'}),
+            HTML.create({ tag: 'button', id: 'btn-group', text: 'Parent', attrs: { disabled: true, title: 'Ctrl+P' } }),
+            HTML.create({ tag: 'button', id: 'btn-ungroup', text: 'Unparent', attrs: { disabled: true, title: 'Alt+P' } }),
+            HTML.create({ tag: 'button', id: 'btn-delete', text: 'Delete', attrs: { disabled: true, title: 'Del/Backspace' } }),
+        ];
+        this.objectModeToolbar = HTML.create({tag: 'div', class: 'toolbar-section', children: objectModeButtons });
 
-        const primitiveOptions = ['Box', 'Sphere', 'Plane', 'Cylinder', 'Cone', 'Torus'];
-        this.buttons.primitiveSelect = HTML.create({
-            tag: 'select',
-            id: 'select-primitive',
-            children: primitiveOptions.map(type => ({
-                tag: 'option',
-                attrs: { value: type },
-                text: type
-            }))
-        });
-        
-        this.buttons.loadGLB = HTML.create({ tag: 'button', id: 'btn-load-glb', text: 'Load GLB' });
-        
-        // --- NEW BUTTON ADDED HERE ---
-        this.buttons.exportGLB = HTML.create({ tag: 'button', id: 'btn-export-glb', text: 'Export GLB', attrs: { disabled: true } });
+        // --- Edit Mode Buttons ---
+        const editModeButtons = [
+            HTML.create({ tag: 'button', id: 'btn-edit-vertex', text: 'Vertex', class: 'active' }),
+            HTML.create({ tag: 'button', id: 'btn-edit-edge', text: 'Edge', attrs: { disabled: true } }),
+            HTML.create({ tag: 'button', id: 'btn-edit-face', text: 'Face', attrs: { disabled: true } }),
+            HTML.create({ tag: 'span', class:'separator'}),
+            HTML.create({ tag: 'button', text: 'Extrude', attrs: { disabled: true } }),
+            HTML.create({ tag: 'button', text: 'Subdivide', attrs: { disabled: true } }),
+        ];
+        this.editModeToolbar = HTML.create({tag: 'div', class: 'toolbar-section', style: { display: 'none' }, children: editModeButtons });
 
-        this.buttons.group = HTML.create({ tag: 'button', id: 'btn-group', text: 'Group (Parent)', attrs: { disabled: true } });
-        this.buttons.ungroup = HTML.create({ tag: 'button', id: 'btn-ungroup', text: 'Ungroup', attrs: { disabled: true } });
-        this.buttons.delete = HTML.create({ tag: 'button', id: 'btn-delete', text: 'Delete', attrs: { disabled: true } });
-        this.buttons.multiSelect = HTML.create({ tag: 'button', id: 'btn-multi-select', text: 'Multi-Select: OFF' });
-        this.buttons.translate = HTML.create({ tag: 'button', id: 'btn-translate', text: 'Move (G)', class: 'active'});
-        this.buttons.rotate = HTML.create({ tag: 'button', id: 'btn-rotate', text: 'Rotate (R)' });
-        this.buttons.scale = HTML.create({ tag: 'button', id: 'btn-scale', text: 'Scale (S)' });
+        // --- Common Buttons (Visible in both modes) ---
+        const commonButtons = [
+             HTML.create({ tag: 'button', id: 'btn-toggle-edit-mode', text: 'Object Mode', attrs: { disabled: true } }),
+             HTML.create({ tag: 'span', class:'separator'}),
+             HTML.create({ tag: 'button', id: 'btn-translate', text: 'Move (G)', class: 'active'}),
+             HTML.create({ tag: 'button', id: 'btn-rotate', text: 'Rotate (R)' }),
+             HTML.create({ tag: 'button', id: 'btn-scale', text: 'Scale (S)' }),
+             HTML.create({ tag: 'span', class:'separator'}),
+             HTML.create({ tag: 'button', id: 'btn-multi-select', text: 'Sticky Multi-Select' }),
+        ];
 
         this.element = HTML.create({
             tag: 'div', id: 'toolbar', class: 'panel top',
             children: [
-                this.buttons.undo, this.buttons.redo, HTML.create({ tag: 'span', class:'separator'}),
-                this.buttons.createPrimitive, this.buttons.primitiveSelect, this.buttons.loadGLB,
-                // --- ADD THE NEW BUTTON TO THE LAYOUT ---
-                this.buttons.exportGLB,
-                HTML.create({ tag: 'span', class:'separator'}), this.buttons.group, this.buttons.ungroup,
-                this.buttons.delete, this.buttons.multiSelect, HTML.create({ tag: 'span', class:'separator'}),
-                this.buttons.translate, this.buttons.rotate, this.buttons.scale,
+                this.objectModeToolbar,
+                this.editModeToolbar,
+                HTML.create({tag: 'div', class: 'toolbar-section', children: commonButtons })
             ]
         });
-
-        this.element.querySelectorAll('.separator').forEach(el => {
-            el.style.margin = '0 8px';
-            el.style.borderLeft = '1px solid #555';
+        
+        this.element.querySelectorAll('button[id], select[id]').forEach(el => {
+            let key = el.id.replace(/^(btn|select)-/, '');
+            key = key.replace(/-([a-z])/g, g => g[1].toUpperCase());
+            if (key) this.buttons[key] = el;
         });
     }
 
     _setupEventListeners() {
         this.eventEmitter.on('historyChanged', this.updateHistoryButtons.bind(this));
-
-        this.buttons.createPrimitive.addEventListener('click', () => {
-            const type = this.buttons.primitiveSelect.value;
-            this.eventEmitter.emit('createPrimitiveRequest', type);
-        });
-
-        this.buttons.loadGLB.addEventListener('click', () => {
-            const fileInput = HTML.create({
-                tag: 'input',
-                attrs: { type: 'file', accept: '.glb,.gltf' },
-                style: { display: 'none' },
-                on: {
-                    change: (event) => {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const url = URL.createObjectURL(file);
-                            this.eventEmitter.emit('loadGLBRequest', url);
-                        }
-                        // Clean up the temporary input element
-                        document.body.removeChild(fileInput);
-                    }
-                }
-            });
-            document.body.appendChild(fileInput);
-            fileInput.click();
-        });
-        this.buttons.exportGLB.addEventListener('click', () => this.eventEmitter.emit('exportGLBRequest'));
-
+        this.eventEmitter.on('selectionChanged', this.updateSelectionBasedButtons.bind(this));
+        this.eventEmitter.on('transformModeChanged', this.updateTransformButtons.bind(this));
+        this.eventEmitter.on('editModeEntered', () => this.setMode('edit'));
+        this.eventEmitter.on('editModeExited', () => this.setMode('object'));
+        
+        this.buttons.toggleEditMode.addEventListener('click', () => this.eventEmitter.emit('toggleEditModeRequest'));
+        this.buttons.create.addEventListener('click', () => this.eventEmitter.emit('createPrimitiveRequest', this.buttons.primitive.value));
+        this.buttons.loadGlb.addEventListener('click', this._handleLoadGLB.bind(this));
+        this.buttons.exportGlb.addEventListener('click', () => this.eventEmitter.emit('exportGLBRequest'));
         this.buttons.group.addEventListener('click', () => this.eventEmitter.emit('groupSelectedRequest'));
         this.buttons.ungroup.addEventListener('click', () => this.eventEmitter.emit('ungroupSelectedRequest'));
         this.buttons.delete.addEventListener('click', () => this.eventEmitter.emit('deleteSelectedRequest'));
-
-        this.buttons.multiSelect.addEventListener('click', () => {
-            this.isMultiSelectActive = !this.isMultiSelectActive;
-            this.buttons.multiSelect.classList.toggle('active', this.isMultiSelectActive);
-            this.buttons.multiSelect.textContent = `Multi-Select: ${this.isMultiSelectActive ? 'ON' : 'OFF'}`;
-            this.eventEmitter.emit('toggleMultipleSelection', this.isMultiSelectActive);
-        });
-
-        this.eventEmitter.on('selectionChanged', (selectedUUIDs) => {
-            const count = selectedUUIDs.length;
-            this.buttons.delete.disabled = count === 0;
-            // --- ENABLE EXPORT BUTTON ONLY WHEN ONE OBJECT IS SELECTED ---
-            this.buttons.exportGLB.disabled = count !== 1;
-            this.buttons.group.disabled = count < 2;
-
-            if (count === 1) {
-                const obj = this.objectManager.getObjectByUUID(selectedUUIDs[0]);
-                const hasSelectableChildren = obj && obj.children.some(child => child.userData?.isSelectable);
-                this.buttons.ungroup.disabled = !hasSelectableChildren;
-            } else {
-                this.buttons.ungroup.disabled = true;
-            }
-        });
-
-        const transformButtons = [this.buttons.translate, this.buttons.rotate, this.buttons.scale];
-        const setTransformMode = (mode, clickedButton) => {
-            this.eventEmitter.emit('setTransformMode', mode);
-            transformButtons.forEach(button => {
-                button.classList.toggle('active', button === clickedButton);
-            });
-        };
-
-        this.buttons.translate.addEventListener('click', (e) => setTransformMode('translate', e.currentTarget));
-        this.buttons.rotate.addEventListener('click', (e) => setTransformMode('rotate', e.currentTarget));
-        this.buttons.scale.addEventListener('click', (e) => setTransformMode('scale', e.currentTarget));
+        this.buttons.multiSelect.addEventListener('click', this._toggleMultiSelect.bind(this));
+        
+        const setTransformMode = (mode) => this.eventEmitter.emit('setTransformMode', mode);
+        this.buttons.translate.addEventListener('click', () => setTransformMode('translate'));
+        this.buttons.rotate.addEventListener('click', () => setTransformMode('rotate'));
+        this.buttons.scale.addEventListener('click', () => setTransformMode('scale'));
+    }
+    
+    _handleLoadGLB() {
+        const fileInput = HTML.create({ tag: 'input', attrs: { type: 'file', accept: '.glb,.gltf' }, style: { display: 'none' }, on: { change: (e) => {
+            const file = e.target.files[0];
+            if (file) this.eventEmitter.emit('loadGLBRequest', URL.createObjectURL(file));
+            document.body.removeChild(fileInput);
+        }}});
+        document.body.appendChild(fileInput); fileInput.click();
+    }
+    
+    _toggleMultiSelect() {
+        const isActive = this.buttons.multiSelect.classList.toggle('active');
+        this.eventEmitter.emit('toggleMultipleSelection', isActive);
     }
      
     updateHistoryButtons({ canUndo, canRedo }) {
-        this.buttons.undo.disabled = !canUndo;
-        this.buttons.redo.disabled = !canRedo;
+        if(this.buttons.undo) this.buttons.undo.disabled = !canUndo;
+        if(this.buttons.redo) this.buttons.redo.disabled = !canRedo;
     }
 
-    getElement() {
-        return this.element;
+    updateSelectionBasedButtons(selectedUUIDs) {
+        // ** FIX: This is the core logic change. **
+        if (this.isInEditMode) {
+            // If we are in edit mode, the button should always be enabled to allow exiting.
+            this.buttons.toggleEditMode.disabled = false;
+        } else {
+            // Otherwise, base its state on the object selection.
+            const count = selectedUUIDs.length;
+            const canEnterEditMode = count === 1 && this.objectManager.getObjectByUUID(selectedUUIDs[0])?.isMesh;
+            this.buttons.toggleEditMode.disabled = !canEnterEditMode;
+
+            // Update other object-mode buttons
+            if(this.buttons.delete) this.buttons.delete.disabled = count === 0;
+            if(this.buttons.exportGlb) this.buttons.exportGlb.disabled = count !== 1;
+            if(this.buttons.group) this.buttons.group.disabled = count < 2;
+
+            const selectedObjects = this.objectManager.getObjectsByIds(selectedUUIDs);
+            const canUngroup = selectedObjects.some(obj => obj.parent && obj.parent !== this.objectManager.scene);
+            if(this.buttons.ungroup) this.buttons.ungroup.disabled = !canUngroup;
+        }
     }
+
+    updateTransformButtons(mode) {
+        this.buttons.translate.classList.toggle('active', mode === 'translate');
+        this.buttons.rotate.classList.toggle('active', mode === 'rotate');
+        this.buttons.scale.classList.toggle('active', mode === 'scale');
+    }
+    
+    setMode(mode) {
+        this.isInEditMode = (mode === 'edit'); // ** FIX: Update internal state
+        if (this.isInEditMode) {
+            this.objectModeToolbar.style.display = 'none';
+            this.editModeToolbar.style.display = 'flex';
+            this.buttons.toggleEditMode.textContent = 'Edit Mode';
+            this.buttons.toggleEditMode.classList.add('active');
+            this.buttons.toggleEditMode.disabled = false; // ** FIX: Ensure it's enabled
+        } else {
+            this.objectModeToolbar.style.display = 'flex';
+            this.editModeToolbar.style.display = 'none';
+            this.buttons.toggleEditMode.textContent = 'Object Mode';
+            this.buttons.toggleEditMode.classList.remove('active');
+            // ** FIX: Re-evaluate the button's state based on current selection
+            this.updateSelectionBasedButtons(this.objectManager.getSelectedObjectUUIDs());
+        }
+    }
+
+    getElement() { return this.element; }
 }
