@@ -158,6 +158,10 @@ html, body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-wrap: wrap;
+}
+.object-tree-item > ul {
+    width: 100%;
 }
 
 .object-tree-item:hover {
@@ -406,8 +410,8 @@ html, body {
 /* From original, slightly adapted */
 #orbit-gizmo-container {
     position: absolute;
-    top: 70px; /* Adjust based on toolbar */
-    right: 280px; /* Adjust based on properties panel */
+    top: 70px; /* Below toolbar */
+    right: 270px; /* Next to properties panel */
     z-index: 5;
 }
 .obit-controls-gizmo {
