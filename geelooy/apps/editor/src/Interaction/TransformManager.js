@@ -8,6 +8,9 @@ export class TransformManager {
         this.domElement = domElement;
         this.scene = scene;
         this.eventEmitter = eventEmitter;
+        
+        this.transformStartState = null;
+        
         this.historyManager = historyManager; // For transform commands
         this.orbitControls = orbitControls; // Store orbit controls
 
@@ -45,19 +48,44 @@ export class TransformManager {
             // Assuming App listens to 'selectionChanged' and calls this method:
         });
 
-        this.transformControls.addEventListener('dragging-changed', (event) => {
-            this.isDragging = event.value;
-            // Disable OrbitControls during transform drag
-            if (this.orbitControls) {
-                this.orbitControls.enabled = !this.isDragging;
-            }
-            this.eventEmitter.emit('transformDraggingChanged', this.isDragging);
+        // In TransformManager.js -> _setupEventListeners()
 
-             if (!this.isDragging) {
-                // Drag ended - record history?
-                // TODO: Implement TransformCommand
-            }
-        });
+this.transformControls.addEventListener('dragging-changed', (event) => {
+    this.isDragging = event.value;
+    if (this.orbitControls) {
+        this.orbitControls.enabled = !this.isDragging;
+    }
+    this.eventEmitter.emit('transformDraggingChanged', this.isDragging);
+
+    // --- START OF NEW CODE ---
+    if (this.isDragging) {
+        // DRAG STARTED: Capture the initial state of all selected objects
+        this.transformStartState = this.selectedObjects.map(obj => ({
+            uuid: obj.uuid,
+            position: obj.position.clone(),
+            quaternion: obj.quaternion.clone(),
+            scale: obj.scale.clone()
+        }));
+    } else {
+        // DRAG ENDED: If we have a start state, capture the end state and create a command
+        if (this.transformStartState) {
+            const endState = this.selectedObjects.map(obj => ({
+                uuid: obj.uuid,
+                position: obj.position.clone(),
+                quaternion: obj.quaternion.clone(),
+                scale: obj.scale.clone()
+            }));
+
+            // Create the command and add it to history
+            const command = new MWA.Commands.TransformCommand(this.eventEmitter, this.transformStartState, endState);
+            this.historyManager.add(command);
+
+            // Clear the start state for the next operation
+            this.transformStartState = null;
+        }
+    }
+    // --- END OF NEW CODE ---
+});
 
          this.transformControls.addEventListener('objectChange', () => {
              // Called frequently during drag

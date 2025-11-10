@@ -4,6 +4,7 @@ import { HTML } from '../Core/HTML.js';
 import { BasePanel } from './BasePanel.js';
 import { Utils } from '../Core/Utils.js'; // For debounce
 import { Track } from '../Timeline/Track.js'; // For static get/set property
+import { SetPropertyCommand } from '../History/Commands/SetPropertyCommand.js';
 
 export class PropertiesPanel extends BasePanel {
     constructor(eventEmitter, objectManager, timelineManager) {
@@ -212,74 +213,47 @@ export class PropertiesPanel extends BasePanel {
     }
 
     // --- Input Handling ---
-    _handleInputChange(event, objectUUID, type = null) {
-        const input = event.target;
-        const path = input.getAttribute('data-path');
-        let value = input.value;
+    
 
-        if (!path) return;
+_handleInputChange(event, objectUUID) {
+    const input = event.target;
+    const path = input.getAttribute('data-path');
+    let value = input.value;
 
-        const object = this.objectManager.getObjectByUUID(objectUUID);
-        if (!object) return;
+    if (!path) return;
 
-        // Prepare state for command
-        // We need the state *before* the change for the command's start state
-         // This is tricky because the input event fires *after* the input value changes.
-         // A potential solution is to store the 'focus' value and use that as start state.
-         // Or, structure the command to fetch the 'before' state from the object itself
-         // right before applying the 'after' state. Let's try the latter.
+    const object = this.objectManager.getObjectByUUID(objectUUID);
+    if (!object) return;
 
-         // Construct the target value based on type
-        let targetValue;
-         const axis = input.getAttribute('data-axis'); // For vectors
+    // Get the value *before* the change
+    const oldValue = Track.getObjectPropertyValue(object, path);
 
-         if (axis) { // Part of a vector
-             const vectorPath = path.substring(0, path.lastIndexOf('.'));
-             targetValue = Track.getObjectPropertyValue(object, vectorPath)?.clone() || new THREE.Vector3(); // Clone existing vector
-             targetValue[axis] = parseFloat(value);
-         } else if (input.type === 'number') {
-             targetValue = parseFloat(value);
-         } else if (type === 'color') {
-             targetValue = new THREE.Color(value);
-         } else {
-             targetValue = value; // Text or other types
-         }
-
-
-         // --- Create Command ---
-         // The command needs the start state (current object state) and end state (the new targetValue)
-         const startState = {
-             uuid: objectUUID,
-             value: Track.getObjectPropertyValue(object, path), // Get current value before change
-             path: path
-         };
-         // If it's a vector component, the command needs the full vector start/end state
-         if (axis) {
-             const vectorPath = path.substring(0, path.lastIndexOf('.'));
-              startState.value = Track.getObjectPropertyValue(object, vectorPath)?.clone();
-              startState.path = vectorPath; // Command targets the whole vector
-         }
-
-          const endState = {
-             uuid: objectUUID,
-             value: targetValue,
-             path: axis ? path.substring(0, path.lastIndexOf('.')) : path // Target vector or single property
-         };
-
-         // Use a dedicated command type? Or adapt TransformCommand?
-         // Let's adapt TransformCommand slightly or create SetPropertyCommand
-          // For simplicity, let's log for now, command structure needs care
-         console.log("Property change request:", { objectUUID, path, newValue: targetValue });
-
-         // TEMPORARY DIRECT CHANGE (replace with command)
-         Track.setObjectPropertyValue(object, path, targetValue);
-         this.eventEmitter.emit('objectTransformed', [object]); // Notify for redraw etc.
-
-         // TODO: Replace direct change with Command:
-         // const command = new SetPropertyCommand(this.eventEmitter, startState, endState);
-         // this.historyManager.add(command);
-
+    // Determine the new value based on input type
+    let newValue;
+    if (input.type === 'number') {
+        newValue = parseFloat(value);
+    } else if (input.type === 'color') {
+        newValue = new THREE.Color(value);
+    } else {
+        newValue = value; // For text, etc.
     }
+    
+    // If it's a vector component, we need to adjust the logic
+    const axis = input.getAttribute('data-axis');
+    if (axis) {
+        const vectorPath = path.substring(0, path.lastIndexOf('.'));
+        const oldVector = Track.getObjectPropertyValue(object, vectorPath).clone();
+        const newVector = oldVector.clone();
+        newVector[axis] = parseFloat(value);
+
+        const command = new SetPropertyCommand(this.eventEmitter, objectUUID, vectorPath, oldVector, newVector);
+        this.historyManager.add(command);
+    } else {
+        // For simple properties (name, color, opacity)
+        const command = new SetPropertyCommand(this.eventEmitter, objectUUID, path, oldValue, newValue);
+        this.historyManager.add(command);
+    }
+}
 
      _updateFields() {
         if (this.currentSelectionUUIDs.length !== 1) return; // Only update single selection for now
