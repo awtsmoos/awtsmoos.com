@@ -20,19 +20,16 @@ export class EditModeManager {
         this.edgeHelper = null; 
         this.faceHighlightHelper = null;
         this.edgeHighlightHelper = null;
-        this.edgeRaycastHelper = null;
-
+        
         // State
-        this.selectionMode = 'VERTEX'; // VERTEX, EDGE, or FACE
-        this.selectedIndices = new Set(); // Stores vertex, edge, or QUAD indices
+        this.selectionMode = 'VERTEX';
+        this.selectedIndices = new Set();
         this.edgeMap = new Map();
-        // B"H: NEW - The Quad Map to group triangles
-        this.quadMap = new Map(); // Maps quad index -> [triangleIndex1, triangleIndex2]
-        this.triangleToQuadMap = new Map(); // Maps triangle index -> quad index
+        this.quadMap = new Map();
+        this.triangleToQuadMap = new Map();
 
         this.raycaster = new THREE.Raycaster();
         this.raycaster.params.Points.threshold = 0.15;
-        this.raycaster.params.Line.threshold = 0.2;
 
         this.isDraggingVertices = false;
         this.gizmoStartPosition = new THREE.Vector3();
@@ -62,7 +59,6 @@ export class EditModeManager {
         this.transformManager.transformControls.addEventListener('dragging-changed', this.onDragStateChange);
 
         this._buildEdgeMap();
-        // B"H: Build the quad map
         this._buildQuadMap();
         this._createHelpers();
         this.eventEmitter.emit('editModeEntered', object);
@@ -87,64 +83,50 @@ export class EditModeManager {
         this.eventEmitter.emit('editModeExited');
     }
 
-    // NEW - Analyzes geometry to group triangles into quads
     _buildQuadMap() {
-	    this.quadMap.clear();
-	    this.triangleToQuadMap.clear();
-	    const geometry = this.targetObject.geometry;
-	    const index = geometry.index;
-	    if (!index) return;
-	
-	    const processedTriangles = new Set();
-	    let quadIndex = 0;
-	
-	    // --- Pass 1: Find all perfect quad pairs ---
-	    for (let i = 0; i < index.count / 3; i++) {
-	        if (processedTriangles.has(i)) continue;
-	
-	        const tri1_indices = [index.getX(i * 3), index.getX(i * 3 + 1), index.getX(i * 3 + 2)];
-	        let foundPartner = false;
-	
-	        // Find a partner triangle by checking for a shared edge
-	        for (let j = i + 1; j < index.count / 3; j++) {
-	            if (processedTriangles.has(j)) continue;
-	
-	            const tri2_indices = [index.getX(j * 3), index.getX(j * 3 + 1), index.getX(j * 3 + 2)];
-	            
-	            // Count shared vertices between the two triangles
-	            const sharedVertices = tri1_indices.filter(v => tri2_indices.includes(v));
-	
-	            if (sharedVertices.length === 2) { // They share exactly one edge
-	                this.quadMap.set(quadIndex, [i, j]);
-	                this.triangleToQuadMap.set(i, quadIndex);
-	                this.triangleToQuadMap.set(j, quadIndex);
-	                processedTriangles.add(i);
-	                processedTriangles.add(j);
-	                quadIndex++;
-	                foundPartner = true;
-	                break; 
-	            }
-	        }
-	    }
-	
-	    // --- Pass 2: Any triangle not in a pair is its own "face" ---
-	    for (let i = 0; i < index.count / 3; i++) {
-	        if (!processedTriangles.has(i)) {
-	            this.quadMap.set(quadIndex, [i]); // A "quad" of one triangle
-	            this.triangleToQuadMap.set(i, quadIndex);
-	            // No need to add to processedTriangles as we won't loop again
-	            quadIndex++;
-	        }
-	    }
-	}
+        this.quadMap.clear();
+        this.triangleToQuadMap.clear();
+        const geometry = this.targetObject.geometry;
+        const index = geometry.index;
+        if (!index) return;
 
+        const processedTriangles = new Set();
+        let quadIndex = 0;
+
+        for (let i = 0; i < index.count / 3; i++) {
+            if (processedTriangles.has(i)) continue;
+            const tri1_indices = [index.getX(i * 3), index.getX(i * 3 + 1), index.getX(i * 3 + 2)];
+            let foundPartner = false;
+            for (let j = i + 1; j < index.count / 3; j++) {
+                if (processedTriangles.has(j)) continue;
+                const tri2_indices = [index.getX(j * 3), index.getX(j * 3 + 1), index.getX(j * 3 + 2)];
+                const sharedVertices = tri1_indices.filter(v => tri2_indices.includes(v));
+                if (sharedVertices.length === 2) {
+                    this.quadMap.set(quadIndex, [i, j]);
+                    this.triangleToQuadMap.set(i, quadIndex);
+                    this.triangleToQuadMap.set(j, quadIndex);
+                    processedTriangles.add(i);
+                    processedTriangles.add(j);
+                    quadIndex++;
+                    foundPartner = true;
+                    break; 
+                }
+            }
+        }
+        for (let i = 0; i < index.count / 3; i++) {
+            if (!processedTriangles.has(i)) {
+                this.quadMap.set(quadIndex, [i]);
+                this.triangleToQuadMap.set(i, quadIndex);
+                quadIndex++;
+            }
+        }
+    }
 
     _buildEdgeMap() {
         this.edgeMap.clear();
         const geometry = this.targetObject.geometry;
         const index = geometry.index;
         let edgeIndex = 0;
-
         if (index) {
             for (let i = 0; i < index.count; i += 3) {
                 const a = index.getX(i);
@@ -163,42 +145,23 @@ export class EditModeManager {
 
     _createHelpers() {
         const geometry = this.targetObject.geometry;
-        
         this.vertexHelpers = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 8, sizeAttenuation: false, vertexColors: true, depthTest: false, transparent: true }));
-        
-        this.edgeHelper = new THREE.LineSegments(
-            new THREE.EdgesGeometry(geometry, 1),
-            new THREE.LineBasicMaterial({ color: 0x000000 })
-        );
-
+        this.edgeHelper = new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 1), new THREE.LineBasicMaterial({ color: 0x000000 }));
         this.faceHighlightHelper = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0xffa500, side: THREE.DoubleSide, transparent: true, opacity: 0.4, depthTest: false }));
-        
         this.edgeHighlightHelper = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xffa500, linewidth: 4, depthTest: false, transparent: true }));
-
-        const edgeVertices = [];
-        this.edgeMap.forEach(edge => {
-            const v1 = new THREE.Vector3().fromBufferAttribute(geometry.getAttribute('position'), edge.vertices[0]);
-            const v2 = new THREE.Vector3().fromBufferAttribute(geometry.getAttribute('position'), edge.vertices[1]);
-            edgeVertices.push(v1, v2);
-        });
-        const raycastGeom = new THREE.BufferGeometry().setFromPoints(edgeVertices);
-        this.edgeRaycastHelper = new THREE.LineSegments(raycastGeom, new THREE.MeshBasicMaterial({ visible: false }));
-        this.edgeRaycastHelper.userData.edgeMap = Array.from(this.edgeMap.values()).map(e => e.index);
-
-
-        [this.vertexHelpers, this.edgeHelper, this.faceHighlightHelper, this.edgeHighlightHelper, this.edgeRaycastHelper].forEach(helper => {
+        
+        [this.vertexHelpers, this.edgeHelper, this.faceHighlightHelper, this.edgeHighlightHelper].forEach(helper => {
             helper.matrixAutoUpdate = false;
             helper.matrix.copy(this.targetObject.matrixWorld);
             this.scene.add(helper);
         });
-
         const gizmoHandle = new THREE.Mesh(new THREE.SphereGeometry(0.01), new THREE.MeshBasicMaterial({ visible: false }));
         gizmoHandle.name = "GizmoHandle_EditMode";
         this.scene.add(gizmoHandle);
     }
 
     _clearHelpers() {
-        [this.vertexHelpers, this.edgeHelper, this.faceHighlightHelper, this.edgeHighlightHelper, this.edgeRaycastHelper].forEach(helper => {
+        [this.vertexHelpers, this.edgeHelper, this.faceHighlightHelper, this.edgeHighlightHelper].forEach(helper => {
             if (helper) {
                 this.scene.remove(helper);
                 if (helper.geometry) helper.geometry.dispose();
@@ -209,50 +172,91 @@ export class EditModeManager {
         if (gizmoHandle) this.scene.remove(gizmoHandle);
     }
 
+    // B"H FIX: New method for accurate edge selection
+    _findClosestEdgeToMouse() {
+        const camera = this.transformManager.camera;
+        const rect = this.transformManager.domElement.getBoundingClientRect();
+        const mousePixels = new THREE.Vector2(this.mouse.x * (rect.width / 2), this.mouse.y * (rect.height / 2));
+        
+        let closestEdgeIndex = -1;
+        let minDistanceSq = Infinity;
+        const posAttr = this.targetObject.geometry.getAttribute('position');
+        const worldMatrix = this.targetObject.matrixWorld;
+
+        this.edgeMap.forEach(edge => {
+            const v1 = new THREE.Vector3().fromBufferAttribute(posAttr, edge.vertices[0]).applyMatrix4(worldMatrix);
+            const v2 = new THREE.Vector3().fromBufferAttribute(posAttr, edge.vertices[1]).applyMatrix4(worldMatrix);
+            
+            // Frustum culling: if both points are off-screen, skip
+            if (v1.clone().project(camera).z > 1 || v2.clone().project(camera).z > 1) return;
+
+            v1.project(camera);
+            v2.project(camera);
+
+            const p1 = new THREE.Vector2(v1.x * (rect.width / 2), v1.y * (rect.height / 2));
+            const p2 = new THREE.Vector2(v2.x * (rect.width / 2), v2.y * (rect.height / 2));
+            
+            const distSq = this._distanceSqToLineSegment(mousePixels, p1, p2);
+            
+            if (distSq < minDistanceSq) {
+                minDistanceSq = distSq;
+                closestEdgeIndex = edge.index;
+            }
+        });
+
+        const pixelThreshold = 10;
+        return minDistanceSq < (pixelThreshold * pixelThreshold) ? closestEdgeIndex : -1;
+    }
+
+    // Helper for _findClosestEdgeToMouse
+    _distanceSqToLineSegment(p, a, b) {
+        const l2 = a.distanceToSquared(b);
+        if (l2 === 0) return p.distanceToSquared(a);
+        let t = ((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / l2;
+        t = Math.max(0, Math.min(1, t));
+        const projection = new THREE.Vector2(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y));
+        return p.distanceToSquared(projection);
+    }
+
     handlePointerDown(event) {
-    if (!this.isActive) return;
-    
-    const rect = event.target.getBoundingClientRect();
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-    this.raycaster.setFromCamera(this.mouse, this.transformManager.camera);
-    let intersects;
+        if (!this.isActive) return;
+        
+        const rect = event.target.getBoundingClientRect();
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+	    
+        let indexToSelect = -1;
+        
+        if (this.selectionMode === 'VERTEX') {
+            this.raycaster.setFromCamera(this.mouse, this.transformManager.camera);
+            const intersects = this.raycaster.intersectObject(this.vertexHelpers);
+            if (intersects.length > 0) indexToSelect = intersects[0].index;
 
-    let indexToSelect = -1;
-    
-    if (this.selectionMode === 'VERTEX') {
-        intersects = this.raycaster.intersectObject(this.vertexHelpers);
-        if (intersects.length > 0) indexToSelect = intersects[0].index;
-
-    } else if (this.selectionMode === 'FACE') {
-        this.targetObject.material.side = THREE.FrontSide;
-        intersects = this.raycaster.intersectObject(this.targetObject);
-        this.targetObject.material.side = THREE.DoubleSide;
-        if (intersects.length > 0 && intersects[0].face) {
-             // B"H FIX: The .face.a/b/c are vertex indices. .faceIndex is the triangle index.
-             const triangleIndex = intersects[0].faceIndex;
-             if(this.triangleToQuadMap.has(triangleIndex)) {
-                 indexToSelect = this.triangleToQuadMap.get(triangleIndex);
-             }
+        } else if (this.selectionMode === 'FACE') {
+            this.raycaster.setFromCamera(this.mouse, this.transformManager.camera);
+            this.targetObject.material.side = THREE.FrontSide;
+            const intersects = this.raycaster.intersectObject(this.targetObject);
+            this.targetObject.material.side = THREE.DoubleSide;
+            if (intersects.length > 0 && intersects[0].face) {
+                 const triangleIndex = intersects[0].faceIndex;
+                 if(this.triangleToQuadMap.has(triangleIndex)) {
+                     indexToSelect = this.triangleToQuadMap.get(triangleIndex);
+                 }
+            }
+        } else if (this.selectionMode === 'EDGE') {
+            // B"H FIX: Use the new screen-space calculation instead of raycasting
+            indexToSelect = this._findClosestEdgeToMouse();
         }
-    
-    } else if (this.selectionMode === 'EDGE') {
-        intersects = this.raycaster.intersectObject(this.edgeRaycastHelper);
-        if (intersects.length > 0) {
-            const lineIndex = intersects[0].index;
-            indexToSelect = this.edgeRaycastHelper.userData.edgeMap[lineIndex];
+        
+        if (indexToSelect !== -1) {
+            this._toggleSelection(indexToSelect, event.shiftKey);
+        } else if (!event.shiftKey) {
+            this.selectedIndices.clear();
         }
-    }
-    
-    if (indexToSelect !== -1) {
-        this._toggleSelection(indexToSelect, event.shiftKey);
-    } else if (!event.shiftKey) {
-        this.selectedIndices.clear();
-    }
 
-    this._updateSelectionVisuals();
-    this.updateGizmoPosition();
-}
+        this._updateSelectionVisuals();
+        this.updateGizmoPosition();
+    }
 
     _toggleSelection(index, isMultiSelect) {
         if (isMultiSelect) {
@@ -294,14 +298,12 @@ export class EditModeManager {
         this.vertexHelpers.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
         if (this.selectionMode === 'FACE' && this.selectedIndices.size > 0) {
-            // B"H FIX: Rebuild highlight geometry from selected QUADS
             this.faceHighlightHelper.visible = true;
             const originalIndex = this.targetObject.geometry.index;
             const originalPosition = this.targetObject.geometry.getAttribute('position');
             const newIndices = [];
             const newVertices = [];
             const vertexMap = new Map();
-
             this.selectedIndices.forEach(quadIndex => {
                 const triangleIndices = this.quadMap.get(quadIndex);
                 triangleIndices.forEach(triangleIndex => {
@@ -341,7 +343,6 @@ export class EditModeManager {
             this.transformManager.attachToProxy(null);
             return;
         }
-
         const center = new THREE.Vector3();
         const posAttr = this.targetObject.geometry.getAttribute('position');
         const verticesToAverage = new Set();
@@ -445,13 +446,5 @@ export class EditModeManager {
             this.edgeHelper.geometry = new THREE.EdgesGeometry(this.targetObject.geometry, 1);
         }
         this._updateSelectionVisuals();
-        this.edgeRaycastHelper.geometry.dispose();
-        const edgeVertices = [];
-        this.edgeMap.forEach(edge => {
-            const v1 = new THREE.Vector3().fromBufferAttribute(posAttr, edge.vertices[0]);
-            const v2 = new THREE.Vector3().fromBufferAttribute(posAttr, edge.vertices[1]);
-            edgeVertices.push(v1, v2);
-        });
-        this.edgeRaycastHelper.geometry = new THREE.BufferGeometry().setFromPoints(edgeVertices);
     }
 }
