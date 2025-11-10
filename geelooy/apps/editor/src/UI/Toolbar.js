@@ -109,6 +109,26 @@ export class Toolbar {
                  this.buttons.ungroup.disabled = true;
              }
          });
+         
+         
+         
+         
+
+const transformButtons = [this.buttons.translate, this.buttons.rotate, this.buttons.scale];
+const setTransformMode = (mode, clickedButton) => {
+    this.eventEmitter.emit('setTransformMode', mode);
+    transformButtons.forEach(button => {
+        button.classList.toggle('active', button === clickedButton);
+    });
+};
+
+this.buttons.translate.addEventListener('click', (e) => setTransformMode('translate', e.currentTarget));
+this.buttons.rotate.addEventListener('click', (e) => setTransformMode('rotate', e.currentTarget));
+this.buttons.scale.addEventListener('click', (e) => setTransformMode('scale', e.currentTarget));
+// --- END OF NEW BLOCK ---
+
+this.eventEmitter.on('selectionChanged', (selectedUUIDs) => {
+    // ... the rest of the method is correct
      }
 
      updateHistoryButtons({ canUndo, canRedo }) {

@@ -1,6 +1,7 @@
 // B"H - TransformManager.js - Assuming basic structure
 import * as THREE from 'three';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { TransformCommand } from '../History/Commands/TransformCommand.js'; 
 
 export class TransformManager {
     constructor(camera, domElement, scene, eventEmitter, historyManager, orbitControls) {
@@ -10,6 +11,8 @@ export class TransformManager {
         this.eventEmitter = eventEmitter;
         
         this.transformStartState = null;
+        
+        this.transformControls.setSize(1.5);
         
         this.historyManager = historyManager; // For transform commands
         this.orbitControls = orbitControls; // Store orbit controls
@@ -77,7 +80,7 @@ this.transformControls.addEventListener('dragging-changed', (event) => {
             }));
 
             // Create the command and add it to history
-            const command = new MWA.Commands.TransformCommand(this.eventEmitter, this.transformStartState, endState);
+            const command = new TransformCommand(this.eventEmitter, this.transformStartState, endState);
             this.historyManager.add(command);
 
             // Clear the start state for the next operation

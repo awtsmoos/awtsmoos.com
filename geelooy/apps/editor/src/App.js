@@ -11,7 +11,6 @@ import { HTML } from './Core/HTML.js';
 import { EventEmitter } from './Core/EventEmitter.js';
 import { OrbitControlsGizmo } from 'three/addons/controls/OrbitControlsGizmo.js'; // Keep for now
 
-
 // --- Add constants for outline colors ---
 const OUTLINE_COLOR_SELECTED = 0xffff00; // Yellow
 const OUTLINE_COLOR_ACTIVE = 0xffa500; // Orange

@@ -161,48 +161,47 @@ export class PropertiesPanel extends BasePanel {
 
     // --- Display Logic ---
 
-    displaySingleObjectProperties(object) {
-        const content = [];
+    // In PropertiesPanel.js, replace the entire displaySingleObjectProperties method
 
-        // Basic Info
-         content.push(this._createPropertyGroup('Object', [
-            this._createTextInput(object, 'name', 'Name'),
-            HTML.create({tag:'div', class:'property-item', children: [ // Read-only UUID
-                 HTML.create({tag:'label', text: 'UUID'}),
-                 HTML.create({tag:'span', text: object.uuid, style: {fontSize: '0.8em', overflowWrap: 'break-word'}})
-            ]}),
-             HTML.create({tag:'div', class:'property-item', children: [ // Read-only Type
-                 HTML.create({tag:'label', text: 'Type'}),
-                 HTML.create({tag:'span', text: object.constructor.name})
-            ]})
-         ]));
+displaySingleObjectProperties(object) {
+    const content = [];
 
-        // Transform
-        content.push(this._createPropertyGroup('Transform', [
-            this._createVector3Input(object, 'position', 'Position'),
-            this._createVector3Input(object, 'rotation', 'Rotation'), // Euler in degrees maybe? Need conversion
-            this._createVector3Input(object, 'scale', 'Scale'),
-        ]));
+    // Basic Info
+    content.push(this._createPropertyGroup('Object', [
+        this._createTextInput(object, 'name', 'Name'),
+        HTML.create({tag:'div', class:'property-item', children: [
+             HTML.create({tag:'label', text: 'UUID'}),
+             HTML.create({tag:'span', text: object.uuid, style: {fontSize: '0.8em', overflowWrap: 'break-word'}})
+        ]}),
+         HTML.create({tag:'div', class:'property-item', children: [
+             HTML.create({tag:'label', text: 'Type'}),
+             HTML.create({tag:'span', text: object.constructor.name})
+        ]})
+    ]));
 
-        // Material (if applicable)
-        if (object.material) {
-             const mat = object.material;
-             const matProps = [];
-             if (mat.color !== undefined) matProps.push(this._createColorInput(mat, 'color', 'Color', `material`));
-             if (mat.opacity !== undefined) matProps.push(this._createNumberInput(mat, 'opacity', 'Opacity', `material`, { min: 0, max: 1, step: 0.01 }));
-             if (mat.roughness !== undefined) matProps.push(this._createNumberInput(mat, 'roughness', 'Roughness', `material`, { min: 0, max: 1, step: 0.01 }));
-             if (mat.metalness !== undefined) matProps.push(this._createNumberInput(mat, 'metalness', 'Metalness', `material`, { min: 0, max: 1, step: 0.01 }));
-             // Add more material properties as needed... (wireframe, visible, etc.)
+    // Transform
+    content.push(this._createPropertyGroup('Transform', [
+        this._createVector3Input(object, 'position', 'Position'),
+        this._createVector3Input(object, 'rotation', 'Rotation'), // This shows radians, can be converted to degrees later
+        this._createVector3Input(object, 'scale', 'Scale'),
+    ]));
 
-             if (matProps.length > 0) {
-                  content.push(this._createPropertyGroup(`Material (${mat.type})`, matProps));
-             }
-        }
+    // Material (if applicable)
+    if (object.material) {
+         const mat = object.material;
+         const matProps = [];
+         if (mat.color !== undefined) matProps.push(this._createColorInput(mat, 'color', 'Color', 'material'));
+         if (mat.opacity !== undefined) matProps.push(this._createNumberInput(mat, 'opacity', 'Opacity', 'material', { min: 0, max: 1, step: 0.01 }));
+         if (mat.roughness !== undefined) matProps.push(this._createNumberInput(mat, 'roughness', 'Roughness', 'material', { min: 0, max: 1, step: 0.01 }));
+         if (mat.metalness !== undefined) matProps.push(this._createNumberInput(mat, 'metalness', 'Metalness', 'material', { min: 0, max: 1, step: 0.01 }));
 
-        // Add more sections for Lights, Cameras, etc. based on object type
-
-        this.setContent(content);
+         if (matProps.length > 0) {
+              content.push(this._createPropertyGroup(`Material (${mat.type})`, matProps));
+         }
     }
+
+    this.setContent(content);
+}
 
     displayMultiSelectProperties() {
         this.setContent(HTML.create({ tag: 'div', text: `${this.currentSelectionUUIDs.length} objects selected. Multi-edit TBD.` }));
