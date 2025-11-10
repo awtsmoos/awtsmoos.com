@@ -432,19 +432,24 @@ export default class Domem extends Nivra {
                     
                     await olam.hoyseef(this);
                     this.mesh.visible = this.visible;
-                    if(!this.needsOctreeChange) return true;
                     
-                    this.ayshPeula(
-                        "increase loading percentage", 
-                        {
-                            amount:0,
-                            nivra: this,
-                            
-                            action: "Getting ready to add nivra " + this.name
-                            + " to Octree"
-                        }
-                    );
-                    this.ayshPeula("changeOctreePosition", this.position);
+                    if (this.needsOctreeChange) {
+			    this.ayshPeula(
+			        "increase loading percentage",
+			        {
+			            amount: 0,
+			            nivra: this,
+			            action: "Getting ready to add nivra " + this.name + " to Octree"
+			        }
+			    );
+			
+			    // CRITICAL FIX: Only call changeOctreePosition for complex models (with a path),
+			    // NOT for dynamically created primitives (golem).
+			    // The primitive's physics are already handled synchronously in boyrayNivra.
+			    if (this.path) {
+			        this.ayshPeula("changeOctreePosition", this.position);
+			    }
+			}
                    /* if(this.isSolid) {
                         this.mesh.layers.set(2)
                     } else {

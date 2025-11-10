@@ -1,9 +1,9 @@
 // B"H
 // In file: /Olam/math/OctreeWorld.js
 
-import { Box3, Vector3, Group, Mesh, Sphere } from '/games/scripts/build/three.module.js';
+import * as THREE  from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from './AwtsmoosOctree.js';
-
+var { Box3, Vector3, Group, Mesh, Sphere } = THREE
 // --- Constants for Readability ---
 const MAX_DEPTH = 12;
 const NODE_STATE = {
@@ -69,6 +69,33 @@ export class OctreeWorld {
         }
         this.#intakeQueue.push({ group });
     }
+    
+    /**
+     * B"H
+     * Synchronously adds a single dynamic object to the physics world.
+     * This bypasses the async intake queue for immediate updates.
+     * @param {THREE.Mesh} mesh - The mesh to add.
+     */
+    addObject(mesh) {
+        if (!this.#root || !mesh) return;
+
+       // Find the exact leaf node this object belongs in.
+        const leafNode = this.#findLeafNodeAtPoint(this.#root, mesh.position);
+
+        if (leafNode) {
+            // 3. Add the new mesh's geometry to the node's collection.
+            leafNode.physicsMeshGroup.add(physicsClone);
+
+            // 4. Immediately and synchronously rebuild the physics for THIS NODE ONLY.
+            //    This is the crucial step that prevents the race condition.
+            this.#buildNodePhysics(leafNode, true);
+		
+            console.log(`[OctreeWorld] Dynamically added "${mesh.name}" to physics node.`);
+        } else {
+            console.warn(`[OctreeWorld] Could not find a physics node for dynamic object: ${mesh.name}`);
+        }
+    }
+
 
     /**
      * The main entry point. It's the "brain" of the system.
@@ -270,7 +297,7 @@ export class OctreeWorld {
         }
     }
 
-    #buildNodePhysics(node) {
+    #buildNodePhysics(node, buildRightAway=false) {
         if (node.state === NODE_STATE.READY) return;
         
         if (!node.physics) node.physics = new AwtsmoosOctree();
@@ -282,9 +309,13 @@ export class OctreeWorld {
         if (node.physicsMeshGroup.children.length > 0) {
             node.physicsMeshGroup.userData.isPreTransformed = true;
             node.physics.fromGraphNode(node.physicsMeshGroup);
+          //  if(buildRightAway)
+	        node.physics.build();
+	        console.log("Built?",node);
         }
         
         node.state = NODE_STATE.READY;
+        
     }
 
     #subdivide(node) {

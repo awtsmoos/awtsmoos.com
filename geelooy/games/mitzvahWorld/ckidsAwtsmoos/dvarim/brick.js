@@ -16,7 +16,7 @@ export default class Brick extends Tzomayach {
 
     // Static properties for inventory management
     static itemName = "Brick";
-    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHBhdGggZmlsbD0iI2EwNTIwMiIgZD0iTTAsMEg1MFY1MEgwWiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBkPSJNMjUsMEwyNSw1ME0wLDI1TDUwLDI1TTAsMTIuNUw1MCwxMi41TTAsMzcuNUw1MCwzNy41TTI1LDEyLjVMMjUsMjVNNTAsMTIuNUw1MCwyNU0yNSwzNy41TDI1LDUwTTA LDEyLjVMMCAyNU0wLDM3LjVMMiw1ME0yNSwwTDI1LDEyLjUiLz48L3N2Zz4=";
+    static icon = "/games/mitzvahWorld/icons/items/brick.svg";
     static description = "A sturdy 1x1x1 building brick. Use it to build structures.";
     static stackSize = 64;
     

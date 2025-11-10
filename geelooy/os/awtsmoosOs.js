@@ -110,29 +110,24 @@ async updateDefaultProgram(extension, programName) {
 
 
 
-// In awtsmoosOs.js, replace the entire onFileClick method
 async onFileClick({ path, title, event, isFolder }) {
-    event.stopPropagation(); // Prevent clicks from bubbling up
+    event.stopPropagation();
 
-    // --- DEFINITIVE DOUBLE-CLICK HANDLER ---
-    // The 'detail' property is the most reliable way to detect double-clicks.
-    if (event.detail === 2) {
-        event.preventDefault(); // Stop the browser from selecting text
+    if (isFolder) {
+        // If it's a folder, we always open the File Explorer program
+        // The 'title' of the window becomes the folder name
+        // The 'path' property is the folder's full path, which the explorer will use as its starting view.
+        this.addWindow({
+            title: title,
+            path: `${path}/${title}`, // Pass the full path of the folder to navigate to
+            os: this,
+            programName: 'awtsmoosFileExplorer'
+        });
+    } else {
+        // For files, we use the original logic to find the default program
         const content = await this.db.Laynin(path, title);
         this.addWindow({ title, content, path, os: this });
-        return; // IMPORTANT: Stop execution here
     }
-
-    // --- SINGLE-CLICK (CONTEXT MENU) HANDLER ---
-    // On a single click, we delegate everything to our new manager.
-    // We use a short timeout to allow the double-click to happen first.
-    setTimeout(() => {
-        // Check if a double-click has occurred in the meantime.
-        // If event.detail is still 1, it was a single click.
-        if (event.detail === 1) {
-            showContextMenu({ os: this, event, path, title, isFolder });
-        }
-    }, 200); // A 200ms window is standard for double-click detection.
 }
  
     async renderFile({
@@ -165,7 +160,10 @@ async onFileClick({ path, title, event, isFolder }) {
         } else
             nm.className = "fileName";
         f.appendChild(nm);
-
+	f.oncontextmenu = async event => {
+		event .preventDefault();
+		 showContextMenu({ os: this, event, path, title, isFolder });
+	}
         f.onclick = async (event) => {
             
             await this.onFileClick({
@@ -383,7 +381,7 @@ function makeDraggable(selector) {
                 if (isDragging) {
                     const folderUnderCursor = document.elementFromPoint(startX, startY)?.closest('.folder');
                     if (folderUnderCursor && folderPopup) {
-                        console.log('Dropped into folder:', folderUnderCursor);
+                     //onsole.log('Clicked on', div);   console.log('Dropped into folder:', folderUnderCursor);
                         // Add logic here to handle dropping into a folder
                     } else {
                         // Replace placeholder with the dragged element
@@ -402,7 +400,7 @@ function makeDraggable(selector) {
     
                     console.log('Drag ended and placed in new position');
                 } else {
-                    console.log('Clicked on', div);
+                   // concl
                     // Add your click menu logic here
                 }
     

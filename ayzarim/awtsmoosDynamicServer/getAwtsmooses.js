@@ -550,16 +550,16 @@ async function doFileResponse() {
 function setProperContent(content, contentType, isBinary = false) {
 	var { response } = this.dependencies;
 
-	var cnt = getProperContent(content, contentType, isBinary)
+	var cnt = getProperContent(content, contentType, isBinary);
 
-
+	// Use the contentType returned from the helper function.
 	if (cnt.contentType) {
 		try {
-			response.setHeader('Content-Type', contentType+"; charset=utf-8");
+           
+			response.setHeader('Content-Type', cnt.contentType + (isBinary ? '' : '; charset=utf-8'));
 		} catch(e){}
 	}
 	return cnt.content;
-
 }
 
 

@@ -273,14 +273,17 @@ restore() {
                 // Horizontal Resizing (East/West)
                 if (resizeDirection.includes('e')) {
                     const newWidth = startWidth + deltaX;
-                    if (newWidth > this.minWidth) this.win.style.width = `${newWidth}px`;
+                 
+                 
+                 
+                    this.win.style.width = `${newWidth}px`;
                 }
                 if (resizeDirection.includes('w')) {
                     const newWidth = startWidth - deltaX;
-                    if (newWidth > this.minWidth) {
-                        this.win.style.width = `${newWidth}px`;
-                        this.win.style.left = `${startLeft + deltaX}px`;
-                    }
+                 
+                    this.win.style.width = `${newWidth}px`;
+                    this.win.style.left = `${startLeft + deltaX}px`;
+  
                 }
 
                 // Vertical Resizing (North/South)

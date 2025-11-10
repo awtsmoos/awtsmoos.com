@@ -8,10 +8,10 @@
  * response or a cached asset is always returned, preventing generic browser errors.
  */
 
-const CACHE_NAME = 'awtsmoos-cache-v8'; // Incremented version
-const DB_NAME = 'awtsmoos-metadata-v8'; // Incremented version
+const CACHE_NAME = 'awtsmoos-cache-v9'; // Incremented version
+const DB_NAME = 'awtsmoos-metadata-v9'; // Incremented version
 const STATUS_HEADER = 'Awtsmoos-File-Status';
-
+var doIt = false;
 // --- IndexedDB Helper (Hardened for Resilience) ---
 const MetadataDB = {
     _db: null,
@@ -60,23 +60,68 @@ self.addEventListener('install', (event) => {
     console.log('[SW] Install Event.');
     event.waitUntil(self.skipWaiting());
 });
-
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activate Event.');
+    console.log(`[SW] Activate Event: New version ${CACHE_NAME} is taking control.`);
+
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
-            );
-        }).then(() => self.clients.claim())
+        Promise.all([
+            // 1. Clean up old Cache Storage
+            caches.keys().then((cacheNames) => {
+                return Promise.all(
+                    cacheNames.map((cacheName) => {
+                        // If the cache name is not the current one, delete it.
+                        if (cacheName !== CACHE_NAME) {
+                            console.log(`[SW] Deleting old cache: ${cacheName}`);
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            }),
+
+            // 2. Clean up old IndexedDB databases
+            (async () => {
+                // indexedDB.databases() is the modern way to list DBs.
+                // It's supported in Chrome/Edge/Opera but not Firefox/Safari.
+                // It will gracefully do nothing in unsupported browsers.
+                if (self.indexedDB && self.indexedDB.databases) {
+                    try {
+                        const databases = await self.indexedDB.databases();
+                        return Promise.all(
+                            databases.map(db => {
+                                // We check if the name starts with our pattern but is NOT the current version.
+                                if (db.name.startsWith('awtsmoos-metadata-') && db.name !== DB_NAME) {
+                                    console.log(`[SW] Deleting old IndexedDB: ${db.name}`);
+                                    return self.indexedDB.deleteDatabase(db.name);
+                                }
+                            })
+                        );
+                    } catch (error) {
+                        console.error('[SW] Could not clean up IndexedDB databases:', error);
+                    }
+                }
+            })()
+
+        ]).then(() => {
+            console.log('[SW] Cleanup complete. Claiming clients.');
+            return self.clients.claim();
+        })
     );
 });
-
-// --- Fetch Interception (Unchanged) ---
 self.addEventListener('fetch', (event) => {
     const { request } = event;
+    //console.log(request.url)
+    if(!doIt) return;
+    // If the incoming request already has our special status header,
+    // it means this is a request made BY this service worker.
+    // We must not handle it, so we return early and let it go to the network.
+    if (request.headers.has(STATUS_HEADER)) {
+        return; 
+    }
+   
 
+    // The rest of your existing logic stays the same...
     if (
+	
         request.method !== 'GET' ||
         ![
             self.location.origin,
@@ -90,8 +135,10 @@ self.addEventListener('fetch', (event) => {
     }
     event.respondWith(handleFetch(request));
 });
-
-
+function isAwtsNaN(num) {
+	return isNaN(num) || num === null || 
+		num === undefined;
+}
 /**
  * The main fetch handler with the original resilient logic.
  */
@@ -116,10 +163,16 @@ async function handleFetch(request) {
         }
 
         const localMeta = await MetadataDB.get(request.url);
-        const isStale = (serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
+        const isStale =  (
+		        
+		       // isAwtsNaN(serverMeta.logicModified) || 
+		    //    isAwtsNaN(serverMeta.dataModified) || 
+		      //  isAwtsNaN(localMeta?.logicModified) ||
+		    //    isAwtsNaN(localMeta?.dataModified) ||
+		        serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
                         (serverMeta.dataModified > (localMeta?.dataModified || 0));
-
-        if (isStale) {
+	//console.log(request.url, serverMeta, localMeta);
+        if (!doIt || isStale) {
             console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
             return fetchAndUpdate(request, serverMeta);
         } else {
@@ -147,11 +200,13 @@ async function handleFetch(request) {
 }
 
 /**
- * Creates the special request used to check for metadata. (Unchanged)
+ * Creates the special request used to check for metadata.
  */
 function createStatusRequest(request) {
     const newHeaders = new Headers(request.headers);
     newHeaders.append(STATUS_HEADER, 'true');
+    
+    // The query parameter is no longer needed, so we can use the original URL.
     return new Request(request.url, {
         method: request.method,
         headers: newHeaders,

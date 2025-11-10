@@ -48,7 +48,7 @@ async function readFile({$i}) {
 	    return {dataModified: stats?.mtime?.getTime?.()};
     }
     var file = await $i.db.read(filePath);
-   
+   console.log("Read",filePath)
 
     var extInd = filePath.lastIndexOf(".");
     var ext = ".js";
@@ -258,8 +258,9 @@ async function readFolder({$i}) {
     if (!path) path = $i.$_GET.path;
 
     // Ensure the 'path' exists in POST or GET
-    if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
-
+    if (!path) path = "";
+    path = path.trim()
+    path = $i.path.normalize(path);
     /*
     // Ensure the user is logged in and has permission for alias
     var userid = $i?.request?.user?.info?.userId;
@@ -267,8 +268,9 @@ async function readFolder({$i}) {
 
     var isAuthorized = await verifyAlias({$i, aliasId, userid });
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
-    */
-    path = addFolderName(path, false);
+    */ 
+  //console.log("initalpath",path)
+    if(path && path != "/") path = addFolderName(path, false);
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     try {
@@ -277,7 +279,7 @@ async function readFolder({$i}) {
             keepJSON: true
         })
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
-
+	//console.log("Getting", folderPath, path, folderContents)
         return folderContents || [];  // List files and folders
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });

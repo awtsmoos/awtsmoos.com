@@ -7,7 +7,7 @@ import Tzomayach from "./tzomayach.js";
 import * as THREE from '/games/scripts/build/three.module.js';
 
 
-import {Capsule} from '/games/scripts/jsm/math/Capsule.js';
+import {Capsule} from '../Olam/math/Capsule.js';
 import Utils from "../utils.js";
 
 const SPHERE_RADIUS = 0.2;

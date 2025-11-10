@@ -150,7 +150,7 @@ window.addEventListener('message', (event) => {
       //  console.log("EDITOR received message:", event.data); 
         
         const { type, payload, requestId, error } = event.data;
-
+	//console.log("DATA",event.data)
         // --- Handle responses for our provider requests ---
         //  Check the shared State.postMessagePendingRequests map
         if (State.postMessagePendingRequests.has(requestId)) {
@@ -206,6 +206,12 @@ window.addEventListener('message', (event) => {
                 payload: { content: content }
             }, '*');
             return;
+        }
+        
+        if(type == "osResponse") {
+	        if(payload.saved) {
+		        
+	        }
         }
     });
 

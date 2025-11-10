@@ -273,6 +273,7 @@ create(item, isNewFile = false, shouldSave = true) {
 
     async save(tab) {
         UI.showToast(`Saving ${tab.item.name}...`);
+  
         try {
             if (tab.id === State.activeTabId) {
                 tab.content = Editor.getContent();
@@ -287,7 +288,9 @@ create(item, isNewFile = false, shouldSave = true) {
                 });
                 if (commitMessage === null || commitMessage === undefined) throw new Error("Save cancelled.");
             }
+                 
             await FileSystemProvider.write(tab.item, tab.content, commitMessage);
+             console.log("doing",tab.item);
             tab.isDirty = false;
             UI.showToast(`Saved "${tab.item.name}"`, 'success');
             this.render();

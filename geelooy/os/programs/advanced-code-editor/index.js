@@ -2,7 +2,7 @@
 // FILE: /Remember/awtsmoos/com/geelooy/os/programs/advanced-code-editor/index.js
 
 export default ({ os, system, fileName, content, path }) => {
-
+	var self ={};
     const container = document.createElement('div');
     container.style.cssText = `width: 100%; height: 100%; overflow: hidden;`;
 
@@ -53,12 +53,12 @@ export default ({ os, system, fileName, content, path }) => {
         
         const { type, payload, requestId } = event.data;
         
-        console.log("OS got request from:", { requestId, payload, type });
+       // console.log("OS got request from:", { requestId, payload, type });
     
         // Helper to send responses back to the iframe
-        const respond = (responsePayload) => {
-        console.log("OS sending response to editor:", { requestId, payload: responsePayload });
-            iframe.contentWindow.postMessage({ type: 'osResponse', requestId, payload: responsePayload }, '*');
+        const respond = (responsePayload, type='osResponse') => {
+       // console.log("OS sending response to editor:", { requestId, payload: responsePayload });
+            iframe.contentWindow.postMessage({ type, requestId, payload: responsePayload }, '*');
         };
         
         const reject = (errorMessage) => {
@@ -69,7 +69,7 @@ export default ({ os, system, fileName, content, path }) => {
             switch (type) {
     
                 // --- FILE SYSTEM PROVIDER REQUESTS ---
-    
+	    
                 case 'requestFolderList':
                     // **THE FIX IS HERE:** We now use the full path from the payload to get the keys.
                     const items = await os.db.getAllKeys(payload.path);
@@ -147,6 +147,15 @@ export default ({ os, system, fileName, content, path }) => {
                         }
                     }
                     break;
+                    
+                case "saveFile":
+	                self.content = () => payload.content;
+	                var fileName = payload.saveContext.osFileName;
+	                self.fileName = () => fileName;
+	                
+	                system?.save(self);
+	                respond({saved: fileName}, "saveSuccess");
+                break;
             }
         } catch (error) {
             console.error(`OS Error handling request '${type}':`, error);

@@ -112,9 +112,10 @@ export default {
     },
     "File Explorer": async ({os}) => {
         await os.addWindow({
-            title:"root.folder", 
+            title:"Home", 
             content: "", 
-            path:"home", 
+            path:"/",
+            programName: "awtsmoosFileExplorer",
             os
         })
     },

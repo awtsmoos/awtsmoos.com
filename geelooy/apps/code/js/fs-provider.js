@@ -734,6 +734,7 @@ OSFolder: {
     },
     
     async write(item, content) {
+   
         await this._requestFromOS('requestFileWrite', {
             fullPath: item.path,
             content: content
@@ -749,7 +750,7 @@ OSFolder: {
     },
     
     async delete(item) {
-        await this._requestFromOS('requestItemDelete', {
+         await this._requestFromOS('requestItemDelete', {
             fullPath: item.path,
             kind: item.kind
         });

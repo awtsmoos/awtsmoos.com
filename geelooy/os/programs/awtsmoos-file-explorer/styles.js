@@ -114,7 +114,7 @@ export default /*css*/`
     background: var(--background-light);
     overflow-y: auto;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    
     border-right: 1px solid var(--border-color);
 }
 .file-explorer.sidebar-collapsed .file-explorer-sidebar {
@@ -141,6 +141,9 @@ export default /*css*/`
 .file-explorer-sidebar ul { list-style: none; padding-left: 12px; margin: 0; padding-top: 8px; }
 .tree-node-content { display: flex; align-items: center; padding: 5px; border-radius: 5px; cursor: pointer; }
 .tree-node-content:hover { background-color: #dee2e6; }
+.tree-node-content.selected {
+    background-color: var(--accent-blue-border);
+}
 .node-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; padding-left: 4px; }
 .toggle {
     width: 24px; /* Bigger target */
@@ -159,10 +162,38 @@ export default /*css*/`
 .file-explorer-body { flex-grow: 1; padding: 12px; overflow-y: auto; }
 
 /* Icon View */
-.icon-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; align-content: flex-start; }
-.file-item.icon { display: inline-flex; flex-direction: column; align-items: center; padding: 8px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; text-align: center; }
+.icons-view { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    gap: 16px;
+}
+
+.file-item.icon { 
+    display: flex; /* Use flex for the icon's internal layout */
+    flex-direction: column; 
+    align-items: center; 
+    padding: 8px;
+    min-width: 0; /* Critical: Allows the grid item to be constrained */
+    border: 1px solid transparent; 
+    border-radius: 6px; 
+    cursor: pointer;
+}
+
+.file-item.icon span { 
+    font-size: 13px; 
+    line-height: 1.4; 
+    margin-top: 6px; 
+    width: 100%;
+    text-align: center;
+    /* A robust combo to force long text to wrap */
+    overflow-wrap: break-word; 
+    word-break: break-all;
+}
+
+
 .file-item.icon:hover { background-color: var(--accent-blue-light); border-color: var(--accent-blue-border); }
-.file-item.icon span { font-size: 13px; line-height: 1.4; word-break: break-word; margin-top: 6px; }
+
+
 .file-icon, .folder-icon, .js-icon, .css-icon, .html-icon { width: 56px; height: 56px; background-size: contain; background-repeat: no-repeat; background-position: center; }
 
 /* Details View */
@@ -244,8 +275,3 @@ export default /*css*/`
     color: white;
     border-color: var(--accent-blue);
 }`;
-
-
-
-
-

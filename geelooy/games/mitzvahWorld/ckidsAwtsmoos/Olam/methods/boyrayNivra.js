@@ -33,7 +33,7 @@ import Utils from '../../utils.js'
 
 import * as THREE from '/games/scripts/build/three.module.js';
 
-import { Octree } from '/games/scripts/jsm/math/AwtsmoosOctree.js';
+import { Octree } from '../math/AwtsmoosOctree.js';
 
 export default class {
    
@@ -565,55 +565,26 @@ export default class {
                 nivra.materials = materials;
                 return gltf;
             } else {
-                
-                var golem = nivra.golem || {};/*golem like form, 
-                optional input object to allow users to 
-                specify what kidn of three mesh to 
-                add if not loading a model*/
+                // This block is for primitive objects created via "golem".
+                var golem = nivra.golem || {};
                 var mesh = await this.generateThreeJsMesh(golem);
-                if(nivra.isSolid) {
-                    nivra.needsOctreeChange = true;
-                    nivra.on(
-                        "changeOctreePosition", () => {
-                            
-                         
-                            this.worldOctree.fromGraphNode(mesh);
-
-                      //      mesh.layers.enable(2)
-                        
-
-
-                         //   console.log("About to add to octree",mesh,nivra)
-                            
-                        
-                        }
-                    );
-                    this.worldOctree.fromGraphNode(mesh);
-        
-                    //mesh.layers.enable(2)
+		mesh.name = nivra.name;
+                if (nivra.isSolid) {
+                    // This is a dynamic, solid object. Add it to the OctreeWorld synchronously.
+                    // DO NOT use event listeners here. This must be immediate.
+                    this.worldOctree.addObject(mesh);
                 }
-                if(nivra.interactable) {
-                    
-                    this.interactableNivrayim
-                    .push(nivra);
-                   
-                    
-                    if(nivra.type != "chossid") { 
-                        nivra.needsOctreeChange = true;
-                        nivra.on(
-                            "changeOctreePosition", () => {
-                                
-                                this
-                                .interactiveOctree
-                                .fromGraphNode(mesh);
-                                
-                            }
-                        );
-                    }
+
+                if (nivra.interactable && nivra.type !== "chossid") {
+                    // This is also a dynamic, interactive object.
+                    // The interactiveOctree is simpler, so fromGraphNode is okay here.
+                    this.interactiveOctree.fromGraphNode(mesh);
                 }
                 
                 return mesh;
             }
+              
+                
             
         } catch(e) {
             console.log(e)

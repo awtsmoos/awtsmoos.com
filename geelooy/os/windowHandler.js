@@ -123,15 +123,15 @@ addWindow({title, content, path, os, programName = null}) {
 }
 
     onactive(w)  {
-        console.log("ACTIVATING",w)
+       // console.log("ACTIVATING",w)
         this.windows.forEach(wn => {
-            if(w == wn) return console.log("SELF")
+            if(w == wn) return //console.log("SELF")
             wn?.makeInactive?.();
         });
     }
 
     onclose(w) {
-	    console.log("CLOSED window", w);
+	  //  console.log("CLOSED window", w);
 	    // Also remove it from any minimized groups
 	    this.onrestore(w);
 	    
