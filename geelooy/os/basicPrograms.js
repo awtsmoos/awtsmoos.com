@@ -10,12 +10,28 @@ import advancedCodeEditor from "./programs/advanced-code-editor/index.js";
 
 // --- PROGRAM REGISTRY ---
 // A complete list of all programs available to the OS.
+// -- REPLACED AND UPGRADED PROGRAM REGISTRY --
 export const programs = {
-  awtsmoosTextEdit,
-  awtsmoosFileExplorer,
-  awtsmoosBinaryViewer,
-  openWithSelector,
-  advancedCodeEditor
+  awtsmoosTextEdit: {
+    name: "Text Editor",
+    launch: awtsmoosTextEdit
+  },
+  awtsmoosFileExplorer: {
+    name: "File Explorer",
+    launch: awtsmoosFileExplorer
+  },
+  awtsmoosBinaryViewer: {
+    name: "Binary Viewer",
+    launch: awtsmoosBinaryViewer
+  },
+  openWithSelector: {
+    name: "Open With...",
+    launch: openWithSelector
+  },
+  advancedCodeEditor: {
+    name: "Advanced Code Editor",
+    launch: advancedCodeEditor
+  }
 };
 
 // --- COMPATIBILITY MAPPING ---
@@ -48,5 +64,5 @@ export let defaultPrograms = {};
 // This now correctly reads from the DYNAMIC defaultPrograms object.
 export function getDefaultProgram(ext) {
 	const progName = defaultPrograms[ext] || "awtsmoosBinaryViewer";
-	return programs[progName];	
+	return programs[progName].launch;	
 }

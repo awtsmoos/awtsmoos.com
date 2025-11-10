@@ -8,7 +8,10 @@ import {
 } from  "/os/helpers/scripts.js"
 
 
-import { showContextMenu } from '../../contextMenuManager.js';
+import {
+showContextMenu,
+ showGenericContextMenu
+} from '../../contextMenuManager.js';
 
 export default ({
     os,
@@ -475,7 +478,16 @@ async function syncSidebarToPath(path) {
         
         // 2. THEN, navigate to the starting folder.
         navigateTo(state.currentPath);
-        
+        body.addEventListener('contextmenu', event => {
+	    // Ensure the click is on the background, not a file item
+	    if (event.target === body) {
+	        const menuItems = new Map([
+	            ['Toggle Full Screen', () => os.toggleFullScreen()]
+	            // Future items for the explorer background can go here
+	        ]);
+	        showGenericContextMenu({ event, menuItems });
+	    }
+	});
         return container;
     }
 

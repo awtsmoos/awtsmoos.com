@@ -6,7 +6,7 @@ import { SettingsManager } from "./settingsManager.js";
 import { defaultPrograms, initialDefaultPrograms } from "./basicPrograms.js";
 
 
-import { showContextMenu } from './contextMenuManager.js';
+import { showContextMenu, showGenericContextMenu } from './contextMenuManager.js';
 
 console.log(`B"H
 
@@ -22,6 +22,18 @@ export default class AwtsmoosOS {
         
         this.currentPathForRefresh = 'desktop.folder';
     }
+    
+	toggleFullScreen() {
+	    if (!document.fullscreenElement) {
+	        document.querySelector(".main")?.requestFullscreen?.().catch(err => {
+	            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+	        });
+	    } else {
+	        if (document.exitFullscreen) {
+	            document.exitFullscreen();
+	        }
+	    }
+	}
 
     async start() {
         var utils = await import("/scripts/awtsmoos/api/utils.js")
@@ -57,6 +69,18 @@ export default class AwtsmoosOS {
             }
            
         });
+        
+        
+        this.getDesktop().addEventListener('contextmenu', e => {
+	    // Ensure the click is on the background, not an icon
+	    if (e.target.classList.contains('desktop') || e.target.classList.contains('fileHolder')) {
+	        const menuItems = new Map([
+	            ['Toggle Full Screen', () => this.toggleFullScreen()]
+	            // You can add more items here in the future!
+	        ]);
+	        showGenericContextMenu({ event: e, menuItems });
+	    }
+	});
     }
     addWindow(...args) {
         this.windowHandler.addWindow(...args)

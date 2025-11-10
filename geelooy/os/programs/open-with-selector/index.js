@@ -5,7 +5,13 @@ import { programsByExtension, defaultPrograms, programs } from '../../basicProgr
 
 export default ({ os, content, extension } = {}) => {
     const { filePath, fileTitle } = content;
-    const compatiblePrograms = programsByExtension[extension] || [];
+    let compatiblePrograms = programsByExtension[extension] || [];
+	
+	// If no specific programs are listed, it's a binary or generic file.
+	// In that case, add the default binary viewer as the only option.
+	if (compatiblePrograms.length === 0) {
+	    compatiblePrograms.push('awtsmoosBinaryViewer');
+	}
     let selectedProgram = defaultPrograms[extension]; // Pre-select the current default
 
     // --- Main Container ---

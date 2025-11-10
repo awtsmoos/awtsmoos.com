@@ -81,15 +81,14 @@ onrestore(window) {
 
     
     // In windowHandler.js, replace the entire addWindow method
-addWindow({title, content, path, os, programName = null}) {
-    var ext = this.getExtension(title);
-    
+addWindow({title, content, path, os, programName = null, extension = null}) {
+    var ext = extension || this.getExtension(title);
     var program;
     if (programName && programs[programName]) {
-        program = programs[programName];
-    } else {
-        program = getDefaultProgram(ext);
-    }
+	program = programs[programName].launch;
+	} else {
+	program = getDefaultProgram(ext);
+	}
     
     if(program) {
         var system = new System({path, os})
