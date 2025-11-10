@@ -80,6 +80,7 @@ class App {
         if (this.appMode === 'EDIT') {
             this.editModeManager.handlePointerDown(event);
         } else {
+	        if (event.button !== 0) return;
             this.inputManager.handlePointerDown(event);
         }
     }

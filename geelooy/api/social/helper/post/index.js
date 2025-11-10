@@ -708,6 +708,7 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
                  if(postIds.error.code === 'PATH_NOT_FOUND' || postIds.error.code === 'NOT_AN_OBJECT') return []; // Empty array if no posts path/object
                  throw new Error(`DB Error getting keys: ${postIds.error.message || postIds.error}`);
              }
+             console.log("just ideas",postIds);
             return postIds || [];
         } else {
 			
@@ -721,7 +722,11 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
             }
             // Get the full posts object
             const postsObject = await $i.db.get(seriesPostsPath, opts);
-            if (!postsObject || typeof postsObject !== 'object') {
+            if (
+	            !postsObject || 
+	            typeof postsObject !== 'object' ||
+	            Buffer.isBuffer(postsObject)
+	     ) {
                 return []; // Return empty array if no posts or not an object
             }
 
@@ -739,6 +744,8 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
 				})
 			}
 			let postsArray = posts;
+			
+			console.log("Posted",postsArray, postsObject, seriesPostsPath)
 			//let postsArray = Object.values(postsObject).filter(Boolean);
 				
              // TODO: Re-implement property filtering if required, similar to the original getPostsInHeichel
