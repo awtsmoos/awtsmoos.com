@@ -25,6 +25,13 @@ export const Keybindings = {
     // -- Selection --
     SELECTION_ALL:     { code: 'KeyA', ctrlKey: true, description: 'Select all objects' },
     SELECTION_NONE:    { code: 'KeyA', altKey: true, description: 'Deselect all objects' },
+    EDIT_SELECT_ALL:   { code: 'KeyA', description: 'Select/Deselect All (In Edit Mode)' },
+    
+    // B"H: New keybindings for edit mode selection type
+    EDIT_MODE_SELECT_VERTEX: { code: 'Digit1', description: 'Switch to Vertex Select Mode' },
+    EDIT_MODE_SELECT_EDGE:   { code: 'Digit2', description: 'Switch to Edge Select Mode' },
+    EDIT_MODE_SELECT_FACE:   { code: 'Digit3', description: 'Switch to Face Select Mode' },
+
 
     // -- History --
     HISTORY_UNDO: { code: 'KeyZ', ctrlKey: true, description: 'Undo last action' },

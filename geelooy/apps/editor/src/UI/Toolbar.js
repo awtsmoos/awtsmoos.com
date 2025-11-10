@@ -11,7 +11,7 @@ export class Toolbar {
         this.buttons = {};
         this.objectModeToolbar = null;
         this.editModeToolbar = null;
-        this.isInEditMode = false; // ** FIX: Add state tracking for the current mode
+        this.isInEditMode = false;
 
         this._createElement();
         this._setupEventListeners();
@@ -34,14 +34,13 @@ export class Toolbar {
         ];
         this.objectModeToolbar = HTML.create({tag: 'div', class: 'toolbar-section', children: objectModeButtons });
 
-        // --- Edit Mode Buttons ---
+        // --- B"H: Edit Mode Buttons Updated ---
         const editModeButtons = [
-            HTML.create({ tag: 'button', id: 'btn-edit-vertex', text: 'Vertex', class: 'active' }),
-            HTML.create({ tag: 'button', id: 'btn-edit-edge', text: 'Edge', attrs: { disabled: true } }),
-            HTML.create({ tag: 'button', id: 'btn-edit-face', text: 'Face', attrs: { disabled: true } }),
+            HTML.create({ tag: 'button', id: 'btn-edit-vertex', text: 'Vertex (1)', class: 'active' }),
+            HTML.create({ tag: 'button', id: 'btn-edit-edge', text: 'Edge (2)' }),
+            HTML.create({ tag: 'button', id: 'btn-edit-face', text: 'Face (3)' }),
             HTML.create({ tag: 'span', class:'separator'}),
-            HTML.create({ tag: 'button', text: 'Extrude', attrs: { disabled: true } }),
-            HTML.create({ tag: 'button', text: 'Subdivide', attrs: { disabled: true } }),
+            HTML.create({ tag: 'button', id: 'btn-subdivide', text: 'Subdivide', attrs: { disabled: true } }),
         ];
         this.editModeToolbar = HTML.create({tag: 'div', class: 'toolbar-section', style: { display: 'none' }, children: editModeButtons });
 
@@ -78,6 +77,8 @@ export class Toolbar {
         this.eventEmitter.on('transformModeChanged', this.updateTransformButtons.bind(this));
         this.eventEmitter.on('editModeEntered', () => this.setMode('edit'));
         this.eventEmitter.on('editModeExited', () => this.setMode('object'));
+        // B"H: Listen for selection mode changes from the manager
+        this.eventEmitter.on('editSelectionModeChanged', this.updateEditModeButtons.bind(this));
         
         this.buttons.toggleEditMode.addEventListener('click', () => this.eventEmitter.emit('toggleEditModeRequest'));
         this.buttons.create.addEventListener('click', () => this.eventEmitter.emit('createPrimitiveRequest', this.buttons.primitive.value));
@@ -92,6 +93,12 @@ export class Toolbar {
         this.buttons.translate.addEventListener('click', () => setTransformMode('translate'));
         this.buttons.rotate.addEventListener('click', () => setTransformMode('rotate'));
         this.buttons.scale.addEventListener('click', () => setTransformMode('scale'));
+
+        // B"H: Add listeners for edit mode buttons
+        const setEditSelectionMode = (mode) => this.eventEmitter.emit('setEditSelectionMode', mode);
+        this.buttons.editVertex.addEventListener('click', () => setEditSelectionMode('VERTEX'));
+        this.buttons.editEdge.addEventListener('click', () => setEditSelectionMode('EDGE'));
+        this.buttons.editFace.addEventListener('click', () => setEditSelectionMode('FACE'));
     }
     
     _handleLoadGLB() {
@@ -114,17 +121,13 @@ export class Toolbar {
     }
 
     updateSelectionBasedButtons(selectedUUIDs) {
-        // ** FIX: This is the core logic change. **
         if (this.isInEditMode) {
-            // If we are in edit mode, the button should always be enabled to allow exiting.
             this.buttons.toggleEditMode.disabled = false;
         } else {
-            // Otherwise, base its state on the object selection.
             const count = selectedUUIDs.length;
             const canEnterEditMode = count === 1 && this.objectManager.getObjectByUUID(selectedUUIDs[0])?.isMesh;
             this.buttons.toggleEditMode.disabled = !canEnterEditMode;
 
-            // Update other object-mode buttons
             if(this.buttons.delete) this.buttons.delete.disabled = count === 0;
             if(this.buttons.exportGlb) this.buttons.exportGlb.disabled = count !== 1;
             if(this.buttons.group) this.buttons.group.disabled = count < 2;
@@ -141,20 +144,26 @@ export class Toolbar {
         this.buttons.scale.classList.toggle('active', mode === 'scale');
     }
     
+    // B"H: New method to update edit mode button highlights
+    updateEditModeButtons(mode) {
+        this.buttons.editVertex.classList.toggle('active', mode === 'VERTEX');
+        this.buttons.editEdge.classList.toggle('active', mode === 'EDGE');
+        this.buttons.editFace.classList.toggle('active', mode === 'FACE');
+    }
+
     setMode(mode) {
-        this.isInEditMode = (mode === 'edit'); // ** FIX: Update internal state
+        this.isInEditMode = (mode === 'edit');
         if (this.isInEditMode) {
             this.objectModeToolbar.style.display = 'none';
             this.editModeToolbar.style.display = 'flex';
             this.buttons.toggleEditMode.textContent = 'Edit Mode';
             this.buttons.toggleEditMode.classList.add('active');
-            this.buttons.toggleEditMode.disabled = false; // ** FIX: Ensure it's enabled
+            this.buttons.toggleEditMode.disabled = false;
         } else {
             this.objectModeToolbar.style.display = 'flex';
             this.editModeToolbar.style.display = 'none';
             this.buttons.toggleEditMode.textContent = 'Object Mode';
             this.buttons.toggleEditMode.classList.remove('active');
-            // ** FIX: Re-evaluate the button's state based on current selection
             this.updateSelectionBasedButtons(this.objectManager.getSelectedObjectUUIDs());
         }
     }

@@ -5,6 +5,7 @@ import { Utils } from '../Core/Utils.js'; // Assuming Utils.js exists and has ge
 import { CreateObjectCommand } from '../History/Commands/CreateObjectCommand.js';
 import { RemoveObjectCommand } from '../History/Commands/RemoveObjectCommand.js';
 import { GroupCommand } from '../History/Commands/GroupCommand.js';
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
 /**
  * Manages scene objects: creation, deletion, selection, grouping.
@@ -158,6 +159,18 @@ export class ObjectManager {
             case 'torus': geometry = new THREE.TorusGeometry(size / 2, size / 4, 16, 100); position.y = size / 2; break;
             case 'box': default: geometry = new THREE.BoxGeometry(size, size, size); position.y = size / 2; type = 'Box'; break;
         }
+
+        // --- B"H THIS IS THE CORRECTED FIX ---
+        // 1. Temporarily remove the attributes that prevent merging.
+        geometry.deleteAttribute('normal');
+        geometry.deleteAttribute('uv');
+        
+        // 2. Merge vertices based on position only.
+        geometry = BufferGeometryUtils.mergeVertices(geometry);
+        
+        // 3. Now that vertices are shared, recalculate normals for correct lighting.
+        geometry.computeVertexNormals();
+        // --- END OF FIX ---
 
         const material = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.7, metalness: 0.1, side: THREE.DoubleSide });
         const mesh = new THREE.Mesh(geometry, material);

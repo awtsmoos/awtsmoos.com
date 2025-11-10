@@ -7,58 +7,60 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
  */
 export class SceneManager {
     constructor(canvasElement, eventEmitter) {
-        this.canvas = canvasElement;
-        this.eventEmitter = eventEmitter;
-        this.clock = new THREE.Clock();
+    this.canvas = canvasElement;
+    this.eventEmitter = eventEmitter;
+    this.clock = new THREE.Clock();
 
-        // Scene
-        this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x282c34);
+    // Scene
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x282c34);
 
-        // Camera
-        const aspect = window.innerWidth / window.innerHeight;
-        this.camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 10000);
-        this.camera.position.set(5, 5, 10);
-        this.camera.lookAt(0, 0, 0);
-        this.scene.add(this.camera);
+    // Camera
+    const aspect = window.innerWidth / window.innerHeight;
+    this.camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 10000);
+    this.camera.position.set(5, 5, 10);
+    this.camera.lookAt(0, 0, 0);
+    this.scene.add(this.camera);
 
-        // Renderer
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: this.canvas,
-            antialias: true,
-            alpha: true
-        });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+    // Renderer
+    this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas,
+        antialias: true,
+        alpha: true
+    });
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
 
-        // Orbit Controls
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 0.05;
-        
-        // Blender-style camera controls configuration
-        this.controls.mouseButtons = {
-            LEFT: THREE.MOUSE.ROTATE,    // Left-click + drag to orbit
-            MIDDLE: THREE.MOUSE.PAN,       // Middle-click + drag to pan
-            RIGHT: null                    // Right-click is free for context menus
-        };
-        this.controls.touches = {
-			ONE: THREE.TOUCH.ROTATE,
-			TWO: THREE.TOUCH.DOLLY_PAN
-		}
-        this.controls.screenSpacePanning = true;
-        this.controls.minDistance = 0.1;
-        this.controls.maxDistance = 1000;
-        this.controls.target.set(0, 1, 0);
-        this.controls.update();
+    // Orbit Controls
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.05;
+    
+    // --- B"H FIX: Blender-style camera controls configuration ---
+    this.controls.mouseButtons = {
+        LEFT: THREE.MOUSE.ROTATE,    // Kept for consistency, but selection takes priority on click
+        MIDDLE: THREE.MOUSE.ROTATE,  // Middle-click + drag to orbit
+        RIGHT: THREE.MOUSE.PAN      // Right-click + drag to pan
+    };
+    // --- END OF FIX ---
 
-        // Setup
-        this.setupLighting();
-        this.setupGrid();
-        this.setupEventListeners();
-
-        console.log('B"H\n - SceneManager Initialized with Blender-like controls');
+    this.controls.touches = {
+        ONE: THREE.TOUCH.ROTATE,
+        TWO: THREE.TOUCH.DOLLY_PAN
     }
+    this.controls.screenSpacePanning = true;
+    this.controls.minDistance = 0.1;
+    this.controls.maxDistance = 1000;
+    this.controls.target.set(0, 1, 0);
+    this.controls.update();
+
+    // Setup
+    this.setupLighting();
+    this.setupGrid();
+    this.setupEventListeners();
+
+    console.log('B"H\n - SceneManager Initialized with Blender-like controls');
+}
 
     setupEventListeners() {
         window.addEventListener('resize', this.onWindowResize.bind(this));

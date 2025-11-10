@@ -28,9 +28,6 @@ export class InputManager {
     }
 
    setupEventListeners() {
-        
-
-        // --- Keyboard Listeners ---
         window.addEventListener('keydown', this.onKeyDown.bind(this));
         window.addEventListener('keyup', this.onKeyUp.bind(this));
     }
@@ -44,7 +41,6 @@ export class InputManager {
     onPointerDown(event) {
         if (event.target !== this.domElement) return;
 
-        // Let TransformManager handle its own interactions
         if (this.transformManager.transformControls.axis) {
             this.isMouseDown = true;
             return;
@@ -82,17 +78,15 @@ export class InputManager {
     performRaycastSelection(isShiftKey) {
         this.raycaster.setFromCamera(this.mouse, this.camera);
         
-        // Raycast against all selectable objects
         const objectsToCheck = Array.from(this.objectManager.objects.values())
             .filter(obj => obj.userData?.isSelectable && obj.visible && !obj.userData?.isOutline && (obj.isMesh || obj.isLine || obj.isPoints));
             
-        const intersects = this.raycaster.intersectObjects(objectsToCheck, true); // recursive check
+        const intersects = this.raycaster.intersectObjects(objectsToCheck, true);
 
         if (intersects.length > 0) {
             let selectedObject = null;
             for (const intersect of intersects) {
                 let obj = intersect.object;
-                // Traverse up to find the root selectable object
                 while (obj && !obj.userData?.isSelectable) {
                     obj = obj.parent;
                 }
@@ -103,19 +97,16 @@ export class InputManager {
             }
 
             if (selectedObject) {
-                // Emit with shiftKey status
                 this.eventEmitter.emit('objectClicked', { object: selectedObject, shiftKey: isShiftKey });
             } else {
                 this.eventEmitter.emit('canvasClicked', { shiftKey: isShiftKey });
             }
         } else {
-            // Clicked on empty space
             this.eventEmitter.emit('canvasClicked', { shiftKey: isShiftKey });
         }
     }
 
     onKeyDown(event) {
-        // Prevent browser shortcuts (e.g., Ctrl+S, Ctrl+A) if they match our bindings
         if (event.ctrlKey || event.metaKey || event.altKey) {
             for (const action in Keybindings) {
                 const binding = Keybindings[action];
@@ -126,14 +117,10 @@ export class InputManager {
             }
         }
         
-        // Ignore events if typing in an input field
         const target = event.target;
         if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
-            // Allow Backspace and Delete in inputs
             if (event.code === 'Backspace' || event.code === 'Delete') return;
-             // Allow undo/redo in text fields
             if (this.checkBinding(event, Keybindings.HISTORY_UNDO) || this.checkBinding(event, Keybindings.HISTORY_REDO)) return;
-            // Block others
             if (target.type !== 'checkbox' && target.type !== 'radio') return;
         }
 
@@ -145,7 +132,6 @@ export class InputManager {
         this.keysDown.delete(event.code);
     }
     
-    // Checks an event against a keybinding definition
     checkBinding(event, binding) {
         if (!binding) return false;
         const meta = event.ctrlKey || event.metaKey;
@@ -156,43 +142,58 @@ export class InputManager {
     }
 
     handleKeybinding(event) {
-        // History
+        // B"H: Special handling for edit mode keys
+        if (window.MWA && window.MWA.appMode === 'EDIT') {
+            if (this.checkBinding(event, Keybindings.EDIT_SELECT_ALL)) {
+                this.eventEmitter.emit('editModeSelectAllRequest');
+                return; // Consume the event
+            }
+            if (this.checkBinding(event, Keybindings.EDIT_MODE_SELECT_VERTEX)) {
+                this.eventEmitter.emit('setEditSelectionMode', 'VERTEX');
+                return;
+            }
+            if (this.checkBinding(event, Keybindings.EDIT_MODE_SELECT_EDGE)) {
+                this.eventEmitter.emit('setEditSelectionMode', 'EDGE');
+                return;
+            }
+            if (this.checkBinding(event, Keybindings.EDIT_MODE_SELECT_FACE)) {
+                this.eventEmitter.emit('setEditSelectionMode', 'FACE');
+                return;
+            }
+        }
+        
+        if (this.checkBinding(event, Keybindings.TOGGLE_EDIT_MODE)) {
+            event.preventDefault();
+            this.eventEmitter.emit('toggleEditModeRequest');
+        }
+
         if (this.checkBinding(event, Keybindings.HISTORY_UNDO)) this.eventEmitter.emit('undoRequest');
         if (this.checkBinding(event, Keybindings.HISTORY_REDO) || this.checkBinding(event, Keybindings.HISTORY_REDO_ALT)) this.eventEmitter.emit('redoRequest');
         
-        // Transform
         if (this.checkBinding(event, Keybindings.TRANSFORM_MODE_TRANSLATE)) this.eventEmitter.emit('setTransformMode', 'translate');
         if (this.checkBinding(event, Keybindings.TRANSFORM_MODE_ROTATE)) this.eventEmitter.emit('setTransformMode', 'rotate');
         if (this.checkBinding(event, Keybindings.TRANSFORM_MODE_SCALE)) this.eventEmitter.emit('setTransformMode', 'scale');
         
-        // View
         if (this.checkBinding(event, Keybindings.VIEW_FOCUS_SELECTED) || this.checkBinding(event, Keybindings.VIEW_FOCUS_SELECTED_ALT)) this.eventEmitter.emit('focusSelectedRequest');
         
-        // Object Manipulation
         if (this.checkBinding(event, Keybindings.OBJECT_DELETE) || this.checkBinding(event, Keybindings.OBJECT_DELETE_ALT)) this.eventEmitter.emit('deleteSelectedRequest');
         if (this.checkBinding(event, Keybindings.OBJECT_ADD_PRIMITIVE)) {
-            // Get selected primitive from toolbar to add
             const selectEl = document.getElementById('select-primitive');
             const type = selectEl ? selectEl.value : 'Box';
             this.eventEmitter.emit('createPrimitiveRequest', type);
         }
         
-        // Selection
         if (this.checkBinding(event, Keybindings.SELECTION_ALL)) this.objectManager.selectAll();
         if (this.checkBinding(event, Keybindings.SELECTION_NONE)) this.objectManager.clearSelection();
         
-        // Parenting
         if (this.checkBinding(event, Keybindings.PARENT_SET)) this.eventEmitter.emit('groupSelectedRequest');
         if (this.checkBinding(event, Keybindings.PARENT_CLEAR)) this.eventEmitter.emit('ungroupSelectedRequest');
     }
     
      handlePointerDown(event) {
-        // If the gizmo is being dragged, let it do its thing.
         if (this.transformManager.isDragging || this.transformManager.transformControls.axis) {
             return;
         }
-
-        // Perform the object selection raycast.
         this.updateMouseCoordinates(event);
         this.performRaycastSelection(event.shiftKey);
     }

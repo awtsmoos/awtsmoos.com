@@ -10,45 +10,33 @@ import { InputManager } from './Interaction/InputManager.js';
 import { HTML } from './Core/HTML.js';
 import { EventEmitter } from './Core/EventEmitter.js';
 import { OrbitControlsGizmo } from 'three/addons/controls/OrbitControlsGizmo.js'; // Keep for now
-// --- 1. IMPORT THE EXPORTER ---
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
-
 import { EditModeManager } from './Interaction/EditModeManager.js'; 
 import { AnimationClip } from 'three';
 import { VectorKeyframeTrack, QuaternionKeyframeTrack, NumberKeyframeTrack } from 'three';
 
-// --- Add constants for outline colors ---
 const OUTLINE_COLOR_SELECTED = 0xffff00; // Yellow
 const OUTLINE_COLOR_ACTIVE = 0xffa500; // Orange
-const OUTLINE_SCALE = 1.03; // Adjust as needed (e.g., 1.01 to 1.05)
+const OUTLINE_SCALE = 1.03; 
 
-/**
- * Main Application Class
- * Orchestrates all the different modules.
- */
 class App {
     constructor() {
         console.log('B\"H\n - Mitzvah World Animator Initializing...');
         this.eventEmitter = new EventEmitter();
         this.setupDOM();
 
-        // Core Managers
         this.historyManager = new HistoryManager(this.eventEmitter);
         this.sceneManager = new SceneManager(HTML.id('canvas'), this.eventEmitter);
         this.objectManager = new ObjectManager(this.sceneManager.scene, this.eventEmitter, this.historyManager);
         this.timelineManager = new TimelineManager(this.eventEmitter, this.objectManager, this.historyManager);
         
-        // Interaction Managers
         this.transformManager = new TransformManager(this.sceneManager.camera, this.sceneManager.renderer.domElement, this.sceneManager.scene, this.eventEmitter, this.historyManager, this.sceneManager.controls);
         this.inputManager = new InputManager(this.sceneManager.renderer.domElement, this.eventEmitter, this.objectManager, this.transformManager, this.sceneManager.camera);
         this.editModeManager = new EditModeManager(this.sceneManager.scene, this.eventEmitter, this.historyManager, this.objectManager, this.transformManager);
         
-        
-        // UI Manager (must be after others)
         this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager);
 
-        // App State
-        this.appMode = 'OBJECT'; // 'OBJECT' or 'EDIT'
+        this.appMode = 'OBJECT';
         this.outlineMeshes = new Map();
         
         this.setupOrbitGizmo();
@@ -61,7 +49,6 @@ class App {
     
      connectEventListeners() {
         this.eventEmitter.on('selectionChanged', (selectedIds, activeId) => {
-            // ** THIS IS A KEY CHANGE: Only update object transform in OBJECT mode **
             if (this.appMode === 'OBJECT') {
                 const objects = this.objectManager.getObjectsByIds(selectedIds);
                 const activeObj = activeId ? this.objectManager.getObjectByUUID(activeId) : null;
@@ -70,13 +57,14 @@ class App {
             }
         });
 
-        // The App now routes pointer events
 	    this.sceneManager.renderer.domElement.addEventListener('pointerdown', this.onPointerDown.bind(this));
 
         this.eventEmitter.on('exportGLBRequest', this.exportSelectedGLB.bind(this));
         this.eventEmitter.on('toggleEditModeRequest', this.toggleEditMode.bind(this));
         
-        // This listener is for when a vertex is moved, ensuring the gizmo follows
+        // B"H: Connect the 'A' key press to the handler
+        this.eventEmitter.on('editModeSelectAllRequest', () => this.editModeManager.toggleSelectAll());
+        
         this.eventEmitter.on('geometryChanged', ({ uuid }) => {
             if (this.appMode === 'EDIT' && this.editModeManager.targetObject?.uuid === uuid) {
                 this.editModeManager.updateGizmoPosition();
@@ -85,12 +73,10 @@ class App {
     }
 
     onPointerDown(event) {
-        // If the gizmo is being dragged, do nothing. It will handle its own events.
         if (this.transformManager.transformControls.axis) {
             return;
         }
 
-        // Delegate the event to the correct manager based on the current app mode.
         if (this.appMode === 'EDIT') {
             this.editModeManager.handlePointerDown(event);
         } else {
@@ -103,106 +89,85 @@ class App {
             const selected = this.objectManager.getSelectedObjects();
             if (selected.length === 1 && selected[0].isMesh) {
                 this.appMode = 'EDIT';
-                this.updateSimpleOutlines([], null); // Clear object outlines
-                // EditModeManager's enter() will correctly configure TransformManager
+                this.updateSimpleOutlines([], null); 
                 this.editModeManager.enter(selected[0]);
             }
         } else {
             this.appMode = 'OBJECT';
             const editedObject = this.editModeManager.targetObject;
             
-            // This call is crucial: it resets TransformManager's mode to 'OBJECT'
             this.editModeManager.exit(); 
             
-            // After the state is correct, re-selecting the object will
-            // trigger the 'selectionChanged' event, which now correctly
-            // calls transformManager.updateSelection() in 'OBJECT' mode.
             if (editedObject) {
                 this.objectManager.selectObject(editedObject.uuid, true);
             }
         }
     }
 
+    updateSimpleOutlines(selectedIds, activeId) {
+        const currentSelection = new Set(selectedIds);
+        const previousOutlineUUIDs = new Set(this.outlineMeshes.keys());
 
-
-updateSimpleOutlines(selectedIds, activeId) {
-    const currentSelection = new Set(selectedIds);
-    const previousOutlineUUIDs = new Set(this.outlineMeshes.keys());
-
-    // Remove outlines from objects no longer selected
-    previousOutlineUUIDs.forEach(uuid => {
-        if (!currentSelection.has(uuid)) {
-            const outlineMesh = this.outlineMeshes.get(uuid);
-            if (outlineMesh) {
-                outlineMesh.removeFromParent();
-                outlineMesh.material.dispose();
-                // Geometry is shared, DO NOT dispose geometry here
-                this.outlineMeshes.delete(uuid);
-                console.log(`B"H Removed outline for ${uuid}`);
+        previousOutlineUUIDs.forEach(uuid => {
+            if (!currentSelection.has(uuid)) {
+                const outlineMesh = this.outlineMeshes.get(uuid);
+                if (outlineMesh) {
+                    outlineMesh.removeFromParent();
+                    outlineMesh.material.dispose();
+                    this.outlineMeshes.delete(uuid);
+                }
             }
-        }
-    });
+        });
 
-    // Add or update outlines for currently selected objects
-    currentSelection.forEach(uuid => {
-        const object = this.objectManager.getObjectByUUID(uuid);
-        if (!object || !object.isMesh) return; // Only outline meshes for simplicity
+        currentSelection.forEach(uuid => {
+            const object = this.objectManager.getObjectByUUID(uuid);
+            if (!object || !object.isMesh) return;
 
-        const isActive = uuid === activeId;
-        const targetColor = isActive ? OUTLINE_COLOR_ACTIVE : OUTLINE_COLOR_SELECTED;
+            const isActive = uuid === activeId;
+            const targetColor = isActive ? OUTLINE_COLOR_ACTIVE : OUTLINE_COLOR_SELECTED;
 
-        let outlineMesh = this.outlineMeshes.get(uuid);
+            let outlineMesh = this.outlineMeshes.get(uuid);
 
-        if (!outlineMesh) {
-            // Create outline mesh if it doesn't exist
-            const outlineMaterial = new THREE.MeshBasicMaterial({
-                color: targetColor,
-                side: THREE.BackSide,
-                depthWrite: false, // Try disabling depth write to render on top
-                // depthTest: false, // More aggressive, might draw through objects
-                transparent: true, // Optional: allows for opacity later
-                opacity: 0.8      // Optional: make slightly transparent
-            });
+            if (!outlineMesh) {
+                const outlineMaterial = new THREE.MeshBasicMaterial({
+                    color: targetColor,
+                    side: THREE.BackSide,
+                    depthWrite: false,
+                    transparent: true,
+                    opacity: 0.8
+                });
 
-            // IMPORTANT: Create a NEW MESH but use SHARED GEOMETRY
-            outlineMesh = new THREE.Mesh(object.geometry, outlineMaterial);
-            outlineMesh.scale.copy(object.scale).multiplyScalar(OUTLINE_SCALE); // Scale relative to object's scale
-            outlineMesh.userData.isOutline = true; // Mark it so raycasting can ignore it
-            outlineMesh.userData.isSelectable = false; // Not selectable
+                outlineMesh = new THREE.Mesh(object.geometry, outlineMaterial);
+                outlineMesh.scale.copy(object.scale).multiplyScalar(OUTLINE_SCALE);
+                outlineMesh.userData.isOutline = true;
+                outlineMesh.userData.isSelectable = false;
 
-            object.add(outlineMesh); // Add as child of the original object
-            this.outlineMeshes.set(uuid, outlineMesh);
-            console.log(`B"H Added ${isActive ? 'active' : 'selected'} outline for ${object.name}`);
+                object.add(outlineMesh);
+                this.outlineMeshes.set(uuid, outlineMesh);
 
-        } else {
-            // Outline exists, just update color if needed
-            if (outlineMesh.material.color.getHex() !== targetColor) {
-                outlineMesh.material.color.setHex(targetColor);
-                console.log(`B"H Updated outline color for ${object.name} to ${isActive ? 'active' : 'selected'}`);
+            } else {
+                if (outlineMesh.material.color.getHex() !== targetColor) {
+                    outlineMesh.material.color.setHex(targetColor);
+                }
+                 outlineMesh.scale.copy(object.scale).multiplyScalar(OUTLINE_SCALE);
             }
-             // Ensure scale is correct if parent scale changed (might need more robust update)
-             outlineMesh.scale.copy(object.scale).multiplyScalar(OUTLINE_SCALE);
-        }
-    });
+        });
+    }
 
-}
-    // --- Clean up outlines on exit/clear ---
-cleanupOutlines() {
-    this.outlineMeshes.forEach(outlineMesh => {
-         outlineMesh.removeFromParent();
-         outlineMesh.material.dispose();
-    });
-    this.outlineMeshes.clear();
-}
+    cleanupOutlines() {
+        this.outlineMeshes.forEach(outlineMesh => {
+            outlineMesh.removeFromParent();
+            outlineMesh.material.dispose();
+        });
+        this.outlineMeshes.clear();
+    }
 
     setupDOM() {
-        // Basic structure is in HTML, UIManager will populate panels
         const uiContainer = HTML.id('ui-container');
         if (!uiContainer) {
             console.error("UI Container not found!");
             return;
         }
-        // UIManager will create and append panels here
     }
     
      exportSelectedGLB() {
@@ -210,47 +175,30 @@ cleanupOutlines() {
         if (selectedObjects.length !== 1) { return; }
         const objectToExport = selectedObjects[0];
 
-        // 1. Create a clone.
         const clone = objectToExport.clone();
 
-        // 2. Clean the clone by removing the editor-only outline mesh.
         for (let i = clone.children.length - 1; i >= 0; i--) {
             if (clone.children[i].userData.isOutline) {
                 clone.remove(clone.children[i]);
             }
         }
 
-        // 3. *** NEW STEP: Convert materials to MeshLambertMaterial for export ***
-        // We traverse the cleaned clone to find every mesh within it.
         clone.traverse((node) => {
             if (node.isMesh && node.material) {
-                // Get the original material from the node
                 const originalMaterial = node.material;
-
-                // Create a new Lambert material
                 const lambertMaterial = new THREE.MeshLambertMaterial();
-
-                // Copy the essential properties you want to preserve
                 lambertMaterial.color.copy(originalMaterial.color);
-                lambertMaterial.map = originalMaterial.map; // Preserves the main texture
-                
-                // You can copy other properties as needed, for example:
-                // lambertMaterial.opacity = originalMaterial.opacity;
-                // lambertMaterial.transparent = originalMaterial.transparent;
-
-                // Replace the material on this specific mesh within the clone
+                lambertMaterial.map = originalMaterial.map;
                 node.material = lambertMaterial;
             }
         });
 
-        // 4. Add the clean clone (now with Lambert materials) to a temporary scene.
         const tempScene = new THREE.Scene();
         tempScene.add(clone);
 
-        // 5. Generate and sanitize the animation clip. This part is now correct.
         const animationClip = this.generateAnimationClipForObject(objectToExport, clone);
         if (animationClip) {
-            animationClip.userData = {}; // Ensure userData exists on the clip
+            animationClip.userData = {};
             tempScene.animations = [animationClip];
         }
 
@@ -267,7 +215,6 @@ cleanupOutlines() {
                     const blob = new Blob([result], { type: 'application/octet-stream' });
                     const filename = `${objectToExport.name || 'export'}.glb`;
                     this.saveBlob(blob, filename);
-                    console.log('B\"H \n--- EXPORT SUCCEEDED with Lambert-style materials! ---');
                 }
             },
             (error) => {
@@ -277,9 +224,6 @@ cleanupOutlines() {
         );
     }
 
-
-    // This function is now correct because it uses the clone's name for the tracks.
-    // The sanitization step in the main function will handle any remaining issues.
     generateAnimationClipForObject(originalObject, objectForNaming) {
         const layer = this.timelineManager.getLayer(originalObject.uuid);
         if (!layer || layer.tracks.size === 0) {
@@ -345,28 +289,21 @@ cleanupOutlines() {
         if (finalTracks.length > 0) {
             const duration = this.timelineManager.endTime;
             const clip = new AnimationClip('Action', duration, finalTracks);
-
-            // *** THIS IS THE SOLUTION ***
-            // The GLTFExporter requires the AnimationClip itself to have a userData object.
             clip.userData = {};
-
             return clip;
         }
 
         return null;
     }
     
-    
     saveBlob(blob, filename) {
         const link = document.createElement('a');
         link.style.display = 'none';
         document.body.appendChild(link);
-
         const url = URL.createObjectURL(blob);
         link.href = url;
         link.download = filename;
         link.click();
-
         URL.revokeObjectURL(url);
         document.body.removeChild(link);
     }
@@ -383,24 +320,13 @@ cleanupOutlines() {
 
      animate(time) {
         requestAnimationFrame(this.animate);
-
         const delta = this.sceneManager.clock.getDelta();
         const currentTime = this.timelineManager.currentTime;
-
-        // ** THIS LINE IS THE ERROR. REMOVE IT. **
-        // this.transformManager.update(); // Handles TransformControls updates
-
-        // The TransformControls are updated automatically by the renderer and event listeners,
-        // so an explicit call here is not needed and causes the crash.
-
-        this.timelineManager.update(currentTime, delta); // Updates animator which applies keyframes
-
-        // Render the scene
+        this.timelineManager.update(currentTime, delta);
         this.sceneManager.render();
     }
 }
 
-// Initialize the application when the DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.MWA = new App(); // Assign to window for debugging (optional)
+    window.MWA = new App();
 });
