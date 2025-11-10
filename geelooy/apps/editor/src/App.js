@@ -41,8 +41,9 @@ class App {
         // Interaction Managers
         this.transformManager = new TransformManager(this.sceneManager.camera, this.sceneManager.renderer.domElement, this.sceneManager.scene, this.eventEmitter, this.historyManager, this.sceneManager.controls);
         this.inputManager = new InputManager(this.sceneManager.renderer.domElement, this.eventEmitter, this.objectManager, this.transformManager, this.sceneManager.camera);
-        this.editModeManager = new EditModeManager(this.sceneManager.scene, this.eventEmitter, this.historyManager, this.objectManager, this.transformManager.transformControls, this.sceneManager.controls);
-
+        this.editModeManager = new EditModeManager(this.sceneManager.scene, this.eventEmitter, this.historyManager, this.objectManager, this.transformManager);
+        
+        
         // UI Manager (must be after others)
         this.uiManager = new UIManager(HTML.id('ui-container'), this.eventEmitter, this.objectManager, this.timelineManager, this.transformManager, this.historyManager);
 
@@ -58,9 +59,9 @@ class App {
         console.log('B\"H\n - Application Initialized');
     }
     
-    connectEventListeners() {
+     connectEventListeners() {
         this.eventEmitter.on('selectionChanged', (selectedIds, activeId) => {
-            // ** FIX: Only update object-level gizmo and outlines if NOT in edit mode **
+            // ** THIS IS A KEY CHANGE: Only update object transform in OBJECT mode **
             if (this.appMode === 'OBJECT') {
                 const objects = this.objectManager.getObjectsByIds(selectedIds);
                 const activeObj = activeId ? this.objectManager.getObjectByUUID(activeId) : null;
@@ -69,24 +70,32 @@ class App {
             }
         });
 
+        // The App now routes pointer events
+	    this.sceneManager.renderer.domElement.addEventListener('pointerdown', this.onPointerDown.bind(this));
+
         this.eventEmitter.on('exportGLBRequest', this.exportSelectedGLB.bind(this));
         this.eventEmitter.on('toggleEditModeRequest', this.toggleEditMode.bind(this));
         
-        this.sceneManager.renderer.domElement.addEventListener('pointerdown', (event) => {
-            if (this.appMode === 'EDIT' && event.target === this.sceneManager.renderer.domElement && !this.transformManager.isDragging) {
-                const mouse = new THREE.Vector2();
-                const rect = this.sceneManager.renderer.domElement.getBoundingClientRect();
-                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-                mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-                this.editModeManager.handlePointerDown(mouse, this.sceneManager.camera);
-            }
-        });
-        
+        // This listener is for when a vertex is moved, ensuring the gizmo follows
         this.eventEmitter.on('geometryChanged', ({ uuid }) => {
             if (this.appMode === 'EDIT' && this.editModeManager.targetObject?.uuid === uuid) {
-                this.editModeManager._attachTransformToSelection();
+                this.editModeManager.updateGizmoPosition();
             }
         });
+    }
+
+    onPointerDown(event) {
+        // If the gizmo is being dragged, do nothing. It will handle its own events.
+        if (this.transformManager.transformControls.axis) {
+            return;
+        }
+
+        // Delegate the event to the correct manager based on the current app mode.
+        if (this.appMode === 'EDIT') {
+            this.editModeManager.handlePointerDown(event);
+        } else {
+            this.inputManager.handlePointerDown(event);
+        }
     }
 
     toggleEditMode() {
@@ -94,23 +103,20 @@ class App {
             const selected = this.objectManager.getSelectedObjects();
             if (selected.length === 1 && selected[0].isMesh) {
                 this.appMode = 'EDIT';
-                
-                // Clear object-level visuals BEFORE entering edit mode
-                this.updateSimpleOutlines([], null); 
-                this.transformManager.updateSelection([], null);
-                this.objectManager.clearSelection(false); // Clear selection state without firing another event
-                
+                this.updateSimpleOutlines([], null); // Clear object outlines
+                // EditModeManager's enter() will correctly configure TransformManager
                 this.editModeManager.enter(selected[0]);
-             //   this.sceneManager.controls.enabled = false;
             }
         } else {
             this.appMode = 'OBJECT';
             const editedObject = this.editModeManager.targetObject;
-            this.editModeManager.exit();
             
-            this.sceneManager.controls.enabled = true;
+            // This call is crucial: it resets TransformManager's mode to 'OBJECT'
+            this.editModeManager.exit(); 
             
-            // After exiting, re-select the object to restore its outline and transform gizmo
+            // After the state is correct, re-selecting the object will
+            // trigger the 'selectionChanged' event, which now correctly
+            // calls transformManager.updateSelection() in 'OBJECT' mode.
             if (editedObject) {
                 this.objectManager.selectObject(editedObject.uuid, true);
             }
@@ -375,14 +381,18 @@ cleanupOutlines() {
         }
     }
 
-    animate(time) {
+     animate(time) {
         requestAnimationFrame(this.animate);
 
         const delta = this.sceneManager.clock.getDelta();
-        const currentTime = this.timelineManager.currentTime; // Get time from timeline
+        const currentTime = this.timelineManager.currentTime;
 
-        // Update components that need animation frame updates
-        this.transformManager.update(); // Handles TransformControls updates
+        // ** THIS LINE IS THE ERROR. REMOVE IT. **
+        // this.transformManager.update(); // Handles TransformControls updates
+
+        // The TransformControls are updated automatically by the renderer and event listeners,
+        // so an explicit call here is not needed and causes the crash.
+
         this.timelineManager.update(currentTime, delta); // Updates animator which applies keyframes
 
         // Render the scene

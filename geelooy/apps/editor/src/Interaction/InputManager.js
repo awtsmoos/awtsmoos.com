@@ -27,11 +27,9 @@ export class InputManager {
         console.log('B"H\n - InputManager Initialized with new keybindings');
     }
 
-    setupEventListeners() {
-        this.domElement.addEventListener('pointerdown', this.onPointerDown.bind(this), false);
-        this.domElement.addEventListener('pointermove', this.onPointerMove.bind(this), false);
-        this.domElement.addEventListener('pointerup', this.onPointerUp.bind(this), false);
+   setupEventListeners() {
         
+
         // --- Keyboard Listeners ---
         window.addEventListener('keydown', this.onKeyDown.bind(this));
         window.addEventListener('keyup', this.onKeyUp.bind(this));
@@ -186,5 +184,16 @@ export class InputManager {
         // Parenting
         if (this.checkBinding(event, Keybindings.PARENT_SET)) this.eventEmitter.emit('groupSelectedRequest');
         if (this.checkBinding(event, Keybindings.PARENT_CLEAR)) this.eventEmitter.emit('ungroupSelectedRequest');
+    }
+    
+     handlePointerDown(event) {
+        // If the gizmo is being dragged, let it do its thing.
+        if (this.transformManager.isDragging || this.transformManager.transformControls.axis) {
+            return;
+        }
+
+        // Perform the object selection raycast.
+        this.updateMouseCoordinates(event);
+        this.performRaycastSelection(event.shiftKey);
     }
 }
