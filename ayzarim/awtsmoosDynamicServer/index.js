@@ -41,7 +41,7 @@ var {
 	binaryMimeTypes,
 	mimeTypes
 } = require("./mimes.js");
-const { startCleanupWorker } = require('../cleanup-worker.js');
+const { startTaskRunner } = require('../cleanup-worker.js');
 
 
 var self = null;
@@ -123,7 +123,7 @@ class AwtsmoosStaticServer {
 			this.db = db;
 			
 			// After the database is confirmed to be initialized, start the cleanup worker.
-		        startCleanupWorker(this.db);
+		        startTaskRunner(this.db);;
 			if (typeof(config.secret) == "string") {
 				var sec = null;
 				
