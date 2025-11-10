@@ -1,6 +1,7 @@
 /**
  * B"H
  */
+ var crypto = require('crypto');
 var getProperContent = require("./getProperContent.js")
 var di = require("./DependencyInjector.js")
 let {
@@ -311,7 +312,8 @@ class AwtsmoosResponse {
 		if (request.isAwtsmoosFileStatusRequest) {
 		    const results = {
 		        logicModified: null,
-		        dataModified: null
+		        dataModified: null,
+				stateHash: null // Our new field for session state
 		    };
 		
 		    // 1. Get the status of the LOGIC file (_awtsmoos.derech.js)
@@ -326,8 +328,18 @@ class AwtsmoosResponse {
 		    if (request.awtsmoosDataSourceStat) {
 		        results.dataModified = request.awtsmoosDataSourceStat.mtime.getTime();
 		    }
+	
+			// 3.  Generate a hash of the session cookie to track state changes
+			const sessionCookie = request.cookies && request.cookies.awtsmoosKey;
+			if (sessionCookie) {
+				// If the cookie exists, create a secure hash of its value.
+				results.stateHash = crypto.createHash('sha256').update(sessionCookie).digest('hex');
+			} else {
+				// Use a consistent, static string for the "logged-out" state.
+				results.stateHash = 'awtsmoos-logged-out';
+			}
 		
-		    // 3. Return the combined JSON result
+		    // 4. Return the combined JSON result
 		    this.ended = true;
 		    return {
 		        responseType: 'application/json',

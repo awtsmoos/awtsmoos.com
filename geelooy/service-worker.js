@@ -117,7 +117,8 @@ async function handleFetch(request) {
 
         const localMeta = await MetadataDB.get(request.url);
         const isStale = (serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
-                        (serverMeta.dataModified > (localMeta?.dataModified || 0));
+                    (serverMeta.dataModified > (localMeta?.dataModified || 0)) ||
+                    (serverMeta.stateHash !== localMeta?.stateHash);
 
         if (isStale) {
             console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');

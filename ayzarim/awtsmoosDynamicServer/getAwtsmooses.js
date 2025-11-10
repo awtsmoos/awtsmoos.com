@@ -367,7 +367,7 @@ async function doEverything() {
 			.responseInfo;
 
 		try {
-
+			response.setHeader('Vary', 'Cookie');
 			if (!res.actualResponse) {
 				return errorMessage.bind(this)({
 					message: "No actual response",

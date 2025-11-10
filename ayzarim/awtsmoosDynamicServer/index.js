@@ -35,7 +35,7 @@ var awtsMoosification = "_awtsmoos.derech.js";
 var Ayzarim = require("./getAwtsmooses.js"); 
 var TemplateObjectGenerator = require("./TemplateObjectGenerator.js")
 var sodos = require("../tools/sodos.js");
-
+var crypto = require('crypto');
 var doLogs = require("./doLogs.js");
 var {
 	binaryMimeTypes,
