@@ -7,7 +7,7 @@ const ikar = {
         "repo": "MerkavaASTParser"
     },
     "branch": "main",
-    "baseCommitSHA": "632d3d7bf4e2ab9a7ae2c65343fa3ee1463a3a0a",
+    "baseCommitSHA": "e037c048d8d604b1f45281d63cd1ec9bb1d5338a",
     "remoteTree": [
         {
             "path": "Lexer.js",
@@ -53,25 +53,25 @@ const ikar = {
             "path": "parser-declarations.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "92f42097c1cfce84040ab53c973b26e0823bf4f5",
-            "size": 28228,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/92f42097c1cfce84040ab53c973b26e0823bf4f5"
+            "sha": "0b1a98359a36dd7263dfd8bbd51223ed11c6e50d",
+            "size": 28299,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/0b1a98359a36dd7263dfd8bbd51223ed11c6e50d"
         },
         {
             "path": "parser-expressions.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "f4c9146ff8484066ec9b7203d6bf94baffb6eef0",
-            "size": 36052,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/f4c9146ff8484066ec9b7203d6bf94baffb6eef0"
+            "sha": "598cdac989a9dcfe39c86faa1e8dc99d7e6f4ad6",
+            "size": 36121,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/598cdac989a9dcfe39c86faa1e8dc99d7e6f4ad6"
         },
         {
             "path": "parser-statements.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "2cb2bd5df1c0b85ce3c261d876265f6bb4dd730e",
-            "size": 12179,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/2cb2bd5df1c0b85ce3c261d876265f6bb4dd730e"
+            "sha": "df9c618a32a24f3cc8e47cd846eadf5793ed7788",
+            "size": 12249,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/df9c618a32a24f3cc8e47cd846eadf5793ed7788"
         },
         {
             "path": "readme.md",
