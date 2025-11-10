@@ -425,51 +425,27 @@ export class ObjectManager {
     }
 
     /** Handles clicks detected on objects in the viewport or tree. */
-    handleObjectClicked(intersectedObject) {
-        console.log("B\"H handleObjectClicked received:", intersectedObject?.name);
-        if (!intersectedObject) { // Should not happen if event sends object, but safety check
-             if (!this.multipleSelectionEnabled) this.clearSelection();
+     handleObjectClicked(objectToSelect) {
+        console.log("B\"H handleObjectClicked received:", objectToSelect?.name);
+        if (!objectToSelect || !this.objects.has(objectToSelect.uuid) || !objectToSelect.userData?.isSelectable) {
+            console.log("B\"H Clicked object not selectable/managed:", objectToSelect?.name);
+            if (!this.multipleSelectionEnabled) this.clearSelection();
             return;
         }
 
-        // Find highest selectable ancestor managed by this manager
-        let objectToSelect = intersectedObject;
-        while (objectToSelect.parent && objectToSelect.parent !== this.scene && this.objects.has(objectToSelect.parent.uuid) && objectToSelect.parent.userData?.isSelectable) {
-             objectToSelect = objectToSelect.parent;
-        }
-
-        // Ensure the final target is valid
-        if (!objectToSelect || !this.objects.has(objectToSelect.uuid) || !objectToSelect.userData?.isSelectable) {
-             console.log("B\"H Clicked object or ancestor not selectable/managed:", intersectedObject.name);
-             if (!this.multipleSelectionEnabled) this.clearSelection(); // Deselect if clicking invalid object in single mode
-             return;
-        }
-
         const uuid = objectToSelect.uuid;
-        const objRef = this.objects.get(uuid); // Use reference for events
+        const objRef = this.objects.get(uuid);
         const isSelected = this.selectedObjectUUIDs.has(uuid);
         let selectionActuallyChanged = false;
         let activeActuallyChanged = false;
 
         if (this.multipleSelectionEnabled) {
-            // Multi-select mode: clicking makes active OR adds/makes active
             if (isSelected) {
-                // If already selected, just make it active if it wasn't already
                 if (this.activeObjectUUID !== uuid) {
                      this.activeObjectUUID = uuid;
                      activeActuallyChanged = true;
                 }
-                 // --- OR Toggle Behaviour (Uncomment to enable toggle off) ---
-                 // this.selectedObjectUUIDs.delete(uuid);
-                 // this.eventEmitter.emit('objectDeselected', objRef);
-                 // selectionActuallyChanged = true;
-                 // if (this.activeObjectUUID === uuid) { // If removing active, update active
-                 //     this.activeObjectUUID = this.selectedObjectUUIDs.size > 0 ? Array.from(this.selectedObjectUUIDs).pop() : null;
-                 //     activeActuallyChanged = true;
-                 // }
-                 // --- End Toggle Behaviour ---
             } else {
-                // If not selected, add it and make it active
                 this.selectedObjectUUIDs.add(uuid);
                 this.eventEmitter.emit('objectSelected', objRef);
                 this.activeObjectUUID = uuid;
@@ -477,32 +453,27 @@ export class ObjectManager {
                 activeActuallyChanged = true;
             }
         } else {
-            // Single-select mode: clear others, select this one, make active
             if (!isSelected || this.selectedObjectUUIDs.size > 1) {
                  const previouslySelectedUUIDs = Array.from(this.selectedObjectUUIDs);
-                 this.selectedObjectUUIDs.clear(); // Clear set first
-                 // Emit deselect events for previously selected items
+                 this.selectedObjectUUIDs.clear();
                  previouslySelectedUUIDs.forEach(prevUUID => {
-                     if (prevUUID !== uuid) { // Don't emit deselect for the one we are selecting now
+                     if (prevUUID !== uuid) {
                          this.eventEmitter.emit('objectDeselected', this.objects.get(prevUUID));
                      }
                  });
 
-                 // Now add the new one
                  this.selectedObjectUUIDs.add(uuid);
                  this.eventEmitter.emit('objectSelected', objRef);
                  this.activeObjectUUID = uuid;
                  selectionActuallyChanged = true;
                  activeActuallyChanged = true;
             }
-            // If clicking the already solely selected object, ensure it's active
              else if (isSelected && this.selectedObjectUUIDs.size === 1 && this.activeObjectUUID !== uuid) {
                  this.activeObjectUUID = uuid;
                  activeActuallyChanged = true;
              }
         }
 
-        // Emit the final combined selection event if anything changed
         if (selectionActuallyChanged || activeActuallyChanged) {
             this.emitSelectionChange();
         }

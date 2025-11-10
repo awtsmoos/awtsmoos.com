@@ -27,7 +27,7 @@ import {
 	Quaternion,
 	REVISION,
 	ImageUtils
-} from 'three';
+} from '/games/scripts/build/three.module.js';
 
 /**
  * The KHR_mesh_quantization extension allows these extra attribute component types

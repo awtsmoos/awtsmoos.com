@@ -18,53 +18,39 @@ export const HTML = {
      * @returns {HTMLElement} The created HTML element.
      */
     create(config) {
-        var el;
-        if(config instanceof HTMLCollection) {
-            var ar = Array.from(config);
-            ar.forEach(q => {
-                el = document.createElement("div");
-                q.parent = el
-                HTML.create(q)
-            })
-        } else
-        if(config instanceof Node) {
-            el = config;
-        } else
+        let el;
+
+        if (config instanceof Node) {
+            return config;
+        }
         if (typeof config === 'string') {
             return document.createTextNode(config);
-        } else
+        }
         if (!config || !config.tag) {
             console.warn('HTML.create: Invalid config', config);
-            return document.createDocumentFragment(); // Return empty fragment on error
-        } else
+            return document.createDocumentFragment();
+        }
 
         el = document.createElement(config.tag);
 
         if (config.id) el.id = config.id;
+        
+        // ** FIX: Correctly handle space-separated class strings **
         if (config.class) {
+            let classes = [];
             if (Array.isArray(config.class)) {
-                // *** ADD FILTERING HERE ***
-                // Filter out any empty strings or non-string values before adding
-                const validClasses = config.class.filter(cls => typeof cls === 'string' && cls.trim() !== '');
-                if (validClasses.length > 0) {
-                    el.classList.add(...validClasses);
-                }
-            } else if (typeof config.class === 'string' && config.class.trim() !== '') {
-                // Also ensure single class string isn't empty/whitespace
-                el.className = config.class;
+                classes = config.class;
+            } else if (typeof config.class === 'string') {
+                classes = config.class.split(' '); // Split the string by spaces
             }
+            el.classList.add(...classes.filter(Boolean)); // Filter out any empty strings from multiple spaces
         }
+
         if (config.text !== undefined && config.text !== null) {
-             el.textContent = config.text;
+            el.textContent = config.text;
         }
         if (config.style) {
-            var keys = Object.keys(config.style)
-            for(var key of keys) {
-                try {
-                    el.style[key] = config.style[key]
-                } catch(e) {}
-            }
-      //      Object.assign(el.style, config.style);
+            Object.assign(el.style, config.style);
         }
         if (config.attrs) {
             for (const [key, value] of Object.entries(config.attrs)) {
@@ -78,24 +64,20 @@ export const HTML = {
                 }
             }
         }
+        
         if (config.children) {
             const children = Array.isArray(config.children) ? config.children : [config.children];
             children.forEach(childConfig => {
-                if (childConfig) { // Handle null/undefined children gracefully
-                    childConfig.parent = el;
-                     const childEl = this.create(childConfig);
-                     if(childEl instanceof Node)
-                        el.appendChild(childEl);
+                if (childConfig) {
+                    const childEl = this.create(childConfig);
+                    el.appendChild(childEl);
                 }
             });
-        }
-        if(config.parent) {
-            if(el instanceof Node)
-                config?.parent?.appendChild?.(el);
         }
 
         return el;
     },
+
 
     /**
      * Clears all child nodes from an element.
