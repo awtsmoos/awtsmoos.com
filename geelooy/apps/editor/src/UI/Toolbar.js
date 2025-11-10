@@ -72,34 +72,37 @@ export class Toolbar {
     }
 
     _setupEventListeners() {
-        this.eventEmitter.on('historyChanged', this.updateHistoryButtons.bind(this));
-        this.eventEmitter.on('selectionChanged', this.updateSelectionBasedButtons.bind(this));
-        this.eventEmitter.on('transformModeChanged', this.updateTransformButtons.bind(this));
-        this.eventEmitter.on('editModeEntered', () => this.setMode('edit'));
-        this.eventEmitter.on('editModeExited', () => this.setMode('object'));
-        // B"H: Listen for selection mode changes from the manager
-        this.eventEmitter.on('editSelectionModeChanged', this.updateEditModeButtons.bind(this));
-        
-        this.buttons.toggleEditMode.addEventListener('click', () => this.eventEmitter.emit('toggleEditModeRequest'));
-        this.buttons.create.addEventListener('click', () => this.eventEmitter.emit('createPrimitiveRequest', this.buttons.primitive.value));
-        this.buttons.loadGlb.addEventListener('click', this._handleLoadGLB.bind(this));
-        this.buttons.exportGlb.addEventListener('click', () => this.eventEmitter.emit('exportGLBRequest'));
-        this.buttons.group.addEventListener('click', () => this.eventEmitter.emit('groupSelectedRequest'));
-        this.buttons.ungroup.addEventListener('click', () => this.eventEmitter.emit('ungroupSelectedRequest'));
-        this.buttons.delete.addEventListener('click', () => this.eventEmitter.emit('deleteSelectedRequest'));
-        this.buttons.multiSelect.addEventListener('click', this._toggleMultiSelect.bind(this));
-        
-        const setTransformMode = (mode) => this.eventEmitter.emit('setTransformMode', mode);
-        this.buttons.translate.addEventListener('click', () => setTransformMode('translate'));
-        this.buttons.rotate.addEventListener('click', () => setTransformMode('rotate'));
-        this.buttons.scale.addEventListener('click', () => setTransformMode('scale'));
-
-        // B"H: Add listeners for edit mode buttons
-        const setEditSelectionMode = (mode) => this.eventEmitter.emit('setEditSelectionMode', mode);
-        this.buttons.editVertex.addEventListener('click', () => setEditSelectionMode('VERTEX'));
-        this.buttons.editEdge.addEventListener('click', () => setEditSelectionMode('EDGE'));
-        this.buttons.editFace.addEventListener('click', () => setEditSelectionMode('FACE'));
-    }
+	    this.eventEmitter.on('historyChanged', this.updateHistoryButtons.bind(this));
+	    this.eventEmitter.on('selectionChanged', this.updateSelectionBasedButtons.bind(this));
+	    this.eventEmitter.on('transformModeChanged', this.updateTransformButtons.bind(this));
+	    this.eventEmitter.on('editModeEntered', () => this.setMode('edit'));
+	    this.eventEmitter.on('editModeExited', () => this.setMode('object'));
+	    this.eventEmitter.on('editSelectionModeChanged', this.updateEditModeButtons.bind(this));
+	    
+	    this.buttons.toggleEditMode.addEventListener('click', () => this.eventEmitter.emit('toggleEditModeRequest'));
+	    this.buttons.create.addEventListener('click', () => this.eventEmitter.emit('createPrimitiveRequest', this.buttons.primitive.value));
+	    this.buttons.loadGlb.addEventListener('click', this._handleLoadGLB.bind(this));
+	    this.buttons.exportGlb.addEventListener('click', () => this.eventEmitter.emit('exportGLBRequest'));
+	    this.buttons.group.addEventListener('click', () => this.eventEmitter.emit('groupSelectedRequest'));
+	    this.buttons.ungroup.addEventListener('click', () => this.eventEmitter.emit('ungroupSelectedRequest'));
+	    this.buttons.delete.addEventListener('click', () => this.eventEmitter.emit('deleteSelectedRequest'));
+	    this.buttons.multiSelect.addEventListener('click', this._toggleMultiSelect.bind(this));
+	    
+	    // B"H FIX: Add the missing click listener for the subdivide button
+	    if (this.buttons.subdivide) {
+	        this.buttons.subdivide.addEventListener('click', () => this.eventEmitter.emit('subdivideRequest'));
+	    }
+	    
+	    const setTransformMode = (mode) => this.eventEmitter.emit('setTransformMode', mode);
+	    this.buttons.translate.addEventListener('click', () => setTransformMode('translate'));
+	    this.buttons.rotate.addEventListener('click', () => setTransformMode('rotate'));
+	    this.buttons.scale.addEventListener('click', () => setTransformMode('scale'));
+	
+	    const setEditSelectionMode = (mode) => this.eventEmitter.emit('setEditSelectionMode', mode);
+	    this.buttons.editVertex.addEventListener('click', () => setEditSelectionMode('VERTEX'));
+	    this.buttons.editEdge.addEventListener('click', () => setEditSelectionMode('EDGE'));
+	    this.buttons.editFace.addEventListener('click', () => setEditSelectionMode('FACE'));
+	}
     
     _handleLoadGLB() {
         const fileInput = HTML.create({ tag: 'input', attrs: { type: 'file', accept: '.glb,.gltf' }, style: { display: 'none' }, on: { change: (e) => {
@@ -120,23 +123,33 @@ export class Toolbar {
         if(this.buttons.redo) this.buttons.redo.disabled = !canRedo;
     }
 
-    updateSelectionBasedButtons(selectedUUIDs) {
-        if (this.isInEditMode) {
-            this.buttons.toggleEditMode.disabled = false;
-        } else {
-            const count = selectedUUIDs.length;
-            const canEnterEditMode = count === 1 && this.objectManager.getObjectByUUID(selectedUUIDs[0])?.isMesh;
-            this.buttons.toggleEditMode.disabled = !canEnterEditMode;
+    
+	updateSelectionBasedButtons(selectedUUIDs) {
+    if (this.isInEditMode) {
+        this.buttons.toggleEditMode.disabled = false;
+        
+        // B"H FIX: Enable subdivide button if any implicit or explicit faces are selected
+        const em = window.MWA.editModeManager;
+        const selectedFaces = em._getCurrentlySelectedFaces();
+        const canSubdivide = em.isActive && selectedFaces.size > 0;
+        if (this.buttons.subdivide) this.buttons.subdivide.disabled = !canSubdivide;
 
-            if(this.buttons.delete) this.buttons.delete.disabled = count === 0;
-            if(this.buttons.exportGlb) this.buttons.exportGlb.disabled = count !== 1;
-            if(this.buttons.group) this.buttons.group.disabled = count < 2;
+    } else {
+        const count = selectedUUIDs.length;
+        const canEnterEditMode = count === 1 && this.objectManager.getObjectByUUID(selectedUUIDs[0])?.isMesh;
+        this.buttons.toggleEditMode.disabled = !canEnterEditMode;
 
-            const selectedObjects = this.objectManager.getObjectsByIds(selectedUUIDs);
-            const canUngroup = selectedObjects.some(obj => obj.parent && obj.parent !== this.objectManager.scene);
-            if(this.buttons.ungroup) this.buttons.ungroup.disabled = !canUngroup;
-        }
+        if(this.buttons.delete) this.buttons.delete.disabled = count === 0;
+        if(this.buttons.exportGlb) this.buttons.exportGlb.disabled = count !== 1;
+        if(this.buttons.group) this.buttons.group.disabled = count < 2;
+
+        const selectedObjects = this.objectManager.getObjectsByIds(selectedUUIDs);
+        const canUngroup = selectedObjects.some(obj => obj.parent && obj.parent !== this.objectManager.scene);
+        if(this.buttons.ungroup) this.buttons.ungroup.disabled = !canUngroup;
+        
+        if(this.buttons.subdivide) this.buttons.subdivide.disabled = true;
     }
+}
 
     updateTransformButtons(mode) {
         this.buttons.translate.classList.toggle('active', mode === 'translate');
