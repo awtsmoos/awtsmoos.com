@@ -552,11 +552,11 @@ function getToBlobPromise( canvas, mimeType ) {
 		// Use the Blink default quality levels of toBlob instead so that file sizes are comparable.
 		if ( mimeType === 'image/jpeg' ) {
 
-			quality = 0.92;
+			quality = 1;
 
 		} else if ( mimeType === 'image/webp' ) {
 
-			quality = 0.8;
+			quality = 1;
 
 		}
 
@@ -766,7 +766,10 @@ class GLTFWriter {
 	 * @param {Object} objectDef
 	 */
 	serializeUserData( object, objectDef ) {
-
+		if(!object.userData) {
+		 object.userData = {};
+		// console.log("adding to",object);
+		}
 		if ( Object.keys( object.userData ).length === 0 ) return;
 
 		const options = this.options;

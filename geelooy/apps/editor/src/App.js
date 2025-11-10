@@ -192,35 +192,55 @@ cleanupOutlines() {
         if (selectedObjects.length !== 1) { return; }
         const objectToExport = selectedObjects[0];
 
-        // --- NEW, PRECISE WORKFLOW ---
-
-        // 1. Create the temporary scene and the clone FIRST.
-        const tempScene = new THREE.Scene();
+        // 1. Create a clone.
         const clone = objectToExport.clone();
 
-        // 2. Generate the animation clip using THE CLONE.
-        //    This guarantees the track names ("Box.position") perfectly match
-        //    the object the exporter will see in the scene.
-        //    NOTE: For this to work, the TimelineManager must be able to find the layer
-        //    using the ORIGINAL object's UUID, which we pass through.
-        const animationClip = this.generateAnimationClipForObject(objectToExport, clone); // Pass both
-
-        // 3. Add the clone to the scene.
-        tempScene.add(clone);
-
-        // 4. Attach the generated animation to the scene's top-level animations array.
-        if (animationClip) {
-            tempScene.animations.push(animationClip);
+        // 2. Clean the clone by removing the editor-only outline mesh.
+        for (let i = clone.children.length - 1; i >= 0; i--) {
+            if (clone.children[i].userData.isOutline) {
+                clone.remove(clone.children[i]);
+            }
         }
 
-        console.log("B\"H --- Attempting Export ---");
-        console.log("Exporting Scene:", tempScene);
-        console.log("Object being exported:", clone);
-        console.log("Animation Clip being exported:", animationClip);
+        // 3. *** NEW STEP: Convert materials to MeshLambertMaterial for export ***
+        // We traverse the cleaned clone to find every mesh within it.
+        clone.traverse((node) => {
+            if (node.isMesh && node.material) {
+                // Get the original material from the node
+                const originalMaterial = node.material;
 
+                // Create a new Lambert material
+                const lambertMaterial = new THREE.MeshLambertMaterial();
+
+                // Copy the essential properties you want to preserve
+                lambertMaterial.color.copy(originalMaterial.color);
+                lambertMaterial.map = originalMaterial.map; // Preserves the main texture
+                
+                // You can copy other properties as needed, for example:
+                // lambertMaterial.opacity = originalMaterial.opacity;
+                // lambertMaterial.transparent = originalMaterial.transparent;
+
+                // Replace the material on this specific mesh within the clone
+                node.material = lambertMaterial;
+            }
+        });
+
+        // 4. Add the clean clone (now with Lambert materials) to a temporary scene.
+        const tempScene = new THREE.Scene();
+        tempScene.add(clone);
+
+        // 5. Generate and sanitize the animation clip. This part is now correct.
+        const animationClip = this.generateAnimationClipForObject(objectToExport, clone);
+        if (animationClip) {
+            animationClip.userData = {}; // Ensure userData exists on the clip
+            tempScene.animations = [animationClip];
+        }
 
         const exporter = new GLTFExporter();
-        const options = { binary: true };
+        const options = {
+            binary: true,
+            animations: tempScene.animations
+        };
 
         exporter.parse(
             tempScene,
@@ -229,7 +249,7 @@ cleanupOutlines() {
                     const blob = new Blob([result], { type: 'application/octet-stream' });
                     const filename = `${objectToExport.name || 'export'}.glb`;
                     this.saveBlob(blob, filename);
-                    console.log("B\"H --- EXPORT SUCCEEDED (check file for animations) ---");
+                    console.log('B\"H \n--- EXPORT SUCCEEDED with Lambert-style materials! ---');
                 }
             },
             (error) => {
@@ -238,34 +258,34 @@ cleanupOutlines() {
             options
         );
     }
-    
-    // --- We need a small modification to generateAnimationClipForObject to accept the clone ---
+
+
+    // This function is now correct because it uses the clone's name for the tracks.
+    // The sanitization step in the main function will handle any remaining issues.
     generateAnimationClipForObject(originalObject, objectForNaming) {
-        // Find the animation layer using the original object's UUID
         const layer = this.timelineManager.getLayer(originalObject.uuid);
         if (!layer || layer.tracks.size === 0) {
             return null;
         }
 
-        // Use the name from the object we are actually exporting (the clone)
         const objectName = objectForNaming.name;
-
         const finalTracks = [];
         const trackGroups = {};
 
-        // (The rest of this function's logic is IDENTICAL, but uses `objectName` instead of `object.name`)
         layer.tracks.forEach((track, propertyPath) => {
-             // ... same logic
             if (track.keyframes.length === 0) return;
             const pathParts = propertyPath.split('.');
             const baseName = pathParts[0];
             const component = pathParts.length > 1 ? pathParts[1] : null;
             if (!trackGroups[baseName]) { trackGroups[baseName] = {}; }
-            if (component) { trackGroups[baseName][component] = track; } else { trackGroups[baseName].single = track; }
+            if (component) { trackGroups[baseName][component] = track; }
+            else { trackGroups[baseName].single = track; }
         });
+
         for (const baseName in trackGroups) {
             const group = trackGroups[baseName];
             if (baseName === 'material') { continue; }
+
             if (baseName === 'position' || baseName === 'scale') {
                 const componentTracks = ['x', 'y', 'z'].map(axis => group[axis]);
                 if (componentTracks.some(t => t)) {
@@ -282,6 +302,7 @@ cleanupOutlines() {
                     const track = new VectorKeyframeTrack(`${objectName}.${baseName}`, sortedTimes, values);
                     track.userData = {};
                     finalTracks.push(track);
+                    finalTracks.userData = {};
                 }
             } else if (baseName === 'rotation') {
                 const componentTracks = ['x', 'y', 'z'].map(axis => group[axis]);
@@ -298,24 +319,22 @@ cleanupOutlines() {
                         values.push(tempQuat.x, tempQuat.y, tempQuat.z, tempQuat.w);
                     });
                     const track = new QuaternionKeyframeTrack(`${objectName}.quaternion`, sortedTimes, values);
-                    track.userData = {};
                     finalTracks.push(track);
                 }
-            } else if (group.single) {
-                const singleTrack = group.single;
-                const times = singleTrack.keyframes.map(kf => kf.time);
-                const values = singleTrack.keyframes.map(kf => kf.value);
-                const track = new NumberKeyframeTrack(`${objectName}.${singleTrack.propertyPath}`, times, values);
-                track.userData = {};
-                finalTracks.push(track);
             }
         }
+
         if (finalTracks.length > 0) {
             const duration = this.timelineManager.endTime;
             const clip = new AnimationClip('Action', duration, finalTracks);
+
+            // *** THIS IS THE SOLUTION ***
+            // The GLTFExporter requires the AnimationClip itself to have a userData object.
             clip.userData = {};
+
             return clip;
         }
+
         return null;
     }
     
