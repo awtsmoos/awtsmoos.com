@@ -12,12 +12,14 @@ export class TransformManager {
         
         this.transformStartState = null;
         
-        this.transformControls.setSize(1.5);
+        ;
         
         this.historyManager = historyManager; // For transform commands
         this.orbitControls = orbitControls; // Store orbit controls
 
         this.transformControls = new TransformControls(camera, domElement);
+        this.transformControls.setSize(1.5);
+        
         this.transformControls.enabled = false; // Enable only when object is selected
         this.transformControls.visible = false;
         this.scene.add(this.transformControls);
