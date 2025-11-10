@@ -16,55 +16,49 @@ export class Toolbar {
         this._setupEventListeners();
     }
 
-    _createElement() {
-        const primitiveOptions = ['Box', 'Sphere', 'Plane', 'Cylinder', 'Cone', 'Torus']
-            .map(type => ({ tag: 'option', attrs: { value: type }, text: type }));
+    // In Toolbar.js, replace the whole _createElement method
 
-        this.buttons.undo = HTML.create({ tag: 'button', id: 'btn-undo', text: 'Undo', attrs: { disabled: true } });
-        this.buttons.redo = HTML.create({ tag: 'button', id: 'btn-redo', text: 'Redo', attrs: { disabled: true } });
-        this.buttons.createPrimitive = HTML.create({ tag: 'button', id: 'btn-create', text: 'Add' });
-        this.buttons.primitiveSelect = HTML.create({ tag: 'select', id: 'select-primitive', children: primitiveOptions });
-        this.buttons.loadGLB = HTML.create({ tag: 'button', id: 'btn-load-glb', text: 'Load GLB' });
-        this.buttons.group = HTML.create({ tag: 'button', id: 'btn-group', text: 'Group (Parent)', attrs: { disabled: true } });
-        this.buttons.ungroup = HTML.create({ tag: 'button', id: 'btn-ungroup', text: 'Ungroup', attrs: { disabled: true } });
-        this.buttons.delete = HTML.create({ tag: 'button', id: 'btn-delete', text: 'Delete', attrs: { disabled: true } });
-        this.buttons.multiSelect = HTML.create({ tag: 'button', id: 'btn-multi-select', text: 'Multi-Select: OFF' });
+_createElement() {
+    this.buttons.undo = HTML.create({ tag: 'button', id: 'btn-undo', text: 'Undo', attrs: { disabled: true } });
+    this.buttons.redo = HTML.create({ tag: 'button', id: 'btn-redo', text: 'Redo', attrs: { disabled: true } });
+    this.buttons.createPrimitive = HTML.create({ tag: 'button', id: 'btn-create', text: 'Add' });
 
-        this.buttons.translate = HTML.create({ tag: 'button', id: 'btn-translate', text: 'Move (G)', class: 'active'});
-        this.buttons.rotate = HTML.create({ tag: 'button', id: 'btn-rotate', text: 'Rotate (R)' });
-        this.buttons.scale = HTML.create({ tag: 'button', id: 'btn-scale', text: 'Scale (S)' });
+    
+    this.buttons.primitiveSelect = HTML.create({ tag: 'select', id: 'select-primitive' });
+    const primitiveOptions = ['Box', 'Sphere', 'Plane', 'Cylinder', 'Cone', 'Torus'];
+    primitiveOptions.forEach(type => {
+        const option = HTML.create({ tag: 'option', attrs: { value: type }, text: type });
+        this.buttons.primitiveSelect.appendChild(option);
+    });
+    
+    this.buttons.loadGLB = HTML.create({ tag: 'button', id: 'btn-load-glb', text: 'Load GLB' });
+    this.buttons.group = HTML.create({ tag: 'button', id: 'btn-group', text: 'Group (Parent)', attrs: { disabled: true } });
+    this.buttons.ungroup = HTML.create({ tag: 'button', id: 'btn-ungroup', text: 'Ungroup', attrs: { disabled: true } });
+    this.buttons.delete = HTML.create({ tag: 'button', id: 'btn-delete', text: 'Delete', attrs: { disabled: true } });
+    this.buttons.multiSelect = HTML.create({ tag: 'button', id: 'btn-multi-select', text: 'Multi-Select: OFF' });
+    this.buttons.translate = HTML.create({ tag: 'button', id: 'btn-translate', text: 'Move (G)', class: 'active'});
+    this.buttons.rotate = HTML.create({ tag: 'button', id: 'btn-rotate', text: 'Rotate (R)' });
+    this.buttons.scale = HTML.create({ tag: 'button', id: 'btn-scale', text: 'Scale (S)' });
 
-        this.element = HTML.create({
-            tag: 'div',
-            id: 'toolbar',
-            class: 'panel top',
-            children: [
-                this.buttons.undo,
-                this.buttons.redo,
-                HTML.create({ tag: 'span', class:'separator'}),
-                this.buttons.createPrimitive,
-                this.buttons.primitiveSelect,
-                this.buttons.loadGLB,
-                HTML.create({ tag: 'span', class:'separator'}),
-                this.buttons.group,
-                this.buttons.ungroup,
-                this.buttons.delete,
-                this.buttons.multiSelect,
-                HTML.create({ tag: 'span', class:'separator'}),
-                this.buttons.translate,
-                this.buttons.rotate,
-                this.buttons.scale,
-            ]
-        });
+    this.element = HTML.create({
+        tag: 'div', id: 'toolbar', class: 'panel top',
+        children: [
+            this.buttons.undo, this.buttons.redo, HTML.create({ tag: 'span', class:'separator'}),
+            this.buttons.createPrimitive, this.buttons.primitiveSelect, this.buttons.loadGLB,
+            HTML.create({ tag: 'span', class:'separator'}), this.buttons.group, this.buttons.ungroup,
+            this.buttons.delete, this.buttons.multiSelect, HTML.create({ tag: 'span', class:'separator'}),
+            this.buttons.translate, this.buttons.rotate, this.buttons.scale,
+        ]
+    });
 
-        this.element.querySelectorAll('.separator').forEach(el => {
-            el.style.margin = '0 8px';
-            el.style.borderLeft = '1px solid #555';
-            el.style.display = 'inline-block';
-            el.style.height = '20px';
-            el.style.verticalAlign = 'middle';
-        });
-    }
+    this.element.querySelectorAll('.separator').forEach(el => {
+        el.style.margin = '0 8px';
+        el.style.borderLeft = '1px solid #555';
+        el.style.display = 'inline-block';
+        el.style.height = '20px';
+        el.style.verticalAlign = 'middle';
+    });
+}
 
     _setupEventListeners() {
         this.eventEmitter.on('historyChanged', this.updateHistoryButtons.bind(this));

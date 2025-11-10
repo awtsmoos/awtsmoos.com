@@ -35,8 +35,11 @@ export class UIManager {
         HTML.add(this.container, this.panels.objectTree.getElement());
 
         // Create Properties Panel
-        this.panels.properties = new PropertiesPanel(this.eventEmitter, this.objectManager, this.timelineManager);
+        this.panels.properties = new PropertiesPanel(this.eventEmitter, this.objectManager, this.timelineManager, this.historyManager);
         HTML.add(this.container, this.panels.properties.getElement());
+        
+        
+        
 
         // Create Timeline Panel
         this.panels.timeline = new TimelinePanel(this.eventEmitter, this.timelineManager);

@@ -4,14 +4,14 @@ import { HTML } from '../Core/HTML.js';
 import { BasePanel } from './BasePanel.js';
 import { Utils } from '../Core/Utils.js';
 import { Track } from '../Timeline/Track.js';
-import { SetPropertyCommand } from '../History/Commands/SetPropertyCommand.js'; // Make sure this import exists
+import { SetPropertyCommand } from '../History/Commands/SetPropertyCommand.js';
 
 export class PropertiesPanel extends BasePanel {
     constructor(eventEmitter, objectManager, timelineManager, historyManager) {
         super('properties-panel', 'Properties', eventEmitter);
         this.objectManager = objectManager;
         this.timelineManager = timelineManager;
-        this.historyManager = historyManager; // <-- Add historyManager
+        this.historyManager = historyManager; // Now correctly passed
         this.currentSelectionUUIDs = [];
         this.boundUpdateFields = Utils.debounce(this._updateFields.bind(this), 50);
 
@@ -19,7 +19,8 @@ export class PropertiesPanel extends BasePanel {
 
         this.eventEmitter.on('selectionChanged', this.handleSelectionChange.bind(this));
         this.eventEmitter.on('objectTransformed', this.boundUpdateFields);
-        this.eventEmitter.on('timeChanged', () => this.updateProperties()); // Force full redraw on time change to update keyframe buttons
+        // Redraw everything on time change to correctly update keyframe button states
+        this.eventEmitter.on('timeChanged', () => this.updateProperties());
     }
 
     populateContent() {
@@ -33,31 +34,18 @@ export class PropertiesPanel extends BasePanel {
 
     updateProperties() {
         HTML.clear(this.contentElement);
-
-        if (this.currentSelectionUUIDs.length === 0) {
-            this.populateContent();
+        if (this.currentSelectionUUIDs.length !== 1) {
+            this.setContent(HTML.create({ tag: 'div', text: this.currentSelectionUUIDs.length > 1 ? `${this.currentSelectionUUIDs.length} objects selected.` : 'Select an object.' }));
             return;
         }
-
-        if (this.currentSelectionUUIDs.length > 1) {
-            this.displayMultiSelectProperties();
-        } else {
-            const object = this.objectManager.getObjectByUUID(this.currentSelectionUUIDs[0]);
-            if (object) {
-                this.displaySingleObjectProperties(object);
-            } else {
-                this.setContent(HTML.create({ tag: 'div', text: 'Selected object not found.' }));
-            }
+        const object = this.objectManager.getObjectByUUID(this.currentSelectionUUIDs[0]);
+        if (object) {
+            this.displaySingleObjectProperties(object);
         }
     }
 
     displaySingleObjectProperties(object) {
         const content = [];
-
-        content.push(this._createPropertyGroup('Object', [
-            this._createTextInput(object, 'name', 'Name')
-        ]));
-
         content.push(this._createPropertyGroup('Transform', [
             this._createVector3Input(object, 'position', 'Position'),
             this._createVector3Input(object, 'rotation', 'Rotation'),
@@ -65,96 +53,63 @@ export class PropertiesPanel extends BasePanel {
         ]));
 
         if (object.material) {
-            const mat = object.material;
             const matProps = [];
-            if (mat.color !== undefined) matProps.push(this._createColorInput(object, 'color', 'Color', 'material'));
-            if (mat.opacity !== undefined) matProps.push(this._createNumberInput(object, 'opacity', 'Opacity', 'material', { min: 0, max: 1, step: 0.01 }));
-            if (matProps.length > 0) {
-                content.push(this._createPropertyGroup(`Material (${mat.type})`, matProps));
-            }
+            if (object.material.color !== undefined) matProps.push(this._createColorInput(object, 'material.color', 'Color'));
+            if (object.material.opacity !== undefined) matProps.push(this._createNumberInput(object, 'material.opacity', 'Opacity', { min: 0, max: 1, step: 0.01 }));
+            if (object.material.roughness !== undefined) matProps.push(this._createNumberInput(object, 'material.roughness', 'Roughness', { min: 0, max: 1, step: 0.01 }));
+            if (object.material.metalness !== undefined) matProps.push(this._createNumberInput(object, 'material.metalness', 'Metalness', { min: 0, max: 1, step: 0.01 }));
+            content.push(this._createPropertyGroup(`Material (${object.material.type})`, matProps));
         }
-
         this.setContent(content);
-    }
-    
-    displayMultiSelectProperties() {
-        this.setContent(HTML.create({ tag: 'div', text: `${this.currentSelectionUUIDs.length} objects selected. Multi-edit TBD.` }));
     }
 
     _createPropertyGroup(title, children) {
-        return HTML.create({tag: 'div', class: 'property-group', children: [
-            HTML.create({tag: 'h4', class: 'property-group-title', text: title}),
+        return HTML.create({ tag: 'div', class: 'property-group', children: [
+            HTML.create({ tag: 'h4', class: 'property-group-title', text: title }),
             ...children
         ]});
     }
 
-    _createKeyframeButton(objectUUID, propertyPath) {
-        const layer = this.timelineManager.getLayer(objectUUID);
-        const track = layer?.getTrack(propertyPath);
-        const hasKeyframe = track?.getKeyframeAt(this.timelineManager.getCurrentTime()) !== null;
-
+    _createKeyframeButton(object, propertyPath) {
+        const layer = this.timelineManager.getLayer(object.uuid);
+        const hasKeyframe = layer?.getTrack(propertyPath)?.getKeyframeAt(this.timelineManager.getCurrentTime()) !== null;
         return HTML.create({
-            tag: 'button',
-            class: ['keyframe-btn', hasKeyframe ? 'active' : ''],
-            text: '◆',
-            title: `Add/Remove Keyframe for ${propertyPath}`,
-            on: {
-                click: () => {
-                    const object = this.objectManager.getObjectByUUID(objectUUID);
-                    const value = Track.getObjectPropertyValue(object, propertyPath);
-                    if (value !== undefined) {
-                        this.eventEmitter.emit('createKeyframeRequest', {
-                            objectUUID,
-                            propertyPath,
-                            value: value
-                        });
-                    }
+            tag: 'button', class: ['keyframe-btn', hasKeyframe ? 'active' : ''], text: '◆',
+            on: { click: () => {
+                const value = Track.getObjectPropertyValue(object, propertyPath);
+                if (value !== undefined) {
+                    this.eventEmitter.emit('createKeyframeRequest', { objectUUID: object.uuid, propertyPath, value });
                 }
-            }
+            }}
         });
     }
 
     _createVector3Input(object, property, label) {
         const value = object[property] || new THREE.Vector3();
         const createInput = (axis) => HTML.create({
-            tag: 'input',
-            attrs: { type: 'number', step: '0.01', 'data-axis': axis, 'data-path': `${property}.${axis}`, value: value[axis].toFixed(3) },
+            tag: 'input', attrs: { type: 'number', step: '0.01', 'data-path': `${property}.${axis}`, value: value[axis].toFixed(3) },
             on: { change: (e) => this._handleInputChange(e, object.uuid) }
         });
-
         return HTML.create({ tag: 'div', class: 'property-item vector-item', children: [
-            HTML.create({ tag: 'label', text: label }),
-            createInput('x'),
-            createInput('y'),
-            createInput('z'),
-            this._createKeyframeButton(object.uuid, property)
+            HTML.create({ tag: 'label', text: label }), createInput('x'), createInput('y'), createInput('z'), this._createKeyframeButton(object, property)
         ]});
     }
 
-    _createTextInput(object, property, label) {
+    _createNumberInput(object, path, label, attrs = {}) {
+        const value = Track.getObjectPropertyValue(object, path);
         return HTML.create({ tag: 'div', class: 'property-item', children: [
             HTML.create({ tag: 'label', text: label }),
-            HTML.create({ tag: 'input', attrs: { type: 'text', 'data-path': property, value: object[property] || '' }, on: { change: (e) => this._handleInputChange(e, object.uuid) } })
-        ]});
-    }
-    
-    _createNumberInput(object, property, label, pathPrefix = '', attrs = {}) {
-        const fullPath = `${pathPrefix}.${property}`;
-        const value = Track.getObjectPropertyValue(object, fullPath);
-        return HTML.create({ tag: 'div', class: 'property-item', children: [
-            HTML.create({ tag: 'label', text: label }),
-            HTML.create({ tag: 'input', attrs: { type: 'number', step: '0.01', 'data-path': fullPath, value: value, ...attrs }, on: { change: (e) => this._handleInputChange(e, object.uuid) } }),
-            this._createKeyframeButton(object.uuid, fullPath)
+            HTML.create({ tag: 'input', attrs: { type: 'number', 'data-path': path, value: value, ...attrs }, on: { change: (e) => this._handleInputChange(e, object.uuid) } }),
+            this._createKeyframeButton(object, path)
         ]});
     }
 
-    _createColorInput(object, property, label, pathPrefix = '') {
-        const fullPath = `${pathPrefix}.${property}`;
-        const value = Track.getObjectPropertyValue(object, fullPath) || new THREE.Color(0xffffff);
+    _createColorInput(object, path, label) {
+        const value = Track.getObjectPropertyValue(object, path) || new THREE.Color(0xffffff);
         return HTML.create({ tag: 'div', class: 'property-item', children: [
             HTML.create({ tag: 'label', text: label }),
-            HTML.create({ tag: 'input', attrs: { type: 'color', 'data-path': fullPath, value: `#${value.getHexString()}` }, on: { input: (e) => this._handleInputChange(e, object.uuid) } }),
-            this._createKeyframeButton(object.uuid, fullPath)
+            HTML.create({ tag: 'input', attrs: { type: 'color', 'data-path': path, value: `#${value.getHexString()}` }, on: { input: (e) => this._handleInputChange(e, object.uuid) } }),
+            this._createKeyframeButton(object, path)
         ]});
     }
 
@@ -162,12 +117,10 @@ export class PropertiesPanel extends BasePanel {
         const input = event.target;
         const path = input.getAttribute('data-path');
         if (!path) return;
-
         const object = this.objectManager.getObjectByUUID(objectUUID);
         if (!object) return;
 
-        const oldValue = Track.getObjectPropertyValue(object, path)?.clone ? Track.getObjectPropertyValue(object, path).clone() : Track.getObjectPropertyValue(object, path);
-        
+        const oldValue = Track.getObjectPropertyValue(object, path);
         let newValue;
         if (input.type === 'number') newValue = parseFloat(input.value);
         else if (input.type === 'color') newValue = new THREE.Color(input.value);
@@ -176,26 +129,20 @@ export class PropertiesPanel extends BasePanel {
         const command = new SetPropertyCommand(this.eventEmitter, objectUUID, path, oldValue, newValue);
         this.historyManager.add(command);
     }
-    
+
     _updateFields() {
         if (this.currentSelectionUUIDs.length !== 1) return;
         const object = this.objectManager.getObjectByUUID(this.currentSelectionUUIDs[0]);
         if (!object) return;
 
-        const inputs = this.contentElement.querySelectorAll('input[data-path]');
-        inputs.forEach(input => {
-            if (document.activeElement === input) return; // Don't update if user is typing
+        this.contentElement.querySelectorAll('input[data-path]').forEach(input => {
+            if (document.activeElement === input) return;
             const path = input.getAttribute('data-path');
             const currentValue = Track.getObjectPropertyValue(object, path);
-            
             if (currentValue !== undefined) {
-                if (input.type === 'number') {
-                    input.value = currentValue.toFixed(3);
-                } else if (input.type === 'color' && currentValue instanceof THREE.Color) {
-                    input.value = `#${currentValue.getHexString()}`;
-                } else {
-                    input.value = currentValue;
-                }
+                if (input.type === 'number') input.value = currentValue.toFixed(3);
+                else if (input.type === 'color' && currentValue instanceof THREE.Color) input.value = `#${currentValue.getHexString()}`;
+                else input.value = currentValue;
             }
         });
     }

@@ -505,10 +505,7 @@ html, body {
         padding: 4px 8px;
         white-space: nowrap; /* Prevent button text wrapping */
     }
-     #orbit-gizmo-container {
-        /* Hide or reposition gizmo */
-        display: none; /* Simpler for now */
-     }
+     
      .property-item label {
         width: 60px; /* Smaller labels */
         margin-right: 5px;
