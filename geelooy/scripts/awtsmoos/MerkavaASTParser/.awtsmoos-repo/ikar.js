@@ -7,31 +7,31 @@ const ikar = {
         "repo": "MerkavaASTParser"
     },
     "branch": "main",
-    "baseCommitSHA": "a3ee1ae6fc151594f8da0c2756a4f126baabadfa",
+    "baseCommitSHA": "632d3d7bf4e2ab9a7ae2c65343fa3ee1463a3a0a",
     "remoteTree": [
         {
             "path": "Lexer.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "22841d99e8a58583e3111231b0da477836a957c1",
-            "size": 18175,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/22841d99e8a58583e3111231b0da477836a957c1"
+            "sha": "f5fc8caf01fd7e2aa6ff6fa69c646dc925589073",
+            "size": 18487,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/f5fc8caf01fd7e2aa6ff6fa69c646dc925589073"
         },
         {
             "path": "constants.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "c9ae04572bb460a587f745907b5bf02737ea02dc",
-            "size": 6623,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/c9ae04572bb460a587f745907b5bf02737ea02dc"
+            "sha": "a1581e7f7e62e24a8e058860fa0efc2bcefe3248",
+            "size": 6921,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/a1581e7f7e62e24a8e058860fa0efc2bcefe3248"
         },
         {
             "path": "index.html",
             "mode": "100644",
             "type": "blob",
-            "sha": "dd41167d532eb9c361d3207aa780f7c35158dc25",
-            "size": 31167,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/dd41167d532eb9c361d3207aa780f7c35158dc25"
+            "sha": "68f12c62a7f04e49c9190ee7b1821c605b6a1667",
+            "size": 32144,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/68f12c62a7f04e49c9190ee7b1821c605b6a1667"
         },
         {
             "path": "node_helpers.js",
@@ -45,33 +45,33 @@ const ikar = {
             "path": "parser-core.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "fefc0fb89ce63e7b229bc41f583ec48645da340a",
-            "size": 8176,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/fefc0fb89ce63e7b229bc41f583ec48645da340a"
+            "sha": "77545f8ca0b5d3638e4932982ce20e13b007f42f",
+            "size": 7917,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/77545f8ca0b5d3638e4932982ce20e13b007f42f"
         },
         {
             "path": "parser-declarations.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "d52c1a120bf63ba8b7571a771de88be1b6abe468",
-            "size": 28162,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/d52c1a120bf63ba8b7571a771de88be1b6abe468"
+            "sha": "92f42097c1cfce84040ab53c973b26e0823bf4f5",
+            "size": 28228,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/92f42097c1cfce84040ab53c973b26e0823bf4f5"
         },
         {
             "path": "parser-expressions.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "c5372efde7cbcc58c240775edb4fc72501757313",
-            "size": 36018,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/c5372efde7cbcc58c240775edb4fc72501757313"
+            "sha": "f4c9146ff8484066ec9b7203d6bf94baffb6eef0",
+            "size": 36052,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/f4c9146ff8484066ec9b7203d6bf94baffb6eef0"
         },
         {
             "path": "parser-statements.js",
             "mode": "100644",
             "type": "blob",
-            "sha": "d48639531b8ac02c358a1c30fdf7116d95e3a98d",
-            "size": 12114,
-            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/d48639531b8ac02c358a1c30fdf7116d95e3a98d"
+            "sha": "2cb2bd5df1c0b85ce3c261d876265f6bb4dd730e",
+            "size": 12179,
+            "url": "https://api.github.com/repos/awtsmoos/MerkavaASTParser/git/blobs/2cb2bd5df1c0b85ce3c261d876265f6bb4dd730e"
         },
         {
             "path": "readme.md",
