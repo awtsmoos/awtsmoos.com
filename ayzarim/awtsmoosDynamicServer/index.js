@@ -41,6 +41,8 @@ var {
 	binaryMimeTypes,
 	mimeTypes
 } = require("./mimes.js");
+const { startCleanupWorker } = require('../cleanup-worker.js');
+
 
 var self = null;
 
@@ -119,6 +121,9 @@ class AwtsmoosStaticServer {
 			var db = new DosDB(process.awtsmoosDbPath);
 			await db.init();
 			this.db = db;
+			
+			// After the database is confirmed to be initialized, start the cleanup worker.
+		        startCleanupWorker(this.db);
 			if (typeof(config.secret) == "string") {
 				var sec = null;
 				

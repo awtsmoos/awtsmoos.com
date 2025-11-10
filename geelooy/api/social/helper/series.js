@@ -66,6 +66,42 @@ async function ensureRootSeriesExists({ $i, heichelId }) {
     }
 }
 
+// 
+/**
+ * @description Recursively finds all descendant series IDs for a given series.
+ * @returns {Promise<Array<string>>} A flat array of all series IDs to be deleted.
+ */
+async function getAllDescendantIds({ $i, heichelId, seriesId }) {
+    const idsToDelete = new Set();
+    const seriesProcessed = new Set(); // For cycle detection
+
+    const seriesSubSeriesPath = (h, s) => `${sp}/heichelos/${h}/series/${s}/subSeries`;
+
+    async function recursiveScan(currentSeriesId) {
+        if (seriesProcessed.has(currentSeriesId)) return;
+        seriesProcessed.add(currentSeriesId);
+
+        idsToDelete.add(currentSeriesId); // Add the current series to the list
+
+        const subSeriesPath = seriesSubSeriesPath(heichelId, currentSeriesId);
+        try {
+            const subSeriesIds = await $i.db.get(subSeriesPath);
+            if (Array.isArray(subSeriesIds)) {
+                for (const subId of subSeriesIds) {
+                    await recursiveScan(subId); // Recurse into children
+                }
+            }
+        } catch (e) {
+            // This is not an error, it just means the series has no children.
+            if (!e.message.includes("Path does not exist")) {
+                console.error(`Error scanning sub-series for ${currentSeriesId}:`, e);
+            }
+        }
+    }
+
+    await recursiveScan(seriesId);
+    return Array.from(idsToDelete);
+}
 
 /**
  * @description Creates a new series, initializes its structure, and adds it to its parent.
@@ -446,212 +482,83 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
     }
 }
 
+// REPLACE the existing deleteSeriesFromHeichel function with this new version
+
 /**
- * @description Deletes a series and ALL its content (sub-series and posts) recursively.
+ * @description Schedules a series for deletion. Unlinks it from its parent immediately
+ * and creates a persistent cleanup job for a background worker.
  * @requires $_POST: { aliasId } (for auth)
  */
-async function deleteSeriesFromHeichel({
-	 $i, heichelId, seriesId, parentSeriesId,
-	 userid
-	}) {
-     const aliasId = $i.$_POST.aliasId; // Assuming aliasId comes via POST body for DELETE route
-     if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
+async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, userid }) {
+    const aliasId = $i.$_POST.aliasId;
+    if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
+    if (seriesId === "root") return er({ code: "CANNOT_DELETE_ROOT" });
 
-     if (seriesId === "root") return er({ code: "CANNOT_DELETE_ROOT" });
-	 parentSeriesId = parentSeriesId || $i.$_POST.parentSeriesId ||
-	 	$i.$_DELETE.parentSeriesId;
-	
-     const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
-     if (!isAuthorized) return er({ code: "NO_AUTH" });
-	 var pratPath = seriesPrateemPath(heichelId, seriesId)
-	 try {
-		parentSeriesId = parentSeriesId || (await $i.db.get(pratPath))?.parentSeriesId;
-	} catch(e) {
-		return er({
-			message: "Issue searching",
-			stack:e.stack,
-			pratPath
-		})
-	}
-	 if(!parentSeriesId) {
-		return er({
-			message: "Need to provide parentSeriesId",
-			code: "NO_PARENT_SERIES",
-			pratPath
+    const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
+    if (!isAuthorized) return er({ code: "NO_AUTH" });
 
-		})
-	 }
-	 
-     const deletedItems = { series: [], posts: [], errors: [] };
-     const seriesProcessed = new Set(); // To prevent infinite loops in case of cycles
+    // --- Start of the new Guaranteed Cleanup Logic ---
 
-     async function recursiveDelete(currentSeriesId) {
-         if (seriesProcessed.has(currentSeriesId)) {
-             console.warn(`Cycle detected or already processed: ${currentSeriesId}. Skipping.`);
-             deletedItems.errors.push(`Cycle detected at ${currentSeriesId}`);
-             return;
-         }
-         seriesProcessed.add(currentSeriesId);
+    // 1. Get the parent ID before doing anything else.
+    let parentSeriesId;
+    const prateemPath = seriesPrateemPath(heichelId, seriesId);
+    try {
+        const prateem = await $i.db.get(prateemPath, { propertyMap: { parentSeriesId: true } });
+        if (!prateem || !prateem.parentSeriesId) {
+            // It might already be unlinked or is an orphan.
+            console.log(`Series ${seriesId} already unlinked or has no parent.`);
+            // For safety, let's still create a cleanup job to ensure its data is purged.
+            parentSeriesId = null; 
+        } else {
+            parentSeriesId = prateem.parentSeriesId;
+        }
+    } catch (e) {
+        // If the series doesn't exist at all, we can consider the job done.
+        if (e.message.includes("Path does not exist")) {
+             return { success: { message: "Series not found, assumed already deleted." } };
+        }
+        return er({ code: "SERIES_GET_FAILED_PRE_DELETE", details: e.message });
+    }
+    
+    // 2. Gather a complete list of all series that need to be deleted.
+    const allIdsToDelete = await getAllDescendantIds({ $i, heichelId, seriesId });
+    if (allIdsToDelete.length === 0) {
+        return { success: { message: "Series not found, nothing to delete." } };
+    }
 
-         const currentBasePath = seriesBasePath(heichelId, currentSeriesId);
-         const currentPrateemPath = seriesPrateemPath(heichelId, currentSeriesId);
-         const currentSubSeriesPath = seriesSubSeriesPath(heichelId, currentSeriesId);
-         const currentPostsPath = seriesPostsPath(heichelId, currentSeriesId);
+    // 3. Create and persist the cleanup job record.
+    const cleanupJobId = `cleanup-${seriesId}-${Date.now()}`;
+    const cleanupRecord = {
+        jobId: cleanupJobId,
+        status: "pending",
+        heichelId: heichelId,
+        topLevelSeriesId: seriesId,
+        idsToDelete: allIdsToDelete, // The full "to-do" list
+        createdAt: Date.now(),
+        requestedBy: aliasId
+    };
+    const cleanupPath = `/_system/jobs/seriesCleanupQueue/${cleanupJobId}`;
+    await $i.db.write(cleanupPath, cleanupRecord);
 
-         try {
-             // 0. Get Author and Parent ID before deleting prateem
-             let author = aliasId; // Fallback
-             let parentId = null;
-              try {
-                 const prateem = await $i.db.get(currentPrateemPath, { propertyMap: { author: true, parentSeriesId: true } });
-                 if(prateem) {
-                     author = prateem.author || author;
-                     parentId = prateem.parentSeriesId;
-                 } else {
-                     console.warn(`Prateem not found for ${currentSeriesId} during delete.`);
-                      // Try to proceed? Or fail? Let's try to proceed.
-                 }
-             } catch (eGet) { console.warn(`Failed to get prateem for ${currentSeriesId}: ${eGet.message}`); }
+    // 4. Immediately remove the series from its parent's list if a parent exists.
+    if (parentSeriesId) {
+        try {
+            const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentSeriesId);
+            await $i.db.removeElementFromArray(parentSubSeriesPath, { exact: { selfEquals: seriesId } });
+        } catch (e) {
+            // If this fails, we must roll back the cleanup job to avoid inconsistency.
+            await $i.db.delete(cleanupPath).catch(err => console.error("Rollback failed:", err));
+            return er({ code: "PARENT_REMOVAL_FAILED", details: e.message });
+        }
+    }
 
-
-             // 1. Delete all posts within this series
-             try {
-                const postIds = await $i.db.getObjectKeys(currentPostsPath);
-                 if (postIds && postIds.length > 0) {
-                    for (const postId of postIds) {
-                         // We need to delete comments associated with each post first
-                         const commentDel = await deleteAllCommentsOfParent({
-                             $i, heichelId, seriesId: currentSeriesId,
-                             parentId: postId, parentType: "post",
-							 userid
-                         });
-                          if (commentDel?.error && commentDel.error.code !== 'NO_COM') {
-                              console.error(`Failed deleting comments for post ${postId}: ${commentDel.error}`);
-                              deletedItems.errors.push(
-								{
-									message: `Comment delete fail: ${postId}`,
-									commentError: commentDel
-						  	});
-                          }
-                          // No need to call deletePostFromSeries as we delete the whole posts object below
-                          deletedItems.posts.push(postId);
-                     }
-                 }
-                 // Delete the entire posts object for this series
-                 await $i.db.delete(currentPostsPath);
-             } catch (ePosts) {
-                 if (!ePosts.message.includes("Path does not exist")) {
-                     console.error(`Failed to delete posts for series ${currentSeriesId}: ${ePosts.message}`);
-                     deletedItems.errors.push({
-						message:
-					 	`Posts delete fail: ${currentSeriesId}`,
-						error: ePosts.stack
-				 	});
-                 } // Ignore if posts path didn't exist
-             }
-
-
-             // 2. Recursively delete all sub-series
-             try {
-                let subSeriesIds = await $i.db.get(currentSubSeriesPath);
-                 if (Array.isArray(subSeriesIds)) {
-                    for (const subId of subSeriesIds) {
-                         await recursiveDelete(subId); // Recursive call
-                     }
-                 }
-                 // Delete the subSeries array itself
-                 await $i.db.delete(currentSubSeriesPath);
-             } catch (eSub) {
-                 if (!eSub.message.includes("Path does not exist")) {
-                     console.error(`Failed to delete subSeries for series ${currentSeriesId}: ${eSub.message}`);
-                     deletedItems.errors.push(`SubSeries delete fail: ${currentSeriesId}`);
-                 } // Ignore if subSeries path didn't exist
-             }
-
-
-             // 3. Delete the series' prateem
-             try {
-                 await $i.db.delete(currentPrateemPath);
-             } catch (ePrat) {
-                 if (!ePrat.message.includes("Path does not exist")) {
-                     console.error(`Failed to delete prateem for series ${currentSeriesId}: ${ePrat.message}`);
-                     deletedItems.errors.push(`Prateem delete fail: ${currentSeriesId}`);
-                 }
-             }
-
-			 try {
-				await $i.db.delete(currentBasePath)
-			 } catch(e) {
-				deletedItems.errors.push({
-
-					message:`Prateem delete fail: ${currentSeriesId}`,
-					stack:e.stack
-				});
-			 }
-             // 4. Untrack series creation for the author
-             try {
-                 const trackingPath = aliasSeriesTrackingPath(author, heichelId);
-                 // Use deleteEntry or equivalent method to remove the key
-                 const untrackResult = await $i.db.deleteEntry(trackingPath, currentSeriesId);
-                 if (untrackResult?.error && untrackResult.error.code !== 'ENTRY_NOT_FOUND') {
-                     console.error(`Failed to untrack series ${currentSeriesId} for ${author}: ${untrackResult.error}`);
-                 }
-                 // TODO: Add cleanup of parent tracking objects if they become empty
-             } catch (eTrack) { console.error(`Untracking error for ${currentSeriesId}: ${eTrack.message}`); }
-
-
-             deletedItems.series.push(currentSeriesId);
-
-
-             // 5. Remove from parent's subSeries array (if parent known and not root)
-             // This should ideally happen *after* successful deletion, but needs parentId
-             // For simplicity in recursion, we might handle this separately after the main call,
-             // or accept potential orphans if parent deletion fails before child removal.
-             // Let's try removing from parent here.
-              
-
-
-         } catch (e) {
-             console.error(`Major error during recursive delete of ${currentSeriesId}: ${e.message}`);
-             deletedItems.errors.push(`FATAL delete error: ${currentSeriesId} - ${e.message}`);
-         }
-     }
-
-     try {
-        await recursiveDelete(seriesId); // Start the recursion
-
-         // Final check and return
-         if (deletedItems.errors.length > 0) {
-             return er({
-                 code: "SERIES_DELETE_INCOMPLETE",
-                 details: `Deleted ${deletedItems.series.length} series and ${deletedItems.posts.length} posts, but encountered errors.`,
-                 errors: deletedItems.errors,
-                 deleted: { series: deletedItems.series, posts: deletedItems.posts }
-             });
-         }
-
-		 
-		const parentSubSeriesPath = seriesSubSeriesPath(heichelId, parentSeriesId);
-		try {
-			const removalResult = await $i.db.removeElementFromArray(
-				parentSubSeriesPath,
-				{ exact: { selfEquals: seriesId } },
-				{ deleteSelfIfEmpty: true } // Don't delete parent array if empty here
-			);
-				if (removalResult?.error && removalResult.error.code !== 'ARRAY_404' && removalResult.error.code !== 'VALUE_NOT_FOUND') {
-					console.error(`Failed remove ${seriesId} from parent ${parentSeriesId}: ${removalResult.error}`);
-					deletedItems.errors.push(`Parent removal fail: ${seriesId} from ${parentSeriesId}`);
-				}
-		} catch (eRemoveParent) {
-			console.error(`Error removing ${seriesId} from parent ${parentSeriesId}: ${eRemoveParent.message}`);
-		}
-		 
-         return { success: { message: `Series ${seriesId} and its contents deleted.`, deletedCount: deletedItems.series.length } };
-
-     } catch (e) {
-         console.error(`Top-level error deleting series ${seriesId}: ${e}`);
-         return er({ code: "SERIES_DELETE_FAILED", details: e.message, errors: deletedItems.errors });
-     }
+    // 5. Return success to the user immediately.
+    return { 
+        success: { 
+            message: "Series has been unlinked and scheduled for complete deletion.",
+            cleanupJobId: cleanupJobId 
+        } 
+    };
 }
 
 

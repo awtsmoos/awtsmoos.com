@@ -138,33 +138,55 @@ async function _getTemplateObject(ob) {
 
 
 	// Create a copy of the original db object
-    const instrumentedDb = { ...self.db };
+    // B"H
 
-    // Keep a reference to the original read function
-    const originalDbRead = self.db.read;
 
-    // Override the 'read' method with our wrapper function
-    instrumentedDb.read = async function(key, ...args) {
-        // Only run our logic if the special header was sent
-        if (request.isAwtsmoosFileStatusRequest) {
-            try {
-                // Ask DosDB for the real file path corresponding to this key
-                const realDataPath = await self.db.getAwtsmoosFilePath(key);
-                const stats = await fs.stat(realDataPath);
-                
-                // Attach the result to the request object so doAwtsmoosResponse can see it later
-                request.awtsmoosDataSourceStat = stats;
+const instrumentedDb = new Proxy(self.db, {
+    get: function(target, prop, receiver) {
+        // Get the original property or method from the actual db object.
+        const originalValue = Reflect.get(target, prop, receiver);
 
-            } catch (error) {
-                // It's okay if this fails (e.g., file doesn't exist).
-                // We simply won't have data stats.
-            }
+        // We only need to wrap functions (the methods).
+        // If it's not a function, return it as-is.
+        if (typeof originalValue !== 'function') {
+            return originalValue;
         }
-        
-        // IMPORTANT: Now call the original db.read function with the original arguments
-        // and return its result, so the route logic works exactly as before.
-        return originalDbRead.call(self.db, key, ...args);
-    };
+
+        // Return a new, wrapped async function that replaces the original method.
+        return async function(...args) {
+            
+            // This is our instrumentation logic. It runs BEFORE the original method.
+            if (request.isAwtsmoosFileStatusRequest) {
+                try {
+                    // The first argument to our DB methods is consistently the path/key.
+                    const key = args[0];
+                    if (typeof key === 'string' && key) {
+                        
+                        // Ask DosDB for the real, physical file path for this key.
+                        const realDataPath = await target.getAwtsmoosFilePath(key);
+                        const stats = await fs.stat(realDataPath);
+                        
+                        // Attach the result to the request object.
+                        // IMPROVEMENT: If multiple files are read, we keep the timestamp
+                        // of the MOST RECENTLY modified file.
+                        if (!request.awtsmoosDataSourceStat || stats.mtime.getTime() > request.awtsmoosDataSourceStat.mtime.getTime()) {
+                            request.awtsmoosDataSourceStat = stats;
+                        }
+                    }
+                } catch (error) {
+                    // It's perfectly fine if this fails (e.g., checking a file that
+                    // doesn't exist yet). The original method will handle the actual logic.
+                    // We don't need to do anything in the catch block.
+                }
+            }
+            
+            // IMPORTANT: Now, call the ORIGINAL db method (e.g., getObjectKeys)
+            // with the correct 'this' context and all of its original arguments.
+            // Then, return its result to the caller.
+            return originalValue.apply(target, args);
+        };
+    }
+});
 
     
     var getT /*get template content*/
