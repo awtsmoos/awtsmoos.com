@@ -1,8 +1,9 @@
 // B"H
 // FILE: /scripts/awtsmoos/binary/awtsmoos-json-parser.js
 /**
- * CORRECTED AND FINAL CLIENT-SIDE PARSER for the .awtsmoosJSON binary format.
- * This version accurately mirrors the logic of the basic (non-v2) server-side deserializer.
+ * FINAL, CORRECTED client-side parser for the .awtsmoosJSON binary format.
+ * - Accurately mirrors the "basic" server-side deserializer.
+ * - Includes a professional hex viewer utility for fallback.
  */
 
 const MAGIC_JSON = "Aj";
@@ -73,9 +74,9 @@ function parseValueFromType(type, valueBuffer) {
 
 function deserializeArray(buffer) {
     let offset = MAGIC_ARRAY.length;
-    const arrayLengthSizeANDOffsetSizeInOneByte = buffer.readUInt8(offset++);
-    const arrayLengthSize = unpackLength((0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte) >> 2);
-    const offsetSize = unpackLength(0b00000011 & arrayLengthSizeANDOffsetSizeInOneByte);
+    const headerByte = buffer.readUInt8(offset++);
+    const arrayLengthSize = unpackLength((headerByte >> 2) & 0b11);
+    const offsetSize = unpackLength(headerByte & 0b11);
     const arrayLength = buffer.readUIntBE(buffer.length - arrayLengthSize, arrayLengthSize);
     if (arrayLength === 0) return [];
     const indexTableSize = arrayLength * offsetSize;
@@ -101,19 +102,20 @@ function deserializeObject(buffer) {
     let offset = MAGIC_JSON.length;
     const allSizesOfLengths = buffer.readUInt8(offset++);
     const lengthSizeOfKeys = unpackLength((0b00110000 & allSizesOfLengths) >> 4);
-    const sizeOfEmbeddedMetadataArrayLength = unpackLength((0b00001100 & allSizesOfLengths) >> 2);
-    const sizeOfHashTableLength = unpackLength(0b00000011 & allSizesOfLengths);
-    const combinedByteLengthOfLengths = lengthSizeOfKeys + sizeOfEmbeddedMetadataArrayLength + sizeOfHashTableLength;
-    const totalSizeToRead = combinedByteLengthOfLengths + 1;
-    const footerOffset = buffer.length - totalSizeToRead;
+    const sizeOfMetaArrLen = unpackLength((0b00001100 & allSizesOfLengths) >> 2);
+    const sizeOfHashTblLen = unpackLength(0b00000011 & allSizesOfLengths);
+    const footerDynamicSize = lengthSizeOfKeys + sizeOfMetaArrLen + sizeOfHashTblLen;
+    const footerStaticSize = 1;
+    const footerTotalSize = footerStaticSize + footerDynamicSize;
+    const footerOffset = buffer.length - footerTotalSize;
     let readFooterAt = footerOffset + 1;
-    const lengthOfTotalEntries = buffer.readUIntBE(readFooterAt, lengthSizeOfKeys);
+    const totalEntries = buffer.readUIntBE(readFooterAt, lengthSizeOfKeys);
     readFooterAt += lengthSizeOfKeys;
-    const lengthMetadataArray = buffer.readUIntBE(readFooterAt, sizeOfEmbeddedMetadataArrayLength);
-    if (lengthOfTotalEntries === 0) return {};
-    const metadataTableEnd = footerOffset;
-    const metadataTableStart = metadataTableEnd - lengthMetadataArray;
-    const metadataArrayBuffer = buffer.subarray(metadataTableStart, metadataTableEnd);
+    const metaArrByteLen = buffer.readUIntBE(readFooterAt, sizeOfMetaArrLen);
+    if (totalEntries === 0) return {};
+    const metaArrEnd = footerOffset;
+    const metaArrStart = metaArrEnd - metaArrByteLen;
+    const metadataArrayBuffer = buffer.subarray(metaArrStart, metaArrEnd);
     const metadataEntriesRaw = deserializeArray(metadataArrayBuffer);
 
     const obj = {};
@@ -129,13 +131,9 @@ function deserializeObject(buffer) {
         const byteOffsetByteSize = unpackLength(0b00000011 & packedKeyAndValueByteLengths);
         const { type, lengthSize: valueByteLengthSize } = unpackTypeAndLengthSize(packedValueByte);
 
-        const keyLength = entryReader.readUIntBE(o, keyLengthByteSize);
-        o += keyLengthByteSize;
-        const valueLength = entryReader.readUIntBE(o, valueByteLengthSize);
-        o += valueByteLengthSize;
-        
-        const key = entryReader.toString('utf-8', o, o + keyLength);
-        o += keyLength;
+        const keyLength = entryReader.readUIntBE(o, keyLengthByteSize); o += keyLengthByteSize;
+        const valueLength = entryReader.readUIntBE(o, valueByteLengthSize); o += valueByteLengthSize;
+        const key = entryReader.toString('utf-8', o, o + keyLength); o += keyLength;
         const offsetOfValueInMain = entryReader.readUIntBE(o, byteOffsetByteSize);
         
         const valueBuffer = buffer.subarray(offsetOfValueInMain, offsetOfValueInMain + valueLength);
@@ -145,10 +143,29 @@ function deserializeObject(buffer) {
 }
 
 export function parse(arrayBuffer) {
-    if (!arrayBuffer || arrayBuffer.byteLength < 2) { return null; }
-    const reader = new BufferReader(arrayBuffer);
-    const magic = reader.toString('utf-8', 0, 2);
-    if (magic === MAGIC_JSON) return deserializeObject(reader);
-    if (magic === MAGIC_ARRAY) return deserializeArray(reader);
+    if (!arrayBuffer || arrayBuffer.byteLength < 2) return null;
+    try {
+        const reader = new BufferReader(arrayBuffer);
+        const magic = reader.toString('utf-8', 0, 2);
+        if (magic === MAGIC_JSON) return deserializeObject(reader);
+        if (magic === MAGIC_ARRAY) return deserializeArray(reader);
+    } catch (e) {
+        console.error("Awtsmoos Parsing Error:", e);
+        return null; // Return null on any internal parsing error
+    }
     return null;
+}
+
+export function binaryToHexView(arrayBuffer) {
+    const bytes = new Uint8Array(arrayBuffer);
+    const lines = [];
+    const bytesPerLine = 16;
+    for (let i = 0; i < bytes.length; i += bytesPerLine) {
+        const chunk = bytes.subarray(i, i + bytesPerLine);
+        const offset = i.toString(16).padStart(8, '0').toUpperCase();
+        const hex = Array.from(chunk).map(b => b.toString(16).padStart(2, '0').toUpperCase()).join(' ');
+        const ascii = Array.from(chunk).map(b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.').join('');
+        lines.push(`${offset}  ${hex.padEnd(bytesPerLine * 3 - 1)}  |${ascii}|`);
+    }
+    return lines.join('\n');
 }
