@@ -167,7 +167,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 4. EVENT LISTENERS & USER INPUT ---
     function debounce(func, delay) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), delay); }; }
-    const handleResize = debounce(() => { backgroundFX.init(); if (game.mode) { startGame(game.mode); } }, 250);
+    
+    // --- NEW: Non-destructive resize function ---
+    function resizeGameInstances() {
+        backgroundFX.init();
+        if (!game.worker) return;
+
+        const p1Rect = elements.p1Canvas.getBoundingClientRect();
+        const payload = {
+            p1Dimensions: { width: p1Rect.width, height: p1Rect.height },
+            p1Dpr: window.devicePixelRatio
+        };
+
+        if (game.mode !== 'single') {
+            const p2Rect = elements.p2Canvas.getBoundingClientRect();
+            payload.p2Dimensions = { width: p2Rect.width, height: p2Rect.height };
+            payload.p2Dpr = window.devicePixelRatio;
+        }
+        game.worker.postMessage({ type: 'resize', payload });
+    }
+    
+    // --- CHANGE: The resize handler no longer restarts the entire game ---
+    const handleResize = debounce(resizeGameInstances, 250);
+
     function sendInput(action, value) { if (game.worker) { game.worker.postMessage({ type: 'input', payload: { action, value } }); } }
     
     // --- Keyboard Input ---
@@ -176,13 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'ArrowLeft':  case 'a': sendInput('move', -1); break;
             case 'ArrowRight': case 'd': sendInput('move', 1); break;
             case 'ArrowUp':    case 'w': sendInput('rotate'); break;
-            // --- CHANGE: Down arrow is now SOFT drop, not single drop ---
             case 'ArrowDown':  case 's': sendInput('soft_drop_start'); break; 
             case ' ': sendInput('hard_drop'); break;
         }
     });
     window.addEventListener('keyup', (e) => {
-        // --- CHANGE: Keyup listener is back for soft drop ---
         if (e.key === 'ArrowDown' || e.key === 's') {
             sendInput('soft_drop_end');
         }
@@ -195,20 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FIX: Correct "Hold-to-Descend" Logic for the Button ---
     const button = elements.descendButton;
-    // When the user presses the button (touch or mouse)
-    button.addEventListener('touchstart', (e) => {
-        e.stopPropagation(); // CRITICAL: Prevents the container from rotating the piece.
-        sendInput('soft_drop_start');
-    });
+    button.addEventListener('touchstart', (e) => { e.stopPropagation(); sendInput('soft_drop_start'); });
     button.addEventListener('mousedown', () => sendInput('soft_drop_start'));
-
-    // When the user releases the button (touch or mouse)
-    button.addEventListener('touchend', (e) => {
-        e.stopPropagation(); // CRITICAL: Also stop propagation on end.
-        sendInput('soft_drop_end');
-    });
+    button.addEventListener('touchend', (e) => { e.stopPropagation(); sendInput('soft_drop_end'); });
     button.addEventListener('mouseup', () => sendInput('soft_drop_end'));
-    button.addEventListener('mouseleave', () => sendInput('soft_drop_end')); // Also stop if mouse leaves button area
+    button.addEventListener('mouseleave', () => sendInput('soft_drop_end'));
 
     // --- Universal Event Listeners ---
     window.addEventListener('resize', handleResize);

@@ -20,7 +20,8 @@ html, body {
     color: var(--text-color);
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Prevent scrolling */
+    /* KEY CHANGE: Prevent the entire page from scrolling, as we will control scrolling inside the UI panel. */
+    overflow: hidden; 
 }
 
 /* --- Main Menu --- */
@@ -33,6 +34,7 @@ html, body {
     text-align: center;
     padding: 10px;
     box-sizing: border-box;
+    overflow-y: auto; /* Allow menu to scroll on very small screens */
 }
 
 #main-menu h1 {
@@ -61,7 +63,7 @@ html, body {
     transform: scale(1.05);
 }
 
-/* --- Game Layout --- */
+/* --- MAJOR LAYOUT REWORK --- */
 #game-wrapper {
     display: flex;
     width: 100%;
@@ -69,16 +71,18 @@ html, body {
     padding: 10px;
     box-sizing: border-box;
     gap: 15px;
-    justify-content: center;
-    align-items: center;
+    /* KEY CHANGE: Mobile-first approach. Default to a vertical layout. */
+    flex-direction: column;
 }
 
 #game-container {
     position: relative;
-    width: 100%;
-    max-width: 80vh; 
-    aspect-ratio: 16 / 12;
-    flex-shrink: 1;
+    /* KEY CHANGE: Let the canvas maintain its shape perfectly. */
+    aspect-ratio: 16 / 12; 
+    /* For vertical layout, take full width. */
+    width: 100%; 
+    /* Important for flexbox to allow shrinking. */
+    min-height: 0;
 }
 
 #gameCanvas {
@@ -91,59 +95,32 @@ html, body {
 }
 
 #ui-panel {
-    width: 250px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    flex-shrink: 0;
-    max-height: 95vh;
+    /* For vertical layout, take full width. */
+    width: 100%;
+    /* IMPORTANT FIX: This allows the UI panel itself to scroll when its content (opened menus) is too tall for the screen. */
     overflow-y: auto;
+    /* Allows the panel to shrink to fit the screen. */
+    flex-shrink: 1;
+    min-height: 0;
 }
 
-/* --- Game Over Screen --- */
+/* --- Game Over Screen (Unchanged) --- */
 #game-over-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-    border-radius: 7px;
-    z-index: 20;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; color: white; border-radius: 7px; z-index: 20;
 }
+#game-over-screen h2 { font-size: 3em; margin: 0; }
+#game-over-screen p { font-size: 1.5em; margin: 10px 0 20px 0; }
+#game-over-screen button { width: auto; padding: 10px 30px; margin-top: 10px; min-width: 150px; }
+#main-menu-button { background-color: var(--secondary-bg); }
+#main-menu-button:hover { background-color: #4a6279; }
 
-#game-over-screen h2 {
-    font-size: 3em;
-    margin: 0;
-}
-
-#game-over-screen p {
-    font-size: 1.5em;
-    margin: 10px 0 20px 0;
-}
-
-#game-over-screen button {
-    width: auto;
-    padding: 10px 30px;
-    margin-top: 10px;
-    min-width: 150px;
-}
-
-#main-menu-button {
-    background-color: var(--secondary-bg);
-}
-
-#main-menu-button:hover {
-    background-color: #4a6279;
-}
-
-/* --- Modal & UI --- */
+/* --- Modal & UI (Unchanged) --- */
 #in-game-modal { position: absolute; background-color: rgba(44, 62, 80, 0.95); border: 2px solid var(--border-color); border-radius: 10px; padding: 15px; color: var(--text-color); min-width: 200px; z-index: 10; }
 #stats, #tower-selection { background-color: var(--secondary-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); }
 .collapsible-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -174,35 +151,26 @@ button:hover { background-color: #2980b9; }
 .modal-btn-sell:hover, .modal-btn-cancel:hover { background-color: #c0392b; }
 .hidden { display: none !important; }
 
-/* --- Mobile Responsiveness --- */
-@media (max-width: 800px) {
+/* --- RESPONSIVENESS FOR WIDER SCREENS (Landscape/Desktop) --- */
+@media (min-width: 850px) {
     #game-wrapper {
-        flex-direction: column;
-        height: auto;
-        padding: 5px;
-        gap: 10px;
+        /* Switch to a side-by-side layout. */
+        flex-direction: row;
+        align-items: center;
     }
     #game-container {
-        width: 100%;
-        max-width: none;
-        order: 1; /* Game on top */
+        /* The canvas is now the dominant element and can grow. */
+        flex: 1 1 auto;
+        width: auto;
+        height: 100%;
+        /* Prevents flexbox from overflowing its container. */
+        min-width: 0;
     }
     #ui-panel {
-        width: 100%;
-        order: 2; /* UI below */
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        max-height: none;
-        overflow-y: visible;
-    }
-    #stats, #tower-selection {
-        flex-grow: 1;
-        min-width: 200px;
-    }
-    #start-wave {
-        width: 100%;
-        padding: 15px;
-        font-size: 1.2em;
+        /* Give the UI a fixed width and prevent it from shrinking. */
+        width: 300px;
+        flex-shrink: 0;
+        /* Make sure the panel can't be taller than the screen. */
+        max-height: calc(100vh - 20px);
     }
 }
