@@ -179,8 +179,8 @@ export const BINAH = {
         if (id === 'particleChars') ASSIAH.CHOCHMAH.createSpecialParticleTextures();
         if (id === 'maxNefesh') this.rebuildNefeshFormation();
         // The rebuild functions will be created in their respective Sefirot.
-        // if (id.includes('constellation') || id === 'starfieldDensity') ASSIAH.TIFERET.rebuildStarfield();
-        // if (id.includes('conduit')) ASSIAH.TIFERET.rebuildFleetConduits();
+        if (id.includes('constellation') || id === 'starfieldDensity') ASSIAH.TIFERET.rebuildStarfield();
+        if (id.includes('conduit')) ASSIAH.TIFERET.rebuildFleetConduits();
     },
 
     /**

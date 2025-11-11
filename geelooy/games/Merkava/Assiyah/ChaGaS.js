@@ -206,7 +206,9 @@ const entity = Olam.pools[entityType]?.[entityIndex];
 
             switch(ai.type) {
                 case 'shooter':
-                    if (!entity.components.Shielded.isShielded && time - ai.lastShot > (ai.fireRate - (Olam.game.level * 0.1))) {
+                    // This calculation is now capped to prevent a negative fire rate at high levels.
+                    const currentFireRate = Math.max(0.5, ai.fireRate - (Olam.game.level * 0.1));
+                    if (!entity.components.Shielded.isShielded && time - ai.lastShot > currentFireRate) {
                         ai.lastShot = time;
                         const eye = entity.refs.eye;
                         if (eye) {
@@ -215,7 +217,8 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                             const projectile = Olam.BERIAH.createEntityFromPool(projectileType);
                             if(projectile) {
                                 projectile.object3D.position.copy(worldPos);
-                                projectile.components.Velocity = { x: 0, y: 0, z: 25 + Olam.game.level };
+                                // This speed increase was missing, but makes sense for game progression.
+                                projectile.components.Velocity = { x: 0, y: 0, z: 25 + (Olam.game.level * 1.5) };
                             }
                         }
                     }
@@ -602,7 +605,8 @@ export const TIFERET = {
         const { camera, cameraTargetPos, cameraLookAtTarget } = Olam.three;
         const gameEffects = Olam.game.effects;
 
-        camera.position.lerp(cameraTargetPos, 4 * deltaTime);
+        // The lerp value was changed from 4 to 2 for a smoother transition.
+        camera.position.lerp(cameraTargetPos, 2 * deltaTime); 
         camera.lookAt(cameraLookAtTarget);
         
         if (gameEffects.shake > 0) {
@@ -802,46 +806,50 @@ export const TIFERET = {
             }
         });
 
-
-        // Assiyah/ChaGaS.js - inside TIFERET.updateDynamicEffects()
-
         // Update shielder beams
+        // This logic is now purely for VISUALS and doesn't conflict with combat.
         Olam.pools.TomeKeeper.forEach(keeper => {
-            if(keeper.components.State.active) {
+            if (keeper.components.State.active) {
                 const ai = keeper.components.AI;
-                
-                // *** FIX 6 (LOGIC FIX): Correctly find the shielded entity. ***
                 let shieldedEntity = null;
                 if (ai.shieldedEnemyId) {
                     const [type, index] = ai.shieldedEnemyId.split('_');
                     shieldedEntity = Olam.pools[type]?.[index];
                 }
 
-                if(shieldedEntity && shieldedEntity.components.State.active) {
-                    if(!keeper.refs.shieldBeam) {
+                // Only draw the beam if the shielded entity exists AND is active.
+                if (shieldedEntity && shieldedEntity.components.State.active) {
+                    if (!keeper.refs.shieldBeam) {
                         const beamMaterial = new THREE.LineBasicMaterial({ color: 0x8a2be2, transparent: true, opacity: 0.7 });
                         const beamGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
                         keeper.refs.shieldBeam = new THREE.Line(beamGeometry, beamMaterial);
-                        keeper.object3D.add(keeper.refs.shieldBeam);
+                        // Attach to the keeper's object so it moves with it
+                        keeper.object3D.add(keeper.refs.shieldBeam); 
                     }
                     keeper.refs.shieldBeam.visible = true;
                     const positions = keeper.refs.shieldBeam.geometry.attributes.position.array;
                     const keeperPos = keeper.object3D.position;
                     const shieldedPos = shieldedEntity.object3D.position;
-                    positions[0] = 0; positions[1] = 0; positions[2] = 0; // Relative to keeper
+                    
+                    // The beam is drawn relative to the keeper's position
+                    positions[0] = 0; positions[1] = 0; positions[2] = 0; 
                     positions[3] = shieldedPos.x - keeperPos.x;
                     positions[4] = shieldedPos.y - keeperPos.y;
                     positions[5] = shieldedPos.z - keeperPos.z;
                     keeper.refs.shieldBeam.geometry.attributes.position.needsUpdate = true;
 
                 } else {
-                    if (keeper.refs.shieldBeam) keeper.refs.shieldBeam.visible = false;
-                    if (shieldedEntity) shieldedEntity.components.Shielded.isShielded = false; // Unshield if target is gone
-                    ai.shieldedEnemyId = null;
+                    // If there's no valid target, just hide the beam.
+                    if (keeper.refs.shieldBeam) {
+                        keeper.refs.shieldBeam.visible = false;
+                    }
+                }
+            } else {
+                // If the keeper itself is inactive, hide its beam.
+                 if (keeper.refs.shieldBeam) {
+                    keeper.refs.shieldBeam.visible = false;
                 }
             }
         });
-
-        
     }
 };

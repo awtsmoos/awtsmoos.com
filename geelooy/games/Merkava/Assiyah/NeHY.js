@@ -317,30 +317,30 @@ export const YESOD = {
         }
         
         // --- Klipot Movement ---
-        // --- Klipot Movement ---
-                // --- Klipot Movement ---
-                // --- Klipot Movement ---
         const roadSpeed = Olam.config.roadSpeed;
         const inactiveIds = [];
         Olam.game.wave.enemiesInWave.forEach(id => {
-            const entityType = id.split('_')[0];
-            const entityIndex = parseInt(id.split('_')[1], 10);
+            const [entityType, entityIndexStr] = id.split('_');
+            const entityIndex = parseInt(entityIndexStr, 10);
             const entity = Olam.pools[entityType]?.[entityIndex];
 
-            // If the entity is active, move it.
+            // If the entity exists and is active, move it.
             if(entity && entity.components.State.active) {
                 const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
                 entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
                 if(entity.object3D.position.z > 20) {
+                    // Use the proper deactivation function which also removes from the wave set
                     Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
                 }
             } else {
-                // If the entity is no longer active (destroyed in combat), mark its ID for removal.
+                // If the entity is no longer active (destroyed in combat) or doesn't exist,
+                // mark its ID for removal from the tracking set. This is the crucial fix.
                 inactiveIds.push(id);
             }
         });
         
-        // After checking all enemies, remove the stale IDs. This un-stalls the wave spawner.
+        // After iterating, remove any stale IDs from the wave tracking set.
+        // This un-stalls the wave spawner.
         if (inactiveIds.length > 0) {
             inactiveIds.forEach(id => Olam.game.wave.enemiesInWave.delete(id));
         }
@@ -379,12 +379,9 @@ export const YESOD = {
             });
         });
 
-        // Assiyah/NeHY.js - inside YESOD.movementAndPhysicsSystem
-
         Olam.pools.SpecialParticle.forEach(p => {
             if (p.components.State.active) {
                 const state = p.components.State; const pos = p.object3D.position;
-                // *** FIX 4: Use the top-level Velocity component for physics calculations. ***
                 pos.addScaledVector(p.components.Velocity, deltaTime); 
                 state.life -= deltaTime;
                 if (state.type === 'ein_sof_glimmer') {
@@ -393,7 +390,7 @@ export const YESOD = {
                         this.Olam.MALCHUT.showNotifier('surprise', "✨ EIN SOF'S BLESSING! ✨", "#ffffff");
                         Olam.game.effects.invincibleTimer = 5.0; Olam.game.effects.allCritTimer = 5.0;
                         this.Olam.TIFERET.triggerEffect('flash', { color: "#ffffff", duration: 800 });
-                        state.life = 0; // Deactivate particle
+                        state.life = 0;
                     }
                 } else {
                     p.object3D.material.opacity = Math.sin(Math.max(0, state.life) * 0.5 * Math.PI) * 0.7;
