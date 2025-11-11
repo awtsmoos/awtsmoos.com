@@ -207,7 +207,12 @@ async function makeNewSeries({ $i, heichelId }) {
             parentSeriesId: parentSeriesId,
             createdAt: Date.now()
         };
-        await $i.db.write(seriesPrateemPath(heichelId, seriesId), prateemData);
+        
+        var seriesPrateemToWriteTo = seriesPrateemPath(heichelId, seriesId)
+        await $i.db.write(seriesPrateemToWriteTo , prateemData);
+      
+      
+        
         await $i.db.write(seriesSubSeriesPath(heichelId, seriesId), []);
         await $i.db.write(seriesPostsPath(heichelId, seriesId), {});
 
@@ -280,24 +285,58 @@ async function addSubSeriesToParent({ $i, heichelId, parentSeriesId, childSeries
             subSeries = [];
         }
 
-        // Avoid duplicates
-        if (!subSeries.includes(childSeriesId)) {
-            subSeries.push(childSeriesId);
-            const writeResult = await $i.db.write(parentSubSeriesPath, subSeries);
-            if (writeResult?.error) {
-                 throw new Error(`DB write error: ${writeResult.error.message || writeResult.error}`);
-             }
-        } else {
-            // This is okay, maybe called twice or during a move.
-            console.log(`Child series ${childSeriesId} already in parent ${parentSeriesId}. Skipping add.`);
-        }
+        subSeries = appendAndDeduplicateString(subSeries,childSeriesId) 
+     
+        const writeResult = await $i.db.write(parentSubSeriesPath, subSeries);
+        if (writeResult?.error) {
+             throw new Error(`DB write error: ${writeResult.error.message || writeResult.error}`);
+         }
+        
         return { success: true };
     } catch (e) {
         console.error(`Failed to add ${childSeriesId} to parent ${parentSeriesId}:`, e);
         return er({ code: "ADD_TO_PARENT_FAILED", details: e.message });
     }
 }
+/**
+ * Appends a string to an array and removes all duplicate instances of that string,
+ * ensuring only one instance remains (the one that was just added, or the first one found).
+ *
+ * @param {Array<string>} arr - The array to modify.
+ * @param {string} newString - The string to append and de-duplicate.
+ * @returns {Array<string>} The modified array with only one instance of newString.
+ */
+function appendAndDeduplicateString(arr, newString) {
+    // 1. Append the new string to the array
+    arr.push(newString);
 
+    // 2. Use a Set to filter out duplicates while preserving insertion order (for modern JS environments)
+    // Note: This removes *all* duplicates of newString, not just the new one.
+    const uniqueElements = new Set(arr);
+
+    // 3. Convert the Set back to an Array
+    const newArr = Array.from(uniqueElements);
+
+    // Optional: If you specifically want the *new* one to be the *last* element,
+    // you'd need a slightly more complex filter:
+    /*
+    const filteredArr = [];
+    let foundNewString = false;
+    for (const item of arr) {
+        if (item === newString) {
+            if (!foundNewString) {
+                filteredArr.push(item);
+                foundNewString = true;
+            }
+        } else {
+            filteredArr.push(item);
+        }
+    }
+    return filteredArr;
+    */
+
+    return newArr;
+}
 /**
  * @description Edits the details (prateem) of an existing series.
  * @requires $_PUT: { aliasId, description?, seriesName/name/title? }
@@ -461,8 +500,11 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
             // Fetch details for each sub-series ID
             const detailedSeries = [];
             for (const seriesId of subSeriesIds) {
-                const seriesData = await $i.db.get(seriesPrateemPath(heichelId, seriesId))
-                if (seriesData && !seriesData.error) {
+	        var serPath = seriesPrateemPath(heichelId, seriesId)
+                const seriesData = await $i.db.get(serPath)
+                
+	          //  console.log("What is this", serPath, seriesData  );
+                if (seriesData && !seriesData.error && !Buffer.isBuffer(seriesData)) {
                     detailedSeries.push(seriesData);
                 } else {
                   //  console.warn(`Could not fetch details for sub-series ${seriesId} in ${parentSeriesId}`);

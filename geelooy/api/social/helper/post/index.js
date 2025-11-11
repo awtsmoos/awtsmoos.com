@@ -745,7 +745,7 @@ async function getPostsInSeries({ $i, heichelId, seriesId, withDetails = false, 
 			}
 			let postsArray = posts;
 			
-			console.log("Posted",postsArray, postsObject, seriesPostsPath)
+			
 			//let postsArray = Object.values(postsObject).filter(Boolean);
 				
              // TODO: Re-implement property filtering if required, similar to the original getPostsInHeichel

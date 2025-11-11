@@ -85,8 +85,10 @@ module.exports = {
         } catch(e) {
 	        if (logs) console.log("[PATH_FIND] AS-IS not found. Checking extensions...");
         }
-
-        const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
+	var ext = path.extname(resolvedPath);
+	var alreadyHasAwtsmoos = ext == ".awtsmoosJSON";
+        const awtsmoosJsonPath = !alreadyHasAwtsmoos ? 
+	        `${resolvedPath}.awtsmoosJSON` : resolvedPath;
         try {
             await fs.access(awtsmoosJsonPath);
             if (logs) console.log(`[PATH_FIND] Found extension: .awtsmoosJSON at ${awtsmoosJsonPath}`);
@@ -101,7 +103,8 @@ module.exports = {
         } catch {}
 
         if (logs) console.log("[PATH_FINAL] Path not found. Returning resolved path for CREATE operation.");
-        return resolvedPath;
+         
+        return awtsmoosJsonPath;//resolvedPath;
     },
 
 

@@ -193,7 +193,7 @@ module.exports = {
                 return options.extra ? {
                     json: res
                 } : res;
-            } else if(ext === ".awtsmoosJSON") {
+            } else if(ext === ".awtsmoosJSON" || !ext) {
                 const data = await this.getDynamicBinaryRecord({
                     ob: {
                         filePath,

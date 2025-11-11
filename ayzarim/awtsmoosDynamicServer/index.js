@@ -41,7 +41,7 @@ var {
 	binaryMimeTypes,
 	mimeTypes
 } = require("./mimes.js");
-const { startTaskRunner } = require('../cleanup-worker.js');
+const { startTaskRunner } = require('./cleanup-worker.js');
 
 
 var self = null;

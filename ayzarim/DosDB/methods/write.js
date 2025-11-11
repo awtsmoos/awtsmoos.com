@@ -36,11 +36,18 @@ module.exports = {
 				} catch (e) {}
 				await fs.writeFile(filePath, record);
 			} else if(typeof record === "object") {
-				if(!this.readAwtsmoosBinary) {
-					return await this.writeRecordDynamic(filePath, record, opts);
-				} else {
+				
+				
+				try {
 					return await this.writeAsBinaryFormat(filePath, record, opts);
+				} catch(e) {
+					console.log("WHAT",e);
+					return {
+						error: e.stack
+					};;
 				}
+				
+				
 			} else if(typeof record === "string") {
 				try {
 					await this.delete(id);
@@ -90,6 +97,7 @@ module.exports = {
                 
                 awtsmoosBinary
             )?.serializeJSON?.(r);
+            
             if(!awtsJson) {
                 return {
                     error: "Issue doing stuff",
@@ -100,6 +108,11 @@ module.exports = {
            
             
             const wrote = await fs.writeFile(myPath, awtsJson);
+            try {
+	        //    console.log("rading",myPath,awtsJson);
+	        //    var d = awtsmoosBinary?.deserializeBinary(awtsJson);
+	         //   console.log("Got",d);
+            } catch(e){console.log(e)}
             return {
                 success: {
                     wrote,
