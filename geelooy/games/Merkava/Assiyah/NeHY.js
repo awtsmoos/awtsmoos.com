@@ -36,6 +36,8 @@ export const NETZACH = {
         }
     },
 
+    // PASTE THIS ENTIRE METHOD INTO Assiyah/NeHY.js, REPLACING THE OLD spawnWave METHOD
+
     spawnWave() {
         const Olam = this.Olam;
         const patternSet = Olam.YETZIRAH.getPatternSet();
@@ -48,7 +50,6 @@ export const NETZACH = {
         const spawnZ = -130;
         const waveId = Olam.game.wave.waveId++;
         
-        // Clear previous wave's enemies IF THEY ARE NOT part of the current active set
         const activeIds = new Set();
         Olam.game.wave.enemiesInWave.forEach(id => activeIds.add(id));
         Olam.game.wave.enemiesInWave.clear();
@@ -65,6 +66,20 @@ export const NETZACH = {
             if (klipah) {
                 klipah.object3D.userData.waveId = waveId;
                 Olam.game.wave.enemiesInWave.add(klipah.id);
+
+                // *** THE FIX (Part 1): Generate texture for KlipahGate on spawn. ***
+                if (klipah.type === 'KlipahGate') {
+                    const value = klipah.components.Klipah.value;
+                    const textTexture = Olam.ASSIYAH.CHOCHMAH.createTextTexture(
+                        `${value}`,
+                        Olam.YETZIRAH.toGematria(value),
+                        'rgba(255, 0, 0, 0.3)'
+                    );
+                    const plane = klipah.refs.valuePlane;
+                    if(plane.material.map) plane.material.map.dispose(); // Clean up old texture
+                    plane.material.map = textTexture;
+                    plane.material.needsUpdate = true;
+                }
             }
         });
 
@@ -72,8 +87,7 @@ export const NETZACH = {
         Olam.game.wave.hitsTakenThisWave = 0;
         Olam.game.wave.nextSpawnTime = Olam.three.clock.getElapsedTime() + Math.abs(furthestZOffset / Olam.game.roadSpeed) + 4;
     },
-    // Assiyah/NeHY.js - inside NETZACH
-
+    
     spawnSpecialParticle() {
         const Olam = this.Olam;
         if (Olam.assets.specialParticleTextures.length === 0) return;
@@ -303,6 +317,8 @@ export const YESOD = {
     Olam: null,
     init(Olam) { this.Olam = Olam; },
 
+    // PASTE THIS ENTIRE METHOD INTO Assiyah/NeHY.js, REPLACING THE OLD movementAndPhysicsSystem METHOD
+
     movementAndPhysicsSystem(deltaTime) {
         const Olam = this.Olam;
         const Merkava = Olam.pools.Merkava[0];
@@ -318,29 +334,30 @@ export const YESOD = {
         
         // --- Klipot Movement ---
         const roadSpeed = Olam.config.roadSpeed;
+        
+        // *** THE FIX: Properly track and remove inactive enemies from the wave set. ***
+        // Instead of directly iterating and modifying the set, we collect IDs to remove
+        // and then process them after the loop. This prevents the game from stalling.
         const inactiveIds = [];
         Olam.game.wave.enemiesInWave.forEach(id => {
             const [entityType, entityIndexStr] = id.split('_');
             const entityIndex = parseInt(entityIndexStr, 10);
             const entity = Olam.pools[entityType]?.[entityIndex];
 
-            // If the entity exists and is active, move it.
             if(entity && entity.components.State.active) {
                 const speedMultiplier = entity.type === 'Mine' ? 0.2 : 1.0;
                 entity.object3D.position.z += roadSpeed * speedMultiplier * deltaTime;
                 if(entity.object3D.position.z > 20) {
-                    // Use the proper deactivation function which also removes from the wave set
+                    // Use the proper deactivation function which ALSO removes from the wave set
                     Olam.ASSIYAH.GEVURAH.deactivateKlipah(entity);
                 }
             } else {
-                // If the entity is no longer active (destroyed in combat) or doesn't exist,
-                // mark its ID for removal from the tracking set. This is the crucial fix.
+                // If the entity is no longer active or was destroyed, mark it for removal.
                 inactiveIds.push(id);
             }
         });
         
         // After iterating, remove any stale IDs from the wave tracking set.
-        // This un-stalls the wave spawner.
         if (inactiveIds.length > 0) {
             inactiveIds.forEach(id => Olam.game.wave.enemiesInWave.delete(id));
         }

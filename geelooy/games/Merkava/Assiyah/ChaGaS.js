@@ -413,6 +413,8 @@ const entity = Olam.pools[entityType]?.[entityIndex];
         }
     },
     
+    // PASTE THIS ENTIRE METHOD INTO Assiyah/ChaGaS.js, REPLACING THE OLD handleOhrCollision METHOD
+
     handleOhrCollision(ohr, klipah) {
         if (klipah.components.Shielded?.isShielded) return;
 
@@ -425,7 +427,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
             ohrState.pierce--;
         }
         
-        ASSIAH.TIFERET.triggerEffect('particleExplosion', {
+        TIFERET.triggerEffect('particleExplosion', {
             position: ohr.object3D.position,
             count: ohrState.isCrit ? 10 : 3,
             color: ohrState.isCrit ? 0xffaa00 : 0xffffff,
@@ -445,7 +447,7 @@ const entity = Olam.pools[entityType]?.[entityIndex];
                     }
                 }
                 if (klipah.type === 'Jar' && Math.random() < 0.15) {
-                    ASSIAH.MALCHUT.showNotifier('surprise', "A Vessel of Light Shatters!");
+                    MALCHUT.showNotifier('surprise', "A Vessel of Light Shatters!");
                     for (let i = 0; i < 8; i++) {
                         const angle = (i / 8) * Math.PI * 2;
                         const velocity = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle)).multiplyScalar(40);
@@ -457,15 +459,34 @@ const entity = Olam.pools[entityType]?.[entityIndex];
             }
         } else if (klipah.type === 'KlipahGate') {
             const klipahComp = klipah.components.Klipah;
+            let needsUpdate = false;
+
             if(!klipahComp.isPurified) {
                 klipahComp.value += ohrState.damage;
+                needsUpdate = true;
                 if(klipahComp.value >= 0) {
                     klipahComp.isPurified = true;
                     klipahComp.value = 1;
-                    ASSIAH.TIFERET.triggerKlipahRedemption(klipah.object3D.position);
+                    TIFERET.triggerKlipahRedemption(klipah.object3D.position);
                 }
             } else {
                 klipahComp.value++;
+                needsUpdate = true;
+            }
+
+            // *** THE FIX (Part 2): Update texture for KlipahGate when its value changes. ***
+            if (needsUpdate) {
+                const value = klipahComp.value;
+                const color = klipahComp.isPurified ? 'rgba(0, 255, 100, 0.3)' : 'rgba(255, 0, 0, 0.3)';
+                const textTexture = Olam.ASSIYAH.CHOCHMAH.createTextTexture(
+                    klipahComp.isPurified ? `+${value}` : `${value}`,
+                    Olam.YETZIRAH.toGematria(value),
+                    color
+                );
+                const plane = klipah.refs.valuePlane;
+                if(plane.material.map) plane.material.map.dispose(); // Clean up old texture
+                plane.material.map = textTexture;
+                plane.material.needsUpdate = true;
             }
         }
     },
