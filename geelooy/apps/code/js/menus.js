@@ -13,7 +13,7 @@ import { Editor } from './editor.js';
 import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler, attachDynamicAssetHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
 import { FileOperations } from './file-operations.js';
 import { SelectionManager } from './selection-manager.js';
-
+import { AwtsmoosHandler } from './awtsmoos-handler.js';
 export const Menus = {
 
 
@@ -122,70 +122,68 @@ registerCustomMenus(menuConfigs) {
      * @param {Event} e - The click event.
      */
     showMainMenu(e) {
-        e.stopPropagation();
-        this.hideAll();
-        setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
-
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
-        
-        const menuItems = [
-            { label: 'New File', action: 'new-temp-file', icon: 'file' },
-            { label: 'Open File...', action: 'open-file', icon: 'folder' },
-            { isSeparator: true },
-            { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
-            { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab },
-        ];
-        
-        if (activeTab && (activeTab.item.name.endsWith('.html') || activeTab.item.name.endsWith('.htm'))) {
-            menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
-        }
-        
-        menuItems.push(
-            { isSeparator: true },
-            { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
-            { label: 'Select All', action: 'select-all', icon: 'select-all', disabled: !activeTab },
-            { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
-            { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
-            { isSeparator: true },
-            { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
-            { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'fullscreen' }, 
-            { label: 'Settings', action: 'settings', icon: 'settings' }
-        );
-
-        // --- THIS IS THE FIX FOR THE MENU ---
-        // Check for and add custom menus from the OS state
-        if (State.customMenus && State.customMenus.length > 0) {
-            menuItems.push({ isSeparator: true });
-
-            State.customMenus.forEach(customMenu => {
-                if (customMenu.items && Array.isArray(customMenu.items)) {
-                    customMenu.items.forEach(item => {
-                        menuItems.push({
-                            label: item.label,
-                            action: item.action, // Custom actions will be handled by the dispatcher
-                            icon: item.icon
-                        });
-                    });
-                }
-            });
-        }
-        // --- END FIX ---
-
-        DOM.mainMenu.innerHTML = menuItems.map(i => {
-            if (i.isSeparator) {
-                return `<hr class="menu-separator">`;
-            }
-            return `
-                <button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
-                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-                </button>
-            `;
-        }).join('');
-
-        const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
-        this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
-    },
+	    e.stopPropagation();
+	    this.hideAll();
+	    setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
+	
+	    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+	    const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
+	    
+	    const menuItems = [
+	        { label: 'New File', action: 'new-temp-file', icon: 'file' },
+	        { label: 'Open File...', action: 'open-file', icon: 'folder' },
+	        { isSeparator: true },
+	        { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
+	        { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab },
+	    ];
+	    
+	    if (activeTab && (activeTab.item.name.endsWith('.html') || activeTab.item.name.endsWith('.htm'))) {
+	        menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
+	    }
+	
+	    // --- B"H - NEW: DYNAMIC TOGGLE FOR AWTSMOOS FILES ---
+	    if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
+	        menuItems.push({ 
+	            label: activeTab.isBinaryView ? 'View as JSON' : 'View as Binary', 
+	            action: 'toggle-awtsmoos-view', 
+	            icon: 'brain-circuit' 
+	        });
+	    }
+	    // --- END NEW ---
+	    
+	    menuItems.push(
+	        { isSeparator: true },
+	        { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
+	        { label: 'Select All', action: 'select-all', icon: 'select-all', disabled: !activeTab },
+	        { label: 'Copy', action: 'copy', icon: 'copy', disabled: !hasSelection },
+	        { label: 'Copy All', action: 'copy-all', icon: 'copy', disabled: !activeTab },
+	        { isSeparator: true },
+	        { label: 'Toggle Keyboard Helper', action: 'toggle-keyboard-helper', icon: 'laptop' }, 
+	        { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'fullscreen' }, 
+	        { label: 'Settings', action: 'settings', icon: 'settings' }
+	    );
+	
+	    if (State.customMenus && State.customMenus.length > 0) {
+	        menuItems.push({ isSeparator: true });
+	        State.customMenus.forEach(customMenu => {
+	            if (customMenu.items && Array.isArray(customMenu.items)) {
+	                customMenu.items.forEach(item => {
+	                    menuItems.push({ label: item.label, action: item.action, icon: item.icon });
+	                });
+	            }
+	        });
+	    }
+	
+	    DOM.mainMenu.innerHTML = menuItems.map(i => {
+	        if (i.isSeparator) return `<hr class="menu-separator">`;
+	        return `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
+	                <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
+	            </button>`;
+	    }).join('');
+	
+	    const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
+	    this.positionAndDisplay(DOM.mainMenu, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
+	},
 
     
 
@@ -265,7 +263,14 @@ registerCustomMenus(menuConfigs) {
                 case 'open-file': App.openLocalFile(); break;
                 case 'save': Tabs.saveActive(); break;
                 case 'download': Tabs.downloadActive(); break;
-                
+                case 'toggle-awtsmoos-view': {
+		    if (!activeTab) break;
+		    // Flip the view mode flag on the tab object
+		    activeTab.isBinaryView = !activeTab.isBinaryView;
+		    // Re-activate the tab to force it to re-process and display the content
+		    Tabs.activate(activeTab.id);
+		    break;
+		}
                 case 'view-html': {
                     
                     if (!activeTab) break;

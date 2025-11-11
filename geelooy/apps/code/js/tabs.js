@@ -11,6 +11,7 @@ import { detachWorkerRequestHandler, detachDynamicAssetHandler } from './html-pr
 import { App } from './app.js';
 import { Console } from "./Console.js";
 
+import { AwtsmoosHandler } from './awtsmoos-handler.js';
 function downloadFile(filename, content) {
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -114,88 +115,103 @@ create(item, isNewFile = false, shouldSave = true) {
         this.activate(newTab.id);
     },
 
-    async activate(tabId) {
-        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (currentTab) {
-            if (currentTab.fileType === 'text') {
-                currentTab.content = Editor.getContent();
-                currentTab.scrollPos = DOM.editor.scrollTop;
-            }
-            if (currentTab.fileType === 'html-preview') {
-                const iframe = State.previewIframes.get(currentTab.id);
-                if (iframe) DOM.iframeCache.appendChild(iframe);
-            }
-        }
     
-        State.activeTabId = tabId;
-        const tab = State.tabs.find(t => t.id === tabId);
-
-        DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
-
-        if (!tab) {
-            UI.switchView('empty');
-            StatusBar.clear();
-            this.render();
-            App.saveSession();
-            return;
-        }
-
-        if (tab.content === null) {
-            UI.showLoading(`Opening ${tab.item.name}...`);
-            try {
-                tab.content = await FileSystemProvider.read(tab.item);
-            } catch (e) {
-                UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-                this.close(tab.id, true);
-                return;
-            } finally {
-                UI.hideLoading();
-            }
-        }
-
-        const fileInfo = { type: tab.fileType, name: tab.item.name };
-
-        switch (tab.fileType) {
-            case 'console':
-                UI.switchView('console');
-                let instance = State.consoleInstances.get(tab.id);
-                if (!instance) {
-                    const associatedIframe = State.previewIframes.get(tab.item.associatedTabId);
-                    if (associatedIframe) {
-                        instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
-                        instance.render();
-                        State.consoleInstances.set(tab.id, instance);
-                    } else {
-                        DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--color-accent-danger);">Error: Could not find the associated HTML preview.</div>`;
-                    }
-                }
-                break;
-
-            case 'html-preview':
-                Editor.showPreviewer(tab.content, fileInfo, tab.id);
-                break;
-
-            case 'text':
-    if (tab.content instanceof Blob) {
-        const text = await tab.content.text();
-        tab.content = text;
-        // THE FIX: Pass the saved scroll position to the editor function.
-        Editor.showTextEditor(text, tab.item.name, tab.scrollPos || 0);
-    } else {
-        // THE FIX: Pass the saved scroll position to the editor function.
-        Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-    }
-    
-    break;
-                
-            default: // images, pdfs, etc.
-                Editor.showPreviewer(tab.content, fileInfo, tab.id);
-                break;
-        }
-
-        this.render();
-        App.saveSession();
-    },
+	async activate(tabId) {
+	    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+	    if (currentTab) {
+	        if (currentTab.fileType === 'text') {
+	            // Only update content if it's not in binary view, otherwise we'd overwrite the raw binary
+	            if (!currentTab.isBinaryView) {
+	                currentTab.content = Editor.getContent();
+	            }
+	            currentTab.scrollPos = DOM.editor.scrollTop;
+	        }
+	        if (currentTab.fileType === 'html-preview') {
+	            const iframe = State.previewIframes.get(currentTab.id);
+	            if (iframe) DOM.iframeCache.appendChild(iframe);
+	        }
+	    }
+	
+	    State.activeTabId = tabId;
+	    const tab = State.tabs.find(t => t.id === tabId);
+	
+	    DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
+	
+	    if (!tab) {
+	        UI.switchView('empty');
+	        StatusBar.clear();
+	        this.render();
+	        App.saveSession();
+	        return;
+	    }
+	
+	    // Load content if it's not already loaded OR if it's raw binary from a previous view toggle
+	    if (tab.content === null || tab.rawContent) {
+	        UI.showLoading(`Opening ${tab.item.name}...`);
+	        try {
+	            // Use rawContent if it exists, otherwise read from provider
+	            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
+	            tab.rawContent = fileContent; // Always store the original binary content
+	            
+	            // --- AWTSMOOS DECODING LOGIC ---
+	            if (tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
+	                if (tab.isBinaryView) {
+	                    // If in binary view, show the raw bytes as a string
+	                    tab.content = await AwtsmoosHandler.binaryToString(fileContent);
+	                } else {
+	                    // Otherwise, decode it to pretty-printed JSON
+	                    tab.content = await AwtsmoosHandler.decodeContent(fileContent);
+	                }
+	            } else {
+	                tab.content = fileContent; // For all other files
+	            }
+	
+	        } catch (e) {
+	            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+	            this.close(tab.id, true);
+	            return;
+	        } finally {
+	            UI.hideLoading();
+	        }
+	    }
+	
+	    const fileInfo = { type: tab.fileType, name: tab.item.name };
+	
+	    switch (tab.fileType) {
+	        case 'console':
+	            UI.switchView('console');
+	            let instance = State.consoleInstances.get(tab.id);
+	            if (!instance) {
+	                const associatedIframe = State.previewIframes.get(tab.item.associatedTabId);
+	                if (associatedIframe) {
+	                    instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
+	                    instance.render();
+	                    State.consoleInstances.set(tab.id, instance);
+	                } else {
+	                    DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--color-accent-danger);">Error: Could not find the associated HTML preview.</div>`;
+	                }
+	            }
+	            break;
+	        case 'html-preview':
+	            Editor.showPreviewer(tab.content, fileInfo, tab.id);
+	            break;
+	        case 'text':
+	            if (tab.content instanceof Blob) {
+	                const text = await tab.content.text();
+	                tab.content = text;
+	                Editor.showTextEditor(text, tab.item.name, tab.scrollPos || 0);
+	            } else {
+	                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+	            }
+	            break;
+	        default: // images, pdfs, etc.
+	            Editor.showPreviewer(tab.content, fileInfo, tab.id);
+	            break;
+	    }
+	
+	    this.render();
+	    App.saveSession();
+	},
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);
@@ -271,35 +287,54 @@ create(item, isNewFile = false, shouldSave = true) {
         await this.save(tab);
     },
 
-    async save(tab) {
-        UI.showToast(`Saving ${tab.item.name}...`);
-  
-        try {
-            if (tab.id === State.activeTabId) {
-                tab.content = Editor.getContent();
-            }
-            let commitMessage;
-            if (tab.item.type === 'github') {
-                commitMessage = await UI.showDialog({ 
-                    title: 'Commit Changes', hasTextarea: true, 
-                    textareaContent: `B"H\nUpdate ${tab.item.name}`, 
-                    okText: 'Commit & Save',
-                    message: `Enter commit message for "${tab.item.name}".`
-                });
-                if (commitMessage === null || commitMessage === undefined) throw new Error("Save cancelled.");
-            }
-                 
-            await FileSystemProvider.write(tab.item, tab.content, commitMessage);
-             console.log("doing",tab.item);
-            tab.isDirty = false;
-            UI.showToast(`Saved "${tab.item.name}"`, 'success');
-            this.render();
-        } catch (e) {
-            UI.showToast(`Save failed: ${e.message}`, 'error');
-        } finally {
-            UI.hideLoading();
-        }
-    },
+    
+	async save(tab) {
+	    UI.showToast(`Saving ${tab.item.name}...`);
+	
+	    try {
+	        let contentToSave;
+	        if (tab.id === State.activeTabId) {
+	            contentToSave = Editor.getContent();
+	        } else {
+	            contentToSave = tab.content;
+	        }
+	
+	        // --- AWTSMOOS ENCODING LOGIC ---
+	        if (tab.item.name.toLowerCase().endsWith('.awtsmoosjson') && !tab.isBinaryView) {
+	            UI.showLoading('Encoding to binary...');
+	            // The editor has the JSON string, encode it back to binary before writing.
+	            contentToSave = await AwtsmoosHandler.encodeContent(contentToSave);
+	            tab.rawContent = new Blob([contentToSave]); // Update the stored raw content
+	        }
+	        // If it's in binary view, we assume the user is editing raw bytes (not recommended) and save as is.
+	        
+	        let commitMessage;
+	        if (tab.item.type === 'github') {
+	            commitMessage = await UI.showDialog({ 
+	                title: 'Commit Changes', hasTextarea: true, 
+	                textareaContent: `B"H\nUpdate ${tab.item.name}`, 
+	                okText: 'Commit & Save',
+	                message: `Enter commit message for "${tab.item.name}".`
+	            });
+	            if (commitMessage === null || commitMessage === undefined) throw new Error("Save cancelled.");
+	        }
+	             
+	        await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
+	        
+	        tab.isDirty = false;
+	        // Only update tab.content if we weren't in binary view, to avoid replacing the text representation of bytes
+	        if(!tab.isBinaryView) {
+	            tab.content = contentToSave;
+	        }
+	        
+	        UI.showToast(`Saved "${tab.item.name}"`, 'success');
+	        this.render();
+	    } catch (e) {
+	        UI.showToast(`Save failed: ${e.message}`, 'error');
+	    } finally {
+	        UI.hideLoading();
+	    }
+	},
 
     async saveAs(tab) {
         try {
