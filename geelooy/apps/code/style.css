@@ -491,29 +491,33 @@
     
     
     
-    /* --- MOBILE RESPONSIVENESS (UNCHANGED LOGIC) --- */
-    @media (max-width: 768px) {
-        .app-container { grid-template-columns: 1fr; }
-        .sidebar {
-            grid-row: 1 / 4; position: fixed; top: 0; left: 0; height: 100%; width: 85%; max-width: 320px;
-            transform: translateX(-100%); z-index: 1100; 
-            
-            
-        
-        }
-        .sidebar.is-open { transform: translateX(0); }
-        .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1099;
-            opacity: 0; transition: opacity var(--timing-med) ease; pointer-events: none;
-        }
-        .sidebar-overlay.is-visible { opacity: 0; }
-        .main-content { grid-column: 1 / 2; }
-        .top-panel { grid-column: 1 / 2; }
-        .status-bar {
-    grid-column: 1 / 2; /* ADD THIS LINE */
-    font-size: 0.8em;
-}
+    /* --- B"H - UNIFIED RESPONSIVE STYLES --- */
+	@media (max-width: 768px) {
+	    .app-container { 
+	        /* The only rule needed is to switch to a single column layout */
+	        grid-template-columns: 1fr; 
+	    }
+	
+	    /* B"H - REMOVED all the old mobile-specific rules for .sidebar, .sidebar-overlay, etc. */
+	    /* They are no longer needed as the desktop grid behavior now applies everywhere. */
+	    
+	    .main-content,
+	    .top-panel,
+	    .status-bar {
+	        /* Ensure these elements correctly align in the single column layout */
+	        grid-column: 1 / 2;
+	    }
+	
+	    .status-bar {
+	        font-size: 0.8em;
+	    }
+	    
+	    #sidebar-collapse-btn {
+	        display: none; /* We still hide this button on mobile as the main toggle serves its purpose */
+	    }
+	
+	    /* B"H - The .sidebar-resizer no longer has 'display: none', so it will now appear on mobile. */
+	}
         
         
     }

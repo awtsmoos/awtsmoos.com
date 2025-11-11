@@ -137,35 +137,15 @@ activeConsole: null, // B"H
          State.useTabs = settings.useTabs ?? true;
     },
 
-
 setupEventListeners() {
-
-
-
-
-
-
-
-window.addEventListener('message', (event) => {
-      //  console.log("EDITOR received message:", event.data); 
-        
+    window.addEventListener('message', (event) => {
         const { type, payload, requestId, error } = event.data;
-	//console.log("DATA",event.data)
-        // --- Handle responses for our provider requests ---
-        //  Check the shared State.postMessagePendingRequests map
         if (State.postMessagePendingRequests.has(requestId)) {
             const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
             State.postMessagePendingRequests.delete(requestId);
-            
-            if (error) {
-                reject(new Error(error));
-            } else {
-                resolve(payload);
-            }
-            return; // Stop further processing
+            if (error) { reject(new Error(error)); } else { resolve(payload); }
+            return;
         }
-
-        // --- Handle initial load commands from OS ---
         if (type === 'loadFile') {
             const { fileName, content, saveContext } = payload;
             const externalWorkspace = { name: `OS File`, type: 'postmessage' };
@@ -175,200 +155,122 @@ window.addEventListener('message', (event) => {
             Tabs.create(fileItem, false, false);
             return;
         }
-
         if (type === 'loadFolderAsWorkspace') {
             const { folderName, folderPath } = payload;
-        
             State.workspaces = [];
             DOM.workspacesContainer.innerHTML = '';
             State.domItemMap.clear();
-
             const osWorkspace = { name: folderName, type: 'osfolder', path: folderPath };
             Workspaces.add(osWorkspace, false);
             return;
         }
-
-        
-      
-        //  'if' block to handle the menu registration
         if (type === 'registerMenus') {
-            CustomMenu.createFromConfig(payload)
-            
+            CustomMenu.createFromConfig(payload);
             return;
         }
-        
         if (type === 'requestContent') {
-            // The parent OS is asking for the current editor content.
             const content = Editor.getContent();
-            // Send it back in a response message.
-            window.parent.postMessage({
-                type: 'responseContent',
-                payload: { content: content }
-            }, '*');
+            window.parent.postMessage({ type: 'responseContent', payload: { content: content } }, '*');
             return;
         }
-        
         if(type == "osResponse") {
-	        if(payload.saved) {
-		        
-	        }
+	        if(payload.saved) { }
         }
     });
 
 	let resizeDebounceTimer;
 	
-    // --- Element References (Using YOUR DOM object variable names) ---
     if (DOM.viewConsoleBtn) {
         DOM.viewConsoleBtn.onclick = () => {
             const activeTab = State.tabs.find(t => t.id === State.activeTabId);
             if (activeTab && activeTab.fileType === 'html-preview') {
-                Tabs.createConsole(activeTab); // Use the new Tabs function
+                Tabs.createConsole(activeTab);
             } else {
                 UI.showToast("No active preview to attach console.", "error");
             }
         };
     }
     
-    
-    
-    
     const appContainer = document.querySelector('.app-container');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-
-    
-    
-    
-    
-    
-    // --- 1. Main Menu Button (FIXED) ---
-    // Now that DOM.hamburgerMenuBtn is correctly finding the element, this will work.
-    
-    
     
     if (DOM.hamburgerMenuBtn) {
         DOM.hamburgerMenuBtn.onclick = (e) => {
-            // Stop the click from being caught by any other listeners.
             e.stopPropagation();
             Menus.showMainMenu(e);
         };
     }
 
-    // --- 2. Sidebar Toggle Button (FIXED) ---
-    // Now that DOM.mobileSidebarToggle is correctly finding the element, this will work.
-   if (DOM.mobileSidebarToggle) {
-    DOM.mobileSidebarToggle.onclick = (e) => {
-        e.stopPropagation(); // Prevent interference.
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-        if (isMobile) {
-            // On mobile, toggle the slide-out panel.
-            DOM.sidebar.classList.toggle('is-open');
-            DOM.sidebarOverlay.classList.toggle('is-visible');
-        } else {
-	        
-            // On desktop, toggle the collapsed state.
+    // B"H - UNIFIED SIDEBAR TOGGLE LOGIC
+    if (DOM.mobileSidebarToggle) {
+        DOM.mobileSidebarToggle.onclick = (e) => {
+            e.stopPropagation();
+            // This now ALWAYS toggles the desktop-style collapse, regardless of screen size.
             appContainer.classList.toggle('sidebar-collapsed');
-		if(!appContainer.classList.contains("sidebar-collapsed")) {
-			var sidebarW = localStorage.awtsmoosSidebarWidth;
-			if(!isNaN(sidebarW)) {
-				
-			        appContainer.style.gridTemplateColumns = 
-			        `${sidebarW}px 1fr`;
-			}
-		} else {
-		
-			appContainer.style.gridTemplateColumns = '';
-		}
-        }
-    };
-}
+            
+            // Restore width if we are un-collapsing
+            if (!appContainer.classList.contains("sidebar-collapsed")) {
+                var sidebarW = localStorage.awtsmoosSidebarWidth;
+                if (!isNaN(sidebarW)) {
+                    appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
+                }
+            } else {
+                appContainer.style.gridTemplateColumns = ''; // Reset to CSS default when collapsed
+            }
+        };
+    }
 
-    // --- 3. Internal Sidebar Collapse Button ---
-    // This button provides a second way to collapse the sidebar on desktop.
     if (sidebarCollapseBtn) {
-    sidebarCollapseBtn.onclick = (e) => {
-        e.stopPropagation();
-        appContainer.classList.toggle('sidebar-collapsed');
-        
-    };
-}
+        sidebarCollapseBtn.onclick = (e) => {
+            e.stopPropagation();
+            appContainer.classList.toggle('sidebar-collapsed');
+        };
+    }
     
-    // PASTE THIS SNIPPET inside the App.setupEventListeners() function
-
-	// --- B"H - SIDEBAR DRAG-TO-RESIZE LOGIC (for desktop) ---
-	const resizer = document.getElementById('sidebar-resizer');
+    const resizer = document.getElementById('sidebar-resizer');
 	
-	
-	
-	// First, check if the resizer element exists and if we are on a desktop screen
-	if (resizer && !window.matchMedia('(max-width: 768px)').matches) {
-	    
-	    const minWidth = 2; // Minimum sidebar width in pixels
-	    const maxWidth = 800; // Maximum sidebar width in pixels
+    // B"H - UNIFIED RESIZER LOGIC (REMOVED THE SCREEN SIZE CHECK)
+	if (resizer) {
+	    const minWidth = 2;
+	    const maxWidth = 800;
 		
 		var sidebarW = localStorage.awtsmoosSidebarWidth;
-		if(!isNaN(sidebarW)) {
-			
-		        appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
+		if(!isNaN(sidebarW) && !appContainer.classList.contains('sidebar-collapsed')) {
+		    appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
 		}
-	    // This function is called whenever the mouse moves during a drag
+
 	    const handleMouseMove = (e) => {
-	        // Calculate the new width, but keep it within our min/max bounds
 	        let newWidth = Math.max(minWidth, Math.min(e.clientX, maxWidth));
-	        // Directly update the CSS grid layout of the app container
 	        appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
 	        localStorage.awtsmoosSidebarWidth = newWidth;
 	    };
 	
-	    // This function is called when the user lets go of the mouse button
 	    const handleMouseUp = () => {
-	        // Stop resizing by removing the global listeners and the body class
 	        document.body.classList.remove('is-resizing');
 	        document.removeEventListener('mousemove', handleMouseMove);
 	        document.removeEventListener('mouseup', handleMouseUp);
-	         // This tells the editor to fill the new available space.
-		
 	    };
 	
-	    // This is where it all starts: when the user presses the mouse down on the resizer
 	    resizer.addEventListener('mousedown', (e) => {
-	        e.preventDefault(); // Prevent browser's default drag behavior
+	        e.preventDefault();
 	        document.body.classList.add('is-resizing');
-	        
-	        // Add listeners to the *entire document* to track mouse movement everywhere
 	        document.addEventListener('mousemove', handleMouseMove);
 	        document.addEventListener('mouseup', handleMouseUp);
 	    });
-}
-
-    // --- 4. Mobile "Click Outside to Close" Logic ---
-    // This logic is safe and will not interfere with the buttons.
-    document.addEventListener('click', (e) => {
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile || !DOM.sidebar.classList.contains('is-open')) {
-            return; // Only runs on mobile when sidebar is open.
-        }
-
-        const isClickInsideSidebar = DOM.sidebar.contains(e.target);
-        const isClickOnToggleButton = DOM.mobileSidebarToggle && DOM.mobileSidebarToggle.contains(e.target);
-
-        if (!isClickInsideSidebar && !isClickOnToggleButton) {
-            DOM.sidebar.classList.remove('is-open');
-            DOM.sidebarOverlay.classList.remove('is-visible');
-        }
-        
-        if (State.isSelectionModeActive) {
-        
-        const isClickInsideSelectionMenu = DOM.selectionMenu.contains(e.target);
-        if (!isClickInsideSidebar && !isClickInsideSelectionMenu) {
-            SelectionManager.end();
-        }
     }
-        
+
+    // B"H - REMOVED the "click outside to close" logic as it was part of the old mobile-only behavior.
+    document.addEventListener('click', (e) => {
+        if (State.isSelectionModeActive) {
+            const isClickInsideSidebar = DOM.sidebar.contains(e.target);
+            const isClickInsideSelectionMenu = DOM.selectionMenu.contains(e.target);
+            if (!isClickInsideSidebar && !isClickInsideSelectionMenu) {
+                SelectionManager.end();
+            }
+        }
     });
 
     // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PRESERVED EXACTLY) ---
-
     DOM.editor.addEventListener('input', () => {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab && !activeTab.isDirty) {
@@ -381,62 +283,36 @@ window.addEventListener('message', (event) => {
     DOM.editor.addEventListener('keyup', StatusBar.update);
     DOM.editor.addEventListener('click', StatusBar.update);
     new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
-
     DOM.contextMenu.addEventListener('click', (e) => {
-        e.stopPropagation()
-        
-        
+        e.stopPropagation();
         const button = e.target.closest('button');
-        
-        
-        if (button)  {
-        
-        
-        Menus
-        .handleAction(button.dataset.action);
-        
-        }
-    
+        if (button) Menus.handleAction(button.dataset.action);
     });
     DOM.mainMenu.addEventListener('click', (e) => {
-        e.stopPropagation()
-        
+        e.stopPropagation();
         const button = e.target.closest('button');
         if (button && !button.disabled) Menus.handleAction(button.dataset.action);
     });
-
     DOM.addWorkspaceBtn.onclick = () => this.showAddWorkspaceDialog();
-
     window.addEventListener('keydown', (e) => {
-    const hasModifier = e.ctrlKey || e.metaKey;
-    if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
-
-    // B"H - UPDATED FIND SHORTCUT LOGIC
-    if (hasModifier && e.key.toLowerCase() === 'f') {
-        e.preventDefault();
-        
-        // 1. Get currently selected text from the editor.
-        const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-        
-        // 2. Pass the selected text to the show function.
-        // If no text is selected, it will pass an empty string, which is handled gracefully.
-        FindReplace.show(selectedText); 
-    }
-
-    if (e.key === 'Escape') {
-        if (State.isSelectionModeActive) {
+        const hasModifier = e.ctrlKey || e.metaKey;
+        if (hasModifier && e.key.toLowerCase() === 's') { e.preventDefault(); Tabs.saveActive(); }
+        if (hasModifier && e.key.toLowerCase() === 'f') {
             e.preventDefault();
-            SelectionManager.end();
-        } else if (DOM.genericDialog.classList.contains('visible')) {
-            const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
-            if (cancelButton) cancelButton.click();
-            return;
+            const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
+            FindReplace.show(selectedText); 
         }
-        if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
-        else Menus.hideAll();
-    }
-});
-
+        if (e.key === 'Escape') {
+            if (State.isSelectionModeActive) { e.preventDefault(); SelectionManager.end(); }
+            else if (DOM.genericDialog.classList.contains('visible')) {
+                const cancelButton = DOM.genericDialog.querySelector('#dialog-cancel-btn');
+                if (cancelButton) cancelButton.click();
+                return;
+            }
+            if (DOM.findReplacePanel.style.display !== 'none') FindReplace.hide();
+            else Menus.hideAll();
+        }
+    });
     const handleTabInInputs = (e) => {
         if (e.key === 'Tab') {
             e.preventDefault();
@@ -448,21 +324,9 @@ window.addEventListener('message', (event) => {
     };
     DOM.findInput.addEventListener('keydown', handleTabInInputs);
     DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
-
-   DOM.editor.addEventListener('keydown', (e) => {
-	    // If the special find-selection mode is active, stop this listener immediately
-	    // and let the listener in find-replace.js handle the event.
-	    if (FindReplace.isFindSelectionActive) {
-	        return;
-	    }
-	
-	    if (e.key === 'Tab') {
-	        // This is not the right place for this, it will be handled by the highlighter.
-	        // We leave the return here to avoid conflicts for now.
-	        return; 
-	    }
-	
-	    // This auto-indent logic will now ONLY run if we are NOT in the find-selection mode.
+    DOM.editor.addEventListener('keydown', (e) => {
+	    if (FindReplace.isFindSelectionActive) { return; }
+	    if (e.key === 'Tab') { return; }
 	    if (e.key === 'Enter') {
 	        e.preventDefault();
 	        const editor = DOM.editor;
@@ -477,48 +341,33 @@ window.addEventListener('message', (event) => {
 	        editor.dispatchEvent(new Event('input', { bubbles: true }));
 	    }
 	});
-
-   // IN: js/app.js -> App.setupEventListeners()
-// REPLACE the existing keyboardHelper listener with this one.
-
-DOM.keyboardHelper.addEventListener('click', (e) => {
-    const button = e.target.closest('button.kh-btn');
-    if (!button) return;
-
-    // Get the active pnimi instance from the Editor module
-    const activeEditorInstance = Editor.currentHighlighter;
-    if (!activeEditorInstance) return; // Safety check
-
-    const editor = DOM.editor; // The textarea element
-    const key = button.dataset.key;
-    const pair = button.dataset.pair;
-    const start = editor.selectionStart;
-    const end = editor.selectionEnd;
-
-    if (pair) {
-        const [charStart, charEnd] = pair;
-        const selectedText = editor.value.substring(start, end);
-        const textToInsert = charStart + selectedText + charEnd;
-        editor.setRangeText(textToInsert, start, end, 'select');
-        if (start === end) {
-            editor.selectionStart = editor.selectionEnd = start + 1;
+    DOM.keyboardHelper.addEventListener('click', (e) => {
+        const button = e.target.closest('button.kh-btn');
+        if (!button) return;
+        const activeEditorInstance = Editor.currentHighlighter;
+        if (!activeEditorInstance) return;
+        const editor = DOM.editor;
+        const key = button.dataset.key;
+        const pair = button.dataset.pair;
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        if (pair) {
+            const [charStart, charEnd] = pair;
+            const selectedText = editor.value.substring(start, end);
+            const textToInsert = charStart + selectedText + charEnd;
+            editor.setRangeText(textToInsert, start, end, 'select');
+            if (start === end) {
+                editor.selectionStart = editor.selectionEnd = start + 1;
+            }
+        } else if (key === 'tab') {
+            activeEditorInstance.indentSelection();
         }
-    } else if (key === 'tab') {
-        // --- THIS IS THE KEY CHANGE ---
-        // Instead of just inserting a character, we call the powerful method
-        activeEditorInstance.indentSelection();
-    }
-    // NOTE: The simple event dispatch is no longer needed because our new
-    // methods already call _update() internally.
-
-    editor.focus();
-});
+        editor.focus();
+    });
     window.addEventListener('beforeunload', () => {
-    State.consoleInstances.forEach(instance => instance.destroy());
-        
-        
-    this.saveSession()
-    })
+        State.consoleInstances.forEach(instance => instance.destroy());
+        this.saveSession();
+    });
 },
 
     
