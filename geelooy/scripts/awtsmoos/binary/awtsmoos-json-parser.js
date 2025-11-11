@@ -50,6 +50,8 @@ class BufferReader {
             this.byteOffset = byteOffset;
             this.length = length === undefined ? arrayBuffer.byteLength - byteOffset : length;
         }
+         // Keep a reference to the root buffer for subarray creation
+        this.buffer = this.dataView.buffer;
     }
 
     readUInt8(offset) {
@@ -65,7 +67,6 @@ class BufferReader {
             case 4:
                 return this.dataView.getUint32(this.byteOffset + offset, false);
             case 8:
-                // JavaScript numbers lose precision beyond 2^53. Using BigInt.
                 return Number(this.dataView.getBigUint64(this.byteOffset + offset, false));
             default:
                 throw new Error(`Unsupported byteLength for readUIntBE: ${byteLength}`);
@@ -75,17 +76,14 @@ class BufferReader {
     subarray(start, end) {
         const begin = this.byteOffset + (start || 0);
         const finish = end === undefined ? this.byteOffset + this.length : this.byteOffset + end;
-        return new BufferReader(this.dataView.buffer, begin, finish - begin);
+        // Return a new BufferReader that is a view into the same underlying ArrayBuffer
+        return new BufferReader(this.buffer, begin, finish - begin);
     }
 
     toString(encoding = 'utf-8', start = 0, end = this.length) {
         const sub = new Uint8Array(this.dataView.buffer, this.byteOffset + start, end - start);
         return textDecoder.decode(sub);
     }
-    
-    slice(start, end) {
-		return this.subarray(start, end);
-	}
 }
 
 
@@ -112,12 +110,10 @@ function parseValueFromType(type, valueBuffer) {
         case 6: return undefined;
         case 7: return null;
         case 8: // Buffer
-             const raw = new Uint8Array(valueBuffer.dataView.buffer, valueBuffer.byteOffset, valueBuffer.length);
-             return raw;
+             return new Uint8Array(valueBuffer.buffer, valueBuffer.byteOffset, valueBuffer.length);
         default:
-            // For other numeric types, just return the raw buffer for now.
             console.warn(`Unsupported type ${type} encountered during parsing.`);
-            return new Uint8Array(valueBuffer.dataView.buffer, valueBuffer.byteOffset, valueBuffer.length);
+            return new Uint8Array(valueBuffer.buffer, valueBuffer.byteOffset, valueBuffer.length);
     }
 }
 
@@ -128,7 +124,8 @@ function parseValueFromType(type, valueBuffer) {
  */
 function deserializeArray(buffer) {
     let offset = MAGIC_ARRAY.length;
-    // Skipping FreeSpace pointer for client-side read-only parsing.
+    // Skip FreeSpace pointer for client-side read-only parsing.
+    offset += 4;
     const headerByte = buffer.readUInt8(offset);
     offset++;
 
@@ -146,14 +143,12 @@ function deserializeArray(buffer) {
         const indexOffset = indexTableStart + i * internalOffsetSize;
         const itemOffset = buffer.readUIntBE(indexOffset, internalOffsetSize);
 
-        // Read item from its offset
         const typeByte = buffer.readUInt8(itemOffset);
         const { type, lengthSize } = unpackTypeAndLengthSize(typeByte);
 
         let itemDataOffset = itemOffset + 1;
         let itemDataLength = 0;
         
-        // Types with 0 length (bool, null, etc.) don't have a length field.
         const typesWith0Length = [0, 5, 6, 7, 24, 25, 26];
         if (!typesWith0Length.includes(type)) {
             itemDataLength = buffer.readUIntBE(itemDataOffset, lengthSize);
@@ -173,32 +168,26 @@ function deserializeArray(buffer) {
  * @returns {object} The deserialized JavaScript object.
  */
 function deserializeObject(buffer) {
-    // We only need to deserialize the whole thing, so we can simplify the process.
-    // 1. Find the metadata array.
-    // 2. Deserialize it.
-    // 3. Iterate through the metadata entries and build the object.
-
     let offset = MAGIC_JSON.length;
-    // Skipping FreeSpace pointer for client-side read-only parsing.
+    offset += 4; // Skip FreeSpace pointer
+    
     const headerByte1 = buffer.readUInt8(offset);
 
     const sizeOfEmbeddedMetadataArrayLength = unpackLength((headerByte1 >> 1) & 0b11);
     const sizeOfHashTableLength = unpackLength(headerByte1 & 0b01);
     const lengthSizeOfKeys = unpackLength((headerByte1 >> 3) & 0b11);
     
-    // Read footer lengths from the end of the buffer
     const footerLengthsTotalDynamicSize = lengthSizeOfKeys + sizeOfEmbeddedMetadataArrayLength + sizeOfHashTableLength;
-    const totalFooterLengthsSize = 1 + footerLengthsTotalDynamicSize; // 1 byte for packed footer sizes
+    const totalFooterLengthsSize = 1 + footerLengthsTotalDynamicSize;
     const footerLengthsOffset = buffer.length - totalFooterLengthsSize;
 
-    let footerOffset = footerLengthsOffset + 1; // Skip packed sizes byte
+    let footerOffset = footerLengthsOffset + 1;
     const lengthOfTotalEntries = buffer.readUIntBE(footerOffset, lengthSizeOfKeys);
     footerOffset += lengthSizeOfKeys;
     const lengthMetadataArray = buffer.readUIntBE(footerOffset, sizeOfEmbeddedMetadataArrayLength);
 
     if (lengthOfTotalEntries === 0) return {};
 
-    // 2. Locate and deserialize the metadata array.
     const metadataTableEnd = footerLengthsOffset;
     const metadataTableStart = metadataTableEnd - lengthMetadataArray;
     const metadataArrayBuffer = buffer.subarray(metadataTableStart, metadataTableEnd);
@@ -208,7 +197,10 @@ function deserializeObject(buffer) {
     for (const entryBuffer of metadataEntriesRaw) {
         if (!entryBuffer || entryBuffer.length < 2) continue;
         
-        const entryReader = new BufferReader(entryBuffer.buffer, entryBuffer.byteOffset);
+        // --- THIS IS THE CRITICAL FIX ---
+        // The original entryBuffer was a BufferReader that didn't have its length constrained.
+        // By creating a new BufferReader and EXPLICITLY passing the length, we fix the bug.
+        const entryReader = new BufferReader(entryBuffer.buffer, entryBuffer.byteOffset, entryBuffer.length);
 
         let entryOffset = 0;
         const packedLengthSizes = entryReader.readUInt8(entryOffset++);
