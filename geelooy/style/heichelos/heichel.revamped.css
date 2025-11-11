@@ -418,6 +418,7 @@ body {
 .heichel-page-container p#sidebar-description {
     line-height: 1.6;
     font-size: 1rem;
+    max-height: 200px;
     margin: 0;
     padding: 0;
     overflow-y: scroll;

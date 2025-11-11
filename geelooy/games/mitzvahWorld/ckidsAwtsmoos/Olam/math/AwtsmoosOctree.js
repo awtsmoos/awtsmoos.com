@@ -36,6 +36,20 @@ export class Octree {
 		this.subTrees = [];
 		this.#allTriangles = [];
 		this.#isBuilt = false;
+		this.dynamicTriangles = [];
+	}
+	
+	addDynamicTriangle(triangle) {
+	    if (!this.box.intersectsTriangle(triangle)) {
+	        return;
+	    }
+	    if (this.subTrees.length > 0) {
+	        for (const subTree of this.subTrees) {
+	            subTree.addDynamicTriangle(triangle);
+	        }
+	    } else {
+	        this.dynamicTriangles.push(triangle.clone());
+	    }
 	}
 	
 	/**
@@ -284,64 +298,103 @@ export class Octree {
 	}
 
 	capsuleIntersect(capsule) {
-		if (!this.#isBuilt) this.build();
-		if (this.box.isEmpty() || !capsule.intersectsBox(this.box)) return false;
+    if (!this.#isBuilt) this.build();
+    if (this.box.isEmpty() || !capsule.intersectsBox(this.box)) return false;
 
-		const resultCapsule = capsule.clone();
-		let hit = false;
-		
-		const trianglesToCheck = [];
-		this.getCapsuleTriangles(capsule, trianglesToCheck);
-		
-		for (const index of trianglesToCheck) {
-			const tri = this.#_getTriangle(index, _temp_triangle);
-			const result = this._triangleCapsuleIntersect(resultCapsule, tri);
-			if (result) {
-				hit = true;
-				resultCapsule.translate(result.normal.multiplyScalar(result.depth));
-			}
-		}
-		
-		if (hit) {
-			const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
-			if (collisionVector.lengthSq() > 1e-10) {
-				const depth = collisionVector.length();
-				return { normal: collisionVector.normalize(), depth: depth };
-			}
-		}
-		return false;
-	}
+    const resultCapsule = capsule.clone();
+    let hit = false;
+    
+    const trianglesToCheck = [];
+    this.getCapsuleTriangles(capsule, trianglesToCheck); // This gets STATIC indices
+    
+    // CHECK 1: The fast, static geometry
+    for (const index of trianglesToCheck) {
+        const tri = this.#_getTriangle(index, _temp_triangle);
+        const result = this._triangleCapsuleIntersect(resultCapsule, tri);
+        if (result) {
+            hit = true;
+            resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+        }
+    }
+
+    // CHECK 2: The new, dynamic triangles
+    const dynamicTris = [];
+    this._getDynamicCapsuleTriangles(capsule, dynamicTris);
+    for (const tri of dynamicTris) {
+        const result = this._triangleCapsuleIntersect(resultCapsule, tri);
+        if (result) {
+            hit = true;
+            resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+        }
+    }
+
+    // Return logic is now based on combined results
+    if (hit) {
+        const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
+        if (collisionVector.lengthSq() > 1e-10) {
+            const depth = collisionVector.length();
+            return { normal: collisionVector.normalize(), depth: depth };
+        }
+    }
+    return false;
+}
+
+_getDynamicCapsuleTriangles(capsule, triangles) {
+    for (const subTree of this.subTrees) {
+        if (capsule.intersectsBox(subTree.box)) {
+            subTree._getDynamicCapsuleTriangles(capsule, triangles);
+        }
+    }
+    // This is a leaf node, add its dynamic triangles
+    triangles.push(...this.dynamicTriangles);
+}
 
 	rayIntersect(ray) {
-	    if (!this.#isBuilt) this.build();
-	    if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
+    if (!this.#isBuilt) this.build();
+    if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
+
+    const trianglesToCheck = { staticIndices: new Set(), dynamicTris: new Set() };
+    let closestResult = false;
+    this._getHybridRayTriangles(ray, trianglesToCheck);
+
+    // Check against STATIC triangles from the fast buffer
+    for (const index of trianglesToCheck.staticIndices) {
+        const triangle = this.#_getTriangle(index, _temp_triangle);
+        const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
+        if (result) {
+            const distSq = ray.origin.distanceToSquared(result);
+            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
+                const hitNormal = new Vector3();
+                triangle.getNormal(hitNormal);
+                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal };
+            }
+        }
+    }
+    
+    // Check against DYNAMIC triangles from the simple array
+    for (const triangle of trianglesToCheck.dynamicTris) {
+        const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
+        if (result) {
+            const distSq = ray.origin.distanceToSquared(result);
+            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
+                const hitNormal = new Vector3();
+                triangle.getNormal(hitNormal);
+                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal };
+            }
+        }
+    }
+
+    return closestResult;
+}
 	
-	    let closestResult = false;
-	    const trianglesToCheck = [];
-	    this.getRayTriangles(ray, trianglesToCheck);
-	
-	    for (const index of trianglesToCheck) {
-	        const tri = this.#_getTriangle(index, _temp_triangle);
-	        const result = ray.intersectTriangle(tri.a, tri.b, tri.c, false, _v1);
-	        
-	        if (result) {
-	            const distSq = ray.origin.distanceToSquared(result);
-	            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
-	                
-	                const hitNormal = new Vector3();
-	                tri.getNormal(hitNormal);
-	
-	                closestResult = {
-	                    distance: Math.sqrt(distSq),
-	                    triangle: tri.clone(),
-	                    position: result.clone(),
-	                    normal: hitNormal
-	                };
-	            }
+	_getHybridRayTriangles(ray, result) {
+	    for (const subTree of this.subTrees) {
+	        if (ray.intersectsBox(subTree.box)) {
+	            subTree._getHybridRayTriangles(ray, result);
 	        }
 	    }
-	
-	    return closestResult;
+	    for (const index of this.triangles) result.staticIndices.add(index);
+	    for (const tri of this.dynamicTriangles) result.dynamicTris.add(tri);
 	}
 	
 	_triangleCapsuleIntersect(capsule, triangle) {

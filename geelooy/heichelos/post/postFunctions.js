@@ -105,6 +105,14 @@ function isHebrewWord(word) {
 var $_GET = new URLSearchParams(location.search)
 
 function makeInfoHTML() {
+    window.currentIndexInSeries = (
+	    sp => parseInt(sp[sp.length - 1])
+    )(location.pathname.split("/"));
+    
+    
+    var basePath = (d=>d.slice(0,d.length-1)
+		            .join("/")
+		    )(location.pathname.split("/")) 
     const post = window.post;
     const alias = window.alias;
     if (!post)
@@ -200,6 +208,63 @@ function makeInfoHTML() {
     seriesSection.appendChild(seriesLabel);
     seriesSection.appendChild(seriesValue);
     container.appendChild(seriesSection);
+    
+    
+     // Check if the post is part of a series with the necessary info
+    if (window.series && Array.isArray(window.series.posts) && window.currentIndexInSeries !== undefined) {
+        const navContainer = document.createElement("div");
+        navContainer.className = "post-navigation-container";
+
+        const posts = window.series.posts;
+        const totalPosts = posts.length;
+        const currentIndex = window.currentIndexInSeries;
+
+        // --- Previous Button ---
+        if (currentIndex > 0) {
+            const prevPostId = posts[currentIndex - 1]; // Assumes posts is an array of IDs
+            const prevLink = document.createElement("a");
+            // Assuming a URL structure for navigating posts
+            prevLink.href = `/heichelos/${post.heichel.id}/post/${prevPostId}?series=${window.series.id}`;
+            prevLink.className = "nav-button prev";
+            prevLink.textContent = "Previous";
+            navContainer.appendChild(prevLink);
+        }
+
+        // --- Chapter Select Dropdown ---
+        const chapterSelect = document.createElement("select");
+        chapterSelect.className = "series-chapter-select";
+
+        posts.forEach((postId, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            // Since post titles for the whole series aren't available here, we use chapter numbers
+            option.textContent = `Chapter ${index + 1} of ${totalPosts}`;
+            if (index === currentIndex) {
+                option.selected = true;
+            }
+            chapterSelect.appendChild(option);
+        });
+
+        chapterSelect.addEventListener('change', (event) => {
+	        console.log("hi");
+            const selectedIndex = event.target.value;
+            window.location.href =basePath  + "/" + selectedIndex 
+        });
+
+        navContainer.appendChild(chapterSelect);
+
+        // --- Next Button ---
+        if (currentIndex < totalPosts - 1) {
+  
+            const nextLink = document.createElement("a");
+            nextLink.href = basePath +"/" +currentIndex + 1
+            nextLink.className = "nav-button next";
+            nextLink.textContent = "Next";
+            navContainer.appendChild(nextLink);
+        }
+        
+        container.appendChild(navContainer);
+    }
    
     
 
@@ -212,7 +277,7 @@ function makeInfoHTML() {
         container.appendChild(editLink);
     }
 
-    return container.outerHTML;
+    return container;
 }
 
 function appendHTML(html, par) {

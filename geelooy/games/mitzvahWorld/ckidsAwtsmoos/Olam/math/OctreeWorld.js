@@ -3,7 +3,7 @@
 
 import * as THREE  from '/games/scripts/build/three.module.js';
 import { Octree as AwtsmoosOctree } from './AwtsmoosOctree.js';
-var { Box3, Vector3, Group, Mesh, Sphere } = THREE
+var { Box3, Vector3, Group, Mesh, Sphere, Triangle } = THREE
 // --- Constants for Readability ---
 const MAX_DEPTH = 12;
 const NODE_STATE = {
@@ -117,37 +117,30 @@ addObject(mesh) {
      * that already contains the static world geometry.
      */
     #synchronouslyRebuildNode(node, newMesh) {
-    console.log(`[OctreeWorld] SURGICAL INSERTION triggered for node.`);
+    console.log(`[OctreeWorld] DYNAMIC ADD triggered.`);
 
-    // If the node hasn't even been built for the first time, do a proper async build.
-    // This is a safety check and should not normally be hit for this use case.
     if (node.state !== NODE_STATE.READY) {
-        console.warn('[OctreeWorld] addObject called on a node that was not ready. Performing a full sync build as a fallback.');
-        node.physicsMeshGroup.add(newMesh);
-        this.#buildNodePhysics(node); // Fallback to the original async build function, but run it now.
-        return;
+        console.warn('[OctreeWorld] Node was not ready. Forcing async build as fallback.');
+        this.#buildNodePhysics(node);
     }
     
-    // --- The Lightning-Fast Path ---
-    // The node's physics are already built. We will just add triangles.
-
-    const geometry = newMesh.geometry;
+    const geometry = newMesh.geometry.toNonIndexed();
     const positionAttribute = geometry.getAttribute('position');
 
-    // Extract the 12 triangles from our new brick mesh. This is extremely fast.
     if (positionAttribute) {
         for (let i = 0; i < positionAttribute.count; i += 3) {
-            const v1 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
-            const v2 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
-            const v3 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
-            const newTriangle = new THREE.Triangle(v1, v2, v3);
+            const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
+            const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
+            const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
+            const newTriangle = new Triangle(v1, v2, v3);
             
-            // Call our new surgical method for each triangle.
-            node.physics.addTriangle(newTriangle);
+            // Call our new, SAFE method. It doesn't rebuild anything!
+            node.physics.addDynamicTriangle(newTriangle);
         }
     }
+    geometry.dispose();
 
-    console.log(`[OctreeWorld] SURGICAL INSERTION complete. Total triangles in node now: ${node.physics.getTotalTriangleCount()}`);
+    console.log(`[OctreeWorld] DYNAMIC ADD complete. Added 12 triangles to the dynamic list.`);
 }
 
 

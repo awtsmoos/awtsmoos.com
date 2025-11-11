@@ -438,7 +438,7 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
             throw new Error(`DB Error: ${writeResult.error.message || writeResult.error}`);
         }
 
-		var bready = await fetchAwtsmoos(`/api/social/heichelos/${
+		var bready = await $i.fetchAwtsmoos(`/api/social/heichelos/${
 			heichelId
 		}/series/${
 			seriesId

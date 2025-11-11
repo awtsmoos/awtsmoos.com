@@ -7,9 +7,9 @@
 import Tzomayach from "../chayim/tzomayach.js";
 export default class Brick extends Tzomayach {
 	dimensions = {
-		x: 2,
-		y: 2,
-		z: 2
+		x: 1,
+		y: 1,
+		z: 1
 	}
     
     type= "brick";
@@ -21,6 +21,7 @@ export default class Brick extends Tzomayach {
     static stackSize = 64;
     
     constructor(op) {
+	    super(op);
         if(op.dimensions) {
 	        Object.apply(this.dimensions, op.dimensions)
         }
@@ -33,10 +34,12 @@ export default class Brick extends Tzomayach {
 	        ]
             },
             toyr: {
-                MeshLambertMaterial: { color: "#a0522d" } // A more brick-like Sienna color
+                MeshLambertMaterial: {
+	                color: "#a0522d",
+	                map: "awtsmoos://brickTexture"
+                } // A more brick-like Sienna color
             }
         };
        
-        super(op);
     }
 }

@@ -133,8 +133,9 @@ async function startItAll() {
 			name: "postInfo",
 			async onopen({actualTab}) {
 				var html = makeInfoHTML()
-				actualTab.innerHTML = "";
-				appendHTML(html, actualTab);
+				//actualTab.innerHTML = "";
+				//appendHTML(html, actualTab);
+				actualTab.appendChild(html)
 			},
 			rootParent:sidebar
 			
