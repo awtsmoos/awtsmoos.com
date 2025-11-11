@@ -530,154 +530,131 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
 /**
  * Scans a single series and compiles a complete and foolproof list of deletion tasks
  * for itself and all its contents (posts, comments, and all alias references).
- * This function is designed to be executed in parallel.
  * @returns {Promise<Array<object>>} A promise resolving to an array of task objects.
  */
 async function compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId }) {
     const tasks = [];
+    const db = $i.db;
 
-    // To be maximally efficient, we perform one large, parallel read for all the data
-    // we need from this specific series and its immediate children (posts/comments).
-    const [seriesData, seriesPrateem] = await Promise.all([
-        $i.db.get(seriesBasePath(heichelId, seriesId)).catch(() => null),
-        $i.db.get(seriesPrateemPath(heichelId, seriesId), { propertyMap: { author: true } }).catch(() => null)
-    ]);
-
-    if (!seriesData) {
-        // This series might have been processed already by a parent's deletion task.
-        // Return an empty array as there's nothing left to do.
-        return [];
-    }
+    // --- Part 1: Get data needed for cleanup ---
+    let postsData = {};
+    const seriesPrateem = (await db.get(seriesPrateemPath(heichelId, seriesId), { propertyMap: { author: true } }).catch(() => null));
+    try {
+        // Fetch full post objects to get their authors
+        postsData = await db.get(seriesPostsPath(heichelId, seriesId)) || {};
+    } catch (e) { /* Fails gracefully */ }
     
-    // --- Task Generation ---
+    // Fetch the breadcrumb for this series *once*.
+    const breadcrumb = await $i.fetchAwtsmoos(`/api/social/heichelos/${heichelId}/series/${seriesId}/breadcrumb`);
+    const crumbPath = (Array.isArray(breadcrumb) && breadcrumb.length > 0) ? breadcrumb.map(c => c.id).join("/") : null;
 
-    // 1. Compile tasks for all POSTS within this series
-    if (seriesData.posts && typeof seriesData.posts === 'object') {
-        for (const [postId, postData] of Object.entries(seriesData.posts)) {
-            if (!postData) continue;
+    // --- Part 2: Generate tasks for all posts within this series ---
+    if (postsData && typeof postsData === 'object' && crumbPath) {
+        for (const [postId, postData] of Object.entries(postsData)) {
+            if (!postData || !postData.author) continue;
 
-            // 1a. Untrack Post from its author's alias records
-            if (postData.author) {
-                tasks.push({
-                    operation: 'DELETE_ENTRY',
-                    params: {
-                        path: aliasPostTrackingPath(postData.author, heichelId, seriesId),
-                        key: postId
-                    }
-                });
-            }
+            // Task A: Delete the comment hierarchy for this post
+            const postCommentsPath = getParentCommentsBasePath({ heichelId, seriesId, parentId: postId, parentType: "post", postId: postId });
+            tasks.push({
+                operation: 'DELETE_PATH',
+                params: { path: postCommentsPath }
+            });
 
-            // 1b. Compile tasks for all COMMENTS within this post
-            if (postData.comments && typeof postData.comments === 'object') {
-                for (const [commentId, commentData] of Object.entries(postData.comments)) {
-                    if (commentData?.author) {
-                        // Untrack Comment from its author's alias records
-                        tasks.push({
-                            operation: 'DELETE_ENTRY',
-                            params: {
-                                path: aliasCommentTrackingPath(commentData.author, heichelId, seriesId, postId),
-                                key: commentId
-                            }
-                        });
-                    }
+            // Task B: Delete the "postsSubmitted" tracking entry for this post
+            const postTrackingPath = `${sp}/aliases/${postData.author}/postsSubmitted/inHeichel/${heichelId}/seriesChain/${crumbPath}`;
+            tasks.push({
+                operation: 'DELETE_ENTRY',
+                params: { 
+                    path: postTrackingPath,
+                    key: postId
                 }
-            }
+            });
         }
     }
     
-    // 2. Untrack the SERIES itself from its creator's alias records
+    // --- Part 3: Generate tasks for the series itself ---
+
+    // Task C: Untrack the SERIES itself from its creator's alias.
     if (seriesPrateem?.author) {
         tasks.push({
-            operation: 'DELETE_ENTRY',
+            operation: 'REMOVE_FROM_ARRAY',
             params: { 
                 path: aliasSeriesTrackingPath(seriesPrateem.author, heichelId),
-                key: seriesId
+                conditions: { exact: { selfEquals: seriesId } },
+                options: { deleteSelfIfEmpty: true }
             }
         });
     }
 
-    // 3. The FINAL task for this series: delete its entire data tree.
-    // This task should come AFTER all untracking tasks for its contents.
+    // Task D: Delete the entire series content directory.
     tasks.push({
         operation: 'DELETE_PATH',
         params: { path: seriesBasePath(heichelId, seriesId) }
     });
+    
+    // Task E: Delete the overarching comment directory for this series.
+    const seriesCommentsBasePath = `${sp}/heichelos/${heichelId}/comments/atSeries/${seriesId}`;
+    tasks.push({
+        operation: 'DELETE_PATH',
+        params: { path: seriesCommentsBasePath }
+    });
 
     return tasks;
 }
-
-
 // 
 
-async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, userid }) {
+
+async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId, userid }) {
     const aliasId = $i.$_POST.aliasId;
     if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
+    if (!parentSeriesId) return er({ code: "MISSING_PARAMS", details: "parentSeriesId must be provided for deletion." });
     if (seriesId === "root") return er({ code: "CANNOT_DELETE_ROOT" });
 
     const isAuthorized = await verifyHeichelAuthority({ $i, aliasId, heichelId });
     if (!isAuthorized) return er({ code: "NO_AUTH" });
 
-    // --- Start of the High-Performance Job Compilation ---
-
-    let parentSeriesId;
     try {
-        parentSeriesId = (await $i.db.get(seriesPrateemPath(heichelId, seriesId), { propertyMap: { parentSeriesId: true } }))?.parentSeriesId;
+        // --- This function is now simple and direct ---
+
+        // Step 1: Create the UNLINK task using the explicit parentSeriesId.
+        const unlinkTask = {
+            operation: 'REMOVE_FROM_ARRAY',
+            params: {
+                path: seriesSubSeriesPath(heichelId, parentSeriesId), // <-- Uses the CORRECT parent ID
+                conditions: { exact: { selfEquals: seriesId } },
+                options: { deleteSelfIfEmpty: true }
+            }
+        };
+
+        // Step 2: Compile all other cleanup tasks.
+        // This will now correctly find the breadcrumb because the series still exists when this code runs.
+        const allSeriesIdsInTree = await getAllDescendantIds({ $i, heichelId, seriesId });
+        const taskCompilationPromises = allSeriesIdsInTree.map(id => 
+            compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId: id })
+        );
+        const nestedTasks = await Promise.all(taskCompilationPromises);
+        const contentCleanupTasks = nestedTasks.flat();
+
+        // Step 3: Create and queue the full job.
+        const { jobId } = await $i.createJob({
+            description: `Fully delete series '${seriesId}' from parent '${parentSeriesId}'.`,
+            tasks: [unlinkTask, ...contentCleanupTasks],
+            requestedBy: aliasId
+        });
+        
+        return { 
+            success: { 
+                message: "Series deletion has been queued. All content and references will be removed shortly.",
+                jobId: jobId 
+            } 
+        };
     } catch (e) {
+        // This catch block primarily handles errors during task compilation, like if the child series doesn't exist at all.
         if (e.message.includes("Path does not exist")) {
-             return { success: { message: "Series not found, assumed already deleted." } };
+             return { success: { message: "Series to be deleted was not found. It may have already been removed." } };
         }
-        return er({ code: "SERIES_GET_FAILED_PRE_DELETE", details: e.message });
+        return er({ code: "SERIES_DELETE_JOB_CREATION_FAILED", details: e.message, stack: e.stack });
     }
-
-    // 1. Get the full list of all series IDs in the entire hierarchy.
-    const allSeriesIdsInTree = await getAllDescendantIds({ $i, heichelId, seriesId });
-    if (allSeriesIdsInTree.length === 0) {
-        return { success: { message: "Series not found, nothing to schedule." } };
-    }
-
-    // 2. PERFORMANCE CRITICAL STEP:
-    // Create an array of promises. Each promise will comprehensively scan ONE series
-    // and compile all necessary deletion and untracking tasks for it.
-    const taskCompilationPromises = allSeriesIdsInTree.map(id => 
-        compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId: id })
-    );
-
-    // Execute all database scans IN PARALLEL. This is what prevents timeouts.
-    const nestedTasks = await Promise.all(taskCompilationPromises);
-    const finalTaskList = nestedTasks.flat(); // Flatten into one master list of tasks.
-
-    // 3. Create the generic job object with our foolproof "recipe".
-    const jobId = `series-delete-${seriesId}-${Date.now()}`;
-    const jobRecord = {
-        jobId: jobId,
-        status: "pending",
-        description: `Delete series '${seriesId}' and its ${allSeriesIdsInTree.length - 1} sub-series, including all content and references.`,
-        tasks: finalTaskList,
-        createdAt: Date.now(),
-        requestedBy: aliasId
-    };
-
-    // 4. Persist the job to the generic task queue.
-    const jobPath = `/_system/jobs/taskQueue/${jobId}`;
-    await $i.db.write(jobPath, jobRecord);
-
-    // 5. Perform the single, fast, user-facing unlink action.
-    if (parentSeriesId) {
-        try {
-            await $i.db.removeElementFromArray(seriesSubSeriesPath(heichelId, parentSeriesId), { exact: { selfEquals: seriesId } });
-        } catch (e) {
-            // If the unlink fails, we MUST roll back the job creation.
-            await $i.db.delete(jobPath).catch(err => console.error("CRITICAL: Rollback of task job failed:", err));
-            return er({ code: "PARENT_REMOVAL_FAILED", details: e.message });
-        }
-    }
-
-    return { 
-        success: { 
-            message: "Series has been unlinked. A comprehensive cleanup job has been scheduled and will complete in the background.",
-            jobId: jobId 
-        } 
-    };
 }
 
 

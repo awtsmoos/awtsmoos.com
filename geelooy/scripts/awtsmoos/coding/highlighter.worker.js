@@ -361,6 +361,8 @@ function _getJSToken(line, i, state) {
 	}
 	const ctlK = new Set(['import',
 		'as', 'from', 'export',
+		'throw ',
+		'instanceof',
 		'default',
 		'async', 'function',
 		'await', 'if', 'else',

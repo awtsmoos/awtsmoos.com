@@ -425,7 +425,49 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
     const seriesPostsPath = `${sp}/heichelos/${heichelId}/series/${seriesId}/posts`;
 
     try {
-        // Add post to the series' posts object
+    
+	    //start by adding tracker
+        
+
+	var bready = await $i.fetchAwtsmoos(`/api/social/heichelos/${
+			heichelId
+		}/series/${
+			seriesId
+		}/breadcrumb`);
+		
+	if(Array.isArray(bready)) {
+		var crumbed = bready.map(q=>q.id)
+			.join("/");
+		const trackingPath = `${
+			sp
+		}/aliases/${
+			aliasId
+		}/postsSubmitted/inHeichel/${
+			heichelId
+		}/seriesChain/${
+			crumbed	
+		}`;
+	        const trackResult = await $i.db.write(trackingPath);
+	      //  console.log("Trying to write",trackingPath,trackResult)
+	        if(trackResult?.error) {
+			return er({
+				message: "Error in tracking",
+				details: trackResult.error
+			})
+		}
+	} else {
+		return er({
+			message: "couldn't find tracking breadcrumb",
+			bready,
+			seriesId, heichelId,
+			code: "POST_ADD_FAILED",
+			crumbed	
+			
+			
+		})
+	}
+	
+	// Add post to the series' posts object
         const writeResult = await $i.db.appendToObj(seriesPostsPath, {
             key: postId,
             value: postData
@@ -437,32 +479,6 @@ async function addPostToSeries({ $i, heichelId, seriesId}) {
         if (writeResult?.error) {
             throw new Error(`DB Error: ${writeResult.error.message || writeResult.error}`);
         }
-
-		var bready = await $i.fetchAwtsmoos(`/api/social/heichelos/${
-			heichelId
-		}/series/${
-			seriesId
-		}/breadcrumb`);
-		if(Array.isArray(bready)) {
-			var crumbed = bready.map(q=>q.id)
-				.join("/");
-			const trackingPath = `${
-				sp
-			}/aliases/${
-				aliasId
-			}/postsSubmitted/inHeichel/${
-				heichelId
-			}/seriesChain/${
-				crumbed	
-			}`;
-	        const trackResult = await $i.db.write(trackingPath);
-	        if(trackResult?.error) {
-				return er({
-					message: "Error in tracking",
-					details: trackResult.error
-				})
-			}
-		}
        
 		
         return { success: { postId, seriesId, title } };
@@ -549,14 +565,12 @@ async function editPostInSeries({ $i, heichelId, seriesId, postId }) {
 }
 
 /**
- * @description Deletes a post from its parent series.
+ * @description Deletes a post from its parent series by unlinking it immediately
+ * and scheduling a background job for comprehensive cleanup.
  * @requires $_DELETE: { aliasId }
  * @requires params: heichelId, seriesId, postId
  */
-async function deletePostFromSeries({
-     $i, heichelId, seriesId, postId,
-     userid
-}) {
+async function deletePostFromSeries({ $i, heichelId, seriesId, postId, userid }) {
     const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
     if (!aliasId) return er({ code: "MISSING_PARAMS", details: "Requires aliasId" });
 
@@ -566,76 +580,25 @@ async function deletePostFromSeries({
     const seriesPostsPath = `${sp}/heichelos/${heichelId}/series/${seriesId}/posts`;
 
     try {
-        // Optionally: Get post author before deleting for tracking removal
-        let author = aliasId; // Assume deleter is author if not fetched
-        try {
-            const postData = (await $i.db.getValue(`${seriesPostsPath}`, { propertyMap: { 
-				[postId]: {
-					author: true 
-				}
-			}}))?.[postId];
-             if (postData?.author) author = postData.author;
-        } catch (eGet) {
-             console.warn(`Could not fetch post author before deleting ${postId}: ${eGet.message}`);
-             // Fallback: Try getting the whole object
-             try {
-                const allPosts = await $i.db.get(seriesPostsPath);
-                if(allPosts && allPosts[postId]) author = allPosts[postId].author || author;
-             } catch(eGetAll) {/* ignore */}
-        }
+        // --- 1. FAST, USER-FACING ACTION: Unlink the post ---
+        await $i.db.deleteEntry(seriesPostsPath, postId);
 
+        // --- 2. SLOW, BACKGROUND ACTION: Compile and schedule the cleanup job ---
+        const tasks = await compileDeletionTasksForSinglePost({ $i, heichelId, seriesId, postId, authorAliasId: aliasId });
 
-        // Delete the post entry from the series' posts object
-        const deleteResult = await $i.db.deleteEntry(seriesPostsPath, postId);
-
-        if (deleteResult?.error && deleteResult.error.code !== 'ENTRY_NOT_FOUND') { // Ignore if already deleted
-            throw new Error(`DB Error: ${deleteResult.error.message || deleteResult.error}`);
-        }
-        if (deleteResult?.error?.code === 'ENTRY_NOT_FOUND') {
-             console.warn(`Post ${postId} already deleted or never existed.`);
-             // Optionally return success here if idempotent deletion is desired
-        }
-
-
-        // Untrack the post for the author
-        const trackingPath = `${sp}/aliases/${author}/postsSubmitted/inHeichel/${heichelId}/inSeries/${seriesId}`;
-        try {
-            // Assuming syncKeyInObj uses objects, we need a way to remove the key.
-            // If db has removeKeyFromObj or similar, use it. Otherwise, fetch, modify, write.
-            // Let's use deleteEntry on the tracking object path if the DB supports it.
-             const untrackResult = await $i.db.deleteEntry(trackingPath, postId);
-             // If deleteEntry doesn't work on tracking objects, need alternative like:
-             /*
-             let trackingObj = await $i.db.get(trackingPath);
-             if (trackingObj && trackingObj[postId]) {
-                 delete trackingObj[postId];
-                 await $i.db.write(trackingPath, trackingObj, { deleteSelfIfEmpty: true }); // Assumes write has this option
-             }
-             */
-             if (untrackResult?.error && untrackResult.error.code !== 'ENTRY_NOT_FOUND') {
-                 console.error(`Failed to untrack post ${postId} for alias ${author}: ${untrackResult.error}`);
-             }
-             // Clean up empty parent tracking objects if needed (complex, maybe skip for now)
-
-        } catch (eUntrack) {
-            console.error(`Error untracking post ${postId} for alias ${author}: ${eUntrack}`);
-        }
-
-        // Delete associated comments
-        const commentDeletionResult = await deleteAllCommentsOfParent({
-            $i, heichelId, seriesId, // Pass seriesId
-            parentId: postId, parentType: "post",
-            userid
+        // --- THE FIX: Use the new, simple $i.createJob method ---
+        const { jobId } = await $i.createJob({
+            description: `Full cleanup for deleted post '${postId}' from series '${seriesId}'.`,
+            tasks: tasks,
+            requestedBy: aliasId
         });
-        if (commentDeletionResult?.error && commentDeletionResult.error.code !== "NO_COM") {
-             console.error(`Issue deleting comments for post ${postId}:`,commentDeletionResult.error);
-             return er({
-                message: "Issue deleting comments for post",
-                specifics: commentDeletionResult.error
-             })
-        }
 
-        return { success: { message: "Post deleted", postId, commentsDeleted: !commentDeletionResult?.error } };
+        return { 
+            success: { 
+                message: "Post has been unlinked. A background job has been scheduled for full cleanup.",
+                jobId: jobId 
+            } 
+        };
 
     } catch (e) {
         console.error("Error in deletePostFromSeries:", e);
@@ -643,6 +606,48 @@ async function deletePostFromSeries({
     }
 }
 
+/**
+ * @description Compiles a list of tasks for the background worker to fully
+ * delete a post's associated data (comments and all tracking references).
+ */
+async function compileDeletionTasksForSinglePost({ $i, heichelId, seriesId, postId }) {
+    const tasks = [];
+    
+    // Task 1: Delete the entire comment hierarchy for this post.
+    const commentsPath = `/social/heichelos/${heichelId}/comments/atSeries/${seriesId}/atPost/${postId}`;
+    tasks.push({
+        operation: 'DELETE_PATH',
+        params: { path: commentsPath }
+    });
+
+    // Task 2: Find and delete the author's "postsSubmitted" tracking record.
+    try {
+        const postData = await $i.db.getValue(`${sp}/heichelos/${heichelId}/series/${seriesId}/posts`, postId);
+        const authorAliasId = postData ? postData.author : null;
+
+        if (authorAliasId) {
+            // We have the author, now we need the breadcrumb to build the tracking path.
+            const breadcrumb = await $i.fetchAwtsmoos(`/api/social/heichelos/${heichelId}/series/${seriesId}/breadcrumb`);
+            if (Array.isArray(breadcrumb) && breadcrumb.length > 0) {
+                const crumbPath = breadcrumb.map(c => c.id).join("/");
+                const trackingPath = `${sp}/aliases/${authorAliasId}/postsSubmitted/inHeichel/${heichelId}/seriesChain/${crumbPath}`;
+                
+                // Add the task to delete the tracking entry for this specific post
+                tasks.push({
+                    operation: 'DELETE_ENTRY',
+                    params: { 
+                        path: trackingPath,
+                        key: postId 
+                    }
+                });
+            }
+        }
+    } catch (e) {
+        console.error(`Could not generate post tracking cleanup task for ${postId}:`, e.stack);
+    }
+
+    return tasks;
+}
 
 /**
  * @description Gets a single post's data from its parent series.

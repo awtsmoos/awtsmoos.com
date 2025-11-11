@@ -27,6 +27,11 @@ module.exports = {
     ) {
 		
 		const isDir = !record;
+		if(isDir) {
+			const filePath = await this.getAwtsmoosFilePath(id, true, false);
+			   
+			await this.ensureDir(filePath, isDir);
+		}
 		try {
 			if(
 				typeof record === "string" ||
@@ -36,7 +41,7 @@ module.exports = {
 					const filePath = await this.getAwtsmoosFilePath(id, isDir, false);
 			   
 					await this.ensureDir(filePath, isDir);
-					if(isDir) return;
+					
 					await this.delete(id);
 					
 					await fs.writeFile(filePath, record);
@@ -59,7 +64,7 @@ module.exports = {
 					const filePath = await this.getAwtsmoosFilePath(id, isDir);
 			   
 					await this.ensureDir(filePath, isDir);
-					if(isDir) return;
+					
 					return await this.writeAsBinaryFormat(filePath, record, opts);
 				} catch(e) {
 					console.log("WHAT",e);

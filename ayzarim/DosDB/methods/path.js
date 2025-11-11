@@ -20,90 +20,56 @@ module.exports = {
      * @returns {Promise<string>} - The resolved, absolute, and safe path.
      */
     async getAwtsmoosFilePath(id, isDir = false, automaticallyAddAwtsmoos=true) {
-        if (typeof id !== "string" || !id) {
-             if (logs) console.log(`[PATH_WARN] Received non-string or empty ID: ${id}. Returning as-is.`);
+        if (typeof id !== 'string' || !id) {
              return id; 
         }
 
         const mainDir = path.resolve(this.directory || process.cwd());
         let workingId;
 
-        // --- INFINITELY ROBUST PATH DETERMINATION ---
-        // This new logic handles the two ambiguous ways an ID can be provided.
-        if (logs) {
-            console.log(`\n[PATH_TRACE] Input ID: ${id}`);
-            console.log(`[PATH_TRACE] Main Directory (Base): ${mainDir}`);
-        }
-
-        // To resolve the ambiguity, we create a candidate absolute path from the ID.
-        // path.resolve is perfect for this: if 'id' is absolute (e.g., /mnt/...), it's used as-is.
-        // If 'id' is relative (e.g., 'users/x'), it's resolved from the root, which is safe for comparison.
         const candidateAbsolutePath = path.resolve('/', id);
-        
-        // Now, we use path.relative to find the relationship between mainDir and the candidate path.
         const relativeFromMainDir = path.relative(mainDir, candidateAbsolutePath);
 
-        // SCENARIO 1: The ID resolves to a path OUTSIDE mainDir (e.g., id was '/etc/passwd').
-        // path.relative will produce '../...' or another absolute path on Windows.
         if (relativeFromMainDir.startsWith('..') || path.isAbsolute(relativeFromMainDir)) {
-            // This is the "normal" case where the ID is a simple relative path like '/social/...'
-            // We strip the leading slash and use it relative to mainDir.
             workingId = id.replace(/^[/\\]+/, '');
-            if (logs) console.log(`[PATH_LOGIC] ID is not a child of mainDir. Treating as a simple relative path: '${workingId}'`);
-        } 
-        // SCENARIO 2: The ID resolves to a path INSIDE mainDir (e.g., id was the full /mnt/.../users/...).
-        // path.relative will produce a clean subpath like 'users/asdf'.
-        else {
-            // This is the fix for the duplication bug. We use the clean subpath.
+        } else {
             workingId = relativeFromMainDir;
-            if (logs) console.warn(`[PATH_FIX_APPLIED] ID appears to be an absolute path inside mainDir. Using clean relative path: '${workingId}'`);
         }
-        // --- END OF ROBUST LOGIC ---
 
-        // Now, resolve the definitively relative workingId against our main directory.
         const resolvedPath = path.resolve(mainDir, workingId);
 
-        // The final security check remains as the ultimate safeguard.
         const finalRelativeCheck = path.relative(mainDir, resolvedPath);
         if (finalRelativeCheck.startsWith('..') || path.isAbsolute(finalRelativeCheck)) {
-            if (logs) console.error(`[SECURITY_FAIL] Final resolved path escaped the main directory. BLOCKED.`);
             throw new Error(`Path traversal attempt detected: ${id}`);
         }
-
-        if (logs) console.log(`[PATH_FINAL] Absolute/Safe Path: ${resolvedPath}`);
 	    
         if (isDir) {
             return resolvedPath;
         }
         
-        // --- File Existence Priority Checks (Only for non-directories) ---
+        // --- MORE ROBUST File Existence Priority Checks ---
         
+        // Priority 1: Check for .awtsmoosJSON file first, as it's the primary data format.
+        const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
         try {
-            await fs.access(resolvedPath);
-            if (logs) console.log("[PATH_FIND] Found path AS-IS.");
-            return resolvedPath;
-        } catch(e) {
-	        if (logs) console.log("[PATH_FIND] AS-IS not found. Checking extensions...");
-        }
-	var ext = path.extname(resolvedPath);
-	var alreadyHasAwtsmoos = ext == ".awtsmoosJSON";
-        const awtsmoosJsonPath = !alreadyHasAwtsmoos ? 
-	        `${resolvedPath}.awtsmoosJSON` : resolvedPath;
-        try {
-            await fs.access(awtsmoosJsonPath);
-            if (logs) console.log(`[PATH_FIND] Found extension: .awtsmoosJSON at ${awtsmoosJsonPath}`);
-            return awtsmoosJsonPath;
+            const stat = await fs.stat(awtsmoosJsonPath);
+            if (stat.isFile()) return awtsmoosJsonPath;
         } catch {}
 
+        // Priority 2: Check for the path AS-IS, but ensure it is a FILE, not a directory.
+        try {
+            const stat = await fs.stat(resolvedPath);
+            if (stat.isFile()) return resolvedPath;
+        } catch {}
+
+        // Priority 3: Check for .json as a fallback.
         const jsonPath = `${resolvedPath}.json`;
         try {
-            await fs.access(jsonPath);
-            if (logs) console.log(`[PATH_FIND] Found extension: .json at ${jsonPath}`);
-            return jsonPath;
+            const stat = await fs.stat(jsonPath);
+            if (stat.isFile()) return jsonPath;
         } catch {}
 
-        if (logs) console.log("[PATH_FINAL] Path not found. Returning resolved path for CREATE operation.");
-         
+        // If no file is found, return the default path for a CREATE operation.
         return automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
     },
 

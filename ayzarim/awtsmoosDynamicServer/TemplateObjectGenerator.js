@@ -312,6 +312,7 @@ const instrumentedDb = new Proxy(self.db, {
         }
     return ({ // Await processTemplate
         DosDB,
+        
         require,
         request,
         setHeader: (nm, vl) => {
@@ -330,6 +331,7 @@ const instrumentedDb = new Proxy(self.db, {
         console: {
             log: (...args) => console.log(args)
         },
+        createJob,
         db: instrumentedDb,
         parsedUrl,
         location,

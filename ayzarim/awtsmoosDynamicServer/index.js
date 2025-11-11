@@ -75,6 +75,37 @@ class AwtsmoosStaticServer {
 		
 	}
 	
+	/**
+	 * Creates and queues a background job for the cleanup worker.
+	 * @param {object} jobDetails - Contains description, tasks, and requestedBy.
+	 * @returns {Promise<{jobId: string}>}
+	 */
+	async createJob({ description, tasks, requestedBy }) {
+	    if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+	        throw new Error("Job creation requires a non-empty 'tasks' array.");
+	    }
+
+	    const jobId = `${description.replace(/\s+/g, '-').slice(0, 20)}-${Date.now()}`;
+	    const jobRecord = {
+	        jobId: jobId,
+	        status: "pending",
+	        description: description,
+	        tasks: tasks,
+	        createdAt: Date.now(),
+	        requestedBy: requestedBy || "system"
+	    };
+
+	    const queuePath = '/_system/jobs/taskQueue';
+	    const result = await this.db.arrayAppend(queuePath, jobRecord);
+
+        if (result && result.error) {
+            console.error("CRITICAL: Failed to append job to the queue file!", result.error);
+            throw new Error("Failed to write job to the queue.");
+        }
+
+	    return { jobId };
+	}
+	
 	async init() {
 		
 		if (config) {
@@ -123,7 +154,11 @@ class AwtsmoosStaticServer {
 			this.db = db;
 			
 			// After the database is confirmed to be initialized, start the cleanup worker.
-		        startTaskRunner(this.db);;
+		        try {
+			        startTaskRunner(this.db);;
+			    } catch (workerError) { // <-- ADDED CATCH BLOCK
+			        console.error("CRITICAL: Failed to start cleanup worker!", workerError);
+			    }
 			if (typeof(config.secret) == "string") {
 				var sec = null;
 				
@@ -141,6 +176,8 @@ class AwtsmoosStaticServer {
 					this.use(awtsAuth.sessionMiddleware.bind(awtsAuth));
 				}
 			}
+		} else {
+			console.log("NO config set!")
 		}
 
 		if(this. mail){
@@ -344,6 +381,7 @@ class AwtsmoosStaticServer {
 		
 		var dependencies = {
 			//fetch,
+			createJob: this.createJob.bind(this),
 			makeToken: (vl,ex={})=>{
 		            try{
 		                var tok = sodos.createToken(

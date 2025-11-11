@@ -318,10 +318,8 @@ B"H
 			
 				if(array.error) {
 					inputArray = [];
-					myPath = array.myPath
-					
+					myPath = await this.ensureAwtsmoosBinaryPath(rPath);
 				}
-
 				
 				if(array.success) {
 					inputArray = array.success;
@@ -329,17 +327,16 @@ B"H
 				}
 			} catch(e) {
 				inputArray = [];
-				myPath = array.myPath
-			//	console.log("ISSUE with getting array",e)
+				myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+				console.log("ISSUE with getting array",e)
 				return {
 					error: "Acutal problem",
 					stack:e.stack
 				}
 			}
-			if(!inputArray) {
-				inputArray = [];
 
-			}
+			if(!inputArray) inputArray = [];
+			
 			if(!myPath) {
 				return {
 					error: "Coudn't find proper path",
@@ -354,13 +351,11 @@ B"H
 			}
 			inputArray.push(key);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);
-			await this.ensureDir(myPath)
-			
-			
+	
+		
 			var wr = await fs.writeFile(myPath, ser)
 
 			var des = await awtsmoosJSON.deserializeBinary(myPath)
-	//		console.log(array,inputArray,des,2222,myPath)
 			return {
 				success: {
 					written: myPath,
@@ -377,30 +372,34 @@ B"H
 	},
 
 	async arrayAppend(rPath, value, opts={}) {
-		
-
 		try {
 			var inputArray  = null;
 			var myPath = null;
 			var array = await this.getArrayAtPath(rPath);
-			if(array.error) return array;
+			
+			if(array.error && array.error.code !== "ARRAY_404") {
+                return array;
+            }
 
 			if(array.success) {
 				inputArray = array.success;
 				myPath = array.myPath;
-			}
+			} else {
+                inputArray = [];
+                myPath = await this.ensureAwtsmoosBinaryPath(rPath);
+            }
 
-			if(!inputArray || !myPath) {
+			if(!Array.isArray(inputArray) || !myPath) {
 				return {
 					error: {
-						message: "Something's wrong with getting array",
+						message: "Something's wrong with getting array or path",
 						code: "DIDNT_GET_ARRAY"
 					}
 				}
 			}
 			inputArray.push(value);
 			var ser = awtsmoosJSON.serializeJSON(inputArray);
-			await this.ensureDir(myPath);
+			
 			var wr = await fs.writeFile(myPath, ser)
 			return {
 				success: {
@@ -414,7 +413,5 @@ B"H
 				error: e.stack
 			}
 		}
-
-
 	}
 }

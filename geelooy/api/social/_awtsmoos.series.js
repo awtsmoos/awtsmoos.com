@@ -311,6 +311,32 @@ module.exports = ({ $i, userid } = {}) => ({
              seriesToId: v.seriesTo
          });
      },
+     
+     /**
+     * @endpoint DELETE /heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId
+     * @description Explicitly deletes a sub-series from a known parent.
+     * @requires Body: { aliasId }
+     */
+    "/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId": async (v) => {
+        // This endpoint can be triggered by POST (forms) or DELETE (JS clients)
+        if ($i.request.method !== "DELETE" && $i.request.method !== "POST") {
+            return er({ code: "METHOD_NOT_ALLOWED" });
+        }
+         
+        // Get authorizing aliasId from the request body
+        if (!$i.$_DELETE) $i.$_DELETE = $i.$_POST || {};
+        const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
+        if (!aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
+        $i.$_POST.aliasId = aliasId; // Ensure it's available for the helper
+
+        return deleteSeriesFromHeichel({
+            $i,
+            userid,
+            heichelId: v.heichel,
+            parentSeriesId: v.parentSeriesId, // <-- The EXPLICIT parent is now passed in
+            seriesId: v.seriesId               // The series to be deleted
+        });
+    },
 
 
     /**
@@ -319,28 +345,10 @@ module.exports = ({ $i, userid } = {}) => ({
      * @requires Body: { aliasId } (or query/header for auth)
      */
     "/heichelos/:heichel/deleteSeries/:seriesId": async (v) => {
-       // console.log("WHAT",v)
-        
-        //if ($i.request.method !== "DELETE") return er({ code: "METHOD_NOT_ALLOWED" });
-         // Ensure aliasId is available
-         if (!$i.$_DELETE) $i.$_DELETE = $i.$_POST || {};
-         $i.$_POST.aliasId = $i.$_POST.aliasId || 
-            $i.$_DELETE.aliasId || $i.$_GET.aliasId /* or from auth */;
-            
-        var o= {
-            what: 2,
-            ok:v,
-            dp:$i.$_POST,
-            p:$i.$_DELETE
-        }
-          if (!$i.$_POST.aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
-
-        return deleteSeriesFromHeichel({
-            $i,
-            heichelId: v.heichel,
-            userid,
-            seriesId: v.seriesId // Use seriesId from route
-        });
+       return er({
+	       message: "API HAS MOVED",
+	       moved: "/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId"
+       })
     },
 
 

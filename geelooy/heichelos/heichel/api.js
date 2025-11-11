@@ -127,7 +127,6 @@ export async function createSeries(data) {
     //postData(`${BASE_API_URL}heichelos/${heichelId}/makeSeries`, body);
 }
 
-// **CORRECTED:** Uses the exact, distinct deletion endpoints for posts and series
 export async function deleteContent(data) {
     const {heichelId, aliasId, itemsToDelete} = data;
     const results = [];
@@ -135,7 +134,7 @@ export async function deleteContent(data) {
         
         let reqUrl = item.type === 'post' 
             ? `${BASE_API_URL}heichelos/${heichelId}/series/${item.parentId}/post/${item.id}/delete` 
-            : `${BASE_API_URL}heichelos/${heichelId}/deleteSeries/${item.id}`;
+            : `${BASE_API_URL}heichelos/${heichelId}/series/${item.parentId}/deleteSubSeries/${item.id}`;
 
         const result = await postData(reqUrl, new URLSearchParams({ aliasId }));
         
