@@ -6,10 +6,14 @@ const MimeMap = {
     '.js':   { type: 'text', mime: 'application/javascript' },
     '.mjs':  { type: 'text', mime: 'application/javascript' },
     '.json': { type: 'text', mime: 'application/json' },
+    
+    '.awtsmoosJSON':  { type: 'text', mime: 'application/json' },
     '.css':  { type: 'text', mime: 'text/css' },
     '.html': { type: 'text', mime: 'text/html' },
     '.htm':  { type: 'text', mime: 'text/html' },
     '.xml':  { type: 'text', mime: 'text/xml' },
+    
+    
     
     '.svg':  { type: 'text', mime: 'text/xml' },
     '.md':   { type: 'text', mime: 'text/markdown' },
