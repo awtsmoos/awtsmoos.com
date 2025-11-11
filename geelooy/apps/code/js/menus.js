@@ -237,8 +237,13 @@ registerCustomMenus(menuConfigs) {
     // We can identify them because they are not part of the editor's built-in set.
     const builtInActions = [
         'new-temp-file', 'open-file', 'save', 'download', 'view-html', 'find-replace', 'settings',
-        'toggle-keyboard-helper', 'toggle-fullscreen', 'select-all', 'copy', 'copy-all', 'copy-all-contents',
-        'new-file', 'new-folder', 'start-selection', 'copy-single', 'paste', 'delete-workspace', 'delete'
+        'toggle-keyboard-helper',
+         'toggle-fullscreen',
+          'select-all', 'copy',
+          'toggle-awtsmoos-view',
+           'copy-all', 'copy-all-contents',
+        'new-file', 'new-folder', 'start-selection',
+         'copy-single', 'paste', 'delete-workspace', 'delete'
     ];
     
     if (!builtInActions.includes(action)) {
@@ -264,12 +269,12 @@ registerCustomMenus(menuConfigs) {
                 case 'save': Tabs.saveActive(); break;
                 case 'download': Tabs.downloadActive(); break;
                 case 'toggle-awtsmoos-view': {
-		    if (!activeTab) break;
-		    activeTab.isBinaryView = !activeTab.isBinaryView;
-		    activeTab.forceReload = true; // Set a flag to force reprocessing
-		    Tabs.activate(activeTab.id);
-		    break;
-		}
+	                if (!activeTab) break;
+	                activeTab.isBinaryView = !activeTab.isBinaryView;
+	                activeTab.forceReload = true; // Flag to force reprocessing of content
+	                Tabs.activate(activeTab.id);
+	                break;
+	            }
                 case 'view-html': {
                     
                     if (!activeTab) break;

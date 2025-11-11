@@ -59,8 +59,15 @@ const defaultType = { type: 'binary', mime: 'application/octet-stream' };
 export const MimeUtil = {
     getInfo(filename = '') {
         if (!filename || !filename.includes('.')) {
-            return { type: 'text', mime: 'text/plain' }; // Default for extensionless files
+            return { type: 'text', mime: 'text/plain' };
         }
+        
+        // 1. Check for the exact, case-sensitive extension first.
+        if (filename.endsWith('.awtsmoosJSON')) {
+            return MimeMap['.awtsmoosJSON'];
+        }
+
+        // 2. If it's not our special case, fall back to the original lowercase logic.
         const extension = '.' + filename.split('.').pop().toLowerCase();
         return MimeMap[extension] || defaultType;
     }

@@ -155,6 +155,8 @@ create(item, isNewFile = false, shouldSave = true) {
                     } else {
                         try {
                             tab.content = await AwtsmoosHandler.decodeContent(fileContent);
+	                         console.log("B\"H: Successfully parsed .awtsmoosJSON content:", JSON.parse(tab.content));
+            
                         } catch (parseError) {
                             UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
                             tab.isBinaryView = true; // Force into hex view on failure
