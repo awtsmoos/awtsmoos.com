@@ -4,15 +4,15 @@
  * This module integrates the Awtsmoos binary JSON format with the Vivid X editor.
  */
 
-// B"H - We now import everything from our single, powerful module.
-import { parse, serialize, binaryToHexView } from '/scripts/awtsmoos/binary/awtsmoos.js';
+import { parse, binaryToHexView } from '/scripts/awtsmoos/binary/awtsmoos-json-parser.js';
+import { serialize } from '/scripts/awtsmoos/binary/awtsmoos-json-serializer.js';
 
 export const AwtsmoosHandler = {
     async decodeContent(binaryContent) {
         const arrayBuffer = await this._getArrayBuffer(binaryContent);
         const parsedObject = parse(arrayBuffer);
         if (parsedObject === null) {
-            throw new Error("Parsing failed. File may be corrupt or not a valid .awtsmoosJSON file.");
+            throw new Error("Parsing failed. File may be corrupt or have an unrecognized magic number.");
         }
         return JSON.stringify(parsedObject, null, '\t');
     },
