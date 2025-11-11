@@ -312,44 +312,50 @@ export class EditModeManager {
 
 	
 	handlePointerDown(event) {
-	    // B Only allow the left mouse button (button index 0) to trigger selection.
-	    // This prevents middle-mouse orbiting from clearing or changing the selection.
-	    if (event.button !== 0) return;
-	
-	    if (!this.isActive) return;
-	    
-	    const rect = event.target.getBoundingClientRect();
-	    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-	    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-	    
-	    let indexToSelect = -1;
-	    
-	    if (this.selectionMode === 'VERTEX') {
-	        indexToSelect = this._findClosestVertexToMouse();
-	    } else if (this.selectionMode === 'FACE') {
-	        this.raycaster.setFromCamera(this.mouse, this.transformManager.camera);
-	        this.targetObject.material.side = THREE.FrontSide;
-	        const intersects = this.raycaster.intersectObject(this.targetObject);
-	        this.targetObject.material.side = THREE.DoubleSide;
-	        if (intersects.length > 0 && intersects[0].face) {
-	             const triangleIndex = intersects[0].faceIndex;
-	             if(this.triangleToQuadMap.has(triangleIndex)) {
-	                 indexToSelect = this.triangleToQuadMap.get(triangleIndex);
-	             }
-	        }
-	    } else if (this.selectionMode === 'EDGE') {
-	        indexToSelect = this._findClosestEdgeToMouse();
-	    }
-	    
-	    if (indexToSelect !== -1) {
-	        this._toggleSelection(indexToSelect, event.shiftKey);
-	    } else if (!event.shiftKey) {
-	        this.selectedIndices.clear();
-	    }
-	
-	    this._updateSelectionVisuals();
-	    this.updateGizmoPosition();
-	}
+    // B"H: Only allow the left mouse button (button index 0) to trigger selection.
+    if (event.button !== 0) return;
+    if (!this.isActive) return;
+    
+    const rect = event.target.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    
+    let indexToSelect = -1;
+    
+    if (this.selectionMode === 'VERTEX') {
+        indexToSelect = this._findClosestVertexToMouse();
+    } else if (this.selectionMode === 'FACE') {
+        this.raycaster.setFromCamera(this.mouse, this.transformManager.camera);
+        // Temporarily set side to front for raycasting to avoid hitting backfaces first
+        const originalSide = this.targetObject.material.side;
+        this.targetObject.material.side = THREE.FrontSide;
+        const intersects = this.raycaster.intersectObject(this.targetObject);
+        // Restore the original side setting
+        this.targetObject.material.side = originalSide; 
+        
+        if (intersects.length > 0 && intersects[0].face) {
+             const triangleIndex = intersects[0].faceIndex;
+             if(this.triangleToQuadMap.has(triangleIndex)) {
+                 indexToSelect = this.triangleToQuadMap.get(triangleIndex);
+             }
+        }
+    } else if (this.selectionMode === 'EDGE') {
+        indexToSelect = this._findClosestEdgeToMouse();
+    }
+    
+    if (indexToSelect !== -1) {
+        this._toggleSelection(indexToSelect, event.shiftKey);
+    } else if (!event.shiftKey) {
+        this.selectedIndices.clear();
+    }
+
+    this._updateSelectionVisuals();
+    this.updateGizmoPosition();
+    
+    //  Notify the UI that the component selection has changed
+    // This allows the toolbar to update the state of the Subdivide button.
+    this.eventEmitter.emit('selectionChanged', this.objectManager.getSelectedObjectUUIDs());
+}
 	_findClosestEdgeToMouse() {
 		const e = this.transformManager.camera,
 			t = this.transformManager.domElement.getBoundingClientRect(),
@@ -389,21 +395,62 @@ export class EditModeManager {
 		t ? this.selectedIndices.has(e) ? this.selectedIndices.delete(e) : this.selectedIndices.add(e) : (this.selectedIndices.clear(), this.selectedIndices.add(e))
 	}
 	toggleSelectAll() {
-		if (!this.targetObject) return;
-		const e = this.targetObject.geometry;
-		let t;
-		if (this.selectionMode === "VERTEX") t = e.getAttribute("position")
-			.count;
-		else if (this.selectionMode === "FACE") t = this.quadMap.size;
-		else {
-			if (this.selectionMode !== "EDGE") return;
-			t = this.edgeMap.size
-		}
-		if (this.selectedIndices.size === t) this.selectedIndices.clear();
-		else
-			for (let e = 0; e < t; e++) this.selectedIndices.add(e);
-		this._updateSelectionVisuals(), this.updateGizmoPosition()
-	}
+    if (!this.targetObject) return;
+    const geometry = this.targetObject.geometry;
+    let maxIndex = 0;
+    if (this.selectionMode === "VERTEX") {
+        maxIndex = geometry.getAttribute("position").count;
+    } else if (this.selectionMode === "FACE") {
+        maxIndex = this.quadMap.size;
+    } else if (this.selectionMode === "EDGE") {
+        maxIndex = this.edgeMap.size;
+    } else {
+        return;
+    }
+
+    if (this.selectedIndices.size === maxIndex) {
+        this.selectedIndices.clear();
+    } else {
+        for (let i = 0; i < maxIndex; i++) {
+            this.selectedIndices.add(i);
+        }
+    }
+    
+    this._updateSelectionVisuals();
+    this.updateGizmoPosition();
+
+    // B"H FIX: Notify the UI that the component selection has changed
+    this.eventEmitter.emit('selectionChanged', this.objectManager.getSelectedObjectUUIDs());
+}
+
+
+
+_getOrderedVerticesOfQuad(quadIndex) {
+    const tris = this.quadMap.get(quadIndex);
+    const indexAttr = this.targetObject.geometry.index;
+    if (!tris || tris.length !== 2 || !indexAttr) return null;
+
+    const tri1 = [indexAttr.getX(tris[0] * 3), indexAttr.getX(tris[0] * 3 + 1), indexAttr.getX(tris[0] * 3 + 2)];
+    const tri2 = [indexAttr.getX(tris[1] * 3), indexAttr.getX(tris[1] * 3 + 1), indexAttr.getX(tris[1] * 3 + 2)];
+
+    const tri1Set = new Set(tri1);
+    const shared = tri2.filter(v => tri1Set.has(v));
+    if (shared.length !== 2) return null;
+
+    const nonShared1 = tri1.find(v => !shared.includes(v));
+    const nonShared2 = tri2.find(v => !shared.includes(v));
+    
+    // To find the correct order, check the winding of the first triangle
+    const idxInTri1 = tri1.indexOf(nonShared1);
+    const nextInTri1 = tri1[(idxInTri1 + 1) % 3];
+    
+    // The vertex after the non-shared one in the first triangle determines the order
+    if (nextInTri1 === shared[0]) {
+        return [nonShared1, shared[0], nonShared2, shared[1]];
+    } else {
+        return [nonShared1, shared[1], nonShared2, shared[0]];
+    }
+}
 	updateGizmoPosition() {
 		const e = this.scene.getObjectByName("GizmoHandle_EditMode");
 		if (this.selectedIndices.size === 0 || !e) return this.transformManager.attachToProxy(null);
