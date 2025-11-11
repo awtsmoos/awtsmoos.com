@@ -143,12 +143,12 @@ registerCustomMenus(menuConfigs) {
 	
 	    // --- B"H - NEW: DYNAMIC TOGGLE FOR AWTSMOOS FILES ---
 	    if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
-	        menuItems.push({ 
-	            label: activeTab.isBinaryView ? 'View as JSON' : 'View as Binary', 
-	            action: 'toggle-awtsmoos-view', 
-	            icon: 'brain-circuit' 
-	        });
-	    }
+		    menuItems.push({ 
+		        label: activeTab.isBinaryView ? 'View as JSON' : 'View as Hex', 
+		        action: 'toggle-awtsmoos-view', 
+		        icon: activeTab.isBinaryView ? 'eye' : 'brain-circuit' 
+		    });
+		}
 	    // --- END NEW ---
 	    
 	    menuItems.push(
@@ -265,9 +265,8 @@ registerCustomMenus(menuConfigs) {
                 case 'download': Tabs.downloadActive(); break;
                 case 'toggle-awtsmoos-view': {
 		    if (!activeTab) break;
-		    // Flip the view mode flag on the tab object
 		    activeTab.isBinaryView = !activeTab.isBinaryView;
-		    // Re-activate the tab to force it to re-process and display the content
+		    activeTab.forceReload = true; // Set a flag to force reprocessing
 		    Tabs.activate(activeTab.id);
 		    break;
 		}

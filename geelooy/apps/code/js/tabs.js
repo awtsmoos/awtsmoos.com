@@ -116,102 +116,81 @@ create(item, isNewFile = false, shouldSave = true) {
     },
 
     
-	async activate(tabId) {
-	    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-	    if (currentTab) {
-	        if (currentTab.fileType === 'text') {
-	            // Only update content if it's not in binary view, otherwise we'd overwrite the raw binary
-	            if (!currentTab.isBinaryView) {
-	                currentTab.content = Editor.getContent();
-	            }
-	            currentTab.scrollPos = DOM.editor.scrollTop;
-	        }
-	        if (currentTab.fileType === 'html-preview') {
-	            const iframe = State.previewIframes.get(currentTab.id);
-	            if (iframe) DOM.iframeCache.appendChild(iframe);
-	        }
-	    }
-	
-	    State.activeTabId = tabId;
-	    const tab = State.tabs.find(t => t.id === tabId);
-	
-	    DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
-	
-	    if (!tab) {
-	        UI.switchView('empty');
-	        StatusBar.clear();
-	        this.render();
-	        App.saveSession();
-	        return;
-	    }
-	
-	    // Load content if it's not already loaded OR if it's raw binary from a previous view toggle
-	    if (tab.content === null || tab.rawContent) {
-	        UI.showLoading(`Opening ${tab.item.name}...`);
-	        try {
-	            // Use rawContent if it exists, otherwise read from provider
-	            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
-	            tab.rawContent = fileContent; // Always store the original binary content
-	            
-	            // --- AWTSMOOS DECODING LOGIC ---
-	            if (tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
-	                if (tab.isBinaryView) {
-	                    // If in binary view, show the raw bytes as a string
-	                    tab.content = await AwtsmoosHandler.binaryToString(fileContent);
-	                } else {
-	                    // Otherwise, decode it to pretty-printed JSON
-	                    tab.content = await AwtsmoosHandler.decodeContent(fileContent);
-	                }
-	            } else {
-	                tab.content = fileContent; // For all other files
-	            }
-	
-	        } catch (e) {
-	            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-	            this.close(tab.id, true);
-	            return;
-	        } finally {
-	            UI.hideLoading();
-	        }
-	    }
-	
-	    const fileInfo = { type: tab.fileType, name: tab.item.name };
-	
-	    switch (tab.fileType) {
-	        case 'console':
-	            UI.switchView('console');
-	            let instance = State.consoleInstances.get(tab.id);
-	            if (!instance) {
-	                const associatedIframe = State.previewIframes.get(tab.item.associatedTabId);
-	                if (associatedIframe) {
-	                    instance = new Console(associatedIframe, DOM.consoleHost, tab.id);
-	                    instance.render();
-	                    State.consoleInstances.set(tab.id, instance);
-	                } else {
-	                    DOM.consoleHost.innerHTML = `<div style="padding: 20px; color: var(--color-accent-danger);">Error: Could not find the associated HTML preview.</div>`;
-	                }
-	            }
-	            break;
-	        case 'html-preview':
-	            Editor.showPreviewer(tab.content, fileInfo, tab.id);
-	            break;
-	        case 'text':
-	            if (tab.content instanceof Blob) {
-	                const text = await tab.content.text();
-	                tab.content = text;
-	                Editor.showTextEditor(text, tab.item.name, tab.scrollPos || 0);
-	            } else {
-	                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-	            }
-	            break;
-	        default: // images, pdfs, etc.
-	            Editor.showPreviewer(tab.content, fileInfo, tab.id);
-	            break;
-	    }
-	
-	    this.render();
-	    App.saveSession();
-	},
+	// B"H - IN: /js/tabs.js - REPLACE the entire 'activate' function
+async activate(tabId) {
+    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (currentTab) {
+        if (currentTab.fileType === 'text') {
+            if (!currentTab.isBinaryView) { currentTab.content = Editor.getContent(); }
+            currentTab.scrollPos = DOM.editor.scrollTop;
+        }
+        if (currentTab.fileType === 'html-preview') {
+            const iframe = State.previewIframes.get(currentTab.id);
+            if (iframe) DOM.iframeCache.appendChild(iframe);
+        }
+    }
+
+    State.activeTabId = tabId;
+    const tab = State.tabs.find(t => t.id === tabId);
+
+    DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
+
+    if (!tab) {
+        UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
+    }
+
+    if (tab.content === null || tab.forceReload) { // forceReload is used by the toggle
+        UI.showLoading(`Opening ${tab.item.name}...`);
+        try {
+            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
+            tab.rawContent = fileContent; // Always store the original binary content
+            
+            if (tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
+                if (tab.isBinaryView) {
+                    tab.content = await AwtsmoosHandler.binaryToHexView(fileContent);
+                } else {
+                    try {
+                        // --- B"H - GRACEFUL FALLBACK ---
+                        tab.content = await AwtsmoosHandler.decodeContent(fileContent);
+                    } catch (parseError) {
+                        UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
+                        tab.isBinaryView = true; // Force into binary view on failure
+                        tab.content = await AwtsmoosHandler.binaryToHexView(fileContent);
+                    }
+                }
+            } else {
+                tab.content = fileContent; // For all other files
+            }
+
+        } catch (e) {
+            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+            this.close(tab.id, true); return;
+        } finally {
+            UI.hideLoading();
+            tab.forceReload = false; // Reset the flag
+        }
+    }
+
+    const fileInfo = { type: tab.fileType, name: tab.item.name };
+
+    switch (tab.fileType) {
+        case 'console': UI.switchView('console'); /* ... existing console logic ... */ break;
+        case 'html-preview': Editor.showPreviewer(tab.content, fileInfo, tab.id); break;
+        case 'text':
+            if (tab.content instanceof Blob) {
+                const text = await tab.content.text();
+                tab.content = text;
+                Editor.showTextEditor(text, tab.item.name, tab.scrollPos || 0);
+            } else {
+                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+            }
+            break;
+        default: Editor.showPreviewer(tab.content, fileInfo, tab.id); break;
+    }
+
+    this.render();
+    App.saveSession();
+},
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);

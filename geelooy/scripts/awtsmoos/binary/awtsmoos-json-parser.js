@@ -1,13 +1,12 @@
+// B"H
+// FILE: /scripts/awtsmoos/binary/awtsmoos-json-parser.js
 /**
- * B"H
- *
- * Client-side JavaScript module to parse a .awtsmoosJSON binary file.
- * CORRECTED VERSION: No longer assumes a 4-byte free-space pointer in the header.
+ * CORRECTED AND FINAL CLIENT-SIDE PARSER for the .awtsmoosJSON binary format.
+ * This version accurately mirrors the logic of the basic (non-v2) server-side deserializer.
  */
 
 const MAGIC_JSON = "Aj";
 const MAGIC_ARRAY = "Aa";
-
 const textDecoder = new TextDecoder();
 
 class BufferReader {
@@ -18,21 +17,21 @@ class BufferReader {
         this.buffer = this.dataView.buffer;
     }
     readUInt8(offset) {
+        if (offset < 0 || offset >= this.length) throw new RangeError("Offset is outside the bounds of the DataView");
         return this.dataView.getUint8(this.byteOffset + offset);
     }
     readUIntBE(offset, byteLength) {
+        if (offset < 0 || offset + byteLength > this.length) throw new RangeError("Offset is outside the bounds of the DataView");
         switch (byteLength) {
             case 1: return this.dataView.getUint8(this.byteOffset + offset);
             case 2: return this.dataView.getUint16(this.byteOffset + offset, false);
             case 4: return this.dataView.getUint32(this.byteOffset + offset, false);
             case 8: return Number(this.dataView.getBigUint64(this.byteOffset + offset, false));
-            default: throw new Error(`Unsupported byteLength: ${byteLength}`);
+            default: throw new Error(`Unsupported byteLength for readUIntBE: ${byteLength}`);
         }
     }
     subarray(start = 0, end = this.length) {
-        const newOffset = this.byteOffset + start;
-        const newLength = end - start;
-        return new BufferReader(this.buffer, newOffset, newLength);
+        return new BufferReader(this.buffer, this.byteOffset + start, end - start);
     }
     toString(encoding = 'utf-8', start = 0, end = this.length) {
         const sub = new Uint8Array(this.buffer, this.byteOffset + start, end - start);
@@ -74,21 +73,13 @@ function parseValueFromType(type, valueBuffer) {
 
 function deserializeArray(buffer) {
     let offset = MAGIC_ARRAY.length;
-    // B"H --- FIX #1: REMOVED a line here that was incorrectly skipping 4 bytes.
-    
-    // The original `deserialize/array.js` reads the packed byte immediately after the magic string.
-    const arrayLengthSizeANDOffsetSizeInOneByte = buffer.readUInt8(offset);
-    offset++;
-
+    const arrayLengthSizeANDOffsetSizeInOneByte = buffer.readUInt8(offset++);
     const arrayLengthSize = unpackLength((0b00001100 & arrayLengthSizeANDOffsetSizeInOneByte) >> 2);
     const offsetSize = unpackLength(0b00000011 & arrayLengthSizeANDOffsetSizeInOneByte);
-
     const arrayLength = buffer.readUIntBE(buffer.length - arrayLengthSize, arrayLengthSize);
     if (arrayLength === 0) return [];
-    
     const indexTableSize = arrayLength * offsetSize;
     const indexTableStart = buffer.length - arrayLengthSize - indexTableSize;
-
     const result = [];
     for (let i = 0; i < arrayLength; i++) {
         const indexOffset = indexTableStart + i * offsetSize;
@@ -96,8 +87,7 @@ function deserializeArray(buffer) {
         const { type, lengthSize } = unpackTypeAndLengthSize(buffer.readUInt8(itemOffset));
         let itemDataOffset = itemOffset + 1;
         let itemDataLength = 0;
-        const typesWith0Length = [0, 5, 6, 7, 24, 25, 26];
-        if (!typesWith0Length.includes(type)) {
+        if (![0, 5, 6, 7, 24, 25, 26].includes(type)) {
             itemDataLength = buffer.readUIntBE(itemDataOffset, lengthSize);
             itemDataOffset += lengthSize;
         }
@@ -109,49 +99,47 @@ function deserializeArray(buffer) {
 
 function deserializeObject(buffer) {
     let offset = MAGIC_JSON.length;
-    // B"H --- FIX #2: REMOVED a line here that was incorrectly skipping 4 bytes.
-    
     const allSizesOfLengths = buffer.readUInt8(offset++);
     const lengthSizeOfKeys = unpackLength((0b00110000 & allSizesOfLengths) >> 4);
     const sizeOfEmbeddedMetadataArrayLength = unpackLength((0b00001100 & allSizesOfLengths) >> 2);
     const sizeOfHashTableLength = unpackLength(0b00000011 & allSizesOfLengths);
-
     const combinedByteLengthOfLengths = lengthSizeOfKeys + sizeOfEmbeddedMetadataArrayLength + sizeOfHashTableLength;
     const totalSizeToRead = combinedByteLengthOfLengths + 1;
     const footerOffset = buffer.length - totalSizeToRead;
-
     let readFooterAt = footerOffset + 1;
     const lengthOfTotalEntries = buffer.readUIntBE(readFooterAt, lengthSizeOfKeys);
     readFooterAt += lengthSizeOfKeys;
     const lengthMetadataArray = buffer.readUIntBE(readFooterAt, sizeOfEmbeddedMetadataArrayLength);
-
     if (lengthOfTotalEntries === 0) return {};
-
     const metadataTableEnd = footerOffset;
     const metadataTableStart = metadataTableEnd - lengthMetadataArray;
     const metadataArrayBuffer = buffer.subarray(metadataTableStart, metadataTableEnd);
     const metadataEntriesRaw = deserializeArray(metadataArrayBuffer);
 
     const obj = {};
-    for (const entryBuffer of metadataEntriesRaw) {
-        if (!entryBuffer || entryBuffer.length < 2) continue;
-        const entryReader = new BufferReader(entryBuffer.buffer, entryBuffer.byteOffset, entryBuffer.length);
-        let o = 0;
-        const packedSizes = entryReader.readUInt8(o++);
-        o++; // Skip the second byte which contains type/valueLengthSize info, as we parse that from the main buffer
-        const keyLenSize = unpackLength((0b00001100 & packedSizes) >> 2);
-        const offsetSize = unpackLength(0b00000011 & packedSizes);
+    for (const rawEntry of metadataEntriesRaw) {
+        if (!rawEntry || rawEntry.length < 2) continue;
+        const entryReader = new BufferReader(rawEntry.buffer, rawEntry.byteOffset, rawEntry.length);
 
-        const keyLen = entryReader.readUIntBE(o, keyLenSize); o += keyLenSize;
-        const valLen = entryReader.readUIntBE(o, keyLenSize); // There's a bug here in the original, let's assume it matches keylen for now.
-        o += keyLenSize;
-        const key = entryReader.toString('utf-8', o, o + keyLen);
-        o += keyLen;
-        const valOffset = entryReader.readUIntBE(o, offsetSize);
+        let o = 0;
+        const packedKeyAndValueByteLengths = entryReader.readUInt8(o++);
+        const packedValueByte = entryReader.readUInt8(o++);
         
-        const { type } = unpackTypeAndLengthSize(buffer.readUInt8(valOffset));
-        const valBuffer = buffer.subarray(valOffset, valOffset + valLen);
-        obj[key] = parseValueFromType(type, valBuffer);
+        const keyLengthByteSize = unpackLength((0b00001100 & packedKeyAndValueByteLengths) >> 2);
+        const byteOffsetByteSize = unpackLength(0b00000011 & packedKeyAndValueByteLengths);
+        const { type, lengthSize: valueByteLengthSize } = unpackTypeAndLengthSize(packedValueByte);
+
+        const keyLength = entryReader.readUIntBE(o, keyLengthByteSize);
+        o += keyLengthByteSize;
+        const valueLength = entryReader.readUIntBE(o, valueByteLengthSize);
+        o += valueByteLengthSize;
+        
+        const key = entryReader.toString('utf-8', o, o + keyLength);
+        o += keyLength;
+        const offsetOfValueInMain = entryReader.readUIntBE(o, byteOffsetByteSize);
+        
+        const valueBuffer = buffer.subarray(offsetOfValueInMain, offsetOfValueInMain + valueLength);
+        obj[key] = parseValueFromType(type, valueBuffer);
     }
     return obj;
 }
@@ -160,10 +148,7 @@ export function parse(arrayBuffer) {
     if (!arrayBuffer || arrayBuffer.byteLength < 2) { return null; }
     const reader = new BufferReader(arrayBuffer);
     const magic = reader.toString('utf-8', 0, 2);
-
     if (magic === MAGIC_JSON) return deserializeObject(reader);
     if (magic === MAGIC_ARRAY) return deserializeArray(reader);
-    
-    console.error("Invalid file format: Unrecognized magic number.");
     return null;
 }
